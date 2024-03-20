@@ -4,71 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 700E3C54E67
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 09:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03BA6C54E58
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 09:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ic1nLAZlOIEz8qJZURNZoS0hfHmBW2vxO0Mxv1zSKM4=; b=PciAfapZKBhea2v84T6aDDqeMx
-	DtZqJSVcUkS28oekhNIjp9FmqHgmkMbgKH9Yfsv70D+ImPZz+U2V6Q0FfdQQdkyb4MGPdMYWVZkHl
-	MQKBML7brtOGv5Ef4FexzgWa6xn9n2N3cHsyH0sr9MXIiAD9W7qzFEjkbT/GpbtZxenzRcwMvXK1J
-	9eHKAmf61yQZhoC3qZRcMa8ugMGL93aRmOESHgGo78JHpXiRcbpa36u6d/x+Roml0r50i6+D7qmzG
-	oqU71c2B2mW/+tGixxaNHPd67P6f3QvD1C5Ueac2BnwopmSEHxU56zmTzuPl+6YJEvYbg89FYTQcA
-	pC2lR6ig==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Lb9PJfXEYzXr5GwEnepDwvH+h3khGSO0zWbctPMuj3M=; b=bm7cozrgRsyfCsvpLYzD9Js4dY
+	u41e8xDQSMH49Po+92a2+91gcRfEdx27eS3sjX/LUvCpKxHevEZGRXYKS6W2TJgAiHm++JJuWIoTX
+	9WT6oKvTSAn0jpWtfLauO/V3gt67GOhvaS49xghR5+V5zLYvLbsK+qC79MbKgys+TxuhqhdKRaBMu
+	5U8g1dNTRhLH2ZHAjToN40QjZW0iC9gc3MjOf4Kn1WaAtA+C7wE9/8CBVTFpK5Fkl7ApWIpxUedg2
+	dmZxIpEAmfzqZlPCAOcypxaQBz6UrMg9l8B2E71DSd9Pd2rjhrnY6V5JVsjFebHGD1c4lny/g+S/g
+	Y9vdd2Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmrys-0000000GPrz-2WRM;
-	Wed, 20 Mar 2024 09:11:30 +0000
-Received: from mail-lj1-f173.google.com ([209.85.208.173])
+	id 1rms3q-0000000GR7n-1BcA;
+	Wed, 20 Mar 2024 09:16:38 +0000
+Received: from mail-ua1-f52.google.com ([209.85.222.52])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmryp-0000000GPpG-1qXd
+	id 1rms3m-0000000GR5T-3Nxa
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 09:11:28 +0000
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d4801ea689so16582891fa.0
-        for <linux-nvme@lists.infradead.org>; Wed, 20 Mar 2024 02:11:19 -0700 (PDT)
+	Wed, 20 Mar 2024 09:16:36 +0000
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-7de0cc4b615so1039178241.1
+        for <linux-nvme@lists.infradead.org>; Wed, 20 Mar 2024 02:16:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710925878; x=1711530678;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20230601; t=1710926193; x=1711530993;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ic1nLAZlOIEz8qJZURNZoS0hfHmBW2vxO0Mxv1zSKM4=;
-        b=ZDPe8C0f4EAzPH/LKD6d0wTb3+cAa4yw/RQ5XraiuWb83YUT0qGJInE5yNHlu4dg3y
-         xZUV+z4wWOuBtG07A0u1a2Akvdhv63MlxaI2QoJKh3++wby1MvHA23UtxFaPbSjugfx4
-         I+CactwafKT0qynVRIaw38UtxjMz/BGjRPW5Yh0+XBelhbFyEVNylPrZVYzG2MUti9oE
-         14us69a3p7+A6Y1ELKN0EEYwrR4MziBANFQQ6bk84FvpylxxNS7uM0X16WRVRQRT65KU
-         bTKSjspdQZCjDimKDFWVRspo4K3pFwkYKAsVCg5CcIwG7UouMGw7g5e/7RW6u4Zl7VAn
-         yRQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUP7s+L6GjQ8+gJV4vWxJW24Zljto74ku5wiCm0mdZNvWpD/6ib17AfGQ1fhe8jjWQ8xkb5kn3t+RXRQ5D9o7eXzYEstGnBXrrEzM8h4Ro=
-X-Gm-Message-State: AOJu0YxSqRH18VH/P9pZfA8Q3kzVwZfKECEFg5EvYathQwYWybFPkR9N
-	P5G62i9G2bbtLEYKWesuX4Qar4CUrOjt6M04LVFynCfB05nOdaBp
-X-Google-Smtp-Source: AGHT+IHuIGZmvxQyYFiZryw0Ofph5rR4aa1Rc8TH0jQHfwdyjSFp9UHdVF7zdFnNwwSVwQHZ+8j4qw==
-X-Received: by 2002:a2e:b1c5:0:b0:2d4:7458:b65 with SMTP id e5-20020a2eb1c5000000b002d474580b65mr3346780lja.2.1710925877737;
-        Wed, 20 Mar 2024 02:11:17 -0700 (PDT)
+        bh=Lb9PJfXEYzXr5GwEnepDwvH+h3khGSO0zWbctPMuj3M=;
+        b=bag46s+DtOguAmnAIluWOxh5Kupx/I1w47562Ty7qhkB/xfZ//fmhH/RlOvV11pCN5
+         6dtSYL75UsVR7TK0r/25kcPIk4QImfeaD21kDuXwU7keDJDjpNQ5B/TkesmPvziGJbS4
+         3SPnHXIpfiRaSJF5DQY5zjuEy6as+1OLAaMe59PGOAyvIymNTmZz6ZQpfEVzwK2SglL2
+         fm7R59EgX9GkRqm9DNAm3BUFCgwbEi8QQ1EEZ4sPuW6yfAEczED0VDfYjH4nuNuu2oc8
+         EDFJAdP42KBS6S5NsvgOiwMFZzCiVDARzjdYDmkoLHzwIaFN1bwVr1VLCQVL4n4yICHv
+         qQTA==
+X-Forwarded-Encrypted: i=1; AJvYcCXAWLRhgM0wFnGSnLirJxRgVfmwk7jKYvYFTMy7R7qsIvJTX2d+L41XaoKnE3LvN3odDeGPN+EbW+f0MOMV78yR44z4lr/FnTZuSVat628=
+X-Gm-Message-State: AOJu0YwDAQRL56TCQbD9TMgbHz5H/zatYDYeWkCgMlIPJbQHc9W1uc8K
+	BMzFU5o1RU1ZecKy37G4IktGUHsZCb1jw0B7S0HYOh/P521TK/OQ
+X-Google-Smtp-Source: AGHT+IGQVA6PmYIdAMYPqdXBqTt0jPGoHULsDhtp1+yQYo7yS9uv+8VRdq3kkRPB9UGIfu8tqxGUVQ==
+X-Received: by 2002:a05:6102:1142:b0:474:d24b:f5cc with SMTP id j2-20020a056102114200b00474d24bf5ccmr4204664vsg.2.1710926193194;
+        Wed, 20 Mar 2024 02:16:33 -0700 (PDT)
 Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id p31-20020a05600c1d9f00b00414109c66f7sm1572006wms.38.2024.03.20.02.11.17
+        by smtp.gmail.com with ESMTPSA id im6-20020a056214246600b0068fdb03a3a3sm7561592qvb.95.2024.03.20.02.16.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 02:11:17 -0700 (PDT)
-Message-ID: <c4057654-97bd-4721-9bed-9dd5ef8b3f8d@grimberg.me>
-Date: Wed, 20 Mar 2024 11:11:16 +0200
+        Wed, 20 Mar 2024 02:16:32 -0700 (PDT)
+Message-ID: <ef50ec40-dc7f-42fd-b84d-c0842a8392b4@grimberg.me>
+Date: Wed, 20 Mar 2024 11:16:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: WQ_UNBOUND workqueue warnings from multiple drivers
+Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
 Content-Language: he-IL, en-US
-To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>,
+To: "hch@lst.de" <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>
-References: <BYAPR04MB41513F04DB2ECDC3601CC36ABC2D2@BYAPR04MB4151.namprd04.prod.outlook.com>
+ Keith Busch <kbusch@kernel.org>
+References: <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
+ <8fccdd92-9055-45ba-8edb-8b2b647343b3@linux.alibaba.com>
+ <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me>
+ <2eb0672e-1073-497b-94ce-f3c356b7580e@linux.alibaba.com>
+ <9983f5a2-6abb-41c8-89a7-aad32e247500@grimberg.me>
+ <8d157341-0f64-4c91-b3d0-d3d5669c9e20@linux.alibaba.com>
+ <99f5f33b-2c68-4c93-ad4d-333a05cb4d09@grimberg.me>
+ <a134b972-0254-4f1e-91b9-a57223201f42@linux.alibaba.com>
+ <cea98ed9-6b65-4475-8497-62f1ca9f81a3@nvidia.com>
+ <b691ccf2-3627-402c-bb68-eb3fc8845e41@linux.alibaba.com>
+ <20240320015932.GA14551@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <BYAPR04MB41513F04DB2ECDC3601CC36ABC2D2@BYAPR04MB4151.namprd04.prod.outlook.com>
+In-Reply-To: <20240320015932.GA14551@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240320_021127_504890_D699FD7C 
-X-CRM114-Status: GOOD (  14.90  )
+X-CRM114-CacheID: sfid-20240320_021634_890714_CCD2186E 
+X-CRM114-Status: UNSURE (   9.66  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,45 +96,14 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 19/03/2024 0:33, Kamaljit Singh wrote:
-> Hello,
->
-> After switching from Kernel v6.6.2 to v6.6.21 we're now seeing these workqueue
-> warnings. I found a discussion thread about the the Intel drm driver here
-> https://lore.kernel.org/lkml/ZO-BkaGuVCgdr3wc@slm.duckdns.org/T/
->
-> and this related bug report https://gitlab.freedesktop.org/drm/intel/-/issues/9245
-> but that that drm fix isn't merged into v6.6.21. It appears that we may need the same
-> WQ_UNBOUND change to the nvme host tcp driver among others.
->   
-> [Fri Mar 15 22:30:06 2024] workqueue: nvme_tcp_io_work [nvme_tcp] hogged CPU for >10000us 4 times, consider switching to WQ_UNBOUND
-> [Fri Mar 15 23:44:58 2024] workqueue: drain_vmap_area_work hogged CPU for >10000us 4 times, consider switching to WQ_UNBOUND
-> [Sat Mar 16 09:55:27 2024] workqueue: drain_vmap_area_work hogged CPU for >10000us 8 times, consider switching to WQ_UNBOUND
-> [Sat Mar 16 17:51:18 2024] workqueue: nvme_tcp_io_work [nvme_tcp] hogged CPU for >10000us 8 times, consider switching to WQ_UNBOUND
-> [Sat Mar 16 23:04:14 2024] workqueue: nvme_tcp_io_work [nvme_tcp] hogged CPU for >10000us 16 times, consider switching to WQ_UNBOUND
-> [Sun Mar 17 21:35:46 2024] perf: interrupt took too long (2707 > 2500), lowering kernel.perf_event_max_sample_rate to 73750
-> [Sun Mar 17 21:49:34 2024] workqueue: drain_vmap_area_work hogged CPU for >10000us 16 times, consider switching to WQ_UNBOUND
-> ...
-> workqueue: drm_fb_helper_damage_work [drm_kms_helper] hogged CPU for >10000us 32 times, consider switching to WQ_UNBOUND
+On 20/03/2024 3:59, hch@lst.de wrote:
+> On Tue, Mar 19, 2024 at 11:19:50AM +0800, Guixin Liu wrote:
+>> I am adding a per-controller percpu-ref to ns to implement
+>> preempt_and_abort, the v9 will be soon.
+> Do we need that?  For blk-mq based backends just doing a queue freeze
+> would be enough.  That doesn't work for bio based drivers yet, but I'd
+> rather improve the block layer freezing for them rather than reimplenting
+> the whole thing.
 
-Hey Kamaljit,
-
-Its interesting that this happens because nvme_tcp_io_work is bound to 1 
-jiffie.
-Although in theory we do not stop receiving from a socket once we 
-started, so
-I guess this can happen in some extreme cases. Was the test you were running
-read-heavy?
-
-I was thinking that we may want to optionally move the recv path to 
-softirq instead to
-get some latency improvements, although I don't know if that would 
-improve the situation
-if we end up spending a lot of time in soft-irq...
-
->   
->   
-> Thanks,
-> Kamaljit Singh
-
+That's a neat idea, we also have file to think about though.
 
