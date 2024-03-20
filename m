@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71DF1C54E58
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 14:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D604CD11BF
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 14:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/LSeLa9msPk6YgUHSiQAqxbLhMEBSebFzQQueUy+h5U=; b=J9JuCfGm4AFbJTUnsVnOorvOqJ
-	ivsvkEz6IunztdO1PJMFB37WEXhA9ejptu/bzNx8gkNGr0/N+CCAG+lWRch+5Lpewe1UVJ7xZ08cC
-	GQTk98hDMSQyS7XSj02CbRwJ6dITG/byt/AeoQUqzixUde5k6zeHcOuoaVrzt2BjadkzIHyj93oNT
-	8IuMFX8VvtKGx+qTtYjX/Yu1tfAL3g/K7IenFCtVprOAItZk2DCiq2rdjvSyBBb3JjIZP0w2s8Tjj
-	GitOQE+9cZmLNYmARANwCmlv0V6KWxslU0OikFUUSqlVeAKJTJXmMUcRH8tJEOonRSdtK0QGqGX/z
-	1I7u2bdA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=O5cRiEk9qD3y1xXnrrt7sR0OydQhYdQWn4F3nD79lig=; b=iZmFdctWtUvGT8Wa/My8D4dwWR
+	cIzySCFeMv1dAO2T48afVYdbd8XsXoRRQ3CQtkm2jXZhMuW1hT/Ak5gs68hdycpUfxdGnopNMTeC/
+	J9SzUjFGgjrANPVOVKt7Hcy7jM9pAVdupqfAus6KnCGF8qws339xhByyw9YX3UmYpcUISI4Msba/H
+	Q31mr6z5XR+bXgBO+YaC/DkX9UPGOI9NoK7JtqihCSsOjPwRDF4uf0chfEr/cmRoz07ZQgLanOkVt
+	2g1CDpLyUmX6KcsgtuzoZCt3xQQxgqInetcnDNf/U0Nbv0RiAFmnvroCEFievDEouVPUFF7PiMqAV
+	yxzi6n1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmx7G-0000000HTmG-3fwl;
-	Wed, 20 Mar 2024 14:40:30 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rmx7S-0000000HTt5-1i4q;
+	Wed, 20 Mar 2024 14:40:42 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmx7D-0000000HTl7-3I7R
+	id 1rmx7L-0000000HToz-33if
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 14:40:29 +0000
+	Wed, 20 Mar 2024 14:40:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id C4F8ACE1152;
-	Wed, 20 Mar 2024 14:40:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F30FC433C7;
-	Wed, 20 Mar 2024 14:40:23 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4714461027;
+	Wed, 20 Mar 2024 14:40:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C41C433F1;
+	Wed, 20 Mar 2024 14:40:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710945625;
-	bh=V9c7GjSFg7K4o/PxFSlLC4y0qTNvtOw7NQ9PQspaZ50=;
-	h=From:To:Cc:Subject:Date:From;
-	b=R2jWDlt7VFI3ZOdeY5hXHdU+JVgY8V35RajkBzJgBlZsC/BvSFb9c1jC9HPO9xSP/
-	 8WV1ehaGNbiZ2Xvw9d4gYnkbU1vf93pNOjZWxUUc8zWbbZWnneKlpPBkRxP+YOujGV
-	 /ib/r6icmOp18jcVGo+XBIcUIiCSAjXPbDhysxLRWP9LFaN5qd4ba9S52z/R681XVg
-	 9fOjjEl6f4kiSisRQ+YmXlOmUzBT2JDy/vZRg30LJpFpoheTkLtf5qIZhnpwALMPlK
-	 Lu/7pxj//+CgPb7R1KQBTHCn+/VVrdwpUXJzytmV/ItV3RnQvZkA2t1+74H8DfWUV+
-	 RhMY3way6S/Rg==
+	s=k20201202; t=1710945635;
+	bh=b6W9eyBtx4gUYE+Q64U9VZ5IIVKy5EDPgM4QB/y14TE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=trfiHHAX5Kf3h5X9rs/EGwGs0d9gRg/f39eM4GHLyNaaG7JFtLAuychkvrZRb/dxh
+	 7shw69FXAJ1l1EXy86bzaRl+6qQyO0bBVXlJrRlMekaVcm0GkDowFnqovD1PlwCCdj
+	 RUaML7tko8cZAA+Fli4FVjqkrtrVo1BaYwuOJuRJg0b+WW3K2B3uFjSCazADXgfwPW
+	 jw/TSNPH5r85ckH6tVjSJtd+TQgdzzQawH5zxlgNSpgGVAH7mhFzpsGNRU4VRjXp6T
+	 b4iF/uQpUf+UmRGHB1Qq33+qRTdxObmmfWdiaAqnS430Oc1vlzbyXtVtO/loiyQ9ER
+	 5QEYWCGx0/iBA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -49,15 +49,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	James Smart <james.smart@broadcom.com>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv2 0/7] nvmet: debugfs support
-Date: Wed, 20 Mar 2024 15:40:10 +0100
-Message-Id: <20240320144017.106283-1-hare@kernel.org>
+Subject: [PATCH 5/7] nvmet-fc: implement queue_peer_traddr()
+Date: Wed, 20 Mar 2024 15:40:15 +0100
+Message-Id: <20240320144017.106283-6-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240320144017.106283-1-hare@kernel.org>
+References: <20240320144017.106283-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240320_074028_021824_2CCEA916 
-X-CRM114-Status: GOOD (  11.88  )
+X-CRM114-CacheID: sfid-20240320_074035_831084_F1D5B45C 
+X-CRM114-Status: GOOD (  13.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,55 +74,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Implement callback to display the peer transport address by
+adding a callback 'host_traddr' for nvmet_fc_target_template.
 
-taking up the original patchset for nvmet debugfs
-I've improved upon that submission by modifying
-the layout:
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/target/fc.c       | 25 +++++++++++++++++++++++++
+ include/linux/nvme-fc-driver.h |  1 +
+ 2 files changed, 26 insertions(+)
 
-/dev/kernel/debug/nvmet
-  <subsysnqn>
-    ctrl<cntlid>
-      port
-      state
-      hostnqn
-      kato
-      queue<qnum>
-        host_traddr
-	sqsize
-	sqhead
-
-The 'state' attribute is the value of the
-CSTS register; one can trigger a controller reset
-by writing 'fatal' into it (to set CSTS.CFS).
-
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (7):
-  nvmet: add debugfs support
-  nvmet: add debugfs support for queues
-  nvmet-tcp: implement queue_peer_traddr()
-  nvmet-rdma: implement queue_peer_traddr()
-  nvmet-fc: implement queue_peer_traddr()
-  nvme-fcloop: implement 'host_traddr'
-  lpfc_nvmet: implement 'host_traddr'
-
- drivers/nvme/target/Kconfig    |   9 ++
- drivers/nvme/target/Makefile   |   1 +
- drivers/nvme/target/core.c     |  32 ++++-
- drivers/nvme/target/debugfs.c  | 250 +++++++++++++++++++++++++++++++++
- drivers/nvme/target/debugfs.h  |  50 +++++++
- drivers/nvme/target/fc.c       |  25 ++++
- drivers/nvme/target/fcloop.c   |  12 ++
- drivers/nvme/target/nvmet.h    |  15 +-
- drivers/nvme/target/rdma.c     |  11 ++
- drivers/nvme/target/tcp.c      |  13 ++
- drivers/scsi/lpfc/lpfc_nvmet.c |  12 ++
- include/linux/nvme-fc-driver.h |   1 +
- 12 files changed, 428 insertions(+), 3 deletions(-)
- create mode 100644 drivers/nvme/target/debugfs.c
- create mode 100644 drivers/nvme/target/debugfs.h
-
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index fd229f310c93..b0fedff44e51 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2931,6 +2931,30 @@ nvmet_fc_discovery_chg(struct nvmet_port *port)
+ 		tgtport->ops->discovery_event(&tgtport->fc_target_port);
+ }
+ 
++static ssize_t
++nvmet_fc_peer_addr(struct nvmet_ctrl *ctrl,
++		   struct nvmet_sq *sq, char *traddr, size_t traddr_size)
++{
++	struct nvmet_fc_tgt_queue *queue =
++		container_of(sq, struct nvmet_fc_tgt_queue, nvme_sq);
++	struct nvmet_fc_tgtport *tgtport = queue->assoc ? queue->assoc->tgtport : NULL;
++	struct nvmet_fc_hostport *hostport = queue->assoc ? queue->assoc->hostport : NULL;
++	ssize_t ret = 0;
++
++	if (!tgtport || !nvmet_fc_tgtport_get(tgtport))
++		return -ENODEV;
++	if (!hostport) {
++		ret = -ENODEV;
++		goto out_put;
++	}
++
++	if (tgtport->ops->host_traddr)
++		ret = tgtport->ops->host_traddr(hostport->hosthandle, traddr, traddr_size);
++out_put:
++	nvmet_fc_tgtport_put(tgtport);
++	return ret;
++}
++
+ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_FC,
+@@ -2940,6 +2964,7 @@ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.queue_response		= nvmet_fc_fcp_nvme_cmd_done,
+ 	.delete_ctrl		= nvmet_fc_delete_ctrl,
+ 	.discovery_chg		= nvmet_fc_discovery_chg,
++	.queue_peertraddr	= nvmet_fc_peer_addr,
+ };
+ 
+ static int __init nvmet_fc_init_module(void)
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 4109f1bd6128..885f2951041b 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -975,6 +975,7 @@ struct nvmet_fc_target_template {
+ 	void (*ls_abort)(struct nvmet_fc_target_port *targetport,
+ 				void *hosthandle, struct nvmefc_ls_req *lsreq);
+ 	void (*host_release)(void *hosthandle);
++	ssize_t (*host_traddr)(void *hosthandle, char *traddr, size_t traddr_size);
+ 
+ 	u32	max_hw_queues;
+ 	u16	max_sgl_segments;
 -- 
 2.35.3
 
