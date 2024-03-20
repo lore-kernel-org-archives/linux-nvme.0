@@ -4,84 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95F2CC54E67
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 08:51:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DB3FC54E67
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 09:06:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vJNTc0JpEuIjCT0YU5iYMSiG3l/DVEvQGufEpeq9RVI=; b=F2rq9TqttdABEo6Z5SmTBPrHmL
-	dfwk7ZzMLHNGX2CT/Zkl/wj0aMVcTrgXogTA9wFuMd+ogePLq9T0SkHZ5HCUDLyvMYVKDXUt1LEKd
-	df2z36wK9Zv7F/dA1jPDzIoWAAmp0JzLW8UNjqXDDwkg1wCqESjZC9noIrWd3Z2bUyxwmTI5aKqFM
-	oqCCQ0ykAdh7d77NaFsTixQPM2eGraONxaMOu+GBg+UrkZpInlR6RZCE2Cy3RmVzkhD+Wzh+bkFGC
-	tFTg9Y0RQZNpSfpTfLkvCiysi2GLtM/AXUaXGf3uh9XjjW9XhNOErDOSKj9hS08LNQAw12sG1qk8Y
-	2sID+cTQ==;
+	bh=6yo+qgVl01Qo1BF1UC4nxMuI0iLiXWCwLlUG0wpTjWA=; b=ItoQrZQbdz8VnJ88Jq/JCyCwKa
+	/8Ny5EtjtV90FtRoxQqgFigTxlIMev7iE1ofvKN/SHvTWETML2Ec9uk+Fd4twZXH+qXAfs+jxSGe8
+	NIgShhvvoMF8cAksXYFRzYHmCtBDiN6cEhe6uqrQZoLKw5zmTabWLpEdJLk/OAkjkOqAMUsYZHZUh
+	GDPdkmuIsFRhbmqtI/e9ITMt1iRCmU2dFzBygHSqE3lBy67RA1aLBpK9m9+/V9ijmE+MPTJZBkQpj
+	Zp8wvrFLUCO/Qi5B253i0ZvDl/byk1wOG7GpR65MFaNn7QFyTVOiT5NdlLhnDjFoDP07Fx5jjuMhe
+	lbRZJ9CA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmrff-0000000GIcg-1KfF;
-	Wed, 20 Mar 2024 08:51:39 +0000
-Received: from mail-ej1-f43.google.com ([209.85.218.43])
+	id 1rmruA-0000000GO2q-293t;
+	Wed, 20 Mar 2024 09:06:38 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmrfZ-0000000GIYB-28n4
+	id 1rmru7-0000000GO1q-37zD
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 08:51:35 +0000
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a28cfca3c45so175213966b.1
-        for <linux-nvme@lists.infradead.org>; Wed, 20 Mar 2024 01:51:26 -0700 (PDT)
+	Wed, 20 Mar 2024 09:06:36 +0000
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33e9115d501so2049404f8f.0
+        for <linux-nvme@lists.infradead.org>; Wed, 20 Mar 2024 02:06:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710924686; x=1711529486;
+        d=1e100.net; s=20230601; t=1710925593; x=1711530393;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vJNTc0JpEuIjCT0YU5iYMSiG3l/DVEvQGufEpeq9RVI=;
-        b=jcJb0p5qKt4Nq/MaVu//SD01hHT3Df8h2NTOUG54/2oBsK26OBvs27Y8K3II02BklM
-         OmWuA0X/+fx/8gdAQ7NG9EILnuszwg51cNc4doZy9mAheb3W6vj5ie53tv02HAzYejSa
-         7jTncFqu0/YWT/hHw3r+mWnJwhgjF9dP+TZ395eu0ULD1znK6DKRnfU5TOPN9PNwfzmp
-         gNCggkdMMdFKuhq0pYH7AR8XxOcWB5bL6sizRnFNsxQGIWR68Wb7Ue0X+XeKGfpJoL7C
-         gU3NtTIuII/T3ocufpshxzy0NMCOyFmlDLfKLKrIJPEqD9oGjXtYNaz1NYCq5neO+zDu
-         Eh3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVAIFsJADxuUF+gy78wF5IFO2TRrFjFTlKI41T2esHYBP4oUgBmFQ0tv5jJX2A9KVJU4VtWhsx41erA0GxhVR8F+1iVMjKE7XyBQVLuVxM=
-X-Gm-Message-State: AOJu0Yz1kQUr9CO/lTcItRuQr/WU3bioTMXh07B7Vi97z85Lf8qYtpI+
-	QWx4BFUZYA+olHe03TxxIZ3hOMMdU9rpc57xpz0nlVCPBxcbPF2/
-X-Google-Smtp-Source: AGHT+IGfiM7OXvkfM1mMzVAbAj35GAy6tJnCyJV5b69pQjRTTKdruBGZlNdSoiX/VdR7cq0exj+jlA==
-X-Received: by 2002:a17:907:7d86:b0:a46:fdcb:eaec with SMTP id oz6-20020a1709077d8600b00a46fdcbeaecmr148962ejc.6.1710924685474;
-        Wed, 20 Mar 2024 01:51:25 -0700 (PDT)
+        bh=6yo+qgVl01Qo1BF1UC4nxMuI0iLiXWCwLlUG0wpTjWA=;
+        b=PyLreZlullemoKL9TVZ5qSbl+w4GVuUvrcyxpkiev000QKmKSSp9aiJY3dmsjza4j+
+         FBApLkF+cEgL8SphL8IgngXNt59IAB6qvprHlDbVlD2m0BLfF35fp1RkW+oDfNYACyn8
+         gJ8cAhj6k7qHQ3pkk43aKUpV85fWMdusglmUNB/hfnsFroMw8O9jdmnG53aq3v4ApRkX
+         bkAn//32Qr6tGb1ruYnth0Bc5as8exlEnxNKZMojzup2XAqjhnUTIbgcnXKmezXTG1+T
+         L2F32rhWwqmcpc91odK6Z/zaZpCPWW3ZxoB78IVf8UYJWfa7+5vBPC3ohJNJYAPh4st3
+         D9mg==
+X-Forwarded-Encrypted: i=1; AJvYcCW95BqMbXads+uyv/H7M+/Ff6LmNHD3VlDi0bcpKzuPk92ZkjDZfm3dhvJ7br8fvmlAQ2WXSwS2NpMN77R2tyP14CzWpMRM7j8g9kg95pY=
+X-Gm-Message-State: AOJu0Yyk2M9Hol16oLDPJ9xbUz0797Y5Ey/UdgnXDwZh2k2AEk8WC43z
+	QvithcqiNZjFtbEQeOmoZEEY0FetqP337Fw3P1diN1AYWF3occ+l
+X-Google-Smtp-Source: AGHT+IEw9+P2JdVs73otAM3hXGLxpH87fe+1tvU44C8aG9UtPwVZ6tid9SowJLGsDChZTcaXJ3kC/Q==
+X-Received: by 2002:adf:c988:0:b0:33d:9e15:12bf with SMTP id f8-20020adfc988000000b0033d9e1512bfmr865963wrh.3.1710925592737;
+        Wed, 20 Mar 2024 02:06:32 -0700 (PDT)
 Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id hk22-20020a170906c9d600b00a46fbff47a6sm190439ejb.168.2024.03.20.01.51.24
+        by smtp.gmail.com with ESMTPSA id i9-20020a5d6309000000b0033e0dd83be1sm14034690wru.91.2024.03.20.02.06.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 01:51:25 -0700 (PDT)
-Message-ID: <68f99d6e-b79f-42a9-bb19-ece27d35dfa6@grimberg.me>
-Date: Wed, 20 Mar 2024 10:51:23 +0200
+        Wed, 20 Mar 2024 02:06:32 -0700 (PDT)
+Message-ID: <a1ebff42-4ddb-4e17-978c-2f02106a9d90@grimberg.me>
+Date: Wed, 20 Mar 2024 11:06:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
- of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
- failure?
+Subject: Re: [PATCH] nvme-multipath: fix bogus request queue reference put
 Content-Language: he-IL, en-US
-To: Jirong Feng <jirong.feng@easystack.cn>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- linux-nvme@lists.infradead.org, peng.xiao@easystack.cn,
- Christoph Hellwig <hch@lst.de>
-References: <a99971dc-9157-4a0f-8fb7-5fa495434b99@grimberg.me>
- <b8cd8de7-9167-4b8f-b255-c022376a7c9d@easystack.cn>
- <dda859d1-41f5-423c-a9e2-900a1573c3a9@easystack.cn>
- <ae40ced9-9f30-4e93-813c-5b94d0667d66@grimberg.me>
- <e27ef3fd-d43c-4dc2-8969-4a0f86d9c64c@easystack.cn>
- <a688834a-99b1-4dd2-b698-c9e54070f78f@grimberg.me>
- <89b542d3-dedb-4d5c-ad7a-279467d28e51@easystack.cn>
- <53b68337-8370-4deb-9a90-bf5dbb7d6d33@grimberg.me>
- <6b345b99-3dd3-4c96-8644-e9b40d387b58@easystack.cn>
- <b3821176-b6f6-4617-92c9-ce8ad9f1118e@grimberg.me>
- <20240131062526.GA16177@lst.de>
- <08b936ff-10d0-48d8-aacd-6ae1e2659600@easystack.cn>
+To: mengfanhui <mengfanhui@kylinos.cn>, Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <20240117065043.79192-1-mengfanhui@kylinos.cn>
+ <b926d754-130d-424e-b099-001e14badc50@grimberg.me>
+ <20240117143952.GA27918@lst.de>
+ <c934831a-ec84-4ea4-a156-782880086ffe@kylinos.cn>
+ <2db9e75c-7c17-4f1d-9328-5eb18fd86d23@grimberg.me>
+ <4b9e1f54-9032-48b6-bfbb-d47a4b7857e3@kylinos.cn>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <08b936ff-10d0-48d8-aacd-6ae1e2659600@easystack.cn>
+In-Reply-To: <4b9e1f54-9032-48b6-bfbb-d47a4b7857e3@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240320_015133_980767_E1C52782 
-X-CRM114-Status: UNSURE (   7.82  )
+X-CRM114-CacheID: sfid-20240320_020635_873551_76833D00 
+X-CRM114-Status: UNSURE (   6.73  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -99,15 +90,13 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 20/03/2024 5:17, Jirong Feng wrote:
-> hi,
->
-> just kindly ask, how about the previous patch? will it be merged?
->
+On 20/03/2024 4:03, mengfanhui wrote:
+> In this scenario. upstream should also appear.
 
-Hey Jirong,
+I'd be surprised if it is,
 
-We do not yet understand if this works for Linux nvme-mpath (which iirc 
-requires a suggested host-side patch).
-Once we understand that we can take the changes to mainline.
+The proposed patch was superseded by:
+f165fb89b71f ("nvme-multipath: convert to blk_alloc_disk/blk_cleanup_disk")
+
+Please verify that this exists upstream.
 
