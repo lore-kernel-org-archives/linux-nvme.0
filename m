@@ -4,96 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DAF4C54E58
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 05:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80506C54E67
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 07:16:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EXlaoKWpgN6Av4BFc/ZP6+DVfwrVmD9nyb3gs1nY39w=; b=gHSvwNb98XgYUHrgrrPaiBg0RA
-	YgHNn9AVqeIGMrArqptuX1CbrxJv21jLK/7ZNod4dw6yrlNVBMIa1qNNID0DzXUGvbHFiYTDsv5X5
-	7CpeleRJ0vzYJwdSSFCCsHTYSDpfNP/KTAcqSqgCha4HzVQ0pAVDZyouooZkvbYLfQCWigr0Vtcmc
-	ASQxi7VKTltq7AUS3y36K6Bk6orvmd0pbc/3ER4hjvbdOSM9CaDAnIi3Seamq9CgpKWC05Qedbd9n
-	oMvgfFGCoeMHkBN1X9B3rIq1SXwcDnH8MxmurjWWaSSBRtW5YLZ5/I4Fd3gDyf1GJwoLQKzV4ukPb
-	CGBGbqNw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=; b=JPY2yAjgiW45HfdbtimCuHtI4I
+	eyboLTlSYEnfuCxSpsSs+lbL9B7jSiAZyQCuFinBmof23iubzdoHDU1XK1y2OWdhRVjMQ2IAZOjn7
+	Ssg+Umiqfls6vUWmakJYIu7u5Tpx9mRKFFzkEgcqS+ngNe9xGPa/cdrGqpb2m1UoUsflpkP030SdD
+	XJb/UqEYlbfQ0cEMjed8tzO3HDCpYL93RBaiuLHwBdap8fk57guglAEoKt6KeijHseV4pkmF3i9Ix
+	rtKNaJ72TLdlf1e3sIEL2KA/nWEG752w4RsA+kLAcUK/F4Zzz1qClVEnI85uOfzJthjlcGKWGL/Gq
+	t0TuPrUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmotm-0000000FZZ9-0I73;
-	Wed, 20 Mar 2024 05:54:02 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1rmqBp-0000000FsZw-3F5U;
+	Wed, 20 Mar 2024 07:16:45 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmota-0000000FZH8-2jLk
+	id 1rmqBW-0000000FsWb-18Q3
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 05:53:54 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42K3a71i021816;
-	Wed, 20 Mar 2024 05:53:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=EXlaoKWpgN6Av4BFc/ZP6+DVfwrVmD9nyb3gs1nY39w=;
- b=FKwQzHAJPI6TrFwNdtuLOxF247XTkpYCbdemW+08QhUc2InqxDB3T2FI+lvQNbaYLYmB
- 0mCe096UYkZuKtnFIFpr3xX/LNomIqLzMO/v729JujyBJBAnKG+74atpBiHqsAQz0KL9
- xbnFjnYn3IaWTs2TY2512T9hFr/8PygqmPPiMjzeseAlGF70Nuo2bEqXPBNhACVlhQrT
- r81qR3LGnhRCdL2qnm6hmdrGIfbZDKj2Wz/rxDkYRaZsR9+osR1x+Sd/kUQdhbST9OV9
- 3+FfbCHr019kpW4w5g0XCDpEKb2U7h/+nWh8hQrCRCzKnqGLqiCzL9H0duOzqSSywElb KQ== 
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wynmv8cpv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Mar 2024 05:53:34 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42K41XQd015792;
-	Wed, 20 Mar 2024 05:53:34 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wwp504ksn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Mar 2024 05:53:33 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42K5rV2424773322
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 Mar 2024 05:53:33 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3983058052;
-	Wed, 20 Mar 2024 05:53:31 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1407A5806E;
-	Wed, 20 Mar 2024 05:53:29 +0000 (GMT)
-Received: from [9.109.198.202] (unknown [9.109.198.202])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 20 Mar 2024 05:53:28 +0000 (GMT)
-Message-ID: <239228ec-6c8d-432c-905d-b477014deee3@linux.ibm.com>
-Date: Wed, 20 Mar 2024 11:23:27 +0530
+	Wed, 20 Mar 2024 07:16:44 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8EF2520993;
+	Wed, 20 Mar 2024 07:16:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710918982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
+	b=LzsMPorDMSUQgclkpuUUZMYE8EW+Yo2qIGXHa3qxAusrl73FzWDGxa7FFPZ9KdSeowPEEZ
+	EnwdFk/EZQmXa2E0OJvxGXM2o3yFmWsL/8Bqzx2JjZnsGuWbdD2M2aWQ9XOaNbx1SEdhTl
+	NhjHu5qMN8U+kyJy1snCtSO1Z0dY70Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710918982;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
+	b=MpgkWrnbxD0kjRT9o1NQFeoSmwq4l/mc2SKMo6pcptcNH/fkVKUbZAGZAs1/wZbmIBVAxf
+	uhgSSpCbCpBRHNBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710918982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
+	b=LzsMPorDMSUQgclkpuUUZMYE8EW+Yo2qIGXHa3qxAusrl73FzWDGxa7FFPZ9KdSeowPEEZ
+	EnwdFk/EZQmXa2E0OJvxGXM2o3yFmWsL/8Bqzx2JjZnsGuWbdD2M2aWQ9XOaNbx1SEdhTl
+	NhjHu5qMN8U+kyJy1snCtSO1Z0dY70Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710918982;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
+	b=MpgkWrnbxD0kjRT9o1NQFeoSmwq4l/mc2SKMo6pcptcNH/fkVKUbZAGZAs1/wZbmIBVAxf
+	uhgSSpCbCpBRHNBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7ACE0136CD;
+	Wed, 20 Mar 2024 07:16:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Sa5JHEaN+mW7KAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 20 Mar 2024 07:16:22 +0000
+Date: Wed, 20 Mar 2024 08:16:21 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, gjoyce@ibm.com
+Subject: Re: [PATCH nvme-cli] nvme : Don't seg fault if given device is not
+ char/block device
+Message-ID: <doqj5ci7aokhxugwu5jul7h6scnl4dt5cukq3gkj7tput5fn5o@f72afjmdejx4>
+References: <20240317113758.3055071-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug Report] nvme-cli fails re-formatting NVMe namespace
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, axboe@fb.com, linux-block@vger.kernel.org,
-        linux-nvme@lists.infradead.org, Gregory Joyce <gjoyce@ibm.com>
-References: <7a3b35dd-7365-4427-95a0-929b28c64e73@linux.ibm.com>
- <Zfekbf0V5Dpsk_nf@infradead.org>
- <1a37aea5-616c-445c-a166-e2dc6fa5b8f5@linux.ibm.com>
- <ZfjLyfptPVT7wa0_@infradead.org> <ZfpHvyjT6kbQKrPF@infradead.org>
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ZfpHvyjT6kbQKrPF@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 69DDn7EcV-b1ECi-aJBnjFSgviqqXVNX
-X-Proofpoint-GUID: 69DDn7EcV-b1ECi-aJBnjFSgviqqXVNX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-20_02,2024-03-18_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- lowpriorityscore=0 adultscore=0 spamscore=0 impostorscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- mlxlogscore=999 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2403140000 definitions=main-2403200042
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240317113758.3055071-1-nilay@linux.ibm.com>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-0.80 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[42.88%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240319_225350_893125_4383E4EA 
-X-CRM114-Status: GOOD (  31.68  )
+X-CRM114-CacheID: sfid-20240320_001626_496872_622349F6 
+X-CRM114-Status: GOOD (  10.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,153 +124,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 3/20/24 07:49, Christoph Hellwig wrote:
-> Can you try this patch instead?
+On Sun, Mar 17, 2024 at 05:06:22PM +0530, Nilay Shroff wrote:
+> If the given device name is not char/block device then in
+> open_dev_direct() set errno to ENODEV and err to -1 before
+> returning to the dev_fd(). This would then ensure that in
+> case of error, dev_fd() returns the corerct negative error
+> code back to its callers. So now the callers of dev_fd()
+> would handle the error appropriately instead of try
+> accessing the nvme_dev which would be NULL.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 00864a63447099..4bac54d4e0015b 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2204,6 +2204,7 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
->  	}
->  
->  	if (!ret && nvme_ns_head_multipath(ns->head)) {
-> +		struct queue_limits *ns_lim = &ns->disk->queue->limits;
->  		struct queue_limits lim;
->  
->  		blk_mq_freeze_queue(ns->head->disk->queue);
-> @@ -2215,7 +2216,26 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
->  		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
->  		nvme_mpath_revalidate_paths(ns);
->  
-> +		/*
-> +		 * queue_limits mixes values that are the hardware limitations
-> +		 * for bio splitting with what is the device configuration.
-> +		 *
-> +		 * For NVMe the device configuration can change after e.g. a
-> +		 * Format command, and we really want to pick up the new format
-> +		 * value here.  But we must still stack the queue limits to the
-> +		 * least common denominator for multipathing to split the bios
-> +		 * properly.
-> +		 *
-> +		 * To work around this, we explicitly set the device
-> +		 * configuration to those that we just queried, but only stack
-> +		 * the splitting limits in to make sure we still obey possibly
-> +		 * lower limitations of other controllers.
-> +		 */
->  		lim = queue_limits_start_update(ns->head->disk->queue);
-> +		lim.logical_block_size = ns_lim->logical_block_size;
-> +		lim.physical_block_size = ns_lim->physical_block_size;
-> +		lim.io_min = ns_lim->io_min;
-> +		lim.io_opt = ns_lim->io_opt;
->  		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
->  					ns->head->disk->disk_name);
->  		ret = queue_limits_commit_update(ns->head->disk->queue, &lim);
-> 
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 
-I have just tested the above patch and it's working as expected. With the above patch,
-I don't see any issue formatting the NVMe disk with block-size of 512. Looks good to me.
-
-Thanks,
---Nilay
-
-PS: For reference, please find below test result obtained using the above patch.
---------------------------------------------------------------------------------
-
-# lspci 
-0018:01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller PM173X
-
-# nvme list 
-Node                  Generic               SN                   Model                                    Namespace  Usage                      Format           FW Rev  
---------------------- --------------------- -------------------- ---------------------------------------- ---------- -------------------------- ---------------- --------
-/dev/nvme0n1          /dev/ng0n1            S6EUNA0R500358       1.6TB NVMe Gen4 U.2 SSD                  0x1          1.60  TB /   1.60  TB      4 KiB +  0 B   REV.SN49
-
-# nvme id-ns /dev/nvme0n1 -H 
-NVME Identify Namespace 1:
-nsze    : 0xba4d4ab0
-ncap    : 0xba4d4ab0
-nuse    : 0xba4d4ab0
-nsfeat  : 0
-  [4:4] : 0	NPWG, NPWA, NPDG, NPDA, and NOWS are Not Supported
-  [3:3] : 0	NGUID and EUI64 fields if non-zero, Reused
-  [2:2] : 0	Deallocated or Unwritten Logical Block error Not Supported
-  [1:1] : 0	Namespace uses AWUN, AWUPF, and ACWU
-  [0:0] : 0	Thin Provisioning Not Supported
-
-<snip>
-<snip>
-
-nlbaf   : 4
-flbas   : 0
-  [6:5] : 0	Most significant 2 bits of Current LBA Format Selected
-  [4:4] : 0	Metadata Transferred in Separate Contiguous Buffer
-  [3:0] : 0	Least significant 4 bits of Current LBA Format Selected
-  
-<snip>
-<snip>  
-
-LBA Format  0 : Metadata Size: 0   bytes - Data Size: 4096 bytes - Relative Performance: 0 Best (in use)
-LBA Format  1 : Metadata Size: 8   bytes - Data Size: 4096 bytes - Relative Performance: 0x2 Good 
-LBA Format  2 : Metadata Size: 0   bytes - Data Size: 512 bytes - Relative Performance: 0x1 Better 
-LBA Format  3 : Metadata Size: 8   bytes - Data Size: 512 bytes - Relative Performance: 0x3 Degraded 
-LBA Format  4 : Metadata Size: 64  bytes - Data Size: 4096 bytes - Relative Performance: 0x3 Degraded 
-
-# lsblk -t /dev/nvme0n1 
-NAME    ALIGNMENT MIN-IO OPT-IO PHY-SEC LOG-SEC ROTA SCHED RQ-SIZE  RA WSAME
-nvme0n1         0   4096      0    4096    4096    0               128    0B
-                                   ^^^     ^^^ 	
-
-<< The nvme disk has block size of 4096; now format it with block size of 512
-
-# nvme format /dev/nvme0n1 --lbaf=2 --pil=0 --ms=0 --pi=0 -f 
-Success formatting namespace:1
-
->> Success formatting; no error seen
-
-# lsblk -t /dev/nvme0n1 
-NAME    ALIGNMENT MIN-IO OPT-IO PHY-SEC LOG-SEC ROTA SCHED RQ-SIZE  RA WSAME
-nvme0n1         0    512      0     512     512    0               128    0B
-                                    ^^^     ^^^
-# cat /sys/block/nvme0n1/queue/logical_block_size:512
-# cat /sys/block/nvme0n1/queue/physical_block_size:512
-# cat /sys/block/nvme0n1/queue/optimal_io_size:0
-# cat /sys/block/nvme0n1/queue/minimum_io_size:512
-
-# cat /sys/block/nvme0c0n1/queue/logical_block_size:512
-# cat /sys/block/nvme0c0n1/queue/physical_block_size:512
-# cat /sys/block/nvme0c0n1/queue/optimal_io_size:0
-# cat /sys/block/nvme0c0n1/queue/minimum_io_size:512
-
-# nvme id-ns /dev/nvme0n1 -H 
-NVME Identify Namespace 1:
-nsze    : 0xba4d4ab0
-ncap    : 0xba4d4ab0
-nuse    : 0xba4d4ab0
-nsfeat  : 0
-  [4:4] : 0	NPWG, NPWA, NPDG, NPDA, and NOWS are Not Supported
-  [3:3] : 0	NGUID and EUI64 fields if non-zero, Reused
-  [2:2] : 0	Deallocated or Unwritten Logical Block error Not Supported
-  [1:1] : 0	Namespace uses AWUN, AWUPF, and ACWU
-  [0:0] : 0	Thin Provisioning Not Supported
-
-<snip>
-<snip>
-
-nlbaf   : 4
-flbas   : 0x2
-  [6:5] : 0	Most significant 2 bits of Current LBA Format Selected
-  [4:4] : 0	Metadata Transferred in Separate Contiguous Buffer
-  [3:0] : 0x2	Least significant 4 bits of Current LBA Format Selected
-
-<snip>
-<snip>
-
-LBA Format  0 : Metadata Size: 0   bytes - Data Size: 4096 bytes - Relative Performance: 0 Best 
-LBA Format  1 : Metadata Size: 8   bytes - Data Size: 4096 bytes - Relative Performance: 0x2 Good 
-LBA Format  2 : Metadata Size: 0   bytes - Data Size: 512 bytes - Relative Performance: 0x1 Better (in use)
-LBA Format  3 : Metadata Size: 8   bytes - Data Size: 512 bytes - Relative Performance: 0x3 Degraded 
-LBA Format  4 : Metadata Size: 64  bytes - Data Size: 4096 bytes - Relative Performance: 0x3 Degraded 
-
+Patch applied. Thanks.
 
