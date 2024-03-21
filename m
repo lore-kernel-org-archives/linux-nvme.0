@@ -4,123 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17397C54E58
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 09:48:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71B5AC54E58
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 09:58:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=; b=g/0bPIZjpOkC/FvIqaz48id1R6
-	P0NrgpD04V3bxWx6txLlCQINxDVHCZqxBSH7AihKnFFsuqRgqRB+owRP4sWf4LmTjrSAXGlqNfYgx
-	QOQgY/MelBlZcyqTv7ThmRwh50qg9ICb81uJ4XceyUMfOPi+TObfDOQ2RQlkim2IYdnYpWcgA1ODg
-	zZvyTmFpiJ5v75T+lAz0F88yx4q4JVCyr7v6YuzgK/uLQiDXT6qRreF1Z1HtcMjzqlgnFGzh2g+mx
-	FtUHwHEEHf2Cfu3zMEUPcaCRLariERBSxvoK9K3L4JvdcoW98Wti92c94P2mgKUUFI/WJYq2nbDBi
-	cYe4wbxA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tx5MSBSCndiNheSglKAt+FKNItRhWRlBds9sQkreFqs=; b=uKqNKncGaY8NHJgLwPEzagtYy/
+	6Qxu521hglr6chQi9rHISRntu7OX+2Rx3AeUQTkrbc+Remg6+BomWR5+HUU/Zyd5MVwWLZivoz/Mb
+	o44oJ4OZ3GT+QuK2/1Ro/odDDg5OI3//nyV0aO6UtLPEAlxPoDoYx1ONpUepEsBtUR4sQk9+tuV/T
+	E39EWEf3hNQEPRsTaEQIePwiMMnv7Ys4wRhM8U6MuSGQ0RRLJfOcK8vJ8ifnnE6mduZkczdBs4E70
+	6/+zFgRfnlQvfS9vJ8Z1iBGPv4X4wOKjcNW1F0FycpOsu6iD43rB/85u5WTwIdikN8LptBXGHU0bf
+	oKVZ2W1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnF25-00000002X9O-3uMW;
-	Thu, 21 Mar 2024 09:48:22 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rnFBS-00000002ZBD-2YJl;
+	Thu, 21 Mar 2024 09:58:02 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnF1Q-00000002Wl7-0JFY
+	id 1rnFBP-00000002Z9x-1OlV
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Mar 2024 09:48:16 +0000
+	Thu, 21 Mar 2024 09:58:02 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B67D43715D;
-	Thu, 21 Mar 2024 09:47:37 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4CE415CBE2;
+	Thu, 21 Mar 2024 09:57:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711014457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	t=1711015077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=x5I8yBjvFxWXWXFDBCvQDdgJeeSrMdqg+oNHLKJ6Xx4HJvwiZ6f/afHbb6YSaGZxoJhuse
-	dujqKibsnrJ/Ttz56DdESMSYccVk3JPz4WOx0AHjFSZZ1PFpYKuQWdrd+4xhCGqREytoBE
-	O/jZe8pj1YXq8/4xeEHe+2Aq17ZYB28=
+	bh=tx5MSBSCndiNheSglKAt+FKNItRhWRlBds9sQkreFqs=;
+	b=Au7yFlj6X2n+OfsH4QiXbS14DXvR0z2//Co4GF77oPuzqATELDaFNhvh2i/dqBP7UUzxJm
+	Qb/LSkEdvtTvwBnP7866pTMkIlNRDu1mI7nqZvv27gfBRVo69lR7wdKOvIlmHwGcEE3vk9
+	7z0rgAybrW/xOSFhyfKOJhFXo2jYl7o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711014457;
+	s=susede2_ed25519; t=1711015077;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=IhiRnrJNAj1YIj+uMO6SfFuPB69WPHImeSJsBozPVQNJQ/6zx3oU3bCTf2OI/1D4+8k7tz
-	VOmoFvoJSLxTbwCw==
+	bh=tx5MSBSCndiNheSglKAt+FKNItRhWRlBds9sQkreFqs=;
+	b=En4CiItGik1PzdoFvepvKRS/cIS1areDieP4orovD7qkso9B1ge/TlJ2Svj1F8+judi3mc
+	zfNtvTwSM2j9mkAw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711014457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	t=1711015075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=x5I8yBjvFxWXWXFDBCvQDdgJeeSrMdqg+oNHLKJ6Xx4HJvwiZ6f/afHbb6YSaGZxoJhuse
-	dujqKibsnrJ/Ttz56DdESMSYccVk3JPz4WOx0AHjFSZZ1PFpYKuQWdrd+4xhCGqREytoBE
-	O/jZe8pj1YXq8/4xeEHe+2Aq17ZYB28=
+	bh=tx5MSBSCndiNheSglKAt+FKNItRhWRlBds9sQkreFqs=;
+	b=WEIOh6kbCulTh4Hrwqu3v+50c2dPz9dAUkXT5ms2/h/87FyFz1T8aZ49Y396wR09NIZ7qK
+	mx8M2zM1uisYyHDSUr3wDEbaNHSfueCTFTrjB4PEykFMoh1X03VX+iz4e7HETkwCl8s9nm
+	X2ZHt/VK5SUV5igwtU7ai2G5t551xTs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711014457;
+	s=susede2_ed25519; t=1711015075;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=IhiRnrJNAj1YIj+uMO6SfFuPB69WPHImeSJsBozPVQNJQ/6zx3oU3bCTf2OI/1D4+8k7tz
-	VOmoFvoJSLxTbwCw==
+	bh=tx5MSBSCndiNheSglKAt+FKNItRhWRlBds9sQkreFqs=;
+	b=b9xdAsynyOPBRFdffHExQ11SHpTy+9Eyz3nnef8ktbhHZmteUPCCAFzKwXXUniZIHY4+hq
+	iIlV86Sv+GdvHWBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4EEF13976;
-	Thu, 21 Mar 2024 09:47:37 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3867413976;
+	Thu, 21 Mar 2024 09:57:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id osDWJjkC/GXdDwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 21 Mar 2024 09:47:37 +0000
+	id XLJVDKME/GWDEwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 21 Mar 2024 09:57:55 +0000
+Date: Thu, 21 Mar 2024 10:57:54 +0100
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v1 12/18] nvme/031: do not open code target setup/cleanup
-Date: Thu, 21 Mar 2024 10:47:21 +0100
-Message-ID: <20240321094727.6503-13-dwagner@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240321094727.6503-1-dwagner@suse.de>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v1 02/18] nvme/rc: silence fcloop cleanup
+ failures
+Message-ID: <ltt4ymu4sioby5tzlhg25lbspevul3p4vp6jj37tjawjuc5bw6@pmxzeozgzn2e>
 References: <20240321094727.6503-1-dwagner@suse.de>
+ <20240321094727.6503-3-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [2.31 / 50.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240321094727.6503-3-dwagner@suse.de>
+X-Spamd-Result: default: False [-0.81 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 NEURAL_HAM_LONG(-0.98)[-0.978];
-	 R_RATELIMIT(0.00)[to_ip_from(RLm9s6cmri9k4spo5w97m8fq33)];
+	 RCPT_COUNT_FIVE(0.00)[5];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.41)[91.01%]
+	 BAYES_HAM(-0.01)[48.37%]
+Authentication-Results: smtp-out2.suse.de;
+	none
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240321_024740_489549_8714F97A 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240321_025759_552495_DCF7CD5A 
+X-CRM114-Status: GOOD (  16.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,38 +127,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-No need to open code the target setup and cleanup step. Just use the
-common helper to setup and cleanup the target.
+On Thu, Mar 21, 2024 at 10:47:11AM +0100, Daniel Wagner wrote:
+> When the ctl file is missing we are logging
+> 
+>   tests/nvme/rc: line 265: /sys/class/fcloop/ctl/del_target_port: No such file or directory
+>   tests/nvme/rc: line 257: /sys/class/fcloop/ctl/del_local_port: No such file or directory
+>   tests/nvme/rc: line 249: /sys/class/fcloop/ctl/del_remote_port: No such file or directory
+> 
+> because the first redirect operator fails. Thus first check if the ctl
+> file exists.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>  tests/nvme/rc | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 78d84af72e73..53fa54e64cb2 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -234,7 +234,10 @@ _nvme_fcloop_del_rport() {
+>  	local remote_wwpn="$4"
+>  	local loopctl=/sys/class/fcloop/ctl
+>  
+> -	echo "wwnn=${remote_wwnn},wwpn=${remote_wwpn}" > ${loopctl}/del_remote_port 2> /dev/null
+> +	if [[ ! -f "${loopctrl}" ]]; then
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/031 | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/tests/nvme/031 b/tests/nvme/031
-index ed5f19668674..892a52170ce9 100755
---- a/tests/nvme/031
-+++ b/tests/nvme/031
-@@ -40,14 +40,12 @@ test() {
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
- 	for ((i = 0; i < iterations; i++)); do
--		_create_nvmet_subsystem "${subsys}$i" "${loop_dev}"
--		_add_nvmet_subsys_to_port "${port}" "${subsys}$i"
--		_create_nvmet_host "${subsys}$i" "${def_hostnqn}"
-+		_nvmet_target_setup --subsysnqn "${subsys}$i" --blkdev "${loop_dev}"
-+
- 		_nvme_connect_subsys "${nvme_trtype}" "${subsys}$i"
- 		_nvme_disconnect_subsys "${subsys}$i" >> "${FULL}" 2>&1
--		_remove_nvmet_subsystem_from_port "${port}" "${subsys}$i"
--		_remove_nvmet_subsystem "${subsys}$i"
--		_remove_nvmet_host "${def_hostnqn}"
-+
-+		_nvmet_target_cleanup --subsysnqn "${subsys}$i"
- 	done
- 
- 	_remove_nvmet_port "${port}"
--- 
-2.44.0
-
+This should be ${loopctl}, obviously. Same for the other changes.
 
