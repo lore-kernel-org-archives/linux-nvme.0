@@ -4,47 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B415CC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 21:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1F88C54E58
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 21:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pT13mWDbqgeFy83Z9y0M0jHAa4Lu8pnLWKSYr1+EalM=; b=CpHoMXz0+r6XmaR9Po7cYvj6bc
-	t3wMi1Q7ZMpQR4u0E+LCnC74YGeSdiW5uThn27ZxZZS3p+rSRkSnFiwiS1yTSuoECmj8wvqYN0tUE
-	dnceK1KaLcDR2V0CzMLRC87OVEIEoOpMVcMdL2r/MPhrZ8V+l8Df/vpGGMx8HSHjvC8YAcbrhUJIE
-	wjsKS2uokd4ezB8/OIumDlO763gv2hNTIQSL11fSgascQvoXlnGJGmfLpKtukpg7ctb7BaROenBKj
-	6s6sel20JjFOGZdaSyscVEYMmKFcfx2wnI8gWHC2gY+/RmdgP55jye1XPShmWtJI/Voouk8Xs+5pQ
-	Uc8o8dcw==;
+	bh=DXO+f7Oy+hDoLR/eGyl4paU02AEWtHJimm0/YPHMB9g=; b=f1WzKeYogQ2puJv1zOUdx7hu5n
+	h0bULPMCAL+AJpLjoRcEKk2xjnVQVqSGNc7JdtzhF9OmK/6/s5QoFgNI1k7QGDZShcNJBkEe0k83c
+	MWAs+P3qG0eoDH+UuKLehOqoFJl7IiI0bylNUMRHyxBctcwNco+rcqsH2OFxbBMSdSezoDyK8XdE7
+	J7Cou1jaK2VGHTaZAoG+SivT74AkcMGfREHIh2SrfP2AwGiocP+3DHJq13mf9FrfvJ4VUOk9ZxsHY
+	kizG7wXVHbxMyzqI64UdcUthZxmEevMu//16nWiVy+QdPZGeUWi2sZRua7PbdEhd0Sp4vf8d9NsPs
+	xIYeuQVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnPXV-00000004cEE-0PrE;
-	Thu, 21 Mar 2024 21:01:29 +0000
+	id 1rnPYD-00000004cME-06jx;
+	Thu, 21 Mar 2024 21:02:13 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnPXR-00000004cCp-3T36
+	id 1rnPYA-00000004cL0-0VNZ
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Mar 2024 21:01:27 +0000
+	Thu, 21 Mar 2024 21:02:11 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id CC5C268B05; Thu, 21 Mar 2024 22:01:13 +0100 (CET)
-Date: Thu, 21 Mar 2024 22:01:13 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: remove redundant BUILD_BUG_ON check
-Message-ID: <20240321210113.GB21139@lst.de>
-References: <20240320091949.20791-1-kanie@linux.alibaba.com>
+	id 977EB68B05; Thu, 21 Mar 2024 22:02:05 +0100 (CET)
+Date: Thu, 21 Mar 2024 22:02:05 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: "hch@lst.de" <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
+Message-ID: <20240321210205.GC21139@lst.de>
+References: <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me> <2eb0672e-1073-497b-94ce-f3c356b7580e@linux.alibaba.com> <9983f5a2-6abb-41c8-89a7-aad32e247500@grimberg.me> <8d157341-0f64-4c91-b3d0-d3d5669c9e20@linux.alibaba.com> <99f5f33b-2c68-4c93-ad4d-333a05cb4d09@grimberg.me> <a134b972-0254-4f1e-91b9-a57223201f42@linux.alibaba.com> <cea98ed9-6b65-4475-8497-62f1ca9f81a3@nvidia.com> <b691ccf2-3627-402c-bb68-eb3fc8845e41@linux.alibaba.com> <20240320015932.GA14551@lst.de> <ef50ec40-dc7f-42fd-b84d-c0842a8392b4@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240320091949.20791-1-kanie@linux.alibaba.com>
+In-Reply-To: <ef50ec40-dc7f-42fd-b84d-c0842a8392b4@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240321_140126_193955_D9D8D07A 
-X-CRM114-Status: GOOD (  10.25  )
+X-CRM114-CacheID: sfid-20240321_140210_602824_7CA867CE 
+X-CRM114-Status: GOOD (  10.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,11 +61,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 20, 2024 at 05:19:49PM +0800, Guixin Liu wrote:
-> Remove redundant BUILD_BUG_ON check of struct nvme_dsm_range, it's
-> already checked in nvme_init_ctrl().
+On Wed, Mar 20, 2024 at 11:16:29AM +0200, Sagi Grimberg wrote:
+> That's a neat idea, we also have file to think about though.
 
-Looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Indeed.  It still would be good to avoid the extra overhead when not
+needed, though.
 
