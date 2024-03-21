@@ -4,49 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1F88C54E58
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 21:02:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77676C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 21:08:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DXO+f7Oy+hDoLR/eGyl4paU02AEWtHJimm0/YPHMB9g=; b=f1WzKeYogQ2puJv1zOUdx7hu5n
-	h0bULPMCAL+AJpLjoRcEKk2xjnVQVqSGNc7JdtzhF9OmK/6/s5QoFgNI1k7QGDZShcNJBkEe0k83c
-	MWAs+P3qG0eoDH+UuKLehOqoFJl7IiI0bylNUMRHyxBctcwNco+rcqsH2OFxbBMSdSezoDyK8XdE7
-	J7Cou1jaK2VGHTaZAoG+SivT74AkcMGfREHIh2SrfP2AwGiocP+3DHJq13mf9FrfvJ4VUOk9ZxsHY
-	kizG7wXVHbxMyzqI64UdcUthZxmEevMu//16nWiVy+QdPZGeUWi2sZRua7PbdEhd0Sp4vf8d9NsPs
-	xIYeuQVw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=eYJQMmzLeCFQty3aFeNaVnl6KZBobJubZHncAwAF3IY=; b=xNJvP7yllsA7bfPkkhTNSR6llF
+	q05ewgPKj+0lP8WyboERL7WmraRc7oxvZy1j9M2KppkwY1+iRUTO+IqpcDmlA/miAfLsivN6aSfdA
+	B7e7vk1PDwXUnWDxmQPMdxDUcf22GLBy+Ax/K/ewUSIaYIrmeN60v2I9LwtD9/aYE3tcb7aH7oEId
+	NbtB2xGT8KICQ54FhllNBXKwnpXtwnvywJps7zmABQz5z/cGegC/UU6VbEjwIcIV/OpKGxVFFi3zr
+	fBIJNHTMj1B8PTc7HFJ9eK743qVQu+LCC9kQO9kW0xcWAmE2KSitmYqgOkNG87bOjje1ahyCD/QLY
+	0JwNv0xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnPYD-00000004cME-06jx;
-	Thu, 21 Mar 2024 21:02:13 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnPYA-00000004cL0-0VNZ
-	for linux-nvme@lists.infradead.org;
-	Thu, 21 Mar 2024 21:02:11 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 977EB68B05; Thu, 21 Mar 2024 22:02:05 +0100 (CET)
-Date: Thu, 21 Mar 2024 22:02:05 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: "hch@lst.de" <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
-Message-ID: <20240321210205.GC21139@lst.de>
-References: <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me> <2eb0672e-1073-497b-94ce-f3c356b7580e@linux.alibaba.com> <9983f5a2-6abb-41c8-89a7-aad32e247500@grimberg.me> <8d157341-0f64-4c91-b3d0-d3d5669c9e20@linux.alibaba.com> <99f5f33b-2c68-4c93-ad4d-333a05cb4d09@grimberg.me> <a134b972-0254-4f1e-91b9-a57223201f42@linux.alibaba.com> <cea98ed9-6b65-4475-8497-62f1ca9f81a3@nvidia.com> <b691ccf2-3627-402c-bb68-eb3fc8845e41@linux.alibaba.com> <20240320015932.GA14551@lst.de> <ef50ec40-dc7f-42fd-b84d-c0842a8392b4@grimberg.me>
+	id 1rnPeG-00000004dC4-1AHY;
+	Thu, 21 Mar 2024 21:08:28 +0000
+Received: from [119.234.4.46] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rnPeE-00000004dB0-36Ic;
+	Thu, 21 Mar 2024 21:08:27 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: kbusch@kernel.org,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH] nvme-multipath: don't inherit LBA-related fields for the multipath node
+Date: Fri, 22 Mar 2024 07:08:19 +1000
+Message-Id: <20240321210819.1246749-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef50ec40-dc7f-42fd-b84d-c0842a8392b4@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240321_140210_602824_7CA867CE 
-X-CRM114-Status: GOOD (  10.05  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,9 +51,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 20, 2024 at 11:16:29AM +0200, Sagi Grimberg wrote:
-> That's a neat idea, we also have file to think about though.
+Linux 6.9 made the nvme multipath nodes not properly pick up changes when
+the LBA size goes smaller after an nvme format.  This is because we now
+try to inherit the queue settings for the multipath node entirely from
+the individual paths.  That is the right thing to do for I/O size
+limitations, which make up most of the queue limits, but it is wrong for
+changes to the namespace configuration, where we do want to pick up the
+new format, which will eventually show up on all paths once they are
+re-queried.
 
-Indeed.  It still would be good to avoid the extra overhead when not
-needed, though.
+Fix this by not inheriting the block size and related fields and always
+for updating them.
+
+Fixes: 8f03cfa117e0 ("nvme: don't use nvme_update_disk_info for the multipath disk")
+Reported-by: Nilay Shroff <nilay@linux.ibm.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 00864a63447099..4bac54d4e0015b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2204,6 +2204,7 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 	}
+ 
+ 	if (!ret && nvme_ns_head_multipath(ns->head)) {
++		struct queue_limits *ns_lim = &ns->disk->queue->limits;
+ 		struct queue_limits lim;
+ 
+ 		blk_mq_freeze_queue(ns->head->disk->queue);
+@@ -2215,7 +2216,26 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
+ 		nvme_mpath_revalidate_paths(ns);
+ 
++		/*
++		 * queue_limits mixes values that are the hardware limitations
++		 * for bio splitting with what is the device configuration.
++		 *
++		 * For NVMe the device configuration can change after e.g. a
++		 * Format command, and we really want to pick up the new format
++		 * value here.  But we must still stack the queue limits to the
++		 * least common denominator for multipathing to split the bios
++		 * properly.
++		 *
++		 * To work around this, we explicitly set the device
++		 * configuration to those that we just queried, but only stack
++		 * the splitting limits in to make sure we still obey possibly
++		 * lower limitations of other controllers.
++		 */
+ 		lim = queue_limits_start_update(ns->head->disk->queue);
++		lim.logical_block_size = ns_lim->logical_block_size;
++		lim.physical_block_size = ns_lim->physical_block_size;
++		lim.io_min = ns_lim->io_min;
++		lim.io_opt = ns_lim->io_opt;
+ 		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
+ 					ns->head->disk->disk_name);
+ 		ret = queue_limits_commit_update(ns->head->disk->queue, &lim);
+-- 
+2.39.2
+
 
