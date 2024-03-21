@@ -4,58 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76675C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 18:15:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3CC6C54E58
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 19:23:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pfQ9zpHsEhcd0hthL4ZaUhMaCvU+yww+JMQfl5Ve3OY=; b=RFVTJY5z0lttuz/OQRVApkQPYX
-	v0yUdB70BH2RU0Z3jZC90wApva++SytMU2di9lRcZHyTcAgV5LrOXOqZ1abUO2y0KBN3iAawMUS3M
-	f89Md+uGWN4Jqt5rAVL2cPT8SGwHjBj8PwJUxR1klklUyEXxyraSEeVjyOmXtZy7du3phA+N4OENT
-	R/oJyOhce2NuS2eMRGC4Z5lfP8pclH8o3MnVJEPO0K/LMLTtAtLMK7VRz1Fk8DmOBG157hc9OTXlg
-	MNm/gI6r0uIIxAr6K4/iAOiwT6hvQ2oLjlY/bTrfZsHmm4o+vEbHoLoHnuBPDVvfCtSHiOjM18XKI
-	6nJMZwyw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=thXLZIgbAuHNgfpjsghymw/KdOFdu47uhCMZ7EnlTAk=; b=wcd0jOcouWy61jB7WgMh0Wdg9f
+	nO76iaaiq6SrISr87xU74Ee2QNdiBYrxuK4rQ1HFCgS/47iFJffedIbyEZhnLRV+/mj9xCyUs8Wy1
+	zE8wwOPgfYBBP58EowT6suoOHu+tJhbtDhsfUvznsZVMKNpNiNdHjY0E+rf63EHjWrTk0zHWynSvL
+	+YU2MvKOtawcgcmtJ1lXASuPyBvC5D0gz/TOBf4Jlu7w3uBpnp+ZoYNXLOLFvQR4EF/zl6zzNVAGe
+	F1OoGxI3POPQ7gaolzaRjZbI8i3IU0kVduoEaCd7JANCU6LMkIzaeLdhzKbvnqWgwDnir+r/37hRf
+	uTcavIkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnMwb-00000004EWi-0kJa;
-	Thu, 21 Mar 2024 18:15:13 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rnO10-00000004NfR-0Htu;
+	Thu, 21 Mar 2024 19:23:50 +0000
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnMwY-00000004EWL-1H8S
+	id 1rnO0x-00000004Nej-1J3C
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Mar 2024 18:15:11 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0EE4D611AF;
-	Thu, 21 Mar 2024 18:15:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C0B7C433C7;
-	Thu, 21 Mar 2024 18:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711044908;
-	bh=YJdxAgu1ig4uGflIMl6Qjm4lI/hs+DyyuzfxdFlfAuw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=ow/xe1beghtZH0sbiBni333NtvLEcIUaZpPS3R8qTpwUV/EftCDSTOs/DdQpDHIBf
-	 Y2nq59gDlClyRtnCSobvZpHUi+aqJITAYiL1I/u87GF6Wfep7Mk3EV12UWcQlcEDTx
-	 JJUEBpgdsZ7ol7Z+JEPDZIcpLrorkFoiM3fqPY4M0BzwjssyXkEf45d85su8v9vTWS
-	 EjNkEsGePVjNJzhi+71x2mpRc+jwYzhYgMpYEVDuJwWD1jeceX5j/4KBwCc20lIOXA
-	 HUQrnXXCOVUz1fGXi5wSpeHBNSyQ9rhUdUpdhInjuL3Z4DhxxMTc28CXoLBD/4B4xK
-	 nKNL3Q6SzDxUw==
-Date: Thu, 21 Mar 2024 12:15:05 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: [GIT PULL] nvme updates for Linux 6.9
-Message-ID: <Zfx5KbCt1RDMXmzO@kbusch-mbp>
+	Thu, 21 Mar 2024 19:23:49 +0000
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7cc0e831e11so19175139f.1
+        for <linux-nvme@lists.infradead.org>; Thu, 21 Mar 2024 12:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1711049024; x=1711653824; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=thXLZIgbAuHNgfpjsghymw/KdOFdu47uhCMZ7EnlTAk=;
+        b=lUt/GgrhozQlFQGTLGKzCYX08bGll22jr6GQWOMCTDE4/XbUoc6RofKtZ5+EFvZGTN
+         Fem4nLR7UFSpGdGUBF07843saotdkzjCIeObn81LpU2kJIn1o9erAYCC5x7KOl6J8/iT
+         EUxnjFNB0F7oHfPZ4rogGQyQJGoxLFfExocaNTGHNA01KPnxI1Nv0aq6ociFGl/aybyj
+         GfLL0k/hH/AJ9IenVDLAiy0R9oa0iOnchCVk0Hv478mwcJG3An9Nq44VWOjCgn5DPwis
+         bVDJ5j7fZC0YwkOqpwsIogMzmkr5vxKucbkPnZ0R52QD1yqbc/PIOaIM2ychD2WJAWgp
+         jHIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711049024; x=1711653824;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=thXLZIgbAuHNgfpjsghymw/KdOFdu47uhCMZ7EnlTAk=;
+        b=a2Pg6Wu4TUPceXkPkA9ONFoYLZOAx2/EE07uwZ/fp2SdeHGQuhm+E12FVPuVtKqbTL
+         nPKhbZCKIiRJho3MzSGrlQ8ummZncE0Zui3zb9K8UBIt6EASM3R5Qk+n3U9sO/hRnWNq
+         z8twfbLiKGOjUWsjDK+d4EEpgAyedPIfnHJoAg0WvPhK0HJMOhLVoHSSzRXCqxwhSsI8
+         YWy5mmltsTCsSz+lAYjIDjUONCo5X3C3jiflI+xo9cvxQvnJHRVKY2LeHa51tFhXsT7d
+         yaIGPenh4HNyzuGvGneyeh2AtZjwBkysbgSOsB0YGrEhg8pNpzP+bXVE7lbmUHFovMrC
+         A9UA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSIWDha3EbIXiiU5TxAdmTCrcYWcWEeZdMXl1liORbWdh4WHlOLeJyU3p2m+GvU41yTzxYanid16q0W/IVW0io+YYolWUlRjsJmk6Ar2M=
+X-Gm-Message-State: AOJu0YwhvsjPNEY2Ia/2nr/IuAghDGsBXwxC5zOjcHXu5sTBfBbqljdP
+	2FYLXfOCfsvM/2nOG8Ih8K/ekhs0X22KKO2Id+mKBT68pNzF9FIBvDpyKkpwgfI=
+X-Google-Smtp-Source: AGHT+IFQcsWgkjQOduxv0ijcERzC8HSDu7R5faONEUfEqMuKt4oeo/ywSYtWk8pj7wgbg+Q6yKPL7Q==
+X-Received: by 2002:a5d:888b:0:b0:7c8:ad73:a702 with SMTP id d11-20020a5d888b000000b007c8ad73a702mr487544ioo.0.1711049024624;
+        Thu, 21 Mar 2024 12:23:44 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id t10-20020a5e990a000000b007d023ca861csm110397ioj.32.2024.03.21.12.23.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Mar 2024 12:23:43 -0700 (PDT)
+Message-ID: <83e12fb9-8086-48c0-a724-1a39faf3308a@kernel.dk>
+Date: Thu, 21 Mar 2024 13:23:42 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme updates for Linux 6.9
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <Zfx5KbCt1RDMXmzO@kbusch-mbp>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Zfx5KbCt1RDMXmzO@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240321_111510_414905_C11701D9 
-X-CRM114-Status: UNSURE (   8.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240321_122347_495847_49B904D4 
+X-CRM114-Status: GOOD (  10.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,69 +93,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 0dc31b98d7200a0046de5c760feb0aaff6c4b53c:
+On 3/21/24 12:15 PM, Keith Busch wrote:
+> The following changes since commit 0dc31b98d7200a0046de5c760feb0aaff6c4b53c:
+> 
+>   cdrom: gdrom: Convert to platform remove callback returning void (2024-03-07 11:53:30 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.9-2024-03-21
+> 
+> for you to fetch changes up to 910934da9444dbb102294796481ab05e4419d311:
+> 
+>   nvmet-rdma: remove NVMET_RDMA_REQ_INVALIDATE_RKEY flag (2024-03-21 10:46:53 -0700)
+> 
+> ----------------------------------------------------------------
+> nvme updates for Linux 6.9
+> 
+>  - Make an informative message less ominous (Keith)
+>  - Enhanced trace decoding (Guixin)
+>  - TCP updates (Hannes, Li)
+>  - Fabrics connect deadlock fix (Chunguang)
+>  - Platform API migration update (Uwe)
+>  - A new device quirk (Jiawei)
 
-  cdrom: gdrom: Convert to platform remove callback returning void (2024-03-07 11:53:30 -0700)
+Pulled, thanks.
 
-are available in the Git repository at:
+-- 
+Jens Axboe
 
-  git://git.infradead.org/nvme.git tags/nvme-6.9-2024-03-21
-
-for you to fetch changes up to 910934da9444dbb102294796481ab05e4419d311:
-
-  nvmet-rdma: remove NVMET_RDMA_REQ_INVALIDATE_RKEY flag (2024-03-21 10:46:53 -0700)
-
-----------------------------------------------------------------
-nvme updates for Linux 6.9
-
- - Make an informative message less ominous (Keith)
- - Enhanced trace decoding (Guixin)
- - TCP updates (Hannes, Li)
- - Fabrics connect deadlock fix (Chunguang)
- - Platform API migration update (Uwe)
- - A new device quirk (Jiawei)
-
-----------------------------------------------------------------
-Chunguang Xu (1):
-      nvme: fix reconnection fail due to reserved tag allocation
-
-Guixin Liu (8):
-      nvmet: add tracing of authentication commands
-      nvmet: add tracing of zns commands
-      nvme: use nvme_disk_is_ns_head helper
-      nvme: parse zns command's zsa and zrasf to string
-      nvme: add tracing of reservation commands
-      nvme: parse format command's lbafu when tracing
-      nvme: remove redundant BUILD_BUG_ON check
-      nvmet-rdma: remove NVMET_RDMA_REQ_INVALIDATE_RKEY flag
-
-Hannes Reinecke (1):
-      nvmet-tcp: do not continue for invalid icreq
-
-Jiawei Fu (iBug) (1):
-      drivers/nvme: Add quirks for device 126f:2262
-
-Keith Busch (1):
-      nvme: change shutdown timeout setting message
-
-Li Feng (2):
-      nvme-tcp: Export the nvme_tcp_wq to sysfs
-      nvme/tcp: Add wq_unbound modparam for nvme_tcp_wq
-
-Uwe Kleine-König (1):
-      nvme-apple: Convert to platform remove callback returning void
-
- drivers/nvme/host/apple.c   |   6 +--
- drivers/nvme/host/core.c    |  11 +++--
- drivers/nvme/host/fabrics.h |   7 ---
- drivers/nvme/host/pci.c     |   3 ++
- drivers/nvme/host/pr.c      |   3 +-
- drivers/nvme/host/sysfs.c   |   3 +-
- drivers/nvme/host/tcp.c     |  21 +++++++--
- drivers/nvme/host/trace.c   | 105 ++++++++++++++++++++++++++++++++++++++++++--
- drivers/nvme/target/rdma.c  |   8 ++--
- drivers/nvme/target/tcp.c   |   1 +
- drivers/nvme/target/trace.c |  98 +++++++++++++++++++++++++++++++++++++++++
- 11 files changed, 233 insertions(+), 33 deletions(-)
 
 
