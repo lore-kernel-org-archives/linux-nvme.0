@@ -4,96 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BF9ACD11DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 15:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 416E3CD11DD
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 15:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qvDOBADFmDw+aOPrwhzt2BHMoHBf/CgZuKxG1LnfDio=; b=JzNQZ28xeL7l+Pd0CG6zL0menp
-	dw+544+ZXrnYzesFvLD7zQZVIGkwFVFsTxBTFuJzYWdNyrkt7pfbQEzf/3iLCnsQQY2Bh6c3+7U8o
-	aaQiyeQaq14LpGJYS1wUg3R8yHgR/4cppmSRsaxToI9N2PfyroJVuNJQIJkduhZ+iwzksSIrQUByN
-	QYSNsuyN91S3fxjXLl8RSQUBQLuqsEUQIVcjkCZp6/URZxl/cT65RPiEc0LQg2tMDpJeJ/C0ZIfXk
-	bYkZGvTC8fnNqTBgXCsVXYD9b5dJ9ZBBuv23j10gH55uDIuB1bNFn8+fsyA/3Vm+eo12NF8iPKtcu
-	u9m0QExQ==;
+	bh=RRwxPcjUmT+sgVYhBELtu/T0gPthLZogcmVoqBFq7L4=; b=s5k4zA1a0GDRO5vsc+bV/Pdzdk
+	soFSxGNotfO+X5iG7ewixbP1ZD/lloPNlANYLb8ETVDq0PvJX4ddlpbEpN3yloGTqT3qeHuG/g7y5
+	AWYQijP5woE9kwpW07WR/l/c/SJru3dGLpNP5pmZ3jt4nK+4hxvBQg46jHoQ67F8Os9I8598czuKz
+	SgPGePoLaMl2tnf9MdziBub5FPHibW6M1USiyaALa9IiGU+8066PAPYZWISb/EEJDizNKrkw3GpUa
+	QKyTYtodRV0GDhtzoZNrEG/AZYFd+pfgngrwqrdgmbzQidTacG4QhYwUZTo7s0ZgkmlrABoU632Jh
+	gObQP4Ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rngPn-00000007f94-1l6D;
-	Fri, 22 Mar 2024 15:02:39 +0000
+	id 1rngPp-00000007fA8-0dcQ;
+	Fri, 22 Mar 2024 15:02:41 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnfID-00000007PzN-15aA
+	id 1rnfID-00000007PzL-0szN
 	for linux-nvme@bombadil.infradead.org;
 	Fri, 22 Mar 2024 13:50:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=qvDOBADFmDw+aOPrwhzt2BHMoHBf/CgZuKxG1LnfDio=; b=E6sEph5ow8JHkjZjxtIs9Uaisw
-	yTXHBN99YgBYIlKIcIPIVkx7MgSlw0LSgoG4fJgFKK65Mq8kqRiO066iTnUTRArKW6rjXLAmRAaFm
-	0MZ98PsV4Y50VKeOjO4EZzmUbZ43/4k66Wb+lVnEZKqqauHf9wKFwSFQYuv/RX5sSiFlIx7iB37PS
-	ggY8sY4jLqg4oTIVn7ZP0nB1fO7mSqg8oOFPWYXHp6Dzd8cgUtq6d+bL5hw+/vHCM8Beox/SWJoV0
-	atyIddcPbOB1fF8+3FGKdizHy4bwOI//V3jiZQRiLTX+rHPeWV2mDH/mBUz4sMiLORs3/bxOSv2ht
-	lS7pFu1Q==;
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	bh=RRwxPcjUmT+sgVYhBELtu/T0gPthLZogcmVoqBFq7L4=; b=ONZTpext0T+qrzcClFxEEUnkCH
+	fbhyA/D+jes9uJ8JIwrWK6aWgUZTAiSdLWQSHV3si6/+aSE2nrgyLGSQCtJGZvHudeq/ut2B3VehU
+	w5p3oS9j7ndMn9eES+g77lDiMm2cH0RDk7YAoOg8F1tidu1lh/f8H16QHTm6J/3BhKmqgSVScZ5Aq
+	mmCXOzwfNWOIffUSDh6HU6Ntt1UB0mDbjAkcp6BW879RKTC5RW6a/25cf1UGHZ+4/hNr1nvKe3zFn
+	VHT0hjpEy4sd9oREmdv5e+wvJXNjl2F2tenrPPbzuLzwdVFNvJmDshOYT3PAcDrQpvNmWQNwBL0PS
+	CePAG0yA==;
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnfI8-0000000EoTd-2hFR
+	id 1rnfI8-0000000EoUg-3Edj
 	for linux-nvme@lists.infradead.org;
 	Fri, 22 Mar 2024 13:50:43 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B2A8138567;
-	Fri, 22 Mar 2024 13:50:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 272285FE2A;
+	Fri, 22 Mar 2024 13:50:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711115424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711115429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvDOBADFmDw+aOPrwhzt2BHMoHBf/CgZuKxG1LnfDio=;
-	b=mAmjeNwmWK5HGVEazm2DBP9/INP1vIFarCO582u6orntLSVLHaoZmKr3abTJiRZuVycs5I
-	M+OQUGRuAe/0+zus2GZUmUELIFKSnKn8HLY7Qr4sTc8vfsJTfpj1PhYttF3Ja+L0D0ucve
-	eYVJ0VbetqKUplD9ytaqBIiJ9Kn+9D4=
+	bh=RRwxPcjUmT+sgVYhBELtu/T0gPthLZogcmVoqBFq7L4=;
+	b=N8mZ5YOkfi5ntma4oGIYB0BsjpBNrHe0o111WzWzWpEvjp3WsCfb1DmfykvD69aahnMqPd
+	0F5/BnGG4zBWAMx2SHFpTuSkwqJYoAgvU71BnIg1FXd60W4GSkuPfOAksoUBz5l9bvkpBf
+	4WZ9b8nKu+R9tUpY4dYAnTyW7HbIR3E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711115424;
+	s=susede2_ed25519; t=1711115429;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvDOBADFmDw+aOPrwhzt2BHMoHBf/CgZuKxG1LnfDio=;
-	b=HJV9VLvZkouRD/rk1iKn2A+52iDuUHjMwvV2HEq+BJ2hjZ+QEsCk2VWQFmhH28vTJxzJ66
-	/l330EupERTnDtBw==
+	bh=RRwxPcjUmT+sgVYhBELtu/T0gPthLZogcmVoqBFq7L4=;
+	b=14eIX+dUDFhggQqNl2/y1BwuPJnR4XtHJ7hiFpBTEwRrTMAlmo3p/e+T1AQIFfxp796beg
+	1TnKz30rHfkkgiBg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711115424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711115429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvDOBADFmDw+aOPrwhzt2BHMoHBf/CgZuKxG1LnfDio=;
-	b=mAmjeNwmWK5HGVEazm2DBP9/INP1vIFarCO582u6orntLSVLHaoZmKr3abTJiRZuVycs5I
-	M+OQUGRuAe/0+zus2GZUmUELIFKSnKn8HLY7Qr4sTc8vfsJTfpj1PhYttF3Ja+L0D0ucve
-	eYVJ0VbetqKUplD9ytaqBIiJ9Kn+9D4=
+	bh=RRwxPcjUmT+sgVYhBELtu/T0gPthLZogcmVoqBFq7L4=;
+	b=N8mZ5YOkfi5ntma4oGIYB0BsjpBNrHe0o111WzWzWpEvjp3WsCfb1DmfykvD69aahnMqPd
+	0F5/BnGG4zBWAMx2SHFpTuSkwqJYoAgvU71BnIg1FXd60W4GSkuPfOAksoUBz5l9bvkpBf
+	4WZ9b8nKu+R9tUpY4dYAnTyW7HbIR3E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711115424;
+	s=susede2_ed25519; t=1711115429;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qvDOBADFmDw+aOPrwhzt2BHMoHBf/CgZuKxG1LnfDio=;
-	b=HJV9VLvZkouRD/rk1iKn2A+52iDuUHjMwvV2HEq+BJ2hjZ+QEsCk2VWQFmhH28vTJxzJ66
-	/l330EupERTnDtBw==
+	bh=RRwxPcjUmT+sgVYhBELtu/T0gPthLZogcmVoqBFq7L4=;
+	b=14eIX+dUDFhggQqNl2/y1BwuPJnR4XtHJ7hiFpBTEwRrTMAlmo3p/e+T1AQIFfxp796beg
+	1TnKz30rHfkkgiBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A11FB136AD;
-	Fri, 22 Mar 2024 13:50:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 159B9136AD;
+	Fri, 22 Mar 2024 13:50:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JWnkJaCM/WWQJAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 22 Mar 2024 13:50:24 +0000
+	id O9nPA6WM/WWnJAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 22 Mar 2024 13:50:29 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org,
@@ -101,17 +101,17 @@ Cc: linux-block@vger.kernel.org,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 09/18] nvme/rc: add nqn/uuid args to target setup/cleanup helper
-Date: Fri, 22 Mar 2024 14:50:06 +0100
-Message-ID: <20240322135015.14712-10-dwagner@suse.de>
+Subject: [PATCH blktests v2 16/18] nvme/{041,042,043,044,045,048}: do not pass default host{nqn|id} to _nvme_connect_subsys
+Date: Fri, 22 Mar 2024 14:50:13 +0100
+Message-ID: <20240322135015.14712-17-dwagner@suse.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240322135015.14712-1-dwagner@suse.de>
 References: <20240322135015.14712-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
-X-Spamd-Result: default: False [-3.18 / 50.00];
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
@@ -132,11 +132,10 @@ X-Spamd-Result: default: False [-3.18 / 50.00];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.88)[99.49%]
+	 BAYES_HAM(-3.00)[100.00%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240322_135041_095352_6595F153 
-X-CRM114-Status: UNSURE (   9.02  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240322_135041_126393_607F7767 
+X-CRM114-Status: GOOD (  10.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,90 +150,171 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Make these helper a bit more flexible, so that the caller
-can setup not just the default subsysnqn.
+There is no point in passing the default values to
+_nvme_connect_subsys, thus drop these arguments.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/rc | 38 +++++++++++++++++++++++++++++++-------
- 1 file changed, 31 insertions(+), 7 deletions(-)
+ tests/nvme/041 |  7 ++-----
+ tests/nvme/042 |  8 ++------
+ tests/nvme/043 |  8 ++------
+ tests/nvme/044 | 16 ++++------------
+ tests/nvme/045 |  4 +---
+ tests/nvme/048 |  4 +---
+ 6 files changed, 12 insertions(+), 35 deletions(-)
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 535bd869bf58..7f436037eb94 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -817,6 +817,8 @@ _nvmet_target_setup() {
- 	local blkdev
- 	local ctrlkey=""
- 	local hostkey=""
-+	local subsysnqn="${def_subsysnqn}"
-+	local subsys_uuid="${def_subsys_uuid}"
- 	local port
+diff --git a/tests/nvme/041 b/tests/nvme/041
+index d6845628726e..f1fa00c0f420 100755
+--- a/tests/nvme/041
++++ b/tests/nvme/041
+@@ -38,16 +38,13 @@ test() {
  
- 	while [[ $# -gt 0 ]]; do
-@@ -833,6 +835,14 @@ _nvmet_target_setup() {
- 				hostkey="$2"
- 				shift 2
- 				;;
-+			--subsysnqn)
-+				subsysnqn="$2"
-+				shift 2
-+				;;
-+			--subsys-uuid)
-+				subsys_uuid="$2"
-+				shift 2
-+				;;
- 			*)
- 				echo "WARNING: unknown argument: $1"
- 				shift
-@@ -847,11 +857,11 @@ _nvmet_target_setup() {
- 		blkdev="$(_nvme_def_file_path)"
- 	fi
+ 	# Test unauthenticated connection (should fail)
+ 	echo "Test unauthenticated connection (should fail)"
+-	_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-			     --hostid "${def_hostid}"
++	_nvme_connect_subsys
  
--	_create_nvmet_subsystem "${def_subsysnqn}" "${blkdev}" \
--				"${def_subsys_uuid}"
-+	_create_nvmet_subsystem "${subsysnqn}" "${blkdev}" \
-+				"${subsys_uuid}"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" \
-+	_add_nvmet_subsys_to_port "${port}" "${subsysnqn}"
-+	_create_nvmet_host "${subsysnqn}" "${def_hostnqn}" \
- 			"${hostkey}" "${ctrlkey}"
- }
+ 	_nvme_disconnect_subsys
  
-@@ -859,14 +869,28 @@ _nvmet_target_cleanup() {
- 	local ports
- 	local port
- 	local blkdev
-+	local subsysnqn="${def_subsysnqn}"
-+
-+	while [[ $# -gt 0 ]]; do
-+		case $1 in
-+			--subsysnqn)
-+				subsysnqn="$2"
-+				shift 2
-+				;;
-+			*)
-+				echo "WARNING: unknown argument: $1"
-+				shift
-+				;;
-+		esac
-+	done
+ 	# Test authenticated connection
+ 	echo "Test authenticated connection"
+-	_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-			     --hostid "${def_hostid}" \
+-			     --dhchap-secret "${hostkey}"
++	_nvme_connect_subsys --dhchap-secret "${hostkey}"
  
--	_get_nvmet_ports "${def_subsysnqn}" ports
-+	_get_nvmet_ports "${subsysnqn}" ports
+ 	_nvme_disconnect_subsys
  
- 	for port in "${ports[@]}"; do
--		_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
-+		_remove_nvmet_subsystem_from_port "${port}" "${subsysnqn}"
- 		_remove_nvmet_port "${port}"
+diff --git a/tests/nvme/042 b/tests/nvme/042
+index 480e1cba9d19..a9e79c6a13b4 100755
+--- a/tests/nvme/042
++++ b/tests/nvme/042
+@@ -41,9 +41,7 @@ test() {
+ 		fi
+ 		_set_nvmet_hostkey "${def_hostnqn}" "${hostkey}"
+ 
+-		_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-				     --hostid "${def_hostid}" \
+-				     --dhchap-secret "${hostkey}"
++		_nvme_connect_subsys --dhchap-secret "${hostkey}"
+ 
+ 		_nvme_disconnect_subsys
  	done
--	_remove_nvmet_subsystem "${def_subsysnqn}"
-+	_remove_nvmet_subsystem "${subsysnqn}"
- 	_remove_nvmet_host "${def_hostnqn}"
+@@ -57,9 +55,7 @@ test() {
+ 		fi
+ 		_set_nvmet_hostkey "${def_hostnqn}" "${hostkey}"
  
- 	_cleanup_blkdev
+-		_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-				     --hostid "${def_hostid}" \
+-				     --dhchap-secret "${hostkey}"
++		_nvme_connect_subsys --dhchap-secret "${hostkey}"
+ 
+ 		_nvme_disconnect_subsys
+ 	done
+diff --git a/tests/nvme/043 b/tests/nvme/043
+index dd48035dd967..4589423d4335 100755
+--- a/tests/nvme/043
++++ b/tests/nvme/043
+@@ -45,9 +45,7 @@ test() {
+ 
+ 		_set_nvmet_hash "${def_hostnqn}" "${hash}"
+ 
+-		_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-				     --hostid "${def_hostid}" \
+-				     --dhchap-secret "${hostkey}"
++		_nvme_connect_subsys --dhchap-secret "${hostkey}"
+ 
+ 		_nvme_disconnect_subsys
+ 	done
+@@ -58,9 +56,7 @@ test() {
+ 
+ 		_set_nvmet_dhgroup "${def_hostnqn}" "${dhgroup}"
+ 
+-		_nvme_connect_subsys  --hostnqn "${def_hostnqn}" \
+-				      --hostid "${def_hostid}" \
+-				      --dhchap-secret "${hostkey}"
++		_nvme_connect_subsys --dhchap-secret "${hostkey}"
+ 
+ 		_nvme_disconnect_subsys
+ 	done
+diff --git a/tests/nvme/044 b/tests/nvme/044
+index 624b832c0cc6..8b8859068660 100755
+--- a/tests/nvme/044
++++ b/tests/nvme/044
+@@ -49,18 +49,14 @@ test() {
+ 
+ 	# Step 1: Connect with host authentication only
+ 	echo "Test host authentication"
+-	_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-			     --hostid "${def_hostid}" \
+-			     --dhchap-secret "${hostkey}"
++	_nvme_connect_subsys --dhchap-secret "${hostkey}"
+ 
+ 	_nvme_disconnect_subsys
+ 
+ 	# Step 2: Connect with host authentication
+ 	# and invalid ctrl authentication
+ 	echo "Test invalid ctrl authentication (should fail)"
+-	_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-			     --hostid "${def_hostid}" \
+-			     --dhchap-secret "${hostkey}" \
++	_nvme_connect_subsys --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${hostkey}"
+ 
+ 	_nvme_disconnect_subsys
+@@ -68,9 +64,7 @@ test() {
+ 	# Step 3: Connect with host authentication
+ 	# and valid ctrl authentication
+ 	echo "Test valid ctrl authentication"
+-	_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-			     --hostid "${def_hostid}" \
+-			     --dhchap-secret "${hostkey}" \
++	_nvme_connect_subsys --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${ctrlkey}"
+ 
+ 	_nvme_disconnect_subsys
+@@ -79,9 +73,7 @@ test() {
+ 	# and invalid ctrl key
+ 	echo "Test invalid ctrl key (should fail)"
+ 	invkey="DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVafdfaS7YQOMYhk9zSmlatobqB8C:"
+-	_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-			     --hostid "${def_hostid}" \
+-			     --dhchap-secret "${hostkey}" \
++	_nvme_connect_subsys --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${invkey}"
+ 
+ 	_nvme_disconnect_subsys
+diff --git a/tests/nvme/045 b/tests/nvme/045
+index 3a5df7c0946c..87ac3c019970 100755
+--- a/tests/nvme/045
++++ b/tests/nvme/045
+@@ -51,9 +51,7 @@ test() {
+ 
+ 	_set_nvmet_dhgroup "${def_hostnqn}" "ffdhe2048"
+ 
+-	_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-			     --hostid "${def_hostid}" \
+-			     --dhchap-secret "${hostkey}" \
++	_nvme_connect_subsys --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${ctrlkey}"
+ 
+ 	echo "Re-authenticate with original host key"
+diff --git a/tests/nvme/048 b/tests/nvme/048
+index 79620e0d0879..0b299a91288b 100755
+--- a/tests/nvme/048
++++ b/tests/nvme/048
+@@ -99,9 +99,7 @@ test() {
+ 	_nvmet_target_setup --blkdev file
+ 
+ 	if [[ -f "${cfs_path}/attr_qid_max" ]] ; then
+-		_nvme_connect_subsys --hostnqn "${def_hostnqn}" \
+-				     --hostid "${def_hostid}" \
+-				     --keep-alive-tmo 1 \
++		_nvme_connect_subsys --keep-alive-tmo 1 \
+ 				     --reconnect-delay 2
+ 
+ 		if ! nvmf_wait_for_state "${def_subsysnqn}" "live" ; then
 -- 
 2.44.0
 
