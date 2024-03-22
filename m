@@ -4,133 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF9A4C54E71
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 09:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33A9DC47DD9
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 12:34:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=G/2YYVXn2kfWKolM9ajqNa3HuIdZxpNP5R8h33BM15g=; b=K9tlsFg7Aj/cVyjutlaOf2Bqzt
-	bZ+Ixlv1kIwzj7LxIBsaQXTEJacrSRzrHxeTdFoHPtNHw2NrtBFhMD7GJ/KMDIktPBAYIyRiv+Dad
-	F7Pyl+p9z+5MvSi89vHNGccJuxSOTIN4tYhnBJBq9oa8zOjofjk08QgB3PpXvQtARDY4zgupSyMSJ
-	lgaAgbEiolQuvO3+jpaotursY/NzueiFcFoQtTrdDz6eE+P6DiKT+NNRQ2KosRfxzJbdZQCU3PYre
-	gFhbZRzt4Docclp22Dt3U1YmcLYQNt3XYL28N5JTCQ3KuBomiodRXA0/dezDKn51msGlP/CYXJG3l
-	0pCXTG6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gofUzIeeSlqWzBhWlyHNhR7vSJ+UaNiv+C/mxx6lLMs=; b=VTfj10lGa58WcEUoDFOpSSGfCL
+	6BQ57QoYaTfCb9uqV2HPZChVoUpXwPT+dCWOeuSla33qLSMSmYCubPuyk5ci7Dran0SAyOApBn2XC
+	ThlHVljodFJmF7laPnZvgvXNjaTup7sdhguKZ1NG7DR6UINRryyuv5Ljc29lR8r36KOGQi6zt2kPd
+	t7EQbPSKYSWYl/KzXv2/iJSF4uyd7HSpYVe87hs38qaF4jnXpcPxlPV7NZJD8xYH4MZy0fP7hBkOl
+	w+t0UqG7xBHR86TJy3nHEhHM7L0ml+bvCgN9V0JBaHTmbNm127JgW3Jg2QW4OP+0gbJfoI+y4HGCx
+	xdV4IU9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnbeG-00000006gqw-1aS4;
-	Fri, 22 Mar 2024 09:57:16 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rne6b-0000000793X-3Clb;
+	Fri, 22 Mar 2024 12:34:41 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnbe9-00000006gmd-3ZDb
+	id 1rne6T-0000000792n-49vj
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Mar 2024 09:57:14 +0000
+	Fri, 22 Mar 2024 12:34:36 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8BF455FC55;
-	Fri, 22 Mar 2024 09:57:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7FBDC38545;
+	Fri, 22 Mar 2024 12:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711101426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711110870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G/2YYVXn2kfWKolM9ajqNa3HuIdZxpNP5R8h33BM15g=;
-	b=KXKqwzgYj/Qw9SRbQq9wTONbUYHbEB25Pz7PRSoWiliw5cUdns25NQJwvGseW5FtNBYWiR
-	zGYgluntrMdfqkZFXdr0ZFL3khzggegW0boix7diajip2fVytrAxMa/s6zuY6m9azaf4Li
-	e3NeJbwsnFmljzaN+abAnp5F03dHvmo=
+	bh=gofUzIeeSlqWzBhWlyHNhR7vSJ+UaNiv+C/mxx6lLMs=;
+	b=ffGqG96R9yrvTLK2kNDN8pn5a3t4+L7chaB7e4Tim/K55LfD7pUdsr8bNcmfuhFx77liKj
+	WiYatfipiJOjlcwS0FDhDiiujc4qbiTfAVXtiCy0MptH/YXFK/xzfj0UmB9ZE66xQoLsiW
+	110Zh62agUjJPB0OHo7odzR9xekp6bs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711101426;
+	s=susede2_ed25519; t=1711110870;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G/2YYVXn2kfWKolM9ajqNa3HuIdZxpNP5R8h33BM15g=;
-	b=WVgTH1m0y9t+DG9gzp3L3Ydi8YoLRFPBJTsviqFy35wITBP/DGw9/q4lWfVIXnouma3V2D
-	xv9cUIT379hm19Bg==
+	bh=gofUzIeeSlqWzBhWlyHNhR7vSJ+UaNiv+C/mxx6lLMs=;
+	b=JOtxpBmt8HFmkepytlobCSL58gj9QjbiF1a+rXypOClXd053GQS7/YqgLyZ5vZ3/yN9ORY
+	JxpJRGhvCh8bxxAg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711101426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711110870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G/2YYVXn2kfWKolM9ajqNa3HuIdZxpNP5R8h33BM15g=;
-	b=KXKqwzgYj/Qw9SRbQq9wTONbUYHbEB25Pz7PRSoWiliw5cUdns25NQJwvGseW5FtNBYWiR
-	zGYgluntrMdfqkZFXdr0ZFL3khzggegW0boix7diajip2fVytrAxMa/s6zuY6m9azaf4Li
-	e3NeJbwsnFmljzaN+abAnp5F03dHvmo=
+	bh=gofUzIeeSlqWzBhWlyHNhR7vSJ+UaNiv+C/mxx6lLMs=;
+	b=ffGqG96R9yrvTLK2kNDN8pn5a3t4+L7chaB7e4Tim/K55LfD7pUdsr8bNcmfuhFx77liKj
+	WiYatfipiJOjlcwS0FDhDiiujc4qbiTfAVXtiCy0MptH/YXFK/xzfj0UmB9ZE66xQoLsiW
+	110Zh62agUjJPB0OHo7odzR9xekp6bs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711101426;
+	s=susede2_ed25519; t=1711110870;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=G/2YYVXn2kfWKolM9ajqNa3HuIdZxpNP5R8h33BM15g=;
-	b=WVgTH1m0y9t+DG9gzp3L3Ydi8YoLRFPBJTsviqFy35wITBP/DGw9/q4lWfVIXnouma3V2D
-	xv9cUIT379hm19Bg==
+	bh=gofUzIeeSlqWzBhWlyHNhR7vSJ+UaNiv+C/mxx6lLMs=;
+	b=JOtxpBmt8HFmkepytlobCSL58gj9QjbiF1a+rXypOClXd053GQS7/YqgLyZ5vZ3/yN9ORY
+	JxpJRGhvCh8bxxAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6AC1E13688;
-	Fri, 22 Mar 2024 09:57:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DC5313688;
+	Fri, 22 Mar 2024 12:34:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H46KGfJV/WVtUAAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 22 Mar 2024 09:57:06 +0000
-Message-ID: <400deab2-2b15-4ff1-ba38-8d970e1ef648@suse.de>
-Date: Fri, 22 Mar 2024 10:57:06 +0100
+	id e2JYGdZ6/WXXAQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 22 Mar 2024 12:34:30 +0000
+Date: Fri, 22 Mar 2024 13:34:29 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v1 17/18] nvme: don't assume namespace id
+Message-ID: <uwbk75om5h6wedeqh2on72usvi6wck6qsfsri3onaexe7uso6b@cqt7mq5qmwdn>
+References: <20240321094727.6503-1-dwagner@suse.de>
+ <20240321094727.6503-18-dwagner@suse.de>
+ <trit4eelgig2vdlwq5zgpwqe3az3p7r3smbscrwvhnxx54fqr2@tlpme2knu4kj>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv4] nvmet: implement unique discovery NQN
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Hannes Reinecke <hare@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20240322070927.30454-1-hare@kernel.org>
- <dc120432-e759-44bb-8667-78e381be61ee@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <dc120432-e759-44bb-8667-78e381be61ee@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KXKqwzgY;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WVgTH1m0
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-6.50 / 50.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <trit4eelgig2vdlwq5zgpwqe3az3p7r3smbscrwvhnxx54fqr2@tlpme2knu4kj>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-6.00 / 50.00];
+	 ARC_NA(0.00)[];
 	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 DKIM_TRACE(0.00)[suse.de:+];
 	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 MID_RHS_NOT_FQDN(0.50)[];
 	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.99)[99.97%];
 	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Queue-Id: 8BF455FC55
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ffGqG96R;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JOtxpBmt
+X-Rspamd-Queue-Id: 7FBDC38545
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240322_025710_204000_A7EACB83 
-X-CRM114-Status: GOOD (  17.49  )
+X-CRM114-CacheID: sfid-20240322_053434_210303_473E5538 
+X-CRM114-Status: GOOD (  11.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,85 +138,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/22/24 10:43, Chaitanya Kulkarni wrote:
-> On 3/22/2024 12:09 AM, Hannes Reinecke wrote:
->> From: Hannes Reinecke <hare@suse.de>
->>
->> Unique discovery NQNs allow to differentiate between discovery
->> services from (typically physically separate) NVMe-oF subsystems.
->> This is required for establishing secured connections as otherwise
->> the credentials won't be unique and the integrity of the connection
->> cannot be guaranteed.
->> This patch adda a configfs attribute 'discovery_nqn' in the 'nvmet'
->> configfs directory to specify the unique discovery NQN.
->>
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
+On Fri, Mar 22, 2024 at 09:35:05AM +0000, Shinichiro Kawasaki wrote:
+ > --- a/tests/nvme/010
+> > +++ b/tests/nvme/010
+> > @@ -20,17 +20,16 @@ test() {
+> >  
+> >  	_setup_nvmet
+> >  
+> > -	local nvmedev
+> > +	local ns
+> >  
+> >  	_nvmet_target_setup
+> >  
+> >  	_nvme_connect_subsys
+> >  
+> > -	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+> > -	_check_uuid "${nvmedev}"
+> > +	ns=$(_find_nvme_ns "${def_subsys_uuid}")
 > 
-> umm change log ?
-> 
-Just a rebase to latest head and modified the commit message slightly.
-Not sure if that warranted a change log.
+> Currently, _check_uuid() compares the uuid with wwid. On the other hand, the
+> modified _find_nvme_ns() does not refer wwid. This looks a relax of test
+> condition. Do you think this relax is fine?
 
->>    drivers/nvme/target/configfs.c | 46 ++++++++++++++++++++++++++++++++++
->>    drivers/nvme/target/core.c     |  7 ++++++
->>    2 files changed, 53 insertions(+)
->>
->> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
->> index 77a6e817b315..e8ead4ab35aa 100644
->> --- a/drivers/nvme/target/configfs.c
->> +++ b/drivers/nvme/target/configfs.c
->> @@ -1613,6 +1613,11 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
->>    		return ERR_PTR(-EINVAL);
->>    	}
->>    
->> +	if (sysfs_streq(name, nvmet_disc_subsys->subsysnqn)) {
->> +		pr_err("can't create subsystem using unique discovery NQN\n");
->> +		return ERR_PTR(-EINVAL);
->> +	}
->> +
->>    	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
->>    	if (IS_ERR(subsys))
->>    		return ERR_CAST(subsys);
->> @@ -2159,7 +2164,48 @@ static const struct config_item_type nvmet_hosts_type = {
->>    
->>    static struct config_group nvmet_hosts_group;
->>    
->> +static ssize_t nvmet_root_discovery_nqn_show(struct config_item *item,
->> +					     char *page)
->> +{
->> +	return sprintf(page, "%s\n", nvmet_disc_subsys->subsysnqn);
->> +}
->> +
-> 
-> snprintf() with PAGE_SIZE ?
-> 
-Ok.
-
->> +static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
->> +		const char *page, size_t count)
->> +{
->> +	struct list_head *entry;
->> +	size_t len;
->> +
->> +	len = strcspn(page, "\n");
->> +	if (!len || len > NVMF_NQN_FIELD_LEN - 1)
->> +		return -EINVAL;
->> +
->> +	down_write(&nvmet_config_sem);
->> +	list_for_each(entry, &nvmet_subsystems_group.cg_children) {
->> +		struct config_item *item =
->> +			container_of(entry, struct config_item, ci_entry);
-> 
-> newline here ?
-> 
-Blasted configfs always eats into the line length limitation.
-I see what I can do.
-
-Thanks for the review.
-
-Cheers,
-
-Hannes
-
+We still have the _check_uuid in nvme/008 and nvme/009, so while drop
+this part here it is still tested. I think we should try to make the
+tests as slim as possible, which includes the removal duplicate tests
+snippets. I think it is important to keep an eye on the runtime of each
+test.
 
