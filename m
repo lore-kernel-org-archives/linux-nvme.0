@@ -4,115 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A92BC47DD9
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 12:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC6DEC47DD9
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 13:50:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GjIVixRgcRcR3jkf6RRZnkfRE8Aou8UrqZcioUg/eN0=; b=uxt49Bx8JypaPz99FMiGukiJGL
-	59CQ+JkSvXEZWwaVJQ9VHKDW6FJsB9ABX9X7lGfpKbRffYFnTCuXy+ifrF1hk+VZXFVESA4gLCse3
-	TOzKI3qbM35uyjuX36K6zERohatVV/d+WHKUKkxIG+SP7qHeHIRf40Kew0RJfO7rQQ6rvQFJMbR+t
-	uU0G0BesBWtTH7OPkVikcIj8+Y25RJnLt/rI2zkftGftIRszAAv8na1i6AQedgRCJC9IyOqkRf+Mx
-	RRJXOWBKqFZqXwpSk75FRKo+zJ1kDErrrdleJBI2ummshlW2r9d2qTcjG9YNlqzxkHKubUZIW7Ddg
-	g5p8Lwpg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ahbPRkzP/qUxAlhof3e74vBcyvxraUmwOoCkqC/yW0w=; b=2exyeb/r11E/bInnt8W96iIxdY
+	nl9AZjk7GAu/Qnd3Zb8z585/WS5qXXWw3KLTN1sIUCfO5DZ1UHXcp4aXLmrnAH7/V3HSSDmvk+msU
+	YOLU0q6iTYJAdzU7oyZfgZ3roSrNcrUpHtbZQzaEEOKdxapZ/51w/vXY/VwavG58aezmqM33uFm28
+	sO11UA+dO+OEqKKTQmLfytou51OiIQPMczfk1UoBFBVfWxUzCt2iKdGt/fFt1YvczZCYnp9kkY3vR
+	ZXvFSFvHD1zAApXacV2sWpMgLE1ADAuNfyS/CHt2mU1DQCSGfNhwwQwZhiKPbmV0hZKeLCxQqmoIo
+	mVQ1LkWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rne7q-000000079Ht-3buL;
-	Fri, 22 Mar 2024 12:35:58 +0000
+	id 1rnfI6-00000007PwI-2LSg;
+	Fri, 22 Mar 2024 13:50:39 +0000
 Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rne7m-000000079Fg-1tvM
+	id 1rnfHs-00000007Pod-2pqs
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Mar 2024 12:35:58 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	Fri, 22 Mar 2024 13:50:28 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0231D34E63;
-	Fri, 22 Mar 2024 12:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711110953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GjIVixRgcRcR3jkf6RRZnkfRE8Aou8UrqZcioUg/eN0=;
-	b=rQRAmZJzY3fwxGjvDrquxX3GkrKzxE28pBuiuZGdVlAHyAZNPR8VNUUTgdZ1EgVQXDgfkT
-	PjF33yR2ELNmJfUWWA8E6cSpQLOpj0LBaGiu4uU7hVzk6tsLgzfhrmsGrj3oEe+8LSN2ok
-	2Q0hwEEpMywF5X374r31DUgGfcKgBtg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711110953;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GjIVixRgcRcR3jkf6RRZnkfRE8Aou8UrqZcioUg/eN0=;
-	b=o2T7Xp3rPVodkaOMTnOdIUlPIar6ENp/+0RenuEqykRkMKwjPo6uKsuIhg31JZoTiDVDqc
-	QnSb+TK/sB5a8qDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711110953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GjIVixRgcRcR3jkf6RRZnkfRE8Aou8UrqZcioUg/eN0=;
-	b=rQRAmZJzY3fwxGjvDrquxX3GkrKzxE28pBuiuZGdVlAHyAZNPR8VNUUTgdZ1EgVQXDgfkT
-	PjF33yR2ELNmJfUWWA8E6cSpQLOpj0LBaGiu4uU7hVzk6tsLgzfhrmsGrj3oEe+8LSN2ok
-	2Q0hwEEpMywF5X374r31DUgGfcKgBtg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711110953;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GjIVixRgcRcR3jkf6RRZnkfRE8Aou8UrqZcioUg/eN0=;
-	b=o2T7Xp3rPVodkaOMTnOdIUlPIar6ENp/+0RenuEqykRkMKwjPo6uKsuIhg31JZoTiDVDqc
-	QnSb+TK/sB5a8qDw==
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6C86838565;
+	Fri, 22 Mar 2024 13:50:23 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3D6013688;
-	Fri, 22 Mar 2024 12:35:52 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A061136AD;
+	Fri, 22 Mar 2024 13:50:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UWI0Nih7/WVFAgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 22 Mar 2024 12:35:52 +0000
-Date: Fri, 22 Mar 2024 13:35:52 +0100
+	id 6g2KFJ+M/WWJJAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 22 Mar 2024 13:50:23 +0000
 From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v1 00/18] refactoring and various cleanups/fixes
-Message-ID: <xjfhvzsare7kki2rjjjrhzny6efmyqsvkxjhkscvgad4w6ozni@4646fc5b2bg7>
-References: <20240321094727.6503-1-dwagner@suse.de>
- <25uxq4piju5fd5ya56wmlcsmihd6ddqbohv37xpkluqsvosorm@fvrrs53crtwj>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH blktests v2 07/18]  nvme/{014,015,018,019,020,023,024,026,045,046}: use long command line option for nvme
+Date: Fri, 22 Mar 2024 14:50:04 +0100
+Message-ID: <20240322135015.14712-8-dwagner@suse.de>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240322135015.14712-1-dwagner@suse.de>
+References: <20240322135015.14712-1-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <25uxq4piju5fd5ya56wmlcsmihd6ddqbohv37xpkluqsvosorm@fvrrs53crtwj>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	 REPLY(-4.00)[]
 Authentication-Results: smtp-out1.suse.de;
 	none
-X-Spamd-Result: default: False [-0.86 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.06)[61.50%]
+X-Rspamd-Queue-Id: 6C86838565
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240322_053554_672231_05D18F56 
-X-CRM114-Status: GOOD (  13.93  )
+X-CRM114-CacheID: sfid-20240322_065024_915121_63F6DD4D 
+X-CRM114-Status: GOOD (  10.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,20 +81,178 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 22, 2024 at 09:38:16AM +0000, Shinichiro Kawasaki wrote:
-> On Mar 21, 2024 / 10:47, Daniel Wagner wrote:
-> > While working on two new features I collected a bunch of patches which I think
-> > make sense to review and merge them indepenedly. And I got a few more ideas for
-> > refactoring and cleanups. But one step after the other.
-> 
-> Overall, the patches in this series look reasonable for me. Most of them are
-> part of the RFC series for the real target support, so it's good to have this
-> series for separate review.
-> 
-> I made some nit review comments on the patches. I will do trial runs after v2
-> comes out. Thanks!
+The long format of the command line option are more descriptive and more
+likely to stay stable.
 
-Thanks for reviewing. I'm updating the series according your feedback.
-I avoid sending 'ok' to every point you made, because you are right
-every single time :)
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ tests/nvme/014 | 2 +-
+ tests/nvme/015 | 2 +-
+ tests/nvme/018 | 3 ++-
+ tests/nvme/019 | 3 ++-
+ tests/nvme/020 | 3 ++-
+ tests/nvme/023 | 3 ++-
+ tests/nvme/024 | 3 ++-
+ tests/nvme/026 | 3 ++-
+ tests/nvme/045 | 4 ++--
+ tests/nvme/046 | 7 ++++---
+ 10 files changed, 20 insertions(+), 13 deletions(-)
+
+diff --git a/tests/nvme/014 b/tests/nvme/014
+index 31bfeb76d13d..c02167142cb3 100755
+--- a/tests/nvme/014
++++ b/tests/nvme/014
+@@ -39,7 +39,7 @@ test() {
+ 	dd if=/dev/urandom of="/dev/${nvmedev}n1" \
+ 		count="${count}" bs="${bs}" status=none
+ 
+-	nvme flush "/dev/${nvmedev}" -n 1
++	nvme flush "/dev/${nvmedev}" --namespace-id 1
+ 
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+diff --git a/tests/nvme/015 b/tests/nvme/015
+index 4315ffa57577..8ea90f10bda7 100755
+--- a/tests/nvme/015
++++ b/tests/nvme/015
+@@ -39,7 +39,7 @@ test() {
+ 	dd if=/dev/urandom of="/dev/${nvmedev}n1" \
+ 		count="${count}" bs="${bs}" status=none
+ 
+-	nvme flush "/dev/${nvmedev}n1" -n 1
++	nvme flush "/dev/${nvmedev}n1" --namespace-id 1
+ 
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+diff --git a/tests/nvme/018 b/tests/nvme/018
+index e90173098ec1..e631434d7bd6 100755
+--- a/tests/nvme/018
++++ b/tests/nvme/018
+@@ -35,7 +35,8 @@ test() {
+ 	sectors="$(blockdev --getsz "/dev/${nvmedev}n1")"
+ 	bs="$(blockdev --getbsz "/dev/${nvmedev}n1")"
+ 
+-	nvme read "/dev/${nvmedev}n1" -s "$sectors" -c 0 -z "$bs" &>"$FULL" \
++	nvme read "/dev/${nvmedev}n1" --start-block "$sectors" \
++		--block-count 0 --data-size "$bs" &>"$FULL" \
+ 		&& echo "ERROR: nvme read for out of range LBA was not rejected"
+ 
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+diff --git a/tests/nvme/019 b/tests/nvme/019
+index a1035ff8d8c7..3ab22e2cba01 100755
+--- a/tests/nvme/019
++++ b/tests/nvme/019
+@@ -31,7 +31,8 @@ test() {
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+ 	_check_uuid "${nvmedev}"
+ 
+-	nvme dsm "/dev/${nvmedev}" -n 1 -d -s "${sblk_range}" -b "${nblk_range}"
++	nvme dsm "/dev/${nvmedev}" --namespace-id 1 --ad \
++		--slbs "${sblk_range}" --blocks "${nblk_range}"
+ 
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+diff --git a/tests/nvme/020 b/tests/nvme/020
+index ba3f4c8a5b3d..10de114b83af 100755
+--- a/tests/nvme/020
++++ b/tests/nvme/020
+@@ -30,7 +30,8 @@ test() {
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+ 	_check_uuid "${nvmedev}"
+ 
+-	nvme dsm "/dev/${nvmedev}" -n 1 -d -s "${sblk_range}" -b "${nblk_range}"
++	nvme dsm "/dev/${nvmedev}" --namespace-id 1 --ad \
++		--slbs "${sblk_range}" --blocks "${nblk_range}"
+ 
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+diff --git a/tests/nvme/023 b/tests/nvme/023
+index 4e4d838ef6c9..58f03e8603a7 100755
+--- a/tests/nvme/023
++++ b/tests/nvme/023
+@@ -29,7 +29,8 @@ test() {
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+ 	_check_uuid "${nvmedev}"
+ 
+-	if ! nvme smart-log "/dev/${nvmedev}" -n 1 >> "$FULL" 2>&1; then
++	if ! nvme smart-log "/dev/${nvmedev}" --namespace-id 1 \
++		>> "$FULL" 2>&1; then
+ 		echo "ERROR: smart-log bdev-ns failed"
+ 	fi
+ 
+diff --git a/tests/nvme/024 b/tests/nvme/024
+index 2535a9a78d23..4608f015c4c3 100755
+--- a/tests/nvme/024
++++ b/tests/nvme/024
+@@ -29,7 +29,8 @@ test() {
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+ 	_check_uuid "${nvmedev}"
+ 
+-	if ! nvme smart-log "/dev/${nvmedev}" -n 1 >> "$FULL" 2>&1; then
++	if ! nvme smart-log "/dev/${nvmedev}" --namespace-id 1 \
++		>> "$FULL" 2>&1; then
+ 		echo "ERROR: smart-log file-ns failed"
+ 	fi
+ 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
+diff --git a/tests/nvme/026 b/tests/nvme/026
+index 5a7d9927b44b..d5e13db0a916 100755
+--- a/tests/nvme/026
++++ b/tests/nvme/026
+@@ -29,7 +29,8 @@ test() {
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+ 	_check_uuid "${nvmedev}"
+ 
+-	if ! nvme ns-descs "/dev/${nvmedev}" -n 1 >> "$FULL" 2>&1; then
++	if ! nvme ns-descs "/dev/${nvmedev}" --namespace-id 1 \
++		>> "$FULL" 2>&1; then
+ 		echo "ERROR: ns-desc failed"
+ 	fi
+ 
+diff --git a/tests/nvme/045 b/tests/nvme/045
+index be408b629771..9e5cb54e9533 100755
+--- a/tests/nvme/045
++++ b/tests/nvme/045
+@@ -68,7 +68,7 @@ test() {
+ 
+ 	echo "Renew host key on the controller"
+ 
+-	new_hostkey="$(nvme gen-dhchap-key -n ${def_subsysnqn} 2> /dev/null)"
++	new_hostkey="$(nvme gen-dhchap-key --nqn ${def_subsysnqn} 2> /dev/null)"
+ 
+ 	_set_nvmet_hostkey "${def_hostnqn}" "${new_hostkey}"
+ 
+@@ -78,7 +78,7 @@ test() {
+ 
+ 	echo "Renew ctrl key on the controller"
+ 
+-	new_ctrlkey="$(nvme gen-dhchap-key -n ${def_subsysnqn} 2> /dev/null)"
++	new_ctrlkey="$(nvme gen-dhchap-key --nqn ${def_subsysnqn} 2> /dev/null)"
+ 
+ 	_set_nvmet_ctrlkey "${def_hostnqn}" "${new_ctrlkey}"
+ 
+diff --git a/tests/nvme/046 b/tests/nvme/046
+index 7576a24f234d..ea68d4079403 100755
+--- a/tests/nvme/046
++++ b/tests/nvme/046
+@@ -25,13 +25,14 @@ test_device() {
+ 
+ 	chmod g+r,o+r "$ngdev"
+ 
+-	if ! _run_user "nvme io-passthru ${ngdev} --opcode 2 -l 4096 \
+-		-n $nsid -r" >> "${FULL}" 2>&1; then
++	if ! _run_user "nvme io-passthru ${ngdev} --opcode 2 --data-len 4096 \
++		--namespace-id $nsid --read" >> "${FULL}" 2>&1; then
+ 		echo "Error: io-passthru read failed"
+ 	fi
+ 
+ 	if _run_user "echo hello | nvme io-passthru ${ngdev} --opcode 1 \
+-		-l 4096 -n $nsid -r" >> "${FULL}" 2>&1; then
++		--data-len 4096 --namespace-id $nsid --read" \
++		>> "${FULL}" 2>&1; then
+ 		echo "Error: io-passthru write passed (unexpected)"
+ 	fi
+ 
+-- 
+2.44.0
+
 
