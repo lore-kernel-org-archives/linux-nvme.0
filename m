@@ -4,148 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59D41C54E71
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 09:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6100AC47DD9
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 09:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5Z8KrkA/W79g65M7QK7JKAcofNv3CekMrw4JUtR882U=; b=E0LIV+PoWY0h8z/3H2qYK0++tx
-	VnPkEu5PNZHU8mOA2WUibZ4KBS4snKo54H9ov5CDei1em0bDsPk0ysv3x5JHUXCNvgO8OgU4JlKTf
-	fKOv0EZoktyd6pM7jjb30v/TfX+SI+7l/XOpacfLlkzqHs5f+y/Tj43sBrusHAg1sEMx6Y8b9XrA1
-	uiisYv1htWp7uJG68yLPvNsq5k8eomiuF6W6lrOqcpEaKROjpr2Z5gPRSdreH67DhnyRoBwNYMNY7
-	w2pY+wvfSgFmaqybLbTp46MY3uu65Ffu2KQZMyuaMsHHuol60tEpbItgWgC95oXOl8RG64y2Fqe6c
-	9LVSsU1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QquwSjdojotTXcVc7z7JmjbSU47oDTFtyORbG4Lc3HM=; b=ylujQFnJCUJqA9uGG3bJkNv0LU
+	31jFZm3/+2bVfhAUYsgXey2wTyyZlj3HRpetQF6djp6uJIxlzxHu3eUl/4dkzPZpYywudp91RupMn
+	NYenZy2JZYd1SU5tGn8Y83qusr7gyag1xGqjwgiz2N7PYJCNHXe9vqHYRBTC3nhlwqtvYgUub4EoP
+	G5HgvYynlMKyQiFRmAe7IAXkVCo785KBFxybyJGJfCsmsRsCaAITakE5nWPaMFKxB3W9D2g8ilx81
+	oITOLeOV9rTrJOJm24DxSNrC8dxASYhs0mh7cg713xwZhnE1zuViMHgUqgSbl+ckySHHOpj5EUwjz
+	VzwWtR7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnbLz-00000006cnl-2L5N;
-	Fri, 22 Mar 2024 09:38:23 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1rnbQp-00000006dgy-4C0s;
+	Fri, 22 Mar 2024 09:43:24 +0000
+Received: from mgamail.intel.com ([198.175.65.14])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnbLw-00000006cn3-2KNR
+	id 1rnbQn-00000006dgH-0p2j
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Mar 2024 09:38:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1711100300; x=1742636300;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=5Z8KrkA/W79g65M7QK7JKAcofNv3CekMrw4JUtR882U=;
-  b=TlBnRX7ue7z+U2cvlrOX7j/OmiA5MJYTJNLsdg5hEs5tQZ9fNJBtv6vY
-   pNBbf/g6bSpnGtQEret0r4/qBcW8sX/mJG7qjIY9TDHxYH28pgZ1LWF0Y
-   Vov0N0abVQl0JiVcyF6snYo7Hr2L8hDYKCWUOy+jn9Sks+uYc3XNDgOYM
-   hkpKXskI+GyIceWVam402N5nLIop3VQPomS1EUWpnJtyWrncOunGTm4f3
-   LHm62sZNEuhkhnVNOMgnOVQsN15M3rbta/UG740FCQG29frKHvPqcaLTW
-   BKIjo0TuKvnBmWX269i/+U5DAaYIHYbjAgLFo0XaFL0HyN3wAwDrer2bn
+	Fri, 22 Mar 2024 09:43:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711100601; x=1742636601;
+  h=date:from:to:cc:subject:message-id;
+  bh=qHeww2ZbuXhsXWCC6oHaehk6TL7R/6VihgQPnCD279M=;
+  b=WO15ibpgUCCGmb4iFjCXh5zVdT+DNznVNZbFwv8WseUPSdjIfABWwUBh
+   LPT7C8BbQ5Pn+V8E46ci7KY5Etve0ow1BQ2ht+wH67iumWD2a0bgzpbq9
+   JqxfKwjuSeG3sSXjEPhxW7kL5754kiCL5g1NlpchO0OOnyYbVDtaRVJmR
+   p8ZahRfYbQD7sRJViohLpeO93wu0HG7ADHXqVAmp1F+jfy3wg4lvt2bp0
+   eaXoS5c/LJnOZ/3qnRM059TkVjpZvDwUuhWudqgVrn1/o2lXFttSYRsXm
+   jl60842npulmfho2IrABhYF87SzNLOAlaHGA4vm/Vy5vTOOvK0JR3UbN+
    A==;
-X-CSE-ConnectionGUID: byJ0MYglSLqtm++SeWL60A==
-X-CSE-MsgGUID: gEzRXqnySfW6bhczfuMByw==
-X-IronPort-AV: E=Sophos;i="6.07,145,1708358400"; 
-   d="scan'208";a="12860639"
-Received: from mail-dm6nam10lp2100.outbound.protection.outlook.com (HELO NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.100])
-  by ob1.hgst.iphmx.com with ESMTP; 22 Mar 2024 17:38:18 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y0Q+evyEY2glMTxsTBBnl6l2UtJBUjHs8LQLJo9uDFZJFjDRQKmasyONK8rBmlk0/TtKfqPRjtGdAotcaTRc+pSUxQmF9prgKAzJMoXC+hTHpZ7bo6t/C7/srp7G07hpUY9WON0bVQDQWtIJqaCtzo5rkUc6w7D8/RXxAizLoEIISwoB4edixdBbrEVhos68rrjLx9yKPi1jTwGA2UoPpgGWW85nY03T4yBUChR2tJpWzPUY3EfvBjwkK82QNx49BQsdD1q/ZpH0XtTm424fUZCxeLyV+nTWjGk2946bsFlonMDf0woYKUFKVXBDUyW5oQ3FiNfLCVHl2KYhlibV5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5Z8KrkA/W79g65M7QK7JKAcofNv3CekMrw4JUtR882U=;
- b=XDrAOiflJadVlSdE5O4etCtzC9wpwQYfPq4MdIyC+Yoa9d1OhghL7KQ0cLmAqR9T4vziHCjwQ2bzR8tv+27U9Eh/pHjZA5aJ4NoGqjGbQtAOfudfnQxIlQVipUu2MsJfcztk6GeV3UJVJ5iN534n0dRB0tRoeFPLl/vlWTlBLciJpbrg1NTMVc8hHerPopJc/Xc2cqxqtvBRthP1wDEp6tsianaDLpbl2aTOu8WlRcfkuxQ54ibRGV2HCtsV+2plisDBOyxSyVv/6t+b1lraD8e0JXvE+DGP+9BlxYiMZj88W639NzGQSP9qoPDf7k248zVQfBJo1amOgw7khwOHrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Z8KrkA/W79g65M7QK7JKAcofNv3CekMrw4JUtR882U=;
- b=LoFZcE2O5KkPWO+VHg7Sm5Zr6+ug0yOUYRIGXKANu3xB2LejJdGZT4VaLl6L85Moja0CUKQoxAxDB5NHVboCGQwX+H7zrtNCUfxZskhd88OF2b5DRdHuycyIep877kSkAUo2rf77z+FD1mTjKvuwKTC/2RR23Re9yanASqrwC3U=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CO6PR04MB7810.namprd04.prod.outlook.com (2603:10b6:5:358::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.24; Fri, 22 Mar 2024 09:38:16 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f%2]) with mapi id 15.20.7409.023; Fri, 22 Mar 2024
- 09:38:16 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v1 00/18] refactoring and various cleanups/fixes
-Thread-Topic: [PATCH blktests v1 00/18] refactoring and various cleanups/fixes
-Thread-Index: AQHae3TORSjYAII5SE+dd9YzlHIRibFDgmqA
-Date: Fri, 22 Mar 2024 09:38:16 +0000
-Message-ID: <25uxq4piju5fd5ya56wmlcsmihd6ddqbohv37xpkluqsvosorm@fvrrs53crtwj>
-References: <20240321094727.6503-1-dwagner@suse.de>
-In-Reply-To: <20240321094727.6503-1-dwagner@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CO6PR04MB7810:EE_
-x-ms-office365-filtering-correlation-id: 3e9777a8-8184-425a-b91d-08dc4a53cd38
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zjsFMW6Lib5G32fPdua19xPVK0/XlabS/b/X1eNoDzXcxKG/qYbj7NZrl93cPZ2jRW9g9oNBsSGuVHO1h4kqdJZ97TVL4zXjO9a0Jb+kd+NY/BShJrIna6byOqYCC9QoDzRUCSWy9lYAbE6Tfcyl7CrJH9vaS80Zp5Lg0247ShG+IXp3u1DaWMtPC8EUJIhXMNoxG3l/fHkDJKTtetyLvz/IXTrO1ByGM/X+SPNdZ8M3oxlOovxfL7Oi1SyWWxehUrcJz4aSd1CzY1pQB7Khrlt2C6gbVkFDJMoqVSUDm6kbRGYcLu+zbSog5n3ZVX/KJnIjmzpMWPTD2s4guTO7ntNDfUoyOgN4pVTfhyICbnh1tJFZHKty0Yj950nNP+fwrVe3eKkosINwK+fTzOcjRWiLtsu6YCVBMbDJHPiHVIiJ7SneCBPUPGK+DSew7T/H6Wdskbzsl/xgTsNVbFKZaAovcVet7z1SCPm3EWnJ+nS1kqrEZqPyZ5bZiKZyvUQ9/SQY/69NLta/vbDjoZgX+0lgQi5c93RllBadmaVT9TPnQ+/L2QJBsPAmUbArqAZXf19bu1zKRJMdSSYm5fW0INvWyfcmto1MBeh00gVbhl+xFO/pAGaaZ+sFf/UgAx9GlHZp5qcENMBKRuNUgcv4VqCH046elBRDCj6VV8Ft8pRDRxcUyjB4sX7cinjUp7gIQxFwaUVSxKEny1pNTb0CEEJWWV+BE/T9HYn+bdvKgm0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?UtIGj1B+zQmVoKa5SCTAqtebuclT3SZgc6P7cEk2OArxvh1FqZ4uAEGlkkLj?=
- =?us-ascii?Q?18NQyRf4In3aKvbQETxcEqc+zwCr9fRjoEt57YT+P4vI2s4JXJ0FOwpuxE0i?=
- =?us-ascii?Q?XbRbmCJgC3uLqFWmBhKf8BYLhxuslgdWxZ+7+xmmGXNK3uw44Yo3yM9uH5LC?=
- =?us-ascii?Q?hlMZ48PyPLyLkFWZ6zImYeEqbvraGwHGV1wkztYcf6KWMUcMvCUsqTja2mCt?=
- =?us-ascii?Q?d0LZqpnvBT49M9DluGXa85EIaJWlfLhpwjlGHrwdgJo75anr55RVJkx7kmGZ?=
- =?us-ascii?Q?D2O4wrJWV2nnOO6P9cl6BSG8Ve9HTY7WhzF1TWfdrWqTUou31Mg/CCj5Nv+S?=
- =?us-ascii?Q?qZtS9dJvWW84STzEPOZGPy8PwwinWA7HaF0Qv8XPAnm2lUO8pfxjfhYhcyZ8?=
- =?us-ascii?Q?SC/XwtDusIByQBJcDN1qEzE18acfDfYrTleN+qzSWbyovk7fuzZppAExhTdM?=
- =?us-ascii?Q?wL4j51qJhevZHkUa1tXoUNuLx7nK2owMcQorjkE57dBpuWUj4XJnUgpxh4d4?=
- =?us-ascii?Q?XQ5221vTRmbg6LpjWTPygnS+GicW2DF+kjpddaCGQiS2BVQG3n0ZrofwDPCn?=
- =?us-ascii?Q?IeYMNvHATVaLlkFcMd7UNFVoQt/WJjjbSQ3+fQOjjmskAV/ctuLLAVATTQAW?=
- =?us-ascii?Q?81qoHKz5AW8N72UakkBzc3Vt/ObfTdCorOyr1jIxaHGQyeiZ2Yi+YpMc6W/W?=
- =?us-ascii?Q?2szkmKc9QSp9t/Z3GEQklr2gBi7HgztdiPeLq2zywJYg1reeFUoq/BUPUMGe?=
- =?us-ascii?Q?29PCnbw2/wHZF6tK0Bk8zWgdVQgWYusbq2IQKN1ahnv5FhuEC/iXqJRogO6B?=
- =?us-ascii?Q?gCawonqWOvIi32qZpuOch21SOzbgnBEYwYtbIERQPU45d0QAlt70m905yBLv?=
- =?us-ascii?Q?Ij/Qz4lkJ48KPI1JYR10scFTcNEoBrp7MbCgqxnlbPbKQ/wmxqfXR9xWq88j?=
- =?us-ascii?Q?yk7IO8SLEw5l8gjv2zDnI+iWLjCcl51slAzc15U6kjQY15H9q+GtlLL5rdHl?=
- =?us-ascii?Q?Xsh+GQVNgKRVejXuo4kF/t4s+ti+1WxX0JNDPZLXfvSEHYBUlv9LVnjzI31e?=
- =?us-ascii?Q?o3Y3omqI1YrnlY4vyyQvl7J3s4rf+SLnK3jRZI7h84Enq4VlxQTF9zaABcUW?=
- =?us-ascii?Q?MCswy2EgahKJVNK2nGMRWyveXBCQcOL1C4TJrfRkKKPDAbUkSKPIDspObM7B?=
- =?us-ascii?Q?iwG44Tc1T6HdFFZD5pX9qj+uSSfe4ZGKIe6Mt+Qyof3F1u27lrtNvYWPP8qC?=
- =?us-ascii?Q?RpLfLrj2MyJlKBsNlQ/N+RxU0lP5UJI+8v7KA/l5WT0jsfdbcqyF+SHZZ4Ja?=
- =?us-ascii?Q?sjxmPI9K9o7jc2jhMON4P3vqX6xxtwlUj+xGV6qII/P3kQer4kxxQg1nf2Hy?=
- =?us-ascii?Q?/rT0R4gYZPuEaH8kab1Cao1TJbXOGh0Y00A4yUaivpo5iAH+C27eFJkTKqJ8?=
- =?us-ascii?Q?A7ArzD6GnD4YYAj/bPlfaiUmAYc6fx6ayYgTtycSyt4n6x3XmP29v8C1rx+o?=
- =?us-ascii?Q?ubjI+3W2mlRL5/BhrBavVhXnLUlBe+WqQSn57ZiiawHZw64ppojEqUxzv3Qd?=
- =?us-ascii?Q?mmbdJtUk8bPpNLtSx9Z+aHXkD2+qrfEGeZRm7ScsDj6uMX5P8MlMyWKcZ8+M?=
- =?us-ascii?Q?UBHB8nFl3MU2P+JUMlujBq0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DBBA930357A94C40BD56D03443786604@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 6C+L+uEcJgXRnI03FJQ7YUaukBLfzWGQtQgJKvyx1cvgY0h08/vj4XO5Ie1P3M46KTinGw8ZKq+/RsE0cCvXfR44z7ZYoEoY4+tS2+ctjUkQk5/DJ13t0EAA8+EWoYXlBg2QXiQF1nw0jVd30aoHVEXZm6fBnGfRnMna/OPg2LgsKZuVmsTVwRy9hvRBNWi0hgQP0NYkDzIe9UyZYeQBnQQJxIWtBvjsJtWpnKIT+7p+ZlPRh7IpagQkFU/QW1KMXAEIoSYWsvD01kiZxDR6QHIa2DiGn2RxkNVtxSZ3IOi8fvHYYN2KNUaXeRGDkRPM/S8X7m0NGmZwzVkNicuKfvfFfM1AduWzZRVjStIzfsuF2KM58Uvdb/mWP1qqzLT1rot2eVLo3cNViUV391lVorQKVrKA5pt9YJszsd7qfBRGQKoPIH3lMukQnVcRV7skDUXDQeoEZ0FZq33rKezNmL1XzqFSmihTAxSww4u2ViqdO+hnecLqvcWsinStnq+RAASZNVTMtmisjHWvKAAVXXiiLYKZa9pi/pT0uBy5nPQ6ZpUrWYdcR5W2b+cjWBOwoT1wL3G9DVXKVmS7W8OotiYT8RuXYG/xswj2HJERDxEK8jsBpMvxgxANYrqxtHKl
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e9777a8-8184-425a-b91d-08dc4a53cd38
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2024 09:38:16.5090
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5dnJYQpVGjy1nMaH3d2+u2KFNa5DoLX+aLkuV6W7ppRCxUYCbyX7POzdQTx5A47Yn6SeznXcEKFcgyWdjGNGnoPHT3qDGoyYuuARksaufPY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7810
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="9943532"
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="9943532"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 02:43:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="14761438"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 22 Mar 2024 02:43:18 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rnbQi-000KD3-0n;
+	Fri, 22 Mar 2024 09:43:16 +0000
+Date: Fri, 22 Mar 2024 17:42:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.9] BUILD SUCCESS
+ 910934da9444dbb102294796481ab05e4419d311
+Message-ID: <202403221733.ujPmSs7t-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240322_023820_623712_8B0A14F1 
-X-CRM114-Status: GOOD (  13.89  )
+X-CRM114-CacheID: sfid-20240322_024321_390918_6502E17A 
+X-CRM114-Status: UNSURE (   5.72  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,20 +79,165 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mar 21, 2024 / 10:47, Daniel Wagner wrote:
-> While working on two new features I collected a bunch of patches which I =
-think
-> make sense to review and merge them indepenedly. And I got a few more ide=
-as for
-> refactoring and cleanups. But one step after the other.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.9
+branch HEAD: 910934da9444dbb102294796481ab05e4419d311  nvmet-rdma: remove NVMET_RDMA_REQ_INVALIDATE_RKEY flag
 
-Overall, the patches in this series look reasonable for me. Most of them ar=
-e
-part of the RFC series for the real target support, so it's good to have th=
-is
-series for separate review.
+elapsed time: 926m
 
-I made some nit review comments on the patches. I will do trial runs after =
-v2
-comes out. Thanks!=
+configs tested: 145
+configs skipped: 4
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240322   gcc  
+arc                   randconfig-002-20240322   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                         axm55xx_defconfig   clang
+arm                                 defconfig   clang
+arm                   milbeaut_m10v_defconfig   clang
+arm                   randconfig-001-20240322   gcc  
+arm                   randconfig-004-20240322   gcc  
+arm                         s3c6400_defconfig   gcc  
+arm                           u8500_defconfig   gcc  
+arm                         wpcm450_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-002-20240322   gcc  
+arm64                 randconfig-003-20240322   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240322   gcc  
+csky                  randconfig-002-20240322   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240322   gcc  
+i386         buildonly-randconfig-002-20240322   gcc  
+i386         buildonly-randconfig-003-20240322   clang
+i386         buildonly-randconfig-004-20240322   clang
+i386         buildonly-randconfig-005-20240322   gcc  
+i386         buildonly-randconfig-006-20240322   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240322   clang
+i386                  randconfig-002-20240322   clang
+i386                  randconfig-003-20240322   gcc  
+i386                  randconfig-004-20240322   gcc  
+i386                  randconfig-005-20240322   clang
+i386                  randconfig-006-20240322   clang
+i386                  randconfig-011-20240322   gcc  
+i386                  randconfig-012-20240322   clang
+i386                  randconfig-013-20240322   clang
+i386                  randconfig-014-20240322   clang
+i386                  randconfig-015-20240322   gcc  
+i386                  randconfig-016-20240322   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240322   gcc  
+loongarch             randconfig-002-20240322   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         cobalt_defconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                         rt305x_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240322   gcc  
+nios2                 randconfig-002-20240322   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                       virt_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240322   gcc  
+parisc                randconfig-002-20240322   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      arches_defconfig   gcc  
+powerpc                     asp8347_defconfig   clang
+powerpc               randconfig-002-20240322   gcc  
+powerpc64             randconfig-002-20240322   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240322   gcc  
+riscv                 randconfig-002-20240322   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240322   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240322   gcc  
+sh                    randconfig-002-20240322   gcc  
+sh                          rsk7269_defconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sh                           se7721_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240322   gcc  
+sparc64               randconfig-002-20240322   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240322   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240322   gcc  
+xtensa                randconfig-002-20240322   gcc  
+xtensa                         virt_defconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
