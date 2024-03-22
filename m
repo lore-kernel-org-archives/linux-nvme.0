@@ -4,59 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3C9DC47DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD43BCD11BF
 	for <linux-nvme@archiver.kernel.org>; Fri, 22 Mar 2024 07:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=RFRGpQyspgtQCZmpywCdm/v1YtUVHiumsq8ec9bYV+s=; b=0FG89JFZmz7Rtc6Y68facQJGu8
-	8mGadQ0ZST/oQutokyWFAJJzw4CbX1rJfLWvsk2r5EIdIMxa28Twng0DNXqQ1kki0iVR+3vie+IPh
-	AfFgfUOTN73P+F9gCIE8F5ZdTh7/L/kMCEQdkEIU5dbEJQgXt+oNYX/aP1nSpQi9yvtejcJFsdqt3
-	c/1Q7sD0wbcN7xoD+axvUkVuJAZlEfd2YDvs19ZZ6h8+fMpo2bdT0hTjUxlBE7Y0jlYq75xdfOr1d
-	Qt1zwjywGZcGk2n3wFyByWhO33h/uXYxaypuSTrM58esK7lArpBoqLfgND9mVscmbuPGZebDhe+j8
-	d71vohug==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YxsKI+ZaHHtgsjsATeShOprbLjOforkqCd1sOqP0BYc=; b=pQ1iikWtg1I4Y6a2T9uLw5//Ig
+	hQmj5U6626BB3JOOUaaVKH2Vx5hijRz7vHNxLONXz3iOZSFh2xlW+ZPnmEnpqXLle+S0Agz/jJHv5
+	I98IzET8cQANsqT65CSlByDVUvHQgmo9yss75yK+yyAf9BT2c85+FpbMWFYzDULZsykoGJd9bvod3
+	L4otKO3Dxc0Kryr1R4VerLa8piK4nOG6ShxOLPMYExZc91acIuthlsZXvBaH/OniwCawxIbllGcmc
+	l3Ihov7AGS4Guyon2KJ3zdtgyJWO+Fx3U1Kr1Vuo18i1sEifxSY5HLLbwVW9vMa/zZ98TqpWp1xwq
+	ejumMl4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnYwK-000000067Mq-1FL9;
-	Fri, 22 Mar 2024 07:03:44 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rnYwM-000000067OA-3lx0;
+	Fri, 22 Mar 2024 07:03:46 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnYwH-000000067KI-4BHW
+	id 1rnYwI-000000067Lz-30Sa
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Mar 2024 07:03:43 +0000
+	Fri, 22 Mar 2024 07:03:44 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 3CCB6CE16D2;
-	Fri, 22 Mar 2024 07:03:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29F35C433C7;
-	Fri, 22 Mar 2024 07:03:36 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3BCB26137B;
+	Fri, 22 Mar 2024 07:03:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0296C43390;
+	Fri, 22 Mar 2024 07:03:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711091018;
-	bh=qLGEjFUTqm7ie5rtH4ssD9EuA3uPyYl8g5jeiPhGZtA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=s8cnidSaizfyKP4YuygwwXjKoQuijWLWy3bmbRHDnP/627+rWQAm3rw32e65essgI
-	 ytzuz7u0b9eoN62JYeH5RSq0jvJC9xVmYtms1VGjEhMfKIFS3pMlqdgo5XsJ1l2pL6
-	 yeAETlenTdojWio2b+ceYqYken6mEPMpTC+egik3zACxa6neKFJ1VlJ7LJbkLTapBQ
-	 eVNwjYinQc42SC5C8EmRLj7/N4dBBlGZJbIq8gFjdobH0YWmQNhHfpNdQjSWbGsPsi
-	 auWDpHPPtUkeOMwLPyWoLjfGnyKmIq6Wvhccrk/GSGs6XsPZveQTtLG6qw2jK61aRh
-	 yplOJXc2S800A==
+	s=k20201202; t=1711091022;
+	bh=AgtBv75UYnrvg0rG7tnF/VKUQr3sZMDRfbazmjBt24U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cwc6FqPRZrj0D4IwMtLqVrF9Wyo5Yrl7P1n9oVMT8wc1JOertdOHfq4D3Wd4qO0a/
+	 oAbmOA3KIcykD/wniIVzUzoG7GniH4Vj1qhwnANeg2Ku/gmVPB6A6xbF7SaNBY/6nR
+	 FilGkGhEiqtKeJMIXDg0xV0LZH65CbALJq/IWqWjn4CthE2jqFM81OVFQwq/wbvQnH
+	 kfJE32Giq+ymS9gywysoAhVirxZGX8goojMyUI1PNttC+GU6FyGiRVSWCwrnD4GPIk
+	 hgqvemsyiwizk808f0bGx9uAXO9Y6GBYKPQ09osiO0VKH9UwNMzsg9cbVLl0k5QWVH
+	 A70ljpPTPCT6Q==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv3 0/8] nvmet: debugfs support
-Date: Fri, 22 Mar 2024 08:03:25 +0100
-Message-Id: <20240322070333.3820-1-hare@kernel.org>
+Subject: [PATCH 2/8] nvmet: add 'host_traddr' callback for debugfs
+Date: Fri, 22 Mar 2024 08:03:27 +0100
+Message-Id: <20240322070333.3820-3-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240322070333.3820-1-hare@kernel.org>
+References: <20240322070333.3820-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240322_000342_275312_CF56A461 
-X-CRM114-Status: GOOD (  12.88  )
+X-CRM114-CacheID: sfid-20240322_000342_865143_D9F9383A 
+X-CRM114-Status: GOOD (  14.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,61 +73,96 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+We want to display the transport address of the connected host
+in debugfs, but this is a property of the transport.
+So add a callback 'host_traddr' to allow the transport drivers
+to fill in the data.
 
-taking up the original patchset for nvmet debugfs
-I've improved upon that submission by modifying
-the layout:
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/target/core.c    |  8 ++++++++
+ drivers/nvme/target/debugfs.c | 19 +++++++++++++++++++
+ drivers/nvme/target/nvmet.h   |  4 ++++
+ 3 files changed, 31 insertions(+)
 
-/dev/kernel/debug/nvmet
-  <subsysnqn>
-    ctrl<cntlid>
-      port
-      state
-      hostnqn
-      kato
-      host_traddr
-      queue<qnum>
-	sqsize
-	sqhead
-
-The 'state' attribute is the value of the
-CSTS register; one can trigger a controller reset
-by writing 'fatal' into it (to set CSTS.CFS).
-
-As usual, comments and reviews are welcome.
-
-Changes to v2:
-- Move the 'host_traddr' attribute to the
-  controller directory
-- Rename callback to 'host_traddr'
-
-Hannes Reinecke (8):
-  nvmet: add debugfs support
-  nvmet: add 'host_traddr' callback for debugfs
-  nvmet-tcp: implement host_traddr()
-  nvmet-rdma: implement host_traddr()
-  nvmet-fc: implement host_traddr()
-  nvme-fcloop: implement 'host_traddr'
-  lpfc_nvmet: implement 'host_traddr'
-  nvmet: add debugfs support for queues
-
- drivers/nvme/target/Kconfig    |   9 ++
- drivers/nvme/target/Makefile   |   1 +
- drivers/nvme/target/core.c     |  32 ++++-
- drivers/nvme/target/debugfs.c  | 250 +++++++++++++++++++++++++++++++++
- drivers/nvme/target/debugfs.h  |  50 +++++++
- drivers/nvme/target/fc.c       |  33 +++++
- drivers/nvme/target/fcloop.c   |  11 ++
- drivers/nvme/target/nvmet.h    |  15 +-
- drivers/nvme/target/rdma.c     |  12 ++
- drivers/nvme/target/tcp.c      |  14 ++
- drivers/scsi/lpfc/lpfc_nvmet.c |  11 ++
- include/linux/nvme-fc-driver.h |   4 +
- 12 files changed, 439 insertions(+), 3 deletions(-)
- create mode 100644 drivers/nvme/target/debugfs.c
- create mode 100644 drivers/nvme/target/debugfs.h
-
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 6cd1b92fc500..4955819e4f5f 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1527,6 +1527,14 @@ void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_ctrl_fatal_error);
+ 
++ssize_t nvmet_ctrl_host_traddr(struct nvmet_ctrl *ctrl,
++		char *traddr, size_t traddr_len)
++{
++	if (!ctrl->ops->host_traddr)
++		return -EOPNOTSUPP;
++	return ctrl->ops->host_traddr(ctrl, traddr, traddr_len);
++}
++
+ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
+ 		const char *subsysnqn)
+ {
+diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
+index 4b9451ad0db9..40eeac97157a 100644
+--- a/drivers/nvme/target/debugfs.c
++++ b/drivers/nvme/target/debugfs.c
+@@ -114,6 +114,23 @@ static ssize_t nvmet_ctrl_state_write(struct file *file, const char __user *buf,
+ }
+ NVMET_DEBUGFS_RW_ATTR(nvmet_ctrl_state);
+ 
++static int nvmet_ctrl_host_traddr_show(struct seq_file *m, void *p)
++{
++	struct nvmet_ctrl *ctrl = (struct nvmet_ctrl *)m->private;
++	ssize_t size;
++	char buf[NVMF_TRADDR_SIZE + 1];
++
++	size = nvmet_ctrl_host_traddr(ctrl, buf, NVMF_TRADDR_SIZE);
++	if (size < 0) {
++		buf[0] = '\0';
++		size = 0;
++	}
++	buf[size] = '\0';
++	seq_printf(m, "%s\n", buf);
++	return 0;
++}
++NVMET_DEBUGFS_ATTR(nvmet_ctrl_host_traddr);
++
+ int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl)
+ {
+ 	char name[32];
+@@ -137,6 +154,8 @@ int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl)
+ 			    &nvmet_ctrl_kato_fops);
+ 	debugfs_create_file("state", S_IRUSR | S_IWUSR, ctrl->debugfs_dir, ctrl,
+ 			    &nvmet_ctrl_state_fops);
++	debugfs_create_file("host_traddr", S_IRUSR, ctrl->debugfs_dir, ctrl,
++			    &nvmet_ctrl_host_traddr_fops);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index f0371163cb26..3b7ba6d656cf 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -361,6 +361,8 @@ struct nvmet_fabrics_ops {
+ 	void (*delete_ctrl)(struct nvmet_ctrl *ctrl);
+ 	void (*disc_traddr)(struct nvmet_req *req,
+ 			struct nvmet_port *port, char *traddr);
++	ssize_t (*host_traddr)(struct nvmet_ctrl *ctrl,
++			char *traddr, size_t traddr_len);
+ 	u16 (*install_queue)(struct nvmet_sq *nvme_sq);
+ 	void (*discovery_chg)(struct nvmet_port *port);
+ 	u8 (*get_mdts)(const struct nvmet_ctrl *ctrl);
+@@ -509,6 +511,8 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
+ 				       struct nvmet_req *req);
+ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl);
+ u16 nvmet_check_ctrl_status(struct nvmet_req *req);
++ssize_t nvmet_ctrl_host_traddr(struct nvmet_ctrl *ctrl,
++		char *traddr, size_t traddr_len);
+ 
+ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 		enum nvme_subsys_type type);
 -- 
 2.35.3
 
