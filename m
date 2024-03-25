@@ -4,114 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2E0DC54E64
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Mar 2024 18:19:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 277DBC54E64
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Mar 2024 18:27:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KlL+5Nv8TSqrW5iR90hnI1xVuaFIE8JQzB3wsOldRgs=; b=tOFJf2pVtKG1HbnvooIVduVMJh
-	qc051YK9zrMUojFwQ9GDgM61y4c8gcE0FXdODqf19s4HFSF9/Ee2M7nRwYbh4bOHvg0kGSUQP1jK/
-	adnd3ky6FVKtlAVO4HHXxR7KcA4canv1F1eBlnELjxMaVbZHWv9mHWwvZy97brzITvt3YEX6IIAv/
-	nHsazWPnBBipIdawMQ3TNBmT0HBTKrZB8UyXLfmYqMP/eGu0MGyT+vOfzEHIRXnMvgLx1iXaJlwWz
-	wODZ5LkDbketX8nAu8a2H1ht79Q6HFf7Ka79B1CmF4EWG1fTvr4RPcWYkc6xO4JiGMQ/z7f4eS1NZ
-	YoVsHF+g==;
+	bh=/6x5iHCvkblvaZVNYtuLrxE1FcS4yECs/2o6kk/23uk=; b=LbPWmNJm0PcaUh7PoNgI3tvR3t
+	trT868t9tma7DyEUN/F4tjE7PrgSuXhNfT4bZ6cshTS4kZr+Ymfbgrv1wWd9P7j1I4D3+8We/FTHK
+	gRZ7qX3wEftFyuNhNTeboSH1TeQKqAzPNWIt9xg512Rl5qc5ThZIZz8jEXBR7VyyREtg0ie5P5KVX
+	FV1u3dlfAA7AMFEIGb87bZMAh33KWPh3jghbRhVp0HJLUDbWcB9J59vMVUmE9mLiohuRfEYnyumj7
+	0OII66xcreWfU9nWgk0Qrc3tiurWurcw9Mzbn/2kdI4n2i56zdHBAPGZ87atxCrc4qoNLRRw9VZYQ
+	0JBvNM+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1roouW-00000001IwC-2v5n;
-	Mon, 25 Mar 2024 18:19:04 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rop2X-00000001LNB-33oa;
+	Mon, 25 Mar 2024 18:27:21 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1roouP-00000001IsY-3poO
+	id 1rop2O-00000001LJv-2ylq
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Mar 2024 18:19:02 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	Mon, 25 Mar 2024 18:27:19 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5D9AE37172;
-	Mon, 25 Mar 2024 18:18:53 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5FA575CA34;
+	Mon, 25 Mar 2024 18:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711390733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711391227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KlL+5Nv8TSqrW5iR90hnI1xVuaFIE8JQzB3wsOldRgs=;
-	b=HzzNc1OeTZGtjVuEd3UiCiMfc0Lb4OABltWvH4+zTRF77h53iu0sATo537Ib5sH2q1Qg9u
-	WLLn22yBnKjWUggLL7x01+55E17GaNI5ccrWArxMazmihdyd0Bb4PVXpf7dG6RDSJCp6jK
-	OlT8vAOeHMfJZZpWr2HyV3GAaiJPA5U=
+	bh=/6x5iHCvkblvaZVNYtuLrxE1FcS4yECs/2o6kk/23uk=;
+	b=c+WvP89LfcmCMarUx/KmtIAfRTKsOZRHqy4j1B8eCQED605NJ4e3hZbEYgHo6fttcXMq+R
+	9NeTZf/WFmVvdJnbLCHmAOXNkIrg0wCIBdrbzX6nOx1Lc4ufMNrxVV3sXxq88oeg7Wv4RA
+	8RS0X3CWJPKzdh0jbtTjNv5c/25rTIE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711390733;
+	s=susede2_ed25519; t=1711391227;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KlL+5Nv8TSqrW5iR90hnI1xVuaFIE8JQzB3wsOldRgs=;
-	b=aXYv4sDeWPgUi6dLcy7TfAqz897QS1HZ27FI4LzsR9DVp+THo8oLNfcN9S968GohQGK/Ck
-	iYlCj+Uy41WPvMDQ==
+	bh=/6x5iHCvkblvaZVNYtuLrxE1FcS4yECs/2o6kk/23uk=;
+	b=NSptp7O42h8KqpWWusEEry/s7odbefUgkywvIx8hQzqm+FNQU3fR7oWHqfv7kK7LZ2p3Fx
+	i18jlBkno2zIGsBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711390733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711391227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KlL+5Nv8TSqrW5iR90hnI1xVuaFIE8JQzB3wsOldRgs=;
-	b=HzzNc1OeTZGtjVuEd3UiCiMfc0Lb4OABltWvH4+zTRF77h53iu0sATo537Ib5sH2q1Qg9u
-	WLLn22yBnKjWUggLL7x01+55E17GaNI5ccrWArxMazmihdyd0Bb4PVXpf7dG6RDSJCp6jK
-	OlT8vAOeHMfJZZpWr2HyV3GAaiJPA5U=
+	bh=/6x5iHCvkblvaZVNYtuLrxE1FcS4yECs/2o6kk/23uk=;
+	b=c+WvP89LfcmCMarUx/KmtIAfRTKsOZRHqy4j1B8eCQED605NJ4e3hZbEYgHo6fttcXMq+R
+	9NeTZf/WFmVvdJnbLCHmAOXNkIrg0wCIBdrbzX6nOx1Lc4ufMNrxVV3sXxq88oeg7Wv4RA
+	8RS0X3CWJPKzdh0jbtTjNv5c/25rTIE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711390733;
+	s=susede2_ed25519; t=1711391227;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KlL+5Nv8TSqrW5iR90hnI1xVuaFIE8JQzB3wsOldRgs=;
-	b=aXYv4sDeWPgUi6dLcy7TfAqz897QS1HZ27FI4LzsR9DVp+THo8oLNfcN9S968GohQGK/Ck
-	iYlCj+Uy41WPvMDQ==
+	bh=/6x5iHCvkblvaZVNYtuLrxE1FcS4yECs/2o6kk/23uk=;
+	b=NSptp7O42h8KqpWWusEEry/s7odbefUgkywvIx8hQzqm+FNQU3fR7oWHqfv7kK7LZ2p3Fx
+	i18jlBkno2zIGsBA==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C0DA13A71;
-	Mon, 25 Mar 2024 18:18:53 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4988013A71;
+	Mon, 25 Mar 2024 18:27:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id MiJFEQ3AAWYaXQAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Mon, 25 Mar 2024 18:18:53 +0000
-Date: Mon, 25 Mar 2024 19:18:52 +0100
+	id nEpGEfvBAWaNXgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Mon, 25 Mar 2024 18:27:07 +0000
+Date: Mon, 25 Mar 2024 19:27:06 +0100
 From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
-	Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
-Subject: Re: [PATCH 1/8] nvmet: add debugfs support
-Message-ID: <yph2qil3t2wzdq4ogr2jkh7ybckyhapfmwacurixjozmtjhreb@7qdgjt4fgget>
-References: <20240322070333.3820-1-hare@kernel.org>
- <20240322070333.3820-2-hare@kernel.org>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v2 02/18] nvme/rc: silence fcloop cleanup
+ failures
+Message-ID: <nc33lqabldktsxsdrmnjrpdagp2vnqid3vr5u4r2xwf6cuhjmv@cgvtqfzcrxds>
+References: <20240322135015.14712-1-dwagner@suse.de>
+ <20240322135015.14712-3-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240322070333.3820-2-hare@kernel.org>
-X-Spamd-Result: default: False [-0.80 / 50.00];
+In-Reply-To: <20240322135015.14712-3-dwagner@suse.de>
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=c+WvP89L;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NSptp7O4
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-6.01 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[6];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.997];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 MID_RHS_NOT_FQDN(0.50)[];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[34.45%]
-Authentication-Results: smtp-out1.suse.de;
-	none
+	 BAYES_HAM(-3.00)[100.00%];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
+X-Rspamd-Queue-Id: 5FA575CA34
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240325_111858_148795_F2A0650B 
-X-CRM114-Status: GOOD (  13.53  )
+X-CRM114-CacheID: sfid-20240325_112712_925932_7404C999 
+X-CRM114-Status: GOOD (  22.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,38 +136,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 22, 2024 at 08:03:26AM +0100, Hannes Reinecke wrote:
-> +static ssize_t nvmet_ctrl_state_write(struct file *file, const char __user *buf,
-> +				      size_t count, loff_t *ppos)
-> +{
-> +	struct seq_file *m = file->private_data;
-> +	struct nvmet_ctrl *ctrl = m->private;
-> +	char reset[16];
-> +
-> +	if (count >= sizeof(reset))
-> +		return -EINVAL;
-> +	if (copy_from_user(reset, buf, count))
-> +		return -EFAULT;
-> +	if (!memcmp(reset, "fatal", 5))
-> +		nvmet_ctrl_fatal_error(ctrl);
+On Fri, Mar 22, 2024 at 02:49:59PM +0100, Daniel Wagner wrote:
+> When the ctl file is missing we are logging
+> 
+>   tests/nvme/rc: line 265: /sys/class/fcloop/ctl/del_target_port: No such file or directory
+>   tests/nvme/rc: line 257: /sys/class/fcloop/ctl/del_local_port: No such file or directory
+>   tests/nvme/rc: line 249: /sys/class/fcloop/ctl/del_remote_port: No such file or directory
+> 
+> because the first redirect operator fails. Also it's not possible to
+> redirect the 'echo' error to /dev/null, because it's a builtin command
+> which escapes the stderr redirect operator (why?).
+> 
+> Anyway, the simplest way to catch this error is to first check if the
+> control file exists before attempting to write to it.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>  tests/nvme/rc | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 78d84af72e73..865c8c351159 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -234,7 +234,10 @@ _nvme_fcloop_del_rport() {
+>  	local remote_wwpn="$4"
+>  	local loopctl=/sys/class/fcloop/ctl
+>  
+> -	echo "wwnn=${remote_wwnn},wwpn=${remote_wwpn}" > ${loopctl}/del_remote_port 2> /dev/null
+> +	if [[ ! -f "${loopctl}/del_remote_port" ]]; then
+> +		return
+> +	fi
+> +	echo "wwnn=${remote_wwnn},wwpn=${remote_wwpn}" > "${loopctl}/del_remote_port"
 
-I'd like to use this also to trigger a reset. This allows to test the
-auth code a bit better, e.g. after changing the ctrl key on the target
-nothing will happen until a reconnect happens. Currently, I have to
-set the max queue count which triggers a reset. Also it would make the
-'support real hardware' series for blktests why more generic.
+BTW, I was told why the redirect doesn't work. The reason is that the
+'No such file or directly' is issued by the shell and not 'echo' because
+'echo' is a builtin command. Thus the right way to catch is to do
 
-This here should does the trick in my local testing:
+  (echo "foo" > file) 2>/dev/null
+  {echo "foo" > file} 2>/dev/null
 
---- a/drivers/nvme/target/debugfs.c
-+++ b/drivers/nvme/target/debugfs.c
-@@ -157,6 +157,8 @@ static ssize_t nvmet_ctrl_state_write(struct file *file, const char __user *buf,
-                return -EFAULT;
-        if (!memcmp(reset, "fatal", 5))
-                nvmet_ctrl_fatal_error(ctrl);
-+       else if (!memcmp(reset, "reset", 5))
-+               ctrl->ops->delete_ctrl(ctrl);
-        else
-                return -EINVAL;
-        return count;
+I suppose we want to keep it simple and just add the brackets around the echos.
 
