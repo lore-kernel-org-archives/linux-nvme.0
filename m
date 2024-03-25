@@ -4,73 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEE8CC54E58
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Mar 2024 09:07:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BACAEC54E64
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Mar 2024 15:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fWt27Rhb8cX1CP3aVjopBlcb+dUHX67210tB9KA0yKQ=; b=bjq+whwDE/wfnsIUuOXfg5T9GC
-	vsehivaIOv7EalBViLDIT1CDAGvklla/Sm/usQq94VthkPMZhqz39EE5jItiFQ3qziJO8sMb7Nt0Y
-	xGqAJA06bNfk6PBlKYxIvHpnjXLKBzTCeFdsYC2o2RO2rlOS7WgaQ9jWYDZJFlT9nbG7yy7zyx9lf
-	7EccgfZTINmMTZQ5RopZG2XMZrbYomec8xicr3L5w6w8V/6cAZMQ7AzHROq6s90WsZIA98UjDZX8f
-	Pxrbp3fBNrH+4lTxEISRwNG7k9nGw0SFF/EjSlvsWty+lRFvpXrlYJtn0A67PpLeyGaRcu9SMmUM/
-	bsTIRZog==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OUFSLesx35nW0oOueg/eginuEtMK4Ilh5II9VhT0kH0=; b=rIhYztJQZNSK6dZv+O+vdPCnEt
+	3/Sir/emRDT5wBb5Ns+PjA7+IiIB5drWnwt+9FmmIhsAzhzcIWVTo6bdQPOuEO+xFZr5kJ0RWOn9I
+	K0xdr16HU5axlo8s1Y6t7x1iExEf2pjxJ5E/c2EK9CUzH1TT9yTnOCX4/KjBvxCgtrR241ujBi9iW
+	rsJtBFScEGEk6VtrPADcIAtMGYVM8euk6rOpR5Qp8jJoaM1kKuv759N3ttyBFkjjdS2hfs5+RzvZJ
+	9gZdeeNk66aynEzeDF3/1BwHY3BLjyCo12OfDpvhRe1ppCuAgKdQK/yimXXHGAZD8ojCwk7NcBi9e
+	LWmM+kqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rogIz-0000000GLZc-0MOD;
-	Mon, 25 Mar 2024 09:07:45 +0000
-Received: from mail-wr1-f49.google.com ([209.85.221.49])
+	id 1romVc-00000000ZR3-3zSX;
+	Mon, 25 Mar 2024 15:45:12 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rogIw-0000000GLXM-0bWc
+	id 1romVa-00000000ZPs-2LSW
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Mar 2024 09:07:43 +0000
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-341bba83366so608585f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 25 Mar 2024 02:07:39 -0700 (PDT)
+	Mon, 25 Mar 2024 15:45:12 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6e703e0e5deso3142945b3a.3
+        for <linux-nvme@lists.infradead.org>; Mon, 25 Mar 2024 08:45:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711381508; x=1711986308; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OUFSLesx35nW0oOueg/eginuEtMK4Ilh5II9VhT0kH0=;
+        b=dWCOTWibYjxp27Op2HUN6YqpFz5tiQ6HBT/NfQ/g8TdTUZAafVuEf/AdbIl9LJi85m
+         Dc90W4Yqzw561Fwv30ONfZ+xcmdah5IUdD3RdrNaoQNfYy91po04rwSBvJRyhvxd84pF
+         CqtS+36dC4QvNVu8L4M02FWPUbLgG03fkem10kkwMFOdmv/3ndJGf4CJ9TaJHJIuk1uP
+         sqxqcZwTYl5v0fVCCmM4cpxijwNXD2pDvbjp7ueqCztXcWX7sMU2NiuPV++5HmT3QHHU
+         GvPlWKL4lwq4kGycVLLUlkTHKw162adl9la91JtKkkzUKmOMD7ww48G6pMWVY9YnDe10
+         uZJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711357658; x=1711962458;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fWt27Rhb8cX1CP3aVjopBlcb+dUHX67210tB9KA0yKQ=;
-        b=bdz24t5hrRsQqQC8v7hXvpfCNi1aRHNkyLo8kGdRyitHxu1hGCXmkCgvegkFjI2Dwn
-         +vmxPK/j+/T9n1p5Rbcizx14YB2w1isVBR16u0AZGE3kAPwxnXu+jLUNjZUV+o+C1UyF
-         z3TIT3CVKWFog6ZB8/62DX4Xfk6Rh+o+djg3tlQV55VQjGuA0/fZbMEjSLUVnARVHU0v
-         1V2wUOsrxBipinqjcwdUeQacODxXCF4GKllKx8+PUt7q8agWEdc3357yBd0wUKJE8g0M
-         2OluMrhcP6fYk8rfWKJTaSi8FGawBZT3qsVCAsgMzozS6W83RWSDMqHGJXo59AMgql3h
-         +P6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXvPRFvdInKvph+sh5EsrEkpMl+WCudbSxIbN6r34G75ucnxgEpDxkcr0h9AuyB/O+xQOSgmve9BiL1IcQAcdu9PjJc28gQzooiZNpsdb8=
-X-Gm-Message-State: AOJu0Yz+CKWaCqUckAswKLuP8XthmA/k3JSR9iZffc1ML/q64uRYXBe+
-	o3LpgX0AOu+PfQ5JMF+KZDAkJHUc0J2rL5UpEt9H6ozjxc0+FcGkWbMitnN1
-X-Google-Smtp-Source: AGHT+IGNP6/bhyNeKpYKJc3pcwqrXvizNNAYeFd8jA442Yc921nsoqZ48jDBzBjR1hOrxMwHZ3IMRQ==
-X-Received: by 2002:a05:600c:1e11:b0:414:8876:ff4d with SMTP id ay17-20020a05600c1e1100b004148876ff4dmr2257937wmb.2.1711357657975;
-        Mon, 25 Mar 2024 02:07:37 -0700 (PDT)
-Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id cc6-20020a5d5c06000000b00341d1aa0245sm643668wrb.106.2024.03.25.02.07.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Mar 2024 02:07:37 -0700 (PDT)
-Message-ID: <b1edba76-b9c5-48c3-aad7-0f2c10f93fbe@grimberg.me>
-Date: Mon, 25 Mar 2024 11:07:36 +0200
+        d=1e100.net; s=20230601; t=1711381508; x=1711986308;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OUFSLesx35nW0oOueg/eginuEtMK4Ilh5II9VhT0kH0=;
+        b=u1rd/P6kBQYUuM8iOQReVaftvkZT8F6O76hzFsyOFdy3x5eCnfTCFIcSsnnhRlbbAL
+         cw0JZPpwCowuS1IomYJOuwWAgm+9OVIhTE2K9X38gSq3+9cjKjtF3BKjHf1kTNbX8Bgx
+         ZRdVX3/Qs23YJ2LIncm8SQp7I59Jyb/be8Xa7JHfyfCYY7Y74YnPtPG82rvv0aKehfsV
+         NlZAGWCb8MvB+qfkVLk9Fb3t5hRkvw2teqM1lNLcoNFe8UxT/0s/wfrNcHsCqd3m1OsU
+         h9vo7GPbyig73fOEd5SlECcrxEFGL/jg/jvBxs2ILKHWYpsXgByNO0SKRu5mFthXHwGZ
+         A1gA==
+X-Gm-Message-State: AOJu0YwBHAvPTHR/MxVPD6SK/tpAKdWqn29tPL4YWaMJNtZws++Z9FFv
+	mPdPkYuoVzz1sXErH2Sjhh3vWMQJL/D26+uSE85FXGf+FeXSDay85w285NBD
+X-Google-Smtp-Source: AGHT+IGLt5n3+SfugkO+FloErhJg7bt6PdyN3yAKpCH0RNaDb/ux1PxbTzw9509aoHqHs1BeaUh0mg==
+X-Received: by 2002:a05:6a00:b84:b0:6ea:8e84:d806 with SMTP id g4-20020a056a000b8400b006ea8e84d806mr9267345pfj.16.1711381507986;
+        Mon, 25 Mar 2024 08:45:07 -0700 (PDT)
+Received: from tokunori-desktop.flets-east.jp ([240b:10:2720:5500:4d20:5e09:b35:7ed7])
+        by smtp.gmail.com with ESMTPSA id m18-20020a62f212000000b006e6bcda8480sm4193652pfh.121.2024.03.25.08.45.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 08:45:07 -0700 (PDT)
+From: Tokunori Ikegami <ikegami.t@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: Tokunori Ikegami <ikegami.t@gmail.com>
+Subject: [PATCH] nvme: initialize identify ns data to NULL
+Date: Tue, 26 Mar 2024 00:45:03 +0900
+Message-Id: <20240325154503.11510-1-ikegami.t@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] nvmet: add debugfs support for queues
-Content-Language: he-IL, en-US
-To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240322070333.3820-1-hare@kernel.org>
- <20240322070333.3820-9-hare@kernel.org>
- <efd797cc-2c6a-4d08-9100-762052a9c788@grimberg.me>
- <ce6cfd9c-10cb-4690-999b-f738cd376fc3@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ce6cfd9c-10cb-4690-999b-f738cd376fc3@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240325_020742_322078_1B30E5EB 
-X-CRM114-Status: GOOD (  12.43  )
+X-CRM114-CacheID: sfid-20240325_084510_622887_8A74B8E9 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,23 +87,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Currently nvme_identify_ns() sets the data to NULL if failed.
+Also the data is not freed if the function returned failure.
+But correctly the data should be initialized to NULL.
+So to make sure fix to initialize the data to NULL.
 
+Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
+---
+ drivers/nvme/host/sysfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 25/03/2024 9:25, Hannes Reinecke wrote:
-> On 3/23/24 21:31, Sagi Grimberg wrote:
->>
->>
->> On 22/03/2024 9:03, Hannes Reinecke wrote:
->>> Add debugfs entries to display the status of the controller
->>> queues.
->>
->> I'm questioning the value of this. We can possibly see lots and lots of
->> queues and I wonder how a queue entry will this actually help.
->
-> One can inspect I/O progress via the sqhead attribute; also one would
-> want to know the number of queues created.
-> But we can leave it for now; main part of this patchset is the 
-> controller entries and the possibility to trigger a controller reset.
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 3c55f7edd181..4e996e10f46a 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -185,7 +185,7 @@ static DEVICE_ATTR_RO(metadata_bytes);
+ 
+ static int ns_head_update_nuse(struct nvme_ns_head *head)
+ {
+-	struct nvme_id_ns *id;
++	struct nvme_id_ns *id = NULL;
+ 	struct nvme_ns *ns;
+ 	int srcu_idx, ret = -EWOULDBLOCK;
+ 
+@@ -212,7 +212,7 @@ static int ns_head_update_nuse(struct nvme_ns_head *head)
+ 
+ static int ns_update_nuse(struct nvme_ns *ns)
+ {
+-	struct nvme_id_ns *id;
++	struct nvme_id_ns *id = NULL;
+ 	int ret;
+ 
+ 	/* Avoid issuing commands too often by rate limiting the update. */
+-- 
+2.40.1
 
-Lets drop the queue debug stats for now
 
