@@ -4,92 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F86CC54E67
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 07:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C354C54E58
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 07:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x7sNNOLrBNxo252K/8fD+FyCgbNVzn9GIT0+NumgSM4=; b=QCmY6CupikBqVetf7BiVYQYjBD
-	cgQjtQHJ1JcZa4EWBxBD9z7TkAeJNsleU3gs5TcEvxsfZc55eCyI0mY9EH/nG3qfqSv6tw7zW+maV
-	QU04tN8FWTd5q25fnD5M3YI+Xda3EM7QHqO1JDwjrPlfdA/aFjAu3fdP/l60UieNEFaUNoFTYz8on
-	GOGMMpvs829amQTlQp2xy2KzomEGFL+RpXIr6BWi5A5v3ETpiLEhMFa4aSQNmPC/cLbKdGo8zE5qm
-	jUmGw585aKzIu4lHA84RiY4DlnOIEVkv9x5onCET47nUb8J9cV6nV8so9r49ZaFdQ8G4VcmEiY6Co
-	Vwm3WbNA==;
+	bh=4olBED4yunvZDSed+w4pK3AKyQoPBiiQA/F7RbLXoYU=; b=KpcGhMBKjQFWLHzV3Q2x3n6Irl
+	uVdPHTB6HBCuHpfR34/DM730bJE7ZyjdhF93B0lgCyyk7qmsTJren2ao8yz+B4O50AuloAIvR3AlM
+	i58IhdwudDGPDNFq0CoYbm9GgbpDVnaH5yWZ70AtTEMw8Blr4saftYL8IepEni8dkEmEk3SYmfwBR
+	niiv3RbbtbCW9wMoe13Jgfj6a1VFOdIpmpod1fy+E2Jly7ndddG1WZ9m+YmpdXnOtcqyBBe4/E2Jh
+	7/lJX3ySNgtk/rETqzNUnVLKs0etJz42NcTl6BYrYDx3K/6cMRiNlE9xtf81fZeXRmsvxjCk3002Z
+	kji2C4OA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp0qs-00000003ND5-1oRK;
-	Tue, 26 Mar 2024 07:04:06 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1rp0xR-00000003OV7-3rW8;
+	Tue, 26 Mar 2024 07:10:53 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp0qm-00000003NCJ-08Ki
+	id 1rp0xK-00000003OSu-1LtH
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 07:04:05 +0000
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42Q6mAMb026977;
-	Tue, 26 Mar 2024 07:03:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=x7sNNOLrBNxo252K/8fD+FyCgbNVzn9GIT0+NumgSM4=;
- b=e0OPr1NrfAk24hJ4ZqAc7U36cMiz5oYADFBYQEiRP6unW1c2iwQAhv+7WWjt4qcS107Q
- AvIy5UeuDtF1vqXgfDn/q630et8b9TJ6dOu/XLwQTOK1h726iUP+iEcP03/KxB1MYabS
- u8m1IIh3b6cDCKmCsbMo+lm3sphzCvnjni7CTgh/1sEpE8LY7rFXwGCMFdwGC79LpP6o
- yGV7GHp/TQUFKY3hqrRARR+/+ouwmI+n6XyzpmVOnFFlPZJhaKYsBWihYoHJPA7V+cjx
- Lv6kHAAMkx/jllFQA4v5Pcpknjx8o0gFCT/8JAo96dUFcvoA3ryFmzhm5cuklApRk10Y AQ== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x3sd8r17u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Mar 2024 07:03:55 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42Q4OLo2011285;
-	Tue, 26 Mar 2024 07:03:54 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3x2bmkwt1t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Mar 2024 07:03:54 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42Q73q8U19923706
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 26 Mar 2024 07:03:54 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DCE6D58056;
-	Tue, 26 Mar 2024 07:03:50 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6302F58065;
-	Tue, 26 Mar 2024 07:03:49 +0000 (GMT)
-Received: from [9.109.198.202] (unknown [9.109.198.202])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 26 Mar 2024 07:03:49 +0000 (GMT)
-Message-ID: <7ef8c5e0-4291-43f2-83ef-588b12176b36@linux.ibm.com>
-Date: Tue, 26 Mar 2024 12:33:48 +0530
+	Tue, 26 Mar 2024 07:10:51 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 99A3A5D233;
+	Tue, 26 Mar 2024 07:10:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711437043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4olBED4yunvZDSed+w4pK3AKyQoPBiiQA/F7RbLXoYU=;
+	b=Lw7U73ZqoJl/s0RyQws2bt9EWrMoCa3KbsuBMKRer4OC3PURtDpA3t1C5e4bOouyr7in2K
+	SWZEH0S1jhNUcRsIrpb3ogH3DxdHY3EcOVXGiR0P3BB+tHpnFZ/Uf4lobRuEQkx3YYHRFL
+	VxjMUv92cp0Nsbl47GC0Dki23xDj9zA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711437043;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4olBED4yunvZDSed+w4pK3AKyQoPBiiQA/F7RbLXoYU=;
+	b=sI4CO2QM0eExzGd6+aBMrqmqmTE6zsQyVGxbs6iY6H8iLi8G0r+X0dNfcBfzMb4S0IT+MY
+	TrT/j1CG8gh2vfBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711437043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4olBED4yunvZDSed+w4pK3AKyQoPBiiQA/F7RbLXoYU=;
+	b=Lw7U73ZqoJl/s0RyQws2bt9EWrMoCa3KbsuBMKRer4OC3PURtDpA3t1C5e4bOouyr7in2K
+	SWZEH0S1jhNUcRsIrpb3ogH3DxdHY3EcOVXGiR0P3BB+tHpnFZ/Uf4lobRuEQkx3YYHRFL
+	VxjMUv92cp0Nsbl47GC0Dki23xDj9zA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711437043;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4olBED4yunvZDSed+w4pK3AKyQoPBiiQA/F7RbLXoYU=;
+	b=sI4CO2QM0eExzGd6+aBMrqmqmTE6zsQyVGxbs6iY6H8iLi8G0r+X0dNfcBfzMb4S0IT+MY
+	TrT/j1CG8gh2vfBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D14F13306;
+	Tue, 26 Mar 2024 07:10:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HKX2EPN0AmYfTQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 26 Mar 2024 07:10:43 +0000
+Message-ID: <7bfe1296-3bd6-4c5e-a1a7-5fdb5c346404@suse.de>
+Date: Tue, 26 Mar 2024 08:10:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] tree: Add NVM subsystem controller identifier
-Content-Language: en-US
-To: linux-nvme@lists.infradead.org
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, dwagner@suse.de, gjoyce@ibm.com
 References: <20240326065752.164286-1-nilay@linux.ibm.com>
-From: Nilay Shroff <nilay@linux.ibm.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
 In-Reply-To: <20240326065752.164286-1-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: wV1dAbimYmwey-Wz5j0KYfA82YiAK8My
-X-Proofpoint-GUID: wV1dAbimYmwey-Wz5j0KYfA82YiAK8My
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-26_04,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 phishscore=0 adultscore=0 mlxscore=0 mlxlogscore=999
- spamscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2403210000 definitions=main-2403260046
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.50 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[19.64%];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Lw7U73Zq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sI4CO2QM
+X-Rspamd-Queue-Id: 99A3A5D233
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_000403_267587_BC3B7BB5 
-X-CRM114-Status: GOOD (  34.07  )
+X-CRM114-CacheID: sfid-20240326_001046_626889_16DE4DBC 
+X-CRM114-Status: GOOD (  15.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,12 +139,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I forgot to add that this is libnvme patch in the subject. Sorry about that.
-
-Thanks,
---Nilay
-
-On 3/26/24 12:27, Nilay Shroff wrote:
+On 3/26/24 07:57, Nilay Shroff wrote:
 > This commit introduces a field "cntlid" for controller,
 > that contains the NVM subsystem unique identifier assigned
 > to each controller device in an NVM subsystem.
@@ -118,121 +148,40 @@ On 3/26/24 12:27, Nilay Shroff wrote:
 > controller identifier (cntlid). The cntlid could be referenced from
 > sysfs (/sys/class/nvme/nvmeX/cntlid) but it would be nice to have
 > a direct option.
-> 
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+>  > Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 > ---
 > Hi all,
 > 
-> While attaching an NVMe namespace using nvme-cli command 
-> "nvme attach-ns", we need to specifiy controller identifier 
-> (cntlid) against which the namespace is being attached. 
+> While attaching an NVMe namespace using nvme-cli command
+> "nvme attach-ns", we need to specifiy controller identifier
+> (cntlid) against which the namespace is being attached.
 > 
-> Not specifying cntlid while attaching namespace would result in 
+> Not specifying cntlid while attaching namespace would result in
 > no actual change in namespace attachment. For instance,
 > 
-> # nvme create-ns /dev/nvme0 --nsze=0x156d56 --ncap=0x156d56  --block-size=4096 
+> # nvme create-ns /dev/nvme0 --nsze=0x156d56 --ncap=0x156d56  --block-size=4096
 > create-ns: Success, created nsid:1
 > 
 > # nvme attach-ns /dev/nvme0 -n 1
 > warning: empty controller-id list will result in no actual change in namespace attachment
 > attach-ns: Success, nsid:1
 > 
-> # nvme list -o json
-> {
->   "Devices":[
->   ]
-> }
-> 
-> Though it's possible to find the cntlid looking at the sysfs file, 
-> it'd be convenient to have it readily avaliable under nvme list 
-> verbose output. 
-> 
-> This patch adds support for retrieving the cntlid in libnvme, 
-> the subsequent nvme-cli patch shall use this information to 
-> print the cntlid field in nvme list verbose output.
-> 
-> Thanks,
-> --Nilay
-> 
-> ---
->  src/libnvme.map    | 1 +
->  src/nvme/private.h | 1 +
->  src/nvme/tree.c    | 7 +++++++
->  src/nvme/tree.h    | 7 +++++++
->  4 files changed, 16 insertions(+)
-> 
-> diff --git a/src/libnvme.map b/src/libnvme.map
-> index c03a99d1..8710c41f 100644
-> --- a/src/libnvme.map
-> +++ b/src/libnvme.map
-> @@ -9,6 +9,7 @@ LIBNVME_1.9 {
->  		nvme_submit_passthru;
->  		nvme_submit_passthru64;
->  		nvme_update_key;
-> +		nvme_ctrl_get_cntlid;
->  };
->  
->  LIBNVME_1_8 {
-> diff --git a/src/nvme/private.h b/src/nvme/private.h
-> index 11744c25..723740be 100644
-> --- a/src/nvme/private.h
-> +++ b/src/nvme/private.h
-> @@ -86,6 +86,7 @@ struct nvme_ctrl {
->  	char *dhchap_key;
->  	char *dhchap_ctrl_key;
->  	char *cntrltype;
-> +	char *cntlid;
->  	char *dctype;
->  	char *phy_slot;
->  	bool discovery_ctrl;
-> diff --git a/src/nvme/tree.c b/src/nvme/tree.c
-> index 584e3f6a..6efdf992 100644
-> --- a/src/nvme/tree.c
-> +++ b/src/nvme/tree.c
-> @@ -1008,6 +1008,11 @@ const char *nvme_ctrl_get_dhchap_host_key(nvme_ctrl_t c)
->  	return c->dhchap_key;
->  }
->  
-> +const char *nvme_ctrl_get_cntlid(nvme_ctrl_t c)
-> +{
-> +	return c->cntlid;
-> +}
-> +
->  void nvme_ctrl_set_dhchap_host_key(nvme_ctrl_t c, const char *key)
->  {
->  	if (c->dhchap_key) {
-> @@ -1117,6 +1122,7 @@ void nvme_deconfigure_ctrl(nvme_ctrl_t c)
->  	FREE_CTRL_ATTR(c->address);
->  	FREE_CTRL_ATTR(c->dctype);
->  	FREE_CTRL_ATTR(c->cntrltype);
-> +	FREE_CTRL_ATTR(c->cntlid);
->  	FREE_CTRL_ATTR(c->phy_slot);
->  }
->  
-> @@ -1800,6 +1806,7 @@ static int nvme_configure_ctrl(nvme_root_t r, nvme_ctrl_t c, const char *path,
->  		}
->  	}
->  	c->cntrltype = nvme_get_ctrl_attr(c, "cntrltype");
-> +	c->cntlid = nvme_get_ctrl_attr(c, "cntlid");
->  	c->dctype = nvme_get_ctrl_attr(c, "dctype");
->  	c->phy_slot = nvme_ctrl_lookup_phy_slot(r, c->address);
->  
-> diff --git a/src/nvme/tree.h b/src/nvme/tree.h
-> index a30e8eb7..1d635baa 100644
-> --- a/src/nvme/tree.h
-> +++ b/src/nvme/tree.h
-> @@ -1025,6 +1025,13 @@ const char *nvme_ctrl_get_host_iface(nvme_ctrl_t c);
->   */
->  const char *nvme_ctrl_get_dhchap_host_key(nvme_ctrl_t c);
->  
-> +/**
-> + *  nvme_ctrl_get_cntlid() - Controller id
-> + *  @c:	Controller to be checked
-> + *
-> + *  Return : Controller id of @c
-> + */
-> +const char *nvme_ctrl_get_cntlid(nvme_ctrl_t c);
->  /**
->   * nvme_ctrl_set_dhchap_host_key() - Set host key
->   * @c:		Host for which the key should be set
+
+Errm. How would that work? /dev/nvme0 _is_ a controller, and as such 
+will have an assigned cntlid. And if one would issue an 'attach-ns'
+command the only controller which it could address is that controller
+to which the command is issued.
+I'd be _very_ surprised if you could issue 'attach-ns' against _another_
+controller. So why do we need this option?
+Shouldn't we rather infer the cntlid from the existing controller?
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
