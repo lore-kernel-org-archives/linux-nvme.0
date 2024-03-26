@@ -4,122 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 648E1C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 11:56:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A328CD11DD
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 12:03:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KKAmnX0uvI7eqHYsZoxYudOhUkhEYS3PsuNr1hA4Q+c=; b=G9/pYwSOqLiztuYv3fIk37vL1N
-	CPrqC2SJMHrRQmZde+kz8wMZpewwERdyan1KXnlKNg3wvaYfu5Kyd6RS9B8caj6VadvE39aqTZ8y2
-	Q+O4uEb8X+yJPmO1mNOr5Rc3rW24+axDfqS5DnPOClwnbMvzEbWQiFZgrXuFZGnncbDnSCoDPWQUH
-	aJQp59wP8GeTe6fSCkoFnIA6G9TvwAhhWouNA3FFjgCDLVZxn0DzFvcYcBQNw430yzbIe2e0COhVi
-	DJHgZ6NDvzjVa+9fp6xJ3q1aXWgGXrt0t9q9gaxIAPw1ONSwBg+MB3kpzX1IilPERFoONuJhq3tLt
-	dBiwVhuQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XpP36Xge70YgZhUMj3rmT1c2CoYf3PScNbZeqTIcI28=; b=oPL7yaVpAEr4ihdy3DdiztxRE7
+	WHyzWxs8CslLVTTt8iuEawHLrFQQCNbxy598Wbzjsw0fI5zEtMDdhxXrWA2tgi2rH2xI7pZWKczol
+	MDy2MktZnwJBmVIwvpr4IlqEjSvonWR60Bz2esg5TlrCe7dPPoEqqluHCh9/eG9w2td8JInsf1N30
+	/c9MSX7gjwVxFdo1IxTYKHyh+06QOwIPTJbqLC35QWQ2TAoL85yarOn6Bkzc6nVGVnd5chVDPq34N
+	LYtxVLsysOfrN8nKxddINSl4tT9057Xp7Ifj2g52jYWX030aBCrNXcC5HvvrW7fMkO5Oe1no50wNX
+	kSmKyOXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp5PR-00000004LtW-2OSO;
-	Tue, 26 Mar 2024 11:56:05 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rp5X4-00000004NTo-0o7d;
+	Tue, 26 Mar 2024 12:03:58 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp5PL-00000004LsJ-0uQI
+	id 1rp5X1-00000004NT9-3uNS
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 11:56:02 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4CABD5CC90;
-	Tue, 26 Mar 2024 11:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711454156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKAmnX0uvI7eqHYsZoxYudOhUkhEYS3PsuNr1hA4Q+c=;
-	b=e2ul4SIzYt0r8W3g1k93CbwRV/SYpTgSoEm2qNiZu43ZJN/uVZXLLYLpCmXDEIBArLARtE
-	/RS+SwdiYTeS36NeGre/WHYr8ZVYEwxVddYuusTkT7ra4WQWJ4FAzUsO7J6JvrspD6dnSJ
-	es4jRuFkAezxFftKIaR8EkQDBEQw5L0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711454156;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKAmnX0uvI7eqHYsZoxYudOhUkhEYS3PsuNr1hA4Q+c=;
-	b=sHbx4gLn8iHzpRJp79JF2kpNvPhEhgMdJBxXs96XEhswLu5M/gEp1rICm4Kn5C5BI/hkHp
-	1tH6lwyIpqFRD/Cg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711454156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKAmnX0uvI7eqHYsZoxYudOhUkhEYS3PsuNr1hA4Q+c=;
-	b=e2ul4SIzYt0r8W3g1k93CbwRV/SYpTgSoEm2qNiZu43ZJN/uVZXLLYLpCmXDEIBArLARtE
-	/RS+SwdiYTeS36NeGre/WHYr8ZVYEwxVddYuusTkT7ra4WQWJ4FAzUsO7J6JvrspD6dnSJ
-	es4jRuFkAezxFftKIaR8EkQDBEQw5L0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711454156;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKAmnX0uvI7eqHYsZoxYudOhUkhEYS3PsuNr1hA4Q+c=;
-	b=sHbx4gLn8iHzpRJp79JF2kpNvPhEhgMdJBxXs96XEhswLu5M/gEp1rICm4Kn5C5BI/hkHp
-	1tH6lwyIpqFRD/Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3480C138A1;
-	Tue, 26 Mar 2024 11:55:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id O5czDMy3AmaiFwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 26 Mar 2024 11:55:56 +0000
-Message-ID: <9645b4b6-5cd2-4500-9e66-4fea027fd76c@suse.de>
-Date: Tue, 26 Mar 2024 12:55:55 +0100
+	Tue, 26 Mar 2024 12:03:57 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 8E594CE20B2;
+	Tue, 26 Mar 2024 12:03:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87469C433C7;
+	Tue, 26 Mar 2024 12:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711454631;
+	bh=LQAqriEV6sw8uFQMM0J39A4LTm6xoSm4hTMkH8xNBj4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=l+j703IkqANRjr1m05uh8hm7LK6uI5JBSW1GomZl7ptvCsF9vdWYz8syF89sfhc4G
+	 RGa2sWhm+noyghmN6cDRJnpqrm2PTz5NmJooXuBGn1P7Ih69hGRR9Vn1hgZ5dBc9Yn
+	 yWmdqYz9iLj4VWNsokIepi+LWANoI3qKK3jYCGPW0KdXsmjwLkYPlT0tGTaQNhXZ1w
+	 8fZSdEmTAcf3Vikcmq2d+JRJmFmLUL+f5nkaCWkmYljf05P2E6P/TWIB5cjF+NhyyM
+	 mIFAea8ElR3+ZQpjhMN5WgomIcO1Ow+/YjtwnoAwElerD6whSKW/BnNTojozhj/fis
+	 x2vYlf0YFyB1A==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCHv4 0/7] nvmet: debugfs support
+Date: Tue, 26 Mar 2024 13:03:35 +0100
+Message-Id: <20240326120342.105740-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] nvmet: add debugfs support
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
-References: <20240322070333.3820-1-hare@kernel.org>
- <20240322070333.3820-2-hare@kernel.org>
- <0e5f59ee-9ec0-4abe-bd57-ec3fe3d1b27e@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <0e5f59ee-9ec0-4abe-bd57-ec3fe3d1b27e@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-2.34 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-1.05)[87.75%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_045559_464760_508F7D39 
-X-CRM114-Status: GOOD (  11.30  )
+X-CRM114-CacheID: sfid-20240326_050356_197399_59753075 
+X-CRM114-Status: GOOD (  12.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,36 +71,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/23/24 21:25, Sagi Grimberg wrote:
->> +int nvmet_debugfs_subsys_setup(struct nvmet_subsys *subsys)
->> +{
->> +    int ret = 0;
->> +
->> +    subsys->debugfs_dir = debugfs_create_dir(subsys->subsysnqn,
->> +                         nvmet_debugfs);
->> +    if (IS_ERR(subsys->debugfs_dir)) {
->> +        ret = PTR_ERR(subsys->debugfs_dir);
->> +        subsys->debugfs_dir = NULL;
->> +    }
->> +    return ret;
->> +}
->> +
->> +void nvmet_debugfs_subsys_free(struct nvmet_subsys *subsys)
->> +{
->> +    debugfs_remove_recursive(subsys->debugfs_dir);
->> +}
-> 
-> The subsys setup/free look trivial enough to just open-code
-> in the call-sites.
-> 
-> The rest looks fine to me.
+Hi all,
 
-Agreed for the 'free' call, the setup call has to stay as it's
-referring to the static dentry 'nvmet_debugfs', which I'd like
-to keep private to 'debugfs.c'.
+taking up the original patchset for nvmet debugfs
+I've improved upon that submission by modifying
+the layout:
 
-Cheers,
+/dev/kernel/debug/nvmet
+  <subsysnqn>
+    ctrl<cntlid>
+      port
+      state
+      hostnqn
+      kato
+      host_traddr
 
-Hannes
+The 'state' attribute is the value of the
+CSTS register; one can trigger a controller reset
+by writing 'fatal' into it (to set CSTS.CFS).
+
+As usual, comments and reviews are welcome.
+
+Changes to v3:
+- drop patch to add queue entries
+- Reviews from Sagi
+
+Changes to v2:
+- Move the 'host_traddr' attribute to the
+  controller directory
+- Rename callback to 'host_traddr'
+
+Hannes Reinecke (7):
+  nvmet: add debugfs support
+  nvmet: add 'host_traddr' callback for debugfs
+  nvmet-tcp: implement host_traddr()
+  nvmet-rdma: implement host_traddr()
+  nvmet-fc: implement host_traddr()
+  nvme-fcloop: implement 'host_traddr'
+  lpfc_nvmet: implement 'host_traddr'
+
+ drivers/nvme/target/Kconfig    |   9 ++
+ drivers/nvme/target/Makefile   |   1 +
+ drivers/nvme/target/core.c     |  30 ++++-
+ drivers/nvme/target/debugfs.c  | 202 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/debugfs.h  |  42 +++++++
+ drivers/nvme/target/fc.c       |  33 ++++++
+ drivers/nvme/target/fcloop.c   |  11 ++
+ drivers/nvme/target/nvmet.h    |  12 +-
+ drivers/nvme/target/rdma.c     |  12 ++
+ drivers/nvme/target/tcp.c      |  14 +++
+ drivers/scsi/lpfc/lpfc_nvmet.c |  11 ++
+ include/linux/nvme-fc-driver.h |   4 +
+ 12 files changed, 378 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/nvme/target/debugfs.c
+ create mode 100644 drivers/nvme/target/debugfs.h
+
+-- 
+2.35.3
 
 
