@@ -4,62 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7414CD1280
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 12:04:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C710FC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 12:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4c2nj0CHSI3ZO8dT8kcChD3fJTuTQyR0i2sLr/ivfKU=; b=WbKq2jrCsyNHl0E+yFOza9hGaR
-	KmutQ7qupuDy9rq7vRMPmE3Ry0+yM9ipsW3pM+l7/4/EU9Y/7n3wj+ot8Kw1PsOE3wXtRdjF+i+Jm
-	/j6+Q4JbyK+Z78XQjSF/2OL598RS7BPdY+gTk3mCejxf3SbZErcjZU/a375dhV2F3U7KH4V7wIhGy
-	FyOjIrR68uTAtQxR53GFjPXEyXB0x9uSdJbVIX3GlURldjqetwkKmF148lD4huw+DjCqddLN9aku0
-	lWS+n8sLxf/krzB9NuSFncx22AHDSnusZG9x9gDyAbjDZ6wZgr5QuFW+UC94j7vLd6Cz2sL47HyTa
-	TUE3jD6Q==;
+	bh=3GE6jvv4vo9hIrUO9e74EA6q1Hg+Ul76xQx71cYxbHA=; b=bnsAVSGumxluqHmW7N2bpVNrB/
+	JFi0kMFQhuN1zcEfWO1KOAY2XMXWTam3B9OTkbRq/XDHscJamEpHZxfmllyhJPBBmqNkTIEXA4Atm
+	53KkM5SB9YqFYYiWaygTfbz6l28sQqVG6io/KO3tkJntCqqHWVkthsCWZJ/YlsGS/z1/DwgUe/4Sz
+	JXvVF447k1JrcUaJAIuWQLBhC4uXGmv1invvJd3FYFkP3iPVjxhQ7QYh8OCrLhS+y2xipErd3oD++
+	ZkvUZflluZS+fnRt4GFSR2fDHiyGIFdPfMOmIamVW2uMfO2r7Bs5sBlGKmvbWHuuUnodk3Ntjxjy2
+	NOvOXszA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp5XA-00000004NWv-0YQW;
-	Tue, 26 Mar 2024 12:04:04 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rp5XE-00000004NZn-31rR;
+	Tue, 26 Mar 2024 12:04:08 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp5X5-00000004NUZ-37jO
+	id 1rp5X5-00000004NU3-2CYj
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 12:04:01 +0000
+	Tue, 26 Mar 2024 12:04:02 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 2FB6361009;
-	Tue, 26 Mar 2024 12:03:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94F9EC433C7;
+	by sin.source.kernel.org (Postfix) with ESMTP id D95CCCE20B6;
 	Tue, 26 Mar 2024 12:03:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB699C43390;
+	Tue, 26 Mar 2024 12:03:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711454638;
-	bh=VgwFIeWqyQc4putVA2M+wwQJ0KVsGYbnTCnBS3Q9bL0=;
+	s=k20201202; t=1711454637;
+	bh=DB/L80TX8vO63QVyCrVggMSPfMAJgoUsrWeJxPtMsyk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IOtQ3aqT8qzFuwMNqAozkmhI1LFnI/9qfMKSkJuolIQQv2TPbJ+U1Tyef5B2iEpZh
-	 X7gAqZmhPPIrSkanF/uZ5jsdJIlHey1sa+gvY0HbEtOL5rmLzYK/EM/XFskmt+icfr
-	 R5oHfOsZGP6NcrtKoCYp0k9SB5XpdQsDwuulATfDgc16purhOWyicZUig/nllpc+ek
-	 BF/88aooPVU0qfJ8g23szmhhQsvT2AZXz571q4dtRtq6C8a4aGYsQ4Nu/0CPNNNo3j
-	 EfCPaoSEscxsPvsXUDvToEXBBD4c0zvwFUx+iDHoCrDT+CTNOCaQw381g4GNr7tY9h
-	 hI7b9dRev6jhg==
+	b=eU63IIXVPs5Nh3kiwsbuDWRaBxmaa8SHYNeG9MRW/ZBm2KDX+MstpOXGO/N5RT55q
+	 kEYwEOX47ewShom788T2xPyrr4UMT7cn5jcPkf8FpuBPqY5GLk6V/h3/S5wmvpe9Eo
+	 SkSA38QgzXajAVaM0qmvtZ3kJDIb9y+vZRWo4yna5PPewh71GGsqLklX3LYNhkVeg1
+	 A8KVzdhMMo8GVpa2RdiPSo0hB8WOy5WsDIHy/siq+uVg1EZYwYytAEv+nb7MRr1rT0
+	 JeR+5py1x3uK2gkeqWkUbL4qQ8sVy7jv4H95RhJIeDPY4VQPQ1Y/Seovzev1Qj7iTg
+	 XO5RFZ//ae4Gg==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 4/7] nvmet-rdma: implement host_traddr()
-Date: Tue, 26 Mar 2024 13:03:39 +0100
-Message-Id: <20240326120342.105740-5-hare@kernel.org>
+Subject: [PATCH 3/7] nvmet-tcp: implement host_traddr()
+Date: Tue, 26 Mar 2024 13:03:38 +0100
+Message-Id: <20240326120342.105740-4-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240326120342.105740-1-hare@kernel.org>
 References: <20240326120342.105740-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_050400_158921_047EA9BA 
-X-CRM114-Status: UNSURE (   9.83  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240326_050400_167632_8984C4DB 
+X-CRM114-Status: GOOD (  10.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,39 +78,41 @@ Implement callback to display the host transport address.
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/target/rdma.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/nvme/target/tcp.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 5b8c63e74639..26f12c80f7ea 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -2012,6 +2012,17 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index a5422e2c979a..9c3c1456af52 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -2170,6 +2170,19 @@ static void nvmet_tcp_disc_port_addr(struct nvmet_req *req,
  	}
  }
  
-+static ssize_t nvmet_rdma_host_port_addr(struct nvmet_ctrl *ctrl,
-+		char *traddr, size_t traddr_len)
++static ssize_t nvmet_tcp_host_port_addr(struct nvmet_ctrl *ctrl,
++			char *traddr, size_t traddr_len)
 +{
-+	struct nvmet_sq *nvme_sq = ctrl->sqs[0];
-+	struct nvmet_rdma_queue *queue =
-+		container_of(nvme_sq, struct nvmet_rdma_queue, nvme_sq);
++	struct nvmet_sq *sq = ctrl->sqs[0];
++	struct nvmet_tcp_queue *queue =
++		container_of(sq, struct nvmet_tcp_queue, nvme_sq);
 +
++	if (queue->sockaddr_peer.ss_family == AF_UNSPEC)
++		return -EINVAL;
 +	return snprintf(traddr, traddr_len, "%pISc",
-+			(struct sockaddr *)&queue->cm_id->route.addr.dst_addr);
++			(struct sockaddr *)&queue->sockaddr_peer);
 +}
 +
- static u8 nvmet_rdma_get_mdts(const struct nvmet_ctrl *ctrl)
- {
- 	if (ctrl->pi_support)
-@@ -2036,6 +2047,7 @@ static const struct nvmet_fabrics_ops nvmet_rdma_ops = {
- 	.queue_response		= nvmet_rdma_queue_response,
- 	.delete_ctrl		= nvmet_rdma_delete_ctrl,
- 	.disc_traddr		= nvmet_rdma_disc_port_addr,
-+	.host_traddr		= nvmet_rdma_host_port_addr,
- 	.get_mdts		= nvmet_rdma_get_mdts,
- 	.get_max_queue_size	= nvmet_rdma_get_max_queue_size,
+ static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_TCP,
+@@ -2180,6 +2193,7 @@ static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
+ 	.delete_ctrl		= nvmet_tcp_delete_ctrl,
+ 	.install_queue		= nvmet_tcp_install_queue,
+ 	.disc_traddr		= nvmet_tcp_disc_port_addr,
++	.host_traddr		= nvmet_tcp_host_port_addr,
  };
+ 
+ static int __init nvmet_tcp_init(void)
 -- 
 2.35.3
 
