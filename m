@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF78ACD11DD
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1844C6FD1F
 	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 14:17:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,73 +12,73 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yEnyo+AcYrJKCl2seZqGvjTKSN/N0LR3yJr6caLuKVY=; b=193sb1HAdrDdTg8bjocSGesGaP
-	IRDyig3r82K8U5Bha1xdn3Uv0vXNpKjCXzily3HFXimXuSQKHR2Krls8O4p+HmWi1+LXV6qNQsDN6
-	Dwes0BrEM5+7BzSlNhdYOIs1E24RgdWOquirqT813+sGaxxStLCWMZH5yCmc6M1bw/d7cu7iUga6V
-	1qjaGDNF/eJK/fcWgWacy1B2rx0NQFoSjwFdn2IkKZY0goRP6y+UocTrLJBkz87T1qHz6Ti1kHGfC
-	mF1M6OfaDR9ZJfuN5jR6AkwwfjQfy3EE+mK3ZLSNHYHu43QM/b6LjFBwIVaHxkateATMexLpkAPs/
-	ckl0QsVw==;
+	bh=1LciYTeStZ185FK8QBYDz5Vn9SOmgKuJB3FpoJGzxkA=; b=qx8TvG7oEu3KUWkeTjKJSCBtUA
+	jIiU/KK79DEDRsPz5+3g93eCUNZ3Jfi9G85gRrxUqcdqRt/0woBZ3jCq5d9kOcftEXYc5z1yIqOtm
+	Uh0JokLm95kmTJeg1odECm/Zq/xLvNfrmmbkJ4JJTA+6CJp0o8ObzP7RCwxtXdi065R8sbDPMJyvo
+	UeoMLTsI+7a7Wgq/lA3JH25euG2bSCqo43YxBssNwHwQf3b5kIeocW8lZWf6iHgZrhkgxxl5467lE
+	jW2XluJmlfx3tM2RQeJEtSNtHsMH4+HzCTNMCXFNmqLE+b9rDfU6WVlY6MGFuw/Ihgx4e8I1u1sz1
+	8o6SSUbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp7bt-00000004s73-33cd;
-	Tue, 26 Mar 2024 14:17:05 +0000
+	id 1rp7bs-00000004s6M-1PtP;
+	Tue, 26 Mar 2024 14:17:04 +0000
 Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp6cz-00000004bzb-3wX8
+	id 1rp6cy-00000004bzO-3cu4
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 13:14:41 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	Tue, 26 Mar 2024 13:14:14 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 997AF5D657;
-	Tue, 26 Mar 2024 13:14:08 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 580E55D655;
+	Tue, 26 Mar 2024 13:14:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711458848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711458847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yEnyo+AcYrJKCl2seZqGvjTKSN/N0LR3yJr6caLuKVY=;
-	b=1nJvlAWeMGo1KEqXzyH9FfU9tdfzhmSyTh+T7JF8PwbsYulVFcc/1WSl3kzbGaJ93lRuvh
-	obQM5oReYcdneZLm24+R0wAPBYrmoVB1KF7tPrNLf/vHKJrm6GUBd1rscW4iIYzd9FBxD4
-	8HfZFYQRdwX1Jf1SwRyM0JLPxLdcTtk=
+	bh=1LciYTeStZ185FK8QBYDz5Vn9SOmgKuJB3FpoJGzxkA=;
+	b=AeprotHUM0W6b6YSUDMjpoDfRzPd1Kpy8EGYmHyZpGTw6ieYfz3uOveB3ZWmrdLk8wJ3lH
+	3sLBNO6BTPaDsEuceV2vRKWhGWutq6IwDUjeEriPDlDzuhm9fGeG6LP3EBmHicKh4z6/7J
+	v/ni/KGDZ0RWawAATXFbNstZrRKE/8o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711458848;
+	s=susede2_ed25519; t=1711458847;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yEnyo+AcYrJKCl2seZqGvjTKSN/N0LR3yJr6caLuKVY=;
-	b=mVW+nw0OhF+r298XaVT1fUiL1Dow837fx0yVDfn7uOzWIqXwD/9cQFNyZ+ORW0oT42z5CY
-	1VBDY6JjKI32hHDQ==
+	bh=1LciYTeStZ185FK8QBYDz5Vn9SOmgKuJB3FpoJGzxkA=;
+	b=CL0WREfQ6QYRV4kkpvIp1xd+qdY4K4eTlseloCE1maCJiOqw0zMFEg/SUpLtaCzviMtf7W
+	hFJLtInzNCDT4xCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711458848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711458847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yEnyo+AcYrJKCl2seZqGvjTKSN/N0LR3yJr6caLuKVY=;
-	b=1nJvlAWeMGo1KEqXzyH9FfU9tdfzhmSyTh+T7JF8PwbsYulVFcc/1WSl3kzbGaJ93lRuvh
-	obQM5oReYcdneZLm24+R0wAPBYrmoVB1KF7tPrNLf/vHKJrm6GUBd1rscW4iIYzd9FBxD4
-	8HfZFYQRdwX1Jf1SwRyM0JLPxLdcTtk=
+	bh=1LciYTeStZ185FK8QBYDz5Vn9SOmgKuJB3FpoJGzxkA=;
+	b=AeprotHUM0W6b6YSUDMjpoDfRzPd1Kpy8EGYmHyZpGTw6ieYfz3uOveB3ZWmrdLk8wJ3lH
+	3sLBNO6BTPaDsEuceV2vRKWhGWutq6IwDUjeEriPDlDzuhm9fGeG6LP3EBmHicKh4z6/7J
+	v/ni/KGDZ0RWawAATXFbNstZrRKE/8o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711458848;
+	s=susede2_ed25519; t=1711458847;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yEnyo+AcYrJKCl2seZqGvjTKSN/N0LR3yJr6caLuKVY=;
-	b=mVW+nw0OhF+r298XaVT1fUiL1Dow837fx0yVDfn7uOzWIqXwD/9cQFNyZ+ORW0oT42z5CY
-	1VBDY6JjKI32hHDQ==
+	bh=1LciYTeStZ185FK8QBYDz5Vn9SOmgKuJB3FpoJGzxkA=;
+	b=CL0WREfQ6QYRV4kkpvIp1xd+qdY4K4eTlseloCE1maCJiOqw0zMFEg/SUpLtaCzviMtf7W
+	hFJLtInzNCDT4xCA==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 87B3513587;
-	Tue, 26 Mar 2024 13:14:08 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4715913587;
+	Tue, 26 Mar 2024 13:14:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id fXatHyDKAmYENwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Tue, 26 Mar 2024 13:14:08 +0000
+	id 5hrvDx/KAmYANwAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Tue, 26 Mar 2024 13:14:07 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org,
@@ -86,19 +86,24 @@ Cc: linux-block@vger.kernel.org,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v3 05/20] nvme/{012,013,035}: check return value of _xfs_run_fio_verify_io
-Date: Tue, 26 Mar 2024 14:13:47 +0100
-Message-ID: <20240326131402.5092-6-dwagner@suse.de>
+Subject: [PATCH blktests v3 03/20] nvme/rc: log error if stale configuration is found
+Date: Tue, 26 Mar 2024 14:13:45 +0100
+Message-ID: <20240326131402.5092-4-dwagner@suse.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240326131402.5092-1-dwagner@suse.de>
 References: <20240326131402.5092-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +
 Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [0.70 / 50.00];
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AeprotHU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CL0WREfQ
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [1.84 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 R_MISSING_CHARSET(2.50)[];
@@ -109,18 +114,20 @@ X-Spamd-Result: default: False [0.70 / 50.00];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+	 BAYES_HAM(-1.65)[92.81%]
+X-Rspamd-Queue-Id: 580E55D655
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_061410_239205_0C5CEFB7 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240326_061410_230198_332AEF9C 
+X-CRM114-Status: GOOD (  10.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,61 +142,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When _xfs_run_fio_verify_io fails we should log the error. Currently, no
-failure is detected when this function fails.
+It's possible that a previous run of blktest left some stale
+configuration left. E.g. when the module unload doesn't work (the bug
+might in the kernel we are testing). In this case error out and avoid
+confusion.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/012 | 4 +++-
- tests/nvme/013 | 4 +++-
- tests/nvme/035 | 4 +++-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ tests/nvme/rc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/nvme/012 b/tests/nvme/012
-index c5e0eb9c5e23..f0914ce3206b 100755
---- a/tests/nvme/012
-+++ b/tests/nvme/012
-@@ -33,7 +33,9 @@ test() {
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 865c8c351159..e67bb846ab77 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -658,6 +658,11 @@ _create_nvmet_host() {
+ 	local nvmet_ctrlkey="$4"
+ 	local host_path="${NVMET_CFS}/hosts/${nvmet_hostnqn}"
  
--	_xfs_run_fio_verify_io "/dev/${nvmedev}n1"
-+	if ! _xfs_run_fio_verify_io "/dev/${nvmedev}n1"; then
-+		echo "FAIL: fio verify failed"
++	if [[ -d "${host_path}" ]]; then
++		echo "FAIL target setup failed. stale host configuration found"
++		return 1;
 +	fi
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
-diff --git a/tests/nvme/013 b/tests/nvme/013
-index 3ec280ff24cf..3cef009cb9f4 100755
---- a/tests/nvme/013
-+++ b/tests/nvme/013
-@@ -32,7 +32,9 @@ test() {
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
- 
--	_xfs_run_fio_verify_io "/dev/${nvmedev}n1"
-+	if ! _xfs_run_fio_verify_io "/dev/${nvmedev}n1"; then
-+		echo "FAIL: fio verify failed"
-+	fi
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
-diff --git a/tests/nvme/035 b/tests/nvme/035
-index 712fe1dbcfb8..01aa09077d6a 100755
---- a/tests/nvme/035
-+++ b/tests/nvme/035
-@@ -31,7 +31,9 @@ test_device() {
- 	_nvmet_passthru_target_setup "${def_subsysnqn}"
- 	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${def_subsysnqn}")
- 
--	_xfs_run_fio_verify_io "${nsdev}" "${nvme_img_size}"
-+	if ! _xfs_run_fio_verify_io "${nsdev}" "${nvme_img_size}"; then
-+		echo "FAIL: fio verify failed"
-+	fi
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 	_nvmet_passthru_target_cleanup "${def_subsysnqn}"
++
+ 	mkdir "${host_path}"
+ 	_add_nvmet_allow_hosts "${nvmet_subsystem}" "${nvmet_hostnqn}"
+ 	if [[ "${nvmet_hostkey}" ]] ; then
 -- 
 2.44.0
 
