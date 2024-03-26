@@ -4,96 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B46F0CD11DD
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 13:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFF09CD1280
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 13:15:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9pfBlJ3j2sxsjcJkqhxqJdCf/QTLgKASybT1WMxghXQ=; b=WqaQ5MHwhXC1DbmKCYQLT6effF
-	BfKU3t9Lj0TjFq9Pp7z78A1zII8/sa9GNa3DSQNUw2MxvVE2NEaPnNboijLkXw3HOfN2CNH7ezEzp
-	hz4PrA4Tzc90sDHzrDbTNWkzVxFyi+RLBNHyeTdBOz+MzH0dO2o/zmc4V1+oFZ0rRByLu9pFsqd0F
-	ZXw+Qo4m27IvH3FY5eP70/uiDcxKE0kER3QDVur+mRJCaL8lfWK/7yVYdRLEfuHORYzlovgt+rB1N
-	ezbNmU+P2kRv/YpNyhgwwfM0QLgsDLiPq1hmbVrg9YuaKz7C5xmmuonglAWenzuxu57KBr9rYvd1w
-	nv5zAMNQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=m1GAW7oNEUE9NMKiHlDH6v9szzT0RFRzVYCBWZqNEDA=; b=oTle8J7i2jpTs4euznJdQaJ9Xc
+	WLv2taRGvcsy5vfWPlaTHRuCO1Y0WBt9IMTyClU7Vuh0lR5P/8RkMw5XpvdncMcfrevV92Hdehlpo
+	KA7C5HnyQ5S9d8/S4NrEnfxlZaRIWZjnx7arY0AQHD9/lf+bZQ9CHt0G6sBfZYQ7TumG9WTAKaZo6
+	VkLuz33iLl7MClnOKcUyKjfG68dx792IXUqCg6wEmYs4D9Qf42VVeADM17ADZXwHTzyD1zz7BLPjb
+	XKhFY+Ow8/mI+/C9Uy541LH6O1p14lZuf+N1eGZwFS4OezEfnMwl+LFEra/r6aHEaSh4BD1SYBTTC
+	oXpHS+Mg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp6eW-00000004cXl-0FOX;
-	Tue, 26 Mar 2024 13:15:44 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1rp6eY-00000004caH-2n3b;
+	Tue, 26 Mar 2024 13:15:46 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp6dS-00000004c4y-2h8J
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 26 Mar 2024 13:14:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=9pfBlJ3j2sxsjcJkqhxqJdCf/QTLgKASybT1WMxghXQ=; b=Txz3frjDubz0GCsrYuPcDkE2xv
-	kUDUvJ5ciIsmPw65np66Iko0fT7leDCG/Xv24nEKl0h7C0FFQRDBqYkPyNXbhns6FdKzV7mHQ8ciX
-	7TP2jDT9KQ55djXwZvR93gnpnZIV1mHvqotQDDJMLgjeiZXjru+2oDRgI4M2+qbvhO28rD8dWQzJz
-	xR+UkY4DnUgPL/tEBJCseBRyAGHKCV88CXlAW9fT2Ytm+GnYpV4lwxxmRaXGUohZoETiVbLbW4Tf/
-	55QNpPZMEOJBRqV42zj3YPs4sHtESRKlw1u4qxIeDs6GOIA9CzgUsHNvIG29Jwc9kmxMvFupHFBqo
-	AxCEtHVQ==;
-Received: from smtp-out1.suse.de ([195.135.223.130])
-	by casper.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp6dP-00000001KrB-0Zjc
+	id 1rp6cx-00000004bym-0wkU
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 13:14:37 +0000
+	Tue, 26 Mar 2024 13:14:42 +0000
 Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7DCF9373B6;
-	Tue, 26 Mar 2024 13:14:17 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C90C373D7;
+	Tue, 26 Mar 2024 13:14:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711458857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9pfBlJ3j2sxsjcJkqhxqJdCf/QTLgKASybT1WMxghXQ=;
-	b=D8zv9m2j4twuu6qHYba2YkvMmCefirc41Ji8LWtCyOwSRMi0owkPrb0rpbS3K121xkaIQV
-	l08HMFmVwZQSC8V7dCYGSoP3EgxC3/rHY+7G81avMJ+EBS9sYrPJ+FU00Zx+2gYmE0yiMP
-	4WfWfEjtIuTFTNNv4rF55Rm29bA8sIU=
+	t=1711458845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=m1GAW7oNEUE9NMKiHlDH6v9szzT0RFRzVYCBWZqNEDA=;
+	b=yPxz7SiAaIKdRwxfufDED/hZcxzhe8MtCzvncRNuHP0Hl2eoReMLUT4lSM30Ybn89gNy46
+	yRjBVhutzS4OQADQl8DevFwP8trapjnibgREdnl49VA4IPNaXWOYag4Veyjr01YUJV3m/B
+	57lKrQHo4vrgp31HnZecjXzFZcDI3cU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711458857;
+	s=susede2_ed25519; t=1711458845;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9pfBlJ3j2sxsjcJkqhxqJdCf/QTLgKASybT1WMxghXQ=;
-	b=CfS0xNe6he6et7q7NOPIKcLBnwADWDRWNOopHonAr8V12xnTeBgQEr4M+dG3XiBqbYfEs/
-	DyAg4djLhghNWxDw==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=m1GAW7oNEUE9NMKiHlDH6v9szzT0RFRzVYCBWZqNEDA=;
+	b=zsvbperuP8MUbrFgBjJkEzVqnty7v9I6ZXevuSUKmaRNjFUA3w5Lk8V/DSFPQUGQa2O3Ux
+	5woX5roEAaRCFnDQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711458857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9pfBlJ3j2sxsjcJkqhxqJdCf/QTLgKASybT1WMxghXQ=;
-	b=D8zv9m2j4twuu6qHYba2YkvMmCefirc41Ji8LWtCyOwSRMi0owkPrb0rpbS3K121xkaIQV
-	l08HMFmVwZQSC8V7dCYGSoP3EgxC3/rHY+7G81avMJ+EBS9sYrPJ+FU00Zx+2gYmE0yiMP
-	4WfWfEjtIuTFTNNv4rF55Rm29bA8sIU=
+	t=1711458845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=m1GAW7oNEUE9NMKiHlDH6v9szzT0RFRzVYCBWZqNEDA=;
+	b=yPxz7SiAaIKdRwxfufDED/hZcxzhe8MtCzvncRNuHP0Hl2eoReMLUT4lSM30Ybn89gNy46
+	yRjBVhutzS4OQADQl8DevFwP8trapjnibgREdnl49VA4IPNaXWOYag4Veyjr01YUJV3m/B
+	57lKrQHo4vrgp31HnZecjXzFZcDI3cU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711458857;
+	s=susede2_ed25519; t=1711458845;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9pfBlJ3j2sxsjcJkqhxqJdCf/QTLgKASybT1WMxghXQ=;
-	b=CfS0xNe6he6et7q7NOPIKcLBnwADWDRWNOopHonAr8V12xnTeBgQEr4M+dG3XiBqbYfEs/
-	DyAg4djLhghNWxDw==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=m1GAW7oNEUE9NMKiHlDH6v9szzT0RFRzVYCBWZqNEDA=;
+	b=zsvbperuP8MUbrFgBjJkEzVqnty7v9I6ZXevuSUKmaRNjFUA3w5Lk8V/DSFPQUGQa2O3Ux
+	5woX5roEAaRCFnDQ==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B36413587;
-	Tue, 26 Mar 2024 13:14:17 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A72913587;
+	Tue, 26 Mar 2024 13:14:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id BBrAGCnKAmYoNwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Tue, 26 Mar 2024 13:14:17 +0000
+	id sqKKGB3KAmb5NgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Tue, 26 Mar 2024 13:14:05 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org,
@@ -101,49 +78,46 @@ Cc: linux-block@vger.kernel.org,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v3 19/20] nvme: don't assume namespace id
-Date: Tue, 26 Mar 2024 14:14:01 +0100
-Message-ID: <20240326131402.5092-20-dwagner@suse.de>
+Subject: [PATCH blktests v3 00/20]  refactoring and various cleanups/fixes
+Date: Tue, 26 Mar 2024 14:13:42 +0100
+Message-ID: <20240326131402.5092-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240326131402.5092-1-dwagner@suse.de>
-References: <20240326131402.5092-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Bar: /
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yPxz7SiA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zsvbperu
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.49 / 50.00];
+	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 RCPT_COUNT_FIVE(0.00)[6];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 DKIM_TRACE(0.00)[suse.de:+];
 	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=D8zv9m2j;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CfS0xNe6
-X-Rspamd-Queue-Id: 7DCF9373B6
+	 BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Queue-Id: 7C90C373D7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_131435_430208_3836301D 
-X-CRM114-Status: GOOD (  10.39  )
+X-CRM114-CacheID: sfid-20240326_061407_536338_E3BCC95D 
+X-CRM114-Status: GOOD (  10.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,560 +132,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The tests assume that the namespace id is always 1. This might not be
-correct in future (e.g. running real targets), thus harden the test by
-using the uuid to lookup the correct namespace id.
+I've updated the passthru tests in the same way as the rest of the fabric tests.
 
-The passthru test already do this, so it makes also sense to update the
-other tests as well.
+changes:
+ v3:
+  - streamlined passthru tests according the rest of the fabric tests
+  
+ v2:
+  - addressed 'make check' errors
+  - squashed 'nvme/rc: remove correct port from target'
+    into 'nvme/rc: add nqn/uuid args to target setup/cleanup helper'
+  - reordered patches
+  - added 'nvme: drop default trtype argument for _nvmet_passthru_target_connect'
+  - https://lore.kernel.org/linux-nvme/20240322135015.14712-1-dwagner@suse.de/
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/010 |  7 +++----
- tests/nvme/011 |  7 +++----
- tests/nvme/012 |  7 +++----
- tests/nvme/013 |  7 +++----
- tests/nvme/014 | 13 ++++++-------
- tests/nvme/015 | 13 ++++++-------
- tests/nvme/018 | 15 +++++++--------
- tests/nvme/019 |  8 +++-----
- tests/nvme/020 |  7 +++----
- tests/nvme/021 |  7 +++----
- tests/nvme/023 |  8 +++-----
- tests/nvme/024 |  9 ++++-----
- tests/nvme/025 |  7 +++----
- tests/nvme/026 |  8 +++-----
- tests/nvme/029 |  7 ++-----
- tests/nvme/040 |  4 +++-
- tests/nvme/045 |  5 +++--
- tests/nvme/047 |  8 ++++----
- tests/nvme/rc  | 18 ++++++++++++++++++
- 19 files changed, 83 insertions(+), 82 deletions(-)
+ v1:
+   - https://lore.kernel.org/linux-nvme/20240321094727.6503-1-dwagner@suse.de/
 
-diff --git a/tests/nvme/010 b/tests/nvme/010
-index 7d875989a01c..6feb39153e99 100755
---- a/tests/nvme/010
-+++ b/tests/nvme/010
-@@ -20,17 +20,16 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
- 	_run_fio_verify_io --size="${nvme_img_size}" \
--		--filename="/dev/${nvmedev}n1"
-+		--filename="/dev/${ns}"
- 
- 	_nvme_disconnect_subsys
- 
-diff --git a/tests/nvme/011 b/tests/nvme/011
-index 0acc8b1dbaed..eee044cbb4f8 100755
---- a/tests/nvme/011
-+++ b/tests/nvme/011
-@@ -20,17 +20,16 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup --blkdev file
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
- 	_run_fio_verify_io --size="${nvme_img_size}" \
--		--filename="/dev/${nvmedev}n1"
-+		--filename="$/dev/{ns}"
- 
- 	_nvme_disconnect_subsys
- 
-diff --git a/tests/nvme/012 b/tests/nvme/012
-index a0bff298ab29..64cb6ecf0191 100755
---- a/tests/nvme/012
-+++ b/tests/nvme/012
-@@ -24,16 +24,15 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	if ! _xfs_run_fio_verify_io "/dev/${nvmedev}n1"; then
-+	if ! _xfs_run_fio_verify_io "/dev/${ns}"; then
- 		echo "FAIL: fio verify failed"
- 	fi
- 
-diff --git a/tests/nvme/013 b/tests/nvme/013
-index 5e5026eabe17..68d07cbc4afa 100755
---- a/tests/nvme/013
-+++ b/tests/nvme/013
-@@ -23,16 +23,15 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup --blkdev file
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	if ! _xfs_run_fio_verify_io "/dev/${nvmedev}n1"; then
-+	if ! _xfs_run_fio_verify_io "$/dev/{ns}"; then
- 		echo "FAIL: fio verify failed"
- 	fi
- 
-diff --git a/tests/nvme/014 b/tests/nvme/014
-index da4b4c13b347..e56e3212cf28 100755
---- a/tests/nvme/014
-+++ b/tests/nvme/014
-@@ -20,7 +20,7 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 	local size
- 	local bs
- 	local count
-@@ -29,17 +29,16 @@ test() {
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	size="$(blockdev --getsize64 "/dev/${nvmedev}n1")"
--	bs="$(blockdev --getbsz "/dev/${nvmedev}n1")"
-+	size="$(blockdev --getsize64 "/dev/${ns}")"
-+	bs="$(blockdev --getbsz "/dev/${ns}")"
- 	count=$((size / bs))
- 
--	dd if=/dev/urandom of="/dev/${nvmedev}n1" \
-+	dd if=/dev/urandom of="$/dev/{ns}" \
- 		count="${count}" bs="${bs}" status=none
- 
--	nvme flush "/dev/${nvmedev}" --namespace-id 1
-+	nvme flush "/dev/${ns}"
- 
- 	_nvme_disconnect_subsys
- 
-diff --git a/tests/nvme/015 b/tests/nvme/015
-index b82f2253c011..f0621dab681b 100755
---- a/tests/nvme/015
-+++ b/tests/nvme/015
-@@ -20,7 +20,7 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 	local size
- 	local bs
- 	local count
-@@ -29,17 +29,16 @@ test() {
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	size="$(blockdev --getsize64 "/dev/${nvmedev}n1")"
--	bs="$(blockdev --getbsz "/dev/${nvmedev}n1")"
-+	size="$(blockdev --getsize64 "/dev/${ns}")"
-+	bs="$(blockdev --getbsz "/dev/${ns}")"
- 	count=$((size / bs))
- 
--	dd if=/dev/urandom of="/dev/${nvmedev}n1" \
-+	dd if=/dev/urandom of="/dev/${ns}" \
- 		count="${count}" bs="${bs}" status=none
- 
--	nvme flush "/dev/${nvmedev}n1" --namespace-id 1
-+	nvme flush "/dev/${ns}"
- 
- 	_nvme_disconnect_subsys
- 
-diff --git a/tests/nvme/018 b/tests/nvme/018
-index bd6e5e930e35..b8c16354a01b 100755
---- a/tests/nvme/018
-+++ b/tests/nvme/018
-@@ -21,21 +21,20 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
-+	local sectors
-+	local bs
- 
- 	_nvmet_target_setup --blkdev file
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	local sectors
--	local bs
--	sectors="$(blockdev --getsz "/dev/${nvmedev}n1")"
--	bs="$(blockdev --getbsz "/dev/${nvmedev}n1")"
-+	sectors="$(blockdev --getsz "/dev/${ns}")"
-+	bs="$(blockdev --getbsz "/dev/${ns}")"
- 
--	nvme read "/dev/${nvmedev}n1" --start-block "$sectors" \
-+	nvme read "/dev/${ns}" --start-block "$sectors" \
- 		--block-count 0 --data-size "$bs" &>"$FULL" \
- 		&& echo "ERROR: nvme read for out of range LBA was not rejected"
- 
-diff --git a/tests/nvme/019 b/tests/nvme/019
-index 4d7de8191da7..1cd5378e9dd4 100755
---- a/tests/nvme/019
-+++ b/tests/nvme/019
-@@ -20,7 +20,7 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 	local nblk_range="10,10,10,10,10,10,10,10,10,10"
- 	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
- 
-@@ -28,10 +28,8 @@ test() {
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
--
--	nvme dsm "/dev/${nvmedev}" --namespace-id 1 --ad \
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
-+	nvme dsm "/dev/${ns}" --ad \
- 		--slbs "${sblk_range}" --blocks "${nblk_range}"
- 
- 	_nvme_disconnect_subsys
-diff --git a/tests/nvme/020 b/tests/nvme/020
-index c734210c5bd9..0364c4e0dd4f 100755
---- a/tests/nvme/020
-+++ b/tests/nvme/020
-@@ -19,7 +19,7 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 	local nblk_range="10,10,10,10,10,10,10,10,10,10"
- 	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
- 
-@@ -27,10 +27,9 @@ test() {
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	nvme dsm "/dev/${nvmedev}" --namespace-id 1 --ad \
-+	nvme dsm "/dev/${ns}" --ad \
- 		--slbs "${sblk_range}" --blocks "${nblk_range}"
- 
- 	_nvme_disconnect_subsys
-diff --git a/tests/nvme/021 b/tests/nvme/021
-index 358e209d0458..7ee1f078cd60 100755
---- a/tests/nvme/021
-+++ b/tests/nvme/021
-@@ -20,16 +20,15 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup --blkdev file
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	if ! nvme list 2>> "$FULL" | grep -q "${nvmedev}n1"; then
-+	if ! nvme list 2>> "$FULL" | grep -q "/dev/${ns}"; then
- 		echo "ERROR: device not listed"
- 	fi
- 
-diff --git a/tests/nvme/023 b/tests/nvme/023
-index abbb35a0b580..d8f17ae7a8ea 100755
---- a/tests/nvme/023
-+++ b/tests/nvme/023
-@@ -20,17 +20,15 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	if ! nvme smart-log "/dev/${nvmedev}" --namespace-id 1 \
--		>> "$FULL" 2>&1; then
-+	if ! nvme smart-log "/dev/${ns}" >> "$FULL" 2>&1; then
- 		echo "ERROR: smart-log bdev-ns failed"
- 	fi
- 
-diff --git a/tests/nvme/024 b/tests/nvme/024
-index 3ee18822e26b..a5121940a543 100755
---- a/tests/nvme/024
-+++ b/tests/nvme/024
-@@ -20,19 +20,18 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup --blkdev file
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns ${def_subsys_uuid})
- 
--	if ! nvme smart-log "/dev/${nvmedev}" --namespace-id 1 \
--		>> "$FULL" 2>&1; then
-+	if ! nvme smart-log "/dev/${ns}" >> "$FULL" 2>&1; then
- 		echo "ERROR: smart-log file-ns failed"
- 	fi
-+
- 	_nvme_disconnect_subsys >> "$FULL" 2>&1
- 
- 	_nvmet_target_cleanup
-diff --git a/tests/nvme/025 b/tests/nvme/025
-index 3cd62d0b4e5e..3f9a615e542e 100755
---- a/tests/nvme/025
-+++ b/tests/nvme/025
-@@ -20,16 +20,15 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup --blkdev file
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	if ! nvme effects-log "/dev/${nvmedev}" >> "$FULL" 2>&1; then
-+	if ! nvme effects-log "/dev/${ns}" >> "$FULL" 2>&1; then
- 		echo "ERROR: effects-log failed"
- 	fi
- 
-diff --git a/tests/nvme/026 b/tests/nvme/026
-index 5d54b0ff3d28..28fd151d9a77 100755
---- a/tests/nvme/026
-+++ b/tests/nvme/026
-@@ -20,17 +20,15 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 
- 	_nvmet_target_setup --blkdev file
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
--	if ! nvme ns-descs "/dev/${nvmedev}" --namespace-id 1 \
--		>> "$FULL" 2>&1; then
-+	if ! nvme ns-descs "/dev/${ns}" >> "$FULL" 2>&1; then
- 		echo "ERROR: ns-desc failed"
- 	fi
- 
-diff --git a/tests/nvme/029 b/tests/nvme/029
-index 8dbe49ba15cc..559c0b4feabe 100755
---- a/tests/nvme/029
-+++ b/tests/nvme/029
-@@ -53,16 +53,12 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
- 	local reset_nr_hugepages=false
- 
- 	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
--	_check_uuid "${nvmedev}"
--
- 	# nvme-cli may fail to allocate linear memory for rather large IO buffers.
- 	# Increase nr_hugepages to allow nvme-cli to try the linear memory allocation
- 	# from HugeTLB pool.
-@@ -72,7 +68,8 @@ test() {
- 		reset_nr_hugepages=true
- 	fi
- 
--	local dev="/dev/${nvmedev}n1"
-+	local dev
-+	dev="/dev/$(_find_nvme_ns "${def_subsys_uuid}")"
- 	test_user_io "$dev" 1 512 > "$FULL" 2>&1 || echo FAIL
- 	test_user_io "$dev" 1 511 > "$FULL" 2>&1 || echo FAIL
- 	test_user_io "$dev" 1 513 > "$FULL" 2>&1 || echo FAIL
-diff --git a/tests/nvme/040 b/tests/nvme/040
-index f00fc16b643f..bb9ed5ef57e9 100755
---- a/tests/nvme/040
-+++ b/tests/nvme/040
-@@ -23,15 +23,17 @@ test() {
- 
- 	local nvmedev
- 	local fio_pid
-+	local ns
- 
- 	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
- 	# start fio job
- 	echo "starting background fio"
--	_run_fio_rand_io --filename="/dev/${nvmedev}n1" \
-+	_run_fio_rand_io --filename="/dev/${ns}" \
- 		--group_reporting --ramp_time=5 \
- 		--time_based --runtime=1d &> /dev/null &
- 	fio_pid=$!
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 87ac3c019970..f387eadcbda3 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -33,6 +33,7 @@ test() {
- 	local new_ctrlkey
- 	local ctrldev
- 	local rand_io_size
-+	local ns
- 
- 	hostkey="$(nvme gen-dhchap-key -n ${def_subsysnqn} 2> /dev/null)"
- 	if [ -z "$hostkey" ] ; then
-@@ -100,10 +101,10 @@ test() {
- 
- 	echo "${new_hostkey}" > "${hostkey_file}"
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
- 	rand_io_size="$(_nvme_calc_rand_io_size 4m)"
--	_run_fio_rand_io --size="${rand_io_size}" --filename="/dev/${nvmedev}n1"
-+	_run_fio_rand_io --size="${rand_io_size}" --filename="/dev/${ns}"
- 
- 	_nvme_disconnect_subsys
- 	_nvmet_target_cleanup
-diff --git a/tests/nvme/047 b/tests/nvme/047
-index 75aad7d06a36..9bbe84d4f145 100755
---- a/tests/nvme/047
-+++ b/tests/nvme/047
-@@ -22,7 +22,7 @@ test() {
- 
- 	_setup_nvmet
- 
--	local nvmedev
-+	local ns
- 	local rand_io_size
- 
- 	_nvmet_target_setup
-@@ -30,10 +30,10 @@ test() {
- 	_nvme_connect_subsys \
- 		--nr-write-queues 1 || echo FAIL
- 
--	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-+	ns=$(_find_nvme_ns "${def_subsys_uuid}")
- 
- 	rand_io_size="$(_nvme_calc_rand_io_size 4M)"
--	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${rand_io_size}"
-+	_run_fio_rand_io --filename="/dev/${ns}" --size="${rand_io_size}"
- 
- 	_nvme_disconnect_subsys >> "$FULL" 2>&1
- 
-@@ -41,7 +41,7 @@ test() {
- 		--nr-write-queues 1 \
- 		--nr-poll-queues 1 || echo FAIL
- 
--	_run_fio_rand_io --filename="/dev/${nvmedev}n1" --size="${rand_io_size}"
-+	_run_fio_rand_io --filename="/dev/${ns}" --size="${rand_io_size}"
- 
- 	_nvme_disconnect_subsys >> "$FULL" 2>&1
- 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index fb7a5fa864e8..203cf0c7903b 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -797,6 +797,24 @@ _find_nvme_dev() {
- 	done
- }
- 
-+_find_nvme_ns() {
-+	local subsys_uuid=$1
-+	local uuid
-+	local ns
-+
-+	for ns in "/sys/block/nvme"* ; do
-+		# ignore nvme channel block devices
-+		if ! [[ "${ns}" =~ nvme[0-9]+n[0-9]+ ]]; then
-+			continue
-+		fi
-+		[ -e "${ns}/uuid" ] || continue
-+		uuid=$(cat "${ns}/uuid")
-+		if [[ "${subsys_uuid}" == "${uuid}" ]]; then
-+			basename "${ns}"
-+		fi
-+	done
-+}
-+
- _find_nvme_passthru_loop_dev() {
- 	local subsys=$1
- 	local nsid
+Daniel Wagner (20):
+  nvme/rc: silence error on module unload for fc
+  nvme/rc: silence fcloop cleanup failures
+  nvme/rc: log error if stale configuration is found
+  common/xfs: propagate errors from _xfs_run_fio_verify_io
+  nvme/{012,013,035}: check return value of _xfs_run_fio_verify_io
+  nvme/rc: use long command line option for nvme
+  nvme/{014,015,018,019,020,023,024,026,045,046}: use long command line
+    option for nvme
+  nvme/rc: connect subsys only support long options
+  nvme/rc: add nqn/uuid args to target setup/cleanup helper
+  nvme/rc: remove unused connect options
+  nvme/rc: do not cleanup external managed loop device
+  nvme/031: do not open code target setup/cleanup
+  nvme: drop default trtype argument for _nvmet_connect_subsys
+  nvme: drop default trtype argument for _nvmet_passthru_target_connect
+  nvme: drop default subsysnqn argument from
+    _nvme_{connect|disconnect}_subsys
+  nvme: drop default subsysnqn argument from
+    _nvme_passthru_target_{setup|cleanup}
+  nvme: drop default subsysnqn argument from
+    _nvmet_passthru_target_connect
+  nvme/{041,042,043,044,045,048}: do not pass default host{nqn|id} to
+    _nvme_connect_subsys
+  nvme: don't assume namespace id
+  nvme/028: drop unused nvmedev
+
+ common/xfs     |   9 +-
+ tests/nvme/003 |   4 +-
+ tests/nvme/004 |   5 +-
+ tests/nvme/005 |   2 +-
+ tests/nvme/008 |   4 +-
+ tests/nvme/009 |   4 +-
+ tests/nvme/010 |  11 ++-
+ tests/nvme/011 |  11 ++-
+ tests/nvme/012 |  13 +--
+ tests/nvme/013 |  13 +--
+ tests/nvme/014 |  17 ++--
+ tests/nvme/015 |  17 ++--
+ tests/nvme/018 |  20 ++---
+ tests/nvme/019 |  13 ++-
+ tests/nvme/020 |  12 +--
+ tests/nvme/021 |  11 ++-
+ tests/nvme/022 |   4 +-
+ tests/nvme/023 |  11 ++-
+ tests/nvme/024 |  12 +--
+ tests/nvme/025 |  11 ++-
+ tests/nvme/026 |  11 ++-
+ tests/nvme/027 |   4 +-
+ tests/nvme/028 |   9 +-
+ tests/nvme/029 |  11 +--
+ tests/nvme/031 |  16 ++--
+ tests/nvme/033 |   8 +-
+ tests/nvme/034 |   8 +-
+ tests/nvme/035 |  12 +--
+ tests/nvme/036 |   8 +-
+ tests/nvme/037 |  10 ++-
+ tests/nvme/040 |   6 +-
+ tests/nvme/041 |  13 +--
+ tests/nvme/042 |  14 +--
+ tests/nvme/043 |  14 +--
+ tests/nvme/044 |  28 ++----
+ tests/nvme/045 |  17 ++--
+ tests/nvme/046 |   7 +-
+ tests/nvme/047 |  16 ++--
+ tests/nvme/048 |   9 +-
+ tests/nvme/rc  | 232 ++++++++++++++++++++++++++++++++++---------------
+ 40 files changed, 357 insertions(+), 300 deletions(-)
+
 -- 
 2.44.0
 
