@@ -4,146 +4,176 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A9CAC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 14:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25937C54E67
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 14:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=spm9GVdaOI8UR8nt1GPJV7b8HcAmOe2bSVnBngDjipw=; b=LtAj7O0T9UB0zTj3b8IrlDf22q
-	YhjrXfGbv6cmO1N2yB2MJGtF1taNYoXZ3vSHF8M0VB+gSe43F9XFULMsPjUFfdxtRMwdF8b7aQSXH
-	+Vp86V0utH3ZHsspEKhzRdkCYfyyrKL8zJLfMcFWLHmK+TVOT4cbF4kx9W6pC9cOg/5gNSY5snupA
-	X7/GpnPs5312xKbzOVEgjjhgsWShkh9g1JaJl0OERSuWIATBk7Nz9yWhQS/b8qzrAbYjHk4UFY4c0
-	QGWBI94w9GBx9orWQf2nScqvyugIIhMtFoGiBNJgV/2euVvmscd23AP5qOaRg6rAmO07jRdtaGmNO
-	2eYvpP4A==;
+	bh=ufvOEddQUi4BQyDLIyJUOOMPVlMZbkOLPpmXrIN9h2o=; b=LWi/EEBAmgYnWTgSJvFrmgoq5d
+	yMnIHlo+cON6YROUk2ZvqkzrCmnNnbxwXkbDUHpyxkNiX7Awst5Ob049E8jO216iqqB+Y9eREhQVz
+	h7sOybJwApIIgSRYTZiZVAFCwpxzD4cIVYK+T2f94GDl2+4ayCi6owtE3gXKaOlRU0wMnWJdGBvSK
+	uVJM4DlKaM9H8QI5sdMRO141WiIC5nfjhXU93bKd7grl1uU1Kj2JBgng12m/RBB7J5IZMLY42F3V/
+	fUoIj7psDWMWGsp+io7aPqj0kR7N+/PoZtMPTYzafzTieSynqcd4/34IgC1qKAapmlhU1hubw2dIi
+	ABHm+Ryw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp7bt-00000004s6k-1Lmk;
-	Tue, 26 Mar 2024 14:17:05 +0000
+	id 1rp84v-00000004yLX-2uLn;
+	Tue, 26 Mar 2024 14:47:05 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp6dJ-00000004c46-34Ha
+	id 1rp71z-00000004huW-2B0j
 	for linux-nvme@bombadil.infradead.org;
-	Tue, 26 Mar 2024 13:14:36 +0000
+	Tue, 26 Mar 2024 13:39:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=spm9GVdaOI8UR8nt1GPJV7b8HcAmOe2bSVnBngDjipw=; b=rcHkpfsFMAjTGO/2v7T8t8bpvT
-	k7seomkp7vxnwQuT5Ues9AL86S1ymH7NzTfMq3jXGqZ/tkLoLuQpR5pYTlxN04syF7FgF4+JKvZaG
-	Y8JkFc/4LW31b3oCVSj7IfGt2Vjw3oBKQNtqBzx12x9n647C6a++7DHqM+MVqBiu7qtbCjmIMh36m
-	sqqkfUrEs/RRVmxjMXdw7i3YAjSz08emY0M4dK4BMAh73MmE912AiDzIuO9fLBbwyER4p8RhHQk+k
-	3vo5TUQ8wWInnbFUJSWPlNfiLu+KHZ7ske2SPeyO5uH4nITHpdf391fhLMx1GJwVnPGKzC/ZjuHfC
-	BbJ5nL7g==;
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ufvOEddQUi4BQyDLIyJUOOMPVlMZbkOLPpmXrIN9h2o=; b=BZK3hoJ3NHusJSi5Vjt8/kEghh
+	aNOSBhv87yb7zpYGTFm2J5KzBrok+4oiGdmFpCiXjmcSiToiF3Lt2yq4mtkY2ORfjOUdKEnjoFXuy
+	kHu2YyQaiNSoMO+9N50ccHTSPL5y5+zMMlRh8/XLk15q5qBcUUnvfEhnpVcEPvqn/e6cuS7CqTITd
+	hpNA+T2GekNV/MCCIJF+yKIyHeipPj4X3E5vnfOFfa3xvyL+E/ecSae4xqrxKurgBpdsKzWnDeWkT
+	resZxxwn35gKZXs59IJ+cv8KEvB6woCv/N1gTbwcQ0xFdxKJ2e1c1mXy/CYh2SqJCew1cIvQcO12S
+	5ANB9GcQ==;
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp6dF-0000000HAym-0rvH
+	id 1rp71v-0000000HC7h-176g
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 13:14:28 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B4A2037C4F;
-	Tue, 26 Mar 2024 13:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711458853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spm9GVdaOI8UR8nt1GPJV7b8HcAmOe2bSVnBngDjipw=;
-	b=J2pFNSkq0ijIW2HOodt0qp6RWTL4dqqmxFIpYvMvKKdNyLThCx0c8X51744U6OMGWilpKr
-	k9orVyycNOOa5GjIQhO9ZEnwEDjznsCG2ZeSExrT96EbTC96yMyPfpZJXT9Z4WcjcfLYiq
-	tkr6Rb3qKvBlJDOlRk2aXhJppqETDhk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711458853;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spm9GVdaOI8UR8nt1GPJV7b8HcAmOe2bSVnBngDjipw=;
-	b=mQ4s+ccytILhZ2ufHMiXzo/UzD30gnKI2VuZ026JdqOGT53tDvB5plYjDTY9uaovwmQFLc
-	xN7xQSAjap2q+XBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711458853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spm9GVdaOI8UR8nt1GPJV7b8HcAmOe2bSVnBngDjipw=;
-	b=J2pFNSkq0ijIW2HOodt0qp6RWTL4dqqmxFIpYvMvKKdNyLThCx0c8X51744U6OMGWilpKr
-	k9orVyycNOOa5GjIQhO9ZEnwEDjznsCG2ZeSExrT96EbTC96yMyPfpZJXT9Z4WcjcfLYiq
-	tkr6Rb3qKvBlJDOlRk2aXhJppqETDhk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711458853;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=spm9GVdaOI8UR8nt1GPJV7b8HcAmOe2bSVnBngDjipw=;
-	b=mQ4s+ccytILhZ2ufHMiXzo/UzD30gnKI2VuZ026JdqOGT53tDvB5plYjDTY9uaovwmQFLc
-	xN7xQSAjap2q+XBg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id A309313587;
-	Tue, 26 Mar 2024 13:14:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id UB3qJiXKAmYbNwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Tue, 26 Mar 2024 13:14:13 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v3 13/20] nvme: drop default trtype argument for _nvmet_connect_subsys
-Date: Tue, 26 Mar 2024 14:13:55 +0100
-Message-ID: <20240326131402.5092-14-dwagner@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240326131402.5092-1-dwagner@suse.de>
-References: <20240326131402.5092-1-dwagner@suse.de>
-MIME-Version: 1.0
+	Tue, 26 Mar 2024 13:39:57 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42QBnktw012046;
+	Tue, 26 Mar 2024 13:39:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version;
+ s=corp-2023-11-20; bh=ufvOEddQUi4BQyDLIyJUOOMPVlMZbkOLPpmXrIN9h2o=;
+ b=BznG6CU7cec+GVz1HQsJpylA17Mf8QGaBs9MjIkdXF4A9jndJmPFj4/gIi2gxMAeCgFm
+ Mz71rUdakcn6D3QJvSWXxRxkohUX3PSAJt7mqZK2WZOF9tWKWXOxnbjud4a8DwJMMrkY
+ KDwaUN7aKRKhDwmybAqf6h1Xyp2gq7PnkoMcLd9Vp80wGwWOztns1aO+INPq5pf2Q4zD
+ Ipu8itu3KqeOyUH6JHPeCbjv/ye0H0+pooQNz2XXzK7R53Sm/Cb4HuTyVgr5RiTCOUZA
+ W2XJjH+XFrHdGiPZMvtSdYLem3u9FuH/wFD5HI9FttSguE+aaQhJttfFtjUO6T1/w82e Pg== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3x1pybmxfp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 26 Mar 2024 13:39:36 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 42QCMRsG017540;
+	Tue, 26 Mar 2024 13:39:35 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3x1nh77x2e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 26 Mar 2024 13:39:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KkUynzSuSiiQvYmmw1VTfREz8xZiyyN5EifVi5YCICnaYI8dmP8/86jAk7Hrqq6dHju9VWmdD/TAMR11ODuudRMPWLXoia122CT2GXAD6AK47IGtj1K/yuVOV90+cm5A34Xf02cTRk8os+4+hqhUORIrlOM7izMESXcHOROCbsmEok9dIGinB2zj0DaPlMx2tGmtGBCxw+/UXdezRUheE977Gro3HvWcsd6QLR9pAxYWmtV7BVDZwlsqgB7/jqHgED8P2r00WilW6zLOmq/Xdzec+aPX/7rjg1m//YFCYH5wkGCaCjNgoS7JJxKtxyFnwro7EJaWkiVZS20h24Gliw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ufvOEddQUi4BQyDLIyJUOOMPVlMZbkOLPpmXrIN9h2o=;
+ b=ZRJ5ad9+zPSK8KLconxdS+sIVj0e/U3eRZLAuZR+HBYXUthS71x1puldVXbo7i+nEcYHEvOvxXTt3WpFealDMBKrDkK7Bfs0+E5HBkDGs9PKa/ndXQ9oaMDgI7oNREftefyDmxdfAGuLzkJp+u0tiNSqzODyjgOjVnG3SQnXp5V52yP0XA0W0Af4ljstHYsmfpytostGOojgqrDY4u9wxXGVXgRwQ0k71AlyK4JktPyOjw9R6gKNEK24hHrSTl8cu4IdCwiiMninYFfL6C4TIZRebj2LcQLaFZC76ofxzszW6+ABnov4F95ZIOdaTJpofGrCJfvFHKTgOLg1xTgLUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ufvOEddQUi4BQyDLIyJUOOMPVlMZbkOLPpmXrIN9h2o=;
+ b=igPSKwQs1IPSwUWxQRd7RW/G4zheOKPY16AKbYQEv/MBDqxr+2yzzZunCKE8BW8TvnZeT/vOKPezr3uuf/+OWQKXGCup17KoIB8pKIaQ0W1umQVFkkobLfCqATF0tzhfkT+1UshvbJYn+H3QZ7FhIGfFvqrs69kDWqAndzT2Pko=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by SJ0PR10MB4749.namprd10.prod.outlook.com (2603:10b6:a03:2da::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Tue, 26 Mar
+ 2024 13:39:32 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ae68:7d51:133f:324]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ae68:7d51:133f:324%4]) with mapi id 15.20.7409.031; Tue, 26 Mar 2024
+ 13:39:32 +0000
+From: John Garry <john.g.garry@oracle.com>
+To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        jack@suse.cz
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+        ojaswin@linux.ibm.com, linux-aio@kvack.org,
+        linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org,
+        nilay@linux.ibm.com, ritesh.list@gmail.com, willy@infradead.org,
+        John Garry <john.g.garry@oracle.com>
+Subject: [PATCH v6 08/10] scsi: sd: Atomic write support
+Date: Tue, 26 Mar 2024 13:38:11 +0000
+Message-Id: <20240326133813.3224593-9-john.g.garry@oracle.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20240326133813.3224593-1-john.g.garry@oracle.com>
+References: <20240326133813.3224593-1-john.g.garry@oracle.com>
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=J2pFNSkq;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mQ4s+ccy
-X-Rspamd-Queue-Id: B4A2037C4F
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0004.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:150::9) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|SJ0PR10MB4749:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9UrGTh58tq1OzkJPqky6jgV2qvK983Ls2L4pxS3wBy4hEJQectNBmPfKV5Eh/Tsgto5D6C2zFvRNvIR4XMOnZwGOrk4LV6Rw+uSacp7n9S1CbBvsI5pBi4E1eMQJ4J2pKtRDIQVjFAV3j2rFHgN3gJQa9WxwHqnmOtM3uGoYMB8lFRZLTRTCxTyaOWW3MvlMe0YFbbKfjw50w9zpSrJ2dgUwH+IhVAmNi6seLZTArKEVCKF/qw14we9LK+afgUwwdo0ow/3x6xIh5DFY4rN7tgAr+yzvUntyqzPPBI4dUpL5j/To5DM7+/iQuRrw0lYRagrSzDKe5Dgm7K94qjvqe2QZg/jYwfzQ3BRHq3suCatXKFs/CDVNEtCIbvSgX8nCihAI6uHnERADdglbYpc5qUuZ+yqWOBlguTDSPdmO3d5pyQ9HWgukjIWyQ/SZmXh2KlC9U50jwLkBozwGlr1KyTExlw8sPqmplOh//kFC4GwIpU6stZI1MnTt1ktHMLoWfrR1bF416pWgxlCkyXExJo9GVG/jl6mNcJMXbgfmMomvctT/1L17oITczvXSd2sxG+GlkOGzsRv61IUQZWKPxV6V0FRintzDaIKWOK0+8CYkDLCBz7IteKYE/SMEE8YILfstTI3CUAMiALeohKjbLzY2w46+2RX9zEKmvAgcgJG+oD9sSIDmE+UU1rOCDAllHEFeaGqvTFDFFacXNIFkdA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(921011);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K3+AseqdM/NyMLV7HkXjnJfMgiQLHFpzIwV8fJZBCrPJ7ZlTlAqO0M2uyy/2?=
+ =?us-ascii?Q?H7ileAcKeWIarWexHlwL7Tk31YIGxG6e4ngE8ZgQ8YQeYTXBNzIh7KXlwkuY?=
+ =?us-ascii?Q?p2trafAloDDkaw4z/2HnjJ2n3TTUOC+YV02PxIbV9PuQTZr3KZbYBRD4L3W+?=
+ =?us-ascii?Q?fMqeQhhIGnq18lotq7SZC9QmHI7MNny7NTVoj85IkDwxBNDEH/OnNgFhrJVI?=
+ =?us-ascii?Q?qFWb66sNTrL0phJRJFAzEVcdq8vN3Cdvs9o830YQBhIcavAX5gSFnz/giBuH?=
+ =?us-ascii?Q?z9EC+79bPpx5XTQ6qd02qxBNWA6y80xMUgXlWtmb+WIOHqmNeWu2bEu2DjEo?=
+ =?us-ascii?Q?NrrvTZiwiGtcCVm2i/aF2zNVTipw4+1Ak8xIjVFF5LgyDC4Jets5TRYdqLBz?=
+ =?us-ascii?Q?uQClM4MT3JZ5UNeNnUV1Ej7h5h1zosVbgSk+xOxC7rUEfZ210vFero/4/Q2o?=
+ =?us-ascii?Q?OzXEQLILh/QVwYWtD51TuEE2OJYNJo0wcLAVydHDsYC3LZKz5uZbAx/KabQK?=
+ =?us-ascii?Q?em4+w8ZFiUXKfHDUvE+MjYFVV26qcszZKR4c42UunuL4FkjjpF9qMUgSfqMK?=
+ =?us-ascii?Q?xVez9SvPTaZytzSOiqZLs3S4rbtDPqt8QTAja2YbAsZ0KG6jbC3nsdaQ7Jxe?=
+ =?us-ascii?Q?U8AnZWCkhPJwAx0ixOIpwTlWcV32g7sP1OH+oyRPIbsBVPqClqcrpSyetku/?=
+ =?us-ascii?Q?URvXm6UChIlD4uzPviqEsT21PRkgK1M0wLcCkFkRmZeGxVmN18gkL/rzZGeV?=
+ =?us-ascii?Q?z4MmVQ4iVN/vkKQuhMdUWHxNEBAnEQni9g+pAp2yvf00ngr8Xo1fn6SeiV8s?=
+ =?us-ascii?Q?UxyUQRutw5+iN4ZUyAhA/dHnitl7TbmlAj7iEnQkIhdcY5XAkb2IOFmu2cXI?=
+ =?us-ascii?Q?o83p0p/uZnOEn+9qzmUBp/pIbDJPRf8pfJXUsrxqHQnFPdeGq/kk9as6TiE4?=
+ =?us-ascii?Q?JR+graxiNNj0f3bOQohQCtTVw6X77OMLufw9X8iSmM5Tkb4UO4W++NzyxYFy?=
+ =?us-ascii?Q?wr6iB9VVRtDxs1//18lp9iaA9yQeY4wWkoP/aqkv7+jvuZvKDwgp2Apof50C?=
+ =?us-ascii?Q?yudEeZOPZE5RwFTlFuPw3VBMHZFsgBjYEpu7VdpwwH4CtY3s5rbdDxiWdNq5?=
+ =?us-ascii?Q?Dcy8xusp4Cg2J6Iod6KHPCBf4iEE/r6NSjDnbL12mrV3Z8Z4JAID9t84m+es?=
+ =?us-ascii?Q?z+Jprsvec81QHneGUKIcZOkX9Ltxc/nvPMI4t/ANmuQhoMAPxuD+KFtNokS4?=
+ =?us-ascii?Q?IB2K6TGdOrrP3PtCMjyVqsG7hoPty9n5ldMOCpEuQpkhezxbeh5s4QnOe0gO?=
+ =?us-ascii?Q?vZTlZeor7KZVTakkyEm+EMlbTC40p3S5T7mK7XKiTODspMtVmaGPjhDOGKrC?=
+ =?us-ascii?Q?NUxPGWPwUZsFN1ea59XscmNhkXcUadyL+5n3B6JENnD0kJw/dEcbYGA1UfYy?=
+ =?us-ascii?Q?mrUVbesZwV0wpdJb4WMWaPxhxrB7lUOQJoEdJMltMXhTCByFlNynTmNDfw64?=
+ =?us-ascii?Q?tzYvkaQ0QgrfVTxFXCi6QWSgyn38f6Xv/zCJIwehbdlkoTNJxzAzZVFiT0zA?=
+ =?us-ascii?Q?9X+ro457gcZWmpQkgsI7ziznmPXVoixbW+lu/+lHnsMwweG5Ql1WhRXZVcOt?=
+ =?us-ascii?Q?Ig=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Kwt6HmdBbiAjfQ2G2v4cj6gfvMpKwHijNde01GW0ifvPRkproLgNGNm1gXFWRdxoR1Fk8WQ0GcvvBWnjeld5InZjVA1Ygg6onCjvRSUl0dLFhUnTJts7JCJMODcvCoGJdsA9J1pUQoRSS4ZEn4TGgAaUoMM9l8ljjHdPcf0G8+kZnF6XLzht1SLAOJuNeufXdFALR7Cfz/r5h11VlzetKe2OFWBVCqcIgVPoEtTSpaE4FQKdJMijmFGpq2c1LgDsLiBH1WOM3rKeFOBwizJi/66hKhHN/bsddN4vr+RYxyLDlu2ZYNpsUjUSyj3PVFmRJYK31tpzpqevTo/WZf4ohkg1V5vPZpc4WAW2Jh0R2081DKr0VOH+Ik+GCWSTE1NWKP1TEH7AqfghiFnuHSEsL++/Pt7nwlX4dw2R9gDpNL/2bdHsXwGs8Hyv/3qdDK+4tXRJanmD9o/ZNGw+KhAi9MfM0PnHvj1BFpOVzbGp1H5OoTpNrqsL0Ap8MbiykHut42MdpaCzRdH6NCcR1qTMNaD/zVvETslsCJjVvc6j8JG9MUV33UnWnLv5WF4krbUCJ8a9kg0d1vbMWHZD1GV9veues5dAuZowd0hSLbs/Xs0=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 265f7778-ea66-433a-1ad2-08dc4d9a2ae2
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 13:39:32.2395
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9GPbfy07pXoy54EDp0lU9FTtD/dTKPF5Tywl6HhwHNxFPBwsnSx4suEzcni4tUe3w0RjWWcuZBTiKhu0Y4omdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4749
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-26_06,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2403210000 definitions=main-2403260095
+X-Proofpoint-GUID: 9OJN8y4faa2TxX0uyeJjKBsMWn-Z4ICJ
+X-Proofpoint-ORIG-GUID: 9OJN8y4faa2TxX0uyeJjKBsMWn-Z4ICJ
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_131425_483936_F26577E7 
-X-CRM114-Status: GOOD (  11.77  )
+X-CRM114-CacheID: sfid-20240326_133955_765479_1C493BC0 
+X-CRM114-Status: GOOD (  24.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,570 +188,300 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Every invocation of _nvmet_connect_subsys passes in the default
-nvme_trtype argument. nvme/rc also assumes the test is always using
-nvme_trtype for trtype (e.g. cleanup code paths), thus just drop
-this argument.
+Support is divided into two main areas:
+- reading VPD pages and setting sdev request_queue limits
+- support WRITE ATOMIC (16) command and tracing
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
+The relevant block limits VPD page need to be read to allow the block layer
+request_queue atomic write limits to be set. These VPD page limits are
+described in sbc4r22 section 6.6.4 - Block limits VPD page.
+
+There are five limits of interest:
+- MAXIMUM ATOMIC TRANSFER LENGTH
+- ATOMIC ALIGNMENT
+- ATOMIC TRANSFER LENGTH GRANULARITY
+- MAXIMUM ATOMIC TRANSFER LENGTH WITH BOUNDARY
+- MAXIMUM ATOMIC BOUNDARY SIZE
+
+MAXIMUM ATOMIC TRANSFER LENGTH is the maximum length for a WRITE ATOMIC
+(16) command. It will not be greater than the device MAXIMUM TRANSFER
+LENGTH.
+
+ATOMIC ALIGNMENT and ATOMIC TRANSFER LENGTH GRANULARITY are the minimum
+alignment and length values for an atomic write in terms of logical blocks.
+
+Unlike NVMe, SCSI does not specify an LBA space boundary, but does specify
+a per-IO boundary granularity. The maximum boundary size is specified in
+MAXIMUM ATOMIC BOUNDARY SIZE. When used, this boundary value is set in the
+WRITE ATOMIC (16) ATOMIC BOUNDARY field - layout for the WRITE_ATOMIC_16
+command can be found in sbc4r22 section 5.48. This boundary value is the
+granularity size at which the device may atomically write the data. A value
+of zero in WRITE ATOMIC (16) ATOMIC BOUNDARY field means that all data must
+be atomically written together.
+
+MAXIMUM ATOMIC TRANSFER LENGTH WITH BOUNDARY is the maximum atomic write
+length if a non-zero boundary value is set.
+
+For atomic write support, the WRITE ATOMIC (16) boundary is not of much
+interest, as the block layer expects each request submitted to be executed
+atomically. However, the SCSI spec does leave itself open to a quirky
+scenario where MAXIMUM ATOMIC TRANSFER LENGTH is zero, yet MAXIMUM ATOMIC
+TRANSFER LENGTH WITH BOUNDARY and MAXIMUM ATOMIC BOUNDARY SIZE are both
+non-zero. This case will be supported.
+
+To set the block layer request_queue atomic write capabilities, sanitize
+the VPD page limits and set limits as follows:
+- atomic_write_unit_min is derived from granularity and alignment values.
+  If no granularity value is not set, use physical block size
+- atomic_write_unit_max is derived from MAXIMUM ATOMIC TRANSFER LENGTH. In
+  the scenario where MAXIMUM ATOMIC TRANSFER LENGTH is zero and boundary
+  limits are non-zero, use MAXIMUM ATOMIC BOUNDARY SIZE for
+  atomic_write_unit_max. New flag scsi_disk.use_atomic_write_boundary is
+  set for this scenario.
+- atomic_write_boundary_bytes is set to zero always
+
+SCSI also supports a WRITE ATOMIC (32) command, which is for type 2
+protection enabled. This is not going to be supported now, so check for
+T10_PI_TYPE2_PROTECTION when setting any request_queue limits.
+
+To handle an atomic write request, add support for WRITE ATOMIC (16)
+command in handler sd_setup_atomic_cmnd(). Flag use_atomic_write_boundary
+is checked here for encoding ATOMIC BOUNDARY field.
+
+Trace info is also added for WRITE_ATOMIC_16 command.
+
+Signed-off-by: John Garry <john.g.garry@oracle.com>
 ---
- tests/nvme/003 |  2 +-
- tests/nvme/004 |  3 +--
- tests/nvme/005 |  2 +-
- tests/nvme/008 |  2 +-
- tests/nvme/009 |  2 +-
- tests/nvme/010 |  2 +-
- tests/nvme/011 |  2 +-
- tests/nvme/012 |  2 +-
- tests/nvme/013 |  2 +-
- tests/nvme/014 |  2 +-
- tests/nvme/015 |  2 +-
- tests/nvme/018 |  2 +-
- tests/nvme/019 |  2 +-
- tests/nvme/020 |  2 +-
- tests/nvme/021 |  2 +-
- tests/nvme/022 |  2 +-
- tests/nvme/023 |  2 +-
- tests/nvme/024 |  2 +-
- tests/nvme/025 |  2 +-
- tests/nvme/026 |  2 +-
- tests/nvme/027 |  2 +-
- tests/nvme/028 |  2 +-
- tests/nvme/029 |  2 +-
- tests/nvme/031 |  2 +-
- tests/nvme/040 |  2 +-
- tests/nvme/041 |  4 ++--
- tests/nvme/042 |  4 ++--
- tests/nvme/043 |  4 ++--
- tests/nvme/044 |  8 ++++----
- tests/nvme/045 |  2 +-
- tests/nvme/047 |  4 ++--
- tests/nvme/048 |  2 +-
- tests/nvme/rc  | 12 +++++-------
- 33 files changed, 44 insertions(+), 47 deletions(-)
+ drivers/scsi/scsi_trace.c   | 22 +++++++++
+ drivers/scsi/sd.c           | 93 ++++++++++++++++++++++++++++++++++++-
+ drivers/scsi/sd.h           |  8 ++++
+ include/scsi/scsi_proto.h   |  1 +
+ include/trace/events/scsi.h |  1 +
+ 5 files changed, 124 insertions(+), 1 deletion(-)
 
-diff --git a/tests/nvme/003 b/tests/nvme/003
-index b5ea2720100e..9a7c41f0856b 100755
---- a/tests/nvme/003
-+++ b/tests/nvme/003
-@@ -25,7 +25,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" nqn.2014-08.org.nvmexpress.discovery
-+	_nvme_connect_subsys nqn.2014-08.org.nvmexpress.discovery
- 
- 	# This is ugly but checking for the absence of error messages is ...
- 	sleep 10
-diff --git a/tests/nvme/004 b/tests/nvme/004
-index cc5310e78e0b..024ac986e5c1 100755
---- a/tests/nvme/004
-+++ b/tests/nvme/004
-@@ -22,10 +22,9 @@ test() {
- 
- 	_setup_nvmet
- 
--
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	local nvmedev
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-diff --git a/tests/nvme/005 b/tests/nvme/005
-index f9956e960a56..80a5359e862e 100755
---- a/tests/nvme/005
-+++ b/tests/nvme/005
-@@ -25,7 +25,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 
-diff --git a/tests/nvme/008 b/tests/nvme/008
-index 6ff3362e9c9b..fb1726723d43 100755
---- a/tests/nvme/008
-+++ b/tests/nvme/008
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/009 b/tests/nvme/009
-index 4ea00636e5dd..a9d83b675ba2 100755
---- a/tests/nvme/009
-+++ b/tests/nvme/009
-@@ -23,7 +23,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/010 b/tests/nvme/010
-index 5ed6cb5c0374..496f6e5c6a52 100755
---- a/tests/nvme/010
-+++ b/tests/nvme/010
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/011 b/tests/nvme/011
-index f9150e06434e..14a17a774d5f 100755
---- a/tests/nvme/011
-+++ b/tests/nvme/011
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/012 b/tests/nvme/012
-index f0914ce3206b..8dbf8eb1a9f0 100755
---- a/tests/nvme/012
-+++ b/tests/nvme/012
-@@ -28,7 +28,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/013 b/tests/nvme/013
-index 3cef009cb9f4..eb22933fdec6 100755
---- a/tests/nvme/013
-+++ b/tests/nvme/013
-@@ -27,7 +27,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/014 b/tests/nvme/014
-index c02167142cb3..20ff69176231 100755
---- a/tests/nvme/014
-+++ b/tests/nvme/014
-@@ -27,7 +27,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/015 b/tests/nvme/015
-index 8ea90f10bda7..634c42c07a86 100755
---- a/tests/nvme/015
-+++ b/tests/nvme/015
-@@ -27,7 +27,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/018 b/tests/nvme/018
-index e631434d7bd6..9225f7d58377 100755
---- a/tests/nvme/018
-+++ b/tests/nvme/018
-@@ -25,7 +25,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/019 b/tests/nvme/019
-index 3ab22e2cba01..9cf9f5299305 100755
---- a/tests/nvme/019
-+++ b/tests/nvme/019
-@@ -26,7 +26,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/020 b/tests/nvme/020
-index 10de114b83af..f6a204e6e417 100755
---- a/tests/nvme/020
-+++ b/tests/nvme/020
-@@ -25,7 +25,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/021 b/tests/nvme/021
-index 7dc6a41b9f7b..73e414e9db47 100755
---- a/tests/nvme/021
-+++ b/tests/nvme/021
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/022 b/tests/nvme/022
-index c70fbbae822e..31435cd2e9c7 100755
---- a/tests/nvme/022
-+++ b/tests/nvme/022
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/023 b/tests/nvme/023
-index 58f03e8603a7..c4c292899f32 100755
---- a/tests/nvme/023
-+++ b/tests/nvme/023
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/024 b/tests/nvme/024
-index 4608f015c4c3..b0d6f5a3c0b9 100755
---- a/tests/nvme/024
-+++ b/tests/nvme/024
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/025 b/tests/nvme/025
-index 46f6197cdfed..107eb38ba787 100755
---- a/tests/nvme/025
-+++ b/tests/nvme/025
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/026 b/tests/nvme/026
-index d5e13db0a916..ff4ff91d5d4f 100755
---- a/tests/nvme/026
-+++ b/tests/nvme/026
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/027 b/tests/nvme/027
-index 82b77a963623..a15e6d6e92d0 100755
---- a/tests/nvme/027
-+++ b/tests/nvme/027
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/028 b/tests/nvme/028
-index 0b49e2016d30..41dcb6ef7a4f 100755
---- a/tests/nvme/028
-+++ b/tests/nvme/028
-@@ -24,7 +24,7 @@ test() {
- 
- 	_nvmet_target_setup --blkdev file
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/029 b/tests/nvme/029
-index a4f0cb1402b1..7bde5565b020 100755
---- a/tests/nvme/029
-+++ b/tests/nvme/029
-@@ -58,7 +58,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 	_check_uuid "${nvmedev}"
-diff --git a/tests/nvme/031 b/tests/nvme/031
-index 204ba7d2892f..19854ccb903f 100755
---- a/tests/nvme/031
-+++ b/tests/nvme/031
-@@ -43,7 +43,7 @@ test() {
- 		_nvmet_target_setup --subsysnqn "${subsys}$i" \
- 			--blkdev "${loop_dev}"
- 
--		_nvme_connect_subsys "${nvme_trtype}" "${subsys}$i"
-+		_nvme_connect_subsys "${subsys}$i"
- 		_nvme_disconnect_subsys "${subsys}$i" >> "${FULL}" 2>&1
- 
- 		_nvmet_target_cleanup --subsysnqn "${subsys}$i" \
-diff --git a/tests/nvme/040 b/tests/nvme/040
-index 7759bac9b43c..06d0d0d47368 100755
---- a/tests/nvme/040
-+++ b/tests/nvme/040
-@@ -26,7 +26,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	_nvme_connect_subsys "${def_subsysnqn}"
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 
- 	# start fio job
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index c4588d7058ac..02452fd52628 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -38,7 +38,7 @@ test() {
- 
- 	# Test unauthenticated connection (should fail)
- 	echo "Test unauthenticated connection (should fail)"
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 			     --hostnqn "${def_hostnqn}" \
- 			     --hostid "${def_hostid}"
- 
-@@ -46,7 +46,7 @@ test() {
- 
- 	# Test authenticated connection
- 	echo "Test authenticated connection"
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 			     --hostnqn "${def_hostnqn}" \
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}"
-diff --git a/tests/nvme/042 b/tests/nvme/042
-index 815d65e7c610..961301ff6993 100755
---- a/tests/nvme/042
-+++ b/tests/nvme/042
-@@ -41,7 +41,7 @@ test() {
- 		fi
- 		_set_nvmet_hostkey "${def_hostnqn}" "${hostkey}"
- 
--		_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+		_nvme_connect_subsys "${def_subsysnqn}" \
- 				     --hostnqn "${def_hostnqn}" \
- 				     --hostid "${def_hostid}" \
- 				     --dhchap-secret "${hostkey}"
-@@ -58,7 +58,7 @@ test() {
- 		fi
- 		_set_nvmet_hostkey "${def_hostnqn}" "${hostkey}"
- 
--		_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+		_nvme_connect_subsys "${def_subsysnqn}" \
- 				     --hostnqn "${def_hostnqn}" \
- 				     --hostid "${def_hostid}" \
- 				     --dhchap-secret "${hostkey}"
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index e65abb09fe7c..ed18869a5977 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -45,7 +45,7 @@ test() {
- 
- 		_set_nvmet_hash "${def_hostnqn}" "${hash}"
- 
--		_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+		_nvme_connect_subsys "${def_subsysnqn}" \
- 				     --hostnqn "${def_hostnqn}" \
- 				     --hostid "${def_hostid}" \
- 				     --dhchap-secret "${hostkey}"
-@@ -59,7 +59,7 @@ test() {
- 
- 		_set_nvmet_dhgroup "${def_hostnqn}" "${dhgroup}"
- 
--		_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+		_nvme_connect_subsys "${def_subsysnqn}" \
- 				      --hostnqn "${def_hostnqn}" \
- 				      --hostid "${def_hostid}" \
- 				      --dhchap-secret "${hostkey}"
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index 9ee07475e738..8e2b4131b969 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -49,7 +49,7 @@ test() {
- 
- 	# Step 1: Connect with host authentication only
- 	echo "Test host authentication"
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 			     --hostnqn "${def_hostnqn}" \
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}"
-@@ -59,7 +59,7 @@ test() {
- 	# Step 2: Connect with host authentication
- 	# and invalid ctrl authentication
- 	echo "Test invalid ctrl authentication (should fail)"
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 			     --hostnqn "${def_hostnqn}" \
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}" \
-@@ -70,7 +70,7 @@ test() {
- 	# Step 3: Connect with host authentication
- 	# and valid ctrl authentication
- 	echo "Test valid ctrl authentication"
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 			     --hostnqn "${def_hostnqn}" \
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}" \
-@@ -82,7 +82,7 @@ test() {
- 	# and invalid ctrl key
- 	echo "Test invalid ctrl key (should fail)"
- 	invkey="DHHC-1:00:Jc/My1o0qtLCWRp+sHhAVafdfaS7YQOMYhk9zSmlatobqB8C:"
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 			     --hostnqn "${def_hostnqn}" \
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}" \
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 9e5cb54e9533..f89378836e67 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -51,7 +51,7 @@ test() {
- 
- 	_set_nvmet_dhgroup "${def_hostnqn}" "ffdhe2048"
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 			     --hostnqn "${def_hostnqn}" \
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}" \
-diff --git a/tests/nvme/047 b/tests/nvme/047
-index 94d7d50f9f98..162bd3bf70fa 100755
---- a/tests/nvme/047
-+++ b/tests/nvme/047
-@@ -27,7 +27,7 @@ test() {
- 
- 	_nvmet_target_setup
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys \
- 		--nr-write-queues 1 || echo FAIL
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-@@ -37,7 +37,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+	_nvme_connect_subsys "${def_subsysnqn}" \
- 		--nr-write-queues 1 \
- 		--nr-poll-queues 1 || echo FAIL
- 
-diff --git a/tests/nvme/048 b/tests/nvme/048
-index f76cfedf8b03..44fdffe287c8 100755
---- a/tests/nvme/048
-+++ b/tests/nvme/048
-@@ -99,7 +99,7 @@ test() {
- 	_nvmet_target_setup --blkdev file
- 
- 	if [[ -f "${cfs_path}/attr_qid_max" ]] ; then
--		_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-+		_nvme_connect_subsys "${def_subsysnqn}" \
- 					--hostnqn "${def_hostnqn}" \
- 					--hostid "${def_hostid}" \
- 					--keep-alive-tmo 1 \
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 9d47c737f9b0..9ce2fd787f8d 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -408,7 +408,6 @@ _nvme_disconnect_subsys() {
- 
- _nvme_connect_subsys() {
- 	local positional_args=()
--	local trtype=""
- 	local subsysnqn=""
- 	local hostnqn="$def_hostnqn"
- 	local hostid="$def_hostid"
-@@ -478,13 +477,12 @@ _nvme_connect_subsys() {
- 
- 	set -- "${positional_args[@]}"
- 
--	trtype="$1"
--	subsysnqn="$2"
-+	subsysnqn="$1"
- 
--	ARGS=(--transport "${trtype}" --nqn "${subsysnqn}")
--	if [[ "${trtype}" == "fc" ]] ; then
-+	ARGS=(--transport "${nvme_trtype}" --nqn "${subsysnqn}")
-+	if [[ "${nvme_trtype}" == "fc" ]] ; then
- 		ARGS+=(--traddr "${def_traddr}" --host-traddr "${def_host_traddr}")
--	elif [[ "${trtype}" != "loop" ]]; then
-+	elif [[ "${nvme_trtype}" != "loop" ]]; then
- 		ARGS+=(--traddr "${def_traddr}" --trsvcid "${def_trsvcid}")
- 	fi
- 	ARGS+=(--hostnqn="${hostnqn}")
-@@ -902,7 +900,7 @@ _nvmet_passthru_target_connect() {
- 	local trtype=$1
- 	local subsys_name=$2
- 
--	_nvme_connect_subsys "${trtype}" "${subsys_name}" --no-wait || return
-+	_nvme_connect_subsys "${subsys_name}" --no-wait || return
- 	nsdev=$(_find_nvme_passthru_loop_dev "${subsys_name}")
- 
- 	# The following tests can race with the creation
+diff --git a/drivers/scsi/scsi_trace.c b/drivers/scsi/scsi_trace.c
+index 41a950075913..3e47c4472a80 100644
+--- a/drivers/scsi/scsi_trace.c
++++ b/drivers/scsi/scsi_trace.c
+@@ -325,6 +325,26 @@ scsi_trace_zbc_out(struct trace_seq *p, unsigned char *cdb, int len)
+ 	return ret;
+ }
+ 
++static const char *
++scsi_trace_atomic_write16_out(struct trace_seq *p, unsigned char *cdb, int len)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	unsigned int boundary_size;
++	unsigned int nr_blocks;
++	sector_t lba;
++
++	lba = get_unaligned_be64(&cdb[2]);
++	boundary_size = get_unaligned_be16(&cdb[10]);
++	nr_blocks = get_unaligned_be16(&cdb[12]);
++
++	trace_seq_printf(p, "lba=%llu txlen=%u boundary_size=%u",
++			  lba, nr_blocks, boundary_size);
++
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
+ static const char *
+ scsi_trace_varlen(struct trace_seq *p, unsigned char *cdb, int len)
+ {
+@@ -385,6 +405,8 @@ scsi_trace_parse_cdb(struct trace_seq *p, unsigned char *cdb, int len)
+ 		return scsi_trace_zbc_in(p, cdb, len);
+ 	case ZBC_OUT:
+ 		return scsi_trace_zbc_out(p, cdb, len);
++	case WRITE_ATOMIC_16:
++		return scsi_trace_atomic_write16_out(p, cdb, len);
+ 	default:
+ 		return scsi_trace_misc(p, cdb, len);
+ 	}
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index ccff8f2e2e75..60046299844f 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -917,6 +917,65 @@ static blk_status_t sd_setup_unmap_cmnd(struct scsi_cmnd *cmd)
+ 	return scsi_alloc_sgtables(cmd);
+ }
+ 
++static void sd_config_atomic(struct scsi_disk *sdkp)
++{
++	unsigned int logical_block_size = sdkp->device->sector_size,
++		physical_block_size_sectors, max_atomic, unit_min, unit_max;
++	struct request_queue *q = sdkp->disk->queue;
++
++	if ((!sdkp->max_atomic && !sdkp->max_atomic_with_boundary) ||
++	    sdkp->protection_type == T10_PI_TYPE2_PROTECTION)
++		return;
++
++	physical_block_size_sectors = sdkp->physical_block_size /
++					sdkp->device->sector_size;
++
++	unit_min = rounddown_pow_of_two(sdkp->atomic_granularity ?
++					sdkp->atomic_granularity :
++					physical_block_size_sectors);
++
++	/*
++	 * Only use atomic boundary when we have the odd scenario of
++	 * sdkp->max_atomic == 0, which the spec does permit.
++	 */
++	if (sdkp->max_atomic) {
++		max_atomic = sdkp->max_atomic;
++		unit_max = rounddown_pow_of_two(sdkp->max_atomic);
++		sdkp->use_atomic_write_boundary = 0;
++	} else {
++		max_atomic = sdkp->max_atomic_with_boundary;
++		unit_max = rounddown_pow_of_two(sdkp->max_atomic_boundary);
++		sdkp->use_atomic_write_boundary = 1;
++	}
++
++	/*
++	 * Ensure compliance with granularity and alignment. For now, keep it
++	 * simple and just don't support atomic writes for values mismatched
++	 * with max_{boundary}atomic, physical block size, and
++	 * atomic_granularity itself.
++	 *
++	 * We're really being distrustful by checking unit_max also...
++	 */
++	if (sdkp->atomic_granularity > 1) {
++		if (unit_min > 1 && unit_min % sdkp->atomic_granularity)
++			return;
++		if (unit_max > 1 && unit_max % sdkp->atomic_granularity)
++			return;
++	}
++
++	if (sdkp->atomic_alignment > 1) {
++		if (unit_min > 1 && unit_min % sdkp->atomic_alignment)
++			return;
++		if (unit_max > 1 && unit_max % sdkp->atomic_alignment)
++			return;
++	}
++
++	blk_queue_atomic_write_max_bytes(q, max_atomic * logical_block_size);
++	blk_queue_atomic_write_unit_min_bytes(q, unit_min * logical_block_size);
++	blk_queue_atomic_write_unit_max_bytes(q, unit_max * logical_block_size);
++	blk_queue_atomic_write_boundary_bytes(q, 0);
++}
++
+ static blk_status_t sd_setup_write_same16_cmnd(struct scsi_cmnd *cmd,
+ 		bool unmap)
+ {
+@@ -1208,6 +1267,26 @@ static int sd_cdl_dld(struct scsi_disk *sdkp, struct scsi_cmnd *scmd)
+ 	return (hint - IOPRIO_HINT_DEV_DURATION_LIMIT_1) + 1;
+ }
+ 
++static blk_status_t sd_setup_atomic_cmnd(struct scsi_cmnd *cmd,
++					sector_t lba, unsigned int nr_blocks,
++					bool boundary, unsigned char flags)
++{
++	cmd->cmd_len  = 16;
++	cmd->cmnd[0]  = WRITE_ATOMIC_16;
++	cmd->cmnd[1]  = flags;
++	put_unaligned_be64(lba, &cmd->cmnd[2]);
++	put_unaligned_be16(nr_blocks, &cmd->cmnd[12]);
++	if (boundary)
++		put_unaligned_be16(nr_blocks, &cmd->cmnd[10]);
++	else
++		put_unaligned_be16(0, &cmd->cmnd[10]);
++	put_unaligned_be16(nr_blocks, &cmd->cmnd[12]);
++	cmd->cmnd[14] = 0;
++	cmd->cmnd[15] = 0;
++
++	return BLK_STS_OK;
++}
++
+ static blk_status_t sd_setup_read_write_cmnd(struct scsi_cmnd *cmd)
+ {
+ 	struct request *rq = scsi_cmd_to_rq(cmd);
+@@ -1279,6 +1358,10 @@ static blk_status_t sd_setup_read_write_cmnd(struct scsi_cmnd *cmd)
+ 	if (protect && sdkp->protection_type == T10_PI_TYPE2_PROTECTION) {
+ 		ret = sd_setup_rw32_cmnd(cmd, write, lba, nr_blocks,
+ 					 protect | fua, dld);
++	} else if (rq->cmd_flags & REQ_ATOMIC && write) {
++		ret = sd_setup_atomic_cmnd(cmd, lba, nr_blocks,
++				sdkp->use_atomic_write_boundary,
++				protect | fua);
+ 	} else if (sdp->use_16_for_rw || (nr_blocks > 0xffff)) {
+ 		ret = sd_setup_rw16_cmnd(cmd, write, lba, nr_blocks,
+ 					 protect | fua, dld);
+@@ -3220,7 +3303,7 @@ static void sd_read_block_limits(struct scsi_disk *sdkp)
+ 		sdkp->max_ws_blocks = (u32)get_unaligned_be64(&vpd->data[36]);
+ 
+ 		if (!sdkp->lbpme)
+-			goto out;
++			goto read_atomics;
+ 
+ 		lba_count = get_unaligned_be32(&vpd->data[20]);
+ 		desc_count = get_unaligned_be32(&vpd->data[24]);
+@@ -3251,6 +3334,14 @@ static void sd_read_block_limits(struct scsi_disk *sdkp)
+ 			else
+ 				sd_config_discard(sdkp, SD_LBP_DISABLE);
+ 		}
++read_atomics:
++		sdkp->max_atomic = get_unaligned_be32(&vpd->data[44]);
++		sdkp->atomic_alignment = get_unaligned_be32(&vpd->data[48]);
++		sdkp->atomic_granularity = get_unaligned_be32(&vpd->data[52]);
++		sdkp->max_atomic_with_boundary = get_unaligned_be32(&vpd->data[56]);
++		sdkp->max_atomic_boundary = get_unaligned_be32(&vpd->data[60]);
++
++		sd_config_atomic(sdkp);
+ 	}
+ 
+  out:
+diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
+index 5c4285a582b2..bc376ebb37ac 100644
+--- a/drivers/scsi/sd.h
++++ b/drivers/scsi/sd.h
+@@ -121,6 +121,13 @@ struct scsi_disk {
+ 	u32		max_unmap_blocks;
+ 	u32		unmap_granularity;
+ 	u32		unmap_alignment;
++
++	u32		max_atomic;
++	u32		atomic_alignment;
++	u32		atomic_granularity;
++	u32		max_atomic_with_boundary;
++	u32		max_atomic_boundary;
++
+ 	u32		index;
+ 	unsigned int	physical_block_size;
+ 	unsigned int	max_medium_access_timeouts;
+@@ -154,6 +161,7 @@ struct scsi_disk {
+ 	unsigned	security : 1;
+ 	unsigned	ignore_medium_access_errors : 1;
+ 	unsigned	rscs : 1; /* reduced stream control support */
++	unsigned	use_atomic_write_boundary : 1;
+ };
+ #define to_scsi_disk(obj) container_of(obj, struct scsi_disk, disk_dev)
+ 
+diff --git a/include/scsi/scsi_proto.h b/include/scsi/scsi_proto.h
+index 843106e1109f..70e1262b2e20 100644
+--- a/include/scsi/scsi_proto.h
++++ b/include/scsi/scsi_proto.h
+@@ -120,6 +120,7 @@
+ #define WRITE_SAME_16	      0x93
+ #define ZBC_OUT		      0x94
+ #define ZBC_IN		      0x95
++#define WRITE_ATOMIC_16	0x9c
+ #define SERVICE_ACTION_BIDIRECTIONAL 0x9d
+ #define SERVICE_ACTION_IN_16  0x9e
+ #define SERVICE_ACTION_OUT_16 0x9f
+diff --git a/include/trace/events/scsi.h b/include/trace/events/scsi.h
+index 8e2d9b1b0e77..05f1945ed204 100644
+--- a/include/trace/events/scsi.h
++++ b/include/trace/events/scsi.h
+@@ -102,6 +102,7 @@
+ 		scsi_opcode_name(WRITE_32),			\
+ 		scsi_opcode_name(WRITE_SAME_32),		\
+ 		scsi_opcode_name(ATA_16),			\
++		scsi_opcode_name(WRITE_ATOMIC_16),		\
+ 		scsi_opcode_name(ATA_12))
+ 
+ #define scsi_hostbyte_name(result)	{ result, #result }
 -- 
-2.44.0
+2.31.1
 
 
