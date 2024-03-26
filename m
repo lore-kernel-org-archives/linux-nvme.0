@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7935DCD11DD
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 12:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 377FFCD11DD
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 12:04:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zd/5Z8C+y+U19Nejkh41Eltpl0oVA1gwNATrljAVQf8=; b=sQSRnR8zTeRh1VaXuebDmwkxrS
-	8AOiAPtRdMU3V3ft0m3NX+sUrlfSxP1QyC3aoZ5Zy005QzvIVbthFRESp8r4DEafbygF2SVku+Ak2
-	Jb6Pxlr3i6822aIDnOtGWDxxNIPXu2mwQldYosaMgIO+XDJMfd/0Nsj68a/jD6YxU7/7nUih6W04o
-	sS8qvIp4M8BWOS2NGcN4zmgaNeVVyWFhrLvKDhI4KEn+6+Q4/Ap0G91huf4wcsYFUr6QuM1LI5Dz5
-	oOMOkjVYcBQSFQ4eVKmxCQtJnvegiebilbUqS4E5GBZXwR6HI9evG14yP8yV7jSalg7QivEQrde8J
-	2T7ccO/w==;
+	bh=kiT+t1qG/VdSGW/5EQujDW8UKgIq9H0vwTRVSfAdPMo=; b=tUEYsouFsanVUGCsYwZjsYsrL1
+	OOVBqbIKIGKzsiCGtwmkkU0B9cue68OLphnfBjHtVvuFMLhuoApqQkn1NYI1ptqOTtt8kCUDsgi+0
+	ujsb1XHiZQLKdYSdsJMJ6w5CF5stQ7MAEVAa1JABDIYsMUjcm/hpr/sW6gHyc1fhkSBZqWNb88Np6
+	pl/kLreZK/8Np+FxXWBN/o/K7W6pxGr6g6i37WhtVtJiSF5LG9BL89OFQU/t7bbnIUIhe6hwE9RO8
+	/CShs1IR25ZHtOvmM2A0BzlHaZ1PSVtie9yo3CggiOjCGBqEyGo5mo7GnEFLdZWSuMcj9daErDzid
+	cW2R/0/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp5XH-00000004NcV-2iLq;
-	Tue, 26 Mar 2024 12:04:11 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rp5XK-00000004Nel-1wFa;
+	Tue, 26 Mar 2024 12:04:14 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp5X9-00000004NVu-0dZy
+	id 1rp5X8-00000004NVL-2SNv
 	for linux-nvme@lists.infradead.org;
 	Tue, 26 Mar 2024 12:04:05 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9CA5B61046;
-	Tue, 26 Mar 2024 12:04:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 071C5C43390;
+	by sin.source.kernel.org (Postfix) with ESMTP id E5CA5CE20BC;
 	Tue, 26 Mar 2024 12:04:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC99C433C7;
+	Tue, 26 Mar 2024 12:03:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711454642;
-	bh=F7rOKSzAzDnN+aQiv8DCFDJwM+6jcADEXGwdV14qrcY=;
+	s=k20201202; t=1711454640;
+	bh=vR8nQgYNjAD4yYmLmr5uHxpnivAB2NrzH9ZpAphVMbw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WzuVPiqqkqUNOd1g1yzsxPGLTpJH3tjUM7Onj+EtSn7cMgJIhOhkXNOYXiaPBcg9n
-	 iFJH7/VPbZNxCAVw6Uu2UuffTQUDGcsy8Kv4rYDPwrpEOziVE8eo6cUNz0lG+FAds5
-	 IvL24xrfz2HksuGeoM/r7HWbqFYTFaHXPPmzBiGMdoxQhDigOA8feeqCk33bo1DO2T
-	 pPNooSfvNlEr8hJU65QUPzPY67Xn64kd3RCPyCkdK463D0eFKPTsPgmOoobMtjhtAf
-	 HlPtHF4k/n6VDNdBXkNa9lkIR1uWLxOkTDDzQKJ7VdTES6XJP3SvnH00kiidbv3p+Z
-	 Xf+nhqgB3qQgA==
+	b=ntyOewsMYdSo27UAlEdeVkmYrH/CKiWlWPT0qTYPeh5HiFtvt356IvYj2tQpOjGKp
+	 +h8vtV8ih1VTTb6Zujmn58FfAGh4yKA6UOKBt4AqfmkP7PQDeIhqd1hYG1jyjs0kk+
+	 xhVSQfy73s6LFyNN4dBewnf7loj77vUqY7OphGk1s1x7uB2nHivKwDezqs6ZnEde6W
+	 3u1T98TgKKA3BuaRLiuiMezzLRowSmsX53oPfFzr7BF4o3TeLzqNpJeQtWXC8ouEZS
+	 Gz1mbd6+hHDUbO0y9Qk8tUWGwsUIMFPqwYygg4yokdBUTrRfcLLLs6JCkWKYG1rtS0
+	 v09JRVGTrLNpA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 6/7] nvme-fcloop: implement 'host_traddr'
-Date: Tue, 26 Mar 2024 13:03:41 +0100
-Message-Id: <20240326120342.105740-7-hare@kernel.org>
+Subject: [PATCH 5/7] nvmet-fc: implement host_traddr()
+Date: Tue, 26 Mar 2024 13:03:40 +0100
+Message-Id: <20240326120342.105740-6-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240326120342.105740-1-hare@kernel.org>
 References: <20240326120342.105740-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_050403_303147_5DC11C14 
-X-CRM114-Status: GOOD (  10.73  )
+X-CRM114-CacheID: sfid-20240326_050403_154888_5F739A89 
+X-CRM114-Status: GOOD (  14.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,43 +73,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement the 'host_traddr' callback to display the host transport
-address for nvmet debugfs.
+Implement callback to display the host transport address by
+adding a callback 'host_traddr' for nvmet_fc_target_template.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/target/fcloop.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/nvme/target/fc.c       | 33 +++++++++++++++++++++++++++++++++
+ include/linux/nvme-fc-driver.h |  4 ++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 913cd2ec7a6f..e1abb27927ff 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -492,6 +492,16 @@ fcloop_t2h_host_release(void *hosthandle)
- 	/* host handle ignored for now */
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index fd229f310c93..b4706a8a9837 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2931,6 +2931,38 @@ nvmet_fc_discovery_chg(struct nvmet_port *port)
+ 		tgtport->ops->discovery_event(&tgtport->fc_target_port);
  }
  
-+static int
-+fcloop_t2h_host_traddr(void *hosthandle, u64 *wwnn, u64 *wwpn)
++static ssize_t
++nvmet_fc_host_traddr(struct nvmet_ctrl *ctrl,
++		char *traddr, size_t traddr_size)
 +{
-+	struct fcloop_rport *rport = hosthandle;
++	struct nvmet_sq *sq = ctrl->sqs[0];
++	struct nvmet_fc_tgt_queue *queue =
++		container_of(sq, struct nvmet_fc_tgt_queue, nvme_sq);
++	struct nvmet_fc_tgtport *tgtport = queue->assoc ? queue->assoc->tgtport : NULL;
++	struct nvmet_fc_hostport *hostport = queue->assoc ? queue->assoc->hostport : NULL;
++	u64 wwnn, wwpn;
++	ssize_t ret = 0;
 +
-+	*wwnn = rport->lport->localport->node_name;
-+	*wwpn = rport->lport->localport->port_name;
-+	return 0;
++	if (!tgtport || !nvmet_fc_tgtport_get(tgtport))
++		return -ENODEV;
++	if (!hostport || !nvmet_fc_hostport_get(hostport)) {
++		ret = -ENODEV;
++		goto out_put;
++	}
++
++	if (tgtport->ops->host_traddr) {
++		ret = tgtport->ops->host_traddr(hostport->hosthandle, &wwnn, &wwpn);
++		if (ret)
++			goto out_put_host;
++		ret = snprintf(traddr, traddr_size, "nn-0x%llx:pn-0x%llx", wwnn, wwpn);
++	}
++out_put_host:
++	nvmet_fc_hostport_put(hostport);
++out_put:
++	nvmet_fc_tgtport_put(tgtport);
++	return ret;
 +}
 +
- /*
-  * Simulate reception of RSCN and converting it to a initiator transport
-  * call to rescan a remote port.
-@@ -1074,6 +1084,7 @@ static struct nvmet_fc_target_template tgttemplate = {
- 	.ls_req			= fcloop_t2h_ls_req,
- 	.ls_abort		= fcloop_t2h_ls_abort,
- 	.host_release		= fcloop_t2h_host_release,
-+	.host_traddr		= fcloop_t2h_host_traddr,
- 	.max_hw_queues		= FCLOOP_HW_QUEUES,
- 	.max_sgl_segments	= FCLOOP_SGL_SEGS,
- 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
+ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_FC,
+@@ -2940,6 +2972,7 @@ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.queue_response		= nvmet_fc_fcp_nvme_cmd_done,
+ 	.delete_ctrl		= nvmet_fc_delete_ctrl,
+ 	.discovery_chg		= nvmet_fc_discovery_chg,
++	.host_traddr		= nvmet_fc_host_traddr,
+ };
+ 
+ static int __init nvmet_fc_init_module(void)
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 4109f1bd6128..89ea1ebd975a 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -920,6 +920,9 @@ struct nvmet_fc_target_port {
+  *       further references to hosthandle.
+  *       Entrypoint is Mandatory if the lldd calls nvmet_fc_invalidate_host().
+  *
++ * @host_traddr: called by the transport to retrieve the node name and
++ *       port name of the host port address.
++ *
+  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
+  *       supports for cpu affinitization.
+  *       Value is Mandatory. Must be at least 1.
+@@ -975,6 +978,7 @@ struct nvmet_fc_target_template {
+ 	void (*ls_abort)(struct nvmet_fc_target_port *targetport,
+ 				void *hosthandle, struct nvmefc_ls_req *lsreq);
+ 	void (*host_release)(void *hosthandle);
++	int (*host_traddr)(void *hosthandle, u64 *wwnn, u64 *wwpn);
+ 
+ 	u32	max_hw_queues;
+ 	u16	max_sgl_segments;
 -- 
 2.35.3
 
