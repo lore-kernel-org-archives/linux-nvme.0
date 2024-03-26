@@ -4,73 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05C7FC54E58
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Mar 2024 22:39:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DFF5C54E67
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 06:58:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3L2EA+YNKCvQ2Ttl7OGLsfvwDUJLh3ZJpf9J//3aCy0=; b=tYfAofCq4r52mWZei1xjATQu1B
-	xOnISQ55ZAp94pSLVk0QaDIv+LP7ErrI9WPlBo6cn4P4tNEWub42xcmeuf/5BcC3yEAgBhvSOq5qq
-	sYu/3Bw4ijJdZ86mGY+jVNGjVzrHLbHHSlBzxH6P6U3r+CtZ2PXkHn2ywoBzEXuGw9puTOwqB/UfY
-	Hz5H+eUJ96eIjnKGnWB5KhymZggoIoNrE8BsMBVPmCZujtS4jiVjKXKdnzZYSSyRw/Q8cGIyCRRAQ
-	/A7a6kGtZN+zyBrY+aOH0LHLba6DatQfDKs/k4hXdDDvOTuFkOAlrQcPKCKNL+rrwIdgI4TzpuXlJ
-	KBkJq83Q==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+194agYoW5xBFhHV/fv5yL0cwebSRCKACCgRfZK60oI=; b=w4/Bbus5jZK6gKWaQKvkJyFRZl
+	97s/7wXkTMR9JUMvuibYWOw1BYDUVv3b7enXrnASDUn9PbwJD4EiWruIWtw3/bGcUA7DMwyXr6SW7
+	Qr3L4qPCap2aHeH6/d/CFDzs0aiLYEDdcZxZhdPM00bfMgIMbM31lRjvHFYT6B69AlNc1RYDzaiLw
+	iNFdnoifahq0CmlNdmzMNZwHWsuU6g77W3T0pkuV8GpZ1tW5wSlQJen95Jxp7k6bXKA5CRqK5/EBw
+	BC1yMstOxjNuRS4Xa37C+MffJHOv+6Kwwvo3NmYmjCzTnZMHvSIo22gHYS4URNNo3eSZ8xHmnZH5k
+	PMP7vecA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rosyT-00000002Ewi-47uk;
-	Mon, 25 Mar 2024 22:39:25 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1rp0lB-00000003M1b-2dcu;
+	Tue, 26 Mar 2024 06:58:13 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rosyP-00000002EtT-2TJj
+	id 1rp0l7-00000003LzD-2SFC
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Mar 2024 22:39:23 +0000
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33ecdffd9e7so921641f8f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 25 Mar 2024 15:39:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711406359; x=1712011159;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3L2EA+YNKCvQ2Ttl7OGLsfvwDUJLh3ZJpf9J//3aCy0=;
-        b=FZkiDLX9I3DaLANAnZidi0t3mzlVO7WHZxf87q/IMuKWxf1T6+d1/lWAO2eUoDKdxB
-         Vj1nQhTREeJSM3SfZpNMd1z6gjAFdEM16YM6qsX7mENqeuq3mDEo94QaLmIvfa28+dME
-         RFe8raNdwFgvfL/aF0SYlSskSHQRXx37suVdb/K+Dbs/nAJ340VFXUyT+jAHLbcqJMgW
-         n2ubSCyC7W6uUkmuxCLRIaJTbTa/7y4w2uSIF1tXGP74uujDDc8HaQNytCdssNxMI5zv
-         y13O8m6FcX73uCVhRztQqzPFGEiiEWf/+GFhHdxmC/1RDhY5Ib6zfw0/HRKTlM5EMo4a
-         8qbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUu7RMIAVoqll3Qdm3RotEPArGdGOLv422mIkKXCc3CYtPiiBALRrgMP8G/G8aXysnNIQ+nH9c6fjoyd+5a3x+lokodS95VO4M0F3k5S4s=
-X-Gm-Message-State: AOJu0YwfuM9XSXB2PBrl5tKQB2+dbw/kPC3avZLxh+Q7YQyunzoXzWm9
-	SWUiGniPGHfbZ0Nd4aQ0c6Gpy2HI2T95vL75r4holTzso0K617/8
-X-Google-Smtp-Source: AGHT+IGT9yDxxPXxeXqDUlfnwYXlP68xFA7CBM1IR6ct3nV+42E8Jki4Gn2Qpi7gRBWF7p+cBmkdqg==
-X-Received: by 2002:a5d:6708:0:b0:33b:48ed:be63 with SMTP id o8-20020a5d6708000000b0033b48edbe63mr4852545wru.7.1711406358642;
-        Mon, 25 Mar 2024 15:39:18 -0700 (PDT)
-Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id n13-20020a5d4c4d000000b0033fc06f2d84sm10497352wrt.109.2024.03.25.15.39.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Mar 2024 15:39:18 -0700 (PDT)
-Message-ID: <26556198-2be3-4a73-b435-bfe3c72d7870@grimberg.me>
-Date: Tue, 26 Mar 2024 00:39:16 +0200
+	Tue, 26 Mar 2024 06:58:11 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42Q5rwCg025834;
+	Tue, 26 Mar 2024 06:58:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=+194agYoW5xBFhHV/fv5yL0cwebSRCKACCgRfZK60oI=;
+ b=hksVgCCTQEeOzuprY9gDec79Vr+cH0fNVbC42c2Op+oyIWZLzvbMb9sYKEuVUgKUVUjT
+ EFYH165lhy65OWo1RzEt73w6BFzatKx1uqof/+W/hF+UO2AW8EOQ/M0Ypmjgb3sBH4rH
+ QdpJPvecNDgd3Zc8jYTfOK7gn1JLJOoFI7fOlheVVCNmqO5c9mFeUy0dzuApOfxP4btG
+ 5Q8r4PU7h5bBkXDiXJxQMDLEP+OGKocX29W3A6DYEb+PTC/H+hbvdUDGlGciGWh7oALV
+ 6P3STfzYec/fxypz3BkfASeXqX9i0e+HoRIu71OEHbFgwiz/oEQZGIs/LetPpZUdq+SG Nw== 
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x3r0nr8f7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Mar 2024 06:58:03 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42Q6Ghe7028675;
+	Tue, 26 Mar 2024 06:58:02 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3x2adp651m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Mar 2024 06:58:02 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42Q6vww239387446
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 26 Mar 2024 06:58:00 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5487C20043;
+	Tue, 26 Mar 2024 06:57:58 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DFC772004D;
+	Tue, 26 Mar 2024 06:57:56 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.202])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 26 Mar 2024 06:57:56 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, dwagner@suse.de, gjoyce@ibm.com, nilay@linux.ibm.com
+Subject: [PATCH] tree: Add NVM subsystem controller identifier
+Date: Tue, 26 Mar 2024 12:27:23 +0530
+Message-ID: <20240326065752.164286-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] nvmet: add debugfs support
-To: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org,
- Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
-References: <20240322070333.3820-1-hare@kernel.org>
- <20240322070333.3820-2-hare@kernel.org>
- <yph2qil3t2wzdq4ogr2jkh7ybckyhapfmwacurixjozmtjhreb@7qdgjt4fgget>
-Content-Language: he-IL, en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <yph2qil3t2wzdq4ogr2jkh7ybckyhapfmwacurixjozmtjhreb@7qdgjt4fgget>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: qlCOgrTz0dvgO6fHwUsGq-n-7xume_pV
+X-Proofpoint-GUID: qlCOgrTz0dvgO6fHwUsGq-n-7xume_pV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-26_03,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ malwarescore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
+ mlxscore=0 mlxlogscore=999 phishscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2403210000
+ definitions=main-2403260046
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240325_153921_710958_20BEE300 
-X-CRM114-Status: GOOD (  18.55  )
+X-CRM114-CacheID: sfid-20240325_235809_973497_D98C6492 
+X-CRM114-Status: GOOD (  21.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,42 +99,132 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+This commit introduces a field "cntlid" for controller,
+that contains the NVM subsystem unique identifier assigned
+to each controller device in an NVM subsystem.
 
+While attaching a namespace, typically user needs to specify the
+controller identifier (cntlid). The cntlid could be referenced from
+sysfs (/sys/class/nvme/nvmeX/cntlid) but it would be nice to have
+a direct option.
 
-On 25/03/2024 20:18, Daniel Wagner wrote:
-> On Fri, Mar 22, 2024 at 08:03:26AM +0100, Hannes Reinecke wrote:
->> +static ssize_t nvmet_ctrl_state_write(struct file *file, const char __user *buf,
->> +				      size_t count, loff_t *ppos)
->> +{
->> +	struct seq_file *m = file->private_data;
->> +	struct nvmet_ctrl *ctrl = m->private;
->> +	char reset[16];
->> +
->> +	if (count >= sizeof(reset))
->> +		return -EINVAL;
->> +	if (copy_from_user(reset, buf, count))
->> +		return -EFAULT;
->> +	if (!memcmp(reset, "fatal", 5))
->> +		nvmet_ctrl_fatal_error(ctrl);
-> I'd like to use this also to trigger a reset. This allows to test the
-> auth code a bit better, e.g. after changing the ctrl key on the target
-> nothing will happen until a reconnect happens. Currently, I have to
-> set the max queue count which triggers a reset. Also it would make the
-> 'support real hardware' series for blktests why more generic.
->
-> This here should does the trick in my local testing:
->
-> --- a/drivers/nvme/target/debugfs.c
-> +++ b/drivers/nvme/target/debugfs.c
-> @@ -157,6 +157,8 @@ static ssize_t nvmet_ctrl_state_write(struct file *file, const char __user *buf,
->                  return -EFAULT;
->          if (!memcmp(reset, "fatal", 5))
->                  nvmet_ctrl_fatal_error(ctrl);
-> +       else if (!memcmp(reset, "reset", 5))
-> +               ctrl->ops->delete_ctrl(ctrl);
->          else
->                  return -EINVAL;
->          return count;
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+Hi all,
 
-What is the difference between fatal and reset?
+While attaching an NVMe namespace using nvme-cli command 
+"nvme attach-ns", we need to specifiy controller identifier 
+(cntlid) against which the namespace is being attached. 
+
+Not specifying cntlid while attaching namespace would result in 
+no actual change in namespace attachment. For instance,
+
+# nvme create-ns /dev/nvme0 --nsze=0x156d56 --ncap=0x156d56  --block-size=4096 
+create-ns: Success, created nsid:1
+
+# nvme attach-ns /dev/nvme0 -n 1
+warning: empty controller-id list will result in no actual change in namespace attachment
+attach-ns: Success, nsid:1
+
+# nvme list -o json
+{
+  "Devices":[
+  ]
+}
+
+Though it's possible to find the cntlid looking at the sysfs file, 
+it'd be convenient to have it readily avaliable under nvme list 
+verbose output. 
+
+This patch adds support for retrieving the cntlid in libnvme, 
+the subsequent nvme-cli patch shall use this information to 
+print the cntlid field in nvme list verbose output.
+
+Thanks,
+--Nilay
+
+---
+ src/libnvme.map    | 1 +
+ src/nvme/private.h | 1 +
+ src/nvme/tree.c    | 7 +++++++
+ src/nvme/tree.h    | 7 +++++++
+ 4 files changed, 16 insertions(+)
+
+diff --git a/src/libnvme.map b/src/libnvme.map
+index c03a99d1..8710c41f 100644
+--- a/src/libnvme.map
++++ b/src/libnvme.map
+@@ -9,6 +9,7 @@ LIBNVME_1.9 {
+ 		nvme_submit_passthru;
+ 		nvme_submit_passthru64;
+ 		nvme_update_key;
++		nvme_ctrl_get_cntlid;
+ };
+ 
+ LIBNVME_1_8 {
+diff --git a/src/nvme/private.h b/src/nvme/private.h
+index 11744c25..723740be 100644
+--- a/src/nvme/private.h
++++ b/src/nvme/private.h
+@@ -86,6 +86,7 @@ struct nvme_ctrl {
+ 	char *dhchap_key;
+ 	char *dhchap_ctrl_key;
+ 	char *cntrltype;
++	char *cntlid;
+ 	char *dctype;
+ 	char *phy_slot;
+ 	bool discovery_ctrl;
+diff --git a/src/nvme/tree.c b/src/nvme/tree.c
+index 584e3f6a..6efdf992 100644
+--- a/src/nvme/tree.c
++++ b/src/nvme/tree.c
+@@ -1008,6 +1008,11 @@ const char *nvme_ctrl_get_dhchap_host_key(nvme_ctrl_t c)
+ 	return c->dhchap_key;
+ }
+ 
++const char *nvme_ctrl_get_cntlid(nvme_ctrl_t c)
++{
++	return c->cntlid;
++}
++
+ void nvme_ctrl_set_dhchap_host_key(nvme_ctrl_t c, const char *key)
+ {
+ 	if (c->dhchap_key) {
+@@ -1117,6 +1122,7 @@ void nvme_deconfigure_ctrl(nvme_ctrl_t c)
+ 	FREE_CTRL_ATTR(c->address);
+ 	FREE_CTRL_ATTR(c->dctype);
+ 	FREE_CTRL_ATTR(c->cntrltype);
++	FREE_CTRL_ATTR(c->cntlid);
+ 	FREE_CTRL_ATTR(c->phy_slot);
+ }
+ 
+@@ -1800,6 +1806,7 @@ static int nvme_configure_ctrl(nvme_root_t r, nvme_ctrl_t c, const char *path,
+ 		}
+ 	}
+ 	c->cntrltype = nvme_get_ctrl_attr(c, "cntrltype");
++	c->cntlid = nvme_get_ctrl_attr(c, "cntlid");
+ 	c->dctype = nvme_get_ctrl_attr(c, "dctype");
+ 	c->phy_slot = nvme_ctrl_lookup_phy_slot(r, c->address);
+ 
+diff --git a/src/nvme/tree.h b/src/nvme/tree.h
+index a30e8eb7..1d635baa 100644
+--- a/src/nvme/tree.h
++++ b/src/nvme/tree.h
+@@ -1025,6 +1025,13 @@ const char *nvme_ctrl_get_host_iface(nvme_ctrl_t c);
+  */
+ const char *nvme_ctrl_get_dhchap_host_key(nvme_ctrl_t c);
+ 
++/**
++ *  nvme_ctrl_get_cntlid() - Controller id
++ *  @c:	Controller to be checked
++ *
++ *  Return : Controller id of @c
++ */
++const char *nvme_ctrl_get_cntlid(nvme_ctrl_t c);
+ /**
+  * nvme_ctrl_set_dhchap_host_key() - Set host key
+  * @c:		Host for which the key should be set
+-- 
+2.44.0
+
 
