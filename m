@@ -4,59 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9E53C54E67
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 15:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60612CD1283
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 15:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2U/gxGmB2tyeGn9Iyzt6Fp8mx15cyP2e/5Pt2LzN4Hs=; b=wN1FPqJp8iQlt/hJFFU+bFnfIX
-	ZMoaL4Vp/57Ob1zCPOHJGtIYsxSOhK16G4pT5KvTw0vGL0tlYAxz/BXKVUKjJ8PSZwGUvGygWPJ2U
-	wW6eDqIpq1H7b1eiU0RLvVtnrJp8coNGkQ9dhGg9L2eVW09pQOs5cvDsGjSP4IqgCZfpeRVvGGRKV
-	Gtq1WaClxEer3cZ9mJ8u2OzI3qvAWv9qQ+YsJSav1B05dD/C4C2qGyhDHEjqrmrs9IQPMZtZQIw08
-	s0Wemtr0X4Zl1ruh6AzHEw/2K1jTmeAkX52NAokAgd05pJhIofaQffAD+8fUWoKhwRxmwNME8DZBm
-	XVl9OEgQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dIgih3xwbfXL3v7JhMlV0ItI7HRjKT5Ka3nUvCNYarc=; b=z7u0AdZguhhe4XEHlO6LZdCtSa
+	LBdvJEc8KbJfA2FEoNtRi/7ChKSKXWFfLdm9ZHDTjSqFH0VSyO/112TGYAgQmqrDbMWhORbRI0tD7
+	kPSXPr7H74TjpmtvL2CQlW+2irjG9MHg/vycbwuDEDZtjQ5HjgPBU0ucPWUkkIAc/7+zxiW1k+eRl
+	Y0jxPZ9Qb1qy6BvuOF0v10MxaYR9+qGPGF5RqNCkKlwFibYUEoPJSlOD9OXWLrLa4Vch9wF9HeL8M
+	s6uUYmV5Mfqf3tLZhNMpqzbztLWQ9agVVmAyqFLyG0lzU1gCvWSktxmNs0VDeHwEcACstOo2cEsbb
+	hAjwezeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp8rk-00000005DtO-3943;
-	Tue, 26 Mar 2024 15:37:32 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rp8rp-00000005Dxm-2lpg;
+	Tue, 26 Mar 2024 15:37:37 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp8qA-00000005D50-1Fve
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 26 Mar 2024 15:35:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=2U/gxGmB2tyeGn9Iyzt6Fp8mx15cyP2e/5Pt2LzN4Hs=; b=IHla6gVGrqkTkj02E1Wi9I5jU8
-	seTGswAJ7aVHXnZ98UOmgGNlPfm5xPetnxIVwm5taUDMVEdxMw/JB0+3HMNSrURq/v03Hb7tZAi0Q
-	hl/3bfANXU+Ubn9xvdiZMZy4xOkuPcciyuDju7ML0NV72ZQRyhjpbhLD2JH8orfo1D5nVOuXRZmra
-	oTEZy+Kb62J6sExXlsabJVcAcXukQtNIOZITeQ/5OuvBlVQ87CHvzeZvnizigY2s6fMT1vgt/KgRu
-	KkcAzRz79mrx+x5spZR7e7U205jmJeqoRxtNGspDQ9srUcCmSi6bBkyaFoUe/Dfot+bttbSrcjjRb
-	BcWm2DQA==;
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp8q7-0000000HGi2-0FlM
+	id 1rp8q8-00000005D3A-09kG
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 15:35:53 +0000
+	Tue, 26 Mar 2024 15:35:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8B864612B7;
-	Tue, 26 Mar 2024 15:35:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857AEC433C7;
-	Tue, 26 Mar 2024 15:35:43 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id C5E90CE1B28;
+	Tue, 26 Mar 2024 15:35:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1047C433A6;
+	Tue, 26 Mar 2024 15:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711467345;
-	bh=+NvJmxYGsuSk9QvPxWPrs/QuQrrlwDBVa5xA8JoGAxk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=DaQZgJvNsJUyeVi6igAjGhE3GF3jr1Y6Vl/QEu8cr66A2UoCuBMOol3abtzAzpytz
-	 ZEcsP+AUr6/Tq1TRhnX4RhoylECDumO1XfTOqSr04PiPVUZLWqh1Np0TNhj5lhL55+
-	 ulvWjzXhQUyoVWuHmzS7fS4NS/Yji9O9wYhG/m2O5xB8k1aRwzVRoUnoidlDWWRMzp
-	 vuPyd3IZBdZPWJd/9TRkIN6AMyXiDbK4ojUxGy82RSOad7AIViBfTJri3jUFhl62iO
-	 8RamkzF+r5XaOqHoGOWoWRPhcJOewRVokUeE5I4w4yaT0UOUijGmZbcWTcvS8cHlFf
-	 S/MPk2gJueq0Q==
+	s=k20201202; t=1711467349;
+	bh=Kv3YRl9LzbqPnD2/oDibTM2oci8Eutg/qoRbtzgs828=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZsJrxt9i2hYTM70fk9u7DQLbMHqTRZZSu8c2ZaI5y/5Rb9se05rzO76XQ8eYkjiO7
+	 VGU0j0KHCq27NO36QiLDYX5FkuwC2oiDZtS+sB3YeoaGrBSq63e9oAY7GDvohmEJRm
+	 4KT4m86fF5OEztFbueLf3Z/wymNLzvUFqaowU4LUnRyQ/WXGXCOWU6LGe0bydQerNu
+	 OINXv+hdOrtUCbAy5dWgADmfrAc4mlcI76/fu/K8F8nSyQQxAHE2HSEJ9jvT8uK6kY
+	 yzRe2P63UgQ0mAs4I4IZT4hFRC61g+kQuWXa+8HG3UiJiv5WvEd64qFKxcInEYVCvk
+	 kZWb8+UDis7uw==
 From: Hannes Reinecke <hare@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -64,17 +49,18 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH RFC 0/2] block,nvme: latency-based I/O scheduler
-Date: Tue, 26 Mar 2024 16:35:27 +0100
-Message-Id: <20240326153529.75989-1-hare@kernel.org>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 2/2] nvme: add 'latency' iopolicy
+Date: Tue, 26 Mar 2024 16:35:29 +0100
+Message-Id: <20240326153529.75989-3-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240326153529.75989-1-hare@kernel.org>
+References: <20240326153529.75989-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_153551_426793_649C78E5 
-X-CRM114-Status: UNSURE (   9.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240326_083552_841434_02095BDC 
+X-CRM114-Status: GOOD (  18.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,60 +75,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+From: Hannes Reinecke <hare@suse.de>
 
-there had been several attempts to implement a latency-based I/O
-scheduler for native nvme multipath, all of which had its issues.
+Add a latency-based I/O policy for multipathing. It uses the blk-nodelat
+latency tracker to provide latencies for each node, and schedules
+I/O on the path with the least latency for the submitting node.
 
-So time to start afresh, this time using the QoS framework
-already present in the block layer.
-It consists of two parts:
-- a new 'blk-nodelat' QoS module, which is just a simple per-node
-  latency tracker
-- a 'latency' nvme I/O policy
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/multipath.c | 46 ++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/nvme.h      |  2 ++
+ 2 files changed, 44 insertions(+), 4 deletions(-)
 
-Using the 'tiobench' fio script I'm getting:
-  WRITE: bw=531MiB/s (556MB/s), 33.2MiB/s-52.4MiB/s
-  (34.8MB/s-54.9MB/s), io=4096MiB (4295MB), run=4888-7718msec
-    WRITE: bw=539MiB/s (566MB/s), 33.7MiB/s-50.9MiB/s
-  (35.3MB/s-53.3MB/s), io=4096MiB (4295MB), run=5033-7594msec
-     READ: bw=898MiB/s (942MB/s), 56.1MiB/s-75.4MiB/s
-  (58.9MB/s-79.0MB/s), io=4096MiB (4295MB), run=3397-4560msec
-     READ: bw=1023MiB/s (1072MB/s), 63.9MiB/s-75.1MiB/s
-  (67.0MB/s-78.8MB/s), io=4096MiB (4295MB), run=3408-4005msec
-
-for 'round-robin' and
-
-  WRITE: bw=574MiB/s (601MB/s), 35.8MiB/s-45.5MiB/s
-  (37.6MB/s-47.7MB/s), io=4096MiB (4295MB), run=5629-7142msec
-    WRITE: bw=639MiB/s (670MB/s), 39.9MiB/s-47.5MiB/s
-  (41.9MB/s-49.8MB/s), io=4096MiB (4295MB), run=5388-6408msec
-     READ: bw=1024MiB/s (1074MB/s), 64.0MiB/s-73.7MiB/s
-  (67.1MB/s-77.2MB/s), io=4096MiB (4295MB), run=3475-4000msec
-     READ: bw=1013MiB/s (1063MB/s), 63.3MiB/s-72.6MiB/s
-  (66.4MB/s-76.2MB/s), io=4096MiB (4295MB), run=3524-4042msec
-  
-for 'latency' with 'decay' set to 10.
-That's on a 32G FC testbed running against a brd target,
-fio running with 16 thread.
-
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (2):
-  block: track per-node I/O latency
-  nvme: add 'latency' iopolicy
-
- block/Kconfig                 |   7 +
- block/Makefile                |   1 +
- block/blk-mq-debugfs.c        |   2 +
- block/blk-nodelat.c           | 368 ++++++++++++++++++++++++++++++++++
- block/blk-rq-qos.h            |   6 +
- drivers/nvme/host/multipath.c |  46 ++++-
- drivers/nvme/host/nvme.h      |   2 +
- include/linux/blk-mq.h        |  11 +
- 8 files changed, 439 insertions(+), 4 deletions(-)
- create mode 100644 block/blk-nodelat.c
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 5397fb428b24..fd3bda6f8543 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -17,6 +17,7 @@ MODULE_PARM_DESC(multipath,
+ static const char *nvme_iopolicy_names[] = {
+ 	[NVME_IOPOLICY_NUMA]	= "numa",
+ 	[NVME_IOPOLICY_RR]	= "round-robin",
++	[NVME_IOPOLICY_LAT]	= "latency",
+ };
+ 
+ static int iopolicy = NVME_IOPOLICY_NUMA;
+@@ -29,6 +30,10 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+ 		iopolicy = NVME_IOPOLICY_NUMA;
+ 	else if (!strncmp(val, "round-robin", 11))
+ 		iopolicy = NVME_IOPOLICY_RR;
++#ifdef CONFIG_BLK_NODE_LATENCY
++	else if (!strncmp(val, "latency", 7))
++		iopolicy = NVME_IOPOLICY_LAT;
++#endif
+ 	else
+ 		return -EINVAL;
+ 
+@@ -40,6 +45,26 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
+ 	return sprintf(buf, "%s\n", nvme_iopolicy_names[iopolicy]);
+ }
+ 
++static void nvme_activate_iopolicy(struct nvme_subsystem *subsys, int iopolicy)
++{
++	struct nvme_ns_head *h;
++	struct nvme_ns *ns;
++	bool enable = iopolicy == NVME_IOPOLICY_LAT;
++
++	mutex_lock(&subsys->lock);
++	list_for_each_entry(h, &subsys->nsheads, entry) {
++		list_for_each_entry_rcu(ns, &h->list, siblings) {
++			if (!test_bit(NVME_NS_NLAT, &ns->flags))
++				continue;
++			if (enable)
++				blk_nodelat_enable(ns->queue);
++			else
++				blk_nodelat_disable(ns->queue);
++		}
++	}
++	mutex_unlock(&subsys->lock);
++}
++
+ module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
+ 	&iopolicy, 0644);
+ MODULE_PARM_DESC(iopolicy,
+@@ -242,13 +267,16 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ {
+ 	int found_distance = INT_MAX, fallback_distance = INT_MAX, distance;
+ 	struct nvme_ns *found = NULL, *fallback = NULL, *ns;
++	int iopolicy = READ_ONCE(head->subsys->iopolicy);
+ 
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+ 		if (nvme_path_is_disabled(ns))
+ 			continue;
+ 
+-		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
++		if (iopolicy == NVME_IOPOLICY_NUMA)
+ 			distance = node_distance(node, ns->ctrl->numa_node);
++		else if (iopolicy == NVME_IOPOLICY_LAT)
++			distance = blk_nodelat_latency(ns->queue, node);
+ 		else
+ 			distance = LOCAL_DISTANCE;
+ 
+@@ -339,15 +367,17 @@ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ {
+ 	int node = numa_node_id();
++	int iopolicy = READ_ONCE(head->subsys->iopolicy);
+ 	struct nvme_ns *ns;
+ 
+ 	ns = srcu_dereference(head->current_path[node], &head->srcu);
+ 	if (unlikely(!ns))
+ 		return __nvme_find_path(head, node);
+ 
+-	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
++	if (iopolicy == NVME_IOPOLICY_RR)
+ 		return nvme_round_robin_path(head, node, ns);
+-	if (unlikely(!nvme_path_is_optimized(ns)))
++	if (iopolicy == NVME_IOPOLICY_LAT ||
++	    unlikely(!nvme_path_is_optimized(ns)))
+ 		return __nvme_find_path(head, node);
+ 	return ns;
+ }
+@@ -808,10 +838,10 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+ 	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
+ 		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
+ 			WRITE_ONCE(subsys->iopolicy, i);
++			nvme_activate_iopolicy(subsys, i);
+ 			return count;
+ 		}
+ 	}
+-
+ 	return -EINVAL;
+ }
+ SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
+@@ -847,6 +877,14 @@ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
+ 
+ void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
+ {
++	if (!blk_nodelat_init(ns->disk)) {
++		int iopolicy = READ_ONCE(ns->head->subsys->iopolicy);
++
++		set_bit(NVME_NS_NLAT, &ns->flags);
++		if (iopolicy == NVME_IOPOLICY_LAT)
++			blk_nodelat_enable(ns->queue);
++	}
++
+ 	if (nvme_ctrl_use_ana(ns->ctrl)) {
+ 		struct nvme_ana_group_desc desc = {
+ 			.grpid = anagrpid,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 27397f8404d6..83c3870d5ed0 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -402,6 +402,7 @@ static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
+ enum nvme_iopolicy {
+ 	NVME_IOPOLICY_NUMA,
+ 	NVME_IOPOLICY_RR,
++	NVME_IOPOLICY_LAT,
+ };
+ 
+ struct nvme_subsystem {
+@@ -519,6 +520,7 @@ struct nvme_ns {
+ #define NVME_NS_ANA_PENDING	2
+ #define NVME_NS_FORCE_RO	3
+ #define NVME_NS_READY		4
++#define NVME_NS_NLAT		5
+ 
+ 	struct cdev		cdev;
+ 	struct device		cdev_device;
 -- 
 2.35.3
 
