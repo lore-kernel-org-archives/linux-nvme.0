@@ -4,55 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39BEAC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 08:55:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D495FCD11DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 09:23:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AcyyYFN8iyWvsWVimXMkrJHZr/2N8OWRbRUdoGMkW3A=; b=2eqTqDr5iPhZG0NF5fpe1WbWm7
-	o0T16RbM5tmVd9gC/ONlacmhaiuLAW5SY7TgkFq3XH7Nbmfu5w6tta4c8YYcqI5ZkZY5+x3PU28EU
-	0V+stVrEwegT3Q72BHa/bcr4lKtOMsitTSlu0EKFiAMpeW2hDmCfDdjUOzB3Xi9HRwqh9dfeTS/lK
-	cICEzNfdxxrktyOkn6x6vGIrbQAxzIW0tL/HsEHHea4og3/bqwdyaHOozrHOhkZUjxyZmy74aP++o
-	MyoxkWN2K+EzgOgaj3uGB+PZd7XQu3vT0VgrsP6Pr24e+v2VnlZzbaXk/f/p7UDn31Pc4Y3YLdpAK
-	CCuVJ+vw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4DYPP75j7C3GhlIHB9YssHuA5ow7hvgyLAib1zLr/FQ=; b=w61bHMGzZRrAYjoldRKyZCydaA
+	khkX8NNLxoELmtmQCTl4BAdzJWp2TQvfukNseBxdoy4AdxvvKK/kOIe1xIEBNfZkg2BrIJC5e9DMq
+	IBabO2/+J+GsfuZuwHRS3L4CSPQKqgfgmL556X55YGHOXyds9UDbWs1qhD5dGpS7vPBYr9C0ZcRL6
+	mQ/dWgfI9LJhJedcyFGixzH5GJsA3s/udjZEqUKhI6+ICVxPUVESg7V7QxVlNGZUwZgwqjgv/FfuR
+	kHzrr1fOQ5hLPOsjXpQGI9wbjxGGsLG7F8i9XrZKe9QePEQDW3Lq3GAGl95NiU8ENTo8zJzGB0OAj
+	03zxRBrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp2b1-00000003gxz-3KAh;
-	Tue, 26 Mar 2024 08:55:51 +0000
-Received: from mail.vexlyvector.com ([141.95.160.218])
+	id 1rp32A-00000003o3F-31Y2;
+	Tue, 26 Mar 2024 09:23:54 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp2ax-00000003gx3-1Xhz
+	id 1rp324-00000003o1a-3SRr
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 08:55:49 +0000
-Received: by mail.vexlyvector.com (Postfix, from userid 1002)
-	id 1221DA2E5C; Tue, 26 Mar 2024 08:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vexlyvector.com;
-	s=mail; t=1711443341;
-	bh=AcyyYFN8iyWvsWVimXMkrJHZr/2N8OWRbRUdoGMkW3A=;
-	h=Date:From:To:Subject:From;
-	b=N+TCrsaePXwpaMCAzTyhPSEBOsIYM5GXY0rN42xH8MM040sLIcVIvHZm68nb2Eit0
-	 Iaq3u72q1mDWzfty3g1+RKNiceHVq3jN2k84OoLa7KUWN/1WL1R6MRWtJ9hScSSpLX
-	 D48TefII1mAtgTI4S4QE4Y449FysIn1MUKswSJqFZWsPpOoJz265p0BIjKnRNxHbb6
-	 RjzFZ4g6HEPDyejdD0ITFd8oxF12I1yrQ6DN/uVhMEzvaSFVQfK+h/uA/WRJSiCdCT
-	 pNV4Yd2/m5hTA22pbtB3zSLXWvMU4jXr8RGTbFX2p1vFTt9Ls2FEOLDSKoVZ0H7elT
-	 o9kcp6NmU3z4w==
-Received: by mail.vexlyvector.com for <linux-nvme@lists.infradead.org>; Tue, 26 Mar 2024 08:55:35 GMT
-Message-ID: <20240326074500-0.1.ct.s952.0.fqfsfl0mi3@vexlyvector.com>
-Date: Tue, 26 Mar 2024 08:55:35 GMT
-From: "Ray Galt" <ray.galt@vexlyvector.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: Specialist for your IT team
-X-Mailer: mail.vexlyvector.com
+	Tue, 26 Mar 2024 09:23:52 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 26F293534C;
+	Tue, 26 Mar 2024 09:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711445026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DYPP75j7C3GhlIHB9YssHuA5ow7hvgyLAib1zLr/FQ=;
+	b=y/BF39b4shPQzjxBaQrzQHx+rKCH6AnrIcfKPrO7DrYVYw2WzPyHknHeswYbagtqKGHvLK
+	9AvMx6AqwhFYSVNr7gYFdOwlvntuH3L5wLnWZsGSHHBdF/R+NCuPiHdJND20i0kmaYWggm
+	JkDjfyOwRg2GYSg1awv9RkAFsj3X8h8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711445026;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DYPP75j7C3GhlIHB9YssHuA5ow7hvgyLAib1zLr/FQ=;
+	b=/goQ2ldyNdTbi8SQPwvawbsg1gnrqzxgeJj6jDNzoSzb/Qm9+ReTcFKTH16SVOyux/oYyT
+	E01cE2xT+XYSKfDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711445026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DYPP75j7C3GhlIHB9YssHuA5ow7hvgyLAib1zLr/FQ=;
+	b=y/BF39b4shPQzjxBaQrzQHx+rKCH6AnrIcfKPrO7DrYVYw2WzPyHknHeswYbagtqKGHvLK
+	9AvMx6AqwhFYSVNr7gYFdOwlvntuH3L5wLnWZsGSHHBdF/R+NCuPiHdJND20i0kmaYWggm
+	JkDjfyOwRg2GYSg1awv9RkAFsj3X8h8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711445026;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DYPP75j7C3GhlIHB9YssHuA5ow7hvgyLAib1zLr/FQ=;
+	b=/goQ2ldyNdTbi8SQPwvawbsg1gnrqzxgeJj6jDNzoSzb/Qm9+ReTcFKTH16SVOyux/oYyT
+	E01cE2xT+XYSKfDQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 15D4813587;
+	Tue, 26 Mar 2024 09:23:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id Ed8ABCKUAmZtBAAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Tue, 26 Mar 2024 09:23:46 +0000
+Date: Tue, 26 Mar 2024 10:23:45 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v2 02/18] nvme/rc: silence fcloop cleanup
+ failures
+Message-ID: <y7n4krsyu2trzaiv3kjyesuvu7g7vonc2akcjv3swl7inyxpeu@ooe7ubijthib>
+References: <20240322135015.14712-1-dwagner@suse.de>
+ <20240322135015.14712-3-dwagner@suse.de>
+ <nc33lqabldktsxsdrmnjrpdagp2vnqid3vr5u4r2xwf6cuhjmv@cgvtqfzcrxds>
+ <bl3civ2dzinzrmlb5mg4lpkutwfb7d6sx5a6qtiequj2x44vvm@d72cun3ezvkq>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bl3civ2dzinzrmlb5mg4lpkutwfb7d6sx5a6qtiequj2x44vvm@d72cun3ezvkq>
+X-Spamd-Result: default: False [-2.22 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.998];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.42)[91.06%]
+Authentication-Results: smtp-out1.suse.de;
+	none
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_015548_113277_6BEC51BE 
-X-CRM114-Status: UNSURE (   1.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240326_022349_071587_E808F1E6 
+X-CRM114-Status: GOOD (  10.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,25 +130,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Tue, Mar 26, 2024 at 08:39:18AM +0000, Shinichiro Kawasaki wrote:
+> On Mar 25, 2024 / 19:27, Daniel Wagner wrote:
+ >   (echo "foo" > file) 2>/dev/null
+> >   {echo "foo" > file} 2>/dev/null
+> > 
+> > I suppose we want to keep it simple and just add the brackets around the echos.
+> 
+> Both has pros and cons: added brackets are simpler, while file existence check
+> is more readable, IMO. I think either way is fine.
 
-We are a dynamically growing technology company based in Poland.
-
-We have established our position as one of the leading digital agencies i=
-n Europe. Over the past two decades, we have collaborated with many compa=
-nies from various industries, solving their most complex problems.
-
-Together with a large team of specialists from various IT fields, we are =
-responsible for ensuring the reliable operation of infrastructure, system=
-s, and data security while simultaneously reducing the costs of maintaini=
-ng the IT department.
-
-If you need a dedicated team of professionals for your software developme=
-nt projects, we are ready to provide proven specialists.
-
-Are you interested in a brief conversation or presentation this week?
-
-
-Best regards
-Ray Galt
+I see, so let's go with the existence check, I also find it simpler to
+read (understand).
 
