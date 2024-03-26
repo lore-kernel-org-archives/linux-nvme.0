@@ -4,84 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47B7EC54E67
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 14:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9E53C54E67
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 15:37:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=67ophD0ceAVc0eL2UPEw+cBF8mLQk9godscjrIx1b98=; b=h9r5BQS6JGm5BBnb6Ocj+mIPex
-	HC3/rlk6fed9Ha8PbDldnFOBi6O/7wmZktS6tyvXyGQfNY9zhfks+cipeHeJkOJfYtGHkhjr2RBqS
-	rJR2LyTfwGWwabIRl4/U5mKcK/bwzZxcijKkE8wvb638LUP4CkLcjgl6gLPAj8gHHZD/iOiDtyfwm
-	MUBY1W3E/lT1qmjjml07yLUPRp9f84WeAJvt4+8i7QPaw65selefn9phgIuyPHvTfFKW2JD8ymcnw
-	2kIl6KapGMxn1ySQucPJFq66b80jkcYEdCpCg5O4dIYJg2g85I7MKQ8R3SQYY0cvUGP0CC2Li3OVO
-	z8DdxWyw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2U/gxGmB2tyeGn9Iyzt6Fp8mx15cyP2e/5Pt2LzN4Hs=; b=wN1FPqJp8iQlt/hJFFU+bFnfIX
+	ZMoaL4Vp/57Ob1zCPOHJGtIYsxSOhK16G4pT5KvTw0vGL0tlYAxz/BXKVUKjJ8PSZwGUvGygWPJ2U
+	wW6eDqIpq1H7b1eiU0RLvVtnrJp8coNGkQ9dhGg9L2eVW09pQOs5cvDsGjSP4IqgCZfpeRVvGGRKV
+	Gtq1WaClxEer3cZ9mJ8u2OzI3qvAWv9qQ+YsJSav1B05dD/C4C2qGyhDHEjqrmrs9IQPMZtZQIw08
+	s0Wemtr0X4Zl1ruh6AzHEw/2K1jTmeAkX52NAokAgd05pJhIofaQffAD+8fUWoKhwRxmwNME8DZBm
+	XVl9OEgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp8Dl-000000051V4-2Aj8;
-	Tue, 26 Mar 2024 14:56:13 +0000
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+	id 1rp8rk-00000005DtO-3943;
+	Tue, 26 Mar 2024 15:37:32 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rp8Di-000000051UM-1KMi
+	id 1rp8qA-00000005D50-1Fve
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 26 Mar 2024 15:35:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=2U/gxGmB2tyeGn9Iyzt6Fp8mx15cyP2e/5Pt2LzN4Hs=; b=IHla6gVGrqkTkj02E1Wi9I5jU8
+	seTGswAJ7aVHXnZ98UOmgGNlPfm5xPetnxIVwm5taUDMVEdxMw/JB0+3HMNSrURq/v03Hb7tZAi0Q
+	hl/3bfANXU+Ubn9xvdiZMZy4xOkuPcciyuDju7ML0NV72ZQRyhjpbhLD2JH8orfo1D5nVOuXRZmra
+	oTEZy+Kb62J6sExXlsabJVcAcXukQtNIOZITeQ/5OuvBlVQ87CHvzeZvnizigY2s6fMT1vgt/KgRu
+	KkcAzRz79mrx+x5spZR7e7U205jmJeqoRxtNGspDQ9srUcCmSi6bBkyaFoUe/Dfot+bttbSrcjjRb
+	BcWm2DQA==;
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rp8q7-0000000HGi2-0FlM
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Mar 2024 14:56:11 +0000
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1dee5daa236so42043595ad.0
-        for <linux-nvme@lists.infradead.org>; Tue, 26 Mar 2024 07:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711464969; x=1712069769; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=67ophD0ceAVc0eL2UPEw+cBF8mLQk9godscjrIx1b98=;
-        b=RoWARB8wSqJ+hpYaEhufX5Gl2DbMyMOrTdmbMTGZJj8PhA8kElaRz+7B++NYn667EH
-         Ve/+5qO6m6kGlO81wUaluwduwzYWm+pacxP06//M+b42Swy0Xb7Kv7UjFZw6ftXP1O3u
-         pyFW5OQr3zYLQyEhSNFoQakEpGim4f8m81Pksmv34VNf/2ky11Qw1hvxTMWKErw4csh2
-         8YhK2+sw622UqBrqTOgcAZgGT1NtBpg6PKcI6dPSTWIESALTBcjZqr0RVixMc8C/pH++
-         mFJkPm4pvUIxPn2X+5BSlFRC70V6E0dbKBp+lyOkH51hcb0zEGUeIi6afSw/1BMM7C4a
-         U/9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711464969; x=1712069769;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=67ophD0ceAVc0eL2UPEw+cBF8mLQk9godscjrIx1b98=;
-        b=Ap50T6Ht2m59wq0QejKeDr6RuB7WYhbFyZkN548XlgAo/2yNRnWZJ4s93sh76onwSk
-         5qRyglBiKkBSzOmrcGmYwJDgnUuT3OyoHVSkv7HUmLj5b2MSVirz4TCplEsJVoZRsf9M
-         PrimEmf8YqZ/2SWzj43a+FpZ/ngNPub2ARTMi49U5uB7g4IU0ObvxX1+tmZly4/vAISw
-         u1GCN482ZiBYDrzlG/rfJoq2tGFmOtulpGOqkJv/HshrVDo1eMl76+ckh6h2sZ+5j/qQ
-         xaj8FoE23w2fHjT2Cj1h2dfvKgjQ1C8wWgClx4RTCwAC5d+/pf5pG0nQ58qAslJL+S8o
-         Vhdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUikU2ftDjiJiKDrImHrO6hkpF0wU8lVN5wzBG5nvroIg72l93P2q70izTr5jzenb3uxXfleQSnCxiu7O6kL7tGGIOYwHOI3cKcHCJM1WM=
-X-Gm-Message-State: AOJu0YyQ400Q5FsYPpllcnfR00XSbFBLu03z3SZm0hrmh1S+PonKRZow
-	yPs/v7KtG4FqgG8QaLB+5j5l4X70z6LafBSSlKcLinXU41ZEfAC/PmFxchzJ
-X-Google-Smtp-Source: AGHT+IHsK4npJG0Hoftbc4RyoInA/Pd1pLWq+tEO9FJ0x32NvOLnNf9p8dHno9uEytKyd8jewSGlWg==
-X-Received: by 2002:a17:903:13c8:b0:1e0:bc33:d with SMTP id kd8-20020a17090313c800b001e0bc33000dmr8128562plb.31.1711464968900;
-        Tue, 26 Mar 2024 07:56:08 -0700 (PDT)
-Received: from ?IPV6:240b:10:2720:5500:ad8c:fe86:c9db:d9cb? ([240b:10:2720:5500:ad8c:fe86:c9db:d9cb])
-        by smtp.gmail.com with ESMTPSA id c3-20020a633503000000b005dc36761ad1sm7720764pga.33.2024.03.26.07.56.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Mar 2024 07:56:08 -0700 (PDT)
-Message-ID: <cf2d212a-49bb-43e6-8ab5-e46e18626a43@gmail.com>
-Date: Tue, 26 Mar 2024 23:56:06 +0900
+	Tue, 26 Mar 2024 15:35:53 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8B864612B7;
+	Tue, 26 Mar 2024 15:35:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857AEC433C7;
+	Tue, 26 Mar 2024 15:35:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711467345;
+	bh=+NvJmxYGsuSk9QvPxWPrs/QuQrrlwDBVa5xA8JoGAxk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DaQZgJvNsJUyeVi6igAjGhE3GF3jr1Y6Vl/QEu8cr66A2UoCuBMOol3abtzAzpytz
+	 ZEcsP+AUr6/Tq1TRhnX4RhoylECDumO1XfTOqSr04PiPVUZLWqh1Np0TNhj5lhL55+
+	 ulvWjzXhQUyoVWuHmzS7fS4NS/Yji9O9wYhG/m2O5xB8k1aRwzVRoUnoidlDWWRMzp
+	 vuPyd3IZBdZPWJd/9TRkIN6AMyXiDbK4ojUxGy82RSOad7AIViBfTJri3jUFhl62iO
+	 8RamkzF+r5XaOqHoGOWoWRPhcJOewRVokUeE5I4w4yaT0UOUijGmZbcWTcvS8cHlFf
+	 S/MPk2gJueq0Q==
+From: Hannes Reinecke <hare@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH RFC 0/2] block,nvme: latency-based I/O scheduler
+Date: Tue, 26 Mar 2024 16:35:27 +0100
+Message-Id: <20240326153529.75989-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: initialize identify ns data to NULL
-To: Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org
-References: <CGME20240325154544epcas5p4acf7f376241637872a433314489586fa@epcas5p4.samsung.com>
- <20240325154503.11510-1-ikegami.t@gmail.com>
- <dee7f8a3-34af-e12c-ac7d-721960fc0744@samsung.com>
- <a92a1493-29ae-4f89-b17b-54d03ec0becc@gmail.com>
- <3efcf01d-e83a-e5ad-d335-7516b857eef0@samsung.com>
-Content-Language: en-US
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-In-Reply-To: <3efcf01d-e83a-e5ad-d335-7516b857eef0@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240326_075610_395260_B4D944F7 
-X-CRM114-Status: UNSURE (   8.18  )
+X-CRM114-CacheID: sfid-20240326_153551_426793_649C78E5 
+X-CRM114-Status: UNSURE (   9.69  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -97,16 +89,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks for your comments. Understood them so let me abandon the patch. 
-By the way I thought also the nvme functions allocating memory handling 
-is not unified for example the nvme_identify_ns_nvm(), etc. about this I 
-will do consider more. (The nvm version function caller seems still have 
-a similar issue.)
+Hi all,
 
-On 2024/03/26 23:02, Kanchan Joshi wrote:
-> Not a compelling case of future convenience, IMHO.
->
-> In the current scheme of things, the assignment to NULL in all the
-> callers of nvme_identify_ns (there are few more than what this patch
-> covered) is redundant.
+there had been several attempts to implement a latency-based I/O
+scheduler for native nvme multipath, all of which had its issues.
+
+So time to start afresh, this time using the QoS framework
+already present in the block layer.
+It consists of two parts:
+- a new 'blk-nodelat' QoS module, which is just a simple per-node
+  latency tracker
+- a 'latency' nvme I/O policy
+
+Using the 'tiobench' fio script I'm getting:
+  WRITE: bw=531MiB/s (556MB/s), 33.2MiB/s-52.4MiB/s
+  (34.8MB/s-54.9MB/s), io=4096MiB (4295MB), run=4888-7718msec
+    WRITE: bw=539MiB/s (566MB/s), 33.7MiB/s-50.9MiB/s
+  (35.3MB/s-53.3MB/s), io=4096MiB (4295MB), run=5033-7594msec
+     READ: bw=898MiB/s (942MB/s), 56.1MiB/s-75.4MiB/s
+  (58.9MB/s-79.0MB/s), io=4096MiB (4295MB), run=3397-4560msec
+     READ: bw=1023MiB/s (1072MB/s), 63.9MiB/s-75.1MiB/s
+  (67.0MB/s-78.8MB/s), io=4096MiB (4295MB), run=3408-4005msec
+
+for 'round-robin' and
+
+  WRITE: bw=574MiB/s (601MB/s), 35.8MiB/s-45.5MiB/s
+  (37.6MB/s-47.7MB/s), io=4096MiB (4295MB), run=5629-7142msec
+    WRITE: bw=639MiB/s (670MB/s), 39.9MiB/s-47.5MiB/s
+  (41.9MB/s-49.8MB/s), io=4096MiB (4295MB), run=5388-6408msec
+     READ: bw=1024MiB/s (1074MB/s), 64.0MiB/s-73.7MiB/s
+  (67.1MB/s-77.2MB/s), io=4096MiB (4295MB), run=3475-4000msec
+     READ: bw=1013MiB/s (1063MB/s), 63.3MiB/s-72.6MiB/s
+  (66.4MB/s-76.2MB/s), io=4096MiB (4295MB), run=3524-4042msec
+  
+for 'latency' with 'decay' set to 10.
+That's on a 32G FC testbed running against a brd target,
+fio running with 16 thread.
+
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (2):
+  block: track per-node I/O latency
+  nvme: add 'latency' iopolicy
+
+ block/Kconfig                 |   7 +
+ block/Makefile                |   1 +
+ block/blk-mq-debugfs.c        |   2 +
+ block/blk-nodelat.c           | 368 ++++++++++++++++++++++++++++++++++
+ block/blk-rq-qos.h            |   6 +
+ drivers/nvme/host/multipath.c |  46 ++++-
+ drivers/nvme/host/nvme.h      |   2 +
+ include/linux/blk-mq.h        |  11 +
+ 8 files changed, 439 insertions(+), 4 deletions(-)
+ create mode 100644 block/blk-nodelat.c
+
+-- 
+2.35.3
+
 
