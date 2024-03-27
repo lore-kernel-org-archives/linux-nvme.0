@@ -4,50 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2F65C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Mar 2024 17:11:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87B2FC54E67
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Mar 2024 03:50:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2DVDjn14jcmXI06omFunOWKNfCuEsxTlBPssx+oZvkM=; b=pt7hV/xqoUsm5t2nnvzWrzJaaT
-	IkcoSkDgo4vPWd2QWla4LFFed4B7dd53Bfh3zR6FKSUZ7SMy4sRzHwCFQMhjVwsjoGZXOJ3iFI7yT
-	cr6D9nfh58d4QpIhkuWElhgFyez4IgPFwwuzUDnqlapxAAE+psJwBZmjol9WPnC1bKV39/YzLI431
-	TwEPgDj9smkBF7JVdVyriwj0T6yffdaR+qk+SDuf315MGFPFNEhxS5hGBmiaojglgVxSEd/0oU2GU
-	i3PLQGyCWB9RTN4Q6CZYQ3NJbSqLuR0lZpgUu0iwdyZeIoQm2uXXc/DL1NOEmeeteMwCsbDrM9tWJ
-	iOKnaMkg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rk1STaKASJZMOQESaE4YdsbKcHTwjlEtdkr30vV9pdg=; b=CGMzD2FzSJYPMs+lImuLxD0M0u
+	BI1GQrZ+9LCh6eUn/miZfEjm82SsJxtvYSh8mL79eU7apIk85OajWUbaNYu8e4YXIKwJOjCpY6AxH
+	qME+udcyvs/7jR1BfhGf4t1zhDIWofZ1GOO5M86BPGhBF8iUrOHtWAp6UUbJ/3r/kLvb2KF9piAaB
+	e9JQCp1AoRdlqd5VUQb+78JrMoNS1jUz/1PK2Uc5+K7AtfoTvccr0q5iaYZJWvgSLjW6DxNuO+Zxj
+	1e8ycUJ8L2yNyryvimz8C9/t5bbHBC9WgMGwh3H1/hujfrI9HsXdiGk+sv+UVGAC5DrMnE+YGTMKP
+	4ZjCq6Ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpAL6-00000005fNq-1Lnj;
-	Tue, 26 Mar 2024 17:11:56 +0000
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpAL2-00000005fKX-32AV;
-	Tue, 26 Mar 2024 17:11:52 +0000
-Message-ID: <0a9fb564-7129-4153-97d6-76e9b3a1b6c1@infradead.org>
-Date: Tue, 26 Mar 2024 10:11:50 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/10] block: Add core atomic write support
-Content-Language: en-US
-To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
- martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
- brauner@kernel.org, dchinner@redhat.com, jack@suse.cz
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
- ojaswin@linux.ibm.com, linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
- io-uring@vger.kernel.org, nilay@linux.ibm.com, ritesh.list@gmail.com,
- willy@infradead.org, Himanshu Madhani <himanshu.madhani@oracle.com>
+	id 1rpKIo-00000007M6V-1mJQ;
+	Wed, 27 Mar 2024 03:50:14 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rpKIm-00000007M6J-1KWx
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 27 Mar 2024 03:50:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rk1STaKASJZMOQESaE4YdsbKcHTwjlEtdkr30vV9pdg=; b=k6AI2bfnRnr2I3SiqEJhR0ATer
+	L/tOjZtLNhHZu7N988MPkHPWZJoBDo+zKoYivmHKkU31eNPCva+VjDW+1R4Gm2R9QCg9X4JWeyq/e
+	dI4XLAOq1DzhKn4YwIj+lcTmhL1RkuTgK/i1pDSmi9D6Lm5kMFE+Q+1wlg5UMNTm5hOwkCAqbRAJj
+	IEUAQSGMrFpTRQY4p8k8ZrEEaxVf4ciY1E1jJcKZIkIQFhgMyGawFsbfpoeYbqpLUo4LPaD/rKBC3
+	+6OIEw+02Zj2ueHh3TKcU/mDZsebPI/D73/FkvUZGJNikrmvbubgTIxVumhEwo5Ifk7nNsozpsf7o
+	FJjRTWDA==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rpKIh-00000002xYu-3gF1;
+	Wed, 27 Mar 2024 03:50:07 +0000
+Date: Wed, 27 Mar 2024 03:50:07 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com
+Subject: Re: [PATCH v6 00/10] block atomic writes
+Message-ID: <ZgOXb_oZjsUU12YL@casper.infradead.org>
 References: <20240326133813.3224593-1-john.g.garry@oracle.com>
- <20240326133813.3224593-6-john.g.garry@oracle.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240326133813.3224593-6-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240326133813.3224593-1-john.g.garry@oracle.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,75 +74,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Tue, Mar 26, 2024 at 01:38:03PM +0000, John Garry wrote:
+> The goal here is to provide an interface that allows applications use
+> application-specific block sizes larger than logical block size
+> reported by the storage device or larger than filesystem block size as
+> reported by stat().
+> 
+> With this new interface, application blocks will never be torn or
+> fractured when written. For a power fail, for each individual application
+> block, all or none of the data to be written. A racing atomic write and
+> read will mean that the read sees all the old data or all the new data,
+> but never a mix of old and new.
+> 
+> Three new fields are added to struct statx - atomic_write_unit_min,
+> atomic_write_unit_max, and atomic_write_segments_max. For each atomic
+> individual write, the total length of a write must be a between
+> atomic_write_unit_min and atomic_write_unit_max, inclusive, and a
+> power-of-2. The write must also be at a natural offset in the file
+> wrt the write length. For pwritev2, iovcnt is limited by
+> atomic_write_segments_max.
+> 
+> There has been some discussion on supporting buffered IO and whether the
+> API is suitable, like:
+> https://lore.kernel.org/linux-nvme/ZeembVG-ygFal6Eb@casper.infradead.org/
+> 
+> Specifically the concern is that supporting a range of sizes of atomic IO
+> in the pagecache is complex to support. For this, my idea is that FSes can
+> fix atomic_write_unit_min and atomic_write_unit_max at the same size, the
+> extent alignment size, which should be easier to support. We may need to
+> implement O_ATOMIC to avoid mixing atomic and non-atomic IOs for this. I
+> have no proposed solution for atomic write buffered IO for bdev file
+> operations, but I know of no requirement for this.
 
-On 3/26/24 06:38, John Garry wrote:
-> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-> index 1fe9a553c37b..4c775f4bdefe 100644
-> --- a/Documentation/ABI/stable/sysfs-block
-> +++ b/Documentation/ABI/stable/sysfs-block
-> @@ -21,6 +21,58 @@ Description:
->  		device is offset from the internal allocation unit's
->  		natural alignment.
->  
-> +What:		/sys/block/<disk>/atomic_write_max_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] This parameter specifies the maximum atomic write
-> +		size reported by the device. This parameter is relevant
-> +		for merging of writes, where a merged atomic write
-> +		operation must not exceed this number of bytes.
-> +		This parameter may be greater to the value in
+The thing is that there's no requirement for an interface as complex as
+the one you're proposing here.  I've talked to a few database people
+and all they want is to increase the untorn write boundary from "one
+disc block" to one database block, typically 8kB or 16kB.
 
-		                              than
+So they would be quite happy with a much simpler interface where they
+set the inode block size at inode creation time, and then all writes to
+that inode were guaranteed to be untorn.  This would also be simpler to
+implement for buffered writes.
 
-> +		atomic_write_unit_max_bytes as
-> +		atomic_write_unit_max_bytes will be rounded down to a
-> +		power-of-two and atomic_write_unit_max_bytes may also be
-> +		limited by some other queue limits, such as max_segments.
-> +		This parameter - along with atomic_write_unit_min_bytes
-> +		and atomic_write_unit_max_bytes - will not be larger than
-> +		max_hw_sectors_kb, but may be larger than max_sectors_kb.
-> +
-> +
-> +What:		/sys/block/<disk>/atomic_write_unit_min_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] This parameter specifies the smallest block which can
-> +		be written atomically with an atomic write operation. All
-> +		atomic write operations must begin at a
-> +		atomic_write_unit_min boundary and must be multiples of
-> +		atomic_write_unit_min. This value must be a power-of-two.
-> +
-> +
-> +What:		/sys/block/<disk>/atomic_write_unit_max_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] This parameter defines the largest block which can be
-> +		written atomically with an atomic write operation. This
-> +		value must be a multiple of atomic_write_unit_min and must
-> +		be a power-of-two. This value will not be larger than
-> +		atomic_write_max_bytes.
-> +
-> +
-> +What:		/sys/block/<disk>/atomic_write_boundary_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] A device may need to internally split I/Os which
-> +		straddle a given logical block address boundary. In that
-> +		case a single atomic write operation will be processed as
-> +		one of more sub-operations which each complete atomically.
-
-		    or
-
-> +		This parameter specifies the size in bytes of the atomic
-> +		boundary if one is reported by the device. This value must
-> +		be a power-of-two.
-
--- 
-#Randy
+Who's asking for this more complex interface?
 
