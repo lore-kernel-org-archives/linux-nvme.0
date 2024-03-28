@@ -4,88 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8960ECD128A
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 15:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE119CD11DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 18:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ALVJaIArbDD2KQxrmUeMSOWhAkBNMWk3XnP448DKja4=; b=KUZhRlccx0StuhgWaDBiD6+93i
-	7gBIQRxg7gDAHr5aLPcD52Fb6WxazMRSn9sBkSRus3pge04mqNtKlo1zN36qOyf9iQwZkj8MJcjBY
-	+czu66STy1DfUdTsQOyZOdU/BvVAXyW+7re15hoX8EQf1o3Ygt/Q9kUcFxSmI13dP30BHtSONNo1m
-	KymDuAFn2L0RE+vkzRm7Sj4r2j5qIj+XZSk/f7qBykvihZxvZcI9hCiUCjw1+9OJ1mhk/5PQXdNlh
-	SKkZngbdUp7zIwwiAOZ9yHc3ZhMbgpNZVQq0TPyyFemEAJXbjho3lcQ6ej8QOgt50wS6qx4+2h23l
-	jUTmMwOQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FMpIw+4/bg5d5JM200rhY7E6bZSeI+7NplMoHYYK1Tw=; b=yCSgJ/q7c+1ziR1Kt5gyw++59A
+	zxe3gRB4qae3sXRevq7PELwP2vh9Z/UqOtjocT4Xp89wM3/DXsUeBpz0H0cYqZ9/t1gYaIMjjUoNg
+	WRG9+jVd0WyHmdM9P8CE3v0VHPzl538B61yDomZcMPu4vWq8J09cXWcMKjn6/jFB8itPiFywdar6s
+	6EiKVS1V/bak2jHaEqBM5qHYJrqEqokD05SqRxnNcTIIKGRO5FxcoaM72dP5KyERCmjqch2a4sIkh
+	32eqVk7YHXac/uT4fmvK4Fr/Jply/H+0mbsf+ES5BN3thvbkMI/Djg7DGJcRrX0t9MemXrG2qafGX
+	ShOr40oQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rprM8-0000000ESLO-0bX0;
-	Thu, 28 Mar 2024 15:07:52 +0000
-Received: from szxga04-in.huawei.com ([45.249.212.190])
+	id 1rpuGX-0000000F6RV-22VV;
+	Thu, 28 Mar 2024 18:14:17 +0000
+Received: from 009.lax.mailroute.net ([199.89.1.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rppzy-0000000E96Y-3Ra6;
-	Thu, 28 Mar 2024 13:40:57 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4V54Pj5dqyz1xrSD;
-	Thu, 28 Mar 2024 21:38:49 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 715951402CA;
-	Thu, 28 Mar 2024 21:40:51 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 28 Mar 2024 21:40:50 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
-	Eric Dumazet <edumazet@google.com>, Jesse Brandeburg
-	<jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Sunil
- Goutham <sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>, hariprasad <hkelam@marvell.com>,
-	Felix Fietkau <nbd@nbd.name>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
-	<Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, "Michael S. Tsirkin"
-	<mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko
-	<andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
- Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
-	<yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
-	<sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker
-	<anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Jeff Layton
-	<jlayton@kernel.org>, Neil Brown <neilb@suse.de>, Olga Kornievskaia
-	<kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
-	<tom@talpey.com>, <intel-wired-lan@lists.osuosl.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-nvme@lists.infradead.org>, <kvm@vger.kernel.org>,
-	<virtualization@lists.linux.dev>, <linux-mm@kvack.org>,
-	<bpf@vger.kernel.org>, <linux-afs@lists.infradead.org>,
-	<linux-nfs@vger.kernel.org>
-Subject: [PATCH RFC 04/10] mm: page_frag: add '_va' suffix to page_frag API
-Date: Thu, 28 Mar 2024 21:38:33 +0800
-Message-ID: <20240328133839.13620-5-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20240328133839.13620-1-linyunsheng@huawei.com>
-References: <20240328133839.13620-1-linyunsheng@huawei.com>
+	id 1rpuGT-0000000F6Qz-1sBo
+	for linux-nvme@lists.infradead.org;
+	Thu, 28 Mar 2024 18:14:15 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4V5BWR50w5zlgTGW;
+	Thu, 28 Mar 2024 18:14:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:references:content-language:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1711649647; x=1714241648; bh=FMpIw+4/bg5d5JM200rhY7E6
+	bZSeI+7NplMoHYYK1Tw=; b=iuwosM9KdXWsyq1U30xWAJpj9J7ys9QDClYZFUv7
+	zwclHQgfVB3/WXjHtwTvtqmF4Fl24fpxZ+LuVbvrTG8E04kr0zJYBo/jUI4qZTLr
+	Cc0u4SHampfYpUNGkRcJgBF2bEDbRAFDzDlxq2A+/VpcrXYs4VJ5GQq+jNXjW3Gw
+	A+OGYyYtSbpE0kdvzObZZKFpxrFcTPb17zUN/xbP7XPGpGGAwHz8V82ejRMexCBm
+	Wl/XEo7MzOS++EWAaJOOa+vLo3dL+Elwor9hiJVF5vgfFNp5VFsTHcZ0y7mK+5a8
+	93Yji5qC9N8GEucum+kH+PKgQnTvHLpKLwbZZuyBP1ntUg==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id FpCBlwONxWxa; Thu, 28 Mar 2024 18:14:07 +0000 (UTC)
+Received: from [100.96.154.173] (unknown [104.132.1.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4V5BWJ1T3tzlgTHp;
+	Thu, 28 Mar 2024 18:14:03 +0000 (UTC)
+Message-ID: <a474bae3-e505-4d17-a5e4-ed9928b6cbb3@acm.org>
+Date: Thu, 28 Mar 2024 11:14:02 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/30] block: Do not force full zone append completion
+ in req_bio_endio()
+Content-Language: en-US
+To: Damien Le Moal <dlemoal@kernel.org>, linux-block@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
+ linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+References: <20240328004409.594888-1-dlemoal@kernel.org>
+ <20240328004409.594888-2-dlemoal@kernel.org>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240328004409.594888-2-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240328_064055_350966_933DD094 
-X-CRM114-Status: GOOD (  17.75  )
-X-Mailman-Approved-At: Thu, 28 Mar 2024 08:07:42 -0700
+X-CRM114-CacheID: sfid-20240328_111413_834930_D766B9E7 
+X-CRM114-Status: GOOD (  22.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,509 +88,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently most of the API for page_frag API is returning
-'virtual address' as output or expecting 'virtual address'
-as input, in order to differentiate the API handling between
-'virtual address' and 'struct page', add '_va' suffix to the
-corresponding API mirroring the page_pool_alloc_va() API of
-the page_pool.
+On 3/27/24 17:43, Damien Le Moal wrote:
+> This reverts commit 748dc0b65ec2b4b7b3dbd7befcc4a54fdcac7988.
+> 
+> Partial zone append completions cannot be supported as there is no
+> guarantees that the fragmented data will be written sequentially in the
+> same manner as with a full command. Commit 748dc0b65ec2 ("block: fix
+> partial zone append completion handling in req_bio_endio()") changed
+> req_bio_endio() to always advance a partially failed BIO by its full
+> length, but this can lead to incorrect accounting. So revert this
+> change and let low level device drivers handle this case by always
+> failing completely zone append operations. With this revert, users will
+> still see an IO error for a partially completed zone append BIO.
+> 
+> Fixes: 748dc0b65ec2 ("block: fix partial zone append completion handling in req_bio_endio()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> ---
+>   block/blk-mq.c | 9 ++-------
+>   1 file changed, 2 insertions(+), 7 deletions(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 555ada922cf0..32afb87efbd0 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -770,16 +770,11 @@ static void req_bio_endio(struct request *rq, struct bio *bio,
+>   		/*
+>   		 * Partial zone append completions cannot be supported as the
+>   		 * BIO fragments may end up not being written sequentially.
+> -		 * For such case, force the completed nbytes to be equal to
+> -		 * the BIO size so that bio_advance() sets the BIO remaining
+> -		 * size to 0 and we end up calling bio_endio() before returning.
+>   		 */
+> -		if (bio->bi_iter.bi_size != nbytes) {
+> +		if (bio->bi_iter.bi_size != nbytes)
+>   			bio->bi_status = BLK_STS_IOERR;
+> -			nbytes = bio->bi_iter.bi_size;
+> -		} else {
+> +		else
+>   			bio->bi_iter.bi_sector = rq->__sector;
+> -		}
+>   	}
+>   
+>   	bio_advance(bio, nbytes);
 
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
----
- drivers/net/ethernet/google/gve/gve_rx.c      |  4 ++--
- drivers/net/ethernet/intel/ice/ice_txrx.c     |  2 +-
- drivers/net/ethernet/intel/ice/ice_txrx.h     |  2 +-
- drivers/net/ethernet/intel/ice/ice_txrx_lib.c |  2 +-
- .../net/ethernet/intel/ixgbevf/ixgbevf_main.c |  4 ++--
- .../marvell/octeontx2/nic/otx2_common.c       |  2 +-
- drivers/net/ethernet/mediatek/mtk_wed_wo.c    |  4 ++--
- drivers/nvme/host/tcp.c                       |  8 +++----
- drivers/nvme/target/tcp.c                     | 22 ++++++++---------
- drivers/vhost/net.c                           |  6 ++---
- include/linux/page_frag_cache.h               | 24 ++++++++++---------
- include/linux/skbuff.h                        |  2 +-
- kernel/bpf/cpumap.c                           |  2 +-
- mm/page_frag_alloc.c                          | 10 ++++----
- net/core/skbuff.c                             | 15 ++++++------
- net/core/xdp.c                                |  2 +-
- net/rxrpc/txbuf.c                             | 15 ++++++------
- net/sunrpc/svcsock.c                          |  4 ++--
- 18 files changed, 67 insertions(+), 63 deletions(-)
+Hi Damien,
 
-diff --git a/drivers/net/ethernet/google/gve/gve_rx.c b/drivers/net/ethernet/google/gve/gve_rx.c
-index 20f5a9e7fae9..58091de93430 100644
---- a/drivers/net/ethernet/google/gve/gve_rx.c
-+++ b/drivers/net/ethernet/google/gve/gve_rx.c
-@@ -687,7 +687,7 @@ static int gve_xdp_redirect(struct net_device *dev, struct gve_rx_ring *rx,
- 
- 	total_len = headroom + SKB_DATA_ALIGN(len) +
- 		SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
--	frame = page_frag_alloc(&rx->page_cache, total_len, GFP_ATOMIC);
-+	frame = page_frag_alloc_va(&rx->page_cache, total_len, GFP_ATOMIC);
- 	if (!frame) {
- 		u64_stats_update_begin(&rx->statss);
- 		rx->xdp_alloc_fails++;
-@@ -700,7 +700,7 @@ static int gve_xdp_redirect(struct net_device *dev, struct gve_rx_ring *rx,
- 
- 	err = xdp_do_redirect(dev, &new, xdp_prog);
- 	if (err)
--		page_frag_free(frame);
-+		page_frag_free_va(frame);
- 
- 	return err;
- }
-diff --git a/drivers/net/ethernet/intel/ice/ice_txrx.c b/drivers/net/ethernet/intel/ice/ice_txrx.c
-index 97d41d6ebf1f..87f23995b657 100644
---- a/drivers/net/ethernet/intel/ice/ice_txrx.c
-+++ b/drivers/net/ethernet/intel/ice/ice_txrx.c
-@@ -126,7 +126,7 @@ ice_unmap_and_free_tx_buf(struct ice_tx_ring *ring, struct ice_tx_buf *tx_buf)
- 		dev_kfree_skb_any(tx_buf->skb);
- 		break;
- 	case ICE_TX_BUF_XDP_TX:
--		page_frag_free(tx_buf->raw_buf);
-+		page_frag_free_va(tx_buf->raw_buf);
- 		break;
- 	case ICE_TX_BUF_XDP_XMIT:
- 		xdp_return_frame(tx_buf->xdpf);
-diff --git a/drivers/net/ethernet/intel/ice/ice_txrx.h b/drivers/net/ethernet/intel/ice/ice_txrx.h
-index af955b0e5dc5..65ad1757824f 100644
---- a/drivers/net/ethernet/intel/ice/ice_txrx.h
-+++ b/drivers/net/ethernet/intel/ice/ice_txrx.h
-@@ -148,7 +148,7 @@ static inline int ice_skb_pad(void)
-  * @ICE_TX_BUF_DUMMY: dummy Flow Director packet, unmap and kfree()
-  * @ICE_TX_BUF_FRAG: mapped skb OR &xdp_buff frag, only unmap DMA
-  * @ICE_TX_BUF_SKB: &sk_buff, unmap and consume_skb(), update stats
-- * @ICE_TX_BUF_XDP_TX: &xdp_buff, unmap and page_frag_free(), stats
-+ * @ICE_TX_BUF_XDP_TX: &xdp_buff, unmap and page_frag_free_va(), stats
-  * @ICE_TX_BUF_XDP_XMIT: &xdp_frame, unmap and xdp_return_frame(), stats
-  * @ICE_TX_BUF_XSK_TX: &xdp_buff on XSk queue, xsk_buff_free(), stats
-  */
-diff --git a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
-index f8f1d2bdc1be..312f351ac601 100644
---- a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
-+++ b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
-@@ -279,7 +279,7 @@ ice_clean_xdp_tx_buf(struct device *dev, struct ice_tx_buf *tx_buf,
- 
- 	switch (tx_buf->type) {
- 	case ICE_TX_BUF_XDP_TX:
--		page_frag_free(tx_buf->raw_buf);
-+		page_frag_free_va(tx_buf->raw_buf);
- 		break;
- 	case ICE_TX_BUF_XDP_XMIT:
- 		xdp_return_frame_bulk(tx_buf->xdpf, bq);
-diff --git a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
-index 9c960017a6de..f781c5f202c9 100644
---- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
-+++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
-@@ -303,7 +303,7 @@ static bool ixgbevf_clean_tx_irq(struct ixgbevf_q_vector *q_vector,
- 
- 		/* free the skb */
- 		if (ring_is_xdp(tx_ring))
--			page_frag_free(tx_buffer->data);
-+			page_frag_free_va(tx_buffer->data);
- 		else
- 			napi_consume_skb(tx_buffer->skb, napi_budget);
- 
-@@ -2413,7 +2413,7 @@ static void ixgbevf_clean_tx_ring(struct ixgbevf_ring *tx_ring)
- 
- 		/* Free all the Tx ring sk_buffs */
- 		if (ring_is_xdp(tx_ring))
--			page_frag_free(tx_buffer->data);
-+			page_frag_free_va(tx_buffer->data);
- 		else
- 			dev_kfree_skb_any(tx_buffer->skb);
- 
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
-index a85ac039d779..8eb5820b8a70 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
-@@ -553,7 +553,7 @@ static int __otx2_alloc_rbuf(struct otx2_nic *pfvf, struct otx2_pool *pool,
- 	*dma = dma_map_single_attrs(pfvf->dev, buf, pool->rbsize,
- 				    DMA_FROM_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
- 	if (unlikely(dma_mapping_error(pfvf->dev, *dma))) {
--		page_frag_free(buf);
-+		page_frag_free_va(buf);
- 		return -ENOMEM;
- 	}
- 
-diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-index 7063c78bd35f..c4228719f8a4 100644
---- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-+++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-@@ -142,8 +142,8 @@ mtk_wed_wo_queue_refill(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q,
- 		dma_addr_t addr;
- 		void *buf;
- 
--		buf = page_frag_alloc(&q->cache, q->buf_size,
--				      GFP_ATOMIC | GFP_DMA32);
-+		buf = page_frag_alloc_va(&q->cache, q->buf_size,
-+					 GFP_ATOMIC | GFP_DMA32);
- 		if (!buf)
- 			break;
- 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3692b56cb58d..ceb0d2d1497a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -492,7 +492,7 @@ static void nvme_tcp_exit_request(struct blk_mq_tag_set *set,
- {
- 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
- 
--	page_frag_free(req->pdu);
-+	page_frag_free_va(req->pdu);
- }
- 
- static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
-@@ -506,7 +506,7 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
- 	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
--	req->pdu = page_frag_alloc(&queue->pf_cache,
-+	req->pdu = page_frag_alloc_va(&queue->pf_cache,
- 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
- 		GFP_KERNEL | __GFP_ZERO);
- 	if (!req->pdu)
-@@ -1323,7 +1323,7 @@ static void nvme_tcp_free_async_req(struct nvme_tcp_ctrl *ctrl)
- {
- 	struct nvme_tcp_request *async = &ctrl->async_req;
- 
--	page_frag_free(async->pdu);
-+	page_frag_free_va(async->pdu);
- }
- 
- static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
-@@ -1332,7 +1332,7 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 	struct nvme_tcp_request *async = &ctrl->async_req;
- 	u8 hdgst = nvme_tcp_hdgst_len(queue);
- 
--	async->pdu = page_frag_alloc(&queue->pf_cache,
-+	async->pdu = page_frag_alloc_va(&queue->pf_cache,
- 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
- 		GFP_KERNEL | __GFP_ZERO);
- 	if (!async->pdu)
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 2aa5762e9f50..a236e9fe145d 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1461,24 +1461,24 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
- 	c->queue = queue;
- 	c->req.port = queue->port->nport;
- 
--	c->cmd_pdu = page_frag_alloc(&queue->pf_cache,
-+	c->cmd_pdu = page_frag_alloc_va(&queue->pf_cache,
- 			sizeof(*c->cmd_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
- 	if (!c->cmd_pdu)
- 		return -ENOMEM;
- 	c->req.cmd = &c->cmd_pdu->cmd;
- 
--	c->rsp_pdu = page_frag_alloc(&queue->pf_cache,
-+	c->rsp_pdu = page_frag_alloc_va(&queue->pf_cache,
- 			sizeof(*c->rsp_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
- 	if (!c->rsp_pdu)
- 		goto out_free_cmd;
- 	c->req.cqe = &c->rsp_pdu->cqe;
- 
--	c->data_pdu = page_frag_alloc(&queue->pf_cache,
-+	c->data_pdu = page_frag_alloc_va(&queue->pf_cache,
- 			sizeof(*c->data_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
- 	if (!c->data_pdu)
- 		goto out_free_rsp;
- 
--	c->r2t_pdu = page_frag_alloc(&queue->pf_cache,
-+	c->r2t_pdu = page_frag_alloc_va(&queue->pf_cache,
- 			sizeof(*c->r2t_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
- 	if (!c->r2t_pdu)
- 		goto out_free_data;
-@@ -1493,20 +1493,20 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
- 
- 	return 0;
- out_free_data:
--	page_frag_free(c->data_pdu);
-+	page_frag_free_va(c->data_pdu);
- out_free_rsp:
--	page_frag_free(c->rsp_pdu);
-+	page_frag_free_va(c->rsp_pdu);
- out_free_cmd:
--	page_frag_free(c->cmd_pdu);
-+	page_frag_free_va(c->cmd_pdu);
- 	return -ENOMEM;
- }
- 
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c)
- {
--	page_frag_free(c->r2t_pdu);
--	page_frag_free(c->data_pdu);
--	page_frag_free(c->rsp_pdu);
--	page_frag_free(c->cmd_pdu);
-+	page_frag_free_va(c->r2t_pdu);
-+	page_frag_free_va(c->data_pdu);
-+	page_frag_free_va(c->rsp_pdu);
-+	page_frag_free_va(c->cmd_pdu);
- }
- 
- static int nvmet_tcp_alloc_cmds(struct nvmet_tcp_queue *queue)
-diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
-index c64ded183f8d..96d5ca299552 100644
---- a/drivers/vhost/net.c
-+++ b/drivers/vhost/net.c
-@@ -682,8 +682,8 @@ static int vhost_net_build_xdp(struct vhost_net_virtqueue *nvq,
- 		return -ENOSPC;
- 
- 	buflen += SKB_DATA_ALIGN(len + pad);
--	buf = page_frag_alloc_align(&net->pf_cache, buflen, GFP_KERNEL,
--				    SMP_CACHE_BYTES);
-+	buf = page_frag_alloc_va_align(&net->pf_cache, buflen, GFP_KERNEL,
-+				       SMP_CACHE_BYTES);
- 	if (unlikely(!buf))
- 		return -ENOMEM;
- 
-@@ -730,7 +730,7 @@ static int vhost_net_build_xdp(struct vhost_net_virtqueue *nvq,
- 	return 0;
- 
- err:
--	page_frag_free(buf);
-+	page_frag_free_va(buf);
- 	return ret;
- }
- 
-diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index cc0ede0912f3..9d5d86b2d3ab 100644
---- a/include/linux/page_frag_cache.h
-+++ b/include/linux/page_frag_cache.h
-@@ -25,27 +25,29 @@ struct page_frag_cache {
- 
- void page_frag_cache_drain(struct page_frag_cache *nc);
- void __page_frag_cache_drain(struct page *page, unsigned int count);
--void *page_frag_alloc(struct page_frag_cache *nc, unsigned int fragsz,
--		      gfp_t gfp_mask);
-+void *page_frag_alloc_va(struct page_frag_cache *nc, unsigned int fragsz,
-+			 gfp_t gfp_mask);
- 
--static inline void *__page_frag_alloc_align(struct page_frag_cache *nc,
--					    unsigned int fragsz, gfp_t gfp_mask,
--					    unsigned int align)
-+static inline void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
-+					       unsigned int fragsz,
-+					       gfp_t gfp_mask,
-+					       unsigned int align)
- {
- 	nc->offset = ALIGN(nc->offset, align);
- 
--	return page_frag_alloc(nc, fragsz, gfp_mask);
-+	return page_frag_alloc_va(nc, fragsz, gfp_mask);
- }
- 
--static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
--					  unsigned int fragsz, gfp_t gfp_mask,
--					  unsigned int align)
-+static inline void *page_frag_alloc_va_align(struct page_frag_cache *nc,
-+					     unsigned int fragsz,
-+					     gfp_t gfp_mask,
-+					     unsigned int align)
- {
- 	WARN_ON_ONCE(!is_power_of_2(align));
- 
--	return __page_frag_alloc_align(nc, fragsz, gfp_mask, align);
-+	return __page_frag_alloc_va_align(nc, fragsz, gfp_mask, align);
- }
- 
--void page_frag_free(void *addr);
-+void page_frag_free_va(void *addr);
- 
- #endif
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 074cdd29f782..70d657a7b309 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -3339,7 +3339,7 @@ static inline struct sk_buff *netdev_alloc_skb_ip_align(struct net_device *dev,
- 
- static inline void skb_free_frag(void *addr)
- {
--	page_frag_free(addr);
-+	page_frag_free_va(addr);
- }
- 
- void *__napi_alloc_frag_align(unsigned int fragsz, unsigned int align);
-diff --git a/kernel/bpf/cpumap.c b/kernel/bpf/cpumap.c
-index a8e34416e960..3a6a237e7dd3 100644
---- a/kernel/bpf/cpumap.c
-+++ b/kernel/bpf/cpumap.c
-@@ -322,7 +322,7 @@ static int cpu_map_kthread_run(void *data)
- 
- 			/* Bring struct page memory area to curr CPU. Read by
- 			 * build_skb_around via page_is_pfmemalloc(), and when
--			 * freed written by page_frag_free call.
-+			 * freed written by page_frag_free_va call.
- 			 */
- 			prefetchw(page);
- 		}
-diff --git a/mm/page_frag_alloc.c b/mm/page_frag_alloc.c
-index 39c744c892ed..7f639af4e518 100644
---- a/mm/page_frag_alloc.c
-+++ b/mm/page_frag_alloc.c
-@@ -63,8 +63,8 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
- }
- EXPORT_SYMBOL(__page_frag_cache_drain);
- 
--void *page_frag_alloc(struct page_frag_cache *nc, unsigned int fragsz,
--		      gfp_t gfp_mask)
-+void *page_frag_alloc_va(struct page_frag_cache *nc, unsigned int fragsz,
-+			 gfp_t gfp_mask)
- {
- 	unsigned int size, offset;
- 	struct page *page;
-@@ -130,16 +130,16 @@ void *page_frag_alloc(struct page_frag_cache *nc, unsigned int fragsz,
- 
- 	return nc->va + offset;
- }
--EXPORT_SYMBOL(page_frag_alloc);
-+EXPORT_SYMBOL(page_frag_alloc_va);
- 
- /*
-  * Frees a page fragment allocated out of either a compound or order 0 page.
-  */
--void page_frag_free(void *addr)
-+void page_frag_free_va(void *addr)
- {
- 	struct page *page = virt_to_head_page(addr);
- 
- 	if (unlikely(put_page_testzero(page)))
- 		free_unref_page(page, compound_order(page));
- }
--EXPORT_SYMBOL(page_frag_free);
-+EXPORT_SYMBOL(page_frag_free_va);
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 4c88d7f541e4..aa3adaa2c466 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -311,7 +311,7 @@ void *__napi_alloc_frag_align(unsigned int fragsz, unsigned int align)
- 
- 	fragsz = SKB_DATA_ALIGN(fragsz);
- 
--	return __page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC, align);
-+	return __page_frag_alloc_va_align(&nc->page, fragsz, GFP_ATOMIC, align);
- }
- EXPORT_SYMBOL(__napi_alloc_frag_align);
- 
-@@ -323,14 +323,15 @@ void *__netdev_alloc_frag_align(unsigned int fragsz, unsigned int align)
- 	if (in_hardirq() || irqs_disabled()) {
- 		struct page_frag_cache *nc = this_cpu_ptr(&netdev_alloc_cache);
- 
--		data = __page_frag_alloc_align(nc, fragsz, GFP_ATOMIC, align);
-+		data = __page_frag_alloc_va_align(nc, fragsz, GFP_ATOMIC,
-+						  align);
- 	} else {
- 		struct napi_alloc_cache *nc;
- 
- 		local_bh_disable();
- 		nc = this_cpu_ptr(&napi_alloc_cache);
--		data = __page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC,
--					       align);
-+		data = __page_frag_alloc_va_align(&nc->page, fragsz, GFP_ATOMIC,
-+						  align);
- 		local_bh_enable();
- 	}
- 	return data;
-@@ -740,12 +741,12 @@ struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
- 
- 	if (in_hardirq() || irqs_disabled()) {
- 		nc = this_cpu_ptr(&netdev_alloc_cache);
--		data = page_frag_alloc(nc, len, gfp_mask);
-+		data = page_frag_alloc_va(nc, len, gfp_mask);
- 		pfmemalloc = nc->pfmemalloc;
- 	} else {
- 		local_bh_disable();
- 		nc = this_cpu_ptr(&napi_alloc_cache.page);
--		data = page_frag_alloc(nc, len, gfp_mask);
-+		data = page_frag_alloc_va(nc, len, gfp_mask);
- 		pfmemalloc = nc->pfmemalloc;
- 		local_bh_enable();
- 	}
-@@ -834,7 +835,7 @@ struct sk_buff *__napi_alloc_skb(struct napi_struct *napi, unsigned int len,
- 	} else {
- 		len = SKB_HEAD_ALIGN(len);
- 
--		data = page_frag_alloc(&nc->page, len, gfp_mask);
-+		data = page_frag_alloc_va(&nc->page, len, gfp_mask);
- 		pfmemalloc = nc->page.pfmemalloc;
- 	}
- 
-diff --git a/net/core/xdp.c b/net/core/xdp.c
-index 41693154e426..245a2d011aeb 100644
---- a/net/core/xdp.c
-+++ b/net/core/xdp.c
-@@ -391,7 +391,7 @@ void __xdp_return(void *data, struct xdp_mem_info *mem, bool napi_direct,
- 		page_pool_put_full_page(page->pp, page, napi_direct);
- 		break;
- 	case MEM_TYPE_PAGE_SHARED:
--		page_frag_free(data);
-+		page_frag_free_va(data);
- 		break;
- 	case MEM_TYPE_PAGE_ORDER0:
- 		page = virt_to_page(data); /* Assumes order0 page*/
-diff --git a/net/rxrpc/txbuf.c b/net/rxrpc/txbuf.c
-index eb640875bf07..f2fa98360789 100644
---- a/net/rxrpc/txbuf.c
-+++ b/net/rxrpc/txbuf.c
-@@ -34,8 +34,8 @@ struct rxrpc_txbuf *rxrpc_alloc_data_txbuf(struct rxrpc_call *call, size_t data_
- 
- 	data_align = max_t(size_t, data_align, L1_CACHE_BYTES);
- 	mutex_lock(&call->conn->tx_data_alloc_lock);
--	buf = page_frag_alloc_align(&call->conn->tx_data_alloc, total, gfp,
--				    data_align);
-+	buf = page_frag_alloc_va_align(&call->conn->tx_data_alloc, total, gfp,
-+				       data_align);
- 	mutex_unlock(&call->conn->tx_data_alloc_lock);
- 	if (!buf) {
- 		kfree(txb);
-@@ -97,17 +97,18 @@ struct rxrpc_txbuf *rxrpc_alloc_ack_txbuf(struct rxrpc_call *call, size_t sack_s
- 	if (!txb)
- 		return NULL;
- 
--	buf = page_frag_alloc(&call->local->tx_alloc,
--			      sizeof(*whdr) + sizeof(*ack) + 1 + 3 + sizeof(*trailer), gfp);
-+	buf = page_frag_alloc_va(&call->local->tx_alloc,
-+				 sizeof(*whdr) + sizeof(*ack) + 1 + 3 + sizeof(*trailer), gfp);
- 	if (!buf) {
- 		kfree(txb);
- 		return NULL;
- 	}
- 
- 	if (sack_size) {
--		buf2 = page_frag_alloc(&call->local->tx_alloc, sack_size, gfp);
-+		buf2 = page_frag_alloc_va(&call->local->tx_alloc, sack_size,
-+					  gfp);
- 		if (!buf2) {
--			page_frag_free(buf);
-+			page_frag_free_va(buf);
- 			kfree(txb);
- 			return NULL;
- 		}
-@@ -181,7 +182,7 @@ static void rxrpc_free_txbuf(struct rxrpc_txbuf *txb)
- 			  rxrpc_txbuf_free);
- 	for (i = 0; i < txb->nr_kvec; i++)
- 		if (txb->kvec[i].iov_base)
--			page_frag_free(txb->kvec[i].iov_base);
-+			page_frag_free_va(txb->kvec[i].iov_base);
- 	kfree(txb);
- 	atomic_dec(&rxrpc_nr_txbuf);
- }
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index 545017a3daa4..055ed38cef97 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -1231,8 +1231,8 @@ static int svc_tcp_sendmsg(struct svc_sock *svsk, struct svc_rqst *rqstp,
- 	/* The stream record marker is copied into a temporary page
- 	 * fragment buffer so that it can be included in rq_bvec.
- 	 */
--	buf = page_frag_alloc(&svsk->sk_frag_cache, sizeof(marker),
--			      GFP_KERNEL);
-+	buf = page_frag_alloc_va(&svsk->sk_frag_cache, sizeof(marker),
-+				 GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 	memcpy(buf, &marker, sizeof(marker));
--- 
-2.33.0
+This patch looks good to me but shouldn't it be separated from this
+patch series? I think that will help this patch to get merged sooner.
 
+Thanks,
+
+Bart.
 
