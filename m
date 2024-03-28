@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 863FCC47DD9
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 00:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCF9BC47DD9
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 00:46:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1rMl8FO7hDeOUrcOO8UYibThHiMpNwM1pX5IIQ85pHw=; b=yFCyMcNOMThj+ReZtT+/QHrWMu
-	TnVYTNwM1w91RmfWpwdiIWDdodWLbW3iP7bFZh+zbMMqa+cr71pcJw3PRrnlqkj5i8KiFjoCsALIk
-	7wo4y93kBLrIBh+jIyZfDdhuE17xb0wNlp0yo2FOB/ul6CoYwRO4lhj6uXBvSnpNPu31S4WkLKwdx
-	l5FoGEn3E5aHsaU0qgd7tAGfVBTaoIa43W+t7Xi0ejkXBThnsEucPNUU35QmLH/kPEJyUbuUo459t
-	px4VVhA5lRbw7ClYaufxNn16fCAEMjYOKe2rQhOTX1aEKnVTSn+HjAj31qKE9VbMBTSsXWJSnnK6j
-	QL5ilhOQ==;
+	bh=UcqCRmmHvOpzU1P76R9XVng9xTZ8tRk7L//TCa+yDQg=; b=UH+Cf4TtcCZBCUZ0B00S4u9ZmT
+	EVlez+2PBekn5T7SivH2y4n/yLS++Kz3wywmy9uydNG6BCoj7PcDXQDqlNjdN6oNOKUPO74WFADre
+	w4Yj6bztFyGjMNn+VxYY9p05H6R32eI0IUQncq++MdsTqgXQgFLEqxHwzUpRKzZpgpWcPP1gLHlOc
+	Qjyp+Ye5t1cbMkTALdKwi4bfoHXRB7TuTsuHCiuz3FoXfqugZlyuS3P5wTvCANxPYOPfe/8laUYVM
+	3pJ8rGiu43W1i/2ikbCSIv5d08O6pwRPwycraK4kRdWbkn2Kip+B2LLFM+zgLMhCr3JzQvLV6CViE
+	u4bhkBgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpduO-0000000Boge-2SZP;
-	Thu, 28 Mar 2024 00:46:20 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rpduR-0000000BojE-3jZM;
+	Thu, 28 Mar 2024 00:46:23 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpdt5-0000000BnlM-1gP3
+	id 1rpdt7-0000000Bnm9-0v3Z
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Mar 2024 00:45:04 +0000
+	Thu, 28 Mar 2024 00:45:05 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 6146CCE1857;
-	Thu, 28 Mar 2024 00:44:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 780E0C433F1;
-	Thu, 28 Mar 2024 00:44:55 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id DB59CCE1E61;
+	Thu, 28 Mar 2024 00:44:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BC0C433C7;
+	Thu, 28 Mar 2024 00:44:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711586696;
-	bh=9lGN8HcNOfcmbC48TC0lGJlJVU3243wN0wEL2maXvro=;
+	s=k20201202; t=1711586698;
+	bh=UP0mZgjcRqm/280fAJDfR9vGthYVSyA6TU+OCeIxCZg=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=eQW0wRqTYhthe7X1QaVsV10f/zuKfjkMbB+lLmCKM0P9gcPJFRog5GEp25reBW1qH
-	 8m7++H+O6fHNn+N0wX+DnT2injPsJ1cK+HYAsWqI3DBN1ukXuOrVCTzoWNhZ6/Oqdn
-	 JTp9/Ykxpgbrh8poPi0JGml6xFLMjsX6QKvbFU7w/KSAsX1i+zFfBQ/qoCxVt5Mx/8
-	 cox5zko3NcyvdjDgZQmQl+pScX7k0u8ohjx/6Bm5+wrPxifLZhuU5+ll7qmKhMX5Qz
-	 hYVqAR/OQtqlDskAiV0UcmbwggWKR3j67k1K4S+blHCUL4gXd7sTbOwAzC6VDydHDh
-	 vYBdrT/nkyzug==
+	b=cXVIUxx4R7Wu4geUEFUk7UGFCzynrOm6eaczfznBpznXx6NCeRbcI6r9mbS1kfq8t
+	 CDqN5ZRvOZnv6qH1GmGEgbdJO2OxMymXmn97xMfRUaJgvcpY4VN4OxiNB13XMr2e2A
+	 JMBIVqV/h6nVdCKKXdl131iBDfze+fHHIzq/z9vJqRL00bYUBSbU9XG44MTTqQtV+s
+	 URG6l7YIcF1VUbkx2vC/a/MtZxSvFuq4tW7gDxG3gWSVg+W24CQZLZGW6QAi/0GRaO
+	 yZ4U6KIYdv6G1Pa3JdprK/FH/JwQBk0zZvEDf3riOesnpwmRmdneINSoaYhGQudI9f
+	 Ns8tsMACjM4pg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -52,17 +52,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 26/30] block: Move zone related debugfs attribute to blk-zoned.c
-Date: Thu, 28 Mar 2024 09:44:05 +0900
-Message-ID: <20240328004409.594888-27-dlemoal@kernel.org>
+Subject: [PATCH v3 27/30] block: Replace zone_wlock debugfs entry with zone_wplugs entry
+Date: Thu, 28 Mar 2024 09:44:06 +0900
+Message-ID: <20240328004409.594888-28-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240328004409.594888-1-dlemoal@kernel.org>
 References: <20240328004409.594888-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240327_174500_506968_6B13A61D 
-X-CRM114-Status: GOOD (  18.56  )
+X-CRM114-CacheID: sfid-20240327_174502_259441_CA27AF40 
+X-CRM114-Status: GOOD (  16.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,125 +77,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-block/blk-mq-debugfs-zone.c contains a single debugfs attribute
-function. Defining this outside of block/blk-zoned.c does not really
-help in any way, so move this zone related debugfs attribute to
-block/blk-zoned.c and delete block/blk-mq-debugfs-zone.c.
+In preparation to completely remove zone write locking, replace the
+"zone_wlock" mq-debugfs entry that was listing zones that are
+write-locked with the zone_wplugs entry which lists the zones that
+currently have a write plug allocated.
+
+The write plug information provided is: the zone number, the zone write
+plug flags, the zone write plug write pointer offset and the number of
+BIOs currently waiting for execution in the zone write plug BIO list.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- block/Kconfig                |  4 ----
- block/Makefile               |  1 -
- block/blk-mq-debugfs-zoned.c | 22 ----------------------
- block/blk-mq-debugfs.h       |  2 +-
- block/blk-zoned.c            | 20 ++++++++++++++++++++
- 5 files changed, 21 insertions(+), 28 deletions(-)
- delete mode 100644 block/blk-mq-debugfs-zoned.c
+ block/blk-mq-debugfs.c |  2 +-
+ block/blk-mq-debugfs.h |  4 ++--
+ block/blk-zoned.c      | 31 ++++++++++++++++++++++++-------
+ 3 files changed, 27 insertions(+), 10 deletions(-)
 
-diff --git a/block/Kconfig b/block/Kconfig
-index 1de4682d48cc..9f647149fbee 100644
---- a/block/Kconfig
-+++ b/block/Kconfig
-@@ -198,10 +198,6 @@ config BLK_DEBUG_FS
- 	Unless you are building a kernel for a tiny system, you should
- 	say Y here.
+diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+index 94668e72ab09..ca1f2b9422d5 100644
+--- a/block/blk-mq-debugfs.c
++++ b/block/blk-mq-debugfs.c
+@@ -160,7 +160,7 @@ static const struct blk_mq_debugfs_attr blk_mq_debugfs_queue_attrs[] = {
+ 	{ "requeue_list", 0400, .seq_ops = &queue_requeue_list_seq_ops },
+ 	{ "pm_only", 0600, queue_pm_only_show, NULL },
+ 	{ "state", 0600, queue_state_show, queue_state_write },
+-	{ "zone_wlock", 0400, queue_zone_wlock_show, NULL },
++	{ "zone_wplugs", 0400, queue_zone_wplugs_show, NULL },
+ 	{ },
+ };
  
--config BLK_DEBUG_FS_ZONED
--       bool
--       default BLK_DEBUG_FS && BLK_DEV_ZONED
--
- config BLK_SED_OPAL
- 	bool "Logic for interfacing with Opal enabled SEDs"
- 	depends on KEYS
-diff --git a/block/Makefile b/block/Makefile
-index 46ada9dc8bbf..168150b9c510 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -33,7 +33,6 @@ obj-$(CONFIG_BLK_MQ_VIRTIO)	+= blk-mq-virtio.o
- obj-$(CONFIG_BLK_DEV_ZONED)	+= blk-zoned.o
- obj-$(CONFIG_BLK_WBT)		+= blk-wbt.o
- obj-$(CONFIG_BLK_DEBUG_FS)	+= blk-mq-debugfs.o
--obj-$(CONFIG_BLK_DEBUG_FS_ZONED)+= blk-mq-debugfs-zoned.o
- obj-$(CONFIG_BLK_SED_OPAL)	+= sed-opal.o
- obj-$(CONFIG_BLK_PM)		+= blk-pm.o
- obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= blk-crypto.o blk-crypto-profile.o \
-diff --git a/block/blk-mq-debugfs-zoned.c b/block/blk-mq-debugfs-zoned.c
-deleted file mode 100644
-index a77b099c34b7..000000000000
---- a/block/blk-mq-debugfs-zoned.c
-+++ /dev/null
-@@ -1,22 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * Copyright (C) 2017 Western Digital Corporation or its affiliates.
-- */
--
--#include <linux/blkdev.h>
--#include "blk-mq-debugfs.h"
--
+diff --git a/block/blk-mq-debugfs.h b/block/blk-mq-debugfs.h
+index 3ebe2c29b624..c80e453e3014 100644
+--- a/block/blk-mq-debugfs.h
++++ b/block/blk-mq-debugfs.h
+@@ -84,9 +84,9 @@ static inline void blk_mq_debugfs_unregister_rqos(struct rq_qos *rqos)
+ #endif
+ 
+ #if defined(CONFIG_BLK_DEV_ZONED) && defined(CONFIG_BLK_DEBUG_FS)
+-int queue_zone_wlock_show(void *data, struct seq_file *m);
++int queue_zone_wplugs_show(void *data, struct seq_file *m);
+ #else
+-static inline int queue_zone_wlock_show(void *data, struct seq_file *m)
++static inline int queue_zone_wplugs_show(void *data, struct seq_file *m)
+ {
+ 	return 0;
+ }
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 93aa994824d1..d540688c30f9 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -1894,17 +1894,34 @@ EXPORT_SYMBOL_GPL(blk_revalidate_disk_zones);
+ 
+ #ifdef CONFIG_BLK_DEBUG_FS
+ 
 -int queue_zone_wlock_show(void *data, struct seq_file *m)
--{
--	struct request_queue *q = data;
++int queue_zone_wplugs_show(void *data, struct seq_file *m)
+ {
+ 	struct request_queue *q = data;
 -	unsigned int i;
--
++	struct gendisk *disk = q->disk;
++	struct blk_zone_wplug *zwplug;
++	unsigned int zwp_wp_offset, zwp_flags;
++	unsigned int zwp_zone_no, zwp_ref;
++	unsigned int zwp_bio_list_size, i;
++	unsigned long flags;
+ 
 -	if (!q->disk->seq_zones_wlock)
 -		return 0;
--
++	rcu_read_lock();
++	for (i = 0; i < disk_zone_wplugs_hash_size(disk); i++) {
++		hlist_for_each_entry_rcu(zwplug,
++					 &disk->zone_wplugs_hash[i], node) {
++			spin_lock_irqsave(&zwplug->lock, flags);
++			zwp_zone_no = zwplug->zone_no;
++			zwp_flags = zwplug->flags;
++			zwp_ref = atomic_read(&zwplug->ref);
++			zwp_wp_offset = zwplug->wp_offset;
++			zwp_bio_list_size = bio_list_size(&zwplug->bio_list);
++			spin_unlock_irqrestore(&zwplug->lock, flags);
+ 
 -	for (i = 0; i < q->disk->nr_zones; i++)
 -		if (test_bit(i, q->disk->seq_zones_wlock))
 -			seq_printf(m, "%u\n", i);
--
--	return 0;
--}
-diff --git a/block/blk-mq-debugfs.h b/block/blk-mq-debugfs.h
-index 9c7d4b6117d4..3ebe2c29b624 100644
---- a/block/blk-mq-debugfs.h
-+++ b/block/blk-mq-debugfs.h
-@@ -83,7 +83,7 @@ static inline void blk_mq_debugfs_unregister_rqos(struct rq_qos *rqos)
++			seq_printf(m, "%u 0x%x %u %u %u\n",
++				   zwp_zone_no, zwp_flags, zwp_ref,
++				   zwp_wp_offset, zwp_bio_list_size);
++		}
++	}
++	rcu_read_unlock();
+ 
+ 	return 0;
  }
- #endif
- 
--#ifdef CONFIG_BLK_DEBUG_FS_ZONED
-+#if defined(CONFIG_BLK_DEV_ZONED) && defined(CONFIG_BLK_DEBUG_FS)
- int queue_zone_wlock_show(void *data, struct seq_file *m);
- #else
- static inline int queue_zone_wlock_show(void *data, struct seq_file *m)
-diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index d0549b85f281..93aa994824d1 100644
---- a/block/blk-zoned.c
-+++ b/block/blk-zoned.c
-@@ -22,6 +22,7 @@
- 
- #include "blk.h"
- #include "blk-mq-sched.h"
-+#include "blk-mq-debugfs.h"
- 
- #define ZONE_COND_NAME(name) [BLK_ZONE_COND_##name] = #name
- static const char *const zone_cond_name[] = {
-@@ -1890,3 +1891,22 @@ int blk_revalidate_disk_zones(struct gendisk *disk)
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(blk_revalidate_disk_zones);
-+
-+#ifdef CONFIG_BLK_DEBUG_FS
-+
-+int queue_zone_wlock_show(void *data, struct seq_file *m)
-+{
-+	struct request_queue *q = data;
-+	unsigned int i;
-+
-+	if (!q->disk->seq_zones_wlock)
-+		return 0;
-+
-+	for (i = 0; i < q->disk->nr_zones; i++)
-+		if (test_bit(i, q->disk->seq_zones_wlock))
-+			seq_printf(m, "%u\n", i);
-+
-+	return 0;
-+}
-+
-+#endif
 -- 
 2.44.0
 
