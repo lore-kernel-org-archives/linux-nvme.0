@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A2F1C54E67
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 04:51:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5795C54E64
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 04:51:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=yFjp5eBL54bGWODmDbfQ57k3jQ
-	T8GkagW3F7BblRjHdYttL2/ef1fw4cZBlEw8e0Dbphpx9u7SNMMzvFYMFbIwEjfgGpcesx16L02Kj
-	gKgkULHOnDrF5l+wzT6T9ZK/P+wZr/mbfmN4yGd5e6Gv7v1wK2EI7pv29iTB7xU2887RVeK81/nRD
-	MVLg4WK9wgMRmDMsUv/ripbAfd9ahR+enIdWqiIfUw9d7cqRHd/mgZqeJ3p+kIyw6YBAxdlNkXoMo
-	n13f84OsPj602ChU0L+DDsqITeymLo6u6VxpdB2/3xIXGTAg+P8FHkpye8x3R5LXmYho+Bj0RoGmE
-	4/ECEORQ==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=aj35ur+HwdihiJENlCw9GZWhLG
+	a89qL4rjwBQD/KYyJjBthgxZ/kvHhIE2mNZogUsEiKrPZ2oRve8jzwXgRaYU5axprgVs0Bg5H++QM
+	RkHrWmTNc3WzdNtO8eDVJNYuRkHFmKepn7s3M4WGKzODbzxC99iNkA58S/37vMNFCVBuj0VdlhdkE
+	iRIglpgWNdG8MbQtnp7sbGtLUFUOBIzP3qPuCi++010dV2rauip2zHvdolWAXkE6F466ojJMGQTZD
+	D4Nq60dc7FEc0V2igxJm6AodjXAsScB8zUUnHY0P5IZgcvHkiUYYlvn/UlGh04V0yBQVzzbPrsmmV
+	Z3a8vmdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rphjP-0000000CRmp-01iD;
-	Thu, 28 Mar 2024 04:51:15 +0000
+	id 1rphk2-0000000CS2a-0vJc;
+	Thu, 28 Mar 2024 04:51:54 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rphjK-0000000CRlJ-2q71
+	id 1rphjz-0000000CS1b-25XL
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Mar 2024 04:51:12 +0000
+	Thu, 28 Mar 2024 04:51:52 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E5E1D68B05; Thu, 28 Mar 2024 05:51:07 +0100 (CET)
-Date: Thu, 28 Mar 2024 05:51:07 +0100
+	id C105E68B05; Thu, 28 Mar 2024 05:51:47 +0100 (CET)
+Date: Thu, 28 Mar 2024 05:51:47 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Damien Le Moal <dlemoal@kernel.org>
 Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
@@ -38,18 +38,18 @@ Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
 	dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
 	linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v3 17/30] null_blk: Do not request
- ELEVATOR_F_ZBD_SEQ_WRITE elevator feature
-Message-ID: <20240328045107.GG14113@lst.de>
-References: <20240328004409.594888-1-dlemoal@kernel.org> <20240328004409.594888-18-dlemoal@kernel.org>
+Subject: Re: [PATCH v3 18/30] null_blk: Introduce zone_append_max_sectors
+ attribute
+Message-ID: <20240328045147.GH14113@lst.de>
+References: <20240328004409.594888-1-dlemoal@kernel.org> <20240328004409.594888-19-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328004409.594888-18-dlemoal@kernel.org>
+In-Reply-To: <20240328004409.594888-19-dlemoal@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240327_215110_996747_29B00B73 
-X-CRM114-Status: GOOD (  10.22  )
+X-CRM114-CacheID: sfid-20240327_215151_685218_5F184518 
+X-CRM114-Status: GOOD (  10.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
