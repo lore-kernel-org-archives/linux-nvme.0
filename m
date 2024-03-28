@@ -4,70 +4,165 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01424C54E64
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 10:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 923A1C54E64
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 10:49:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Dr5CVYVHQhlbInTEfSxMv7vhYKWCp3Kaeaw3PIRXnBw=; b=T2uwj6CvQlM+qrG4S6cTN1GPcY
-	lzCjMElFlbr3gxFpcjUGWD+x6KioDz2ohsvboX6Vjr8lMw29tC1IZ/QsE8Cloc6nzAGGmtqjFLbHi
-	jw/S+EU/+rEgk/WfdLssOs+VSAnFlFGYuHplILCWPFR49aipLv/P+o7f47TNtMXuzeziIquvWfwAL
-	qqArpoCCgBTA6EEhjO78maR5bHylyeJ5NEIoUn2MhGyO7y3xbk14moxs19ZQ1L6h7bWFvV0Fpanqz
-	pfE9AdtsZu3Q30HA9OTX2TED2DNl2EOp2TjpirjmCNcPZwvxZHvOsssjUzhJjMb9+GBN1Lzsoh8XK
-	lG3Yr7dA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=K1+pa0NiXNZ+2tKXS0j4vKO396sYu27Df8Q5ilJpxGo=; b=yaJNzJisKAir2tucaFMzoKM8W9
+	Y7HuBoNSlpyOEibiK+DmqFMm9tRb5w5T0XYTHa/1VgcNteKxbIuNs1Yz2MLDmI8DkfQSCIgPlRp/X
+	NptKImnhNx+AGs73WubfY8quJCrHqB8tAxE06bcd3gCCxXnCZIiApP9O7pQnecXbw2Nma037UN9iQ
+	2xTtgDpSORGleia4hsrtAhxsX3zc8pqKc5Z6NSrxR4+sWygWJwnKpbwPK93PbRHO+CUYg0I9hw8gY
+	s26njbSKA3J/gXj4utsml72Qop1/Mn+v8nMQYuWvMkNFR+5iAZ8Lp5gLfW0PZ6rit3vjM7JKJd0WC
+	9c2A+q2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpn9l-0000000Dbbs-3eO5;
-	Thu, 28 Mar 2024 10:38:49 +0000
-Received: from mail-wr1-f43.google.com ([209.85.221.43])
+	id 1rpnKV-0000000DdAS-2ha3;
+	Thu, 28 Mar 2024 10:49:55 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpn9j-0000000DbbB-0NHE
+	id 1rpnKS-0000000Dd9u-3sKo
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Mar 2024 10:38:48 +0000
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33ed7eb88d9so220292f8f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 28 Mar 2024 03:38:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711622321; x=1712227121;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dr5CVYVHQhlbInTEfSxMv7vhYKWCp3Kaeaw3PIRXnBw=;
-        b=iBTISsjSAy6p4wya/3Oe3Oy17Qnwu5MRLad0MQgM9o/992vl0jwEUQsFq6SZb1caTx
-         lq2QQu31l8mCdeXPkZa89zGpEoJDI0pVBvhWvnZ7RGCFq4i2yjPN8bgLyQ96CvT43OnR
-         hmvOr0Yr6ltYlVXWkP5usLMAl3QZ7lM4Oxv86Y0eJGMi3uvXbWz99WRq7wp3dLFsgMMs
-         WkFJl2isZaCWOOeOuh9u1sEEd6INocE/R6u2w5NCdpDB7NawR0Uupza3vkBcszgEHN0j
-         EdYdA6Fxv7jfbeXWVcQlcU52kjr/iaMdnQgrKrwLxh/uNQG6bPDnQ8uF6JYC722KkSKA
-         wD7A==
-X-Forwarded-Encrypted: i=1; AJvYcCW4iw4OemDOtNg4LXKT3hvWIy26GmY17XNJkUV97VbunjUdD4Y+wv9cYwrz02qxQh6HSKaVaAFAOvfpIwX5A4t+vN008pP9wpmyV1NQFB0=
-X-Gm-Message-State: AOJu0Ywxz1x5I/V1qxtlyiorN1h2AivpuvvGq+ZRMGhLnRsHwohh262f
-	kOMqaAcX/qJnEvj9STLOj4eidnlal/QGpalboyg7qJ2xVktZItDmEbBCkZ5n
-X-Google-Smtp-Source: AGHT+IFou6tOPC7Ao+bhIwpk7Xu50MBOaItZV60Nzslc1N6So9zsFjJxO7Dq0ongdDNfQM+cUzaazA==
-X-Received: by 2002:adf:e487:0:b0:341:e368:2c0a with SMTP id i7-20020adfe487000000b00341e3682c0amr1740329wrm.5.1711622320709;
-        Thu, 28 Mar 2024 03:38:40 -0700 (PDT)
-Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id l2-20020adff482000000b0033ec312cd8asm1395501wro.33.2024.03.28.03.38.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 03:38:40 -0700 (PDT)
-Message-ID: <5cade4b4-f19f-422d-ab93-bc853b1563d1@grimberg.me>
-Date: Thu, 28 Mar 2024 12:38:39 +0200
+	Thu, 28 Mar 2024 10:49:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1711622993; x=1743158993;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-id:content-transfer-encoding:mime-version;
+  bh=K1+pa0NiXNZ+2tKXS0j4vKO396sYu27Df8Q5ilJpxGo=;
+  b=qxkPJuJ06yRjeIJUZgs1CiJAapc+ojKfg3cS7zlELzma21qbIEihZPKS
+   Qcstq95OYxNILdSoIx8enLUNR71UdV8BRvO9Mn/V/QneeWUCg3/IfwxNW
+   A326iEV3aY/rkZaogfEiYnsHwPZblkqh4VecJRzyHMXPCxqRG8JiZ2/Zn
+   RVjzpW9/nvFLIri7g9BtbZiPKQs28E422XgTPUkxu6wSh4mRxBTF3+pHG
+   0i2et/U5uNUSQWTKtz18K4hBn+PZjQXSWEe8BoTJxia5GF8JURmZ7umvE
+   qgTuoiaLqJZ3rQOovisPnOW5Xm5b38TfIZn2NjOxYvoIBJFG1tIzk06Xv
+   Q==;
+X-CSE-ConnectionGUID: zkcfab4uSfmRAlFKSKtD+Q==
+X-CSE-MsgGUID: itVyNgTpSI+N3ysJQSbe2g==
+X-IronPort-AV: E=Sophos;i="6.07,161,1708358400"; 
+   d="scan'208";a="12529466"
+Received: from mail-co1nam11lp2169.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.169])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Mar 2024 18:49:49 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XFNV1cyJKmzyoX/0jF9pex3xWighlScn/idbWub0uNWUKpCIluqUn7+MKKpUZSMqLsoA2CvxczuzIk70WdR9Zh3OVM3iZ6mIGj9//bVwogKdwmpMFafL+GldZrmr/vCR4bEXGGBtPjNyfbtB9qkOYfEMy3bcMkG8Bs9PzQ76NRTQBjDc1E3iPvR7qx4fOC424A9FgIUZhgo8F1FD1IsbsO2h67RI5lKUMDUWizxlaBz9xN2o1+2RZgdK/w9Lz+sOuVTiFGc3qPIPm266CJXnttDQHQQm8qrSCETaGxk/vUccZUhfJsBaOg25Xnx7tO6u7mYfR4UrkQb8QLwrMlglLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K1+pa0NiXNZ+2tKXS0j4vKO396sYu27Df8Q5ilJpxGo=;
+ b=lnFZvKtqmfuILaMDX4LuEJi6Vwd5s8d70MzQb3AIXVKxzS9rFYIesVZmkrQKMHl/LJnHjNz0Azn7RmR3XTlLLUJjBktBci7aV6XDBXtv/o2AfFuxOJj4n8vy2gCQxtBlfxMU1343lwmGCVIuWs8guJnw+bcxM+BiZvLaZpLBOkyDLSw1CzHLJtC8lYkEnGAhM6SFOBYjHZbwdfBOx3U6r1c68xLAwRGvrniH1GzWDswwAQ3LnlnYFdEuczwXVk2ORsgfKG6z1ad+I58yPDfan7x4BEFQVzwjPOuU5zGD1JW2kld75MpXCVQ71bLww1ww0bGjexDCodu4bG+UlqRGgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K1+pa0NiXNZ+2tKXS0j4vKO396sYu27Df8Q5ilJpxGo=;
+ b=guK0pFMl49C+q0LFNfrJE2AWJq3u73G+aQ4keEXSnjDLT65vBP6wmokgu6RoJQ7nbQFdfKaxlgQDYKW7+tGVrNGYOOAvvjDsQ1rSKS186OFeq4SpyL2o4iiZn0pmxo3wcRwGeaXVN4IVD+MDjKUQcsuqhfRY3w0eK8TahDQnfdM=
+Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
+ by CH2PR04MB6807.namprd04.prod.outlook.com (2603:10b6:610:a2::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Thu, 28 Mar
+ 2024 10:49:46 +0000
+Received: from PH0PR04MB7416.namprd04.prod.outlook.com
+ ([fe80::a814:67f1:24ab:508e]) by PH0PR04MB7416.namprd04.prod.outlook.com
+ ([fe80::a814:67f1:24ab:508e%7]) with mapi id 15.20.7409.031; Thu, 28 Mar 2024
+ 10:49:46 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: Damien Le Moal <dlemoal@kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, "Martin K .
+ Petersen" <martin.petersen@oracle.com>, "dm-devel@lists.linux.dev"
+	<dm-devel@lists.linux.dev>, Mike Snitzer <snitzer@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith
+ Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v3 15/30] scsi: sd: Use the block layer zone append
+ emulation
+Thread-Topic: [PATCH v3 15/30] scsi: sd: Use the block layer zone append
+ emulation
+Thread-Index: AQHagKld2jDUZjEjbUOTHT1sWCBzqrFM+feA
+Date: Thu, 28 Mar 2024 10:49:46 +0000
+Message-ID: <cc6b06a0-9343-45c7-a1e5-031a03307108@wdc.com>
+References: <20240328004409.594888-1-dlemoal@kernel.org>
+ <20240328004409.594888-16-dlemoal@kernel.org>
+In-Reply-To: <20240328004409.594888-16-dlemoal@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR04MB7416:EE_|CH2PR04MB6807:EE_
+x-ms-office365-filtering-correlation-id: 7a8fb1b3-057a-4c26-4a60-08dc4f14c886
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1k7tPO6GODmmNpuOsQUwCFdnLCyCRYuA7+mpYMnq5dxOS2tlfITk56vANDPAmMb82GygyAp16oKsbaYv7EGi7Fecd9wQZQbic6vB16ALZ4yF0tT92JIoQzDfCTUIt/c8DdzcIVmpEjvcImF6aX8LIT52QUw2seoLIyrHdKLmdtJc9RZ6Wpuu7EGseKF5f4S9Npe3dC5U1XUMZL1R2I93E1YylChfNdM+oAik1Trcpcn3KLk73aCHqfVQSc8BQdmymV3eIMpYJT6CbW2+zvbvWt6ibho7R3vSCDhvNplUBXDSj4hcoiTXqQOF6jWHGsTjX2d7Lohs9aJUmBGp0ltPi+r7RmJum3SR301d/9rkTFD9X2lq/qbCR1gUHqGNq+PnaA20lrmMDtT/dIhBuKFqgHsw11K3JB6W6158TDH2XdMEyK1AjD3TjOMKyzGudh+SMK2DRUhZo6ItTGG+Gmh6nHSIidqA0AYc3A7BFhSOk9nq3RMeS7D63hEvuhpKBaWzJ17cg9SGY6zMWqmiV8x8H8jiJBlCZLCIrLiCH/3SmJ9Ub2/BP57R0ZbRlWbrnGjaVmrS84K8jRm4RDaJNtAVPjxDqxD1B9KoxspOHI15QHy7v2FeG6byYfMqCGE4IJegx2AjViNfJzeS18iekJTDCtSH1of/gXW5PbcuZyUHASzhuNuTTh5VQbTuYi8YNKqTcNTUfxoB5OQHX3Wc3H84j01UppH0ycBQ9JlCcziKlBM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR04MB7416.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005)(366007)(38070700009)(921011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WU9MUWZlQXhCZTBCdEc1bGlZMlZqZTJ2ZHkvL3hoVDhBQzBnZHRMaDNCSkt1?=
+ =?utf-8?B?bTZOOVovenBDZlhSZ1orT1BTbWtkbzltdS9vRytTak9COHRUdytaMzlwbGJU?=
+ =?utf-8?B?ZldWYWZ4aTh4QkRVVHZZVnRzWEc5ZFNmWWFZamZESlVuVm5lL3ZiWTY4L1I5?=
+ =?utf-8?B?MWszTXovM2tGaHltK2tQTWQ4L0JKUnJxVDRLRm9xMmFkem9zZnc2djhVS1BU?=
+ =?utf-8?B?Q2VDRjM5ZlJDTm42clI5NURRcFRxRHZJSlRSeWVrTjQ5cllyd2JSdTJQVVpa?=
+ =?utf-8?B?REpMWXcvc01DU3NCdkUrN3FYV2VuV2Vrc2hZRWp2UzdMYS9iZGVqVkw0R1dJ?=
+ =?utf-8?B?d1V0bDlmV1U0U281UnNseDJ3My9KbTZMYjVvUndNSWZDWGVTMGh2YjhSZkFK?=
+ =?utf-8?B?Q1g1dGZqN2pjY3M2RTQzZGR4VzB4cWFIWEJxRkcrZUJSa0o2ZlJ1R3IzNHhw?=
+ =?utf-8?B?OElrSHNldGEzaGkzZWt6V3hTMDhOZzdFeGU0SmIzeEkwZHZXc2JEcy9raExK?=
+ =?utf-8?B?c0d0QWRSVlJlUDIvdzFDZlN0NFpEVUF0czZWWkNqZjRrR3dxSTBvZ212UzMw?=
+ =?utf-8?B?QTUvRXdPTFphVytpVnB2L0t0UC9ERk55bk83TTFtNGhyT0Y4b2F1RUZPQVJH?=
+ =?utf-8?B?aDB5S3NsRk1uNWo2QytVTisydDc2c2hqdE1DN3BiR3BlbU5NVkVzSENheXZq?=
+ =?utf-8?B?Vys5bHBlVFZ1UTFRT0Y0VU5Uemtva0xOc0tjMGY0ZUNXQ0JNbWhXckovRGpB?=
+ =?utf-8?B?aytabStaajYzY2dYN2FhMmg1eVBiRTlyQjl5TGx3TkRQQ1VCa1VEWkpwS1RV?=
+ =?utf-8?B?RDZDUDB6QzRrU1JaUzVLSDkyT0p0MFJWb0l1STFZSEZXUzIzT2dIN2xsVVJk?=
+ =?utf-8?B?MEhpMnY2Y1dMQzgwOWVOZ1FPdEdsTlFlMGFsNGYwVmZwa3AxYS9uSVhYdk94?=
+ =?utf-8?B?UCtiWTUxdFZxdy94cGVEZVRlWCswMFZuTGlUZS9KZmlPNWNpcVdBU21Wdnpz?=
+ =?utf-8?B?cGJ1SE9KR1ZQMnBhSXI0T0VnMnhGdit2S0tOVzdHMDNrMCswK2FZSTBKUXdl?=
+ =?utf-8?B?WHY4cHRxU1FMNEY2cm4zVGNCY3N4K285Tm5SUld2b3RPN0hHLzZ5dDdmR2JP?=
+ =?utf-8?B?SEtqTFcwZmhRVVRxZjlvY2xmK2wxZTF0dk1kL3IrZ0NLQ3drWDZKcWJjV2ZR?=
+ =?utf-8?B?cTNlU0VIdVlpTERDcUFtY3NpUHBZQ010TjBWV08vc3h3bEtkR1VwM212WFJl?=
+ =?utf-8?B?Qnh3NzZXbEwxazJyd2pzcjFDQW42cVpyb25BT2ZFKy9TYXd4UXVlSEFCejBT?=
+ =?utf-8?B?U2xjTHNPU2FkNSt5YXdZY3ZVUWtpRDlnak05eGllL2FSaGZZQVNUZWExb0Qz?=
+ =?utf-8?B?c3FZYlFDSCtYSVVta3ZMdnM4a2o2QS82UlJ0OExLVmNQY0tFNlltL2p0aFJs?=
+ =?utf-8?B?ZmFNVTg2eVFlUlJEOHpGQnpxQm9BY3pBbC91T1dLTXdDdWtYYVd0WWNSYy94?=
+ =?utf-8?B?cUhDcGdHd2pEWGYwRDBneWxnSm93MWdGVm80ZXdXbUdlcVZYelJ1K1QxbHZX?=
+ =?utf-8?B?QmticHBBME9SeVNnSnBaTkl0WTdYNlJna20vQ1dvek45VkZpTXdsRnFiZ05j?=
+ =?utf-8?B?TlFtRnZVcDZWVm1yZ3BBVnA4OCtuK1VoRGdjRjlYK2lGdE1qRXZ5OXR2cGhs?=
+ =?utf-8?B?b1Nscmt3OE5BQ0pSTjB4U1NkQ1RxMXdiYzY5bTVVMW5kMGVKbTZJTzRaNlBo?=
+ =?utf-8?B?dGpoRHFMUjNHYnNyMGtrWXQ5bEo2anRPSzJPWUdRdk1FV0RvNlBiWUh3MTdV?=
+ =?utf-8?B?SGZQQ2tNRFk4QlhuaS9DWUxLbmNRVVRITkNtbFZOeE9KbU5RRkJTbDZQRnE4?=
+ =?utf-8?B?RXFXQ0w5V0pmVUhlR3NMY1EyVU55ZHNNNDJkU3VuRlMxN1dhYXBsUHVTWkJu?=
+ =?utf-8?B?S1ZVeTFIenpEZ1RqemJBWW9ZeWRIWG9JWFcybGFDejBXN2dTdUIrc3JvL1Bu?=
+ =?utf-8?B?Z01ubGtpeHVxbFRRMWM1ZFpWbzlDMDd0RCtMZ0JmWVhPU1NBTzhoUzljRmU2?=
+ =?utf-8?B?dFFJWk1YNmc1VExFTm9GUzZzbVR3ZFFUc0gzRGFRRUpDSWFST3RHZjN4UlFC?=
+ =?utf-8?B?SjBPWDhFM0dsdUpQQmlTc1hvM00zN0RxU1l3bEpOTU5ha1Q3V2JCa1lqcElQ?=
+ =?utf-8?B?K3dkd0RURkh2ZmZ3RFU0QWpkbmkwdzBPYnBNR2hUaFl4WnhIQ05NenBKSW5m?=
+ =?utf-8?B?WjFleitaMDc0MlV4NldQVUlYVnlBPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <09145227C2694A46BE7A82047D5B95E6@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/2] block,nvme: latency-based I/O scheduler
-Content-Language: he-IL, en-US
-To: Hannes Reinecke <hare@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-References: <20240326153529.75989-1-hare@kernel.org>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240326153529.75989-1-hare@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 70rZ0BT/a48S1aqcisIvvpe3Uk7QhnqGQhhog91k9iGKHIf2cr/2eLPJcuM/GaOPGIFPlTPSA5tiA0M7CMc4AvcEWsh7J2sRZXpD0OTkjX1kDbvoba7kNpWzWru7mXkq2VYMd8nL7fUuDLjWldmmaz/uQxaH2ip5VHJxCXeDYEpotPfmQ+lHSOjNr/0BEfHt98QpYRoKMBtWqodn0Dvtbvv3A6f6+l1tM1mschU9ilpVM1obAmV0lNUkpf2cu0F43iTXFDN29aWR6ohX3Ehfxy+YC2djF7KNbRpgU/exz6DDd28YmRFFwpr+STzvtjvGgsZiI5MVICIIgDOtPFkOhQWRq+6AVGIFA6LbEPYQouL4KBxm1O39CmlqNjxTdohcjSHbEPZzWpzBZ7vNdsoRssIkzV0CTozJifce+LoyksYz/AjNt6HzpHyamVPkzkUNjJKZGPDHLpN09l8bz5cH/YaqrJGiIAebL5VnWpQA/hL8AeaBYYPlAgvZbbfb7aM85bb4iRrE3IpOAuVRl8FVYGwlmljV0NquxPFCYT1/+DDXvo6J5ORWs8tcghFK8NxQCF+o3lEBDlX0kOfIIKXsmgU97Pn4TID6iTm6TOVn59QXNFdjiQImEosUIowWBPVZ
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a8fb1b3-057a-4c26-4a60-08dc4f14c886
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2024 10:49:46.1633
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rbaJ6H+NdF7ME99u4KIs2VZjXK7MbRqBEK9rnWWmWFwBNMz902+2CzlxgsNcZz14XZzmAYzf7rfkr6Ht2iYuuVQVfir6NTBi2WlDH+yeLyk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6807
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240328_033847_167440_348C52AC 
-X-CRM114-Status: GOOD (  17.35  )
+X-CRM114-CacheID: sfid-20240328_034952_999867_D8A71B35 
+X-CRM114-Status: GOOD (  10.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,66 +177,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 26/03/2024 17:35, Hannes Reinecke wrote:
-> Hi all,
->
-> there had been several attempts to implement a latency-based I/O
-> scheduler for native nvme multipath, all of which had its issues.
->
-> So time to start afresh, this time using the QoS framework
-> already present in the block layer.
-> It consists of two parts:
-> - a new 'blk-nodelat' QoS module, which is just a simple per-node
->    latency tracker
-> - a 'latency' nvme I/O policy
->
-> Using the 'tiobench' fio script I'm getting:
->    WRITE: bw=531MiB/s (556MB/s), 33.2MiB/s-52.4MiB/s
->    (34.8MB/s-54.9MB/s), io=4096MiB (4295MB), run=4888-7718msec
->      WRITE: bw=539MiB/s (566MB/s), 33.7MiB/s-50.9MiB/s
->    (35.3MB/s-53.3MB/s), io=4096MiB (4295MB), run=5033-7594msec
->       READ: bw=898MiB/s (942MB/s), 56.1MiB/s-75.4MiB/s
->    (58.9MB/s-79.0MB/s), io=4096MiB (4295MB), run=3397-4560msec
->       READ: bw=1023MiB/s (1072MB/s), 63.9MiB/s-75.1MiB/s
->    (67.0MB/s-78.8MB/s), io=4096MiB (4295MB), run=3408-4005msec
->
-> for 'round-robin' and
->
->    WRITE: bw=574MiB/s (601MB/s), 35.8MiB/s-45.5MiB/s
->    (37.6MB/s-47.7MB/s), io=4096MiB (4295MB), run=5629-7142msec
->      WRITE: bw=639MiB/s (670MB/s), 39.9MiB/s-47.5MiB/s
->    (41.9MB/s-49.8MB/s), io=4096MiB (4295MB), run=5388-6408msec
->       READ: bw=1024MiB/s (1074MB/s), 64.0MiB/s-73.7MiB/s
->    (67.1MB/s-77.2MB/s), io=4096MiB (4295MB), run=3475-4000msec
->       READ: bw=1013MiB/s (1063MB/s), 63.3MiB/s-72.6MiB/s
->    (66.4MB/s-76.2MB/s), io=4096MiB (4295MB), run=3524-4042msec
->    
-> for 'latency' with 'decay' set to 10.
-> That's on a 32G FC testbed running against a brd target,
-> fio running with 16 thread.
-
-Can you quantify the improvement? Also, the name latency suggest
-that latency should be improved no?
-
->
-> As usual, comments and reviews are welcome.
->
-> Hannes Reinecke (2):
->    block: track per-node I/O latency
->    nvme: add 'latency' iopolicy
->
->   block/Kconfig                 |   7 +
->   block/Makefile                |   1 +
->   block/blk-mq-debugfs.c        |   2 +
->   block/blk-nodelat.c           | 368 ++++++++++++++++++++++++++++++++++
->   block/blk-rq-qos.h            |   6 +
->   drivers/nvme/host/multipath.c |  46 ++++-
->   drivers/nvme/host/nvme.h      |   2 +
->   include/linux/blk-mq.h        |  11 +
->   8 files changed, 439 insertions(+), 4 deletions(-)
->   create mode 100644 block/blk-nodelat.c
->
-
+U28gbG9uZyBhbmQgdGhhbmtzIGZvciBhbGwgdGhlIGZpc2ggOyggOkQNCg0KUmV2aWV3ZWQtYnk6
+IEpvaGFubmVzIFRodW1zaGlybiA8am9oYW5uZXMudGh1bXNoaXJuQHdkYy5jb20+DQo=
 
