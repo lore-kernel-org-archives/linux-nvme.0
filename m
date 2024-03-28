@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA85AC54E67
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 04:15:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1403C54E64
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 04:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zHwI/TsgQGdKLtdmTFEXrG/XWNl3XnpvJf+wo4hw0DE=; b=w6b8a4MDw2mTBctHasTAKd1obb
-	sr1j03jfjvVcXILdw2TOvuy+6vsl3RzmxmTfFlw1zXe/KqL3wLmzwSbmnYrh7tvKayflzaYO4TJdA
-	Bk4M7Vc5Sbm98X5xgFIHXgJas/F2RGbiKBmI2CAqsHqu2SY5SbAjBGhpe9cp0Kz/iCy1whENaBZEK
-	ctHpBvK56jcnsUxjpOWGnw2+DOfvbIYASLZjOVNjCZPTOoA4NT6l6kT8SUjwbmu0lhixVyxmEVPYM
-	0YJn29EpTDz/vjl0Iv/9xjn8ngOJnVz68jhmj6j4F0J3+L5ypok46C3B0HDA5wdHlafNWuqBHohlb
-	qmva5Vbw==;
+	bh=H7qcrMbZsPO5jmA3p7euov0rN/PcsUnve31Hjy8q+sg=; b=kImqgvZq1RWdUKYgp6mET9CQBQ
+	06i7ypgriEoZJWkXPsd4a2RMTZh/Y3eDH6N1Oqs5MOc6ZrDCWGZlhx2OTR12hUneMMG2j+kZ2bGoL
+	QRiGr/x7oCjfqX/1jVnmSoclASlVBKzRl3nSWB0Ei9gtW3fQ0cRX7XSrDwJRGqAsRvnAzOy+PtS7A
+	FiObGMDjXZo85QIohiA7AbV6tdaAcQMc0rMsSl7hLw/RlKMLeY4tLuR5ilz3IByT7vEjIpZvbuP1y
+	YJOUCY+sSd4GnyAkOI6KT0SA+VXHpsQYQjYPvD+4zoM2GcbsvrThDH7FLdwLzPWGD+W1qdfFTVA/S
+	pDpppf8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rphAO-0000000CMri-0wSG;
-	Thu, 28 Mar 2024 04:15:04 +0000
+	id 1rphPE-0000000COWj-2jaC;
+	Thu, 28 Mar 2024 04:30:24 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rphAL-0000000CMpK-0W42
+	id 1rphPB-0000000COW5-2Isd
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Mar 2024 04:15:02 +0000
+	Thu, 28 Mar 2024 04:30:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id C984368B05; Thu, 28 Mar 2024 05:14:57 +0100 (CET)
-Date: Thu, 28 Mar 2024 05:14:57 +0100
+	id 80AD268B05; Thu, 28 Mar 2024 05:30:16 +0100 (CET)
+Date: Thu, 28 Mar 2024 05:30:16 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Damien Le Moal <dlemoal@kernel.org>
 Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
@@ -38,17 +38,17 @@ Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
 	dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
 	linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v3 04/30] block: Introduce blk_zone_update_request_bio()
-Message-ID: <20240328041457.GC13510@lst.de>
-References: <20240328004409.594888-1-dlemoal@kernel.org> <20240328004409.594888-5-dlemoal@kernel.org>
+Subject: Re: [PATCH v3 09/30] block: Pre-allocate zone write plugs
+Message-ID: <20240328043016.GA13701@lst.de>
+References: <20240328004409.594888-1-dlemoal@kernel.org> <20240328004409.594888-10-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328004409.594888-5-dlemoal@kernel.org>
+In-Reply-To: <20240328004409.594888-10-dlemoal@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240327_211501_372788_4DC29E92 
-X-CRM114-Status: GOOD (  12.25  )
+X-CRM114-CacheID: sfid-20240327_213021_783443_A5B4BC0A 
+X-CRM114-Status: GOOD (  18.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,20 +63,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> -		if (req_op(req) == REQ_OP_ZONE_APPEND)
-> -			bio->bi_iter.bi_sector = req->__sector;
-> -
-> -		if (!is_flush)
-> +		if (!is_flush) {
-> +			blk_zone_update_request_bio(req, bio);
->  			bio_endio(bio);
-> +		}
+I think this should go into the previous patch, splitting it
+out just causes confusion.
 
-As noted by Bart last time around, the blk_zone_update_request_bio
-really should stay out of the !is_flush check, as otherwise we'd
-break zone appends going through the flush state machine.
+> +static void disk_free_zone_wplug(struct blk_zone_wplug *zwplug)
+> +{
+> +	struct gendisk *disk = zwplug->disk;
+> +	unsigned long flags;
+> +
+> +	if (zwplug->flags & BLK_ZONE_WPLUG_NEEDS_FREE) {
+> +		kfree(zwplug);
+> +		return;
+> +	}
+> +
+> +	spin_lock_irqsave(&disk->zone_wplugs_lock, flags);
+> +	list_add_tail(&zwplug->link, &disk->zone_wplugs_free_list);
+> +	spin_unlock_irqrestore(&disk->zone_wplugs_lock, flags);
+> +}
+> +
+>  static bool disk_insert_zone_wplug(struct gendisk *disk,
+>  				   struct blk_zone_wplug *zwplug)
+>  {
+> @@ -630,18 +665,24 @@ static struct blk_zone_wplug *disk_get_zone_wplug(struct gendisk *disk,
+>  	return zwplug;
+>  }
+>  
+> +static void disk_free_zone_wplug_rcu(struct rcu_head *rcu_head)
+> +{
+> +	struct blk_zone_wplug *zwplug =
+> +		container_of(rcu_head, struct blk_zone_wplug, rcu_head);
+> +
+> +	disk_free_zone_wplug(zwplug);
+> +}
 
-Otherwise this looks good:
+Please verify my idea carefully, but I think we can do without the
+RCU grace period and thus the rcu_head in struct blk_zone_wplug:
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+When the zwplug is removed from the hash, we set the
+BLK_ZONE_WPLUG_UNHASHED flag under disk->zone_wplugs_lock.  Once
+caller see that flag any lookup that modifies the structure
+will fail/wait.  If we then just clear BLK_ZONE_WPLUG_UNHASHED after
+the final put in disk_put_zone_wplug when we know the bio list is
+empty and no other state is kept (if there might be flags left
+we should clear them before), it is perfectly fine for the
+zwplug to get reused for another zone at this point.
 
