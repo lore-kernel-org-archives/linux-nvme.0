@@ -4,89 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34F46CD11DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 23:03:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E465ECD11DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Mar 2024 23:05:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XpkAyFXDfnKKrnORiizuu0vbWhnwqe4qRQcMbxyl2vI=; b=w+S/olAtqgCcVnBIoiUYceTN6+
-	e/UDoKVQ36M8kDcCnu9gQHBQsBlkUBoUh3WzPOF17py0Uq28a3kJS5uSJs2r0llI49zegQwiFzLmM
-	C446fb9LN9rl4r8/w4Wr4Q/aaolCoT9mQAVwrPoKTkSdcD+q+X5RNdeIUWsun+LnpwPkQBUqMYSrO
-	6Kwz2E+wZpSHBqHOrcBvWSW00P2D/Iq6FFWHXgM5yfMUxRbuiyKLXVIrtVKy1oo232fL6nJavVkDl
-	LQRdH4bunW33lLcr0M6Q+25h1RLk/vjSpzn58ou6dEWSicTD1zXyLWh0IeN1Jc085priqqaf3eP81
-	S/XFSkmA==;
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:To:
+	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jH6cSamYqu9y6NrHpddafX7jLWVjJSO+MIjSmesZ7SQ=; b=oDlYjQBWbozfuqck1YJo5chq3/
+	9D0yOb3873sgNwVHXGkn77NepSW0b/ZdW017UgarL+KGjiHo0n2+ETv4LwpEjrOE7bpdkbY14VnG4
+	Hj44VwKf7arexW6uUM+voWrCMajn9jP7baTABoxJKsuhL6hJuEjMXIE1S5qFMOcYQrPpTKQZvo1lf
+	uBs7SDBdsGasmQ2A+l1T2nEpZZmGyc8sj6pZU4tp6TpOx26MEtrUl5HGPeWxePcHMUrrnz6Wk6R1s
+	ewBhpYx8q8+pcOwfmqGGUttzK08Gr4hVQ54G68CXsLhWJWO/sLpxgDHbk3tPMWBq/nrOXiY3eEE0a
+	dTR5r3FQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpymb-0000000G13I-0IIs;
-	Thu, 28 Mar 2024 23:03:41 +0000
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
+	id 1rpyoN-0000000G1IT-19sn;
+	Thu, 28 Mar 2024 23:05:31 +0000
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpymV-0000000G10a-0kKF
+	id 1rpyoK-0000000G1GN-1pnr
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Mar 2024 23:03:39 +0000
-Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-3688f1b7848so1543025ab.0
-        for <linux-nvme@lists.infradead.org>; Thu, 28 Mar 2024 16:03:28 -0700 (PDT)
+	Thu, 28 Mar 2024 23:05:29 +0000
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1dd3c6c8dbbso2198005ad.1
+        for <linux-nvme@lists.infradead.org>; Thu, 28 Mar 2024 16:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1711667007; x=1712271807; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XpkAyFXDfnKKrnORiizuu0vbWhnwqe4qRQcMbxyl2vI=;
-        b=SD1Hwh9wIiWHfUztdDt0QsVQOJirC+/xUU7Piwi+ex2wpyedwHLmUdGehXPmpfzvXZ
-         gCUvThu87js4Xcx9F3NO8xYg9dkv44/qUvnZ8AXwP2sE8xGm3WePSBNOqoOgoTOeTMpu
-         dHKtfOvBil35TXQ0uumPK8memBaMGxrW4vtGVNICC6xEEStyKVrYAbCmfQc24cPFGkzO
-         EJssMP6ZrLS0knLCd1R2M2aah4SoTXngfNnqxBYmuJ3ZSIOYuJAd/sl2i457ST/R9pqh
-         eavyKTTTI1yD+SHSwpJo7xO/+b0AUby4L9Tjmij0JMPQg0GqTpah15Yyv/YB3k9RV+g6
-         PzQA==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1711667126; x=1712271926; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jH6cSamYqu9y6NrHpddafX7jLWVjJSO+MIjSmesZ7SQ=;
+        b=SJh27cVxIyAEGKioJRqa4XTNpchdy79RNRkZISG6TbSbQNUJH/cSE6ET9hYtJ5QU77
+         shWPTv2KpvpjFOulHwLg4kTHTCX0clUv1FmWNo7c00nXdAvgCHaWF8wLew3mTNKDcTvG
+         G/Q4CnRDr3H+dGDl4VyJz5927cOQmDF1ARGOAg3ILwvsMzbwFTuGrOpYF13p8ziFVl2S
+         3AP7W1Jd/jHMxi31+yKGNMH+6gfgnVprbV7ZfofYkjfJ6+YV31CSXer3XwtoHRdf1Q8A
+         RTKbm2oiLzXOWTQqkK6JhqhJBJVNGOVmlRIf10dgzwkysTTkYG+O4COTLSGNmrdqo6Ea
+         aquA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711667007; x=1712271807;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XpkAyFXDfnKKrnORiizuu0vbWhnwqe4qRQcMbxyl2vI=;
-        b=PHvpFI+23MWIwNAFbFbG0wxNx0PQW8PFrJZgx3bBxuOXgY12sqcNqbrNCXrlCweowM
-         9TJO+akmKmmExILYMk1r9pMySV3bd4Cdw4mk3nf0CqeLdWdWu/AcC3q72LEap+EemlZl
-         JSSGrAqb/iYAGA9XOl75jYJIuMTTnEZcAbFgBQD3Eex/726XO7UnwOmlXxP6MPHZ7KPF
-         qsaQUupUEzFxTxHxfAqHWwtZNbkCq5HEJzUC+XUKte5BvbrTodfOx1nJ2pPu0w/awwuc
-         m+U8eOfXTJZpx1KdIQtahY8EgQUVPwMZVNy3uDBBYP2K9X2XSn4v9UfOdkTPwN5DTMWz
-         4BsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzGIQhmDxhxhzdOTfxb9ZqNmaYvEKeMZL/6TGeuiPDYiGcSj+gMZ7U2zqxHg0hOGizAqbFZBlKEfZTrK2MLq5SqW6o9K81AZw/FeSSCWI=
-X-Gm-Message-State: AOJu0Yy143okLnH+5LAnKcVjEqS7Tyl5xQhDTqBF2H0Zt1o988gV+wsV
-	xSUC4QJBn1CHoR++kh+m20Vn48NpOa+Y/4g0D7OrlkTqHatIztIW/o2N3xSj4MA=
-X-Google-Smtp-Source: AGHT+IHAI1GJZLWvZiX+0hK7hw4PeNQyK/rx84JPWm9big8mT9eaCtaTSySO5HhDhFTfwSSCdLU3UA==
-X-Received: by 2002:a05:6e02:350c:b0:365:224b:e5f7 with SMTP id bu12-20020a056e02350c00b00365224be5f7mr610977ilb.1.1711667007379;
-        Thu, 28 Mar 2024 16:03:27 -0700 (PDT)
-Received: from [192.168.201.244] ([50.234.116.5])
-        by smtp.gmail.com with ESMTPSA id 8-20020a630f48000000b005f0793db2ebsm1843234pgp.74.2024.03.28.16.03.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 16:03:26 -0700 (PDT)
-Message-ID: <acf9949e-f4a2-49f7-9f6f-351c8158522a@kernel.dk>
-Date: Thu, 28 Mar 2024 17:03:25 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/30] block: Do not force full zone append completion
- in req_bio_endio()
-Content-Language: en-US
-To: Damien Le Moal <dlemoal@kernel.org>, Bart Van Assche
- <bvanassche@acm.org>, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, "Martin K . Petersen"
- <martin.petersen@oracle.com>, dm-devel@lists.linux.dev,
- Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-References: <20240328004409.594888-1-dlemoal@kernel.org>
- <20240328004409.594888-2-dlemoal@kernel.org>
- <a474bae3-e505-4d17-a5e4-ed9928b6cbb3@acm.org>
- <935b43c0-b5cc-48ef-a283-564499ac7bde@kernel.org>
+        d=1e100.net; s=20230601; t=1711667126; x=1712271926;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jH6cSamYqu9y6NrHpddafX7jLWVjJSO+MIjSmesZ7SQ=;
+        b=OpxA9EDwWJmZLeDlR0KRUZ1y+hzvzm7OtuAi/g0u5gMM8DrOFBqeUEA79mTt2UYOnj
+         EjzQnP8+67xffQa7ajbq/h+VNk5anY0WWAzy7jxUA4L5oDKjKmu7fKfHv1db+Yj1z0Vi
+         ZiM16TN1zdZzKSraPITVwEUqykWD0CMslpWERHjI0IwMMT7522fIDpqx+JfST248A203
+         uWNBprWKj0ePuzDKfhkHwl++HJ5yWkLwUgfOW2RXA4XBhc4mMnQUPeR6aci9xVodAqw8
+         3WC4i1gJR4blIY9yyG/qGEfTvFZf7EFsjfvXbUlU1+9sBnVi16WOg+U1KUGBhnewHJec
+         CcNg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ9k1tYxwfZ57gEEi0V+02XV4wo24DLrI50MILcTEIi5rYXHubSaKYhlifxEReJpeAAOVnqakSg/6GSVha9GLvlFqAt4ZXAhWdXBO9ueg=
+X-Gm-Message-State: AOJu0YzoGEj5/CMW98Q/3myPNlbJwEI0Wz2KkjazLTN43O0k93JvNQsV
+	DNbmyGwXAjq0ZRYKu95YSieGQY6w83Ko1irKZdn4m9kKJr7Kq46yxlEFyNHyC9q37WB9audwb10
+	z
+X-Google-Smtp-Source: AGHT+IFz2PM05uHbkjHCxEwx7ITQmcuHmP+Q9onJ6IDFb8FdZ5M8mwUFVEVXNdLv1bOXS14zB6XpZg==
+X-Received: by 2002:a17:90a:77cb:b0:29c:7487:43b8 with SMTP id e11-20020a17090a77cb00b0029c748743b8mr839839pjs.1.1711667125810;
+        Thu, 28 Mar 2024 16:05:25 -0700 (PDT)
+Received: from [127.0.0.1] ([50.234.116.5])
+        by smtp.gmail.com with ESMTPSA id cx18-20020a17090afd9200b0029d7e7b7b41sm4013902pjb.33.2024.03.28.16.05.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 16:05:24 -0700 (PDT)
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <935b43c0-b5cc-48ef-a283-564499ac7bde@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To: linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ "Martin K . Petersen" <martin.petersen@oracle.com>, 
+ dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>, 
+ linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>, 
+ Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>
+In-Reply-To: <20240328004409.594888-1-dlemoal@kernel.org>
+References: <20240328004409.594888-1-dlemoal@kernel.org>
+Subject: Re: (subset) [PATCH v3 00/30] Zone write plugging
+Message-Id: <171166712406.796545.15002324421306835511.b4-ty@kernel.dk>
+Date: Thu, 28 Mar 2024 17:05:24 -0600
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.5-dev-2aabd
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240328_160335_351125_2049E376 
-X-CRM114-Status: GOOD (  19.38  )
+X-CRM114-CacheID: sfid-20240328_160528_516702_B212E880 
+X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,67 +97,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/28/24 4:43 PM, Damien Le Moal wrote:
-> On 3/29/24 03:14, Bart Van Assche wrote:
->> On 3/27/24 17:43, Damien Le Moal wrote:
->>> This reverts commit 748dc0b65ec2b4b7b3dbd7befcc4a54fdcac7988.
->>>
->>> Partial zone append completions cannot be supported as there is no
->>> guarantees that the fragmented data will be written sequentially in the
->>> same manner as with a full command. Commit 748dc0b65ec2 ("block: fix
->>> partial zone append completion handling in req_bio_endio()") changed
->>> req_bio_endio() to always advance a partially failed BIO by its full
->>> length, but this can lead to incorrect accounting. So revert this
->>> change and let low level device drivers handle this case by always
->>> failing completely zone append operations. With this revert, users will
->>> still see an IO error for a partially completed zone append BIO.
->>>
->>> Fixes: 748dc0b65ec2 ("block: fix partial zone append completion handling in req_bio_endio()")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
->>> ---
->>>   block/blk-mq.c | 9 ++-------
->>>   1 file changed, 2 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/block/blk-mq.c b/block/blk-mq.c
->>> index 555ada922cf0..32afb87efbd0 100644
->>> --- a/block/blk-mq.c
->>> +++ b/block/blk-mq.c
->>> @@ -770,16 +770,11 @@ static void req_bio_endio(struct request *rq, struct bio *bio,
->>>   		/*
->>>   		 * Partial zone append completions cannot be supported as the
->>>   		 * BIO fragments may end up not being written sequentially.
->>> -		 * For such case, force the completed nbytes to be equal to
->>> -		 * the BIO size so that bio_advance() sets the BIO remaining
->>> -		 * size to 0 and we end up calling bio_endio() before returning.
->>>   		 */
->>> -		if (bio->bi_iter.bi_size != nbytes) {
->>> +		if (bio->bi_iter.bi_size != nbytes)
->>>   			bio->bi_status = BLK_STS_IOERR;
->>> -			nbytes = bio->bi_iter.bi_size;
->>> -		} else {
->>> +		else
->>>   			bio->bi_iter.bi_sector = rq->__sector;
->>> -		}
->>>   	}
->>>   
->>>   	bio_advance(bio, nbytes);
->>
->> Hi Damien,
->>
->> This patch looks good to me but shouldn't it be separated from this
->> patch series? I think that will help this patch to get merged sooner.
-> 
-> Yes, it can go on its own. But patch 3 depends on it so I kept it in the series.
-> 
-> Jens,
-> 
-> How would you like to proceed with this one ?
 
-I can just pick it up separately.
+On Thu, 28 Mar 2024 09:43:39 +0900, Damien Le Moal wrote:
+> The patch series introduces zone write plugging (ZWP) as the new
+> mechanism to control the ordering of writes to zoned block devices.
+> ZWP replaces zone write locking (ZWL) which is implemented only by
+> mq-deadline today. ZWP also allows emulating zone append operations
+> using regular writes for zoned devices that do not natively support this
+> operation (e.g. SMR HDDs). This patch series removes the scsi disk
+> driver and device mapper zone append emulation to use ZWP emulation.
+> 
+> [...]
 
+Applied, thanks!
+
+[01/30] block: Do not force full zone append completion in req_bio_endio()
+        commit: 55251fbdf0146c252ceff146a1bb145546f3e034
+
+Best regards,
 -- 
 Jens Axboe
+
 
 
 
