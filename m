@@ -4,62 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2267FCD11DD
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Mar 2024 09:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16213CD11DD
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Mar 2024 11:35:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gcltwoo8S6ISUY/CBYRisxQN0djDSDd2jK4mVxeoNts=; b=kvsrdeV0z7xihjwrU4WfXcZTRI
-	9W+/zmsnkrSMbagvzIFd3MhF5cx6FmUoAuKIl3uRZqM9fV9LphYl6hQVPlC8N0Sqyvm9BVyV9nbOD
-	iqEeXwVRuKUa/mzW6GuNU6Wq2UMwFnRZm+ev5ZNgdn22AWQa1ktBjog1W/BPp1cQZHXbsVXM8IWs3
-	f1EqtfoXiuxnrjS5RCUtN95yJQKPMOMb+iEogv4og1FbU3yoqXm4JKy+7AZmfnGsT+kXZxSCbqZUD
-	DIa+u1B5vEMXgvTjAGakNi51s3e6SmnoAOhctWyOgZGGAxfcdAxCpevJ/wEijOFivYCbd/kTy+89J
-	wMhSuWmQ==;
+	bh=99LzP7voCnYh/Y4bbLzHy08uzA5E3NnCx/u2rSHwG+A=; b=VNLOabS0XWmaWd+6OOAGfwuo9o
+	w9xQQl0F94QHvwcnhisf4hqXvJrvW6pusPs+4G2Aqe4hh92bNo23oFiUAnQO7McRbaxmrY2hAoxsK
+	hVT4i+5g/u8XG3eJ0b4snHfx+k3UuSCsRD11zJTqk5j2bfTqejOvZehyphz9rYisfMsPoW7wUrXce
+	yaZ1rRxpWasUyA3lQPFYaUkNRSl72LHX5ysbOZ5kePU/6liRxrzmfCIOYWdBBK7O85q88be+aB1ge
+	Sd4i1w7YV326lsg7HlV5qud+ppfzeOp/ZE856M3pF07x416iKxObyuOJFmanjMVdQnFkDSN+fM3ob
+	ZuNCftTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rq8Sp-0000000HTD9-0Ip1;
-	Fri, 29 Mar 2024 09:23:55 +0000
-Received: from mail.send.com.pl ([89.31.64.11])
+	id 1rqAWV-00000000CsH-0ltm;
+	Fri, 29 Mar 2024 11:35:51 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rq8Sm-0000000HTCR-06ct
+	id 1rqAWQ-00000000Cov-3js4
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Mar 2024 09:23:53 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by zmail.send.com.pl (Postfix) with ESMTP id 795AC4C69;
-	Fri, 29 Mar 2024 10:23:50 +0100 (CET)
-Received: from zmail.send.com.pl ([127.0.0.1])
- by localhost (zmail.send.com.pl [127.0.0.1]) (amavis, port 10032) with ESMTP
- id aaivpmJ9Kmdu; Fri, 29 Mar 2024 10:23:49 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by zmail.send.com.pl (Postfix) with ESMTP id 116375090;
-	Fri, 29 Mar 2024 10:23:49 +0100 (CET)
-X-Virus-Scanned: amavis at send.com.pl
-Received: from zmail.send.com.pl ([127.0.0.1])
- by localhost (zmail.send.com.pl [127.0.0.1]) (amavis, port 10026) with ESMTP
- id i_NR8xJUaCbM; Fri, 29 Mar 2024 10:23:49 +0100 (CET)
-Received: from [172.16.10.4] (unknown [89.31.64.4])
-	by zmail.send.com.pl (Postfix) with ESMTPSA id 003994C69;
-	Fri, 29 Mar 2024 10:23:48 +0100 (CET)
-Message-ID: <3dae318d-517b-446e-a44e-61a101c7ae7e@sibersoft.pl>
-Date: Fri, 29 Mar 2024 10:23:48 +0100
+	Fri, 29 Mar 2024 11:35:49 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240329113537epoutp037b170215481863ea4c36a70908ef403b~BOR6y3p2l0406604066epoutp03S
+	for <linux-nvme@lists.infradead.org>; Fri, 29 Mar 2024 11:35:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240329113537epoutp037b170215481863ea4c36a70908ef403b~BOR6y3p2l0406604066epoutp03S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1711712137;
+	bh=99LzP7voCnYh/Y4bbLzHy08uzA5E3NnCx/u2rSHwG+A=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=belS+YeroG9oPdWWn8NXS3t1K1e3OdafX8Iz/KGC1lQUVROMOaRME2Uvgy1gWveSN
+	 wX1Hqb5jMl+mZaZnQn64LeHNJCPAngu+VIYSwgai+rpGLoR3ERtPqH8LwE08ujdS+T
+	 tbOnMPNsBNz34ws8e2K8XxuOkKGwJy1/4MPRDFdg=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240329113537epcas5p4a5cb2aaf19ac7afc03a4c28fdb08c04c~BOR6knDZs1875118751epcas5p4t;
+	Fri, 29 Mar 2024 11:35:37 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.180]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4V5dd32n61z4x9Pv; Fri, 29 Mar
+	2024 11:35:35 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	A2.52.09665.787A6066; Fri, 29 Mar 2024 20:35:35 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240329113534epcas5p3b15f2cd8483d566eecc9791b8e1ed5c7~BOR4gif_t2394523945epcas5p36;
+	Fri, 29 Mar 2024 11:35:34 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240329113534epsmtrp24702b0e67bc35ccef127e11a81010352~BOR4f0rMp2556625566epsmtrp2N;
+	Fri, 29 Mar 2024 11:35:34 +0000 (GMT)
+X-AuditID: b6c32a4b-829fa700000025c1-a8-6606a78768ad
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1D.2C.08390.687A6066; Fri, 29 Mar 2024 20:35:34 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240329113533epsmtip23b41d1f50ad2a799cd12237e17aec7a5~BOR2_crAe1089810898epsmtip2E;
+	Fri, 29 Mar 2024 11:35:33 +0000 (GMT)
+Message-ID: <e6ec5771-5377-fcb4-7fb4-0858f8f1f0ac@samsung.com>
+Date: Fri, 29 Mar 2024 17:05:32 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: nvmetcli FC transport problem
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org
-References: <e7be9608-7e1d-4da3-985b-644b66443dec@sibersoft.pl>
- <ak47crahgtdwhb2ecc22eseidltasw2sppbrq2ik57r6raal5f@n67q7wbbl7jr>
-Content-Language: pl
-From: =?UTF-8?B?xYF1a2FzeiBLb2rFgm8=?= <l.kojlo@sibersoft.pl>
-In-Reply-To: <ak47crahgtdwhb2ecc22eseidltasw2sppbrq2ik57r6raal5f@n67q7wbbl7jr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [Lsf-pc] [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC]
+ Meta/Integrity/PI improvements
+Content-Language: en-US
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, josef@toxicpanda.com,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, Linux FS Devel
+	<linux-fsdevel@vger.kernel.org>, lsf-pc@lists.linux-foundation.org,
+	Christoph Hellwig <hch@lst.de>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <yq1sf0b4359.fsf@ca-mkp.ca.oracle.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPJsWRmVeSWpSXmKPExsWy7bCmlm77crY0g28H+SxW3+1ns1i5+iiT
+	xZ+HhhaTDl1jtNh7S9tiz96TLBbzlz1lt9j3ei+zxfLj/5gcOD0uny312LSqk81j85J6j8k3
+	ljN67L7ZwObx8ektFo8JmzeyenzeJBfAEZVtk5GamJJapJCal5yfkpmXbqvkHRzvHG9qZmCo
+	a2hpYa6kkJeYm2qr5OIToOuWmQN0m5JCWWJOKVAoILG4WEnfzqYov7QkVSEjv7jEVim1ICWn
+	wKRArzgxt7g0L10vL7XEytDAwMgUqDAhO2P3uq+MBdN1Ky4tW8rYwDhBtouRk0NCwETiz4FF
+	jF2MXBxCArsZJSbseQXlfGKUWPnqGCuE841R4tCe+awwLd8aJrCD2EICexklNkzggih6yyjx
+	+cJRZpAEr4CdxPGeVkYQm0VAVWLBpQaouKDEyZlPWEBsUYFkiZ9dB9i6GDk4hAViJJ7tcwUJ
+	MwuIS9x6Mp8JxBYRMJWY/GkrG8h8ZoHHTBIf+o8wgdSzCWhKXJhcClLDKWAs8a1zNjtEr7zE
+	9rdzmEHqJQRWckis3HOaEeJoF4kv/b1sELawxKvjW9ghbCmJz+/2QsWTJS7NPMcEYZdIPN5z
+	EMq2l2g91c8MspcZaO/6XfoQu/gken8/ATtHQoBXoqNNCKJaUeLepKfQoBKXeDhjCZTtIfHj
+	8gk2SFDNZJKYs+gI8wRGhVlIoTILyfuzkLwzC2HzAkaWVYySqQXFuempxaYFxnmp5fD4Ts7P
+	3cQITrla3jsYHz34oHeIkYmD8RCjBAezkgjvzqMsaUK8KYmVValF+fFFpTmpxYcYTYHRM5FZ
+	SjQ5H5j080riDU0sDUzMzMxMLI3NDJXEeV+3zk0REkhPLEnNTk0tSC2C6WPi4JRqYGqTcPv/
+	sGiqv1PBvmO/QozXM0RcNXijm/6yizdz8v3G3b/4dz1rYNzLUlEnrHiy9e872ZhPvGfy1I1f
+	tsW7l/nd2dhuXXihW4zvKN8GZv56v97/uZVXP5fKNp3y1bhsXK/beWjNDa55ch9uruUI+bEv
+	s07g3cyQiQv+GuTIyW00e7na7fZul/4dk0yW63JesOdumyRd9LVg6RH7c2wp7xouXL3o2rL6
+	3+nAY8HT23s77L9vP5CqZeGSP7Ps8evzyXGKvWzzfm5b33LEppyT8eYM8WOXz9/MbNMT4qye
+	I7v7K+v6TWZfjp/5FuZsc/Jk29KN5w7+SW7yfzBz8pXPEbnfPO8Zn39zmeO2yOb+PjElluKM
+	REMt5qLiRACOJYi2QgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmkeLIzCtJLcpLzFFi42LZdlhJXrdtOVuawYHzuhar7/azWaxcfZTJ
+	4s9DQ4tJh64xWuy9pW2xZ+9JFov5y56yW+x7vZfZYvnxf0wOnB6Xz5Z6bFrVyeaxeUm9x+Qb
+	yxk9dt9sYPP4+PQWi8eEzRtZPT5vkgvgiOKySUnNySxLLdK3S+DK2L3uK2PBdN2KS8uWMjYw
+	TpDtYuTkkBAwkfjWMIG9i5GLQ0hgN6PE3+W7WSES4hLN136wQ9jCEiv/PQezhQReM0qseAHW
+	zCtgJ3G8p5URxGYRUJVYcKmBGSIuKHFy5hMWEFtUIFni5Z+JYL3CAjESe7etB4szA82/9WQ+
+	E4gtImAqMfnTVjaI+GMmic0/PSAOmskk8ejGaqCDODjYBDQlLkwuBanhFDCW+NY5mx2i3kyi
+	a2sXI4QtL7H97RzmCYxCs5CcMQvJullIWmYhaVnAyLKKUTK1oDg3PbfYsMAoL7Vcrzgxt7g0
+	L10vOT93EyM4vrS0djDuWfVB7xAjEwfjIUYJDmYlEd6dR1nShHhTEiurUovy44tKc1KLDzFK
+	c7AoifN+e92bIiSQnliSmp2aWpBaBJNl4uCUamBinm36e3XutFVNH9aeWlq18T6b7MK9GxJO
+	soTmyP5gNz257nFHgIbcg6kdzxJMtb7PWaEc8jKi/uCbl1cvN/FXqHJ8ObzvftkWtXub/99W
+	eSt3nvP3itUF5bfv3Rd1eiVgn/knZNfPexZ9DGrq8i+Zatc2Bu5wy9jGFraq+l3Q6w1zc4/e
+	DnxaabL1gS7f07AElbj3G1M/MyfzaUVOu/9L3mzO470KztoH7ha1vnjQdudeEefmu25215qe
+	rD5x1CMn+3PO7PLCaL9ba76e7rHWnVE8c45sV93a8GWVJmn3Hwtz2Tw69fbdtSvpDOkPrl+R
+	zJSX8F9SqnBo8kdP2fl3Jum3PPudskQz9FqyM+dufiWW4oxEQy3mouJEAKsN0QYeAwAA
+X-CMS-MailID: 20240329113534epcas5p3b15f2cd8483d566eecc9791b8e1ed5c7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240222193304epcas5p318426c5267ee520e6b5710164c533b7d
+References: <CGME20240222193304epcas5p318426c5267ee520e6b5710164c533b7d@epcas5p3.samsung.com>
+	<aca1e970-9785-5ff4-807b-9f892af71741@samsung.com>
+	<yq14jdu7t2u.fsf@ca-mkp.ca.oracle.com>
+	<c196e634-7081-9d90-620c-002d3ff15dfc@samsung.com>
+	<yq1sf0b4359.fsf@ca-mkp.ca.oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240329_022352_301503_30D3F948 
-X-CRM114-Status: GOOD (  14.49  )
+X-CRM114-CacheID: sfid-20240329_043547_682660_3CEA1F93 
+X-CRM114-Status: GOOD (  24.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,180 +144,183 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
+On 3/28/2024 6:00 AM, Martin K. Petersen wrote:
+> 
+> Hi Kanchan!
+> 
+>> Not sure how far it is from the requirements you may have. Feedback
+>> will help. Perhaps the interface needs the ability to tell what kind
+>> of checks (guard, apptag, reftag) are desired. Doable, but that will
+>> require the introduction of three new RWF_* flags.
+> 
+> I'm working on getting my test tooling working with your series.
 
-I'v tried nvmetcli v0.8 with ubuntu kernel 6.8.0 but still have same prob=
-lem
+If it helps somehow, here is a simple application for the interface [*].
+It is devoid of guard (and stuff); for that fio is better.
 
-*/ports/1/subsystems> create test
-Could not symlink test in configFS: [Errno 6] No such device or address:=20
-'/sys/kernel/config/nvmet/subsystems/test' ->=20
-'/sys/kernel/config/nvmet/ports/1/subsystems/test'*
+> But
+> yes, I'll definitely need a way to set the bip flags.
 
-Nothing in dmesg
+Just to be clear, I was thinking of three new flags that userspace can 
+pass: RWF_CHK_GUARD, RWF_CHK_APPTAG, RWF_CHK_REFTAG.
+And corresponding bip flags will need to be introduced (I don't see 
+anything existing). Driver will see those and convert to protocol 
+specific flags.
+Does this match with you what you have in mind.
 
-FC card I'm using it's QLogic QLE2740
 
- =C2=A0Class Device path =3D=20
-"/sys/devices/pci0000:00/0000:00:03.0/0000:04:00.0/host11/fc_host/host11"
- =C2=A0=C2=A0=C2=A0 dev_loss_tmo=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =3D "30"
- =C2=A0=C2=A0=C2=A0 fabric_name=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 =3D "0xffffffffffffffff"
- =C2=A0=C2=A0=C2=A0 issue_lip=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D <store method only>
- =C2=A0=C2=A0=C2=A0 max_npiv_vports=C2=A0=C2=A0=C2=A0=C2=A0 =3D "254"
- =C2=A0=C2=A0=C2=A0 node_name=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D "0x20000024ff1491be"
- =C2=A0=C2=A0=C2=A0 npiv_vports_inuse=C2=A0=C2=A0 =3D "0"
- =C2=A0=C2=A0=C2=A0 port_id=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 =3D "0x000001"
- =C2=A0=C2=A0=C2=A0 port_name=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D "0x21000024ff1491be"
- =C2=A0=C2=A0=C2=A0 port_state=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 =3D "Online"
- =C2=A0=C2=A0=C2=A0 port_type=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D "Point-To-Point (direct nport connection)"
- =C2=A0=C2=A0=C2=A0 speed=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "32 Gbit"
- =C2=A0=C2=A0=C2=A0 supported_classes=C2=A0=C2=A0 =3D "Class 3"
- =C2=A0=C2=A0=C2=A0 supported_speeds=C2=A0=C2=A0=C2=A0 =3D "8 Gbit, 16 Gb=
-it, 32 Gbit"
- =C2=A0=C2=A0=C2=A0 symbolic_name=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
- "QLE2740 FW:v9.08.02 DVR:v10.02.07.900-k"
- =C2=A0=C2=A0=C2=A0 system_hostname=C2=A0=C2=A0=C2=A0=C2=A0 =3D ""
- =C2=A0=C2=A0=C2=A0 tgtid_bind_type=C2=A0=C2=A0=C2=A0=C2=A0 =3D "wwpn (Wo=
-rld Wide Port Name)"
- =C2=A0=C2=A0=C2=A0 uevent=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D
- =C2=A0=C2=A0=C2=A0 vport_create=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =3D <store method only>
- =C2=A0=C2=A0=C2=A0 vport_delete=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =3D <store method only>/
-/
+>> Right. This can work for the case when host does not need to pass the
+>> buffer (meta-size is equal to pi-size). But when meta-size is greater
+>> than pi-size, the meta-buffer needs to be allocated. Some changes are
+>> required so that Block-integrity does that allocation, without having
+>> to do read_verify/write_generate.
+> 
+> Not sure I follow. Do you want the non-PI metadata to be passed in from
+> userland but the kernel or controller to generate the PI?
+> 
 
-NVME modules I have loaded in kernel
+No, this has no connection with userland. Seems concurrent discussion 
+(with the user-interface topic) will cause the confusion. Maybe this is 
+better to be discussed (after some time) along with its own RFC.
 
-    lsmod | grep nvme
-    nvmet_fc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 45056=C2=A0 0
-    nvmet=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 196608=C2=A0 7 nvmet_fc
-    nvme_keyring=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 20480=C2=A0 1 nvmet
-    nvme_fc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 57344=C2=A0 1 qla2xxx
-    nvme=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 61440=C2=A0 8
-    nvme_fabrics=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 36864=C2=A0 1 nvme_fc
-    nvme_core=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 212992=C2=A0 12 nvmet,nvme,nvme_fc,nvme_fabrics
-    nvme_auth=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 28672=C2=A0 2 nvmet,nvme_core
+[*]
 
-Configuration file in attachment.
+#define _GNU_SOURCE
 
-What am I missing ?
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <linux/io_uring.h>
+#include "liburing.h"
 
-W dniu 28.03.2024 o=C2=A009:51, Daniel Wagner pisze:
-> Hi,
->
-> On Tue, Mar 26, 2024 at 02:44:41PM +0100, =C5=81ukasz Koj=C5=82o wrote:
->> I'm using nvmetcli version 0.7 on OpenSUSE=C2=A0 LEAP 15.5
-> [...]
->> Can you please help me ?
-> You are using downstream version of nvmetcli and the kernel, maintained
-> by your distro vendor. In this case you should report the problem there
-> (bugzilla.opensuse.org).
->
-> Here on this mailing list, we ask you to try with current upstream
-> version to reproduce the problem, e.g. nvmetcli 0.8 and the latest
-> release upstream kernel v6.8.x. If you still observe your problem, feel
-> free to post your results.
->
-> Thanks,
-> Daniel
---=20
+/* write data/meta. read data/meta. compare data/meta buffers */
+/* prerequisite: format namespace with 4KB + 8b, pi_type = 0 */
 
-Pozdrawiam / Best regards
+#define DATA_LEN 4096
+#define META_LEN 8
 
-*=C5=81ukasz Koj=C5=82o *
-Administrator System=C3=B3w i Sieci
+int main(int argc, char *argv[])
+{
+         struct io_uring ring;
+         struct io_uring_sqe *sqe = NULL;
+         struct io_uring_cqe *cqe = NULL;
+         void *wdb,*rdb;
+         char wmb[META_LEN], rmb[META_LEN];
+         char *data_str = "data buffer";
+         char *meta_str = "meta";
+         int fd, ret, blksize;
+         struct stat fstat;
+         unsigned long long offset = 0;
 
-=09
-Logo SiberSoft =09
+         if (argc != 2) {
+                 fprintf(stderr, "Usage: %s <block-device>", argv[0]);
+                 return 1;
+         };
 
-*SiberSoft Sp. j.*
-Praw Kobiet 4,
-15-535 Bia=C5=82ystok,
-Poland
+         if (stat(argv[1], &fstat) == 0) {
+                 blksize = (int)fstat.st_blksize;
+         } else {
+                 perror("stat");
+                 return 1;
+         }
 
-*website:* https://sibersoft.pl
-*e-mail office:* poczta@sibersoft.pl
-*personal e-mail:* l.kojlo@sibersoft.pl <mailto:kn@sibersoft.pl>
-*mobile phone:* +48 791 320 220
+         if (posix_memalign(&wdb, blksize, DATA_LEN)) {
+                 perror("posix_memalign failed");
+                 return 1;
+         }
+         if (posix_memalign(&rdb, blksize, DATA_LEN)) {
+                 perror("posix_memalign failed");
+                 return 1;
+         }
 
-=09
+         strcpy(wdb, data_str);
+         strcpy(wmb, meta_str);
 
-*NIP:* 9662125863
-*REGON:* 381937585
-*KRS:* 0000760681
+         fd = open(argv[1], O_RDWR | O_DIRECT);
+         if (fd < 0) {
+                 printf("Error in opening device\n");
+                 return 0;
+         }
 
-SiberSoft =09
+         ret = io_uring_queue_init(8, &ring, 0);
+         if (ret) {
+                 fprintf(stderr, "ring setup failed: %d\n", ret);
+                 return 1;
+         }
 
-Nie drukuj tego e-maila, chyba =C5=BCe naprawd=C4=99 potrzebujesz.
-Please don=E2=80=99t print this e-mail unless you really need to.
+         /* write data + meta-buffer to device */
+         sqe = io_uring_get_sqe(&ring);
+         if (!sqe) {
+                 fprintf(stderr, "get sqe failed\n");
+                 return 1;
+         }
 
-SiberSoft =09
+         io_uring_prep_write(sqe, fd, wdb, DATA_LEN, offset);
+         sqe->opcode = IORING_OP_WRITE_META;
+         sqe->meta_addr = (__u64)wmb;
+         sqe->meta_len = META_LEN;
+         /*
+          * TBD: Flags to ask for guard/apptag/reftag checks
+          * sqe->rw_flags = RWF_CHK_GUARD | RWF_CHK_APPTAG | RWF_CHK_REFTAG;
+          */
+         ret = io_uring_submit(&ring);
+         if (ret <= 0) {
+                 fprintf(stderr, "sqe submit failed: %d\n", ret);
+                 return 1;
+         }
 
-Chro=C5=84 w=C5=82asno=C5=9B=C4=87 intelektualn=C4=85 za pomoc=C4=85 lega=
-lnego oprogramowania.
-Protect intellectual property by using legal software.
+         ret = io_uring_wait_cqe(&ring, &cqe);
+         if (!cqe) {
+                 fprintf(stderr, "cqe is NULL :%d\n", ret);
+                 return 1;
+         }
+         if (cqe->res < 0) {
+                 fprintf(stderr, "write cqe failure: %d", cqe->res);
+                 return 1;
+         }
 
-SiberSoft =09
+         io_uring_cqe_seen(&ring, cqe);
 
-*UWAGA*
-Chronimy twoje dane osobowe i informacje poufne - przechowuj=C4=85c je w=20
-bezpiecznych bazach i stosuj=C4=85c szyfrowanie danych.
-/Prosz=C4=99, sprawd=C5=BA wi=C4=99cej informacji...=20
-<https://sibersoft.pl/klauzula-informacyjna/>/
+         /* read dat + meta-buffer back from device */
+         sqe = io_uring_get_sqe(&ring);
+         if (!sqe) {
+                 fprintf(stderr, "get sqe failed\n");
+                 return 1;
+         }
 
-*ATTENTION*
-We protect your personal data and confidential information - by storing=20
-it in secure bases and using data encryption.
-/Please, check more information...=20
-<https://sibersoft.pl/klauzula-informacyjna/>/
+         io_uring_prep_read(sqe, fd, rdb, DATA_LEN, offset);
+         sqe->opcode = IORING_OP_READ_META;
+         sqe->meta_addr = (__u64)rmb;
+         sqe->meta_len = META_LEN;
 
-*OCHRONA PRYWATNO=C5=9ACI I POUFNO=C5=9ACI:*
-Poufne informacje zawarte w tej wiadomo=C5=9Bci s=C4=85 przeznaczone tylk=
-o do=20
-u=C5=BCytku przez adresat=C3=B3w wskazanych przez oryginalnego autora tej=
-=20
-wiadomo=C5=9Bci e-mail. Je=C5=9Bli nie jeste=C5=9B adresatem wskazanym w =
-tej wiadomo=C5=9Bci=20
-lub nie jeste=C5=9B odpowiedzialny za dostarczanie tej wiadomo=C5=9Bci e-=
-mail do=20
-tej osoby, prosz=C4=99 poinformowa=C4=87 o tym nadawc=C4=99 i natychmiast=
- usun=C4=85=C4=87=20
-wszystkie kopie tej wiadomo=C5=9Bci=C2=A0 z serwera komputerowego i sieci=
-owego.=20
-Dzi=C4=99kujemy za wsp=C3=B3=C5=82prac=C4=99. Informujemy, =C5=BCe jakiek=
-olwiek nieautoryzowane=20
-wykorzystanie poufnych informacji przekazanych przez /*SiberSoft Sp.=20
-j.*/ jest surowo zabronione.
+         ret = io_uring_submit(&ring);
+         if (ret <= 0) {
+                 fprintf(stderr, "sqe submit failed: %d\n", ret);
+                 return 1;
+         }
 
-*PRIVACY AND CONFIDENTIALITY NOTICE*
-The privileged confidential information contained in this email is=20
-intended for use only by the addressees as indicated by the original=20
-author of this email. If you are not the addressee indicated in this=20
-email or are not responsible for delivery of the email to such person,=20
-please kindly reply the sender indicating accordingly and delete all=20
-copies of it from your computer and network server immediately. We thank=20
-you for your cooperation. It is advisable that any unauthorized use of=20
-confidential information of /*SiberSoft Sp.j.*/. is strictly prohibited=20
-and any information in this email that does not relate to the official=20
-business of/*SiberSoft Sp. j.*/ shall be deemed as neither given nor=20
-endorsed by /*SiberSoft Sp. j.*/
+         ret = io_uring_wait_cqe(&ring, &cqe);
+         if (!cqe) {
+                 fprintf(stderr, "cqe is NULL :%d\n", ret);
+                 return 1;
+         }
 
+         if (cqe->res < 0) {
+                 fprintf(stderr, "read cqe failure: %d", cqe->res);
+                 return 1;
+         }
+         io_uring_cqe_seen(&ring, cqe);
+
+         if (strncmp(wmb, rmb, META_LEN))
+                 printf("Failure: meta mismatch!, wmb=%s, rmb=%s\n", 
+wmb, rmb);
+
+         if (strncmp(wdb, rdb, DATA_LEN))
+                 printf("Failure: data mismatch!\n");
+
+         io_uring_queue_exit(&ring);
+         free(rdb);
+         free(wdb);
+         return 0;
+}
 
