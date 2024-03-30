@@ -4,68 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0AFECD1283
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 Mar 2024 00:33:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62435C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 Mar 2024 13:47:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Tf98owzJ0SZV1W0Xjjn7GPF4XE1CLUecGVX6kq2Cd7Y=; b=mpftEs+g3TcCgCHx/SDZ2Hw6iX
-	fZtf0+Aq0FNHN4h9bT/uWqrVnBEUOgGTddGMJzaLaOMgd6OUblqgfLcYn+xCUfPnmRxMxpgu75JmG
-	THtvmBanFiL6oZ+Y9Ll49Atfm8BqCFpODaf2nF2/gbdUgRQJMbqvO54QupuBz/nJVneuVDyJ0DcPN
-	0KTESbfpfYyFW8iVvmQCZ0ABhZC4qV33OqjJjtTcOlQ4ymyZsw5cnHxQY96P8mInoEkUJWRbBsXEh
-	wZqvaK57S+0tFR/O0mj0qmr2FfpyGfAyPq6N5Ahixzer9nq4bjhgcY5mPDnk8z/BataocwvT60aFA
-	Dap2NNAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=XO6y+3vFeND/pQyp+EVVZXM15Er3Uiln4GMYSP9L4OE=; b=HIIsvoHbCTZ+Hh
+	/hDalkoQU/wHFOdzu4CK3crdFbeqvdJFDUSYaTaDjvAs0e7LgHC7n0/sbaHlf0P/KBJzNiGqVuuBg
+	lIl7IQ34zHg0VgOo3FcPGe0v5yJ5DjNUZXfkzFatbsdxFoDWiXlqrH6i4gLvG4x4R3ARuQrMoTzYF
+	i/H10fsxrbp8Et9KJ2aeRiLm7VLOzmI3DdzlUvalMlbdayQ4AteiuFgcCe7UkAWfEpIsJR6FYWn9d
+	D9IlISuXuGxNddpkl2/NBtGjvAhxi8kS/yOdkh6DLt8wwVWsPdCbYR0IFIJXfgIkGsL75UJ+lfm/L
+	LPr/widiAlo30B2Ogc9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rqMf7-00000002OzX-3GDL;
-	Sat, 30 Mar 2024 00:33:33 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rqZ33-00000003ZfW-0Ol7;
+	Sat, 30 Mar 2024 13:47:05 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rqMf4-00000002Oyx-10AZ
+	id 1rqZ30-00000003Zd3-1ii7
 	for linux-nvme@lists.infradead.org;
-	Sat, 30 Mar 2024 00:33:31 +0000
+	Sat, 30 Mar 2024 13:47:03 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id AE67160F9F;
-	Sat, 30 Mar 2024 00:33:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98800C433C7;
-	Sat, 30 Mar 2024 00:33:26 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1990060AF8;
+	Sat, 30 Mar 2024 13:46:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5A2C433C7;
+	Sat, 30 Mar 2024 13:46:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711758808;
-	bh=csJGkazmVozzT5A8motwawZT4X6xZdC0OteDaVk0kTk=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=foDMAoyLdSsfL8d5rqY2PUtDxwp1rhpbwNQafskaT6bWWR+5xdxZ/JDASoQ8rBkPG
-	 OqaKf3SMuEAddayru0agzGW6QurWphr/P68Kc7z7Bnk3/Z54pLmpLed9uQPGn+WnTz
-	 euObADHgwau0WzgBhIxDBT49N8TJDQ5i0m6moMlcHheXiro5JxEB4NX3UZ4sKx9SpP
-	 PkYKFH0jiyiXwi3ngZ2fsDIp/97dqcdAvN8QcGyXxT7ZYvz5CKiratCpWY8Ur+Fkpc
-	 5yxDde9SD92clcTvIH+mFVqNPbofnEJxPLzfbEvUaCq6vfTOOSgwSMZ1ocCnKLSSYi
-	 bN9Xdq+Ybgakw==
-Message-ID: <f661db89-8008-4c56-a50d-44ad95d706ef@kernel.org>
-Date: Sat, 30 Mar 2024 09:33:24 +0900
+	s=k20201202; t=1711806417;
+	bh=12eUH24Evzx0eCQ4eL4gtrmRZMuYkNV0sF0qoZdQEXc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=ERrgVHswUV6pqvGhHbMTzn4oCU+YAzaOxhif//9nUH7DGEgBQ8S255iMyvqxOW6x2
+	 qlfMTCsIZox9vHvTReZaO+v2V/geKSAkEFwNuf/klLDOheaXs1KI3XAO8jUg3SxZHQ
+	 kQOLxbeuOmG8AEgYhsiD2WGkWV1O8UJZVQkkrvatQwPwuMk7CNzPSjbbvfmsZYwcS7
+	 Y65mtAtbWO39qXzNxbJUgEcdYCZmsjdtDImlwq75/b61B4FcH7ZIyIeWx8RN46eAN+
+	 AXEaDR8QCHHNguF1vgatcDgNOdiUzJJWfIhBICz0L0/q7nUh9ct2k/mb5LtG1xnlbj
+	 moJt+V4xAPhyg==
+Date: Sat, 30 Mar 2024 08:46:55 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>,
+	Linux NVMe <linux-nvme@lists.infradead.org>,
+	linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	gloriouseggroll@gmail.com, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: Re: Fwd: Regression: Kernel 6.4 rc1 and higher causes Steam Deck to
+ fail to wake from suspend (bisected)
+Message-ID: <20240330134655.GA1659153@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/30] null_blk: Introduce zone_append_max_sectors
- attribute
-To: Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-References: <20240328004409.594888-1-dlemoal@kernel.org>
- <20240328004409.594888-19-dlemoal@kernel.org>
- <20897217-2eae-44f8-9873-43d8898ecf43@acm.org>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20897217-2eae-44f8-9873-43d8898ecf43@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231101114541.GA43502@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240329_173330_415113_26073BD6 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20240330_064702_593625_FFA784ED 
+X-CRM114-Status: GOOD (  37.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,31 +77,183 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/30/24 06:35, Bart Van Assche wrote:
-> On 3/27/24 5:43 PM, Damien Le Moal wrote:
->> @@ -1953,7 +1961,7 @@ static int null_add_dev(struct nullb_device *dev)
->>   
->>   	rv = add_disk(nullb->disk);
->>   	if (rv)
->> -		goto out_ida_free;
->> +		goto out_cleanup_zone;
->>   
+[+cc Keith, Sagi, Hannes, Kai-Heng, +bcc silverspring from bugzilla]
+
+On Wed, Nov 01, 2023 at 06:45:41AM -0500, Bjorn Helgaas wrote:
+> On Tue, Oct 31, 2023 at 03:21:20PM +0700, Bagas Sanjaya wrote:
+> > I notice a regression report on Bugzilla [1]. Quoting from it:
+> > 
+> > > On Kernel 6.4 rc1 and higher if you put the Steam Deck into
+> > > suspend then press the power button again it will not wake up. 
+> > > 
+> > > I don't have a clue as to -why- this commit breaks wake from
+> > > suspend on steam deck, but it does. Bisected to:
+> > > 
+> > > ```
+> > > 1ad11eafc63ac16e667853bee4273879226d2d1b is the first bad commit
+> > > commit 1ad11eafc63ac16e667853bee4273879226d2d1b
+> > > Author: Bjorn Helgaas <bhelgaas@google.com>
+> > > Date:   Tue Mar 7 14:32:43 2023 -0600
+> > > 
+> > >     nvme-pci: drop redundant pci_enable_pcie_error_reporting()
+> > >     
+> > >     pci_enable_pcie_error_reporting() enables the device to send ERR_*
+> > >     Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting when AER is
+> > >     native"), the PCI core does this for all devices during enumeration, so the
+> > >     driver doesn't need to do it itself.
+> > >     
+> > >     Remove the redundant pci_enable_pcie_error_reporting() call from the
+> > >     driver.  Also remove the corresponding pci_disable_pcie_error_reporting()
+> > >     from the driver .remove() path.
+> > >     
+> > >     Note that this only controls ERR_* Messages from the device.  An ERR_*
+> > >     Message may cause the Root Port to generate an interrupt, depending on the
+> > >     AER Root Error Command register managed by the AER service driver.
+> > >     
+> > >     Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> > >     Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> > >     Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > > 
+> > >  drivers/nvme/host/pci.c | 6 +-----
+> > >  1 file changed, 1 insertion(+), 5 deletions(-)
+> > > ```
+
+> > > Reverting that commit by itself on top of 6.5.9 (stable) allows
+> > > it to wake from suspend properly.
+
+> > [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218090
 > 
-> The above change is unrelated to the introduction of
-> zone_append_max_sectors and hence should not be in this patch.
+> Thanks, I requested some dmesg logs and lspci output to help debug
+> this.
 
-Good catch. That is a bug of this patch. I removed this change as it is incorrect.
+silverspring attached lspci output and a dmesg log from v6.8 to the
+bugzilla and also noted that "pci=noaer" works around the problem.
 
-> Additionally, the order of cleanup actions in the error path seems
-> wrong to me. null_init_zoned_dev() is called before blk_mq_alloc_disk().
-> Hence, the put_disk() call in the error path should occur before the
-> null_free_zoned_dev() call.
+The problem commit is 1ad11eafc63a ("nvme-pci: drop redundant
+pci_enable_pcie_error_reporting()")
+(https://git.kernel.org/linus/1ad11eafc63a)
 
-That is separate from this patch (and the series). But I will send a fix patch
-for that.
+1ad11eafc63a removed pci_disable_pcie_error_reporting() from the
+nvme_suspend() path, so we now leave the PCIe Device Control error
+enables set when we didn't before.  My theory is that the PCIe link
+goes down during suspend, which causes an error interrupt, and the
+interrupt causes a problem on Steam Deck.  Maybe there's some BIOS
+connection.
 
--- 
-Damien Le Moal
-Western Digital Research
+"pci=noaer" would work around this because those error enables would
+never be set in the first place.
 
+I asked reporters to test the debug patches below to disable those
+error interrupts during suspend.
+
+I don't think this would be the *right* fix; if we need to do this, I
+think it should be done by the PCI core, not by individual drivers.
+Kai-Heng has been suggesting this for a while for a different
+scenario.
+
+Bjorn
+
+
+commit 60c07557d0cc ("Revert "PCI/AER: Drop unused pci_disable_pcie_error_reporting()"")
+Author: Bjorn Helgaas <bhelgaas@google.com>
+Date:   Fri Mar 29 17:54:30 2024 -0500
+
+    Revert "PCI/AER: Drop unused pci_disable_pcie_error_reporting()"
+    
+    This reverts commit 69b264df8a412820e98867dbab871c6526c5e5aa.
+
+
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index ac6293c24976..273f9c6f93dd 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -243,6 +243,18 @@ static int pci_enable_pcie_error_reporting(struct pci_dev *dev)
+ 	return pcibios_err_to_errno(rc);
+ }
+ 
++int pci_disable_pcie_error_reporting(struct pci_dev *dev)
++{
++	int rc;
++
++	if (!pcie_aer_is_native(dev))
++		return -EIO;
++
++	rc = pcie_capability_clear_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AER_FLAGS);
++	return pcibios_err_to_errno(rc);
++}
++EXPORT_SYMBOL_GPL(pci_disable_pcie_error_reporting);
++
+ int pci_aer_clear_nonfatal_status(struct pci_dev *dev)
+ {
+ 	int aer = dev->aer_cap;
+diff --git a/include/linux/aer.h b/include/linux/aer.h
+index 4b97f38f3fcf..425e5e430e65 100644
+--- a/include/linux/aer.h
++++ b/include/linux/aer.h
+@@ -40,9 +40,14 @@ struct aer_capability_regs {
+ int pcie_read_tlp_log(struct pci_dev *dev, int where, struct pcie_tlp_log *log);
+ 
+ #if defined(CONFIG_PCIEAER)
++int pci_disable_pcie_error_reporting(struct pci_dev *dev);
+ int pci_aer_clear_nonfatal_status(struct pci_dev *dev);
+ int pcie_aer_is_native(struct pci_dev *dev);
+ #else
++static inline int pci_disable_pcie_error_reporting(struct pci_dev *dev)
++{
++	return -EINVAL;
++}
+ static inline int pci_aer_clear_nonfatal_status(struct pci_dev *dev)
+ {
+ 	return -EINVAL;
+commit 8efb88cf23d4 ("nvme-pci: disable error reporting in nvme_dev_disable()")
+Author: Bjorn Helgaas <bhelgaas@google.com>
+Date:   Fri Mar 29 17:52:39 2024 -0500
+
+    nvme-pci: disable error reporting in nvme_dev_disable()
+    
+    Debug patch.
+    
+    The PCI core enables error reporting in pci_aer_init() for all devices that
+    advertise AER support.
+    
+    During suspend, nvme_suspend() calls nvme_dev_disable() in several cases.
+    Prior to 1ad11eafc63a, nvme_dev_disable() disabled error reporting.
+    
+    After 1ad11eafc63a, error reporting will remain enabled during suspend.
+    Maybe having error reporting enabled during suspend causes a problem on
+    Steam Deck.
+    
+    "pci=noaer" prevents pci_aer_init() from enabling error reporting, so as
+    long as the BIOS doesn't enable it, error reporting should always be
+    disabled.
+    
+      nvme_suspend
+        nvme_disable_prepare_reset
+          nvme_dev_disable
+
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8e0bb9692685..2be838b5d1f6 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include <linux/acpi.h>
++#include <linux/aer.h>
+ #include <linux/async.h>
+ #include <linux/blkdev.h>
+ #include <linux/blk-mq.h>
+@@ -2603,8 +2604,10 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	nvme_suspend_io_queues(dev);
+ 	nvme_suspend_queue(dev, 0);
+ 	pci_free_irq_vectors(pdev);
+-	if (pci_is_enabled(pdev))
++	if (pci_is_enabled(pdev)) {
++		pci_disable_pcie_error_reporting(pdev);
+ 		pci_disable_device(pdev);
++	}
+ 	nvme_reap_pending_cqes(dev);
+ 
+ 	nvme_cancel_tagset(&dev->ctrl);
 
