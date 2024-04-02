@@ -4,59 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9456CD1284
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 09:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98785C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 10:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=8KMkv74awhK951bdVg71lMCQJq1gATHLdPYvUKuY80I=; b=hbO9FVeaKL/0HA8L18gQLfHVy7
-	ry43fjXuu8zACv8w4Y71rkDWGc/JlQ4oc71uQlFEkdKlIKhw5qWfcCVhulHip2k7MKx/DTjx9P9jt
-	dtI8mc+S/Vx8PLWPJsEISYtzcFd5AMvm5FLaTRg+ddGq11ZTKzjxpoeTIxw3NDaQq592UWEjGVR39
-	Y8j6ZUvX6FkeYOMvFoSEVm2fd+O5ye44NkZfR6dFni1CqyJeWi6Rz0OS4QRU8u9t9/UdIPMC35qQA
-	v8emcWjCgD2m+zBQhno9VvRzjRh/7QpVcNPeoxJFTrVOr8o/uX/zEXOz4YHFyF9EfA7fxl3Vt7/yz
-	omJ7QbkA==;
+	bh=BtH0JQusNt/m2acAX0Gmxhgcf2jNVxYa++5QTX/0eY0=; b=eTXykk1PdI4NDDOUoIlfY1Kseo
+	gC2QIdzktGaDR95h7qOAg/Wrd7NJf4Dkn2lI6bruOQzE1qbp7hEFCAqL8jU++twGaI2/UkU8OmN7W
+	3qxJF5Td/SFLvbexmvUGIUFE++N+qaDxwhj2C3QV+T/nf0g0R8inA7Li+MALdJMRuAIXvYrCrK78I
+	hdgjCrOcbyP6C6069fdBeUxUk4EfzYa0oMhUQRiJ2lpt8Ij3C2rawuG1rP3RJSyhSvOUEqjIqj7eJ
+	gV9sJImen697TIt/zPY1QnSLsXYJ76fRLNVc0cwy+DvV5Jrm6JXgzMOidg0g6ai2a5OHfeI7kIikT
+	d3/wzvIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rraTb-0000000ARhW-3AQN;
-	Tue, 02 Apr 2024 09:30:43 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rrazM-0000000AYZx-2l3R;
+	Tue, 02 Apr 2024 10:03:32 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rraTZ-0000000ARgn-1lH7
+	id 1rrazG-0000000AYY9-3nBb
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 09:30:43 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 3A7EFCE1B16;
-	Tue,  2 Apr 2024 09:30:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC71C433F1;
-	Tue,  2 Apr 2024 09:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712050238;
-	bh=hLAuCiD5x5k1CRRzR038VwsIiELisWSRMAhF8hMwXCM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=u/XyaQKdWt1I6opf6//TeeE4FE6dXcSFqCoJemgkp6LhQXwRCNBpjWEeQvKalTcvW
-	 kALkIu51rDp3VPLjPRm97u43ut8hQE9aOVgZHW4Y7s1KY85HSN54b4hubFZ+W0yk2t
-	 albJQHd5r/bpBE+pIYbrp3/mNDr4kEYtxgvLNpNEaF6jQ1zd+xshwNEwYDX4N7alTB
-	 vM2Wc17kbCYQKVjMgvkyRXzH4HuVCSwgAnf0QJHqAzUHgJLOopGzBxvFJedSCIBCy/
-	 JPExOe3dytLoQlt8ATcE/49Si1eXY8lDwC93wc2dv2ZkVwIiRk9DzJada2hhcTCZT5
-	 CQKdLDCdjJ6pA==
-From: hare@kernel.org
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
+	Tue, 02 Apr 2024 10:03:30 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6CFFE20F22;
+	Tue,  2 Apr 2024 10:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712052204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=BtH0JQusNt/m2acAX0Gmxhgcf2jNVxYa++5QTX/0eY0=;
+	b=Yzqcq4l8FeaP1xYTTN7LN7cOm0GMP9WoewrI3fuBvpTA+1vE8Vg2pA149fDxwDgXvNeWoY
+	erdXzXbskOM+woJanEM2rlkWToJI2djT07NzMUOdpLl3/KnzgAS0NJbPME0jzjVe2VqQ/J
+	SLQc2l1HKXlGRULUCc52zSobPqjX0tY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712052204;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=BtH0JQusNt/m2acAX0Gmxhgcf2jNVxYa++5QTX/0eY0=;
+	b=/NHW3jlWEQmvr2zmdJAg4F68KciB6ozBaL3xqK5UVFV6XWoBmqCR0O3UNjaOZ1oGIVXhWk
+	N5yRKxhbOVrJslDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=none
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AB5413A90;
+	Tue,  2 Apr 2024 10:03:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id gT2zFOzXC2bxCQAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Tue, 02 Apr 2024 10:03:24 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH v2] nvme-fc: FPIN link integrity handling
-Date: Tue,  2 Apr 2024 11:30:31 +0200
-Message-Id: <20240402093031.146342-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH blktests v1 0/3] add blkdev type environment variable
+Date: Tue,  2 Apr 2024 12:03:19 +0200
+Message-ID: <20240402100322.17673-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 6CFFE20F22
+X-Spamd-Result: default: False [-1.81 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	R_DKIM_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:rdns,imap2.dmz-prg2.suse.org:helo];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_023041_913753_3402CC5F 
-X-CRM114-Status: GOOD (  27.17  )
+X-CRM114-CacheID: sfid-20240402_030327_118184_05B9F12D 
+X-CRM114-Status: GOOD (  11.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,294 +116,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+During the last batch of refactoring I noticed that we could reduce the number
+of tests a bit. There are tests which are almost identically except how the
+target is configured, file vs block device backend.
 
-FPIN LI (link integrity) messages are received when the attached
-fabric detects hardware errors. In response to these messages I/O
-should be directed away from the affected ports, and only used
-if the 'optimized' paths are unavailable.
-Upon port reset the paths should be put back in service as the
-affected hardware might have been replaced.
-This patch adds a new controller flag 'NVME_CTRL_MARGINAL'
-which will be checked during multipath path selection, causing the
-path to be skipped when checking for 'optimized' paths. If no
-optimized paths are available the 'marginal' paths are considered
-for path selection alongside the 'non-optimized' paths.
+By introducing a configure knob, we can drop the duplicates and even make some
+of the tests a bit more versatile. Not all tests exists in file and block device
+backend version. Thus we increase the test coverage with this series. And not
+really surprising, there is a fallout. The nvme/028 test with file backend is
+failing in my setup but I was not able to figure out where things go wrong yet.
+I'll provide some logs later.
 
-Changes to the original submission:
-- Changed flag name to 'marginal'
-- Do not block marginal path; influence path selection instead
-  to de-prioritize marginal paths
+Daniel Wagner (3):
+  nvme/rc: add blkdev type environment variable
+  nvme/{007,009,011,013,015,020,024}: drop duplicate nvmet blkdev type
+    tests
+  nvme/{021,022,025,026,027,028}: do not hard code target blkdev type
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/core.c       |   1 +
- drivers/nvme/host/fc.c         | 108 +++++++++++++++++++++++++++++++++
- drivers/nvme/host/multipath.c  |  17 ++++--
- drivers/nvme/host/nvme.h       |   6 ++
- drivers/scsi/lpfc/lpfc_els.c   |   6 +-
- drivers/scsi/qla2xxx/qla_isr.c |   1 +
- include/linux/nvme-fc-driver.h |   3 +
- 7 files changed, 135 insertions(+), 7 deletions(-)
+ Documentation/running-tests.md |  2 ++
+ tests/nvme/006                 |  5 ++--
+ tests/nvme/007                 | 28 --------------------
+ tests/nvme/007.out             |  2 --
+ tests/nvme/008                 |  4 +--
+ tests/nvme/009                 | 36 -------------------------
+ tests/nvme/009.out             |  3 ---
+ tests/nvme/010                 |  4 +--
+ tests/nvme/011                 | 39 ---------------------------
+ tests/nvme/011.out             |  3 ---
+ tests/nvme/012                 |  4 +--
+ tests/nvme/013                 | 43 ------------------------------
+ tests/nvme/013.out             |  3 ---
+ tests/nvme/014                 |  4 +--
+ tests/nvme/015                 | 48 ----------------------------------
+ tests/nvme/015.out             |  4 ---
+ tests/nvme/019                 |  4 +--
+ tests/nvme/020                 | 40 ----------------------------
+ tests/nvme/020.out             |  4 ---
+ tests/nvme/021                 |  6 ++---
+ tests/nvme/022                 |  6 ++---
+ tests/nvme/023                 |  4 +--
+ tests/nvme/024                 | 40 ----------------------------
+ tests/nvme/024.out             |  2 --
+ tests/nvme/025                 |  6 ++---
+ tests/nvme/026                 |  6 ++---
+ tests/nvme/027                 |  6 ++---
+ tests/nvme/028                 |  6 ++---
+ tests/nvme/rc                  |  3 ++-
+ 29 files changed, 36 insertions(+), 329 deletions(-)
+ delete mode 100755 tests/nvme/007
+ delete mode 100644 tests/nvme/007.out
+ delete mode 100755 tests/nvme/009
+ delete mode 100644 tests/nvme/009.out
+ delete mode 100755 tests/nvme/011
+ delete mode 100644 tests/nvme/011.out
+ delete mode 100755 tests/nvme/013
+ delete mode 100644 tests/nvme/013.out
+ delete mode 100755 tests/nvme/015
+ delete mode 100644 tests/nvme/015.out
+ delete mode 100755 tests/nvme/020
+ delete mode 100644 tests/nvme/020.out
+ delete mode 100755 tests/nvme/024
+ delete mode 100644 tests/nvme/024.out
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 57b664d12863..f5987a764a01 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4606,6 +4606,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	WRITE_ONCE(ctrl->state, NVME_CTRL_NEW);
- 	ctrl->passthru_err_log_enabled = false;
- 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+	clear_bit(NVME_CTRL_MARGINAL, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 68a5d971657b..4602d5611d62 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -786,6 +786,9 @@ nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
- 		"NVME-FC{%d}: controller connectivity lost. Awaiting "
- 		"Reconnect", ctrl->cnum);
- 
-+	/* clear 'marginal' flag as controller will be reset */
-+	clear_bit(NVME_CTRL_MARGINAL, &ctrl->flags);
-+
- 	switch (nvme_ctrl_state(&ctrl->ctrl)) {
- 	case NVME_CTRL_NEW:
- 	case NVME_CTRL_LIVE:
-@@ -3739,6 +3742,111 @@ static struct nvmf_transport_ops nvme_fc_transport = {
- 	.create_ctrl	= nvme_fc_create_ctrl,
- };
- 
-+static struct nvme_fc_rport *nvme_fc_rport_from_wwpn(struct nvme_fc_lport *lport,
-+						     u64 rport_wwpn)
-+{
-+	struct nvme_fc_rport *rport;
-+
-+	list_for_each_entry(rport, &lport->endp_list, endp_list) {
-+		if (!nvme_fc_rport_get(rport))
-+			continue;
-+		if (rport->remoteport.port_name == rport_wwpn &&
-+		    rport->remoteport.port_role & FC_PORT_ROLE_NVME_TARGET)
-+			return rport;
-+		nvme_fc_rport_put(rport);
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * nvme_fc_fpin_li_lport_update - routine to update Link Integrity
-+ * event statistics.
-+ * @lport:		local port the FPIN was received on
-+ * @tlv:		pointer to link integrity descriptor
-+ *
-+ */
-+static void
-+nvme_fc_fpin_li_lport_update(struct nvme_fc_lport *lport, struct fc_tlv_desc *tlv)
-+{
-+	unsigned int i, pname_count;
-+	struct nvme_fc_rport *attached_rport;
-+	struct fc_fn_li_desc *li_desc = (struct fc_fn_li_desc *)tlv;
-+	u64 wwpn;
-+
-+	wwpn = be64_to_cpu(li_desc->attached_wwpn);
-+	attached_rport = nvme_fc_rport_from_wwpn(lport, wwpn);
-+	pname_count = be32_to_cpu(li_desc->pname_count);
-+
-+	for (i = 0; pname_count; i++) {
-+		struct nvme_fc_rport *rport;
-+
-+		wwpn = be64_to_cpu(li_desc->pname_list[i]);
-+		rport = nvme_fc_rport_from_wwpn(lport, wwpn);
-+		if (!rport)
-+			continue;
-+		if (rport != attached_rport) {
-+			struct nvme_fc_ctrl *ctrl;
-+
-+			spin_lock_irq(&rport->lock);
-+			list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
-+				set_bit(NVME_CTRL_MARGINAL, &ctrl->ctrl.flags);
-+			spin_unlock_irq(&rport->lock);
-+		}
-+		nvme_fc_rport_put(rport);
-+	}
-+	if (attached_rport) {
-+		struct nvme_fc_ctrl *ctrl;
-+
-+		spin_lock_irq(&attached_rport->lock);
-+		list_for_each_entry(ctrl, &attached_rport->ctrl_list, ctrl_list)
-+			set_bit(NVME_CTRL_MARGINAL, &ctrl->ctrl.flags);
-+		spin_unlock_irq(&attached_rport->lock);
-+		nvme_fc_rport_put(attached_rport);
-+	}
-+}
-+
-+/**
-+ * fc_host_fpin_rcv - routine to process a received FPIN.
-+ * @localport:		local port the FPIN was received on
-+ * @fpin_len:		length of FPIN payload, in bytes
-+ * @fpin_buf:		pointer to FPIN payload
-+ * Notes:
-+ *	This routine assumes no locks are held on entry.
-+ */
-+void
-+nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
-+		 u32 fpin_len, char *fpin_buf)
-+{
-+	struct nvme_fc_lport *lport;
-+	struct fc_els_fpin *fpin = (struct fc_els_fpin *)fpin_buf;
-+	struct fc_tlv_desc *tlv;
-+	u32 bytes_remain;
-+	u32 dtag;
-+
-+	if (!localport)
-+		return;
-+	lport = localport_to_lport(localport);
-+	tlv = (struct fc_tlv_desc *)&fpin->fpin_desc[0];
-+	bytes_remain = fpin_len - offsetof(struct fc_els_fpin, fpin_desc);
-+	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
-+
-+	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
-+	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
-+		dtag = be32_to_cpu(tlv->desc_tag);
-+		switch (dtag) {
-+		case ELS_DTAG_LNK_INTEGRITY:
-+			nvme_fc_fpin_li_lport_update(lport, tlv);
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		bytes_remain -= FC_TLV_DESC_SZ_FROM_LENGTH(tlv);
-+		tlv = fc_tlv_next_desc(tlv);
-+	}
-+}
-+EXPORT_SYMBOL(nvme_fc_fpin_rcv);
-+
- /* Arbitrary successive failures max. With lots of subsystems could be high */
- #define DISCOVERY_MAX_FAIL	20
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 007d695bd607..fe7612b440ca 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -282,11 +282,14 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
- 
- 		switch (ns->ana_state) {
- 		case NVME_ANA_OPTIMIZED:
--			if (distance < found_distance) {
--				found_distance = distance;
--				found = ns;
-+			if (!nvme_ctrl_is_marginal(ns->ctrl)) {
-+				if (distance < found_distance) {
-+					found_distance = distance;
-+					found = ns;
-+				}
-+				break;
- 			}
--			break;
-+			fallthrough;
- 		case NVME_ANA_NONOPTIMIZED:
- 			if (distance < fallback_distance) {
- 				fallback_distance = distance;
-@@ -334,7 +337,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
- 
- 		if (ns->ana_state == NVME_ANA_OPTIMIZED) {
- 			found = ns;
--			goto out;
-+			if (!nvme_ctrl_is_marginal(ns->ctrl))
-+				goto out;
- 		}
- 		if (ns->ana_state == NVME_ANA_NONOPTIMIZED)
- 			found = ns;
-@@ -361,7 +365,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
- static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
- {
- 	return nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE &&
--		ns->ana_state == NVME_ANA_OPTIMIZED;
-+		ns->ana_state == NVME_ANA_OPTIMIZED &&
-+		!nvme_ctrl_is_marginal(ns->ctrl);
- }
- 
- inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 83c3870d5ed0..400c65655bdf 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -258,6 +258,7 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
- 	NVME_CTRL_DIRTY_CAPABILITY	= 5,
- 	NVME_CTRL_FROZEN		= 6,
-+	NVME_CTRL_MARGINAL		= 7,
- };
- 
- struct nvme_ctrl {
-@@ -399,6 +400,11 @@ static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
- 	return READ_ONCE(ctrl->state);
- }
- 
-+static inline bool nvme_ctrl_is_marginal(struct nvme_ctrl *ctrl)
-+{
-+	return test_bit(NVME_CTRL_MARGINAL, &ctrl->flags);
-+}
-+
- enum nvme_iopolicy {
- 	NVME_IOPOLICY_NUMA,
- 	NVME_IOPOLICY_RR,
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index 4d723200690a..ecfe6bc8ab63 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -33,6 +33,7 @@
- #include <scsi/scsi_transport_fc.h>
- #include <uapi/scsi/fc/fc_fs.h>
- #include <uapi/scsi/fc/fc_els.h>
-+#include <linux/nvme-fc-driver.h>
- 
- #include "lpfc_hw4.h"
- #include "lpfc_hw.h"
-@@ -10343,9 +10344,12 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
- 		fpin_length += sizeof(struct fc_els_fpin); /* the entire FPIN */
- 
- 		/* Send every descriptor individually to the upper layer */
--		if (deliver)
-+		if (deliver) {
- 			fc_host_fpin_rcv(lpfc_shost_from_vport(vport),
- 					 fpin_length, (char *)fpin, 0);
-+			nvme_fc_fpin_rcv(vport->localport,
-+					 fpin_length, (char *)fpin);
-+		}
- 		desc_cnt++;
- 	}
- }
-diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
-index d48007e18288..b180e10053c5 100644
---- a/drivers/scsi/qla2xxx/qla_isr.c
-+++ b/drivers/scsi/qla2xxx/qla_isr.c
-@@ -46,6 +46,7 @@ qla27xx_process_purex_fpin(struct scsi_qla_host *vha, struct purex_item *item)
- 		       pkt, pkt_size);
- 
- 	fc_host_fpin_rcv(vha->host, pkt_size, (char *)pkt, 0);
-+	nvme_fc_fpin_rcv(vha->nvme_local_port, pkt_size, (char *)pkt);
- }
- 
- const char *const port_state_str[] = {
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 89ea1ebd975a..b23d1e55737a 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -536,6 +536,9 @@ void nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport);
- int nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *remoteport,
- 			u32 dev_loss_tmo);
- 
-+void nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
-+		      u32 fpin_len, char *fpin_buf);
-+
- /*
-  * Routine called to pass a NVME-FC LS request, received by the lldd,
-  * to the nvme-fc transport.
 -- 
-2.35.3
+2.44.0
 
 
