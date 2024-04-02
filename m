@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EF68CD1284
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71CAECD1294
 	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 13:49:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,51 +12,51 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FtRtFLodXYgGFFYBFuQsdaRmY3YHBWZ8xkzuRezN/+Q=; b=wCSJMsOSSratfJwlCxwxVUrTob
-	EBglL9G7R06csFERbiDnGPhb+D+WIacx0iFs3IzkhOYYt0z7FM/E/l/qsChA9H5KWq8XZ0MqCHagv
-	egJumNxV5jUkrbUl7lbpjEInwXq5hU1BqNSJvar0l9fRD1RzoQv4SteI4KefyN/eWjxbBBvTrLGWK
-	WbbpTOHkfmmEaNPURtyykB2U6XyFtGSlV8/Z7XSfmIPXXt97z+Ss6AnomMEFfuAEcr4/spQ369bIk
-	ci+oOJu8zRa1JjGMBqIbYdCdhoOs2ErO/qRnEEAOsYNZ5Dpx9WMjf2McdwxQI2a0AyiS8bk+Hz66G
-	tFvcSiTQ==;
+	bh=MGmsWqxK4X84eoR2gaxz4Kqb5dK7ZVDhj2x0DsSzR5s=; b=ZKTbL2iGkr4+sqkbug+TL9SU5j
+	n0bs5v83T9TE4ZiiefcA1AI0rSaLvmAx7lVL7ZJv1VZE9zpr7LQpowqYRM4qJcw9qXO9dS1Nj4PTq
+	ts1esgHCKGX/ILyxiF9+1khepP5roxbZ86p5yxijYVUEqxAptzaNBV70K3N1h94MJ84v7SUChhVk8
+	wXYtUc680CiyyVLCvzNPWSwWkGaZAN4Ld2xJvQlFVRfC9z5cDztCWTPTHpnaBzqq7BQyqVPH5Yyn5
+	0i/3dtNd3oSkKJ6k7ye4fm2KI7Lo6npu20l9nUAQ1Rmgt1fqUKuNTIQbCnvg/DMgDmOTZ+6v//5y+
+	1DD2wKJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rreVa-0000000BQfl-0SnZ;
-	Tue, 02 Apr 2024 13:49:02 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1rreVI-0000000BQTZ-3Ocd;
+	Tue, 02 Apr 2024 13:48:44 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrdQc-0000000B6cq-247L
+	id 1rrdQU-0000000B6Vq-0SfG
 	for linux-nvme@bombadil.infradead.org;
-	Tue, 02 Apr 2024 12:39:50 +0000
+	Tue, 02 Apr 2024 12:39:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:
 	Content-Type:Content-ID:Content-Description;
-	bh=FtRtFLodXYgGFFYBFuQsdaRmY3YHBWZ8xkzuRezN/+Q=; b=DCMCGX6Iq+XF4w0t5yFJPlUxFe
-	5GQx5JfD1/C4I8zGQGuCSzBgT1Y2WhXrnn0Hzgy1KLr932UY4/z8PCf0+JgkXwKcZL/W6Wb6GC+h9
-	l45Edtm6an/rqVBWGlajf/70w0NIImvY1XSqKAs32j75sNmYEMTBhnZYpfoRCD8zywNF1XIa6F1dq
-	8Ih9RN7etNc3Flr4oOFnYa2TMThpP828HRTzZe526TFAFGACmZuwRQkgZMsvVSrX9G9Ibh92Pq54n
-	kS51N9s4LrHjDXSzn6UwLW55uoAx+3j/NlT2RkL5+GrfQD2PyPtPxblj/K+lSiEsfAewn9SQBZ0C+
-	BZDiaXxQ==;
-Received: from sin.source.kernel.org ([145.40.73.55])
-	by casper.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrdQY-000000032hY-3DtR
+	bh=MGmsWqxK4X84eoR2gaxz4Kqb5dK7ZVDhj2x0DsSzR5s=; b=OFEVgkxUeVMpZei8mT4k9XTNCb
+	7xghWhyMA8I3wGA6D2uPH1KuHkg05q77cBmzBoQVs6zSRfAzEI9hBGc7jw42PaqhXbKOQXdI9WEDW
+	sYXRw0N5re/EYXQFPX85YqwjHgXTIjhCaOFTHuY9W0lKS9OUnweI5p8H15NJNJE29dDTgzdAlLSnk
+	SKsBENdnBlSNnCdcLDzVG6SKGXeQRrTnwpNL4Ay9GzBQO801ZG/vVfpzKBXyFnbarJdWKi1xuE5wM
+	mahrBpn1oumMBx3gLslUXJ7/EF2hf8V949OWXJ++Fec+J5XujNL+61fQmCXOb/W9lLF4f35O0pQKc
+	pMPLJR8w==;
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rrdQJ-00000003cIC-2lOk
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 12:39:49 +0000
+	Tue, 02 Apr 2024 12:39:35 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 10099CE1B6E;
-	Tue,  2 Apr 2024 12:39:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 319FEC43390;
-	Tue,  2 Apr 2024 12:39:44 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id F04CECE1B71;
+	Tue,  2 Apr 2024 12:39:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77CE7C433F1;
+	Tue,  2 Apr 2024 12:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712061585;
-	bh=VitcxIZwdIEEK2MqVqH5NGz5tB5a5Ml9jwK0sEUOq+4=;
+	s=k20201202; t=1712061564;
+	bh=ijfr4oFeWLkG2a4i7/8+H0TssTdkuSm/CuJDbfGYjaw=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Ri+XpJlOYoQ9xkn3B6JSE2KLSGCwtt8+NW6c595UF38FZUYHQMyS7prbITGS5n3W1
-	 BIcXt87oRQfrmd7Hutm2yKvjnHlBs79KS5IAHgmwO8Mcjs8KUe5CXp3BU8s9erDyTc
-	 vL8Aq+e1Y2TNlGrJRYS6ANhrE/SbC9nqPBB7ZPaKTsBdIimsITlgPETwfEzyIjV0Kf
-	 tjZTdfGiia/xVHD+W+7fGOP1Q5MWdq36A+4N/lIMbdmSSWGl6kMmUiQuuK7gtTGba8
-	 L4jDCTrcj0RIK5plzNCcuh3hfP8hA3WOWAO65VqED3L1u1znwr0idmQ7QCG8/UJDYU
-	 Bgdr6Pxj9hPOA==
+	b=vMfihjDu+X97+YPcbXDQjNsoU0wOsyOXv5q9Pg7sWC1oe4pRAg9Q+nJyXoqK1bhHh
+	 qnsdxtfTTzbwWLlxwgaztSQviFHs6PrV3bwfcjc7Z5LO6e03QqjvbF4sVX+ddxv+ZK
+	 f6cP91L3hHfN/ACSd5FdJYxdonp9sTyjxOyrxcvtr72Oq23ajMJczzojjDT01F5/F9
+	 e4Z2sLP2nCyKAxpWr3QOGi7LUmkbTRSKY1pfUiTJlB5ovt3TyJjRzl2EDQ28AdkhcS
+	 0QUv7tl9dytmgQ4FHlL1kgKacPoWIyKx1BtYYQptiaE346DQu2c84mORr32IwQjWo/
+	 1TRi6jfmThAsw==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -67,17 +67,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v4 25/28] block: Replace zone_wlock debugfs entry with zone_wplugs entry
-Date: Tue,  2 Apr 2024 21:39:04 +0900
-Message-ID: <20240402123907.512027-26-dlemoal@kernel.org>
+Subject: [PATCH v4 10/28] block: Implement zone append emulation
+Date: Tue,  2 Apr 2024 21:38:49 +0900
+Message-ID: <20240402123907.512027-11-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240402123907.512027-1-dlemoal@kernel.org>
 References: <20240402123907.512027-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_133947_529366_FB9A69BE 
-X-CRM114-Status: GOOD (  13.87  )
+X-CRM114-CacheID: sfid-20240402_133933_359402_46B72CCF 
+X-CRM114-Status: GOOD (  30.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,99 +92,239 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In preparation to completely remove zone write locking, replace the
-"zone_wlock" mq-debugfs entry that was listing zones that are
-write-locked with the zone_wplugs entry which lists the zones that
-currently have a write plug allocated.
+Given that zone write plugging manages all writes to zones of a zoned
+block device and tracks the write pointer position of all zones that are
+not full nor empty, emulating zone append operations using regular
+writes can be implemented generically, without relying on the underlying
+device driver to implement such emulation. This is needed for devices
+that do not natively support the zone append command (e.g. SMR
+hard-disks).
 
-The write plug information provided is: the zone number, the zone write
-plug flags, the zone write plug write pointer offset and the number of
-BIOs currently waiting for execution in the zone write plug BIO list.
+A device may request zone append emulation by setting its
+max_zone_append_sectors queue limit to 0. For such device, the function
+blk_zone_wplug_prepare_bio() changes zone append BIOs into
+non-mergeable regular write BIOs. Modified zone append BIOs are flagged
+with the new BIO flag BIO_EMULATES_ZONE_APPEND. This flag is checked
+on completion of the BIO in blk_zone_write_plug_bio_endio() to restore
+the original REQ_OP_ZONE_APPEND operation code of the BIO.
+
+The block layer internal inline helper function bio_is_zone_append() is
+added to test if a BIO is either a native zone append operation
+(REQ_OP_ZONE_APPEND operation code) or if it is flagged with
+BIO_EMULATES_ZONE_APPEND. Given that both native and emulated zone
+append BIO completion handling should be similar, The functions
+blk_update_request() and blk_zone_complete_request_bio() are modified to
+use bio_is_zone_append() to execute blk_zone_update_request_bio() for
+both native and emulated zone append operations.
+
+This commit contains contributions from Christoph Hellwig <hch@lst.de>.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 ---
- block/blk-mq-debugfs.c |  2 +-
- block/blk-mq-debugfs.h |  4 ++--
- block/blk-zoned.c      | 31 ++++++++++++++++++++++++-------
- 3 files changed, 27 insertions(+), 10 deletions(-)
+ block/blk-mq.c            |  3 +-
+ block/blk-zoned.c         | 69 +++++++++++++++++++++++++++++++--------
+ block/blk.h               | 14 ++++++--
+ include/linux/blk_types.h |  1 +
+ 4 files changed, 69 insertions(+), 18 deletions(-)
 
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index 94668e72ab09..ca1f2b9422d5 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -160,7 +160,7 @@ static const struct blk_mq_debugfs_attr blk_mq_debugfs_queue_attrs[] = {
- 	{ "requeue_list", 0400, .seq_ops = &queue_requeue_list_seq_ops },
- 	{ "pm_only", 0600, queue_pm_only_show, NULL },
- 	{ "state", 0600, queue_state_show, queue_state_write },
--	{ "zone_wlock", 0400, queue_zone_wlock_show, NULL },
-+	{ "zone_wplugs", 0400, queue_zone_wplugs_show, NULL },
- 	{ },
- };
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 73f2ca7c738d..e09c23760bea 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -907,8 +907,7 @@ bool blk_update_request(struct request *req, blk_status_t error,
  
-diff --git a/block/blk-mq-debugfs.h b/block/blk-mq-debugfs.h
-index 3ebe2c29b624..c80e453e3014 100644
---- a/block/blk-mq-debugfs.h
-+++ b/block/blk-mq-debugfs.h
-@@ -84,9 +84,9 @@ static inline void blk_mq_debugfs_unregister_rqos(struct rq_qos *rqos)
- #endif
- 
- #if defined(CONFIG_BLK_DEV_ZONED) && defined(CONFIG_BLK_DEBUG_FS)
--int queue_zone_wlock_show(void *data, struct seq_file *m);
-+int queue_zone_wplugs_show(void *data, struct seq_file *m);
- #else
--static inline int queue_zone_wlock_show(void *data, struct seq_file *m)
-+static inline int queue_zone_wplugs_show(void *data, struct seq_file *m)
- {
- 	return 0;
- }
+ 		if (bio_bytes == bio->bi_iter.bi_size) {
+ 			req->bio = bio->bi_next;
+-		} else if (req_op(req) == REQ_OP_ZONE_APPEND &&
+-			   error == BLK_STS_OK) {
++		} else if (bio_is_zone_append(bio) && error == BLK_STS_OK) {
+ 			/*
+ 			 * Partial zone append completions cannot be supported
+ 			 * as the BIO fragments may end up not being written
 diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index 8ba05d468604..988b40667321 100644
+index 10c713aa9507..71d692d9d851 100644
 --- a/block/blk-zoned.c
 +++ b/block/blk-zoned.c
-@@ -1823,17 +1823,34 @@ EXPORT_SYMBOL_GPL(blk_revalidate_disk_zones);
+@@ -730,7 +730,8 @@ static void disk_zone_wplug_abort_unaligned(struct gendisk *disk,
  
- #ifdef CONFIG_BLK_DEBUG_FS
+ 	while ((bio = bio_list_pop(&zwplug->bio_list))) {
+ 		if (wp_offset >= zone_capacity ||
+-		     bio_offset_from_zone_start(bio) != wp_offset) {
++		    (bio_op(bio) != REQ_OP_ZONE_APPEND &&
++		     bio_offset_from_zone_start(bio) != wp_offset)) {
+ 			blk_zone_wplug_bio_io_error(bio);
+ 			disk_put_zone_wplug(zwplug);
+ 			continue;
+@@ -986,7 +987,8 @@ static inline void disk_zone_wplug_set_error(struct gendisk *disk,
  
--int queue_zone_wlock_show(void *data, struct seq_file *m)
-+int queue_zone_wplugs_show(void *data, struct seq_file *m)
- {
- 	struct request_queue *q = data;
--	unsigned int i;
-+	struct gendisk *disk = q->disk;
-+	struct blk_zone_wplug *zwplug;
-+	unsigned int zwp_wp_offset, zwp_flags;
-+	unsigned int zwp_zone_no, zwp_ref;
-+	unsigned int zwp_bio_list_size, i;
-+	unsigned long flags;
+ /*
+  * Check and prepare a BIO for submission by incrementing the write pointer
+- * offset of its zone write plug.
++ * offset of its zone write plug and changing zone append operations into
++ * regular write when zone append emulation is needed.
+  */
+ static bool blk_zone_wplug_prepare_bio(struct blk_zone_wplug *zwplug,
+ 				       struct bio *bio)
+@@ -1001,13 +1003,30 @@ static bool blk_zone_wplug_prepare_bio(struct blk_zone_wplug *zwplug,
+ 	if (zwplug->wp_offset >= disk->zone_capacity)
+ 		goto err;
  
--	if (!q->disk->seq_zones_wlock)
--		return 0;
-+	rcu_read_lock();
-+	for (i = 0; i < disk_zone_wplugs_hash_size(disk); i++) {
-+		hlist_for_each_entry_rcu(zwplug,
-+					 &disk->zone_wplugs_hash[i], node) {
-+			spin_lock_irqsave(&zwplug->lock, flags);
-+			zwp_zone_no = zwplug->zone_no;
-+			zwp_flags = zwplug->flags;
-+			zwp_ref = atomic_read(&zwplug->ref);
-+			zwp_wp_offset = zwplug->wp_offset;
-+			zwp_bio_list_size = bio_list_size(&zwplug->bio_list);
-+			spin_unlock_irqrestore(&zwplug->lock, flags);
- 
--	for (i = 0; i < q->disk->nr_zones; i++)
--		if (test_bit(i, q->disk->seq_zones_wlock))
--			seq_printf(m, "%u\n", i);
-+			seq_printf(m, "%u 0x%x %u %u %u\n",
-+				   zwp_zone_no, zwp_flags, zwp_ref,
-+				   zwp_wp_offset, zwp_bio_list_size);
-+		}
+-	/*
+-	 * Check for non-sequential writes early because we avoid a
+-	 * whole lot of error handling trouble if we don't send it off
+-	 * to the driver.
+-	 */
+-	if (bio_offset_from_zone_start(bio) != zwplug->wp_offset)
+-		goto err;
++	if (bio_op(bio) == REQ_OP_ZONE_APPEND) {
++		/*
++		 * Use a regular write starting at the current write pointer.
++		 * Similarly to native zone append operations, do not allow
++		 * merging.
++		 */
++		bio->bi_opf &= ~REQ_OP_MASK;
++		bio->bi_opf |= REQ_OP_WRITE | REQ_NOMERGE;
++		bio->bi_iter.bi_sector += zwplug->wp_offset;
++
++		/*
++		 * Remember that this BIO is in fact a zone append operation
++		 * so that we can restore its operation code on completion.
++		 */
++		bio_set_flag(bio, BIO_EMULATES_ZONE_APPEND);
++	} else {
++		/*
++		 * Check for non-sequential writes early because we avoid a
++		 * whole lot of error handling trouble if we don't send it off
++		 * to the driver.
++		 */
++		if (bio_offset_from_zone_start(bio) != zwplug->wp_offset)
++			goto err;
 +	}
-+	rcu_read_unlock();
  
- 	return 0;
+ 	/* Advance the zone write pointer offset. */
+ 	zwplug->wp_offset += bio_sectors(bio);
+@@ -1040,8 +1059,14 @@ static bool blk_zone_wplug_handle_write(struct bio *bio, unsigned int nr_segs)
+ 	}
+ 
+ 	/* Conventional zones do not need write plugging. */
+-	if (bio_zone_is_conv(bio))
++	if (bio_zone_is_conv(bio)) {
++		/* Zone append to conventional zones is not allowed. */
++		if (bio_op(bio) == REQ_OP_ZONE_APPEND) {
++			bio_io_error(bio);
++			return true;
++		}
+ 		return false;
++	}
+ 
+ 	zwplug = bio_get_and_lock_zone_wplug(bio, &flags);
+ 	if (!zwplug) {
+@@ -1086,10 +1111,10 @@ static bool blk_zone_wplug_handle_write(struct bio *bio, unsigned int nr_segs)
+  * @bio: The BIO being submitted
+  * @nr_segs: The number of physical segments of @bio
+  *
+- * Handle write and write zeroes operations using zone write plugging.
+- * Return true whenever @bio execution needs to be delayed through the zone
+- * write plug. Otherwise, return false to let the submission path process
+- * @bio normally.
++ * Handle write, write zeroes and zone append operations requiring emulation
++ * using zone write plugging. Return true whenever @bio execution needs to be
++ * delayed through the zone write plug. Otherwise, return false to let the
++ * submission path process @bio normally.
+  */
+ bool blk_zone_write_plug_bio(struct bio *bio, unsigned int nr_segs)
+ {
+@@ -1124,6 +1149,9 @@ bool blk_zone_write_plug_bio(struct bio *bio, unsigned int nr_segs)
+ 	 * machinery operates at the request level, below the plug, and
+ 	 * completion of the flush sequence will go through the regular BIO
+ 	 * completion, which will handle zone write plugging.
++	 * Zone append operations for devices that requested emulation must
++	 * also be plugged so that these BIOs can be changed into regular
++	 * write BIOs.
+ 	 * Zone reset, reset all and finish commands need special treatment
+ 	 * to correctly track the write pointer offset of zones. These commands
+ 	 * are not plugged as we do not need serialization with write
+@@ -1131,6 +1159,10 @@ bool blk_zone_write_plug_bio(struct bio *bio, unsigned int nr_segs)
+ 	 * and finish commands when write operations are in flight.
+ 	 */
+ 	switch (bio_op(bio)) {
++	case REQ_OP_ZONE_APPEND:
++		if (!bdev_emulates_zone_append(bdev))
++			return false;
++		fallthrough;
+ 	case REQ_OP_WRITE:
+ 	case REQ_OP_WRITE_ZEROES:
+ 		return blk_zone_wplug_handle_write(bio, nr_segs);
+@@ -1194,6 +1226,15 @@ void blk_zone_write_plug_bio_endio(struct bio *bio)
+ 	/* Make sure we do not see this BIO again by clearing the plug flag. */
+ 	bio_clear_flag(bio, BIO_ZONE_WRITE_PLUGGING);
+ 
++	/*
++	 * If this is a regular write emulating a zone append operation,
++	 * restore the original operation code.
++	 */
++	if (bio_flagged(bio, BIO_EMULATES_ZONE_APPEND)) {
++		bio->bi_opf &= ~REQ_OP_MASK;
++		bio->bi_opf |= REQ_OP_ZONE_APPEND;
++	}
++
+ 	/*
+ 	 * If the BIO failed, mark the plug as having an error to trigger
+ 	 * recovery.
+diff --git a/block/blk.h b/block/blk.h
+index 833ba8a74be9..119c3f2593d9 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -421,6 +421,11 @@ static inline bool bio_zone_write_plugging(struct bio *bio)
+ {
+ 	return bio_flagged(bio, BIO_ZONE_WRITE_PLUGGING);
  }
++static inline bool bio_is_zone_append(struct bio *bio)
++{
++	return bio_op(bio) == REQ_OP_ZONE_APPEND ||
++		bio_flagged(bio, BIO_EMULATES_ZONE_APPEND);
++}
+ void blk_zone_write_plug_bio_merged(struct bio *bio);
+ void blk_zone_write_plug_attempt_merge(struct request *rq);
+ static inline void blk_zone_update_request_bio(struct request *rq,
+@@ -430,8 +435,9 @@ static inline void blk_zone_update_request_bio(struct request *rq,
+ 	 * For zone append requests, the request sector indicates the location
+ 	 * at which the BIO data was written. Return this value to the BIO
+ 	 * issuer through the BIO iter sector.
+-	 * For plugged zone writes, we need the original BIO sector so
+-	 * that blk_zone_write_plug_bio_endio() can lookup the zone write plug.
++	 * For plugged zone writes, which include emulated zone append, we need
++	 * the original BIO sector so that blk_zone_write_plug_bio_endio() can
++	 * lookup the zone write plug.
+ 	 */
+ 	if (req_op(rq) == REQ_OP_ZONE_APPEND || bio_zone_write_plugging(bio))
+ 		bio->bi_iter.bi_sector = rq->__sector;
+@@ -453,6 +459,10 @@ static inline bool bio_zone_write_plugging(struct bio *bio)
+ {
+ 	return false;
+ }
++static inline bool bio_is_zone_append(struct bio *bio)
++{
++	return false;
++}
+ static inline void blk_zone_write_plug_bio_merged(struct bio *bio)
+ {
+ }
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index ed45de07d2ef..29b3170431e7 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -311,6 +311,7 @@ enum {
+ 	BIO_REMAPPED,
+ 	BIO_ZONE_WRITE_LOCKED,	/* Owns a zoned device zone write lock */
+ 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
++	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
+ 	BIO_FLAG_LAST
+ };
+ 
 -- 
 2.44.0
 
