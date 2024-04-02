@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C025C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 06:43:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53220CD1284
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 06:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5ZpDpHuvqRkPr674LQuVEJQ8beI/LgLV+GDkIcfhzig=; b=CAFNkCWK8rnRFDzpY3+CMuG6rf
-	e3wZTkejncNx5XsNfpBZzNv2tLLmqq9XCXpbdx4EI6LluTjgRNg5uHgxeEI6wXfNZS3PIv88m6Mwc
-	xG8gJzQqDYsYn1Kb/qKpAtB8y6f7Z63zQcP/7dz11z0P3kTmj/uNuDxWPAy84laUWmpKj/V4I6Lr+
-	in6A5niK3IpmLgMlSRTCzTZNIT+o7/Q/r+7jFMBoFb/jpgyM85TA9KNaKtu3koU/knPiWVNoyxl3l
-	iD75CwD/2cOPX+QDngQ/c9+v/Bl4rfVeAVwc5bgzfleGhM2QNtjmBRuGMYF0ucHn11euJxlUShdCo
-	sbUfJM1Q==;
+	bh=o4Gt2A/YlxbVubczq49Ydic0OlMC6zIRUZ48mhZIweI=; b=4EvWlK6tBliwdiNEoiNuvxYVRd
+	PesslDufHZpB/8QzV2/8xoUwhIAtp+bZvrncXYu4bPkHYbEJA9PTsi+0vkatnLQLmne9dWGimc8h3
+	gxBNpvspp8OMSxBQGmNvTbeAg2SaTPdaSTKnKkSoQ0FYEqp6936nBJBTQkYqvJRbQZHxb5tkacAP9
+	Gy3ICKjYIBpRDiysQCdArA2TT21XGxo06iHSknJeo+llw6VmpPWfbOJs8bS07PCIYS+L9KObyJbvM
+	PekugMK0JJg+Sa32NGMnqAP1u0dr4PT2nlFvlMwfXFAskOvSzuqUgRMtVMhM6DyBVhJeLxGPTTRna
+	sNm2WxoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrXrb-00000009wtP-0Kqx;
-	Tue, 02 Apr 2024 06:43:19 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1rrXsk-00000009x9t-3PhR;
+	Tue, 02 Apr 2024 06:44:30 +0000
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrXrX-00000009wrc-48cc
+	id 1rrXsh-00000009x7C-25dI
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 06:43:17 +0000
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1def89f0cfdso42999205ad.0
-        for <linux-nvme@lists.infradead.org>; Mon, 01 Apr 2024 23:43:14 -0700 (PDT)
+	Tue, 02 Apr 2024 06:44:28 +0000
+Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6e673ffbd79so3128731a34.2
+        for <linux-nvme@lists.infradead.org>; Mon, 01 Apr 2024 23:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712040193; x=1712644993; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1712040263; x=1712645063; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5ZpDpHuvqRkPr674LQuVEJQ8beI/LgLV+GDkIcfhzig=;
-        b=f6Cui1OksGmQIghUov9HG/IARE3WMYRcFKejNjOoH7DAiYnzetZ/fSV8QkoGqrps8b
-         pXyLCwy0HRp5Lm3GsSn2459APNfbT6MW3z2Q9k0sGFxj50AqmLDDkxZJw5fWaMN7lf7a
-         5D3/Ba4bouE9Gp45daMbwAqCjViQwBYhgdzN1qw62s/XaC+RW7uyR+TGT7EapwaqoPKS
-         HHJOMHspk9Y5/OiKa9ldenEcTHaSgNprGgTiG0Ifwgp7JcEm5zAYdyocWupJ/4snTibd
-         XY3mZnd7aHXtGwmHHeQaBzglE1SYrqO5LYF+revs2W/VQelemGazaftnvuFGKxdQwSFK
-         ABQA==
+        bh=o4Gt2A/YlxbVubczq49Ydic0OlMC6zIRUZ48mhZIweI=;
+        b=hoVcxkixMpv7cUsDsb2sVQcZhps31v2YlHQLMk7OraS/R7EbzmqEQZkoJhJjcd5fCh
+         oKugMz1zYGluP5wBPgJ38929Lzjl0/DlJKbB62mAezJnFOlI0R9qlE9Ad/+pp7ScrqCU
+         9f9ah5kY9QAu8b8wnM6Er5hscw+LgY3LkKg3iZcrtrzOyR/iTYMHEO7XShx0/gV2qeBN
+         l1ScluCRn0u7FFAkkxlisF6EeM0iOevhL2oHkCQ3KNmFgXEcTQeFgSYlWgR8LPYwilY6
+         nWiMECii+hvtGcBhsCZ68avgYFkjuHmsnJHoxUmu5EVQWrIPzhP2A78rEl9QwyuzgK/W
+         +JOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712040193; x=1712644993;
+        d=1e100.net; s=20230601; t=1712040263; x=1712645063;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ZpDpHuvqRkPr674LQuVEJQ8beI/LgLV+GDkIcfhzig=;
-        b=A11WO3a1iBsfQiQYqtz/nqYoiGU+Joec8KaUaXj3yUdITvsB2GnXMv+K0Hlz16e2a8
-         7wCAkohDbnlxcF6snsMu9Q6Fj5iXctk3ShqORrHe/ed14jg382IdwKP2XIgzOtQ8fwI4
-         CSWHj/uwvD/qvkDNAaIFozbfqI0/xPQSAgkW+w7IhxUlVZKwoWuS7rN1wYMjbyE9Uya5
-         WheniWoKWOzJZIA+/33q8QWPzx8oO+iZ4WjXIkpgYqu5PSo9ZmhsBmL3uwn9mwoD9J/d
-         4VgEmcBIscGzF8NhmjXLuo4PxtFgGWMkH+3YTiKqNHqGZV3i5a31Jp/DJekPkYAtoVKF
-         T88w==
-X-Forwarded-Encrypted: i=1; AJvYcCUf+S+NFsJEUy5SJqFTWu36oUfmmmgqywdW8jTwt9uZoxiouvCu5OXp6ETuJWX4GC8hxarW8y0K2CBx58pk+k1EjRe8XLh81m7sNBynHOA=
-X-Gm-Message-State: AOJu0YzhOwaoVT2LZRCA9zRPEOJFIiCm+c4bcRjyaPePG/b26RtA6MQH
-	zotpfD06mkpCZCvx40m8gnlfJd8es5OZmSee+SXsealtJUIy7YYT
-X-Google-Smtp-Source: AGHT+IEM/srVZSPtUycGFnEMMDCOvK5W9K0Azw0ckKfS6iodyT0ENHw+o3pbopHF/L9b6DtyRXWrOA==
-X-Received: by 2002:a17:903:1c4:b0:1dc:b64:13cd with SMTP id e4-20020a17090301c400b001dc0b6413cdmr18643219plh.27.1712040193389;
-        Mon, 01 Apr 2024 23:43:13 -0700 (PDT)
+        bh=o4Gt2A/YlxbVubczq49Ydic0OlMC6zIRUZ48mhZIweI=;
+        b=GjFCh9nT/HEhWdQ3/fjmr+BaqADFqPMBoisOCUvfhPSYBtGjs7oRtrouH0S0nSHf4b
+         UzIV1xQCXDb5oyjmUgxRoUYJbeNbBIxS46Z/GH13axLLP3j4qYC+1mMpR21Zlvm6DTas
+         8FJDTXcK78KBbUwAQuVXzUq4Pw92PUuq6VNaK/uyfSqhvMQ8gA2VZbWclf3WnL9NpPLV
+         n7XXPoukEGUSe04twtoF17JTpTm/6r2POBqPCHxFEIyzLHNDnMa1fKrJmKSz0Qlob9eg
+         RipMGuLCKIED4s2LSP5o+CXsvIS4D1OQQXodHTbYIrZ6AJsLJofpyGWYgPy/jIsR7X7T
+         s4zA==
+X-Forwarded-Encrypted: i=1; AJvYcCWl74u2rGCgoJXQUWDOGs4xyWqZWJW4wnxZoosj+ysv3+WFkmmHhn9wCuee2TiSlueLkORWt5hYYKI3jILc49HkQ2H/uP4cFgUZHkGrIoE=
+X-Gm-Message-State: AOJu0YwUg1rC4MnjIDjkMCA5KhEg4kFn0DYAbYwwMROVb6lWE6gKyqdw
+	e7IKPBnZs+YkSXMuYd7Mn2/bqpPv8pPis0juO6QD7Cj43ZSCA+W0
+X-Google-Smtp-Source: AGHT+IGsALuz+EYbsn3NEk9dyZFdNc4oYqbTtk6nUxsCzJEfOMWdydw5yQ9IV6Tn1FPKa+CognHTmQ==
+X-Received: by 2002:a9d:625a:0:b0:6e6:d5e0:2308 with SMTP id i26-20020a9d625a000000b006e6d5e02308mr13185747otk.4.1712040259823;
+        Mon, 01 Apr 2024 23:44:19 -0700 (PDT)
 Received: from ?IPV6:2600:8802:3800:75a0:2378:fa3f:c6b3:24d1? ([2600:8802:3800:75a0:2378:fa3f:c6b3:24d1])
-        by smtp.gmail.com with ESMTPSA id q11-20020a170902bd8b00b001e0c91d448fsm10141148pls.112.2024.04.01.23.43.12
+        by smtp.gmail.com with ESMTPSA id q20-20020a635054000000b005dc120fa3b2sm8756141pgl.18.2024.04.01.23.44.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Apr 2024 23:43:13 -0700 (PDT)
-Message-ID: <a4791bc1-f523-42fe-a00d-2cc92b35670c@gmail.com>
-Date: Mon, 1 Apr 2024 23:43:11 -0700
+        Mon, 01 Apr 2024 23:44:19 -0700 (PDT)
+Message-ID: <30d1d907-4585-40e9-880d-e23a2a5e88c5@gmail.com>
+Date: Mon, 1 Apr 2024 23:44:18 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 17/30] null_blk: Do not request
- ELEVATOR_F_ZBD_SEQ_WRITE elevator feature
+Subject: Re: [PATCH v3 18/30] null_blk: Introduce zone_append_max_sectors
+ attribute
 To: Damien Le Moal <dlemoal@kernel.org>, linux-block@vger.kernel.org,
  Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
@@ -76,16 +76,15 @@ To: Damien Le Moal <dlemoal@kernel.org>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
  Christoph Hellwig <hch@lst.de>
 References: <20240328004409.594888-1-dlemoal@kernel.org>
- <20240328004409.594888-18-dlemoal@kernel.org>
+ <20240328004409.594888-19-dlemoal@kernel.org>
 Content-Language: en-US
 From: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-In-Reply-To: <20240328004409.594888-18-dlemoal@kernel.org>
+In-Reply-To: <20240328004409.594888-19-dlemoal@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240401_234316_098829_CF7DBF5F 
-X-CRM114-Status: UNSURE (   9.29  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240401_234427_570822_C6BBDB85 
+X-CRM114-Status: GOOD (  11.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,12 +100,17 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 3/27/24 17:43, Damien Le Moal wrote:
-> With zone write plugging enabled at the block layer level, any zone
-> device can only ever see at most a single write operation per zone.
-> There is thus no need to request a block scheduler with strick per-zone
-> sequential write ordering control through the ELEVATOR_F_ZBD_SEQ_WRITE
-> feature. Removing this allows using a zoned null_blk device with any
-> scheduler, including "none".
+> Add the zone_append_max_sectors configfs attribute and module parameter
+> to allow configuring the maximum number of 512B sectors of zone append
+> operations. This attribute is meaningful only for zoned null block
+> devices.
+> 
+> If not specified, the default is unchanged and the zoned device max
+> append sectors limit is set to the device max sectors limit.
+> If a non 0 value is used for this attribute, which is the default,
+> then native support for zone append operations is enabled.
+> Setting a 0 value disables native zone append operations support to
+> instead use the block layer emulation.
 > 
 > Signed-off-by: Damien Le Moal<dlemoal@kernel.org>
 > Reviewed-by: Hannes Reinecke<hare@suse.de>
