@@ -4,87 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D55A3C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 06:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B93ABCD1284
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 07:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Sm53Z3L17Zu+ow15vuobEJghvq7U3t4LFtEUPD1JM3w=; b=ZIIoY4SY2NFZgFARxUKaoJYGvC
-	0w36/C1Ps3Ry5rC6dVUwcfjcLGeotW+NfwA9FHMJGUANXLm6maOmm1gh5+VnSVgwixdd/volEfEKS
-	hmL3iEw1DHLYeJeCC0QV8NY52SOABm6Xj7gKF2Ud6GVzVO/L4LvT/huKCIQ+PEw4y5DFkyj3qGn2M
-	yiTuMqnT14ZZhHG+jGdZO22/QPctb/I5EnDZ2azis59AklThCDnugiJyBFwTHogA1W1evTF1OPPgJ
-	wwrjlqLpuGBd+OQPVaXXVsU1yDFLgPwuNHNgkmp2dsjr3IaRuWptZlq/0yLAdFay/9wWyeD3OG5tP
-	pogVfJLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qAzvbbEkV0pHySk97X5s3fcUCaRnqRODx6gdMx+l/xk=; b=UFVMdhYdaXaowiSP1fetyKkITP
+	vTTAGdbbHWyqtcymDuG4Kxx01tdv+/7gKu0Lbc0AL+/zH6OezK5Xj0YdNr7UBSfJdGCyUvb+dPyg9
+	/Uo45KrFIMLslF/3WuXCUHfIPuLoCnNpOESvLoxgRG1Dd4+tgZh4Yp47nXU+X40D4hqe0PeRuzsc/
+	2mncKNfEO5dkL5RFXIe9CJ0o1FmDW3r8aZlgYINbjicY03DO3FxZTG9nFMMceDMcBj/qx/0mqxO07
+	zWAUV06tV/e8Tz21MdqN1+04rJfTYxTZJCcqT/yuPkbcnejkSyKgdlBJOMkmqEGHrti5QDplPhSUe
+	34fA3hlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrXtY-00000009xKg-1d6N;
-	Tue, 02 Apr 2024 06:45:20 +0000
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+	id 1rrYY5-0000000A4Sm-2hVp;
+	Tue, 02 Apr 2024 07:27:13 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrXtV-00000009xI6-1JM9
+	id 1rrYXy-0000000A4QR-1skX
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 06:45:18 +0000
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-29de4e12d12so3541518a91.3
-        for <linux-nvme@lists.infradead.org>; Mon, 01 Apr 2024 23:45:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712040310; x=1712645110; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Sm53Z3L17Zu+ow15vuobEJghvq7U3t4LFtEUPD1JM3w=;
-        b=KQL3oP+W9U40R8fdQiDNU0CHtQqVvBMH+BZ/t3xLL6qJKawMMMUvjDBAu7K7dRwuaT
-         D4uE6Wfe3pLbbExLiLu4HrGrWCWAgqQO25oh9XjigBHVPOFE3cNNi3c8dFKzA4JANxVy
-         MxU+1esiGYuybOwxXbmYau6vxgxS00MUGmUcnkKo2CH4zSpVHHJ02t2qHRjhn2Vc91fh
-         Sz63IUjz47dGoas2vYpRwqLXM/Wi88fwaeLeplj/M8shG1t1mXxEXBQgX4pXKltl+L+8
-         NwXTRFCaOTIp1GabZeLFgcKOBZ3SwByAn4q3mb4/0Vc94h23VN0jxOHgczcAAs5MHmJW
-         yJbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712040310; x=1712645110;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sm53Z3L17Zu+ow15vuobEJghvq7U3t4LFtEUPD1JM3w=;
-        b=UoWzEj6BTgwAOy4tHD630mNhD2+MH+faPAck62qm/y11jwmR6irWG9eWp8I9fDn03E
-         Ks1+JDh2pIeK4Dq6bc/vw0SJ98JqAYRNnu4OiG8NlDZbOtx3TV3WZashHe7gVfWout1z
-         tXOZrDILxgJNa0TnWVngrZZtBr9P1mC1rUblTjgTr+cH5BWyof2GA3j9ucDmVuILLhFi
-         PpA5JDicJR8G6r1e1734ZrT/jOZmzSiGcc2qEveyZMrJXRNJ4wuB/pfl3kmfCAs+jebA
-         KkRsvV/9IFR51VnaOKCiOf6+YMH2gyWCtCCW/IAOkJFA1VAkrzR9LZqaoXBDp6WE4Eo4
-         agYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlv1j/GDl2ErKG4xBKa03yrHwMDlnPz8w4Qs6JREgTXDrbASTTSmhHDbol+jysPFxPKGnv6KUSQI4KC363IDzOk4zKS36ATTR0d+etvrU=
-X-Gm-Message-State: AOJu0Yxq54cmdLxApE+R6ISwLFe52S2gJek6C7Y7QnzIo7DIowbjbmZh
-	UDYMdmM4PUnR4RK1WO+IN+Y+0SzkHZ0tuvqjtI/a4On34qXM+LHATr/QgS+6
-X-Google-Smtp-Source: AGHT+IFF93BCBK3FIDpFKuTXhn9tbpLReSTK3uggz3k0H38wO0A6ivGxtP9jVEkKk5ulOQtfh0hUQg==
-X-Received: by 2002:a17:90b:4c4c:b0:2a2:6d6e:1057 with SMTP id np12-20020a17090b4c4c00b002a26d6e1057mr24949pjb.7.1712040310359;
-        Mon, 01 Apr 2024 23:45:10 -0700 (PDT)
-Received: from ?IPV6:2600:8802:3800:75a0:2378:fa3f:c6b3:24d1? ([2600:8802:3800:75a0:2378:fa3f:c6b3:24d1])
-        by smtp.gmail.com with ESMTPSA id l20-20020a17090a409400b0029b2e5bc1b9sm10925785pjg.23.2024.04.01.23.45.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Apr 2024 23:45:10 -0700 (PDT)
-Message-ID: <3e159b10-170b-4c67-80ca-b833b712d91e@gmail.com>
-Date: Mon, 1 Apr 2024 23:45:08 -0700
+	Tue, 02 Apr 2024 07:27:10 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CFE74343BB;
+	Tue,  2 Apr 2024 07:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712042816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qAzvbbEkV0pHySk97X5s3fcUCaRnqRODx6gdMx+l/xk=;
+	b=vvDva3WGd/53+2bfcFXVLeVXoxAVYt3+HKSjIsmIULM5l0LdyLMf3VS6+H2YzrKkc9YEhu
+	jHg8DVwho/hIro4ItY1ZBNTwvcRWJUJs00mYCTiY+FdYbnCx5vVONaOD17S6pUF737Pt6r
+	qEN2Vvr5Z90bGgFYD+brlkZF3p/2U24=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712042816;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qAzvbbEkV0pHySk97X5s3fcUCaRnqRODx6gdMx+l/xk=;
+	b=hOBJeCVLIEhO4nK690MMd6Ma7pWzoHh+UjEa3zCzoZXyIZwElQy/kwEKDWb8PoWhPbWhwa
+	DuWl0Mfa8FGpRCBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=none
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id BE27A13357;
+	Tue,  2 Apr 2024 07:26:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id Xki6LECzC2YKTwAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Tue, 02 Apr 2024 07:26:56 +0000
+Date: Tue, 2 Apr 2024 09:26:56 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: =?utf-8?B?xYF1a2FzeiBLb2rFgm8=?= <l.kojlo@sibersoft.pl>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: nvmetcli FC transport problem
+Message-ID: <oe5bodi7vgcg2e5xux5tasusbgpcwo4um72q5gqevmm5egs2ka@bqgol4qhzm7b>
+References: <e7be9608-7e1d-4da3-985b-644b66443dec@sibersoft.pl>
+ <ak47crahgtdwhb2ecc22eseidltasw2sppbrq2ik57r6raal5f@n67q7wbbl7jr>
+ <a6ca5502-d25d-4add-9a55-65c0f5baa78a@sibersoft.pl>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 20/30] nvmet: zns: Do not reference the gendisk
- conv_zones_bitmap
-To: Damien Le Moal <dlemoal@kernel.org>, linux-block@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-References: <20240328004409.594888-1-dlemoal@kernel.org>
- <20240328004409.594888-21-dlemoal@kernel.org>
-Content-Language: en-US
-From: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-In-Reply-To: <20240328004409.594888-21-dlemoal@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a6ca5502-d25d-4add-9a55-65c0f5baa78a@sibersoft.pl>
+X-Spamd-Bar: +
+X-Spamd-Result: default: False [1.20 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWO(0.00)[2];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.19)[70.78%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: CFE74343BB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240401_234517_386470_B9DDEFDA 
-X-CRM114-Status: UNSURE (   8.36  )
+X-CRM114-CacheID: sfid-20240402_002706_668572_255A1384 
+X-CRM114-Status: UNSURE (   8.97  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -100,20 +118,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/27/24 17:43, Damien Le Moal wrote:
-> The gendisk conventional zone bitmap is going away. So to check for the
-> presence of conventional zones on a zoned target device, always use
-> report zones.
+Hi,
+
+On Fri, Mar 29, 2024 at 10:22:42AM +0100, Łukasz Kojło wrote:
+> */ports/1/subsystems> create test
+> Could not symlink test in configFS: [Errno 6] No such device or address:
+> '/sys/kernel/config/nvmet/subsystems/test' ->
+> '/sys/kernel/config/nvmet/ports/1/subsystems/test'*
 > 
-> Signed-off-by: Damien Le Moal<dlemoal@kernel.org>
-> Reviewed-by: Hannes Reinecke<hare@suse.de>
-> Reviewed-by: Christoph Hellwig<hch@lst.de>
+> Nothing in dmesg
+>
+> FC card I'm using it's QLogic QLE2740
 
-Looks good.
+I've tried once to get a P2P setup with QLogic cards but failed. IIRC,
+I run into troubles with the QLogic firmware not be able to act as
+target. I'd suggest you enable the debug logs of the qla2xxx driver.
+There might be a hint what's going wrong.
 
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-
--ck
-
-
+HTH,
+Daniel
 
