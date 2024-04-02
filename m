@@ -4,63 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26767C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 14:15:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E91ECD1284
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 14:48:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D5EYP1f5nXmUO6i+uCQyFlPoc+PCFjxdHcU4q8U8Q74=; b=4pulBMZuryt++7xGQO1mvn698g
-	60o1qLfo2Sp0LsNgr9BEa8e6MpwN061uw32rCEC5gBu7CU9B5wtZRKQtn02AMiN77Ku+KLHBYh4pI
-	S0CHBrnAycgr0yFVhdiNiKrhV9gYu2Tf9C+T9wr8HNYTA4fQLshcKQBjdsdLdhQyWxmLyqmF+pDUp
-	bMb+YjKZEYsCy90fFABfY7S8+/2EbxsHy7/c64+p1mS9HdY0O412KmZUSyV7xSlOETqZ7uIrElXvp
-	zCaPiQjr59LCFCrIB094ChTLSif7E+mVA8+womoVWq/rQy8jICqhacgc26thy84Ctbzf8LwI/mx6T
-	Oj3ytidQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LTQ/FvwO+Yp1kcIvWsv4Evgxix2Iw6CuEFx2xwVWE0g=; b=OwI0S9QgW17iHFvg43ZcF8aFyc
+	OH6ztnyEDHuXC/xzXhFlotKdBQna95x5vz/7hPE01nKBM1s8EleUaO/WYVmwidwKc0T6d56XVXkhm
+	88mXA/BQmw3AavSAy+ceWQYwgJ4F2k0JLszDAj7sCqpf+v84/1Lq7u6OGoEhlyynKY5pu6ujf4nFj
+	5iogJ6k8/xt7nFRvMYkUwxqLDiuxn0KvxWAZNLp1ck0OCqwks6Urm/tKDC/EfIXVdBxadJqGY6n2U
+	s1GZTKVsGvitj53iI87DcZ7mXYbp/mgNJcBjnxTQsy/8fLjINDzWO519i1K2UN40f4tgQYe6PvjQV
+	mF87HqeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrev3-0000000BXaw-2Wfv;
-	Tue, 02 Apr 2024 14:15:21 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrev0-0000000BXaQ-0NdF
-	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 14:15:19 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 776A3CE1B4F;
-	Tue,  2 Apr 2024 14:15:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53D40C433F1;
-	Tue,  2 Apr 2024 14:15:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712067314;
-	bh=D5EYP1f5nXmUO6i+uCQyFlPoc+PCFjxdHcU4q8U8Q74=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jS9b2pbezCpG1p/57V/ijLpgsXYSgYGB7L4ZI8+DNeN+hGsIsoxC/DMvENevgvKGA
-	 PE4gQKl3dvAmm26Pd/lOHNKZJ8Yrp19l+5xgPvnjsMNw0uR0plEjKCwleVUlLCq+3E
-	 mfV/jaYClAN7ret5xPSoDzvzVN2A8C7DOc0TBSRVgvOFPa89ryepWN5RonY0zzD61l
-	 +RUR3oCQAeUr1+l5Sgz5tVpOqU/4IgWnip3oNjEvDS1Wv7gt3WGsbL5qORkYrlZAV3
-	 nZCa0vUkchoiYR4Vv80ufE23h11Zn4sc7GYv0tpba52m4So3YdEEmtrk9axzwzWigt
-	 Q+MhMBD9zkRzg==
-Date: Tue, 2 Apr 2024 08:15:11 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-multipath: don't inherit LBA-related fields for the
- multipath node
-Message-ID: <ZgwS741jcyzbv1wH@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240321210819.1246749-1-hch@lst.de>
- <Zf2wRtNqNU2qTpHE@kbusch-mbp>
- <128c950a-57e1-428a-baa1-67765860661b@linux.ibm.com>
+	id 1rrfQf-0000000Bg2q-0C3v;
+	Tue, 02 Apr 2024 14:48:01 +0000
+Received: from [2001:4bb8:199:60a5:c70:4a89:bc61:2] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rrfQb-0000000Bg1Y-3PrB;
+	Tue, 02 Apr 2024 14:47:58 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: kbusch@kernel.org,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH v2] nvme: split nvme_update_zone_info
+Date: Tue,  2 Apr 2024 16:47:54 +0200
+Message-Id: <20240402144754.751976-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <128c950a-57e1-428a-baa1-67765860661b@linux.ibm.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_071518_331488_9FDCC27D 
-X-CRM114-Status: UNSURE (   9.00  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,10 +51,165 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 02, 2024 at 06:51:02PM +0530, Nilay Shroff wrote:
-> I found this one couldn't made into 6.9-rc2. So are we planning to queue this fix
-> for the next rc?
+nvme_update_zone_info does (admin queue) I/O to the device and can fail.
+We fail to abort the queue limits update if that happen, but really
+should avoid with the frozen I/O queue as much as possible anyway.
 
-Yes, it'll get in. I send pull requests on Thursday's but some unplanned
-travel events got in the way last week.
+Split the logic into a helper to query the information that can be
+called on an unfrozen queue and one to apply it to the queue limits.
+
+Fixes: 9b130d681443 ("nvme: use the atomic queue limits update API")
+Reported-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+
+Changes since v1:
+ - make sure lbaf is actually initialized
+
+ drivers/nvme/host/core.c | 19 +++++++++++--------
+ drivers/nvme/host/nvme.h | 12 ++++++++++--
+ drivers/nvme/host/zns.c  | 33 ++++++++++++++++++++-------------
+ 3 files changed, 41 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 943d72bdd794ca..3b0498f320e6b9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2076,6 +2076,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	bool vwc = ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT;
+ 	struct queue_limits lim;
+ 	struct nvme_id_ns_nvm *nvm = NULL;
++	struct nvme_zone_info zi = {};
+ 	struct nvme_id_ns *id;
+ 	sector_t capacity;
+ 	unsigned lbaf;
+@@ -2091,6 +2092,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		ret = -ENODEV;
+ 		goto out;
+ 	}
++	lbaf = nvme_lbaf_index(id->flbas);
+ 
+ 	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_ELBAS) {
+ 		ret = nvme_identify_ns_nvm(ns->ctrl, info->nsid, &nvm);
+@@ -2098,8 +2100,14 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 			goto out;
+ 	}
+ 
++	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
++	    ns->head->ids.csi == NVME_CSI_ZNS) {
++		ret = nvme_query_zone_info(ns, lbaf, &zi);
++		if (ret < 0)
++			goto out;
++	}
++
+ 	blk_mq_freeze_queue(ns->disk->queue);
+-	lbaf = nvme_lbaf_index(id->flbas);
+ 	ns->head->lba_shift = id->lbaf[lbaf].ds;
+ 	ns->head->nuse = le64_to_cpu(id->nuse);
+ 	capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
+@@ -2112,13 +2120,8 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		capacity = 0;
+ 	nvme_config_discard(ns, &lim);
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+-	    ns->head->ids.csi == NVME_CSI_ZNS) {
+-		ret = nvme_update_zone_info(ns, lbaf, &lim);
+-		if (ret) {
+-			blk_mq_unfreeze_queue(ns->disk->queue);
+-			goto out;
+-		}
+-	}
++	    ns->head->ids.csi == NVME_CSI_ZNS)
++		nvme_update_zone_info(ns, &lim, &zi);
+ 	ret = queue_limits_commit_update(ns->disk->queue, &lim);
+ 	if (ret) {
+ 		blk_mq_unfreeze_queue(ns->disk->queue);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 24193fcb8bd584..d0ed64dc7380e5 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1036,10 +1036,18 @@ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+ }
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
++struct nvme_zone_info {
++	u64 zone_size;
++	unsigned int max_open_zones;
++	unsigned int max_active_zones;
++};
++
+ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+ 		unsigned int nr_zones, report_zones_cb cb, void *data);
+-int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf,
+-		struct queue_limits *lim);
++int nvme_query_zone_info(struct nvme_ns *ns, unsigned lbaf,
++		struct nvme_zone_info *zi);
++void nvme_update_zone_info(struct nvme_ns *ns, struct queue_limits *lim,
++		struct nvme_zone_info *zi);
+ #ifdef CONFIG_BLK_DEV_ZONED
+ blk_status_t nvme_setup_zone_mgmt_send(struct nvme_ns *ns, struct request *req,
+ 				       struct nvme_command *cmnd,
+diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+index 722384bcc765cd..77aa0f440a6d2a 100644
+--- a/drivers/nvme/host/zns.c
++++ b/drivers/nvme/host/zns.c
+@@ -35,8 +35,8 @@ static int nvme_set_max_append(struct nvme_ctrl *ctrl)
+ 	return 0;
+ }
+ 
+-int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf,
+-		struct queue_limits *lim)
++int nvme_query_zone_info(struct nvme_ns *ns, unsigned lbaf,
++		struct nvme_zone_info *zi)
+ {
+ 	struct nvme_effects_log *log = ns->head->effects;
+ 	struct nvme_command c = { };
+@@ -89,27 +89,34 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf,
+ 		goto free_data;
+ 	}
+ 
+-	ns->head->zsze =
+-		nvme_lba_to_sect(ns->head, le64_to_cpu(id->lbafe[lbaf].zsze));
+-	if (!is_power_of_2(ns->head->zsze)) {
++	zi->zone_size = le64_to_cpu(id->lbafe[lbaf].zsze);
++	if (!is_power_of_2(zi->zone_size)) {
+ 		dev_warn(ns->ctrl->device,
+-			"invalid zone size:%llu for namespace:%u\n",
+-			ns->head->zsze, ns->head->ns_id);
++			"invalid zone size: %llu for namespace: %u\n",
++			zi->zone_size, ns->head->ns_id);
+ 		status = -ENODEV;
+ 		goto free_data;
+ 	}
++	zi->max_open_zones = le32_to_cpu(id->mor) + 1;
++	zi->max_active_zones = le32_to_cpu(id->mar) + 1;
+ 
+-	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, ns->queue);
+-	lim->zoned = 1;
+-	lim->max_open_zones = le32_to_cpu(id->mor) + 1;
+-	lim->max_active_zones = le32_to_cpu(id->mar) + 1;
+-	lim->chunk_sectors = ns->head->zsze;
+-	lim->max_zone_append_sectors = ns->ctrl->max_zone_append;
+ free_data:
+ 	kfree(id);
+ 	return status;
+ }
+ 
++void nvme_update_zone_info(struct nvme_ns *ns, struct queue_limits *lim,
++		struct nvme_zone_info *zi)
++{
++	lim->zoned = 1;
++	lim->max_open_zones = zi->max_open_zones;
++	lim->max_active_zones = zi->max_active_zones;
++	lim->max_zone_append_sectors = ns->ctrl->max_zone_append;
++	lim->chunk_sectors = ns->head->zsze =
++		nvme_lba_to_sect(ns->head, zi->zone_size);
++	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, ns->queue);
++}
++
+ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
+ 					  unsigned int nr_zones, size_t *buflen)
+ {
+-- 
+2.39.2
+
 
