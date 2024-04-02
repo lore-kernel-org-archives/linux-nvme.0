@@ -4,94 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25DC8CD1284
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 13:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D42ACD1284
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 13:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a+J33Vq7oicJy6ZN5iniFWHNWMzbyVjBzhRXhbMntAY=; b=Y9InfPwj0ApWDj+iNteNIgMSWm
-	Bs0r1ct2Zt+4NNd1BtV7klmE+HYu8spqBHSoqU9OKflOw2G9bHyPS0MfB2eZaVC4ykxID0kZKrD5Q
-	ZDwKU7C3aIaDrFNlPtOFCB1/G36rsDiQJyfWOAot4u/edsgcfN8K6evV4nAh58TQMBp+UsyLvB/x7
-	Dj9AQC8vFFtpwel1vWNzn9AYxEQl5bJRk/M7kRfZwnL/gm0Qj9rmLqr29rJT1ADu9+cxekHvcwdmI
-	flTyCwVOffJPlZsQovLbIY+MrMcObfgS+xP7a7P/eqx/GnLXW5pqiN+4C0JPUY2waCRpMQGNUoppM
-	87SJ9+YQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UVd70LHGhKpZHClJa8xJrrdZcZ0mLz42gh3v+vqWtvg=; b=Zu0YtJqZnyW1aI1bNjHkF3FVLP
+	h+hsmz4MOOdlRgylVPk3zEkEo8u3Cf/mF+BmCxO5rxcOZynfTjVWv5NwbYqnzbB7UN88Mh6muCo6A
+	Zirp4rcKTsPUE0VqboBvOc9iC5cqTh+RJagnIjjVF1+6J4wUsq5zn+3zgVgBwnFWxW2n37l/yU/3v
+	jkd4gmtI0MJ+lnxhnrV2g89UIY5HzG129xxn5l8ocIUpDt3Eivva2ojMPAES2zB26x0wpjviAtd6T
+	2+lv9Vuq4LfK6qcmE02btTSudF/ogfAIKhIjimoyMAoTrcQCJHToiSQ9gP1jWf+z80y3dI3Q1fCC7
+	9uwnakSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rreFZ-0000000BNI4-2qzE;
-	Tue, 02 Apr 2024 13:32:29 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1rreGc-0000000BNZB-0AqQ;
+	Tue, 02 Apr 2024 13:33:34 +0000
+Received: from mail-mw2nam12on20600.outbound.protection.outlook.com ([2a01:111:f403:200a::600] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rreFW-0000000BNH5-3DTN
+	id 1rrd6V-0000000B1Ov-0CU3
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 13:32:27 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 432DKSOJ032522;
-	Tue, 2 Apr 2024 13:32:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=a+J33Vq7oicJy6ZN5iniFWHNWMzbyVjBzhRXhbMntAY=;
- b=mYAcgtZrwA6Rc9UpO2guG0LVBxAr7o2Lds5yeR4wubRwekegQZQpk01BbNCbwME/TyMt
- lkEPmMPM9vz+Tv1fFTl8VPzJN7AB4guS/Ky7MRESUIhrPfH0RgK/9OtBU6x18OKTFEAb
- ZkE+739GCykJwjzOrNGgFhCTzKjSp8OVN45T0WERi4+DlYA4KLlrq2yaDeykzhhxjBjW
- g9iWF0FGbrG5KVO9ivOm6CyWK/+Tb5ypPNYAv6Zt2upOfOAP8jlLgoefWBt1iX1cq1Jx
- 55GY9u0WOkbBJ5afK8FrsR45Ui6gMDeBUi04SFt5CvdyKNw9grUhogQxkqDL7xjq2yr8 3w== 
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x8gn48f18-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Apr 2024 13:32:22 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 432CoveV029563;
-	Tue, 2 Apr 2024 13:32:21 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3x6ys2x7ja-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Apr 2024 13:32:21 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 432DWIFZ25690646
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 2 Apr 2024 13:32:21 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BAF4358059;
-	Tue,  2 Apr 2024 13:32:18 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F369C58055;
-	Tue,  2 Apr 2024 13:32:16 +0000 (GMT)
-Received: from [9.109.198.231] (unknown [9.109.198.231])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  2 Apr 2024 13:32:16 +0000 (GMT)
-Message-ID: <67debc81-6d3e-4ce5-b79d-03398513e81e@linux.ibm.com>
-Date: Tue, 2 Apr 2024 19:02:15 +0530
+	Tue, 02 Apr 2024 12:19:04 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FZj5xx0NyoaBeFDfhxpaDBMzcdTKsJ5aEuHSiuMacoQaMuxf/Nm8CD+CNPt1YMECQv2j4seDIQpbZJ28fBqBfuiw162gcbSzpso+5shAuZgcRTFy1VC3s0KtAc/hNwUpvpoMHHkv/t8cs26FzcvSLAX9SAgGVK+bp8tG3uWgK2JXrIfXTOzflkSl0pX0C6ANJo7fQcuIT4QVlqt8C1P+ZVCQOfcO6TqJxOLBqDRgbOtl665QSwlovg7gK/mAx2iHscmKeJHWkJJaXS5xFzY1GjhGhySjTmN8epGyDNfryWyUZtlUhWFaC9BS5lhsb8Lqrhes4zKcbThK4ksZaaiCSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UVd70LHGhKpZHClJa8xJrrdZcZ0mLz42gh3v+vqWtvg=;
+ b=hfs7D6PK90KFQOohDg2DK66ldfxFbSJ2VZUy4kxYHc393xDs41zE/EFHSXmuxysEJZ0GTHJb4v++8qnLnAfGDLPUyTboXURw1IBHQ8VGELGoOsAByJSviHmvstORaXi7mlwN2Ttnt56NW5zklywyGntN3TMOGPECgBi4tA3f2K0OvITqHQ8XDgvaGZWfo8DoQ/UFmc5dUM63BukNe//yRKVV2FDxlPW8zNaIpL6isO/LHs/crQDZ7r+erXpAMY8TxpNQDrzp7yTYHpYkim+5d5V2PVHEksaIVtIyaBCyGEz7Gkd1B/ZH7ycg811njimVxYv51Mrlll7xMzTTBstMVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UVd70LHGhKpZHClJa8xJrrdZcZ0mLz42gh3v+vqWtvg=;
+ b=i9eeiedFuIm8bRZ2j/E+r8gzv797VrTP0RSZ2aEiVhweQA5PwSBzJ953nBF8uuggy6BHraeBvi1jmskD4rjVlYOpi4qvok8+m8pg3J9k5YmH9t6Gf0AnJBwGXdUnof2ZGYhJpfSLBo3oX3/gVKJQaf/mcwmx6+lw6Ic2P9YdXT2jYbGGW1yS03Gxx1S71QJerrgWeiLHWYmCTUEEM3q2wLEhWcdw2823kyDELvkv+bO3WmM1K+q89SEp9eh3TdmXlaOLw0kU2QjUOQqSFivafCR+WeDcrvb+nOdTOHw4dggexqorNl+hR3BhbpdGKhdGfB3XtQipWM86RkTl/VDi7Q==
+Received: from MW4P223CA0012.NAMP223.PROD.OUTLOOK.COM (2603:10b6:303:80::17)
+ by SJ1PR12MB6266.namprd12.prod.outlook.com (2603:10b6:a03:457::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
+ 2024 12:18:45 +0000
+Received: from MWH0EPF000971E2.namprd02.prod.outlook.com
+ (2603:10b6:303:80:cafe::78) by MW4P223CA0012.outlook.office365.com
+ (2603:10b6:303:80::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46 via Frontend
+ Transport; Tue, 2 Apr 2024 12:18:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ MWH0EPF000971E2.mail.protection.outlook.com (10.167.243.69) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Tue, 2 Apr 2024 12:18:45 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 2 Apr 2024
+ 05:18:30 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Tue, 2 Apr 2024 05:18:30 -0700
+Received: from rsws46.mtr.labs.mlnx (10.127.8.11) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Tue, 2 Apr 2024 05:18:28 -0700
+From: Israel Rukshin <israelr@nvidia.com>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Linux-nvme
+	<linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>,
+	"Christoph Hellwig" <hch@lst.de>
+CC: Israel Rukshin <israelr@nvidia.com>
+Subject: [PATCH] fabrics: Fix fast_io_fail_tmo option
+Date: Tue, 2 Apr 2024 12:18:12 +0000
+Message-ID: <1712060292-11054-1-git-send-email-israelr@nvidia.com>
+X-Mailer: git-send-email 1.8.4.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tree: Add NVM subsystem controller identifier
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, dwagner@suse.de, gjoyce@ibm.com
-References: <20240326065752.164286-1-nilay@linux.ibm.com>
- <7bfe1296-3bd6-4c5e-a1a7-5fdb5c346404@suse.de>
- <5c54f9eb-6a86-4240-bba8-eee8b72469c2@linux.ibm.com>
-In-Reply-To: <5c54f9eb-6a86-4240-bba8-eee8b72469c2@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Kzl2Ypla-1Xl2ojEjfRDa4Ktqg-ozv-T
-X-Proofpoint-ORIG-GUID: Kzl2Ypla-1Xl2ojEjfRDa4Ktqg-ozv-T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-02_06,2024-04-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- priorityscore=1501 adultscore=0 impostorscore=0 malwarescore=0 spamscore=0
- clxscore=1015 bulkscore=0 mlxlogscore=999 lowpriorityscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2403210000 definitions=main-2404020099
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E2:EE_|SJ1PR12MB6266:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23bbb1bf-8152-47d5-bd53-08dc530f0adb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CuBOwWCcDA7ex+hypGf6hAnEk3454thyxIzyL+3au22IjiRML/YMgHATrTbbCrVy7ko8SSOfI2rA41L90iYMRtmpVaeKCsVBGE38TpsRuj+f+IA6dOQLocIryyH99Fz5VzGKwbjbpUBA1kCCRov884HqbtFA5fC99/PZmVooQ1Z6sstavRJjdwRt/d/ScHyVETI4oy0Xv83Qm/xtErf0axo2P9o8KCXPKJmvyEs+HyFvp8NNgWJBZfhG4L31n1P5YxWUkp0Z8G5jUF5VF+Scr3b4bd0TR1lKAut0VL5S5tHjlzRr8ZW1uwxBAoSPoho6M0dPnV0xeBJeTwZX2ba8Ja4QzyGIt7Xyl0td136IrjztZXHUiWhCe/ceaajNuOVd9zl5EguyHVncUIGUCHplZ+uOlQUjn1bi5c60ATnK8qYHTVn5HP1oFsUtm+g4m2MwHbKhQBjZS7H7oiXw0FKroub8o8eAYfhuT5ZVv3BdIBm3lYRnV58OnoTzoUgNaAERBfo9DRU0J6XTfvN9NThzIjv0hwtaZZIvDHqAfUbdeWK+7dxJA+zs06+g0oZAIXyiVptJIzytAbcXSfqQdkTe95C1w8fRhESg6He+r8Y3X9Lpg6QnPp2UFXoEJb0dK6fa1u8qWe3sO+twczIFGZvujDPVFAcHxEMJzCgTW4TOuFHqLhU6NaiIiJjx6JPdPFCDwKXRV61KhYu6d8/evgU1iZu6DPWLaKPyZNV+2ATwOUmrBpPY8XCxFN1uekqK97zG
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(82310400014)(1800799015)(376005)(36860700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 12:18:45.0618
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23bbb1bf-8152-47d5-bd53-08dc530f0adb
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E2.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6266
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_063226_871809_0702324C 
-X-CRM114-Status: GOOD (  29.70  )
+X-CRM114-CacheID: sfid-20240402_051903_111183_BA8254C9 
+X-CRM114-Status: UNSURE (   9.28  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,97 +123,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The option was partially removed by a refactoring commit.
+Return it back, because it is still supported by the kernel
+driver.
 
+Fixes: 18de3a6d61a7 ("Convert to libnvme")
+Signed-off-by: Israel Rukshin <israelr@nvidia.com>
+---
+ fabrics.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 3/26/24 14:20, Nilay Shroff wrote:
-> 
-> 
-> On 3/26/24 12:40, Hannes Reinecke wrote:
->> On 3/26/24 07:57, Nilay Shroff wrote:
->>> This commit introduces a field "cntlid" for controller,
->>> that contains the NVM subsystem unique identifier assigned
->>> to each controller device in an NVM subsystem.
->>>
->>> While attaching a namespace, typically user needs to specify the
->>> controller identifier (cntlid). The cntlid could be referenced from
->>> sysfs (/sys/class/nvme/nvmeX/cntlid) but it would be nice to have
->>> a direct option.
->>>  > Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+diff --git a/fabrics.c b/fabrics.c
+index 6b25f74e..14682907 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -78,6 +78,7 @@ static const char *nvmf_queue_size	= "number of io queue elements to use (defaul
+ static const char *nvmf_keep_alive_tmo	= "keep alive timeout period in seconds";
+ static const char *nvmf_reconnect_delay	= "reconnect timeout period in seconds";
+ static const char *nvmf_ctrl_loss_tmo	= "controller loss timeout period in seconds";
++static const char *nvmf_fast_io_fail_tmo = "fast I/O fail timeout (default off)";
+ static const char *nvmf_tos		= "type of service";
+ static const char *nvmf_keyring		= "Keyring for TLS key lookup";
+ static const char *nvmf_tls_key		= "TLS key to use";
+@@ -108,6 +109,7 @@ static const char *nvmf_context		= "execution context identification string";
+ 		OPT_INT("keep-alive-tmo",     'k', &c.keep_alive_tmo,     nvmf_keep_alive_tmo),  \
+ 		OPT_INT("reconnect-delay",    'c', &c.reconnect_delay,    nvmf_reconnect_delay), \
+ 		OPT_INT("ctrl-loss-tmo",      'l', &c.ctrl_loss_tmo,      nvmf_ctrl_loss_tmo),   \
++		OPT_INT("fast_io_fail_tmo",   'F', &c.fast_io_fail_tmo,   nvmf_fast_io_fail_tmo),\
+ 		OPT_INT("tos",                'T', &c.tos,                nvmf_tos),             \
+ 		OPT_INT("keyring",              0, &c.keyring,            nvmf_keyring),         \
+ 		OPT_INT("tls_key",              0, &c.tls_key,            nvmf_tls_key),         \
+-- 
+2.34.1
 
->>
->> Errm. How would that work? /dev/nvme0 _is_ a controller, and as such will have an assigned cntlid. And if one would issue an 'attach-ns'
->> command the only controller which it could address is that controller
->> to which the command is issued.
->> I'd be _very_ surprised if you could issue 'attach-ns' against _another_
->> controller. So why do we need this option?
->> Shouldn't we rather infer the cntlid from the existing controller?
->>
-> Yes it's possible to attach a namespace against the cntlid which could be different from 
-> the nvmeX device we use while attaching the namespace. Moreover, if we want to create a shared 
-> namespace then we need to specify all controller identifiers which would share that namespace.
-> 
-> For reference, I would show the example output below:
-> 
-> Example 1: Create a shared namespace and attach to multiple controllers:
-> ------------------------------------------------------------------------
-> 
-> # nvme list -v 
-> Subsystem        Subsystem-NQN                                                                                    Controllers
-> ---------------- ------------------------------------------------------------------------------------------------ ----------------
-> nvme-subsys1     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme1, nvme3
-> [...]
-> 
-> As we could see above I have two controllers (nvme1 and nvme3) under NVM subsys1. 
-> Lets find cntlid of each controller.
-> 
-> # cat /sys/class/nvme/nvme1/cntlid 
-> 66 
-> # cat /sys/class/nvme/nvme3/cntlid 
-> 65
-> 
-> Now create a shared namespace and attach it against the above controllers:
-> 
-> # nvme create-ns /dev/nvme1 --nsze=0x156d56 --ncap=0x156d56  --block-size=4096 -m 1 
-> create-ns: Success, created nsid:1
-> 
-> # nvme attach-ns /dev/nvme1 -n 0x1 -c 65,66 
-> attach-ns: Success, nsid:1
-> 
-> # nvme list -v
-> [...]
-> 
-> Device       Generic      NSID       Usage                      Format           Controllers     
-> ------------ ------------ ---------- -------------------------- ---------------- ----------------
-> /dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme1, nvme3
-> 
-> 
-> As we could see above for creating shared namespace we need to know the cntlid of both 
-> nvme1 and nvme3 controllers.
-> 
-> Example 2: Create a private namespace and attach to a controller other than the one specified in nvmeX
-> ------------------------------------------------------------------------------------------------------
-> 
-> # nvme create-ns /dev/nvme1 --nsze=0x156d56 --ncap=0x156d56  --block-size=4096
-> create-ns: Success, created nsid:2
-> 
-> # nvme attach-ns /dev/nvme1 -n 2 -c 65
-> attach-ns: Success, nsid:2
-> 
-> Please note above that I attached the namespace against controller nvme3 (the cntlid 65 is assigned to nvme3)
-> 
-> # nvme list -v
-> [...]
-> 
-> Device       Generic      NSID       Usage                      Format           Controllers     
-> ------------ ------------ ---------- -------------------------- ---------------- ----------------
-> /dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme1, nvme3
-> /dev/nvme1n2 /dev/ng1n2   0x2          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme3
-> 
-
-If there's no other objection to the above change then can we accept the patch?
-
-Thanks,
---Nilay
-
- 
 
