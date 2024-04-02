@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A67BCD1284
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 12:39:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1CA0C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 12:39:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RXv4UFOhoo/zXR8R86dhGqOSvsPBdfl/bnIzArzV6B0=; b=UBFGmgbCRawzGhjWV9U/4iHioV
-	i5N2mOBEMptvA6ip1xurkCN2ApnKycpiurHHLmiiiyJk2VpzQCkBZUFcIw2huLLB6eie/e58FFn59
-	Tl45sU41QbVXwawePPqsVGrcOdwO1cF3fRuILx2uNRJKyyWB4uGWz3PE4Y/7tY4E8MdpSGnQ5SnS8
-	tRcP/yysdA9kotRNud9VyXFO/UxO8TcPjyTozH3JPc6+FyCUXvgqpJc/MGdnI1qPJEg/em3X2N9AY
-	3EuqVMqvd9r2f+rG/6PCjRFPuRnvDSniATbWVYKvBLtxaKnghVikzUBjP8EOwmBCFnFR7rIeYC9CT
-	NHDO36dw==;
+	bh=qKcBjUrAnF64gBaXsron+kcawKs7Hm5sgBtdLOoLVtI=; b=NjO4G0Rv/DgZ/l1H+1CYzs4Cbj
+	NcuseJnSmAMYjLp8wgWX67EvhxcaYjNnd+nj41U0dNqXF1tgDuEW/jk80JKRJ6xoQ+nJjhtqcht09
+	TFkfBvjC0H+K3I53/JlyH32WMcYqWvGHmYcVOW1/hWXD/h0tCxweotrE37ZW2PKsI5LR8KjvL5nJV
+	tqIUlGSHq/qroTp0dh18UfQsL9F4lpsOJ3hah0kIMLHLtqs3FRkcPbSDyW4wuO/gUpUQYWSap8V8S
+	9rmDzIbzo/G1Nc2PmjotXG4ls34LFuBCagroFxcIySDDcPxjGqyu8twpUeY2Lxok9+zlb7w0A4AEn
+	KbQDj+rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrdQF-0000000B6Ic-3bJD;
-	Tue, 02 Apr 2024 12:39:27 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rrdQN-0000000B6Q9-0dlG;
+	Tue, 02 Apr 2024 12:39:35 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrdQ6-0000000B6Aw-0TJL
+	id 1rrdQ6-0000000B6At-2aoC
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 12:39:21 +0000
+	Tue, 02 Apr 2024 12:39:22 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9D5B260FF8;
-	Tue,  2 Apr 2024 12:39:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55541C433A6;
+	by sin.source.kernel.org (Postfix) with ESMTP id CD9E5CE1B5D;
 	Tue,  2 Apr 2024 12:39:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED005C433C7;
+	Tue,  2 Apr 2024 12:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712061557;
-	bh=qXjGHVWjqr2orY91/Ggfq1GwyhXXkL7+eIYmUkoNTtc=;
+	s=k20201202; t=1712061556;
+	bh=jjiUilvd0iKnYt0AP2dJMfoR1ndfXit0U3Y/hv0duX0=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=A/G6TuxNZtLetNVGBK9hynsTp1zN0OWkMzpVUhsHGJbpPcArKXEX5mJottOGZo5FH
-	 8/5XbLDLfAjKtIv/ZKfzyQMYCnjhrtubs61wYgMxngeF/dhvvJJQIQQhaOuFlEY9bN
-	 XRIM1WNwUzF1HOLemq5ao5cI5xlhY9oOalS4v3MqHOdw0Mr/q60fy/QQ7Gc/IMTuE/
-	 hupfbDNV3U5bz2/eXBjLNdtu1wWZxPUykVy0m8we8qFPezS8434jdacJKXuokIxULJ
-	 ofEBNqdr4hPNRj+JmlqO222tshrWZoRDBtYiO1/ZRlnanwBzztbXjhTQDzGUonteQG
-	 NZ4ET3zFMQXlw==
+	b=g6F4jUlRWYHL+30frClE3iOp/DTSyRPKUjoaBos8cU/TVj5WpZVjeo0s7ZiGZ/gnK
+	 JPjbUH2R0CH9LKVXWsp0vAuwP2yC7fKX4P21/bYKOp1uRr+42coVTo9Jm+MYVLY2f8
+	 ugwmxr7Qru9iez1ARNe0j+eeEbNTaPh+jJyx/7XhUSy7MKuJQLLsl42IpBMcyRWZpv
+	 tY4ZSI58eIogOFibd+6LVrtgPQCbCJQAQfH5MD0j05HmiMUSjT3Kcj65ETkpTCr9w8
+	 IcvRe5TTxVTBwd4DNd1bq5FUTZslN92PH0PHCvShbkvwXtpMuKrNorVypxLLboZl66
+	 P+i72jRvmMFGA==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -52,17 +52,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v4 05/28] block: Allow using bio_attempt_back_merge() internally
-Date: Tue,  2 Apr 2024 21:38:44 +0900
-Message-ID: <20240402123907.512027-6-dlemoal@kernel.org>
+Subject: [PATCH v4 04/28] block: Introduce bio_straddles_zones() and bio_offset_from_zone_start()
+Date: Tue,  2 Apr 2024 21:38:43 +0900
+Message-ID: <20240402123907.512027-5-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240402123907.512027-1-dlemoal@kernel.org>
 References: <20240402123907.512027-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_053918_500302_7920ED8A 
-X-CRM114-Status: GOOD (  12.68  )
+X-CRM114-CacheID: sfid-20240402_053918_909448_AF23869D 
+X-CRM114-Status: GOOD (  10.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,58 +77,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Remove "static" from the definition of bio_attempt_back_merge() and
-declare this function in block/blk.h to allow using it internally from
-other block layer files. The definition of enum bio_merge_status is
-also moved to block/blk.h.
+Implement the inline helper functions bio_straddles_zones() and
+bio_offset_from_zone_start() to respectively test if a BIO crosses a
+zone boundary (the start sector and last sector belong to different
+zones) and to obtain the offset of a BIO from the start sector of its
+target zone.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 ---
- block/blk-merge.c | 8 +-------
- block/blk.h       | 8 ++++++++
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ include/linux/blkdev.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 4e3483a16b75..3363b1321908 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -972,13 +972,7 @@ static void blk_account_io_merge_bio(struct request *req)
- 	part_stat_unlock();
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index c3e8f7cf96be..ec7bd7091467 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -853,6 +853,13 @@ static inline unsigned int bio_zone_no(struct bio *bio)
+ 	return disk_zone_no(bio->bi_bdev->bd_disk, bio->bi_iter.bi_sector);
  }
  
--enum bio_merge_status {
--	BIO_MERGE_OK,
--	BIO_MERGE_NONE,
--	BIO_MERGE_FAILED,
--};
--
--static enum bio_merge_status bio_attempt_back_merge(struct request *req,
-+enum bio_merge_status bio_attempt_back_merge(struct request *req,
- 		struct bio *bio, unsigned int nr_segs)
- {
- 	const blk_opf_t ff = bio_failfast(bio);
-diff --git a/block/blk.h b/block/blk.h
-index 17786052f32d..bca50a9510c8 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -269,6 +269,14 @@ static inline void bio_integrity_free(struct bio *bio)
- unsigned long blk_rq_timeout(unsigned long timeout);
- void blk_add_timer(struct request *req);
- 
-+enum bio_merge_status {
-+	BIO_MERGE_OK,
-+	BIO_MERGE_NONE,
-+	BIO_MERGE_FAILED,
-+};
++static inline bool bio_straddles_zones(struct bio *bio)
++{
++	return bio_sectors(bio) &&
++		bio_zone_no(bio) !=
++		disk_zone_no(bio->bi_bdev->bd_disk, bio_end_sector(bio) - 1);
++}
 +
-+enum bio_merge_status bio_attempt_back_merge(struct request *req,
-+		struct bio *bio, unsigned int nr_segs);
- bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
- 		unsigned int nr_segs);
- bool blk_bio_list_merge(struct request_queue *q, struct list_head *list,
+ static inline unsigned int bio_zone_is_seq(struct bio *bio)
+ {
+ 	return disk_zone_is_seq(bio->bi_bdev->bd_disk, bio->bi_iter.bi_sector);
+@@ -1328,6 +1335,12 @@ static inline sector_t bdev_offset_from_zone_start(struct block_device *bdev,
+ 	return sector & (bdev_zone_sectors(bdev) - 1);
+ }
+ 
++static inline sector_t bio_offset_from_zone_start(struct bio *bio)
++{
++	return bdev_offset_from_zone_start(bio->bi_bdev,
++					   bio->bi_iter.bi_sector);
++}
++
+ static inline bool bdev_is_zone_start(struct block_device *bdev,
+ 				      sector_t sector)
+ {
 -- 
 2.44.0
 
