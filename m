@@ -4,119 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5925ACD1284
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 11:37:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60D8DCD1284
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Apr 2024 12:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SJ3ZFU1RiRJTIMmOESh+Awufpt2n1eMVYEYTzVGB6g4=; b=ToEQSxh8DpQuaYkGKb6BeLDjyQ
-	PBY1FnWLxYzJYpCZUByQo8wf4PrxDIN/W5iF5FDC+aoNssqcqAj7P5aTwPLV11Xp0UvMwuab/tT4P
-	HJdtOvLERbuLyLZdKdhBa4E1gfbLASFqgQb4AFd7Tf6XUlLZdQKOO/E9vdRjVqEg20Ouvnrf5Y9Dm
-	VnIlLwf2OtI1rbZ+PyFWXl81s7a6+PNnvORYYvKVGPR60KCXBfR+rYTMjgtJXcBKz5n1k3r+0HMQx
-	x3xMXAopd4XjE6LOH73lS4yDPfZQpqFUlffwzarXFmJWVWd+CIPfKfi+DztHFJubvmWc00R7kC68y
-	f/SD3wZQ==;
+	bh=JeEwLDWnwbM+KgJsTjO//fi1WiCjJRCX524sKO4/cPg=; b=4Gcuh6KOB+nNpdZhgz6VcP0UjL
+	rarr+6/Yo7uARBX7gGi8oH/YLnnqK4LrxVgSIScVoa4NXkWhQtKbxZmzAW2FCIVzsYNpDIBe2LJcE
+	9Gm24KooTsg7ffo199Ev+w7LyQRVyXCTilL98GEDMNVE6xI/OdgkuRWRJ8i4+pyiF/fYZG/EhqfNy
+	tISdmSG8ZKdVpHMLmC5MbXvXPPr2GeyTqIhe+SQd8D3loCbQgdqtU6kso/uWvVlRnrjhB9Ys47K26
+	OEsAMBbhUAD/HBMS9ROSoRfgzEch1pHinxMSpcS5wTB1I/+nrtIU8RY4L02M9NzSPDbAPDAOzJkG5
+	Xa/v2f9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrcSF-0000000AtYe-2MNu;
-	Tue, 02 Apr 2024 11:37:27 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rrdQ6-0000000B6CY-3iIo;
+	Tue, 02 Apr 2024 12:39:18 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrcSA-0000000AtX7-1zeN
+	id 1rrdQ1-0000000B68P-0F4E
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Apr 2024 11:37:26 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E35C834628;
-	Tue,  2 Apr 2024 11:37:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712057839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SJ3ZFU1RiRJTIMmOESh+Awufpt2n1eMVYEYTzVGB6g4=;
-	b=OGjH+MktKXWEul8I1KyU8ep16udkrlXbCthAaMI2G5VUaCK6l5MkeFdjRNZq0UZS9PE3BK
-	8Wsuud2vX32NcAxswYe6bKlIQE0PAKK91ubkMCaw+QxIhErO6wWoRO+ir6YL4r1wfeIg+n
-	itaVcfIdUxYbskAmkVvwP0J4W/S7zQo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712057839;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SJ3ZFU1RiRJTIMmOESh+Awufpt2n1eMVYEYTzVGB6g4=;
-	b=Y5JmAN8i5adaqxqs7GO3BpwghDSBKVAm7H4N01pAJARZBIBXq6v5r0gGLusmJMVl8bkkc/
-	8Jx64dPs7Qd9+0Cg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id BFE9213A90;
-	Tue,  2 Apr 2024 11:37:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 8whwLu/tC2btLQAAn2gu4w
-	(envelope-from <hare@suse.de>); Tue, 02 Apr 2024 11:37:19 +0000
-Message-ID: <7fbfdcf6-22ee-48f4-be80-92b465067216@suse.de>
-Date: Tue, 2 Apr 2024 13:37:19 +0200
+	Tue, 02 Apr 2024 12:39:14 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7743D60FF0;
+	Tue,  2 Apr 2024 12:39:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2B4DC433F1;
+	Tue,  2 Apr 2024 12:39:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712061551;
+	bh=0yqNrZFOQaepbT+fRTCJM2qoLk9O4d9p9W1UQpJmlfM=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=pYflCbU7s91bIX9gd5wfltBtprE4s5pY8I1I8ooTg7/K0ZE8cjAnWGh7F8wvV9RyY
+	 uFoShUPljab33xe5DnwSNM8tg7lSeIE/IFNDXO20n7XVRN3VZLC0UxfNy2LuLzYTL9
+	 bnGWfdOJhmTUTC03OiE0UX4SEtMpzEzuEXFqUP9CHKhmmmaibNCm8nbWtQjO+4BV0Q
+	 Bi/cH1OSOng5a91zYoiyyuAXw2k86/atrL64jxf4svv8IDvhsvBdWRejd8lRgEj2D9
+	 H1LCy16h8dyUsktalrbjjULDKzNXHnqtNAObPDOZrYk4OXcVPiyFCabCIwZgrr7wdP
+	 ehThBurLKTAnA==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-block@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-scsi@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	dm-devel@lists.linux.dev,
+	Mike Snitzer <snitzer@redhat.com>,
+	linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v4 01/28] block: Restore sector of flush requests
+Date: Tue,  2 Apr 2024 21:38:40 +0900
+Message-ID: <20240402123907.512027-2-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240402123907.512027-1-dlemoal@kernel.org>
+References: <20240402123907.512027-1-dlemoal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] Meta/Integrity/PI
- improvements
-Content-Language: en-US
-To: Dongyang Li <dongyangli@ddn.com>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>
-Cc: "hch@lst.de" <hch@lst.de>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "axboe@kernel.dk" <axboe@kernel.dk>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-References: <CGME20240222193304epcas5p318426c5267ee520e6b5710164c533b7d@epcas5p3.samsung.com>
- <aca1e970-9785-5ff4-807b-9f892af71741@samsung.com>
- <yq14jdu7t2u.fsf@ca-mkp.ca.oracle.com>
- <ab32d8be16bf9fd5862e50b9a01018aa634c946a.camel@ddn.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ab32d8be16bf9fd5862e50b9a01018aa634c946a.camel@ddn.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: E35C834628
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MIME_TRACE(0.00)[0:+];
-	R_DKIM_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:rdns,imap2.dmz-prg2.suse.org:helo]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_043722_705473_08FE8A14 
-X-CRM114-Status: GOOD (  20.34  )
+X-CRM114-CacheID: sfid-20240402_053913_177641_2D704202 
+X-CRM114-Status: GOOD (  13.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,57 +77,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/2/24 12:45, Dongyang Li wrote:
-> Martin, Kanchan,
->>
->> Kanchan,
->>
->>> - Generic user interface that user-space can use to exchange meta.
->>> A new io_uring opcode IORING_OP_READ/WRITE_META - seems feasible
->>> for direct IO.
->>
->> Yep. I'm interested in this too. Reviving this effort is near the top
->> of my todo list so I'm happy to collaborate.
-> If we are going to have a interface to exchange meta/integrity to user-
-> space, we could also have a interface in kernel to do the same?
-> 
-> It would be useful for some network filesystem/block device drivers
-> like nbd/drbd/NVMe-oF to use blk-integrity as network checksum, and the
-> same checksum covers the I/O on the server as well.
-> 
-> The integrity can be generated on the client and send over network,
-> on server blk-integrity can just offload to storage.
-> Verify follows the same principle: on server blk-integrity gets
-> the PI from storage using the interface, and send over network,
-> on client we can do the usual verify.
-> 
-> In the past we tried to achieve this, there's patch to add optional
-> generate/verify functions and they take priority over the ones from the
-> integrity profile, and the optional generate/verify functions does the
-> meta/PI exchange, but that didn't get traction. It would be much better
-> if we can have an bio interface for this.
-> 
-Not sure if I understand.
-Key point of PI is that there _is_ hardware interaction on the disk 
-side, and that you can store/offload PI to the hardware.
-That PI data can be transferred via the transport up to the application,
-and the application can validate it.
-I do see the case for nbd (in the sense that nbd should be enabled to 
-hand down PI information if it receives them). NVMe-oF is trying to use
-PI (which is what this topic is about).
-But drbd?
-What do you want to achieve? Sure drbd should be PI enabled, but I can't 
-really see how it would forward PI information; essentially drbd is a
-network-based RAID1, so what should happen with the PI information?
-Should drbd try to combine PI information from both legs?
-Is the PI information from both legs required to be the same?
-Incidentally, the same question would apply to 'normal' RAID1.
-In the end, I'm tempted to declare PI to be terminated at that
-level to treat everything the same.
-But I'd be open to discussion here.
+On completion of a flush sequence, blk_flush_restore_request() restores
+the bio of a request to the original submitted BIO. However, the last
+use of the request in the flush sequence may have been for a POSTFLUSH
+which does not have a sector. So make sure to restore the request sector
+using the iter sector of the original BIO. This BIO has not changed yet
+since the completions of the flush sequence intermediate steps use
+requeueing of the request until all steps are completed.
 
-Cheers,
+Restoring the request sector ensures that blk_mq_end_request() will see
+a valid sector as originally set when the flush BIO was submitted.
 
-Hannes
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ block/blk-flush.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/block/blk-flush.c b/block/blk-flush.c
+index b0f314f4bc14..2f58ae018464 100644
+--- a/block/blk-flush.c
++++ b/block/blk-flush.c
+@@ -130,6 +130,7 @@ static void blk_flush_restore_request(struct request *rq)
+ 	 * original @rq->bio.  Restore it.
+ 	 */
+ 	rq->bio = rq->biotail;
++	rq->__sector = rq->bio->bi_iter.bi_sector;
+ 
+ 	/* make @rq a normal request */
+ 	rq->rq_flags &= ~RQF_FLUSH_SEQ;
+-- 
+2.44.0
 
 
