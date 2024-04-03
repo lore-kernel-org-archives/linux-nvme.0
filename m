@@ -4,60 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 153C0CD128A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 11:52:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42855CD128A
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 12:37:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xPyVHMtOD256TRRiINOr0IX1chSdPtOcsAg7WIm+0lU=; b=Irj1PQtErEA0D5yrd3PMFZMUJH
-	y6J+K+24VeixxBCGJBlSemQ/gBbCpXKTQDBKauaW1uRAA0eyEfSDvIb9qaZFS0faREe8NlMVpIJmz
-	q7uTp0bLB6pJQ1gcqYFxkslBEW76cN6AQj5tmDsHW1kmEFmI3C1VARyJg4N6IZELAEMMnnkUKB+jn
-	1DIbMdOcaNSaK/ElohRxETkt9iUqWUd+8nEqgkxVl8ahN57uqYSk4HFspJ3icqW+Uho41XUwHrxxY
-	gDl4Mc4X48YDMIgJmQ7jbzrDdSFEUI9D0qLbW4kswVd1GTT+bJOC2+GJyS1My+ovJxQYZRikb5sxR
-	+umflgzg==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ueVKU53JfVPnC5pxCxU9lgnD6nXuVvVKNAfctTpwU38=; b=FoMnnWphQmOelV7DN1AxE/RKoe
+	Sw2my8Eyhv9cX9o1rr7ul+U7RcRgYoIWLpssfOCxuG7lUau3rTBWYEkDBFrlkuTkxauUG+E5REV7W
+	qDBHHY1M7sMbT3k7voOuv3MgtQ6npwLswP6y1g/+79Bi79reVvUv32gjgsHl9aeXkWWzNyEqHWeuB
+	6ybT5rRkphcBqnrwPNtjnxIFD1v0Zl7c9DfyASnZ5uZQTAeg9Y04jN61uRA4HAdli8Gtstuv1TVdt
+	jkB2OztXqf9/QvocNtz3MMcc7BZbzaAaeFjOJr8TPGQrl6PVfI1HfD7rqrtm3IiHmoD0Nt3vLL3EJ
+	MRpkP3qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrzA9-0000000Fqj0-0gA4;
-	Wed, 03 Apr 2024 11:52:17 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rrzs8-0000000FxtO-3kq9;
+	Wed, 03 Apr 2024 12:37:44 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrzA6-0000000Fqhq-3JxS
+	id 1rrzs5-0000000FxsA-1ysF
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 11:52:16 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 122C2CE28DD;
-	Wed,  3 Apr 2024 11:52:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4445CC433C7;
-	Wed,  3 Apr 2024 11:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712145127;
-	bh=Va3xy/xjl82LKh2Fix5PiZeju49xdkhp5qJE1PbjZrc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cSB7mAbyHUbhcafOqR6B9LYJ6Rh2WxE4XcrAjEGS9CTPuYOC2T8z0crT25js9DqoH
-	 gxhQSlEnT7Ru7K4r9FNXEWqoou8LIfB1mhgOfFaOCCcyLwc7SCU879KbagS5gsyMTr
-	 41bjMZoI8ELwdT+SGQyGyav2ExTN3wEmByxoBCGrc6kzYx49gmh2/oeJZRu0XRr2Sc
-	 qP4MSVW1tbaRYh6cpj/GmkYphjJMCEbJPxDaLcrE6Pv7I5XrAu6lIM8G84Y0MuDRX3
-	 0BfuDh1o1XpS9AxCOI8igKRu+A1qDh47I9t9EHijz4fuLd4Gp9HSB6Poj7EqSCsMj+
-	 3GoSnwrOBbyXg==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH] nvmetcli: Support unique discovery NQN
-Date: Wed,  3 Apr 2024 13:51:56 +0200
-Message-Id: <20240403115156.22244-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
+	Wed, 03 Apr 2024 12:37:42 +0000
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 433CZ45Q026820;
+	Wed, 3 Apr 2024 12:37:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ueVKU53JfVPnC5pxCxU9lgnD6nXuVvVKNAfctTpwU38=;
+ b=mwGGJOv+J6p/4BzgQZ0uxXnbfNamgJkao2VlUue7grRWY2eZnyr7YW80UD4LB3z3hCyG
+ NXhNdCNvycQO+92+9hcvOGhNssl9UYPAPm5dcIL+jYE7iMc/ygAoY4LkCe7WjFrA0um0
+ UhSCHEgU2bp0Qy6tqQwavJ3dCH+OCS7vfbXdBcFGnV36Pgu0OZJuS9WMGtoS6jxnq0lt
+ dHlzNtcXJb0zPrL79X3XcANeq18tW0aDXf8kUkPe/qHWaGpDR5m13IPtcqYT6PN4AHLC
+ SiXa1gLs1DsfOFOMgmCuPnMwRgGnmxSkIS2Fggkn5U/o0yJKunH5+3MydMLt921SdP8C IA== 
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x9783805q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Apr 2024 12:37:36 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4339igL8015241;
+	Wed, 3 Apr 2024 12:37:35 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3x6y9m4w5v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Apr 2024 12:37:35 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 433CbW6M14287504
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 3 Apr 2024 12:37:35 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ACAC658056;
+	Wed,  3 Apr 2024 12:37:32 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B92F058052;
+	Wed,  3 Apr 2024 12:37:30 +0000 (GMT)
+Received: from [9.109.198.231] (unknown [9.109.198.231])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  3 Apr 2024 12:37:30 +0000 (GMT)
+Message-ID: <bce9276a-c1bf-4faa-8fab-bfc81724646e@linux.ibm.com>
+Date: Wed, 3 Apr 2024 18:07:29 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?Q?Re=3A_nvme-cli_=E2=80=98nvme_connect=E2=80=99_--duplicate?=
+ =?UTF-8?Q?-connect_flag_=28-D=29_is_not_supported_anymore?=
+Content-Language: en-US
+To: "Engel, Amit" <Amit.Engel@Dell.com>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "Cohen, Yonatan" <Yonatan.Cohen@Dell.com>,
+        Daniel Wagner
+ <dwagner@suse.de>, Gregory Joyce <gjoyce@ibm.com>
+References: <CO1PR19MB48850C446CA2FED70F7E5D69EE3D2@CO1PR19MB4885.namprd19.prod.outlook.com>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <CO1PR19MB48850C446CA2FED70F7E5D69EE3D2@CO1PR19MB4885.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: A7s7w9gUOpbpJZlQ3BHP_6ZBFSbJPZPp
+X-Proofpoint-ORIG-GUID: A7s7w9gUOpbpJZlQ3BHP_6ZBFSbJPZPp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-03_10,2024-04-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ phishscore=0 mlxlogscore=961 priorityscore=1501 clxscore=1011 mlxscore=0
+ impostorscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2403210000 definitions=main-2404030086
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_045215_203671_B366056D 
-X-CRM114-Status: GOOD (  10.73  )
+X-CRM114-CacheID: sfid-20240403_053741_655142_8240C1C2 
+X-CRM114-Status: GOOD (  17.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,54 +108,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If the configuration supports unique discovery NQNs we should be
-able to view and modify it from nvmetcli.
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- nvmet/nvme.py | 1 +
- nvmetcli      | 8 ++++++++
- 2 files changed, 9 insertions(+)
 
-diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-index 59efdb5..fc9c7fe 100644
---- a/nvmet/nvme.py
-+++ b/nvmet/nvme.py
-@@ -241,6 +241,7 @@ class Root(CFSNode):
-             raise CFSError("%s does not exist.  Giving up." %
-                            self.configfs_dir)
- 
-+        self.attr_groups = ['discovery']
-         self._path = self.configfs_dir
-         self._create_in_cfs('lookup')
- 
-diff --git a/nvmetcli b/nvmetcli
-index d949891..3424e6e 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -94,6 +94,10 @@ class UINode(configshell.node.ConfigNode):
- 
- 
- class UIRootNode(UINode):
-+    ui_desc_attr = {
-+            'nqn': ('string', 'Unique discovery NQN')
-+    }
-+
-     def __init__(self, shell):
-         UINode.__init__(self, '/', parent=None, cfnode=nvme.Root(),
-                         shell=shell)
-@@ -116,6 +120,10 @@ class UIRootNode(UINode):
-                 "Configuration restored, %d errors:\n%s" %
-                 (len(errors), "\n".join(errors)))
- 
-+    def summary(self):
-+        info = []
-+        info.append("discovery=" + self.cfnode.get_attr("discovery","nqn"))
-+        return (", ".join(info), True)
- 
- class UISubsystemsNode(UINode):
-     def __init__(self, parent):
--- 
-2.35.3
+On 4/3/24 16:02, Engel, Amit wrote:
+> Hello,
+> 
+> It seems like nvme-cli ‘nvme connect’ --duplicate-connect flag (-D) is not supported anymore
+> nvme-cli version 1.16 ‘nvme connect’ -D flag allows duplicate connections between same transport host and subsystem port
+> However, when trying to use nvme-cli 2.4 version, we get ‘already connected’ error:
+> nvme connect -t tcp -a <ip_address> -s 4420 -n <subsystem_nqn> -D
+> already connected
+> 
+> I can’t find a reason to remove this support. any idea? Is that by mistake?
+> 
+I think this is a bug in nvme-cli. If you write nvmf-connect options 
+directly to /dev/nvme-fabrics then it would work. The fabrics driver code 
+would allow a host to create duplicate connections to the same target. 
 
+You may try this directly by-passing nvme-cli:
+# echo "nqn=<subsystem_nqn>,transport=tcp,traddr=<ip_address>,trsvcid=4420,duplicate_connect" > /dev/nvme-fabrics
+
+If you want to use nvme-cli then you may try this patch:
+
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -999,7 +999,7 @@ int nvmf_connect(const char *desc, int argc, char **argv)
+        };
+ 
+        c = lookup_ctrl(h, &trcfg);
+-       if (c && nvme_ctrl_get_name(c)) {
++       if (c && nvme_ctrl_get_name(c) && !cfg.duplicate_connect) {
+                fprintf(stderr, "already connected\n");
+                errno = EALREADY;
+                goto out_free;
+
+Thanks,
+--Nilay 
 
