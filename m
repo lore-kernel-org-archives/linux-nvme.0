@@ -4,80 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47EC1CD1288
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 08:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0D55CD1294
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 09:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9Q7AhrIV65vwRaN5TgkdPzZmmxocoJaKDikFNR3Z3g8=; b=y9RdPFr5h9P7rrNbCSnK3GZMm0
-	RiTpUumA3412HKO4Rh2Q7hLhPTO8ewxGJeolOnRWXE5FCGR7cIPpisCLoKrqdfP3NhjeucdbIw0Vg
-	9XRzn3cxcu7svJFMeHn8YZDvPcqbW93gk9h+k4rr2nfO39xUM/5FggLcOytAo13h1kfZCgibOFswa
-	nUd/hY8Sy00WcDkuYIFbpEw15zpWndhps0RKSVvn8h+br+pLRADZ/Ka4saU7jDywLzMA0/s+tVgkA
-	qDYX/3+PGUcynaxqQVx2R5ep1JCOhCX490eMIPguMKry4Ag5utcHpG9O/p6hyJV9BePOwpGXu1UAQ
-	gHk0ajfg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uj3ZK2qaxJqUha5DMBX9muFYXtessbM4SY4bEyWSKQg=; b=ooEcaI1OkxyNvKP+zD7hN7XCoC
+	1IXXR6AFr80cmoqdj222crFAJPuuPpdNM5/ZtpgVWOXUZ+GgKft1IH4wOL4xZwHuBPECp2TQpOWug
+	WSv1CkZ0DPp21AZD0eIOPgEajVZVic8ikJ7QR/sLHq6U9pqHiS1r2shzSdUNBgqHg98S/vSqe/lo7
+	Lw2xqlkurhjWqgueq32lsO7l2hr9vGU0x4s84wz5qz88/xLkU3n+koONb+1mdJY4uFUjB4i9t7Vqc
+	Vm/lqnsRR3Cb1F9GyzqEeIjfXmt2p3whA4dQeFskOXf9jKjL+nlTjafV5nIoE4H3OFUiOLOZ2KWwp
+	nt9nxGzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwEg-0000000EzsW-2KCT;
-	Wed, 03 Apr 2024 08:44:46 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rrwTi-0000000F54a-1SPx;
+	Wed, 03 Apr 2024 09:00:18 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwDh-0000000EzFl-00vf
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 03 Apr 2024 08:43:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description;
-	bh=9Q7AhrIV65vwRaN5TgkdPzZmmxocoJaKDikFNR3Z3g8=; b=f7shdS+Dc1pyLl7xtq3SIYBWbj
-	jZ7p5DN0G8e3gZTXpJ8kz0PWS22me3nFsfw3TAD1QK9NDFNxKHNtUAc7PWet8hjcuJ0Q7I+ecr2Km
-	H/sDVeWQcIwHoy8YMxM/MFwGA2rtkeWczETJjuOJB6Sf07fA2dTi1z1d48GUvZIax+/OeT8tigxao
-	+oximiaX6yqSjvWywnQeFe0vl04a+AXSgBY/Cqoj+OnQsTN/wSCQD++JubGbJpNdqzazxeKqCMaZF
-	Kqase6mdgs6kCIEE/qcJTPfx3LrGhL8WHnm1vbjbr6BoOHJICGwMJAsXPapOmPGO04NkQgIA0itm/
-	OlSFNhXw==;
-Received: from sin.source.kernel.org ([145.40.73.55])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwDb-000000046Ta-1Bxl
+	id 1rrwTc-0000000F50J-2Yh4
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 08:43:43 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 51A12CE20A1;
-	Wed,  3 Apr 2024 08:43:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A34EC43399;
-	Wed,  3 Apr 2024 08:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712133814;
-	bh=hPHMUb1vA3c7mNoljCMpztbl/aa0WSEspPgXFo8VucY=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=dxMfY1EzYuqnHgAcrJpZ2naC+zRPiEjXr/+sY3UC2MVWR6RmHsbA2GUaXqEojfsL7
-	 i2c2HE7W1egULkI4uqtZNhJ8A/U/IgDYNH/Qday+4jEaMjFTCa+U0Gb4CfXYElK9ed
-	 zQXRlokC8ltnf60kQG+eaYDYfPN56hFor+N5h8tmgeJThGUwLuyinnSWZYTuQo+CLa
-	 xjO8+lElDjhIOxS/AEVZTdlsehxiEjn9tihR4Rsb/9UAKByFVMfBc2cuU7TftRtPqm
-	 cEV9BujjeEy+6KWH1eHOoiT0naUMrC5oWbP9rQqRt5Z9+9qj0wY6avuNdP3D/cig6w
-	 XQ2PLnI+eX3Mw==
-From: Damien Le Moal <dlemoal@kernel.org>
-To: linux-block@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-scsi@vger.kernel.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	dm-devel@lists.linux.dev,
-	Mike Snitzer <snitzer@redhat.com>,
-	linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v5 28/28] block: Do not special-case plugging of zone write operations
-Date: Wed,  3 Apr 2024 17:42:47 +0900
-Message-ID: <20240403084247.856481-29-dlemoal@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240403084247.856481-1-dlemoal@kernel.org>
-References: <20240403084247.856481-1-dlemoal@kernel.org>
+	Wed, 03 Apr 2024 09:00:16 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 729412174C;
+	Wed,  3 Apr 2024 09:00:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712134805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uj3ZK2qaxJqUha5DMBX9muFYXtessbM4SY4bEyWSKQg=;
+	b=vdolQ4xJ22KQ7clven2QzFmbxIDVJ6VveNv/xS50wribLM/fbRoLkJwlAaLzT7dVax8DvI
+	QU9/3AuK9I6ETcy9npCl6KWx38zNhdrnq9+yJ43CjTOR9l7SeMljEXq8/7MITJfq3qtVV1
+	KeIUkgrlYfbRdG5ahrYcwXIwCIfWKaY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712134805;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uj3ZK2qaxJqUha5DMBX9muFYXtessbM4SY4bEyWSKQg=;
+	b=LoAsumvZF6I0mqjmvWYQpvK7uvYtbBrQgaEbL3Yw5ufKUNtgHqo3xLqGS8tT+TqlpkjeCO
+	HGpbshXmxMCJS1Dw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 5FE5A13357;
+	Wed,  3 Apr 2024 09:00:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id +nC+FZUaDWYebgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Wed, 03 Apr 2024 09:00:05 +0000
+Date: Wed, 3 Apr 2024 11:00:04 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v1 0/3] add blkdev type environment variable
+Message-ID: <j6awxljufwg6r5rs5kojwsnatfb4aj3vnqsq43hkuuhgvcflvh@u6l5cf2ponaw>
+References: <20240402100322.17673-1-dwagner@suse.de>
+ <mqpuf2a7obybtw42ydte2wq7ktema5odvc3dqm32hknjmamgdb@rbo3i6lqqkld>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mqpuf2a7obybtw42ydte2wq7ktema5odvc3dqm32hknjmamgdb@rbo3i6lqqkld>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.998];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_094342_160956_C0BF2E52 
-X-CRM114-Status: GOOD (  24.76  )
+X-CRM114-CacheID: sfid-20240403_020012_970076_40C50778 
+X-CRM114-Status: GOOD (  24.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,151 +111,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With the block layer zone write plugging being automatically done for
-any write operation to a zone of a zoned block device, a regular request
-plugging handled through current->plug can only ever see at most a
-single write request per zone. In such case, any potential reordering
-of the plugged requests will be harmless. We can thus remove the special
-casing for write operations to zones and have these requests plugged as
-well. This allows removing the function blk_mq_plug and instead directly
-using current->plug where needed.
+Hi Shinichiro,
 
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
----
- block/blk-core.c       |  6 ------
- block/blk-merge.c      |  3 +--
- block/blk-mq.c         |  7 +------
- block/blk-mq.h         | 31 -------------------------------
- include/linux/blkdev.h | 12 ------------
- 5 files changed, 2 insertions(+), 57 deletions(-)
+On Wed, Apr 03, 2024 at 04:54:28AM +0000, Shinichiro Kawasaki wrote:
+> On the other hand, I see that the series has a couple of drawbacks:
+> 
+> 1) When blktests users run with the default knob only, the test coverage will be
+>    smaller. To keep the current test coverage, the users need to run the check
+>    script twice: nvmet_blkdev_type=file and nvmet_blkdev_type=device. Some users
+>    may not do it and lose the test coverage. And some users, e.g., CKI project,
+>    need to adjust their script for this change.
+> 
+> 2) When the users run the check script twice to keep the test coverage, some
+>    test cases are executed twice under the exact same test conditions. This
+>    will waste some of the test run effort.
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index e1a5344c2257..47400a4fe851 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -907,12 +907,6 @@ int bio_poll(struct bio *bio, struct io_comp_batch *iob, unsigned int flags)
- 	    !test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
- 		return 0;
- 
--	/*
--	 * As the requests that require a zone lock are not plugged in the
--	 * first place, directly accessing the plug instead of using
--	 * blk_mq_plug() should not have any consequences during flushing for
--	 * zoned devices.
--	 */
- 	blk_flush_plug(current->plug, false);
- 
- 	/*
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 7a9f8187ea62..3228868283a4 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -1112,10 +1112,9 @@ static enum bio_merge_status blk_attempt_bio_merge(struct request_queue *q,
- bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
- 		unsigned int nr_segs)
- {
--	struct blk_plug *plug;
-+	struct blk_plug *plug = current->plug;
- 	struct request *rq;
- 
--	plug = blk_mq_plug(bio);
- 	if (!plug || rq_list_empty(plug->mq_list))
- 		return false;
- 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index e1e13d755033..045b195faad4 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1330,11 +1330,6 @@ void blk_execute_rq_nowait(struct request *rq, bool at_head)
- 
- 	blk_account_io_start(rq);
- 
--	/*
--	 * As plugging can be enabled for passthrough requests on a zoned
--	 * device, directly accessing the plug instead of using blk_mq_plug()
--	 * should not have any consequences.
--	 */
- 	if (current->plug && !at_head) {
- 		blk_add_rq_to_plug(current->plug, rq);
- 		return;
-@@ -2932,7 +2927,7 @@ static void blk_mq_use_cached_rq(struct request *rq, struct blk_plug *plug,
- void blk_mq_submit_bio(struct bio *bio)
- {
- 	struct request_queue *q = bdev_get_queue(bio->bi_bdev);
--	struct blk_plug *plug = blk_mq_plug(bio);
-+	struct blk_plug *plug = current->plug;
- 	const int is_sync = op_is_sync(bio->bi_opf);
- 	struct blk_mq_hw_ctx *hctx;
- 	unsigned int nr_segs = 1;
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index f75a9ecfebde..260beea8e332 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -365,37 +365,6 @@ static inline void blk_mq_clear_mq_map(struct blk_mq_queue_map *qmap)
- 		qmap->mq_map[cpu] = 0;
- }
- 
--/*
-- * blk_mq_plug() - Get caller context plug
-- * @bio : the bio being submitted by the caller context
-- *
-- * Plugging, by design, may delay the insertion of BIOs into the elevator in
-- * order to increase BIO merging opportunities. This however can cause BIO
-- * insertion order to change from the order in which submit_bio() is being
-- * executed in the case of multiple contexts concurrently issuing BIOs to a
-- * device, even if these context are synchronized to tightly control BIO issuing
-- * order. While this is not a problem with regular block devices, this ordering
-- * change can cause write BIO failures with zoned block devices as these
-- * require sequential write patterns to zones. Prevent this from happening by
-- * ignoring the plug state of a BIO issuing context if it is for a zoned block
-- * device and the BIO to plug is a write operation.
-- *
-- * Return current->plug if the bio can be plugged and NULL otherwise
-- */
--static inline struct blk_plug *blk_mq_plug( struct bio *bio)
--{
--	/* Zoned block device write operation case: do not plug the BIO */
--	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
--	    bdev_op_is_zoned_write(bio->bi_bdev, bio_op(bio)))
--		return NULL;
--
--	/*
--	 * For regular block devices or read operations, use the context plug
--	 * which may be NULL if blk_start_plug() was not executed.
--	 */
--	return current->plug;
--}
--
- /* Free all requests on the list */
- static inline void blk_mq_free_requests(struct list_head *list)
- {
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index d8cc24a1635b..5b86af75a29f 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1300,18 +1300,6 @@ static inline unsigned int bdev_zone_no(struct block_device *bdev, sector_t sec)
- 	return disk_zone_no(bdev->bd_disk, sec);
- }
- 
--/* Whether write serialization is required for @op on zoned devices. */
--static inline bool op_needs_zoned_write_locking(enum req_op op)
--{
--	return op == REQ_OP_WRITE || op == REQ_OP_WRITE_ZEROES;
--}
--
--static inline bool bdev_op_is_zoned_write(struct block_device *bdev,
--					  enum req_op op)
--{
--	return bdev_is_zoned(bdev) && op_needs_zoned_write_locking(op);
--}
--
- static inline sector_t bdev_zone_sectors(struct block_device *bdev)
- {
- 	struct request_queue *q = bdev_get_queue(bdev);
--- 
-2.44.0
+Yes, I agree. These drawbacks should be addressed somehow.
 
+> To avoid the drawbacks, how about this?
+> 
+> - Do not provide nvmet_blkdev_type as a knob for users. Keep it as just a global
+>   variable in tests/nvme/rc. (It should be renamed to clarify that it is not for
+>   users.)
+> 
+> - Introduce a helper function to do the same test twice for nvmet_blkdev_type=
+>   file and nvmet_blkdev_type=device. Call this helper function from a single
+>   test case to cover both the blkdev types.
+> 
+> I attach a patch at the end of this email to show the ideas above. It applies
+> the idea to nvme/006 as an example. What do you think?
+
+Ideally we don't have to introduce additional common setup logic into
+each test. Also for debugging purpose it might sense to run a test only
+in one configuration. So it might make sense still to have user visible
+environment variable
+
+  nvmet_blkdev_types="file device"
+
+as default.
+
+> -test() {
+> -	echo "Running ${TEST_NAME}"
+> -
+> +do_test() {
+>  	_setup_nvmet
+>  
+>  	_nvmet_target_setup
+>  
+>  	_nvmet_target_cleanup
+> +}
+> +
+> +test() {
+> +	echo "Running ${TEST_NAME}"
+> +
+> +	_nvmet_run_for_each_blkdev_type do_test
+
+I was wondering if the nvmet_run_for_each_blkdev_type logic could be in
+common code, so we don't have to add a do_test function. Basically
+having a common code for a bunch of configuration variables (matrix
+tests). This could also be useful for nvmet_trtype etc.
+
+The generic setup could be requested via the require hook.
+
+requires() = {
+
+ _nvmet_setup_target
+}
+
+What do you think about this idea?
+
+Thanks,
+Daniel
 
