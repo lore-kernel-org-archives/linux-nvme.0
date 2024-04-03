@@ -4,130 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27B56CD1288
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 06:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B300DCD1288
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 06:41:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
-	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8HR7X9up2EfCUQGV2Yw0CkaJ5m2RB0WExM9eJyIhtZs=; b=IYrKGhlTcxrXKlLiZCsIYekYIm
-	kE5mUop7Do2hMZ23//FZ3LDkfl42zcMntiyVa3wVuVW7FpV3JtJvJ2u9oeiFr7KSsn3f82Smm3rAz
-	zGJJzdehAMbJOhMPy+Ka7aux7cMHD4pn5aLbLqJ37TYRsdrUH6O+EZ0gzBnwb69DWwyvcr22qJPQo
-	K+Hb9qmX1MaIHOOke+TQTuWtNGZ5FL16dw8h8GU8pfhCmiHpRbbRY4wExt7qpFRmUMffh6OyJNZxy
-	B40zzeWZf2hqVXbJdH+K/PCwYj98BscylczHxg4kMA7KNmuJbZgQFFEh/MnZLivLzxA1WDZe7Nx04
-	WWDKBj9A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=++gI3BgNddEsJjDazUZFQ5dNULCqFbKr3X7lMwf1zaU=; b=KCaUFXGhNMwYu4AidmzWCIfic1
+	PStWgufCb7+lN/dZOAs/JWPGrNFnStHKEEJ9FIIkgxB3nqksY/hxm87oE95q2FxSEwVibm+xiSYp6
+	fsv4OUFyApdMeoki0R0Tw9xQzjmvCG7He+f084U/GHiCozIeyMNOrzIW1AjxJZ+SRJvmG8u2IJNhF
+	mnOoyG1r5RZm4KUluYN4wBeFNzY9jw99LCbtMhw0c8r8Af/6PViziZPHkotuuP5ik2zMCdpHyY7rs
+	vGYq4o5gWfD7dpkxwZaef6rxVlqRO9mfncTeAXyUe+QB2U32JIPrC+2/NkNcPbS+aDWDxNLmwdAWi
+	SC9EH/wA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rruEN-0000000EHJK-0Loo;
-	Wed, 03 Apr 2024 06:36:19 +0000
-Received: from mail-dm6nam12on20701.outbound.protection.outlook.com ([2a01:111:f403:2417::701] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1rruJo-0000000EI89-2cjD;
+	Wed, 03 Apr 2024 06:41:56 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rruEK-0000000EHIV-3IbE
+	id 1rruJj-0000000EI5A-0a81
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 06:36:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=STGdP7XiFnc+/iJiv3CyILv1Vq3Xz72xbXxzLbyafvUqePnIAyPUf/oU/n1ctKIt/B8POfk0IbjUVB3W63vjw4EG4Wh6SS0h+BlTkCjZ65yGbvdqm+hwL/wLP6piYmwdzV2S6vMsGXhtn2xns56tyRPP99XQ+fw2xvm9imq7S6yjxROFIqZj1FKoC+Jzff8s4+pCiP4238thfws+kND4lyteCgTgpewRz6ZjujpKI33cxwfFsr3jX1oTWenF1wlEulpHwyDm9HgZ7zBFsIUJsJMTN2j/5Ygn9srGEUItA2WBlv3ihrJBj9RDskLosBSQkutdzgCorbRA0DNHaL2b6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8HR7X9up2EfCUQGV2Yw0CkaJ5m2RB0WExM9eJyIhtZs=;
- b=cupJr9FPwHjgVZ2U8ICOde2eVEMtBmHcmo3xSOGI1c9q0fGYgrTyVn8rvnIZsis4OiGAXxStPQ3Q/TUQx5v/nsOLefL/G2Ff7OyGHEnsGCDQs7CU1jFlsPxZ3q4cLV49IPjqflFMaCL+rD5p7pvY2/ubkIniVEFH89XYJzbbMmtEaIWB7k6Rqr2vey/vQ0sEcRrNOdzzU7kdsiV9axLoAlI0WugWWJF2z3G8FwDpuiGczslDUsl8iWy7B/RaWqGFKcwQCyzmOJK14ft8hh21UFtAPB0GPHk0aYefwK/l1yV2o3+A/IHK+2F//LsCbKr3wtMQ4Bsd9JAhk5m6vIztSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8HR7X9up2EfCUQGV2Yw0CkaJ5m2RB0WExM9eJyIhtZs=;
- b=i7ELPtRo9KXGRfHBEwc+0WILgZbVP57bMR3StOLmGSacdIMe7p6Jmq0C62IJCbjmosA9fj6P7ATpxMSXiIK4WnXxO59N7XKeBaEvwY5y244tOZXwCc7/q+/1++4HFsj3I40XcUFi9rndQkHZseAmt+87UHaYbkTH5cA/4qt6rwzyrN5RVyiufQoGs8vRIOS20kKxcQVRLusZ1CRQa0wWBeaQEMNg9OlKu5OlP+mAtunHW93pmktwK9LXHnsrQ4+L/x0qBBgCNczO0GX9L/53n4fftq129mVimx1ogejneDH50hShvvpoD+km6VNxx5lpM1+lN8/m2w5/XdDCBaBEnA==
-Received: from MW3PR12MB4409.namprd12.prod.outlook.com (2603:10b6:303:2d::23)
- by CY5PR12MB6225.namprd12.prod.outlook.com (2603:10b6:930:23::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
- 2024 06:36:07 +0000
-Received: from MW3PR12MB4409.namprd12.prod.outlook.com
- ([fe80::5340:4193:8d39:c441]) by MW3PR12MB4409.namprd12.prod.outlook.com
- ([fe80::5340:4193:8d39:c441%7]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
- 06:36:07 +0000
-Message-ID: <23e3079f-de98-4560-a7e4-7e0f31d4a304@nvidia.com>
-Date: Wed, 3 Apr 2024 09:36:01 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fabrics: Fix fast_io_fail_tmo option
-To: Max Gurtovoy <mgurtovoy@nvidia.com>,
- Linux-nvme <linux-nvme@lists.infradead.org>, Sagi Grimberg
- <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-References: <1712060292-11054-1-git-send-email-israelr@nvidia.com>
- <8f0b2d97-3497-4057-8035-c9466bc62d10@nvidia.com>
-Content-Language: en-US
-From: Israel Rukshin <israelr@nvidia.com>
-In-Reply-To: <8f0b2d97-3497-4057-8035-c9466bc62d10@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0018.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::11) To MW3PR12MB4409.namprd12.prod.outlook.com
- (2603:10b6:303:2d::23)
+	Wed, 03 Apr 2024 06:41:55 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 18E4B5C8E2;
+	Wed,  3 Apr 2024 06:41:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712126508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=++gI3BgNddEsJjDazUZFQ5dNULCqFbKr3X7lMwf1zaU=;
+	b=abrfw6BgsiZS0ga4vzE0rHZt5HLtv6VSaVEXArK7UJwJsBJleuBnAFJU4uNbJuOlWAEm9/
+	5h7QXFUEJpvHBhH0w1dTRHHXESMEh3GAOHLe1uCQ6ZqLBfm29Xt0sOqRebXt8+9QK8ZRx+
+	GvulbFynxhG38t+Th5aQe4Qrpw2EWgY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712126508;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=++gI3BgNddEsJjDazUZFQ5dNULCqFbKr3X7lMwf1zaU=;
+	b=2c0sKg+Srs9LbwVsDTiIm7jRYG4JaKgrR0ueLfW3sWRnUFnDnGaSHqYJpjZsPI5g7zVcqq
+	fMuGeSYv5q9sU3BA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=none
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6985A13357;
+	Wed,  3 Apr 2024 06:41:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id 9ufkFSr6DGb8CAAAn2gu4w
+	(envelope-from <hare@suse.de>); Wed, 03 Apr 2024 06:41:46 +0000
+Message-ID: <174cb0ad-7a03-4148-a9c8-23d25b890fd1@suse.de>
+Date: Wed, 3 Apr 2024 08:41:45 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4409:EE_|CY5PR12MB6225:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BOLBvS1S91ByjYvbuFEelXgzDa5qAO2TW/+GdHaDGcw3YhyGLjxTb4ZdnVfa5czBjkl3K39aTTqO88g8dz7MvpUQZzJniTbqG/C9WgxIZdM1VHFNOXaRSZCV5W+U4Cgul7W/tP6AA5JeRCTzqYSE16+C1h8rCzNM5g7ASF5e4hFN/LEM06txhjGIkPPk2AGZYP+47cbd/uuE8mxbfmtXc9sy+P2iD46W0xn9xurJQq4Ho1OnLBjDQYyvpj0xgtu5E0r6uGT9tHMuRAK5LD54IhANMTilKUsNQw6lZXO/U8waaGh7EblBrv5catQXLz8AA4SkyWfOvtfHySoTPcZ0Y2guM+5XYpcjOQgVZwzCrBAHiNyUERF+TbH48oRGM6/v14xzKozUP4iu/oBrbNjKTepnH9LhIBkUrd2moVEnMjyshubwn2yfm/3IXFlkww+jw6MMqzi8TqmHCiCIpLhmj7FBA7MDiwvcxwOsoJfkZFGty/o3WSCAg4LhE6grFSuoZYPp5cNgn7Cw5hBnmNeTW2HiDWAvAJMXMelSUJqRWo++7zBb/JEnnY5+Tr1WSpIgJP8Gtrj3rzAtgJUgsN8JEWmKMFLOEmAhPKwTCu63A3ln7iQSxfXHrjvs1KEMaL7s7A3T+/N/OEqOU5TkEVne+yMXk4k386Rzsz+wFmhXPjE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4409.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ajlGY05BZmhlcUV0R2hhdFRBck45TXpXbW9ROXBIV3g1S1JoUmc5TlplNG5T?=
- =?utf-8?B?dDBBM1JNVkFnNExPRjlXN1dZYkhOOUI2Y0ZsdTlmem5URFJ6bGZtK3VuM0pM?=
- =?utf-8?B?TzRwOTJjMkJYSjdkVkZCM3JYRSs1bGpsWmgrRjd1d2c1bnhXamFSWUFTOC81?=
- =?utf-8?B?K29oNmdpVGZTb2VjRWlXQXAyUXJYOTd6eU15WE1kYTBCY1NKWExJVys1cnhp?=
- =?utf-8?B?VDEveVgxbUhlN2F5M0pDQTJTSVpiVlJQSTdkNENOQkw1dGw2QnpZSmZ0VkEz?=
- =?utf-8?B?RVAwUGFUSFdUKzVFVmhES2JiTUNTdldmZGx5S211WkY1UDMyWlZnamRraklO?=
- =?utf-8?B?bG4zMThPY09KNVY0Nld0ZmFkSjdJczJWM0hLdzJMNEZiSE1NNU1SL2JmTHQr?=
- =?utf-8?B?MGJ4SFN4ZEYzcU9oTG4zSTdXelByOTh4VENvQWl4TmU1REV4YVVCNGxtZE1B?=
- =?utf-8?B?Tk1FcXRINTBaR3k1L0F5NzY5ODJ2bTVQeFlxeUhpZVRtb050K05SclhCbjBK?=
- =?utf-8?B?ZHNWL0Y4UWRpT3hGQ2NadStOQ0pyeG5JbGlSamJDR1Jub1pWWXF2TmJ1RFNw?=
- =?utf-8?B?TFF2eUNkci9yVjNZT2pGZlJ6WGdNUmdYN0FIemVQRERvbWNqS3JiY2JGWnpW?=
- =?utf-8?B?UFdzZ0dCeWJKTk0vOFAxT0VvN2luU0ZWaThmRnZMcEQ2NzY2UTdMdHFwRSs0?=
- =?utf-8?B?T0dTaVdRcjBldU91SE5ObE1YejVGc1BMaUdsYkJ4a0lhWXJnRXA2NHVVYlE2?=
- =?utf-8?B?KzRDbFVJalhHTG1QUjRsOVlMUWcvOWpFN2JCL1ZpaUxIbE9nb3pTdnNDTTFV?=
- =?utf-8?B?QmFJWmI0WGNvc1E5VGtDQ2VEZVhWY0JWcDk4cUhoY0JzSU5NUHIzWlJlTkZN?=
- =?utf-8?B?anFUMXpvcVhFVUduWlRIckRYK1cxTE1ubHgra0d0emNhVjhYZE45MU1QRk9G?=
- =?utf-8?B?VkRFbDhDeE5RSG4vSGc4dlE4NkZ1ai92VVVobis5dkU0WnN2UGVTVnRjcy9u?=
- =?utf-8?B?T2J0NTVQc2xvUjhqY20waklOMmxzOVAwcUJJNmc0VExRYWE1RTFOOFhydmpH?=
- =?utf-8?B?WTMzNnI0V3JwNE5ZYnFwWW1vdmtqSjBQTUcwQTNodUh2TG9pdTlpeTE2MUlu?=
- =?utf-8?B?WnhHTW52bEdYcTczMnBydU1jREhtZktibTBQdUNxZytTcW9SRnlRcjZ1UDVP?=
- =?utf-8?B?MElZcElocEsvL0xjM3pkYUZ2S0tOSjQrQ3JJRU1FNndScnJPWVNQcS9aUnNG?=
- =?utf-8?B?clRoL3hhUVZ3M3AwUnM3N2U3VlJLVGc3NUpVQ2lSbVBKTUpNemdQK2xDc0M5?=
- =?utf-8?B?dUdvbDhhRytQQnVNaGt5WXM4dTkyM0lnTnpRQnl6UzdJQUVweEllOWk1YXN5?=
- =?utf-8?B?RzhMNFdJM0ZaVWMzdlB3UUx0Y3dSWDVOMEJUc0VZNi9YT00weGpPai9hbTB6?=
- =?utf-8?B?VnYwOEQydDdTd1JteXp2RDdadHpvMlRjMWpIaXhXanVmUG1YL2V6M0NGZU9U?=
- =?utf-8?B?UW8vOGFrVEwwaUJhRC92K0o3dGJsM1RLUGhhNjIycjJuWFZDd1RsUUZxL2M3?=
- =?utf-8?B?ZUpUeHhOQjVuZ3ZSN255Z2t1aTBjZWErRzZUTmN4Y2k3Y1RyeVlRamZQeEQw?=
- =?utf-8?B?akV4TkR3TzlnNktHUTVrOWNLd3U2UTMzV2k2SGx0SnZEQjZLMDEzbUwrc2dn?=
- =?utf-8?B?K3RoQmpobHRtSzlFbzF0aTlpTXZ6WHNBbDVGY1ZiZGFzanIydXRYdHVzcVh6?=
- =?utf-8?B?eXMxUS9EcFZDay8zREdRWEJ4dUxpelBSczc3aERDVDd0THo4Q3JPVWU2MS9r?=
- =?utf-8?B?TWZwYnBGQ2xoM25yZE8vaXJ6bVRaY2s5dHcrTUZpdXllQjY0TUljdUdpNkc4?=
- =?utf-8?B?dCtUaS9QbEZidTJNRXd3WWxLZjd0c3N5blo5YlpXNWZJcUkwYmdYbDlJblE3?=
- =?utf-8?B?aVppZnhtVndWRHBDRExBL2llUExoRG9wb01xa0doT2huVHUrbnJNcDlFNkI2?=
- =?utf-8?B?ME9FQVYvZU80djByUTN1d0ZCV1IwR0N1RWY2QjMwR1RQcXFkS252NEs5azdr?=
- =?utf-8?B?OWF4cWF4STRwbU1GNm1sRWZpYndIM2g2d1ZoUjR6QmlEZS94VkNvdkpTQ1pV?=
- =?utf-8?Q?cWaRtcJr/J7mjleOjTrxa+T70?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa3b735c-78cf-4b57-66b4-08dc53a85785
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4409.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 06:36:07.1357
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1JasEItU5IXOcK11iFfS2pwq+3vSZPX7XpBoku6MI0VS6cRyA2u9VQFclL6sTfUsz4pnFF1sq/j3qR4Jye4fdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6225
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 11/28] block: Allow BIO-based drivers to use
+ blk_revalidate_disk_zones()
+Content-Language: en-US
+To: Damien Le Moal <dlemoal@kernel.org>, linux-block@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
+ linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+References: <20240402123907.512027-1-dlemoal@kernel.org>
+ <20240402123907.512027-12-dlemoal@kernel.org>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240402123907.512027-12-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.13 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	 MIME_GOOD(-0.10)[text/plain];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 NEURAL_HAM_LONG(-0.03)[-0.028];
+	 BAYES_HAM(-3.00)[100.00%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
+X-Rspamd-Queue-Id: 18E4B5C8E2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_233616_877525_A38E9CB6 
-X-CRM114-Status: UNSURE (   7.60  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240402_234151_383169_C72F877A 
+X-CRM114-Status: GOOD (  17.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,17 +126,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/2/2024 6:47 PM, Max Gurtovoy wrote:
-> In the previous version I've noticed that the short symbol was 'f':
-> "
-> - OPT_INT("fast_io_fail_tmo",'f',&fabrics_cfg.fast_io_fail_tmo, "fast 
-> I/O fail timeout (default off)"),
-> "
->
-> Any reason to make it 'F' now ?
-Yes, 'f' is now taken by "host-iface".
->
->
-> Otherwise looks good,
-> Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+On 4/2/24 14:38, Damien Le Moal wrote:
+> In preparation for allowing BIO based device drivers to use zone write
+> plugging and its zone append emulation, allow these drivers to call
+> blk_revalidate_disk_zones() so that all zone resources necessary to zone
+> write plugging can be initialized.
+> 
+> To do so, remove the check in blk_revalidate_disk_zones() restricting
+> the use of this function to mq request-based drivers to allow also
+> BIO-based drivers to use it. This is safe to do as long as the
+> BIO-based block device queue is already setup and usable, as it should,
+> and can be safely frozen.
+> 
+> The helper function disk_need_zone_resources() is added to control the
+> allocation and initialization of the zone write plug hash table and
+> of the conventional zone bitmap only for mq devices and for BIO-based
+> devices that require zone append emulation.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   block/blk-zoned.c | 30 ++++++++++++++++++++++++------
+>   1 file changed, 24 insertions(+), 6 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
