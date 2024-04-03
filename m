@@ -4,59 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A5CBC6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 08:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DE8BCD1288
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 08:44:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=roU9B5ogm+BVA+rc91+JcsPXpFfTdqu5/+Hsmc4StPQ=; b=PS1OoLqulcdNjIFUrP3+8E/lzb
-	9EG8egGAH/mVpCbAHikdrmRC+dag47mw9zWOLzV4fjTMc+kvXtnrXkX5fFpOWHtMRgDYshPQHYZV6
-	gUm44UazOC3VD8TR3bqn+rxGTdfuHx+Sa6GY87TP6vZqB/Kh462k+l2K1C1kVEnoNquMeXY4b8cLT
-	s52SFiG9/1AGfgRMBsSTmRIV21FoQfKVM2xsXW2i1NbZWL0sxw9MuiOWa5PSV1SZD4kKXETMVb3CH
-	O39epdovmoCjxdERRGvN3xFGsw6a1ZqWagthEoG06qoOLQayBTmMTjgH1TB+uVWIk8dy29Nlt6JWI
-	GKBezgJg==;
+	bh=LkdtNqRHyKTjUPjZaSC6tzO9WCBZekQO6AFocIVc1mw=; b=TEbZ146D2qAr12wPlV1YoftBIo
+	Vx/qiR+4rJJUWVip4/5kxvaRoKjlYkV00BOPiUSSZvgGVbPmkdOWvORAgtUrs8W+xv8t19Qffrilx
+	+wmZdhPuEmvKf0czAJ/w8k53HbJWAybPSedId7FXUwf1YMO4m9PbEPlxkDxfZ1g9lbG1IAtcQy+2C
+	FPPIvYO4sYFyXeDTRKHTQkje3Rd6ZbkjSf9RquOcHAVQwGxns1dmQPxnVkNPQGdRJ1kTHLgOFV/PE
+	E46T/PuByTxVs23BwsO3oxJtXHuou24gq1nQJEw9Cb0K+6kr372Bs14QOMk5APZMo40NHxkWactad
+	N96noOcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwEP-0000000Ezfu-2hg3;
-	Wed, 03 Apr 2024 08:44:29 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rrwET-0000000EziS-0Scd;
+	Wed, 03 Apr 2024 08:44:33 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwDU-0000000Ez6j-2TsN
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 03 Apr 2024 08:43:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:
-	Content-Type:Content-ID:Content-Description;
-	bh=roU9B5ogm+BVA+rc91+JcsPXpFfTdqu5/+Hsmc4StPQ=; b=G6FH1UsvvN+3/7js8wY1yvZbHK
-	WX7F+jTW+HfnR6s1plUJd+CahhrhWUccvxtJx3kXB8ebmJQfdTu1GWBWRibHTml9CxMFTQVCcEV2n
-	k2Ho2BxbpS/3DyC1m4pZJcHXAQQnErwb2SAxcCnfsi70bmWz7IV0uWZJuj9wIyA4xPFbXbH00Gdhw
-	g2m+xaitH16LqNUjpYVhTOwv/yTny+sxUJ5RchXkqHYMokSm6Mo0kxlJ7SyvfJHOTewCeuvbcTWZb
-	4ggfaa4qJFxhmZrV1WpIAFz/r+4Fblp94ZGbuxaCO71V2r0OinnXRGa5u6TZGmRjoH0us5viRJYEM
-	xghxx1kg==;
-Received: from dfw.source.kernel.org ([139.178.84.217])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwDQ-000000046Pd-3PnL
+	id 1rrwDM-0000000Eyrp-0RlL
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 08:43:30 +0000
+	Wed, 03 Apr 2024 08:43:32 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8E85E61362;
-	Wed,  3 Apr 2024 08:43:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF02BC433A6;
-	Wed,  3 Apr 2024 08:43:26 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B667861367;
+	Wed,  3 Apr 2024 08:43:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260DDC43399;
+	Wed,  3 Apr 2024 08:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712133808;
-	bh=FYwH7NQKArYdWOTwNnIeceCEIbNbIakOb/gcTy7kyBk=;
+	s=k20201202; t=1712133803;
+	bh=uqH88mLOttz515pRljdOAGTN4ZJ2MWyUyDNJNHsFWGs=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=ExMVnbUw5+deItfBX2Lxt1jksxoUNbdo+zR8XY2GXsjy61IToCFJg2hpL96BAVSn2
-	 OwtT86vfYrLM1pIwwEkiTs2kkSXf4v33rGM8JnacJWFy2+Zpb5KI4SEaVPOcsDW5t8
-	 N6HaDqKylOe66bPMN2CRDytI0K6KWSXW0DlSbe0C3H5SWpf+S7PoPq8zNjiytvHogK
-	 Wsj8sRruXY3ZrHmJLzfBPTJfFizyUB7DnZw5DguYMrLvakq4qTCEoAD4XTmXu/JtFy
-	 CGyndAeWosyXfamdVce3B51T8XzEfgP0mRrZqu99CH2oNNHBkO0niV9QdUztS8AN4G
-	 RCDGb068f5hjA==
+	b=k3/uY3uMnEltkmxFDjVYjoCMzw5dxr2xmSEAVBZmbVQbXwqS7AgTfhjwU9f+5iNvb
+	 77HvrMUjv7jh7JdcHt4qO/4dfor+0s5hfB+Cp04qWISa7ljgpGgm/d9UIyqIadmU9e
+	 L9zcIXLnZQRpNyycPZhRw2cjtHcVIES4FBisG1p1lvAU54S63TBtT2GtyOJhuwKDmH
+	 ztkxXHIe8ayC3n3yqISglrEpZBW7JSj3B8DGogZEvdRCP5ca71qqp+qK4qoEkIeiSv
+	 Xs74btbqiaFW5abp1KQClo56eAnTAUaLuoxuURYtWQWZqHrw62ZDBcHPx41Ol39cj/
+	 e6K4cFdt1DuTg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -67,17 +52,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v5 24/28] block: Move zone related debugfs attribute to blk-zoned.c
-Date: Wed,  3 Apr 2024 17:42:43 +0900
-Message-ID: <20240403084247.856481-25-dlemoal@kernel.org>
+Subject: [PATCH v5 21/28] block: mq-deadline: Remove support for zone write locking
+Date: Wed,  3 Apr 2024 17:42:40 +0900
+Message-ID: <20240403084247.856481-22-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240403084247.856481-1-dlemoal@kernel.org>
 References: <20240403084247.856481-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_094329_204225_7F2E6ECA 
-X-CRM114-Status: GOOD (  19.07  )
+X-CRM114-CacheID: sfid-20240403_014324_767902_7FF95E89 
+X-CRM114-Status: GOOD (  29.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,127 +77,307 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-block/blk-mq-debugfs-zone.c contains a single debugfs attribute
-function. Defining this outside of block/blk-zoned.c does not really
-help in any way, so move this zone related debugfs attribute to
-block/blk-zoned.c and delete block/blk-mq-debugfs-zone.c.
+With the block layer generic plugging of write operations for zoned
+block devices, mq-deadline, or any other scheduler, can only ever
+see at most one write operation per zone at any time. There is thus no
+sequentiality requirements for these writes and thus no need to tightly
+control the dispatching of write requests using zone write locking.
+
+Remove all the code that implement this control in the mq-deadline
+scheduler and remove advertizing support for the
+ELEVATOR_F_ZBD_SEQ_WRITE elevator feature.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 ---
- block/Kconfig                |  4 ----
- block/Makefile               |  1 -
- block/blk-mq-debugfs-zoned.c | 22 ----------------------
- block/blk-mq-debugfs.h       |  2 +-
- block/blk-zoned.c            | 20 ++++++++++++++++++++
- 5 files changed, 21 insertions(+), 28 deletions(-)
- delete mode 100644 block/blk-mq-debugfs-zoned.c
+ block/mq-deadline.c | 176 ++------------------------------------------
+ 1 file changed, 6 insertions(+), 170 deletions(-)
 
-diff --git a/block/Kconfig b/block/Kconfig
-index 1de4682d48cc..9f647149fbee 100644
---- a/block/Kconfig
-+++ b/block/Kconfig
-@@ -198,10 +198,6 @@ config BLK_DEBUG_FS
- 	Unless you are building a kernel for a tiny system, you should
- 	say Y here.
+diff --git a/block/mq-deadline.c b/block/mq-deadline.c
+index 02a916ba62ee..dce8d746b5bd 100644
+--- a/block/mq-deadline.c
++++ b/block/mq-deadline.c
+@@ -102,7 +102,6 @@ struct deadline_data {
+ 	int prio_aging_expire;
  
--config BLK_DEBUG_FS_ZONED
--       bool
--       default BLK_DEBUG_FS && BLK_DEV_ZONED
+ 	spinlock_t lock;
+-	spinlock_t zone_lock;
+ };
+ 
+ /* Maps an I/O priority class to a deadline scheduler priority. */
+@@ -157,8 +156,7 @@ deadline_latter_request(struct request *rq)
+ }
+ 
+ /*
+- * Return the first request for which blk_rq_pos() >= @pos. For zoned devices,
+- * return the first request after the start of the zone containing @pos.
++ * Return the first request for which blk_rq_pos() >= @pos.
+  */
+ static inline struct request *deadline_from_pos(struct dd_per_prio *per_prio,
+ 				enum dd_data_dir data_dir, sector_t pos)
+@@ -170,14 +168,6 @@ static inline struct request *deadline_from_pos(struct dd_per_prio *per_prio,
+ 		return NULL;
+ 
+ 	rq = rb_entry_rq(node);
+-	/*
+-	 * A zoned write may have been requeued with a starting position that
+-	 * is below that of the most recently dispatched request. Hence, for
+-	 * zoned writes, start searching from the start of a zone.
+-	 */
+-	if (blk_rq_is_seq_zoned_write(rq))
+-		pos = round_down(pos, rq->q->limits.chunk_sectors);
 -
- config BLK_SED_OPAL
- 	bool "Logic for interfacing with Opal enabled SEDs"
- 	depends on KEYS
-diff --git a/block/Makefile b/block/Makefile
-index 46ada9dc8bbf..168150b9c510 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -33,7 +33,6 @@ obj-$(CONFIG_BLK_MQ_VIRTIO)	+= blk-mq-virtio.o
- obj-$(CONFIG_BLK_DEV_ZONED)	+= blk-zoned.o
- obj-$(CONFIG_BLK_WBT)		+= blk-wbt.o
- obj-$(CONFIG_BLK_DEBUG_FS)	+= blk-mq-debugfs.o
--obj-$(CONFIG_BLK_DEBUG_FS_ZONED)+= blk-mq-debugfs-zoned.o
- obj-$(CONFIG_BLK_SED_OPAL)	+= sed-opal.o
- obj-$(CONFIG_BLK_PM)		+= blk-pm.o
- obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= blk-crypto.o blk-crypto-profile.o \
-diff --git a/block/blk-mq-debugfs-zoned.c b/block/blk-mq-debugfs-zoned.c
-deleted file mode 100644
-index a77b099c34b7..000000000000
---- a/block/blk-mq-debugfs-zoned.c
-+++ /dev/null
-@@ -1,22 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
+ 	while (node) {
+ 		rq = rb_entry_rq(node);
+ 		if (blk_rq_pos(rq) >= pos) {
+@@ -308,36 +298,6 @@ static inline bool deadline_check_fifo(struct dd_per_prio *per_prio,
+ 	return time_is_before_eq_jiffies((unsigned long)rq->fifo_time);
+ }
+ 
 -/*
-- * Copyright (C) 2017 Western Digital Corporation or its affiliates.
+- * Check if rq has a sequential request preceding it.
 - */
--
--#include <linux/blkdev.h>
--#include "blk-mq-debugfs.h"
--
--int queue_zone_wlock_show(void *data, struct seq_file *m)
+-static bool deadline_is_seq_write(struct deadline_data *dd, struct request *rq)
 -{
--	struct request_queue *q = data;
--	unsigned int i;
+-	struct request *prev = deadline_earlier_request(rq);
 -
--	if (!q->disk->seq_zones_wlock)
--		return 0;
+-	if (!prev)
+-		return false;
 -
--	for (i = 0; i < q->disk->nr_zones; i++)
--		if (test_bit(i, q->disk->seq_zones_wlock))
--			seq_printf(m, "%u\n", i);
--
--	return 0;
+-	return blk_rq_pos(prev) + blk_rq_sectors(prev) == blk_rq_pos(rq);
 -}
-diff --git a/block/blk-mq-debugfs.h b/block/blk-mq-debugfs.h
-index 9c7d4b6117d4..3ebe2c29b624 100644
---- a/block/blk-mq-debugfs.h
-+++ b/block/blk-mq-debugfs.h
-@@ -83,7 +83,7 @@ static inline void blk_mq_debugfs_unregister_rqos(struct rq_qos *rqos)
+-
+-/*
+- * Skip all write requests that are sequential from @rq, even if we cross
+- * a zone boundary.
+- */
+-static struct request *deadline_skip_seq_writes(struct deadline_data *dd,
+-						struct request *rq)
+-{
+-	sector_t pos = blk_rq_pos(rq);
+-
+-	do {
+-		pos += blk_rq_sectors(rq);
+-		rq = deadline_latter_request(rq);
+-	} while (rq && blk_rq_pos(rq) == pos);
+-
+-	return rq;
+-}
+-
+ /*
+  * For the specified data direction, return the next request to
+  * dispatch using arrival ordered lists.
+@@ -346,40 +306,10 @@ static struct request *
+ deadline_fifo_request(struct deadline_data *dd, struct dd_per_prio *per_prio,
+ 		      enum dd_data_dir data_dir)
+ {
+-	struct request *rq, *rb_rq, *next;
+-	unsigned long flags;
+-
+ 	if (list_empty(&per_prio->fifo_list[data_dir]))
+ 		return NULL;
+ 
+-	rq = rq_entry_fifo(per_prio->fifo_list[data_dir].next);
+-	if (data_dir == DD_READ || !blk_queue_is_zoned(rq->q))
+-		return rq;
+-
+-	/*
+-	 * Look for a write request that can be dispatched, that is one with
+-	 * an unlocked target zone. For some HDDs, breaking a sequential
+-	 * write stream can lead to lower throughput, so make sure to preserve
+-	 * sequential write streams, even if that stream crosses into the next
+-	 * zones and these zones are unlocked.
+-	 */
+-	spin_lock_irqsave(&dd->zone_lock, flags);
+-	list_for_each_entry_safe(rq, next, &per_prio->fifo_list[DD_WRITE],
+-				 queuelist) {
+-		/* Check whether a prior request exists for the same zone. */
+-		rb_rq = deadline_from_pos(per_prio, data_dir, blk_rq_pos(rq));
+-		if (rb_rq && blk_rq_pos(rb_rq) < blk_rq_pos(rq))
+-			rq = rb_rq;
+-		if (blk_req_can_dispatch_to_zone(rq) &&
+-		    (blk_queue_nonrot(rq->q) ||
+-		     !deadline_is_seq_write(dd, rq)))
+-			goto out;
+-	}
+-	rq = NULL;
+-out:
+-	spin_unlock_irqrestore(&dd->zone_lock, flags);
+-
+-	return rq;
++	return rq_entry_fifo(per_prio->fifo_list[data_dir].next);
  }
- #endif
  
--#ifdef CONFIG_BLK_DEBUG_FS_ZONED
-+#if defined(CONFIG_BLK_DEV_ZONED) && defined(CONFIG_BLK_DEBUG_FS)
- int queue_zone_wlock_show(void *data, struct seq_file *m);
- #else
- static inline int queue_zone_wlock_show(void *data, struct seq_file *m)
-diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index 8e821974d46b..66cbf4ca3882 100644
---- a/block/blk-zoned.c
-+++ b/block/blk-zoned.c
-@@ -23,6 +23,7 @@
- 
- #include "blk.h"
- #include "blk-mq-sched.h"
-+#include "blk-mq-debugfs.h"
- 
- #define ZONE_COND_NAME(name) [BLK_ZONE_COND_##name] = #name
- static const char *const zone_cond_name[] = {
-@@ -1802,3 +1803,22 @@ int blk_revalidate_disk_zones(struct gendisk *disk)
- 	return ret;
+ /*
+@@ -390,36 +320,8 @@ static struct request *
+ deadline_next_request(struct deadline_data *dd, struct dd_per_prio *per_prio,
+ 		      enum dd_data_dir data_dir)
+ {
+-	struct request *rq;
+-	unsigned long flags;
+-
+-	rq = deadline_from_pos(per_prio, data_dir,
+-			       per_prio->latest_pos[data_dir]);
+-	if (!rq)
+-		return NULL;
+-
+-	if (data_dir == DD_READ || !blk_queue_is_zoned(rq->q))
+-		return rq;
+-
+-	/*
+-	 * Look for a write request that can be dispatched, that is one with
+-	 * an unlocked target zone. For some HDDs, breaking a sequential
+-	 * write stream can lead to lower throughput, so make sure to preserve
+-	 * sequential write streams, even if that stream crosses into the next
+-	 * zones and these zones are unlocked.
+-	 */
+-	spin_lock_irqsave(&dd->zone_lock, flags);
+-	while (rq) {
+-		if (blk_req_can_dispatch_to_zone(rq))
+-			break;
+-		if (blk_queue_nonrot(rq->q))
+-			rq = deadline_latter_request(rq);
+-		else
+-			rq = deadline_skip_seq_writes(dd, rq);
+-	}
+-	spin_unlock_irqrestore(&dd->zone_lock, flags);
+-
+-	return rq;
++	return deadline_from_pos(per_prio, data_dir,
++				 per_prio->latest_pos[data_dir]);
  }
- EXPORT_SYMBOL_GPL(blk_revalidate_disk_zones);
-+
-+#ifdef CONFIG_BLK_DEBUG_FS
-+
-+int queue_zone_wlock_show(void *data, struct seq_file *m)
-+{
-+	struct request_queue *q = data;
-+	unsigned int i;
-+
-+	if (!q->disk->seq_zones_wlock)
-+		return 0;
-+
-+	for (i = 0; i < q->disk->nr_zones; i++)
-+		if (test_bit(i, q->disk->seq_zones_wlock))
-+			seq_printf(m, "%u\n", i);
-+
-+	return 0;
-+}
-+
-+#endif
+ 
+ /*
+@@ -525,10 +427,6 @@ static struct request *__dd_dispatch_request(struct deadline_data *dd,
+ 		rq = next_rq;
+ 	}
+ 
+-	/*
+-	 * For a zoned block device, if we only have writes queued and none of
+-	 * them can be dispatched, rq will be NULL.
+-	 */
+ 	if (!rq)
+ 		return NULL;
+ 
+@@ -549,10 +447,6 @@ static struct request *__dd_dispatch_request(struct deadline_data *dd,
+ 	prio = ioprio_class_to_prio[ioprio_class];
+ 	dd->per_prio[prio].latest_pos[data_dir] = blk_rq_pos(rq);
+ 	dd->per_prio[prio].stats.dispatched++;
+-	/*
+-	 * If the request needs its target zone locked, do it.
+-	 */
+-	blk_req_zone_write_lock(rq);
+ 	rq->rq_flags |= RQF_STARTED;
+ 	return rq;
+ }
+@@ -722,7 +616,6 @@ static int dd_init_sched(struct request_queue *q, struct elevator_type *e)
+ 	dd->fifo_batch = fifo_batch;
+ 	dd->prio_aging_expire = prio_aging_expire;
+ 	spin_lock_init(&dd->lock);
+-	spin_lock_init(&dd->zone_lock);
+ 
+ 	/* We dispatch from request queue wide instead of hw queue */
+ 	blk_queue_flag_set(QUEUE_FLAG_SQ_SCHED, q);
+@@ -804,12 +697,6 @@ static void dd_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
+ 
+ 	lockdep_assert_held(&dd->lock);
+ 
+-	/*
+-	 * This may be a requeue of a write request that has locked its
+-	 * target zone. If it is the case, this releases the zone lock.
+-	 */
+-	blk_req_zone_write_unlock(rq);
+-
+ 	prio = ioprio_class_to_prio[ioprio_class];
+ 	per_prio = &dd->per_prio[prio];
+ 	if (!rq->elv.priv[0]) {
+@@ -841,18 +728,6 @@ static void dd_insert_request(struct blk_mq_hw_ctx *hctx, struct request *rq,
+ 		 */
+ 		rq->fifo_time = jiffies + dd->fifo_expire[data_dir];
+ 		insert_before = &per_prio->fifo_list[data_dir];
+-#ifdef CONFIG_BLK_DEV_ZONED
+-		/*
+-		 * Insert zoned writes such that requests are sorted by
+-		 * position per zone.
+-		 */
+-		if (blk_rq_is_seq_zoned_write(rq)) {
+-			struct request *rq2 = deadline_latter_request(rq);
+-
+-			if (rq2 && blk_rq_zone_no(rq2) == blk_rq_zone_no(rq))
+-				insert_before = &rq2->queuelist;
+-		}
+-#endif
+ 		list_add_tail(&rq->queuelist, insert_before);
+ 	}
+ }
+@@ -887,33 +762,8 @@ static void dd_prepare_request(struct request *rq)
+ 	rq->elv.priv[0] = NULL;
+ }
+ 
+-static bool dd_has_write_work(struct blk_mq_hw_ctx *hctx)
+-{
+-	struct deadline_data *dd = hctx->queue->elevator->elevator_data;
+-	enum dd_prio p;
+-
+-	for (p = 0; p <= DD_PRIO_MAX; p++)
+-		if (!list_empty_careful(&dd->per_prio[p].fifo_list[DD_WRITE]))
+-			return true;
+-
+-	return false;
+-}
+-
+ /*
+  * Callback from inside blk_mq_free_request().
+- *
+- * For zoned block devices, write unlock the target zone of
+- * completed write requests. Do this while holding the zone lock
+- * spinlock so that the zone is never unlocked while deadline_fifo_request()
+- * or deadline_next_request() are executing. This function is called for
+- * all requests, whether or not these requests complete successfully.
+- *
+- * For a zoned block device, __dd_dispatch_request() may have stopped
+- * dispatching requests if all the queued requests are write requests directed
+- * at zones that are already locked due to on-going write requests. To ensure
+- * write request dispatch progress in this case, mark the queue as needing a
+- * restart to ensure that the queue is run again after completion of the
+- * request and zones being unlocked.
+  */
+ static void dd_finish_request(struct request *rq)
+ {
+@@ -928,21 +778,8 @@ static void dd_finish_request(struct request *rq)
+ 	 * called dd_insert_requests(). Skip requests that bypassed I/O
+ 	 * scheduling. See also blk_mq_request_bypass_insert().
+ 	 */
+-	if (!rq->elv.priv[0])
+-		return;
+-
+-	atomic_inc(&per_prio->stats.completed);
+-
+-	if (blk_queue_is_zoned(q)) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&dd->zone_lock, flags);
+-		blk_req_zone_write_unlock(rq);
+-		spin_unlock_irqrestore(&dd->zone_lock, flags);
+-
+-		if (dd_has_write_work(rq->mq_hctx))
+-			blk_mq_sched_mark_restart_hctx(rq->mq_hctx);
+-	}
++	if (rq->elv.priv[0])
++		atomic_inc(&per_prio->stats.completed);
+ }
+ 
+ static bool dd_has_work_for_prio(struct dd_per_prio *per_prio)
+@@ -1266,7 +1103,6 @@ static struct elevator_type mq_deadline = {
+ 	.elevator_attrs = deadline_attrs,
+ 	.elevator_name = "mq-deadline",
+ 	.elevator_alias = "deadline",
+-	.elevator_features = ELEVATOR_F_ZBD_SEQ_WRITE,
+ 	.elevator_owner = THIS_MODULE,
+ };
+ MODULE_ALIAS("mq-deadline-iosched");
 -- 
 2.44.0
 
