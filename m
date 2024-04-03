@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CEF5C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 08:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A5CBC6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 08:44:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bKo8SurN+0TT9NIaFvkpisWV8zqmnMIOD1B7XoQzpt4=; b=Yv2KUeKxu8zOtzi+2wIYrFpQ9n
-	gawX/T0PQBZpOBOn6Nf3t3o8+Vhb4sqhyqc7AaTbWB2XfVRTeIMDopn5Ygrt+KNaU6PFKEyHrUHN6
-	B9v/42J3aU45YFVBq5AU62aYXVRQdME8UvTk+wXgKKXSZjOOLmqswjV6YFzxLa1KmOOQKBC9EQLhX
-	UT7RqSlMxROc0nc7YhIOhT3YcnGjUToQ9yBnguB8LGuTDqMCtg8AylgsJDMJrGdWzevh87duxr5ga
-	oHvIjUwF4fFSPxEUZc8zeTNsCeiARqnsJmzT1tAmAJQbckZZdhZd8Mw8upacfTX34Wj9cZFtoii8V
-	JpJlsUsw==;
+	bh=roU9B5ogm+BVA+rc91+JcsPXpFfTdqu5/+Hsmc4StPQ=; b=PS1OoLqulcdNjIFUrP3+8E/lzb
+	9EG8egGAH/mVpCbAHikdrmRC+dag47mw9zWOLzV4fjTMc+kvXtnrXkX5fFpOWHtMRgDYshPQHYZV6
+	gUm44UazOC3VD8TR3bqn+rxGTdfuHx+Sa6GY87TP6vZqB/Kh462k+l2K1C1kVEnoNquMeXY4b8cLT
+	s52SFiG9/1AGfgRMBsSTmRIV21FoQfKVM2xsXW2i1NbZWL0sxw9MuiOWa5PSV1SZD4kKXETMVb3CH
+	O39epdovmoCjxdERRGvN3xFGsw6a1ZqWagthEoG06qoOLQayBTmMTjgH1TB+uVWIk8dy29Nlt6JWI
+	GKBezgJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwEL-0000000EzbI-1VPn;
-	Wed, 03 Apr 2024 08:44:25 +0000
+	id 1rrwEP-0000000Ezfu-2hg3;
+	Wed, 03 Apr 2024 08:44:29 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwDS-0000000Ez4l-10zb
+	id 1rrwDU-0000000Ez6j-2TsN
 	for linux-nvme@bombadil.infradead.org;
-	Wed, 03 Apr 2024 08:43:30 +0000
+	Wed, 03 Apr 2024 08:43:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:
 	Content-Type:Content-ID:Content-Description;
-	bh=bKo8SurN+0TT9NIaFvkpisWV8zqmnMIOD1B7XoQzpt4=; b=QQEXtPqELCQRJfINdq43Mjp3ft
-	WWA/XAKpu3fKLNV+BHpBfW0n92v/505W8A8a/V3ISbyQYEqChJ6SWywR819PaBehMdvHhbzCrc7lL
-	TJxPjzpwh2prb8wXiY7PlhuNIDq23norrVjguM/EM4dPSYDRVGQjdRii8FRXTZnF3yafNWrNm77bR
-	1pKLIxogezffMB3/TCDq9eFOGfzag8c/ZQ78ek8Se32zgHQQbGRvosLz9n93AiP0WIpmGW2qAkrTS
-	zKy0hqjjCOBzbEA3P8cfgmHNeTZXbxK7I+j9Q0MoB/SmmFPCQyJ73BYuQypraEt0wkdQh6HYrDPD5
-	FOI6eSvA==;
+	bh=roU9B5ogm+BVA+rc91+JcsPXpFfTdqu5/+Hsmc4StPQ=; b=G6FH1UsvvN+3/7js8wY1yvZbHK
+	WX7F+jTW+HfnR6s1plUJd+CahhrhWUccvxtJx3kXB8ebmJQfdTu1GWBWRibHTml9CxMFTQVCcEV2n
+	k2Ho2BxbpS/3DyC1m4pZJcHXAQQnErwb2SAxcCnfsi70bmWz7IV0uWZJuj9wIyA4xPFbXbH00Gdhw
+	g2m+xaitH16LqNUjpYVhTOwv/yTny+sxUJ5RchXkqHYMokSm6Mo0kxlJ7SyvfJHOTewCeuvbcTWZb
+	4ggfaa4qJFxhmZrV1WpIAFz/r+4Fblp94ZGbuxaCO71V2r0OinnXRGa5u6TZGmRjoH0us5viRJYEM
+	xghxx1kg==;
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrwDO-000000046Ou-2Nit
+	id 1rrwDQ-000000046Pd-3PnL
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 08:43:29 +0000
+	Wed, 03 Apr 2024 08:43:30 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 56C4761274;
-	Wed,  3 Apr 2024 08:43:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAEC3C433B1;
-	Wed,  3 Apr 2024 08:43:23 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8E85E61362;
+	Wed,  3 Apr 2024 08:43:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF02BC433A6;
+	Wed,  3 Apr 2024 08:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712133805;
-	bh=TXtaYLuJs9UaufwdB3NCWLtaNb7jImqjLmv+5VK4YLo=;
+	s=k20201202; t=1712133808;
+	bh=FYwH7NQKArYdWOTwNnIeceCEIbNbIakOb/gcTy7kyBk=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Ik0Munqhs/Xj113EHa90elIQEUUp+Z3UktPsri6QXAvAUhi2VQX7S1IonNXbZWXeW
-	 YzPvpVJAR7RULfR5lppYOVN5F1spffkzhMrcJvK00RcgsYdXKJbO4PMs2+clUgCRvJ
-	 ZOry1C4KcjErTOON1pl7pGH9OFOBucgVHAEDj2hKeJf/LBqlOZPu+xpSwiQm5GpS8w
-	 WBejUK2oPqw7RvkxDecWympeRVJI1Ewt4wpLXTrSeh2y6kB//dpheR2FLC9eELYb19
-	 4NkdRIWRawrlviNkk7fPo0sxNar2ez1RcGxrbrGqbhGQ6uIohZJRIyJr3YSJ5fd+U+
-	 66i/FTUvMCT3g==
+	b=ExMVnbUw5+deItfBX2Lxt1jksxoUNbdo+zR8XY2GXsjy61IToCFJg2hpL96BAVSn2
+	 OwtT86vfYrLM1pIwwEkiTs2kkSXf4v33rGM8JnacJWFy2+Zpb5KI4SEaVPOcsDW5t8
+	 N6HaDqKylOe66bPMN2CRDytI0K6KWSXW0DlSbe0C3H5SWpf+S7PoPq8zNjiytvHogK
+	 Wsj8sRruXY3ZrHmJLzfBPTJfFizyUB7DnZw5DguYMrLvakq4qTCEoAD4XTmXu/JtFy
+	 CGyndAeWosyXfamdVce3B51T8XzEfgP0mRrZqu99CH2oNNHBkO0niV9QdUztS8AN4G
+	 RCDGb068f5hjA==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -67,17 +67,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v5 22/28] block: Remove elevator required features
-Date: Wed,  3 Apr 2024 17:42:41 +0900
-Message-ID: <20240403084247.856481-23-dlemoal@kernel.org>
+Subject: [PATCH v5 24/28] block: Move zone related debugfs attribute to blk-zoned.c
+Date: Wed,  3 Apr 2024 17:42:43 +0900
+Message-ID: <20240403084247.856481-25-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240403084247.856481-1-dlemoal@kernel.org>
 References: <20240403084247.856481-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_094327_075741_982385A2 
-X-CRM114-Status: GOOD (  20.01  )
+X-CRM114-CacheID: sfid-20240403_094329_204225_7F2E6ECA 
+X-CRM114-Status: GOOD (  19.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,179 +92,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The only elevator feature ever implemented is ELEVATOR_F_ZBD_SEQ_WRITE
-for signaling that a scheduler implements zone write locking to tightly
-control the dispatching order of write operations to zoned block
-devices. With the removal of zone write locking support in mq-deadline
-and the reliance of all block device drivers on the block layer zone
-write plugging to control ordering of write operations to zones, the
-elevator feature ELEVATOR_F_ZBD_SEQ_WRITE is completely unused.
-Remove it, and also remove the now unused code for filtering the
-possible schedulers for a block device based on required features.
+block/blk-mq-debugfs-zone.c contains a single debugfs attribute
+function. Defining this outside of block/blk-zoned.c does not really
+help in any way, so move this zone related debugfs attribute to
+block/blk-zoned.c and delete block/blk-mq-debugfs-zone.c.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 ---
- block/blk-settings.c   | 16 ---------------
- block/elevator.c       | 46 +++++-------------------------------------
- block/elevator.h       |  1 -
- include/linux/blkdev.h | 10 ---------
- 4 files changed, 5 insertions(+), 68 deletions(-)
+ block/Kconfig                |  4 ----
+ block/Makefile               |  1 -
+ block/blk-mq-debugfs-zoned.c | 22 ----------------------
+ block/blk-mq-debugfs.h       |  2 +-
+ block/blk-zoned.c            | 20 ++++++++++++++++++++
+ 5 files changed, 21 insertions(+), 28 deletions(-)
+ delete mode 100644 block/blk-mq-debugfs-zoned.c
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index c0197e1e7485..715f4b6356c4 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -1052,22 +1052,6 @@ void blk_queue_write_cache(struct request_queue *q, bool wc, bool fua)
- }
- EXPORT_SYMBOL_GPL(blk_queue_write_cache);
+diff --git a/block/Kconfig b/block/Kconfig
+index 1de4682d48cc..9f647149fbee 100644
+--- a/block/Kconfig
++++ b/block/Kconfig
+@@ -198,10 +198,6 @@ config BLK_DEBUG_FS
+ 	Unless you are building a kernel for a tiny system, you should
+ 	say Y here.
  
--/**
-- * blk_queue_required_elevator_features - Set a queue required elevator features
-- * @q:		the request queue for the target device
-- * @features:	Required elevator features OR'ed together
-- *
-- * Tell the block layer that for the device controlled through @q, only the
-- * only elevators that can be used are those that implement at least the set of
-- * features specified by @features.
-- */
--void blk_queue_required_elevator_features(struct request_queue *q,
--					  unsigned int features)
--{
--	q->required_elevator_features = features;
--}
--EXPORT_SYMBOL_GPL(blk_queue_required_elevator_features);
+-config BLK_DEBUG_FS_ZONED
+-       bool
+-       default BLK_DEBUG_FS && BLK_DEV_ZONED
 -
- /**
-  * blk_queue_can_use_dma_map_merging - configure queue for merging segments.
-  * @q:		the request queue for the device
-diff --git a/block/elevator.c b/block/elevator.c
-index 5ff093cb3cf8..f64ebd726e58 100644
---- a/block/elevator.c
-+++ b/block/elevator.c
-@@ -83,13 +83,6 @@ bool elv_bio_merge_ok(struct request *rq, struct bio *bio)
- }
- EXPORT_SYMBOL(elv_bio_merge_ok);
- 
--static inline bool elv_support_features(struct request_queue *q,
--		const struct elevator_type *e)
--{
--	return (q->required_elevator_features & e->elevator_features) ==
--		q->required_elevator_features;
--}
--
- /**
-  * elevator_match - Check whether @e's name or alias matches @name
-  * @e: Scheduler to test
-@@ -120,7 +113,7 @@ static struct elevator_type *elevator_find_get(struct request_queue *q,
- 
- 	spin_lock(&elv_list_lock);
- 	e = __elevator_find(name);
--	if (e && (!elv_support_features(q, e) || !elevator_tryget(e)))
-+	if (e && (!elevator_tryget(e)))
- 		e = NULL;
- 	spin_unlock(&elv_list_lock);
- 	return e;
-@@ -580,34 +573,8 @@ static struct elevator_type *elevator_get_default(struct request_queue *q)
- }
- 
- /*
-- * Get the first elevator providing the features required by the request queue.
-- * Default to "none" if no matching elevator is found.
-- */
--static struct elevator_type *elevator_get_by_features(struct request_queue *q)
--{
--	struct elevator_type *e, *found = NULL;
--
--	spin_lock(&elv_list_lock);
--
--	list_for_each_entry(e, &elv_list, list) {
--		if (elv_support_features(q, e)) {
--			found = e;
--			break;
--		}
--	}
--
--	if (found && !elevator_tryget(found))
--		found = NULL;
--
--	spin_unlock(&elv_list_lock);
--	return found;
--}
--
+ config BLK_SED_OPAL
+ 	bool "Logic for interfacing with Opal enabled SEDs"
+ 	depends on KEYS
+diff --git a/block/Makefile b/block/Makefile
+index 46ada9dc8bbf..168150b9c510 100644
+--- a/block/Makefile
++++ b/block/Makefile
+@@ -33,7 +33,6 @@ obj-$(CONFIG_BLK_MQ_VIRTIO)	+= blk-mq-virtio.o
+ obj-$(CONFIG_BLK_DEV_ZONED)	+= blk-zoned.o
+ obj-$(CONFIG_BLK_WBT)		+= blk-wbt.o
+ obj-$(CONFIG_BLK_DEBUG_FS)	+= blk-mq-debugfs.o
+-obj-$(CONFIG_BLK_DEBUG_FS_ZONED)+= blk-mq-debugfs-zoned.o
+ obj-$(CONFIG_BLK_SED_OPAL)	+= sed-opal.o
+ obj-$(CONFIG_BLK_PM)		+= blk-pm.o
+ obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= blk-crypto.o blk-crypto-profile.o \
+diff --git a/block/blk-mq-debugfs-zoned.c b/block/blk-mq-debugfs-zoned.c
+deleted file mode 100644
+index a77b099c34b7..000000000000
+--- a/block/blk-mq-debugfs-zoned.c
++++ /dev/null
+@@ -1,22 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
 -/*
-- * For a device queue that has no required features, use the default elevator
-- * settings. Otherwise, use the first elevator available matching the required
-- * features. If no suitable elevator is find or if the chosen elevator
-- * initialization fails, fall back to the "none" elevator (no elevator).
-+ * Use the default elevator settings. If the chosen elevator initialization
-+ * fails, fall back to the "none" elevator (no elevator).
-  */
- void elevator_init_mq(struct request_queue *q)
- {
-@@ -622,10 +589,7 @@ void elevator_init_mq(struct request_queue *q)
- 	if (unlikely(q->elevator))
- 		return;
- 
--	if (!q->required_elevator_features)
--		e = elevator_get_default(q);
--	else
--		e = elevator_get_by_features(q);
-+	e = elevator_get_default(q);
- 	if (!e)
- 		return;
- 
-@@ -781,7 +745,7 @@ ssize_t elv_iosched_show(struct request_queue *q, char *name)
- 	list_for_each_entry(e, &elv_list, list) {
- 		if (e == cur)
- 			len += sprintf(name+len, "[%s] ", e->elevator_name);
--		else if (elv_support_features(q, e))
-+		else
- 			len += sprintf(name+len, "%s ", e->elevator_name);
- 	}
- 	spin_unlock(&elv_list_lock);
-diff --git a/block/elevator.h b/block/elevator.h
-index 7ca3d7b6ed82..e9a050a96e53 100644
---- a/block/elevator.h
-+++ b/block/elevator.h
-@@ -74,7 +74,6 @@ struct elevator_type
- 	struct elv_fs_entry *elevator_attrs;
- 	const char *elevator_name;
- 	const char *elevator_alias;
--	const unsigned int elevator_features;
- 	struct module *elevator_owner;
- #ifdef CONFIG_BLK_DEBUG_FS
- 	const struct blk_mq_debugfs_attr *queue_debugfs_attrs;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 19f59e0e5f29..618d354ceb94 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -453,8 +453,6 @@ struct request_queue {
- 
- 	atomic_t		nr_active_requests_shared_tags;
- 
--	unsigned int		required_elevator_features;
--
- 	struct blk_mq_tags	*sched_shared_tags;
- 
- 	struct list_head	icq_list;
-@@ -959,14 +957,6 @@ disk_alloc_independent_access_ranges(struct gendisk *disk, int nr_ia_ranges);
- void disk_set_independent_access_ranges(struct gendisk *disk,
- 				struct blk_independent_access_ranges *iars);
- 
--/*
-- * Elevator features for blk_queue_required_elevator_features:
+- * Copyright (C) 2017 Western Digital Corporation or its affiliates.
 - */
--/* Supports zoned block devices sequential write constraint */
--#define ELEVATOR_F_ZBD_SEQ_WRITE	(1U << 0)
 -
--extern void blk_queue_required_elevator_features(struct request_queue *q,
--						 unsigned int features);
- extern bool blk_queue_can_use_dma_map_merging(struct request_queue *q,
- 					      struct device *dev);
+-#include <linux/blkdev.h>
+-#include "blk-mq-debugfs.h"
+-
+-int queue_zone_wlock_show(void *data, struct seq_file *m)
+-{
+-	struct request_queue *q = data;
+-	unsigned int i;
+-
+-	if (!q->disk->seq_zones_wlock)
+-		return 0;
+-
+-	for (i = 0; i < q->disk->nr_zones; i++)
+-		if (test_bit(i, q->disk->seq_zones_wlock))
+-			seq_printf(m, "%u\n", i);
+-
+-	return 0;
+-}
+diff --git a/block/blk-mq-debugfs.h b/block/blk-mq-debugfs.h
+index 9c7d4b6117d4..3ebe2c29b624 100644
+--- a/block/blk-mq-debugfs.h
++++ b/block/blk-mq-debugfs.h
+@@ -83,7 +83,7 @@ static inline void blk_mq_debugfs_unregister_rqos(struct rq_qos *rqos)
+ }
+ #endif
  
+-#ifdef CONFIG_BLK_DEBUG_FS_ZONED
++#if defined(CONFIG_BLK_DEV_ZONED) && defined(CONFIG_BLK_DEBUG_FS)
+ int queue_zone_wlock_show(void *data, struct seq_file *m);
+ #else
+ static inline int queue_zone_wlock_show(void *data, struct seq_file *m)
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 8e821974d46b..66cbf4ca3882 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -23,6 +23,7 @@
+ 
+ #include "blk.h"
+ #include "blk-mq-sched.h"
++#include "blk-mq-debugfs.h"
+ 
+ #define ZONE_COND_NAME(name) [BLK_ZONE_COND_##name] = #name
+ static const char *const zone_cond_name[] = {
+@@ -1802,3 +1803,22 @@ int blk_revalidate_disk_zones(struct gendisk *disk)
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(blk_revalidate_disk_zones);
++
++#ifdef CONFIG_BLK_DEBUG_FS
++
++int queue_zone_wlock_show(void *data, struct seq_file *m)
++{
++	struct request_queue *q = data;
++	unsigned int i;
++
++	if (!q->disk->seq_zones_wlock)
++		return 0;
++
++	for (i = 0; i < q->disk->nr_zones; i++)
++		if (test_bit(i, q->disk->seq_zones_wlock))
++			seq_printf(m, "%u\n", i);
++
++	return 0;
++}
++
++#endif
 -- 
 2.44.0
 
