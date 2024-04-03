@@ -4,52 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDB34CD1294
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 09:44:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB6CBCD1294
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 09:49:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=tT1N5kvHa7DJxnbbyDeNc8WFrP
-	ZBl/OCIV98mrvRnA1/LM1OeRLetMd2apU2JGkS/av6eWQw8ifNn089CJxtpfD7PKYZ2r1qy1oC+hB
-	Xi2FROdtBaTIla7DijjkcA6ZHMCjCblgKNJSGEQlOC/q+xi1qmxBT9wZxB1z8+7K3R5CRWSSlm8Ta
-	rtT8jO1ScXcB3B+NqP86OqQtcu8rVYdWVKXNLmwN1sdB9Bo8zzN2r2ZD3xJwsBwS47xddF5ZE4gZm
-	gi+67ct+fO2a56/E/F7cXm3YKhm+ZmmSnP47M8ABzIK+gw+E/nL2UJADr9V//S0UEwzBsl769N0FJ
-	lE89gKrA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dVmuraY7g2oaCLA0l22KWGJPXMKuO4b/aKY1iI+lEic=; b=u3iZyRaSdsXiSYnEp7/u2Wnwvu
+	HrONLMucP8G5+IWqdUIqb335wteZ9vJCo9G7TvqGuqn46P2xdkTdl7dg40EKEZthct5Z8fcEGAiXI
+	0N+Cfs43xqlOOxCrqcMKvHnx0X+05+mJLHJ/AdpTES7JDliIYWIMaMTs8JI+QLHfXPcnjH8jkl9BM
+	3NAYpCHzUuIyGIzdjBgNJZz3fcfPiABU5F8rLbznz0vkpIoFNyEte98Q5+2iTEMMYW5RMmBpb7ZnA
+	zuE+8pGHgoTUY9J++R0jVUCnv3A5d23FI+lhsKNHO11FOgrQ1BaX69JqIUrGWgRAXWN1DSo6v+FZ/
+	aVzpr4RQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrxAM-0000000FGub-2A3M;
-	Wed, 03 Apr 2024 09:44:22 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1rrxEy-0000000FIOU-3sj4;
+	Wed, 03 Apr 2024 09:49:08 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrxAJ-0000000FGst-1f9D
+	id 1rrwD5-0000000Eyj4-0IBA
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 09:44:20 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B71EE68BFE; Wed,  3 Apr 2024 11:44:16 +0200 (CEST)
-Date: Wed, 3 Apr 2024 11:44:16 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	Wed, 03 Apr 2024 08:43:12 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id EDB5ECE2101;
+	Wed,  3 Apr 2024 08:43:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2BEAC43394;
+	Wed,  3 Apr 2024 08:43:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712133784;
+	bh=pTE3RN6Ne1mQt82bVRfmMLLgYW7W1oyfy2lErotJhiE=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=mhGMfBAKIFfXwpt8fsaEFzKAxg9OAo/s+AN+/+Ee//LzV3K+rcNDbuLtWuabIP58t
+	 fzzm1DatD4RO/vBP3dpMYqRAUt4w5b37tnF7MOwmIcrmhQkqoZ7aqskM8XCIhdP2e0
+	 EwG3LqL1M7UF6W/+WpfuAkpDVDSDQqwO523KVduYp69Fp4KjXWbewWhFWdKcNRyS3W
+	 UVoHYBt4IRs+6ceL3rOZ8i+LedXV1TMt0IdQxG32EwG+bhc56dYolGwKgq4nF5aRIa
+	 yD9d9KOG0DwT/JuVPLIybAAmRu4N7heGE8qwx0xmgGmBWmaB5xHX6zFapLquGQ2SoB
+	 poOFMUZi5Fsug==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-block@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
 	linux-scsi@vger.kernel.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
-	linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+	dm-devel@lists.linux.dev,
+	Mike Snitzer <snitzer@redhat.com>,
+	linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v5 07/28] block: Introduce zone write plugging
-Message-ID: <20240403094416.GC4828@lst.de>
-References: <20240403084247.856481-1-dlemoal@kernel.org> <20240403084247.856481-8-dlemoal@kernel.org>
+Subject: [PATCH v5 09/28] block: Allow zero value of max_zone_append_sectors queue limit
+Date: Wed,  3 Apr 2024 17:42:28 +0900
+Message-ID: <20240403084247.856481-10-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240403084247.856481-1-dlemoal@kernel.org>
+References: <20240403084247.856481-1-dlemoal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403084247.856481-8-dlemoal@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_024419_581928_4A5651CD 
-X-CRM114-Status: UNSURE (   9.87  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240403_014307_711384_FE26690E 
+X-CRM114-Status: GOOD (  26.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,7 +77,188 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+In preparation for adding a generic zone append emulation using zone
+write plugging, allow device drivers supporting zoned block device to
+set a the max_zone_append_sectors queue limit of a device to 0 to
+indicate the lack of native support for zone append operations and that
+the block layer should emulate these operations using regular write
+operations.
 
+blk_queue_max_zone_append_sectors() is modified to allow passing 0 as
+the max_zone_append_sectors argument. The function
+queue_max_zone_append_sectors() is also modified to ensure that the
+minimum of the max_hw_sectors and chunk_sectors limit is used whenever
+the max_zone_append_sectors limit is 0. This minimum is consistent with
+the value set for the max_zone_append_sectors limit by the function
+blk_validate_zoned_limits() when limits for a queue are validated.
+
+The helper functions queue_emulates_zone_append() and
+bdev_emulates_zone_append() are added to test if a queue (or block
+device) emulates zone append operations.
+
+In order for blk_revalidate_disk_zones() to accept zoned block devices
+relying on zone append emulation, the direct check to the
+max_zone_append_sectors queue limit of the disk is replaced by a check
+using the value returned by queue_max_zone_append_sectors(). Similarly,
+queue_zone_append_max_show() is modified to use the same accessor so
+that the sysfs attribute advertizes the non-zero limit that will be
+used, regardless if it is for native or emulated commands.
+
+For stacking drivers, a top device should not need to care if the
+underlying devices have native or emulated zone append operations.
+blk_stack_limits() is thus modified to set the top device
+max_zone_append_sectors limit using the new accessor
+queue_limits_max_zone_append_sectors(). queue_max_zone_append_sectors()
+is modified to use this function as well. Stacking drivers that require
+zone append emulation, e.g. dm-crypt, can still request this feature by
+calling blk_queue_max_zone_append_sectors() with a 0 limit.
+
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+---
+ block/blk-core.c       |  2 +-
+ block/blk-settings.c   | 30 +++++++++++++++++++-----------
+ block/blk-sysfs.c      |  2 +-
+ block/blk-zoned.c      |  2 +-
+ include/linux/blkdev.h | 23 ++++++++++++++++++++---
+ 5 files changed, 42 insertions(+), 17 deletions(-)
+
+diff --git a/block/blk-core.c b/block/blk-core.c
+index a16b5abdbbf5..3bf28149e104 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -602,7 +602,7 @@ static inline blk_status_t blk_check_zone_append(struct request_queue *q,
+ 		return BLK_STS_IOERR;
+ 
+ 	/* Make sure the BIO is small enough and will not get split */
+-	if (nr_sectors > q->limits.max_zone_append_sectors)
++	if (nr_sectors > queue_max_zone_append_sectors(q))
+ 		return BLK_STS_IOERR;
+ 
+ 	bio->bi_opf |= REQ_NOMERGE;
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index cdbaef159c4b..c0197e1e7485 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -412,24 +412,32 @@ EXPORT_SYMBOL(blk_queue_max_write_zeroes_sectors);
+  * blk_queue_max_zone_append_sectors - set max sectors for a single zone append
+  * @q:  the request queue for the device
+  * @max_zone_append_sectors: maximum number of sectors to write per command
++ *
++ * Sets the maximum number of sectors allowed for zone append commands. If
++ * Specifying 0 for @max_zone_append_sectors indicates that the queue does
++ * not natively support zone append operations and that the block layer must
++ * emulate these operations using regular writes.
+  **/
+ void blk_queue_max_zone_append_sectors(struct request_queue *q,
+ 		unsigned int max_zone_append_sectors)
+ {
+-	unsigned int max_sectors;
++	unsigned int max_sectors = 0;
+ 
+ 	if (WARN_ON(!blk_queue_is_zoned(q)))
+ 		return;
+ 
+-	max_sectors = min(q->limits.max_hw_sectors, max_zone_append_sectors);
+-	max_sectors = min(q->limits.chunk_sectors, max_sectors);
++	if (max_zone_append_sectors) {
++		max_sectors = min(q->limits.max_hw_sectors,
++				  max_zone_append_sectors);
++		max_sectors = min(q->limits.chunk_sectors, max_sectors);
+ 
+-	/*
+-	 * Signal eventual driver bugs resulting in the max_zone_append sectors limit
+-	 * being 0 due to a 0 argument, the chunk_sectors limit (zone size) not set,
+-	 * or the max_hw_sectors limit not set.
+-	 */
+-	WARN_ON(!max_sectors);
++		/*
++		 * Signal eventual driver bugs resulting in the max_zone_append
++		 * sectors limit being 0 due to the chunk_sectors limit (zone
++		 * size) not set or the max_hw_sectors limit not set.
++		 */
++		WARN_ON_ONCE(!max_sectors);
++	}
+ 
+ 	q->limits.max_zone_append_sectors = max_sectors;
+ }
+@@ -756,8 +764,8 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 	t->max_dev_sectors = min_not_zero(t->max_dev_sectors, b->max_dev_sectors);
+ 	t->max_write_zeroes_sectors = min(t->max_write_zeroes_sectors,
+ 					b->max_write_zeroes_sectors);
+-	t->max_zone_append_sectors = min(t->max_zone_append_sectors,
+-					b->max_zone_append_sectors);
++	t->max_zone_append_sectors = min(queue_limits_max_zone_append_sectors(t),
++					 queue_limits_max_zone_append_sectors(b));
+ 	t->bounce = max(t->bounce, b->bounce);
+ 
+ 	t->seg_boundary_mask = min_not_zero(t->seg_boundary_mask,
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 8c8f69d8ba48..e3ed5a921aff 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -224,7 +224,7 @@ static ssize_t queue_zone_write_granularity_show(struct request_queue *q,
+ 
+ static ssize_t queue_zone_append_max_show(struct request_queue *q, char *page)
+ {
+-	unsigned long long max_sectors = q->limits.max_zone_append_sectors;
++	unsigned long long max_sectors = queue_max_zone_append_sectors(q);
+ 
+ 	return sprintf(page, "%llu\n", max_sectors << SECTOR_SHIFT);
+ }
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 3dceeaaeb973..ec917081cc0f 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -1691,7 +1691,7 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+ 		return -ENODEV;
+ 	}
+ 
+-	if (!q->limits.max_zone_append_sectors) {
++	if (!queue_max_zone_append_sectors(q)) {
+ 		pr_warn("%s: Invalid 0 maximum zone append limit\n",
+ 			disk->disk_name);
+ 		return -ENODEV;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index a95b883512ea..7a621f23393f 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1174,12 +1174,29 @@ static inline unsigned int queue_max_segment_size(const struct request_queue *q)
+ 	return q->limits.max_segment_size;
+ }
+ 
+-static inline unsigned int queue_max_zone_append_sectors(const struct request_queue *q)
++static inline unsigned int queue_limits_max_zone_append_sectors(struct queue_limits *l)
+ {
++	unsigned int max_sectors = min(l->chunk_sectors, l->max_hw_sectors);
+ 
+-	const struct queue_limits *l = &q->limits;
++	return min_not_zero(l->max_zone_append_sectors, max_sectors);
++}
++
++static inline unsigned int queue_max_zone_append_sectors(struct request_queue *q)
++{
++	if (!blk_queue_is_zoned(q))
++		return 0;
+ 
+-	return min(l->max_zone_append_sectors, l->max_sectors);
++	return queue_limits_max_zone_append_sectors(&q->limits);
++}
++
++static inline bool queue_emulates_zone_append(struct request_queue *q)
++{
++	return blk_queue_is_zoned(q) && !q->limits.max_zone_append_sectors;
++}
++
++static inline bool bdev_emulates_zone_append(struct block_device *bdev)
++{
++	return queue_emulates_zone_append(bdev_get_queue(bdev));
+ }
+ 
+ static inline unsigned int
+-- 
+2.44.0
+
 
