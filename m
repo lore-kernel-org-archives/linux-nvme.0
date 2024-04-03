@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99A8BCD128A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 14:18:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB4B4CD1288
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 15:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vJTsgSbL8VG7p/U9Cu8CkcGzJM3BnNaX4BMsrcA1Er8=; b=4b2dvl2EEKLqliJGTG1BruAcGy
-	nhFTfOspvYK4y0LCCWPJoTg7CY8WKZYaZ2eLivAx8sygLyRsiu6ISCmCTyXyxaOw9dQ5ppeNDLhzo
-	t39utxJusDl5nP9VQ//b5EqH2N7BYnM4RCytpPmnMy6Vjd7I0l9Wo8TaOWgI3jY740GQQ12jY9rkn
-	IVkWJN6zFyPvBGyk5cNwmvfBy62/voccX0L8dIR2v24wphufnbxZMK7B7brrtRshSfKVVHKTMzlgr
-	A8c5Cqkz8xNygKoL0Wj71PmnTGN5Z+378FZo6ODfF/QMKfU5w3u7ZR70E4AdxrY1RHfeMjzh5NARB
-	m0aanAaA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SrsOzRmRj5HxS6vQW0E3HVcArCc+l/9GqT79Rtpv2R4=; b=QD4qQYrqjvODAcvj2aEFuHdnis
+	/33egF/IjgNTPlGfcwNFOPObNAFRyEZewRcTvnAWHJUp6/zdVG7wrYIt0rGMpNTWWbYxrB65l6aRM
+	t3NpkwaQZ8nlbemuXvkhRDUPiSd8OqqnvB6EoiAvWDaV8ATpPmw1MTAO4vLTTmcUw5C6LRMscMJBc
+	Q5OiDe8XGmfLC5SnKKDBjyV7VTYzdt+srylZFfwLjOjzw91fwJCdcuc07ah3XPvebHMHMEf8XH0S8
+	JXMgeQnaoL3wGzuZullFfnr7p12+tB+ai4JlBEaU4qsVHyeV7l7xfAXRbbihczvQAclTUxs6KSpfi
+	uN78QwrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rs1Rf-0000000GQdi-27wq;
-	Wed, 03 Apr 2024 14:18:31 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rs2OZ-0000000GhTQ-2ady;
+	Wed, 03 Apr 2024 15:19:23 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rs1RL-0000000GQMH-30Gn
+	id 1rs1RO-0000000GQP7-2jrk
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 14:18:15 +0000
+	Wed, 03 Apr 2024 14:18:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id EF42DCE2AFD;
-	Wed,  3 Apr 2024 14:18:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 443F0C433C7;
-	Wed,  3 Apr 2024 14:18:05 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 34706CE2B02;
+	Wed,  3 Apr 2024 14:18:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E887C43601;
+	Wed,  3 Apr 2024 14:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712153886;
-	bh=5WLxOnkBJjo+0/yjmhaPs0wdHBWPf/7+izSo8rpQdYc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=NuWtTg5KxYV2VyFxLPwASt9nk5SyyAAczmPsX6EqVXaE+uy0yZTf+Qg14SSrtFhH/
-	 1d64qMKMjSK6F6ho+1suRE9a6BymHSKdGfGlPSwlfjp0aTEW1/9Bke0R3hT06E+ADy
-	 5RyCeU8DMjya/pZ1QOkZXgyZvUXLR6+29DC854Ek5hDLigHSKd3ulX5Z/Kccpip8Ey
-	 SU33r1KwSqFZB4lTwdPKTkF9+zBoq4t3wx4aNRC23KNx5W8ZbFyRnqT/wSdxAwi6qW
-	 re/WQP81gDnWrsC3vUSqpkH5bJL/wFzsiSAYf6TI5n1Abd9qN5qP4WOQA7QQBmiNis
-	 BfRRRHp4HlgMw==
+	s=k20201202; t=1712153891;
+	bh=w1EEgdIPZxfZ8fVd55Jr20R155i9uV1D12DOeG3OFus=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aHqfGWS4mQ9Ykusg/R01L/tijnufZFRdRSEMkkaZ1A+UxBSZNPsI4O/ySDW9C+JMS
+	 clMwkjfaVyigVme/mkSiMBUggAu9vO/xdJZpaUWL2hwsbqImln7dmfYFdztJ+WbdKb
+	 HrUAsD0XlyMmuTjWehtQLROCvJ/J+V0vJXZZz+/K3rLmmH6pmWZvEx/jLeMDs+lirY
+	 UwLwA3KZkG5H8mSpHi0M+Ff51xs4wrp2brmnxmC/UkojOJRQ3H9gQ8c74hWqjsamSb
+	 vB5fII4t5UJTRiij0nB1kb3uHlYkSpH4z6Mck4YlLrEnUkuIbzQQjsvcq8XoGqALs5
+	 RO9Fpx1smYqjQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -50,15 +50,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv2 0/2] block,nvme: latency-based I/O scheduler
-Date: Wed,  3 Apr 2024 16:17:54 +0200
-Message-Id: <20240403141756.88233-1-hare@kernel.org>
+Subject: [PATCH 2/2] nvme: add 'latency' iopolicy
+Date: Wed,  3 Apr 2024 16:17:56 +0200
+Message-Id: <20240403141756.88233-3-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240403141756.88233-1-hare@kernel.org>
+References: <20240403141756.88233-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_071812_561714_03A0AD0D 
-X-CRM114-Status: GOOD (  11.91  )
+X-CRM114-CacheID: sfid-20240403_071815_436532_0874316E 
+X-CRM114-Status: GOOD (  18.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,64 +75,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Add a latency-based I/O policy for multipathing. It uses the blk-nodelat
+latency tracker to provide latencies for each node, and schedules
+I/O on the path with the least latency for the submitting node.
 
-there had been several attempts to implement a latency-based I/O
-scheduler for native nvme multipath, all of which had its issues.
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/host/multipath.c | 57 ++++++++++++++++++++++++++++++-----
+ drivers/nvme/host/nvme.h      |  1 +
+ 2 files changed, 51 insertions(+), 7 deletions(-)
 
-So time to start afresh, this time using the QoS framework
-already present in the block layer.
-It consists of two parts:
-- a new 'blk-nlatency' QoS module, which is just a simple per-node
-  latency tracker
-- a 'latency' nvme I/O policy
-
-Using the 'tiobench' fio script with 512 byte blocksize I'm getting
-the following latencies (in usecs) as a baseline:
-- seq write: avg 186 stddev 331
-- rand write: avg 4598 stddev 7903
-- seq read: avg 149 stddev 65
-- rand read: avg 150 stddev 68
-
-Enabling the 'latency' iopolicy:
-- seq write: avg 178 stddev 113
-- rand write: avg 3427 stddev 6703
-- seq read: avg 140 stddev 59
-- rand read: avg 141 stddev 58
-
-Setting the 'decay' parameter to 10:
-- seq write: avg 182 stddev 65
-- rand write: avg 2619 stddev 5894
-- seq read: avg 142 stddev 57
-- rand read: avg 140 stddev 57  
-
-That's on a 32G FC testbed running against a brd target,
-fio running with 48 threads. So promises are met: latency
-goes down, and we're even able to control the standard
-deviation via the 'decay' parameter.
-
-As usual, comments and reviews are welcome.
-
-Changes to the original version:
-- split the rqos debugfs entries
-- Modify commit message to indicate latency
-- rename to blk-nlatency
-
-Hannes Reinecke (2):
-  block: track per-node I/O latency
-  nvme: add 'latency' iopolicy
-
- block/Kconfig                 |   6 +
- block/Makefile                |   1 +
- block/blk-mq-debugfs.c        |   2 +
- block/blk-nlatency.c          | 388 ++++++++++++++++++++++++++++++++++
- block/blk-rq-qos.h            |   6 +
- drivers/nvme/host/multipath.c |  57 ++++-
- drivers/nvme/host/nvme.h      |   1 +
- include/linux/blk-mq.h        |  11 +
- 8 files changed, 465 insertions(+), 7 deletions(-)
- create mode 100644 block/blk-nlatency.c
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 5397fb428b24..18e7fe45c2c1 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -17,6 +17,7 @@ MODULE_PARM_DESC(multipath,
+ static const char *nvme_iopolicy_names[] = {
+ 	[NVME_IOPOLICY_NUMA]	= "numa",
+ 	[NVME_IOPOLICY_RR]	= "round-robin",
++	[NVME_IOPOLICY_LAT]	= "latency",
+ };
+ 
+ static int iopolicy = NVME_IOPOLICY_NUMA;
+@@ -29,6 +30,10 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+ 		iopolicy = NVME_IOPOLICY_NUMA;
+ 	else if (!strncmp(val, "round-robin", 11))
+ 		iopolicy = NVME_IOPOLICY_RR;
++#ifdef CONFIG_BLK_NODE_LATENCY
++	else if (!strncmp(val, "latency", 7))
++		iopolicy = NVME_IOPOLICY_LAT;
++#endif
+ 	else
+ 		return -EINVAL;
+ 
+@@ -40,6 +45,28 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
+ 	return sprintf(buf, "%s\n", nvme_iopolicy_names[iopolicy]);
+ }
+ 
++static int nvme_activate_iopolicy(struct nvme_subsystem *subsys, int iopolicy)
++{
++	struct nvme_ns_head *h;
++	struct nvme_ns *ns;
++	bool enable = iopolicy == NVME_IOPOLICY_LAT;
++	int ret = 0;
++
++	mutex_lock(&subsys->lock);
++	list_for_each_entry(h, &subsys->nsheads, entry) {
++		list_for_each_entry_rcu(ns, &h->list, siblings) {
++			if (enable) {
++				ret = blk_nlat_enable(ns->disk);
++				if (ret)
++					break;
++			} else
++				blk_nlat_disable(ns->disk);
++		}
++	}
++	mutex_unlock(&subsys->lock);
++	return ret;
++}
++
+ module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
+ 	&iopolicy, 0644);
+ MODULE_PARM_DESC(iopolicy,
+@@ -242,13 +269,16 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ {
+ 	int found_distance = INT_MAX, fallback_distance = INT_MAX, distance;
+ 	struct nvme_ns *found = NULL, *fallback = NULL, *ns;
++	int iopolicy = READ_ONCE(head->subsys->iopolicy);
+ 
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+ 		if (nvme_path_is_disabled(ns))
+ 			continue;
+ 
+-		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
++		if (iopolicy == NVME_IOPOLICY_NUMA)
+ 			distance = node_distance(node, ns->ctrl->numa_node);
++		else if (iopolicy == NVME_IOPOLICY_LAT)
++			distance = blk_nlat_latency(ns->disk, node);
+ 		else
+ 			distance = LOCAL_DISTANCE;
+ 
+@@ -339,15 +369,17 @@ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ {
+ 	int node = numa_node_id();
++	int iopolicy = READ_ONCE(head->subsys->iopolicy);
+ 	struct nvme_ns *ns;
+ 
+ 	ns = srcu_dereference(head->current_path[node], &head->srcu);
+ 	if (unlikely(!ns))
+ 		return __nvme_find_path(head, node);
+ 
+-	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
++	if (iopolicy == NVME_IOPOLICY_RR)
+ 		return nvme_round_robin_path(head, node, ns);
+-	if (unlikely(!nvme_path_is_optimized(ns)))
++	if (iopolicy == NVME_IOPOLICY_LAT ||
++	    unlikely(!nvme_path_is_optimized(ns)))
+ 		return __nvme_find_path(head, node);
+ 	return ns;
+ }
+@@ -803,15 +835,18 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+ {
+ 	struct nvme_subsystem *subsys =
+ 		container_of(dev, struct nvme_subsystem, dev);
+-	int i;
++	int i, ret;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
+ 		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
+-			WRITE_ONCE(subsys->iopolicy, i);
+-			return count;
++			ret = nvme_activate_iopolicy(subsys, i);
++			if (!ret) {
++				WRITE_ONCE(subsys->iopolicy, i);
++				return count;
++			}
++			return ret;
+ 		}
+ 	}
+-
+ 	return -EINVAL;
+ }
+ SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
+@@ -847,6 +882,14 @@ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
+ 
+ void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
+ {
++	if (!blk_nlat_init(ns->disk) &&
++	    READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_LAT) {
++		int ret = blk_nlat_enable(ns->disk);
++		if (unlikely(ret))
++			pr_warn("%s: Failed to enable latency tracking, error %d\n",
++				ns->disk->disk_name, ret);
++	}
++
+ 	if (nvme_ctrl_use_ana(ns->ctrl)) {
+ 		struct nvme_ana_group_desc desc = {
+ 			.grpid = anagrpid,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 27397f8404d6..b07afb1aa5bb 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -402,6 +402,7 @@ static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
+ enum nvme_iopolicy {
+ 	NVME_IOPOLICY_NUMA,
+ 	NVME_IOPOLICY_RR,
++	NVME_IOPOLICY_LAT,
+ };
+ 
+ struct nvme_subsystem {
 -- 
 2.35.3
 
