@@ -4,145 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A1DCCD1288
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 04:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A739DCD1288
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 05:27:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bD/kdg8ljEoylmau/kd9qIsMdWMYjDdfp3qZNbFfBa8=; b=OrYnzf8hR7gfbPn/oRwmt3IPzJ
-	Soz7L7y4vwiRBsJp9tqrxPDkY/tw7g9bAYmaXLCTQ/kkVh6RGieofXZJf/P6N6Isfr9mzLFWFz9B4
-	8xwRrPinuTHwev0BelUiLHE6Ftc0KKmpPEnaM+yD2u/+ysRzHyi+U1G12g+HoWCeLCNNRmYWhsuCe
-	8Or+OR16jEhV+gLDqNAnxHFGxJ8PHO7ZDo1nPbnFtIErh2AKTbEFwqGj0/quATrT7b6ZhD+ekX+7l
-	n+2qePLvY0GgoYNYEBiC6K8MHaUrnXp7WbJfeOyZh17OarpDJFxunZUgmc9dT5MYzBbxvzG+1ShzC
-	E0wD0ZVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bQHcZgwCd0EAkba67DheLUwGJelRRoBQfIol0RtQXQA=; b=FGPmvmgvqwpEAC+e61OaGrvldi
+	2AmIvRV0nhrWNkRfFinROBqOvqg8nFJ4B+UzixAnV0EHz/nlajPleuFY39gBGfsZtIhP2SKXD3gyS
+	TyjqwjHAhuYLbA0DDPTKzuxvtZKTKL/nG3jk8V661+cVQNR/ALHK4YvNoL1X2Bs1oHWV6Oo1UVxQ3
+	tgYFx3Ld5cRLediv8kLyAR3eDHh7d9QVnOElPFqAh4GP/kq+jw7c2TOnr65gUIaxIEAb1LwNH2jqv
+	aTUn5z1U5xm3fo1jeaMnOpD1s8FCPl4AUzPDdxH/jBBolTVtpFoQM+c7925G0uKh4I77wsZpf1vXI
+	Z4uzbsww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrse3-0000000E0du-3slt;
-	Wed, 03 Apr 2024 04:54:43 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1rrt9Z-0000000E5Th-32ys;
+	Wed, 03 Apr 2024 05:27:17 +0000
+Received: from mgamail.intel.com ([192.198.163.8])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrse0-0000000E0b7-2li9
+	id 1rrt9X-0000000E5TD-2Ok8
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 04:54:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1712120080; x=1743656080;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=rye4vMZpIzJNEZdG6I/5z+kg05CXOjFpFEhrzS+Ou3k=;
-  b=ZDf8hvBDs+Y+WZyM9Rc5VJV4gIVRiNF4p0RvI6y+9yW236LPcw1107BV
-   aV2wUCJ0WlBUWvtPa2bdnidWkNmnCI7Py591OuFOOHOffrSRanJvDMhw6
-   0w8eYaXCTAqTwI0MOcFBhE+iRTQ+oyjWW/kq79T6MgaghvM6mZXajTHyh
-   IjJ8XjC39n2EA0qaSZ3FB9nUsgJbNNYnXj5+XSFz/bg3Jsh12EDnQ+nmd
-   OFBAQSysaR+bkVXsZZOly+eZxlQYERqm1vb/+4XwXkjbD++WcGAVPtAlV
-   DJJakGz6/939nMXL83SO7cJRDa0TYpxGux9pvzdXhvHn8nPukDAKt5X5J
-   Q==;
-X-CSE-ConnectionGUID: uLYFDtPgRWmnRazvdwJWjg==
-X-CSE-MsgGUID: JSgy+RwNT6qlhalFCArN4A==
-X-IronPort-AV: E=Sophos;i="6.07,176,1708358400"; 
-   d="scan'208";a="13108039"
-Received: from mail-dm6nam10lp2100.outbound.protection.outlook.com (HELO NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.100])
-  by ob1.hgst.iphmx.com with ESMTP; 03 Apr 2024 12:54:29 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d/f3elh1TpPawi9aj5mYTAP7zKaY5/1wKd1L2YGeyV6uX7TTtz27bwxs8PvONA/y52AyFFFFHuh2bajrE7N5LHuepIoAq2mfCBup29iqUrXTO0W89ru66xOTxayRrSUp5DPmbp/5UZZ/StPnIU6Nb7xVn63X/e1YQFjx7L1GKG7ep2qTZNq+vw2Uh17ehuBYq9aaDH+rzv21mpLbOHndF+FTNZDACJYOMrmKpqd2rL7oFPKMwNW02WmHsPuQmFRGapM1p4Yibb/U87HxHTx8OlPbIWTz9r6v3ZpwB9fgA+yFepqa4qZmugAiC7v5HGSY8UBUevEdv3yAWHRAT0ORtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bD/kdg8ljEoylmau/kd9qIsMdWMYjDdfp3qZNbFfBa8=;
- b=IDK+4vqpnaZsBCcY47WmuCdvEkR8oUfmyN1Lx55DmO/hzcP+ix8qy44a8a9VsmbWv4SsJ/DzsqSCZxdZOppniP2ZA+o057S7toJq5Sy+3/Jc1A2eRiAqUk3y5e4Yn21o697V1cQ148YZ6vU0SUfIca0vyr2qjNAD09k+TIA9ABio6NGvphPrsoSbFUGMg1fsie/hQYJyysckx0dE112BIJxk7OHO2CZzf5jj/vO3ujgtLJ9Cn/vToo9KZ1sPyULYliSvg8bkCPB13a6dfMsEBASRoo2uAdQpFfrzPCHx1CTjNWpDdhOC7r/VzmJS0rzb897tmCQzXzCFvx6ZCI3Q3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bD/kdg8ljEoylmau/kd9qIsMdWMYjDdfp3qZNbFfBa8=;
- b=V0uuFmQW5GaS6cm2BXmveeVPnWpXGOI3TpOGdXB2LePLburWElao7dGypUETxH2/4riMRmvMvDLbNitblIDZqxaiW2+ML8ilqfCVZYrAsOWzHvNkCr8h/9HWOZsiRdhKGMrzmQE3+hmu/gyo+A4ZiFC8s7r8HG9FjOGp1KhtKXE=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CYYPR04MB8880.namprd04.prod.outlook.com (2603:10b6:930:bd::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.46; Wed, 3 Apr 2024 04:54:28 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f%3]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
- 04:54:28 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v1 0/3] add blkdev type environment variable
-Thread-Topic: [PATCH blktests v1 0/3] add blkdev type environment variable
-Thread-Index: AQHahOUD7cM19WGut0Kq15XIUevcELFV/DcA
-Date: Wed, 3 Apr 2024 04:54:28 +0000
-Message-ID: <mqpuf2a7obybtw42ydte2wq7ktema5odvc3dqm32hknjmamgdb@rbo3i6lqqkld>
-References: <20240402100322.17673-1-dwagner@suse.de>
-In-Reply-To: <20240402100322.17673-1-dwagner@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CYYPR04MB8880:EE_
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Jv4qzQBBIhgsnOAPMDZROHHsWrVE071HeaQVJ0WXg2WEhE+NHukBL6h1y8iVPR/uM+bw6/EQForI/SNJCyDVrxT1pPPxmPx/DKL1PEa3PIhukZM7BuOQ60fb45CQntKZ0KYcA+bM0JeydG554NnqWf9aNkbsLIImbiil1Px1B0ff7plJL+Twrp8CJwngjyCySoJp375qWEqBY0y12uMWumnIj/OD9MIP7V7qgJzXHJTDxfj22IbEvxvTZEnttuIZvQJ7dU3k5gBR4bPlzAOK5yASjAzbpO+B+jXQlJ3fyiHHIOmBa72GrXTIrVYB1LD/O2hDc3idxzVXFsgCWjQdXjvlvvfa2KL1Gxuj5JahbzGH9myZbwxf+yccn7oTweAy34wyFGvFT8NZHlPtZy6B0ZWTxlP1nrJvufcBtP/wlFexH/+c1QhwjBF5f6KoEKZgldQeubkPbb3W7Pj/l1DStZcEOMJtHicedZkpr8TbQNeZisSzMPoQG0s1hnp5cchUOFSG/AjSR/FjlTb35it3KPkBLriEiKSNGpvDcG5rq0KNxfiJtd3NK88USD/pqlJ6YVuwrW5jq6xzmIj/gGm75u19HiefwYDB6n18QiZQ0rb7XDMTl6Gfk0TIFCLSkcZzQr1EZ359/JGfsGBYjjzVZc/KooaHHQwA1clCxipBRek=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?f1/TJxzJI7AYOtaMG7t8/WRWeksahk5Gnd8AVWItEisQps4fjM73RsShprf5?=
- =?us-ascii?Q?TiKT6FBPfdbW4snjzAjEKAiKj8BidCPifbknuOvuqZQqC4McjW3nj+Pa3JTP?=
- =?us-ascii?Q?PuVlVEgflaBFfk8Nntf1n6VvPPJ/ubvch4jxETTh26UHyq6uLPmCE3uQ766U?=
- =?us-ascii?Q?1y46RsDPGgpcXQ8RsrrDcjc0XY7nN/WwR7dB2ccBLczpTlrc1zXe2C7wMZja?=
- =?us-ascii?Q?nxprEkXGMrIWzuMDOW4IXpyr4J1DJqMwaM3M7/upQQLryLddUjC+iVuEpllP?=
- =?us-ascii?Q?td9vFgXdcir3nY+9mrWNOHS/IKkay3M5+donxGANLkpOBSbyY7mpIe8IStvb?=
- =?us-ascii?Q?xkmTzExzgVB4RLBWKbErZ6ZrGOAxpYfxfFJN2KSxO/tTcd2tMDjxf4Skcsz9?=
- =?us-ascii?Q?qQDMxZWPdtYtmOXjFl26LsIetEI8gBsHisVhoMDb8TjKAANvendes2SYsrKI?=
- =?us-ascii?Q?+bHVFh8RPzV1TF+bs/Zrje8LuGg08ce4MLSv/ExTtzZ3y9y0Gg7l+UYrCScC?=
- =?us-ascii?Q?K/4LH0NDl6d1PY3NMpSZHN21F/lQBLcNtMBkXIjrSjZVSqpirczxSx3vtHf0?=
- =?us-ascii?Q?qYXeqc9Jvkx8OvVLQfzzudXf10bBv8o3TAFjudKXpXUm+q6yvwgw7bwsx6//?=
- =?us-ascii?Q?lWfd2w5CtyP4rxlGrbwDNUXBIFYP96sjp7Due1XgPSIM5L8TWRDEDn0V7ZJ1?=
- =?us-ascii?Q?EpavhxxLHbSaCcl5NlWXIVFyB4uVNJ+vgUvcwG1/FfP43HH8KOffzfDP6NRz?=
- =?us-ascii?Q?jlnH+oMgdG/hwbDcXZ7hnfaQndRzw+LagfSx36UgBuMD/eABMdG4M2en9tMC?=
- =?us-ascii?Q?bxCoWudnPtC5eWI9no2aKn36s+aJ0CBAehCcjbTilWctM8k68mqeBau3dUjq?=
- =?us-ascii?Q?dwMMdOPUm7Lw5gh+nrEn9n3CADjKOKRO9x8KQSF/yeidMrsx1og+hnsOCwSD?=
- =?us-ascii?Q?8Us6vwebSCJbbwcL1FIm9NKd3+j92k+IkEIHvMZck0yHcRqqKvi1EevrXcYn?=
- =?us-ascii?Q?C7taIxCZOUj9rOy1pF94aX2NzSZCx8KbnYaW7EvMiynovBjSfVi/HLU0GjkK?=
- =?us-ascii?Q?9NOXsYGvsXzXCEepSj14cwn6u2Eu0TBKhbrx7wdb2fAIavI133cMUDB5yUWA?=
- =?us-ascii?Q?xtKkwdAWXYFDQHFo5BeWG+lVlkW0Rervu6+fuOI8cqKzVtEmjChXZ0JrZyrZ?=
- =?us-ascii?Q?9lkzh43fCoBnMN0eXqeEP+ObJhECqhGDx4pHHcCDiQfL0ye5mVsu++34ExHD?=
- =?us-ascii?Q?L4Kk/Dz2+ogg1I/zU0hwA68EyJCbjdiyal5VcyAZdR85+Edv2ZxXFJD7lzU2?=
- =?us-ascii?Q?TuyqQtLWRtvUvXYS2WBGY9ILKz/Ab7KLo99byD2yYh8eKXl9Ou5YJFY75a2F?=
- =?us-ascii?Q?Cm1IJBMfyA+185i4XIUZrMdhiqMoMQEjG/dnAFZNbI7c4qP0M+Z1e335pUKt?=
- =?us-ascii?Q?3+sHP9VM2E0GYyPOa2MO0JGgJxuh7nCot31+YS0zh4wVv3t/Ia8lDw/WYjUZ?=
- =?us-ascii?Q?ufYoZ1AoWJR3XGoJ9Nc7djzMa3r+UETzVyeSuVEX6QwMbi7O26apAaoMnXrM?=
- =?us-ascii?Q?LhhaZpDzVEhmf/PO++nH1fTuuyLMTZViNOwe6Nsi/DA8DNMg+o/LbiqIgJ/+?=
- =?us-ascii?Q?1wAkGp5H92DZLnqkqVW2SjA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7BDA6FB6E864EE489A7AAED2526DDE33@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: gIBDhhqjPFO9unrYo9gOZZ/f6T7gXBa/BG8knDdYeltQaTbDduitpBOwTCpoJU1csl2Q4dxNrB4FBSPJxTJcl1Yn/rwbZRxtel3g0F6q0LUEKJhuBwf8R3iivyjsRLmxRQasuDfdH9Bbq9sXWgh7pIZwVtyAB3jX0xLU5n9fJr2E7qR4KPV7sR1rjsLdOnFTVnbSnNYpvqQZ1230W5Vk+oVgTFMo+MTkrDC/V74MK7vDWUP8EfFMqu45RHXt2hjU+2WqBp6ZSEcxXniViKN6G7VKCKH+c8181Dw0bTxoWzWGw15JPOj6MLk2ySFxTP2Nl5KPkQnb2FfC6j5sN/WrgrwUN4C8a4dNHUbygXkS5guoKw/u5FTTdt1cs9tPvIVZRwNgZJIFqr/mjJZhKzmkZi2SZ6XUyMebrxcojFhfZ0eTAfAnUa7BExUpMGW1vUom0eCOSCtNZZpzTKGoDL+/pvk6151Yb1T8KAca2n5/ULQ/KtVT5WoNhDotp6Nrqf1/6dXCeXHR+ipMUA8gmLkvQvupE13utLdbp5Q4smlrH2mgpEZMW2vTBSOJs8BdmvA58p17uCDm5vsXsuDRywi8Hbu2a1UzxSZDjxQJiSt3F/NRCZf8M2G7qQw3QQ9Lh2KP
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f13ba526-5e36-4a65-e95f-08dc539a2489
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2024 04:54:28.1625
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PU0HqfFwhgCJ0JJthjWVWvE9tR37zyhUkuV/hi5ckFpT3SS14eSUEcB1Fp2pc4UnzbKAb7e8UV8SYt3UO15Adjh6jXwg6Nct1OyvXacQBzM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR04MB8880
+	Wed, 03 Apr 2024 05:27:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712122035; x=1743658035;
+  h=date:from:to:cc:subject:message-id;
+  bh=s4oI5FdU/nmIbOnN1hoc+If5q10/Av4Sq32jriaWjqE=;
+  b=DrUNpH3uScJnk374+u4G3hUCS7aDd7d6yNX5h8MTxdu/3K2Q3D3aBnHj
+   9lWUcxC9nB/lI1wwrk0V/xUTg9p1eZW79rQidSgZyp42+enhjHo98IypK
+   RIaSMz+85bTBh+O2H0QZf34kw/JsKMWJc7DghcYk0tjUutA3hB2Bh7SNN
+   an61VcuiYgknJNlk/URFLdigErr6JQFlL1t6dKFAS8ZrbpcyLWDy6vR2Y
+   +HY5mNIHkVDPZP4Qgbl+4+O03dIQFOmdynaJbP/FiL13hergf3ehnF4Uh
+   vKQ0IzziB3F7NkjjwG2OsbnJMGOBz3dIzebfN81lSTXsyU7s56ZbsRFfP
+   w==;
+X-CSE-ConnectionGUID: RxX7xSh7S/6mcgxWGCCUjg==
+X-CSE-MsgGUID: yEDFgq0/QWC0GJ4K7pQilw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="24828311"
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
+   d="scan'208";a="24828311"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 22:27:13 -0700
+X-CSE-ConnectionGUID: 2WKNseQnQUedqaA8Jw9EfQ==
+X-CSE-MsgGUID: ii5Z8xxCQaazd/yhj6f9tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
+   d="scan'208";a="18276223"
+Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 02 Apr 2024 22:27:12 -0700
+Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rrt9S-0001tR-0s;
+	Wed, 03 Apr 2024 05:27:10 +0000
+Date: Wed, 03 Apr 2024 13:26:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.9] BUILD SUCCESS
+ c85c9ab926a592e2f59f7d9a6ca7d6562843d8fa
+Message-ID: <202404031313.Sf0ESbeB-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_215440_814218_091FAD19 
-X-CRM114-Status: GOOD (  23.92  )
+X-CRM114-CacheID: sfid-20240402_222715_654757_1F249BCE 
+X-CRM114-Status: UNSURE (   4.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,109 +83,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 02, 2024 / 12:03, Daniel Wagner wrote:
-> During the last batch of refactoring I noticed that we could reduce the n=
-umber
-> of tests a bit. There are tests which are almost identically except how t=
-he
-> target is configured, file vs block device backend.
->=20
-> By introducing a configure knob, we can drop the duplicates and even make=
- some
-> of the tests a bit more versatile. Not all tests exists in file and block=
- device
-> backend version. Thus we increase the test coverage with this series. And=
- not
-> really surprising, there is a fallout. The nvme/028 test with file backen=
-d is
-> failing in my setup but I was not able to figure out where things go wron=
-g yet.
-> I'll provide some logs later.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.9
+branch HEAD: c85c9ab926a592e2f59f7d9a6ca7d6562843d8fa  nvme: split nvme_update_zone_info
 
-Hi Daniel, I find this series reduces code duplications further, and it exp=
-ands
-test coverage with small test script changes. Good.
+elapsed time: 772m
 
-On the other hand, I see that the series has a couple of drawbacks:
+configs tested: 84
+configs skipped: 4
 
-1) When blktests users run with the default knob only, the test coverage wi=
-ll be
-   smaller. To keep the current test coverage, the users need to run the ch=
-eck
-   script twice: nvmet_blkdev_type=3Dfile and nvmet_blkdev_type=3Ddevice. S=
-ome users
-   may not do it and lose the test coverage. And some users, e.g., CKI proj=
-ect,
-   need to adjust their script for this change.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-2) When the users run the check script twice to keep the test coverage, som=
-e
-   test cases are executed twice under the exact same test conditions. This
-   will waste some of the test run effort.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386                                defconfig   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
 
-To avoid the drawbacks, how about this?
-
-- Do not provide nvmet_blkdev_type as a knob for users. Keep it as just a g=
-lobal
-  variable in tests/nvme/rc. (It should be renamed to clarify that it is no=
-t for
-  users.)
-
-- Introduce a helper function to do the same test twice for nvmet_blkdev_ty=
-pe=3D
-  file and nvmet_blkdev_type=3Ddevice. Call this helper function from a sin=
-gle
-  test case to cover both the blkdev types.
-
-I attach a patch at the end of this email to show the ideas above. It appli=
-es
-the idea to nvme/006 as an example. What do you think?
-
-
-diff --git a/tests/nvme/006 b/tests/nvme/006
-index 65f2a0d..6241961 100755
---- a/tests/nvme/006
-+++ b/tests/nvme/006
-@@ -15,14 +15,18 @@ requires() {
- 	_require_nvme_trtype_is_fabrics
- }
-=20
--test() {
--	echo "Running ${TEST_NAME}"
--
-+do_test() {
- 	_setup_nvmet
-=20
- 	_nvmet_target_setup
-=20
- 	_nvmet_target_cleanup
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	_nvmet_run_for_each_blkdev_type do_test
-=20
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 5fa1871..4155411 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -996,6 +996,15 @@ _nvmet_passthru_target_cleanup() {
- 	_remove_nvmet_host "${def_hostnqn}"
- }
-=20
-+_nvmet_run_for_each_blkdev_type() {
-+	local blkdev_type
-+
-+	for blkdev_type in device file; do
-+		nvmet_blkdev_type=3D$blkdev_type
-+		eval "$1"
-+	done
-+}
-+
- _discovery_genctr() {
- 	_nvme_discover "${nvme_trtype}" |
- 		sed -n -e 's/^.*Generation counter \([0-9]\+\).*$/\1/p'
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
