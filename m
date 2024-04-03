@@ -4,63 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98B84CD128A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 15:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B18F4CD128A
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 15:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=I2k6H7z/Xe80tqKW6hOQYHc7mfp9tdOJcqZre/ZOmdo=; b=qHOKVFSMbu1HVwRKg4C/2tDxrI
-	Z1KmBjjDV0bBt2/c8xxlX9/lgdkKINRB+wzRw8Cnl6xmat7cOOvNnPb9EMu+097o/EApcskFquXTp
-	IAyquJPsxP7nWWX64TYmoYOdPIo8K8DdKbKuEDFtKZD190JmvxqocJCscb+GXOwnJdNRRlHePgtXn
-	oXEKtNuIZiAzlwIlB9dyIW+sFQuYNwtqtrGZd2VcbZgfHVKocceteJ4UKQUBDYi/rLV/CkVJpgaGG
-	tHQQWcEDdapqRx4dDENt+l2CpvPPcmWwk3FXfPX9HtyBuOuWaOEPpt2bFWl9MDXm6sr/kMYuXypXo
-	XA6TYm1g==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0irQ8tS4A/FZFoI6eW6Nr7AOJ80BlvhlW3CE1jxJ+pQ=; b=42Qfw7CcHvP7lelmB0vXLkPcfI
+	ZQ7oiI6aWlu7EtjL/lYpSMSuriPnzXIrNZ+mPCvqYeDlNT/IBERcg88hifI/Ud8Du0hki6t81F0g5
+	Wrve58JYlPiQ2aFdLI3MXdd0uEtLGEmY99U1b/I6zBzFWe1HpjMiKff63qxTFVvCcwIjrUb5u2jjj
+	W3nalyG6fqmusJx7ChbpjWcKC9+HgNnt1TPxOMmCL/8dgd2EWJ20jOZC0wYd5awj+p7aDSDKcd2JP
+	CIJS/XszcCHklGwOSkinKYyECDSXtOYKKECRnKV7baQzAt6wKH8rEc9g4AFilKCoYONk1Uf8lMfHN
+	4694wCbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rs2Oa-0000000GhUK-1y4n;
-	Wed, 03 Apr 2024 15:19:24 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rs2XB-0000000GjWm-38Em;
+	Wed, 03 Apr 2024 15:28:17 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rs1RO-0000000GQOe-0SZr
+	id 1rs2X6-0000000GjTu-0Hzf
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 14:18:23 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 75B0DCE2AF8;
-	Wed,  3 Apr 2024 14:18:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6572DC43390;
-	Wed,  3 Apr 2024 14:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712153889;
-	bh=TTqQe0kuEWpkaYADmuaSEDdndGlLgHXqdTPbu9AVxWg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m+0OOHRofVO1EB0zG8lnuHQJlVJWPlxBEXL69uk1LPR833PFiuPe1q+cSU5AAqcDH
-	 I0ZlBTdhwYdZUFFgbRkAxXNRlJHh9e2OTVt2HxN9QtkqiJatsJiS4UDb8HVoiYTK4g
-	 rb/ncoW+r+H0v/BVsEgrLl0M23w8edeEp/iTkYo6qKaSTFLO+4f+hh5IWOdAO6750R
-	 yEFTKk+dq9ufjdP+HV2nohnakArXlKtBGcXvv00S1h19zX0azfGJVt96arUQ2kIu1U
-	 S7axyzAJl6l4x/j5p9P8+soDZNsZ0YZpvCtON3UC0oo5H9iamOVppZYFf51PW37hot
-	 gdwOgThDbVzXA==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 1/2] block: track per-node I/O latency
-Date: Wed,  3 Apr 2024 16:17:55 +0200
-Message-Id: <20240403141756.88233-2-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240403141756.88233-1-hare@kernel.org>
-References: <20240403141756.88233-1-hare@kernel.org>
+	Wed, 03 Apr 2024 15:28:15 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CA5323720E;
+	Wed,  3 Apr 2024 15:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712158088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0irQ8tS4A/FZFoI6eW6Nr7AOJ80BlvhlW3CE1jxJ+pQ=;
+	b=QW07L4L2J+XUJvwomyATIPF48zQMieOFlTOFemqn26gZpRb3AhamG1NjrliPAvWRfipNpK
+	IJfJr055H+lLqwAk/cwS9SJkE2vyYFUlqBcgE/9QbuzT7g+HKciTFunWw7qr8nvXJ8BTRf
+	QCOOH5OYHkEEP7H9YJlMyulhPVcbF4Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712158088;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0irQ8tS4A/FZFoI6eW6Nr7AOJ80BlvhlW3CE1jxJ+pQ=;
+	b=PsClbm1grC4Xdca5ju5oNq0Y7NeyhUVhDz41AgYGVdYV23XFQ7F80qYrJY0SNAG5dGkUXK
+	l9rQCXyGP9CjqFBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=none
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 582CF13357;
+	Wed,  3 Apr 2024 15:28:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id fMdgEoh1DWaMdAAAn2gu4w
+	(envelope-from <hare@suse.de>); Wed, 03 Apr 2024 15:28:08 +0000
+Message-ID: <5c89baf3-68f1-4e91-8fa9-efa183297ca8@suse.de>
+Date: Wed, 3 Apr 2024 17:28:06 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 07/28] block: Introduce zone write plugging
+Content-Language: en-US
+To: Damien Le Moal <dlemoal@kernel.org>, linux-block@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
+ linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+References: <20240403084247.856481-1-dlemoal@kernel.org>
+ <20240403084247.856481-8-dlemoal@kernel.org>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240403084247.856481-8-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: CA5323720E
+X-Spamd-Result: default: False [-3.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_SHORT(-0.19)[-0.970];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	R_DKIM_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:98:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap2.dmz-prg2.suse.org:rdns,imap2.dmz-prg2.suse.org:helo]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_071815_197426_659DB403 
-X-CRM114-Status: GOOD (  26.50  )
+X-CRM114-CacheID: sfid-20240403_082812_662587_B5A255F5 
+X-CRM114-Status: GOOD (  49.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,502 +123,169 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a new option 'BLK_NODE_LATENCY' to track per-node I/O latency.
-This can be used by I/O schedulers to determine the 'best' queue
-to send I/O to.
+On 4/3/24 10:42, Damien Le Moal wrote:
+> Zone write plugging implements a per-zone "plug" for write operations
+> to control the submission and execution order of write operations to
+> sequential write required zones of a zoned block device. Per-zone
+> plugging guarantees that at any time there is at most only one write
+> request per zone being executed. This mechanism is intended to replace
+> zone write locking which implements a similar per-zone write throttling
+> at the scheduler level, but is implemented only by mq-deadline.
+> 
+> Unlike zone write locking which operates on requests, zone write
+> plugging operates on BIOs. A zone write plug is simply a BIO list that
+> is atomically manipulated using a spinlock and a kblockd submission
+> work. A write BIO to a zone is "plugged" to delay its execution if a
+> write BIO for the same zone was already issued, that is, if a write
+> request for the same zone is being executed. The next plugged BIO is
+> unplugged and issued once the write request completes.
+> 
+> This mechanism allows to:
+>   - Untangle zone write ordering from block IO schedulers. This allows
+>     removing the restriction on using mq-deadline for writing to zoned
+>     block devices. Any block IO scheduler, including "none" can be used.
+>   - Zone write plugging operates on BIOs instead of requests. Plugged
+>     BIOs waiting for execution thus do not hold scheduling tags and thus
+>     are not preventing other BIOs from executing (reads or writes to
+>     other zones). Depending on the workload, this can significantly
+>     improve the device use (higher queue depth operation) and
+>     performance.
+>   - Both blk-mq (request based) zoned devices and BIO-based zoned devices
+>     (e.g.  device mapper) can use zone write plugging. It is mandatory
+>     for the former but optional for the latter. BIO-based drivers can
+>     use zone write plugging to implement write ordering guarantees, or
+>     the drivers can implement their own if needed.
+>   - The code is less invasive in the block layer and is mostly limited to
+>     blk-zoned.c with some small changes in blk-mq.c, blk-merge.c and
+>     bio.c.
+> 
+> Zone write plugging is implemented using struct blk_zone_wplug. This
+> structure includes a spinlock, a BIO list and a work structure to
+> handle the submission of plugged BIOs. Zone write plugs structures are
+> managed using a per-disk hash table.
+> 
+> Plugging of zone write BIOs is done using the function
+> blk_zone_write_plug_bio() which returns false if a BIO execution does
+> not need to be delayed and true otherwise. This function is called
+> from blk_mq_submit_bio() after a BIO is split to avoid large BIOs
+> spanning multiple zones which would cause mishandling of zone write
+> plugs. This ichange enables by default zone write plugging for any mq
+> request-based block device. BIO-based device drivers can also use zone
+> write plugging by expliclty calling blk_zone_write_plug_bio() in their
+> ->submit_bio method. For such devices, the driver must ensure that a
+> BIO passed to blk_zone_write_plug_bio() is already split and not
+> straddling zone boundaries.
+> 
+> Only write and write zeroes BIOs are plugged. Zone write plugging does
+> not introduce any significant overhead for other operations. A BIO that
+> is being handled through zone write plugging is flagged using the new
+> BIO flag BIO_ZONE_WRITE_PLUGGING. A request handling a BIO flagged with
+> this new flag is flagged with the new RQF_ZONE_WRITE_PLUGGING flag.
+> The completion of BIOs and requests flagged trigger respectively calls
+> to the functions blk_zone_write_bio_endio() and
+> blk_zone_write_complete_request(). The latter function is used to
+> trigger submission of the next plugged BIO using the zone plug work.
+> blk_zone_write_bio_endio() does the same for BIO-based devices.
+> This ensures that at any time, at most one request (blk-mq devices) or
+> one BIO (BIO-based devices) is being executed for any zone. The
+> handling of zone write plugs using a per-zone plug spinlock maximizes
+> parallelism and device usage by allowing multiple zones to be writen
+> simultaneously without lock contention.
+> 
+> Zone write plugging ignores flush BIOs without data. Hovever, any flush
+> BIO that has data is always plugged so that the write part of the flush
+> sequence is serialized with other regular writes.
+> 
+> Given that any BIO handled through zone write plugging will be the only
+> BIO in flight for the target zone when it is executed, the unplugging
+> and submission of a BIO will have no chance of successfully merging with
+> plugged requests or requests in the scheduler. To overcome this
+> potential performance degradation, blk_mq_submit_bio() calls the
+> function blk_zone_write_plug_attempt_merge() to try to merge other
+> plugged BIOs with the one just unplugged and submitted. Successful
+> merging is signaled using blk_zone_write_plug_bio_merged(), called from
+> bio_attempt_back_merge(). Furthermore, to avoid recalculating the number
+> of segments of plugged BIOs to attempt merging, the number of segments
+> of a plugged BIO is saved using the new struct bio field
+> __bi_nr_segments. To avoid growing the size of struct bio, this field is
+> added as a union with the bio_cookie field. This is safe to do as
+> polling is always disabled for plugged BIOs.
+> 
+> When BIOs are plugged in a zone write plug, the device request queue
+> usage counter is always incremented. This reference is kept and reused
+> for blk-mq devices when the plugged BIO is unplugged and submitted
+> again using submit_bio_noacct_nocheck(). For this case, the unplugged
+> BIO is already flagged with BIO_ZONE_WRITE_PLUGGING and
+> blk_mq_submit_bio() proceeds directly to allocating a new request for
+> the BIO, re-using the usage reference count taken when the BIO was
+> plugged. This extra reference count is dropped in
+> blk_zone_write_plug_attempt_merge() for any plugged BIO that is
+> successfully merged. Given that BIO-based devices will not take this
+> path, the extra reference is dropped after a plugged BIO is unplugged
+> and submitted.
+> 
+> Zone write plugs are dynamically allocated and managed using a hash
+> table (an array of struct hlist_head) with RCU protection.
+> A zone write plug is allocated when a write BIO is received for the
+> zone and not freed until the zone is fully written, reset or finished.
+> To detect when a zone write plug can be freed, the write state of each
+> zone is tracked using a write pointer offset which corresponds to the
+> offset of a zone write pointer relative to the zone start. Write
+> operations always increment this write pointer offset. Zone reset
+> operations set it to 0 and zone finish operations set it to the zone
+> size.
+> 
+> If a write error happens, the wp_offset value of a zone write plug may
+> become incorrect and out of sync with the device managed write pointer.
+> This is handled using the zone write plug flag BLK_ZONE_WPLUG_ERROR.
+> The function blk_zone_wplug_handle_error() is called from the new disk
+> zone write plug work when this flag is set. This function executes a
+> report zone to update the zone write pointer offset to the current
+> value as indicated by the device. The disk zone write plug work is
+> scheduled whenever a BIO flagged with BIO_ZONE_WRITE_PLUGGING completes
+> with an error or when bio_zone_wplug_prepare_bio() detects an unaligned
+> write. Once scheduled, the disk zone write plugs work keeps running
+> until all zone errors are handled.
+> 
+> To match the new data structures used for zoned disks, the function
+> disk_free_zone_bitmaps() is renamed to the more generic
+> disk_free_zone_resources(). The function disk_init_zone_resources() is
+> also introduced to initialize zone write plugs resources when a gendisk
+> is allocated.
+> 
+> In order to guarantee that the user can simultaneously write up to a
+> number of zones equal to a device max active zone limit or max open zone
+> limit, zone write plugs are allocated using a mempool sized to the
+> maximum of these 2 device limits. For a device that does not have
+> active and open zone limits, 128 is used as the default mempool size.
+> 
+> If a change to the device active and open zone limits is detected, the
+> disk mempool is resized when blk_revalidate_disk_zones() is executed.
+> 
+> This commit contains contributions from Christoph Hellwig <hch@lst.de>.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> ---
+>   block/bio.c               |    6 +
+>   block/blk-merge.c         |   11 +
+>   block/blk-mq.c            |   32 +-
+>   block/blk-zoned.c         | 1090 ++++++++++++++++++++++++++++++++++++-
+>   block/blk.h               |   47 +-
+>   block/genhd.c             |    3 +-
+>   include/linux/blk-mq.h    |    2 +
+>   include/linux/blk_types.h |    8 +-
+>   include/linux/blkdev.h    |   12 +
+>   9 files changed, 1200 insertions(+), 11 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- block/Kconfig          |   6 +
- block/Makefile         |   1 +
- block/blk-mq-debugfs.c |   2 +
- block/blk-nlatency.c   | 388 +++++++++++++++++++++++++++++++++++++++++
- block/blk-rq-qos.h     |   6 +
- include/linux/blk-mq.h |  11 ++
- 6 files changed, 414 insertions(+)
- create mode 100644 block/blk-nlatency.c
+Cheers,
 
-diff --git a/block/Kconfig b/block/Kconfig
-index 1de4682d48cc..f8cef096a876 100644
---- a/block/Kconfig
-+++ b/block/Kconfig
-@@ -186,6 +186,12 @@ config BLK_CGROUP_IOPRIO
- 	scheduler and block devices process requests. Only some I/O schedulers
- 	and some block devices support I/O priorities.
- 
-+config BLK_NODE_LATENCY
-+       bool "Track per-node I/O latency"
-+       help
-+       Enable per-node I/O latency tracking. This can be used by I/O schedulers
-+       to determine the node with the least latency.
-+
- config BLK_DEBUG_FS
- 	bool "Block layer debugging information in debugfs"
- 	default y
-diff --git a/block/Makefile b/block/Makefile
-index 46ada9dc8bbf..9d2e71a3e36f 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -21,6 +21,7 @@ obj-$(CONFIG_BLK_DEV_THROTTLING)	+= blk-throttle.o
- obj-$(CONFIG_BLK_CGROUP_IOPRIO)	+= blk-ioprio.o
- obj-$(CONFIG_BLK_CGROUP_IOLATENCY)	+= blk-iolatency.o
- obj-$(CONFIG_BLK_CGROUP_IOCOST)	+= blk-iocost.o
-+obj-$(CONFIG_BLK_NODE_LATENCY) += blk-nlatency.o
- obj-$(CONFIG_MQ_IOSCHED_DEADLINE)	+= mq-deadline.o
- obj-$(CONFIG_MQ_IOSCHED_KYBER)	+= kyber-iosched.o
- bfq-y				:= bfq-iosched.o bfq-wf2q.o bfq-cgroup.o
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index 94668e72ab09..cb38228b95d8 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -762,6 +762,8 @@ static const char *rq_qos_id_to_name(enum rq_qos_id id)
- 		return "latency";
- 	case RQ_QOS_COST:
- 		return "cost";
-+	case RQ_QOS_NLAT:
-+		return "node-latency";
- 	}
- 	return "unknown";
- }
-diff --git a/block/blk-nlatency.c b/block/blk-nlatency.c
-new file mode 100644
-index 000000000000..037f5c64bbbf
---- /dev/null
-+++ b/block/blk-nlatency.c
-@@ -0,0 +1,388 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Per-node request latency tracking.
-+ *
-+ * Copyright (C) 2023 Hannes Reinecke
-+ *
-+ * A simple per-node latency tracker for use by I/O scheduler.
-+ * Latencies are measures over 'win_usec' microseconds and stored per node.
-+ * If the number of measurements falls below 'lowat' the measurement is
-+ * assumed to be unreliable and will become 'stale'.
-+ * These 'stale' latencies can be 'decayed', where during each measurement
-+ * interval the 'stale' latency value is decreased by 'decay' percent.
-+ * Once the 'stale' latency reaches zero it will be updated by the
-+ * measured latency.
-+ */
-+#include <linux/kernel.h>
-+#include <linux/blk_types.h>
-+#include <linux/slab.h>
-+
-+#include "blk-stat.h"
-+#include "blk-rq-qos.h"
-+#include "blk.h"
-+
-+#define NLAT_DEFAULT_LOWAT 2
-+#define NLAT_DEFAULT_DECAY 50
-+
-+struct rq_nlat {
-+	struct rq_qos rqos;
-+
-+	u64 win_usec;		/* latency measurement window in microseconds */
-+	unsigned int lowat;	/* Low Watermark below which latency measurement is deemed unreliable */
-+	unsigned int decay;	/* Percentage for 'decaying' latencies */
-+	bool enabled;
-+
-+	struct blk_stat_callback *cb;
-+
-+	unsigned int num;
-+	u64 *latency;
-+	unsigned int *samples;
-+};
-+
-+static inline struct rq_nlat *RQNLAT(struct rq_qos *rqos)
-+{
-+	return container_of(rqos, struct rq_nlat, rqos);
-+}
-+
-+static u64 nlat_default_latency_usec(struct request_queue *q)
-+{
-+	/*
-+	 * We default to 2msec for non-rotational storage, and 75msec
-+	 * for rotational storage.
-+	 */
-+	if (blk_queue_nonrot(q))
-+		return 2000ULL;
-+	else
-+		return 75000ULL;
-+}
-+
-+static void nlat_timer_fn(struct blk_stat_callback *cb)
-+{
-+	struct rq_nlat *nlat = cb->data;
-+	int n;
-+
-+	for (n = 0; n < cb->buckets; n++) {
-+		if (cb->stat[n].nr_samples < nlat->lowat) {
-+			/*
-+			 * 'decay' the latency by the specified
-+			 * percentage to ensure the queues are
-+			 * being tested to balance out temporary
-+			 * latency spikes.
-+			 */
-+			nlat->latency[n] =
-+				div64_u64(nlat->latency[n] * nlat->decay, 100);
-+		} else
-+			nlat->latency[n] = cb->stat[n].mean;
-+		nlat->samples[n] = cb->stat[n].nr_samples;
-+	}
-+	if (nlat->enabled)
-+		blk_stat_activate_nsecs(nlat->cb, nlat->win_usec * 1000);
-+}
-+
-+static int nlat_bucket_node(const struct request *rq)
-+{
-+	if (!rq->mq_ctx)
-+		return -1;
-+	return cpu_to_node(blk_mq_rq_cpu((struct request *)rq));
-+}
-+
-+static void nlat_exit(struct rq_qos *rqos)
-+{
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+
-+	blk_stat_remove_callback(nlat->rqos.disk->queue, nlat->cb);
-+	blk_stat_free_callback(nlat->cb);
-+	kfree(nlat->samples);
-+	kfree(nlat->latency);
-+	kfree(nlat);
-+}
-+
-+#ifdef CONFIG_BLK_DEBUG_FS
-+static int nlat_win_usec_show(void *data, struct seq_file *m)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+
-+	seq_printf(m, "%llu\n", nlat->win_usec);
-+	return 0;
-+}
-+
-+static ssize_t nlat_win_usec_write(void *data, const char __user *buf,
-+			size_t count, loff_t *ppos)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+	char val[16] = { };
-+	u64 usec;
-+	int err;
-+
-+	if (blk_queue_dying(nlat->rqos.disk->queue))
-+		return -ENOENT;
-+
-+	if (count >= sizeof(val))
-+		return -EINVAL;
-+
-+	if (copy_from_user(val, buf, count))
-+		return -EFAULT;
-+
-+	err = kstrtoull(val, 10, &usec);
-+	if (err)
-+		return err;
-+	blk_stat_deactivate(nlat->cb);
-+	nlat->win_usec = usec;
-+	blk_stat_activate_nsecs(nlat->cb, nlat->win_usec * 1000);
-+
-+	return count;
-+}
-+
-+static int nlat_lowat_show(void *data, struct seq_file *m)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+
-+	seq_printf(m, "%u\n", nlat->lowat);
-+	return 0;
-+}
-+
-+static ssize_t nlat_lowat_write(void *data, const char __user *buf,
-+			size_t count, loff_t *ppos)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+	char val[16] = { };
-+	unsigned int lowat;
-+	int err;
-+
-+	if (blk_queue_dying(nlat->rqos.disk->queue))
-+		return -ENOENT;
-+
-+	if (count >= sizeof(val))
-+		return -EINVAL;
-+
-+	if (copy_from_user(val, buf, count))
-+		return -EFAULT;
-+
-+	err = kstrtouint(val, 10, &lowat);
-+	if (err)
-+		return err;
-+	blk_stat_deactivate(nlat->cb);
-+	nlat->lowat = lowat;
-+	blk_stat_activate_nsecs(nlat->cb, nlat->win_usec * 1000);
-+
-+	return count;
-+}
-+
-+static int nlat_decay_show(void *data, struct seq_file *m)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+
-+	seq_printf(m, "%u\n", nlat->decay);
-+	return 0;
-+}
-+
-+static ssize_t nlat_decay_write(void *data, const char __user *buf,
-+			size_t count, loff_t *ppos)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+	char val[16] = { };
-+	unsigned int decay;
-+	int err;
-+
-+	if (blk_queue_dying(nlat->rqos.disk->queue))
-+		return -ENOENT;
-+
-+	if (count >= sizeof(val))
-+		return -EINVAL;
-+
-+	if (copy_from_user(val, buf, count))
-+		return -EFAULT;
-+
-+	err = kstrtouint(val, 10, &decay);
-+	if (err)
-+		return err;
-+	if (decay > 100)
-+		return -EINVAL;
-+	blk_stat_deactivate(nlat->cb);
-+	nlat->decay = decay;
-+	blk_stat_activate_nsecs(nlat->cb, nlat->win_usec * 1000);
-+
-+	return count;
-+}
-+
-+static int nlat_enabled_show(void *data, struct seq_file *m)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+
-+	seq_printf(m, "%d\n", nlat->enabled);
-+	return 0;
-+}
-+
-+static int nlat_id_show(void *data, struct seq_file *m)
-+{
-+	struct rq_qos *rqos = data;
-+
-+	seq_printf(m, "%u\n", rqos->id);
-+	return 0;
-+}
-+
-+static int nlat_latency_show(void *data, struct seq_file *m)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+	int n;
-+
-+	if (!nlat->enabled)
-+		return 0;
-+
-+	for (n = 0; n < nlat->num; n++) {
-+		if (n > 0)
-+			seq_puts(m, " ");
-+		seq_printf(m, "%llu", nlat->latency[n]);
-+	}
-+	seq_puts(m, "\n");
-+	return 0;
-+}
-+
-+static int nlat_samples_show(void *data, struct seq_file *m)
-+{
-+	struct rq_qos *rqos = data;
-+	struct rq_nlat *nlat = RQNLAT(rqos);
-+	int n;
-+
-+	if (!nlat->enabled)
-+		return 0;
-+
-+	for (n = 0; n < nlat->num; n++) {
-+		if (n > 0)
-+			seq_puts(m, " ");
-+		seq_printf(m, "%u", nlat->samples[n]);
-+	}
-+	seq_puts(m, "\n");
-+	return 0;
-+}
-+
-+static const struct blk_mq_debugfs_attr nlat_debugfs_attrs[] = {
-+	{"win_usec", 0600, nlat_win_usec_show, nlat_win_usec_write},
-+	{"lowat", 0600, nlat_lowat_show, nlat_lowat_write},
-+	{"decay", 0600, nlat_decay_show, nlat_decay_write},
-+	{"enabled", 0400, nlat_enabled_show},
-+	{"id", 0400, nlat_id_show},
-+	{"latency", 0400, nlat_latency_show},
-+	{"samples", 0400, nlat_samples_show},
-+	{},
-+};
-+#endif
-+
-+static const struct rq_qos_ops nlat_rqos_ops = {
-+	.exit = nlat_exit,
-+#ifdef CONFIG_BLK_DEBUG_FS
-+	.debugfs_attrs = nlat_debugfs_attrs,
-+#endif
-+};
-+
-+u64 blk_nlat_latency(struct gendisk *disk, int node)
-+{
-+	struct rq_qos *rqos;
-+	struct rq_nlat *nlat;
-+
-+	rqos = nlat_rq_qos(disk->queue);
-+	if (!rqos)
-+		return 0;
-+	nlat = RQNLAT(rqos);
-+	if (node > nlat->num)
-+		return 0;
-+
-+	return div64_u64(nlat->latency[node], 1000);
-+}
-+EXPORT_SYMBOL_GPL(blk_nlat_latency);
-+
-+int blk_nlat_enable(struct gendisk *disk)
-+{
-+	struct rq_qos *rqos;
-+	struct rq_nlat *nlat;
-+
-+	/* Latency tracking not enabled? */
-+	rqos = nlat_rq_qos(disk->queue);
-+	if (!rqos)
-+		return -EINVAL;
-+	nlat = RQNLAT(rqos);
-+	if (nlat->enabled)
-+		return 0;
-+
-+	/* Queue not registered? Maybe shutting down... */
-+	if (!blk_queue_registered(disk->queue))
-+		return -EAGAIN;
-+
-+	nlat->enabled = true;
-+	memset(nlat->latency, 0, sizeof(u64) * nlat->num);
-+	memset(nlat->samples, 0, sizeof(unsigned int) * nlat->num);
-+	blk_stat_activate_nsecs(nlat->cb, nlat->win_usec * 1000);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(blk_nlat_enable);
-+
-+void blk_nlat_disable(struct gendisk *disk)
-+{
-+	struct rq_qos *rqos = nlat_rq_qos(disk->queue);
-+	struct rq_nlat *nlat;
-+	if (!rqos)
-+		return;
-+	nlat = RQNLAT(rqos);
-+	if (nlat->enabled) {
-+		blk_stat_deactivate(nlat->cb);
-+		nlat->enabled = false;
-+	}
-+}
-+EXPORT_SYMBOL_GPL(blk_nlat_disable);
-+
-+int blk_nlat_init(struct gendisk *disk)
-+{
-+	struct rq_nlat *nlat;
-+	int ret = -ENOMEM;
-+
-+	nlat = kzalloc(sizeof(*nlat), GFP_KERNEL);
-+	if (!nlat)
-+		return -ENOMEM;
-+
-+	nlat->num = num_possible_nodes();
-+	nlat->lowat = NLAT_DEFAULT_LOWAT;
-+	nlat->decay = NLAT_DEFAULT_DECAY;
-+	nlat->win_usec = nlat_default_latency_usec(disk->queue);
-+
-+	nlat->latency = kzalloc(sizeof(u64) * nlat->num, GFP_KERNEL);
-+	if (!nlat->latency)
-+		goto err_free;
-+	nlat->samples = kzalloc(sizeof(unsigned int) * nlat->num, GFP_KERNEL);
-+	if (!nlat->samples)
-+		goto err_free;
-+	nlat->cb = blk_stat_alloc_callback(nlat_timer_fn, nlat_bucket_node,
-+					   nlat->num, nlat);
-+	if (!nlat->cb)
-+		goto err_free;
-+
-+	/*
-+	 * Assign rwb and add the stats callback.
-+	 */
-+	mutex_lock(&disk->queue->rq_qos_mutex);
-+	ret = rq_qos_add(&nlat->rqos, disk, RQ_QOS_NLAT, &nlat_rqos_ops);
-+	mutex_unlock(&disk->queue->rq_qos_mutex);
-+	if (ret)
-+		goto err_free_cb;
-+
-+	blk_stat_add_callback(disk->queue, nlat->cb);
-+
-+	return 0;
-+
-+err_free_cb:
-+	blk_stat_free_callback(nlat->cb);
-+err_free:
-+	kfree(nlat->samples);
-+	kfree(nlat->latency);
-+	kfree(nlat);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(blk_nlat_init);
-diff --git a/block/blk-rq-qos.h b/block/blk-rq-qos.h
-index 37245c97ee61..2fc11ced0c00 100644
---- a/block/blk-rq-qos.h
-+++ b/block/blk-rq-qos.h
-@@ -17,6 +17,7 @@ enum rq_qos_id {
- 	RQ_QOS_WBT,
- 	RQ_QOS_LATENCY,
- 	RQ_QOS_COST,
-+	RQ_QOS_NLAT,
- };
- 
- struct rq_wait {
-@@ -79,6 +80,11 @@ static inline struct rq_qos *iolat_rq_qos(struct request_queue *q)
- 	return rq_qos_id(q, RQ_QOS_LATENCY);
- }
- 
-+static inline struct rq_qos *nlat_rq_qos(struct request_queue *q)
-+{
-+	return rq_qos_id(q, RQ_QOS_NLAT);
-+}
-+
- static inline void rq_wait_init(struct rq_wait *rq_wait)
- {
- 	atomic_set(&rq_wait->inflight, 0);
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 390d35fa0032..4d88bec43316 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -1229,4 +1229,15 @@ static inline bool blk_req_can_dispatch_to_zone(struct request *rq)
- }
- #endif /* CONFIG_BLK_DEV_ZONED */
- 
-+#ifdef CONFIG_BLK_NODE_LATENCY
-+int blk_nlat_enable(struct gendisk *disk);
-+void blk_nlat_disable(struct gendisk *disk);
-+u64 blk_nlat_latency(struct gendisk *disk, int node);
-+int blk_nlat_init(struct gendisk *disk);
-+#else
-+static inline int blk_nlat_enable(struct gendisk *disk) { return 0; }
-+static inline void blk_nlat_disable(struct gendisk *disk) {}
-+u64 blk_nlat_latency(struct gendisk *disk, int node) { return 0; }
-+static inline in blk_nlat_init(struct gendisk *disk) { return -ENOTSUPP; }
-+#endif
- #endif /* BLK_MQ_H */
+Hannes
 -- 
-2.35.3
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
