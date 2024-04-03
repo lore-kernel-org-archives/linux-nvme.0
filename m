@@ -4,57 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9CC7CD128A
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 12:43:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27609CD128A
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 12:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OWfrzzyqj+1lKysFE1UJDX4WEwGmXDzkjY20Waip+k8=; b=IkU/y2n1XLGHyCtXkJOvamXnGa
-	UNhjtmg5eayUPGPJ30rH3dRGO8m691nRRFLvEcwCdqFNzXgNmgxWkA0Jl3+6cXFE/HPm7erJp3kp5
-	6NsgqSI03PRnjnB+NrnRKZ/zfhU+YYRLywi1uMC0qS0JJiqPZtfB3D4NQevGjORk+iPxGWAksPbiK
-	7U3kXhjBjy2VYV2KPrkyo/By35iB68HV8pPhMo02Ckwddez/d7lJcj4MNKsJDc+DBrKmysra9Qj/r
-	CDka6dpm+M24FhNZuXxcqVqq+OR+NOMIMS7zcI+1lkbVV7hKffIK4M2oH1KNAFBlGkMjscl/yGgwa
-	PRu6wgSQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ScYz9KkI/5PSnESo7ybEEMo4q5MzKk1Ie2pa5+YXf9w=; b=2NarysP1MJj3RnrEjXFDjePij8
+	w1BYoBHzYrw4DlJiSo8OornFtYV/DU89wJhDZjSfl2AUlsq+Shs5ZSKINbPmsgGLvXbytCE1BDlO8
+	Bl1LUXiIyHQ1y8jcx9L+UTaecGR4/wi3a+RiLZUGC/6wgsE8zHo3xIifAiZHMK1GXycKeEVh/GnJW
+	wiNSQuAjE9h1w6mKQmFSQBxh6OV4MGVcjgWUnAyWcZr/R9ikOxeHB6EAv9WKdOiBRIw62u+99fAzd
+	/qlq6p32b13iC1u1u8R3gsn0bOh2lAA+Ept3idbmxwERYgZWeh8ie9U9lhDaKo5Owo1nXcWhSeQDd
+	jOnLFz+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrzxP-0000000FzCl-18Z2;
-	Wed, 03 Apr 2024 12:43:15 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrzxC-0000000FzBU-0nTx
-	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 12:42:59 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8DB5D68BFE; Wed,  3 Apr 2024 14:42:55 +0200 (CEST)
-Date: Wed, 3 Apr 2024 14:42:55 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: Dongyang Li <dongyangli@ddn.com>
-Cc: "joshi.k@samsung.com" <joshi.k@samsung.com>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"hch@lst.de" <hch@lst.de>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"kbusch@kernel.org" <kbusch@kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-Subject: Re: [Lsf-pc] [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC]
- Meta/Integrity/PI improvements
-Message-ID: <20240403124255.GA19272@lst.de>
-References: <CGME20240222193304epcas5p318426c5267ee520e6b5710164c533b7d@epcas5p3.samsung.com> <aca1e970-9785-5ff4-807b-9f892af71741@samsung.com> <yq14jdu7t2u.fsf@ca-mkp.ca.oracle.com> <ab32d8be16bf9fd5862e50b9a01018aa634c946a.camel@ddn.com> <0c54aed5-c1f1-ef83-9da9-626fdf399731@samsung.com> <d442fe43e7b43d9e00c168f91dcfddd5a240b366.camel@ddn.com>
+	id 1rs01U-0000000FzsJ-1ZL1;
+	Wed, 03 Apr 2024 12:47:24 +0000
+Received: from [2001:4bb8:199:60a5:c70:4a89:bc61:2] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rs01R-0000000Fzra-3roI;
+	Wed, 03 Apr 2024 12:47:22 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: kbusch@kernel.org,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH] nvme: don't create a multipath node for zero capacity devices
+Date: Wed,  3 Apr 2024 14:47:17 +0200
+Message-Id: <20240403124717.931577-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d442fe43e7b43d9e00c168f91dcfddd5a240b366.camel@ddn.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_054258_501377_049EAE44 
-X-CRM114-Status: UNSURE (   6.74  )
-X-CRM114-Notice: Please train this message.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,7 +51,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In kernel use is easy, we can do that as soon as the first in-kernel
-user comes along.  Which one do you have in mind?
+Apparently there are nvme controllers around that report namespaces
+in the namespace list which have zero capacity.  Return -ENXIO instead
+of -ENODEV from nvme_update_ns_info_block so we don't create a hidden
+multipath node for these namespaces but entirely ignore them.
+
+Fixes: 46e7422cda84 ("nvme: move common logic into nvme_update_ns_info")
+Reported-by: Nilay Shroff <nilay@linux.ibm.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3b0498f320e6b9..ad60cf5581a419 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2089,7 +2089,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	if (id->ncap == 0) {
+ 		/* namespace not allocated or attached */
+ 		info->is_removed = true;
+-		ret = -ENODEV;
++		ret = -ENXIO;
+ 		goto out;
+ 	}
+ 	lbaf = nvme_lbaf_index(id->flbas);
+-- 
+2.39.2
 
 
