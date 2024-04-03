@@ -4,104 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 369ECCD1292
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 13:52:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99A8BCD128A
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 14:18:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6NgdroIgyj3bP4JS/E63CxE2JRcGGACl5aHMToE/OPI=; b=R1rXy/l/vX1Qz2Cegp5brIdwr6
-	h7Lh0S9xC2mVU/JbjgEC6gkKU5kspsVFc3ZhfMin1QC1RiG6CpxI5wjniWpnByYgv5OOxaAwXfml/
-	0tCj651266S/bgRUihSUKG1qxfpQFqE0C+UZ44Z89YZXwTejwaWHnWoDujMT3Z1JrbVgGUi0qtMVG
-	0Zth+3uHZNSC1NoUxxcLxLmUPwnzl38uql39eY7cZK0LJH3mVtSiBAKoKWNQtj+kFVgjoR7pIbXTz
-	TnmSxLjddnpzzKZxcnckzO32YDVU443UZygF48S1uBEdHtdl6c398h5ziEIca+WnAkdCPnGbW/HOr
-	Zd/nhf+g==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vJTsgSbL8VG7p/U9Cu8CkcGzJM3BnNaX4BMsrcA1Er8=; b=4b2dvl2EEKLqliJGTG1BruAcGy
+	nhFTfOspvYK4y0LCCWPJoTg7CY8WKZYaZ2eLivAx8sygLyRsiu6ISCmCTyXyxaOw9dQ5ppeNDLhzo
+	t39utxJusDl5nP9VQ//b5EqH2N7BYnM4RCytpPmnMy6Vjd7I0l9Wo8TaOWgI3jY740GQQ12jY9rkn
+	IVkWJN6zFyPvBGyk5cNwmvfBy62/voccX0L8dIR2v24wphufnbxZMK7B7brrtRshSfKVVHKTMzlgr
+	A8c5Cqkz8xNygKoL0Wj71PmnTGN5Z+378FZo6ODfF/QMKfU5w3u7ZR70E4AdxrY1RHfeMjzh5NARB
+	m0aanAaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rs11y-0000000GJIx-35Qa;
-	Wed, 03 Apr 2024 13:51:58 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rs1Rf-0000000GQdi-27wq;
+	Wed, 03 Apr 2024 14:18:31 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rs11t-0000000GJFE-0TKX
+	id 1rs1RL-0000000GQMH-30Gn
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 13:51:56 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3F3E05CD20;
-	Wed,  3 Apr 2024 13:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712152309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6NgdroIgyj3bP4JS/E63CxE2JRcGGACl5aHMToE/OPI=;
-	b=dlltcFsosc8+2m9/pMCu20eSQLrSOSzasGBr8lYvgAF3a+g1xLL4JD8Jdc/V6SaN4cbsr4
-	vhDkF2G2YT7ZBfISGgVO2BWc0+gwDnfap+aAMLh/NV/iaL4ed+YLy1sJA0YNgTCrhZGuel
-	9wrlQt+zsPYAWTNtPrfsC4qkiaZ9VMk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712152309;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6NgdroIgyj3bP4JS/E63CxE2JRcGGACl5aHMToE/OPI=;
-	b=gxypS6VO2ZQrC725Ai1VI8Ow7aLFTgHIWHw7/eqhxn2YfzTtlzBZm8q4uE8OAxIZX4NHOi
-	tO7revuew4e3OwAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 219D71331E;
-	Wed,  3 Apr 2024 13:51:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id fihfBvVeDWYvUwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Wed, 03 Apr 2024 13:51:49 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org,
-	Nilay Shroff <nilay@linux.ibm.com>
-Cc: Daniel Wagner <dwagner@suse.de>,
-	Amit.Engel@dell.com,
-	kbusch@kernel.org,
-	gjoyce@ibm.com,
-	Amit Engel <Amit.Engel@Dell.com>
-Subject: Re: [PATCH] fabrics : allow host to create duplicate connections to target
-Date: Wed,  3 Apr 2024 15:51:45 +0200
-Message-ID: <171215230057.21309.17076148857202676100.b4-ty@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240403133438.161916-1-nilay@linux.ibm.com>
-References: <20240403133438.161916-1-nilay@linux.ibm.com>
+	Wed, 03 Apr 2024 14:18:15 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id EF42DCE2AFD;
+	Wed,  3 Apr 2024 14:18:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 443F0C433C7;
+	Wed,  3 Apr 2024 14:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712153886;
+	bh=5WLxOnkBJjo+0/yjmhaPs0wdHBWPf/7+izSo8rpQdYc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NuWtTg5KxYV2VyFxLPwASt9nk5SyyAAczmPsX6EqVXaE+uy0yZTf+Qg14SSrtFhH/
+	 1d64qMKMjSK6F6ho+1suRE9a6BymHSKdGfGlPSwlfjp0aTEW1/9Bke0R3hT06E+ADy
+	 5RyCeU8DMjya/pZ1QOkZXgyZvUXLR6+29DC854Ek5hDLigHSKd3ulX5Z/Kccpip8Ey
+	 SU33r1KwSqFZB4lTwdPKTkF9+zBoq4t3wx4aNRC23KNx5W8ZbFyRnqT/wSdxAwi6qW
+	 re/WQP81gDnWrsC3vUSqpkH5bJL/wFzsiSAYf6TI5n1Abd9qN5qP4WOQA7QQBmiNis
+	 BfRRRHp4HlgMw==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCHv2 0/2] block,nvme: latency-based I/O scheduler
+Date: Wed,  3 Apr 2024 16:17:54 +0200
+Message-Id: <20240403141756.88233-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.38 / 50.00];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.08)[63.32%];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap2.dmz-prg2.suse.org:rdns,imap2.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240403_065153_426923_84EA5726 
-X-CRM114-Status: UNSURE (   8.10  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240403_071812_561714_03A0AD0D 
+X-CRM114-Status: GOOD (  11.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,21 +73,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi all,
 
-On Wed, 03 Apr 2024 19:04:16 +0530, Nilay Shroff wrote:
-> Apparently the nvmf connect code doesn't allow creating
-> duplicate connections from a host to the same target even
-> though user specifies option "--duplicate-connect" or "-D".
-> This patch help fix this issue.
-> 
-> 
+there had been several attempts to implement a latency-based I/O
+scheduler for native nvme multipath, all of which had its issues.
 
-Applied, thanks!
+So time to start afresh, this time using the QoS framework
+already present in the block layer.
+It consists of two parts:
+- a new 'blk-nlatency' QoS module, which is just a simple per-node
+  latency tracker
+- a 'latency' nvme I/O policy
 
-[1/1] fabrics : allow host to create duplicate connections to target
-      commit: fd8ecb054ce53acae504e54666bec6c9976a82dd
+Using the 'tiobench' fio script with 512 byte blocksize I'm getting
+the following latencies (in usecs) as a baseline:
+- seq write: avg 186 stddev 331
+- rand write: avg 4598 stddev 7903
+- seq read: avg 149 stddev 65
+- rand read: avg 150 stddev 68
 
-Best regards,
+Enabling the 'latency' iopolicy:
+- seq write: avg 178 stddev 113
+- rand write: avg 3427 stddev 6703
+- seq read: avg 140 stddev 59
+- rand read: avg 141 stddev 58
+
+Setting the 'decay' parameter to 10:
+- seq write: avg 182 stddev 65
+- rand write: avg 2619 stddev 5894
+- seq read: avg 142 stddev 57
+- rand read: avg 140 stddev 57  
+
+That's on a 32G FC testbed running against a brd target,
+fio running with 48 threads. So promises are met: latency
+goes down, and we're even able to control the standard
+deviation via the 'decay' parameter.
+
+As usual, comments and reviews are welcome.
+
+Changes to the original version:
+- split the rqos debugfs entries
+- Modify commit message to indicate latency
+- rename to blk-nlatency
+
+Hannes Reinecke (2):
+  block: track per-node I/O latency
+  nvme: add 'latency' iopolicy
+
+ block/Kconfig                 |   6 +
+ block/Makefile                |   1 +
+ block/blk-mq-debugfs.c        |   2 +
+ block/blk-nlatency.c          | 388 ++++++++++++++++++++++++++++++++++
+ block/blk-rq-qos.h            |   6 +
+ drivers/nvme/host/multipath.c |  57 ++++-
+ drivers/nvme/host/nvme.h      |   1 +
+ include/linux/blk-mq.h        |  11 +
+ 8 files changed, 465 insertions(+), 7 deletions(-)
+ create mode 100644 block/blk-nlatency.c
+
 -- 
-Daniel Wagner <dwagner@suse.de>
+2.35.3
+
 
