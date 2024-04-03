@@ -4,106 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BEC7C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 06:44:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AD56C6FD1F
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Apr 2024 07:03:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=izq0l1gzPKeK2FgY7V9j6yta5A0KmRZtEWYVCHCjvGY=; b=puvqAY/63V7XXdbBs2bM6IHeyY
-	4yhNP0N8/+iOnQkQn+fAby9pgSI+Ces3eVDNbIF5Af/AE1GGdJVRtlKGvwWM9cYDtj4YRGHiQeD/h
-	pf3yRb8vT4tMEt1hp7tonTVfhEzssBVTa6HGk/U2Su9xbmJ6au7Ch9vEajXz0Mjlyf61jUyiWq74+
-	X+lHu2akgMEFbkxtnIC+d8zZekH6TCbf+1dM4ctBr66XdgEf8HA9n9NH7zKfpnA875fkgv4jdzOPB
-	ixOOhsJUtN9YXKlU7R5UDnzeNAi6FhPZUipPzsANMalAwXRs9CNFGVbobFFvNOirH8scSJ/Qya1qP
-	Bzv+mWxw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hQZxVUExsv+856nPD5Ou3ZQ1TBRAOMCLVmmsu+x3CWY=; b=q/Do8L4uMdP7I3+fgWEgx50f+x
+	9j9oLMewBfqmL7eLSyQ2uHkUW7wyP9yIYx6ojGFy549Blpl/ldZrkl4wT97vbVQBlYprKHLC0I1qs
+	DRmU6SDF4gFu0VA5ncV0X3wwHyvp+uBw5wwl3YI+n5x/PW+mPzRP9geKf3r3a2sLhlQER7vAPsVg7
+	wJMnKLmX7mCyaRDJsm/ZIcKGXCRk/h/Qp5nIFsCUe8iCM91ytdUEfiu5q8HMRXhpKIHXFqwtMM1/A
+	+r8wHeJBNJbAETl59X7xp5GVPEDjJ8rscaI/4lnyvsoRL41U2FHAquXrPRUkr5YoUo7JG0DIe4K94
+	4raRDtxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rruLq-0000000EIZa-3PlT;
-	Wed, 03 Apr 2024 06:44:02 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rrueW-0000000ENNn-1CO0;
+	Wed, 03 Apr 2024 07:03:20 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rruLj-0000000EIXR-413k
+	id 1rrueS-0000000ENNO-3xmt
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Apr 2024 06:44:00 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CA9134A5D;
-	Wed,  3 Apr 2024 06:43:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712126634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=izq0l1gzPKeK2FgY7V9j6yta5A0KmRZtEWYVCHCjvGY=;
-	b=LzAyYI5WmNtWxNUULmQUslBaFeoCyvSc+LXpgmnpahQXK9m9r0bLVRECZYzl84LXy/xN/1
-	Js8YZRoqbbhVfOb+GQqilhBsF9oCtUdo2Qmyf9bpz9WWFz/uDjcE5/Ku2DuL3+s4Z2g24H
-	3FSIaS8Hcxg3tcl5iFEwAG0ME7j8NTE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712126634;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=izq0l1gzPKeK2FgY7V9j6yta5A0KmRZtEWYVCHCjvGY=;
-	b=Kw+IIckAfYT4bdCFq/KFfyWtznQcyy7Jeu08iBuV6Ls4+6+8r38UmDYwbnzIPzqYxELMoq
-	3use7UzIv+Pj6tAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id E164713357;
-	Wed,  3 Apr 2024 06:43:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id WF+NM6n6DGb8CAAAn2gu4w
-	(envelope-from <hare@suse.de>); Wed, 03 Apr 2024 06:43:53 +0000
-Message-ID: <d70a3815-6d78-4761-a4df-a11a4d0034e3@suse.de>
-Date: Wed, 3 Apr 2024 08:43:53 +0200
+	Wed, 03 Apr 2024 07:03:18 +0000
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43370Rvp016397;
+	Wed, 3 Apr 2024 07:03:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=hQZxVUExsv+856nPD5Ou3ZQ1TBRAOMCLVmmsu+x3CWY=;
+ b=ZZqenvK2ICo/6xRVSFpfnIZzte/h2duLCl+bBu7FFWBHquP/YRB1zOB0qxSto2K3o+YU
+ Fvczg/bMcskjjC3UH1rzqfdkKyCRwo010xkLE4WBfOGti+Ooltuiosq/70xcBQ65MSdC
+ soTJkNqihs/J8F6436w8eycCuvLc9z2H7J//gQudHxcjEN/8akTGx/7hRCEGhzVHSNwG
+ UC1pklXxOA7g4wI7KdfqgXHVmgkA99U0hhojHJ73mBt4NqYQFbvC+h1Ge3DL7jkgUGD+
+ 2V9FizGO+PgHFvF0Fl9qulHcjXoq2C17lUpjkBSkLe8X7Aw7dhN/oM4Q2PvKMwFLBWSD mQ== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x927m00nf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Apr 2024 07:03:12 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4334YXOO027151;
+	Wed, 3 Apr 2024 07:03:11 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3x6wf0bxb8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Apr 2024 07:03:11 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4337389C16122524
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 3 Apr 2024 07:03:10 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 85B1558078;
+	Wed,  3 Apr 2024 07:03:08 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 783C95807A;
+	Wed,  3 Apr 2024 07:03:06 +0000 (GMT)
+Received: from [9.109.198.231] (unknown [9.109.198.231])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  3 Apr 2024 07:03:06 +0000 (GMT)
+Message-ID: <ff149ec9-9664-4d72-bbe5-1db2520df33b@linux.ibm.com>
+Date: Wed, 3 Apr 2024 12:33:05 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 26/28] block: Remove zone write locking
+Subject: Re: [Bug Report] nvme-cli commands fails to open head disk node and
+ print error
 Content-Language: en-US
-To: Damien Le Moal <dlemoal@kernel.org>, linux-block@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- dm-devel@lists.linux.dev, Mike Snitzer <snitzer@redhat.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-References: <20240402123907.512027-1-dlemoal@kernel.org>
- <20240402123907.512027-27-dlemoal@kernel.org>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240402123907.512027-27-dlemoal@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org, axboe@fb.com,
+        Gregory Joyce <gjoyce@ibm.com>
+References: <c0750d96-6bae-46b5-a1cc-2ff9d36eccb3@linux.ibm.com>
+ <20240402150446.GB1916@lst.de>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240402150446.GB1916@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: scVKc_ct3q5yfhkq6_EyU8j4pav3UnDH
+X-Proofpoint-ORIG-GUID: scVKc_ct3q5yfhkq6_EyU8j4pav3UnDH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-03_06,2024-04-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 impostorscore=0
+ spamscore=0 clxscore=1011 mlxlogscore=999 suspectscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2403210000 definitions=main-2404030047
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240402_234356_287534_74458F4F 
-X-CRM114-Status: GOOD (  10.22  )
+X-CRM114-CacheID: sfid-20240403_000317_355509_F1405618 
+X-CRM114-Status: GOOD (  22.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,31 +108,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/2/24 14:39, Damien Le Moal wrote:
-> Zone write locking is now unused and replaced with zone write plugging.
-> Remove all code that was implementing zone write locking, that is, the
-> various helper functions controlling request zone write locking and
-> the gendisk attached zone bitmaps.
+
+Hi Christoph,
+
+On 4/2/24 20:34, Christoph Hellwig wrote:
+> Hi Nilay,
 > 
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-> ---
->   block/blk-mq-debugfs.c    |  1 -
->   block/blk-zoned.c         | 66 ++-----------------------------
->   include/linux/blk-mq.h    | 83 ---------------------------------------
->   include/linux/blk_types.h |  1 -
->   include/linux/blkdev.h    | 35 ++---------------
->   5 files changed, 7 insertions(+), 179 deletions(-)
+> can you see if this patch makes a different for your weird controller
+> with the listed but zero capacity namespaces?
 > 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 3b0498f320e6b9..ad60cf5581a419 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2089,7 +2089,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+>  	if (id->ncap == 0) {
+>  		/* namespace not allocated or attached */
+>  		info->is_removed = true;
+> -		ret = -ENODEV;
+> +		ret = -ENXIO;
+>  		goto out;
+>  	}
+>  	lbaf = nvme_lbaf_index(id->flbas);
+> 
+I have just tested the above patch on my controller which has zero 
+capacity namespaces. The patch works as expected and I don't encounter
+any errors while using nvme-cli commands. Please note that I am using 
+here the old version of nvme-cli (nvme version 2.6 / libnvme version 1.6).
 
-Cheers,
+Furthermore, with this patch, I no longer find any hidden disk nodes 
+(i.e. nvmeXcYnZ or nvmeXnY) created for namespaces with zero capacity 
+under /sys/block. So the behavior is similar to that of kernel v6.8.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+IMO, we should upstream this patch.
 
+Thanks,
+--Nilay
+
+
+ 
 
