@@ -4,101 +4,161 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CA25CD1284
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Apr 2024 08:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E71A9CD1292
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Apr 2024 09:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aOCHfZV2to3mP9ulNHVH8wnZcCwje64b6rHU6KARrEU=; b=F0waUQpZ3W12798t0yoqobW/GP
-	aEmDcom5IBiTqbg5K1ySjSnQtWiydPrDc8x0Z8NO71EOG814U1b/v+w8KVilW8kJ2F+2K4inyJoTy
-	HLHlToIGSWVs/1DHrc8c+wHTeaLbFnvSXE2gu4rmtBbtek0ApKj0yifdBwBDD2E2dcPEAglkFuDUg
-	PAJtZU62RH1fmShG8oAVWTG5LN9uqIzTdXFs0WcJfm+sTQhcATOudPm0K7dWW07LHpl7IU2am+55q
-	nV8WEh3ROd7rLg/0f44bzKIJ/ryPC4NDq6xOo0Es2+cSOHrHXbKG+G/75gl5iIHS47Tu2uvGmngrx
-	TSJaM84A==;
+	bh=rGYxBi98yFVVoG9PTZb8NB5eFIi10bn5jN+p2XaWZPc=; b=APKj4YJEqCPdhWnuBrSavKdeCt
+	Y8Sw2VQa72CI6ELkzcYWJ5DNBxplPUj/sijwHr446qGalf4XDY131bTBJlJlzQZSdQOWqut3qmB6r
+	Smp5dqwNecvap34DvHGb4qmBL2g55yheIOi1SvyN18CL5FV71pzOzdfGlG5Jv0KuPTnoeWNX6UFYH
+	2euKfMsACH7qGAfUY6+fSiYA/+eNk6C/v7qMwpupO35nuY5H8tXV/CrHSVtFPypBCz1ufegwMtrlC
+	erSY46UPw50Or+UeTqVmOsx7Nr8Hi5jGpUdHD4c3Z2acWG0fC6KxdbOonvFJhrSyveAnXm2iDtCsC
+	YhI62ryw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsITE-00000001qYP-2p60;
-	Thu, 04 Apr 2024 08:29:16 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rsJn3-000000025UN-0lQt;
+	Thu, 04 Apr 2024 09:53:49 +0000
+Received: from outbound-ip168a.ess.barracuda.com ([209.222.82.36])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsIT8-00000001qXU-3y1r
+	id 1rsJn0-000000025TD-08XN
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Apr 2024 08:29:14 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D8B8B37712;
-	Thu,  4 Apr 2024 08:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712219348; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aOCHfZV2to3mP9ulNHVH8wnZcCwje64b6rHU6KARrEU=;
-	b=uidFzKy6N75OzaBZMpY/shM1UkBze+Ow1P07dBbgPdMN+Elvcii0FzCPbKVfd+E8K8gEZ3
-	XaFbq1qR0BJTyqpllvW44b3IMyiN8BzBOhnux7F+5O04nWKm5rxpOyyricIy9HemgD45fu
-	5KMHAXEIMnThLMdAPCfhluCLFYfWv8A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712219348;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aOCHfZV2to3mP9ulNHVH8wnZcCwje64b6rHU6KARrEU=;
-	b=91gAsNjjmgvrTqfsJjCpkTX2w9dnMBSUNMW2b/Q4nnK8cblm/E0GvN5gynshjiE58fK9e6
-	9JDM9rpv5/rwCiAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C686A13298;
-	Thu,  4 Apr 2024 08:29:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id PekAL9RkDmbyDwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Thu, 04 Apr 2024 08:29:08 +0000
-Date: Thu, 4 Apr 2024 10:29:08 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v1 0/3] add blkdev type environment variable
-Message-ID: <j47jtsnraylush4xlxu6sng5frrawim5j2vjwt7zgei7jwi7ke@7ga6dd5sssur>
-References: <20240402100322.17673-1-dwagner@suse.de>
- <mqpuf2a7obybtw42ydte2wq7ktema5odvc3dqm32hknjmamgdb@rbo3i6lqqkld>
- <j6awxljufwg6r5rs5kojwsnatfb4aj3vnqsq43hkuuhgvcflvh@u6l5cf2ponaw>
- <w2eaegjopbah5qbjsvpnrwln2t5dr7mv3v4n2e63m5tjqiochm@uonrjm2i2g72>
+	Thu, 04 Apr 2024 09:53:47 +0000
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2041.outbound.protection.outlook.com [104.47.56.41]) by mx-outbound45-126.us-east-2c.ess.aws.cudaops.com (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 04 Apr 2024 09:53:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XzKCJXXmfY6xeMGlHu2vf4c+5snyECLLHADkT8dH5zSWFuUNyauK0HE44yt8pCWWCUO/FkVdArYcWGZ1ODxcKY0URaLiVvoXTP5ufviXraUDv6zJ/M0iYg3+NBUOl/Awwlg2z9Bqe7NxLnYrfnJfAUZM4/WzyHoQuWbq35XrGK5K/QkAbSajUKsXgJT4ajy+A++Boh92M/cobD2AqsUV076VzzrGlz/SWDS81Nzvow0yWLCfJ/xGOqe+GBlvIfb3kFyFl4fqVg9HjX89QOx2mk24ELoW8sbPVPwo+pnRI0oq+6jNDZUR6EXmMERmHtOvLZcO1YWT0mMFAWk0RbMkXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rGYxBi98yFVVoG9PTZb8NB5eFIi10bn5jN+p2XaWZPc=;
+ b=eycfn7PgvRY5NXBvPL52wNNlkYoqEZzc5JXyWwFSMnfGrLU3+ONZpi6nY0Pfk1E4MPdn/Yac7O3rgsHvYQZ4e8IpaQ0iUkiJzEiwDo/BMrPr6xDGYbH8AQS9h6y5jv3e5nKDEeZ1PjauczdcBrU9tEzUozvOBG+UZFFY5Apo2mqwNQERoiK2dnqQRnsbSW8HoN2aJNiqGFLs2Ugo5yK9Vqf1gvH+KyreXuzBXqYnx5LFOJAArowHegV+QC0ecBQYJLJgTteisMsqGfCBqKoU4puJt6M5shWtFvk+GNbqMDegMiA8fTGMEo2EZP48vMqgn8sLadWHqOEXPQGor2GQJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ddn.com; dmarc=pass action=none header.from=ddn.com; dkim=pass
+ header.d=ddn.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ddn.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rGYxBi98yFVVoG9PTZb8NB5eFIi10bn5jN+p2XaWZPc=;
+ b=TO/6z69nGkLrMzTaFWkdfZTU4ZiIfwJYrUW98e5xORJy46xxf0q5fugxM2Zbac4enNonzmOy0N/x3gt2BKVqcgoCKhq2cyK4ePMU5O1Tdb3VhXGonaEBTGnMTLe5HN+buQmiF0nSvNXp/vLx6BB9syt8D6TtypVmWxRCoeGC97U=
+Received: from DS7PR19MB5711.namprd19.prod.outlook.com (2603:10b6:8:72::19) by
+ CY8PR19MB7618.namprd19.prod.outlook.com (2603:10b6:930:70::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.46; Thu, 4 Apr 2024 09:53:11 +0000
+Received: from DS7PR19MB5711.namprd19.prod.outlook.com
+ ([fe80::8a58:247b:a09d:ede2]) by DS7PR19MB5711.namprd19.prod.outlook.com
+ ([fe80::8a58:247b:a09d:ede2%6]) with mapi id 15.20.7409.042; Thu, 4 Apr 2024
+ 09:53:11 +0000
+From: Dongyang Li <dongyangli@ddn.com>
+To: "hch@lst.de" <hch@lst.de>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>, "josef@toxicpanda.com"
+	<josef@toxicpanda.com>, "lsf-pc@lists.linux-foundation.org"
+	<lsf-pc@lists.linux-foundation.org>, "joshi.k@samsung.com"
+	<joshi.k@samsung.com>, "martin.petersen@oracle.com"
+	<martin.petersen@oracle.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+Subject: Re: [Lsf-pc] [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] Meta/Integrity/PI
+ improvements
+Thread-Topic: [Lsf-pc] [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] Meta/Integrity/PI
+ improvements
+Thread-Index: AQHaaQmqs4xTfFwV8Umi6fEJWz7IwbFVA82AgABmiwCAAUuvgIAAAMuAgAFi5QA=
+Date: Thu, 4 Apr 2024 09:53:10 +0000
+Message-ID: <960abc87208c55c74ba18c1ff0ae63921beb8624.camel@ddn.com>
+References: <CGME20240222193304epcas5p318426c5267ee520e6b5710164c533b7d@epcas5p3.samsung.com>
+	 <aca1e970-9785-5ff4-807b-9f892af71741@samsung.com>
+	 <yq14jdu7t2u.fsf@ca-mkp.ca.oracle.com>
+	 <ab32d8be16bf9fd5862e50b9a01018aa634c946a.camel@ddn.com>
+	 <0c54aed5-c1f1-ef83-9da9-626fdf399731@samsung.com>
+	 <d442fe43e7b43d9e00c168f91dcfddd5a240b366.camel@ddn.com>
+	 <20240403124255.GA19272@lst.de>
+In-Reply-To: <20240403124255.GA19272@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.3 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS7PR19MB5711:EE_|CY8PR19MB7618:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /CgSx7Dp2mVVg95LdZDTa95ZqCWK/wyACNM+S50Cr0NPWFDPL5/1ZW4a4TBQnCn/n6jpCO5s6UfHRjLdTwgmCWkd5iI4gdZNDd4Rc46r2XHslba8ShmOd4B3vZsE6sG56rPUj2b5gw0ikRewpEecgTJ5tQ2Ar5GtaBJo47NGpXvBcBeJ3YHg6KXNUW53CRew/9q0BakAEhnpNozka+NMGufXE0zydqnJr8JwgU79ZgN7Ey73Ak18TN23PuA3LeRBaVMyaHwyuyUj3k1zFRpUFxOdNzL+UnuQdlQ/uQHdavVq2qxkCeyJ+tflZWmTyPXGaOObfytV+VsnBB+aoK47IQ+db2X3Qra23uZaMk/lLVJqi44zkdA/aRF5Q0kzdW2nRKyPccMBRaSyBW9SoHsUko8d1fnxDRLaoHR4x7m1WWcvjD/V3HcA6jvMtNNUIpf+7ERRRSbpxSBfjKVrmvX+qoWeMPzMBUZh63+fbyLYLvxAzHF9pvOS9dZlq0kXMHcmAwgCtnXat1pgqMDEwwutoBWNrLwBBIC4gg9nu8v17eQ3Uy/cfTF2T8iOPLi821ToclX8kaX41iwBJY159ir2qSoamQuZP6YfiJXOkzUeneRJU+4pWtjmuflcJRSV7x83cHkOjH4KiXxbqt6/5E93FUHlWYyiGPAeL3WL2kJlJLM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR19MB5711.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U0RvRFc2Z0lNSDNRUi82eGVaY2JjYklVei9EdXVaNHhONzBXQXpqMks5aVNX?=
+ =?utf-8?B?NmkvOWJvTFhXWEJ0MHBhKytIeHo4c0t1WkZKUUpvcUxsWjdNUzdxVmQ5OEcy?=
+ =?utf-8?B?bVgxQStJL1lxbFFKREgwRXZXeHVHcE5SWGRUOVhMc3J2Q2FPa0doc0dVM2M4?=
+ =?utf-8?B?ZEttbUVFb1o2TVdmQVFLM3BabWROR2NvOFczYVJ4ckxWaFA1VFpSTmZwdWwx?=
+ =?utf-8?B?Yk51VjVjaGF0dEdSbDV5cmpZWERxUFB5MWRmWXQ4ZGpTWmNLaWp1WjNjUEdX?=
+ =?utf-8?B?bllXMXpxQitIMFJ6eDd2T2hBSHpCbUt1QWx1Z1ZDcVd0OGsxZzNPclpIbm8r?=
+ =?utf-8?B?cmVrejlqY2t3bzJRaXdLZzVmeXR2U1o3TWo2eWtpa05rWEd1TGgzaVdGMTR4?=
+ =?utf-8?B?cTNQTEp6dkxGNlNnOTBEcS81MnF0QzZueDVaOGthRFhFK3diUm10T0ZuUFZ1?=
+ =?utf-8?B?R3JZcm9oaVVYTDBJSzhPekpod0pNQ2NKbmd5NzltSUc1YXFEMGVKL1g0bVh1?=
+ =?utf-8?B?WkNkdkJBQ1JZMktPSG91d2lZN1JUOThFWHZENXpvanlkdXp3TDNtRk9iL3d2?=
+ =?utf-8?B?RHVvb1VQQTlhWEFpU2w5QWw0RGhWUnIzOG1nVDBYeVJFakszaU9rUGJzcit5?=
+ =?utf-8?B?UGJVdXN0d2NWZUIrMnFyWThNTXBTVVhZK2ExWUVKMDhHNDducTlLRTZlU3NG?=
+ =?utf-8?B?a2ZEQWFCeGhPejBDZmVxNi9DM3hZQnI2WkxCT0RqYXdjRnVRMG9iZFBXcG5u?=
+ =?utf-8?B?dWVBaEIvWkoxMjZic0Y0Y0JqZDVjV3I4VnZQWFgySlZaOVBrNmFubXdCY0tI?=
+ =?utf-8?B?WExKclZMWk5TdjdYenp3MkFDdldvV25RU2FLS003MmJIMnFGN2VrZmdFU0ox?=
+ =?utf-8?B?N1pxanNXNnNNZUZjeE9BdUZ0ZTlHTUVYVEkzUTlQcDNsZVB3NWZmWE5yaWdE?=
+ =?utf-8?B?RTV5bjdhdWtrY2FlTnRNSzVNdndTMXU2SWZVRUgzZyt1Vlp1QXJWSFF0RVlS?=
+ =?utf-8?B?d1VENDlCZEZIL3hZYTFFREhPSmFQTkRTT1Z3aHJ6N09uV2hxMFNrekppSUtq?=
+ =?utf-8?B?cjFKRndPK29Mb2ErdlV0R1lWQW1ucDlPSklqczhJR3hZVlU3bmhQOGVVeXRD?=
+ =?utf-8?B?dTllYlBNUzN6U0RpQjAxR2tyL3VyVk5PNzE0U3I3VGMwNjQ3cjN3cDYzK1Ji?=
+ =?utf-8?B?eDl5WFZJOVhPcnBadTJQMHV4WjIrbEIwWWNvTVVob0t0VkM1RFVUTlpSZXgy?=
+ =?utf-8?B?L05penV0TEt6bU5CeXJtMUVqTzRtN25zdDNYNHV1b3FSa1VKcjRMcnZxeUY5?=
+ =?utf-8?B?b00zZ3RGYUNxWGpTa2hVdlp6elp6c3Q3TUlianR5MlpUYXpxTHEySjlHbDNm?=
+ =?utf-8?B?K2IwdkxaVmFDY3loL2Z5YVZYdjk5bG1Jdm9GNzcyVjdUN1NhOXdRby9qNHJw?=
+ =?utf-8?B?ekpTellWYXpiYXhXY1VHR0FqVXVLcGRrZ1dLbkM3b2xlaFVNazh3cUM2cTFM?=
+ =?utf-8?B?MFRUWmF4TG9wNVF6SXVFRFdkdDYwdnB6ZXFjMmxWOFQvRTJqbXBDdS9neW5n?=
+ =?utf-8?B?SWRlU1hqY1B1RVVEY0VCaXc1RmpTZENLYnZrdmdTQlNWR2dBMmZSNi9zOXVD?=
+ =?utf-8?B?VXdBVy9UWEJqcUJFdE15UzNPd3VqUTY5dUprUnRkbVVyUE1ydjVXNWxtYkRo?=
+ =?utf-8?B?by9sVjR4Q0FqWm1Ha01EdURJR2N3N3BoOURqYnAyektkQWJoYkpYSXVFWUtC?=
+ =?utf-8?B?L1pyY1p1dDc5bW5nNkVRSG9PcVh5aG9xRVdvNXprQytnZUNKWWJOVU9oYUpB?=
+ =?utf-8?B?T09BSUJhd0FJUmM2dEVINXY4ZXdNb2JBOG9LTjVueGNaK2tmNEVkT2FvTzMy?=
+ =?utf-8?B?YytZWXVuc3czQk1ja0lucldyVzYrYVZ6Q2tSYUZ1OHBmNmd1WTlsZWRPQkdz?=
+ =?utf-8?B?WXloR01CYk5zcEpRRitxNGFQRUsxWDM0Z2xMVVRhdlZraFU3OG10UHdWUFZv?=
+ =?utf-8?B?d2FVZG9hT2JtaTlrdngwTmR0cmU3V3lwcnlYK05xR1VKdy9yZ2hGM2MxZVps?=
+ =?utf-8?B?RzhJQnZIVk9xaENBSiszMjlUV253SitvdDNoWDhqS1hSSGltM095VTFhU0RJ?=
+ =?utf-8?Q?jTR/bPP9w82u1CngMF3RqH1XK?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <296A2BE6A7FEB64FA4F6F31735157BF1@namprd19.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <w2eaegjopbah5qbjsvpnrwln2t5dr7mv3v4n2e63m5tjqiochm@uonrjm2i2g72>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.996];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: kCVpXZHEK6UMiBniqo0CM/UrXdxg75xXZTc1BqyV1hKaSxTUpAOD8XgTZC7GmqVn2ksi0NhegkiPvgHj2mR6XOS2JUSSsiu9VelRJzu+kt4jznm3hcwN7oU25B2V+7hj1Z7zlTZklqjxypCYRn/hf4NkqAjh00IS97+FS9c7FeVHKnL/nzeVyg87NRLt+1jlA5FzqRdlIKLCLneaJkG2vRFYGbfVJ9X0tHnCd/giErMbSmNRsrITjKw5pcGDEYWXlAI3vSoEclkisZtsvjVWJ02Ie3t6q9ObptUOK7tkMeL1hoRvjUryd/SGjcjjiblcVEJFqJIXLIw+KyUhUKnkIv4yUg/GwGfz7ajdI3V3pbRRCY9DC6HKcJFnGXdR8TePmhQ/nmrZtg60wgUZGdftPFGg6BKVEvnP6RlWk/meUZ6kF1lg7LfHv8tQAuqM6pAa745HDC8exTVsIuKG9dc+a4nSoo7hb61k8baLK5bcv8V6Fszmebie41wt6iB0rrGlpdw7zNnjt/QUXbqjyEFOV46j2cipPCfFK6DNaSljLOZ/ncwkgp8VzH+mlUIaOnDNsJYVdk8xdbAfNl95y5KZtsMyQ364EeVwrPxI0rmeTNVk15xp4NPu/dVUFlRRV3CiGWItkNdLLtQ/3ZlMy+J+HQ==
+X-OriginatorOrg: ddn.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR19MB5711.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d5379c0-2dfe-486e-b6bd-08dc548d09b3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Apr 2024 09:53:10.9050
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 753b6e26-6fd3-43e6-8248-3f1735d59bb4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m5jXX5dKBwzmwtNfa7SrC5bZZbm8bRiboH43vUXg6lAldd26iClH5TZTCJShe8Rl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR19MB7618
+X-BESS-ID: 1712224392-111646-24410-3423-1
+X-BESS-VER: 2019.1_20240403.2023
+X-BESS-Apparent-Source-IP: 104.47.56.41
+X-BESS-Parts: H4sIAAAAAAACA4uuVkqtKFGyUioBkjpK+cVKViamFkBGBlAsMc3Q0NjANNE81T
+	DJ1MgwNc3ExCzFzCQx2SgpySw5xUipNhYAvdD1TUAAAAA=
+X-BESS-Outbound-Spam-Score: 0.00
+X-BESS-Outbound-Spam-Report: Code version 3.2, rules version 3.2.2.255328 [from 
+	cloudscan9-178.us-east-2a.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound 
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS124931 scores of KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status: 1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240404_012911_163198_A5E8BE05 
-X-CRM114-Status: GOOD (  24.26  )
+X-CRM114-CacheID: sfid-20240404_025346_296239_41CBCBBA 
+X-CRM114-Status: UNSURE (   9.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,69 +173,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 04, 2024 at 07:43:28AM +0000, Shinichiro Kawasaki wrote:
-> Actually, similar feature is implemented in the common code so that some
-> test case can be run twice, once for regular the block device, and one more
-> time for the zoned block device. You can find test cases with CAN_BE_ZONED=1
-> flag. They are run twice when RUN_ZONED_TESTS is set in the config.
-> 
->    To be precise, this applies to the test cases with test() function.
->    CAN_BE_ZONED has different meaning for test cases with test_device().
-> 
-> Now we want to run some of test cases twice for the two nvmet block device
-> types. This is essentially common feature as the repeated runs for the
-> CAN_BE_ZONED test cases. I think it's time to generalize these two uses cases
-> and support "repeated test case runs with different test conditions".
-
-Sounds reasonable.
-
-> > requires() = {
-> > 
-> >  _nvmet_setup_target
-> > }
-> 
-> Hmm, I think this abuses the hook. IMO, it's the better to introduce a new hook.
-
-Indeed :)
-
-> >
-> > What do you think about this idea?
-> 
-> It sounds an interesting idea :) I prototyped the common code change based on
-> the idea and shared it on GitHub [*]. It introduces two new config arrays
-> NVMET_BLKDEV_TYPES and NVMET_TR_TYPES. When these two are set in config file as
-> follows,
-> 
->   NVMET_BLKDEV_TYPES=(device file)
->   NVMET_TR_TYPES=(loop rdma tcp)
-> 
-> it will run a single test case as follows. 2 x 3 = 6 times repeptitions.
-> 
-> $ sudo ./check nvme/006
-> nvme/006(nvmet dev=device tr=loop)(create an NVMeOF target)  [passed]
->     runtime  0.090s  ...  0.091s
-> nvme/006(nvmet dev=device tr=rdma)(create an NVMeOF target)  [passed]
->     runtime  0.310s  ...  0.305s
-> nvme/006(nvmet dev=device tr=tcp)(create an NVMeOF target)   [passed]
->     runtime  0.149s  ...  0.153s
-> nvme/006(nvmet dev=file tr=loop)(create an NVMeOF target)    [passed]
->     runtime  0.138s  ...  0.135s
-> nvme/006(nvmet dev=file tr=rdma)(create an NVMeOF target)    [passed]
->     runtime  0.300s  ...  0.305s
-> nvme/006(nvmet dev=file tr=tcp)(create an NVMeOF target)     [passed]
->     runtime  0.141s  ...  0.147s
-> 
-> I hope this meets your needs.
-
-Yes, this is very useful.
-
-> [*] https://github.com/kawasaki/blktests/tree/conditions
-
- I quickly looked into the changes. The only thing I'd say it looks a
- bit hard to extend if we have yet another variable. But maybe I'd make
- it too complex. I don't think we have to be too future proof here,
- because we can change this part without problems, it is all 'under the
- hood' and doesn't change the 'user interface'.
-
-Great stuff!
+T24gV2VkLCAyMDI0LTA0LTAzIGF0IDE0OjQyICswMjAwLCBoY2hAbHN0LmRlIHdyb3RlOg0KPiBJ
+biBrZXJuZWwgdXNlIGlzIGVhc3ksIHdlIGNhbiBkbyB0aGF0IGFzIHNvb24gYXMgdGhlIGZpcnN0
+IGluLWtlcm5lbA0KPiB1c2VyIGNvbWVzIGFsb25nLsKgIFdoaWNoIG9uZSBkbyB5b3UgaGF2ZSBp
+biBtaW5kPw0KPiANCldlIGRvIGhhdmUgZG0tY3J5cHQsIG52bWUgdGFyZ2V0IGFuZCB0YXJnZXRf
+Y29yZV9pYmxvY2sgdXNpbmcNCmJpb19pbnRlZ3JpdHlfYWxsb2MoKSBhbmQgYmlvX2ludGVncml0
+eV9hZGRfcGFnZSgpIHRvIHNldHVwIFBJIGJ1ZmZlciwNCmJ1dCBJJ20gbm90IHN1cmUgaWYgdGhl
+cmUncyBhbnkgdmFsdWUgdGhpcyB3aWxsIGJyaW5nLCBsb29rcyBsaWtlDQpiaW9faXRlZ3JpdHlf
+YWxsb2MvYWRkX3BhZ2UoKSBhcmUganVzdCB3b3JraW5nIGZpbmUgZm9yIHRoZW0uDQoNCkNoZWVy
+cw0KRG9uZ3lhbmcNCg==
 
