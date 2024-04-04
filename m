@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8515CD129A
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Apr 2024 12:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4D0ECD129B
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Apr 2024 12:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HsfiniPTnQsteDUFveq8OrDLT13JLtoJig0rBNRnlVc=; b=pBQ90O0jeKMqnHs/5r4LxdKubl
-	JUYY+AEO3if2TXXAM09OVxvH9UOSOM7XSrnc+6NOXdM9uXXi3gtnv5rV6279BDjeAtTw5hB3j+jyE
-	wwf6wFtwKcldTHs3znyW+6Le7co1DVk5uYrw6Eu+WlIH0zQ7S/eIekhCB/6HHLiL5Q6P+5Tbk81bB
-	+6toOoKXGiu0xenQ1ZC1GhAm15XKyVC3IpC2cQBWdSKuHQ9XJfU8dgx1YXjzAlMT4CGaDiDBEpiMR
-	bd83vKbtmpsZd5cj/mCsTzxO9WjNHCZGYxA7Ji5/xSicYGCI9Yl/NxcBKz1oAmhNJeIeremPLZ1QU
-	7orLDsLQ==;
+	bh=nDI+CtUhWhntIoaooqcjRWdBmOM1rzlwD0WoGKJY5VI=; b=mssE1mS8XN1h5/hqXz13bRDR1o
+	CFt4Pp/Gg5KHSrdMeVIzXjFFRBDr5UuYN4HGK2kW4KLewn/vYtVIG7Xc+KTa5ymEPrdS9hAtHhblL
+	/MekodrC2fImvAIXW7jp+VtpsrLt0CW8C7QlEvOIouPVRZuloM+epn/kS5MIZfe72gOtGsLgl+O+U
+	Eb4s/4qm8WiILq+9+lkwTYWgqIwQAQLDwZUjdhij8/eP+mu7EUPVBOm4mFmVwg9uRUSJREfcZJ5ph
+	+Z3R4XnPkblMJMOKrO0NQHch/Fro4StOFok1dFyBfSJVT+BmaVyJkKojeFTqw/ODZlhGnuH9BPx8p
+	XzlvnCUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsMLp-00000002eTs-1ukR;
-	Thu, 04 Apr 2024 12:37:53 +0000
+	id 1rsMLq-00000002eUQ-1gdf;
+	Thu, 04 Apr 2024 12:37:54 +0000
 Received: from mail-bn8nam11on20701.outbound.protection.outlook.com ([2a01:111:f403:2414::701] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsMLl-00000002ePd-1j7g
+	id 1rsMLm-00000002ePd-40lu
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Apr 2024 12:37:50 +0000
+	Thu, 04 Apr 2024 12:37:52 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D0+hf5b6DxYrEzRdfFF2dfYarEFYMqNKjnPufbrGlu9rPtkpSXkPosCFFSvDyZWX4Qykb1PMRkAwYdOSJh8MxtLMPHE39YhZY43SLfvqQZ0YNvs+U4XtiPSbfOkTfv1zsZlDtd2Au6YfOIi1K3x+r29X3+ke1/FI4b84Vro8bLQJOmFCUShpIjMcIaph2114TSChF/ctIaL8Y8BpW9O4p0TI94L/aFOH8g2ICQg6LrWa/1/zopFdxllkO7ABl0rbbbqkDGETWPCvC88eqBUu3O1pg2/X8pJ7U1oLkkPQmsWISra/2B6eXqV8SL8JEJWQgRnvulz8UTkW10YEmyP6VA==
+ b=DsB3V+Pkh5TtlfoKZ5ATS5z5QGDZaKKOUYqalW35MjfPkJmjszHc8++VyQUuCgSl2omBIRjHkVsOb7rgNhr96NPM/33grzGv2e1Fqxf7Oo3N8UeM5jaFOaIzg9A+g1+UmkkoB6AIOPIZq//4PE3Ypi4pxS2pGCQgYWFoJGYJQUMEyQEbyk6KGSkthwFkcmYaWtyHLbMcrgqVfFQqlWjwzjNqLbq5JKJQwSU1i/30W62EdbdC+ER+k+ZvW/HiZv+vGUPt+2YPSqjz2Sy4R2WMBbuTzLsPUZPbwkOVldRqkBpmoifCWDXnnCgvLV79nHj4oWLsOqFbP5krnVur3sKowQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HsfiniPTnQsteDUFveq8OrDLT13JLtoJig0rBNRnlVc=;
- b=oTzRoSiKlWerGdkouib24fyHi1DtjBAqI/9cM8KCn+3NIUvQOptUzV543dpVN5bl7BXIJQZ0nI9hp4KpF2/d8OvM8Mxu212h6vC/2loEjfMhVW6GFO3LqCOVuiUZCkZ9Kidd9e1ri01hqNmTlrvrLGnrkPm5KXLQ4rT2vDY+dUn2tpZZIKHL65UDjM9//JH0WqPQ4Uv8OyNIsp7/XCMLaAgVv3EiyI5QX1CgLaeTxplMXcLCuzOGVThDrUi9t/p1biRA2z1y0PuosRYnYSiBVUU9prfe/CFZmvlBSVE0XGgRhEfx2MNfNPJWcQT10hwUn+YRUzKv8vuCZLTLf0gc+g==
+ bh=nDI+CtUhWhntIoaooqcjRWdBmOM1rzlwD0WoGKJY5VI=;
+ b=btoYXURcp0vV+3fV+Jkpl8r46Qu63Zw44ka27D9l4kroagrGGPMa0HgaZw/XkEQJE/3g6jtc0XA9+Ivsi4ibMYs9XFIbvQY9BSpakq5fpNDMY4XIgOpe0ypYVx2cI7ygMOMSunxqp0Zr2XohVZtDMFwABrhpTp/CWGpsQQEWK5gX2TD3RLMjQ01s8wKrU9gg0VTTi1+S5VtQiVybnPuHfbDPxBtWq3KpeYst37ni0ecWcOeS/yHjNh6TGIOq7svJy4oLE5sv2XGG9BvZNf1iG0JZczC3ew9sdEeguC5zeybTq9s6O+LlWzBmRqBrdSZ9/AKPcTHJmr9+kMiu3PYViA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HsfiniPTnQsteDUFveq8OrDLT13JLtoJig0rBNRnlVc=;
- b=c1IDraHx6lNM4J53x6oxaLp/3JVHiaSvJeA2g5u0U2xZITlAVrjcxWQsryAt6VP/+SzTTdxF+Zm9aBbJ+IO1xC9nCsW0cc9QdAM7/Fv9BzQeulCHZAVjRM5NBB2fvwTfF7zgMum9hp5OP30BIE9X6TLXnXV/MfRUFbmkw8/yLiOllH4k8e/H/A1bcEPwSfWiBeYHMY0PZOeWxnbaMyip6RXhZbdgWN3JZsM2BFg3sswnO9kT+spohVHhDNo0Qku46v/Z240JSzgnG9j7GMIkDZyhgYBzjuloOEDr9lI3Jz+7+PNa1ayXiRvnb62SiMjxRqwPLb4Mi9G7TFjXMNY2DQ==
+ bh=nDI+CtUhWhntIoaooqcjRWdBmOM1rzlwD0WoGKJY5VI=;
+ b=Z1UOz54tuX4BxavR89uQ0WFG775F+OjRXCDri1pOkX7jzEPQr9nr7yEPI68gdx3VHz4TJy8nP7LUkY8cj643cc/fxQzCoE60SSb5RPZcwqP19AEIF1gFEtQlfbqQywsrrltxAh662/cSvi5GscSiXoc3tZFI9iZG2CJ0GR0JqGYjDEn9cqiHO9lhiDThi7/OvMS54buTymB/8Ye33HYs+T4RFSe+OjuN1Zb3TezoB+pvbpNTb8Hk98Ywx823Xvgom9t7PB7Fi+cHf62C7cw233sGkxhfjalZPoom13IYtRDmv+/SuRG2YFGPqL5OomZ5XsFwvM0AQMUCWuui3KNGBA==
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
  by SA1PR12MB7104.namprd12.prod.outlook.com (2603:10b6:806:29e::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 4 Apr
- 2024 12:37:41 +0000
+ 2024 12:37:45 +0000
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::aa05:b8a0:7d5:b463]) by SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::aa05:b8a0:7d5:b463%3]) with mapi id 15.20.7409.042; Thu, 4 Apr 2024
- 12:37:41 +0000
+ 12:37:45 +0000
 From: Aurelien Aptel <aaptel@nvidia.com>
 To: linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
@@ -61,7 +61,7 @@ To: linux-nvme@lists.infradead.org,
 	chaitanyak@nvidia.com,
 	davem@davemloft.net,
 	kuba@kernel.org
-Cc: aaptel@nvidia.com,
+Cc: Aurelien Aptel <aaptel@nvidia.com>,
 	aurelien.aptel@gmail.com,
 	smalin@nvidia.com,
 	malin1024@gmail.com,
@@ -70,17 +70,20 @@ Cc: aaptel@nvidia.com,
 	borisp@nvidia.com,
 	galshalom@nvidia.com,
 	mgurtovoy@nvidia.com,
-	viro@zeniv.linux.org.uk
-Subject: [PATCH v24 03/20] iov_iter: skip copy if src == dst for direct data placement
-Date: Thu,  4 Apr 2024 12:37:00 +0000
-Message-Id: <20240404123717.11857-4-aaptel@nvidia.com>
+	edumazet@google.com,
+	pabeni@redhat.com,
+	john.fastabend@gmail.com,
+	daniel@iogearbox.net
+Subject: [PATCH v24 04/20] net/tls,core: export get_netdev_for_sock
+Date: Thu,  4 Apr 2024 12:37:01 +0000
+Message-Id: <20240404123717.11857-5-aaptel@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240404123717.11857-1-aaptel@nvidia.com>
 References: <20240404123717.11857-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: FR0P281CA0134.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::18) To SJ1PR12MB6075.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0032.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::13) To SJ1PR12MB6075.namprd12.prod.outlook.com
  (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
@@ -88,50 +91,50 @@ X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|SA1PR12MB7104:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D0aN0zPei1Xflf2CsBPgoXx/oCFEDxuUcK7uoSFAJkFvLwT30ENs2J73gJZGG/Qe3xj8/z1ASh0wUj1LjboSN8pjCv6OgH5hyeH1hY+a//ieWEoQelaaT/kODdObeaftK8aWH1JriUTj+Knax8pc/ZhXUc0ZEKvT+aVvjde9kAB9VtMYyHVlRVf1LsCKekBmVdf/Eb9JPuKmPMrTyoOSLxWGLKi//VLPHM4+GEUuJSJxySFljYn4FKAFapKUq10XKDQS0ghJ3+vdpW84w3/NUey64F3XZ7nJo8VX86xgWBdyBW6/+K1O+/0SHFzTaP7vGd0jI0xmHVLl50HRt/9NwB+vRxeHZuI2gzBPYmye/Q0cEz/G1ZmEAe4kgGpZml3X5dOiedCSbE7RLox37Bf19xP0RaxzFGisgVVFO9s+AdiFTXw8kQzGG9goATy1SvbdifMX21JHHPp9frPdrQSYfJvR87eYG/amlf1eJQIOogUdsmy6sD6c7BSHavxMP4TyWjqArqMMDJ1efbMXrrU4WN5G5nU1xMvOYyykScuJ3tkC/ycyk7bxuI9xKNylC7HWfvRbToDUGkOXKuTG8lQIkgT5lNDslPvyF54BicKo8rs2Bnhs8X/mfrc6x4KERN87ydI9FmDhrymwI+lPrKbQMv7+YTDrk3/qnRvlsxVf+jE=
+X-Microsoft-Antispam-Message-Info: G+MhrvGUJyAxDIl4REM1/vHE3p1Ty4NdI8QDPde3mzBw/WYgPA3XnbbnJeXelhb5FwdvIFTdlOEsFvqTds4n+vTCKBqD1g+2/eOIa8TDanbw7YwM/K9q2+d8BRDveSu7jQ+9V18Zb4rFPKUe/DeTTKRjqqjdkYmOpM2q2tq0JtG0uPALZWCNQbWkRyBoqQjZUdH7V7UbeRZ/Q23cEJ0I4rV9d48TANjLmBpxaXbLcsPNjLzc7ZG6U4P+AApVoRVwjAjE4yUJFp6c6cbdh1riMFBSTEBxvSSfEVNFctSsR0PfYi8vqg/7C6EsTPREzOP8Hs5OryFLCO9AZtEYH1yaF7CdrlyEDCGsXXn4Uwxt6RlQxf/ro1i+sQkpI/M2mBk4Wq2HLKBh/y7CQi6nfg4aghc0GVG3RNAW2gULL6mRU4YZzOtGeFiQDqC5vMc9XwAAY2/QUVLD+xdLa0WsjIPckdtak5Vs4JolhZKDcZh2mtzXxxY+wq+IfBUMDpjQhKR01aAuf6h2XxWOpA2H2n1Nr/Ob0gNcwbinVpC7O9YgiROYVyR0cqzdw8T8USBNDRmPRdUjqX6MOcbJBUDkmBVhm/DiOnwxOPBNbV1PZMEganFEG7eKBFB+f1LSwaP6bz/3pFU2UJL0D/secNhEhjtw7xAfvVdtOCP9hszvuBrIRSE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ssNHO8s2F68wRZoGzPzoZOhtd3ZPk0VbG48AYXMBN0m90GykvujT3+YM5ni2?=
- =?us-ascii?Q?D7iH057cgzl6+1ZVivsZyx8XbGMe+q5npCZusQFvv1KLNC9GzTj41CyuITGF?=
- =?us-ascii?Q?Alvw2DFn2vRUYEnbNctnY1IBznaVzyCLbE6zTd556uOUBptVMvXnsHNdmRxu?=
- =?us-ascii?Q?hUXJMWbBJHzJ46rlYv8baWrW8Bm1LyvjMhBBPVPnQknWltvYjz+V6yChxOVb?=
- =?us-ascii?Q?/+9yVZl7w9qfAn6IkV7SasLIgmFAlWukbkg21RtU70uQPmNv6+CfS76OGQGx?=
- =?us-ascii?Q?0L9WQp1HHM64t/f7gaZtX/f9JMXcjrYFnswiq7adgv2/U35DcuUPdz9ZRZhE?=
- =?us-ascii?Q?FOrQ5+CGULTqKTzIhbkrKYXiqOo3QVHMe+DuKv6oZSPcA7VSFso6lABYcgsm?=
- =?us-ascii?Q?bNBOyQj+STitOdUfSAEMOle3S+kbhPVkFrq3IK9mjNVsxZ2aDP0oojVQpVJ2?=
- =?us-ascii?Q?QXTAWXVjrluYdUsCOZvc/T6Ym94OZ3OMveiYF82WoDfyieKi0KBTd15gHKLl?=
- =?us-ascii?Q?5jjM2oEjsTRRU8wEz+zWM7jzb66QF84UcokFMJizL7DEHqYa0MH02FsSvd3a?=
- =?us-ascii?Q?qRs4AMntCEw/zw/KgbqMEu3GNnJvagbfgSjhmI0gR1AQQxMRYss2QUCDJviM?=
- =?us-ascii?Q?Gb1iIN17GvexAXU0J6yxOCo/Qhhc8k7XVvRYZDlDwUhTOExyAsiHJOuNPE/9?=
- =?us-ascii?Q?CbQ4EjajpFba7LqNSPsGAr3tLNNDuoW8tVZgpxy1aHRp9oTwKv8+lbYYe2eE?=
- =?us-ascii?Q?2FW9s4Fw10voEd3DmXrXIhWQajU7OoluIpIzoMvrv0nuGlsDbyk/+KyVBXcz?=
- =?us-ascii?Q?8bpWV0VQMEyp+q2aZoGTGrBzenBn57uDzww6SNA7PKDAxkQW8lilhoC2a1Nj?=
- =?us-ascii?Q?R56GbuWOpFiL/0ok9Lo/3X6OP5veRZBPgL0H2c9h2CSK7gBgiufZatQCBCDz?=
- =?us-ascii?Q?PVVb2r97fTpqIa3UUQwe0x6aJ7ere6Td1laQYKGv1YdoolHvr++yrI4nEleL?=
- =?us-ascii?Q?AEThttrHOqIMcEKMqkSL+ehJFccAFA5FWVCysKv1azHWWkup6lLjQ2X2ChYb?=
- =?us-ascii?Q?vOYOg8D9Spal9Lz6+rbLtFwkIo6jQdHwHvXW384RrNSFfPtMSVWx7Q3zJUKD?=
- =?us-ascii?Q?Le3TeQoxRYnsXzZwb1T9xLeP+SeY6dgD99PBeQj9NCxKMNlVn5wAlMDIWQ2T?=
- =?us-ascii?Q?xKUl6+BZ1eK1fw55xaM3B7v5y3lcsRINmpZVFGok4TLpCoLl+Hya05wJ2a/1?=
- =?us-ascii?Q?Fm2IlW7z/ePY4vk1VZDzc5gJJwCEv3AqG9+9Of6Md0ylLBdUuHb20TghBEw0?=
- =?us-ascii?Q?ntZ89lUlkxcWWb7gz509LuIUSZg1Ah1QlV29OkaXdgG0IOY0ghIg04q9BDfX?=
- =?us-ascii?Q?KWezFFgV/S8E178oEMkLD2ereZukneJZ/6RptA34hSRsZcXOrKGxj/DgrYqr?=
- =?us-ascii?Q?OP/StnXkkjrfHLkf+FWiNGvyiwoG9lcYt/5OIuv5LgH2SRe0IrPXaTp6oQj/?=
- =?us-ascii?Q?ztXRhkiBxNWexYcxnQKL4kVbfpeESRuyQJW6eciI+UofDucS2ruwQEaYMPUg?=
- =?us-ascii?Q?bkdpx2CdLVixsVCaFvX5SILdYHXBI8hjbQhtuGIZ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4VPdM+Gq+MxxmhzO73fsU6MhmySpDwNMHJZ3z0BirUEE+neSbF1ClsVpUPGq?=
+ =?us-ascii?Q?jQEBcy9zOYyd7VIzqFsTEsYFSwS0U+jqRZV3T8a080CyE1fd7uIUXJG3fZsd?=
+ =?us-ascii?Q?JSbMJ9alWAsbWvMDzA9AOE57EShK6qQzWs5IasuaWaFNIMR5I+5+b+Dy4jkB?=
+ =?us-ascii?Q?pPGMnKVrB5Ju9W9F3dRd7l5tyKKIVCqO+w4/F8HPydf0cMOniLAGXn9Rmvm3?=
+ =?us-ascii?Q?XeH72HXwsOXmEK9UTzu3d5uFLt4N9z04NLuTgFZfCJ+GfTzT0aPUrnF14hum?=
+ =?us-ascii?Q?ZG8nGrUM9qYzodID4w2IO8+rzrWlwk7Su8DVGp7gTPOF8jx4863a7EBJ+qfv?=
+ =?us-ascii?Q?ZZdSv29wIRxZVCGVQi9g+gvDtIzH3ScIQ7yYRjqbVdMHji5xjUqAgo95vUs9?=
+ =?us-ascii?Q?U3KKBcshJRcTQDph3aN2u3xmToQO1mdKS04DwQ22raXOkhlFgZoxkMZeLv8U?=
+ =?us-ascii?Q?8wL+x5R0JyrmCl3G2HSRVDWCxSqPV9vutwH/umCw8acwmk0VJcyhgAjeuXX/?=
+ =?us-ascii?Q?mtVtpgxRngnIKexnPJ3miC411EGQIgDzkDQB/UHGLjaCAFyyyPf4/fFzPkSz?=
+ =?us-ascii?Q?L+Nee5EESlFweEUhYSPyCzLqsk+8LCGjBAXgy6Rvsi9F7c7rRZoSveomfpsS?=
+ =?us-ascii?Q?V8Wbd5iSCpoz+pDBLzOSr1SNWY4nibd/E0xMYJ/a2OGBRRULldjZGdd4s3dh?=
+ =?us-ascii?Q?7/siHYg52UZV9MzQL30zSMKXFUNz1uv7PYB8sTBE7ioC2T5yque2fX3wXCvl?=
+ =?us-ascii?Q?YlNyuRuu6zoyhNkNHycr2pdGphsUPiRaIqsVOtn6zVPwymvBfe8l4XE0r6Tp?=
+ =?us-ascii?Q?+JzDseTwotKgzwbDORCQlajlRRHzjkBnr0rRGs0iaCMb/G4gWaijAuSdU9aQ?=
+ =?us-ascii?Q?2FoU/K1NbDaZmLjPhCcOHeJeCgIMzi3446dIOrIrqFHp53Ldu2+pBBqpaQLU?=
+ =?us-ascii?Q?G3cQpSULmS/mOlKr3z9biJ5xhZqMxqPn09ihay3QrKwiDuuM0Fi0O/Oo+7SS?=
+ =?us-ascii?Q?bYVJ/6lyoNp5eeT+sdA0m3ilUqF5BDZZ4TNzcjY0kybsiSpk5YShLwHLKtdQ?=
+ =?us-ascii?Q?v1wCeEkQYUWO6dWvgRquEOh3N8uy5LX3HuphJ/7ur53YIGh7LQcZ0I632m4E?=
+ =?us-ascii?Q?6cj/xUZWKI+ZQ4CFkxKbYqv6jkyKT8IZqPCzfXhaL8hfzcpvk/KxgtGyvsyy?=
+ =?us-ascii?Q?mSGC2+IW9h9cuG05ywJTzW/E/AlTE7aUIVOiy/iJ0/nw2i7dZ5B/WSlA/o5u?=
+ =?us-ascii?Q?iQZsWvYErSIzgj+AlIH0uF6g+/DA1u9G9HH8UQORSpkhE4uF8+CvHaHzMmD+?=
+ =?us-ascii?Q?FMZv/had00w/TB49YF8wR0xnVUP6W4n34bDNtAy1/wqhFmGbuFBzeWWJ7B6K?=
+ =?us-ascii?Q?3Lnlh8kp0cJTPDZmU2q+uz6YMqBRdHzROR3tf8n+ny6GNbiKyha37aVsxW6O?=
+ =?us-ascii?Q?kX3RcLKDS95NlKZQJBoh7K4g+55skeg3Yt1Xupu5PtublnG4tQs6BDymlUyx?=
+ =?us-ascii?Q?zOSylw5w6RFw0D9dnCLlC8SQps3/sIMDPT4eFmQ6MZjlI6eOoBFQxWTVD4PR?=
+ =?us-ascii?Q?WTbGjypVLhdHOYUkK4OG+5EqGPF21KH8bp/h8zxN?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aca9d11d-e67f-416e-9526-08dc54a404b5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 980d2607-f749-42c3-eba5-08dc54a40763
 X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 12:37:41.1201
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 12:37:45.7108
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kAYHnj0+lTUBEmrLckVBWHzqQog0KZie8KRtIb4emfU53jUzGAL57jjGQ+yt3Lgl7h/KzwNqwpn1VzUVaidFFQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: t5HkdOY/pSzxg9jbb9L3HGPublq7VbfJjmyo0CjwK2GG59pDmZ13f1zKHptvglZWZDoXuXT4ki0RcZCgW6UDUQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7104
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240404_053749_483358_8915CF4B 
-X-CRM114-Status: GOOD (  10.55  )
+X-CRM114-CacheID: sfid-20240404_053751_163666_34C6D3F8 
+X-CRM114-Status: GOOD (  15.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,43 +149,185 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ben Ben-Ishay <benishay@nvidia.com>
+* remove netdev_sk_get_lowest_dev() from net/core
+* move get_netdev_for_sock() from net/tls to net/core
+* update exising users in net/tls/tls_device.c
 
-When using direct data placement (DDP) the NIC could write the payload
-directly into the destination buffer and constructs SKBs such that
-they point to this data. To skip copies when SKB data already resides
-in the destination buffer we check if (src == dst), and skip the copy
-when it's true.
+get_netdev_for_sock() is a utility that is used to obtain
+the net_device structure from a connected socket.
 
+Later patches will use this for nvme-tcp DDP and DDP DDGST offloads.
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-Signed-off-by: Yoray Zack <yorayz@nvidia.com>
 Signed-off-by: Shai Malin <smalin@nvidia.com>
 Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- lib/iov_iter.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ include/linux/netdevice.h |  5 +++--
+ net/core/dev.c            | 30 +++++++++++++++++-------------
+ net/tls/tls_device.c      | 31 +++++++++----------------------
+ 3 files changed, 29 insertions(+), 37 deletions(-)
 
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 4a6a9f419bd7..a85125485174 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -62,7 +62,14 @@ static __always_inline
- size_t memcpy_to_iter(void *iter_to, size_t progress,
- 		      size_t len, void *from, void *priv2)
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 2fc33d9470e5..cd490b6f003c 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -3129,8 +3129,9 @@ void init_dummy_netdev(struct net_device *dev);
+ struct net_device *netdev_get_xmit_slave(struct net_device *dev,
+ 					 struct sk_buff *skb,
+ 					 bool all_slaves);
+-struct net_device *netdev_sk_get_lowest_dev(struct net_device *dev,
+-					    struct sock *sk);
++struct net_device *get_netdev_for_sock(struct sock *sk,
++				       netdevice_tracker *tracker,
++				       gfp_t gfp);
+ struct net_device *dev_get_by_index(struct net *net, int ifindex);
+ struct net_device *__dev_get_by_index(struct net *net, int ifindex);
+ struct net_device *netdev_get_by_index(struct net *net, int ifindex,
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 818699dea9d7..cc01c76f65c6 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -8376,27 +8376,31 @@ static struct net_device *netdev_sk_get_lower_dev(struct net_device *dev,
+ }
+ 
+ /**
+- * netdev_sk_get_lowest_dev - Get the lowest device in chain given device and socket
+- * @dev: device
++ * get_netdev_for_sock - Get the lowest device in socket
+  * @sk: the socket
++ * @tracker: tracking object for the acquired reference
++ * @gfp: allocation flags for the tracker
+  *
+- * %NULL is returned if no lower device is found.
++ * Assumes that the socket is already connected.
++ * Returns the lower device or %NULL if no lower device is found.
+  */
+-
+-struct net_device *netdev_sk_get_lowest_dev(struct net_device *dev,
+-					    struct sock *sk)
++struct net_device *get_netdev_for_sock(struct sock *sk,
++				       netdevice_tracker *tracker,
++				       gfp_t gfp)
  {
--	memcpy(iter_to, from + progress, len);
-+	/*
-+	 * When using direct data placement (DDP) the hardware writes
-+	 * data directly to the destination buffer, and constructs
-+	 * IOVs such that they point to this data.
-+	 * Thus, when the src == dst we skip the memcpy.
-+	 */
-+	if (iter_to != from + progress)
-+		memcpy(iter_to, from + progress, len);
+-	struct net_device *lower;
++	struct dst_entry *dst = sk_dst_get(sk);
++	struct net_device *dev, *lower;
+ 
+-	lower = netdev_sk_get_lower_dev(dev, sk);
+-	while (lower) {
++	if (unlikely(!dst))
++		return NULL;
++	dev = dst->dev;
++	while ((lower = netdev_sk_get_lower_dev(dev, sk)))
+ 		dev = lower;
+-		lower = netdev_sk_get_lower_dev(dev, sk);
+-	}
+-
++	netdev_hold(dev, tracker, gfp);
++	dst_release(dst);
+ 	return dev;
+ }
+-EXPORT_SYMBOL(netdev_sk_get_lowest_dev);
++EXPORT_SYMBOL_GPL(get_netdev_for_sock);
+ 
+ static void netdev_adjacent_add_links(struct net_device *dev)
+ {
+diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+index bf8ed36b1ad6..5868daf36ae2 100644
+--- a/net/tls/tls_device.c
++++ b/net/tls/tls_device.c
+@@ -119,22 +119,6 @@ static void tls_device_queue_ctx_destruction(struct tls_context *ctx)
+ 		tls_device_free_ctx(ctx);
+ }
+ 
+-/* We assume that the socket is already connected */
+-static struct net_device *get_netdev_for_sock(struct sock *sk)
+-{
+-	struct dst_entry *dst = sk_dst_get(sk);
+-	struct net_device *netdev = NULL;
+-
+-	if (likely(dst)) {
+-		netdev = netdev_sk_get_lowest_dev(dst->dev, sk);
+-		dev_hold(netdev);
+-	}
+-
+-	dst_release(dst);
+-
+-	return netdev;
+-}
+-
+ static void destroy_record(struct tls_record_info *record)
+ {
+ 	int i;
+@@ -1063,6 +1047,7 @@ int tls_set_device_offload(struct sock *sk)
+ 	struct tls_offload_context_tx *offload_ctx;
+ 	const struct tls_cipher_desc *cipher_desc;
+ 	struct tls_crypto_info *crypto_info;
++	netdevice_tracker netdev_tracker;
+ 	struct tls_prot_info *prot;
+ 	struct net_device *netdev;
+ 	struct tls_context *ctx;
+@@ -1076,7 +1061,7 @@ int tls_set_device_offload(struct sock *sk)
+ 	if (ctx->priv_ctx_tx)
+ 		return -EEXIST;
+ 
+-	netdev = get_netdev_for_sock(sk);
++	netdev = get_netdev_for_sock(sk, &netdev_tracker, GFP_KERNEL);
+ 	if (!netdev) {
+ 		pr_err_ratelimited("%s: netdev not found\n", __func__);
+ 		return -EINVAL;
+@@ -1172,7 +1157,7 @@ int tls_set_device_offload(struct sock *sk)
+ 	 * by the netdev's xmit function.
+ 	 */
+ 	smp_store_release(&sk->sk_validate_xmit_skb, tls_validate_xmit_skb);
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 
  	return 0;
+ 
+@@ -1186,7 +1171,7 @@ int tls_set_device_offload(struct sock *sk)
+ free_marker_record:
+ 	kfree(start_marker_record);
+ release_netdev:
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 	return rc;
+ }
+ 
+@@ -1194,13 +1179,15 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+ {
+ 	struct tls12_crypto_info_aes_gcm_128 *info;
+ 	struct tls_offload_context_rx *context;
++	netdevice_tracker netdev_tracker;
+ 	struct net_device *netdev;
++
+ 	int rc = 0;
+ 
+ 	if (ctx->crypto_recv.info.version != TLS_1_2_VERSION)
+ 		return -EOPNOTSUPP;
+ 
+-	netdev = get_netdev_for_sock(sk);
++	netdev = get_netdev_for_sock(sk, &netdev_tracker, GFP_KERNEL);
+ 	if (!netdev) {
+ 		pr_err_ratelimited("%s: netdev not found\n", __func__);
+ 		return -EINVAL;
+@@ -1249,7 +1236,7 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+ 	tls_device_attach(ctx, sk, netdev);
+ 	up_read(&device_offload_lock);
+ 
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 
+ 	return 0;
+ 
+@@ -1262,7 +1249,7 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+ release_lock:
+ 	up_read(&device_offload_lock);
+ release_netdev:
+-	dev_put(netdev);
++	netdev_put(netdev, &netdev_tracker);
+ 	return rc;
  }
  
 -- 
