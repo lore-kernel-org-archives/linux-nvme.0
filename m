@@ -4,50 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7193AC67861
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 14:50:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 034DAC67861
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 15:36:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0r0sJ6YigZjoyHye3XS3rWn9OA+3tvfWQJ6eaNd8K7I=; b=wZ/3SL2WCPPUzNO/4lKmvi5Smh
-	wyHCNMP51aOzOhZcNC/l0g+hmAmtNfF0WMzjzip1r1RCUIdTk6aEZXQmArwctRRd4RFjS2JGbmUrU
-	B8NK/mEmQZbyVsfOhtA0s1cR2MGowzgKUpvtXlk/kMNWmDVrt7TqxKADAO54O1eo+3aJZaUkrusfN
-	5y35KmaBHCB6DWoOBZEqCPJ+B8wNrR7vxhjH5eDbX85MUpqno5fU1KVbSW7hxXDGxp1Jpxh6KcSbO
-	dw2UZzB1XB+aDqtmRTEkUvxPXeXVnrMfl94E04LKiYAwqgHtgdl1eQ3Y6jRSLjatLic8r95h93Gxm
-	rlORV98g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=; b=fdexqXBK4BheDcE4w9XIQNchRx
+	9yG/GbnP9Vpho6FKN9kZQ6s4I08lVriLS0aZtq6WLskbcemDDJZr9izCvdd1JAbR/YNazCj6TxfdB
+	Zh0jbmU8Mn5T/BCHeh1mLPILbt59GFy1EZt2LVKa+XEtNEaZeGW93U94y/RBRUYL7clXLKXqpyt5b
+	hQy4CCH9hjgSxf6SAViAd7iqoNZDup7RGQmR7OIWC8dahf71LGmjif7Z4tcMPyt0/CHJIpUxkSght
+	2Tw/odI9WkJWbaeX76+9oCgbCC9OemkeyvrC8gLGQSOT0xY+4n/wZz4Gv26KEbd/40vPcJ9YuCJrw
+	QPzadr6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsktc-00000007a3e-0Fmr;
-	Fri, 05 Apr 2024 14:50:24 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1rslcX-00000007mzw-3hcv;
+	Fri, 05 Apr 2024 15:36:49 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsktZ-00000007a2B-0uVN
+	id 1rslcS-00000007my1-4C8O
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Apr 2024 14:50:23 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8DC3368D07; Fri,  5 Apr 2024 16:50:17 +0200 (CEST)
-Date: Fri, 5 Apr 2024 16:50:17 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, James Smart <james.smart@broadcom.com>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Hannes Reinecke <hare@kernel.org>
-Subject: Re: [PATCH v4 3/5] nvmet: return DHCHAP status codes from
- nvmet_setup_auth()
-Message-ID: <20240405145017.GA6844@lst.de>
-References: <20240405062055.GC3107@lst.de> <3qh6d2fensgck2rodnbhreirfwkf7lloqwvk6gyfafu4fvgxss@jxb4b4kzu224> <20240405144752.GA6352@lst.de>
+	Fri, 05 Apr 2024 15:36:48 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 696A01F7E0;
+	Fri,  5 Apr 2024 15:36:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712331401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
+	b=bXS73QYCNrwgZgxepMm5fWpFZ/s2Sg4M8FaSmTpJB4oW8q/gZiRBgn3Iy8r6uro6X9LSPn
+	NX4OE2Gd/sL2FMTyfegysCujqCoE/0E+M+EcIuLydRHA1vn79mD/jjgu/gvAgxV8tBPSHc
+	vYtVICnlDXyjDu4y6qOsKKUwZsypR/U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712331401;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
+	b=ZiRird/DNvaQ205+3E9cZznYnx+qug2CVYUKHsmpKlSWBjjOFPuXC6j4IQ57H/zA78j8/8
+	QEe7D6A37dwVA/Dg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712331401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
+	b=bXS73QYCNrwgZgxepMm5fWpFZ/s2Sg4M8FaSmTpJB4oW8q/gZiRBgn3Iy8r6uro6X9LSPn
+	NX4OE2Gd/sL2FMTyfegysCujqCoE/0E+M+EcIuLydRHA1vn79mD/jjgu/gvAgxV8tBPSHc
+	vYtVICnlDXyjDu4y6qOsKKUwZsypR/U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712331401;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
+	b=ZiRird/DNvaQ205+3E9cZznYnx+qug2CVYUKHsmpKlSWBjjOFPuXC6j4IQ57H/zA78j8/8
+	QEe7D6A37dwVA/Dg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E9B5139F1;
+	Fri,  5 Apr 2024 15:36:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id 7SYUBokaEGbDWwAAn2gu4w
+	(envelope-from <hare@suse.de>); Fri, 05 Apr 2024 15:36:41 +0000
+Message-ID: <46e26322-a677-4c27-bc22-e2c65ed9d03c@suse.de>
+Date: Fri, 5 Apr 2024 17:36:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240405144752.GA6352@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 0/2] block,nvme: latency-based I/O scheduler
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
+References: <20240403141756.88233-1-hare@kernel.org>
+ <Zg8YNrSnZPjR4kan@kbusch-mbp.dhcp.thefacebook.com>
+ <b255fca4-a9da-4364-a3af-eb699eeb4160@suse.de>
+ <ZhAS0YKfV07qlUes@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ZhAS0YKfV07qlUes@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240405_075021_818842_CF62A65C 
-X-CRM114-Status: GOOD (  16.32  )
+X-CRM114-CacheID: sfid-20240405_083645_326059_D9AE32E5 
+X-CRM114-Status: GOOD (  18.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,17 +136,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 05, 2024 at 04:47:52PM +0200, Christoph Hellwig wrote:
-> > Are you sure I should map this to errno codes and the back to NVME
-> > status codes? Sure, this is possible but don't really think it makes
-> > sense.
+On 4/5/24 17:03, Keith Busch wrote:
+> On Fri, Apr 05, 2024 at 08:21:14AM +0200, Hannes Reinecke wrote:
+>> On 4/4/24 23:14, Keith Busch wrote:
+>>> On Wed, Apr 03, 2024 at 04:17:54PM +0200, Hannes Reinecke wrote:
+>>>> Hi all,
+>>>>
+>>>> there had been several attempts to implement a latency-based I/O
+>>>> scheduler for native nvme multipath, all of which had its issues.
+>>>>
+>>>> So time to start afresh, this time using the QoS framework
+>>>> already present in the block layer.
+>>>> It consists of two parts:
+>>>> - a new 'blk-nlatency' QoS module, which is just a simple per-node
+>>>>     latency tracker
+>>>> - a 'latency' nvme I/O policy
+>>> Whatever happened with the io-depth based path selector? That should
+>>> naturally align with the lower latency path, and that metric is cheaper
+>>> to track.
+>>
+>> Turns out that tracking queue depth (on the NVMe level) always requires
+>> an atomic, and with that a performance impact.
+>> The qos/blk-stat framework is already present, and as the numbers show
+>> actually leads to a performance improvement.
+>>
+>> So I'm not quite sure what the argument 'cheaper to track' buys us here...
 > 
-> No, but we should not overload the return value.  Pass in the req
-> or sq, or add a new paramter for the auth fail reason.
+> I was considering the blk_stat framework compared to those atomic
+> operations. I usually don't enable stats because all the extra
+> ktime_get_ns() and indirect calls are relatively costly. If you're
+> enabling stats anyway though, then yeah, I guess I don't really have a
+> point and your idea here seems pretty reasonable.
 
-Or make sure all returns are the status codes, change the return
-value to a u8 and clearly document what values it returns if that
-works out.
+Pretty much. Of course you need stats to be enabled.
+And problem with the queue depth is that it's actually quite costly
+to compute; the while sbitmap thingie is precisely there to _avoid_
+having to track the queue depth.
+I can't really see how one could track the queue depth efficiently;
+the beauty of the blk_stat framework is that it's running async, and
+only calculated after I/O is completed.
+We could do a 'mock' queue depth by calculating the difference between
+submitted and completed I/O, but even then you'd have to inject a call
+in the hot path to track the number of submissions.
 
-And while you're at it please fix all the overly long lines.
+In the end, the latency tracker did what I wanted to achieve (namely
+balance out uneven paths), _and_ got faster than round-robin, so I 
+didn't care about queue depth tracking.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
+Werner Knoblich
+
 
