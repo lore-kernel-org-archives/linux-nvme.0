@@ -4,88 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3B69CD1297
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 12:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E27D7C67861
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 13:25:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=nDj5DHl0oA/T4tJMWNVpkmsvsZjAK7EoJlBBzYHpv2Q=; b=Grfsl3Ph2sqNHu
-	DKnIpMms30dS6Me6lxH31ZXXBQPpX8l7+GJ9K6FLc3h+asbl6qmAZfKtkub+Ggfp6QyL0xiNZFQjI
-	+/ZyEn48zSeYnzhmS/KpSVtraLouLcjBupjegvRgj/k7hyuiEajeX+PYc0ZWP84sdr8CZ5GY7ZF29
-	sWGhpaNDyWrW1rnGRXE0SgKIyrqF1AytRz/6KVDaqfzdaiEYKCY47Rg1apZ59pIhS1zke3nURN2EV
-	bvm2P5jPVDB9sTATNoV2lF5I1lxZRMosXtFPQC16yP6LB7ETcG6alhXqS1DAIVnEN8sHSEl3bk4vl
-	HUENdyNDJMMryb+tH7tw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PJC3Z1irT0+nnttWGlCwrHW635IJ8lN25LyXL+82QFU=; b=xXutLAxLAJQhrveBQCJtigS6vG
+	JLIpadv4STVmmiEfprAr7cuXofQZyE+GLzZSdZxtlY3B6T1ZRT78ZYI0y6n6D7TrGkcw35+TYFfQT
+	wqUcGPju/27y4HdcKKiPgAlNLcTaiy3PMRhSZfDdcFiJ9K+3n52Tt7i9djvTcUIvKnkV6OBPeI42C
+	vmdL2h5BPHXje7XxhegwoIzXiotd1arN8bHGurJ0fLthYx186joK1TCvTTkmLCGOVFnXusnAaFrEU
+	TKBRN2PpZP8CcJQdOOc8JIQi+FHs791Pxd3W3ZQKYxr9FJgxw8sceVbUSIpLgc9RuBJs6C6ewoliC
+	PjSjSRmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsiPb-00000006qCe-2lXC;
-	Fri, 05 Apr 2024 12:11:15 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1rsjZT-00000007D68-0NIa;
+	Fri, 05 Apr 2024 13:25:31 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsiPY-00000006q9H-2rsZ
+	id 1rsjZM-00000007D4f-3kHc
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Apr 2024 12:11:14 +0000
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 435C140n011009;
-	Fri, 5 Apr 2024 12:11:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=nDj5DHl0oA/T4tJMWNVpkmsvsZjAK7EoJlBBzYHpv2Q=;
- b=IW95BEB4A3Rl84ZB00t9vi2K4W4sKHU9yiE5EH2pvqeJqbpTWx2zECdGfwDXUPYZODDE
- k2omOXqNN0jlk9rZo9f/utIYORzyX25MXccbglU1cwsPNB0hcdVbmAfArDOh8As4rGsa
- 4A5AH9/iojlADYQrk92fgZ3CLBeUk6zGyr1eahdFeBLCw8ns6EKGpWdrgl/lRbatghID
- V0picRvhhoLfkSqHn1zIxxxISLJtMIgkPNHaKp6lJ1PoZupyZNTsMDxcDIftNcndyzk8
- 1C8lMdA3fPgk7Iz4Pr571qS2gAX1iKm9r/0uIGl1R/flOnPrCKAZhzQbrLqjOdFRcwuB lQ== 
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xag2u05e1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 12:11:05 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4359AqaE003622;
-	Fri, 5 Apr 2024 12:11:04 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3x9epyjcms-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Apr 2024 12:11:04 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 435CB0w147186232
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 5 Apr 2024 12:11:02 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C2F8A20040;
-	Fri,  5 Apr 2024 12:11:00 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7E01E2005A;
-	Fri,  5 Apr 2024 12:10:59 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.231])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  5 Apr 2024 12:10:59 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, dwagner@suse.de, gjoyce@ibm.com, nilay@linux.ibm.com
-Subject: [PATCH nvme-cli] nvme-print: Print cntlid number for controller
-Date: Fri,  5 Apr 2024 17:40:36 +0530
-Message-ID: <20240405121057.297071-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.44.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: GzAQG1MajXuOLs8oqJLZ4F4mncbVHLXg
-X-Proofpoint-GUID: GzAQG1MajXuOLs8oqJLZ4F4mncbVHLXg
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	Fri, 05 Apr 2024 13:25:28 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9629A21A41;
+	Fri,  5 Apr 2024 13:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712323522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PJC3Z1irT0+nnttWGlCwrHW635IJ8lN25LyXL+82QFU=;
+	b=lFBNLNUbFnYkutVradXzW3rkfxETWkp10yjx4uOPAAovCfUzOSt14yLOw4yCxI5CoDIeXk
+	Yv4X7qGxtc7LFCsfRJlI8RlTAE6MN55mq4GA+uYCbakhPmtEJ3dZXNs3Kku3nlflh19BWz
+	AxvhCTREQ2QUi6aqJ0QU5K61ZeAB8k0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712323522;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PJC3Z1irT0+nnttWGlCwrHW635IJ8lN25LyXL+82QFU=;
+	b=fcOxNc9hAkvQdUSSb/A5XSl4e8oEUWkmK31vPNqb8uhPfrNt+XntR/T1ZijH4b22MPIU/X
+	80LQdXPwvXVmgwDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lFBNLNUb;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fcOxNc9h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712323522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PJC3Z1irT0+nnttWGlCwrHW635IJ8lN25LyXL+82QFU=;
+	b=lFBNLNUbFnYkutVradXzW3rkfxETWkp10yjx4uOPAAovCfUzOSt14yLOw4yCxI5CoDIeXk
+	Yv4X7qGxtc7LFCsfRJlI8RlTAE6MN55mq4GA+uYCbakhPmtEJ3dZXNs3Kku3nlflh19BWz
+	AxvhCTREQ2QUi6aqJ0QU5K61ZeAB8k0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712323522;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PJC3Z1irT0+nnttWGlCwrHW635IJ8lN25LyXL+82QFU=;
+	b=fcOxNc9hAkvQdUSSb/A5XSl4e8oEUWkmK31vPNqb8uhPfrNt+XntR/T1ZijH4b22MPIU/X
+	80LQdXPwvXVmgwDQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 83844139F1;
+	Fri,  5 Apr 2024 13:25:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id b/qrHsL7D2blLAAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Fri, 05 Apr 2024 13:25:22 +0000
+Date: Fri, 5 Apr 2024 15:24:57 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: James Smart <james.smart@broadcom.com>, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Hannes Reinecke <hare@kernel.org>
+Subject: Re: [PATCH v4 3/5] nvmet: return DHCHAP status codes from
+ nvmet_setup_auth()
+Message-ID: <b2wntzlxa62nj7abvgsfc36tqbhuhun2e6ugqlvfs7lzfegzzm@q5mydisb7vaf>
+References: <20240405062055.GC3107@lst.de>
+ <3qh6d2fensgck2rodnbhreirfwkf7lloqwvk6gyfafu4fvgxss@jxb4b4kzu224>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_10,2024-04-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0
- spamscore=0 suspectscore=0 adultscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2404010000
- definitions=main-2404050088
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3qh6d2fensgck2rodnbhreirfwkf7lloqwvk6gyfafu4fvgxss@jxb4b4kzu224>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 9629A21A41
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	RCVD_TLS_ALL(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240405_051112_754457_FA11BB34 
-X-CRM114-Status: GOOD (  16.34  )
+X-CRM114-CacheID: sfid-20240405_062525_116589_4A8AAF0D 
+X-CRM114-Status: GOOD (  20.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,61 +139,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Print the controller identifier number (cntlid) for the
-nvme controller. The cntlid is printed if nvme list
-verbose is specified.
+On Fri, Apr 05, 2024 at 12:02:52PM +0200, Daniel Wagner wrote:
+> On Fri, Apr 05, 2024 at 08:20:55AM +0200, Christoph Hellwig wrote:
+> > > @@ -131,7 +131,6 @@ int nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+> > >  	int ret = 0;
+> > >  	struct nvmet_host_link *p;
+> > >  	struct nvmet_host *host = NULL;
+> > > -	const char *hash_name;
+> > >  
+> > >  	down_read(&nvmet_config_sem);
+> > >  	if (nvmet_is_disc_subsys(ctrl->subsys))
+> > > @@ -149,13 +148,16 @@ int nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+> > >  	}
+> > >  	if (!host) {
+> > >  		pr_debug("host %s not found\n", ctrl->hostnqn);
+> > > -		ret = -EPERM;
+> > > +		ret = NVME_AUTH_DHCHAP_FAILURE_FAILED;
+> > >  		goto out_unlock;
+> > 
+> > This is now returning returning random on the wire fields that aren't
+> > even the NVMe status codes from a function otherwise returning Linux
+> > errno values.  I can't see how this works or is maintainable long term.
+> 
+> This is the target side and we generate the on wire return code here.
+> Are you sure I should map this to errno codes and the back to NVME
+> status codes? Sure, this is possible but don't really think it makes
+> sense.
 
-Link: https://lore.kernel.org/all/20240326065752.164286-1-nilay@linux.ibm.com/
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- nvme-print-json.c   |  1 +
- nvme-print-stdout.c | 12 +++++++-----
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/nvme-print-json.c b/nvme-print-json.c
-index fec72b9d..8cf057f2 100644
---- a/nvme-print-json.c
-+++ b/nvme-print-json.c
-@@ -3899,6 +3899,7 @@ static void json_detail_list(nvme_root_t t)
- 				struct json_object *jpaths = json_create_array();
- 
- 				obj_add_str(jctrl, "Controller", nvme_ctrl_get_name(c));
-+				obj_add_str(jctrl, "Cntlid", nvme_ctrl_get_cntlid(c));
- 				obj_add_str(jctrl, "SerialNumber", nvme_ctrl_get_serial(c));
- 				obj_add_str(jctrl, "ModelNumber", nvme_ctrl_get_model(c));
- 				obj_add_str(jctrl, "Firmware", nvme_ctrl_get_firmware(c));
-diff --git a/nvme-print-stdout.c b/nvme-print-stdout.c
-index 795087ee..1b62a8e4 100644
---- a/nvme-print-stdout.c
-+++ b/nvme-print-stdout.c
-@@ -4802,8 +4802,9 @@ static bool stdout_detailed_ctrl(const char *name, void *arg)
- 	c = htable_ctrl_get(&res->ht_c, name);
- 	assert(c);
- 
--	printf("%-8s %-20s %-40s %-8s %-6s %-14s %-6s %-12s ",
-+	printf("%-8s %-6s %-20s %-40s %-8s %-6s %-14s %-6s %-12s ",
- 	       nvme_ctrl_get_name(c),
-+	       nvme_ctrl_get_cntlid(c),
- 	       nvme_ctrl_get_serial(c),
- 	       nvme_ctrl_get_model(c),
- 	       nvme_ctrl_get_firmware(c),
-@@ -4882,10 +4883,11 @@ static void stdout_detailed_list(nvme_root_t r)
- 	strset_iterate(&res.subsystems, stdout_detailed_subsys, &res);
- 	printf("\n");
- 
--	printf("%-8s %-20s %-40s %-8s %-6s %-14s %-6s %-12s %-16s\n", "Device",
--		"SN", "MN", "FR", "TxPort", "Address", "Slot", "Subsystem", "Namespaces");
--	printf("%-.8s %-.20s %-.40s %-.8s %-.6s %-.14s %-.6s %-.12s %-.16s\n", dash,
--		dash, dash, dash, dash, dash, dash, dash, dash);
-+	printf("%-8s %-6s %-20s %-40s %-8s %-6s %-14s %-6s %-12s %-16s\n", "Device",
-+		"Cntlid", "SN", "MN", "FR", "TxPort", "Address", "Slot", "Subsystem",
-+		"Namespaces");
-+	printf("%-.8s %-.6s %-.20s %-.40s %-.8s %-.6s %-.14s %-.6s %-.12s %-.16s\n",
-+			dash, dash, dash, dash, dash, dash, dash, dash, dash, dash);
- 	strset_iterate(&res.ctrls, stdout_detailed_ctrl, &res);
- 	printf("\n");
- 
--- 
-2.44.0
-
+I think I start to understand your feedback. I'll try to address it.
 
