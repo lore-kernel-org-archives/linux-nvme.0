@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6A19CD1297
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 05:49:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 017AACD1284
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 05:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4xpB64Po3VVVSIjN5C7GxnRL2r9TC0wHxotunMxcxyI=; b=TzRhwa0jfyoQg9bGR2092ZXYoy
-	njHcZnvXTtmnrEL8QqO+flpQ/merDPznWMMoAB458LZRVg6j9nnFlWUvtb2jhKYeQVQlRSqBnXHTX
-	kseStLW5TSNg1z5WG30t5xz+utRtNkfM34VyTF3C34q3980DlmSSZvOnPwLxZuQD5z/1xVj8YIwWj
-	RBvwZrC6Kdj4379NR9jp7Kc7WhY/8YFsJIWncER4Qx8rOOQe7zkcZyti0kxWVoFfUTa/ou0fhJoFi
-	QCqMLdHL1p2cBaQ1jqrKm2hcKVB6s010FaAisWa/oOG4jKS2wcQJkPRD0RPL8aZZUxS9o+xanSt0U
-	93pFkNeQ==;
+	bh=nkiFi/QFaZSXwuDV/WYA2zt14JYHJmZdYPvtlDiGTas=; b=HLsl1eyqVvBlbTeSzWKPz9l5tT
+	SaHn22kw2mEsUfWyz2cK9WLKQoE+TYCIPupp8LDjwarSPyX5cz9rBWYlxRVcYFezSeXMBwXd55Jiq
+	JZwRPzyR6Hpfh1cBTxOt70mEpHrs9jGuIh+kGiDxEdsYEpN39uou0jDqcjNraDWWkFDc1Ll46Sqzt
+	CoUP00+Laa6CPgSVJygoNQvm1PMkO6mJGggIG/qmvtCAuGfDrD9TRIibqRm2npASDVyVMJN6l9EHh
+	W9vtrRHYZO/KiQhfpfJ5fjAk2E85NfboXXyGJ5iRXyRoYyS8AIx1+wBoQFw8pU9KXZtAkrUfHlcB5
+	VeOkeixA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rscSR-00000005LOT-1hUS;
-	Fri, 05 Apr 2024 05:49:47 +0000
+	id 1rscSb-00000005LVU-47QD;
+	Fri, 05 Apr 2024 05:49:58 +0000
 Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsbPN-00000005BMd-3fAJ
+	id 1rsbPS-00000005BCJ-3ayo
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Apr 2024 04:42:47 +0000
+	Fri, 05 Apr 2024 04:42:57 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 159E0CE35F7;
-	Fri,  5 Apr 2024 04:42:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92C02C433A6;
-	Fri,  5 Apr 2024 04:42:30 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 50BDFCE35FD;
+	Fri,  5 Apr 2024 04:42:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71336C433F1;
+	Fri,  5 Apr 2024 04:42:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712292151;
-	bh=YARcYpByiC8z1QdFM74x6voKyEeLX1LQj+WGr00zNUQ=;
+	s=k20201202; t=1712292157;
+	bh=yf3aHd7xoJIE60kW1dRyHMueT66VySqIUCV6rd0JX3w=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=NmRujvtvzT8w/hIhtPuhOrktgTI6B41KnkW4YWzYTgUPkZ4W6wzFlta2UwnZQ5x5K
-	 Amk4u9JM+0pLs4NjEas5eAbAK5+7dRHb1+cY/sluYPDL6rnVvdWzyQNbVyKuzv3n7S
-	 kORA0l4krB4VUpjukhShj58wWCx8fdeJB3xFXQS8d72iqlaTQ9fZNQpmoy9TVaWdQN
-	 qYYzkDei9aNB0jxRQFAzikE0hr9UMbtO1WUt+pgJu5w5bCsYSfEYSiSbuym1vSKqgF
-	 uR1P5BerNxym+RNqrzt6KkurIQ8DCU3oS5rbxur1MDQMYbDSlCbOm13RebVseF12fo
-	 sudsfYmEwcFHg==
+	b=OfCFwm49vUMpIsETStBjxGWkuuDfoiOjxD+/tUENI4pukS0mVsMKouENdZ2844dEG
+	 R/9SzrwsBmOVqoVdGHkIb6ofbV7mrQ9xDhK73DXfRaZa8cUG2PqTtQwDYUzUozJ1KN
+	 HnTxQkMdMuYTyY+Zvpee23yJKZBwc8jz/xWWEAcvPA4hC8M8oE77firomVzDMveY2s
+	 /gw0xRmS+qpP1Ees9Pxq8pR3XRmU+sINd9d4dAZqfiQHV78yQVD8J4Gq8U3eOVrtP5
+	 8xFCRKREiFuDS9euZn9tlPcOYEJ4AEuowr1Q3zPS/SycjysanS82Pse0IHTkImgJDu
+	 2J76FHIcnWygg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -52,17 +52,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v6 15/28] null_blk: Do not request ELEVATOR_F_ZBD_SEQ_WRITE elevator feature
-Date: Fri,  5 Apr 2024 13:41:54 +0900
-Message-ID: <20240405044207.1123462-16-dlemoal@kernel.org>
+Subject: [PATCH v6 19/28] block: Remove BLK_STS_ZONE_RESOURCE
+Date: Fri,  5 Apr 2024 13:41:58 +0900
+Message-ID: <20240405044207.1123462-20-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240405044207.1123462-1-dlemoal@kernel.org>
 References: <20240405044207.1123462-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240404_214234_551476_B54AF9FD 
-X-CRM114-Status: GOOD (  11.09  )
+X-CRM114-CacheID: sfid-20240404_214239_556949_8F716CF3 
+X-CRM114-Status: GOOD (  23.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,35 +77,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With zone write plugging enabled at the block layer level, a zoned
-device can only ever see at most a single write operation per zone.
-There is thus no need to request a block scheduler with strick per-zone
-sequential write ordering control through the ELEVATOR_F_ZBD_SEQ_WRITE
-feature. Removing this allows using a zoned null_blk device with any
-scheduler, including "none".
+The zone append emulation of the scsi disk driver was the only driver
+using BLK_STS_ZONE_RESOURCE. With this code removed,
+BLK_STS_ZONE_RESOURCE is now unused. Remove this macro definition and
+simplify blk_mq_dispatch_rq_list() where this status code was handled.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 Tested-by: Hans Holmberg <hans.holmberg@wdc.com>
 ---
- drivers/block/null_blk/zoned.c | 1 -
- 1 file changed, 1 deletion(-)
+ block/blk-mq.c            | 26 --------------------------
+ drivers/scsi/scsi_lib.c   |  1 -
+ include/linux/blk_types.h | 20 ++++----------------
+ 3 files changed, 4 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/block/null_blk/zoned.c b/drivers/block/null_blk/zoned.c
-index 1689e2584104..8e217f8fadcd 100644
---- a/drivers/block/null_blk/zoned.c
-+++ b/drivers/block/null_blk/zoned.c
-@@ -165,7 +165,6 @@ int null_register_zoned_dev(struct nullb *nullb)
- 	struct request_queue *q = nullb->q;
- 
- 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
--	blk_queue_required_elevator_features(q, ELEVATOR_F_ZBD_SEQ_WRITE);
- 	nullb->disk->nr_zones = bdev_nr_zones(nullb->disk->part0);
- 	return blk_revalidate_disk_zones(nullb->disk, NULL);
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 6f9cc1c4d4fb..9f2d9970eeba 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1921,19 +1921,6 @@ static void blk_mq_handle_dev_resource(struct request *rq,
+ 	__blk_mq_requeue_request(rq);
  }
+ 
+-static void blk_mq_handle_zone_resource(struct request *rq,
+-					struct list_head *zone_list)
+-{
+-	/*
+-	 * If we end up here it is because we cannot dispatch a request to a
+-	 * specific zone due to LLD level zone-write locking or other zone
+-	 * related resource not being available. In this case, set the request
+-	 * aside in zone_list for retrying it later.
+-	 */
+-	list_add(&rq->queuelist, zone_list);
+-	__blk_mq_requeue_request(rq);
+-}
+-
+ enum prep_dispatch {
+ 	PREP_DISPATCH_OK,
+ 	PREP_DISPATCH_NO_TAG,
+@@ -2019,7 +2006,6 @@ bool blk_mq_dispatch_rq_list(struct blk_mq_hw_ctx *hctx, struct list_head *list,
+ 	struct request *rq;
+ 	int queued;
+ 	blk_status_t ret = BLK_STS_OK;
+-	LIST_HEAD(zone_list);
+ 	bool needs_resource = false;
+ 
+ 	if (list_empty(list))
+@@ -2061,23 +2047,11 @@ bool blk_mq_dispatch_rq_list(struct blk_mq_hw_ctx *hctx, struct list_head *list,
+ 		case BLK_STS_DEV_RESOURCE:
+ 			blk_mq_handle_dev_resource(rq, list);
+ 			goto out;
+-		case BLK_STS_ZONE_RESOURCE:
+-			/*
+-			 * Move the request to zone_list and keep going through
+-			 * the dispatch list to find more requests the drive can
+-			 * accept.
+-			 */
+-			blk_mq_handle_zone_resource(rq, &zone_list);
+-			needs_resource = true;
+-			break;
+ 		default:
+ 			blk_mq_end_request(rq, ret);
+ 		}
+ 	} while (!list_empty(list));
+ out:
+-	if (!list_empty(&zone_list))
+-		list_splice_tail_init(&zone_list, list);
+-
+ 	/* If we didn't flush the entire list, we could have told the driver
+ 	 * there was more coming, but that turned out to be a lie.
+ 	 */
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 2e28e2360c85..9ca96116bd33 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1870,7 +1870,6 @@ static blk_status_t scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	case BLK_STS_OK:
+ 		break;
+ 	case BLK_STS_RESOURCE:
+-	case BLK_STS_ZONE_RESOURCE:
+ 		if (scsi_device_blocked(sdev))
+ 			ret = BLK_STS_DEV_RESOURCE;
+ 		break;
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 29b3170431e7..ffe0c112b128 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -136,18 +136,6 @@ typedef u16 blk_short_t;
+  */
+ #define BLK_STS_DEV_RESOURCE	((__force blk_status_t)13)
+ 
+-/*
+- * BLK_STS_ZONE_RESOURCE is returned from the driver to the block layer if zone
+- * related resources are unavailable, but the driver can guarantee the queue
+- * will be rerun in the future once the resources become available again.
+- *
+- * This is different from BLK_STS_DEV_RESOURCE in that it explicitly references
+- * a zone specific resource and IO to a different zone on the same device could
+- * still be served. Examples of that are zones that are write-locked, but a read
+- * to the same zone could be served.
+- */
+-#define BLK_STS_ZONE_RESOURCE	((__force blk_status_t)14)
+-
+ /*
+  * BLK_STS_ZONE_OPEN_RESOURCE is returned from the driver in the completion
+  * path if the device returns a status indicating that too many zone resources
+@@ -155,7 +143,7 @@ typedef u16 blk_short_t;
+  * after the number of open zones decreases below the device's limits, which is
+  * reported in the request_queue's max_open_zones.
+  */
+-#define BLK_STS_ZONE_OPEN_RESOURCE	((__force blk_status_t)15)
++#define BLK_STS_ZONE_OPEN_RESOURCE	((__force blk_status_t)14)
+ 
+ /*
+  * BLK_STS_ZONE_ACTIVE_RESOURCE is returned from the driver in the completion
+@@ -164,20 +152,20 @@ typedef u16 blk_short_t;
+  * after the number of active zones decreases below the device's limits, which
+  * is reported in the request_queue's max_active_zones.
+  */
+-#define BLK_STS_ZONE_ACTIVE_RESOURCE	((__force blk_status_t)16)
++#define BLK_STS_ZONE_ACTIVE_RESOURCE	((__force blk_status_t)15)
+ 
+ /*
+  * BLK_STS_OFFLINE is returned from the driver when the target device is offline
+  * or is being taken offline. This could help differentiate the case where a
+  * device is intentionally being shut down from a real I/O error.
+  */
+-#define BLK_STS_OFFLINE		((__force blk_status_t)17)
++#define BLK_STS_OFFLINE		((__force blk_status_t)16)
+ 
+ /*
+  * BLK_STS_DURATION_LIMIT is returned from the driver when the target device
+  * aborted the command because it exceeded one of its Command Duration Limits.
+  */
+-#define BLK_STS_DURATION_LIMIT	((__force blk_status_t)18)
++#define BLK_STS_DURATION_LIMIT	((__force blk_status_t)17)
+ 
+ /**
+  * blk_path_error - returns true if error may be path related
 -- 
 2.44.0
 
