@@ -4,124 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 034DAC67861
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 15:36:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 097CECD11C2
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 15:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=; b=fdexqXBK4BheDcE4w9XIQNchRx
-	9yG/GbnP9Vpho6FKN9kZQ6s4I08lVriLS0aZtq6WLskbcemDDJZr9izCvdd1JAbR/YNazCj6TxfdB
-	Zh0jbmU8Mn5T/BCHeh1mLPILbt59GFy1EZt2LVKa+XEtNEaZeGW93U94y/RBRUYL7clXLKXqpyt5b
-	hQy4CCH9hjgSxf6SAViAd7iqoNZDup7RGQmR7OIWC8dahf71LGmjif7Z4tcMPyt0/CHJIpUxkSght
-	2Tw/odI9WkJWbaeX76+9oCgbCC9OemkeyvrC8gLGQSOT0xY+4n/wZz4Gv26KEbd/40vPcJ9YuCJrw
-	QPzadr6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6rbAxhTU3trm8omv2Bw7/7acDjs036CDj3MB035wsvw=; b=w8ULpE9j52NsAnOQzHBwLOumus
+	ZeMe/DlLvM0rCWLmYBk54jjOzbclrMX+s+xkyLvsqlxXNhMy9CrZnKedloMG8NdIY7QA0XF5uIU93
+	BUhQbNPBZFdw2u6nC7Dm9io5vF1MNNexk4DeLHOMIjoEfLQyRINaXGjLgI610SlTQ0ONfYmAwtP4+
+	iMPiwN546tUSc/Lp05S4F1feQSZJGU51RubAXTuTWLZcXjzA4lw55aGyOpBmkVAbebadYVlWZuO0e
+	gugNWD4+cIXK7VP0Cgz9Cur1UJ8BX09b+h5qs9mND1ZIhWOe62CNF4IJKt1de5xJxc24uYFGYLzEZ
+	uXi4Uylg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rslcX-00000007mzw-3hcv;
-	Fri, 05 Apr 2024 15:36:49 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rslmN-00000007prT-1SMB;
+	Fri, 05 Apr 2024 15:46:59 +0000
+Received: from mail-qt1-f170.google.com ([209.85.160.170])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rslcS-00000007my1-4C8O
+	id 1rslmJ-00000007pmb-1OGf
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Apr 2024 15:36:48 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 696A01F7E0;
-	Fri,  5 Apr 2024 15:36:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712331401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
-	b=bXS73QYCNrwgZgxepMm5fWpFZ/s2Sg4M8FaSmTpJB4oW8q/gZiRBgn3Iy8r6uro6X9LSPn
-	NX4OE2Gd/sL2FMTyfegysCujqCoE/0E+M+EcIuLydRHA1vn79mD/jjgu/gvAgxV8tBPSHc
-	vYtVICnlDXyjDu4y6qOsKKUwZsypR/U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712331401;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
-	b=ZiRird/DNvaQ205+3E9cZznYnx+qug2CVYUKHsmpKlSWBjjOFPuXC6j4IQ57H/zA78j8/8
-	QEe7D6A37dwVA/Dg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712331401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
-	b=bXS73QYCNrwgZgxepMm5fWpFZ/s2Sg4M8FaSmTpJB4oW8q/gZiRBgn3Iy8r6uro6X9LSPn
-	NX4OE2Gd/sL2FMTyfegysCujqCoE/0E+M+EcIuLydRHA1vn79mD/jjgu/gvAgxV8tBPSHc
-	vYtVICnlDXyjDu4y6qOsKKUwZsypR/U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712331401;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwuiT7ZpNTuZOK2uB1PuBKLWk7YWD/Bi6Wj2zqKr5PQ=;
-	b=ZiRird/DNvaQ205+3E9cZznYnx+qug2CVYUKHsmpKlSWBjjOFPuXC6j4IQ57H/zA78j8/8
-	QEe7D6A37dwVA/Dg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E9B5139F1;
-	Fri,  5 Apr 2024 15:36:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 7SYUBokaEGbDWwAAn2gu4w
-	(envelope-from <hare@suse.de>); Fri, 05 Apr 2024 15:36:41 +0000
-Message-ID: <46e26322-a677-4c27-bc22-e2c65ed9d03c@suse.de>
-Date: Fri, 5 Apr 2024 17:36:40 +0200
+	Fri, 05 Apr 2024 15:46:57 +0000
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4345f35daa7so2091031cf.0
+        for <linux-nvme@lists.infradead.org>; Fri, 05 Apr 2024 08:46:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712332006; x=1712936806;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6rbAxhTU3trm8omv2Bw7/7acDjs036CDj3MB035wsvw=;
+        b=VqMA3Tz+odj49aqEcj0LfFl1Io3fktDUwrTaRWUUgp5KWTDbpR9wW6+G0DPDSakYqU
+         xlWEFIVgYQISLsTqv8Y4O/ezqcetwysK8GYcf0lZ6xXxt9wPLtHSl664bmVgVbGXwoHH
+         Lh46YEvQ9k02G4uMTfg8rFi/bwdPE9w06o7Jojr13RHQSWL7zROy/BQ6g2POThuDxJp9
+         oUs52I7RV7vfS/Ev8l88+g5A04ImO5z1Wy6tmRJdQIGtJbW6aA08wRXCPz/IBemRgW2c
+         6oKrsWM/YAt6BFLKLV3Gjbd0SukXyR8TyoGufA7Rip10QXGFbFHOqbHh9LUh1fbEu4cn
+         SG1g==
+X-Forwarded-Encrypted: i=1; AJvYcCVQF+VOE9ceL8clTJRy4zQdZzV1j0NlI2PUxZx+OzQm5vEhgWDh8HS39nPJ1PWUAAu/bInPNu29Y7hURi3Cd2nntz6Nit0VqUmvirylpNE=
+X-Gm-Message-State: AOJu0YwD167/Oa7GPSKnie0692mIymdQ0uUBD4aRjufnfmGZuAAAPiSC
+	+El7HJRU+QInXZNTWDoSFIdG1ETKXFAtAFeHcz6LxpGA8rZG1j3h/UXU0+zF1w==
+X-Google-Smtp-Source: AGHT+IEXwj4lJiAs5E/QO+Sa6vdj5AXAThaYh2DQXIrBkzcrcg7oaujlyRW+rioUqrlHYgkWfdpcnQ==
+X-Received: by 2002:a05:622a:5e8d:b0:434:61bc:9e22 with SMTP id er13-20020a05622a5e8d00b0043461bc9e22mr1787408qtb.24.1712332005953;
+        Fri, 05 Apr 2024 08:46:45 -0700 (PDT)
+Received: from localhost (pool-68-160-141-91.bstnma.fios.verizon.net. [68.160.141.91])
+        by smtp.gmail.com with ESMTPSA id bw9-20020a05622a098900b004330090b874sm852109qtb.95.2024.04.05.08.46.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Apr 2024 08:46:45 -0700 (PDT)
+Date: Fri, 5 Apr 2024 11:46:44 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-scsi@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v6 12/28] dm: Use the block layer zone append emulation
+Message-ID: <ZhAc5JL9KwoDdiOO@redhat.com>
+References: <20240405044207.1123462-1-dlemoal@kernel.org>
+ <20240405044207.1123462-13-dlemoal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 0/2] block,nvme: latency-based I/O scheduler
-To: Keith Busch <kbusch@kernel.org>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-References: <20240403141756.88233-1-hare@kernel.org>
- <Zg8YNrSnZPjR4kan@kbusch-mbp.dhcp.thefacebook.com>
- <b255fca4-a9da-4364-a3af-eb699eeb4160@suse.de>
- <ZhAS0YKfV07qlUes@kbusch-mbp.dhcp.thefacebook.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ZhAS0YKfV07qlUes@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns,suse.de:email]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240405044207.1123462-13-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240405_083645_326059_D9AE32E5 
-X-CRM114-Status: GOOD (  18.26  )
+X-CRM114-CacheID: sfid-20240405_084655_489419_74BD2DFE 
+X-CRM114-Status: GOOD (  30.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,61 +84,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/5/24 17:03, Keith Busch wrote:
-> On Fri, Apr 05, 2024 at 08:21:14AM +0200, Hannes Reinecke wrote:
->> On 4/4/24 23:14, Keith Busch wrote:
->>> On Wed, Apr 03, 2024 at 04:17:54PM +0200, Hannes Reinecke wrote:
->>>> Hi all,
->>>>
->>>> there had been several attempts to implement a latency-based I/O
->>>> scheduler for native nvme multipath, all of which had its issues.
->>>>
->>>> So time to start afresh, this time using the QoS framework
->>>> already present in the block layer.
->>>> It consists of two parts:
->>>> - a new 'blk-nlatency' QoS module, which is just a simple per-node
->>>>     latency tracker
->>>> - a 'latency' nvme I/O policy
->>> Whatever happened with the io-depth based path selector? That should
->>> naturally align with the lower latency path, and that metric is cheaper
->>> to track.
->>
->> Turns out that tracking queue depth (on the NVMe level) always requires
->> an atomic, and with that a performance impact.
->> The qos/blk-stat framework is already present, and as the numbers show
->> actually leads to a performance improvement.
->>
->> So I'm not quite sure what the argument 'cheaper to track' buys us here...
+On Fri, Apr 05 2024 at 12:41P -0400,
+Damien Le Moal <dlemoal@kernel.org> wrote:
+
+> For targets requiring zone append operation emulation with regular
+> writes (e.g. dm-crypt), we can use the block layer emulation provided by
+> zone write plugging. Remove DM implemented zone append emulation and
+> enable the block layer one.
 > 
-> I was considering the blk_stat framework compared to those atomic
-> operations. I usually don't enable stats because all the extra
-> ktime_get_ns() and indirect calls are relatively costly. If you're
-> enabling stats anyway though, then yeah, I guess I don't really have a
-> point and your idea here seems pretty reasonable.
+> This is done by setting the max_zone_append_sectors limit of the
+> mapped device queue to 0 for mapped devices that have a target table
+> that cannot support native zone append operations (e.g. dm-crypt).
+> Such mapped devices are flagged with the DMF_EMULATE_ZONE_APPEND flag.
+> dm_split_and_process_bio() is modified to execute
+> blk_zone_write_plug_bio() for such device to let the block layer
+> transform zone append operations into regular writes.  This is done
+> after ensuring that the submitted BIO is split if it straddles zone
+> boundaries. Both changes are implemented unsing the inline helpers
+> dm_zone_write_plug_bio() and dm_zone_bio_needs_split() respectively.
+> 
+> dm_revalidate_zones() is also modified to use the block layer provided
+> function blk_revalidate_disk_zones() so that all zone resources needed
+> for zone append emulation are initialized by the block layer without DM
+> core needing to do anything. Since the device table is not yet live when
+> dm_revalidate_zones() is executed, enabling the use of
+> blk_revalidate_disk_zones() requires adding a pointer to the device
+> table in struct mapped_device. This avoids errors in
+> dm_blk_report_zones() trying to get the table with dm_get_live_table().
+> The mapped device table pointer is set to the table passed as argument
+> to dm_revalidate_zones() before calling blk_revalidate_disk_zones() and
+> reset to NULL after this function returns to restore the live table
+> handling for user call of report zones.
+> 
+> All the code related to zone append emulation is removed from
+> dm-zone.c. This leads to simplifications of the functions __map_bio()
+> and dm_zone_endio(). This later function now only needs to deal with
+> completions of real zone append operations for targets that support it.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> Reviewed-by: Mike Snitzer <snitzer@kernel.org>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Tested-by: Hans Holmberg <hans.holmberg@wdc.com>
+> ---
+>  drivers/md/dm-core.h |   2 +-
+>  drivers/md/dm-zone.c | 476 ++++---------------------------------------
+>  drivers/md/dm.c      |  72 ++++---
+>  drivers/md/dm.h      |   4 +-
+>  4 files changed, 94 insertions(+), 460 deletions(-)
+> 
+> diff --git a/drivers/md/dm-zone.c b/drivers/md/dm-zone.c
+> index eb9832b22b14..174fda0a301c 100644
+> --- a/drivers/md/dm-zone.c
+> +++ b/drivers/md/dm-zone.c
+> @@ -226,41 +154,32 @@ static int dm_zone_revalidate_cb(struct blk_zone *zone, unsigned int idx,
+>  static int dm_revalidate_zones(struct mapped_device *md, struct dm_table *t)
+>  {
+>  	struct gendisk *disk = md->disk;
+> -	unsigned int noio_flag;
+>  	int ret;
+>  
+> -	/*
+> -	 * Check if something changed. If yes, cleanup the current resources
+> -	 * and reallocate everything.
+> -	 */
+> +	/* Revalidate ionly if something changed. */
 
-Pretty much. Of course you need stats to be enabled.
-And problem with the queue depth is that it's actually quite costly
-to compute; the while sbitmap thingie is precisely there to _avoid_
-having to track the queue depth.
-I can't really see how one could track the queue depth efficiently;
-the beauty of the blk_stat framework is that it's running async, and
-only calculated after I/O is completed.
-We could do a 'mock' queue depth by calculating the difference between
-submitted and completed I/O, but even then you'd have to inject a call
-in the hot path to track the number of submissions.
+Just noticed this ionly typo ^ Please fix.
 
-In the end, the latency tracker did what I wanted to achieve (namely
-balance out uneven paths), _and_ got faster than round-robin, so I 
-didn't care about queue depth tracking.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
-Werner Knoblich
-
+Thanks,
+Mike
 
