@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 866EACD1284
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 04:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED57CCD1284
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 04:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DllmC9lSwXo8hWG0ejkQ1mosPMCW/LFFMWPVqtVS5m8=; b=nXFFwdoCrwk/uAyGXy1ZJ4PU0I
-	XemsznlAono9mbp2mM71WjBVdPjRb1mQkQbfRQlBlojIr8HqwajKKwLOahu5lgzUoIa0UfkSdnUk6
-	tM/e/g+rhB8ethPlOVaDkpbAS/vEZoR2SA87bThsDTtgRVw9mwGJ98j/3tTE0GRKA2dELCd0sA/mC
-	41jcHmPicNbUgSVbNGJIhdt/e6Sreku++sXlx0xSKGvTs1V0Yb/Nbl/T2mOD6PcHEMUeQGlB27qSb
-	T6S4OBVDdW0NRSR8kKFoONyqY3w3fX5E5o0Ic7G+i+hIjJouVZPdpR99o55n9A3C8umZWt0jmS+Br
-	M5n2cDGA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TMvoMpXWNcwaFoO7OIlE9hsfF8M0T0jtnDrS2Vtr6Zk=; b=0I9/RXVGfBJDOXTP+Uq2wMVGud
+	MGB83VQhNTZr82dKw2nd6Iy5qsaUTihrgntD1CZMFQmiQhncxEO6w9ChdgNmJIRzNkRedQkhUI63o
+	37OABh24zYEfANn8QUqQoy3tmbuGmE5Tl6twckfH5iTMpDtcuuCMrVSsEtUWdOFYCQ73xv0W0EN3r
+	iTt59M76mZ9W//jTOtiAOSz6ZnZPk5l06fsgF9Ox0JHJei2txE+Ef1NejDX0v2I2Cr4EdysHJlc4D
+	eu4Ub4+xhssqX9bn+bOJef+HXR5vvHGFahdM9YpcbsGSfZZkYid9YJsGASVNQT8X+oJ90EIeBjZU0
+	XVW+Z1sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsbP4-00000005B7N-2CW0;
-	Fri, 05 Apr 2024 04:42:14 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rsbPI-00000005BIf-3XOL;
+	Fri, 05 Apr 2024 04:42:28 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsbP1-00000005B6N-2WeA
+	id 1rsbPB-00000005BAz-0IP0
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Apr 2024 04:42:13 +0000
+	Fri, 05 Apr 2024 04:42:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id EFA6161767;
-	Fri,  5 Apr 2024 04:42:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C200C433C7;
-	Fri,  5 Apr 2024 04:42:08 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 24E03CE35DE;
+	Fri,  5 Apr 2024 04:42:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 431DAC433F1;
+	Fri,  5 Apr 2024 04:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712292129;
-	bh=4B46ZiTwNHIFGVTNFBvcpKAac0VwZvQ/ZnzPRHac+Gw=;
-	h=From:To:Subject:Date:From;
-	b=LDcoo/f/maUAbxEkmyJvXXagHrqZwzZwgKZ85LkZfLEOGrTa2O7dkZJgrwWHY5ANc
-	 n42KdNt1YV/NoTwvI2iRzM7dgRZWMwat8j9ZMIxMTgKltLvIRm0WiNHdFifq0YuoHR
-	 urnrZ6/zy9MsUDoU20sQEsON6R74kN1RHhtrjFyqnDmGRUDy9yWLbZic9HQ1GEWmG1
-	 A02ygI0gdmmkSF2vUte8MbV+jidvhwN1LKozLfBXqGVO2HX7hgmgb1tuQ2bKkHAWwb
-	 9aPXGVb2H8fL8pDDALdWsSj3AzbTVScWKieULllqizfj36LTqdjUNPDIyeqIJ3s6KS
-	 1+gXHcRsymEVA==
+	s=k20201202; t=1712292138;
+	bh=FIR28aVGhJW8E0GXpe6VFYz9Z36VPZVoS0wi8u1x8o8=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=FSrHjTVM8pNJbl5S+mxTEsyATbQmDb3BjbXAjzuTRQkqvXegQefFcdcINzthyw4dv
+	 gmkPaz00As9wQWxxJ1ymam9SgIlkaC1pCYLcD1G8ZSo3g1tWRzZ3UuNfwkZyRyXUm1
+	 rdN6p/Sfx0fP9clsmyYmXbV0YYKDo/NsAGN89CdhKmiDrb9+CKptKxZnOePbzRWqsw
+	 LIe/kMYALiTp7WiCd2nwLFSbUolJo6V4iU2XqYOnuEnxn8s1s/e2CsY3PXG2pZj2m1
+	 jZunoHR3zhZchOaAL/jbL5jP4HFLLoAfRDe1/ap5YNOlL6DYxnd5sBG1rHj1DadzzQ
+	 EOR4f6F+mjEOA==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -52,15 +52,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v6 00/28] Zone write plugging
-Date: Fri,  5 Apr 2024 13:41:39 +0900
-Message-ID: <20240405044207.1123462-1-dlemoal@kernel.org>
+Subject: [PATCH v6 06/28] block: Remember zone capacity when revalidating zones
+Date: Fri,  5 Apr 2024 13:41:45 +0900
+Message-ID: <20240405044207.1123462-7-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240405044207.1123462-1-dlemoal@kernel.org>
+References: <20240405044207.1123462-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240404_214211_766607_4B305FDE 
-X-CRM114-Status: GOOD (  27.11  )
+X-CRM114-CacheID: sfid-20240404_214221_608769_95D3A882 
+X-CRM114-Status: GOOD (  19.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,307 +77,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The patch series introduces zone write plugging (ZWP) as the new
-mechanism to control the ordering of writes to zoned block devices.
-ZWP replaces zone write locking (ZWL) which is implemented only by
-mq-deadline today. ZWP also allows emulating zone append operations
-using regular writes for zoned devices that do not natively support this
-operation (e.g. SMR HDDs). This patch series removes the scsi disk
-driver and device mapper zone append emulation to use ZWP emulation.
+In preparation for adding zone write plugging, modify
+blk_revalidate_disk_zones() to get the capacity of zones of a zoned
+block device. This capacity value as a number of 512B sectors is stored
+in the gendisk zone_capacity field.
 
-Unlike ZWL which operates on requests, ZWP operates on BIOs. A zone
-write plug is simply a BIO list that is atomically manipulated using a
-spinlock and a kblockd submission work. A write BIO to a zone is
-"plugged" to delay its execution if a write BIO for the same zone was
-already issued, that is, if a write request for the same zone is being
-executed. The next plugged BIO is unplugged and issued once the write
-request completes.
+Given that host-managed SMR disks (including zoned UFS drives) and all
+known NVMe ZNS devices have the same zone capacity for all zones
+blk_revalidate_disk_zones() returns an error if different capacities are
+detected for different zones.
 
-This mechanism allows to:
- - Untangle zone write ordering from the block IO schedulers. This
-   allows removing the restriction on using only mq-deadline for zoned
-   block devices. Any block IO scheduler, including "none" can be used.
- - Zone write plugging operates on BIOs instead of requests. Plugged
-   BIOs waiting for execution thus do not hold scheduling tags and thus
-   do not prevent other BIOs from being submitted to the device (reads
-   or writes to other zones). Depending on the workload, this can
-   significantly improve the device use and the performance.
- - Both blk-mq (request) based zoned devices and BIO-based devices (e.g.
-   device mapper) can use ZWP. It is mandatory for the
-   former but optional for the latter: BIO-based driver can use zone
-   write plugging to implement write ordering guarantees, or the drivers
-   can implement their own if needed.
- - The code is less invasive in the block layer and in device drivers.
-   ZWP implementation is mostly limited to blk-zoned.c, with some small
-   changes in blk-mq.c, blk-merge.c and bio.c.
+This also adds check to verify that the values reported by the device
+for zone capacities are correct, that is, that the zone capacity is
+never 0, does not exceed the zone size and is equal to the zone size for
+conventional zones.
 
-Performance evaluation results are shown below.
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Tested-by: Hans Holmberg <hans.holmberg@wdc.com>
+---
+ block/blk-zoned.c      | 26 ++++++++++++++++++++++++++
+ include/linux/blkdev.h |  1 +
+ 2 files changed, 27 insertions(+)
 
-The series is based on block/for-next and organized as follows:
-
- - Patch 1 to 6 are preparatory changes for patch 7.
- - Patch 7 and 8 introduce ZWP
- - Patch 9 and 10 add zone append emulation to ZWP.
- - Patch 11 to 18 modify zoned block device drivers to use ZWP and
-   prepare for the removal of ZWL.
- - Patch 19 to 28 remove zone write locking
-
-Overall, these changes do not significantly increase the amount of code
-(the higher number of addition shown by diff-stat is in fact due to a
-larger amount of comments in the code).
-
-Many thanks must go to Christoph Hellwig for comments and suggestions
-he provided on earlier versions of these patches.
-
-Performance evaluation results
-==============================
-
-Environments:
- - Intel Xeon 16-cores/32-threads, 128GB of RAM
- - Kernel:
-   - ZWL (baseline): block/for-next (based on 6.9.0-rc2)
-   - ZWP: block/for-next patched kernel to add zone write plugging
-     (both kernels were compiled with the same configuration turning
-     off most heavy debug features)
-
-Workoads:
- - seqw4K1: 4KB sequential write, qd=1
- - seqw4K16: 4KB sequential write, qd=16
- - seqw1M16: 1MB sequential write, qd=16
- - rndw4K16: 4KB random write, qd=16
- - rndw128K16: 128KB random write, qd=16
- - btrfs workoad: Single fio job writing 128 MB files using 128 KB
-   direct IOs at qd=16.
-
-Devices:
- - nullblk (zoned): 4096 zones of 256 MB, 128 max open zones.
- - NVMe ZNS drive: 1 TB ZNS drive with 2GB zone size, 14 max open and
-   active zones.
- - SMR HDD: 20 TB disk with 256MB zone size, 128 max open zones.
-
-For ZWP, the result show the performance percentage increase (or
-decrease) against ZWL (baseline) case.
-
-1) null_blk zoned device:
-
-             +--------+--------+-------+--------+---------+---------+
-             |seqw4K1 |seqw4K16|seqw1M1|seqw1M16|rndw4K16|rndw128K16|
-             |(MB/s)  | (MB/s) |(MB/s) | (MB/s) | (KIOPS)| (KIOPS)  |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWL    | 940    | 840    | 18550 | 14400  | 424    | 167      |
- |mq-deadline|        |        |       |        |        |          |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWP    | 943    | 845    | 18660 | 14770  | 461    | 165      |
- |mq-deadline| (+0%)  | (+0%)  | (+0%) | (+1%)  | (+8%)  | (-1%)    |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWP    | 756    | 668    | 16020 | 12980  | 135    | 101      |
- |    bfq    | (-19%) | (-20%) | (-13%)| (-9%)  | (-68%) | (-39%)   |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWP    | 2639   | 1715   | 28190 | 19760  | 344    | 150      |
- |   none    | (+180%)| (+104%)| (+51%)| (+37%) | (-18%) | (-10%)   |
- +-----------+--------+--------+-------+--------+--------+----------+
-
-ZWP with mq-deadline gives performance very similar to zone write
-locking, showing that zone write plugging overhead is acceptable.
-But ZWP ability to run fast block devices with the none scheduler
-shows brings all the benefits of zone write plugging and results in
-significant performance increase for all workloads. The exception to
-this are random write workloads with multiple jobs: for these, the
-faster request submission rate achieved by zone write plugging results
-in higher contention on null-blk zone spinlock, which degrades
-performance.
-
-2) NVMe ZNS drive:
-
-             +--------+--------+-------+--------+--------+----------+
-             |seqw4K1 |seqw4K16|seqw1M1|seqw1M16|rndw4K16|rndw128K16|
-             |(MB/s)  | (MB/s) |(MB/s) | (MB/s) | (KIOPS)|  (KIOPS) |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWL    | 183    | 702    | 1066  | 1103   | 53.5   | 14.5     |
- |mq-deadline|        |        |       |        |        |          |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWP    | 183    | 719    | 1086  | 1108   | 55.6   | 14.7     |
- |mq-deadline| (-0%)  | (+1%)  | (+0%) | (+0%)  | (+3%)  | (+1%)    |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWP    | 178    | 691    | 1082  | 1106   | 30.8   | 11.5     |
- |    bfq    | (-3%)  | (-2%)  | (-0%) | (+0%)  | (-42%) | (-20%)   |
- +-----------+--------+--------+-------+--------+--------+----------+
- |    ZWP    | 190    | 666    | 1083  | 1108   | 51.4   | 14.7     |
- |   none    | (+4%)  | (-5%)  | (+0%) | (+0%)  | (-4%)  | (+0%)    |
- +-----------+--------+--------+-------+--------+--------+----------+
-
-Zone write plugging overhead does not significantly impact performance.
-Similar to nullblk, using the none scheduler leads to performance
-increase for most workloads.
-
-3) SMR SATA HDD:
-
-             +-------+--------+-------+--------+--------+----------+
-             |seqw4K1|seqw4K16|seqw1M1|seqw1M16|rndw4K16|rndw128K16|
-             |(MB/s) | (MB/s) |(MB/s) | (MB/s) | (KIOPS)|  (KIOPS) |
- +-----------+-------+--------+-------+--------+--------+----------+
- |    ZWL    | 107   | 243    | 245   | 246    | 2.2    | 0.763    |
- |mq-deadline|       |        |       |        |        |          |
- +-----------+-------+--------+-------+--------+--------+----------+
- |    ZWP    | 107   | 242    | 245   | 245    | 2.2    | 0.772    |
- |mq-deadline| (+0%) | (-0%)  | (+0%) | (-0%)  | (+0%)  | (+0%)    |
- +-----------+-------+--------+-------+--------+--------+----------+
- |    ZWP    | 104   | 241    | 246   | 242    | 2.2    | 0.765    |
- |    bfq    | (-2%) | (-0%)  | (+0%) | (-0%)  | (+0%)  | (+0%)    |
- +-----------+-------+--------+-------+--------+--------+----------+
- |    ZWP    | 115   | 235    | 249   | 242    | 2.2    | 0.763    |
- |   none    | (+7%) | (-3%)  | (+1%) | (-1%)  | (+0%)  | (+0%)    |
- +-----------+-------+--------+-------+--------+--------+----------+
-
-Performance with purely sequential write workloads at high queue depth
-somewhat decrease a little when using zone write plugging. This is due
-to the different IO pattern that ZWP generates where the first writes to
-a zone start being issued when the end of the previous zone are still
-being written. Depending on how the disk handles queued commands, seek
-may be generated, slightly impacting the throughput achieved. Such pure
-sequential write workloads are however rare with SMR drives.
-
-4) Zone append tests using btrfs:
-
-             +-------------+-------------+-----------+-------------+
-             |  null-blk   |  null_blk   |    ZNS    |     SMR     |
-             |  native ZA  | emulated ZA | native ZA | emulated ZA |
-             |    (MB/s)   |   (MB/s)    |   (MB/s)  |    (MB/s)   |
- +-----------+-------------+-------------+-----------+-------------+
- |    ZWL    | 2441        | N/A         | 1081      | 243         |
- |mq-deadline|             |             |           |             |
- +-----------+-------------+-------------+-----------+-------------+
- |    ZWP    | 2361        | 2999        | 1085      | 239         |
- |mq-deadline| (-1%)       |             | (+0%)     | (-2%)       |
- +-----------+-------------+-------------+-----------+-------------+
- |    ZWP    | 2299        | 2730        | 1080      | 240         |
- |    bfq    | (-4%)       |             | (+0%)     | (-2%)       |
- +-----------+-------------+-------------+-----------+-------------+
- |    ZWP    | 2443        | 3152        | 1083      | 240         |
- |    none   | (+0%)       |             | (+0%)     | (-1%)       |
- +-----------+-------------+-------------+-----------+-------------+
-
-With a more realistic use of the device though a file system, ZWP does
-not introduce significant performance differences, except for SMR for
-the same reason as with the fio sequential workloads at high queue
-depth.
-
-Changes from v5:
- - Addressed Bart's comment in patch 7 (renaming, typos in comments)
- - Simplified zone_append_max_sectors initialization as suggested by
-   Bart in patch 16.
- - Added review and tested tags.
-
-Changes from v4:
- - Modified patch 7 to:
-   - Fix a compilation warning
-   - Integrate disk_lookup_zone_wplug() into disk_get_zone_wplug() so
-     that all users of a zone write plug do a get+put when referencing
-     the plug.
-   - Introduced inline functions blk_zone_write_complete_request() and
-     blk_zone_write_bio_endio() to integrate the "if (plugging)" test
-     and avoid repeating it for all calls.
- - Added review tags
-
-Changes from v3:
- - Rebase on block/for-next
- - Removed old patch 1 as it is already applied
- - Addressed Bart and Christoph comment in patch 4
- - Merged former patch 8 and 9 together and changed the zone write plug
-   allocation to use a mempool
- - Removed the zone_wplugs_mempool_size filed from patch 8 and instead
-   directly reference mempool->min_nr
- - Added review tags
-
-Changes from v2:
- - Added Patch 1 (Christoph's comment)
- - Fixed error code setup in Patch 3 (Bart's comment)
- - Split former patch 26 into patches 27 and 28
- - Modified patch 8 (zone write plugging) introduction to remove the
-   kmem_cache use and address Bart's and Christoph comments.
- - Changed from using a mempool of zone write plugs to using a simple
-   free-list (patch 9)
- - Simplified patch 10 as suggested by Christoph
- - Moved common code to a helper in patch 13 as suggested by Christoph
-
-Changes from v1:
- - Added patch 6
- - Rewrite of patch 7 to use a hash table of dynamically allocated zone
-   write plugs. This results in changes in patch 11 and the addition of
-   patch 8 and 9.
- - Rebased everything on 6.9.0-rc1
- - Added review tags for patches that did not change
-
-Damien Le Moal (28):
-  block: Restore sector of flush requests
-  block: Remove req_bio_endio()
-  block: Introduce blk_zone_update_request_bio()
-  block: Introduce bio_straddles_zones() and bio_offset_from_zone_start()
-  block: Allow using bio_attempt_back_merge() internally
-  block: Remember zone capacity when revalidating zones
-  block: Introduce zone write plugging
-  block: Fake max open zones limit when there is no limit
-  block: Allow zero value of max_zone_append_sectors queue limit
-  block: Implement zone append emulation
-  block: Allow BIO-based drivers to use blk_revalidate_disk_zones()
-  dm: Use the block layer zone append emulation
-  scsi: sd: Use the block layer zone append emulation
-  ublk_drv: Do not request ELEVATOR_F_ZBD_SEQ_WRITE elevator feature
-  null_blk: Do not request ELEVATOR_F_ZBD_SEQ_WRITE elevator feature
-  null_blk: Introduce zone_append_max_sectors attribute
-  null_blk: Introduce fua attribute
-  nvmet: zns: Do not reference the gendisk conv_zones_bitmap
-  block: Remove BLK_STS_ZONE_RESOURCE
-  block: Simplify blk_revalidate_disk_zones() interface
-  block: mq-deadline: Remove support for zone write locking
-  block: Remove elevator required features
-  block: Do not check zone type in blk_check_zone_append()
-  block: Move zone related debugfs attribute to blk-zoned.c
-  block: Replace zone_wlock debugfs entry with zone_wplugs entry
-  block: Remove zone write locking
-  block: Do not force select mq-deadline with CONFIG_BLK_DEV_ZONED
-  block: Do not special-case plugging of zone write operations
-
- block/Kconfig                     |    5 -
- block/Makefile                    |    1 -
- block/bio.c                       |    2 +
- block/blk-core.c                  |   11 +-
- block/blk-flush.c                 |    1 +
- block/blk-merge.c                 |   23 +-
- block/blk-mq-debugfs-zoned.c      |   22 -
- block/blk-mq-debugfs.c            |    3 +-
- block/blk-mq-debugfs.h            |    6 +-
- block/blk-mq.c                    |  125 ++-
- block/blk-mq.h                    |   31 -
- block/blk-settings.c              |   46 +-
- block/blk-sysfs.c                 |    2 +-
- block/blk-zoned.c                 | 1338 +++++++++++++++++++++++++++--
- block/blk.h                       |   84 +-
- block/elevator.c                  |   46 +-
- block/elevator.h                  |    1 -
- block/genhd.c                     |    3 +-
- block/mq-deadline.c               |  176 +---
- drivers/block/null_blk/main.c     |   22 +-
- drivers/block/null_blk/null_blk.h |    2 +
- drivers/block/null_blk/zoned.c    |   21 +-
- drivers/block/ublk_drv.c          |    5 +-
- drivers/block/virtio_blk.c        |    2 +-
- drivers/md/dm-core.h              |    2 +-
- drivers/md/dm-zone.c              |  476 +---------
- drivers/md/dm.c                   |   72 +-
- drivers/md/dm.h                   |    4 +-
- drivers/nvme/host/core.c          |    2 +-
- drivers/nvme/target/zns.c         |   10 +-
- drivers/scsi/scsi_lib.c           |    1 -
- drivers/scsi/sd.c                 |    8 -
- drivers/scsi/sd.h                 |   19 -
- drivers/scsi/sd_zbc.c             |  335 +-------
- include/linux/blk-mq.h            |   85 +-
- include/linux/blk_types.h         |   30 +-
- include/linux/blkdev.h            |  102 +--
- 37 files changed, 1660 insertions(+), 1464 deletions(-)
- delete mode 100644 block/blk-mq-debugfs-zoned.c
-
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index da0f4b2a8fa0..23d9bb21c459 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -438,6 +438,7 @@ struct blk_revalidate_zone_args {
+ 	unsigned long	*conv_zones_bitmap;
+ 	unsigned long	*seq_zones_wlock;
+ 	unsigned int	nr_zones;
++	unsigned int	zone_capacity;
+ 	sector_t	sector;
+ };
+ 
+@@ -482,9 +483,20 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+ 		return -ENODEV;
+ 	}
+ 
++	if (!zone->capacity || zone->capacity > zone->len) {
++		pr_warn("%s: Invalid zone capacity\n",
++			disk->disk_name);
++		return -ENODEV;
++	}
++
+ 	/* Check zone type */
+ 	switch (zone->type) {
+ 	case BLK_ZONE_TYPE_CONVENTIONAL:
++		if (zone->capacity != zone->len) {
++			pr_warn("%s: Invalid conventional zone capacity\n",
++				disk->disk_name);
++			return -ENODEV;
++		}
+ 		if (!args->conv_zones_bitmap) {
+ 			args->conv_zones_bitmap =
+ 				blk_alloc_zone_bitmap(q->node, args->nr_zones);
+@@ -500,6 +512,18 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+ 			if (!args->seq_zones_wlock)
+ 				return -ENOMEM;
+ 		}
++
++		/*
++		 * Remember the capacity of the first sequential zone and check
++		 * if it is constant for all zones.
++		 */
++		if (!args->zone_capacity)
++			args->zone_capacity = zone->capacity;
++		if (zone->capacity != args->zone_capacity) {
++			pr_warn("%s: Invalid variable zone capacity\n",
++				disk->disk_name);
++			return -ENODEV;
++		}
+ 		break;
+ 	case BLK_ZONE_TYPE_SEQWRITE_PREF:
+ 	default:
+@@ -595,6 +619,7 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+ 	blk_mq_freeze_queue(q);
+ 	if (ret > 0) {
+ 		disk->nr_zones = args.nr_zones;
++		disk->zone_capacity = args.zone_capacity;
+ 		swap(disk->seq_zones_wlock, args.seq_zones_wlock);
+ 		swap(disk->conv_zones_bitmap, args.conv_zones_bitmap);
+ 		if (update_driver_data)
+@@ -608,6 +633,7 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+ 
+ 	kfree(args.seq_zones_wlock);
+ 	kfree(args.conv_zones_bitmap);
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(blk_revalidate_disk_zones);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index ec7bd7091467..4e81f714cca7 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -191,6 +191,7 @@ struct gendisk {
+ 	 * blk_mq_unfreeze_queue().
+ 	 */
+ 	unsigned int		nr_zones;
++	unsigned int		zone_capacity;
+ 	unsigned long		*conv_zones_bitmap;
+ 	unsigned long		*seq_zones_wlock;
+ #endif /* CONFIG_BLK_DEV_ZONED */
 -- 
 2.44.0
 
