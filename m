@@ -4,160 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86A4CC67861
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Apr 2024 20:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78E05CD128A
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Apr 2024 05:45:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/uNeJ/W2HDlJuStTRn9DEKwR4RyUDaWKc6J075LFFlE=; b=25xfmRYDRV1owIYw0tuuXms1tt
-	eZ4SgTf43Y2AlosL7Swvae8ssmM7GhRyfasHeBqanTzO68VhmPFeuJAnZTem53pNVFgjKUBIG07c0
-	0JKyZi4eHrLxYv/JOPlFD23ge56qiNg5Im+q+Mo+Vj8F57blF0tamTetG0+32lu7AKYQsMbgdn4Be
-	bgxQB67CgzC0RYoWWPo7Ehom23XYaAqb74FR+ea67CN7GPzYg6ZfergSkZAvdLlrgu3Qz7LTjSYFA
-	vUlqmbXo3XX8XFnkr/YC3l7jeA7tsbvBgJ/SIPk9eo2017eM6K1P1HZu9XxN2MKOwQMAu7tfZ9Cax
-	dWM6jfog==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=N+xvWi+eieOuhhFLjvid8GsEZ+XVjZugxUQaNWyFgfk=; b=XHkBe8swi+Oe5TlHtqmhoUOXeK
+	MIcXEHBZF1llbntL7spuy7HouJrPtWL3Y6+dlpivCc0h5l918Zq3xzoeQAdd6B7JAIBFh1iJlqjVQ
+	yawsW9XC4UgUWkltIUs1kObJS/kUEkOgpPNeMcSq3dnlh5L+Gj9oD+Gc3gR4S5M817TgurmwphXCA
+	dJJLqk2y15IiuAjQxlAhNYE1B/3Ya780HShRQYWiEVWmGz6U7CEFvoSJhVT4Epr1QSaPgmlatGszM
+	V5rON1Ir/ccBYPFhInhmgG9YLDbL1Wm1hnJ0GN1uFFTz3HEzEaDu2HE09IYTWWU14mnQbGPxE/2sm
+	WKok56wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsqLw-00000008n9b-0bxG;
-	Fri, 05 Apr 2024 20:40:00 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1rsyrX-00000009k4S-0Y8d;
+	Sat, 06 Apr 2024 05:45:11 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsqLs-00000008n8Y-1075
+	id 1rsyrU-00000009k3J-1IwN
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Apr 2024 20:39:58 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 435JdmNB015792;
-	Fri, 5 Apr 2024 20:39:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : in-reply-to : message-id : references : date : content-type :
- mime-version; s=corp-2023-11-20;
- bh=/uNeJ/W2HDlJuStTRn9DEKwR4RyUDaWKc6J075LFFlE=;
- b=InLjki7LRmYEQvrfIQixN33Cm9rTUzr2eSNNZMs0HQRdkmuYgFbh0ZlrJQGaI+FnRvq9
- 5Jc8qbibGXa2mKEKMEkKp49wdbcKKtyaeA6SO3pCk5k1h0AC1Ep+wepQD+dLrfuGfcFu
- VodOqJuRsYxuVl+I9lTvQxL6LvVJJr0hoYwnXdv9QYqj1hEFmLIcS4s86/9oaJRvwk/R
- 4JHIscVXPe5nGeHFip8JadyEvTgPOZb2MwEJ1TjJ0uXwwDtXiTmBKq83i6bDVhGyYD93
- RecR7YO3zOUlMGBuQm8+RjStmaDscfC0slgnzTE6pUFCoB5xWl7XqZXx8wgXRYxTyjX7 CA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3x9f8pc9kh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 05 Apr 2024 20:39:50 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 435J6imP039368;
-	Fri, 5 Apr 2024 20:39:49 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3x9emt35dt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 05 Apr 2024 20:39:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=byr32rx+3q7xrDScVfr6ze1PgqOS6477Eu0JLZwqEKDilStubzoQpY5jg7p7P5GeoIaSjz01hi0xF0rMy3fkZ61Vx7OOCMa+/tgmylM2qdqSHVm7nK+q/gRUjvO347tpWXDzIwB7rv5OUhxOskKYggvML5jmfuQ1BACQ1XLbd8hmNcHq199NvMgEuGdyNqyAu7AXOv1Pzv7bi9PgFNQmBSClKnNsn1W8cvAe5VRzq4WIUj9l4q+QTLQvoTYiQQsDVzCMo+850hqq59nCiXCCIwiSa7h4Bb9XeRCJe+SiaQU+XDs+qs1NydydD0OuK42zy5EFL9aPGxpHmHPk+cRdxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/uNeJ/W2HDlJuStTRn9DEKwR4RyUDaWKc6J075LFFlE=;
- b=n8wLmrPx+jJtX64ALW7Eae5kokPOq2TrhiqSTK8DE1nzo7nEuMgAbIH2p93Z+nz7WPbhPXtmzhjCifHzqWsH9diNGvB8kkqVM8cTlUH97dqRtSODNSM47j18kg5Fv79qRJpPuaOEaPAZNu4NHXSt7DnWeTSsecw8XKxohY0HdSawESb5YvQQlGWter9Ad30f0VpJDm0SFeom6Z915bos7zem4/VrxRR4Yor1ZMJReD8WBDzg3Tiavr/MqcNyA24asi+WzPHqJKU1B5qbL04vj+AWkTEibrkcG8LN8lY80l7QSi/AHrV50JIJPtpD2GIIkWdiiF/uB4gwfkgMQKzQtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/uNeJ/W2HDlJuStTRn9DEKwR4RyUDaWKc6J075LFFlE=;
- b=HSBy9/XLO2y0MjEqoUqqfjf/2Aso08m8y6OgUV6zvEHcFwptCJJxGnomh2j0FqYuHQZQaMApEe5Zxd55YAStQakM9USZmOH3llOmU4FJnOKl2mekrwBQIqDYye/AQIwRBBuOUS+8Fxyi/zw6vA7ipa/RNT4hdJdSxFTpkrWhd/s=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by MN2PR10MB4365.namprd10.prod.outlook.com (2603:10b6:208:199::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Fri, 5 Apr
- 2024 20:39:46 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::7856:8db7:c1f6:fc59]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::7856:8db7:c1f6:fc59%4]) with mapi id 15.20.7409.042; Fri, 5 Apr 2024
- 20:39:46 +0000
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        linux-scsi@vger.kernel.org,
-        "Martin K . Petersen"
- <martin.petersen@oracle.com>,
-        dm-devel@lists.linux.dev, Mike Snitzer
- <snitzer@redhat.com>,
-        linux-nvme@lists.infradead.org, Keith Busch
- <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v6 00/28] Zone write plugging
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20240405044207.1123462-1-dlemoal@kernel.org> (Damien Le Moal's
-	message of "Fri, 5 Apr 2024 13:41:39 +0900")
-Organization: Oracle Corporation
-Message-ID: <yq1y19rsfx3.fsf@ca-mkp.ca.oracle.com>
-References: <20240405044207.1123462-1-dlemoal@kernel.org>
-Date: Fri, 05 Apr 2024 16:39:44 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: PH7PR13CA0022.namprd13.prod.outlook.com
- (2603:10b6:510:174::24) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	Sat, 06 Apr 2024 05:45:09 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id CB90160202;
+	Sat,  6 Apr 2024 05:45:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC42C433C7;
+	Sat,  6 Apr 2024 05:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712382306;
+	bh=AF9MjjeX9uWkxGvAF0vqJAZcyFS/QHg117A4xiMxDfc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uT/CL5RuKn6xzqAdKV2CuJEMuQWRBfGj5vwrEw/WfXt3KFyQsPdekV+LkeEsXcquu
+	 IVRMr9RC6ho+fCJCRiv43UTz7FnrQEsZDxoPVugzyPPinIrPvhNKqgrnycf2YJE0Qb
+	 xazs1bBj+gRD2q4KvY+UCOpnqd7hr9011uHUzw1YPHlIAZJeh9y21o4cd22VmCqEFD
+	 a39h3gVLSvivydyRCgyj1kDuJOLQ4VKPD4UPGNVXZMsEjpRaTVPnCEtlqlW2v6vRRq
+	 EeSNfOK1AzTgaGE6XcdksLzmOS313QH/HdB+36DMXAWs8BIMTgC236iMS5O6mi/i35
+	 Yr3j/cE6F0dag==
+Date: Fri, 5 Apr 2024 22:45:04 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com, galshalom@nvidia.com,
+ mgurtovoy@nvidia.com, edumazet@google.com
+Subject: Re: [PATCH v24 00/20] nvme-tcp receive offloads
+Message-ID: <20240405224504.4cb620de@kernel.org>
+In-Reply-To: <20240404123717.11857-1-aaptel@nvidia.com>
+References: <20240404123717.11857-1-aaptel@nvidia.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|MN2PR10MB4365:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n3O7wD10WnpzKh5xbYN8kRHF4FUr9Hj57T0OwORV08FOrLAMQ3ZeetDk8SDTNf8fXifyKDw/Ee8x0e0FxVjZliXA3H5FUPKIesTEJVzGgT2Y7QzTBoGxP7Hmmp4HvHdcpFLEPA9u55+8knAuO0lWkfAhD/nzNx9o9Ad52ABn35R1x4SrjPN0LzO+DYEWRrodqX+VuHsLuDLMCZ8cJOckyDsL4Pd3FQcDwcJ+TV99iA8OCCvolPqvUGiG7u0Owu/f+dO5Lp5h64IOqpWoxA7mNA/XGEYJf+b5WC23pbqQ6yL6mqNUudNk+YqgehQ7kMExk3JdI9T7KZV1Fc1DpfH2yFqHajooBadKqLku4WhZ37LBOfCIbGO7f0tcIpuuUMgnJzJEQLYcTN0hJ4NlR5FrGJ2LqCFCR39nWTLuEMiTj2y9fgxDhSvAHL19fdcYJs4a74MhwXBnR/3/wiXU76myRNQqhdjQ9I1NsM+l5l3OZcbN5TrYgFPk9Xe36dQTMGo0hMCvZc9BngEJmWiwQm3/8IwO9rf7hRMXYDqagd8EvX79J3jrP3hacltd5dq7rtdzb6shD8EP2PJFqC2Sg+3xVZ5UzrUPRXnxvF7S/65o1JZuRZ7fV1dFoV1hFuvTvce5oDhgRuzBnLPeWoSa3we7OrbkqnuWy1mHKEV9VAx+rDg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BKvND2N+LsUJv6Lt88gdfkOI8u9kQTSztFV06Q2WIb5C9Mpoo7aeSciKXId/?=
- =?us-ascii?Q?Ntoa3Bt4MDWmTErhK/pF5Kv8LroJQ9r5RmG+i5Rt5un7WdnJ8llQreAV1xVr?=
- =?us-ascii?Q?KeZMdN7Atr4CqmmkB95lvOGIxA7hJMZbWYBKAupXtG8D8ECJ2E7QHQuax0fo?=
- =?us-ascii?Q?N/PK40CCdoY3pr+shEQwUvbl4rcn9WigLkHQ9MQG4xH8EerozpMvMkZMgdDs?=
- =?us-ascii?Q?9Pfzo6vCIdzFVkjpqgteyinCHNmCqMV8dxL7LZK2uPZxYed2atdtobVfZXKR?=
- =?us-ascii?Q?oaqwk7+OTcVqbWLX2Yz5aP3WSZgMO49kzZ16kYlm3JThMC/stySdF1buscc5?=
- =?us-ascii?Q?hA03cyG55nJg1sSssLcCteHXLhtn55SeJYOJEiIxbqmkWAKKL7pwrwc9ofqu?=
- =?us-ascii?Q?bjrnOThlEYvWaXhiw5aXy0R5ioycFcYL8CTiDSdM1VpU8//ASVqmkIvY/Gl8?=
- =?us-ascii?Q?ZFhdEyCWl28QeCeRYiRUi8TvJmsnaXyoCJ8dqOlnuqAIF78LZhn1Gkl1Ck3Q?=
- =?us-ascii?Q?MmjzEdVIbFvA6Puus+pkfki5jad0W9DfuCqJ4V34mMG7wa3ZkuP0xbN8Pkni?=
- =?us-ascii?Q?tu1x532TTOn4Kz7CF6HE0gEGcGYyVc3VkPfZFhTqfOUVzZ+WfxW+GdsG9gL4?=
- =?us-ascii?Q?A+7AoPs7nHgAEHPbHcHtET5Y2i6izX5CVb+O0blBI0Yi1224PfFyb04yRQWg?=
- =?us-ascii?Q?A34Bhml7HyxpaKOJmhEJ5uSBmlieFKbkxIq7tuB7RSbTVKZfkTVLFy1rEVxS?=
- =?us-ascii?Q?0802LCZ6g5z6TQa6pZjeCZNno/uQll9A0ab5/5WQQ+v/QmCN5x5RLYAioXRM?=
- =?us-ascii?Q?O94KvWVutSeJQqtHSOzeCpBYUZ1R6p0X2UzMDEmLcL6X6LiIfB8v2Dr2zg6d?=
- =?us-ascii?Q?2JUgSfegPDrLsOz18g8WLUOogUI8rN4xYQtw8+sJ7LIrvue2qL5iAUGOmuGv?=
- =?us-ascii?Q?nMgeXWV7uOepwdaSCq4yKBz2PcGVfkuZ6/RHkG9ss+l6mSO2Zxj5KuocjzXP?=
- =?us-ascii?Q?sSX9GhAJKvFvePFB+5Z9AcdSDqiyevgvCbsC7OGxd8qDvkiK6mGzPc9XlMn7?=
- =?us-ascii?Q?6kGERIKZPjaKg6CEPXlpRcP8AnMx/Ics06BHOXk9Lomw4o/su4u5mhUgG51R?=
- =?us-ascii?Q?kBTBEfqvFjHbmSr/r3vtYqNWu0N1gHQX/6VPuI3nzUTibPmw/nBdfM3uHQjo?=
- =?us-ascii?Q?aXy/U4X2VMno6v73HSDu5pQ2S0RAvUd8wt70uNiVZKtGS9N6nPuvX+SCEknk?=
- =?us-ascii?Q?gVHp2vZBLRWzovQGqQQy2UYbJwXAnKkHG0TYwdj3fESNd/2KsYWJ9lUYT2dr?=
- =?us-ascii?Q?K3eNd11OGfVC+BWwu8F7nRbUsfEhe5Yf7dT+zqtMzj1chJzZH/2DFdtsBR4p?=
- =?us-ascii?Q?INmUI97bxpug+UTG38JvfyzjCkzZfTzyr1SxuYpsiu8OfsIu+ZdLSbMDxf2m?=
- =?us-ascii?Q?8KrxuXBsHcjycHyCT5JIV4cM5Z9x/mn3Sm6vcuxlmCPzHrkVGexyRO0hJPf9?=
- =?us-ascii?Q?YCpi8IvMLteRv6ebvr8IN5Iee0rnJnB4sl5MrMkRgxQEKFqYTrhvc4Xixlw/?=
- =?us-ascii?Q?0nKCOK2HOqCXbKJ5ArdTf3CdgNIwM0ecHLOalFwxZ2UwwGnz2zW8otQryBVf?=
- =?us-ascii?Q?Tw=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: +TsLAtyrhzU1tcIC41A+XXvg0dn+jGjYgY+SAWWUJxxwJqBVxbSw98GpG8af1ociyBMML/lpsY5QZQPHVMEmWQunK+n+/aCLPqVeJQcf2KRBZMZOMtBNhUtcLmFS5mFl3LjJ9nHgz7Tlc8QpNEi32an+RZnCS6JH0P7xJ8HG+PG/hvaD2mBROSFZQeu4N+yMF0jAJJ13TPcBjbgPOxdpcnpGp1EY/gUrFWJu5p+TuGG+CxVz9nprwdCEscl3msampub/6T8UfYaG65Ks+Z/hPZi3nSMryVXNkSWr3czsYJV0LDlhundMGWvLe3AR/g/6KIF8W9KDtNT4AsStS/L5QKfYMegwEIzWHpA8FnPy1M8lxsRh1ZpGf54nBQNx0qexZyR7o/FIFSro9etkQt6JIsV7tVcWb42P8wg11Jmp6n0OlmgbMg6pKn1zcEDnzo+/DK2/lnMIENNXIhx+UTQMBI1Dz7PpwP8JMEuTwUTtqG0DsHolwWpul7I4uGs8G7C8Z7Zs06vM2FrsXzeioJj2vV0kiCnBAOr72ToaSw0TnZy3oFghmGP8TQZHTkF9GTKcAWDRvi1vvskH4BADyBr2BCM6tEK2LhbvzhqC9UsTbcM=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a683923-e4e2-4cc1-7065-08dc55b087f1
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2024 20:39:46.4831
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0WV7igvqUnbbrKimeD6qja4vvgxLYf3pBAK+L4hhYOhvyB8BcNUUP0MkVpG9KBuCPHFoTrW2YHVyNSedYdP857VfTfLzYJGCF2A4DOx67y0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4365
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-05_25,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=942 spamscore=0
- suspectscore=0 malwarescore=0 phishscore=0 bulkscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404050147
-X-Proofpoint-GUID: 39J2ExAYgxLEkfyBpJqYXIh4wDcPH7Jv
-X-Proofpoint-ORIG-GUID: 39J2ExAYgxLEkfyBpJqYXIh4wDcPH7Jv
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240405_133956_639450_8B014DA8 
-X-CRM114-Status: GOOD (  14.56  )
+X-CRM114-CacheID: sfid-20240405_224508_475671_34F8EE5C 
+X-CRM114-Status: GOOD (  10.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -172,22 +75,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Doesn't apply, again, unfortunately.
 
-Damien,
+On Thu,  4 Apr 2024 12:36:57 +0000 Aurelien Aptel wrote:
+> Testing
+> =======
+> This series was tested on ConnectX-7 HW using various configurations
+> of IO sizes, queue depths, MTUs, and with both the SPDK and kernel NVMe-TCP
+> targets.
 
-> The patch series introduces zone write plugging (ZWP) as the new
-> mechanism to control the ordering of writes to zoned block devices.
-> ZWP replaces zone write locking (ZWL) which is implemented only by
-> mq-deadline today. ZWP also allows emulating zone append operations
-> using regular writes for zoned devices that do not natively support
-> this operation (e.g. SMR HDDs). This patch series removes the scsi
-> disk driver and device mapper zone append emulation to use ZWP
-> emulation.
+About testing, what do you have in terms of a testing setup?
+As you said this is similar to the TLS offload:
 
-Did another pass and this looks good to me.
+> Note:
+> These offloads are similar in nature to the packet-based NIC TLS offloads,
+> which are already upstream (see net/tls/tls_device.c).
+> You can read more about TLS offload here:
+> https://www.kernel.org/doc/html/latest/networking/tls-offload.html
 
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+and our experience trying to maintain and extend the very much used SW
+kernel TLS implementation in presence of the device offload is mixed :(
+We can't test it, we break it, get CVEs for it :( In all fairness 
+the inline offload is probably not as bad as the crypto accelerator
+path, but still it breaks. So assuming that this gets all the necessary
+acks can we expect you to plug some testing into the netdev CI so that
+we see whether any incoming change is breaking this offload?
 
