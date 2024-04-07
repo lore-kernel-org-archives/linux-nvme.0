@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A267CD128A
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Apr 2024 21:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B732CD1292
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Apr 2024 21:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fy5gdQMpx1k8YQ1q6iH8JDdStb5tBbHzfdextj/VRNs=; b=QWPZT5BbajYeQhP3VGjTR2IB19
-	qcCi2rmsIP9Y/HhwbteOfJaOQ3+1Gdsd/Lk/KSlw2g2hbAZPNs293+2AHxzSTWL9Rp5b+QdIOtSma
-	Iyn0MzE0/tB6fQZ0k0HgDdWwlCsabaXBRAhqYa5UPY/+P8SySbE9emCGTpAeu44L3Z/H6H6AqGImW
-	H1dDax2xig5uVb7LfJrbeMbkNvAAr5MJa3HsJ3yeAFUQ2h+efFxiI9tO/9TH8c1ZCI9EO1toHep/E
-	GURCSd53g355HHPyd3kRaK6AOge9EmPFUMt09cKm+raEHvkH4zjkrWHz2D5mMoZzIj93+mr4s3ycW
-	RKqHB2yg==;
+	bh=Ot4ij1D6QTr/YIDHGHfghJIEALOsP9eeA7jh08aQX/o=; b=yTg5KHjqf+JSyB/4BVJLNpkKky
+	R82Gde6Xnez8Xu6NVEiNHfsaB0ds2WmcfOSpHIi/QnaPbeqQQT/nxtmPqhQFHEeCaiZ4H1Sxxtak4
+	Z9K+jQmKyLxvwyvzQJQdgbWDWQeh0GxC6AjmscFi66FPrL65A66VQPiKbD2oaWJTz0TNs1xUM0Yf/
+	MRXaWcElGPEyuKhNQ32cWge8ZuuEHJ9LFM17KVbFvdhLHc31SovihfkHBkNHmw5ENAHaDfOtkd8J6
+	Pigi6Vh/DK1hI//uCr/YKf2hCpebxpZRpVPf8uGsoFssWvN7b45hmuCQzaDtBlVdkgP1qpaNrWHvP
+	/E9VhXZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtaLq-0000000DZq3-330R;
-	Sun, 07 Apr 2024 21:46:58 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1rtaNw-0000000Da8m-1a2w;
+	Sun, 07 Apr 2024 21:49:08 +0000
+Received: from mail-wm1-f52.google.com ([209.85.128.52])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtaLn-0000000DZpY-1WGx
+	id 1rtaNt-0000000Da7P-2rZh
 	for linux-nvme@lists.infradead.org;
-	Sun, 07 Apr 2024 21:46:56 +0000
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-343d32aba7eso820082f8f.1
-        for <linux-nvme@lists.infradead.org>; Sun, 07 Apr 2024 14:46:54 -0700 (PDT)
+	Sun, 07 Apr 2024 21:49:06 +0000
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4167082dabdso296155e9.0
+        for <linux-nvme@lists.infradead.org>; Sun, 07 Apr 2024 14:49:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712526413; x=1713131213;
+        d=1e100.net; s=20230601; t=1712526542; x=1713131342;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fy5gdQMpx1k8YQ1q6iH8JDdStb5tBbHzfdextj/VRNs=;
-        b=py7KWvn1k5zEMLJls1V/Mve5SMCOY5+zeJgaZPAVoEMAYvCyQVsot7XJINdjKCZfWD
-         WQYfTAmSwZlBXFjlZC6v31CVEvYvHCl8pGOseMJgd7oVgAZVijjUz8HE80hL7xocM6eO
-         pqgKSRaHpY508YJDbsu4Nth+YIuh9gqIbX+NrRoJpQPSbxCgMItTU1LCJrar9xTM12eJ
-         aAJINhnRncRw2Y9bK86NfQOodTQzPQ9EPU7KM8XThh8wExAOe0Y9B67Zji8WHD/99eWP
-         Eop7OotSv3e3zD90szjZxsRZ9isBS53N06FRJhZ3TLSbru1R816Fk6BhzU8EbsG6fi/H
-         lH9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUcbJvyR0PPr3ZgNLF+3m2O82S/01nglEUBC7p5K5QziKzg28fLdGn/13A4KS8l1wP1yLec/I7KZnm5pbwDTptBp5QqOP643I7ClfzW+i4=
-X-Gm-Message-State: AOJu0YzasBblqWtUXUxbRAz+cthU2h8XQMWbEZ590Of2yptuTTVrxszo
-	7fFp/3yPqyU2pxN3pNfiATNy+Xu6xsGYgXNYAD++otYe8gvAsGxe
-X-Google-Smtp-Source: AGHT+IEc2A/l5Ot4MJblKZbpL/dV0ajuUc/QVtOiPJFXQHae+EhFFlRjikIPjhA6VD/iN6U0/miGkA==
-X-Received: by 2002:adf:f707:0:b0:33e:a016:faab with SMTP id r7-20020adff707000000b0033ea016faabmr4227476wrp.6.1712526412692;
-        Sun, 07 Apr 2024 14:46:52 -0700 (PDT)
+        bh=Ot4ij1D6QTr/YIDHGHfghJIEALOsP9eeA7jh08aQX/o=;
+        b=TdUaHjiUeMpZItV4AWJFJA2NB13Dfk72UEgU1GGztdH4J94b4d+iyvsZ/7wuMMhBp7
+         7srZ5l3Vspmiy/7k3IQhvHH1MlDPOyF1EjqSqCEjgXF/31Y0K5PL7YJlFtGK12pwYQ6q
+         lEJtqPk9OSnUIA2sQtWijHDpuSDtegaarPKOWxA25N+ofwcZDjRBSOUeM+gqZ0iuqKRk
+         aUPndkNW8E0C56HFngTFxglIlpEFyk7PMGWMogIi+Vmn0i9imC1hdnQIlnmddps2z6lm
+         MKUffwJtnFtEDrq0E8ZciydOKlqC/QanXjqSnBLM+Rn+9DGd97jek8WDZO1OUWegOP23
+         49sA==
+X-Forwarded-Encrypted: i=1; AJvYcCUTh69zOIHNcnJkDamEIJx87RZcHmh+xc5L/ozJCtRZLb6wPdW8+vByeKHigNow9WdjLXYsXWIJJ7EUnI8Prry7nCoxdXhaUSaMgq5C6WE=
+X-Gm-Message-State: AOJu0YwR7om/BV7/SYQ7HKZ012h+fsRhpN2Cons1BAVJAMi3BbTuxqBY
+	O1mceRywHPJb8mDfauWcQtDEZ0IYXZ9SGTlQlubu+BTzmu6dtKZe
+X-Google-Smtp-Source: AGHT+IHH5dcE05hRyrWryTS22gMFSs4IfkfZtUkzbMqF122nh0ZHtDOSur9QPwH9gwuyux15r0X3zQ==
+X-Received: by 2002:a5d:628f:0:b0:343:760d:29c8 with SMTP id k15-20020a5d628f000000b00343760d29c8mr4981834wru.1.1712526542534;
+        Sun, 07 Apr 2024 14:49:02 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
-        by smtp.gmail.com with ESMTPSA id l18-20020a5d6752000000b00343a3e62997sm7365426wrw.50.2024.04.07.14.46.51
+        by smtp.gmail.com with ESMTPSA id p9-20020adff209000000b003432d61d6b7sm7393181wro.51.2024.04.07.14.49.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Apr 2024 14:46:52 -0700 (PDT)
-Message-ID: <31c2c699-bff1-455d-a6ca-337724324150@grimberg.me>
-Date: Mon, 8 Apr 2024 00:46:51 +0300
+        Sun, 07 Apr 2024 14:49:02 -0700 (PDT)
+Message-ID: <ddee2fd2-584c-42be-af5f-7e002b2d5441@grimberg.me>
+Date: Mon, 8 Apr 2024 00:49:01 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/17] nvme-fabrics: reset connection for secure
+Subject: Re: [PATCH 13/17] nvme-tcp: reset after recovery for secure
  concatenation
 To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Hannes Reinecke <hare@suse.de>
 References: <20240318150316.138501-1-hare@kernel.org>
- <20240318150316.138501-13-hare@kernel.org>
+ <20240318150316.138501-14-hare@kernel.org>
 Content-Language: he-IL, en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240318150316.138501-13-hare@kernel.org>
+In-Reply-To: <20240318150316.138501-14-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240407_144655_439323_DE7DA623 
-X-CRM114-Status: GOOD (  13.66  )
+X-CRM114-CacheID: sfid-20240407_144905_773778_EC54434F 
+X-CRM114-Status: GOOD (  19.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,24 +87,60 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 18/03/2024 17:03, Hannes Reinecke wrote:
-> When secure concatenation is requested the connection needs to be
-> reset to enable TLS encryption on the new cnnection.
-> That implies that the original connection used for the DH-CHAP
-> negotiation really shouldn't be used, and we should reset as soon
-> as the DH-CHAP negotiation has succeeded on the admin queue.
-> The current implementation does not allow to easily skip
-> connection attempts on the I/O queues, so we connect I/O
-> queues, but disable namespace scanning on these queues.
-> With that no I/O can be issued on these queues, so we
-> can tear them down quickly without having to wait for
-> quiescing etc.
+> From: Hannes Reinecke <hare@suse.de>
+>
+> With TP8018 a new key will be generated from the DH-HMAC-CHAP
+> protocol after reset or recovery, but we need to start over
+> to establish a new TLS connection with the new keys.
+>
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/host/tcp.c | 20 ++++++++++++++++++++
+>   1 file changed, 20 insertions(+)
+>
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 94152ded123a..3811ee9cd040 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2219,6 +2219,22 @@ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+>   	}
+>   }
+>   
+> +static bool nvme_tcp_reset_for_secure_concat(struct nvme_ctrl *ctrl)
+> +{
+> +	if (!ctrl->opts->concat)
+> +		return false;
+> +	/*
+> +	 * If a key has been generated and TLS has not been enabled
+> +	 * reset the queue to start TLS handshake.
+> +	 */
+> +	if (ctrl->opts->tls_key && !ctrl->tls_key) {
+> +		dev_info(ctrl->device, "Reset to enable TLS with generated PSK\n");
+> +		nvme_reset_ctrl(ctrl);
+> +		return true;
+> +	}
+> +	return false;
+> +}
+> +
+>   static void nvme_tcp_revoke_generated_tls_key(struct nvme_ctrl *ctrl)
+>   {
+>   	if (!ctrl->opts->concat)
+> @@ -2321,6 +2337,9 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
+>   	if (nvme_tcp_setup_ctrl(ctrl, false))
+>   		goto requeue;
+>   
+> +	if (nvme_tcp_reset_for_secure_concat(ctrl))
+> +		return;
+> +
+>   	dev_info(ctrl->device, "Successfully reconnected (%d attempt)\n",
+>   			ctrl->nr_reconnects);
+>   
+> @@ -2396,6 +2415,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+>   	if (nvme_tcp_setup_ctrl(ctrl, false))
+>   		goto out_fail;
+>   
+> +	nvme_tcp_reset_for_secure_concat(ctrl);
 
-We shouldn't have to connect io queues here. The scan prevention
-is just a hack...
-
-> Once that is done we can reset the controller directly
-> after the ->create_ctrl() callback.
-
-Why not set opts->nr_io_queues = 0 for secure concatenation and
-setting it to the original value before resetting?
+This is really strange. I'd imagine that this would be needed only if 
+the derived psk expired no?
 
