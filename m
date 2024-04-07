@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2A63CD1284
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Apr 2024 02:29:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD5C7CD11C2
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Apr 2024 09:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=04EWYPQ3tqA1KddlrE0T62PVcteMsovJRtjGtyQ4xS8=; b=0YwZpW9AZEu4hHhcu1Ss0/9JXN
-	DkXIzKDyQ63CeZHzIRST5nT31P3VVRN/U6I/8+tFsz6KWj0p/b+UV0c3JxhAYeg4yk4yooaHMWZKD
-	CegV8tH36Ks2Wms+8jtWt3psR7f9pD36qQB9Ir+ob74t5mBFCGSb1mnm2XbwpDFlVDJ80a+7twa1u
-	W536+Bjc59/DyjwZNP6/hKFsqBkvtxD5D/crvd/ZeI8+2gl6YkMZ7WgEILPQj6FhXn9H6S3Kw3Y/t
-	dyQWqpDq8jwEPEB6v1CnFWw1qWJeZKcgbKZvz0RJLkbDFsZiKPYjUiRazAdmeG4mSaxgnKFVOo9YX
-	4GwbWa0g==;
+	bh=IZz3MC840yZiyjU2iCflebsmKP1jFfr+YX8wQcQ7who=; b=Dk8fBBMJ5JqrQpRkJ8EZDd9Foh
+	uU4SVbGlRfd7brlkANIUWOzYPPHuXsv80ShLAZg8csCXfmQmZXCCwgzuovFeNFPsS+2/1nqKMMf35
+	dzg1SuZPAc5zKChSkXlPzYagPqapyFN8bglqa3BOr81J4sSWaWMzZq6rBbp/ja1Ll+wGPg+IIIUpY
+	TRlEALxajWnTnriv5U2H/h4cno5HZTO9TZXzqHMB6GdWvzz5yRnxjjMN/scm8cNoCWrT+hv+Y/hLF
+	vdumuRbeO2LDtTOq23DBpJUEP8BJ2yuiH7TF1ufLQmrUMVnFnIvcJtXcS8h+9BsfmnSSBp8V3HGOr
+	EY/86XZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtIHL-0000000BUZG-3AiI;
-	Sun, 07 Apr 2024 02:29:07 +0000
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+	id 1rtOcq-0000000CDYU-1AuT;
+	Sun, 07 Apr 2024 09:15:44 +0000
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtIHG-0000000BUYL-08gO
+	id 1rtOcm-0000000CDXr-410X
 	for linux-nvme@lists.infradead.org;
-	Sun, 07 Apr 2024 02:29:03 +0000
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1e3dda73192so3423525ad.3
-        for <linux-nvme@lists.infradead.org>; Sat, 06 Apr 2024 19:29:01 -0700 (PDT)
+	Sun, 07 Apr 2024 09:15:42 +0000
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-5d81b08d6f2so2940648a12.0
+        for <linux-nvme@lists.infradead.org>; Sun, 07 Apr 2024 02:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712456940; x=1713061740; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1712481339; x=1713086139; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=04EWYPQ3tqA1KddlrE0T62PVcteMsovJRtjGtyQ4xS8=;
-        b=ILcwT3AuL1eRDHDMQ6jG3sd5LJAUhk3NVpCrFYXDe4T07YqQykkHRJ7aSMFEdSxqpL
-         eLNwO1O9U4/zeX4yKlQVVLfrNLm/f5SJ+eaM8wk9zrts+uL07yl9tG5m6amZKQLO5wO2
-         9iUPpcDRMIO3UF63K20dyxfBpvHKx3Kdd73T2NMPAVSIY961R54fWvZwhccSp73EayHJ
-         W4lPnyR5E5wC4hTsxMCCB/+chLREeC26gIFUUK7ovJZGFXxM8qFjNmLNacqukb91VFXb
-         YSUvVLtK1Azy9ZMu6THTm9Cf/jpyKXMihlYVqc5plCVQafkalSs1d8LomD0Q6IakW0eJ
-         yhCA==
+        bh=IZz3MC840yZiyjU2iCflebsmKP1jFfr+YX8wQcQ7who=;
+        b=e06A8jVZzBSZGqePDxi+Om4BEaFpYWJkWOZwC8F5tyoD1FhnUr+o0eadVt9ArnvTsa
+         lJxBCF0JEzD9lTvMR9MlJS/zjZfLfhGis3+W5vg8bbEVrlbmTugks2Q2TH9ejh109Bl+
+         uRYeKRES25iYuycBIp1dVukPrhcXJWTUT27ni0au4ynk+mGbPzSjACbdKxniB4WzdFI/
+         3snBUQQwLniK5plw7afdClWs9/Y4ZdzL5ziG7UI2FfJFS7PMRkhZeO+Wm27CnUaxdu4o
+         0ls/0i+Ef0ywR6ymzAWyc9TKo9PplEKIaUvMvNKR4MnH0GZgUYfNcFtEjFRgd7hmu44R
+         HH9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712456940; x=1713061740;
+        d=1e100.net; s=20230601; t=1712481339; x=1713086139;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=04EWYPQ3tqA1KddlrE0T62PVcteMsovJRtjGtyQ4xS8=;
-        b=WRq6V3Rh9WviQEpZfG8m/dMfTiIs6AU6lWaWgbRzVE4cSKlqbWhNaz3jxIi2xlk5qo
-         FDdX2btzsFqt6dd6wr2w7SI7SXKBh56vj0+ncYglXKFqnY8k6IvH77X2lYBCvrryHdS2
-         HP6muZunr+CORTyZU7radHKBy0FroZKJVuv7mvtR386bGyhSidLWaz0wVxJI8rCJZ5fE
-         MoXWVu/aSicGV3q75/RAaYmgjRe0PuwvNU6OBFzpuWr7dYHmYTWncv7eiyg8J/HfaxZW
-         i17+VmaW+YXqcEfy7v/qWSwIr8C6bLjFT0auFsQ1VzKXwYkE0AiTnjfaXNvzOX+D6P5q
-         LffQ==
-X-Gm-Message-State: AOJu0Yx3MYtcBjnVC/WPR66hA3iwzFr35ls+pDkHOB/0vNTYTrf1ACJ+
-	7x12De8wx4SL4RWp1S7Jg7EvUWfvXHTOENCtHuq/xT4QsCtOnXAt
-X-Google-Smtp-Source: AGHT+IE37hWMmWkGJVGt79PlmEPyrgaqf8R77pgZrS+jFSfFKBChcG6cWpzfyia+njZbES3gFaYjxw==
-X-Received: by 2002:a17:903:44d:b0:1e2:82fc:bf71 with SMTP id iw13-20020a170903044d00b001e282fcbf71mr4616512plb.22.1712456940493;
-        Sat, 06 Apr 2024 19:29:00 -0700 (PDT)
-Received: from tokunori-desktop.flets-east.jp ([240b:10:2720:5500:f052:3362:3c6a:3999])
-        by smtp.gmail.com with ESMTPSA id kp11-20020a170903280b00b001d8aa88f59esm4044516plb.110.2024.04.06.19.28.58
+        bh=IZz3MC840yZiyjU2iCflebsmKP1jFfr+YX8wQcQ7who=;
+        b=SNBCp6CF43VGKlpN5BErHSrgRH4jRG6Gb5Fp3m8T3ALhppJaf2uL6jhxWB22fpYj/C
+         LXvktU8C4vRKaGhNk9VEZGjtkNYTALIWop4314E/GOBiRUzQ9zhATHLv9ICfEQRDKABi
+         g+VGNIPV6Zg+RQL5UJmLChAP9TtzOgim236ftNCzK7DPWaIGCHg1x8602FwzmJAsapI1
+         9eTMSr+Mhi0i7p+Yg/H2aTqk92t8L+8i1fYl5kR5jIW9HTJfHnoB9X0tKg/ZMWZCQOzZ
+         tlxAWVopOxoCBriPPBdTSv6SL0FGqjsWdJm7JHAuGGUCkZmQ/xTy0t4l8MmbNCAukCkh
+         ZUzw==
+X-Gm-Message-State: AOJu0Yxs1CxcStYex9RKx+XX8nvkI4hNfYR+XrXUojSjio0UkRdYCDkb
+	bWbBajLIwEynbWlw1pjfBkM/bvCrs4sPYeXVhT+n5RF/3A58j+LQ
+X-Google-Smtp-Source: AGHT+IG/v6pXK0c/WnbmNuveLTIDxp62sKFRmQTKE5oyK98ydkDjwD6izLdX3yaiAqsJRY89kjBBSA==
+X-Received: by 2002:a05:6a20:5529:b0:1a7:509b:2a2d with SMTP id ko41-20020a056a20552900b001a7509b2a2dmr3494266pzb.12.1712481339436;
+        Sun, 07 Apr 2024 02:15:39 -0700 (PDT)
+Received: from tokunori-desktop.flets-east.jp ([240b:10:2720:5500:402c:cd44:6086:c23a])
+        by smtp.gmail.com with ESMTPSA id gd5-20020a17090b0fc500b002a29160df67sm4293667pjb.27.2024.04.07.02.15.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Apr 2024 19:29:00 -0700 (PDT)
+        Sun, 07 Apr 2024 02:15:39 -0700 (PDT)
 From: Tokunori Ikegami <ikegami.t@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-nvme@lists.infradead.org,
@@ -70,15 +70,15 @@ Cc: linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Tokunori Ikegami <ikegami.t@gmail.com>
-Subject: [PATCH for 6.1.y] nvme: fix miss command type check
-Date: Sun,  7 Apr 2024 11:28:36 +0900
-Message-Id: <20240407022836.6148-1-ikegami.t@gmail.com>
+Subject: [PATCH for 5.15.y] nvme: fix miss command type check
+Date: Sun,  7 Apr 2024 18:15:28 +0900
+Message-Id: <20240407091528.5025-1-ikegami.t@gmail.com>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240406_192902_104680_9A15F1FA 
-X-CRM114-Status: GOOD (  16.08  )
+X-CRM114-CacheID: sfid-20240407_021541_035294_E34C7930 
+X-CRM114-Status: GOOD (  14.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,26 +111,23 @@ Signed-off-by: Keith Busch <kbusch@kernel.org>
 Fixes: b58da2d270db ("nvme: update keep alive interval when kato is modified")
 Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
 ---
- drivers/nvme/host/core.c       | 4 +++-
- drivers/nvme/host/ioctl.c      | 3 ++-
- drivers/nvme/host/nvme.h       | 2 +-
- drivers/nvme/target/passthru.c | 3 ++-
- 4 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d7516e99275b..20160683e868 100644
+index 8f06e5c1706b..960a31e3307a 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1151,7 +1151,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+@@ -1185,7 +1185,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
  	return effects;
  }
  
--void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
-+void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
- 		       struct nvme_command *cmd, int status)
+-static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
++static void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
+ 			      struct nvme_command *cmd, int status)
  {
  	if (effects & NVME_CMD_EFFECTS_CSE_MASK) {
-@@ -1167,6 +1167,8 @@ void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
+@@ -1201,6 +1201,8 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
  		nvme_queue_scan(ctrl);
  		flush_work(&ctrl->scan_work);
  	}
@@ -139,61 +136,15 @@ index d7516e99275b..20160683e868 100644
  
  	switch (cmd->common.opcode) {
  	case nvme_admin_set_features:
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 91e6d0347579..b3e322e4ade3 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -147,6 +147,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
- 		u32 meta_seed, u64 *result, unsigned timeout, bool vec)
- {
-+	struct nvme_ns *ns = q->queuedata;
- 	struct nvme_ctrl *ctrl;
- 	struct request *req;
- 	void *meta = NULL;
-@@ -181,7 +182,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	blk_mq_free_request(req);
- 
- 	if (effects)
+@@ -1235,7 +1237,7 @@ int nvme_execute_passthru_rq(struct request *rq)
+ 	effects = nvme_passthru_start(ctrl, ns, cmd->common.opcode);
+ 	ret = nvme_execute_rq(disk, rq, false);
+ 	if (effects) /* nothing to be done for zero cmd effects */
 -		nvme_passthru_end(ctrl, effects, cmd, ret);
 +		nvme_passthru_end(ctrl, ns, effects, cmd, ret);
  
  	return ret;
  }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a892d679e338..8e28d2de45c0 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -1063,7 +1063,7 @@ static inline void nvme_auth_free(struct nvme_ctrl *ctrl) {};
- u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 			 u8 opcode);
- int nvme_execute_passthru_rq(struct request *rq, u32 *effects);
--void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects,
-+void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
- 		       struct nvme_command *cmd, int status);
- struct nvme_ctrl *nvme_ctrl_from_file(struct file *file);
- struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid);
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index adc0958755d6..a0a292d49588 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -216,6 +216,7 @@ static void nvmet_passthru_execute_cmd_work(struct work_struct *w)
- 	struct nvmet_req *req = container_of(w, struct nvmet_req, p.work);
- 	struct request *rq = req->p.rq;
- 	struct nvme_ctrl *ctrl = nvme_req(rq)->ctrl;
-+	struct nvme_ns *ns = rq->q->queuedata;
- 	u32 effects;
- 	int status;
- 
-@@ -242,7 +243,7 @@ static void nvmet_passthru_execute_cmd_work(struct work_struct *w)
- 	blk_mq_free_request(rq);
- 
- 	if (effects)
--		nvme_passthru_end(ctrl, effects, req->cmd, status);
-+		nvme_passthru_end(ctrl, ns, effects, req->cmd, status);
- }
- 
- static enum rq_end_io_ret nvmet_passthru_req_done(struct request *rq,
 -- 
 2.40.1
 
