@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55319CD1292
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Apr 2024 20:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5F4ACD1292
+	for <linux-nvme@archiver.kernel.org>; Sun,  7 Apr 2024 20:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ioVIwbdgW4ehobZqWOUOsjJOzwym81QNPAVGkioyuFA=; b=gYhrCYGZOyrkc2Sx2DBQLvFOhC
-	iMunHrFNN/rtRXGA7Ww5f4nRNfzA+0sg8SE0X1hrOumyMDi9dpveLOt/m5Lue++muhLURzVCGg36+
-	sBsWz32pR4B90NNe/1h8XULaJhM61LS35jXnVKmuO+6UaEvRW9UmLoqDQrtvTHdMAo7gLVxBnIJkp
-	wSFGWiIuTnYPPxxn7LBoo0hSxBWLXs3FL+1fD5TZtM+r5340lnQsYEjChmLT3H4UnVV19CEBKyoXf
-	H0jHZqUto5QGtqkGx3q3MMEpGMQTVOwtkuUqaAZDxNG4X/NxdOxJyadtcGrvF9rXZHvFOlLfoF6Hi
-	GBJSws1g==;
+	bh=YUZgA5UPK9JfbHQEmkV8cd+5AiEW4HJxIn9Gl8NKoko=; b=Gz+ZxT7Q0dOX7T6NhKhqkqkJ5W
+	2IhoVSNCwDY8YoAyRND7kZ+tdmf998AaGUuNgEynaFfGQUheblxvkeWz1Avlnum7oZgPMWA/MF+5N
+	FMnS78yRM5fDEYFQnNURMk0iXwZaa6tS4Q/2+uVFG7dzVPbgPjhsgaklBmT5yvuSprukv3UHrLv/Y
+	BJR2Q8pZCZcOxC8KfyQCiwnnWz+KI05i5abJSK54DfHj941V6l7tPBw1X/2+PTFBxPFsoXVkTxXPI
+	RMWElhLKk8S3NV2v5U6mdaC5vPhiX+2gkQBpe0uDVXPUIAO4kkfYsECihX6is43Kr/+3D4SyrvxDG
+	iPypAEPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtZUV-0000000DUbD-06zj;
-	Sun, 07 Apr 2024 20:51:51 +0000
-Received: from mail-lf1-f48.google.com ([209.85.167.48])
+	id 1rtZbf-0000000DVDl-3HUT;
+	Sun, 07 Apr 2024 20:59:15 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtZUR-0000000DUaZ-0H6S
+	id 1rtZbc-0000000DVDF-32Jp
 	for linux-nvme@lists.infradead.org;
-	Sun, 07 Apr 2024 20:51:48 +0000
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-516d23d3bceso959003e87.0
-        for <linux-nvme@lists.infradead.org>; Sun, 07 Apr 2024 13:51:46 -0700 (PDT)
+	Sun, 07 Apr 2024 20:59:14 +0000
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-343c8d7064aso423232f8f.0
+        for <linux-nvme@lists.infradead.org>; Sun, 07 Apr 2024 13:59:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712523105; x=1713127905;
+        d=1e100.net; s=20230601; t=1712523549; x=1713128349;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ioVIwbdgW4ehobZqWOUOsjJOzwym81QNPAVGkioyuFA=;
-        b=YRvRBPV7qQzOwNeMNIxV1l54d+tcCdQhx/Pyb2Mga/H6bDzVw5Tyxg+PtEL59X6uIE
-         JUwTsA5sbuzu0SSu0rsyIIPChhnAZqMMG2P3MyV4juRKcy465MRoOYFk7/ckoa6aS+XU
-         n1oorNgLpKcH1mREy/NhQJ48KxY5VHxMxlTa5D3O9oI18hcJEaoiIJJNw8y7+51TboBj
-         iavGyEJ9Im3izVgUeVd02+8AegjaMmmfI8w4VuZlNH4/0Tve/0p8wVwGeRGS7hyEk6yY
-         IPdLLxP2+hTLUPDPAMq1H7Fuy+xSbHf7FgPLiz7ZlUfBQwXpnWaVB3oNCffRgyq88q1k
-         rdcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrSXD3bHVtvrwM7Vb9bCk2oYS4cQkGYzWu4zzEJRa0SryFd+ddC74tnEOdUDnDq4QQfWWm0rlPsQknzK0sdC+Tcg5lhhuniAkyJdbvTxc=
-X-Gm-Message-State: AOJu0YwRTFhE4LYaDFjW1Z1x3E+LPdjJCeKZca2HEfjZQapktcuHwD16
-	3H+5xpmkF78fBB+wtplZ/x++vDub9rYLQoo2Y+WjMIodlL2SSuZh
-X-Google-Smtp-Source: AGHT+IFVz7RNaurLu6utNeoyZg7E3A5mACh/fHdH1LmzAjc8N5jzQ3gzK1od1KZPBqW1N82w4Pv5uA==
-X-Received: by 2002:a05:6512:3611:b0:516:ced5:3af9 with SMTP id f17-20020a056512361100b00516ced53af9mr3953583lfs.5.1712523104669;
-        Sun, 07 Apr 2024 13:51:44 -0700 (PDT)
+        bh=YUZgA5UPK9JfbHQEmkV8cd+5AiEW4HJxIn9Gl8NKoko=;
+        b=WWqB7js4wOco1y4oprIHESk4d6N5lox/K1naxfdUnwewk+vFrQ+hXfvaxXJYYL8CZ4
+         O+ldglWWnqbBD8qhI/fSgorxORav6KeJ3ng9YsD+WccK553yGXW1ETUg701noZNw1zY5
+         iXUboNBRN0O/4Cg4Vlh0fLmxVgRoxUR06hsZQ1E/nqjaifrN0fDidS7G28iOC9fNaAeM
+         KLwyfduRc8fFU2o7VU39kTvsiIiwHs4AmNzQKMIS8L7PI4LNh54UffoUSqGs6T7nGqrM
+         LH2wHbvvzRhsGz4yjtgVyZHmiSL41lHdaexbX/FBjVxacpHGX//Zp/wrKm8G/v5EKbR0
+         Llig==
+X-Forwarded-Encrypted: i=1; AJvYcCUJTB+/4+L+HVJ8PhSqV1LE54SuReN3RuFBFxamzP87QQ6kcol64QEImP0eumR65XvQy8+ES/9v1m+wRkinpEoXQkdiopqmZJ39Mu5jmms=
+X-Gm-Message-State: AOJu0YzCPrR2xOxGW2cteB9yRL1YgYNUBwOLIcin9YaYKq8MyoaDcl5F
+	bDOIYX7VvNmWM9dI7GsUmY/wxVtbixsE7vAFRY6ysvxGm51eTPanJn395Bie
+X-Google-Smtp-Source: AGHT+IFCVTTvr4vWxPLjGe6rsqXIQqdxDNoXUO0pVQm5QZYYH/UEQeGmw12tDItdysEyZ1XOhNYLFQ==
+X-Received: by 2002:a5d:64cf:0:b0:343:d06e:51f5 with SMTP id f15-20020a5d64cf000000b00343d06e51f5mr5946104wri.1.1712523549330;
+        Sun, 07 Apr 2024 13:59:09 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
-        by smtp.gmail.com with ESMTPSA id x11-20020ac259cb000000b00516afebe26asm923020lfn.1.2024.04.07.13.51.43
+        by smtp.gmail.com with ESMTPSA id z13-20020a056000110d00b0034174875850sm7387685wrw.70.2024.04.07.13.59.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Apr 2024 13:51:44 -0700 (PDT)
-Message-ID: <7de989ae-6088-438d-af71-50688f18cba6@grimberg.me>
-Date: Sun, 7 Apr 2024 23:51:41 +0300
+        Sun, 07 Apr 2024 13:59:09 -0700 (PDT)
+Message-ID: <b786734b-c182-4cff-b4ba-3428d500de26@grimberg.me>
+Date: Sun, 7 Apr 2024 23:59:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/17] nvme-tcp: check for invalidated or revoked key
+Subject: Re: [PATCH 04/17] nvme: add nvme_auth_generate_psk()
 To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Hannes Reinecke <hare@suse.de>
 References: <20240318150316.138501-1-hare@kernel.org>
- <20240318150316.138501-3-hare@kernel.org>
+ <20240318150316.138501-5-hare@kernel.org>
 Content-Language: he-IL, en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240318150316.138501-3-hare@kernel.org>
+In-Reply-To: <20240318150316.138501-5-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240407_135147_148915_BFA1B95C 
-X-CRM114-Status: GOOD (  15.65  )
+X-CRM114-CacheID: sfid-20240407_135912_808314_F7D7FD41 
+X-CRM114-Status: GOOD (  17.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,35 +88,124 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 18/03/2024 17:03, Hannes Reinecke wrote:
 > From: Hannes Reinecke <hare@suse.de>
 >
-> key_lookup() will always return a key, even if that key is revoked
-> or invalidated. So check for invalid keys before continuing.
+> Add a function to generate a NVMe PSK from the shared credentials
+> negotiated by DH-HMAC-CHAP.
 >
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 > ---
->   drivers/nvme/host/fabrics.c | 7 ++++++-
->   drivers/nvme/host/sysfs.c   | 9 +++++++--
->   drivers/nvme/host/tcp.c     | 8 +++++++-
->   3 files changed, 20 insertions(+), 4 deletions(-)
+>   drivers/nvme/common/auth.c | 76 ++++++++++++++++++++++++++++++++++++++
+>   include/linux/nvme-auth.h  |  2 +
+>   2 files changed, 78 insertions(+)
 >
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 0141c0a6942f..75aa69457353 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -639,7 +639,12 @@ static struct key *nvmf_parse_key(int key_id)
->   	key = key_lookup(key_id);
->   	if (IS_ERR(key))
->   		pr_err("key id %08x not found\n", key_id);
-> -	else
-> +	else if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
-> +		 test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
-> +		pr_err("key id %08x invalid\n", key_id);
-> +		key_put(key);
-> +		key = ERR_PTR(-EKEYREVOKED);
-> +	} else
->   		pr_debug("Using key id %08x\n", key_id);
->   	return key;
+> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+> index a3455f1d67fa..7a4b6589351d 100644
+> --- a/drivers/nvme/common/auth.c
+> +++ b/drivers/nvme/common/auth.c
+> @@ -11,6 +11,7 @@
+>   #include <asm/unaligned.h>
+>   #include <crypto/hash.h>
+>   #include <crypto/dh.h>
+> +#include <crypto/hkdf.h>
+>   #include <linux/nvme.h>
+>   #include <linux/nvme-auth.h>
+>   
+> @@ -471,5 +472,80 @@ int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key)
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
+>   
+> +u8 *nvme_auth_generate_psk(u8 hmac_id, u8 *skey, size_t skey_len,
+> +			   u8 *c1, u8 *c2, size_t hash_len, size_t *ret_len)
 
-Looks like it will be useful to have a nvme_key_lookup() that
-prints an error and returns a semantic error for revoked/invalidated key
-and would be used in the call-sites ?
+It seems it would be simpler to have this psk and psk_len as out params and
+return a normal status instead?
+
+> +{
+> +	struct crypto_shash *tfm;
+> +	struct shash_desc *shash;
+> +	u8 *psk;
+> +	const char *hmac_name;
+> +	int ret, psk_len;
+> +
+> +	if (!c1 || !c2) {
+> +		pr_warn("%s: invalid parameter\n", __func__);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	hmac_name = nvme_auth_hmac_name(hmac_id);
+> +	if (!hmac_name) {
+> +		pr_warn("%s: invalid hash algoritm %d\n",
+> +			__func__, hmac_id);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	tfm = crypto_alloc_shash(hmac_name, 0, 0);
+> +	if (IS_ERR(tfm))
+> +		return (u8 *)tfm;
+> +
+> +	psk_len = crypto_shash_digestsize(tfm);
+> +	psk = kzalloc(psk_len, GFP_KERNEL);
+> +	if (!psk) {
+> +		ret = -ENOMEM;
+> +		goto out_free_tfm;
+> +	}
+> +
+> +	shash = kmalloc(sizeof(struct shash_desc) +
+> +			crypto_shash_descsize(tfm),
+> +			GFP_KERNEL);
+> +	if (!shash) {
+> +		ret = -ENOMEM;
+> +		goto out_free_psk;
+> +	}
+> +
+> +	shash->tfm = tfm;
+> +	ret = crypto_shash_setkey(tfm, skey, skey_len);
+> +	if (ret)
+> +		goto out_free_shash;
+> +
+> +	ret = crypto_shash_init(shash);
+> +	if (ret)
+> +		goto out_free_shash;
+> +
+> +	ret = crypto_shash_update(shash, c1, hash_len);
+> +	if (ret)
+> +		goto out_free_shash;
+> +
+> +	ret = crypto_shash_update(shash, c2, hash_len);
+> +	if (ret)
+> +		goto out_free_shash;
+> +
+> +	ret = crypto_shash_final(shash, psk);
+> +	if (!ret)
+> +		*ret_len = psk_len;
+> +
+> +out_free_shash:
+> +	kfree_sensitive(shash);
+> +out_free_psk:
+> +	if (ret) {
+> +		kfree_sensitive(psk);
+> +		psk = NULL;
+> +	}
+> +out_free_tfm:
+> +	crypto_free_shash(tfm);
+> +
+> +	return ret ? ERR_PTR(ret) : psk;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_auth_generate_psk);
+> +
+>   MODULE_DESCRIPTION("NVMe Authentication framework");
+>   MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
+> index c1d0bc5d9624..31dc1db2d4d6 100644
+> --- a/include/linux/nvme-auth.h
+> +++ b/include/linux/nvme-auth.h
+> @@ -40,5 +40,7 @@ int nvme_auth_gen_pubkey(struct crypto_kpp *dh_tfm,
+>   int nvme_auth_gen_shared_secret(struct crypto_kpp *dh_tfm,
+>   				u8 *ctrl_key, size_t ctrl_key_len,
+>   				u8 *sess_key, size_t sess_key_len);
+> +u8 *nvme_auth_generate_psk(u8 hmac_id, u8 *skey, size_t skey_len,
+> +			   u8 *c1, u8 *c2, size_t hash_len, size_t *ret_len);
+>   
+>   #endif /* _NVME_AUTH_H */
+
 
