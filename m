@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76D9FCD1292
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 02:46:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F13AFCD1292
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 02:46:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lI5TIvWSk1K8SEncTXUlWyHzHWuukr29M4n8rWJvFJk=; b=e/7MEJq6RXKi9Le8pBM/Kzn+VW
-	EtXBbkGmmZx+vaMa+ejMnKfq6nZQ5TyKiGyCmoRglbNcrHH9mKHcvG35CwKbJqExx95VkCxm7v6UX
-	XMrpYUxl0nX3Gj31teYSRDCGZVjl9NJwHL+z1NieZd2B4/ElrvBOBSDKHhG2oYdDe+muF7V7CGzUi
-	CfDGh0Q1CH9ZAPxSuKjQ2GaItLVs3OWeCXCruWLfm4VkdlFB20kj88oy67w9HD9iTJRLPQ8rcsFWS
-	PbxoDB41oDpEGuthLqG/wvpeXZF2XXxNhzem/K9fgrAr+uq72tKoDufxIginxWi1CvYvWEKKAgeCI
-	wmdeKL5A==;
+	bh=LW4vV3f1SvaTEGBWnMpAT4xfpifkgSaroUiGpT7Ud7o=; b=KOA6qfWvQnmaNzgjo06yMFU8lP
+	x7LUHqOFAe9sOc976gnkr866MZX0FlG7LJ1PC/dmsDDN5aCF4DCd6faMjUWY1UHJW33N/XrthioBU
+	9O1dmafNS/3yOosqH+B9tHuTaB6sn0VDfVMBAvlCr9cUYWXoTTk7NZcVps7RHrBIP3Q+rmjnG0XLi
+	x46As22Yr5gBG6TNSZU/xhR2ZuS2mwaHjXDA0AUwmmbCUzM75lEgIa9xS1m3shs84OsJxp1XwOvks
+	3qsQS9ubt4J5KLEvJnoVliPglNfZCbNVPrPMVykvgoZ9xZEqk8BdMgj7S0BgXu+vmt4vywKxbfLVP
+	NyQItKdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtf1I-0000000E5fj-26DS;
-	Mon, 08 Apr 2024 02:46:05 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rtf1L-0000000E5i3-18Ho;
+	Mon, 08 Apr 2024 02:46:07 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rte1W-0000000DvjJ-1SVv
+	id 1rte1d-0000000DvqI-1E9p
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Apr 2024 01:42:23 +0000
+	Mon, 08 Apr 2024 01:42:44 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 6BFFBCE0BA1;
-	Mon,  8 Apr 2024 01:42:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D34BC43399;
-	Mon,  8 Apr 2024 01:42:10 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id AC46BCE0B9E;
+	Mon,  8 Apr 2024 01:42:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F78BC43390;
+	Mon,  8 Apr 2024 01:42:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712540531;
-	bh=O6YF3ZHNd8Jv/h6ne8GJzS5UP5WJdykDurSLvI79MnQ=;
+	s=k20201202; t=1712540538;
+	bh=9XnHOmwfPPx0NDFUzgMSfzYPmIGlwJFZdtb/+1f+/Yk=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=RPUFXSLbqSG5RJs/tBF83xiOslauOeeLfFt5V3JrdpyRvAiWhdieS3Tlm9lFtT+V+
-	 YJElsLDznMuB0bvRQw3lecLRAKgxV99Jk7jHyMavoWouBz5/WFwJVkMoKq+upPGWc+
-	 Q764CslareS0LuNFSggR7ZmPeR+BfKb7sdH2lyqAylRPQGZWHcc9999MyUo3LiklX+
-	 7ycs97wkekOKzERTRTSY3KMdOC7wjEQkLUNSOXd+rvcHAwGhoppJn/XaG+NZbvg9kE
-	 N++AAadke8FPEgBsLx0Dm55K+okmRRQTwKq8TzRXvK9v7OcjUAW6xbVcKowWLDyzJJ
-	 5zcgrZEKJ72tw==
+	b=gprxxCS1QFWIhsE6wAUHyrEAOCoWiluAztqBR4cviuDPKMmFewxL1QNzXGHMV4OT2
+	 Zob+lx21wmczjabjHKxXoDX9YPeYiXh/Cl6d2hLY5czS67oMUPRbEx6C9DvU1ip//d
+	 IN9+CCiR1ZE0mxtKlVIpKpMr6JRnT6N+MCqtzIC+4D7wV14QzBP4adqH0KSrG4YGAL
+	 4DlDkHvIgGr2hCHx/1lcHN2/O8bh7sWjDwIv+/fhtEcasgpUo1NoS55u5ipy6ja771
+	 p+Ev3zmghLfY1xuC38OzUdHtbNl37Kf4J7hbTfdGM3I7cJTY9/0641P55bVq6dju3E
+	 ajgAWfiJgFAIw==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -52,17 +52,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v7 22/28] block: Remove elevator required features
-Date: Mon,  8 Apr 2024 10:41:22 +0900
-Message-ID: <20240408014128.205141-23-dlemoal@kernel.org>
+Subject: [PATCH v7 26/28] block: Remove zone write locking
+Date: Mon,  8 Apr 2024 10:41:26 +0900
+Message-ID: <20240408014128.205141-27-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240408014128.205141-1-dlemoal@kernel.org>
 References: <20240408014128.205141-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240407_184215_639106_AFDD9947 
-X-CRM114-Status: GOOD (  20.13  )
+X-CRM114-CacheID: sfid-20240407_184222_453855_BEC8CC37 
+X-CRM114-Status: GOOD (  22.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,182 +77,346 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The only elevator feature ever implemented is ELEVATOR_F_ZBD_SEQ_WRITE
-for signaling that a scheduler implements zone write locking to tightly
-control the dispatching order of write operations to zoned block
-devices. With the removal of zone write locking support in mq-deadline
-and the reliance of all block device drivers on the block layer zone
-write plugging to control ordering of write operations to zones, the
-elevator feature ELEVATOR_F_ZBD_SEQ_WRITE is completely unused.
-Remove it, and also remove the now unused code for filtering the
-possible schedulers for a block device based on required features.
+Zone write locking is now unused and replaced with zone write plugging.
+Remove all code that was implementing zone write locking, that is, the
+various helper functions controlling request zone write locking and
+the gendisk attached zone bitmaps.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Tested-by: Hans Holmberg <hans.holmberg@wdc.com>
 Tested-by: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- block/blk-settings.c   | 16 ---------------
- block/elevator.c       | 46 +++++-------------------------------------
- block/elevator.h       |  1 -
- include/linux/blkdev.h | 10 ---------
- 4 files changed, 5 insertions(+), 68 deletions(-)
+ block/blk-mq-debugfs.c    |  1 -
+ block/blk-zoned.c         | 66 ++-----------------------------
+ include/linux/blk-mq.h    | 83 ---------------------------------------
+ include/linux/blk_types.h |  1 -
+ include/linux/blkdev.h    | 35 ++---------------
+ 5 files changed, 7 insertions(+), 179 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index c0197e1e7485..715f4b6356c4 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -1052,22 +1052,6 @@ void blk_queue_write_cache(struct request_queue *q, bool wc, bool fua)
+diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+index ca1f2b9422d5..770c0c2b72fa 100644
+--- a/block/blk-mq-debugfs.c
++++ b/block/blk-mq-debugfs.c
+@@ -256,7 +256,6 @@ static const char *const rqf_name[] = {
+ 	RQF_NAME(HASHED),
+ 	RQF_NAME(STATS),
+ 	RQF_NAME(SPECIAL_PAYLOAD),
+-	RQF_NAME(ZONE_WRITE_LOCKED),
+ 	RQF_NAME(TIMED_OUT),
+ 	RQF_NAME(RESV),
+ };
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 44699b431ad0..3befebe6b319 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -115,52 +115,6 @@ const char *blk_zone_cond_str(enum blk_zone_cond zone_cond)
  }
- EXPORT_SYMBOL_GPL(blk_queue_write_cache);
+ EXPORT_SYMBOL_GPL(blk_zone_cond_str);
  
--/**
-- * blk_queue_required_elevator_features - Set a queue required elevator features
-- * @q:		the request queue for the target device
-- * @features:	Required elevator features OR'ed together
-- *
-- * Tell the block layer that for the device controlled through @q, only the
-- * only elevators that can be used are those that implement at least the set of
-- * features specified by @features.
-- */
--void blk_queue_required_elevator_features(struct request_queue *q,
--					  unsigned int features)
--{
--	q->required_elevator_features = features;
--}
--EXPORT_SYMBOL_GPL(blk_queue_required_elevator_features);
--
- /**
-  * blk_queue_can_use_dma_map_merging - configure queue for merging segments.
-  * @q:		the request queue for the device
-diff --git a/block/elevator.c b/block/elevator.c
-index 5ff093cb3cf8..f64ebd726e58 100644
---- a/block/elevator.c
-+++ b/block/elevator.c
-@@ -83,13 +83,6 @@ bool elv_bio_merge_ok(struct request *rq, struct bio *bio)
- }
- EXPORT_SYMBOL(elv_bio_merge_ok);
- 
--static inline bool elv_support_features(struct request_queue *q,
--		const struct elevator_type *e)
--{
--	return (q->required_elevator_features & e->elevator_features) ==
--		q->required_elevator_features;
--}
--
- /**
-  * elevator_match - Check whether @e's name or alias matches @name
-  * @e: Scheduler to test
-@@ -120,7 +113,7 @@ static struct elevator_type *elevator_find_get(struct request_queue *q,
- 
- 	spin_lock(&elv_list_lock);
- 	e = __elevator_find(name);
--	if (e && (!elv_support_features(q, e) || !elevator_tryget(e)))
-+	if (e && (!elevator_tryget(e)))
- 		e = NULL;
- 	spin_unlock(&elv_list_lock);
- 	return e;
-@@ -580,34 +573,8 @@ static struct elevator_type *elevator_get_default(struct request_queue *q)
- }
- 
- /*
-- * Get the first elevator providing the features required by the request queue.
-- * Default to "none" if no matching elevator is found.
-- */
--static struct elevator_type *elevator_get_by_features(struct request_queue *q)
--{
--	struct elevator_type *e, *found = NULL;
--
--	spin_lock(&elv_list_lock);
--
--	list_for_each_entry(e, &elv_list, list) {
--		if (elv_support_features(q, e)) {
--			found = e;
--			break;
--		}
--	}
--
--	if (found && !elevator_tryget(found))
--		found = NULL;
--
--	spin_unlock(&elv_list_lock);
--	return found;
--}
--
 -/*
-- * For a device queue that has no required features, use the default elevator
-- * settings. Otherwise, use the first elevator available matching the required
-- * features. If no suitable elevator is find or if the chosen elevator
-- * initialization fails, fall back to the "none" elevator (no elevator).
-+ * Use the default elevator settings. If the chosen elevator initialization
-+ * fails, fall back to the "none" elevator (no elevator).
-  */
- void elevator_init_mq(struct request_queue *q)
- {
-@@ -622,10 +589,7 @@ void elevator_init_mq(struct request_queue *q)
- 	if (unlikely(q->elevator))
- 		return;
+- * Return true if a request is a write requests that needs zone write locking.
+- */
+-bool blk_req_needs_zone_write_lock(struct request *rq)
+-{
+-	if (!rq->q->disk->seq_zones_wlock)
+-		return false;
+-
+-	return blk_rq_is_seq_zoned_write(rq);
+-}
+-EXPORT_SYMBOL_GPL(blk_req_needs_zone_write_lock);
+-
+-bool blk_req_zone_write_trylock(struct request *rq)
+-{
+-	unsigned int zno = blk_rq_zone_no(rq);
+-
+-	if (test_and_set_bit(zno, rq->q->disk->seq_zones_wlock))
+-		return false;
+-
+-	WARN_ON_ONCE(rq->rq_flags & RQF_ZONE_WRITE_LOCKED);
+-	rq->rq_flags |= RQF_ZONE_WRITE_LOCKED;
+-
+-	return true;
+-}
+-EXPORT_SYMBOL_GPL(blk_req_zone_write_trylock);
+-
+-void __blk_req_zone_write_lock(struct request *rq)
+-{
+-	if (WARN_ON_ONCE(test_and_set_bit(blk_rq_zone_no(rq),
+-					  rq->q->disk->seq_zones_wlock)))
+-		return;
+-
+-	WARN_ON_ONCE(rq->rq_flags & RQF_ZONE_WRITE_LOCKED);
+-	rq->rq_flags |= RQF_ZONE_WRITE_LOCKED;
+-}
+-EXPORT_SYMBOL_GPL(__blk_req_zone_write_lock);
+-
+-void __blk_req_zone_write_unlock(struct request *rq)
+-{
+-	rq->rq_flags &= ~RQF_ZONE_WRITE_LOCKED;
+-	if (rq->q->disk->seq_zones_wlock)
+-		WARN_ON_ONCE(!test_and_clear_bit(blk_rq_zone_no(rq),
+-						 rq->q->disk->seq_zones_wlock));
+-}
+-EXPORT_SYMBOL_GPL(__blk_req_zone_write_unlock);
+-
+ /**
+  * bdev_nr_zones - Get number of zones
+  * @bdev:	Target device
+@@ -1506,9 +1460,6 @@ void disk_free_zone_resources(struct gendisk *disk)
  
--	if (!q->required_elevator_features)
--		e = elevator_get_default(q);
--	else
--		e = elevator_get_by_features(q);
-+	e = elevator_get_default(q);
- 	if (!e)
- 		return;
+ 	kfree(disk->conv_zones_bitmap);
+ 	disk->conv_zones_bitmap = NULL;
+-	kfree(disk->seq_zones_wlock);
+-	disk->seq_zones_wlock = NULL;
+-
+ 	disk->zone_capacity = 0;
+ 	disk->nr_zones = 0;
+ }
+@@ -1556,7 +1507,6 @@ static int disk_revalidate_zone_resources(struct gendisk *disk,
+ struct blk_revalidate_zone_args {
+ 	struct gendisk	*disk;
+ 	unsigned long	*conv_zones_bitmap;
+-	unsigned long	*seq_zones_wlock;
+ 	unsigned int	nr_zones;
+ 	unsigned int	zone_capacity;
+ 	sector_t	sector;
+@@ -1574,7 +1524,6 @@ static int disk_update_zone_resources(struct gendisk *disk,
  
-@@ -781,7 +745,7 @@ ssize_t elv_iosched_show(struct request_queue *q, char *name)
- 	list_for_each_entry(e, &elv_list, list) {
- 		if (e == cur)
- 			len += sprintf(name+len, "[%s] ", e->elevator_name);
--		else if (elv_support_features(q, e))
-+		else
- 			len += sprintf(name+len, "%s ", e->elevator_name);
+ 	disk->nr_zones = args->nr_zones;
+ 	disk->zone_capacity = args->zone_capacity;
+-	swap(disk->seq_zones_wlock, args->seq_zones_wlock);
+ 	swap(disk->conv_zones_bitmap, args->conv_zones_bitmap);
+ 
+ 	/*
+@@ -1664,13 +1613,6 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+ 		set_bit(idx, args->conv_zones_bitmap);
+ 		break;
+ 	case BLK_ZONE_TYPE_SEQWRITE_REQ:
+-		if (!args->seq_zones_wlock) {
+-			args->seq_zones_wlock =
+-				blk_alloc_zone_bitmap(q->node, args->nr_zones);
+-			if (!args->seq_zones_wlock)
+-				return -ENOMEM;
+-		}
+-
+ 		/*
+ 		 * Remember the capacity of the first sequential zone and check
+ 		 * if it is constant for all zones.
+@@ -1712,7 +1654,7 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+ }
+ 
+ /**
+- * blk_revalidate_disk_zones - (re)allocate and initialize zone bitmaps
++ * blk_revalidate_disk_zones - (re)allocate and initialize zone write plugs
+  * @disk:	Target disk
+  *
+  * Helper function for low-level device drivers to check, (re) allocate and
+@@ -1786,9 +1728,8 @@ int blk_revalidate_disk_zones(struct gendisk *disk)
  	}
- 	spin_unlock(&elv_list_lock);
-diff --git a/block/elevator.h b/block/elevator.h
-index 7ca3d7b6ed82..e9a050a96e53 100644
---- a/block/elevator.h
-+++ b/block/elevator.h
-@@ -74,7 +74,6 @@ struct elevator_type
- 	struct elv_fs_entry *elevator_attrs;
- 	const char *elevator_name;
- 	const char *elevator_alias;
--	const unsigned int elevator_features;
- 	struct module *elevator_owner;
- #ifdef CONFIG_BLK_DEBUG_FS
- 	const struct blk_mq_debugfs_attr *queue_debugfs_attrs;
+ 
+ 	/*
+-	 * Install the new bitmaps and update nr_zones only once the queue is
+-	 * stopped and all I/Os are completed (i.e. a scheduler is not
+-	 * referencing the bitmaps).
++	 * Set the new disk zone parameters only once the queue is frozen and
++	 * all I/Os are completed.
+ 	 */
+ 	blk_mq_freeze_queue(q);
+ 	if (ret > 0)
+@@ -1799,7 +1740,6 @@ int blk_revalidate_disk_zones(struct gendisk *disk)
+ 		disk_free_zone_resources(disk);
+ 	blk_mq_unfreeze_queue(q);
+ 
+-	kfree(args.seq_zones_wlock);
+ 	kfree(args.conv_zones_bitmap);
+ 
+ 	return ret;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 60090c8366fb..89ba6b16fe8b 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -54,8 +54,6 @@ typedef __u32 __bitwise req_flags_t;
+ /* Look at ->special_vec for the actual data payload instead of the
+    bio chain. */
+ #define RQF_SPECIAL_PAYLOAD	((__force req_flags_t)(1 << 18))
+-/* The per-zone write lock is held for this request */
+-#define RQF_ZONE_WRITE_LOCKED	((__force req_flags_t)(1 << 19))
+ /* The request completion needs to be signaled to zone write pluging. */
+ #define RQF_ZONE_WRITE_PLUGGING	((__force req_flags_t)(1 << 20))
+ /* ->timeout has been called, don't expire again */
+@@ -1152,85 +1150,4 @@ static inline int blk_rq_map_sg(struct request_queue *q, struct request *rq,
+ }
+ void blk_dump_rq_flags(struct request *, char *);
+ 
+-#ifdef CONFIG_BLK_DEV_ZONED
+-static inline unsigned int blk_rq_zone_no(struct request *rq)
+-{
+-	return disk_zone_no(rq->q->disk, blk_rq_pos(rq));
+-}
+-
+-static inline unsigned int blk_rq_zone_is_seq(struct request *rq)
+-{
+-	return disk_zone_is_seq(rq->q->disk, blk_rq_pos(rq));
+-}
+-
+-/**
+- * blk_rq_is_seq_zoned_write() - Check if @rq requires write serialization.
+- * @rq: Request to examine.
+- *
+- * Note: REQ_OP_ZONE_APPEND requests do not require serialization.
+- */
+-static inline bool blk_rq_is_seq_zoned_write(struct request *rq)
+-{
+-	return op_needs_zoned_write_locking(req_op(rq)) &&
+-		blk_rq_zone_is_seq(rq);
+-}
+-
+-bool blk_req_needs_zone_write_lock(struct request *rq);
+-bool blk_req_zone_write_trylock(struct request *rq);
+-void __blk_req_zone_write_lock(struct request *rq);
+-void __blk_req_zone_write_unlock(struct request *rq);
+-
+-static inline void blk_req_zone_write_lock(struct request *rq)
+-{
+-	if (blk_req_needs_zone_write_lock(rq))
+-		__blk_req_zone_write_lock(rq);
+-}
+-
+-static inline void blk_req_zone_write_unlock(struct request *rq)
+-{
+-	if (rq->rq_flags & RQF_ZONE_WRITE_LOCKED)
+-		__blk_req_zone_write_unlock(rq);
+-}
+-
+-static inline bool blk_req_zone_is_write_locked(struct request *rq)
+-{
+-	return rq->q->disk->seq_zones_wlock &&
+-		test_bit(blk_rq_zone_no(rq), rq->q->disk->seq_zones_wlock);
+-}
+-
+-static inline bool blk_req_can_dispatch_to_zone(struct request *rq)
+-{
+-	if (!blk_req_needs_zone_write_lock(rq))
+-		return true;
+-	return !blk_req_zone_is_write_locked(rq);
+-}
+-#else /* CONFIG_BLK_DEV_ZONED */
+-static inline bool blk_rq_is_seq_zoned_write(struct request *rq)
+-{
+-	return false;
+-}
+-
+-static inline bool blk_req_needs_zone_write_lock(struct request *rq)
+-{
+-	return false;
+-}
+-
+-static inline void blk_req_zone_write_lock(struct request *rq)
+-{
+-}
+-
+-static inline void blk_req_zone_write_unlock(struct request *rq)
+-{
+-}
+-static inline bool blk_req_zone_is_write_locked(struct request *rq)
+-{
+-	return false;
+-}
+-
+-static inline bool blk_req_can_dispatch_to_zone(struct request *rq)
+-{
+-	return true;
+-}
+-#endif /* CONFIG_BLK_DEV_ZONED */
+-
+ #endif /* BLK_MQ_H */
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index ffe0c112b128..5751292fee6a 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -297,7 +297,6 @@ enum {
+ 	BIO_QOS_THROTTLED,	/* bio went through rq_qos throttle path */
+ 	BIO_QOS_MERGED,		/* but went through rq_qos merge path */
+ 	BIO_REMAPPED,
+-	BIO_ZONE_WRITE_LOCKED,	/* Owns a zoned device zone write lock */
+ 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
+ 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
+ 	BIO_FLAG_LAST
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 359e2b7d27fa..4459a6033c6c 100644
+index 4459a6033c6c..5a6e05df2554 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -453,8 +453,6 @@ struct request_queue {
+@@ -177,23 +177,14 @@ struct gendisk {
  
- 	atomic_t		nr_active_requests_shared_tags;
+ #ifdef CONFIG_BLK_DEV_ZONED
+ 	/*
+-	 * Zoned block device information for request dispatch control.
+-	 * nr_zones is the total number of zones of the device. This is always
+-	 * 0 for regular block devices. conv_zones_bitmap is a bitmap of nr_zones
+-	 * bits which indicates if a zone is conventional (bit set) or
+-	 * sequential (bit clear). seq_zones_wlock is a bitmap of nr_zones
+-	 * bits which indicates if a zone is write locked, that is, if a write
+-	 * request targeting the zone was dispatched.
+-	 *
+-	 * Reads of this information must be protected with blk_queue_enter() /
+-	 * blk_queue_exit(). Modifying this information is only allowed while
+-	 * no requests are being processed. See also blk_mq_freeze_queue() and
+-	 * blk_mq_unfreeze_queue().
++	 * Zoned block device information. Reads of this information must be
++	 * protected with blk_queue_enter() / blk_queue_exit(). Modifying this
++	 * information is only allowed while no requests are being processed.
++	 * See also blk_mq_freeze_queue() and blk_mq_unfreeze_queue().
+ 	 */
+ 	unsigned int		nr_zones;
+ 	unsigned int		zone_capacity;
+ 	unsigned long		*conv_zones_bitmap;
+-	unsigned long		*seq_zones_wlock;
+ 	unsigned int            zone_wplugs_hash_bits;
+ 	spinlock_t              zone_wplugs_lock;
+ 	struct mempool_s	*zone_wplugs_pool;
+@@ -635,15 +626,6 @@ static inline unsigned int disk_zone_no(struct gendisk *disk, sector_t sector)
+ 	return sector >> ilog2(disk->queue->limits.chunk_sectors);
+ }
  
--	unsigned int		required_elevator_features;
+-static inline bool disk_zone_is_seq(struct gendisk *disk, sector_t sector)
+-{
+-	if (!blk_queue_is_zoned(disk->queue))
+-		return false;
+-	if (!disk->conv_zones_bitmap)
+-		return true;
+-	return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+-}
 -
- 	struct blk_mq_tags	*sched_shared_tags;
+ static inline void disk_set_max_open_zones(struct gendisk *disk,
+ 		unsigned int max_open_zones)
+ {
+@@ -677,10 +659,6 @@ static inline unsigned int disk_nr_zones(struct gendisk *disk)
+ {
+ 	return 0;
+ }
+-static inline bool disk_zone_is_seq(struct gendisk *disk, sector_t sector)
+-{
+-	return false;
+-}
+ static inline unsigned int disk_zone_no(struct gendisk *disk, sector_t sector)
+ {
+ 	return 0;
+@@ -869,11 +847,6 @@ static inline bool bio_straddles_zones(struct bio *bio)
+ 		disk_zone_no(bio->bi_bdev->bd_disk, bio_end_sector(bio) - 1);
+ }
  
- 	struct list_head	icq_list;
-@@ -958,14 +956,6 @@ disk_alloc_independent_access_ranges(struct gendisk *disk, int nr_ia_ranges);
- void disk_set_independent_access_ranges(struct gendisk *disk,
- 				struct blk_independent_access_ranges *iars);
- 
--/*
-- * Elevator features for blk_queue_required_elevator_features:
-- */
--/* Supports zoned block devices sequential write constraint */
--#define ELEVATOR_F_ZBD_SEQ_WRITE	(1U << 0)
+-static inline unsigned int bio_zone_is_seq(struct bio *bio)
+-{
+-	return disk_zone_is_seq(bio->bi_bdev->bd_disk, bio->bi_iter.bi_sector);
+-}
 -
--extern void blk_queue_required_elevator_features(struct request_queue *q,
--						 unsigned int features);
- extern bool blk_queue_can_use_dma_map_merging(struct request_queue *q,
- 					      struct device *dev);
- 
+ /*
+  * Return how much of the chunk is left to be used for I/O at a given offset.
+  */
 -- 
 2.44.0
 
