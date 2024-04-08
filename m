@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C18ACD1292
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 01:42:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60660CD1292
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 01:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HDrUzHOoe7NjyW1vk2FzS7X6HOlmqq5JE81N6KnwVZo=; b=A1mTwfl1wrAT6N+UHROoN9sK5e
-	rKiOx3alHSJAGF2wM5YvCc+Bz3GR/ytueT3e21m4b4M8igQwSELT4WZYuuiFcGzNdLxk8AsnWypZH
-	zQ3yo9hh4JyJ8g91/bIIPhgJeOMg8oJCWgOGb7XB63WOtK0sfvZ/3VJ8KR5VvwjOgtO6hb8B3Ng8c
-	kKNclKTIsgOQ3tP6xmhnx9aT5VkHeu0VC9B+KNaRLMZtj5o55ykKoDIrj5Oz3Qyk+O6HdGPnqU6Tv
-	SYm7rHI4or/DFHzdtFT7lubXva/cXLbNisf+qbuQ8phxeND7FzukAQIQJ/hWFP1sHahCTMHFbbj1q
-	LNoRwhMg==;
+	bh=mQCgD6x1bNjJruigBbUFjIdHnFnx8dp5N4lLkCaYvHQ=; b=rvvZum4lv8K/j3/aiz4470RFf/
+	HkHr5G4l4NDNM46vjqv7nmZ6TKTrmqtU+J6wdnQTfGPkfATIX2vRjNGZex9zsy0jaIeo68qXiW/sI
+	x5f5NWaoha/mLrhwOGma69WiLGZRZWcENKf7clK6NKRfMmZeuSX35ev5aTvELp5qvmZIGotcvkE/K
+	EBY83ZujyjurNAktRMqOqOa9E/D2xGX1r6kLe2td2Xawlg99qR++3K4xzfs8zzNMA4ZSYtA4S+iAC
+	NNdNPv02CvISr1C63DdFH3QDcXrPW5GHzxKd6fKjh0P+WrqBguz0DRPh4qALMNzY9ujPUxuANxDjU
+	g1MG0J2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rte1c-0000000Dvqd-38bg;
-	Mon, 08 Apr 2024 01:42:20 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rte1i-0000000DvvD-0mJq;
+	Mon, 08 Apr 2024 01:42:26 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rte1D-0000000DvRh-02a6
+	id 1rte1G-0000000DvW0-21UM
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Apr 2024 01:41:59 +0000
+	Mon, 08 Apr 2024 01:42:03 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 1885DCE0B8C;
-	Mon,  8 Apr 2024 01:41:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 945FAC43399;
-	Mon,  8 Apr 2024 01:41:50 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id D58AC60DDF;
+	Mon,  8 Apr 2024 01:41:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C1DC43394;
+	Mon,  8 Apr 2024 01:41:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712540512;
-	bh=EYoOyXtGNsUhbIpXqm9CFYw9V+FR75APfh8P7nxHMHs=;
+	s=k20201202; t=1712540517;
+	bh=BAiWNhCwyIY1LaDWb3Dd92O78HHu2u6zYh3FJtbEcvw=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=jtxj8+LUGeMTVBzpF2DaaRefeYHNvIGz/3ZUMpuXMEMJx1xzVdINPWDIXGNmUIlp8
-	 pYzNr7x4QdDod/wfo/bn7YYe0toKDTUrV8b+0nq1JPD832WznPk5lqIjr58VPDNFOh
-	 QL9PVf/mlBcAkhppSs1e5qZ2pWl0eDUFKvWhMJ4gvPMp08+5FwgcO+SinGgPDRsWUf
-	 Oo00xOybGRr1IWKxAEMNDUaRA54m91qQhDiJWQPmr1INK7h3fuqLX42+mNUaL+wbL0
-	 Bcc5SWieO1T5/1sVU0JbOFKrfz9PceXSRCm6ULrDUdZZExR68/z1hNy6L55zYAj0zx
-	 m8c0DILrWeKig==
+	b=T9XSrn2gljA/maWyfaIMjWYg+nPDvbA9ATjAGUw+rN6GsoqxJVeC/6hUMyy10B1dw
+	 WHc7ai5v+idZuBYvvp+oADDgChySFyEvSxH4QYQaTu7UKXGh6vO7Z2wNnPPcG/zzT/
+	 SHDIXWSzSbgZS9bcBHEkHc+tezyZqgufgWqmwqXX7U0j/+FUovAif1iJEfriH4qJ2C
+	 bHDeLMp8wwoyGsfnI4BOnJsWMQQFtYcOH+xN4fH3hlyj3epFk5lOEls9N92c63mI/d
+	 Gwj5gHzV80TluQKZj4euC0wVHq1qSgOxA2RY2ncohyYZmSZMjtUfaa3MgbNBofMr2Y
+	 wnvrQcXliUp4A==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -52,17 +52,17 @@ To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v7 11/28] block: Allow BIO-based drivers to use blk_revalidate_disk_zones()
-Date: Mon,  8 Apr 2024 10:41:11 +0900
-Message-ID: <20240408014128.205141-12-dlemoal@kernel.org>
+Subject: [PATCH v7 14/28] ublk_drv: Do not request ELEVATOR_F_ZBD_SEQ_WRITE elevator feature
+Date: Mon,  8 Apr 2024 10:41:14 +0900
+Message-ID: <20240408014128.205141-15-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240408014128.205141-1-dlemoal@kernel.org>
 References: <20240408014128.205141-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240407_184156_392437_DAA8ECF6 
-X-CRM114-Status: GOOD (  24.86  )
+X-CRM114-CacheID: sfid-20240407_184158_839870_2F907BFD 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,110 +77,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In preparation for allowing BIO based device drivers to use zone write
-plugging and its zone append emulation, allow these drivers to call
-blk_revalidate_disk_zones() so that all zone resources necessary to zone
-write plugging can be initialized.
-
-To do so, remove the check in blk_revalidate_disk_zones() restricting
-the use of this function to mq request-based drivers to allow also
-BIO-based drivers to use it. This is safe to do as long as the
-BIO-based block device queue is already setup and usable, as it should,
-and can be safely frozen.
-
-The helper function disk_need_zone_resources() is added to control the
-allocation and initialization of the zone write plug hash table and
-of the conventional zone bitmap only for mq devices and for BIO-based
-devices that require zone append emulation.
+With zone write plugging enabled at the block layer level, any zone
+device can only ever see at most a single write operation per zone.
+There is thus no need to request a block scheduler with strick per-zone
+sequential write ordering control through the ELEVATOR_F_ZBD_SEQ_WRITE
+feature. Removing this allows using a zoned ublk device with any
+scheduler, including "none".
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 Tested-by: Hans Holmberg <hans.holmberg@wdc.com>
 Tested-by: Dennis Maisenbacher <dennis.maisenbacher@wdc.com>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- block/blk-zoned.c | 30 ++++++++++++++++++++++++------
- 1 file changed, 24 insertions(+), 6 deletions(-)
+ drivers/block/ublk_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index a60ac5b3e637..da0fc7e2d00a 100644
---- a/block/blk-zoned.c
-+++ b/block/blk-zoned.c
-@@ -1512,12 +1512,28 @@ void disk_free_zone_resources(struct gendisk *disk)
- 	disk->nr_zones = 0;
+diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
+index bea3d5cf8a83..ab6af84e327c 100644
+--- a/drivers/block/ublk_drv.c
++++ b/drivers/block/ublk_drv.c
+@@ -249,8 +249,7 @@ static int ublk_dev_param_zoned_validate(const struct ublk_device *ub)
+ static void ublk_dev_param_zoned_apply(struct ublk_device *ub)
+ {
+ 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, ub->ub_disk->queue);
+-	blk_queue_required_elevator_features(ub->ub_disk->queue,
+-					     ELEVATOR_F_ZBD_SEQ_WRITE);
++
+ 	ub->ub_disk->nr_zones = ublk_get_nr_zones(ub);
  }
  
-+static inline bool disk_need_zone_resources(struct gendisk *disk)
-+{
-+	/*
-+	 * All mq zoned devices need zone resources so that the block layer
-+	 * can automatically handle write BIO plugging. BIO-based device drivers
-+	 * (e.g. DM devices) are normally responsible for handling zone write
-+	 * ordering and do not need zone resources, unless the driver requires
-+	 * zone append emulation.
-+	 */
-+	return queue_is_mq(disk->queue) ||
-+		queue_emulates_zone_append(disk->queue);
-+}
-+
- static int disk_revalidate_zone_resources(struct gendisk *disk,
- 					  unsigned int nr_zones)
- {
- 	struct queue_limits *lim = &disk->queue->limits;
- 	unsigned int pool_size;
- 
-+	if (!disk_need_zone_resources(disk))
-+		return 0;
-+
- 	/*
- 	 * If the device has no limit on the maximum number of open and active
- 	 * zones, use BLK_ZONE_WPLUG_DEFAULT_POOL_SIZE.
-@@ -1635,6 +1651,9 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
- 				disk->disk_name);
- 			return -ENODEV;
- 		}
-+
-+		if (!disk_need_zone_resources(disk))
-+			break;
- 		if (!args->conv_zones_bitmap) {
- 			args->conv_zones_bitmap =
- 				blk_alloc_zone_bitmap(q->node, args->nr_zones);
-@@ -1666,10 +1685,11 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
- 		/*
- 		 * We need to track the write pointer of all zones that are not
- 		 * empty nor full. So make sure we have a zone write plug for
--		 * such zone.
-+		 * such zone if the device has a zone write plug hash table.
- 		 */
- 		wp_offset = blk_zone_wp_offset(zone);
--		if (wp_offset && wp_offset < zone_sectors) {
-+		if (disk->zone_wplugs_hash &&
-+		    wp_offset && wp_offset < zone_sectors) {
- 			zwplug = disk_get_and_lock_zone_wplug(disk, zone->start,
- 							      GFP_NOIO, &flags);
- 			if (!zwplug)
-@@ -1700,8 +1720,8 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
-  * be called within the disk ->revalidate method for blk-mq based drivers.
-  * Before calling this function, the device driver must already have set the
-  * device zone size (chunk_sector limit) and the max zone append limit.
-- * For BIO based drivers, this function cannot be used. BIO based device drivers
-- * only need to set disk->nr_zones so that the sysfs exposed value is correct.
-+ * BIO based drivers can also use this function as long as the device queue
-+ * can be safely frozen.
-  * If the @update_driver_data callback function is not NULL, the callback is
-  * executed with the device request queue frozen after all zones have been
-  * checked.
-@@ -1718,8 +1738,6 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
- 
- 	if (WARN_ON_ONCE(!blk_queue_is_zoned(q)))
- 		return -EIO;
--	if (WARN_ON_ONCE(!queue_is_mq(q)))
--		return -EIO;
- 
- 	if (!capacity)
- 		return -ENODEV;
 -- 
 2.44.0
 
