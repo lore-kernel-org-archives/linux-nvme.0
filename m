@@ -4,88 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EED2C67861
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 10:31:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E2FBCD128A
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 11:08:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=M5pDYCzyy4wlFKA//uN4vmqtN66ksvh0eaQquzYrdAQ=; b=FH0H/VgxK63+wtqTY5upU0QMz7
-	v4bS0MpYsquk7w4l4EEfwZlF6DSMC4aqL6rSQpg5H0lgqE65sM6yoHe8JiS2j6RilV5PJ70LpNlc7
-	ZSR/HjKoePygvmySnsTjwOjGVzTCg+unwoK54gqOZWN3AhPq4DmoifYYhYp/DB4x7cRMwbEfs1+uI
-	hnmMg7vfWwgvu9XNTtbDJgsBz96johCPtYe+bgTuMQraCKLUuNFhQQo3TXGT5cvq9xChUfQ9ZCT3R
-	Z3Rez7KyaXTo0yHlMmXQzg/hFr2DFV1EtOhLuZJi7zmzXwrHX/ZtPUSmKNrPFPbMbW7IDC0LnIzln
-	4Ujt/jow==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nQ6DQ04h7XxqEQlJ58olINd1bazmyIth4FxMT1Fp5/c=; b=OsQenZNP0XK1ixeFYN99l1Yxi7
+	HV6uGw3764V2nK6jFUtIc3637HOy3pM627iWaewrxIxvqs2ieBZrKYEiDyJbyGYyxdWy/VvrAR2Z5
+	P1T11ZmLGkrLZQGcnEXa+c4jFdOag4yzuZCwmo6SR31x6wKM9Eed4kWKJpozhO4TqgGZSZWfjcrpD
+	OK4NqsxwJuiJSa4X7HPRwa2UAeEJF6PVKQ+kJ7F2yYG5vzPsv5dyB5xtcqD70XSRlINWk0prLV3SO
+	YbOgTYYUu1aKQU+m78bw0zYCCDMLebPC4BG1TtOSsWRrZVRbCBDoxzC3QrjvZkWp6OImq+ov6WB+q
+	gN98++5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtmHY-0000000FGxe-3mp5;
-	Mon, 08 Apr 2024 10:31:20 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1rtmrP-0000000FLPA-1k7v;
+	Mon, 08 Apr 2024 11:08:23 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtmHV-0000000FGwp-0GpM
+	id 1rtmrL-0000000FLN9-3qHe
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Apr 2024 10:31:18 +0000
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4389tCTH028664;
-	Mon, 8 Apr 2024 10:31:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=M5pDYCzyy4wlFKA//uN4vmqtN66ksvh0eaQquzYrdAQ=;
- b=n5aZ3q91iAliyZqQGAYLFs7rMdQf6z7Gek8boOT+dpxeCaw7TprHjoJ3HelzbYu7AHFM
- HyGT4rDgFA+lZMgHr3SwCOV/IHOK6stRRpqvLPm+G0kihcQu1RxB/m4/xWx5QN0b2pub
- vKQrEKRhc9SjpOuy9YNI1zfec+cOEWMhv6Acz/oW/6SXvL5wEBQcHolaYuPxldOtuCp/
- J637tfDsD4+nG2mDGfd4j1mf/efa3F+hwrMoIi9QRh4pGHUyJCBONjkbhUY6X5IYBDgI
- vdgLCy2y9mVbmPNwEG9bZwUkzbti0NeNvoodxYdhwK941XFv+UmN05OJW3ijHhZ5+Zbr Lg== 
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xcec5r2dh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 10:31:11 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4388s1US029907;
-	Mon, 8 Apr 2024 10:27:34 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xbj7kye1p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 10:27:34 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 438ARUV749283522
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 8 Apr 2024 10:27:32 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A6C4420043;
-	Mon,  8 Apr 2024 10:27:30 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E54EC20040;
-	Mon,  8 Apr 2024 10:27:28 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.231])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  8 Apr 2024 10:27:28 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, axboe@fb.com,
-        hch@lst.de, gjoyce@ibm.com, Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv2] nvme-pci: Fix EEH failure on ppc after subsystem reset
-Date: Mon,  8 Apr 2024 15:56:29 +0530
-Message-ID: <20240408102726.443206-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.44.0
+	Mon, 08 Apr 2024 11:08:21 +0000
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-416463e82fbso1927475e9.1
+        for <linux-nvme@lists.infradead.org>; Mon, 08 Apr 2024 04:08:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712574497; x=1713179297;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nQ6DQ04h7XxqEQlJ58olINd1bazmyIth4FxMT1Fp5/c=;
+        b=uZDw+yvSUmGi1zOQYxD8eq4Wy9meX2uRAbnOogpM7HlZ3byxA8i3631ypTcVb2AfUP
+         Q7v9g7MsAu408VnCFKMg1xKFwUKtnjaX+HPy9M+S5i2VqKOHvZ0heOC/I454AakITD3+
+         AAFB8BnhZSv67S+FXgZtfwt+ugqjoKsO9EVU4frqR6eupDeUY+5yiW2YkjRkNECKLe3T
+         jDs3RxTC9XYszkVl6/7J3GHpu8zhqlPl7M5Va8LaQ5N49i4UmklXY8UW7wIR0IwCjCKO
+         KGTG4ShmeBwNHTTs3dGtAcoxh68NraYw8dtEhjfc6iWh3yO4t6U5kT7FsWPqoUXGi/ma
+         0Nhg==
+X-Gm-Message-State: AOJu0YyLyGAUmT7beAxOb05cNVvJqdxUiReBEW4X1QP64pDYS3gpGt+u
+	L6YOd45u6gzB9HtWD4Ap5p+ZSJX33SVxPkbFhJ/FV4mvd6Mon9dx
+X-Google-Smtp-Source: AGHT+IGlB+AwLM1tm/S/XbatF+U8n43cJyXc98HsiW+jOlfnXt2j1JRV8yJYkgyxGslLBN6tWrPeFg==
+X-Received: by 2002:a05:600c:3b96:b0:416:7b2c:df09 with SMTP id n22-20020a05600c3b9600b004167b2cdf09mr1180500wms.1.1712574497241;
+        Mon, 08 Apr 2024 04:08:17 -0700 (PDT)
+Received: from [10.50.4.160] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id p13-20020a05600c468d00b004163059bb53sm11797208wmo.16.2024.04.08.04.08.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Apr 2024 04:08:16 -0700 (PDT)
+Message-ID: <516a90cb-c03f-4474-8456-056bb3bd87fc@grimberg.me>
+Date: Mon, 8 Apr 2024 14:08:15 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: vNwklh-bpLM3hj7u5SzMirLLgCPdkfKW
-X-Proofpoint-GUID: vNwklh-bpLM3hj7u5SzMirLLgCPdkfKW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_08,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
- priorityscore=1501 phishscore=0 suspectscore=0 bulkscore=0
- lowpriorityscore=0 mlxscore=0 spamscore=0 malwarescore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404080080
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] nvme-tcp: check for invalid request
+To: soni.ankit@samsung.com, kbusch@kernel.org, axboe@fb.com, hch@lst.de
+Cc: linux-nvme@lists.infradead.org, sathya.m@samsung.com,
+ d.palani@samsung.com, prakash.bv@samsung.com, anshul@samsung.com,
+ ankitvvsoni@gmail.com
+References: <CGME20240408102150epcas5p2d5b4c3460fca7fe58520254a2466271b@epcas5p2.samsung.com>
+ <20240408045328.542327-1-soni.ankit@samsung.com>
+Content-Language: he-IL, en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240408045328.542327-1-soni.ankit@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240408_033117_251352_D17B79DE 
-X-CRM114-Status: GOOD (  26.48  )
+X-CRM114-CacheID: sfid-20240408_040819_998553_EC453AA8 
+X-CRM114-Status: GOOD (  19.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,103 +83,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If the nvme subsyetm reset causes the loss of communication to the nvme
-adapter then EEH could potnetially recover the adapter. The detection of
-comminication loss to the adapter only happens when the nvme driver
-attempts to read an MMIO register.
 
-The nvme subsystem reset command writes 0x4E564D65 to NSSR register and
-schedule adapter reset.In the case nvme subsystem reset caused the loss
-of communication to the nvme adapter then either IO timeout event or
-adapter reset handler could detect it. If IO timeout event could detect
-loss of communication then EEH handler is able to recover the communication
-to the adapter. This change was implemented in commit 651438bb0af5
-("nvme-pci: Fix EEH failure on ppc"). However if the adapter communication
-loss is detected during nvme reset work then EEH is unable to successfully
-finish the adapter recovery.
 
-This patch ensures that,
-- nvme reset work can observer pci channel is offline (at-least on the
-  paltfrom which supports EEH recovery) after a failed MMIO read and
-  contains reset work forward progress and marking controller state to
-  DEAD. Thus we give a fair chance to EEH handler to recover the nvme
-  adapter.
+On 08/04/2024 7:53, soni.ankit@samsung.com wrote:
+> From: Ankit Soni <soni.ankit@samsung.com>
+>
+> The blk_mq_tag_to_rq() returns NULL for invalid tag.
+> Added check condition to prevent NULL Pointer derefernece.
 
-- if pci channel "frozen" error is detected while controller is already
-  in the RESETTING state then don't try (re-)setting controller state to
-  RESETTING which would otherwise obviously fail and we may prematurely
-  breaks out of the EEH recovery handling.
+Does this fix an actual bug? Or a theoretic one?
 
-- if pci channel "frozen" error is detected while reset work is in progress
-  then wait until reset work is finished before proceeding with nvme dev
-  disable. This would ensure that the reset work doesn't race with the
-  pci error handler code and both error handler and reset work forward
-  progress without blocking.
+>
+> Signed-off-by: Ankit Soni <soni.ankit@samsung.com>
+> ---
+>   drivers/nvme/host/tcp.c | 34 ++++++++++++++++++++++------------
+>   1 file changed, 22 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index fdbcdcedcee9..01a90bbed70b 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -801,9 +801,17 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>   			      unsigned int *offset, size_t *len)
+>   {
+>   	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
+> -	struct request *rq =
+> -		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> -	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct nvme_tcp_request *req;
+> +	struct request *rq;
+> +
+> +	rq = nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> +	if (unlikely(!rq)) {
+> +		pr_err("could not locate request for tag %#x\n",
+> +			pdu->command_id);
+> +		return -EFAULT;
+> +	}
+> +
+> +	req = blk_mq_rq_to_pdu(rq);
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
-Changes from v1:
-  - Allow a controller to reset from a connecting state (Keith)
+We already checked the validity when processing the c2hpdu, there is no 
+need to do
+that for all the data payload chunks as well as it does not change.
 
-  - Fix race condition between reset work and pci error handler 
-    code which may contain reset work and EEH recovery from 
-    forward progress (Keith)
+>   
+>   	while (true) {
+>   		int recv_len, ret;
+> @@ -875,6 +883,8 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
+>   	char *ddgst = (char *)&queue->recv_ddgst;
+>   	size_t recv_len = min_t(size_t, *len, queue->ddgst_remaining);
+>   	off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
+> +	struct nvme_tcp_request *req;
+> +	struct request *rq;
+>   	int ret;
+>   
+>   	ret = skb_copy_bits(skb, *offset, &ddgst[off], recv_len);
+> @@ -887,13 +897,17 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
+>   	if (queue->ddgst_remaining)
+>   		return 0;
+>   
+> -	if (queue->recv_ddgst != queue->exp_ddgst) {
+> -		struct request *rq = nvme_cid_to_rq(nvme_tcp_tagset(queue),
+> -					pdu->command_id);
+> -		struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	rq = nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> +	if (unlikely(!rq)) {
+> +		pr_err("could not locate request for tag %#x\n",
+> +			pdu->command_id);
+> +		return -EFAULT;
+> +	}
 
- drivers/nvme/host/core.c |  1 +
- drivers/nvme/host/pci.c  | 19 ++++++++++++++++---
- 2 files changed, 17 insertions(+), 3 deletions(-)
+Same here, the ddgst comes as a trailer to a c2hdata pdu which we already
+checked the validity, you are simply taking an already validated pdu and 
+using
+it. It is redundant.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 27281a9a8951..b3fe1a02c171 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -557,6 +557,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		switch (old_state) {
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_LIVE:
-+		case NVME_CTRL_CONNECTING:
- 			changed = true;
- 			fallthrough;
- 		default:
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8e0bb9692685..553bf0ec5f5c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2776,6 +2776,16 @@ static void nvme_reset_work(struct work_struct *work)
-  out_unlock:
- 	mutex_unlock(&dev->shutdown_lock);
-  out:
-+	/*
-+	 * If PCI recovery is ongoing then let it finish first
-+	 */
-+	if (pci_channel_offline(to_pci_dev(dev->dev))) {
-+		if (nvme_ctrl_state(&dev->ctrl) == NVME_CTRL_RESETTING ||
-+			nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-+			dev_warn(dev->ctrl.device, "Let pci error recovery finish!\n");
-+			return;
-+		}
-+	}
- 	/*
- 	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
- 	 * may be holding this pci_dev's device lock.
-@@ -3295,10 +3305,13 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
- 	case pci_channel_io_frozen:
- 		dev_warn(dev->ctrl.device,
- 			"frozen state error detected, reset controller\n");
--		if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
--			nvme_dev_disable(dev, true);
--			return PCI_ERS_RESULT_DISCONNECT;
-+		if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
-+			if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-+				nvme_dev_disable(dev, true);
-+				return PCI_ERS_RESULT_DISCONNECT;
-+			}
- 		}
-+		flush_work(&dev->ctrl.reset_work);
- 		nvme_dev_disable(dev, false);
- 		return PCI_ERS_RESULT_NEED_RESET;
- 	case pci_channel_io_perm_failure:
--- 
-2.44.0
+>   
+> -		req->status = cpu_to_le16(NVME_SC_DATA_XFER_ERROR);
+> +	req = blk_mq_rq_to_pdu(rq);
+>   
+> +	if (queue->recv_ddgst != queue->exp_ddgst) {
+> +		req->status = cpu_to_le16(NVME_SC_DATA_XFER_ERROR);
+>   		dev_err(queue->ctrl->ctrl.device,
+>   			"data digest error: recv %#x expected %#x\n",
+>   			le32_to_cpu(queue->recv_ddgst),
+> @@ -901,10 +915,6 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
+>   	}
+>   
+>   	if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
+> -		struct request *rq = nvme_cid_to_rq(nvme_tcp_tagset(queue),
+> -					pdu->command_id);
+> -		struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> -
+>   		nvme_tcp_end_request(rq, le16_to_cpu(req->status));
+>   		queue->nr_cqe++;
+>   	}
 
 
