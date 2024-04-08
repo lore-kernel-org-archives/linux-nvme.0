@@ -4,98 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40245C67861
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 06:25:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36C55C67861
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Apr 2024 06:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8+Tvjd3gggxCIR1F6/Bc+VLndri9pFAdEHlXTX1w4/Q=; b=hYyxqUv6zYbw4iDeXed93ZQwvu
-	lLwJejaltNUqXomwpXWLJoMgUfFeJtskqZSTeBzRC85tEgqHjJLZIjL7Ab/++hjNVtaVoLtCyTnc0
-	G7MLSztgPvTea5zq+3Vua4FtJbkPlQnnIgvYHyJVVVbRejcuiGI70dAQWXnJgF9qx/nE7FUf0Qtlr
-	nSdq4HdFzKRTYzIQdFxSaEfh7Cnu6Pl3PTxZ/east5wualDbSRz7kwJekeLfejsiy8tdRV/aiwqQe
-	gXPhRzP2STJJfk0FXNQ+EW3tuXLiloWFp+ZZqPpcRdC9TMrKD0EmG24afN9ekiI6YippII+g/Weqo
-	+HTg5QTQ==;
+	bh=r0KK6Lj5AeUs/RZ5IFxaQguRsKVjax4oKO999AwOJ8U=; b=grwFmlj0DpHoxmY0JWdOxdGR/U
+	mO0VofLv2DwLQx7IFU59lZD5cKD9yEZbE12YB+Ywpb0hLtno4mOaXwwP1qUpB7NNWC7qquLGtO+ZG
+	z1W+/YRg9YtxhxtQvxGT/jMFADhPkraP+0m3lmlvqOOPU/SpKlERxvQ4yTzO4gp1czGXbujyUjag2
+	nLxrILMdh6qUYzb3oVEhIhRc81sir7kt+6q0PSjls9LuEI3rFw6JVLZTftz5j6lXIhYYLI7JrHVI9
+	wUZ47CtcrbcsrWYpCJCGWp00B/ZRyyvfL2YmSU801K7+wMOoerFOsGYzVgbnJvRQxR5U7NklZ4Nzx
+	OHN/bP2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtiRj-0000000EVZS-0hZw;
-	Mon, 08 Apr 2024 06:25:35 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rtioJ-0000000EZ6l-39Lg;
+	Mon, 08 Apr 2024 06:48:55 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rtiRd-0000000EVYE-075P
+	id 1rtioE-0000000EZ4o-1ByS
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Apr 2024 06:25:34 +0000
+	Mon, 08 Apr 2024 06:48:55 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ED3D920194;
-	Mon,  8 Apr 2024 06:25:25 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 380A4225AA;
+	Mon,  8 Apr 2024 06:48:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712557527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1712558927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8+Tvjd3gggxCIR1F6/Bc+VLndri9pFAdEHlXTX1w4/Q=;
-	b=ABJTcoG1sBMmQcOySVI02w23npaQIbjAtJOkYkpMTbLQlPCvnvpIo0Xuw5T20+D5FHm74g
-	cOBNFf7xkr15vt3LOm04vaZhWNILp+5HeqfvhiXlyqao+sMttvXt7vKS5pSdOSUK/QeNMm
-	Xb/jDyZLMLUjWCzD008vAGG/tgfwgOA=
+	bh=r0KK6Lj5AeUs/RZ5IFxaQguRsKVjax4oKO999AwOJ8U=;
+	b=CA8RiuhnsHsJV4hMbj1WwJ4eMVb+lv7k8yd+pRFMPxu50G8nOL2WcI3aW4EGIs+wN/7RSr
+	IVxS8+p7M0gK8FhJreUhPHQeosnwlNHPFQ9dwoh6if4gw98/dqdz42osF8JMCrqzgiWlCT
+	cnWoTHwmSEjGDo924JQD2ZiI3pCxkjE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712557527;
+	s=susede2_ed25519; t=1712558927;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8+Tvjd3gggxCIR1F6/Bc+VLndri9pFAdEHlXTX1w4/Q=;
-	b=zHhLoww/43IC5PhaHheoJFqDfyjOffwoCaeelY6I9rO5w51lQbFDsOQVjJ5ZBOQF+p+aRl
-	pST/HIxGj0NdXLBQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=r0KK6Lj5AeUs/RZ5IFxaQguRsKVjax4oKO999AwOJ8U=;
+	b=xMUvGDCNJLOEmrRl77PDeQayzLj8WevzlpgABChHu2bM/N3Ila976ZLg5fgZIyPYf1xAHi
+	/LKGj0jeJAEvvgCg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712557525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1712558926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8+Tvjd3gggxCIR1F6/Bc+VLndri9pFAdEHlXTX1w4/Q=;
-	b=e0nyj5vVouZ8o318MiYTbsES+AzTuaIazAHq3JIE9U2SSX3/iTnbvMj81rw0WYnAEJ0QkB
-	Y5r1Eg2shepJsz348KPKGfqt5Gxrld28nGDBJm8AYmvT9N2t8NLFkLEMs2biOmWuU2By6a
-	EjR1LN4arYN+UraI6zfO5qwg4a29VFQ=
+	bh=r0KK6Lj5AeUs/RZ5IFxaQguRsKVjax4oKO999AwOJ8U=;
+	b=Am9Uj+BcPiFfvygMW1aX2MGh48TO7TYivW6TrDmez9EE+Q8dorQvhCThACGI14jGXaZwAr
+	vmTdsoQ25GkJWtvhA18uyFDWLIiQl+B04xZszTFbCE1JY/glgCVDJIvixgcvYsd6xXRgC+
+	2bgw+cV0FHJmmnyX92RrOunU2wU6sBI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712557525;
+	s=susede2_ed25519; t=1712558926;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8+Tvjd3gggxCIR1F6/Bc+VLndri9pFAdEHlXTX1w4/Q=;
-	b=gSK+kKu7nNKS/Np+UaTloQx500Eays5qp53VaxnGIqPFeyVfjc8+g+Mn8uz7dtIXU7Fcbe
-	J1lgODFOweBI99Dw==
+	bh=r0KK6Lj5AeUs/RZ5IFxaQguRsKVjax4oKO999AwOJ8U=;
+	b=AsQVOvCe0leKBQY4i2uGbUzcFlTtBtydyuBfuE4QyZtCEFcaShy+hFIJXjk2HmQPm7hbw0
+	wMaww5VZkA0YWHCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA9E5137D4;
-	Mon,  8 Apr 2024 06:25:25 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0075313675;
+	Mon,  8 Apr 2024 06:48:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DnYbJ9WNE2aPRwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 08 Apr 2024 06:25:25 +0000
-Message-ID: <d055615b-2c41-45cd-8b15-c787eac0dc49@suse.de>
-Date: Mon, 8 Apr 2024 08:25:25 +0200
+	id UxtkOU2TE2Y1TQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 08 Apr 2024 06:48:45 +0000
+Message-ID: <8afbaa30-ae8c-4816-9ba1-59597838184b@suse.de>
+Date: Mon, 8 Apr 2024 08:48:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/17] nvme-tcp: reset after recovery for secure
- concatenation
+Subject: Re: [PATCH 08/17] nvme-tcp: sanitize TLS key handling
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
  Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20240318150316.138501-1-hare@kernel.org>
- <20240318150316.138501-14-hare@kernel.org>
- <ddee2fd2-584c-42be-af5f-7e002b2d5441@grimberg.me>
+ <20240318150316.138501-9-hare@kernel.org>
+ <e7200e48-7c86-4cd0-9fa8-4a3d62578a12@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ddee2fd2-584c-42be-af5f-7e002b2d5441@grimberg.me>
+In-Reply-To: <e7200e48-7c86-4cd0-9fa8-4a3d62578a12@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.29 / 50.00];
@@ -117,10 +116,10 @@ X-Spamd-Result: default: False [-4.29 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240407_232529_242165_D3370F1E 
-X-CRM114-Status: GOOD (  18.60  )
+X-CRM114-CacheID: sfid-20240407_234850_496413_EC2D0724 
+X-CRM114-Status: GOOD (  14.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,78 +134,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/7/24 23:49, Sagi Grimberg wrote:
+On 4/7/24 23:15, Sagi Grimberg wrote:
 > 
 > 
 > On 18/03/2024 17:03, Hannes Reinecke wrote:
 >> From: Hannes Reinecke <hare@suse.de>
 >>
->> With TP8018 a new key will be generated from the DH-HMAC-CHAP
->> protocol after reset or recovery, but we need to start over
->> to establish a new TLS connection with the new keys.
->>
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   drivers/nvme/host/tcp.c | 20 ++++++++++++++++++++
->>   1 file changed, 20 insertions(+)
->>
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 94152ded123a..3811ee9cd040 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -2219,6 +2219,22 @@ static void nvme_tcp_reconnect_or_remove(struct 
->> nvme_ctrl *ctrl)
->>       }
->>   }
->> +static bool nvme_tcp_reset_for_secure_concat(struct nvme_ctrl *ctrl)
->> +{
->> +    if (!ctrl->opts->concat)
->> +        return false;
->> +    /*
->> +     * If a key has been generated and TLS has not been enabled
->> +     * reset the queue to start TLS handshake.
->> +     */
->> +    if (ctrl->opts->tls_key && !ctrl->tls_key) {
->> +        dev_info(ctrl->device, "Reset to enable TLS with generated 
->> PSK\n");
->> +        nvme_reset_ctrl(ctrl);
->> +        return true;
->> +    }
->> +    return false;
->> +}
->> +
->>   static void nvme_tcp_revoke_generated_tls_key(struct nvme_ctrl *ctrl)
->>   {
->>       if (!ctrl->opts->concat)
->> @@ -2321,6 +2337,9 @@ static void nvme_tcp_reconnect_ctrl_work(struct 
->> work_struct *work)
->>       if (nvme_tcp_setup_ctrl(ctrl, false))
->>           goto requeue;
->> +    if (nvme_tcp_reset_for_secure_concat(ctrl))
->> +        return;
->> +
->>       dev_info(ctrl->device, "Successfully reconnected (%d attempt)\n",
->>               ctrl->nr_reconnects);
->> @@ -2396,6 +2415,7 @@ static void nvme_reset_ctrl_work(struct 
->> work_struct *work)
->>       if (nvme_tcp_setup_ctrl(ctrl, false))
->>           goto out_fail;
->> +    nvme_tcp_reset_for_secure_concat(ctrl);
+>> There is a difference between TLS configured (ie the user has
+>> provisioned/requested a key) and TLS enabled (ie the connection
+>> is encrypted with TLS). This becomes important for secure concatenation,
+>> where the initial authentication is run unencrypted (ie with
+>> TLS configured, but not enabled), and then the queue is reset to
+>> run over TLS (ie TLS configured _and_ enabled).
 > 
-> This is really strange. I'd imagine that this would be needed only if 
-> the derived psk expired no?
-
-You are absolutely correct. But once you reset the connection the 
-derived PSK of the previous connection _is_ expired as DH-HMAC-CHAP
-generated a new one.
-
-Remember: for secure concatenation we _always_ have a two-step 
-connection setup. The initial connection runs for DH-HMAC-CHAP
-to generate the PSK, and then a connection reset to start over
-with TLS and the generated PSK.
-So upon reset we have to invalidate the generated PSK, reset the
-connection to run DH-HMAC-CHAP, and reset _again_ to start over
-with the new PSK.
+> 1. configured/enabled confuse (me at least) in this context.
+> 2. What does "queue is reset" mean?
+> 
+>> So to differentiate between those two states store the provisioned
+>> key in opts->tls_key (as we're using the same TLS key for all queues)
+>> and only the key serial of the key negotiated by the TLS handshake
+>> in queue->tls_pskid.
+> 
+> I have some recollection of asking about it, but can you explain why is
+> a tls_pskid now stored per-queue? What do we lose if tls_pskid moves from
+> nvme_tcp_queue to nvme_tcp_ctrl ?
+> 
+We need to have a distinction between 'the queue is TLS enabled' (ie TLS
+handshake should be started on that queue) and 'the queue is tls 
+encrypted' (ie TLS handshake has completed on that queue).
+The former indeed can be derived from controller settings, and for the
+latter we use the 'tls_pskid' setting.
+Additionally it's the value for the tls_key sysfs attribute.
+I could have used a per-queue flag, but using the tls_pskid was just
+too easy here :-)
 
 Cheers,
 
