@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACACACD128A
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Apr 2024 20:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CD80C67861
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Apr 2024 20:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pEA7dHQgHE1uFqZ9aLUCdxhVQ2BEQSowcQOkzZwh8KQ=; b=udPqoPdFSOIjwEI+0cVBLgVxjO
-	nRkD5xdo6nYlCsXuzefhD/ENJMe7ZD064sV7RsFfdNsA9QF7YLCT8jN11m6lRYEDQ+UrVe6Xhx433
-	5gQ1heohC7w3wmUUDKwQo/ZXdrLmN58czLNREzZhVuKk8yUtkBDfZijA5+bCnp1B2BwsymZ5ptdPD
-	6iQfZl3z4BZfneGToTKaPoL7FBz1biTzvzSs0joKvcedmYQGFFz0BWyBBkWa+rwRthZIBSVOLuIZY
-	CxkeOkZZfGcGstiITE4/Cl89D/EKFvh1JGll2skCnlRKDXhkHas6RphuULPGTTfdc3R/kvvQh/D/Z
-	5R7DuAww==;
+	bh=QCOR0WJudJbzjB5pv2Hf85CU5+m3kodzezwqXEzi7ZI=; b=FRuDU+5uQPFYvZC31qelsozwAy
+	d8vhvNYyGKm4TqJmyKW8MyOxOA6DC9IPdb8yu5DqwOBw5/S9P1JqtwmCfsERELmcKAyr8m9ZsQ8rz
+	7bL+MWRL+7B29zEGzKF64IX0OmtvGmUZMR4cZaYZZeZrGUY1qjt6CuMtKPGaQyRdiivXdyDzzpsKp
+	VxzNfleAAYU1mICPaN1NhiT3lquUGMzlSY2nv5vqvQHFtDUtpNrte/vAPYRGTbg/vY/7QIstlMdJf
+	Kg0Ta0eQa3doRIR2SEQNmtkb2aPVT+J/eFoz+rp6geZee9NfGOdUyhsqBWuR8DjCfKuWbxM5onRM7
+	/eFB6G2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruHye-00000003h91-14Fa;
-	Tue, 09 Apr 2024 20:21:56 +0000
-Received: from mail-lj1-f175.google.com ([209.85.208.175])
+	id 1ruI0E-00000003hm9-3qOB;
+	Tue, 09 Apr 2024 20:23:34 +0000
+Received: from mail-wr1-f41.google.com ([209.85.221.41])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruHyb-00000003h7Q-0UqW
+	id 1ruI0A-00000003hkL-0BWU
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Apr 2024 20:21:55 +0000
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d874b89081so5702501fa.0
-        for <linux-nvme@lists.infradead.org>; Tue, 09 Apr 2024 13:21:51 -0700 (PDT)
+	Tue, 09 Apr 2024 20:23:34 +0000
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-343c8d7064aso998905f8f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 09 Apr 2024 13:23:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712694110; x=1713298910;
+        d=1e100.net; s=20230601; t=1712694208; x=1713299008;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pEA7dHQgHE1uFqZ9aLUCdxhVQ2BEQSowcQOkzZwh8KQ=;
-        b=Z4S9EG92PXmj8ZJdhOmWW83rjpK7NVb66lDTdyt3vn877exOD3Sg0CVCnxT4kWqnKp
-         1hDlCvNEFgv6p4jfjbWNbfCd7Y7S1AB0Rt/Jo3H1zPjzMjBrqFJJ5hz+Ome0aSZh661l
-         OT6dgaqOnyCHD0Vf3r80hVDJ0PXKswAQJdQx73sNdoV1gc/YjvMKUtWX3idEOtx3KKFd
-         rYIPK/Kt1fQw4nCfTHTujAznbp2Vj3ACzJjjkRb/6/sTd3LTyeZGEXqSuKe8nSfrLZKG
-         sN4aPE6qxF43xmHD4hQytaKPMyLwu+DepFb4kXg14dQIy6rKh+CfQKH0CkU4HJbqRONw
-         Wpmw==
-X-Forwarded-Encrypted: i=1; AJvYcCVztk6/colrIbPaiDkZirTg56tZDEEQPiua9ONW7tyd+PoKmY38wSTOO4lzUWnId+FPfHjhEyzzFwZMVFMAQur2CgNkyVBXFtfO+hCl/Oc=
-X-Gm-Message-State: AOJu0Yy2LMVR2CAJTsqhACM6kL7ndgVLJPnI5lC8eYodxdDBthCdFqko
-	6wWbGkOSIR21PAXzwgEacd+mCm1Ky62IvJ3N85vyWSAybKHoYyPb
-X-Google-Smtp-Source: AGHT+IHRCn26vGDmNKTaP3gt7MYF3CGzWIP/8l1UoEUzxQrqmG4j+DpgrF93Vgy/+PJxtO/b5lLdMg==
-X-Received: by 2002:a2e:968f:0:b0:2d8:c62:5e20 with SMTP id q15-20020a2e968f000000b002d80c625e20mr519979lji.3.1712694109834;
-        Tue, 09 Apr 2024 13:21:49 -0700 (PDT)
+        bh=QCOR0WJudJbzjB5pv2Hf85CU5+m3kodzezwqXEzi7ZI=;
+        b=ZNDMiEr+TQ6JSQdv/NYnjnvqzWLZvLsR+y14ZREdLfsLsULu+Uv6ceJaQ8xy949nk9
+         ygkDb7/gOwWoIUm2Xd7+z14msSAQoWqi+AwhOI0QGXQ3G3EcHfxbbMze33D/NAjVpXq/
+         oI5+UsYJzzfZwf8z2X15ncoFUYMsly/5wBIkE3n/hmcW0sfzVosMlW/u5cCR+5KeOcDh
+         mCp645ooNnijCdZJWVb69dPAw7CNJ1LX1AOC3v9/rL9c8KLWTA2CBRF3Bje7bUMQY2Ds
+         Ho7+/qKRG5ZggeLqHgsD7JEAKqULDaQWYtvedNXQkw+FJE9HWUmDmL2bPyptGwNnScqc
+         EXHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+jWVNq5nkZ+lkvhpEGcEjQ2cODAJjzTBeZqTiwiS0a5zJZjXv8r6l1kWHTwtLvgNOPru3Nk01RDMPoT6Gch4K1Bo1jcamdx5+FPGp9GQ=
+X-Gm-Message-State: AOJu0YwjVT/cq6ebqmam2t9/vOxTXO+eINzJnfrw/XOlieFkzb7mIZ0U
+	jTuXvR9UUgqSkagb3OQ1CpFGBuzNhCQlWAemUG2P9qWOhuBd+3j9
+X-Google-Smtp-Source: AGHT+IFnaFGh5uosiCZ9pYjIkJ0Yrx9c2LHdTt/7noZRXAhQS4rHVxW5Vylh/D3s5fo/SVsxcj2Zgw==
+X-Received: by 2002:a5d:51c3:0:b0:346:408d:4341 with SMTP id n3-20020a5d51c3000000b00346408d4341mr495890wrv.1.1712694207679;
+        Tue, 09 Apr 2024 13:23:27 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
-        by smtp.gmail.com with ESMTPSA id k16-20020a05600c1c9000b004166a8ad81bsm9512177wms.43.2024.04.09.13.21.48
+        by smtp.gmail.com with ESMTPSA id f13-20020adfdb4d000000b00341c6b53358sm12222367wrj.66.2024.04.09.13.23.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 13:21:49 -0700 (PDT)
-Message-ID: <23a5c86c-9f68-4c13-832e-7cf4e6953639@grimberg.me>
-Date: Tue, 9 Apr 2024 23:21:48 +0300
+        Tue, 09 Apr 2024 13:23:27 -0700 (PDT)
+Message-ID: <f8c84937-a3e6-479b-b6a7-be5affc9a937@grimberg.me>
+Date: Tue, 9 Apr 2024 23:23:25 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/6] nvme-rdma: short-circuit reconnect retries
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>,
+Subject: Re: [PATCH v5 6/6] nvmet: return DHCHAP status codes from
+ nvmet_setup_auth()
+To: Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>,
  Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>
+ linux-kernel@vger.kernel.org, Hannes Reinecke <hare@kernel.org>
 References: <20240409093510.12321-1-dwagner@suse.de>
- <20240409093510.12321-5-dwagner@suse.de> <20240409140054.GC20883@lst.de>
- <ZhVOcGMuBzC3nyMB@kbusch-mbp.dhcp.thefacebook.com>
+ <20240409093510.12321-7-dwagner@suse.de>
 Content-Language: he-IL, en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZhVOcGMuBzC3nyMB@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <20240409093510.12321-7-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240409_132153_206132_8E78AC1C 
-X-CRM114-Status: GOOD (  13.82  )
+X-CRM114-CacheID: sfid-20240409_132330_119690_F527F7C1 
+X-CRM114-Status: GOOD (  10.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,23 +87,17 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 09/04/2024 17:19, Keith Busch wrote:
-> On Tue, Apr 09, 2024 at 04:00:54PM +0200, Christoph Hellwig wrote:
->> On Tue, Apr 09, 2024 at 11:35:08AM +0200, Daniel Wagner wrote:
->>> From: Hannes Reinecke <hare@suse.de>
->>>
->>> Returning an nvme status from nvme_rdma_setup_ctrl() indicates that the
->> Shouldn't this an be an a based on my highschool english.  Or does
->> Eeenvme count as a vowel?
-> It depends on how you hear it when you read it. If you automatically
-> expand the acronym, "Non-Volatile ...", then it should get the "a"
-> article.
+On 09/04/2024 12:35, Daniel Wagner wrote:
+> From: Hannes Reinecke <hare@kernel.org>
 >
-> If you instead try to pronounce "nvme" directly, it sounds like you're
-> saying "envy me", like commanding everyone to acknowledge your
-> awesomeness. Not sure if they had that in mind when deciding on the
-> name, but it's kind of amusing. Anyway, pronounce it that way, it gets
-> an "an". :)
+> A failure in nvmet_setup_auth() does not mean that the NVMe
+> authentication command failed, so we should rather return a protocol
+> error with a 'failure1' response than an NVMe status.
+>
+> Also update the type used for dhchap_step and dhchap_status to u8 to
+> avoid confusions with nvme status. Furthermore, split dhchap_status and
+> nvme status so we don't accidentally mix these return values.
 
-:)
+What is the implications of this on the host behavior? In other
+words, why is this a part of the series?
 
