@@ -4,62 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0555FC67861
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 03:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EFC8CD1297
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 04:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LswP6sKv2yCqq2cK5t4lCptCVLRMsozdomeFN0D/yHs=; b=GvRfi+da07C/Wz6/h9BeYlEEsD
-	ZjGdR4LnqlrA/YShq84N7p3ys6mHvj+A2fyJhWXSyWxbWttWPuol9agzuTsAi3tfQK+ik0za3dwFf
-	5uW3GxKn0JwwRdCKoQv7WYvtiK/mZHyLfgEjEOzfbGTYKaKIeWlbIWr4uMKOb/dm7mcO9Kcb/qdjo
-	bCNF+Y9lS9O/V6a/cl3sFowClUKh4f/KixZE6BrrTpXypBjgMQ4M2NbwHt+Cp0Wz2axXV6JSW/rlt
-	yht+k6RV3PSLMx54m8nZIDjilvl8KT+DdM416EmABQItb2fCquDlWfR1IP8u2l2AnaeLs3cmDI+JI
-	euUn05iQ==;
+	bh=qs5zPeAsEcTuuvWHCl8rO9RDQhxhl31TRFIHSeLuueU=; b=IM9ELQ3i4mmLxsxfuXBw0+S8Sw
+	AnuRok7bxWMOwBqPPtaOn6GOnvbWR4zSnLJT6KCUx/KjBeVerPDU5IBHf5QXD0gCCE9LWDGKPzzYg
+	c51MYh+QBUUctVGpE7GhU1Xed5GwGSYIge+ERf+Jzk33/pc57z5liXs+GVIwIc3Q1t3NXdFcKZL1a
+	vRvc2BlLWIeXqQdkYYMLfhmfFZhiCrh+prUm1HuyYw9coV85JHfYIWILY2pu/fMaZACpsO8ywgDJM
+	Ll3X4bzvSgL4wWuIeEYQ/GPVlYSYxKn91G7iLa0epc0lMP6dujS8pyCch2zLLLUkjDczoLn6ikVRi
+	Phtxt9hQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruOKj-00000004pvI-0qsN;
-	Wed, 10 Apr 2024 03:09:09 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1ruPDE-00000004xMS-1VHK;
+	Wed, 10 Apr 2024 04:05:28 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruOKd-00000004puR-00UF
-	for linux-nvme@lists.infradead.org;
-	Wed, 10 Apr 2024 03:09:07 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A96C261A7E;
-	Wed, 10 Apr 2024 03:09:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96534C433F1;
-	Wed, 10 Apr 2024 03:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712718540;
-	bh=EM7nowdjdbNVWh8bciK9Ha2EeZjxwFBLgso2R6SZNRg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j/qjir1eLQpUmzvGiwsCTcuX7poh7q1n53pOsndQLCaN8N08FgGHZcHyWtnwJiTDk
-	 tdhP1pdvZXueZIu/RWYU1GQerDJdaFwLNP+mrwEQU0ShPPRvc+XwEj0gPfNdKGX6eV
-	 7Oa5rqAbGBrMGnEAqhQr7WgS6E7UQ9BPehhk4pMig6+WpuzBZitbu68SXwBdF1YIQt
-	 PpKBGmlQsvxl5fKqKMHy0/A07G4tsGhk7ytmAT3um1HUHkpOhW4wmNPjgIGV2TWIor
-	 469kgbwXHWwsXVrU3rxum8qXLWfV9YQ9x+vO6TYzbQ0dhd06mtbwJl4liAzvPTHcwJ
-	 XzEx46LDJ1y/w==
-Date: Tue, 9 Apr 2024 21:08:58 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Holger Huo <holgerhuo@outlook.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Holger Huo <i@holger.one>
-Subject: Re: [PATCH] drivers/nvme: Add quirks for device 1cc4:6a14
-Message-ID: <ZhYCyuP6vTJq-TZq@kbusch-mbp.dhcp.thefacebook.com>
-References: <ME3P282MB24818FA28E7C73BC01302882B5072@ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM>
- <ZhWhshq7hpPd9XrI@kbusch-mbp.dhcp.thefacebook.com>
- <ME3P282MB2481C1DC0506D154FA3AA3D2B5062@ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM>
+	id 1ruPDC-00000004xLw-30Iv
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 10 Apr 2024 04:05:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=qs5zPeAsEcTuuvWHCl8rO9RDQhxhl31TRFIHSeLuueU=; b=ClEKjZyn0q+YoWT29QBVUZv3x4
+	7ISBLoo3ezuPgISr4g1j134YmhOhC3bGqp/zBcIxc/aIa2f1wbY3tEj4KA35QtdzIjwNvWTmykbXZ
+	DFP3fKW2rcC1gxLGBJ4PkcEZIPKb+26gGieZFatmm0nFBXNkjWN3rVkCGdIPy9wmstcMXjWPMILP1
+	oDIIbPGGkcggayy9BUb5XOLhqvRRiJjzZmgA5Ox3pXKzSoPue9vqLgwAQz+r+RAbBwoC+mSzhUM7z
+	xG/FpDxPzMuVfmcrJ8mIaztiG4XhivtLEK/40Tx7XFqq8UKlf/wodX/BukW2wTCz599syOPVXetah
+	7vprz9MQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ruPD6-00000003bR4-2bWn;
+	Wed, 10 Apr 2024 04:05:20 +0000
+Date: Wed, 10 Apr 2024 05:05:20 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: John Garry <john.g.garry@oracle.com>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+	axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com
+Subject: Re: [PATCH v6 00/10] block atomic writes
+Message-ID: <ZhYQANQATz82ytl1@casper.infradead.org>
+References: <20240326133813.3224593-1-john.g.garry@oracle.com>
+ <ZgOXb_oZjsUU12YL@casper.infradead.org>
+ <c4c0dad5-41a4-44b4-8f40-2a250571180b@oracle.com>
+ <Zg7Z4aJtn3SxY5w1@casper.infradead.org>
+ <f3c1d321-0dfc-466f-9f6a-fe2f0513d944@oracle.com>
+ <ZhQud1NbO4aMt0MH@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ME3P282MB2481C1DC0506D154FA3AA3D2B5062@ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240409_200906_451529_0D867008 
-X-CRM114-Status: GOOD (  21.09  )
+In-Reply-To: <ZhQud1NbO4aMt0MH@bombadil.infradead.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,32 +83,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 10, 2024 at 10:05:46AM +0800, Holger Huo wrote:
-> On Wednesday, April 10, 2024 4:14:42 AM +08 Keith Busch wrote:
-> > On Wed, Apr 10, 2024 at 03:28:50AM +0800, Holger Huo wrote:
-> > > This commit adds NVME_QUIRK_BOGUS_NID for device [1cc4:6a14], the
-> > > Shenzhen Unionmemory Information System Ltd. RPEYJ1T24MKN2QWY PCIe
-> > > 4.0 NVMe SSD 1024GB (DRAM-less), which can be found on many Lenovo
-> > > notebooks. This SSD produces all-zero nguid.
-> > > 
-> > > Other SSDs manufatured by Shenzhen Unionmemory Information System
-> > > Ltd are likely to face similar issues, but I currently have no
-> > > device to test.
-> > 
-> > Are you using the most recent stable kernel and still need this patch?
-> > These quirks shouldn't be necessary anymore unless it's advertising
-> > multipath capabilities, and it doesn't sound like this one should be
-> > doing that.
+On Mon, Apr 08, 2024 at 10:50:47AM -0700, Luis Chamberlain wrote:
+> On Fri, Apr 05, 2024 at 11:06:00AM +0100, John Garry wrote:
+> > On 04/04/2024 17:48, Matthew Wilcox wrote:
+> > > > > The thing is that there's no requirement for an interface as complex as
+> > > > > the one you're proposing here.  I've talked to a few database people
+> > > > > and all they want is to increase the untorn write boundary from "one
+> > > > > disc block" to one database block, typically 8kB or 16kB.
+> > > > > 
+> > > > > So they would be quite happy with a much simpler interface where they
+> > > > > set the inode block size at inode creation time,
+> > > > We want to support untorn writes for bdev file operations - how can we set
+> > > > the inode block size there? Currently it is based on logical block size.
+> > > ioctl(BLKBSZSET), I guess?  That currently limits to PAGE_SIZE, but I
+> > > think we can remove that limitation with the bs>PS patches.
 > 
-> Yes. My current Linux kernel version is 6.8.4 by arch. After further 
-> investigation I found these quirks truly had no effects.
-> But my nvme drive still freezes with Device not ready; aborting reset, 
-> CSTS=0x1 failures and AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0001 ...] 
-> waking from s0 (s2idle) sleep. Are there any other quirks or what that I 
-> should try
+> I can say a bit more on this, as I explored that. Essentially Matthew,
+> yes, I got that to work but it requires a set of different patches. We have
+> what we tried and then based on feedback from Chinner we have a
+> direction on what to try next. The last effort on that front was having the
+> iomap aops for bdev be used and lifting the PAGE_SIZE limit up to the
+> page cache limits. The crux on that front was that we end requiring
+> disabling BUFFER_HEAD and that is pretty limitting, so my old
+> implementation had dynamic aops so to let us use the buffer-head aops
+> only when using filesystems which require it and use iomap aops
+> otherwise. But as Chinner noted we learned through the DAX experience
+> that's not a route we want to again try, so the real solution is to
+> extend iomap bdev aops code with buffer-head compatibility.
 
-I've seen the IO_PAGE_FAULT error reported before, but all I've heard is
-that it means the device attempts to access a memory address that it is
-not allowed to. I don't know why that would happen, though. I've never
-first hand experience with this condition, I'm just as confused.
+Have you tried just using the buffer_head code?  I think you heard bad
+advice at last LSFMM.  Since then I've landed a bunch of patches which
+remove PAGE_SIZE assumptions throughout the buffer_head code, and while
+I haven't tried it, it might work.  And it might be easier to make work
+than adding more BH hacks to the iomap code.
+
+A quick audit for problems ...
+
+__getblk_slow:
+       if (unlikely(size & (bdev_logical_block_size(bdev)-1) ||
+                        (size < 512 || size > PAGE_SIZE))) {
+
+cont_expand_zero (not used by bdev code)
+cont_write_begin (ditto)
+
+That's all I spot from a quick grep for PAGE, offset_in_page() and kmap.
+
+You can't do a lot of buffer_heads per folio, because you'll overrun
+        struct buffer_head *bh, *head, *arr[MAX_BUF_PER_PAGE];
+in block_read_full_folio(), but you can certainly do _one_ buffer_head
+per folio, and that's all you need for bs>PS.
+
+> I suspect this is a use case where perhaps the max folio order could be
+> set for the bdev in the future, the logical block size the min order,
+> and max order the large atomic.
+
+No, that's not what we want to do at all!  Minimum writeback size needs
+to be the atomic size, otherwise we have to keep track of which writes
+are atomic and which ones aren't.  So, just set the logical block size
+to the atomic size, and we're done.
+
 
