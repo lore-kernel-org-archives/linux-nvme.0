@@ -4,91 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C62DCCD1297
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 06:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C5CBCD1296
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 06:31:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c4RLomVFx/TuAWRMBXK2XWbrdYltPGPf0njvoF5tjOU=; b=DMZynHdrJrA374JB7R13vu6+sH
-	iEqN1treANBc4M9aHahTkDaC36jDV318hZP5odgRkGx402nOZa0pa/abqj0fQbgxAsL3sCYat9RZw
-	KN1c+sNpPezs0w64hHuJeDsk0CodSy1YW55iwUGYVS4SEPk0Al2Wpu7yykR920HK+FhcM8Cy/ItzT
-	v/1KrKEhCbwYjNsaUsdtJqLcesza9gbnbdqJRYafxrPp/aMdJPVSrzjI/jldUNLRNG7Hy3MJs87OF
-	2CcxO73bm53Toeb7A2bcTXt1ZvnxNTX9I0zSPAVjv+1pkECJqp41oBsC70ZGYKoQbWQtigzyF0DXq
-	O3B7W0sw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3T0tFNf2cpTB1ks9j87C9XXSi0Y22XV2QiuJ/numiJE=; b=GXmYE1QdUqjMQpeqQBPq0apZe2
+	lACt5RpZgw4Qh3QqEWo3p+Q8obZEvzCHt6hNlV/TVlRr16eb28iEq8uwK+WElqpokhHBBO1ignpBU
+	TSJeHuql/mjgRNufHQFceX4jM1sIwR0CBG1u8AYcMkMFc7w97b1jzh9A55U7cbFbCaIwdXJ0Byy3b
+	Jfz60f1UO9yoXWvmcQOodgc+bzKrJ9sPlKzsgfFDSa2WShesyVMeFDmdYJRAukZlTB+Gf6YonhgwS
+	VUu8RnMsD52H1i1iUF1eE6xRvW5l84HOwZXX3yHDm/NSGQY+R2GtvDhT+ertMqIovBYWHdWSIkrGp
+	Uu0OgbFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruRKS-00000005MM3-07VM;
-	Wed, 10 Apr 2024 06:21:04 +0000
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123])
+	id 1ruRUI-00000005Of4-3onX;
+	Wed, 10 Apr 2024 06:31:14 +0000
+Received: from mail-mw2nam10on20700.outbound.protection.outlook.com ([2a01:111:f403:2412::700] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruRKH-00000005MEa-19aA
+	id 1ruRUF-00000005Och-3iYT
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Apr 2024 06:21:01 +0000
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id F20DE3FFE2
-	for <linux-nvme@lists.infradead.org>; Wed, 10 Apr 2024 06:20:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1712730046;
-	bh=c4RLomVFx/TuAWRMBXK2XWbrdYltPGPf0njvoF5tjOU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=q9ZFvoSYcYAy+m3Mb+OTaWOvRAKPupMlXZLfEHa/bnq03dP9cFUFZn3jbeBLPpO0L
-	 6TNLKC3Sd+9c5sMMdLtEGVZzrXsFNZ1JH+xCySilJ/aD+LLSjilEGbSzznqd6h05/j
-	 bhDsNr88mZfzHUcWVJtIW+H3yrx1TjLbf8MAmGqiE+G+jEgcLoWRenxW1mEZD+pB5d
-	 Q3+SVoGt3jz2tp6BxtUBMjEk3bvcqZj4rAOhBUaRBkhGRUDYtOdb6Td0DcHepeoJ26
-	 jofJFrtGHJgU5MEG1xwYZJz9QxvfydHSJRVVgit8ZICly51/ZGHhTlxXXXP3BfM7Sj
-	 u++vqB0fhjwqA==
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-5e5022b34faso7454316a12.0
-        for <linux-nvme@lists.infradead.org>; Tue, 09 Apr 2024 23:20:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712730043; x=1713334843;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c4RLomVFx/TuAWRMBXK2XWbrdYltPGPf0njvoF5tjOU=;
-        b=R5xvbLtCltBiXjZlg5+79SMebHIyGSCBoT6BDApMKtroJkwSaOaax8ibrMpJm49Vfa
-         fRAr4q2loTaaJU1MTeJfBRi20JSz8XozeAXfPV0v7BNe1TUD1poacGZUcrQ0KPMMV6Wl
-         PxFjE7uHf1yAntZlvvrhAjrwAbif2w7EDz4PIC4gD0wbXXK3r6CsoQPDcJFbsgCv/QZZ
-         csmmjK9CxS+L22Nz53kE5hVvsUcSB5/ZB4tnofBk5a5y0Uf3Daw9TPQn6TH6xtAhLET+
-         O3e5g7A44JsnX8fGwoDSQcF0NbJSU4ZSzrQktkDWV3F1dcX9o6ve8z0lCbo+KhZiO50F
-         tNzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMc9INOMftIN/TkVhOLBT5he3LzCR86THIPEoT/sb1YX3iXiWh+8A3y6OHPEmGc+MSZJeyawuMlAMlHUapvskr0poTCEV6wIenjWW+Mwg=
-X-Gm-Message-State: AOJu0Yy++vHsgeuPGE1ATEOstuFJHwjP1ud6E2Bei8GtC6jSvsut83FX
-	nu5hGKv8SgkoAOQRbBb778nFD0U1he0PHtM3rlPS5f5Mx7p7lYDYKxvPq15UXdY2rYHdBPxIvsp
-	U/S5NOiwJauHuB4LedQPnp0oEBetlGiZ04t477FMSeNGN6ldivukHSvJ5Ec5yYdx2W0w1asJjx3
-	IGzegybbiI6MIsM7Ti1qLVu4HXAv7JxBBPd80jHe9QZ1JymFVJZLh8c0U=
-X-Received: by 2002:a05:6a20:4309:b0:1a7:3b64:d502 with SMTP id h9-20020a056a20430900b001a73b64d502mr2208373pzk.2.1712730043051;
-        Tue, 09 Apr 2024 23:20:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFgyoDZl5olc2xjm1Mxx1Ht8QRN5jAV8LOnYj30hN5SCozJfPV5QBdffJRdphGLQ2L4F90HAbAmEOPBLEJnwNg=
-X-Received: by 2002:a05:6a20:4309:b0:1a7:3b64:d502 with SMTP id
- h9-20020a056a20430900b001a73b64d502mr2208360pzk.2.1712730042713; Tue, 09 Apr
- 2024 23:20:42 -0700 (PDT)
+	Wed, 10 Apr 2024 06:31:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DxP+d5ZJa+aPIUqlCnUNrhkPuI2yXymYQs0w2JZgQSk1/+1WVZ5htAzo5sg2ZkHdjeHfbgoVachKHoX/w+GB30jSI4fMtgv9GP0TaX7ZGhN9A/z3iFZ1ZrVx+n8Ydv+SDH/mENsIobEo65TD76XHU4TBTXbIuZIL18tFOKdYkS2hEGczdeydCZek6IHKBxz37KE1eWT/l4L1I0StdUF70FFjJLVOXt68tHsOEqi2IIKFSd8W6bY1lxXbvYZr/nRWQZvPtBeASjXEcK/JjId9fcRBM9J5uGcvm7qb6SJDXvjBobGCL0Mc+UJRzOD5unWBbFY3+CJeta6rReqNCxBVPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3T0tFNf2cpTB1ks9j87C9XXSi0Y22XV2QiuJ/numiJE=;
+ b=JfpYbo1rbWQN5jZFyX5zxGGcKZe/IomBr2ndm/Rbpi3sll4gfJzvXGNdZD3Tyu7AiE5MAURIVFboUB2CRirU6iHTOsQJrn3VLcVUvmHMm92NZmbdBRf5dx5QbTggqmf5bk4tndt8HhCM5A66yvXLhKh/JHQngkECGAOQa3VWmQn6kFmpSxSvjtHXVW8Vm7G0IePJh2/idzdPEPcV98iLDv2tl7i8+56iN19bMhuo/1vy8rRJX7gd/JoVc09G6xrpxZrNvq2BcxmbYksnGwya6oIFVHiZC0UKCqT8j1dY6bE8DpT9qCxOvYNjIQnOYiSjBVAaLU+6+xhu3lkZykBBIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3T0tFNf2cpTB1ks9j87C9XXSi0Y22XV2QiuJ/numiJE=;
+ b=l6O/XGyVk7XAjun/3u8RYuxhDPvyIm923lgH8byu0lInNoOalcLsOoPn0lDNftyKjPeCmrVJ4d7/Xm8+QJQOCu0OFUP1klt6imIPPQ3ltikHRedCcpCKUAm1yZwX5MTFz+Wb/jbzUEWtO+V12ETLXLkXp44Oi7kuROH0OU6QXPsXCMED0IJpDu+ZYZ7qhDVPxDb1X3TaIQ6wG763MKz14yXc7ykUMnpndbLJbaugK/TaAux8jqsGj2d87TBaxBBOB/je5Cfb7+tfjOh/gVzuMwoMMRIuGna4hOmGk6AZxEzk/AakHnqFdUnJL28KT5Cvqm6R3oYx8XSYW4UzwbNwyA==
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by SJ2PR12MB7896.namprd12.prod.outlook.com (2603:10b6:a03:4c6::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 10 Apr
+ 2024 06:31:04 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::aa05:b8a0:7d5:b463]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::aa05:b8a0:7d5:b463%3]) with mapi id 15.20.7409.042; Wed, 10 Apr 2024
+ 06:31:04 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>, "davem@davemloft.net" <davem@davemloft.net>,
+	"kuba@kernel.org" <kuba@kernel.org>
+CC: Boris Pismenny <borisp@nvidia.com>, "aurelien.aptel@gmail.com"
+	<aurelien.aptel@gmail.com>, Shai Malin <smalin@nvidia.com>,
+	"malin1024@gmail.com" <malin1024@gmail.com>, Or Gerlitz
+	<ogerlitz@nvidia.com>, Yoray Zack <yorayz@nvidia.com>, Gal Shalom
+	<galshalom@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: RE: [PATCH v24 06/20] nvme-tcp: Add DDP data-path
+Thread-Topic: [PATCH v24 06/20] nvme-tcp: Add DDP data-path
+Thread-Index: AQHahozr1CSHzxR3ZUO2E0aMrm+r7rFdYxQAgAOw87A=
+Date: Wed, 10 Apr 2024 06:31:03 +0000
+Message-ID: <SJ1PR12MB6075F997ED346A333A86D763A5062@SJ1PR12MB6075.namprd12.prod.outlook.com>
+References: <20240404123717.11857-1-aaptel@nvidia.com>
+ <20240404123717.11857-7-aaptel@nvidia.com>
+ <a307cd8b-510d-4bb0-9e5d-68fdbd8a362c@grimberg.me>
+In-Reply-To: <a307cd8b-510d-4bb0-9e5d-68fdbd8a362c@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR12MB6075:EE_|SJ2PR12MB7896:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Z98yYrECeOidF3xPjZL7KEv09V+v9Xdiv8gW3QS1C2QdAcXHWaBeUSHsUIEwzTBZybjppTuyRW8BG1WOIrbm1ujDkeDJErMw4TJxgdG7U+j/FOP1Jptz5rkor3Y8lN3pktiyJ7F9dcrC7duAb6+tSnkU8flpNNuMN8kvvv2a9hBSxJGFMTpmbkBkziCqYdrA9SoetOBKLchzk/09Wa9/7nZ5ZzRI3b0dfHtGb6xRWioMCi6vaKrA7QTvPqsD/3ttp38WMag3YS00Ppd5Ycqv1paolSS8PHP4+tMEzLnTcnZBze9qy9EmdpilUIJb1y4qKBwi8dAGIDsJneEzAjOb3llXI0cMSNyxe7gH2PP24Cv93Y1Mt6DiT+5pAXIpGjZZMQFrBTYCBGOEZKUpOLPf/Q==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(7416005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M1FzempPOE1maVdDeDFoOStCTTZIbldPWUhmeUJMMGF4U2lRdVlGM0JSbTE2?=
+ =?utf-8?B?WjBucU9PbjFQa2hSY3E1SHhLVFFHalkwRDlQVC9PSUxZa0w5Y25Dd2ZvT29H?=
+ =?utf-8?B?WFJ0Sk9ZSVJSN2pyMGRieW9qaW5oR2tHUS9mOWd3dm5hTEljTlFLWEFjdEw3?=
+ =?utf-8?B?amRVVUdvb0pOZFVBM0FvdTI1Unh1VUVBZE81QzNEZEVsK2UyL3lFdXE4WTBH?=
+ =?utf-8?B?MmtCU2h0QzZEQkdQVXEwQTYzbk5rYnduUHRENE16ay9nVkNydHBUY0hWTjVq?=
+ =?utf-8?B?cDFtQ0V4R2lSbkY2bXVubkFNaUw4YUNzdkhQc2k5U0JtMkJMa1llMmx0Wmh5?=
+ =?utf-8?B?SGtQc1RDcEpSWFVxcW1GaFF0WDBOMmhvZUlrczVsb2gwL3R5R0NCT2ZhUS9r?=
+ =?utf-8?B?SXZ4aHpjNTJuOXA4d0lzMmlQQTF1VVR6SDQwNUI4UjVtQjlMR01TTTdlVUps?=
+ =?utf-8?B?MzI1M3NDV3FUb0czOEFBUGsyNEk4S1NhSVg5cnJXQTNSYVYvTWdZSFVHVGtV?=
+ =?utf-8?B?a3lUMit1UEdpNnBtM3FNdmxOVUlmbHdzWlpUMVdrTStIY0tIMW8vR1FtZE5K?=
+ =?utf-8?B?cFdNN1FuME1VVDRpWVZkWEMzcWdvaHJSNXNlMHN5UzBTZUFKUWx6N0tLUS92?=
+ =?utf-8?B?Q09lN0paZ1BZN1hQY24yMXJyMUVLNGR3WTZTMncyakY3VUg0NjU2eUxMZ1Zi?=
+ =?utf-8?B?R3lJMnUvcDB3SmVRK1NTSWJub1NkK2dnNWFhT0U5VWwxZkVkblljN21IRkY2?=
+ =?utf-8?B?eXovZmFXeVRra3lCWXFtcHZ3dlgyMkJVL3V2bUNEb2ZKd2lSTVhHUGNwWk5v?=
+ =?utf-8?B?SW5neERyQXY0TThzb0dsR2QzTUs1Vk9LNzBtSlg1dXJtOS9OTWVLREF5Vk1i?=
+ =?utf-8?B?QU9iRTdVb3l4a1MwVGdVQWpIQUdSOU0xTXJrSU03S1JKc25XK0p0Y3Y1REJn?=
+ =?utf-8?B?S2FOa0RBKzAxcFFDOTMzNXk1MU5aeFJublg5NEwxckRTb1pNMktzR2dhb0Ri?=
+ =?utf-8?B?WlhuWVlySWZxQkx5b2ttQ29HYWx2L0cyemh0d1Vjc3cxbzhRY2NrOGhxa1No?=
+ =?utf-8?B?WnlubjB6VEtjbHRPbEdnN2VFY3RaQzhUc0tkMU9mOGZLekVSQWRIdExGenVk?=
+ =?utf-8?B?ZEl2TnJYdFhyYk5xQjUrY00yU1IrZDBPN01kUkhOTE1RMXZVWGdzcnlGckx0?=
+ =?utf-8?B?eHlMOHh2ZFU3aE5jMFNRSlVvTVhTRnRJYnFNdTlGdVAvUng5d0NYNWJmUlJX?=
+ =?utf-8?B?RjNMQVpJSXpzN1VGdWRQRHYzNzFsNFczeVUwbkx0TzB1UlVEUWtmWjlFQUxk?=
+ =?utf-8?B?dHdERlE4UTFRdGd2ZndDUTB1RmxGbFE2SnpodXM1MnNLRlQ4b2VOd1VkU25j?=
+ =?utf-8?B?OFhndktISE93UUFvY0lLbWg5UU92MXB3TFBlRUNwMi8yZUZvalVOcytEM2Zi?=
+ =?utf-8?B?QWMxSERzb3ZEa0VrSHRPM2hoK29XS25PZEF5N01odGZvVlZ2QXh1VXFieHJy?=
+ =?utf-8?B?Zkh3aG9iTkVNUjFwUjlOcTl1S1ZTaFVjOEx3dHlTYjZmbjJsUU1KQWFuU1k0?=
+ =?utf-8?B?cEhac2haVmpSNHZTQXJyQ05ndzd2STNMRFJVUnBtZDJHSllFY2hxREpjamJK?=
+ =?utf-8?B?eXFZd21wdEpncFAySkxMV0pPaHl0cnF5ZWRBOEhxeTRuSjBmVnQyTldOUzRU?=
+ =?utf-8?B?Q2c5YSs0YjlXU2RwbmZBRFYyV2x6YWd0dDhpS3dzWEFSM1NIL1JtbHZjRUp0?=
+ =?utf-8?B?bVhOWmEvQ3NKUFNwZ2NRcENFNWRrNE1xR0VtUlRzM3M3RUpGSEJGMTJUSkEx?=
+ =?utf-8?B?TTkxZ3o3NW1GUjlTZm9abThyeXdYWmtoeDEzNXR3OWZQT0JIbnBLNVlqTlBH?=
+ =?utf-8?B?QVlkSzJSa21uMVZIUWxVT1Nvd0lNZzZuSnJnVUcwMFNnRnM2UGpFUEdtQW9W?=
+ =?utf-8?B?UFlOOVJwOXphWlJBMVdERkthaXNCYy81K01WbDNNaWpEMkl1Mnl3cXVTWnZE?=
+ =?utf-8?B?Z3MyNmM2OGlyVDJBSkNmVktVRG1ZQ2lDcGVIWkY3UEtXTm9GeWN4S0pKcTd6?=
+ =?utf-8?B?eFd0VUlqSm9QamUyTWFOa1RaQnNYcTVVM1ZaNXFFRWdNSDc5WHkzd0NRYWdr?=
+ =?utf-8?Q?0zdM=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20231101114541.GA43502@bhelgaas> <20240330134655.GA1659153@bhelgaas>
-In-Reply-To: <20240330134655.GA1659153@bhelgaas>
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Wed, 10 Apr 2024 14:20:31 +0800
-Message-ID: <CAAd53p6hH1=pchRidgMg2Go21tG=nJz+nz+6w++9hGSgFOcVgQ@mail.gmail.com>
-Subject: Re: Fwd: Regression: Kernel 6.4 rc1 and higher causes Steam Deck to
- fail to wake from suspend (bisected)
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Regressions <regressions@lists.linux.dev>, Linux NVMe <linux-nvme@lists.infradead.org>, 
-	linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, gloriouseggroll@gmail.com, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3db52e7f-b274-4471-fc31-08dc5927cbe0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2024 06:31:03.8261
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gLNcuLaUVbLl1E07yv2LkjQC+ECVswHzrRzZ97vc/S3qPsg3V5UT4AzrE6vSElxUf2x9Ha7zyn20ENtipTnqXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7896
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240409_232058_749245_AD5A6D88 
-X-CRM114-Status: GOOD (  48.47  )
+X-CRM114-CacheID: sfid-20240409_233111_963617_60F63E6C 
+X-CRM114-Status: UNSURE (   5.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,212 +152,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Bjorn,
-
-On Sat, Mar 30, 2024 at 9:47=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
-wrote:
->
-> [+cc Keith, Sagi, Hannes, Kai-Heng, +bcc silverspring from bugzilla]
->
-> On Wed, Nov 01, 2023 at 06:45:41AM -0500, Bjorn Helgaas wrote:
-> > On Tue, Oct 31, 2023 at 03:21:20PM +0700, Bagas Sanjaya wrote:
-> > > I notice a regression report on Bugzilla [1]. Quoting from it:
-> > >
-> > > > On Kernel 6.4 rc1 and higher if you put the Steam Deck into
-> > > > suspend then press the power button again it will not wake up.
-> > > >
-> > > > I don't have a clue as to -why- this commit breaks wake from
-> > > > suspend on steam deck, but it does. Bisected to:
-> > > >
-> > > > ```
-> > > > 1ad11eafc63ac16e667853bee4273879226d2d1b is the first bad commit
-> > > > commit 1ad11eafc63ac16e667853bee4273879226d2d1b
-> > > > Author: Bjorn Helgaas <bhelgaas@google.com>
-> > > > Date:   Tue Mar 7 14:32:43 2023 -0600
-> > > >
-> > > >     nvme-pci: drop redundant pci_enable_pcie_error_reporting()
-> > > >
-> > > >     pci_enable_pcie_error_reporting() enables the device to send ER=
-R_*
-> > > >     Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting=
- when AER is
-> > > >     native"), the PCI core does this for all devices during enumera=
-tion, so the
-> > > >     driver doesn't need to do it itself.
-> > > >
-> > > >     Remove the redundant pci_enable_pcie_error_reporting() call fro=
-m the
-> > > >     driver.  Also remove the corresponding pci_disable_pcie_error_r=
-eporting()
-> > > >     from the driver .remove() path.
-> > > >
-> > > >     Note that this only controls ERR_* Messages from the device.  A=
-n ERR_*
-> > > >     Message may cause the Root Port to generate an interrupt, depen=
-ding on the
-> > > >     AER Root Error Command register managed by the AER service driv=
-er.
-> > > >
-> > > >     Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> > > >     Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> > > >     Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > > >
-> > > >  drivers/nvme/host/pci.c | 6 +-----
-> > > >  1 file changed, 1 insertion(+), 5 deletions(-)
-> > > > ```
->
-> > > > Reverting that commit by itself on top of 6.5.9 (stable) allows
-> > > > it to wake from suspend properly.
->
-> > > [1]: https://bugzilla.kernel.org/show_bug.cgi?id=3D218090
-> >
-> > Thanks, I requested some dmesg logs and lspci output to help debug
-> > this.
->
-> silverspring attached lspci output and a dmesg log from v6.8 to the
-> bugzilla and also noted that "pci=3Dnoaer" works around the problem.
->
-> The problem commit is 1ad11eafc63a ("nvme-pci: drop redundant
-> pci_enable_pcie_error_reporting()")
-> (https://git.kernel.org/linus/1ad11eafc63a)
->
-> 1ad11eafc63a removed pci_disable_pcie_error_reporting() from the
-> nvme_suspend() path, so we now leave the PCIe Device Control error
-> enables set when we didn't before.  My theory is that the PCIe link
-> goes down during suspend, which causes an error interrupt, and the
-> interrupt causes a problem on Steam Deck.  Maybe there's some BIOS
-> connection.
->
-> "pci=3Dnoaer" would work around this because those error enables would
-> never be set in the first place.
->
-> I asked reporters to test the debug patches below to disable those
-> error interrupts during suspend.
->
-> I don't think this would be the *right* fix; if we need to do this, I
-> think it should be done by the PCI core, not by individual drivers.
-> Kai-Heng has been suggesting this for a while for a different
-> scenario.
-
-Should I send the patch to mailing list again to stir more discussion?
-
-Kai-Heng
-
->
-> Bjorn
->
->
-> commit 60c07557d0cc ("Revert "PCI/AER: Drop unused pci_disable_pcie_error=
-_reporting()"")
-> Author: Bjorn Helgaas <bhelgaas@google.com>
-> Date:   Fri Mar 29 17:54:30 2024 -0500
->
->     Revert "PCI/AER: Drop unused pci_disable_pcie_error_reporting()"
->
->     This reverts commit 69b264df8a412820e98867dbab871c6526c5e5aa.
->
->
-> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-> index ac6293c24976..273f9c6f93dd 100644
-> --- a/drivers/pci/pcie/aer.c
-> +++ b/drivers/pci/pcie/aer.c
-> @@ -243,6 +243,18 @@ static int pci_enable_pcie_error_reporting(struct pc=
-i_dev *dev)
->         return pcibios_err_to_errno(rc);
->  }
->
-> +int pci_disable_pcie_error_reporting(struct pci_dev *dev)
-> +{
-> +       int rc;
-> +
-> +       if (!pcie_aer_is_native(dev))
-> +               return -EIO;
-> +
-> +       rc =3D pcie_capability_clear_word(dev, PCI_EXP_DEVCTL, PCI_EXP_AE=
-R_FLAGS);
-> +       return pcibios_err_to_errno(rc);
-> +}
-> +EXPORT_SYMBOL_GPL(pci_disable_pcie_error_reporting);
-> +
->  int pci_aer_clear_nonfatal_status(struct pci_dev *dev)
->  {
->         int aer =3D dev->aer_cap;
-> diff --git a/include/linux/aer.h b/include/linux/aer.h
-> index 4b97f38f3fcf..425e5e430e65 100644
-> --- a/include/linux/aer.h
-> +++ b/include/linux/aer.h
-> @@ -40,9 +40,14 @@ struct aer_capability_regs {
->  int pcie_read_tlp_log(struct pci_dev *dev, int where, struct pcie_tlp_lo=
-g *log);
->
->  #if defined(CONFIG_PCIEAER)
-> +int pci_disable_pcie_error_reporting(struct pci_dev *dev);
->  int pci_aer_clear_nonfatal_status(struct pci_dev *dev);
->  int pcie_aer_is_native(struct pci_dev *dev);
->  #else
-> +static inline int pci_disable_pcie_error_reporting(struct pci_dev *dev)
-> +{
-> +       return -EINVAL;
-> +}
->  static inline int pci_aer_clear_nonfatal_status(struct pci_dev *dev)
->  {
->         return -EINVAL;
-> commit 8efb88cf23d4 ("nvme-pci: disable error reporting in nvme_dev_disab=
-le()")
-> Author: Bjorn Helgaas <bhelgaas@google.com>
-> Date:   Fri Mar 29 17:52:39 2024 -0500
->
->     nvme-pci: disable error reporting in nvme_dev_disable()
->
->     Debug patch.
->
->     The PCI core enables error reporting in pci_aer_init() for all device=
-s that
->     advertise AER support.
->
->     During suspend, nvme_suspend() calls nvme_dev_disable() in several ca=
-ses.
->     Prior to 1ad11eafc63a, nvme_dev_disable() disabled error reporting.
->
->     After 1ad11eafc63a, error reporting will remain enabled during suspen=
-d.
->     Maybe having error reporting enabled during suspend causes a problem =
-on
->     Steam Deck.
->
->     "pci=3Dnoaer" prevents pci_aer_init() from enabling error reporting, =
-so as
->     long as the BIOS doesn't enable it, error reporting should always be
->     disabled.
->
->       nvme_suspend
->         nvme_disable_prepare_reset
->           nvme_dev_disable
->
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 8e0bb9692685..2be838b5d1f6 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -5,6 +5,7 @@
->   */
->
->  #include <linux/acpi.h>
-> +#include <linux/aer.h>
->  #include <linux/async.h>
->  #include <linux/blkdev.h>
->  #include <linux/blk-mq.h>
-> @@ -2603,8 +2604,10 @@ static void nvme_dev_disable(struct nvme_dev *dev,=
- bool shutdown)
->         nvme_suspend_io_queues(dev);
->         nvme_suspend_queue(dev, 0);
->         pci_free_irq_vectors(pdev);
-> -       if (pci_is_enabled(pdev))
-> +       if (pci_is_enabled(pdev)) {
-> +               pci_disable_pcie_error_reporting(pdev);
->                 pci_disable_device(pdev);
-> +       }
->         nvme_reap_pending_cqes(dev);
->
->         nvme_cancel_tagset(&dev->ctrl);
+VGhhbmtzIQ0K
 
