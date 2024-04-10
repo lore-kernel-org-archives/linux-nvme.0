@@ -4,73 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8007BCD1296
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 09:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C33DBCD1296
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 10:06:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i/4RJtfof8lGqKYKZsBoIgBCGDf1H14vcSc6v5mFXPQ=; b=PZjvUm7cp5tTKF02cpdc/rOcxI
-	AjTL1a0ZcWgMZqsIXknRq52OIdUrXDdk+7e2pQSjH8lB9LfwCVKFG7JE3wbroZR6LBLh7v6UJMIv1
-	EzviU/X3Ejr6HcDIO7INGwrho7FeySUGwl575Js9cv/B6dOiCTu1SlE3qVnU2fgg7utyZguHQGMtX
-	kD1NuDcop82+wBtB8XBxfamtJpLyEFOGFwMBVNjfIBZ0muZ+TQ9c4fa3wd8FFu4oEIqOID5U1UT88
-	P+KTAzuFLirn38P6GbuQ7Gq2HctYIBRcXKaCL2Qe8uhMEdlD/vUxaV7YGptIGDctmLaEPtFrPcUUl
-	Yjs6d0Mg==;
+	bh=4TpUgcWW5x0vb4JdI1qMHUTdMa7eR+Z/vXiUTvIkUX8=; b=wvsCSmq9cwkCuslw94TZ4p3Q4C
+	RPo7zGUfSGCS71oTbrJd4CstVvh7fLNGOdfQnaSZ7EL7wzq+MKKu8Zu8wfgRDT1AZYZ6THaU+BGh4
+	Bp205EJpCKreVjWKly44Gsv682hWZqQl6YbKArDgg5HOjmVyNfCnaDjA5jwaof/ihlZZ51aPs8n9Z
+	4WhrDXYRpZ/aEndjH9gTRX22fCDxAKmFo9OFPYiNe1Qqefeylx+APYleOBYPR2PXwh0BTyrFt33B9
+	Hk40Z9zRXy3awioq0CBObVAW8/J/yNXVJrlOlPGlBD9xXd7kwT5zpGlRqmwLO+M1fnOSHaL5LCZWR
+	5+YGBbbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruUbw-00000006EV6-3o3M;
-	Wed, 10 Apr 2024 09:51:20 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1ruUqX-00000006IXf-1qEf;
+	Wed, 10 Apr 2024 10:06:25 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruUbt-00000006ES9-1aOz
+	id 1ruUqR-00000006ISz-1lUB
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Apr 2024 09:51:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712742676;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i/4RJtfof8lGqKYKZsBoIgBCGDf1H14vcSc6v5mFXPQ=;
-	b=DNcC/Kp8nf6WnN+yGamv3zbpI6d8o14tcE9reoXftXxr3APSn8vybGbkEqmhKbcJBQJOtD
-	IW3f7r5Si7i/tGIXiBnMeF5pYv6l6X9nITbgXTUb55yZvLoMt9/VHrE1FaooI+XY196rNU
-	fudu0AD7Wo1xjyhy0zQpQSnAgc4J9Hg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-QDKDHKpnPSm1rfRKonRwWQ-1; Wed, 10 Apr 2024 05:48:51 -0400
-X-MC-Unique: QDKDHKpnPSm1rfRKonRwWQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	Wed, 10 Apr 2024 10:06:23 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B23510499A2;
-	Wed, 10 Apr 2024 09:48:51 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.47.238.181])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F35D6492BC6;
-	Wed, 10 Apr 2024 09:48:49 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: sagi@grimberg.me,
-	hare@suse.de,
-	dwagner@suse.de,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 1/2] nvmet-auth: return the error code to the nvmet_auth_host_hash() callers
-Date: Wed, 10 Apr 2024 11:48:41 +0200
-Message-Id: <20240410094842.370170-2-mlombard@redhat.com>
-In-Reply-To: <20240410094842.370170-1-mlombard@redhat.com>
-References: <20240410094842.370170-1-mlombard@redhat.com>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CAACE5CA2C;
+	Wed, 10 Apr 2024 10:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712743577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4TpUgcWW5x0vb4JdI1qMHUTdMa7eR+Z/vXiUTvIkUX8=;
+	b=lPB1FYWVxPMycAN8jS+EPKYsLaR0LuMfBUqgvQ/+sDdU2UMR7/CDXktQ+WvkD86V5ezca/
+	1JrY9pvYxiwSjB3R1hwJiZmlTMFh39JmC4WLYEPmVmZpbZehT6AMh0OtWgU3C+4X3l0nbv
+	pGymrKLOHMKxPDKqPLX6dX1G6WS0xBU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712743577;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4TpUgcWW5x0vb4JdI1qMHUTdMa7eR+Z/vXiUTvIkUX8=;
+	b=BGqfAdXlNIhgRpo6x/D1j1Z1wF1oFhMcxl69GYYP+zJMTIch16TkOFPq9k7CvGYyckNRSH
+	gfGCTXLUSj9z24Cg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712743577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4TpUgcWW5x0vb4JdI1qMHUTdMa7eR+Z/vXiUTvIkUX8=;
+	b=lPB1FYWVxPMycAN8jS+EPKYsLaR0LuMfBUqgvQ/+sDdU2UMR7/CDXktQ+WvkD86V5ezca/
+	1JrY9pvYxiwSjB3R1hwJiZmlTMFh39JmC4WLYEPmVmZpbZehT6AMh0OtWgU3C+4X3l0nbv
+	pGymrKLOHMKxPDKqPLX6dX1G6WS0xBU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712743577;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4TpUgcWW5x0vb4JdI1qMHUTdMa7eR+Z/vXiUTvIkUX8=;
+	b=BGqfAdXlNIhgRpo6x/D1j1Z1wF1oFhMcxl69GYYP+zJMTIch16TkOFPq9k7CvGYyckNRSH
+	gfGCTXLUSj9z24Cg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id B69AE13A92;
+	Wed, 10 Apr 2024 10:06:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id qxcfK5lkFmYmaAAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Wed, 10 Apr 2024 10:06:17 +0000
+Date: Wed, 10 Apr 2024 12:06:17 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+	James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/6] nvme-tcp: short-circuit reconnect retries
+Message-ID: <ejsaj5wnhlukb5rbjtnxh7vxpakcd62ee5cimb35mcvv7jqxod@5cnmbyfmnnwn>
+References: <20240409093510.12321-1-dwagner@suse.de>
+ <20240409093510.12321-4-dwagner@suse.de>
+ <91c49412-4251-4e13-80df-9148208aeac7@grimberg.me>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <91c49412-4251-4e13-80df-9148208aeac7@grimberg.me>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240410_025117_588205_5B9D849A 
-X-CRM114-Status: GOOD (  10.87  )
+X-CRM114-CacheID: sfid-20240410_030619_640970_A10DCB07 
+X-CRM114-Status: GOOD (  21.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,28 +129,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If the nvmet_auth_host_hash() function fails, the error code should
-be returned to its callers.
+On Tue, Apr 09, 2024 at 11:40:03PM +0300, Sagi Grimberg wrote:
+> > +/*
+> > + * Evaluate the status information returned by the LLDD
+> 
+> We usually say transport, less so LLDD.
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/target/auth.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Updated the documentation accordingly.
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 3ddbc3880cac..9e51c064b072 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -370,7 +370,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 	nvme_auth_free_key(transformed_key);
- out_free_tfm:
- 	crypto_free_shash(shash_tfm);
--	return 0;
-+	return ret;
- }
- 
- int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
--- 
-2.39.3
+> > + * 1) The LLDD reports an negative status. There was an error (e.g. no
+> > + *    memory) on the host side and thus abort the operation.
+> > + *    Note, there are exception such as ENOTCONN which is
+> > + *    not an internal driver error, thus we filter these errors
+> > + *    out and retry later.
+>
+> What is this ENOTCONN here? From what I see its just a random
+> escape value to bypass the status check. I think that 0 would do the same
+> wouldn't it?
 
+ENOTCONN is issued by the reset handler. Sure, 0 will work as well, so
+if the consense is that the reset handler should do that. see below.
+
+> > -	if (nvmf_should_reconnect(ctrl)) {
+> > +	if (recon && nvmf_should_reconnect(ctrl)) {
+> 
+> its weird to have a condition that checks _and_ condition
+> of two different "should reconnect" conditions.
+> 
+> Why don't we simply pass the status to nvmf_should_reconnect()
+> and evaluate there?
+
+Sure, makes sense.
+
+> >   static void nvme_tcp_error_recovery_work(struct work_struct *work)
+> > @@ -2295,7 +2300,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+> >   		return;
+> >   	}
+> > -	nvme_tcp_reconnect_or_remove(ctrl);
+> > +	nvme_tcp_reconnect_or_remove(ctrl, -ENOTCONN);
+
+Here is the source of ENOTCONN.
 
