@@ -4,75 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9443FCD1296
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 10:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32845CD11C2
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 12:06:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N8U80+37Ey0cYnbu7WdMhmM1N+pNOXuEuXzMIMzques=; b=CCPQg4kkzXAtFTAZHZuX14Bxa9
-	38iiv7zi/cajmcT7cQfs7aXwi+v1N+KDfP7gwm1KfGDdOULkc+YBMtihzNQiMk0hcb5lxrOCoNwYJ
-	5rbyUFBhEbTYT6iXrXNc/P43taoGxpJ5PEgREOKKN2guKwWJx84fZnFImT+t9kxhc4CapoHS9JJux
-	4zcltdY/sJGs0IHdb+v65mPVSZbz7Z4o9c94KP21v5Lwbg+NELxVwg2OIUHdCt1VPzuoW1Ckm1bhe
-	PhhV33MKdgjTDq3TcoC+EYM7Qs2UVLJuEHk4Grx6yHZcLYVLi5xvhH66gvO2EEmhN48eL4ipqMf5Z
-	AfNCNsag==;
+	bh=JgokGGCMRQZ2/pQzN/0fCVBWcbfteqrOIQNsSM08sgQ=; b=H1YW7qACY4+45tfowOE3e+v7/C
+	FrpaMIrTtD+5XOtkE1yvlOHsxmtlAe1/3b0kjS9BGegrGLrvkT0v22yrltaERnBa4ciB6aE67H8Dq
+	K0dWRsz8LDcMrkZ/YDA6s2CaRwCbOpcDSzO/soqoawkgAlDzrLRq5Be+/d8ZD5MEH1dD4faSZZ3lf
+	F41HmFVhSCY2/Lh5QUmZ7k+Fjga9rWUgO9/qTJAVjP7SwYJQ9zZaE2/H/Oh8c/uoviIVFwD8H9OY/
+	m/8GGvOQaoAAzVEoZFEpnPM8pAHVAzaDn2Tgg7vFKUfc3LKHvYO4mvz3xM8peSD8cdqYiOJofEZrt
+	iuq+28FA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruV5b-00000006MUD-08TK;
-	Wed, 10 Apr 2024 10:21:59 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1ruWiH-00000006nY3-3z1b;
+	Wed, 10 Apr 2024 12:06:01 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruV5Y-00000006MTa-0zi9
+	id 1ruWi8-00000006nT8-1M66
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Apr 2024 10:21:57 +0000
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4165a253b39so4746765e9.0
-        for <linux-nvme@lists.infradead.org>; Wed, 10 Apr 2024 03:21:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712744513; x=1713349313;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N8U80+37Ey0cYnbu7WdMhmM1N+pNOXuEuXzMIMzques=;
-        b=LwNGVEaB54tud5bFU8HN40B7ysPlxk44Opu7QA8wd3jsmlFg2OuXIcNBSGsR+sD4Kq
-         Eex376Xkkt2avENu1NM4k+AbDAKNBUqiKxFd288nKizwHR/S2l7ZR8+TRvwlcdpZAVbZ
-         Ea0BugFnX6l5pQ0+tyR8pa8Q/ChIkWz6ofSYsFAx4DMuPXhPS3QqqGP+y8dNqWnSiW9N
-         Bbhpru/F6xZ+u1oU6dmZbja1EjtaavKxMVz+f4hi55pTYcunqlaRa2gL7enrpBMAiWaL
-         5p1ye/jJPF7NycvgJBuRBErw6NvD7Q9Z333/0XEOeXDfYiwdvq+N6YPt2mYw5FJZEJVs
-         FfMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVglE6itufJqNcPWbxV6t3EJ/33UX9NVDpe/46ZxuNmVD6gpapXbh+kIx034qBvP0JBxsUKXxzPVxMOf4rciqsjno8SPTzupxGoO1hpw6w=
-X-Gm-Message-State: AOJu0Yza2OPBgo2Gle/0ct/RSAiZcEy5HdHev4GOmNxjE/ctWKL0i0gq
-	mofhWKkbzu0liFU7h4HMQv3YyZwf5dtf6hzGrHYgHKby1mBooMCc
-X-Google-Smtp-Source: AGHT+IEWRd7BwEL1or8KxIbk0RSRElXoUZ3t8B7ISeWGwnKkBTGE1l4AYCRIIraSp3xnwqgK8rdbnQ==
-X-Received: by 2002:a05:600c:3507:b0:416:ac21:9666 with SMTP id h7-20020a05600c350700b00416ac219666mr1712000wmq.4.1712744513213;
-        Wed, 10 Apr 2024 03:21:53 -0700 (PDT)
-Received: from [10.50.4.160] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id m5-20020a05600c4f4500b00416cac63b11sm1770331wmq.3.2024.04.10.03.21.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 03:21:52 -0700 (PDT)
-Message-ID: <8c9a980f-4885-479c-9078-7f87dc92175c@grimberg.me>
-Date: Wed, 10 Apr 2024 13:21:51 +0300
+	Wed, 10 Apr 2024 12:06:00 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7A3FF350AF;
+	Wed, 10 Apr 2024 12:05:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712750747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JgokGGCMRQZ2/pQzN/0fCVBWcbfteqrOIQNsSM08sgQ=;
+	b=MWvIQLTwbXcgNFmRvHLmwIeXh898YX/cEHNWnqllD3GJUwCXNDFoDWltNUogOkQwRQTmQp
+	4tLsWFihoU9rnG79zun4pj458HCjHZjAqGoNcmkH1YhkWFE3BviTl9spP9PcaSnRUQHyct
+	R/nPE/2O40QqXJ+BU9Z75RZsadwejk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712750747;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JgokGGCMRQZ2/pQzN/0fCVBWcbfteqrOIQNsSM08sgQ=;
+	b=LcV4U1khzrJcHGDdKsndPqNQnNpqBGsbCVkr5UDh0rOhPkhLhWt4BV6MpZ92iDSxejYgEI
+	8N0vNLoQ5X9VFlAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712750747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JgokGGCMRQZ2/pQzN/0fCVBWcbfteqrOIQNsSM08sgQ=;
+	b=MWvIQLTwbXcgNFmRvHLmwIeXh898YX/cEHNWnqllD3GJUwCXNDFoDWltNUogOkQwRQTmQp
+	4tLsWFihoU9rnG79zun4pj458HCjHZjAqGoNcmkH1YhkWFE3BviTl9spP9PcaSnRUQHyct
+	R/nPE/2O40QqXJ+BU9Z75RZsadwejk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712750747;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JgokGGCMRQZ2/pQzN/0fCVBWcbfteqrOIQNsSM08sgQ=;
+	b=LcV4U1khzrJcHGDdKsndPqNQnNpqBGsbCVkr5UDh0rOhPkhLhWt4BV6MpZ92iDSxejYgEI
+	8N0vNLoQ5X9VFlAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 611D513691;
+	Wed, 10 Apr 2024 12:05:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hbs0FJuAFmawdwAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 10 Apr 2024 12:05:47 +0000
+Message-ID: <03370383-d8d1-4b43-89f4-e9a3985c96e9@suse.de>
+Date: Wed, 10 Apr 2024 14:05:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 1/6] nvme: authentication error are always
  non-retryable
-To: Daniel Wagner <dwagner@suse.de>
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+ James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 References: <20240409093510.12321-1-dwagner@suse.de>
  <20240409093510.12321-2-dwagner@suse.de>
  <ac48d955-8169-467d-962c-e7f55854ba06@grimberg.me>
  <7jqbhmskuzfvpjlavk7oqefmc72m5j2wj7525c7y2vlsfnaajx@57pfbmfvf4kt>
-Content-Language: he-IL, en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <7jqbhmskuzfvpjlavk7oqefmc72m5j2wj7525c7y2vlsfnaajx@57pfbmfvf4kt>
+ <8c9a980f-4885-479c-9078-7f87dc92175c@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <8c9a980f-4885-479c-9078-7f87dc92175c@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240410_032156_311996_35C9D0DC 
-X-CRM114-Status: GOOD (  14.60  )
+X-CRM114-CacheID: sfid-20240410_050552_725673_F67AF318 
+X-CRM114-Status: GOOD (  20.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,32 +138,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 10/04/2024 9:52, Daniel Wagner wrote:
-> On Tue, Apr 09, 2024 at 11:26:00PM +0300, Sagi Grimberg wrote:
->>
->> On 09/04/2024 12:35, Daniel Wagner wrote:
->>> From: Hannes Reinecke <hare@suse.de>
+On 4/10/24 12:21, Sagi Grimberg wrote:
+> 
+> 
+> On 10/04/2024 9:52, Daniel Wagner wrote:
+>> On Tue, Apr 09, 2024 at 11:26:00PM +0300, Sagi Grimberg wrote:
 >>>
->>> Any authentication errors which are generated internally are always
->>> non-retryable, so use negative error codes to ensure they are not
->>> retried.
->> The patch title says that any authentication error is not retryable, and
->> the patch body says "authentication errors which are generated locally
->> are non-retryable" so which one is it?
-> Forgot to update the commit message. What about:
->
->    All authentication errors are non-retryable, so use negative error
->    codes to ensure they are not retried.
->
-> ?
+>>> On 09/04/2024 12:35, Daniel Wagner wrote:
+>>>> From: Hannes Reinecke <hare@suse.de>
+>>>>
+>>>> Any authentication errors which are generated internally are always
+>>>> non-retryable, so use negative error codes to ensure they are not
+>>>> retried.
+>>> The patch title says that any authentication error is not retryable, and
+>>> the patch body says "authentication errors which are generated locally
+>>> are non-retryable" so which one is it?
+>> Forgot to update the commit message. What about:
+>>
+>>    All authentication errors are non-retryable, so use negative error
+>>    codes to ensure they are not retried.
+>>
+>> ?
+> 
+> I have a question, what happens if nvmet updated its credentials (by the 
+> admin) and in the period until the host got his credentials updated, it
+> happens to disconnect/reconnect. It will see an authentication
+> error, so it will not retry and remove the controller altogether?
+> 
+> Sounds like an issue to me.
 
-I have a question, what happens if nvmet updated its credentials (by the 
-admin) and in the period until
-the host got his credentials updated, it happens to 
-disconnect/reconnect. It will see an authentication
-error, so it will not retry and remove the controller altogether?
+Usual thing: we cannot differentiate (on the host side) whether the
+current PSK is _about_ to be replaced; how should the kernel
+know that the admin will replace the PSK in the next minutes?
 
-Sounds like an issue to me.
+But that really is an issue with the standard. Currently there is no
+way how a target could inform the initiator that the credentials have
+been updated.
+
+We would need to define a new status code for this.
+In the meantime the safe operations model is to set a lifetime
+for each PSK, and ensure that the PSK is updated on both sides
+during the lifetime. With that there is a timeframe during which
+both PSKs are available (on the target), and the older will expire
+automatically once the lifetime limit is reached.
+
+Cheers,
+
+Hannes
+
 
