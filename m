@@ -4,84 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86F89C67861
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 00:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 518B2C67861
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 00:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HRowwdvCFSS7/XAkHJPkGeIBjcCHi7mwjwFc3hZp0FQ=; b=s2+G7YFWc63X4HJu1ztImijScw
-	dTgdQhEI0LH36nSFyQCV/nwBtTxM8TH75q6mdbsxRqRwZxA4hvKRMFDduu+oGx+re6vKcoHWqZRBR
-	kJysAlu592qi8SOdlQmEYT8P0DX60NBaIydNXVjolTsmUNj3oOgo6/Y9c82Fc7mxIxCC1iaffNDA0
-	SrFh6qsf+FOdIXWIstL3pjH4HEiqYy7lxnTpt11SBGzPbQ+kdONsxqYV1Y289KnAjyMnn4lXg/o0u
-	Tkk5g81rz14DttepxE0DhAxsdfpht+bPw2U0+PneqeqkPznkLZzrO4Acd0UhdVsyxRfZpNC+NGHmb
-	7lQLOZ5A==;
+	bh=RvtBlLgsjPeILqVN/9Yh5/QMH6Mpc6x+YJltBI2Ylcc=; b=VIFWY7Jlgf0MplLWEqg1HKPeo3
+	Fcf5lak5Z+8DxPlVrzUN9wH6An6deGIb+RH8ZvOBHpgEvFcTVl3oqGqdpAnv1Y6PbYtb4NbBejN0e
+	ouuVPH4Wz/bmvLhMz9co/vKLzzcYj8W97TcsBYGJOh+YiLOxpGzj+v+WHXqpJXefGNkYZ04LWCOp4
+	CnzxRb47gfJ/r3ktMCdwPH3xGHkCLsMBdDWzYnvFvKNlhpc/YN6MQYabuEdwdRwKTDZovQsdHQYYK
+	dQqLlZhFe8TirBP6EkONkp2iSDymZaLlDFd2FKMzExNK7x6/haY8dOgLglduRO6yGah+1fWWHtm1V
+	c6+7AcNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruMJ0-00000004Vgw-2REY;
-	Wed, 10 Apr 2024 00:59:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1ruMJh-00000004VsV-3UUo;
+	Wed, 10 Apr 2024 00:59:57 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruMIp-00000004VeW-3Xvs
+	id 1ruMJY-00000004Vkk-43GT
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Apr 2024 00:59:11 +0000
+	Wed, 10 Apr 2024 00:59:52 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712710738;
+	s=mimecast20190719; t=1712710783;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HRowwdvCFSS7/XAkHJPkGeIBjcCHi7mwjwFc3hZp0FQ=;
-	b=ABitDZs/eJh72YXTRYie8Gp5Wt6hDFCjEnENHnbjQUvee0fDpG45og2RPkKvS/YV80zfwf
-	NomefXlOl2palhEaHcaTNpCHlvyNxtB3ZmzipNA45NQzvLnenqu9hpLnUXck8PaZI5fVxT
-	jvR0PaOgiEcz/wuvyoWOaxfgl+MOwOY=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=RvtBlLgsjPeILqVN/9Yh5/QMH6Mpc6x+YJltBI2Ylcc=;
+	b=I8zxOk9JJlQ7agflufeRr8HTNGgXrzv26pAgkWyf6R6Od4+43p31wuWLqKjqHn6I4eCEwx
+	wXkjXxW4LVY2uxoSHiwVySLV4PnRnthGQBsVXftOZ0ap2qec1L0X9KSRFq7JyN9NU9kzOE
+	j0xbd7X256mF8ygjEoCSU2Jhga4DOTw=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-245-yRORyvFJO9WlKX63RYP0EA-1; Tue, 09 Apr 2024 20:58:56 -0400
-X-MC-Unique: yRORyvFJO9WlKX63RYP0EA-1
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2a2fdf6eb3bso4868888a91.1
-        for <linux-nvme@lists.infradead.org>; Tue, 09 Apr 2024 17:58:56 -0700 (PDT)
+ us-mta-378-PVlxDicjMTusZCuVlJK7dA-1; Tue, 09 Apr 2024 20:59:42 -0400
+X-MC-Unique: PVlxDicjMTusZCuVlJK7dA-1
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-5c6245bc7caso4403585a12.3
+        for <linux-nvme@lists.infradead.org>; Tue, 09 Apr 2024 17:59:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712710735; x=1713315535;
+        d=1e100.net; s=20230601; t=1712710781; x=1713315581;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HRowwdvCFSS7/XAkHJPkGeIBjcCHi7mwjwFc3hZp0FQ=;
-        b=gx/u4ev+Uov1ekQdPNUgju6hr7+lM89IbMvUMizzD2H6HvPyo0mG395mlhzha7/RKa
-         rN2rjcfPhcBSVDoK1+ps5Iz3APMTH5mJk4mCeZP2DIqPFBI6qKgrDkWw+j9HeN0RFpup
-         eDUwQJGeHBZmy6u/Nt/CJOaoxo6MpTcj1qMDUw9jb5/RoIzwlsI2+eV59uRfc7gUSWhB
-         llykXjbfam2u6UOu9Y1UiDdMAweTWNa6/mS5jtGD8Ys/fi1zllb+Y/PSsa77cXIIDNX3
-         EMTODSY52PQ1sYIKCi7segjlw1y8F71ukaXLEItdkpgz+9UdOc8scjTqj0WIa5ZUDXBp
-         bUjQ==
-X-Gm-Message-State: AOJu0YwH0s13ofV973E/FD8g8Am6gtOBL5mWS4hA+3AMUbKbzytHQAy6
-	yK1nESAQ+JjDR+WMwD/GgllGOo0CVw3KHTjwxcH+YNJzcBKGoaA5bGn0eCHwu+Y1IOzeam9xrXE
-	w1cimrYrOem6iaSX59NmFwGUnorh5RaskWGwrX396ytQ7n5HUTvZmm9riHOaQ1IpEM4PswFvnv/
-	L7cEKp4KlnMCoYQGWBEXKcgeGHHO1EpU1siZx7o6E=
-X-Received: by 2002:a17:90a:fd09:b0:2a4:9c64:2a50 with SMTP id cv9-20020a17090afd0900b002a49c642a50mr1083003pjb.45.1712710735402;
-        Tue, 09 Apr 2024 17:58:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHufHD5vdJec1/JA02XQJCv3wFhX8hcW3CAkalsKLqc0Eo6KVg+fO9shOPYw5R9OQ5e+XPkMoftrFE2CHv2Kc4=
-X-Received: by 2002:a17:90a:fd09:b0:2a4:9c64:2a50 with SMTP id
- cv9-20020a17090afd0900b002a49c642a50mr1082998pjb.45.1712710735079; Tue, 09
- Apr 2024 17:58:55 -0700 (PDT)
+        bh=RvtBlLgsjPeILqVN/9Yh5/QMH6Mpc6x+YJltBI2Ylcc=;
+        b=QnT8TIueV6jt7COxi7u7kFd57zL48AnUY3uYiszF66jg3lRYynQRnneNK7QSvIDvMz
+         O1dX7ZRy39JrQSP+c8N33dgyW+KhRNNtWRNA/WSSjkJEsmODIVGZST8eVg0Pbaksmdv8
+         l5PdLB0K52mI/oSOu29uNjuYdHA1O1ewEQ7n0pCJA6iiIxfHVK5wAamsGHEJsZlEq19Z
+         UIXti/N1zjIT4rl9YAytbVvwmiLzBRZ4kQnXPCxu6rJbrWPiMmWBmqCo/YyfVnUZA1A0
+         zVnpvhSKdwz3dayanDtgx4+D3/A9nbtz5aQqK53TB1DACepfgOzWHRoKhOCdC+Vjp8MR
+         X2Ng==
+X-Gm-Message-State: AOJu0YyfVjyYf2JiA5XpA1px/sUrBRWN4r+6u0jrBoGVHHRRAzql3qZL
+	Q+7MDpuk02Duylraq9GKrYD6t8onVkeo8JUo809iprJWh7TNmkJQ0niFDVGPzUsqe4PGZNmWonl
+	zwa1smeeyC4s+IvfQpmSPpeBVWdTcmt+cmJ5B14s6rdJd8p/oek6ABl+V+euOIiNWTz8gJlElyL
+	mDfA1l593FdIlokEhZZSa+iWrDLh77lS5XsIvfa54=
+X-Received: by 2002:a05:6a20:3215:b0:1a7:a6d1:2d09 with SMTP id hl21-20020a056a20321500b001a7a6d12d09mr1317518pzc.55.1712710781305;
+        Tue, 09 Apr 2024 17:59:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGZgCg9ZPiKbUebaSIperd6RXnT5MwiyrdEnpeLiMxvtOVg017guNok0rOk3FzaAGtscKanTuKAEFmZXS7Y60o=
+X-Received: by 2002:a05:6a20:3215:b0:1a7:a6d1:2d09 with SMTP id
+ hl21-20020a056a20321500b001a7a6d12d09mr1317503pzc.55.1712710780977; Tue, 09
+ Apr 2024 17:59:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240408061809.4010087-1-yi.zhang@redhat.com> <20240409135502.GA20490@lst.de>
-In-Reply-To: <20240409135502.GA20490@lst.de>
+References: <20240408061809.4010087-1-yi.zhang@redhat.com> <55aa5526-ab31-43be-8ca2-d554fc22603e@nvidia.com>
+In-Reply-To: <55aa5526-ab31-43be-8ca2-d554fc22603e@nvidia.com>
 From: Yi Zhang <yi.zhang@redhat.com>
-Date: Wed, 10 Apr 2024 08:58:43 +0800
-Message-ID: <CAHj4cs_FsCY4ZL8KJ2oDogjo4kyzMpnzbUD8+HckYvfQXfG_Kg@mail.gmail.com>
+Date: Wed, 10 Apr 2024 08:59:29 +0800
+Message-ID: <CAHj4cs806xKKwK8JcxwzNhnY9hL3reVwBVmihZmwFbS4-EDZvQ@mail.gmail.com>
 Subject: Re: [PATCH] nvme: fix warn output about shared namespaces without CONFIG_NVME_MULTIPATH
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@kernel.dk
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "kbusch@kernel.org" <kbusch@kernel.org>, 
+	"axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240409_175908_392879_8B522CDE 
-X-CRM114-Status: GOOD (  11.47  )
+X-CRM114-CacheID: sfid-20240409_175949_805465_ECACD5AD 
+X-CRM114-Status: GOOD (  17.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,18 +97,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 9, 2024 at 9:55=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrote=
-:
+On Wed, Apr 10, 2024 at 6:40=E2=80=AFAM Chaitanya Kulkarni
+<chaitanyak@nvidia.com> wrote:
 >
-> The commit log is a bit weird.  What this does is to remove the stray
-> dot after the newline, right?  Maybe state that, and whie you're at
-> it cut the commit log line to 73 characters and make sure it ends with
-> a dot.
-Thanks, will update it at v2.
+> On 4/7/2024 11:18 PM, Yi Zhang wrote:
+> > Only print oneline log about shared namespaces without CONFIG_NVME_MULT=
+IPATH
+> >
+>
+> Consider following commit log :-
+>
+> Move the period '.'that is currently at the end of the line after
+>                                                      newline '\n' to
+> before newline character which is the right position.
+Thanks, just send v2 as suggested.
 
 >
-> The change itself looks good to me, thanks!
->
+> > Fixes: ce8d78616a6b ("nvme: warn about shared namespaces without CONFIG=
+_NVME_MULTIPATH") > Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
+> > ---
+> >   drivers/nvme/host/core.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 27281a9a8951..e4bec200ebeb 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -3681,7 +3681,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, =
+struct nvme_ns_info *info)
+> >                               "Found shared namespace %d, but multipath=
+ing not supported.\n",
+> >                               info->nsid);
+> >                       dev_warn_once(ctrl->device,
+> > -                             "Support for shared namespaces without CO=
+NFIG_NVME_MULTIPATH is deprecated and will be removed in Linux 6.0\n.");
+> > +                             "Support for shared namespaces without CO=
+NFIG_NVME_MULTIPATH is deprecated and will be removed in Linux 6.0.\n");
+> >               }
+> >       }
+> >
+
 
 
 --=20
