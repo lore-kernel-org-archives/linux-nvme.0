@@ -4,119 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E819C67861
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 02:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0555FC67861
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Apr 2024 03:09:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	From:Reply-To:To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IZgCoeQPDUOYowApyi5c9l5jrFA0+JD/mOUOSkMuac8=; b=IsTN0vVFn2r6ie6aOgK6TuZecY
-	/4bS9XiZxItEO8a4c3JBtgWwqVSMOU5oxgqHLyC/sn7UGNuKYnr5/Rn5gsM8gSwQLyalSsNN/688f
-	in8MYB7svNDGx+BPFgSX0oO42MTFz9m4BoaSxnTU+NlOOjXuxooLmXkI1aqVT1qzsRY+avLrQpGRu
-	kViWNhiwMHsM6A8udEmGEiCm6u1z7qH4F10BQZNTBU+PjBbIfsqTEMMCJLaNuXDbf1lWEtfcl2CTc
-	FOKuq/ROEulvIaErpcqf43g3X/pm4rPL88J/r6o2oyJk+wWJgRt9QbjyyW39eUgpgSgH9L3X5Kz0P
-	QYhqL+tg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LswP6sKv2yCqq2cK5t4lCptCVLRMsozdomeFN0D/yHs=; b=GvRfi+da07C/Wz6/h9BeYlEEsD
+	ZjGdR4LnqlrA/YShq84N7p3ys6mHvj+A2fyJhWXSyWxbWttWPuol9agzuTsAi3tfQK+ik0za3dwFf
+	5uW3GxKn0JwwRdCKoQv7WYvtiK/mZHyLfgEjEOzfbGTYKaKIeWlbIWr4uMKOb/dm7mcO9Kcb/qdjo
+	bCNF+Y9lS9O/V6a/cl3sFowClUKh4f/KixZE6BrrTpXypBjgMQ4M2NbwHt+Cp0Wz2axXV6JSW/rlt
+	yht+k6RV3PSLMx54m8nZIDjilvl8KT+DdM416EmABQItb2fCquDlWfR1IP8u2l2AnaeLs3cmDI+JI
+	euUn05iQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruNaE-00000004jJe-2qTD;
-	Wed, 10 Apr 2024 02:21:06 +0000
-Received: from mail-me3aus01olkn20801.outbound.protection.outlook.com ([2a01:111:f403:2818::801] helo=AUS01-ME3-obe.outbound.protection.outlook.com)
+	id 1ruOKj-00000004pvI-0qsN;
+	Wed, 10 Apr 2024 03:09:09 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruNaB-00000004jIi-3VzX
+	id 1ruOKd-00000004puR-00UF
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Apr 2024 02:21:05 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B7XbGv7MOTAsiUqUZjgB0hCqNYBhpOowVtL5qG/ILkfMluNbgkobwrwuxEOZWLFB9Lx8TUV+P8KrmBzZAr3rB16mKfGWa6kLuFTk53Qx6JVOUjtxOhYqidGLjtczQj6UsXN00671hcqSbnwAWtEvBV6EYDxOXi39Xjn2nU4MRd+DtBrJ9jNaf5r6A9wnWvkOL6ScahTwsX4734NdYQGQwWdaFKj4TR3TWz5UhC4sOhntWsJeEr2f+HE4b84r32lODWw6pV6zatFYyu7AN/FgyHlejrAwzo3/EaQGlpLwCTxNMEiT6DsmDjr59/Ax4poJsjoCw/hPdabVJino6Psxtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IZgCoeQPDUOYowApyi5c9l5jrFA0+JD/mOUOSkMuac8=;
- b=QuYRUk+1K5Rl7SYpIgyzQxV8XlP/a8o6Lh869QZHPGwGmYsrtJivW+EfnyrWQV1Xq0if8ZzGNIKClQfcX7ODUIJ824Kd6KXMrjf04G1LLmXqglhV2oz6lBU84cuJ8EI2vTT71KhXcf7+4LigFEBF1YFMjJMgDh1skMSkOq4htbR2WClGw6leUpw9tJprgxPtmEu+voIaiNVcK/FJCUFInHepSpxO8julng3wo6kK+ovx2kV64+5uLRCcgM/Q27coTo5KlV2D5ZL5EL8ghtaRXfJc+HrhIEy6VWhe5BtAZbby5GdYb3UNjHHgf5FNKb8BK9O3FmA8SNNQ5zaYkr2x3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IZgCoeQPDUOYowApyi5c9l5jrFA0+JD/mOUOSkMuac8=;
- b=FR4i4TLEyenfbLNAAnnDVvTY5FvI8P6P0LO1ACmtLTD4nhsdykeJjthjeSA6tSIqZ/cPk/CWIJZcEtDFC1KInbDYyiwYc1FLox7YRBJOB5PJp/0uoc+RQ3rbnEhcVwsrNPsGLzx7b9pSpx77lHb1H15kwutnbM/8PUP8qrhMWt3pdxkauPrxHIWRxxDKkf4mLke2UOKm9Hf6D4NHWRjfBVx8RlxUFOe4PcoDAhqWoE65Pi9iYfhqjAH8sKqIcDo83eBM4gtlD8QEwx5UlAoY+hkPjGnCplqGyP0vwhokiaFlCiUMd9N3u7gUIoOt/Z8So53+HaUOvVC9Em+8PNzsyQ==
-Received: from ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:108::8)
- by ME3P282MB0994.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:88::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Wed, 10 Apr
- 2024 02:05:50 +0000
-Received: from ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM
- ([fe80::9f2e:2acc:8692:8c4f]) by ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM
- ([fe80::9f2e:2acc:8692:8c4f%6]) with mapi id 15.20.7409.053; Wed, 10 Apr 2024
- 02:05:50 +0000
-From: Holger Huo <holgerhuo@outlook.com>
+	Wed, 10 Apr 2024 03:09:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A96C261A7E;
+	Wed, 10 Apr 2024 03:09:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96534C433F1;
+	Wed, 10 Apr 2024 03:09:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712718540;
+	bh=EM7nowdjdbNVWh8bciK9Ha2EeZjxwFBLgso2R6SZNRg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j/qjir1eLQpUmzvGiwsCTcuX7poh7q1n53pOsndQLCaN8N08FgGHZcHyWtnwJiTDk
+	 tdhP1pdvZXueZIu/RWYU1GQerDJdaFwLNP+mrwEQU0ShPPRvc+XwEj0gPfNdKGX6eV
+	 7Oa5rqAbGBrMGnEAqhQr7WgS6E7UQ9BPehhk4pMig6+WpuzBZitbu68SXwBdF1YIQt
+	 PpKBGmlQsvxl5fKqKMHy0/A07G4tsGhk7ytmAT3um1HUHkpOhW4wmNPjgIGV2TWIor
+	 469kgbwXHWwsXVrU3rxum8qXLWfV9YQ9x+vO6TYzbQ0dhd06mtbwJl4liAzvPTHcwJ
+	 XzEx46LDJ1y/w==
+Date: Tue, 9 Apr 2024 21:08:58 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Holger Huo <holgerhuo@outlook.com>
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Holger Huo <i@holger.one>
+	Holger Huo <i@holger.one>
 Subject: Re: [PATCH] drivers/nvme: Add quirks for device 1cc4:6a14
-Date: Wed, 10 Apr 2024 10:05:46 +0800
-Message-ID: <ME3P282MB2481C1DC0506D154FA3AA3D2B5062@ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM>
-In-Reply-To: <ZhWhshq7hpPd9XrI@kbusch-mbp.dhcp.thefacebook.com>
+Message-ID: <ZhYCyuP6vTJq-TZq@kbusch-mbp.dhcp.thefacebook.com>
 References: <ME3P282MB24818FA28E7C73BC01302882B5072@ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM>
  <ZhWhshq7hpPd9XrI@kbusch-mbp.dhcp.thefacebook.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-TMN: [NMg0V3qOjA5pAed/TXZMF3wSEnAQwD2aJ6UW5/FKPHW7iMACiFAQdGNd+xJ+luIv]
-X-ClientProxiedBy: TY2PR06CA0039.apcprd06.prod.outlook.com
- (2603:1096:404:2e::27) To ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:220:108::8)
-X-Microsoft-Original-Message-ID: <5771101.DvuYhMxLoT@arch-thinkbook>
+ <ME3P282MB2481C1DC0506D154FA3AA3D2B5062@ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ME3P282MB2481:EE_|ME3P282MB0994:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82604f8d-aa06-4ce4-e762-08dc5902be80
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qhFnuYCVO8P5qzOMKSNS2V1pd0XqPvGDDhnOoIAgVO3g/N9c96li7qQPEXqXmi5o116kg8M8Og58Rl4HLQAZu2EVQIdajcjQAL5w+w2NXcmrMH6kUuK0dwAlaXO08PNqdbypzjhM/VbzXKiHKjSamXiYflKCYPIyPq/R/BM7mhX+YVVeHsD3UrSymIi/5vy7VgnnYKYd5hTusUN3NBGzYJuazXJo/XH+u9V164O3Ht3pZRIwSLKra5bmjttWf1n3JDN1xyLuu/ZN2MzLanQqO4bxDoRn2sqwBIPLKsNZ8FjqbrodugnFQE94DMm5WfQOaM/agFYX1V1uwRlhae3XXMuisTFri2FHlxG7xkdbN57PybliM6jum4+m8ryQAXi8tz9BN+PBnrcEonZvvY+7D6MQu9cX1NC+C8J2GSwFUuS/pCErw5+eoJJTth2lSwepERXXJuE/mLGa+6JIrnkziCfDzP3Q68v/OUzvsG+Rc4CpJhP3dCaE45vAoamgZgMR3UnNisuzOrcg0c9MgrJoDrX+z5Q8n9gF3Rl9QIPD6bm3FDVA0xBoKIo5YeqmGaCx
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WEhPQkFldU5WME10NmJLN1k0WHB2enc0cVQ0S2psS1h5WUdMeGh6UDc2T0VR?=
- =?utf-8?B?VkVrUEIwTENyVE9wTC9QdUgwbG16YVNlVVI1Z3FZSnJSVnh1NTd6bTNBMEV1?=
- =?utf-8?B?dUFDa2tBVndlcWI0bEd4QzRuY2tVRVJlNGJLbFhIV013U052VXYvZ3VqdW1p?=
- =?utf-8?B?VmhZdlFqL0I5NVVRRktoTTB6MDJhWFg4ZzRrVW42aW9ONTM0NFpxcHVoMWhH?=
- =?utf-8?B?Wk1OdWFBbzMvajZBUFdhNTZ3RFpmVkc0U29KSFRVSURaMGo3NGcvUjZXV0pE?=
- =?utf-8?B?WEE1MEJ2L0J2VHVrNUhNYkJWc0RYZzlaM2xPNldvYXNFR044OHE5Mi9yN0N3?=
- =?utf-8?B?VTZ1TURFLzh3WW9rUTh1bGRjMXNVTHJLQW5BL3ZpM3ptSnAwWnFhUFlyTENn?=
- =?utf-8?B?NmpCU0xJbklCV3Q2TWlHUVBWanc4ZXF0Y2pIcm9uakFHNDVwREdNdUxubUwx?=
- =?utf-8?B?eGhUTVlFZGY1VGRya3lyM0FPRU0wL1k1ZkpCZGN2bU1Cbks0WGtqMWVDYURy?=
- =?utf-8?B?bG82NTFjc0FSWkh5TWN1cHR5c0RSM0JPVDlTdXB6OHBIeG45S2N0MExzSEps?=
- =?utf-8?B?OVBuQ09KeXRDM0E2MnRMbldScnFybnViYzczems1UTduSWYvOW9BZU1GMmVa?=
- =?utf-8?B?anFVMHlTZENucGd5LzVBd0d0NmZzVkhTZGR6anNUcksyQ04yRXNNcWMzVElk?=
- =?utf-8?B?SGVJR1laSkNURnFIZXRKc2FrM3Z6UmtKQ1VZWGE2ZWd1amxvdTM5VEVlb3Ba?=
- =?utf-8?B?WGlrS29TTndIQk1NVy9TVzBDRXpSZEZSaGlhc2pteVNrRW5oMVNaQzdpK1BE?=
- =?utf-8?B?WllkeHRiNWVBMVc1elBBVlFZZkNHVmQ4RmZuZFMwMzhOOXVkSXlvdkJKaC9j?=
- =?utf-8?B?aU5DQWZsWlovNWpvTHluZGpleU9qQ3NhbHQzSm1USFBvbmlRQkxxMDRVKzd0?=
- =?utf-8?B?Vmo2ZUdSUjkrckZrQVI0S3VlazlXaUJNNlBrMkxQNkg0Wkh5L0tjd2tIeTlK?=
- =?utf-8?B?MzZoenVqS0ZOaVk4aWNSdjBQbzhWdmlzcHc2RzdmSGpLaXBycXRNbXVhVEJX?=
- =?utf-8?B?SkZCZWNYZVFaY2hVamtSY241RVpBa3lYNCtKcEtsQUZ0RHUwemRwbklMb3d0?=
- =?utf-8?B?NlllOFBxaDB4eWlGOVJacHRxQ09aWlE1bkg1SGRNbVlFNFdaZDRmU0pEeXhC?=
- =?utf-8?B?RWhHVzZQbVlnNlJyZit6bXozM2RTbHJxSmU1N3JOclpuTmc5SWFWNFdVb0VC?=
- =?utf-8?B?M1dwdFRLaWx2Wms5RnR1RkE2VW15M0hBR3hQMWJnWlV3RjNrdUFiU0cwdVNN?=
- =?utf-8?B?bTlxQ0ZJTk4rSmJlMW1XNFdWT0prL0x4TlcyR0NRS3ArVklmckdiUGl4QXB5?=
- =?utf-8?B?SCtGZ2xhaEdYL09WcFFBZUwyS3RIV1JCZUoxVkFibk9XM0diMi9MMGpFRzY5?=
- =?utf-8?B?RFA3TVgrSytNMExNcExYNlNiRWtnZ0VhSjFqbWM2Zm5odGJuS3A3Q0QvVmVz?=
- =?utf-8?B?T1orSlUrejNrYnhORmQ5Zi9KSEhPNGc3UUhDb1haQ3o5YkpsS3NKK2J3Z0Zt?=
- =?utf-8?B?dElHRGNuREJ4MWFhL0VpUXJNcFBnS0dOaStsYzlNRmhqTUdYZU5qZERRaktj?=
- =?utf-8?B?RmVpRDB5UmdrMGxvUXliR0UzRys4QkNoYXVIcEgvS0dCeSt4R1Z3RTI3K3BG?=
- =?utf-8?B?OFRnWERvUE9TWkdST0dvK2s4d0V0eGJyMDVZaUJ3WDRsT0ExbTlOaGo0dXdD?=
- =?utf-8?Q?U2XbtVJ9AbmlPOV+GU=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82604f8d-aa06-4ce4-e762-08dc5902be80
-X-MS-Exchange-CrossTenant-AuthSource: ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2024 02:05:50.3382
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ME3P282MB0994
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ME3P282MB2481C1DC0506D154FA3AA3D2B5062@ME3P282MB2481.AUSP282.PROD.OUTLOOK.COM>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240409_192104_018829_29836541 
-X-CRM114-Status: GOOD (  14.62  )
+X-CRM114-CacheID: sfid-20240409_200906_451529_0D867008 
+X-CRM114-Status: GOOD (  21.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,30 +74,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wednesday, April 10, 2024 4:14:42=E2=80=AFAM +08 Keith Busch wrote:
-> On Wed, Apr 10, 2024 at 03:28:50AM +0800, Holger Huo wrote:
-> > This commit adds NVME_QUIRK_BOGUS_NID for device [1cc4:6a14], the
-> > Shenzhen Unionmemory Information System Ltd. RPEYJ1T24MKN2QWY PCIe
-> > 4.0 NVMe SSD 1024GB (DRAM-less), which can be found on many Lenovo
-> > notebooks. This SSD produces all-zero nguid.
-> >=20
-> > Other SSDs manufatured by Shenzhen Unionmemory Information System
-> > Ltd are likely to face similar issues, but I currently have no
-> > device to test.
->=20
-> Are you using the most recent stable kernel and still need this patch?
-> These quirks shouldn't be necessary anymore unless it's advertising
-> multipath capabilities, and it doesn't sound like this one should be
-> doing that.
+On Wed, Apr 10, 2024 at 10:05:46AM +0800, Holger Huo wrote:
+> On Wednesday, April 10, 2024 4:14:42 AM +08 Keith Busch wrote:
+> > On Wed, Apr 10, 2024 at 03:28:50AM +0800, Holger Huo wrote:
+> > > This commit adds NVME_QUIRK_BOGUS_NID for device [1cc4:6a14], the
+> > > Shenzhen Unionmemory Information System Ltd. RPEYJ1T24MKN2QWY PCIe
+> > > 4.0 NVMe SSD 1024GB (DRAM-less), which can be found on many Lenovo
+> > > notebooks. This SSD produces all-zero nguid.
+> > > 
+> > > Other SSDs manufatured by Shenzhen Unionmemory Information System
+> > > Ltd are likely to face similar issues, but I currently have no
+> > > device to test.
+> > 
+> > Are you using the most recent stable kernel and still need this patch?
+> > These quirks shouldn't be necessary anymore unless it's advertising
+> > multipath capabilities, and it doesn't sound like this one should be
+> > doing that.
+> 
+> Yes. My current Linux kernel version is 6.8.4 by arch. After further 
+> investigation I found these quirks truly had no effects.
+> But my nvme drive still freezes with Device not ready; aborting reset, 
+> CSTS=0x1 failures and AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0001 ...] 
+> waking from s0 (s2idle) sleep. Are there any other quirks or what that I 
+> should try
 
-Yes. My current Linux kernel version is 6.8.4 by arch. After further=20
-investigation I found these quirks truly had no effects.
-But my nvme drive still freezes with Device not ready; aborting reset,=20
-CSTS=3D0x1 failures and AMD-Vi: Event logged [IO_PAGE_FAULT domain=3D0x0001=
- ...]=20
-waking from s0 (s2idle) sleep. Are there any other quirks or what that I=20
-should try
-
-
-
+I've seen the IO_PAGE_FAULT error reported before, but all I've heard is
+that it means the device attempts to access a memory address that it is
+not allowed to. I don't know why that would happen, though. I've never
+first hand experience with this condition, I'm just as confused.
 
