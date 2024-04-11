@@ -4,175 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99178CD1292
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Apr 2024 08:15:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7515CD128A
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Apr 2024 08:38:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kvs2U4n5wCCEmmuF1BI9OBh5eqACnZJt3yUkSGWbHZg=; b=H6dtoKhgc/e+AN6q1h90Rn0NSh
-	nSnpqKqQNEJM2kE+arN7WOCym99tjXJMgDSSabZ1oQhBG/Ut6PGv3/gN2zTRNYGv0XfaVg8KfSCtI
-	aPKEMkDAgNkM3Azs6rfyjlRtE6vHJp+CDToFLb/n/DBiGcPgUf98MhlkFICkLZMSQCM0h3L0Yrerc
-	d728o6KtN3HdI2i8D927giuUZKZuw6TEUvZBg/5eTVX67HtMZpxbZr++IRUCN/jHF1Dxf4ce7jwW3
-	IhrWLD/ouIr4QabNKFrFB2Rnz7CKm9G8c3Bxtpy6KTs9V3Z6vMqHfz3v18edZ/zOlureXOwUUTMdA
-	IDXdIVVw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QlTxrc8UGeYsYju69cSCDIVBGjrkM+HpaU154MNsK+c=; b=zGGc/ycbjSdGhAzCP1ue1209iY
+	JWYmOt+nYXQMAYkByMHqjdZ/IX8O7cnStfB3h7yOb8NAJ5RAgoQ/afhKaYWanyxBOEWt+vxBCBxHw
+	S2FnwCAKkWaqrsMNdx571GR6m7eYQNcwPUnsWQNU/Si1ZHTV17NdKI4ZPDCZNwRbeJa3HED9NRRUJ
+	ccDsozsgZfd2EGVo8QEXKszymhY42kDdgK85AzzzGlOotGEXiBM2eV2pZXnpFPVSLTbtp01nkZKfj
+	UTKcZ4VGiXais9QG40tfGgSTreYmr1YfQWRidck+YSlMbf20z5Mf2KH3gywrLqGx7i5sfoR99VvG+
+	LnoxAHag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rupan-0000000B2k9-01o9;
-	Thu, 11 Apr 2024 08:15:33 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1rupwh-0000000B86W-19qc;
+	Thu, 11 Apr 2024 08:38:11 +0000
+Received: from mail-ed1-f42.google.com ([209.85.208.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rupaj-0000000B2jO-1bwc
+	id 1rupwb-0000000B85Z-0Ew6
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Apr 2024 08:15:30 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43B7jESX004283;
-	Thu, 11 Apr 2024 08:15:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=kvs2U4n5wCCEmmuF1BI9OBh5eqACnZJt3yUkSGWbHZg=;
- b=PgIKjItf7n143FOaDU8qIGX44r1cU+RNq9xrjvuUEQpx8TjZcmVrssrud7w7ThoIU9fd
- SVgT7IrBypMaZvEuQSNY2FVVdZJHnMBPhDQ3WbPI6GzNIwfbeCbB7x3RT8T3zq7BANka
- 7h3mWwUKpOSgiFrtGlNIHFNP2m0tiZW064jnf+hF/J1VU8xVZYOz+Bknk6wNtENo6AJu
- gE3SJKEQHnFoRLAzM1cV5q3oH1Qd2uCXmjOGBaXWHqnum6BFQhBiGOuB76C9r0rjwHhv
- 8VOWWfB7WKPDM3ubq0CVGQTfnlf12T6AGvIyNN2EovRjAigB7TlR+vK22xfVzrbbVAzg ww== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3xax9b8y8y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Apr 2024 08:15:14 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 43B5FdYr003010;
-	Thu, 11 Apr 2024 08:15:12 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3xavufgs5g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Apr 2024 08:15:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oZEQ5/pQn0D51JMmRJfp6+fVYPvT9DbFwcNzUwlw6YT3bWogkSWIvG8p6k7SDU+P9eHZdoZTewLw7SsPgyPv7hTbUkmBbB9H6Dma1cPwTg3e1FmAxW71sZ9ap7RYkIWkPy8iuACRh9BrfnJ/mWSSp2QY1XNwOeNI/wN1KZnAEUeqI4cuDrIf9K+U53afAIBrAj11u7Qi3elhNnoBGNKLOxMEO2p/k88yOASaRr55DJtjGY1tI97K1/F2f3A2LLiuV6RDJGv80d8MRLooOG0m8BVWRW9CkCdVID24PLGvYJCKthL4eIek0Wr2oIfuzO041QWeiY7zltXGph1JDAxTAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kvs2U4n5wCCEmmuF1BI9OBh5eqACnZJt3yUkSGWbHZg=;
- b=PQr42j6xIjQLP26n31tW5eJpP+p+DgBgayU7treHZplX1r/diC4hEq11xuVxgLPZ4AagVhV/laGSGibBPF46LERcLUSHFQ1GD0JPZe9SmIr+2LQCl7eKT3uVIQp4u6UZubtCx3W9x/e7miIoD7U7IeeHBQqxdpptJLzD0cqCqzjNhxd4zFK7yZovEqx2DDo9BpJsT++B1qcN8Vzxem23YXjIMRHvsJF3fL+IKgCjWPuu57XZz6LlyoLFdoE1DDyIqLNd1kTLUnevWOvrJE6q5mcIT/j+rwPGoWgH7YMyaOWwcuT2PlegKnSLwwouxDKmFBlnI6nWO1xqx2/QXduqbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kvs2U4n5wCCEmmuF1BI9OBh5eqACnZJt3yUkSGWbHZg=;
- b=yjRYCBk3ydFLJ1ij7omuBx4PBidrHx/DGCPWT4qAtILlFxLcNj7secnjzeXpecsD0KBMFaUHWtlxOZniM3IdiFLfMAmjPsfEW3GcpwMvMfACBj+ELah2GGquee8XH1bLarMBETqTYUsNWl1MbCJETzj7qfHECvFzCM2bYZsDuh0=
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
- by PH0PR10MB5756.namprd10.prod.outlook.com (2603:10b6:510:146::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 11 Apr
- 2024 08:15:09 +0000
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::ae68:7d51:133f:324]) by DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::ae68:7d51:133f:324%4]) with mapi id 15.20.7409.042; Thu, 11 Apr 2024
- 08:15:09 +0000
-Message-ID: <b7f35443-3b8f-4c42-9583-9944b50ef3fc@oracle.com>
-Date: Thu, 11 Apr 2024 09:15:04 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/10] block: Add core atomic write support
-To: Luis Chamberlain <mcgrof@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-        jack@suse.cz, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org,
-        linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org,
-        nilay@linux.ibm.com, ritesh.list@gmail.com, willy@infradead.org,
-        Himanshu Madhani <himanshu.madhani@oracle.com>
-References: <20240326133813.3224593-1-john.g.garry@oracle.com>
- <20240326133813.3224593-6-john.g.garry@oracle.com>
- <0a9fb564-7129-4153-97d6-76e9b3a1b6c1@infradead.org>
- <Zhch-6XSPYxM4ku3@bombadil.infradead.org>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <Zhch-6XSPYxM4ku3@bombadil.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO3P265CA0029.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:387::7) To DM6PR10MB4313.namprd10.prod.outlook.com
- (2603:10b6:5:212::20)
+	Thu, 11 Apr 2024 08:38:07 +0000
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-56e4556990cso989344a12.1
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Apr 2024 01:38:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712824682; x=1713429482;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QlTxrc8UGeYsYju69cSCDIVBGjrkM+HpaU154MNsK+c=;
+        b=FotUki4FPrCdaSGNNYGQUsPWWoDvn7QgbdRS/21oqpCGHyEEY6UWFpYkmw2tSgT0w3
+         MWlLUTFUr86pf9U0I2CaMjkoPXx0pwOY49Pm7HhDDCr/K1Mmz1q9dCG/lZkp0Ejna0DH
+         SIQPtY2J+TqkcCm6yROD6SSqc9XogPjwK++1lc5AXT0HwczrU4aAEaUjh2SnuTqNJTnk
+         VjXaziUHl9BOjyX84mXjX0+2ofuE/OFrl7+Z4gKoSMJY1yk1WbcByfXCasUwCVAEte+I
+         u/tNP7tsQcliccEDT2c28b87TdAm3nfYKORGkCvy+mTss4Vb2tY5tbDDUt3ulDNrvfIo
+         /qyg==
+X-Forwarded-Encrypted: i=1; AJvYcCXmqaiEbpQQLo9b7w1RLskpiICUbgDf5/eJycd6xiaGKMez0GXr/prGLVrDEMGU6G9yHnUCCR0t6gtfHqIsQzjJOtqvvOLw8k0TNEXKrnY=
+X-Gm-Message-State: AOJu0YwN/i5W0AITKbdCAyX3bPbD/dMkUYXy1QKJuhPi+V9Nv/rUgEWF
+	An35oluSftTZK++r/Xd3UP4uEAUCyU8RfDVu5PEYTIKjDZpkcUjU
+X-Google-Smtp-Source: AGHT+IExhgCxrfw7ZhllSpKTX8uANrAEqjLHXMCdVPydNm8bg8RDAc9UCSptADWK4A4vVBXV/AZJKw==
+X-Received: by 2002:a17:906:6a29:b0:a51:d463:335a with SMTP id qw41-20020a1709066a2900b00a51d463335amr3545971ejc.3.1712824681808;
+        Thu, 11 Apr 2024 01:38:01 -0700 (PDT)
+Received: from [10.100.102.74] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
+        by smtp.gmail.com with ESMTPSA id bg25-20020a05600c3c9900b004162d06768bsm4861841wmb.21.2024.04.11.01.38.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Apr 2024 01:38:01 -0700 (PDT)
+Message-ID: <7dbdce29-621a-4286-a832-2918ec1794e4@grimberg.me>
+Date: Thu, 11 Apr 2024 11:37:59 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|PH0PR10MB5756:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c1a0cf0-be65-41e7-c70c-08dc59ff8101
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f1ZLRuESO+MgaitVXGkZCj+Dn2Esz2VrmiO4jYwPQzfJR+WlcHDXOYuAEPVUBXVAka246RB97mUvRLeeSYTjar/vv2xAB1jGHcz1aXkeATH6pKtCcIx4tXUTX8EuRw8D0N/fzDbU76CiMy/gl23jCAaJZmGcPHWqIWxzGFjgN9CwRdPd948nHRCGdER4wxlSRbNeJKiaa/vOMfvhKJgccGqAeBhy+l+2IWuHGHnPmn0nr3xG0SjOumbLBwcoDZXp/DDppMmmbMJdQD8Us+9A1vW/xKd/ZqyNqzo3SPhOqeCW2/f6K58H2hCzN7RW5Ej8cYLFIldDkGqxrE35tJFySdhU4ZyLKrsFgeqPA6gkm0pm9k9pD09BIpvvf0rAViG4zyF1C/db9UfhNsrGcSrKk2JKYWaPUb1+Pi+tWiScktGEvmAnDA+SXmdmBZyLCMZV3kQV9QdXHfvvpq9z7jCq7NMuTM4/4RO/es3WO1lRDNju01UAdHd33N+D0ZUWNPtiK6CBi3SdQKj3flUEn37gP1IkONPfKcEj6Nu1CoeqBXspJt+KyBX/iicvlfpHT2ed9V2oPci+VMPINsSGHHWLe4UO0X3Tk7B6Pbhkwb/kY1C6KOij1gsqek3d5rnx4xso4WNRBOdWkuHCujC5owGtgnTNfYemg3THIC7CKfEy2mI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aEl6UGV1TTF3TGJQbG1hSGc0aWI4WDVSdTNEaEttdEJyZkRVRy9ZZGZYMFgz?=
- =?utf-8?B?eVdVT1ZjYkNLS2RPN0tpUnB5SUlVNE90L3RFbGRBTXBMWllKeW1tVnpQcCto?=
- =?utf-8?B?UjhMWEFkWEJEVkZxT1laNDBEbi9uaTN3Yzk5V3lXY0NUU2lxOEQ3Tm1Nd2dG?=
- =?utf-8?B?NlR2VkdXb0ExOFlrazRtZ0lnUVlFNEh4RGJjZTUvcG44MjZ5anQ5VHNTeVY0?=
- =?utf-8?B?aXAzbHkxTlRwSTQ2ZGZpbUlvc09UdkhsM1l6WVdwNzZDOW5aTHdmdkl4MmJP?=
- =?utf-8?B?WjR3MTNvcFBsTW9mZkZIenhYaE1WcnBhQmFJZFdBT1JRYkt6aVN6TFIzYlVO?=
- =?utf-8?B?cld5dUJuSG0xR0U0VE4zRGFYRDRneEtjTzZycXp1WHFpc2tnZzBZSmx5VURR?=
- =?utf-8?B?ODY4L3F4bFM2Wk93R3JlemdvSEcvMnJkYW10TDZOWXhoZ21xYmt5UUN1WTZp?=
- =?utf-8?B?bkRJZVNRTFlLSUN6MGRtVFkzanFmSVY0VW5EY2k5dnFvdXI0MUF3RkNSSFpI?=
- =?utf-8?B?U09ONUZmeUpGT0NXY0VKa2RGVEdZNWVFdEd3OUpINXRPdTFIakJ1cm9hN3Zj?=
- =?utf-8?B?WVc1SENibDRuUEM5MFd0djk0QzV1THBKMm0yTTNrME9mOWIvSlU0MFp3ZGUr?=
- =?utf-8?B?cVF2d3owT2tEcGViNVg4ZUlsVzIyV3VnM2tXWkFCS3lzakExeXk1a1lwaUxl?=
- =?utf-8?B?bmswSnVibllJR0tvUTlhOGdKTUUyU0RiU3JqMlZ0bkJ0d0FFblhzWkRJVnUv?=
- =?utf-8?B?bVlLQmJzcFJYQVFPOGd4OVU0TWlCVzRtOGNhbC8zVnBmbGhZOTZXa0g0MTd4?=
- =?utf-8?B?b3ZrZVNjMmR1OVNSbU5OaVVGcG4rdW5OR2dDZ3phc0ZldWh3aWpFbEJDbUd0?=
- =?utf-8?B?YWFmamViOXg5RkJBMFpxTUNxc1hWZkhsVEQyZ1lRMWVJVVk5WGNYYzl4Rnhu?=
- =?utf-8?B?VlFkU3dHKzFCQnIrQngzZFB6L0FuemsrbTR4VXNhTkR1SUxtMjBEMXU3VUZi?=
- =?utf-8?B?N3VqL3pHdlA0djJXeGdnVmJjY1ZCczJ1QUxpMXN5WlhVL2ZrTmppTE16dGtP?=
- =?utf-8?B?MGhzb1d6bVo0WTVZdVMrWW9SVXJwMlhxOVlwK3J6ZjRGRlNORHlpdmV0dzdG?=
- =?utf-8?B?V21xTzVHNWFFWStYblhOeGhzNk9Yd1FDQ2dTVmtSeHIyU2pXMDVrUEI1NytZ?=
- =?utf-8?B?VFpBNnpWc0ZNQ1NnVlg4cWxIdnJIY3JKSzh0Y3BsZzIxTXVnSXRwaFdGZFEr?=
- =?utf-8?B?bWlzQXBjb3MxSVJrRDV1M1VlbHp2dVNpTjVybE8wdk4wYVNYVWdadDgrUnhL?=
- =?utf-8?B?bDM2MDJYRU8wY2QzOFJZbkVaVVJiUUhrVTFZbGVQTEJiLzhnaGZaWlJCOFpm?=
- =?utf-8?B?dHI0L0Jwem1OS1ErMlE5M21zRnRYSVFVWmNKNEZTSkxQNnhXdFlnWVRrYzMy?=
- =?utf-8?B?WEFlQ3dDZ2poaUpvWXc2VlYxR284eHdKd0pXM0ljZ29HazhDeEoyZ0JJaFhq?=
- =?utf-8?B?ZFNxb0xVcDdEdEZHd0I4Tjl6TEVNTkUwU3dZU2t1Q0huUzZkL2VvYmxaN3dt?=
- =?utf-8?B?Q1p2MDlaOWMycENWOWpiMkxWMDEvQTAzTTZxb0xLR0VuanhiVTZ3ZkdXMk0w?=
- =?utf-8?B?alNMeXpCcytlTHBXWkEweU1OTU14OWQvOG11Y1l1ZTJkMGUyQ1I4L2pKekVq?=
- =?utf-8?B?NU5CK2FPMWY2ay9LbGtMc3JFWkpJRkVvMFQxblV2alZiOFNVc0ZWMmczSVdz?=
- =?utf-8?B?alo2MXhMRXlxa0hid0JSKzBOWlJnVnpXVXRvYk1kWllLYXpLVDVNdmFCUUpw?=
- =?utf-8?B?aVdNald5Z05tZFhHcHpGLzc5R3pTcnpINGw4YnhpaEd2RFI5Tm0wV0tpcERC?=
- =?utf-8?B?NE1iTENGeHJHcnQ1M29kaGdNT1dtbXl6bEhyMUFxY25lME95Um1RMGNHaDJo?=
- =?utf-8?B?VmJTK2l6UnhjaDlYSFVUYkF1ZVpIVkRESW96NGhkMURQQlJubGdCVWR0WGxG?=
- =?utf-8?B?WTlFMGhrczZIdmNZN3dZWXVsMUkyR2pNVzdVQ1UyM2pDS2wyMXNYZEQ5MUlI?=
- =?utf-8?B?ZjZwTzZuOGR6a3FzYUlzZnJJdm82eGlrd1VjWGFaajRDcWZ1ZHNhOUR1TzlK?=
- =?utf-8?Q?ZNjJqC/teqjo4xoJMI2ZpT295?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: a1C/HGbYTaA3SfWPNgJ42gAkN9vTbilSsx7HNeBNgzcTTS9K0/fWsD7ual2c62RbFijY4Ee5mvgodAFYMCVVzEgeXAKSrEZnY57XWysmPylQOP9NoeJ86SeEAqVhYl36HX5beXxuG+Ak8/VwfpEKmT/MflYm96hV1IDvK/WXq/pE3jgY36YvIMcXoComrcuLmbAnvsh08TCapFFeJuBfNM4ajmIJGHC7o8slMwarQ8cRwTWPLYVetCWJ3RT4iziX9n1bXkY/dP+v2hjzhHPYIQD1aP0t0gEBQJWuitK5ndH9uU8LZ7lK1jJMRCvsp1Hls8O+dqpogs8S5j3wzhmkpY8CzKosadY5wesoXXqK8nYypJ2aaXBfL9eFOOLvUUOZRVNL+Um006nP2RHhJ9vu+dFG/LTNpp968cJSnKfbjJErWXnjHdBO6JIUTMAWsKehrqXpfkI7XnQsmRkvh2AzELuIJa4hIAaI3gJfakVv5taOWOuIRGNlA8/b0ki/1zqNIMgVic6hZSzIB6p5rLnZqftVY3/++dXt2TRwz3tlv9E2dP/S3MLlqvcxzPLO67ZjBPMEQRT/IAzYdBHKvx86aW/+J2MVm5PQwMWK9wAbJFQ=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c1a0cf0-be65-41e7-c70c-08dc59ff8101
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 08:15:09.7682
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jK7vFKkWtJoCE6tHNq3WcKK/LR63lXE1ixZqJIJeFGBSwigiSuFhOGDphKRNisigmbqj9BCtMt32jvHTpg5BgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5756
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-11_02,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404110058
-X-Proofpoint-GUID: YHbePlUUmZM5jIyISx7dFsbS9woj9atJ
-X-Proofpoint-ORIG-GUID: YHbePlUUmZM5jIyISx7dFsbS9woj9atJ
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/6] nvme: authentication error are always
+ non-retryable
+To: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240409093510.12321-1-dwagner@suse.de>
+ <20240409093510.12321-2-dwagner@suse.de>
+ <ac48d955-8169-467d-962c-e7f55854ba06@grimberg.me>
+ <7jqbhmskuzfvpjlavk7oqefmc72m5j2wj7525c7y2vlsfnaajx@57pfbmfvf4kt>
+ <8c9a980f-4885-479c-9078-7f87dc92175c@grimberg.me>
+ <03370383-d8d1-4b43-89f4-e9a3985c96e9@suse.de>
+ <959e5458-4c4d-4ab4-b9c2-8740156005cc@grimberg.me>
+ <88684d2f-8b36-40c4-99c8-ea07f42dd805@suse.de>
+Content-Language: he-IL, en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <88684d2f-8b36-40c4-99c8-ea07f42dd805@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240411_011529_443554_72D47EEF 
-X-CRM114-Status: GOOD (  14.35  )
+X-CRM114-CacheID: sfid-20240411_013805_221403_3012F3CE 
+X-CRM114-Status: GOOD (  25.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -187,31 +91,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/04/2024 00:34, Luis Chamberlain wrote:
->> On 3/26/24 06:38, John Garry wrote:
->>> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
->>> index 1fe9a553c37b..4c775f4bdefe 100644
->>> --- a/Documentation/ABI/stable/sysfs-block
->>> +++ b/Documentation/ABI/stable/sysfs-block
->>> +What:		/sys/block/<disk>/atomic_write_boundary_bytes
->>> +Date:		February 2024
->>> +Contact:	Himanshu Madhani<himanshu.madhani@oracle.com>
->>> +Description:
->>> +		[RO] A device may need to internally split I/Os which
->>> +		straddle a given logical block address boundary. In that
->>> +		case a single atomic write operation will be processed as
->>> +		one of more sub-operations which each complete atomically.
->> 		    or
-> If*or*  was meant, wouldn't it be better just to say one or more
-> operations may be processed as one atomically in this situation?
 
-"Or" was meant (thanks Randy).
 
-I think that we just need to say that the write operation will not 
-complete atomically if it straddles the boundary. Whether the separate 
-parts of the write operation which straddle the boundary complete 
-atomically is undefined and irrelevant.
+On 11/04/2024 10:11, Hannes Reinecke wrote:
+> On 4/10/24 15:50, Sagi Grimberg wrote:
+>>
+>>
+>> On 10/04/2024 15:05, Hannes Reinecke wrote:
+>>> On 4/10/24 12:21, Sagi Grimberg wrote:
+>>>>
+>>>>
+>>>> On 10/04/2024 9:52, Daniel Wagner wrote:
+>>>>> On Tue, Apr 09, 2024 at 11:26:00PM +0300, Sagi Grimberg wrote:
+>>>>>>
+>>>>>> On 09/04/2024 12:35, Daniel Wagner wrote:
+>>>>>>> From: Hannes Reinecke <hare@suse.de>
+>>>>>>>
+>>>>>>> Any authentication errors which are generated internally are always
+>>>>>>> non-retryable, so use negative error codes to ensure they are not
+>>>>>>> retried.
+>>>>>> The patch title says that any authentication error is not 
+>>>>>> retryable, and
+>>>>>> the patch body says "authentication errors which are generated 
+>>>>>> locally
+>>>>>> are non-retryable" so which one is it?
+>>>>> Forgot to update the commit message. What about:
+>>>>>
+>>>>>    All authentication errors are non-retryable, so use negative error
+>>>>>    codes to ensure they are not retried.
+>>>>>
+>>>>> ?
+>>>>
+>>>> I have a question, what happens if nvmet updated its credentials 
+>>>> (by the admin) and in the period until the host got his credentials 
+>>>> updated, it
+>>>> happens to disconnect/reconnect. It will see an authentication
+>>>> error, so it will not retry and remove the controller altogether?
+>>>>
+>>>> Sounds like an issue to me.
+>>>
+>>> Usual thing: we cannot differentiate (on the host side) whether the
+>>> current PSK is _about_ to be replaced; how should the kernel
+>>> know that the admin will replace the PSK in the next minutes?
+>>>
+>>> But that really is an issue with the standard. Currently there is no
+>>> way how a target could inform the initiator that the credentials have
+>>> been updated.
+>>
+>> I'd say that the sane thing for the host to do in this case is to 
+>> reconnect
+>> until giving up with hope that it may work. This seems like a better 
+>> approach
+>> than to abruptly remove the controller no?
+>>
+>>>
+>>> We would need to define a new status code for this.
+>>> In the meantime the safe operations model is to set a lifetime
+>>> for each PSK, and ensure that the PSK is updated on both sides
+>>> during the lifetime. With that there is a timeframe during which
+>>> both PSKs are available (on the target), and the older will expire
+>>> automatically once the lifetime limit is reached.
+>>
+>> That is a good solution, and will also prevent a loss of service until
+>> the host credentials are updated as well.
+>>
+>> But regardless I have a feeling that simply removing the controller upon
+>> an authentication error is not the right thing to do here.
+>
+> Guess what; that's what I tried to do initially. But then Christoph 
+> objected that we shouldn't generate NVMe status codes internally.
+> But if we can't do that then we'll have to invent yet another way to 
+> return a retryable error, leading to even more band-aid.
+> So I am not quite sure how we could achieve that, short of making 
+> _every_ error retryable...
 
-Thanks,
-John
+So this whole thing is that you want to make the host to not reconnect 
+if the controller
+sent a DNR and reconnect otherwise?
+
+What are you returning today if the authentication failed? Am I reading 
+it right that you are
+returning -ECONNREFUSED? I think that for the specific case of 
+credentials mismatch (that and only
+that) you may want to return -EKEYREJECTED. That according to the 
+documentation (/* Key was rejected by service */)
+is specific enough that perhaps we can treat it specially when asking 
+"should I reconnect?"
+
+Thoughts?
 
