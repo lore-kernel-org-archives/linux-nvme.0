@@ -4,141 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 137B3CD1292
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Apr 2024 03:18:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28B28CD1292
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Apr 2024 07:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yJIujaH3RXIktcRv88URJI4c3MW1XPtMbHZWqI5VmXc=; b=KeseeDw0f5/hh0qxMrku5RE6/q
-	Z3PvbrVbmgpjYXs+W1GoTpia6SIjb1Yk3XLBrlnM1xP4yKOYC31XxRuDEPpbZkl37JtejSHzK6WVT
-	OllzZGu+EHEiw3ljmZUgxQGYFCRiCzDUq/qY8lEIG2O3Wir8b5xenzcd5LtSD61Nv+iBo/h2j7du3
-	4YC51ATut+MfOF2M53CsmrxwCzTh9P+T5L3NtHvlZTZA0JxXdOuO0IzBZW/ObPV9vyVfST+jaFom7
-	8bhRJPF46pGZcBnmI6O4qIc2CHzhbJhePSeIb/Gj9s2CZjRAUnu504x+2tB7E6qudkeyCvrsNcc/0
-	/7YOO2Yg==;
+	bh=U/i43E58+aCBA9LI9RN5Qdnl9rrLo4HjYFDmLIprYxs=; b=S+ItTSD7SRSVHsmczlWFygn3fr
+	mKoEBqtBoy29UCdzqhp4qipOEZu0tXc/GiIlP+8VHhaAS///Gm+OznTQf9L3+l00DPUyAdUF6qRZ3
+	EulM/aGd67wPS/9Qw7nMDQr0Hd8sE7BOyN65R8zLTfml2/ftrHXIzUjuuclzJ8Z+etkYa8EalV1cO
+	3FnXiKs6b3IS8P7s5Ug36kd6cj67RglTxT7xiDXoXPz0lVR+AjPR5y5hAVQKYGQSHpPYOcylVFt8P
+	OhOtg1pUClWh5ZRJAQeR8zcqp2EhTKC4woIHICSmGUnY5nbyeFvP5l8Ray0Ww/BOJ6Ja5stgk+SV+
+	fYVWt5wQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rukx9-0000000A7Yh-3nJh;
-	Thu, 11 Apr 2024 03:18:19 +0000
+	id 1ruobL-0000000AmCG-1w6A;
+	Thu, 11 Apr 2024 07:12:03 +0000
 Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruRK7-00000005MBg-1Un9
+	id 1ruobF-0000000Am8A-2bts
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Apr 2024 06:20:48 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	Thu, 11 Apr 2024 07:12:01 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A4D3349E5;
-	Wed, 10 Apr 2024 06:20:40 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A3BA134DDD;
+	Thu, 11 Apr 2024 07:11:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712730040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1712819513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yJIujaH3RXIktcRv88URJI4c3MW1XPtMbHZWqI5VmXc=;
-	b=DRH5op6+qgu/ZbeaZUaYpnIYWqjeWpHK8OW0+kwvqDCMEwaguq5aqaXafgAjwJ6zywhusF
-	tsgFsWgaCMMY4NaTEaGk3lDtHCR73mjQ4SRA1LnqLj9EF0l+PnSJ2BlijBLHcS98VKUP8t
-	Vf4bNVGD5TMPNXoHOH52Hod45ruzXX8=
+	bh=U/i43E58+aCBA9LI9RN5Qdnl9rrLo4HjYFDmLIprYxs=;
+	b=mAQvW3b6v6vNTlrLw9JlXN4fWVu6RwaGMR6FeMtgUx8RbgY4SRdJoj41RbSlOM4uyuOX8e
+	VcMVMcFICMYHc8dn3gSYIkR8CKeTjsx+U0f3Y2z6FLVVXEui8HcaWupOLLPKJmXCDzrZqZ
+	UjQKTH/rWBVv10h/AKIIPEIEIONoGGo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712730040;
+	s=susede2_ed25519; t=1712819513;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yJIujaH3RXIktcRv88URJI4c3MW1XPtMbHZWqI5VmXc=;
-	b=0jV/eoo4drBjtHKjxE/GtnE1W1+NVg3WllILQl+VLv9gNYfTXrOGjwpUFYpLOwg0GRsGjF
-	4Wxv4HCZCDpVodDA==
+	bh=U/i43E58+aCBA9LI9RN5Qdnl9rrLo4HjYFDmLIprYxs=;
+	b=V1YpjD1guo2TLyuusYsOGV+mDjkp94O7STnGHPg8/sl/5T2VWfp8kxSyJTtdGy8gi5crZY
+	wikQwCk8jYAQlYAQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TWcFk6W7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OAIDrv6v
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712730040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1712819512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yJIujaH3RXIktcRv88URJI4c3MW1XPtMbHZWqI5VmXc=;
-	b=DRH5op6+qgu/ZbeaZUaYpnIYWqjeWpHK8OW0+kwvqDCMEwaguq5aqaXafgAjwJ6zywhusF
-	tsgFsWgaCMMY4NaTEaGk3lDtHCR73mjQ4SRA1LnqLj9EF0l+PnSJ2BlijBLHcS98VKUP8t
-	Vf4bNVGD5TMPNXoHOH52Hod45ruzXX8=
+	bh=U/i43E58+aCBA9LI9RN5Qdnl9rrLo4HjYFDmLIprYxs=;
+	b=TWcFk6W75ZdPxA38+GpYZ/FT2f10qs7QbAcR6w26jIKCLSwqojnUi1tPghthIgvH/lepAq
+	8pcc93NXaNZqfPEE3WGysLCGAdAiYBMcFoDPblUazLNnk7/ttC4YLMcjrT/Z2F/x+IUG+W
+	LwgDT1sP9DVRwX6KnUl6tMO3T5k2JvM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712730040;
+	s=susede2_ed25519; t=1712819512;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yJIujaH3RXIktcRv88URJI4c3MW1XPtMbHZWqI5VmXc=;
-	b=0jV/eoo4drBjtHKjxE/GtnE1W1+NVg3WllILQl+VLv9gNYfTXrOGjwpUFYpLOwg0GRsGjF
-	4Wxv4HCZCDpVodDA==
+	bh=U/i43E58+aCBA9LI9RN5Qdnl9rrLo4HjYFDmLIprYxs=;
+	b=OAIDrv6vvDVm0mQDuOVXvnr3wMxKsyihY0yb4rhPh4eK65CdPEKxuxTjxh1KpI+ScdbahZ
+	pSbGJegjtHUX3hDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CECBE13691;
-	Wed, 10 Apr 2024 06:20:38 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 545EC13685;
+	Thu, 11 Apr 2024 07:11:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id InaALLYvFmaJGQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 10 Apr 2024 06:20:38 +0000
-Message-ID: <94d6d88b-b0e7-491d-94e8-dc9e5fba5620@suse.de>
-Date: Wed, 10 Apr 2024 08:20:37 +0200
+	id jWtfEDiNF2bGLQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 11 Apr 2024 07:11:52 +0000
+Message-ID: <88684d2f-8b36-40c4-99c8-ea07f42dd805@suse.de>
+Date: Thu, 11 Apr 2024 09:11:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 00/10] block atomic writes
+Subject: Re: [PATCH v5 1/6] nvme: authentication error are always
+ non-retryable
 Content-Language: en-US
-To: Matthew Wilcox <willy@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>
-Cc: John Garry <john.g.garry@oracle.com>, Pankaj Raghav
- <p.raghav@samsung.com>, Daniel Gomez <da.gomez@samsung.com>,
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier.gonz@samsung.com>, axboe@kernel.dk,
- kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
- martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
- brauner@kernel.org, dchinner@redhat.com, jack@suse.cz,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
- ojaswin@linux.ibm.com, linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
- io-uring@vger.kernel.org, nilay@linux.ibm.com, ritesh.list@gmail.com
-References: <20240326133813.3224593-1-john.g.garry@oracle.com>
- <ZgOXb_oZjsUU12YL@casper.infradead.org>
- <c4c0dad5-41a4-44b4-8f40-2a250571180b@oracle.com>
- <Zg7Z4aJtn3SxY5w1@casper.infradead.org>
- <f3c1d321-0dfc-466f-9f6a-fe2f0513d944@oracle.com>
- <ZhQud1NbO4aMt0MH@bombadil.infradead.org>
- <ZhYQANQATz82ytl1@casper.infradead.org>
+To: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240409093510.12321-1-dwagner@suse.de>
+ <20240409093510.12321-2-dwagner@suse.de>
+ <ac48d955-8169-467d-962c-e7f55854ba06@grimberg.me>
+ <7jqbhmskuzfvpjlavk7oqefmc72m5j2wj7525c7y2vlsfnaajx@57pfbmfvf4kt>
+ <8c9a980f-4885-479c-9078-7f87dc92175c@grimberg.me>
+ <03370383-d8d1-4b43-89f4-e9a3985c96e9@suse.de>
+ <959e5458-4c4d-4ab4-b9c2-8740156005cc@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ZhYQANQATz82ytl1@casper.infradead.org>
+In-Reply-To: <959e5458-4c4d-4ab4-b9c2-8740156005cc@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.79 / 50.00];
+X-Spamd-Result: default: False [-4.50 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLusjj3u5c53i6g8q6enupwtij)];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,samsung.com,kernel.dk,kernel.org,lst.de,grimberg.me,linux.ibm.com,zeniv.linux.org.uk,redhat.com,suse.cz,vger.kernel.org,lists.infradead.org,mit.edu,google.com,kvack.org,gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: A3BA134DDD
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240409_232043_615065_9F80BC21 
-X-CRM114-Status: GOOD (  32.23  )
-X-Mailman-Approved-At: Wed, 10 Apr 2024 20:18:15 -0700
+X-CRM114-CacheID: sfid-20240411_001157_921779_81A1F326 
+X-CRM114-Status: GOOD (  27.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,71 +148,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/10/24 06:05, Matthew Wilcox wrote:
-> On Mon, Apr 08, 2024 at 10:50:47AM -0700, Luis Chamberlain wrote:
->> On Fri, Apr 05, 2024 at 11:06:00AM +0100, John Garry wrote:
->>> On 04/04/2024 17:48, Matthew Wilcox wrote:
->>>>>> The thing is that there's no requirement for an interface as complex as
->>>>>> the one you're proposing here.  I've talked to a few database people
->>>>>> and all they want is to increase the untorn write boundary from "one
->>>>>> disc block" to one database block, typically 8kB or 16kB.
+On 4/10/24 15:50, Sagi Grimberg wrote:
+> 
+> 
+> On 10/04/2024 15:05, Hannes Reinecke wrote:
+>> On 4/10/24 12:21, Sagi Grimberg wrote:
+>>>
+>>>
+>>> On 10/04/2024 9:52, Daniel Wagner wrote:
+>>>> On Tue, Apr 09, 2024 at 11:26:00PM +0300, Sagi Grimberg wrote:
+>>>>>
+>>>>> On 09/04/2024 12:35, Daniel Wagner wrote:
+>>>>>> From: Hannes Reinecke <hare@suse.de>
 >>>>>>
->>>>>> So they would be quite happy with a much simpler interface where they
->>>>>> set the inode block size at inode creation time,
->>>>> We want to support untorn writes for bdev file operations - how can we set
->>>>> the inode block size there? Currently it is based on logical block size.
->>>> ioctl(BLKBSZSET), I guess?  That currently limits to PAGE_SIZE, but I
->>>> think we can remove that limitation with the bs>PS patches.
+>>>>>> Any authentication errors which are generated internally are always
+>>>>>> non-retryable, so use negative error codes to ensure they are not
+>>>>>> retried.
+>>>>> The patch title says that any authentication error is not 
+>>>>> retryable, and
+>>>>> the patch body says "authentication errors which are generated locally
+>>>>> are non-retryable" so which one is it?
+>>>> Forgot to update the commit message. What about:
+>>>>
+>>>>    All authentication errors are non-retryable, so use negative error
+>>>>    codes to ensure they are not retried.
+>>>>
+>>>> ?
+>>>
+>>> I have a question, what happens if nvmet updated its credentials (by 
+>>> the admin) and in the period until the host got his credentials 
+>>> updated, it
+>>> happens to disconnect/reconnect. It will see an authentication
+>>> error, so it will not retry and remove the controller altogether?
+>>>
+>>> Sounds like an issue to me.
 >>
->> I can say a bit more on this, as I explored that. Essentially Matthew,
->> yes, I got that to work but it requires a set of different patches. We have
->> what we tried and then based on feedback from Chinner we have a
->> direction on what to try next. The last effort on that front was having the
->> iomap aops for bdev be used and lifting the PAGE_SIZE limit up to the
->> page cache limits. The crux on that front was that we end requiring
->> disabling BUFFER_HEAD and that is pretty limitting, so my old
->> implementation had dynamic aops so to let us use the buffer-head aops
->> only when using filesystems which require it and use iomap aops
->> otherwise. But as Chinner noted we learned through the DAX experience
->> that's not a route we want to again try, so the real solution is to
->> extend iomap bdev aops code with buffer-head compatibility.
+>> Usual thing: we cannot differentiate (on the host side) whether the
+>> current PSK is _about_ to be replaced; how should the kernel
+>> know that the admin will replace the PSK in the next minutes?
+>>
+>> But that really is an issue with the standard. Currently there is no
+>> way how a target could inform the initiator that the credentials have
+>> been updated.
 > 
-> Have you tried just using the buffer_head code?  I think you heard bad
-> advice at last LSFMM.  Since then I've landed a bunch of patches which
-> remove PAGE_SIZE assumptions throughout the buffer_head code, and while
-> I haven't tried it, it might work.  And it might be easier to make work
-> than adding more BH hacks to the iomap code.
+> I'd say that the sane thing for the host to do in this case is to reconnect
+> until giving up with hope that it may work. This seems like a better 
+> approach
+> than to abruptly remove the controller no?
 > 
-> A quick audit for problems ...
+>>
+>> We would need to define a new status code for this.
+>> In the meantime the safe operations model is to set a lifetime
+>> for each PSK, and ensure that the PSK is updated on both sides
+>> during the lifetime. With that there is a timeframe during which
+>> both PSKs are available (on the target), and the older will expire
+>> automatically once the lifetime limit is reached.
 > 
-> __getblk_slow:
->         if (unlikely(size & (bdev_logical_block_size(bdev)-1) ||
->                          (size < 512 || size > PAGE_SIZE))) {
+> That is a good solution, and will also prevent a loss of service until
+> the host credentials are updated as well.
 > 
-> cont_expand_zero (not used by bdev code)
-> cont_write_begin (ditto)
-> 
-> That's all I spot from a quick grep for PAGE, offset_in_page() and kmap.
-> 
-> You can't do a lot of buffer_heads per folio, because you'll overrun
->          struct buffer_head *bh, *head, *arr[MAX_BUF_PER_PAGE];
-> in block_read_full_folio(), but you can certainly do _one_ buffer_head
-> per folio, and that's all you need for bs>PS.
-> 
-Indeed; I got a patch here to just restart the submission loop if one
-reaches the end of the array. But maybe submitting one bh at a time and
-using plugging should achieve that same thing. Let's see.
+> But regardless I have a feeling that simply removing the controller upon
+> an authentication error is not the right thing to do here.
 
->> I suspect this is a use case where perhaps the max folio order could be
->> set for the bdev in the future, the logical block size the min order,
->> and max order the large atomic.
-> 
-> No, that's not what we want to do at all!  Minimum writeback size needs
-> to be the atomic size, otherwise we have to keep track of which writes
-> are atomic and which ones aren't.  So, just set the logical block size
-> to the atomic size, and we're done.
-> 
-+1. My thoughts all along.
+Guess what; that's what I tried to do initially. But then Christoph 
+objected that we shouldn't generate NVMe status codes internally.
+But if we can't do that then we'll have to invent yet another way to 
+return a retryable error, leading to even more band-aid.
+So I am not quite sure how we could achieve that, short of making 
+_every_ error retryable...
 
 Cheers,
 
