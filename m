@@ -4,57 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71AE9C4345F
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Apr 2024 19:07:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ABB3C4345F
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Apr 2024 19:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PcZdbAxSEwXG3C61TyMUijUHCCvRVt8slQPN1FDjo1k=; b=LqyTZ9YfC+gRQt2cwdt/TMUo+Q
-	npMRvVegcV0g7rvMCkfl02Lrc2MiFp3prQ9vTUQ2ocFndwpk6k0FdCsQpCm9oPA6NjHZnsPR6l6aR
-	NkQxusDZY/fhzDFm8J+GQZnjC6c4/6ewbqfkK7cHNSALI8fiSOv3EHzjsB2ChJtqUh5BC7B3y2iDO
-	oLQ+KjUt0LsdIm0+Y6AOdlGB2jKEmqDxnaF9RrteG3jAaPXo3El3pGx8RcBI1YNvECRbBXSZ/+xPr
-	8vXNqUTbQGSgV27BAOCBu3IHXKob/Gfw0m24ZR4W70A4uLQc+btidXGEX6JOgphlUH3ekdGiTeio/
-	1VFKQK3w==;
+	bh=Uk1Peb2tT+6rsFfGn+tzZBoBNaYEE2YnKLl/x0Wgv8k=; b=yqSsDRQjy1IrIgfM/kM1QI5q5+
+	luFVWdDg3IRmZKsBYtuHAHn83zAeUsjC16QljXfLS5bos2MT6Tj6IyfSjeH2DW/8Hxo5T0AkrFV3E
+	X7ZEFREt2NXuYbRCH4ElyO+iUQAXZdR1lCOUOmNfPhsDx9BgNwL+Bo/PmovUQU2puxBSZIdEGy4st
+	GD9i4MwwNANXwTCgLg8UUYRc7nd+eSHo9hT6YKLYWtIOVKp6gOruaschourmFJIQlk8yIKrGXbkPk
+	IsZEmJGyC5e8+pnDmsyoCu0jZ58ZjxKBPXe5EkYicg4nESnc3Ge8XD2inMylKRQDXaRDpBW3/Y3Id
+	A/lJk3dg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruzlv-0000000Dp2v-2VCK;
-	Thu, 11 Apr 2024 19:07:43 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruzls-0000000Dp2X-0ZEf;
-	Thu, 11 Apr 2024 19:07:40 +0000
-Date: Thu, 11 Apr 2024 12:07:40 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
-	axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
-	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
-	io-uring@vger.kernel.org, nilay@linux.ibm.com,
-	ritesh.list@gmail.com
-Subject: Re: [PATCH v6 00/10] block atomic writes
-Message-ID: <Zhg0_Pvlh9zy4zzG@bombadil.infradead.org>
-References: <20240326133813.3224593-1-john.g.garry@oracle.com>
- <ZgOXb_oZjsUU12YL@casper.infradead.org>
- <c4c0dad5-41a4-44b4-8f40-2a250571180b@oracle.com>
- <Zg7Z4aJtn3SxY5w1@casper.infradead.org>
- <f3c1d321-0dfc-466f-9f6a-fe2f0513d944@oracle.com>
- <ZhQud1NbO4aMt0MH@bombadil.infradead.org>
- <b0789a97-7dcf-48aa-9980-8525942dabfa@oracle.com>
+	id 1rv027-0000000Dsqi-2BnG;
+	Thu, 11 Apr 2024 19:24:27 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rv023-0000000Dspe-0yeu
+	for linux-nvme@lists.infradead.org;
+	Thu, 11 Apr 2024 19:24:25 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 72A7B3788F;
+	Thu, 11 Apr 2024 19:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712863461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Uk1Peb2tT+6rsFfGn+tzZBoBNaYEE2YnKLl/x0Wgv8k=;
+	b=zIyfBCwuvZllsglabxUow9Zy0mWD+R5CXlhV/mkOV8g98qeNVN9lcm5Xo2wbcoYgtnPqtB
+	F/8vxhXdjuS1zu9oqtkvvA9ppYrCEQg8P9Px9aBM46nj3aj8PC8k4OzHP/GD/Z4XoF7ZCR
+	62lnmj/mPZpF/ghyU+GKUr+AaKnIM14=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712863461;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Uk1Peb2tT+6rsFfGn+tzZBoBNaYEE2YnKLl/x0Wgv8k=;
+	b=mn/qx25Mu4A3bwlqmeUB13JfwtmpMKK5ur8xkXUbeNa8R8Q3fSVloTZ56lYWvNBtG0fyRQ
+	f32CvAlI94Kit5Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712863461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Uk1Peb2tT+6rsFfGn+tzZBoBNaYEE2YnKLl/x0Wgv8k=;
+	b=zIyfBCwuvZllsglabxUow9Zy0mWD+R5CXlhV/mkOV8g98qeNVN9lcm5Xo2wbcoYgtnPqtB
+	F/8vxhXdjuS1zu9oqtkvvA9ppYrCEQg8P9Px9aBM46nj3aj8PC8k4OzHP/GD/Z4XoF7ZCR
+	62lnmj/mPZpF/ghyU+GKUr+AaKnIM14=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712863461;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Uk1Peb2tT+6rsFfGn+tzZBoBNaYEE2YnKLl/x0Wgv8k=;
+	b=mn/qx25Mu4A3bwlqmeUB13JfwtmpMKK5ur8xkXUbeNa8R8Q3fSVloTZ56lYWvNBtG0fyRQ
+	f32CvAlI94Kit5Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EF3013685;
+	Thu, 11 Apr 2024 19:24:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Y4vNFeU4GGYmJgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 11 Apr 2024 19:24:21 +0000
+Date: Thu, 11 Apr 2024 21:24:20 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: Is idenditfy ctrl cmd supposed to return a 'result' for RDMA?
+Message-ID: <gzutb6z3rv377tazt3evxetc3w3uggw7gx52p3edoiubzgry6j@hcfmkjj3iodp>
+References: <pdazbshqj2kqkhtmdp4m4qtaqexu7bfio2ccampteskuugqmkf@srgzsimaj3bn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b0789a97-7dcf-48aa-9980-8525942dabfa@oracle.com>
+In-Reply-To: <pdazbshqj2kqkhtmdp4m4qtaqexu7bfio2ccampteskuugqmkf@srgzsimaj3bn>
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240411_122423_454876_EF735E33 
+X-CRM114-Status: GOOD (  12.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,61 +128,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 10, 2024 at 09:34:36AM +0100, John Garry wrote:
-> On 08/04/2024 18:50, Luis Chamberlain wrote:
-> > I agree that when you don't set the sector size to 16k you are not forcing the
-> > filesystem to use 16k IOs, the metadata can still be 4k. But when you
-> > use a 16k sector size, the 16k IOs should be respected by the
-> > filesystem.
-> > 
-> > Do we break BIOs to below a min order if the sector size is also set to
-> > 16k?  I haven't seen that and its unclear when or how that could happen.
-> 
-> AFAICS, the only guarantee is to not split below LBS.
+On Thu, Apr 11, 2024 at 12:51:40PM +0200, Daniel Wagner wrote:
+> but got a bit lost in the RDMA code. So I am not sure, is this supposed to
+> happen?
 
-It would be odd to split a BIO given a inode requirement size spelled
-out, but indeed I don't recall verifying this gaurantee.
+After reading up in the spec, it doesn't seem so. After adding
 
-> > At least for NVMe we don't need to yell to a device to inform it we want
-> > a 16k IO issued to it to be atomic, if we read that it has the
-> > capability for it, it just does it. The IO verificaiton can be done with
-> > blkalgn [0].
-> > 
-> > Does SCSI*require*  an 16k atomic prep work, or can it be done implicitly?
-> > Does it need WRITE_ATOMIC_16?
-> 
-> physical block size is what we can implicitly write atomically.
 
-Yes, and also on flash to avoid read modify writes.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index f5b7054a4a05..a297020f4bea 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -486,6 +486,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
 
-> So if you
-> have a 4K PBS and 512B LBS, then WRITE_ATOMIC_16 would be required to write
-> 16KB atomically.
+        kfree(id);
+ out:
++       req->cqe->result.u64 = 0;
+        nvmet_req_complete(req, status);
+ }
 
-Ugh. Why does SCSI requires a special command for this?
 
-Now we know what would be needed to bump the physical block size, it is
-certainly a different feature, however I think it would be good to
-evaluate that world too. For NVMe we don't have such special write
-requirements.
-
-I put together this kludge with the last patches series of LBS + the
-bdev cache aops stuff (which as I said before needs an alternative
-solution) and just the scsi atomics topology + physical block size
-change to easily experiment to see what would break:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/log/?h=20240408-lbs-scsi-kludge
-
-Using a larger sector size works but it does not use the special scsi
-atomic write.
-
-> > > To me, O_ATOMIC would be required for buffered atomic writes IO, as we want
-> > > a fixed-sized IO, so that would mean no mixing of atomic and non-atomic IO.
-> > Would using the same min and max order for the inode work instead?
-> 
-> Maybe, I would need to check further.
-
-I'd be happy to help review too.
-
-  Luis
+the problem goes away. I've also noticed that many other commands return
+a lot of 'funky' results as well. I haven't understood why setting
+the result explicitly to 0 is necessary for RDMA yet.
 
