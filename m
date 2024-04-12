@@ -4,116 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E61EC4345F
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Apr 2024 07:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF7D3C04FF6
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Apr 2024 07:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oV106H3TaEF2NxM6uz7Oj8X/Nd+Js+KHgrq9m6ZedyU=; b=Povnseyq9El86b3ohhOHcbJ5bC
-	YbRqEpB6x4eltQfAXP8ax9y3aaHwwyFdyIkd78z2uBh992DZnNG9Lr9o5Poeef9uoozSywZAKCaT2
-	N6to/UDFb8OBd4EnDYZpaVhG0Ih39XWl+boLDwtFW8QM2BtC6CWb/h96L2XYDajKnS3WpTZPANH9/
-	1xr60iRxMGHQYKiFcp6oXHOlJ/YlDe9MyRp9wIJvN2rkFwiPdGQVIEClV2vC5lJBIJ3p/16pQU/Zd
-	d820WTYoXo+hG2oTMVtcZkkXQUORDAmtdZQkIgA+ZWV2tw8NGMEP0waHQMKZrFpYaTIVZvrfrHvw5
-	vxvkcc8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ixzsR+6Hu8G8zmW4NLVo5D4SU3SdCkL2aYrikYBlVjQ=; b=W7xXWiNL4BMlsXO52SOsCb9lSL
+	300a7bZRiG6CnqU+DhHHb/smQOJbeRBUdnm7f3rEmDycEai3LmSgWQghi4BvTtS8T3IlPq1dtuH/n
+	0NjZj4t8zQqCMIM97gxhlyLQGEwylkwlCLi5eAoH6sy7xs5HAoj4n/B3T4brZKAtwpZzs5PXxWX6q
+	YCQfA2vIhIO51vnwqN+HZtd/qJNAiaF5ewtjLBN2jvvupyWoEf5SIkBNA8hpR1kg+tv2Vr+sNTI6E
+	d5ehVbgFRejuF/q9s8JDVOKDeBDArqY8UaNl64ZtewTAy7bepDRel7jOyY7OzpYbR4OtHd4YCPZ9R
+	og/lHaGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rvBGh-0000000FpNj-3BQg;
-	Fri, 12 Apr 2024 07:24:15 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rvBj0-0000000FvnI-2igf;
+	Fri, 12 Apr 2024 07:53:30 +0000
+Received: from mail-m127156.xmail.ntesmail.com ([115.236.127.156])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rvBGb-0000000FpKO-1NIC
+	id 1rvBix-0000000FviE-2qiW
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Apr 2024 07:24:13 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 345FF37FB1;
-	Fri, 12 Apr 2024 07:24:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712906646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oV106H3TaEF2NxM6uz7Oj8X/Nd+Js+KHgrq9m6ZedyU=;
-	b=MH7J2liTMNcQpoFlIsaZ+bbKnCSA3/vfWfTGinG/nRZ3ANQT1AfXxdbeLAjiJYbp1jSxNQ
-	bOKh29hF5FypOkqVRjBsy2zGHNbZOHvoOfUvFnSimXA1oxpBi688/fOgIwqbDn3KwKMpph
-	ZpOXRgxoiMCtBG3kFKIvxk+Y4/aeGgU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712906646;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oV106H3TaEF2NxM6uz7Oj8X/Nd+Js+KHgrq9m6ZedyU=;
-	b=PomDPhVMMnnQjfNnwOgNrHBPMSCIJG3KjpzZYh+0YLdwdjxsJjW1+ovntgLntUpEzx68VK
-	iXo61lQ5EhGA7JDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712906645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oV106H3TaEF2NxM6uz7Oj8X/Nd+Js+KHgrq9m6ZedyU=;
-	b=Rpwv4I1aqeJwXRm4GNUwLWzv7ff3hpmBDtBIdmuKmzp4IBALrjRcgEj3+tRnWfjRpFObbp
-	kBpkaOH/qjERO+QidNvgOpFojC1DVHOeSWjR3+etsXPEuX+6CbERtvGVae9oXzQVAauXM7
-	b/u4Hm09c6ayjed/KW30sFGiacJN78Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712906645;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oV106H3TaEF2NxM6uz7Oj8X/Nd+Js+KHgrq9m6ZedyU=;
-	b=kmMdfvf9kymr7kxyi7uysQV7iktsmkBhMWYetdQjp5Js+TBVL5a+MOUW7PFFoU0mADP5Ad
-	25PC+35f+rvEhWAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2224113942;
-	Fri, 12 Apr 2024 07:24:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dBjZA5XhGGaaaAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 12 Apr 2024 07:24:05 +0000
-Date: Fri, 12 Apr 2024 09:24:04 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/6]  nvme-fabrics: short-circuit connect retries
-Message-ID: <vbptto5zefkdadnpyhcjelfrsgadb2stjh3sole6n6mdd4h7dq@lrdxk5p5qh6w>
-References: <20240409093510.12321-1-dwagner@suse.de>
- <ZhiBzXBvjTeDuHbS@kbusch-mbp.dhcp.thefacebook.com>
+	Fri, 12 Apr 2024 07:53:29 +0000
+Received: from [192.168.182.216] (unknown [110.185.170.227])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id CEDCB4C02A5;
+	Fri, 12 Apr 2024 15:52:44 +0800 (CST)
+Message-ID: <b6fba9da-7039-4243-8cf7-9a9a33183556@easystack.cn>
+Date: Fri, 12 Apr 2024 15:52:44 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZhiBzXBvjTeDuHbS@kbusch-mbp.dhcp.thefacebook.com>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+User-Agent: Mozilla Thunderbird
+Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
+ of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
+ failure?
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ linux-nvme@lists.infradead.org, peng.xiao@easystack.cn,
+ Christoph Hellwig <hch@lst.de>
+References: <a99971dc-9157-4a0f-8fb7-5fa495434b99@grimberg.me>
+ <b8cd8de7-9167-4b8f-b255-c022376a7c9d@easystack.cn>
+ <dda859d1-41f5-423c-a9e2-900a1573c3a9@easystack.cn>
+ <ae40ced9-9f30-4e93-813c-5b94d0667d66@grimberg.me>
+ <e27ef3fd-d43c-4dc2-8969-4a0f86d9c64c@easystack.cn>
+ <a688834a-99b1-4dd2-b698-c9e54070f78f@grimberg.me>
+ <89b542d3-dedb-4d5c-ad7a-279467d28e51@easystack.cn>
+ <53b68337-8370-4deb-9a90-bf5dbb7d6d33@grimberg.me>
+ <6b345b99-3dd3-4c96-8644-e9b40d387b58@easystack.cn>
+ <b3821176-b6f6-4617-92c9-ce8ad9f1118e@grimberg.me>
+ <20240131062526.GA16177@lst.de>
+ <08b936ff-10d0-48d8-aacd-6ae1e2659600@easystack.cn>
+ <68f99d6e-b79f-42a9-bb19-ece27d35dfa6@grimberg.me>
+ <d0d87635-839a-43bb-89e4-9ff853d0a878@easystack.cn>
+ <bf0752e1-8fb9-45f6-9cf2-e88716952fe6@grimberg.me>
+From: Jirong Feng <jirong.feng@easystack.cn>
+In-Reply-To: <bf0752e1-8fb9-45f6-9cf2-e88716952fe6@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlCThlNVkwfSRoYTE5KSk5DSVUZERMWGhIXJBQOD1
+	lXWRgSC1lBWUpKS1VKQ05VSkxLVUlJTFlXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQktLWQ
+	Y+
+X-HM-Tid: 0a8ed14b6c98022ekunmcedcb4c02a5
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PRA6Hzo5ETc0CS8ZDRM#AjE3
+	ODcaFA1VSlVKTEpJQktDSE1OSEJDVTMWGhIXVRESCRQVHFUdHhUcOx4aCAIIDxoYEFUYFUVZV1kS
+	C1lBWUpKS1VKQ05VSkxLVUlJTFlXWQgBWUFITEtPNwY+
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240412_002409_652780_64D94875 
-X-CRM114-Status: GOOD (  18.06  )
+X-CRM114-CacheID: sfid-20240412_005328_004032_FE5CECB9 
+X-CRM114-Status: UNSURE (   9.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,27 +87,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 11, 2024 at 06:35:25PM -0600, Keith Busch wrote:
-> On Tue, Apr 09, 2024 at 11:35:04AM +0200, Daniel Wagner wrote:
-> > The first patch returns only kernel error codes now and avoids overwriting error
-> > codes later. Thje newly introduced helper for deciding if a reconnect should be
-> > attempted is the only place where we have the logic (and documentation).
-> > 
-> > On the target side I've separate the nvme status from the dhchap status handling
-> > which made it a bit clearer. I was tempted to refactor the code in
-> > nvmet_execute_auth_send to avoid hitting the 80 chars limit but didn't came up
-> > with something nice yet. So let's keep this change at a minimum before any
-> > refactoring attempts.
-> > 
-> > I've tested with blktests and also an real hardware for nvme-fc.
-> 
-> Thanks, series applied to nvme-6.9.
+> So essentially there is no need for the host side patch? interesting. 
+> Are you sure?
 
-Thanks! I have an updated version here which addresses some of Sagi's
-feedback, e.g. using only one helper function. Sorry I didn't send out
-it earlier, I got a bit side tracked in testing because of the 'funky'
-results with RDMA.
+At least no failure is observed in a newer version(6.6.0) of kernel so 
+far. I can only tell that I've tested it for hundreds of times.
 
-Do you want me to send a complete fresh series or patches on top of this
-series? I'm fine either way.
+In addition, I've got some scripts to enable/disable it continually, we 
+can observe it a few more days.
+
+
+> Can you please also try with mpath iopolicy=round-robin?
+All my previous tests were done with round-robin. I retested again today 
+both round-robin and numa, the results are still the same.
+
+
+> I'm asking because I cannot understand what is preventing this path 
+> from being selected again and
+> again for I/O....
+
+Perhaps we need to dive into the code of old 
+version(4.18.0-147.3.1.el8_1) and see what's different?
+
+Or should I try apply the host side patch to the old version and test again?
+
+
+Thanks
+
 
