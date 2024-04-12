@@ -4,123 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35AB8C4345F
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Apr 2024 04:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D16BEC4345F
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Apr 2024 06:11:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/G4gt6noquL1PxYFj5zy8i2+lfh6oDP/w0pBOtXUsTc=; b=CcYzQsQuVg3xhXx/Gcv4prpcbT
-	MVXPyaSNLsJ0oJtqJi0Sh1ltzgfiZph+/tP+tZKm1A1u7Skq/K6P6j8VA+wjPH0C4D5IRrit/aXLj
-	T0zyIrSL6BPaOD3+NXJXRyL3ZYmFpNLXbET+vHcdZ+cq0df7TaGYocD4A76QznHYIfgo/IysRon36
-	SftuZ52WiA5IHbKx7UcCbGafq5BZJ/Ebangmz95FnsjUqeeIU03qJA8HpdWg4YasGBiVzIJYvHaP6
-	5HZQg721xq7T8sA2Ck0z6YL7onkyZhb6wDyHHfN0FMyrDBgJwKw3jO6pKciL0C2vw5ASYsMNHjvvY
-	l9KgF9eg==;
+	bh=r7lhShmNigto730TKjaoQuWxV9GpkGOm1l1wMHl46XM=; b=sEgWIA3bF9s6YJJ4gavBhd/YXb
+	XIiiZmSRY/t5jrlEAF5nFg9yqk0DFXxnIkB3lp7rvfri4MoVLsgl/axFpHpAlH91YHTlDXOIxa8nv
+	vRkHK2QS+i0BpinShX4qa3k6v9AukjPX+WrzCajtM81cEMCcZ8B0oGf8conqoLRa0qfLx6TZfSvqh
+	RPMitdqlSWgsB9Nzz3soOxJO+bixVJpfdcpr+VhqzI0vpzXCHMEwhCFSE4lSkMnOr5tCUvL+AUNFd
+	2k65fk3IfFaM9lQpMgyJBd7wY4QMKRuWFC3FDUMk9kDCKM48bs9c3ar61fQg7oCQtYmY3PzM8RTTu
+	fNwJAnnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rv8kt-0000000FILw-13fJ;
-	Fri, 12 Apr 2024 04:43:15 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1rvA7x-0000000FWKC-1kQM;
+	Fri, 12 Apr 2024 06:11:09 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rv8kp-0000000FIL9-2Wqo
+	id 1rvA7u-0000000FWIg-1Zqv
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Apr 2024 04:43:14 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240412044305epoutp034ab6991c4273aea50ac0ed72b0a79df9~FbrurUGzc1960619606epoutp038
-	for <linux-nvme@lists.infradead.org>; Fri, 12 Apr 2024 04:43:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240412044305epoutp034ab6991c4273aea50ac0ed72b0a79df9~FbrurUGzc1960619606epoutp038
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1712896985;
-	bh=/G4gt6noquL1PxYFj5zy8i2+lfh6oDP/w0pBOtXUsTc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=O9/gfZ4Fje8N77LWBKS/vLnYmC4BUoGMKdF/UZfrKyQNsKWg7TiT+Dm9RqJuyE3lX
-	 WUyfLvIrqps6IhMomoQJXtN1IFAL1SjbEVWA+F83zB9X7T4sluEVEmKKszmezT/pOm
-	 AZ/Sautipo0qdzsaWFMXxt60rdph3jbR8VfwXXdE=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240412044305epcas5p1518a9deb67d53474d35d97738bd1d642~FbruUjMYQ0531305313epcas5p1Z;
-	Fri, 12 Apr 2024 04:43:05 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4VG3pb70Dvz4x9QB; Fri, 12 Apr
-	2024 04:43:03 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	71.DE.08600.7DBB8166; Fri, 12 Apr 2024 13:43:03 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240411134129epcas5p3f28e625fc48b93a1f492547a6f4ff894~FPYhy0OhV0593305933epcas5p3Y;
-	Thu, 11 Apr 2024 13:41:29 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240411134129epsmtrp1047549bd92014c306fbb77900db94b4f~FPYhyP6Vx1026410264epsmtrp1Q;
-	Thu, 11 Apr 2024 13:41:29 +0000 (GMT)
-X-AuditID: b6c32a44-6c3ff70000002198-8b-6618bbd7ca9b
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	DA.36.07541.988E7166; Thu, 11 Apr 2024 22:41:29 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20240411134128epsmtip2fdc3bef4ceebbbbea89bb6c9eddbccea~FPYg5avu_3124331243epsmtip2n;
-	Thu, 11 Apr 2024 13:41:28 +0000 (GMT)
-Date: Thu, 11 Apr 2024 19:04:33 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, Daniel
-	Wagner <dwagern@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH blktests 01/11] check: factor out _run_test()
-Message-ID: <20240411133433.gxtwr4l6wz3mk6gj@green245>
+	Fri, 12 Apr 2024 06:11:07 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9B52068C7B; Fri, 12 Apr 2024 08:10:56 +0200 (CEST)
+Date: Fri, 12 Apr 2024 08:10:56 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: Is idenditfy ctrl cmd supposed to return a 'result' for RDMA?
+Message-ID: <20240412061056.GA32319@lst.de>
+References: <pdazbshqj2kqkhtmdp4m4qtaqexu7bfio2ccampteskuugqmkf@srgzsimaj3bn> <gzutb6z3rv377tazt3evxetc3w3uggw7gx52p3edoiubzgry6j@hcfmkjj3iodp>
 MIME-Version: 1.0
-In-Reply-To: <20240411111228.2290407-2-shinichiro.kawasaki@wdc.com>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTU/f6bok0g+t7LCyuPljGZvH06iwm
-	i723tC3mL3vKbrFvlqcDq8fmJfUevc3v2Dw2n672+LxJzqP9QDdTAGtUtk1GamJKapFCal5y
-	fkpmXrqtkndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0GIlhbLEnFKgUEBicbGSvp1N
-	UX5pSapCRn5xia1SakFKToFJgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbGpoc/WQsW8FRcnDGV
-	sYFxA1cXIyeHhICJxMa1M9i7GLk4hAR2M0qcXvuWFcL5xCgx4XgzI4TzjVFi8q87zDAtS9Y+
-	ZoFI7GWU+D75HQtIQkjgGaPEldepIDaLgKrEk6bJQKM4ONgEtCVO/+cACYsImElcOfYGbB2z
-	QDujxIPFl8F6hQUcJW4t/80KYvMCFb1bcpUdwhaUODnzCVgNp4CzRP+JdrC4qICMxIylX5lB
-	BkkIvGSXmLhkMyvEdS4Slx4+ZoewhSVeHd8CZUtJvOxvg7LLJVZOWcEG0dzCKDHr+ixGiIS9
-	ROupfrA3mQUyJM7/3wc1VFZi6ql1TBBxPone30+YIOK8EjvmwdjKEmvWL2CDsCUlrn1vhLI9
-	JK6c3QwN4fOMEuun/mGewCg/C8l3s5Dsg7CtJDo/NAHZHEC2tMTyfxwQpqbE+l36CxhZVzFK
-	phYU56anJpsWGOallsOjPDk/dxMjOGVquexgvDH/n94hRiYOxkOMEhzMSiK80lqiaUK8KYmV
-	ValF+fFFpTmpxYcYTYGxNZFZSjQ5H5i080riDU0sDUzMzMxMLI3NDJXEeV+3zk0REkhPLEnN
-	Tk0tSC2C6WPi4JRqYIq47id0Sdsh6n7lh0fesW0P6h/t2bd7n3aFsZ1UwsKd4TpyIutWzS26
-	+P2h8LGN+t/El2yS4+bycZ0WmzZR6OT3vILiaec+R231LL65+XvxWnudB/+M169deSMtteTU
-	vIO553abyb8NrIjhLghZ8nSzxLY3887U8zfNdag2tVfsPxyUdFvN7lnPxhNPM9ccaCuY8UyU
-	4UjebWNDAz2DS1mdFhHiMxqXVlp+dn8UFb3VhPH8vI11uv9Koy+u+qm86Vlyx+uEJXO+SRvX
-	/71eMztSiCO94cuzjfb7nqjNknun6j1dTOVlAeesP2FbY8q/NPIta3zVJf5CPr8k+P2XBrP9
-	xkpqRpNX6qyZprz+7C0lluKMREMt5qLiRABMZpiYIgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsWy7bCSvG7nC/E0g2nbJSyuPljGZvH06iwm
-	i723tC3mL3vKbrFvlqcDq8fmJfUevc3v2Dw2n672+LxJzqP9QDdTAGsUl01Kak5mWWqRvl0C
-	V8a64wtYCi5xVmyby9PA+Ie9i5GTQ0LARGLJ2scsXYxcHEICuxklji18wASRkJRY9vcIM4Qt
-	LLHy33N2iKInjBKN744xgiRYBFQlnjRNZu1i5OBgE9CWOP2fAyQsImAmceXYG7B6ZoFORok9
-	vTfZQBLCAo4St5b/ZgWxeYGK3i25CnaFkEC1xNU585kh4oISJ2c+YQGxmYFq5m1+yAwyn1lA
-	WmL5P7D5nALOEv0n2sFaRQVkJGYs/co8gVFwFpLuWUi6ZyF0L2BkXsUomVpQnJuem2xYYJiX
-	Wq5XnJhbXJqXrpecn7uJERzkWho7GO/N/6d3iJGJg/EQowQHs5IIr7SWaJoQb0piZVVqUX58
-	UWlOavEhRmkOFiVxXsMZs1OEBNITS1KzU1MLUotgskwcnFINTG8WLj5454LTBSH3ujOZP8/K
-	bJ3iKMc080qWqKas1yXlK877lvf+maiweetRtfW18/VTUmMzpzjdviutWCzImvrN6Yf6Y2Wf
-	z6uKbmnnHK05mGN2+Djzk3JWh53nO+60vdtub/szvaDNkt16ve0aN26+v+sEa2ovX7RZ1KTl
-	mJK9yGWPs2zthvwD05S//0gTmLpFoqDbVt/x1XfDTTn8W9fxXc8pONum1nOtqCx3Vi/TT303
-	o7vPJ9YzKnnLHIrO2R4a8nFXXVXZlxUeGy39re6c3mjIwTyx2j5uymINYVPedy6+wbW28Tqc
-	jc52T1Rmsid9vepqn/SrfcM7FvXeCQ+fzT+6R6I2TP1eJWeyEktxRqKhFnNRcSIARJ3EB+EC
-	AAA=
-X-CMS-MailID: 20240411134129epcas5p3f28e625fc48b93a1f492547a6f4ff894
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----vz81d6m7j.py-bGO0GPJ08-4LvSGVDQp9Yqo3MxnNZXK7Ax7=_7665a_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240411134129epcas5p3f28e625fc48b93a1f492547a6f4ff894
-References: <20240411111228.2290407-1-shinichiro.kawasaki@wdc.com>
-	<20240411111228.2290407-2-shinichiro.kawasaki@wdc.com>
-	<CGME20240411134129epcas5p3f28e625fc48b93a1f492547a6f4ff894@epcas5p3.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <gzutb6z3rv377tazt3evxetc3w3uggw7gx52p3edoiubzgry6j@hcfmkjj3iodp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240411_214312_354260_84B55D22 
-X-CRM114-Status: GOOD (  11.04  )
+X-CRM114-CacheID: sfid-20240411_231106_582196_38AD1130 
+X-CRM114-Status: GOOD (  21.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,60 +60,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------vz81d6m7j.py-bGO0GPJ08-4LvSGVDQp9Yqo3MxnNZXK7Ax7=_7665a_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On Thu, Apr 11, 2024 at 09:24:20PM +0200, Daniel Wagner wrote:
+> On Thu, Apr 11, 2024 at 12:51:40PM +0200, Daniel Wagner wrote:
+> > but got a bit lost in the RDMA code. So I am not sure, is this supposed to
+> > happen?
+> 
+> After reading up in the spec, it doesn't seem so. After adding
 
-On 11/04/24 08:12PM, Shin'ichiro Kawasaki wrote:
->The function _run_test() is rather complex and has deep nests. Before
->modifying it for repeated test case runs, simplify it. Factor out some
->part of the function to the new functions _check_and_call_test() and
->_check_and_call_test_device().
->
->Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->---
-> check | 90 +++++++++++++++++++++++++++++++++++------------------------
-> 1 file changed, 53 insertions(+), 37 deletions(-)
->
->diff --git a/check b/check
->index 55871b0..b1f5212 100755
->--- a/check
->+++ b/check
->@@ -463,6 +463,56 @@ _unload_modules() {
-> 	unset MODULES_TO_UNLOAD
-> }
->
->+_check_and_call_test() {
+I don't think anything requires reserved fields to be cleared, at least
+I can't find anything in the spec.
 
-ret should be declared ret as local ?
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index f5b7054a4a05..a297020f4bea 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -486,6 +486,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+> 
+>         kfree(id);
+>  out:
+> +       req->cqe->result.u64 = 0;
+>         nvmet_req_complete(req, status);
+>  }
+> 
+> 
+> the problem goes away. I've also noticed that many other commands return
+> a lot of 'funky' results as well. I haven't understood why setting
+> the result explicitly to 0 is necessary for RDMA yet.
 
->+	if declare -fF requires >/dev/null; then
->+		requires
->+	fi
->+
->+	RESULTS_DIR="$OUTPUT/nodev"
->+	_call_test test
->+	ret=$?
->+	if (( RUN_ZONED_TESTS && CAN_BE_ZONED )); then
->+		RESULTS_DIR="$OUTPUT/nodev_zoned"
->+		RUN_FOR_ZONED=1
->+		_call_test test
->+		ret=$(( ret || $? ))
->+	fi
->+
->+	return $ret
->+}
->+
->+_check_and_call_test_device() {
->+	local unset_skip_reason
-
-Same here, ret should declared be local ?
-
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-
-------vz81d6m7j.py-bGO0GPJ08-4LvSGVDQp9Yqo3MxnNZXK7Ax7=_7665a_
-Content-Type: text/plain; charset="utf-8"
-
-
-------vz81d6m7j.py-bGO0GPJ08-4LvSGVDQp9Yqo3MxnNZXK7Ax7=_7665a_--
+that being said I'm fine with clearing the CQE, but can we find a way
+to do this in common code?
 
