@@ -4,71 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAC80C4345F
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Apr 2024 16:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18047C4345F
+	for <linux-nvme@archiver.kernel.org>; Sat, 13 Apr 2024 09:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=X550k/rqiUGaWs2WTeCC1c4nHftXgtPn1WXRMjLqBis=; b=HFDdaIFw29wg0uF94n0FX9Vldv
-	AuFHYz/0NnRq0SARvrjURVi8nwTbpEWUUCEQmsGoWX5DYYKN+3d58We5m1qCDeaCHgxoiiVRUEXul
-	+rBCWszKpQIb7TVbbGGkQ4D1xtUGi8llc27GoBPQoFJ4NxdJeg3Uxl5iRdPB5/IYeadI/eVRpLysg
-	2p9qYd84IfbJ6TkjUdLu491bXN6NqXPKHhigUw1dxDtalU/D4bswuKRumXwjmcMIjxXluZR1UsYTR
-	StXNg1jESfg94esPd6cS2ckWR6ZGLYB6+29grKqAZJ3OKtV3Qx6P+DTfvgjAr6iuNEeB1jelndnN2
-	zFhXNWmA==;
+	bh=h2RBnyKOu/nv+V5ZSZFNQ/LSKMNaX1q8sxQ+4kLLnas=; b=ZWRdx6l+pAuvIRU8zy2jXYdq/1
+	7HlXftwfE73NuVn+cxhRN0ROYPa7oc2+VMPNHuB76DsOWEOot2r7XSJwXBPpStDz73XR3oitrGMoi
+	XBz0R/3l99yOfm44WuSEQ9AlJ8vA5ngnT945E6ws73HUCFOiMhhisf+vHqakQWFS1YQzgf2NIV9bc
+	P4/1rSC36Tdmz+I1erE/nkMdCnpXc7PuMO7zSHAeWZPgIVlw/1cZVdMPI5InQ6DpqHk3/s3E0NcMB
+	hVFstiPJZcM08vgNgwf6upq4rCUZ+fE4EAyvGa4EggeHRb9kjF8woCTc9FP/EopJlyvSzwB7zVDtN
+	ujYgGs8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rvJvW-00000000WUe-3P6Z;
-	Fri, 12 Apr 2024 16:38:58 +0000
-Received: from mgamail.intel.com ([192.198.163.14])
+	id 1rvZLO-00000002oKT-10MH;
+	Sat, 13 Apr 2024 09:06:42 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rvJvT-00000000WTk-1a9T
+	id 1rvZLH-00000002oJf-2NIl
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Apr 2024 16:38:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712939935; x=1744475935;
-  h=date:from:to:cc:subject:message-id;
-  bh=tblxlstcilxwaOCyAq0Qu6SSRTEniOZQUODOJ5E2acY=;
-  b=mN8KIkbjJ4AHZyeBtiaFY42vnKnGgrjzYXe/UKGHDsbLhWSUZYCOeeVS
-   n/CQOBaGYUD+VO1+8zRTgMpAe/olVc6g3iMmokjWB+eTcWXg1gL13kiag
-   ccMw2wPcoSnXsyx8JtnLkIGpTDATld0WzLRBuCXHhctk4K9bZdYBVDa7n
-   XENcV1omXD4Soz8J6iB6O4do+6ljUSU4C+NcfkZMDGSpUpE0hmegZ07gZ
-   iG53cphuaB7QaoNWWGSkvNoX7sBOQTlNXOJGyIITUYbZyjOK7ZM+oXiNk
-   RK9WqIFNFVEir5Zua5L7EClPDLgyCcVT4feQ1JM6YUysq+kBpLR6GvkpX
-   Q==;
-X-CSE-ConnectionGUID: nx5vr0TXSrScKtXnAHV90A==
-X-CSE-MsgGUID: T/17QDqxTR21N2+SfeA0wQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="8620643"
-X-IronPort-AV: E=Sophos;i="6.07,196,1708416000"; 
-   d="scan'208";a="8620643"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 09:38:54 -0700
-X-CSE-ConnectionGUID: +GxXkmPyTCyf/mgsQNZwgw==
-X-CSE-MsgGUID: /h9td4AITBmcmOy0usoPTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,196,1708416000"; 
-   d="scan'208";a="21350909"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Apr 2024 09:38:53 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rvJvO-0000Jg-30;
-	Fri, 12 Apr 2024 16:38:50 +0000
-Date: Sat, 13 Apr 2024 00:37:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.9] BUILD SUCCESS
- 16f764d762fadbdd73420bb70a373fd3210384d2
-Message-ID: <202404130053.aj4UANiY-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Sat, 13 Apr 2024 09:06:37 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43D8jCEY022184;
+	Sat, 13 Apr 2024 09:06:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=h2RBnyKOu/nv+V5ZSZFNQ/LSKMNaX1q8sxQ+4kLLnas=;
+ b=hNey16PTSAcG1AtM6PiLct6ZajDJnUlSN2K31S7bPmp8ZT/v4Gz/us7YeZL2h959ytp7
+ awnOOc0PCM6WGup28Hl0sTbpMrV95R1FO92H7sqG09gMOfOtcMwNr44vbRfXSzL1zLsI
+ 5s8orFe16AaAq347cqBnQSOxQBp52GNEidnPIEFuLC9aGhlVzqShfLWaQZAFQACu9SK/
+ d2mj8UAnceERTsgbqTEgkXplA6wL7GDeXROfXlMdfucWvjN9YFZVjPVBbhjnOlrqRWiS
+ oA66HHcpIOnHCNsJR2vkwuy6gfgmBJeK575eVVZWMdbIDlJZR3qqX49CaxFShEthHJyS pQ== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xfhq2rby9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 13 Apr 2024 09:06:26 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43D7QrQp019089;
+	Sat, 13 Apr 2024 09:06:25 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xbh40y6hh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 13 Apr 2024 09:06:25 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43D96KIx49152358
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 13 Apr 2024 09:06:22 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 17D9B2004B;
+	Sat, 13 Apr 2024 09:06:20 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3CBD820040;
+	Sat, 13 Apr 2024 09:06:18 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.53.134])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Sat, 13 Apr 2024 09:06:18 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, gjoyce@linux.ibm.com,
+        axboe@fb.com, Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH] nvme: find numa distance only if controller has valid numa id
+Date: Sat, 13 Apr 2024 14:34:36 +0530
+Message-ID: <20240413090614.678353-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 3W10HzFPBwP7c1H0ULTEP0J88z4NeLMA
+X-Proofpoint-ORIG-GUID: 3W10HzFPBwP7c1H0ULTEP0J88z4NeLMA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-12_18,2024-04-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 suspectscore=0 phishscore=0 mlxlogscore=925
+ priorityscore=1501 mlxscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2404010000 definitions=main-2404130065
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240412_093855_500878_28487393 
-X-CRM114-Status: UNSURE (   4.73  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240413_020635_993067_39C44C22 
+X-CRM114-Status: GOOD (  17.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,161 +100,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.9
-branch HEAD: 16f764d762fadbdd73420bb70a373fd3210384d2  nvmet: return DHCHAP status codes from nvmet_setup_auth()
+On numa aware system where native nvme multipath is configured and 
+iopolicy is set to numa but the nvme controller numa node id is 
+undefined or -1 (NUMA_NO_NODE) then avoid calculating node distance 
+for finding optimal io path. In such case we may access numa distance
+table with invalid index and that may potentially refer to incorrect
+memory. So this patch ensures that if the nvme controller numa node
+id is -1 then instead of calculating node distance for finding optimal
+io path, we set the numa node distance of such controller to default 10
+(LOCAL_DISTANCE).
 
-elapsed time: 932m
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ drivers/nvme/host/multipath.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-configs tested: 141
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                        keystone_defconfig   gcc  
-arm                           sama5_defconfig   gcc  
-arm                           u8500_defconfig   gcc  
-arm                         wpcm450_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240412   gcc  
-i386         buildonly-randconfig-002-20240412   clang
-i386         buildonly-randconfig-003-20240412   gcc  
-i386         buildonly-randconfig-004-20240412   gcc  
-i386         buildonly-randconfig-005-20240412   gcc  
-i386         buildonly-randconfig-006-20240412   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240412   clang
-i386                  randconfig-002-20240412   gcc  
-i386                  randconfig-003-20240412   clang
-i386                  randconfig-004-20240412   clang
-i386                  randconfig-005-20240412   clang
-i386                  randconfig-006-20240412   gcc  
-i386                  randconfig-011-20240412   clang
-i386                  randconfig-012-20240412   gcc  
-i386                  randconfig-013-20240412   clang
-i386                  randconfig-014-20240412   gcc  
-i386                  randconfig-015-20240412   gcc  
-i386                  randconfig-016-20240412   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        stmark2_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           ip22_defconfig   gcc  
-mips                      maltasmvp_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                      ep88xc_defconfig   gcc  
-powerpc                     powernv_defconfig   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                           se7343_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240412   gcc  
-x86_64       buildonly-randconfig-002-20240412   gcc  
-x86_64       buildonly-randconfig-003-20240412   gcc  
-x86_64       buildonly-randconfig-004-20240412   clang
-x86_64       buildonly-randconfig-005-20240412   clang
-x86_64       buildonly-randconfig-006-20240412   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240412   clang
-x86_64                randconfig-002-20240412   gcc  
-x86_64                randconfig-003-20240412   gcc  
-x86_64                randconfig-004-20240412   clang
-x86_64                randconfig-005-20240412   clang
-x86_64                randconfig-006-20240412   clang
-x86_64                randconfig-011-20240412   clang
-x86_64                randconfig-012-20240412   gcc  
-x86_64                randconfig-013-20240412   clang
-x86_64                randconfig-014-20240412   clang
-x86_64                randconfig-015-20240412   clang
-x86_64                randconfig-016-20240412   gcc  
-x86_64                randconfig-071-20240412   gcc  
-x86_64                randconfig-072-20240412   clang
-x86_64                randconfig-073-20240412   clang
-x86_64                randconfig-074-20240412   gcc  
-x86_64                randconfig-075-20240412   gcc  
-x86_64                randconfig-076-20240412   clang
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                          iss_defconfig   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 5397fb428b24..4c73a8038978 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -240,17 +240,19 @@ static bool nvme_path_is_disabled(struct nvme_ns *ns)
+ 
+ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ {
+-	int found_distance = INT_MAX, fallback_distance = INT_MAX, distance;
++	int found_distance = INT_MAX, fallback_distance = INT_MAX;
+ 	struct nvme_ns *found = NULL, *fallback = NULL, *ns;
+ 
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
++		int distance = LOCAL_DISTANCE;
++
+ 		if (nvme_path_is_disabled(ns))
+ 			continue;
+ 
+-		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
+-			distance = node_distance(node, ns->ctrl->numa_node);
+-		else
+-			distance = LOCAL_DISTANCE;
++		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA) {
++			if (ns->ctrl->numa_node != NUMA_NO_NODE)
++				distance = node_distance(node, ns->ctrl->numa_node);
++		}
+ 
+ 		switch (ns->ana_state) {
+ 		case NVME_ANA_OPTIMIZED:
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.44.0
+
 
