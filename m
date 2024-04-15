@@ -4,83 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05401C04FF8
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Apr 2024 12:42:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59FD8C4345F
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Apr 2024 12:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XH5W2RPXIfpqPAl1vqG4VvbwARd9ivC5YIrBekBlQ5E=; b=MO546Oen+uoKdVij/SJTQaguh9
-	/ld4WMGFHYYVie/lhV8AUrPQkv3rwG05ibLjhDBuwQRgtziBKDeXStVnY36opgSzeOI9kaZAWvOQn
-	XchNEmFWSKb/SOVcgScbNWhjAjoM1mRsK672gnUI6rtnyxKLrtykLC727ePfulRYY6YgDPQO253At
-	WXP9xX4WJoUg2Vb5xFPkM+zga2Q6nllhauEkNBLVSkJfvKCbsn3jVlfx2HtkhourxuFERmZWDfpgT
-	AJ7hAlnmFzreNXGdfugSvVTNPpW01ou3GP4T/qh690SBIXTHKpEBpWe+byx7Fo1qDu2WuxOvENZGH
-	uGHXPdkw==;
+	bh=Iiviuq0yKAjKpIGK5/9DS+JPikG3jUsUkAzFD/WjfGI=; b=R1oJZ8eiOaBcp2mGPDWmediS3s
+	AlFjxT3o/O/0JVivf9gqHqUfySrSVdMJEDybdNjTtcHA3Gsi4fQL5z13bg3nAziaq1b0UgUrQJjZb
+	jJUODuYxPoc7NYIeY5IyzEoDgTkrsWYYcndtpqdnwo1WV6dy9EfIby11KagdYaGe85+85fxRSom8H
+	6Paq9P/JW13u6zoWTW8P46b1OzsvQc/HyIYuqJAwN8FZ0EM39O1EBym6MCr/tZ8DJJLvveKHO2RMY
+	NnuQ5MOK4Phd5zqqi/Vsvdw+Cs4JXDvWOaOKMc9/cETFIh0113wyoOyjxI2t3LdZN1qVSqgiHDD2T
+	/FC7d3Ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwLfX-00000008En8-14in;
-	Mon, 15 Apr 2024 12:42:43 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rwLfY-00000008Enq-3Lxk;
+	Mon, 15 Apr 2024 12:42:44 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwLfI-00000008EeK-0GHu
+	id 1rwLfI-00000008Edt-1axl
 	for linux-nvme@lists.infradead.org;
 	Mon, 15 Apr 2024 12:42:39 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5BB805CF8B;
-	Mon, 15 Apr 2024 12:42:26 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E053221B3D;
+	Mon, 15 Apr 2024 12:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713184946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1713184945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XH5W2RPXIfpqPAl1vqG4VvbwARd9ivC5YIrBekBlQ5E=;
-	b=rhhVCCPtPbQ1Y9UO+16F2pkn5BrWAXPgHjpYtCtK9OscMlRZeb5qWmaw/YWkG3UG8/Ruhh
-	GLdOgUc3d0k5E5vI+J0EI6qy3sGWUIfXJNJGyF0A3EyYbHy1TGfSjNEwTTybjIQPysBbTa
-	gGMthF2KhANoDbmn1+WToNRhnLmFTfo=
+	bh=Iiviuq0yKAjKpIGK5/9DS+JPikG3jUsUkAzFD/WjfGI=;
+	b=jnAvIARw23H9T6/9vZYq9mfsuVQavh5Nh7/yD9XuomOrM8EQn1Mk8ZK7QxaKJYbiWK2R9K
+	jySZNVDKu8D16VkJf6cZ2sANMwnBwap2xNAmNScZDEhKTiwUiCuAzhC0B6/CsU4SPv2R6W
+	UgkJuMfHILXZfipzFb29Nb9rGrETH3I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713184946;
+	s=susede2_ed25519; t=1713184945;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XH5W2RPXIfpqPAl1vqG4VvbwARd9ivC5YIrBekBlQ5E=;
-	b=WIqGLSgoPpGHyWffIpQzjljSQWZSAtEkZVyxWaZv5mDrYrmHxgJpae0BFd7sBEotEGH5Gu
-	d2Kfbwq/j66xMmDQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=Iiviuq0yKAjKpIGK5/9DS+JPikG3jUsUkAzFD/WjfGI=;
+	b=D0Y3NL3bzJF6MtYGnoShIEQH9djLLPF92fUV2nDeO6Mtx5FWFsLEKyEhpI53dSxB9vNLyt
+	9jEr2d55IpTbyECA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713184946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1713184944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XH5W2RPXIfpqPAl1vqG4VvbwARd9ivC5YIrBekBlQ5E=;
-	b=rhhVCCPtPbQ1Y9UO+16F2pkn5BrWAXPgHjpYtCtK9OscMlRZeb5qWmaw/YWkG3UG8/Ruhh
-	GLdOgUc3d0k5E5vI+J0EI6qy3sGWUIfXJNJGyF0A3EyYbHy1TGfSjNEwTTybjIQPysBbTa
-	gGMthF2KhANoDbmn1+WToNRhnLmFTfo=
+	bh=Iiviuq0yKAjKpIGK5/9DS+JPikG3jUsUkAzFD/WjfGI=;
+	b=xh5nqpx/PBEyTsOdy9JlKIUBBinwXZR/RUOAEKIv98LNLFQS8gauby0WmxiEkvTZWHwi8v
+	WHA5WYCHuiGF44q6q8xdUVwvrk+urBTUUpJPTa/5NeaKA7afABRSdNmv8yterQn6G6lTi8
+	X/a+6w/Z08PRdrYFh7l9gihjSOUfJnk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713184946;
+	s=susede2_ed25519; t=1713184944;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XH5W2RPXIfpqPAl1vqG4VvbwARd9ivC5YIrBekBlQ5E=;
-	b=WIqGLSgoPpGHyWffIpQzjljSQWZSAtEkZVyxWaZv5mDrYrmHxgJpae0BFd7sBEotEGH5Gu
-	d2Kfbwq/j66xMmDQ==
+	bh=Iiviuq0yKAjKpIGK5/9DS+JPikG3jUsUkAzFD/WjfGI=;
+	b=blzOp7YUQVqR2R+t5eRAgh5l21xtlCzwwt9NXLVbrQsUQAcpa6eR5VDyt4QWw4lCCjSeK9
+	wYy3aarTTZIPAzDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49BF81386E;
-	Mon, 15 Apr 2024 12:42:26 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB7D01386E;
+	Mon, 15 Apr 2024 12:42:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iCaOELIgHWY2AwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 15 Apr 2024 12:42:26 +0000
+	id U05aMLAgHWYxAwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 15 Apr 2024 12:42:24 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -90,9 +90,9 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v6 5/5] nvme-fabrics: handle transient auth failures
-Date: Mon, 15 Apr 2024 14:42:20 +0200
-Message-ID: <20240415124220.5433-6-dwagner@suse.de>
+Subject: [PATCH v6 3/5] nvme: authentication error are always non-retryable
+Date: Mon, 15 Apr 2024 14:42:18 +0200
+Message-ID: <20240415124220.5433-4-dwagner@suse.de>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240415124220.5433-1-dwagner@suse.de>
 References: <20240415124220.5433-1-dwagner@suse.de>
@@ -120,8 +120,8 @@ X-Spamd-Result: default: False [-6.80 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240415_054228_696723_6A511217 
-X-CRM114-Status: GOOD (  20.09  )
+X-CRM114-CacheID: sfid-20240415_054228_866568_C9245552 
+X-CRM114-Status: GOOD (  17.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,122 +136,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Retry authentication a couple of times to avoid error out on transient
-errors. E.g. if a new key is deployed on the host and the target. At the
-same time the connection drops. The host might use the wrong key to
-reconnect.
+From: Hannes Reinecke <hare@suse.de>
 
-Suggested-by: Sagi Grimberg <sagi@grimberg.me>
+Any authentication errors are non-retryable, so use negative error codes
+to ensure they are not retried.
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/host/auth.c    |  4 ++--
- drivers/nvme/host/fabrics.c | 10 +++++++++-
- drivers/nvme/host/fc.c      |  2 ++
- drivers/nvme/host/nvme.h    |  1 +
- drivers/nvme/host/rdma.c    |  1 +
- drivers/nvme/host/tcp.c     |  1 +
- 6 files changed, 16 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c    |  6 +++---
+ drivers/nvme/host/fabrics.c | 31 +++++++++++++------------------
+ drivers/nvme/host/nvme.h    |  2 +-
+ 3 files changed, 17 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index a264b3ae078b..368dcc6ee11b 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -797,7 +797,7 @@ static void nvme_queue_auth_work(struct work_struct *work)
- 					 NVME_AUTH_DHCHAP_MESSAGE_SUCCESS1);
- 	if (ret) {
- 		chap->status = ret;
--		chap->error = -ECONNREFUSED;
-+		chap->error = -EKEYREJECTED;
- 		return;
- 	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 504dc352c458..66387bcca8ae 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -383,14 +383,14 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+ 	if (likely(nvme_req(req)->status == 0))
+ 		return COMPLETE;
  
-@@ -818,7 +818,7 @@ static void nvme_queue_auth_work(struct work_struct *work)
- 	ret = nvme_auth_process_dhchap_success1(ctrl, chap);
- 	if (ret) {
- 		/* Controller authentication failed */
--		chap->error = -ECONNREFUSED;
-+		chap->error = -EKEYREJECTED;
- 		goto fail2;
- 	}
+-	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
+-		return AUTHENTICATE;
+-
+ 	if (blk_noretry_request(req) ||
+ 	    (nvme_req(req)->status & NVME_SC_DNR) ||
+ 	    nvme_req(req)->retries >= nvme_max_retries)
+ 		return COMPLETE;
  
++	if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
++		return AUTHENTICATE;
++
+ 	if (req->cmd_flags & REQ_NVME_MPATH) {
+ 		if (nvme_is_path_error(nvme_req(req)->status) ||
+ 		    blk_queue_dying(req->q))
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index d9a73b1b41c4..6dfa45dce232 100644
+index 1f0ea1f32d22..f7eaf9580b4f 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -573,8 +573,16 @@ EXPORT_SYMBOL_GPL(nvmf_connect_io_queue);
+@@ -428,12 +428,6 @@ static void nvmf_connect_cmd_prep(struct nvme_ctrl *ctrl, u16 qid,
+  * fabrics-protocol connection of the NVMe Admin queue between the
+  * host system device and the allocated NVMe controller on the
+  * target system via a NVMe Fabrics "Connect" command.
+- *
+- * Return:
+- *	0: success
+- *	> 0: NVMe error status code
+- *	< 0: Linux errno error code
+- *
   */
- bool nvmf_should_reconnect(struct nvme_ctrl *ctrl, int status)
+ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
  {
--	if (status < 0)
-+	if (status < 0) {
-+		/*
-+		 * authentication errors can be transient, thus retry a couple
-+		 * of times before giving up.
-+		 */
-+		if (status == -EKEYREJECTED &&
-+		    ++ctrl->nr_auth_retries < 3)
-+			return true;
- 		return false;
-+	}
- 	else if (status > 0 && (status & NVME_SC_DNR))
- 		return false;
- 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index f0b081332749..a22d2af18553 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3176,6 +3176,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
- 
- 	ctrl->ctrl.nr_reconnects = 0;
-+	ctrl->ctrl.nr_auth_retries = 0;
- 
- 	if (changed)
- 		nvme_start_ctrl(&ctrl->ctrl);
-@@ -3491,6 +3492,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	ctrl->ctrl.opts = opts;
- 	ctrl->ctrl.nr_reconnects = 0;
-+	ctrl->ctrl.nr_auth_retries = 0;
- 	INIT_LIST_HEAD(&ctrl->ctrl_list);
- 	ctrl->lport = lport;
- 	ctrl->rport = rport;
+@@ -467,7 +461,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+ 			dev_warn(ctrl->device,
+ 				 "qid 0: secure concatenation is not supported\n");
+-			ret = NVME_SC_AUTH_REQUIRED;
++			ret = -EOPNOTSUPP;
+ 			goto out_free_data;
+ 		}
+ 		/* Authentication required */
+@@ -475,14 +469,14 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 		if (ret) {
+ 			dev_warn(ctrl->device,
+ 				 "qid 0: authentication setup failed\n");
+-			ret = NVME_SC_AUTH_REQUIRED;
+ 			goto out_free_data;
+ 		}
+ 		ret = nvme_auth_wait(ctrl, 0);
+-		if (ret)
++		if (ret) {
+ 			dev_warn(ctrl->device,
+-				 "qid 0: authentication failed\n");
+-		else
++				 "qid 0: authentication failed, error %d\n",
++				 ret);
++		} else
+ 			dev_info(ctrl->device,
+ 				 "qid 0: authenticated\n");
+ 	}
+@@ -542,7 +536,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+ 			dev_warn(ctrl->device,
+ 				 "qid 0: secure concatenation is not supported\n");
+-			ret = NVME_SC_AUTH_REQUIRED;
++			ret = -EOPNOTSUPP;
+ 			goto out_free_data;
+ 		}
+ 		/* Authentication required */
+@@ -550,12 +544,13 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 		if (ret) {
+ 			dev_warn(ctrl->device,
+ 				 "qid %d: authentication setup failed\n", qid);
+-			ret = NVME_SC_AUTH_REQUIRED;
+-		} else {
+-			ret = nvme_auth_wait(ctrl, qid);
+-			if (ret)
+-				dev_warn(ctrl->device,
+-					 "qid %u: authentication failed\n", qid);
++			goto out_free_data;
++		}
++		ret = nvme_auth_wait(ctrl, qid);
++		if (ret) {
++			dev_warn(ctrl->device,
++				 "qid %u: authentication failed, error %d\n",
++				 qid, ret);
+ 		}
+ 	}
+ out_free_data:
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9b8904a476b8..a9af20f25405 100644
+index d0ed64dc7380..9b8904a476b8 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -382,6 +382,7 @@ struct nvme_ctrl {
- 	u16 icdoff;
- 	u16 maxcmd;
- 	int nr_reconnects;
-+	int nr_auth_retries;
- 	unsigned long flags;
- 	struct nvmf_ctrl_options *opts;
- 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 821ab3e0fd3b..f5b3201a11b5 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1117,6 +1117,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- 			ctrl->ctrl.nr_reconnects);
- 
- 	ctrl->ctrl.nr_reconnects = 0;
-+	ctrl->ctrl.nr_auth_retries = 0;
- 
- 	return;
- 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3e0c33323320..45270c626c87 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2266,6 +2266,7 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
- 			ctrl->nr_reconnects);
- 
- 	ctrl->nr_reconnects = 0;
-+	ctrl->nr_auth_retries = 0;
- 
- 	return;
- 
+@@ -1122,7 +1122,7 @@ static inline int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid)
+ }
+ static inline int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
+ {
+-	return NVME_SC_AUTH_REQUIRED;
++	return -EPROTONOSUPPORT;
+ }
+ static inline void nvme_auth_free(struct nvme_ctrl *ctrl) {};
+ #endif
 -- 
 2.44.0
 
