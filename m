@@ -4,124 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD9F4C00A94
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Apr 2024 12:42:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF21AC00A94
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Apr 2024 14:25:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GdiU/hfpHxZK5zdo9tcxs2NHnlIFlMrR4vJ1/c1O4Xg=; b=2PLQWWaZNgQDjkeoIn6/m1kRsD
-	aoIaPtHjKAdMJWioXyjL6t7ardznqHn0DctfXc9Ex/G3RuTBQ6YOTlkgJt44CMX0jrIX6O/ygCCXE
-	6SJ7+8J0/kIG8SFYC4VLKcEGNt+UF/mpRTzp0VKmK3tEEZWLv/ZWSuGqExhsomh3VmyxL2B2XtuJy
-	sUwrFn19yETo2mHB8Hvom6kOtsTTGdTJSNK23Oi9qMtJsf11U2+YzRqvFhF0AQctH+Hzpb+MhwBtX
-	Xar+UyMExjYhF07m73c2GEF12zCd3P4tsFtnHSEIUZYjqYVpM1jBATCrrm8Ad0eg5ogmd85Nr6LVX
-	P0O2Q+rQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=5s5lNHcDQVgYy8hpd4I4xgw36CrkkWAmq7J2AD+859E=; b=TlMT8cmzVuDykw
+	VrpX7hFOnVuY5k+elp5iVFod3fQ7flasLYsx6HWMvFgfM+0Qd1hfluGI7E1hcGkRgIj864EKUTQ0P
+	bEWdh9DHlnB+oSfF5LLeTQqxdEB1zQou15Zfo0qfIc0AJ6+dhQYuxBRb2MzJj/GP3eS+ss92GbgBp
+	XPYUthuGrjKL6yODSrgY5PCqq93LLT4d4hwrOf3e8ADCkW8JOcR+AjKCfMY5ui+Px6aZGJh95OHBi
+	FPsOlbJM7l+O9MLxi9yLmNN91CNZe4eYvIS09oqnn6HslNBd+t21Bvpr4EQjli3md3Wfy5lExZpFE
+	MuHaNDkMj5kMgIrAJZsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwLfb-00000008Epv-0GQw;
-	Mon, 15 Apr 2024 12:42:47 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rwNGj-00000008fxV-1pIj;
+	Mon, 15 Apr 2024 14:25:13 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwLfI-00000008Edz-27S5
+	id 1rwNGf-00000008fvi-1s5l
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Apr 2024 12:42:40 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B8065CF89;
-	Mon, 15 Apr 2024 12:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713184945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GdiU/hfpHxZK5zdo9tcxs2NHnlIFlMrR4vJ1/c1O4Xg=;
-	b=owR8QOdrUeedrSF+ZViK6TqHtSL80dBKVahI63UxXb00tWxERKgSqCvJYd6YMnwD+gcLA7
-	fc5Uipw/AJcpMO13ian/RjGFX8SXAOo6xTsHSQmTXYAgNlcD9iFTJXVGYIRwzGqY4EAptf
-	Vjy7JiPFPUcto3OqD9pIIVg2Z2U9M58=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713184945;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GdiU/hfpHxZK5zdo9tcxs2NHnlIFlMrR4vJ1/c1O4Xg=;
-	b=7Zv2qhRq1MbbbW863GhA58nJhiR79UxRGLf5/SaIvPyXWlUrV2XlSMWfBil0XtMN1+ecEM
-	Y9ZcV+raJUtz5oBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713184945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GdiU/hfpHxZK5zdo9tcxs2NHnlIFlMrR4vJ1/c1O4Xg=;
-	b=owR8QOdrUeedrSF+ZViK6TqHtSL80dBKVahI63UxXb00tWxERKgSqCvJYd6YMnwD+gcLA7
-	fc5Uipw/AJcpMO13ian/RjGFX8SXAOo6xTsHSQmTXYAgNlcD9iFTJXVGYIRwzGqY4EAptf
-	Vjy7JiPFPUcto3OqD9pIIVg2Z2U9M58=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713184945;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GdiU/hfpHxZK5zdo9tcxs2NHnlIFlMrR4vJ1/c1O4Xg=;
-	b=7Zv2qhRq1MbbbW863GhA58nJhiR79UxRGLf5/SaIvPyXWlUrV2XlSMWfBil0XtMN1+ecEM
-	Y9ZcV+raJUtz5oBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8930B1386E;
-	Mon, 15 Apr 2024 12:42:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +RvPH7EgHWY0AwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 15 Apr 2024 12:42:25 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v6 4/5] nvme-fabrics: short-circuit reconnect retries
-Date: Mon, 15 Apr 2024 14:42:19 +0200
-Message-ID: <20240415124220.5433-5-dwagner@suse.de>
+	Mon, 15 Apr 2024 14:25:11 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43FE6MHD013994;
+	Mon, 15 Apr 2024 14:24:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=5s5lNHcDQVgYy8hpd4I4xgw36CrkkWAmq7J2AD+859E=;
+ b=ctljpMGnaJNSllcrtDJBlT7obJ340yVf5gqyo13YLK5NVI59IvSCTOPZ5oSni+hDtkLU
+ tHG3lYKALTmzNZa9Xm5YWN/HDdB7fE6QlM1TcyHGFMislBarkXQPCIs4WiFbReDsxxu5
+ HcHuScfjmvdY4hR1YIunosP2VsPGDMNyZV7G6KnNbCeScMG09/ubgtHrB0S6oK36gQFi
+ zrAa9mVgMNqEOlwt9hjze3hBVdkI3rZ/1FemUeZzDIEcUBdx5HcT0u8VeoEsjooYGYlB
+ AXj3eclclPc3fJqC9oDJPEaK409dqPMFE/Sjk/EUEeYDc2KiBUvPIQulwDnzetQS8ne8 GA== 
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xfhr0m357-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Apr 2024 14:24:26 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43FEEUpg011111;
+	Mon, 15 Apr 2024 14:24:25 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xg7327ve0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Apr 2024 14:24:25 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43FEOKUd50594056
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 15 Apr 2024 14:24:22 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F035A20049;
+	Mon, 15 Apr 2024 14:24:19 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4E48D20040;
+	Mon, 15 Apr 2024 14:24:18 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.231])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 15 Apr 2024 14:24:18 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, gjoyce@linux.ibm.com,
+        axboe@fb.com, Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH v2] nvme: find numa distance only if controller has valid numa id
+Date: Mon, 15 Apr 2024 19:52:54 +0530
+Message-ID: <20240415142408.889236-1-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240415124220.5433-1-dwagner@suse.de>
-References: <20240415124220.5433-1-dwagner@suse.de>
-MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: cI0cFNLwF1VJxAP2G45SbvELX6mpgd0U
+X-Proofpoint-GUID: cI0cFNLwF1VJxAP2G45SbvELX6mpgd0U
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-15_11,2024-04-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 mlxlogscore=782 impostorscore=0 lowpriorityscore=0
+ spamscore=0 bulkscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2404010000 definitions=main-2404150093
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240415_054228_873645_6D0644BA 
-X-CRM114-Status: GOOD (  20.47  )
+X-CRM114-CacheID: sfid-20240415_072509_511884_3AA9F512 
+X-CRM114-Status: GOOD (  17.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,260 +101,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+On system where native nvme multipath is configured and iopolicy
+is set to numa but the nvme controller numa node id is undefined
+or -1 (NUMA_NO_NODE) then avoid calculating node distance for
+finding optimal io path. In such case we may access numa distance
+table with invalid index and that may potentially refer to incorrect
+memory. So this patch ensures that if the nvme controller numa node
+id is -1 then instead of calculating node distance for finding optimal
+io path, we set the numa node distance of such controller to default 10
+(LOCAL_DISTANCE).
 
-Returning a nvme status from nvme_tcp_setup_ctrl() indicates that the
-association was established and we have received a status from the
-controller; consequently we should honour the DNR bit. If not any future
-reconnect attempts will just return the same error, so we can
-short-circuit the reconnect attempts and fail the connection directly.
-
-Another reason not to retry reconnects is if the transport returns an
-negative error code.
-
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-[dwagner: - extended nvme_should_reconnect]
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
+Link: https://lore.kernel.org/all/20240413090614.678353-1-nilay@linux.ibm.com/
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/host/fabrics.c | 19 ++++++++++++++++++-
- drivers/nvme/host/fabrics.h |  2 +-
- drivers/nvme/host/fc.c      |  4 +---
- drivers/nvme/host/rdma.c    | 19 ++++++++++++-------
- drivers/nvme/host/tcp.c     | 22 ++++++++++++++--------
- 5 files changed, 46 insertions(+), 20 deletions(-)
+Changes from v1:
+	Formatting cleanups (Christoph)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index f7eaf9580b4f..d9a73b1b41c4 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -559,8 +559,25 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- }
- EXPORT_SYMBOL_GPL(nvmf_connect_io_queue);
+ drivers/nvme/host/multipath.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 5397fb428b24..08e598c87b08 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -247,7 +247,8 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ 		if (nvme_path_is_disabled(ns))
+ 			continue;
  
--bool nvmf_should_reconnect(struct nvme_ctrl *ctrl)
-+/*
-+ * Evaluate the status information returned by the transport in order to decided
-+ * if a reconnect attempt should be scheduled.
-+ *
-+ * There are two cases where no reconnect attempt should be attempted:
-+ *
-+ * 1) The transport reports an negative status. There was an error (e.g. no
-+ *    memory) on the host side and thus abort the operation.
-+ *
-+ * 2) The DNR bit is set and the specification states no further connect
-+ *    attempts with the same set of paramenters should be attempted.
-+ */
-+bool nvmf_should_reconnect(struct nvme_ctrl *ctrl, int status)
- {
-+	if (status < 0)
-+		return false;
-+	else if (status > 0 && (status & NVME_SC_DNR))
-+		return false;
-+
- 	if (ctrl->opts->max_reconnects == -1 ||
- 	    ctrl->nr_reconnects < ctrl->opts->max_reconnects)
- 		return true;
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 37c974c38dcb..602135910ae9 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -223,7 +223,7 @@ int nvmf_register_transport(struct nvmf_transport_ops *ops);
- void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
- void nvmf_free_options(struct nvmf_ctrl_options *opts);
- int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
--bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
-+bool nvmf_should_reconnect(struct nvme_ctrl *ctrl, int status);
- bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
- 		struct nvmf_ctrl_options *opts);
- void nvmf_set_io_queues(struct nvmf_ctrl_options *opts, u32 nr_io_queues,
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index a5b29e9ad342..f0b081332749 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3310,12 +3310,10 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
- 		dev_info(ctrl->ctrl.device,
- 			"NVME-FC{%d}: reset: Reconnect attempt failed (%d)\n",
- 			ctrl->cnum, status);
--		if (status > 0 && (status & NVME_SC_DNR))
--			recon = false;
- 	} else if (time_after_eq(jiffies, rport->dev_loss_end))
- 		recon = false;
- 
--	if (recon && nvmf_should_reconnect(&ctrl->ctrl)) {
-+	if (recon && nvmf_should_reconnect(&ctrl->ctrl, status)) {
- 		if (portptr->port_state == FC_OBJSTATE_ONLINE)
- 			dev_info(ctrl->ctrl.device,
- 				"NVME-FC{%d}: Reconnect attempt in %ld "
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 366f0bb4ebfc..821ab3e0fd3b 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -982,7 +982,8 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
- 	kfree(ctrl);
- }
- 
--static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
-+static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl,
-+					  int status)
- {
- 	enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
- 
-@@ -992,7 +993,7 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
- 		return;
- 	}
- 
--	if (nvmf_should_reconnect(&ctrl->ctrl)) {
-+	if (nvmf_should_reconnect(&ctrl->ctrl, status)) {
- 		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
- 			ctrl->ctrl.opts->reconnect_delay);
- 		queue_delayed_work(nvme_wq, &ctrl->reconnect_work,
-@@ -1104,10 +1105,12 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl = container_of(to_delayed_work(work),
- 			struct nvme_rdma_ctrl, reconnect_work);
-+	int ret;
- 
- 	++ctrl->ctrl.nr_reconnects;
- 
--	if (nvme_rdma_setup_ctrl(ctrl, false))
-+	ret = nvme_rdma_setup_ctrl(ctrl, false);
-+	if (ret)
- 		goto requeue;
- 
- 	dev_info(ctrl->ctrl.device, "Successfully reconnected (%d attempts)\n",
-@@ -1120,7 +1123,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- requeue:
- 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
- 			ctrl->ctrl.nr_reconnects);
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvme_rdma_reconnect_or_remove(ctrl, ret);
- }
- 
- static void nvme_rdma_error_recovery_work(struct work_struct *work)
-@@ -1145,7 +1148,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 		return;
- 	}
- 
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvme_rdma_reconnect_or_remove(ctrl, 0);
- }
- 
- static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
-@@ -2169,6 +2172,7 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl =
- 		container_of(work, struct nvme_rdma_ctrl, ctrl.reset_work);
-+	int ret;
- 
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_rdma_shutdown_ctrl(ctrl, false);
-@@ -2179,14 +2183,15 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 		return;
- 	}
- 
--	if (nvme_rdma_setup_ctrl(ctrl, false))
-+	ret = nvme_rdma_setup_ctrl(ctrl, false);
-+	if (ret)
- 		goto out_fail;
- 
- 	return;
- 
- out_fail:
- 	++ctrl->ctrl.nr_reconnects;
--	nvme_rdma_reconnect_or_remove(ctrl);
-+	nvme_rdma_reconnect_or_remove(ctrl, ret);
- }
- 
- static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index fdbcdcedcee9..3e0c33323320 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2155,7 +2155,8 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
- 	nvme_tcp_destroy_io_queues(ctrl, remove);
- }
- 
--static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
-+static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl,
-+		int status)
- {
- 	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
- 
-@@ -2165,13 +2166,14 @@ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
- 		return;
- 	}
- 
--	if (nvmf_should_reconnect(ctrl)) {
-+	if (nvmf_should_reconnect(ctrl, status)) {
- 		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
- 			ctrl->opts->reconnect_delay);
- 		queue_delayed_work(nvme_wq, &to_tcp_ctrl(ctrl)->connect_work,
- 				ctrl->opts->reconnect_delay * HZ);
- 	} else {
--		dev_info(ctrl->device, "Removing controller...\n");
-+		dev_info(ctrl->device, "Removing controller (%d)...\n",
-+			 status);
- 		nvme_delete_ctrl(ctrl);
- 	}
- }
-@@ -2252,10 +2254,12 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
- 	struct nvme_tcp_ctrl *tcp_ctrl = container_of(to_delayed_work(work),
- 			struct nvme_tcp_ctrl, connect_work);
- 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
-+	int ret;
- 
- 	++ctrl->nr_reconnects;
- 
--	if (nvme_tcp_setup_ctrl(ctrl, false))
-+	ret = nvme_tcp_setup_ctrl(ctrl, false);
-+	if (ret)
- 		goto requeue;
- 
- 	dev_info(ctrl->device, "Successfully reconnected (%d attempt)\n",
-@@ -2268,7 +2272,7 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
- requeue:
- 	dev_info(ctrl->device, "Failed reconnect attempt %d\n",
- 			ctrl->nr_reconnects);
--	nvme_tcp_reconnect_or_remove(ctrl);
-+	nvme_tcp_reconnect_or_remove(ctrl, ret);
- }
- 
- static void nvme_tcp_error_recovery_work(struct work_struct *work)
-@@ -2295,7 +2299,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 		return;
- 	}
- 
--	nvme_tcp_reconnect_or_remove(ctrl);
-+	nvme_tcp_reconnect_or_remove(ctrl, 0);
- }
- 
- static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
-@@ -2315,6 +2319,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_ctrl *ctrl =
- 		container_of(work, struct nvme_ctrl, reset_work);
-+	int ret;
- 
- 	nvme_stop_ctrl(ctrl);
- 	nvme_tcp_teardown_ctrl(ctrl, false);
-@@ -2328,14 +2333,15 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- 		return;
- 	}
- 
--	if (nvme_tcp_setup_ctrl(ctrl, false))
-+	ret = nvme_tcp_setup_ctrl(ctrl, false);
-+	if (ret)
- 		goto out_fail;
- 
- 	return;
- 
- out_fail:
- 	++ctrl->nr_reconnects;
--	nvme_tcp_reconnect_or_remove(ctrl);
-+	nvme_tcp_reconnect_or_remove(ctrl, ret);
- }
- 
- static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
+-		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
++		if (ns->ctrl->numa_node != NUMA_NO_NODE &&
++				READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
+ 			distance = node_distance(node, ns->ctrl->numa_node);
+ 		else
+ 			distance = LOCAL_DISTANCE;
 -- 
 2.44.0
 
