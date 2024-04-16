@@ -4,72 +4,149 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07C88C4345F
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Apr 2024 09:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87B14C4345F
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Apr 2024 10:29:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=jtU9jKftTvGSHSZwSzGCqGRFr0
-	o0aDqJxSBeQdV5OJ//AO+vixhSZFAWZYmSEjGwIjxqncy9ZFXSuj7f/BczJTGUCXbrUoV59RrJRoR
-	0RKaVhu99YrDbPn7bSFVUGWvlxl7BkMAuPfy/L2QrVq2QpHgFkKkMUJSAU0hoqqWi9c+DJHyQKceM
-	7+gB4XIaQOdijD5yU99mnMBGiBVT9ePtm4pocOFEXTE5uaMgWMK0tFLCeFsFpVOh8hvZcEXdZVumj
-	urtvLpNohRAhwgW0HLWYwhoANl5XeA5pcCJ5SxrE3jGpjpRwYg3ZMpihxLfG/gjuMNlpxZCQ8nO8w
-	BFg4HEag==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GjEYhlsuiB7lPDrufz5aaFf7jf+BCDviKDzftOPtfsc=; b=1OlmNJ77eJBGbjJrXUE07n1+C1
+	Odq4YLva6X5uhqMx/TMaG9T/DtJiEA+eH8PaiD1v0DAn9Z6xLUKIjOUIJOBZaHd48F1pno4pWr37x
+	MRxX/xA4vMjl/69wCauKOZyjq2uFfp3TfyN2R1vYgcrAih888dd4uUQGu885y4aL/2DszJBwls/Xq
+	QOqdzFQQDJuMfdhKhchUI6JRh4kPOfhYLCsAGR2NwUfjPgbH05r8wjeEL0FMnqi0/huwbXSLETK/s
+	oc+m7ntvtkQRPj6CixHWsl8l728A/tHJ1RAff0Ju0uoWZcpURi9MldNfcCaEKCU6razY6PgFzEE4P
+	BPL9AaJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwfMH-0000000Be8Q-2AWe;
-	Tue, 16 Apr 2024 09:44:09 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1rwg3g-0000000BmmE-0N2N;
+	Tue, 16 Apr 2024 10:29:00 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwfMD-0000000Be3W-2vea
+	id 1rwg3c-0000000Bmiv-0Imj
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Apr 2024 09:44:08 +0000
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-343d32aba7eso1229261f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 02:43:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713260629; x=1713865429;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=vLkWX5YwyYtT5JaJMnfT1Lbql7aLx/YfwZRZmXbIYVMGIR4FyEpbh6DitZcUVIIbRw
-         Q+dle3JM4wjFJidFfQvnCsYSntkCc9LCQTRQx9A6xzs514DVFEuiu448HNElMSq3U6Y4
-         KB0QGjctHvWVjUIiqNq8dcv0OcrKSIuqb7B3O+00vQgs6oqHxUBisEF0xXm1VRd1eex2
-         N3XTguAyztN46aqzerDdLgf/Jjomr+OyCYGqCeOdAOSFTwqwdFcXvCDfn0E3M6BrpWIa
-         +obtvOcjrceozq4EjwXOYAf0Ks5I4hkeHtd7yjtFgps5wXBKTCNPRLHZ04EQ0ZE6id/X
-         mZZA==
-X-Forwarded-Encrypted: i=1; AJvYcCVHzV4sWz9FVprRyKnFLWvQJTKSkTHVT01bjXNsd6/w3BjUyP7FDo7Z0okFMGb4AMceDSWZ6yo+FkVJvkibi0GNs6w7k8OCAwlkHL7yl+g=
-X-Gm-Message-State: AOJu0YxJD/sTVPL6ZNuhI6nhRIN9uHRFemftoFCYpJfMwpcpPt3O2SWS
-	0PV4QxzcW7FLKwe9oEHDwScuGQSMW8zpXHCE2Bs1e8fVWFOzTtoITN/4fw==
-X-Google-Smtp-Source: AGHT+IHwwk+kA+/7Wf0dNiZcbnpiuAVy+gWzeYth2fWjSJ0W7vdRIt5drGONlGjG39+4Hk6rAbRptg==
-X-Received: by 2002:a05:600c:3b1f:b0:416:7b2c:df05 with SMTP id m31-20020a05600c3b1f00b004167b2cdf05mr9132766wms.1.1713260628812;
-        Tue, 16 Apr 2024 02:43:48 -0700 (PDT)
-Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id fm15-20020a05600c0c0f00b004186f979543sm5726800wmb.33.2024.04.16.02.43.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Apr 2024 02:43:48 -0700 (PDT)
-Message-ID: <b56461dc-feb9-4fcb-bfe9-c2d7c8e987f9@grimberg.me>
-Date: Tue, 16 Apr 2024 12:43:47 +0300
+	Tue, 16 Apr 2024 10:28:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1713263336; x=1744799336;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=TUaSe170cWc0NhN6SrDfHDZ/5WoqOt5+FguA81aXt/0=;
+  b=POr9dfAIVcs44Iy5qWajZBPjgIfdoaCiVzjz5utSRz9Nzb4ykHGGpnPQ
+   jt4lxO73hmDaX7dOh0f7Bz/yaoAqFiBbUIQfuQveEXfrQ+r6WvWj95xaj
+   hlskDq06uW6pQ+Gje6QtBquQ1H4kGc9CuLaCzTAWtJjdZH7ObKYm0ab8f
+   hJHm3tLpX6iUWe67T2RdGGti7er3fDgI3XruBLiQgYuArgYkpBCGbR6Pk
+   CV9ur1cX2G5VTSTNmvIJu1KRI0QzpjoWJCIgMcTJH1Ng7zQ9dxBcv4/Os
+   B1ps7z9/FUN76Je4aB4FuctcfeShLbR+kZg4eJj1BftMtoeOxV2vSgbuf
+   Q==;
+X-CSE-ConnectionGUID: DCZY1jMJQ06IQsDqqWIXIQ==
+X-CSE-MsgGUID: vp8QF1qlT+KTJuTMiusdww==
+X-IronPort-AV: E=Sophos;i="6.07,205,1708358400"; 
+   d="scan'208";a="14085493"
+Received: from mail-bn8nam12lp2168.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.168])
+  by ob1.hgst.iphmx.com with ESMTP; 16 Apr 2024 18:28:51 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nzuchqqWThU/uB1oUNkgT0IQYOgmKUesPRxphu+HttCo5ysdJeMv1vwWWfwQgSa02+Meh2BeMy5B8VIUx09c0Ar72fJSjX6zBeT3o648P1w6Vsa4832Q8Rw3pgWCrbW5kBuABkojzlFaQpZek249bfO0hp8MJxmawGa4ZOrgwbKbaBb3Bu3L7WD8IitBrGz+yU6oOnvWAJH1tb3wfYGouowVl6GjvZDatOVidpEkS7J4+R/PR2ubbT2kpuI9BV/w6LE3Ac/cHd2XsDH2dZ3VMKujimR6YvRCwrLu/LnwjB8k3xE9aw4IjBcjiDcbAa5k4ZOUDX1pi/WU3oFMiC8L6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GjEYhlsuiB7lPDrufz5aaFf7jf+BCDviKDzftOPtfsc=;
+ b=dIGDvO/FPUpZ95R66zRrR1t+lXbc0/CIqRi3v01tnwGEr9dubia0ezbO1YLIosQ2xRErKXMRtXFxY+DqNoAJ/eiYo3p1q55xhQccBegQv0dHm1FO1VSAR+b/TH19fMEpIfkMs/zligI96scw9rFPDdM/5RyvQH/iKrNDaDmw4Jqj8MrZOKHRNdo2flMXJjxXt3ljsPdmoZZSbyN6puz9nWRbLmGEKX+qBp/B/7ncSi82XYKiMRiQmZdjIlaMUPhLzquQlUYUIyDwqawA+PByM256WplqglY8p4YRk2Xy9+/r29e3sJtWh6SfEb3JkEQIwyfQsHercDGZw/UePji8iw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GjEYhlsuiB7lPDrufz5aaFf7jf+BCDviKDzftOPtfsc=;
+ b=u2qWg5Tce6CvOxYqZYd+iGyPVTPxSx1VtTV24kaXRzbF8Mbei7tdl6hW+6w9Q59xAK4jSLvjIcDJsXYlXe3Jh5VWpVvXyLRbr/IcHZOUbENcXZUXlGQlamhW3c+E8PtnrY589ZAF94hTq/MeDo7/5TL8PlXv4qCP2ipirpkB4EY=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ SA0PR04MB7436.namprd04.prod.outlook.com (2603:10b6:806:e0::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.50; Tue, 16 Apr 2024 10:28:49 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c75d:c682:da15:14f]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c75d:c682:da15:14f%3]) with mapi id 15.20.7452.049; Tue, 16 Apr 2024
+ 10:28:49 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Daniel
+ Wagner <dwagern@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH blktests 05/11] nvme/rc: introduce NVMET_TR_TYPES
+Thread-Topic: [PATCH blktests 05/11] nvme/rc: introduce NVMET_TR_TYPES
+Thread-Index: AQHaj73aHKCgSe6kfEa5k1xtmLrU0rFqskAA
+Date: Tue, 16 Apr 2024 10:28:49 +0000
+Message-ID: <x5xlzl6g3riybq4uuoznt47yp2ieixtltq2sw7w5uodpcosln5@pmx2vne4qgjq>
+References: <20240411111228.2290407-1-shinichiro.kawasaki@wdc.com>
+ <20240411111228.2290407-6-shinichiro.kawasaki@wdc.com>
+ <7okerxv2q5k6d2jl4ehdvido37rmycxopqalkt3xcouxeuxxe7@q73je25fv33y>
+In-Reply-To: <7okerxv2q5k6d2jl4ehdvido37rmycxopqalkt3xcouxeuxxe7@q73je25fv33y>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SA0PR04MB7436:EE_
+x-ms-office365-filtering-correlation-id: 9abb7ed2-30e3-40af-c9d0-08dc5e000139
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xUqfYBBxV0UE5yHWp3i2YXeyT1At7VFgfu0R8hY97WDOKLCkqEXFyfuECp40mvD7qHyqHUr4B3O9O7KLL+kP8/vfv1WxNdy0ubURH/wCF0nUssAZA5qcUWJq4Tz80ycnAsk+zIjorMcw7aak6VVEoLMxXHJKX5xdYvg2N66H0eyzHufJGe6Fq1L7awJ9yPzBa4snNQrLjRYHk9OM9EVGctieXQyqGYSWyQulS1wwHiLlnxMQBhfxyqfR6AMXg6Tnn28wcGeuF+jNrMPN+9ZTYj0to+MRLR09pO90H7+dlfvX2V3oTm7RPrJ7Um+Nk1e++BpGlimUFRKO8Y37gnR1klgfVs6DB4TVwQuC9sPTfAmGwNiCr7QxTjFPTMsuVMnywafyFBW+pwmm451vpssDsFYxsjX3VoUzQU67Nd0Xz9sFby4zh64FzZHxwFqJimyfKv+6Ouet4FFwvN9eBVBHgrmTebimjOsXgSJv3QCLPwHyfxkuItE9L9ftU+LJkRqQ9Rvf+lgWwSTgeSMI1UOiBmJYOUxOyLEUYPlFP/Hy9xp4WQWrS0cu5Zxh/q4b7QBNwGISqvSb+w+xOVBVpJAI1r0wj5KbLos6wnyYs+eYsEpjTJue6t/bOuoFJGKEnpH+LDPveDbfMBoxqDc3fRB/eCboTYU2XZYy21mqG7lt2mvhQxu4d9AcnuHc+Vcm9zmvXZB6mvaOv1Hh+HGezK+Mq7dhs95V2ELjyyX9yzWFYNg=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0r69Qr4VFQgtccjmMnXL+0nrYXZvDkAJ0Wm31KaDumxXteTPHRuI7u9Ff+5q?=
+ =?us-ascii?Q?WrQNyb8fhw2WQmTERgdiH6eS9Ly2o4WZENeIKVspak2d5cLOlyp5qtlLh7Qi?=
+ =?us-ascii?Q?s3AWGwZ726KjvcnEVBhkvZEURqGLwe1pK2FzfNYhyzbgej2dbt1rZHcexS8c?=
+ =?us-ascii?Q?vfAvJA5IbV+POPq52CWPsRgF0kmZDcAkrXUhsWj0LaVEegkgP/j1H9pTwhtq?=
+ =?us-ascii?Q?iEaS4C4V3oTCWHe8JgDdE24uN7bFB+tybOn2b7xlOvpazpEw7zgTFRmFGNWx?=
+ =?us-ascii?Q?lyQH/+RkO5WSfTpwTD8HmgVa1RFtFUgImFxm15a9bIozMzCp+bjBfJ3rg0nF?=
+ =?us-ascii?Q?6IOmAVsWjTjbPtFFOnT7NcTuPPJlisp9300RezZNYErYZFJ78tOVmlTWMONr?=
+ =?us-ascii?Q?k8RIALROEI0xpvcsJmRiLMzNZiNDXE+cAFJ01+D2e0qaowGvZmWsBaI8Ax/0?=
+ =?us-ascii?Q?/NQSiq1hSlaO2P6u6f2ROBnuzI3+AZ3Fdl1Q/ejqs/8FI83OnmmgHBmxGn49?=
+ =?us-ascii?Q?M2yZ5IZ6cFbRTOEyJAkUfRBB+JuB3tPppCjK6z3WFUOLDM9bmI8J+lIycs5h?=
+ =?us-ascii?Q?ww69b4BzplBbmt9oE2Lives7rH6ya0DDCmeLsqtT8UYXP0ymgwSZW/AW4TKH?=
+ =?us-ascii?Q?G33Px9X8BIkbpfSPFU68TorMsjM5oTlexldTQicl8spJ4zAMHcTtkXKk/fvS?=
+ =?us-ascii?Q?ks9+xiBQwbTVz3/HVZ23hhoC6jZ2SljXmHj7kBNUVJaak3VL0nyGT5ILTuEk?=
+ =?us-ascii?Q?9BzIdAP0w150x3q9BZVk5M4gLyN6zN4kiCrGXuBfc8Ffnv7YURLVyhi4ZSUK?=
+ =?us-ascii?Q?wWgqPoUkYVQWI2sPR3IhLM5RQjDVccflSBv67Pf+Mh5npRU9LPgdhEgCw2tN?=
+ =?us-ascii?Q?dX3SBYL5Q63wEkGiF8dqygTZAuaHkjBwSfdMVOvoS5MpT+gAIhotyAvTvSGy?=
+ =?us-ascii?Q?36204M3c0badeQ0X/en4PAVBsfjkkBbW1jEQV+FThiSt1bjZS18EOq/rHaLk?=
+ =?us-ascii?Q?OWXCp9g4nhheF4WHt69RDkHtzcqF1y7fkIq5bRBGvQ/WHy9/lLXY+PvjpP2H?=
+ =?us-ascii?Q?ncZxSyJ/xjBwiGNCr7zPwgifDqEL/xznODIxxZODGK8+SD1QZwYJcPPhW+PA?=
+ =?us-ascii?Q?3+Od5F38STdMcDrX658Myr0oMIvoYHC5JVEKuxt063PhSY4zTN/jcWnQEqGD?=
+ =?us-ascii?Q?KyJTxYlklKUQ38isho1vvyzox98gcaFda2FMOREqob2F+b76DF/ikvSPmetl?=
+ =?us-ascii?Q?HnH+dwzbsOj/0wRo2G+OxkdMXv5DNx9R8ilUsJTA/3agURxr65v7hO2ZuewG?=
+ =?us-ascii?Q?TglroXqwW/bwmZkvgEJIVH9zLz1vwqI7aOnZelyA5rNMBsNsmb3VO+vJC+E2?=
+ =?us-ascii?Q?XrAU9IiMvJyH4kvj3OV6HklDlOTXcJ7Hi+Tt3w/Khczut+lizc+BSsnQOV60?=
+ =?us-ascii?Q?FXq/UaIbav6PZXRefugTgFYL/9FHLWtly28mbBQLY4YYADYMA+rnUbdb3H+E?=
+ =?us-ascii?Q?w3kajuVKIa4ePwd1+Up8CpSJ72T9O/2J33LMzCclgRGVQJ84fRncj1Gl409z?=
+ =?us-ascii?Q?mqu9Pgm9Qbc+/bPt5yxd/iNcHOo5fassJtPRFU7HKXZ+LDmVjVFYETewNJPG?=
+ =?us-ascii?Q?39zGijoI77vRH7Tj+Z2uIDo=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <EB01A5EACF95214B99B5BA2F72700D0A@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3] nvme: find numa distance only if controller has valid
- numa id
-To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, gjoyce@linux.ibm.com, axboe@fb.com,
- chaitanyak@nvidia.com
-References: <20240416082102.914152-1-nilay@linux.ibm.com>
-Content-Language: he-IL, en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240416082102.914152-1-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: MYCauYiUvc7OtE3FGlvECmeb8DVXlCRpsgus+NhdLC4/e26nlql3y0PPPsv5vvk2Uw5vrEaIgN/wxGmI7TNYDU9+UzZbBXTMeG9onF1EgZGymCiY02haLvd4uZYnu8LiUqJm3PMDxg+7g33R4Kk6pvE55nXxy7Uoxmc1UZB5M5i6SndZfG/ugLdt8R2plN4GRtdR3RYPRLcyeSOo+yXw2EIH72H919GWhpWT0kwmGU7gFFUB9zDvPgLt+BqbZUT9L78YolcCHkqR+YBdS9a0TkmA79SdtwuV4Jip+5RHUp9WtO9n09Lp2kbyi/C1ZL23qSjWELKCAM25lpRIJvCYqmQvOyXLQ1KiRerpYMW/ZrRRCdtwzjpt1nf+UhNZ2ns5WuI28jYZti/B1P+ESrdpu13OFj8h6N7BtTCxuhOFYbp8Ej3fPa6U6hYCZpoodtdoqCywlJYMiEVx1kePa7R8zA9mYsHRt6FSWVPO/y0ydNiP9amZjP1byobyETWHRJT7AjBdn2aAv93tDLRHKGXyjLXBwaZL4H7LohN6FxMCCWtP3h/ZHD1paIm6NAVWmBdrVMDvOw6tON5ew2aBbSkOpJPOLq+KmxMlWXKP8p9fecTWmXXh0ZyFcx6T1Nbe9Eyp
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9abb7ed2-30e3-40af-c9d0-08dc5e000139
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2024 10:28:49.3119
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /EvGdljhPSRHqxI+iApaZmlUPDwDkz3F0Lgw/DFrW5BsDAxnoELbD8QsD/LIakxeEn9o4P7dGtnYnoNzkAEi+oMMCBDrWFck26Aq4vr2kP4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR04MB7436
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240416_024405_752748_7E2862CB 
-X-CRM114-Status: UNSURE (   4.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240416_032856_225667_05CCEB31 
+X-CRM114-Status: GOOD (  31.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,5 +161,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Apr 16, 2024 / 05:20, Shinichiro Kawasaki wrote:
+> On Apr 11, 2024 / 20:12, Shin'ichiro Kawasaki wrote:
+> > Some of the test cases in nvme test group can be run under various nvme
+> > target transport types. The configuration parameter nvme_trtype
+> > specifies the transport to use. But this configuration method has two
+> > drawbacks. Firstly, the blktests check script needs to be invoked
+> > multiple times to cover multiple transport types. Secondly, the test
+> > cases irrelevant to the transport types are executed exactly same
+> > conditions in the multiple blktests runs.
+> >=20
+> > To avoid the drawbacks, introduce new configuration parameter
+> > NVMET_TR_TYPES. This is an array, and multiple transport types can
+> > be set like:
+> >=20
+> >     NVMET_TR_TYPES=3D(loop tcp)
+> >=20
+> > Also introduce _nvmet_set_nvme_trtype() which can be called from the
+> > set_conditions() hook of the transport type dependent test cases.
+> > Blktests will repeat the test case as many as the number of elements in
+> > NVMET_TR_TYPES, and set nvme_trtype for each test case run.
+> >=20
+> > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> > ---
+> >  Documentation/running-tests.md |  6 +++++-
+> >  tests/nvme/rc                  | 30 +++++++++++++++++++++++++++++-
+> >  2 files changed, 34 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/Documentation/running-tests.md b/Documentation/running-tes=
+ts.md
+> > index ae80860..ede3a81 100644
+> > --- a/Documentation/running-tests.md
+> > +++ b/Documentation/running-tests.md
+> > @@ -102,8 +102,12 @@ RUN_ZONED_TESTS=3D1
+> > =20
+> >  The NVMe tests can be additionally parameterized via environment varia=
+bles.
+> > =20
+> > +- NVMET_TR_TYPES (array)
+> > +  Set up NVME target backends with the specified transport.
+> > +  Valid elements are 'loop', 'tcp', 'rdma' and 'fc'. Default value is =
+'(loop)'.
+> >  - nvme_trtype: 'loop' (default), 'tcp', 'rdma' and 'fc'
+> > -  Run the tests with the given transport.
+> > +  Run the tests with the given transport. This parameter is still usab=
+le but
+> > +  replaced with NVMET_TR_TYPES. Use NVMET_TR_TYPES instead.
+>=20
+> I noticed that nvme_trtype is still useful. nvmet_trtypes can be set in b=
+oth in
+> the config file and the command line. But NVMET_TRTYPES can be set in the=
+ config
+> file only, because bash does not support setting arrays in the command li=
+ne.
+>=20
+>   # nvme_trtypes=3Drdma ./check nvme/006     ... works
+>   # NVMET_TRTYPES=3D(rdma) ./check nvme/006  ... does not work
+>=20
+> I will modify the descriptions above in the v2 series to note that both
+> nvme_trtype and NVMET_TRTYPES are supported and usable.
+
+I rethought this. Now I think it is bad that NVMET_TRTYPES can not be speci=
+fied
+in command lines. To avoid this drawback, I think it's the better to change
+NVME_TRTYPES from an array to a variable with multiple items separated with
+spaces. For example, three types can be specified to NVMET_TRTYPES like thi=
+s:
+
+   NVMET_TRTYPES=3D"loop tcp rdma"
+
+NVMET_BLKDEV_TYPES has the same restriction then I will change it also from=
+ an
+array to a variable in same manner. I will send out v2 soon with this chang=
+e.
+
+Daniel,
+
+I assume this change is fine for your use case. If it is not the case, plea=
+se
+let me know.=
 
