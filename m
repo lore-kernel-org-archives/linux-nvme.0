@@ -4,121 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42CD6C4345F
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Apr 2024 06:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7043FC04FF6
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Apr 2024 08:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tO6YKqvR1Orl0Jyn0aSJ7A85sVhbE34JsSsizeJW7qY=; b=kQT2h27tV3hACoTnxw7tfahxbk
-	zSoefo03mJ8ciVHhigrPzyBn00g7lxUN+IHRPjnUKDqcbCrp2/nrGS63dm965u1HzWmToZHt26cPI
-	OMAvOk8vc5NX9AzpbFFXetmCkfv/PoNQd40Q7rDxwx3U9zAcVbp20ChLByQrsPbcKMZMmCAN8/fQ6
-	QBcGFAv4ZJfHfnFtUUGXutPdWT/D5xfKwT/3RJt8aCQNNIrLg/I49YIspCjAqUoMv4mzIrbzRxyZS
-	8h1gbsU5/KDUAD9u7Nmq+8jSZV4ZkfHsWEggPyFYpR12/9HdcpMrWMeX9qxTURp2MXbddFDMf8zLb
-	BEWkxa1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EmFi9zm8B+AaZNNvDcKRHQJoPxJHJ/qB4bZefBKQMVY=; b=Ssna7KfQA6gvTPvErsZZAo/n4c
+	CTEvA+PM4yatnig4y9LbCSMFEx094KASC+iMhEk10lLZxhUVFj3QZn0qXArlr1uILzkUH8mkp5zzh
+	QE5AA9vUyrxvdvFD0rFQvjLm3CT48exOeOP7cUyyauIF2S1z2EwyJSAgbOzDUwfO9x+j0pG3ePtcy
+	R9q8DKXhmPJhvfdhQx4fPRq44bY4puD4VqGYneMnCOHkIQyphrItU+g9FTWKvRt/cK3uQKG9rWLep
+	8qyZaLNIbHejuUev0zuvgen+RxJstS5Q70WVxmmH+1b2sPTzB/8NqAStyHVxpxkkvFkxEHQcBdS0l
+	i+mABHUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwcko-0000000B9Zm-1zRL;
-	Tue, 16 Apr 2024 06:57:18 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rwdq2-0000000BNHq-0nkm;
+	Tue, 16 Apr 2024 08:06:46 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwckh-0000000B9Wb-2wox
+	id 1rwdpo-0000000BNEO-2hAQ
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Apr 2024 06:57:15 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4540637903;
-	Tue, 16 Apr 2024 06:57:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713250622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tO6YKqvR1Orl0Jyn0aSJ7A85sVhbE34JsSsizeJW7qY=;
-	b=Vj4EW+4tSFjfDqc+RvANS6DYpNtTdAXdIK7O1g5MF//WY+Rf+HzYMC3oUtIePdw1ZPmw93
-	RLUAZGITwpzYLBZtEdguI197S/4tsSBSV/TnEAtsooHU9F6QoSBARLpMTm38eVH60mzdz1
-	CfU/A4zZ6z/A3N5S7d6WzZuHwLNAjaU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713250622;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tO6YKqvR1Orl0Jyn0aSJ7A85sVhbE34JsSsizeJW7qY=;
-	b=dpkAv4KPIgwZ57QQEkDBGR+06uqkjsX1dPp6kzqD2KZSlfOlKbDZRcPBqXd+XtqtFh4ivN
-	PvRz0jTsGsJzoABw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713250622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tO6YKqvR1Orl0Jyn0aSJ7A85sVhbE34JsSsizeJW7qY=;
-	b=Vj4EW+4tSFjfDqc+RvANS6DYpNtTdAXdIK7O1g5MF//WY+Rf+HzYMC3oUtIePdw1ZPmw93
-	RLUAZGITwpzYLBZtEdguI197S/4tsSBSV/TnEAtsooHU9F6QoSBARLpMTm38eVH60mzdz1
-	CfU/A4zZ6z/A3N5S7d6WzZuHwLNAjaU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713250622;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tO6YKqvR1Orl0Jyn0aSJ7A85sVhbE34JsSsizeJW7qY=;
-	b=dpkAv4KPIgwZ57QQEkDBGR+06uqkjsX1dPp6kzqD2KZSlfOlKbDZRcPBqXd+XtqtFh4ivN
-	PvRz0jTsGsJzoABw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E92013931;
-	Tue, 16 Apr 2024 06:57:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R47nCT4hHmYgSgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 16 Apr 2024 06:57:02 +0000
-Date: Tue, 16 Apr 2024 08:57:01 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
-	James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 5/5] nvme-fabrics: handle transient auth failures
-Message-ID: <qn4grwiboyzfoeqnow2decvvnq7wpymsc6yt5o6kxmmllrdlpj@6ymom3pxgsj6>
-References: <20240415124220.5433-1-dwagner@suse.de>
- <20240415124220.5433-6-dwagner@suse.de>
- <51fc1a3f-7166-49cf-9652-a95bdc5d2119@grimberg.me>
+	Tue, 16 Apr 2024 08:06:44 +0000
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43G7QNLV023080
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=EmFi9zm8B+AaZNNvDcKRHQJoPxJHJ/qB4bZefBKQMVY=;
+ b=F7GUc7Bz6R76lIF8EUgCjKPRnqtl+54uiMEpUWAvWkemuJuDcLVKPaVaFKb8oC7ZGnCu
+ Z/lmu9D/k2LbrMqY7YCDZN3u0UmMAKtuP5EXlR9j4TqdaBecES29A6ZNVT3H0KVK9Pev
+ xBj2ERxJhI8QF0CrCXOHcCX+XKa6/ONA3FwH9FhHUoNRa0mDy+sGJLj+OoZJuQ0E6gk0
+ UDk2zZI2lGbwlWrEsRbWwx05AKt0hyeQCCxa7k6LD0XofwKc01G2iZALROTnwxKaQ278
+ SDxFr2Z6UE0s+Jp17J1OGLQAShFZ/qt2zkysL3Vq+TLnmGMIxdFt4TPl4cCSF6Dctu69 iw== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xhjrngb9j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:30 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43G599ax027281
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:29 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xg4ryw2ru-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:29 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43G86RNU17629906
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:29 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EFA7858065
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:26 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4E08B58055
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:26 +0000 (GMT)
+Received: from [9.109.198.231] (unknown [9.109.198.231])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP
+	for <linux-nvme@lists.infradead.org>; Tue, 16 Apr 2024 08:06:25 +0000 (GMT)
+Message-ID: <ada525e3-9b54-453e-b9c0-9c2eb484cf78@linux.ibm.com>
+Date: Tue, 16 Apr 2024 13:36:24 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: find numa distance only if controller has valid
+ numa id
+Content-Language: en-US
+To: linux-nvme@lists.infradead.org
+References: <20240413090614.678353-1-nilay@linux.ibm.com>
+ <afcd5e05-f4af-40de-8d13-9bacf5fadd80@grimberg.me>
+ <ffcfbe15-8e6f-422a-87cd-52c30ebf726c@linux.ibm.com>
+ <81a64482-1b02-43b2-aacd-9d8ea1cea23c@grimberg.me>
+ <7b188849-5c3f-45ff-9747-096ffdaff6ee@linux.ibm.com>
+ <05dbae65-2cc2-40d7-9066-a83cdfdc47be@suse.de>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <05dbae65-2cc2-40d7-9066-a83cdfdc47be@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <51fc1a3f-7166-49cf-9652-a95bdc5d2119@grimberg.me>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[]
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: X0mjNnlJLNqCC4wSD0AQRVwqqWZMIPJE
+X-Proofpoint-ORIG-GUID: X0mjNnlJLNqCC4wSD0AQRVwqqWZMIPJE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-16_04,2024-04-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 bulkscore=0 phishscore=0 mlxscore=0 clxscore=1015
+ spamscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ adultscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2404010000 definitions=main-2404160049
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240415_235712_007589_FA59CD21 
-X-CRM114-Status: GOOD (  22.35  )
+X-CRM114-CacheID: sfid-20240416_010632_933658_B9DC3ED8 
+X-CRM114-Status: GOOD (  36.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,42 +109,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 15, 2024 at 11:51:19PM +0300, Sagi Grimberg wrote:
- > -	if (status < 0)
-> > +	if (status < 0) {
-> > +		/*
-> > +		 * authentication errors can be transient, thus retry a couple
-> > +		 * of times before giving up.
-> > +		 */
-> > +		if (status == -EKEYREJECTED &&
-> > +		    ++ctrl->nr_auth_retries < 3)
-> > +			return true;
-> 
-> I did not suggest nr_auth_retries.
 
-Correct. I explained why I didn't want to use nr_reconnect counter here.
 
-> Where is the 3 coming from? The controller already
-> has a number of reconnects before it gives up, no reason to add
-> another one.
+On 4/15/24 20:09, Hannes Reinecke wrote:
+> On 4/15/24 11:30, Nilay Shroff wrote:
+>>
+>>
+>> On 4/15/24 14:25, Sagi Grimberg wrote:
+>>>
+>>>
+>>> On 14/04/2024 14:02, Nilay Shroff wrote:
+>>>>
+>>>> On 4/14/24 14:00, Sagi Grimberg wrote:
+>>>>>
+>>>>> On 13/04/2024 12:04, Nilay Shroff wrote:
+>>>>>> On numa aware system where native nvme multipath is configured and
+>>>>>> iopolicy is set to numa but the nvme controller numa node id is
+>>>>>> undefined or -1 (NUMA_NO_NODE) then avoid calculating node distance
+>>>>>> for finding optimal io path. In such case we may access numa distance
+>>>>>> table with invalid index and that may potentially refer to incorrect
+>>>>>> memory. So this patch ensures that if the nvme controller numa node
+>>>>>> id is -1 then instead of calculating node distance for finding optimal
+>>>>>> io path, we set the numa node distance of such controller to default 10
+>>>>>> (LOCAL_DISTANCE).
+>>>>> Patch looks ok to me, but it is not clear weather this fixes a real issue or not.
+>>>>>
+>>>> I think this patch does help fix a real issue. I have a numa aware system where
+>>>> I have a multi port/controller NNVMe PCIe disk attached. On this system, I found
+>>>> that sometimes the nvme controller numa id is set to -1 (NUMA_NO_NODE). And the
+>>>> reason being, my system has processors and memory coming from one or more NUMA nodes
+>>>> and the NVMe PCIe device is coming from a NUMA node which is different. For example,
+>>>> we could have processors coming from node 0 and node 1, but the PCIe device coming from
+>>>> node 2, and we don't have any processor coming from node 2, so there would be no way for
+>>>> Linux to affinitize the PCIe device with a processor and hence while enumerating PCIe
+>>>> device kernel sets the numa id of such device to -1. Later if we hotplug CPU on node 2
+>>>> then kernel would assign the numa node id 2 to the PCIe device.
+>>>>
+>>>> For instance, I have a system with two numa nodes currently online. I also have
+>>>> a multi controller NVMe PCIe disk attached to this system:
+>>>>
+>>>> # numactl -H
+>>>> available: 2 nodes (2-3)
+>>>> node 2 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+>>>> node 2 size: 15290 MB
+>>>> node 2 free: 14200 MB
+>>>> node 3 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+>>>> node 3 size: 16336 MB
+>>>> node 3 free: 15075 MB
+>>>> node distances:
+>>>> node   2   3
+>>>>     2:  10  20
+>>>>     3:  20  10
+>>>>
+>>>> As we could see above on this system I have currently numa node 2 and 3 online.
+>>>> And I have CPUs coming from node 2 and 3.
+>>>>
+>>>> # lspci
+>>>> 052e:78:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller PM173Xa
+>>>> 058e:78:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller PM173Xa
+>>>>
+>>>> # nvme list -v
+>>>> Subsystem        Subsystem-NQN                                                                                    Controllers
+>>>> ---------------- ------------------------------------------------------------------------------------------------ ----------------
+>>>> nvme-subsys3     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme1, nvme3
+>>>>
+>>>> Device   SN                   MN                                       FR       TxPort Asdress        Slot   Subsystem    Namespaces
+>>>> -------- -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+>>>> nvme1    S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0          nvme-subsys3 nvme3n1
+>>>> nvme3    S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0          nvme-subsys3 nvme3n1, nvme3n2
+>>>>
+>>>> Device       Generic      NSID       Usage                      Format           Controllers
+>>>> ------------ ------------ ---------- -------------------------- ---------------- ----------------
+>>>> /dev/nvme3n1 /dev/ng3n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme1, nvme3
+>>>> /dev/nvme3n2 /dev/ng3n2   0x2          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme3
+>>>>
+>>>> # cat ./sys/devices/pci058e:78/058e:78:00.0/numa_node
+>>>> 2
+>>>> # cat ./sys/devices/pci052e:78/052e:78:00.0/numa_node
+>>>> -1
+>>>>
+>>>> # cat /sys/class/nvme/nvme3/numa_node
+>>>> 2
+>>>> # cat /sys/class/nvme/nvme1/numa_node
+>>>> -1
+>>>>
+>>>> As we could see above I have multi controller NVMe disk atatched to this system. This disk
+>>>> has 2 controllers. However the numa node id assigned to one of the controller (nvme1) is -1.
+>>>> This is because on this system, currently I don't have any processor coming from a numa node
+>>>> where nvme1 controller numa node could be be affinitized.
+>>>
+>>> Thanks for the explanation. But what is the bug you see in this configuration? panic?
+>>> suboptimal performance?
+>>> which is it? it is not clear from the patch description.
+>>>
+>> I didn't encounter panic, however the issue here is with accessing numa distance table
+>> with incorrect index.
+>>
+>> For calculating the distance between two nodes we invoke the function __node_distance().
+>> This function would then access the numa distance table, which is typically an array with
+>> valid index starting from 0. So obviously accessing this table with index of -1 would
+>> deference incorrect memory location. De-referencing incorrect memory location might have
+>> side effects including panic (though I didn't encounter panic). Furthermore in such a case,
+>> the calculated node distance could potentially be incorrect and that might cause the nvme
+>> multipath to choose a suboptimal IO path.
+>>
+>> This patch may not help choosing the optimal IO path (as we assume that the node distance would be
+>> LOCAL_DISTANCE in case nvme controller numa node id is -1) but it ensures that we don't access the
+>> invalid memory location for calculating node distance.
+>>
+> Hmm. One wonders: how does such a system work?
+> The systems I know always have the PCI slots attached to the CPU
+> sockets, so if the CPU is not present the NVMe device on that
+> slot will be non-functional. In fact, it wouldn't be visible at
+> all as the PCI lanes are not powered up.
+> In your system the PCI lanes clearly are powered up, as the NVMe
+> device shows up in the PCI enumeration.
+> Which means you are running a rather different PCI configuration.
+> Question now is: does the NVMe device _work_?
+Yes on my system NVMe device works as expected even in case the numa node id assigned to 
+NVMe controller is -1. The only side effect with such configuration is that if multipath 
+is configured then we may not be able to find optimal IO path.
 
-Sure, but seem to you consider all EKEYREJECTED errors are transient.
-But this is just not correct. There is also the case where the key is
-not correct on the first connect attempt for example, or the ctrl key
-gets updated but not the host key.
+> If it does, shouldn't the NUMA node continue to be present (some kind of memory-less, CPU-less NUMA node ...)?
+I think NUMA node to be present/online always if there's a PCI device affnitized to that numa node
+is not always required. At-least on the system which I have that's not the case. In fact, there's a 
+NUMA node id assigned to each PCI device in the system however during PCI enumeration kernel first 
+validates whether NUMA id assigned to the PCI device is online or not. If the respective numa node 
+is NOT online then the PCI enumeration code sets the numa node id of such PCI device to NUMA_NO_NODE 
+(i.e. -1). 
 
-> Just don't return false based on the status if it is a transient
-> authentication error.
+> As a side-note, we'll need these kind of configuration anyway once
+> CXL switches become available...
+Please ping me if I could be of any help for your need with CXL switches..
 
-Not all authentication errors are transient.
-
-> The patch just needs to be modified from
-> ��� if (status < 0)
-> to
-> ��� if (status < 0 && status != -EKEYREJECTED Plus a comment that explains
-> it.
-
-This is not correct. This patch is not following the specification
-already and I don't think we should bend the rules too much. Hence why I
-limited the reconnect attempt on auth errors to 3 attempts.
+Thanks,
+--Nilay
 
