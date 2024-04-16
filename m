@@ -4,77 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BD9AC4345F
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Apr 2024 20:30:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C7F3C04FF6
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Apr 2024 21:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:In-Reply-To:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j837pImS/au2+KFwIXh6C9Ky+vR1DmjBQqb++ork+Dc=; b=QJIKFFWfD1+SPSHWZwj0Xy3Edc
-	Ey62SeswmklGPRWLpH0xKBfhe/BqjqVmKB1yVQ1yLUcZEhO7uf7wIidCoQqwiZ5ZmT/v0k+VewFAH
-	Tk1V76SQGklnSsW4PaefTGDaNVf2uTUYeFOZAK0MRIasmV6Nty7ZG0heTjdUO16xAaSah7e31r+C6
-	2g/2iJ+JOJml9Cm68TyykkLiyY8JhYSkpUti/g4/svSMkSKM8h7nl3Qzzbf6GHvXf29McryVjKEm/
-	qQs3Nx8IVq9x0FdJS0TghmO/JaiILdqNym/U8AYnyBqRrkGEZIj/zoYbqh+90MxD3GAm4/jtw0yjX
-	Bv12oW3g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FRN0S0UrdEiWG4B5xuc/QvC+4jIMUlM9ivvZ43mxxCA=; b=coXtgArTbbMMZGZ0b2JakQ2W/R
+	C1edhyftSrajA8RfJez3DazAVMlMy3HVocwwjLRfpCPVeEBWYn72EsxiZ0IPtYYUOyj2wqkHZotPp
+	FwJeu8bguO5CNBJZpSbLrucjmVhE8LEKNoQvQcTfeMdwFTrF01ywfwRPMVeR+kJcBl1BvnQvdazLR
+	peOKFKkhJjPCjPCRa9YzL0Na27df5C99JBvKs9l+SH5LWJoKT4kydFUwdHDwi0YB+HYbUiLzHkAN9
+	7R8fp7sBXXRweLZCdrTPhCNeHYzR5qN6hEyKRnXcYtyeGHqNEAvBs02ygIGoba9lExgkrX1uSe2Pd
+	C8+a0DHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwpSA-0000000DiGh-0hyK;
-	Tue, 16 Apr 2024 20:30:54 +0000
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwpS4-0000000DiCr-1JVe
-	for linux-nvme@lists.infradead.org;
-	Tue, 16 Apr 2024 20:30:53 +0000
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-283-8fUyrjDEOg2_iWv6kXj3eA-1; Tue, 16 Apr 2024 21:30:38 +0100
-X-MC-Unique: 8fUyrjDEOg2_iWv6kXj3eA-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 16 Apr
- 2024 21:30:09 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Tue, 16 Apr 2024 21:30:09 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Aurelien Aptel' <aaptel@nvidia.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "sagi@grimberg.me" <sagi@grimberg.me>, "hch@lst.de"
-	<hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com"
-	<axboe@fb.com>, "chaitanyak@nvidia.com" <chaitanyak@nvidia.com>,
-	"davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
-	<kuba@kernel.org>
-CC: "aurelien.aptel@gmail.com" <aurelien.aptel@gmail.com>, "smalin@nvidia.com"
-	<smalin@nvidia.com>, "malin1024@gmail.com" <malin1024@gmail.com>,
-	"ogerlitz@nvidia.com" <ogerlitz@nvidia.com>, "yorayz@nvidia.com"
-	<yorayz@nvidia.com>, "borisp@nvidia.com" <borisp@nvidia.com>,
-	"galshalom@nvidia.com" <galshalom@nvidia.com>, "mgurtovoy@nvidia.com"
-	<mgurtovoy@nvidia.com>, "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>
-Subject: RE: [PATCH v24 03/20] iov_iter: skip copy if src == dst for direct
- data placement
-Thread-Topic: [PATCH v24 03/20] iov_iter: skip copy if src == dst for direct
- data placement
-Thread-Index: AQHaho0hnJcov98wd0yhfxeOP2ZlzrFra/Yw
-Date: Tue, 16 Apr 2024 20:30:09 +0000
-Message-ID: <a779982fc59f4b9b94d619d0bb111738@AcuMS.aculab.com>
-References: <20240404123717.11857-1-aaptel@nvidia.com>
- <20240404123717.11857-4-aaptel@nvidia.com>
-In-Reply-To: <20240404123717.11857-4-aaptel@nvidia.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	id 1rwq53-0000000Dp2W-2tXN;
+	Tue, 16 Apr 2024 21:11:05 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rwq4z-0000000Dp1F-3nSD;
+	Tue, 16 Apr 2024 21:11:01 +0000
+Date: Tue, 16 Apr 2024 14:11:01 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: John Garry <john.g.garry@oracle.com>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+	axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com
+Subject: Re: [PATCH v6 00/10] block atomic writes
+Message-ID: <Zh7pZUwmQXF-qC6D@bombadil.infradead.org>
+References: <20240326133813.3224593-1-john.g.garry@oracle.com>
+ <ZgOXb_oZjsUU12YL@casper.infradead.org>
+ <c4c0dad5-41a4-44b4-8f40-2a250571180b@oracle.com>
+ <Zg7Z4aJtn3SxY5w1@casper.infradead.org>
+ <f3c1d321-0dfc-466f-9f6a-fe2f0513d944@oracle.com>
+ <ZhQud1NbO4aMt0MH@bombadil.infradead.org>
+ <ZhYQANQATz82ytl1@casper.infradead.org>
+ <ZhxBiLSHuW35aoLB@bombadil.infradead.org>
+ <Zh2ZptLxnwa_jtSk@casper.infradead.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240416_133048_675548_5D8DE809 
-X-CRM114-Status: GOOD (  13.53  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zh2ZptLxnwa_jtSk@casper.infradead.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,53 +71,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Aurelien Aptel
-> Sent: 04 April 2024 13:37
->=20
-> From: Ben Ben-Ishay <benishay@nvidia.com>
->=20
-> When using direct data placement (DDP) the NIC could write the payload
-> directly into the destination buffer and constructs SKBs such that
-> they point to this data. To skip copies when SKB data already resides
-> in the destination buffer we check if (src =3D=3D dst), and skip the copy
-> when it's true.
-...
-> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-> index 4a6a9f419bd7..a85125485174 100644
-> --- a/lib/iov_iter.c
-> +++ b/lib/iov_iter.c
-> @@ -62,7 +62,14 @@ static __always_inline
->  size_t memcpy_to_iter(void *iter_to, size_t progress,
->  =09=09      size_t len, void *from, void *priv2)
->  {
-> -=09memcpy(iter_to, from + progress, len);
-> +=09/*
-> +=09 * When using direct data placement (DDP) the hardware writes
-> +=09 * data directly to the destination buffer, and constructs
-> +=09 * IOVs such that they point to this data.
-> +=09 * Thus, when the src =3D=3D dst we skip the memcpy.
-> +=09 */
-> +=09if (iter_to !=3D from + progress)
-> +=09=09memcpy(iter_to, from + progress, len);
+On Mon, Apr 15, 2024 at 10:18:30PM +0100, Matthew Wilcox wrote:
+> On Sun, Apr 14, 2024 at 01:50:16PM -0700, Luis Chamberlain wrote:
+> > On Wed, Apr 10, 2024 at 05:05:20AM +0100, Matthew Wilcox wrote:
+> > > Have you tried just using the buffer_head code?  I think you heard bad
+> > > advice at last LSFMM.  Since then I've landed a bunch of patches which
+> > > remove PAGE_SIZE assumptions throughout the buffer_head code, and while
+> > > I haven't tried it, it might work.  And it might be easier to make work
+> > > than adding more BH hacks to the iomap code.
+> > 
+> > I have considered it but the issue is that *may work* isn't good enough and
+> > without a test plan for buffer-heads on a real filesystem this may never
+> > suffice. Addressing a buffere-head iomap compat for the block device cache
+> > is less error prone here for now.
+> 
+> Is it really your position that testing the code I already wrote is
+> harder than writing and testing some entirely new code?  Surely the
+> tests are the same for both.
 
-How must does this conditional cost for the normal case
-when it is true?
-I suspect it is mispredicted 50% of the time.
-So, while it may speed up your test, the overall system
-impact will be negative.
+The compat code would only allow large folios for iomap, and use
+buffer-heads for non-large folios, so nothing much would change except
+a special wrapper.
 
-=09David
+> Besides, we aren't talking about a filesystem on top of the bdev here.
+> We're talking about accessing the bdev's page cache directly.
 
->  =09return 0;
->  }
->=20
-> --
-> 2.34.1
->=20
+Sure, but my concern was the lack of testing for buffer-head large
+folios. While for iomap we'd at least have done the ton of work to
+stress test testing large folios while testing XFS with it.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+While the block device cache is not a proper full blown filesystem,
+it just means since no filesystem has been tested with buffer heads with
+large folios its a possible minefield waiting to explode due to lack of
+testing.
 
+Is writing a proper test plan for the block device cache code with
+buffer-heads with large folios less work than writing the compat code
+for the block device cache? I concede that I'm not sure.
+
+I'm happy to try it out to see what blows up.
+
+  Luis
 
