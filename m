@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87D8DC4345F
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Apr 2024 09:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CF5AC4345F
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Apr 2024 09:40:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=er8DX4GP/0zcFAH5hqRsOdPBNwI7p7EcYeTeMz68P6k=; b=tESrPSpXgJrGQLeRTsGVnC45//
-	fr1vdcgfz+DACQidra5XYft5SACnjKYqtWYbtxGRnhQ2h4DLyBLzl28kBJbVvrvfzpnBriXZENCJX
-	TlUvvCW2o6MRYLAg6QLvWxUDu5xW5GZbfnZgMwaEf+IKL/vhf9FF3VOrEQIjCVC9WwsrjD/EgYu9s
-	nrQaypqN3JRWmSMRsZuoSYWS9k8VdlsQyqDTIXeM8ADHtct4V9wuM0FQe2nfxyEsuN/RcbuLoYOWZ
-	41LBxktOf5UqENh8tuXIvSJbAQ8hRlAmayR4kecWBtBaBZsQ2A365feptAevingsF6NPwnPZBqt8Z
-	RuP8A1ww==;
+	bh=5llpMVxmM62RdSoWzXTrV3xrLt8zZBi93xYenMpXorQ=; b=PepgFQIl1qj/bkyxhfEFfGb9G7
+	1rnSvPHmz4YTeX3HBM3O+7oRPlNaFXLT+sf96rzp40PdRSazeHUZTsAncd9GQsFa9rJhfXYsEyOch
+	v4dgFInU3zLhdplzWxUiqvd36GGDa5xGtfi4QNbHD3T2CRhnPXqfEjqj3Qc06vmRDiUUhwA/LCb2+
+	6rjIK+uYP+2qdCb8QdD9wnv6q6+Fg36e0IaOMKFTgsoJ1ugNLaVAd6vRzyxqKmcCbXfLNI8OdPjeY
+	1rTutdvaS1ueveZAZaAZhcgt3Ip/v1/JdzFXZIv/fpHH+825n6jzpgXVBT/n20DrwX6Cwtw2HKiH/
+	qMFWjhfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rxOFO-00000001egc-105m;
-	Thu, 18 Apr 2024 09:40:02 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1rxOFy-00000001elv-4B4a;
+	Thu, 18 Apr 2024 09:40:39 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rxOFK-00000001efw-2vg8
+	id 1rxOFw-00000001ekV-1792
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Apr 2024 09:40:00 +0000
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-349a35aba9dso109903f8f.3
-        for <linux-nvme@lists.infradead.org>; Thu, 18 Apr 2024 02:39:57 -0700 (PDT)
+	Thu, 18 Apr 2024 09:40:37 +0000
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-343d32aba7eso129921f8f.1
+        for <linux-nvme@lists.infradead.org>; Thu, 18 Apr 2024 02:40:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713433196; x=1714037996;
+        d=1e100.net; s=20230601; t=1713433234; x=1714038034;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=er8DX4GP/0zcFAH5hqRsOdPBNwI7p7EcYeTeMz68P6k=;
-        b=BnKLL8jzVdHmBfAZgzyrmnBEERBphZgK6jjsTstqViNh8m1rbUaM2GFcGI80+vc1sb
-         HWLORqdKzvFkqyaJwArJkZfFDcrRsePDuUIi5JdxQ5JFIbnXjpPVejCKIDaT2RdqiHk3
-         x7pipBw8gMXz1g28kpr7Vel0O+OUsuULQ13dpkliUpo7jJFA5wYpWpkceROd9dNHOPmD
-         mF3XXvAYfz3vwgUb3EzqC4Wr4qtWtxmkJK6et0pm8gxwFwjfjMyo4zaaga7muwC484Ax
-         Ve+7Sqbfwy5U3Cc+KlQu+USDEywIFSEGOY7VyM7gfTbx3FwJLTJ0GdL17u3KAwy+Au51
-         OVhA==
-X-Gm-Message-State: AOJu0Yx0PLQSQxwpgGmXd3ow96rezxoM0feqSrABbPTQW0Ercl3caL8J
-	7XSPkGQQ5cqEto8GnyS0wMVWhFoW5QCi7aj3CrwRSHQjR6qWwAWJ
-X-Google-Smtp-Source: AGHT+IExRCYVfQBev/WP5uthvMv97mFPpVQLciU76GEJOc65YeRzt2GNkaYiVeOeVs1IAm/cYJKisw==
-X-Received: by 2002:a05:600c:1d16:b0:416:b5f7:7ceb with SMTP id l22-20020a05600c1d1600b00416b5f77cebmr1549260wms.0.1713433196291;
-        Thu, 18 Apr 2024 02:39:56 -0700 (PDT)
+        bh=5llpMVxmM62RdSoWzXTrV3xrLt8zZBi93xYenMpXorQ=;
+        b=Z3miqs0QEVEpz+VmhMvHVkDMiZTNkpREiHezqQCXhcOaz0jCMmXiP/6jtpl3H97Sea
+         IaiHshnqvj/zzu3AiCwOEMl00N4Cbn/W9Bg9Wod5JRAtIkWJc4f01Q17njPp/Ec1FXpx
+         nb+JdhldBLp/V+cVHHN/7cfSe5d71qqGxClsf5MtEWzH8jxrnhpRxCjtkSfTiOP70434
+         SpYSLvkC7YmjIAWUQmYzh66d4YSSALwyE+RhOtXPLwfHcgzrRSiJeTzFp73t2pcwhF3K
+         wMBcC/1bZPpzXfT7BBJ6fKV9DWjoW50tfwVyZxClkzqJiKuG8Y17cEto7xf3N2+ODPGM
+         NwSA==
+X-Gm-Message-State: AOJu0YxvfFB1BsnHemK4cJtGX8YCLL2LAVTNJuW4pKLAEV36hcIQHnuv
+	vXnu54DS/KvFpLeRG1ME2kKaV18TFOY1K1FjKKc6D5QhgpnPV4l8
+X-Google-Smtp-Source: AGHT+IGSqUYFbSGDXtQK/T2DesnT8E+l/6A5w8bR0mNdPx7XbKYpU4thJO/DZ+r/+okT2pxvFyuDCw==
+X-Received: by 2002:a05:600c:474b:b0:416:ac21:9666 with SMTP id w11-20020a05600c474b00b00416ac219666mr1496537wmo.4.1713433233848;
+        Thu, 18 Apr 2024 02:40:33 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
-        by smtp.gmail.com with ESMTPSA id j10-20020a05600c190a00b00418a9961c47sm2057311wmq.47.2024.04.18.02.39.55
+        by smtp.gmail.com with ESMTPSA id d15-20020a05600c34cf00b0041897c6171dsm5806870wmq.16.2024.04.18.02.40.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 02:39:56 -0700 (PDT)
-Message-ID: <35a9cba8-776b-4894-9dd4-122eccb68887@grimberg.me>
-Date: Thu, 18 Apr 2024 12:39:54 +0300
+        Thu, 18 Apr 2024 02:40:33 -0700 (PDT)
+Message-ID: <85380369-b7d1-4cc3-859d-d56c4491c39c@grimberg.me>
+Date: Thu, 18 Apr 2024 12:40:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests v2 05/11] nvme/rc: introduce NVMET_TRTYPES
+Subject: Re: [PATCH blktests v2 00/11] support test case repeat by different
+ conditions
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
  linux-block@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org, Daniel Wagner <dwagern@suse.de>,
  Chaitanya Kulkarni <kch@nvidia.com>
 References: <20240416103207.2754778-1-shinichiro.kawasaki@wdc.com>
- <20240416103207.2754778-6-shinichiro.kawasaki@wdc.com>
 Content-Language: he-IL, en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240416103207.2754778-6-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20240416103207.2754778-1-shinichiro.kawasaki@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240418_023958_840361_6F8B8D4B 
-X-CRM114-Status: GOOD (  23.70  )
+X-CRM114-CacheID: sfid-20240418_024036_351392_B20DD617 
+X-CRM114-Status: GOOD (  29.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,96 +85,172 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 16/04/2024 13:32, Shin'ichiro Kawasaki wrote:
-> Some of the test cases in nvme test group can be run under various nvme
-> target transport types. The configuration parameter nvme_trtype
-> specifies the transport to use. But this configuration method has two
-> drawbacks. Firstly, the blktests check script needs to be invoked
-> multiple times to cover multiple transport types. Secondly, the test
-> cases irrelevant to the transport types are executed exactly same
-> conditions in the multiple blktests runs.
+On 16/04/2024 13:31, Shin'ichiro Kawasaki wrote:
+> In the recent discussion for nvme test group [1], two pain points were mentioned
+> regarding the test case runs.
 >
-> To avoid the drawbacks, introduce the new configuration parameter
-> NVMET_TRTYPES. This parameter can take multiple transport types like:
+> 1) Several test cases in nvme test group do exactly the same test except the
+>     NVME transport backend set up condition difference (device vs. file). This
+>     results in duplicate test script codes. It is desired to unify the test cases
+>     and run them repeatedly with the different conditions.
 >
->      NVMET_TRTYPES="loop tcp"
+> 2) NVME transport types can be specified with nvme_trtype parameter so that the
+>     same tests can be run for various transport types. However, some test cases
+>     do not depend on the transport types. They are repeated in multiple runs for
+>     the various transport types under the exact same conditions. It is desired to
+>     repeat the test cases only when such repetition is required.
 >
-> Also introduce _nvmet_set_nvme_trtype() which can be called from the
-> set_conditions() hook of the transport type dependent test cases.
-> Blktests will repeat the test case as many as the number of elements in
-> NVMET_TRTYPES, and set nvme_trtype for each test case run.
+> [1] https://lore.kernel.org/linux-block/w2eaegjopbah5qbjsvpnrwln2t5dr7mv3v4n2e63m5tjqiochm@uonrjm2i2g72/
+>
+> One idea to address these pain points is to add the test repeat feature to the
+> nvme test group. However, Daniel questioned if the feature could be implemented
+> in the blktests framework. Actually, a similar feature has already been
+> implemented to repeat some test cases for non-zoned block devices and zoned
+> block devices. However, this feature is implemented only for the zoned and non-
+> zoned device conditions. It can not fulfill the desires for nvme test group.
+>
+> This series proposes to generalize the feature in the blktests framework to
+> repeat the test cases with different conditions. Introduce a new function
+> set_conditions() that each test case can define and instruct the framework to
+> repeat the test case. The first four patches introduce the feature and apply it
+> to the repetition for non-zoned and zoned block devices. The following seven
+> patches apply the feature to nvme test group so that the test cases can be
+> repeated for NVME transport types and backend types in the ideal way. Two of the
+> seven patches are reused from the work by Daniel. The all patches are listed in
+> the order that does not lose the test coverage with the default set up.
 
-It would be nicer to keep the same name and just have it accept an array.
-Not a must though.
+Nice idea!
 
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> ---
->   Documentation/running-tests.md | 11 ++++++++---
->   tests/nvme/rc                  | 33 ++++++++++++++++++++++++++++++++-
->   2 files changed, 40 insertions(+), 4 deletions(-)
+> This series introduces new config parameters NVMET_TRTYPES and
+> NVMET_BLKDEV_TYPES, which can take multiple values with space separators. When
+> they are defined in the config file as follows,
 >
-> diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
-> index ae80860..144acd1 100644
-> --- a/Documentation/running-tests.md
-> +++ b/Documentation/running-tests.md
-> @@ -102,8 +102,13 @@ RUN_ZONED_TESTS=1
->   
->   The NVMe tests can be additionally parameterized via environment variables.
->   
-> +- NVMET_TRTYPES: 'loop' (default), 'tcp', 'rdma' and 'fc'
-> +  Set up NVME target backends with the specified transport. Multiple transports
-> +  can be listed with separating spaces, e.g., "loop tcp rdma". In this case, the
-> +  tests are repeated to cover all of the transports specified.
->   - nvme_trtype: 'loop' (default), 'tcp', 'rdma' and 'fc'
-> -  Run the tests with the given transport.
-> +  Run the tests with the given transport. This parameter is still usable but
-> +  replaced with NVMET_TRTYPES. Use NVMET_TRTYPES instead.
->   - nvme_img_size: '1G' (default)
->     Run the tests with given image size in bytes. 'm', 'M', 'g'
->   	and 'G' postfix are supported.
-> @@ -117,11 +122,11 @@ These tests will use the siw (soft-iWARP) driver by default. The rdma_rxe
->   
->   ```sh
->   To use the siw driver:
-> -nvme_trtype=rdma ./check nvme/
-> +NVMET_TRTYPES=rdma ./check nvme/
->   ./check srp/
->   
->   To use the rdma_rxe driver:
-> -use_rxe=1 nvme_trtype=rdma ./check nvme/
-> +use_rxe=1 NVMET_TRTYPES=rdma ./check nvme/
->   use_rxe=1 ./check srp/
->   ```
->   
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index 1f5ff44..34ecdde 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -18,10 +18,41 @@ def_hostid="0f01fb42-9f7f-4856-b0b3-51e60b8de349"
->   def_hostnqn="nqn.2014-08.org.nvmexpress:uuid:${def_hostid}"
->   export def_subsysnqn="blktests-subsystem-1"
->   export def_subsys_uuid="91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-> -nvme_trtype=${nvme_trtype:-"loop"}
->   nvme_img_size=${nvme_img_size:-"1G"}
->   nvme_num_iter=${nvme_num_iter:-"1000"}
->   
-> +# Check consistency of NVMET_TRTYPES and nvme_trtype configurations.
-> +# If neither is configured, set the default value.
-> +first_call=${first_call:-1}
-> +if ((first_call)); then
-> +	if [[ -n $nvme_trtype ]]; then
-> +		if [[ -n $NVMET_TRTYPES ]]; then
-> +			echo "Both nvme_trtype and NVMET_TRTYPES are specified"
-> +			exit 1
-> +		fi
-> +		NVMET_TRTYPES="$nvme_trtype"
-> +	elif [[ -z $NVMET_TRTYPES ]]; then
-> +		nvme_trtype="loop"
-> +		NVMET_TRTYPES="$nvme_trtype"
-> +	fi
-> +	first_call=0
-> +fi
+>    NVMET_TRTYPES="loop rdma tcp"
+>    NVMET_BLKDEV_TYPES="device file"
+>
+> the test cases which depend on these parameters are repeated 3 x 2 = 6 times.
+> For example, nvme/006 is repeated as follows.
+>
+> nvme/006 (nvmet bd=device tr=loop) (create an NVMeOF target) [passed]
+>      runtime  0.148s  ...  0.165s
+> nvme/006 (nvmet bd=device tr=rdma) (create an NVMeOF target) [passed]
+>      runtime  0.273s  ...  0.235s
+> nvme/006 (nvmet bd=device tr=tcp) (create an NVMeOF target)  [passed]
+>      runtime  0.162s  ...  0.164s
+> nvme/006 (nvmet bd=file tr=loop) (create an NVMeOF target)   [passed]
+>      runtime  0.138s  ...  0.134s
+> nvme/006 (nvmet bd=file tr=rdma) (create an NVMeOF target)   [passed]
+>      runtime  0.216s  ...  0.201s
+> nvme/006 (nvmet bd=file tr=tcp) (create an NVMeOF target)    [passed]
+>      runtime  0.154s  ...  0.146s
+>
+>
+> Changes from v1:
+> * Renamed NVMET_TR_TYPES to NVMET_TRTYPES
+> * 1st patch: reflected comments on the list and added Reviewed-by tag
+> * 5th patch: changed NVMET_TRTYPES from array to variable
+> * 7th patch: changed NVMET_BLKDEV_TYPES from array to variable
+> * Reflected other comments on the list
+>
+>
+> Daniel Wagner (3):
+>    nvme/rc: add blkdev type environment variable
+>    nvme/{007,009,011,013,015,020,024}: drop duplicate nvmet blkdev type
+>      tests
+>    nvme/{021,022,025,026,027,028}: do not hard code target blkdev type
+>
+> Shin'ichiro Kawasaki (8):
+>    check: factor out _run_test()
+>    check: support test case repeat by different conditions
+>    check: use set_conditions() for the CAN_BE_ZONED test cases
+>    meta/{016,017}: add test cases to check repeated test case runs
+>    nvme/rc: introduce NVMET_TRTYPES
+>    nvme/rc: introduce NVMET_BLKDEV_TYPES
+>    nvme/{002-031,033-038,040-045,047,048}: support NMVET_TRTYPES
+>    nvme/{006,008,010,012,014,019,023}: support NVMET_BLKDEV_TYPES
+>
+>   Documentation/running-tests.md |  16 +++-
+>   Makefile                       |   3 +-
+>   check                          | 129 ++++++++++++++++++++++-----------
+>   common/shellcheck              |   2 +-
+>   common/zoned                   |  22 ++++++
+>   new                            |  21 ++++++
+>   tests/meta/016                 |  29 ++++++++
+>   tests/meta/016.out             |   2 +
+>   tests/meta/017                 |  29 ++++++++
+>   tests/meta/017.out             |   2 +
+>   tests/nvme/002                 |   4 +
+>   tests/nvme/003                 |   4 +
+>   tests/nvme/004                 |   4 +
+>   tests/nvme/005                 |   4 +
+>   tests/nvme/006                 |   9 ++-
+>   tests/nvme/007                 |  28 -------
+>   tests/nvme/007.out             |   2 -
+>   tests/nvme/008                 |   8 +-
+>   tests/nvme/009                 |  36 ---------
+>   tests/nvme/009.out             |   3 -
+>   tests/nvme/010                 |   8 +-
+>   tests/nvme/011                 |  39 ----------
+>   tests/nvme/011.out             |   3 -
+>   tests/nvme/012                 |   8 +-
+>   tests/nvme/013                 |  43 -----------
+>   tests/nvme/013.out             |   3 -
+>   tests/nvme/014                 |   8 +-
+>   tests/nvme/015                 |  48 ------------
+>   tests/nvme/015.out             |   4 -
+>   tests/nvme/016                 |   4 +
+>   tests/nvme/017                 |   4 +
+>   tests/nvme/018                 |   4 +
+>   tests/nvme/019                 |   8 +-
+>   tests/nvme/020                 |  40 ----------
+>   tests/nvme/020.out             |   4 -
+>   tests/nvme/021                 |  10 ++-
+>   tests/nvme/022                 |  10 ++-
+>   tests/nvme/023                 |   8 +-
+>   tests/nvme/024                 |  40 ----------
+>   tests/nvme/024.out             |   2 -
+>   tests/nvme/025                 |  10 ++-
+>   tests/nvme/026                 |  10 ++-
+>   tests/nvme/027                 |  10 ++-
+>   tests/nvme/028                 |  10 ++-
+>   tests/nvme/029                 |   4 +
+>   tests/nvme/030                 |   4 +
+>   tests/nvme/031                 |   4 +
+>   tests/nvme/033                 |   4 +
+>   tests/nvme/034                 |   4 +
+>   tests/nvme/035                 |   4 +
+>   tests/nvme/036                 |   4 +
+>   tests/nvme/037                 |   4 +
+>   tests/nvme/038                 |   4 +
+>   tests/nvme/040                 |   4 +
+>   tests/nvme/041                 |   3 +
+>   tests/nvme/042                 |   3 +
+>   tests/nvme/043                 |   3 +
+>   tests/nvme/044                 |   3 +
+>   tests/nvme/045                 |   3 +
+>   tests/nvme/047                 |   4 +
+>   tests/nvme/048                 |   4 +
+>   tests/nvme/rc                  |  58 ++++++++++++++-
+>   62 files changed, 437 insertions(+), 379 deletions(-)
+>   create mode 100644 common/zoned
+>   create mode 100755 tests/meta/016
+>   create mode 100644 tests/meta/016.out
+>   create mode 100755 tests/meta/017
+>   create mode 100644 tests/meta/017.out
+>   delete mode 100755 tests/nvme/007
+>   delete mode 100644 tests/nvme/007.out
+>   delete mode 100755 tests/nvme/009
+>   delete mode 100644 tests/nvme/009.out
+>   delete mode 100755 tests/nvme/011
+>   delete mode 100644 tests/nvme/011.out
+>   delete mode 100755 tests/nvme/013
+>   delete mode 100644 tests/nvme/013.out
+>   delete mode 100755 tests/nvme/015
+>   delete mode 100644 tests/nvme/015.out
+>   delete mode 100755 tests/nvme/020
+>   delete mode 100644 tests/nvme/020.out
+>   delete mode 100755 tests/nvme/024
+>   delete mode 100644 tests/nvme/024.out
+>
 
-It would be nice to have the string check be done at first so you don't
-get any typo-related error later during the execution.
 
