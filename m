@@ -4,73 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A047C4345F
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Apr 2024 16:53:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8F74C4345F
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Apr 2024 16:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pp7art5nwVMxZvAHZ1//5si+rNHK1yWGyXnM1DnZLO8=; b=LoDerjPSJBguC6VeW1etwjaMBN
-	BMRCwxEsPGmOs11rhMqRyVRHf3pIljt6Nri7T/iTonBHDnP+Kc02Zwh3Gr2Xa3pPD7WUOQzDEYIGk
-	wu0Q6N6Toi2PFkV3dlqf5GXmPefZOUWvFFjePYhE+NKk/0yM9noaK/Z2DfJV9UBqVMBuxBDaclLw0
-	gIu9u5tQCW+C3TYMDJm52DFNS5tYhJj27toTeGIfMRRkX5sBzntIQLi+ae9XedC33u6j27IbRghY6
-	aGDA2TbdvdQPRq7j1R65WMHA7AGlbNMEey4IKer8fSUkdUhH9BxNQq4fSKN4PzSkqYK+Zrw8AWlz+
-	P3gwrQLQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pp7art5nwVMxZvAHZ1//5si+rNHK1yWGyXnM1DnZLO8=; b=CRiT0TJUicuxR3xUAmtilmZ2is
+	KyLgCaV5YiwUpGT/0/FfZp2yNYIHlhT7zyDUZUdTg7z2RyrtgMO5fxvPDqfDTGFpW+JJ1ewT7zSn7
+	YKyRW+pYyyQKkUd/fkh0aOXIolNGoS2YRkMcW58sHq5n0FUIcoY6HwFTd4jyMVdqHoC1q5uUcJlfw
+	vFT4pxzxZvZTtfm2uSR3v03n0R+wOn7xd/sWgyfR4gD8y1sA2LUaOU4FRL/ncTGbdKoTX3si92J1O
+	Rwyc6L6v1SPrElxc6BqwxXG5i2IN0R4fNnnFQxyY00h5ZZGhmgWu81mC/DgMDZzz5FUXsgKtkN5PH
+	PUI1VQgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryaRj-0000000AsIN-2Dpx;
-	Sun, 21 Apr 2024 16:53:43 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1ryaVD-0000000Asg1-2vZ3;
+	Sun, 21 Apr 2024 16:57:19 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryaRg-0000000AsHH-3BdO
+	id 1ryaVA-0000000Ased-1aHh
 	for linux-nvme@lists.infradead.org;
-	Sun, 21 Apr 2024 16:53:42 +0000
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43LGm3kU022178
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:38 GMT
+	Sun, 21 Apr 2024 16:57:17 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43LFwrsR015747;
+	Sun, 21 Apr 2024 16:57:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
+ mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
  bh=pp7art5nwVMxZvAHZ1//5si+rNHK1yWGyXnM1DnZLO8=;
- b=pltOlho3mjvxBcvw/zdRY467kD1qpiHMWLuM2P6BE+JvLfiNCZa86ALH3dAm6Ns5UoSL
- t/TVrQX71LmwmHlOU6hdR9MhoUiS6I2uPm2zx1g5qc4kgM8NdSD4BSKV2XBjUGcz71B0
- htLXpmi+KRHGs8NdlX8R3QV9unaT3jBmn066XwUC8LfY0izW+uqqpX24Gi3dJvVuxdFB
- P96TDXC+RWfkbHC90CrVZ62rs2rOEddcVcrye+/aQkFuR5+ohBL7ghlsDq8YUh0VmkXA
- z/lGJ+OzUvMQOrpUT30AU9u9J6ZLZIjRpjwXwhtmWpUVAZu5MLb7d+22xyp8c32Kzm68 lg== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xn6mhr08k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:37 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43LFojcH005373
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:37 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xmx3c20gv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:36 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43LGrY6G6423276
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:36 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E999C58068
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:33 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0A84358052
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:33 +0000 (GMT)
+ b=eJDX/cBLhqWPK+0j1rSDrhB/I4K/lZefGpJHBbQIF4OXd0OxGvjUbRxtyvLVZvkS2eCy
+ HK8caDdH0Ea8es/ZjI0WJRh5JHZ7+idwoYVyxEjFb8K9rgCQGTeX4MwKBvioTf2ML4uH
+ vgsv+V9p0+uOze6RnZnURirqjyKSHL9eQ8srQ0U7IHM4gL+MNp0FzUeKOVi5+4wC+0/J
+ VIJvfHgWg2FzKPAvqj98fAI17aPB8IsumqkObe6KawsmrRUEDWHYvfBxUUX2WXeAK87e
+ ts64Zwb7zqLgOK6CAS+hM5Vh6Ze1Lq6tCTWBlqYnJE+9GxuA7NsGscr223tVV+d6mCHj yg== 
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xn5wgg2r6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 21 Apr 2024 16:57:02 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43LDvQhP023042;
+	Sun, 21 Apr 2024 16:57:01 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xms1nk8cm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 21 Apr 2024 16:57:01 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43LGuwN022610524
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 21 Apr 2024 16:57:00 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 866265805A;
+	Sun, 21 Apr 2024 16:56:58 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 30F2B5803F;
+	Sun, 21 Apr 2024 16:56:56 +0000 (GMT)
 Received: from [9.171.13.75] (unknown [9.171.13.75])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 16:53:32 +0000 (GMT)
-Message-ID: <486e0e88-7e28-454b-9184-7be5a0bcfb1c@linux.ibm.com>
-Date: Sun, 21 Apr 2024 22:23:31 +0530
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Sun, 21 Apr 2024 16:56:55 +0000 (GMT)
+Message-ID: <d33a5681-b195-4258-8eee-e0eae46ade5b@linux.ibm.com>
+Date: Sun, 21 Apr 2024 22:26:54 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [Bug Report] PCIe errinject and hot-unplug causes nvme driver
  hang
 Content-Language: en-US
-To: linux-nvme@lists.infradead.org
+To: Sagi Grimberg <sagi@grimberg.me>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        "axboe@fb.com" <axboe@fb.com>, Gregory Joyce <gjoyce@ibm.com>,
+        Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>
 References: <199be893-5dfa-41e5-b6f2-40ac90ebccc4@linux.ibm.com>
  <579c82da-52a7-4425-81d7-480c676b8cbb@grimberg.me>
 From: Nilay Shroff <nilay@linux.ibm.com>
@@ -78,19 +82,19 @@ In-Reply-To: <579c82da-52a7-4425-81d7-480c676b8cbb@grimberg.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: FFJqbhh14iYJL1AEtqKLQ8-fLkB7Uiqv
-X-Proofpoint-ORIG-GUID: FFJqbhh14iYJL1AEtqKLQ8-fLkB7Uiqv
+X-Proofpoint-ORIG-GUID: -pdw4TuGPHZnUsFZebNxfUCoLC_y8AQp
+X-Proofpoint-GUID: -pdw4TuGPHZnUsFZebNxfUCoLC_y8AQp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-21_16,2024-04-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2404010000
- definitions=main-2404210106
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 suspectscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=999 priorityscore=1501 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2404010000 definitions=main-2404210106
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240421_095341_057377_D8D188FE 
-X-CRM114-Status: GOOD (  28.87  )
+X-CRM114-CacheID: sfid-20240421_095716_569512_60F2CDC1 
+X-CRM114-Status: GOOD (  29.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -291,22 +295,4 @@ nvme_remove() before it forward progress to remove namespaces?
 
 Thanks,
 --Nilay
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
 
