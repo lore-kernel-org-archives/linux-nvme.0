@@ -4,172 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD9B2C07C79
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Apr 2024 11:35:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7D9DC4345F
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Apr 2024 13:01:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QMu3bXkUDL6lSTVMGKnBPds/FdJU75AFJjF+qBomfPY=; b=2964oChfWEBRUgL5A0QoPgc4NY
-	dvaAo/R0KBTtx/V8kEhxy9YWNwHfpkltu0TDMwSYsJx/wqsU+zdl4gi+FeC85MxucInGv6to0AlwR
-	elYMLj9kWoRzOfWCLVkVtHV7+6ATfpVcyeTxlRoXcZsAPFjZzjYPpX89OgiBXzaHvfDb6xOGY69Sy
-	Jqzr7DMBjy9aKriXl8BC8UZMQc0nypK5fPZnVd3yo3goief8mz+gGXKmrKI7LrtXH8QOaoio1kA38
-	TcnSDm8K1uaZaPggFwKTZLyFgTmhrnx81DALpGs4hfMmLKxCalEDB57Za6uM5tefDO1sNIi3oloES
-	Yi3oq8og==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mlD1neIZBrK3RzbK9Cag8ZJaIL4bZ6072Ht6hDOialM=; b=fvQ116+FX661PaYM8Dl/48yiyz
+	HHHwKapVg4PDfEX7Gx0c6EVyMuXLEOzK+QPr8uDULSJmi5nvfCFODtixK2kC7hjsKcQjOFGYaX0Da
+	jilsimgcGoFuGUnel+GyLIRBrt1kAqj1xD6tkVazhXYnw+QG5YG2NPcqQsEg9+blIqWpHaUIG0bdS
+	M1u90UcDA7gr055CiJpV8d0T9HLdKQfKSMaAsZGp75V8hPbBxGcffE0kZ/hWnkrskD2AVC7aXFZYl
+	GTjEgXtb5NNrIT1uhhW9Mf89tx24bZTDoLxVwWbNRv2byo+dHT5sNrtozwL2ZbpMoML0U47doGV08
+	h9NAbOug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryrxD-0000000DNS8-3spu;
-	Mon, 22 Apr 2024 11:35:23 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1rytIA-0000000DeKc-3w07;
+	Mon, 22 Apr 2024 13:01:06 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryrx7-0000000DNQz-45SA
+	id 1rytI3-0000000DeHX-0ebA
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Apr 2024 11:35:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1713785717; x=1745321717;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=HD5/y3gFEAIBenqv5L+7+2yi/4l+50xZN6lEh8+uhcU=;
-  b=E3tY/87E0r/BQewTQeJam+/pxLdD0MPibMXPRR4cY4Cl2gumrlmQ3Bug
-   G4wEA5TXFADTxHDOJdOADH2/7tLMD73zWlREK+Hwb7rAk/EYztxs7JUrD
-   vURLvHbD2sKW4FtsVdHN+ngBEeo++YkDQ1iph/rPh0iNx/X//8yqC3SZC
-   rBlG9wtzYPRLRk2i/t8wq7LmTS0pwsvLR+4T/i2SEN8hIjh7AsbzThUsQ
-   C16Cu7Du9DrmikgPAQ9A6nqYtt3L4uDhGuzPI++RusuPUQQdHykGITh38
-   Fb87Ny2RJlueIMWCEk2XY4F9IJmoX/q75HRcTG8/cpmnqyCiegYfwqr3p
-   Q==;
-X-CSE-ConnectionGUID: iEywpUS1TYeQ4LzvSPMVjg==
-X-CSE-MsgGUID: E2iAwMZKT2q2tZk3gHHBTg==
-X-IronPort-AV: E=Sophos;i="6.07,220,1708358400"; 
-   d="scan'208";a="15277050"
-Received: from mail-bn8nam12lp2169.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.169])
-  by ob1.hgst.iphmx.com with ESMTP; 22 Apr 2024 19:35:08 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j2UkB7Dm0TkrsBnprNiaM8I7kmSrleLgeylaB57HLH3QtgFyxNU9n6+BrXQB7bvL8E5sJj5XOLiDJqIcZgpDDGgcdwzIX1Ys9R2viqpK8lFjy48HdtffGwBx1CE4Ha5+eYIZnL2+yv/XtWfM2DGk6Vgaxgq8F8yUMDttnDBZHqtm/i29V5Q136ymxS+H6R/5xLKF7r+VN4Qo0gd75U4HIxzuNqK1C8o4q8CT+H/NSOIkeJUQnV7965Ku/XS+IPX6a8AtDfoVBA+K2gaesx4yqafagTFu2LrqTydnT9SRUftZMja3oW0R9M1wUIklwuUzCRlrW2vTHF2/Ptv0DLvw0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QMu3bXkUDL6lSTVMGKnBPds/FdJU75AFJjF+qBomfPY=;
- b=G1mp2WArsKcO5U+mBm0eCleXpKR2jCdVbHrXB3c/tJZjrP/2EmpDkFDuVLU/oGFNrEOFDKYsLDqIr6FFRejSsg7qmIiatQEyihr2UPv3oYhwJkcaFr4uipte47D/p1SFuPMMhbXeavNwhQclhOgmzqxIQYKPMV54VZvM5GcHo5ViZDsbUpATvWYFZYX0Y2OIJY6BsBtTpK6G2fTpCPa0nez8nnB2iYlJ9rmcgPRmuI30UVrVMK8POLexFdlktBOSk9TTg3AhOzEsf8pLuyNezGxBBO7RhZ0ilkdJpfZc8Fbc04cNIHKKmi7DTnJO5IP5Z6U9fZblc1huv+w29yF/YQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QMu3bXkUDL6lSTVMGKnBPds/FdJU75AFJjF+qBomfPY=;
- b=JPym6ruZSg43Gks/fwLUqppTym3qYt8UA2VLVvsdANzbhgNJyxJhFmVhHSf5iJrKtuZY2dy6gudxCP3d0KKf0R9DU5omBg8rbhrxwcQnKOONj4VjFJ8ZKPuABeDu+3grrve8iFZgBydkdRVwP7trkOKldBABOFe3JGpp4FRot78=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- DM8PR04MB8117.namprd04.prod.outlook.com (2603:10b6:8:c::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7472.44; Mon, 22 Apr 2024 11:35:06 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f%3]) with mapi id 15.20.7472.044; Mon, 22 Apr 2024
- 11:35:06 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Daniel
- Wagner <dwagern@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH blktests v2 05/11] nvme/rc: introduce NVMET_TRTYPES
-Thread-Topic: [PATCH blktests v2 05/11] nvme/rc: introduce NVMET_TRTYPES
-Thread-Index: AQHakXRkuevM2ZZgGEybNCn/HW/s2bF0L1WA
-Date: Mon, 22 Apr 2024 11:35:06 +0000
-Message-ID: <k424ljam2uapxaehubne7xjzbwyrmmr4wlhdpwjjru63lypecb@4okxgocttvwp>
-References: <20240416103207.2754778-1-shinichiro.kawasaki@wdc.com>
- <20240416103207.2754778-6-shinichiro.kawasaki@wdc.com>
- <35a9cba8-776b-4894-9dd4-122eccb68887@grimberg.me>
-In-Reply-To: <35a9cba8-776b-4894-9dd4-122eccb68887@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM8PR04MB8117:EE_
-x-ms-office365-filtering-correlation-id: f8714faf-2813-4774-fd07-08dc62c0420e
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: =?us-ascii?Q?EgCVQ6OZDG6BTsiD362bfsJ+Q/FL69OaaZdNB31zxkzXFqKXuoYyuDhY2d8l?=
- =?us-ascii?Q?+Lo36EL7a7m9wyuSo+98YwTtQxSt3pZtjyHIbx5hNRsJWKhfkR9pvKlEdZ4R?=
- =?us-ascii?Q?/XD1Squ5lVHG0a8V5BbERVjAEVrfsgdmj06EAs/JDF4YBhfj19ygyIuPsOO/?=
- =?us-ascii?Q?ChuiaiMIiXGVVsJoCoI/xsCmrAoHgnXDtmzhOjr51qEuofD1u6DQExDfA73f?=
- =?us-ascii?Q?R/Kvk1SDgrGzWQdxQfMd+ivhmr8l1qkEAHP5scGjdnBUOKH+Uuk1jgkcOlha?=
- =?us-ascii?Q?ozrM8aPWjk1Zb7kGybelUlGXnklWT63yv8Epbhiw1lA9cBglkFOm61iBtPN+?=
- =?us-ascii?Q?vx+iVeuy2SmwEKXloqlKB1shff0ROA4euru1f0FrM/mmZ71hNqeAjdxjHiTz?=
- =?us-ascii?Q?dAZuSgDboqaJifC8J2I7XQIPTqRpzH5+TQT3uXj6w1VEpy8WqTzGZYb5rUJi?=
- =?us-ascii?Q?o/rf3Vm2D3sD5USWitcx3nPEJ2pPz6cdj5a58/xJZ9Ml48hBa/z8sdQVT3kE?=
- =?us-ascii?Q?/Nn8PrVEw2mS14DLiKMMaaSXlkjh7ktWUKuM4Tg3oZd9WOQ4r/5jiYgHxmKW?=
- =?us-ascii?Q?QllxMMkqCatGqlJ6UDjvxsqKmizLrVX8+0N1soQZQQ2bbcyhVY/MQRBJnzMr?=
- =?us-ascii?Q?Fg4ltroCddPz5IE6iOTp9DiByknJAtcCW+uPqxjnvcRPrgNVp7ZPk8a3jfXQ?=
- =?us-ascii?Q?Lo80DYKpJT68ZjYnvWfOqtXkxng9IJWd2ivIWFnKmcXtXivnvkPSFvFAMkB0?=
- =?us-ascii?Q?3iUC+g+LOcpEJTJGrvurRiaa9MUvwC+bBz1o+yy8M/l4xd4Q0lUSdALLQzSZ?=
- =?us-ascii?Q?vN3rmWpJDEZikVl9WxUOaVFRLfm3BtMNyo6QgxhUbDPYe1apMs8uB0NTvQw6?=
- =?us-ascii?Q?lYM+KpFAJs12wRzQzm39USmuaZR0hWiBZuqvWPcVUUbIdy4AQ2P53lY7nAgh?=
- =?us-ascii?Q?qlmczewv7FmTH91xvpWIXk9yu2rN4Ul9rIrH0Re2jh7NfVvaQi/GXaDrmTGn?=
- =?us-ascii?Q?32N8EIC2Bv67vgNmXbLtsMp1IkzmNwmpz0I8nGEM7Hsb3/qEDdTxCXNpsS5N?=
- =?us-ascii?Q?fVgVGvMjosF/eGzMeMIs/4wvxxD1tRrC4Z0dlbJQR44XIgQZbd6wWpp8Xl1y?=
- =?us-ascii?Q?KX3NxJDHTPor+XqPA4VWriSJwpw3oQ12eTlqwX6SHTcxa77jLpS6sweX/v68?=
- =?us-ascii?Q?KGidLbssFxzZb31fpl9ANAmoijZNoBF06USgsNTk7Q3Qw/sdFifgvKLLk22e?=
- =?us-ascii?Q?OIu946xGwwWIBFyzJiapFb3EVe7KnF1y0etlHXQpBzG5AclB/X8pdk23uTwW?=
- =?us-ascii?Q?4bJ0vs3ExxX9x7ZlcXhCdZiNvHteHrmi1+bCmATPwft5Kw=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dwJB+1wbvSv7mIgDmvSZ2NN8bAOGItj1187n2V9OtFwX4Q702bPV37o5npYH?=
- =?us-ascii?Q?0wvQA5/jMjCqFueKgDLs3W9CgvaN+BECBuzdOcoN1QalT3lFG0cksLNogtF3?=
- =?us-ascii?Q?sIUiHemnPOeCTb2v7Vn6YFstSHtlHbk1qWsZn2ZzSzTmVulnZPIzeUwskh94?=
- =?us-ascii?Q?Q7TVjSt3PmHvBYL+5Ig7ABa59FETu7022abxqvwyywq0B0pMhGq8XJeLFfX7?=
- =?us-ascii?Q?e+UA2ToFTPSLTVhtJ38aHLn1t3+Cso6hbxGR8WrsxQDoiVXJvjDysHuP7zph?=
- =?us-ascii?Q?jzT297z8oZIh/K8ZCwfbEQk21EIlLcolx9TllLSEU2GQjDff3HrjsitlEiFE?=
- =?us-ascii?Q?5U2/faIn3D/R/j6bQ60+faWspnYLGf/9zPdhVkpsJ0098OI2ePDPkXE8ssXL?=
- =?us-ascii?Q?YrVl2kzhuivHMYtwJl5ttz4/uKjXntTn0Z2BFXnFBocFQC+q79VJcOg7wG6R?=
- =?us-ascii?Q?7schezO/+IiSPK8uGfiY5mkG+Kew9dh7d+1fBVOgQ70F3DrOhB8HqE3WSNf2?=
- =?us-ascii?Q?WYpVWZT8KgDwStDD7uJcNcOEBnTDiRFEZqqTkQeBHLtGE1evOLHXgY7FOcXN?=
- =?us-ascii?Q?v676V7yeGoDMEF6CElvbxQhD0mldXtLgnShzyaOXdxuPZmLDkIJqv+C4dHUp?=
- =?us-ascii?Q?r0LBdEd7QeWNHnR+ttPWUzTIYRzeS5GQ3/pDvir8XddqczrdARpUEwOr0rGV?=
- =?us-ascii?Q?L5pelQTYrzqsq0JLt4mzuJM1D9zdlURvoCHAD+BahdSH7v2S21+arwM3p3ZA?=
- =?us-ascii?Q?rdMfnovTnR8TG3FL8g8fGn8BTbdWFMFtEJ+oehU/v6HaVR/t3xvPmBF25rra?=
- =?us-ascii?Q?rKnIqSTheQTbDvkMzhQXggjcMR/WtkSWQSUPImiSfro+MP+C6SHMRQ0IWbhz?=
- =?us-ascii?Q?tAU+1ktkPoLhr8lx0pcTThinqub8kcQ2LZHleSWhJHfOOFOrnizDxIxi+v2d?=
- =?us-ascii?Q?CObl8QuWGQymo3e+b5FrqoRRlPy8MGUHnETUAPVCrtNeikMwfEHFcqufD++n?=
- =?us-ascii?Q?myRsnIO2ley0A7YpyPSs5X0P5FfYrfaobcaFeWfDBtRjo1HUwiJ2hoXqgGBH?=
- =?us-ascii?Q?rfr7XndyqopqDuB/EXpfum7lrArmF0GlS6HeOOupuBwVLHLfJnfXzozR4pc5?=
- =?us-ascii?Q?pl40wcujR/zDX5xoc1nF9smVv7xDl9NIW0rJaCJO4uFC8Tny3y+/HnneE96Q?=
- =?us-ascii?Q?oQlb9gOoHQs7cehLPik01QM+8eeBlpFykx66ShWc7IJosMxspBdmM5A8uSVV?=
- =?us-ascii?Q?eoJtX4EE35elX0j8cI/Jkj1JMGJweCaWXPim690WqFISSK36HHvJvXFlvL8D?=
- =?us-ascii?Q?HSQSGjo6i7UTRlnlg2I9jXbpHxOw/fYAUHUojMy5Yy73zcVs2GC5aKPfkOGT?=
- =?us-ascii?Q?PhPqDDvlLTHobLBNu8mdAqXQ3KuXuOPzuX18FPe6ChbGOMgqy12ufEDFJWXr?=
- =?us-ascii?Q?cFtvz2VVGfKIKKoosqckRcuPW3hvuT7CYWQ7czNAW3zQ5nKyVEqNA6hShQl4?=
- =?us-ascii?Q?dNmSoZ3ODcZmK5MAEsGN1MTtjDzhcNaQzfzbBbM/5LEHsSFHYmKkHjskDrwm?=
- =?us-ascii?Q?g83+xajD9ODjiYggMGUzC593GS6gLctqmsKKoSonCK2mkIP955wgP7Gh28bg?=
- =?us-ascii?Q?/3YyJQ8k5iyKW4ldETD/Zw0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <EB27A0406943C442B01BE29D442BE3D3@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Mon, 22 Apr 2024 13:01:03 +0000
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-34aa836b948so382879f8f.3
+        for <linux-nvme@lists.infradead.org>; Mon, 22 Apr 2024 06:00:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713790856; x=1714395656;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mlD1neIZBrK3RzbK9Cag8ZJaIL4bZ6072Ht6hDOialM=;
+        b=Dy87VkpCU/6tErWjoBuDKNwgvFSpLnKqphRwaxv2fCupHekhf2L590Y2F484hMMSGh
+         hD3q/KkyVe2a9fXa9fuWY6unuAmV00BUiRLBOek7lwEisnrg166EJZAklgMmTGPGb/n+
+         p2a2joUlztf5oiqixDg7d91EBHY8yd3QPxCv9MbEOb1+ZZYU6mAznFCkNzLDTT38bSnr
+         8zq+SV8lohKhxYqd0sYddW/IbYI9DV/uWAndfAbdN1Xe3uUnft7Lbf/26s7xrh2UXPip
+         JSsvmTdKLdSHNagWZzP9nQvMx2b4VZUHJREAfFMGz95ugVcevIHVSk+kO9zV7fldHxMk
+         chFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUMDZEo+wmbkeyrxUu8LzxPTo31zhAaW6BRFv/8DK4xYHKS/l98G3YUCkOKmbx2lH+4o9W894cm5qOfx6OeUqVjvMfqi3JvGIZuiWhIa24=
+X-Gm-Message-State: AOJu0YwbnfonfvihVu9JvTUDuzdhOtVxqpqqzb0zT5d8WF6exJGfKao5
+	UgOLgtzJuZ0MpcMXsZhHgmc/5hGch6tVxmTp8sld/rHYL1WJhAfG
+X-Google-Smtp-Source: AGHT+IFXbvyZZpAqMR7uwsDYFXzqZ9uz2dCXBKH7V/GyYvqyg9JV49OOXJr8tcOa2H/0vI+MGnA27g==
+X-Received: by 2002:a05:600c:5122:b0:419:f572:67e6 with SMTP id o34-20020a05600c512200b00419f57267e6mr4539885wms.1.1713790856041;
+        Mon, 22 Apr 2024 06:00:56 -0700 (PDT)
+Received: from [10.100.102.74] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
+        by smtp.gmail.com with ESMTPSA id l18-20020a5d5612000000b0034a62e51429sm8865476wrv.112.2024.04.22.06.00.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Apr 2024 06:00:55 -0700 (PDT)
+Message-ID: <627cdf69-ff60-4596-a7f3-0fdd0af0f601@grimberg.me>
+Date: Mon, 22 Apr 2024 16:00:54 +0300
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: O+nRjR6J6vcqjnmjW/wPIYmzEfL8DsxV+Tz0Z7v/lp3CC3gaz2edM3Ku7U1iTy9lpBLTX63IMN/VVq2UbipvZdYjISu5181z0mXj35WrQyigSbCv6XVZ34SpiTLmh+cr+3F0UA80+Z7/dTUTtrL//nVqkjJeeetzlka0N8cgMN1p4G5nPOUgT3ZDT+0LLTchw1dGSW0TpannH+MBeiNQ0igjZMoKhm+nfutd9uhEP4M5khOk1cv9IPFexOwaZZO1rTYVLoOGvN3P/U2mW9qZ5jqEdXX5Ay8eD3I4h5lgaQOf9yZlq8PcaWWYJ4ElK3MKulvfE1HF/lIZEfeqsFITEsOWx2NwVMm0HXg1KaYEr7p8MXjJZ2d6yAV0zEoSh87E+UVCRsvbjQzHW7mVXiL1SPMAC8sjKqvhZlUcmX9xIYYki47t4jjbvHAnPHUEx7CvyMJoN1MwjE86VtGnVIGbwyX8Y6eeXgC64Y5ebrwgp2FEzIeZKh7UqS8BnEWckwfvi3UZwqA8wYK4AgPh/7WchlgGjML0n7zzbUZBB4y6qkePXAv9FyRRoEYvD1bINOWejOce7m93T11mHDt1iFgFgLlfbBlATnFGe1NCdhcAuqw6HH3m9oCAVJh7P0EyftUI
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8714faf-2813-4774-fd07-08dc62c0420e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2024 11:35:06.0759
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e8UE5W3G6W8sPKCxmVZ/JalyG2a4BorKFzbHbuiqTNZdji456e0oc8X/VnIX2/NOc4terJjLO8yStwHoZB/uKfZ6Wf93Goh2uNB5STkarZI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8117
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Bug Report] PCIe errinject and hot-unplug causes nvme driver
+ hang
+To: Nilay Shroff <nilay@linux.ibm.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ "axboe@fb.com" <axboe@fb.com>, Gregory Joyce <gjoyce@ibm.com>,
+ Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>
+References: <199be893-5dfa-41e5-b6f2-40ac90ebccc4@linux.ibm.com>
+ <579c82da-52a7-4425-81d7-480c676b8cbb@grimberg.me>
+ <d33a5681-b195-4258-8eee-e0eae46ade5b@linux.ibm.com>
+Content-Language: he-IL, en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <d33a5681-b195-4258-8eee-e0eae46ade5b@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240422_043518_078141_1AB015E5 
-X-CRM114-Status: GOOD (  32.77  )
+X-CRM114-CacheID: sfid-20240422_060059_236603_6BA5C2CA 
+X-CRM114-Status: GOOD (  28.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,114 +87,196 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi, Sagi, thanks for the comments.
 
-On Apr 18, 2024 / 12:39, Sagi Grimberg wrote:
->=20
->=20
-> On 16/04/2024 13:32, Shin'ichiro Kawasaki wrote:
-> > Some of the test cases in nvme test group can be run under various nvme
-> > target transport types. The configuration parameter nvme_trtype
-> > specifies the transport to use. But this configuration method has two
-> > drawbacks. Firstly, the blktests check script needs to be invoked
-> > multiple times to cover multiple transport types. Secondly, the test
-> > cases irrelevant to the transport types are executed exactly same
-> > conditions in the multiple blktests runs.
-> >=20
-> > To avoid the drawbacks, introduce the new configuration parameter
-> > NVMET_TRTYPES. This parameter can take multiple transport types like:
-> >=20
-> >      NVMET_TRTYPES=3D"loop tcp"
-> >=20
-> > Also introduce _nvmet_set_nvme_trtype() which can be called from the
-> > set_conditions() hook of the transport type dependent test cases.
-> > Blktests will repeat the test case as many as the number of elements in
-> > NVMET_TRTYPES, and set nvme_trtype for each test case run.
->=20
-> It would be nicer to keep the same name and just have it accept an array.
-> Not a must though.
 
-Okay, actually this patch makes nvme_trtype to work same as NVMET_TRTYPES.
-I will update the commit message and the description in running-tests.md
-to clarify that nvme_trtype accepts multiple transports.
+On 21/04/2024 19:56, Nilay Shroff wrote:
+>
+> On 4/21/24 15:58, Sagi Grimberg wrote:
+>>
+>> On 18/04/2024 15:52, Nilay Shroff wrote:
+>>> Hi,
+>>>
+>>> We found nvme driver hangs when disk IO is ongoing and if we inject pcie error and hot-unplug (not physical but logical unplug) the nvme disk.
+>>>
+>>> Notes and observations:
+>>> ======================
+>>> This is observed on the latest linus kernel tree (v6.9-rc4) however we believe this issue shall also be present on the older kernels.
+>>>
+>>> Test details:
+>>> =============
+>>> Steps to reproduce this issue:
+>>>
+>>> 1. Run some disk IO using fio or any other tool
+>>> 2. While disk IO is running, inject pci error
+>>> 3. disable the slot where nvme disk is attached (echo 0 > /sys/bus/pci/slots/<slot-no>/power)
+>>>
+>>> Kernel Logs:
+>>> ============
+>>> When we follow steps described in the test details we get the below logs:
+>>>
+>>> [  295.240811] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
+>>> [  295.240837] nvme nvme1: Does your device have a faulty power saving mode enabled?
+>>> [  295.240845] nvme nvme1: Try "nvme_core.default_ps_max_latency_us=0 pcie_aspm=off" and report a bug
+>>> [  490.381591] INFO: task bash:2510 blocked for more than 122 seconds.
+>>> [  490.381614]       Not tainted 6.9.0-rc4+ #8
+>>> [  490.381618] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>>> [  490.381623] task:bash            state:D stack:0     pid:2510  tgid:2510  ppid:2509   flags:0x00042080
+>>> [  490.381632] Call Trace:
+>>> [  490.381635] [c00000006748f510] [c00000006748f550] 0xc00000006748f550 (unreliable)
+>>> [  490.381644] [c00000006748f6c0] [c00000000001f3fc] __switch_to+0x13c/0x220
+>>> [  490.381654] [c00000006748f720] [c000000000fb87e0] __schedule+0x268/0x7c4
+>>> [  490.381663] [c00000006748f7f0] [c000000000fb8d7c] schedule+0x40/0x108
+>>> [  490.381669] [c00000006748f860] [c000000000808bb4] blk_mq_freeze_queue_wait+0xa4/0xec
+>>> [  490.381676] [c00000006748f8c0] [c00000000081eba8] del_gendisk+0x284/0x464
+>>> [  490.381683] [c00000006748f920] [c0080000064c74a4] nvme_ns_remove+0x138/0x2ac [nvme_core]
+>>> [  490.381697] [c00000006748f960] [c0080000064c7704] nvme_remove_namespaces+0xec/0x198 [nvme_core]
+>>> [  490.381710] [c00000006748f9d0] [c008000006704b70] nvme_remove+0x80/0x168 [nvme]
+>>> [  490.381752] [c00000006748fa10] [c00000000092a10c] pci_device_remove+0x6c/0x110
+>>> [  490.381776] [c00000006748fa50] [c000000000a4f504] device_remove+0x70/0xc4
+>>> [  490.381786] [c00000006748fa80] [c000000000a515d8] device_release_driver_internal+0x2a4/0x324
+>>> [  490.381801] [c00000006748fad0] [c00000000091b528] pci_stop_bus_device+0xb8/0x104
+>>> [  490.381817] [c00000006748fb10] [c00000000091b910] pci_stop_and_remove_bus_device+0x28/0x40
+>>> [  490.381826] [c00000006748fb40] [c000000000072620] pci_hp_remove_devices+0x90/0x128
+>>> [  490.381831] [c00000006748fbd0] [c008000004440504] disable_slot+0x40/0x90 [rpaphp]
+>>> [  490.381839] [c00000006748fc00] [c000000000956090] power_write_file+0xf8/0x19c
+>>> [  490.381846] [c00000006748fc80] [c00000000094b4f8] pci_slot_attr_store+0x40/0x5c
+>>> [  490.381851] [c00000006748fca0] [c0000000006e5dc4] sysfs_kf_write+0x64/0x78
+>>> [  490.381858] [c00000006748fcc0] [c0000000006e48d8] kernfs_fop_write_iter+0x1b0/0x290
+>>> [  490.381864] [c00000006748fd10] [c0000000005e0f4c] vfs_write+0x3b0/0x4f8
+>>> [  490.381871] [c00000006748fdc0] [c0000000005e13c0] ksys_write+0x84/0x140
+>>> [  490.381876] [c00000006748fe10] [c000000000030a84] system_call_exception+0x124/0x330
+>>> [  490.381882] [c00000006748fe50] [c00000000000cedc] system_call_vectored_common+0x15c/0x2ec
+>>>
+>>> NVMe controller state:
+>>> ======================
+>>> # cat /sys/class/nvme/nvme1/state
+>>> deleting (no IO)
+>>>
+>>> Process State:
+>>> ==============
+>>> # ps -aex
+>>>      [..]
+>>>      2510 pts/2    Ds+    0:00 -bash USER=root LOGNAME=root HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin SHELL=/bin/bash TERM=xterm-256colo
+>>>      2549 ?        Ds     0:14 fio --filename=/dev/nvme1n1 --direct=1 --rw=randrw --bs=4k --ioengine=psync --iodepth=256 --runtime=300 --numjobs=1 --time_based
+>>>      [..]
+>>>
+>>> Observation:
+>>> ============
+>>> As it's apparent from the above logs that "disable-slot" (pid 2510) is waiting (uninterruptible-sleep)
+>>> for queue to be freezed because the in-flight IO(s) couldn't finish. Moreover the IO(s) which were
+>>> in-flight actually times-out however nvme_timeout() doesn't cancel those IOs but logs this error
+>>> "Try "nvme_core.default_ps_max_latency_us=0 pcie_aspm=off" and report a bug" and returns BLK_EH_DONE.
+>>> As those in-fligh IOs were not cancelled, the NVMe driver code which runs in the context of
+>>> "disable-slot" couldn't forward progress and NVMe controller state remains in "deleting (no IO)"
+>>> indefinitely. The only way we found to come out of this state is to reboot the system.
+>>>
+>>> Proposed fix:
+>>> ============
+>>> static void nvme_remove(struct pci_dev *pdev)
+>>> {
+>>>      struct nvme_dev *dev = pci_get_drvdata(pdev);
+>>>
+>>>      nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+>>>      pci_set_drvdata(pdev, NULL);
+>>>
+>>>      if (!pci_device_is_present(pdev)) {
+>>>          nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
+>>>          nvme_dev_disable(dev, true);
+>>>      }
+>>>      flush_work(&dev->ctrl.reset_work);
+>>>      nvme_stop_ctrl(&dev->ctrl);
+>>>      nvme_remove_namespaces(&dev->ctrl); <== here cntrl state is set to "deleting (no IO)"
+>>>           [..]
+>>> }
+>>>
+>>> As shown above, nvme_remove() invokes nvme_dev_disable(), however, it is only invoked if the
+>>> device is physically removed. As nvme_dev_disable() helps cancel pending IOs, does it makes
+>>> sense to unconditionally cancel pending IOs before moving on? Or are there any side effect if
+>>> we were to unconditionally invoke nvme_dev_disable() at the first place?
+>> Shouldn't the correct place to handle the cancellation is nvme_error_detected() given that the
+>> pci error is preventing the request from completing and the timeout handler from addressing it?
+>>
+> If a platform supports pci-error-recovery then it may be possible to cancel pending IOs from
+> nvme_error_detected(), however, if the platform doesn't support pci error recovery then
+> nvme_error_detected() would never be called. In fact, the issue which I reported above was
+> discovered on a platform which has pci-error-recovery disabled.
+>
+> I also tested this scenario on a platform supporting the pci error recovery. On this platform,
+> when I ran this test (PCI error injection followed by NVMe hot unpulg), I found that the
+> pci-error-recovery thread races with hot-unplug task, please find below the dmesg logs
+> collected when this issue manifests:
+>
+> INFO: task eehd:187 blocked for more than 122 seconds.
+>        Not tainted 6.9.0-rc4+ #8
+> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> task:eehd            state:D stack:0     pid:187   tgid:187   ppid:2      flags:0x00000000
+> Call Trace:
+> [c0000000089bf890] [c000000000fb027c] vsnprintf+0x3f8/0x578 (unreliable)
+> [c0000000089bfa40] [c00000000001f3fc] __switch_to+0x13c/0x220
+> [c0000000089bfaa0] [c000000000fb87e0] __schedule+0x268/0x7c4
+> [c0000000089bfb70] [c000000000fb8d7c] schedule+0x40/0x108
+> [c0000000089bfbe0] [c000000000fb93f8] schedule_preempt_disabled+0x20/0x30
+> [c0000000089bfc00] [c000000000fbbe84] __mutex_lock.constprop.0+0x5f4/0xc54
+> [c0000000089bfca0] [c000000000916380] pci_lock_rescan_remove+0x28/0x3c
+> [c0000000089bfcc0] [c00000000004fa4c] eeh_pe_report_edev+0x3c/0x52c
+> [c0000000089bfda0] [c00000000004ffdc] eeh_pe_report+0xa0/0x158
+> [c0000000089bfe40] [c000000000050490] eeh_handle_normal_event+0x310/0xa24
+> [c0000000089bff30] [c000000000051078] eeh_event_handler+0x118/0x19c
+> [c0000000089bff90] [c00000000018d29c] kthread+0x138/0x140
+> [c0000000089bffe0] [c00000000000dd58] start_kernel_thread+0x14/0x18
+>
+> INFO: task bash:5420 blocked for more than 122 seconds.
+>        Not tainted 6.9.0-rc4+ #8
+> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> task:bash            state:D stack:0     pid:5420  tgid:5420  ppid:5419   flags:0x00042080
+> Call Trace:
+> [c000000054c67510] [c000000054c67550] 0xc000000054c67550 (unreliable)
+> [c000000054c676c0] [c00000000001f3fc] __switch_to+0x13c/0x220
+> [c000000054c67720] [c000000000fb87e0] __schedule+0x268/0x7c4
+> [c000000054c677f0] [c000000000fb8d7c] schedule+0x40/0x108
+> [c000000054c67860] [c000000000808bb4] blk_mq_freeze_queue_wait+0xa4/0xec
+> [c000000054c678c0] [c00000000081eba8] del_gendisk+0x284/0x464
+> [c000000054c67920] [c00800000b7174a4] nvme_ns_remove+0x138/0x2ac [nvme_core]
+> [c000000054c67960] [c00800000b717704] nvme_remove_namespaces+0xec/0x198 [nvme_core]
+> [c000000054c679d0] [c008000006294b70] nvme_remove+0x80/0x168 [nvme]
+> [c000000054c67a10] [c00000000092a10c] pci_device_remove+0x6c/0x110
+> [c000000054c67a50] [c000000000a4f504] device_remove+0x70/0xc4
+> [c000000054c67a80] [c000000000a515d8] device_release_driver_internal+0x2a4/0x324
+> [c000000054c67ad0] [c00000000091b528] pci_stop_bus_device+0xb8/0x104
+> [c000000054c67b10] [c00000000091b910] pci_stop_and_remove_bus_device+0x28/0x40
+> [c000000054c67b40] [c000000000072620] pci_hp_remove_devices+0x90/0x128
+> [c000000054c67bd0] [c008000004380504] disable_slot+0x40/0x90 [rpaphp]
+> [c000000054c67c00] [c000000000956090] power_write_file+0xf8/0x19c
+> [c000000054c67c80] [c00000000094b4f8] pci_slot_attr_store+0x40/0x5c
+> [c000000054c67ca0] [c0000000006e5dc4] sysfs_kf_write+0x64/0x78
+> [c000000054c67cc0] [c0000000006e48d8] kernfs_fop_write_iter+0x1b0/0x290
+> [c000000054c67d10] [c0000000005e0f4c] vfs_write+0x3b0/0x4f8
+> [c000000054c67dc0] [c0000000005e13c0] ksys_write+0x84/0x140
+> [c000000054c67e10] [c000000000030a84] system_call_exception+0x124/0x330
+> [c000000054c67e50] [c00000000000cedc] system_call_vectored_common+0x15c/0x2ec
+>
+>
+> As we can see above the task eehd:187 (pci-error-recovery thread) is blocked for
+> acquiring the mutex (pci_rescan_remove_lock). The hot-unplug task (bash: 5420)
+> is blocked on the request queue to be freezed. The hot-unplug task first acquires
+> the pci_rescan_remove_lock and then invokes nvme_remove() method. So in summary,
+> in the traces shown above, as hot-unplug task is unable to proceed, it has also
+> blocked the pci-error-recovery thread.
 
-Though the existing nvme_trtype and the new NVMET_TRTYPES work same, I thin=
-k
-this is a good chance to take a step to replace the lowercase parameters to
-uppercase ones. Will keep those two and describe that NVMET_TRTYPES is
-recommended.
+Yea that needs fixing.
 
->=20
-> > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> > ---
-> >   Documentation/running-tests.md | 11 ++++++++---
-> >   tests/nvme/rc                  | 33 ++++++++++++++++++++++++++++++++-
-> >   2 files changed, 40 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/Documentation/running-tests.md b/Documentation/running-tes=
-ts.md
-> > index ae80860..144acd1 100644
-> > --- a/Documentation/running-tests.md
-> > +++ b/Documentation/running-tests.md
-> > @@ -102,8 +102,13 @@ RUN_ZONED_TESTS=3D1
-> >   The NVMe tests can be additionally parameterized via environment vari=
-ables.
-> > +- NVMET_TRTYPES: 'loop' (default), 'tcp', 'rdma' and 'fc'
-> > +  Set up NVME target backends with the specified transport. Multiple t=
-ransports
-> > +  can be listed with separating spaces, e.g., "loop tcp rdma". In this=
- case, the
-> > +  tests are repeated to cover all of the transports specified.
-> >   - nvme_trtype: 'loop' (default), 'tcp', 'rdma' and 'fc'
-> > -  Run the tests with the given transport.
-> > +  Run the tests with the given transport. This parameter is still usab=
-le but
-> > +  replaced with NVMET_TRTYPES. Use NVMET_TRTYPES instead.
-> >   - nvme_img_size: '1G' (default)
-> >     Run the tests with given image size in bytes. 'm', 'M', 'g'
-> >   	and 'G' postfix are supported.
-> > @@ -117,11 +122,11 @@ These tests will use the siw (soft-iWARP) driver =
-by default. The rdma_rxe
-> >   ```sh
-> >   To use the siw driver:
-> > -nvme_trtype=3Drdma ./check nvme/
-> > +NVMET_TRTYPES=3Drdma ./check nvme/
-> >   ./check srp/
-> >   To use the rdma_rxe driver:
-> > -use_rxe=3D1 nvme_trtype=3Drdma ./check nvme/
-> > +use_rxe=3D1 NVMET_TRTYPES=3Drdma ./check nvme/
-> >   use_rxe=3D1 ./check srp/
-> >   ```
-> > diff --git a/tests/nvme/rc b/tests/nvme/rc
-> > index 1f5ff44..34ecdde 100644
-> > --- a/tests/nvme/rc
-> > +++ b/tests/nvme/rc
-> > @@ -18,10 +18,41 @@ def_hostid=3D"0f01fb42-9f7f-4856-b0b3-51e60b8de349"
-> >   def_hostnqn=3D"nqn.2014-08.org.nvmexpress:uuid:${def_hostid}"
-> >   export def_subsysnqn=3D"blktests-subsystem-1"
-> >   export def_subsys_uuid=3D"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-> > -nvme_trtype=3D${nvme_trtype:-"loop"}
-> >   nvme_img_size=3D${nvme_img_size:-"1G"}
-> >   nvme_num_iter=3D${nvme_num_iter:-"1000"}
-> > +# Check consistency of NVMET_TRTYPES and nvme_trtype configurations.
-> > +# If neither is configured, set the default value.
-> > +first_call=3D${first_call:-1}
-> > +if ((first_call)); then
-> > +	if [[ -n $nvme_trtype ]]; then
-> > +		if [[ -n $NVMET_TRTYPES ]]; then
-> > +			echo "Both nvme_trtype and NVMET_TRTYPES are specified"
-> > +			exit 1
-> > +		fi
-> > +		NVMET_TRTYPES=3D"$nvme_trtype"
-> > +	elif [[ -z $NVMET_TRTYPES ]]; then
-> > +		nvme_trtype=3D"loop"
-> > +		NVMET_TRTYPES=3D"$nvme_trtype"
-> > +	fi
-> > +	first_call=3D0
-> > +fi
->=20
-> It would be nice to have the string check be done at first so you don't
-> get any typo-related error later during the execution.
+>
+> On another note, if pci-error-recovery thread could progress first acquiring
+> pci_rescan_remove_lock then it shall be able to recover the pci error and hence
+> pending IOs could be finished. Later when hot-unplug task starts, it could
+> forward progress and cleanup all resources used by the nvme disk.
+>
+> So does it make sense if we unconditionally cancel the pending IOs from
+> nvme_remove() before it forward progress to remove namespaces?
 
-Agreed, will add a check helper function for it.=
+The driver attempts to allow inflights I/O to complete successfully, if 
+the device
+is still present in the remove stage. I am not sure we want to 
+unconditionally fail these
+I/Os.    Keith?
 
