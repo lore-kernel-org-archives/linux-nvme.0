@@ -4,97 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8F74C4345F
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Apr 2024 16:57:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB503C4345F
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Apr 2024 02:08:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pp7art5nwVMxZvAHZ1//5si+rNHK1yWGyXnM1DnZLO8=; b=CRiT0TJUicuxR3xUAmtilmZ2is
-	KyLgCaV5YiwUpGT/0/FfZp2yNYIHlhT7zyDUZUdTg7z2RyrtgMO5fxvPDqfDTGFpW+JJ1ewT7zSn7
-	YKyRW+pYyyQKkUd/fkh0aOXIolNGoS2YRkMcW58sHq5n0FUIcoY6HwFTd4jyMVdqHoC1q5uUcJlfw
-	vFT4pxzxZvZTtfm2uSR3v03n0R+wOn7xd/sWgyfR4gD8y1sA2LUaOU4FRL/ncTGbdKoTX3si92J1O
-	Rwyc6L6v1SPrElxc6BqwxXG5i2IN0R4fNnnFQxyY00h5ZZGhmgWu81mC/DgMDZzz5FUXsgKtkN5PH
-	PUI1VQgA==;
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=GHDXc07fAiXKvVfPLmO3rPdeNJyX4lFaHVpoK7fDPJQ=; b=t/p5BxUPglXQMqHzssmacrxk5l
+	ATKtKEYcWDr4kczGyYp9Bcy8CVXc1ZDUeE+zhI0UMrRCld0KKl2rOOrJsgrY03n1VbloTMyXmCdrC
+	5EYumz1zf03X8Lc5jbEyFsoCkRcm+0s+JapVBLMkc68v2HqZlC5el5BiUl5px4UvhDrwj5y+hd2Mg
+	gshLkky1ochiv9HItGOOh7bV/0/3ioIq0zGaFPDsmqqMQuLswKgaE3oP4u6r8XXhNk4bz1zMWP1Jz
+	PRquBiGhWms9TMFPaubJLDkjsZxvQRHmgORp+KHBd1oy2oxt/LAW0f4Kom5y1Fhzsq0ZMYgyZlLjd
+	SZqJ22kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryaVD-0000000Asg1-2vZ3;
-	Sun, 21 Apr 2024 16:57:19 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1ryj6Y-0000000BjRY-1ptE;
+	Mon, 22 Apr 2024 02:08:26 +0000
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryaVA-0000000Ased-1aHh
+	id 1ryj6V-0000000BjQJ-0WTl
 	for linux-nvme@lists.infradead.org;
-	Sun, 21 Apr 2024 16:57:17 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43LFwrsR015747;
-	Sun, 21 Apr 2024 16:57:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pp7art5nwVMxZvAHZ1//5si+rNHK1yWGyXnM1DnZLO8=;
- b=eJDX/cBLhqWPK+0j1rSDrhB/I4K/lZefGpJHBbQIF4OXd0OxGvjUbRxtyvLVZvkS2eCy
- HK8caDdH0Ea8es/ZjI0WJRh5JHZ7+idwoYVyxEjFb8K9rgCQGTeX4MwKBvioTf2ML4uH
- vgsv+V9p0+uOze6RnZnURirqjyKSHL9eQ8srQ0U7IHM4gL+MNp0FzUeKOVi5+4wC+0/J
- VIJvfHgWg2FzKPAvqj98fAI17aPB8IsumqkObe6KawsmrRUEDWHYvfBxUUX2WXeAK87e
- ts64Zwb7zqLgOK6CAS+hM5Vh6Ze1Lq6tCTWBlqYnJE+9GxuA7NsGscr223tVV+d6mCHj yg== 
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xn5wgg2r6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 21 Apr 2024 16:57:02 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43LDvQhP023042;
-	Sun, 21 Apr 2024 16:57:01 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xms1nk8cm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 21 Apr 2024 16:57:01 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43LGuwN022610524
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 21 Apr 2024 16:57:00 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 866265805A;
-	Sun, 21 Apr 2024 16:56:58 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 30F2B5803F;
-	Sun, 21 Apr 2024 16:56:56 +0000 (GMT)
-Received: from [9.171.13.75] (unknown [9.171.13.75])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 21 Apr 2024 16:56:55 +0000 (GMT)
-Message-ID: <d33a5681-b195-4258-8eee-e0eae46ade5b@linux.ibm.com>
-Date: Sun, 21 Apr 2024 22:26:54 +0530
+	Mon, 22 Apr 2024 02:08:24 +0000
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-5dbf7b74402so2249884a12.0
+        for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 19:08:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713751701; x=1714356501; darn=lists.infradead.org;
+        h=content-language:thread-index:content-transfer-encoding
+         :mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GHDXc07fAiXKvVfPLmO3rPdeNJyX4lFaHVpoK7fDPJQ=;
+        b=d/yBMiZsMgA82ZagcvCnbxjCTyLiO9n3a7rCgRZ/N4lNxWsVBJV6W2NoxzBygTNRXH
+         5UU210L8t0MVm5M9atMm8y5++vUEGh9yIj7+HbAcQmGU5WYRh0GW8fjfCJzeMBgo21uC
+         vykY2HX85aZ96Sqw2jVtSTbPuru0munQEP815CTWYtDxNXw+gizQp8EIthvI2idSAP0S
+         wPFlC4hW/myreQiiMW65yf5QTxLeui1qXs7Cbf+N/Mhv8JcerCZDv0FhAGtMcZSqg58Z
+         nKEDMt6CA9dqCuMs5xD0lesf7ZTq549Mo93nXxZ/UA0E353q35rS/cefBBKzBKvAxNAv
+         cewg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713751701; x=1714356501;
+        h=content-language:thread-index:content-transfer-encoding
+         :mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GHDXc07fAiXKvVfPLmO3rPdeNJyX4lFaHVpoK7fDPJQ=;
+        b=mmLxx/E3wLNgJ2+aiF4zYu6DuDPmVwYntbgIhXtmHVyneVLKh/117sZlPFxpkthGhn
+         /Gh/21cRRwpaZlalQcDsl4lDW5KZwyGFs1XQlRWkdWavfHCqhchvaTxWUW208NTLAGkZ
+         Wul1XUOaKKRC0+0As43h3BXn9RMPE28Y2MuDdhxnPtR/k744S50Y7ZGEiA63y4WgDzbs
+         /6cAelvi3MK5a5q08IlZ5/vCwS2nv6aO2ASI3Obnetn9yrzJCVAF6yNa/oG3Nl07vhez
+         c8E3BF725GHyCUgw5tBrxYbW7jBGxdQGmExc/m07csSJUJsDkMUDb6zh2IYy/3bZndVA
+         LJ2A==
+X-Gm-Message-State: AOJu0Yzvd/HTtNBSwCvCg70J2wWKjwwhyaF/Lp3Q2LI3FhDrMWvzHtwx
+	lH4nS5viXyqDs3hT58S7NI+plz0A3GaYoAatBLelMjzBVFFvYqOj+uUTd6Tt
+X-Google-Smtp-Source: AGHT+IGxxc20sm1egCZP0JpIyVVAb5c2K4Z0V0SAfIk59YSGxR7VlnbwMyrkEzyeoTMXSGY1vs9rNA==
+X-Received: by 2002:a17:90a:680e:b0:2a2:dcbd:9f01 with SMTP id p14-20020a17090a680e00b002a2dcbd9f01mr6869789pjj.38.1713751700437;
+        Sun, 21 Apr 2024 19:08:20 -0700 (PDT)
+Received: from DCLAPTOP ([212.102.51.248])
+        by smtp.gmail.com with ESMTPSA id m15-20020a17090b068f00b0029b59bf77b4sm8216183pjz.42.2024.04.21.19.08.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 21 Apr 2024 19:08:20 -0700 (PDT)
+From: "Deane Coleman" <deanewcoleman@gmail.com>
+To: <linux-nvme@lists.infradead.org>
+Cc: <deanewcoleman@gmail.com>
+Subject: help re using nvme-cli to sanitize SSD
+Date: Mon, 22 Apr 2024 12:08:17 +1000
+Message-ID: <000001da9459$f353b340$d9fb19c0$@com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug Report] PCIe errinject and hot-unplug causes nvme driver
- hang
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-        "axboe@fb.com" <axboe@fb.com>, Gregory Joyce <gjoyce@ibm.com>,
-        Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>
-References: <199be893-5dfa-41e5-b6f2-40ac90ebccc4@linux.ibm.com>
- <579c82da-52a7-4425-81d7-480c676b8cbb@grimberg.me>
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <579c82da-52a7-4425-81d7-480c676b8cbb@grimberg.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -pdw4TuGPHZnUsFZebNxfUCoLC_y8AQp
-X-Proofpoint-GUID: -pdw4TuGPHZnUsFZebNxfUCoLC_y8AQp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-21_16,2024-04-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 suspectscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- mlxscore=0 mlxlogscore=999 priorityscore=1501 phishscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404210106
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdqTrub8hRJdfzgOSCypiU7im8dZNwAqu/uQ
+Content-Language: en-au
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240421_095716_569512_60F2CDC1 
-X-CRM114-Status: GOOD (  29.33  )
+X-CRM114-CacheID: sfid-20240421_190823_223543_8F1D5339 
+X-CRM114-Status: GOOD (  10.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,190 +92,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Gang,
 
+I'm pre-novice when it comes to command lines, let alone nvme-cli, and
+respectfully seek your assistance to successfully achieve the objective now
+described.
 
-On 4/21/24 15:58, Sagi Grimberg wrote:
-> 
-> 
-> On 18/04/2024 15:52, Nilay Shroff wrote:
->> Hi,
->>
->> We found nvme driver hangs when disk IO is ongoing and if we inject pcie error and hot-unplug (not physical but logical unplug) the nvme disk.
->>
->> Notes and observations:
->> ======================
->> This is observed on the latest linus kernel tree (v6.9-rc4) however we believe this issue shall also be present on the older kernels.
->>
->> Test details:
->> =============
->> Steps to reproduce this issue:
->>
->> 1. Run some disk IO using fio or any other tool
->> 2. While disk IO is running, inject pci error
->> 3. disable the slot where nvme disk is attached (echo 0 > /sys/bus/pci/slots/<slot-no>/power)
->>
->> Kernel Logs:
->> ============
->> When we follow steps described in the test details we get the below logs:
->>
->> [  295.240811] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
->> [  295.240837] nvme nvme1: Does your device have a faulty power saving mode enabled?
->> [  295.240845] nvme nvme1: Try "nvme_core.default_ps_max_latency_us=0 pcie_aspm=off" and report a bug
->> [  490.381591] INFO: task bash:2510 blocked for more than 122 seconds.
->> [  490.381614]       Not tainted 6.9.0-rc4+ #8
->> [  490.381618] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->> [  490.381623] task:bash            state:D stack:0     pid:2510  tgid:2510  ppid:2509   flags:0x00042080
->> [  490.381632] Call Trace:
->> [  490.381635] [c00000006748f510] [c00000006748f550] 0xc00000006748f550 (unreliable)
->> [  490.381644] [c00000006748f6c0] [c00000000001f3fc] __switch_to+0x13c/0x220
->> [  490.381654] [c00000006748f720] [c000000000fb87e0] __schedule+0x268/0x7c4
->> [  490.381663] [c00000006748f7f0] [c000000000fb8d7c] schedule+0x40/0x108
->> [  490.381669] [c00000006748f860] [c000000000808bb4] blk_mq_freeze_queue_wait+0xa4/0xec
->> [  490.381676] [c00000006748f8c0] [c00000000081eba8] del_gendisk+0x284/0x464
->> [  490.381683] [c00000006748f920] [c0080000064c74a4] nvme_ns_remove+0x138/0x2ac [nvme_core]
->> [  490.381697] [c00000006748f960] [c0080000064c7704] nvme_remove_namespaces+0xec/0x198 [nvme_core]
->> [  490.381710] [c00000006748f9d0] [c008000006704b70] nvme_remove+0x80/0x168 [nvme]
->> [  490.381752] [c00000006748fa10] [c00000000092a10c] pci_device_remove+0x6c/0x110
->> [  490.381776] [c00000006748fa50] [c000000000a4f504] device_remove+0x70/0xc4
->> [  490.381786] [c00000006748fa80] [c000000000a515d8] device_release_driver_internal+0x2a4/0x324
->> [  490.381801] [c00000006748fad0] [c00000000091b528] pci_stop_bus_device+0xb8/0x104
->> [  490.381817] [c00000006748fb10] [c00000000091b910] pci_stop_and_remove_bus_device+0x28/0x40
->> [  490.381826] [c00000006748fb40] [c000000000072620] pci_hp_remove_devices+0x90/0x128
->> [  490.381831] [c00000006748fbd0] [c008000004440504] disable_slot+0x40/0x90 [rpaphp]
->> [  490.381839] [c00000006748fc00] [c000000000956090] power_write_file+0xf8/0x19c
->> [  490.381846] [c00000006748fc80] [c00000000094b4f8] pci_slot_attr_store+0x40/0x5c
->> [  490.381851] [c00000006748fca0] [c0000000006e5dc4] sysfs_kf_write+0x64/0x78
->> [  490.381858] [c00000006748fcc0] [c0000000006e48d8] kernfs_fop_write_iter+0x1b0/0x290
->> [  490.381864] [c00000006748fd10] [c0000000005e0f4c] vfs_write+0x3b0/0x4f8
->> [  490.381871] [c00000006748fdc0] [c0000000005e13c0] ksys_write+0x84/0x140
->> [  490.381876] [c00000006748fe10] [c000000000030a84] system_call_exception+0x124/0x330
->> [  490.381882] [c00000006748fe50] [c00000000000cedc] system_call_vectored_common+0x15c/0x2ec
->>
->> NVMe controller state:
->> ======================
->> # cat /sys/class/nvme/nvme1/state
->> deleting (no IO)
->>
->> Process State:
->> ==============
->> # ps -aex
->>     [..]
->>     2510 pts/2    Ds+    0:00 -bash USER=root LOGNAME=root HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin SHELL=/bin/bash TERM=xterm-256colo
->>     2549 ?        Ds     0:14 fio --filename=/dev/nvme1n1 --direct=1 --rw=randrw --bs=4k --ioengine=psync --iodepth=256 --runtime=300 --numjobs=1 --time_based
->>     [..]
->>
->> Observation:
->> ============
->> As it's apparent from the above logs that "disable-slot" (pid 2510) is waiting (uninterruptible-sleep)
->> for queue to be freezed because the in-flight IO(s) couldn't finish. Moreover the IO(s) which were
->> in-flight actually times-out however nvme_timeout() doesn't cancel those IOs but logs this error
->> "Try "nvme_core.default_ps_max_latency_us=0 pcie_aspm=off" and report a bug" and returns BLK_EH_DONE.
->> As those in-fligh IOs were not cancelled, the NVMe driver code which runs in the context of
->> "disable-slot" couldn't forward progress and NVMe controller state remains in "deleting (no IO)"
->> indefinitely. The only way we found to come out of this state is to reboot the system.
->>
->> Proposed fix:
->> ============
->> static void nvme_remove(struct pci_dev *pdev)
->> {
->>     struct nvme_dev *dev = pci_get_drvdata(pdev);
->>
->>     nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
->>     pci_set_drvdata(pdev, NULL);
->>
->>     if (!pci_device_is_present(pdev)) {
->>         nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
->>         nvme_dev_disable(dev, true);
->>     }
->>     flush_work(&dev->ctrl.reset_work);
->>     nvme_stop_ctrl(&dev->ctrl);
->>     nvme_remove_namespaces(&dev->ctrl); <== here cntrl state is set to "deleting (no IO)"
->>          [..]
->> }
->>
->> As shown above, nvme_remove() invokes nvme_dev_disable(), however, it is only invoked if the
->> device is physically removed. As nvme_dev_disable() helps cancel pending IOs, does it makes
->> sense to unconditionally cancel pending IOs before moving on? Or are there any side effect if
->> we were to unconditionally invoke nvme_dev_disable() at the first place?
-> 
-> Shouldn't the correct place to handle the cancellation is nvme_error_detected() given that the
-> pci error is preventing the request from completing and the timeout handler from addressing it?
-> 
-If a platform supports pci-error-recovery then it may be possible to cancel pending IOs from 
-nvme_error_detected(), however, if the platform doesn't support pci error recovery then 
-nvme_error_detected() would never be called. In fact, the issue which I reported above was
-discovered on a platform which has pci-error-recovery disabled.
+I have an Acer laptop containing 1 x internal Samsung NVMe PCIe SSD running
+Win11 OS and I wish to completely sanitize the SSD of all user data,
+including over-provisioned / non-allocated space, whilst leaving vendor boot
+capability intact (if possible) and causing least wear on the SSD. Once
+sanitized, I wish to clean install Win 11 OS on the SSD. This is the
+objective.
 
-I also tested this scenario on a platform supporting the pci error recovery. On this platform, 
-when I ran this test (PCI error injection followed by NVMe hot unpulg), I found that the 
-pci-error-recovery thread races with hot-unplug task, please find below the dmesg logs 
-collected when this issue manifests:
+Win11 reports the SSD has 3 unencrypted partitions, as follows: 1) Fat32 EFI
+system partition / volume; 2) NTFS data partition / boot volume; and 3) NTFS
+MS recovery partition.
 
-INFO: task eehd:187 blocked for more than 122 seconds.
-      Not tainted 6.9.0-rc4+ #8
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:eehd            state:D stack:0     pid:187   tgid:187   ppid:2      flags:0x00000000
-Call Trace:
-[c0000000089bf890] [c000000000fb027c] vsnprintf+0x3f8/0x578 (unreliable)
-[c0000000089bfa40] [c00000000001f3fc] __switch_to+0x13c/0x220
-[c0000000089bfaa0] [c000000000fb87e0] __schedule+0x268/0x7c4
-[c0000000089bfb70] [c000000000fb8d7c] schedule+0x40/0x108
-[c0000000089bfbe0] [c000000000fb93f8] schedule_preempt_disabled+0x20/0x30
-[c0000000089bfc00] [c000000000fbbe84] __mutex_lock.constprop.0+0x5f4/0xc54
-[c0000000089bfca0] [c000000000916380] pci_lock_rescan_remove+0x28/0x3c
-[c0000000089bfcc0] [c00000000004fa4c] eeh_pe_report_edev+0x3c/0x52c
-[c0000000089bfda0] [c00000000004ffdc] eeh_pe_report+0xa0/0x158
-[c0000000089bfe40] [c000000000050490] eeh_handle_normal_event+0x310/0xa24
-[c0000000089bff30] [c000000000051078] eeh_event_handler+0x118/0x19c
-[c0000000089bff90] [c00000000018d29c] kthread+0x138/0x140
-[c0000000089bffe0] [c00000000000dd58] start_kernel_thread+0x14/0x18
+My limited use of nvme-cli identifies the SSD has only one controller
+'nvme0' (with nvme0 containing all SSD data) and one namespace 'nvme0n1',
+however I presume (and please correct me if I'm wrong) the 3 above mentioned
+partitions in Linux = nvme0n1p1 + nvme0n1p2 + nvme0n1p3.
 
-INFO: task bash:5420 blocked for more than 122 seconds.
-      Not tainted 6.9.0-rc4+ #8
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:bash            state:D stack:0     pid:5420  tgid:5420  ppid:5419   flags:0x00042080
-Call Trace:
-[c000000054c67510] [c000000054c67550] 0xc000000054c67550 (unreliable)
-[c000000054c676c0] [c00000000001f3fc] __switch_to+0x13c/0x220
-[c000000054c67720] [c000000000fb87e0] __schedule+0x268/0x7c4
-[c000000054c677f0] [c000000000fb8d7c] schedule+0x40/0x108
-[c000000054c67860] [c000000000808bb4] blk_mq_freeze_queue_wait+0xa4/0xec
-[c000000054c678c0] [c00000000081eba8] del_gendisk+0x284/0x464
-[c000000054c67920] [c00800000b7174a4] nvme_ns_remove+0x138/0x2ac [nvme_core]
-[c000000054c67960] [c00800000b717704] nvme_remove_namespaces+0xec/0x198 [nvme_core]
-[c000000054c679d0] [c008000006294b70] nvme_remove+0x80/0x168 [nvme]
-[c000000054c67a10] [c00000000092a10c] pci_device_remove+0x6c/0x110
-[c000000054c67a50] [c000000000a4f504] device_remove+0x70/0xc4
-[c000000054c67a80] [c000000000a515d8] device_release_driver_internal+0x2a4/0x324
-[c000000054c67ad0] [c00000000091b528] pci_stop_bus_device+0xb8/0x104
-[c000000054c67b10] [c00000000091b910] pci_stop_and_remove_bus_device+0x28/0x40
-[c000000054c67b40] [c000000000072620] pci_hp_remove_devices+0x90/0x128
-[c000000054c67bd0] [c008000004380504] disable_slot+0x40/0x90 [rpaphp]
-[c000000054c67c00] [c000000000956090] power_write_file+0xf8/0x19c
-[c000000054c67c80] [c00000000094b4f8] pci_slot_attr_store+0x40/0x5c
-[c000000054c67ca0] [c0000000006e5dc4] sysfs_kf_write+0x64/0x78
-[c000000054c67cc0] [c0000000006e48d8] kernfs_fop_write_iter+0x1b0/0x290
-[c000000054c67d10] [c0000000005e0f4c] vfs_write+0x3b0/0x4f8
-[c000000054c67dc0] [c0000000005e13c0] ksys_write+0x84/0x140
-[c000000054c67e10] [c000000000030a84] system_call_exception+0x124/0x330
-[c000000054c67e50] [c00000000000cedc] system_call_vectored_common+0x15c/0x2ec
+Based on above info (and presuming that info is sufficient), I respectfully
+ask whether the following procedure will 'smoothly' achieve the objective:
 
+1: backup all user data currently on SSD
+2: have bootable Win11 ISO file prepped on USB drive via Rufus
+3: boot laptop using Ubuntu Live USB
+4: Open command terminal and run command - 'nvme sanitize -a 2 /dev/nvme0n1'
+to start block erase sanitize operation
+5: when sanitize operation is complete, exchange Ubuntu Live USB for Win11
+USB and reboot laptop
+6: Follow Win11 install procedures
+7: Install Acer drivers
+8: Install target apps
 
-As we can see above the task eehd:187 (pci-error-recovery thread) is blocked for 
-acquiring the mutex (pci_rescan_remove_lock). The hot-unplug task (bash: 5420)
-is blocked on the request queue to be freezed. The hot-unplug task first acquires
-the pci_rescan_remove_lock and then invokes nvme_remove() method. So in summary, 
-in the traces shown above, as hot-unplug task is unable to proceed, it has also 
-blocked the pci-error-recovery thread. 
+Additional questions arising from above:
+- If any above element won't achieve objective, please clarify what needs
+amending?
+- I currently understand 'nvme sanitize -a 4 /dev/nvme0n1' (crypto erase)
+causes least SSD wear but because all user data on the SSD is currently
+unencrypted, I presume crypto erase is pointless to achieve objective?
+- I've tried researching the following sanitize options but am currently
+unable to appreciate their significance or relevance for the objective: 'No
+Deallocate After Sanitize' and 'Sanitize Action...001b - Exit Failure Mode'.
+Would you please help me discern whether I need to include either of these
+options to meet the objective and, if so, the correct syntax placement in
+the sanitize command for it/ them.
 
-On another note, if pci-error-recovery thread could progress first acquiring 
-pci_rescan_remove_lock then it shall be able to recover the pci error and hence
-pending IOs could be finished. Later when hot-unplug task starts, it could 
-forward progress and cleanup all resources used by the nvme disk. 
+As I'm so novice, please respond in most simplistic terms for my sake.
+Thanks for considering my request and kind regards,
 
-So does it make sense if we unconditionally cancel the pending IOs from 
-nvme_remove() before it forward progress to remove namespaces?
+Deane Coleman
 
-Thanks,
---Nilay
 
