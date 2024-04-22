@@ -4,89 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEB8EC4345F
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Apr 2024 04:59:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93C38C4345F
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Apr 2024 08:27:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3feHkqgPPy1+RGpuKoIZf5c3ACEkn4+zXOf51zMJUpk=; b=4PFGzkkyetwngFuWXZuaGfhw1V
-	xTse5jn6WxCjnzKThvXYLJ089Tah21rwqgy+3ZtGsl1SgqnU97yzFoMNVEEWSZzeEhqMJP6xfobga
-	iNtH6wBcVznVq793RPNrsGSdzEkJzj2UeNUnVhLvqr52XSSTRaDgye50Sl2KSjjvSXvSueU0HLJ4u
-	1cA//GGWYgjo6IZ86v/dPQRAxPtc1K4b6ULjX3cmFFVeYZzU/22LdONqxNZTnF4CVwD3nlX3j+PVe
-	wN+a4NFYdZQxle7bXbHxZ681mXH9mLEGMMi3xliNd7mQcwDJfUj/ZVisUOPTa8QwgXgSrmpfcu+in
-	WOvp+JjA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yg23E5IvW6VVteK0P5TIP4rEOLrHYZFijpWWkpYHnp4=; b=g/Q/3+jFeHlv96c4cd3KnSte0X
+	vszDGiNcsv1EWL5FbSUBeu4vn0PlhtDsH6+lo7CfWZY49WmbbY6K/WNp8EuHQXCte9vBhNVmGhVxN
+	Lw364HTep2dfZ2Zczs2XBNYXseIFI3aFoyVbx8CrQwO5uxiVRlOtXa5onLPVeQwYOXywSY3dn+Xjx
+	lE+tEWrnZJ2wKoXImCUhRiGB749jXYx8L9SpO3Dx54O4JNLES3h1+s8aOHRlEbDrsGrWoe+wgpol2
+	y8Wahx5eJpqQOolhRza/h+/1TIkEsf0118g+1b4fMUTWomNr3FDpJrzp1my4H+znkXl9qNghISPk9
+	c4rFq0Vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rylmR-0000000C2Hs-1Mqc;
-	Mon, 22 Apr 2024 04:59:51 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1ryp1a-0000000CeFU-3ETL;
+	Mon, 22 Apr 2024 08:27:42 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rylmN-0000000C2Ge-3atK
+	id 1ryp1W-0000000CeCl-1hlv
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Apr 2024 04:59:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713761984;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	Mon, 22 Apr 2024 08:27:41 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3BDA65CCA1;
+	Mon, 22 Apr 2024 08:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713774454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3feHkqgPPy1+RGpuKoIZf5c3ACEkn4+zXOf51zMJUpk=;
-	b=GbzyAl+8yc2iQNmSBVnY/DUNHmpSty3G01UzH1c986DeZYM64u3Hd7YuRS20R4GN7qEPBz
-	beKdO/8gx4q9gQeRwRYtCo+TuMRAGSqYdv0+23spwhF7AhdqQQzYpYGEc5UHqmul60R9l8
-	i73KUJc42+Xb0MTwk2hyui4UmmTTABU=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-281-SRAlZxH4MQO_hphdPv_ykg-1; Mon, 22 Apr 2024 00:59:42 -0400
-X-MC-Unique: SRAlZxH4MQO_hphdPv_ykg-1
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2a5d989e820so5400478a91.2
-        for <linux-nvme@lists.infradead.org>; Sun, 21 Apr 2024 21:59:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713761982; x=1714366782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3feHkqgPPy1+RGpuKoIZf5c3ACEkn4+zXOf51zMJUpk=;
-        b=h08NaIAtygfJK+eyzhW5M7mGpwhStRaxeE8tgQlsXckbvgwebnkPBXyptyJGs1xDmx
-         PaBAUmWf1gpijHFzwr8ve9YOKVzmEbZdk1fenBCfAfxHM61JV0XCSR2k8QPbCu+fJN8/
-         qF87J8xeFU3Gogwx/adp4hcuFjknvWHvY1WJvF677GQRy2HjRat0F3wo2DczJ/M/H4sy
-         /u7wiFucubuKncLCK3fdGiyKuLWScEYrW1xJzEj6yy0+6gETJaP2BKvHnHxb18Gd2MpG
-         Zd8peHD/v8OiJtxRmlSce0Fb5l2oxJoSKey3VateYy8MGaVenK1o0UUJkoXNCGaONVHr
-         EyeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUr89u7f2VfUkoGgbocoPRjjfeZdx6MDmp1Uh5+9aSUVqqzdKoYD630UGIUoBGVxG4PgJBI7RV1g68X2lKGJHiq3xW5FHGOgLRmqzXC8uQ=
-X-Gm-Message-State: AOJu0Yzi8hBFm2jFkmZDLFrX5bnKsreHxvxJRnj2zoZJm2QkRozjXj4Z
-	MwacX1wypOXJwcmc49CCxwTfAuvowOMv3ZSAUTuOmGWV+wVqlhhFzcHIn6hwpbYAi6+U0eXu1mz
-	yoRtd5cnMS8QBv3LrFZxiy6oVZBcxs6X755X60VzzCpHy5jwe7yzb/AMQsWF0zR2iU+zExEYBVg
-	Bw8TVcK77/2Q+DAHBKSDrMjpSDF9NWYhR0JR+Ek/c=
-X-Received: by 2002:a17:90a:6389:b0:2ab:a53a:6e52 with SMTP id f9-20020a17090a638900b002aba53a6e52mr7841409pjj.37.1713761981960;
-        Sun, 21 Apr 2024 21:59:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEEkCI65P6txzqz3iyqhbrRVGRMUVMFKgnJxfVOLFXvSKUenWM2+xiSOzJD+8Wc3loMYC1QTZqgf4Pk1IRrkds=
-X-Received: by 2002:a17:90a:6389:b0:2ab:a53a:6e52 with SMTP id
- f9-20020a17090a638900b002aba53a6e52mr7841400pjj.37.1713761981617; Sun, 21 Apr
- 2024 21:59:41 -0700 (PDT)
+	bh=yg23E5IvW6VVteK0P5TIP4rEOLrHYZFijpWWkpYHnp4=;
+	b=tXIBBkLfXURx7rxnCsscBn1i+msusCoBIigK6Pzr7ehaPitZm3uMu2c++Co+CxzHnkVQon
+	mQcIDDeXF253NkbhHE5wgEU0FaXDhBALBzLYDD07MZ2So2pbqmuriJr6g84pi1qeGSGn9f
+	xJlhGfkvUzqFOTXnLaSWj7bJILHMrAU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713774454;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yg23E5IvW6VVteK0P5TIP4rEOLrHYZFijpWWkpYHnp4=;
+	b=9LPmCsG0wra1azWvYgBlgXA6TD60Mx/MnlHIFzT62J/idq7wU26lMwD+0IWXt/UYQFLY6H
+	FCRoFXK45Rv6FuDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713774454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yg23E5IvW6VVteK0P5TIP4rEOLrHYZFijpWWkpYHnp4=;
+	b=tXIBBkLfXURx7rxnCsscBn1i+msusCoBIigK6Pzr7ehaPitZm3uMu2c++Co+CxzHnkVQon
+	mQcIDDeXF253NkbhHE5wgEU0FaXDhBALBzLYDD07MZ2So2pbqmuriJr6g84pi1qeGSGn9f
+	xJlhGfkvUzqFOTXnLaSWj7bJILHMrAU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713774454;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yg23E5IvW6VVteK0P5TIP4rEOLrHYZFijpWWkpYHnp4=;
+	b=9LPmCsG0wra1azWvYgBlgXA6TD60Mx/MnlHIFzT62J/idq7wU26lMwD+0IWXt/UYQFLY6H
+	FCRoFXK45Rv6FuDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 255A913894;
+	Mon, 22 Apr 2024 08:27:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xcsWCXYfJmaXfAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 22 Apr 2024 08:27:34 +0000
+Date: Mon, 22 Apr 2024 10:27:28 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, Ming Lei <ming.lei@redhat.com>, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [bug report] blktests nvme/tcp nvme/014 failed due to Read/Flush
+ timeout
+Message-ID: <akehibl3xhwd5dt7euvljib5uyqkxk2efhka3kt6b6jcuyffmw@gpnfo6dikdzf>
+References: <CAHj4cs_9XT6Ky4=LTy4SZ5AVfhAUec2k52b81-OKqzsDubobmw@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAHj4cs8xbBXm1_SKpNpeB5_bbD28YwhorikQ-OYRtt9-Mf+vsQ@mail.gmail.com>
- <923a9363-f51b-4fa1-8a0b-003ff46845a2@nvidia.com> <ede49e66-7a0a-472d-a44c-0c60763ddce0@grimberg.me>
-In-Reply-To: <ede49e66-7a0a-472d-a44c-0c60763ddce0@grimberg.me>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Mon, 22 Apr 2024 12:59:29 +0800
-Message-ID: <CAHj4cs9UN_pV_raSL2+wNRP9yBeJWkx0_GtHSQ0QoC3jYxhfQA@mail.gmail.com>
-Subject: Re: [bug report] kmemleak observed with blktests nvme/tcp
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Jens Axboe <axboe@kernel.dk>, 
-	linux-block <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHj4cs_9XT6Ky4=LTy4SZ5AVfhAUec2k52b81-OKqzsDubobmw@mail.gmail.com>
+X-Spamd-Result: default: False [-3.72 / 50.00];
+	BAYES_HAM(-2.93)[99.68%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240421_215948_093990_63E37ED6 
-X-CRM114-Status: GOOD (  17.82  )
+X-CRM114-CacheID: sfid-20240422_012738_639958_0A0F4A34 
+X-CRM114-Status: GOOD (  12.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,75 +128,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Apr 21, 2024 at 6:31=E2=80=AFPM Sagi Grimberg <sagi@grimberg.me> wr=
-ote:
->
->
->
-> On 16/04/2024 6:19, Chaitanya Kulkarni wrote:
-> > +linux-nvme list for awareness ...
-> >
-> > -ck
-> >
-> >
-> > On 4/6/24 17:38, Yi Zhang wrote:
-> >> Hello
-> >>
-> >> I found the kmemleak issue after blktests nvme/tcp tests on the latest
-> >> linux-block/for-next, please help check it and let me know if you need
-> >> any info/testing for it, thanks.
-> > it will help others to specify which testcase you are using ...
-> >
-> >> # dmesg | grep kmemleak
-> >> [ 2580.572467] kmemleak: 92 new suspected memory leaks (see
-> >> /sys/kernel/debug/kmemleak)
-> >>
-> >> # cat kmemleak.log
-> >> unreferenced object 0xffff8885a1abe740 (size 32):
-> >>     comm "kworker/40:1H", pid 799, jiffies 4296062986
-> >>     hex dump (first 32 bytes):
-> >>       c2 4a 4a 04 00 ea ff ff 00 00 00 00 00 10 00 00  .JJ............=
-.
-> >>       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ...............=
-.
-> >>     backtrace (crc 6328eade):
-> >>       [<ffffffffa7f2657c>] __kmalloc+0x37c/0x480
-> >>       [<ffffffffa86a9b1f>] sgl_alloc_order+0x7f/0x360
-> >>       [<ffffffffc261f6c5>] lo_read_simple+0x1d5/0x5b0 [loop]
-> >>       [<ffffffffc26287ef>] 0xffffffffc26287ef
-> >>       [<ffffffffc262a2c4>] 0xffffffffc262a2c4
-> >>       [<ffffffffc262a881>] 0xffffffffc262a881
-> >>       [<ffffffffa76adf3c>] process_one_work+0x89c/0x19f0
-> >>       [<ffffffffa76b0813>] worker_thread+0x583/0xd20
-> >>       [<ffffffffa76ce2a3>] kthread+0x2f3/0x3e0
-> >>       [<ffffffffa74a804d>] ret_from_fork+0x2d/0x70
-> >>       [<ffffffffa7406e4a>] ret_from_fork_asm+0x1a/0x30
-> >> unreferenced object 0xffff88a8b03647c0 (size 16):
-> >>     comm "kworker/40:1H", pid 799, jiffies 4296062986
-> >>     hex dump (first 16 bytes):
-> >>       c0 4a 4a 04 00 ea ff ff 00 10 00 00 00 00 00 00  .JJ............=
-.
-> >>     backtrace (crc 860ce62b):
-> >>       [<ffffffffa7f2657c>] __kmalloc+0x37c/0x480
-> >>       [<ffffffffc261f805>] lo_read_simple+0x315/0x5b0 [loop]
-> >>       [<ffffffffc26287ef>] 0xffffffffc26287ef
-> >>       [<ffffffffc262a2c4>] 0xffffffffc262a2c4
-> >>       [<ffffffffc262a881>] 0xffffffffc262a881
-> >>       [<ffffffffa76adf3c>] process_one_work+0x89c/0x19f0
-> >>       [<ffffffffa76b0813>] worker_thread+0x583/0xd20
-> >>       [<ffffffffa76ce2a3>] kthread+0x2f3/0x3e0
-> >>       [<ffffffffa74a804d>] ret_from_fork+0x2d/0x70
-> >>       [<ffffffffa7406e4a>] ret_from_fork_asm+0x1a/0x30
->
-> kmemleak suggest that the leakage is coming from lo_read_simple() Is
-> this a regression that can be bisected?
->
+On Mon, Apr 22, 2024 at 12:55:33PM +0800, Yi Zhang wrote:
+> I found nvme/014 failed[1] on one of my servers, seems it was due to
+> Read/Flush timeout during the test[2], I tried to add sync operation
+> after the dd operation[3] and the failure can be fixed now and no
+> timeout from dmesg, could anyone help check if it's one test issue or
+> nvme/tcp stack issue, thanks.
 
-It's not one regression issue, I tried 6.7 and it also can be reproduced.
+From your log I'd say the sync command is just timing out too early. The
+write operations are just too slow. Not really sure what the test is
+suppose to test here. Should it test if the flush works or if the flush
+is flushing any pending I/O? In the first case, the sync would be the
+right fix. In the second case I suppose we would need to consider how
+log it takes to flush pending I/Os and extend the timeout accordingly?
 
-
---
-Best Regards,
-  Yi Zhang
-
+Thoughs?
 
