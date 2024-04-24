@@ -4,95 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A606FC4345F
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Apr 2024 12:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F13CEC4345F
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Apr 2024 12:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gkgcaQ0YFyTksYfTa/+pmIIo5echmxDVgyJAWq5qzZQ=; b=oigkDu2NJ+L9SgyYnsHLHMCjlG
-	T9s7y/oSsj5Ato48bGU8Rq9O13a7+tAxE61h8N+17pcAeTFdmPQNXkvHusPBc3fzY67wJxLCBr1I0
-	XO9OfVBbz7tHQEYiofcp2OM8IX3JlHCXu9f3wrRLdmNlZ+MV/vf3n6wRZooIdeCa0//GJzYMafuIr
-	8iqeMmx2a9Y6BXf8KRi+HjR+7lWs01GfXqyZ8EwCxeRZBeqZTPVjKyx5KjHze6BybGT9NJ/Ij1vL4
-	vOiyn+A4+KgmLFV3++mqr6oqCTaWvI1PKCdiQC4uvffNl5YW/+yzeHolrZZavpwq7WmtLXnzSUU1k
-	N43+LSAw==;
+	bh=3O+eLxdYAF6bkHqp83YpWX0eof1PThwEJfivUOb23Lg=; b=NBH3Bm6/VNT2WMsWd9hLM6dRXM
+	oGVgtcXqv/tSak44QZd0kaEdRscO/Xx2SVe4KZFO3v4tdD7d1GzeHKBdDo0qmvH4OZWloKj3SpxYC
+	ZCZPSpFQklVCfDfcVqeKya32T7pw1PZfhiRS7BnY9YuH+MLb65lRbWzAr8CBFvzjkJz4u8hK0Wuxy
+	ZgpAlevEO2pbDNPdSoS1YMebl1qsDoE21tS51nDxKjvejBKBkLAaGJMMyrrCZazEP+ZEP6cC49Hze
+	XqLQ1aq14/BIQUeb+gRDWrvSGnAuZaC1VdnIJsJ1KbE/RgaFotyDu661Vnt/bZYC5xRW3E3Rmkbvy
+	CMtudt+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzbie-000000044AV-0CqC;
-	Wed, 24 Apr 2024 12:27:24 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rzbji-000000044OM-2YNE;
+	Wed, 24 Apr 2024 12:28:30 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzbiW-0000000445C-1m1g
+	id 1rzbje-000000044N8-1D7U
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Apr 2024 12:27:21 +0000
+	Wed, 24 Apr 2024 12:28:29 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A9C63487F;
-	Wed, 24 Apr 2024 12:27:07 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9522866D82;
+	Wed, 24 Apr 2024 12:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713961627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1713961703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gkgcaQ0YFyTksYfTa/+pmIIo5echmxDVgyJAWq5qzZQ=;
-	b=LRY1JJAhur+UzdQg1yOGsqr3qz5hQ0R5HgDpAghVbljhQYGPwmghGAojWXU8KlOP01Jea/
-	PrH+PaFfnaUYA9OJLpH1n1oyk6fdk5AMGP9TA5BQu/B0ojbeVT+tWnthuJUcKxFhiV956r
-	ShaZDHxyXvll3foZkZasS/y19Y1JOMs=
+	bh=3O+eLxdYAF6bkHqp83YpWX0eof1PThwEJfivUOb23Lg=;
+	b=E0fVq+Ygse1z/uWjC6iQ+wc32zujLcN/en/s0JUPOnflqhkPjrSPXMHJNrSBfX2zgVv76l
+	4V3MqowQyDrZB4KdBCfPMl5/Ra9OjV2vMoagEbLiHjunesXb3IIg2YIjqD4JNYMMA1aQSw
+	TPhnbU4RqA1JrpxqNuNcg+UTuAMhPXY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713961627;
+	s=susede2_ed25519; t=1713961703;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gkgcaQ0YFyTksYfTa/+pmIIo5echmxDVgyJAWq5qzZQ=;
-	b=FrEzMpz42eGas1H1fw35XlO0BjTbxUWvY2bOJjfLY3Dd9BiX8hrSD0vm77APfo+YjAozZw
-	XgDS5niF7GtLr+CA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=3O+eLxdYAF6bkHqp83YpWX0eof1PThwEJfivUOb23Lg=;
+	b=U6gxe5axNlNOLncQv8uWy0F2XEDE3r/1WGKemO8co+HglnyEh2TzkWs71hXsjxRXweEECW
+	E00XQSnK33t0J3Dw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713961627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1713961703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gkgcaQ0YFyTksYfTa/+pmIIo5echmxDVgyJAWq5qzZQ=;
-	b=LRY1JJAhur+UzdQg1yOGsqr3qz5hQ0R5HgDpAghVbljhQYGPwmghGAojWXU8KlOP01Jea/
-	PrH+PaFfnaUYA9OJLpH1n1oyk6fdk5AMGP9TA5BQu/B0ojbeVT+tWnthuJUcKxFhiV956r
-	ShaZDHxyXvll3foZkZasS/y19Y1JOMs=
+	bh=3O+eLxdYAF6bkHqp83YpWX0eof1PThwEJfivUOb23Lg=;
+	b=E0fVq+Ygse1z/uWjC6iQ+wc32zujLcN/en/s0JUPOnflqhkPjrSPXMHJNrSBfX2zgVv76l
+	4V3MqowQyDrZB4KdBCfPMl5/Ra9OjV2vMoagEbLiHjunesXb3IIg2YIjqD4JNYMMA1aQSw
+	TPhnbU4RqA1JrpxqNuNcg+UTuAMhPXY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713961627;
+	s=susede2_ed25519; t=1713961703;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gkgcaQ0YFyTksYfTa/+pmIIo5echmxDVgyJAWq5qzZQ=;
-	b=FrEzMpz42eGas1H1fw35XlO0BjTbxUWvY2bOJjfLY3Dd9BiX8hrSD0vm77APfo+YjAozZw
-	XgDS5niF7GtLr+CA==
+	bh=3O+eLxdYAF6bkHqp83YpWX0eof1PThwEJfivUOb23Lg=;
+	b=U6gxe5axNlNOLncQv8uWy0F2XEDE3r/1WGKemO8co+HglnyEh2TzkWs71hXsjxRXweEECW
+	E00XQSnK33t0J3Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F9941393C;
-	Wed, 24 Apr 2024 12:27:07 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A54D1393C;
+	Wed, 24 Apr 2024 12:28:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id L0WSA5v6KGZObgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 24 Apr 2024 12:27:07 +0000
-Date: Wed, 24 Apr 2024 14:27:06 +0200
+	id 2ke1Ief6KGaibgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 24 Apr 2024 12:28:23 +0000
+Date: Wed, 24 Apr 2024 14:28:21 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
 	Chaitanya Kulkarni <kch@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH blktests v3 05/15] common/rc: introduce
- _check_conflict_and_set_default()
-Message-ID: <aamzlwv36dlc4oaz67locs5iblwoaze33dri74mj7ch57rp7tj@4ad3642cuo3p>
+Subject: Re: [PATCH blktests v3 06/15] nvme/rc: introduce NVMET_TRTYPES
+Message-ID: <436qpoiaezdnkm3xdtlcbzy7n5ee4kobhfqsvst27si67a46gh@msehpblovq5d>
 References: <20240424075955.3604997-1-shinichiro.kawasaki@wdc.com>
- <20240424075955.3604997-6-shinichiro.kawasaki@wdc.com>
+ <20240424075955.3604997-7-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240424075955.3604997-6-shinichiro.kawasaki@wdc.com>
-X-Spamd-Result: default: False [-3.59 / 50.00];
-	BAYES_HAM(-2.79)[99.10%];
+In-Reply-To: <20240424075955.3604997-7-shinichiro.kawasaki@wdc.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
@@ -110,10 +109,10 @@ X-Spamd-Result: default: False [-3.59 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240424_052716_697233_BA97126B 
-X-CRM114-Status: GOOD (  13.49  )
+X-CRM114-CacheID: sfid-20240424_052826_526515_1D0EF42A 
+X-CRM114-Status: GOOD (  12.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,19 +127,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 24, 2024 at 04:59:45PM +0900, Shin'ichiro Kawasaki wrote:
-> Following commits are going to rename some config option parameters from
-> lowercase letters to uppercase. The old lowercase options will be
-> deprecated but still be kept usable to not cause confusions. When these
-> changes are made, it will be required to check that both new and old
-> parameters are not set at once and ensure they do not have two different
-> values.
+On Wed, Apr 24, 2024 at 04:59:46PM +0900, Shin'ichiro Kawasaki wrote:
+> Some of the test cases in nvme test group can be run under various nvme
+> target transport types. The configuration parameter nvme_trtype
+> specifies the transport to use. But this configuration method has two
+> drawbacks. Firstly, the blktests check script needs to be invoked
+> multiple times to cover multiple transport types. Secondly, the test
+> cases irrelevant to the transport types are executed exactly same
+> conditions in the multiple blktests runs.
 > 
-> To simplify the code to check the two parameters, introduce the helper
-> _check_conflict_and_set_default(). If the both two parameters are
-> set, it errors out. If the old option is set, it propagates the old
-> option value to the new option. Also, when neither of them is set, it
-> sets the default value to the new option.
+> To avoid the drawbacks, allow setting multiple transport types. Taking
+> this chance, rename the parameter from nvme_trtype to NVMET_TRTYPES to
+> follow the uppercase letter naming guide for environment variables.
+> NVMET_TRTYPES can take multiple transport types like:
+> 
+>     NVMET_TRTYPES="loop tcp"
+> 
+> Introduce _nvmet_set_nvme_trtype() which can be called from the
+> set_conditions() hook of the transport type dependent test cases.
+> Blktests will repeat the test case as many as the number of elements in
+> NVMET_TRTYPES, and set nvme_trtype for each test case run.
+> 
+> Also introduce _NVMET_TRTYPES_is_valid() to check NVMET_TRTYPES value
+> before test run.
 > 
 > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
