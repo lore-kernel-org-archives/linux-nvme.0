@@ -4,129 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4F3FC4345F
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Apr 2024 13:12:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BFFBC4345F
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Apr 2024 17:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TZJNSlafJ4o4E8VaKaQNC/3ukD3OJ5/CiUClEs4o5Pw=; b=1HqhIRm95QqykZal8b5ir+y6sR
-	hUq/lKyUJrE98auWiwAvv6j81vtCZdkS6GC9tCLsVl3ahyLR9pn6eOUvn0PpsmbVRNXl1mLew6RY+
-	slZ+qOG+5b8yb07y8sQHOiX0ykznCn9qCw3nWYWJIbY9gDJOjhCbbw5VoZpTdYBmZtypUW1OUkY6H
-	GunKujZ1Hb1bpLieBkvYIgVbgrTXkaGCD2kkr7QGJHxRbiqWoRHrUb/liFg1MvV+EqkkrgT7zQue7
-	kg+5HP2nTC8Pu6geDuJD95X2nmCLZknRmFUKsggtp+HR8WFLApydNJm7cHz9xRPPWG5gaBDSaxUPw
-	w95TYFHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aGqRiKMfdZPnjEDXUfa8ZAD2wrT/CUopQGvHah0umvw=; b=RDIjFLRxqVaS4bMtC9sottMYVX
+	BljgDjndK4zIT5AziqJysUZEFEDRRxg5mDBXtGL5fbj65JXLKkgnFDMOVVP75fCQjCzbCypRtr0GD
+	ej065IxBXW4htshlRi4CijMA1QDY2oeSkLvhHvFjAZel3LnWDVnrU1mQtJS+EGrOdWT/sNLK3laQ3
+	o/OR6ff8KZPqP46DQPWKC83H62ElT2bY6/ajKiHrSJ6YWKvxgGZxQZsDcYpoY5tpbYnYPPedaQ5Tg
+	+rod4Y59fP0MXAJiuEIiL33F7zJHKuRJsJD7qN9lktQ3tq8ttYomtZHJeHxCY4Qz6vmIB6APgRyt2
+	kQSD8DnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzcPv-00000004Cyh-17hR;
-	Wed, 24 Apr 2024 13:12:07 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rzgXX-000000058d0-0QD9;
+	Wed, 24 Apr 2024 17:36:15 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzcPq-00000004CuV-07P1
+	id 1rzgXO-000000058aR-0eN7
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Apr 2024 13:12:05 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 50E7B5D6A7;
-	Wed, 24 Apr 2024 13:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713964313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TZJNSlafJ4o4E8VaKaQNC/3ukD3OJ5/CiUClEs4o5Pw=;
-	b=FcxDURwgR+aEZvdeKIW7/Ta6JDA8Im/FMTFODxBHe3bwqfxi0kZOnYB8MwY9xIi/pD6Uq9
-	RBv3C0fgaEP4dXeCzrphxVbaomNNWL8MprtIwV5GbP9NCPibVFrLUDNG+NB0vxDd2YYe2G
-	h/MshgvaZo2FOtB/c8ZDj8CaHMQaHQ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713964313;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TZJNSlafJ4o4E8VaKaQNC/3ukD3OJ5/CiUClEs4o5Pw=;
-	b=4/EvjaNJkaqaBgQEuXg7wEipTv8BVTn2fwZIIX2AYfc9O7gIK67K4gkLQUwjENJb+gUTqU
-	sNr0rS8/N2YQIeDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FcxDURwg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="4/EvjaNJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713964313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TZJNSlafJ4o4E8VaKaQNC/3ukD3OJ5/CiUClEs4o5Pw=;
-	b=FcxDURwgR+aEZvdeKIW7/Ta6JDA8Im/FMTFODxBHe3bwqfxi0kZOnYB8MwY9xIi/pD6Uq9
-	RBv3C0fgaEP4dXeCzrphxVbaomNNWL8MprtIwV5GbP9NCPibVFrLUDNG+NB0vxDd2YYe2G
-	h/MshgvaZo2FOtB/c8ZDj8CaHMQaHQ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713964313;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TZJNSlafJ4o4E8VaKaQNC/3ukD3OJ5/CiUClEs4o5Pw=;
-	b=4/EvjaNJkaqaBgQEuXg7wEipTv8BVTn2fwZIIX2AYfc9O7gIK67K4gkLQUwjENJb+gUTqU
-	sNr0rS8/N2YQIeDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D61813690;
-	Wed, 24 Apr 2024 13:11:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Jy0ABRkFKWbQewAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 24 Apr 2024 13:11:53 +0000
-Message-ID: <ad6a989c-4362-4811-b78b-fba7e186feb4@suse.de>
-Date: Wed, 24 Apr 2024 15:11:51 +0200
+	Wed, 24 Apr 2024 17:36:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8C0C561C43;
+	Wed, 24 Apr 2024 17:36:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE03CC32781;
+	Wed, 24 Apr 2024 17:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713980165;
+	bh=9RKj1vuXLytGq+7ALQi+JoH5F8pHV0MOFMG5SicT6rQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WI6NpS2RLWiaSyiuNFY6jvy04CFEd7Nbag1Vhne4RSFQ80t5gtae6LRhKqChxAu4y
+	 yh8uYBBMljPRdyaB+rf7zqpGnaxZ9xFopC/TfvXJ72LKPjlX3Arn/PKK2PRotaEN4W
+	 WzB6OrWGkakAob3/Z5hNU3KLAbmWnWnDcQvORzsUKRAokCgEhGrTvcZc2J+cxX/2pN
+	 4yiNY8IeYp812Hv9xX6DYVGVGno9yK9WsDe9cGyB/8XnO2FAR2QxZzfEruwLESUTk2
+	 AJwmAFahJMH5rkM5ugQFAYn5Y73a3kpeVWGhKaZSkZqGc5qblf7sbv9+u1G0lF55ql
+	 3ILVtZj6OsIYQ==
+Date: Wed, 24 Apr 2024 11:36:02 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Christoph Hellwig <hch@lst.de>, "axboe@fb.com" <axboe@fb.com>,
+	Gregory Joyce <gjoyce@ibm.com>,
+	Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>
+Subject: Re: [Bug Report] PCIe errinject and hot-unplug causes nvme driver
+ hang
+Message-ID: <ZilDAv9y3dSzTPKb@kbusch-mbp.dhcp.thefacebook.com>
+References: <199be893-5dfa-41e5-b6f2-40ac90ebccc4@linux.ibm.com>
+ <579c82da-52a7-4425-81d7-480c676b8cbb@grimberg.me>
+ <d33a5681-b195-4258-8eee-e0eae46ade5b@linux.ibm.com>
+ <627cdf69-ff60-4596-a7f3-0fdd0af0f601@grimberg.me>
+ <ZiZrmSW6s7lY7j98@kbusch-mbp.dhcp.thefacebook.com>
+ <ZiZ1mB0pE6lBrJkN@kbusch-mbp.dhcp.thefacebook.com>
+ <2e10ca7f-0da8-47e4-9bfb-4a6cbf4abaec@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-auth: print an error message if the auth timeout
- expires
-Content-Language: en-US
-To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: sagi@grimberg.me, dwagner@suse.de, linux-nvme@lists.infradead.org
-References: <20240424102428.1298052-1-mlombard@redhat.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240424102428.1298052-1-mlombard@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 50E7B5D6A7
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e10ca7f-0da8-47e4-9bfb-4a6cbf4abaec@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240424_061202_243710_9F7A4D93 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20240424_103606_400322_C86BEAD5 
+X-CRM114-Status: GOOD (  30.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,44 +81,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/24/24 12:24, Maurizio Lombardi wrote:
-> When the auth_expired_work fires, an error message should be printed
-> to inform the user that the authentication is failing because of
-> a timeout, so he doesn't get misleaded into thinking there is a bug
-> in the auth code when seeing messages like the following:
+On Tue, Apr 23, 2024 at 03:22:46PM +0530, Nilay Shroff wrote:
+> > 
+> I tested the above patch, however, it doesn't help to solve the issue.
+> I tested it for two cases listed below:
 > 
-> nvmet: nvmet_execute_auth_send: ctrl 1 qid 2 step mismatch (2 != 0)
-> nvmet: nvmet_execute_auth_send: failure incorrect message.
+> 1. Platform which doesn't support pci-error-recovery:
+> -----------------------------------------------------
+> On this platform when nvme_timeout() is invoked, it falls through 
+> nvme_shoud_reset()
+>   -> nvme_warn_reset() 
+>     -> goto disable
 > 
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-> ---
->   drivers/nvme/target/fabrics-cmd-auth.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> When nvme_timeout() jumps to the label disable, it tries setting the
+> controller state to RESETTING but that couldn't succeed because the 
+> (logical) hot-unplug/nvme_remove() of the disk is started on another 
+> thread and hence controller state has already changed to 
+> DELETING/DELETING_NOIO. As nvme_timeout() couldn't set the controller 
+> state to RESETTING, nvme_timeout() returns BLK_EH_DONE. In summary, 
+> as nvme_timeout() couldn't cancel pending IO, the hot-unplug/nvme_remove() 
+> couldn't forward progress and it keeps waiting for request queue to be freezed. 
 > 
-> diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-> index eb7785be0ca7..7436ebda9f70 100644
-> --- a/drivers/nvme/target/fabrics-cmd-auth.c
-> +++ b/drivers/nvme/target/fabrics-cmd-auth.c
-> @@ -17,8 +17,8 @@ static void nvmet_auth_expired_work(struct work_struct *work)
->   	struct nvmet_sq *sq = container_of(to_delayed_work(work),
->   			struct nvmet_sq, auth_expired_work);
->   
-> -	pr_debug("%s: ctrl %d qid %d transaction %u expired, resetting\n",
-> -		 __func__, sq->ctrl->cntlid, sq->qid, sq->dhchap_tid);
-> +	pr_err("%s: ctrl %d qid %d transaction %u expired, resetting\n",
-> +		__func__, sq->ctrl->cntlid, sq->qid, sq->dhchap_tid);
->   	sq->dhchap_step = NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
->   	sq->dhchap_tid = -1;
->   }
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> 2. Platform supporting pci-error-recovery:
+> ------------------------------------------
+> Similarly, on this platform as explained for the above case, when 
+> nvme_timeout() is invoked, it falls through nvme_shoud_reset()
+> -> nvme_warn_reset() -> goto disable. In this case as well, 
+> nvme_timeout() returns BLK_EH_DONE. Please note that though this 
+> platform supports pci-error-recovery, we couldn't get through 
+> nvme_error_detected() because the pci-error-recovery thread is pending 
+> on acquiring mutex "pci_lock_rescan_remove". This mutex is acquired by 
+> hot-unplug thread before it invokes nvme_remove() and nvme_remove() 
+> is currently waiting for request queue to be freezed. For reference,
+> I have already captured the task hang traces in previous email of this 
+> thread where we could observe these hangs (for both pci-error-recovery
+> thread as well as hot-unplig/nvme_remove()).
+> 
+> I understand that we don't want to cancel pending IO from the nvme_remove()
+> unconditionally as if the disk is not physically hot-unplug then we still 
+> want to  wait for the in-flight IO to be finished. Also looking through 
+> the above cases, I think that the nvme_timeout() might be the code path 
+> from where we want to cancel in-flight/pending IO if controller is 
+> in the terminal state (i.e. DELETING or DELETING_NOIO). Keeping this idea in
+> mind, I have worked out the below patch:
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 8e0bb9692685..e45a54d84649 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1286,6 +1286,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+>         u32 csts = readl(dev->bar + NVME_REG_CSTS);
+>         u8 opcode;
+>  
+> +       if (nvme_state_terminal(&dev->ctrl))
+> +               goto disable;
+> +
+>         /* If PCI error recovery process is happening, we cannot reset or
+>          * the recovery mechanism will surely fail.
+>          */
+> @@ -1390,8 +1393,13 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
+>         return BLK_EH_RESET_TIMER;
+>  
+>  disable:
+> -       if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
+> +       if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
+> +               if (nvme_state_terminal(&dev->ctrl)) {
+> +                       nvme_dev_disable(dev, false);
+> +                       nvme_sync_queues(&dev->ctrl);
+> +               }
+>                 return BLK_EH_DONE;
+> +       }
+>  
+>         nvme_dev_disable(dev, false);
+>         if (nvme_try_sched_reset(&dev->ctrl))
+> 
+> I have tested the above patch against all possible cases. Please let me know
+> if this looks good or if there are any further comments.
 
-Cheers,
+This looks okay to me. Just a couple things:
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Set nvme_dev_disable's "shutdown" parameter to "true" since we're
+restarting the queues again from this state.
 
+Remove "nvme_sync_queues()". I think that would deadlock: sync_queues
+waits for the timeout work to complete, but your calling it within the
+timeout work, so this would have it wait for itself.
 
