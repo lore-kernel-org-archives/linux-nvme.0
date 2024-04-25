@@ -4,69 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BFFBC4345F
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Apr 2024 17:36:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1132DC10F15
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Apr 2024 06:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aGqRiKMfdZPnjEDXUfa8ZAD2wrT/CUopQGvHah0umvw=; b=RDIjFLRxqVaS4bMtC9sottMYVX
-	BljgDjndK4zIT5AziqJysUZEFEDRRxg5mDBXtGL5fbj65JXLKkgnFDMOVVP75fCQjCzbCypRtr0GD
-	ej065IxBXW4htshlRi4CijMA1QDY2oeSkLvhHvFjAZel3LnWDVnrU1mQtJS+EGrOdWT/sNLK3laQ3
-	o/OR6ff8KZPqP46DQPWKC83H62ElT2bY6/ajKiHrSJ6YWKvxgGZxQZsDcYpoY5tpbYnYPPedaQ5Tg
-	+rod4Y59fP0MXAJiuEIiL33F7zJHKuRJsJD7qN9lktQ3tq8ttYomtZHJeHxCY4Qz6vmIB6APgRyt2
-	kQSD8DnA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vEKVDSHMK5F/yU8ggTZJjhUhsGYpK1yP0OK1ux8Mb5o=; b=QXR//v4TKPxHF2UfFBPU2tNrsM
+	bcz38cvqzNIAVy4fl1ylEaPVwXhVo8M1TkMk/jDEpfAzMV+5NJ4gLUB1VKRkhbWLHnD2Bcj7Dr9Fv
+	Z0WDKEbhL2yMLr9MnSzz3Mj0KP0gW87SNhIFmcP2zAFF8YHU6UPy4vdv63peAdCoJzEkYyS8ojAzL
+	g++GOHopGRV8Qh3Y8KAQzP23a3IOCYc4kvXKcHAybV7GzrQTpcKgrQDgYUnNH9nwoFE5v0DlB7iHy
+	esVzhmMF577zJxl+uLMgDtZW2Q19HTq5CIlded26QQjLmCkGAPMBq4serCKEXDdJL3SI3/9bBeWyB
+	DJ1y49OA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzgXX-000000058d0-0QD9;
-	Wed, 24 Apr 2024 17:36:15 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rzsZO-0000000784G-2pqh;
+	Thu, 25 Apr 2024 06:26:58 +0000
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzgXO-000000058aR-0eN7
+	id 1rzsZL-0000000782z-0S9R
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Apr 2024 17:36:07 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8C0C561C43;
-	Wed, 24 Apr 2024 17:36:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE03CC32781;
-	Wed, 24 Apr 2024 17:36:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713980165;
-	bh=9RKj1vuXLytGq+7ALQi+JoH5F8pHV0MOFMG5SicT6rQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WI6NpS2RLWiaSyiuNFY6jvy04CFEd7Nbag1Vhne4RSFQ80t5gtae6LRhKqChxAu4y
-	 yh8uYBBMljPRdyaB+rf7zqpGnaxZ9xFopC/TfvXJ72LKPjlX3Arn/PKK2PRotaEN4W
-	 WzB6OrWGkakAob3/Z5hNU3KLAbmWnWnDcQvORzsUKRAokCgEhGrTvcZc2J+cxX/2pN
-	 4yiNY8IeYp812Hv9xX6DYVGVGno9yK9WsDe9cGyB/8XnO2FAR2QxZzfEruwLESUTk2
-	 AJwmAFahJMH5rkM5ugQFAYn5Y73a3kpeVWGhKaZSkZqGc5qblf7sbv9+u1G0lF55ql
-	 3ILVtZj6OsIYQ==
-Date: Wed, 24 Apr 2024 11:36:02 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Christoph Hellwig <hch@lst.de>, "axboe@fb.com" <axboe@fb.com>,
-	Gregory Joyce <gjoyce@ibm.com>,
-	Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>
-Subject: Re: [Bug Report] PCIe errinject and hot-unplug causes nvme driver
- hang
-Message-ID: <ZilDAv9y3dSzTPKb@kbusch-mbp.dhcp.thefacebook.com>
-References: <199be893-5dfa-41e5-b6f2-40ac90ebccc4@linux.ibm.com>
- <579c82da-52a7-4425-81d7-480c676b8cbb@grimberg.me>
- <d33a5681-b195-4258-8eee-e0eae46ade5b@linux.ibm.com>
- <627cdf69-ff60-4596-a7f3-0fdd0af0f601@grimberg.me>
- <ZiZrmSW6s7lY7j98@kbusch-mbp.dhcp.thefacebook.com>
- <ZiZ1mB0pE6lBrJkN@kbusch-mbp.dhcp.thefacebook.com>
- <2e10ca7f-0da8-47e4-9bfb-4a6cbf4abaec@linux.ibm.com>
+	Thu, 25 Apr 2024 06:26:57 +0000
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 463A84059B
+	for <linux-nvme@lists.infradead.org>; Thu, 25 Apr 2024 06:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1714026408;
+	bh=vEKVDSHMK5F/yU8ggTZJjhUhsGYpK1yP0OK1ux8Mb5o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=MEfmFbjRMHbZe7dqKwQyqOt/C1ykvWE0CHezyTR5NdnJ/yXWOxAhZij4rJ0BHJ59P
+	 g9tO6H09BFy2sJ9DfyZHEcKvuyNH6an4/LpFXjvN1G9eLHJ+ma0DuKmzmER88ZIARk
+	 wacon9ThfyZzGXp2ZKMmZfmyNZd1nT+63+BZ33ecTNaKonLXmSZbrDyRHOb+JEh1M5
+	 nXeas9O8OqokbLCWhj4nLePWlCz3gUw8d0cZItwMgOG2inHQ6G62ngKt7XfyUjOdMu
+	 /j3gH+IzNUBWGjhHg3DjUndwsCvYEi5GzPLfKQwfoCD31vERC2ElQ5ElYlVw1SETIp
+	 ov4L7a/Bdmqdw==
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2ae0abc0b41so819193a91.2
+        for <linux-nvme@lists.infradead.org>; Wed, 24 Apr 2024 23:26:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714026407; x=1714631207;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vEKVDSHMK5F/yU8ggTZJjhUhsGYpK1yP0OK1ux8Mb5o=;
+        b=jTCSPiwtO83BRz1rO27U7sYqhf04RaYTzRkhYJr6E5y2pePEZ5MwhLAqN/fMgJouj4
+         4vMmufVAQxmzje+/vSa/4xHwjYpm2w87OZu1tTzbeu7fAz0rk8UqHnWGzX9DNN0zgZkr
+         SgVvFySRPJPRUamIkMH2ckT+4ktu0CMcscJpwvt4d7x5kV9oHq4QugSLANYbpMvKXasO
+         W8F83FSCEwlA8AV+8pTAHTLnK0v390FsnGhnNk4TWrEMnvRrHq2YTkEiAAkb/M1bi0Su
+         dyJ1CNcbK7+lw0xI3M+7TwdDNwtpG811ftS89S9meqidGXGG5eaVD6AUke3Y+l79BmFe
+         CkHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXLTzgGtf+16Uf3ZtLQVKXB+SRICPdBlDc0Wq+/k2S317gt7pcMzngaEcrCOpNQwFo18evL3X4aeSDUl5spCsCG3+74581SV3ZZn3cZkLk=
+X-Gm-Message-State: AOJu0YySn7OhnE8DFGjYpcmjBW3qYqwKdYjenHfKlUE+Ot1al1irb9Av
+	HqGs92hpSwlHL1LabiCO1cH/I3zsOkWN1KGcb0fz9tpiwxm528tjlEzly/YVXTZh75NKs8GOav/
+	r5gCErswWkS1yjNN1knB2Dv2uzrsA2bbSicFI1bGY0ksfJKyqK0Z9vdhEh0PekAW2YFnLFwlKEg
+	J3jPFghGTCJLi1g885hAEVOrWjQhBunBBWNNjy2kfzBomotm9qoW6MPk8=
+X-Received: by 2002:a17:90a:4485:b0:2a6:ff2e:dce0 with SMTP id t5-20020a17090a448500b002a6ff2edce0mr5440128pjg.5.1714026406794;
+        Wed, 24 Apr 2024 23:26:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHLNR3SuwzJ2NqCuDu7XgA6QzggBx2sXnYGhGItyhdXG9zOH57lKQGVFKFleuFQOUiHqsV2LTxk6EPDijTfycg=
+X-Received: by 2002:a17:90a:4485:b0:2a6:ff2e:dce0 with SMTP id
+ t5-20020a17090a448500b002a6ff2edce0mr5440111pjg.5.1714026406400; Wed, 24 Apr
+ 2024 23:26:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2e10ca7f-0da8-47e4-9bfb-4a6cbf4abaec@linux.ibm.com>
+References: <20240416043225.1462548-1-kai.heng.feng@canonical.com> <2aff18aa-32b7-4092-8235-aead9b708ea0@linux.intel.com>
+In-Reply-To: <2aff18aa-32b7-4092-8235-aead9b708ea0@linux.intel.com>
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date: Thu, 25 Apr 2024 14:26:34 +0800
+Message-ID: <CAAd53p7e5dWEsSdrvpZ_5b9LLrhVwQEChUkFityN_nOuT2K=zQ@mail.gmail.com>
+Subject: Re: [PATCH v8 1/3] PCI: Add helper to check if any of ancestor device
+ support D3cold
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: bhelgaas@google.com, mahesh@linux.ibm.com, oohall@gmail.com, 
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, bagasdotme@gmail.com, 
+	regressions@lists.linux.dev, linux-nvme@lists.infradead.org, kch@nvidia.com, 
+	hch@lst.de, gloriouseggroll@gmail.com, kbusch@kernel.org, sagi@grimberg.me, 
+	hare@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240424_103606_400322_C86BEAD5 
-X-CRM114-Status: GOOD (  30.20  )
+X-CRM114-CacheID: sfid-20240424_232655_338862_55097ECF 
+X-CRM114-Status: GOOD (  27.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,89 +103,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 23, 2024 at 03:22:46PM +0530, Nilay Shroff wrote:
-> > 
-> I tested the above patch, however, it doesn't help to solve the issue.
-> I tested it for two cases listed below:
-> 
-> 1. Platform which doesn't support pci-error-recovery:
-> -----------------------------------------------------
-> On this platform when nvme_timeout() is invoked, it falls through 
-> nvme_shoud_reset()
->   -> nvme_warn_reset() 
->     -> goto disable
-> 
-> When nvme_timeout() jumps to the label disable, it tries setting the
-> controller state to RESETTING but that couldn't succeed because the 
-> (logical) hot-unplug/nvme_remove() of the disk is started on another 
-> thread and hence controller state has already changed to 
-> DELETING/DELETING_NOIO. As nvme_timeout() couldn't set the controller 
-> state to RESETTING, nvme_timeout() returns BLK_EH_DONE. In summary, 
-> as nvme_timeout() couldn't cancel pending IO, the hot-unplug/nvme_remove() 
-> couldn't forward progress and it keeps waiting for request queue to be freezed. 
-> 
-> 2. Platform supporting pci-error-recovery:
-> ------------------------------------------
-> Similarly, on this platform as explained for the above case, when 
-> nvme_timeout() is invoked, it falls through nvme_shoud_reset()
-> -> nvme_warn_reset() -> goto disable. In this case as well, 
-> nvme_timeout() returns BLK_EH_DONE. Please note that though this 
-> platform supports pci-error-recovery, we couldn't get through 
-> nvme_error_detected() because the pci-error-recovery thread is pending 
-> on acquiring mutex "pci_lock_rescan_remove". This mutex is acquired by 
-> hot-unplug thread before it invokes nvme_remove() and nvme_remove() 
-> is currently waiting for request queue to be freezed. For reference,
-> I have already captured the task hang traces in previous email of this 
-> thread where we could observe these hangs (for both pci-error-recovery
-> thread as well as hot-unplig/nvme_remove()).
-> 
-> I understand that we don't want to cancel pending IO from the nvme_remove()
-> unconditionally as if the disk is not physically hot-unplug then we still 
-> want to  wait for the in-flight IO to be finished. Also looking through 
-> the above cases, I think that the nvme_timeout() might be the code path 
-> from where we want to cancel in-flight/pending IO if controller is 
-> in the terminal state (i.e. DELETING or DELETING_NOIO). Keeping this idea in
-> mind, I have worked out the below patch:
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 8e0bb9692685..e45a54d84649 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1286,6 +1286,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
->         u32 csts = readl(dev->bar + NVME_REG_CSTS);
->         u8 opcode;
->  
-> +       if (nvme_state_terminal(&dev->ctrl))
-> +               goto disable;
-> +
->         /* If PCI error recovery process is happening, we cannot reset or
->          * the recovery mechanism will surely fail.
->          */
-> @@ -1390,8 +1393,13 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
->         return BLK_EH_RESET_TIMER;
->  
->  disable:
-> -       if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
-> +       if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-> +               if (nvme_state_terminal(&dev->ctrl)) {
-> +                       nvme_dev_disable(dev, false);
-> +                       nvme_sync_queues(&dev->ctrl);
-> +               }
->                 return BLK_EH_DONE;
-> +       }
->  
->         nvme_dev_disable(dev, false);
->         if (nvme_try_sched_reset(&dev->ctrl))
-> 
-> I have tested the above patch against all possible cases. Please let me know
-> if this looks good or if there are any further comments.
+On Thu, Apr 18, 2024 at 9:15=E2=80=AFAM Kuppuswamy Sathyanarayanan
+<sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
+>
+>
+> On 4/15/24 9:32 PM, Kai-Heng Feng wrote:
+> > In addition to nearest upstream bridge, driver may want to know if the
+> > entire hierarchy can be powered off to perform different action.
+> >
+> > So walk higher up the hierarchy to find out if any device has valid
+> > _PR3.
+> >
+> > The user will be introduced in next patch.
+> >
+> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > ---
+>
+> Since it has been a while, I was not sure what this series is about.
+>
+> IMO, it is better to include a cover letter with the summary of your
+> changes.
 
-This looks okay to me. Just a couple things:
+OK, will do in next revision.
 
-Set nvme_dev_disable's "shutdown" parameter to "true" since we're
-restarting the queues again from this state.
+>
+>
+> > v8:
+> >  - No change.
+> >
+> >  drivers/pci/pci.c   | 16 ++++++++++++++++
+> >  include/linux/pci.h |  2 ++
+> >  2 files changed, 18 insertions(+)
+> >
+> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> > index e5f243dd4288..7a5662f116b8 100644
+> > --- a/drivers/pci/pci.c
+> > +++ b/drivers/pci/pci.c
+> > @@ -6225,6 +6225,22 @@ bool pci_pr3_present(struct pci_dev *pdev)
+> >               acpi_has_method(adev->handle, "_PR3");
+> >  }
+> >  EXPORT_SYMBOL_GPL(pci_pr3_present);
+> > +
+> > +bool pci_ancestor_pr3_present(struct pci_dev *pdev)
+> > +{
+> > +     struct pci_dev *parent =3D pdev;
+> > +
+> > +     if (acpi_disabled)
+> > +             return false;
+> > +
+> > +     while ((parent =3D pci_upstream_bridge(parent))) {
+> > +             if (pci_pr3_present(pdev))
+>
+> I think it should be "parent" here?
 
-Remove "nvme_sync_queues()". I think that would deadlock: sync_queues
-waits for the timeout work to complete, but your calling it within the
-timeout work, so this would have it wait for itself.
+Thanks for catching this.
+
+But this patch will be dropped in next version for better simplicity.
+
+Kai-Heng
+
+>
+> > +                     return true;
+> > +     }
+> > +
+> > +     return false;
+> > +}
+> > +EXPORT_SYMBOL_GPL(pci_ancestor_pr3_present);
+> >  #endif
+> >
+> >  /**
+> > diff --git a/include/linux/pci.h b/include/linux/pci.h
+> > index 16493426a04f..cd71ebfd0f89 100644
+> > --- a/include/linux/pci.h
+> > +++ b/include/linux/pci.h
+> > @@ -2620,10 +2620,12 @@ struct irq_domain *pci_host_bridge_acpi_msi_dom=
+ain(struct pci_bus *bus);
+> >  void
+> >  pci_msi_register_fwnode_provider(struct fwnode_handle *(*fn)(struct de=
+vice *));
+> >  bool pci_pr3_present(struct pci_dev *pdev);
+> > +bool pci_ancestor_pr3_present(struct pci_dev *pdev);
+> >  #else
+> >  static inline struct irq_domain *
+> >  pci_host_bridge_acpi_msi_domain(struct pci_bus *bus) { return NULL; }
+> >  static inline bool pci_pr3_present(struct pci_dev *pdev) { return fals=
+e; }
+> > +static inline bool pci_ancestor_pr3_present(struct pci_dev *pdev) { re=
+turn false; }
+> >  #endif
+> >
+> >  #ifdef CONFIG_EEH
+>
+> --
+> Sathyanarayanan Kuppuswamy
+> Linux Kernel Developer
+>
 
