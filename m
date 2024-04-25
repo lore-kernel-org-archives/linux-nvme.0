@@ -4,106 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55AFAC4345F
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Apr 2024 14:03:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8286C4345F
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Apr 2024 18:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=8o846C8dKZaDDb98Ma94pVMvcrPMgV5pt1nvVRkrgE0=; b=xVKaeF7e4hVAa+
-	5/Gwrirvv1hsNJOY55oGoIyd4TEyDn1aPCvwrSpeoRP96TavfG2FnvxXwP1o9aTnxKf5d/MnDmwA5
-	a34C6nmQwGtODRnbpjEDQI+cKDQEs1j/OJrEQ3QpS970ZaZ44XSgULP2lJHfjs+mOPnjnA7oj9/n0
-	aG1ydZDhHbaidx3aW8XfX0B4AoizuyblaHEtDUGDHWN/wqXbLDz+OqxBWr0zJho+OGOJp/53srMDt
-	kTZ7SDxgTfnWl4SWW62yG6Jo5QTJm4pahbVtGqAXQqDW78b42uywF6G/710jkl9dfcs9QGf7nzHHb
-	kbhdwmSZtBGPPetBn64g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZsVoWy3S7pVMyWodKivCv3lhvh2UtU0BIm04ZdY7CeI=; b=wrwwAiduSw47UlNj5LCpPzoBAm
+	xRiV6urx0zw28rF+PegooeYWgqCpWrCpTbTy+xizH2K4lAiJwJRB/NhQXx8Tw+6BhihN3kiw4BlTG
+	kiI2wC8kmNffYzv+HBNmj6UP50UhVmDMUd1d6MCe5jfIl2sc0GXCD1Yc5vHhUKsQlRZ3O32JxxOqd
+	FukTavsoqg7W7tDCeVYJtUNhciqcDtoJrmQL2ipnknAHDBGkYDzK9MJZyJ5yQqtImiFJOgOr4U6kf
+	yj1I5GqlzOpBdeUpgu34hzuRgqis0IfNGtC+liMODTZs/026T0z4HNEFTeqLRYLghHWK7C9K4lUbN
+	W5pxADdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzzhP-00000008gNw-344v;
-	Thu, 25 Apr 2024 14:03:43 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1s047s-00000009lvV-2Vxe;
+	Thu, 25 Apr 2024 18:47:20 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzzhN-00000008gMm-3cu6
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 25 Apr 2024 14:03:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
-	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=8o846C8dKZaDDb98Ma94pVMvcrPMgV5pt1nvVRkrgE0=; b=lTHt9PjZhMNOAKumq5cPrmjbOY
-	Jke1vvODM5UK8m0LlOWOLSUxfPrTcEA+twW+pqdau1zRzyH2wtCnwg3wkLB5FgQBQ9F0sYopfQrQN
-	+z5lnK9hVhIqs8G+WDjTCjGB3RhCA9JGZ78jwen0j95r4AMhUyWC5YvehjM0BPBzxpjxCwl1H7F2/
-	DGl3dFSEk0ldfiSLPf4rCOTiyl43Xq2az9u13edrGM/QDybGoHYoopfIMSSVASU4nsRBSEOxxEZYh
-	CF0i4p/S/T4zJPjVOP3KUwn3bBwBzwNK/ZBmKfdDmo549ud42dxf2d7r4zY040RCAD4CNRDXL6IVu
-	jKFH9rwg==;
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzzhF-0000000EvNb-0gB1
+	id 1s047h-00000009lmy-2tPl
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Apr 2024 14:03:40 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43PE2Yii020055;
-	Thu, 25 Apr 2024 14:03:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=8o846C8dKZaDDb98Ma94pVMvcrPMgV5pt1nvVRkrgE0=;
- b=tM8ALX8yuyDbOLpO19qoHfy8QPBE+xkTtIOeeaHFGKvmwHr409sZkHSyjN9BAwbwTdAI
- 2zz4YGsYq6nCXLrBLTHe7m1/JlcrvIA/i3m6QfWnouNbnMzI4gobLD3xF4pQZHfXGCCS
- nuj3BjTDKLi+ljSXg4CZJb5Ca/ad7az4MMu6gWKQiCp1Zd7OF6Js8mfjRcMQwJPcb6a+
- 0rZyxF/mU3Gcl1LGQEKZzo8uNtEvw/hQeCw25QIaW5JXWNojNHTZZV8ruLD9K0QtIQSX
- 5fUE9hhma1afhJptiazumqyoDCCRP384ChrP7PSFtVAEwsCc1VQNT4aEKqdHZ2rQlvVc zg== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xqrk8002w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 14:03:17 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43PDfAPe005328;
-	Thu, 25 Apr 2024 14:03:16 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xmx3cru7t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 14:03:16 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43PE3AtF50659650
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Apr 2024 14:03:12 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A9F9C20043;
-	Thu, 25 Apr 2024 14:03:10 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8AC162004B;
-	Thu, 25 Apr 2024 14:03:08 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.163])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 25 Apr 2024 14:03:08 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: kbusch@kernel.org, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, gjoyce@linux.ibm.com,
-        axboe@fb.com,
-        Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH] nvme: cancel pending I/O if nvme controller is in terminal state
-Date: Thu, 25 Apr 2024 19:33:00 +0530
-Message-ID: <20240425140303.1599437-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.44.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: pqFgOBiQBav7S8ADu2GfiQSwWtsfD78r
-X-Proofpoint-ORIG-GUID: pqFgOBiQBav7S8ADu2GfiQSwWtsfD78r
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	Thu, 25 Apr 2024 18:47:13 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240425184659epoutp04aa1f25d82e39f62e264a6e31d5c542ed~JmlQcZDZd0442104421epoutp04U
+	for <linux-nvme@lists.infradead.org>; Thu, 25 Apr 2024 18:46:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240425184659epoutp04aa1f25d82e39f62e264a6e31d5c542ed~JmlQcZDZd0442104421epoutp04U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1714070819;
+	bh=ZsVoWy3S7pVMyWodKivCv3lhvh2UtU0BIm04ZdY7CeI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cRiQ9fqmaXDJzx/v1DMgoMw173NrD46B3YWhMM6uj7UT7w0C+K+zS00qN87QhH5xd
+	 gI5qdQ6vvOg+L5Bp53+SOktO/hFWYFsrMGX/ay0Ek6z3a68W+PIhi+vStZN9W8iBUF
+	 dsgSCg5oc4JQRhhrP6mcSZgxRsTP6jQJGAip4tHw=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20240425184658epcas5p24e2579ceaa12477ac46bf02ece097130~JmlQBXrcS1533515335epcas5p2B;
+	Thu, 25 Apr 2024 18:46:58 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4VQPwK0sMWz4x9Pp; Thu, 25 Apr
+	2024 18:46:57 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	15.72.08600.025AA266; Fri, 26 Apr 2024 03:46:57 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240425184656epcas5p42228cdef753cf20a266d12de5bc130f0~JmlNcxsdr1482414824epcas5p4e;
+	Thu, 25 Apr 2024 18:46:56 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240425184656epsmtrp1f83ebcb4478fd493e8ff02931983235b~JmlNcEobB0085000850epsmtrp1U;
+	Thu, 25 Apr 2024 18:46:56 +0000 (GMT)
+X-AuditID: b6c32a44-6c3ff70000002198-ca-662aa5204f69
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	6D.C2.19234.F15AA266; Fri, 26 Apr 2024 03:46:55 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240425184654epsmtip16e320a8c4939754f33ddec3ede5df744~JmlLpX8mS3266832668epsmtip13;
+	Thu, 25 Apr 2024 18:46:53 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, martin.petersen@oracle.com, kbusch@kernel.org,
+	hch@lst.de, brauner@kernel.org
+Cc: asml.silence@gmail.com, dw@davidwei.uk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>, Kanchan Joshi
+	<joshi.k@samsung.com>
+Subject: [PATCH 03/10] block: copy result back to user meta buffer correctly
+ in case of split
+Date: Fri, 26 Apr 2024 00:09:36 +0530
+Message-Id: <20240425183943.6319-4-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240425183943.6319-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-25_14,2024-04-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 impostorscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 adultscore=0 phishscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404250102
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIJsWRmVeSWpSXmKPExsWy7bCmuq7iUq00g5PdzBZNE/4yW8xZtY3R
+	YvXdfjaL14c/MVq8mrGWzeLmgZ1MFitXH2WyeNd6jsXi6P+3bBaTDl1jtNh7S9ti/rKn7BbL
+	j/9jcuD1uDZjIovHzll32T0uny312LSqk81j85J6j903G9g8Pj69xeLRt2UVo8fnTXIBnFHZ
+	NhmpiSmpRQqpecn5KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJuam2Si4+AbpumTlAVysplCXm
+	lAKFAhKLi5X07WyK8ktLUhUy8otLbJVSC1JyCkwK9IoTc4tL89L18lJLrAwNDIxMgQoTsjM+
+	ru1nL1jCVfFx5nfGBsYbHF2MnBwSAiYSh9Y8Z+9i5OIQEtjNKHH2w0VWCOcTo8SKI6sRnNsf
+	d7HCtDS33oJq2ckosebMW0YI5zOjxLuOuSxdjBwcbAKaEhcml4I0iAikSLxa95oRxGYWeMoo
+	8aOTCaREWCBeonFnJEiYRUBV4suubSwgNq+AucSW5jZGiF3yEjMvfWcHsTkFLCQmXzzNDlEj
+	KHFy5hMWiJHyEs1bZzODnCAhsJJDYun5I1DNLhK7Wn+zQdjCEq+Ob2GHsKUkXva3QdnJEpdm
+	nmOCsEskHu85CGXbS7Se6mcGuZMZ6JX1u/QhdvFJ9P5+Ana+hACvREebEES1osS9SU+hwSMu
+	8XDGEijbQ+Lhoi42SOh0M0q8/rWQeQKj/CwkL8xC8sIshG0LGJlXMUqmFhTnpqcmmxYY5qWW
+	w+M1OT93EyM47Wq57GC8Mf+f3iFGJg7GQ4wSHMxKIrw3P2qkCfGmJFZWpRblxxeV5qQWH2I0
+	BYbxRGYp0eR8YOLPK4k3NLE0MDEzMzOxNDYzVBLnfd06N0VIID2xJDU7NbUgtQimj4mDU6qB
+	qSxx+17JVfYqKacvak+N3qhXe7uoYXur+S+ReeF15VkvHE89bxC5cXBOwowts7n+HFuUUavP
+	f/LKO5tQA3UZrtbEGQGH1/280XohIDX+p7bsXgOtzUduyR28zNvO2Lohew6/2Yoj/zts/OtE
+	mp+pZJw3SHi3dds8JoEntbePW7d+WPC57n/w0W3Z6gU3oiafTqjiUYkr2XPz1jTffx3mXks6
+	9/NEmx8W7Go/nT4lZX/o2udnz4lxam14cpYxg3W53mtxFgWx5bZvuOzXr7u3o0d2zS1mntSZ
+	ldr8/f5z5lw55XnZZiqL0f3TEvdauXr9mBje3FLbwzzr2Ytniez8C66UHe05mp16I6Wl9Pfs
+	XUosxRmJhlrMRcWJAPe/hhFEBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrELMWRmVeSWpSXmKPExsWy7bCSnK78Uq00g+uvzC2aJvxltpizahuj
+	xeq7/WwWrw9/YrR4NWMtm8XNAzuZLFauPspk8a71HIvF0f9v2SwmHbrGaLH3lrbF/GVP2S2W
+	H//H5MDrcW3GRBaPnbPusntcPlvqsWlVJ5vH5iX1HrtvNrB5fHx6i8Wjb8sqRo/Pm+QCOKO4
+	bFJSczLLUov07RK4Mj6u7WcvWMJV8XHmd8YGxhscXYycHBICJhLNrbfYuxi5OIQEtjNKXDp+
+	mw0iIS7RfO0HO4QtLLHy33Oooo+MEl9nTmTuYuTgYBPQlLgwuRSkRkQgS2Jv/xWwGmaBt4wS
+	8//uYQZJCAvESpyd38YKYrMIqEp82bWNBcTmFTCX2NLcxgixQF5i5qXvYMs4BSwkJl88DWYL
+	AdVMXbOIEaJeUOLkzCdgvcxA9c1bZzNPYBSYhSQ1C0lqASPTKkbR1ILi3PTc5AJDveLE3OLS
+	vHS95PzcTYzgaNEK2sG4bP1fvUOMTByMhxglOJiVRHhvftRIE+JNSaysSi3Kjy8qzUktPsQo
+	zcGiJM6rnNOZIiSQnliSmp2aWpBaBJNl4uCUamDaesnwkYb5UYbCHS39+VUbp17emD11nVmJ
+	yZuHbaJO9ikSaYvvN/VGtuy1j6t+c6rIIMRqmeDci1EGHrYd5Vt7Z79xiTeb5RZ5IaFxd2+5
+	5EK+4PPzZTZMd9hdcW3yGysv/9eXbsbWx3HOmr987/tknVTNJ3v/ip/829szfb3gtd9nTa12
+	Lfmc6XrzkUyZz8cAUZu3Hg6FM6ctuyTRs3dxktDn5bNZIg67HP198c3e7kc/31nff7TX1Wma
+	/MVTxx/fyVHmVN9srjk7qTn/ZrDIosmeXdVVVqFKdqKeEmEsfgFLVFLY8h2u9Jioxv49tcuu
+	12vpa8fyiypPD9VWb7241+e005eLZ1oMz+hPZTykxFKckWioxVxUnAgATUJq2wUDAAA=
+X-CMS-MailID: 20240425184656epcas5p42228cdef753cf20a266d12de5bc130f0
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240425184656epcas5p42228cdef753cf20a266d12de5bc130f0
+References: <20240425183943.6319-1-joshi.k@samsung.com>
+	<CGME20240425184656epcas5p42228cdef753cf20a266d12de5bc130f0@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240425_150334_168007_756F3BBE 
-X-CRM114-Status: GOOD (  20.63  )
+X-CRM114-CacheID: sfid-20240425_114710_137563_ED77058B 
+X-CRM114-Status: GOOD (  14.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,118 +138,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-While I/O is running, if the pci bus error occurs then
-in-flight I/O can not complete. Worst, if at this time,
-user (logically) hot-unplug the nvme disk then the
-nvme_remove() code path can't forward progress until
-in-flight I/O is cancelled. So these sequence of events
-may potentially hang hot-unplug code path indefinitely.
-This patch helps cancel the pending/in-flight I/O from the
-nvme request timeout handler in case the nvme controller
-is in the terminal (DEAD/DELETING/DELETING_NOIO) state and
-that helps nvme_remove() code path forward progress and
-finish successfully.
+From: Anuj Gupta <anuj20.g@samsung.com>
 
-Link: https://lore.kernel.org/all/199be893-5dfa-41e5-b6f2-40ac90ebccc4@linux.ibm.com/
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+In case of split, the len and offset of bvec gets updated in the iter.
+Use it to fetch the right bvec, and copy it back to user meta buffer.
+
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- drivers/nvme/host/core.c | 21 ---------------------
- drivers/nvme/host/nvme.h | 21 +++++++++++++++++++++
- drivers/nvme/host/pci.c  |  8 +++++++-
- 3 files changed, 28 insertions(+), 22 deletions(-)
+ block/bio-integrity.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 27281a9a8951..2ce63474eb47 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -628,27 +628,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index c1955f01412e..b4042414a08f 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -108,11 +108,15 @@ static void bio_integrity_uncopy_user(struct bio_integrity_payload *bip)
+ 	unsigned short nr_vecs = bip->bip_max_vcnt - 1;
+ 	struct bio_vec *copy = &bip->bip_vec[1];
+ 	size_t bytes = bip->bip_iter.bi_size;
++	struct bio_vec copy_bvec, src_bvec;
+ 	struct iov_iter iter;
+ 	int ret;
  
--/*
-- * Returns true for sink states that can't ever transition back to live.
-- */
--static bool nvme_state_terminal(struct nvme_ctrl *ctrl)
--{
--	switch (nvme_ctrl_state(ctrl)) {
--	case NVME_CTRL_NEW:
--	case NVME_CTRL_LIVE:
--	case NVME_CTRL_RESETTING:
--	case NVME_CTRL_CONNECTING:
--		return false;
--	case NVME_CTRL_DELETING:
--	case NVME_CTRL_DELETING_NOIO:
--	case NVME_CTRL_DEAD:
--		return true;
--	default:
--		WARN_ONCE(1, "Unhandled ctrl state:%d", ctrl->state);
--		return true;
--	}
--}
--
- /*
-  * Waits for the controller state to be resetting, or returns false if it is
-  * not possible to ever transition to that state.
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d0ed64dc7380..b564c5f1450c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -741,6 +741,27 @@ static inline bool nvme_is_aen_req(u16 qid, __u16 command_id)
- 		nvme_tag_from_cid(command_id) >= NVME_AQ_BLK_MQ_DEPTH;
- }
- 
-+/*
-+ * Returns true for sink states that can't ever transition back to live.
-+ */
-+static inline bool nvme_state_terminal(struct nvme_ctrl *ctrl)
-+{
-+	switch (nvme_ctrl_state(ctrl)) {
-+	case NVME_CTRL_NEW:
-+	case NVME_CTRL_LIVE:
-+	case NVME_CTRL_RESETTING:
-+	case NVME_CTRL_CONNECTING:
-+		return false;
-+	case NVME_CTRL_DELETING:
-+	case NVME_CTRL_DELETING_NOIO:
-+	case NVME_CTRL_DEAD:
-+		return true;
-+	default:
-+		WARN_ONCE(1, "Unhandled ctrl state:%d", ctrl->state);
-+		return true;
-+	}
-+}
+-	iov_iter_bvec(&iter, ITER_DEST, copy, nr_vecs, bytes);
+-	ret = copy_to_iter(bvec_virt(bip->bip_vec), bytes, &iter);
++	copy_bvec = mp_bvec_iter_bvec(copy, bip->bip_iter);
++	src_bvec = mp_bvec_iter_bvec(bip->bip_vec, bip->bip_iter);
 +
- void nvme_complete_rq(struct request *req);
- void nvme_complete_batch_req(struct request *req);
++	iov_iter_bvec(&iter, ITER_DEST, &copy_bvec, nr_vecs, bytes);
++	ret = copy_to_iter(bvec_virt(&src_bvec), bytes, &iter);
+ 	WARN_ON_ONCE(ret != bytes);
  
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8e0bb9692685..e393f6947ce4 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1286,6 +1286,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
- 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 	u8 opcode;
- 
-+	if (nvme_state_terminal(&dev->ctrl))
-+		goto disable;
-+
- 	/* If PCI error recovery process is happening, we cannot reset or
- 	 * the recovery mechanism will surely fail.
- 	 */
-@@ -1390,8 +1393,11 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
- 	return BLK_EH_RESET_TIMER;
- 
- disable:
--	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
-+	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-+		if (nvme_state_terminal(&dev->ctrl))
-+			nvme_dev_disable(dev, true);
- 		return BLK_EH_DONE;
-+	}
- 
- 	nvme_dev_disable(dev, false);
- 	if (nvme_try_sched_reset(&dev->ctrl))
+ 	bio_integrity_unpin_bvec(copy, nr_vecs, true);
 -- 
-2.44.0
+2.25.1
 
 
