@@ -4,80 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1132DC10F15
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Apr 2024 06:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57FF6C10F15
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Apr 2024 07:33:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vEKVDSHMK5F/yU8ggTZJjhUhsGYpK1yP0OK1ux8Mb5o=; b=QXR//v4TKPxHF2UfFBPU2tNrsM
-	bcz38cvqzNIAVy4fl1ylEaPVwXhVo8M1TkMk/jDEpfAzMV+5NJ4gLUB1VKRkhbWLHnD2Bcj7Dr9Fv
-	Z0WDKEbhL2yMLr9MnSzz3Mj0KP0gW87SNhIFmcP2zAFF8YHU6UPy4vdv63peAdCoJzEkYyS8ojAzL
-	g++GOHopGRV8Qh3Y8KAQzP23a3IOCYc4kvXKcHAybV7GzrQTpcKgrQDgYUnNH9nwoFE5v0DlB7iHy
-	esVzhmMF577zJxl+uLMgDtZW2Q19HTq5CIlded26QQjLmCkGAPMBq4serCKEXDdJL3SI3/9bBeWyB
-	DJ1y49OA==;
+	bh=N49t3AK4kKaDmcRRhdLxt0k+B5LqZexfU9NZVLcAJRM=; b=4Yg/WT5ABKa5/4t1467oBZlXux
+	HbYUa74C8dppILxqDmvGpBWl+2Qf/ZdFcC3Z/gog2IN0CPrMuGuuZkPR5xTH2YyLwe05i125HVRob
+	/dQ1UXJUjYnCqrBGdcBJUmlNIgnEPw09Jbp0ZYZlZb+cnaEQpvw714IN2/xVv71rFl5tFtG7vNoph
+	bVorVbbJoGwPQHvbR79CCkiiGrZ1PZK1IcDHT16DkLwFXKhI3ACDu7awo4iRrh9qE/JtzA0uHV6s/
+	EZPdJ+I2Y/pjMjHagsrmyyNJ0Oe9cndP76bS6sscofSaLXMqVq82C7V+MElG4bFzB1QvSM7Rez24I
+	xlIq6MdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzsZO-0000000784G-2pqh;
-	Thu, 25 Apr 2024 06:26:58 +0000
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122])
+	id 1rztbe-00000007HsO-2BJF;
+	Thu, 25 Apr 2024 07:33:22 +0000
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rzsZL-0000000782z-0S9R
+	id 1rztbb-00000007HqO-241N
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Apr 2024 06:26:57 +0000
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	Thu, 25 Apr 2024 07:33:21 +0000
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 463A84059B
-	for <linux-nvme@lists.infradead.org>; Thu, 25 Apr 2024 06:26:48 +0000 (UTC)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id A63143FE5C
+	for <linux-nvme@lists.infradead.org>; Thu, 25 Apr 2024 07:33:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1714026408;
-	bh=vEKVDSHMK5F/yU8ggTZJjhUhsGYpK1yP0OK1ux8Mb5o=;
+	s=20210705; t=1714030395;
+	bh=N49t3AK4kKaDmcRRhdLxt0k+B5LqZexfU9NZVLcAJRM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
 	 To:Cc:Content-Type;
-	b=MEfmFbjRMHbZe7dqKwQyqOt/C1ykvWE0CHezyTR5NdnJ/yXWOxAhZij4rJ0BHJ59P
-	 g9tO6H09BFy2sJ9DfyZHEcKvuyNH6an4/LpFXjvN1G9eLHJ+ma0DuKmzmER88ZIARk
-	 wacon9ThfyZzGXp2ZKMmZfmyNZd1nT+63+BZ33ecTNaKonLXmSZbrDyRHOb+JEh1M5
-	 nXeas9O8OqokbLCWhj4nLePWlCz3gUw8d0cZItwMgOG2inHQ6G62ngKt7XfyUjOdMu
-	 /j3gH+IzNUBWGjhHg3DjUndwsCvYEi5GzPLfKQwfoCD31vERC2ElQ5ElYlVw1SETIp
-	 ov4L7a/Bdmqdw==
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2ae0abc0b41so819193a91.2
-        for <linux-nvme@lists.infradead.org>; Wed, 24 Apr 2024 23:26:48 -0700 (PDT)
+	b=K/N2DRIaAjRmNok+zH6+pAoU60HS5IhDtlWrvgoAC+5zlde01ji/jFB9aetPrMeeN
+	 9pgn7qyz659domxob/FkcKPJfW0/vk6864KnoOLXosCrt26NqEll/LCHjuYSDs/KAK
+	 /GwwGVFrS2ib1JkZmgqqi70fNvWJrYPjia0XLMXh/kwHDiN9adj4Szvs+t1ZlomlI4
+	 bdGPm7KpPZG1k8Djjtmdbj6XX3BSHM5D9NKVQH2DoGwj29Y3neOyH2rSiX1S1e7N0R
+	 WTe0I3dRI8Wklfu4T9wdQXSsC7s5A3dcbFa1Rxfqdq3KulbSK3SGmzfuYMtzFqCF6A
+	 fDlP1dnM0ifTg==
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2a5457a8543so892621a91.0
+        for <linux-nvme@lists.infradead.org>; Thu, 25 Apr 2024 00:33:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714026407; x=1714631207;
+        d=1e100.net; s=20230601; t=1714030394; x=1714635194;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vEKVDSHMK5F/yU8ggTZJjhUhsGYpK1yP0OK1ux8Mb5o=;
-        b=jTCSPiwtO83BRz1rO27U7sYqhf04RaYTzRkhYJr6E5y2pePEZ5MwhLAqN/fMgJouj4
-         4vMmufVAQxmzje+/vSa/4xHwjYpm2w87OZu1tTzbeu7fAz0rk8UqHnWGzX9DNN0zgZkr
-         SgVvFySRPJPRUamIkMH2ckT+4ktu0CMcscJpwvt4d7x5kV9oHq4QugSLANYbpMvKXasO
-         W8F83FSCEwlA8AV+8pTAHTLnK0v390FsnGhnNk4TWrEMnvRrHq2YTkEiAAkb/M1bi0Su
-         dyJ1CNcbK7+lw0xI3M+7TwdDNwtpG811ftS89S9meqidGXGG5eaVD6AUke3Y+l79BmFe
-         CkHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLTzgGtf+16Uf3ZtLQVKXB+SRICPdBlDc0Wq+/k2S317gt7pcMzngaEcrCOpNQwFo18evL3X4aeSDUl5spCsCG3+74581SV3ZZn3cZkLk=
-X-Gm-Message-State: AOJu0YySn7OhnE8DFGjYpcmjBW3qYqwKdYjenHfKlUE+Ot1al1irb9Av
-	HqGs92hpSwlHL1LabiCO1cH/I3zsOkWN1KGcb0fz9tpiwxm528tjlEzly/YVXTZh75NKs8GOav/
-	r5gCErswWkS1yjNN1knB2Dv2uzrsA2bbSicFI1bGY0ksfJKyqK0Z9vdhEh0PekAW2YFnLFwlKEg
-	J3jPFghGTCJLi1g885hAEVOrWjQhBunBBWNNjy2kfzBomotm9qoW6MPk8=
-X-Received: by 2002:a17:90a:4485:b0:2a6:ff2e:dce0 with SMTP id t5-20020a17090a448500b002a6ff2edce0mr5440128pjg.5.1714026406794;
-        Wed, 24 Apr 2024 23:26:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHLNR3SuwzJ2NqCuDu7XgA6QzggBx2sXnYGhGItyhdXG9zOH57lKQGVFKFleuFQOUiHqsV2LTxk6EPDijTfycg=
-X-Received: by 2002:a17:90a:4485:b0:2a6:ff2e:dce0 with SMTP id
- t5-20020a17090a448500b002a6ff2edce0mr5440111pjg.5.1714026406400; Wed, 24 Apr
- 2024 23:26:46 -0700 (PDT)
+        bh=N49t3AK4kKaDmcRRhdLxt0k+B5LqZexfU9NZVLcAJRM=;
+        b=oogXFuS865vl6T/t3CJul2KqqPQXXFpTOUoypuFF98+r7YRa4xI3qwyZST/XvPwULR
+         n5SVAPEFoSwfmtq99jYX1kxXryel2XItwH/8wVtuk2jOOn1EZFvcNy+v+3ol6Yxg7riR
+         3/zz8YVyOVmeyARUJDA5FcINEwhVgFhMC6jRh3viBlK/k3c8Lp0D2EDsfst5aQsoRFxW
+         u7IBFa/YfXaPZarEQnucK8RadxeNsgoqeuPqa7uDKpthI1zbQf/5W0s/0pZndpMgzUzs
+         eWXIoVru2OuKXIJoxFumLaQ0dALjhSCK25cbzbF/NP6h+lbps0ZfjhyGScePcg2cm1qU
+         wytA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfingMHRxm4Y/sXahphg13O5juqm6clfwczkQqZ3nCG3CNvT8hdfP69U4fhiW/BgkeDHIK0n8pTIy5jXigm2hiL7gTJAhsYsmi2287WWs=
+X-Gm-Message-State: AOJu0Yw25S1KKyAbLDEdHsKHmZtLdt+Ln1DoGf0VGL+gz1SSowiueDwP
+	vl9vmMGU0aRlFMXTFkGxoF5mL9BXw07DwCysOCCdMejsa/n0edznF/RVTJKp9uKu3mI8/H5hjn6
+	FZ3q88TtT889eq/oT47QpVqUEREnBOeSvMvVzUoWhOxnWNdcHKXgjeNDuVeFmdF9WUqmnsGYvVG
+	n6d5sm2QtiPTGN5UE97vD/qxSyAz5bnLrM34miQD1IebdN5iQ9orZXWck=
+X-Received: by 2002:a17:90a:f18c:b0:2a2:775:9830 with SMTP id bv12-20020a17090af18c00b002a207759830mr3635606pjb.11.1714030393815;
+        Thu, 25 Apr 2024 00:33:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHxdkPh6jUQbDypZw6ih5aBEWZ8OaLuVmwkpiSeYBIaD8D8JrEbgl1UlPs5pmFlAQ5PAStLbkRGh+jSeMu9NOg=
+X-Received: by 2002:a17:90a:f18c:b0:2a2:775:9830 with SMTP id
+ bv12-20020a17090af18c00b002a207759830mr3635577pjb.11.1714030393404; Thu, 25
+ Apr 2024 00:33:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240416043225.1462548-1-kai.heng.feng@canonical.com> <2aff18aa-32b7-4092-8235-aead9b708ea0@linux.intel.com>
-In-Reply-To: <2aff18aa-32b7-4092-8235-aead9b708ea0@linux.intel.com>
+References: <20240416043225.1462548-2-kai.heng.feng@canonical.com> <20240418203531.GA251408@bhelgaas>
+In-Reply-To: <20240418203531.GA251408@bhelgaas>
 From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Thu, 25 Apr 2024 14:26:34 +0800
-Message-ID: <CAAd53p7e5dWEsSdrvpZ_5b9LLrhVwQEChUkFityN_nOuT2K=zQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/3] PCI: Add helper to check if any of ancestor device
- support D3cold
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Date: Thu, 25 Apr 2024 15:33:01 +0800
+Message-ID: <CAAd53p7O51mG7LMrEobEgGrD8tsDFO3ZFSPAu02Dk-R0W3mkvg@mail.gmail.com>
+Subject: Re: [PATCH v8 2/3] PCI/AER: Disable AER service on suspend
+To: Bjorn Helgaas <helgaas@kernel.org>
 Cc: bhelgaas@google.com, mahesh@linux.ibm.com, oohall@gmail.com, 
 	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linuxppc-dev@lists.ozlabs.org, bagasdotme@gmail.com, 
@@ -87,8 +86,8 @@ Cc: bhelgaas@google.com, mahesh@linux.ibm.com, oohall@gmail.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240424_232655_338862_55097ECF 
-X-CRM114-Status: GOOD (  27.25  )
+X-CRM114-CacheID: sfid-20240425_003319_704178_9F690F7E 
+X-CRM114-Status: GOOD (  41.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,99 +102,140 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 18, 2024 at 9:15=E2=80=AFAM Kuppuswamy Sathyanarayanan
-<sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
+On Fri, Apr 19, 2024 at 4:35=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
 >
->
-> On 4/15/24 9:32 PM, Kai-Heng Feng wrote:
-> > In addition to nearest upstream bridge, driver may want to know if the
-> > entire hierarchy can be powered off to perform different action.
+> On Tue, Apr 16, 2024 at 12:32:24PM +0800, Kai-Heng Feng wrote:
+> > When the power rail gets cut off, the hardware can create some electric
+> > noise on the link that triggers AER. If IRQ is shared between AER with
+> > PME, such AER noise will cause a spurious wakeup on system suspend.
 > >
-> > So walk higher up the hierarchy to find out if any device has valid
-> > _PR3.
+> > When the power rail gets back, the firmware of the device resets itself
+> > and can create unexpected behavior like sending PTM messages. For this
+> > case, the driver will always be too late to toggle off features should
+> > be disabled.
 > >
-> > The user will be introduced in next patch.
+> > As Per PCIe Base Spec 5.0, section 5.2, titled "Link State Power
+> > Management", TLP and DLLP transmission are disabled for a Link in L2/L3
+> > Ready (D3hot), L2 (D3cold with aux power) and L3 (D3cold) states. So if
+> > the power will be turned off during suspend process, disable AER servic=
+e
+> > and re-enable it during the resume process. This should not affect the
+> > basic functionality.
 > >
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D209149
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D216295
+> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218090
 > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>
+> Thanks for reviving this series.  I tried follow the history about
+> this, but there are at least two series that were very similar and I
+> can't put it all together.
+>
 > > ---
->
-> Since it has been a while, I was not sure what this series is about.
->
-> IMO, it is better to include a cover letter with the summary of your
-> changes.
-
-OK, will do in next revision.
-
->
->
 > > v8:
+> >  - Add more bug reports.
+> >
+> > v7:
+> >  - Wording
+> >  - Disable AER completely (again) if power will be turned off
+> >
+> > v6:
+> > v5:
+> >  - Wording.
+> >
+> > v4:
+> > v3:
 > >  - No change.
 > >
-> >  drivers/pci/pci.c   | 16 ++++++++++++++++
-> >  include/linux/pci.h |  2 ++
-> >  2 files changed, 18 insertions(+)
+> > v2:
+> >  - Only disable AER IRQ.
+> >  - No more check on PME IRQ#.
+> >  - Use helper.
 > >
-> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> > index e5f243dd4288..7a5662f116b8 100644
-> > --- a/drivers/pci/pci.c
-> > +++ b/drivers/pci/pci.c
-> > @@ -6225,6 +6225,22 @@ bool pci_pr3_present(struct pci_dev *pdev)
-> >               acpi_has_method(adev->handle, "_PR3");
+> >  drivers/pci/pcie/aer.c | 25 +++++++++++++++++++++++++
+> >  1 file changed, 25 insertions(+)
+> >
+> > diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+> > index ac6293c24976..bea7818c2d1b 100644
+> > --- a/drivers/pci/pcie/aer.c
+> > +++ b/drivers/pci/pcie/aer.c
+> > @@ -28,6 +28,7 @@
+> >  #include <linux/delay.h>
+> >  #include <linux/kfifo.h>
+> >  #include <linux/slab.h>
+> > +#include <linux/suspend.h>
+> >  #include <acpi/apei.h>
+> >  #include <acpi/ghes.h>
+> >  #include <ras/ras_event.h>
+> > @@ -1497,6 +1498,28 @@ static int aer_probe(struct pcie_device *dev)
+> >       return 0;
 > >  }
-> >  EXPORT_SYMBOL_GPL(pci_pr3_present);
-> > +
-> > +bool pci_ancestor_pr3_present(struct pci_dev *pdev)
+> >
+> > +static int aer_suspend(struct pcie_device *dev)
 > > +{
-> > +     struct pci_dev *parent =3D pdev;
+> > +     struct aer_rpc *rpc =3D get_service_data(dev);
+> > +     struct pci_dev *pdev =3D rpc->rpd;
 > > +
-> > +     if (acpi_disabled)
-> > +             return false;
-> > +
-> > +     while ((parent =3D pci_upstream_bridge(parent))) {
-> > +             if (pci_pr3_present(pdev))
+> > +     if (pci_ancestor_pr3_present(pdev) || pm_suspend_via_firmware())
+> > +             aer_disable_rootport(rpc);
 >
-> I think it should be "parent" here?
+> Why do we check pci_ancestor_pr3_present(pdev) and
+> pm_suspend_via_firmware()?  I'm getting pretty convinced that we need
+> to disable AER interrupts on suspend in general.  I think it will be
+> better if we do that consistently on all platforms, not special cases
+> based on details of how we suspend.
 
-Thanks for catching this.
+Sure. Will change in next revision.
 
-But this patch will be dropped in next version for better simplicity.
+>
+> Also, why do we use aer_disable_rootport() instead of just
+> aer_disable_irq()?  I think it's the interrupt that causes issues on
+> suspend.  I see that there *were* some versions that used
+> aer_disable_irq(), but I can't find the reason it changed.
+
+Interrupt can cause system wakeup, if it's shared with PME.
+
+The reason why aer_disable_rootport() is used over aer_disable_irq()
+is that when the latter is used the error still gets logged during
+sleep cycle. Once the pcieport driver resumes, it invokes
+aer_root_reset() to reset the hierarchy, while the hierarchy hasn't
+resumed yet.
+
+So use aer_disable_rootport() to prevent such issue from happening.
 
 Kai-Heng
 
 >
-> > +                     return true;
-> > +     }
 > > +
-> > +     return false;
+> > +     return 0;
 > > +}
-> > +EXPORT_SYMBOL_GPL(pci_ancestor_pr3_present);
-> >  #endif
-> >
+> > +
+> > +static int aer_resume(struct pcie_device *dev)
+> > +{
+> > +     struct aer_rpc *rpc =3D get_service_data(dev);
+> > +     struct pci_dev *pdev =3D rpc->rpd;
+> > +
+> > +     if (pci_ancestor_pr3_present(pdev) || pm_resume_via_firmware())
+> > +             aer_enable_rootport(rpc);
+> > +
+> > +     return 0;
+> > +}
+> > +
 > >  /**
-> > diff --git a/include/linux/pci.h b/include/linux/pci.h
-> > index 16493426a04f..cd71ebfd0f89 100644
-> > --- a/include/linux/pci.h
-> > +++ b/include/linux/pci.h
-> > @@ -2620,10 +2620,12 @@ struct irq_domain *pci_host_bridge_acpi_msi_dom=
-ain(struct pci_bus *bus);
-> >  void
-> >  pci_msi_register_fwnode_provider(struct fwnode_handle *(*fn)(struct de=
-vice *));
-> >  bool pci_pr3_present(struct pci_dev *pdev);
-> > +bool pci_ancestor_pr3_present(struct pci_dev *pdev);
-> >  #else
-> >  static inline struct irq_domain *
-> >  pci_host_bridge_acpi_msi_domain(struct pci_bus *bus) { return NULL; }
-> >  static inline bool pci_pr3_present(struct pci_dev *pdev) { return fals=
-e; }
-> > +static inline bool pci_ancestor_pr3_present(struct pci_dev *pdev) { re=
-turn false; }
-> >  #endif
+> >   * aer_root_reset - reset Root Port hierarchy, RCEC, or RCiEP
+> >   * @dev: pointer to Root Port, RCEC, or RCiEP
+> > @@ -1561,6 +1584,8 @@ static struct pcie_port_service_driver aerdriver =
+=3D {
+> >       .service        =3D PCIE_PORT_SERVICE_AER,
 > >
-> >  #ifdef CONFIG_EEH
->
-> --
-> Sathyanarayanan Kuppuswamy
-> Linux Kernel Developer
->
+> >       .probe          =3D aer_probe,
+> > +     .suspend        =3D aer_suspend,
+> > +     .resume         =3D aer_resume,
+> >       .remove         =3D aer_remove,
+> >  };
+> >
+> > --
+> > 2.34.1
+> >
 
