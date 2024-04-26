@@ -4,88 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5694C25B4F
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Apr 2024 08:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73489C4345F
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Apr 2024 10:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ouTVIVhhJWM5mFGEXpnbSBhGieu3FwiruTg3iTy9uM8=; b=08lkPvP9DXNNFdgGmU+NwKkdhs
-	rgp6dhfEhQTAIZ+aUbQVY34No6Dt6pd2s7uoRC2WO67ioBObTh5P6Jg+56UBK9r8JSOndghYpstd9
-	uTpQ3YWQ5qQ8yH0OA1apw1h7mV7cmRaLCDsrUktdXXkBTbQD7AM+GqObRj9GInPLomDNEeEQoPpUh
-	nCCjwaUpAY/cf9+0XpnH9Xkw6voB06LVMNWS439UhIqD9waES7poQOYk8FUeXd2ggysxWm3hjGl2L
-	pQjMp17GweOvUw/zLf03YSge33xgk5Czf2QsDe1VdFFjwa88pSvCohe7JBY2JqlgXFMBLCWdISfVC
-	9FicT4/A==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZIPvjsINSBR4+GnLojAQen1sOb37N5r1du95uHFm3zU=; b=JE7rnghMtvh64ocJKyqPNxLiUO
+	0zvH0otWDOn/cKpvR5c96Vrzp9EgM8XXiHOCDIU0Ms+7IV4rgjfIY4SsWckkYUtH+ayLMDT7oOgix
+	26sWrJn9uDVHZ38YP3IOn0RQ9cnaHrTsTKk+pJ8L/ZH01ZW6GFH7Lm7f2TqxzFq1utGyPgTOm5mhn
+	j2U3Ss0DjKKAa0zT2eGMdQHJqlNJGk4zjxfVEwkUjd+t+H6Qfa1Vct4riLau2ZJtRl67JaBRrbJRW
+	cJGJvGuztITb3GnwAvsz/KsHM6ZRvuiQnjGqn1CV1l8XNh9ova8pE22lzW+O88blXn3cRlcejWQCA
+	RaFS4vWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s0H2i-0000000Bi7B-1eHm;
-	Fri, 26 Apr 2024 08:34:52 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1s0JET-0000000CFCj-3xiU;
+	Fri, 26 Apr 2024 10:55:09 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s0H00-0000000BgVm-2JGB
+	id 1s0JEQ-0000000CFBJ-3pYr
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Apr 2024 08:32:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714120321;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ouTVIVhhJWM5mFGEXpnbSBhGieu3FwiruTg3iTy9uM8=;
-	b=A/VRzcyvMAtCAAzvcRhSd6q0/GaBRLozE5rIZjWu0TnkfbtJLMNkz5VOxjZahb3whhyy7F
-	z3eY44VheUO7DXv8P7F2j68zpNT1eopPGDxCgJZX06H+s19OjQQ0M9sJQyBe32Bh+ArdM9
-	q1qm1LB7tBCiBx4MDSZr54OI7KWl6k8=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-FgrVf-oWOh-6HkZh6ou-Gg-1; Fri, 26 Apr 2024 04:30:17 -0400
-X-MC-Unique: FgrVf-oWOh-6HkZh6ou-Gg-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2abc5b4f3c7so2223398a91.0
-        for <linux-nvme@lists.infradead.org>; Fri, 26 Apr 2024 01:30:16 -0700 (PDT)
+	Fri, 26 Apr 2024 10:55:08 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1e9320c2ef6so14292945ad.2
+        for <linux-nvme@lists.infradead.org>; Fri, 26 Apr 2024 03:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shopee.com; s=shopee.com; t=1714128902; x=1714733702; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZIPvjsINSBR4+GnLojAQen1sOb37N5r1du95uHFm3zU=;
+        b=caLQnowvs8kMz8BfdX1WaTrOUtetOjSIDkEmMGOgiW/lR5ZODb7OQf8MpcGFW+bdtv
+         m9lrBeRMMu2B37hH7yWMCeNNZKt7Oj591SOZkJKgyR4zDEgphQLgAksBnP62AXWLvvgU
+         LzSSlUGCWKDJLHdvaURWV31UTMqET5pHhqeKOvl7UKvX+8L1mEFwZC9zoxjwLAOGgQAW
+         lluu+mEORwzyNAp/gVsLBqI9MXZcuX3QKZyhBCxzeWvjm+Co0GXw3EzIRSKhlYmRZbWz
+         zBp4UPcqdwwoyYApKhflnP7qwHfTHjU9uTOVW1ciflllF9ynd0FypRAcXcMRtZLJ++nW
+         CE3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714120216; x=1714725016;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ouTVIVhhJWM5mFGEXpnbSBhGieu3FwiruTg3iTy9uM8=;
-        b=WNM+eJD/gnmkm1z+j1etJua+0NCIzcj0DsQNdWqbTj2w2j6/CQwPgW7zP5bylkEuXO
-         S4FPlKFPTn5MhVjeoysYBKwkaRpaoTrfkKpYaStItH3wZiPwFR0KaFD7CZrvUE24/K+w
-         93tQJTui1R1lqZe2H4wQnCXKaMKqnEcjFSmC/vaAqJ0ZRKopVnzz/iJ/VeT+OEuZ6Fgs
-         FqI3WiO3HR6CPlD95eeam5QrH/i3ybvmzIhPG/UWiOQbLEHxcfv2fIYmOUZ8z8VLSw7W
-         t5tYSRWSyyDz1h/j6XXpAgO+J6BMpAcf3rHnUdix8rqsybgeI7oEIR59S12dR/UzmZtj
-         rLGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWub23ugnHl19hSf9+7NqeoQEDkiqdGRCpJ9XZzNvtuYaemC7/eyEx5jN4+xi33amcqnqfT6KRyP4jN6Ivf2cYshJKXYm/zQvwWQ1pYS6k=
-X-Gm-Message-State: AOJu0Yym+ooRADDTDTMYAMGuof9CzbTp5iUo21sFXqY2mg0OF/9d8BGt
-	0TwNHH9n87YjdUHBzhZo0H09A0dSmHtDMqcD14GhjxTHmD3R8p1I5SJ7bUBZwwRqGnmBkrLG9I7
-	a89fymQSakbcOgySEsMlSkXiYOSM5ZF7BF6MvRpshagqq/BvITjrxZ7KsruWosiVrR8flV8a7Dq
-	lqx77TvNIoEv+xPKVM2Kvogcsz7sVI6zD9a3zG6eQ=
-X-Received: by 2002:a17:90b:3692:b0:2ae:d553:6952 with SMTP id mj18-20020a17090b369200b002aed5536952mr1792607pjb.4.1714120215813;
-        Fri, 26 Apr 2024 01:30:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHGU0Ue6vP2JW/tcrs/AgNDP+YCt75lAhxkanBz2VBayAFtULgFtyi3uN3LU9FJ/1r08npwSZPbMlLpm6xPdPo=
-X-Received: by 2002:a17:90b:3692:b0:2ae:d553:6952 with SMTP id
- mj18-20020a17090b369200b002aed5536952mr1792593pjb.4.1714120215389; Fri, 26
- Apr 2024 01:30:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714128902; x=1714733702;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZIPvjsINSBR4+GnLojAQen1sOb37N5r1du95uHFm3zU=;
+        b=svQviPgoBm4Vc/e4k/nBGyYromDee69coDWfkFeGfS4BDgEpMMwbf5r0uaes4ZtIqj
+         UYML9PZzSKrymHoWQxwqbGRkFykd7H1Ez9UkIc0LTXLL+SBZjtbuR6G4WrNjh8VGa6jS
+         s8e/i6YejPW67uY971ArDMYYNsPD71kgrzOOqjL7ZwVhyZ43kOJXH8kf5J3fZE3xoZxt
+         d+LDjBzTVvJSdlZVh2uNHQCERu5f8xf917LxMqVkG/Qgv/LlXoKYefIjkPpDS7T+kfcG
+         6DDAYnKcwN0f/dfTgBBsYbl4hUcEG8GWSp6ZW03KLds+l30+w5/LfzlH9sJWPBZcwhgf
+         s3nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVlxJ8qgVRWOgGlp0cETPf6pK17E8/s6/58swHglzO+CN59+WEn7L8l3HHF48ZSJ5zTgQV1wA+UMgdlA413ixP9Avx36XVaPD2+/jMbMII=
+X-Gm-Message-State: AOJu0YylghmWbO3X13lIwrp1+Aj+l2fNC1w7Jem8tV9PDl29V/V9IBer
+	DenUuwIYP31RPdia7tBULtJyGHdpohtOAuDJOJI9TK4Q4EHLs0Gt9TtHlc0Xby8=
+X-Google-Smtp-Source: AGHT+IF75xEpmSgYV7C2NBI+XZY3exPaVuwD2x0nM4G8d6CqOcWQfIgC9jOmgAt2AmQDdycZnmW26g==
+X-Received: by 2002:a17:902:d883:b0:1e6:3577:1912 with SMTP id b3-20020a170902d88300b001e635771912mr2454417plz.25.1714128902468;
+        Fri, 26 Apr 2024 03:55:02 -0700 (PDT)
+Received: from C02FRH0UMD6M.cn.corp.seagroup.com (static-ip-250-9-104-152.rev.dyxnet.com. [152.104.9.250])
+        by smtp.gmail.com with ESMTPSA id jj1-20020a170903048100b001e2526a5cc3sm15178914plb.307.2024.04.26.03.54.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Apr 2024 03:55:01 -0700 (PDT)
+From: kwb <wangbing.kuang@shopee.com>
+To: james.smart@broadcom.com,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: chunguang.xu@shopee.com,
+	kwb <wangbing.kuang@shopee.com>
+Subject: [PATCH] bug-fix: nvme connect deadlock, bug report: https://bugzilla.kernel.org/show_bug.cgi?id=218777
+Date: Fri, 26 Apr 2024 18:54:51 +0800
+Message-Id: <20240426105451.78935-1-wangbing.kuang@shopee.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <CAHj4cs8X31NnOWGVLniT5OWBRtEphxw-AcYrPaygG_uYaoeENQ@mail.gmail.com>
-In-Reply-To: <CAHj4cs8X31NnOWGVLniT5OWBRtEphxw-AcYrPaygG_uYaoeENQ@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Fri, 26 Apr 2024 16:30:03 +0800
-Message-ID: <CAHj4cs-6TbqoNRvy54AEO0gA5NjOqnigEKnzD13SUadRhVBetQ@mail.gmail.com>
-Subject: Re: [bug report][bisected] RIP: 0010:blk_flush_complete_seq+0x450/0x1060
- observed during blktests nvme/tcp nvme/012
-To: linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Bart Van Assche <bvanassche@acm.org>, Hannes Reinecke <hare@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240426_013205_098520_82895A5D 
-X-CRM114-Status: GOOD (  17.68  )
+X-CRM114-CacheID: sfid-20240426_035507_074667_6D0939C8 
+X-CRM114-Status: GOOD (  20.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,242 +95,324 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Damien
+---
+ drivers/nvme/host/core.c    | 16 ++++++++--------
+ drivers/nvme/host/fabrics.c | 12 ++++++------
+ drivers/nvme/host/fabrics.h | 16 +++++++---------
+ drivers/nvme/host/fc.c      |  4 ++--
+ drivers/nvme/host/nvme.h    |  8 ++++----
+ drivers/nvme/host/pci.c     |  6 +++---
+ drivers/nvme/host/rdma.c    |  4 ++--
+ drivers/nvme/host/tcp.c     |  4 ++--
+ drivers/nvme/target/loop.c  |  4 ++--
+ 9 files changed, 36 insertions(+), 38 deletions(-)
 
-Bisect shows it was introduced with this patch, could you help check  it
-
-commit 6f8fd758de63bab513c551bb1796a14f8cdc40d9
-Author: Damien Le Moal <dlemoal@kernel.org>
-Date:   Mon Apr 8 10:41:01 2024 +0900
-
-    block: Restore sector of flush requests
-
-On Tue, Apr 23, 2024 at 9:17=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com> wrot=
-e:
->
-> Hi
-> I found this issue on the latest linux-block/for-next by blktests
-> nvme/tcp nvme/012, please help check it and let me know if you need
-> any info/testing for it, thanks.
->
-> [ 1873.394323] run blktests nvme/012 at 2024-04-23 04:13:47
-> [ 1873.761900] loop0: detected capacity change from 0 to 2097152
-> [ 1873.846926] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [ 1873.987806] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-> [ 1874.208883] nvmet: creating nvm controller 1 for subsystem
-> blktests-subsystem-1 for NQN
-> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-> [ 1874.243423] nvme nvme0: creating 48 I/O queues.
-> [ 1874.362383] nvme nvme0: mapped 48/0/0 default/read/poll queues.
-> [ 1874.517677] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-> 127.0.0.1:4420, hostnqn:
-> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-> [ 1875.649484] XFS (nvme0n1): Mounting V5 Filesystem
-> b5a2998b-e06a-40d0-a291-a46b67aa43db
-> [ 1875.770202] XFS (nvme0n1): Ending clean mount
-> [ 1936.174561] nvme nvme0: I/O tag 49 (a031) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.182573] nvme nvme0: starting error recovery
-> [ 1936.187622] nvme nvme0: I/O tag 50 (5032) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.196829] nvme nvme0: I/O tag 51 (b033) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.205619] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.211228] nvme nvme0: I/O tag 52 (0034) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.218975] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.224691] nvme nvme0: I/O tag 53 (3035) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.232395] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.237916] nvme nvme0: I/O tag 54 (0036) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.245731] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.251165] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.256967] nvme nvme0: I/O tag 55 (8037) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.264676] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.270159] nvme nvme0: I/O tag 56 (1038) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.277848] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.283294] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.288743] nvme nvme0: I/O tag 57 (b039) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.296450] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.301920] nvme nvme0: I/O tag 58 (503a) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.309621] block nvme0n1: no usable path - requeuing I/O
-> [ 1936.315076] nvme nvme0: I/O tag 59 (a03b) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.323271] nvme nvme0: I/O tag 60 (803c) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.331018] nvme nvme0: I/O tag 61 (203d) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.338769] nvme nvme0: I/O tag 62 (503e) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.346515] nvme nvme0: I/O tag 63 (c03f) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.354693] nvme nvme0: I/O tag 64 (a040) type 4 opcode 0x1 (I/O
-> Cmd) QID 2 timeout
-> [ 1936.362479] nvme nvme0: I/O tag 49 (0031) type 4 opcode 0x0 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.370819] nvme nvme0: I/O tag 50 (0032) type 4 opcode 0x1 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.378679] nvme nvme0: I/O tag 51 (0033) type 4 opcode 0x1 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.386464] nvme nvme0: I/O tag 52 (0034) type 4 opcode 0x1 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.394235] nvme nvme0: I/O tag 53 (0035) type 4 opcode 0x1 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.402062] nvme nvme0: I/O tag 54 (0036) type 4 opcode 0x1 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.409847] nvme nvme0: I/O tag 55 (0037) type 4 opcode 0x1 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.417773] nvme nvme0: I/O tag 56 (0038) type 4 opcode 0x1 (I/O
-> Cmd) QID 8 timeout
-> [ 1936.449539] general protection fault, probably for non-canonical
-> address 0xdffffc0000000004: 0000 [#1] PREEMPT SMP KASAN PTI
-> [ 1936.450749] nvme nvme0: Reconnecting in 10 seconds...
-> [ 1936.460764] KASAN: null-ptr-deref in range
-> [0x0000000000000020-0x0000000000000027]
-> [ 1936.460775] CPU: 15 PID: 848 Comm: kworker/15:1H Not tainted 6.9.0-rc4=
-.v1+ #2
-> [ 1936.480528] Hardware name: Dell Inc. PowerEdge R640/08HT8T, BIOS
-> 2.20.1 09/13/2023
-> [ 1936.488094] Workqueue: kblockd blk_mq_run_work_fn
-> [ 1936.492806] RIP: 0010:blk_flush_complete_seq+0x450/0x1060
-> [ 1936.498216] Code: 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 a8 08 00 00
-> 49 8d 7c 24 20 4d 89 65 38 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48
-> c1 ea 03 <80> 3c 02 00 0f 85 8e 08 00 00 49 8d 7d 30 4d 8b 64 24 20 48
-> b8 00
-> [ 1936.516960] RSP: 0018:ffffc9000f86f850 EFLAGS: 00010002
-> [ 1936.522185] RAX: dffffc0000000000 RBX: 1ffff92001f0df10 RCX: 1ffff1154=
-3588c4a
-> [ 1936.529318] RDX: 0000000000000004 RSI: dffffc0000000000 RDI: 000000000=
-0000020
-> [ 1936.536449] RBP: ffff88aa1a419da0 R08: ffff88c7aba3f9e0 R09: 1ffffffff=
-38e0bb3
-> [ 1936.543582] R10: 1ffff11543588c4a R11: ffffffffffe25e18 R12: 000000000=
-0000000
-> [ 1936.550714] R13: ffff88aa1ac46200 R14: ffff88a9c4560d00 R15: 000000000=
-0000000
-> [ 1936.557847] FS:  0000000000000000(0000) GS:ffff88c7aba00000(0000)
-> knlGS:0000000000000000
-> [ 1936.565930] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [ 1936.571675] CR2: 00007fc90f80b004 CR3: 00000029d18a0004 CR4: 000000000=
-07706f0
-> [ 1936.578809] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 000000000=
-0000000
-> [ 1936.585942] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 000000000=
-0000400
-> [ 1936.593072] PKRU: 55555554
-> [ 1936.595784] Call Trace:
-> [ 1936.598237]  <TASK>
-> [ 1936.600344]  ? __die_body.cold+0x19/0x25
-> [ 1936.604279]  ? die_addr+0x46/0x70
-> [ 1936.607606]  ? exc_general_protection+0x14f/0x250
-> [ 1936.612325]  ? asm_exc_general_protection+0x26/0x30
-> [ 1936.617212]  ? blk_flush_complete_seq+0x450/0x1060
-> [ 1936.622012]  ? __pfx_blk_flush_complete_seq+0x10/0x10
-> [ 1936.627072]  mq_flush_data_end_io+0x279/0x500
-> [ 1936.631430]  ? __pfx_mq_flush_data_end_io+0x10/0x10
-> [ 1936.636308]  blk_mq_end_request+0x1b8/0x690
-> [ 1936.640493]  ? _raw_spin_unlock_irqrestore+0x45/0x80
-> [ 1936.645460]  nvme_failover_req+0x37d/0x4e0 [nvme_core]
-> [ 1936.650634]  nvme_fail_nonready_command+0x130/0x180 [nvme_core]
-> [ 1936.656578]  blk_mq_dispatch_rq_list+0x3b3/0x2100
-> [ 1936.661292]  ? __pfx_blk_mq_dispatch_rq_list+0x10/0x10
-> [ 1936.666436]  __blk_mq_sched_dispatch_requests+0x554/0x1510
-> [ 1936.671925]  ? __pfx___lock_acquire+0x10/0x10
-> [ 1936.676285]  ? __pfx_lock_acquired+0x10/0x10
-> [ 1936.680558]  ? __pfx___blk_mq_sched_dispatch_requests+0x10/0x10
-> [ 1936.686477]  ? __pfx_lock_acquire+0x10/0x10
-> [ 1936.690668]  blk_mq_sched_dispatch_requests+0xa6/0xf0
-> [ 1936.695721]  blk_mq_run_work_fn+0x122/0x2c0
-> [ 1936.699908]  ? blk_mq_run_work_fn+0x114/0x2c0
-> [ 1936.704266]  process_one_work+0x85d/0x13f0
-> [ 1936.708371]  ? worker_thread+0xcc/0x1130
-> [ 1936.712301]  ? __pfx_process_one_work+0x10/0x10
-> [ 1936.716835]  ? assign_work+0x16c/0x240
-> [ 1936.720596]  worker_thread+0x6da/0x1130
-> [ 1936.724438]  ? __pfx_worker_thread+0x10/0x10
-> [ 1936.728712]  kthread+0x2ed/0x3c0
-> [ 1936.731944]  ? _raw_spin_unlock_irq+0x28/0x60
-> [ 1936.736303]  ? __pfx_kthread+0x10/0x10
-> [ 1936.740058]  ret_from_fork+0x31/0x70
-> [ 1936.743636]  ? __pfx_kthread+0x10/0x10
-> [ 1936.747387]  ret_from_fork_asm+0x1a/0x30
-> [ 1936.751319]  </TASK>
-> [ 1936.753516] Modules linked in: nvmet_tcp nvmet nvme_tcp
-> nvme_fabrics nvme_keyring nvme_core nvme_auth intel_rapl_msr
-> intel_rapl_common intel_uncore_frequency intel_uncore_frequency_common
-> isst_if_common skx_edac x86_pkg_temp_thermal intel_powerclamp coretemp
-> kvm_intel kvm spi_nor iTCO_wdt intel_pmc_bxt cdc_ether mtd usbnet
-> iTCO_vendor_support dell_smbios rapl intel_cstate rfkill sunrpc dcdbas
-> dell_wmi_descriptor wmi_bmof intel_uncore pcspkr bnxt_en mii tg3
-> i2c_i801 spi_intel_pci i2c_smbus spi_intel mei_me ipmi_ssif mei
-> lpc_ich intel_pch_thermal acpi_ipmi ipmi_si ipmi_devintf
-> ipmi_msghandler nd_pmem nd_btt dax_pmem acpi_power_meter fuse loop
-> nfnetlink zram xfs crct10dif_pclmul crc32_pclmul crc32c_intel
-> polyval_clmulni polyval_generic ghash_clmulni_intel sha512_ssse3
-> sha256_ssse3 sha1_ssse3 mgag200 megaraid_sas i2c_algo_bit wmi nfit
-> libnvdimm [last unloaded: nvmet]
-> [ 1936.829942] ---[ end trace 0000000000000000 ]---
-> [ 1936.880774] RIP: 0010:blk_flush_complete_seq+0x450/0x1060
-> [ 1936.886183] Code: 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 a8 08 00 00
-> 49 8d 7c 24 20 4d 89 65 38 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48
-> c1 ea 03 <80> 3c 02 00 0f 85 8e 08 00 00 49 8d 7d 30 4d 8b 64 24 20 48
-> b8 00
-> [ 1936.904925] RSP: 0018:ffffc9000f86f850 EFLAGS: 00010002
-> [ 1936.910150] RAX: dffffc0000000000 RBX: 1ffff92001f0df10 RCX: 1ffff1154=
-3588c4a
-> [ 1936.917285] RDX: 0000000000000004 RSI: dffffc0000000000 RDI: 000000000=
-0000020
-> [ 1936.924416] RBP: ffff88aa1a419da0 R08: ffff88c7aba3f9e0 R09: 1ffffffff=
-38e0bb3
-> [ 1936.931548] R10: 1ffff11543588c4a R11: ffffffffffe25e18 R12: 000000000=
-0000000
-> [ 1936.938680] R13: ffff88aa1ac46200 R14: ffff88a9c4560d00 R15: 000000000=
-0000000
-> [ 1936.945811] FS:  0000000000000000(0000) GS:ffff88c7aba00000(0000)
-> knlGS:0000000000000000
-> [ 1936.953899] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [ 1936.959642] CR2: 00007fc90f80b004 CR3: 00000029d18a0004 CR4: 000000000=
-07706f0
-> [ 1936.966776] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 000000000=
-0000000
-> [ 1936.973906] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 000000000=
-0000400
-> [ 1936.981039] PKRU: 55555554
-> [ 1936.983752] note: kworker/15:1H[848] exited with irqs disabled
-> [ 1936.989617] note: kworker/15:1H[848] exited with preempt_count 1
-> [ 1946.926323] nvmet: creating nvm controller 1 for subsystem
-> blktests-subsystem-1 for NQN
-> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-> [ 1946.944673] nvme nvme0: creating 48 I/O queues.
->
-> (gdb) l *(blk_flush_complete_seq+0x450)
-> 0xffffffff826c5370 is in blk_flush_complete_seq (block/blk-flush.c:133).
-> 128 * After flush data completion, @rq->bio is %NULL but we need to
-> 129 * complete the bio again.  @rq->biotail is guaranteed to equal the
-> 130 * original @rq->bio.  Restore it.
-> 131 */
-> 132 rq->bio =3D rq->biotail;
-> 133 rq->__sector =3D rq->bio->bi_iter.bi_sector;
-> 134
-> 135 /* make @rq a normal request */
-> 136 rq->rq_flags &=3D ~RQF_FLUSH_SEQ;
-> 137 rq->end_io =3D rq->flush.saved_end_io;
->
->
->
-> --
-> Best Regards,
->   Yi Zhang
-
-
-
---=20
-Best Regards,
-  Yi Zhang
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6aaecf2ecf97..761bc44527a3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2138,7 +2138,7 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
+ 	u32 csts, bit = enabled ? NVME_CSTS_RDY : 0;
+ 	int ret;
+ 
+-	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
++	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts, BLK_MQ_REQ_RESERVED)) == 0) {
+ 		if (csts == ~0)
+ 			return -ENODEV;
+ 		if ((csts & NVME_CSTS_RDY) == bit)
+@@ -2171,7 +2171,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl)
+ 	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	ctrl->ctrl_config &= ~NVME_CC_ENABLE;
+ 
+-	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
++	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config, BLK_MQ_REQ_RESERVED);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2187,7 +2187,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ 	unsigned dev_page_min;
+ 	int ret;
+ 
+-	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
++	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap, BLK_MQ_REQ_RESERVED);
+ 	if (ret) {
+ 		dev_err(ctrl->device, "Reading CAP failed (%d)\n", ret);
+ 		return ret;
+@@ -2210,7 +2210,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ 	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 	ctrl->ctrl_config |= NVME_CC_ENABLE;
+ 
+-	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
++	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config, BLK_MQ_REQ_RESERVED);
+ 	if (ret)
+ 		return ret;
+ 	return nvme_wait_ready(ctrl, ctrl->cap, true);
+@@ -2226,11 +2226,11 @@ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+ 	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
+ 
+-	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
++	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config, BLK_MQ_REQ_RESERVED);
+ 	if (ret)
+ 		return ret;
+ 
+-	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
++	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts, BLK_MQ_REQ_RESERVED)) == 0) {
+ 		if ((csts & NVME_CSTS_SHST_MASK) == NVME_CSTS_SHST_CMPLT)
+ 			break;
+ 
+@@ -3070,7 +3070,7 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ {
+ 	int ret;
+ 
+-	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
++	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs, 0);
+ 	if (ret) {
+ 		dev_err(ctrl->device, "Reading VS failed (%d)\n", ret);
+ 		return ret;
+@@ -4331,7 +4331,7 @@ static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
+ 
+ 	u32 csts;
+ 
+-	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
++	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts, 0))
+ 		return false;
+ 
+ 	if (csts == ~0)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 668c6bb7a567..5d18822edd0a 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -142,7 +142,7 @@ EXPORT_SYMBOL_GPL(nvmf_get_address);
+  *	> 0: NVMe error status code
+  *	< 0: Linux errno error code
+  */
+-int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
++int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val, blk_mq_req_flags_t flags)
+ {
+ 	struct nvme_command cmd;
+ 	union nvme_result res;
+@@ -154,7 +154,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+ 	cmd.prop_get.offset = cpu_to_le32(off);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0, 0,
+-			NVME_QID_ANY, 0, 0);
++			NVME_QID_ANY, 0, flags);
+ 
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+@@ -188,7 +188,7 @@ EXPORT_SYMBOL_GPL(nvmf_reg_read32);
+  *	> 0: NVMe error status code
+  *	< 0: Linux errno error code
+  */
+-int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
++int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val, blk_mq_req_flags_t flags)
+ {
+ 	struct nvme_command cmd = { };
+ 	union nvme_result res;
+@@ -200,7 +200,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ 	cmd.prop_get.offset = cpu_to_le32(off);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0, 0,
+-			NVME_QID_ANY, 0, 0);
++			NVME_QID_ANY, 0, flags);
+ 
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+@@ -233,7 +233,7 @@ EXPORT_SYMBOL_GPL(nvmf_reg_read64);
+  *	> 0: NVMe error status code
+  *	< 0: Linux errno error code
+  */
+-int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
++int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val, blk_mq_req_flags_t flags)
+ {
+ 	struct nvme_command cmd = { };
+ 	int ret;
+@@ -245,7 +245,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ 	cmd.prop_set.value = cpu_to_le64(val);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0, 0,
+-			NVME_QID_ANY, 0, 0);
++			NVME_QID_ANY, 0, flags);
+ 	if (unlikely(ret))
+ 		dev_err(ctrl->device,
+ 			"Property Set error: %d, offset %#x\n",
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 561c2abd3892..3f9ed5392e36 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -18,12 +18,10 @@
+ /* default is -1: the fail fast mechanism is disabled  */
+ #define NVMF_DEF_FAIL_FAST_TMO		-1
+ 
+-/*
+- * Reserved one command for internal usage.  This command is used for sending
+- * the connect command, as well as for the keep alive command on the admin
+- * queue once live.
+- */
+-#define NVMF_RESERVED_TAGS	1
++/* Reserved for connect */
++#define NVMF_IO_RESERVED_TAGS		1
++/* Reserved for connect and keep alive and reset/delete */
++#define NVMF_ADMIN_RESERVED_TAGS	3
+ 
+ /*
+  * Define a host as seen by the target.  We allocate one at boot, but also
+@@ -179,9 +177,9 @@ nvmf_ctlr_matches_baseopts(struct nvme_ctrl *ctrl,
+ 	return true;
+ }
+ 
+-int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+-int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+-int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
++int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val, blk_mq_req_flags_t flags);
++int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val, blk_mq_req_flags_t falgs);
++int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val, blk_mq_req_flags_t flags);
+ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
+ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
+ int nvmf_register_transport(struct nvmf_transport_ops *ops);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index aa14ad963d91..36834408caf0 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2876,7 +2876,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	memset(&ctrl->tag_set, 0, sizeof(ctrl->tag_set));
+ 	ctrl->tag_set.ops = &nvme_fc_mq_ops;
+ 	ctrl->tag_set.queue_depth = ctrl->ctrl.opts->queue_size;
+-	ctrl->tag_set.reserved_tags = NVMF_RESERVED_TAGS;
++	ctrl->tag_set.reserved_tags = NVMF_IO_RESERVED_TAGS;
+ 	ctrl->tag_set.numa_node = ctrl->ctrl.numa_node;
+ 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
+ 	ctrl->tag_set.cmd_size =
+@@ -3510,7 +3510,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
+ 	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
+ 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+-	ctrl->admin_tag_set.reserved_tags = NVMF_RESERVED_TAGS;
++	ctrl->admin_tag_set.reserved_tags = NVMF_ADMIN_RESERVED_TAGS;
+ 	ctrl->admin_tag_set.numa_node = ctrl->ctrl.numa_node;
+ 	ctrl->admin_tag_set.cmd_size =
+ 		struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index d94774cc52bc..b7577156ed80 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -493,9 +493,9 @@ struct nvme_ctrl_ops {
+ #define NVME_F_FABRICS			(1 << 0)
+ #define NVME_F_METADATA_SUPPORTED	(1 << 1)
+ #define NVME_F_PCI_P2PDMA		(1 << 2)
+-	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+-	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+-	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
++	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val, blk_mq_req_flags_t flags);
++	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val, blk_mq_req_flags_t flags);
++	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val, blk_mq_req_flags_t flags);
+ 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
+ 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
+ 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
+@@ -566,7 +566,7 @@ static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
+ {
+ 	if (!ctrl->subsystem)
+ 		return -ENOTTY;
+-	return ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 0x4E564D65);
++	return ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 0x4E564D65, BLK_MQ_REQ_RESERVED);
+ }
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d820131d39b2..b614273029fc 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2850,19 +2850,19 @@ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
+ 	nvme_put_ctrl(&dev->ctrl);
+ }
+ 
+-static int nvme_pci_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
++static int nvme_pci_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val, blk_mq_req_flags_t flags)
+ {
+ 	*val = readl(to_nvme_dev(ctrl)->bar + off);
+ 	return 0;
+ }
+ 
+-static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
++static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val, blk_mq_req_flags_t flags)
+ {
+ 	writel(val, to_nvme_dev(ctrl)->bar + off);
+ 	return 0;
+ }
+ 
+-static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
++static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val, blk_mq_req_flags_t flags)
+ {
+ 	*val = lo_hi_readq(to_nvme_dev(ctrl)->bar + off);
+ 	return 0;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index a49061f2afce..20fedf17166b 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -801,7 +801,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		memset(set, 0, sizeof(*set));
+ 		set->ops = &nvme_rdma_admin_mq_ops;
+ 		set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+-		set->reserved_tags = NVMF_RESERVED_TAGS;
++		set->reserved_tags = NVMF_ADMIN_RESERVED_TAGS;
+ 		set->numa_node = nctrl->numa_node;
+ 		set->cmd_size = sizeof(struct nvme_rdma_request) +
+ 				NVME_RDMA_DATA_SGL_SIZE;
+@@ -814,7 +814,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		memset(set, 0, sizeof(*set));
+ 		set->ops = &nvme_rdma_mq_ops;
+ 		set->queue_depth = nctrl->sqsize + 1;
+-		set->reserved_tags = NVMF_RESERVED_TAGS;
++		set->reserved_tags = NVMF_IO_RESERVED_TAGS;
+ 		set->numa_node = nctrl->numa_node;
+ 		set->flags = BLK_MQ_F_SHOULD_MERGE;
+ 		set->cmd_size = sizeof(struct nvme_rdma_request) +
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 2d81db71aaa1..df7acb44b20c 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1667,7 +1667,7 @@ static struct blk_mq_tag_set *nvme_tcp_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		memset(set, 0, sizeof(*set));
+ 		set->ops = &nvme_tcp_admin_mq_ops;
+ 		set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+-		set->reserved_tags = NVMF_RESERVED_TAGS;
++		set->reserved_tags = NVMF_ADMIN_RESERVED_TAGS;
+ 		set->numa_node = nctrl->numa_node;
+ 		set->flags = BLK_MQ_F_BLOCKING;
+ 		set->cmd_size = sizeof(struct nvme_tcp_request);
+@@ -1679,7 +1679,7 @@ static struct blk_mq_tag_set *nvme_tcp_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		memset(set, 0, sizeof(*set));
+ 		set->ops = &nvme_tcp_mq_ops;
+ 		set->queue_depth = nctrl->sqsize + 1;
+-		set->reserved_tags = NVMF_RESERVED_TAGS;
++		set->reserved_tags = NVMF_IO_RESERVED_TAGS;
+ 		set->numa_node = nctrl->numa_node;
+ 		set->flags = BLK_MQ_F_SHOULD_MERGE | BLK_MQ_F_BLOCKING;
+ 		set->cmd_size = sizeof(struct nvme_tcp_request);
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 2553f487c9f2..9a591ab4c810 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -353,7 +353,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+ 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
+ 	ctrl->admin_tag_set.ops = &nvme_loop_admin_mq_ops;
+ 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+-	ctrl->admin_tag_set.reserved_tags = NVMF_RESERVED_TAGS;
++	ctrl->admin_tag_set.reserved_tags = NVMF_ADMIN_RESERVED_TAGS;
+ 	ctrl->admin_tag_set.numa_node = ctrl->ctrl.numa_node;
+ 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
+ 		NVME_INLINE_SG_CNT * sizeof(struct scatterlist);
+@@ -527,7 +527,7 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+ 	memset(&ctrl->tag_set, 0, sizeof(ctrl->tag_set));
+ 	ctrl->tag_set.ops = &nvme_loop_mq_ops;
+ 	ctrl->tag_set.queue_depth = ctrl->ctrl.opts->queue_size;
+-	ctrl->tag_set.reserved_tags = NVMF_RESERVED_TAGS;
++	ctrl->tag_set.reserved_tags = NVMF_IO_RESERVED_TAGS;
+ 	ctrl->tag_set.numa_node = ctrl->ctrl.numa_node;
+ 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
+ 	ctrl->tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
+-- 
+2.36.0
 
 
