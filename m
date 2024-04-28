@@ -4,71 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE248C4345F
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Apr 2024 08:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31179C4345F
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Apr 2024 08:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RSsj5LAoQ32PBl1G57MXIm3HfE7QVXhj2MFLYvYJyaM=; b=mUoXpO7AV88qqEINF/rtczQ5K9
-	Rx3+C02A0FD2ABEJE2MyDq8SLEEGqAv65Mo5iwWgIqMmEGcw9Kc9NQwFPXo48WDe03UEfJiZMTgk9
-	ehlS+YYNmGNfXb8aq6ptl/Cdt6pjbOVZ9TCAd67qYFG9uH+7j0Ni/5KDXvOpGmNjdfjVyKR0F4gcV
-	1y6XshgQ/IdghyWuTjdRf928In9jmW3FzXJyLnvmBcIVFT4fIMsivhC5A44HxW09r9+4hX9RTQjLT
-	MobkIB7AxB7WoFlDlj66/AZgbpoqlm9/qla3sslQ9zaAasaBuLb8jaabPupJ/UCELY5tAAeVYbHNt
-	yPOtRVHQ==;
+	bh=enjxRNkKuZiWZ2RiN4WqGso5DfY7oIJ6tL/Jqqxp350=; b=umrPEKThGm0W5fsQrsGIJfUrii
+	YUVjz17+gj82VUP4RZHYdx7VCsA6Yfu/RoIs55wvA0MM8epAlVOkHpUwH/PSPqCK9RXph6/rYoxVS
+	XHiob6U2oypDqHAiDKlLTGEkWiYMfYFS3zq6SGZiCKo8yfa4/T6dtG8nf5FZdhbDV4TJOVxS0U1UA
+	C2zFopZZRk8LUE2mZKW/y3YWuVOd4l23jpUPv/eFUix0aeoiA/XASLEUYmDBjP8uTGaQDz5jTOHcU
+	STkRc8CpTaReH/w3w33dwiZcRcV+cSESQkHBPCqivoIIQ+TmMMu+aekNmHc5ZkBXQ8oXo+0GL2fgU
+	OFVO0GJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s0zcc-0000000H7u8-3J8g;
-	Sun, 28 Apr 2024 08:10:54 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1s0zhO-0000000H8cT-2EgN;
+	Sun, 28 Apr 2024 08:15:50 +0000
+Received: from mail-lj1-f169.google.com ([209.85.208.169])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s0zcW-0000000H7sA-2rrP
+	id 1s0zhL-0000000H8bI-18TJ
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Apr 2024 08:10:50 +0000
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-34a42d6e216so726314f8f.1
-        for <linux-nvme@lists.infradead.org>; Sun, 28 Apr 2024 01:10:47 -0700 (PDT)
+	Sun, 28 Apr 2024 08:15:48 +0000
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2db8021275eso8669991fa.3
+        for <linux-nvme@lists.infradead.org>; Sun, 28 Apr 2024 01:15:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714291846; x=1714896646;
+        d=1e100.net; s=20230601; t=1714292142; x=1714896942;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RSsj5LAoQ32PBl1G57MXIm3HfE7QVXhj2MFLYvYJyaM=;
-        b=H2TZuHzO1eYnYN/355602F24oS4uvXL3Ql0ra7RR8e6u8FOwIKtXTH7iyjPsD2Qvi8
-         v3ZMqlRfkTEa93fKkpnrZ2kjwZaxKNkGGccogB2TrFrdu6so6g9n+LFFaJyYQGUUQAtd
-         UoodpT9aHecukk1Agmszc6l6uKM9zbUM7zE+Uu8G37Pms6SsMFRgf1bUMtjY/FtnMI6B
-         ANBZDx1xMRyl4uVq2np25RgaBx6Q28ZsTuqtjiMBv5tOoT+/65vkCF/xLIFAlhoOzL08
-         7ioDNfJGu7zRgtaapkhO7OeH82f6FCVUT/PwM75M0AN3bBPIjIhNn/4FedORsj9TNQk0
-         6QYw==
-X-Forwarded-Encrypted: i=1; AJvYcCUVQhdSJdZuM9IaPmtJCjHq74tRB56Hvy8epth33AfCF1Zf6RTXpEJqySEDNkLyItC4U4XImyRyu+iN7ehzV14PyCVE13JtNIMQJXERm0c=
-X-Gm-Message-State: AOJu0YzqgUyV4MxyPmcWyB980sylGfPmaPD4PAR5Mn39ldIPVP5knwBG
-	B74aecTeX6g3oCBYwm17QuCo8PJg8AdYdZ6N9l5xbIhK4CS4umEl
-X-Google-Smtp-Source: AGHT+IGP4m8pWKjjEduL1pHCrqGLJrYhz2+AVqhsRQtW4q+UW/nhK9upYyNDD7iRIJaedhqYRalo8g==
-X-Received: by 2002:adf:a412:0:b0:346:500f:9297 with SMTP id d18-20020adfa412000000b00346500f9297mr4939177wra.2.1714291845438;
-        Sun, 28 Apr 2024 01:10:45 -0700 (PDT)
+        bh=enjxRNkKuZiWZ2RiN4WqGso5DfY7oIJ6tL/Jqqxp350=;
+        b=PWDlEqWkx+lydEf5OlZm6l0LqOQjHWZ3Q/+dPCLjJYFZiwhngju+EY7M0Jy/uOyYCn
+         D6S6WW6FspDg/VlgW3+EmBaCy7HhyOjct0WERXJCMtaWm9iR4iff2PUEiot3tBo48xe3
+         aVQvcjaezK7B8Z2VFtt7s9Qr22/vwUqoHweWsjNSkc6+y052Rne7qxOYRqgbaPtfjPCn
+         2Vbsv4o9VBuA8q14fnuR0v9aRayNECDwF2DTnchkxF+WTLaaZNqfh//y8cK90v2P3jE4
+         CkZG1c/DejqhsCo10HRQpK+H6ycBKgHfH3Ivy4GxeJUUpfuWuSIPnM7iGSWJ7NDiy3oQ
+         xvBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9I1fLDsoqSVzMle83x7WIqOREjyJHTGy+1iPp/zhfhIAjb9YJD30piv9rJyBwjmL/wpRmAovxnTXNFLzEoVKlL0sJnukZD2IOcLACprY=
+X-Gm-Message-State: AOJu0Yz8EC1ttL0bDE48srGvXrw5TahHZQe68ahySyvhFD5+NQN9KQHz
+	3ci8JJaEcLBXZR0yylaz3SumekxpghLjZZkQ6tjdqUqkpygg3OOC
+X-Google-Smtp-Source: AGHT+IGgjtFA6/cgUSNKNIFtaCVcvt+A4VZ8wiDKLn1OldQJe21264nSpXFsT4bzNQX2wDoiLY87SQ==
+X-Received: by 2002:a2e:97d4:0:b0:2df:1e3e:27e8 with SMTP id m20-20020a2e97d4000000b002df1e3e27e8mr4050673ljj.0.1714292141883;
+        Sun, 28 Apr 2024 01:15:41 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
-        by smtp.gmail.com with ESMTPSA id f9-20020a0560001b0900b003456c693fa4sm26429616wrz.93.2024.04.28.01.10.44
+        by smtp.gmail.com with ESMTPSA id fm9-20020a05600c0c0900b0041bf21a62bcsm3462222wmb.1.2024.04.28.01.15.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Apr 2024 01:10:45 -0700 (PDT)
-Message-ID: <d200fc7c-c781-49f1-8277-bdb5d537b1f4@grimberg.me>
-Date: Sun, 28 Apr 2024 11:10:43 +0300
+        Sun, 28 Apr 2024 01:15:41 -0700 (PDT)
+Message-ID: <9a38f4db-bff5-4f0f-ac54-6ac23f748441@grimberg.me>
+Date: Sun, 28 Apr 2024 11:15:38 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Bug Report] nvme connect deadlock in allocating tag
-To: kwb <wangbing.kuang@shopee.com>, james.smart@broadcom.com,
- kbusch@kernel.org, axboe@fb.com, hch@lst.de, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: chunguang.xu@shopee.com
-References: <20240428063147.88058-1-wangbing.kuang@shopee.com>
+Subject: Re: [PATCH v24 01/20] net: Introduce direct data placement tcp
+ offload
+To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com,
+ edumazet@google.com, pabeni@redhat.com, dsahern@kernel.org, ast@kernel.org,
+ jacob.e.keller@intel.com
+References: <20240404123717.11857-1-aaptel@nvidia.com>
+ <20240404123717.11857-2-aaptel@nvidia.com>
+ <3ab22e14-35eb-473e-a821-6dbddea96254@grimberg.me>
+ <253o79wr3lh.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
 Content-Language: he-IL, en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240428063147.88058-1-wangbing.kuang@shopee.com>
+In-Reply-To: <253o79wr3lh.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240428_011048_783740_7F9A717F 
-X-CRM114-Status: GOOD (  10.98  )
+X-CRM114-CacheID: sfid-20240428_011547_354914_73CC0391 
+X-CRM114-Status: GOOD (  13.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,53 +93,31 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 28/04/2024 9:31, kwb wrote:
-> Hi,
-> We found nvme connect will dealock when it cannot alloc tag in admin queue. So we reproduce it and find a way to work around. The solution is to utilize reserve tag for connecting.
-> Here is the deadlock environment:
-> 1. the process [kworker/u129:1+nvme-wq] want to connect wait for geting tag, but tag is used up:
-> [<0>] blk_mq_get_tag+0x11d/0x2d0
-> [<0>] __blk_mq_alloc_request+0x92/0x180
-> [<0>] blk_mq_alloc_request+0x7c/0xc0
-> [<0>] nvme_alloc_request+0x28/0x100 [nvme_core]
-> [<0>] __nvme_submit_sync_cmd+0x1ea/0x230 [nvme_core]
-> [<0>] nvmf_reg_read64+0x62/0xa0 [nvme_fabrics]
-> [<0>] nvme_enable_ctrl+0x25/0xb0 [nvme_core]
-> [<0>] nvme_tcp_setup_ctrl+0x257/0x340 [nvme_tcp]
-> [<0>] nvme_tcp_reconnect_ctrl_work+0x24/0x40 [nvme_tcp]
-> [<0>] process_one_work+0x228/0x3d0
-> [<0>] worker_thread+0x4d/0x3f0
-> [<0>] kthread+0x127/0x150
-> [<0>] ret_from_fork+0x1f/0x30
-> 2. many processes (here is nvme list) is waiting for connecting:
-> [<0>] blk_execute_rq+0x8d/0x110
-> [<0>] nvme_execute_passthru_rq+0x60/0x1f0 [nvme_core]
-> [<0>] nvme_submit_user_cmd+0x23e/0x400 [nvme_core]
-> [<0>] nvme_user_cmd+0x163/0x1d0 [nvme_core]
-> [<0>] nvme_ctrl_ioctl+0x2e/0x40 [nvme_core]
-> [<0>] __nvme_ioctl+0x78/0xc0 [nvme_core]
-> [<0>] nvme_ioctl+0x1e/0x20 [nvme_core]
-> [<0>] blkdev_ioctl+0x126/0x260
-> [<0>] block_ioctl+0x4a/0x60
-> [<0>] __x64_sys_ioctl+0x91/0xc0
-> [<0>] do_syscall_64+0x59/0xc0
-> [<0>] entry_SYSCALL_64_after_hwframe+0x44/0xae
+On 26/04/2024 10:21, Aurelien Aptel wrote:
+> Hi Sagi,
 >
-> Reproduce method is very eazy:
-> 1. call many nvme list
-> 2. make nvme io timeout to recover connection
-> 3. trick is to make reconnect-delay much time, eg:30s
+> Sagi Grimberg <sagi@grimberg.me> writes:
+>>> +     config->io_cpu = sk->sk_incoming_cpu;
+>>> +     ret = netdev->netdev_ops->ulp_ddp_ops->sk_add(netdev, sk, config);
+>> Still don't understand why you need the io_cpu config if you are passing
+>> the sk to the driver...
+> With our HW we cannot move the offload queues to a different CPU without
+> destroying and recreating the offload resources on the new CPU.
+
+This is not simply a steering rule that can be overwritten at any point?
+
 >
-> The solution is the appending patch. it is tested and also consider keepalive and reset/showdown tag reserve.
+> Since the connection is created from a different CPU then the io queue
+> thread, we cannot predict which CPU we should create our offload context
+> on.
+>
+> Ideally, io_cpu should be set to nvme_queue->io_cpu or it should be removed
+> and the socket should be offloaded from the io thread. What do you
+> prefer?
 
-The error_recovery work should unquiesce the admin_q, which should fail 
-fast all pending admin commands,
-so it is unclear to me how the connect process gets stuck.
-
-What is step (2) - make nvme io timeout to recover the connection?
-
-Is this reproducing with upstream nvme? or is this some distro kernel 
-where this happens?
-Do you have the below patch applied?
-de105068fead ("nvme: fix reconnection fail due to reserved tag allocation")
+I was simply referring to the fact that you set config->io_cpu from 
+sk->sk_incoming_cpu
+and then you pass sk (and config) to .sk_add, so why does this 
+assignment need to
+exist here and not below the interface down at the driver?
 
