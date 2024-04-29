@@ -4,70 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 930B1C4345F
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Apr 2024 18:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADB50C04FFE
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Apr 2024 20:11:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=C3W2voRCHkB5L93OtIlCl1N0fcm9fIHhM/J1w5AVK9o=; b=cOKFcRDN/K+qXsvfTfYLIUu84B
-	7qQ47e9Y58pmVd6eIcusIMaoPYJOv/Kqw7RV2GoIcWdptLyF7d8v1Z9LrjTFU497GCE6b0332wVMZ
-	W7/WcM/My6bCFjj2yzA4qJt4J+JPa4Qk2XlzbhmXHy0ZNBUKJyjd9JaarkmfoLSRFWA/sbe0cfrvR
-	CN8bo606ZM1RWiFmf3j0mMmWV66Z+7taAnLrYVMi2rqAxJ+9lQ5n6cW4sopQQwDoIeF50Jqadrr9O
-	SpicfbRD5BtHrPce7LSov9L8Pn5Di2jbJ5qCrLud7+r0MgstXtEnyRLZGrokck78gEotQoPaZLzuK
-	WU+jK5uQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=NkQa6E/G7D+kT+TNHA4Xlk1TA770QfnquVFmByHOQUU=; b=1Nv5IZuYiv1AnD/axMmpJ/F+ox
+	yNZWuD8nla/9aI9wrHJFCKT0FDt7R+Y28earDVCkrdNHotWTs23IK2ltOhen9U+vsmJWc6KT4t0h7
+	gIzsrcW0bCx/yJiwaX5DCb0TNIOEMn0vM6Hb9/cv9lufMcDpsmMpud45spwDavgtFgGffOFUYcRmz
+	VfkQ3OZCF82B/fHVJBv4ZA1yiHBQyxmNcyxqu/uipUSWy/NND/2yakq7eS3Ybj9pCQPyhRAiQjjSx
+	t52nhGaJLiRrzOW6PExxrVb6MaWks0yRiIOPoC4rx5NvbzoTAFBZktkPKzFNh9p5asmAF/bpvwMS9
+	tmBJr8yA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1Vsc-00000003tFO-3Xnb;
-	Mon, 29 Apr 2024 18:37:34 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1s1XLm-000000048xa-472U;
+	Mon, 29 Apr 2024 20:11:46 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1Vsa-00000003tEC-000x
+	id 1s1XLj-000000048vc-04rI
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Apr 2024 18:37:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714415849;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=C3W2voRCHkB5L93OtIlCl1N0fcm9fIHhM/J1w5AVK9o=;
-	b=W0cd22NPUU/LX/9ZOhpQb55WfAvacKRkYpFYIEXuB3QDIoc0wX/EJK34Y03WwHmQgIFv3f
-	lzlfl9zIGsLpXY3NFKJs3zXEvOdp42iSEVlS0v7ks929xLa3RBLEdySkXBu8DMG65mNZ4Y
-	JIojR9JqpcxBiddFIVANtwEy9PntIzw=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-320-Fa19gatRPxuVdHAkV8eR_g-1; Mon,
- 29 Apr 2024 14:37:27 -0400
-X-MC-Unique: Fa19gatRPxuVdHAkV8eR_g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20CE71E441D4;
-	Mon, 29 Apr 2024 18:37:27 +0000 (UTC)
-Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 178BA2166B31;
-	Mon, 29 Apr 2024 18:37:26 +0000 (UTC)
-Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
-	id C2E3730C2BF6; Mon, 29 Apr 2024 18:37:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id C128D3FB54;
-	Mon, 29 Apr 2024 20:37:26 +0200 (CEST)
-Date: Mon, 29 Apr 2024 20:37:26 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-    Mike Snitzer <snitzer@kernel.org>
-cc: linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
-    linux-nvme@lists.infradead.org
-Subject: [PATCH] block: change rq_integrity_vec to respect the iterator
-Message-ID: <19d1b52a-f43e-5b41-ff1d-5257c7b3492@redhat.com>
+	Mon, 29 Apr 2024 20:11:45 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240429201138epoutp02711cb2c091abfb1946b38894a94fd516~K2UUCfFwV0278702787epoutp02Y
+	for <linux-nvme@lists.infradead.org>; Mon, 29 Apr 2024 20:11:38 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240429201138epoutp02711cb2c091abfb1946b38894a94fd516~K2UUCfFwV0278702787epoutp02Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1714421498;
+	bh=NkQa6E/G7D+kT+TNHA4Xlk1TA770QfnquVFmByHOQUU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=Xh1KsC9oFzpllzHgYkWS36mL2jfZ+3YDhPEgJXQq5wSd45NVbVep3CwisJ8Jzg7CI
+	 E2WCO6Od6oECxuk4ZNLW4O8ONYYshXcqL78GyNc4PW6D9NqbDg41sDdNztQ04EUhGV
+	 mNkdCnbWvaC3Ay7Y+PcOGh0fr+iXdTOqUMTi+QwA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240429201137epcas5p4b11bc6b16e2594f7e9afcf562e2b0249~K2US0rsN11144111441epcas5p4c;
+	Mon, 29 Apr 2024 20:11:37 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.179]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4VSvc80ySdz4x9Pq; Mon, 29 Apr
+	2024 20:11:36 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	6F.B1.09665.7FEFF266; Tue, 30 Apr 2024 05:11:36 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240429201135epcas5p488c04012edb75b73264adf8723a1262c~K2URUWGgj1144011440epcas5p4R;
+	Mon, 29 Apr 2024 20:11:35 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240429201135epsmtrp1af0774e0887d8aa88f1da7c52e04e6fc~K2URTTsDH3109031090epsmtrp1x;
+	Mon, 29 Apr 2024 20:11:35 +0000 (GMT)
+X-AuditID: b6c32a4b-829fa700000025c1-ae-662ffef77070
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	5E.40.08924.7FEFF266; Tue, 30 Apr 2024 05:11:35 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240429201133epsmtip1c7bb2e34e7e468eab43eb387c3b6b37c~K2UPbpOAA2816128161epsmtip1f;
+	Mon, 29 Apr 2024 20:11:33 +0000 (GMT)
+Message-ID: <2e8eb4e8-beb2-51cd-67b5-75e920c9fff4@samsung.com>
+Date: Tue, 30 Apr 2024 01:41:32 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH 08/10] io_uring/rw: add support to send meta along with
+ read/write
+Content-Language: en-US
+To: Jens Axboe <axboe@kernel.dk>, martin.petersen@oracle.com,
+	kbusch@kernel.org, hch@lst.de, brauner@kernel.org
+Cc: asml.silence@gmail.com, dw@davidwei.uk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>, Nitesh Shetty
+	<nj.shetty@samsung.com>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <f3489d0c-2d27-4e27-ae49-df2e9dad2e00@kernel.dk>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJJsWRmVeSWpSXmKPExsWy7bCmlu6Pf/ppBl8OMFk0TfjLbDFn1TZG
+	i9V3+9ksXh/+xGjxasZaNoubB3YyWaxcfZTJ4l3rORaLSYeuMVrsvaVtMX/ZU3aL5cf/MVls
+	+z2f2YHX49qMiSweO2fdZfe4fLbUY9OqTjaPzUvqPXbfbGDz+Pj0FotH35ZVjB6fN8kFcEZl
+	22SkJqakFimk5iXnp2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYAXa2kUJaY
+	UwoUCkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJKTAp0CtOzC0uzUvXy0stsTI0MDAyBSpMyM54
+	+fkcc8FzvYqWBXcYGxibVbsYOTkkBEwkXi17ww5iCwnsZpT4vjWji5ELyP7EKHFu/V92COcb
+	o8SWnkdsMB3XZ/5jg0jsZZT4uGMvM4TzllHizNq/YLN4Bewk7q84D9bBIqAqcfTmX2aIuKDE
+	yZlPWEBsUYFkiZ9dB8BqhAUiJB48egNWwywgLnHryXwmEFtEoFBix6mrYNuYBZ4zSlyZ95W1
+	i5GDg01AU+LC5FKQGk4BW4lHl1ewQvTKS2x/OwfsIAmBKxwSP680M0Gc7SLRf/MHC4QtLPHq
+	+BZ2CFtK4mV/G5SdLHFp5jmo+hKJx3sOQtn2Eq2n+plB9jID7V2/Sx9iF59E7+8nTCBhCQFe
+	iY42IYhqRYl7k56yQtjiEg9nLIGyPSTuXJrEDAnqN4wShx4kT2BUmIUUKrOQfD8LyTezEBYv
+	YGRZxSiZWlCcm55abFpgnJdaDo/v5PzcTYzgNK3lvYPx0YMPeocYmTgYDzFKcDArifBOWaif
+	JsSbklhZlVqUH19UmpNafIjRFBg9E5mlRJPzgZkiryTe0MTSwMTMzMzE0tjMUEmc93Xr3BQh
+	gfTEktTs1NSC1CKYPiYOTqkGphPiL0Obazj5JOViA6fybrnQNEFvicG536XP3jW5SQfcXH9y
+	omqib8VR/d6Wyxfmqum0Gc14vdL9lHKaCrP51bCNRg/1+E5LHLtZvbjOUS588l++3U+PiT6v
+	eW/B9ejcFrnqNcJrXnnrNHpcmFZpclI9z6e1MeN7ZcmWJOcErYdncli+7dTz3taVbHIrLkj7
+	Vc9S95WfF5zd3flOIbtohtBsvxjZRwFZe/nXBjVUcW5qKNujdu3acru0GotLnZ9LSjdm+TyU
+	2XH7yMLgIsUv9S8DZn5Pdw87/e1SvXLcVaXdzBuFvwbdnht2s0G++7NT9kbO00eKrh0oe3hW
+	a3KWuHPSpYbfzHZnJK27dlkVKrEUZyQaajEXFScCAGuYoWhcBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOIsWRmVeSWpSXmKPExsWy7bCSnO73f/ppBl0z5C2aJvxltpizahuj
+	xeq7/WwWrw9/YrR4NWMtm8XNAzuZLFauPspk8a71HIvFpEPXGC323tK2mL/sKbvF8uP/mCy2
+	/Z7P7MDrcW3GRBaPnbPusntcPlvqsWlVJ5vH5iX1HrtvNrB5fHx6i8Wjb8sqRo/Pm+QCOKO4
+	bFJSczLLUov07RK4Ml5+Psdc8FyvomXBHcYGxmbVLkZODgkBE4nrM/+xdTFycQgJ7GaUWDx3
+	JjtEQlyi+doPKFtYYuW/5+wQRa8ZJe6132MESfAK2EncX3GeDcRmEVCVOHrzLzNEXFDi5Mwn
+	LCC2qECyxMs/E8EGCQtESDx49Aashhlowa0n85lAbBGBQonde56DXcEs8JxR4s+vXawQ294w
+	Ssxd1AdUxcHBJqApcWFyKUgDp4CtxKPLK1ghBplJdG3tYoSw5SW2v53DPIFRaBaSO2Yh2TcL
+	ScssJC0LGFlWMUqmFhTnpucWGxYY5qWW6xUn5haX5qXrJefnbmIEx6WW5g7G7as+6B1iZOJg
+	PMQowcGsJMI7ZaF+mhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe8Re9KUIC6YklqdmpqQWpRTBZ
+	Jg5OqQamFRclA+/7t6ZtMb958n5b5IcU8YwZTzNPHXFz9WLdUBG86d3ty99+C/btf5C3Oi2q
+	SjjslfDK10/vGk+ML1ikPCvNsuhUw17/f5ejn5zSP9N16ElOT8urvRLWRhf1prorbdE70q1+
+	9qpqu9n+sBWTWxM1jrYt1AgNjnK483iPXqA1f11gkYKg0hHxyTK+JrUmTrnLmVnfF5soRG3Z
+	YdNyf5ZDYlfI3PtVPwo7nkxnnXb7UVCqzNzy7aUrshjMij2Lrjf/Tt6ZtjnNjbsqQLQ140sT
+	q/SV3tdRZbr+O/tE3y5Q4lnPH2k4yUU1c5ldlm7/H4Y/rxUuL/paIDGVP9mA+/fR7EKTOSxd
+	hZdOxSuxFGckGmoxFxUnAgBgGPlyOgMAAA==
+X-CMS-MailID: 20240429201135epcas5p488c04012edb75b73264adf8723a1262c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240425184706epcas5p1d75c19d1d1458c52fc4009f150c7dc7d
+References: <20240425183943.6319-1-joshi.k@samsung.com>
+	<CGME20240425184706epcas5p1d75c19d1d1458c52fc4009f150c7dc7d@epcas5p1.samsung.com>
+	<20240425183943.6319-9-joshi.k@samsung.com>
+	<f3489d0c-2d27-4e27-ae49-df2e9dad2e00@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240429_113732_147120_F48663A7 
-X-CRM114-Status: GOOD (  18.75  )
+X-CRM114-CacheID: sfid-20240429_131143_736557_AF7DE200 
+X-CRM114-Status: GOOD (  32.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,100 +143,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi
+On 4/26/2024 7:55 PM, Jens Axboe wrote:
+>> diff --git a/io_uring/rw.c b/io_uring/rw.c
+>> index 3134a6ece1be..b2c9ac91d5e5 100644
+>> --- a/io_uring/rw.c
+>> +++ b/io_uring/rw.c
+>> @@ -587,6 +623,8 @@ static int kiocb_done(struct io_kiocb *req, ssize_t ret,
+>>   
+>>   		req->flags &= ~REQ_F_REISSUE;
+>>   		iov_iter_restore(&io->iter, &io->iter_state);
+>> +		if (unlikely(rw->kiocb.ki_flags & IOCB_USE_META))
+>> +			iov_iter_restore(&io->meta.iter, &io->iter_meta_state);
+>>   		return -EAGAIN;
+>>   	}
+>>   	return IOU_ISSUE_SKIP_COMPLETE;
+> This puzzles me a bit, why is the restore now dependent on
+> IOCB_USE_META?
 
-I am changing dm-crypt, so that it can store the autenticated encryption 
-tag directly into the NVMe metadata (without using dm-integrity). This 
-will improve performance significantly, because we can avoid journaling 
-done by dm-integrity. I've got it working, but I've found this bug, so I'm 
-sending a patch for it.
+Both saving/restore for meta is under this condition (so seemed natural).
+Also, to avoid growing "struct io_async_rw" too much, this patch keeps 
+keeps meta/iter_meta_state in the same memory as wpq. So doing this 
+unconditionally can corrupt wpq for buffered io.
 
-Mikulas
+>> @@ -768,7 +806,7 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+>>   	if (!(req->flags & REQ_F_FIXED_FILE))
+>>   		req->flags |= io_file_get_flags(file);
+>>   
+>> -	kiocb->ki_flags = file->f_iocb_flags;
+>> +	kiocb->ki_flags |= file->f_iocb_flags;
+>>   	ret = kiocb_set_rw_flags(kiocb, rw->flags);
+>>   	if (unlikely(ret))
+>>   		return ret;
+>> @@ -787,7 +825,8 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+>>   		if (!(kiocb->ki_flags & IOCB_DIRECT) || !file->f_op->iopoll)
+>>   			return -EOPNOTSUPP;
+>>   
+>> -		kiocb->private = NULL;
+>> +		if (likely(!(kiocb->ki_flags & IOCB_USE_META)))
+>> +			kiocb->private = NULL;
+>>   		kiocb->ki_flags |= IOCB_HIPRI;
+>>   		kiocb->ki_complete = io_complete_rw_iopoll;
+>>   		req->iopoll_completed = 0;
+> 
+> Why don't we just set ->private generically earlier, eg like we do for
+> the ki_flags, rather than have it be a branch in here?
 
+Not sure if I am missing what you have in mind.
+But kiocb->private was set before we reached to this point (in 
+io_rw_meta). So we don't overwrite that here.
 
-From: Mikulas Patocka <mpatocka@redhat.com>
+>> @@ -853,7 +892,8 @@ static int __io_read(struct io_kiocb *req, unsigned int issue_flags)
+>>   	} else if (ret == -EIOCBQUEUED) {
+>>   		return IOU_ISSUE_SKIP_COMPLETE;
+>>   	} else if (ret == req->cqe.res || ret <= 0 || !force_nonblock ||
+>> -		   (req->flags & REQ_F_NOWAIT) || !need_complete_io(req)) {
+>> +		   (req->flags & REQ_F_NOWAIT) || !need_complete_io(req) ||
+>> +		   (kiocb->ki_flags & IOCB_USE_META)) {
+>>   		/* read all, failed, already did sync or don't want to retry */
+>>   		goto done;
+>>   	}
+> 
+> Would it be cleaner to stuff that IOCB_USE_META check in
+> need_complete_io(), as that would closer seem to describe why that check
+> is there in the first place? With a comment.
 
-If we allocate a bio that is larger than NVMe maximum request size, attach
-integrity metadata to it and send it to the NVMe subsystem, the integrity
-metadata will be corrupted.
+Yes, will do.
 
-Splitting the bio works correctly. The function bio_split will clone the 
-bio, trim the size of the first bio and advance the iterator of the second 
-bio.
+>> @@ -864,6 +904,12 @@ static int __io_read(struct io_kiocb *req, unsigned int issue_flags)
+>>   	 * manually if we need to.
+>>   	 */
+>>   	iov_iter_restore(&io->iter, &io->iter_state);
+>> +	if (unlikely(kiocb->ki_flags & IOCB_USE_META)) {
+>> +		/* don't handle partial completion for read + meta */
+>> +		if (ret > 0)
+>> +			goto done;
+>> +		iov_iter_restore(&io->meta.iter, &io->iter_meta_state);
+>> +	}
+> 
+> Also seems a bit odd why we need this check here, surely if this is
+> needed other "don't do retry IOs" conditions would be the same?
 
-However, the function rq_integrity_vec has a bug - it returns the first
-vector of the bio's metadata and completely disregards the metadata
-iterator that was advanced when the bio was split. Thus, the second bio
-uses the same metadata as the first bio and this leads to metadata
-corruption.
+Yes, will revisit.
+>> @@ -1053,7 +1099,8 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
+>>   		if (ret2 == -EAGAIN && (req->ctx->flags & IORING_SETUP_IOPOLL))
+>>   			goto ret_eagain;
+>>   
+>> -		if (ret2 != req->cqe.res && ret2 >= 0 && need_complete_io(req)) {
+>> +		if (ret2 != req->cqe.res && ret2 >= 0 && need_complete_io(req)
+>> +				&& !(kiocb->ki_flags & IOCB_USE_META)) {
+>>   			trace_io_uring_short_write(req->ctx, kiocb->ki_pos - ret2,
+>>   						req->cqe.res, ret2);
+> 
+> Same here. Would be nice to integrate this a bit nicer rather than have
+> a bunch of "oh we also need this extra check here" conditions.
 
-This commit changes rq_integrity_vec, so that it calls mp_bvec_iter_bvec
-instead of returning the first vector. mp_bvec_iter_bvec reads the
-iterator and advances the vector by the iterator.
+Will look into this too.
+>> @@ -1074,12 +1121,33 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
+>>   	} else {
+>>   ret_eagain:
+>>   		iov_iter_restore(&io->iter, &io->iter_state);
+>> +		if (unlikely(kiocb->ki_flags & IOCB_USE_META))
+>> +			iov_iter_restore(&io->meta.iter, &io->iter_meta_state);
+>>   		if (kiocb->ki_flags & IOCB_WRITE)
+>>   			io_req_end_write(req);
+>>   		return -EAGAIN;
+>>   	}
+>>   }
+> 
+> Same question here on the (now) conditional restore.
 
-Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
+Did not get the concern. Do you prefer it unconditional.
 
----
- drivers/nvme/host/pci.c       |    6 +++---
- include/linux/blk-integrity.h |   12 ++++++------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+>> +int io_rw_meta(struct io_kiocb *req, unsigned int issue_flags)
+>> +{
+>> +	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
+>> +	struct io_async_rw *io = req->async_data;
+>> +	struct kiocb *kiocb = &rw->kiocb;
+>> +	int ret;
+>> +
+>> +	if (!(req->file->f_flags & O_DIRECT))
+>> +		return -EOPNOTSUPP;
+> 
+> Why isn't this just caught at init time when IOCB_DIRECT is checked?
 
-Index: linux-2.6/drivers/nvme/host/pci.c
-===================================================================
---- linux-2.6.orig/drivers/nvme/host/pci.c
-+++ linux-2.6/drivers/nvme/host/pci.c
-@@ -825,9 +825,9 @@ static blk_status_t nvme_map_metadata(st
- 		struct nvme_command *cmnd)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-+	struct bio_vec bv = rq_integrity_vec(req);
- 
--	iod->meta_dma = dma_map_bvec(dev->dev, rq_integrity_vec(req),
--			rq_dma_dir(req), 0);
-+	iod->meta_dma = dma_map_bvec(dev->dev, &bv, rq_dma_dir(req), 0);
- 	if (dma_mapping_error(dev->dev, iod->meta_dma))
- 		return BLK_STS_IOERR;
- 	cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
-@@ -966,7 +966,7 @@ static __always_inline void nvme_pci_unm
- 	        struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 
- 		dma_unmap_page(dev->dev, iod->meta_dma,
--			       rq_integrity_vec(req)->bv_len, rq_dma_dir(req));
-+			       rq_integrity_vec(req).bv_len, rq_dma_dir(req));
- 	}
- 
- 	if (blk_rq_nr_phys_segments(req))
-Index: linux-2.6/include/linux/blk-integrity.h
-===================================================================
---- linux-2.6.orig/include/linux/blk-integrity.h
-+++ linux-2.6/include/linux/blk-integrity.h
-@@ -109,11 +109,11 @@ static inline bool blk_integrity_rq(stru
-  * Return the first bvec that contains integrity data.  Only drivers that are
-  * limited to a single integrity segment should use this helper.
-  */
--static inline struct bio_vec *rq_integrity_vec(struct request *rq)
-+static inline struct bio_vec rq_integrity_vec(struct request *rq)
- {
--	if (WARN_ON_ONCE(queue_max_integrity_segments(rq->q) > 1))
--		return NULL;
--	return rq->bio->bi_integrity->bip_vec;
-+	WARN_ON_ONCE(queue_max_integrity_segments(rq->q) > 1);
-+	return mp_bvec_iter_bvec(rq->bio->bi_integrity->bip_vec,
-+				 rq->bio->bi_integrity->bip_iter);
- }
- #else /* CONFIG_BLK_DEV_INTEGRITY */
- static inline int blk_rq_count_integrity_sg(struct request_queue *q,
-@@ -177,9 +177,9 @@ static inline int blk_integrity_rq(struc
- 	return 0;
- }
- 
--static inline struct bio_vec *rq_integrity_vec(struct request *rq)
-+static inline struct bio_vec rq_integrity_vec(struct request *rq)
- {
--	return NULL;
-+	BUG();
- }
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
- #endif /* _LINUX_BLK_INTEGRITY_H */
+io_rw_init_file() gets invoked after this, and IOCB_DIRECT check is only 
+for IOPOLL situation. We want to check/fail it regardless of IOPOLL.
 
+> 
+>> +	kiocb->private = &io->meta;
+>> +	if (req->opcode == IORING_OP_READ_META)
+>> +		ret = io_read(req, issue_flags);
+>> +	else
+>> +		ret = io_write(req, issue_flags);
+>> +
+>> +	return ret;
+>> +}
+> 
+> kiocb->private is a bit of an odd beast, and ownership isn't clear at
+> all. It would make the most sense if the owner of the kiocb (eg io_uring
+> in this case) owned it, but take a look at eg ocfs2 and see what they do
+> with it... I think this would blow up as a result.
+
+Yes, ocfs2 is making use of kiocb->private. But seems that's fine. In 
+io_uring we use the field only to send the information down. ocfs2 (or 
+anything else unaware of this interface) may just overwrite the 
+kiocb->private.
+If the lower layer want to support meta exchange, it is supposed to 
+extract meta-descriptor from kiocb->private before altering it.
+
+This case is same for block direct path too when we are doing polled io.
 
