@@ -4,177 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A996C4345F
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Apr 2024 23:58:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A4DFC4345F
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Apr 2024 01:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t2EDroNaH55eVdwdW7eEfpRKDTtEnivqSq7HFje/o+U=; b=gGpuZJdZhQyw6tmqEdrO+1/ULJ
-	5pSW86EtYvN9nfH/BQWCNF9M8QFSJGyHPyim7raD0pq8TMxlaGUQJke+RQYkhlOkkiGck5RQc2RWs
-	Vp5JTi1b7hzNgljqgmPRSfidrzcZnzv56gUZZtCtJhACvjG4tMxDqR264SI7mglQsQVSAszgeV945
-	baFSbTpg0auyeEWNNS3HWnW5GLO8Dmtgo9sfZq9cScMKOLrejnra8DA3uq6y57rEuSCg9CoJ38BCo
-	eI9KHLDGXnE4DdyFOgQjMdOm5nbKjTeUE4K/H9F7pQT/covwQl+Pv09UEN+exQ9BolcgnylddxDIb
-	kbkNd5pg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=m+kw0mVtWDSeJDLfbFioBJ+hS3jC15/GQQeGeNgZEss=; b=flzdYLtbTHY0kJr748ej5okrAW
+	KAS0iWrqAoYZ6hvCAqxY9aKRuKTrWKzZ565paCtiWWqX6LID/oWewWeYu8VASx2PNdTItStLhZO/p
+	9yom7yiQjopEQRPMN2AYVGzp7wwHuXr8EUm4o7vY5WhlxlebQSfthrpZarVret6ZbfFjdJ+bWkuOd
+	5FPeJTX1ZWCoO/WOE9zs82V4M/ANmxy+vdR5QDKDxfp6IJkaPlNQOB62GqNav9KeKk1sGbdnYBoB5
+	y2aUpYASJkjIZamPTra5SJXBQ70QSHHJgJtAoAkV1uppyd319ZDcBTX3C3km6DTfstFH8l2sLBit1
+	BeQ8vdtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1EPX-000000010TB-0Iq0;
-	Sun, 28 Apr 2024 23:58:23 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1s1Fz4-00000001AoF-0cRG;
+	Mon, 29 Apr 2024 01:39:10 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1EPT-000000010SY-01Sv
+	id 1s1Fyr-00000001AnB-38Kx
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Apr 2024 23:58:21 +0000
+	Mon, 29 Apr 2024 01:39:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1714348699; x=1745884699;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=izH2MfWilLT0TWPf27NUPv5GNNc1vGoRAtBNxPj6wWw=;
-  b=fJaLZWnWkTqj5AZVR1SDzuyqm5cv/EfccIrzTJD/vMvUZNmDAybULAmO
-   jrshTtHq2vwQ2oUsfhKXi5782YWCBsWjLxqeiOpx9SyiiIQkfCAF9N9ZF
-   K0yMLLWnu5wq16f5AiAtfL55+M/avN7uQaMAFjONv/GDT7yZPqKBLoxkS
-   2VhoKQd2kIjWFjFZQinn7SxZ/5AUCfJObMxn9eC3YklYTPotV/9Lz7p6K
-   2ekKvP2HCECXrLYLWP2H4xA5xNEqDaxhx8cuYzfBb+x3gcbDp9SptECke
-   P2p2QUGm1B0pkbCGhJy0tFxfTQOk6aEPU5uH1vn7+QZpNJvk/jaQqnd9X
-   Q==;
-X-CSE-ConnectionGUID: lSGA7z0xSbW0wSFM4C7bkA==
-X-CSE-MsgGUID: nDAFyNZ4SQ+ZhY7yGlqRYw==
+  t=1714354737; x=1745890737;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sValY2jZMY7kypT8y30RxotnJzXzzkLVyg2MlrviqjM=;
+  b=OrvuPFiOSkKAVom+Z0c4/H4Ctz1zwCgM/Ir0dGdutrtqHgMY35Dp1FOp
+   DNZipPH/nhu+RuCtnvmg88qDA76WirvKp3c+gJz0IbzCAJlIWvyutOAyi
+   HDyJe9a7Sg93uGxOQ1qphndMDgkb3743B4BgtiPWB6BR3oFb032T2g5I/
+   8tqv2IbN8O7hJSbGWhSDzvhvzM2SnAvP1eR/tcEEg0lgAiBQPJyQkS0Aa
+   w2BLRg2DSRImXvG5qGoKv0KQ0g4tC3mCBEnWp9h4dBudU454/GZ2ZnskY
+   Djy14CR8e9uhBwvB7Jcam8ojPQXUYFxI7F2HWU4P7xIpeWqDkLeHkowSF
+   g==;
+X-CSE-ConnectionGUID: Ao6nEv6MQqqMO/szQKnLlQ==
+X-CSE-MsgGUID: n1isAfI3T06J4FuTFTXaJg==
 X-IronPort-AV: E=Sophos;i="6.07,238,1708358400"; 
-   d="scan'208";a="14829981"
-Received: from mail-sn1nam02lp2040.outbound.protection.outlook.com (HELO NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.40])
-  by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2024 07:58:16 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=apx8009cNpQ2jNxKTahU4/xoWYZVguNgRRqEidsmtn1JeqiQ2cHIdFe4iyhYr96Ns4ehMx+X1Fi+nwBtbRcaMedB6UX+7CSzIIQE3dTjbhyOI4XmS0MXrmDG4fNTh7rFR0oqdcG/X1XNN2MfAFi2QQ39nXFETm2LI6Sefqlau2vu7cP6TjXUe1mO1wgxwEZmSU1B2V74lLzTZAL2spZpy7ear7gQplDkkoowb46fjd7WyLBi3arlDRFlLuZVkB2Ik/PXY8nnZeTU5+6xwljTsBFO9K+WO60skX0aBUjgitr18dZkuyFlxX+LNR7jUjfgiivwnqxHJj92SBC8qhoySQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t2EDroNaH55eVdwdW7eEfpRKDTtEnivqSq7HFje/o+U=;
- b=ctrW3/b0aHN2Huk8Jh6f0+LvcOkuMHW6yfFQ5teF/+tw51bOMODDQMNsZd8DtNByV6Uv3hYDYsnQtCuq4FojFs6ERxvtOSzABWcmdtKCMQ6XaqG7EBrlhno09DaNOwImy9Xorft4DeFmULUEgnBr4TGzwrTqZch4wzTgC2v+TD5lbHXe+sywuJtQoyCoB/K/JbZ7n4yLBoGwjbFxe19pxWNCKhCmgd04YsY0KR99RfndnZAS+N4G8Jz7UyXaZcgoXBZF7mGjKvcomlBIG79p2ZfFFZEPGA2bInjnPWZln3UCJgJtiqCYcFgCyDlUKMZCADFUobjRhDqEK4Uygtgvqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t2EDroNaH55eVdwdW7eEfpRKDTtEnivqSq7HFje/o+U=;
- b=aOauOHNaRzWar0P8gYf+cxIo0wj10Gl6X498T3dpXXpxY74BhsPJnRPOK6ZBgRxFYg3TTD6NNArIXi7JMIXswBuvU+g4yGlBc3+KjH4tJ9VT94uMOKcyo7MK7c22stCMIZAsBbAFB7sMpIm9//GpfZSMqx6Yq772x8sRDfcGEos=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- IA0PR04MB8889.namprd04.prod.outlook.com (2603:10b6:208:484::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Sun, 28 Apr
- 2024 23:58:15 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c75d:c682:da15:14f%3]) with mapi id 15.20.7519.031; Sun, 28 Apr 2024
- 23:58:14 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Daniel
- Wagner <dwagern@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH blktests v3 10/15] nvme/{006,008,010,012,014,019,023}:
- support NVMET_BLKDEV_TYPES
-Thread-Topic: [PATCH blktests v3 10/15] nvme/{006,008,010,012,014,019,023}:
- support NVMET_BLKDEV_TYPES
-Thread-Index: AQHamUo6D+gVl3vVR02YXq3wno0qJ7F9fAYAgAAs7oCAALQwAA==
-Date: Sun, 28 Apr 2024 23:58:14 +0000
-Message-ID: <sb3syw5ysqvkxvvn7mubzk3n6pfsivq54ownkyju2sgagesxpf@ktfn3333dmt2>
-References: <20240424075955.3604997-1-shinichiro.kawasaki@wdc.com>
- <20240424075955.3604997-11-shinichiro.kawasaki@wdc.com>
- <6b55293c-0764-4922-b329-be393c9afc81@grimberg.me>
- <36jinbbjhzr6erpfpnfqmk2jebf5tlnl26skuak73krwyyu6zi@i5qtgb4bqqgy>
- <eeee5574-f4de-45a7-837b-74589dab423e@grimberg.me>
-In-Reply-To: <eeee5574-f4de-45a7-837b-74589dab423e@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|IA0PR04MB8889:EE_
-x-ms-office365-filtering-correlation-id: e389a730-148b-41e6-09ed-08dc67df117f
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|376005|366007|38070700009;
-x-microsoft-antispam-message-info: =?us-ascii?Q?z2QPi1dFauBycTPFtzhjZ5iyuY5TLGiUP3v305IR4UBGhdY87d3jbhFAmKSc?=
- =?us-ascii?Q?ZIO/Mvox/k59Sa6tx8eKplrrXr26tt+pljDbo9POO5VPr7e/nTWACM4YsssP?=
- =?us-ascii?Q?24U1SliCSbYOIDLbl3T1kr17zfUzI4/PCGSPjXj4tVpAaR9SyrhBhISsFs/K?=
- =?us-ascii?Q?f1u/WhTCIso/RCwEG3ZTLIoo5USQNTWxuJIlrG0Llwqd6YZXiqM8hl/Vkf2y?=
- =?us-ascii?Q?2Ir8dcSOWyBF3XKpCZ6b6+6Sh6iPYKcX4Vrmi+dXMTLbqLdahgg17JThUFjH?=
- =?us-ascii?Q?zBYYEXnBjQf8Jbf9iAIb1Er//7nSYH53ttBzNhpBdPQE2N7OOIHeeA6ZT7PC?=
- =?us-ascii?Q?wlyAJUPQN39/cZVZer5Li4OlOym4NBLRqrJwPa0kDTJ9phkycXwjhIxUjJkY?=
- =?us-ascii?Q?xk8TDaTVIdJkgLTHaiGWMR/xeZbU3BokoVOKsA8tqWy+/RYfN1JWfTxN4oTJ?=
- =?us-ascii?Q?QYfvV5rOFEpE9HJRMiFAXlWa74xAfaOFSnrtoTsqn1P5HZiewnCaQfUy9QQx?=
- =?us-ascii?Q?g7ay4PoAF5qs/+YPHP1a7oIimm0RwZ+tqESka42kz/D/7eQSckuSGhudr5ID?=
- =?us-ascii?Q?dwVey0qykYdkbGf9Ou1WAFxcCsECdspwdqf5Ldw8rY4d7dgRfOUN6fkKi1uV?=
- =?us-ascii?Q?H9y0gik2ROraifDAsV6R3Uwvzjtt+MoCiXIGa5ymu4xLEn8VtwzeaFp4vByz?=
- =?us-ascii?Q?FkYW05NNhKla94S0jx+n9U1Mw5dIe+xsq9GzuswpbBO+s/wfDwiTj88LspzL?=
- =?us-ascii?Q?hXeUUL3b9vWPqRNp5KCcskmDiWzHbzTfG1JyMvDWmtbJskKqRO6sdLaLCrJv?=
- =?us-ascii?Q?xyLwK4vYDMgyI5YBZkh2u14wvjeCicaSUl0YxjBI6JYx8BcM96aM2zL9IKfa?=
- =?us-ascii?Q?IbJgKIkViwtPnOh6EZ1Q0yGV0+E4FtzbEkSzWobOFdQFRwVMsH+L6zCDd0Za?=
- =?us-ascii?Q?SX7gODiRiiWHkYyzGRx8sUCRmDDT3ZDPj7jhZc/2sjsiu2dyzMKQKgjJJEZk?=
- =?us-ascii?Q?qj7OByVVaiy2lGdsDL4zgwDoA28xSYr4vF/OzaThRrCgnXken0cNesCCMiUt?=
- =?us-ascii?Q?MD9kWnBnuoGB8nBIdnO7nhK0tzxZ5Xc4hKgVTRX66IZ/HUSJAcS8DLkeLZo6?=
- =?us-ascii?Q?P2sN5K05ZiOMOYxLV2NG8XyOliTrpuVLViFG4zRt8dsIobFj5W+s5zGnKZhh?=
- =?us-ascii?Q?XwvE+OUGqFORSyZhnXCXuPzx+t4f4ap4lmeBqcwy2axNCzoE0kJ7kKGCY/WC?=
- =?us-ascii?Q?eIYZfkh1u6PMccF+EUOmgSlbtU9Nc8ajbj9tlcsemQxw5k0M1ENIPJ29NImF?=
- =?us-ascii?Q?F3KJWyN9tEPe3lbFDii7qeYBDjJQbYnqRJRCWXNiJMpduw=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tLA1mbMr9kBnixELiaiKrJxg3C+o5KEcEcob2WkhnP+5tEoejUTVtjfWI4Z8?=
- =?us-ascii?Q?IPBHfjc7fgivWrhXjtrd8szOqUEn2Cs7q6GJ2qfIoA2TRio9wxoyKCQdmr9Z?=
- =?us-ascii?Q?HJVS61UVztqNop+6gCpssV3VpVcff0mCk1GV64QV5++2jZzaOCXkvaZPXajq?=
- =?us-ascii?Q?SkO6sCZCNg8aRmzPXMUYR9Y5YpWiYl0FyNTr+PlGOZnhfHu8akl6wl44Sh4B?=
- =?us-ascii?Q?VZLuHtZExy6CmtSDRF4Mi3eg5QwTf5Ct+yylDk5m4dgZMooCSoxQo2Jr6/6k?=
- =?us-ascii?Q?7txCGC9jjGPqniSJUNAxzP7XA7Nf8dMrwI/+uOJP8cMAXLAgTfmr1upYegTa?=
- =?us-ascii?Q?4gqDDWMyJzsVCZbLXWXbkwMHhJZ5U/nVtHdciQG6CyM4p1aiZ/H5CEuqtuRJ?=
- =?us-ascii?Q?7TKRsbdpjcoczwbIwR00qhhkq4jCizSMv2DAiJ9ShlEJ4F0+mRWfufQPh/Jg?=
- =?us-ascii?Q?DPhKD9ItTGpEjkN0mcaXTMsDykl1AjxHucrUtBLNhyX7pnQuhCTn0ppkng+h?=
- =?us-ascii?Q?Dz3Vp8Cku3p8rYIwLyDxzhXLTHSwZ3KjA2HhpbscuVyHa1pjR4bB/FcMl2U+?=
- =?us-ascii?Q?sbU3oXwp1g1YToMkTBt9Xp9oVJZPuFhd94U8goivU6JyXf9AE6UyviEY0G8v?=
- =?us-ascii?Q?1WYD9jdfSNeJBgQQNVj1XhNw8+8NdAuEPjdk+d05Z62I9HYMMFPyf6yFl+d5?=
- =?us-ascii?Q?xK34PcXVsS548AqE5aa4KGXFX04b24gLK2D8rsICsNrLyizkBHNBmeTmT38v?=
- =?us-ascii?Q?jfmGq+E8/asc+96tkykR766cSZskVpEMytEytOXfEB4ut4BDl3Z5yT7EEZOD?=
- =?us-ascii?Q?wIyTZBvtSnILGg0vjIiSmwRcAL/W2uDTopQtoPiEulqlJKqP5yKXhmVM1DEJ?=
- =?us-ascii?Q?r57uj8b2v6xOnE/m5zh+6mYOQOIte1ASxSYpUVb5BjAhVY6BFT5OFhUy3zoW?=
- =?us-ascii?Q?/g85Io5MsURK1T07V/S2+Sd/E27zRGE/piu15rPD5E3iZNVxev9/DvAKcdGz?=
- =?us-ascii?Q?oi3oZkHgCfBQAfz8o4xliP/RX8DmSGBuqPtSPMGzHlp3sLI4P5xDq1nld8Um?=
- =?us-ascii?Q?CFPd9voSvJz/jHBbTNgHc3gVfswyYrsGqFQ7VA9HUwzFBsL1lT3en2AE/wwp?=
- =?us-ascii?Q?hJWtRQZjcIToKIabYyQkg8qa0AaqrBMmMTm12J3qst7bnJ4lln32IArPwttT?=
- =?us-ascii?Q?osgdxNtQAzQywQdBq8uzWBp4MeOhfOEoDsjrYUaLBnTLCLzR84gM4D7dP1Hi?=
- =?us-ascii?Q?3CzCZZLqo5Tp3rDy2Q1dKXE159TbOUHTQz95yXgrW0CzMD0vAZxR2miKYekj?=
- =?us-ascii?Q?kRymIYe2MrVSJVNap+0DJm8VKLEtcT8on+5NVEB6nnBuU1fjk2Cls0dby/PV?=
- =?us-ascii?Q?Hl/BrbOlI3gU8X9HdeqB/wG0xih1B+giY3mvpXOze+u8jpko1d1NmrP/dQHc?=
- =?us-ascii?Q?MFckEUP3bZ/0/Vu5DA+iD2PHywLzYOSviRopRuFRnPHS+nIJK9tg3MWXtMXQ?=
- =?us-ascii?Q?+tiv1owj2tIf9onsu3SQBnwYocKx2eTAPrlI9gpPtjVnc9FtXktbxOdCDBzw?=
- =?us-ascii?Q?UvXLtosbC9zhTz7trm6uOb1TOJgOK5ItZnkDh1zHk60T184mY6L2RTGmxT1D?=
- =?us-ascii?Q?sMT726Nsxc/Nqc1tbe2cS4Q=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <D7A2D073B245D9459273F587A6CF7EBD@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="14456110"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 29 Apr 2024 09:38:52 +0800
+IronPort-SDR: eDNG1cxiufBtycUpOthw3XI62mwFKbNyqH+waW+9wAVHh79IHahe7vaiAeF/VHCqTAEZmevKJR
+ Z3wTu85uedqDih1mquQY2n1fgd6HaLv5kd8zSFao+CwHdvG6Am/jjEphgsv43IcSi2OF3zrs50
+ WYZYFjMkjUn+Q5M2uaH/RSVSZ+6enxV4usvQv9P+JcqQeN+QBSqAZIR1qttrtQte1vMeamk1X9
+ 5iowiiSMqBN8sn8Hf+2GguUP/6F/OjW/h7OGEJsi3JdWrleZYQJQPS6Wj3wPj1LL26bWm+bXEZ
+ rfg=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Apr 2024 17:41:16 -0700
+IronPort-SDR: Rkpcjq3+F4UhkwGMYr2a5qppwopgi6JNs+/tR9Bj1xKxI4WOWQlaaA7hQIrHzER8siQZHlcCrc
+ J17La36tlfd2bM/ZvxyS628u4DzYv0jitDZwRk5VDi++FTcYXSwuvqIrLxH9mllnwL3/IecLWM
+ 5dzVatx8kb9P69tuoOoZt6Vwa5ALrg1caUKyKF3ZCnegVztd0vmZL3Vjsp9636dWVZX7xOKNWS
+ m+zBqb6pjM4SDOV3l6uyoMCQQu2q7tnspXiF5TONzp1C+vzGg4To6parHvyLS7hxmAzvip7/bd
+ Y2c=
+WDCIronportException: Internal
+Received: from unknown (HELO shinhome.flets-east.jp) ([10.225.163.19])
+  by uls-op-cesaip01.wdc.com with ESMTP; 28 Apr 2024 18:38:52 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-block@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	Alan Adamson <alan.adamson@oracle.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests] nvme/039: adjust to util-linux v2.40 dmesg format change
+Date: Mon, 29 Apr 2024 10:38:51 +0900
+Message-ID: <20240429013851.181700-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: kpih3xiuwY9uuR2QeKKsQwG8iWCbnjV2yq8Va+36cym0uzoxt4+XP8LvPGMvhKfQAzUklEMy5IRRc91joQNi7ZEfKfoyAhbVF/fvR2jn6kPJrZyG3mjdAd4l14RcRwczgFnzD7Qm2NWBIs3ihIHPVzoXvb1QAEqiJrd9pb1XFlJDwXE2lY4HL8I3wKAWb6V3fCBfrvLZyKudS6VVmMyBQa+swp+fq3FHrGlAjT93rhnPL+NY/+kRqFuFlMeCQak7iGGrk2jhK2Krf9RyW8pQYMVLD4EJwCOsWYzy2p/JyHm3qGeuNa0142yg4HZSPFxsKvbUEflrYDDxPr9xTu+OriQwPiyIUeXF57y02S5vVA5uyNX/ii+eDPGJDguEBZGa/7pfzWty3C69EcYqpwpEhZqw+kSOfFM1BGsbnewdSaGKqHQGs0Lft6Nv79yfd5160geofmI5vikafbpKRaIXv/7P7RouTZh1Q7lLvd8Qu0Es71CG2HEbtLvxb/GQow4QI/+mLGxAlLR1yJq6jKjaMkKgfU0D4HHtseMa2uvrblRYHLZ4ve3yRJIb1Kef6Vptx5+wcok0T7PZZYkg1py+mLzfPWiZOVDcJ159mDnOLqGLNYBWkLpLBZJp3nxhrkze
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e389a730-148b-41e6-09ed-08dc67df117f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2024 23:58:14.7952
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6zfNddsGhlpuXQEgMCiB3uO62tFZdYtE4pA728hcAOdm6Wir9bnoQoQnPWOKvxqT8vOITtDAoUjTfK6NtzjW89bopskMk7PwXrBOVir8RQY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR04MB8889
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240428_165819_096696_F8A039D1 
-X-CRM114-Status: GOOD (  29.30  )
+X-CRM114-CacheID: sfid-20240428_183857_880002_B4B68364 
+X-CRM114-Status: UNSURE (   9.51  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -189,73 +90,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 28, 2024 / 16:12, Sagi Grimberg wrote:
->=20
->=20
-> On 28/04/2024 13:32, Shinichiro Kawasaki wrote:
-> > On Apr 28, 2024 / 11:58, Sagi Grimberg wrote:
-> > >=20
-> > > On 24/04/2024 10:59, Shin'ichiro Kawasaki wrote:
-> > > > Enable repeated test runs for the listed test cases for
-> > > > NVMET_BLKDEV_TYPES. Modify the set_conditions() hooks to call
-> > > > _set_nvme_trtype_and_nvmet_blkdev_type() instead of _set_nvmet_trty=
-pe()
-> > > > so that the test cases are repeated for listed conditions in
-> > > > NVMET_BLKDEV_TYPES and NVMET_TRTYPES.
-> > > >=20
-> > > > The default values of NVMET_BLKDEV_TYPES is (device file). With thi=
-s
-> > > > default set up, each of the listed test cases are run twice. The se=
-cond
-> > > > runs of the test cases for 'file' blkdev type do exact same test as
-> > > > other test cases nvme/007, 009, 011, 013, 015, 020 and 024.
-> > > >=20
-> > > > Reviewed-by: Daniel Wagner <dwagner@suse.de>
-> > > > Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> > > > Acked-by: Nitesh Shetty <nj.shetty@samsung.com>
-> > > > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> > > > ---
-> > > >    tests/nvme/006 | 2 +-
-> > > >    tests/nvme/008 | 2 +-
-> > > >    tests/nvme/010 | 2 +-
-> > > >    tests/nvme/012 | 2 +-
-> > > >    tests/nvme/014 | 2 +-
-> > > >    tests/nvme/019 | 2 +-
-> > > >    tests/nvme/023 | 2 +-
-> > > >    7 files changed, 7 insertions(+), 7 deletions(-)
-> > > >=20
-> > > > diff --git a/tests/nvme/006 b/tests/nvme/006
-> > > > index ff0a9eb..c543b40 100755
-> > > > --- a/tests/nvme/006
-> > > > +++ b/tests/nvme/006
-> > > > @@ -16,7 +16,7 @@ requires() {
-> > > >    }
-> > > >    set_conditions() {
-> > > > -	_set_nvme_trtype "$@"
-> > > > +	_set_nvme_trtype_and_nvmet_blkdev_type "$@"
-> > > Why not calling separate functions? having func do_a_and_b interface =
-is not
-> > > great.
-> > In this case, we want to repeat the test cases to cover combination of =
-two
-> > conditions: M trtypes and N blkdev_types. The test case should be repea=
-ted to
-> > cover all of M x N matrix elements, then the hook set_conditions() shou=
-ld
-> > iterate the elements. I can not think of the way to handle this iterati=
-on with
-> > separated two functions.
->=20
-> What happens when you add another condition to iterate against, you
-> introduce set_a_and_b_and_c interface?
+Since util-linux version 2.40, dmesg supports "caller ID". When Linux
+kernel supports CONFIG_PRINTK_CALLER, dmesg adds thread ID or CPU ID
+with parenthesis such as [    T123] or [     C16] to each message. This
+made the dmesg string check of the test case nvme/039 fail. Fix this by
+filtering out the added caller ID field.
 
-That is my current intent.
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
+ tests/nvme/039 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Another question is how it is likely to have more conditions to add on. I g=
-uess
-such many, multiplied conditions will result in combination explosion and l=
-ong
-test runtime, so I'm not sure how much it will be useful.
+diff --git a/tests/nvme/039 b/tests/nvme/039
+index f92f852..a0f135c 100755
+--- a/tests/nvme/039
++++ b/tests/nvme/039
+@@ -24,7 +24,8 @@ last_dmesg()
+ {
+ 	local nr_lines=$1
+ 
+-	dmesg -t | grep -v "callbacks suppressed" | tail "-$nr_lines"
++	dmesg -t | grep -v "callbacks suppressed" | tail "-$nr_lines" \
++		| sed 's/\[.*\] //'
+ }
+ 
+ inject_unrec_read_on_read()
+-- 
+2.44.0
 
-Do we have potential candidates of the third or fourth conditions?=
 
