@@ -4,58 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31DE7C4345F
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Apr 2024 11:34:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D57D0C4345F
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Apr 2024 11:41:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=imgaJFtZRTEuhQUM92WPY8yixJ/Q3/X9nJtuM84gaqI=; b=LgoukbveyhDF6kLfzGKM6TiaKD
-	eUmx9iIqOYzP4GIk+dA3KfchseA6b790mYDr9fkmZ0blnQfD1topVr+Ia/NtC6cNEIFPgHz+IWCay
-	LIutizd0QoiZEZV1gY9RoBwtn11Y573x691FdjePKJSob6YPLbvbu8MPoQRKdQiJw94FAWfNeMi5E
-	QNIkXJSLQ/Bm42iY+8k3c7s5C34J4bsrwHJaoQHgQfzcU4P59Oh9x+1Hf/Nv30bScGSOaNE/pR+wm
-	B8rV4tviPMKnUplQcTaJG4yOPd6qtY2LPwx+yd6677iyt+wRSwq1xpgS4XERQIrDcWWphUtE+9HEf
-	CuFOVqCA==;
+	bh=a3pyP4bEemb7d+GsEH/IAcPHJa6isWdF7dp4VsFmFUo=; b=mXLhHx+Ng0G4l0TkIUZz3QIx0M
+	8MV9NS4Da/EsUDXijTKiiZIQp7mc3tn7VaQoQZWahBAQd9DPu+hOvn/re0rYAvMAoXuINuy3hSTyg
+	Ar6GNL8ozt9qfDePWSlDGz6/pNrGX/Gwa6lKV0dMWnrIreic7aN+KKtXi3ebH0efWssh3JxLdEIJO
+	EcQJSGZnnPlqf46MizECvS622ZHV9iFmiOWdf03d4boXA1brhUaeCtKgxcaFWdiLwcyUxi0isR8Uw
+	bPjH4kare2ma2w903WTNyNsVWiYPHvZvkWws+4Uln/9G/D5ZW/bwgsCX1mK6fZZ/cA0Ev8g4t6+sY
+	HGqP9+iA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1PHQ-00000002TLG-3ZGj;
-	Mon, 29 Apr 2024 11:34:44 +0000
-Received: from mail-m17215.xmail.ntesmail.com ([45.195.17.215])
+	id 1s1PNl-00000002Ufo-3YUF;
+	Mon, 29 Apr 2024 11:41:17 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1PHN-00000002TJR-1BgE
+	id 1s1PNf-00000002Uf7-1e5F
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Apr 2024 11:34:43 +0000
-Received: from [192.168.182.216] (unknown [110.185.170.227])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id 54D3F4C021D;
-	Mon, 29 Apr 2024 19:34:07 +0800 (CST)
-Message-ID: <8ef75533-3dc0-46c8-be27-504e5cd9a234@easystack.cn>
-Date: Mon, 29 Apr 2024 19:34:07 +0800
+	Mon, 29 Apr 2024 11:41:15 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240429114106epoutp0405ce8ea37671b214fd78667e7d515e36~KvWjSYint3227132271epoutp04F
+	for <linux-nvme@lists.infradead.org>; Mon, 29 Apr 2024 11:41:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240429114106epoutp0405ce8ea37671b214fd78667e7d515e36~KvWjSYint3227132271epoutp04F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1714390866;
+	bh=a3pyP4bEemb7d+GsEH/IAcPHJa6isWdF7dp4VsFmFUo=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=MXnPYWyHsdFKOwLZdGqC9RFxFwFghrFJLz1Ijvuj8HMHzoCsohYLwTkarBsJTWYcF
+	 TaQTZuZ5xsegenInX5dx4tWCSxt4EKoNwh6xPtUBkI4OpKM/jvsOjWCz8bpRq9Rb7q
+	 fCsy6zbMbpHQJNzv5NwNUlTXT2t+rq7SNscb+ogg=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20240429114105epcas5p244325fc18a9d4e3ee2a8646140b3796f~KvWi_BhmE1402614026epcas5p2r;
+	Mon, 29 Apr 2024 11:41:05 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4VShH308Fmz4x9Q0; Mon, 29 Apr
+	2024 11:41:03 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	22.E7.08600.E478F266; Mon, 29 Apr 2024 20:41:02 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240429114102epcas5p3094dcac7397ebe86c6781d8e24b8108a~KvWgAHLZ93237632376epcas5p3P;
+	Mon, 29 Apr 2024 11:41:02 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240429114102epsmtrp236fc0c7dff77c9ea554972e332edd9e7~KvWf-J_ny0368703687epsmtrp2O;
+	Mon, 29 Apr 2024 11:41:02 +0000 (GMT)
+X-AuditID: b6c32a44-6c3ff70000002198-d3-662f874e9121
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	77.36.07541.E478F266; Mon, 29 Apr 2024 20:41:02 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240429114100epsmtip1d933e0a32f852cf9c631cdf645afbb81~KvWd7_s8m2492524925epsmtip1d;
+	Mon, 29 Apr 2024 11:41:00 +0000 (GMT)
+Message-ID: <03cb6ac3-595f-abb1-324b-647ed84cfe6b@samsung.com>
+Date: Mon, 29 Apr 2024 17:10:59 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: fix nvme status code when namespace is disabled
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-References: <20240428092540.77366-1-sagi@grimberg.me>
-From: Jirong Feng <jirong.feng@easystack.cn>
-In-Reply-To: <20240428092540.77366-1-sagi@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH 04/10] block: avoid unpinning/freeing the bio_vec incase
+ of cloned bio
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, martin.petersen@oracle.com, kbusch@kernel.org,
+	brauner@kernel.org, asml.silence@gmail.com, dw@davidwei.uk,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
+	<anuj20.g@samsung.com>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20240427070508.GD3873@lst.de>
 Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkZSUgYVk9IGB4aTh5NGUxIGFUZERMWGhIXJBQOD1
-	lXWRgSC1lBWUpKS1VKQ05VSkxLVUlJTFlXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQktLWQ
-	Y+
-X-HM-Tid: 0a8f29a23566022ekunm54d3f4c021d
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MC46PRw6KTc8Kwk0MjkLLFE0
-	TjwwCTVVSlVKTEpPSEJLT09MQ0NMVTMWGhIXVRESCRQVHFUdHhUcOx4aCAIIDxoYEFUYFUVZV1kS
-	C1lBWUpKS1VKQ05VSkxLVUlJTFlXWQgBWUFKT0xONwY+
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCJsWRmVeSWpSXmKPExsWy7bCmpq5fu36awdW7VhZNE/4yW8xZtY3R
+	YvXdfjaL14c/MVq8mrGWzeLmgZ1MFitXH2WyeNd6jsVi0qFrjBZ7b2lbzF/2lN1i+fF/TA48
+	HtdmTGTx2DnrLrvH5bOlHptWdbJ5bF5S77H7ZgObx8ent1g8+rasYvT4vEkugDMq2yYjNTEl
+	tUghNS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6GAlhbLEnFKgUEBi
+	cbGSvp1NUX5pSapCRn5xia1SakFKToFJgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbGy+2vmQpm
+	clf8v/+FuYFxDmcXIyeHhICJxL7L/YxdjFwcQgK7GSV275rNAuF8YpRYt/EhlPONUWLnxu0s
+	MC2PJk5gBLGFBPYySixvKoYoessoMW3ORGaQBK+AncTCzn1sIDaLgKrErBX3oOKCEidnPgEb
+	JCqQLPGz6wBYjbBAjMT219PB4swC4hK3nsxnArFFBJQknr46C3Yfs8A0Jom1PVOBijg42AQ0
+	JS5MLgWp4RTQlni7rxuqV15i+9s5zCD1EgJnOCRm3D3BBnG1i8T+Na+gPhCWeHV8CzuELSXx
+	+d1eqJpkiUszzzFB2CUSj/cchLLtJVpP9TOD7GUG2rt+lz7ELj6J3t9PmEDCEgK8Eh1tQhDV
+	ihL3Jj1lhbDFJR7OWAJle0j8fDSRHRJuNxglXjy3n8CoMAspVGYh+X4Wkm9mISxewMiyilEy
+	taA4Nz012bTAMC+1HB7fyfm5mxjByVnLZQfjjfn/9A4xMnEwHmKU4GBWEuHdNEc7TYg3JbGy
+	KrUoP76oNCe1+BCjKTB6JjJLiSbnA/NDXkm8oYmlgYmZmZmJpbGZoZI47+vWuSlCAumJJanZ
+	qakFqUUwfUwcnFINTM/upJQue7Wn5uJ+98vH9UP6Hs8wrWz9tOwS04WbAkHrI1fJKq48JKkv
+	9OuWS0SH5qWYv7p7A+fJb+aalayWuUK5N/Z6xYGNEQ1RVS6XShK8V6pMdq/Ys8FOhb9s8auN
+	nvyfn//cKJgRee1Pf+7XubHHct/uO+mkcOPuzg+v9+cLHJgdt2S//YkzGy2Cr89zltqWrCy3
+	lN9h9jG/XoOYHWV2x9yUrl2LmNl5inP+rr5rH6ec76tKsdmy8dY1L/XO02sk3jKuf+O44UL+
+	xY3rz4ULtNSnVQquEOC98eUCr9np2qN/zApPBPq9OXfHd/Fjjh3Ri8onfz36JLd8XkhhQ5g0
+	1+JvG3/LLVbQLtuVfZFBiaU4I9FQi7moOBEAj+HV9lcEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRmVeSWpSXmKPExsWy7bCSnK5fu36awdKpUhZNE/4yW8xZtY3R
+	YvXdfjaL14c/MVq8mrGWzeLmgZ1MFitXH2WyeNd6jsVi0qFrjBZ7b2lbzF/2lN1i+fF/TA48
+	HtdmTGTx2DnrLrvH5bOlHptWdbJ5bF5S77H7ZgObx8ent1g8+rasYvT4vEkugDOKyyYlNSez
+	LLVI3y6BK+Pl9tdMBTO5K/7f/8LcwDiHs4uRk0NCwETi0cQJjF2MXBxCArsZJS7dX8gGkRCX
+	aL72gx3CFpZY+e85O0TRa0aJKUf/MIMkeAXsJBZ27gNrYBFQlZi14h5UXFDi5MwnLCC2qECy
+	xMs/E8EGCQvESGx/PR0szgy04NaT+UwgtoiAksTTV2fBrmAWmMYk0f9zMyvEthuMEu1904A2
+	cHCwCWhKXJhcCtLAKaAt8XZfN9QgM4murV2MELa8xPa3c5gnMArNQnLHLCT7ZiFpmYWkZQEj
+	yypGydSC4tz03GTDAsO81HK94sTc4tK8dL3k/NxNjOBo1NLYwXhv/j+9Q4xMHIyHGCU4mJVE
+	eDfN0U4T4k1JrKxKLcqPLyrNSS0+xCjNwaIkzms4Y3aKkEB6YklqdmpqQWoRTJaJg1Oqgany
+	p4D2SkvxHe9u+X+bOfHzwtXfZlZt37ZA7ugmRde78Q6CNl+e7rrwOtH89b5kSZvl+Td+r5ft
+	XvJz3fmCJd5eS430FOW3dIept7K+2HZoxUITvUe3faP3LQkuLow4en199NOAtg0+n66yL66Y
+	mufSuf3qaraLi9I1vQIC/+3//37+Ec6KZmPN0B+bWz+oT/uQYpS9aP+8fdeq5pzcsUbzth3f
+	2s9l2mIR55XOTXuneF1+VcyvPTt079gaz7619PqLy1daWuu/fTig0LY1U3eag+Lbz+7vbc91
+	ttlE+Xw1Sku26IgvU3hnOOX8x+erW6e295vsfpS00E+1obLulUVdVdSELVu9vl/66SV0wPDI
+	GyWW4oxEQy3mouJEAG6RL0I1AwAA
+X-CMS-MailID: 20240429114102epcas5p3094dcac7397ebe86c6781d8e24b8108a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240425184658epcas5p2adb6bf01a5c56ffaac3a55ab57afaf8e
+References: <20240425183943.6319-1-joshi.k@samsung.com>
+	<CGME20240425184658epcas5p2adb6bf01a5c56ffaac3a55ab57afaf8e@epcas5p2.samsung.com>
+	<20240425183943.6319-5-joshi.k@samsung.com> <20240427070508.GD3873@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240429_043441_662729_E4E1B6B3 
-X-CRM114-Status: UNSURE (   5.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240429_044114_454585_840038E0 
+X-CRM114-Status: GOOD (  17.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,14 +142,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Jirong Feng, can you please re-run the test as requested and verify
-> that the I/O error goes away. If so, please reply with your "Tested-by"
-> tag.
+On 4/27/2024 12:35 PM, Christoph Hellwig wrote:
+> On Fri, Apr 26, 2024 at 12:09:37AM +0530, Kanchan Joshi wrote:
+>> From: Anuj Gupta <anuj20.g@samsung.com>
+>>
+>> Do it only once when the parent bio completes.
+>>
+>> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+>> ---
+>>   block/bio-integrity.c | 10 +++++++---
+>>   1 file changed, 7 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+>> index b4042414a08f..b698eb77515d 100644
+>> --- a/block/bio-integrity.c
+>> +++ b/block/bio-integrity.c
+>> @@ -119,7 +119,8 @@ static void bio_integrity_uncopy_user(struct bio_integrity_payload *bip)
+>>   	ret = copy_to_iter(bvec_virt(&src_bvec), bytes, &iter);
+>>   	WARN_ON_ONCE(ret != bytes);
+>>   
+>> -	bio_integrity_unpin_bvec(copy, nr_vecs, true);
+>> +	if (!bio_flagged((bip->bip_bio), BIO_CLONED))
+>> +		bio_integrity_unpin_bvec(copy, nr_vecs, true);
+>>   }
+> 
+> This feels wrong.  I suspect the problem is that BIP_COPY_USER is
+> inherited for clone bios while it shouldn't.
+> 
 
-Having re-runned the test basing on kernel 6.9.0-rc5, the error does go 
-away.
+But BIP_COPY_USER flag is really required in the clone bio. So that we 
+can copy the subset of the metadata back (from kernel bounce buffer to 
+user space pinned buffer) in case of read io.
 
-Tested-by: Jirong Feng <jirong.feng@easystack.cn>
-
-
+Overall, copy-back will happen in installments (for each cloned bio), 
+while the unpin will happen in one shot (for the source bio).
 
