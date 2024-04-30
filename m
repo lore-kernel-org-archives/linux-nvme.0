@@ -4,77 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D6D0C4345F
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Apr 2024 12:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E2F2C4345F
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Apr 2024 13:19:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uPbeNwFFvVQVTt9kBGbVaBibbnkr7+pEiNl32W3+iws=; b=3P3/V3NayVmcB/dJroImZf5r5h
-	wXsoaAWX9yybm5BwZBc1TWlqp7cxmVyaqNNRWma0k2jaG2V2VqvLvdSxXuEkN9NgwoNjeBR0X6XP/
-	nIJo7xs/OrMnYTFN7vHSYeY7rhs5cuNdTJsgq6HumvGPNlxCMTP2OYZ24v/xCX9hFt8D2tqVWhBNH
-	WWECYBLRfijgCjW1D0p6PgglYW3ph+eJuldwdO3fwJiBJccINMT9iK/1hZcoU7kuq1haqZFeFvlSU
-	oYBUfzsVv+GNnhkJwj0UtENWk01e/Impgs7o0b9Iu9qN9zFsk5eHJ7Zd8XvxxgAJVhf/9Uky/HeQZ
-	Bn6TcXqA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hP3+rSE6dC1kyvM4PrsVsdM9kaG51YId12Fi+b44hcM=; b=OIDnL4W4Xwrx5/ibyupj1RmR1g
+	WEAxOPwNafYOqoBKYk28HCo+bDDS/Phe8hpKkCaI9GVvNFPiDImcMcPUYxxDF/TIs8bHz79Hso5aF
+	va1e9JNN2L8flfWqjFwfr3NuhQH7mCUs0SidyhhHJBcCokKb+86m7ZZJm4xilGNnPM3Mcttxw+0sB
+	uaEcB+spqKsbFqs6kOGi+Gr9iv6c+YEMacfMbJG/0LhtvrzADZRUUT0ootjF+ICi+a1zrW4Lu3O+B
+	6iY2+EtVqCZwNudj7fk2BFM+JQNR57wXJh1XdUsIUDOkL0T2CQWRO4XC8DHKzInifzRYdBKwhdsvk
+	740xuaVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1m9p-00000006G6S-3sjq;
-	Tue, 30 Apr 2024 12:00:26 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1s1nOa-00000006UiK-3Paq;
+	Tue, 30 Apr 2024 13:19:44 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1m9l-00000006G5O-1gcg
+	id 1s1nOW-00000006Uh2-1aMX
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Apr 2024 12:00:22 +0000
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-34cba0d9a3eso132040f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 30 Apr 2024 05:00:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714478418; x=1715083218;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uPbeNwFFvVQVTt9kBGbVaBibbnkr7+pEiNl32W3+iws=;
-        b=ba+7QbbexsIKB+8fROQMoN4OGMeoZN7E75eCeKhcTSMMcgY/M8V3pYDK6VNv7Am1Rp
-         Ot/G26gYr1JBRoA9S2JIut0wE7gbrd8UxlIP7FpFOrgW+dvQcIg0QeGA4r4Wjhu2NPVR
-         oo6IvG/cD1N5L6cGcohOCsrFYUWT8sG9n7cM3O8JN/Upqhne5Ik42PRz76o1GH/g/+R9
-         d1r97DRf7beVfmECX01EOiMt/puuz3litPYAfeoKGoKxbSK6KjRd7Jh0WDl3ozx0+8Se
-         asNYqQp2lB5IuhZf9J3ydgoFjvU4SSa9gpdAPznvTk03aDbLxoTeGW0A/aSR4v+SCQqU
-         hvgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUHu7bDI5CwE7kDGsSQUAyX9TfQcJZzd0VD43XtnTAjSJzQ46h25qsxKGrs46oZq7kVXJZW3dS+KJdsMTZt40XMvtYIps8EBv5kYMaS6nU=
-X-Gm-Message-State: AOJu0YwXeSqaFln4iUFKHRk1NLwHnMdRN0rv/21gQWDBOEQsqDz2wYnz
-	w05DVsnz+zDRowEHqe2GWe/AP9VS+snTCgAPVAhBDb8PRZYVrcxjQHyDsw==
-X-Google-Smtp-Source: AGHT+IHCvPZ4QhLNmWzO2EUJcP6+Q/VtFAhLnOAnwsswtmMF7vi8CXelylUavq4zKECCmZY0HPqn+A==
-X-Received: by 2002:a05:600c:4f05:b0:419:f241:6336 with SMTP id l5-20020a05600c4f0500b00419f2416336mr9436889wmq.1.1714478418528;
-        Tue, 30 Apr 2024 05:00:18 -0700 (PDT)
-Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id l2-20020a05600c4f0200b0041be78ae1f0sm11919724wmq.2.2024.04.30.05.00.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 05:00:18 -0700 (PDT)
-Message-ID: <0a21ba7f-4d0e-4368-a215-2b81a8cf562e@grimberg.me>
-Date: Tue, 30 Apr 2024 15:00:17 +0300
+	Tue, 30 Apr 2024 13:19:43 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 622C91F7E3;
+	Tue, 30 Apr 2024 13:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714483175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=hP3+rSE6dC1kyvM4PrsVsdM9kaG51YId12Fi+b44hcM=;
+	b=XqKNPmxVbiW1ma3f5nSK4ojPJovfZdxxRlSBljL6bzxex075dvFUL81+hYyCV2/K5fX50p
+	bSvWcfzVFIWL+FKEljz5p9Tl4h6c2B+nsEh1tT7rUXJoZDOhmllHDm3u8ZWtdq1F+fSvuk
+	Fnp9nyoAofBsaEOTR4X+P0N1BXqAQgc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714483175;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=hP3+rSE6dC1kyvM4PrsVsdM9kaG51YId12Fi+b44hcM=;
+	b=+cGZ9RCyuylUPb1e/HJB/Z2fU/Ssz7jqsHk54J1+9nZr8CC0WoAvquxQe90Gv/d/HFtqld
+	BfG9U2yIejIiGgAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XqKNPmxV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+cGZ9RCy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714483175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=hP3+rSE6dC1kyvM4PrsVsdM9kaG51YId12Fi+b44hcM=;
+	b=XqKNPmxVbiW1ma3f5nSK4ojPJovfZdxxRlSBljL6bzxex075dvFUL81+hYyCV2/K5fX50p
+	bSvWcfzVFIWL+FKEljz5p9Tl4h6c2B+nsEh1tT7rUXJoZDOhmllHDm3u8ZWtdq1F+fSvuk
+	Fnp9nyoAofBsaEOTR4X+P0N1BXqAQgc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714483175;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=hP3+rSE6dC1kyvM4PrsVsdM9kaG51YId12Fi+b44hcM=;
+	b=+cGZ9RCyuylUPb1e/HJB/Z2fU/Ssz7jqsHk54J1+9nZr8CC0WoAvquxQe90Gv/d/HFtqld
+	BfG9U2yIejIiGgAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F747133A7;
+	Tue, 30 Apr 2024 13:19:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gyT2EefvMGZgMAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 30 Apr 2024 13:19:35 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Hannes Reinecke <hare@suse.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v7 0/5] nvme-fabrics: short-circuit connect retries
+Date: Tue, 30 Apr 2024 15:19:23 +0200
+Message-ID: <20240430131928.29766-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests v3 10/15] nvme/{006,008,010,012,014,019,023}:
- support NVMET_BLKDEV_TYPES
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Daniel Wagner <dwagern@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
-References: <20240424075955.3604997-1-shinichiro.kawasaki@wdc.com>
- <20240424075955.3604997-11-shinichiro.kawasaki@wdc.com>
- <6b55293c-0764-4922-b329-be393c9afc81@grimberg.me>
- <36jinbbjhzr6erpfpnfqmk2jebf5tlnl26skuak73krwyyu6zi@i5qtgb4bqqgy>
- <eeee5574-f4de-45a7-837b-74589dab423e@grimberg.me>
- <sb3syw5ysqvkxvvn7mubzk3n6pfsivq54ownkyju2sgagesxpf@ktfn3333dmt2>
-Content-Language: he-IL, en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <sb3syw5ysqvkxvvn7mubzk3n6pfsivq54ownkyju2sgagesxpf@ktfn3333dmt2>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 622C91F7E3
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240430_050021_536439_73444942 
-X-CRM114-Status: GOOD (  18.55  )
+X-CRM114-CacheID: sfid-20240430_061940_647396_7D9C3FB0 
+X-CRM114-Status: GOOD (  14.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,80 +136,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+I've splitted the last patch into the hopefully non controversial part 'do not
+retry when DNR is set' and the 'don't retry auth failures'. I hope we can get at
+least the first few patches in and have a lively discussion on the final patch
+at LSF.
 
+changes:
+v7:
+ - updated commit message patch #3
+ - split last patch so that only the DNR checks
+   are added first and then the auth reconnect failure test
 
-On 29/04/2024 2:58, Shinichiro Kawasaki wrote:
-> On Apr 28, 2024 / 16:12, Sagi Grimberg wrote:
->>
->> On 28/04/2024 13:32, Shinichiro Kawasaki wrote:
->>> On Apr 28, 2024 / 11:58, Sagi Grimberg wrote:
->>>> On 24/04/2024 10:59, Shin'ichiro Kawasaki wrote:
->>>>> Enable repeated test runs for the listed test cases for
->>>>> NVMET_BLKDEV_TYPES. Modify the set_conditions() hooks to call
->>>>> _set_nvme_trtype_and_nvmet_blkdev_type() instead of _set_nvmet_trtype()
->>>>> so that the test cases are repeated for listed conditions in
->>>>> NVMET_BLKDEV_TYPES and NVMET_TRTYPES.
->>>>>
->>>>> The default values of NVMET_BLKDEV_TYPES is (device file). With this
->>>>> default set up, each of the listed test cases are run twice. The second
->>>>> runs of the test cases for 'file' blkdev type do exact same test as
->>>>> other test cases nvme/007, 009, 011, 013, 015, 020 and 024.
->>>>>
->>>>> Reviewed-by: Daniel Wagner <dwagner@suse.de>
->>>>> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
->>>>> Acked-by: Nitesh Shetty <nj.shetty@samsung.com>
->>>>> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->>>>> ---
->>>>>     tests/nvme/006 | 2 +-
->>>>>     tests/nvme/008 | 2 +-
->>>>>     tests/nvme/010 | 2 +-
->>>>>     tests/nvme/012 | 2 +-
->>>>>     tests/nvme/014 | 2 +-
->>>>>     tests/nvme/019 | 2 +-
->>>>>     tests/nvme/023 | 2 +-
->>>>>     7 files changed, 7 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/tests/nvme/006 b/tests/nvme/006
->>>>> index ff0a9eb..c543b40 100755
->>>>> --- a/tests/nvme/006
->>>>> +++ b/tests/nvme/006
->>>>> @@ -16,7 +16,7 @@ requires() {
->>>>>     }
->>>>>     set_conditions() {
->>>>> -	_set_nvme_trtype "$@"
->>>>> +	_set_nvme_trtype_and_nvmet_blkdev_type "$@"
->>>> Why not calling separate functions? having func do_a_and_b interface is not
->>>> great.
->>> In this case, we want to repeat the test cases to cover combination of two
->>> conditions: M trtypes and N blkdev_types. The test case should be repeated to
->>> cover all of M x N matrix elements, then the hook set_conditions() should
->>> iterate the elements. I can not think of the way to handle this iteration with
->>> separated two functions.
->> What happens when you add another condition to iterate against, you
->> introduce set_a_and_b_and_c interface?
-> That is my current intent.
+v6:
+  - reorder series
+  - extended nvmf_should_reconnect
+  - added auth retry logic
+  - https://lore.kernel.org/linux-nvme/20240415124220.5433-1-dwagner@suse.de/
+  
+v5:
+  - nvme: do not mix kernel error code with nvme status
+  - nvmet: separate nvme status from dhchap status
+  - https://lore.kernel.org/linux-nvme/20240409093510.12321-1-dwagner@suse.de/
 
-I don't think its very maintainable.
+v4:
+  - rebased
+  - added 'nvme: fixes for authentication errors' series
+  - https://lore.kernel.org/all/20240404154500.2101-1-dwagner@suse.de/
 
->
-> Another question is how it is likely to have more conditions to add on.
+v3:
+  - added my SOB tag
+  - fixed indention
+  - https://lore.kernel.org/linux-nvme/20240305080005.3638-1-dwagner@suse.de/
 
-I expect that people will want to add more flavors moving forward. For 
-example
-ADDRESS_FAMILIES="ipv4 ipv6" RDMA_TRANSPORT="siw rxe" and possibly other
-features that can grow in the future.
+v2:
+  - refresh/rebase on current head
+  - extended blktests (nvme/045) to cover this case
+    (see separate post)
+  - https://lore.kernel.org/linux-nvme/20240304161006.19328-1-dwagner@suse.de/
+  
+v1:
+  - initial version
+  - https://lore.kernel.org/linux-nvme/20210623143250.82445-1-hare@suse.de/
 
+Daniel Wagner (1):
+  nvme: do not retry authentication failures
 
->   I guess
-> such many, multiplied conditions will result in combination explosion and long
-> test runtime, so I'm not sure how much it will be useful.
+Hannes Reinecke (4):
+  nvmet: lock config semaphore when accessing DH-HMAC-CHAP key
+  nvmet: return DHCHAP status codes from nvmet_setup_auth()
+  nvme: return kernel error codes for admin queue connect
+  nvme-fabrics: short-circuit reconnect retries
 
-I think that running multiple flavors of a test suite is a capability 
-that is bound to be
-reused as more test flavors emerge. But that may be just my opinion.
+ drivers/nvme/host/auth.c               |  6 +--
+ drivers/nvme/host/core.c               |  6 +--
+ drivers/nvme/host/fabrics.c            | 51 ++++++++++++++++----------
+ drivers/nvme/host/fabrics.h            |  2 +-
+ drivers/nvme/host/fc.c                 |  4 +-
+ drivers/nvme/host/nvme.h               |  2 +-
+ drivers/nvme/host/rdma.c               | 19 ++++++----
+ drivers/nvme/host/tcp.c                | 22 +++++++----
+ drivers/nvme/target/auth.c             | 22 +++++------
+ drivers/nvme/target/configfs.c         | 22 ++++++++---
+ drivers/nvme/target/fabrics-cmd-auth.c | 49 +++++++++++++------------
+ drivers/nvme/target/fabrics-cmd.c      | 11 +++---
+ drivers/nvme/target/nvmet.h            |  8 ++--
+ 13 files changed, 129 insertions(+), 95 deletions(-)
 
->
-> Do we have potential candidates of the third or fourth conditions?
+-- 
+2.44.0
 
-Yes, see above.
 
