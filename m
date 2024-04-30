@@ -4,168 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2BD6C4345F
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Apr 2024 03:47:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91B3BC10F16
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Apr 2024 04:50:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mgHxFgpKQ6afxbJ8nJPqlVC9ET8HcNfJBDYr6E9+2VI=; b=QmwsRRU1borgrCDVKjVVHmn0Py
-	7ODMf6bmrC1xu1TbqxI53WzpupD4t92Qw5DeJXT/V8tmIVkwFK/eyFgskc6EC4Qv44EOTgfydHaz+
-	lYPxLf5GTLgZtwZZm7ZFQxmpzwFEgElD/wGT5y50FnTvVhU8W3vP2/DoZ+3U+KkddpQPnvDHINwKj
-	cgmyHkPyFoVntV2oezikX7VQ4/KbNQay4c1zTsZh56HwkcBC9ePtdDLv4lLZqzK55yskJNtft8P22
-	eqlnUGm1npB2u7Fo0YZDLh2Uo8nH8WDBLSj4vvxdunC391a+JQF5wOQzLuJJRh4q3Fjs4YlYM/Hse
-	di9frBpg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ItSQ26q2YZUEpV+ZFz+IP6EN2hihJvGt6vO5eficMMg=; b=y93bBmW6IM5+cQlDCyFG0ubKBP
+	nMUV4nHR5nEO813oNsGKqPoFyf8q3BeG87k2LFsFA5z9/M5mBOfzyiji3gdH0dPVNUwg/z20ECnU0
+	p+6G/Xo9tsSHHnTL06pi6zfsV+fUCSWRui2VAl49xotNVQVcyUykkeTL/iRDmYgLNCef2cB0l5ujD
+	69J9btaxmAvXlUvtmX3cNls0HArKBKBSvK1j40sD0woleucZ5H8I5HQT0pa6SOX0e/Ecw193sj87d
+	ohrL9KpHyHqY7BAiJeYmqv6xtctq37SBTzjdEKSzOKWLDXDe994h14+vDSsj71dIEsMmvQsdhx4Ie
+	wOr+gt9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1eSa-00000004y5r-1wpv;
-	Tue, 30 Apr 2024 03:47:16 +0000
-Received: from mail-bn1nam02on20600.outbound.protection.outlook.com ([2a01:111:f403:2407::600] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1s1fRJ-000000054iS-12HL;
+	Tue, 30 Apr 2024 04:50:01 +0000
+Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s1eSX-00000004y40-0l5y
+	id 1s1fRE-000000054gy-10Ql
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Apr 2024 03:47:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z4oBiuYYuNBnk6yiAfGs8mpmvxztpCFieK7I4CNlb3MP6o8S5ouznJVHjFAbTqezOLNtv0bv9oYSltviQpr2XjZRSIkDdWs1Zml1lLHNNAVQ39GnDiL2RuOQBZAesGeaqrIuG26H+IpB9PuBUFA/8D3B7C5hCivORJYP9Ot2mcPCZpCFTuXF4VP0/2USMxnVh38LdhrT2/s7YHSRAudFHQ0Wl9CstdcKYiUeWlM5A22waJunGq/CNWIMI9bcuWarHfzeGtjtZFVZZd1MoJ5pZEfczXhGqmZtrt2WTS52pporyKZ9yzSzLCwndZEA6OX0TLaGUwRnCxSQ/h3Y1ApVLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mgHxFgpKQ6afxbJ8nJPqlVC9ET8HcNfJBDYr6E9+2VI=;
- b=kqyPb3Acbzh0skC29xuf1/UPpF95njMlr565jZdpqWOndhQ9B0dEwzYcCCBqbS44XyjK3858PQnWB1hhmraggwfD9rEHVuhfpIE7L8gTQ+mbJf1EProvHoZ0NmLhx5kBo/fJGs8cTTiBWzBh3/I5aWQLNS40kgX51FFylwgKhvCEq+PPrw0pcza/SlyP0lf89XE5OPynpkmRlaZrkosuKZ2BZ6IlPTTLe79cP9J1Pqi47YVoeY/+D344jt+WifYnwqsO0XJE7UldeJykoQw9CfjxQxgrbn1b5bxxCbPDmpcp48mzJP8YOJGAonSSyfrcIT5a3CzMmdoESjfCSSRq0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mgHxFgpKQ6afxbJ8nJPqlVC9ET8HcNfJBDYr6E9+2VI=;
- b=mzvxRtsLtRCNTvEpN95brpSsw+qBhQSNg2LGZeycK9upqmWEg0D3mS8oon43jghH6YZj+d+qcy4BC0aIwA788XXi0gjhlb5fQSwhHhzyfMcRKKfNHVTLZr13xFu1z8SobGnp+NtS7zQGL6LLIL5Hg4Pa3nzhKxreWtAUujAj5jubL5h1M/q1sWN8iCQ9bz9rQ4Rlss4f12RJ/zfbspPFnbJg+5atoqWPXLBO1FZw+ew+xxMqIduEiP3LKKizjH0BvDxScr4Nitzo+F/I/ikrl1xHnxAdCYh6IkbG0sQt4bd8AhO74JSiGIKktgKJq/mDYqthpe7y8Ci5gGA6frjBNw==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by IA0PR12MB8207.namprd12.prod.outlook.com (2603:10b6:208:401::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.35; Tue, 30 Apr
- 2024 03:46:59 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::a1:5ecd:3681:16f2]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::a1:5ecd:3681:16f2%7]) with mapi id 15.20.7519.031; Tue, 30 Apr 2024
- 03:46:59 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: brookxu.cn <brookxu.cn@gmail.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme-fabrics: use reserved tag for reg read/write command
-Thread-Topic: [PATCH] nvme-fabrics: use reserved tag for reg read/write
- command
-Thread-Index: AQHamqS0v0NsidyZk0GUPwZHGIlgabGALNMA
-Date: Tue, 30 Apr 2024 03:46:59 +0000
-Message-ID: <8379e4a9-3114-4d35-9d1f-81ca61351b85@nvidia.com>
-References: <20240430021753.385089-1-brookxu.cn@gmail.com>
-In-Reply-To: <20240430021753.385089-1-brookxu.cn@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|IA0PR12MB8207:EE_
-x-ms-office365-filtering-correlation-id: 9cd38326-9068-41c1-f2cc-08dc68c8307a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|376005|366007|38070700009;
-x-microsoft-antispam-message-info: =?utf-8?B?d1laRWNTUFhBQ21vVU8zZERJYWRxT3lXRG52eXk5bjY4Q3dFdmZzZXlGTit6?=
- =?utf-8?B?d1N0MDlXMEgxNGViYk5vZWx3M3FnemQwSjN6MzZjY2RMS3BtM1VzQzArL2VT?=
- =?utf-8?B?WTFDcEY3TncvVmFibDdncDdMZUZTZFVPYWxKSXpZTU1MTS9kVHZDMTZxWjNJ?=
- =?utf-8?B?NHNEU0VVZERxS3BzUFVhVUkrVXBVb0d6WnRDdHpWVkVQcEtUdVpRdUhZRTNO?=
- =?utf-8?B?R2wrRVlOOTRnRktEMFhvbTVoR1NxemlYU0ZxNE5JN1dZdEs2Q3RWaTdLeHdZ?=
- =?utf-8?B?N3FUQm9DMmdkcmJRVDNRSTlSdFQxT01tYVlUZmVEOXlzL1l0WklEMmhJZnN3?=
- =?utf-8?B?cHdjNnc2ZnR1V3d3Z0tFY21QbWFjaXNUS09pUlhvOEVxUmJjeEhZK21wK1pa?=
- =?utf-8?B?MkRqQXZnWE85cVFxODI1djR4dVYxSGF0ekpSdWl0ZXRMRFRFMWJvbjV1R2dp?=
- =?utf-8?B?dEtNc0YvZEhMYk9mWUtqNlNrUkdXMGkwaEkvdEFnOVpseHV1WVVPRExLS0xC?=
- =?utf-8?B?NkZCNkxVRFBwRTFwYm1PbHJycVc0UW1oSVoxWGN3M0ZtR3FmZ1pPMmhYSTZ3?=
- =?utf-8?B?bVJNYXFIcmFmWXAweDhWcHZXVlNBU3F4ckM0cURuOE96UzlYN2pxUXFhSWt3?=
- =?utf-8?B?ZHhBK1luT1RaQjV4OGZ6S2FCSWNsRTVGOENQZExuQlpvZ1JNN2lVQlJUNllK?=
- =?utf-8?B?TnI0R281Ym9Yak1XT2NLektBTkttL0hEOGtacHM1M0RpZTJSUDA1MTBNdm9h?=
- =?utf-8?B?dlhGdE9UMy9UeFYxM1VUUEdxNWdNSksxdkRpQTd4ZUszU3czK1duRjR6NzRr?=
- =?utf-8?B?V0hodk1KUmoyNmNMd0VJOHJyMENRSTFDZVFGUVB3aEFlY2xGdUxYWm5CYnFl?=
- =?utf-8?B?L0ZFK2FEc2w5WnlJTWd6R0ltcmZzQXJjMTNzOUV2MFBvR2NxdnRvbVpsUi9i?=
- =?utf-8?B?RW5YVWkzU3o2dnlhdkt6Z2V1M0lPRXlzZ2hwbjFBa256RWJuTWU3bkM2bnlT?=
- =?utf-8?B?dUtzYTBVWE1pcDhWZFR3a2tDOWFXaVN4SWtHdEY3NnljT0tORlhDaVlCdlhC?=
- =?utf-8?B?YWxCQSthTmhCMDF5ajV6UUl1ZDhRRHVlc1hRN1BOU2orQ1lSdVdDdW1DQTds?=
- =?utf-8?B?YnphdlBtWDNxMS9UVWZGSCsvbFpXakkwbTNIVGs4RFNzZ3RxNDFiQ2gvbkhB?=
- =?utf-8?B?b1dnM1R6UC9tODR0ZmJDQno4S0VvVnFUaFhiY3YwUjFmTU0yb1V1NEt0VXUw?=
- =?utf-8?B?VnR5OHBwMDluRktVOXlraVlVcmZQSG5hS3dYL2xNeUgwMFN5aDkrK0FFM2xj?=
- =?utf-8?B?MDRLOEFBZkJkYjNjT1p4OVo5OGlWVHZTWU82bW13U0RxVCtUWnlKY0dJRkRl?=
- =?utf-8?B?VlljNGE1K3JITlJYaTR2dTlVeXNLVFk0TW1rbWZOcS9pSkViS3hqdCttUzQ5?=
- =?utf-8?B?ZzRTZ3NvNEphM2J1WmU1VkFhU1hoM04zeTJzbm1FMGdBWUROZU9uZGFRZ2Rj?=
- =?utf-8?B?ZXJEWnM5RjZSVm1PV3BaMVlRSklkQ25qV0E0UDZrOEZpeWFaMFlYRnBjWVpn?=
- =?utf-8?B?MzRtb3VXenVVdUM5c2J0bE12SnFLT0dvMHV4d1lVMTVnUm9qajBvUU1WZjcr?=
- =?utf-8?B?SVgxM2wwNVhJTjlBd1JyMUVYTUdZOEltRDNDbG52TXdlOHdSbjF1aE82OTla?=
- =?utf-8?B?ak9PN3NOTmplaWJjZENZTHZVSXRtRVduYTVweGpqNkNoZEgwdmdCSW1xZGti?=
- =?utf-8?B?YWo1UkRoV0xxR3J1SER2SnJCNHN3dkRmYXRjVExqVXUrbWRGRUpmK0tKUWY1?=
- =?utf-8?B?QkxwWDhRY2tRQldpRjRTZz09?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?S3lTZTM0VHFDeHZkS0dvcWVqS2NNVlVUVmM1ZDE5Mlo4Tmd2V20vaWRycEdO?=
- =?utf-8?B?VS8wT1VCdDA1RVBuQ2RWVFlZTGJMaHNBSlU3TXROaHFZRVV4Tk5HOFoxMHpy?=
- =?utf-8?B?bDhiSXMyd3VPV0lOdXNMd3pjemFIUGg2S2pGN09ET01yMGtzMzNnWkZ6Q1hV?=
- =?utf-8?B?ZURWMGtwWDZHaHQ0RTY0dkdXcHpnSThZTnRvZFlBNDc0TGl1dHBjWVdCNjJG?=
- =?utf-8?B?VStRejJBNU95OVorMUkweEVJZEk5b2lFK0dmRDFDQ0J6cGlQN0NwN1QxZUxY?=
- =?utf-8?B?TTVyemxIQW93S3pFUHRSdTN4NzVJRnhaWHZ5VGFkbnVJMkJYRm1pWnBDUVc3?=
- =?utf-8?B?STNNNU94ZVpBdThZWDZMektFMUxadGFENHN1MFB2SXpST0F5bTVHV2ZDeHYw?=
- =?utf-8?B?T3NndEwyQmRqMGF3bWsxTmFGZ1U4dVR3QjA4TEtLMnVFemwyTnBpQm5lWlFR?=
- =?utf-8?B?dEc4YUxURG1SdHdOWE9YQnJta0ZSdk55cGpBa2hvR2NCTnhWcVRTY2ZwbGpH?=
- =?utf-8?B?Y3prM2VZUDVFWEFJVXcyKzhxL2ZvNG96MFBRN3prTGR4LytoOGYwbGhpNUdM?=
- =?utf-8?B?T0gzcTZPdlp0Sjh1UTdlTjJGc041OEdNaHludENDM0t0d0NGSnhJK0dEK0tY?=
- =?utf-8?B?RXc0YkRHblI3Ym1zR2N0ZFJLZFRkUklqRkt2ZDlTR1E3NDFzY2xGa3cwSC9Y?=
- =?utf-8?B?MkVka1piKzE2dHZRNEpQMXpNUGl5ZEJxN1pkbzZtTmlkVlNkMGo3S3BxRXN2?=
- =?utf-8?B?dElldERBR3BaQmdrbzFVbUU4T2FKcVJlak1aaGZKVnhUaHpRaGpTL2pZeGpu?=
- =?utf-8?B?VlFCZVljMitSem4xTjUreWxTU2J2eG1qUmVkUXhibVFsc1pRWncwdTBpRXJY?=
- =?utf-8?B?T1N1eHRzSlNWU0RKT0NHS3k4bUNySWl5NHozN3owN3IzZ0xmL1Q0dDBwNC9S?=
- =?utf-8?B?dFQ5d0wyZVpxVjRGQ1ZIY2hJV0tMWWNKYnhScWtaT0Q2anlXWHViNlNyeGFJ?=
- =?utf-8?B?aHcvTE1aMENWbUVuSXNwVWd0Q1BWUldYMXkwZUlQU1A2ektucnRIbnJlakRp?=
- =?utf-8?B?TXdFVHNqa2tEUVErRzVmckd2MjFUQUdRSlNPMy9wL3NnRmdzM1hnaWtKeFNn?=
- =?utf-8?B?dm9RR0xHN29zY0xHQUQ1TE41cVVPQm93VnN1VUpSRFFkeDFFWngwYVJ5VmRU?=
- =?utf-8?B?RmMrUTdMY3BWdUV1b2F3VGtIR2xWWm1GZHRqWEZrZnE0YzhWTG9yZWlxMGJy?=
- =?utf-8?B?T2lxTEJJemtVbkVCM1BjMnlsSW5iNE0rUThuSmdIOHdTd3FxdmVXOGc1RkpM?=
- =?utf-8?B?NDRrNmY2MlZEc3dmUUdpWTVVN0FPOWpiTDN2dDM4S05xZHdvcUV1WjkrblZO?=
- =?utf-8?B?ZmVtUkJVVjBndXRtbktlcDlDZi9WeGlSVVhDaWdpTkJaMm5uT3kxSkFDVEpy?=
- =?utf-8?B?NlVic2R4anlKZHhwNTdJdnJHKzN2US9XUkZzZ09FWk1KS0orbmNGeGxBZEow?=
- =?utf-8?B?RjdBU2Y0MUowcmFHeTF6dHJPL2VIVlg0WFdaejFIVXhBL3JpSUFtTTBJL2lB?=
- =?utf-8?B?bXhvUTkvZjFETWVLN0lmYWl4M0hqdzJsNGNGRFZ4bWZVNkpyMUNQWW9XV1Na?=
- =?utf-8?B?TThYa0lYbkdESGhnL3AzTWprRDVMMjJlOWtlT3VJbGN6L0p4cjVJUlpCd205?=
- =?utf-8?B?QUgyMEdIWHhxMDZybFRQLzBtYTZHbU40SENlUlFyMXZGZi9NUEdJa0V3TmlX?=
- =?utf-8?B?SHFUQUllQmE1ZkJlUUxOSTVwWjU4YWZwSTQzY04yMno0MGRCN0dRd2N3TG1W?=
- =?utf-8?B?RTFGWTdZWThndEJKSmVkVUdJOUJxZDFlTmMxNGlaRVp1bk0zRHFGYlR0elRy?=
- =?utf-8?B?TnZmZ1JMeStCL3RuZU4ydlBKN0c2Vk4vQ29ScU9LUmdKOEFPUG9PTk5HVkZa?=
- =?utf-8?B?VFFBOEM5Kysxd0wxYnhMT012VkJMcGpROUdFRHAwOFR1U2dyb3JvK091a0tJ?=
- =?utf-8?B?dGpXQzNZaGplelpzcVVUejdWL2dVNVlhZkZqUEt6eE02NjlpR0NVVkRkTDRF?=
- =?utf-8?B?VVE5bXpPK3FYMTdWdCtmNmo1UkM0dEVSSncwc3hGazR6dGhjMnBVVmh2UEVM?=
- =?utf-8?B?bER3WFg1ZktKV0h1TzdrbDFmRko3Ym4vNCs5MXA5d2ZadGtXUmpHM0ZobFNJ?=
- =?utf-8?Q?g/gJym8FpgOlKXciw9NZFp1u3INvoeAa3LX9GCVeSYEK?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <903621533DA6D444A31208DEC52DE2DD@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Tue, 30 Apr 2024 04:49:59 +0000
+Received: by mail-vk1-xa35.google.com with SMTP id 71dfb90a1353d-4db24342894so1908288e0c.0
+        for <linux-nvme@lists.infradead.org>; Mon, 29 Apr 2024 21:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714452589; x=1715057389; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ItSQ26q2YZUEpV+ZFz+IP6EN2hihJvGt6vO5eficMMg=;
+        b=gGfq9iqsp56Lf49ZzJ0ifgEbIp5fJ5I/T9d4c18JtSNS8eRdNeA8k+/34d755Dwjvo
+         KnmqeyTHWXdcxgnCeLJEoeJ7Y3oQZCuwTx2jX+fkv1Wx7BcMNIJrea0Ydq6qso3bRDG8
+         BgytuCuK+sx9CJVLzEY9EFR/e3Wz7jRDwk0rMXnce0Df9GkzHOSz5Z+GW9NVvCHJ/NyS
+         TOJezt2Ibxl7qJWCZv/XH4UXhvbI+00POf1n1F0ZytWEbE62g4dB04kEMiIoqzIeeg0G
+         Dgtt08MMGbFjDM7HIE1KbUtCu01PuOv5riAOC/2Vpr0Ejau1OOqeydtfeQhekiTaar1g
+         tVkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714452589; x=1715057389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ItSQ26q2YZUEpV+ZFz+IP6EN2hihJvGt6vO5eficMMg=;
+        b=gdQ9aLuUqFtbj1G+z7Ri8QRee5qDZ8nnBFfkfSvRHxNCN374W1P2tu0+R0DOuO0GaB
+         dlitYPs1uzX0NipDwY7oIHDI5We3hsyhhRKKkr9OLipCWC9wCuav6qLxXpBv69U1s68x
+         VRak1mQ5IoDbigdPK5V/F1FiL+g369vW3Z8Y9XWRi2zDxPMdNvPJ2H9EQdEyv86oYSsk
+         nuuekOAxzVWNSzw8/Ac4zEyP9OhugrO/AABC0GeupqJdwZQ06krfTjYaIUVUFdmddFuo
+         y+p4yYcRIx870RZH1ef9K1iJhqB0lW+7WE37FIzbyJQjtS8uockbrY0Q44AYiXwUiTRU
+         KgqA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5kqVlYAVLMMUZpZcFTZW5eO8cZsFWuKcAigG340ttNGtM0Syir3rN5GLv2U7PRCJbxxWreD+4vEeGQZGgc/apW85cOyAeYag5XxXYnEk=
+X-Gm-Message-State: AOJu0Yy2LV1tGaY45DmZYOJFwPC3vq9gHxeaRo95Rn1Wyd8bKtoshts/
+	nQaWb1/hkMiXwW8ib7q+VvkLKdzLBwZN7u0N2Mkp+wG2KnIEGyA+3sqTgRU9lAlA5zCwBfewj0Y
+	y70cvys02NvQ/9qdGncgijBSCmg==
+X-Google-Smtp-Source: AGHT+IHKK4t2ubCHumP7WUtBKSZVKeZq+sjUYYsc1kZ1RQ+IcYNueimW5Fsgr0LeARPqeFQsWnC5m355rqj0sHr1YVY=
+X-Received: by 2002:a05:6122:918:b0:4d4:2398:51a2 with SMTP id
+ j24-20020a056122091800b004d4239851a2mr10993915vka.8.1714452587133; Mon, 29
+ Apr 2024 21:49:47 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cd38326-9068-41c1-f2cc-08dc68c8307a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2024 03:46:59.5677
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CgiOPbAuQfUC7grCvpeaYm2HdV8hay0xZd2GugF3Bb5M77TkwRzBmfHtH2BnltF0BCvejF+JvCJEHchv49BWHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8207
+References: <19d1b52a-f43e-5b41-ff1d-5257c7b3492@redhat.com>
+In-Reply-To: <19d1b52a-f43e-5b41-ff1d-5257c7b3492@redhat.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Tue, 30 Apr 2024 10:19:10 +0530
+Message-ID: <CACzX3AsAwXorQ2H90L61oT0cut0GLL0O82zecy+o_p3mkSR=BQ@mail.gmail.com>
+Subject: Re: [PATCH] block: change rq_integrity_vec to respect the iterator
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
+	Mike Snitzer <snitzer@kernel.org>, linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
+	linux-nvme@lists.infradead.org, Kanchan Joshi <joshi.k@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240429_204713_284596_0F2B4653 
-X-CRM114-Status: GOOD (  15.81  )
+X-CRM114-CacheID: sfid-20240429_214956_378125_1A9BFDE4 
+X-CRM114-Status: GOOD (  29.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,25 +91,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNC8yOS8yMDI0IDc6MTcgUE0sIGJyb29reHUuY24gd3JvdGU6DQo+IEZyb206IENodW5ndWFu
-ZyBYdSA8Y2h1bmd1YW5nLnh1QHNob3BlZS5jb20+DQo+IA0KPiBJbiBzb21lIHNjZW5hcmlvcywg
-aWYgdG9vIG1hbnkgY29tbWFuZHMgYXJlIGlzc3VlZCBieSBudm1lIGNvbW1hbmQgaW4NCj4gdGhl
-IHNhbWUgdGltZSBieSB1c2VyIHRhc2tzLCB0aGlzIG1heSBleGhhdXN0IGFsbCB0YWdzIG9mIGFk
-bWluX3EuIElmDQo+IGEgcmVzZXQgKG52bWUgcmVzZXQgb3IgSU8gdGltZW91dCkgb2NjdXJzIGJl
-Zm9yZSB0aGVzZSBjb21tYW5kcyBmaW5pc2gsDQo+IHJlY29ubmVjdCByb3V0aW5lIG1heSBmYWls
-IHRvIHVwZGF0ZSBudm1lIHJlZ3MgZHVlIHRvIGluc3VmZmljaWVudCB0YWdzLA0KPiB3aGljaCB3
-aWxsIGNhdXNlIGtlcm5lbCBoYW5nIGZvcmV2ZXIuIEluIG9yZGVyIHRvIHdvcmthcm91bmQgdGhp
-cyBpc3N1ZSwNCj4gbWF5YmUgd2UgY2FuIGxldCByZWdfcmVhZDMyKCkvcmVnX3JlYWQ2NCgpL3Jl
-Z193cml0ZTMyKCkgdXNlIHJlc2VydmVkDQo+IHRhZ3MuIFRoaXMgbWF5YmUgc2FmZSBmb3IgbnZt
-ZjoNCj4gDQo+IDEuIEZvciB0aGUgZGlzYWJsZSBjdHJsIHBhdGgsICB3ZSB3aWxsIG5vdCBpc3N1
-ZSBjb25uZWN0IGNvbW1hbmQNCj4gMi4gRm9yIHRoZSBlbmFibGUgY3RybCAvIGZ3IGFjdGl2YXRl
-IHBhdGgsIHNpbmNlIGNvbm5lY3QgYW5kIHJlZ194eCgpDQo+ICAgICBhcmUgY2FsbGVkIHNlcmlh
-bGx5Lg0KPiANCg0KR2l2ZW4gdGhlIGNvbXBsZXhpdHkgb2YgdGhlIHNjZW5hcmlvIGRlc2NyaWJl
-ZCBhYm92ZSwgaXMgaXQgcG9zc2libGUgdG8gDQp3cml0ZSBhIHNjcmlwdCBmb3IgdGhpcyBzY2Vu
-YXJpbyB0aGF0IHdpbGwgdHJpZ2dlciB0aGlzIGFuZCBzdWJtaXQgdG8gDQpibGt0ZXN0ID8gbm90
-IHRoYXQgdGhpcyBpcyBhIGJsb2NrZXIgdG8gZ2V0IHRoaXMgcGF0Y2ggcmV2aWV3ZWQsIGJ1dCAN
-CmJlbGlldmUgaXQgaXMgbmVlZGVkIGluIGxvbmcgcnVuLCBXRFlUID8NCg0KPiBTbyB0aGUgcmVz
-ZXJ2ZWQgdGFncyBtYXkgc3RpbGwgYmUgZW5vdWdoIHdoaWxlIHJlZ194eCgpIHVzZSByZXNlcnZl
-ZCB0YWdzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQ2h1bmd1YW5nIFh1IDxjaHVuZ3VhbmcueHVA
-c2hvcGVlLmNvbT4NCj4gLS0tDQoNCi1jaw0KDQoNCg==
+On Tue, Apr 30, 2024 at 12:07=E2=80=AFAM Mikulas Patocka <mpatocka@redhat.c=
+om> wrote:
+>
+> Hi
+>
+> I am changing dm-crypt, so that it can store the autenticated encryption
+> tag directly into the NVMe metadata (without using dm-integrity). This
+> will improve performance significantly, because we can avoid journaling
+> done by dm-integrity. I've got it working, but I've found this bug, so I'=
+m
+> sending a patch for it.
+>
+> Mikulas
+>
+>
+> From: Mikulas Patocka <mpatocka@redhat.com>
+>
+> If we allocate a bio that is larger than NVMe maximum request size, attac=
+h
+> integrity metadata to it and send it to the NVMe subsystem, the integrity
+> metadata will be corrupted.
+>
+> Splitting the bio works correctly. The function bio_split will clone the
+> bio, trim the size of the first bio and advance the iterator of the secon=
+d
+> bio.
+>
+> However, the function rq_integrity_vec has a bug - it returns the first
+> vector of the bio's metadata and completely disregards the metadata
+> iterator that was advanced when the bio was split. Thus, the second bio
+> uses the same metadata as the first bio and this leads to metadata
+> corruption.
+>
+> This commit changes rq_integrity_vec, so that it calls mp_bvec_iter_bvec
+> instead of returning the first vector. mp_bvec_iter_bvec reads the
+> iterator and advances the vector by the iterator.
+
+We also encountered this issue with split and had a similar solution [1]
+This needs a fixes tag too.
+fixes <2a876f5e25e8e> ("block: add a rq_integrity_vec helper")
+
+>
+> Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
+>
+> ---
+>  drivers/nvme/host/pci.c       |    6 +++---
+>  include/linux/blk-integrity.h |   12 ++++++------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+>
+> Index: linux-2.6/drivers/nvme/host/pci.c
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- linux-2.6.orig/drivers/nvme/host/pci.c
+> +++ linux-2.6/drivers/nvme/host/pci.c
+> @@ -825,9 +825,9 @@ static blk_status_t nvme_map_metadata(st
+>                 struct nvme_command *cmnd)
+>  {
+>         struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+> +       struct bio_vec bv =3D rq_integrity_vec(req);
+>
+> -       iod->meta_dma =3D dma_map_bvec(dev->dev, rq_integrity_vec(req),
+> -                       rq_dma_dir(req), 0);
+> +       iod->meta_dma =3D dma_map_bvec(dev->dev, &bv, rq_dma_dir(req), 0)=
+;
+>         if (dma_mapping_error(dev->dev, iod->meta_dma))
+>                 return BLK_STS_IOERR;
+>         cmnd->rw.metadata =3D cpu_to_le64(iod->meta_dma);
+> @@ -966,7 +966,7 @@ static __always_inline void nvme_pci_unm
+>                 struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
+>
+>                 dma_unmap_page(dev->dev, iod->meta_dma,
+> -                              rq_integrity_vec(req)->bv_len, rq_dma_dir(=
+req));
+> +                              rq_integrity_vec(req).bv_len, rq_dma_dir(r=
+eq));
+>         }
+>
+>         if (blk_rq_nr_phys_segments(req))
+> Index: linux-2.6/include/linux/blk-integrity.h
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- linux-2.6.orig/include/linux/blk-integrity.h
+> +++ linux-2.6/include/linux/blk-integrity.h
+> @@ -109,11 +109,11 @@ static inline bool blk_integrity_rq(stru
+>   * Return the first bvec that contains integrity data.  Only drivers tha=
+t are
+>   * limited to a single integrity segment should use this helper.
+>   */
+
+The comment here needs to be updated. rq_integrity_vec now becomes an
+iter based operation that can be used by drivers with multiple
+integrity segments.
+
+> -static inline struct bio_vec *rq_integrity_vec(struct request *rq)
+> +static inline struct bio_vec rq_integrity_vec(struct request *rq)
+>  {
+> -       if (WARN_ON_ONCE(queue_max_integrity_segments(rq->q) > 1))
+> -               return NULL;
+> -       return rq->bio->bi_integrity->bip_vec;
+> +       WARN_ON_ONCE(queue_max_integrity_segments(rq->q) > 1);
+> +       return mp_bvec_iter_bvec(rq->bio->bi_integrity->bip_vec,
+> +                                rq->bio->bi_integrity->bip_iter);
+>  }
+>  #else /* CONFIG_BLK_DEV_INTEGRITY */
+>  static inline int blk_rq_count_integrity_sg(struct request_queue *q,
+> @@ -177,9 +177,9 @@ static inline int blk_integrity_rq(struc
+>         return 0;
+>  }
+>
+> -static inline struct bio_vec *rq_integrity_vec(struct request *rq)
+> +static inline struct bio_vec rq_integrity_vec(struct request *rq)
+>  {
+> -       return NULL;
+> +       BUG();
+>  }
+>  #endif /* CONFIG_BLK_DEV_INTEGRITY */
+>  #endif /* _LINUX_BLK_INTEGRITY_H */
+>
+>
+[1] https://lore.kernel.org/linux-block/20240425183943.6319-6-joshi.k@samsu=
+ng.com/
+--
+Anuj Gupta
 
