@@ -4,124 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BC0CC4345F
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 May 2024 11:26:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E8CDC4345F
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 May 2024 13:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oSADBcr3ZJPU2BiG7UocfooJCyekOwTiO/XAqarOqSQ=; b=Ps7TSueyy6pPqmeT7MVAj22L9F
-	DElOijhUWy/+fSaL5wLYZFxv1+dbVp8NvA4v9qZV91ntSlQKy4zgUG8GV/HDqm6d9ehRHJZW/bcVl
-	OYh9kK2gclrJ5KB6/riHoDp6gswgACUk37eucQezUyWOlH65P4MsEe8/X4uIJKTanM9JXoBtcukAX
-	FITVIF3IQUXO8vnLE6beJbTFNcqFFQKNP3rzZ/GoAPxpzYWpYpS7V6RopBypqcUycih2W8YLcWpK1
-	aLDlQLjOEnr7Wm8kwVdIuO8LOrhrTn8UYwk9pD6CnKFqccrqDXn8BMBbLSrJmXkQpfY8Qoqmqu32Q
-	PjKOZ2lw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2rSQn4Uj41wd1pP3/dYb08xBtiLOs5f7z6cD8zcpjPE=; b=4N+aksPeXMtKlMYa6R0ElEwxXk
+	m3ZFvU6flr+OGXtAxFW2DEtrPUWhUNBVer7U3N21ez1v189eFQ0bMBsNCPHLxlMD0zlgccD17+e/B
+	95t6k1euiTSGV3kf3Gm8qETciYCDHw5oCw9EK0qyFdOZL6rieHg8h2vTiGAE4yuOWdHNMhGKCsj5u
+	8yifBm0sI/rL0eeDeaZE3c3scLRgQFYBSktOJv7FzaM0fajPUHRLP7L+lhLQjx0+tUhVYdh7rUBnj
+	pKlBHdwer9babotCZcGut2wnI0RST+G7es4vWNmL5F8ZUu/BdGdQXnBeNS2atyTTe7TD173PScLqr
+	4bYolT2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2UZk-0000000CVy4-06WM;
-	Thu, 02 May 2024 11:26:08 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1s2W39-0000000CjBz-15HS;
+	Thu, 02 May 2024 13:00:35 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2UZg-0000000CVxS-06Q3
+	id 1s2W36-0000000CjBa-1WLI
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 May 2024 11:26:06 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240502112556epoutp040d8cd758da97feb79eee72b8b5a7de16~LqFLQN5WR0552805528epoutp045
-	for <linux-nvme@lists.infradead.org>; Thu,  2 May 2024 11:25:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240502112556epoutp040d8cd758da97feb79eee72b8b5a7de16~LqFLQN5WR0552805528epoutp045
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1714649156;
-	bh=oSADBcr3ZJPU2BiG7UocfooJCyekOwTiO/XAqarOqSQ=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=ExESGjMlfLkNjK1GK8l+hXyzti54+qNHOMiaHISc4iMIWMAcFHeEWujta0yrZ+USM
-	 4zlRZKtUkNuourIrqO+3x2u3baLGMEIOjD7kfCawwPOBCQHjYHzJmx6mQ8rbVycj8p
-	 aK+3/DKEWE0UgU52zP00nHUoDdAMYl+r2Ivheqqc=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240502112556epcas5p1b7871898654050e3cc99852f0fe9a2d8~LqFKtiJW90047900479epcas5p12;
-	Thu,  2 May 2024 11:25:56 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4VVWpB3Bdwz4x9Pq; Thu,  2 May
-	2024 11:25:54 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D6.4A.08600.24873366; Thu,  2 May 2024 20:25:54 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240502112553epcas5p1977bc184e01532a293b3344ee1605304~LqFIiy8En2963429634epcas5p12;
-	Thu,  2 May 2024 11:25:53 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240502112553epsmtrp1d8cbce23669a2333f8769c36f1e64b50~LqFIiJiaL3006230062epsmtrp1j;
-	Thu,  2 May 2024 11:25:53 +0000 (GMT)
-X-AuditID: b6c32a44-6c3ff70000002198-aa-6633784267fb
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	65.05.08390.14873366; Thu,  2 May 2024 20:25:53 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240502112552epsmtip2b44fc74b66895cf30a9214df11040b88~LqFHM8EBj1167711677epsmtip22;
-	Thu,  2 May 2024 11:25:52 +0000 (GMT)
-Message-ID: <cf433030-2cab-9301-7c8e-adef13efba66@samsung.com>
-Date: Thu, 2 May 2024 16:55:51 +0530
+	Thu, 02 May 2024 13:00:33 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7196D61A6A;
+	Thu,  2 May 2024 13:00:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7F91C113CC;
+	Thu,  2 May 2024 13:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714654830;
+	bh=m4nW+Fa2/vwtcopmebtT3lPaTQYx9zaAbEUrCevFmng=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Zeg+Cd+Ek2NIqQLs5MtxwCIY38xR7vKwgoSI/+Q0o/lBX8YTLeRHZwSMClRbyiEUo
+	 55YLEOmu4nIQIGF5tMnDDHzf6pW+mUtDmWWLuyyPQ9i6NSOmcuGj+7eBQVGxWnf6ij
+	 N2vgtGxVnXrU25ShSPe4bqCoVqkPtUEH8JCNw7OXPGBVRAuVDHnL46JSY8bFPegWiD
+	 mFl1tF6ms93vxgDdakIa0zwgZoAP6uUTel+DvCt1Uscvh6/kwUEEujKzZozc8LhfjJ
+	 +OmEg65v7VfmJyBvnBIjYdO2i62M8pMOxSSb+0tsWk4JemA8o3GqlRXoFnuHeM2+RF
+	 41UDLthVqOxMQ==
+Date: Thu, 2 May 2024 14:00:27 +0100
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: [GIT PULL] nvme fixes for Linux 6.9
+Message-ID: <ZjOOa7KiIGnOjlDM@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH] block: change rq_integrity_vec to respect the iterator
-Content-Language: en-US
-To: Mikulas Patocka <mpatocka@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Mike Snitzer <snitzer@kernel.org>
-Cc: linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <19d1b52a-f43e-5b41-ff1d-5257c7b3492@redhat.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDJsWRmVeSWpSXmKPExsWy7bCmpq5ThXGawZ3Dohar7/azWSxYNJfF
-	YtKha4wWe29pW8xf9pTdYmLHVSaLE7ekHdg9Lp8t9di0qpPNY/OSeo8Xm2cyerzfd5XN4/Mm
-	uQC2qGybjNTElNQihdS85PyUzLx0WyXv4HjneFMzA0NdQ0sLcyWFvMTcVFslF58AXbfMHKA7
-	lBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkFKTkFJgV6xYm5xaV56Xp5qSVWhgYGRqZA
-	hQnZGdOW3WIqmMtW0TL/JWMD43+WLkZODgkBE4ljc18ydzFycQgJ7GaUOPLhBBtIQkjgE6PE
-	3omZEIlvjBJP3s+B62id/5gFIrGXUWLR1U1MEM5bRomW1TOZQKp4BewkLl5azgxiswioSCw7
-	cI8FIi4ocXLmEzBbVCBZ4mfXAbB1wgLeEqeOrwGLMwuIS9x6Mh9sqIhAL6PEut5vrBCJaIkD
-	b64BJTg42AQ0JS5MLgUJcwrYSqz/c40RokReYvvbOWD/SAh0ckhc3bCRGeJsF4nVxw4wQtjC
-	Eq+Ob2GHsKUkXva3QdnJEpdmnmOCsEskHu85CGXbS7Se6mcG2csMtHf9Ln2IXXwSvb+fgJ0j
-	IcAr0dEmBFGtKHFv0lNWCFtc4uGMJVC2h8TRD9fZIWE1gVFi6oLbrBMYFWYhBcssJO/PQvLO
-	LITNCxhZVjFKphYU56anJpsWGOallsMjPDk/dxMjOJlquexgvDH/n94hRiYOxkOMEhzMSiK8
-	UxbqpwnxpiRWVqUW5ccXleakFh9iNAXGz0RmKdHkfGA6zyuJNzSxNDAxMzMzsTQ2M1QS533d
-	OjdFSCA9sSQ1OzW1ILUIpo+Jg1Oqgel4nf+KtirFyM+npVO2Vc3hMlzfrvgjzVfuqCXT8YO5
-	Xkzyud9r+1P21D+atObmyod/Ixls37Ul+Aj4lln/O1/Kn/B9uWh2tG7imdubeHmzLyistLTZ
-	aHrP1nJDtdo61qZZeZOUWVY5yk99LlDWwFWU9NrV6MDvYzprE+3UXEM3/q7YN/NNrGfcMZfy
-	4oyEjSX59w936q3xydK1mT+L5dvhnw8iVVzkDqXfWLDT+Nr3m7Iz3ifND1Kvrd59Yc6C7XX7
-	GmJCfiesEwmU23Tp/ZLpPkdTpe7vb9uZw3Zpb9391Fr73bd/vszteMH0vbREc0vRlLouMUOp
-	E16LNnY6VU1x3PptWVN5o+rR90tqk5VYijMSDbWYi4oTAW7wMFovBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJLMWRmVeSWpSXmKPExsWy7bCSvK5jhXGawbvp+har7/azWSxYNJfF
-	YtKha4wWe29pW8xf9pTdYmLHVSaLE7ekHdg9Lp8t9di0qpPNY/OSeo8Xm2cyerzfd5XN4/Mm
-	uQC2KC6blNSczLLUIn27BK6MactuMRXMZatomf+SsYHxP0sXIyeHhICJROv8x0A2F4eQwG5G
-	iWfnZjFDJMQlmq/9YIewhSVW/nvODlH0mlHi6/wmRpAEr4CdxMVLy8EaWARUJJYduMcCEReU
-	ODnzCZgtKpAs8fLPRLBBwgLeEqeOrwGLMwMtuPVkPhPIUBGBXkaJJe+Xs0EkoiWOH3nEDLFt
-	AqPEosYVQNs4ONgENCUuTC4FqeEUsJVY/+caI0S9mUTX1i4oW15i+9s5zBMYhWYhuWMWkn2z
-	kLTMQtKygJFlFaNkakFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZGcOxoae1g3LPqg94hRiYO
-	xkOMEhzMSiK8UxbqpwnxpiRWVqUW5ccXleakFh9ilOZgURLn/fa6N0VIID2xJDU7NbUgtQgm
-	y8TBKdXA1JN/7a+6ddnfuUrb6mfJGbT+uJg8N3mN4bkK1SmpqVPsMo0btooJzdApOX4vuXyd
-	2KoWFzPTRW//S34WFw9lay3nT7nl+edZArumXaJpZ/SZmdEG535G6L4uStmhfoORv2Cz7KHb
-	f8/P/HLA/3FW83d52ful3ikl5wTDuFjfl0uUmkpNXRpqlin7mFelmKPYqEiQ02stp3gsx9Hr
-	Tov/brzhHRvR2fbVMLEq+6fjknOCTK4Lrjmr/HhRWCG88kB39sMvb+8dOjKjX6rhrqWI39mt
-	fxn3zt762jPo4dmN6XmPt6rGuE9QNbOJ+9g5d29i2IYN89ilk+zKTKq1P9SVv5x317d0+3WB
-	4A1Kl5KVWIozEg21mIuKEwEn6qQhDAMAAA==
-X-CMS-MailID: 20240502112553epcas5p1977bc184e01532a293b3344ee1605304
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240429183739epcas5p1181a2946641784305b188f320033c637
-References: <CGME20240429183739epcas5p1181a2946641784305b188f320033c637@epcas5p1.samsung.com>
-	<19d1b52a-f43e-5b41-ff1d-5257c7b3492@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240502_042604_807678_CB74AD12 
-X-CRM114-Status: GOOD (  13.60  )
+X-CRM114-CacheID: sfid-20240502_060032_466792_DB0895DE 
+X-CRM114-Status: GOOD (  10.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,27 +68,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Mikulas
+Jens:
 
-On 4/30/2024 12:07 AM, Mikulas Patocka wrote:
-> Hi
-> 
-> I am changing dm-crypt, so that it can store the autenticated encryption
-> tag directly into the NVMe metadata (without using dm-integrity). This
-> will improve performance significantly, because we can avoid journaling
-> done by dm-integrity. I've got it working, but I've found this bug, so I'm
-> sending a patch for it.
+I am on travel right now, and I've lost communication with my remote
+server with my signing and push keys; therefore this does not have a
+tag, much less a signed one. Since nvme is a bit behind on our pull
+requests, I would like to get this out before the next rc. You can ping
+me on back channel if you want to verify the legitimacy of the pull.
 
-As noted by others, there are couple of options to have this settled:
+The following changes since commit 013ee5a6234d4c574dedd60c4887a4bcc9ecc749:
 
-- I can borrow stuff from your commit description to patch #5 [1] and 
-send that out separately
-- Or you can add the changes that Anuj pointed and roll out v2
-- Or you can take the route suggested by Christoph
+  Merge tag 'md-6.9-20240408' of https://git.kernel.org/pub/scm/linux/kernel/git/song/md into block-6.9 (2024-04-08 21:49:27 -0600)
 
-Please choose.
+are available in the Git repository at:
 
-[1] 
-https://lore.kernel.org/linux-nvme/20240425183943.6319-6-joshi.k@samsung.com/
+  git://git.infradead.org/nvme.git 50abcc179e0c9ca667feb223b26ea406d5c4c556
+
+for you to fetch changes up to 50abcc179e0c9ca667feb223b26ea406d5c4c556:
+
+  nvme-tcp: strict pdu pacing to avoid send stalls on TLS (2024-05-01 02:58:43 -0700)
+
+----------------------------------------------------------------
+Hannes Reinecke (1):
+      nvme-tcp: strict pdu pacing to avoid send stalls on TLS
+
+Maurizio Lombardi (2):
+      nvmet-auth: return the error code to the nvmet_auth_host_hash() callers
+      nvmet-auth: replace pr_debug() with pr_err() to report an error.
+
+Nilay Shroff (2):
+      nvme: find numa distance only if controller has valid numa id
+      nvme: cancel pending I/O if nvme controller is in terminal state
+
+Sagi Grimberg (2):
+      nvmet-tcp: fix possible memory leak when tearing down a controller
+      nvmet: fix nvme status code when namespace is disabled
+
+Yi Zhang (1):
+      nvme: fix warn output about shared namespaces without CONFIG_NVME_MULTIPATH
+
+ drivers/nvme/host/core.c       | 23 +----------------------
+ drivers/nvme/host/multipath.c  |  3 ++-
+ drivers/nvme/host/nvme.h       | 21 +++++++++++++++++++++
+ drivers/nvme/host/pci.c        |  8 +++++++-
+ drivers/nvme/host/tcp.c        | 10 ++++++++--
+ drivers/nvme/target/auth.c     |  8 ++++----
+ drivers/nvme/target/configfs.c | 13 +++++++++++++
+ drivers/nvme/target/core.c     |  5 ++++-
+ drivers/nvme/target/nvmet.h    |  1 +
+ drivers/nvme/target/tcp.c      | 11 ++++-------
+ 10 files changed, 65 insertions(+), 38 deletions(-)
 
 
