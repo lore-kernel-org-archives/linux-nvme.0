@@ -4,69 +4,207 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D69E4C4345F
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 May 2024 15:58:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CD9CC4345F
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 03:42:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gtq4c/B5xN6nw1yVX2l6QLKwBzVUpgN+ux4EB4PP+Mc=; b=eZB6gUKBbtjYEsRLSPfvyVsvNf
-	DPh22R+rV2FKTNFZMQfzwpthKd22QgrgzvbjKscOToB/CepeAmhXixfJrWuY94wHTySAGWHKgiAzM
-	ajydqYX/rd+J0xZBmXnVw50brBsFNeBmnKZr4J1zWWn21esyN7Ehh5gDFB5z3JHwcuW9hoTK5WEVD
-	lOcqXEBM6/HFXoQL0bPxHM+rLSPJJI2z1BNgHxpB7/O+6mTQ6QI5PDY8ThpGRmM2Vw3Bco5OYnXtq
-	3+a9LBVJNZKzyHh4b32ZRhupREHDqQbLt/fh2VNpT7QLa94ZmO2mUoxmmB0f2jnu84TCTtTS8J2kW
-	zAuLSbQA==;
+	bh=4DHOUlK6vzi+MogwUwB5rpfKVrK5dzjUWQQrcwsWy7w=; b=U6j9np1+OHxdf2IiNVhEZNucvp
+	y4LZExDqMBgqvRmPaNxGsHHIeA4DFaW+AaMaDFrkAtFMyLlY49xD+Zq8upSntAdcyC5lVDwJwuq4p
+	L/iiQjLXouORgA13MPozxbXdPm941FN4McarOgO4shFHbwBurMYzF3V31FjDwlCBlPxq4IiTCByvT
+	wkNlASjiNU+F98ZGKtiYbzq0qLGDAwL9MG7uolF5Xqhc2ZZSDvknzruvBAnfj0do9nO6nTcUKVEBX
+	7GjTg+R0Wq0dvUlp9XpQU4V4IhUw1HL9sKHxegKN6BXeNFlRnGApJG9rwOVFOxAp0xDBytRCSj3Jh
+	ATivA50w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2Yoy-0000000DCQK-1Cqi;
-	Thu, 02 May 2024 15:58:08 +0000
-Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
+	id 1s2joJ-0000000Et2P-2Wpq;
+	Fri, 03 May 2024 03:42:11 +0000
+Received: from mgamail.intel.com ([198.175.65.14])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2Yov-0000000DCP3-2m6N
+	id 1s2fvD-0000000EHpb-3vX2
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 May 2024 15:58:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=Message-ID:Cc:To:From:Date;
-	bh=gtq4c/B5xN6nw1yVX2l6QLKwBzVUpgN+ux4EB4PP+Mc=; b=Rsr+ZLZUKkrfuL777p2YLXe2Gx
-	mcl87g+cSB/PzxGbN9+DqmyfNarPk8YN58CmIvQX6iN0EzhFFM9LzRVWIGuNYyX4zrLVDxZuQIjQk
-	cwruWl2PcfNh0ZF+IXyMXhPLxEZCrO58kKDFnwb1e6b0RGILP45uk/PanV/CTpZ8tGyoL6c/zi2Y6
-	n1QRyDsr+hdvlzoaBX3HK3NFut1IsCsOKjBn4Guh5FzWGUHH0q2rZ1+MxqHi1Ls7ebQra36wZa4zK
-	hmpWxnriJbhl1JUk9+dGA4afqEnRE0o2OH2+qGhR4AnR2/kbxisU48su9Y49BEjqNdJ6LvyfAMkC7
-	1o/rccmXtKM3U+lfOkbs13cvMJQ4YWLRCSfriwQSjGEJOcte05wTJyorb4cfMKpMYg2CbHuDBVZy2
-	RgmKDEQFt3qDRDapyr1kXY5QfFSonHsd18xHxFcdP9v/BaNbgZGqo887wYx78rU52hsneHak7oTlN
-	VDTkmmg9slsinAsInbCiOZYC;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1s2Yok-009T1N-0B;
-	Thu, 02 May 2024 15:57:54 +0000
-Date: Thu, 2 May 2024 08:57:50 -0700
-From: Jeremy Allison <jra@samba.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Subject: Re: `nvme_disable_ctrl()` takes 411 ms on a Dell XPS 13 with SK
- hynix PC300 NVMEe
-Message-ID: <ZjO3/nUwTZZ/5Ej1@jeremy-HP-Z840-Workstation>
-References: <19a6071a-7fb8-4e0f-8050-6f3ba5ee4774@molgen.mpg.de>
- <20240501045145.GA32110@lst.de>
- <ZjH2Coc8Wz9QrdRM@kbusch-mbp.dhcp.thefacebook.com>
- <93c29602-b162-47b3-9a03-a18158b9f6ef@molgen.mpg.de>
- <ZjK8IjHfwpAMQajT@kbusch-mbp>
- <1c826b9a-4b21-43c8-9064-c3ab095307c5@molgen.mpg.de>
- <522a8fd6-5865-4e8a-b8e8-b0288dfe384a@molgen.mpg.de>
- <ZjNSOEfDMgqJW01F@kbusch-mbp.dhcp.thefacebook.com>
+	Thu, 02 May 2024 23:33:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714692784; x=1746228784;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Tc24v7nHuvbnj9JvyGwO9rKzxFnSB3r8nE2VCDSjQOE=;
+  b=WNGPu8aIIXjAbfSPnbDNE4lRgCULDnz3f9YPxopHAi0B2TwcU09iVYnC
+   hJKTlMyXfDsXL7G2JL3Y5RfqSvyuAt6dQsmytyU2MzEI0dNtI7WyCsd6K
+   FRpsdStWl7AampcJJD4Kbrl3DDo/9lIP1oI2U7xKb3i0GqBkr2Q4Y9OOx
+   XHngfzvxukHdEh8vJcg3vIzhz0EVAe4LDZOXKw0ASIIS4hz38RE5go7+z
+   /1lIBfKuNTz4ZYd8IJ+T3+j+R3IFzkrX1TyofCP6OyOr+zw6c2SZnQxM7
+   4V4aeCpKgU6g11nyjzl4qwpLmeu92b2n55hTH217+LGYSNEPs0zdWgt+M
+   Q==;
+X-CSE-ConnectionGUID: U5EuLHMhT8GShXUY1D7SPw==
+X-CSE-MsgGUID: ccb/ERbcQliRdyfpn2RN8g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="14306190"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="14306190"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 16:33:00 -0700
+X-CSE-ConnectionGUID: YOJz+Fy/RYuUgD2/aWXLIw==
+X-CSE-MsgGUID: ldSKZemEQymTLIbxyrjP1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="27687435"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 May 2024 16:33:00 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 2 May 2024 16:32:59 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 2 May 2024 16:32:59 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 2 May 2024 16:32:59 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jDGzTS187WD9RY7340wqMIqrmqKTjSC76Pb6uaLxPPqKzzO0gw9BEV25jKx4QAh0EzIb1lzaSgJw+FXwfjmLCgv4HA2pgKfKulWBKct2Goj6xdQ43K4P8EElpyGDhC4EdocooIbgQzi8CZfwl3DbG8W5KQotUYFneO1eTi9Zl1MJRvmTpgrTVem7ue/uAoTOnAexT9AM9nWs82p/DYC9l0G2MihWuUVsn7rY4HRPGJPQWAQ5VNGw5xwUO5BcB8R99mrRiTqxwp7fvVm8Ace7UUYwxr02+4sHkeSKeE+F+lg2TygxEWbf4qBfHZP53U1vlnexcdyUSn4I8XBdSnArTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4DHOUlK6vzi+MogwUwB5rpfKVrK5dzjUWQQrcwsWy7w=;
+ b=cQABDpHtLUrNZ8yXMU4IFALxcGar4RkWLV/gIqhACWAS+bdmC7hIoaVUT3CTqljqaGSrTtPY3zX37zNmeXYevFOkbEhSxgL8LL0up9CC9WHh4S4yfxiAqghizyQmzapzl6gCN1V0zi7DT8U3djFVLN4665IZEJ4uLYPw+LXHkatCMWBcKJPmKzTNs7iYkEg8VH9CYYoGncSKWTw17Hr+yxEjOTtA60rNcW0G/GicI2vM6ztilcS1vUkeIOY0nIsOclhzUqHkXTWA0X5xu4qpqg5g1xeINJBCjlx6ZCAhssN2j7tDE5+pg+x7L3o8d2vrcJyTKCFsxM95vH81P94EJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com (2603:10b6:806:2b8::21)
+ by MW4PR11MB6840.namprd11.prod.outlook.com (2603:10b6:303:222::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Thu, 2 May
+ 2024 23:32:55 +0000
+Received: from SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::c06c:bf95:b3f4:198d]) by SA1PR11MB6991.namprd11.prod.outlook.com
+ ([fe80::c06c:bf95:b3f4:198d%5]) with mapi id 15.20.7519.021; Thu, 2 May 2024
+ 23:32:55 +0000
+From: "Zeng, Oak" <oak.zeng@intel.com>
+To: "leon@kernel.org" <leon@kernel.org>, Christoph Hellwig <hch@lst.de>, Robin
+ Murphy <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, "Brost,
+ Matthew" <matthew.brost@intel.com>, "Hellstrom, Thomas"
+	<thomas.hellstrom@intel.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, "Keith
+ Busch" <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas
+	<yishaih@nvidia.com>, Shameer Kolothum
+	<shameerali.kolothum.thodi@huawei.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?Q?J=E9r=F4me_Glisse?= <jglisse@redhat.com>, Andrew Morton
+	<akpm@linux-foundation.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "iommu@lists.linux.dev"
+	<iommu@lists.linux.dev>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "Bart Van
+ Assche" <bvanassche@acm.org>, Damien Le Moal
+	<damien.lemoal@opensource.wdc.com>, Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>, "Martin K. Petersen"
+	<martin.petersen@oracle.com>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"Williams, Dan J" <dan.j.williams@intel.com>, "jack@suse.com"
+	<jack@suse.com>, Leon Romanovsky <leonro@nvidia.com>, Zhu Yanjun
+	<zyjzyj2000@gmail.com>
+Subject: RE: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Thread-Topic: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
+ steps
+Thread-Index: AQHanOEtbi0VHTnLn0mNwgftYB7xRbGEmFqg
+Date: Thu, 2 May 2024 23:32:55 +0000
+Message-ID: <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
+References: <cover.1709635535.git.leon@kernel.org>
+In-Reply-To: <cover.1709635535.git.leon@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6991:EE_|MW4PR11MB6840:EE_
+x-ms-office365-filtering-correlation-id: 85f468da-ca47-45f3-66e1-08dc6b0031af
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|7416005|376005|366007|38070700009|921011;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?Je2EIStEVtlde1RfiV2yyKGM/LtlmWCWjRp2xrmedv4aH2Zglzekj0KG5l?=
+ =?iso-8859-1?Q?/zCZvGUpU8kakuy/ShBzptcVcHSRDtB1m58m/mGeaaBumDMxinMN6qqj7g?=
+ =?iso-8859-1?Q?mc2mcPCj0/uG6TEv7vAtPZxLJ8QQy/JdMTtzpP1ajVCSHtr/shzOs0CW8b?=
+ =?iso-8859-1?Q?T88ThT85GqUBOO0aWLVMDqQSGrGFwHRK6nPM9W9zL+K52K0EUQWrROqm2O?=
+ =?iso-8859-1?Q?eLUYDTp/xRQFRoKTPhcKZFL3Vmj2cRyKJ07lCeQaZ5+ibyBrDSaJD3D7JM?=
+ =?iso-8859-1?Q?fyIlBUZe97rLpGvQtTM5ntapTVesgRpJ0hJ9bqM0IJab1iFtDr7GrmBnsD?=
+ =?iso-8859-1?Q?RtfB8AueSH0toe1zPv3bTP4Dq3/w43wLIN9RHFwzRYwJoa100cwTtDIl07?=
+ =?iso-8859-1?Q?rzyE6IXxJ34xRpKyqemhanGnyWhg4F69U2Mt49rOiItlBpLpUkuU/NHCmi?=
+ =?iso-8859-1?Q?R9gKdhU0gzoqzvw2sDDqyZEukqHgjle13ET1gIAwSBJGR2pQ7v2KmRtB+u?=
+ =?iso-8859-1?Q?brZlMsj+FAyQuND0oW3w+kuZyGSNx91nglVskJj5zEYWuBtJS0joF7LaCI?=
+ =?iso-8859-1?Q?sYfhvifzzt1N3Z+05BTjXq5pIisT6hShyqgU7c1euXzWwuh98TONdxBd+/?=
+ =?iso-8859-1?Q?xREHqu2W9KN5WsP4piFEIahPbnAYACKtfGYeFR5Eg+Z4qt74zapKWRIOBl?=
+ =?iso-8859-1?Q?jPRV6vXh9LhOvn1yGel2z/fsMIew1dIm+P0aylF0AUmK58auE2xusSnRfw?=
+ =?iso-8859-1?Q?fwYQQ45ZS/2OPOxF3QoLOWWt7dbrdwmLAy0l2X1VbBILn6lfImnPyHKPSG?=
+ =?iso-8859-1?Q?RoXgcYDex3MjAjj0Krrpu3uKmVHBbY5fyDNZ/kd7OvG6/xW7U2oUg5tWPO?=
+ =?iso-8859-1?Q?4NgWKCiiPt+A1WgNH8AtLxKPvDJZrp39EEVXAQOE0OESW8KdMZJoDn+wEt?=
+ =?iso-8859-1?Q?BgTTkCyl6QKnNscL60RK17qxVk0MrYVCgSiXpYKviShSGWhMvinx0++CSV?=
+ =?iso-8859-1?Q?qzCvxRsiYYGhvN2TuSIAuH5oi1kON4nHRthuyUSaXB7PtIj8dPdQPVOXAm?=
+ =?iso-8859-1?Q?5bqNWyiTXIh2E+H4gmAs/zgPFUYXJWvzyEXxa+hhFo6LZn5iL3BikLAvMW?=
+ =?iso-8859-1?Q?rk29VPoJKEfYRztr1t/lHfd6gBpNKamOn284R5xl8+qCSi4gNhRtLohj0K?=
+ =?iso-8859-1?Q?hrA6Rn+SnQwiXG5PSYLTbCH5zMet1XFkicm7XKzZ/+zBLgxXX5Eotfmt1k?=
+ =?iso-8859-1?Q?S6c4rqkNSNgckNiCD+ZNuRbxI3xYZDB79XbTdJwc/oIH8Wbzl30OEF+ZX4?=
+ =?iso-8859-1?Q?LpAzaC55kPlmQGYO/sElS7OwfApJaUOW8YRBIUbBUj1dl7vdB3xDTVkLFh?=
+ =?iso-8859-1?Q?KcDs/KjL8D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6991.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005)(366007)(38070700009)(921011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?NRtLhnOqkQ+zlCTZLTRLr1oVzEY7CZDof/OxyG+fUK248HlSlOnEjnhTeU?=
+ =?iso-8859-1?Q?Ivlp2sEN+uevYhJqtzJaB+gQvVVv8OgcjmrduzrAk95aSbuVA67oB17Icm?=
+ =?iso-8859-1?Q?JgpV2Q5y/TZMZXg2UM02r+cGtNP9UJGBRoAB7k2nNi0Jiowl317I9rMAS+?=
+ =?iso-8859-1?Q?a+fzuPQo7b405396hzj6ywOFaVPnhdxmzBa8ihkXKioYYYRl2wR9JXO2+3?=
+ =?iso-8859-1?Q?FjjawZ6PRKRcgPFATboqLwZRdUEleXEQ0RwCHv2r081ERR3KXNSqjI+8U+?=
+ =?iso-8859-1?Q?xkW1Zts20AGPth4uQv4tux7dAECce6Ip0GeQqLqHXASrH2TPgxINwLs8es?=
+ =?iso-8859-1?Q?kcdyLZfHg1VcD/0Ppj33w3IghOC4AjhjT6Y3VO1A2j3ZxlVXHLoTarg7an?=
+ =?iso-8859-1?Q?qwqM1mShNDhmv3bURnJiCMVs6n/fyaBox3P/VTMZuDFJnzjZLmvzilzKLh?=
+ =?iso-8859-1?Q?jyr0sR2aMV+5BNntET6Mr0j2TCj0NVLX+Rh/e+bP+GCb4HKSfi0imXPluW?=
+ =?iso-8859-1?Q?egOqkwi9ke+sec2VlUoC3nfucj1IOYrHif/jIh1s+yLEr/qicHY/vNTlMd?=
+ =?iso-8859-1?Q?XsokAwArZrsEprxYf0eoeG97Jn/nGgUEadWZyN8GWZ3jah15s+UQlR8ev0?=
+ =?iso-8859-1?Q?dMQTWETniuWrRDo2DUDu+l6ScF+NDeZITVcdMvjtTomeiGjeS4e2gWuIWt?=
+ =?iso-8859-1?Q?TjJxZnf0sA+D4VYWvz7afTafRZPMwiUqZ9GhwdzARkE6oLeAcLpYEGHfiP?=
+ =?iso-8859-1?Q?0w3yP42VenHVr000vJqaXLHRPqOmtF+yzTMqP2RWxN28OtF92BdAkJ0Y83?=
+ =?iso-8859-1?Q?cdoW8sL3AaG1YxiOdcOmhQlBMlxPm+50T2Tna+p+ymgIyl4ijNlRaXggK2?=
+ =?iso-8859-1?Q?0MW35rcMZggYknQnibJG0AnWF1qli7Ik+ExwpicO4xmUICTgRsMoORAOK9?=
+ =?iso-8859-1?Q?KyL1cDwijK4BoyRVWHn6VmCafwy4mt7q+n5aCxguVbrBdjaYxkoog9mq3f?=
+ =?iso-8859-1?Q?mQT38th/oFHc1V8DsosUnkGo9JGtkEfs6OYGlOhW0Jk4qlx0FyTgww1lTz?=
+ =?iso-8859-1?Q?PxjHHztybCZ1rTi3LYY9xA6CqzeyFPE+cu55o3ZdRYqg9nz4UY+iH10DLP?=
+ =?iso-8859-1?Q?iOpQHO3Y89hhKbuTfH+yFdyxOjAuzKSEyVkMex1oFXB/QG8Yhlc4gTJf1x?=
+ =?iso-8859-1?Q?RfB7ZZDbqA393oX82rBjG/etnyNGgvQhG0Z9FMFkZ7uxC1lxL0HG8oqhHs?=
+ =?iso-8859-1?Q?4DOtgyZnLXC0PwFfUxqKyK0B2/fn7ZAVnroOhBDE6jAaKOt+1de9noIMc9?=
+ =?iso-8859-1?Q?rxsKNwzgO8bUw/Lcd86Q7ntLY+JwxAxYyAw+ApMmK/5yJtRU9+Y7H7IsE5?=
+ =?iso-8859-1?Q?1t/8pohrC3cJdIatmpXDbQ5ONIBKw8t7pLxJpWdAk/UzRtRzDVnALYOMVl?=
+ =?iso-8859-1?Q?QcUEmmZnDzUR0jruoYXiP0R1OkRr8I/DpOaO4s1aqNvfkZXKYVVGJZW6qs?=
+ =?iso-8859-1?Q?JuIvxuSBh5o/2H2rqQ0u6HWLGD5yVd3aZZ2G2ec7PvolsBXPuWRm6Pk9BK?=
+ =?iso-8859-1?Q?Nr4j2NFcPKLD58TvWJ+NIVwQl+Y6b647PKfdhyomS3uRxwHZx8V4cd0W08?=
+ =?iso-8859-1?Q?dc3jJnyEQvE7k=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <ZjNSOEfDMgqJW01F@kbusch-mbp.dhcp.thefacebook.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6991.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85f468da-ca47-45f3-66e1-08dc6b0031af
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2024 23:32:55.7109
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +pNAw/jRAiXC5Z5BTxN8yjQtFtcnZSeFvuwhora7K4yohqK/XyfU/3HT6BIBiBcFUuq6eUb/eaDgoWCszzzW7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6840
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240502_085805_807600_2D77AF02 
-X-CRM114-Status: UNSURE (   7.51  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240502_163304_206033_4D3373F0 
+X-CRM114-Status: GOOD (  23.29  )
+X-Mailman-Approved-At: Thu, 02 May 2024 20:42:08 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,19 +216,185 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Jeremy Allison <jra@samba.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 02, 2024 at 09:43:36AM +0100, Keith Busch wrote:
->
->This gets worse as you add more nvme devices to your system because
->shutdown is serialized. Some of us have proposed patches parallelizing
->this process. I wish I could spend more time on helping see that to
->completion, but other priorities get in the way. :(
+Hi Leon, Jason
 
-FYI. The various asynchronous shutdown patches have been
-merged and are continuing development and testing. I expect
-Stuart to re-propose these once all the obvious bugs have been
-found. His approach is currently the best option IMHO.
+> -----Original Message-----
+> From: Leon Romanovsky <leon@kernel.org>
+> Sent: Tuesday, March 5, 2024 6:19 AM
+> To: Christoph Hellwig <hch@lst.de>; Robin Murphy
+> <robin.murphy@arm.com>; Marek Szyprowski
+> <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
+> Deacon <will@kernel.org>; Jason Gunthorpe <jgg@ziepe.ca>; Chaitanya
+> Kulkarni <chaitanyak@nvidia.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>; Jens Axboe <axboe@kernel.dk>;
+> Keith Busch <kbusch@kernel.org>; Sagi Grimberg <sagi@grimberg.me>;
+> Yishai Hadas <yishaih@nvidia.com>; Shameer Kolothum
+> <shameerali.kolothum.thodi@huawei.com>; Kevin Tian
+> <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
+> J=E9r=F4me Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
+> foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
+> iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
+> kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
+> <bvanassche@acm.org>; Damien Le Moal
+> <damien.lemoal@opensource.wdc.com>; Amir Goldstein
+> <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
+> <martin.petersen@oracle.com>; daniel@iogearbox.net; Dan Williams
+> <dan.j.williams@intel.com>; jack@suse.com; Leon Romanovsky
+> <leonro@nvidia.com>; Zhu Yanjun <zyjzyj2000@gmail.com>
+> Subject: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
+> steps
+>=20
+> This is complimentary part to the proposed LSF/MM topic.
+> https://lore.kernel.org/linux-rdma/22df55f8-cf64-4aa8-8c0b-
+> b556c867b926@linux.dev/T/#m85672c860539fdbbc8fe0f5ccabdc05b40269057
+>=20
+> This is posted as RFC to get a feedback on proposed split, but RDMA, VFIO
+> and
+> DMA patches are ready for review and inclusion, the NVMe patches are stil=
+l
+> in
+> progress as they require agreement on API first.
+>=20
+> Thanks
+>=20
+> -------------------------------------------------------------------------=
+------
+> The DMA mapping operation performs two steps at one same time: allocates
+> IOVA space and actually maps DMA pages to that space. This one shot
+> operation works perfectly for non-complex scenarios, where callers use
+> that DMA API in control path when they setup hardware.
+>=20
+> However in more complex scenarios, when DMA mapping is needed in data
+> path and especially when some sort of specific datatype is involved,
+> such one shot approach has its drawbacks.
+>=20
+> That approach pushes developers to introduce new DMA APIs for specific
+> datatype. For example existing scatter-gather mapping functions, or
+> latest Chuck's RFC series to add biovec related DMA mapping [1] and
+> probably struct folio will need it too.
+>=20
+> These advanced DMA mapping APIs are needed to calculate IOVA size to
+> allocate it as one chunk and some sort of offset calculations to know
+> which part of IOVA to map.
+>=20
+> Instead of teaching DMA to know these specific datatypes, let's separate
+> existing DMA mapping routine to two steps and give an option to advanced
+> callers (subsystems) perform all calculations internally in advance and
+> map pages later when it is needed.
+
+I looked into how this scheme can be applied to DRM subsystem and GPU drive=
+rs.=20
+
+I figured RDMA can apply this scheme because RDMA can calculate the iova si=
+ze. Per my limited knowledge of rdma, user can register a memory region (th=
+e reg_user_mr vfunc) and memory region's sized is used to pre-allocate iova=
+ space. And in the RDMA use case, it seems the user registered region can b=
+e very big, e.g., 512MiB or even GiB
+
+In GPU driver, we have a few use cases where we need dma-mapping. Just name=
+ two:
+
+1) userptr: it is user malloc'ed/mmap'ed memory and registers to gpu (in In=
+tel's driver it is through a vm_bind api, similar to mmap). A userptr can b=
+e of any random size, depending on user malloc size. Today we use dma-map-s=
+g for this use case. The down side of our approach is, during userptr inval=
+idation, even if user only munmap partially of an userptr, we invalidate th=
+e whole userptr from gpu page table, because there is no way for us to part=
+ially dma-unmap the whole sg list. I think we can try your new API in this =
+case. The main benefit of the new approach is the partial munmap case.
+
+We will have to pre-allocate iova for each userptr, and we have many userpt=
+rs of random size... So we might be not as efficient as RDMA case where I a=
+ssume user register a few big memory regions. =20
+
+2) system allocator: it is malloc'ed/mmap'ed memory be used for GPU program=
+ directly, without any other extra driver API call. We call this use case s=
+ystem allocator.
+
+For system allocator, driver have no knowledge of which virtual address ran=
+ge is valid in advance. So when GPU access a malloc'ed/mmap'ed address, we =
+have a page fault. We then look up a CPU vma which contains the fault addre=
+ss. I guess we can use the CPU vma size to allocate the iova space of the s=
+ame size?
+
+But there will be a true difficulty to apply your scheme to this use case. =
+It is related to the STICKY flag. As I understand it, the sticky flag is de=
+signed for driver to mark "this page/pfn has been populated, no need to re-=
+populate again", roughly...Unlike userptr and RDMA use cases where the back=
+ing store of a buffer is always in system memory, in the system allocator u=
+se case, the backing store can be changing b/t system memory and GPU's devi=
+ce private memory. Even worse, we have to assume the data migration b/t sys=
+tem and GPU is dynamic. When data is migrated to GPU, we don't need dma-map=
+. And when migration happens to a pfn with STICKY flag, we still need to re=
+populate this pfn. So you can see, it is not easy to apply this scheme to t=
+his use case. At least I can't see an obvious way.
+
+
+Oak
+
+
+>=20
+> In this series, three users are converted and each of such conversion
+> presents different positive gain:
+> 1. RDMA simplifies and speeds up its pagefault handling for
+>    on-demand-paging (ODP) mode.
+> 2. VFIO PCI live migration code saves huge chunk of memory.
+> 3. NVMe PCI avoids intermediate SG table manipulation and operates
+>    directly on BIOs.
+>=20
+> Thanks
+>=20
+> [1]
+> https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@
+> klimt.1015granger.net
+>=20
+> Chaitanya Kulkarni (2):
+>   block: add dma_link_range() based API
+>   nvme-pci: use blk_rq_dma_map() for NVMe SGL
+>=20
+> Leon Romanovsky (14):
+>   mm/hmm: let users to tag specific PFNs
+>   dma-mapping: provide an interface to allocate IOVA
+>   dma-mapping: provide callbacks to link/unlink pages to specific IOVA
+>   iommu/dma: Provide an interface to allow preallocate IOVA
+>   iommu/dma: Prepare map/unmap page functions to receive IOVA
+>   iommu/dma: Implement link/unlink page callbacks
+>   RDMA/umem: Preallocate and cache IOVA for UMEM ODP
+>   RDMA/umem: Store ODP access mask information in PFN
+>   RDMA/core: Separate DMA mapping to caching IOVA and page linkage
+>   RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+>   vfio/mlx5: Explicitly use number of pages instead of allocated length
+>   vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>   vfio/mlx5: Explicitly store page list
+>   vfio/mlx5: Convert vfio to use DMA link API
+>=20
+>  Documentation/core-api/dma-attributes.rst |   7 +
+>  block/blk-merge.c                         | 156 ++++++++++++++
+>  drivers/infiniband/core/umem_odp.c        | 219 +++++++------------
+>  drivers/infiniband/hw/mlx5/mlx5_ib.h      |   1 +
+>  drivers/infiniband/hw/mlx5/odp.c          |  59 +++--
+>  drivers/iommu/dma-iommu.c                 | 129 ++++++++---
+>  drivers/nvme/host/pci.c                   | 220 +++++--------------
+>  drivers/vfio/pci/mlx5/cmd.c               | 252 ++++++++++++----------
+>  drivers/vfio/pci/mlx5/cmd.h               |  22 +-
+>  drivers/vfio/pci/mlx5/main.c              | 136 +++++-------
+>  include/linux/blk-mq.h                    |   9 +
+>  include/linux/dma-map-ops.h               |  13 ++
+>  include/linux/dma-mapping.h               |  39 ++++
+>  include/linux/hmm.h                       |   3 +
+>  include/rdma/ib_umem_odp.h                |  22 +-
+>  include/rdma/ib_verbs.h                   |  54 +++++
+>  kernel/dma/debug.h                        |   2 +
+>  kernel/dma/direct.h                       |   7 +-
+>  kernel/dma/mapping.c                      |  91 ++++++++
+>  mm/hmm.c                                  |  34 +--
+>  20 files changed, 870 insertions(+), 605 deletions(-)
+>=20
+> --
+> 2.44.0
+
 
