@@ -4,59 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A73EC4345F
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 May 2024 06:13:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B808DC04FFE
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 May 2024 06:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aAWvAxW6yr6hntYyU5IfJiwg01QdnbEotylvFb1DbH8=; b=0YeGEC/ZIIQ01J9rxZ+zwhOTej
-	9dlfeiTB7OM1Ncm46BRRLwnSZrPitcrh0urWoVG43sdn4ziDNlWgb7D6nxyLoLUagBQQD7OaV12Ro
-	kpps4i606DwkjBcyLQQxBS8RNfTzn4aq0jCk4B/9dm4ZVupnMyLvUuOZH2P4QEFTdnkVX9NyBRS29
-	GO1tgCcF0pwVS+NtpcnJLVcM8y0XvKRs3Jo/weU8GM6lV1+nsmoIUfe0TyVccob9ooWR7+Oaozp3G
-	mDLjUhtYZ9wN98tiRu587i8NfCYHJEf+gw/vKfRjtKS9PkaEUK3v1lTey3oMC1hEXCBwwTqrM3uOi
-	y9NgyWIg==;
+	bh=XTPo97fFW7JFow6wuakzbZJLG7DuLVeGi4uFZTtSNOE=; b=UcyK4f0fWNnbPOQqBm+zZtXC6/
+	pM4W9Vv2Ed3RIZV3n0WOcnHIUK7q6+S8E9r99OKKMEcPLmeZ4h1UgfFOeKwNV1teAn0pzAFPKcQze
+	XeOmjiZ9/yuLPfLl0n0AwTk/q61a2AKboBH0Ed4OUlTrfEG76WmrKlrTQuQgGahwMw1YBJ5Yn57Rj
+	+Ujcp7zRdOA7cW0gTonAA94PxyfpUqOuVNgd7y+4Gkwt65JjcTADVtrAos1MOgZhM49oNnnjUHm3r
+	NJgTcQTdp6jV7TqjfYXfZEPa4feWNDfG9KfU6hVgf+bI//9HkjXOCrFaXlfPshBlsC/zJqO9FaSr8
+	+6IqEq4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2Pgk-0000000BcP2-1rHH;
-	Thu, 02 May 2024 06:13:02 +0000
-Received: from mx3.molgen.mpg.de ([141.14.17.11])
+	id 1s2Q99-0000000BgHm-0Bzg;
+	Thu, 02 May 2024 06:42:23 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2Pgg-0000000BcNl-2CG7
+	id 1s2Q93-0000000BgEf-0atn
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 May 2024 06:13:01 +0000
-Received: from [10.50.1.206] (unknown [89.187.201.15])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id ACFD461E5FE05;
-	Thu,  2 May 2024 08:12:39 +0200 (CEST)
-Message-ID: <522a8fd6-5865-4e8a-b8e8-b0288dfe384a@molgen.mpg.de>
-Date: Thu, 2 May 2024 08:12:39 +0200
+	Thu, 02 May 2024 06:42:19 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240502064154epoutp039906b63f8c66e707f6189b46f018a216~LmNLxHbAo1666416664epoutp03W
+	for <linux-nvme@lists.infradead.org>; Thu,  2 May 2024 06:41:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240502064154epoutp039906b63f8c66e707f6189b46f018a216~LmNLxHbAo1666416664epoutp03W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1714632114;
+	bh=XTPo97fFW7JFow6wuakzbZJLG7DuLVeGi4uFZTtSNOE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DhfR2t2WqKRMCO/bnJDTdlR5WvuMcH/Sr5txiwxTnyoyQJTtO3SaxkyQTuGMgBKwH
+	 sQFI3/Vzhpowi7O6Yws7OcJ7zsP4TFWG00nbw0vS+84hCbVo/WB39eTJ3UKh3k9HlY
+	 Mn1KCemolGLd5THvSR4qt8BdSAsCnY4a4bNMaWbQ=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240502064154epcas5p19ecc2944ec1e741fa3a90d120d8c4fa3~LmNLNSt9Q0374603746epcas5p1r;
+	Thu,  2 May 2024 06:41:54 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4VVPVT1Gh2z4x9Q2; Thu,  2 May
+	2024 06:41:53 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	7B.C5.09688.EA533366; Thu,  2 May 2024 15:41:50 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240502064150epcas5p3b6461ca0466650cd0296089d257ff861~LmNHZQTxc0237202372epcas5p38;
+	Thu,  2 May 2024 06:41:50 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240502064150epsmtrp1200fc6d78aa1defc8862fad6524ea7aa~LmNHYidIa1132611326epsmtrp1X;
+	Thu,  2 May 2024 06:41:50 +0000 (GMT)
+X-AuditID: b6c32a4a-837fa700000025d8-5c-663335aebc79
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	4E.06.08924.EA533366; Thu,  2 May 2024 15:41:50 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240502064149epsmtip145b14511259d8e152084515c10d8654f~LmNGkr5BS2071120711epsmtip1b;
+	Thu,  2 May 2024 06:41:49 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH 1/2] nvme: remove sgs and sws
+Date: Thu,  2 May 2024 12:04:37 +0530
+Message-Id: <20240502063438.422046-2-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240502063438.422046-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: `nvme_disable_ctrl()` takes 411 ms on a Dell XPS 13 with SK hynix
- PC300 NVMEe
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@fb.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <19a6071a-7fb8-4e0f-8050-6f3ba5ee4774@molgen.mpg.de>
- <20240501045145.GA32110@lst.de>
- <ZjH2Coc8Wz9QrdRM@kbusch-mbp.dhcp.thefacebook.com>
- <93c29602-b162-47b3-9a03-a18158b9f6ef@molgen.mpg.de>
- <ZjK8IjHfwpAMQajT@kbusch-mbp>
- <1c826b9a-4b21-43c8-9064-c3ab095307c5@molgen.mpg.de>
-Content-Language: en-US
-In-Reply-To: <1c826b9a-4b21-43c8-9064-c3ab095307c5@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOKsWRmVeSWpSXmKPExsWy7bCmlu46U+M0g4UPZSxWrj7KZHH0/1s2
+	i0mHrjFazF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8+rasYgxgjcq2yUhNTEkt
+	UkjNS85PycxLt1XyDo53jjc1MzDUNbS0MFdSyEvMTbVVcvEJ0HXLzAFarqRQlphTChQKSCwu
+	VtK3synKLy1JVcjILy6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIznizZg57wUaW
+	iiuvp7E0MB5i7mLk5JAQMJHYcewPUxcjF4eQwG5GiQc7d7FAOJ8YJTYdPsgK4XxjlHi+/SQr
+	TMvcCaegqvYySpy4/BSq/zOjxL8rf4EyHBxsApoSFyaXgjSICBhLdK5sYAGxmQXcJW4/6WEC
+	sYUFdCVmX30AdgeLgKrEuokdYDW8ApYSR1asgrpPXmLmpe/sIDangJXE8jt/mCBqBCVOznwC
+	NVNeonnrbGaQGyQEbrFLnPp5hQ3kBgkBF4mZPywg5ghLvDq+hR3ClpJ42d8GZSdLXJp5jgnC
+	LpF4vOcglG0v0XqqnxlkDDPQK+t36UOs4pPo/f2ECWI6r0RHmxBEtaLEvUlPocEjLvFwxhJW
+	iBIPiY1vAiGB08so0bNpLuMERvlZSB6YheSBWQjLFjAyr2KUTC0ozk1PLTYtMMpLLYdHa3J+
+	7iZGcArU8trB+PDBB71DjEwcjIcYJTiYlUR4pyzUTxPiTUmsrEotyo8vKs1JLT7EaAoM4YnM
+	UqLJ+cAknFcSb2hiaWBiZmZmYmlsZqgkzvu6dW6KkEB6YklqdmpqQWoRTB8TB6dUA5P+ng8f
+	bzcJKT1hb5hkuZB/lpbVwhvhhjPj/tX5PZr56vpFS8ETAZEnvb3+v3pUae12U0RswXTdLfqM
+	lx5x/DFxC8/RZvWUdIraznvvRtq/aV+u81luevzMdP7H0L1JhlEh/c8OX7HbbCWvxnVriVRm
+	jS5bW8a5ZRoiPt/DRRtP9j/79iHi/l2jvYpOv11nHL1td3XO4llRvV3La6YyRFz7Zl1YdVou
+	m/t4//vqcIdXrj79XPJHFyyskpv8ZdakW/xvlh9LXqX3e24E141SuXle3Y/fbJacOV+x7Omi
+	v+luKjKCu9i0IzMfLn1V9PnHKuXjMnLSO5a1XTNZlRy0bWvR9Axr9pXGLSyl049Un5qnxFKc
+	kWioxVxUnAgApOyM0woEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFLMWRmVeSWpSXmKPExsWy7bCSnO46U+M0gxN3OSxWrj7KZHH0/1s2
+	i0mHrjFazF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8+rasYgxgjeKySUnNySxL
+	LdK3S+DKeLNmDnvBRpaKK6+nsTQwHmLuYuTkkBAwkZg74RRLFyMXh5DAbkaJaf23mSAS4hLN
+	136wQ9jCEiv/PQezhQQ+Mko8WmHexcjBwSagKXFhcilIWETAXGLfheesIGFmAU+J9RPlQcLC
+	AroSs68+AFvFIqAqsW5iBwuIzStgKXFkxSqoE+QlZl76DjadU8BKYvmdP0wQmywlXvQvZYWo
+	F5Q4OfMJWC8zUH3z1tnMExgFZiFJzUKSWsDItIpRMrWgODc9t9iwwDAvtVyvODG3uDQvXS85
+	P3cTIzh4tTR3MG5f9UHvECMTB+MhRgkOZiUR3ikL9dOEeFMSK6tSi/Lji0pzUosPMUpzsCiJ
+	84q/6E0REkhPLEnNTk0tSC2CyTJxcEo1MF0WOPnVKXurwbqc87+vzj7E0PVD88GkhxMXnWNl
+	u5beXre6sUt87oTCMkOV1C++N8T064SWbAlvv9ir8WF7zsvSM9YXHj19d7ZDUc1+/coVZzNN
+	5zh9WNFy1tHtctfECkaTXkNfw42/UmyVulSnX1/8wP3Y3JmWpVp5EvyrX/ew7L/TPv32S42W
+	NfP5W16/ed94qO3Y32syDyftXPx428wni3f8rFwQEGwcuKPIaP2KpVobpy3jTbE2VdRpusCp
+	fXv2jTy3jxwp3jeMNj8sj+NcH8Pm9X7pmpr/r+Uftp24z+Fq7WzLuFJF/EsYb8X+7U8d5ra9
+	fs51YlJKS2y+/sbuhm9FFhXi0SYsaxN0uU4rsRRnJBpqMRcVJwIAZzygX80CAAA=
+X-CMS-MailID: 20240502064150epcas5p3b6461ca0466650cd0296089d257ff861
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240502064150epcas5p3b6461ca0466650cd0296089d257ff861
+References: <20240502063438.422046-1-joshi.k@samsung.com>
+	<CGME20240502064150epcas5p3b6461ca0466650cd0296089d257ff861@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240501_231258_878508_58C1E256 
-X-CRM114-Status: GOOD (  28.36  )
+X-CRM114-CacheID: sfid-20240501_234218_092106_850CC0B2 
+X-CRM114-Status: GOOD (  12.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,137 +131,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[add forgotten reply to questions in second paragraph]
+sgs/sws are unused, so remove these from nvme_ns_head structure.
 
-Am 02.05.24 um 08:04 schrieb Paul Menzel:
-> Dear Keith,
-> 
-> 
-> Thank you for your quick reply.
-> 
-> Am 02.05.24 um 00:03 schrieb Keith Busch:
->> On Wed, May 01, 2024 at 10:58:05PM +0200, Paul Menzel wrote:
->>> Am 01.05.24 um 09:58 schrieb Keith Busch:
->>>> Exactly. Unless the device reports a lower D3 entry latency, then this
->>>> sounds like everything is working-as-designed.
->>>
->>> Maybe according to the spec, but I have a hard time to believe, that 
->>> disks
->>> should take longer to shut down than coreboot to initialize a mainboard.
->>
->> That doesn't seem too hard to believe to me. A safe shutdown can often
->> take a while time for an SSD. I've seen other implementations orders of
->> magnitude worse than what you're showing.
-> 
-> But why? Due to physics or due to “slow” firmware?
-> 
->> You could do an unsafe shutdown instead, but the device will just
->> take even more time to enable on its next power-on.
-> 
-> Indeed, that is does not sound good.
-> 
->>> In the end, in my opinion, users cannot make an informed decision, if these
->>> things are hidden. If it would be visible somehow in the logs - maybe not
->>> warning but info level - then even not so technical users could inform
->>> themselves and factor this in their buying decision.
->>
->> What good is it to advertise a shutdown time when vendors are clearly
->> unreliable at reporting an accurate value?
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+---
+ drivers/nvme/host/nvme.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-Linux time stamps would be reliable, and showing if vendors lie is a 
-good thing, because then people can support vendors not lying.
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index d0ed64dc7380..22a9992a4525 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -466,8 +466,6 @@ struct nvme_ns_head {
+ 	u8			pi_type;
+ 	u8			pi_offset;
+ 	u8			guard_type;
+-	u16			sgs;
+-	u32			sws;
+ #ifdef CONFIG_BLK_DEV_ZONED
+ 	u64			zsze;
+ #endif
+-- 
+2.25.1
 
->> If you need to see the driver report it from emperical testing,
->> then you've already bought the device, right?
-
-Not necessarily, as logs from other systems can be accessed in databases 
-like the Hardware for Linux database [1] and the uploaded log messages [2].
-
->>>> You can check your device's advertised shutdown time (assuming your
->>>> device is nvme0):
->>>>
->>>>     nvme id-ctrl /dev/nvme0 | grep rtd3e
->>>>
->>>> The value is reported in microseconds. If it shows 0, then the device
->>>> doesn't report an expected shutdown time.
->>>
->>> Thank you for sharing. It´s 60 ms:
-> 
-> I added some debug prints:
-> 
-> ```
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 27281a9a8951..76857d5e8a1a 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2335,6 +2335,10 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, 
-> bool shutdown)
->   {
->          int ret;
-> 
-> +       dev_err(ctrl->device,
-> +                       "XXX Enter nvme_disable_ctrl with shutdown %s\n",
-> +                       shutdown ? "yes" : "no");
-> +
->          ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
->          if (shutdown)
->                  ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
-> @@ -2346,14 +2350,24 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
->                  return ret;
-> 
->          if (shutdown) {
-> -               return nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK,
-> +               dev_err(ctrl->device,
-> +                               "XXX before nvme_wait_ready, shutdown_timeout %u\n", ctrl->shutdown_timeout);
-> +               ret = nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK,
->                                         NVME_CSTS_SHST_CMPLT,
->                                         ctrl->shutdown_timeout, "shutdown");
-> +               dev_err(ctrl->device,
-> +                               "XXX after nvme_wait_ready\n");
-> +               return ret;
->          }
->          if (ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY)
->                  msleep(NVME_QUIRK_DELAY_AMOUNT);
-> -       return nvme_wait_ready(ctrl, NVME_CSTS_RDY, 0,
-> +       dev_err(ctrl->device,
-> +                       "XXX before nvme_wait_ready, shutdown_timeout %u\n", (NVME_CAP_TIMEOUT(ctrl->cap) + 1) / 2);
-> +       ret = nvme_wait_ready(ctrl, NVME_CSTS_RDY, 0,
->                                 (NVME_CAP_TIMEOUT(ctrl->cap) + 1) / 2, 
-> "reset");
-> +       dev_err(ctrl->device,
-> +                       "XXX after nvme_wait_ready\n");
-> +       return ret;
->   }
->   EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
-> ```
-> 
-> and got for “cold boot” and from ACPI S3 suspend and resume:
-> 
-> ```
-> [    0.955837] nvme nvme0: XXX Enter nvme_disable_ctrl with shutdown no
-> [    0.955898] nvme nvme0: XXX before nvme_wait_ready, shutdown_timeout 128
-> [    0.961861] nvme nvme0: XXX after nvme_wait_ready
-> [    1.637251] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
-> [   27.785752] wmi_bus wmi_bus-PNP0C14:01: [Firmware Bug]: WQBC data block query control method not found
-> [   29.811581] Bluetooth: hci0: HCI Enhanced Setup Synchronous Connection command is advertised, but not supported.
-> [   62.697526] nvme nvme0: XXX Enter nvme_disable_ctrl with shutdown yes
-> [   62.697538] nvme nvme0: XXX before nvme_wait_ready, shutdown_timeout 5
-> [   63.110008] nvme nvme0: XXX after nvme_wait_ready
-> [   63.308385] nvme nvme0: XXX Enter nvme_disable_ctrl with shutdown no
-> [   63.308394] nvme nvme0: XXX before nvme_wait_ready, shutdown_timeout 128
-> [   63.308399] nvme nvme0: XXX after nvme_wait_ready
-> ```
-> 
-> So this confirms the ftrace findings. Excuse my ignorance, so the 
-> time-out is in seconds? And how does this relate to the rtd3e value (410 
-> ms ≠ 60 ms ≠ 5 s(?)?
-> 
-> 
-> Kind regards,
-> 
-> Paul
-
-
-[1]: https://linux-hardware.org/
-[2]: https://github.com/linuxhw/Dmesg
 
