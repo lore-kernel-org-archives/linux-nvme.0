@@ -4,119 +4,151 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7D15C4345F
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 May 2024 06:42:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADBF4C4345F
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 May 2024 07:04:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5yvzRUi4kT07sESTxQmM+T2+pb5jLhgO3q51FsVcYGQ=; b=YMKTO/4C+npEmbRrp6N2VpVGUR
-	sPbGtzJ2WI4SYWEJ15vldaeSWmnfewNg0wLG+xE+oELZYlClAsoTNH7iNS0FUt2s8Is5KSphyL79H
-	f07OC+Y1fvJDOWv92eiSeAxat0cKwO4+0iZOGVYSJFIXJMeqham+npfZAK/QT4PAXK4bvX6qfyQbU
-	016nWHWhXFnYhZ9JB84MMuB9eVbIWb2KZFbSNEJOMlGKMRm3ROQFdaEKEsawGnBgkiYycIb4Thzhs
-	3LmnNTpENRCn0epooZvGdbDKnOEwu6NMudxC759LHHpf3tk9emT67Wv2WjTXHegU46BIG8qRzNBkF
-	9zJqpZQw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=n1csVuoZUDPBdukvv0zjIqsdCMphVmMwc4peyavkehk=; b=2EhCx0d4hQPOTp2+QzQ1mrnMyG
+	e/HiSHrh+uWgTdAhITr8u3Cgt3rf2Xx497iFAEtiVA0J0bSHDTwEFHOUe9AsUyPzQ2FUM0PGgbhue
+	y3fgZNLoIfEdZSqUvHVYGenWpg9HvYpwn/ez1+/X2gJMU0tRyfNlJcjy8TuCaGjk8CXPzTm6LDtTj
+	T5VhqOfHNzCflqhN0H71JdwbT5dVT3/iqR5Wgg854fEER/TRyp/CSZWcW4MOVU0hUSR6iJJNd8BjQ
+	ZmF1XNqC+QaEWizcLPlkiCMNASwnjZf46aFjmeJXqlsm6jEz1+LccAUffWttyZBoGVJWkByjEWPdM
+	8l2kxfdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2Q96-0000000BgHG-3Kcs;
-	Thu, 02 May 2024 06:42:20 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1s2QUc-0000000BjvX-0I6f;
+	Thu, 02 May 2024 07:04:34 +0000
+Received: from mail-dm6nam11on20600.outbound.protection.outlook.com ([2a01:111:f403:2415::600] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2Q93-0000000BgEb-0axm
+	id 1s2QUZ-0000000Bjtr-1IAj
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 May 2024 06:42:19 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240502064153epoutp032b8851292960e1a56a5fb78669d48869~LmNKmySPW1711617116epoutp038
-	for <linux-nvme@lists.infradead.org>; Thu,  2 May 2024 06:41:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240502064153epoutp032b8851292960e1a56a5fb78669d48869~LmNKmySPW1711617116epoutp038
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1714632113;
-	bh=5yvzRUi4kT07sESTxQmM+T2+pb5jLhgO3q51FsVcYGQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eLVhJYtCmW04Bjl2wIAM6HL2liyA3FSAQ39WLcKmSVmysQr+PKN1B3rozzHhYb21Q
-	 7Cw7UdjKMyCbAaIhZU0QuK3jcg5OySLBAJ09fOPJ7LOkm438ssD8TWhWh1AYUIavoG
-	 +M5mmEFfIwDHAErYf6YupymEI87v0+LEBH3y5lb8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240502064153epcas5p472482ecfd6f388977bb5d3be88d79760~LmNKYJHVW0689306893epcas5p4u;
-	Thu,  2 May 2024 06:41:53 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4VVPVR4KPNz4x9QB; Thu,  2 May
-	2024 06:41:51 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	4B.65.09665.FA533366; Thu,  2 May 2024 15:41:51 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240502064151epcas5p3834c50bcaea2c8db2d24fc30b0957ff0~LmNIbQ7Ed0237302373epcas5p36;
-	Thu,  2 May 2024 06:41:51 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240502064151epsmtrp142725e2eba9a07890fc355fb81735ae9~LmNIaoioe1132611326epsmtrp1Z;
-	Thu,  2 May 2024 06:41:51 +0000 (GMT)
-X-AuditID: b6c32a4b-5cdff700000025c1-57-663335affd83
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	09.90.07541.FA533366; Thu,  2 May 2024 15:41:51 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240502064150epsmtip1db6e19ce2f8e70f362374b98aa42fe1a~LmNHh2LKG2095420954epsmtip1D;
-	Thu,  2 May 2024 06:41:50 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH 2/2] nvme: reduce a repeated ZNS check
-Date: Thu,  2 May 2024 12:04:38 +0530
-Message-Id: <20240502063438.422046-3-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240502063438.422046-1-joshi.k@samsung.com>
+	Thu, 02 May 2024 07:04:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PWNJZNC6Vn6ixN+Bk+VDT+muPvoVOHb3vQxt3rJSG1mqt90xKwg4pSjE3iJiyD1q3oK+GVPe/JG4BQaa0usdDJ4ERRRrBXozzUJo9/4hS+sGkPxTk5jBMtRgSacimoAZWoLk455djx+sUgfCyhLzgv0wlTRXmkUZZ6eqy8MAwG4y9VhGRDS+1hpLG9vYN630OqIy+2vffxf8WfVH8XsYIUiRzsF+Rt3/71KI7QWqqRUqo6uJjqerKrUPCuAGzy/JPSwTOiYhR54aCrj/BvuB7fcZhMmes5vpSHu3kSIC+5Vui3ktmXFkuO21XRmveBzvWiLFj8WAqgwwL7nUzC0HCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n1csVuoZUDPBdukvv0zjIqsdCMphVmMwc4peyavkehk=;
+ b=OzDPsWhqEd58VVZGG79TRcJWJb3vX15bjbVXZCdO9xfRqUF57JOTx3lS5V92XRcI230ixbbyfqRZBSQCPaGxmwMD239/olUTwHRYXqujzURuDhPqvXUYhKWYLMQ9L8rNXOhxrTjMFk/lmYYkJDNt6hFrbV1WL2uQ5Rmb9IJ5NUCcrzJLQi1Yw58PFsilooPtqnuIWkNrZpi/gALg7CCiKIVocx4tw3ePcMaMwkvX5wI+fGQB3qkJWrnP7rhfvPZXTkIPaIVGz5a1/rZh55Xc9eA7mDCLVZmIVTD5m1nRhFglAHqq7oVC3YXaHRSkFTrw9lfelFSkcCgqd9mhmMibZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n1csVuoZUDPBdukvv0zjIqsdCMphVmMwc4peyavkehk=;
+ b=K1Ib1bIngIMctDGIylDMUlpJR6DhUCPc68nJg9V0trBElEvB0cqYJnXVi+lqON+DTqio46fi3F5uGplJr9Xt3Otq2dCHywYwVVgklYsP+XHCYR1v/4XbcthGXXwWfxsamyQmWhNPPn+qxA32asCEk6VFPz1nlyk0JwwjobORrZnT9VXERfzI/zpC7yLIf6P4jeuJwGwRqX16g6TgLTfEU6ZA3cTuo0giFXOGeHCRRMzNe9ou3gqfM7BjTNWAfcrLkJCIUqWpS7gvroQFPUR0xVhE4UJ0W9BXLd228pQqetykNgpYVrW8DIwmDBMHMQHQIMDMNzxLmR5wKV+R0V67ig==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by CH3PR12MB8533.namprd12.prod.outlook.com (2603:10b6:610:159::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.24; Thu, 2 May
+ 2024 07:04:16 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::3715:9750:b92c:7bee]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::3715:9750:b92c:7bee%6]) with mapi id 15.20.7519.031; Thu, 2 May 2024
+ 07:04:16 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com,
+ edumazet@google.com, pabeni@redhat.com, dsahern@kernel.org,
+ ast@kernel.org, jacob.e.keller@intel.com
+Subject: Re: [PATCH v24 01/20] net: Introduce direct data placement tcp offload
+In-Reply-To: <2d4f4468-343a-4706-8469-56990c287dba@grimberg.me>
+References: <20240404123717.11857-1-aaptel@nvidia.com>
+ <20240404123717.11857-2-aaptel@nvidia.com>
+ <3ab22e14-35eb-473e-a821-6dbddea96254@grimberg.me>
+ <253o79wr3lh.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+ <9a38f4db-bff5-4f0f-ac54-6ac23f748441@grimberg.me>
+ <253le4wqu4a.fsf@nvidia.com>
+ <2d4f4468-343a-4706-8469-56990c287dba@grimberg.me>
+Date: Thu, 02 May 2024 10:04:11 +0300
+Message-ID: <253frv0r8yc.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: FR0P281CA0040.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::11) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJKsWRmVeSWpSXmKPExsWy7bCmhu56U+M0g9WzlSxWrj7KZHH0/1s2
-	i0mHrjFazF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8+rasYgxgjcq2yUhNTEkt
-	UkjNS85PycxLt1XyDo53jjc1MzDUNbS0MFdSyEvMTbVVcvEJ0HXLzAFarqRQlphTChQKSCwu
-	VtK3synKLy1JVcjILy6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzjg29xZzwQ+u
-	ioMX1jE2MP7h6GLk5JAQMJHY+PEUexcjF4eQwG5GiU+3HkM5nxglbixZDOV8Y5R4+fAtE0zL
-	9wXbWSESexklFq9YxgThfGaUaPkwDaiFg4NNQFPiwuRSkAYRAWOJzpUNLCA2s4C7xO0nPWCD
-	hAXMJHoufGcDsVkEVCXar/1hB7F5BSwl2t/sYoNYJi8x89J3sDingJXE8jt/mCBqBCVOznwC
-	NVNeonnrbGaQGyQE7rFLzL62nxmi2UXi5spmqKuFJV4d38IOYUtJvOxvg7KTJS7NPAdVUyLx
-	eM9BKNteovVUPzPIL8xAv6zfpQ+xi0+i9/cTJpCwhACvREebEES1osS9SU9ZIWxxiYczlkDZ
-	HhJHF1yABk8vo8SFw22MExjlZyF5YRaSF2YhbFvAyLyKUTK1oDg3PbXYtMA4L7UcHrHJ+bmb
-	GMFpUMt7B+OjBx/0DjEycTAeYpTgYFYS4Z2yUD9NiDclsbIqtSg/vqg0J7X4EKMpMIwnMkuJ
-	JucDE3FeSbyhiaWBiZmZmYmlsZmhkjjv69a5KUIC6YklqdmpqQWpRTB9TBycUg1MJRuM7uWr
-	ZRtGTUq2W8DAqr7o7Unn5P1FPQsyJ6m6r05/osdSs2+ThIGkqJ1wYbL4k/hG+T2p7f8YQlRr
-	uoT9Txc4a04WDIiq2XgwM++eRopTzWqPohVv/58uvBf7Z9+3VheePM6g3/kPvnVWKs0R+XFO
-	R9bX7uYEp/nsl64FTStMV5G8Ptl83q/c/HcKtWweeyZwNQTbP3uSUK9noNkTb6xV8NnbYtGJ
-	+e8+u3r1X8x76aq8r/HY+WPnKwJ07vSfTmrl0AnJqj9wRqi5RcvYeRnvlKJFXS4Hj9Q8Yr8t
-	cj7G81WTlNmF9b//htr0MBV0JO2R3dj/ZJq/95IXp1V5niwU3q/pofZq29lvNUosxRmJhlrM
-	RcWJADdkDR8MBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNLMWRmVeSWpSXmKPExsWy7bCSnO56U+M0gy33eCxWrj7KZHH0/1s2
-	i0mHrjFazF/2lN1i3ev3LA6sHufvbWTx2LSqk81j85J6j903G9g8+rasYgxgjeKySUnNySxL
-	LdK3S+DKODb3FnPBD66KgxfWMTYw/uHoYuTkkBAwkfi+YDtrFyMXh5DAbkaJ6d/uMEEkxCWa
-	r/1gh7CFJVb+e84OUfSRUeLbgXUsXYwcHGwCmhIXJpeC1IgImEvsu/CcFSTMLOApsX6iPEhY
-	WMBMoufCdzYQm0VAVaL92h+wkbwClhLtb3axQYyXl5h56TtYnFPASmL5nT9gJwgB1bzoX8oK
-	US8ocXLmExYQmxmovnnrbOYJjAKzkKRmIUktYGRaxSiZWlCcm56bbFhgmJdarlecmFtcmpeu
-	l5yfu4kRHL5aGjsY783/p3eIkYmD8RCjBAezkgjvlIX6aUK8KYmVValF+fFFpTmpxYcYpTlY
-	lMR5DWfMThESSE8sSc1OTS1ILYLJMnFwSjUwdfm/LRUUC6yPDl988eaWLzbrl6pbxDXnqB75
-	fYjXeoU++ybdDwszSmR1Qt+HXn/F/dG4pte3c/Wlcy95D35UY/xy0Wvt+ZZr513OfGzpn7T5
-	l/eDvjqFspgCU2lz1ilrFij6S17M27z7vJbU6Ute6Wl5QisMC7de7araF9z29+Rnx6ZQnR+X
-	NaJ5Vqh6XE6vvjuDJadvjvusc+84JjzJvXST8dJfyRfCVxKk5laFv/58X+iL854Jse8zQg3t
-	GWoZfzzfYss085FxyamDCedPTLl11uK/4+XL75ybz0SsOVKeWXCmfcuuLxteLtTRSmBUWubq
-	tHr52qsqv27IVL9YfcNh21VFgVumUkwVx5tu2CuxFGckGmoxFxUnAgCPolo7zgIAAA==
-X-CMS-MailID: 20240502064151epcas5p3834c50bcaea2c8db2d24fc30b0957ff0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240502064151epcas5p3834c50bcaea2c8db2d24fc30b0957ff0
-References: <20240502063438.422046-1-joshi.k@samsung.com>
-	<CGME20240502064151epcas5p3834c50bcaea2c8db2d24fc30b0957ff0@epcas5p3.samsung.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|CH3PR12MB8533:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8331652e-6029-4344-8b79-08dc6a76146d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|1800799015|376005|366007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rfnVUrjFTwqStiiWqabRrT1wPgWG6tesn1f8RCgr9H0OT35Y2sEALGRqo+/6?=
+ =?us-ascii?Q?ocSJh2stqmT6Cpr+3fGUwdr+YG4pAyNsWTAFB66olclhjUWs0Z3NbKFB410l?=
+ =?us-ascii?Q?jcG19/Od1VAohQVdNYiFnEx/pSKASnWa9Nt9Ub1KOnJbX57kTirxZyz4uVUO?=
+ =?us-ascii?Q?+CGPOcJolkCesd9fsf419pxUgRvN/a5tTNw5KvejNJ6Ry75fnJ8Xd2ipdHxv?=
+ =?us-ascii?Q?DxLlbi6QAyABgGtgqXw8fCijKlcqN0YX9EuPhzbEiQsTFOefGP8ahzbJt579?=
+ =?us-ascii?Q?lPnxcVywJY7GFsL7T1q0xcFyu2d227eHpc6ELgdB5gSpSqROfeNsGDRZ7FU4?=
+ =?us-ascii?Q?An2FKUMwuMSpa8Jkuk5gogSPOwGrLPiLpuVJHlBFBG+qRiVm6klDmbiE4lam?=
+ =?us-ascii?Q?3Gh1FcIRv8YI4jgrYYZBQ0mBD8wFVrg5i6ydSm0ofIyuy/lKkIQ35raRQGJz?=
+ =?us-ascii?Q?ICmHwCUJmv8BG6rblz0qWW5qs+JHCnZSSvQeb8zE7w5mDO/LKmt3hIGEjEhy?=
+ =?us-ascii?Q?rmhTSNHRGI2OXAQzcrusRQlRC5DnENBDsqzcdFT/5VSDGBlx3EEDRuHyr8z3?=
+ =?us-ascii?Q?ZzPS04FrjtWTuhYBjdUvxN/7PTtyJD9k4ZZQJgKmLftaEQeUyTzglxPQxtS1?=
+ =?us-ascii?Q?xNvzjf4Lyr5kyWQThk7fIG4JJ5APfSqsOQxL7vOYrR95Y40aLEzOCzYEOC+9?=
+ =?us-ascii?Q?eEdv8LhV8RYJn7fjtwLodOGseHonU+T3zDJYPXLpjcZiH8vryK4rzJcKDTFF?=
+ =?us-ascii?Q?FBvR5oiT6vpZ8i3gAQ/fRc5nyE6a2z624AdaWL849HYKfL7B+QcKF2gzBfZy?=
+ =?us-ascii?Q?fDLvsJizWpH+wIVDd8aeirANDMsyOuamZDHiqPLGKNpCPo9VosB2x91/lYko?=
+ =?us-ascii?Q?EFOwMstWTq0UcPZTnw5RGBkwvpWZTWgv986V5CFVLJMFrx2XVIK61cwTGMgs?=
+ =?us-ascii?Q?ypkIWVLIE/zpbyM0aOClnW3TvUclqBzBgP16Y69cGSqFMR3WR9qDuEDlPhd0?=
+ =?us-ascii?Q?klMnR/0szlt0cbjWsGYlWm1fxQM0d3hIGcGewbgGrBM0EpHifEDhdvrCerK/?=
+ =?us-ascii?Q?nA0J6YqE51R4dS/+dchEpyc2dC1mylew55WTmgwqIvtvF6SnSlztih88myj2?=
+ =?us-ascii?Q?ikOG9cS/VsXCeKKO/sfalCUvIaqAV14xdMMHZCQ8QlVZg3GrMKxnwjVevXK1?=
+ =?us-ascii?Q?SHbJS1fspr6OBllZ+ZrY7qyQJ4o2sQ5p6PqXno+ve0PK4IFWdHcmfyeCYbgp?=
+ =?us-ascii?Q?4axT164AbMTbEgstRiItII9KGBnZB/xFYM3hQfktrQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6fDUcPAe4Kk919qX3/LHlxt6cup6lW58arvsdc1+c4f8SQayjC9EWigSET7p?=
+ =?us-ascii?Q?tiGT+1hJgu54Dus2+tUmPxq4jst1B+0PzM+lTOnThvcmpNjoj8vV/gIe6cGj?=
+ =?us-ascii?Q?tafGOcYH3yXPoO3MzvSp7WLCV+CpNYL1lpB+w4CFkbIOnTHW4dR/W7xMX5Ja?=
+ =?us-ascii?Q?6ZjoujRal12hXVieT2NWPjdq7qFGDBlL1eeP+YlaUk1NrwcYiWGX4l41JQb4?=
+ =?us-ascii?Q?PRUGPYllhV9oYjYjIMCF+rZSXCr0FZyGbDDHUZKlUlSCi6NBOLYb/i5vZgJU?=
+ =?us-ascii?Q?CdcI8nmZdXCqp/WrMBrcdTWdL6UAkVnjz8NeaASGUYclnjtlpj8yfrodoREG?=
+ =?us-ascii?Q?4VQax/eZwTuYZ8o0ek4qfha41RfuYCk6xrpzm1F2JUYwUG/ztE5+PhvWIplm?=
+ =?us-ascii?Q?ekFXLSxsakyFZj1zhdSXfe4/gW2iP0iOj4yN5dG49EyjWY8YzvdUuJDXEkJw?=
+ =?us-ascii?Q?JVVjmG2rS0YS/X6Ymp8V578LDB++54IZ/VBWHk/lU4UGWM4GqZhJCmP1IdU0?=
+ =?us-ascii?Q?6QB5JaXEzXhn37uAdKK8GWK/6BVyuBkPDN7+MxVAzJHbNUyMT49i1apAERN9?=
+ =?us-ascii?Q?fQWcNM+/qSOmyz6GqK7fpAH2QIFuZOP5qC8io5kp1+GFA+IHSfYx76wAD5nB?=
+ =?us-ascii?Q?pf8zlgrotf9aGDjaczbYH5nLjVJmmXAvVz+60qfYlJHZqoa6k471gKZnsmKd?=
+ =?us-ascii?Q?queDusizZLzMFIceLVnyCy66fjfxg7YlSsoRyzIsZ709xvVu0XnyXc8b1lNC?=
+ =?us-ascii?Q?Z7lLCqxfWzI58dUninvWXvN2rV9HYEs/M3J8lcz5KwWuFpGSGaUzeFRIZSqe?=
+ =?us-ascii?Q?073bAWcPZpkzhNSo0AG4G0feXUcHfccWO99A/OeLXk0Dg7H4IsJmidWfkbZS?=
+ =?us-ascii?Q?4FSzotEnGzttrjdYebwkUvY60NedBqQhYV0yy6Nexal+Ra3zanTpXNK3ylB7?=
+ =?us-ascii?Q?u0Fd2lsOla8LlfAr66j/MDVCsMDT9xI54oNZxKKKbzV9IrTGJGEiY7pPPItL?=
+ =?us-ascii?Q?vP6zJ0I+dP9wgst/Z9SSjn7VtQwuEyrZYMTKd66ITffhSlmi6r2toBfoIgUe?=
+ =?us-ascii?Q?WRXfsj8lcNHJQcJcAJJQUF0GLlJlk8IGKde/qsfs0VW/WCEz1XrsjcECMeqG?=
+ =?us-ascii?Q?k6Xr+LKoZLBRjAtL3ZfTEklnWlfUoiCh+JeA64m5GIKc8kWRLoUtOrvuupLC?=
+ =?us-ascii?Q?ZsP26bsjTRRz3PAk6PP9JSbJyXnuwAb/SBE8tP0mQxYNUjjeoBmf/GKJcXH5?=
+ =?us-ascii?Q?0SJJDCDFm0Og/LPmX9qP0YUBtYkxLrzjtcClom4su0icHS8WECOMH0ZZcFGm?=
+ =?us-ascii?Q?HhcRhEiG4aSeVjKMakBHkOtuHqchJwNv05m/Z+Jp01M2WYjoarLCxIv0Vhy9?=
+ =?us-ascii?Q?/DPKAsw68iqfcU8CHMnhC23p50dCphdIKaoxdqH6s1F/Vw78Z5dEY5LJs7Sv?=
+ =?us-ascii?Q?KpyTkE+6HGMsH1OvQ9YukB8eTsFFMO+W1CGyBdd27BAoklo+AHXvmLts49dS?=
+ =?us-ascii?Q?9plBnJcT/nYrSq4prIHj/4Iq/83wWNYe7dkjlTptflv9/ioWnSveyW49bmhH?=
+ =?us-ascii?Q?tBk2ZiFWJnvDkN5yZYeu+LmyP4zQpHtl9lMdE+Kx?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8331652e-6029-4344-8b79-08dc6a76146d
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2024 07:04:16.2805
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EwvdQBIpkHwE37R/wMKD/Tldu7SpFDnY0y1e3q3sVrWRJP8UtsM9Tzk/v7NZsKwvZGJ8ZtDPTAdd4vBcv0nj4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8533
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240501_234218_028450_8CCB8F91 
-X-CRM114-Status: GOOD (  14.39  )
+X-CRM114-CacheID: sfid-20240502_000431_525117_EDD976E6 
+X-CRM114-Status: GOOD (  19.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,49 +163,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Modify nvme_update_ns_info_block() to eliminate the repeated check for
-ZNS.
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- drivers/nvme/host/core.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Sagi Grimberg <sagi@grimberg.me> writes:
+> Well, you cannot rely on the fact that the application will be pinned to a
+> specific cpu core. That may be the case by accident, but you must not and
+> cannot assume it.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8ae0a2dc5eda..7f4df3932ca4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2081,6 +2081,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	sector_t capacity;
- 	unsigned lbaf;
- 	int ret;
-+	bool is_zns;
- 
- 	ret = nvme_identify_ns(ns->ctrl, info->nsid, &id);
- 	if (ret)
-@@ -2100,8 +2101,9 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 			goto out;
- 	}
- 
--	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
--	    ns->head->ids.csi == NVME_CSI_ZNS) {
-+	is_zns = IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
-+		 ns->head->ids.csi == NVME_CSI_ZNS;
-+	if (is_zns) {
- 		ret = nvme_query_zone_info(ns, lbaf, &zi);
- 		if (ret < 0)
- 			goto out;
-@@ -2119,8 +2121,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	if (!nvme_update_disk_info(ns, id, &lim))
- 		capacity = 0;
- 	nvme_config_discard(ns, &lim);
--	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
--	    ns->head->ids.csi == NVME_CSI_ZNS)
-+	if (is_zns)
- 		nvme_update_zone_info(ns, &lim, &zi);
- 	ret = queue_limits_commit_update(ns->disk->queue, &lim);
- 	if (ret) {
--- 
-2.25.1
+Just to be clear, any CPU can read from the socket and benefit from the
+offload but there will be an extra cost if the queue CPU is different
+from the offload CPU. We use cfg->io_cpu as a hint.
 
+> Even today, nvme-tcp has an option to run from an unbound wq context,
+> where queue->io_cpu is set to WORK_CPU_UNBOUND. What are you going to
+> do there?
+
+When the CPU is not bound to a specific core, we will most likely always
+have CPU misalignment and the extra cost that goes with it.
+
+But when it is bound, which is still the default common case, we will
+benefit from the alignment. To not lose that benefit for the default
+most common case, we would like to keep cfg->io_cpu.
+
+Could you clarify what are the advantages of running unbounded queues,
+or to handle RX on a different cpu than the current io_cpu?
+
+> nvme-tcp may handle rx side directly from .data_ready() in the future, what
+> will the offload do in that case?
+
+It is not clear to us what the benefit of handling rx in .data_ready()
+will achieve. From our experiment, ->sk_data_ready() is called either
+from queue->io_cpu, or sk->sk_incoming_cpu. Unless you enable aRFS,
+sk_incoming_cpu will be constant for the whole connection. Can you
+clarify would handling RX from data_ready() provide?
+
+> io_cpu may or may not mean anything. You cannot rely on it, nor dictate it.
+
+We are just interested in optimizing the bounded case, where io_cpu has
+meaning.
+
+> > - or we remove cfg->io_cpu, and we offload the socket from
+> >    nvme_tcp_io_work() where the io_cpu is implicitly going to be
+> >    the current CPU.
+> What do you mean offload the socket from nvme_tcp_io_work? I do not
+> understand what this means.
+
+We meant setting up the offload from the io thread instead, by calling
+nvme_tcp_offload_socket() from nvme_tcp_io_work(), and making sure it's
+only called once. Something like this:
+
++ if (queue->ctrl->ddp_netdev && !nvme_tcp_admin_queue(queue) && !test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags)) {
++         int ret;
++
++         ret = nvme_tcp_offload_socket(queue);
++         if (ret) {
++                 printk("XXX offload setup failed\n");
++         }
++ }
 
