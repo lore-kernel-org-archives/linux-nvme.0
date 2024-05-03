@@ -4,61 +4,178 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1DC6C4345F
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 05:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4017CC4345F
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 06:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n0iCVTcmN2qd9yHTavLeKroH1EWobLSRI2om8FAtnWM=; b=AbFarVQVSJH7IiJ1nZjg21r6PL
-	7c5Ep3m0FrmZscE4T84LqGhKXI67IDLuc/s50YPcTzW8gIiXd9XNBfpPbkg730OUGiciajrMNNnhA
-	IbDmPELKeRpKT4EaSByzEogW/FMXAyPzzPdbepFUiESzGsHlRNsfWxslYOCYZ/mNpmMcbX9LZTQEO
-	4IaUJWuB2UxwO60LIlAzHTIidYDTfkyCoDWJJfEOqn05QKVRlkTC7fv35Er+00u1ZDp79QpcTYavE
-	/yjb+DOMy1IO7u9jNA7BUFgjb3yZ7vv46DTHxwHhLGWY8TlC7Ipy3q8lpNbJErtG/R9vjNRYh3K4m
-	nUc/ilIQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2DF2FdUymddZBqs8PfyrXT0GMo94F9bMXblOI16TNBU=; b=GBJwkAbgUaeAfYPs4Bb8lwIsKv
+	51O1c/bb5SQVj26N8nvXG6m21cOpJip4tUXWLtD/BdYpgN7P0dwkj1iTQmsAJdBHlU7jYaVYAuOlI
+	bYYh6ePyZfzRdjtwDi6XEwC1ZyRGxY6ALVugH01hcvABs6rDujZayaJQvPN8i8Z98/xPa0KvIUHJ2
+	nq70rInzAzjLDvpKip174EeSFf8VUAei9Qb46puo9a5t1QjddYRhjI6krXf9L+CJnu7G3doRWc1BY
+	ZGSUV9wlGA5E3N6/mh/ptNCKdn0aQ7G5KD0Lrhu9X7eerp1zNJ2JTKEBFM6mcOQlMsTUKErTUsXWT
+	RLQNFptw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2lrH-0000000FD0S-1SuL;
-	Fri, 03 May 2024 05:53:23 +0000
-Received: from mx3.molgen.mpg.de ([141.14.17.11])
+	id 1s2mKi-0000000FIOp-0XFX;
+	Fri, 03 May 2024 06:23:48 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2lrD-0000000FCwJ-0Umc
+	id 1s2mKb-0000000FINc-2DVy
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 May 2024 05:53:21 +0000
-Received: from [10.50.1.206] (unknown [89.187.201.15])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 75D4361E5FE35;
-	Fri,  3 May 2024 07:52:33 +0200 (CEST)
-Message-ID: <32828674-eafc-435b-9497-3ee715c56231@molgen.mpg.de>
-Date: Fri, 3 May 2024 07:52:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: `nvme_disable_ctrl()` takes 411 ms on a Dell XPS 13 with SK hynix
- PC300 NVMEe
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@fb.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <19a6071a-7fb8-4e0f-8050-6f3ba5ee4774@molgen.mpg.de>
- <20240501045145.GA32110@lst.de>
- <ZjH2Coc8Wz9QrdRM@kbusch-mbp.dhcp.thefacebook.com>
- <93c29602-b162-47b3-9a03-a18158b9f6ef@molgen.mpg.de>
- <ZjK8IjHfwpAMQajT@kbusch-mbp>
- <1c826b9a-4b21-43c8-9064-c3ab095307c5@molgen.mpg.de>
- <522a8fd6-5865-4e8a-b8e8-b0288dfe384a@molgen.mpg.de>
- <ZjNSOEfDMgqJW01F@kbusch-mbp.dhcp.thefacebook.com>
+	Fri, 03 May 2024 06:23:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1714717421; x=1746253421;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=V8L5/8xBSNcp8d6FeFrtZyvvs1OT+6YVQ2YDeVR26ZU=;
+  b=ZvC0oC+Di0LCJOXb0kKBNuVxpjGALhUNmupOJCsmxecHcO8YxVWtvLlm
+   SXMUEKRDH0xszoD4WkM2y4x/wRVWPORV8Lm6UU+fzULJ+V8e7CvT7k//2
+   Z2OG/WCEDIKY7lapuK2UmmM+gdzX7GLyOYZ/ennf6nZx5CL9H6bHfOQ9b
+   le4YwwPatX7V9x7dZLuR/V4/fuJuFx4LjqZ0tQwEz7X4UYMHgIxJ36IM/
+   JXHdVU+pmAda25ukxnJH8AAWmkOpK3VNkAXUCBIyXMbcrrv9W4AQPakgl
+   CDYxEfMWo2OIvh8PKGp3CXLXy1YFk1GCy1aXDJRNiplTdi0/rZH5Q78yI
+   A==;
+X-CSE-ConnectionGUID: rTsEksSMSn+g4IdZtGlm0A==
+X-CSE-MsgGUID: 2tEFbfuwSw2wMZIMmskujg==
+X-IronPort-AV: E=Sophos;i="6.07,247,1708358400"; 
+   d="scan'208";a="15716952"
+Received: from mail-mw2nam12lp2040.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.40])
+  by ob1.hgst.iphmx.com with ESMTP; 03 May 2024 14:23:37 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AZoS42hleIPjQ3yC92XtNu38AJguRvGLNYBFuS39RGaVY1lOuiazoz/Zx6TsMhiTbqn5gsSxTfU6jmMjl2eflvZX7MfD+h+I1sKd8uytP6sRMPbBNKMX/D8P6YL7ejSLqeAKKcjnh+bntAS7uXqP91oEL4aLijO426pXSrT9dFTM2P+RnSAUFuGvAUTRAzEJN7qcEjRwldz5zalAxMatTAUxMF2onhW9MSARsNSoSkeoQO8vJTGR6fi/m86yl5MkCcFvpxwBwkgjE3j6tTksFbKYpR8hnRGJg4qpSsHBzF+hvzZlsquN8tXcTOdb9AyxNyY1o96lHC0UINSwoq20Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2DF2FdUymddZBqs8PfyrXT0GMo94F9bMXblOI16TNBU=;
+ b=ChpG8LHzUEHZ1ekkNz7ckzfOjtwUFiOk/IG1sZNhjRHIX6OA5TVrldu9Vz3OvJFsf+NojzITBk9LbdJFWWiUqdqFkZDUAU+0k9KaNhFlYv5p1iEcPrk5WuXxqaq9BwCHfZyxesZh/cSz/KDsd+RiKRHx+/zWkGbnxsykvrAqVsW6ixYXhTGjh9nPWzfkoaMGbEHl6vfMhieLTt7k4NYeRSJlPmwJ2rJbehB1dIJEiPKVAZdxz2VVYVCqlfb3NN2vkwYZVCq1NcF/f3hOP7PhzSOMztfhQkYsjemAe6G5LCv8+oOMoy1/NkMsFHdEx8SmSP10Py0Lpzyl6uDDaCfZng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2DF2FdUymddZBqs8PfyrXT0GMo94F9bMXblOI16TNBU=;
+ b=Ii59wYf/beGfmfio1So4fgzzgIuItcF6KPBoPU37oBxYJ3QSs1kkkMMB1ET5C/mEpDRTFfQ6qU76Dw2XxCEsOGTVTs0YhUEd59tiwNo1Ifc8boOSynocy0apYHnDnDEGB9PW1fAKvzWdTQGUvXba3mCHk7zFGJ/vMQW66aupPsw=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ DM8PR04MB8167.namprd04.prod.outlook.com (2603:10b6:8:2::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7544.33; Fri, 3 May 2024 06:23:34 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c75d:c682:da15:14f]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c75d:c682:da15:14f%3]) with mapi id 15.20.7544.029; Fri, 3 May 2024
+ 06:23:34 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Daniel
+ Wagner <dwagern@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH blktests v3 10/15] nvme/{006,008,010,012,014,019,023}:
+ support NVMET_BLKDEV_TYPES
+Thread-Topic: [PATCH blktests v3 10/15] nvme/{006,008,010,012,014,019,023}:
+ support NVMET_BLKDEV_TYPES
+Thread-Index: AQHamUo6D+gVl3vVR02YXq3wno0qJ7F9fAYAgAAs7oCAALQwAIACXDaAgARY0AA=
+Date: Fri, 3 May 2024 06:23:34 +0000
+Message-ID: <bxklo2o4onybsamatf2nyhecnkl3wuoz66p7nq2dyndnfc4vxt@hkokvvx4c7jy>
+References: <20240424075955.3604997-1-shinichiro.kawasaki@wdc.com>
+ <20240424075955.3604997-11-shinichiro.kawasaki@wdc.com>
+ <6b55293c-0764-4922-b329-be393c9afc81@grimberg.me>
+ <36jinbbjhzr6erpfpnfqmk2jebf5tlnl26skuak73krwyyu6zi@i5qtgb4bqqgy>
+ <eeee5574-f4de-45a7-837b-74589dab423e@grimberg.me>
+ <sb3syw5ysqvkxvvn7mubzk3n6pfsivq54ownkyju2sgagesxpf@ktfn3333dmt2>
+ <0a21ba7f-4d0e-4368-a215-2b81a8cf562e@grimberg.me>
+In-Reply-To: <0a21ba7f-4d0e-4368-a215-2b81a8cf562e@grimberg.me>
+Accept-Language: en-US
 Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <ZjNSOEfDMgqJW01F@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM8PR04MB8167:EE_
+x-ms-office365-filtering-correlation-id: 59b96b7f-07c1-4135-c962-08dc6b398f51
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|1800799015|38070700009;
+x-microsoft-antispam-message-info: =?us-ascii?Q?RP2loqcTGqbl3RHx4Lblz2yFrTi4m77nhdRnOHyCP5+9PEu0tm70RHDIs9F6?=
+ =?us-ascii?Q?fwShfw+209eJe/z48T3P8YPCHo8wBrVGEz8UpKxRsxXUOsBLH+gJjEYwr1GA?=
+ =?us-ascii?Q?PXyN+CwkuRuRU/d0Df+MJo3yIAOJKjnLJmGEHC9sGZLLboCV/T540elSMAga?=
+ =?us-ascii?Q?MIGhxueQuKaFliSGRyFb7pD8wxZk0yCHnOc2EftnM9+7pKI997vMSg8Dl/39?=
+ =?us-ascii?Q?icaqN8o8dWVWh3HEO3l2qRypFof4ZDGTfoTjqzvRGSm+HnTY6IoklPVuYAWe?=
+ =?us-ascii?Q?E0VzsvqiSv/76cJxlD+Ae43+PAK5nBnCIZCzt9+LrVHJsiJDz8gaMlK8zQFe?=
+ =?us-ascii?Q?j+Jd/Aj6416C8Qq08j25WqUNM3MPYGedkYlWiTeuOZuUPLUd0fcsAcz2S+fk?=
+ =?us-ascii?Q?sZ82HJ8Kb3gFMGkQ1iwY7O0hnOU24i2Gwe9gD+Gx0fazB0vLLVaYuwe1K8oM?=
+ =?us-ascii?Q?sKdxJh+e7sHNc7T3MM9CSlPqcFjZNzyDwQcVvnWNpvn4Y8nbCkK/TpwLvDMW?=
+ =?us-ascii?Q?Gwydy2Lzb+Zeor564Dcjcs5f/V4ImtaOM0qVphMH7UZGXXA+VHslUrIDy6q8?=
+ =?us-ascii?Q?TQeBLjJJ9ATTSom81D9B3KCv8ilUdmLjjgvJxJIDdjkiZn9TCoVyRwZ/x6Z7?=
+ =?us-ascii?Q?m8dSPi72X/jGW6uJVd6lAf065iz3Ne4yEHYUXZ5e+W5CYRTiRPSpBrtLFu36?=
+ =?us-ascii?Q?jbDab8wXEFaIiVtcim2dxzHdf+2LYXe5/i3d+Cy4SZHB6qKFmw4LwpLgtRwy?=
+ =?us-ascii?Q?rhLsrq8I1o6RjfiFuluTtTN3UvFuT6qw+WVyNpwAyDAeD1Nk8DtpANF9lQLX?=
+ =?us-ascii?Q?Ay5Jd26qOe6yyTGIEFyar2J2nLc1QQQzQRCXYj7UmSCoM7cNBAr2DEDi9zcK?=
+ =?us-ascii?Q?wB4oy/r/xTiY/yD5SqGtYElPNp1itgj0fvJbVRnz8umGRqigXzuPgRR5Q/Fa?=
+ =?us-ascii?Q?3uI2QItuUM7Zts8BHCvT6XJtAT5N27CTLiesLMI0R8EAJIDGscj8GTQuGNIj?=
+ =?us-ascii?Q?f9YuX/RPGM3P1U/mmWT7TQw+lAhcwCue5VrS/g3lZXroK6qefESmUxyJn7PN?=
+ =?us-ascii?Q?9hIMNP6amchhmidDzdHmyF/NCOQcY52Ahm0NfkoriF9bRdl56igo6V3mH++P?=
+ =?us-ascii?Q?n5ZIJB/3tuvXPaoOtVYPJhfjgGvnXXbEHz6OpqmCqis9tkOoPue9ofQFdcpV?=
+ =?us-ascii?Q?eYodYgqjY1hVxNTDkbftluFmonRwsQfylOChEqHZjy2lg6fihPeiavh+WLCM?=
+ =?us-ascii?Q?vGrBDbAUj4lRCkwg/5+c1Gq7k4cuSY+8i/chn53CBoxAzfAgDkzes1DDJrlB?=
+ =?us-ascii?Q?rSazbNVgDVrEncI9jQYOWLdo4HRn3iYrlSmHz69PXcFh/Q=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?FXzhIJFFlhZxkREOgoF3XmHER/UihFxE5cK+PKCEvmMG4a/0lmxVGGgUxWl4?=
+ =?us-ascii?Q?GJeGtfx7TAcb4zpGdZBrgOifX6dQ0vKEt8G2wmnhJrt3WdYz5zoKm/enSzTA?=
+ =?us-ascii?Q?I9j4qC2XVF0AxhpY+ZdVy1rZfwmxrEcgFDVlOzyZNwvuNV5hD1sFPH9jtIx7?=
+ =?us-ascii?Q?lO8vkK4IBZfcGl+5JnphB+/5GvL2V2pRHp0qm31rcegQxFnYabs8Blr7L6wZ?=
+ =?us-ascii?Q?Yi4NXeInpAUx7GokZgoWHAhmvZtJgWp7lD2X7oPuoSZz8tWIIH6q+p7j72KV?=
+ =?us-ascii?Q?J6j1CGDVJ+JuaGb0Nu7Lgj6yH3imCY2NfJyPDL5X+s3yYGOjoZDk1fA2bBcs?=
+ =?us-ascii?Q?DxWMX+v5BbF1e07R7OICqypEDec3Ttw6iuWJQYd9KEvA1JgH359Cyi7FzsjW?=
+ =?us-ascii?Q?fvAxtbKXtEoF3wHxyqwcLDz7euVHu1PdB/P3VoH79LqKpWYhF8Dzi/n/nRqB?=
+ =?us-ascii?Q?Z3Vjsw6WTako3cYsc68UTXZwKbMRRkBshlS6OxKUu7l4o4jQcYNKf3EQxDBU?=
+ =?us-ascii?Q?ylvTlkZuT8dH99GN1mzUofrEzHLgpZO/x0+aImZNSr5eR72gzN4Y+GUTuG1K?=
+ =?us-ascii?Q?tohhsOTj18Pv4FpltfyxndiSLotoV3c3B58EIETAT3Mo95ACWC3ap6ruma0i?=
+ =?us-ascii?Q?dgHzh24QFs45eO5ZrJVwpmyIg6W4zAFWoCaNnkUf84TMXIPfR/GEiW9dUPKX?=
+ =?us-ascii?Q?ThbL194pkmc7DAvPzHBgFw9t2Q8xNG8DAE+jvZn+74ICbkA3UmgT7GfCHdJu?=
+ =?us-ascii?Q?MxvU9CyCSynmv0vvVcTMqsTSWYPsmmeWIwLa6Xtm1FSpyjIeE1jCwBdvSEh1?=
+ =?us-ascii?Q?sD/u/kkkMFpWmwmvevOEC/UASucl9Rk4L6v5AeTIkd5tmRWX+SRUyHcOW+GS?=
+ =?us-ascii?Q?hU+NMJEXf43dFOoFLREfUccCnuHM0mWOScO3qFdO2nOqgUCAhBzOtdBvSZQQ?=
+ =?us-ascii?Q?yXwzP+7Ig4lPp04ClsdaDLi0f2WwTqffQkHo1QB42ys56X1uuvB/mpB3vdYn?=
+ =?us-ascii?Q?ZkleJeHBC3WWCCZ/l7swsnd+5aiTTlkLvJaft6ydMj9myqQgHw4d3IydPmsS?=
+ =?us-ascii?Q?e/kwxE0dkXWrMzKaWAY/zw1/iMTRSDfnHDAU8ZnooMGzv8SrBWtK8kzkqGV1?=
+ =?us-ascii?Q?Xiv4bR/T2FBbZcZj2NGEfdc6xigTR9Ya3zqGzn8imC4+yq7SSIev8iqe4GhD?=
+ =?us-ascii?Q?HBRTJerJMl0swdw78+faxpMQ7YCiqU+g4OzhCYdKFpqXFRoaIcexz5/aRBE2?=
+ =?us-ascii?Q?l1LvOIknvzwuWa1tFij9GhpmDghzjnxzsfQctsD5FVZe5fDgCb47tkwp9ZCE?=
+ =?us-ascii?Q?PAbYvlJeHGwVwJM/Kg673ef7NYs5K4OvvYZRtqpuF/KMUmvS2EOJVeT16KNj?=
+ =?us-ascii?Q?wwjRayxP5T/7uEt2y26r202RVuFO+pNvhf1mNwgzkU+dfqEW3beLIxd+Xps+?=
+ =?us-ascii?Q?L01SJSupIv90hGrr9PB96tzd9GzSxpROnXbWH/vo5ab3B20Fm+5wPjqzCUvm?=
+ =?us-ascii?Q?vI2mnyZxAc/vRYuAX9DVRV01B6xymU1pvcXznsz1r2VigsyfWI9R3lu4olMf?=
+ =?us-ascii?Q?0Ht5oI4uqDNobv5VbhESGzyk5GD/SR1ZG4UcjWb0pyUGEaznWPhRdtJpmwYJ?=
+ =?us-ascii?Q?EA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <7D585215AEA3DE4CA84E0A7584B775A9@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 4KrGskXakCaZBX+5RpO8U8jVtMn34seTuRjVgUA/7Q/MfMjp24WQv8aAdIzbIEqmKcgpVQgTxTL228kfJ4PbjVe6DZrYhbYA5ZkWFDlTpU3mlJOPLMrHGCi/aXS//vlCzdtGSvnDsG5kycSiPLtsq+0eby7U60zBKnaUre9m7qvPS8TnrNM+EQxsvLMspa5j+YwxWqHYGhxMv7sxwSsa1zcOhXzYtyigNiCtj44n7ofWqWMB4q1wH8ChdXCHJRDJNu3MFHkkpIhRSy3bY8JTBG0+vA4UYALMQE4lbzQgl225GBJPxadGRRSgwwjNWN2ZR2avgN4o8YWsqPQBI15UuzmHXnK9UmGLzc8FqnyWJ9nH7ujd28H3/bcN/XYUGnu/tmDd5oSA6YV3B8FykkXZrAwgaHHvhHAU722Njbu0OJf2t1tREtFEcN0SqamhnbNOS9HXhFz7YJJESP7wiEuyGJL2Q6JVS1ZcIVLnruGhQ/Fg6sSxUkzl7pMA+Js2L1NVSPGH811VEy5W65QJ1kw2Y3BOXGZ+oWr2YgPkWZJnau3V3g3BVOfCgjskreUPK3DorST8nZjFBSUnijRkxnPMt9tJEP7MFTQbEQFNIXfL169+oTJ61hu56SAy63mFd7yY
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59b96b7f-07c1-4135-c962-08dc6b398f51
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2024 06:23:34.1261
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pUhGr0AGC/XW2MOsZKQJNv1M7ZLSXxWhpCjRnHcUp77Fje7LBH+1FQ5/Os67zMXIyBc9e7XyqvzvbVzIKEpztLkkqphjjOXoIXMk7ci1FXI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8167
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240502_225319_335941_F9C48A13 
-X-CRM114-Status: GOOD (  25.54  )
+X-CRM114-CacheID: sfid-20240502_232341_610755_3E41BA3A 
+X-CRM114-Status: GOOD (  35.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,95 +190,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dear Keith,
+On Apr 30, 2024 / 15:00, Sagi Grimberg wrote:
+>=20
+>=20
+> On 29/04/2024 2:58, Shinichiro Kawasaki wrote:
+> > On Apr 28, 2024 / 16:12, Sagi Grimberg wrote:
+> > >=20
+> > > On 28/04/2024 13:32, Shinichiro Kawasaki wrote:
+> > > > On Apr 28, 2024 / 11:58, Sagi Grimberg wrote:
+> > > > > On 24/04/2024 10:59, Shin'ichiro Kawasaki wrote:
+> > > > > > Enable repeated test runs for the listed test cases for
+> > > > > > NVMET_BLKDEV_TYPES. Modify the set_conditions() hooks to call
+> > > > > > _set_nvme_trtype_and_nvmet_blkdev_type() instead of _set_nvmet_=
+trtype()
+> > > > > > so that the test cases are repeated for listed conditions in
+> > > > > > NVMET_BLKDEV_TYPES and NVMET_TRTYPES.
+> > > > > >=20
+> > > > > > The default values of NVMET_BLKDEV_TYPES is (device file). With=
+ this
+> > > > > > default set up, each of the listed test cases are run twice. Th=
+e second
+> > > > > > runs of the test cases for 'file' blkdev type do exact same tes=
+t as
+> > > > > > other test cases nvme/007, 009, 011, 013, 015, 020 and 024.
+> > > > > >=20
+> > > > > > Reviewed-by: Daniel Wagner <dwagner@suse.de>
+> > > > > > Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> > > > > > Acked-by: Nitesh Shetty <nj.shetty@samsung.com>
+> > > > > > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.co=
+m>
+> > > > > > ---
+> > > > > >     tests/nvme/006 | 2 +-
+> > > > > >     tests/nvme/008 | 2 +-
+> > > > > >     tests/nvme/010 | 2 +-
+> > > > > >     tests/nvme/012 | 2 +-
+> > > > > >     tests/nvme/014 | 2 +-
+> > > > > >     tests/nvme/019 | 2 +-
+> > > > > >     tests/nvme/023 | 2 +-
+> > > > > >     7 files changed, 7 insertions(+), 7 deletions(-)
+> > > > > >=20
+> > > > > > diff --git a/tests/nvme/006 b/tests/nvme/006
+> > > > > > index ff0a9eb..c543b40 100755
+> > > > > > --- a/tests/nvme/006
+> > > > > > +++ b/tests/nvme/006
+> > > > > > @@ -16,7 +16,7 @@ requires() {
+> > > > > >     }
+> > > > > >     set_conditions() {
+> > > > > > -	_set_nvme_trtype "$@"
+> > > > > > +	_set_nvme_trtype_and_nvmet_blkdev_type "$@"
+> > > > > Why not calling separate functions? having func do_a_and_b interf=
+ace is not
+> > > > > great.
+> > > > In this case, we want to repeat the test cases to cover combination=
+ of two
+> > > > conditions: M trtypes and N blkdev_types. The test case should be r=
+epeated to
+> > > > cover all of M x N matrix elements, then the hook set_conditions() =
+should
+> > > > iterate the elements. I can not think of the way to handle this ite=
+ration with
+> > > > separated two functions.
+> > > What happens when you add another condition to iterate against, you
+> > > introduce set_a_and_b_and_c interface?
+> > That is my current intent.
+>=20
+> I don't think its very maintainable.
+>=20
+> >=20
+> > Another question is how it is likely to have more conditions to add on.
+>=20
+> I expect that people will want to add more flavors moving forward. For
+> example
+> ADDRESS_FAMILIES=3D"ipv4 ipv6" RDMA_TRANSPORT=3D"siw rxe" and possibly ot=
+her
+> features that can grow in the future.
+>=20
+>=20
+> >   I guess
+> > such many, multiplied conditions will result in combination explosion a=
+nd long
+> > test runtime, so I'm not sure how much it will be useful.
+>=20
+> I think that running multiple flavors of a test suite is a capability tha=
+t
+> is bound to be
+> reused as more test flavors emerge. But that may be just my opinion.
+>=20
+> >=20
+> > Do we have potential candidates of the third or fourth conditions?
+>=20
+> Yes, see above.
 
-
-Thank you for your reply with a lot of background. This is much appreciated.
-
-
-Am 02.05.24 um 10:43 schrieb Keith Busch:
-> On Thu, May 02, 2024 at 08:12:39AM +0200, Paul Menzel wrote:
->>>> That doesn't seem too hard to believe to me. A safe shutdown can often
->>>> take a while time for an SSD. I've seen other implementations orders of
->>>> magnitude worse than what you're showing.
->>>
->>> But why? Due to physics or due to "slow" firmware?
-> 
-> Maybe both? The run time metadata doesn't necessarily match the on-disk
-> format, and constructing that can take a moment. These device's CPUs are
-> usually the cheapest the vendor could get that satisfies a run-time
-> performance target, so may be under powered for computational tasks.
-> 
-> And it may also have to flush pending user data from its internal
-> memory, which could be a few GB.
-> 
-> Lower end devices don't even have memory, so may have to make many round
-> trips to host memory to retrieve its metadata then manipulate that to
-> its on-disk format.
-
-Thank you for the details. Indeed “slow” firmware can be caused by 
-low-performant chips.
-
-> Maybe this could be better optimized, but vendors may not consider
-> shutdown time to be a high priority.
-
-As this is all a black box, it’s hard to know. If this is more visible, 
-vendors might make it a higher priority.
-
-> This gets worse as you add more nvme devices to your system because
-> shutdown is serialized. Some of us have proposed patches parallelizing
-> this process. I wish I could spend more time on helping see that to
-> completion, but other priorities get in the way. :(
-
-I didn’t know. I only have systems with one NVMe device. Also in other 
-parts like initializing CPU cores and applying microcode updates they 
-try to parallelize the initialization to decrease boot time.
-
->>> So this confirms the ftrace findings. Excuse my ignorance, so the
->>> time-out is in seconds? And how does this relate to the rtd3e value (410
->>> ms /= 60 ms /= 5 s(?)?
-> 
-> The driver provides a user tunable parameter to specify the minimum
-> timeout value, and it defaults to 5 seconds.
-> 
->    nvme_core.shutdown_timeout=<time_in_seconds>
-> 
-> The driver selects this or the advertised rtd3e, whichever is greater.
-
-Reading the code, that is in `nvme_init_identify()`:
-
-	if (id->rtd3e) {
-		/* us -> s */
-		u32 transition_time = le32_to_cpu(id->rtd3e) / USEC_PER_SEC;
-
-		ctrl->shutdown_timeout = clamp_t(unsigned int, transition_time,
-						 shutdown_timeout, 60);
-
-		if (ctrl->shutdown_timeout != shutdown_timeout)
-			dev_info(ctrl->device,
-				 "D3 entry latency set to %u seconds\n",
-				 ctrl->shutdown_timeout);
-	} else
-		ctrl->shutdown_timeout = shutdown_timeout;
-
-> We can't trust device's to report this correctly (and NVMe 1.0 didn't
-> even provide a way for a device to report an expected shutdown time), so
-> this exists to prevent unsafe shutdowns. Devices are supposed to survive
-> an unsafe shutdown, but it's best to avoid that path.
-
-So it’s like this in my case, as the SK hynix reports 60 ms, but 
-actually takes 411 ms?
-
-> The parameter is in granularity of seconds because the NVMe 1.0 spec
-> said to "wait at least one second" for a shutdown to complete. Not the
-> most clear wording for a spec, but that's where we started.
-
-Thank you for the details. I am not a spec writer, but my gut feeling 
-says, there should always be a polling(?) solution and only upper 
-boundaries, that means “no longer than”, should be used.
-
-
-Kind regards,
-
-Paul
+Okay, the candidates look useful in the future. Fortunately, I came up with=
+ an
+idea to make up the condition matrix from multiple set_conditions() hooks. =
+Will
+try to implement it and respin the series.=
 
