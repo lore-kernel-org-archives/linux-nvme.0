@@ -4,70 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CBAAC4345F
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 07:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FF28C4345F
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 07:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=ean6watWpOT1po2D0lCcyeVnY5
-	E8PPF4chU3hyANJ8ypjz85mVWkcYum1hroTAncogMC/csrWvjVP8zn0ArTITvRBJhgKT9e9vdV+vc
-	k1UrbnZ0pMJq/kjLcrxhPU5xedXwSecN+ChejXebd3U8n7vz9OpLOh/1SiuOO+2plL35N8s12J2wJ
-	B6V53VKf+YRZL8QE4PDBbnrgOCDEw4FBTy2d2iebWySoQP4cHwrm3UGbsLyQ7zI6EHfUWZShjgKMb
-	l5X3V27m1kcuVbo4xcEI0Et9Q3gXOr+xZJEVspyKTND5PdFgLC2xoxUWmrIzSq9i13BdMtkgnzEOk
-	ue/Tu6EQ==;
+	bh=I0wEf1/Mod+aeygnXnr+/MpKpD/fWi5smqzxC4jKzwQ=; b=cfC1vPfUdusB4WE2W9WBdWJ4MI
+	oK0Xyq6GTjZsEBhulUj822rLCVgBlIt9/AFF+G/9jXKgU93L813lnrat/AWw0Ni0VyNFTxFStDnKT
+	LxjcWlgs98M0/hJv3s15i6RfbcwV5pUpl9MK5NsLP0DOmqdtvuGLXXHwxS3ENftVX4qahTG/C7On5
+	H/MTQjCETDfXqghLvcbHGjWM1JVYkPXWJF3ceGk2C/gbezyfN/6VHp9jB5ukvslHxIsQmxVzvX0HZ
+	w7MffHztxk5gsJySJNIbBcOX6tZfCXA9LlouvCRtNG9SPNzTkTHbysHwqhxouTWqa40lczIFy4wrw
+	Bgp87mFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2nTb-0000000FUkw-0iG4;
-	Fri, 03 May 2024 07:37:03 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
+	id 1s2nVQ-0000000FV3v-0EfP;
+	Fri, 03 May 2024 07:38:56 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2nTX-0000000FUiV-3QFX
+	id 1s2nVN-0000000FV2z-1dUh
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 May 2024 07:37:01 +0000
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4190c2ec557so6089145e9.0
-        for <linux-nvme@lists.infradead.org>; Fri, 03 May 2024 00:36:58 -0700 (PDT)
+	Fri, 03 May 2024 07:38:54 +0000
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-345606e8ac0so862696f8f.0
+        for <linux-nvme@lists.infradead.org>; Fri, 03 May 2024 00:38:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714721817; x=1715326617;
+        d=1e100.net; s=20230601; t=1714721928; x=1715326728;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=NuZAFXRhlZ0Zm4XlySSCDGR7qqrl9fWWMvrwxBgDexPxRuOxhOXx9VarX/nwrkV+W/
-         x4/pKYRsmmN4YSpESDbXfFDMB2O+hYuCsdMGxtKH435Jc1Mjt/iD2HI9JQXYesyr0fjz
-         njVR3A0daV+Eg/CbyrdtUbSD5seGnlhPE6HiF+68AAc6lde/lHLsAEKzOeRA5aBzBZdL
-         ImNAi3129vwo0Fb/xFp1zBMcJq2g2M86qHR46LTCkY6Y7ya4sWza0eA4M8fL0z3T8KyJ
-         5WlwoeT1lct1YFO1EWqF3ouBOJJkwJLokae2JueYQe+3w1Z4vmJYkzN9hRAwfnlngW5C
-         pMKg==
-X-Gm-Message-State: AOJu0YyE0ucDLcZ2ToKykFdGgtGJnx0f+Mo6PvhtRIfdF/RiWVuXbWNi
-	4IJHr7/XdA57J73qQmnlKmORZ2fTKOj0R2pH5obQR32bfHDvt4fJ
-X-Google-Smtp-Source: AGHT+IHtI7PXsGTvS0PejopXDV3j0cpzokIHm1OsHxbL5QXjegcU+s4LRXuiJNcNW0/A/Wf3XcRtOQ==
-X-Received: by 2002:a05:600c:1d25:b0:418:ef65:4b11 with SMTP id l37-20020a05600c1d2500b00418ef654b11mr1388283wms.2.1714721816799;
-        Fri, 03 May 2024 00:36:56 -0700 (PDT)
+        bh=I0wEf1/Mod+aeygnXnr+/MpKpD/fWi5smqzxC4jKzwQ=;
+        b=QSVxsBrksl40uczbdbzsxWxm7Jf/JDJOqWvmvnUuckut81I+7rugmwv4j8de8U4iXO
+         AXZFj6bEciGgNxuHY76fuWe55b0FbR86yuOeBPWqCuKXovcE5WoYsakXII8wv8bXvb/4
+         THQP/Zo8aCuc+AadZ6PbOzkTRjn1eqBH+C3mqoF+MZtgAiZ0MHe50oeRRaapQpEgSFXV
+         iHg4/hGQVdsY7hUSZFbnLCHrC9KEsW1N0TkSKih/Kw7Dlhfsb3olCYMk5INOEb5zS0bM
+         8fTe/p28V/iSVoJQirJ49kQT/YATKD8dLVD24ssh4ABfQOYvgn+K8I1f9snu+jDhsZdV
+         OZuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5LVVuN019UrbeD42LO+NEJtsfBnMa2MTLRXg5sBzEdHfrB/Q2erxrlxXh+8NhxPu0ncB4C6ppB9eV2FGe+2KqSkWb1fkPqTO88C6io3w=
+X-Gm-Message-State: AOJu0Yxq4MAwHlLziZjSocpBIjyMc8RF5auLHTmL0LlpUlWA8IWhH9yg
+	JAkprskcazcZDvYlAyln0JiVCPq6J7v391ohb4feVYsilXtNQp4c
+X-Google-Smtp-Source: AGHT+IEVAHWXUAVQkmT1VamN37SaQIt7TgAn4QUJ3LrBEaYP83G9tTiFLMGbn9hfshlux/owVDYPnQ==
+X-Received: by 2002:adf:ce83:0:b0:34d:7201:4616 with SMTP id r3-20020adfce83000000b0034d72014616mr1399904wrn.0.1714721927883;
+        Fri, 03 May 2024 00:38:47 -0700 (PDT)
 Received: from [10.100.102.67] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
-        by smtp.gmail.com with ESMTPSA id s11-20020a05600c45cb00b00419f572671dsm4638575wmo.20.2024.05.03.00.36.55
+        by smtp.gmail.com with ESMTPSA id i15-20020adfb64f000000b0034af40b2efdsm3056795wre.108.2024.05.03.00.38.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 May 2024 00:36:56 -0700 (PDT)
-Message-ID: <504a0e06-477e-4f1d-8ada-a43227a885af@grimberg.me>
-Date: Fri, 3 May 2024 10:36:54 +0300
+        Fri, 03 May 2024 00:38:47 -0700 (PDT)
+Message-ID: <4038f7f6-4a2e-47b8-be17-d9f59300d26b@grimberg.me>
+Date: Fri, 3 May 2024 10:38:45 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvme: remove sgs and sws
-To: Kanchan Joshi <joshi.k@samsung.com>, kbusch@kernel.org, hch@lst.de
-Cc: linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/2] nvme: reduce a repeated ZNS check
+To: Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org
 References: <20240502063438.422046-1-joshi.k@samsung.com>
- <CGME20240502064150epcas5p3b6461ca0466650cd0296089d257ff861@epcas5p3.samsung.com>
- <20240502063438.422046-2-joshi.k@samsung.com>
+ <CGME20240502064151epcas5p3834c50bcaea2c8db2d24fc30b0957ff0@epcas5p3.samsung.com>
+ <20240502063438.422046-3-joshi.k@samsung.com> <20240502071338.GC31379@lst.de>
+ <3394a7a9-dda5-204e-dc5f-04a5512770a0@samsung.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240502063438.422046-2-joshi.k@samsung.com>
+In-Reply-To: <3394a7a9-dda5-204e-dc5f-04a5512770a0@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240503_003700_182636_575286F7 
-X-CRM114-Status: UNSURE (   4.86  )
+X-CRM114-CacheID: sfid-20240503_003853_468860_C9278838 
+X-CRM114-Status: UNSURE (   9.07  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,5 +85,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+
+On 5/2/24 11:44, Kanchan Joshi wrote:
+> On 5/2/2024 12:43 PM, Christoph Hellwig wrote:
+>> Not sure there is much of a point do de-duplicate two instances of
+>> compile time condition + trivial const comparison?
+>>
+> I also don't see it as a [micro] optimization. But this if condition
+> seemed too long to be present twice.
+
+Seems a bit redundant to me.
 
