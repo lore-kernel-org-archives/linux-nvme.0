@@ -4,95 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 272B6C4345F
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 11:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD66BC4345F
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 12:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zdazS+xZoOkYFy/zdIPgO0Yc0Ax4z4CJW/bLOuyNv5c=; b=S042ePpdrbsS3wihW26lNToscK
-	41G3iqGxN7q4DsRHtikPli4dOaASyp4WXjtaX2mALCsv8ajVaNf6+ZTj4Cwey5Zav7N8Xkc/fWDqL
-	v85VPCqri6WSKCYQALnJEgpxDNMkwUrJiQEu2bBREdGqYK/R//Hg61vGT83CvXB8z1tgH/0DnvFsD
-	PWSFndFJU3DOLtMV9d7mfbVYIMBTK8GnzpCnshk5v632y1sG1AJen2t4qOWEtPkYAOHPRj5ebf0S8
-	uY3LY4HkSNQqI5FXIwHSheYsR+RAKiZSNw5CpF3A1gPBq1GG8omiTHIiRm497NR+EsCGIfKEXV2s5
-	3F0zP3qA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yZbUxRO3Zcmnt7WyYgas9RrUMhCGfA3ShsH1Hycpevk=; b=yFvYGsnTueJphV3fFyGlgTJWCG
+	c5u3MpiUzfOXK4tk5NDRs4B922aAZN5VwFEnJ5zV3twGs0pDZQssKNfbleEBL2ObKbL6tcmKRsWLB
+	S+oMX8faPyVpyfwwNkeHQZKLg+I9fAVmVQfLIIfF68Do5RBMEvk6ekOfruZiHpTw9YqyMlJjBvyqu
+	ZnzN6Aw3B9cit9fFQ6edQhRwe5dDvBFUy/Bo2KxkAzU3tMWErAeRBSBFKtdVKdnMbYeYw3HWPy3OA
+	hSuje7JIHOmRxwWFop5DUaTCsHPDE4N5Quk1MxjNqZ5AZY8YzMcWSqxZS1wN1ZAcJ2RFLFZ5YPgrj
+	cXxiRJXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2rQh-0000000GJgf-2wkH;
-	Fri, 03 May 2024 11:50:19 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1s2rbn-0000000GLw7-1dFp;
+	Fri, 03 May 2024 12:01:47 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2rQb-0000000GJeq-1rBu
+	id 1s2rbi-0000000GLtW-2kA9
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 May 2024 11:50:15 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 443BRp55002884;
-	Fri, 3 May 2024 11:50:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=zdazS+xZoOkYFy/zdIPgO0Yc0Ax4z4CJW/bLOuyNv5c=;
- b=sAG1DRzpTrTCcOcJ4e7kFQWbRL8OQhUw3hi7bP+lWp6pXhHG5a0k5bEB+igP6Xz0r2AD
- WPzniwQOMF6CQPb0g9VPJlabbU4+JLuvtn7wvvjYcYqDpLnkG/VelankVmeAX3sx9kGj
- zV66BGDAhz/SYFC/Cv8C289eJqNsvXQzWEuz+ZIxJwO1DSHu8CQJnFG4x036KpLD/VEN
- Wcr+7Zu2OSoak1kF18w/qpDWTwN9DCGGFJ0Re6UBUpluYtNdj9pAQXV+13hmNBieIppU
- EZAiYpqk6Q+knI6fYSrg73fykNjSBZOWcvklhaIUCr4SpTkteDss4kZ5PdTlxVf212rl SA== 
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xvy2h01k1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 May 2024 11:50:03 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 443AVFvH022190;
-	Fri, 3 May 2024 11:50:01 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xsd6n5bcx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 May 2024 11:50:01 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 443BnwK635586378
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 3 May 2024 11:50:01 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C76805805A;
-	Fri,  3 May 2024 11:49:58 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3695F58054;
-	Fri,  3 May 2024 11:49:56 +0000 (GMT)
-Received: from [9.179.22.4] (unknown [9.179.22.4])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  3 May 2024 11:49:55 +0000 (GMT)
-Message-ID: <bbad86b5-b28f-4b47-8f53-cfc0af5b183e@linux.ibm.com>
-Date: Fri, 3 May 2024 17:19:54 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] nvme-pci: Fix EEH failure on ppc after subsystem reset
-Content-Language: en-US
-To: kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, axboe@fb.com,
-        hch@lst.de, Sagi Grimberg <sagi@grimberg.me>,
-        Gregory Joyce <gjoyce@ibm.com>
-References: <20240408102726.443206-1-nilay@linux.ibm.com>
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20240408102726.443206-1-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: OrZTITXJgn3D23UvXwr73qTuI5GcPzpx
-X-Proofpoint-GUID: OrZTITXJgn3D23UvXwr73qTuI5GcPzpx
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	Fri, 03 May 2024 12:01:46 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240503120135epoutp02b8f1152ec01997e1be6d0fd79648793f~L_NlpNsW-1726417264epoutp02W
+	for <linux-nvme@lists.infradead.org>; Fri,  3 May 2024 12:01:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240503120135epoutp02b8f1152ec01997e1be6d0fd79648793f~L_NlpNsW-1726417264epoutp02W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1714737695;
+	bh=yZbUxRO3Zcmnt7WyYgas9RrUMhCGfA3ShsH1Hycpevk=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=ZRuDE/vvevOuelo3PqwM/uhJ2O4xX05cvtSkwMhmKSITp9Gm6612wiOk4wRzizBa9
+	 XmshWnZMcftEynA37zSRIp9agELYEG+Uk1ObCHYRG0U0jeMwOXTgU/NkWeecGTq0xn
+	 c+W7VDblmYiPNurGIyOpY6I539swxtg4JfrjFMSs=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240503120134epcas5p1b530901e6c8e6e97018c8a8a362e97fb~L_NkRKyXV1236812368epcas5p1B;
+	Fri,  3 May 2024 12:01:34 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4VW8Xr4kZCz4x9Ps; Fri,  3 May
+	2024 12:01:32 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C5.CE.08600.C12D4366; Fri,  3 May 2024 21:01:32 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240503120132epcas5p125b2e601d193d11756a1d005d2e1a429~L_NiYLymP1236812368epcas5p19;
+	Fri,  3 May 2024 12:01:32 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240503120132epsmtrp19754256807b3711ebbdb93a81b8c424f~L_NiXG-Sk2608826088epsmtrp1P;
+	Fri,  3 May 2024 12:01:32 +0000 (GMT)
+X-AuditID: b6c32a44-6c3ff70000002198-b5-6634d21c5253
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	72.A3.08924.C12D4366; Fri,  3 May 2024 21:01:32 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240503120130epsmtip1930bf82902c1909b6a2e9b3b1c7753a4~L_NglACbP0818808188epsmtip1k;
+	Fri,  3 May 2024 12:01:30 +0000 (GMT)
+Message-ID: <47d71118-5a16-cc28-22ae-0ef6745642d5@samsung.com>
+Date: Fri, 3 May 2024 17:31:29 +0530
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-03_07,2024-05-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1011 impostorscore=0 phishscore=0 bulkscore=0
- suspectscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2405030085
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH 04/10] block: avoid unpinning/freeing the bio_vec incase
+ of cloned bio
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, martin.petersen@oracle.com, kbusch@kernel.org,
+	brauner@kernel.org, asml.silence@gmail.com, dw@davidwei.uk,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
+	<anuj20.g@samsung.com>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20240502071221.GA31379@lst.de>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrEJsWRmVeSWpSXmKPExsWy7bCmpq7MJZM0g9mLVCyaJvxltpizahuj
+	xeq7/WwWrw9/YrR4NWMtm8XNAzuZLFauPspk8a71HIvFpEPXGC323tK2mL/sKbvF8uP/mBx4
+	PK7NmMjisXPWXXaPy2dLPTat6mTz2Lyk3mP3zQY2j49Pb7F49G1ZxejxeZNcAGdUtk1GamJK
+	apFCal5yfkpmXrqtkndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0MFKCmWJOaVAoYDE
+	4mIlfTubovzSklSFjPziElul1IKUnAKTAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMRx/TCi4x
+	V3TNu8/YwPiDqYuRk0NCwERi9b5lLF2MXBxCArsZJf6c7GWGcD4xSrTfesMO4XxjlNg87R9Q
+	GQdYy5fj2RDxvYwSiw8thCp6yyixft9rZpC5vAJ2En1/J7GCNLAIqEg03LKDCAtKnJz5hAXE
+	FhVIlvjZdYANxBYWiJHY/no6WJxZQFzi1pP5YOeJCChJPH11lhFkPrPANCaJtT1TwY5gE9CU
+	uDC5FMTkFNCRaDrEBNEqL7H97RywByQEznBIvJnYxgbxpovEhjW/oWxhiVfHt7BD2FISL/vb
+	oOxkiUszz0GDpUTi8Z6DULa9ROupfmaQXcxAa9fv0ofYxSfR+/sJEyRIeCU62oQgqhUl7k16
+	ygphi0s8nLEEyvaQ+PloIjSk2pglTjVeYJ3AqDALKVRmIfl+FpJ3ZiFsXsDIsopRMrWgODc9
+	Ndm0wDAvtRwe28n5uZsYwYlZy2UH4435//QOMTJxMB5ilOBgVhLh1Z5snCbEm5JYWZValB9f
+	VJqTWnyI0RQYOxOZpUST84G5Ia8k3tDE0sDEzMzMxNLYzFBJnPd169wUIYH0xJLU7NTUgtQi
+	mD4mDk6pBqatdVevWRvaunQ3HkjlmNHyyVdUo3lbReYtNzHD567CczcKib8IdXo9c/1CefWT
+	vrGup/a15vau3TKrsun7TD1po2O75Xp7+U6uZuCrKdIJcSw5u0Fat8HTbG/6YR35p9/+f2Zc
+	v+WxcMaJugOvdDkSnkVPe9rBKu+8JOj4wkXv8zjNHnb5nvHK/BQc+nL9NMbiN/ecOVMf3X5b
+	ue6ATtG//NX7cqunfa0R8wyJ0HSz8pbwk89Vtbe9V1ejs3z/hFehea57dCVdl+3ReSDyNOPM
+	nyeZwnkZPclr+5V/lp9y+lQquS7RMoHxjdjkyXtlNZ7HF2wNubPo4LK5HXE/t3YYRvx0bzrk
+	WNSdEJ16TYmlOCPRUIu5qDgRACnDMtFVBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsWy7bCSnK7MJZM0gz17WSyaJvxltpizahuj
+	xeq7/WwWrw9/YrR4NWMtm8XNAzuZLFauPspk8a71HIvFpEPXGC323tK2mL/sKbvF8uP/mBx4
+	PK7NmMjisXPWXXaPy2dLPTat6mTz2Lyk3mP3zQY2j49Pb7F49G1ZxejxeZNcAGcUl01Kak5m
+	WWqRvl0CV8ajj2kFl5gruubdZ2xg/MHUxcjBISFgIvHleHYXIxeHkMBuRomLB3cCxTmB4uIS
+	zdd+sEPYwhIr/z1nhyh6zShxdN0msCJeATuJvr+TWEEGsQioSDTcsoMIC0qcnPmEBcQWFUiW
+	ePlnItgcYYEYie2vp4PFmYHm33oyH2yMiICSxNNXZxlB5jMLTGOS6P+5mRViWRuzxN01W9lB
+	FrAJaEpcmFwKYnIK6Eg0HWKCmGMm0bW1ixHClpfY/nYO8wRGoVlIzpiFZN0sJC2zkLQsYGRZ
+	xSiZWlCcm55bbFhgmJdarlecmFtcmpeul5yfu4kRHIVamjsYt6/6oHeIkYmD8RCjBAezkgiv
+	9mTjNCHelMTKqtSi/Pii0pzU4kOM0hwsSuK84i96U4QE0hNLUrNTUwtSi2CyTBycUg1MXHse
+	HXr+g0toFu9h7r+moie7X+lIxv4/Huc+6532tbMh0yYssa8+Keyy/ZrdFuXuz7OmKfDLlRvd
+	2mfzQ2ntxcsvY1PmfCvXvLMoUPN1f8L5KPa/y+60H7wwbbexEXNYSt/TpiaBk5JFLmcman97
+	GbrjT1Hd+8S1RbIJDO+dItxsVx891r3rcvTivxWv1q8rOFr1K+hY7LyiXQ+cc7Ls3OfkXTqU
+	uLuncd8DNylJr1qzG2Hs0s95JFRmvT06/6vB7OfChodXdM80PFpbdolP02pigezhlIk6s5eu
+	n7v47JykD9bPHzv4iD6RWNZpfm9B/q6mje9PHhOYuvPQljtBwd6SjbPUv+gmrws8eLWPRUGJ
+	pTgj0VCLuag4EQCgn74JMQMAAA==
+X-CMS-MailID: 20240503120132epcas5p125b2e601d193d11756a1d005d2e1a429
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240425184658epcas5p2adb6bf01a5c56ffaac3a55ab57afaf8e
+References: <20240425183943.6319-1-joshi.k@samsung.com>
+	<CGME20240425184658epcas5p2adb6bf01a5c56ffaac3a55ab57afaf8e@epcas5p2.samsung.com>
+	<20240425183943.6319-5-joshi.k@samsung.com> <20240427070508.GD3873@lst.de>
+	<03cb6ac3-595f-abb1-324b-647ed84cfe6b@samsung.com>
+	<20240429170929.GB31337@lst.de>
+	<ebeca5f1-8d80-e4d4-cf45-9a14ef1413a5@samsung.com>
+	<20240502071221.GA31379@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240503_045013_962439_EBDC7A90 
-X-CRM114-Status: GOOD (  35.80  )
+X-CRM114-CacheID: sfid-20240503_050143_426272_BB6A782B 
+X-CRM114-Status: GOOD (  11.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,107 +146,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 5/2/2024 12:42 PM, Christoph Hellwig wrote:
+> On Wed, May 01, 2024 at 06:32:45PM +0530, Kanchan Joshi wrote:
+>> Can you please tell what function(s) in bio data path that need this
+>> conversion?
+>> To me data path handling seems similar. Each cloned bio will lead to
+>> some amount of data transfer to pinned user-memory. The same is
+>> happening for meta transfer here.
+> Well, everywhere.
 
-On 4/8/24 15:56, Nilay Shroff wrote:
-> If the nvme subsyetm reset causes the loss of communication to the nvme
-> adapter then EEH could potnetially recover the adapter. The detection of
-> comminication loss to the adapter only happens when the nvme driver
-> attempts to read an MMIO register.
-> 
-> The nvme subsystem reset command writes 0x4E564D65 to NSSR register and
-> schedule adapter reset.In the case nvme subsystem reset caused the loss
-> of communication to the nvme adapter then either IO timeout event or
-> adapter reset handler could detect it. If IO timeout event could detect
-> loss of communication then EEH handler is able to recover the communication
-> to the adapter. This change was implemented in commit 651438bb0af5
-> ("nvme-pci: Fix EEH failure on ppc"). However if the adapter communication
-> loss is detected during nvme reset work then EEH is unable to successfully
-> finish the adapter recovery.
-> 
-> This patch ensures that,
-> - nvme reset work can observer pci channel is offline (at-least on the
->   paltfrom which supports EEH recovery) after a failed MMIO read and
->   contains reset work forward progress and marking controller state to
->   DEAD. Thus we give a fair chance to EEH handler to recover the nvme
->   adapter.
-> 
-> - if pci channel "frozen" error is detected while controller is already
->   in the RESETTING state then don't try (re-)setting controller state to
->   RESETTING which would otherwise obviously fail and we may prematurely
->   breaks out of the EEH recovery handling.
-> 
-> - if pci channel "frozen" error is detected while reset work is in progress
->   then wait until reset work is finished before proceeding with nvme dev
->   disable. This would ensure that the reset work doesn't race with the
->   pci error handler code and both error handler and reset work forward
->   progress without blocking.
-> 
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
-> ---
-> Changes from v1:
->   - Allow a controller to reset from a connecting state (Keith)
-> 
->   - Fix race condition between reset work and pci error handler 
->     code which may contain reset work and EEH recovery from 
->     forward progress (Keith)
-> 
->  drivers/nvme/host/core.c |  1 +
->  drivers/nvme/host/pci.c  | 19 ++++++++++++++++---
->  2 files changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 27281a9a8951..b3fe1a02c171 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -557,6 +557,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->  		switch (old_state) {
->  		case NVME_CTRL_NEW:
->  		case NVME_CTRL_LIVE:
-> +		case NVME_CTRL_CONNECTING:
->  			changed = true;
->  			fallthrough;
->  		default:
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 8e0bb9692685..553bf0ec5f5c 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2776,6 +2776,16 @@ static void nvme_reset_work(struct work_struct *work)
->   out_unlock:
->  	mutex_unlock(&dev->shutdown_lock);
->   out:
-> +	/*
-> +	 * If PCI recovery is ongoing then let it finish first
-> +	 */
-> +	if (pci_channel_offline(to_pci_dev(dev->dev))) {
-> +		if (nvme_ctrl_state(&dev->ctrl) == NVME_CTRL_RESETTING ||
-> +			nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-> +			dev_warn(dev->ctrl.device, "Let pci error recovery finish!\n");
-> +			return;
-> +		}
-> +	}
->  	/*
->  	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
->  	 * may be holding this pci_dev's device lock.
-> @@ -3295,10 +3305,13 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
->  	case pci_channel_io_frozen:
->  		dev_warn(dev->ctrl.device,
->  			"frozen state error detected, reset controller\n");
-> -		if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-> -			nvme_dev_disable(dev, true);
-> -			return PCI_ERS_RESULT_DISCONNECT;
-> +		if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
-> +			if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-> +				nvme_dev_disable(dev, true);
-> +				return PCI_ERS_RESULT_DISCONNECT;
-> +			}
->  		}
-> +		flush_work(&dev->ctrl.reset_work);
->  		nvme_dev_disable(dev, false);
->  		return PCI_ERS_RESULT_NEED_RESET;
->  	case pci_channel_io_perm_failure:
-A gentle ping... Can I get some feedback?
-For reference, link to first version of the patch is here: https://lore.kernel.org/all/20240209050342.406184-1-nilay@linux.ibm.com/
-
-Thanks,
---Nilay
+Next version will not inherit BIP_COPY_USER for clone bios.
 
