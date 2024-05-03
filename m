@@ -4,79 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52DCFC4345F
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 07:33:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CBAAC4345F
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 May 2024 07:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EHdTuzF4WpCRrGciBhyi5PVxTiUH0NEDczsrk1P37l8=; b=OOFGOWpOIe5rSgWI1jLyevhOD2
-	IMZZhs8/QcpxXD2e9yn7UGx5Va1k3YeJGC3f+tO+eQTiifdo1mKVyg91ZPVuBSfEC+QM+fJjbRSlm
-	Cqp8fncnxBvTv9jzfUsMKEeDEEv9/tZ2fGiJYL6TTij44QRgvArxraonRN+JPwxBLxwyxrKQLyG19
-	yd1zG3EvaE5Ph5gYY+Xihxw4Qug4uSjz9Tv/WbKLWJpLWkg2lz78v0L1RU/Y/cl57JpPG1UzDcjuK
-	C6Q7uaemLdRrfe3o79ZEQSdrd1kKd+6B+qk37NQVaRR39apjE2b0dUErozxImoAZHvx8nzOZVXIGd
-	RTXSdktQ==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=ean6watWpOT1po2D0lCcyeVnY5
+	E8PPF4chU3hyANJ8ypjz85mVWkcYum1hroTAncogMC/csrWvjVP8zn0ArTITvRBJhgKT9e9vdV+vc
+	k1UrbnZ0pMJq/kjLcrxhPU5xedXwSecN+ChejXebd3U8n7vz9OpLOh/1SiuOO+2plL35N8s12J2wJ
+	B6V53VKf+YRZL8QE4PDBbnrgOCDEw4FBTy2d2iebWySoQP4cHwrm3UGbsLyQ7zI6EHfUWZShjgKMb
+	l5X3V27m1kcuVbo4xcEI0Et9Q3gXOr+xZJEVspyKTND5PdFgLC2xoxUWmrIzSq9i13BdMtkgnzEOk
+	ue/Tu6EQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2nPq-0000000FTw0-3vMp;
-	Fri, 03 May 2024 07:33:10 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1s2nTb-0000000FUkw-0iG4;
+	Fri, 03 May 2024 07:37:03 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s2nPn-0000000FTuk-3jjz
+	id 1s2nTX-0000000FUiV-3QFX
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 May 2024 07:33:09 +0000
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-346407b8c9aso1886030f8f.0
-        for <linux-nvme@lists.infradead.org>; Fri, 03 May 2024 00:33:06 -0700 (PDT)
+	Fri, 03 May 2024 07:37:01 +0000
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4190c2ec557so6089145e9.0
+        for <linux-nvme@lists.infradead.org>; Fri, 03 May 2024 00:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714721585; x=1715326385;
+        d=1e100.net; s=20230601; t=1714721817; x=1715326617;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EHdTuzF4WpCRrGciBhyi5PVxTiUH0NEDczsrk1P37l8=;
-        b=e8Z3HeP3rPmBnebIFnDBIOasFkrQeSOQET9f8Wggry/mR0Gxs/vIEJ0GF+vIh4VoyA
-         aIgPMLRyOC9f9gr/Uf5MWlzjN12Dd1nCQBp8MjT0LsWj3RLThNmyWvlZZ2hO+RNQkPJh
-         XqjlF5jEkamhKqBWvFEtMcDGkeb+l3+bXoEUL+PJN0yy2QR42tV/L2RQcSdd2rAopUQs
-         NiJOtkt6wmYw03IJG5bNI0wfmRcqv9RZ/xqeNJZT9fwjHjI7cKQBSqPc//g+8BmqBHsR
-         DyYkiauRdtdKeayKHztywWOdA33oNZzgi0f48AnTbLN/LLtBveiA7PdixVwzIEv9xtzn
-         LkcA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLkoc7O+3ivS7uGPH+GCu3Hat8BT4ejOfzwgze+/t5+gUoAcq+SVR8vjavOispoWNIZYIojCKxuqLaFgaDEMBTi+13naYxB3YwJ+XUreE=
-X-Gm-Message-State: AOJu0YxeVhOgyUV9G4Zeh+WXzO09C7OmTSi30AbCmOiwei3VOvSCmpnH
-	dKEShtWsmHq0DDv3IKSdFbBuWnKNXAfqk4WVGt6C6bNiSdcY6Eub0BXJCQ==
-X-Google-Smtp-Source: AGHT+IEYrDbizELqBNPGXfUq4T1W1asKlzoGEoXMAPvPSrWZk7SozGy90kvbazf1CUeajndZ3QJnAg==
-X-Received: by 2002:a5d:558a:0:b0:34d:7d77:36fa with SMTP id i10-20020a5d558a000000b0034d7d7736famr1225974wrv.5.1714721584470;
-        Fri, 03 May 2024 00:33:04 -0700 (PDT)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=NuZAFXRhlZ0Zm4XlySSCDGR7qqrl9fWWMvrwxBgDexPxRuOxhOXx9VarX/nwrkV+W/
+         x4/pKYRsmmN4YSpESDbXfFDMB2O+hYuCsdMGxtKH435Jc1Mjt/iD2HI9JQXYesyr0fjz
+         njVR3A0daV+Eg/CbyrdtUbSD5seGnlhPE6HiF+68AAc6lde/lHLsAEKzOeRA5aBzBZdL
+         ImNAi3129vwo0Fb/xFp1zBMcJq2g2M86qHR46LTCkY6Y7ya4sWza0eA4M8fL0z3T8KyJ
+         5WlwoeT1lct1YFO1EWqF3ouBOJJkwJLokae2JueYQe+3w1Z4vmJYkzN9hRAwfnlngW5C
+         pMKg==
+X-Gm-Message-State: AOJu0YyE0ucDLcZ2ToKykFdGgtGJnx0f+Mo6PvhtRIfdF/RiWVuXbWNi
+	4IJHr7/XdA57J73qQmnlKmORZ2fTKOj0R2pH5obQR32bfHDvt4fJ
+X-Google-Smtp-Source: AGHT+IHtI7PXsGTvS0PejopXDV3j0cpzokIHm1OsHxbL5QXjegcU+s4LRXuiJNcNW0/A/Wf3XcRtOQ==
+X-Received: by 2002:a05:600c:1d25:b0:418:ef65:4b11 with SMTP id l37-20020a05600c1d2500b00418ef654b11mr1388283wms.2.1714721816799;
+        Fri, 03 May 2024 00:36:56 -0700 (PDT)
 Received: from [10.100.102.67] (85.65.192.64.dynamic.barak-online.net. [85.65.192.64])
-        by smtp.gmail.com with ESMTPSA id n12-20020a5d588c000000b0034cfb79220asm3081074wrf.116.2024.05.03.00.33.03
+        by smtp.gmail.com with ESMTPSA id s11-20020a05600c45cb00b00419f572671dsm4638575wmo.20.2024.05.03.00.36.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 May 2024 00:33:04 -0700 (PDT)
-Message-ID: <3e3f0cdd-0eac-4463-a659-0d0ca9430658@grimberg.me>
-Date: Fri, 3 May 2024 10:33:02 +0300
+        Fri, 03 May 2024 00:36:56 -0700 (PDT)
+Message-ID: <504a0e06-477e-4f1d-8ada-a43227a885af@grimberg.me>
+Date: Fri, 3 May 2024 10:36:54 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests v3 10/15] nvme/{006,008,010,012,014,019,023}:
- support NVMET_BLKDEV_TYPES
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Daniel Wagner <dwagern@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
-References: <20240424075955.3604997-1-shinichiro.kawasaki@wdc.com>
- <20240424075955.3604997-11-shinichiro.kawasaki@wdc.com>
- <6b55293c-0764-4922-b329-be393c9afc81@grimberg.me>
- <36jinbbjhzr6erpfpnfqmk2jebf5tlnl26skuak73krwyyu6zi@i5qtgb4bqqgy>
- <eeee5574-f4de-45a7-837b-74589dab423e@grimberg.me>
- <sb3syw5ysqvkxvvn7mubzk3n6pfsivq54ownkyju2sgagesxpf@ktfn3333dmt2>
- <0a21ba7f-4d0e-4368-a215-2b81a8cf562e@grimberg.me>
- <bxklo2o4onybsamatf2nyhecnkl3wuoz66p7nq2dyndnfc4vxt@hkokvvx4c7jy>
+Subject: Re: [PATCH 1/2] nvme: remove sgs and sws
+To: Kanchan Joshi <joshi.k@samsung.com>, kbusch@kernel.org, hch@lst.de
+Cc: linux-nvme@lists.infradead.org
+References: <20240502063438.422046-1-joshi.k@samsung.com>
+ <CGME20240502064150epcas5p3b6461ca0466650cd0296089d257ff861@epcas5p3.samsung.com>
+ <20240502063438.422046-2-joshi.k@samsung.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <bxklo2o4onybsamatf2nyhecnkl3wuoz66p7nq2dyndnfc4vxt@hkokvvx4c7jy>
+In-Reply-To: <20240502063438.422046-2-joshi.k@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240503_003307_966257_3B7ADA19 
-X-CRM114-Status: GOOD (  10.66  )
+X-CRM114-CacheID: sfid-20240503_003700_182636_575286F7 
+X-CRM114-Status: UNSURE (   4.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,25 +83,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->>> Another question is how it is likely to have more conditions to add on.
->> I expect that people will want to add more flavors moving forward. For
->> example
->> ADDRESS_FAMILIES="ipv4 ipv6" RDMA_TRANSPORT="siw rxe" and possibly other
->> features that can grow in the future.
->>
->>
->>>    I guess
->>> such many, multiplied conditions will result in combination explosion and long
->>> test runtime, so I'm not sure how much it will be useful.
->> I think that running multiple flavors of a test suite is a capability that
->> is bound to be
->> reused as more test flavors emerge. But that may be just my opinion.
->>
->>> Do we have potential candidates of the third or fourth conditions?
->> Yes, see above.
-> Okay, the candidates look useful in the future. Fortunately, I came up with an
-> idea to make up the condition matrix from multiple set_conditions() hooks. Will
-> try to implement it and respin the series.
-
-Cool.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
