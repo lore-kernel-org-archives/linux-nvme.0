@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA94AC4345F
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 May 2024 08:16:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD92CC4345F
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 May 2024 08:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Br4Zfd5Ou6uZwrEo9I/iLWrpE2QdfQpZ5BvKQ8NB7LI=; b=bOYghxvkuZTVXHPJSwClZx4JBf
-	UsmQc6XZUZdMsyHNnqSwqs1hk/qEclilnFEIqrYobgMRtfY0lmKAMphpd9lQAvVIoETjTQLa8dxNC
-	QjwamYcpFaj21/jQykGkin1vXkWynujfRR1SJoArx2qrH+tSN5NJvKjYMcpqaiZIETHnycX31fzE9
-	7TXJVXp8cqJsRO6Ih9KevwBMcRM2skfgDf+G5+BrpvVVnN5KqncHH9Ght0tNZszt4Ip4WE0t5Kc/t
-	tlbTnSUFNNkv/qZDlvKMANyOpyIoc+DEQTT2A1P+zSzrnTeePww8FdsGXtm56QiWQQg76EUiCS6mi
-	N6W2crHQ==;
+	bh=PvbVjV8jgBQJIdQKdtdfA+jp75nEOe25zwnVdGYZno8=; b=rhGNWUD2ULs9qisnyQbqlqi2vs
+	QMPkdYRNUsSWxhZJ2vXgAG5CFEhv5DkJcB6Q+h9+pj1aZsIV6yQBMPosC1USEd1bV9rgeH13SCe73
+	526WHie9mXATjTsCBMZALHH56uQDGaBmx3Khg9V4XXZxbV0tLzyTeITxVDLztE0Yv3VlaGUwy3xum
+	J2eQwy5mTuaKbcCG2sw0Suc3O4KJN5tgQqR2nyiKIP16oXJiwpC8MSm0RD+Rf4oJy2E2RmYW9dgMK
+	iy4rY0rapDEGQusMs2bNTRGE+hpCxPX/0XDuDvSv2BRZpUIn6gcNurXOPhDoDFAd+kYkzOwvHbo2c
+	E9GUKhdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3AYo-00000001ZfC-2zFo;
-	Sat, 04 May 2024 08:15:58 +0000
+	id 1s3AYv-00000001ZlA-1lwR;
+	Sat, 04 May 2024 08:16:05 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3AXz-00000001YnF-3Yud
+	id 1s3AY2-00000001YrU-0y8W
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 May 2024 08:15:13 +0000
+	Sat, 04 May 2024 08:15:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1714810507; x=1746346507;
+  t=1714810509; x=1746346509;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=uXIK6imN9fYvo8/acUzILbanjCM3PXn0aD3YzOkwU5Q=;
-  b=PslVTbjrLYjvjtQC6Uv9DdkGEsh+c9L7mbzpR7Fm2Y/IbakCM0Y0X8CI
-   SYfsedQtrd5VFa2QO0wtUVKl5WvxZg35qXehMSWVz23wj+u7K9nhpvuZF
-   P9Lh15RnNYKfKT6QVPsEBHOc/0LBbJJyJwYLF5ZBgaxA07VtY3G3VTC7j
-   FAinTnnNLRv+593aklvB5zOcEHolM96AyF/3wUdYTyMsGXONkXeinlSKQ
-   9YUC+ITThpiAaA61UpUGIKU90tVxgGQQUlZc58BwpkKFrD4ga7TyhEfRQ
-   Av54untvULotUBtsEhg9uefUZQghOKW6rlmnClTonCb8l4sDdQD5N6soj
-   g==;
-X-CSE-ConnectionGUID: 44UWbKPTTbKZw2YTuiLCxA==
-X-CSE-MsgGUID: 4PuT77LGRu+Coo+5yFSK8w==
+  bh=P5q9gL3DmOdRu3GNWoTEQhagzOV4QzL8Rtx94737wF0=;
+  b=fZftGRPzU5roLuKA/dIIEKcqTE8LRQakN3TpYPNw+l6lXUbP8W7aujKv
+   8/uErO96/4IBWmLshtvwqA1vAm71LPKjvoU5Jpy0ouEUxZd/vCOLecjVO
+   A1o6meoVuMcEXK1XpMAk50ujdv4ctc0HyL3jwqi30NekG0tIzTytahS4+
+   X8Ag5uNw3AU9QKAkJ+gfZ1Kb58okN3ZHfhINCbGaJyqBycuwZiWUpk4i7
+   2rHNZlCXA/x1h0J1kzw4AhjRfWsl9CPA2e8pOmJkq2TkoTwtNfnXHsAFX
+   jmafBN8F8WeQ4SNW+hkWeTPAyCOXBv5E7bAWAPB8G9hT6ozC9dtgDdSl4
+   A==;
+X-CSE-ConnectionGUID: rW1dyQB+Tcu0ip+sg6LDuw==
+X-CSE-MsgGUID: UJGyJ4o+QWC3teJqbVWbNA==
 X-IronPort-AV: E=Sophos;i="6.07,253,1708358400"; 
-   d="scan'208";a="15540342"
+   d="scan'208";a="15540350"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 04 May 2024 16:15:07 +0800
-IronPort-SDR: tWWsE1Cpj8LEkKKHrhiFJMTARD1JFTmHIUNNSczuZFDGqDAQlArrSFx3ZExmwCOvMejZO+bamD
- SC7nEE+OzovW47jKIPZXk2fa/LYbMj/Qg1APCleEV0RckY5SQaZW6WU2CUH4tS4jnuNHTX1ey6
- kxQHdzeihEVfmy9wyFO+E7oUbqCG4nVjAd3SGG3Oh1XI2yByiHCaJzIvevNUXeThUayIKVBaV2
- ReIyHvKOPzbEGdrhHs7AdBgyumlypD6pwCBHo6Ihg9Kbbuj6vQ6hV/hGvTOY8NmsNB3XFDBKjN
- QcU=
+  by ob1.hgst.iphmx.com with ESMTP; 04 May 2024 16:15:09 +0800
+IronPort-SDR: 6xRWs7YZPep8nYHD9MTcehAOJgUczcfwzyevtycBkT8Uu4+Dm6FQ0Di/ly3+2OddWFgQEo9hvx
+ KNN/JNSzxnVnqTHc2HBeoz33zeCBb350xdRzJ+Vpq3QiSUMWPiYraqdawq6maSntFVMGO6QlSl
+ L02LznsKMknqvlzSEjTXS9mcnUBxdj5HNKg/hbDnk0TG9gw+N2m1ykc/D0D5eX4gzY6ykl6fPE
+ jZywCMRm7IIqyiDE4x+22DLs6lg7ED903/eLv5qe79yv9dRIDsZOKZDk3sCsNncz3f56gbRmu/
+ bhM=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 May 2024 00:23:05 -0700
-IronPort-SDR: 8qgFDOK6lyoEOeYv/lnaBhVIU7h7x/kfpdZGHdOOL49y8UlZGoZbgpOHN24t3QpPps9I/aXbvO
- R+5lMeGd+N5TCrrQdiywHOSvTFGhkMvtHVaeMQdgY4/cKT+O8tX9sGbgmDWk+AhIwFZe8GhKJc
- tlBqKsWOxpxn81tw6UFMrkL7c3xEI84jN2VXjHqTT2TDUeV42OURmR/Mv5TKzLZI58EZZSkrJb
- PyI4AOiSuczfmnFkVTMgVwISoJeX71dSJkRK7DbiMsKPJeiLR7gKGxyxa9yMLfhiXOYbqQNctK
- LNk=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 May 2024 00:23:07 -0700
+IronPort-SDR: K+FpRuSxzQ8RzKwVSAclukCTJYrI0z4fPzXf4jwEtUhChsaPqMqqN8h7Sinkg6eHUfNX8qnYLc
+ OtlIH7g9gXMd7G2798ifjf6PhCMpqzkzAZAkJLPJSjixuRN1+sszHmCcqOadMm0Seij2n60qZr
+ zrTFpRFGcEwmNy080yGkrffv6v7ZSNb4RFoAjdr1gscxvvgewSg1QofUo3je/i2brsoq6QPNL+
+ Vxz+MSSHabNXRRFFFvktVUGYTWEoGnT9CmRsMeYy8JGUjHJTIM3Aox87QxX0OqFwl9i7eqU5EU
+ dqk=
 WDCIronportException: Internal
 Received: from unknown (HELO shinhome.flets-east.jp) ([10.225.163.38])
-  by uls-op-cesaip01.wdc.com with ESMTP; 04 May 2024 01:15:06 -0700
+  by uls-op-cesaip01.wdc.com with ESMTP; 04 May 2024 01:15:09 -0700
 From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 To: linux-block@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -68,17 +68,17 @@ Cc: linux-nvme@lists.infradead.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests v4 14/17] nvme/{021,022,025,026,027,028}: do not hard code target blkdev type
-Date: Sat,  4 May 2024 17:14:45 +0900
-Message-ID: <20240504081448.1107562-15-shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests v4 16/17] nvme/{rc,016,017}: rename nvme_num_iter to NVME_NUM_ITER
+Date: Sat,  4 May 2024 17:14:47 +0900
+Message-ID: <20240504081448.1107562-17-shinichiro.kawasaki@wdc.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240504081448.1107562-1-shinichiro.kawasaki@wdc.com>
 References: <20240504081448.1107562-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240504_011508_176165_5EDBC465 
-X-CRM114-Status: GOOD (  12.71  )
+X-CRM114-CacheID: sfid-20240504_011510_649064_988D7819 
+X-CRM114-Status: GOOD (  13.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,240 +93,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <dwagner@suse.de>
+To follow uppercase letter guide of environment variables, rename
+nvme_num_iter to NVME_NUM_ITER.
 
-There is no need to hardcode the target blkdev type. This allows
-the user to select different blkdev types via the nvmet_blkdev_type
-environment variable. Also modify set_conditions() hooks to cover
-combinations of NVMET_TRTYPES and NVMET_BLKDEV_TYPES.
-
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
-[Shin'ichiro: modified set_conditions()]
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 ---
- tests/nvme/021 | 8 ++++----
- tests/nvme/022 | 8 ++++----
- tests/nvme/025 | 8 ++++----
- tests/nvme/026 | 8 ++++----
- tests/nvme/027 | 8 ++++----
- tests/nvme/028 | 8 ++++----
- 6 files changed, 24 insertions(+), 24 deletions(-)
+ Documentation/running-tests.md | 5 +++--
+ tests/nvme/016                 | 2 +-
+ tests/nvme/017                 | 2 +-
+ tests/nvme/rc                  | 2 +-
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/tests/nvme/021 b/tests/nvme/021
-index 270d90e..43d85e6 100755
---- a/tests/nvme/021
-+++ b/tests/nvme/021
-@@ -2,11 +2,11 @@
- # SPDX-License-Identifier: GPL-2.0+
- # Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
- #
--# Test NVMe list command on NVMeOF with a file-backed ns.
-+# Test NVMe list command.
+diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
+index 736ab48..7bd0885 100644
+--- a/Documentation/running-tests.md
++++ b/Documentation/running-tests.md
+@@ -117,8 +117,9 @@ The NVMe tests can be additionally parameterized via environment variables.
+   Run the tests with given image size in bytes. 'm', 'M', 'g' and 'G' postfix
+   are supported. This parameter had an old name 'nvme_img_size'. The old name
+   is still usable, but not recommended.
+-- nvme_num_iter: 1000 (default)
+-  The number of iterations a test should do.
++- NVME_NUM_ITER: 1000 (default)
++  The number of iterations a test should do. This parameter had an old name
++  'nvme_num_iter'. The old name is still usable, but not recommended.
  
- . tests/nvme/rc
+ ### Running nvme-rdma and SRP tests
  
--DESCRIPTION="test NVMe list command on NVMeOF file-backed ns"
-+DESCRIPTION="test NVMe list command"
- QUICK=1
- 
- requires() {
-@@ -16,7 +16,7 @@ requires() {
- }
- 
- set_conditions() {
--	_set_nvme_trtype "$@"
-+	_set_combined_conditions _set_nvme_trtype _set_nvmet_blkdev_type "$@"
- }
- 
- test() {
-@@ -26,7 +26,7 @@ test() {
- 
- 	local ns
- 
--	_nvmet_target_setup --blkdev file
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
-diff --git a/tests/nvme/022 b/tests/nvme/022
-index adaa765..6b3a8fb 100755
---- a/tests/nvme/022
-+++ b/tests/nvme/022
-@@ -2,11 +2,11 @@
- # SPDX-License-Identifier: GPL-2.0+
- # Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
- #
--# Test NVMe reset command on NVMeOF with a file-backed ns.
-+# Test NVMe reset command.
- 
- . tests/nvme/rc
- 
--DESCRIPTION="test NVMe reset command on NVMeOF file-backed ns"
-+DESCRIPTION="test NVMe reset command"
- QUICK=1
- 
- requires() {
-@@ -16,7 +16,7 @@ requires() {
- }
- 
- set_conditions() {
--	_set_nvme_trtype "$@"
-+	_set_combined_conditions _set_nvme_trtype _set_nvmet_blkdev_type "$@"
- }
- 
- test() {
-@@ -26,7 +26,7 @@ test() {
- 
- 	local nvmedev
- 
--	_nvmet_target_setup --blkdev file
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
-diff --git a/tests/nvme/025 b/tests/nvme/025
-index 224492b..529fd0b 100755
---- a/tests/nvme/025
-+++ b/tests/nvme/025
-@@ -2,11 +2,11 @@
- # SPDX-License-Identifier: GPL-2.0+
- # Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
- #
--# Test NVMe effects-log command on NVMeOF with a file-backed ns.
-+# Test NVMe effects-log command.
- 
- . tests/nvme/rc
- 
--DESCRIPTION="test NVMe effects-log command on NVMeOF file-backed ns"
-+DESCRIPTION="test NVMe effects-log"
- QUICK=1
- 
- requires() {
-@@ -16,7 +16,7 @@ requires() {
- }
- 
- set_conditions() {
--	_set_nvme_trtype "$@"
-+	_set_combined_conditions _set_nvme_trtype _set_nvmet_blkdev_type "$@"
- }
- 
- test() {
-@@ -26,7 +26,7 @@ test() {
- 
- 	local ns
- 
--	_nvmet_target_setup --blkdev file
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
-diff --git a/tests/nvme/026 b/tests/nvme/026
-index 6ee6a51..6dfb9e5 100755
---- a/tests/nvme/026
-+++ b/tests/nvme/026
-@@ -2,11 +2,11 @@
- # SPDX-License-Identifier: GPL-2.0+
- # Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
- #
--# Test NVMe ns-descs command on NVMeOF with a file-backed ns.
-+# Test NVMe ns-descs command.
- 
- . tests/nvme/rc
- 
--DESCRIPTION="test NVMe ns-descs command on NVMeOF file-backed ns"
-+DESCRIPTION="test NVMe ns-descs"
- QUICK=1
- 
- requires() {
-@@ -16,7 +16,7 @@ requires() {
- }
- 
- set_conditions() {
--	_set_nvme_trtype "$@"
-+	_set_combined_conditions _set_nvme_trtype _set_nvmet_blkdev_type "$@"
- }
- 
- test() {
-@@ -26,7 +26,7 @@ test() {
- 
- 	local ns
- 
--	_nvmet_target_setup --blkdev file
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
-diff --git a/tests/nvme/027 b/tests/nvme/027
-index a63e42b..06fccab 100755
---- a/tests/nvme/027
-+++ b/tests/nvme/027
-@@ -2,11 +2,11 @@
- # SPDX-License-Identifier: GPL-2.0+
- # Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
- #
--# Test NVMe ns-rescan command on NVMeOF with a file-backed ns.
-+# Test NVMe ns-rescan command.
- 
- . tests/nvme/rc
- 
--DESCRIPTION="test NVMe ns-rescan command on NVMeOF file-backed ns"
-+DESCRIPTION="test NVMe ns-rescan command"
- QUICK=1
- 
- requires() {
-@@ -16,7 +16,7 @@ requires() {
- }
- 
- set_conditions() {
--	_set_nvme_trtype "$@"
-+	_set_combined_conditions _set_nvme_trtype _set_nvmet_blkdev_type "$@"
- }
- 
- test() {
-@@ -26,7 +26,7 @@ test() {
- 
- 	local nvmedev
- 
--	_nvmet_target_setup --blkdev file
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys
- 
-diff --git a/tests/nvme/028 b/tests/nvme/028
-index 65c52a9..c35d0ac 100755
---- a/tests/nvme/028
-+++ b/tests/nvme/028
-@@ -2,11 +2,11 @@
- # SPDX-License-Identifier: GPL-2.0+
- # Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
- #
--# Test NVMe list-subsys command on NVMeOF with a file-backed ns.
-+# Test NVMe list-subsys command.
- 
- . tests/nvme/rc
- 
--DESCRIPTION="test NVMe list-subsys command on NVMeOF file-backed ns"
-+DESCRIPTION="test NVMe list-subsys"
- QUICK=1
- 
- requires() {
-@@ -16,7 +16,7 @@ requires() {
- }
- 
- set_conditions() {
--	_set_nvme_trtype "$@"
-+	_set_combined_conditions _set_nvme_trtype _set_nvmet_blkdev_type "$@"
- }
- 
- test() {
-@@ -24,7 +24,7 @@ test() {
- 
+diff --git a/tests/nvme/016 b/tests/nvme/016
+index a65cffd..d1fdb35 100755
+--- a/tests/nvme/016
++++ b/tests/nvme/016
+@@ -23,7 +23,7 @@ test() {
  	_setup_nvmet
  
--	_nvmet_target_setup --blkdev file
-+	_nvmet_target_setup
+ 	local port
+-	local iterations="${nvme_num_iter}"
++	local iterations="${NVME_NUM_ITER}"
+ 	local loop_dev
  
- 	_nvme_connect_subsys
+ 	loop_dev="$(losetup -f)"
+diff --git a/tests/nvme/017 b/tests/nvme/017
+index 4f14471..114be60 100755
+--- a/tests/nvme/017
++++ b/tests/nvme/017
+@@ -23,7 +23,7 @@ test() {
+ 	_setup_nvmet
+ 
+ 	local port
+-	local iterations="${nvme_num_iter}"
++	local iterations="${NVME_NUM_ITER}"
+ 
+ 	truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path)"
+ 
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index ef7b966..6fc0020 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -20,7 +20,7 @@ export def_subsysnqn="blktests-subsystem-1"
+ export def_subsys_uuid="91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+ _check_conflict_and_set_default NVMET_TRTYPES nvme_trtype "loop"
+ _check_conflict_and_set_default NVME_IMG_SIZE nvme_img_size 1G
+-nvme_num_iter=${nvme_num_iter:-"1000"}
++_check_conflict_and_set_default NVME_NUM_ITER nvme_num_iter 1000
+ nvmet_blkdev_type=${nvmet_blkdev_type:-"device"}
+ NVMET_BLKDEV_TYPES=${NVMET_BLKDEV_TYPES:-"device file"}
  
 -- 
 2.44.0
