@@ -4,75 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 895B6C4345F
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 May 2024 12:03:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1479CC4345F
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 May 2024 13:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/QZGKL8fTE+NGn+Bj35qjL86s9HWjqNK29yhGguCU0A=; b=H5awzWO7AtgwTUvHJb2k8FGgAd
-	J/HKmhw0hh/ywaPuSxfcsNOLddMamjR+OZ41QUryfuuoGk5yJIjeDbO0hbPcJzCAFK8HG7F6cArPw
-	J5k0ExVJ8fUzrjFpN/AllOVvSLgc6pC/CUyfCjFfmZYv3jSUWmbcCtWKcnJEHlTYyrJZJSZoL5qhE
-	0gT+uZIz6Bz3gcsvBR6Qb8fdOb2x8aCoAQ0Tz8ysb/bXQ0tOUE/MH+mvZxYKUHMvDuBOjO5s5B0Ip
-	SPsG9H1eEW8AcMZuJIqCZJThE0WpBVHv5xdzxCg/TtqgXPrHdZ5me3JEFOOSO05UVtfSNAb7qDNwQ
-	3MGLPzGQ==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rrvLtBRdnyfwU9aizs+Isfc/56udF0KdsdKfdXm0Bhs=; b=NHQR8SA0x5jscW+HXrZncBWKtd
+	sU377Q+JvgBuDAJmYdD0JlYfWWT/ngsnyh3qxxDgia7AVSj0H45vEqdqjQbe77JhYQpdgWUnR/1l9
+	5tkY9qniuQbX4xjESz3uMe/Vupx7JS9qvjEBjBLyewQzCcNCvJf6X1K1cblzOu5BY9QwNVcCnW+3K
+	oPHYHUvNxTyAjrkCPLAv5g9/1g5VGEq2allWc+zL2VBBJdvLV/3hoapTMjEdd8IDDNITIVzL0Of5Z
+	1RuDkfKTAYrkfOaTRjZFwQLd07yPkuR2yrO8PL7ABXnmwMIH9++D7AoDxSzLFKGnXZiMINNZo4j5g
+	RJ3Ib9qA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3aae-00000004Cnf-2hJc;
-	Sun, 05 May 2024 12:03:36 +0000
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
+	id 1s3cCl-00000004NgM-0R5c;
+	Sun, 05 May 2024 13:47:03 +0000
+Received: from mail-wr1-f45.google.com ([209.85.221.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3aaa-00000004Cmm-2csJ
+	id 1s3cCh-00000004NeL-2BmK
 	for linux-nvme@lists.infradead.org;
-	Sun, 05 May 2024 12:03:35 +0000
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-7dee0dfd57aso60107039f.1
-        for <linux-nvme@lists.infradead.org>; Sun, 05 May 2024 05:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714910610; x=1715515410; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/QZGKL8fTE+NGn+Bj35qjL86s9HWjqNK29yhGguCU0A=;
-        b=lpavYPE5AIJlRajUWVMkC48twXW+hPC4YNlD+lcir5jLmccDNdqvIJTq8WcvPCje8h
-         70HMO4TRr5jR+GgLjKZlat34j8UX87AXiJa7CJPrbj4IhsoMmijDWs2A4VD0xHBPONKR
-         YIb1Tyf6j+bnsDWMFPQ+H1AGJYIUvgOFKvo5DMNwqCWugzQ+2PEu+0lvD2OcMDwvpTvQ
-         5W7UakSpFOu//HLslyUdnrhPQj3pxyckfVJR1NJjp+NrC+ONBxtT9hkBu7uw01aaUlo3
-         F9I4cow62DS4XERMUv4sFFPTDjf0UXW3VjHikoUePbtV/nXMuv4U7WufjbIHgyaIOFSL
-         8uGA==
+	Sun, 05 May 2024 13:47:01 +0000
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34aa836b948so288429f8f.3
+        for <linux-nvme@lists.infradead.org>; Sun, 05 May 2024 06:46:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714910610; x=1715515410;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/QZGKL8fTE+NGn+Bj35qjL86s9HWjqNK29yhGguCU0A=;
-        b=pI9NN/0Dz1ynDRwS9gwV9rBl0rDgtirZABT8BA3LAEJP+sZ31e8iB0imgDKbVxVFDR
-         NMKWyKY+dwIJxrDxViGJ7ISCA5gYH9fJ4d9r/3nZmFWdmYEtku4FjciEmlv6NYc/a4y4
-         AeeR6OB4sl8ToP5MM3X3KqcchoKWWjzNuBbI46cRyIAHGOm264lYGbPLwwNfIadUzkia
-         POYF3vdOtbyOqoEy0DTkMi0CU9XCf/Mf3MYXxwGmHixKhY+CrCfJ19SzeW1J5WGo07Go
-         qqYp8oUWU28YLiVYxLq0cY/BitFNYMB4qmbaTf0eFqKhBqoGr9kMASOL0Z5f7NywlKDJ
-         u+ew==
-X-Gm-Message-State: AOJu0YxDcpe0uL/KtGGf/+p+2EACOWcNjAkqNYVijFI/MkZ0nXVkBkld
-	hOMbKxOjpkdYfJkFQcj1OrEVRVzOtEO0uqvPRGBLwSs146IAvhv0z4YDuuDE
-X-Google-Smtp-Source: AGHT+IFrcJ65rAOhgvWUaqKaFYdDxW4rQw2cy17SUgsHzUidVXLbhSJD+uqRaD363IWGFlHB+mqfzg==
-X-Received: by 2002:a6b:7210:0:b0:7de:a107:913c with SMTP id n16-20020a6b7210000000b007dea107913cmr9665522ioc.13.1714910610045;
-        Sun, 05 May 2024 05:03:30 -0700 (PDT)
-Received: from tokunori-desktop.flets-east.jp ([240b:10:2720:5500:23e0:c465:86b0:be4c])
-        by smtp.gmail.com with ESMTPSA id o18-20020a639a12000000b0061ce6606203sm4380088pge.58.2024.05.05.05.03.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 May 2024 05:03:29 -0700 (PDT)
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Tokunori Ikegami <ikegami.t@gmail.com>
-Subject: [PATCH] nvme-rdma, nvme-tcp: include max reconnects for failed reconnect logging
-Date: Sun,  5 May 2024 21:03:05 +0900
-Message-ID: <20240505120324.20858-1-ikegami.t@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1714916809; x=1715521609;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rrvLtBRdnyfwU9aizs+Isfc/56udF0KdsdKfdXm0Bhs=;
+        b=ZnlTC5sey3oqieHyQNnukz+cLreyVm9tJcJpu/594rjHbgpFdjga0AQ7V/d7npxVlw
+         W9Lbfu0155S6ha4u2RWiPoGK5MQhat1gZJX+Dpx1qPy0SbT63r99os3OtJ5eohVgyWxn
+         7MODtK5Vku17Oq4Gq5NO6Pr1FtEom1jTDr7y/zAXk5uYsYtu33nY6kXXE6hPjMHZKTcm
+         3Wq93ZJ++TOy7iyND3QdaMgodSvVwQqEdtmaDwThrp8ahiWu6IBe1gVQ9muUWh1+SRkS
+         aNVq6n+luRHGJdnxhY2XErdeQGXc1e+vOidCUO1FygF2FKfPrTFG3Wj+Y2a4IghsZN5/
+         lKNg==
+X-Forwarded-Encrypted: i=1; AJvYcCX/l5GnqywHn4pBnPJZrOBH8qI38FGPGh3nKovOUIoEPW0rYIYbkOkYc1W1DwqQ3IS+eEseEBXUyruDhrJ5cS6U8h2uuJLLf+ets925V+I=
+X-Gm-Message-State: AOJu0YyVEW44z0VrL1hgCIEGxbGlh20zhjIC0IVTJf5HAwo6eJ174AJH
+	zB/g2uyuXWtPjYw97zHKtLCdzJRtTCce/OxUMTq76c9UBxFACeS24/zzMg==
+X-Google-Smtp-Source: AGHT+IFcyjV0i07knOXTL/KiKzZsxlxXwrRAXf897GllIPvrORf9Y0FykOTysXoE1+tV6PtzzynMRg==
+X-Received: by 2002:a05:600c:a44:b0:41b:fdf9:98b5 with SMTP id c4-20020a05600c0a4400b0041bfdf998b5mr5635724wmq.4.1714916809267;
+        Sun, 05 May 2024 06:46:49 -0700 (PDT)
+Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id p8-20020a05600c358800b0041a1fee2854sm16336932wmq.17.2024.05.05.06.46.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 May 2024 06:46:48 -0700 (PDT)
+Message-ID: <cb2c0d9a-7f45-44d0-bb4d-e074870966f2@grimberg.me>
+Date: Sun, 5 May 2024 16:46:48 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-rdma, nvme-tcp: include max reconnects for failed
+ reconnect logging
+To: Tokunori Ikegami <ikegami.t@gmail.com>, linux-nvme@lists.infradead.org
+References: <20240505120324.20858-1-ikegami.t@gmail.com>
+Content-Language: he-IL, en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240505120324.20858-1-ikegami.t@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240505_050332_690725_B2210C3F 
-X-CRM114-Status: UNSURE (   9.46  )
+X-CRM114-CacheID: sfid-20240505_064659_599374_95ABE939 
+X-CRM114-Status: UNSURE (   5.36  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -88,45 +82,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Makes clear max reconnects translated by ctrl loss tmo and reconnect delay.
+>   requeue:
+> -	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+> -			ctrl->ctrl.nr_reconnects);
+> +	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d of %d\n",
+> +		 ctrl->ctrl.nr_reconnects, ctrl->ctrl.opts->max_reconnects);
 
-Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
----
- drivers/nvme/host/rdma.c | 4 ++--
- drivers/nvme/host/tcp.c  | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+How about we do:
+"Failed reconnect attempt %d/%d\n"
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 366f0bb4ebfc..fc33f16f9f0e 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1118,8 +1118,8 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- 	return;
- 
- requeue:
--	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
--			ctrl->ctrl.nr_reconnects);
-+	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d of %d\n",
-+		 ctrl->ctrl.nr_reconnects, ctrl->ctrl.opts->max_reconnects);
- 	nvme_rdma_reconnect_or_remove(ctrl);
- }
- 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 28bc2f373cfa..4c4c363d2025 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2272,8 +2272,8 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
- 	return;
- 
- requeue:
--	dev_info(ctrl->device, "Failed reconnect attempt %d\n",
--			ctrl->nr_reconnects);
-+	dev_info(ctrl->device, "Failed reconnect attempt %d of %d\n",
-+		 ctrl->nr_reconnects, ctrl->opts->max_reconnects);
- 	nvme_tcp_reconnect_or_remove(ctrl);
- }
- 
--- 
-2.43.0
-
+And the same for the successful reconnect:
+"Successfully reconnected (attempt %d/%d)\n"
 
