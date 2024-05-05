@@ -4,81 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAA4BC4345F
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 May 2024 08:16:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02553C4345F
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 May 2024 10:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q4roxKQeoWQdWmXz3vCFGxCW5rN4RDoCgn8/Bg+FUv0=; b=ydAQWN+ZklCTmIK2rAyjb0GaDT
-	E7GX/4d/IAkIgBMRRLw1wv2DHpyOYbls2Fq3hQK8jVxNLkcSUt7L/V7UXGx7y/9scQ88VsordxOCz
-	iV/bxIBHkNxvlTbFXbB/0hFbdw3FlDaLv7bDslBL1j/xYi2v8yhCRSxxYV7gVnDmfhWBrg4QahQDm
-	GwCMU1tU10g9PmO/ZjrcfJ3JAqUlMT0zT4Zc2aBieek8wlXQ5NsughqelAotb614swmZg7u/tHu6q
-	SRdPC3kI7S09qfN4AleYVBm4/BNsjDqNFkkoWZlz/lw1vSj4Q/OHnfnkQXtoJ443JJHjwel0yxDX3
-	6ZiHEs6w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Fmp84Ej0jEpkABXCanz/BB8frTB1L88FjsfDIWGr9jw=; b=ZJpjAdrmP9kyxDkKDgb7BDOYBw
+	KSt7UwLHBmHH0NeM++j1WeAKDduAKraLrKUVTCHjMjblVau1VwSoGevoWBdhgam5H6wjoBWG13lej
+	nl+QwibO8+iYpvrGF006l1KPDLRdg1izNFt7Lt+0EifYyq0LMIq+1i96oIvRtWUCcMmBcqDYWik4l
+	glolEQESnT9tiDaqOFGReNa2/dD9CHQkdjAUCebdLjNJLkBUvam3fqStMB+bTfPKeSQ3XUl1yzdpf
+	duL7SZXdUMJNGW0PxMnF+qTJkZbjOWEVVXYsGVQmfcGEnHs9NFfezrZ4uVYuAr0/eM7OYOs9Tb7VC
+	gyvq2FCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3AZ7-00000001ZvP-2ueh;
-	Sat, 04 May 2024 08:16:17 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1s3ZHk-000000045eZ-2fbJ;
+	Sun, 05 May 2024 10:40:00 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3AY6-00000001YnF-0GZ8
+	id 1s3ZHg-000000045dW-2sOS
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 May 2024 08:15:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1714810513; x=1746346513;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=t7G2Ho5WPgwkt3ZFuraW47O0HRzd+FaFO+yo28FOtDU=;
-  b=FLZ/XmCS+RjSZPwV+r6k0zt7kXylDWzzkIYOmn2T/hcM143XdwNZY7Y0
-   Dsf9/g7ecr6SDrxX6erOAAD2FV7U/6dDr+rLvmHvFyEPC0Yw6mmdZum5G
-   iYMwqpgDoRNKIOBBpKenejWwZCOy77uBaY7MktwR/lKToRTbGO/oW2nCY
-   QA/uqgfn+qkhqnIArswrxKbr/9Qvb7O7ibFrNtMsqMcYYpmg8Lj/XVaVB
-   qRVFAw4m+aB5BquZWtVLvHNT/p0p4WaaNNVa3nAUr7DURiUjEuSOgGmyw
-   HDWkBBBIMtx7dIC2JeZDg9IMR1PFxRWOSqt+9Lz+OBQBcO3d4lJaA/cGG
-   Q==;
-X-CSE-ConnectionGUID: jLmEII+pR4G9iQlsSu32+Q==
-X-CSE-MsgGUID: lRAq1WLnRCqiROBQxgY9rw==
-X-IronPort-AV: E=Sophos;i="6.07,253,1708358400"; 
-   d="scan'208";a="15540359"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 04 May 2024 16:15:12 +0800
-IronPort-SDR: 7ZNEZjezUW6pOFwFJ0sKVEv5b3RcSJdyu+Us6Bc3lkZJ9p1Bt3BLq13/54tSYjPYdwMKcrKfLy
- jIbJgppHQglnyIUbPjVILDQ+rA1TSUxtVp/T6IWs/3W+a4unYNw/uvkSjrbY62Dg5E7s7rLqB/
- 04w81yf9eRrF7TM30JoavlofK1vd39J4hkvMZjAB0RxIlzGxqC3dx0pZxO3ybzujrVPoP5RtN/
- nQNgcsOmrnUG27zgFj9mXDrMERMKKLEWB1yGegVYkzsKYcfQYxTfKd9FIZVPEes7FvbEwaTmws
- qqM=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 May 2024 00:23:10 -0700
-IronPort-SDR: +VsxZNyaEtyXC2FUTDXm5TSjW5TLuz8wCYTv7CUL+KZNduTEprAmYkX/VO7HR2rylv44ElWF0Z
- eBxqn5/2yhb+ahLhY4we4IulCddX0WCaA/UASNwKJhxrZBaKU9IKpPvW5a1p8AAcXC1I+QLzJg
- J5I4grPWLBdmuzJ8GQcqQCEslrZ+jfdPa2breAqXcY4UYPbKMonUq3LMJCGPLsB6wpDCmZPiQF
- WKp0RdGXoMUYjzj6IBdxL0Fg0OOcNg2MIPOersX0mbTt4jIaogmc75RIi6MTUaCwXFEuJPtKmC
- wyw=
-WDCIronportException: Internal
-Received: from unknown (HELO shinhome.flets-east.jp) ([10.225.163.38])
-  by uls-op-cesaip01.wdc.com with ESMTP; 04 May 2024 01:15:10 -0700
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-block@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	Daniel Wagner <dwagner@suse.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests v4 17/17] nvme/rc,srp/rc,common/multipath-over-rdma: rename use_rxe to USE_RXE
-Date: Sat,  4 May 2024 17:14:48 +0900
-Message-ID: <20240504081448.1107562-18-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240504081448.1107562-1-shinichiro.kawasaki@wdc.com>
-References: <20240504081448.1107562-1-shinichiro.kawasaki@wdc.com>
+	Sun, 05 May 2024 10:39:57 +0000
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-34e663ab1caso78461f8f.1
+        for <linux-nvme@lists.infradead.org>; Sun, 05 May 2024 03:39:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714905593; x=1715510393;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fmp84Ej0jEpkABXCanz/BB8frTB1L88FjsfDIWGr9jw=;
+        b=htGdD5cZ/Fu9KCt6LpmrtYNCzxSnmeRX0lJYn5RvJ0vnZI7EVvPeRrEsxA86wtiA/1
+         grYJufKQN009NZEwetrkgAU9hKdtypjk64nNZ2zGHBuIlvWzypqYM8bjcbK64TSH7J/o
+         oucZEwsVyFtSvxCTSaSeNRmjQ9At2+g4EyGnEssQzQkxZnNPglz0iHQ/rZqsKGXx5JBx
+         6/uuDA/8w6uyS4o+m4OXSiDPIPe2DmxYULLTYYdyG62UkNu/pxLTtAEJA03qZjaTY+Yz
+         eIKgvo7CXSmL5s/07KBduN1zjq7o2GcIlyXC04usasagD2cN2wt801UkgJ22cNxYDRBy
+         Qx1w==
+X-Gm-Message-State: AOJu0Yy7l2jrMbf03Eo/XZCO84hAFWUYq5Z3rNAvrkCDP6ktblzydR0U
+	J+Sn297yU0Axu69LHQwV9aiNTs90J74KxiSMh/PWdl6eKl/80hje21mO3Q==
+X-Google-Smtp-Source: AGHT+IFsNibzWE70iVr7ZUwpiV9RPzxb3ewWloJhV7dKSare7ZKWnUgehixunuynRI0+4Fvj8F63Rg==
+X-Received: by 2002:a05:6000:1e85:b0:34d:707c:9222 with SMTP id dd5-20020a0560001e8500b0034d707c9222mr4873034wrb.2.1714905593539;
+        Sun, 05 May 2024 03:39:53 -0700 (PDT)
+Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id i15-20020adfb64f000000b0034af40b2efdsm7988935wre.108.2024.05.05.03.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 May 2024 03:39:53 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: [PATCH] nvmet: make nvmet_wq unbound
+Date: Sun,  5 May 2024 13:39:51 +0300
+Message-Id: <20240505103951.52413-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240504_011514_458051_C7C57313 
-X-CRM114-Status: GOOD (  13.96  )
+X-CRM114-CacheID: sfid-20240505_033956_751390_02AD80CA 
+X-CRM114-Status: GOOD (  13.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,91 +78,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To follow uppercase letter guide of environment variables, rename
-use_rxe to USE_RXE.
+From: Sagi Grimberg <sagi.grimberg@vastdata.com>
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+When deleting many controllers one-by-one, it takes a very
+long time as these work elements may serialize as they are
+scheduled on the executing cpu instead of spreading. In general
+nvmet_wq can definitely be used for long standing work elements
+so its better to make it unbound regardless.
+
+While we are at it, expose it via sysfs to allow cpumask
+control of this workqueue if a user wants to modify it.
+
+Signed-off-by: Sagi Grimberg <sagi.grimberg@vastdata.com>
 ---
- Documentation/running-tests.md | 6 ++++--
- common/multipath-over-rdma     | 5 +++--
- tests/nvme/rc                  | 2 +-
- tests/srp/rc                   | 2 +-
- 4 files changed, 9 insertions(+), 6 deletions(-)
+ drivers/nvme/target/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
-index 7bd0885..968702e 100644
---- a/Documentation/running-tests.md
-+++ b/Documentation/running-tests.md
-@@ -132,9 +132,11 @@ NVMET_TRTYPES=rdma ./check nvme/
- ./check srp/
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index e06013c5dace..5e948864ea89 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1686,7 +1686,8 @@ static int __init nvmet_init(void)
+ 	if (!buffered_io_wq)
+ 		goto out_free_zbd_work_queue;
  
- To use the rdma_rxe driver:
--use_rxe=1 NVMET_TRTYPES=rdma ./check nvme/
--use_rxe=1 ./check srp/
-+USE_RXE=1 NVMET_TRTYPES=rdma ./check nvme/
-+USE_RXE=1 ./check srp/
- ```
-+'USE_RXE' had the old name 'use_rxe'. The old name is still usable but not
-+recommended.
+-	nvmet_wq = alloc_workqueue("nvmet-wq", WQ_MEM_RECLAIM, 0);
++	nvmet_wq = alloc_workqueue("nvmet-wq",
++			WQ_MEM_RECLAIM | WQ_SYSFS | WQ_UNBOUND, 0);
+ 	if (!nvmet_wq)
+ 		goto out_free_buffered_work_queue;
  
- ### Normal user
- 
-diff --git a/common/multipath-over-rdma b/common/multipath-over-rdma
-index ee05100..d0f4d26 100644
---- a/common/multipath-over-rdma
-+++ b/common/multipath-over-rdma
-@@ -12,12 +12,13 @@ filesystem_type=ext4
- fio_aux_path=/tmp/fio-state-files
- memtotal=$(sed -n 's/^MemTotal:[[:blank:]]*\([0-9]*\)[[:blank:]]*kB$/\1/p' /proc/meminfo)
- max_ramdisk_size=$((1<<25))
--use_rxe=${use_rxe:-""}
- ramdisk_size=$((memtotal*(1024/16)))  # in bytes
- if [ $ramdisk_size -gt $max_ramdisk_size ]; then
- 	ramdisk_size=$max_ramdisk_size
- fi
- 
-+_check_conflict_and_set_default USE_RXE use_rxe ""
-+
- _have_legacy_dm() {
- 	_have_kernel_config_file || return
- 	if ! _check_kernel_option DM_MQ_DEFAULT; then
-@@ -396,7 +397,7 @@ start_soft_rdma() {
- 	local type
- 
- 	{
--	if [ -z "$use_rxe" ]; then
-+	if [ -z "$USE_RXE" ]; then
- 		modprobe siw || return $?
- 		type=siw
- 	else
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 6fc0020..c1ddf41 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -97,7 +97,7 @@ _nvme_requires() {
- 		_have_driver nvmet-rdma
- 		_have_configfs
- 		_have_program rdma
--		if [ -n "$use_rxe" ]; then
-+		if [ -n "$USE_RXE" ]; then
- 			_have_driver rdma_rxe
- 		else
- 			_have_driver siw
-diff --git a/tests/srp/rc b/tests/srp/rc
-index c77ef6c..85bd1dd 100755
---- a/tests/srp/rc
-+++ b/tests/srp/rc
-@@ -51,7 +51,7 @@ group_requires() {
- 	_have_module ib_uverbs
- 	_have_module null_blk
- 	_have_module rdma_cm
--	if [ -n "$use_rxe" ]; then
-+	if [ -n "$USE_RXE" ]; then
- 		_have_module rdma_rxe
- 	else
- 		_have_module siw
 -- 
-2.44.0
+2.40.1
 
 
