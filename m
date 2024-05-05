@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02553C4345F
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 May 2024 10:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5769C4345F
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 May 2024 10:40:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Fmp84Ej0jEpkABXCanz/BB8frTB1L88FjsfDIWGr9jw=; b=ZJpjAdrmP9kyxDkKDgb7BDOYBw
-	KSt7UwLHBmHH0NeM++j1WeAKDduAKraLrKUVTCHjMjblVau1VwSoGevoWBdhgam5H6wjoBWG13lej
-	nl+QwibO8+iYpvrGF006l1KPDLRdg1izNFt7Lt+0EifYyq0LMIq+1i96oIvRtWUCcMmBcqDYWik4l
-	glolEQESnT9tiDaqOFGReNa2/dD9CHQkdjAUCebdLjNJLkBUvam3fqStMB+bTfPKeSQ3XUl1yzdpf
-	duL7SZXdUMJNGW0PxMnF+qTJkZbjOWEVVXYsGVQmfcGEnHs9NFfezrZ4uVYuAr0/eM7OYOs9Tb7VC
-	gyvq2FCA==;
+	bh=X7twm5mr4WHe3cshlHyndeqLsYlRbyl96q9//wbd7lw=; b=Oa6X5xNd9P+m6CQC7DTRY0qF/L
+	6fLyYIr3QzSjsaMnfVo2uaWQ7LvulAiJWZRf6TEqsOrAoXwnzaT6ivu8QwR1Itx3C2GUpPuUC1D3H
+	55TY7YMspf+bPb+bjVVDkZmgwbt6Zukg7f8dOBLDZN0v/og5DlZPtEUBMbajDvnsVN0+m8KMBSbFW
+	AbjK7qCGEK5KZjsUCyyOmngS3+n43hjUxRllTw3l4HwPMCcONQNvUsDhVgmgc75BC8vr+lSN5PyAU
+	BgPESn3dAGi+NbZOcpOUkWGZkbbDKwKXxg2Ar7SwLOSpSxkk+7PX4bV1qGLtZs+Iix0cc5yBhbwSl
+	EkCjq9pQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3ZHk-000000045eZ-2fbJ;
-	Sun, 05 May 2024 10:40:00 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1s3ZHj-000000045e1-3kP9;
+	Sun, 05 May 2024 10:39:59 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3ZHg-000000045dW-2sOS
+	id 1s3ZHd-000000045cZ-0E1z
 	for linux-nvme@lists.infradead.org;
-	Sun, 05 May 2024 10:39:57 +0000
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-34e663ab1caso78461f8f.1
-        for <linux-nvme@lists.infradead.org>; Sun, 05 May 2024 03:39:55 -0700 (PDT)
+	Sun, 05 May 2024 10:39:54 +0000
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41c26dcc3ecso1472855e9.2
+        for <linux-nvme@lists.infradead.org>; Sun, 05 May 2024 03:39:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714905593; x=1715510393;
+        d=1e100.net; s=20230601; t=1714905587; x=1715510387;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Fmp84Ej0jEpkABXCanz/BB8frTB1L88FjsfDIWGr9jw=;
-        b=htGdD5cZ/Fu9KCt6LpmrtYNCzxSnmeRX0lJYn5RvJ0vnZI7EVvPeRrEsxA86wtiA/1
-         grYJufKQN009NZEwetrkgAU9hKdtypjk64nNZ2zGHBuIlvWzypqYM8bjcbK64TSH7J/o
-         oucZEwsVyFtSvxCTSaSeNRmjQ9At2+g4EyGnEssQzQkxZnNPglz0iHQ/rZqsKGXx5JBx
-         6/uuDA/8w6uyS4o+m4OXSiDPIPe2DmxYULLTYYdyG62UkNu/pxLTtAEJA03qZjaTY+Yz
-         eIKgvo7CXSmL5s/07KBduN1zjq7o2GcIlyXC04usasagD2cN2wt801UkgJ22cNxYDRBy
-         Qx1w==
-X-Gm-Message-State: AOJu0Yy7l2jrMbf03Eo/XZCO84hAFWUYq5Z3rNAvrkCDP6ktblzydR0U
-	J+Sn297yU0Axu69LHQwV9aiNTs90J74KxiSMh/PWdl6eKl/80hje21mO3Q==
-X-Google-Smtp-Source: AGHT+IFsNibzWE70iVr7ZUwpiV9RPzxb3ewWloJhV7dKSare7ZKWnUgehixunuynRI0+4Fvj8F63Rg==
-X-Received: by 2002:a05:6000:1e85:b0:34d:707c:9222 with SMTP id dd5-20020a0560001e8500b0034d707c9222mr4873034wrb.2.1714905593539;
-        Sun, 05 May 2024 03:39:53 -0700 (PDT)
+        bh=X7twm5mr4WHe3cshlHyndeqLsYlRbyl96q9//wbd7lw=;
+        b=pqH3dCYVu9Jh4mlnfX7Ja5ci0xu5JQe2/OpUAeBu+wSHjksGhvyXjNTmZDKMPFGXkL
+         tub9KVRnSocq5k+KmgwmU2M4H9fxsRo+nw9n3hQh9QiFFJBl1woqnkFX8y8zG6Sgscb6
+         YME0FnC/8ozs8HlyM8zBJoBuWI7DsDPfY06vW/hmsdIB9SobrwjqDS6QmxWGaMA1QoH1
+         5mSkw/r6/fc/TzoHFJU2OvSsWvDw74vwxGsY8KVR1f9hWHWBsKqHii+gsAvyftYdHBTN
+         4jwVmaIDovg4ojo7UFohCVco/f75jEgKkZ9t5xg/DQRZOwFvhR0Xpsfn2kPyau7qrBKh
+         yAKg==
+X-Gm-Message-State: AOJu0Yx8WjiWOUg4Qfb3ewlagiHZhwDYFsCX7rc3FBfdq5QGE+UNKSlp
+	efvYgn6UNfUy77H8DtsNLAfACVPeAd2qmlRzdoMXKUVSDgFAeGWngxYLcQ==
+X-Google-Smtp-Source: AGHT+IHuX/NP3SfjyMFiSh32QYg0q799qLTcAWjLiovfZyxlkmHNFkhB5pdrAhTsEQPxMXlbKP/M/A==
+X-Received: by 2002:a05:6000:a83:b0:34d:756d:e43f with SMTP id dh3-20020a0560000a8300b0034d756de43fmr5256956wrb.7.1714905586648;
+        Sun, 05 May 2024 03:39:46 -0700 (PDT)
 Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id i15-20020adfb64f000000b0034af40b2efdsm7988935wre.108.2024.05.05.03.39.52
+        by smtp.gmail.com with ESMTPSA id cx14-20020a056000092e00b0034a2d0b9a4fsm8055461wrb.17.2024.05.05.03.39.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 May 2024 03:39:53 -0700 (PDT)
+        Sun, 05 May 2024 03:39:46 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
 Cc: Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: [PATCH] nvmet: make nvmet_wq unbound
-Date: Sun,  5 May 2024 13:39:51 +0300
-Message-Id: <20240505103951.52413-1-sagi@grimberg.me>
+Subject: [PATCH] nvmet-rdma: Avoid o(n^2) loop in delete_ctrl
+Date: Sun,  5 May 2024 13:39:44 +0300
+Message-Id: <20240505103944.52275-1-sagi@grimberg.me>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240505_033956_751390_02AD80CA 
-X-CRM114-Status: GOOD (  13.60  )
+X-CRM114-CacheID: sfid-20240505_033953_122036_C574CEB6 
+X-CRM114-Status: GOOD (  12.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,34 +80,48 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Sagi Grimberg <sagi.grimberg@vastdata.com>
 
-When deleting many controllers one-by-one, it takes a very
-long time as these work elements may serialize as they are
-scheduled on the executing cpu instead of spreading. In general
-nvmet_wq can definitely be used for long standing work elements
-so its better to make it unbound regardless.
+When deleting a nvmet-rdma ctrl, we essentially loop over all
+queues that belong to the controller and schedule a removal of
+each. Instead of restarting the loop every time a queue is found,
+do a simple safe list traversal.
 
-While we are at it, expose it via sysfs to allow cpumask
-control of this workqueue if a user wants to modify it.
+This addresses an unneeded time spent scheduling queue removal in
+cases there a lot of queues.
 
 Signed-off-by: Sagi Grimberg <sagi.grimberg@vastdata.com>
 ---
- drivers/nvme/target/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/target/rdma.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index e06013c5dace..5e948864ea89 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1686,7 +1686,8 @@ static int __init nvmet_init(void)
- 	if (!buffered_io_wq)
- 		goto out_free_zbd_work_queue;
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 5b8c63e74639..26db04360e8c 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1814,18 +1814,14 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
  
--	nvmet_wq = alloc_workqueue("nvmet-wq", WQ_MEM_RECLAIM, 0);
-+	nvmet_wq = alloc_workqueue("nvmet-wq",
-+			WQ_MEM_RECLAIM | WQ_SYSFS | WQ_UNBOUND, 0);
- 	if (!nvmet_wq)
- 		goto out_free_buffered_work_queue;
+ static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
+ {
+-	struct nvmet_rdma_queue *queue;
++	struct nvmet_rdma_queue *queue, *tmp;
  
+-restart:
+ 	mutex_lock(&nvmet_rdma_queue_mutex);
+-	list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
+-		if (queue->nvme_sq.ctrl == ctrl) {
+-			list_del_init(&queue->queue_list);
+-			mutex_unlock(&nvmet_rdma_queue_mutex);
+-
+-			__nvmet_rdma_queue_disconnect(queue);
+-			goto restart;
+-		}
++	list_for_each_entry_safe(queue, tmp, &nvmet_rdma_queue_list, queue_list) {
++		if (queue->nvme_sq.ctrl != ctrl)
++			continue;
++		list_del_init(&queue->queue_list);
++		__nvmet_rdma_queue_disconnect(queue);
+ 	}
+ 	mutex_unlock(&nvmet_rdma_queue_mutex);
+ }
 -- 
 2.40.1
 
