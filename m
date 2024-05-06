@@ -4,86 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B64E4C4345F
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 May 2024 17:05:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08D76C4345F
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 May 2024 05:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mKB6YLSNJL854QSVR6Ylw1i1qlJgNfvLSDvIS/fCb8M=; b=KKj/eYL813k23skzU5oHTlWOO+
-	aCPtaGdEo8StTuBxMm2YBXINPeAywsgC2mPLWLtAFil6Wo+yuR8GfOUcwKU4md6fsf+tyvTAuqD7V
-	A2EL6wfsj7eqAV3DFCRpLbnL/qJbtWqqY1Ww9RGwM+9+THGvWsxtcxcrqE/PLyey5bYSgdehYG2B/
-	Ye9pfvuaA9P4SHL6K1X9hjN3ypjyqh4nla6A3ZAmLo+6/uY4XqjPDzs+ku3jaOk9mrOHWkcWhzEXF
-	KRSVJAlQAyWO9/pKnoezjZNQZs1igRbVCkmwmruc1j4SnUhYwPeNI9Ybk+sK9U/k1CNe4I1Y+ycNT
-	8OnjAn1A==;
+	bh=/PAELLSYDWiqyipZM5E9btis/ZO7gd0J7ISssEsRBds=; b=nECB8MSWeqqxuKKlODI1dXlN5P
+	8ki4SHoFsQUvJwQOCml98aE4YFFFHsJ8xT7pfG6vuTgfwDkEJ1fAnZGcvnG6OJVnLW/RhiOAQIQ8o
+	0lsyChf7s++AsLF5FGbt2KrjaTxzAAX25faImkKdvZcyhy5psBtQ95T5wz9JDYRE2hrKwPvtLYqSM
+	ESIwABAhMCtIjqOaDVLqR5OWADnxnYy2R6SigB/fGPiIhFz9AjIIagIYpvdv3gncr5dkOitHBfQuD
+	Wh3ofnuVwq0y+RKsV3lI+d++NiQxnWw8D1vn7kFWfVAkiRS2E0VdCzM6VzBgxSaO/F70TrwTVyNKF
+	Nf+bAYOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3fIl-00000004s5J-0wGu;
-	Sun, 05 May 2024 17:05:27 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1s3qya-000000069lB-1wJu;
+	Mon, 06 May 2024 05:33:24 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3bpq-00000004Khm-3yHt
+	id 1s3qyX-000000069in-2GOJ
 	for linux-nvme@lists.infradead.org;
-	Sun, 05 May 2024 13:23:24 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 96D1560C64;
-	Sun,  5 May 2024 13:23:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5357AC113CC;
-	Sun,  5 May 2024 13:23:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714915399;
-	bh=jjLgkhsN4WjaKTyfGnNOYYnBmrIQeAxiqhWYRqvmHnw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N5GHCqguzvr4zXSvt+GZwExP+D4+ViMFS5ymKVV8WJY+Di3qvsEp58G9bzM0BAvHF
-	 stRLiuNs0tAjzhnbTK/8wL+10XQCHTZHBZmaoU+SwNNRsdc3zzqE5WaLVDQBWFhIvC
-	 raDXBTYUnDUM4UtQUw45YXqktzY6vnT/akcSLM5mL4wzzUFTgqPDcpICsM95p6XfvX
-	 O4u+h30wrlLfM0mEibSSqU02f0NAECeoPPcaFHr27oYznJKIN+ZSxxnHDgLyJZSjxm
-	 mLLAI46IamcYUju5EL6BBITjFGKFCEyP7IgsxkDT4H6bFHDEu7oWOLwbNzfk28/Nrq
-	 GrAQIMAtf2uAg==
-Date: Sun, 5 May 2024 16:23:14 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Zhu Yanjun <zyjzyj2000@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>
-Subject: Re: [RFC RESEND 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
-Message-ID: <20240505132314.GC68202@unreal>
-References: <cover.1709635535.git.leon@kernel.org>
- <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
- <c9f9e29e-c2e1-4f99-b359-db0babd41dec@linux.dev>
+	Mon, 06 May 2024 05:33:23 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 711C868AFE; Mon,  6 May 2024 07:33:08 +0200 (CEST)
+Date: Mon, 6 May 2024 07:33:08 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH] nvmet: make nvmet_wq unbound
+Message-ID: <20240506053308.GA5030@lst.de>
+References: <20240505103951.52413-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c9f9e29e-c2e1-4f99-b359-db0babd41dec@linux.dev>
+In-Reply-To: <20240505103951.52413-1-sagi@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240505_062323_057864_577B3F7B 
-X-CRM114-Status: GOOD (  20.32  )
-X-Mailman-Approved-At: Sun, 05 May 2024 10:05:23 -0700
+X-CRM114-CacheID: sfid-20240505_223321_740917_50F8D380 
+X-CRM114-Status: GOOD (  16.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,40 +60,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 03, 2024 at 04:41:21PM +0200, Zhu Yanjun wrote:
-> On 05.03.24 12:18, Leon Romanovsky wrote:
-> > From: Chaitanya Kulkarni <kch@nvidia.com>
-
-<...>
-
-> > This is an RFC to demonstrate the newly added DMA APIs can be used to
-> > map/unmap bvecs without the use of sg list, hence I've modified the pci
-> > code to only handle SGLs for now. Once we have some agreement on the
-> > structure of new DMA API I'll add support for PRPs along with all the
-> > optimization that I've removed from the code for this RFC for NVMe SGLs
-> > and PRPs.
-> > 
-
-<...>
-
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index e6267a6aa380..140939228409 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -236,7 +236,9 @@ struct nvme_iod {
-> >   	unsigned int dma_len;	/* length of single DMA segment mapping */
-> >   	dma_addr_t first_dma;
-> >   	dma_addr_t meta_dma;
-> > -	struct sg_table sgt;
-> > +	struct dma_iova_attrs iova;
-> > +	dma_addr_t dma_link_address[128];
+On Sun, May 05, 2024 at 01:39:51PM +0300, Sagi Grimberg wrote:
+> From: Sagi Grimberg <sagi.grimberg@vastdata.com>
 > 
-> Why the length of this array is 128? Can we increase this length of the
-> array?
+> When deleting many controllers one-by-one, it takes a very
+> long time as these work elements may serialize as they are
+> scheduled on the executing cpu instead of spreading. In general
+> nvmet_wq can definitely be used for long standing work elements
+> so its better to make it unbound regardless.
 
-It is combination of two things:
- * Good enough value for this nvme RFC to pass simple test, which Chaitanya did.
- * Output of various NVME_CTRL_* defines
+This looks sensible, thanks.
 
-Thanks
+> While we are at it, expose it via sysfs to allow cpumask
+> control of this workqueue if a user wants to modify it.
+
+This on the other looks very questionable to me.  It needs a way better
+justification and should be split into a separate patch if we really
+need it.
+
 
