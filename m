@@ -4,81 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E708C4345F
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 May 2024 07:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9CFBC4345F
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 May 2024 07:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VNICsQwAZLEIq4FagMWJtT9l3ne94Q3HOggFLnvinbw=; b=mRCQKChbX6gaOtFTkWihAedspy
-	xr1uaptU7i/Ylg8bC2K99OgTLzfBdwePGrnI03qsv3NruvWDRBljtedTpW2h9Kp2+7JJs6tJ6Q0TX
-	vQk9JPYMYeLw8KwDK8+FgcGVVYQGIfSSojpv3k594qrgJkUdLPdiWlftgvpS4mXDejut2ld67wfCx
-	E3AZNeU9B1vDPPf2z1p2ELxICC1DdI+nxBhNX/Qg8UVbryD3nmQKfsGbda/yQBEG4oCtwmY0YI931
-	ocpEw6cBzVQgB9G6L3mo15XXJkJNAT6JS3lKtFcJ1nSOUhRBbOxxCMyhKJheWrBK3MxGtrcEU1rZe
-	H0FepztQ==;
+	bh=tV2ZC2UmEwzpoMr2Th1EtRY5AdqzP0fjZxhzJ5COxUg=; b=Cftvp07+8Wze/p8pxgRFK7A9RJ
+	oBCYtnGqFPHF5FUSz8RZCqkgxMC56IK1NLuOSJMGzuzGl+wblgbio2lXw6NLnouP46jj2EKnLyGhM
+	wbTcbfVWCvQK7r6/xJQPU/+AkFoGzQwtRaEDTQAXC2uLF1cVs7+bg4DSzlxNwffLfZrdNOUdaHnPb
+	btw9FhxzbZ8XN+1t/1R2gjK1UJgSsgZMFHuubIVWkyAjzOVsIYU2+NgU9KrlWBPJcahF/+GoWltOE
+	MJbwFXtAyZbU8APBjHo4tFvWxRGeO9YIEbhqJhAJ/mZN8I1yzvGozFOZ6ctmOPRxv0i+4y8M9l5S6
+	Q9yJP6rw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3slw-00000006SJj-2NAg;
-	Mon, 06 May 2024 07:28:28 +0000
-Received: from out-189.mta1.migadu.com ([2001:41d0:203:375::bd])
+	id 1s3stX-00000006Tb3-2jat;
+	Mon, 06 May 2024 07:36:19 +0000
+Received: from mail-lj1-f180.google.com ([209.85.208.180])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3sis-00000006RYa-3wxN
+	id 1s3stU-00000006TaN-1t9b
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 May 2024 07:25:20 +0000
-Message-ID: <1615fe92-d4ff-4ef2-9bd0-199aa9e3a426@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1714980307;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VNICsQwAZLEIq4FagMWJtT9l3ne94Q3HOggFLnvinbw=;
-	b=nZznPeyzXvBnkwuymZAd7H5uP6FsRpvl2JfkIEHhVLGTRXN2z1loonY6p/619WY28zpwEl
-	Bogs2+q+8zcc500vR6DNiQHdd+mPtphq8OjqAyhbN7IEoPG5hcFcOxw9uMk2A927K9UGj9
-	Kf4xW9Sd1i3DF1NmDYSRbBRBNofkxMI=
-Date: Mon, 6 May 2024 09:25:01 +0200
+	Mon, 06 May 2024 07:36:17 +0000
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e20088184cso3432411fa.1
+        for <linux-nvme@lists.infradead.org>; Mon, 06 May 2024 00:36:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714980973; x=1715585773;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tV2ZC2UmEwzpoMr2Th1EtRY5AdqzP0fjZxhzJ5COxUg=;
+        b=nDFdM5OOtFWRTQYPE+mlm+TkYZf39uhC0dgdy92oQkE66+0ZDMkpqAAIBu8ED5lT+J
+         c8Mb384cmTWtOdJafvcnO3l+IdzKrgwsIrRVTANmdTotZzV73SqPmFB4ATmLsurAYCzr
+         JUWPXHf+FHtBPBK6gLPSOUUtjZ26sGlrz8XYKxx2SfdB6W/Yxk8QLwL0yQackRFa8NrY
+         cOfO5x6OciwIqAM6zLCh1rc9AbzjL3uzBCNlQyXCHqQPEqKU8bLJEmswljBG+WWem+KL
+         eSXNCK4JFkQ+Guj9DQyZ4KPPLyAcgroIvjTKsC5MKqWIXhs2UrdmrmpSvG3+imlnqsGZ
+         SkVg==
+X-Gm-Message-State: AOJu0Yze2m3ePG+8BBp/hiYrn7QM71UKFGaxWuKEwP1R+/wT4WJ+fb79
+	0wM47rZUY9qiidzzE6f0Se1/aAs2gAgWPzv0ispJ1+56FQTnJ3c2
+X-Google-Smtp-Source: AGHT+IExWeMlGyGUom1vcTk7FI0Dxv92Qd4YwkpTbjr8h0NuUb2R1Ra6IJaTzwPkUFB0/VMG27mNEA==
+X-Received: by 2002:a2e:7d0f:0:b0:2e1:f928:b62f with SMTP id y15-20020a2e7d0f000000b002e1f928b62fmr5967287ljc.5.1714980972968;
+        Mon, 06 May 2024 00:36:12 -0700 (PDT)
+Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id p20-20020a05600c469400b0041bc41287cesm15075182wmo.16.2024.05.06.00.36.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 May 2024 00:36:12 -0700 (PDT)
+Message-ID: <c7fb5eeb-1dc7-4cf1-875b-b941447b7be0@grimberg.me>
+Date: Mon, 6 May 2024 10:36:11 +0300
 MIME-Version: 1.0
-Subject: Re: [RFC RESEND 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- Bart Van Assche <bvanassche@acm.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Amir Goldstein <amir73il@gmail.com>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- "daniel@iogearbox.net" <daniel@iogearbox.net>,
- Dan Williams <dan.j.williams@intel.com>, "jack@suse.com" <jack@suse.com>
-References: <cover.1709635535.git.leon@kernel.org>
- <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
- <c9f9e29e-c2e1-4f99-b359-db0babd41dec@linux.dev>
- <20240505132314.GC68202@unreal>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20240505132314.GC68202@unreal>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet-rdma: Avoid o(n^2) loop in delete_ctrl
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+References: <20240505103944.52275-1-sagi@grimberg.me>
+ <20240506055020.GA5059@lst.de>
+Content-Language: he-IL, en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240506055020.GA5059@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240506_002519_132199_05BBAC19 
-X-CRM114-Status: GOOD (  17.21  )
-X-Mailman-Approved-At: Mon, 06 May 2024 00:28:27 -0700
+X-CRM114-CacheID: sfid-20240506_003616_527417_01FA3F1A 
+X-CRM114-Status: GOOD (  16.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,50 +83,42 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-On 05.05.24 15:23, Leon Romanovsky wrote:
-> On Fri, May 03, 2024 at 04:41:21PM +0200, Zhu Yanjun wrote:
->> On 05.03.24 12:18, Leon Romanovsky wrote:
->>> From: Chaitanya Kulkarni <kch@nvidia.com>
-> <...>
->
->>> This is an RFC to demonstrate the newly added DMA APIs can be used to
->>> map/unmap bvecs without the use of sg list, hence I've modified the pci
->>> code to only handle SGLs for now. Once we have some agreement on the
->>> structure of new DMA API I'll add support for PRPs along with all the
->>> optimization that I've removed from the code for this RFC for NVMe SGLs
->>> and PRPs.
->>>
-> <...>
->
->>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->>> index e6267a6aa380..140939228409 100644
->>> --- a/drivers/nvme/host/pci.c
->>> +++ b/drivers/nvme/host/pci.c
->>> @@ -236,7 +236,9 @@ struct nvme_iod {
->>>    	unsigned int dma_len;	/* length of single DMA segment mapping */
->>>    	dma_addr_t first_dma;
->>>    	dma_addr_t meta_dma;
->>> -	struct sg_table sgt;
->>> +	struct dma_iova_attrs iova;
->>> +	dma_addr_t dma_link_address[128];
->> Why the length of this array is 128? Can we increase this length of the
->> array?
-> It is combination of two things:
->   * Good enough value for this nvme RFC to pass simple test, which Chaitanya did.
->   * Output of various NVME_CTRL_* defines
 
-Thanks a lot. I enlarged this number to 512. It seems that it can work. 
-Hope this will increase the performance.
+On 06/05/2024 8:50, Christoph Hellwig wrote:
+> On Sun, May 05, 2024 at 01:39:44PM +0300, Sagi Grimberg wrote:
+>> From: Sagi Grimberg <sagi.grimberg@vastdata.com>
+>>
+>> When deleting a nvmet-rdma ctrl, we essentially loop over all
+>> queues that belong to the controller and schedule a removal of
+>> each. Instead of restarting the loop every time a queue is found,
+>> do a simple safe list traversal.
+>>
+>> This addresses an unneeded time spent scheduling queue removal in
+>> cases there a lot of queues.
+> I think the original reason for this was to avoid lock order dependencies
+> and/or deadlocks, I wish I would have documented that better.  Looking at
+> the current version __nvmet_rdma_queue_disconnect I can't find any
+> obvious problem, but rdma_disconnect is a bit of a block box from
+> the driver POV.
 
-Best Regards,
+Yes rdma_disconnect is a black box (essentially move the qp to err state 
+and send
+a cm disconnect request/response). But it is not dependent on
+nvmet_rdma_queue_mutex. It is true that in the cm handler we may take this
+lock, but that handler has its own context.
 
-Zhu Yanjun
+The same pattern is used in nvmet_rdma_destroy_port_queues() and
+nvmet_rdma_remove_one()
+
+>   Did you test this extensively with lockdep enabled?
+
+I can't say this is extensively tested. I can run blktests and make sure 
+lockdep
+is enabled.
 
 >
-> Thanks
+>> +	list_for_each_entry_safe(queue, tmp, &nvmet_rdma_queue_list, queue_list) {
+> Nit: overly long line here.  Maybe just rename tmp to n?
 
--- 
-Best Regards,
-Yanjun.Zhu
-
+Sure.
 
