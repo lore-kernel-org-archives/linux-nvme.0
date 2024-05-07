@@ -4,119 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC948C25B4F
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 May 2024 15:05:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EFC9C10F1A
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 May 2024 06:54:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZdITPD9WEu/FM6E0+iM5Z02yCRFhIBSKBXwOF0KtDCs=; b=3JSsn75zQZW+AfXjs+41xOUmS0
-	WmSR7lAHXOS3cxDYpuIC9LH78DIkhDYuVROBc5iQEKNBLOyU7Kogby7KcBYphRR1EFfJftliqDoaL
-	doNBrKEPO5CAQkI1cwcXnRHDwEIXaRrElw/V17fgTYBqbpHG1yZF42xzZEdOq+d4ey45zerN7+x5i
-	u4U2l7UCuiw4rOWKzrI5wYhUEIswzhQkdJIzKhq8I/LILzrcWKkF3gD6rkysXZQe2N6EDhtnQbE+b
-	cKV18Z0VNWpz5mNYlRHQ1zA4sLwAASlG1WK+ldMRlIq7arGYSgtFYgyXe308LdClz5XodUKohl62f
-	+EkCVq5Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dogUzI0AEkc0u0eBb5eEuI4QvQE6tEIra8ouxmwgLGo=; b=ECSSS8iBT29go6HvcWp97LSjvZ
+	zUn3SJ+cjBemS/5n18HMXwwsdqZdfA3E+Meqb4npNRJGqCE7Rb+pm/qr4IvI54iAviap4x4YL4u0x
+	gcbNPMsyWiUcRkaMIdaZz58ckulL1R6QTWenhVJi8rfJdF05PgODBVy/3eWEtwUIW2jt7n4Z5BKp6
+	QP67FNNnQ+gW0PYKk5ja7dsmogw5+matB8SSBoJlSBT00KDQxRDhmELVQQzmuK//hNN9ZsEqHkwF2
+	QU1coLJnhVg5/+cf8fjWMZT0YzAgGcjc944GwrYKaZItRbb+ne+ubmD0Yxy/xzrXQ6csB38SuGOyY
+	ZdpuU30A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3ztw-00000007njm-2IHF;
-	Mon, 06 May 2024 15:05:12 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1s4EiZ-00000009tn3-3Vzc;
+	Tue, 07 May 2024 06:54:27 +0000
+Received: from mail-lf1-f51.google.com ([209.85.167.51])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s3ztq-00000007ni0-499L
+	id 1s4EiW-00000009tjn-3fWk
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 May 2024 15:05:10 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B4CE43851B;
-	Mon,  6 May 2024 15:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715007902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZdITPD9WEu/FM6E0+iM5Z02yCRFhIBSKBXwOF0KtDCs=;
-	b=PxCYoTqBl3nX4MeHMn6VeZXd7El16tgLoy1iCKHPKxqGnYeI5wLlAdTj8EuyRwkVLQrY/g
-	a2QNrqKld+Bw0LREsk9OyVCAzDYb+/m5UyYEXCj7iE478yPeVdCEM0tQOWOT2zJFlsK0IJ
-	DljLrncB6/TcVvCLwQDx1oG4a/FrANE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715007902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZdITPD9WEu/FM6E0+iM5Z02yCRFhIBSKBXwOF0KtDCs=;
-	b=n7/Ku2SkeC+WgzJ6/iArKzZ5uQPjovdgidUJxQtnuyLNsAHqYC0QzcHlIcNj58jqj1WKU4
-	ZHTRWaROxOU70HCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715007902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZdITPD9WEu/FM6E0+iM5Z02yCRFhIBSKBXwOF0KtDCs=;
-	b=PxCYoTqBl3nX4MeHMn6VeZXd7El16tgLoy1iCKHPKxqGnYeI5wLlAdTj8EuyRwkVLQrY/g
-	a2QNrqKld+Bw0LREsk9OyVCAzDYb+/m5UyYEXCj7iE478yPeVdCEM0tQOWOT2zJFlsK0IJ
-	DljLrncB6/TcVvCLwQDx1oG4a/FrANE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715007902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZdITPD9WEu/FM6E0+iM5Z02yCRFhIBSKBXwOF0KtDCs=;
-	b=n7/Ku2SkeC+WgzJ6/iArKzZ5uQPjovdgidUJxQtnuyLNsAHqYC0QzcHlIcNj58jqj1WKU4
-	ZHTRWaROxOU70HCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A1EE61386E;
-	Mon,  6 May 2024 15:05:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xdERJp7xOGaffAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 06 May 2024 15:05:02 +0000
-Date: Mon, 6 May 2024 17:05:02 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Gregory Joyce <gjoyce@ibm.com>, Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>, 
-	"axboe@fb.com" <axboe@fb.com>
-Subject: Re: nvme-cli : attaching a namespace to an undiscovered nvme
- controller on multi-controller nvme disk
-Message-ID: <yhvmfctxhfzrcsq4lx6nr3f5n67kegrixtthh3pals7vn5qr26@k5as5whcdrum>
-References: <f1a7c1e2-3203-4b7a-a922-82fa812455bd@linux.ibm.com>
+	Tue, 07 May 2024 06:54:26 +0000
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51ef2eafe86so533963e87.3
+        for <linux-nvme@lists.infradead.org>; Mon, 06 May 2024 23:54:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715064852; x=1715669652;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dogUzI0AEkc0u0eBb5eEuI4QvQE6tEIra8ouxmwgLGo=;
+        b=irHHA8ZDXcsVQoQA+wa3xWle6CBoP4eMXfWMv6wft3je8EEDi/GfAtdpL4vxGXOiqQ
+         wVs995N850gxJzGceiXImAi68LjW8yqSEGpLm+86NnEJg/dambbsW9haXIkHmVsrlK+c
+         q/gv16vmY9AROO4R7pR6uvb6hFx3bZZbe8xEfm5K7HOEXVybUH22kgHauL9vBPM+QMq1
+         XiuYuTEBMA7liINnXBKA8Bven19eEw31b5TcPwFBJhCGnVybp4qcJRFoiwsAtjylHEIA
+         bKjrYK+08SU4P9Q/P5niBUTp+e+dt84wOKoYAsY5RUS9hP0+jSgU8iFyZJ5fZbhc5wTp
+         Nt+A==
+X-Gm-Message-State: AOJu0YwAHXb8DSLwZBNE199r48pmmWH7kSV4VJfB2V6BRGoGP4VqpN1M
+	DR+81MYAqJ5lB1y8zLOvg89v7TFHQkhQc0rL5bqRBZFw0LAyh0VsIRN8Ww==
+X-Google-Smtp-Source: AGHT+IGEYvoxsMvHu8mDkcGo73OVS0XJqIxbNw2jViBRzxN4K9zBCIQxlQGOJkcIbdu77+njSUvjXA==
+X-Received: by 2002:a2e:9147:0:b0:2da:320a:6739 with SMTP id q7-20020a2e9147000000b002da320a6739mr7643235ljg.1.1715064852197;
+        Mon, 06 May 2024 23:54:12 -0700 (PDT)
+Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id b12-20020a5d4d8c000000b0034e65b8b43fsm10218880wru.8.2024.05.06.23.54.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 May 2024 23:54:11 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: [PATCH v2] nvmet: make nvmet_wq unbound
+Date: Tue,  7 May 2024 09:54:10 +0300
+Message-Id: <20240507065410.1107169-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f1a7c1e2-3203-4b7a-a922-82fa812455bd@linux.ibm.com>
-X-Spamd-Result: default: False [-3.77 / 50.00];
-	BAYES_HAM(-2.97)[99.89%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240506_080507_281147_24FCF426 
-X-CRM114-Status: UNSURE (   9.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240506_235424_941780_4EDAF047 
+X-CRM114-Status: GOOD (  12.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,14 +78,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 06, 2024 at 07:45:20PM GMT, Nilay Shroff wrote:
-> There could be multiple ways to address this issue. However my proposal would be to address
-> it in nvme-cli. As nvme-cli builds the nvme topology it shall be easy
-> for nvme-cli to detect
+From: Sagi Grimberg <sagi.grimberg@vastdata.com>
 
-The topology scan in libnvme is only using the information available in
-sysfs. libnvme doesn't issue any commands anymore and I'd like to keep
-it this in this way. So if the kernel doesn't exposes this information
-to userspace via sysfs, I don't think it's simple to 'fix' this in
-nvme-cli/libnvme.
+When deleting many controllers one-by-one, it takes a very
+long time as these work elements may serialize as they are
+scheduled on the executing cpu instead of spreading. In general
+nvmet_wq can definitely be used for long standing work elements
+so its better to make it unbound regardless.
+
+Signed-off-by: Sagi Grimberg <sagi.grimberg@vastdata.com>
+---
+Changes from v1:
+- remove unneeded WQ_SYSFS
+
+ drivers/nvme/target/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index e06013c5dace..2fde22323622 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1686,7 +1686,8 @@ static int __init nvmet_init(void)
+ 	if (!buffered_io_wq)
+ 		goto out_free_zbd_work_queue;
+ 
+-	nvmet_wq = alloc_workqueue("nvmet-wq", WQ_MEM_RECLAIM, 0);
++	nvmet_wq = alloc_workqueue("nvmet-wq",
++			WQ_MEM_RECLAIM | WQ_UNBOUND, 0);
+ 	if (!nvmet_wq)
+ 		goto out_free_buffered_work_queue;
+ 
+-- 
+2.40.1
+
 
