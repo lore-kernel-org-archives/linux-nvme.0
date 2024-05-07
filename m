@@ -4,61 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EAEDC25B4F
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 May 2024 15:02:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54AF8C10F1A
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 May 2024 15:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MZgTnHDEEJwGlnAGUWLdaqVd2Gf47yb2MJOHuWhnFMk=; b=vf3odI1L+8yj5NNzpE6KUKZNoL
-	ssh3VqxPir7b9cgx1sMxkJNYkSO1Vdn9NGcJl8GHjFQpbLiE3SRFgEyYs/yVUCoItezlyFovTnIGM
-	WvoSCeyi+Osyf+pYBQZegibuUbqnTil/KyxkKS4mbBciWNO5w1rOhfXLUyPzA+OUsQ/JJarWZSlNE
-	wNktAO0d1DPC/pS2zZni/X1vOXQ4hD5dUDqWwDGVklsB6VyEPFOngzp9ciKaSN4yTcbE5co4tE2RD
-	//KlgQ8+y4Bmfzwv+QNRjHHaeU5K5eu3PZF+ML6fyHH6ki2jhZTwa+rG29oxDky7442PD5WPpdfue
-	IhXUiAOQ==;
+	bh=3A8S06nAzUVedTReMiHv6BNDSr5Rx0H64J+DEO0cK9w=; b=eY5AX4LbJmAl5HXkmAD3WH6uRL
+	03vt6+bftO4U11IdAC29CgmtF+qZOFFbNQsRnIbL9Cm7X6+f7H/VU9okPBcqWVl07bzL9a9Uqw3rL
+	JLy0GNjh8eznXmsvU75kxcdQS4XJPUK5Qqc4L4MSfJxXDzNnvNqkWP85pY+9v0cNHGKibfRyT+7Wv
+	bjM51HXFTTF65huEjr9xwvsVfaSrBpeisv/Cgn+zDvVKuSkoPDBUgqBbg1whUoxjwS7z4UVMidVvJ
+	pSneUmbliUmH+wPvMyURG7J0LQ5xPBjTeVfnVDzZWL79krn2shy1wXL+JbosphY46z6SYOH8Y9V+Q
+	ZWtgez8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4MKu-0000000BdqX-3s1u;
-	Tue, 07 May 2024 15:02:32 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1s4MLJ-0000000Be10-3K5d;
+	Tue, 07 May 2024 15:02:57 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4MKr-0000000BdpD-2ifi
+	id 1s4MLG-0000000BdzT-3Vsm
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 May 2024 15:02:31 +0000
+	Tue, 07 May 2024 15:02:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 91B98617D8;
-	Tue,  7 May 2024 15:02:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1507C4AF63;
-	Tue,  7 May 2024 15:02:27 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 10236CE139C;
+	Tue,  7 May 2024 15:02:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4497C2BBFC;
+	Tue,  7 May 2024 15:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715094148;
-	bh=zIcctlJSswyozLgHChlkNwD9j4rqFeKzpEufaCdEVtQ=;
+	s=k20201202; t=1715094172;
+	bh=gn0W/1EWIXO6epjS/6/rnHSMUoGl5NRWDPejbySshu0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UrhXLieUNepQpYogjZlPhto2t9HBrXavYCPFuGA7bxN9xV/7YgSgacq9o1C1g2cC6
-	 fPrVifFA0td7heUw2oh9EKO3dU9fUJFxWFJ5lU4ACYBN8CfgF85s7dIGiAosw1ZuK8
-	 BjyV0Oq4ZPNxSDLvB3F1cysctXfvo94UevvAETFfY0Ybx0jKkuzM8Y8tkyZ8DC0bYT
-	 vlklPFuBuAOELj9xLsz/YIWUMNu0qN63aKzEDIiH8axDlxzrBAM74hlK4sG6VxOqbY
-	 2Lax3H/o2zk2ZSRuZRcj3w2SVqTmEAslAabYfgatXh2W8aBXDrKDIXvArIJA02FJ6R
-	 erWss+i22rhxQ==
-Date: Tue, 7 May 2024 09:02:26 -0600
+	b=MAtEwbjkyVKi5gGkBXntmdl65SXUOd/ocHNPLfbZH0uu//BIdPEjMJl1iR9b8NFVv
+	 jyvQdQlNKHj2CbJ6aj/uRY8Na6DGekQyuOM0r5SQF5F1wVJkROMqLCRhV6ARHgf3x4
+	 CncsB1TaB8SHoh0VMpHC+nyO7ck63NvE1fF4YESYTeQGofHStWAGlRKTIjYXbgxYB2
+	 znJXYXv8S2aPWemIfg21ELrI7Fd2+lQKay7PwSpF8C4wpNyqmrcsLZXw7oppq5DDhu
+	 WS7+w9Q7SWyNmmJ+0Zp3O16EZcCnHss39qgzwLMNIC84zoXGgV6cHObNZ+V6j3L99A
+	 +dDTpk8a2teWQ==
+Date: Tue, 7 May 2024 09:02:50 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet-auth: return the error code to the
- nvmet_auth_ctrl_hash() callers
-Message-ID: <ZjpCgnYGMy7cSSR1@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240412134154.565298-1-mlombard@redhat.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: Add quirk for broken MSIs
+Message-ID: <ZjpCmj4sf68Wlck_@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240422162822.3539156-1-sean.anderson@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240412134154.565298-1-mlombard@redhat.com>
+In-Reply-To: <20240422162822.3539156-1-sean.anderson@linux.dev>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240507_080229_765289_CF3F4E70 
-X-CRM114-Status: UNSURE (   7.02  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240507_080255_088047_877960DE 
+X-CRM114-Status: GOOD (  12.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,10 +72,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 12, 2024 at 03:41:54PM +0200, Maurizio Lombardi wrote:
-> If nvmet_auth_ctrl_hash() fails, return the error code to its callers
+On Mon, Apr 22, 2024 at 12:28:23PM -0400, Sean Anderson wrote:
+> Sandisk SN530 NVMe drives have broken MSIs. On systems without MSI-X
+> support, all commands time out resulting in the following message:
 > 
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> nvme nvme0: I/O tag 12 (100c) QID 0 timeout, completion polled
+> 
+> These timeouts cause the boot to take an excessively-long time (over 20
+> minutes) while the initial command queue is flushed.
+> 
+> Address this by adding a quirk for drives with buggy MSIs. The lspci
+> output for this device (recorded on a system with MSI-X support) is:
+> 
+> 02:00.0 Non-Volatile memory controller: Sandisk Corp Device 5008 (rev 01) (prog-if 02 [NVM Express])
+> 	Subsystem: Sandisk Corp Device 5008
+> 	Flags: bus master, fast devsel, latency 0, IRQ 16, NUMA node 0
+> 	Memory at f7e00000 (64-bit, non-prefetchable) [size=16K]
+> 	Memory at f7e04000 (64-bit, non-prefetchable) [size=256]
+> 	Capabilities: [80] Power Management version 3
+> 	Capabilities: [90] MSI: Enable- Count=1/32 Maskable- 64bit+
+> 	Capabilities: [b0] MSI-X: Enable+ Count=17 Masked-
+> 	Capabilities: [c0] Express Endpoint, MSI 00
+> 	Capabilities: [100] Advanced Error Reporting
+> 	Capabilities: [150] Device Serial Number 00-00-00-00-00-00-00-00
+> 	Capabilities: [1b8] Latency Tolerance Reporting
+> 	Capabilities: [300] Secondary PCI Express
+> 	Capabilities: [900] L1 PM Substates
+> 	Kernel driver in use: nvme
+> 	Kernel modules: nvme
+> 
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 
 Thanks, applied to nvme-6.9.
 
