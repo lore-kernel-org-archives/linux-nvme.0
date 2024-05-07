@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FF3EC10F1A
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 May 2024 15:08:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9693BC25B4F
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 May 2024 15:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FccU009ahZQbYrA0GKnlDX4FDykbZk97qVjIGVNccF8=; b=iAGMimGGSQcUGQcnWXU23+84Lj
-	dI4ZD2YfkEygquelhq/AMQak2sapfZPat20eRwluFGMaIxF/gGwjG+4WLGk851Y1EhXYrsR90/gmd
-	uIcnVImX97asPLDa/LZ/QEucwmSfOy5UK8YhYhcAIQK0sVDBLHiQ8VKobmZ9SWhh2a36K758hoi84
-	NSPUiH9qgAOsb6lJDzxKY9xrv8w6SWIRj8qH5QmUD0drwKxxE+yyagXlFDOlVkYgdpFZWTznyEfsJ
-	O1S+Ok1z5zpMLCaeThBgF+4ORsPdCcg/nUZaQ2h+XhBRbGr0yvav9ZoPBEcgqKkIm0VeytZuIpOsr
-	biiwoJFw==;
+	bh=Q9RnHFrap8nDDjGCyM6i1mAERC4lxoC/s7HCcmlx53U=; b=I6+xVieNuA79gy1WbJ12gG12N7
+	G+MCATCbABl2f6AhUHOzpZMqorQItit+LihRQ6wqp07SEWjcpFIv5oTy462MfV2pLqcTARBRO5Eeb
+	JYNEiBuLJMiuMy/aygJ76mpRcwLbRsNmFCXs7QJuzlnfkLQNyqPRv5N+wUICNT3WHpIqEth2bkj78
+	N0Y7uvhlWFao9k0IQCEP+ADA48EOiSTSSrZF2MKs1Pa4A4zNs457TS6ZpwCHSWdavzz5+vkUnWwl+
+	7s7lCEt9BlOo+g6eAha9BZ7JRYa0iswcEKhX+U8TyCZD4ubK/6Wdc1B84PQA6t7lS80mQGBxsRPN7
+	BmqN4GPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4MQh-0000000BfYT-2130;
-	Tue, 07 May 2024 15:08:31 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1s4N8w-0000000Bos2-3eqP;
+	Tue, 07 May 2024 15:54:14 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4MQe-0000000BfXb-1yJx
+	id 1s4N8u-0000000Bor5-0fXW
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 May 2024 15:08:29 +0000
+	Tue, 07 May 2024 15:54:13 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id ED9FE616F0;
-	Tue,  7 May 2024 15:08:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580B1C2BBFC;
-	Tue,  7 May 2024 15:08:27 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0AB10617FB;
+	Tue,  7 May 2024 15:54:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C7EAC2BBFC;
+	Tue,  7 May 2024 15:54:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715094507;
-	bh=2Ny8QNPQctxLXHmPoWuNPeNM1KIsJaxQF7Q9hi9vDUU=;
+	s=k20201202; t=1715097248;
+	bh=hRMR8YMhpfOJQey3GBzzEwyQQ/uLoZnh6PzwZ8zTVWI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sv1eueVuLHj8EHtroeQptznQg9dz/ECvpaAREYnNq45DSUl2C6fXyQeYpJHo3kRzh
-	 s7kil9WHZCcTZrdypPboo6qCiDyMwlvCIoHIDpy14z+8u4J0yaf1rZfb1HOjqduVuA
-	 V6oEy5iyv1lqG//AQT3ZzEQ/G9+UIR9cxIAyp2w6kdW0uCiGgc0zer8TCm/98/3Nfi
-	 f+wEqhWxZLskz2KYvTi85yNMV5fgpnb7xCKMUtxih/S0NtJYNbfNXOIGUOKS2jc3Wi
-	 NZAjwHJiQK3M4b4Nkeq83b/63laYIHb6N4fa9eoP7+M/+g11Wd8T4xQnxsActZv+NC
-	 NzvDbyuxuAPtQ==
-Date: Tue, 7 May 2024 09:08:25 -0600
+	b=l+NBvzXRpyqIItGD2W7HuWw5C3Cw/PdFEW2cqGDVwxOBwMgf9nCWZIBtLvvjtqnv1
+	 9WGvJrKgttyTDyDQGIemR0vkS8ZXSQoT5HJdUv/ijtwIAvZwKCdLSPFaaEHT5NkzKI
+	 5WAZTO+F3FEP1OzMax9CiUaOiGEIptXMUfsSHUJ4gz+5g6/ekL7mkdF2VMgDvskGiS
+	 Kwx/ChV0Qw4Wudn8H9lWfY6UpkU+ADY9s9D/nWfcZzpOjHjyIUUb4+rqo7x9OYCS7K
+	 93zI3XOVo+Zq3H/YBQb7QT+Lw82fMFHo+sCyZlbtGLo3NtQ1uk/Pb/c54LZTeRNr1P
+	 lZq9KG4R5LIcA==
+Date: Tue, 7 May 2024 09:54:06 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [PATCH v2] nvmet-rdma: Avoid o(n^2) loop in delete_ctrl
-Message-ID: <ZjpD6TRPE37kztWa@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240507065444.1109334-1-sagi@grimberg.me>
- <20240507072626.GB6569@lst.de>
+To: Tokunori Ikegami <ikegami.t@gmail.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme-rdma, nvme-tcp: include max reconnects for
+ reconnect logging
+Message-ID: <ZjpOnmDwUMwwY4li@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240505152517.8508-1-ikegami.t@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240507072626.GB6569@lst.de>
+In-Reply-To: <20240505152517.8508-1-ikegami.t@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240507_080828_578133_3E541887 
-X-CRM114-Status: GOOD (  14.87  )
+X-CRM114-CacheID: sfid-20240507_085412_431912_26A63B71 
+X-CRM114-Status: UNSURE (   6.22  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,24 +72,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 07, 2024 at 09:26:26AM +0200, Christoph Hellwig wrote:
-> On Tue, May 07, 2024 at 09:54:44AM +0300, Sagi Grimberg wrote:
-> > From: Sagi Grimberg <sagi.grimberg@vastdata.com>
-> > 
-> > When deleting a nvmet-rdma ctrl, we essentially loop over all
-> > queues that belong to the controller and schedule a removal of
-> > each. Instead of restarting the loop every time a queue is found,
-> > do a simple safe list traversal.
-> > 
-> > This addresses an unneeded time spent scheduling queue removal in
-> > cases there a lot of queues.
+On Mon, May 06, 2024 at 12:24:59AM +0900, Tokunori Ikegami wrote:
+> Makes clear max reconnects translated by ctrl loss tmo and reconnect delay.
 > 
-> Looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> (crossing fingers we're not going to run into a mess due to
-> rdma_disconnect)
+> Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
 
-Sounds like nvme-6.10 material then. Applied to that tree.
+Thanks, applied to nvme-6.10 with a minor merge conflict fix folded in.
 
