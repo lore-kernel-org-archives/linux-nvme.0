@@ -4,57 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA439C25B4F
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 May 2024 23:10:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33CB6C25B74
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 May 2024 23:10:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uUhVx7FgpqYMveDztyq4a55dYFyPS1IRuQtHQn8GxBM=; b=3uEcH8ii3FuCNwC4Az5FwHcZuu
-	1jBJGK/owVAOnPNVt2jtCATmtTYfV8sf4s5Ak8mIBvRINgH7iPx1kkcZeEeQx/n98l965ZYkvkltw
-	+/0lPDPMNK8Uh80QcIScjxjuklF10I0yAgK5VYMfwmI6NTLjMB+wPjDyHGwH+YamO1bVKM4lEhFpD
-	cNXI9n7I0zR2AmJKY+kQa4Zy2wKRlMhgtXY9c6g73hYejbBiThd/AkvHxmrz+fWYvj0mzEsx5xuAw
-	jUhjSNBVW0da0sOxH37sLSfuf0r2/qBCrUISvQq/8GIUWeFHjUrixzKsH3EjxQIHVd36pIxeuCsn8
-	0NiYHMlA==;
+	bh=1sv/bXg1ouqgC+DNAP3svGNCkJrurFoxOrDxvpdJEY4=; b=jej+KwH2OykHwtr5z9oiZvDW8m
+	pMbM+7DSEjMJRhsZBCe/oecMNTyVL+kUbA923M7htREfIOHdubETtz1Fgl2IjYk1n8lojtBWY+3Ay
+	bv4CRlnBbA1FNIrDOwwe3+Yxa/Z7jTHFlBrxaotB3qZ1V7RCrCTKGhSsZ8Y/GxaHXoMGBsJ7CQN7H
+	jbPm7bRDcgP3s6qBGIry4dPmRJkGTgb/ZC/1ge9ICpNOkeXiATurEYh4xxZ1C8Foxgv1BG7EBDA+k
+	xSpByFArJQTkD+GhClVR8VJRyNDezQpo2fP9b/DnU30gUswc1cq23J+8ro7eNHlYgCgj3rbZsBw0B
+	1fuu6LSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4Twm-0000000DAIK-0uEv;
-	Tue, 07 May 2024 23:10:08 +0000
+	id 1s4Two-0000000DAKf-3Qtg;
+	Tue, 07 May 2024 23:10:10 +0000
 Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4Twg-0000000DADE-3UXz
+	id 1s4Twi-0000000DAEd-27q2
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 May 2024 23:10:04 +0000
+	Tue, 07 May 2024 23:10:06 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 0F289CE1753;
-	Tue,  7 May 2024 23:10:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4229BC3277B;
-	Tue,  7 May 2024 23:09:59 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 55D8BCE1757;
+	Tue,  7 May 2024 23:10:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A46C4AF17;
+	Tue,  7 May 2024 23:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123400;
-	bh=WuKHMzHmfeavA/ODjXfv1tfreNkvMC2a5zUZGsav9ww=;
+	s=k20201202; t=1715123401;
+	bh=eo1c5Avq+ijbEULoGJKldihoAOoaAEFxOcxVHPr11w0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tWgU2iMIPGsvrY9fe7bEZ3XzZTSuiJCryyhMo3z4tTJVJlpZErsFlMDKaTISBz0tB
-	 EURLWTJp/f59/GJx92QaqOYN6kAIypOiiom/yOjWMpLgc7Mmg+X0ODzL0Bj9hMkfgH
-	 4hJhZM9kMZrwySf2GeiPWYlkH+fg5rJ2kZjnWga489ag3/m3U1UP0yEWBuu6n60Xx8
-	 32zV5u/cexEsSweiVgCLgCE4plFQ6Lgvy3LixyTss9ZHzdVwxhpctWB0y3U2PEFNHA
-	 hXvBpeXI4OwHMkkifNq2uR1aK2SIcmsuzIdSBteEAa4RcBDnncVnQHDTVVAO7Hfjuw
-	 oEdWl46rfJ6DQ==
+	b=eBdHeOPpT+Zf6ZyyvqF/BOykw7hJomq4KZ00JQVGUazh2/i0SpWFCqLP5OWZfZeuj
+	 UiYtkOp3/GP1+ywWtkWc+lzJU5qcvT89fLr2tNC+SNdeDjLqjZpNrPn49m9N+h6Sb9
+	 O+VlEIu3k0dzT1QUDucED/dW4gTyfG3cFVZtssfN4/3M5/3RpljRlRKDphVi5tZfEL
+	 GlVjzYSFTdzx5NMjkwnAWlR+zkHcEt0wUkhngH0n2wrLJTtAb8uc/LX97lIWN9fFvz
+	 KU+6NCsyeNi6Y8bIuj7KJ4QemGqbK04DiZ93S0oT6lJ3tfnoI1FxYiF2qAG5sLI7Up
+	 59F4N+8DsrNJg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Jirong Feng <jirong.feng@easystack.cn>,
-	Christoph Hellwig <hch@lst.de>,
+Cc: Hannes Reinecke <hare@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.8 50/52] nvmet: fix nvme status code when namespace is disabled
-Date: Tue,  7 May 2024 19:07:16 -0400
-Message-ID: <20240507230800.392128-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 51/52] nvme-tcp: strict pdu pacing to avoid send stalls on TLS
+Date: Tue,  7 May 2024 19:07:17 -0400
+Message-ID: <20240507230800.392128-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507230800.392128-1-sashal@kernel.org>
 References: <20240507230800.392128-1-sashal@kernel.org>
@@ -64,8 +62,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.9
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240507_161003_271654_00755F23 
-X-CRM114-Status: GOOD (  17.24  )
+X-CRM114-CacheID: sfid-20240507_161005_121692_0091F83B 
+X-CRM114-Status: GOOD (  14.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,92 +78,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sagi Grimberg <sagi@grimberg.me>
+From: Hannes Reinecke <hare@kernel.org>
 
-[ Upstream commit 505363957fad35f7aed9a2b0d8dad73451a80fb5 ]
+[ Upstream commit 50abcc179e0c9ca667feb223b26ea406d5c4c556 ]
 
-If the user disabled a nvmet namespace, it is removed from the subsystem
-namespaces list. When nvmet processes a command directed to an nsid that
-was disabled, it cannot differentiate between a nsid that is disabled
-vs. a non-existent namespace, and resorts to return NVME_SC_INVALID_NS
-with the dnr bit set.
+TLS requires a strict pdu pacing via MSG_EOR to signal the end
+of a record and subsequent encryption. If we do not set MSG_EOR
+at the end of a sequence the record won't be closed, encryption
+doesn't start, and we end up with a send stall as the message
+will never be passed on to the TCP layer.
+So do not check for the queue status when TLS is enabled but
+rather make the MSG_MORE setting dependent on the current
+request only.
 
-This translates to a non-retryable status for the host, which translates
-to a user error. We should expect disabled namespaces to not cause an
-I/O error in a multipath environment.
-
-Address this by searching a configfs item for the namespace nvmet failed
-to find, and if we found one, conclude that the namespace is disabled
-(perhaps temporarily). Return NVME_SC_INTERNAL_PATH_ERROR in this case
-and keep DNR bit cleared.
-
-Reported-by: Jirong Feng <jirong.feng@easystack.cn>
-Tested-by: Jirong Feng <jirong.feng@easystack.cn>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/configfs.c | 13 +++++++++++++
- drivers/nvme/target/core.c     |  5 ++++-
- drivers/nvme/target/nvmet.h    |  1 +
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ drivers/nvme/host/tcp.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 2482a0db25043..b7bfee4b77a84 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -728,6 +728,19 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
- 	NULL,
- };
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index a6d596e056021..6eeb96578d1b4 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -352,12 +352,18 @@ static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
+ 	} while (ret > 0);
+ }
  
-+bool nvmet_subsys_nsid_exists(struct nvmet_subsys *subsys, u32 nsid)
+-static inline bool nvme_tcp_queue_more(struct nvme_tcp_queue *queue)
++static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *queue)
+ {
+ 	return !list_empty(&queue->send_list) ||
+ 		!llist_empty(&queue->req_list);
+ }
+ 
++static inline bool nvme_tcp_queue_more(struct nvme_tcp_queue *queue)
 +{
-+	struct config_item *ns_item;
-+	char name[4] = {};
-+
-+	if (sprintf(name, "%u", nsid) <= 0)
-+		return false;
-+	mutex_lock(&subsys->namespaces_group.cg_subsys->su_mutex);
-+	ns_item = config_group_find_item(&subsys->namespaces_group, name);
-+	mutex_unlock(&subsys->namespaces_group.cg_subsys->su_mutex);
-+	return ns_item != NULL;
++	return !nvme_tcp_tls(&queue->ctrl->ctrl) &&
++		nvme_tcp_queue_has_pending(queue);
 +}
 +
- static void nvmet_ns_release(struct config_item *item)
+ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+ 		bool sync, bool last)
  {
- 	struct nvmet_ns *ns = to_nvmet_ns(item);
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 8658e9c08534d..7a6b3d37cca70 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -425,10 +425,13 @@ void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl)
- u16 nvmet_req_find_ns(struct nvmet_req *req)
- {
- 	u32 nsid = le32_to_cpu(req->cmd->common.nsid);
-+	struct nvmet_subsys *subsys = nvmet_req_subsys(req);
- 
--	req->ns = xa_load(&nvmet_req_subsys(req)->namespaces, nsid);
-+	req->ns = xa_load(&subsys->namespaces, nsid);
- 	if (unlikely(!req->ns)) {
- 		req->error_loc = offsetof(struct nvme_common_command, nsid);
-+		if (nvmet_subsys_nsid_exists(subsys, nsid))
-+			return NVME_SC_INTERNAL_PATH_ERROR;
- 		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+@@ -378,7 +384,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+ 		mutex_unlock(&queue->send_mutex);
  	}
  
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 6c8acebe1a1a6..477416abf85ab 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -542,6 +542,7 @@ void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
- 		struct nvmet_host *host);
- void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 		u8 event_info, u8 log_page);
-+bool nvmet_subsys_nsid_exists(struct nvmet_subsys *subsys, u32 nsid);
+-	if (last && nvme_tcp_queue_more(queue))
++	if (last && nvme_tcp_queue_has_pending(queue))
+ 		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+ }
  
- #define NVMET_QUEUE_SIZE	1024
- #define NVMET_NR_QUEUES		128
 -- 
 2.43.0
 
