@@ -4,66 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DC6BC04FFE
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 May 2024 07:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64A42C25B74
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 May 2024 07:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FuJ5r1nOajcKntiPa6M5KJeAVfDvJ+npQDxfIVwBTQU=; b=cdD7lFAH6uTg0fl6ksRFB70oHq
-	0+8+p4eHspH5YeXDW5sC3uOyAv+p5kb1lQQpN1rpTl90lJ2EEPbA8IPORncFJeYKC+j7h0e4UBIlE
-	+LsHCY+TCmYk3u15FwfMHYA+ys6incXUskI7L7BX3lFZhMNRtwPIRW0YzgJ5wYIZPlK3pjScyUGB3
-	PuRJT+l25dB840TRGCMw7BPD+WympwQ06v9cW86XsDszu8bTYpaIlTgkOAqq6Jn2AG3RvXE2Rcr+1
-	71FuVJCHDMO6BG7qYGT8Slfk1WWgfDGklUEs/x7oClsZrGGOd3v2/KCnJTrLCcSKm14XlSXpcF01N
-	fKeKYqMA==;
+	bh=AfiMrOmL/NLn0jD5Eo0+v0FxBVb5PRQoDtcuAVb0CQU=; b=1KHIhB7wvQ/RiGFLcOTOkJ4Cnc
+	Lafz34mkP9LhJ4edjb0EsOds/zD0KcRlblG6zjVLE3j29zZ1306xILR5wO2Xt94AYdLrebYAwDu09
+	sO9cUID6FtTUnlgFrbybUrZz4mulNto8ZNFYY7SyzhHMT2EBZCthEE5oYl3K+3XxHrOQcPmNyVezs
+	TOV+hCcMeQj2O0Lq42GQ5hn7rnJkIBDvElh+Ocf9XdAbOIexyzte7JHp/CjbP8AEoizjZiMeGkyRn
+	z3lMLgIFMHSJ23bLyIuv6xHpUk2FuQ7yUPi8b5rxAWTDaawxC35xAGMO7lSyjbGcCKBjF2GV9HydH
+	RUp1G8iQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4bO8-0000000EL7r-0cPr;
-	Wed, 08 May 2024 07:06:52 +0000
-Received: from mail-lj1-f178.google.com ([209.85.208.178])
+	id 1s4btz-0000000EQp8-2gPn;
+	Wed, 08 May 2024 07:39:47 +0000
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4bNz-0000000EL2s-2en4
+	id 1s4btt-0000000EQlf-0jaR
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 May 2024 07:06:48 +0000
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2dac627e62dso3052941fa.3
-        for <linux-nvme@lists.infradead.org>; Wed, 08 May 2024 00:06:41 -0700 (PDT)
+	Wed, 08 May 2024 07:39:44 +0000
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a59b58fe083so667484166b.0
+        for <linux-nvme@lists.infradead.org>; Wed, 08 May 2024 00:39:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715153977; x=1715758777; darn=lists.infradead.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AfiMrOmL/NLn0jD5Eo0+v0FxBVb5PRQoDtcuAVb0CQU=;
+        b=z3nN4FcDgju0qeNyBzkqm96xgyO1fSdK2z0bVeqg4fCSHij0Tx8kD8XLNfaBJ+iZn8
+         4UPB7sBDeSm+W6Vm629TGUyeyLhX/n4G9BMIfUuefvmiDxhoP+psZGUFkZJsEYagene7
+         jYTL6gnryT6YrB99iK2//BfXEVlxvlcViRytbtugm1dzAYjACmhwOWnXAjTFQrTisg7v
+         UHs0taHE1bCDfFEPk6Szo40ItwEMufJ3SAt0RBECsdSAlIpeea7rLd7uBlmR7CvyxzHs
+         zCTICYiAQrk9S4WBaYqb03wZsc7RIohgIn5gVbL+RoXZf3+jzC5nWgeTK2brLQ0M4LB3
+         34Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715151998; x=1715756798;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FuJ5r1nOajcKntiPa6M5KJeAVfDvJ+npQDxfIVwBTQU=;
-        b=gU5S1NrR7bA8vtlSBwPgi6ggI8yMBtCtqiW1Xzr5v+3cPme7nKpf2LU3hv9B3RoQq8
-         wx2yr18fKaiZWGeaLJthVxZI1iwxXwBfQS2zz6ZwJ8aoNHhNeO841ofHJagH5mu2Gr8Q
-         gbttx3T7EgblYXKHjYUmdRAwiTThb1QIbll4+mAI3RxOpAVjkFutTlQZy73goJx71OWy
-         EVwvelGqmTkQQQSoaZiXfCNgs+PCyLZbaaeINuXCBGbftrhvoYzh0wq7Cb4A24Zr0iYY
-         aY4zEPV+A1ZPbFSFlgfqzZyLjde23p1QgfJvMF/KSlBIa3yGOtXTrplsq0f6hYXecW4k
-         rJfQ==
-X-Gm-Message-State: AOJu0YwU6IzPsLolBJZjFoPwa/pL3X4WIRvj+iNf8WRfdioSQgn6zokW
-	Cb2jaD85JI/7Td5syPjJkODrK0gUlRF7WsPqAYNLtkXxYx4Q4Yv3q5ei+A==
-X-Google-Smtp-Source: AGHT+IHWl4G2fXL8ECd+ubYcx4lNeXAl8Oo5xDkDYE4FXoT7pDv3dngFWORKpsiFDNujetkqbnWfqw==
-X-Received: by 2002:a05:6512:619:b0:518:ccf4:bd0e with SMTP id 2adb3069b0e04-5217cf3eb4amr875889e87.3.1715151998254;
-        Wed, 08 May 2024 00:06:38 -0700 (PDT)
-Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f88110ff8sm11811105e9.38.2024.05.08.00.06.37
+        d=1e100.net; s=20230601; t=1715153977; x=1715758777;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AfiMrOmL/NLn0jD5Eo0+v0FxBVb5PRQoDtcuAVb0CQU=;
+        b=DIJx+RbyhdcF0e2291Cc0N5IAKi7397KSPfdB3ZyKsvbfy783Wi+5lQfZBo/H9OkxQ
+         XurNAEVfCvw+YyZRn1zwcoA5m4NfHIZWZjO5AmKcvoY7lo5yx519Y8H515sWwD+hMGJ/
+         pcT/WgG+olE5AM41grJFMEWhWqaRvCRF5oShHqKu2jRnhVBGqbBJBW8ZcZT0JDHoj9dd
+         Ur0DBLLalgvVFW+H4UoUqaV2WDBZrffvgoftRZVt6zEHHvrIQBR379/pu9kaMKyRHOpY
+         bdPv+gef/6LmDUXbH7s4g4bJnuvqygRzPlMTbiLc6aerEILYNex8UWh91KhaJorJXDal
+         0fMQ==
+X-Gm-Message-State: AOJu0YxN3FS2qcbc/WnETq6Wk2NOF4RaJo1m0VRuH/HPqYsDG3I+gK2O
+	km/bt2pBGCjQej6l7CSErKtquOFWJGqjT7Otm0ivcSed7p0eoJze3hx3psatvSLcUJPsYdgFkXN
+	d
+X-Google-Smtp-Source: AGHT+IGkAZ6305qJzPCr3cgOnwRcMHW509OeX38Q71gBQpJhyb9KSmbPZYIB1bHDFPWLwPwvETD/dA==
+X-Received: by 2002:a17:906:e297:b0:a59:a7b7:2b9e with SMTP id a640c23a62f3a-a59fb94b8d7mr93830666b.8.1715153977043;
+        Wed, 08 May 2024 00:39:37 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id wr5-20020a170907700500b00a59f3e926c8sm1382409ejb.152.2024.05.08.00.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 00:06:37 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: [PATCH] nvmet-rdma: fix possible bad dereference when freeing rsps
-Date: Wed,  8 May 2024 10:06:36 +0300
-Message-Id: <20240508070636.1815945-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.40.1
+        Wed, 08 May 2024 00:39:36 -0700 (PDT)
+Date: Wed, 8 May 2024 10:39:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: hare@kernel.org
+Cc: linux-nvme@lists.infradead.org
+Subject: [bug report] nvmet: implement unique discovery NQN
+Message-ID: <1c9918dc-9df2-4cfa-b157-b1184dddae6d@moroto.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240508_000643_757659_11E95EFC 
-X-CRM114-Status: GOOD (  16.50  )
+X-CRM114-CacheID: sfid-20240508_003941_246626_47FDB856 
+X-CRM114-Status: GOOD (  10.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,78 +87,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sagi Grimberg <sagi.grimberg@vastdata.com>
+Hello Hannes Reinecke,
 
-It is possible that the host connected and saw a cm established
-event and started sending nvme capsules on the qp, however the
-ctrl did not yet see an established event. This is why the
-rsp_wait_list exists (for async handling of these cmds they move
-to a pending list).
+Commit 95409e277d83 ("nvmet: implement unique discovery NQN") from
+Apr 3, 2024 (linux-next), leads to the following Smatch static
+checker warning:
 
-Furthermore, it is possible that the ctrl cm times out, resulting
-in a connect-error cm event. in this case we hit a bad deref [1]
-because in nvmet_rdma_free_rsps we assume that all the responses
-are in the free list.
+	drivers/nvme/target/configfs.c:2206 nvmet_root_discovery_nqn_store()
+	warn: 'nvmet_disc_subsys->subsysnqn' sometimes too small '224' size = 256
 
-We are freeing the cmds array anyways, so don't even bother to
-remove the rsp from the free_list. It is also guaranteed that we
-are not racing anything when we are releasing the queue so no
-other context accessing this array should be running.
+drivers/nvme/target/configfs.c
+    2185 static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+    2186                 const char *page, size_t count)
+    2187 {
+    2188         struct list_head *entry;
+    2189         size_t len;
+    2190 
+    2191         len = strcspn(page, "\n");
+    2192         if (!len || len > NVMF_NQN_FIELD_LEN - 1)
+                                   ^^^^^^^^^^^^^^^^^^^^^^
+There is some kind of mix up between these.
 
-[1]:
---
-Workqueue: nvmet-free-wq nvmet_rdma_free_queue_work [nvmet_rdma]
-[...]
-pc : nvmet_rdma_free_rsps+0x78/0xb8 [nvmet_rdma]
-lr : nvmet_rdma_free_queue_work+0x88/0x120 [nvmet_rdma]
- Call trace:
- nvmet_rdma_free_rsps+0x78/0xb8 [nvmet_rdma]
- nvmet_rdma_free_queue_work+0x88/0x120 [nvmet_rdma]
- process_one_work+0x1ec/0x4a0
- worker_thread+0x48/0x490
- kthread+0x158/0x160
- ret_from_fork+0x10/0x18
---
-Signed-off-by: Sagi Grimberg <sagi.grimberg@vastdata.com>
----
- drivers/nvme/target/rdma.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+/* NQN names in commands fields specified one size */
+#define NVMF_NQN_FIELD_LEN      256
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 955296ac377f..689bb5d3cfdc 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -474,12 +474,8 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
- 	return 0;
- 
- out_free:
--	while (--i >= 0) {
--		struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
--
--		list_del(&rsp->free_list);
--		nvmet_rdma_free_rsp(ndev, rsp);
--	}
-+	while (--i >= 0)
-+		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
- 	kfree(queue->rsps);
- out:
- 	return ret;
-@@ -490,12 +486,8 @@ static void nvmet_rdma_free_rsps(struct nvmet_rdma_queue *queue)
- 	struct nvmet_rdma_device *ndev = queue->dev;
- 	int i, nr_rsps = queue->recv_queue_size * 2;
- 
--	for (i = 0; i < nr_rsps; i++) {
--		struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
--
--		list_del(&rsp->free_list);
--		nvmet_rdma_free_rsp(ndev, rsp);
--	}
-+	for (i = 0; i < nr_rsps; i++)
-+		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
- 	kfree(queue->rsps);
- }
- 
--- 
-2.40.1
+/* However the max length of a qualified name is another size */
+#define NVMF_NQN_SIZE           223
 
+    2193                 return -EINVAL;
+    2194 
+    2195         down_write(&nvmet_config_sem);
+    2196         list_for_each(entry, &nvmet_subsystems_group.cg_children) {
+    2197                 struct config_item *item =
+    2198                         container_of(entry, struct config_item, ci_entry);
+    2199 
+    2200                 if (!strncmp(config_item_name(item), page, len)) {
+    2201                         pr_err("duplicate NQN %s\n", config_item_name(item));
+    2202                         up_write(&nvmet_config_sem);
+    2203                         return -EINVAL;
+    2204                 }
+    2205         }
+--> 2206         memset(nvmet_disc_subsys->subsysnqn, 0, NVMF_NQN_FIELD_LEN);
+                                                         ^^^^^^^^^^^^^^^^^^
+    2207         memcpy(nvmet_disc_subsys->subsysnqn, page, len);
+                                                            ^^^
+Which leads to memory corruption.  The nvmet_disc_subsys->subsysnqn
+struct member is allocated in nvmet_subsys_alloc() with a MAXIMUM of
+224 bytes depending on the input string.
+
+	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE, GFP_KERNEL);
+
+There is also a harmless off by one.  kstrndup() is allocating up to
+NVMF_NQN_SIZE + 1, but at the top of this function we're subtracting 1.
+
+It should be allocated like:
+
+	subsys->subsysnqn = kzalloc(subsysnqn, NVMF_NQN_SIZE or NVMF_NQN_FIELD_LEN + 1, GFP_KERNEL);
+	if (!subsys->subsysnqn)
+		return -ENOMEM or whatever;
+	strscpy(subsys->subsysnqn, subsysnqn);
+
+    2208         up_write(&nvmet_config_sem);
+    2209 
+    2210         return len;
+    2211 }
+
+regards,
+dan carpenter
 
