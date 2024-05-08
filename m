@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 982A2C04FFE
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 May 2024 10:24:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02FADC04FFE
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 May 2024 10:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fWxh7+de6J3J0mi67kvUDfGjpgkKn14n3FGQm9mHix8=; b=N6+N4ElXj6Lw0L/V7XzC++2el2
-	yxbniA/l/bR7AfmNCHeo8iWy3Er4uRjuXzucdGFxrJphP1lzUPwXziRcHnS7gWFjagktuAOnQ3HR4
-	7/IloCn6vAMt3R7wgrsqNJX7c9QudyRqbUZ27ZyOE08m24PbFjcse8ZqbXWJrCjGBRJm/kHyK+Hh9
-	4rmnazIOqPx6+4M4OmNeLdrfIjmhXMYJDZ8eo4TR2JLDHFy+HUzoslF/eSlNPk6BAnfootEAZZ2Z5
-	NBB5JLRMFs/gJsgyQMz2PlMjK/3fg+bB7rp1FWnlU7T4ArhVFIGJDypyY4mo7OazCbSgcijx3ZoB5
-	HMtWqlvQ==;
+	bh=mEVFUR9oVmZVCw5i2vjgfftJ3ZERag/n+RP5XLWwaDY=; b=AzkoRJF/PBHK7pGzKYtKkUiWCP
+	iVzUYN85zic/eSg8QmWWl3F8+t19DlR7CY5HD4tasZ/D5PQXs0JqVszWbnQ/DZOExTghki69N2HUd
+	IyOAFgfqJ9Uyap0NWFTmW+f0/QzoDGw/bLeJSkvC/K0hX1B+y3PCggHCBJh3H5aVF591hk4/HrF6D
+	A5dXDZrSxHklROFqAjUB0i4hqBkMdCOCY9pKgd/L9yg2xWb3DiTAphG9ngws16TUeVa4udduAd3hL
+	dTNliQszqSv0j5DMOdc5UuqyZHtpRhodzBQP834UdEopzvzwc22UW6Gt4UJWVdwKMMJcZXTqRl1qR
+	lc8HI/9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4eSv-0000000EyLU-3QuQ;
-	Wed, 08 May 2024 10:24:01 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s4eSy-0000000EyNU-0tla;
+	Wed, 08 May 2024 10:24:04 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4eSX-0000000Ey2H-1ig2
+	id 1s4eSZ-0000000Ey4O-10fm
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 May 2024 10:23:44 +0000
+	Wed, 08 May 2024 10:23:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id AE15ECE1847;
-	Wed,  8 May 2024 10:23:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A444CC113CC;
-	Wed,  8 May 2024 10:23:33 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B249C61B6B;
+	Wed,  8 May 2024 10:23:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20460C4AF18;
+	Wed,  8 May 2024 10:23:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715163814;
-	bh=hSjA9+5ah/z35R8s7ptRY2bZ0UklwffNHF48kiqfK1s=;
+	s=k20201202; t=1715163818;
+	bh=vKCZGsqgIqVE83qpd+gQHyJxRB0NEdxqv5QYC6Dinvk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LsQpvHMcXLmBUJ/xpSHSH4GD0Ny8nWcGCdEDkuX0sTbYUxPwt7ZeO9/BoZjmnGvb/
-	 rtQ7vDVdpSbCYmkI54n3Pqc3Ev5IAh7FjaH3ASuT1HJA6VTx3YZziLUbnieLeWQivm
-	 2jGL8rgzSsCeypotf4Vx2Xv+IluLwhPPipoU1e5wU0pcMbqCVZc3SQV2f4TAEVx0H8
-	 tyt7Iifi6EGin/0+Z+wg2B4esgaxuKe3LPAVTHdCyg9NhE7PAbpL4rs3xZW4FNvR/b
-	 dcRAeyYQxwwNGAPNMt5660l4QVP17dbyqluunZ78KSeyWdQKPy8daH/Z4G6JysYARL
-	 uPLeqqDbY9C/Q==
+	b=i+pE3cxYdlkNo/TQAxfvWIa4pPqo5OB281nZuMoi7aPkwbMADqfnV8750SGfouLif
+	 RLfbrLBxdtA9mRes8mBTNOWk3OCf0JdE4xHuqK6+T6y+Gm6oC4o0Qq5rCkZa31Axjf
+	 qHZbcKjSBM/nYsDaQ2YSVY11chh/REJZbaj+BKF1TiCxxjxrlEbCCVt4g7oGqyvVUE
+	 0GcP2o+Eod0ALV7a+sfIFUueV5RMA6tTRhb7qTmWnNHn9hmxlSUIv8KfR2pyqd43xI
+	 oGxgWw33ZoK1VP6pToBTVbL22+7eaSw49Hv0szWCtkgp5CWOl6ctEd+/zCcogA9Pyg
+	 p9SlsjQfKq6jA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 07/19] nvme-tcp: sanitize TLS key handling
-Date: Wed,  8 May 2024 12:22:53 +0200
-Message-Id: <20240508102305.108949-8-hare@kernel.org>
+Subject: [PATCH 09/19] nvme: add a newline to the 'tls_key' sysfs attribute
+Date: Wed,  8 May 2024 12:22:55 +0200
+Message-Id: <20240508102305.108949-10-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240508102305.108949-1-hare@kernel.org>
 References: <20240508102305.108949-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240508_032337_900160_82EA0D4A 
-X-CRM114-Status: GOOD (  21.54  )
+X-CRM114-CacheID: sfid-20240508_032339_712763_EEF1E8E7 
+X-CRM114-Status: GOOD (  11.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,204 +73,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There is a difference between TLS configured (ie the user has
-provisioned/requested a key) and TLS enabled (ie the connection
-is encrypted with TLS). This becomes important for secure concatenation,
-where the initial authentication is run unencrypted (ie with
-TLS configured, but not enabled), and then the queue is reset to
-run over TLS (ie TLS configured _and_ enabled).
-So to differentiate between those two states store the provisioned
-key in opts->tls_key (as we're using the same TLS key for all queues)
-and only the key serial of the key negotiated by the TLS handshake
-in queue->tls_pskid.
+Print a newline for easier userspace handling.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c  |  1 -
- drivers/nvme/host/nvme.h  |  2 +-
- drivers/nvme/host/sysfs.c |  4 ++--
- drivers/nvme/host/tcp.c   | 47 ++++++++++++++++++++++++++++-----------
- 4 files changed, 37 insertions(+), 17 deletions(-)
+ drivers/nvme/host/sysfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6b13b5679975..09d089e42152 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4595,7 +4595,6 @@ static void nvme_free_ctrl(struct device *dev)
- 
- 	if (!subsys || ctrl->instance != subsys->instance)
- 		ida_free(&nvme_instance_ida, ctrl->instance);
--	key_put(ctrl->tls_key);
- 	nvme_free_cels(ctrl);
- 	nvme_mpath_uninit(ctrl);
- 	nvme_auth_stop(ctrl);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index dfe103283a3d..d0f183efe2d2 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -364,7 +364,7 @@ struct nvme_ctrl {
- 	struct nvme_dhchap_key *ctrl_key;
- 	u16 transaction;
- #endif
--	struct key *tls_key;
-+	key_serial_t tls_pskid;
- 
- 	/* Power saving configuration */
- 	u64 ps_max_latency_us;
 diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 3c55f7edd181..5b1dee8a66ef 100644
+index 5b1dee8a66ef..be36206cb594 100644
 --- a/drivers/nvme/host/sysfs.c
 +++ b/drivers/nvme/host/sysfs.c
-@@ -671,9 +671,9 @@ static ssize_t tls_key_show(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+@@ -673,7 +673,7 @@ static ssize_t tls_key_show(struct device *dev,
  
--	if (!ctrl->tls_key)
-+	if (!ctrl->tls_pskid)
+ 	if (!ctrl->tls_pskid)
  		return 0;
--	return sysfs_emit(buf, "%08x", key_serial(ctrl->tls_key));
-+	return sysfs_emit(buf, "%08x", ctrl->tls_pskid);
+-	return sysfs_emit(buf, "%08x", ctrl->tls_pskid);
++	return sysfs_emit(buf, "%08x\n", ctrl->tls_pskid);
  }
  static DEVICE_ATTR_RO(tls_key);
  #endif
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3c80b3780822..62e06f042957 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -165,6 +165,7 @@ struct nvme_tcp_queue {
- 
- 	bool			hdr_digest;
- 	bool			data_digest;
-+	bool			tls_enabled;
- 	struct ahash_request	*rcv_hash;
- 	struct ahash_request	*snd_hash;
- 	__le32			exp_ddgst;
-@@ -213,7 +214,15 @@ static inline int nvme_tcp_queue_id(struct nvme_tcp_queue *queue)
- 	return queue - queue->ctrl->queues;
- }
- 
--static inline bool nvme_tcp_tls(struct nvme_ctrl *ctrl)
-+static inline bool nvme_tcp_tls_enabled(struct nvme_tcp_queue *queue)
-+{
-+	if (!IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		return 0;
-+
-+	return queue->tls_enabled;
-+}
-+
-+static inline bool nvme_tcp_tls_configured(struct nvme_ctrl *ctrl)
- {
- 	if (!IS_ENABLED(CONFIG_NVME_TCP_TLS))
- 		return 0;
-@@ -368,7 +377,7 @@ static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *queue)
- 
- static inline bool nvme_tcp_queue_more(struct nvme_tcp_queue *queue)
- {
--	return !nvme_tcp_tls(&queue->ctrl->ctrl) &&
-+	return !nvme_tcp_tls_enabled(queue) &&
- 		nvme_tcp_queue_has_pending(queue);
- }
- 
-@@ -1427,7 +1436,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 	memset(&msg, 0, sizeof(msg));
- 	iov.iov_base = icresp;
- 	iov.iov_len = sizeof(*icresp);
--	if (nvme_tcp_tls(&queue->ctrl->ctrl)) {
-+	if (nvme_tcp_tls_enabled(queue)) {
- 		msg.msg_control = cbuf;
- 		msg.msg_controllen = sizeof(cbuf);
- 	}
-@@ -1439,7 +1448,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 		goto free_icresp;
- 	}
- 	ret = -ENOTCONN;
--	if (nvme_tcp_tls(&queue->ctrl->ctrl)) {
-+	if (nvme_tcp_tls_enabled(queue)) {
- 		ctype = tls_get_record_type(queue->sock->sk,
- 					    (struct cmsghdr *)cbuf);
- 		if (ctype != TLS_RECORD_TYPE_DATA) {
-@@ -1587,7 +1596,10 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
- 			 qid, pskid);
- 		queue->tls_err = -ENOKEY;
- 	} else {
--		ctrl->ctrl.tls_key = tls_key;
-+		queue->tls_enabled = true;
-+		if (qid == 0)
-+			ctrl->ctrl.tls_pskid = key_serial(tls_key);
-+		key_put(tls_key);
- 		queue->tls_err = 0;
- 	}
- 
-@@ -1768,7 +1780,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	}
- 
- 	/* If PSKs are configured try to start TLS */
--	if (IS_ENABLED(CONFIG_NVME_TCP_TLS) && pskid) {
-+	if (nvme_tcp_tls_configured(nctrl) && pskid) {
- 		ret = nvme_tcp_start_tls(nctrl, queue, pskid);
- 		if (ret)
- 			goto err_init_connect;
-@@ -1829,6 +1841,8 @@ static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
- 	mutex_lock(&queue->queue_lock);
- 	if (test_and_clear_bit(NVME_TCP_Q_LIVE, &queue->flags))
- 		__nvme_tcp_stop_queue(queue);
-+	/* Stopping the queue will disable TLS */
-+	queue->tls_enabled = false;
- 	mutex_unlock(&queue->queue_lock);
- }
- 
-@@ -1925,16 +1939,17 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- 	int ret;
- 	key_serial_t pskid = 0;
- 
--	if (nvme_tcp_tls(ctrl)) {
-+	if (nvme_tcp_tls_configured(ctrl)) {
- 		if (ctrl->opts->tls_key)
- 			pskid = key_serial(ctrl->opts->tls_key);
--		else
-+		else {
- 			pskid = nvme_tls_psk_default(ctrl->opts->keyring,
- 						      ctrl->opts->host->nqn,
- 						      ctrl->opts->subsysnqn);
--		if (!pskid) {
--			dev_err(ctrl->device, "no valid PSK found\n");
--			return -ENOKEY;
-+			if (!pskid) {
-+				dev_err(ctrl->device, "no valid PSK found\n");
-+				return -ENOKEY;
-+			}
- 		}
- 	}
- 
-@@ -1957,13 +1972,14 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- {
- 	int i, ret;
- 
--	if (nvme_tcp_tls(ctrl) && !ctrl->tls_key) {
-+	if (nvme_tcp_tls_configured(ctrl) && !ctrl->tls_pskid) {
- 		dev_err(ctrl->device, "no PSK negotiated\n");
- 		return -ENOKEY;
- 	}
-+
- 	for (i = 1; i < ctrl->queue_count; i++) {
- 		ret = nvme_tcp_alloc_queue(ctrl, i,
--				key_serial(ctrl->tls_key));
-+				ctrl->tls_pskid);
- 		if (ret)
- 			goto out_free_queues;
- 	}
-@@ -2144,6 +2160,11 @@ static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
- 	if (remove)
- 		nvme_unquiesce_admin_queue(ctrl);
- 	nvme_tcp_destroy_admin_queue(ctrl, remove);
-+	if (ctrl->tls_pskid) {
-+		dev_dbg(ctrl->device, "Wipe negotiated TLS_PSK %08x\n",
-+			ctrl->tls_pskid);
-+		ctrl->tls_pskid = 0;
-+	}
- }
- 
- static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
 -- 
 2.35.3
 
