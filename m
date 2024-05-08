@@ -4,61 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 198CBC19F4F
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 May 2024 13:13:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1AFDC04FFE
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 May 2024 13:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kuNQNBgtBPmj82HrzPbdr+eSOKVPK/r02FyvgFRDDls=; b=zGehiaVTE5O4UV9ZeNM9faIkDc
-	CAcibuTsmPRTk+Ckz5IvZCjYXbRmmGE9EZSGlGwWYkLwXBkF2nNvYksVLq7hZDg45z3KGp3zMUTV9
-	sCePrFSY3j+yQuHsoufOElZtiHCsDJA7+j02E5boQTDMikiotGCa4rSeTi00352gjmh6fB3Ze37W6
-	+oP6f13o0D2eQGdMPqlbq/4+0xkAGC8Qy8mOn/5vQuDxFpI14gV3Uk3asOXadV152UyjkeFutZ4zY
-	RHq4jzk8clykigyaE1TTEDuZS01ktD7bXcmj8cIzuo3DHoUKVPGb3Fp1dYTmRNQbRla4sSzBwJr6N
-	GHm9e+9w==;
+	bh=yvatRbDHRiDjVVcUXydySlcwvPMvLDqHenQIEZ2ULno=; b=WqupoU+De50Dv/pCfCca1SVJJk
+	ArTWX0oCc6IeIrkli5hbPp1/dSrc7Wdr4G1Cd1DCXddGNomUiweqJb1ZTiC8hXyAom0pmH48uKyIl
+	l4UwQvIjxgQOVGnrIinGsfo5Axw7i7rS7+op2YFwCqraOE8LYRJyjGeL6x/SeYIEhLhM2lEHF36tx
+	aDRDnGRT8mcx2YnmgFmhIbNyxsa9KRk7hN9MA0tdaF557/+m4tPcQdTZBBuD6RDS/t2QEWBoePFwQ
+	GFbzh/NXueCLL8eEzOamAJYpU33knk5PGnv+1xke0dMdnWiMiwEIzqsDon7X+6epOb2ASSRL55VmN
+	daS9FYmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4h7D-0000000FaDk-14oe;
-	Wed, 08 May 2024 13:13:47 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s4hDc-0000000FcQQ-2oKJ;
+	Wed, 08 May 2024 13:20:24 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4h74-0000000Fa9u-1wVh
+	id 1s4hDU-0000000FcOQ-44u7
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 May 2024 13:13:45 +0000
+	Wed, 08 May 2024 13:20:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 26D76CE18DA;
-	Wed,  8 May 2024 13:13:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C26FDC113CC;
-	Wed,  8 May 2024 13:13:34 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 35E8F61B2A;
+	Wed,  8 May 2024 13:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98312C113CC;
+	Wed,  8 May 2024 13:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715174015;
-	bh=S+L+g5yIhWlIr/9ZvbAOYclCZ1IhRvX6JyjpcHE5Uh8=;
+	s=k20201202; t=1715174415;
+	bh=i+IyY9fL+LLz+uR111un8zhWGN0s7G/sOMZgA1dWd7c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TFT551bpIoawyrVHM6fj4ijVIne3bwjA9xNpjJ1QfejFj+ceOSqTntplF2gJq/BEY
-	 U7X0fc60ZODbiXO8VXY/5WPVX02fM6F6NgzTEv912OO/3Rr4Y4wKGwOJ5H9E/irAx5
-	 m4NjuijYppdoQ7LLzV/+bfUjC9FqJQ5hT4OSDrXfhWpvH5E0EJG5ySQGWJn4KV0vA9
-	 5byfDbQOu12uvtUPasQHFNTRkmSRCZ+Ln8b0IW7ufUQRTPe+TGuTfkukaeRlxdlAIC
-	 NosoGU04EP3kGw1oDGh25exqHUg1PsY5q2xCJ4mtxlwZ4yHdGFg7bG/mDLJ2gFRUd8
-	 5Api71VsrTP/w==
-Date: Wed, 8 May 2024 07:13:32 -0600
+	b=JYIPaelfZPfgzHnnbwaeuOACJdTdcUd5l+FD7aJYsLn6mf7veMXQDHY6hFSanv2al
+	 t6wgAd0L13EKNTs+MyDJqM02UBd01G1OeTYAup182WTk5o4ODDVIC4oofF5zXLraga
+	 BW7GC39Xfvlty4PWiGTeSU8SI+aGgyrO67E2aiv6Td9zVoT+7bxYUHoKXc4yMGYHuU
+	 dDrDj6ydVlu6bgwO6TSbmtpmFcJpXT4nO9h0Hsgh4yTreKzrfPmC24i0ae9kytGTou
+	 QMGmZrn/fPzD7c5Mp3Usv8HvKZjvR95xd1vfEkCLvEDqYWblMemGz4MslzHx1aVc9J
+	 bOgOyCER3AAXw==
+Date: Wed, 8 May 2024 07:20:13 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] nvmet: prevent sprintf() overflow in
- nvmet_subsys_nsid_exists()
-Message-ID: <Zjt6fDIxLupGfglV@kbusch-mbp.dhcp.thefacebook.com>
-References: <25e9c58d-d192-4a91-ad40-4c2ea01fbdf5@moroto.mountain>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH v2] nvmet-rdma: fix possible bad dereference when freeing
+ rsps
+Message-ID: <Zjt8DdUisFi68Lh5@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240508075306.1835106-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <25e9c58d-d192-4a91-ad40-4c2ea01fbdf5@moroto.mountain>
+In-Reply-To: <20240508075306.1835106-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240508_061338_710612_61C1B27E 
-X-CRM114-Status: GOOD (  12.22  )
+X-CRM114-CacheID: sfid-20240508_062017_080609_60D35B77 
+X-CRM114-Status: GOOD (  17.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,20 +72,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 08, 2024 at 10:43:04AM +0300, Dan Carpenter wrote:
-> The nsid value is a u32 that comes from nvmet_req_find_ns().  It's
-> endian data and we're on an error path and both of those raise red
-> flags.  So let's make this safer.
+On Wed, May 08, 2024 at 10:53:06AM +0300, Sagi Grimberg wrote:
+> It is possible that the host connected and saw a cm established
+> event and started sending nvme capsules on the qp, however the
+> ctrl did not yet see an established event. This is why the
+> rsp_wait_list exists (for async handling of these cmds, we move
+> them to a pending list).
 > 
-> 1) Make the buffer large enough for any u32.
-> 2) Remove the unnecessary initialization.
-> 3) Use snprintf() instead of sprintf() for even more safety.
-> 4) The sprintf() function returns the number of bytes printed, not
->    counting the NUL terminator. It is impossible for the return value to
->    be <= 0 so delete that.
+> Furthermore, it is possible that the ctrl cm times out, resulting
+> in a connect-error cm event. in this case we hit a bad deref [1]
+> because in nvmet_rdma_free_rsps we assume that all the responses
+> are in the free list.
 > 
-> Fixes: 505363957fad ("nvmet: fix nvme status code when namespace is disabled")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> We are freeing the cmds array anyways, so don't even bother to
+> remove the rsp from the free_list. It is also guaranteed that we
+> are not racing anything when we are releasing the queue so no
+> other context accessing this array should be running.
+> 
+> [1]:
+> --
+> Workqueue: nvmet-free-wq nvmet_rdma_free_queue_work [nvmet_rdma]
+> [...]
+> pc : nvmet_rdma_free_rsps+0x78/0xb8 [nvmet_rdma]
+> lr : nvmet_rdma_free_queue_work+0x88/0x120 [nvmet_rdma]
+>  Call trace:
+>  nvmet_rdma_free_rsps+0x78/0xb8 [nvmet_rdma]
+>  nvmet_rdma_free_queue_work+0x88/0x120 [nvmet_rdma]
+>  process_one_work+0x1ec/0x4a0
+>  worker_thread+0x48/0x490
+>  kthread+0x158/0x160
+>  ret_from_fork+0x10/0x18
+> --
+> 
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 
 Thanks, applied to nvme-6.9.
 
