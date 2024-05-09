@@ -4,92 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08FC1C10F1A
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 May 2024 06:15:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CACCC10F1A
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 May 2024 06:36:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J5tjZkb1xEbjulPOqAqbeWuJeVgKtzpvbp1WvlMGcxs=; b=T5UQ1He9hxTMcLV2Heo5mfMZAn
-	x6EyiYlz+NR603PyHG/M5dyK5E1Bd3HYPMVx3K/O37hFJNwjXxxbD//3A/0v3X0D+34GHjwy8yCp2
-	Kj6SOFu5FiG9ONCYsMEC6XypSR47vhDu+5+aEtwy+fvtbIEV6Kjk7K1RIiN7p0ygXIMc8GKMfkifg
-	a7bbMP1CPMxHdmksRnrULsvkX/9i74qcRkf3/bzpLeB31P22rToJB4esquw/xj6t0mQxdSTvPA7e5
-	m+wZYTvYK7sLxLz0EexuzWX75FDN1SOnZYiFMzMgb4S3QzLayN8RwR3TsA2MHDqU6lhBnj9xQLMVW
-	wgLOD4Ow==;
+	bh=v0fyvv/t4JLmnq2/x7aVOO7zCJex8zcGo6nWWr1z490=; b=hpVFVTM+lg4YUPLOaRVVLb1RJU
+	3Js2cfeTRHxls24R4QvDrepztRIK+3VgwofmNcH1qZ4l9UH09o28uBgKmPkvA5jL8GSTx4c4FnzD+
+	WF3Xyv80ZjLnQlt7mB4PMx/GJ0phWuykhS/pJGlrgyGsSuao24Siz0GSC5SPn/shjIhLvzRAUfPP/
+	JoMzijcoqI05OFBhGw/Mje9J56d86leSJQya0izy+DzMUTMwhciMENOzBh+I/8nrS/GGLh9BPFSw3
+	7EBzCnSPMwLmMFXJxWs2LVsX85AX6BnZAB7lWWB2mPhxzRQyS6kJHW+yUJEhw5GHSTnmJqw4LNfj5
+	dDME/+ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4x3w-00000000Xff-2ttC;
-	Thu, 09 May 2024 06:15:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1s4xOR-00000000aP3-12Qi;
+	Thu, 09 May 2024 06:36:39 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4x3q-00000000Xd7-3QtL
+	id 1s4xOO-00000000aOA-3Zmd
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 May 2024 06:15:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715235319;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J5tjZkb1xEbjulPOqAqbeWuJeVgKtzpvbp1WvlMGcxs=;
-	b=L6kxUkjMy47hDb22YWvjkCAk9vgyO9zLtfbLCOI4qho10HiysYPi6k8cDG2YSHcP1Kpwit
-	DB4flmfap8bnc+O7zE6ZkqiU97JapwpFaADoBdIs8GgNwqEVFh322H/NqM37J97hV86w61
-	XRz/V8uFMKaKLbeVLAYJNDtWE+7wDPg=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-319-oASiwE1DOGCZSXz19CmItA-1; Thu, 09 May 2024 02:15:18 -0400
-X-MC-Unique: oASiwE1DOGCZSXz19CmItA-1
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-61eea13e924so588891a12.0
-        for <linux-nvme@lists.infradead.org>; Wed, 08 May 2024 23:15:17 -0700 (PDT)
+	Thu, 09 May 2024 06:36:38 +0000
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41c017ee8deso12755e9.2
+        for <linux-nvme@lists.infradead.org>; Wed, 08 May 2024 23:36:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715235317; x=1715840117;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J5tjZkb1xEbjulPOqAqbeWuJeVgKtzpvbp1WvlMGcxs=;
-        b=sleWzwcVRxFfqvVGRajDXkvRzAjx4loysKTDi4YFVPekdLtGwGyVbxp3ANtWftih0H
-         xvGAH358JSyodmlZCEAPvceWD03z/F1O16/OuDttXS7E7S0NX9stZVkvujFvVL9whAjC
-         MtZ+jrLp7y4LNWz4yrP01S/VoJ/GHQxKEArXcjl3QwRXc9gvau/ECLAdx0Q05wpjcBcy
-         S/cXqNQg0pivmp1YHIin53OJdxVV7YWH03xd/8ORZGVZVajx4cnqmIXWcjKCHiNUV+ro
-         zPrX2P1Xl5Pmo8Rdy6l+emWsGnNtpcfEKILm8aJtGj3Dw34nCum8BxdEJyahqK+umcwe
-         dlTg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+yZJdcVjF64EGGqdbhtwpcLhYnCA4UTazsZ5Sf4aEKyBhSFG058t7iedfY6vSf1nhUdcVEB6ssaCJjzhUcHABqfGKZ6XjEHAscq8CmOc=
-X-Gm-Message-State: AOJu0Yynm+xwaUWJqBTW1TA/TQv3w3XbQjTbEjG/JIHjYRgpH6khpB89
-	znZhwPW1GmqPGgy4skwuiPqmd2jslsLq+63aAzj1eaXgGIwejFyvt22HMBao1dionz46wRg+dF6
-	66hEeQLAe2uFMkrOOQpdT1WROt7DtUlsjxsx3t3pawnJpwttDyfeSgtYN02q5DWF/IRLEAmczzu
-	8Te7iMax7d22zb5hutbIQ/JbcogTHHWuIFCsTvz84=
-X-Received: by 2002:a05:6a21:3d83:b0:1af:ab0b:1c08 with SMTP id adf61e73a8af0-1afc8d9938amr5296199637.46.1715235317002;
-        Wed, 08 May 2024 23:15:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF6IvY4S7f3az5NCB7DGqMhZ5hgkvbcffBBogyGjcywqeE+OgeoXdE6dGWD2sKHFjk+USctmLniTam+uNy+Zn4=
-X-Received: by 2002:a05:6a21:3d83:b0:1af:ab0b:1c08 with SMTP id
- adf61e73a8af0-1afc8d9938amr5296183637.46.1715235316629; Wed, 08 May 2024
- 23:15:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715236591; x=1715841391;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v0fyvv/t4JLmnq2/x7aVOO7zCJex8zcGo6nWWr1z490=;
+        b=wEMS4lwhkyxZFBZswOs8zA3ZMwZyff9t5zrsfCTYVls41sH7rwESXp8ki6AmEhTUR8
+         hSdferWZj1qECF/5WGU8zw1zA2RzqRpgNPzlRL50r/C8i+Pen71LOq9yUzuMLkcubuVL
+         b75Vn/EXaCpCMZ8T+9mejurAvPopgJ4kskB4585iMuCXlVjOxrmRou5PQ8MzXgAjwszd
+         r759xtziNj8GxXA/rPijzllcV7jRbv9C1nN5WU4s/RBTFC/TsA4ggEwDRlxTjSVqAFNv
+         RBpymK2MhjukFk8IOmplXzucrQWEbSJPLjIEBUU7E+KrjKOsFscsfq/dz1wyHdJrVRO/
+         tiWw==
+X-Forwarded-Encrypted: i=1; AJvYcCVo+HYdnaE36YUdXrWXXDv2JJQTiglmmTwwDWWkKDrlLATpxksZDuZ+rBNajN46QV6y7C/3ZCBhuRbEmHW2MUZpssH7NsH4xClP3CuydQY=
+X-Gm-Message-State: AOJu0Yxur8fLCR6kS1uhHXICVjkeTNp5L9hq4gf4EBmyzRuy+n7LsJZB
+	QK8hZCJysb7dOdu5J4hX6fBiehpYdWUqhCGWaWTQw5Kbz9dMvDuv
+X-Google-Smtp-Source: AGHT+IF+4UI1V/bvMXBYMRBn6YUXeHc3GcJhO0EB/9GeAyfPEvkVJoEfqcj1J8TbQs+Yit81vwgcGg==
+X-Received: by 2002:a05:600c:1c93:b0:41a:bb50:92bb with SMTP id 5b1f17b1804b1-41f7093ca92mr34421685e9.0.1715236591237;
+        Wed, 08 May 2024 23:36:31 -0700 (PDT)
+Received: from [10.100.102.74] (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f87c25459sm48317745e9.18.2024.05.08.23.36.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 23:36:30 -0700 (PDT)
+Message-ID: <dfb9074c-d019-4a19-83eb-00d93da8dada@grimberg.me>
+Date: Thu, 9 May 2024 09:36:28 +0300
 MIME-Version: 1.0
-References: <CAHj4cs8X31NnOWGVLniT5OWBRtEphxw-AcYrPaygG_uYaoeENQ@mail.gmail.com>
- <dcc6150c-d632-4b14-9b0d-1b3b45fb5c24@wdc.com> <aded9da3-347a-4268-8190-6f39692ea8ee@nvidia.com>
- <25fd1c08-fe6a-48dc-874e-464b2b0e12e5@wdc.com> <CAHj4cs-h7Fi+G_aQiv-q4+ea4uki8Yiw6AHpWdZvaazg11Gd9Q@mail.gmail.com>
- <e229f273-e3ec-489c-bf89-0f985212c415@grimberg.me> <76c17ab2-b3a2-491c-a6b3-7bd39d6d5229@wdc.com>
- <1ceb71ce-c4fb-419a-8800-8ebbbe1706fe@grimberg.me> <87d1ac8a-df56-459d-a2f8-bcf940aa9e0b@nvidia.com>
-In-Reply-To: <87d1ac8a-df56-459d-a2f8-bcf940aa9e0b@nvidia.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Thu, 9 May 2024 14:15:04 +0800
-Message-ID: <CAHj4cs_+NaQ4eZQo1b8rRLsGPMgCKUyaOW8e5Rpi1AUW7vJ8rw@mail.gmail.com>
-Subject: Re: [bug report] RIP: 0010:blk_flush_complete_seq+0x450/0x1060
- observed during blktests nvme/tcp nvme/012
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: WQ_UNBOUND workqueue warnings from multiple drivers
+To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <BYAPR04MB41513F04DB2ECDC3601CC36ABC2D2@BYAPR04MB4151.namprd04.prod.outlook.com>
+ <c4057654-97bd-4721-9bed-9dd5ef8b3f8d@grimberg.me>
+ <6d3af8dd-30c3-48d4-9083-7f00ea21ff8c@nvidia.com>
+ <BYAPR04MB415196EC84756BA1876463DABC3E2@BYAPR04MB4151.namprd04.prod.outlook.com>
+ <f5d57e3b-8168-41af-8e36-c7a21ef3a475@grimberg.me>
+ <BYAPR04MB415180536421C9B8326D6A30BCE52@BYAPR04MB4151.namprd04.prod.outlook.com>
+Content-Language: he-IL, en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <BYAPR04MB415180536421C9B8326D6A30BCE52@BYAPR04MB4151.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240508_231523_030393_7901F649 
-X-CRM114-Status: GOOD (  16.01  )
+X-CRM114-CacheID: sfid-20240508_233636_916522_F25F58D3 
+X-CRM114-Status: GOOD (  11.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,45 +89,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Confirmed the issue was fixed with this patch.
-https://lore.kernel.org/linux-block/20240501110907.96950-9-dlemoal@kernel.o=
-rg/
-
-On Sat, May 4, 2024 at 5:14=E2=80=AFAM Chaitanya Kulkarni <chaitanyak@nvidi=
-a.com> wrote:
->
->
-> >> This is something Damien added to his patch series. I just wonder, why=
- I
-> >> couldn't reproduce the failure, even with nvme-mpath enabled. I tried
-> >> both nvme-tcp as well as nvme-loop without any problems.
-> >
-> > Not exactly sure.
-> >
-> >  From what I see blk_flush_complete_seq() will only call
-> > blk_flush_restore_request() and
-> > panic is for error !=3D 0. And if that is the case, any request with it=
-s
-> > bios stolen must panic.
-> >
-> > However, nvme-mpath always ends a stolen request with error =3D 0.
-> >
-> > Seems that there is code that may override the request error status in
-> > flush_end_io() but I cannot
-> > see it in the trace...
->
->
-> I confirm that after several tries I cannot reproduced it either with
-> and without multi-pathing, blktests is passing without any errors for
-> both nvme-loop and nvme-tcp ....
->
-> -ck
->
->
 
 
---=20
-Best Regards,
-  Yi Zhang
+On 09/05/2024 2:16, Kamaljit Singh wrote:
+> Sagi,
+>
+>> Does this happen with a 90-%100% read workload?
+> Yes, we’ve now seen it with 100% reads as well. Here’s the Medusa cmd we used. I’ve removed the devices for brevity.
+> sudo /opt/medusa_labs/test_tools/bin/maim 20g -b8K -Q128 -Y1 -M30 --full-device -B3 -r -d900000 <device_list>
+>   
+> We saw the original issue with the upstream kernel v6.6.21. But now we’re also seeing it with Ubuntu 24.04 (kernel 6.8.0-31-generic), where IOs are timing out and forcing connection drops.
 
+Thanks for the info.
+
+>   
+>   
+>> Question, are you working with a Linux controller?
+> No, with our ASIC (NVMe Fabrics bridge).
+>   
+>> what is the ctrl ioccsz?
+> ioccsz    : 4
+
+I see, what is the mdts? and what are the r2t lengths the controller is 
+sending to the host?
 
