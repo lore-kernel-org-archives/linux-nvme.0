@@ -4,68 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6DA8C25B10
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 15:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6350DC25B10
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 16:20:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A9Pov9+KC2IIoqKLTUpuUx5CGWm5+OizuP9xcaM6fbo=; b=tJZ4ZT5BZr7Msq3C0xh6+i511t
-	YIlfKW+71ctgCqA4PKvpRyLNw3I9zAeabR9yzXsjHcOkGD2cFVEgnF9NV9iv7RJPw0YGnjMHZO1SS
-	TOy5I4IvxPaegKGDFerixmGxfcroXpzfWE2bCCrFQ7Di3CF3vrmw4h0MEoI+POU/TwAWeP9uLNmeN
-	yIrrdSCTSyHlhRHpfG1odZaiwiZYpZ/eCITpHIxNvYBo89dX4uejvC5rbObxVxdTKXSwR3wLmqefa
-	L/Mgr3utOz7qD/Z8hkF73/pH7yRvU9D9eWeGW0qOOOfjB4UdaU75FUzG4TZnafqBprRas+A22NyuM
-	cMCdg/5Q==;
+	bh=QJ6sq9d+DeuvhE+UVNB7335OHS/0ytDL+dKCTdAYg8U=; b=CHFMlWjYNSSnxE4vLMO9xYtSEE
+	JqBSV7MmybqpQ4Ash8vGyUdNV6aNq61lKJUJQDNSAeKsZf6Vik5EFQW50K1nSRhBzbvcgq8GtuVui
+	KxoL0vHgOVrFgJ0PmGx0TjN3Wfd0hUJsXnLnIimBo+IVOBaBQTVZl12FDR/XFJkdhHky8QAC2CyYc
+	BbyQbr5QjmR6qsFX72rFMBd3kST3BcxJWKw/ylt71sLH5M/2KAL/2OKwgNIA3l7ifbLtoR2prOQ8B
+	nTjQ9FCHelCMSpkiAsPJVxAojkwrUAUYPLUHh5hl0vsCmkx61QdxskjDUk5zzXL7rXhOAOkmq9NdS
+	G4IRwnOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5Ryn-00000005gTm-2WI7;
-	Fri, 10 May 2024 15:16:13 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1s5Syh-00000005qOA-23Oj;
+	Fri, 10 May 2024 16:20:11 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5Ryk-00000005gSp-2eY6
+	id 1s5Sye-00000005qMt-1ubz
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 May 2024 15:16:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715354167;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A9Pov9+KC2IIoqKLTUpuUx5CGWm5+OizuP9xcaM6fbo=;
-	b=UUxrujlw14GbwLz7ARL1A571csX1GKTuAlm3rQcpb6iUD/7Nt5u1Rlp2rui/fc4uWVdiH3
-	WGWqcxN7Ga7k8bZcXTtBa6RI+Yzcft8LZxvCyP0pcIsIzOHpf9HyzvlK0YIYWUAIfLhMTc
-	BOYMEj7bEmKx9N68QcxJmbJfGLMHrPU=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-556-sec5aB0YMteQ3ha-QDNx7g-1; Fri,
- 10 May 2024 11:16:03 -0400
-X-MC-Unique: sec5aB0YMteQ3ha-QDNx7g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD31829AC03B;
-	Fri, 10 May 2024 15:16:02 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.93])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 26BEDCF5E1B;
-	Fri, 10 May 2024 15:15:57 +0000 (UTC)
-Date: Fri, 10 May 2024 23:15:54 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	hch@lst.de, tglx@linutronix.de, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 1/2] genirq/affinity: remove rsvd check against minvec
-Message-ID: <Zj46KiMO5trL09RA@fedora>
+	Fri, 10 May 2024 16:20:09 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 0AB89CE1E37;
+	Fri, 10 May 2024 16:20:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B721BC113CC;
+	Fri, 10 May 2024 16:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715358005;
+	bh=CF8Nf3rfqr2ncS/J0xp4oHnRS2E3OUw0FJDGJKNSq/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LnNrBJye4r8wFkX4YaHhnzSf6Bj+yeERi0onolrcgAKGavgSIbw4SjvRooP+Gzpw2
+	 kd8BTX6RWWVo6C1cKeItxfFCxv7hXCfNbBOHxXhCJoYUftI1PtScLxHkaEGVGmqRLB
+	 c5fPQHLIK55ILI+j177+w+GYhYi+lz83hB1i8gRTVQtGLqtB1MoDjDdmWYLYtl9uod
+	 eSrZpLTWE/33O3xd5dusWN4o+GtwsFPu6UyULIz9RvPQp3ltTPxn5n8NLiC5F0/AO2
+	 1NEoqh1VnO+SubjSRRkSAfH8iX364gA9mhoDibbx6pZc+AUti2p3c6chKQ5XfzUxXF
+	 QUqlw+bE2Ul7g==
+Date: Fri, 10 May 2024 10:20:02 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, tglx@linutronix.de,
+	ming.lei@redhat.com
+Subject: Re: [PATCH 2/2] nvme-pci: allow unmanaged interrupts
+Message-ID: <Zj5JMqWRY187PqnD@kbusch-mbp.dhcp.thefacebook.com>
 References: <20240510141459.3207725-1-kbusch@meta.com>
+ <20240510141459.3207725-2-kbusch@meta.com>
+ <20240510151047.GA10486@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240510141459.3207725-1-kbusch@meta.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+In-Reply-To: <20240510151047.GA10486@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_081610_768849_1EC7DACF 
-X-CRM114-Status: GOOD (  16.95  )
+X-CRM114-CacheID: sfid-20240510_092008_692764_4FEC9BF9 
+X-CRM114-Status: GOOD (  12.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,33 +74,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 10, 2024 at 07:14:58AM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On Fri, May 10, 2024 at 05:10:47PM +0200, Christoph Hellwig wrote:
+> On Fri, May 10, 2024 at 07:14:59AM -0700, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > Some people _really_ want to control their interrupt affinity.
 > 
-> The reserved vectors are just the desired vectors that don't need to be
-> managed.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  kernel/irq/affinity.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> index 44a4eba80315c..74b7cccb51a16 100644
-> --- a/kernel/irq/affinity.c
-> +++ b/kernel/irq/affinity.c
-> @@ -113,9 +113,6 @@ unsigned int irq_calc_affinity_vectors(unsigned int minvec, unsigned int maxvec,
->  	unsigned int resv = affd->pre_vectors + affd->post_vectors;
->  	unsigned int set_vecs;
->  
-> -	if (resv > minvec)
-> -		return 0;
-> -
+> So let them argue why.  I'd rather have a really, really, really
+> good argument for this crap, and I'd like to hear it from the horses
+> mouth.
 
-This behavior is introduced in 6f9a22bc5775 ("PCI/MSI: Ignore affinity if pre/post
-vector count is more than min_vecs"), which is one bug fix.
+It's just prioritizing predictable user task scheduling for a subset of
+CPUs instead of having consistently better storage performance.
 
-Thanks,
-Ming
-
+We already have "isolcpus=managed_irq," parameter to prevent managed
+interrupts from running on a subset of CPUs, so the use case is already
+kind of supported. The problem with that parameter is it is a no-op if
+the starting affinity spread contains only isolated CPUs.
 
