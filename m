@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F87CC25B10
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 16:30:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE50DC25B74
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 16:30:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BB5jRRAHL5wuMJv/yBA2mpj6NCxlU59fz3DhmW/9J84=; b=3tSBjNHRewoyLJpfpyNJ9nqmnS
-	Y/DLlmZOvJoCglsWW6YEldlaqiuypMM6aFiS563E/X27s3OjYkHR8xmsnLjUHWbAiS1F5bm9SXxc8
-	yz1iWcV+NSot0s/RSL1z5xrTiE2XJdGs+GVTKrntgKnDnAcRLWpGjpWfgCRsJkhUZjahFDoG77CFk
-	C6Za3QjUP/2mSkKiF2w2bwSpw0ov2Zb+5hf7Y5Q2proFxxEOPwATE4YKv7ZEl3xkrGaMHPXxxKVje
-	dCzY6MhpYa9y513vNfSW+P01FuNS4gHLFa869IN2KbqjiqMaJpzz7/xV3QBV9tEgCgbAHKSTJvF1c
-	MySp1cfA==;
+	bh=QaN7IUDVw2oYvWxpzPTXi5OQMgmBdUmZiXMpCgxLfIw=; b=YLlCDV/afHuK4NpBnYRLycic0R
+	gAiqlwQw3E0dfqSMV3qatC6diKXLWcAzNRkKguaE2saVjLQr1y7KPWEeZ2EPgFZQcIKh6QoKVB/rq
+	Lk6YZswr688MwOGm+KwdzZquEYkppJa6MaQrLQ8IvISoHimbzSvlDVEjtybZQ5t8bKGRBY8v9hTWc
+	Gd6X18GOQnKOyaQY+QO8rnIvVvYIizDqZOcndgxSDlb80UDE90IgiLQRqE9/gkKVn94VDa2S+J15L
+	O3I7pBtV9sRbzPHLSrPz/TntxYMcjv3HHOKZY0ZY3LpDpTjHmi2mRRbFoKkkhfbNdpxqHAxZWDnK5
+	9IzcT6sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5T8s-00000005s2k-073x;
-	Fri, 10 May 2024 16:30:42 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1s5T8w-00000005s51-17PQ;
+	Fri, 10 May 2024 16:30:46 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5T8o-00000005s0f-12tg
+	id 1s5T8r-00000005s2G-1izg
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 May 2024 16:30:39 +0000
+	Fri, 10 May 2024 16:30:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715358634;
+	s=mimecast20190719; t=1715358640;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BB5jRRAHL5wuMJv/yBA2mpj6NCxlU59fz3DhmW/9J84=;
-	b=bnj19RT1xuOR3i5UPbxh7TvaU9P2uXYebqQ3oKNT7ms3W0itewblOK2UJO2bOlVIBHdLVX
-	1EQgcYg55g7wkALGgFe3QEBDzc+lRzOsI48Sa83fHfbP2U270xIBJZHDv3qQAaZRwGx01Z
-	vqr2z82L0Wnx1e6kvCxu7r9Ir7Vt95c=
+	bh=QaN7IUDVw2oYvWxpzPTXi5OQMgmBdUmZiXMpCgxLfIw=;
+	b=XMhtjOVlxdX5uHWTCZ89hyJlQ9lrYN2cxV8YRDNHjJxW+sY7dAV0F9x/3t1PfmLjWdQnnr
+	Z2GHLAXBt8XNht4P6yLbMvwkYbdBLGZEZIhCi5KhJU7KkY7eTxiUxFk+UFRBAzpB+LqPRz
+	hM98hPXNbXLs+netHzALfEGKV2tLRw4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-151-6NUUHYUmPUC9wmp--S5cQw-1; Fri, 10 May 2024 12:30:31 -0400
-X-MC-Unique: 6NUUHYUmPUC9wmp--S5cQw-1
+ us-mta-2-pa64xKU4NFC4hnI1DsqEDA-1; Fri, 10 May 2024 12:30:37 -0400
+X-MC-Unique: pa64xKU4NFC4hnI1DsqEDA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B418A8025FC;
-	Fri, 10 May 2024 16:30:30 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9479101A525;
+	Fri, 10 May 2024 16:30:36 +0000 (UTC)
 Received: from kalibr.redhat.com (unknown [10.42.28.72])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9546B207CDF0;
-	Fri, 10 May 2024 16:30:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B20BC200A380;
+	Fri, 10 May 2024 16:30:34 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: kbusch@meta.com
 Cc: hare@kernel.org,
@@ -58,9 +58,9 @@ Cc: hare@kernel.org,
 	emilne@redhat.com,
 	jmeneghi@redhat.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 1/5] nvme: add definitions for cancel command
-Date: Fri, 10 May 2024 18:30:22 +0200
-Message-Id: <20240510163026.786898-2-mlombard@redhat.com>
+Subject: [PATCH 4/5] nvme-rdma: use the cancel command to perform an abort if target supports it
+Date: Fri, 10 May 2024 18:30:25 +0200
+Message-Id: <20240510163026.786898-5-mlombard@redhat.com>
 In-Reply-To: <20240510163026.786898-1-mlombard@redhat.com>
 References: <20240510163026.786898-1-mlombard@redhat.com>
 MIME-Version: 1.0
@@ -70,8 +70,8 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_093038_398231_C4E79220 
-X-CRM114-Status: GOOD (  11.03  )
+X-CRM114-CacheID: sfid-20240510_093041_547865_6EF019FC 
+X-CRM114-Status: GOOD (  14.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,92 +86,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: John Meneghini <jmeneghi@redhat.com>
+If available, use Cancel command to abort the command that timed
+out instead of resetting the controller.
 
-Add new definitions needed to support TP4097a.
-
-Signed-off-by: John Meneghini <jmeneghi@redhat.com>
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
- drivers/nvme/host/constants.c |  1 +
- drivers/nvme/host/core.c      |  1 +
- include/linux/nvme.h          | 19 +++++++++++++++++++
- 3 files changed, 21 insertions(+)
+ drivers/nvme/host/rdma.c | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
-index 6f2ebb5fcdb0..d1fb08a0cc42 100644
---- a/drivers/nvme/host/constants.c
-+++ b/drivers/nvme/host/constants.c
-@@ -19,6 +19,7 @@ static const char * const nvme_ops[] = {
- 	[nvme_cmd_resv_report] = "Reservation Report",
- 	[nvme_cmd_resv_acquire] = "Reservation Acquire",
- 	[nvme_cmd_resv_release] = "Reservation Release",
-+	[nvme_cmd_cancel] = "Cancel",
- 	[nvme_cmd_zone_mgmt_send] = "Zone Management Send",
- 	[nvme_cmd_zone_mgmt_recv] = "Zone Management Receive",
- 	[nvme_cmd_zone_append] = "Zone Append",
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 095f59e7aa93..b48967c98114 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4835,6 +4835,7 @@ static inline void _nvme_check_size(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_dsm_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_write_zeroes_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_abort_cmd) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_cancel_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_get_log_page_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != NVME_IDENTIFY_DATA_SIZE);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 425573202295..8efebc805e19 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -830,6 +830,7 @@ enum nvme_opcode {
- 	nvme_cmd_resv_report	= 0x0e,
- 	nvme_cmd_resv_acquire	= 0x11,
- 	nvme_cmd_resv_release	= 0x15,
-+	nvme_cmd_cancel		= 0x18,
- 	nvme_cmd_zone_mgmt_send	= 0x79,
- 	nvme_cmd_zone_mgmt_recv	= 0x7a,
- 	nvme_cmd_zone_append	= 0x7d,
-@@ -1343,6 +1344,22 @@ struct nvme_abort_cmd {
- 	__u32			rsvd11[5];
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 366f0bb4ebfc..a45b45965b9e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -74,6 +74,7 @@ struct nvme_rdma_request {
+ 	struct nvme_rdma_sgl	data_sgl;
+ 	struct nvme_rdma_sgl	*metadata_sgl;
+ 	bool			use_sig_mr;
++	bool			aborted;
  };
  
-+struct nvme_cancel_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u32                   rsvd1[8];
-+	__le16			sqid;
-+	__u16			cid;
-+	__u8			action;
-+	__u8			rsvd11[3];
-+	__u32			rsvd12[4];
-+};
-+
-+#define NVME_CANCEL_ACTION_MUL_CMD	1
-+#define NVME_CANCEL_ACTION_SINGLE_CMD	0
-+
- struct nvme_download_firmware {
- 	__u8			opcode;
- 	__u8			flags;
-@@ -1798,6 +1815,7 @@ struct nvme_command {
- 		struct nvme_zone_mgmt_send_cmd zms;
- 		struct nvme_zone_mgmt_recv_cmd zmr;
- 		struct nvme_abort_cmd abort;
-+		struct nvme_cancel_cmd cancel;
- 		struct nvme_get_log_page_command get_log_page;
- 		struct nvmf_common_command fabrics;
- 		struct nvmf_connect_command connect;
-@@ -1938,6 +1956,7 @@ enum {
- 	NVME_SC_INVALID_PI		= 0x181,
- 	NVME_SC_READ_ONLY		= 0x182,
- 	NVME_SC_ONCS_NOT_SUPPORTED	= 0x183,
-+	NVME_SC_INVALID_CID		= 0x184,
+ enum nvme_rdma_queue_flags {
+@@ -1956,16 +1957,19 @@ static enum blk_eh_timer_return nvme_rdma_timeout(struct request *rq)
+ {
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_rdma_queue *queue = req->queue;
+-	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
++	struct nvme_rdma_ctrl *rdma_ctrl = queue->ctrl;
++	struct nvme_ctrl *ctrl = &rdma_ctrl->ctrl;
+ 	struct nvme_command *cmd = req->req.cmd;
+ 	int qid = nvme_rdma_queue_idx(queue);
++	int error;
++	u32 effects;
  
+-	dev_warn(ctrl->ctrl.device,
++	dev_warn(ctrl->device,
+ 		 "I/O tag %d (%04x) opcode %#x (%s) QID %d timeout\n",
+ 		 rq->tag, nvme_cid(rq), cmd->common.opcode,
+ 		 nvme_fabrics_opcode_str(qid, cmd), qid);
+ 
+-	if (nvme_ctrl_state(&ctrl->ctrl) != NVME_CTRL_LIVE) {
++	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
+ 		/*
+ 		 * If we are resetting, connecting or deleting we should
+ 		 * complete immediately because we may block controller
+@@ -1983,11 +1987,26 @@ static enum blk_eh_timer_return nvme_rdma_timeout(struct request *rq)
+ 		return BLK_EH_DONE;
+ 	}
+ 
++	if (!req->aborted) {
++		effects = le32_to_cpu(ctrl->effects->iocs[nvme_cmd_cancel]);
++
++		if (!(effects & NVME_CMD_EFFECTS_CSUPP))
++			goto err_recovery;
++
++		error = nvme_submit_cancel_req(ctrl, rq, qid);
++		if (error)
++			goto err_recovery;
++
++		req->aborted = true;
++		return BLK_EH_RESET_TIMER;
++	}
++
  	/*
- 	 * I/O Command Set Specific - Fabrics commands:
+ 	 * LIVE state should trigger the normal error recovery which will
+ 	 * handle completing this request.
+ 	 */
+-	nvme_rdma_error_recovery(ctrl);
++err_recovery:
++	nvme_rdma_error_recovery(rdma_ctrl);
+ 	return BLK_EH_RESET_TIMER;
+ }
+ 
+@@ -2011,6 +2030,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+ 
+ 	dev = queue->device->dev;
++	req->aborted = false;
+ 
+ 	req->sqe.dma = ib_dma_map_single(dev, req->sqe.data,
+ 					 sizeof(struct nvme_command),
 -- 
 2.39.3
 
