@@ -4,123 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50653C25B5F
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 13:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8433FC25B10
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 14:10:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=2uqy5c3cXO+FBejMvjh5tS4H8j3VD4n0/AUG7aIY4I8=; b=potATl90g8yVR/RVyCaotWVjma
-	5dZ+I+bs/7hTkuMKQCq4AfhutQ1XsfMF+e9/zmLnMVOg/anKHNnJnLWaOnwIGH5LULNP9GCkbwPnL
-	rsw1M9QOFzUvErqyCDbxtT30bycIwvKrZBVkoi4ZbjjQCsEc8fCpxwjAVqEOACfsAfHcdPUJP+zRj
-	VuEXt6gTk8CgknW8j+hykPxOxhkC+kvz5bnhu8OBisJHCrqOIvm153qyzmLyVclroixURBKeGiye3
-	wsSuz9Wr4qiKRgR6XvYq3ZPXOrcO1nBjbcVB9MUkHZ1z9ZG+V+PZqF988LlC8Q3xvuj82kZxfuGfT
-	M4ao+nFw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dmTNhSQMHzNSswqOiPkvczjYYpGZjhC1nSM5AZr86CI=; b=3ytSZeJzLh/POE0LPB67X27YIG
+	O4PwsdeUgcmJocWZfshssQKUC4oncS99CMycTaTuqnYU71nekh30qE+nTtgODVChizNjCv4Ig3mcs
+	aPF8vcR6YvE5VLudMRrqsGKvJdixfmGMvr3lcTnCoggQYDl62FO7V/vEiX6nRWERqxSYKohiXzQxE
+	AQ3lqZBdw61qewScrc7Mwld6LJFASH8hk7t3vHDXxB1eIV4yIsVm22HXPskjIGgBukgjyfYqHFvNV
+	GstFEPYKa9mVy5ZPTxTN/DSVx9gu8YCYY8iu4t3vrCfxmKBibiBAPCSImG3XxTHcS+FMd6eIGwWM9
+	Luy4S1tA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5QbL-00000005RV5-1Omo;
-	Fri, 10 May 2024 13:47:55 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1s5Qx1-00000005VR7-1FY4;
+	Fri, 10 May 2024 14:10:19 +0000
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5QbF-00000005RT5-14Lb
+	id 1s5Qwy-00000005VIB-2Ub6
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 May 2024 13:47:53 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240510134743epoutp01289b968f8546f687a658a82650ae7ed6~OJLQAB6DG2585125851epoutp01C
-	for <linux-nvme@lists.infradead.org>; Fri, 10 May 2024 13:47:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240510134743epoutp01289b968f8546f687a658a82650ae7ed6~OJLQAB6DG2585125851epoutp01C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1715348863;
-	bh=2uqy5c3cXO+FBejMvjh5tS4H8j3VD4n0/AUG7aIY4I8=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=uqIT4v2DaIGSK56Kd9s2UbTOE+aF0niljCN61HoHue7XyMgDhbkwZldH9NKkwZ192
-	 1e5y/Fq8bY2KKrIXoIzQXEmpbvCkhgs7YD/G8bMdo4+cn8N3XdAbrJ/LkuGGbB8Mi/
-	 FGROWsQ9RRKaWSgvyCG5yCgx2Gy80oTfR3bDbwwg=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240510134743epcas5p443098c2f5128f5a6692a5c483f4e8e6e~OJLPhwOSr0394803948epcas5p44;
-	Fri, 10 May 2024 13:47:43 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4VbVZ56QBjz4x9Pp; Fri, 10 May
-	2024 13:47:41 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	DF.59.09665.D752E366; Fri, 10 May 2024 22:47:41 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240510134740epcas5p24ef1c2d6e8934c1c79b01c849e7ccb41~OJLNIWKZB0383303833epcas5p26;
-	Fri, 10 May 2024 13:47:40 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240510134740epsmtrp197c7b75541e85f37a0c995b847c819ca~OJLNHiKrN2682726827epsmtrp1T;
-	Fri, 10 May 2024 13:47:40 +0000 (GMT)
-X-AuditID: b6c32a4b-829fa700000025c1-6b-663e257d7a3a
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CB.3D.08390.C752E366; Fri, 10 May 2024 22:47:40 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240510134738epsmtip18d16323614d1dcf26ce66e1ab75b4257~OJLLNwann2890228902epsmtip1E;
-	Fri, 10 May 2024 13:47:38 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	javier.gonz@samsung.com, bvanassche@acm.org, david@fromorbit.com,
-	slava@dubeyko.com, gost.dev@samsung.com, Kanchan Joshi
-	<joshi.k@samsung.com>, Hui Qi <hui81.qi@samsung.com>, Nitesh Shetty
-	<nj.shetty@samsung.com>
-Subject: [PATCH] nvme: enable FDP support
-Date: Fri, 10 May 2024 19:10:15 +0530
-Message-Id: <20240510134015.29717-1-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	Fri, 10 May 2024 14:10:18 +0000
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6f4178aec15so1847403b3a.0
+        for <linux-nvme@lists.infradead.org>; Fri, 10 May 2024 07:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715350211; x=1715955011; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dmTNhSQMHzNSswqOiPkvczjYYpGZjhC1nSM5AZr86CI=;
+        b=JLP7drloN7XDwRCO7q0z6/1s9EHtSEduJXeijPRxnS87Ww1xepe9BSsWGC4eIPK7ES
+         n7yP39x8Xkh2oG3gSNc7QbadL3KPcu7i9u3CzhlEaxaIMvKGufhyErxptsd6nIDTpns1
+         XpYpMAaUQGR0oBGIzlHTbRg95t/W8u6BbTQFLyBDEgHh2r8zuAIJaXFBbey+KZDU/6Hi
+         DsF5sX/EJxVV168ltXP5azRWqDkrbNoWmr3FBEUEZYy3PkPav8WKEpKwE74L3h3iIlED
+         klmjw8dXhkFpnNrvyO20D66e5nBJsdVQOy455r+Px4wdPMqzjCLMN+RSlhdorIZF6m/h
+         n9fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715350211; x=1715955011;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dmTNhSQMHzNSswqOiPkvczjYYpGZjhC1nSM5AZr86CI=;
+        b=m+djewg9s7CvVEeHzNnCb1X56+0DStB7lR1TNdqXJ0LsLWZo85jgOuvpchaKzeaG1c
+         b+C3MSTgp9RKS9daA8XAgb5oct52eaGco4hw4T5AsmfwsWCaF4fxmsX+W0Wk/EB1JR87
+         cmqxVmn292WD5n1AajcUlAkrjYZUdcbPFye/czDibWH0SXRFUKYYyaJNcYZ6gVoYYuj0
+         nXLsiKDklB02mMhQnOag93wrWoJ3Nne2tTaEoxw3HOQ2V6AoKz/9GO1KVI41a/CW9CWm
+         WcuyiF18r7gb8WLhcSO56eDOwISwMmqow3EZU/tH4Lelblm4iC55nV7plO3zDhpDHIoo
+         iOuw==
+X-Gm-Message-State: AOJu0Yx9oOysHf5ShHsbxr/ZjfpQDIt1YlJp9rkO8yvKYylDBIt04Mi4
+	ZNt9O/338BZxGiushBQ29JsDNxQ9YOvMezwnVOUVNgUTkzdYaSDi
+X-Google-Smtp-Source: AGHT+IGkbNZJrix9ks0aI4cBbuUKZQ3FxlUtcvstfynyKwnm+J+keyLzcR5W2utdQ6nZWY9PItbf6A==
+X-Received: by 2002:a05:6a20:9c8e:b0:1af:d15a:6b60 with SMTP id adf61e73a8af0-1afde11bbafmr3224246637.28.1715350210731;
+        Fri, 10 May 2024 07:10:10 -0700 (PDT)
+Received: from [192.168.50.216] (ip68-109-79-27.oc.oc.cox.net. [68.109.79.27])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2ae112asm3094649b3a.112.2024.05.10.07.10.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 May 2024 07:10:10 -0700 (PDT)
+Message-ID: <714963a6-7fad-4e4e-84b1-795c7595abc4@gmail.com>
+Date: Fri, 10 May 2024 07:10:09 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEJsWRmVeSWpSXmKPExsWy7bCmum6tql2awbYfuhar7/azWUz78JPZ
-	Ysuxe4wWNw/sZLJYufook8XOZWvZLR7f+cxucfT/WzaLSYeuMVrsvaVtMX/ZU3aLbb/nM1t8
-	2jKbyYHX4/IVb4+D69+weJxaJOFx+Wypx6ZVnWwem5fUe+y+2cDm0bdlFaPH501yAZxR2TYZ
-	qYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkouPgG6bpk5QDcrKZQl5pQC
-	hQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMCvSKE3OLS/PS9fJSS6wMDQyMTIEKE7Izbrxv
-	ZCm4bVgxfeYmxgbG+RpdjJwcEgImEssuv2fqYuTiEBLYzSixe91rVgjnE6NE49EGdpAqIYFv
-	jBLb++xhOi4+PsYMUbSXUeJf3wWojs+MEp/+nwKaxcHBJqApcWFyKUiDiICRxM6/r9lAapgF
-	5jJJTJzygRkkIQxUs3PxIzCbRUBVYs7N7WDbeAUsJM6dus0OsU1eYual71BxQYmTM5+wgNjM
-	QPHmrbPBrpAQmMghcXbrFqgGF4l9pyCGSggIS7w6DhOXknjZ3wZlJ0tcmnmOCcIukXi85yCU
-	bS/ReqqfGeQBZqDj1u/Sh9jFJ9H7+wnYXxICvBIdbUIQ1YoS9yY9ZYWwxSUezlgCZXtILJrQ
-	zAhSLiQQK9H1OXECo9wsJA/MQvLALIRdCxiZVzFKphYU56anFpsWGOellsOjMjk/dxMjOLFq
-	ee9gfPTgg94hRiYOxkOMEhzMSiK8VTXWaUK8KYmVValF+fFFpTmpxYcYTYGhOpFZSjQ5H5ja
-	80riDU0sDUzMzMxMLI3NDJXEeV+3zk0REkhPLEnNTk0tSC2C6WPi4JRqYOrbkp39veOCKP/b
-	Bv+HKxn12uQ3Z8QFsphus5YIFVnruevr4wuvt/j8cXJ5/G7z8z62R2YtEezz07rMdjxJmmcq
-	oDppo6Vw+4smyVkWxYtFlC66ajOp6cRfydpY7yF7bo/Q3ccSf7p5F/EV7r2822czs3fVzds/
-	9/9Usntt/LWhMDCndVXG/M3ts+T4lXoVmUtm6HrrM8zKfGbndSDd//AEm+pe9oWKH7bbeizQ
-	fNBit/V8/MZD98q5Q4WeX05dVZUwf1pR80u5f+bXeeysFfuMtT6eEm+xNVxsEbn/270vAc/4
-	+ZJXWDywuOPTymSkIGF17UFvt81/sQZth/1q0+K75JhL3ygFPVW11zmoxFKckWioxVxUnAgA
-	u1PgvTUEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDLMWRmVeSWpSXmKPExsWy7bCSnG6Nql2awYx1khar7/azWUz78JPZ
-	Ysuxe4wWNw/sZLJYufook8XOZWvZLR7f+cxucfT/WzaLSYeuMVrsvaVtMX/ZU3aLbb/nM1t8
-	2jKbyYHX4/IVb4+D69+weJxaJOFx+Wypx6ZVnWwem5fUe+y+2cDm0bdlFaPH501yAZxRXDYp
-	qTmZZalF+nYJXBk33jeyFNw2rJg+cxNjA+N8jS5GTg4JAROJi4+PMXcxcnEICexmlHg6q4EJ
-	IiEu0XztBzuELSyx8t9zdoiij4wSXZf6WbsYOTjYBDQlLkwuBakRETCT2H9uI9ggZoHlTBJb
-	Zu9nBUkIA9XsXPyIGcRmEVCVmHNzO9hQXgELiXOnbkMtkJeYeek7VFxQ4uTMJywgNjNQvHnr
-	bOYJjHyzkKRmIUktYGRaxSiZWlCcm55bbFhglJdarlecmFtcmpeul5yfu4kRHAFaWjsY96z6
-	oHeIkYmD8RCjBAezkghvVY11mhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHeb697U4QE0hNLUrNT
-	UwtSi2CyTBycUg1MAvWy+ZcN9vZrLMpZPfnnm8deavv722993hivknZqkXd0CQtLZO/+lthF
-	bXeLX2XKFGncvj1x+XtpsRPsRplBB3Kuttt8VDl56uGNutUbvv/jSNb3srJkecm5ul41Y/6P
-	J2JPZx153OF8c4lkVnPBLvaCQ2c2hZtUPJd/9pClVtfope2nnHPrG8ra58z3Vn+S7XPd2F1d
-	KTm95pnrz+g1t/qY7H86eT9jmOd+NdgnIV66oe7Liu0CvIZ/q0+UX79duuNIRvwVzc7aoshb
-	743OJbssucL0bMGr5msXm1bFhh1Mfnv/Bvecw7KfjjCeWhQne2vPoxTuqw9W+/HaRqfdO1ge
-	LXXz7qeLLroX4gLrlFiKMxINtZiLihMBhKlfse8CAAA=
-X-CMS-MailID: 20240510134740epcas5p24ef1c2d6e8934c1c79b01c849e7ccb41
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240510134740epcas5p24ef1c2d6e8934c1c79b01c849e7ccb41
-References: <CGME20240510134740epcas5p24ef1c2d6e8934c1c79b01c849e7ccb41@epcas5p2.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report] nvme-fc: fix io timeout to abort I/O
+To: Dan Carpenter <dan.carpenter@linaro.org>, james.smart@broadcom.com
+Cc: linux-nvme@lists.infradead.org
+References: <4561816b-bcae-4292-af42-e563f78cd805@moroto.mountain>
+Content-Language: en-US
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <4561816b-bcae-4292-af42-e563f78cd805@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_064749_964524_C4EE64B1 
-X-CRM114-Status: GOOD (  24.61  )
+X-CRM114-CacheID: sfid-20240510_071016_672244_36C458C0 
+X-CRM114-Status: UNSURE (   6.76  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,219 +93,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Flexible Data Placement (FDP), as ratified in TP 4146a, allows the host
-to control the placement of logical blocks so as to reduce the SSD WAF.
+On 5/8/2024 7:43 AM, Dan Carpenter wrote:
+> Hello James Smart,
+> 
+> Commit 52793d62a696 ("nvme-fc: fix io timeout to abort I/O") from Oct
+> 16, 2020 (linux-next), leads to the following Smatch static checker
+> warning:
+> 
+> 	drivers/nvme/host/fc.c:3239 nvme_fc_delete_association()
+> 	warn: mixing irqsave and irq
+> 
 
-Userspace can send the data lifetime information using the write hints.
-The SCSI driver (sd) can already pass this information to the SCSI
-devices. This patch does the same for NVMe.
+Dan,
 
-Fetches the placement-identifiers (plids) if the device supports FDP.
-And map the incoming write-hints to plids.
+fyi - I'm taking a look at this.
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Hui Qi <hui81.qi@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
----
- drivers/nvme/host/core.c | 67 ++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  4 +++
- include/linux/nvme.h     | 19 ++++++++++++
- 3 files changed, 90 insertions(+)
+Thx
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8ae0a2dc5eda..c3de06cff12f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -42,6 +42,20 @@ struct nvme_ns_info {
- 	bool is_removed;
- };
- 
-+struct nvme_fdp_ruh_status_desc {
-+	u16 pid;
-+	u16 ruhid;
-+	u32 earutr;
-+	u64 ruamw;
-+	u8  rsvd16[16];
-+};
-+
-+struct nvme_fdp_ruh_status {
-+	u8  rsvd0[14];
-+	u16 nruhsd;
-+	struct nvme_fdp_ruh_status_desc ruhsd[];
-+};
-+
- unsigned int admin_timeout = 60;
- module_param(admin_timeout, uint, 0644);
- MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
-@@ -943,6 +957,16 @@ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
- 	return BLK_STS_OK;
- }
- 
-+static inline void nvme_assign_placement_id(struct nvme_ns *ns,
-+					struct request *req,
-+					struct nvme_command *cmd)
-+{
-+	enum rw_hint h = min(ns->head->nr_plids, req->write_hint);
-+
-+	cmd->rw.control |= cpu_to_le16(NVME_RW_DTYPE_DPLCMT);
-+	cmd->rw.dsmgmt |= cpu_to_le32(ns->head->plids[h] << 16);
-+}
-+
- static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 		struct request *req, struct nvme_command *cmnd,
- 		enum nvme_opcode op)
-@@ -1058,6 +1082,8 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req)
- 		break;
- 	case REQ_OP_WRITE:
- 		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
-+		if (!ret && ns->head->nr_plids)
-+			nvme_assign_placement_id(ns, req, cmd);
- 		break;
- 	case REQ_OP_ZONE_APPEND:
- 		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
-@@ -2070,6 +2096,40 @@ static int nvme_update_ns_info_generic(struct nvme_ns *ns,
- 	return ret;
- }
- 
-+static int nvme_fetch_fdp_plids(struct nvme_ns *ns, u32 nsid)
-+{
-+	struct nvme_command c = {};
-+	struct nvme_fdp_ruh_status *ruhs;
-+	struct nvme_fdp_ruh_status_desc *ruhsd;
-+	int size, ret, i;
-+
-+	size = sizeof(*ruhs) + NVME_MAX_PLIDS * sizeof(*ruhsd);
-+	ruhs = kzalloc(size, GFP_KERNEL);
-+	if (!ruhs)
-+		return -ENOMEM;
-+
-+	c.imr.opcode = nvme_cmd_io_mgmt_recv;
-+	c.imr.nsid = cpu_to_le32(nsid);
-+	c.imr.mo = 0x1;
-+	c.imr.numd =  cpu_to_le32((size >> 2) - 1);
-+
-+	ret = nvme_submit_sync_cmd(ns->queue, &c, ruhs, size);
-+	if (ret)
-+		goto out;
-+
-+	ns->head->nr_plids = le16_to_cpu(ruhs->nruhsd);
-+	ns->head->nr_plids =
-+		min_t(u16, ns->head->nr_plids, NVME_MAX_PLIDS);
-+
-+	for (i = 0; i < ns->head->nr_plids; i++) {
-+		ruhsd = &ruhs->ruhsd[i];
-+		ns->head->plids[i] = le16_to_cpu(ruhsd->pid);
-+	}
-+out:
-+	kfree(ruhs);
-+	return ret;
-+}
-+
- static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 		struct nvme_ns_info *info)
- {
-@@ -2157,6 +2217,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 		if (ret && !nvme_first_scan(ns->disk))
- 			goto out;
- 	}
-+	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
-+		ret = nvme_fetch_fdp_plids(ns, info->nsid);
-+		if (ret)
-+			dev_warn(ns->ctrl->device,
-+				"FDP failure status:0x%x\n", ret);
-+	}
-+
- 
- 	ret = 0;
- out:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d0ed64dc7380..67dad29fe289 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -440,6 +440,8 @@ struct nvme_ns_ids {
- 	u8	csi;
- };
- 
-+#define NVME_MAX_PLIDS   (128)
-+
- /*
-  * Anchor structure for namespaces.  There is one for each namespace in a
-  * NVMe subsystem that any of our controllers can see, and the namespace
-@@ -457,6 +459,8 @@ struct nvme_ns_head {
- 	bool			shared;
- 	bool			passthru_err_log_enabled;
- 	int			instance;
-+	u16			nr_plids;
-+	u16			plids[NVME_MAX_PLIDS];
- 	struct nvme_effects_log *effects;
- 	u64			nuse;
- 	unsigned		ns_id;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 425573202295..fc07ba1b5ec5 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -270,6 +270,7 @@ enum nvme_ctrl_attr {
- 	NVME_CTRL_ATTR_HID_128_BIT	= (1 << 0),
- 	NVME_CTRL_ATTR_TBKAS		= (1 << 6),
- 	NVME_CTRL_ATTR_ELBAS		= (1 << 15),
-+	NVME_CTRL_ATTR_FDPS		= (1 << 19),
- };
- 
- struct nvme_id_ctrl {
-@@ -829,6 +830,7 @@ enum nvme_opcode {
- 	nvme_cmd_resv_register	= 0x0d,
- 	nvme_cmd_resv_report	= 0x0e,
- 	nvme_cmd_resv_acquire	= 0x11,
-+	nvme_cmd_io_mgmt_recv	= 0x12,
- 	nvme_cmd_resv_release	= 0x15,
- 	nvme_cmd_zone_mgmt_send	= 0x79,
- 	nvme_cmd_zone_mgmt_recv	= 0x7a,
-@@ -850,6 +852,7 @@ enum nvme_opcode {
- 		nvme_opcode_name(nvme_cmd_resv_register),	\
- 		nvme_opcode_name(nvme_cmd_resv_report),		\
- 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
-+		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
- 		nvme_opcode_name(nvme_cmd_resv_release),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
-@@ -1001,6 +1004,7 @@ enum {
- 	NVME_RW_PRINFO_PRCHK_GUARD	= 1 << 12,
- 	NVME_RW_PRINFO_PRACT		= 1 << 13,
- 	NVME_RW_DTYPE_STREAMS		= 1 << 4,
-+	NVME_RW_DTYPE_DPLCMT		= 2 << 4,
- 	NVME_WZ_DEAC			= 1 << 9,
- };
- 
-@@ -1088,6 +1092,20 @@ struct nvme_zone_mgmt_recv_cmd {
- 	__le32			cdw14[2];
- };
- 
-+struct nvme_io_mgmt_recv_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__le64			rsvd2[2];
-+	union nvme_data_ptr	dptr;
-+	__u8			mo;
-+	__u8			rsvd11;
-+	__u16			mos;
-+	__le32			numd;
-+	__le32			cdw12[4];
-+};
-+
- enum {
- 	NVME_ZRA_ZONE_REPORT		= 0,
- 	NVME_ZRASF_ZONE_REPORT_ALL	= 0,
-@@ -1808,6 +1826,7 @@ struct nvme_command {
- 		struct nvmf_auth_receive_command auth_receive;
- 		struct nvme_dbbuf dbbuf;
- 		struct nvme_directive_cmd directive;
-+		struct nvme_io_mgmt_recv_cmd imr;
- 	};
- };
- 
--- 
-2.25.1
+-- james
+
 
 
