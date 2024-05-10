@@ -4,63 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA755C25B74
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 19:31:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFAF4C25B10
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 22:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7GQ1dKS56yleei13T6iM4ePKgYMywvPt7Tz/h7Zr5OY=; b=3ArOujOG+gPbRFQrq/PkM8n7vS
-	fu8pisXGgCJ0n6PITQMNojuN/fCvYU92CLBxdVmS5twbHEm1Se/Ead0H6tjB5F5471eV7T1fmHYp9
-	XJjnRzIZqkYI5Ro6kkmXcjwi8EfsB+/BFSyb7siGiI1nFRpI27vXUEJjXTXpQH0muOeF4vxvDcXE/
-	vsftPjGUNcujzimTW7FWIoXjA2HLFfY3VypP1M6C/s7f7eUY7zgjiukBc9DWkdvY6pyeiG2InNYEq
-	ImTkEIk0ehbg8RVivyQpNcxQL14DiJKd1JAfTcTMqB4ReLTo/Ik2rgFnVlukWRHjfr/u5mX10f+gV
-	g/bZaYYQ==;
+	bh=hBrnX+U4pxDm7jtcvPTU+zBs2Ty6Lb9srPF/queK5b8=; b=B4Li9GgUeQojKArfTnbY/sIia4
+	yqdfyZhod8g+xfKUSn0Jzqc7vjnxUEUQ0P3p92MGKKHfz2Yh8OR5LDd63YhIbwMQHq+7qxOLrkQRu
+	H+HErZMhJ9qzGkR3RJdzVSajFWAstaBaMsqK0tsLuarnibvn1FjIvM7FSqVOi2U0Q2Mk57BLORcGe
+	VMxwwaudz5Q3AFLDnLOVRwlhWS4jV/DMBHNqtDZYrwkoFEtQWc3HB9vPmYThzLJnvq3s72Zi8PBKC
+	gi6VQ6BEH/vb+4/BRyJU1DfCqTtR8RGS+MqYpe8aXmufpVOXPTRyTnHCXyPK1W+8lx5sWoD/Ur5xX
+	hzczPeLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5VxP-00000006HLh-3JBt;
-	Fri, 10 May 2024 19:31:03 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s5YaX-00000006drH-2iKv;
+	Fri, 10 May 2024 22:19:37 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5VxL-00000006HJn-3oEP
-	for linux-nvme@lists.infradead.org;
-	Fri, 10 May 2024 19:31:01 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id AF78FCE1D88;
-	Fri, 10 May 2024 19:30:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30CB2C113CC;
-	Fri, 10 May 2024 19:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715369456;
-	bh=AKyAow3/wzc/Ot9e9YRui5V8hO3If9LCvP1JmKecbqg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CFOM5LHhmbuaAigFGy+V9f7hNlxpo2QRMDHP0k7iwOUmLiC4nkLlRuxfqOClxhTw7
-	 E6ZWtRHUZKdDBDQPODd7sSS43xdOtj36Fw8vuIOj0aTasipX+nIyDvdTRxIeuBAaPI
-	 /4Usus/Hj8MUE6LSfCj1FEjBMhRoONHSdallPWO13veJQwCcynIK+eupp44cfUcYC4
-	 8A7UHZ3mHddl8VMoSVUWiqy/6c4ugIdH3oeLGCtX+RUR2LYk/da6OcGFQdlpecyA2z
-	 Tm2we9K2wCF1E0D9nCtxmzRd+ZG6dtwZHH/k/Iuh512vWQP96nWvtqTRdFxv3NTREk
-	 DfNOZIgy88qNg==
-Date: Fri, 10 May 2024 13:30:52 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, javier.gonz@samsung.com,
-	bvanassche@acm.org, david@fromorbit.com, slava@dubeyko.com,
-	gost.dev@samsung.com, Hui Qi <hui81.qi@samsung.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCH] nvme: enable FDP support
-Message-ID: <Zj517BwMrCn7nfxC@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20240510134740epcas5p24ef1c2d6e8934c1c79b01c849e7ccb41@epcas5p2.samsung.com>
- <20240510134015.29717-1-joshi.k@samsung.com>
+	id 1s5YaW-00000006dqe-0WKv
+	for linux-nvme@bombadil.infradead.org;
+	Fri, 10 May 2024 22:19:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=hBrnX+U4pxDm7jtcvPTU+zBs2Ty6Lb9srPF/queK5b8=; b=UWW8rNo5+wP3OEtQWhtBvWYjYv
+	MGWITLSJ1MEEzroRx6lXiYPQDQeJYKgiEjTZZisYpgkFAMwK8DzfFfz9T877tIgWZ6M5kyhpZcpRh
+	WGyhh3MVNw//vQRpENVlUIJcK97i1nSxVOVu92vlxtrw1sIt5rpD9jkh1gReHciR0kjY10uW1xGgt
+	5wCfmTqkcVKeF+gVQ3L284xijLAmESSG0DuXe8nxhU3U9bSJtme0vMZAH8NmqviSiYDOrHAAfePbj
+	+I6UMOaPy3JxXCrTXvKJ703iGuO7BQlpvCCJ+vfxwoTewCiumxZYJRf2jJdzQsJkqNjhSj11tYNWc
+	e1pb3RNw==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s5YaT-000000043J5-1hlz;
+	Fri, 10 May 2024 22:19:33 +0000
+Date: Fri, 10 May 2024 23:19:33 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: hare@kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Pankaj Raghav <kernel@pankajraghav.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 1/5] fs/mpage: use blocks_per_folio instead of
+ blocks_per_page
+Message-ID: <Zj6ddYvmb2uIq5Ec@casper.infradead.org>
+References: <20240510102906.51844-1-hare@kernel.org>
+ <20240510102906.51844-2-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240510134015.29717-1-joshi.k@samsung.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_123100_326637_55620EA3 
-X-CRM114-Status: GOOD (  21.18  )
+In-Reply-To: <20240510102906.51844-2-hare@kernel.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,65 +71,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 10, 2024 at 07:10:15PM +0530, Kanchan Joshi wrote:
-> Flexible Data Placement (FDP), as ratified in TP 4146a, allows the host
-> to control the placement of logical blocks so as to reduce the SSD WAF.
-> 
-> Userspace can send the data lifetime information using the write hints.
-> The SCSI driver (sd) can already pass this information to the SCSI
-> devices. This patch does the same for NVMe.
-> 
-> Fetches the placement-identifiers (plids) if the device supports FDP.
-> And map the incoming write-hints to plids.
+On Fri, May 10, 2024 at 12:29:02PM +0200, hare@kernel.org wrote:
+> +++ b/fs/mpage.c
+> @@ -114,7 +114,7 @@ static void map_buffer_to_folio(struct folio *folio, struct buffer_head *bh,
+>  		 * don't make any buffers if there is only one buffer on
+>  		 * the folio and the folio just needs to be set up to date
+>  		 */
+> -		if (inode->i_blkbits == PAGE_SHIFT &&
+> +		if (inode->i_blkbits == folio_shift(folio) &&
 
-Just some additional background since this looks similiar to when the
-driver supported "streams".
+yes
 
-Supporting streams in the driver was pretty a non-issue. The feature was
-removed because devices didn't work with streams as expected, and
-supporting it carried more maintenance overhead for the upper layers.
+> @@ -160,7 +160,7 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
+>  	struct folio *folio = args->folio;
+>  	struct inode *inode = folio->mapping->host;
+>  	const unsigned blkbits = inode->i_blkbits;
+> -	const unsigned blocks_per_page = PAGE_SIZE >> blkbits;
+> +	const unsigned blocks_per_folio = folio_size(folio) >> blkbits;
+>  	const unsigned blocksize = 1 << blkbits;
+>  	struct buffer_head *map_bh = &args->map_bh;
+>  	sector_t block_in_file;
+> @@ -168,7 +168,7 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
+>  	sector_t last_block_in_file;
+>  	sector_t first_block;
+>  	unsigned page_block;
+> -	unsigned first_hole = blocks_per_page;
+> +	unsigned first_hole = blocks_per_folio;
 
-Since the block layer re-introduced write hints anyway outside of this
-use case, this looks fine to me to re-introduce support for those hints.
+yes
 
-So why not re-add stream support back? As far as I know, devices never
-implemented that feature as expected, the driver had to enable it on
-start up, and there's no required feedback mechanism to see if it's even
-working or hurting.
+> @@ -189,7 +189,7 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
+>  		goto confused;
+>  
+>  	block_in_file = (sector_t)folio->index << (PAGE_SHIFT - blkbits);
+> -	last_block = block_in_file + args->nr_pages * blocks_per_page;
+> +	last_block = block_in_file + args->nr_pages * blocks_per_folio;
 
-For FDP, the user had to have configured the namespace that way in order
-to get this, so it's still an optional, opt-in feature. It's also
-mandatory for FDP capable drives to report WAF through the endurance
-log, so users can see the effects of using it.
+no.  args->nr_pages really is the number of pages, so last_block is
+block_in_file + nr_pages * blocks_per_page.  except that blocks_per_page
+might now be 0.
 
-It would be nice to compare endurance logs with and without the FDP
-configuration enabled for your various workloads. This will be great to
-discuss at LSFMM next week.
+so i think this needs to be rewritten as:
 
-> +static int nvme_fetch_fdp_plids(struct nvme_ns *ns, u32 nsid)
-> +{
-> +	struct nvme_command c = {};
-> +	struct nvme_fdp_ruh_status *ruhs;
-> +	struct nvme_fdp_ruh_status_desc *ruhsd;
-> +	int size, ret, i;
-> +
-> +	size = sizeof(*ruhs) + NVME_MAX_PLIDS * sizeof(*ruhsd);
+	last_block = block_in_file + (args->nr_pages * PAGE_SIZE) >> blkbits;
 
-	size = struct_size(ruhs, ruhsd, MAX_PLIDS);
+or have i confused myself?
 
-> +#define NVME_MAX_PLIDS   (128)
-> +
->  /*
->   * Anchor structure for namespaces.  There is one for each namespace in a
->   * NVMe subsystem that any of our controllers can see, and the namespace
-> @@ -457,6 +459,8 @@ struct nvme_ns_head {
->  	bool			shared;
->  	bool			passthru_err_log_enabled;
->  	int			instance;
-> +	u16			nr_plids;
-> +	u16			plids[NVME_MAX_PLIDS];
+> @@ -275,7 +275,7 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
+>  		bdev = map_bh->b_bdev;
+>  	}
+>  
+> -	if (first_hole != blocks_per_page) {
+> +	if (first_hole != blocks_per_folio) {
+>  		folio_zero_segment(folio, first_hole << blkbits, PAGE_SIZE);
 
-The largest index needed is WRITE_LIFE_EXTREME, which is "5", so I think
-NVME_MAX_PLIDS should be the same value. And it will save space in the
-struct.
+... doesn't that need to be folio_size(folio)?
+
+there may be other problems, but let's settle these questions first.
 
