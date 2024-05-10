@@ -4,74 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17B28C25B10
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 16:30:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 105F2C25B10
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 16:47:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4M4k32h+Yu8xy73EvoEkgAHVR5/50jfl4f9whUpaT2s=; b=YlwEqE/aGdIApmEg3uM954hntW
-	CxXxNAUpafcN6wn+w7f8565x2rf0nZj061ZEMq8AdFf+5RmAMJ1N7UTcWGDC+7mOvDb2TO5UZsOe2
-	fW/0NvCKpDQxmn3Fd4Yo4JcDfsj5ikRZ1F20d4Wp7o481jnIOcvdTJMqUM7Nw0zAzh/UC5k03rSKN
-	J6ffwR2ZMefPzZUaeSpkOP3u+lAUyU5qioUH2i/8hWIdWYje3xbE1FLTVZ8LwsQ1xtnDXH+HY8yKJ
-	JGeoNi6Qc+YnFDTVueS6xA/+2vw43GxV2vIrRLBx1BxKcJ3mTFcl5sUKHsLqHCtNz3LvDQvzfJJkN
-	xUkeL6vw==;
+	bh=AXhE8Z4r56FLxSoR0TnD4DsXP0A+Ch4RHuNCYA34EcU=; b=aYPOy3aqmC5mcfMdBiqcovr8Xo
+	pYZwLA8/OKGTLfHOGemsfTqpIDlyYt7rG3ZfLSEFxkHjDdp1T03NifxL2lFOqnye+tRsZVYIucEj5
+	OVw5y0krwb9LwlAGXsjYp1DpoCxf2ld4Ebhg/x1//SfobRla8xOOuwlMMxbPWsUj7NOgbT/zcExSg
+	/eKhbthIgbjgAK34GHdXJEBHzVi04j2CRAmg3YjyTasQ/GEtFtTQi5iUcIYO/rIiwg2VLuHH21/zI
+	DM83Cj2HyAHYXjwgFGDWiW2sqdHIGWRXGi1FNpXUdetsU3D641TAnVX5kegfOSQLmwb3x9QzsOfpM
+	8pt50svA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5T8t-00000005s3O-3xsI;
-	Fri, 10 May 2024 16:30:43 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1s5TPZ-00000005vbq-2HO8;
+	Fri, 10 May 2024 16:47:57 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5T8p-00000005s0z-0Kxq
+	id 1s5TPW-00000005vb2-2bdT
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 May 2024 16:30:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715358637;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4M4k32h+Yu8xy73EvoEkgAHVR5/50jfl4f9whUpaT2s=;
-	b=KngeQd3mbr3eEsXm0TFe/DX672BFhjfOwoYiJM9Ra9K9LTf0LQne/0tO3XACKK3vwzyAXJ
-	kPVSu9RVA1aTR8/17qAekhWpmVD1Os4EdNQPZxUewXH1/kMLFMup1LKdefAzZzPDxY6DAv
-	7wJbdrafnGLFHBu8Fzf5lBuoofDFcgs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-497-cwHEVoiDMb2OIfBuU8t3Hw-1; Fri, 10 May 2024 12:30:34 -0400
-X-MC-Unique: cwHEVoiDMb2OIfBuU8t3Hw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71C82101A557;
-	Fri, 10 May 2024 16:30:34 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.42.28.72])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 54EC8200A380;
-	Fri, 10 May 2024 16:30:33 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@meta.com
-Cc: hare@kernel.org,
-	sagi@grimberg.me,
-	emilne@redhat.com,
-	jmeneghi@redhat.com,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 3/5] nvme-tcp: use the cancel command to perform an abort if target supports it
-Date: Fri, 10 May 2024 18:30:24 +0200
-Message-Id: <20240510163026.786898-4-mlombard@redhat.com>
-In-Reply-To: <20240510163026.786898-1-mlombard@redhat.com>
-References: <20240510163026.786898-1-mlombard@redhat.com>
+	Fri, 10 May 2024 16:47:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id C46CB61F15;
+	Fri, 10 May 2024 16:47:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 296F3C113CC;
+	Fri, 10 May 2024 16:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715359673;
+	bh=AXvy8iePiTOupLl+xIgUoqVuOZkGTeicUhCyXcPDZvg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WY/crXVN7AYFzKzJa0xILepwhVwlZt+UG7mUNyhm1z69vKhAukhsbMzIhESPUEGCi
+	 EynVeviFFA+ua3hcDOIxZcnBjObuhmdgWuYUX8lPHchn8UnTYTWV96DPSZT1jZhJuB
+	 /PcB00x+G6GEUs6uBkt/wXayQ/qBg93ZCY/lH88yhCzSHH+x56WwygcSzoobhXsxgR
+	 iNBhIdozZpH1K4/tNEjbSj5AfzWYXYhlSzVwxTlsq6pEgOC7fVgW3eq0ApPmbii/df
+	 SwrW+TpR2ErPEVNLft+9c/+ag3fAxJS+QbYz+LHDQu378sPb8rooTdb+ABZfJBx3us
+	 XYIINZ3CB+h0A==
+Date: Fri, 10 May 2024 10:47:50 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, hch@lst.de, tglx@linutronix.de
+Subject: Re: [PATCH 1/2] genirq/affinity: remove rsvd check against minvec
+Message-ID: <Zj5PtvnSMoLPjg0o@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240510141459.3207725-1-kbusch@meta.com>
+ <Zj46KiMO5trL09RA@fedora>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zj46KiMO5trL09RA@fedora>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_093039_214461_874C20EF 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20240510_094754_747956_187C1B1E 
+X-CRM114-Status: GOOD (  19.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,70 +72,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If available, use Cancel command to abort the command that timed
-out instead of resetting the controller.
+On Fri, May 10, 2024 at 11:15:54PM +0800, Ming Lei wrote:
+> On Fri, May 10, 2024 at 07:14:58AM -0700, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > The reserved vectors are just the desired vectors that don't need to be
+> > managed.
+> > 
+> > Signed-off-by: Keith Busch <kbusch@kernel.org>
+> > ---
+> >  kernel/irq/affinity.c | 3 ---
+> >  1 file changed, 3 deletions(-)
+> > 
+> > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+> > index 44a4eba80315c..74b7cccb51a16 100644
+> > --- a/kernel/irq/affinity.c
+> > +++ b/kernel/irq/affinity.c
+> > @@ -113,9 +113,6 @@ unsigned int irq_calc_affinity_vectors(unsigned int minvec, unsigned int maxvec,
+> >  	unsigned int resv = affd->pre_vectors + affd->post_vectors;
+> >  	unsigned int set_vecs;
+> >  
+> > -	if (resv > minvec)
+> > -		return 0;
+> > -
+> 
+> This behavior is introduced in 6f9a22bc5775 ("PCI/MSI: Ignore affinity if pre/post
+> vector count is more than min_vecs"), which is one bug fix.
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/tcp.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 28bc2f373cfa..d7922fa9aabe 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -121,6 +121,7 @@ struct nvme_tcp_request {
- 	size_t			offset;
- 	size_t			data_sent;
- 	enum nvme_tcp_send_state state;
-+	bool			aborted;
- };
- 
- enum nvme_tcp_queue_flags {
-@@ -2442,6 +2443,8 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
- 	struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
- 	struct nvme_command *cmd = &pdu->cmd;
- 	int qid = nvme_tcp_queue_id(req->queue);
-+	int error;
-+	u32 effects;
- 
- 	dev_warn(ctrl->device,
- 		 "I/O tag %d (%04x) type %d opcode %#x (%s) QID %d timeout\n",
-@@ -2466,10 +2469,25 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
- 		return BLK_EH_DONE;
- 	}
- 
-+	if (!req->aborted) {
-+		effects = le32_to_cpu(ctrl->effects->iocs[nvme_cmd_cancel]);
-+
-+		if (!(effects & NVME_CMD_EFFECTS_CSUPP))
-+			goto err_recovery;
-+
-+		error = nvme_submit_cancel_req(ctrl, rq, qid);
-+		if (error)
-+			goto err_recovery;
-+
-+		req->aborted = true;
-+		return BLK_EH_RESET_TIMER;
-+	}
-+
- 	/*
- 	 * LIVE state should trigger the normal error recovery which will
- 	 * handle completing this request.
- 	 */
-+err_recovery:
- 	nvme_tcp_error_recovery(ctrl);
- 	return BLK_EH_RESET_TIMER;
- }
-@@ -2514,6 +2532,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	req->pdu_len = 0;
- 	req->pdu_sent = 0;
- 	req->h2cdata_left = 0;
-+	req->aborted = false;
- 	req->data_len = blk_rq_nr_phys_segments(rq) ?
- 				blk_rq_payload_bytes(rq) : 0;
- 	req->curr_bio = rq->bio;
--- 
-2.39.3
-
+Thanks for the pointer. Probably best I avoid messing with irq code just
+for this use case, so I can have the driver disable the PCI_IRQ_AFFINTY
+flag instead ... assuming hch doesn't "nak" it.  :)
 
