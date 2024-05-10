@@ -4,62 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6350DC25B10
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 16:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 212EAC25B5F
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 16:30:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QJ6sq9d+DeuvhE+UVNB7335OHS/0ytDL+dKCTdAYg8U=; b=CHFMlWjYNSSnxE4vLMO9xYtSEE
-	JqBSV7MmybqpQ4Ash8vGyUdNV6aNq61lKJUJQDNSAeKsZf6Vik5EFQW50K1nSRhBzbvcgq8GtuVui
-	KxoL0vHgOVrFgJ0PmGx0TjN3Wfd0hUJsXnLnIimBo+IVOBaBQTVZl12FDR/XFJkdhHky8QAC2CyYc
-	BbyQbr5QjmR6qsFX72rFMBd3kST3BcxJWKw/ylt71sLH5M/2KAL/2OKwgNIA3l7ifbLtoR2prOQ8B
-	nTjQ9FCHelCMSpkiAsPJVxAojkwrUAUYPLUHh5hl0vsCmkx61QdxskjDUk5zzXL7rXhOAOkmq9NdS
-	G4IRwnOQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=6kDYWX0th0RD1o9d0n3rqHmvv+XtVaaePGzPaB7aOhg=; b=xPIRTpQU1sF3PehX6Tj5Fyx1ev
+	npYx6Wt5mo3GqQttMN/cQSxOlAhyfcSGXq4tRxAn/x3JhwvXGP0VB43URSzAZlKjx0lfr2rbEjuzI
+	eR/bA7ASUZfYqUL860h10n/aXvvIPxmG3fdTBBd/ZJIZSIDed6v9VsJfWdW1ow3Fxy9DRUKPBTzUg
+	2Qi7yGPbpjKpmy2ValcUpS6fsECB1TRVW44vgc8M+CCsD/uDrJ2i3iQwwWMwZ+x6+PFcPg20DqX6k
+	0Q1EJTryQQfrCCiY3+oA/rqMxGSUamsbw5Iyshqx6fLovxJhZqBkbWF0LPOEFguImQbMZlVGm/e5Y
+	6P8NAisg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5Syh-00000005qOA-23Oj;
-	Fri, 10 May 2024 16:20:11 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s5T8s-00000005s2s-3SKr;
+	Fri, 10 May 2024 16:30:42 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5Sye-00000005qMt-1ubz
+	id 1s5T8o-00000005s0c-1M9e
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 May 2024 16:20:09 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 0AB89CE1E37;
-	Fri, 10 May 2024 16:20:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B721BC113CC;
-	Fri, 10 May 2024 16:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715358005;
-	bh=CF8Nf3rfqr2ncS/J0xp4oHnRS2E3OUw0FJDGJKNSq/0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LnNrBJye4r8wFkX4YaHhnzSf6Bj+yeERi0onolrcgAKGavgSIbw4SjvRooP+Gzpw2
-	 kd8BTX6RWWVo6C1cKeItxfFCxv7hXCfNbBOHxXhCJoYUftI1PtScLxHkaEGVGmqRLB
-	 c5fPQHLIK55ILI+j177+w+GYhYi+lz83hB1i8gRTVQtGLqtB1MoDjDdmWYLYtl9uod
-	 eSrZpLTWE/33O3xd5dusWN4o+GtwsFPu6UyULIz9RvPQp3ltTPxn5n8NLiC5F0/AO2
-	 1NEoqh1VnO+SubjSRRkSAfH8iX364gA9mhoDibbx6pZc+AUti2p3c6chKQ5XfzUxXF
-	 QUqlw+bE2Ul7g==
-Date: Fri, 10 May 2024 10:20:02 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, tglx@linutronix.de,
-	ming.lei@redhat.com
-Subject: Re: [PATCH 2/2] nvme-pci: allow unmanaged interrupts
-Message-ID: <Zj5JMqWRY187PqnD@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240510141459.3207725-1-kbusch@meta.com>
- <20240510141459.3207725-2-kbusch@meta.com>
- <20240510151047.GA10486@lst.de>
+	Fri, 10 May 2024 16:30:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1715358633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6kDYWX0th0RD1o9d0n3rqHmvv+XtVaaePGzPaB7aOhg=;
+	b=RyA59EwgLUI6vWhah9bYRnwt221YCmaOjZaNj4fsxajf5wSpQyllyLocvi73lZ8ubcu5/A
+	imZ6KleANH32D4FT9zl1OcNx2XEXYkqv25pQDpMJPhNPAK/7trGZXEfmRvn2WlCqnsSmDs
+	mcJ7CO/posOXNQHVo2D2CbVJcxVhPd0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-631-hFIRY4eSPlCC2r1ke1cg6w-1; Fri, 10 May 2024 12:30:29 -0400
+X-MC-Unique: hFIRY4eSPlCC2r1ke1cg6w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56AA880027F;
+	Fri, 10 May 2024 16:30:29 +0000 (UTC)
+Received: from kalibr.redhat.com (unknown [10.42.28.72])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 36F2C207CDF0;
+	Fri, 10 May 2024 16:30:27 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@meta.com
+Cc: hare@kernel.org,
+	sagi@grimberg.me,
+	emilne@redhat.com,
+	jmeneghi@redhat.com,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 0/5] Support for Cancel commands for host (TCP and RDMA)
+Date: Fri, 10 May 2024 18:30:21 +0200
+Message-Id: <20240510163026.786898-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240510151047.GA10486@lst.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_092008_692764_4FEC9BF9 
-X-CRM114-Status: GOOD (  12.98  )
+X-CRM114-CacheID: sfid-20240510_093038_468654_F387460E 
+X-CRM114-Status: GOOD (  13.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,21 +83,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 10, 2024 at 05:10:47PM +0200, Christoph Hellwig wrote:
-> On Fri, May 10, 2024 at 07:14:59AM -0700, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > 
-> > Some people _really_ want to control their interrupt affinity.
-> 
-> So let them argue why.  I'd rather have a really, really, really
-> good argument for this crap, and I'd like to hear it from the horses
-> mouth.
+The nvme host driver could take advantage of Cancel (defined by TP 4097a)
+to abort a command that timed out instead of resetting the controller.
 
-It's just prioritizing predictable user task scheduling for a subset of
-CPUs instead of having consistently better storage performance.
+The abort command's implementation is mandated by the specs but
+the target isn't really required to perform any meaningful work
+(as it happens, for example, with the Linux nvmet implementation, where the
+abort command does nothing at all).
+On the other hand, the Cancel command is optional, therefore if the target
+claims to support it, it's reasonable to expect its implementation to
+perform something useful.
 
-We already have "isolcpus=managed_irq," parameter to prevent managed
-interrupts from running on a subset of CPUs, so the use case is already
-kind of supported. The problem with that parameter is it is a no-op if
-the starting affinity spread contains only isolated CPUs.
+This patchset modifies the tcp and rdma host drivers' timeout
+handlers to check if the target supports the Cancel command; if yes,
+it will use it to try to abort the command that timed out.
+If Cancel isn't supported or if the abort operation fails,
+the host will perform a controller reset.
+
+Tests were carried out both against a modified nvmet driver
+(see PATCH 5) and against real hardware devices.
+
+example of output in dmesg:
+nvme nvme4: I/O tag 73 (4049) type 4 opcode 0x1 (Write) QID 8 timeout
+nvme nvme4: Cancel status: 0x0 imm abrts = 0 def abrts = 1
+
+
+John Meneghini (1):
+  nvme: add definitions for cancel command
+
+Maurizio Lombardi (4):
+  nvme-core: add a function to submit a cancel command
+  nvme-tcp: use the cancel command to perform an abort if target
+    supports it
+  nvme-rdma: use the cancel command to perform an abort if target
+    supports it
+  nvmet: target support for cancel commands
+
+ drivers/nvme/host/constants.c       |  1 +
+ drivers/nvme/host/core.c            | 55 ++++++++++++++++++++
+ drivers/nvme/host/nvme.h            |  2 +
+ drivers/nvme/host/rdma.c            | 28 ++++++++--
+ drivers/nvme/host/tcp.c             | 19 +++++++
+ drivers/nvme/target/Makefile        |  2 +-
+ drivers/nvme/target/admin-cmd.c     | 36 +++++++++++++
+ drivers/nvme/target/core.c          | 45 ++++++++++++++++
+ drivers/nvme/target/io-cmd-cancel.c | 81 +++++++++++++++++++++++++++++
+ drivers/nvme/target/io-cmd-file.c   | 19 +++++++
+ drivers/nvme/target/nvmet.h         | 10 ++++
+ include/linux/nvme.h                | 19 +++++++
+ 12 files changed, 312 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/nvme/target/io-cmd-cancel.c
+
+-- 
+2.39.3
+
 
