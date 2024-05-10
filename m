@@ -4,70 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81792C25B10
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 17:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A37AC25B75
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 May 2024 18:43:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=F97wz8C0TeguvWtBXp0VXOyA2SQ/hF60SKY4cOrjw4Y=; b=uKj9+D7m71UPTJ0duhADwhkF2R
-	+Acs7FT8DKe1DeXpGigViYf3gJC0Jum/g0DpSk+jbRdOQj6iSgXnVtp0Bk0QqkZbAlO8qOOmHepkx
-	+KipNKhTyho549ROOzguAhw6KlvJPNgkW9CLLNdpReNAByEhy8VNMETxtvlBd24K1Q99dSyJdAAn+
-	TU+41iDdmfPKQrIAOXjEcT2rmvhqOEG45qwyXfzcMhvagFR+/yP2ghfsqnqL1HD1PyqPYRIDbOQe2
-	9kW7l9xSZM2WKQsCOYs/Po8XgPCm+AIJ0X3sIjU+ZArpmbhbG0gnnTMzjpzKrju2GM2CV42FKpjvP
-	ivc2pBaQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+2PXq+bIzUymL2/4umrGV5LlclRd9rNx+xV5yojQvxw=; b=0dAcfcDxqme5Be802JRURJqL1z
+	NSVwMN9se0eC6DRqbmF2QIamfJoC8pmN3tZI/6d9aHpIHFNRGW7LNKhy9qregfBYFnrtNKhtX8YYK
+	yUmhgcx0nTjxCbOOovj1ly9gqP2RTFh4Gwqd4wM1iF/JCDHrM+SrMf+fI5tSBdeH7h1d/C4MUA2V3
+	ahrkDLR19Alqo1i5SD+vY97Hsnr1joNepflplOOulk4z67zOWsS5WjDeFcCc8YCeBZcWK/4OhKhdg
+	hWuXNTNWkwuIHUxL1knJNSrF4bnyByR4Apo+GcvSqCrLkCW9WTv34OCm43pJQ/GcQe9B1/tWWriqu
+	t4fVcEXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5UKq-000000063NK-2Ed1;
-	Fri, 10 May 2024 17:47:08 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1s5VDH-00000006Ad7-3USE;
+	Fri, 10 May 2024 18:43:23 +0000
+Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5UKm-000000063Mi-3Fup
+	id 1s5VDB-00000006AZz-2Cbd
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 May 2024 17:47:06 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44AHhbIi002086
-	for <linux-nvme@lists.infradead.org>; Fri, 10 May 2024 10:47:02 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=s2048-2021-q4;
- bh=F97wz8C0TeguvWtBXp0VXOyA2SQ/hF60SKY4cOrjw4Y=;
- b=TM53L/KI6IwzjQhHIak8ZE6XH9bYRZITHRnWdJfsrQHWs3bFygJwPYkdseTo4SMehHMx
- QTDjtRcOGGl8acm6qNzNDtsPNPA2e3UBXwIQnnCWvs+q/GCG2Qfp1cNnvAHLkR7NUwSk
- CgPKdL0ccYbvZrCod7wM7Nnnf6K5lYY5JPZU6xYb4VbryzEhFJoHDwZvorkX8iUPA1o7
- vPyY+fZDza0tRof4G/dtUs6FcxWXvg3Q6W2zPCKl4xA4EMhQupYtYoGQjUsPaX1gan3q
- WWV+0KD76pRR6OrtYL14YUgiKTaBn3a97Z5AxaCnybGX6Mrq4pLNR2c8Opq0DlZ7IVTP aw== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3y1mf89ky4-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 10 May 2024 10:47:02 -0700
-Received: from twshared7646.08.ash8.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a8:83::8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 10 May 2024 17:47:00 +0000
-Received: by devbig032.nao3.facebook.com (Postfix, from userid 544533)
-	id 26FBD264BB06; Fri, 10 May 2024 10:46:53 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <ming.lei@redhat.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2] nvme-pci: allow unmanaged interrupts
-Date: Fri, 10 May 2024 10:46:45 -0700
-Message-ID: <20240510174645.3987951-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.0
+	Fri, 10 May 2024 18:43:18 +0000
+Received: by mail-ua1-x929.google.com with SMTP id a1e0cc1a2514c-7f7809ae952so563133241.0
+        for <linux-nvme@lists.infradead.org>; Fri, 10 May 2024 11:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715366590; x=1715971390; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+2PXq+bIzUymL2/4umrGV5LlclRd9rNx+xV5yojQvxw=;
+        b=HiG526aPOVS0fWcX78R9XOPPf8Pth3XaMq4WkwUvuQhF6nsDRA3KArONtuyAm1u5lW
+         ajSyiTqJh8nQ1aM76zTHRkKgrV4m/T6vuyaCx9FeItIUHwMZvMZ5yusMcOnN0RgF3kku
+         O4dFmsNp6ZObZNKviJzksTlimw4UUwRftzwmBhn6+S/nRmd7TCsUehT0QO+gnz87c8zZ
+         4uyXlEP9kOWTbK2vZkU0aa3CwBXHuj7fzazHO0xSsKBJDj8qdjY9rdHXaD5HjjmRjVot
+         JJ/MimcgPq4eUuPvPScdhjP0lNYzKuv84ivWXkj69QqrLJby39PfVH+8L6cJg1KuYcYm
+         BkDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715366590; x=1715971390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+2PXq+bIzUymL2/4umrGV5LlclRd9rNx+xV5yojQvxw=;
+        b=pJ+OcQfeLgmZkiiR4tuTFgbVzUloxwJwDYxxOcaWl6S0EhjaZsaThG/pmpNbLr+l0h
+         qafCWNn/vlb5Bbk3DzGwMIXNVD1s9MhoExMw+gDWsbPhQSD87ND5BjiwU0fXIwIDyrbo
+         43HGvAAczux/tHr5larJJxc//GOTjp+xSFm2zkT3MnqaX3yRQDC49HTiEwQphRL2hA/q
+         p0Yhirlbr1WRENReZy9LEY9xveQ2hbk/ChqecIy9aqgkKtO3MmNDcrPWonkZDg+xted6
+         SIAZaHS3QSzHZvbycPsdGSTz8V9EO0tc5cRVUnHWc5gbq4ha/49jpr0u5DVQEw6gXOQS
+         GAuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ6XPLGjpZ4ckDBdaISjIGrkAHGroDgYPDmZB9Yfw9LmKL8QzOoWzP1j7MFsW9JhE0hEAbtODNJRg+W0c/7RrZkoGOQHQ84YSdr+V7wXA=
+X-Gm-Message-State: AOJu0YxRiWefcTgjGaYpbWbBNfk7NunqkbkhkGk4wnHWJzeFZhPG/NW7
+	q7vGHig26gatAcsYLlox6GzC3KLTycnkWlBLhnFJ4XISoKOmH5koHTwe/XlkLuYv7Efifq7wXvl
+	sv35T+oBlqQyp7/u11+j9WlH5Sg==
+X-Google-Smtp-Source: AGHT+IEwweXm3f+VrqqIlTVGCBZKVeLCLG0TLyc0fxrDlFxQj/tbsLoTuQ89oNhN2w4m0P2hOANktDi8/YyWUJaxLRc=
+X-Received: by 2002:a05:6122:3c47:b0:4c0:24e6:f49d with SMTP id
+ 71dfb90a1353d-4df8829dbacmr4045538e0c.1.1715366588674; Fri, 10 May 2024
+ 11:43:08 -0700 (PDT)
 MIME-Version: 1.0
+References: <CGME20240510095142epcas5p4fde65328020139931417f83ccedbce90@epcas5p4.samsung.com>
+ <20240510094429.2489-1-anuj20.g@samsung.com> <6936aab2-a8b1-42a8-a9e5-6df1e212df7f@kernel.dk>
+In-Reply-To: <6936aab2-a8b1-42a8-a9e5-6df1e212df7f@kernel.dk>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Sat, 11 May 2024 00:12:31 +0530
+Message-ID: <CACzX3AvhZHsT7qAcWNU5pHDraHpfoAyspH3NP0oAdqbrhZ1d-A@mail.gmail.com>
+Subject: Re: [PATCH] block: unmap and free user mapped integrity via submitter
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Anuj Gupta <anuj20.g@samsung.com>, hch@lst.de, kbusch@kernel.org, 
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+	martin.petersen@oracle.com, Kanchan Joshi <joshi.k@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: ittBTy2_KW0DUEwFksrGPMZQRKA2cREL
-X-Proofpoint-ORIG-GUID: ittBTy2_KW0DUEwFksrGPMZQRKA2cREL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-10_12,2024-05-10_02,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_104705_018398_7B08BD53 
-X-CRM114-Status: GOOD (  19.60  )
+X-CRM114-CacheID: sfid-20240510_114317_605390_62361768 
+X-CRM114-Status: GOOD (  15.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,83 +92,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Fri, May 10, 2024 at 7:15=E2=80=AFPM Jens Axboe <axboe@kernel.dk> wrote:
+>
+> On 5/10/24 3:44 AM, Anuj Gupta wrote:
+> > +/**
+> > + * bio_integrity_unmap_free_user - Unmap and free bio user integrity p=
+ayload
+> > + * @bio:     bio containing bip to be unmapped and freed
+> > + *
+> > + * Description: Used to unmap and free the user mapped integrity porti=
+on of a
+> > + * bio. Submitter attaching the user integrity buffer is responsible f=
+or
+> > + * unmapping and freeing it during completion.
+> > + */
+> > +void bio_integrity_unmap_free_user(struct bio *bio)
+> > +{
+> > +     struct bio_integrity_payload *bip =3D bio_integrity(bio);
+> > +     struct bio_set *bs =3D bio->bi_pool;
+> > +
+> > +     WARN_ON(!(bip->bip_flags & BIP_INTEGRITY_USER));
+> > +     bio_integrity_unmap_user(bip);
+> > +     __bio_integrity_free(bs, bip);
+> > +     bio->bi_integrity =3D NULL;
+> > +     bio->bi_opf &=3D ~REQ_INTEGRITY;
+> > +}
+> > +EXPORT_SYMBOL(bio_integrity_unmap_free_user);
+>
+> Should this be a
+>
+>         if (WARN_ON_ONCE(!(bip->bip_flags & BIP_INTEGRITY_USER)))
+>                 return;
+>
+> ?
 
-Some people _really_ want to control their interrupt affinity,
-preferring to sacrafice storage performance for scheduling
-predicatability on some other subset of CPUs.
+Right, I will fix this in the next version.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
-Sorry for the rapid fire v2, and I know some are still aginst this; I'm
-just getting v2 out because v1 breaks a different use case.
-
-And as far as acceptance goes, this doesn't look like it carries any
-longterm maintenance overhead. It's an opt-in feature, and you're own
-your own if you turn it on.
-
-v1->v2: skip the the AFFINITY vector allocation if the parameter is
-provided instead trying to make the vector code handle all post_vectors.
-
- drivers/nvme/host/pci.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8e0bb9692685d..def1a295284bb 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -63,6 +63,11 @@ MODULE_PARM_DESC(sgl_threshold,
- 		"Use SGLs when average request segment size is larger or equal to "
- 		"this size. Use 0 to disable SGLs.");
-=20
-+static bool managed_irqs =3D true;
-+module_param(managed_irqs, bool, 0444);
-+MODULE_PARM_DESC(managed_irqs,
-+		 "set to false for user controlled irq affinity");
-+
- #define NVME_PCI_MIN_QUEUE_SIZE 2
- #define NVME_PCI_MAX_QUEUE_SIZE 4095
- static int io_queue_depth_set(const char *val, const struct kernel_param=
- *kp);
-@@ -456,7 +461,7 @@ static void nvme_pci_map_queues(struct blk_mq_tag_set=
- *set)
- 		 * affinity), so use the regular blk-mq cpu mapping
- 		 */
- 		map->queue_offset =3D qoff;
--		if (i !=3D HCTX_TYPE_POLL && offset)
-+		if (managed_irqs && i !=3D HCTX_TYPE_POLL && offset)
- 			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
- 		else
- 			blk_mq_map_queues(map);
-@@ -2218,6 +2223,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, un=
-signed int nr_io_queues)
- 		.priv		=3D dev,
- 	};
- 	unsigned int irq_queues, poll_queues;
-+	int ret;
-=20
- 	/*
- 	 * Poll queues don't need interrupts, but we need at least one I/O queu=
-e
-@@ -2241,8 +2247,15 @@ static int nvme_setup_irqs(struct nvme_dev *dev, u=
-nsigned int nr_io_queues)
- 	irq_queues =3D 1;
- 	if (!(dev->ctrl.quirks & NVME_QUIRK_SINGLE_VECTOR))
- 		irq_queues +=3D (nr_io_queues - poll_queues);
--	return pci_alloc_irq_vectors_affinity(pdev, 1, irq_queues,
-+
-+	if (managed_irqs)
-+		return pci_alloc_irq_vectors_affinity(pdev, 1, irq_queues,
- 			      PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
-+
-+	ret =3D pci_alloc_irq_vectors(pdev, 1, irq_queues, PCI_IRQ_ALL_TYPES);
-+	if (ret > 0)
-+		nvme_calc_irq_sets(&affd, ret - 1);
-+	return ret;
- }
-=20
- static unsigned int nvme_max_io_queues(struct nvme_dev *dev)
---=20
-2.43.0
-
+>
+> --
+> Jens Axboe
+>
+--
+Anuj Gupta
 
