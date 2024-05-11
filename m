@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BF9BC04FFE
-	for <linux-nvme@archiver.kernel.org>; Sat, 11 May 2024 05:08:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A2B7C04FFE
+	for <linux-nvme@archiver.kernel.org>; Sat, 11 May 2024 07:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JkZuWGlRfHym36UO4w5Bcd2IQ3gualG2h4aQGRAyf3Q=; b=bFw2EpWkrmJAFOVL1LTuoaloVa
-	iGmRjU8OLPZVwloHvJSqhZaO31qvgmWJouxSsYms3GOxFZGccRbhsSA4HHyCMZPmcV9VEyb3iSjm/
-	vy8YqSIaDe5A6Bd/z6qwPfBvSfybo6HWx4qwPt9uKiJvP56ls61DD2G3V/He8cDa7yDmmhgpKkFEY
-	yCvHP9OMQTYoCAsi5X88s8B9l/BfzoFFMRyAYN6MKRjpaOMUPlDaGpezrzWHSUIMK4zqsB0/x/336
-	1YHVXMOTYjFHp50lz5iHl3J/tqPuwNh4sv/0jQ2FSHBj/fdF/U4r+7+KghJHzJUddOSWHeGWjQqUD
-	jvfYNS8g==;
+	bh=qfuThGDGl3pzEhutRq/A5avTd8fO4jRVxYCeL2hGLTI=; b=C+3+/WihJuDaCtOx5yAVdS+wR2
+	e9WGP3VrQdKn6tpT+RRymYS36idcRZr407xEr+H+WtHF6IFq3kcgRqUVscvCcJ8S1XfCFDStfnkXm
+	F9KLSwcrBCp1/19mFfraUs6PFekvyI3lftzMc9Ui6Wm7EDncVo+RH81kWKUe0g53UjUHGuP0aCO03
+	ezqnGz51IpH3bUo7/xMaovReyYxAthgU8Kn+Rcigq/mUzLwmGW1j38+KbYOxof2sbtJyBpQ6DCiiJ
+	XvGW46t75tI/MgdhDGDVuzw4OnWqWKGCBf9A7+ZPJmOSBgKLKxH9puJgsqtFabWZOP+AK6BwM/DEA
+	ZLeD8vyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5exi-00000007IGW-07TU;
-	Sat, 11 May 2024 05:07:58 +0000
-Received: from mgamail.intel.com ([192.198.163.10])
+	id 1s5gmw-00000007Qtl-0rLO;
+	Sat, 11 May 2024 07:04:58 +0000
+Received: from mgamail.intel.com ([192.198.163.8])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5exe-00000007IDZ-0bF2
+	id 1s5gmt-00000007Qsv-0P0R
 	for linux-nvme@lists.infradead.org;
-	Sat, 11 May 2024 05:07:55 +0000
+	Sat, 11 May 2024 07:04:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715404074; x=1746940074;
+  t=1715411095; x=1746947095;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AhuGySNFVnhWhalL8yrD18z/SpIq1B3xcXvrRhoNlFY=;
-  b=WOzWnGFBHB++ht2EElDnr8i6AxYXHTpv0xCZ5xqrCHWQEKTjdTGwg0qI
-   nbjvh5WYSc79ubyplKYczp5AoAJzQHMd/m2BigM5LV65/TNa8WH+Lbvbm
-   W5ZAiD9mocqAeaSO6uYXsuhsWDPbRg4sJRv6NjxAXfEtEGvYiEX+2vFte
-   ezZA5wvaQwzNEqav3BHPd1hV6lGu6aoxOASdBugbccOLI9tT4qmzr2Ey4
-   WABPN6VPAkKEtOIv4fXII2dolUZrAf3GKekpjNWdIMURnMUAX25ESU9Ep
-   kjlCWFcHYea7ai4/Iqt2BE5HWAoXWSnNqE/v/LsVw5QFVVilbTi6w8kuO
-   w==;
-X-CSE-ConnectionGUID: qI/hcFKCTcSibPEOZAGU0A==
-X-CSE-MsgGUID: 9/IC23+CROuJDF0wmn7Veg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="22804988"
+  bh=Yiz0h+TJ4V6Llm1CfE0BJLB5v4VhySio+M1awKypBAA=;
+  b=VlfG+pyzz7JJXNCKbTUS3Ef7Q+/tZbfKWflY0xeh+WN7eS0SwcM/7Kv7
+   YYoAsutENN4GeOaad4EQQxEJoN6XA5rdeXu7fchxz5R9nCC2ImiG3PMi7
+   XEZ2vTrfNIw5EzigiVW8E/2whMl2dC+7hK/8IEtAdrU0iUxvkK0KJgfFf
+   0PAJKC475fuoH4DKx0NO3EOu8I8UZatTEH5stywK5/rtM5I7GdhhbHoKD
+   Pr2CKu/F/6QJNVIqazfIb4cbYc9D6WrVuiQzUtBu2o2vWuWBZthkFzTCr
+   a5Cilet8vZvUDfxFuvph1plerStwSUp7p+J0beYa/03/0NjIztyvmQMJf
+   Q==;
+X-CSE-ConnectionGUID: el8EETzfTu6L6WjFPxfd0A==
+X-CSE-MsgGUID: N3N1bBuJQS+GQpJIMcU+Ww==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="28925812"
 X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="22804988"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 22:07:50 -0700
-X-CSE-ConnectionGUID: X0NDfPKSRN6tw7QcZhAsog==
-X-CSE-MsgGUID: T6Ukoa2yQKGF6t5NFw+a6A==
+   d="scan'208";a="28925812"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 00:04:54 -0700
+X-CSE-ConnectionGUID: yOylc/n3QNSnm1GO/I4eZg==
+X-CSE-MsgGUID: pnGRZh0IQk6cjN4ddyq4KQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="29835654"
+   d="scan'208";a="29958479"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 May 2024 22:07:48 -0700
+  by orviesa009.jf.intel.com with ESMTP; 11 May 2024 00:04:52 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5exV-0006xb-0T;
-	Sat, 11 May 2024 05:07:45 +0000
-Date: Sat, 11 May 2024 13:07:08 +0800
+	id 1s5gmn-00073X-0n;
+	Sat, 11 May 2024 07:04:49 +0000
+Date: Sat, 11 May 2024 15:04:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: hare@kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Matthew Wilcox <willy@infradead.org>,
 	Pankaj Raghav <kernel@pankajraghav.com>,
@@ -70,15 +70,15 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
 Subject: Re: [PATCH 4/5] block/bdev: enable large folio support for large
  logical block sizes
-Message-ID: <202405111234.wXN5f0fB-lkp@intel.com>
+Message-ID: <202405111438.WaVytRae-lkp@intel.com>
 References: <20240510102906.51844-5-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20240510102906.51844-5-hare@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_220754_208196_0AB5C6E9 
-X-CRM114-Status: GOOD (  11.74  )
+X-CRM114-CacheID: sfid-20240511_000455_175292_9865F4CF 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,22 +108,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/hare-kernel-org/fs-mpage-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
 patch link:    https://lore.kernel.org/r/20240510102906.51844-5-hare%40kernel.org
 patch subject: [PATCH 4/5] block/bdev: enable large folio support for large logical block sizes
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240511/202405111234.wXN5f0fB-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111234.wXN5f0fB-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240511/202405111438.WaVytRae-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111438.WaVytRae-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405111234.wXN5f0fB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405111438.WaVytRae-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   block/bdev.c: In function 'set_init_blocksize':
->> block/bdev.c:145:9: error: implicit declaration of function 'mapping_set_folio_min_order' [-Werror=implicit-function-declaration]
+>> block/bdev.c:145:2: error: call to undeclared function 'mapping_set_folio_min_order'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      145 |         mapping_set_folio_min_order(bdev->bd_inode->i_mapping,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+         |         ^
+   block/bdev.c:163:3: error: call to undeclared function 'mapping_set_folio_min_order'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     163 |                 mapping_set_folio_min_order(bdev->bd_inode->i_mapping,
+         |                 ^
+   2 errors generated.
 
 
 vim +/mapping_set_folio_min_order +145 block/bdev.c
