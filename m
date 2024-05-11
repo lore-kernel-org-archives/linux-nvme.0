@@ -4,72 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B096DC25B10
-	for <linux-nvme@archiver.kernel.org>; Sat, 11 May 2024 00:45:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F15A7C25B10
+	for <linux-nvme@archiver.kernel.org>; Sat, 11 May 2024 00:59:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DUsYOvhdWWM9ZVtT1kCTyY15sOEM0ZUX3VDbW/nl+4o=; b=fkp6pSYymAuawi6lk4rghQ9yZl
-	JK+JDISJUZozygPVxxrrbn0fJEusZG7viZ0zqL+wXrQg4KwoEzOyXh6LaLGJjX3vKcRlL3GYC44ks
-	FCvm1RmcplTiiDAe9etJONz2WNInHRxB+WNyYDH5O/BdAJFhskdzUQgyca81Sa5BqwHECrY9drtXa
-	+zCrLx2Gb8uSppdF/rm0ML01MB6SkSfXP5qTm9nXrFH4W49flB01cnZTqj6fkIS0Mdl2whvwYLpo2
-	9MVoeiM0J5rx60SCuWXEVetsGjGpLRPKDupSDClj+PKLRtT0U835ZuOi3ZLpdyd4lk9RWwsIktkpk
-	RxukYFVA==;
+	bh=lP4kjDNJl8Z5kVFnY+PpwH5yXWS5Ek6nqlqRnF2wXwM=; b=MnJcW1TdFMgT6nfLCDXhuoOoHV
+	MNOYnvr6VIkK0lTkPbPlHMcPHeGhRJfoDBtA60FhWlKleUvEjbb6U+gU38ZvAOS5JZDDeU4EXAtoB
+	SvYQjSm4ENdXQUpQaCOERbmPD1NSKgGGXLpWojjEMPQtlxXfvYrWI6zrmVoTSnkbn3t5NiigUwxRB
+	IE5MIKnW6uJSOqp47IwJuv1idgotgLE2g7Re0XwnwPYZaWLp9IvxGaj0BMXXDD0OJ/iiPT9cILqXF
+	eDKeY4IKgYgYlmIdzn5UjyyCRw5g2Vz7rctSZjySxtVa2VPHIkp8M5TZXcYLbwfZWksZoO3h3fyrm
+	sFl3tOCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5arI-00000006vEE-0tRL;
-	Sat, 11 May 2024 00:45:04 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1s5b5V-00000006xPb-3ImU;
+	Sat, 11 May 2024 00:59:45 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5arF-00000006vDQ-1mJk
+	id 1s5b5T-00000006xOg-1QkF
 	for linux-nvme@lists.infradead.org;
-	Sat, 11 May 2024 00:45:02 +0000
+	Sat, 11 May 2024 00:59:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715388300;
+	s=mimecast20190719; t=1715389180;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DUsYOvhdWWM9ZVtT1kCTyY15sOEM0ZUX3VDbW/nl+4o=;
-	b=Q7y9eZiYJhbnKJt/S5Al8qBMwnmkmYGaKhJR8O0C7tOoSSS8zhPqHZGP/F5rZOSMq1STTM
-	qZ4hBVtLO1tyCKVjrS7iqP1qpmTUB7CSbTeUNwrEJQG4UlBIJPINQBD7yayZh1xvHjWmcK
-	5vs1XvRfRzGx5nuz8fXpq/bPufH+fhY=
+	bh=lP4kjDNJl8Z5kVFnY+PpwH5yXWS5Ek6nqlqRnF2wXwM=;
+	b=aJZDVGsV3UUFsg+JaW97BNZhXzW00Kh53M6ZURX/alFurURCis3VnfB+ijpS2B+Q+1txAh
+	n8newg04yrF22egQ3pkMVOgPloCd9upcvK9bTOlOCS9puYzNSKFQpvnMHx8DxH8M99FiAS
+	TKT/r5C/LsB9/If9vY6KqbWcdlI+pyc=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-244-_BAlvk6-MVG-4UMYE2pyuA-1; Fri,
- 10 May 2024 20:44:58 -0400
-X-MC-Unique: _BAlvk6-MVG-4UMYE2pyuA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-325-Ej9y5OyQOUO58lzfQejPXA-1; Fri,
+ 10 May 2024 20:59:25 -0400
+X-MC-Unique: Ej9y5OyQOUO58lzfQejPXA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDEC029AA3B3;
-	Sat, 11 May 2024 00:44:57 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FE8A3C02521;
+	Sat, 11 May 2024 00:59:25 +0000 (UTC)
 Received: from fedora (unknown [10.72.116.30])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A2DDF2087D79;
-	Sat, 11 May 2024 00:44:54 +0000 (UTC)
-Date: Sat, 11 May 2024 08:44:50 +0800
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B647C2011804;
+	Sat, 11 May 2024 00:59:21 +0000 (UTC)
+Date: Sat, 11 May 2024 08:59:17 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, ming.lei@redhat.com
-Subject: Re: [PATCHv2] nvme-pci: allow unmanaged interrupts
-Message-ID: <Zj6/gqxxDD74IYR6@fedora>
-References: <20240510174645.3987951-1-kbusch@meta.com>
- <Zj6yDtRzl68zspQY@fedora>
- <Zj6745UDnwX1BteO@kbusch-mbp.dhcp.thefacebook.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	tglx@linutronix.de
+Subject: Re: [PATCH 2/2] nvme-pci: allow unmanaged interrupts
+Message-ID: <Zj7C5fPCAdGwGsrI@fedora>
+References: <20240510141459.3207725-1-kbusch@meta.com>
+ <20240510141459.3207725-2-kbusch@meta.com>
+ <20240510151047.GA10486@lst.de>
+ <Zj5JMqWRY187PqnD@kbusch-mbp.dhcp.thefacebook.com>
+ <Zj6yvTxIpUnOXl7R@fedora>
+ <Zj6-1sXvUNZWO1pB@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-In-Reply-To: <Zj6745UDnwX1BteO@kbusch-mbp.dhcp.thefacebook.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Zj6-1sXvUNZWO1pB@kbusch-mbp.dhcp.thefacebook.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_174501_561975_4EA9F2CA 
-X-CRM114-Status: GOOD (  20.86  )
+X-CRM114-CacheID: sfid-20240510_175943_481940_F833D3A1 
+X-CRM114-Status: GOOD (  26.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,52 +86,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 10, 2024 at 06:29:23PM -0600, Keith Busch wrote:
-> On Sat, May 11, 2024 at 07:47:26AM +0800, Ming Lei wrote:
-> > On Fri, May 10, 2024 at 10:46:45AM -0700, Keith Busch wrote:
-> > >  		map->queue_offset = qoff;
-> > > -		if (i != HCTX_TYPE_POLL && offset)
-> > > +		if (managed_irqs && i != HCTX_TYPE_POLL && offset)
-> > >  			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
-> > >  		else
-> > >  			blk_mq_map_queues(map);
+On Fri, May 10, 2024 at 06:41:58PM -0600, Keith Busch wrote:
+> On Sat, May 11, 2024 at 07:50:21AM +0800, Ming Lei wrote:
+> > On Fri, May 10, 2024 at 10:20:02AM -0600, Keith Busch wrote:
+> > > On Fri, May 10, 2024 at 05:10:47PM +0200, Christoph Hellwig wrote:
+> > > > On Fri, May 10, 2024 at 07:14:59AM -0700, Keith Busch wrote:
+> > > > > From: Keith Busch <kbusch@kernel.org>
+> > > > > 
+> > > > > Some people _really_ want to control their interrupt affinity.
+> > > > 
+> > > > So let them argue why.  I'd rather have a really, really, really
+> > > > good argument for this crap, and I'd like to hear it from the horses
+> > > > mouth.
+> > > 
+> > > It's just prioritizing predictable user task scheduling for a subset of
+> > > CPUs instead of having consistently better storage performance.
+> > > 
+> > > We already have "isolcpus=managed_irq," parameter to prevent managed
+> > > interrupts from running on a subset of CPUs, so the use case is already
+> > > kind of supported. The problem with that parameter is it is a no-op if
+> > > the starting affinity spread contains only isolated CPUs.
 > > 
-> > Now the queue mapping is built with nothing from irq affinity which is
-> > setup from userspace, and performance could be pretty bad.
+> > Can you explain a bit why it is a no-op? If only isolated CPUs are
+> > spread on one queue, there will be no IO originated from these isolated
+> > CPUs, that is exactly what the isolation needs.
 > 
-> This just decouples the sw from the irq mappings. Every cpu still has a
-> blk-mq hctx, there's just no connection to the completing CPU if you
-> enable this.
+> The "isolcpus=managed_irq," option doesn't limit the dispatching CPUs.
 
-I don't object to unmanaged irq, which is actually supported in some scsi
-hosts too, but all or most of them still wire pci irq vector affinities with
-hw queue, instead of using mapping from blk_mq_map_queues() simply. 
+Please see commit a46c27026da1 ("blk-mq: don't schedule block kworker on isolated CPUs")
+in for-6.10/block.
+
+> It only limits where the managed irq will assign the effective_cpus as a
+> best effort.
+
+Most of times it does work.
 
 > 
-> Everyone expects nvme performance will suffer. IO latency and CPU
-> efficieny are not everyone's top priority, so allowing people to
-> optimize for something else seems like a reasonable request.
-
-I guess more people may be interested in 'something else', care to share
-them in the commit log, cause nvme is going to support it.
-
->  
-> > Is there any benefit to use unmanaged irq in this way?
+> Example, I boot with a system with 4 threads, one nvme device, and
+> kernel parameter:
 > 
-> The immediate desire is more predictable scheduling on a subset of CPUs
-> by steering hardware interrupts somewhere else. It's the same reason
-> RDMA undid managed interrupts.
+>   isolcpus=managed_irq,2-3
 > 
->   231243c82793428 ("Revert "mlx5: move affinity hints assignments to generic code")
+> Run this:
+> 
+>   for i in $(seq 0 3); do taskset -c $i dd if=/dev/nvme0n1 of=/dev/null bs=4k count=1000 iflag=direct; done
 
-The above commit only mentions it becomes not flexible since user can't
-adjust irq affinity any more.
-
-It is understandable for network, there is long history people need to adjust
-irq affinity from user space.
+It is one test problem, when you try to isolate '2-3', it isn't expected
+to submit IO or run application on these isolated CPUs.
 
 
-Thanks,
+Thanks, 
 Ming
 
 
