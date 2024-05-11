@@ -4,74 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F15A7C25B10
-	for <linux-nvme@archiver.kernel.org>; Sat, 11 May 2024 00:59:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BF9BC04FFE
+	for <linux-nvme@archiver.kernel.org>; Sat, 11 May 2024 05:08:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lP4kjDNJl8Z5kVFnY+PpwH5yXWS5Ek6nqlqRnF2wXwM=; b=MnJcW1TdFMgT6nfLCDXhuoOoHV
-	MNOYnvr6VIkK0lTkPbPlHMcPHeGhRJfoDBtA60FhWlKleUvEjbb6U+gU38ZvAOS5JZDDeU4EXAtoB
-	SvYQjSm4ENdXQUpQaCOERbmPD1NSKgGGXLpWojjEMPQtlxXfvYrWI6zrmVoTSnkbn3t5NiigUwxRB
-	IE5MIKnW6uJSOqp47IwJuv1idgotgLE2g7Re0XwnwPYZaWLp9IvxGaj0BMXXDD0OJ/iiPT9cILqXF
-	eDKeY4IKgYgYlmIdzn5UjyyCRw5g2Vz7rctSZjySxtVa2VPHIkp8M5TZXcYLbwfZWksZoO3h3fyrm
-	sFl3tOCA==;
+	bh=JkZuWGlRfHym36UO4w5Bcd2IQ3gualG2h4aQGRAyf3Q=; b=bFw2EpWkrmJAFOVL1LTuoaloVa
+	iGmRjU8OLPZVwloHvJSqhZaO31qvgmWJouxSsYms3GOxFZGccRbhsSA4HHyCMZPmcV9VEyb3iSjm/
+	vy8YqSIaDe5A6Bd/z6qwPfBvSfybo6HWx4qwPt9uKiJvP56ls61DD2G3V/He8cDa7yDmmhgpKkFEY
+	yCvHP9OMQTYoCAsi5X88s8B9l/BfzoFFMRyAYN6MKRjpaOMUPlDaGpezrzWHSUIMK4zqsB0/x/336
+	1YHVXMOTYjFHp50lz5iHl3J/tqPuwNh4sv/0jQ2FSHBj/fdF/U4r+7+KghJHzJUddOSWHeGWjQqUD
+	jvfYNS8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5b5V-00000006xPb-3ImU;
-	Sat, 11 May 2024 00:59:45 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1s5exi-00000007IGW-07TU;
+	Sat, 11 May 2024 05:07:58 +0000
+Received: from mgamail.intel.com ([192.198.163.10])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5b5T-00000006xOg-1QkF
+	id 1s5exe-00000007IDZ-0bF2
 	for linux-nvme@lists.infradead.org;
-	Sat, 11 May 2024 00:59:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715389180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lP4kjDNJl8Z5kVFnY+PpwH5yXWS5Ek6nqlqRnF2wXwM=;
-	b=aJZDVGsV3UUFsg+JaW97BNZhXzW00Kh53M6ZURX/alFurURCis3VnfB+ijpS2B+Q+1txAh
-	n8newg04yrF22egQ3pkMVOgPloCd9upcvK9bTOlOCS9puYzNSKFQpvnMHx8DxH8M99FiAS
-	TKT/r5C/LsB9/If9vY6KqbWcdlI+pyc=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-325-Ej9y5OyQOUO58lzfQejPXA-1; Fri,
- 10 May 2024 20:59:25 -0400
-X-MC-Unique: Ej9y5OyQOUO58lzfQejPXA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FE8A3C02521;
-	Sat, 11 May 2024 00:59:25 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.30])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B647C2011804;
-	Sat, 11 May 2024 00:59:21 +0000 (UTC)
-Date: Sat, 11 May 2024 08:59:17 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	tglx@linutronix.de
-Subject: Re: [PATCH 2/2] nvme-pci: allow unmanaged interrupts
-Message-ID: <Zj7C5fPCAdGwGsrI@fedora>
-References: <20240510141459.3207725-1-kbusch@meta.com>
- <20240510141459.3207725-2-kbusch@meta.com>
- <20240510151047.GA10486@lst.de>
- <Zj5JMqWRY187PqnD@kbusch-mbp.dhcp.thefacebook.com>
- <Zj6yvTxIpUnOXl7R@fedora>
- <Zj6-1sXvUNZWO1pB@kbusch-mbp.dhcp.thefacebook.com>
+	Sat, 11 May 2024 05:07:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715404074; x=1746940074;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AhuGySNFVnhWhalL8yrD18z/SpIq1B3xcXvrRhoNlFY=;
+  b=WOzWnGFBHB++ht2EElDnr8i6AxYXHTpv0xCZ5xqrCHWQEKTjdTGwg0qI
+   nbjvh5WYSc79ubyplKYczp5AoAJzQHMd/m2BigM5LV65/TNa8WH+Lbvbm
+   W5ZAiD9mocqAeaSO6uYXsuhsWDPbRg4sJRv6NjxAXfEtEGvYiEX+2vFte
+   ezZA5wvaQwzNEqav3BHPd1hV6lGu6aoxOASdBugbccOLI9tT4qmzr2Ey4
+   WABPN6VPAkKEtOIv4fXII2dolUZrAf3GKekpjNWdIMURnMUAX25ESU9Ep
+   kjlCWFcHYea7ai4/Iqt2BE5HWAoXWSnNqE/v/LsVw5QFVVilbTi6w8kuO
+   w==;
+X-CSE-ConnectionGUID: qI/hcFKCTcSibPEOZAGU0A==
+X-CSE-MsgGUID: 9/IC23+CROuJDF0wmn7Veg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="22804988"
+X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
+   d="scan'208";a="22804988"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 22:07:50 -0700
+X-CSE-ConnectionGUID: X0NDfPKSRN6tw7QcZhAsog==
+X-CSE-MsgGUID: T6Ukoa2yQKGF6t5NFw+a6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
+   d="scan'208";a="29835654"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 10 May 2024 22:07:48 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s5exV-0006xb-0T;
+	Sat, 11 May 2024 05:07:45 +0000
+Date: Sat, 11 May 2024 13:07:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: hare@kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pankaj Raghav <kernel@pankajraghav.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 4/5] block/bdev: enable large folio support for large
+ logical block sizes
+Message-ID: <202405111234.wXN5f0fB-lkp@intel.com>
+References: <20240510102906.51844-5-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zj6-1sXvUNZWO1pB@kbusch-mbp.dhcp.thefacebook.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+In-Reply-To: <20240510102906.51844-5-hare@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240510_175943_481940_F833D3A1 
-X-CRM114-Status: GOOD (  26.89  )
+X-CRM114-CacheID: sfid-20240510_220754_208196_0AB5C6E9 
+X-CRM114-Status: GOOD (  11.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,56 +93,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 10, 2024 at 06:41:58PM -0600, Keith Busch wrote:
-> On Sat, May 11, 2024 at 07:50:21AM +0800, Ming Lei wrote:
-> > On Fri, May 10, 2024 at 10:20:02AM -0600, Keith Busch wrote:
-> > > On Fri, May 10, 2024 at 05:10:47PM +0200, Christoph Hellwig wrote:
-> > > > On Fri, May 10, 2024 at 07:14:59AM -0700, Keith Busch wrote:
-> > > > > From: Keith Busch <kbusch@kernel.org>
-> > > > > 
-> > > > > Some people _really_ want to control their interrupt affinity.
-> > > > 
-> > > > So let them argue why.  I'd rather have a really, really, really
-> > > > good argument for this crap, and I'd like to hear it from the horses
-> > > > mouth.
-> > > 
-> > > It's just prioritizing predictable user task scheduling for a subset of
-> > > CPUs instead of having consistently better storage performance.
-> > > 
-> > > We already have "isolcpus=managed_irq," parameter to prevent managed
-> > > interrupts from running on a subset of CPUs, so the use case is already
-> > > kind of supported. The problem with that parameter is it is a no-op if
-> > > the starting affinity spread contains only isolated CPUs.
-> > 
-> > Can you explain a bit why it is a no-op? If only isolated CPUs are
-> > spread on one queue, there will be no IO originated from these isolated
-> > CPUs, that is exactly what the isolation needs.
-> 
-> The "isolcpus=managed_irq," option doesn't limit the dispatching CPUs.
+Hi,
 
-Please see commit a46c27026da1 ("blk-mq: don't schedule block kworker on isolated CPUs")
-in for-6.10/block.
+kernel test robot noticed the following build errors:
 
-> It only limits where the managed irq will assign the effective_cpus as a
-> best effort.
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.9-rc7]
+[cannot apply to next-20240510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Most of times it does work.
+url:    https://github.com/intel-lab-lkp/linux/commits/hare-kernel-org/fs-mpage-use-blocks_per_folio-instead-of-blocks_per_page/20240510-183146
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20240510102906.51844-5-hare%40kernel.org
+patch subject: [PATCH 4/5] block/bdev: enable large folio support for large logical block sizes
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20240511/202405111234.wXN5f0fB-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111234.wXN5f0fB-lkp@intel.com/reproduce)
 
-> 
-> Example, I boot with a system with 4 threads, one nvme device, and
-> kernel parameter:
-> 
->   isolcpus=managed_irq,2-3
-> 
-> Run this:
-> 
->   for i in $(seq 0 3); do taskset -c $i dd if=/dev/nvme0n1 of=/dev/null bs=4k count=1000 iflag=direct; done
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405111234.wXN5f0fB-lkp@intel.com/
 
-It is one test problem, when you try to isolate '2-3', it isn't expected
-to submit IO or run application on these isolated CPUs.
+All errors (new ones prefixed by >>):
+
+   block/bdev.c: In function 'set_init_blocksize':
+>> block/bdev.c:145:9: error: implicit declaration of function 'mapping_set_folio_min_order' [-Werror=implicit-function-declaration]
+     145 |         mapping_set_folio_min_order(bdev->bd_inode->i_mapping,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-Thanks, 
-Ming
+vim +/mapping_set_folio_min_order +145 block/bdev.c
 
+   133	
+   134	static void set_init_blocksize(struct block_device *bdev)
+   135	{
+   136		unsigned int bsize = bdev_logical_block_size(bdev);
+   137		loff_t size = i_size_read(bdev->bd_inode);
+   138	
+   139		while (bsize < PAGE_SIZE) {
+   140			if (size & bsize)
+   141				break;
+   142			bsize <<= 1;
+   143		}
+   144		bdev->bd_inode->i_blkbits = blksize_bits(bsize);
+ > 145		mapping_set_folio_min_order(bdev->bd_inode->i_mapping,
+   146					    get_order(bsize));
+   147	}
+   148	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
