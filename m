@@ -4,47 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8035CC10F1A
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 May 2024 09:16:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70ABDC10F1A
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 May 2024 14:06:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JUtrR+ezbkUJo5YeGiMRdC7hm5fLmDEeb4SdGYjk/co=; b=lhS9+Yug8usP15nP+78W8TWfCU
-	jO7y9NcNxIT31gbw4W4F3gWpjX/l1KAe0o9ku+LfFft86dpQdzSbSG3bpnnwJQm7r89zqbZVBn7IK
-	4lf1hErsL7oFqiyXneEMtGraTzOe4NISBRJT50F5kYSg7F3d45G6aedxrr8fdsFLC8Ntx/1KhZZat
-	w/08CJ2yVlFhzgrOxfA3KioFedKShJ0XVoAjN4CGvzSKwqLRzmUNag/U1+13YQLHbSmO1OcsoOJjY
-	RaXG/zeNE3dl0CT6LZt+pA71TNa0h/P8b6+YkCzpa+6b/sdQ2+JJ59ZoDJPAC2ilvBZlhxWdqXexN
-	Oi5oe6sg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IOnqh7KNk/j+IDvG4j4HfUg2mkOq0KY3czqD2N8im3g=; b=KHdOPnPM78UxgL3zKkXu+vtsrV
+	bQ8PRU0KgJjel95ARezuf/IGND3Y9D7iWfempVl6OaSFggrmoqI5wc5gpbuFBXjn5TSyJ9zce1p1r
+	oZQGVO7g/dUKjhun9EjRQPYPLMK7uiJ5/a9tQqvuCYISkeYZGJw9FK/gu9nDdgqnSa37kSPlsosRi
+	F6uqqGqCzCb5RIoYWpMGY0JaJ1seTBSkma3lft5zy/25jM/L/LkU74kjbS/T16wipgSU056Evl/oF
+	7sNZzlurnWusrlV4Iqw2nEzgNsWypUSglNbQBIqJgbzKqpCiHwoBomPpqxmPWmCOAcZKGx0DB4Yho
+	JDzvKkbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s65K7-00000009dwc-3eGy;
-	Sun, 12 May 2024 09:16:51 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s65K3-00000009dwL-2WyW;
-	Sun, 12 May 2024 09:16:47 +0000
-Date: Sun, 12 May 2024 02:16:47 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Cc: hare@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	Pankaj Raghav <kernel@pankajraghav.com>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH 5/5] nvme: enable logical block size > PAGE_SIZE
-Message-ID: <ZkCI_21z_h1ez4sN@bombadil.infradead.org>
-References: <20240510102906.51844-1-hare@kernel.org>
- <20240510102906.51844-6-hare@kernel.org>
- <Zj_6vDMwyb2O6ztI@bombadil.infradead.org>
- <Zj__oIGiY8xzrwnb@casper.infradead.org>
- <ZkAEhFLVD9gSk0y0@bombadil.infradead.org>
- <ZkAszpvBkb5_UUiH@bombadil.infradead.org>
+	id 1s69qF-0000000A3q6-3GjA;
+	Sun, 12 May 2024 14:06:19 +0000
+Received: from mail-lf1-f53.google.com ([209.85.167.53])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s69qC-0000000A3pL-2qA0
+	for linux-nvme@lists.infradead.org;
+	Sun, 12 May 2024 14:06:18 +0000
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5221e161fa4so512115e87.3
+        for <linux-nvme@lists.infradead.org>; Sun, 12 May 2024 07:06:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715522773; x=1716127573;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IOnqh7KNk/j+IDvG4j4HfUg2mkOq0KY3czqD2N8im3g=;
+        b=YV3mxO/8+akHZHZc9sRKJ2dSgNE6Xaa+RbAsmjNEHfiyy4wlIhA75JhqBgbLzO8XTr
+         YOj6suii5Zm20ZUf65wtapFwE9QMaaMSgFjBIgGK1P56vAw+X3yPQLd0439k9LbyJYnG
+         BTDnG1Gv+WHVYscrTh3J3YKc73DTnp5/fTETU+Y4l9fgppujXrfkX1rD+79HuZKNNHYu
+         feccNwA+V4PSUAranAVmS1HUzZ9PwmbGAjLAh4wIIkntuf5tMYGcM39UsObtuUKVr5Ea
+         MwT2vvcjFXb2TVZTYfdNUGhbFndWbk5kir83+OxsyfAZMu2BmaL5J71eXZEXAXgMP66U
+         TYng==
+X-Forwarded-Encrypted: i=1; AJvYcCVFMiLVu2h0Y7gl69F3FPZvMpvLoHZ2Q/9KF54tagWjW+M6uwwNDHptxKC7kinKmCM0mqwYJDdlJGEWu3vUPJ4/W7SU9OfZ/OEzsm+R2go=
+X-Gm-Message-State: AOJu0Yy3UYBmgAy9o65r1OklclVvjhYgWXVhZRWcfeJgBVpxstSh1Urd
+	2EcFzZ3pkVTN8azv5rXSy07J2N+rnFV527DNdBebe0vHE2XWKPU4
+X-Google-Smtp-Source: AGHT+IE2f0WE91SXtwH9gV9ydo13DvyQGGfMwUj37MdFLItZBKpM0u/yB9fp5Ih7OnhYcXHjKGxciw==
+X-Received: by 2002:a05:651c:1a0b:b0:2e2:9416:a651 with SMTP id 38308e7fff4ca-2e5205e8545mr54070791fa.5.1715522773074;
+        Sun, 12 May 2024 07:06:13 -0700 (PDT)
+Received: from [172.21.2.130] ([50.204.89.33])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f87b2648fsm162940465e9.7.2024.05.12.07.06.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 May 2024 07:06:12 -0700 (PDT)
+Message-ID: <3d2dc04f-86ee-4802-98f7-fc948e813ac0@grimberg.me>
+Date: Sun, 12 May 2024 17:06:10 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZkAszpvBkb5_UUiH@bombadil.infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] nvme-core: add a function to submit a cancel command
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@meta.com
+Cc: hare@kernel.org, emilne@redhat.com, jmeneghi@redhat.com,
+ linux-nvme@lists.infradead.org
+References: <20240510163026.786898-1-mlombard@redhat.com>
+ <20240510163026.786898-3-mlombard@redhat.com>
+Content-Language: he-IL, en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240510163026.786898-3-mlombard@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240512_070616_858201_4CE753D7 
+X-CRM114-Status: GOOD (  21.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,197 +83,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, May 11, 2024 at 07:43:26PM -0700, Luis Chamberlain wrote:
-> I'll try next going above 512 KiB.
 
-At 1 MiB NVMe LBA format we crash with the BUG_ON(sectors <= 0) on bio_split().
 
-[   13.401651] ------------[ cut here ]------------
-[   13.403298] kernel BUG at block/bio.c:1626!
-[   13.404708] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-[   13.406390] CPU: 5 PID: 87 Comm: kworker/u38:1 Not tainted 6.9.0-rc6+ #2
-[   13.408480] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   13.411304] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-[   13.412928] RIP: 0010:bio_split (block/bio.c:1626 (discriminator 1)) 
-[ 13.414148] Code: 5b 4c 89 e0 5d 41 5c 41 5d c3 cc cc cc cc c7 43 28 00 00 00 00 eb db 0f 0b 45 31 e4 5b 5d 4c 89 e0 41 5c 41 5d c3 cc cc cc cc <0f> 0b 0f 0b 4c 89 e7 e8 bf ee ff ff eb e1 66 66 2e 0f 1f 84 00 00
-All code
-========
-   0:	5b                   	pop    %rbx
-   1:	4c 89 e0             	mov    %r12,%rax
-   4:	5d                   	pop    %rbp
-   5:	41 5c                	pop    %r12
-   7:	41 5d                	pop    %r13
-   9:	c3                   	ret
-   a:	cc                   	int3
-   b:	cc                   	int3
-   c:	cc                   	int3
-   d:	cc                   	int3
-   e:	c7 43 28 00 00 00 00 	movl   $0x0,0x28(%rbx)
-  15:	eb db                	jmp    0xfffffffffffffff2
-  17:	0f 0b                	ud2
-  19:	45 31 e4             	xor    %r12d,%r12d
-  1c:	5b                   	pop    %rbx
-  1d:	5d                   	pop    %rbp
-  1e:	4c 89 e0             	mov    %r12,%rax
-  21:	41 5c                	pop    %r12
-  23:	41 5d                	pop    %r13
-  25:	c3                   	ret
-  26:	cc                   	int3
-  27:	cc                   	int3
-  28:	cc                   	int3
-  29:	cc                   	int3
-  2a:*	0f 0b                	ud2		<-- trapping instruction
-  2c:	0f 0b                	ud2
-  2e:	4c 89 e7             	mov    %r12,%rdi
-  31:	e8 bf ee ff ff       	call   0xffffffffffffeef5
-  36:	eb e1                	jmp    0x19
-  38:	66                   	data16
-  39:	66                   	data16
-  3a:	2e                   	cs
-  3b:	0f                   	.byte 0xf
-  3c:	1f                   	(bad)
-  3d:	84 00                	test   %al,(%rax)
-	...
+On 10/05/2024 19:30, Maurizio Lombardi wrote:
+> Add a function to send a cancel command to abort the specified request.
+> To execute the task, the "single command" cancel action is used.
+>
+> When the cancel command completes, the host driver will print the
+> number of deferred and immediate aborts performed by the target.
+>
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> ---
+>   drivers/nvme/host/core.c | 54 ++++++++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/nvme.h |  2 ++
+>   2 files changed, 56 insertions(+)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index b48967c98114..3d8c31d5f8ae 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2965,6 +2965,60 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8 csi,
+>   	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
+>   }
+>   
+> +static enum rq_end_io_ret nvme_cancel_endio(struct request *req, blk_status_t error)
+> +{
+> +	struct nvme_ctrl *ctrl = req->end_io_data;
+> +	u32 result;
+> +	u16 imm_abrts, def_abrts;
+> +	u16 status = nvme_req(req)->status;
+> +
+> +	result = le32_to_cpu(nvme_req(req)->result.u32);
+> +
+> +	def_abrts = upper_16_bits(result);
+> +	imm_abrts = lower_16_bits(result);
+> +
+> +	dev_warn(ctrl->device,
+> +		 "Cancel status: 0x%x imm abrts = %u def abrts = %u",
+> +		 status, imm_abrts, def_abrts);
+> +
+> +	blk_mq_free_request(req);
+> +	return RQ_END_IO_NONE;
+> +}
+> +
+> +int nvme_submit_cancel_req(struct nvme_ctrl *ctrl, struct request *rq,
+> +			   unsigned int sqid)
+> +{
+> +	struct nvme_command c = { };
+> +	struct request *cancel_req;
+> +
+> +	if (sqid == 0)
+> +		return -EINVAL;
+> +
+> +	c.cancel.opcode = nvme_cmd_cancel;
+> +	c.cancel.cid = nvme_cid(rq);
+> +	c.cancel.sqid = cpu_to_le32(sqid);
+> +	c.cancel.nsid = NVME_NSID_ALL;
+> +	c.cancel.action = NVME_CANCEL_ACTION_SINGLE_CMD;
+> +
+> +	cancel_req = blk_mq_alloc_request_hctx(rq->q, nvme_req_op(&c),
 
-Code starting with the faulting instruction
-===========================================
-   0:	0f 0b                	ud2
-   2:	0f 0b                	ud2
-   4:	4c 89 e7             	mov    %r12,%rdi
-   7:	e8 bf ee ff ff       	call   0xffffffffffffeecb
-   c:	eb e1                	jmp    0xffffffffffffffef
-   e:	66                   	data16
-   f:	66                   	data16
-  10:	2e                   	cs
-  11:	0f                   	.byte 0xf
-  12:	1f                   	(bad)
-  13:	84 00                	test   %al,(%rax)
-	...
-[   13.420639] RSP: 0018:ffffc056407bb8e0 EFLAGS: 00010246
-[   13.422140] RAX: 0000000000000001 RBX: ffff9d97c165fa80 RCX: ffff9d97e65ce860
-[   13.424128] RDX: 0000000000000c00 RSI: 0000000000000000 RDI: ffff9d97c165fa80
-[   13.426123] RBP: 0000000000000000 R08: 0000000000000080 R09: 0000000000000000
-[   13.428372] R10: ffff9d97c165fa80 R11: ffff9d97c165faf8 R12: ffff9d97df3f7250
-[   13.430636] R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
-[   13.432510] FS:  0000000000000000(0000) GS:ffff9d983bd40000(0000) knlGS:0000000000000000
-[   13.434539] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   13.435987] CR2: 000055b34c8d6188 CR3: 000000011dfb8002 CR4: 0000000000770ef0
-[   13.437664] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   13.439354] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
-[   13.440911] PKRU: 55555554
-[   13.441605] Call Trace:
-[   13.442250]  <TASK>
-[   13.442836] ? die (arch/x86/kernel/dumpstack.c:421 arch/x86/kernel/dumpstack.c:434 arch/x86/kernel/dumpstack.c:447) 
-[   13.443585] ? do_trap (arch/x86/kernel/traps.c:114 arch/x86/kernel/traps.c:155) 
-[   13.444356] ? bio_split (block/bio.c:1626 (discriminator 1)) 
-[   13.445127] ? do_error_trap (./arch/x86/include/asm/traps.h:58 arch/x86/kernel/traps.c:176) 
-[   13.445975] ? bio_split (block/bio.c:1626 (discriminator 1)) 
-[   13.446760] ? exc_invalid_op (arch/x86/kernel/traps.c:267) 
-[   13.447635] ? bio_split (block/bio.c:1626 (discriminator 1)) 
-[   13.448325] ? asm_exc_invalid_op (./arch/x86/include/asm/idtentry.h:621) 
-[   13.449137] ? bio_split (block/bio.c:1626 (discriminator 1)) 
-[   13.449819] __bio_split_to_limits (block/blk-merge.c:366) 
-[   13.450675] blk_mq_submit_bio (block/blk-mq.c:2973) 
-[   13.451490] ? kmem_cache_alloc (./include/linux/kmemleak.h:42 mm/slub.c:3802 mm/slub.c:3845 mm/slub.c:3852) 
-[   13.452253] ? __mod_node_page_state (mm/vmstat.c:403 (discriminator 2)) 
-[   13.453050] submit_bio_noacct_nocheck (./include/linux/bio.h:639 block/blk-core.c:701 block/blk-core.c:729) 
-[   13.453897] ? submit_bio_noacct (block/blk-core.c:758 (discriminator 1)) 
-[   13.454658] block_read_full_folio (fs/buffer.c:2429 (discriminator 1)) 
-[   13.455467] ? __pfx_blkdev_get_block (block/fops.c:409) 
-[   13.456240] ? __pfx_blkdev_read_folio (block/fops.c:437) 
-[   13.457014] ? __pfx_blkdev_read_folio (block/fops.c:437) 
-[   13.457792] filemap_read_folio (mm/filemap.c:2335) 
-[   13.458484] do_read_cache_folio (mm/filemap.c:3763) 
-[   13.459220] ? __pfx_adfspart_check_ICS (block/partitions/acorn.c:351) 
-[   13.459967] read_part_sector (./include/linux/pagemap.h:970 block/partitions/core.c:715) 
-[   13.460602] adfspart_check_ICS (block/partitions/acorn.c:361) 
-[   13.461269] ? snprintf (lib/vsprintf.c:2963) 
-[   13.461844] ? __pfx_adfspart_check_ICS (block/partitions/acorn.c:351) 
-[   13.462601] bdev_disk_changed (block/partitions/core.c:138 block/partitions/core.c:582 block/partitions/core.c:686 block/partitions/core.c:635) 
-[   13.463268] blkdev_get_whole (block/bdev.c:684) 
-[   13.463871] bdev_open (block/bdev.c:893) 
-[   13.464386] bdev_file_open_by_dev (block/bdev.c:995 block/bdev.c:969) 
-[   13.465006] disk_scan_partitions (block/genhd.c:369 (discriminator 1)) 
-[   13.465621] device_add_disk (block/genhd.c:512) 
-[   13.466199] nvme_scan_ns (drivers/nvme/host/core.c:3807 (discriminator 1) drivers/nvme/host/core.c:3961 (discriminator 1)) nvme_core
-[   13.466885] nvme_scan_work (drivers/nvme/host/core.c:4015 drivers/nvme/host/core.c:4105) nvme_core
-[   13.467598] process_one_work (kernel/workqueue.c:3254) 
-[   13.468186] worker_thread (kernel/workqueue.c:3329 (discriminator 2) kernel/workqueue.c:3416 (discriminator 2)) 
-[   13.468723] ? _raw_spin_lock_irqsave (./arch/x86/include/asm/atomic.h:115 (discriminator 4) ./include/linux/atomic/atomic-arch-fallback.h:2170 (discriminator 4) ./include/linux/atomic/atomic-instrumented.h:1302 (discriminator 4) ./include/asm-generic/qspinlock.h:111 (discriminator 4) ./include/linux/spinlock.h:187 (discriminator 4) ./include/linux/spinlock_api_smp.h:111 (discriminator 4) kernel/locking/spinlock.c:162 (discriminator 4)) 
-[   13.469343] ? __pfx_worker_thread (kernel/workqueue.c:3362) 
-[   13.469933] kthread (kernel/kthread.c:388) 
-[   13.470395] ? __pfx_kthread (kernel/kthread.c:341) 
-[   13.470928] ret_from_fork (arch/x86/kernel/process.c:147) 
-[   13.471457] ? __pfx_kthread (kernel/kthread.c:341) 
-[   13.472008] ret_from_fork_asm (arch/x86/entry/entry_64.S:257) 
-[   13.472540]  </TASK>
-[   13.472865] Modules linked in: crc32c_intel psmouse nvme nvme_core t10_pi crc64_rocksoft crc64 virtio_pci virtio_pci_legacy_dev virtio_pci_modern_dev virtio virtio_ring
-[   13.474629] ---[ end trace 0000000000000000 ]---
-[   13.475229] RIP: 0010:bio_split (block/bio.c:1626 (discriminator 1)) 
-[ 13.475742] Code: 5b 4c 89 e0 5d 41 5c 41 5d c3 cc cc cc cc c7 43 28 00 00 00 00 eb db 0f 0b 45 31 e4 5b 5d 4c 89 e0 41 5c 41 5d c3 cc cc cc cc <0f> 0b 0f 0b 4c 89 e7 e8 bf ee ff ff eb e1 66 66 2e 0f 1f 84 00 00
-All code
-========
-   0:	5b                   	pop    %rbx
-   1:	4c 89 e0             	mov    %r12,%rax
-   4:	5d                   	pop    %rbp
-   5:	41 5c                	pop    %r12
-   7:	41 5d                	pop    %r13
-   9:	c3                   	ret
-   a:	cc                   	int3
-   b:	cc                   	int3
-   c:	cc                   	int3
-   d:	cc                   	int3
-   e:	c7 43 28 00 00 00 00 	movl   $0x0,0x28(%rbx)
-  15:	eb db                	jmp    0xfffffffffffffff2
-  17:	0f 0b                	ud2
-  19:	45 31 e4             	xor    %r12d,%r12d
-  1c:	5b                   	pop    %rbx
-  1d:	5d                   	pop    %rbp
-  1e:	4c 89 e0             	mov    %r12,%rax
-  21:	41 5c                	pop    %r12
-  23:	41 5d                	pop    %r13
-  25:	c3                   	ret
-  26:	cc                   	int3
-  27:	cc                   	int3
-  28:	cc                   	int3
-  29:	cc                   	int3
-  2a:*	0f 0b                	ud2		<-- trapping instruction
-  2c:	0f 0b                	ud2
-  2e:	4c 89 e7             	mov    %r12,%rdi
-  31:	e8 bf ee ff ff       	call   0xffffffffffffeef5
-  36:	eb e1                	jmp    0x19
-  38:	66                   	data16
-  39:	66                   	data16
-  3a:	2e                   	cs
-  3b:	0f                   	.byte 0xf
-  3c:	1f                   	(bad)
-  3d:	84 00                	test   %al,(%rax)
-	...
+I know that people discouraged expanding the use of 
+blk_mq_alloc_request_hctx in the past, but I think it is warranted here. 
+Note that it does not play well with cpu hotplug code (we have the same 
+issue with nvmf connect).
+> +					       BLK_MQ_REQ_NOWAIT |
+> +					       BLK_MQ_REQ_RESERVED,
+> +					       sqid - 1);
 
-Code starting with the faulting instruction
-===========================================
-   0:	0f 0b                	ud2
-   2:	0f 0b                	ud2
-   4:	4c 89 e7             	mov    %r12,%rdi
-   7:	e8 bf ee ff ff       	call   0xffffffffffffeecb
-   c:	eb e1                	jmp    0xffffffffffffffef
-   e:	66                   	data16
-   f:	66                   	data16
-  10:	2e                   	cs
-  11:	0f                   	.byte 0xf
-  12:	1f                   	(bad)
-  13:	84 00                	test   %al,(%rax)
-	...
-[   13.477749] RSP: 0018:ffffc056407bb8e0 EFLAGS: 00010246
-[   13.478405] RAX: 0000000000000001 RBX: ffff9d97c165fa80 RCX: ffff9d97e65ce860
-[   13.479230] RDX: 0000000000000c00 RSI: 0000000000000000 RDI: ffff9d97c165fa80
-[   13.480026] RBP: 0000000000000000 R08: 0000000000000080 R09: 0000000000000000
-[   13.480802] R10: ffff9d97c165fa80 R11: ffff9d97c165faf8 R12: ffff9d97df3f7250
-[   13.481568] R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
-[   13.482337] FS:  0000000000000000(0000) GS:ffff9d983bd40000(0000) knlGS:0000000000000000
-[   13.483218] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   13.483853] CR2: 000055b34c8d6188 CR3: 000000011dfb8002 CR4: 0000000000770ef0
-[   13.484584] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   13.485327] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
-[   13.486070] PKRU: 55555554
+I think we need to account for a new reserved commands that is now
+can be taken outside of connect. Should this be reserved at all?
+meaning even if we account for it, there are potentially more and more
+requests that we'd want to cancel...
+
+We just seen why not reserving requests for connect is in:
+de105068fead ("nvme: fix reconnection fail due to reserved tag allocation")
 
