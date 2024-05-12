@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70ABDC10F1A
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 May 2024 14:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A638C10F1A
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 May 2024 14:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IOnqh7KNk/j+IDvG4j4HfUg2mkOq0KY3czqD2N8im3g=; b=KHdOPnPM78UxgL3zKkXu+vtsrV
-	bQ8PRU0KgJjel95ARezuf/IGND3Y9D7iWfempVl6OaSFggrmoqI5wc5gpbuFBXjn5TSyJ9zce1p1r
-	oZQGVO7g/dUKjhun9EjRQPYPLMK7uiJ5/a9tQqvuCYISkeYZGJw9FK/gu9nDdgqnSa37kSPlsosRi
-	F6uqqGqCzCb5RIoYWpMGY0JaJ1seTBSkma3lft5zy/25jM/L/LkU74kjbS/T16wipgSU056Evl/oF
-	7sNZzlurnWusrlV4Iqw2nEzgNsWypUSglNbQBIqJgbzKqpCiHwoBomPpqxmPWmCOAcZKGx0DB4Yho
-	JDzvKkbA==;
+	bh=aNeBJLTigatIolunLX5l8+wKbiAT6liy3IpwbjRMLXY=; b=YGDndb3/tw175dJGMty3u1YAwC
+	1jPAKXyoFZG6bMKbmyQ9BBDe/1F7ciaj99OPwWb0e26BPMJqDxjGdVzw+xXbGD9F8SyU1ddAmkeN7
+	vozJmM8T9y2qoO8bg7wJWidamZV1VXfs6FQtpqIdURRpQC9RTMpV85J/9qVgQjRJiKpDDb6PldG4c
+	m+yAMRVfH0awKdYrOAu0bRYQCeW2pq9k7Po2DJY/5F+XtZ4jlxqlHTkoXCFR4Z0TL5M+/ev//oVUp
+	EWN+T0+j9Q6IWo7gWP8d03yCMlNsnENYag7yDTs7NbsMI1Olh0xt2xTwiBrhDjW1ykRunK0DXBkyL
+	Njb/sRow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s69qF-0000000A3q6-3GjA;
-	Sun, 12 May 2024 14:06:19 +0000
-Received: from mail-lf1-f53.google.com ([209.85.167.53])
+	id 1s6A00-0000000A4cQ-3x62;
+	Sun, 12 May 2024 14:16:24 +0000
+Received: from mail-wr1-f45.google.com ([209.85.221.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s69qC-0000000A3pL-2qA0
+	id 1s69zy-0000000A4bg-0bQV
 	for linux-nvme@lists.infradead.org;
-	Sun, 12 May 2024 14:06:18 +0000
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5221e161fa4so512115e87.3
-        for <linux-nvme@lists.infradead.org>; Sun, 12 May 2024 07:06:14 -0700 (PDT)
+	Sun, 12 May 2024 14:16:23 +0000
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34cba0d9a3eso316320f8f.1
+        for <linux-nvme@lists.infradead.org>; Sun, 12 May 2024 07:16:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715522773; x=1716127573;
+        d=1e100.net; s=20230601; t=1715523377; x=1716128177;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IOnqh7KNk/j+IDvG4j4HfUg2mkOq0KY3czqD2N8im3g=;
-        b=YV3mxO/8+akHZHZc9sRKJ2dSgNE6Xaa+RbAsmjNEHfiyy4wlIhA75JhqBgbLzO8XTr
-         YOj6suii5Zm20ZUf65wtapFwE9QMaaMSgFjBIgGK1P56vAw+X3yPQLd0439k9LbyJYnG
-         BTDnG1Gv+WHVYscrTh3J3YKc73DTnp5/fTETU+Y4l9fgppujXrfkX1rD+79HuZKNNHYu
-         feccNwA+V4PSUAranAVmS1HUzZ9PwmbGAjLAh4wIIkntuf5tMYGcM39UsObtuUKVr5Ea
-         MwT2vvcjFXb2TVZTYfdNUGhbFndWbk5kir83+OxsyfAZMu2BmaL5J71eXZEXAXgMP66U
-         TYng==
-X-Forwarded-Encrypted: i=1; AJvYcCVFMiLVu2h0Y7gl69F3FPZvMpvLoHZ2Q/9KF54tagWjW+M6uwwNDHptxKC7kinKmCM0mqwYJDdlJGEWu3vUPJ4/W7SU9OfZ/OEzsm+R2go=
-X-Gm-Message-State: AOJu0Yy3UYBmgAy9o65r1OklclVvjhYgWXVhZRWcfeJgBVpxstSh1Urd
-	2EcFzZ3pkVTN8azv5rXSy07J2N+rnFV527DNdBebe0vHE2XWKPU4
-X-Google-Smtp-Source: AGHT+IE2f0WE91SXtwH9gV9ydo13DvyQGGfMwUj37MdFLItZBKpM0u/yB9fp5Ih7OnhYcXHjKGxciw==
-X-Received: by 2002:a05:651c:1a0b:b0:2e2:9416:a651 with SMTP id 38308e7fff4ca-2e5205e8545mr54070791fa.5.1715522773074;
-        Sun, 12 May 2024 07:06:13 -0700 (PDT)
+        bh=aNeBJLTigatIolunLX5l8+wKbiAT6liy3IpwbjRMLXY=;
+        b=un6VkWaWtRNCdh7sVxMzt/Ks2HsZkfwIewCZHqEv5qEvKQfs+hNbBJTd+BNxTdP5Lz
+         gg169D+cZCIObFzwc59l23f/Z6GpMI2lp0ru4Wi1A0dQKrxMiqXJJ6SsvnanEc1swN3x
+         JDuT05iQD6AR2EgpD69LM3op3WI7mKsrivCug5adqihweGQV4L6Y2hDJ9fSgGxhHbpJw
+         jud172ecd2i6gpNOcTEO7V7odFlz+uI9NYY+zNCyzGXa9icqU/qAfa5prOBaW105G0jW
+         6V9K7I0v2JUxEDwFc/RAZqdL+7+hz8vUGQaqNNYMPch4Tt4Re6NK/+UOfbH1UyqemZBr
+         somg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYPw0J3BOmN0eE8Ij2mFo3R+1/ff0WzinrA8fLpu0Yqjx6OEEVXC/ii51eBflFbLXteEyJMqAPmK0OnYQryhFaXzrQdav7EOe2xuiFk4o=
+X-Gm-Message-State: AOJu0Yyk8i3080tLIi2UH5J9BLUj1BOJYJpD8eyQqS+wP1WnAFhb1xdS
+	e5ykxiRa15n47WsNPXzUt/lmE7FTok4G8rXyPHLj6qdxa4zruFYM
+X-Google-Smtp-Source: AGHT+IFCAEPpkK8tOiiPuFaXmEZve1ougOZtItIUmi8f+jI4YOyEqYQKDqIB6oBTW22oyIdqs2c11Q==
+X-Received: by 2002:a5d:4149:0:b0:34f:96ba:ca39 with SMTP id ffacd0b85a97d-3504a206f13mr4693516f8f.0.1715523377282;
+        Sun, 12 May 2024 07:16:17 -0700 (PDT)
 Received: from [172.21.2.130] ([50.204.89.33])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f87b2648fsm162940465e9.7.2024.05.12.07.06.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b8a76e6sm8972273f8f.62.2024.05.12.07.16.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 May 2024 07:06:12 -0700 (PDT)
-Message-ID: <3d2dc04f-86ee-4802-98f7-fc948e813ac0@grimberg.me>
-Date: Sun, 12 May 2024 17:06:10 +0300
+        Sun, 12 May 2024 07:16:17 -0700 (PDT)
+Message-ID: <d6e8c980-7be7-4902-b466-79dc4b9beb17@grimberg.me>
+Date: Sun, 12 May 2024 17:16:13 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] nvme-core: add a function to submit a cancel command
-To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@meta.com
-Cc: hare@kernel.org, emilne@redhat.com, jmeneghi@redhat.com,
- linux-nvme@lists.infradead.org
-References: <20240510163026.786898-1-mlombard@redhat.com>
- <20240510163026.786898-3-mlombard@redhat.com>
+Subject: Re: [PATCHv2] nvme-pci: allow unmanaged interrupts
+To: Ming Lei <ming.lei@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de
+References: <20240510174645.3987951-1-kbusch@meta.com>
+ <Zj6yDtRzl68zspQY@fedora> <Zj6745UDnwX1BteO@kbusch-mbp.dhcp.thefacebook.com>
+ <Zj6/gqxxDD74IYR6@fedora>
 Content-Language: he-IL, en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240510163026.786898-3-mlombard@redhat.com>
+In-Reply-To: <Zj6/gqxxDD74IYR6@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240512_070616_858201_4CE753D7 
-X-CRM114-Status: GOOD (  21.43  )
+X-CRM114-CacheID: sfid-20240512_071622_324121_A1FB9942 
+X-CRM114-Status: GOOD (  13.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,78 +84,35 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+>> Everyone expects nvme performance will suffer. IO latency and CPU
+>> efficieny are not everyone's top priority, so allowing people to
+>> optimize for something else seems like a reasonable request.
+> I guess more people may be interested in 'something else', care to share
+> them in the commit log, cause nvme is going to support it.
 
-On 10/05/2024 19:30, Maurizio Lombardi wrote:
-> Add a function to send a cancel command to abort the specified request.
-> To execute the task, the "single command" cancel action is used.
+I don't have a special interest in this, but I can share what I heard 
+several
+times. The use-case is that people want to dedicate a few cores to handle
+interrupts so they know it does not take cpu time from their application 
+threads
+that are running (usually pinned to different cores).
+
+The app threads isolation is more important to them than affinity to the 
+device...
+
 >
-> When the cancel command completes, the host driver will print the
-> number of deferred and immediate aborts performed by the target.
+>>   
+>>> Is there any benefit to use unmanaged irq in this way?
+>> The immediate desire is more predictable scheduling on a subset of CPUs
+>> by steering hardware interrupts somewhere else. It's the same reason
+>> RDMA undid managed interrupts.
+>>
+>>    231243c82793428 ("Revert "mlx5: move affinity hints assignments to generic code")
+> The above commit only mentions it becomes not flexible since user can't
+> adjust irq affinity any more.
 >
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-> ---
->   drivers/nvme/host/core.c | 54 ++++++++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/nvme.h |  2 ++
->   2 files changed, 56 insertions(+)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index b48967c98114..3d8c31d5f8ae 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2965,6 +2965,60 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp, u8 csi,
->   	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
->   }
->   
-> +static enum rq_end_io_ret nvme_cancel_endio(struct request *req, blk_status_t error)
-> +{
-> +	struct nvme_ctrl *ctrl = req->end_io_data;
-> +	u32 result;
-> +	u16 imm_abrts, def_abrts;
-> +	u16 status = nvme_req(req)->status;
-> +
-> +	result = le32_to_cpu(nvme_req(req)->result.u32);
-> +
-> +	def_abrts = upper_16_bits(result);
-> +	imm_abrts = lower_16_bits(result);
-> +
-> +	dev_warn(ctrl->device,
-> +		 "Cancel status: 0x%x imm abrts = %u def abrts = %u",
-> +		 status, imm_abrts, def_abrts);
-> +
-> +	blk_mq_free_request(req);
-> +	return RQ_END_IO_NONE;
-> +}
-> +
-> +int nvme_submit_cancel_req(struct nvme_ctrl *ctrl, struct request *rq,
-> +			   unsigned int sqid)
-> +{
-> +	struct nvme_command c = { };
-> +	struct request *cancel_req;
-> +
-> +	if (sqid == 0)
-> +		return -EINVAL;
-> +
-> +	c.cancel.opcode = nvme_cmd_cancel;
-> +	c.cancel.cid = nvme_cid(rq);
-> +	c.cancel.sqid = cpu_to_le32(sqid);
-> +	c.cancel.nsid = NVME_NSID_ALL;
-> +	c.cancel.action = NVME_CANCEL_ACTION_SINGLE_CMD;
-> +
-> +	cancel_req = blk_mq_alloc_request_hctx(rq->q, nvme_req_op(&c),
+> It is understandable for network, there is long history people need to adjust
+> irq affinity from user space.
 
-I know that people discouraged expanding the use of 
-blk_mq_alloc_request_hctx in the past, but I think it is warranted here. 
-Note that it does not play well with cpu hotplug code (we have the same 
-issue with nvmf connect).
-> +					       BLK_MQ_REQ_NOWAIT |
-> +					       BLK_MQ_REQ_RESERVED,
-> +					       sqid - 1);
-
-I think we need to account for a new reserved commands that is now
-can be taken outside of connect. Should this be reserved at all?
-meaning even if we account for it, there are potentially more and more
-requests that we'd want to cancel...
-
-We just seen why not reserving requests for connect is in:
-de105068fead ("nvme: fix reconnection fail due to reserved tag allocation")
+I suspect that the reasoning is similar to nvme as well.
 
