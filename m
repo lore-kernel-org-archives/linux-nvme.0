@@ -4,64 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7D50C25B10
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 May 2024 04:09:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41781C25B10
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 May 2024 07:33:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZxbkHf14amdHsrWm057Yk7FRpmdQJweT5/qFx7zt+TQ=; b=mzu9ga09Xi8IHiMAxi5Ht/weAK
-	wbK2ApUb4y4B971XREvipDoqM3krz5CMkYF+ACuZN3blPvd0aG6QpnucmOSpurkKO/YQAt09ccV6a
-	0hoW56EOyrDeiqe7pNsjG/QA1xFmYTjQJtpA3b2o6SiIPEZoFr2D4q2BrNpi9UigydB6VRmhXuMlG
-	xZDj6YskeMN14YC76RcrmTyFb586J8aiSxA6/WAh0DT5kI6dCUGyaTw1OBryeZWTXQW4hcB08LDWa
-	UobSA4slrm6BKtirQjdUgwfb/8GGXuYxD19/Vu4lLXgJ26332JiHnFFqEYnhD6ommgORdupQZ3XBs
-	a0sT0QHw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:Subject:References:Cc:To:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1FjB0AqB0xUJdRaA1Y/pkrd5humBzFSEH7+VKWGyYFg=; b=Ox9eK0tPKL0n947xRaAj9/biTO
+	eMmcncvzd2mcvDtyJhyRT+mINjmIbbzJ+thnfGACVhpHEZre2oMmnRn7L+kT0pSkVvd9ZVQK+kZWb
+	FVQyPg4Kmc4za/JAjLu+kOoO1XCH+T0F6DHc/LMZFocgNR2gtBh9Ls5T80agTyRy8qufiBDVL0kyf
+	m0fF4GQY985xHvnIPtnXdArRY7CaQThiJPHTPptuGXstKsYtDn5fjehDi3OEytcHJJZzakXpomhBP
+	EOFQmtrf+t1V5WGOKn+bdWz+79ZqLcpyoetJ/SnjfVHvVcd73BA78cGZSrvc8x4JFIj4EK31pIIxY
+	XGf7DnZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s6N0M-0000000Baqm-33lq;
-	Mon, 13 May 2024 04:09:38 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1s6QBh-0000000C2hf-2630;
+	Mon, 13 May 2024 07:33:33 +0000
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s6N0I-0000000Bapz-2FMm
+	id 1s6QBe-0000000C2gF-2g76
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 May 2024 04:09:36 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 8AAE7CE0302;
-	Mon, 13 May 2024 04:09:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91875C113CC;
-	Mon, 13 May 2024 04:09:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715573367;
-	bh=97xzNdFXn7bXOhErhH7/34Txqp1Fv9DyzwIOOKmyNpQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T2mVsuIfyOEsff90ewqpzE+c9bogKeONQUB4ED7gar2zqsLUPlYt34EzuL6Adskzz
-	 nKi54hJpYs6HX9czwvgmdDrxT8fmj/Hi6OZ2Df7JosBhBtOkVIzlqsipNPD4qhGx6t
-	 IsjXiw+yuvnWFfBhvwWfJ2xLrOLqdl/qxWi9GZuahEXD6YccvqamMlISpQkykJb79+
-	 Qc3Y3JzQ6LoVyP4gtasNnjKc+JYqjq09wpLVrXbXxPlNJlsWNN+jtVm9pyLso+Ok9g
-	 qOpPAVPedYcQSZK6eqpUus0qs8xShHNqEncYIpafWhW9vx0JGOgzdaEv8VaYLY9Ylf
-	 hsL5r/A8aD1wA==
-Date: Sun, 12 May 2024 22:09:26 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@meta.com>,
-	linux-nvme@lists.infradead.org, hch@lst.de
-Subject: Re: [PATCHv2] nvme-pci: allow unmanaged interrupts
-Message-ID: <ZkGSdj_bI_oDp4Gz@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240510174645.3987951-1-kbusch@meta.com>
- <Zj6yDtRzl68zspQY@fedora>
- <Zj6745UDnwX1BteO@kbusch-mbp.dhcp.thefacebook.com>
- <Zj6/gqxxDD74IYR6@fedora>
- <d6e8c980-7be7-4902-b466-79dc4b9beb17@grimberg.me>
- <ZkFpGlEMs4yHL+Xv@fedora>
+	Mon, 13 May 2024 07:33:31 +0000
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a5a2d0d8644so782395166b.1
+        for <linux-nvme@lists.infradead.org>; Mon, 13 May 2024 00:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715585608; x=1716190408; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1FjB0AqB0xUJdRaA1Y/pkrd5humBzFSEH7+VKWGyYFg=;
+        b=gYT1ZhX3nPbmJWlEFHGdEuHvDZECVCtqmcpKlvgkiZvXmZpRMcfgGWuPkW+ndwyFPn
+         LI/mjYJsM96kmNqNVNV3gvmjkR/2PUVXqtk8fHnIvCLwY4g7IPvLVaw4sGAs/5MvxzT1
+         dQkXkSvW9CYF46kS3PcS4nHYbpI6X1UbqO8OfsFKCPrZA5QDLRN83eSOMNKiEbbkcsbb
+         UEuTdC4jlO/32a/g2UVQrEv65k6qusuZ9b41T++nWYu3Om27NZOwXkRJrU2Z/nKE0lkM
+         o2uiimRZASUcYKY44EfoanqF569uP3YqlFITwIVND1TSAPBQR8dH2bVjMcQKPnZtBduk
+         DC+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715585608; x=1716190408;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1FjB0AqB0xUJdRaA1Y/pkrd5humBzFSEH7+VKWGyYFg=;
+        b=aJOsJzw1lsz/AwC9KqRYa9N/PP4m53MAMXyvwFv/Q+EnqiGIGEUIz/8KcxytsHQQUN
+         h2Y+h2Rpujm6oGMkHhBnJB4dQIIE2ymc8MnfSUAHEHtENjvR6xIjbRR5Q5e615HepGv9
+         ZohVeYDS2gVV7GcMS1IOaIxH2sOM/HSnfdNtUnTzrQhRHA5rcHIM/z9RR2ixlVkhqFbP
+         ovMxodLOtELwn0xh2cVTxoIeHzswHr2xe7Gy2MkbY5omNLOli2/jeBPAGtpiSLDDfXvo
+         BrhVLkpU2WOWsxgmtI9UIxR7boAmC+QgWYJPe3LFWxQPDovaoWpMnH4+GfstIigwexzj
+         jiBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXGF7a3M2wj9EYcnJDNG1tcDFDqf3Dqyv6jp5ay/I2n6zWd26/hktdX41SJx9XpR0z5OMtJpxtS3lHaAwGPsUE2o9nSmQwZpvUD9kmb9dQ=
+X-Gm-Message-State: AOJu0Yy1nv3oebkwDEEQ7pd8dz0qkRjaWUPIDkfi5wDC41nounxGrrPk
+	foqwmTcSE+cZEy5kzEFPUcZf3pKbBj+KQynuAp4TbWRaHoe8Kv+P
+X-Google-Smtp-Source: AGHT+IHfShkpwIQtxfMZfMFtl72ZkhgBpxD+MXVqbPfZBd3R/y17q4h10iZi/Dp0FW+Dbmab51haGQ==
+X-Received: by 2002:a50:9fc9:0:b0:56e:24a5:587a with SMTP id 4fb4d7f45d1cf-5734d5bec0fmr7275204a12.11.1715585608180;
+        Mon, 13 May 2024 00:33:28 -0700 (PDT)
+Received: from ?IPV6:2a01:aec0:a3fd:7260:9636:62ff:a8fd:5751? ([2a01:aec0:a3fd:7260:9636:62ff:a8fd:5751])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733bea65b5sm5844039a12.6.2024.05.13.00.33.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 May 2024 00:33:27 -0700 (PDT)
+Message-ID: <26d4ad30-c0fe-4286-9802-aa6afbd8074a@gmail.com>
+Date: Mon, 13 May 2024 09:33:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZkFpGlEMs4yHL+Xv@fedora>
+User-Agent: Mozilla Thunderbird
+To: hch@lst.de
+Cc: kbusch@kernel.org, kbusch@meta.com, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, ming.lei@redhat.com, tglx@linutronix.de
+References: <20240510151047.GA10486@lst.de>
+Subject: Re: [PATCH 2/2] nvme-pci: allow unmanaged interrupts
+Content-Language: en-US
+From: Benjamin Meier <benjamin.meier70@gmail.com>
+In-Reply-To: <20240510151047.GA10486@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240512_210934_780910_33261D65 
-X-CRM114-Status: GOOD (  21.20  )
+X-CRM114-CacheID: sfid-20240513_003330_714814_98C16ED2 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,34 +94,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 13, 2024 at 09:12:58AM +0800, Ming Lei wrote:
-> On Sun, May 12, 2024 at 05:16:13PM +0300, Sagi Grimberg wrote:
-> > 
-> > > > Everyone expects nvme performance will suffer. IO latency and CPU
-> > > > efficieny are not everyone's top priority, so allowing people to
-> > > > optimize for something else seems like a reasonable request.
-> > > I guess more people may be interested in 'something else', care to share
-> > > them in the commit log, cause nvme is going to support it.
-> > 
-> > I don't have a special interest in this, but I can share what I heard
-> > several
-> > times. The use-case is that people want to dedicate a few cores to handle
-> > interrupts so they know it does not take cpu time from their application
-> > threads
-> > that are running (usually pinned to different cores).
-> > 
-> > The app threads isolation is more important to them than affinity to the
-> > device...
-> 
-> That is exactly what CPU isolation is doing, include 'isolcpus=managed_irq',
-> isn't it?
+ > From: Christoph Hellwig <hch@lst.de>
+ >
+ > So let them argue why.  I'd rather have a really, really, really
+ > good argument for this crap, and I'd like to hear it from the horses
+ > mouth.
 
-As I've mentioned previously, that option is a no-op when the incoming
-mask matches the isolcated cpus. The use case for the kernel's isolated
-CPUs doesn't align with the use cases for user defined IRQ affinity.
+I reached out to Keith to explore the possibility of manually defining
+which cores handle NVMe interrupts.
 
-Let me redirect this discussion please. Is there a techincal reason why
-Linux can't let users use their CPUs as they intend? They will take out
-of tree patches if that's the position we're forceing them into, but why
-is that is Linux taking that position in the first place?
+The application which we develop and maintain (in the company I work)
+has very high requirements regarding latency. We have some isolated cores
+and we run our application on those.
+
+Our system is using kernel 5.4 which unfortunately does not support
+"isolcpus=managed_irq". Actually, we did not even know about that
+option, because we are focussed on kernel 5.4. It solves part
+of our problem, but being able to specify where exactly interrupts
+are running is still superior in our opinion.
+
+E.g. assume the number of house-keeping cores is small, because we
+want to have full control over the system. In our case we have threads
+of different priorities where some get an exclusive core. Some other threads
+share a core (or a group of cores) with other threads. Now we are still
+happy to assign some interrupts to some of the cores which we consider as
+"medium-priority". Due to the small number of non-isolated cores, it can
+be tricky to assign all interrupts to those without a performance-penalty.
+
+Given these requirements, manually specifying interrupt/core assignments
+would offer greater flexibility and control over system performance.
+Moreover, the proposed code changes appear minimal and have no
+impact on existing functionalities.
+
 
