@@ -4,49 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9476AC25B10
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 May 2024 14:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67CBDC25B10
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 May 2024 16:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:
+	Cc:To:Subject:MIME-Version:Date:Message-ID:Content-Type:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QZg/dFAqcpICRZmyqfGKuFoyUvD/5vej42ebKc5BnIk=; b=u2+Wv1exoqnDPYXxSwP/JGSjVG
-	eD3/jzQ1nAHZtUQTSsCbeOLH91wz+53w2RKt4KQRiriISrB16J5I5BB3/iWarxLSvp1RXyIOjiYlJ
-	F1QmhPK8BgiMp50WSAOe6S4pkPwE1Hph/JbL9elrVdcJ7akX0u+dnIeXzyMtFxW5s3d/L23VQohK4
-	BWQBsj6BiOq2RZzExGIGRr1OOf11yWFeLaycKBKxWScTVrIobpqz1T6oI/z8tjLGjdneYvLBoBcRc
-	HNOLHgh/UVi96ZiH+FDcjlOCkzepj3XQ3LOuDfScAvF6/SJwCqoisrLuSJMZCU2R0OJ8G7no0hhrM
-	UtSrbaYg==;
+	bh=MXd+mQ0I/4p2Fnz//2efaEsxzZCqjWgZHObwlVmMP6Y=; b=Zs0h2Y3cEx0lgxYWY85WDmDnDg
+	C50OLJ6rJtL2kIDJh2LNrhZct65zPAwLOBQ0+nhAVLCGk5HLTTlVoQjkDBDrU3gBwPvgfgLyXj1lZ
+	JFfooBkrey8sgeCNScJbu3vrOEg2lKzGvuS+QiRnh7/tNJ6LHQply+LUkwU1cfaTSrAOHLJ1j2KLy
+	5PbTYB4l3Wm2dSY+L9i94G21TPuN1k/zBA63qUfEZbrRYiiXM1ZOfOYfYAoRAoGAZxu3biuNmszZp
+	YS4rm1cCU7bHQF/VWT8O8jjCipkEOp7sfVxhBXq1q2+M5oqkD6NHWM16FQcrug69SFNW+8QuvGiDg
+	QVbf+VGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s6WjY-0000000DCYR-09wP;
-	Mon, 13 May 2024 14:32:56 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s6WjV-0000000DCY4-1dap;
-	Mon, 13 May 2024 14:32:53 +0000
-Date: Mon, 13 May 2024 07:32:53 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Matthew Wilcox <willy@infradead.org>, hare@kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Pankaj Raghav <kernel@pankajraghav.com>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Pankaj Raghav <pankydev8@gmail.com>
+	id 1s6YDn-0000000DSb9-0W3W;
+	Mon, 13 May 2024 16:08:15 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s6YDh-0000000DSYx-1l8A
+	for linux-nvme@lists.infradead.org;
+	Mon, 13 May 2024 16:08:13 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E194D5C55E;
+	Mon, 13 May 2024 16:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715616485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MXd+mQ0I/4p2Fnz//2efaEsxzZCqjWgZHObwlVmMP6Y=;
+	b=l+ei2APRL4sWRyD52/CqzY2Jvg6VJj7aOgpFc8ULzYMfjQwycIW+jZuIZNMBJcAAy9w8uj
+	5WbT1VYZO/96sYffpnBPSqocMCl8EM/V39GWuzbgH+qe90hzyjKPF78532i0giH6s9Y12S
+	xFI9cRwVI8jxBxtefRrpQEo34AwJ/Q0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715616485;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MXd+mQ0I/4p2Fnz//2efaEsxzZCqjWgZHObwlVmMP6Y=;
+	b=IWuoZiDgITwEL6vvM12H+0lJLRebX0EiwjupSKgMXHLkQshjL8aX4WXgTWCDoIYCVum4kU
+	fYWSwyUp7d7xY5AA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715616484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MXd+mQ0I/4p2Fnz//2efaEsxzZCqjWgZHObwlVmMP6Y=;
+	b=yiGEDvC3CXA0UaWvTplUDxu66GtNfRPqEmdiDauxza+Q4ttGLwjizjuHuzq5sGNIo454+I
+	BYsQ27+lUCj0N+V4ygju6qUON/7hVog6QF/1T4f3QwFSgmzAI/mio2sf6pvZs9P2AQTSS2
+	t4sS6H45oNYnoWXRaweS+8UKRfoqCwc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715616484;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MXd+mQ0I/4p2Fnz//2efaEsxzZCqjWgZHObwlVmMP6Y=;
+	b=fuzOuypscPqKgL56ohR4oEKpsyRQATXUQBvkZbAFvgIhyt2IdeMiLXo6LeI2HlKLeuuVAy
+	dZ4G/JZO/omRoLDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 521151372E;
+	Mon, 13 May 2024 16:08:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lfhRAeI6Qma2XgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 13 May 2024 16:08:02 +0000
+Content-Type: multipart/mixed; boundary="------------OXbQbRe7LLBA7oGLZQEoccO7"
+Message-ID: <993991e6-7f06-4dfd-b5d7-554b9574384c@suse.de>
+Date: Mon, 13 May 2024 18:07:55 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 5/5] nvme: enable logical block size > PAGE_SIZE
-Message-ID: <ZkIklQU088QYlONS@bombadil.infradead.org>
+Content-Language: en-US
+To: Luis Chamberlain <mcgrof@kernel.org>, Matthew Wilcox
+ <willy@infradead.org>, Kent Overstreet <kent.overstreet@linux.dev>
+Cc: hare@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Pankaj Raghav <kernel@pankajraghav.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
 References: <20240510102906.51844-1-hare@kernel.org>
  <20240510102906.51844-6-hare@kernel.org>
  <Zj_6vDMwyb2O6ztI@bombadil.infradead.org>
  <Zj__oIGiY8xzrwnb@casper.infradead.org>
  <ZkAEhFLVD9gSk0y0@bombadil.infradead.org>
  <ZkAszpvBkb5_UUiH@bombadil.infradead.org>
- <f58dc322-b7d9-487c-854f-c7df953c6519@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f58dc322-b7d9-487c-854f-c7df953c6519@suse.de>
+ <ZkCI_21z_h1ez4sN@bombadil.infradead.org>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ZkCI_21z_h1ez4sN@bombadil.infradead.org>
+X-Spamd-Result: default: False [-3.19 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_BASE64_TEXT(0.10)[];
+	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:+];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	HAS_ATTACHMENT(0.00)[]
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240513_090809_817090_823E0942 
+X-CRM114-Status: GOOD (  10.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,79 +138,272 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 13, 2024 at 03:43:38PM +0200, Hannes Reinecke wrote:
-> On 5/12/24 04:43, Luis Chamberlain wrote:
-> > On Sat, May 11, 2024 at 04:51:32PM -0700, Luis Chamberlain wrote:
-> > > On Sun, May 12, 2024 at 12:30:40AM +0100, Matthew Wilcox wrote:
-> > > > On Sat, May 11, 2024 at 04:09:48PM -0700, Luis Chamberlain wrote:
-> > > > > We can't just do this, we need to consider the actual nvme cap (test it,
-> > > > > and if it crashes and below what the page cache supports, then we have
-> > > > > to go below) and so to make the enablment easier. So we could just move
-> > > > > this to helper [0]. Then when the bdev cache patch goes through the
-> > > > > check for CONFIG_BUFFER_HEAD can be removed, if this goes first.
-> > > > > 
-> > > > > We crash if we go above 1 MiB today, we should be able to go up to 2
-> > > > > MiB but that requires some review to see what stupid thing is getting
-> > > > > in the way.
-> > > > > 
-> > > > > [0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?h=20240408-lbs-scsi-kludge&id=1f7f4dce548cc11872e977939a872b107c68ad53
-> > > > 
-> > > > This is overengineered garbage.  What's the crash?
-> > > 
-> > > I had only tested it with iomap, I had not tested it with buffer-heads,
-> > > and so it would require re-testing. It's Saturday 5pm, I should be doing
-> > > something else other than being on my computer.
-> > 
-> > It crashes because we forgot two things in this series below, so the
-> > change below its us to enable to *at least* boot up to 64k LBA format on
-> > NVMe.
-> > 
-> > One can reproduce this with kdevops with:
-> > 
-> > make defconfig-lbs-xfs-bdev-nvme
-> > make bringup
-> > make linux
-> > 
-> > I've added another defconfig which bumps the LBA format up to 512 KiB to
-> > see if bootup blows up, that has another defconfig:
-> > 
-> > make lbs-xfs-bdev-large-nvme
-> > make bringup
-> > make linux
-> > 
-> > That at least booted. Note that the above defconfigs use this thread's
-> > message ID, so it applies this series on top of the min order branch.
-> > The patch below is just needed.
-> > 
-> > I'll try next going above 512 KiB.
-> > diff --git a/fs/buffer.c b/fs/buffer.c
-> > index 4f73d23c2c46..fa88e300a946 100644
-> > --- a/fs/buffer.c
-> > +++ b/fs/buffer.c
-> > @@ -2360,8 +2360,6 @@ int block_read_full_folio(struct folio *folio, get_block_t *get_block)
-> >   	if (IS_ENABLED(CONFIG_FS_VERITY) && IS_VERITY(inode))
-> >   		limit = inode->i_sb->s_maxbytes;
-> > -	VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
-> > -
-> >   	head = folio_create_buffers(folio, inode, 0);
-> >   	blocksize = head->b_size;
-> > diff --git a/fs/mpage.c b/fs/mpage.c
-> > index e3732686e65f..e124c924b2e7 100644
-> > --- a/fs/mpage.c
-> > +++ b/fs/mpage.c
-> > @@ -178,7 +178,6 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
-> >   	gfp_t gfp = mapping_gfp_constraint(folio->mapping, GFP_KERNEL);
-> >   	/* MAX_BUF_PER_PAGE, for example */
-> > -	VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
-> >   	if (args->is_readahead) {
-> >   		opf |= REQ_RAHEAD;
-> > 
-> Thanks. Will be including that in the next round.
+This is a multi-part message in MIME format.
+--------------OXbQbRe7LLBA7oGLZQEoccO7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I gave it a spin with the above changes, results:
+On 5/12/24 11:16, Luis Chamberlain wrote:
+> On Sat, May 11, 2024 at 07:43:26PM -0700, Luis Chamberlain wrote:
+>> I'll try next going above 512 KiB.
+> 
+> At 1 MiB NVMe LBA format we crash with the BUG_ON(sectors <= 0) on bio_split().
+> 
+> [   13.401651] ------------[ cut here ]------------
+> [   13.403298] kernel BUG at block/bio.c:1626!
+> [   13.404708] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+> [   13.406390] CPU: 5 PID: 87 Comm: kworker/u38:1 Not tainted 6.9.0-rc6+ #2
+> [   13.408480] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> [   13.411304] Workqueue: nvme-wq nvme_scan_work [nvme_core]
+> [   13.412928] RIP: 0010:bio_split (block/bio.c:1626 (discriminator 1))
+> [ 13.414148] Code: 5b 4c 89 e0 5d 41 5c 41 5d c3 cc cc cc cc c7 43 28 00 00 00 00 eb db 0f 0b 45 31 e4 5b 5d 4c 89 e0 41 5c 41 5d c3 cc cc cc cc <0f> 0b 0f 0b 4c 89 e7 e8 bf ee ff ff eb e1 66 66 2e 0f 1f 84 00 00
+> All code
+> ========
+>     0:	5b                   	pop    %rbx
+>     1:	4c 89 e0             	mov    %r12,%rax
+>     4:	5d                   	pop    %rbp
+>     5:	41 5c                	pop    %r12
+>     7:	41 5d                	pop    %r13
+>     9:	c3                   	ret
+>     a:	cc                   	int3
+>     b:	cc                   	int3
+>     c:	cc                   	int3
+>     d:	cc                   	int3
+>     e:	c7 43 28 00 00 00 00 	movl   $0x0,0x28(%rbx)
+>    15:	eb db                	jmp    0xfffffffffffffff2
+>    17:	0f 0b                	ud2
+>    19:	45 31 e4             	xor    %r12d,%r12d
+>    1c:	5b                   	pop    %rbx
+>    1d:	5d                   	pop    %rbp
+>    1e:	4c 89 e0             	mov    %r12,%rax
+>    21:	41 5c                	pop    %r12
+>    23:	41 5d                	pop    %r13
+>    25:	c3                   	ret
+>    26:	cc                   	int3
+>    27:	cc                   	int3
+>    28:	cc                   	int3
+>    29:	cc                   	int3
+>    2a:*	0f 0b                	ud2		<-- trapping instruction
+>    2c:	0f 0b                	ud2
+>    2e:	4c 89 e7             	mov    %r12,%rdi
+>    31:	e8 bf ee ff ff       	call   0xffffffffffffeef5
+>    36:	eb e1                	jmp    0x19
+>    38:	66                   	data16
+>    39:	66                   	data16
+>    3a:	2e                   	cs
+>    3b:	0f                   	.byte 0xf
+>    3c:	1f                   	(bad)
+>    3d:	84 00                	test   %al,(%rax)
+> 	...
+> 
+> Code starting with the faulting instruction
+> ===========================================
+>     0:	0f 0b                	ud2
+>     2:	0f 0b                	ud2
+>     4:	4c 89 e7             	mov    %r12,%rdi
+>     7:	e8 bf ee ff ff       	call   0xffffffffffffeecb
+>     c:	eb e1                	jmp    0xffffffffffffffef
+>     e:	66                   	data16
+>     f:	66                   	data16
+>    10:	2e                   	cs
+>    11:	0f                   	.byte 0xf
+>    12:	1f                   	(bad)
+>    13:	84 00                	test   %al,(%rax)
+> 	...
+> [   13.420639] RSP: 0018:ffffc056407bb8e0 EFLAGS: 00010246
+> [   13.422140] RAX: 0000000000000001 RBX: ffff9d97c165fa80 RCX: ffff9d97e65ce860
+> [   13.424128] RDX: 0000000000000c00 RSI: 0000000000000000 RDI: ffff9d97c165fa80
+> [   13.426123] RBP: 0000000000000000 R08: 0000000000000080 R09: 0000000000000000
+> [   13.428372] R10: ffff9d97c165fa80 R11: ffff9d97c165faf8 R12: ffff9d97df3f7250
+> [   13.430636] R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
+> [   13.432510] FS:  0000000000000000(0000) GS:ffff9d983bd40000(0000) knlGS:0000000000000000
+> [   13.434539] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   13.435987] CR2: 000055b34c8d6188 CR3: 000000011dfb8002 CR4: 0000000000770ef0
+> [   13.437664] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [   13.439354] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+> [   13.440911] PKRU: 55555554
+> [   13.441605] Call Trace:
+> [   13.442250]  <TASK>
+> [   13.442836] ? die (arch/x86/kernel/dumpstack.c:421 arch/x86/kernel/dumpstack.c:434 arch/x86/kernel/dumpstack.c:447)
+> [   13.443585] ? do_trap (arch/x86/kernel/traps.c:114 arch/x86/kernel/traps.c:155)
+> [   13.444356] ? bio_split (block/bio.c:1626 (discriminator 1))
+> [   13.445127] ? do_error_trap (./arch/x86/include/asm/traps.h:58 arch/x86/kernel/traps.c:176)
+> [   13.445975] ? bio_split (block/bio.c:1626 (discriminator 1))
+> [   13.446760] ? exc_invalid_op (arch/x86/kernel/traps.c:267)
+> [   13.447635] ? bio_split (block/bio.c:1626 (discriminator 1))
+> [   13.448325] ? asm_exc_invalid_op (./arch/x86/include/asm/idtentry.h:621)
+> [   13.449137] ? bio_split (block/bio.c:1626 (discriminator 1))
+> [   13.449819] __bio_split_to_limits (block/blk-merge.c:366)
+> [   13.450675] blk_mq_submit_bio (block/blk-mq.c:2973)
+> [   13.451490] ? kmem_cache_alloc (./include/linux/kmemleak.h:42 mm/slub.c:3802 mm/slub.c:3845 mm/slub.c:3852)
+> [   13.452253] ? __mod_node_page_state (mm/vmstat.c:403 (discriminator 2))
+> [   13.453050] submit_bio_noacct_nocheck (./include/linux/bio.h:639 block/blk-core.c:701 block/blk-core.c:729)
+> [   13.453897] ? submit_bio_noacct (block/blk-core.c:758 (discriminator 1))
+> [   13.454658] block_read_full_folio (fs/buffer.c:2429 (discriminator 1))
+> [   13.455467] ? __pfx_blkdev_get_block (block/fops.c:409)
+> [   13.456240] ? __pfx_blkdev_read_folio (block/fops.c:437)
+> [   13.457014] ? __pfx_blkdev_read_folio (block/fops.c:437)
+> [   13.457792] filemap_read_folio (mm/filemap.c:2335)
+> [   13.458484] do_read_cache_folio (mm/filemap.c:3763)
+> [   13.459220] ? __pfx_adfspart_check_ICS (block/partitions/acorn.c:351)
+> [   13.459967] read_part_sector (./include/linux/pagemap.h:970 block/partitions/core.c:715)
+> [   13.460602] adfspart_check_ICS (block/partitions/acorn.c:361)
+> [   13.461269] ? snprintf (lib/vsprintf.c:2963)
+> [   13.461844] ? __pfx_adfspart_check_ICS (block/partitions/acorn.c:351)
+> [   13.462601] bdev_disk_changed (block/partitions/core.c:138 block/partitions/core.c:582 block/partitions/core.c:686 block/partitions/core.c:635)
+> [   13.463268] blkdev_get_whole (block/bdev.c:684)
+> [   13.463871] bdev_open (block/bdev.c:893)
+> [   13.464386] bdev_file_open_by_dev (block/bdev.c:995 block/bdev.c:969)
+> [   13.465006] disk_scan_partitions (block/genhd.c:369 (discriminator 1))
+> [   13.465621] device_add_disk (block/genhd.c:512)
+> [   13.466199] nvme_scan_ns (drivers/nvme/host/core.c:3807 (discriminator 1) drivers/nvme/host/core.c:3961 (discriminator 1)) nvme_core
+> [   13.466885] nvme_scan_work (drivers/nvme/host/core.c:4015 drivers/nvme/host/core.c:4105) nvme_core
+> [   13.467598] process_one_work (kernel/workqueue.c:3254)
+> [   13.468186] worker_thread (kernel/workqueue.c:3329 (discriminator 2) kernel/workqueue.c:3416 (discriminator 2))
+> [   13.468723] ? _raw_spin_lock_irqsave (./arch/x86/include/asm/atomic.h:115 (discriminator 4) ./include/linux/atomic/atomic-arch-fallback.h:2170 (discriminator 4) ./include/linux/atomic/atomic-instrumented.h:1302 (discriminator 4) ./include/asm-generic/qspinlock.h:111 (discriminator 4) ./include/linux/spinlock.h:187 (discriminator 4) ./include/linux/spinlock_api_smp.h:111 (discriminator 4) kernel/locking/spinlock.c:162 (discriminator 4))
+> [   13.469343] ? __pfx_worker_thread (kernel/workqueue.c:3362)
+> [   13.469933] kthread (kernel/kthread.c:388)
+> [   13.470395] ? __pfx_kthread (kernel/kthread.c:341)
+> [   13.470928] ret_from_fork (arch/x86/kernel/process.c:147)
+> [   13.471457] ? __pfx_kthread (kernel/kthread.c:341)
+> [   13.472008] ret_from_fork_asm (arch/x86/entry/entry_64.S:257)
+> [   13.472540]  </TASK>
+> [   13.472865] Modules linked in: crc32c_intel psmouse nvme nvme_core t10_pi crc64_rocksoft crc64 virtio_pci virtio_pci_legacy_dev virtio_pci_modern_dev virtio virtio_ring
+> [   13.474629] ---[ end trace 0000000000000000 ]---
+> [   13.475229] RIP: 0010:bio_split (block/bio.c:1626 (discriminator 1))
+> [ 13.475742] Code: 5b 4c 89 e0 5d 41 5c 41 5d c3 cc cc cc cc c7 43 28 00 00 00 00 eb db 0f 0b 45 31 e4 5b 5d 4c 89 e0 41 5c 41 5d c3 cc cc cc cc <0f> 0b 0f 0b 4c 89 e7 e8 bf ee ff ff eb e1 66 66 2e 0f 1f 84 00 00
+> All code
+> ========
+>     0:	5b                   	pop    %rbx
+>     1:	4c 89 e0             	mov    %r12,%rax
+>     4:	5d                   	pop    %rbp
+>     5:	41 5c                	pop    %r12
+>     7:	41 5d                	pop    %r13
+>     9:	c3                   	ret
+>     a:	cc                   	int3
+>     b:	cc                   	int3
+>     c:	cc                   	int3
+>     d:	cc                   	int3
+>     e:	c7 43 28 00 00 00 00 	movl   $0x0,0x28(%rbx)
+>    15:	eb db                	jmp    0xfffffffffffffff2
+>    17:	0f 0b                	ud2
+>    19:	45 31 e4             	xor    %r12d,%r12d
+>    1c:	5b                   	pop    %rbx
+>    1d:	5d                   	pop    %rbp
+>    1e:	4c 89 e0             	mov    %r12,%rax
+>    21:	41 5c                	pop    %r12
+>    23:	41 5d                	pop    %r13
+>    25:	c3                   	ret
+>    26:	cc                   	int3
+>    27:	cc                   	int3
+>    28:	cc                   	int3
+>    29:	cc                   	int3
+>    2a:*	0f 0b                	ud2		<-- trapping instruction
+>    2c:	0f 0b                	ud2
+>    2e:	4c 89 e7             	mov    %r12,%rdi
+>    31:	e8 bf ee ff ff       	call   0xffffffffffffeef5
+>    36:	eb e1                	jmp    0x19
+>    38:	66                   	data16
+>    39:	66                   	data16
+>    3a:	2e                   	cs
+>    3b:	0f                   	.byte 0xf
+>    3c:	1f                   	(bad)
+>    3d:	84 00                	test   %al,(%rax)
+> 	...
+> 
+> Code starting with the faulting instruction
+> ===========================================
+>     0:	0f 0b                	ud2
+>     2:	0f 0b                	ud2
+>     4:	4c 89 e7             	mov    %r12,%rdi
+>     7:	e8 bf ee ff ff       	call   0xffffffffffffeecb
+>     c:	eb e1                	jmp    0xffffffffffffffef
+>     e:	66                   	data16
+>     f:	66                   	data16
+>    10:	2e                   	cs
+>    11:	0f                   	.byte 0xf
+>    12:	1f                   	(bad)
+>    13:	84 00                	test   %al,(%rax)
+> 	...
+> [   13.477749] RSP: 0018:ffffc056407bb8e0 EFLAGS: 00010246
+> [   13.478405] RAX: 0000000000000001 RBX: ffff9d97c165fa80 RCX: ffff9d97e65ce860
+> [   13.479230] RDX: 0000000000000c00 RSI: 0000000000000000 RDI: ffff9d97c165fa80
+> [   13.480026] RBP: 0000000000000000 R08: 0000000000000080 R09: 0000000000000000
+> [   13.480802] R10: ffff9d97c165fa80 R11: ffff9d97c165faf8 R12: ffff9d97df3f7250
+> [   13.481568] R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
+> [   13.482337] FS:  0000000000000000(0000) GS:ffff9d983bd40000(0000) knlGS:0000000000000000
+> [   13.483218] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   13.483853] CR2: 000055b34c8d6188 CR3: 000000011dfb8002 CR4: 0000000000770ef0
+> [   13.484584] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [   13.485327] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+> [   13.486070] PKRU: 55555554
+> 
 
-https://github.com/linux-kdevops/kdevops/commit/f2641efe7d2037892e0477fdc8daf66af59c1f01
-https://github.com/linux-kdevops/kdevops-results-archive/commit/c3ac880e909a30aa2f9b24231d0f7297dfdf4e8e
+Ah. MAX_BUFS_PER_PAGE getting in the way.
 
-  Luis
+Can you test with the attached patch?
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
+--------------OXbQbRe7LLBA7oGLZQEoccO7
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-fs-buffer-restart-block_read_full_folio-to-avoid-arr.patch"
+Content-Disposition: attachment;
+ filename*0="0001-fs-buffer-restart-block_read_full_folio-to-avoid-arr.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
+
+RnJvbSA1NTBmOGYzYjU1NmNmZDFmOTE5MGUzODk1NTExY2Y0NjY1OTUyMWQxIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4K
+RGF0ZTogV2VkLCAxNCBGZWIgMjAyNCAwOToyMDoyMSArMDEwMApTdWJqZWN0OiBbUEFUQ0hd
+IGZzL2J1ZmZlcjogcmVzdGFydCBibG9ja19yZWFkX2Z1bGxfZm9saW8oKSB0byBhdm9pZCBh
+cnJheQogb3ZlcmZsb3cKCmJsb2NrX3JlYWRfZnVsbF9mb2xpbygpIHVzZXMgYW4gb24tc3Rh
+Y2sgYXJyYXkgdG8gaG9sZCBhbnkgYnVmZmVyX2hlYWRzCndoaWNoIHNob3VsZCBiZSB1cGRh
+dGVkLiBUaGUgYXJyYXkgaXMgc2l6ZWQgZm9yIHRoZSBudW1iZXIgb2YgYnVmZmVyX2hlYWRz
+CnBlciBQQUdFX1NJWkUsIHdoaWNoIG9mIGNvdXJzZSB3aWxsIG92ZXJmbG93IGZvciBsYXJn
+ZSBmb2xpb3MuClNvIGluc3RlYWQgb2YgaW5jcmVhc2luZyB0aGUgc2l6ZSBvZiB0aGUgYXJy
+YXkgKGFuZCB0aGVyZWJ5IGluY3VycmluZwphIHBvc3NpYmxlIHN0YWNrIG92ZXJmbG93IGZv
+ciByZWFsbHkgbGFyZ2UgZm9saW9zKSBzdG9wIHRoZSBpdGVyYXRpb24Kd2hlbiB0aGUgYXJy
+YXkgaXMgZmlsbGVkIHVwLCBzdWJtaXQgdGhlc2UgYnVmZmVyX2hlYWRzLCBhbmQgcmVzdGFy
+dAp0aGUgaXRlcmF0aW9uIHdpdGggdGhlIHJlbWFpbmluZyBidWZmZXJfaGVhZHMuCgpTaWdu
+ZWQtb2ZmLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4KLS0tCiBmcy9idWZm
+ZXIuYyB8IDE5ICsrKysrKysrKysrKysrKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNl
+cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2ZzL2J1ZmZlci5jIGIv
+ZnMvYnVmZmVyLmMKaW5kZXggZmE4OGUzMDBhOTQ2Li40MTUxMTE5M2FlNWMgMTAwNjQ0Ci0t
+LSBhL2ZzL2J1ZmZlci5jCisrKyBiL2ZzL2J1ZmZlci5jCkBAIC0yMzQ5LDcgKzIzNDksNyBA
+QCBpbnQgYmxvY2tfcmVhZF9mdWxsX2ZvbGlvKHN0cnVjdCBmb2xpbyAqZm9saW8sIGdldF9i
+bG9ja190ICpnZXRfYmxvY2spCiB7CiAJc3RydWN0IGlub2RlICppbm9kZSA9IGZvbGlvLT5t
+YXBwaW5nLT5ob3N0OwogCXNlY3Rvcl90IGlibG9jaywgbGJsb2NrOwotCXN0cnVjdCBidWZm
+ZXJfaGVhZCAqYmgsICpoZWFkLCAqYXJyW01BWF9CVUZfUEVSX1BBR0VdOworCXN0cnVjdCBi
+dWZmZXJfaGVhZCAqYmgsICpoZWFkLCAqcmVzdGFydF9iaCA9IE5VTEwsICphcnJbTUFYX0JV
+Rl9QRVJfUEFHRV07CiAJc2l6ZV90IGJsb2Nrc2l6ZTsKIAlpbnQgbnIsIGk7CiAJaW50IGZ1
+bGx5X21hcHBlZCA9IDE7CkBAIC0yMzY2LDYgKzIzNjYsNyBAQCBpbnQgYmxvY2tfcmVhZF9m
+dWxsX2ZvbGlvKHN0cnVjdCBmb2xpbyAqZm9saW8sIGdldF9ibG9ja190ICpnZXRfYmxvY2sp
+CiAJaWJsb2NrID0gZGl2X3U2NChmb2xpb19wb3MoZm9saW8pLCBibG9ja3NpemUpOwogCWxi
+bG9jayA9IGRpdl91NjQobGltaXQgKyBibG9ja3NpemUgLSAxLCBibG9ja3NpemUpOwogCWJo
+ID0gaGVhZDsKK3Jlc3RhcnQ6CiAJbnIgPSAwOwogCWkgPSAwOwogCkBAIC0yNDAwLDcgKzI0
+MDEsMTIgQEAgaW50IGJsb2NrX3JlYWRfZnVsbF9mb2xpbyhzdHJ1Y3QgZm9saW8gKmZvbGlv
+LCBnZXRfYmxvY2tfdCAqZ2V0X2Jsb2NrKQogCQkJCWNvbnRpbnVlOwogCQl9CiAJCWFycltu
+cisrXSA9IGJoOwotCX0gd2hpbGUgKGkrKywgaWJsb2NrKyssIChiaCA9IGJoLT5iX3RoaXNf
+cGFnZSkgIT0gaGVhZCk7CisJfSB3aGlsZSAoaSsrLCBpYmxvY2srKywgKGJoID0gYmgtPmJf
+dGhpc19wYWdlKSAhPSBoZWFkICYmIG5yIDwgTUFYX0JVRl9QRVJfUEFHRSk7CisKKwlpZiAo
+bnIgPT0gTUFYX0JVRl9QRVJfUEFHRSAmJiBiaCAhPSBoZWFkKQorCQlyZXN0YXJ0X2JoID0g
+Ymg7CisJZWxzZQorCQlyZXN0YXJ0X2JoID0gTlVMTDsKIAogCWlmIChmdWxseV9tYXBwZWQp
+CiAJCWZvbGlvX3NldF9tYXBwZWR0b2Rpc2soZm9saW8pOwpAQCAtMjQzMyw2ICsyNDM5LDE1
+IEBAIGludCBibG9ja19yZWFkX2Z1bGxfZm9saW8oc3RydWN0IGZvbGlvICpmb2xpbywgZ2V0
+X2Jsb2NrX3QgKmdldF9ibG9jaykKIAkJZWxzZQogCQkJc3VibWl0X2JoKFJFUV9PUF9SRUFE
+LCBiaCk7CiAJfQorCS8qCisJICogRm91bmQgbW9yZSBidWZmZXJzIHRoYW4gJ2FycicgY291
+bGQgaG9sZCwKKwkgKiByZXN0YXJ0IHRvIHN1Ym1pdCB0aGUgcmVtYWluaW5nIG9uZXMuCisJ
+ICovCisJaWYgKHJlc3RhcnRfYmgpIHsKKwkJYmggPSByZXN0YXJ0X2JoOworCQlnb3RvIHJl
+c3RhcnQ7CisJfQorCiAJcmV0dXJuIDA7CiB9CiBFWFBPUlRfU1lNQk9MKGJsb2NrX3JlYWRf
+ZnVsbF9mb2xpbyk7Ci0tIAoyLjM1LjMKCg==
+
+--------------OXbQbRe7LLBA7oGLZQEoccO7--
 
