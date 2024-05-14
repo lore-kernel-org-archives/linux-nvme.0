@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99E08C25B79
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 May 2024 17:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 874ECC04FFE
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 May 2024 17:53:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6h1FkNmsvcraJuPKXwoMATWjG6B4CiSCjyJHEuznVDE=; b=GZLKOJjMraRny5/h83KoG5XQ0q
-	xJGhzNws2LWwazon59vJiWUgNQTB6gzGl580GzB5rVzgwBejlyZLJZUlVggIyN0qpBbcT2Qj4EiXf
-	oqpwC1wxNAmtNyo1eJW1f8w8AWGcuMpDFyLSUOSnpa6XgmJzol8rpP/iiTDRzSY+HemNZYyXcBsks
-	q51pxv/fOBs+IanEAI6VpTCUJXn0H0n5vy9DEJYXCxiJmkGv9c/A/njGY59EezwMdDGqh0Ac9UXYa
-	I+Z2vvVVSXE35ka42L/0TYrWqFbBH0YW3nYsbUMBSc515Xfje6Jw03KvNgYqny6RddNczxy9KJQ8N
-	fg6s77Lg==;
+	bh=vFxooJ/Wd2kSlfPg0r+rfS28FX2xdaR0dGl5yZTVUZc=; b=oOS2r6z7NL5240KEOdrwiE9aXr
+	haTfDXdnwv0FAHZKW13+HSnBtq6UjZT7trc/XYNuqDWxi+soX3c1zJ4OEvPgCjIgCJtyglDpygNNO
+	h6gOoXVIciCyqQ7uZTyLssJlEpAYKR0ZRVYNh8YTi8Nry7twLaySuBa3AqmdFRhLyvuzaKbOPFSa7
+	nGALox408cld1poChD7BY9aBdX5uzqqVsq1pDc/5b5EskHxbLTP+9rf0a99tvTD9wbEJIlccpi9Hv
+	aYZr092O8CyGuL32ddm50blyXW75phlIb1RTWzHWeqsxU3N8SjQZEYUU37FbPzCp13OoRxoZUZIuX
+	lPy38izA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s6wLL-0000000Gj5z-3BpL;
-	Tue, 14 May 2024 17:53:39 +0000
+	id 1s6wLN-0000000Gj7i-44AF;
+	Tue, 14 May 2024 17:53:41 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s6wLI-0000000Gj3u-0ruT
+	id 1s6wLK-0000000Gj59-0SNg
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 May 2024 17:53:38 +0000
+	Tue, 14 May 2024 17:53:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715709214;
+	s=mimecast20190719; t=1715709217;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6h1FkNmsvcraJuPKXwoMATWjG6B4CiSCjyJHEuznVDE=;
-	b=TIfEsGPn0rwH1ZszSoLiTEzx5RKB+5Ab7ZlVVRvmb/9Gh2mJ01W+kgYyBQb1diXU8j5liw
-	kHKHZ8Et/79yEqZIQRyLW/urtVNTAJmIcm1zDzbGhsflBSDY/XtOyPdMWj+BmsyRpDGiNY
-	RxTGdWXnN/81A04ardesU2LxD4PXiy0=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-240-qbfSjT5DPbmEEoR6umgCjw-1; Tue,
- 14 May 2024 13:53:31 -0400
-X-MC-Unique: qbfSjT5DPbmEEoR6umgCjw-1
+	bh=vFxooJ/Wd2kSlfPg0r+rfS28FX2xdaR0dGl5yZTVUZc=;
+	b=Xp8E3WrYFkRUojrbhZcb11uyZkNqcdWq0UY7rIeZ43QJ1WcO8iO82TPuEGcqzI3ivLDkef
+	Q388o8rKKPKo4hQNTp8m1PDwrvGMUuQH+3PrhjlYTMPflkyB7AMriQtXuEhAWWpIQKSc8s
+	d2Y6PCFJEx6kCE6OfJGFjKEtgoY2H9c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-222-cAwzDMOuML6LGk8vAbX-0g-1; Tue, 14 May 2024 13:53:32 -0400
+X-MC-Unique: cAwzDMOuML6LGk8vAbX-0g-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBAA638000A6;
-	Tue, 14 May 2024 17:53:30 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 118E08001F7;
+	Tue, 14 May 2024 17:53:32 +0000 (UTC)
 Received: from jmeneghi.bos.com (unknown [10.2.17.24])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B1595400EAC;
-	Tue, 14 May 2024 17:53:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E87CC400059;
+	Tue, 14 May 2024 17:53:30 +0000 (UTC)
 From: John Meneghini <jmeneghi@redhat.com>
 To: tj@kernel.org,
 	josef@toxicpanda.com,
@@ -67,9 +67,9 @@ Cc: linux-block@vger.kernel.org,
 	jmeneghi@redhat.com,
 	jrani@purestorage.com,
 	randyj@purestorage.com
-Subject: [PATCH v4 2/6] nvme: multipath: only update ctrl->nr_active when using queue-depth iopolicy
-Date: Tue, 14 May 2024 13:53:18 -0400
-Message-Id: <20240514175322.19073-3-jmeneghi@redhat.com>
+Subject: [PATCH v4 3/6] nvme: multipath: Invalidate current_path when changing iopolicy
+Date: Tue, 14 May 2024 13:53:19 -0400
+Message-Id: <20240514175322.19073-4-jmeneghi@redhat.com>
 In-Reply-To: <20240514175322.19073-1-jmeneghi@redhat.com>
 References: <20240514175322.19073-1-jmeneghi@redhat.com>
 MIME-Version: 1.0
@@ -77,8 +77,9 @@ Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240514_105336_355855_F2A0EC32 
-X-CRM114-Status: GOOD (  14.86  )
+X-CRM114-CacheID: sfid-20240514_105338_325855_5813D387 
+X-CRM114-Status: UNSURE (   9.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,116 +96,29 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: "Ewan D. Milne" <emilne@redhat.com>
 
-The atomic updates of ctrl->nr_active are unnecessary when using
-numa or round-robin iopolicy, so avoid that cost on a per-request basis.
-Clear nr_active when changing iopolicy and do not decrement below zero.
-(This handles changing the iopolicy while requests are in flight.)
+When switching back to numa from round-robin, current_path may refer to
+a different path than the one numa would have selected, and it is desirable
+to have consistent behavior.
 
 Tested-by: John Meneghini <jmeneghi@redhat.com>
 Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c      |  2 +-
- drivers/nvme/host/multipath.c | 21 ++++++++++++++++++---
- drivers/nvme/host/nvme.h      |  6 ++++++
- 3 files changed, 25 insertions(+), 4 deletions(-)
+ drivers/nvme/host/multipath.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a066429b790d..1dd7c52293ff 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -110,7 +110,7 @@ struct workqueue_struct *nvme_delete_wq;
- EXPORT_SYMBOL_GPL(nvme_delete_wq);
- 
- static LIST_HEAD(nvme_subsystems);
--static DEFINE_MUTEX(nvme_subsystems_lock);
-+DEFINE_MUTEX(nvme_subsystems_lock);
- 
- static DEFINE_IDA(nvme_instance_ida);
- static dev_t nvme_ctrl_base_chr_devt;
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 9e36002d0831..1e9338543ded 100644
+index 1e9338543ded..8702a40a1971 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -133,7 +133,8 @@ void nvme_mpath_start_request(struct request *rq)
- 	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
- 		return;
- 
--	atomic_inc(&ns->ctrl->nr_active);
-+	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD)
-+		atomic_inc(&ns->ctrl->nr_active);
- 	nvme_req(rq)->flags |= NVME_MPATH_IO_STATS;
- 	nvme_req(rq)->start_time = bdev_start_io_acct(disk->part0, req_op(rq),
- 						      jiffies);
-@@ -147,7 +148,8 @@ void nvme_mpath_end_request(struct request *rq)
- 	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
- 		return;
- 
--	atomic_dec(&ns->ctrl->nr_active);
-+	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD)
-+		atomic_dec_if_positive(&ns->ctrl->nr_active);
- 	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
- 			 blk_rq_bytes(rq) >> SECTOR_SHIFT,
- 			 nvme_req(rq)->start_time);
-@@ -850,6 +852,19 @@ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
- 			  nvme_iopolicy_names[READ_ONCE(subsys->iopolicy)]);
- }
- 
-+void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
-+{
-+	struct nvme_ctrl *ctrl;
-+
-+	WRITE_ONCE(subsys->iopolicy, iopolicy);
-+
-+	mutex_lock(&nvme_subsystems_lock);
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-+		atomic_set(&ctrl->nr_active, 0);
-+	}
-+	mutex_unlock(&nvme_subsystems_lock);
-+}
-+
- static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
- 		struct device_attribute *attr, const char *buf, size_t count)
- {
-@@ -859,7 +874,7 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
- 
- 	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
- 		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
--			WRITE_ONCE(subsys->iopolicy, i);
-+			nvme_subsys_iopolicy_update(subsys, i);
- 			return count;
- 		}
+@@ -861,6 +861,7 @@ void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
+ 	mutex_lock(&nvme_subsystems_lock);
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+ 		atomic_set(&ctrl->nr_active, 0);
++		nvme_mpath_clear_ctrl_paths(ctrl);
  	}
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index e7d0a56d35d4..4e876524726a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -50,6 +50,8 @@ extern struct workqueue_struct *nvme_wq;
- extern struct workqueue_struct *nvme_reset_wq;
- extern struct workqueue_struct *nvme_delete_wq;
- 
-+extern struct mutex nvme_subsystems_lock;
-+
- /*
-  * List of workarounds for devices that required behavior not specified in
-  * the standard.
-@@ -937,6 +939,7 @@ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
- void nvme_mpath_shutdown_disk(struct nvme_ns_head *head);
- void nvme_mpath_start_request(struct request *rq);
- void nvme_mpath_end_request(struct request *rq);
-+void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy);
- 
- static inline void nvme_trace_bio_complete(struct request *req)
- {
-@@ -1036,6 +1039,9 @@ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
- {
- 	return false;
+ 	mutex_unlock(&nvme_subsystems_lock);
  }
-+static inline void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
-+{
-+}
- #endif /* CONFIG_NVME_MULTIPATH */
- 
- int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
 -- 
 2.39.3
 
