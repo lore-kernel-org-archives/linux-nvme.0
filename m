@@ -4,140 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0CC4C25B74
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 07:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4273C25B74
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 07:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fcrs1hfVkjlHVW7bOXNOC8znpYsTD2JmXRZJGVnZaTg=; b=NDLk4YEwAxG1Zger5i9llkPbHI
-	DSvvb+dmdLXnaIXEpyH8BQLh8xmdYrSOPjiLN2aTS7OAOD06h/oKy09txl7RLIzuwtoOE5ibug4DY
-	dXLZt7D/rb0KG3bhgpoMv0LkMBwP8aPpVCR+r2CFklqTUlSHLRSkEyjvB1MxIR3GUdKRz62Pbktm7
-	6e5o/Ks18dzsZI5jceyAwpKs+4jbkUx3NPEJs5cMLbo6Z8ejcKek9QkzELbq89M/VTgeeaL3BavfJ
-	uHhFMbIpTWqyz0fM0BHSpD7qUmpVzJNOt+qr8uMCiQ9ZmqxKnkWik8dLKRamjOYjdSyf86xIZ7anJ
-	EuCBI6Aw==;
+	bh=+lrRgIQdVDO3XzGtxU83cu1X0M03h8cmXTt5QrnQM9I=; b=AJj+muMdXGC7C3FP+WQy/InxWs
+	ov/NpXr+3R5dDhUgPN88RaXU/4OH/+qS6ifmAB3Wnw34V+q3JF7YOTx/r0x0nGB8FOqdOCa8AL5M0
+	z6ZZrDNaQoXrcR9zC9SPXcvUEBsk/z6UZLjvHjncnFbg0PR7Iakur02As7V1Q+mrgJF2Wqf1d4h0z
+	lODV2ZjqVeE5H/e1wKBLpe5/uTWQRrWLRL6Zr4U38OuARQdvP/NDBqDy9d0TrupaFmnUqivLxSa8B
+	/1xpqKYFf/GkXXLaTmPK7ng3aDpt3DuCvRicxcPdPM5rZGbVds1R5o3ZFg2eFNSOBSd3l2qvrAnun
+	3SM7fx9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAOxt-00000008Dr9-3290;
-	Fri, 24 May 2024 07:03:45 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1sAPIN-00000008G1Q-0PK9;
+	Fri, 24 May 2024 07:24:55 +0000
+Received: from szxga03-in.huawei.com ([45.249.212.189])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAOxp-00000008Doh-0EoL
-	for linux-nvme@lists.infradead.org;
-	Fri, 24 May 2024 07:03:44 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240524070331epoutp03e2770c4820c1a3968315d1c2f56e3e47~SWsVAveND0162001620epoutp03L
-	for <linux-nvme@lists.infradead.org>; Fri, 24 May 2024 07:03:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240524070331epoutp03e2770c4820c1a3968315d1c2f56e3e47~SWsVAveND0162001620epoutp03L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1716534211;
-	bh=fcrs1hfVkjlHVW7bOXNOC8znpYsTD2JmXRZJGVnZaTg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GqL9tjnZZt8X6EigF1/D5trSRVqa3CmecAJbL891GseVyUaF5ibFdJ6syZS7PAjWU
-	 EMQbagZf+nBm810/AshsWNVSYa4JK3qP+RV2Qdc7UKloK5ak50urZ1nqY2pkPP4P/i
-	 /1nMD2xnS7YlMQmDNGP+DUD4UDSHLAc1Svfk5Wa4=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240524070330epcas5p193140b9e9c3ca20ce1044b5e97e16cc7~SWsUYtv1G2043720437epcas5p18;
-	Fri, 24 May 2024 07:03:30 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4VlwxD29VZz4x9Q6; Fri, 24 May
-	2024 07:03:28 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	43.35.09665.0CB30566; Fri, 24 May 2024 16:03:28 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240524070201epcas5p3a398a82835799d0956448c3590544c0a~SWrBgm2e33040130401epcas5p3j;
-	Fri, 24 May 2024 07:02:01 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240524070201epsmtrp27d72daa4f932ba34758cd2fa2e31a2ba~SWrBfF5Gm1951119511epsmtrp2S;
-	Fri, 24 May 2024 07:02:01 +0000 (GMT)
-X-AuditID: b6c32a4b-829fa700000025c1-6d-66503bc0b68a
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BA.14.19234.96B30566; Fri, 24 May 2024 16:02:01 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240524070157epsmtip26fdc4027c3bba14725ebb809cd21c241~SWq93B5fC0925409254epsmtip2m;
-	Fri, 24 May 2024 07:01:57 +0000 (GMT)
-Date: Fri, 24 May 2024 06:54:49 +0000
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
-	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240524065449.ydfracefq77urii4@nj.shetty@samsung.com>
+	id 1s7ERJ-00000001bBM-1cVP;
+	Wed, 15 May 2024 13:13:05 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4VfYVK283XzPl71;
+	Wed, 15 May 2024 21:10:01 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id C5A74180080;
+	Wed, 15 May 2024 21:12:55 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 15 May 2024 21:12:55 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
+	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>, Jeroen
+ de Borst <jeroendb@google.com>, Praveen Kaligineedi
+	<pkaligineedi@google.com>, Shailend Chand <shailend@google.com>, Eric Dumazet
+	<edumazet@google.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Tony
+ Nguyen <anthony.l.nguyen@intel.com>, Sunil Goutham <sgoutham@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>, Subbaraya Sundeep
+	<sbhatta@marvell.com>, hariprasad <hkelam@marvell.com>, Felix Fietkau
+	<nbd@nbd.name>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
+	<Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, "Michael S. Tsirkin"
+	<mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko
+	<andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
+ Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+	<yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
+	<sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker
+	<anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Jeff Layton
+	<jlayton@kernel.org>, Neil Brown <neilb@suse.de>, Olga Kornievskaia
+	<kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
+	<tom@talpey.com>, <intel-wired-lan@lists.osuosl.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-nvme@lists.infradead.org>, <kvm@vger.kernel.org>,
+	<virtualization@lists.linux.dev>, <linux-mm@kvack.org>,
+	<bpf@vger.kernel.org>, <linux-afs@lists.infradead.org>,
+	<linux-nfs@vger.kernel.org>
+Subject: [RFC v4 06/13] mm: page_frag: add '_va' suffix to page_frag API
+Date: Wed, 15 May 2024 21:09:25 +0800
+Message-ID: <20240515130932.18842-7-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20240515130932.18842-1-linyunsheng@huawei.com>
+References: <20240515130932.18842-1-linyunsheng@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH97u3vS1EyLXg/FmiwzKzVMKjUNgPBcYmIdegjOwRM9wGd/QK
-	SGlry0uSKRQZoCIFEUMRQYbykIECIyCgrPKQqquGhwFE3psTeQiLZkFhrQXjf5/zPeeb8/ud
-	k8PFeVc4fG6ULJZRymipgLBkNd4WCp3adwcfcv2rcgOq1XfhSK15g6OrI9kEmrm9CFD+wn84
-	mmpPB2j5vgFHDV1PACopLWKhwfZmDLWW5mKo8monhgrPp2Koc3WWQLm6AYCm+7UYahtyRJd+
-	KWOh1rYeFuq9cYFAxVemOai8ewVDORn9GGqaSgGoZmaehe4M2SHDm262nx3V2xdI6Ush1awd
-	4VCGJ9dZVO/9OKquKpOg6suOU0/rCwDVMphMUL+eOcumslLnCKo5bZRNvZgeYlHzN/sJ6kxD
-	FaDulXRwgm1Cor0jGVrCKO0ZWbhcEiWL8BEEfh26J9TD01XkJPJCnwrsZXQM4yPw3xfsFBAl
-	NQ5HYB9PS+OMUjCtUglcfL2V8rhYxj5Sror1ETAKiVQhVjir6BhVnCzCWcbE7hK5urp5GAvD
-	oiNPZTcSiqWNiU2neclgwPoksOBCUgyzz/WzTwJLLo9sAfBpURFhDhYBPG2YZL0LJrIvYuuW
-	S6vFmDnRDODD4fE1/xKAdeNDwFTFInfA/L6zRjuXS5CO8O4q1yTbkgL4Il3HMdXjZDkBX6+O
-	sE0JGzIMzupz3rIVuQcuFtzkmHkj7CmYYpnYgtwNX3cM4iYzJP+0gPc6KzjmJ/lD7cuutefZ
-	wGfdDWs6Hy7NtRFmToCVeRWE2XwCQO0jLTAnPoNp+mzcxDgZCccznuNmfSs8p6/BzLo1zFqe
-	WmtgBZsurrMDrK4tWWuwBQ68SiFMP4YkBYerPzJPZQ7AxjsaTAO2ad/7kPa9dmbeBTMX1Gyt
-	0Y6TdrB8hWtGIay94VIC2FVgC6NQxUQwKg+Fu4xJeLflcHlMHXh7MDsDm8DE2IKzDmBcoAOQ
-	iwtsrQ5W7j/Es5LQR5MYpTxUGSdlVDrgYVxQDs7fFC43XpwsNlQk9nIVe3p6ir3cPUWCzVYz
-	aUUSHhlBxzLRDKNglOs+jGvBT8YO9vsdzg0ytAZ8KFsaqcMffuk7KdKceukU4mi937JxyeDw
-	+NXzI0sq4e8h+em3Wr9tlz7wn8u5npJE8KU1YTwgTOXrkv7OczhOb6hUu0xW3JJEz//Raqt+
-	sCeRxIJTBgK1GX0XMqPVLQe+yNn6cdpPY9cCyo7urfNiUmd+Ezf6eyc8/mqH/bP87SEBMZfz
-	/o3//oPZyw5jpT88ovJP7EWhhcMzGb4en0xOB23PCDpg4zH18+fx85K+CfpuvU/Q4ZaF6k3F
-	x+QdWVN9bpoaZ99j2470i1cCu5KD/imUlwj97N2+0Y8lFvwY3rhZGdpjqcaCNXmC72rTLbuW
-	z48S5LUkd9A8KmCpImnRTlypov8HtDMqBbkEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUxTWRiGOfdcbi9V9Fq2A3UZ6xZlqHZCyFGMkmgmJ1FiXWaMEpVGLrUj
-	UGwtihpBiQI1OkhRhyrKZrHgEgou7FoBBSXNTAGljogB4oLC4MTEra0pxOi/J+/zvt+vj4Wi
-	fjqEVSXt5jVJigQJI6Rv3JXMCFNFyuMXXT4lxtfaWyE+nOOEuOLpnwweuvsO4NP/fYR44HYm
-	wJ87bBBXt/YCXFhcQOOe2zUUri/OpbC5ooXCZ89kULjF/ZbBudZugAe7jBRucITioqOlNK5v
-	aKOxvfYcgy+YBgW47J6Lwiezuih8a+AQwFeHRmh83yHGNuc97ygxsXeuIu3FiNQYnwqIrbeS
-	JvYOHbGUZzOkqjSNvKzKB6SuJ50hJScM3uR4xjBDao488yajgw6ajDR2MeREdTkgDwubBXK/
-	zcKlcXyCKoXXLFwWK9zxvP9/Kvni5L3mjGMgHRRP1AMfFnHhqMh9gdIDISvibgKUZ6tkxkUw
-	Mjmb4Tj7IbPrhWC8NApQ15k6yiNobg463Wmg9YBlGS4UPXCzntifk6DRTOtYH3IVDKq1lgCP
-	8ONi0dv2k94e9uVWoHf5jQIPi7hhgJoy8Hg+BbXlD9AehlwEOl/1HHruQ06Mylxj9324SPSl
-	uQfmAM74w8L4w8L4fVEIYDkI4JO1icrE7ckyqVaRqNUlKaXb1YkWMPYHC9bdAqZrTqkVUCyw
-	AsRCib9vjDk6XuQbp0jdx2vU2zS6BF5rBWKWlgT5zkrIjhNxSsVufifPJ/Oab5ZifULSqWAe
-	TvUP/2NGgfD99NcGNTJPCI+rXViwZfmNpE2m89X2ol8OdM9c9rLaK2vpb+KYL4P/9jmalmyU
-	VjwJ2Leh744+8mBglt7vYVPdSNimna4J8o8H3N0tlr8i4q/EtslyyNyo8Murjz6bZ3ZC+YM9
-	G6JWWGbTaatjU4Tq6JDfg9fCF+v3/zRla9ixv1+nqHNRb6rpVWpgzeNHWfOvXwk6lFOy0r72
-	UkraK0NMr2SNrd9ryCJzX4/p3lUipbb8k2dV1S4Wq0vrJ+taQ6O9+JDswMrhaR1ElRe0X9pA
-	lmf+PEn/qw41KvvqlR3kzQel7smlTsPiN4fL5LJPAeoInw8OZb7rvoTW7lDIFkCNVvEVtAjO
-	T3YDAAA=
-X-CMS-MailID: 20240524070201epcas5p3a398a82835799d0956448c3590544c0a
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
-	<20240520102033.9361-3-nj.shetty@samsung.com>
-	<f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240524_000341_456121_F5C88973 
-X-CRM114-Status: GOOD (  17.47  )
+X-CRM114-CacheID: sfid-20240515_061302_012589_B14295F2 
+X-CRM114-Status: GOOD (  17.02  )
+X-Mailman-Approved-At: Fri, 24 May 2024 00:24:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,58 +101,561 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Currently the page_frag API is returning 'virtual address'
+or 'va' when allocing and expecting 'virtual address' or
+'va' as input when freeing.
 
-On 21/05/24 09:01AM, Hannes Reinecke wrote:
->On 5/20/24 12:20, Nitesh Shetty wrote:
->>We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
->>Since copy is a composite operation involving src and dst sectors/lba,
->>each needs to be represented by a separate bio to make it compatible
->>with device mapper.
->>We expect caller to take a plug and send bio with destination information,
->>followed by bio with source information.
->>Once the dst bio arrives we form a request and wait for source
->>bio. Upon arrival of source bio we merge these two bio's and send
->>corresponding request down to device driver.
->>Merging non copy offload bio is avoided by checking for copy specific
->>opcodes in merge function.
->>
->>Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->>Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
->>---
->>  block/blk-core.c          |  7 +++++++
->>  block/blk-merge.c         | 41 +++++++++++++++++++++++++++++++++++++++
->>  block/blk.h               | 16 +++++++++++++++
->>  block/elevator.h          |  1 +
->>  include/linux/bio.h       |  6 +-----
->>  include/linux/blk_types.h | 10 ++++++++++
->>  6 files changed, 76 insertions(+), 5 deletions(-)
->>
->I am a bit unsure about leveraging 'merge' here. As Bart pointed out, 
->this is arguably as mis-use of the 'merge' functionality as we don't
->actually merge bios, but rather use the information from these bios to
->form the actual request.
->Wouldn't it be better to use bio_chain here, and send out the eventual
->request from the end_io function of the bio chain?
->
-With above bio chain approach, I see a difficulty while dealing with
-stacked/partitioned devices, as they might get remapped.
-Or am I missing something here ?
+As we are about to support new use cases that the caller
+need to deal with 'struct page' or need to deal with both
+'va' and 'struct page'. In order to differentiate the API
+handling between 'va' and 'struct page', add '_va' suffix
+to the corresponding API mirroring the page_pool_alloc_va()
+API of the page_pool. So that callers expecting to deal with
+va, page or both va and page may call page_frag_alloc_va*,
+page_frag_alloc_pg*, or page_frag_alloc* API accordingly.
 
-Bart, Hannes,
-Regarding merge, does it looks any better, if we use single request
-operation such as REQ_OP_COPY and use op_flags(REQ_COPY_DST/REQ_COPY_SRC)
-to identify dst and src bios ?
+CC: Alexander Duyck <alexander.duyck@gmail.com>
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+---
+ drivers/net/ethernet/google/gve/gve_rx.c      |  4 ++--
+ drivers/net/ethernet/intel/ice/ice_txrx.c     |  2 +-
+ drivers/net/ethernet/intel/ice/ice_txrx.h     |  2 +-
+ drivers/net/ethernet/intel/ice/ice_txrx_lib.c |  2 +-
+ .../net/ethernet/intel/ixgbevf/ixgbevf_main.c |  4 ++--
+ .../marvell/octeontx2/nic/otx2_common.c       |  2 +-
+ drivers/net/ethernet/mediatek/mtk_wed_wo.c    |  4 ++--
+ drivers/nvme/host/tcp.c                       |  8 +++----
+ drivers/nvme/target/tcp.c                     | 22 +++++++++----------
+ drivers/vhost/net.c                           |  6 ++---
+ include/linux/page_frag_cache.h               | 21 +++++++++---------
+ include/linux/skbuff.h                        |  2 +-
+ kernel/bpf/cpumap.c                           |  2 +-
+ mm/page_frag_cache.c                          | 12 +++++-----
+ mm/page_frag_test.c                           | 11 +++++-----
+ net/core/skbuff.c                             | 18 +++++++--------
+ net/core/xdp.c                                |  2 +-
+ net/rxrpc/txbuf.c                             | 15 +++++++------
+ net/sunrpc/svcsock.c                          |  6 ++---
+ 19 files changed, 74 insertions(+), 71 deletions(-)
 
+diff --git a/drivers/net/ethernet/google/gve/gve_rx.c b/drivers/net/ethernet/google/gve/gve_rx.c
+index acb73d4d0de6..b6c10100e462 100644
+--- a/drivers/net/ethernet/google/gve/gve_rx.c
++++ b/drivers/net/ethernet/google/gve/gve_rx.c
+@@ -729,7 +729,7 @@ static int gve_xdp_redirect(struct net_device *dev, struct gve_rx_ring *rx,
+ 
+ 	total_len = headroom + SKB_DATA_ALIGN(len) +
+ 		SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+-	frame = page_frag_alloc(&rx->page_cache, total_len, GFP_ATOMIC);
++	frame = page_frag_alloc_va(&rx->page_cache, total_len, GFP_ATOMIC);
+ 	if (!frame) {
+ 		u64_stats_update_begin(&rx->statss);
+ 		rx->xdp_alloc_fails++;
+@@ -742,7 +742,7 @@ static int gve_xdp_redirect(struct net_device *dev, struct gve_rx_ring *rx,
+ 
+ 	err = xdp_do_redirect(dev, &new, xdp_prog);
+ 	if (err)
+-		page_frag_free(frame);
++		page_frag_free_va(frame);
+ 
+ 	return err;
+ }
+diff --git a/drivers/net/ethernet/intel/ice/ice_txrx.c b/drivers/net/ethernet/intel/ice/ice_txrx.c
+index 8bb743f78fcb..399b317c509d 100644
+--- a/drivers/net/ethernet/intel/ice/ice_txrx.c
++++ b/drivers/net/ethernet/intel/ice/ice_txrx.c
+@@ -126,7 +126,7 @@ ice_unmap_and_free_tx_buf(struct ice_tx_ring *ring, struct ice_tx_buf *tx_buf)
+ 		dev_kfree_skb_any(tx_buf->skb);
+ 		break;
+ 	case ICE_TX_BUF_XDP_TX:
+-		page_frag_free(tx_buf->raw_buf);
++		page_frag_free_va(tx_buf->raw_buf);
+ 		break;
+ 	case ICE_TX_BUF_XDP_XMIT:
+ 		xdp_return_frame(tx_buf->xdpf);
+diff --git a/drivers/net/ethernet/intel/ice/ice_txrx.h b/drivers/net/ethernet/intel/ice/ice_txrx.h
+index feba314a3fe4..6379f57d8228 100644
+--- a/drivers/net/ethernet/intel/ice/ice_txrx.h
++++ b/drivers/net/ethernet/intel/ice/ice_txrx.h
+@@ -148,7 +148,7 @@ static inline int ice_skb_pad(void)
+  * @ICE_TX_BUF_DUMMY: dummy Flow Director packet, unmap and kfree()
+  * @ICE_TX_BUF_FRAG: mapped skb OR &xdp_buff frag, only unmap DMA
+  * @ICE_TX_BUF_SKB: &sk_buff, unmap and consume_skb(), update stats
+- * @ICE_TX_BUF_XDP_TX: &xdp_buff, unmap and page_frag_free(), stats
++ * @ICE_TX_BUF_XDP_TX: &xdp_buff, unmap and page_frag_free_va(), stats
+  * @ICE_TX_BUF_XDP_XMIT: &xdp_frame, unmap and xdp_return_frame(), stats
+  * @ICE_TX_BUF_XSK_TX: &xdp_buff on XSk queue, xsk_buff_free(), stats
+  */
+diff --git a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+index 2719f0e20933..a1a41a14df0d 100644
+--- a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
++++ b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+@@ -250,7 +250,7 @@ ice_clean_xdp_tx_buf(struct device *dev, struct ice_tx_buf *tx_buf,
+ 
+ 	switch (tx_buf->type) {
+ 	case ICE_TX_BUF_XDP_TX:
+-		page_frag_free(tx_buf->raw_buf);
++		page_frag_free_va(tx_buf->raw_buf);
+ 		break;
+ 	case ICE_TX_BUF_XDP_XMIT:
+ 		xdp_return_frame_bulk(tx_buf->xdpf, bq);
+diff --git a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+index b938dc06045d..fcd1b149a45d 100644
+--- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
++++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+@@ -303,7 +303,7 @@ static bool ixgbevf_clean_tx_irq(struct ixgbevf_q_vector *q_vector,
+ 
+ 		/* free the skb */
+ 		if (ring_is_xdp(tx_ring))
+-			page_frag_free(tx_buffer->data);
++			page_frag_free_va(tx_buffer->data);
+ 		else
+ 			napi_consume_skb(tx_buffer->skb, napi_budget);
+ 
+@@ -2413,7 +2413,7 @@ static void ixgbevf_clean_tx_ring(struct ixgbevf_ring *tx_ring)
+ 
+ 		/* Free all the Tx ring sk_buffs */
+ 		if (ring_is_xdp(tx_ring))
+-			page_frag_free(tx_buffer->data);
++			page_frag_free_va(tx_buffer->data);
+ 		else
+ 			dev_kfree_skb_any(tx_buffer->skb);
+ 
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
+index a85ac039d779..8eb5820b8a70 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
+@@ -553,7 +553,7 @@ static int __otx2_alloc_rbuf(struct otx2_nic *pfvf, struct otx2_pool *pool,
+ 	*dma = dma_map_single_attrs(pfvf->dev, buf, pool->rbsize,
+ 				    DMA_FROM_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
+ 	if (unlikely(dma_mapping_error(pfvf->dev, *dma))) {
+-		page_frag_free(buf);
++		page_frag_free_va(buf);
+ 		return -ENOMEM;
+ 	}
+ 
+diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
+index 7063c78bd35f..c4228719f8a4 100644
+--- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
++++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
+@@ -142,8 +142,8 @@ mtk_wed_wo_queue_refill(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q,
+ 		dma_addr_t addr;
+ 		void *buf;
+ 
+-		buf = page_frag_alloc(&q->cache, q->buf_size,
+-				      GFP_ATOMIC | GFP_DMA32);
++		buf = page_frag_alloc_va(&q->cache, q->buf_size,
++					 GFP_ATOMIC | GFP_DMA32);
+ 		if (!buf)
+ 			break;
+ 
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 28bc2f373cfa..5f0af3191477 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -506,7 +506,7 @@ static void nvme_tcp_exit_request(struct blk_mq_tag_set *set,
+ {
+ 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+ 
+-	page_frag_free(req->pdu);
++	page_frag_free_va(req->pdu);
+ }
+ 
+ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+@@ -520,7 +520,7 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 
+-	req->pdu = page_frag_alloc(&queue->pf_cache,
++	req->pdu = page_frag_alloc_va(&queue->pf_cache,
+ 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
+ 		GFP_KERNEL | __GFP_ZERO);
+ 	if (!req->pdu)
+@@ -1337,7 +1337,7 @@ static void nvme_tcp_free_async_req(struct nvme_tcp_ctrl *ctrl)
+ {
+ 	struct nvme_tcp_request *async = &ctrl->async_req;
+ 
+-	page_frag_free(async->pdu);
++	page_frag_free_va(async->pdu);
+ }
+ 
+ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
+@@ -1346,7 +1346,7 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
+ 	struct nvme_tcp_request *async = &ctrl->async_req;
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 
+-	async->pdu = page_frag_alloc(&queue->pf_cache,
++	async->pdu = page_frag_alloc_va(&queue->pf_cache,
+ 		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
+ 		GFP_KERNEL | __GFP_ZERO);
+ 	if (!async->pdu)
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 380f22ee3ebb..bea3aa79ef43 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1463,24 +1463,24 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
+ 	c->queue = queue;
+ 	c->req.port = queue->port->nport;
+ 
+-	c->cmd_pdu = page_frag_alloc(&queue->pf_cache,
++	c->cmd_pdu = page_frag_alloc_va(&queue->pf_cache,
+ 			sizeof(*c->cmd_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
+ 	if (!c->cmd_pdu)
+ 		return -ENOMEM;
+ 	c->req.cmd = &c->cmd_pdu->cmd;
+ 
+-	c->rsp_pdu = page_frag_alloc(&queue->pf_cache,
++	c->rsp_pdu = page_frag_alloc_va(&queue->pf_cache,
+ 			sizeof(*c->rsp_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
+ 	if (!c->rsp_pdu)
+ 		goto out_free_cmd;
+ 	c->req.cqe = &c->rsp_pdu->cqe;
+ 
+-	c->data_pdu = page_frag_alloc(&queue->pf_cache,
++	c->data_pdu = page_frag_alloc_va(&queue->pf_cache,
+ 			sizeof(*c->data_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
+ 	if (!c->data_pdu)
+ 		goto out_free_rsp;
+ 
+-	c->r2t_pdu = page_frag_alloc(&queue->pf_cache,
++	c->r2t_pdu = page_frag_alloc_va(&queue->pf_cache,
+ 			sizeof(*c->r2t_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
+ 	if (!c->r2t_pdu)
+ 		goto out_free_data;
+@@ -1495,20 +1495,20 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
+ 
+ 	return 0;
+ out_free_data:
+-	page_frag_free(c->data_pdu);
++	page_frag_free_va(c->data_pdu);
+ out_free_rsp:
+-	page_frag_free(c->rsp_pdu);
++	page_frag_free_va(c->rsp_pdu);
+ out_free_cmd:
+-	page_frag_free(c->cmd_pdu);
++	page_frag_free_va(c->cmd_pdu);
+ 	return -ENOMEM;
+ }
+ 
+ static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c)
+ {
+-	page_frag_free(c->r2t_pdu);
+-	page_frag_free(c->data_pdu);
+-	page_frag_free(c->rsp_pdu);
+-	page_frag_free(c->cmd_pdu);
++	page_frag_free_va(c->r2t_pdu);
++	page_frag_free_va(c->data_pdu);
++	page_frag_free_va(c->rsp_pdu);
++	page_frag_free_va(c->cmd_pdu);
+ }
+ 
+ static int nvmet_tcp_alloc_cmds(struct nvmet_tcp_queue *queue)
+diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
+index f16279351db5..6691fac01e0d 100644
+--- a/drivers/vhost/net.c
++++ b/drivers/vhost/net.c
+@@ -686,8 +686,8 @@ static int vhost_net_build_xdp(struct vhost_net_virtqueue *nvq,
+ 		return -ENOSPC;
+ 
+ 	buflen += SKB_DATA_ALIGN(len + pad);
+-	buf = page_frag_alloc_align(&net->pf_cache, buflen, GFP_KERNEL,
+-				    SMP_CACHE_BYTES);
++	buf = page_frag_alloc_va_align(&net->pf_cache, buflen, GFP_KERNEL,
++				       SMP_CACHE_BYTES);
+ 	if (unlikely(!buf))
+ 		return -ENOMEM;
+ 
+@@ -734,7 +734,7 @@ static int vhost_net_build_xdp(struct vhost_net_virtqueue *nvq,
+ 	return 0;
+ 
+ err:
+-	page_frag_free(buf);
++	page_frag_free_va(buf);
+ 	return ret;
+ }
+ 
+diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
+index 9da7cbd0ee47..a5747cf7a3a1 100644
+--- a/include/linux/page_frag_cache.h
++++ b/include/linux/page_frag_cache.h
+@@ -25,23 +25,24 @@ struct page_frag_cache {
+ 
+ void page_frag_cache_drain(struct page_frag_cache *nc);
+ void __page_frag_cache_drain(struct page *page, unsigned int count);
+-void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
+-			      gfp_t gfp_mask, unsigned int align_mask);
++void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
++				 unsigned int fragsz, gfp_t gfp_mask,
++				 unsigned int align_mask);
+ 
+-static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
+-					  unsigned int fragsz, gfp_t gfp_mask,
+-					  unsigned int align)
++static inline void *page_frag_alloc_va_align(struct page_frag_cache *nc,
++					     unsigned int fragsz,
++					     gfp_t gfp_mask, unsigned int align)
+ {
+ 	WARN_ON_ONCE(!is_power_of_2(align) || align > PAGE_SIZE);
+-	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
++	return __page_frag_alloc_va_align(nc, fragsz, gfp_mask, -align);
+ }
+ 
+-static inline void *page_frag_alloc(struct page_frag_cache *nc,
+-				    unsigned int fragsz, gfp_t gfp_mask)
++static inline void *page_frag_alloc_va(struct page_frag_cache *nc,
++				       unsigned int fragsz, gfp_t gfp_mask)
+ {
+-	return __page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
++	return __page_frag_alloc_va_align(nc, fragsz, gfp_mask, ~0u);
+ }
+ 
+-void page_frag_free(void *addr);
++void page_frag_free_va(void *addr);
+ 
+ #endif
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 2b5c0757b801..7a47e12a22d5 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -3352,7 +3352,7 @@ static inline struct sk_buff *netdev_alloc_skb_ip_align(struct net_device *dev,
+ 
+ static inline void skb_free_frag(void *addr)
+ {
+-	page_frag_free(addr);
++	page_frag_free_va(addr);
+ }
+ 
+ void *__napi_alloc_frag_align(unsigned int fragsz, unsigned int align_mask);
+diff --git a/kernel/bpf/cpumap.c b/kernel/bpf/cpumap.c
+index a8e34416e960..3a6a237e7dd3 100644
+--- a/kernel/bpf/cpumap.c
++++ b/kernel/bpf/cpumap.c
+@@ -322,7 +322,7 @@ static int cpu_map_kthread_run(void *data)
+ 
+ 			/* Bring struct page memory area to curr CPU. Read by
+ 			 * build_skb_around via page_is_pfmemalloc(), and when
+-			 * freed written by page_frag_free call.
++			 * freed written by page_frag_free_va call.
+ 			 */
+ 			prefetchw(page);
+ 		}
+diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
+index 152ae5dec58a..c0ecfa733727 100644
+--- a/mm/page_frag_cache.c
++++ b/mm/page_frag_cache.c
+@@ -61,9 +61,9 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
+ }
+ EXPORT_SYMBOL(__page_frag_cache_drain);
+ 
+-void *__page_frag_alloc_align(struct page_frag_cache *nc,
+-			      unsigned int fragsz, gfp_t gfp_mask,
+-			      unsigned int align_mask)
++void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
++				 unsigned int fragsz, gfp_t gfp_mask,
++				 unsigned int align_mask)
+ {
+ 	unsigned int size, offset;
+ 	struct page *page;
+@@ -124,16 +124,16 @@ void *__page_frag_alloc_align(struct page_frag_cache *nc,
+ 
+ 	return nc->va + offset;
+ }
+-EXPORT_SYMBOL(__page_frag_alloc_align);
++EXPORT_SYMBOL(__page_frag_alloc_va_align);
+ 
+ /*
+  * Frees a page fragment allocated out of either a compound or order 0 page.
+  */
+-void page_frag_free(void *addr)
++void page_frag_free_va(void *addr)
+ {
+ 	struct page *page = virt_to_head_page(addr);
+ 
+ 	if (unlikely(put_page_testzero(page)))
+ 		free_unref_page(page, compound_order(page));
+ }
+-EXPORT_SYMBOL(page_frag_free);
++EXPORT_SYMBOL(page_frag_free_va);
+diff --git a/mm/page_frag_test.c b/mm/page_frag_test.c
+index 62b7cedeff39..bb9f5aa84631 100644
+--- a/mm/page_frag_test.c
++++ b/mm/page_frag_test.c
+@@ -273,7 +273,7 @@ static int page_frag_pop_thread(void *arg)
+ 
+ 		if (obj) {
+ 			nr--;
+-			page_frag_free(obj);
++			page_frag_free_va(obj);
+ 		} else {
+ 			cond_resched();
+ 		}
+@@ -303,17 +303,18 @@ static int page_frag_push_thread(void *arg)
+ 
+ 		size = clamp(size, 1U, PAGE_SIZE);
+ 		if (test_align)
+-			va = page_frag_alloc_align(&test_frag, size, GFP_KERNEL,
+-						   SMP_CACHE_BYTES);
++			va = page_frag_alloc_va_align(&test_frag, size,
++						      GFP_KERNEL,
++						      SMP_CACHE_BYTES);
+ 		else
+-			va = page_frag_alloc(&test_frag, size, GFP_KERNEL);
++			va = page_frag_alloc_va(&test_frag, size, GFP_KERNEL);
+ 
+ 		if (!va)
+ 			continue;
+ 
+ 		ret = objpool_push(va, pool);
+ 		if (ret) {
+-			page_frag_free(va);
++			page_frag_free_va(va);
+ 			cond_resched();
+ 		} else {
+ 			nr--;
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 466999a7515e..dca4e7445348 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -309,8 +309,8 @@ void *__napi_alloc_frag_align(unsigned int fragsz, unsigned int align_mask)
+ 
+ 	fragsz = SKB_DATA_ALIGN(fragsz);
+ 
+-	return __page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC,
+-				       align_mask);
++	return __page_frag_alloc_va_align(&nc->page, fragsz, GFP_ATOMIC,
++					  align_mask);
+ }
+ EXPORT_SYMBOL(__napi_alloc_frag_align);
+ 
+@@ -322,15 +322,15 @@ void *__netdev_alloc_frag_align(unsigned int fragsz, unsigned int align_mask)
+ 	if (in_hardirq() || irqs_disabled()) {
+ 		struct page_frag_cache *nc = this_cpu_ptr(&netdev_alloc_cache);
+ 
+-		data = __page_frag_alloc_align(nc, fragsz, GFP_ATOMIC,
+-					       align_mask);
++		data = __page_frag_alloc_va_align(nc, fragsz, GFP_ATOMIC,
++						  align_mask);
+ 	} else {
+ 		struct napi_alloc_cache *nc;
+ 
+ 		local_bh_disable();
+ 		nc = this_cpu_ptr(&napi_alloc_cache);
+-		data = __page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC,
+-					       align_mask);
++		data = __page_frag_alloc_va_align(&nc->page, fragsz, GFP_ATOMIC,
++						  align_mask);
+ 		local_bh_enable();
+ 	}
+ 	return data;
+@@ -740,12 +740,12 @@ struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
+ 
+ 	if (in_hardirq() || irqs_disabled()) {
+ 		nc = this_cpu_ptr(&netdev_alloc_cache);
+-		data = page_frag_alloc(nc, len, gfp_mask);
++		data = page_frag_alloc_va(nc, len, gfp_mask);
+ 		pfmemalloc = nc->pfmemalloc;
+ 	} else {
+ 		local_bh_disable();
+ 		nc = this_cpu_ptr(&napi_alloc_cache.page);
+-		data = page_frag_alloc(nc, len, gfp_mask);
++		data = page_frag_alloc_va(nc, len, gfp_mask);
+ 		pfmemalloc = nc->pfmemalloc;
+ 		local_bh_enable();
+ 	}
+@@ -833,7 +833,7 @@ struct sk_buff *napi_alloc_skb(struct napi_struct *napi, unsigned int len)
+ 	} else {
+ 		len = SKB_HEAD_ALIGN(len);
+ 
+-		data = page_frag_alloc(&nc->page, len, gfp_mask);
++		data = page_frag_alloc_va(&nc->page, len, gfp_mask);
+ 		pfmemalloc = nc->page.pfmemalloc;
+ 	}
+ 
+diff --git a/net/core/xdp.c b/net/core/xdp.c
+index 41693154e426..245a2d011aeb 100644
+--- a/net/core/xdp.c
++++ b/net/core/xdp.c
+@@ -391,7 +391,7 @@ void __xdp_return(void *data, struct xdp_mem_info *mem, bool napi_direct,
+ 		page_pool_put_full_page(page->pp, page, napi_direct);
+ 		break;
+ 	case MEM_TYPE_PAGE_SHARED:
+-		page_frag_free(data);
++		page_frag_free_va(data);
+ 		break;
+ 	case MEM_TYPE_PAGE_ORDER0:
+ 		page = virt_to_page(data); /* Assumes order0 page*/
+diff --git a/net/rxrpc/txbuf.c b/net/rxrpc/txbuf.c
+index c3913d8a50d3..dccb0353ee84 100644
+--- a/net/rxrpc/txbuf.c
++++ b/net/rxrpc/txbuf.c
+@@ -33,8 +33,8 @@ struct rxrpc_txbuf *rxrpc_alloc_data_txbuf(struct rxrpc_call *call, size_t data_
+ 
+ 	data_align = umax(data_align, L1_CACHE_BYTES);
+ 	mutex_lock(&call->conn->tx_data_alloc_lock);
+-	buf = page_frag_alloc_align(&call->conn->tx_data_alloc, total, gfp,
+-				    data_align);
++	buf = page_frag_alloc_va_align(&call->conn->tx_data_alloc, total, gfp,
++				       data_align);
+ 	mutex_unlock(&call->conn->tx_data_alloc_lock);
+ 	if (!buf) {
+ 		kfree(txb);
+@@ -96,17 +96,18 @@ struct rxrpc_txbuf *rxrpc_alloc_ack_txbuf(struct rxrpc_call *call, size_t sack_s
+ 	if (!txb)
+ 		return NULL;
+ 
+-	buf = page_frag_alloc(&call->local->tx_alloc,
+-			      sizeof(*whdr) + sizeof(*ack) + 1 + 3 + sizeof(*trailer), gfp);
++	buf = page_frag_alloc_va(&call->local->tx_alloc,
++				 sizeof(*whdr) + sizeof(*ack) + 1 + 3 + sizeof(*trailer), gfp);
+ 	if (!buf) {
+ 		kfree(txb);
+ 		return NULL;
+ 	}
+ 
+ 	if (sack_size) {
+-		buf2 = page_frag_alloc(&call->local->tx_alloc, sack_size, gfp);
++		buf2 = page_frag_alloc_va(&call->local->tx_alloc, sack_size,
++					  gfp);
+ 		if (!buf2) {
+-			page_frag_free(buf);
++			page_frag_free_va(buf);
+ 			kfree(txb);
+ 			return NULL;
+ 		}
+@@ -180,7 +181,7 @@ static void rxrpc_free_txbuf(struct rxrpc_txbuf *txb)
+ 			  rxrpc_txbuf_free);
+ 	for (i = 0; i < txb->nr_kvec; i++)
+ 		if (txb->kvec[i].iov_base)
+-			page_frag_free(txb->kvec[i].iov_base);
++			page_frag_free_va(txb->kvec[i].iov_base);
+ 	kfree(txb);
+ 	atomic_dec(&rxrpc_nr_txbuf);
+ }
+diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+index 6b3f01beb294..42d20412c1c3 100644
+--- a/net/sunrpc/svcsock.c
++++ b/net/sunrpc/svcsock.c
+@@ -1222,8 +1222,8 @@ static int svc_tcp_sendmsg(struct svc_sock *svsk, struct svc_rqst *rqstp,
+ 	/* The stream record marker is copied into a temporary page
+ 	 * fragment buffer so that it can be included in rq_bvec.
+ 	 */
+-	buf = page_frag_alloc(&svsk->sk_frag_cache, sizeof(marker),
+-			      GFP_KERNEL);
++	buf = page_frag_alloc_va(&svsk->sk_frag_cache, sizeof(marker),
++				 GFP_KERNEL);
+ 	if (!buf)
+ 		return -ENOMEM;
+ 	memcpy(buf, &marker, sizeof(marker));
+@@ -1235,7 +1235,7 @@ static int svc_tcp_sendmsg(struct svc_sock *svsk, struct svc_rqst *rqstp,
+ 	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, rqstp->rq_bvec,
+ 		      1 + count, sizeof(marker) + rqstp->rq_res.len);
+ 	ret = sock_sendmsg(svsk->sk_sock, &msg);
+-	page_frag_free(buf);
++	page_frag_free_va(buf);
+ 	if (ret < 0)
+ 		return ret;
+ 	*sentp += ret;
+-- 
+2.33.0
 
-Regards,
-Nitesh Shetty
-
-------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
-Content-Type: text/plain; charset="utf-8"
-
-
-------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_--
 
