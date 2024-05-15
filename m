@@ -4,79 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B4ECC25B75
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 May 2024 04:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77674C25B75
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 May 2024 12:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jwnhvFiK/obNrGnNp8acgv74uFStSFLGaSPfQ02w3KE=; b=viEK9Pd/e9aEUluQde7Wab4AOK
-	sdsTRR1OK/aP/aNaIDq66u0y1XTTU2xps1HbwKCTBrrsRiVDy9Kv7u22zIyAp47zIjPNlTYidj6bs
-	CYIjtsbo0T5GmXo4ysk5WuTXGprhpgNhuwkNnynBe0HtzE0bHBpdAHpvONFZHKG1NzUuYG1EwXb02
-	6//alVfnJ74Jto+JUkihNNn+mpA74TWTMCb9iVrftxpYR7pIkkiMkVx/JpPEeLTM9JkK15B5pTcSt
-	7KykSCqtOxnRJpGS8Cui+izZHTvU2rL4Zj0bVSoLEYabauJfYkWcop7QxHTb3D+CqZBirgDJiKRX0
-	H4nmvAoA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uDxEiP0s8PAkBQnw+i+lCRapnsgB0MGINhLy/UYjPf4=; b=h8nS/ABPaKIQZEryCX7Hb6XMgd
+	EFob+B47rFsgbslPd7JRwdWmPTQPBZiTAunMSq93mz/u7tnhAxBU7YoNkyvPM/wjF4i5FHDqugx3q
+	KGxn0Xyosa/YOz9nrAw+in4RnOyiM1w0cwU+HYdW69eUFbHS9szad6fnL3vHfRyIpLPZYN/sQfoll
+	5044XXLqG9SPOM4ocZ1XSQNSD+FfXp/D2GFjAdVE8Jz5ad+42TQbpWIPYADlSmdPOFCZ2m3RhuSEs
+	3uPbwp1OI1p9pnalnvuoVCJf7k1hhDzbjLJ3xaVcngMEzoOqSan/YO/h+6A512e/w80PbJ4Y6T2yN
+	CWMZ8HrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s76AL-00000000Pgl-1IsW;
-	Wed, 15 May 2024 04:22:57 +0000
-Received: from mgamail.intel.com ([192.198.163.8])
+	id 1s7Dlo-00000001VS4-1fpN;
+	Wed, 15 May 2024 12:30:08 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s76AH-00000000Peg-3EtR
+	id 1s7DlS-00000001VL7-2GwW
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 May 2024 04:22:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715746974; x=1747282974;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UfvTxTsJGM30yB6JUP6qcnmueYS7+adWFARHTPLXG/8=;
-  b=HJ7ti+E4Sc+ZJ/wRDT7AnOW2DX/wdA/jY3VEFt7ylmGRgROSOlnJh/8/
-   QaAm/maYYowv6e5p24eqflbDycGCEDx6SOhuCMfhYKXeNsRM992anXMii
-   tV2II3mJxVZFt32Apg2IYB+nzEEyuDgiUWXBfetoYOYs9bkynqEMQHxMm
-   myiJzRJnnEPmoOheMuEy3XaFY3GEpnU7Gl0dj3Sc0wCLBmYXku5bQu/CY
-   WLp0DkUFwkyXpauOVOUQ8kS3TWf9LeW0plbDFxj2goVychj6CWo1Lt8ot
-   kc7GPkkDJwV+l7urBhuToBt0i83ogztKqVlTMocPJvYOfEM+vamNWw0Z/
-   g==;
-X-CSE-ConnectionGUID: tRfWBt+PSKKwTd91OokGQg==
-X-CSE-MsgGUID: P2ld5BI4Q/6ISk1rv8jUkQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="29292536"
-X-IronPort-AV: E=Sophos;i="6.08,160,1712646000"; 
-   d="scan'208";a="29292536"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 21:22:48 -0700
-X-CSE-ConnectionGUID: UfaLV5ZhQmeGHhCIH1mdFA==
-X-CSE-MsgGUID: 9m3SOfKSTjW4zDwa8XcXSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,160,1712646000"; 
-   d="scan'208";a="68375794"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 May 2024 21:22:46 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s769j-000CQ9-1j;
-	Wed, 15 May 2024 04:22:19 +0000
-Date: Wed, 15 May 2024 12:21:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>, Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Matthew Wilcox <willy@infradead.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Pankaj Raghav <p.raghav@samsung.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
-Subject: Re: [PATCH 4/6] block/bdev: enable large folio support for large
- logical block sizes
-Message-ID: <202405151219.H2vlwtc0-lkp@intel.com>
-References: <20240514173900.62207-5-hare@kernel.org>
+	Wed, 15 May 2024 12:29:51 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 655E133B2D;
+	Wed, 15 May 2024 12:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715776180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDxEiP0s8PAkBQnw+i+lCRapnsgB0MGINhLy/UYjPf4=;
+	b=vLKRXGBWQkMjYm33bQkkhmHzzTeWJ1FVz9N0uY2VjHsw9WDU0Phm6O4xhV8f7rUA+2VZar
+	Oawax2JU/yNjgILiXz/949YgBUx9qGnfbBaLHjFcXcf/xnMRKnbTbvc8iidEDuYP5mpXUO
+	OiQUMAiNemYkIw8tRyPZ83V1DAn1iuA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715776180;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDxEiP0s8PAkBQnw+i+lCRapnsgB0MGINhLy/UYjPf4=;
+	b=InnTaBpfQJqkeXFimaar0BE4CbrxWBPzTAG1J05gpJ52BVj4WZMsu2n2zxQxapqlZWRMyX
+	wT2Ftar1jue9YMCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715776180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDxEiP0s8PAkBQnw+i+lCRapnsgB0MGINhLy/UYjPf4=;
+	b=vLKRXGBWQkMjYm33bQkkhmHzzTeWJ1FVz9N0uY2VjHsw9WDU0Phm6O4xhV8f7rUA+2VZar
+	Oawax2JU/yNjgILiXz/949YgBUx9qGnfbBaLHjFcXcf/xnMRKnbTbvc8iidEDuYP5mpXUO
+	OiQUMAiNemYkIw8tRyPZ83V1DAn1iuA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715776180;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uDxEiP0s8PAkBQnw+i+lCRapnsgB0MGINhLy/UYjPf4=;
+	b=InnTaBpfQJqkeXFimaar0BE4CbrxWBPzTAG1J05gpJ52BVj4WZMsu2n2zxQxapqlZWRMyX
+	wT2Ftar1jue9YMCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 810F8139B3;
+	Wed, 15 May 2024 12:29:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LigJFbKqRGYAWQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 15 May 2024 12:29:38 +0000
+Message-ID: <b0ac6dc3-8c15-4cd4-86f6-47273aa7d417@suse.de>
+Date: Wed, 15 May 2024 14:29:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240514173900.62207-5-hare@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] blk-merge: split bio by max_segment_size, not
+ PAGE_SIZE
+Content-Language: en-US
+To: John Garry <john.g.garry@oracle.com>, Hannes Reinecke <hare@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>
+Cc: Matthew Wilcox <willy@infradead.org>, Luis Chamberlain
+ <mcgrof@kernel.org>, Pankaj Raghav <p.raghav@samsung.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20240514173900.62207-1-hare@kernel.org>
+ <20240514173900.62207-4-hare@kernel.org>
+ <258db2c1-6c08-467d-a365-6b623c208c85@oracle.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <258db2c1-6c08-467d-a365-6b623c208c85@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240514_212253_839444_A51D305F 
-X-CRM114-Status: GOOD (  11.45  )
+X-CRM114-CacheID: sfid-20240515_052946_772069_A5BBFD64 
+X-CRM114-Status: GOOD (  18.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,61 +137,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Hannes,
+On 5/15/24 02:20, John Garry wrote:
+> On 14/05/2024 11:38, Hannes Reinecke wrote:
+>> Bvecs can be larger than a page, and the block layer handles
+>> this just fine. So do not split by PAGE_SIZE but rather by
+>> the max_segment_size if that happens to be larger.
+> Can you check scsi_debug for this series? I took this series only up to 
+> this change, and got:
+> 
+>      Startin[    1.736470] ------------[ cut here ]------------
+> g Load [    1.737777] WARNING: CPU: 0 PID: 52 at block/blk-merge.c:581 
+> __blk_rq_map_sg+0x46a/0x480
+> Kernel Module fu[    1.738862] Modules linked in:
+> se...[    1.739370] CPU: 0 PID: 52 Comm: kworker/0:1H Not tainted 
+> 6.9.0-00002-g4eaa50af9312-dirty #2416
+> 
+> [    1.740474] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 
+> rel-1.16.2-0-gea1b7a073390-prebuilt.qemu.org 04/01/2014
+> [    1.741809] Workqueue: kblockd blk_mq_run_work_fn
+> [    1.742379] RIP: 0010:__blk_rq_map_sg+0x46a/0x480
+> [    1.742939] Code: 17 fe ff ff 44 89 58 0c 48 8b 01 e9 ec fc ff ff 43 
+> 8d 3c 06 48 8b 14 24 81 ff 00 10 00 00 0f 86 af fc ff ff e9 02 f0
+> [    1.743015] systemd[1]: File System Check on Root Device was skipped 
+> because of a failed condition check (ConditionPathIsReadWrite=!/.
+> [    1.745122] RSP: 0018:ff37636e4032bb90 EFLAGS: 00010212
+> [    1.746419] systemd[1]: systemd-journald.service: unit configures an 
+> IP firewall, but the local system does not support BPF/cgroup fi.
+> [    1.746891] RAX: 000000000000001c RBX: 00000000000001b0 RCX: 
+> ff28e6d8b0950a00
+> [    1.747903] systemd[1]: (This warning is only shown for the first 
+> unit using IP firewalling.)
+> [    1.748549] RDX: ff7662becb4ac482 RSI: 0000000000001000 RDI: 
+> 00000000fffffffd
+> [    1.749688] systemd[1]: Starting Journal Service...
+> [    1.749895] RBP: ff7662becb4abf80 R08: 0000000000000000 R09: 
+> ff28e6d880fadd40
+> [    1.750965] R10: ff7662becb4ac480 R11: 0000000000000000 R12: 
+> 0000000000000000
+> [    1.750966] R13: 0000000000000002 R14: 0000000000001000 R15: 
+> ff7662becb4ac480
+> [    1.750970] FS:  0000000000000000(0000) GS:ff28e6da75c00000(0000) 
+> knlGS:0000000000000000
+> [    1.750972] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    1.750973] CR2: 00007f7407f19000 CR3: 0000000100f24002 CR4: 
+> 0000000000771ef0
+> [    1.750974] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 
+> 0000000000000000
+> [    1.750975] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 
+> 0000000000000400
+> [    1.750976] PKRU: 55555554
+> [    1.750977] Call Trace:
+> [    1.750984]  <TASK>
+> [    1.750986]  ? __warn+0x7e/0x130
+> [    1.750992]  ? __blk_rq_map_sg+0x46a/0x480
+> [    1.750994]  ? report_bug+0x18e/0x1a0
+> [    1.750999]  ? handle_bug+0x3d/0x70
+> [    1.751003]  ? exc_invalid_op+0x18/0x70
+> [    1.751006]  ? asm_exc_invalid_op+0x1a/0x20
+> [    1.751009]  ? __blk_rq_map_sg+0x46a/0x480
+> [    1.751012]  scsi_alloc_sgtables+0xb7/0x3f0
+> [    1.751019]  sd_init_command+0x177/0x9d0
+> [    1.751023]  scsi_queue_rq+0x7c1/0xae0
+> [    1.751027]  blk_mq_dispatch_rq_list+0x2bc/0x7c0
+> [    1.751031]  __blk_mq_sched_dispatch_requests+0x409/0x5c0
+> [    1.751035]  blk_mq_sched_dispatch_requests+0x2c/0x60
+> [    1.751037]  blk_mq_run_work_fn+0x5f/0x70
+> [    1.751039]  process_one_work+0x149/0x360
+> 
+> I suspect that you would need to also change the PAGE_SIZE check in 
+> __blk_bios_map_sg() also. However, I am not confident that the change 
+> below is ok to begin with...
+> 
+> BTW, scsi_debug does use an insane max_segment_size of -1
+> 
+Can you try with this patch?
 
-kernel test robot noticed the following build errors:
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 570573d7a34f..5da63180069e 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -278,7 +278,10 @@ struct bio *bio_split_rw(struct bio *bio, const 
+struct queue_limits *lim,
+         struct bio_vec bv, bvprv, *bvprvp = NULL;
+         struct bvec_iter iter;
+         unsigned nsegs = 0, bytes = 0;
+-       unsigned bv_seg_lim = max(PAGE_SIZE, lim->max_segment_size);
++       unsigned bv_seg_lim = PAGE_SIZE;
++
++       if (lim->max_segment_size < UINT_MAX)
++               bv_seg_lim = lim->max_segment_size;
 
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on linus/master v6.9]
-[cannot apply to next-20240514]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+         bio_for_each_bvec(bv, bio, iter) {
+                 /*
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hannes-Reinecke/fs-mpage-avoid-negative-shift-for-large-blocksize/20240515-014146
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20240514173900.62207-5-hare%40kernel.org
-patch subject: [PATCH 4/6] block/bdev: enable large folio support for large logical block sizes
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240515/202405151219.H2vlwtc0-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240515/202405151219.H2vlwtc0-lkp@intel.com/reproduce)
+Cheers,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405151219.H2vlwtc0-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> block/bdev.c:145:2: error: call to undeclared function 'mapping_set_folio_min_order'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     145 |         mapping_set_folio_min_order(bdev->bd_inode->i_mapping,
-         |         ^
-   block/bdev.c:163:3: error: call to undeclared function 'mapping_set_folio_min_order'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     163 |                 mapping_set_folio_min_order(bdev->bd_inode->i_mapping,
-         |                 ^
-   2 errors generated.
-
-
-vim +/mapping_set_folio_min_order +145 block/bdev.c
-
-   133	
-   134	static void set_init_blocksize(struct block_device *bdev)
-   135	{
-   136		unsigned int bsize = bdev_logical_block_size(bdev);
-   137		loff_t size = i_size_read(bdev->bd_inode);
-   138	
-   139		while (bsize < PAGE_SIZE) {
-   140			if (size & bsize)
-   141				break;
-   142			bsize <<= 1;
-   143		}
-   144		bdev->bd_inode->i_blkbits = blksize_bits(bsize);
- > 145		mapping_set_folio_min_order(bdev->bd_inode->i_mapping,
-   146					    get_order(bsize));
-   147	}
-   148	
-
+Hannes
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
