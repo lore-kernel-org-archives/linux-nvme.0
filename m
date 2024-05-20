@@ -4,62 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B6EBC25B77
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 May 2024 20:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C898AC25B77
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 May 2024 22:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e86mXOf1y7ks6Bm8J9fFgLFuzVRo99d8/LwLDnPzPW4=; b=Guqif0QTDKv5K50FSCj0e95GaA
-	GM+R01Zsr66divBRt43Xl+YMHTKtBmZHGA36AwZEg7QIb45wjB8YBOXMDdRH2T8RGU4E0TTRtMdn7
-	HXZ1Y1PNrUysq1xYPYeSHDe4PvanzuE4cBxtUDgIUPkLNzDT1++g5RtwuYgZViMcMnr1izbCd/IfL
-	5V8whd5M2s0YGyEa1+dDptxMK/CYu85/R80dI5YcqKzXQG/PSQ2oky+DhZHX0V35ZRVngMhivwcnW
-	rbx5rOHwKFWUPujnepDIRIMPstdQqpTYLqJ42oQvTfqj+FR10EzjlgJhJBBa39dm5/JZCQ54CvXzF
-	MHvzLArw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0pJSnqKU4Io+VCN5eICuTeI+NiAtDO/zLNkz8Pxl2Wg=; b=fajRpKja/cIeJ5/S+RZwz9oPvQ
+	S2IvMaszPO1slM78maDSCEvxtnzHX023ZBSK1tkzvLgDhDcOdVQPm5iRzYLXqlL5HjxzDK3we/EgS
+	kRzmFh/ik/+D7v52U73r8V2yU1NR43HlRJGMkVVjl+LmZImf/oeewHQaDwT/kvTOD4Q8rAFS8gyPY
+	YVqtJIupUtcjTtpBNLcAa95Kbnz5Usycrebz1WcntJWpfeN+i8uatVBnm5aKWyO78CBQKIQZ8Fg5+
+	LQSsY+o+zgW8dhxmMu1KO1O/ro4PFKMcQeIZrfiDKTyANA5C9ZTnTUTgaLJk/bCS06ymbo+AtUECE
+	oKpOpkhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s99xT-0000000FWOs-1fTa;
-	Mon, 20 May 2024 20:50:11 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1s9BiZ-0000000FhFh-4BH0;
+	Mon, 20 May 2024 22:42:56 +0000
+Received: from 008.lax.mailroute.net ([199.89.1.11])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s99xQ-0000000FWOP-1RJw
+	id 1s9BiT-0000000FhDp-2YPf
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 May 2024 20:50:09 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9C9E661DED;
-	Mon, 20 May 2024 20:50:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF15C2BD10;
-	Mon, 20 May 2024 20:50:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716238207;
-	bh=ZDyGHXDWJU1AWGqFUbfBdq5n343QTXbBlaaM+in5QQE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dbnmu3tYZqPFhCg7SFPJA62mj0vmn3HXAQflzoTkOU2wOwZc5XxghPek/w763O9Sx
-	 DCmcamLYW0nUVYHw88+/l3k1kmpTPxajKeBPzib2+lTOA2b2GTwLasJXS7WRV6Evpb
-	 /QTbFbJ6OI2HDH2+oB0VBqhRcBUdPoorAKmfq2gmr+hMPRzmNQ3beNG5t1YUUzz3p7
-	 PokWssnwtcWgmMSvaCF+4Q5mKOSOAcqXf16M3dTK9P2xuSD9E56JWF9vlGoMM0Y8gA
-	 0KE+2Zo2Ej4OfDDgrObDjz/FyPWC8IyLehYwhRtwDy0QcxRdJxuzM694gNo7iSJEtF
-	 e0YE8fJ86hbEQ==
-Date: Mon, 20 May 2024 14:50:04 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: hch@lst.de, sagi@grimberg.me, emilne@redhat.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	jrani@purestorage.com, randyj@purestorage.com, hare@kernel.org
-Subject: Re: [PATCH v3 1/1] nvme: multipath: Implemented new iopolicy
- "queue-depth"
-Message-ID: <Zku3fBuauZQX6bEO@kbusch-mbp>
-References: <20240520202045.427110-1-jmeneghi@redhat.com>
- <20240520202045.427110-2-jmeneghi@redhat.com>
+	Mon, 20 May 2024 22:42:51 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Vjsyn5ZRFz6Cnk8t;
+	Mon, 20 May 2024 22:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1716244947; x=1718836948; bh=0pJSnqKU4Io+VCN5eICuTeI+
+	NiAtDO/zLNkz8Pxl2Wg=; b=l3/NWJ5LX8oUM5iUAXCMbAS/xJWypIHnCgFgjhg1
+	1JT2cmlLGjH004Vw3IsbcB4Y6PoVXdT0cD9f4/g86ByrfSidSdCrQmnUfaUBtXh3
+	R6FHhxz0mpFhcitcDGM7hsnV1cwQ3lCKq/xl5pxLcD7R5oV31Us6Ayj6zjDEoYVG
+	GGY9NGYDWBFiKg8LLeEFkmX6tvDt0v6Qc6lEwoHx6Y05yPekdF2Per+daViCzgkV
+	9VqunyYQrIJTYqTK5U1KKS8iy48HUStLR5TKFKvZM3LTxfSEK5S8DBZ+4sGVTnaw
+	yeBtaCtoHBqzWeXaMfiQuvd+SAksf8Q+r5AmXseC1nGVRA==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id RDRQgEpz2QIf; Mon, 20 May 2024 22:42:27 +0000 (UTC)
+Received: from [100.96.154.26] (unknown [104.132.0.90])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VjsyP5zMJz6Cnk8s;
+	Mon, 20 May 2024 22:42:21 +0000 (UTC)
+Message-ID: <d47b55ac-b986-4bb0-84f4-e193479444e3@acm.org>
+Date: Mon, 20 May 2024 15:42:17 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240520202045.427110-2-jmeneghi@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 01/12] block: Introduce queue limits and sysfs for
+ copy-offload support
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+ <CGME20240520102830epcas5p27274901f3d0c2738c515709890b1dec4@epcas5p2.samsung.com>
+ <20240520102033.9361-2-nj.shetty@samsung.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240520102033.9361-2-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240520_135008_667530_9AE9CFE2 
-X-CRM114-Status: GOOD (  21.90  )
+X-CRM114-CacheID: sfid-20240520_154249_707993_445A3B92 
+X-CRM114-Status: GOOD (  22.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,104 +96,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 20, 2024 at 04:20:45PM -0400, John Meneghini wrote:
-> From: "Ewan D. Milne" <emilne@redhat.com>
-> 
-> The round-robin path selector is inefficient in cases where there is a
-> difference in latency between multiple active optimized paths.  In the
-> presence of one or more high latency paths the round-robin selector
-> continues to the high latency path equally. This results in a bias
-> towards the highest latency path and can cause is significant decrease
-> in overall performance as IOs pile on the lowest latency path. This
-> problem is particularly accute with NVMe-oF controllers.
-
-The patch looks pretty good to me. Just a few questions/comments.
-
->  static LIST_HEAD(nvme_subsystems);
-> -static DEFINE_MUTEX(nvme_subsystems_lock);
-> +DEFINE_MUTEX(nvme_subsystems_lock);
-
-This seems odd. Why is this lock protecting both the global
-nvme_subsystems list, and also subsystem controllers? IOW, why isn't the
-subsys->ctrls list protected by the more fine grained 'subsys->lock'
-instead of this global lock?
-
-> @@ -43,7 +46,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
->  module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
->  	&iopolicy, 0644);
->  MODULE_PARM_DESC(iopolicy,
-> -	"Default multipath I/O policy; 'numa' (default) or 'round-robin'");
-> +	"Default multipath I/O policy; 'numa' (default) , 'round-robin' or 'queue-depth'");
-
-Unnecessary space before the ','.
-
-> +	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD) {
-> +		atomic_inc(&ns->ctrl->nr_active);
-> +		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
-> +	}
-> +
->  	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
->  		return;
->  
-> @@ -140,8 +148,12 @@ void nvme_mpath_end_request(struct request *rq)
->  {
->  	struct nvme_ns *ns = rq->q->queuedata;
->  
-> +	if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE))
-> +		atomic_dec_if_positive(&ns->ctrl->nr_active);
-
-You can just do a atomic_dec() since your new flag has this tied to to
-the atomic_inc().
-
-> +static struct nvme_ns *nvme_queue_depth_path(struct nvme_ns_head *head)
+On 5/20/24 03:20, Nitesh Shetty wrote:
+> +static ssize_t queue_copy_max_show(struct request_queue *q, char *page)
 > +{
-> +	struct nvme_ns *best_opt = NULL, *best_nonopt = NULL, *ns;
-> +	unsigned int min_depth_opt = UINT_MAX, min_depth_nonopt = UINT_MAX;
-> +	unsigned int depth;
+> +	return sprintf(page, "%llu\n", (unsigned long long)
+> +		       q->limits.max_copy_sectors << SECTOR_SHIFT);
+> +}
 > +
-> +	list_for_each_entry_rcu(ns, &head->list, siblings) {
-> +		if (nvme_path_is_disabled(ns))
-> +			continue;
-> +
-> +		depth = atomic_read(&ns->ctrl->nr_active);
-> +
-> +		switch (ns->ana_state) {
-> +		case NVME_ANA_OPTIMIZED:
-> +			if (depth < min_depth_opt) {
-> +				min_depth_opt = depth;
-> +				best_opt = ns;
-> +			}
-> +			break;
-> +
-> +		case NVME_ANA_NONOPTIMIZED:
-> +			if (depth < min_depth_nonopt) {
-> +				min_depth_nonopt = depth;
-> +				best_nonopt = ns;
-> +			}
-> +			break;
-> +		default:
-> +			break;
-> +		}
-
-Could we break out of this loop early if "min_depth_opt == 0"? We can't
-find a better path that that, so no need to read the rest of the paths.
-
-> +void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
+> +static ssize_t queue_copy_max_store(struct request_queue *q, const char *page,
+> +				    size_t count)
 > +{
-> +	struct nvme_ctrl *ctrl;
-> +	int old_iopolicy = READ_ONCE(subsys->iopolicy);
+> +	unsigned long max_copy_bytes;
+> +	struct queue_limits lim;
+> +	ssize_t ret;
+> +	int err;
 > +
+> +	ret = queue_var_store(&max_copy_bytes, page, count);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (max_copy_bytes & (queue_logical_block_size(q) - 1))
+> +		return -EINVAL;
 
-Let's add a check here:
+Wouldn't it be more user-friendly if this check would be left out? Does any code
+depend on max_copy_bytes being a multiple of the logical block size?
 
-	if (old_iopolicy == iopolicy)
-		return;
+> +	blk_mq_freeze_queue(q);
+> +	lim = queue_limits_start_update(q);
+> +	lim.max_user_copy_sectors = max_copy_bytes >> SECTOR_SHIFT;
+> +	err = queue_limits_commit_update(q, &lim);
+> +	blk_mq_unfreeze_queue(q);
+> +
+> +	if (err)
+> +		return err;
+> +	return count;
+> +}
 
-> @@ -935,6 +940,7 @@ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
->  void nvme_mpath_shutdown_disk(struct nvme_ns_head *head);
->  void nvme_mpath_start_request(struct request *rq);
->  void nvme_mpath_end_request(struct request *rq);
-> +void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy);
+queue_copy_max_show() shows max_copy_sectors while queue_copy_max_store()
+modifies max_user_copy_sectors. Is that perhaps a bug?
 
-This funciton isn't used outside multipath.c, so it should be static.
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index aefdda9f4ec7..109d9f905c3c 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -309,6 +309,10 @@ struct queue_limits {
+>   	unsigned int		discard_alignment;
+>   	unsigned int		zone_write_granularity;
+>   
+> +	unsigned int		max_copy_hw_sectors;
+> +	unsigned int		max_copy_sectors;
+> +	unsigned int		max_user_copy_sectors;
+
+Two new limits are documented in Documentation/ABI/stable/sysfs-block while three
+new parameters are added in struct queue_limits. Why three new limits instead of
+two? Please add a comment above the new parameters that explains the role of the
+new parameters.
+
+> +/* maximum copy offload length, this is set to 128MB based on current testing */
+> +#define BLK_COPY_MAX_BYTES		(1 << 27)
+
+"current testing" sounds vague. Why is this limit required? Why to cap what the
+driver reports instead of using the value reported by the driver without modifying it?
+
+Additionally, since this constant is only used in source code that occurs in the
+block/ directory, please move the definition of this constant into a source or header
+file in the block/ directory.
+
+Thanks,
+
+Bart.
 
