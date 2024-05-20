@@ -4,49 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 431AAC25B78
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 May 2024 12:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67278C04FFE
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 May 2024 12:45:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=zdbDgOzKSy4CUG3UWjAO2lpzj5
-	fg63YmAgapYj0nt5T9fPHSSIe4UdS/m4lxYXfxojnj544rz+eJYOOurM6Mh+CDUGWuxTd9jiShIg3
-	9Y6HeQCu174u80woQdP12Ly+RAkjVNqI6dk+peVesdRhZGiNebYmf+Qxzg1zWBtMsGMVeaj/JnJxw
-	QHBlRF6sWn2yrBABBqUR6bXwj6k6N0xBU5Qi7+fiMDJaYYzD7ERTI+0IbghjdbXrWd/3mdXGJbeBU
-	rVrIP2Nnameb6IA5IGQfKl//0hBitxHw0vApJuICRcjk03SwfjLHfxX/6Mhr50k+b32MU8XVtKnu/
-	VZ/EqNqg==;
+	bh=0x72vxug1sX4QFwBsS/SRZ9PFW1UoWmnX4+Nx/d4D4A=; b=T8Y15ls0nrU8vo7ituNddon+5L
+	Vd8OBbDmxTp0X3o3zRkVGOf3R8QSAptOAMuDFIPH+GrpY0CQUJfLgyXAfhNjisZron6SegqUjK2BB
+	AbgyEIlA300Wlq/V2zqbcOJX59rrXZIrVvunr+aMybtFOIMWraJtLheGyt2aIFF9oMBpK9aMSkf3j
+	RPsYxKSErmM4U4k6fEN+C+BqXN8s8XBRPq8N7hLeZqw+enLuKRhagkpuhhRAWlXFV3WFl62fgHwLm
+	RFbJWiDbgkr61+kQj2Tig8vaPTYI/lHGt0THJdow4xI7VbwAA/eb36d9pgAny3cuvpB7VOjli2iR6
+	eZF7uqVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s92M5-0000000ETyc-3jrN;
-	Mon, 20 May 2024 12:43:05 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1s92Op-0000000EUbM-15Ox;
+	Mon, 20 May 2024 12:45:55 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s92M3-0000000ETuJ-0F8x
+	id 1s91SK-0000000EKML-44t3
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 May 2024 12:43:04 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 65B2A68AFE; Mon, 20 May 2024 14:42:49 +0200 (CEST)
-Date: Mon, 20 May 2024 14:42:49 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
-	sagi@grimberg.me, gjoyce@linux.ibm.com, axboe@fb.com
-Subject: Re: [PATCH] nvme-multipath: find NUMA path only for online
- numa-node
-Message-ID: <20240520124249.GB30199@lst.de>
-References: <20240516121358.3145962-1-nilay@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240516121358.3145962-1-nilay@linux.ibm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+	Mon, 20 May 2024 11:45:37 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240520114527epoutp010f9be31c30d929c6eb905e758f8a6ac6~RL9V_9RgQ1906819068epoutp019
+	for <linux-nvme@lists.infradead.org>; Mon, 20 May 2024 11:45:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240520114527epoutp010f9be31c30d929c6eb905e758f8a6ac6~RL9V_9RgQ1906819068epoutp019
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1716205527;
+	bh=0x72vxug1sX4QFwBsS/SRZ9PFW1UoWmnX4+Nx/d4D4A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OtDYruN7a+CXF1yrOw7nRlb/Znsu5nQpn9bKaQuqoGkWKgKpgJ/zoT5lwFFkEwQPT
+	 Q8C6jrLqbrFE8g0HC3SrDJFvKXBYyg/j86kFNng86FgDYsUfPyDtAWB8yLWkhEhrug
+	 2Qn4NypVNHh1LCthgLtFQ7BqnH4Ra6od6SMuRvgg=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240520114526epcas5p4b6cc85b882bf26f20984f380972d0676~RL9Viu-MD2411824118epcas5p4X;
+	Mon, 20 May 2024 11:45:26 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4VjbNN63L9z4x9Pw; Mon, 20 May
+	2024 11:45:24 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C3.80.19431.4D73B466; Mon, 20 May 2024 20:45:24 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240520103016epcas5p31b9a0f3637959626d49763609ebda6ef~RK7tKInxL0624906249epcas5p3_;
+	Mon, 20 May 2024 10:30:16 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240520103016epsmtrp16603da3cc6bfd283061b5195588c54c3~RK7tInXSj2227122271epsmtrp13;
+	Mon, 20 May 2024 10:30:16 +0000 (GMT)
+X-AuditID: b6c32a50-ccbff70000004be7-ad-664b37d4050f
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	38.0E.09238.8362B466; Mon, 20 May 2024 19:30:16 +0900 (KST)
+Received: from green245.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.245]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240520103012epsmtip2bd5849ea7ca94911fcfed243fd15de18~RK7pfge6T2119121191epsmtip2V;
+	Mon, 20 May 2024 10:30:12 +0000 (GMT)
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
+	hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
+	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com, Nitesh
+	Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v20 10/12] dm: Enable copy offload for dm-linear target
+Date: Mon, 20 May 2024 15:50:23 +0530
+Message-Id: <20240520102033.9361-11-nj.shetty@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240520102033.9361-1-nj.shetty@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0VTe1BUZRSf797l7kKgdxbUL6qFWUsFBXaTxwdJGJreghp6wcA0wA5cAYHd
+	nX1I7lQuS2CAgEBQ8pCXlbLCEgvy3HUHWDCMgeJRbkGRMIEmGE46SkC77FL//c7vnN/5ne98
+	c1g4e51wZaUIZbREKEjjEg6Ma/0e+7wmAsJO8Nr/9kSa4UEcqc6v4Ug9XUSgu/0rAJXff4yj
+	OcNZgFZHRnHUNjgDUG19NQPdMnRhqLe+BENX1EYMVX6ehSHjxj0ClfRNATQ/WYEhnWk/qsu5
+	xEC9um8ZaLy7ikA1X80z0ddD6xgq/nQSQ51zmQBdW63BUfPdZQa6YXoGja4N2R1+lhqfCKOG
+	6yHVVTHNpEZnvmFQ4yNyqrUxl6C0l85QC9oLgOq5pSSohsJSO6oga4mgurJ/taP+mjcxqGX9
+	JEEVtjUC6rvaAWaEc0zqoWRakEhL3GlhgigxRZgUzA17J+5InJ8/j+/FD0QBXHehIJ0O5h4N
+	j/A6lpJm3hDX/ZQgTW6mIgRSKdfn5UMSkVxGuyeLpLJgLi1OTBP7ir2lgnSpXJjkLaRlQXwe
+	70U/c2F8avLKdC8hvmj3wcONIkwJWhh5wJ4FSV+oW69k5gEHFpvsBbC0/k/MGqwAWNabT1iD
+	hwA+yKrDtiRN5UqmBbNJHYD9F4TWomwMzjwascsDLBZB7oc3N1gW3oVU4zBfW8ywBDipxWFm
+	v2GzkzN5HM4va3ELZpAvQPXA2OZQTmQQVBp/Ylrd3KC6xbBZY2/mDe33gaURJNX2sKCx0zbS
+	UaiZ19te5AzvDLXZxK5wsSjHhjPglc8uE1bxJwBW/FgBrIkQmD1chFvGxkkPqOn2sdLPwbLh
+	5s3+OLkNFqzO2bycYOfFLbwbXtXUElb8NJx6lGnDFFSpxmyLLACwvayHOA84Ff9b1ALQCFxp
+	sTQ9iU7wE/O9hHTGfx+XIEpvBZuH4BnRCdQta959AGOBPgBZONfFqbXttRNsp0TBaQUtEcVJ
+	5Gm0tA/4mVdYjLvuSBCZL0koi+P7BvJ8/f39fQMP+vO5u5zuZlcnsskkgYxOpWkxLdnSYSx7
+	VyXG4jSrHGs4DkfWyonoaNW9DmSadtRXZT52K/jCVCbXd/iYDsYvrSTM5oJQYPwh6P3rHhk/
+	P+92jmO8XbW9bOG2bncUu2pv24GoV31AR8+eur7p4IkQQ0yeQfFxQ6xSn+8YcyyUrYiPPRlw
+	vdQY2f7UEyLnw6bjydzs2OruhtxtjlJhqcZh3yu1JRxF5R9Tql2ePYdnlG+3V78RvpM/c6aQ
+	84uqZPa3yyHRAxHq4g4x/1TUu4oDuqSTD7ThbxV1fO8y+9Ge02fr/1krf2+wGpe9PlSsSFcs
+	Nj1ZL3Gv3BlgdLwaGb1j++96zmJ87kt7/aril6JvDt8IYdyJHFv4khflrXkzlMuQJgv4nrhE
+	KvgXJ30+SZEEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWRf0yMcRzHfZ/n6bmnm8vjMj2ptJ2xVhwJ+4aZH5mv3RhtamPDqcdpupy7
+	TpQfl+jI1AkhUlKZrri60HHldl0uKUVFpTsbneRHd2GmpUs/5r/X3p/35/N+bx8K51cQs6i4
+	hERWniCOF5Bc4mGdIHABnCfau+jvFx683/gMhyc1IzjU2rJI+LXuB4A5riEc9prUAA43t+Cw
+	6pkdwILCPAJ2mQwYNBZmY/Cuth6D16+kYbB+9DsJs81vAHR05GKwpjsE3kovIqCx5jkB2x7f
+	IGF+iYMD71jdGLxwpgOD1b2pAD4czsfhva9OAjZ0+8GWEavHan/U1i5CjYUMMuTaOKjFXkGg
+	tmYlqiw9SyJ90Qn0WX8NoCddKhLdzrzogc6nDZDIcPq9Bxp0dBPIWdtBosyqUoCaCiycLd7b
+	uStj2fi4Q6x84ard3H0/bEZSdtPj8O/RLEwFdEQG8KQYeglTnqPijDOffgKYHsueSd2XKRmx
+	4JPszdx19415uGOeNIz59scIMgBFkXQI82KUGtdn0I9wZjDtHDa+gNP1ONNaBsfZm97AOJz6
+	iUMEPZfRWlongnn0ckZV38mZDAhktDrThMdzTDc9cIHJQuGM7a2L1ACvAjClFPiyMoVUIo0J
+	lYUmsElChViqUCZIhDEHpJVg4qvBQdXAnu8WmgFGATNgKFwwg1dZtXEvnxcrPpLMyg/skivj
+	WYUZ+FGEwIcXevV6LJ+WiBPZ/SwrY+X/pxjlOUuFyWTBAT/bp+W5+iusW2vDkoTla2yasgXJ
+	kbr5r/xGg6KUznWPwaaPyqU9pssPyPWqkEIfNJQS3nWDn14wzzKc8fzYGihVD9jDNhsNYfaf
+	0RpHlKusc/HFaMtiw0zieLGuP+XOnKR3L0dq4i75XliemrtSKJ3u/3Gt1dyX7KmPvhp4qke3
+	o1wToIzcMySqeEH37vLKiEzUVzc221Wl5D02NfjlXHXTsk+ZFkm69YgzXHv+VH+ITvRhxTYv
+	fYSgoTb+ZnaT+7c979fOQa5w062Bg6+1U9Ut2a/Uziz37JiGlC9LWger/Tc+Lfa5ciZiVcmQ
+	NegpKD68pabxxFFJX+rJOgGh2CcODcblCvE/Zzp3o0QDAAA=
+X-CMS-MailID: 20240520103016epcas5p31b9a0f3637959626d49763609ebda6ef
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520103016epcas5p31b9a0f3637959626d49763609ebda6ef
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520103016epcas5p31b9a0f3637959626d49763609ebda6ef@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240520_054303_265905_FCC80CCB 
-X-CRM114-Status: UNSURE (   8.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240520_044529_536781_4A49CAD9 
+X-CRM114-Status: GOOD (  17.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,8 +147,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+Setting copy_offload_supported flag to enable offload.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+---
+ drivers/md/dm-linear.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/md/dm-linear.c b/drivers/md/dm-linear.c
+index 2d3e186ca87e..cfec2fac28e1 100644
+--- a/drivers/md/dm-linear.c
++++ b/drivers/md/dm-linear.c
+@@ -62,6 +62,7 @@ static int linear_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+ 	ti->num_discard_bios = 1;
+ 	ti->num_secure_erase_bios = 1;
+ 	ti->num_write_zeroes_bios = 1;
++	ti->copy_offload_supported = 1;
+ 	ti->private = lc;
+ 	return 0;
+ 
+-- 
+2.17.1
 
 
