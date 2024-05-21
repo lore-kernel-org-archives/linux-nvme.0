@@ -4,87 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C864C25B78
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 03:46:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76012C25B77
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 05:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9YaIEkbUvmBmnvGkVRFuCDWCFMloy3MqNAMsorICZX0=; b=Ul2Xqk4xEvcqcF6hfz23Z0WWqd
-	uBT0GJe2vzUbYnttPHaE/UQ8KRuLLPNos6uIgDv9AnPnmt52P2ohlA4e9ADTUKub/bS4zi0PJT1m2
-	18ANO9L8xZNnxZDIAbfo+NgGQ4789R01xKAAyuUVlQ8bsVfB3QSHK1cBhhBqKU+SjU/r4X4vbqsK4
-	o5jhzueDMNTzYB8UWOG+09K6Z34I6i3WWcWUfh3SXe1aqWJZgM2gi/jAd8rz7Y8V0GanGxRN/NebC
-	DHISWrWj9Ljpb7PP+XKPMu9iKKIERrt75qMas7xT61ogZrbvV8Ho93L/xaQC4BuxHXVkD2MOzB9ZD
-	JGxHWl0Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=v+UZFDGcIplCeWgyOKOk7LUl/tgd1hVNH/BQuH7kVhM=; b=Qno8C5LClwHtVbmB2QKNtQv3WF
+	v4//CYmPIgHed82Zj8aGa1ZxmXvSlRY/+BYna45NrFtohhiwB/q3r/yTk0e1IN+gFaEw2PA1hfuuE
+	VYOChSJgjzpVGoT402cKzcBvr3x+H8EvO5bGwC2IYD07Uh5nNpEyKoN/Jo940uVABzj2yP1nXUNqY
+	le96as3yiTBsbEu/Fee1acvIo78pi9av4tEQBsPEff8R58dDSBcNfoCzZ1waqV6mMrAE0vpYJw6H/
+	M/NbkxFDffkQlxqQ3+zCLovo/8LCy4fCafHlOUUWwikzV+UEXrbD0QdvlIEDT49qD8RYB7XypMAEk
+	cEoWlXqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9cw0-00000001uLa-3Wqj;
-	Wed, 22 May 2024 03:46:36 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1s9e7A-00000001zEN-0tzp;
+	Wed, 22 May 2024 05:02:12 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9cvx-00000001uKx-1VVH
+	id 1s9e6z-00000001z6a-0XRU
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 May 2024 03:46:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716349588;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9YaIEkbUvmBmnvGkVRFuCDWCFMloy3MqNAMsorICZX0=;
-	b=N7wDw7Kmo+GfqOb1bK38+JJC/MwRlKyNKyiW5H2o88cQpBsjce1cekId3GrkGtr58tt85C
-	/qBGSWrJjQosBp5B+AC8zaBN6wQqlsYomN8zUwuoyydw0tBsDyu1zqyd0mmpxrJG2vgPub
-	pquvd7xEdhR+w1PEkgX5GroSOvQ6c9s=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-375-7B0qlu_WNKawRxDnmxL2ig-1; Tue, 21 May 2024 23:46:26 -0400
-X-MC-Unique: 7B0qlu_WNKawRxDnmxL2ig-1
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-5cf35636346so10404250a12.3
-        for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 20:46:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716349585; x=1716954385;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9YaIEkbUvmBmnvGkVRFuCDWCFMloy3MqNAMsorICZX0=;
-        b=Wn2JE99N1bncyc0PxufyEdwW5Cd7SzVsUH2ktwo+4PFncykYP7lsoTdvVK3wnOZkto
-         +Lm9pv2ak8mLPz6Znll5N5XrKvBM/wbbRfjVfLGuJg8L2Rv6pdoEIJwfBLOeSM7mP26k
-         AfbfIloGWbGIENlFnSeI9ILlmGcIGVig+0b5aCuQXAma/X7vAIXg4rfwM+sUWQwk2+GQ
-         IIweOQ++6vIWO8zu+TnZZyj2vnDfHWT2TpG9Sc9hiUYwMLCrx1AFQekOChzSfvW9H/9G
-         LJUycBhD9NMPcOxHrUq/uklQn6oXei8MfXo42mhjBaRBQ1aGdB0vHzH6rEFzdpp+zlXE
-         ho6w==
-X-Gm-Message-State: AOJu0YzLU5dIm6yPFFFczZUJaO8zp9uk4NS8grIUmYU1G6iT7+CTxDYL
-	dl4RM9lnZ3VoANnQFKwG6+n41aI/8QMxgaaiaWxz6uiHnllUVOduWk9QPxCLttjUPFciPwqB5Gy
-	rCIBQ1RoDIzBwQqgEkhYlPjdMjPMPJNEryWG9cYgwLw6TAaT/mGcY8U4pzuQlgVNEG9KJI1j77H
-	/rOFKW5ynsnHAM4YPnrWS8p6f82YlrLDqKVqw0msE=
-X-Received: by 2002:a05:6a21:8183:b0:1af:fff9:30e6 with SMTP id adf61e73a8af0-1b1f879c5abmr845685637.15.1716349584916;
-        Tue, 21 May 2024 20:46:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnxA5q6sQySyLYL+QwWfkYzcjWbnxng0WrOIcngYfDAFbWaMN2X3gW7TFzYEQy1OIEC0G45avVxRojwRgxtmc=
-X-Received: by 2002:a05:6a21:8183:b0:1af:fff9:30e6 with SMTP id
- adf61e73a8af0-1b1f879c5abmr845673637.15.1716349584473; Tue, 21 May 2024
- 20:46:24 -0700 (PDT)
+	Wed, 22 May 2024 05:02:06 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240522050154epoutp045bb39683adffbfaa8cb77cb1769159a2~RtvlDevHO1664416644epoutp042
+	for <linux-nvme@lists.infradead.org>; Wed, 22 May 2024 05:01:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240522050154epoutp045bb39683adffbfaa8cb77cb1769159a2~RtvlDevHO1664416644epoutp042
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1716354114;
+	bh=v+UZFDGcIplCeWgyOKOk7LUl/tgd1hVNH/BQuH7kVhM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bIGEBkUrTINXnyvIkKFop6jbt0P5KHa++22msGRYVEie0tGoOFaivH4E435CCl+qQ
+	 Zj5Olfmm5M8sW3N9fYsFSNXs0F08ad1IjMplZ8NTj1n6o3lfSQbGnupYuKtQjakOmt
+	 apiVSG5uBi2SRMh94ChbmA3fspJYBX7kagibTrZM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240522050153epcas5p4c49060d71c380fd1a311b8ef4f7dc111~RtvkWJubf0799007990epcas5p4K;
+	Wed, 22 May 2024 05:01:53 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4VkfKr2wQcz4x9QH; Wed, 22 May
+	2024 05:01:52 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	DB.81.08600.E3C7D466; Wed, 22 May 2024 14:01:50 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240521145521epcas5p3085c3982fb14dab0709d493d3e1b941b~RiMcb82eq2206322063epcas5p3P;
+	Tue, 21 May 2024 14:55:21 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240521145521epsmtrp1967b56785c8cc04ff0efd8e503c27f9c~RiMcZUDzh2227322273epsmtrp1W;
+	Tue, 21 May 2024 14:55:21 +0000 (GMT)
+X-AuditID: b6c32a44-6c3ff70000002198-e8-664d7c3e8a2b
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	3E.1C.08924.9D5BC466; Tue, 21 May 2024 23:55:21 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240521145517epsmtip26cc224d597e605d820abffa401131a56~RiMY8JjcX2617526175epsmtip2_;
+	Tue, 21 May 2024 14:55:17 +0000 (GMT)
+Date: Tue, 21 May 2024 20:18:19 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 10/12] dm: Enable copy offload for dm-linear target
+Message-ID: <20240521144819.nm25c4txfhwggfae@green245>
 MIME-Version: 1.0
-References: <20240521085623.87681-1-sagi@grimberg.me> <ecb4dc5f-df4d-4c49-94ba-3fb8c3818fcd@grimberg.me>
-In-Reply-To: <ecb4dc5f-df4d-4c49-94ba-3fb8c3818fcd@grimberg.me>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Wed, 22 May 2024 11:46:12 +0800
-Message-ID: <CAHj4cs_+roXMOrGacxNbP-G6y6jxSKpAEr1ZtN6BF9Mi26+D0w@mail.gmail.com>
-Subject: Re: [PATCH blktests] nvme: add regression test for concurrently
- enable/disable nvmet ns
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, 
-	Keith Busch <kbusch@kernel.org>, Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, 
-	"Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <017a9853-6e42-4250-9cfa-1d6ad5786556@acm.org>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TeVATdxTH+9vdbDZMocuh/gQ7pam2AoKJTfCHcmildR3KDDN2pjO1iClZ
+	gSGETBLqRStCsQgTQNFSYpVTLq1UQGsQxeEQxFJsI3c5tIk90IajUJGCjdnQ8b/P+773fu+a
+	H4W71PHdqTilllUrZQoh6UBcafFa6xucHL5X1Dfqg2o6b+EoNXcBR+eHc0g03jIF0FcTczgy
+	3fwSoPmubhzV3xoBqKjkDIEGbhow1FhyAkNV59swdDo/DUNtzx6T6ERzL0DmHj2Grg/6oOKj
+	ZQRqvH6bQMaGb0hUWG7mo4r2RQwdz+jB0FXTEYAujlsI1DHogboX2nlbPBjjvTCmswQyBv0w
+	n+keuUQwxq4kprb6GMnUlR1mfq8rAMy1gRSSKc3O4zG6tL9IxpA+ymMmzYMEY7nRQzLZ9dWA
+	+aGolR/h+lF8YCwrk7NqT1YZnSiPU8YECcN2Rm2LkvqLxL7iALRR6KmUJbBBwtD3I3zfi1NY
+	lyP0/FSmSLJKETKNRrg+OFCdmKRlPWMTNdogIauSK1QSlZ9GlqBJUsb4KVntJrFItEFqDdwT
+	H/tTxkm+qpW3/1pFDpECHhKZQEBBWgIf6Br4mcCBcqGvAdh0egxwxhSAj4oLSc6YBbBtbBYs
+	paQ0XiY4x3UAz347iHHGQwCNDeW2KIJeA8+Xf2dliiJpH3jnGfVcdqPXwtmxClsyTheT8Jf+
+	J/hzhysdBmuzDbamHGl/2PHjBMaxM7xdYLLpAnozzDfk2/Rl9Cr49bkZnOuoVwANjRTHofDK
+	v/Ukx67wz/Z6Psfu8I+co3beB6tOVtpGg/QXAOr79PbRQmB6Z47tUZyOhd3jc/aEV+GpzosY
+	pztB3bwJ43RHePXsEr8BL9QU2QuvhL3/HLEzA1NT79o3ZAEwrdKA5YLX9C8Mp3+hHseb4LGJ
+	VJ7eujyc9oAVixSHXrCmYX0R4FWDlaxKkxDDRktVYiW77/+TRycm1ALb7/EOvQr6Cxf9mgFG
+	gWYAKVzo5lhbv2Ovi6NcduAgq06MUicpWE0zkFqPdRx3XxadaP1+Sm2UWBIgkvj7+0sC3vYX
+	C1c4jqefkbvQMTItG8+yKla9lIdRAvcUjNxpFBTg9JNMGPgYNza5FokUFpMgq9hl6MN1TYJR
+	b/OVOXPZSPieJwc6V8W3qp29Dh9yUyTfSqgIz5rJnLmctGv51OPW8r9PObW92TSWXhZ5aM32
+	36TavsiIlruX3EMidYTwaQjhta11wkHk/FYbNdn+uXnxg64gv6frGF3VjZaMHZW7f97tNBtw
+	Q7e1yWICv95xvMBbeOeEa+n9Z7tSzBFZ8xcH80HfZNr38YPTnuDdRxvah85tqVw9nyPx+exe
+	yPZXVMm5H2dMNxwsrs57XXbUqH7JdFm9TV4aPDDsfd+3b/XG5bXTK0pmpUPt3g6fqHa+bPHq
+	zwtUdFCbJaKmB0PB+9cJCU2sTOyNqzWy/wA12b2dxgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUzMcRzHfX+/X7/7lZ39Kulbx8wRPRBt4rtpZlrz5fIwMyzzcOl3XXQ5
+	d/I4ykXprCTmrhNOD5dqSlceTnW48lC5TksoU0xNip4sj6vobsZ/n31e74d9tg9Dun2hvJmY
+	uH2cIk4cK6RdqFs1wunzWm+GSxY0qmaj0vpHJFJljJCo+M0ZGvXWDAF0YeAHiTrvpwD0y2oj
+	UcWjdoD0OZco1HrfRKCqnEwCFRY/JNBFTRKBHo59plGm5QVAXS06AlW3BaCryXkUqqquo1Dz
+	3WwaXTF08VDB41ECnT3VQqA7nccBKuntp9CTNgGyjTx2WibAzc9FuD4HYpPuDQ/b2sso3GyN
+	x8aiVBqX5yXg7vIsgCtbE2mcm37OCacl9dHYdLLDCQ92tVG439xC4/SKIoCf6mt569wjXEKi
+	uNiY/Zxi/tIdLtITP7D8K3Ewu1JLJwIjoQbODGQXwsSqm5QauDBubCWAVwxllAN4QcNILemY
+	3WHh6AeeQ9QJ4LfqfjugWB9YbLgB1IBhaDYANowx4+vJrC/8+rbAHkqy+TRsuveLNw7cWRE0
+	ppvsBXx2EXzSOEA4QvsB1Dy1AAdwhXVZnXYR+Ud0ufwdOV5AsgJYMGovcGaXQI1JY7/Ag50K
+	tfnDZAZw1f3n1v3n1v1z6wFZBLw4uVIWLVMGyYPiuAOBSrFMGR8XHbhzj8wI7H/h73cH3C4a
+	CLQAggEWABlSOJlvrFgpceNHiQ8d5hR7tiviYzmlBQgYSujJ9+xOi3Jjo8X7uN0cJ+cUfynB
+	OHsnEodUG9abpJsCzouGbZlp3LEQ/cwt+jBrfEKP/9oO3KpNkAfPfdY3Z3vwvfklW1Wfzpf5
+	+e2uyPoeOiFVsNGzg2v3SpIsqbMOiQJyaY8Ugr9gzWBEN1np+jJl7HVt2EqbMCVP7nlaN2to
+	4WBoRmNI4a4Xhoj05b7+cxte1U80XF99/f0qjynFx3dqws09+Wd7fDMj98pym35+xNcmLJar
+	GyLDlaWTNn96mbxi7zO8wSt5ZHZvaGpa0yT10W20Odj1mI9MUpptvWw+fUB6ZGlI+4c1tTM9
+	gmYM1ZOryl6FCcrDp62PzJaIzLuk2pLkqBrV4S0+fUe0w7ZF3g+q6rS3N44OxggppVQc5E8q
+	lOLfWU2MeoYDAAA=
+X-CMS-MailID: 20240521145521epcas5p3085c3982fb14dab0709d493d3e1b941b
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_161fe_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520103016epcas5p31b9a0f3637959626d49763609ebda6ef
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520103016epcas5p31b9a0f3637959626d49763609ebda6ef@epcas5p3.samsung.com>
+	<20240520102033.9361-11-nj.shetty@samsung.com>
+	<017a9853-6e42-4250-9cfa-1d6ad5786556@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240521_204633_496196_1356320C 
-X-CRM114-Status: GOOD (  20.57  )
+X-CRM114-CacheID: sfid-20240521_220201_598370_7554786B 
+X-CRM114-Status: GOOD (  13.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,105 +152,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Sagi
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_161fe_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Some note from shellcheck
-$ make check
-shellcheck -x -e SC2119 -f gcc check common/* \
-tests/*/rc tests/*/[0-9]*[0-9] src/*.sh
-tests/nvme/051:25:20: note: $/${} is unnecessary on arithmetic
-variables. [SC2004]
-tests/nvme/051:26:12: note: Double quote to prevent globbing and word
-splitting. [SC2086]
-tests/nvme/051:27:12: note: Double quote to prevent globbing and word
-splitting. [SC2086]
-
-On Tue, May 21, 2024 at 6:08=E2=80=AFPM Sagi Grimberg <sagi@grimberg.me> wr=
-ote:
+On 20/05/24 04:25PM, Bart Van Assche wrote:
+>On 5/20/24 03:20, Nitesh Shetty wrote:
+>>Setting copy_offload_supported flag to enable offload.
 >
-> Forgot to CC Shinichiro...
+>I think that the description of this patch should explain why it is safe
+>to set the 'copy_offload_supported' flag for the dm-linear driver.
 >
-> On 21/05/2024 11:56, Sagi Grimberg wrote:
-> > Reproduce a hang in nvmet when concurrently disabling/enabling
-> > an nvmet namespace.
-> >
-> > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> > ---
-> >   tests/nvme/051     | 48 +++++++++++++++++++++++++++++++++++++++++++++=
-+
-> >   tests/nvme/051.out |  2 ++
-> >   2 files changed, 50 insertions(+)
-> >   create mode 100755 tests/nvme/051
-> >   create mode 100644 tests/nvme/051.out
-> >
-> > diff --git a/tests/nvme/051 b/tests/nvme/051
-> > new file mode 100755
-> > index 000000000000..ddc097310dd7
-> > --- /dev/null
-> > +++ b/tests/nvme/051
-> > @@ -0,0 +1,48 @@
-> > +#!/bin/bash
-> > +# SPDX-License-Identifier: GPL-3.0+
-> > +# Copyright (C) 2024 Sagi Grimberg
-> > +#
-> > +# Regression test for kernel hang when enabling/disabling nvmet
-> > +# namespace concurrently
-> > +
-> > +. tests/nvme/rc
-> > +
-> > +DESCRIPTION=3D"test nvmet concurrent ns enable/disable"
-> > +QUICK=3D1
-> > +
-> > +requires() {
-> > +     _nvme_requires
-> > +     _require_nvme_trtype_is_fabrics
-> > +}
-> > +
-> > +set_conditions() {
-> > +     _set_nvme_trtype "$@"
-> > +}
-> > +
-> > +ns_enable_disable_loop() {
-> > +     local ns=3D"$1"
-> > +     local iterations=3D200
-> > +     for ((i =3D 1; i <=3D ${iterations}; i++)); do
-> > +             echo 0 > $ns/enable
-> > +             echo 1 > $ns/enable
-> > +     done
-> > +}
-> > +
-> > +test() {
-> > +     echo "Running ${TEST_NAME}"
-> > +
-> > +     _setup_nvmet
-> > +
-> > +     _nvmet_target_setup
-> > +     ns=3D"${NVMET_CFS}subsystems/${def_subsysnqn}/namespaces/1"
-> > +
-> > +     # fire off two enable/disable loops concurrently and wait
-> > +     # for them to complete...
-> > +     ns_enable_disable_loop $ns &
-> > +     ns_enable_disable_loop $ns &
-> > +     wait
-> > +
-> > +     _nvmet_target_cleanup
-> > +
-> > +     echo "Test complete"
-> > +}
-> > diff --git a/tests/nvme/051.out b/tests/nvme/051.out
-> > new file mode 100644
-> > index 000000000000..156f0687aab2
-> > --- /dev/null
-> > +++ b/tests/nvme/051.out
-> > @@ -0,0 +1,2 @@
-> > +Running nvme/051
-> > +Test complete
->
->
+Acked, will add more description in next version.
+
+Thank You,
+Nitesh Shetty
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_161fe_
+Content-Type: text/plain; charset="utf-8"
 
 
---=20
-Best Regards,
-  Yi Zhang
-
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_161fe_--
 
