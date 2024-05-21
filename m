@@ -4,90 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9B24C25B75
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 06:57:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFFFBC25B74
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 07:02:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=; b=oS4aCvrWOxES6+ezhP5XeQuaof
-	LqyJ11rreOr0xBS0VUN6mZqu1+mwYuGw8sY3iGEnzRT93Hucc2IB4Da+rd9TFN7pQIwJzU0cO8fn5
-	f05CzCydTGZ099hZeZd9GLXw0WOk52fXo/9/Ybq0lruWSuhUKlZojjbqvB9LGct+3+10ml4x8J555
-	j2No0N/nT+CG0av5Sz1908YUBvXxd3ZX4mvZIqFyJHMK9pOSCoK+C9FrnI0TH7yL8LxcWV8+rfZ38
-	TLkDm8O394WPW8g3j7ttHurJN/lPSALxxUo3tKUdZeLsoyK5b1sRrZhvul1q8m/xxeBHoLcCztwjr
-	NKuwj9rQ==;
+	bh=vfwNeirqJErZbK+9uvkbq+97VsJL1e7zcTxFG4saEj8=; b=AbZzD8uLoo5aLyWjIiOQegX5yR
+	4nKBLcfVAYK6IOGJ6EdoCHtPH3rQwuuTfqUxakVHjaMG0d8bOq4gAYQlDN7WfHLErwIYQcCxHh9Bx
+	A4YYM2+XPbuyq9dy8uIX/MoRweNnJ/BfBL2tBXKeefT/wEqAHhsSNqFmtlsl3aOBhg2juMGAQrgyJ
+	8VXSjAMTdTmN/46qYCpgTM5l0X611wabx/7zVUv7/2Igkq6xGxkirBe2a8ediq6XA3unUh3C+Gx4v
+	lZnBKgf4PgKILIhPH6ilymR6o2oziEcIxuqH8PLSO8SvXrhW8lHmEIp/TqEMXd/ttTUiJ5/Pq1L4F
+	v3q44cHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9JRK-0000000GWmV-2T8J;
-	Tue, 21 May 2024 06:57:38 +0000
+	id 1s9JVd-0000000GXOa-2WYA;
+	Tue, 21 May 2024 07:02:05 +0000
 Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9JRG-0000000GWlO-1KR9
+	id 1s9JVY-0000000GXNw-4Apq
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 May 2024 06:57:37 +0000
+	Tue, 21 May 2024 07:02:03 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B5BF5BF04;
-	Tue, 21 May 2024 06:57:31 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B1125BF17;
+	Tue, 21 May 2024 07:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716274651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716274918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
-	b=RhSq+vUxOAApsWaToKGak6UHyRBgSUf9H0C0g9k7Fl6ajaqq+QQHNpTOfQwcnVfRh49FHb
-	saNL0fxoKDEzifyoi+nyKZzc06856OedSYAJ19H5rkoXbEbQBNaGdq2q1MhKlYmWndJT6C
-	uGb0+nHIxmQseP4fSB6dl8GgzE2muKc=
+	bh=vfwNeirqJErZbK+9uvkbq+97VsJL1e7zcTxFG4saEj8=;
+	b=yH2f3qVG8nLYLNx9u1imARwL2LjRJgomwkLYfnsdOHlpEXEs/696DEqd3LInz7RSo+0eCD
+	AardD1TtJhL4QUHHO1ezR+wlyijMZxCEGdypAn8SdZIEap3+zUFAen4Obcx8T5H2oRpOQk
+	lv08KVa2SZtnHXM9P70JtfXlXcQnyOk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716274651;
+	s=susede2_ed25519; t=1716274918;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
-	b=CBJTmn70bf0S5kQZRZoIURJqd5rotcvDLBeunUS5A4o8J700UhdWQZ515Kc7wvcNiq2ohJ
-	iPw3uDtCquvmI1Dg==
+	bh=vfwNeirqJErZbK+9uvkbq+97VsJL1e7zcTxFG4saEj8=;
+	b=D+CrOKUZlwWuQXrpqq6BtzpeILUBNp1rJiHYF7CBffkiQ+0tM5lTzezG/onZQ0PL5lKUSw
+	GED5gg6bobS18ZAA==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RhSq+vUx;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CBJTmn70
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yH2f3qVG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=D+CrOKUZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716274651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716274918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
-	b=RhSq+vUxOAApsWaToKGak6UHyRBgSUf9H0C0g9k7Fl6ajaqq+QQHNpTOfQwcnVfRh49FHb
-	saNL0fxoKDEzifyoi+nyKZzc06856OedSYAJ19H5rkoXbEbQBNaGdq2q1MhKlYmWndJT6C
-	uGb0+nHIxmQseP4fSB6dl8GgzE2muKc=
+	bh=vfwNeirqJErZbK+9uvkbq+97VsJL1e7zcTxFG4saEj8=;
+	b=yH2f3qVG8nLYLNx9u1imARwL2LjRJgomwkLYfnsdOHlpEXEs/696DEqd3LInz7RSo+0eCD
+	AardD1TtJhL4QUHHO1ezR+wlyijMZxCEGdypAn8SdZIEap3+zUFAen4Obcx8T5H2oRpOQk
+	lv08KVa2SZtnHXM9P70JtfXlXcQnyOk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716274651;
+	s=susede2_ed25519; t=1716274918;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
-	b=CBJTmn70bf0S5kQZRZoIURJqd5rotcvDLBeunUS5A4o8J700UhdWQZ515Kc7wvcNiq2ohJ
-	iPw3uDtCquvmI1Dg==
+	bh=vfwNeirqJErZbK+9uvkbq+97VsJL1e7zcTxFG4saEj8=;
+	b=D+CrOKUZlwWuQXrpqq6BtzpeILUBNp1rJiHYF7CBffkiQ+0tM5lTzezG/onZQ0PL5lKUSw
+	GED5gg6bobS18ZAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B4E713A1E;
-	Tue, 21 May 2024 06:57:30 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B8F213A1E;
+	Tue, 21 May 2024 07:01:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZimnBdpFTGbsOAAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 21 May 2024 06:57:30 +0000
-Message-ID: <b522fbad-ef5c-479b-95e8-1dcfefcbdb02@suse.de>
-Date: Tue, 21 May 2024 08:57:29 +0200
+	id fka0F+VGTGZjDQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 21 May 2024 07:01:57 +0000
+Message-ID: <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
+Date: Tue, 21 May 2024 09:01:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 01/12] block: Introduce queue limits and sysfs for
- copy-offload support
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
 Content-Language: en-US
 To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
@@ -103,15 +103,12 @@ Cc: martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
  dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
  linux-fsdevel@vger.kernel.org
 References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102830epcas5p27274901f3d0c2738c515709890b1dec4@epcas5p2.samsung.com>
- <20240520102033.9361-2-nj.shetty@samsung.com>
+ <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+ <20240520102033.9361-3-nj.shetty@samsung.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240520102033.9361-2-nj.shetty@samsung.com>
+In-Reply-To: <20240520102033.9361-3-nj.shetty@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 3B5BF5BF04
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.50 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -120,28 +117,30 @@ X-Spamd-Result: default: False [-4.50 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
 	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[oracle.com,acm.org,fromorbit.com,opensource.wdc.com,samsung.com,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLghztw5pzjjmtx4kirkcu9cad)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email]
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 8B1125BF17
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240520_235734_537307_B19FF5F5 
-X-CRM114-Status: GOOD (  10.29  )
+X-CRM114-CacheID: sfid-20240521_000201_212834_70264E12 
+X-CRM114-Status: GOOD (  17.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,25 +156,35 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 5/20/24 12:20, Nitesh Shetty wrote:
-> Add device limits as sysfs entries,
-> 	- copy_max_bytes (RW)
-> 	- copy_max_hw_bytes (RO)
-> 
-> Above limits help to split the copy payload in block layer.
-> copy_max_bytes: maximum total length of copy in single payload.
-> copy_max_hw_bytes: Reflects the device supported maximum limit.
+> We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
+> Since copy is a composite operation involving src and dst sectors/lba,
+> each needs to be represented by a separate bio to make it compatible
+> with device mapper.
+> We expect caller to take a plug and send bio with destination information,
+> followed by bio with source information.
+> Once the dst bio arrives we form a request and wait for source
+> bio. Upon arrival of source bio we merge these two bio's and send
+> corresponding request down to device driver.
+> Merging non copy offload bio is avoided by checking for copy specific
+> opcodes in merge function.
 > 
 > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 > Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 > ---
->   Documentation/ABI/stable/sysfs-block | 23 +++++++++++++++
->   block/blk-settings.c                 | 34 ++++++++++++++++++++--
->   block/blk-sysfs.c                    | 43 ++++++++++++++++++++++++++++
->   include/linux/blkdev.h               | 14 +++++++++
->   4 files changed, 112 insertions(+), 2 deletions(-)
+>   block/blk-core.c          |  7 +++++++
+>   block/blk-merge.c         | 41 +++++++++++++++++++++++++++++++++++++++
+>   block/blk.h               | 16 +++++++++++++++
+>   block/elevator.h          |  1 +
+>   include/linux/bio.h       |  6 +-----
+>   include/linux/blk_types.h | 10 ++++++++++
+>   6 files changed, 76 insertions(+), 5 deletions(-)
 > 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+I am a bit unsure about leveraging 'merge' here. As Bart pointed out, 
+this is arguably as mis-use of the 'merge' functionality as we don't
+actually merge bios, but rather use the information from these bios to
+form the actual request.
+Wouldn't it be better to use bio_chain here, and send out the eventual
+request from the end_io function of the bio chain?
 
 Cheers,
 
