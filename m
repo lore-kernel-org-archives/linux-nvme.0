@@ -4,64 +4,141 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 964AAC25B74
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 13:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75A5BC25B7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 13:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WjCHXx3CBeaXcONRmIDGSqTjffbJF2dn/sodP5wZqr4=; b=xy0g6cx1+2raHlO86A8In3WvRl
-	c65IOkDcY1WItseMAhlDSIHb6fCrV7dJoHAlc+NQ+miu6K9h8oc5guuf0BGrf7RCM+y7gPmzvzpE+
-	MIU0R6TcksIqpmPg32xgFqoaGO2XtFKcvn6NPcWkFMm4bIYgTMe/Om1P7KKES+ZOpEHOCwWjskc3Q
-	978WgV99c5PV4W307Vj2l5tlybNJPouRWGSqQBMCwgQqSYo1CUvjzmm5l8wtcTTEfpHaC0xTZiQza
-	Ki4Kr2iSSrkPO8Vs4dHWhE6wTe6iu62Qp+yoWx1pUXnqOngk3BR6Zebvv9tbzZngpnO5TCyNBV8WL
-	epBmxo8w==;
+	bh=CUX2VqrjfI/EEDqyZU4uVkkHPh5azdlSMuCxpIfmh70=; b=2CFjfkwAwSVkT7vSzyZZt28AnU
+	Fl9OTIorIT4qkQIMQDvswLCatG32FyNO0mPaaiqXzXXUIODfkp4+gNnb6nN8ClMUyTySHY3vc7G00
+	55XN2oaWf9tE42gofJ225EbMAFPx2sSVomzGq+wcosbA3qXa3JvVOfAyy3S9pNozkGRhle9oRPEls
+	GzIUXw2uWdX2EBJv7bfjKnrl8e1x1ar3y3zD4ZbpbRqhsUUPkDeSKXq53YVNhA8/ASQmgOOKvFDh6
+	PDU1prgL8KIF9OJxk1M0r+JKbu/jUNOdjqYMFEe1Z124B6iWTQVKC3djapWR/UGRPIA9oBTxoQ+AC
+	mXjfGUPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9PBY-0000000HXGr-15EJ;
-	Tue, 21 May 2024 13:05:44 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s9PEA-0000000HY71-3zCL;
+	Tue, 21 May 2024 13:08:26 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9PBT-0000000HXFM-047P
+	id 1s9PE6-0000000HY3a-0MbG
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 May 2024 13:05:40 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 7EAFECE0FB5;
-	Tue, 21 May 2024 13:05:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E54C32786;
-	Tue, 21 May 2024 13:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716296735;
-	bh=Rr/GkEedXfncMNSF/dyRDeEza5AsisB/vI8v19rE6Yc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eG/KfFuEoBcpnCRX8QH0GBE7h95EK2gBtvNobaiURYktE5WUnN3+wo356Q1+ibYm7
-	 +lOBnDoAdPdh8Hrpi9rwapEAo9SF2LGGA6CsF6m2QGk5FAmTx7Kjzujv41exStb4W+
-	 YqFBAJhWm6KmaU77JY3sLy8XmmYWnatjMJFdi14gZ5UlOQkQDRTF0JnsicMQiiG0P2
-	 svdyYUfklf6WYvmT9y01j+ieqYEnLDBlcM9PF0NTNl4RSIErEd2v+eW1Nnrah7sdbj
-	 QBVsDMGbGdwWF+UW0raMxxbGq8hBDE3Jb34pQ9U/EITYkCC9SrVULw6mdyxylBIvjB
-	 1v8PMbhPbWMLw==
-Date: Tue, 21 May 2024 07:05:33 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: John Meneghini <jmeneghi@redhat.com>, hch@lst.de, sagi@grimberg.me,
-	emilne@redhat.com, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, jrani@purestorage.com,
-	randyj@purestorage.com, hare@kernel.org
-Subject: Re: [PATCH v3 1/1] nvme: multipath: Implemented new iopolicy
- "queue-depth"
-Message-ID: <ZkycHdlWgQtkCVer@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240520202045.427110-1-jmeneghi@redhat.com>
- <20240520202045.427110-2-jmeneghi@redhat.com>
- <945416af-3f8b-40b5-9681-49973beb2cb2@linux.ibm.com>
+	Tue, 21 May 2024 13:08:25 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240521130813epoutp02bb8f413186a788d7dac20fef4d615405~Rgu6FuOZo1160411604epoutp02d
+	for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 13:08:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240521130813epoutp02bb8f413186a788d7dac20fef4d615405~Rgu6FuOZo1160411604epoutp02d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1716296894;
+	bh=CUX2VqrjfI/EEDqyZU4uVkkHPh5azdlSMuCxpIfmh70=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=doeRCQVbnOIa2lzDpkAPTeARfiVfov5TkfHQYT5U8PQlcv79cBywDooEV3FKi7dUr
+	 CKyrhdn7KnfZsgCKbGhDkxkMJaIy1ezXABEkOLqxIC/+HsnCCkY0CFK0fDmvzsFfC/
+	 cL1kkhZt5GrA5PQhw484fri4pwPCf03SGCHiBcgA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240521130813epcas5p4f33cd571cfdf2daa8ee1663f270202e2~Rgu5nUAr31546115461epcas5p4o;
+	Tue, 21 May 2024 13:08:13 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4VkF9R4XwQz4x9Pv; Tue, 21 May
+	2024 13:08:11 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	94.0C.09666.BBC9C466; Tue, 21 May 2024 22:08:11 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240521113644epcas5p49bfa818b6040f17bad23f24e303ad269~RffB5Asan0500905009epcas5p4Q;
+	Tue, 21 May 2024 11:36:44 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240521113644epsmtrp264154696bb143f8efc50b183487f8be0~RffB3y50X0882408824epsmtrp20;
+	Tue, 21 May 2024 11:36:44 +0000 (GMT)
+X-AuditID: b6c32a49-f53fa700000025c2-46-664c9cbb21d8
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	66.AF.08390.C478C466; Tue, 21 May 2024 20:36:44 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240521113640epsmtip2581da03f3a550f38dd151415706754e9~Rfe_OwQgG1086110861epsmtip2B;
+	Tue, 21 May 2024 11:36:40 +0000 (GMT)
+Date: Tue, 21 May 2024 16:59:42 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
+	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	nitheshshetty@gmail.com, gost.dev@samsung.com, Vincent Fu
+	<vincent.fu@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 04/12] block: add emulation for copy
+Message-ID: <20240521112942.f23aael3qehi4gww@green245>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <945416af-3f8b-40b5-9681-49973beb2cb2@linux.ibm.com>
+In-Reply-To: <cf6929e1-0dea-4216-bbc5-c00d963372f7@suse.de>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TezBcZxT33bvuLtOVazE+guimnUTEYxO2n9SjUya9Bo2ZzLQNTXWH6zHW
+	7nbXIzE19ah6ZKzH5mUjraiWoMQjSjyarghWlVRIV0oy8RhliEeSFrWptWTy3+/8vt/vnPOd
+	M4eFc5qZ1qwYUTwtFQmEXMKY0dzl4ODUVhIY6VqwZIvq1HdxlF6wiaPq8XwCzXetAHRxaQ1H
+	U7ezANoYGMRR090JgErLrjKQ5nYrhtrLijB0vbobQ1cuZWCo++UCgYpUowBNjygx1DHmiK59
+	U85A7R19DDR8q4RA3/04zUQVPVoMFWaPYKhlKg2g2vmnDNQ7thdNnssGaHCzx/A9G2r4fgCl
+	LoNUq3KcSQ1O1DOo4YEEqqEqh6Aay7+iZhuLAdWmSSWo7+UKQyovY5GgWjMfGVLL02MM6mnn
+	CEHJm6oA9VvpHWawWUisZzQtiKCl9rQoXBwRI4ry4gacDPMNc+e78px4Hugdrr1IEEd7cf0C
+	g52Oxwi3JsS1TxQIE7aoYIFMxnXx9pSKE+Jp+2ixLN6LS0sihBI3ibNMECdLEEU5i+j4YzxX
+	1yPuW8LPY6OfKRS4ZIU8s/ZMwUgFV0xygRELkm7wz5liIhcYszhkG4DrqfWYPlgB8OHQBtCp
+	OOQLAFtnXznU5y7uiDoAfNQ4sBPMAPjTrAbTqRjk2zC3P5uZC1gsgnSE/S9ZOtqc5MLlLBVT
+	p8fJ3wmoqWjarmBGekJtxZNtzCb5UK44z9RjU9hXPMXQ5TEi34XDqx/qaAvSBl7+4TmuywPJ
+	CSNYsdBJ6Lvzg/eqd7EZnOtpYuqxNVxd7Njhk+D185WE3vw1gMoHSqB/8IGZ6nxch3EyGs6u
+	lOJ63hZeUNdiet4E5m1MYXqeDVu+3cX7YU1d6U4BKzj6TxqhaxqSFCysCdUPaBHA2aJsZgHY
+	p3ztb8rXyunxMZizlG6o3LLj5F5YoWXpoQOsu+VSCgyrgBUtkcVF0TJ3CU9EJ71aeLg4rgFs
+	H9Ah/xYw/njJWQUwFlAByMK55uyGJv9IDjtCcDaZlorDpAlCWqYC7lu7KsStLcLFWxcoig/j
+	uXm4uvH5fDePo3we15I9n3k1gkNGCeLpWJqW0NJdH8Yysk7FYo7u37zz5OSnv9jUlsRqQrRx
+	gkitKvig7VJe/yXtvsS1DxbfsGIP7UkKlf83Y/AgJsgxXzqigZV2g6PPB1bvvdnnNff3xycs
+	T7mY/So+m2LCyfGWj5oW35BXlR/2+cLloLzd0umvwMqaM1KxhVGEMcuA/yWOi5M37dZH/MW8
+	zy505uKJ5ZM32el7hKcOzI5HfTLeHNrX2UPdNAsJTgujsxcyFadfaPqvLXdYdJ1Qd8OaoAPF
+	FaNqXpbv4Q1nk8eqI3O8P9LzMjhFgpSw6p/HeydTmEGJ7cLkaFdT7Ud19x8OuXfHWq//62Pg
+	m1Ps5w3fUklu9HofL7ftqw+wu/y++emBIi5DFi3gHcKlMsH/dMWR5MkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOIsWRmVeSWpSXmKPExsWy7bCSvK5Pu0+awYxf6hbrTx1jtmia8JfZ
+	YvXdfjaL14c/MVpM+/CT2eLJgXZGi99nzzNbbDl2j9FiwaK5LBY3D+xkstizaBKTxcrVR5ks
+	Zk9vZrI4+v8tm8WkQ9cYLZ5encVksfeWtsXCtiUsFnv2nmSxuLxrDpvF/GVP2S2WH//HZDGx
+	4yqTxY4njYwW616/Z7E4cUva4nF3B6PF+b/HWR1kPC5f8fY4tUjCY+esu+we5+9tZPG4fLbU
+	Y9OqTjaPzUvqPV5snsnosftmA5vH4r7JrB69ze/YPHa23mf1+Pj0FovH+31X2Tz6tqxi9Diz
+	4Ah7gHAUl01Kak5mWWqRvl0CV8aUxq/sBUv4Kg5tKG9gfM7dxcjJISFgInGqexpTFyMXh5DA
+	bkaJVVc/sEAkJCWW/T3CDGELS6z895wdougJo8T0V2vYQRIsAqoSXac7gGwODjYBbYnT/zlA
+	wiICShIf2w+B1TMLXGKTWL5wN9ggYQEbiX/LHzGC2LwCZhJ9k6dADX3HKNF8ZjsrREJQ4uTM
+	J2BXMAMVzdv8kBlkAbOAtMTyfxwgJqeAtcTlz34gFaICMhIzln5lnsAoOAtJ8ywkzbMQmhcw
+	Mq9ilEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAhOG1paOxj3rPqgd4iRiYPxEKMEB7OS
+	CO+mLZ5pQrwpiZVVqUX58UWlOanFhxilOViUxHm/ve5NERJITyxJzU5NLUgtgskycXBKNTCV
+	+51k8X2sq169+fjktuiPcRIfOu96K9Qejnr0yG+ZI9/N1MgDEtcXXXApTZmxs+7TV36RzyGz
+	Q0L+BE+I/NIzaa6Au3GGSNTich6Lg1Pedl5dJTx9p8yLXD33niC5Dz+Tsy1DytvK9bpsdr/f
+	0KClNanQNMt6f47bn9kb9TyFJogU+M0q+DCl8cH5w20vWVMjUzTXr616qFPZ3+8YZF6p+NKW
+	v2HeZv5lxVOYGZSdfWsfB1Uanjy29ULul2fzIysFE0x4mNbN2lbTXfLBefHz2Yf1A4Qfzw7c
+	1bR8aVWJTVv20/Ul8mkLb8S9mPmHjXP6J042xrozYXv/X8zSjHtX4PxEdpml8lwt39+H05VY
+	ijMSDbWYi4oTAVGa+qWKAwAA
+X-CMS-MailID: 20240521113644epcas5p49bfa818b6040f17bad23f24e303ad269
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102906epcas5p15b5a0b3c8edd0bf3073030a792a328bb
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520102906epcas5p15b5a0b3c8edd0bf3073030a792a328bb@epcas5p1.samsung.com>
+	<20240520102033.9361-5-nj.shetty@samsung.com>
+	<cf6929e1-0dea-4216-bbc5-c00d963372f7@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240521_060539_273130_C70E588F 
-X-CRM114-Status: GOOD (  18.08  )
+X-CRM114-CacheID: sfid-20240521_060823_108447_38B7AC7E 
+X-CRM114-Status: GOOD (  18.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,57 +153,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 21, 2024 at 02:18:09PM +0530, Nilay Shroff wrote:
-> On 5/21/24 01:50, John Meneghini wrote:
-> > @@ -140,8 +148,12 @@ void nvme_mpath_end_request(struct request *rq)
-> >  {
-> >  	struct nvme_ns *ns = rq->q->queuedata;
-> >  
-> > +	if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE))
-> > +		atomic_dec_if_positive(&ns->ctrl->nr_active);
-> > +
-> >  	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
-> >  		return;
-> > +
-> >  	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
-> >  			 blk_rq_bytes(rq) >> SECTOR_SHIFT,
-> >  			 nvme_req(rq)->start_time);
-> > @@ -330,6 +342,40 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
-> >  	return found;
-> >  }
-> >  
-> I think you may also want to reset nr_active counter if in case, in-flight nvme request 
-> is cancelled. If the request is cancelled then nvme_mpath_end_request() wouldn't be invoked.
-> So you may want to reset nr_active counter from nvme_cancel_request() as below:
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index bf7615cb36ee..4fea7883ce8e 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -497,8 +497,9 @@ EXPORT_SYMBOL_GPL(nvme_host_path_error);
->  
->  bool nvme_cancel_request(struct request *req, void *data)
->  {
-> -       dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
-> -                               "Cancelling I/O %d", req->tag);
-> +       struct nvme_ctrl *ctrl = (struct nvme_ctrl *)data;
-> +
-> +       dev_dbg_ratelimited(ctrl->device, "Cancelling I/O %d", req->tag);
->  
->         /* don't abort one completed or idle request */
->         if (blk_mq_rq_state(req) != MQ_RQ_IN_FLIGHT)
-> @@ -506,6 +507,8 @@ bool nvme_cancel_request(struct request *req, void *data)
->  
->         nvme_req(req)->status = NVME_SC_HOST_ABORTED_CMD;
->         nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> +       if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE))
-> +               atomic_dec(&ctrl->nr_active);
->         blk_mq_complete_request(req);
->         return true;
->  }
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-The io stats wouldn't be right if that happened. And maybe it isn't
-right on a failover, but it needs to be. Would it work if
-nvme_failover_req() calls nvme_end_req() instead of directly calling
-blk_mq_end_req()?
+On 21/05/24 09:06AM, Hannes Reinecke wrote:
+>On 5/20/24 12:20, Nitesh Shetty wrote:
+>>For the devices which does not support copy, copy emulation is added.
+>>It is required for in-kernel users like fabrics, where file descriptor is
+>>not available and hence they can't use copy_file_range.
+>>Copy-emulation is implemented by reading from source into memory and
+>>writing to the corresponding destination.
+>>At present in kernel user of emulation is fabrics.
+>>
+>>Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>>Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
+>>Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+>>---
+>>  block/blk-lib.c        | 223 +++++++++++++++++++++++++++++++++++++++++
+>>  include/linux/blkdev.h |   4 +
+>>  2 files changed, 227 insertions(+)
+>>
+>Again, I'm not sure if we need this.
+>After all, copy offload _is_optional, so we need to be prepared to 
+>handle systems where it's not supported. In the end, the caller might
+>decide to do something else entirely; having an in-kernel emulation 
+>would defeat that.
+>And with adding an emulation to nullblk we already have an emulation
+>target to try if people will want to start experimenting.
+>So I'd rather not have this but rather let the caller deal with the
+>fact that copy offload is optional.
+>
+Unlike previous iteration, blkdev_copy_offload doesn't fallback to emulation
+incase offload fails.
+This is one more option caller/user can leverage, if for some reason
+device copy offload is not supported/optimal.
+It is upto to the caller to decide, if it wants to use copy emulation.
+Moreover we found this is very useful for fabrics scenario, where this saves
+the network bandwidth, by sending offload over the network rather than
+read+write(when target doesn't support offload).
+
+Thank you
+Nitesh Shetty
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_
+Content-Type: text/plain; charset="utf-8"
+
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_--
 
