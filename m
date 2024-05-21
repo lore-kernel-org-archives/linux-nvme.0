@@ -4,73 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32A0DC25B74
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 09:45:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3EFFC25B74
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 10:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ytk+HQw4vCY/ZsFxmn2Qu+I/J6GZpszaleTvoN+Y0Kw=; b=HDqwX163qRFRv2C0pd4wHkv7i8
-	+dB6RQ5yqL1xcX2/pjEkhOAmqoPW/zaA6QsSTXLiQQ7oVLq5IUEaxb9gJ/S8W70TTLvkVbKqmct3G
-	xy4CWH9YBFhpwcZ/6uZeHXRVLhhCgVvbksYS6mCBfqfqt0rjllDCGQ60JnzLotlixSzUZ+o+PUjmq
-	NpxfnqUu4MHQZ6elG0zjihAFCi3Rj+L8RR3lbRw7cjEu1p6yP0Nbd0DBi4So7Cwggce/5reifjCc2
-	+wqqKTSTSVVlsf5gqAuDvzCMIaUlh3BsuhzcYJxvRwiAAKxGRJIyd199/eO4BiQIZoGzWgmpqaMiP
-	/tRXNivA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dIQcG5FO1t1dwBgbjesyFrp5oZhWz2TAgUNaz2nbA14=; b=x1NkmZlPuAShNH7QH9L05w0Bf/
+	aRZyhgE2HEwEeMtyL9JtLbkIfO/jNDJOTbHEDr0Fci4KYPzWV4bHcfM6BqdHjjpulz99pv4lYAjfb
+	emXGyKaEzcXd7rmiPiMKKR+UoRlgIOzeLxf/lh/q0xS7GmR+qaDYlB/uT+sb+LF5mnVKekPcmnUsr
+	HK/QT4OOBkb3xZLQqVxZFP8E5/OuRqyAMd/ofVcyZbrWAugYjUpQVU2Yf6yvrSxzp3FhgM1dnOAep
+	6QkZg9AnQF9DvFsayPEwqLJLtLfJ1F56KtYN5+uPyfL/a8A2vPpyGM1CownCEOtcIz11CxsrxIGRP
+	LzlR+ycA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9M49-0000000GweI-0ioD;
-	Tue, 21 May 2024 09:45:53 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1s9MOh-0000000GzxB-1XFg;
+	Tue, 21 May 2024 10:07:07 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9M45-0000000GwdJ-2OpD
+	id 1s9MOe-0000000GzwZ-0l5E
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 May 2024 09:45:51 +0000
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-41ff95798d4so4870035e9.2
-        for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 02:45:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716284747; x=1716889547;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ytk+HQw4vCY/ZsFxmn2Qu+I/J6GZpszaleTvoN+Y0Kw=;
-        b=IEXjfGWS1oVWUuN9Akl8bkTIDQfprProVchihyZsFvgFTLbGyBzACBR8TwDQ0pTNkR
-         Bqq8WPCcHvM80LJYjB0cR4zO3+RdWDWhfq8A4cyaMTD2TrO/Y9pe2YwiuivX7as4qdhx
-         2AIglbQCAmKTh0wnaB/vacrifu60rjc66OtGExRnNLuxLi7ZLQD4TmZKUbP7jHzJblC7
-         HIxdjRAj7/YNzRJZuvYrQvTxlg6rA+FEvHmzKbA0JxMDDdW43b9LxrScXkiTAH4WYhgM
-         6ucoGJZ5GykY1V3U62r8S0gmDdsqCd6yxU9X6YeYPUY3j2Ya95n2Az/hNKP20M15KJeS
-         YsHg==
-X-Gm-Message-State: AOJu0YyFtIP1n/9j9oiYvR8rfgJDQP9mzx6Pt5IQ/fX46W9agZ8UeZl2
-	XuWaCYmEj92DXsdwiWVWigPn3SIMxbUOLcinPy6Podb3nK96RVJa
-X-Google-Smtp-Source: AGHT+IEC0Q1sLZoQQmgxV8JbLvwWepf1ZWKX+aodXeqHEqJqt2+Whl/WHHSLoU6fBa7aoGD5HMxapA==
-X-Received: by 2002:a05:600c:5116:b0:418:ef65:4b11 with SMTP id 5b1f17b1804b1-41feac59e8amr265338175e9.2.1716284746574;
-        Tue, 21 May 2024 02:45:46 -0700 (PDT)
-Received: from [10.100.102.74] (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41ff6fd7e73sm417039275e9.27.2024.05.21.02.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 May 2024 02:45:46 -0700 (PDT)
-Message-ID: <3b8d33db-f2c3-469a-bfa0-8fc52594f243@grimberg.me>
-Date: Tue, 21 May 2024 12:45:44 +0300
+	Tue, 21 May 2024 10:07:05 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 317CDCE0EE8;
+	Tue, 21 May 2024 10:07:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1005FC2BD11;
+	Tue, 21 May 2024 10:07:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716286021;
+	bh=jqZc2bJtxtIBJwM/97UqABA4R2EDya0YKbUlffFLnUE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C6ph+UgqyXtfZIRxRb/DfroOOuKcv1Gl/t/19hLlpXi7xxFMMW8HxBAiNjdXp6Lgr
+	 CXMT36Inc8sua/bFzVdlBdwCudNKe6WAb9+avJoIgXehtW6xKAwRXr5KYkGroWvVxI
+	 gK8PBa5AoSB1BLO+G+enX1PqVj3IVJCWsoX4Pr6MDMDH3kW4MzHQTDlqg+msX8PlqY
+	 SQHimPMaoiXTfRexnlALwPGwXht0OrD3OWKM5sTZSV348deu39cs+eSFpd3m0IDTph
+	 noeiKda1I/kRhB6V4HlIlFioB0HuOgL7FPbqRq2D+ipUbt9YGHo2NK5sV9wSfEWuqo
+	 dc9IEjN2wVGXA==
+Date: Tue, 21 May 2024 12:06:58 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Keith Busch <kbusch@meta.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] nvme-pci: allow unmanaged interrupts
+Message-ID: <ZkxyQmR0cpT7-zKY@localhost.localdomain>
+References: <20240510141459.3207725-1-kbusch@meta.com>
+ <20240510141459.3207725-2-kbusch@meta.com>
+ <20240510151047.GA10486@lst.de>
+ <Zj5JMqWRY187PqnD@kbusch-mbp.dhcp.thefacebook.com>
+ <Zj6yvTxIpUnOXl7R@fedora>
+ <Zj6-1sXvUNZWO1pB@kbusch-mbp.dhcp.thefacebook.com>
+ <87r0e7mt9w.ffs@tglx>
+ <20240520153742.GB921@lst.de>
+ <ZkwHnw6HkGFFq7mR@fedora>
+ <87a5kjimpq.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] nvme: multipath: Implemented new iopolicy
- "queue-depth"
-To: Nilay Shroff <nilay@linux.ibm.com>, John Meneghini <jmeneghi@redhat.com>,
- kbusch@kernel.org, hch@lst.de, emilne@redhat.com
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- jrani@purestorage.com, randyj@purestorage.com, hare@kernel.org
-References: <20240520202045.427110-1-jmeneghi@redhat.com>
- <20240520202045.427110-2-jmeneghi@redhat.com>
- <945416af-3f8b-40b5-9681-49973beb2cb2@linux.ibm.com>
-Content-Language: he-IL, en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <945416af-3f8b-40b5-9681-49973beb2cb2@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87a5kjimpq.ffs@tglx>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240521_024549_707972_3F4F8138 
-X-CRM114-Status: GOOD (  25.98  )
+X-CRM114-CacheID: sfid-20240521_030704_542342_25C28807 
+X-CRM114-Status: GOOD (  18.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,149 +82,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Le Tue, May 21, 2024 at 10:38:25AM +0200, Thomas Gleixner a écrit :
+> On Tue, May 21 2024 at 10:31, Ming Lei wrote:
+> 
+> > On Mon, May 20, 2024 at 05:37:42PM +0200, Christoph Hellwig wrote:
+> >> On Sun, May 12, 2024 at 08:35:55AM +0200, Thomas Gleixner wrote:
+> >> > That's expected as you pin the I/O operation on the isolated CPUs which
+> >> > in turn makes them use the per CPU queue.
+> >> > 
+> >> > The isolated CPUs are only excluded for device management interrupts,
+> >> > but not for the affinity spread of the queues.
+> >> 
+> >> We'll probably need a version of isolcpus that also excludes the
+> >> interrupt spread given that users are asking for it.  And I'd much
+> >> prefer that over adding radom module options to every driver to disable
+> >> managed interrupts.
+> >
+> > BTW, isolcpus has been marked as deprecated, and it can't be adjust
+> > runtime.
+> 
+> Which is far from reality as cpusets do not allow to do what isolcpus
+> does today.
+> 
+> Also runtime adjusting managed interrupts needs way more thoughts.
 
+I'll remove that comment (unless someone beats me at it?). We used to think
+that cpusets would indeed deprecate isolcpus but for several reasons this
+will never be the case.
 
-On 21/05/2024 11:48, Nilay Shroff wrote:
->
-> On 5/21/24 01:50, John Meneghini wrote:
->> From: "Ewan D. Milne" <emilne@redhat.com>
->>
->> The round-robin path selector is inefficient in cases where there is a
->> difference in latency between multiple active optimized paths.  In the
->> presence of one or more high latency paths the round-robin selector
->> continues to the high latency path equally. This results in a bias
->> towards the highest latency path and can cause is significant decrease
->> in overall performance as IOs pile on the lowest latency path. This
->> problem is particularly accute with NVMe-oF controllers.
->>
->> The queue-depth policy instead sends I/O requests down the path with the
->> least amount of requests in its request queue. Paths with lower latency
->> will clear requests more quickly and have less requests in their queues
->> compared to higher latency paths. The goal of this path selector is to
->> make more use of lower latency paths, which will bring down overall IO
->> latency.
->>
->> Signed-off-by: Ewan D. Milne <emilne@redhat.com>
->> [tsong: patch developed by Thomas Song @ Pure Storage, fixed whitespace
->>        and compilation warnings, updated MODULE_PARM description, and
->>        fixed potential issue with ->current_path[] being used]
->> Signed-off-by: Thomas Song <tsong@purestorage.com>
->> [jmeneghi: vairious changes and improvements, addressed review comments]
->> Signed-off-by: John Meneghini <jmeneghi@redhat.com>
->> Link: https://lore.kernel.org/linux-nvme/20240509202929.831680-1-jmeneghi@redhat.com/
->> Tested-by: Marco Patalano <mpatalan@redhat.com>
->> Reviewed-by: Randy Jennings <randyj@redhat.com>
->> Tested-by: Jyoti Rani <jani@purestorage.com>
->> ---
->>   drivers/nvme/host/core.c      |  2 +-
->>   drivers/nvme/host/multipath.c | 86 +++++++++++++++++++++++++++++++++--
->>   drivers/nvme/host/nvme.h      |  9 ++++
->>   3 files changed, 92 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index a066429b790d..1dd7c52293ff 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -110,7 +110,7 @@ struct workqueue_struct *nvme_delete_wq;
->>   EXPORT_SYMBOL_GPL(nvme_delete_wq);
->>   
->>   static LIST_HEAD(nvme_subsystems);
->> -static DEFINE_MUTEX(nvme_subsystems_lock);
->> +DEFINE_MUTEX(nvme_subsystems_lock);
->>   
->>   static DEFINE_IDA(nvme_instance_ida);
->>   static dev_t nvme_ctrl_base_chr_devt;
->> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
->> index 5397fb428b24..0e2b6e720e95 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -17,6 +17,7 @@ MODULE_PARM_DESC(multipath,
->>   static const char *nvme_iopolicy_names[] = {
->>   	[NVME_IOPOLICY_NUMA]	= "numa",
->>   	[NVME_IOPOLICY_RR]	= "round-robin",
->> +	[NVME_IOPOLICY_QD]      = "queue-depth",
->>   };
->>   
->>   static int iopolicy = NVME_IOPOLICY_NUMA;
->> @@ -29,6 +30,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
->>   		iopolicy = NVME_IOPOLICY_NUMA;
->>   	else if (!strncmp(val, "round-robin", 11))
->>   		iopolicy = NVME_IOPOLICY_RR;
->> +	else if (!strncmp(val, "queue-depth", 11))
->> +		iopolicy = NVME_IOPOLICY_QD;
->>   	else
->>   		return -EINVAL;
->>   
->> @@ -43,7 +46,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
->>   module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
->>   	&iopolicy, 0644);
->>   MODULE_PARM_DESC(iopolicy,
->> -	"Default multipath I/O policy; 'numa' (default) or 'round-robin'");
->> +	"Default multipath I/O policy; 'numa' (default) , 'round-robin' or 'queue-depth'");
->>   
->>   void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
->>   {
->> @@ -127,6 +130,11 @@ void nvme_mpath_start_request(struct request *rq)
->>   	struct nvme_ns *ns = rq->q->queuedata;
->>   	struct gendisk *disk = ns->head->disk;
->>   
->> +	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD) {
->> +		atomic_inc(&ns->ctrl->nr_active);
->> +		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
->> +	}
->> +
->>   	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
->>   		return;
->>   
->> @@ -140,8 +148,12 @@ void nvme_mpath_end_request(struct request *rq)
->>   {
->>   	struct nvme_ns *ns = rq->q->queuedata;
->>   
->> +	if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE))
->> +		atomic_dec_if_positive(&ns->ctrl->nr_active);
->> +
->>   	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
->>   		return;
->> +
->>   	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
->>   			 blk_rq_bytes(rq) >> SECTOR_SHIFT,
->>   			 nvme_req(rq)->start_time);
->> @@ -330,6 +342,40 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
->>   	return found;
->>   }
->>   
-> I think you may also want to reset nr_active counter if in case, in-flight nvme request
-> is cancelled. If the request is cancelled then nvme_mpath_end_request() wouldn't be invoked.
-> So you may want to reset nr_active counter from nvme_cancel_request() as below:
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index bf7615cb36ee..4fea7883ce8e 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -497,8 +497,9 @@ EXPORT_SYMBOL_GPL(nvme_host_path_error);
->   
->   bool nvme_cancel_request(struct request *req, void *data)
->   {
-> -       dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
-> -                               "Cancelling I/O %d", req->tag);
-> +       struct nvme_ctrl *ctrl = (struct nvme_ctrl *)data;
-> +
-> +       dev_dbg_ratelimited(ctrl->device, "Cancelling I/O %d", req->tag);
->   
->          /* don't abort one completed or idle request */
->          if (blk_mq_rq_state(req) != MQ_RQ_IN_FLIGHT)
-> @@ -506,6 +507,8 @@ bool nvme_cancel_request(struct request *req, void *data)
->   
->          nvme_req(req)->status = NVME_SC_HOST_ABORTED_CMD;
->          nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> +       if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE))
-> +               atomic_dec(&ctrl->nr_active);
-
-Don't think this matters because cancellation only happens when we
-teardown the controller anyways...
-
-btw, can we have a better name than nr_active? this is just for IO and only
-for multipath. Maybe ctrl->nr_mpath_io_active ?
-
-Also perhaps rename the flag to NVME_MPATH_CTRL_IO_ACCOUNTING ?
+Thanks.
 
