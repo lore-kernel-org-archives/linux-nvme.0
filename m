@@ -4,142 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5B3CC25B75
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 07:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A03BC25B75
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 08:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lrjJrKusqUxQxH85qHbtWazx4QnA5k0VGbJitR/PwSU=; b=P3UFuqDyvT6XcKA3iaPhHUJ8qc
-	d+ctkw9Lx3x5G8rhfJmUKIo8D9CwB98lKEV1r4wjwywF6JbfdzNLlMwdF59gk+9BQ/K6i3xsWGEwm
-	HxC2gQ2tdUhOnDHKCcy9nn+Kj6UyLGpTVnjap0uuHLthFRGXzPoyEVX6LyqNd8NhQjte3EbIsitNm
-	faZMnr7t9e7pW64UczsEfs62tg0wUdVHIDidEF4i6LP+NSX7gK8LpL9kGZS9XzN8yiJqPKI75BZZM
-	QKjgErBIxYGEI2Drzq5w1htOXSgbkaHq2nK/UtX9YGjAZ7G+YQtxkmYODlJLnpWc3GoXm8ykFvHAD
-	OP4kXirA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9EBxGA62sPS5tkIrqIPbzKOO4Z8UW4B2EcNsRchc6hw=; b=uPiYTGpnujHGKQM/kD63tzAGHt
+	k4uG3soqx5gGJcMNe/zi717zIg801PwNNKRdAQqR+RzXABacG/rWkZAuBUxX0zI9vtQNm8VqydmNo
+	fhuoiY0icIBNsS9GmSqmkFq1yjwKIauSnlGZuI97RgkXrLV2JQHGxVOpEno/tKPQQ/sPAz9BGmRHy
+	kDOdJuie6TnjGvKGQjC88+VugJpe907h8bMvohJMLgeLOP280VEUdvSoQi2i5rKftPNPxusPFWcz8
+	xZvorG1HT+17pubGaRT3G1RBhLWyDPEWJ556W4QZQk3n26id9lhSJ591kKncurOtnuRQ14BrcwY6y
+	6N6yKjbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9Jek-0000000GZ4C-2vh4;
-	Tue, 21 May 2024 07:11:30 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1s9L16-0000000GnXl-2SXt;
+	Tue, 21 May 2024 08:38:40 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9Jef-0000000GZ3O-12iy
+	id 1s9L0z-0000000GnVk-30Tv
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 May 2024 07:11:28 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A301C5BF1B;
-	Tue, 21 May 2024 07:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716275483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	Tue, 21 May 2024 08:38:37 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1716280705;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lrjJrKusqUxQxH85qHbtWazx4QnA5k0VGbJitR/PwSU=;
-	b=buVjvq6zt6wtOYyPYCr36LOwV3PlCOehpV7WNYsd6Dt+yhN5K3V9y8rF+07kPuth/ty1Dy
-	JVy3bM28WBVSFKwJLJvY5U5UzvAcIctptuqrL3aV103MOnMSUBfQHAA5fz68+G52NxpQkq
-	X2adOTR0somuTQV/fBKcKkXMhwhAO1Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716275483;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	bh=9EBxGA62sPS5tkIrqIPbzKOO4Z8UW4B2EcNsRchc6hw=;
+	b=ygfBtFLtHfRnmQ2px15ELOxug0Y1KQVXaK1ppgsKNwkeDOQRz0Klx2yIVcyWPhBqTapTGD
+	/cxBN+65zGC5TyULEsHz+xP9wSE+qjBgAaTGbj1WQx9WsWE+ibA+pb4WE2ZTkG+gaI3s6S
+	FWL8sP6lk+8zbtsmSf8TkR1iPUQ7HQJ76kxO2A4CgVEedVZ8WVEDEdD/gJ77Debo9wiaGn
+	F3XFk7i/EHZ6jRPiGM8QbrvkojUa78NhnpLNW6mHsHxkU7F5gGih8rOEoK449/6r2yFiie
+	7Xnc0Fcfe9OUS5q+jLmpIkFEhX1zjKccemZ7Wfidv/rTnXy4a7/b0PhPtuiEkg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1716280705;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lrjJrKusqUxQxH85qHbtWazx4QnA5k0VGbJitR/PwSU=;
-	b=sU/sMZAOxrMrXrj8X5LxpfpQjrsc7Ff0LatX/eeBzTkuXTq6U3OBz49jIkNDe0vX7YkcQn
-	BCWSuek7ubkEBICg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=buVjvq6z;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="sU/sMZAO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716275483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lrjJrKusqUxQxH85qHbtWazx4QnA5k0VGbJitR/PwSU=;
-	b=buVjvq6zt6wtOYyPYCr36LOwV3PlCOehpV7WNYsd6Dt+yhN5K3V9y8rF+07kPuth/ty1Dy
-	JVy3bM28WBVSFKwJLJvY5U5UzvAcIctptuqrL3aV103MOnMSUBfQHAA5fz68+G52NxpQkq
-	X2adOTR0somuTQV/fBKcKkXMhwhAO1Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716275483;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lrjJrKusqUxQxH85qHbtWazx4QnA5k0VGbJitR/PwSU=;
-	b=sU/sMZAOxrMrXrj8X5LxpfpQjrsc7Ff0LatX/eeBzTkuXTq6U3OBz49jIkNDe0vX7YkcQn
-	BCWSuek7ubkEBICg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ABD2A13A1E;
-	Tue, 21 May 2024 07:11:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8nTEJxpJTGbxPQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 21 May 2024 07:11:22 +0000
-Message-ID: <41228a01-9d0c-415d-9fef-a3d2600b1dfa@suse.de>
-Date: Tue, 21 May 2024 09:11:21 +0200
+	bh=9EBxGA62sPS5tkIrqIPbzKOO4Z8UW4B2EcNsRchc6hw=;
+	b=OprfSqskTBJL2IflXnVh7+N1+Gk6FYsfFQLL8jaA3P7QMGnfVcWFG/0KLNI18Bizi0cY6Z
+	g4ant+ntddR++2Ag==
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Keith Busch <kbusch@meta.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Frederic
+ Weisbecker <frederic@kernel.org>
+Subject: Re: [PATCH 2/2] nvme-pci: allow unmanaged interrupts
+In-Reply-To: <ZkwHnw6HkGFFq7mR@fedora>
+References: <20240510141459.3207725-1-kbusch@meta.com>
+ <20240510141459.3207725-2-kbusch@meta.com> <20240510151047.GA10486@lst.de>
+ <Zj5JMqWRY187PqnD@kbusch-mbp.dhcp.thefacebook.com>
+ <Zj6yvTxIpUnOXl7R@fedora>
+ <Zj6-1sXvUNZWO1pB@kbusch-mbp.dhcp.thefacebook.com> <87r0e7mt9w.ffs@tglx>
+ <20240520153742.GB921@lst.de> <ZkwHnw6HkGFFq7mR@fedora>
+Date: Tue, 21 May 2024 10:38:25 +0200
+Message-ID: <87a5kjimpq.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 09/12] dm: Add support for copy offload
-Content-Language: en-US
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520103004epcas5p4a18f3f6ba0f218d57b0ab4bb84c6ff18@epcas5p4.samsung.com>
- <20240520102033.9361-10-nj.shetty@samsung.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240520102033.9361-10-nj.shetty@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: A301C5BF1B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,acm.org,fromorbit.com,opensource.wdc.com,samsung.com,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240521_001125_530635_E3109D94 
-X-CRM114-Status: GOOD (  25.22  )
+X-CRM114-CacheID: sfid-20240521_013833_998200_20977AA5 
+X-CRM114-Status: GOOD (  14.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,120 +80,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/20/24 12:20, Nitesh Shetty wrote:
-> Before enabling copy for dm target, check if underlying devices and
-> dm target support copy. Avoid split happening inside dm target.
-> Fail early if the request needs split, currently splitting copy
-> request is not supported.
-> 
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> ---
->   drivers/md/dm-table.c         | 37 +++++++++++++++++++++++++++++++++++
->   drivers/md/dm.c               |  7 +++++++
->   include/linux/device-mapper.h |  3 +++
->   3 files changed, 47 insertions(+)
-> 
-> diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-> index cc66a27c363a..d58c67ecd794 100644
-> --- a/drivers/md/dm-table.c
-> +++ b/drivers/md/dm-table.c
-> @@ -1899,6 +1899,38 @@ static bool dm_table_supports_nowait(struct dm_table *t)
->   	return true;
->   }
->   
-> +static int device_not_copy_capable(struct dm_target *ti, struct dm_dev *dev,
-> +				   sector_t start, sector_t len, void *data)
-> +{
-> +	struct request_queue *q = bdev_get_queue(dev->bdev);
-> +
-> +	return !q->limits.max_copy_sectors;
-> +}
-> +
-> +static bool dm_table_supports_copy(struct dm_table *t)
-> +{
-> +	struct dm_target *ti;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < t->num_targets; i++) {
-> +		ti = dm_table_get_target(t, i);
-> +
-> +		if (!ti->copy_offload_supported)
-> +			return false;
-> +
-> +		/*
-> +		 * target provides copy support (as implied by setting
-> +		 * 'copy_offload_supported')
-> +		 * and it relies on _all_ data devices having copy support.
-> +		 */
-> +		if (!ti->type->iterate_devices ||
-> +		    ti->type->iterate_devices(ti, device_not_copy_capable, NULL))
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->   static int device_not_discard_capable(struct dm_target *ti, struct dm_dev *dev,
->   				      sector_t start, sector_t len, void *data)
->   {
-> @@ -1975,6 +2007,11 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
->   		limits->discard_misaligned = 0;
->   	}
->   
-> +	if (!dm_table_supports_copy(t)) {
-> +		limits->max_copy_sectors = 0;
-> +		limits->max_copy_hw_sectors = 0;
-> +	}
-> +
->   	if (!dm_table_supports_write_zeroes(t))
->   		limits->max_write_zeroes_sectors = 0;
->   
-> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-> index 597dd7a25823..070b41b83a97 100644
-> --- a/drivers/md/dm.c
-> +++ b/drivers/md/dm.c
-> @@ -1717,6 +1717,13 @@ static blk_status_t __split_and_process_bio(struct clone_info *ci)
->   	if (unlikely(ci->is_abnormal_io))
->   		return __process_abnormal_io(ci, ti);
->   
-> +	if ((unlikely(op_is_copy(ci->bio->bi_opf)) &&
-> +	    max_io_len(ti, ci->sector) < ci->sector_count)) {
-> +		DMERR("Error, IO size(%u) > max target size(%llu)\n",
-> +		      ci->sector_count, max_io_len(ti, ci->sector));
-> +		return BLK_STS_IOERR;
-> +	}
-> +
->   	/*
->   	 * Only support bio polling for normal IO, and the target io is
->   	 * exactly inside the dm_io instance (verified in dm_poll_dm_io)
-> diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
-> index 82b2195efaca..6868941bc7d9 100644
-> --- a/include/linux/device-mapper.h
-> +++ b/include/linux/device-mapper.h
-> @@ -397,6 +397,9 @@ struct dm_target {
->   	 * bio_set_dev(). NOTE: ideally a target should _not_ need this.
->   	 */
->   	bool needs_bio_set_dev:1;
-> +
-> +	/* copy offload is supported */
-> +	bool copy_offload_supported:1;
->   };
->   
->   void *dm_per_bio_data(struct bio *bio, size_t data_size);
+On Tue, May 21 2024 at 10:31, Ming Lei wrote:
 
-Errm. Not sure this will work. DM tables might be arbitrarily, requiring 
-us to _split_ the copy offload request according to the underlying 
-component devices. But we explicitly disallowed a split in one of the 
-earlier patches.
-Or am I wrong?
+> On Mon, May 20, 2024 at 05:37:42PM +0200, Christoph Hellwig wrote:
+>> On Sun, May 12, 2024 at 08:35:55AM +0200, Thomas Gleixner wrote:
+>> > That's expected as you pin the I/O operation on the isolated CPUs which
+>> > in turn makes them use the per CPU queue.
+>> > 
+>> > The isolated CPUs are only excluded for device management interrupts,
+>> > but not for the affinity spread of the queues.
+>> 
+>> We'll probably need a version of isolcpus that also excludes the
+>> interrupt spread given that users are asking for it.  And I'd much
+>> prefer that over adding radom module options to every driver to disable
+>> managed interrupts.
+>
+> BTW, isolcpus has been marked as deprecated, and it can't be adjust
+> runtime.
 
-Cheers,
+Which is far from reality as cpusets do not allow to do what isolcpus
+does today.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Also runtime adjusting managed interrupts needs way more thoughts.
 
+Thanks
+
+        tglx
 
