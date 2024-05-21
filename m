@@ -4,70 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDB19C25B74
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 17:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68DE5C25B74
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 18:07:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=z2mwhugT22raAJxp3zuPAyWKpj8CWISwoxKLNbVZqsA=; b=MU5V/orEkyiSAds3qunSVVyMrX
-	aNJvoNGhFBrfBxCuJhxg8bvw9V6K7BNej+J8ORzTZgERPhs9DTb5C9AVNvpMA9xIwrrQbYdqOlK26
-	8t8L9HHmpIwzZAl5feGk+Hcn0JHLQ68LbtV9kJMw7R2Q6vVqWSLUJ8otVDuPJWGk7bkOwZ42HggTU
-	oeUDUd0UqaKhuHQxQWX1aTywArmB6rvibGwb1mtKhMBz8tCGwGo5Y1Bpo4OZ59Id2gbXOBh6+88b0
-	sPCnvRmohwbbCsg0GJCL9RLaZqra4ApfiylzqrKrLx0NNqU9N0vl5IYu8C1s1CCSQzuJtimDPhm6X
-	Uv07KvZg==;
+	bh=qBybYhk+LOOMJWJE+kmZk7jo/rls1oxLKVTjtZ6NgzU=; b=Ch5nLemhLq/tnDcyojcZzZhZeA
+	BRLadvAF4J7BXpqLvwhlVPCGztof+V3GeGZ8hyISZBrBzKkLBIvW5OoYtHm8Go/4ZLbr6T/VcRbNF
+	YrOiYYUwzQicg9G9h0jT/iq85pKGe57c08aePxHYxB8JSsIEXXBkT6e/KHE9fKybNo70xB4u+n8FK
+	vihFag4C4c/Lh8c6DX5vbDFCzaIi6lJbn6KWbmAQehHFl3aYc0gpTWJCfp7by+a1rHGVHMYc+I2eW
+	2NpWYCKbUN3hamnw3xkQRexDVG/bRnO70b5FyObNOtri/qMU6YV00OBR2el4OW2JMdoPOO+v2qDkx
+	Un9ByYOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9Sw7-00000000aK4-16Oa;
-	Tue, 21 May 2024 17:06:03 +0000
+	id 1s9TtY-00000000hmi-04gs;
+	Tue, 21 May 2024 18:07:28 +0000
 Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9Sw4-00000000aJE-0u0s
+	id 1s9TtU-00000000hm9-3HnK
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 May 2024 17:06:01 +0000
+	Tue, 21 May 2024 18:07:26 +0000
 Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 44LAqFHn002091
-	for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 10:05:55 -0700
+	by m0089730.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 44LI58M9002071
+	for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 11:07:22 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
  subject : date : message-id : mime-version : content-transfer-encoding :
  content-type; s=s2048-2021-q4;
- bh=z2mwhugT22raAJxp3zuPAyWKpj8CWISwoxKLNbVZqsA=;
- b=nnPTmF2Y5WY0tIEohiq7FYe3bUti3DOtDGhZaCoM06fZizsJ/C69D/RsGnqAMEArsIQx
- 8+qJ8LH+RYtiIGNN6yzrl/2y4EayfkJPj06Ci1Y388jW10DjwZVmUGas63qAU01WDl0k
- MdpVwF/HX1N3ukFAgjXqcc4noFUASFcWfE1h/FdMzsoMK6/u9Uf19ur0oV0kZ3G0GL0h
- GUlMrIxFyuuoZkNFEKUhs3SMcqYVNl3XLgjDYyQAWdnxm2B8pOYXXGlX/Z+ecO/f2hRC
- ApdKPTZm/7ukCQA8gJGGLo+326kHlGH1MkZCVfRb2e3RcP7OG3xlar90Hjz6FcJnQSqn rA== 
+ bh=qBybYhk+LOOMJWJE+kmZk7jo/rls1oxLKVTjtZ6NgzU=;
+ b=M6vE/yEewWHG0HdWzgxnw0CPt4YUjbeMhDL/2CCQ7ED/2JGmJWt8VMha/P32zDBgejx8
+ 0ZY6ZeeNFIdukIS1TSR2A80sOlcaCk2s+uDPLTnWZ/tfSeHAP7lK3P+I+ERP3ocLrZnO
+ eOBFYAeA3+gnKAzx5dBTgJnK4A2BQ0gkKgnxqZ1bAQiJPmtEFhb00Mu7lDwqHaBdQrJI
+ NsmKdRuFnnyfD+CRk3mFqoJxWQC5zgrtVOUdATG86tBhi1f0D2FYn1OxBJjjQ8V0IUO0
+ RNx8fDB1kuqTgiXZ4xmIT1gBSSU6hZ3cNQSULwqqWV4qjJfvhwFCFE3Myu2+At2VUF7L bg== 
 Received: from maileast.thefacebook.com ([163.114.130.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 3y7ycp37d3-2
+	by m0089730.ppops.net (PPS) with ESMTPS id 3y7ycp3q0j-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 10:05:55 -0700
-Received: from twshared1277.06.ash9.facebook.com (2620:10d:c0a8:1b::30) by
- mail.thefacebook.com (2620:10d:c0a8:82::b) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 11:07:18 -0700
+Received: from twshared0252.08.ash9.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 21 May 2024 17:05:54 +0000
+ 15.2.1544.11; Tue, 21 May 2024 18:07:17 +0000
 Received: by devbig032.nao3.facebook.com (Postfix, from userid 544533)
-	id AF6E82CBFF49; Tue, 21 May 2024 10:05:47 -0700 (PDT)
+	id 998022CC634A; Tue, 21 May 2024 11:07:13 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <hch@lst.de>, <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme: fix multipath batched completion accounting
-Date: Tue, 21 May 2024 10:05:37 -0700
-Message-ID: <20240521170537.2029233-1-kbusch@meta.com>
+CC: <jmeneghi@redhat.com>, <nilay@linux.ibm.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCH] nvme-multipath: fix io accounting on failover
+Date: Tue, 21 May 2024 11:07:12 -0700
+Message-ID: <20240521180712.2423165-1-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: epWRUBpvl7Ce7sy5oxj58KQ_Up_EKdfY
-X-Proofpoint-ORIG-GUID: epWRUBpvl7Ce7sy5oxj58KQ_Up_EKdfY
+X-Proofpoint-GUID: JF4jNlsgagSmQsThtDA6jChav9tunnSx
+X-Proofpoint-ORIG-GUID: JF4jNlsgagSmQsThtDA6jChav9tunnSx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
  definitions=2024-05-21_10,2024-05-21_01,2024-05-17_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240521_100600_469966_B614A48D 
-X-CRM114-Status: GOOD (  15.37  )
+X-CRM114-CacheID: sfid-20240521_110725_040856_92C87B1A 
+X-CRM114-Status: GOOD (  16.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,57 +86,60 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Batched completions were missing the io stats accounting and bio trace
-events. Move the common code to a helper and call it from the batched
-and non-batched functions.
+There are io stats accounting that needs to be handled, so don't call
+blk_mq_end_request() directly. Use the existing nvme_end_req() helper
+that already handles everything.
 
 Fixes: d4d957b53d91ee ("nvme-multipath: support io stats on the mpath dev=
 ice")
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/core.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c      | 2 +-
+ drivers/nvme/host/multipath.c | 3 ++-
+ drivers/nvme/host/nvme.h      | 1 +
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 954f850f113a1..79cdd34dfa18e 100644
+index 79cdd34dfa18e..7706df2373494 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -414,6 +414,14 @@ static inline void nvme_end_req_zoned(struct request=
- *req)
- 	}
+@@ -422,7 +422,7 @@ static inline void __nvme_end_req(struct request *req=
+)
+ 		nvme_mpath_end_request(req);
  }
 =20
-+static inline void __nvme_end_req(struct request *req)
-+{
-+	nvme_end_req_zoned(req);
-+	nvme_trace_bio_complete(req);
-+	if (req->cmd_flags & REQ_NVME_MPATH)
-+		nvme_mpath_end_request(req);
-+}
-+
- static inline void nvme_end_req(struct request *req)
+-static inline void nvme_end_req(struct request *req)
++void nvme_end_req(struct request *req)
  {
  	blk_status_t status =3D nvme_error_status(nvme_req(req)->status);
-@@ -424,10 +432,7 @@ static inline void nvme_end_req(struct request *req)
- 		else
- 			nvme_log_error(req);
- 	}
--	nvme_end_req_zoned(req);
--	nvme_trace_bio_complete(req);
--	if (req->cmd_flags & REQ_NVME_MPATH)
--		nvme_mpath_end_request(req);
-+	__nvme_end_req(req);
- 	blk_mq_end_request(req, status);
+=20
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.=
+c
+index 9c1e135b8df3b..1bee176fd850e 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -118,7 +118,8 @@ void nvme_failover_req(struct request *req)
+ 	blk_steal_bios(&ns->head->requeue_list, req);
+ 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+=20
+-	blk_mq_end_request(req, 0);
++	nvme_req(req)->status =3D 0;
++	nvme_end_req(req);
+ 	kblockd_schedule_work(&ns->head->requeue_work);
  }
 =20
-@@ -476,7 +481,7 @@ void nvme_complete_batch_req(struct request *req)
- {
- 	trace_nvme_complete_rq(req);
- 	nvme_cleanup_cmd(req);
--	nvme_end_req_zoned(req);
-+	__nvme_end_req(req);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index cacc56f4bbf44..fc31bd340a63a 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -767,6 +767,7 @@ static inline bool nvme_state_terminal(struct nvme_ct=
+rl *ctrl)
+ 	}
  }
- EXPORT_SYMBOL_GPL(nvme_complete_batch_req);
+=20
++void nvme_end_req(struct request *req);
+ void nvme_complete_rq(struct request *req);
+ void nvme_complete_batch_req(struct request *req);
 =20
 --=20
 2.43.0
