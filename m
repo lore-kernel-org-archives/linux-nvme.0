@@ -4,82 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5431BC25B74
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 16:36:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDB19C25B74
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 May 2024 17:06:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N9Kg/pf8gYSS0qulg1Vt1ueNfM10M5TXHTQ8MBNrIoQ=; b=EtUBgzqlMf3zmtLfXAUU0p07my
-	ikAD0wTIRJPVz1BnksBBhe2+qHODYxZGYmvNeizN2ul1yqH9RAGPy41ZsePSayn0BccbQwSsxzE56
-	oxN7fOE8rgaxW5QHKxKkVWPMsu0v+w5HHYy3ltYVYmZnM6VDb3R/twW0aorWLmgBmN+AwNR2nzeHt
-	ekWL3MgSal/M0t1yHFRNEE6wUqN8KN4xNShrbkILQgMKnFcR4szpiU2x4T3a0iPQq2/pZVW/Oz3Al
-	flc16lDVcwsGxUSbIa0FrBr4EszLGQrJEiGgo46pIrYnBWS1SGpcnqLwqxflsj9Q68uy/c8klunG2
-	TAYc9nLg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=z2mwhugT22raAJxp3zuPAyWKpj8CWISwoxKLNbVZqsA=; b=MU5V/orEkyiSAds3qunSVVyMrX
+	aNJvoNGhFBrfBxCuJhxg8bvw9V6K7BNej+J8ORzTZgERPhs9DTb5C9AVNvpMA9xIwrrQbYdqOlK26
+	8t8L9HHmpIwzZAl5feGk+Hcn0JHLQ68LbtV9kJMw7R2Q6vVqWSLUJ8otVDuPJWGk7bkOwZ42HggTU
+	oeUDUd0UqaKhuHQxQWX1aTywArmB6rvibGwb1mtKhMBz8tCGwGo5Y1Bpo4OZ59Id2gbXOBh6+88b0
+	sPCnvRmohwbbCsg0GJCL9RLaZqra4ApfiylzqrKrLx0NNqU9N0vl5IYu8C1s1CCSQzuJtimDPhm6X
+	Uv07KvZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9STI-00000000WNe-3fuu;
-	Tue, 21 May 2024 16:36:16 +0000
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+	id 1s9Sw7-00000000aK4-16Oa;
+	Tue, 21 May 2024 17:06:03 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9STF-00000000WL5-0dpC
+	id 1s9Sw4-00000000aJE-0u0s
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 May 2024 16:36:14 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-2b432be5cc9so527987a91.3
-        for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 09:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1716309371; x=1716914171; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N9Kg/pf8gYSS0qulg1Vt1ueNfM10M5TXHTQ8MBNrIoQ=;
-        b=M7+Ju6h9oqvL+Awquvz1hdK8ZyC+oHdOCMwkYSWUY3bRm54S85UzxNjlNA0L5dQ3HB
-         6HOn+hZBAuPGA+PEKtM/6P0xkhPlRuc0L6HmgQVRygzfUZMU9x9ZUIlrCVreoeeZ48S5
-         ztOgOXw98IIF3xQhtIdxvrfhYQJhXSALHo7cFjwoqx60MgybeQa+1R9N7KKHK8IDhMBN
-         4kcQdOfNF7I45OvoHfi7R3FpGbgglMqsGp+41aTZ3L7NvMgqtbJTt8Pfv4ANIvUTrY6O
-         1oSkk2r8h39kE1i44u/mec2NFjOEYwk4PfjKOcEhXuYnuzbMq9bZ969EgDeTrl0l0IgI
-         lZJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716309371; x=1716914171;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N9Kg/pf8gYSS0qulg1Vt1ueNfM10M5TXHTQ8MBNrIoQ=;
-        b=m3nELPj2Y/RC96bMh2InJYhYrNfSbP/XJ/RHYn841Ht66e5ANPCTTPHGePmcMKJovx
-         rkw1Ed8a3Ktb5uqZRBcZhGqOsyvbpzXwl+LfIJz5f0Pwp8QpLpeIdce425NwvVTqDTMx
-         AiplRFWHDg7lXddzDwYjHGcDnN6r2mo/PDnwg7QuupFq875/KAhm+GlEMpABOq/cOZZZ
-         gQNkG2uouDsUldsPpd0o70mT6cQ2sElJBpizliL3HedS3ZqZHqmVOmBTWW56JqvMgFM7
-         /9jWiksgFU2MriSns+kbhNuv+D3gp8ZEMCyBJN2iwT0ALLu8vdZ1miBHVrtKgS0la0kV
-         dLXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWFVZwLpxHRw9B0r+TnCcnpid0AdRYlktOkYpyW+Aw0iJUyQZJlruyFVtIwvk0dLsEgdq3t+p2li8TWthT0Z9B3dR1MVd4BXmetzDQ6uuE=
-X-Gm-Message-State: AOJu0Yzej3AbRPLV8JU9NXD6oMfEu3afWMdwx1jws7p9n1iuf1G8p2BE
-	+V9kp4laRUe2mRcUetBQ2khZbBKwKYtxhYCuue2Ya17rg3d03UGpa/oMlJM1psC9j8por/erkI6
-	hO3iwEqgtxiLAJdDRpGRKdw3EliYren6SGojSbg==
-X-Google-Smtp-Source: AGHT+IEMRQf8n5hn5cwPOiLQmIwQ4FziPw3Hoz6DOA70lGfEPA68bFBNlgXxaaLUwATjW/Cx/n5mTBBy05z2xfdJbrE=
-X-Received: by 2002:a17:90a:e7ce:b0:2bd:820b:7863 with SMTP id
- 98e67ed59e1d1-2bd820b7aa8mr5509290a91.18.1716309370797; Tue, 21 May 2024
- 09:36:10 -0700 (PDT)
+	Tue, 21 May 2024 17:06:01 +0000
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 44LAqFHn002091
+	for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 10:05:55 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=z2mwhugT22raAJxp3zuPAyWKpj8CWISwoxKLNbVZqsA=;
+ b=nnPTmF2Y5WY0tIEohiq7FYe3bUti3DOtDGhZaCoM06fZizsJ/C69D/RsGnqAMEArsIQx
+ 8+qJ8LH+RYtiIGNN6yzrl/2y4EayfkJPj06Ci1Y388jW10DjwZVmUGas63qAU01WDl0k
+ MdpVwF/HX1N3ukFAgjXqcc4noFUASFcWfE1h/FdMzsoMK6/u9Uf19ur0oV0kZ3G0GL0h
+ GUlMrIxFyuuoZkNFEKUhs3SMcqYVNl3XLgjDYyQAWdnxm2B8pOYXXGlX/Z+ecO/f2hRC
+ ApdKPTZm/7ukCQA8gJGGLo+326kHlGH1MkZCVfRb2e3RcP7OG3xlar90Hjz6FcJnQSqn rA== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by m0089730.ppops.net (PPS) with ESMTPS id 3y7ycp37d3-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 21 May 2024 10:05:55 -0700
+Received: from twshared1277.06.ash9.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a8:82::b) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 21 May 2024 17:05:54 +0000
+Received: by devbig032.nao3.facebook.com (Postfix, from userid 544533)
+	id AF6E82CBFF49; Tue, 21 May 2024 10:05:47 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <hch@lst.de>, <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>
+CC: <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme: fix multipath batched completion accounting
+Date: Tue, 21 May 2024 10:05:37 -0700
+Message-ID: <20240521170537.2029233-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240520202045.427110-1-jmeneghi@redhat.com> <20240520202045.427110-2-jmeneghi@redhat.com>
- <f808fa46-e7c7-48e6-8c80-3d28efd0afec@suse.de> <595e5988-b94d-41ba-a233-f87aed55028d@redhat.com>
-In-Reply-To: <595e5988-b94d-41ba-a233-f87aed55028d@redhat.com>
-From: Caleb Sander <csander@purestorage.com>
-Date: Tue, 21 May 2024 09:35:58 -0700
-Message-ID: <CADUfDZrTjDUsu1eEXkmEsSGCXn5=y_KnLnFcz-NbO1DF+BEKBg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] nvme: multipath: Implemented new iopolicy "queue-depth"
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: Hannes Reinecke <hare@suse.de>, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
-	emilne@redhat.com, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, jrani@purestorage.com, randyj@purestorage.com, 
-	hare@kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: epWRUBpvl7Ce7sy5oxj58KQ_Up_EKdfY
+X-Proofpoint-ORIG-GUID: epWRUBpvl7Ce7sy5oxj58KQ_Up_EKdfY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-21_10,2024-05-21_01,2024-05-17_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240521_093613_259294_FA0FCA8E 
-X-CRM114-Status: UNSURE (   9.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240521_100600_469966_B614A48D 
+X-CRM114-Status: GOOD (  15.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,25 +82,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 21, 2024 at 8:03=E2=80=AFAM John Meneghini <jmeneghi@redhat.com=
-> wrote:
->
-> On 5/21/24 02:46, Hannes Reinecke wrote:
-> > On 5/20/24 22:20, John Meneghini wrote:
-> >> From: "Ewan D. Milne" <emilne@redhat.com>
-> >>
-> ...
-> >> Tested-by: Marco Patalano <mpatalan@redhat.com>
-> >> Reviewed-by: Randy Jennings <randyj@redhat.com>
->
-> I need to fix this. Randy doesn't have a redhat.com email address... Cut =
-an paste error :-(
->
-> >> Tested-by: Jyoti Rani <jani@purestorage.com>
-> >>
+From: Keith Busch <kbusch@kernel.org>
 
-Should be "jrani" instead of "jani" here also.
+Batched completions were missing the io stats accounting and bio trace
+events. Move the common code to a helper and call it from the batched
+and non-batched functions.
 
-Thanks,
-Caleb
+Fixes: d4d957b53d91ee ("nvme-multipath: support io stats on the mpath dev=
+ice")
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 954f850f113a1..79cdd34dfa18e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -414,6 +414,14 @@ static inline void nvme_end_req_zoned(struct request=
+ *req)
+ 	}
+ }
+=20
++static inline void __nvme_end_req(struct request *req)
++{
++	nvme_end_req_zoned(req);
++	nvme_trace_bio_complete(req);
++	if (req->cmd_flags & REQ_NVME_MPATH)
++		nvme_mpath_end_request(req);
++}
++
+ static inline void nvme_end_req(struct request *req)
+ {
+ 	blk_status_t status =3D nvme_error_status(nvme_req(req)->status);
+@@ -424,10 +432,7 @@ static inline void nvme_end_req(struct request *req)
+ 		else
+ 			nvme_log_error(req);
+ 	}
+-	nvme_end_req_zoned(req);
+-	nvme_trace_bio_complete(req);
+-	if (req->cmd_flags & REQ_NVME_MPATH)
+-		nvme_mpath_end_request(req);
++	__nvme_end_req(req);
+ 	blk_mq_end_request(req, status);
+ }
+=20
+@@ -476,7 +481,7 @@ void nvme_complete_batch_req(struct request *req)
+ {
+ 	trace_nvme_complete_rq(req);
+ 	nvme_cleanup_cmd(req);
+-	nvme_end_req_zoned(req);
++	__nvme_end_req(req);
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_batch_req);
+=20
+--=20
+2.43.0
+
 
