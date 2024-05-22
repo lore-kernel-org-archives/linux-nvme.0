@@ -4,79 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7884FC25B78
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 21:30:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7600C25B7A
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 21:36:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pvAXrD5Xuq5329QH2fVWZdGIR/UXqDKpLuG/TDCAHWE=; b=iopXfxcIVsXOiyovUjPdbmz0m7
-	4pzmv0hubFNH7KN/OpPb0GaJXKAVOMhG04dUUSpIC8nf4tYNN8l+lCzgdtv0k8Bsh8fg1r7gjMTn6
-	y6egsM79QdXqEUTV9fVO2Cji/6JabF0hbcEWciJPDfmTjLZGIIiZPD89DcQoJ9IyTH4aagIegFJBn
-	UjwpS90vCc3ZnLbbCXWasZb6LeOkFVAC+oucUNTbd0I7NvXZ/MXcQHmcUM4Ex3W8+ujcfXlMIjDAx
-	qQQkMjNODSu8Vpwyl0zCE4af46radixQh8vfkobbkllN3P7oPuqPMhjpMAFV5yyFhMZrynbtNmGY5
-	1Dp1//Yg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EYRD4+gZk4WizP4p9em+YVZ4sWQq44kUyRcamWC81LM=; b=Z6D2cILU61PhwspAWeaBm3r2BY
+	sRvTVQIAWOBSIOXPjJcWaaVdluV2g44RJnlQ1YME6IoIWlT06Hx3geBhT6Gb8EumjC7NKvOslRzZS
+	LFWftE6bfKu1VZ84E4wtzQJwhEz5gnto3IK9owEK94JM9EKAz8VX03gHgv6E6ugsiGzs1pR9OQZ7l
+	KHGn+SV4cdQhHxEbrjnHrgOL+NuordH6hCdFQmdgstODtS7wrK8Tt7ojkIGjNTliXkZQzlVeDRcL3
+	08NC2Kv2H++lnMtYUaR+QZMjfoiQR16jHsNt+D8paEDdfXTiiXuc9r0l/UDnNW0FhEFKqIYPnq0Q8
+	b3VJzmXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9tXn-000000049nl-2u7f;
-	Wed, 22 May 2024 21:30:43 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1s9tdN-00000004ATe-2vTG;
+	Wed, 22 May 2024 21:36:29 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9tXg-000000049nC-2Zc9
+	id 1s9tdK-00000004ASu-4Bsc
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 May 2024 21:30:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716413434;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=pvAXrD5Xuq5329QH2fVWZdGIR/UXqDKpLuG/TDCAHWE=;
-	b=LVoN9U60aWtjcnfOO4XVnJ/OGfF2HblNjy38cl+yBrqx88UnuKU6n9mHkHeWlalgE8eWZ4
-	r9jp/kdvysq2RzeS0y5h/hd4sk5uoY8DhLFMBpUMk2xrOw0siQ2ISSuckeMPKtEV4vu/r0
-	aEPfnlI+2XmgkOOYSeJoWivEVtBCJqw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-atTcrWgPNmSyH-dkSknOMA-1; Wed, 22 May 2024 17:28:49 -0400
-X-MC-Unique: atTcrWgPNmSyH-dkSknOMA-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4200e6a9901so72279675e9.3
-        for <linux-nvme@lists.infradead.org>; Wed, 22 May 2024 14:28:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716413327; x=1717018127;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pvAXrD5Xuq5329QH2fVWZdGIR/UXqDKpLuG/TDCAHWE=;
-        b=AWBVPYBpKUuUo9qaNvfJhiu4KnammWI0aXEqwb47LrFMoX1216zjYS8spmJv2dtHgP
-         1TgXvXmb+vobH9h4FdMWHSVF5lBg3xnj2SnTkaU4H+fQUdJs+HWl2hJ/Hh4NuUUjAAaD
-         wbhLmEvEWnAA21dr5fCEkzG1UYB3Rgqiub1j0q3fZjwPDmVnRDi0T16w9NBMCuxyxJqW
-         djYnp7CUMu35RirDzM2CxxGrM3yTwK2m9dhBxZHj/UOLUvqa9H2oMFyay78ggpDsOHtb
-         VTYiGMdloSYdZ4MO8sFvesorLSuAB2pFJWCpcATwcjRMZg+6kDomRmgGFWuWq0znACrA
-         86sA==
-X-Gm-Message-State: AOJu0Yxyu0TOPvXxkPYK68Dz8fEBDQ4qA2QmuPv2VdlRIpbmmD5nfUbV
-	MWqUNtMd35SlHCn14/PHLOI9IDZyW+mqFUciefg4hPSe3Psa1A236bDTsMpPe9b4zDbEACBqI1T
-	UJjzp+1+YzQxRTBTunhQAYZ5ks35kA4EYFTxlavupvvlz9Lw41WZTaAf9aEN1pVqjHfdd0w/5H3
-	YldpHZwRhfD4X0dSJ440H4gTmZ5624AkGM+niYbP2iecrSWr4gcw==
-X-Received: by 2002:a05:600c:5353:b0:41a:c92:d323 with SMTP id 5b1f17b1804b1-420fd312f35mr25585645e9.10.1716413327421;
-        Wed, 22 May 2024 14:28:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH+9AJT1PSq6tBPo5dbbUZnD9TZ0m+QJHgdwLGFnCV3uruKinfXCE6iR4KSq8jZJsK2kap6TLgWQMkN1eiEem8=
-X-Received: by 2002:a05:600c:5353:b0:41a:c92:d323 with SMTP id
- 5b1f17b1804b1-420fd312f35mr25585545e9.10.1716413327094; Wed, 22 May 2024
- 14:28:47 -0700 (PDT)
+	Wed, 22 May 2024 21:36:28 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id BB30DCE0B57;
+	Wed, 22 May 2024 21:36:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7DBDC2BBFC;
+	Wed, 22 May 2024 21:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716413782;
+	bh=N1FwWzcOSWZaO+shg26gJg6z1yhNQ0C9raiU4/p/750=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cEj3q1JRH6IO1TOmYXNH7ODd1EuD3J/jqXElKhK2GLJKXavMzzf4qCRnmCDDn1wUm
+	 Rvy6uhn6Yjt2VncG278fQSbXGKEG4iNAN/BE/jSoPmmx7deuYvhbPnlOvyPWKi13bT
+	 w6v88rX8VwpOXnpdkljnQJbpRpcuqKyX2FKsDw23cSMoV4aFAEcpPCXRwGY06db1fX
+	 hnuQLdxLBRI03o8tpTr7WJdaENN+wRgskP9/k/MuuHna/oY/UDMKsQz789glcoUf8i
+	 2CmdxMGSyOaY4yAuBulHz7ylC3K19Kjwdb276Dp+0naC9aBRAKllm0ZLxzhPhBX4Kx
+	 0uLzjfhNrYrsw==
+Date: Wed, 22 May 2024 15:36:19 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvme-pci: silence a lockdep complaint
+Message-ID: <Zk5lU1IqmLAhhSCX@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240522091534.472449-1-sagi@grimberg.me>
+ <vjurqn5g6k5fkzqo6iz2rzkxlljrjfna3efgub3o24ol2yv55u@lx77me5f47gm>
+ <Zk4ZY2n7dSztQ4Xs@kbusch-mbp.dhcp.thefacebook.com>
+ <20240522162845.GA16783@lst.de>
+ <a0657f0a-44af-4765-abe3-acc8a1017b40@grimberg.me>
 MIME-Version: 1.0
-From: Bryan Gurney <bgurney@redhat.com>
-Date: Wed, 22 May 2024 17:28:36 -0400
-Message-ID: <CAHhmqcRZ3daguYurdiQweB-=3pCHDxzRyekU7PW8fz1FSc1AJA@mail.gmail.com>
-Subject: systemd pull request submitted for removing obsolete udev by-id
- symlink rules
-To: linux-nvme <linux-nvme@lists.infradead.org>
-Cc: kbusch@kernel.org, hare@kernel.org, John Meneghini <jmeneghi@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0657f0a-44af-4765-abe3-acc8a1017b40@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240522_143036_818885_EFC4B40B 
-X-CRM114-Status: GOOD (  11.89  )
+X-CRM114-CacheID: sfid-20240522_143627_478525_D6793336 
+X-CRM114-Status: GOOD (  31.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,64 +76,422 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+On Wed, May 22, 2024 at 09:00:34PM +0300, Sagi Grimberg wrote:
+> I don't understand lockdep well enough to do that. This warning
+> exists for 6 months now. The conclusion that Keith came to (and I agreed)
+> is that it can't happen, because nvme_timeout handler will not disable the
+> device while the ctrl reset_work is running, the ctrl state machine will
+> prevent that from happening.
+> 
+> There was an attempt to convert namespaces_rwsem a srcu, but my comment to
+> that was that this is an intrusive change for a complaint that we think is a
+> false-positive.
 
-I posted a pull request to the upstream systemd repository to remove
-the udev rule in rules.d/60-persistent-storage.rules that would create
-a symlink that would switch between the namespaces of a
-multiple-namespace drive (as I demonstrated at LSF/MM/BPF 2024 last
-week).
+I'll play devil's advocate and suggest there might be some whacky
+timeout_work, scan_work, reset_work, and pciehp irq that could result in
+a read, write, wait, read deadlock. I don't think it can happen, but
+it's harder to prove that.
 
-The URL to the pull request is here:
+The below patch is what I'm messing with. I have a CMIC PCI NVMe and
+nvme native multipathing enabled, and that can recreate the lockdep
+splat 100% of the time. It goes away with this patch. Non-multipath
+devices are harder to hit the lockdep splat for a different reason.
 
-https://github.com/systemd/systemd/pull/32981
+From 00dd7a573d3dd14be748b46e040bb5eb0f5687b1 Mon Sep 17 00:00:00 2001
+From: Keith Busch <kbusch@kernel.org>
+Date: Tue, 21 May 2024 06:41:45 -0700
+Subject: [PATCH] nvme: switch rwsem to srcu
 
-Ultimately, the commit in the pull request removes two rules, in six lines:
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c      | 94 +++++++++++++++++++++--------------
+ drivers/nvme/host/ioctl.c     | 12 ++---
+ drivers/nvme/host/multipath.c | 21 ++++----
+ drivers/nvme/host/nvme.h      |  3 +-
+ 4 files changed, 76 insertions(+), 54 deletions(-)
 
-(Apologies ahead of time if my email client mangles the diff, but it
-should be intact in the pull request to systemd:)
-
-diff --git a/rules.d/60-persistent-storage.rules.in
-b/rules.d/60-persistent-storage.rules.in
-index 390c6e0034..b9933e5753 100644
---- a/rules.d/60-persistent-storage.rules.in
-+++ b/rules.d/60-persistent-storage.rules.in
-@@ -43,12 +43,6 @@ ATTRS{nsid}=="?*",         ENV{ID_NSID}="$attr{nsid}"
-
- ENV{ID_WWN}=="?*", SYMLINK+="disk/by-id/nvme-$env
-{ID_WWN}$env{.PART_SUFFIX}"
-
--# obsolete symlink with non-escaped characters, kept for backward compatibility
--ENV{ID_MODEL}=="?*", ENV{ID_SERIAL_SHORT}=="?*",
-ENV{ID_MODEL}!="*/*", ENV{ID_SERIAL_SHORT}!="*/*", \
--  ENV{ID_SERIAL}="$env{ID_MODEL}_$env{ID_SERIAL_SHORT}",
-SYMLINK+="disk/by-id/nvme-$env{ID_SERIAL}$env{.PART_SUFFIX}"
--# obsolete symlink that might get overridden on adding a new nvme
-controller, kept for backward compatibility
--ENV{ID_MODEL}=="?*", ENV{ID_SERIAL_SHORT}=="?*",
-OPTIONS="string_escape=replace", \
--  ENV{ID_SERIAL}="$env{ID_MODEL}_$env{ID_SERIAL_SHORT}",
-SYMLINK+="disk/by-id/nvme-$env{ID_SERIAL}$env{.PART_SUFFIX}"
- ENV{ID_MODEL}=="?*", ENV{ID_SERIAL_SHORT}=="?*", ENV{ID_NSID}=="?*",
-OPTIONS="string_escape=replace", \
-   ENV{ID_SERIAL}="$env{ID_MODEL}_$env{ID_SERIAL_SHORT}_$env{ID_NSID}",
-SYMLINK+="disk/by-id/nvme-$env{ID_SERIAL}$env{.PART_SUFFIX}"
-
-
-After removing those lines in my test system, I no longer see the
-symlink with the "nvme-MODEL_SERIAL" name repoint to the different
-multiple namespaces on the test drive.  (The "nvme-MODEL_SERIAL_1",
-"..._2" symlinks still exist, and are pointing to the correct
-namespaces.)
-
-Please let me know if this looks good, or if there's other testing or
-changes I need to perform.
-
-
-Thanks,
-
-Bryan Gurney
-Senior Software Engineer
-Red Hat
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7706df2373494..480af74f1606e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3684,9 +3684,10 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
+ struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ {
+ 	struct nvme_ns *ns, *ret = NULL;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
+ 		if (ns->head->ns_id == nsid) {
+ 			if (!nvme_get_ns(ns))
+ 				continue;
+@@ -3696,7 +3697,7 @@ struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		if (ns->head->ns_id > nsid)
+ 			break;
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_NS_GPL(nvme_find_get_ns, NVME_TARGET_PASSTHRU);
+@@ -3710,7 +3711,7 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
+ 
+ 	list_for_each_entry_reverse(tmp, &ns->ctrl->namespaces, list) {
+ 		if (tmp->head->ns_id < ns->head->ns_id) {
+-			list_add(&ns->list, &tmp->list);
++			list_add_rcu(&ns->list, &tmp->list);
+ 			return;
+ 		}
+ 	}
+@@ -3776,17 +3777,17 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	if (nvme_update_ns_info(ns, info))
+ 		goto out_unlink_ns;
+ 
+-	down_write(&ctrl->namespaces_rwsem);
++	mutex_lock(&ctrl->namespaces_lock);
+ 	/*
+ 	 * Ensure that no namespaces are added to the ctrl list after the queues
+ 	 * are frozen, thereby avoiding a deadlock between scan and reset.
+ 	 */
+ 	if (test_bit(NVME_CTRL_FROZEN, &ctrl->flags)) {
+-		up_write(&ctrl->namespaces_rwsem);
++		mutex_unlock(&ctrl->namespaces_lock);
+ 		goto out_unlink_ns;
+ 	}
+ 	nvme_ns_add_to_ctrl_list(ns);
+-	up_write(&ctrl->namespaces_rwsem);
++	mutex_unlock(&ctrl->namespaces_lock);
+ 	nvme_get_ctrl(ctrl);
+ 
+ 	if (device_add_disk(ctrl->device, ns->disk, nvme_ns_attr_groups))
+@@ -3809,9 +3810,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 
+  out_cleanup_ns_from_list:
+ 	nvme_put_ctrl(ctrl);
+-	down_write(&ctrl->namespaces_rwsem);
+-	list_del_init(&ns->list);
+-	up_write(&ctrl->namespaces_rwsem);
++	mutex_lock(&ctrl->namespaces_lock);
++	list_del_rcu(&ns->list);
++	mutex_unlock(&ctrl->namespaces_lock);
+  out_unlink_ns:
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+@@ -3861,10 +3862,11 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
+ 	del_gendisk(ns->disk);
+ 
+-	down_write(&ns->ctrl->namespaces_rwsem);
+-	list_del_init(&ns->list);
+-	up_write(&ns->ctrl->namespaces_rwsem);
++	mutex_lock(&ns->ctrl->namespaces_lock);
++	list_del_rcu(&ns->list);
++	mutex_unlock(&ns->ctrl->namespaces_lock);
+ 
++	synchronize_srcu(&ns->ctrl->srcu);
+ 	if (last_path)
+ 		nvme_mpath_shutdown_disk(ns->head);
+ 	nvme_put_ns(ns);
+@@ -3953,16 +3955,17 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 	struct nvme_ns *ns, *next;
+ 	LIST_HEAD(rm_list);
+ 
+-	down_write(&ctrl->namespaces_rwsem);
++	mutex_lock(&ctrl->namespaces_lock);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
+ 		if (ns->head->ns_id > nsid)
+-			list_move_tail(&ns->list, &rm_list);
++			list_splice_init_rcu(&ns->list, &rm_list, synchronize_rcu);
+ 	}
+-	up_write(&ctrl->namespaces_rwsem);
++	mutex_unlock(&ctrl->namespaces_lock);
+ 
+ 	list_for_each_entry_safe(ns, next, &rm_list, list)
+ 		nvme_ns_remove(ns);
+ 
++	synchronize_srcu(&ctrl->srcu);
+ }
+ 
+ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+@@ -4132,12 +4135,14 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	/* this is a no-op when called from the controller reset handler */
+ 	nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING_NOIO);
+ 
+-	down_write(&ctrl->namespaces_rwsem);
+-	list_splice_init(&ctrl->namespaces, &ns_list);
+-	up_write(&ctrl->namespaces_rwsem);
++	mutex_lock(&ctrl->namespaces_lock);
++	list_splice_init_rcu(&ctrl->namespaces, &ns_list, synchronize_rcu);
++	mutex_unlock(&ctrl->namespaces_lock);
+ 
+ 	list_for_each_entry_safe(ns, next, &ns_list, list)
+ 		nvme_ns_remove(ns);
++
++	synchronize_srcu(&ctrl->srcu);
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+ 
+@@ -4582,6 +4587,7 @@ static void nvme_free_ctrl(struct device *dev)
+ 	key_put(ctrl->tls_key);
+ 	nvme_free_cels(ctrl);
+ 	nvme_mpath_uninit(ctrl);
++	cleanup_srcu_struct(&ctrl->srcu);
+ 	nvme_auth_stop(ctrl);
+ 	nvme_auth_free(ctrl);
+ 	__free_page(ctrl->discard_page);
+@@ -4614,10 +4620,15 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ctrl->passthru_err_log_enabled = false;
+ 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
+ 	spin_lock_init(&ctrl->lock);
++	mutex_init(&ctrl->namespaces_lock);
++
++	ret = init_srcu_struct(&ctrl->srcu);
++	if (ret)
++		return ret;
++
+ 	mutex_init(&ctrl->scan_lock);
+ 	INIT_LIST_HEAD(&ctrl->namespaces);
+ 	xa_init(&ctrl->cels);
+-	init_rwsem(&ctrl->namespaces_rwsem);
+ 	ctrl->dev = dev;
+ 	ctrl->ops = ops;
+ 	ctrl->quirks = quirks;
+@@ -4697,6 +4708,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ out:
+ 	if (ctrl->discard_page)
+ 		__free_page(ctrl->discard_page);
++	cleanup_srcu_struct(&ctrl->srcu);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+@@ -4705,22 +4717,24 @@ EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+ void nvme_mark_namespaces_dead(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
+ 		blk_mark_disk_dead(ns->disk);
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+ EXPORT_SYMBOL_GPL(nvme_mark_namespaces_dead);
+ 
+ void nvme_unfreeze(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
+ 		blk_mq_unfreeze_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 	clear_bit(NVME_CTRL_FROZEN, &ctrl->flags);
+ }
+ EXPORT_SYMBOL_GPL(nvme_unfreeze);
+@@ -4728,14 +4742,15 @@ EXPORT_SYMBOL_GPL(nvme_unfreeze);
+ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
+ 		timeout = blk_mq_freeze_queue_wait_timeout(ns->queue, timeout);
+ 		if (timeout <= 0)
+ 			break;
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 	return timeout;
+ }
+ EXPORT_SYMBOL_GPL(nvme_wait_freeze_timeout);
+@@ -4743,23 +4758,25 @@ EXPORT_SYMBOL_GPL(nvme_wait_freeze_timeout);
+ void nvme_wait_freeze(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
+ 		blk_mq_freeze_queue_wait(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+ EXPORT_SYMBOL_GPL(nvme_wait_freeze);
+ 
+ void nvme_start_freeze(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+ 	set_bit(NVME_CTRL_FROZEN, &ctrl->flags);
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
+ 		blk_freeze_queue_start(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_freeze);
+ 
+@@ -4802,11 +4819,12 @@ EXPORT_SYMBOL_GPL(nvme_unquiesce_admin_queue);
+ void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
+ 		blk_sync_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+ EXPORT_SYMBOL_GPL(nvme_sync_io_queues);
+ 
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 499a8bb7cac7d..0f05058692b55 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -789,16 +789,16 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
+ 		bool open_for_write)
+ {
+ 	struct nvme_ns *ns;
+-	int ret;
++	int ret, srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
+ 	if (list_empty(&ctrl->namespaces)) {
+ 		ret = -ENOTTY;
+ 		goto out_unlock;
+ 	}
+ 
+-	ns = list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
+-	if (ns != list_last_entry(&ctrl->namespaces, struct nvme_ns, list)) {
++	ns = list_first_or_null_rcu(&ctrl->namespaces, struct nvme_ns, list);
++	if (!ns) {
+ 		dev_warn(ctrl->device,
+ 			"NVME_IOCTL_IO_CMD not supported when multiple namespaces present!\n");
+ 		ret = -EINVAL;
+@@ -808,14 +808,14 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
+ 	dev_warn(ctrl->device,
+ 		"using deprecated NVME_IOCTL_IO_CMD ioctl on the char device!\n");
+ 	kref_get(&ns->kref);
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 
+ 	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write);
+ 	nvme_put_ns(ns);
+ 	return ret;
+ 
+ out_unlock:
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 1bee176fd850e..d8b6b4648eaff 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -151,16 +151,17 @@ void nvme_mpath_end_request(struct request *rq)
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
+ 		if (!ns->head->disk)
+ 			continue;
+ 		kblockd_schedule_work(&ns->head->requeue_work);
+ 		if (nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE)
+ 			disk_uevent(ns->head->disk, KOBJ_CHANGE);
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+ 
+ static const char *nvme_ana_state_names[] = {
+@@ -194,13 +195,14 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
+ 		nvme_mpath_clear_current_path(ns);
+ 		kblockd_schedule_work(&ns->head->requeue_work);
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+ 
+ void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
+@@ -681,6 +683,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 	u32 nr_nsids = le32_to_cpu(desc->nnsids), n = 0;
+ 	unsigned *nr_change_groups = data;
+ 	struct nvme_ns *ns;
++	int srcu_idx;
+ 
+ 	dev_dbg(ctrl->device, "ANA group %d: %s.\n",
+ 			le32_to_cpu(desc->grpid),
+@@ -692,8 +695,8 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 	if (!nr_nsids)
+ 		return 0;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
+ 		unsigned nsid;
+ again:
+ 		nsid = le32_to_cpu(desc->nsids[n]);
+@@ -706,7 +709,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 		if (ns->head->ns_id > nsid)
+ 			goto again;
+ 	}
+-	up_read(&ctrl->namespaces_rwsem);
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index fc31bd340a63a..a005941a8b67e 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -282,7 +282,8 @@ struct nvme_ctrl {
+ 	struct blk_mq_tag_set *tagset;
+ 	struct blk_mq_tag_set *admin_tagset;
+ 	struct list_head namespaces;
+-	struct rw_semaphore namespaces_rwsem;
++	struct mutex namespaces_lock;
++	struct srcu_struct srcu;
+ 	struct device ctrl_device;
+ 	struct device *device;	/* char device */
+ #ifdef CONFIG_NVME_HWMON
+-- 
+2.43.0
 
 
