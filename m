@@ -4,61 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4266C25B78
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 17:32:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01E11C25B78
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 17:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3kLP/eRm5NzkD4rKYEdapCBaAwnNIa71MaZFuVShTf4=; b=4qIK7bAq1UzImqvV2zIg7DXagG
-	2P2g8lo0ELseXTHyB7ZpbF1qBJEm9d1sRuiciPc8Zf4/85fpJbhqi+kaO6GgOGtFZEyMlZQMSL3SZ
-	Vq8d3T1v0BCcCA3ImgQudkJ16RX/bmGurv7AciHQV2gG86mY0sMfWvrovDSGdO+U8C/M6e5jC5SpS
-	7EvrzkFoUP/mnp+qRzR0gZw6oNCBatbYO6zux5s9GfYey/M9jdO7586nDiWjCa2Uez+92EXUELG2w
-	acYQf86MTpe1QKGeBClE+1Ux+yOPHPMqxVc9Y7Umhgk8/v7t2/waWt1SvBEBuokWAmxSn8KYCQnSX
-	CakpYi7A==;
+	bh=dBhe2gu7520hWKwLCulEZUATJ0WrSoU6x9CoAkjRFAM=; b=AwRS0N958N9/Fx5rOBQ8c9Aygs
+	bWsmxGxk9eYzc673d9dxbt1eiAL/pj+wpJtgGNKZSFWdh5t6n/A/peAWgTvAxdCO1eT/IFMZOOfDb
+	WMAJaU4oXFP4keeG+hZXHQEHImS/4umwwXZZgCDNpiOjTkk7RBFZwM7GWpGjUEhfkYWvK/DcFZwRl
+	1Uho6jNqKc2GwnRiq8E+EVvcOTqSYfrbtbkKEqldW9qGUb5pUP7Uyd424byleZYdktV89JKJ27CpK
+	FT70BOtUq4pHd2QCx2J8zXkARb+QRLLZpXB/wABATQyS6AO32tU/NEyRY4/rpcbbwnCM6/INhWGyc
+	TWHyAMGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9pow-00000003euc-3LJG;
-	Wed, 22 May 2024 17:32:10 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1s9pzI-00000003gom-3Byg;
+	Wed, 22 May 2024 17:42:52 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9pot-00000003eu4-0tzV
+	id 1s9pzF-00000003goE-2gxU
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 May 2024 17:32:09 +0000
+	Wed, 22 May 2024 17:42:50 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8CFAA62ACE;
-	Wed, 22 May 2024 17:32:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8139DC2BBFC;
-	Wed, 22 May 2024 17:32:05 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 13A1262A53;
+	Wed, 22 May 2024 17:42:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59020C2BBFC;
+	Wed, 22 May 2024 17:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716399126;
-	bh=I+AChwZfVTk45NPTsJRvNFZS+ouhd83TRXjEA8ib4gs=;
+	s=k20201202; t=1716399768;
+	bh=NxEUGyPEGGL/151BSs8K3CgOL6AlKg6+QmYz57bsvyA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aFGm248Z9VYQr4F0y8aSFiKQ2z3YMHuCWAiL02RBAa5m58/t6fsXhu3J5zQ6NsEDF
-	 R/FmZJznQf09LdE0vzQBO1VdvsRFuPIoQSse2Vq8wPBqc0D2r9ZvgzVkOg/nr4VDaf
-	 GW+EMCZI4hiGXWO8ZQfxSu49IUBbvrANXIhrf14WROFY64oesTph1DrsCsEQ0s8TKf
-	 h8W861CjY03eVLCpBcVnmU3v4VKdUiN53qKhQhodQKvAc6pq6Di//6o496WOnuJzGU
-	 nsTTj+HaIm9GQnThV1nd/wVxsERACqj+gRsMIquh6fzZM7ZAO979Js42MBs91/8k5Y
-	 pl+cnDmYHgXCQ==
-Date: Wed, 22 May 2024 11:32:02 -0600
+	b=QgdX25CyAXBcc93jViRjdk3nnTmdTih5ZVtWNdeZCxNy19/bnCGK8lyw8ma14pfsD
+	 2GLl3L9TrkSOqCTt3EX9rjhBynKnXRJcXyn3Qft+bkxerPDU+5e+4Hwj6EelWR9fiZ
+	 JAg9fpPVcHLCgRTDNwhmo2vQ+83pu7zV5Ac5x91RhGF4/wvafGAIV2lBcNba8BkmXF
+	 vW20eFFMgklae+q+uLK9ORHfimpD7rMIBjlumRLTb98gmBEr9D5EsMQU/ewbPdCrJ3
+	 rLEiWiar+keXtnOYZmqqiTWPBqFGYq8P7AbkylTzkedDlN1WwhYMFdWsQZEArREBUg
+	 NTF36pEZ6UO3Q==
+Date: Wed, 22 May 2024 11:42:46 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: hch@lst.de, sagi@grimberg.me, emilne@redhat.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	jrani@purestorage.com, randyj@purestorage.com, hare@kernel.org
-Subject: Re: [PATCH v5] nvme: multipath: Implemented new iopolicy
- "queue-depth"
-Message-ID: <Zk4sEpypKqeU67dg@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240522165406.702362-1-jmeneghi@redhat.com>
+To: Jason Nader <dev@kayoway.com>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 0/1] nvme-pci: add quirks for Lexar NM790
+Message-ID: <Zk4ulsDpokA-1RfB@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240522155614.191849-1-dev@kayoway.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240522165406.702362-1-jmeneghi@redhat.com>
+In-Reply-To: <20240522155614.191849-1-dev@kayoway.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240522_103207_601048_0F956981 
-X-CRM114-Status: GOOD (  13.15  )
+X-CRM114-CacheID: sfid-20240522_104249_744486_3D14F697 
+X-CRM114-Status: GOOD (  10.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,27 +71,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 22, 2024 at 12:54:06PM -0400, John Meneghini wrote:
-> From: "Ewan D. Milne" <emilne@redhat.com>
+On Thu, May 23, 2024 at 12:56:13AM +0900, Jason Nader wrote:
+> Hi,
 > 
-> The round-robin path selector is inefficient in cases where there is a
-> difference in latency between paths.  In the presence of one or more
-> high latency paths the round-robin selector continues to use the high
-> latency path equally. This results in a bias towards the highest latency
-> path and can cause a significant decrease in overall performance as IOs
-> pile on the highest latency path. This problem is acute with NVMe-oF
-> controllers.
+> This adds Lexar NM790 to the quirks list.
+> Other drives in the model line-up already exist in the list.
 > 
-> The queue-depth policy instead sends I/O requests down the path with the
-> least amount of requests in its request queue. Paths with lower latency
-> will clear requests more quickly and have less requests in their queues
-> compared to higher latency paths. The goal of this path selector is to
-> make more use of lower latency paths which will bring down overall IO
-> latency and increase throughput and performance.
+> Kernel logs before:
+> 
+> nvme nvme1: pci function 0000:03:00.0
+> nvme nvme1: missing or invalid SUBNQN field.
+> nvme nvme1: allocated 32 MiB host memory buffer.
+> nvme nvme1: 8/0/0 default/read/poll queues
+> block nvme1n1: No UUID available providing old NGUID
+> 
+> Kernel logs after:
+> 
+> nvme nvme1: pci function 0000:03:00.0
+> nvme nvme1: allocated 32 MiB host memory buffer.
+> nvme nvme1: 8/0/0 default/read/poll queues
+> nvme nvme1: Ignoring bogus Namespace Identifiers
+> 
+> Other info:
+> 
+> >sudo nvme ns-descs /dev/nvme1n1    
+> NVME Namespace Identification Descriptors NS 1:
+> eui64   : 6479a74b40200c00
+> nguid   : 00000000000000000000000000000000
 
-I'm okay with this as-is, though I don't think you need either
-atomic_set() calls.
+This quirk is actually for the nvme subsystem. It has nothing to do with
+namespace descriptors.
 
-Christoph, Sagi, 6.10 merge window is still open and this has been
-iterating long before that. Any objection?
+  nvme id-ctrl /dev/nvme1 | grep subnqn
+
+I'm not even sure why we have this quirk; it just suppresses a harmless
+print message; everything works the same with or without the quirk.
 
