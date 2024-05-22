@@ -4,64 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 429FCC25B78
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 16:29:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3B2CC25B78
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 16:54:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Es9ibWfXIfbUl6bLX9vOS5XLYyrT3zBlCWooucgrCUo=; b=VC6IgJRJQb9jvvzaVzfOkWD1S4
-	sKHsh0BhhDVFFnil4frv/1xieo16bBDIRV0iROZZ9lHyA8kudpzB8YtsD2uwJ49esXLr8snI3eJHF
-	S8PRMkRZcmvNmC0D34jCgIuk1UxGDH99SljQQXe4BL5TDFCPnt8Zcm9A24TUQ/JLXYvQP3YHW90Cj
-	Wcf2G2k9Q8oj+K786SGYkumm10YrkdMAicuV9YH5xF6N2syBOUuc4QLiHVgN94l96VWxzC/EqgIQz
-	ViTr7nvC5aNJBWj9T3sk6Dy6AuVR4gW4idOVf7IpZEAc3ju30yukV0MNVlVMNxsA6aOUCS9e2u9Zv
-	q9qk7iVg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ilgSmNAuEbB+LU6BUfe5QrC2U20mtVIqUhMau/EYfak=; b=iZyXTw9MhGyBmTcDIqjwAKbvHu
+	RnkKx/99KdXJerV2rRT3sRfFMMDZ+RiBr87/rAyZ18fc3/SyVDo73xDnu2xjAnvNhhWLBnuOSNFZa
+	DFWQN1CjkGha98flrbEO3nxjrgNXjmVP+eMdujc0UfoTmQwwpB/YGd/+mO1U936SXHCkIiEKXUwi7
+	myj2Sp22hgUFXx9VgdxpxF02KvId85ASYf5RK66NDr4/T8FR26nNI97n8bo2RwHqhmI5pckOCkI9l
+	ngwPcRTP5AVhB8EthQsa4oqUqtKp/g9FmEpvIRa5UUwcrZajqTKl02Dsry/I6Fdd03w4b+K1me5HS
+	nXsrORog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9oqg-00000003XBO-2wbV;
-	Wed, 22 May 2024 16:29:54 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s9pEJ-00000003aXt-3LJw;
+	Wed, 22 May 2024 16:54:19 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9oqa-00000003X9g-0G3M
+	id 1s9pEG-00000003aXL-0M85
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 May 2024 16:29:51 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id BA0B5CE12B8;
-	Wed, 22 May 2024 16:29:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3A1C2BBFC;
-	Wed, 22 May 2024 16:29:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716395384;
-	bh=JUtNNJy/nHM4nKkU6sDEme4IkoVcVSX2db5+h1zO+ac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qf3wgycv0vGY1lvXnKMRNqMJUZL34+i6jciTl+/h2OitcbI7fSBAfLJ4bsWwxDMyp
-	 SxUgE79/uzg3gdbuS1OCa3tK44ftrHsrL8tIsH5KJQUIQHEqR8fpgAgDbDDfTTodIi
-	 jQQ6Mk0/T0Wc9EtESMSelBkiW+DnB5zn2nzS7b3jYB3IaYMa4joL+31qGVJXjZ6SIB
-	 8u20pzIMLtrO1UxrMD9+Bb4j9JbMgdefFMaI2lDceBrYCBhgjB/e/RJCn5YkmiyyBL
-	 9qu+2ZsoTI37O7zfnnOzaHE9hpnmG9/CZd8o5QBrDLS4caN0HNQWyDjpu7/FVt5ENm
-	 nxv5xGzprRVjA==
-Date: Wed, 22 May 2024 10:29:40 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: hch@lst.de, sagi@grimberg.me, emilne@redhat.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	jrani@purestorage.com, randyj@purestorage.com, hare@kernel.org
-Subject: Re: [PATCH v4 1/1] nvme: multipath: Implemented new iopolicy
- "queue-depth"
-Message-ID: <Zk4ddPmottdOJND1@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240522154212.643572-1-jmeneghi@redhat.com>
- <20240522154212.643572-2-jmeneghi@redhat.com>
- <Zk4VtiCjeqkBKCBA@kbusch-mbp.dhcp.thefacebook.com>
- <cef5a764-ffab-495c-bea2-e4c6a7c76944@redhat.com>
+	Wed, 22 May 2024 16:54:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716396854;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ilgSmNAuEbB+LU6BUfe5QrC2U20mtVIqUhMau/EYfak=;
+	b=izUC7NImh75Lt0SP65C16N21HNCY9TWsPIUHsPtRk520FcJhxi8KqLCiHLbSEwEGydxzE+
+	ycm2UMdJ3rKVuE9p/c2qUuK4NGWM9WkYMYTQkDRef+gdauhDTWW5sdOc7/dBpf1FIO+sYX
+	A0oNdEx4MvAUVVRAHFhiEPbABM37DoQ=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-623-HwUj0n0gMiSqDwn1RGNmZQ-1; Wed,
+ 22 May 2024 12:54:11 -0400
+X-MC-Unique: HwUj0n0gMiSqDwn1RGNmZQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 51BC11C0513E;
+	Wed, 22 May 2024 16:54:10 +0000 (UTC)
+Received: from jmeneghi.bos.com (unknown [10.22.8.193])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C21E440C6CB6;
+	Wed, 22 May 2024 16:54:09 +0000 (UTC)
+From: John Meneghini <jmeneghi@redhat.com>
+To: kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	emilne@redhat.com
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	jmeneghi@redhat.com,
+	jrani@purestorage.com,
+	randyj@purestorage.com,
+	hare@kernel.org
+Subject: [PATCH v5] nvme: multipath: Implemented new iopolicy "queue-depth"
+Date: Wed, 22 May 2024 12:54:06 -0400
+Message-Id: <20240522165406.702362-1-jmeneghi@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cef5a764-ffab-495c-bea2-e4c6a7c76944@redhat.com>
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240522_092950_078446_D05ECA17 
-X-CRM114-Status: GOOD (  25.89  )
+X-CRM114-CacheID: sfid-20240522_095416_256444_629BCFF3 
+X-CRM114-Status: GOOD (  23.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,42 +85,266 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 22, 2024 at 12:23:51PM -0400, John Meneghini wrote:
-> On 5/22/24 11:56, Keith Busch wrote:
-> > On Wed, May 22, 2024 at 11:42:12AM -0400, John Meneghini wrote:
-> > > +static void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
-> > > +{
-> > > +	struct nvme_ctrl *ctrl;
-> > > +	int old_iopolicy = READ_ONCE(subsys->iopolicy);
-> > > +
-> > > +	WRITE_ONCE(subsys->iopolicy, iopolicy);
-> > > +
-> > > +	/* iopolicy changes reset the counters and clear the mpath by design */
-> > > +	mutex_lock(&nvme_subsystems_lock);
-> > > +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> > > +		atomic_set(&ctrl->nr_active, 0);
-> > 
-> > Can you me understand why this is a desirable feature? Unless you
-> > quiesce everything at some point, you'll always have more unaccounted
-> > requests on whichever path has higher latency. That sounds like it
-> > defeats the goals of this io policy.
-> 
-> This is true. And as a matter of practice I never change the IO policy when IOs are in flight.  I always stop the IO first.
-> But we can't stop any user from changing the IO policy again and again.  So I'm not sure what to do.
-> 
-> If you'd like I add the 'if (old_iopolicy == iopolicy) return;' here, but
-> that's not going to solve the problem of inaccurate counters when users
-> start flipping io policies around. with IO inflight. There is no
-> synchronization between io submission across controllers and changing the
-> policy so I expect changing between round-robin and queue-depth with IO
-> inflight suffers from the same problem... though not as badly.
-> 
-> I'd rather take this patch now and figure out how to fix the problem with
-> another patch in the future.  Maybe we can check the io stats and refuse to
-> change the policy of they are not zero....
+From: "Ewan D. Milne" <emilne@redhat.com>
 
-The idea of tagging the nvme_req()->flags on submission means the
-completion handling the nr_active counter is symmetric with the
-submission side: you don't ever need to reset nr_active because
-everything is accounted for.
+The round-robin path selector is inefficient in cases where there is a
+difference in latency between paths.  In the presence of one or more
+high latency paths the round-robin selector continues to use the high
+latency path equally. This results in a bias towards the highest latency
+path and can cause a significant decrease in overall performance as IOs
+pile on the highest latency path. This problem is acute with NVMe-oF
+controllers.
+
+The queue-depth policy instead sends I/O requests down the path with the
+least amount of requests in its request queue. Paths with lower latency
+will clear requests more quickly and have less requests in their queues
+compared to higher latency paths. The goal of this path selector is to
+make more use of lower latency paths which will bring down overall IO
+latency and increase throughput and performance.
+
+Signed-off-by: Thomas Song <tsong@purestorage.com>
+[emilne: patch developed by Thomas Song @ Pure Storage, fixed whitespace
+      and compilation warnings, updated MODULE_PARM description, and
+      fixed potential issue with ->current_path[] being used]
+Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+[jmeneghi: vairious changes and improvements, addressed review comments]
+Signed-off-by: John Meneghini <jmeneghi@redhat.com>
+Link: https://lore.kernel.org/linux-nvme/20240509202929.831680-1-jmeneghi@redhat.com/
+Tested-by: Marco Patalano <mpatalan@redhat.com>
+Reviewed-by: Randy Jennings <randyj@purestorage.com>
+Tested-by: Jyoti Rani <jrani@purestorage.com>
+---
+ drivers/nvme/host/core.c      |  2 +-
+ drivers/nvme/host/multipath.c | 94 +++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h      |  5 ++
+ 3 files changed, 96 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7706df237349..66dc676677d4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -110,7 +110,7 @@ struct workqueue_struct *nvme_delete_wq;
+ EXPORT_SYMBOL_GPL(nvme_delete_wq);
+ 
+ static LIST_HEAD(nvme_subsystems);
+-static DEFINE_MUTEX(nvme_subsystems_lock);
++DEFINE_MUTEX(nvme_subsystems_lock);
+ 
+ static DEFINE_IDA(nvme_instance_ida);
+ static dev_t nvme_ctrl_base_chr_devt;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 1bee176fd850..96264c5c979f 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -17,6 +17,7 @@ MODULE_PARM_DESC(multipath,
+ static const char *nvme_iopolicy_names[] = {
+ 	[NVME_IOPOLICY_NUMA]	= "numa",
+ 	[NVME_IOPOLICY_RR]	= "round-robin",
++	[NVME_IOPOLICY_QD]      = "queue-depth",
+ };
+ 
+ static int iopolicy = NVME_IOPOLICY_NUMA;
+@@ -29,6 +30,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+ 		iopolicy = NVME_IOPOLICY_NUMA;
+ 	else if (!strncmp(val, "round-robin", 11))
+ 		iopolicy = NVME_IOPOLICY_RR;
++	else if (!strncmp(val, "queue-depth", 11))
++		iopolicy = NVME_IOPOLICY_QD;
+ 	else
+ 		return -EINVAL;
+ 
+@@ -43,7 +46,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
+ module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
+ 	&iopolicy, 0644);
+ MODULE_PARM_DESC(iopolicy,
+-	"Default multipath I/O policy; 'numa' (default) or 'round-robin'");
++	"Default multipath I/O policy; 'numa' (default), 'round-robin' or 'queue-depth'");
+ 
+ void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
+ {
+@@ -128,6 +131,11 @@ void nvme_mpath_start_request(struct request *rq)
+ 	struct nvme_ns *ns = rq->q->queuedata;
+ 	struct gendisk *disk = ns->head->disk;
+ 
++	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD) {
++		atomic_inc(&ns->ctrl->nr_active);
++		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
++	}
++
+ 	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
+ 		return;
+ 
+@@ -141,6 +149,9 @@ void nvme_mpath_end_request(struct request *rq)
+ {
+ 	struct nvme_ns *ns = rq->q->queuedata;
+ 
++	if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE))
++		atomic_dec_if_positive(&ns->ctrl->nr_active);
++
+ 	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+ 		return;
+ 	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
+@@ -332,6 +343,43 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
+ 	return found;
+ }
+ 
++static struct nvme_ns *nvme_queue_depth_path(struct nvme_ns_head *head)
++{
++	struct nvme_ns *best_opt = NULL, *best_nonopt = NULL, *ns;
++	unsigned int min_depth_opt = UINT_MAX, min_depth_nonopt = UINT_MAX;
++	unsigned int depth;
++
++	list_for_each_entry_rcu(ns, &head->list, siblings) {
++		if (nvme_path_is_disabled(ns))
++			continue;
++
++		depth = atomic_read(&ns->ctrl->nr_active);
++
++		switch (ns->ana_state) {
++		case NVME_ANA_OPTIMIZED:
++			if (depth < min_depth_opt) {
++				min_depth_opt = depth;
++				best_opt = ns;
++			}
++			break;
++
++		case NVME_ANA_NONOPTIMIZED:
++			if (depth < min_depth_nonopt) {
++				min_depth_nonopt = depth;
++				best_nonopt = ns;
++			}
++			break;
++		default:
++			break;
++		}
++
++		if (min_depth_opt == 0)
++			return best_opt;
++	}
++
++	return best_opt ? best_opt : best_nonopt;
++}
++
+ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+ {
+ 	return nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE &&
+@@ -340,15 +388,27 @@ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+ 
+ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ {
+-	int node = numa_node_id();
++	int iopolicy = READ_ONCE(head->subsys->iopolicy);
++	int node;
+ 	struct nvme_ns *ns;
+ 
++	/*
++	 * queue-depth iopolicy does not need to reference ->current_path
++	 * but round-robin needs the last path used to advance to the
++	 * next one, and numa will continue to use the last path unless
++	 * it is or has become not optimized
++	 */
++	if (iopolicy == NVME_IOPOLICY_QD)
++		return nvme_queue_depth_path(head);
++
++	node = numa_node_id();
+ 	ns = srcu_dereference(head->current_path[node], &head->srcu);
+ 	if (unlikely(!ns))
+ 		return __nvme_find_path(head, node);
+ 
+-	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
++	if (iopolicy == NVME_IOPOLICY_RR)
+ 		return nvme_round_robin_path(head, node, ns);
++
+ 	if (unlikely(!nvme_path_is_optimized(ns)))
+ 		return __nvme_find_path(head, node);
+ 	return ns;
+@@ -800,6 +860,29 @@ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
+ 			  nvme_iopolicy_names[READ_ONCE(subsys->iopolicy)]);
+ }
+ 
++static void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
++{
++	struct nvme_ctrl *ctrl;
++	int old_iopolicy = READ_ONCE(subsys->iopolicy);
++
++	if (old_iopolicy == iopolicy)
++		return;
++
++	WRITE_ONCE(subsys->iopolicy, iopolicy);
++
++	/* iopolicy changes reset the counters and clear the mpath by design */
++	mutex_lock(&nvme_subsystems_lock);
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++		atomic_set(&ctrl->nr_active, 0);
++		nvme_mpath_clear_ctrl_paths(ctrl);
++	}
++	mutex_unlock(&nvme_subsystems_lock);
++
++	pr_notice("%s: changed from %s to %s for subsysnqn %s\n", __func__,
++			nvme_iopolicy_names[old_iopolicy], nvme_iopolicy_names[iopolicy],
++			subsys->subnqn);
++}
++
+ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+ 		struct device_attribute *attr, const char *buf, size_t count)
+ {
+@@ -809,7 +892,7 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+ 
+ 	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
+ 		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
+-			WRITE_ONCE(subsys->iopolicy, i);
++			nvme_subsys_iopolicy_update(subsys, i);
+ 			return count;
+ 		}
+ 	}
+@@ -920,6 +1003,9 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
+ 		return 0;
+ 
++	/* initialize this in the identify path to cover controller resets */
++	atomic_set(&ctrl->nr_active, 0);
++
+ 	if (!ctrl->max_namespaces ||
+ 	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
+ 		dev_err(ctrl->device,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index fc31bd340a63..fa3833d88a85 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -50,6 +50,8 @@ extern struct workqueue_struct *nvme_wq;
+ extern struct workqueue_struct *nvme_reset_wq;
+ extern struct workqueue_struct *nvme_delete_wq;
+ 
++extern struct mutex nvme_subsystems_lock;
++
+ /*
+  * List of workarounds for devices that required behavior not specified in
+  * the standard.
+@@ -195,6 +197,7 @@ enum {
+ 	NVME_REQ_CANCELLED		= (1 << 0),
+ 	NVME_REQ_USERCMD		= (1 << 1),
+ 	NVME_MPATH_IO_STATS		= (1 << 2),
++	NVME_MPATH_CNT_ACTIVE	= (1 << 3),
+ };
+ 
+ static inline struct nvme_request *nvme_req(struct request *req)
+@@ -359,6 +362,7 @@ struct nvme_ctrl {
+ 	size_t ana_log_size;
+ 	struct timer_list anatt_timer;
+ 	struct work_struct ana_work;
++	atomic_t nr_active;
+ #endif
+ 
+ #ifdef CONFIG_NVME_HOST_AUTH
+@@ -407,6 +411,7 @@ static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
+ enum nvme_iopolicy {
+ 	NVME_IOPOLICY_NUMA,
+ 	NVME_IOPOLICY_RR,
++	NVME_IOPOLICY_QD,
+ };
+ 
+ struct nvme_subsystem {
+-- 
+2.39.3
+
 
