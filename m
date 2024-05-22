@@ -4,73 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53002C25B78
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 18:00:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B216DC25B7A
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 18:05:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7/Rno11Nmksi7kRklYNZ2j8WW2GA82Mwb2yy+eydqEA=; b=tsjhV8u9wVFb4l2l6hvthH3jWP
-	IDa1+j4yWzbRnXabF9xGnYDqZspk75XDRG+6Xt71fMra1j8Dlq8cc2cAC+98emTHjUTQljTflBGVW
-	oLE7lz0Dh8hEZMLt10lx18jT0yMgifu3/g2i277fjz86xApmS2eGOP8eDl57CVHXgO9Ld0659CTIz
-	4qBuKGYImej65OFqfY63WY0pnas2hTmaz0ZYKWPuFuCZ54sRIfig1ksaVW9SP7WHeQt1g920405HT
-	Mn+tWf0Z1vcwXNgdvsT1JLflbKchkR3UwGYtZPIXteesarHtzEfcBGyQiY9fSo2rqMMJbotDFQz/m
-	wDoDeT8Q==;
+	bh=L/Z8Mp/V6Xlw6wkYa899vAJPgD1/fbki4rEqLMN5kt0=; b=FGuT2Au5cawljJ9yf5yvCsgZIJ
+	pG2gBQ/H0/6mW95ApnZ+C6lJdH3h1KooE+E76yRYLwbNEYKHQT31KavVvJYMDj9LQ6leipdHazZLr
+	HPTj+93gtxg1JMEEUezrhnL3UQiSBaRS2DhzI8nlKH7xrbBRJ2/t237gmoYiawu15IpEE2uC8QkHm
+	xPnJfQYfYakDQKknWa/UDlgNcOCkylkF3qH2b5+tYxD6Lepw02gvcnFMWrR7aOKQIW0f7R9AI//yV
+	Kc3IgeEQrdPleAJewWFlvkB8vuGCE1iN5aGFyBdPo8GgmT82esHopj1U93v3C/48UGVQhQd6lJ51j
+	bYnNZs1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9qGi-00000003jZz-43qC;
-	Wed, 22 May 2024 18:00:52 +0000
-Received: from mail-wr1-f41.google.com ([209.85.221.41])
+	id 1s9qLO-00000003l0d-13x4;
+	Wed, 22 May 2024 18:05:42 +0000
+Received: from 009.lax.mailroute.net ([199.89.1.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9qGg-00000003jXu-1hNp
+	id 1s9qLJ-00000003kym-03L4
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 May 2024 18:00:52 +0000
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-354c3b445bbso496908f8f.1
-        for <linux-nvme@lists.infradead.org>; Wed, 22 May 2024 11:00:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716400837; x=1717005637;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/Rno11Nmksi7kRklYNZ2j8WW2GA82Mwb2yy+eydqEA=;
-        b=Hut+GilCeaKZMZnLI6JnaK89mrot4Y0LXKh6ERmhhC9kiI8W70tSI8+Rfc8/zEvZMK
-         rfIhXR3tJfZYPRHCYJGrzDP2xp78pgiV126OA9o571T0vEBRD/M0PeerJwIRRApWcxBE
-         kkiQ3wHlNWngvwYikBaKbC6IFDS/u49Pr2gtwc80vn21PKYRCNA69FGn8U9MBj5UYI73
-         uVuf0uzvnjWFbwHI/TrEYLb4baXNVuxeGe7oUHJsP1J7UkzT3ersd5SRNbL2/dxB1ywO
-         PTLQ/OWaf4AzSNTbWPVQ6mf0G+h3dnMBw+OxKfmA/660Y/i25mr+EUOHO/oR5k7e6buD
-         gokA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRkVcuGfxIydK6OygFwelNx6nBQIOD93vBG0O7wRyLespIR6KKqGoYWo+CPpnmgJMJyBSmZGrPe8z4ZH2sySJA+R4Cb8IXwSVptAdt+KU=
-X-Gm-Message-State: AOJu0YwomJIB1JgENJ5CowV2lwCIkJgi7+tLtZpYI8Py/ER2xR55GcxO
-	ACAX6JW7DWx4mrfhq3yv5gaxgzRTKljnIWOIFpX4FNG9l5c1t0Os
-X-Google-Smtp-Source: AGHT+IE8xZnI/GfxOfv5q1Vc2KZQTYUgsAS4XAEZiDVbKDXKfmqYL81wwl6CkcCeM0RhL9RqQyyBSQ==
-X-Received: by 2002:a05:600c:3ba8:b0:418:f770:ba0 with SMTP id 5b1f17b1804b1-420fd22a4d5mr21652695e9.0.1716400836613;
-        Wed, 22 May 2024 11:00:36 -0700 (PDT)
-Received: from [10.100.102.74] (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100f1c618sm1372195e9.14.2024.05.22.11.00.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 11:00:36 -0700 (PDT)
-Message-ID: <a0657f0a-44af-4765-abe3-acc8a1017b40@grimberg.me>
-Date: Wed, 22 May 2024 21:00:34 +0300
+	Wed, 22 May 2024 18:05:39 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4Vkzk83zW8zlgMVN;
+	Wed, 22 May 2024 18:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1716401127; x=1718993128; bh=L/Z8Mp/V6Xlw6wkYa899vAJP
+	gD1/fbki4rEqLMN5kt0=; b=w4GG+Zk5K8I/0oN1UncHTyKd/Gk3/mstQgMKWu5t
+	Ny7lWh1SNsdH2k/eerNIDbR63ln2fHwadLSxbN26wlaOya/Eb7PeDC2wO1wQKjb9
+	3Kv/JR7I2jGtvACEHUtbbltKIsewEnPsGTXlFkdHY5VQDRMbOzG2Cwd8N6o6Kglt
+	VAATPhWT8TLmUPmX550QPPAX33B17Mu07oRnRQwIO7d7FhOlbWoNQaN1AFJr+alO
+	tSKLeozFvhzoY0vF+hxn0Q0phgYjUm0983n3BJ3WEMUeCawbvbeOWfDl6EKHKFRy
+	nODt7HOx9vbzAwF9c3bzRHWDHD+tlt4k1IYNX1Ev1w+wxg==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id F51LBj9xAtLQ; Wed, 22 May 2024 18:05:27 +0000 (UTC)
+Received: from [100.96.154.26] (unknown [104.132.0.90])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4Vkzjx0WdLzlgMVL;
+	Wed, 22 May 2024 18:05:24 +0000 (UTC)
+Message-ID: <97966085-d7a4-4238-a413-4cdac77af8bd@acm.org>
+Date: Wed, 22 May 2024 11:05:24 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-pci: silence a lockdep complaint
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20240522091534.472449-1-sagi@grimberg.me>
- <vjurqn5g6k5fkzqo6iz2rzkxlljrjfna3efgub3o24ol2yv55u@lx77me5f47gm>
- <Zk4ZY2n7dSztQ4Xs@kbusch-mbp.dhcp.thefacebook.com>
- <20240522162845.GA16783@lst.de>
-Content-Language: he-IL, en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240522162845.GA16783@lst.de>
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+ <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+ <20240520102033.9361-3-nj.shetty@samsung.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240520102033.9361-3-nj.shetty@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240522_110050_486536_ABA0C276 
-X-CRM114-Status: GOOD (  14.80  )
+X-CRM114-CacheID: sfid-20240522_110537_104029_E4E58893 
+X-CRM114-Status: GOOD (  12.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,36 +96,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 5/20/24 03:20, Nitesh Shetty wrote:
+> We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
+> Since copy is a composite operation involving src and dst sectors/lba,
+> each needs to be represented by a separate bio to make it compatible
+> with device mapper.
+> We expect caller to take a plug and send bio with destination information,
+> followed by bio with source information.
+> Once the dst bio arrives we form a request and wait for source
+> bio. Upon arrival of source bio we merge these two bio's and send
+> corresponding request down to device driver.
+> Merging non copy offload bio is avoided by checking for copy specific
+> opcodes in merge function.
 
+Plugs are per task. Can the following happen?
+* Task A calls blk_start_plug()
+* Task B calls blk_start_plug()
+* Task A submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
+* Task B submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
+* Task A calls blk_finish_plug()
+* Task B calls blk_finish_plug()
+* The REQ_OP_COPY_DST bio from task A and the REQ_OP_COPY_SRC bio from
+   task B are combined into a single request.
+* The REQ_OP_COPY_DST bio from task B and the REQ_OP_COPY_SRC bio from
+   task A are combined into a single request.
 
-On 22/05/2024 19:28, Christoph Hellwig wrote:
-> On Wed, May 22, 2024 at 10:12:19AM -0600, Keith Busch wrote:
->>> Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->> This is not desireable, but I give up trying to appease lockdep for this
->> one.
-> lockdep_off is a cure that's worth than the desease.
+Thanks,
 
-This is not ideal for sure.
-
->   If we can't
-> explain the "can't happen" using lockdep classes I don't see how
-> we could actually be sure that it can't happen.
-
-I don't understand lockdep well enough to do that. This warning
-exists for 6 months now. The conclusion that Keith came to (and I agreed)
-is that it can't happen, because nvme_timeout handler will not disable the
-device while the ctrl reset_work is running, the ctrl state machine will 
-prevent
-that from happening.
-
-There was an attempt to convert namespaces_rwsem a srcu, but my comment to
-that was that this is an intrusive change for a complaint that we think 
-is a false-positive.
-
-Do you see a proper way to solve this? Would love to see a better 
-solution here.
-
-The original report is at:
-https://lore.kernel.org/linux-block/20220930001943.zdbvolc3gkekfmcv@shindev/ 
+Bart.
 
 
