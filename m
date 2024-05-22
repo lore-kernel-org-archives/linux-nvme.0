@@ -4,100 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 410F7C25B7C
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 13:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB67AC25B7D
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 13:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tOJZuXsx4WknfSAcptYbLpmuX31U5QNyWTr6zckvtog=; b=rNfO+3Z4+V0IjLhnFVIErcaJqK
-	DGqaY/GQRG9KgrApUe3J5HW/OTVqABKGEMji47BoNsxSxpKEjKFdyrGLs2eBKEN3dDMP6AZBSB2qS
-	4SRDP777CyOnOe+Ul72pn82EVOeYuYUUy6ehMlXfTPBmeLnH4Cwh1SnfJNikxDiKYtv9crcE+XhJt
-	LuK/F+m2MoiRADeB/78Pr6tmfHDYTMLmamaNye2icxnfQKRSr5G8/1+4YZaIT57A9H6OqUHOWn3ce
-	/XYBeOjWujkJJQVjevvvA51W/ySlGNF893TKXkCfOrI5fH2JhSzoPKJlMLZktpY2hQLBR9LHcrc4B
-	gxAYVKXw==;
+	bh=jQOQAWJQIzcAHCNFbYDIo9HGTOvHOu6U/O7t/i3sg5Q=; b=Hq5XFZNnRwQlGVvrCSoNs8T2l8
+	L42lhelYxABLdjMutqRykw9pfGYgA0Fekou1Ggl2DQwe5z6jhin1BJ4IWo29fJXgx+CI5H19DJgru
+	cujnIzw/nrTpgw0M/IoUX7DGGNyzsX3H2BPitpc1ijQJfHenQ87U49E/Rw1v50k64ZHw48Z36o4mL
+	I3WcJd+rbW2tuqV4+BhQTsmmLynazr0YeheHivR09QBJStxUbtFoav3D4BmdgiQGP20ujyJ5ZZVvG
+	EamFR8ydq4Tf3MqapgpNmXwn4asy0roSdR4Q9r4ltim4IyzZqB3kMwSkcF9jb6FTfJ4ndjxe1ioeV
+	WSkWOHgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9lc8-00000002zqh-0jYH;
-	Wed, 22 May 2024 13:02:40 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1s9llr-000000031H7-0w0g;
+	Wed, 22 May 2024 13:12:43 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9lc4-00000002zpS-2Kg4
+	id 1s9llm-000000031Gb-06bv
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 May 2024 13:02:38 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44MCQSF3005370;
-	Wed, 22 May 2024 13:02:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tOJZuXsx4WknfSAcptYbLpmuX31U5QNyWTr6zckvtog=;
- b=MY1OL9lq91ReNPblnY5/UTkUEDZv0bFHkWgyvDhkVUROch31OGzIvJmscnV2XA3IZAit
- xm1EFB36maXQdWhxN/M9JSEhlw3ZanK/rH2buKMtzxcrTZiwOPisejp08+94inoaUOMj
- pw8hE/Ni6RfWS3pfzc2gs1kFANkeX2vSUux17lRnl/eF8Xa42LKzyHspV7/F4GVGU5Pj
- EUJSf3k20TMSBZwI6fZfkXovCaYt63kUUsC+ayB1sYuwtwOjyS1G72iYP9y+Ah4WSrtd
- RGK3X339vXf+xj5mw5ZQjB7CHCwK7XgTI3/vdY8wTRbTLKqA8i3LignX+idLSSvDuIRU RQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9gc5856n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 13:02:20 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44MD2JZo031182;
-	Wed, 22 May 2024 13:02:20 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9gc5856f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 13:02:19 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44M9uK9j000878;
-	Wed, 22 May 2024 13:02:19 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3y7720c77j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 13:02:19 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44MD2GoF23462276
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 May 2024 13:02:19 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E72045807A;
-	Wed, 22 May 2024 13:02:14 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C1E0B5806D;
-	Wed, 22 May 2024 13:02:12 +0000 (GMT)
-Received: from [9.109.198.166] (unknown [9.109.198.166])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 22 May 2024 13:02:12 +0000 (GMT)
-Message-ID: <6e01032f-c90e-4f7e-9339-d2782fd60e3f@linux.ibm.com>
-Date: Wed, 22 May 2024 18:32:11 +0530
+	Wed, 22 May 2024 13:12:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716383554;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jQOQAWJQIzcAHCNFbYDIo9HGTOvHOu6U/O7t/i3sg5Q=;
+	b=aLIFVmS2ZTvzpcWi9LqW1RWNTdMYVqUVbRHvJ4zQTGgGZQxRLIzla30pmuOYWP9ehJN1LK
+	mvI+8w1UgI11GoPDIXaSjKyUK00fDt3dVZtFHa22tcLbQLB9iz6hZGQYx1njzAJ3+MCpBz
+	O1JuWjbsyosIGzBrMeljSCGuTvP22Bo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-655-Oa7STFArNvCcSFCjpvsoaQ-1; Wed, 22 May 2024 09:12:31 -0400
+X-MC-Unique: Oa7STFArNvCcSFCjpvsoaQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3D94800CA5;
+	Wed, 22 May 2024 13:12:30 +0000 (UTC)
+Received: from [10.22.8.193] (unknown [10.22.8.193])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id ED17A2026D68;
+	Wed, 22 May 2024 13:12:29 +0000 (UTC)
+Message-ID: <f1b7196c-63bd-4c80-91e3-8d44c460c792@redhat.com>
+Date: Wed, 22 May 2024 09:12:29 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-multipath: fix io accounting on failover
-To: Keith Busch <kbusch@meta.com>, hch@lst.de, sagi@grimberg.me,
-        linux-nvme@lists.infradead.org
-Cc: jmeneghi@redhat.com, Keith Busch <kbusch@kernel.org>
-References: <20240521180712.2423165-1-kbusch@meta.com>
+Subject: Re: [PATCH v3 1/1] nvme: multipath: Implemented new iopolicy
+ "queue-depth"
+To: Nilay Shroff <nilay@linux.ibm.com>, Sagi Grimberg <sagi@grimberg.me>,
+ kbusch@kernel.org, hch@lst.de, emilne@redhat.com
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ jrani@purestorage.com, randyj@purestorage.com, hare@kernel.org
+References: <20240520202045.427110-1-jmeneghi@redhat.com>
+ <20240520202045.427110-2-jmeneghi@redhat.com>
+ <945416af-3f8b-40b5-9681-49973beb2cb2@linux.ibm.com>
+ <3b8d33db-f2c3-469a-bfa0-8fc52594f243@grimberg.me>
+ <95fe3168-ec39-4932-b9fc-26484de49191@linux.ibm.com>
+ <da35bc8b-6813-42c8-b446-8a07b08db156@grimberg.me>
+ <073ae18a-a80e-4a95-a093-36210a3bb230@grimberg.me>
+ <ba2a6973-ba58-492c-9785-31e50ab40957@grimberg.me>
+ <8f5ad047-be0b-471c-a708-f2bc464d29ef@redhat.com>
+ <b3ea2812-1110-47f6-88f0-0e9c028c350f@linux.ibm.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20240521180712.2423165-1-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7nEORNEpPFv5m5TDL2e4XOZjMik-xn6Y
-X-Proofpoint-ORIG-GUID: 4uu0IZjQeQb8Zt97gIBLjqL1VdQQYSKi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-22_05,2024-05-22_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=861 bulkscore=0 clxscore=1011 adultscore=0 priorityscore=1501
- suspectscore=0 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2405220087
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <b3ea2812-1110-47f6-88f0-0e9c028c350f@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240522_060237_084519_CAA08462 
-X-CRM114-Status: GOOD (  15.07  )
+X-CRM114-CacheID: sfid-20240522_061238_161380_77B3FA68 
+X-CRM114-Status: GOOD (  14.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,26 +95,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 5/22/24 06:48, Nilay Shroff wrote:
+>> I has received quite a bit of testing with failover and controller resets.  I shared some of the testing that was done at LSFMM last week.
+>>
+>> It has received enough testing to make me confident that this code is safe.  That is: it won't panic, corrupt data, or otherwise do any harm.  We believe the error paths will not be affected by this change... but I agree that running the error paths could negatively impact the accuracy of the nr_active counters... which could lead to an inaccurate outcome with the queue-depth policy.
+>>
+>> I agree the nr_counter initialize should move to nvme_mpath_init_identify(), or maybe be done there in addition to in nvme_mpath_init_ctrl(). I'm will to make that change now... if that's what people want.  I don't think it would require any extensive retesting.
+>>
+>> /John
+>>
+>>
+> I think with Keith's recent proposed patch for fixing io accounting on failover, the
+> nvme_mpath_end_request() would be called even for cancelled IO and so the nr_active
+> counter shall be adjusted correctly for cancelled IO requests. Having said that, IMO
+> you shall consider moving initialization of nr_active counter to nvme_mpath_init_identify()
+> as that's common function invoked from regular controller initialization code path as well
+> the reset code path.
 
+Agreed. I'll do that in V4 of the patch set.
 
-On 5/21/24 23:37, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> There are io stats accounting that needs to be handled, so don't call
-> blk_mq_end_request() directly. Use the existing nvme_end_req() helper
-> that already handles everything.
-> 
-The changes look good however I have a question about why do we retry an IO
-when that IO is cancelled? For instance, when a multipath IO request is cancelled 
-(from nvme_cancel_request()) we re-queue the bio in nvme_failover_req().
-Similarly, for non-multipath request, we do retry request in nvme_retry_req()
-until retries for a request are maxed out by nvme_max_retries. So wouldn't it be 
-appropriate to drop the cancelled request instead of retrying? 
-
-However, I do understand retrying a request on a different path when we got the 
-request completion status specifying the path related error.
-
-Thanks,
---Nilay
+/John
 
 
