@@ -4,76 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4501C25B75
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 10:02:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D74E0C25B79
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 10:04:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ebL6HaU3GdxWXH9bjbvtlMoHiAW2gcv2Q5qh8IlHrEA=; b=bMDHLKmu9fku699iKOKWt6QAp6
-	7Yuka+QAXCQ4/2shyFCNx7+p08mujqScJufwCOYwrR/pRLQLsP5jY2EZpxLgoFTBa2velOcdATFNZ
-	9yduV1qwlniWHvzCKf5VjdbCAIM9r565uQ0VcrlV2Jeaw6P1lwx8G5TmtaQ8fU555rOV7nruVKhQt
-	DvWJFSK/5yz9jn/IoMnB88b0m4O+zw10e2uXXRs6jrF9jwptO9C/gZiX4JVQEu7JNvVK2ugFnhFzO
-	o2UvzF7v6Hi6VXV1tuCCW1SathRbLvZIjaX8XLc58719bcb25NbRyGkEQWyBnN4RiGp7zkVoyMjMA
-	Q94CpLeg==;
+	bh=Bd3P8z++z4Py5GCTKSGvg+YlbvFP4LG0VPCbj8gvCMM=; b=3Cgyrzl12FbpEj2uo/vGIJFUA3
+	VEtMLUnSN7fWIC/RIGIUxFZHS62R7RFTW1Xqm12hKMUNP/t5CfMV6wcbW0IDFkKcyQy6XvMLqLZ5H
+	wsGxsIqWoJDTqPVGxmn2mgzACIdFzxHRLfOr37Oh+dInv7ptxQ+Zf08Qk2pAC4fG0unskbGf0ELaE
+	p9zS/Kwc4w2ZcmaC6AxH14FqTKC6a0W6SwMkRAjYQPlHi0xawY5+oEygmMEwVEwkWz2oHepduyNEO
+	ilc5gSmzSSmbeUX2DPKK35PmFLCjg7KmK4zdqVJrGd1fbMV5xYVL/9tPpyJVwV3Kp4JQLUWt4GmIY
+	/URJxddg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA5HH-00000005nAP-1opa;
-	Thu, 23 May 2024 10:02:27 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1sA5J6-00000005nez-1OFf;
+	Thu, 23 May 2024 10:04:20 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA5HD-00000005n7t-1MIQ
+	id 1sA5J3-00000005nbf-0F0e
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 May 2024 10:02:25 +0000
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3550266e90eso7182f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 23 May 2024 03:02:22 -0700 (PDT)
+	Thu, 23 May 2024 10:04:18 +0000
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-354ccdfb014so423097f8f.2
+        for <linux-nvme@lists.infradead.org>; Thu, 23 May 2024 03:04:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716458540; x=1717063340;
+        d=1e100.net; s=20230601; t=1716458654; x=1717063454;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ebL6HaU3GdxWXH9bjbvtlMoHiAW2gcv2Q5qh8IlHrEA=;
-        b=a9qZAzltGaxSheYOwTHSN9t74r7Fp4XDaw6EBTaPx9HXgPA/tIoH0HdMfU1meaQGLq
-         1F+S16G7gRT9pQVIhIcDFxtJiKsBoEAL+kstN6LIq3P8sCoSj0JPcu4vzlM9GcC9yip2
-         WridH9HPuTF8UFwAc0lqn9G3X4amQEwbV3Qr8uU3G/QhL+fB6uhPE0Cme3nf3gBKnJfu
-         T2e05Y+w8WXhzKNv2kk3uGOAwJNaSj3kkhYKEJXXj2Bvg0MQcKj0/6RglBnvO+V9lNce
-         I1Mwqgwkavf74+zPQhs2wxbD3p1ffB+f1dlWK417E1/0F9DpgGxGdq6EQLGjLd7jJy1K
-         eO6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUDXRMp4KvYEQpi28L2kdEVGCQMvTXKLwkit2yKdGo1QeeoC2fcHomlcG+Le63MEvnx69gFvM7vuZQMfCW5itkIsA6dDYw1YYW5IuxBWvQ=
-X-Gm-Message-State: AOJu0Yzu0IVnFuCjhK9ByiXIXxiX6cqxKM4ePES7dud1Y/CsJEh0gRYj
-	jkiffWtKyuVMzzDPiBJWmITR354jUVhyJ3An2LbKnHP77HE1KDJW
-X-Google-Smtp-Source: AGHT+IEuPcJDhy4s0Z/XTpgJp2o0aJtzN8RJVfHN0aiN+ZRZkNrh2QTMcFExpfcK3hpmzdL57q6Nlg==
-X-Received: by 2002:a5d:46ca:0:b0:354:fa0d:1421 with SMTP id ffacd0b85a97d-354fa0d15d9mr828698f8f.1.1716458540286;
-        Thu, 23 May 2024 03:02:20 -0700 (PDT)
+        bh=Bd3P8z++z4Py5GCTKSGvg+YlbvFP4LG0VPCbj8gvCMM=;
+        b=OzzAuNhzVJYFgCyY4xTbHATP/VBiv24rxAqxh5ZhmPs3A62OsCZCCMEcW3dwhUyQmg
+         2cvoLbQU+QzDvHVrPUf9DA/ViddKe3mOD+SwjU9YdISf2Mto+olJNOPhTdXOEAm7ywMi
+         AVLEcgj+J9pBNtCXIdRtZoNzqMIMj37w8HKHVtcq1H+CogGzIv9OEtgiYPHTzGGvDcyJ
+         sjG6zktbN/dQwec8bczPb4kM35ppPMBN0EOYb1pOFH0cZqGHSACRK+x3y97RRBRtWeBf
+         wd37jfTUW1sk0ZezVaQc9rRoLRoikcXTgQNfu3hGrjT0XeuJPOsv49dvA+d7CjYHgxl0
+         wI9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXz4b4fDjbaWbGb4XVUJLefFNoi04aUJOYYtBxrFtdZPHqXKfOGkZLtnnbN8pj6zK4T4I/VzL1CRmLBiC8A9iUUvxyMDMIvUkJCz19rwLw=
+X-Gm-Message-State: AOJu0YxQznzuEnDzUl/kx4SqRt5KBgarhUwN6ps3Uwb07OdA4WbzBip5
+	f9KfBE4EKErmUNrfSfJhH8Nt9FCZ0Jr6dgw7rrclFmQOjVg8iRfm
+X-Google-Smtp-Source: AGHT+IFyIO2XPgzZYHEK66p09ErSPkdKfqImAAYUI1Lz/+MFYKRSTu+LjjjoPFs7Q3kR9V0Jjm44aQ==
+X-Received: by 2002:adf:fc4d:0:b0:355:1e7:a792 with SMTP id ffacd0b85a97d-35501e7aa06mr227451f8f.3.1716458654373;
+        Thu, 23 May 2024 03:04:14 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-354f5e593dasm1702399f8f.109.2024.05.23.03.02.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-354bae5ef22sm13653796f8f.67.2024.05.23.03.04.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 May 2024 03:02:20 -0700 (PDT)
-Message-ID: <98c860ce-57ca-4451-a4fa-1af93834e8f5@grimberg.me>
-Date: Thu, 23 May 2024 13:02:18 +0300
+        Thu, 23 May 2024 03:04:14 -0700 (PDT)
+Message-ID: <a643075c-a51a-413a-a0a0-7954049ad918@grimberg.me>
+Date: Thu, 23 May 2024 13:04:13 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/1] nvme: multipath: Implemented new iopolicy
- "queue-depth"
-To: Keith Busch <kbusch@kernel.org>, John Meneghini <jmeneghi@redhat.com>
-Cc: hch@lst.de, emilne@redhat.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, jrani@purestorage.com, randyj@purestorage.com,
- hare@kernel.org
-References: <20240522154212.643572-1-jmeneghi@redhat.com>
- <20240522154212.643572-2-jmeneghi@redhat.com>
- <Zk4VtiCjeqkBKCBA@kbusch-mbp.dhcp.thefacebook.com>
- <cef5a764-ffab-495c-bea2-e4c6a7c76944@redhat.com>
- <Zk4ddPmottdOJND1@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH] nvme-pci: silence a lockdep complaint
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20240522091534.472449-1-sagi@grimberg.me>
+ <vjurqn5g6k5fkzqo6iz2rzkxlljrjfna3efgub3o24ol2yv55u@lx77me5f47gm>
+ <Zk4ZY2n7dSztQ4Xs@kbusch-mbp.dhcp.thefacebook.com>
+ <20240522162845.GA16783@lst.de>
+ <a0657f0a-44af-4765-abe3-acc8a1017b40@grimberg.me>
+ <Zk5lU1IqmLAhhSCX@kbusch-mbp.dhcp.thefacebook.com>
+ <20240523065412.GA29137@lst.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <Zk4ddPmottdOJND1@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <20240523065412.GA29137@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240523_030223_401168_D3484354 
-X-CRM114-Status: GOOD (  20.31  )
+X-CRM114-CacheID: sfid-20240523_030417_196118_5CEE8C40 
+X-CRM114-Status: GOOD (  11.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,42 +90,15 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 22/05/2024 19:29, Keith Busch wrote:
-> On Wed, May 22, 2024 at 12:23:51PM -0400, John Meneghini wrote:
->> On 5/22/24 11:56, Keith Busch wrote:
->>> On Wed, May 22, 2024 at 11:42:12AM -0400, John Meneghini wrote:
->>>> +static void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
->>>> +{
->>>> +	struct nvme_ctrl *ctrl;
->>>> +	int old_iopolicy = READ_ONCE(subsys->iopolicy);
->>>> +
->>>> +	WRITE_ONCE(subsys->iopolicy, iopolicy);
->>>> +
->>>> +	/* iopolicy changes reset the counters and clear the mpath by design */
->>>> +	mutex_lock(&nvme_subsystems_lock);
->>>> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
->>>> +		atomic_set(&ctrl->nr_active, 0);
->>> Can you me understand why this is a desirable feature? Unless you
->>> quiesce everything at some point, you'll always have more unaccounted
->>> requests on whichever path has higher latency. That sounds like it
->>> defeats the goals of this io policy.
->> This is true. And as a matter of practice I never change the IO policy when IOs are in flight.  I always stop the IO first.
->> But we can't stop any user from changing the IO policy again and again.  So I'm not sure what to do.
->>
->> If you'd like I add the 'if (old_iopolicy == iopolicy) return;' here, but
->> that's not going to solve the problem of inaccurate counters when users
->> start flipping io policies around. with IO inflight. There is no
->> synchronization between io submission across controllers and changing the
->> policy so I expect changing between round-robin and queue-depth with IO
->> inflight suffers from the same problem... though not as badly.
->>
->> I'd rather take this patch now and figure out how to fix the problem with
->> another patch in the future.  Maybe we can check the io stats and refuse to
->> change the policy of they are not zero....
-> The idea of tagging the nvme_req()->flags on submission means the
-> completion handling the nr_active counter is symmetric with the
-> submission side: you don't ever need to reset nr_active because
-> everything is accounted for.
+On 23/05/2024 9:54, Christoph Hellwig wrote:
+> On Wed, May 22, 2024 at 03:36:19PM -0600, Keith Busch wrote:
+>> The below patch is what I'm messing with. I have a CMIC PCI NVMe and
+>> nvme native multipathing enabled, and that can recreate the lockdep
+>> splat 100% of the time. It goes away with this patch. Non-multipath
+>> devices are harder to hit the lockdep splat for a different reason.
+> I much prefer the srcu locking as it has real benefits as well over
+> a global-ish rwsem.  I'll try to get to a real review in a bit.
+>
 
-Agree. We should probably remove it from the patch.
+Can you explain what are these benefits?
 
