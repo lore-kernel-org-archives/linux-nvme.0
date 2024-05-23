@@ -4,100 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16718C25B75
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 09:40:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC09CC25B75
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 09:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tmHlNmPFCdQ6vw9NO04cddK998RZT3/QaknGnYt/mxE=; b=aEUdGI8o2nZUMipBhKAJtOsyve
-	UV9gu7PhEhWjUjGj3P1jWWfgf24DjauwNPWhFP08TKZ7ol8xSPBkQHUYINtafAJpXVofwLZ6XHwSh
-	tLN5YB++1TuV5EfwmEqzjy0PjUmddNj21Crlb/jcYMo1V2CuHwGEcOrFRsrnHLACzgkq2fcYHEV9Z
-	9vk67gazt8QPzIWoisN5Po4N4oE+IScmTL3L2U+lSxVjDzSnGSn6ARziVoVKZPd775SMewg40nhUV
-	6QgKqef/KGXW+h2bL/9kByNHaK8Kmf1/DiLLKzVCcH8tuf56JSMXNnvm8TpmCt6Udy6IV1fpedjXs
-	AA9L8SNA==;
+	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=; b=VDxhR4vYxaAIloDlGxlzl8qus0
+	Zl8kcgoih5HEAiY6mo1fXX94IK50ThizpCxDHLE5KRI5tSQnIXMh5NW5eToFUg5z2qGAS/eGxhaL/
+	LVWsfXpor4bUkyFeFUHMPSA5f8iSUCaHs5beQ/rwgHn1Wg+M2Z4PFhoJ0w1Da8WbrTh7vGSg8ht5f
+	Aw30BMJwiBA3dfBmgwxRuZ0zD2nk2HDSDsRkSzoCZsijzpJ9pjHIupNGRkj5UDhfzxBqdk6ZbAi7N
+	X0njUOsSyw4BcYlKyOz11Qgh6xc+PlOkplWBpN3beuvc3t3QOZo0CEq3Z+W2TY1LI8ChbFRPD0t8w
+	rKqJ41LQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA4vf-00000005jAT-2dyP;
-	Thu, 23 May 2024 09:40:07 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1sA4wE-00000005jK8-46jj;
+	Thu, 23 May 2024 09:40:43 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA4vS-00000005j2Z-1D7P
+	id 1sA4w6-00000005jIR-0eIr
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 May 2024 09:40:04 +0000
+	Thu, 23 May 2024 09:40:38 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 600DC20084;
-	Thu, 23 May 2024 09:39:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5106822454;
+	Thu, 23 May 2024 09:40:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716457191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716457231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tmHlNmPFCdQ6vw9NO04cddK998RZT3/QaknGnYt/mxE=;
-	b=XgIG0/NSZfbZN5Op7ktq81k1iJJSukSH2iHghElB7UWau+Rdks5n81cV5IsXag0T5iMq/4
-	LJAzHSJI+9QoCPgtyRL4N9x3JjdgIx/pqYFAToaM3B4mUQ+t7Nrue8HoDmakOMEaodi/lW
-	un1ZuLGCBUCU51uDaVqfobwjZN2FovE=
+	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
+	b=RP7jwuCdlghbnQNESkhIcwkcjXZVXyAfgdOfjO8p5z/Ptmq+tF9PZTGYE8hlsYNaPrpiMk
+	8X7YC+vI1yYlP6Hw9HU+DVGZ9gjUWwGAObOTE8Y+ucpUSX+GQt5ZelZPknHWsT/weKkdKd
+	9m7oBMloQ6ALkqWiAnFKZalAQNH8vb4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716457191;
+	s=susede2_ed25519; t=1716457231;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tmHlNmPFCdQ6vw9NO04cddK998RZT3/QaknGnYt/mxE=;
-	b=xGHV39RIN8XZP9fostZ+WLx+EkJHSmn5l3Y0h3386flhDcfewlWhctPRbbVlJDj/Ss8unr
-	vy3S/8BBc6kfnIBA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
+	b=qiipYidpRPd27mP3to0LqTvERzpKC+NFEEIJ1FBUC+Ilr0zVFEmFIZcl5ynPYF6thaafhQ
+	1ZZPXLY2mXs9RvCw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716457191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716457231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tmHlNmPFCdQ6vw9NO04cddK998RZT3/QaknGnYt/mxE=;
-	b=XgIG0/NSZfbZN5Op7ktq81k1iJJSukSH2iHghElB7UWau+Rdks5n81cV5IsXag0T5iMq/4
-	LJAzHSJI+9QoCPgtyRL4N9x3JjdgIx/pqYFAToaM3B4mUQ+t7Nrue8HoDmakOMEaodi/lW
-	un1ZuLGCBUCU51uDaVqfobwjZN2FovE=
+	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
+	b=RP7jwuCdlghbnQNESkhIcwkcjXZVXyAfgdOfjO8p5z/Ptmq+tF9PZTGYE8hlsYNaPrpiMk
+	8X7YC+vI1yYlP6Hw9HU+DVGZ9gjUWwGAObOTE8Y+ucpUSX+GQt5ZelZPknHWsT/weKkdKd
+	9m7oBMloQ6ALkqWiAnFKZalAQNH8vb4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716457191;
+	s=susede2_ed25519; t=1716457231;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tmHlNmPFCdQ6vw9NO04cddK998RZT3/QaknGnYt/mxE=;
-	b=xGHV39RIN8XZP9fostZ+WLx+EkJHSmn5l3Y0h3386flhDcfewlWhctPRbbVlJDj/Ss8unr
-	vy3S/8BBc6kfnIBA==
+	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
+	b=qiipYidpRPd27mP3to0LqTvERzpKC+NFEEIJ1FBUC+Ilr0zVFEmFIZcl5ynPYF6thaafhQ
+	1ZZPXLY2mXs9RvCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41FB013A6C;
-	Thu, 23 May 2024 09:39:51 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 400BF13A6C;
+	Thu, 23 May 2024 09:40:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pvGyD+cOT2bCRwAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 23 May 2024 09:39:51 +0000
-Message-ID: <e5f719b1-1fec-4685-a961-aa03acbdbbed@suse.de>
-Date: Thu, 23 May 2024 11:39:50 +0200
+	id zcE3Dw8PT2ZfVAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 23 May 2024 09:40:31 +0000
+Message-ID: <c98dea7f-75de-47d7-965c-966dc265338f@suse.de>
+Date: Thu, 23 May 2024 11:40:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvme-fabrics: use post connect auth helper
+Subject: Re: [PATCH 3/3] nvme-auth: unexport negotiate and wait functions
 To: Chaitanya Kulkarni <kch@nvidia.com>
 Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
  linux-nvme@lists.infradead.org
 References: <20240208062427.31255-1-kch@nvidia.com>
- <20240208062427.31255-3-kch@nvidia.com>
+ <20240208062427.31255-4-kch@nvidia.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240208062427.31255-3-kch@nvidia.com>
+In-Reply-To: <20240208062427.31255-4-kch@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-4.29 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
@@ -115,10 +115,11 @@ X-Spamd-Result: default: False [-4.29 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240523_023957_718845_EAFD9EEF 
-X-CRM114-Status: GOOD (  14.62  )
+X-CRM114-CacheID: sfid-20240523_024034_382295_D1387279 
+X-CRM114-Status: UNSURE (   8.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,64 +135,22 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2/8/24 07:24, Chaitanya Kulkarni wrote:
-> Use previously added helper to handle post connect command auth in
-> nvmf_connect_io_queue().
+> Now that post connect functionality is moved from host/fabrics.c to
+> host/auth.c we don't need nvme_auth_wait() and nvme_auth_negotiate() to
+> be exported from nvme authentication code, unexport them to make it
+> private.
 > 
 > Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 > ---
->   drivers/nvme/host/fabrics.c | 25 +------------------------
->   1 file changed, 1 insertion(+), 24 deletions(-)
+>   drivers/nvme/host/auth.c |  6 ++----
+>   drivers/nvme/host/nvme.h | 10 ----------
+>   2 files changed, 2 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 24f0d298825b..19130e3bd00a 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -493,7 +493,6 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
->   	struct nvmf_connect_data *data;
->   	union nvme_result res;
->   	int ret;
-> -	u32 result;
->   
->   	nvmf_connect_cmd_prep(ctrl, qid, &cmd);
->   
-> @@ -508,29 +507,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
->   		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
->   				       &cmd, data);
->   	}
-> -	result = le32_to_cpu(res.u32);
-> -	if (result & (NVME_CONNECT_AUTHREQ_ATR | NVME_CONNECT_AUTHREQ_ASCR)) {
-> -		/* Secure concatenation is not implemented */
-> -		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
-> -			dev_warn(ctrl->device,
-> -				 "qid 0: secure concatenation is not supported\n");
-> -			ret = NVME_SC_AUTH_REQUIRED;
-> -			goto out_free_data;
-> -		}
-> -		/* Authentication required */
-> -		ret = nvme_auth_negotiate(ctrl, qid);
-> -		if (ret) {
-> -			dev_warn(ctrl->device,
-> -				 "qid %d: authentication setup failed\n", qid);
-> -			ret = NVME_SC_AUTH_REQUIRED;
-> -		} else {
-> -			ret = nvme_auth_wait(ctrl, qid);
-> -			if (ret)
-> -				dev_warn(ctrl->device,
-> -					 "qid %u: authentication failed\n", qid);
-> -		}
-> -	}
-> -out_free_data:
-> +	ret = nvme_auth_post_connect(ctrl, 0, le32_to_cpu(res.u32));
->   	kfree(data);
->   	return ret;
->   }
-Agree with Sagi; move the first 'if' clause out of the helper:
-
-if (result & (NVME_CONNECT_AUTHREQ_ATR | NVME_CONNECT_AUTHREQ_ASCR))
-     ret = nvme_auth_post_connect(ctrl, 0, le32_to_cpu(res.u32));
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
 Hannes
+
 
 
