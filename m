@@ -4,71 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F6B2C25B79
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 10:10:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91136C25B75
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 11:58:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KsLFmVAnn1Gz/LQVT7m+7KqiKaxqBcxquh41X4WO4mY=; b=L+P4N41jXo1difl0TTPLqIQqf3
-	tJYlCE53IT+V6MAEV4MuKofN+4RbsfP2JeWPfKt3kdZJH16q2o22rS0+fvKvDh3hS0A0X3DjkKqw5
-	rNei8qb2CVP1swAzfPEAVv0m/e0aP6OEI6HvL7zHD98u/F1eIOlesbAjE/b0laBw0+8SrdIXBelLs
-	rW7LVTkv96KUaU6aQvaNs6ECXTbYUX+uMNxVAOUYwdTu6eqKL5VQV/TxR+Uqt45IyHva04U5NVLQB
-	T1D893AM9NqR6N16g/ahFnpZDRfFOklvKbM+dKKMsyxHCbQe0D2eBZbxw63MLFsKJIBc5/+gAdPVp
-	RXM7lE0w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=yrec9zA5FIK6Rnk9f0TIofBp6P9UHg+qBFFyH7h3LgY=; b=NHT/D84DP+Ek9zLFux29owHNhf
+	D6yIMyF1T+sI4+XugiTvG0h6irDLRNivjj8UfCIJmCHrq3M2dMbn/hBELI/bw4lWtflF3/iVaXRSA
+	JoO/LrH9FxoY39vt/aROHOKGj/RbFzgM73coHy3FjZjKZIqDpgY335x7Bn69TvexM87uOloBQX+2F
+	VYtXqpG2u1+UZGQvaDm8ge+bubl9F4u4z4ZjNR7npJlzV2neYVrU7wdhdNuL7/0Oe/BGmzrUY3jqb
+	lGpBQafsmQpR6b6d5EZuWmSjfA4gwTyp6TKSO2/aFvfIZkKntYLlVTRJBe0BsOGU/p2WipOn8h3uF
+	QiT1Q2uQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA5Oo-00000005pG7-2apT;
-	Thu, 23 May 2024 10:10:14 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1sA75V-000000066w4-326S;
+	Thu, 23 May 2024 11:58:25 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA5Ok-00000005pF8-2W5D
+	id 1sA75S-000000066vV-1EVR
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 May 2024 10:10:12 +0000
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-354f89a59c6so121075f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 23 May 2024 03:10:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716459009; x=1717063809;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KsLFmVAnn1Gz/LQVT7m+7KqiKaxqBcxquh41X4WO4mY=;
-        b=NmOHN5RKKPDnNE2zG4EmqIIf64/d93yVZtkWkFmygxCeRr/nwHOBkID7zajKIDVS0D
-         Wn3KelwtP2eppljJ+z8QC7TTofRgSTKPLSzjBKRvvnNIy4JNOhSM/SnD5PODEsIL4vGp
-         HeuLpNu27Be7KwXkwDQpxVyg+4iAnCTHQbcU38N6SKV1ldYS0//xgI03ozb4+ologgmp
-         86MIoaL4G0yZNUQo0oTRnvagMbpssApKA9IN4dTppkTEJHVSmnHl72p6s/hmfRMxCVIX
-         QNkFBr6USI4dRZZhUZGBWYmNy1T5wXVmqwBrGi1P+bo0+mOf/wBXXHV3Rpg/2kXB4LUJ
-         xAPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCVbBniPHMgeo7yD6KphArPOlMmvMD67Xu7ihzcxgzWDtRLXqxPV+aMOMYGBQkZ2KHLjoWxovhxuaJl8cp7F1MsQ5dIyBPcuFEprCOZdA=
-X-Gm-Message-State: AOJu0YwFFLafa1iSnfSBsMsF5Zsfl/u9WOcg3TkQ4nuzb1xhx3+SQLBj
-	uwxovb+HyYpa46ecO9ssmCYTXdP7SFr9dieo8FXdimPiHbS8zXnz
-X-Google-Smtp-Source: AGHT+IEdIBUDU7YE8NNbwKyWJtWRvJKTSRgyt16TC3coer3oyTCCxdtTZKoNGRMqv8Iv8qtYmgq6Zw==
-X-Received: by 2002:a05:600c:4584:b0:419:f241:6336 with SMTP id 5b1f17b1804b1-420fd2db0f7mr32685385e9.1.1716459008452;
-        Thu, 23 May 2024 03:10:08 -0700 (PDT)
-Received: from [10.100.102.74] (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100fad58dsm20655065e9.39.2024.05.23.03.10.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 May 2024 03:10:08 -0700 (PDT)
-Message-ID: <1bfa217a-933f-46c7-88b7-3dd0c9b6ad1a@grimberg.me>
-Date: Thu, 23 May 2024 13:10:06 +0300
+	Thu, 23 May 2024 11:58:23 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 64478CE13D1;
+	Thu, 23 May 2024 11:58:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B76C2BD10;
+	Thu, 23 May 2024 11:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716465497;
+	bh=68zABJIKxl8iLI3sy9YzD6leoXVO6C2XAN95v3xyg+M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nZprH5sfNw0u3IhXnljy91ATPMR/4JWiH1/YjZJF1FhYf3MGdlMf7cyJiJNXis4qv
+	 B0D3K708ZfwumOnAvcCfs3qmLul3Jm9R+mNc/F3KMRC6jT4RjT8tImyatLxqJRPsUU
+	 ScL1wgz3AHHQTyhhvkuFYNGYiPWvQKMoXfgcqPOxLMhK8NwhxkVwfCNQrvMreKmhCJ
+	 lALQESeAR9iq3JSM2pJIHf/FTDU6cXAKX/rg+UBuvRTUqeBhbqvl56LhS0ShqzAVtj
+	 TLNP6tq+4y+jSxGFOKez1IPVkogOGR6YhOMNXCvr+lrCrs6LvGVWwobTtoap2Aklld
+	 JgofT7cD7Th6A==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Damien LeMoal <dlemoal@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH] nvme: fixup zns namespace initialisation
+Date: Thu, 23 May 2024 13:58:10 +0200
+Message-Id: <20240523115810.133470-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: fix nvme status code when namespace is disabled
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, jirong.feng@easystack.cn
-References: <20240428092540.77366-1-sagi@grimberg.me>
- <f43b8ba9-79a9-4209-903b-e74c6f7a5f1d@suse.de>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <f43b8ba9-79a9-4209-903b-e74c6f7a5f1d@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240523_031010_671492_86BBA5C8 
-X-CRM114-Status: GOOD (  21.28  )
+X-CRM114-CacheID: sfid-20240523_045822_551193_DBFF120B 
+X-CRM114-Status: GOOD (  11.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,99 +72,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+nvme_set_chunk_sectors() needs to know whether it's a zoned namespace
+or not, but the information is only set in a later call.
+So move the calls around and ensure that the namespace is marked as
+non-zoned initially to avoid calculation errors when trying to derive
+a non-existing zone geometry.
 
+Fixes: c85c9ab926a5 ("nvme: split nvme_update_zone_info")
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/host/core.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-On 23/05/2024 12:49, Hannes Reinecke wrote:
-> On 4/28/24 11:25, Sagi Grimberg wrote:
->> If the user disabled a nvmet namesapce, it is removed from
->> the subsystem namespaces list. When nvmet processes a command
->> directed to an nsid that was disabled, it cannot differentiate
->> between a nsid that is disabled vs. a non-existent namespace,
->> and resorts to return NVME_SC_INVALID_NS with the dnr bit set.
->>
->> This translates to a non-retryable status for the host, which
->> translates to a user error. We should expect disabled namespaces
->> to not cause an I/O error in a multipath environment.
->>
->> Address this by searching a configfs item for the namespace nvmet
->> failed to find, and if we found one, conclude that the namespace
->> is disabled (perhaps temporarily). Return NVME_SC_INTERNAL_PATH_ERROR
->> in this case and keep DNR bit cleared.
->>
->> Reported-by: Jirong Feng <jirong.feng@easystack.cn>
->> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->> ---
->> Jirong Feng, can you please re-run the test as requested and verify
->> that the I/O error goes away. If so, please reply with your "Tested-by"
->> tag.
->>
->>   drivers/nvme/target/configfs.c | 13 +++++++++++++
->>   drivers/nvme/target/core.c     |  8 ++++++--
->>   drivers/nvme/target/nvmet.h    |  1 +
->>   3 files changed, 20 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/target/configfs.c 
->> b/drivers/nvme/target/configfs.c
->> index 77a6e817b315..e744bd0a9cc2 100644
->> --- a/drivers/nvme/target/configfs.c
->> +++ b/drivers/nvme/target/configfs.c
->> @@ -754,6 +754,19 @@ static struct configfs_attribute 
->> *nvmet_ns_attrs[] = {
->>       NULL,
->>   };
->>   +bool nvmet_subsys_nsid_exists(struct nvmet_subsys *subsys, u32 nsid)
->> +{
->> +    struct config_item *ns_item;
->> +    char name[4] = {};
->> +
->> +    if (sprintf(name, "%u", nsid) <= 0)
->> +        return false;
->> + mutex_lock(&subsys->namespaces_group.cg_subsys->su_mutex);
->> +    ns_item = config_group_find_item(&subsys->namespaces_group, name);
->> + mutex_unlock(&subsys->namespaces_group.cg_subsys->su_mutex);
->> +    return ns_item != NULL;
->> +}
->> +
->>   static void nvmet_ns_release(struct config_item *item)
->>   {
->>       struct nvmet_ns *ns = to_nvmet_ns(item);
->> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
->> index 78cba026610a..ed0b8f3707b4 100644
->> --- a/drivers/nvme/target/core.c
->> +++ b/drivers/nvme/target/core.c
->> @@ -437,11 +437,15 @@ void nvmet_stop_keep_alive_timer(struct 
->> nvmet_ctrl *ctrl)
->>   u16 nvmet_req_find_ns(struct nvmet_req *req)
->>   {
->>       u32 nsid = le32_to_cpu(req->cmd->common.nsid);
->> +    struct nvmet_subsys *subsys = nvmet_req_subsys(req);
->>   -    req->ns = xa_load(&nvmet_req_subsys(req)->namespaces, nsid);
->> +    req->ns = xa_load(&subsys->namespaces, nsid);
->>       if (unlikely(!req->ns)) {
->>           req->error_loc = offsetof(struct nvme_common_command, nsid);
->> -        return NVME_SC_INVALID_NS | NVME_SC_DNR;
->> +        if (nvmet_subsys_nsid_exists(subsys, nsid))
->> +            return NVME_SC_INTERNAL_PATH_ERROR;
->> +        else
->> +            return NVME_SC_INVALID_NS | NVME_SC_DNR;
->>       }
->>         percpu_ref_get(&req->ns->ref);
->> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
->> index f460728e1df1..c1306de1f4dd 100644
->> --- a/drivers/nvme/target/nvmet.h
->> +++ b/drivers/nvme/target/nvmet.h
->> @@ -543,6 +543,7 @@ void nvmet_subsys_disc_changed(struct 
->> nvmet_subsys *subsys,
->>           struct nvmet_host *host);
->>   void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
->>           u8 event_info, u8 log_page);
->> +bool nvmet_subsys_nsid_exists(struct nvmet_subsys *subsys, u32 nsid);
->>     #define NVMET_MIN_QUEUE_SIZE    16
->>   #define NVMET_MAX_QUEUE_SIZE    1024
->
-> Shouldn't we rather use 'ANA inaccessible' status here?
-> Just to make it clear that the namespace is disabled, and not some 
-> other internal error?
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8324f231b79c..bcb4a1a37d68 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1952,6 +1952,12 @@ static void nvme_set_ctrl_limits(struct nvme_ctrl *ctrl,
+ 	lim->virt_boundary_mask = NVME_CTRL_PAGE_SIZE - 1;
+ 	lim->max_segment_size = UINT_MAX;
+ 	lim->dma_alignment = 3;
++	lim->chunk_sectors = 0;
++	lim->zoned = false;
++	lim->max_open_zones = 0;
++	lim->max_active_zones = 0;
++	lim->zone_write_granularity = 0;
++	lim->max_zone_append_sectors = 0;
+ }
+ 
+ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
+@@ -2115,13 +2121,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	lim = queue_limits_start_update(ns->disk->queue);
+ 	nvme_set_ctrl_limits(ns->ctrl, &lim);
+ 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm);
++	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
++	    ns->head->ids.csi == NVME_CSI_ZNS)
++		nvme_update_zone_info(ns, &lim, &zi);
+ 	nvme_set_chunk_sectors(ns, id, &lim);
+ 	if (!nvme_update_disk_info(ns, id, &lim))
+ 		capacity = 0;
+ 	nvme_config_discard(ns, &lim);
+-	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+-	    ns->head->ids.csi == NVME_CSI_ZNS)
+-		nvme_update_zone_info(ns, &lim, &zi);
+ 	ret = queue_limits_commit_update(ns->disk->queue, &lim);
+ 	if (ret) {
+ 		blk_mq_unfreeze_queue(ns->disk->queue);
+-- 
+2.35.3
 
-No, because this is not related to the ANA group, but a namespace error.
 
