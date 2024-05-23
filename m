@@ -4,87 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C99DC25B79
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 15:02:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AA1FC25B7C
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 15:02:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QwmN1/wcgDERsUT+7vZXM1tYtlmgawVxm4hFkdYbTEI=; b=mFyz3pEi1OpoyKuSsi3indhR6V
-	G+AHmXJIVWvZQRzbIO5bI/8GbbjFltDQkBexc6rVthUZU/HLvw4CCb8pJGq7boZ7wqkdfm9dWLXtn
-	bDs2zRX56dSftCMpTSRjYNvECTvwWEuxYUItgYSlkwSecYb+NHgIVLk3WnVRpnq0FBWMvH/3oCrTh
-	j+29OFGYbCTKWIlhLXF+O+zR9u2Ggp8KYCpBTPDm/MdkWUVgmX298mkxmTbe1p3rOBd53dIeZcsSB
-	E2pzJRGZllvx6nSd3EA7hgqaPirIIlLnA/wE9e1lE01R80elPOaPHUf8f9xPje9zNLXXwTN1GMuDM
-	nO9TE1Kw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+d083vTZ9FoXPfO0liZk9kx7X2fClxBmWZ+HIUpbpIw=; b=0tQasKNf7zhvwDjVatG92R8gq4
+	vKoBWxBIJj2Ptyy32nWdLZ/NEhDpiF2GE2dRlZbjb2UJrS+AWQTbipDzBZy4o4bBW0fxzzFpy/dsE
+	AxYfyaBmuAoFmoRCeEUfqXAlo1CuFSu7E8imjYDTA2iussHQ1B+GqXydCkXJ4tXTU4q4ofGCIusGo
+	UH2C3ZpYOjW2NguGqDBkG7KHC9SDr4of7mZZ9Hq0lNR5hzQC90m0mO6K3RwfZealqOUSxxhv4yO5r
+	s9G13nYsGRMLsmUq4qs4tx3qi+Qsz/FG96ibVpMyRc9sJNkwgc2j+9B0zxLg9PIg6F2aN/Qh0DPXT
+	qpMeQ8xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA9xB-00000006aF6-1dPX;
-	Thu, 23 May 2024 15:02:01 +0000
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b])
+	id 1sA9xj-00000006aXW-2Vy0;
+	Thu, 23 May 2024 15:02:35 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA9x7-00000006aAS-1ddZ
+	id 1sA9xg-00000006aVb-3lDB
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 May 2024 15:02:00 +0000
-Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-36da87c973cso3110365ab.0
-        for <linux-nvme@lists.infradead.org>; Thu, 23 May 2024 08:01:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1716476514; x=1717081314; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QwmN1/wcgDERsUT+7vZXM1tYtlmgawVxm4hFkdYbTEI=;
-        b=DOs7D6FV2fwiw316+sJ/m4PprycYGyQuQBOLVXEr2bruvBqTbtv1XMtW4CMWRcRQ85
-         ELF6KEZu7pxQGX4g89eqRiNX6T6ZEcNdZ47UGHu/LbfmRiT/Dt8EwmSLKyt58oVrrSKk
-         K4O1mwd6S12xJKOzu6tuISsAiz1EovofmeoPE3BH5QCZWBXvEKTaJLjo1K4UBoP690j6
-         4IZ+lIz0LzmcPdXpQm3WpkDlT+AU1HO4Pbgs9IvEZBhT/H9HDQg0NW7oYedyZNdG03Gq
-         vHnGgu7WZ12Y9UejoVfT+jQqIKagVtM3CPAW5KDf/CbBZB2L9lUo6M1PcoRx7VG9cP1a
-         uc1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716476514; x=1717081314;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QwmN1/wcgDERsUT+7vZXM1tYtlmgawVxm4hFkdYbTEI=;
-        b=ZzoHzFfmUygCRyP6hL2qg1XMMJk/2BDFEQdYbDf8x5hgDjvdY4D/ne3JHY0txqchX9
-         VZr3uGLYMaIh9Y7geqU5prbpbpE66tARhwZZl61dw+ZC131WM0kWCfkcANzeQXJYNSfk
-         senZIty5xtkzVV87+cdrxeuS6flgj1JGp/OxSBr1lu4SwAPu8x+aUn60fC8g/Px3wT/p
-         IzngMWziDag9oz0zXyxvtGxudbqMVBgcR2sw4Bml7MFSIJiu8s9KITkppTCjbQxIt/4v
-         rFdM4m6gXy2miHDObzH6b8PNcObs+PmvroSScY5eWhGsAUOg0tNB4xkwRmlXTzKZpWW7
-         0oqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgp8Lwrq6Ilpnw+O6eZrwKXxCM+mBWLRxhR8RetqK275A++50pyS34J+9CnzKfjEACvRZQ7dWa55RW1gWDJg8ETHaliisR4XjjbRdNM48=
-X-Gm-Message-State: AOJu0YxAqu0ny7YribEpFar3bsDr2zXRxNEtOSvc8k06yN+AFFZb/Eb9
-	E9AnDn90ZKxSKqV211CNXQGwR8lv9od8QuzxhBAiep+mEWbPTBockYSS+hp7WjI=
-X-Google-Smtp-Source: AGHT+IHVmz1AA++sDfIunHQVTPZc2XbKAqF221gNkGhUA8RDMTfsc9xZRdyGFYY4e4U1yfCatj6GJQ==
-X-Received: by 2002:a05:6e02:1447:b0:36c:3856:4386 with SMTP id e9e14a558f8ab-371f92ff411mr67410825ab.3.1716476509096;
-        Thu, 23 May 2024 08:01:49 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3714fa835dasm12756975ab.58.2024.05.23.08.01.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 May 2024 08:01:48 -0700 (PDT)
-Message-ID: <b1ca89ae-1500-4c3c-bd8a-74e081aa8dd3@kernel.dk>
-Date: Thu, 23 May 2024 09:01:46 -0600
+	Thu, 23 May 2024 15:02:34 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 5F7236284B;
+	Thu, 23 May 2024 15:02:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D72B7C4AF0F;
+	Thu, 23 May 2024 15:02:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716476552;
+	bh=+fqQrt3hnpTLrXUtBMaVQgmEA4TxFWCFPrnZ2/YboJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E0qFl4ugfbmvzAbyrFeHsRuCpmntIbGcIh5M5Qh/0AVguwvyo4z7s8LPUrFIluhxF
+	 dmXLjLhUIlEUe4nfbH4kvlfpta9jL+ZsEbPOr02eFs1x81BqhxQC8etUc+xTeMgesY
+	 ucjpX3Z3SLc3/A5zHlVa8IiH9i/IGeLAMZq68Mkj+vCQ60H6hcWumBMsDhJ1lwLOvC
+	 JTBRQbZbd9CTvKcW2+gHVqSZt7ZjxTGlM0+UaET/jCNZNBC5Z7G/GKJO5tW4Ks4V+g
+	 sN272R/FWV9l9K8wAFR1nzaruz1CfH1FPa74ZdakqDkeG1C5YGGPBOFtRQcGTnpdVx
+	 uOPgAqXqwfodA==
+Date: Thu, 23 May 2024 09:02:30 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvme-pci: silence a lockdep complaint
+Message-ID: <Zk9ahlW3lbKTr7hZ@kbusch-mbp.dhcp.thefacebook.com>
+References: <Zk4ZY2n7dSztQ4Xs@kbusch-mbp.dhcp.thefacebook.com>
+ <20240522162845.GA16783@lst.de>
+ <a0657f0a-44af-4765-abe3-acc8a1017b40@grimberg.me>
+ <Zk5lU1IqmLAhhSCX@kbusch-mbp.dhcp.thefacebook.com>
+ <20240523065412.GA29137@lst.de>
+ <a643075c-a51a-413a-a0a0-7954049ad918@grimberg.me>
+ <20240523123949.GA20758@lst.de>
+ <4509c11d-b3ae-4be9-9904-5aaf2628f7f2@grimberg.me>
+ <20240523131933.GA23660@lst.de>
+ <535e843c-2617-40d4-9ced-009422b4973e@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] block: change rq_integrity_vec to respect the iterator
-To: Mikulas Patocka <mpatocka@redhat.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Mike Snitzer <snitzer@kernel.org>,
- Milan Broz <gmazyland@gmail.com>, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <f85e3824-5545-f541-c96d-4352585288a@redhat.com>
- <c366231-e146-5a2b-1d8a-5936fb2047ca@redhat.com>
- <8522af2f-fb97-4d0b-9e38-868c572da18a@kernel.dk>
- <7060a917-6537-4334-4961-601a182bca54@redhat.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <7060a917-6537-4334-4961-601a182bca54@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <535e843c-2617-40d4-9ced-009422b4973e@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240523_080157_748816_6F9B533A 
-X-CRM114-Status: GOOD (  22.24  )
+X-CRM114-CacheID: sfid-20240523_080233_093005_AF589851 
+X-CRM114-Status: GOOD (  27.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,86 +81,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/23/24 8:58 AM, Mikulas Patocka wrote:
+On Thu, May 23, 2024 at 04:45:37PM +0300, Sagi Grimberg wrote:
 > 
 > 
-> On Wed, 15 May 2024, Jens Axboe wrote:
+> On 23/05/2024 16:19, Christoph Hellwig wrote:
+> > On Thu, May 23, 2024 at 04:02:43PM +0300, Sagi Grimberg wrote:
+> > > I just want to have good testing before we touch these areas that
+> > > are all done in ctrl reset and error recovery which historically manifest
+> > > most of the issues...
+> > > 
+> > > and all this because lockdep complains on false-positives...
+> > I still haven't seen any proof that it is a false-positive.
+> > 
 > 
->> On 5/15/24 7:28 AM, Mikulas Patocka wrote:
->>> @@ -177,9 +177,9 @@ static inline int blk_integrity_rq(struc
->>>  	return 0;
->>>  }
->>>  
->>> -static inline struct bio_vec *rq_integrity_vec(struct request *rq)
->>> +static inline struct bio_vec rq_integrity_vec(struct request *rq)
->>>  {
->>> -	return NULL;
->>> +	BUG();
->>>  }
->>>  #endif /* CONFIG_BLK_DEV_INTEGRITY */
->>>  #endif /* _LINUX_BLK_INTEGRITY_H */
->>
->> Let's please not do that. If it's not used outside of
->> CONFIG_BLK_DEV_INTEGRITY, it should just go away.
->>
->> -- 
->> Jens Axboe
+> The explanation is that the nvme-pci timeout handler will only disable the
+> device when either
+> it is able to transition the ctrl state to RESETTING or if the ctrl state is
+> terminal, and in both
+> cases the reset_work is not running concurrently...
 > 
-> Here I'm resending the patch with the function rq_integrity_vec removed if 
-> CONFIG_BLK_DEV_INTEGRITY is not defined.
+> It was also proposed moving the call to nvme_disable_ctrl to a different
+> context (returning BLK_RESET_TIMER from
+> the timeout handler) such that blk_sync_queue() does not depend on it. But
+> Keith said it won't solve the issue.
+> 
+> Keith spent more time thinking about this, so I'll defer to him. I just want
+> it to stop bothering Shinichiro and
+> others running blktests regularly...
 
-That looks better - but can you please just post a full new series,
-that's a lot easier to deal with and look at than adding a v2 of one
-patch in the thread.
+Lockdep is complaining about the namespaces_rwsem taken from both
+timeout_work and reset_work.
 
-> @@ -853,16 +855,20 @@ static blk_status_t nvme_prep_rq(struct
->  			goto out_free_cmd;
->  	}
->  
-> +#ifdef CONFIG_BLK_DEV_INTEGRITY
->  	if (blk_integrity_rq(req)) {
->  		ret = nvme_map_metadata(dev, req, &iod->cmd);
->  		if (ret)
->  			goto out_unmap_data;
->  	}
-> +#endif
+The only time namespaces_rwsem is taken from timeout work is if
+timeout_work successfully transitions controller state to RESETTING. But
+the controller is already in the RESETTING state because reset_work
+wouldn't be running here if we weren't. So timeout_work never locks the
+rwsem if reset_work is already attempting to "cancel" that work.
 
-	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) && blk_integrity_rq(req)) {
+Nevermind the fact that both are using the read lock, so it's not even a
+problem if they both attempt to lock it. The only potential problem
+could be if someone requests the write lock inbetween. At nearly the
+same time, pciehp has to transition the state to DEAD in order for the
+special "terminal" condition to apply for the timeout_work to attempt
+some kind of recovery, but the removal doesn't take the write lock until
+after the reset_work is flushed, so how would the write lock sneak in?
 
-?
-
-> @@ -962,12 +968,14 @@ static __always_inline void nvme_pci_unm
->  	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
->  	struct nvme_dev *dev = nvmeq->dev;
->  
-> +#ifdef CONFIG_BLK_DEV_INTEGRITY
->  	if (blk_integrity_rq(req)) {
->  	        struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-
-Ditto
-
-> Index: linux-2.6/include/linux/blk-integrity.h
-> ===================================================================
-> --- linux-2.6.orig/include/linux/blk-integrity.h
-> +++ linux-2.6/include/linux/blk-integrity.h
-> @@ -109,11 +109,11 @@ static inline bool blk_integrity_rq(stru
->   * Return the first bvec that contains integrity data.  Only drivers that are
->   * limited to a single integrity segment should use this helper.
->   */
-> -static inline struct bio_vec *rq_integrity_vec(struct request *rq)
-> +static inline struct bio_vec rq_integrity_vec(struct request *rq)
->  {
-> -	if (WARN_ON_ONCE(queue_max_integrity_segments(rq->q) > 1))
-> -		return NULL;
-> -	return rq->bio->bi_integrity->bip_vec;
-> +	WARN_ON_ONCE(queue_max_integrity_segments(rq->q) > 1);
-> +	return mp_bvec_iter_bvec(rq->bio->bi_integrity->bip_vec,
-> +				 rq->bio->bi_integrity->bip_iter);
->  }
-
-Not clear why the return on integrity segments > 1 is removed?
-
--- 
-Jens Axboe
-
+A potential interaction with scan_work while the timeout, reset, and
+hotplug run concurrently might be the only part I'm not 100% sure about,
+but I haven't found any concerning path so far.
 
