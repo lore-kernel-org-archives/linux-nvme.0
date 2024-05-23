@@ -4,64 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7600C25B7A
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 May 2024 21:36:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D914DC25B78
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 03:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EYRD4+gZk4WizP4p9em+YVZ4sWQq44kUyRcamWC81LM=; b=Z6D2cILU61PhwspAWeaBm3r2BY
-	sRvTVQIAWOBSIOXPjJcWaaVdluV2g44RJnlQ1YME6IoIWlT06Hx3geBhT6Gb8EumjC7NKvOslRzZS
-	LFWftE6bfKu1VZ84E4wtzQJwhEz5gnto3IK9owEK94JM9EKAz8VX03gHgv6E6ugsiGzs1pR9OQZ7l
-	KHGn+SV4cdQhHxEbrjnHrgOL+NuordH6hCdFQmdgstODtS7wrK8Tt7ojkIGjNTliXkZQzlVeDRcL3
-	08NC2Kv2H++lnMtYUaR+QZMjfoiQR16jHsNt+D8paEDdfXTiiXuc9r0l/UDnNW0FhEFKqIYPnq0Q8
-	b3VJzmXA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Vdd3r6K35KSLHu+6qWhITEHymjHF8Is7l7B37+TsM4k=; b=LEeylYyp1djLKXpV1HUlFpzNHz
+	ibCtu7zOeAygnkBa/4Oly33vJnx23AkLHV85PD4oLiKujHCJJ8Q3bxlcV9MGx++8EmvS0FVAJ/1Ag
+	lzyHEARZvo7KHt/VuwnxaxooWxGH2D/mMJSFGdGuRmF++uh/UDQDO5H8umR6d8ciFjkiXINejuKEZ
+	8MgSl3A0UOf6nbYv+XNr9Zvrq5iUV0eVvLW0Z4cPhDnF0GBM0v0hdn8PIzGx9x6trCH0p2a+ZHWGO
+	l6pSj2+ApLDQvbCY6Cr5p2awY+jHMlShjNOrWgO8D1OuItRYYQTU7OvZICcLbQvutptkQ1dM1jdyR
+	P7setvYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9tdN-00000004ATe-2vTG;
-	Wed, 22 May 2024 21:36:29 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1s9yh6-00000004q9L-0GdA;
+	Thu, 23 May 2024 03:00:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9tdK-00000004ASu-4Bsc
+	id 1s9yh1-00000004q82-3RbD
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 May 2024 21:36:28 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id BB30DCE0B57;
-	Wed, 22 May 2024 21:36:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7DBDC2BBFC;
-	Wed, 22 May 2024 21:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716413782;
-	bh=N1FwWzcOSWZaO+shg26gJg6z1yhNQ0C9raiU4/p/750=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cEj3q1JRH6IO1TOmYXNH7ODd1EuD3J/jqXElKhK2GLJKXavMzzf4qCRnmCDDn1wUm
-	 Rvy6uhn6Yjt2VncG278fQSbXGKEG4iNAN/BE/jSoPmmx7deuYvhbPnlOvyPWKi13bT
-	 w6v88rX8VwpOXnpdkljnQJbpRpcuqKyX2FKsDw23cSMoV4aFAEcpPCXRwGY06db1fX
-	 hnuQLdxLBRI03o8tpTr7WJdaENN+wRgskP9/k/MuuHna/oY/UDMKsQz789glcoUf8i
-	 2CmdxMGSyOaY4yAuBulHz7ylC3K19Kjwdb276Dp+0naC9aBRAKllm0ZLxzhPhBX4Kx
-	 0uLzjfhNrYrsw==
-Date: Wed, 22 May 2024 15:36:19 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvme-pci: silence a lockdep complaint
-Message-ID: <Zk5lU1IqmLAhhSCX@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240522091534.472449-1-sagi@grimberg.me>
- <vjurqn5g6k5fkzqo6iz2rzkxlljrjfna3efgub3o24ol2yv55u@lx77me5f47gm>
- <Zk4ZY2n7dSztQ4Xs@kbusch-mbp.dhcp.thefacebook.com>
- <20240522162845.GA16783@lst.de>
- <a0657f0a-44af-4765-abe3-acc8a1017b40@grimberg.me>
+	Thu, 23 May 2024 03:00:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716433233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vdd3r6K35KSLHu+6qWhITEHymjHF8Is7l7B37+TsM4k=;
+	b=VEW9moz+iBoR1aFckv8+2j0GONA7af8irkTSJKhh3ZJSNVpulOC0T7wckm9Dc4jINFSLmR
+	aJG1Rh/NwuX452RHfJ30kQC7F04vGWrfCcFv/1zru4gTRlD+tSO+bUFCUjUI3Zyxq2D7FS
+	gZVf+e5D31FlZFyvsd74m8mWGw1/w5o=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-686-663I8Ty4NFiT-HTfCj_2YQ-1; Wed,
+ 22 May 2024 23:00:30 -0400
+X-MC-Unique: 663I8Ty4NFiT-HTfCj_2YQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93C381C02145;
+	Thu, 23 May 2024 03:00:29 +0000 (UTC)
+Received: from [10.22.8.193] (unknown [10.22.8.193])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0E7082026D68;
+	Thu, 23 May 2024 03:00:29 +0000 (UTC)
+Message-ID: <5254a3a5-82b3-4b26-8620-6bd0bbeca4f1@redhat.com>
+Date: Wed, 22 May 2024 23:00:28 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0657f0a-44af-4765-abe3-acc8a1017b40@grimberg.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] nvme: multipath: Implemented new iopolicy
+ "queue-depth"
+To: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, emilne@redhat.com
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ jrani@purestorage.com, randyj@purestorage.com, hare@kernel.org
+References: <20240522165406.702362-1-jmeneghi@redhat.com>
+Content-Language: en-US
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <20240522165406.702362-1-jmeneghi@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240522_143627_478525_D6793336 
-X-CRM114-Status: GOOD (  31.90  )
+X-CRM114-CacheID: sfid-20240522_200036_108144_29A1445F 
+X-CRM114-Status: GOOD (  38.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,422 +85,279 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 22, 2024 at 09:00:34PM +0300, Sagi Grimberg wrote:
-> I don't understand lockdep well enough to do that. This warning
-> exists for 6 months now. The conclusion that Keith came to (and I agreed)
-> is that it can't happen, because nvme_timeout handler will not disable the
-> device while the ctrl reset_work is running, the ctrl state machine will
-> prevent that from happening.
+OK, I've retested this patch and verified the queue-depth policy is working as expected.
+
+Running the same workload using queue-depth policy instead of round-robin provides a more even distribution of IO across all 
+controllers.
+
+https://github.com/johnmeneghini/iopolicy?tab=readme-ov-file#compare-outstanding-ios-per-controller
+
+And it increases the overall throughput per-namespace:
+
+https://github.com/johnmeneghini/iopolicy?tab=readme-ov-file#compare-outstanding-ios-per-namespace
+
+Tested-by: John Meneghini <jmeneghi@redhat.com>
+
+
+On 5/22/24 12:54, John Meneghini wrote:
+> From: "Ewan D. Milne" <emilne@redhat.com>
 > 
-> There was an attempt to convert namespaces_rwsem a srcu, but my comment to
-> that was that this is an intrusive change for a complaint that we think is a
-> false-positive.
-
-I'll play devil's advocate and suggest there might be some whacky
-timeout_work, scan_work, reset_work, and pciehp irq that could result in
-a read, write, wait, read deadlock. I don't think it can happen, but
-it's harder to prove that.
-
-The below patch is what I'm messing with. I have a CMIC PCI NVMe and
-nvme native multipathing enabled, and that can recreate the lockdep
-splat 100% of the time. It goes away with this patch. Non-multipath
-devices are harder to hit the lockdep splat for a different reason.
-
-From 00dd7a573d3dd14be748b46e040bb5eb0f5687b1 Mon Sep 17 00:00:00 2001
-From: Keith Busch <kbusch@kernel.org>
-Date: Tue, 21 May 2024 06:41:45 -0700
-Subject: [PATCH] nvme: switch rwsem to srcu
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c      | 94 +++++++++++++++++++++--------------
- drivers/nvme/host/ioctl.c     | 12 ++---
- drivers/nvme/host/multipath.c | 21 ++++----
- drivers/nvme/host/nvme.h      |  3 +-
- 4 files changed, 76 insertions(+), 54 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7706df2373494..480af74f1606e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3684,9 +3684,10 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
- struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns *ns, *ret = NULL;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
- 		if (ns->head->ns_id == nsid) {
- 			if (!nvme_get_ns(ns))
- 				continue;
-@@ -3696,7 +3697,7 @@ struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		if (ns->head->ns_id > nsid)
- 			break;
- 	}
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- 	return ret;
- }
- EXPORT_SYMBOL_NS_GPL(nvme_find_get_ns, NVME_TARGET_PASSTHRU);
-@@ -3710,7 +3711,7 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
- 
- 	list_for_each_entry_reverse(tmp, &ns->ctrl->namespaces, list) {
- 		if (tmp->head->ns_id < ns->head->ns_id) {
--			list_add(&ns->list, &tmp->list);
-+			list_add_rcu(&ns->list, &tmp->list);
- 			return;
- 		}
- 	}
-@@ -3776,17 +3777,17 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 	if (nvme_update_ns_info(ns, info))
- 		goto out_unlink_ns;
- 
--	down_write(&ctrl->namespaces_rwsem);
-+	mutex_lock(&ctrl->namespaces_lock);
- 	/*
- 	 * Ensure that no namespaces are added to the ctrl list after the queues
- 	 * are frozen, thereby avoiding a deadlock between scan and reset.
- 	 */
- 	if (test_bit(NVME_CTRL_FROZEN, &ctrl->flags)) {
--		up_write(&ctrl->namespaces_rwsem);
-+		mutex_unlock(&ctrl->namespaces_lock);
- 		goto out_unlink_ns;
- 	}
- 	nvme_ns_add_to_ctrl_list(ns);
--	up_write(&ctrl->namespaces_rwsem);
-+	mutex_unlock(&ctrl->namespaces_lock);
- 	nvme_get_ctrl(ctrl);
- 
- 	if (device_add_disk(ctrl->device, ns->disk, nvme_ns_attr_groups))
-@@ -3809,9 +3810,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 
-  out_cleanup_ns_from_list:
- 	nvme_put_ctrl(ctrl);
--	down_write(&ctrl->namespaces_rwsem);
--	list_del_init(&ns->list);
--	up_write(&ctrl->namespaces_rwsem);
-+	mutex_lock(&ctrl->namespaces_lock);
-+	list_del_rcu(&ns->list);
-+	mutex_unlock(&ctrl->namespaces_lock);
-  out_unlink_ns:
- 	mutex_lock(&ctrl->subsys->lock);
- 	list_del_rcu(&ns->siblings);
-@@ -3861,10 +3862,11 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
- 	del_gendisk(ns->disk);
- 
--	down_write(&ns->ctrl->namespaces_rwsem);
--	list_del_init(&ns->list);
--	up_write(&ns->ctrl->namespaces_rwsem);
-+	mutex_lock(&ns->ctrl->namespaces_lock);
-+	list_del_rcu(&ns->list);
-+	mutex_unlock(&ns->ctrl->namespaces_lock);
- 
-+	synchronize_srcu(&ns->ctrl->srcu);
- 	if (last_path)
- 		nvme_mpath_shutdown_disk(ns->head);
- 	nvme_put_ns(ns);
-@@ -3953,16 +3955,17 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
- 	struct nvme_ns *ns, *next;
- 	LIST_HEAD(rm_list);
- 
--	down_write(&ctrl->namespaces_rwsem);
-+	mutex_lock(&ctrl->namespaces_lock);
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
- 		if (ns->head->ns_id > nsid)
--			list_move_tail(&ns->list, &rm_list);
-+			list_splice_init_rcu(&ns->list, &rm_list, synchronize_rcu);
- 	}
--	up_write(&ctrl->namespaces_rwsem);
-+	mutex_unlock(&ctrl->namespaces_lock);
- 
- 	list_for_each_entry_safe(ns, next, &rm_list, list)
- 		nvme_ns_remove(ns);
- 
-+	synchronize_srcu(&ctrl->srcu);
- }
- 
- static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
-@@ -4132,12 +4135,14 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
- 	/* this is a no-op when called from the controller reset handler */
- 	nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING_NOIO);
- 
--	down_write(&ctrl->namespaces_rwsem);
--	list_splice_init(&ctrl->namespaces, &ns_list);
--	up_write(&ctrl->namespaces_rwsem);
-+	mutex_lock(&ctrl->namespaces_lock);
-+	list_splice_init_rcu(&ctrl->namespaces, &ns_list, synchronize_rcu);
-+	mutex_unlock(&ctrl->namespaces_lock);
- 
- 	list_for_each_entry_safe(ns, next, &ns_list, list)
- 		nvme_ns_remove(ns);
-+
-+	synchronize_srcu(&ctrl->srcu);
- }
- EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
- 
-@@ -4582,6 +4587,7 @@ static void nvme_free_ctrl(struct device *dev)
- 	key_put(ctrl->tls_key);
- 	nvme_free_cels(ctrl);
- 	nvme_mpath_uninit(ctrl);
-+	cleanup_srcu_struct(&ctrl->srcu);
- 	nvme_auth_stop(ctrl);
- 	nvme_auth_free(ctrl);
- 	__free_page(ctrl->discard_page);
-@@ -4614,10 +4620,15 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	ctrl->passthru_err_log_enabled = false;
- 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
-+	mutex_init(&ctrl->namespaces_lock);
-+
-+	ret = init_srcu_struct(&ctrl->srcu);
-+	if (ret)
-+		return ret;
-+
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
- 	xa_init(&ctrl->cels);
--	init_rwsem(&ctrl->namespaces_rwsem);
- 	ctrl->dev = dev;
- 	ctrl->ops = ops;
- 	ctrl->quirks = quirks;
-@@ -4697,6 +4708,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- out:
- 	if (ctrl->discard_page)
- 		__free_page(ctrl->discard_page);
-+	cleanup_srcu_struct(&ctrl->srcu);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_init_ctrl);
-@@ -4705,22 +4717,24 @@ EXPORT_SYMBOL_GPL(nvme_init_ctrl);
- void nvme_mark_namespaces_dead(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
- 		blk_mark_disk_dead(ns->disk);
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- }
- EXPORT_SYMBOL_GPL(nvme_mark_namespaces_dead);
- 
- void nvme_unfreeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
- 		blk_mq_unfreeze_queue(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- 	clear_bit(NVME_CTRL_FROZEN, &ctrl->flags);
- }
- EXPORT_SYMBOL_GPL(nvme_unfreeze);
-@@ -4728,14 +4742,15 @@ EXPORT_SYMBOL_GPL(nvme_unfreeze);
- int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
- 		timeout = blk_mq_freeze_queue_wait_timeout(ns->queue, timeout);
- 		if (timeout <= 0)
- 			break;
- 	}
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- 	return timeout;
- }
- EXPORT_SYMBOL_GPL(nvme_wait_freeze_timeout);
-@@ -4743,23 +4758,25 @@ EXPORT_SYMBOL_GPL(nvme_wait_freeze_timeout);
- void nvme_wait_freeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
- 		blk_mq_freeze_queue_wait(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- }
- EXPORT_SYMBOL_GPL(nvme_wait_freeze);
- 
- void nvme_start_freeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
- 	set_bit(NVME_CTRL_FROZEN, &ctrl->flags);
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
- 		blk_freeze_queue_start(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- }
- EXPORT_SYMBOL_GPL(nvme_start_freeze);
- 
-@@ -4802,11 +4819,12 @@ EXPORT_SYMBOL_GPL(nvme_unquiesce_admin_queue);
- void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
- 		blk_sync_queue(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- }
- EXPORT_SYMBOL_GPL(nvme_sync_io_queues);
- 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 499a8bb7cac7d..0f05058692b55 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -789,16 +789,16 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
- 		bool open_for_write)
- {
- 	struct nvme_ns *ns;
--	int ret;
-+	int ret, srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
- 	if (list_empty(&ctrl->namespaces)) {
- 		ret = -ENOTTY;
- 		goto out_unlock;
- 	}
- 
--	ns = list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
--	if (ns != list_last_entry(&ctrl->namespaces, struct nvme_ns, list)) {
-+	ns = list_first_or_null_rcu(&ctrl->namespaces, struct nvme_ns, list);
-+	if (!ns) {
- 		dev_warn(ctrl->device,
- 			"NVME_IOCTL_IO_CMD not supported when multiple namespaces present!\n");
- 		ret = -EINVAL;
-@@ -808,14 +808,14 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
- 	dev_warn(ctrl->device,
- 		"using deprecated NVME_IOCTL_IO_CMD ioctl on the char device!\n");
- 	kref_get(&ns->kref);
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- 
- 	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write);
- 	nvme_put_ns(ns);
- 	return ret;
- 
- out_unlock:
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- 	return ret;
- }
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 1bee176fd850e..d8b6b4648eaff 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -151,16 +151,17 @@ void nvme_mpath_end_request(struct request *rq)
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
- 		if (!ns->head->disk)
- 			continue;
- 		kblockd_schedule_work(&ns->head->requeue_work);
- 		if (nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE)
- 			disk_uevent(ns->head->disk, KOBJ_CHANGE);
- 	}
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- }
- 
- static const char *nvme_ana_state_names[] = {
-@@ -194,13 +195,14 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
- void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
- 		nvme_mpath_clear_current_path(ns);
- 		kblockd_schedule_work(&ns->head->requeue_work);
- 	}
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- }
- 
- void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
-@@ -681,6 +683,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
- 	u32 nr_nsids = le32_to_cpu(desc->nnsids), n = 0;
- 	unsigned *nr_change_groups = data;
- 	struct nvme_ns *ns;
-+	int srcu_idx;
- 
- 	dev_dbg(ctrl->device, "ANA group %d: %s.\n",
- 			le32_to_cpu(desc->grpid),
-@@ -692,8 +695,8 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
- 	if (!nr_nsids)
- 		return 0;
- 
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+	srcu_idx = srcu_read_lock(&ctrl->srcu);
-+	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
- 		unsigned nsid;
- again:
- 		nsid = le32_to_cpu(desc->nsids[n]);
-@@ -706,7 +709,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
- 		if (ns->head->ns_id > nsid)
- 			goto again;
- 	}
--	up_read(&ctrl->namespaces_rwsem);
-+	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- 	return 0;
- }
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index fc31bd340a63a..a005941a8b67e 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -282,7 +282,8 @@ struct nvme_ctrl {
- 	struct blk_mq_tag_set *tagset;
- 	struct blk_mq_tag_set *admin_tagset;
- 	struct list_head namespaces;
--	struct rw_semaphore namespaces_rwsem;
-+	struct mutex namespaces_lock;
-+	struct srcu_struct srcu;
- 	struct device ctrl_device;
- 	struct device *device;	/* char device */
- #ifdef CONFIG_NVME_HWMON
--- 
-2.43.0
+> The round-robin path selector is inefficient in cases where there is a
+> difference in latency between paths.  In the presence of one or more
+> high latency paths the round-robin selector continues to use the high
+> latency path equally. This results in a bias towards the highest latency
+> path and can cause a significant decrease in overall performance as IOs
+> pile on the highest latency path. This problem is acute with NVMe-oF
+> controllers.
+> 
+> The queue-depth policy instead sends I/O requests down the path with the
+> least amount of requests in its request queue. Paths with lower latency
+> will clear requests more quickly and have less requests in their queues
+> compared to higher latency paths. The goal of this path selector is to
+> make more use of lower latency paths which will bring down overall IO
+> latency and increase throughput and performance.
+> 
+> Signed-off-by: Thomas Song <tsong@purestorage.com>
+> [emilne: patch developed by Thomas Song @ Pure Storage, fixed whitespace
+>        and compilation warnings, updated MODULE_PARM description, and
+>        fixed potential issue with ->current_path[] being used]
+> Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+> [jmeneghi: vairious changes and improvements, addressed review comments]
+> Signed-off-by: John Meneghini <jmeneghi@redhat.com>
+> Link: https://lore.kernel.org/linux-nvme/20240509202929.831680-1-jmeneghi@redhat.com/
+> Tested-by: Marco Patalano <mpatalan@redhat.com>
+> Reviewed-by: Randy Jennings <randyj@purestorage.com>
+> Tested-by: Jyoti Rani <jrani@purestorage.com>
+> ---
+>   drivers/nvme/host/core.c      |  2 +-
+>   drivers/nvme/host/multipath.c | 94 +++++++++++++++++++++++++++++++++--
+>   drivers/nvme/host/nvme.h      |  5 ++
+>   3 files changed, 96 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 7706df237349..66dc676677d4 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -110,7 +110,7 @@ struct workqueue_struct *nvme_delete_wq;
+>   EXPORT_SYMBOL_GPL(nvme_delete_wq);
+>   
+>   static LIST_HEAD(nvme_subsystems);
+> -static DEFINE_MUTEX(nvme_subsystems_lock);
+> +DEFINE_MUTEX(nvme_subsystems_lock);
+>   
+>   static DEFINE_IDA(nvme_instance_ida);
+>   static dev_t nvme_ctrl_base_chr_devt;
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 1bee176fd850..96264c5c979f 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -17,6 +17,7 @@ MODULE_PARM_DESC(multipath,
+>   static const char *nvme_iopolicy_names[] = {
+>   	[NVME_IOPOLICY_NUMA]	= "numa",
+>   	[NVME_IOPOLICY_RR]	= "round-robin",
+> +	[NVME_IOPOLICY_QD]      = "queue-depth",
+>   };
+>   
+>   static int iopolicy = NVME_IOPOLICY_NUMA;
+> @@ -29,6 +30,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+>   		iopolicy = NVME_IOPOLICY_NUMA;
+>   	else if (!strncmp(val, "round-robin", 11))
+>   		iopolicy = NVME_IOPOLICY_RR;
+> +	else if (!strncmp(val, "queue-depth", 11))
+> +		iopolicy = NVME_IOPOLICY_QD;
+>   	else
+>   		return -EINVAL;
+>   
+> @@ -43,7 +46,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
+>   module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
+>   	&iopolicy, 0644);
+>   MODULE_PARM_DESC(iopolicy,
+> -	"Default multipath I/O policy; 'numa' (default) or 'round-robin'");
+> +	"Default multipath I/O policy; 'numa' (default), 'round-robin' or 'queue-depth'");
+>   
+>   void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
+>   {
+> @@ -128,6 +131,11 @@ void nvme_mpath_start_request(struct request *rq)
+>   	struct nvme_ns *ns = rq->q->queuedata;
+>   	struct gendisk *disk = ns->head->disk;
+>   
+> +	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD) {
+> +		atomic_inc(&ns->ctrl->nr_active);
+> +		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
+> +	}
+> +
+>   	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
+>   		return;
+>   
+> @@ -141,6 +149,9 @@ void nvme_mpath_end_request(struct request *rq)
+>   {
+>   	struct nvme_ns *ns = rq->q->queuedata;
+>   
+> +	if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE))
+> +		atomic_dec_if_positive(&ns->ctrl->nr_active);
+> +
+>   	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+>   		return;
+>   	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
+> @@ -332,6 +343,43 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
+>   	return found;
+>   }
+>   
+> +static struct nvme_ns *nvme_queue_depth_path(struct nvme_ns_head *head)
+> +{
+> +	struct nvme_ns *best_opt = NULL, *best_nonopt = NULL, *ns;
+> +	unsigned int min_depth_opt = UINT_MAX, min_depth_nonopt = UINT_MAX;
+> +	unsigned int depth;
+> +
+> +	list_for_each_entry_rcu(ns, &head->list, siblings) {
+> +		if (nvme_path_is_disabled(ns))
+> +			continue;
+> +
+> +		depth = atomic_read(&ns->ctrl->nr_active);
+> +
+> +		switch (ns->ana_state) {
+> +		case NVME_ANA_OPTIMIZED:
+> +			if (depth < min_depth_opt) {
+> +				min_depth_opt = depth;
+> +				best_opt = ns;
+> +			}
+> +			break;
+> +
+> +		case NVME_ANA_NONOPTIMIZED:
+> +			if (depth < min_depth_nonopt) {
+> +				min_depth_nonopt = depth;
+> +				best_nonopt = ns;
+> +			}
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +
+> +		if (min_depth_opt == 0)
+> +			return best_opt;
+> +	}
+> +
+> +	return best_opt ? best_opt : best_nonopt;
+> +}
+> +
+>   static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+>   {
+>   	return nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE &&
+> @@ -340,15 +388,27 @@ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+>   
+>   inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+>   {
+> -	int node = numa_node_id();
+> +	int iopolicy = READ_ONCE(head->subsys->iopolicy);
+> +	int node;
+>   	struct nvme_ns *ns;
+>   
+> +	/*
+> +	 * queue-depth iopolicy does not need to reference ->current_path
+> +	 * but round-robin needs the last path used to advance to the
+> +	 * next one, and numa will continue to use the last path unless
+> +	 * it is or has become not optimized
+> +	 */
+> +	if (iopolicy == NVME_IOPOLICY_QD)
+> +		return nvme_queue_depth_path(head);
+> +
+> +	node = numa_node_id();
+>   	ns = srcu_dereference(head->current_path[node], &head->srcu);
+>   	if (unlikely(!ns))
+>   		return __nvme_find_path(head, node);
+>   
+> -	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
+> +	if (iopolicy == NVME_IOPOLICY_RR)
+>   		return nvme_round_robin_path(head, node, ns);
+> +
+>   	if (unlikely(!nvme_path_is_optimized(ns)))
+>   		return __nvme_find_path(head, node);
+>   	return ns;
+> @@ -800,6 +860,29 @@ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
+>   			  nvme_iopolicy_names[READ_ONCE(subsys->iopolicy)]);
+>   }
+>   
+> +static void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys, int iopolicy)
+> +{
+> +	struct nvme_ctrl *ctrl;
+> +	int old_iopolicy = READ_ONCE(subsys->iopolicy);
+> +
+> +	if (old_iopolicy == iopolicy)
+> +		return;
+> +
+> +	WRITE_ONCE(subsys->iopolicy, iopolicy);
+> +
+> +	/* iopolicy changes reset the counters and clear the mpath by design */
+> +	mutex_lock(&nvme_subsystems_lock);
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> +		atomic_set(&ctrl->nr_active, 0);
+> +		nvme_mpath_clear_ctrl_paths(ctrl);
+> +	}
+> +	mutex_unlock(&nvme_subsystems_lock);
+> +
+> +	pr_notice("%s: changed from %s to %s for subsysnqn %s\n", __func__,
+> +			nvme_iopolicy_names[old_iopolicy], nvme_iopolicy_names[iopolicy],
+> +			subsys->subnqn);
+> +}
+> +
+>   static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+>   		struct device_attribute *attr, const char *buf, size_t count)
+>   {
+> @@ -809,7 +892,7 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+>   
+>   	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
+>   		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
+> -			WRITE_ONCE(subsys->iopolicy, i);
+> +			nvme_subsys_iopolicy_update(subsys, i);
+>   			return count;
+>   		}
+>   	}
+> @@ -920,6 +1003,9 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
+>   		return 0;
+>   
+> +	/* initialize this in the identify path to cover controller resets */
+> +	atomic_set(&ctrl->nr_active, 0);
+> +
+>   	if (!ctrl->max_namespaces ||
+>   	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
+>   		dev_err(ctrl->device,
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index fc31bd340a63..fa3833d88a85 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -50,6 +50,8 @@ extern struct workqueue_struct *nvme_wq;
+>   extern struct workqueue_struct *nvme_reset_wq;
+>   extern struct workqueue_struct *nvme_delete_wq;
+>   
+> +extern struct mutex nvme_subsystems_lock;
+> +
+>   /*
+>    * List of workarounds for devices that required behavior not specified in
+>    * the standard.
+> @@ -195,6 +197,7 @@ enum {
+>   	NVME_REQ_CANCELLED		= (1 << 0),
+>   	NVME_REQ_USERCMD		= (1 << 1),
+>   	NVME_MPATH_IO_STATS		= (1 << 2),
+> +	NVME_MPATH_CNT_ACTIVE	= (1 << 3),
+>   };
+>   
+>   static inline struct nvme_request *nvme_req(struct request *req)
+> @@ -359,6 +362,7 @@ struct nvme_ctrl {
+>   	size_t ana_log_size;
+>   	struct timer_list anatt_timer;
+>   	struct work_struct ana_work;
+> +	atomic_t nr_active;
+>   #endif
+>   
+>   #ifdef CONFIG_NVME_HOST_AUTH
+> @@ -407,6 +411,7 @@ static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
+>   enum nvme_iopolicy {
+>   	NVME_IOPOLICY_NUMA,
+>   	NVME_IOPOLICY_RR,
+> +	NVME_IOPOLICY_QD,
+>   };
+>   
+>   struct nvme_subsystem {
 
 
