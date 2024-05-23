@@ -4,100 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC09CC25B75
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 09:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BC0BC25B75
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 09:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=; b=VDxhR4vYxaAIloDlGxlzl8qus0
-	Zl8kcgoih5HEAiY6mo1fXX94IK50ThizpCxDHLE5KRI5tSQnIXMh5NW5eToFUg5z2qGAS/eGxhaL/
-	LVWsfXpor4bUkyFeFUHMPSA5f8iSUCaHs5beQ/rwgHn1Wg+M2Z4PFhoJ0w1Da8WbrTh7vGSg8ht5f
-	Aw30BMJwiBA3dfBmgwxRuZ0zD2nk2HDSDsRkSzoCZsijzpJ9pjHIupNGRkj5UDhfzxBqdk6ZbAi7N
-	X0njUOsSyw4BcYlKyOz11Qgh6xc+PlOkplWBpN3beuvc3t3QOZo0CEq3Z+W2TY1LI8ChbFRPD0t8w
-	rKqJ41LQ==;
+	bh=YWlvwKKQuk/iYE4AtnLRZsBi8gD3O8iX92QzgRpy/DM=; b=0vzKXZ4+bLx6EbwlL0Dl5a+TX9
+	lYRb0RAdo9/uc64336ykJJH0g84heANVCuOs0151A7/1iaFfeZLVxpGFhTDLcDs6+L/h8La+IhTEm
+	m2WIDMhFQxa/WTcYL1RT+FqNcKNgoQqYBhWYRxc/AM/HYt75WugL4d6bUTQ5heUUsLMilyyoVhbwB
+	Es3k0HwtUwsEnXuytx2hIwIK21RncqhrSMarCApXz+THkkLKKSZw7Jzwin5PvDyjMRO3/jVgk522m
+	WAGGkpKHR9HlE8DBCcemdf7Nz2QSBp0uo+hVUqlSWOYvsDBJfdqR3q8hWFqK1FWz9IVo8vw6ia090
+	i3FnJ7nQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA4wE-00000005jK8-46jj;
-	Thu, 23 May 2024 09:40:43 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sA4yZ-00000005jv6-3U26;
+	Thu, 23 May 2024 09:43:07 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sA4w6-00000005jIR-0eIr
+	id 1sA4yT-00000005juC-2xmC
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 May 2024 09:40:38 +0000
+	Thu, 23 May 2024 09:43:05 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5106822454;
-	Thu, 23 May 2024 09:40:31 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BBE0F2008A;
+	Thu, 23 May 2024 09:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716457231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716457379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
-	b=RP7jwuCdlghbnQNESkhIcwkcjXZVXyAfgdOfjO8p5z/Ptmq+tF9PZTGYE8hlsYNaPrpiMk
-	8X7YC+vI1yYlP6Hw9HU+DVGZ9gjUWwGAObOTE8Y+ucpUSX+GQt5ZelZPknHWsT/weKkdKd
-	9m7oBMloQ6ALkqWiAnFKZalAQNH8vb4=
+	bh=YWlvwKKQuk/iYE4AtnLRZsBi8gD3O8iX92QzgRpy/DM=;
+	b=2PuPxN0vkwjIqV65nZqrEcWowwXkCg0GXaK2jIKmwIZfhrsrKN1X5YXlZOH2KWo0Ef9g9k
+	atBrP5SU4329b1oR/PktxcLbqTh0iS+sIsWLjr5hE/87dwhCIerDWAcGSq7womj28RsfJ3
+	ySw+cSo/IWNHRyAybpNrtr82THt55gE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716457231;
+	s=susede2_ed25519; t=1716457379;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
-	b=qiipYidpRPd27mP3to0LqTvERzpKC+NFEEIJ1FBUC+Ilr0zVFEmFIZcl5ynPYF6thaafhQ
-	1ZZPXLY2mXs9RvCw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=YWlvwKKQuk/iYE4AtnLRZsBi8gD3O8iX92QzgRpy/DM=;
+	b=ZlPCnpBWymmiKtGnLygFtOqkuGlIEHKOt2fBqQtwLcKpjlb/ETPk3nVUHQVXi8O+PWe556
+	BxP48y3vkGxNMaDw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716457231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716457379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
-	b=RP7jwuCdlghbnQNESkhIcwkcjXZVXyAfgdOfjO8p5z/Ptmq+tF9PZTGYE8hlsYNaPrpiMk
-	8X7YC+vI1yYlP6Hw9HU+DVGZ9gjUWwGAObOTE8Y+ucpUSX+GQt5ZelZPknHWsT/weKkdKd
-	9m7oBMloQ6ALkqWiAnFKZalAQNH8vb4=
+	bh=YWlvwKKQuk/iYE4AtnLRZsBi8gD3O8iX92QzgRpy/DM=;
+	b=2PuPxN0vkwjIqV65nZqrEcWowwXkCg0GXaK2jIKmwIZfhrsrKN1X5YXlZOH2KWo0Ef9g9k
+	atBrP5SU4329b1oR/PktxcLbqTh0iS+sIsWLjr5hE/87dwhCIerDWAcGSq7womj28RsfJ3
+	ySw+cSo/IWNHRyAybpNrtr82THt55gE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716457231;
+	s=susede2_ed25519; t=1716457379;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u5Rm2h6LS45KRM7p05Ma3ccWXWxSCgkeiNkYPPrpRiI=;
-	b=qiipYidpRPd27mP3to0LqTvERzpKC+NFEEIJ1FBUC+Ilr0zVFEmFIZcl5ynPYF6thaafhQ
-	1ZZPXLY2mXs9RvCw==
+	bh=YWlvwKKQuk/iYE4AtnLRZsBi8gD3O8iX92QzgRpy/DM=;
+	b=ZlPCnpBWymmiKtGnLygFtOqkuGlIEHKOt2fBqQtwLcKpjlb/ETPk3nVUHQVXi8O+PWe556
+	BxP48y3vkGxNMaDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 400BF13A6C;
-	Thu, 23 May 2024 09:40:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9711E13A6C;
+	Thu, 23 May 2024 09:42:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zcE3Dw8PT2ZfVAAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 23 May 2024 09:40:31 +0000
-Message-ID: <c98dea7f-75de-47d7-965c-966dc265338f@suse.de>
-Date: Thu, 23 May 2024 11:40:31 +0200
+	id gQBtJKMPT2ZBBAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 23 May 2024 09:42:59 +0000
+Message-ID: <317aa608-b5a8-4669-9cac-68964bc7a887@suse.de>
+Date: Thu, 23 May 2024 11:42:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-auth: unexport negotiate and wait functions
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-References: <20240208062427.31255-1-kch@nvidia.com>
- <20240208062427.31255-4-kch@nvidia.com>
+Subject: Re: [PATCH] nvmet-tcp: fix possible memory leak when tearing down a
+ controller
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Yi Zhang <yi.zhang@redhat.com>
+References: <20240428084949.61931-1-sagi@grimberg.me>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240208062427.31255-4-kch@nvidia.com>
+In-Reply-To: <20240428084949.61931-1-sagi@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Spamd-Result: default: False [-4.28 / 50.00];
+	BAYES_HAM(-2.99)[99.95%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
@@ -111,15 +112,14 @@ X-Spamd-Result: default: False [-4.29 / 50.00];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240523_024034_382295_D1387279 
-X-CRM114-Status: UNSURE (   8.98  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240523_024301_935767_35DFFC3A 
+X-CRM114-Status: GOOD (  14.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,17 +134,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/8/24 07:24, Chaitanya Kulkarni wrote:
-> Now that post connect functionality is moved from host/fabrics.c to
-> host/auth.c we don't need nvme_auth_wait() and nvme_auth_negotiate() to
-> be exported from nvme authentication code, unexport them to make it
-> private.
+On 4/28/24 10:49, Sagi Grimberg wrote:
+> When we teardown the controller, we wait for pending I/Os to complete
+> (sq->ref on all queues to drop to zero) and then we go over the commands,
+> and free their command buffers in case they are still fetching data from
+> the host (e.g. processing nvme writes) and have yet to take a reference
+> on the sq.
 > 
-> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> However, we may miss the case where commands have failed before executing
+> and are queued for sending a response, but will never occur because the
+> queue socket is already down. In this case we may miss deallocating command
+> buffers.
+> 
+> Solve this by freeing all commands buffers as nvmet_tcp_free_cmd_buffers is
+> idempotent anyways.
+> 
+> Reported-by: Yi Zhang <yi.zhang@redhat.com>
+> Tested-by: Yi Zhang <yi.zhang@redhat.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 > ---
->   drivers/nvme/host/auth.c |  6 ++----
->   drivers/nvme/host/nvme.h | 10 ----------
->   2 files changed, 2 insertions(+), 14 deletions(-)
+>   drivers/nvme/target/tcp.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
