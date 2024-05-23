@@ -4,75 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBBA2C25B75
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 16:08:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6B5CC25B75
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 May 2024 16:18:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KyOyMy//HFcxns0f7jijZb/TUu6PDOes3felM7DzeZM=; b=N/LfxE8bfo1o3gM7JuBhOSnjaz
-	hmnv58Ltb8rGD5+fgQk1rW5Z0Ux0ho2Pg4yDtY2xSKSQ5yW5qBzUJMmxqo9IQZENVVbUbuY/Bo8SB
-	sYVMShKBtcjOeNlmdwOimz+YrhQABTEs2mWjG8Kr3jHTSrQwX5nsysw7e0EqkPbSwnKLL1HteVKPM
-	Nw1rj5EsZ8DC5EjMPC2B26Q+7MtMPQIortEsZvIfOboZ7upz6/ZogfazMIaP17J3mDHyJFIovQSwI
-	tMttRQGZHWHlRyP6Bp9svl/1sIWw1deAUMtFzy1dYra6AvIfIzQc/u5E2jweFvEcTjo7JlXDG0TlH
-	p7zogGMQ==;
+	bh=elT8IKqD4GN0XukJ9QrqETQxe3+frogvmcBckZVbQB8=; b=vuRWOzUiuc3yBndJFfcQC1KJ4O
+	nD/RklKFb3AU4d5GaIJmkNucuFZYliFP8+NhinDhBOeeqTSYp+/5Z8CLdkr5cgBI5Xuk4X2Kynfm+
+	k04qqpTRdryMZKQQh5FP5+oiHL1VQhMcpsN4GW0DQf7Al0uUfviIqWAFgn51rBvd0EpH9MN1WVGpJ
+	XX6ESdJaRxpHKgAP1NEJQsJO4CtK/SxtY8k0PVZiIbNpNf0FLjqZ7QnFjF6HJGGictAlrGDISETvY
+	t0btNJpZN7sf3aEAWps0ThdzY/dhMqGK2EkUxYoxJN3eh6UV5evT+eXnpF/erdwxQ7AHQe+m1TWUo
+	5glIDGeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAAzF-00000006knS-0jLt;
-	Thu, 23 May 2024 16:08:13 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1sAB9R-00000006lnW-1O0H;
+	Thu, 23 May 2024 16:18:45 +0000
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAAzA-00000006kmy-3Uku
+	id 1sAB9O-00000006lmz-0N63
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 May 2024 16:08:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716480486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KyOyMy//HFcxns0f7jijZb/TUu6PDOes3felM7DzeZM=;
-	b=ANTsKeVRH6fM9iuYMI1vxZFbmRVF308A557tAQpgpCnQK8qXH4vluBIzSVFfQwJFdNDhM+
-	gNrmTji0jlX+E4XUa6ek065sl5yyLpf3dacgcSh1AyDCw5vGr8ndJ07RzSu874MzPGsgIr
-	9O1XczyIEPXg2eGebT/dQvw3Iycp8EI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-D2cjl7g-NJm4Mvu64GOBsw-1; Thu, 23 May 2024 12:07:59 -0400
-X-MC-Unique: D2cjl7g-NJm4Mvu64GOBsw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3864C800CA5;
-	Thu, 23 May 2024 16:07:59 +0000 (UTC)
-Received: from [10.18.25.182] (unknown [10.18.25.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E3D811054820;
-	Thu, 23 May 2024 16:07:58 +0000 (UTC)
-Message-ID: <f1f52715-78b3-42e1-bc25-9984dd178321@redhat.com>
-Date: Thu, 23 May 2024 12:07:58 -0400
+	Thu, 23 May 2024 16:18:43 +0000
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-37037d8047bso1696695ab.3
+        for <linux-nvme@lists.infradead.org>; Thu, 23 May 2024 09:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1716481118; x=1717085918; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=elT8IKqD4GN0XukJ9QrqETQxe3+frogvmcBckZVbQB8=;
+        b=qwa1et7HHcysqENwAQhnDdPLeD8RRRBQ+UpJVl8m52kJCrhXFnxev0520q1prJPv04
+         zrbkMku2zMAKoCxC0yy30fKWVq2jwMfkqt1LBseM08OjH9WLC+Jr1wnrqLrnKCMrYMCR
+         RaZXVRe/Ne5T3RAuGFnEMQZnQ+2pQJXiD1jW7bYe/3VuLJbZHGQc4WlSbx/eFWE1bqZ0
+         PLeV277sqiRBNWdqe7b18T0JHj8SiasGBxF+Ynj9yK/r+ZFiWIh3V3p24ubDau8GIX/h
+         ayxevq15IpQuVnLs+t5Xdeo58aseTnqwTkcB4F+3u1kq6Xcw5pyPD3vehVKTC+4FRTXP
+         CjMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716481118; x=1717085918;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=elT8IKqD4GN0XukJ9QrqETQxe3+frogvmcBckZVbQB8=;
+        b=F1HOESVRWUUmwwYAFhsAt22wNxMIlHdfprTS4ddgtFk139i68B5vVMDaloukvfsdNe
+         hjJ1M2fU7+cNniscEeBTE0PqNFVcoSZ/+qXym+JVcOqCoU/ddrtugLn5KO/FJ6JFSW3G
+         8BFLjdIe1g8yA4GX5fL5EoFiQleg0bmZspCLZbi8mir8VIA5qQjKyDamkQ7HTuBQaQag
+         DS7UHNnGOqDXl3zVThXN0i53n9DqQfDh0m2Zh1JAIFmeUFCKzmJjWkQUyRb3R5f/kVoG
+         C1XSIDn7UbH83B+bPZezwBoXJtCt/GPlcBKORp6I2636lDcVf5IWYuXMf00ToT3VDbcU
+         w5cg==
+X-Forwarded-Encrypted: i=1; AJvYcCXv8EDelCmnkGBqqfcZ9sbo8qYvvXPKca7bxHCzYdhbSaJULF0egSbp8TZwwoqFuBNP/2ns7Fj0J/IiPXB76TiW+L6QecOsSFjfVuInd1M=
+X-Gm-Message-State: AOJu0Yy9WrSYq5WOG+9cDvRHLFS8A+e1nmk1koUtx6UavfJ5obZthnGM
+	tRQ/u5Y3bS4VgmSSLXKknQzRpACAaxNrHYTLHaU81j4qiBBLxKn3PSYczIIRRF0=
+X-Google-Smtp-Source: AGHT+IFwrptZ3UQ5L4364IPcpgCRs8fQyXYW2l1rX2FQJ0mmgIfa+n9SYKqYI28jpBYjCDwXT2idAQ==
+X-Received: by 2002:a05:6602:3058:b0:7de:e04b:42c3 with SMTP id ca18e2360f4ac-7e34f8016bdmr537644939f.0.1716481118659;
+        Thu, 23 May 2024 09:18:38 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-489376de185sm7984446173.150.2024.05.23.09.18.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 May 2024 09:18:38 -0700 (PDT)
+Message-ID: <b2840f20-5cdf-4e24-94a8-4898753067e1@kernel.dk>
+Date: Thu, 23 May 2024 10:18:36 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] nvme: multipath: Implemented new iopolicy
- "queue-depth"
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, sagi@grimberg.me, emilne@redhat.com,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- jrani@purestorage.com, randyj@purestorage.com, hare@kernel.org
-References: <20240522165406.702362-1-jmeneghi@redhat.com>
- <20240523081443.GD1086@lst.de>
+Subject: Re: [PATCH] nvme: use srcu for namespace list reading
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+ shinichiro.kawasaki@wdc.com, hch@lst.de, sagi@grimberg.me
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20240523155107.3612088-1-kbusch@meta.com>
 Content-Language: en-US
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <20240523081443.GD1086@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20240523155107.3612088-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240523_090808_985594_3B6543E3 
-X-CRM114-Status: GOOD (  20.95  )
+X-CRM114-CacheID: sfid-20240523_091842_163493_52A5402F 
+X-CRM114-Status: UNSURE (   7.38  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,87 +95,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/23/24 04:14, Christoph Hellwig wrote:
-> Oh, and there is really something of with the patch format.
+On 5/23/24 9:51 AM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> First the subject line is completely wrong, this should be:
-> 
-> nvme-multipath: implement "queue-depth" iopolicy.
+> Iterate the namespace lists without taking a lock fixes potential
+> pcircular lockdep complaints.
 
-Will fix.
+Change itself looks fine to me from a quick glance, however this commit
+message is lacking (quite a bit). Please include a link and some more
+detail on this, and why the SRCU approach will fix it.
 
-> On Wed, May 22, 2024 at 12:54:06PM -0400, John Meneghini wrote:
->> From: "Ewan D. Milne" <emilne@redhat.com>
-> 
->> Signed-off-by: Thomas Song <tsong@purestorage.com>
->> [emilne: patch developed by Thomas Song @ Pure Storage, fixed whitespace
->>        and compilation warnings, updated MODULE_PARM description, and
->>        fixed potential issue with ->current_path[] being used]
->> Signed-off-by: Ewan D. Milne <emilne@redhat.com>
-> 
-> Second the patch author needs to be the first signoff.  I'm not entirely
-> sure who is supposed to be the author, but either it should be Thomas,
-> or if the patch has changed so much that it's someone else the original
-> signoff should turn into a Co-Developed-by.
+-- 
+Jens Axboe
 
-This patch was originally authored by Thomas Song, an intern who worked at Purestorage. The original patch was almost a year 
-ago. Thomas no longer works for Purestorage, and he is no where to be found. Ewan and I have both made many changes since then, 
-but the basic concept, which adds a controller scoped atomic counter in nvme_find_path(), remains the same. Ewan worked on the 
-patch for several months, trying different counter implementations, all in an effort to avoid the atomic counter.  However, 
-nothing else worked and in the end this patch retains the essential features of Thomas Songs original patch.
-
-I'd like Thomas to get credit for this patch, so I've changed the author from Ewan Milne to Thomas Song.
-
-As for the Co-Developed-By: checkpatch.pl is insisting that that each "Co-developed-by:" be followed by a signoff.
-
-   jmeneghi:linux > scripts/checkpatch.pl --git HEAD
-   WARNING: Co-developed-by: must be immediately followed by Signed-off-by:
-   #26:
-   Co-developed-by: Ewan D. Milne <emilne@redhat.com>
-   [jmeneghi: vairious changes and improvements, addressed review comments]
-
-   WARNING: Co-developed-by: must be immediately followed by Signed-off-by:
-   #28:
-   Co-developed-by: John Meneghini <jmeneghi@redhat.com>
-   Link: https://lore.kernel.org/linux-nvme/20240509202929.831680-1-jmeneghi@redhat.com/
-
-   total: 0 errors, 2 warnings, 197 lines checked
-
-
-So this is what I currently have for a message log.
-
-Author: Thomas Song <tsong@purestorage.com>
-Date:   Tue Nov 7 16:23:29 2023 -0500
-
-     nvme-multipath: implemented new iopolicy "queue-depth"
-
-     The round-robin path selector is inefficient in cases where there is a
-     difference in latency between paths.  In the presence of one or more
-     high latency paths the round-robin selector continues to use the high
-     latency path equally. This results in a bias towards the highest latency
-     path and can cause a significant decrease in overall performance as IOs
-     pile on the highest latency path. This problem is acute with NVMe-oF
-     controllers.
-
-     The queue-depth policy instead sends I/O requests down the path with the
-     least amount of requests in its request queue. Paths with lower latency
-     will clear requests more quickly and have less requests in their queues
-     compared to higher latency paths. The goal of this path selector is to
-     make more use of lower latency paths which will bring down overall IO
-     latency and increase throughput and performance.
-
-     Signed-off-by: Thomas Song <tsong@purestorage.com>
-     [emilne: patch developed by Thomas Song @ Pure Storage, fixed whitespace
-           and compilation warnings, updated MODULE_PARM description, and
-           fixed potential issue with ->current_path[] being used]
-     Co-developed-by: Ewan D. Milne <emilne@redhat.com>
-     Signed-off-by: Ewan D. Milne <emilne@redhat.com>
-     [jmeneghi: vairious changes and improvements, addressed review comments]
-     Co-developed-by: John Meneghini <jmeneghi@redhat.com>
-     Signed-off-by: John Meneghini <jmeneghi@redhat.com>
-     Link: https://lore.kernel.org/linux-nvme/20240509202929.831680-1-jmeneghi@redhat.com/
-     Tested-by: Marco Patalano <mpatalan@redhat.com>
-     Reviewed-by: Randy Jennings <randyj@purestorage.com>
-     Tested-by: Jyoti Rani <jrani@purestorage.com>
 
 
