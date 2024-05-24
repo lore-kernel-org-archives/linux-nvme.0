@@ -4,118 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BC7CC25B74
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 10:42:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37F95C25B74
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 13:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=HbN4gMExv76/ppxHx/cBwPErrbGg8HCnLmRXspUPFLE=; b=KhvMIBEHFIVzujXnzVkn0sQxT5
-	UtBTgfCyZe5FnP1SAZksJjCbSnaKm5g9Nskt3arfAS2UOlfcwoq7he2MyGPvpZwwS+MYHAzwdur/8
-	37osGunHjnj4/yqhCC78paRrsUBtfH0actBPSFOubp+M2tuUd14C2m249tpK1yJKDimseA8ACgpZE
-	wXPoEEQZrnIyGxEeMeN1swUQDB2CDpHVs1N/GgcNINsirv0q9olsdeJRMaVYR+6Fb4e2HROafq16y
-	lgaBVjx8xMqu4A7O2nhM03AeCcDOMyC9PGBToGNgPn2kDWoeTmUQcoO44qcbxOqq6mC0cn4k0m+HP
-	Z1TErvXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2rXmAoTx3CNlh/GGc7KRf6DwDOKO0u6bWqKxzMYf8jk=; b=Cs2fWYPOJpJ8PHN7Yf0+M9F0FN
+	isILsO7sOsMEQHKauUL+69O+rBc+DAgBGGvLfLVGq7jCoxuNrGPzTSvjk4/9/I/V+9Os0q1MKATty
+	288fDToM8oXmepf/NY51qs4OaXeDA4QgFj5UFF3xXS5ciB+mBUi6fPxDiCVtfDVEa+xtRmBAf2vQQ
+	aTWQvvGac1wqGTu5HALD+CJxSYykPmf4/dDffJzj5ePQwRh2vw/xfmxNblLUxj2ikosh4m8rgzbGi
+	NYdQvURrw9K/gCfuI/cy66zIgnMIgvMO373pL8Pigh2g63KTWuCYxTK6TuHmcgUMNd/8lJLBKEWN2
+	/ckubAIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sASNF-00000008i9k-3aQx;
-	Fri, 24 May 2024 10:42:09 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1sAVMG-0000000929p-09lI;
+	Fri, 24 May 2024 13:53:20 +0000
+Received: from 009.lax.mailroute.net ([199.89.1.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sASNB-00000008i8l-1Nva
+	id 1sAVM9-0000000924C-3ue7
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 May 2024 10:42:08 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240524104159epoutp0463d6f12b543671982a1d499037b7291a~SZrEqCSVc0335403354epoutp04U
-	for <linux-nvme@lists.infradead.org>; Fri, 24 May 2024 10:41:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240524104159epoutp0463d6f12b543671982a1d499037b7291a~SZrEqCSVc0335403354epoutp04U
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1716547319;
-	bh=HbN4gMExv76/ppxHx/cBwPErrbGg8HCnLmRXspUPFLE=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=AkMoB6AFIzop3BH9RA1NcsS5xFVHwMMZh5YnS8Gkn9IF8iiji12UskJn8dk3QcUAl
-	 5LmeMS/JRVFVQEZAWjKQ838ppZobr6b1uq96K7wWvZFzn04Gh0bVxkcJLkfGCqkshM
-	 PH17L7b7Fprtro/bgwt0HsO/hTvDWAlFBQgCGa/A=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240524104158epcas5p1839920adac0a5d3531daecd371977b23~SZrEa4mVs2904629046epcas5p1F;
-	Fri, 24 May 2024 10:41:58 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.179]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Vm1nK0c21z4x9Py; Fri, 24 May
-	2024 10:41:57 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	55.5C.09688.4FE60566; Fri, 24 May 2024 19:41:56 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240524104156epcas5p1ed1d8c342a08a48958757bb00e44cb5f~SZrCLZsjD0626106261epcas5p1B;
-	Fri, 24 May 2024 10:41:56 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240524104156epsmtrp243f8b9603af3cbe94417d05934dd941e~SZrCKJpi_1491814918epsmtrp2C;
-	Fri, 24 May 2024 10:41:56 +0000 (GMT)
-X-AuditID: b6c32a4a-837fa700000025d8-8d-66506ef475dc
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E8.24.08390.4FE60566; Fri, 24 May 2024 19:41:56 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240524104155epsmtip16a7adcd0090adcbd9df09f76b01e663b~SZrBMQ_Xa0932409324epsmtip1M;
-	Fri, 24 May 2024 10:41:55 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, Kanchan Joshi <joshi.k@samsung.com>,
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH v2] nvme: remove sgs and sws
-Date: Fri, 24 May 2024 16:04:48 +0530
-Message-Id: <20240524103448.785268-1-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	Fri, 24 May 2024 13:53:15 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4Vm61m2xr9zlgMVR;
+	Fri, 24 May 2024 13:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1716558774; x=1719150775; bh=2rXmAoTx3CNlh/GGc7KRf6Dw
+	DOKO0u6bWqKxzMYf8jk=; b=YVdOKINEcaBAiCvlkuTSwdmRd4IpR916nbHNtrWY
+	5T2+ihVtDJKqlKwmp55t4ZGsaAzSwT8N3iUuthzOrGokFyOvHHHwoPanRwsFqJ3L
+	3v2Tf12D8XdQq//ARpexroy8PAQc3DvIPAo1doOavE1SyJ7oHv4W9OV2603l0oco
+	7zFScfLDbfWVFi/uA43qiK6iKKSKOEcdEHdyd7YLIsf2nNPig8QWNBxvW+wBDWpB
+	pbjSBfk2Fl1FpSrXDsqy4y/4rKohiQq0aoPcAgDKotDRQNQ449I/UEpVFtqL/lsU
+	q8KrTHUOkpAz2XpNOWt/hyTOKKxQkQz9q/Wy8v7/RNAGKQ==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id IazCX3NYb6ZA; Fri, 24 May 2024 13:52:54 +0000 (UTC)
+Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4Vm61V3wB5zlgMVP;
+	Fri, 24 May 2024 13:52:46 +0000 (UTC)
+Message-ID: <144e9e03-d16d-4158-a9eb-177a53b67c6c@acm.org>
+Date: Fri, 24 May 2024 06:52:44 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCKsWRmVeSWpSXmKPExsWy7bCmlu6XvIA0gxmfbSxW3+1ns1i5+iiT
-	xdH/b9ksJh26xmgxf9lTdot1r9+zOLB5nL+3kcXj8tlSj02rOtk8Ni+p99h9s4HNo2/LKsYA
-	tqhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hTMwNDXUNLC3MlhbzE3FRbJRefAF23zBygK5QU
-	yhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUltkqpBSk5BSYFesWJucWleel6eaklVoYGBkamQIUJ
-	2Rn7+98yF0xmq5i7rZO9gbGbtYuRk0NCwERi/6nHTF2MXBxCArsZJRZ0PmGGcD4xSny8+QIq
-	841RYkPPeyaYlkvta6Gq9jJK7NpxgRHC+cwosWJNJ9BgDg42AU2JC5NLQUwRASOJzwvCQXqZ
-	BbIl5n07ygZiCwvoSPya8p8RxGYRUJW4tX0b2Em8ApYSnfN6oXbJS8y89J0dIi4ocXLmExaI
-	OfISzVtng90gIXCKXeLwgVY2iAYXia17bkDZwhKvjm9hh7ClJD6/2wsVT5a4NPMc1IISicd7
-	DkLZ9hKtp/qZQW5mBjp//S59iF18Er2/nzCBhCUEeCU62oQgqhUl7k16Cg1FcYmHM5ZA2R4S
-	G0/8BJsoJBArsXb7HdYJjHKzkHwwC8kHsxCWLWBkXsUomVpQnJueWmxaYJSXWg6PyuT83E2M
-	4OSn5bWD8eGDD3qHGJk4GA8xSnAwK4nwRq/0TRPiTUmsrEotyo8vKs1JLT7EaAoM1onMUqLJ
-	+cD0m1cSb2hiaWBiZmZmYmlsZqgkzvu6dW6KkEB6YklqdmpqQWoRTB8TB6dUA1NGyWlflgl9
-	7z5YWz3//XJT4f7QZ9FHfNpPLCuucUh6KniVye1lIof10sD3lkveey4Otsy72vQ2xsnBY/7Z
-	N0oBf66L6fu3hS9efzom9dnMTmb30pBvUxp/2TGwyZ7/H7FNb+5GI8bjzA/utW1vafXpTTOv
-	d9uTenyW+GYlf6ed+2W6NlzI/vI9kY/hmICPr+nar7WXLR1n7991a/uCfy9iNctXnb5aXLU5
-	PDD9WLXKYb2Oz6dsT7IlyZbNuvvh9bmzXwVtzgc7tmgpJy6eOanV58iR3r0lm700zDirGTS/
-	6TYlfncUP5v/d59GbsVE8fA5T93Weruqls/jDdl2kmF+XmyywO63vj5HNrhGflFiKc5INNRi
-	LipOBAAiMifKBwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLLMWRmVeSWpSXmKPExsWy7bCSnO6XvIA0g/5pIhar7/azWaxcfZTJ
-	4uj/t2wWkw5dY7SYv+wpu8W61+9ZHNg8zt/byOJx+Wypx6ZVnWwem5fUe+y+2cDm0bdlFWMA
-	WxSXTUpqTmZZapG+XQJXxv7+t8wFk9kq5m7rZG9g7GbtYuTkkBAwkbjUvpa5i5GLQ0hgN6PE
-	gw0LGCES4hLN136wQ9jCEiv/PWeHKPrIKPHq20+gIg4ONgFNiQuTS0FqRATMJI6/fwfWyyyQ
-	K3FpSgcbiC0soCPxa8p/sDiLgKrEre3bwBbzClhKdM7rZYKYLy8x89J3doi4oMTJmU9YIObI
-	SzRvnc08gZFvFpLULCSpBYxMqxglUwuKc9Nziw0LjPJSy/WKE3OLS/PS9ZLzczcxgkNUS2sH
-	455VH/QOMTJxMB5ilOBgVhLhjV7pmybEm5JYWZValB9fVJqTWnyIUZqDRUmc99vr3hQhgfTE
-	ktTs1NSC1CKYLBMHp1QD0/SiVVp5q9ZVztbcp1MfYCCSWrrUgYP7surK1l+5Xyu9pSfrybRu
-	PsEsejbj+bovCgLOp9udD7VWmGnv/TIp3Dgr1eEa05MZK2q7mVuum5z22bJkxrxNprPy5U/4
-	eB+9fOL6/P/XvPJmTT2Y/T7vYGFLw8WLp7ZasAXcumuaKPd1ltfPBM09V/3DnW7GzNfdb3jd
-	lTMr1lVeM43rQP8V9tsrboYlMrl4BCkaKP9vCW7LeP1BbvWG2zzT0/vUHBXb+RLYop4eW8yh
-	tcP33zuTqY/yfrm/fL/48z49Tf3p9+Wvn/7Iv3zroou8TU18nz4KZ54XWPdY57SR8vXNZewz
-	9L6zFvU9U9N8Vbkq5KSGuRJLcUaioRZzUXEiAMjc2OvAAgAA
-X-CMS-MailID: 20240524104156epcas5p1ed1d8c342a08a48958757bb00e44cb5f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240524104156epcas5p1ed1d8c342a08a48958757bb00e44cb5f
-References: <CGME20240524104156epcas5p1ed1d8c342a08a48958757bb00e44cb5f@epcas5p1.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke <hare@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+ <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+ <20240520102033.9361-3-nj.shetty@samsung.com>
+ <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
+ <66503bc7.630a0220.56c85.8b9dSMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <66503bc7.630a0220.56c85.8b9dSMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240524_034206_139681_ACC822DD 
-X-CRM114-Status: GOOD (  12.61  )
+X-CRM114-CacheID: sfid-20240524_065313_989270_BA171CF4 
+X-CRM114-Status: UNSURE (   9.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,33 +99,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-sgs/sws are unused, so remove these from nvme_ns_head structure.
+On 5/23/24 23:54, Nitesh Shetty wrote:
+> Regarding merge, does it looks any better, if we use single request
+> operation such as REQ_OP_COPY and use op_flags(REQ_COPY_DST/REQ_COPY_SRC)
+> to identify dst and src bios ?
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
-changes since v1:
-- kill the other cleanup patch
-https://lore.kernel.org/linux-nvme/20240502063438.422046-3-joshi.k@samsung.com/
+I prefer to keep the current approach (REQ_COPY_DST/REQ_COPY_SRC) and to
+use a more appropriate verb than "merge", e.g. "combine".
 
- drivers/nvme/host/nvme.h | 2 --
- 1 file changed, 2 deletions(-)
+Thanks,
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index cacc56f4bbf4..a51f7c0dcf33 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -471,8 +471,6 @@ struct nvme_ns_head {
- 	u8			pi_type;
- 	u8			pi_offset;
- 	u8			guard_type;
--	u16			sgs;
--	u32			sws;
- #ifdef CONFIG_BLK_DEV_ZONED
- 	u64			zsze;
- #endif
--- 
-2.25.1
+Bart.
 
 
