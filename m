@@ -4,72 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD85DC25B74
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 15:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AF0EC25B7A
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 15:29:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RL9o1EucUiKUfzLSAEf4MWEvUVNDrZv5GTp4+vNgYb0=; b=keLmTubH5KQ096jqJssxId4gDG
-	ZV+KLn/ILOJOd0/x+zEoPl3isQ5XF8536H5zmHlX+ixR2aBWw46Qk3W9hYphVRyWyVcZY3hAhXTNX
-	FnKpfScyAo6UJHShVyIvfEq2tupQi4yFRbL8V9WZlrYt+KWKGv2H+9HD0vf2Qko/wlwZ2nbyczw/L
-	YMonT3b1XL9psRpHEdiA0C0c6jQhJ3L3/rNZn+9gKr+ph9SdQy205YPLllIys59wWsqay5JP9k3Vk
-	8U3q3sUlcDq0QnPfS+e0Q8MoQFbDhUW0G+zcLD6EKEu9wbnYgqQOOrtnfqQATepolaYOBn9jmEm1Q
-	sG1oRqaw==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=ERJE6ZS40ChgW7dJ5kQZvJ8tAW
+	FdvKrjxZI5UQFav1aefqEYJ+WIu0yOXtWI8r+HYdtMdOoKi0tqkPznDmUgh0r95alVjLDEH2eljCD
+	ft97dbYSEyNbLd9pMy0FHVlj3tRYW0Xm3loO4WiZ6LYjVqtIx6uDfEtelVNN+lsLgDDijSgWZD9aG
+	I6szjKnkNdX5fMwizmiV/xT8ZTxlFnMpiS0JHCqJ/WhtTSqzmBmX5dqinVLzrUi6c/vqSnHHK1yYT
+	hjp/lBsxMJA9YDvsVBa4Xr8v4Vg+85RgzQ2fxUJcLRl8k3gxb1nahxm65Cvzo4XpARN8j38CDrrsb
+	QisGtvgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAWr7-00000009F1b-1TP1;
-	Fri, 24 May 2024 15:29:17 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1sAWrk-00000009FEv-2zYa;
+	Fri, 24 May 2024 15:29:56 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAWr4-00000009F0Y-06PX
+	id 1sAWri-00000009FE9-3JzO
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 May 2024 15:29:15 +0000
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-354f89a59b8so403853f8f.0
-        for <linux-nvme@lists.infradead.org>; Fri, 24 May 2024 08:29:13 -0700 (PDT)
+	Fri, 24 May 2024 15:29:55 +0000
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-354c3a7f972so210326f8f.1
+        for <linux-nvme@lists.infradead.org>; Fri, 24 May 2024 08:29:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716564552; x=1717169352;
+        d=1e100.net; s=20230601; t=1716564593; x=1717169393;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RL9o1EucUiKUfzLSAEf4MWEvUVNDrZv5GTp4+vNgYb0=;
-        b=hmBx2Il6OWWPqiE2oDHJGf7PuxUs16lwgZV/OV9w+X+kcfFTb+6Vm8j2prq1+aP6NI
-         cOY4vEqL2RDTKdpIMSgoxQ/s/3QBJ2vhqRcxtIWf9D7zKjV9s9JpIMznKA7KlXwcwWW1
-         Y+o2C67BNo4300Xp4wPww1TUU9JNjbmz6PFJyZtpm0k/LkPF+gP6PyC/tLxVQmYjcgLm
-         Wgc1NfxufGTWxsYtIU+ACkFXZqtbUKnWIDFXsJjTgMU2UgrhwNgfi7cF/EzZ20s94P+F
-         FemhV27FofMkgH4RskV21+D3Gw79GcvWEqIq3yRKtY+FLSoxVylPhBsFMjSo8SeDmyZj
-         RrFA==
-X-Gm-Message-State: AOJu0Ywll4M/Jv7yO2M0Dxcyyl49WKCWLKfLlBZk+ZTMgB+FRPmzhNYx
-	Tv4k4xZtDUuIF8L8cpTixm4Drwq7ZCS5AxeyJ+C0R0xFD03+sPIJ
-X-Google-Smtp-Source: AGHT+IENock6S47CeMSpEiLJP3DTe4WdB20Tv9MDzMD1Z6B6ZnfPqg87WEvjTrXNbfGaWBa/ROWm9Q==
-X-Received: by 2002:a5d:4f04:0:b0:354:dd6a:a5bb with SMTP id ffacd0b85a97d-3552fe17d9bmr1718449f8f.7.1716564551935;
-        Fri, 24 May 2024 08:29:11 -0700 (PDT)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=dqKpJZqsA2HGXugimUkhY3fPc5tKW37B5k4wHvdHuXbLYwmJxHhvPnwWpFMGFDphMb
+         KoshHY/2gAlBW6iWlAi6LDQ//tat+F6j6p5+UlvbgjUCyxA1OqR/gwLGQNjxP4cktf++
+         gqfNqQH0YPCOaRIyvAabhu4Rp/frJV5slpWUBS2M2Nna6eshmDJGtqFeNgmS8eZyghRZ
+         pN2FEjkbr9/bvQzfEQjJ0HjauuSS//yeE4g/QFwRs2H8N7F/monLIt+9814CKw1wrw1i
+         K0OADBmHJ+GVgjExLCa9TUtd2lwdYYxOhjG9e9Vy2aOetqNNF/4g9DB7z+AzDb/m9XZZ
+         u6hA==
+X-Gm-Message-State: AOJu0YybGDfE1gO4m02s3pdeKBae8BpOrEUqnm6HqYNwMNYn2zCMPmFP
+	YkQjiXYzCRXoGMT0WDcquLM3/DOnw8ysVBEYoce1X602k+hiD6ox
+X-Google-Smtp-Source: AGHT+IGydm3KFFkEOm5Dej35cysCFu2y3Rn5joLTpDVvHql4Yqq2H6FRVzp7ujzne9BypYIC9Ekc0g==
+X-Received: by 2002:a5d:67cc:0:b0:355:3ec:c7e7 with SMTP id ffacd0b85a97d-35526c39f44mr1702503f8f.2.1716564592913;
+        Fri, 24 May 2024 08:29:52 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35579f9649esm1823427f8f.29.2024.05.24.08.29.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3564afc3577sm1102707f8f.102.2024.05.24.08.29.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 May 2024 08:29:11 -0700 (PDT)
-Message-ID: <27b6c6da-8ee5-4ac8-9e8e-f640261f61dc@grimberg.me>
-Date: Fri, 24 May 2024 18:29:10 +0300
+        Fri, 24 May 2024 08:29:52 -0700 (PDT)
+Message-ID: <d492a0d3-5e3e-4f69-87e1-9d251ef604bf@grimberg.me>
+Date: Fri, 24 May 2024 18:29:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] nvme: use srcu for iterating namespace list
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Keith Busch <kbusch@meta.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>, "axboe@kernel.dk" <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>
-References: <20240523172050.4080218-1-kbusch@meta.com>
- <c7l5prtn3nxihfvbrecmf32mcfchuwrdredyl5ofhbta4a66v5@f4u3iiyev2ex>
+Subject: Re: [PATCH] nvme: adjust multiples of NVME_CTRL_PAGE_SIZE in offset
+To: Kundan Kumar <kundan.kumar@samsung.com>, axboe@kernel.dk, hch@lst.de,
+ kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ joshi.k@samsung.com, anuj20.g@samsung.com, nj.shetty@samsung.com,
+ c.gameti@samsung.com, gost.dev@samsung.com
+References: <CGME20240523113915epcas5p32626cec7fb138355e74415534a3ece36@epcas5p3.samsung.com>
+ <20240523113149.29174-1-kundan.kumar@samsung.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <c7l5prtn3nxihfvbrecmf32mcfchuwrdredyl5ofhbta4a66v5@f4u3iiyev2ex>
+In-Reply-To: <20240523113149.29174-1-kundan.kumar@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240524_082914_096053_FFD4CD69 
-X-CRM114-Status: GOOD (  12.75  )
+X-CRM114-CacheID: sfid-20240524_082954_862649_E8FA2544 
+X-CRM114-Status: UNSURE (   3.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,38 +85,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 24/05/2024 7:41, Shinichiro Kawasaki wrote:
-> On May 23, 2024 / 10:20, Keith Busch wrote:
->> From: Keith Busch <kbusch@kernel.org>
->>
->> The nvme pci driver synchronizes with all the namespace queues during a
->> reset to ensure that there's no pending timeout work.
->>
->> Meanwhile the timeout work potentially iterates those same namespaces to
->> freeze their queues.
->>
->> Each of those namespace iterations use the same read lock. If a write
->> lock should somehow get between the synchronize and freeze steps, then
->> forward progress is deadlocked.
->>
->> We had been relying on the nvme controller state machine to ensure the
->> reset work wouldn't conflict with timeout work. That guarantee may be a
->> bit fragile to rely on, so iterate the namespace lists without taking a
->> lock to fix potential circular locks, as reported by lockdep.
->>
->> Link: https://lore.kernel.org/all/20220930001943.zdbvolc3gkekfmcv@shindev/
->> Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> Keith, thank you very much for the patch. Sagi, Christoph, thank you for the
-> discussion.
->
-> I confirmed this patch avoids the lockdep WARN that I reported. I also ran my
-> test set with the patch and observed no regression. Looks good.
->
-> Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-
-I'm assuming that all blktests ran with this change? including fabrics 
-and permutations?
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
