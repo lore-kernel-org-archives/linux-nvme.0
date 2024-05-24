@@ -4,138 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A10DBC25B74
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 10:04:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9FD3C25B74
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 10:19:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=; b=F4QAw5IghoOu9pxTE2vMZO2ctq
-	29xVAClh2yak2Gmwfm9YbAWLRBP/kyQZLywhNeqjSdHBC05jaTLPlm0mY8hCkES5h2XML2ayqFaxm
-	IVNYWgzzbEJeP3f2tLeSspn7myRA+5dR6mbIUNNzXUa+IHKXH17kirwNgqAwFSAAXqv1BaUpl5nE8
-	NJWSuFDdZBX5j3TGHk9Lr8HYYVag5dEmO/lkrnaa5jMUJXPRumOgvpSsA3DvCedpEPuC2zu8IydxH
-	i6FabaONO/CL6vdrCCqMfK+0WHyZmKw8ATPZEC1NuPTa1CHfHGtymIUdXTA/RdljHPcNhY1Icf4Y9
-	MnSHEbVA==;
+	bh=ZhR12I05zkWrFi8rGaGtHcwrErsg208ZqJpD9O0alVY=; b=rKJHFP5MMlphEaHd7/2ZfUdD5s
+	Koq2IVBY+yghAQkJKWYi5oLb5VmD1p6Mqr81DHPywIzaZwOspfZjFTHZ6RVb7eYQ7F9g30rOkHaG/
+	wNHh4kNfY5AE9fWegCY2LFrRukKuKdyzVDwRffRfFQfjknB0KUtOWFsPJjmAIudwc4hBUPNkpC81x
+	wtsX0fXxn8C4vkKKCYP3KD9wzxznkXH9jIZm6St2eLjTm/ej3p5ZJkZtaFaR9yUuzZ6vgD/ssB74N
+	jMdbcXzVGlYs2ruq+ISrM2hlKJe1Tvi4k146Cjt0ithpnut8lnr12s2KRsKHgQuiS5F3iNn7ltmMd
+	/mT8lVxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sARn0-00000008d72-07ge;
-	Fri, 24 May 2024 10:04:42 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1sAS1a-00000008eEz-2lkM;
+	Fri, 24 May 2024 10:19:46 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sARmv-00000008d5g-2BOS
+	id 1sAS1W-00000008eEO-3b8l
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 May 2024 10:04:40 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D97ED20917;
-	Fri, 24 May 2024 10:04:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716545074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
-	b=RfBuRSJeu3Au75UvHhtmdORfMuZK66BEGlk/FdmzpCOz9rfl04eP6K6/ECpUU/Xq8fhxTm
-	Ll/eSoqcPDUbi9eUXU45b3E5n/pd0cCY4zZeFHwtaI0rHhjVHK7GxEv/szaRDrZ7gK+2s6
-	TCMtqpoYFMXp3AuLP3GEUmCrGVLbRoI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716545074;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
-	b=E4coGURgXgElyPa1QDQgmaxF2tRxQA+DurWmYuOeEVaWbCuKmHBiXZx4fldqmco0O3gCeR
-	MFtq6avaB5b4anAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cTjFpdU9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="tKR63jq/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716545073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
-	b=cTjFpdU9Wt8Ub1WPq6GdMm/yZTHLMPIsS2rYtupPRWklaEdhKjfE60xufH37SSjBt5Ocl1
-	i+YOpSyyqnQiI0COoGQVHNxry476BLt/AEwT5l15uRDsIbCXcQmgGm+MAWmGbH2Nm+y8+s
-	1lmUHoXHraIupmt6MWVOfQFNzGvm+a0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716545073;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
-	b=tKR63jq/g25Mmbof9gkEeAhVpwvruvO8ye1fVEbNGOJ07/QcbHzpV37GLd015DBowM5c0I
-	qo2XWyJm6XUgV5BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEDBA13A6B;
-	Fri, 24 May 2024 10:04:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ON0mLjFmUGZcagAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 24 May 2024 10:04:33 +0000
-Message-ID: <adac0fb2-191a-45d0-804d-6a51b715e2d4@suse.de>
-Date: Fri, 24 May 2024 12:04:33 +0200
+	Fri, 24 May 2024 10:19:45 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240524101936epoutp02505774cf7c7d7e3e20c4ac3320993b14~SZXiWslCX0894508945epoutp02m
+	for <linux-nvme@lists.infradead.org>; Fri, 24 May 2024 10:19:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240524101936epoutp02505774cf7c7d7e3e20c4ac3320993b14~SZXiWslCX0894508945epoutp02m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1716545976;
+	bh=ZhR12I05zkWrFi8rGaGtHcwrErsg208ZqJpD9O0alVY=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=hsUbKew2w84gE/CpGrPcbaw7+ujyST4ccsAknGF3rgGME9U5oxIV3jUII1tQ3Zse/
+	 xWu7e9JoNWdzrUrda0LaXCQFAzxLyTuto8e8WvvwG/ARcAEXyi3ShOnjm2bw7x6Iw5
+	 E7CUMCAb97XLjCLeUdmNOcWm5NQ+YQus+id8Xkc0=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20240524101936epcas5p2576c3b790ca8d91a13de03098b66f3b5~SZXh7yrLj1735817358epcas5p27;
+	Fri, 24 May 2024 10:19:36 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4Vm1HV1tB9z4x9Pv; Fri, 24 May
+	2024 10:19:34 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9D.AA.19431.6B960566; Fri, 24 May 2024 19:19:34 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240524101933epcas5p3809e5993650dc7c018956fb5965b9b38~SZXf303ne2575325753epcas5p3C;
+	Fri, 24 May 2024 10:19:33 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240524101933epsmtrp1c8fd001eac975d79f80e3101c6c90581~SZXf3NTeu3246832468epsmtrp1L;
+	Fri, 24 May 2024 10:19:33 +0000 (GMT)
+X-AuditID: b6c32a50-f57ff70000004be7-b4-665069b6721b
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	04.92.08390.5B960566; Fri, 24 May 2024 19:19:33 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240524101932epsmtip1caed712a390045c4c1e44881b33e3f20~SZXeuoMpk3147031470epsmtip1A;
+	Fri, 24 May 2024 10:19:32 +0000 (GMT)
+Message-ID: <d07ac170-b364-8c15-0edd-94132f47d9fd@samsung.com>
+Date: Fri, 24 May 2024 15:49:31 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] nvme: enable logical block size > PAGE_SIZE
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>,
- Kent Overstreet <kent.overstreet@linux.dev>, hare@kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Pankaj Raghav <kernel@pankajraghav.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
-References: <20240510102906.51844-1-hare@kernel.org>
- <20240510102906.51844-6-hare@kernel.org>
- <Zj_6vDMwyb2O6ztI@bombadil.infradead.org>
- <Zj__oIGiY8xzrwnb@casper.infradead.org>
- <ZkAEhFLVD9gSk0y0@bombadil.infradead.org>
- <ZkAszpvBkb5_UUiH@bombadil.infradead.org>
- <ZkCI_21z_h1ez4sN@bombadil.infradead.org>
- <993991e6-7f06-4dfd-b5d7-554b9574384c@suse.de>
- <ZkKAoHoC5yvNUKSE@bombadil.infradead.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH v2] block: unmap and free user mapped integrity via
+ submitter
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ZkKAoHoC5yvNUKSE@bombadil.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Christoph Hellwig <hch@lst.de>, Anuj Gupta <anuj20.g@samsung.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, martin.petersen@oracle.com
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20240520154943.GA1327@lst.de>
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: D97ED20917
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCJsWRmVeSWpSXmKPExsWy7bCmlu62zIA0gzU72C2aJvxltlh9t5/N
+	YuXqo0wWkw5dY7TYe0vbYv6yp+wWy4//Y3Jg97h8ttRj06pONo/NS+o9dt9sYPP4+PQWi0ff
+	llWMHp83yQWwR2XbZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE
+	6Lpl5gBdo6RQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkpMCnQK07MLS7NS9fLSy2x
+	MjQwMDIFKkzIzji66AVrwVvOisYjR5kaGH+zdzFyckgImEh0f94OZHNxCAnsYZSY96yRBcL5
+	xCgx5fI8qMw3RomHc6eywLT8WLuHESKxl1Hi8LUvbBDOW0aJ51/3sYFU8QrYSVxcvwesg0VA
+	VeJw0zOouKDEyZlPwOKiAskSP7sOgMWFBYIluucfYwSxmQXEJW49mc8EYosIuEqcenCRGWQB
+	s0Ajo8T+c4uAHA4ONgFNiQuTS0FqOAW0JU5/+sgK0Ssvsf3tHLB6CYGpHBIz175kgzjbRWLp
+	jaNQLwhLvDq+BRoCUhIv+9ug7GSJSzPPMUHYJRKP9xyEsu0lWk/1g+1lBtq7fpc+xC4+id7f
+	T5hAwhICvBIdbUIQ1YoS9yY9ZYWwxSUezlgCZXtIbDzxkhUSVqsZJY4u6mCfwKgwCylYZiF5
+	fxaSd2YhbF7AyLKKUSq1oDg3PTXZtMBQNy+1HB7lyfm5mxjByVUrYAfj6g1/9Q4xMnEwHmKU
+	4GBWEuGNXumbJsSbklhZlVqUH19UmpNafIjRFBhBE5mlRJPzgek9ryTe0MTSwMTMzMzE0tjM
+	UEmc93Xr3BQhgfTEktTs1NSC1CKYPiYOTqkGpkB+Wb56p80hu/vPzur2PX752qrbLr2zlHlm
+	nFVcu1j5818FY36XiGOfz7vlBKp/+7M5wlcs6IDPvUm/Mw2vHzxzL6dqu+dzN++IntbU/pXL
+	EtKP5d7snsPR/6zn9STJeTpbtzJbcm0t/6W04PScxYafmmMNT6g37QrU2/aI8QW3QZVc0rFl
+	fmldieKHQ6NXVN/waaiO+v3Q2WeB39EAnZ2aTHHOMVwzIgIutKyaevn5xSxthstc7tzNadnH
+	jc6I80zjqJgn82OlYHBmUHxR/ZrnpyaUqDoqSRyq3aHd38+13bWJf0bt21035u01ORfyydIx
+	y4Vvz6+1ep0bGi9ETFWeMzfo2etSNf5SoeOflFiKMxINtZiLihMBXBniODcEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrHLMWRmVeSWpSXmKPExsWy7bCSnO7WzIA0g/mTDSyaJvxltlh9t5/N
+	YuXqo0wWkw5dY7TYe0vbYv6yp+wWy4//Y3Jg97h8ttRj06pONo/NS+o9dt9sYPP4+PQWi0ff
+	llWMHp83yQWwR3HZpKTmZJalFunbJXBlHF30grXgLWdF45GjTA2Mv9m7GDk5JARMJH6s3cPY
+	xcjFISSwm1Fifd9NRoiEuETztR9QRcISK/89Z4coes0o0fN0IhNIglfATuLi+j0sIDaLgKrE
+	4aZnbBBxQYmTM5+AxUUFkiVe/pkINkhYIFiie/4xsAXMQAtuPZkPNkdEwFXi1IOLzBDxRkaJ
+	vpWmEMtWM0rMaF3M2sXIwcEmoClxYXIpSA2ngLbE6U8fWSHqzSS6tnZBzZSX2P52DvMERqFZ
+	SM6YhWTdLCQts5C0LGBkWcUomVpQnJueW2xYYJSXWq5XnJhbXJqXrpecn7uJERxFWlo7GPes
+	+qB3iJGJg/EQowQHs5IIb/RK3zQh3pTEyqrUovz4otKc1OJDjNIcLErivN9e96YICaQnlqRm
+	p6YWpBbBZJk4OKUamNbeiV6lZKj92TDv+YyXy3qUE7j/Sxak78k22vKzfbOPbHrF0YMerZoO
+	DMs1otRn7H3Fkn7r5Erm8kYxh/1d3My2337mdJm+kxDc06i+9uPbrnNnr3GsEuELlGyes8+A
+	fe02MSEDxt96r7XqYt5f2DZX3GPish8nV2rVHPyhtXfbfz+hHbP/pqec2RR9f3aWHvPOe1dD
+	jvwt2uKrX/v1uekVhtNH0g97lmXd2ftSbta3yhSH678XxGQ9vPkywbjg4KZ7Doo2s0rkl89M
+	qvmxQH+fGcOy5oxHPF/Lzzn7qUjdVEu+fDNG66qcfbL87AfP6z33/PvxbU/Wdd8zW268u51f
+	8GrTbxmOT8X348uK/qUqsRRnJBpqMRcVJwIAIShFYREDAAA=
+X-CMS-MailID: 20240524101933epcas5p3809e5993650dc7c018956fb5965b9b38
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240513084939epcas5p4530be8e7fc62b8d4db694d6b5bca3a19
+References: <CGME20240513084939epcas5p4530be8e7fc62b8d4db694d6b5bca3a19@epcas5p4.samsung.com>
+	<20240513084222.8577-1-anuj20.g@samsung.com> <20240520154943.GA1327@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240524_030437_754279_654AA8AD 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20240524_031943_613796_E64E4054 
+X-CRM114-Status: GOOD (  15.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,107 +136,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/13/24 23:05, Luis Chamberlain wrote:
-> On Mon, May 13, 2024 at 06:07:55PM +0200, Hannes Reinecke wrote:
->> On 5/12/24 11:16, Luis Chamberlain wrote:
->>> On Sat, May 11, 2024 at 07:43:26PM -0700, Luis Chamberlain wrote:
->>>> I'll try next going above 512 KiB.
->>>
->>> At 1 MiB NVMe LBA format we crash with the BUG_ON(sectors <= 0) on bio_split().
->>>
->>> [   13.401651] ------------[ cut here ]------------
->>> [   13.403298] kernel BUG at block/bio.c:1626!
->> Ah. MAX_BUFS_PER_PAGE getting in the way.
->>
->> Can you test with the attached patch?
+On 5/20/2024 9:19 PM, Christoph Hellwig wrote:
+>> diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+>> index 2e3e8e04961e..8b528e12136f 100644
+>> --- a/block/bio-integrity.c
+>> +++ b/block/bio-integrity.c
+>> @@ -144,16 +144,38 @@ void bio_integrity_free(struct bio *bio)
+>>   	struct bio_integrity_payload *bip = bio_integrity(bio);
+>>   	struct bio_set *bs = bio->bi_pool;
+>>   
+>> +	if (bip->bip_flags & BIP_INTEGRITY_USER)
+>> +		return;
+>>   	if (bip->bip_flags & BIP_BLOCK_INTEGRITY)
+>>   		kfree(bvec_virt(bip->bip_vec));
+>> -	else if (bip->bip_flags & BIP_INTEGRITY_USER)
+>> -		bio_integrity_unmap_user(bip);
+>>   
+>>   	__bio_integrity_free(bs, bip);
+>>   	bio->bi_integrity = NULL;
+>>   	bio->bi_opf &= ~REQ_INTEGRITY;
 > 
-> Nope same crash:
-> 
-> I've enabled you to easily test with with NVMe on libvirt with kdevops,
-> please test.
-> 
->   Luis
-> 
-> [   14.972734] ------------[ cut here ]------------
-> [   14.974731] kernel BUG at block/bio.c:1626!
-> [   14.976906] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-> [   14.978899] CPU: 3 PID: 59 Comm: kworker/u36:0 Not tainted 6.9.0-rc6+ #4
-> [   14.981005] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> [   14.983782] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-> [   14.985431] RIP: 0010:bio_split+0xd5/0xf0
-> [   14.986627] Code: 5b 4c 89 e0 5d 41 5c 41 5d c3 cc cc cc cc c7 43 28 00 00 00 00 eb db 0f 0b 45 31 e4 5b 5d 4c 89 e0 41 5c 41 5d c3 cc cc cc cc <0f> 0b 0f 0b 4c 89 e7 e8 bf ee ff ff eb e1 66 66 2e 0f 1f 84 00 00
-> [   14.992063] RSP: 0018:ffffbecc002378d0 EFLAGS: 00010246
-> [   14.993416] RAX: 0000000000000001 RBX: ffff9e2fe8583e40 RCX: ffff9e2fdcb73060
-> [   14.995181] RDX: 0000000000000c00 RSI: 0000000000000000 RDI: ffff9e2fe8583e40
-> [   14.996960] RBP: 0000000000000000 R08: 0000000000000080 R09: 0000000000000000
-> [   14.998715] R10: ffff9e2fe8583e40 R11: ffff9e2fe8583eb8 R12: ffff9e2fe884b750
-> [   15.000510] R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
-> [   15.002128] FS:  0000000000000000(0000) GS:ffff9e303bcc0000(0000) knlGS:0000000000000000
-> [   15.003956] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   15.005294] CR2: 0000561b2b5ce478 CR3: 0000000102484002 CR4: 0000000000770ef0
-> [   15.006921] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [   15.008509] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
-> [   15.010001] PKRU: 55555554
-> [   15.010672] Call Trace:
-> [   15.011297]  <TASK>
-> [   15.011868]  ? die+0x32/0x80
-> [   15.012572]  ? do_trap+0xd9/0x100
-> [   15.013306]  ? bio_split+0xd5/0xf0
-> [   15.014051]  ? do_error_trap+0x6a/0x90
-> [   15.014854]  ? bio_split+0xd5/0xf0
-> [   15.015597]  ? exc_invalid_op+0x4c/0x60
-> [   15.016419]  ? bio_split+0xd5/0xf0
-> [   15.017113]  ? asm_exc_invalid_op+0x16/0x20
-> [   15.017932]  ? bio_split+0xd5/0xf0
-> [   15.018624]  __bio_split_to_limits+0x90/0x2d0
-> [   15.019474]  blk_mq_submit_bio+0x111/0x6a0
-> [   15.020280]  ? kmem_cache_alloc+0x254/0x2e0
-> [   15.021040]  submit_bio_noacct_nocheck+0x2f1/0x3d0
-> [   15.021893]  ? submit_bio_noacct+0x42/0x5b0
-> [   15.022658]  block_read_full_folio+0x2b7/0x350
-> [   15.023457]  ? __pfx_blkdev_get_block+0x10/0x10
-> [   15.024284]  ? __pfx_blkdev_read_folio+0x10/0x10
-> [   15.025073]  ? __pfx_blkdev_read_folio+0x10/0x10
-> [   15.025851]  filemap_read_folio+0x32/0xb0
-> [   15.026540]  do_read_cache_folio+0x108/0x200
-> [   15.027271]  ? __pfx_adfspart_check_ICS+0x10/0x10
-> [   15.028066]  read_part_sector+0x32/0xe0
-> [   15.028701]  adfspart_check_ICS+0x32/0x480
-> [   15.029334]  ? snprintf+0x49/0x70
-> [   15.029875]  ? __pfx_adfspart_check_ICS+0x10/0x10
-> [   15.030592]  bdev_disk_changed+0x2a2/0x6e0
-> [   15.031226]  blkdev_get_whole+0x5f/0xa0
-> [   15.031827]  bdev_open+0x201/0x3c0
-> [   15.032360]  bdev_file_open_by_dev+0xb5/0x110
-> [   15.032990]  disk_scan_partitions+0x65/0xe0
-> [   15.033598]  device_add_disk+0x3e0/0x3f0
-> [   15.034172]  nvme_scan_ns+0x5f0/0xe50 [nvme_core]
-> [   15.034862]  nvme_scan_work+0x26f/0x5a0 [nvme_core]
-> [   15.035568]  process_one_work+0x189/0x3b0
-> [   15.036168]  worker_thread+0x273/0x390
-> [   15.036713]  ? __pfx_worker_thread+0x10/0x10
-> [   15.037312]  kthread+0xda/0x110
-> [   15.037779]  ? __pfx_kthread+0x10/0x10
-> [   15.038316]  ret_from_fork+0x2d/0x50
-> [   15.038829]  ? __pfx_kthread+0x10/0x10
-> [   15.039364]  ret_from_fork_asm+0x1a/0x30
-> [   15.039924]  </TASK>
-> 
-So, finally nailed it down.
+> This looks correct.  I wish we could go one step further (maybe
+> in a separate patch/series) to also move freeing the bio integrity
+> data to the callers.  In fact I wonder if there is any point in
+> doing this early separate free vs just doing it as part of the
+> final bio put.
 
-Problem was that qemu is setting a default mdts of '7', which obviously
-is too small for 1M sector sizes.
-And the next problem was that we don't validate the 'max_hw_sectors' 
-setting against the 'logical_sector_size' setting, letting the block
-layer happily accept limit which have an hw_sector_size smaller than
-the logical block size.
-For that I've meanwhile sent a patch, but if you want continue testing
-you need to the 'mdts=0' for the qemu nvme emulation.
-We _might_ want to send a patch for qemu to set mdts to '0' as the
-default value, but that probably is too much hassle.
-
-Cheers,
-
-Hannes
-
+Tried to think in this direction in past.
+But bio_put will not be called if bio is statically allocated. Currently 
+that gets freed implicitly because bio_endio is called and it tries to 
+free the integrity.
 
