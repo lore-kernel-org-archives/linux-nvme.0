@@ -4,121 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BB6CC25B7D
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 09:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A10DBC25B74
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 10:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=++cVoJJr4pyWWuMW0gMUDuI60OCYgTd9/kIQhFdu8SE=; b=b88y/4KL0nwsWj796Vs6eUS0Vc
-	I4YSROVTEd69vbevQbHgZ55hUNJRGeIh5xhJYjwYYIl4mzWdEPLiEnEm/KbDmWYT7nlVDnnWewHaF
-	t9+srx5Zw0Qe2iRhw96G7bmxhZTyakfdorY43vUWgaCho1OVW0U5yX2nes6acufwL92GAQnlU4Igo
-	MVY4ei2wIhMzpC7P3QviIP6EX3FwYP8yjNMqCryyZ0iuFrAuFYqaaJuqHxy4i1IiYYMV9iNCOo7xI
-	q/9XBHNRYXKPNNWsbhdZPaRBbNt5SRrVBdlniOw4ENeVJE+we6/XGv27zywlDr7BYaG/aRU5Z/Xr5
-	8+Kkzt+w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=; b=F4QAw5IghoOu9pxTE2vMZO2ctq
+	29xVAClh2yak2Gmwfm9YbAWLRBP/kyQZLywhNeqjSdHBC05jaTLPlm0mY8hCkES5h2XML2ayqFaxm
+	IVNYWgzzbEJeP3f2tLeSspn7myRA+5dR6mbIUNNzXUa+IHKXH17kirwNgqAwFSAAXqv1BaUpl5nE8
+	NJWSuFDdZBX5j3TGHk9Lr8HYYVag5dEmO/lkrnaa5jMUJXPRumOgvpSsA3DvCedpEPuC2zu8IydxH
+	i6FabaONO/CL6vdrCCqMfK+0WHyZmKw8ATPZEC1NuPTa1CHfHGtymIUdXTA/RdljHPcNhY1Icf4Y9
+	MnSHEbVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAR2l-00000008Vic-3S09;
-	Fri, 24 May 2024 09:16:55 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1sARn0-00000008d72-07ge;
+	Fri, 24 May 2024 10:04:42 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAPxp-00000008LPl-3QFX
+	id 1sARmv-00000008d5g-2BOS
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 May 2024 08:07:48 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240524080738epoutp03377f93422a3acffab2c5fe2bb1eeec2c~SXkTqutwB3109131091epoutp03W
-	for <linux-nvme@lists.infradead.org>; Fri, 24 May 2024 08:07:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240524080738epoutp03377f93422a3acffab2c5fe2bb1eeec2c~SXkTqutwB3109131091epoutp03W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1716538058;
-	bh=++cVoJJr4pyWWuMW0gMUDuI60OCYgTd9/kIQhFdu8SE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FYGVLuYECXC6Ta0bDif2BWL/oyAFInAkpWOsl6RldADKWQmfMdadJL4g5t5HTBSHV
-	 NAKAXZEs/Uo9091CHhYWBzSngHFWVYg14T57cXJAdBGwQ6R+JeX80uNT5uFb8RYZKu
-	 Z3u5y08thkDBLWcNOqa1ENJ7qrqLpb5XvbaLu/sc=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240524080737epcas5p2852974f8da6567c829de3bfa25711594~SXkTe-Z_01447114471epcas5p21;
-	Fri, 24 May 2024 08:07:37 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4VlyMD5F4nz4x9Pw; Fri, 24 May
-	2024 08:07:36 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	39.A7.09666.4CA40566; Fri, 24 May 2024 17:07:32 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240524080511epcas5p311957ded505b60f89d19355b15193600~SXiKwHPOK3169331693epcas5p3D;
-	Fri, 24 May 2024 08:05:11 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240524080511epsmtrp24939a453b706b50419c731843a9172d3~SXiKveamn2306123061epsmtrp2K;
-	Fri, 24 May 2024 08:05:11 +0000 (GMT)
-X-AuditID: b6c32a49-f53fa700000025c2-29-66504ac4db27
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E3.EA.19234.63A40566; Fri, 24 May 2024 17:05:10 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240524080509epsmtip176c23edc98eb756268c58c6bb42cedcb~SXiJsShB51798017980epsmtip1O;
-	Fri, 24 May 2024 08:05:09 +0000 (GMT)
-Date: Fri, 24 May 2024 07:58:03 +0000
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi
-	Grimberg <sagi@grimberg.me>, Damien LeMoal <dlemoal@kernel.org>,
-	linux-nvme@lists.infradead.org
-Subject: Re: nvme: fixup zns namespace initialisation
-Message-ID: <20240524075803.zbjoke26nyk4sm5h@nj.shetty@samsung.com>
+	Fri, 24 May 2024 10:04:40 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D97ED20917;
+	Fri, 24 May 2024 10:04:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716545074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
+	b=RfBuRSJeu3Au75UvHhtmdORfMuZK66BEGlk/FdmzpCOz9rfl04eP6K6/ECpUU/Xq8fhxTm
+	Ll/eSoqcPDUbi9eUXU45b3E5n/pd0cCY4zZeFHwtaI0rHhjVHK7GxEv/szaRDrZ7gK+2s6
+	TCMtqpoYFMXp3AuLP3GEUmCrGVLbRoI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716545074;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
+	b=E4coGURgXgElyPa1QDQgmaxF2tRxQA+DurWmYuOeEVaWbCuKmHBiXZx4fldqmco0O3gCeR
+	MFtq6avaB5b4anAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cTjFpdU9;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="tKR63jq/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716545073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
+	b=cTjFpdU9Wt8Ub1WPq6GdMm/yZTHLMPIsS2rYtupPRWklaEdhKjfE60xufH37SSjBt5Ocl1
+	i+YOpSyyqnQiI0COoGQVHNxry476BLt/AEwT5l15uRDsIbCXcQmgGm+MAWmGbH2Nm+y8+s
+	1lmUHoXHraIupmt6MWVOfQFNzGvm+a0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716545073;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9xHbiaJs1W0Sv1cfe+3vdgj0Et8HT3KPYW1ruDnYOHA=;
+	b=tKR63jq/g25Mmbof9gkEeAhVpwvruvO8ye1fVEbNGOJ07/QcbHzpV37GLd015DBowM5c0I
+	qo2XWyJm6XUgV5BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEDBA13A6B;
+	Fri, 24 May 2024 10:04:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ON0mLjFmUGZcagAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 24 May 2024 10:04:33 +0000
+Message-ID: <adac0fb2-191a-45d0-804d-6a51b715e2d4@suse.de>
+Date: Fri, 24 May 2024 12:04:33 +0200
 MIME-Version: 1.0
-In-Reply-To: <20240524061808.129399-1-hare@kernel.org>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjk+LIzCtJLcpLzFFi42LZdlhTU/eIV0CawbJlShYP9ttbnPt6g81i
-	5eqjTBaTDl1jtJi/7Cm7xbrX71kc2DzO39vI4rFpVSebx+Yl9R67bzawBbBEZdtkpCampBYp
-	pOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAO1WUihLzCkFCgUkFhcr
-	6dvZFOWXlqQqZOQXl9gqpRak5BSYFOgVJ+YWl+al6+WlllgZGhgYmQIVJmRn3Nz7k6ngHl/F
-	3wOHWBoYH/N0MXJySAiYSHTems3YxcjFISSwm1Fi7vTzjCAJIYFPjBKXlmlAJIDsO2dWMsJ0
-	9K3+wwqR2Mko8evFfnYI5zOjxNsHa1lAqlgEVCWOPe5m62Lk4GAT0JY4/Z8DJCwCFO6euJEJ
-	pJ5ZYC2jRM+cb2D1wgKmEisObmAHsXkFnCUezNzJCGELSpyc+QSshlPATGLNu26wzRIC19gl
-	ph59wQRxkovEp1d7mSFsYYlXx7ewQ9hSEp/f7WWDsMslVk5ZwQbR3MIoMev6LKh/7CVaT/WD
-	NTMLZEi8vb4dKi4rMfXUOiaIOJ9E7+8nUMt4JXbMg7GVJdasXwC1QFLi2vdGKNtD4t7FQ9Bg
-	6WSUaLy+n3kCo9wsJB/NQrIPwraS6PzQxDoLGGLMAtISy/9xQJiaEut36S9gZF3FKJlaUJyb
-	nlpsWmCYl1oOj+bk/NxNjOAEqeW5g/Hugw96hxiZOBgPMUpwMCuJ8Eav9E0T4k1JrKxKLcqP
-	LyrNSS0+xGgKjKGJzFKiyfnAFJ1XEm9oYmlgYmZmZmJpbGaoJM77unVuipBAemJJanZqakFq
-	EUwfEwenVAPTLpn/d27sd+K5/8fw8Lu3fximnOU/PCmiyvnpHus3Lp5ze36eSpSutPJK0JLh
-	s5Gfwnw+h+0bW8itfFk/29Vbdc3L3D6GbdLRCM1OTDK4uyhs6yLjxnc5k888Pmpy13Wi+Y5v
-	E3lzjz/ZJj93I4fz6Ys/bU9MjbujcnXWgdaaWJMHGp0/ecTjVJSXzax1+ZjUKL3pa/OWvJvS
-	1+8WZIruXfjsuL4pq5DDpQ7eWWIPXNWak+6LG/Ub9je1FF7by3bf/smGLq1fH9hVwyeFRakw
-	WSQvWeju03mG/WJOoWN77Kms+TLLzrNVpzsIfNJlXGoxgc9misHKN4fm1kRo6pQw1ZruXy8Q
-	dFp5xtx+8TVKLMUZiYZazEXFiQAjrhsFGQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrELMWRmVeSWpSXmKPExsWy7bCSnK6ZV0Cawd9PNhYP9ttbnPt6g81i
-	5eqjTBaTDl1jtJi/7Cm7xbrX71kc2DzO39vI4rFpVSebx+Yl9R67bzawBbBEcdmkpOZklqUW
-	6dslcGVc/nSVuWACT8X1hvWMDYzruboYOTkkBEwk+lb/Ye1i5OIQEtjOKHFtcw8zREJSYtnf
-	I1C2sMTKf8/ZIYo+Mkr8WD+VESTBIqAqcexxN1sXIwcHm4C2xOn/HCBhEaBw98SNTCD1zAJr
-	GSX+3znACpIQFjCVWHFwAzuIzSvgLPFg5k6wOUJA8RMPbrNAxAUlTs58AmYzC5hJzNv8kBlk
-	PrOAtMTyf2DzOYHCa951s05gFJiFpGMWko5ZCB0LGJlXMYqmFhTnpucmFxjqFSfmFpfmpesl
-	5+duYgQHs1bQDsZl6//qHWJk4mA8xCjBwawkwhu90jdNiDclsbIqtSg/vqg0J7X4EKM0B4uS
-	OK9yTmeKkEB6YklqdmpqQWoRTJaJg1Oqgan4RfrRgkhehowo44d2h4znM4s9Vvy0t7Np8u7w
-	Xjm/teGrDflYIw9t3Cc051KpRelHyzrdlPNbv/00r7D58HrO6auXhAL9k36fCLfillK/4PLZ
-	c4K3xcQzc+OKOidzn+y5mCua+2FP4CfjVubIdDY2s3B3q7VtHreV38R2Zn8SXr/SdovexdSX
-	vx6cMTtkcMys+kDQ3iafHlM/R+9v3+SYVDeUpUWqFz4uUXc79+aIuWRxWN7X3i+MEu7W65Kj
-	953fc99VwC1yBeerH76Orvo+ASpv36vWBC68NkPIdPkeH9PcXZkclYLzwk9Id12tyrNe62ed
-	wnD6Ys4Cxk2ak37dOH735c1pk3Yb6SycqsRSnJFoqMVcVJwIAPLU9CPVAgAA
-X-CMS-MailID: 20240524080511epcas5p311957ded505b60f89d19355b15193600
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_258be_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240524080511epcas5p311957ded505b60f89d19355b15193600
-References: <20240524061808.129399-1-hare@kernel.org>
-	<CGME20240524080511epcas5p311957ded505b60f89d19355b15193600@epcas5p3.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] nvme: enable logical block size > PAGE_SIZE
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>, hare@kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Pankaj Raghav <kernel@pankajraghav.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
+References: <20240510102906.51844-1-hare@kernel.org>
+ <20240510102906.51844-6-hare@kernel.org>
+ <Zj_6vDMwyb2O6ztI@bombadil.infradead.org>
+ <Zj__oIGiY8xzrwnb@casper.infradead.org>
+ <ZkAEhFLVD9gSk0y0@bombadil.infradead.org>
+ <ZkAszpvBkb5_UUiH@bombadil.infradead.org>
+ <ZkCI_21z_h1ez4sN@bombadil.infradead.org>
+ <993991e6-7f06-4dfd-b5d7-554b9574384c@suse.de>
+ <ZkKAoHoC5yvNUKSE@bombadil.infradead.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ZkKAoHoC5yvNUKSE@bombadil.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.50 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: D97ED20917
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240524_010746_695385_CC60E752 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20240524_030437_754279_654AA8AD 
+X-CRM114-Status: GOOD (  15.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,50 +150,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_258be_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On 5/13/24 23:05, Luis Chamberlain wrote:
+> On Mon, May 13, 2024 at 06:07:55PM +0200, Hannes Reinecke wrote:
+>> On 5/12/24 11:16, Luis Chamberlain wrote:
+>>> On Sat, May 11, 2024 at 07:43:26PM -0700, Luis Chamberlain wrote:
+>>>> I'll try next going above 512 KiB.
+>>>
+>>> At 1 MiB NVMe LBA format we crash with the BUG_ON(sectors <= 0) on bio_split().
+>>>
+>>> [   13.401651] ------------[ cut here ]------------
+>>> [   13.403298] kernel BUG at block/bio.c:1626!
+>> Ah. MAX_BUFS_PER_PAGE getting in the way.
+>>
+>> Can you test with the attached patch?
+> 
+> Nope same crash:
+> 
+> I've enabled you to easily test with with NVMe on libvirt with kdevops,
+> please test.
+> 
+>   Luis
+> 
+> [   14.972734] ------------[ cut here ]------------
+> [   14.974731] kernel BUG at block/bio.c:1626!
+> [   14.976906] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+> [   14.978899] CPU: 3 PID: 59 Comm: kworker/u36:0 Not tainted 6.9.0-rc6+ #4
+> [   14.981005] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> [   14.983782] Workqueue: nvme-wq nvme_scan_work [nvme_core]
+> [   14.985431] RIP: 0010:bio_split+0xd5/0xf0
+> [   14.986627] Code: 5b 4c 89 e0 5d 41 5c 41 5d c3 cc cc cc cc c7 43 28 00 00 00 00 eb db 0f 0b 45 31 e4 5b 5d 4c 89 e0 41 5c 41 5d c3 cc cc cc cc <0f> 0b 0f 0b 4c 89 e7 e8 bf ee ff ff eb e1 66 66 2e 0f 1f 84 00 00
+> [   14.992063] RSP: 0018:ffffbecc002378d0 EFLAGS: 00010246
+> [   14.993416] RAX: 0000000000000001 RBX: ffff9e2fe8583e40 RCX: ffff9e2fdcb73060
+> [   14.995181] RDX: 0000000000000c00 RSI: 0000000000000000 RDI: ffff9e2fe8583e40
+> [   14.996960] RBP: 0000000000000000 R08: 0000000000000080 R09: 0000000000000000
+> [   14.998715] R10: ffff9e2fe8583e40 R11: ffff9e2fe8583eb8 R12: ffff9e2fe884b750
+> [   15.000510] R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
+> [   15.002128] FS:  0000000000000000(0000) GS:ffff9e303bcc0000(0000) knlGS:0000000000000000
+> [   15.003956] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   15.005294] CR2: 0000561b2b5ce478 CR3: 0000000102484002 CR4: 0000000000770ef0
+> [   15.006921] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [   15.008509] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+> [   15.010001] PKRU: 55555554
+> [   15.010672] Call Trace:
+> [   15.011297]  <TASK>
+> [   15.011868]  ? die+0x32/0x80
+> [   15.012572]  ? do_trap+0xd9/0x100
+> [   15.013306]  ? bio_split+0xd5/0xf0
+> [   15.014051]  ? do_error_trap+0x6a/0x90
+> [   15.014854]  ? bio_split+0xd5/0xf0
+> [   15.015597]  ? exc_invalid_op+0x4c/0x60
+> [   15.016419]  ? bio_split+0xd5/0xf0
+> [   15.017113]  ? asm_exc_invalid_op+0x16/0x20
+> [   15.017932]  ? bio_split+0xd5/0xf0
+> [   15.018624]  __bio_split_to_limits+0x90/0x2d0
+> [   15.019474]  blk_mq_submit_bio+0x111/0x6a0
+> [   15.020280]  ? kmem_cache_alloc+0x254/0x2e0
+> [   15.021040]  submit_bio_noacct_nocheck+0x2f1/0x3d0
+> [   15.021893]  ? submit_bio_noacct+0x42/0x5b0
+> [   15.022658]  block_read_full_folio+0x2b7/0x350
+> [   15.023457]  ? __pfx_blkdev_get_block+0x10/0x10
+> [   15.024284]  ? __pfx_blkdev_read_folio+0x10/0x10
+> [   15.025073]  ? __pfx_blkdev_read_folio+0x10/0x10
+> [   15.025851]  filemap_read_folio+0x32/0xb0
+> [   15.026540]  do_read_cache_folio+0x108/0x200
+> [   15.027271]  ? __pfx_adfspart_check_ICS+0x10/0x10
+> [   15.028066]  read_part_sector+0x32/0xe0
+> [   15.028701]  adfspart_check_ICS+0x32/0x480
+> [   15.029334]  ? snprintf+0x49/0x70
+> [   15.029875]  ? __pfx_adfspart_check_ICS+0x10/0x10
+> [   15.030592]  bdev_disk_changed+0x2a2/0x6e0
+> [   15.031226]  blkdev_get_whole+0x5f/0xa0
+> [   15.031827]  bdev_open+0x201/0x3c0
+> [   15.032360]  bdev_file_open_by_dev+0xb5/0x110
+> [   15.032990]  disk_scan_partitions+0x65/0xe0
+> [   15.033598]  device_add_disk+0x3e0/0x3f0
+> [   15.034172]  nvme_scan_ns+0x5f0/0xe50 [nvme_core]
+> [   15.034862]  nvme_scan_work+0x26f/0x5a0 [nvme_core]
+> [   15.035568]  process_one_work+0x189/0x3b0
+> [   15.036168]  worker_thread+0x273/0x390
+> [   15.036713]  ? __pfx_worker_thread+0x10/0x10
+> [   15.037312]  kthread+0xda/0x110
+> [   15.037779]  ? __pfx_kthread+0x10/0x10
+> [   15.038316]  ret_from_fork+0x2d/0x50
+> [   15.038829]  ? __pfx_kthread+0x10/0x10
+> [   15.039364]  ret_from_fork_asm+0x1a/0x30
+> [   15.039924]  </TASK>
+> 
+So, finally nailed it down.
 
-On 24/05/24 08:18AM, Hannes Reinecke wrote:
->nvme_set_chunk_sectors() needs to know whether it's a zoned namespace
->or not, but the information is only set in a later call.
->So move the calls around and ensure that the namespace is marked as
->non-zoned initially to avoid calculation errors when trying to derive
->a non-existing zone geometry.
->
->Fixes: c85c9ab926a5 ("nvme: split nvme_update_zone_info")
->Signed-off-by: Hannes Reinecke <hare@kernel.org>
->---
-> drivers/nvme/host/core.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->
->diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->index 111bf4197052..a968d33914a7 100644
->--- a/drivers/nvme/host/core.c
->+++ b/drivers/nvme/host/core.c
->@@ -2115,13 +2115,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
-> 	lim = queue_limits_start_update(ns->disk->queue);
-> 	nvme_set_ctrl_limits(ns->ctrl, &lim);
-> 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm);
->+	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
->+	    ns->head->ids.csi == NVME_CSI_ZNS)
->+		nvme_update_zone_info(ns, &lim, &zi);
-> 	nvme_set_chunk_sectors(ns, id, &lim);
-> 	if (!nvme_update_disk_info(ns, id, &lim))
-> 		capacity = 0;
-> 	nvme_config_discard(ns, &lim);
->-	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
->-	    ns->head->ids.csi == NVME_CSI_ZNS)
->-		nvme_update_zone_info(ns, &lim, &zi);
-> 	ret = queue_limits_commit_update(ns->disk->queue, &lim);
-> 	if (ret) {
-> 		blk_mq_unfreeze_queue(ns->disk->queue);
+Problem was that qemu is setting a default mdts of '7', which obviously
+is too small for 1M sector sizes.
+And the next problem was that we don't validate the 'max_hw_sectors' 
+setting against the 'logical_sector_size' setting, letting the block
+layer happily accept limit which have an hw_sector_size smaller than
+the logical block size.
+For that I've meanwhile sent a patch, but if you want continue testing
+you need to the 'mdts=0' for the qemu nvme emulation.
+We _might_ want to send a patch for qemu to set mdts to '0' as the
+default value, but that probably is too much hassle.
 
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+Cheers,
 
-------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_258be_
-Content-Type: text/plain; charset="utf-8"
+Hannes
 
-
-------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_258be_--
 
