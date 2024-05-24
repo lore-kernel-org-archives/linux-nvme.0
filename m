@@ -4,60 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DCC5C25B74
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 06:18:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0CC4C25B74
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 07:03:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=1ZPCxDFIPoEAkgSnQKz5S0Lhl3cNyl+ZFiyUW3jUrmg=; b=aHTTdjRsN96K2Lr0NDbjVFC0h0
-	eKD0iWTc9ksMlamVUJQuVSeFIsEGBG4kvo+884N6z2GQFhsEOy/bDRzgXqkpyO0tW4uOJQWnBoZC1
-	6g8grh0IXxfLuzcChxaKWx2Kc0w+rz8hn/BLndkBUxTdNiW83Vo8zMU/f4ywDw2bi0EciZNH4LJwE
-	MgnsCgUOqaPgYfSlykb5EE+4RMJuP3EuIU6TZXXBf4Drrtv1FEIB9C5IKbF9GY7cKbbbYTT/ffZnQ
-	oB3AHZQfa47/lqGEAX90HQa0A2Oritk8NK+qZUK5tOb/sQKIz3Qvxm5r4u07gNJX5s6woyIPszP+A
-	o1RFnFbQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fcrs1hfVkjlHVW7bOXNOC8znpYsTD2JmXRZJGVnZaTg=; b=NDLk4YEwAxG1Zger5i9llkPbHI
+	DSvvb+dmdLXnaIXEpyH8BQLh8xmdYrSOPjiLN2aTS7OAOD06h/oKy09txl7RLIzuwtoOE5ibug4DY
+	dXLZt7D/rb0KG3bhgpoMv0LkMBwP8aPpVCR+r2CFklqTUlSHLRSkEyjvB1MxIR3GUdKRz62Pbktm7
+	6e5o/Ks18dzsZI5jceyAwpKs+4jbkUx3NPEJs5cMLbo6Z8ejcKek9QkzELbq89M/VTgeeaL3BavfJ
+	uHhFMbIpTWqyz0fM0BHSpD7qUmpVzJNOt+qr8uMCiQ9ZmqxKnkWik8dLKRamjOYjdSyf86xIZ7anJ
+	EuCBI6Aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAOFw-00000008A8U-2laS;
-	Fri, 24 May 2024 06:18:20 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1sAOxt-00000008Dr9-3290;
+	Fri, 24 May 2024 07:03:45 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAOFu-00000008A82-1U8b
+	id 1sAOxp-00000008Doh-0EoL
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 May 2024 06:18:19 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 05823CE1867;
-	Fri, 24 May 2024 06:18:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 833ADC2BBFC;
-	Fri, 24 May 2024 06:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716531495;
-	bh=/23+rbTCuXhKE3EBmZL7oKSwC8+hmT5Rj9RTr6KDSFs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=j5cqvx3xSQkl/5s/TkDkG1io5oqz9rDbdYUa/EQg0B9VgEaDbgQg/dVN7e5cbr9Vk
-	 Tl4txWJ2UWj47EzMIdXTSFoAHOE90C+mhZFyg0UWWl/2D1hhdb0qbrB64eGDGSn226
-	 h+/gu+HGwYbLvzc109Y5FZyg2m6Fl9Nd64USuu9y1MEaNxZ9LKJB7fDc3pjwOq9MVM
-	 9vGDeqCy5biUmjHTW/RGQaP3cWEOIEBRvV0MHePlELTetqmve/YTLiUglwfm1396X6
-	 zWzzpeMqpub/Ea/Y4DIGwc60yHUFHU0Wib6llvsuLK5flJbbVu7WaWgLvolTGOMfNB
-	 5frD4ZNYHcdTA==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Damien LeMoal <dlemoal@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv2] nvme: fixup zns namespace initialisation
-Date: Fri, 24 May 2024 08:18:08 +0200
-Message-Id: <20240524061808.129399-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
+	Fri, 24 May 2024 07:03:44 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240524070331epoutp03e2770c4820c1a3968315d1c2f56e3e47~SWsVAveND0162001620epoutp03L
+	for <linux-nvme@lists.infradead.org>; Fri, 24 May 2024 07:03:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240524070331epoutp03e2770c4820c1a3968315d1c2f56e3e47~SWsVAveND0162001620epoutp03L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1716534211;
+	bh=fcrs1hfVkjlHVW7bOXNOC8znpYsTD2JmXRZJGVnZaTg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GqL9tjnZZt8X6EigF1/D5trSRVqa3CmecAJbL891GseVyUaF5ibFdJ6syZS7PAjWU
+	 EMQbagZf+nBm810/AshsWNVSYa4JK3qP+RV2Qdc7UKloK5ak50urZ1nqY2pkPP4P/i
+	 /1nMD2xnS7YlMQmDNGP+DUD4UDSHLAc1Svfk5Wa4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240524070330epcas5p193140b9e9c3ca20ce1044b5e97e16cc7~SWsUYtv1G2043720437epcas5p18;
+	Fri, 24 May 2024 07:03:30 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4VlwxD29VZz4x9Q6; Fri, 24 May
+	2024 07:03:28 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	43.35.09665.0CB30566; Fri, 24 May 2024 16:03:28 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240524070201epcas5p3a398a82835799d0956448c3590544c0a~SWrBgm2e33040130401epcas5p3j;
+	Fri, 24 May 2024 07:02:01 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240524070201epsmtrp27d72daa4f932ba34758cd2fa2e31a2ba~SWrBfF5Gm1951119511epsmtrp2S;
+	Fri, 24 May 2024 07:02:01 +0000 (GMT)
+X-AuditID: b6c32a4b-829fa700000025c1-6d-66503bc0b68a
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BA.14.19234.96B30566; Fri, 24 May 2024 16:02:01 +0900 (KST)
+Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240524070157epsmtip26fdc4027c3bba14725ebb809cd21c241~SWq93B5fC0925409254epsmtip2m;
+	Fri, 24 May 2024 07:01:57 +0000 (GMT)
+Date: Fri, 24 May 2024 06:54:49 +0000
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
+	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+Message-ID: <20240524065449.ydfracefq77urii4@nj.shetty@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH97u3vS1EyLXg/FmiwzKzVMKjUNgPBcYmIdegjOwRM9wGd/QK
+	SGlry0uSKRQZoCIFEUMRQYbykIECIyCgrPKQqquGhwFE3psTeQiLZkFhrQXjf5/zPeeb8/ud
+	k8PFeVc4fG6ULJZRymipgLBkNd4WCp3adwcfcv2rcgOq1XfhSK15g6OrI9kEmrm9CFD+wn84
+	mmpPB2j5vgFHDV1PACopLWKhwfZmDLWW5mKo8monhgrPp2Koc3WWQLm6AYCm+7UYahtyRJd+
+	KWOh1rYeFuq9cYFAxVemOai8ewVDORn9GGqaSgGoZmaehe4M2SHDm262nx3V2xdI6Ush1awd
+	4VCGJ9dZVO/9OKquKpOg6suOU0/rCwDVMphMUL+eOcumslLnCKo5bZRNvZgeYlHzN/sJ6kxD
+	FaDulXRwgm1Cor0jGVrCKO0ZWbhcEiWL8BEEfh26J9TD01XkJPJCnwrsZXQM4yPw3xfsFBAl
+	NQ5HYB9PS+OMUjCtUglcfL2V8rhYxj5Sror1ETAKiVQhVjir6BhVnCzCWcbE7hK5urp5GAvD
+	oiNPZTcSiqWNiU2neclgwPoksOBCUgyzz/WzTwJLLo9sAfBpURFhDhYBPG2YZL0LJrIvYuuW
+	S6vFmDnRDODD4fE1/xKAdeNDwFTFInfA/L6zRjuXS5CO8O4q1yTbkgL4Il3HMdXjZDkBX6+O
+	sE0JGzIMzupz3rIVuQcuFtzkmHkj7CmYYpnYgtwNX3cM4iYzJP+0gPc6KzjmJ/lD7cuutefZ
+	wGfdDWs6Hy7NtRFmToCVeRWE2XwCQO0jLTAnPoNp+mzcxDgZCccznuNmfSs8p6/BzLo1zFqe
+	WmtgBZsurrMDrK4tWWuwBQ68SiFMP4YkBYerPzJPZQ7AxjsaTAO2ad/7kPa9dmbeBTMX1Gyt
+	0Y6TdrB8hWtGIay94VIC2FVgC6NQxUQwKg+Fu4xJeLflcHlMHXh7MDsDm8DE2IKzDmBcoAOQ
+	iwtsrQ5W7j/Es5LQR5MYpTxUGSdlVDrgYVxQDs7fFC43XpwsNlQk9nIVe3p6ir3cPUWCzVYz
+	aUUSHhlBxzLRDKNglOs+jGvBT8YO9vsdzg0ytAZ8KFsaqcMffuk7KdKceukU4mi937JxyeDw
+	+NXzI0sq4e8h+em3Wr9tlz7wn8u5npJE8KU1YTwgTOXrkv7OczhOb6hUu0xW3JJEz//Raqt+
+	sCeRxIJTBgK1GX0XMqPVLQe+yNn6cdpPY9cCyo7urfNiUmd+Ezf6eyc8/mqH/bP87SEBMZfz
+	/o3//oPZyw5jpT88ovJP7EWhhcMzGb4en0xOB23PCDpg4zH18+fx85K+CfpuvU/Q4ZaF6k3F
+	x+QdWVN9bpoaZ99j2470i1cCu5KD/imUlwj97N2+0Y8lFvwY3rhZGdpjqcaCNXmC72rTLbuW
+	z48S5LUkd9A8KmCpImnRTlypov8HtDMqBbkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUxTWRiGOfdcbi9V9Fq2A3UZ6xZlqHZCyFGMkmgmJ1FiXWaMEpVGLrUj
+	UGwtihpBiQI1OkhRhyrKZrHgEgou7FoBBSXNTAGljogB4oLC4MTEra0pxOi/J+/zvt+vj4Wi
+	fjqEVSXt5jVJigQJI6Rv3JXMCFNFyuMXXT4lxtfaWyE+nOOEuOLpnwweuvsO4NP/fYR44HYm
+	wJ87bBBXt/YCXFhcQOOe2zUUri/OpbC5ooXCZ89kULjF/ZbBudZugAe7jBRucITioqOlNK5v
+	aKOxvfYcgy+YBgW47J6Lwiezuih8a+AQwFeHRmh83yHGNuc97ygxsXeuIu3FiNQYnwqIrbeS
+	JvYOHbGUZzOkqjSNvKzKB6SuJ50hJScM3uR4xjBDao488yajgw6ajDR2MeREdTkgDwubBXK/
+	zcKlcXyCKoXXLFwWK9zxvP9/Kvni5L3mjGMgHRRP1AMfFnHhqMh9gdIDISvibgKUZ6tkxkUw
+	Mjmb4Tj7IbPrhWC8NApQ15k6yiNobg463Wmg9YBlGS4UPXCzntifk6DRTOtYH3IVDKq1lgCP
+	8ONi0dv2k94e9uVWoHf5jQIPi7hhgJoy8Hg+BbXlD9AehlwEOl/1HHruQ06Mylxj9324SPSl
+	uQfmAM74w8L4w8L4fVEIYDkI4JO1icrE7ckyqVaRqNUlKaXb1YkWMPYHC9bdAqZrTqkVUCyw
+	AsRCib9vjDk6XuQbp0jdx2vU2zS6BF5rBWKWlgT5zkrIjhNxSsVufifPJ/Oab5ZifULSqWAe
+	TvUP/2NGgfD99NcGNTJPCI+rXViwZfmNpE2m89X2ol8OdM9c9rLaK2vpb+KYL4P/9jmalmyU
+	VjwJ2Leh744+8mBglt7vYVPdSNimna4J8o8H3N0tlr8i4q/EtslyyNyo8Murjz6bZ3ZC+YM9
+	G6JWWGbTaatjU4Tq6JDfg9fCF+v3/zRla9ixv1+nqHNRb6rpVWpgzeNHWfOvXwk6lFOy0r72
+	UkraK0NMr2SNrd9ryCJzX4/p3lUipbb8k2dV1S4Wq0vrJ+taQ6O9+JDswMrhaR1ElRe0X9pA
+	lmf+PEn/qw41KvvqlR3kzQel7smlTsPiN4fL5LJPAeoInw8OZb7rvoTW7lDIFkCNVvEVtAjO
+	T3YDAAA=
+X-CMS-MailID: 20240524070201epcas5p3a398a82835799d0956448c3590544c0a
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+	<20240520102033.9361-3-nj.shetty@samsung.com>
+	<f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240523_231818_592484_97E7C723 
-X-CRM114-Status: GOOD (  10.83  )
+X-CRM114-CacheID: sfid-20240524_000341_456121_F5C88973 
+X-CRM114-Status: GOOD (  17.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,40 +152,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_set_chunk_sectors() needs to know whether it's a zoned namespace
-or not, but the information is only set in a later call.
-So move the calls around and ensure that the namespace is marked as
-non-zoned initially to avoid calculation errors when trying to derive
-a non-existing zone geometry.
+------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Fixes: c85c9ab926a5 ("nvme: split nvme_update_zone_info")
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/host/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 21/05/24 09:01AM, Hannes Reinecke wrote:
+>On 5/20/24 12:20, Nitesh Shetty wrote:
+>>We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
+>>Since copy is a composite operation involving src and dst sectors/lba,
+>>each needs to be represented by a separate bio to make it compatible
+>>with device mapper.
+>>We expect caller to take a plug and send bio with destination information,
+>>followed by bio with source information.
+>>Once the dst bio arrives we form a request and wait for source
+>>bio. Upon arrival of source bio we merge these two bio's and send
+>>corresponding request down to device driver.
+>>Merging non copy offload bio is avoided by checking for copy specific
+>>opcodes in merge function.
+>>
+>>Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>>Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+>>---
+>>  block/blk-core.c          |  7 +++++++
+>>  block/blk-merge.c         | 41 +++++++++++++++++++++++++++++++++++++++
+>>  block/blk.h               | 16 +++++++++++++++
+>>  block/elevator.h          |  1 +
+>>  include/linux/bio.h       |  6 +-----
+>>  include/linux/blk_types.h | 10 ++++++++++
+>>  6 files changed, 76 insertions(+), 5 deletions(-)
+>>
+>I am a bit unsure about leveraging 'merge' here. As Bart pointed out, 
+>this is arguably as mis-use of the 'merge' functionality as we don't
+>actually merge bios, but rather use the information from these bios to
+>form the actual request.
+>Wouldn't it be better to use bio_chain here, and send out the eventual
+>request from the end_io function of the bio chain?
+>
+With above bio chain approach, I see a difficulty while dealing with
+stacked/partitioned devices, as they might get remapped.
+Or am I missing something here ?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 111bf4197052..a968d33914a7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2115,13 +2115,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	lim = queue_limits_start_update(ns->disk->queue);
- 	nvme_set_ctrl_limits(ns->ctrl, &lim);
- 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm);
-+	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
-+	    ns->head->ids.csi == NVME_CSI_ZNS)
-+		nvme_update_zone_info(ns, &lim, &zi);
- 	nvme_set_chunk_sectors(ns, id, &lim);
- 	if (!nvme_update_disk_info(ns, id, &lim))
- 		capacity = 0;
- 	nvme_config_discard(ns, &lim);
--	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
--	    ns->head->ids.csi == NVME_CSI_ZNS)
--		nvme_update_zone_info(ns, &lim, &zi);
- 	ret = queue_limits_commit_update(ns->disk->queue, &lim);
- 	if (ret) {
- 		blk_mq_unfreeze_queue(ns->disk->queue);
--- 
-2.35.3
+Bart, Hannes,
+Regarding merge, does it looks any better, if we use single request
+operation such as REQ_OP_COPY and use op_flags(REQ_COPY_DST/REQ_COPY_SRC)
+to identify dst and src bios ?
 
+
+Regards,
+Nitesh Shetty
+
+------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
+Content-Type: text/plain; charset="utf-8"
+
+
+------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_--
 
