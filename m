@@ -4,84 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17CFBC25B74
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 May 2024 20:34:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6071C25B78
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 May 2024 08:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=89lfuEma9nN+jYDLe/Yu26+hMarY1kIWqJc2bu+34j0=; b=dRaQ7gvc2yfn1THO/tYCxhoyT0
-	fSBzhGQGNdcQJu4sTlQKEZrYT0pZ4/NVr1G+eYbUotZHfEpo7DhB4+2Wu5S4RDRtfU3vappOIdYGR
-	551UCkuw+1dOiJgFZICBEUAmndgZ84345Of5eAU965veAqXPRP2lXZAmDCh3AobjfgphKAqZwaF4M
-	R2pncft1sS+babSltn0Vn48lnGw/0TyQRAx0trexIubSBi1+F+3U7MCgfoM8SnGk66zOdmwJpStM0
-	jI9CC00f5lQHEZDg6IgCW1jAmIUCPyqjklIMfNo/2bJC3pKwp/wkUKkO1nwwSovaQQTF0+lBnFX6K
-	XBs0elnQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Fb+GrvXWtJxN6rN+bJsHccbwFqqMvW1hPO5PvCVy4OY=; b=1tVZWuEXQqKC5qhvnRUFqY2Ph/
+	o15F3aiEYagsJksMNyxlZo96M+lDSKp9i2d/KlBdPVeuu8mOcvqjvTBMvRjpq6EAA1Kqyp3W/b7Y5
+	3YHtvzqHbaRzgcpHf2630rIgb2IilOQHrfEaYAdiE8LDBQEKYbIv6nHUyz199tXJvf01JtdqIUCHp
+	/VGnPni7TdIP9hbQkHBsZQ/A0UfAHXvWr4WRBHNk3L6xNPlS/5kIQU3twrdMeFe0Oss8X754so6f2
+	xMJ5rmTxHFZUTZPmES97mhlmLtB3qljMWB4rnbFr1Jy/zfi+XrItTlqsTHSvZxR/KAeNbaMUIpu7u
+	KAXVjxtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAbc5-00000009oYi-28vL;
-	Fri, 24 May 2024 20:34:05 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1sAn7Q-0000000AeL2-0jO6;
+	Sat, 25 May 2024 08:51:12 +0000
+Received: from mgamail.intel.com ([198.175.65.11])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sAbc2-00000009oXc-2HAc
+	id 1sAn7M-0000000AeK8-0kxl
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 May 2024 20:34:04 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4VmGwQ4PPNz6Cnk9V;
-	Fri, 24 May 2024 20:33:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1716582828; x=1719174829; bh=89lfuEma9nN+jYDLe/Yu26+h
-	MarY1kIWqJc2bu+34j0=; b=M27wMpgpOKeNFIAKHVb8suAHfQt17wAx1wt9QoRm
-	Nu/5Ed/S7hBQizyRp4kEdJtAe1OXTegKp0LVily/w/yqNA5af1r/IOtEm+Do5cli
-	GjpGy8R80rvjzpvxfK8avBD5h8vt9GMJPTx0KXZDIEtytnIcbNxNaIy/aV67bLUu
-	92p0S1cfx2fxEvK2F0qQDbmdTRK/6B2Ksd97L3xZZ77G8tq4ngIQ5UpkH+JULSMA
-	1w5/OxmTDX1UXdo99vpNIqeHi81k2KrC9JTmdsFdbSvwihwhtXyZwUHyJaAYQpVa
-	I7MpY8HfIJeUIkrhcXJBwXuth555oIdftO5h2Yxo484Ejg==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 9ySzBQtH-Jqr; Fri, 24 May 2024 20:33:48 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VmGw54jRCz6Cnk9B;
-	Fri, 24 May 2024 20:33:41 +0000 (UTC)
-Message-ID: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
-Date: Fri, 24 May 2024 13:33:39 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240520102033.9361-3-nj.shetty@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	Sat, 25 May 2024 08:51:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716627068; x=1748163068;
+  h=date:from:to:cc:subject:message-id;
+  bh=iFvNfSz5gEmw9l4guGzHMttvf1aut65UWz0MnwIGOd4=;
+  b=WU1Az4m7nN9HscpdlC/CuAMwANhoOMv4QNR83vPL9arabSiQGU1z7Pzv
+   fzeqhKzQHjdaC9IQpc17uBc3Mn1t77+uK835dMRa55i08u3FPwtfPeEE7
+   aLl7JjXIZQQD8MlpY5ohlKaJvmprunWSxOM9oF+k5wx1HYXpJUw4FOvsG
+   wI0lWX5wZHghj0sHUgfSb0NyVDWbYafkCELMbQhdq8F+n+H/UriSMI88L
+   xOWQZjxkm/WoI7gwohHPyGkPFtGnIKGtHmsYOD3WrOkTGx6VkTod/wyb4
+   3Fg2+N5OmdaQfLFVkZFq0kATmt/BZ5OWOeB6bSXRpANtK/lDqqDcJqqaC
+   A==;
+X-CSE-ConnectionGUID: pJJylN07RFOsBumsItb2eg==
+X-CSE-MsgGUID: AVJaBKlUQhSnY+E0oBsvSA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23571359"
+X-IronPort-AV: E=Sophos;i="6.08,188,1712646000"; 
+   d="scan'208";a="23571359"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 01:51:02 -0700
+X-CSE-ConnectionGUID: YWGWqvSBRPKXTXt6EG8tDw==
+X-CSE-MsgGUID: b9SX61GmSrC9wuAI2S1JIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,188,1712646000"; 
+   d="scan'208";a="38838202"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 25 May 2024 01:51:01 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sAn7D-0006jR-0Y;
+	Sat, 25 May 2024 08:50:59 +0000
+Date: Sat, 25 May 2024 16:50:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.10] BUILD SUCCESS
+ 1bd293fcf3af84674e82ed022c049491f3768840
+Message-ID: <202405251640.A1dzBZ1J-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240524_133402_761213_939233C1 
-X-CRM114-Status: GOOD (  14.73  )
+X-CRM114-CacheID: sfid-20240525_015108_335878_C8C669AD 
+X-CRM114-Status: UNSURE (   4.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,37 +83,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/20/24 03:20, Nitesh Shetty wrote:
-> We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
-> Since copy is a composite operation involving src and dst sectors/lba,
-> each needs to be represented by a separate bio to make it compatible
-> with device mapper.
-> We expect caller to take a plug and send bio with destination information,
-> followed by bio with source information.
-> Once the dst bio arrives we form a request and wait for source
-> bio. Upon arrival of source bio we merge these two bio's and send
-> corresponding request down to device driver.
-> Merging non copy offload bio is avoided by checking for copy specific
-> opcodes in merge function.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.10
+branch HEAD: 1bd293fcf3af84674e82ed022c049491f3768840  nvme: adjust multiples of NVME_CTRL_PAGE_SIZE in offset
 
-In this patch I don't see any changes for blk_attempt_bio_merge(). Does
-this mean that combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC will never
-happen if the QUEUE_FLAG_NOMERGES request queue flag has been set?
+elapsed time: 998m
 
-Can it happen that the REQ_NOMERGE flag is set by __bio_split_to_limits()
-for REQ_OP_COPY_DST or REQ_OP_COPY_SRC bios? Will this happen if the
-following condition is met?
+configs tested: 129
+configs skipped: 3
 
-dst_bio->nr_phys_segs + src_bio->nr_phys_segs > max_segments
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Is it allowed to set REQ_PREFLUSH or REQ_FUA for REQ_OP_COPY_DST or
-REQ_OP_COPY_SRC bios? I'm asking this because these flags disable merging.
+tested configs:
+alpha                            alldefconfig   gcc  
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                           h3600_defconfig   gcc  
+arm                        mvebu_v5_defconfig   gcc  
+arm                           sama5_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240525   gcc  
+i386         buildonly-randconfig-002-20240525   gcc  
+i386         buildonly-randconfig-003-20240525   gcc  
+i386         buildonly-randconfig-004-20240525   clang
+i386         buildonly-randconfig-005-20240525   gcc  
+i386         buildonly-randconfig-006-20240525   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240525   clang
+i386                  randconfig-002-20240525   gcc  
+i386                  randconfig-003-20240525   clang
+i386                  randconfig-004-20240525   clang
+i386                  randconfig-005-20240525   gcc  
+i386                  randconfig-006-20240525   gcc  
+i386                  randconfig-011-20240525   clang
+i386                  randconfig-012-20240525   clang
+i386                  randconfig-013-20240525   clang
+i386                  randconfig-014-20240525   gcc  
+i386                  randconfig-015-20240525   clang
+i386                  randconfig-016-20240525   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                      maltasmvp_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                    amigaone_defconfig   gcc  
+powerpc                      ep88xc_defconfig   gcc  
+powerpc                 mpc832x_rdb_defconfig   gcc  
+powerpc                     tqm8560_defconfig   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7760_defconfig   gcc  
+sh                          rsk7201_defconfig   gcc  
+sh                           se7750_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240525   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240525   clang
+x86_64                randconfig-002-20240525   clang
+x86_64                randconfig-003-20240525   clang
+x86_64                randconfig-004-20240525   clang
+x86_64                randconfig-005-20240525   clang
+x86_64                randconfig-006-20240525   clang
+x86_64                randconfig-011-20240525   clang
+x86_64                randconfig-012-20240525   clang
+x86_64                randconfig-014-20240525   clang
+x86_64                randconfig-016-20240525   clang
+x86_64                randconfig-072-20240525   clang
+x86_64                randconfig-073-20240525   clang
+x86_64                randconfig-076-20240525   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
 
- From include/linux/blk_types.h:
-
-#define REQ_NOMERGE_FLAGS (REQ_NOMERGE | REQ_PREFLUSH | REQ_FUA)
-
-Thanks,
-
-Bart.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
