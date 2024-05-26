@@ -4,98 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D41DEC25B78
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 May 2024 23:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54C25C25B75
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 May 2024 08:31:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Crh6RjgT+TcJb1jq4rCjRtTqJLBvMRyCXUhpelsfOKA=; b=Zm8FUkVijZvEaHNZUnvnRZ6syz
-	DFw6PcJRkIGTzJZwS+gxEY9zQSHwoSORA92Ya2V4cfeCP3e9ibjGdHoSkN+vidClfDzZ8O8N6eLUN
-	cc/J0DIKtTX4htkt3TOFNCikoR2s27rklXaf2EH7CBW8ywsmJTYG5Gql/Ddhpgtx7L9fL5KeyeOFC
-	exs/WGSjVloptgAlm0tNkjbT0byqTXlvDVpn3SnZ9OaAzkE6OdJOBo2opQg+0NK9wYdJt2uvKsRQZ
-	0/lJosEhBauPtemv+0+jgtlVIe1QMDOBPAhPrG561wsravFzmpBUFifVzU7ymghXnmYzJYcGVqeDL
-	qjH2Eeaw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+17iG9k8Ji8nV5b1c3/MrdKr5n745GwHR75IDIw30Lw=; b=ZD7XxhEAxvMA9mxHL0BfKF7COt
+	eQARxsVJV8wufXsRVo8eGGpWgLkS37yOFkWeLSi1rwi0p4uXkjfpJbIcvuxDcINXuf+460RkIYdEX
+	EWp04P1FeMWRZ/OHMuHm9Sw+3XWUjtFLMopDoSNg5Ut/Gxm8LH8HUk/HV+vQkwBPYU+Y8eaWvvTK+
+	dxVfxVP7cfLds9aDuYTGoWJ7i+zIpL1rt9lZWEN9ZSxYui+PMLNblcmtAECRbL32sOISSloUFeZsB
+	M9eL5CBpv+Vz/d+ywcAIMmlGi7LRL47RIBJ5b/tIRlHNFJAnKEIUYuE4V9B0NNMYea7hT39FYqRbB
+	dHq4bGMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sB0Wc-0000000BqHc-1hwe;
-	Sat, 25 May 2024 23:10:06 +0000
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+	id 1sB9Hx-0000000CMGj-2IYf;
+	Sun, 26 May 2024 08:31:33 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sB0W5-0000000BpyE-3Vh7
+	id 1sB9Hv-0000000CMGD-0fZC
 	for linux-nvme@lists.infradead.org;
-	Sat, 25 May 2024 23:09:43 +0000
-Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-6818e31e5baso1711002a12.1
-        for <linux-nvme@lists.infradead.org>; Sat, 25 May 2024 16:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1716678571; x=1717283371; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Crh6RjgT+TcJb1jq4rCjRtTqJLBvMRyCXUhpelsfOKA=;
-        b=Iu+zGpAgCEi24dbTHqPPar7ru0o5UlzCG/VRFMqGV3bRXSqn3J9MUbC/W321hShGQn
-         QmXgGtZf3Kh08P8BZv+QnElEaL2iwPJDM24V3O9NchcXvz0ShFL8y/y7bI3r82iZf7ZW
-         ettsGVnvWmf49Gav22c5rggj4G8lhysw/MFgXpD+3H27hiCJIhW3Ak0tWl5QltkTgeAk
-         C/LEOf5/ujylVVO9e/QAlSoclgesJuXqYb1zLv+SPMI1u0HX7gKcgthCt5hmkrUEjBf2
-         uYEfFxeoJbFXoW8iOisFYP/T8oFhY6RSGQc/nhnMorCLJdZyR+2B+8mNbmD7KhkaO5dE
-         yQXg==
+	Sun, 26 May 2024 08:31:32 +0000
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-356aa8a7e1aso59764f8f.2
+        for <linux-nvme@lists.infradead.org>; Sun, 26 May 2024 01:31:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716678571; x=1717283371;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Crh6RjgT+TcJb1jq4rCjRtTqJLBvMRyCXUhpelsfOKA=;
-        b=ZqgbVv9qZa7uJL5/TyRej4Nfx2zUNHeqwtEXDhsjAVQDpW/YMSoHM4jFI0jc+Z7an+
-         AaG7UjufXdtmo7LPg1BHUAlKYNmwhNzdY0aCaITFQIS4PalFXICSj8DsyZhaxHPhyj31
-         JKNaq1Lx17qC9YMvASkt/iqfsWEhT3lXYSZ8hQ0BVnPnVfuo3K8gkYmGyYHVF5AU0Vtr
-         QmbV+KMUhE4kNZvqHiVuo0kCoBjdcTn2fCvoGCjRaihWGwUFKE8vN0rwpa4G+8MStEua
-         iSfWvGbHDVGk76UDuJB3QxSdlZXHt7s2z552DXK39UnylPodb4yAeYQ3K2yn/YgY3U4g
-         x63g==
-X-Forwarded-Encrypted: i=1; AJvYcCXuX7tD+M13L/05y25wx/zmP6Rs8fJCFHsxlUXUUFTqXCcIhY7zEXvyx57L2b1VAdWnG0fWpNUlgVtZXUJIdd+1P5a5IEA9EjWXCPXzZgA=
-X-Gm-Message-State: AOJu0YxHdy/QrkmfDdg0EenJPqgOCuguRkTLnVgMcXn+6GL4wpCcea6N
-	8hyJifh2mrfmkt9rE28OVZfbciGqjJ7MUrgiRDGxRowQkGJrWWCD2ILozK4MUpU=
-X-Google-Smtp-Source: AGHT+IGYciyTBhNiI5PZlCjyMDogB+ANQNNWDCUuYjIsBj+L8eTBYhs5xE8S13XEF72yE6eBkoNGvg==
-X-Received: by 2002:a17:902:d50b:b0:1f4:768b:445e with SMTP id d9443c01a7336-1f4768b4768mr21943575ad.24.1716678570642;
-        Sat, 25 May 2024 16:09:30 -0700 (PDT)
-Received: from dread.disaster.area (pa49-179-32-121.pa.nsw.optusnet.com.au. [49.179.32.121])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9afba1sm34658165ad.246.2024.05.25.16.09.30
+        d=1e100.net; s=20230601; t=1716712287; x=1717317087;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+17iG9k8Ji8nV5b1c3/MrdKr5n745GwHR75IDIw30Lw=;
+        b=IB42evT3sg5U9ivU3f5fIjcMye5SOFg+DknoTvWOMZncJBpGGUfcPrdW3TpIACgnTT
+         uG00SELhXXrXoF5IuDvxF0W47GJSM+CqfTzWDYZygJtrxXHNVvpnL+qWSflZLzulCAeE
+         X59GRyQhYYwfjhjnyLXV0/HKayEA0dncY+f+vYgMqavBcrgeqkm+EUQYiGR3YN2T41C6
+         t8+snhyUyMcsNgDEmm6Zf7OHm8WXGZAAwBbnHs0rgddbO3ySr6PTHTf6Ssf4/LbKXf7D
+         /2byAvOAiExjKv5XXdYfkczFmqSq+9NzCG1HFhUv73BaAXKFYM4qilrkOzkwBLx3Xrvf
+         5/QA==
+X-Gm-Message-State: AOJu0YwT8d96tk7WlsqdFyIBazHNErqNXWJyjLD43cFSpaisNpieLOdy
+	Nh2MxfNr8Ie0hTZ2tE/QLnAZiAbdZAOn5dretNNvrRM8kx/Gw+nh
+X-Google-Smtp-Source: AGHT+IGBl24/zJIt1XOiLIQp8BuVpC6U/VdkD9h+2ata0au7V1dw9ahjNHoYOyP7C4O4Rl3mj7Ig9g==
+X-Received: by 2002:adf:f9ce:0:b0:356:7963:fe9e with SMTP id ffacd0b85a97d-3567963ffb8mr2638360f8f.6.1716712287414;
+        Sun, 26 May 2024 01:31:27 -0700 (PDT)
+Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3557a0909a7sm5907880f8f.55.2024.05.26.01.31.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 May 2024 16:09:30 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1sB0Vz-00AUvI-1V;
-	Sun, 26 May 2024 09:09:27 +1000
-Date: Sun, 26 May 2024 09:09:27 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, bvanassche@acm.org, hare@suse.de,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 06/12] fs, block: copy_file_range for def_blk_ops for
- direct block device
-Message-ID: <ZlJvp47RSFKkbwRJ@dread.disaster.area>
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102929epcas5p2f4456f6fa0005d90769615eb2c2bf273@epcas5p2.samsung.com>
- <20240520102033.9361-7-nj.shetty@samsung.com>
+        Sun, 26 May 2024 01:31:27 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-rdma@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>,
+	Israel Rukshin <israelr@nvidia.com>,
+	Oren Duer <ooren@nvidia.com>
+Subject: [PATCH rfc] rdma/verbs: fix a possible uaf when draining a srq attached qp
+Date: Sun, 26 May 2024 11:31:25 +0300
+Message-Id: <20240526083125.1454440-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240520102033.9361-7-nj.shetty@samsung.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240525_160934_141528_8266768A 
-X-CRM114-Status: GOOD (  23.32  )
+X-CRM114-CacheID: sfid-20240526_013131_226271_7327735C 
+X-CRM114-Status: GOOD (  16.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,75 +80,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 20, 2024 at 03:50:19PM +0530, Nitesh Shetty wrote:
-> For direct block device opened with O_DIRECT, use blkdev_copy_offload to
-> issue device copy offload, or use splice_copy_file_range in case
-> device copy offload capability is absent or the device files are not open
-> with O_DIRECT.
-> 
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> ---
->  block/fops.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
-> 
-> diff --git a/block/fops.c b/block/fops.c
-> index 376265935714..5a4bba4f43aa 100644
-> --- a/block/fops.c
-> +++ b/block/fops.c
-> @@ -17,6 +17,7 @@
->  #include <linux/fs.h>
->  #include <linux/iomap.h>
->  #include <linux/module.h>
-> +#include <linux/splice.h>
->  #include "blk.h"
->  
->  static inline struct inode *bdev_file_inode(struct file *file)
-> @@ -754,6 +755,30 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  	return ret;
->  }
->  
-> +static ssize_t blkdev_copy_file_range(struct file *file_in, loff_t pos_in,
-> +				      struct file *file_out, loff_t pos_out,
-> +				      size_t len, unsigned int flags)
-> +{
-> +	struct block_device *in_bdev = I_BDEV(bdev_file_inode(file_in));
-> +	struct block_device *out_bdev = I_BDEV(bdev_file_inode(file_out));
-> +	ssize_t copied = 0;
-> +
-> +	if ((in_bdev == out_bdev) && bdev_max_copy_sectors(in_bdev) &&
-> +	    (file_in->f_iocb_flags & IOCB_DIRECT) &&
-> +	    (file_out->f_iocb_flags & IOCB_DIRECT)) {
-> +		copied = blkdev_copy_offload(in_bdev, pos_in, pos_out, len,
-> +					     NULL, NULL, GFP_KERNEL);
-> +		if (copied < 0)
-> +			copied = 0;
-> +	} else {
-> +		copied = splice_copy_file_range(file_in, pos_in + copied,
-> +						 file_out, pos_out + copied,
-> +						 len - copied);
-> +	}
+ib_drain_qp does not do drain a shared recv queue (because it is
+shared). However in the absence of any guarantees that the recv
+completions were consumed, the ulp can reference these completions
+after draining the qp and freeing its associated resources, which
+is a uaf [1].
 
-This should not fall back to a page cache copy.
+We cannot drain a srq like a normal rq, however in ib_drain_qp
+once the qp moved to error state, we reap the recv_cq once in
+order to prevent consumption of recv completions after the drain.
 
-We keep being told by application developers that if the fast
-hardware/filesystem offload fails, then an error should be returned
-so the application can determine what the fallback operation should
-be.
+[1]:
+--
+[199856.569999] Unable to handle kernel paging request at virtual address 002248778adfd6d0
+<....>
+[199856.721701] Workqueue: ib-comp-wq ib_cq_poll_work [ib_core]
+<....>
+[199856.827281] Call trace:
+[199856.829847]  nvmet_parse_admin_cmd+0x34/0x178 [nvmet]
+[199856.835007]  nvmet_req_init+0x2e0/0x378 [nvmet]
+[199856.839640]  nvmet_rdma_handle_command+0xa4/0x2e8 [nvmet_rdma]
+[199856.845575]  nvmet_rdma_recv_done+0xcc/0x240 [nvmet_rdma]
+[199856.851109]  __ib_process_cq+0x84/0xf0 [ib_core]
+[199856.855858]  ib_cq_poll_work+0x34/0xa0 [ib_core]
+[199856.860587]  process_one_work+0x1ec/0x4a0
+[199856.864694]  worker_thread+0x48/0x490
+[199856.868453]  kthread+0x158/0x160
+[199856.871779]  ret_from_fork+0x10/0x18
+--
 
-It may well be that the application falls back to "copy through the
-page cache", but that is an application policy choice, not a
-something the kernel offload driver should be making mandatory.
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+Note this patch is not yet tested, but sending it for visibility and
+early feedback. While nothing prevents ib_drain_cq to process a cq
+directly (even if it has another context) I am not convinced if all
+the upper layers don't have any assumptions about a single context
+consuming the cq, even if it is while it is drained. It is also
+possible to to add ib_reap_cq that fences the cq poll context before
+reaping the cq, but this may have other side-effects.
 
-Userspace has to handle copy offload failure anyway, so they a
-fallback path regardless of whether copy_file_range() works on block
-devices or not...
+This crash was seen in the wild, and not easy to reproduce. I suspect
+that moving the nvmet_wq to be unbound expedited the teardown process
+exposing a possible uaf for srq attached qps (which nvmet-rdma has a
+mode of using).
 
-Cheers,
 
-Dave.
+ drivers/infiniband/core/verbs.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
+index 94a7f3b0c71c..580e9019e96a 100644
+--- a/drivers/infiniband/core/verbs.c
++++ b/drivers/infiniband/core/verbs.c
+@@ -2962,6 +2962,17 @@ void ib_drain_qp(struct ib_qp *qp)
+ 	ib_drain_sq(qp);
+ 	if (!qp->srq)
+ 		ib_drain_rq(qp);
++	else {
++		/*
++		 * We cannot drain a srq, however the qp is in error state,
++		 * and will not generate new recv completions, hence it should
++		 * be enough to reap the recv cq to cleanup any recv completions
++		 * that may have placed before we drained. Without this nothing
++		 * guarantees that the ulp will free resources and only then
++		 * consume the recv completion.
++		 */
++		ib_process_cq_direct(qp->recv_cq, -1);
++	}
+ }
+ EXPORT_SYMBOL(ib_drain_qp);
+ 
 -- 
-Dave Chinner
-david@fromorbit.com
+2.40.1
+
 
