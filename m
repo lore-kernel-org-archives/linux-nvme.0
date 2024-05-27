@@ -4,140 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD42AC25B7C
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 09:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 139C8C25B7C
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 11:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CQEl5Odrn2gxp6sQ0rwKylnsdnwf7SZr6c5IE4f2Nnw=; b=OsfG0XVg2XiKk9e5RR/jRnXk2A
-	PA1vAQFZgcYnnZYJCV0Rm9oBT9cutWjvb5mIbfqrzZFWc8IsMD4Vb4WB/f1zybbwUQRiNXzsrKnpY
-	iH70zIuBxKLw/WugYthDTWSz5O54iATFExzTVzMVZez/8NXl+ZS9K/3ihv/HmjsJF/cfJyczvNL/r
-	SU5lK76WUOmIc8RWiqLbugtrjjcgymWE9yo/2sVu4lqZebOIMXG0OF6joZ8UmUPIEYwPTyuIoFzKT
-	j6rPvJEN2XCugl/+WNxwdPNfRrqTIq/iPJzVmSAD97xREHgw1yiUu5IrvRdoghrfOVymzDImoyUnX
-	v1kDdJzg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1HuxVbYxRMzyqjyaftlbO5/aiaDX1zpVP34KGQGcrVo=; b=fA3dPzPKF+qibH0LJ3NX1/awYr
+	ibc2wmJwBfQ06311ZHJniqQ7bEzDmr5iQ5ZhNAu7dO4wDulRJ3AARGqXZL/6i3POS+MhbTwbfz/HI
+	PCsSELShjyiN4egXlPAP7twIqpYXp3FlQpUL1FZ1WYLiomq2WE3LL9eo07TB+mhwReCm1CUl7MNtM
+	x27aFq4i6EwVukjYPZvCO2b+nzsHzrcEdFRnfwwgKpzWiCF8jTMsTFnQre3oidgP9Yit6o1dm8i6S
+	PxzuKJqt1rR5nwuh7+5+clYiXnrF9aCmLaSaII/HZjs7dyb7O57dx/cKKqr7TKunhfU+iFv0nXIWk
+	SB3sYO6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBWD1-0000000EKYB-32lR;
-	Mon, 27 May 2024 08:59:59 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1sBYPS-0000000EgkY-3haY;
+	Mon, 27 May 2024 11:20:58 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBWCz-0000000EKWb-0NhG
+	id 1sBYPP-0000000Egjl-3qtq
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 May 2024 08:59:59 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240527085951epoutp02772a4b2d77fb65cfb010611fc3645bba~TTNxE7jvr2341923419epoutp02b
-	for <linux-nvme@lists.infradead.org>; Mon, 27 May 2024 08:59:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240527085951epoutp02772a4b2d77fb65cfb010611fc3645bba~TTNxE7jvr2341923419epoutp02b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1716800391;
-	bh=CQEl5Odrn2gxp6sQ0rwKylnsdnwf7SZr6c5IE4f2Nnw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=b6sbDsrkexBa3ZRv2LVkql9zWKURmvWRzL/2Tt5Q83xHAiLPcu3pVNaz1H79BPtFZ
-	 9R6EQgf860OPJlAqA782lKMcRavWyq5JskU/8LiGJRkMHoNKoOsNrL+/njM4Cg8P4g
-	 HOgd+66WaWOZGE8uR6Qplyjuvor2Qk7nFd+2fD7Y=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240527085951epcas5p49def0d875e71e6e2715f7a999b37eaf1~TTNwdHmqw1010910109epcas5p4v;
-	Mon, 27 May 2024 08:59:51 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4VnqN46xXZz4x9Q5; Mon, 27 May
-	2024 08:59:48 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5C.51.10035.48B44566; Mon, 27 May 2024 17:59:48 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240527085054epcas5p2be182df41a889b664ebc3edab8daf981~TTF84VBY20347303473epcas5p2Y;
-	Mon, 27 May 2024 08:50:54 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240527085054epsmtrp2f1618382f9787da1f2681bcab59eaba5~TTF83Cwh92271122711epsmtrp2r;
-	Mon, 27 May 2024 08:50:54 +0000 (GMT)
-X-AuditID: b6c32a4b-8afff70000002733-3e-66544b84bb3f
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	76.7A.08336.E6944566; Mon, 27 May 2024 17:50:54 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240527085050epsmtip1de5e35f4122e1db93f8daa490f6e562d~TTF5UwrDI2589625896epsmtip1Y;
-	Mon, 27 May 2024 08:50:50 +0000 (GMT)
-Date: Mon, 27 May 2024 08:43:51 +0000
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Dave Chinner <david@fromorbit.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
-	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, bvanassche@acm.org, hare@suse.de,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 06/12] fs, block: copy_file_range for def_blk_ops
- for direct block device
-Message-ID: <20240527084351.g2m7jt4xirj4elle@nj.shetty@samsung.com>
+	Mon, 27 May 2024 11:20:57 +0000
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44RBGoSf032508;
+	Mon, 27 May 2024 11:20:43 GMT
+DKIM-Signature: =?UTF-8?Q?v=3D1;_a=3Drsa-sha256;_c=3Drelaxed/relaxed;_d=3Dibm.com;_h=3Dcc?=
+ =?UTF-8?Q?:content-transfer-encoding:content-type:date:from:in-reply-to:m?=
+ =?UTF-8?Q?essage-id:mime-version:references:subject:to;_s=3Dpp1;_bh=3D1Hu?=
+ =?UTF-8?Q?xVbYxRMzyqjyaftlbO5/aiaDX1zpVP34KGQGcrVo=3D;_b=3DqCYrDVKZy/lrxl?=
+ =?UTF-8?Q?Be0GcI937+cYapKja4+W9euORFBqtDSsS+o4vTTo6OSPVu2+mM8khS_Ym/qSLxy?=
+ =?UTF-8?Q?t19bO6iYoPW9Xr9RTbDRvd+b+mmFBMgd7XSrVku+YibpxioIUlsyxFKB5KQK_r1?=
+ =?UTF-8?Q?IGqPb/XnmizSLrF2Ilaf9SLNCQ4s2uC5p1ICiex/n8MjNdfs8nDtWSOAedsVkP/?=
+ =?UTF-8?Q?bdO_z+iDpJia7IP/CpkPHUPDZOBvwFz+dCLOGSV0JwUyxvxlZHCZK8ew0f8D6Hi?=
+ =?UTF-8?Q?nLCplkLlt_XSwGgiHV0/RirkbqsmvAViMn8u84XpXrzoOBm1dw0IvcQ7CTd3q+q?=
+ =?UTF-8?Q?qxEeYw4QucRA2aw_BQ=3D=3D_?=
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ycphf8cqh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 May 2024 11:20:42 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44R9jqPL027098;
+	Mon, 27 May 2024 11:20:41 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ybvhkgape-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 May 2024 11:20:41 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44RBKcRB23528048
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 May 2024 11:20:40 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 391A55806D;
+	Mon, 27 May 2024 11:20:38 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C63A25805D;
+	Mon, 27 May 2024 11:20:35 +0000 (GMT)
+Received: from [9.171.63.169] (unknown [9.171.63.169])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 27 May 2024 11:20:35 +0000 (GMT)
+Message-ID: <56198b02-b8fa-4afc-8405-5232d1bf23ab@linux.ibm.com>
+Date: Mon, 27 May 2024 16:50:34 +0530
 MIME-Version: 1.0
-In-Reply-To: <ZlJvp47RSFKkbwRJ@dread.disaster.area>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1BUZRjG+c7ZPRxsVo8LDB9sGG7UJAYucvGDQGog5jAwCqZNWok77OES
-	sLvtLglMk1wkLnKXsl1AV0DlkmCAtCA4gnItI7kZNEARIIIBcbHMQdr1QON/v3ne55nv/d53
-	XhLnXzK2IiOkKkYhFUcJiS2chtu77OxP+x8OFRUk70M1PR04Sspdw1HVaA6B5m4vAfT14hMc
-	Td5KBejp3V4c1XeMAaQtKeag4VuNGGouycdQRVU7hgrPJWOoff1PAuW3DQE0NajBUMvIbnTx
-	yzIOam7p5qD+piICXbg8ZYyudD7DUF7aIIZ0k4kAVc8tcFDXiAD1rnVy3xbQ/QP+dE8JpBs1
-	o8Z079h3HLr/bgxdW5lO0HVlp+iZOjWgbwwnEHRp9lkunZU8T9CNKeNc+q+pEQ69cHOQoLPr
-	KwH9o/aOcaDpsUiPcEYsYRQ2jDREJomQhnkK/d8L9g52cRU52ju6oX1CG6k4mvEU+gQE2vtG
-	ROmHI7T5TBwVo5cCxUqlcM9+D4UsRsXYhMuUKk8hI5dEyZ3lDkpxtDJGGuYgZVTujiLRXhe9
-	8URkeM31Kq5cZxHb+c91PAEUmmYAExJSzvAXdRM3A2wh+dQNACsSHgJDgU8tAfgoOZAtPAYw
-	5XIqsZmo7q/jsqYWAL9plbGmZQAfl01hhgKHeg1mas/pmSQJajf8YZ00yGbU6zA/X4cb/Dil
-	JWBGYvVzjykVAtvLaYOHR3nD7K4GwPJ22K2e5BjYhHKCpcm5wJCFVJ8JTL3fw2Eb8oFnxqsB
-	y6ZwtrPemGUruDzfstH0SVhRUE6w4dMAau5rNgJeMKUnBzcwToXBR2lDGwFr+FVPNcbqW2HW
-	00mM1XlQd36TX4Xf1mg3/JZw6O/EDabh6PcDGDuVaQAT2tRYLtiheeFHmhfeY9kdpi8mcTX6
-	YeCUAF55RrK4C9Y07dECbiWwZOTK6DBG6SJ3kjIn/19yiCy6Fjy/Fzt/HZj4bdGhDWAkaAOQ
-	xIVmPLPzQaF8nkQcF88oZMGKmChG2QZc9AvKw63MQ2T6g5Oqgh2d3UTOrq6uzm5Oro5CC95c
-	SrGET4WJVUwkw8gZxWYOI02sEjB+yuHOgWNVbboHM5+fMH+IgbTZDx84TYp0Ywffumn/aW3N
-	78E5sVc/1tzJKtq6t+iAbXEhXz0w0WwWNBOUUxxZ/G6/d3L8R0WrK4Ly5b6A6SS/l4+o+xIP
-	/HyqOcOcxI86vHL8X120Z1zfvfT9C62zw5UXhB2VOxuHtzX5WBT/mvmFR4Qk4U1S9NPSarWo
-	yEt1RHpUMOfncJaKXZ3xu+frNb0jzT3n2h/WL6FL7xyvaYLdefXb1/2truK+w6XzsfEtKx2t
-	JYOZh1xCr31i1MAvfb9gm5FJaP4h0cLgG0YyS+9xnm3X0NpFi+a4CfP4Nb/ekABh4brg4AfU
-	E1sCn7c+Y7YSgAs5ynCxox2uUIr/A35YaGK4BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUxTWRiGPfdcbi91mlxK1YMkmDQqqUSgavDEZRxHjRdX3GJiTLTSC5Sl
-	YgsuEw3VBtRKESvStCxWICAlKSqKIIhaUMCtUUQjKuhMsRVUpNEERltmCpmM/568y/f++Wgo
-	dJHTaYUyg1MpZaliik/Wt4rD5ipjtyZEl3yU4Nr79yA+lu+FuObNaQoPtnoALvwyCrHz9nGA
-	vz9yQHz1Xi/AlrISEr+83Ujg5jIDgatr7hK4yKgl8N2xTxQ22J8D3N9tJvDNngh8IaeCxM03
-	O0ncdaOYwucr+3m4qt1H4DMnugnc4DwKsG1wiMQdPaHY4W0P+C2U7Xq2lr1fhthG8xse6+i9
-	TLJdjzLZK9aTFFtXkcW660yAbXqpodjyvLMBrF77mWIbs/sC2OH+HpIdaumm2LyrVsA+tLTx
-	4oJ38JfIuVTFfk4V9etuftIr7ykq/ZPoYIHzGakBA4wOBNKIWYBsXXUBfhYyTQBVFs2f0ENQ
-	pbcNTnAwqva5eDrA/zczDNDbD27Kb5DMLJRrMRI6QNMUE4EejNF+WcTMRgZDA/TnIVNBIdPT
-	p+MDwUw8cpQ2j7OAWYHyOurBxNH3AA1/OAUnjCDUaXKSfoZMDCqtewf9A5AJRVW+8YFAZj4q
-	1+aDfMCYf2qYf2qY/29YALSCEC5dnZaYppamS5XcgUi1LE2dqUyMjN+bdgWM/8IcSQO4bv0S
-	aQcEDewA0VAsEohKNyUIBXLZoT841d5dqsxUTm0HoTQpniaY5tbLhUyiLINL4bh0TvWfS9CB
-	0zWEWff7LX7uL0vjcrbq14zETPb92WIf2bcnKzdjp9zwl3xl9FtHgTwOFhlvKFvK3UnLIprC
-	s+0DhxPdq9fqNUSMWWHaFFsuTJDWO/NsYSmrZvTauhUxk9xjnTrPuSqBxGV6vvni8r6D9Hub
-	Y7Qvs16YvD1upOzO8jXWktdwYbRYmVwce0xSLXOBx4Pi05xz3xHj/pTCrKh5DZ2+DTntvIjC
-	8F3O9TPbNj9ZUhsfFC7t3/Z3z+qvCcrW4tHab68vefTGi71g6m6jVq2dvGWWSINfhDwcenWh
-	apsl27u44/LxsYp1i5I9Uao9nzMOv9gSpJpd8+OaIkwy4Dnyndo45asrSEyqk2TSOVCllv0D
-	5ojMDHoDAAA=
-X-CMS-MailID: 20240527085054epcas5p2be182df41a889b664ebc3edab8daf981
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----u98hW3AvpxW_WMqzG8XaJinKydZ84Ygy6oP0sovTVoTPagnQ=_6c01_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520102929epcas5p2f4456f6fa0005d90769615eb2c2bf273
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520102929epcas5p2f4456f6fa0005d90769615eb2c2bf273@epcas5p2.samsung.com>
-	<20240520102033.9361-7-nj.shetty@samsung.com>
-	<ZlJvp47RSFKkbwRJ@dread.disaster.area>
+User-Agent: Mozilla Thunderbird
+Subject: Re: nvme-cli : attaching a namespace to an undiscovered nvme
+ controller on multi-controller nvme disk
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>, Gregory Joyce <gjoyce@ibm.com>,
+        Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>,
+        "axboe@fb.com" <axboe@fb.com>
+References: <f1a7c1e2-3203-4b7a-a922-82fa812455bd@linux.ibm.com>
+ <yhvmfctxhfzrcsq4lx6nr3f5n67kegrixtthh3pals7vn5qr26@k5as5whcdrum>
+ <dfb2488a-6275-4822-94ec-07a575cbf09c@linux.ibm.com>
+ <88f230c4-e16e-4a16-a4e6-a48e605147f1@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <88f230c4-e16e-4a16-a4e6-a48e605147f1@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: bLZTZgHmCVw9PvPH_V6uQ12rvIOQtTCO
+X-Proofpoint-GUID: bLZTZgHmCVw9PvPH_V6uQ12rvIOQtTCO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-27_01,2024-05-24_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501
+ clxscore=1011 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2405270092
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240527_015957_858177_A8E8CD3E 
-X-CRM114-Status: GOOD (  21.23  )
+X-CRM114-CacheID: sfid-20240527_042056_119255_DE59D9E4 
+X-CRM114-Status: GOOD (  26.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,84 +113,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------u98hW3AvpxW_WMqzG8XaJinKydZ84Ygy6oP0sovTVoTPagnQ=_6c01_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
 
-On 26/05/24 09:09AM, Dave Chinner wrote:
->On Mon, May 20, 2024 at 03:50:19PM +0530, Nitesh Shetty wrote:
->> For direct block device opened with O_DIRECT, use blkdev_copy_offload to
->> issue device copy offload, or use splice_copy_file_range in case
->> device copy offload capability is absent or the device files are not open
->> with O_DIRECT.
+On 5/16/24 11:55, Nilay Shroff wrote:
+> 
+> 
+> On 5/7/24 17:14, Nilay Shroff wrote:
 >>
->> Reviewed-by: Hannes Reinecke <hare@suse.de>
->> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
->> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->> ---
->>  block/fops.c | 26 ++++++++++++++++++++++++++
->>  1 file changed, 26 insertions(+)
 >>
->> diff --git a/block/fops.c b/block/fops.c
->> index 376265935714..5a4bba4f43aa 100644
->> --- a/block/fops.c
->> +++ b/block/fops.c
->> @@ -17,6 +17,7 @@
->>  #include <linux/fs.h>
->>  #include <linux/iomap.h>
->>  #include <linux/module.h>
->> +#include <linux/splice.h>
->>  #include "blk.h"
+>> On 5/6/24 20:35, Daniel Wagner wrote:
+>>> On Mon, May 06, 2024 at 07:45:20PM GMT, Nilay Shroff wrote:
+>>>> There could be multiple ways to address this issue. However my proposal would be to address
+>>>> it in nvme-cli. As nvme-cli builds the nvme topology it shall be easy
+>>>> for nvme-cli to detect
+>>>
+>>> The topology scan in libnvme is only using the information available in
+>>> sysfs. libnvme doesn't issue any commands anymore and I'd like to keep
+>>> it this in this way. So if the kernel doesn't exposes this information
+>>> to userspace via sysfs, I don't think it's simple to 'fix' this in
+>>> nvme-cli/libnvme.
+>>>
+>> I think the information which we need to contain this issue is already
+>> available through sysfs. If we scan nvme topology then we could find 
+>> the controller id assigned to each controller under each nvme subsystem.
+>> We can then leverage this information to figure out whether each controller 
+>> id specified in the attach-ns command is valid or not. So essentially we 
+>> match controller id specified in attach-ns command against the controller id 
+>> learnt through scanning the topology. If we find that any discrepancy then we
+>> can show the WARNING to the user. I have worked out a patch using this method. 
+>> I have attached the patch below for suggestion/feedback.
 >>
->>  static inline struct inode *bdev_file_inode(struct file *file)
->> @@ -754,6 +755,30 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
->>  	return ret;
+>> diff --git a/nvme.c b/nvme.c
+>> index c1d4352a..533cc390 100644
+>> --- a/nvme.c
+>> +++ b/nvme.c
+>> @@ -2784,6 +2784,23 @@ static int delete_ns(int argc, char **argv, struct command *cmd, struct plugin *
+>>  	return err;
 >>  }
->>
->> +static ssize_t blkdev_copy_file_range(struct file *file_in, loff_t pos_in,
->> +				      struct file *file_out, loff_t pos_out,
->> +				      size_t len, unsigned int flags)
+>>  
+>> +static bool nvme_match_subsys_device_filter(nvme_subsystem_t s, nvme_ctrl_t c,
+>> +		   nvme_ns_t ns, void *f_arg)
 >> +{
->> +	struct block_device *in_bdev = I_BDEV(bdev_file_inode(file_in));
->> +	struct block_device *out_bdev = I_BDEV(bdev_file_inode(file_out));
->> +	ssize_t copied = 0;
+>> +	nvme_ctrl_t _c;
+>> +	const char *devname = (const char *)f_arg;
 >> +
->> +	if ((in_bdev == out_bdev) && bdev_max_copy_sectors(in_bdev) &&
->> +	    (file_in->f_iocb_flags & IOCB_DIRECT) &&
->> +	    (file_out->f_iocb_flags & IOCB_DIRECT)) {
->> +		copied = blkdev_copy_offload(in_bdev, pos_in, pos_out, len,
->> +					     NULL, NULL, GFP_KERNEL);
->> +		if (copied < 0)
->> +			copied = 0;
->> +	} else {
->> +		copied = splice_copy_file_range(file_in, pos_in + copied,
->> +						 file_out, pos_out + copied,
->> +						 len - copied);
+>> +	if (s) {
+>> +		nvme_subsystem_for_each_ctrl(s, _c) {
+>> +			if (!strcmp(devname, nvme_ctrl_get_name(_c)))
+>> +				return true;
+>> +		}
+>> +		return false;
 >> +	}
->
->This should not fall back to a page cache copy.
->
->We keep being told by application developers that if the fast
->hardware/filesystem offload fails, then an error should be returned
->so the application can determine what the fallback operation should
->be.
->
->It may well be that the application falls back to "copy through the
->page cache", but that is an application policy choice, not a
->something the kernel offload driver should be making mandatory.
->
->Userspace has to handle copy offload failure anyway, so they a
->fallback path regardless of whether copy_file_range() works on block
->devices or not...
->
-Makes sense, We will remove fallback part in next version.
+>> +
+>> +	return true;
+>> +}
+>> +
+>>  static int nvme_attach_ns(int argc, char **argv, int attach, const char *desc, struct command *cmd)
+>>  {
+>>  	_cleanup_free_ struct nvme_ctrl_list *cntlist = NULL;
+>> @@ -2839,12 +2856,68 @@ static int nvme_attach_ns(int argc, char **argv, int attach, const char *desc, s
+>>  
+>>  	nvme_init_ctrl_list(cntlist, num, ctrlist);
+>>  
+>> -	if (attach)
+>> +	if (attach) {
+>> +		const char *cntlid;
+>> +		int __cntlid;
+>> +		char *p;
+>> +		nvme_host_t h;
+>> +		nvme_subsystem_t s;
+>> +		nvme_ctrl_t c;
+>> +		nvme_root_t r = NULL;
+>> +		int matched = 0;
+>> +		nvme_scan_filter_t filter = nvme_match_subsys_device_filter;
+>> +
+>> +		r = nvme_create_root(stderr, log_level);
+>> +		if (!r) {
+>> +			nvme_show_error("Failed to create topology root: %s",
+>> +					nvme_strerror(errno));
+>> +			return -errno;
+>> +		}
+>> +
+>> +		err = nvme_scan_topology(r, filter, (void *)dev->name);
+>> +		if (err < 0) {
+>> +			if (errno != ENOENT)
+>> +				nvme_show_error("Failed to scan topology: %s",
+>> +						nvme_strerror(errno));
+>> +			nvme_free_tree(r);
+>> +			return err;
+>> +		}
+>> +		nvme_for_each_host(r, h) {
+>> +			nvme_for_each_subsystem(h, s) {
+>> +				nvme_subsystem_for_each_ctrl(s, c) {
+>> +					cntlid = nvme_ctrl_get_cntlid(c);
+>> +					errno = 0;
+>> +					__cntlid = strtoul(cntlid, &p, 0);
+>> +					if (errno || *p != 0)
+>> +						continue;
+>> +					for (i = 0; i < num; i++) {
+>> +						if (__cntlid == list[i])
+>> +							matched++;
+>> +					}
+>> +				}
+>> +			}
+>> +		}
+>> +
+>> +		nvme_free_tree(r);
+>> +
+>> +		if (matched != num) {
+>> +			fprintf(stderr,
+>> +				"You are about to attach namespace 0x%x to an undiscovered nvme controller.\n",
+>> +				cfg.namespace_id);
+>> +			fprintf(stderr,
+>> +				"WARNING: Attaching nampespace to undiscovered nvme controller may have undesired side effect!\n"
+>> +				"You may not be able to perform any IO to such namespace.\n"
+>> +				"You have 10 seconds to press Ctrl-C to cancel this operation.\n\n");
+>> +			sleep(10);
+>> +			fprintf(stderr, "Sending attach-ns operation ...\n");
+>> +		}
+>> +
+>>  		err = nvme_cli_ns_attach_ctrls(dev, cfg.namespace_id,
+>>  					       cntlist);
+>> -	else
+>> +	} else {
+>>  		err = nvme_cli_ns_detach_ctrls(dev, cfg.namespace_id,
+>>  					       cntlist);
+>> +	}
+>>  
+>>  	if (!err)
+>>  		printf("%s: Success, nsid:%d\n", cmd->name, cfg.namespace_id);
+>>
+> Gentle ping... 
+> 
+> If there's no objection to the above proposed patch then may I send a formal patch?
+> 
+> 
+Hi Daniel,
 
-Thank you,
-Nitesh Shetty
+A gentle ping, if the proposed patch looks good then may I send a formal patch?
 
-------u98hW3AvpxW_WMqzG8XaJinKydZ84Ygy6oP0sovTVoTPagnQ=_6c01_
-Content-Type: text/plain; charset="utf-8"
-
-
-------u98hW3AvpxW_WMqzG8XaJinKydZ84Ygy6oP0sovTVoTPagnQ=_6c01_--
+Thanks,
+--Nilay
 
