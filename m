@@ -4,75 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A0CAC25B78
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 15:41:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C01A6C25B78
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 19:39:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H38NVgfvrbz9f47culVI5M8RadbOZLjlujcosBHOdmc=; b=DZst2BMX7IlfEJccYKaYfK+cgQ
-	IK0DaKaVScHD97yG6/pm1bw0erOSpaSqg/SlbE9L9mPFFwFGp+tUE0o7KE1+HUwb7oubxhCifoD7r
-	7hGgmAZt0Y1z5cIrHfxMfAVTo96VhrS5irHpqzWvWkz7o/fdReSp8NbG1zDlqpiJfth4xaWRfJn4L
-	qBzoivBeInAhVK2mAzUecDviNnc/3gCB+3Ciy53qhfP09gdnbyRDHvR1NE7nfkJp2YRU3BMR3sjNm
-	1KINnhR6N0lTOHBZUJBHMYpgeqWTcmlA+42qBjuKF917NGxrp3qOz7//RAoDrkW+exOBNS0uaTcaq
-	NxOZZ4Ng==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dLNR3HA10GWpDX+/bjL0V1ehoLQ8rdrpHxx0+1b357M=; b=zpppaYx9gJk3u7y+KUc+Onzub/
+	xBzADPw52kme8SlMDz3DvhOD482b8GMbEYOlcH6xJImflDNIN/Ic6iTeCCX1Fi0lZSHK3KR4fhSNI
+	BaBtzgDYiirgbT6Fi1ZtZvo+9EjSHp41nhA/YReN2KO0TJiUXeyITZRPqMGRTncmgYO8qs+Milw5y
+	baQhjGutZA+FZrIj8ulLbzReVE5j32S7dZaIVI8Jq+XEM67Lb64wr9XHhZqvJGqKPAznk9kyNqJIw
+	ksyKHQ8WCEYSzkSFUW8P+DKBuCiist4zPV+YKsnKMhfaJ6sYZXzmE3aKEg6oJB3aNTNsdv8OlmXhW
+	odxhGx3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBcT8-0000000FdUZ-02th;
-	Mon, 27 May 2024 15:41:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1sBgBR-0000000GCCF-2LJw;
+	Mon, 27 May 2024 19:39:01 +0000
+Received: from mail-ej1-f46.google.com ([209.85.218.46])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBcT4-0000000FdSc-1ycs
+	id 1sBgBO-0000000GCAv-2b5l
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 May 2024 15:41:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716824457;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H38NVgfvrbz9f47culVI5M8RadbOZLjlujcosBHOdmc=;
-	b=QMmc5k1D16uwWjLFjGwTNbrYdvLLfEtyQu/UrqE3QznZvosgA97z0BRXu5AGaGyL9fbbqa
-	/NcAEvjXfpvJGTq3DQ6HtU/AD8dt/OmA3wXgN6hTDLzO7ScJBJKp1ev5LxpX1hSRd/IUB7
-	qvXpStYeevrJGk47yMj1pwGRpAidHfU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-PBTryCivNz6QEgtw8iAMuA-1; Mon, 27 May 2024 11:40:51 -0400
-X-MC-Unique: PBTryCivNz6QEgtw8iAMuA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D9273800169;
-	Mon, 27 May 2024 15:40:50 +0000 (UTC)
-Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CF037200A381;
-	Mon, 27 May 2024 15:40:50 +0000 (UTC)
-Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
-	id C73A930C1C33; Mon, 27 May 2024 15:40:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id C61963C542;
-	Mon, 27 May 2024 17:40:50 +0200 (CEST)
-Date: Mon, 27 May 2024 17:40:50 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-    Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-    Mike Snitzer <snitzer@kernel.org>, Milan Broz <gmazyland@gmail.com>, 
-    Anuj gupta <anuj1072538@gmail.com>
-cc: linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
-    linux-nvme@lists.infradead.org
-Subject: [PATCH 2/2 v4] dm-crypt: support for per-sector NVMe metadata
-In-Reply-To: <719d2e-b0e6-663c-ec38-acf939e4a04b@redhat.com>
-Message-ID: <4bf719bb-e389-4fb1-b98-83ba427ceeb0@redhat.com>
-References: <719d2e-b0e6-663c-ec38-acf939e4a04b@redhat.com>
+	Mon, 27 May 2024 19:39:00 +0000
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a6249e39815so1711666b.0
+        for <linux-nvme@lists.infradead.org>; Mon, 27 May 2024 12:38:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716838735; x=1717443535;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dLNR3HA10GWpDX+/bjL0V1ehoLQ8rdrpHxx0+1b357M=;
+        b=V0xaMetOEfy3w49feQ7TtlBxaRxjUWUzXpHACEHu4nBHaWsS6963btgI8iDzyL38cw
+         /L15hzhXGEoUg5evMxUvSZFVuLa8g/vVEq/BJpwGC8jSoDhdXtglbzaf3XxT0V1oD+je
+         KQ+ETmEJOgn9a/2KnQeAt/ryGpmTO01bCGEn9NYvc1zAVjQaEGXG/AK3eT0Yoj4hFPbm
+         SaK//+OZ+pFFjjVnouZil0tnqk181vAABGRp9ZMy7UJQj0mBM/stXOa8VS2Js+CfWRux
+         ttDlLMa1jcOl6Y4cTredQ6GeNL1Npl2S7uMeEJk6DqqI/E1u99uyiCN0jyR2eFITGpX/
+         wjdQ==
+X-Gm-Message-State: AOJu0Yws/9cYqQNdNelSkbfWiGh9OcAgp5ewx0ov+ZO37uU2ynshzLTA
+	+jfuNBVsPNihCRe3JapiarpSLM+ttYgDZA1PrconBDnnP1SWCuJUJZfmrg==
+X-Google-Smtp-Source: AGHT+IGZazl5xC9UozMXNrYyE93Ax0CtrkboV0J3Y/r8QhDQ5YQuEzjPBEOydJhfvPFiVUi7e/IAEQ==
+X-Received: by 2002:a17:906:6b1b:b0:a59:bce9:8454 with SMTP id a640c23a62f3a-a62642e09d9mr803815166b.1.1716838734794;
+        Mon, 27 May 2024 12:38:54 -0700 (PDT)
+Received: from localhost.localdomain (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626c818139sm527934666b.35.2024.05.27.12.38.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 May 2024 12:38:54 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: [PATCH] nvmet: fix a possible leak when destroy a ctrl during qp establishment
+Date: Mon, 27 May 2024 22:38:52 +0300
+Message-Id: <20240527193852.252090-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240527_084058_775435_373F750F 
-X-CRM114-Status: GOOD (  18.13  )
+X-CRM114-CacheID: sfid-20240527_123858_677652_0C73CC99 
+X-CRM114-Status: GOOD (  15.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,201 +78,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Support per-sector NVMe metadata in dm-crypt.
+In nvmet_sq_destroy we capture sq->ctrl early and if it is non-NULL we
+know that a ctrl was allocated (in the admin connect request handler)
+and we need to release pending AERs, clear ctrl->sqs and sq->ctrl
+(for nvme-loop primarily), and drop the final reference on the ctrl.
 
-This commit changes dm-crypt, so that it can use NVMe metadata to store
-authentication information. We can put dm-crypt directly on the top of
-NVMe device, without using dm-integrity.
+However, a small window is possible where nvmet_sq_destroy starts (as
+a result of the client giving up and disconnecting) concurrently with
+the nvme admin connect cmd (which may be in an early stage). But *before*
+kill_and_confirm of sq->ref (i.e. the admin connect managed to get an sq
+live reference). In this case, sq->ctrl was allocated however after it was
+captured in a local variable in nvmet_sq_destroy.
+This prevented the final reference drop on the ctrl.
 
-This commit improves write throughput twice, becase the will be no writes
-to the dm-integrity journal.
+Solve this by re-capturing the sq->ctrl after all inflight request has
+completed, where for sure sq->ctrl reference is final, and move forward
+based on that.
 
-Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
+This issue was observed in an environment with many hosts connecting
+multiple ctrls simoutanuosly, creating a delay in allocating a ctrl
+leading up to this race window.
 
+Reported-by: Alex Turin <alex@vastdata.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/md/dm-crypt.c |   53 ++++++++++++++++++++++++++++----------------------
- 1 file changed, 30 insertions(+), 23 deletions(-)
+ drivers/nvme/target/core.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Index: linux-2.6/drivers/md/dm-crypt.c
-===================================================================
---- linux-2.6.orig/drivers/md/dm-crypt.c
-+++ linux-2.6/drivers/md/dm-crypt.c
-@@ -211,7 +211,8 @@ struct crypt_config {
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 2fde22323622..06f0c587f343 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -818,6 +818,15 @@ void nvmet_sq_destroy(struct nvmet_sq *sq)
+ 	percpu_ref_exit(&sq->ref);
+ 	nvmet_auth_sq_free(sq);
  
- 	unsigned int integrity_tag_size;
- 	unsigned int integrity_iv_size;
--	unsigned int on_disk_tag_size;
-+	unsigned int used_tag_size;
-+	unsigned int tuple_size;
- 
- 	/*
- 	 * pool for per bio private data, crypto requests,
-@@ -1148,14 +1149,14 @@ static int dm_crypt_integrity_io_alloc(s
- 	unsigned int tag_len;
- 	int ret;
- 
--	if (!bio_sectors(bio) || !io->cc->on_disk_tag_size)
-+	if (!bio_sectors(bio) || !io->cc->tuple_size)
- 		return 0;
- 
- 	bip = bio_integrity_alloc(bio, GFP_NOIO, 1);
- 	if (IS_ERR(bip))
- 		return PTR_ERR(bip);
- 
--	tag_len = io->cc->on_disk_tag_size * (bio_sectors(bio) >> io->cc->sector_shift);
-+	tag_len = io->cc->tuple_size * (bio_sectors(bio) >> io->cc->sector_shift);
- 
- 	bip->bip_iter.bi_sector = io->cc->start + io->sector;
- 
-@@ -1173,24 +1174,30 @@ static int crypt_integrity_ctr(struct cr
- 	struct blk_integrity *bi = blk_get_integrity(cc->dev->bdev->bd_disk);
- 	struct mapped_device *md = dm_table_get_md(ti->table);
- 
-+	if (!bi) {
-+		ti->error = "No integrity profile.";
-+		return -EINVAL;
-+	}
++	/*
++	 * we must reference the ctrl again after waiting for inflight IO
++	 * to complete. Because admin connect may have sneaked in after we
++	 * store sq->ctrl locally, but before we killed the percpu_ref. the
++	 * admin connect allocates and assigns sq->ctrl, which now needs a
++	 * final ref put, as this ctrl is going away.
++	 */
++	ctrl = sq->ctrl;
 +
- 	/* From now we require underlying device with our integrity profile */
--	if (!bi || strcasecmp(bi->profile->name, "DM-DIF-EXT-TAG")) {
-+	if (strcasecmp(bi->profile->name, "DM-DIF-EXT-TAG") &&
-+	    strcasecmp(bi->profile->name, "nop")) {
- 		ti->error = "Integrity profile not supported.";
- 		return -EINVAL;
- 	}
- 
--	if (bi->tag_size != cc->on_disk_tag_size ||
--	    bi->tuple_size != cc->on_disk_tag_size) {
-+	if (bi->tuple_size < cc->used_tag_size) {
- 		ti->error = "Integrity profile tag size mismatch.";
- 		return -EINVAL;
- 	}
-+	cc->tuple_size = bi->tuple_size;
- 	if (1 << bi->interval_exp != cc->sector_size) {
- 		ti->error = "Integrity profile sector size mismatch.";
- 		return -EINVAL;
- 	}
- 
- 	if (crypt_integrity_aead(cc)) {
--		cc->integrity_tag_size = cc->on_disk_tag_size - cc->integrity_iv_size;
-+		cc->integrity_tag_size = cc->used_tag_size - cc->integrity_iv_size;
- 		DMDEBUG("%s: Integrity AEAD, tag size %u, IV size %u.", dm_device_name(md),
- 		       cc->integrity_tag_size, cc->integrity_iv_size);
- 
-@@ -1202,7 +1209,7 @@ static int crypt_integrity_ctr(struct cr
- 		DMDEBUG("%s: Additional per-sector space %u bytes for IV.", dm_device_name(md),
- 		       cc->integrity_iv_size);
- 
--	if ((cc->integrity_tag_size + cc->integrity_iv_size) != bi->tag_size) {
-+	if ((cc->integrity_tag_size + cc->integrity_iv_size) > cc->tuple_size) {
- 		ti->error = "Not enough space for integrity tag in the profile.";
- 		return -EINVAL;
- 	}
-@@ -1281,7 +1288,7 @@ static void *tag_from_dmreq(struct crypt
- 	struct dm_crypt_io *io = container_of(ctx, struct dm_crypt_io, ctx);
- 
- 	return &io->integrity_metadata[*org_tag_of_dmreq(cc, dmreq) *
--		cc->on_disk_tag_size];
-+		cc->tuple_size];
- }
- 
- static void *iv_tag_from_dmreq(struct crypt_config *cc,
-@@ -1362,9 +1369,9 @@ static int crypt_convert_block_aead(stru
- 		aead_request_set_crypt(req, dmreq->sg_in, dmreq->sg_out,
- 				       cc->sector_size, iv);
- 		r = crypto_aead_encrypt(req);
--		if (cc->integrity_tag_size + cc->integrity_iv_size != cc->on_disk_tag_size)
-+		if (cc->integrity_tag_size + cc->integrity_iv_size != cc->tuple_size)
- 			memset(tag + cc->integrity_tag_size + cc->integrity_iv_size, 0,
--			       cc->on_disk_tag_size - (cc->integrity_tag_size + cc->integrity_iv_size));
-+			       cc->tuple_size - (cc->integrity_tag_size + cc->integrity_iv_size));
- 	} else {
- 		aead_request_set_crypt(req, dmreq->sg_in, dmreq->sg_out,
- 				       cc->sector_size + cc->integrity_tag_size, iv);
-@@ -1794,7 +1801,7 @@ static void crypt_dec_pending(struct dm_
- 		return;
- 
- 	if (likely(!io->ctx.aead_recheck) && unlikely(io->ctx.aead_failed) &&
--	    cc->on_disk_tag_size && bio_data_dir(base_bio) == READ) {
-+	    cc->used_tag_size && bio_data_dir(base_bio) == READ) {
- 		io->ctx.aead_recheck = true;
- 		io->ctx.aead_failed = false;
- 		io->error = 0;
-@@ -3173,7 +3180,7 @@ static int crypt_ctr_optional(struct dm_
- 				ti->error = "Invalid integrity arguments";
- 				return -EINVAL;
- 			}
--			cc->on_disk_tag_size = val;
-+			cc->used_tag_size = val;
- 			sval = strchr(opt_string + strlen("integrity:"), ':') + 1;
- 			if (!strcasecmp(sval, "aead")) {
- 				set_bit(CRYPT_MODE_INTEGRITY_AEAD, &cc->cipher_flags);
-@@ -3384,12 +3391,12 @@ static int crypt_ctr(struct dm_target *t
- 		if (ret)
- 			goto bad;
- 
--		cc->tag_pool_max_sectors = POOL_ENTRY_SIZE / cc->on_disk_tag_size;
-+		cc->tag_pool_max_sectors = POOL_ENTRY_SIZE / cc->tuple_size;
- 		if (!cc->tag_pool_max_sectors)
- 			cc->tag_pool_max_sectors = 1;
- 
- 		ret = mempool_init_kmalloc_pool(&cc->tag_pool, MIN_IOS,
--			cc->tag_pool_max_sectors * cc->on_disk_tag_size);
-+			cc->tag_pool_max_sectors * cc->tuple_size);
- 		if (ret) {
- 			ti->error = "Cannot allocate integrity tags mempool";
- 			goto bad;
-@@ -3464,7 +3471,7 @@ static int crypt_map(struct dm_target *t
- 	 * Check if bio is too large, split as needed.
- 	 */
- 	if (unlikely(bio->bi_iter.bi_size > (BIO_MAX_VECS << PAGE_SHIFT)) &&
--	    (bio_data_dir(bio) == WRITE || cc->on_disk_tag_size))
-+	    (bio_data_dir(bio) == WRITE || cc->used_tag_size))
- 		dm_accept_partial_bio(bio, ((BIO_MAX_VECS << PAGE_SHIFT) >> SECTOR_SHIFT));
- 
- 	/*
-@@ -3480,8 +3487,8 @@ static int crypt_map(struct dm_target *t
- 	io = dm_per_bio_data(bio, cc->per_bio_data_size);
- 	crypt_io_init(io, cc, bio, dm_target_offset(ti, bio->bi_iter.bi_sector));
- 
--	if (cc->on_disk_tag_size) {
--		unsigned int tag_len = cc->on_disk_tag_size * (bio_sectors(bio) >> cc->sector_shift);
-+	if (cc->tuple_size) {
-+		unsigned int tag_len = cc->tuple_size * (bio_sectors(bio) >> cc->sector_shift);
- 
- 		if (unlikely(tag_len > KMALLOC_MAX_SIZE))
- 			io->integrity_metadata = NULL;
-@@ -3552,7 +3559,7 @@ static void crypt_status(struct dm_targe
- 		num_feature_args += test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags);
- 		num_feature_args += cc->sector_size != (1 << SECTOR_SHIFT);
- 		num_feature_args += test_bit(CRYPT_IV_LARGE_SECTORS, &cc->cipher_flags);
--		if (cc->on_disk_tag_size)
-+		if (cc->used_tag_size)
- 			num_feature_args++;
- 		if (num_feature_args) {
- 			DMEMIT(" %d", num_feature_args);
-@@ -3566,8 +3573,8 @@ static void crypt_status(struct dm_targe
- 				DMEMIT(" no_read_workqueue");
- 			if (test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags))
- 				DMEMIT(" no_write_workqueue");
--			if (cc->on_disk_tag_size)
--				DMEMIT(" integrity:%u:%s", cc->on_disk_tag_size, cc->cipher_auth);
-+			if (cc->used_tag_size)
-+				DMEMIT(" integrity:%u:%s", cc->used_tag_size, cc->cipher_auth);
- 			if (cc->sector_size != (1 << SECTOR_SHIFT))
- 				DMEMIT(" sector_size:%d", cc->sector_size);
- 			if (test_bit(CRYPT_IV_LARGE_SECTORS, &cc->cipher_flags))
-@@ -3588,9 +3595,9 @@ static void crypt_status(struct dm_targe
- 		DMEMIT(",iv_large_sectors=%c", test_bit(CRYPT_IV_LARGE_SECTORS, &cc->cipher_flags) ?
- 		       'y' : 'n');
- 
--		if (cc->on_disk_tag_size)
-+		if (cc->used_tag_size)
- 			DMEMIT(",integrity_tag_size=%u,cipher_auth=%s",
--			       cc->on_disk_tag_size, cc->cipher_auth);
-+			       cc->used_tag_size, cc->cipher_auth);
- 		if (cc->sector_size != (1 << SECTOR_SHIFT))
- 			DMEMIT(",sector_size=%d", cc->sector_size);
- 		if (cc->cipher_string)
+ 	if (ctrl) {
+ 		/*
+ 		 * The teardown flow may take some time, and the host may not
+-- 
+2.40.1
 
 
