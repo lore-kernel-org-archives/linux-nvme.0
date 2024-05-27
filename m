@@ -4,101 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 139C8C25B7C
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 11:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53BC6C25B74
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 13:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1HuxVbYxRMzyqjyaftlbO5/aiaDX1zpVP34KGQGcrVo=; b=fA3dPzPKF+qibH0LJ3NX1/awYr
-	ibc2wmJwBfQ06311ZHJniqQ7bEzDmr5iQ5ZhNAu7dO4wDulRJ3AARGqXZL/6i3POS+MhbTwbfz/HI
-	PCsSELShjyiN4egXlPAP7twIqpYXp3FlQpUL1FZ1WYLiomq2WE3LL9eo07TB+mhwReCm1CUl7MNtM
-	x27aFq4i6EwVukjYPZvCO2b+nzsHzrcEdFRnfwwgKpzWiCF8jTMsTFnQre3oidgP9Yit6o1dm8i6S
-	PxzuKJqt1rR5nwuh7+5+clYiXnrF9aCmLaSaII/HZjs7dyb7O57dx/cKKqr7TKunhfU+iFv0nXIWk
-	SB3sYO6A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pBYGvHEYU92GWsh2nZ9Vn9SxGcJwfP1MBH5v16L5vzM=; b=TAcVeuqru2Mu5+oO2UIdloXDbH
+	EnYBQJJbU/Q4AZljXG7g5sqy59i3nFLvSkTWIrBWagkgRYvlca+hTVfi1NxuP/WE3lNv7l6fInxyC
+	ZyhKm4KP1yk3r6ODEkCkkifrWZItE08QyUyojZiLflMSC8DhEoZCeHKUJjF8VCujRMT/1BFxnPBzj
+	Sggydrp7RaXXEMymQyYKpcCCVtaN4ZXsRzvXtaSqmAjRfaKGgjQlXE6fuGzDP6C/5fwfDFlvrrMXe
+	VZZxyo7zqykb++KGbLqrWXoiG7aSujZGQ3EcyBQsduGQURIajQNb6PQYnt+N7zB4srr3nzEYlY6Gw
+	OmYniYzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBYPS-0000000EgkY-3haY;
-	Mon, 27 May 2024 11:20:58 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1sBaCq-0000000F2JR-0Lan;
+	Mon, 27 May 2024 13:16:04 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBYPP-0000000Egjl-3qtq
+	id 1sBaCm-0000000F2Gx-2dc1
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 May 2024 11:20:57 +0000
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44RBGoSf032508;
-	Mon, 27 May 2024 11:20:43 GMT
-DKIM-Signature: =?UTF-8?Q?v=3D1;_a=3Drsa-sha256;_c=3Drelaxed/relaxed;_d=3Dibm.com;_h=3Dcc?=
- =?UTF-8?Q?:content-transfer-encoding:content-type:date:from:in-reply-to:m?=
- =?UTF-8?Q?essage-id:mime-version:references:subject:to;_s=3Dpp1;_bh=3D1Hu?=
- =?UTF-8?Q?xVbYxRMzyqjyaftlbO5/aiaDX1zpVP34KGQGcrVo=3D;_b=3DqCYrDVKZy/lrxl?=
- =?UTF-8?Q?Be0GcI937+cYapKja4+W9euORFBqtDSsS+o4vTTo6OSPVu2+mM8khS_Ym/qSLxy?=
- =?UTF-8?Q?t19bO6iYoPW9Xr9RTbDRvd+b+mmFBMgd7XSrVku+YibpxioIUlsyxFKB5KQK_r1?=
- =?UTF-8?Q?IGqPb/XnmizSLrF2Ilaf9SLNCQ4s2uC5p1ICiex/n8MjNdfs8nDtWSOAedsVkP/?=
- =?UTF-8?Q?bdO_z+iDpJia7IP/CpkPHUPDZOBvwFz+dCLOGSV0JwUyxvxlZHCZK8ew0f8D6Hi?=
- =?UTF-8?Q?nLCplkLlt_XSwGgiHV0/RirkbqsmvAViMn8u84XpXrzoOBm1dw0IvcQ7CTd3q+q?=
- =?UTF-8?Q?qxEeYw4QucRA2aw_BQ=3D=3D_?=
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ycphf8cqh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 May 2024 11:20:42 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44R9jqPL027098;
-	Mon, 27 May 2024 11:20:41 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ybvhkgape-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 May 2024 11:20:41 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44RBKcRB23528048
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 May 2024 11:20:40 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 391A55806D;
-	Mon, 27 May 2024 11:20:38 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C63A25805D;
-	Mon, 27 May 2024 11:20:35 +0000 (GMT)
-Received: from [9.171.63.169] (unknown [9.171.63.169])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 27 May 2024 11:20:35 +0000 (GMT)
-Message-ID: <56198b02-b8fa-4afc-8405-5232d1bf23ab@linux.ibm.com>
-Date: Mon, 27 May 2024 16:50:34 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: nvme-cli : attaching a namespace to an undiscovered nvme
- controller on multi-controller nvme disk
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Gregory Joyce <gjoyce@ibm.com>,
-        Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>,
-        "axboe@fb.com" <axboe@fb.com>
-References: <f1a7c1e2-3203-4b7a-a922-82fa812455bd@linux.ibm.com>
- <yhvmfctxhfzrcsq4lx6nr3f5n67kegrixtthh3pals7vn5qr26@k5as5whcdrum>
- <dfb2488a-6275-4822-94ec-07a575cbf09c@linux.ibm.com>
- <88f230c4-e16e-4a16-a4e6-a48e605147f1@linux.ibm.com>
+	Mon, 27 May 2024 13:16:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1716815760; x=1748351760;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=pBYGvHEYU92GWsh2nZ9Vn9SxGcJwfP1MBH5v16L5vzM=;
+  b=IAi/XI4EJEW8gykdOaTyUeurnmWbdO07oleyPVYtUSibFX0oPoRJB7ju
+   EkBoGKalLe/z207lw/jlhyxJKEa8lvJsi/BrxOykbFjK8gP3pwpZr6gwn
+   9p3vEsgz+Guyk7S6s6kuOVtNVw/QTkGSNWQ7s6E7RxRXCXqY8n0Ewd//2
+   bYnCQKS3eNUjRCvg5svmzQn+7Mh+UTe/MuP1qazU7Ab9hOc+BG7Df4BLg
+   mycyhcSFRNrjnPH1kC/7LOlby51lY5OFu46r316hIlVa3s1HqOq1zIHUi
+   W3bZoMfuclX3dRyXfh7wY9EowMVIujeKs0E5mdnxXltO75SZ9orQv9l+a
+   g==;
+X-CSE-ConnectionGUID: nZniRHxEQkS7waxEnUYLOQ==
+X-CSE-MsgGUID: N/uNWM+2TZKXZBM1p9xjig==
+X-IronPort-AV: E=Sophos;i="6.08,192,1712592000"; 
+   d="scan'208";a="18197269"
+Received: from mail-bn7nam10lp2101.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.101])
+  by ob1.hgst.iphmx.com with ESMTP; 27 May 2024 21:15:56 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BqJbDkAJFCRZgxcA1Q5HJRFA5uVUU7kSIWMqe8Q5BwuB0GQzJDxECUn1TWSChdZQ0Yr4dM3GpODrBe/DmndDl/nzObuWPwPvEAQ47ch+dYb12gyCRFoa3WB9TEDZLfyOjhUkSVzDM/cAgQbRNQ0/2AjBNsgZ24Xqy/s+QpnL23h8kyTg6dmokfywLobEL2+l0a6DC/a+ZPYREjtNh8GNv0+ddp9zmgmsTakQoSKUxpN5z/e8wquOOIBYRkM72MwO2oyx96D4paIzmycgalY/nz2SLOAFX6lOgyTGiL4fxZiY3BgZ5pdYJbxWSkkPpl9vFpJTnw/EH68SyUeuAKihgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pBYGvHEYU92GWsh2nZ9Vn9SxGcJwfP1MBH5v16L5vzM=;
+ b=XSubOWKDjG9pfUPhDmn8rlpZ3nY/VejMNOH/thK18UlpJH8EOD5QOyxcCy3zY3Xe/XI651wPRf6paW/fpM4ln9EK6n9yPPrGMHET5ERv8EIJnaJUU/brREdCsNELjYNZbHrxbdKClMa6mcJ2/JCpLbFVRZX5Jf2nNaG3DAjxzHZUbxxwrbsLrIk06VUVaCqo2doSm+nc3pGsWPP1f9bvCRdFXCjDen2H1NszgPD4IzZWaFecsvuJkxJPFqudhYieSpYjA8CsI3xtnvxY7aLeiikVXgHzqQFiSF1gVHDaEkW6T5mRBUR+gFSJkUsXNWJlXJe9mqU90dPdlaMC1vysIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pBYGvHEYU92GWsh2nZ9Vn9SxGcJwfP1MBH5v16L5vzM=;
+ b=dGifLb/wfdGPn491AioPdT6G6gerTlZFivIz7weBKTMioYycCjWKEV/OkWw9q94NAQdQj9KsD8an7kWQ64WeYprQb17V3gPksd7TlKTkmnKboAAxRnrbp0zkg0UXqA2VUoyOuv/0r2V40DewYcYO/WFDPzz1W37M5sB3h8UE+TQ=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ SJ0PR04MB8275.namprd04.prod.outlook.com (2603:10b6:a03:3e7::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.29; Mon, 27 May
+ 2024 13:15:54 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%3]) with mapi id 15.20.7611.025; Mon, 27 May 2024
+ 13:15:54 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Keith Busch <kbusch@meta.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"axboe@kernel.dk" <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv3] nvme: use srcu for iterating namespace list
+Thread-Topic: [PATCHv3] nvme: use srcu for iterating namespace list
+Thread-Index: AQHarfKb6+C2wAPQEU2JMNfmpCKGY7GrFBuA
+Date: Mon, 27 May 2024 13:15:54 +0000
+Message-ID: <zuydj7radkqstndzah3hxqwoq5m3dtto4en7twfwtejzayjlsg@mcduoyuuixhn>
+References: <20240524155345.243814-1-kbusch@meta.com>
+In-Reply-To: <20240524155345.243814-1-kbusch@meta.com>
+Accept-Language: en-US
 Content-Language: en-US
-In-Reply-To: <88f230c4-e16e-4a16-a4e6-a48e605147f1@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bLZTZgHmCVw9PvPH_V6uQ12rvIOQtTCO
-X-Proofpoint-GUID: bLZTZgHmCVw9PvPH_V6uQ12rvIOQtTCO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-27_01,2024-05-24_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0
- bulkscore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501
- clxscore=1011 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2405270092
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SJ0PR04MB8275:EE_
+x-ms-office365-filtering-correlation-id: a23a440c-f5c5-47ba-6e6f-08dc7e4f23b6
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|1800799015|366007|38070700009|27256008;
+x-microsoft-antispam-message-info: =?us-ascii?Q?0waUjYiW2ruTebZiDPwob9bGziMa3al01vYtKLEOAy42NDRgURBUgJenTjjj?=
+ =?us-ascii?Q?mQhCOV8aj3dVYq2XeA/6pHC6K2EOxA4fqCJWeTORaNmsGbXCWueVrSIJ2/pO?=
+ =?us-ascii?Q?Zom0a9f7XE3Suit+Msn8e1ucoZxJz+Yt0XjJXAB3FM2dv1PdoUIsKmHQUean?=
+ =?us-ascii?Q?1TlQ8o/cP/uF+kCIndzFPugFjuxuubKN7srkzVB5IFxHWsTLDufhMST9dPbA?=
+ =?us-ascii?Q?kl9FqkMa9bKnB7P1j00yEKZHbX3gEC0WstFrHQgnDzppifFYAMITJkryMwQz?=
+ =?us-ascii?Q?vXp8vUBExDQ88ybECaGkS7s4p9oaWSMApdM7CziMCrdYbM4CjAelbLMZJ8XC?=
+ =?us-ascii?Q?ulIkqfkTfQUjDN0Ogn4Ue9wh/tC79PcnIbEkbtplMzPRcQmUwklRVpd8dQBz?=
+ =?us-ascii?Q?QuVl90glAwaDa8F3JR/m8TZXeXLP9OCvC3o+rNiMUbLjf5bVLJ4cr2FsbI7b?=
+ =?us-ascii?Q?DELFR9bhx53f6+SsUBseQ3snV/3wWSk3IhoBZZOtxIYW6haDqiu0/T8Adfxq?=
+ =?us-ascii?Q?cg1Mfj5OekeSaN4qjbuydR1g/3IQJM1RCKUPtVMMpT6l3moaM+7d+bkmOCHK?=
+ =?us-ascii?Q?Qbsiug64kBI4IoyCywS9xvkhklpHS/5/nBgPEB9rG/om9yorRZ6HYK+YtOUW?=
+ =?us-ascii?Q?Jj3lCz44qGXDAMyY6iFbRnq9U7SmB01z+LHNXDFHmKlC1hZ74GEezd4TZQgY?=
+ =?us-ascii?Q?uUN/3SB4Tp/nxImemuuwNFamh7Cp49csUUPlCTjKzkWlDlM4wVmOcApBv1LD?=
+ =?us-ascii?Q?SSAjzXT/TvikzGT3Yl+REmOUl+gH0D2ZyPBWW7cHaDOISxmWLxycW641tosu?=
+ =?us-ascii?Q?wtrZIYLaWO9HwyP2HdCIufxG603h6agEgNjRmrjg/gm7VAcWUiPrRC4bpWiZ?=
+ =?us-ascii?Q?hDlSaS5QUdEmQ9Q7k40cAWLA8m2LMj6NeV5xQXdaSTrwxomHz2MH14yM2A9Z?=
+ =?us-ascii?Q?1e0Z6tDY6amttte0QUOx5OfSFd6Qb13ualOOJPpipsUYKQ7uXC1uRZtbGWjC?=
+ =?us-ascii?Q?gQqBPYoFILykwrN1zve2EZ/gjMya0TAQgonNtDV7L8E3s26TEdjDIbhORqb+?=
+ =?us-ascii?Q?OmaambynaJsHiK9UfwrszGbXMYrVgmAV5IcoqGp5u+zFRaWxn+ZqbnqEovA4?=
+ =?us-ascii?Q?gyfcM/6BzH2wpMrkJ5BURGPMT5SoKNzwzP8qYFJ+s/x0wfyw72x0QYpXMhlH?=
+ =?us-ascii?Q?tFlNA7e+CuCo2FUfOM5DyLjsldoPO7IAxufmHilJKW0Ca9iFUJHkdCFb/8LV?=
+ =?us-ascii?Q?HjTdipl7EXZ4XVAm46fychJP579Jpf5Ymhb2Q63RKVLqXyi+/K/LLfLzUluX?=
+ =?us-ascii?Q?krruXdk9z0BS6ap0882SB0jE?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009)(27256008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/s2cruJX00+740FMyQYqPoC9pYRFSJQiLr1g1yA4CAVlWkPboxe+PA5rG1Q4?=
+ =?us-ascii?Q?7a/JPh6+EEcNhwsSZn15NinIXJ89Nhzo9P8D8ZXFmTfSJ/L4A74a35PS6K4R?=
+ =?us-ascii?Q?g2F9auCH14lvRW69OQSLgG7BpObAbPzGSnw8uIsAjdSQUB4KGdxK1WB/jGOw?=
+ =?us-ascii?Q?ZLcH76aFRtBGDTKVvmMXnDGcwi9OsAPJDh4dJmduM5aAirxXl+aXC09C9tqx?=
+ =?us-ascii?Q?qsLR8HRyJQ7al9ntZHiFDvwxuR1OaQqtei1gUCzT67Gx+PSPupOJT8M75/mp?=
+ =?us-ascii?Q?Zc0pYikFjN2/pEBuJ6yDHrdahrFD4IJjQSJNojjsy7IiziM1KbID60F9KlGW?=
+ =?us-ascii?Q?G2sCGldCorGVr9Rdnv1XQUI81b6cWA0X83FU1nZWeyY8JFWCSzI6jA6uhO0l?=
+ =?us-ascii?Q?Iv/UCSvaf1qlwUIT0vCtNBXO7uVPGaLaxGvfRyPzV1FPNcKl65nWlkdnREGQ?=
+ =?us-ascii?Q?ggZmCMUyC6oa3/4qAIgbtqriAMhBQNScei+j9+6OmWfCBxUZTLt+UBJ5Coe0?=
+ =?us-ascii?Q?hT1uBCac/zcMNXOqPQPp11Y/SHAcOhMo/i3Q40gLeTlHj8rj2OdE7sIhZEso?=
+ =?us-ascii?Q?DQQCqJgsdYu9KOgytUUEMaxPlH6iuKbtKBAKyGJzyvZq7YyBWTRK1DwQFwVW?=
+ =?us-ascii?Q?ntll4kD0+e+AqT9ScL6csb0cdwA5drt6CUlubybr+nkO8GZqRjUMZdMJpd3W?=
+ =?us-ascii?Q?ogy+4atFae5qGv/+UW/EZ/SUKGSgEtIqHGLaXuTdFBXRIRkxsDygALiC023P?=
+ =?us-ascii?Q?PeQtBjkVcqALO2S9KjiC8adNhQJ+YWmnAv7xiEqNB37HKpaOFzfoxO/j0Qw3?=
+ =?us-ascii?Q?4+hpMEzEOBA0ZE0WjRvdCQ5XnQQhfi2IcgNa3Ndu13GGIswGFfYJ95673Zej?=
+ =?us-ascii?Q?vb6/v/2o1yofAGDpmvbx/z/a9Tvo7OPu4IXkfnGkjTs7FSsmoAg6EndoULjU?=
+ =?us-ascii?Q?kZNBdtmRCXdhiRTD9gbNyLX5Pu71FnG/IPOURRmEq4WctXbKpX4tWTHGcare?=
+ =?us-ascii?Q?rgPB8adhyT2R6UJOrdBbYENYEJ5JezaKEINL9SbjU4bS/ICyia6mcmoC4CTO?=
+ =?us-ascii?Q?6XfrYtXtB9bvijpQzCSLdkpSiKLlP8QCO8XRsFH4FVHLBZ/1hMduKjRtOcWf?=
+ =?us-ascii?Q?Tmv4s4vIKqG2AtX1Xbxmrcn5cQHRv6WGgqh3eaeHRrBXVxLnO/MdL8I4HtSE?=
+ =?us-ascii?Q?q15FeCVccXjFNtGFeIejMXLJeVYI4eL+dV24/eSBOmfXWqEDcW62IDUqfAQr?=
+ =?us-ascii?Q?MVtmzzYMbXk+cM0P6iJMMUSSG479aX9mDrav5WL5DG90fS2SK8KtISHibfc8?=
+ =?us-ascii?Q?543T8uRXEMGiWDPrIW21R7xDfvfUTbxA5M8wON4eRpB2E5ET2Ri3+Hy37c0v?=
+ =?us-ascii?Q?2vHbg/ovbkd2MjGEvRDZ5Kwoetk0YtpPhYjMi1so2WQpoiPJ1znnaO/zdrq7?=
+ =?us-ascii?Q?CoGjSzz5FyYfr2GiX+NICfLJfFcVkGINw2dMWY8TzstQzFcs8jYmWPBcyRyG?=
+ =?us-ascii?Q?lMVqVi5cFtJDW1i+32ep0F0RN28j5Wq3mlOXmclMFdSjqQuE40ez3X6X5JPw?=
+ =?us-ascii?Q?HR2ZVYCuxTiwm33b9NmdAUB1X3lrnbAQpcUQcjj0AWCao4rF+oHGvmDQVJr3?=
+ =?us-ascii?Q?jLhb/pUma9Xa5Si49GirwuE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <B58E505C21F13E4790C330BC67127DD0@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: G+OKYQS+HjaBjWCz+2jA12XkBX6NH5omZUxh5NzuvqU00ziWznqBPYjZ9U6M4MsFzqnX9uM3U4NvN3S3kiLjyYZ5rJ7itvqY3WhuD6ktagr/yCWhhE5Q6I1G7cm8UIgHIPEEjHfbX64xjlUNZE7/KujhDndSOSZDA45iwk1I5yYq7KzmklBk4dJbVqZINCS5t5Lerjje6SHugRgkH7WN0hvp/n7kHh67aDo32SqI2t7FJefefE5E5Vu9ElovtnsbyfMTpo5nIs+VfFIqW4OmhoNQvZTJSI6nmjCoiZKJ4jVmHIJ98YcMzR6JSZWBSV+le/pU3AJQ39xo3zbqRwG6fCnPgU69JS141bp2DOBQ9KplUftMHFULs7lM7UJRCd2+VDRDxQ3kOxVrKDHv5WdxCqfdw2MbU+bvRPb4tAYVBPzPxXZ2A404bRjiqQww6R0TIDIcIRD5l/rafkuvGhYhh2Ewrne4dH1qcqvMsfzNr2Yr10GhKu4FZcKoRGiartVkzRk6/SttkDQ2s/WZi5z4f+8cvrv3zgtH35ZUI6BNXgjozbB39liG0tvrQQY66omaVP01FvGLyN2Dwiq0EYECgk7LJYoUnL2L8/FmyTOH1Z6+IJ+sN2uGzVanMDzpSZ13
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a23a440c-f5c5-47ba-6e6f-08dc7e4f23b6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2024 13:15:54.6038
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BV/z7mBpkvuWQ7yrm1RBmR3ECZx/kcJYeCSCRov3oHRPW5uStjvXCM6ZR+Wy4BubSx3p3EdjjPzMZHLEIvBx2YTTIj3q3hPbfctDRpG4m1Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB8275
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240527_042056_119255_DE59D9E4 
-X-CRM114-Status: GOOD (  26.94  )
+X-CRM114-CacheID: sfid-20240527_061600_716237_3FB8EE26 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,144 +183,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On May 24, 2024 / 08:53, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+>=20
+> The nvme pci driver synchronizes with all the namespace queues during a
+> reset to ensure that there's no pending timeout work.
+>=20
+> Meanwhile the timeout work potentially iterates those same namespaces to
+> freeze their queues.
+>=20
+> Each of those namespace iterations use the same read lock. If a write
+> lock should somehow get between the synchronize and freeze steps, then
+> forward progress is deadlocked.
+>=20
+> We had been relying on the nvme controller state machine to ensure the
+> reset work wouldn't conflict with timeout work. That guarantee may be a
+> bit fragile to rely on, so iterate the namespace lists without taking
+> potentially circular locks, as reported by lockdep.
+>=20
+> Link: https://lore.kernel.org/all/20220930001943.zdbvolc3gkekfmcv@shindev=
+/
+> Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> Tested-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
-On 5/16/24 11:55, Nilay Shroff wrote:
-> 
-> 
-> On 5/7/24 17:14, Nilay Shroff wrote:
->>
->>
->> On 5/6/24 20:35, Daniel Wagner wrote:
->>> On Mon, May 06, 2024 at 07:45:20PM GMT, Nilay Shroff wrote:
->>>> There could be multiple ways to address this issue. However my proposal would be to address
->>>> it in nvme-cli. As nvme-cli builds the nvme topology it shall be easy
->>>> for nvme-cli to detect
->>>
->>> The topology scan in libnvme is only using the information available in
->>> sysfs. libnvme doesn't issue any commands anymore and I'd like to keep
->>> it this in this way. So if the kernel doesn't exposes this information
->>> to userspace via sysfs, I don't think it's simple to 'fix' this in
->>> nvme-cli/libnvme.
->>>
->> I think the information which we need to contain this issue is already
->> available through sysfs. If we scan nvme topology then we could find 
->> the controller id assigned to each controller under each nvme subsystem.
->> We can then leverage this information to figure out whether each controller 
->> id specified in the attach-ns command is valid or not. So essentially we 
->> match controller id specified in attach-ns command against the controller id 
->> learnt through scanning the topology. If we find that any discrepancy then we
->> can show the WARNING to the user. I have worked out a patch using this method. 
->> I have attached the patch below for suggestion/feedback.
->>
->> diff --git a/nvme.c b/nvme.c
->> index c1d4352a..533cc390 100644
->> --- a/nvme.c
->> +++ b/nvme.c
->> @@ -2784,6 +2784,23 @@ static int delete_ns(int argc, char **argv, struct command *cmd, struct plugin *
->>  	return err;
->>  }
->>  
->> +static bool nvme_match_subsys_device_filter(nvme_subsystem_t s, nvme_ctrl_t c,
->> +		   nvme_ns_t ns, void *f_arg)
->> +{
->> +	nvme_ctrl_t _c;
->> +	const char *devname = (const char *)f_arg;
->> +
->> +	if (s) {
->> +		nvme_subsystem_for_each_ctrl(s, _c) {
->> +			if (!strcmp(devname, nvme_ctrl_get_name(_c)))
->> +				return true;
->> +		}
->> +		return false;
->> +	}
->> +
->> +	return true;
->> +}
->> +
->>  static int nvme_attach_ns(int argc, char **argv, int attach, const char *desc, struct command *cmd)
->>  {
->>  	_cleanup_free_ struct nvme_ctrl_list *cntlist = NULL;
->> @@ -2839,12 +2856,68 @@ static int nvme_attach_ns(int argc, char **argv, int attach, const char *desc, s
->>  
->>  	nvme_init_ctrl_list(cntlist, num, ctrlist);
->>  
->> -	if (attach)
->> +	if (attach) {
->> +		const char *cntlid;
->> +		int __cntlid;
->> +		char *p;
->> +		nvme_host_t h;
->> +		nvme_subsystem_t s;
->> +		nvme_ctrl_t c;
->> +		nvme_root_t r = NULL;
->> +		int matched = 0;
->> +		nvme_scan_filter_t filter = nvme_match_subsys_device_filter;
->> +
->> +		r = nvme_create_root(stderr, log_level);
->> +		if (!r) {
->> +			nvme_show_error("Failed to create topology root: %s",
->> +					nvme_strerror(errno));
->> +			return -errno;
->> +		}
->> +
->> +		err = nvme_scan_topology(r, filter, (void *)dev->name);
->> +		if (err < 0) {
->> +			if (errno != ENOENT)
->> +				nvme_show_error("Failed to scan topology: %s",
->> +						nvme_strerror(errno));
->> +			nvme_free_tree(r);
->> +			return err;
->> +		}
->> +		nvme_for_each_host(r, h) {
->> +			nvme_for_each_subsystem(h, s) {
->> +				nvme_subsystem_for_each_ctrl(s, c) {
->> +					cntlid = nvme_ctrl_get_cntlid(c);
->> +					errno = 0;
->> +					__cntlid = strtoul(cntlid, &p, 0);
->> +					if (errno || *p != 0)
->> +						continue;
->> +					for (i = 0; i < num; i++) {
->> +						if (__cntlid == list[i])
->> +							matched++;
->> +					}
->> +				}
->> +			}
->> +		}
->> +
->> +		nvme_free_tree(r);
->> +
->> +		if (matched != num) {
->> +			fprintf(stderr,
->> +				"You are about to attach namespace 0x%x to an undiscovered nvme controller.\n",
->> +				cfg.namespace_id);
->> +			fprintf(stderr,
->> +				"WARNING: Attaching nampespace to undiscovered nvme controller may have undesired side effect!\n"
->> +				"You may not be able to perform any IO to such namespace.\n"
->> +				"You have 10 seconds to press Ctrl-C to cancel this operation.\n\n");
->> +			sleep(10);
->> +			fprintf(stderr, "Sending attach-ns operation ...\n");
->> +		}
->> +
->>  		err = nvme_cli_ns_attach_ctrls(dev, cfg.namespace_id,
->>  					       cntlist);
->> -	else
->> +	} else {
->>  		err = nvme_cli_ns_detach_ctrls(dev, cfg.namespace_id,
->>  					       cntlist);
->> +	}
->>  
->>  	if (!err)
->>  		printf("%s: Success, nsid:%d\n", cmd->name, cfg.namespace_id);
->>
-> Gentle ping... 
-> 
-> If there's no objection to the above proposed patch then may I send a formal patch?
-> 
-> 
-Hi Daniel,
-
-A gentle ping, if the proposed patch looks good then may I send a formal patch?
-
-Thanks,
---Nilay
+FYI, I ran my test set again for this v3 patch, and observed no failure. Go=
+od.=
 
