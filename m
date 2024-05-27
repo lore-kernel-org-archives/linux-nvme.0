@@ -4,77 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 128BFC41513
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 05:16:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D759CC25B74
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 May 2024 05:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LmcGjsJZ463IkrT5oXhaiEtlofZD3BPMewR5/JX7cYo=; b=iVZSaPNLy94cGlz3XCab4fs4lw
-	yvr2STDIsaXlTt3AP3Qd2NUfxUy87ZMEXjHeQ/P354cW8uUiwnHJWHwXBxi8biGcZS8lu5go6Ez8t
-	hvGlmcLus3dMeV9+zXElM1lJNgXijcZBok93rhiab9LC07V2PYyBp7fztT3K3XR+XJnWn+wKFWV8i
-	C8+9mEzebpfs7a/sL7ffvKx8YQPW6dNAZ9XebaMtNPrq5RSeqPCmo4wY7xfRnYaMdN7Y30DctHnnZ
-	ABbQw7fC94nZWBpZee7EllCjkTlb+ri8YgxdRCDOogENq2K2Hhnf2IHeq6TvZFHOI0q1/luZ+DVaz
-	9KdVzT0A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yL3OkjSn/joP5CTfrw8FswmbUW8dPja+JhBVwn2WA1Y=; b=M0I3iJpSEqCeJ1OYL4jrdGj4pz
+	zg09drkqGoBVnY0JcirPE/0f8JAodSBsXKazK37uNmxUCuScIN0gCfWm2VFcjR2d1pvM8XTn53w1G
+	azvpCneGi3VPQf1SCoahjp2AjVBL1Y+PUpYVwMAnt6FuYNXv8+PvlRDRWgK5CpuWJSTmjgh4hfI1K
+	qw5exPK/eorTf/RMZkol6vkRntHgH84yXirX62PauEek/omGpLJq2AfXOWq4cDgZpGs60XSJPhwck
+	bqHp7whBosa2ieaUN1doLFJY7iJR9T+nSpEVzb4KfSDiCXOHpX6vXw727TJWtJja+ZzxrxFpU+Zwa
+	569fYajQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBSiC-0000000DoXb-0otw;
-	Mon, 27 May 2024 05:15:56 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1sBSoE-0000000Dpem-3q7J;
+	Mon, 27 May 2024 05:22:10 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBSi7-0000000DoV0-1e3R
+	id 1sBSoA-0000000Dpdk-3j7q
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 May 2024 05:15:53 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Mon, 27 May 2024 05:22:09 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4511121C4A;
-	Mon, 27 May 2024 05:15:45 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8F45321C50;
+	Mon, 27 May 2024 05:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716787325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yL3OkjSn/joP5CTfrw8FswmbUW8dPja+JhBVwn2WA1Y=;
+	b=zhyue7kmcTTiHcKHAHozBPRS8NTtx47wFFK4W94/Co3k6qRX+HSVBBD2nGvcATAhE9P9gz
+	dIhEP/j2/Mgi1vKUnezlvhx2vlTlHhL2Tm724Dh3tqviBdtj0wgQ90SK8rq8TEsO2G36aL
+	XkaD2QRpr+GVwD630gK76P7gIgG3YcE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716787325;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yL3OkjSn/joP5CTfrw8FswmbUW8dPja+JhBVwn2WA1Y=;
+	b=BA4VVN7wAt/MC04GumajUuuPn0eKoPUXSpOyfeszH/BIno30wFY99pDwih+S9uszxyykSD
+	unDSJgiCRVyCXPBw==
 Authentication-Results: smtp-out1.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716787325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yL3OkjSn/joP5CTfrw8FswmbUW8dPja+JhBVwn2WA1Y=;
+	b=zhyue7kmcTTiHcKHAHozBPRS8NTtx47wFFK4W94/Co3k6qRX+HSVBBD2nGvcATAhE9P9gz
+	dIhEP/j2/Mgi1vKUnezlvhx2vlTlHhL2Tm724Dh3tqviBdtj0wgQ90SK8rq8TEsO2G36aL
+	XkaD2QRpr+GVwD630gK76P7gIgG3YcE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716787325;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yL3OkjSn/joP5CTfrw8FswmbUW8dPja+JhBVwn2WA1Y=;
+	b=BA4VVN7wAt/MC04GumajUuuPn0eKoPUXSpOyfeszH/BIno30wFY99pDwih+S9uszxyykSD
+	unDSJgiCRVyCXPBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3185C13A6B;
-	Mon, 27 May 2024 05:15:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 705B313A6B;
+	Mon, 27 May 2024 05:22:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /RJrCgEXVGanYgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 27 May 2024 05:15:45 +0000
+	id t+G9GX0YVGY8WQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 27 May 2024 05:22:05 +0000
+Date: Mon, 27 May 2024 07:22:04 +0200
 From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v5 6/7] nvme-fcloop: implement 'host_traddr'
-Date: Mon, 27 May 2024 07:15:24 +0200
-Message-ID: <20240527051525.762-7-dwagner@suse.de>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240527051525.762-1-dwagner@suse.de>
-References: <20240527051525.762-1-dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	Hannes Reinecke <hare@suse.de>, Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: blktests nvme/042 nvme/043 fail ?
+Message-ID: <zew5dsxhh4l5qbfzcdfiggtpqqteutp6mos4fymyblvxaimsmy@boybcks5hw27>
+References: <64656570-645e-4b82-8ef6-06cb36916f5f@grimberg.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 4511121C4A
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64656570-645e-4b82-8ef6-06cb36916f5f@grimberg.me>
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240526_221551_916707_F618FA3A 
-X-CRM114-Status: GOOD (  11.84  )
+X-CRM114-CacheID: sfid-20240526_222207_212519_0278AFD3 
+X-CRM114-Status: UNSURE (   7.95  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,49 +127,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@kernel.org>
+On Sun, May 26, 2024 at 01:17:25PM GMT, Sagi Grimberg wrote:
+> Is anyone else seeing these errors?
 
-Implement the 'host_traddr' callback to display the host transport
-address for nvmet debugfs.
-
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/target/fcloop.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 913cd2ec7a6f..e1abb27927ff 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -492,6 +492,16 @@ fcloop_t2h_host_release(void *hosthandle)
- 	/* host handle ignored for now */
- }
- 
-+static int
-+fcloop_t2h_host_traddr(void *hosthandle, u64 *wwnn, u64 *wwpn)
-+{
-+	struct fcloop_rport *rport = hosthandle;
-+
-+	*wwnn = rport->lport->localport->node_name;
-+	*wwpn = rport->lport->localport->port_name;
-+	return 0;
-+}
-+
- /*
-  * Simulate reception of RSCN and converting it to a initiator transport
-  * call to rescan a remote port.
-@@ -1074,6 +1084,7 @@ static struct nvmet_fc_target_template tgttemplate = {
- 	.ls_req			= fcloop_t2h_ls_req,
- 	.ls_abort		= fcloop_t2h_ls_abort,
- 	.host_release		= fcloop_t2h_host_release,
-+	.host_traddr		= fcloop_t2h_host_traddr,
- 	.max_hw_queues		= FCLOOP_HW_QUEUES,
- 	.max_sgl_segments	= FCLOOP_SGL_SEGS,
- 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
--- 
-2.45.1
-
+No, I haven't seen these yet. Which branch is this, nvme-6.10 or master?
+I'll try to reproduce it.
 
