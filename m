@@ -4,60 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33A25C25B78
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 May 2024 17:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF1EAC25B78
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 May 2024 17:34:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4lertXZ2ifo5sxidicD/0ENCz7TTpOSBLpvtzPtjpOE=; b=dUuOx7mDqYUsyLAK0LMCHUYnLt
-	QaxlZYrFHoeMCaheh+d1bI1SHmxt+diEZxWA+Fy+OlF93j7vzNqINh0+2eAMH6MjHDwmFAKgvrP2N
-	ndZPgcmo4MWHJdoANEH12W2AXy3ly0Gep1bwmHcuUsZuSQs/DJVRuTbhDqrfdIm7NmRVD8ZO6kt4U
-	uvzpja0ZXKGPl63sO4sSGnzgZWyZ1hIe25+CQvcINbmHc1pPw9Kek3NRpZ3/QaCxZX8J1s2TM1WZB
-	EHOlETp5Z5uS4zqHTtLY5UvWa6EP7MtbGTQMHlUl6rXt9nSGsa0BtsbESQDFZTJV2F2gfJ4wd6Jf5
-	ICRUE/4Q==;
+	bh=Z+5yowHV1mdvwmRzS+Kf+Y7buibGoh2kMHijgBsMX9I=; b=HdSMQaRHkhZp0KIw5NGyP2zvhw
+	gp4CkFm+UKJGuPGkWqvbjLMQsfCz6/thKGA9KdgVEiTqzJrn9OhFYh2zWpxfThuxL/ulAaZEgQvjU
+	MKJstTtcGSrmtjFE8kCZMkeZbG2dXa4mP/DlnI3QFBngpNAa6ICY+A6+uEcYE5KrqUwcOnikhkXDa
+	hB9FVas5mZ2UjdOw7QpjybpSpVd1VNzCHkjYewgTgyuZzfmVCyIZUIsIsP4EO6DtUxRaBm2Y2bVvq
+	IzZJVKFKi4M9KCbfb/Pb4artky9HO9f0j2uPTaaJvIJkK6ybbrL/zmiERBod79Ht/FS8o4zS/HhTI
+	xqUC+9bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sC0Qc-00000001WMr-3DIt;
-	Tue, 28 May 2024 17:16:02 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sC0hx-00000001YvB-3rIO;
+	Tue, 28 May 2024 17:33:57 +0000
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sC0QZ-00000001WLm-3Q7k
+	id 1sC0hu-00000001Yuc-2oQs
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 May 2024 17:16:01 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id A2A92CE137A;
-	Tue, 28 May 2024 17:15:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6164EC3277B;
-	Tue, 28 May 2024 17:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716916554;
-	bh=4ixa1wAJCEzH2PDVO9vNbV9hp4iiNcPG5cG483wMnnQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k9EKU6/A6EKAW2NsvZGEyicIAtDu87xiFRLjPzAGfIBFG3FIhN45HOSeHKnMglyko
-	 AISV9d0vHZrA0M00pSzrrwwqY+/p0C0NVmNjH0pxzJ3R9+xReOKUCh/bpeJ6JH5gpT
-	 3TXmQIvQk50C1gEFTRVzZiIPHdrreUuU0GoWxmyU1RvzLQcqAIHQlUta4wL7arF3uI
-	 z2tpqWve7/T+2OMD1KMl/rZvRc6ESFJUZV+x329ulixXmtV5g0bmwGlZyQ97ySvUA4
-	 T+mW0g97P1WkpO78ZqHk4KOEXgddaWyUqZWaUWT2bN62Sh0a0daOAbEaO2i9IHiphT
-	 LbI3vAnYDZLLw==
-Date: Tue, 28 May 2024 11:15:52 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	shinichiro.kawasaki@wdc.com, sagi@grimberg.me, axboe@kernel.dk
-Subject: Re: [PATCHv3] nvme: use srcu for iterating namespace list
-Message-ID: <ZlYRSFwakKszJjWH@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240524155345.243814-1-kbusch@meta.com>
- <20240524164345.GC21444@lst.de>
+	Tue, 28 May 2024 17:33:56 +0000
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-62a08096fe3so569667b3.0
+        for <linux-nvme@lists.infradead.org>; Tue, 28 May 2024 10:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716917632; x=1717522432; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z+5yowHV1mdvwmRzS+Kf+Y7buibGoh2kMHijgBsMX9I=;
+        b=FROkgfej+AW7MTm4yf1nETXaykVtcFLTPNuOlWHJ+LEIKLdN0usd9a+2TcMgNTxZiN
+         iA7JtytXSZdUk/4IbAAFBWM20SLYDNrwkg4ZjPDHanSEImeWu5gRNsT2QjNHkayNnAsE
+         x9qUPJjwHGFmd4yFE+do81vaHTYYEApKrbItXwijrDaE6TMQeggJqTebFjjfuEltC1qI
+         3zb7NE6IdIO+2l6BSofoshsHOeJ0wM+8WPkIibc908DAx87y7v5IpdnrdQW56VElZ7/1
+         Jizau8vh3u46JuYhsPTz2SoR6VpG0bFQkX5bdNDHfajKnMgGor1DaejjyHWyHmGKTkSU
+         VcWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716917632; x=1717522432;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z+5yowHV1mdvwmRzS+Kf+Y7buibGoh2kMHijgBsMX9I=;
+        b=gkVm4H0vw0eRsU551qTv2jtp+HtwMfi+DoVjO3P6kQvqCmBSECcmRn5fU3tLWbuhso
+         fDcRacPKPFq0ZgsgS+wPih1fEjZooWhph/7YJ0WS3XR/3/sXJkc9WfYS4u2O/oc/6Zfd
+         yuZQrA4vlVLwwRpzu6sGtPN2cRIbbzT6b+UJPiLIUcTmmfhNcYc9RkekJwfVIzjhcoZc
+         juorygNKQ5fd4rElhAQKQqNg5VA2nkukUakFjCkXCgRFaWMJQSP5wD/9+ujn8Yb8YKfa
+         033jDJ483Cs58NZNfrxlXK1jDG+6YRsr7zGstPwX2F/RjETxMm0wBWPE8LRpXYJddSrW
+         d79Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWHK/yzKl+QKVCQvHGwZI14/D2kngmH5A3BLopbyZwOroZbKG0zw1BwJRma8T0Cn4cUBf1BLYibGUIt+/L04LvBFxLNjr3ikx8jJ6CXkaw=
+X-Gm-Message-State: AOJu0YwGoS78GsTVgiFbiZ4Fcdyc69E7QJqaC//hZsFvo5mX4A3a/iZr
+	hKc0yNa1RXCdcucjkvXa2simH585okHHaSJzKSYYcBf0RQ28Xr5bJD5AApui7zlU95/SNkEFfVO
+	LdFiUtK2exrzqZmm9eU2KVvM9/VI=
+X-Google-Smtp-Source: AGHT+IGzy8bDCETa41pmxN6XwpUVOwqSx63Dsdj8hT8gq3j8Fm5HQNO7cFk76uCArw/w3BVaRitcC60o5GjjViDJYpc=
+X-Received: by 2002:a05:690c:d95:b0:627:8b31:e75 with SMTP id
+ 00721157ae682-62a08b1eecamr116676807b3.0.1716917631912; Tue, 28 May 2024
+ 10:33:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240524164345.GC21444@lst.de>
+References: <20240527051525.762-1-dwagner@suse.de> <20240527051525.762-8-dwagner@suse.de>
+In-Reply-To: <20240527051525.762-8-dwagner@suse.de>
+From: Justin Tee <justintee8345@gmail.com>
+Date: Tue, 28 May 2024 10:33:40 -0700
+Message-ID: <CABPRKS_4-ehWawV8m-ANU3NBTykmjBCuHdGbFqa_+JT_34vtCg@mail.gmail.com>
+Subject: Re: [PATCH v5 7/7] lpfc_nvmet: implement 'host_traddr'
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Justin Tee <justin.tee@broadcom.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240528_101600_045939_5CC20D18 
-X-CRM114-Status: GOOD (  10.69  )
+X-CRM114-CacheID: sfid-20240528_103354_815293_9A33E179 
+X-CRM114-Status: UNSURE (   6.69  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,18 +90,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 24, 2024 at 06:43:45PM +0200, Christoph Hellwig wrote:
-> > -static inline bool nvme_get_ns(struct nvme_ns *ns)
-> > +bool nvme_get_ns(struct nvme_ns *ns)
-> >  {
-> >  	return kref_get_unless_zero(&ns->kref);
-> >  }
-> > +EXPORT_SYMBOL_NS_GPL(nvme_get_ns, NVME_TARGET_PASSTHRU);
-> 
-> What actually needs the export in nvmet?  AFAICS the export only grows
-> a new user in ioctl.c.
+Hi Daniel,
 
-Yes, I copied that from the "nvme_put_ns()", but you're right, this one
-does not need to be exported. I've removed that and applied to
-nvme-6.10. Thanks
+Looks good, thank you.
+
+Reviewed-by: Justin Tee <justin.tee@broadcom.com>
+
+Regards,
+Justin
 
