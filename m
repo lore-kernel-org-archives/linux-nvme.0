@@ -4,148 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCFFEC25B7C
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 May 2024 16:18:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14C17C27C44
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 May 2024 16:25:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:To:
-	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EbFu0dlFHD4ue6c1H0T2HHV4LvGUohbMvaX4FM2L4mE=; b=X8rpZqtRs98GhUZ8JRuObRRLIm
-	aH4kyApkYKDQAChezMYtspSjXCjeRg7lQl03CQTzujAA+Oei0eU+hAMjMviWxlLSbBDt0nX0bJ+tq
-	RL8vGuIqglBzNGoDQb5lYYX7ZxNsAY+IRTGKUzurg+UnfLC5N/GSmWKhipmasyqK/3lA7qY114/FX
-	iRaYGPnwPTxi0FC/DwCLuhQ7J/iQWYnRqEL2nm67JTWqEqfaH8PKVNKxKvbyCfP7DsLPbL2Vfpa4j
-	2LGXoqwsGRW3Yib2NoYUAh2+hruwgoD0zCBL3n0luC9yb6V1jz4PbNdDlRPP1PrVcCq9LkEaPB/q8
-	JIM2yOnw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0V4okOI9JSCbrdXGbY8ZlnNET05xXlUWVB3ySJdkaz8=; b=JLlEra/2rYLZcfqYxVKo9ecWNK
+	TgVYzp9CRwUly/UL76SqrmFGRGynsGlztlPXMisDjtN1n+T3nhKK2/92Ilg5S/cSARlYRydqZSR7C
+	kAUhj7Z3JujvjRJz5ScvXA+R7WpDcR6q5e11fX0aNmK+EfTJfbPnC3WGAApnKmDNXcDyiLyW0MxBC
+	q4Zyv31sM6/ct83qcG7hDMpwNMECBTvJAcKa38cLx4FjAWSMRgSMUEWnYiiFMMTLf1ekf5kAPMk1w
+	R9bnaSOuDJLSwErQS1KLkrjt4jhQWxhrN7jPonCo2rK0to/hMv2srq1YEw/mXJGeZb7HuugsaIARn
+	NYSsPyxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCM0Z-00000004sTw-3TRH;
-	Wed, 29 May 2024 16:18:35 +0000
-Received: from mail-mw2nam10on20605.outbound.protection.outlook.com ([2a01:111:f403:2412::605] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1sCM7C-00000004tyE-0WfR;
+	Wed, 29 May 2024 16:25:26 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCM0P-00000004sLa-45g7
+	id 1sCM79-00000004txl-46ag
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 May 2024 16:18:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LD6Dee29VGr1RoSuBeduQhUXZ/TwXqBbkvOaNs5J5f8+OfxMQcfe9UZmoObCKpv40l9zaYS9/HlxShsc7qO7reOF2zzJRIhjXxBed/W4uAJ010VE40q9n+COSH1A7zxMkWrIu8bWZwD60PFWhwSMoYjX80n04di9YXB9nx7wmZJujX5kovW62J2Qk3h8BG2n4nBldSAwruSgo+waPFiiZj0eGTWkiyj9FIe/0A8J8Th/9D0gdRmkluI/qP+ooHfABxN/oYJEaEHUXTW2MSgbrAgPNL0D+7cGG7EXT/Uhj+zKCoCsvWbtUZWwD8YzQY26zkyCrmNvY9odvclva6RPkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EbFu0dlFHD4ue6c1H0T2HHV4LvGUohbMvaX4FM2L4mE=;
- b=gIvUUTKx+kW6EKyj6ZRhhJbzQIdlI5ImeUFmxD4Vsdk5gMyLiC6cMdrYs6TGJ3IsSLN77rxrIHDYSllx5ngHqG45jWQLfs2qtvF9+Hd/nCbSZD1WIIq5XNe6bkz1jNbIy/KY4rmwhmOheJDWY9TsKXhk+YccLbtTJP++3Gu2N2hSrO2WKs8UlSX8f2v4xEdnB5QoubgRN5fTwgh8S6tlot/XYHk0/3qoINr7pQ1pXSq5YVVGNJoSHrH+SDpb9Wu3qVx2gOF+13U63y4UVRUL0MDM4ftWLekfUGk892UF1HBp7woEEjFijOy9YKWh0LZuKTjvzr74xzyenmXyDkTesQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EbFu0dlFHD4ue6c1H0T2HHV4LvGUohbMvaX4FM2L4mE=;
- b=j1xGWXTaVP03Cr5lm60nmVW273OS+Q5edcerNCLEI05IrksXWnL8BVlq1iPDg3DuWOtP0X3hvlpF4VYEH52v23osE5Zd3IigaCLQ5Jyn2XjNuT6mh/v98cOK7mI/CLz2OMfchIJxEa9UhdXyQ3bQUYdGy66EJdrqhU9l4Bry3zTlipaBJi+LhLZtKyu4GrR7PvHDEnXZwD1nHpnRj0OkqCDm1kp++qNJziNn5nkBYbJ2Kp/im3xrFsHZ46v/AbcjySYFxQyAwaAgOAlLuITVnIzphFaMgZJVXrJMcmUo1O3nWavHJF9FSdPMvB9KRcJ4xZbo91IG+xOag33MucthcQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by SJ2PR12MB7799.namprd12.prod.outlook.com (2603:10b6:a03:4d3::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.21; Wed, 29 May
- 2024 16:02:15 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::3715:9750:b92c:7bee]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::3715:9750:b92c:7bee%6]) with mapi id 15.20.7633.018; Wed, 29 May 2024
- 16:02:15 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	sagi@grimberg.me,
-	hch@lst.de,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	chaitanyak@nvidia.com,
-	davem@davemloft.net,
-	kuba@kernel.org
-Subject: [PATCH v25 14/20] net/mlx5e: TCP flow steering for nvme-tcp acceleration
-Date: Wed, 29 May 2024 16:00:47 +0000
-Message-Id: <20240529160053.111531-15-aaptel@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240529160053.111531-1-aaptel@nvidia.com>
-References: <20240529160053.111531-1-aaptel@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0193.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:9e::13) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	Wed, 29 May 2024 16:25:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 2B363CE0138;
+	Wed, 29 May 2024 16:25:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4861C113CC;
+	Wed, 29 May 2024 16:25:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716999921;
+	bh=BFlX1dFPy3rO+iHqHs3v6FO4qzQGcsfwWIfwFpI4Zes=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FrWFCOOqxmcg93ukU6ZvqFkaLWgl4QXyazdI2lzDULih8lcAjhe1OXEYb7hcO2Ac7
+	 QJUaFObAf10ie79B5qw2Wpqkc2fvm1jVi5M7Jnto94ZqnxqojHce28fzyCRwBpN5Tw
+	 u4HnR5i9Yar3koA+yWGA7EOKluKy9r6+e0byIwN/HR+iHfWIeuu1giZZd0E43fv6dt
+	 k0yaYMVsTFE9l4SYU2dCJwxACFssbRXkcCHFDtvXuzn7AFv3H6AJA7u8HgkrtY6IAl
+	 WcvM9DYBbjTxL/sLUDIjJAmB3XMOIvguqKdr3CL8uQAbfMrhUzzi66CGyGBoc+T87d
+	 nzqMp/f+P8ZQg==
+Date: Wed, 29 May 2024 10:25:18 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Maurizio Lombardi <mlombard@redhat.com>, Yi Zhang <yi.zhang@redhat.com>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: blktests nvme 041,042 leak memory
+Message-ID: <ZldW7nNrqHCTYTEF@kbusch-mbp.dhcp.thefacebook.com>
+References: <c4050a37-ecc9-462c-9772-65e25166f439@grimberg.me>
+ <CAHj4cs9fu9-OcDAHq=WijeCia2ndphbpgA0YiPSSHQQLKBXBZg@mail.gmail.com>
+ <CAFL455=iu16d1xkE9-ReZOrtcOQJ22Lt5vtsiHb5uTwCKJh+hA@mail.gmail.com>
+ <CAFL455mZMka2J8d008JH+WQhDxP6D4dweFOWVQc58rOQk2ybzw@mail.gmail.com>
+ <ff85fd7f-efc7-40d3-8c9a-e0189e3d71f2@grimberg.me>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|SJ2PR12MB7799:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f152471-7d6e-4d20-ac80-08dc7ff8b4ea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?6ZCyc6uqdMXAgapVQVyi/g/Q2U3sxohxxfwVyf7VtLzr9dVZOfNcfdie5qos?=
- =?us-ascii?Q?CqkK5G1MQ0VH3Du9ObAculZWrM0Hritk2d0i5FcunuAcltgv6m9NkymQz26y?=
- =?us-ascii?Q?QjI6zTxFMoagHMpzJERIjzYc9cxG1S1ndeD10PHhJmCPWnJccGHNEv3iUk9K?=
- =?us-ascii?Q?HC//X9FSaCV9I+ggKKcBvTv0VELzIZp9/PUWcP5QtkMo13+X8kh+kwSGYa8G?=
- =?us-ascii?Q?uk9Xd62/e0Yl5shFLfcL4im03FQrrT0Cbg+H06Ydlx9tgPRxmXgnIP3AQIHl?=
- =?us-ascii?Q?PSpAJ2j4HlLKby4FF6foWHFP9S/D0YRql50iEFU/b3lTWc6VEomiljhk+HcA?=
- =?us-ascii?Q?JJtzHxTlVE7iZLA8H89IWEJYvDyvyrfkwIwKgyr8NcD/53Tu61hK8UJFS2XD?=
- =?us-ascii?Q?uvsWjdWAivG50OdRUVYpXacflB0lrIKUJwag9NM0m8l0eeWDQ7L0Hp012DTO?=
- =?us-ascii?Q?jtGbsJOteKehVmLhmo3Y5ZZkn4ybHR3+0GfoDX7ECSrySP+O2I3hQ4sAlapd?=
- =?us-ascii?Q?z1D6ApoknNUewMUiAyOrvXmJJZn3NOMSwCF0CWZf3HgnZ0wy62WUbLdCvB+W?=
- =?us-ascii?Q?N1aB1Z+iGj1Dk2+bZ7doXwiHjAYLCd/XFSbDKrz/K6pImd74jlEGo45eG9E0?=
- =?us-ascii?Q?GJnn3nmyzlCp0Wxdm+Ax+TjEZa/6rCS2+xlUpPJvu53OmMXOqA7D0qeeISoo?=
- =?us-ascii?Q?/aFBO8QgCg7lOFAjPYZBb3fp8qWwmKfuJ2RMXXZiMUO3BCfspXZPQUO1KJ0S?=
- =?us-ascii?Q?Jjb9WAslYHFwgi04EMFmt/7onXBlbvfk6mHNsJ99YWHKIniQqrbmAxeZ5UEa?=
- =?us-ascii?Q?xLOnG0uTEzyicif9dVMdvnkbxE3xjvC1vZPr/EbiJKyTn5nyGrtmjcrMl026?=
- =?us-ascii?Q?XQl+BWrSPNXfjgivN+Z1y32rOc76hpuOc6Dz6c4JJyQk5Qw3+08a4iP1N+Oy?=
- =?us-ascii?Q?iKdZLQJ+N+aCSyzUHn/MXVdT7fynuXU5lD33obAe9NFBPq6j2D1e+ZlymiOm?=
- =?us-ascii?Q?/F3i6oYVb+b9EwReLlmX6ZXHq1W80WpiwsyXaDgfEOxZiJk32/Oin1K07fZe?=
- =?us-ascii?Q?LLHW7yanNSatjlY+frIv7C5WmeGvh37TGlSYErdjF/y7DgAbwZmUslgGGdwf?=
- =?us-ascii?Q?q/c4BiIQXvcwllEmJmMHEdjDpZgXfE5PjMdnPgYywBsqhjpRXxmKr/bRSG5H?=
- =?us-ascii?Q?EuI+RFnTM526e2EJhQ0XFoujuOnNT0XGaQKSMVqpEZp3xde4JRY8gOk85T9p?=
- =?us-ascii?Q?xPg7YjeNvPGI0231YNkQ/xNYWSeLgmZ8zh2rOebhxg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mAcXiG8XOFsWQPgr0JiaSku8VKpD00Iup8KA1HJEUxQ/XTAXv1RM6qibok3c?=
- =?us-ascii?Q?MHePSXm7BRN8tHy0+X60XKhoy6r5xrgBlFzZHSrqsLeculrYh+0usry0iCIv?=
- =?us-ascii?Q?uxNV1bUzqv+IaTOkx1/cQp4avZeOrhZjLOwtgmxJJrV+dvlZngogRYaG+82b?=
- =?us-ascii?Q?lNB75bXXQOp9vV6rhl1UvH89BkyuwfGyhapapk2pMmeol5vGBiwaUZhCfxyx?=
- =?us-ascii?Q?cLXznDwTDTYSjCgD17uXt2kgqoggyGPQf/hu0jTTxVecQf2eR9dpMVjcNYP2?=
- =?us-ascii?Q?GaTd25E1GQ8ChhT4J6Pq60rzVTdR8gxUOy3AzE3bQK9PKK5bwBL82tUxh6XY?=
- =?us-ascii?Q?DT3mDzJIAlcvFKdYYxoFVe2F+jJWz9yF1yV+q+q1FWWY0fHuO/Ae+KTQFWmN?=
- =?us-ascii?Q?nyuos9RqRf+u2ecS2OINffFo+vVry5o+ugFnlYxj8+EA2aGuuLbtlhizzR/y?=
- =?us-ascii?Q?oFfX4kdLWtgzttMnYW2Ug51QKP0AbItRXS7//TnK1XwfpiL/ehKVOCDUddgB?=
- =?us-ascii?Q?G2KgtZ7bQsL01jR9m3gzWCkN04HyDj8M1+3isFY43zbLZGLNSwQX7OrawoRA?=
- =?us-ascii?Q?XVlFui1tnnZdwvMPfImtRK/P21oa3ERkc1MuAnAXKofct6pc5UZwhX9vV2Dw?=
- =?us-ascii?Q?Sb2w6aie8xYVvK0ioVRIPFE691ql2P44yUmOn+QySiYPsuV93IMrJlD6eZP8?=
- =?us-ascii?Q?ZgVqddRoukunllDUxo60jsnYXFWvGnsb4QEXOUUj0htT1l8Qc0KC4Ko5ih/q?=
- =?us-ascii?Q?cgAt5/3qRNzj2F5KLe2QlJF3fsLkiDoJe/X0exHU2sMiaa7jXACmsuBDhJyh?=
- =?us-ascii?Q?jwcA74P/+6waIT3MQr6BpFsCuMBm1yo3+IUYZt/OW3hQZ60RM/fVHpkJgg/i?=
- =?us-ascii?Q?I7a0DVg/O3/vacVj2vRQLSPmBOvALcS+WK46icLSeOgAYqAjebQT5Qga35+k?=
- =?us-ascii?Q?OGBqbx/kxAKcdXU6ksCi3s+XQwzJRyKdy3Lf8ZCMKJNenWrUaCMtZEOMeE0m?=
- =?us-ascii?Q?m1n+8kdIsrpQ+AtsYjqAg92S7ibwCqm90Q9BscwNKNXxC0/H78XLhMwWhQ1D?=
- =?us-ascii?Q?uDru8ZUH2c4PSEOFDEkVzqtk2ChUfBYTw+9M1cdp0ujKdWYWKRea+Jr4AH0N?=
- =?us-ascii?Q?s3UsfdHuTlyIvTrYiGGAJ4asxA7KOG13+genf7MuN3AaViCA9ermv6BCMwdK?=
- =?us-ascii?Q?eQOVAYxmzmMCx588Qm6U/sQ5MOAt2SIbsbMlf+pO/CMkqhAT6NJwYitoZrPn?=
- =?us-ascii?Q?MEbBU4ib8A/G4N0q2D6OmIjx5nwonae01cHvVHZbMSSzxDJKx4AkPRiLtHuD?=
- =?us-ascii?Q?zXcRgZ/8jQYu9dCtc9QjP/I+IFPo7VEU0Xh1giuzBxkw5L6QEBYye6yttZwF?=
- =?us-ascii?Q?nWAr/iu6p7Qk/SEnvv1LiQCi+r56tCJXR0VhSBPf7KLU7fp36JGUxehLKzAX?=
- =?us-ascii?Q?+No0eHnjqvfoYyKTcgJFgTPC8hOnIaltNGHCGJOVE5NhxDy1BAcJ02obc1Jy?=
- =?us-ascii?Q?3sLuTkCzaQeaUqz4EiPSFSSZo+tdM/zV644VAY9vudMVRY84fstB7mAwDrYo?=
- =?us-ascii?Q?stql5pWJ5KuhTKZfvS0sPiJGRwabImDRkvVkzT4x?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f152471-7d6e-4d20-ac80-08dc7ff8b4ea
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2024 16:02:15.1632
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6iNzLTbC/JtgZJbWeiXOGtvOuTSb/GpUmZmliZOF5Qml07gCKlH9qNjKuHsMh+q6Bhbekn8mZTzG6MKN5U24pw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7799
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff85fd7f-efc7-40d3-8c9a-e0189e3d71f2@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240529_091826_174193_F05F6DE0 
-X-CRM114-Status: GOOD (  12.86  )
+X-CRM114-CacheID: sfid-20240529_092524_516520_065F0A50 
+X-CRM114-Status: GOOD (  16.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,71 +77,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Boris Pismenny <borisp@nvidia.com>
+On Wed, May 29, 2024 at 03:51:09PM +0300, Sagi Grimberg wrote:
+> 
+> But this is ugly...
 
-Both nvme-tcp and tls acceleration require tcp flow steering.
-Add reference counter to share TCP flow steering structure.
+I agree. Could we not work around the device model instead? Once we call
+device_add successfully, we really need to pair that with a device_del.
 
-Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
+I see two ways we might be able to do this.
+
+First suggestion: move the device_add to the end so we don't have to
+worry about cleaning up if subsequence actions fail. And auth_init_ctrl
+doesn't appear to have any dependency on the ctrl->device anyway.
+
 ---
- .../ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c    | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c
-index 4f83e3172767..f5c67f9cb2f9 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.c
-@@ -14,6 +14,7 @@ enum accel_fs_tcp_type {
- struct mlx5e_accel_fs_tcp {
- 	struct mlx5e_flow_table tables[ACCEL_FS_TCP_NUM_TYPES];
- 	struct mlx5_flow_handle *default_rules[ACCEL_FS_TCP_NUM_TYPES];
-+	refcount_t user_count;
- };
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f5d150c62955d..d86db6a193fcb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4675,12 +4675,16 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	if (ret)
+ 		goto out_release_instance;
  
- static enum mlx5_traffic_types fs_accel2tt(enum accel_fs_tcp_type i)
-@@ -361,6 +362,9 @@ void mlx5e_accel_fs_tcp_destroy(struct mlx5e_flow_steering *fs)
- 	if (!accel_tcp)
- 		return;
- 
-+	if (!refcount_dec_and_test(&accel_tcp->user_count))
-+		return;
++	ret = nvme_auth_init_ctrl(ctrl);
++	if (ret)
++		goto out_free_name;
 +
- 	accel_fs_tcp_disable(fs);
+ 	nvme_get_ctrl(ctrl);
+ 	cdev_init(&ctrl->cdev, &nvme_dev_fops);
+ 	ctrl->cdev.owner = ops->module;
+ 	ret = cdev_device_add(&ctrl->cdev, ctrl->device);
+ 	if (ret)
+-		goto out_free_name;
++		goto auth_free;
  
- 	for (i = 0; i < ACCEL_FS_TCP_NUM_TYPES; i++)
-@@ -372,12 +376,17 @@ void mlx5e_accel_fs_tcp_destroy(struct mlx5e_flow_steering *fs)
+ 	/*
+ 	 * Initialize latency tolerance controls.  The sysfs files won't
+@@ -4692,15 +4696,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
  
- int mlx5e_accel_fs_tcp_create(struct mlx5e_flow_steering *fs)
- {
--	struct mlx5e_accel_fs_tcp *accel_tcp;
-+	struct mlx5e_accel_fs_tcp *accel_tcp = mlx5e_fs_get_accel_tcp(fs);
- 	int i, err;
+ 	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
+ 	nvme_mpath_init_ctrl(ctrl);
+-	ret = nvme_auth_init_ctrl(ctrl);
+-	if (ret)
+-		goto out_free_cdev;
  
- 	if (!MLX5_CAP_FLOWTABLE_NIC_RX(mlx5e_fs_get_mdev(fs), ft_field_support.outer_ip_version))
- 		return -EOPNOTSUPP;
- 
-+	if (accel_tcp) {
-+		refcount_inc(&accel_tcp->user_count);
-+		return 0;
-+	}
-+
- 	accel_tcp = kzalloc(sizeof(*accel_tcp), GFP_KERNEL);
- 	if (!accel_tcp)
- 		return -ENOMEM;
-@@ -393,6 +402,7 @@ int mlx5e_accel_fs_tcp_create(struct mlx5e_flow_steering *fs)
- 	if (err)
- 		goto err_destroy_tables;
- 
-+	refcount_set(&accel_tcp->user_count, 1);
  	return 0;
- 
- err_destroy_tables:
--- 
-2.34.1
+-out_free_cdev:
+-	nvme_fault_inject_fini(&ctrl->fault_inject);
+-	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+-	cdev_device_del(&ctrl->cdev, ctrl->device);
++auth_free:
++	nvme_auth_free(ctrl);
+ out_free_name:
+ 	nvme_put_ctrl(ctrl);
+ 	kfree_const(ctrl->device->kobj.name);
+--
 
+Second suggestion, let the error handling release the last reference.
+The trick here is to not call the "free_ctrl" callback on "new"
+controllers, and don't take a ctrl reference until the end.
+
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f5d150c62955d..72c9693e1df61 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4601,7 +4601,8 @@ static void nvme_free_ctrl(struct device *dev)
+ 		mutex_unlock(&nvme_subsystems_lock);
+ 	}
+ 
+-	ctrl->ops->free_ctrl(ctrl);
++	if (nvme_ctrl_state(ctrl) != NVME_CTRL_NEW)
++		ctrl->ops->free_ctrl(ctrl);
+ 
+ 	if (subsys)
+ 		nvme_put_subsystem(subsys);
+@@ -4675,7 +4676,6 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	if (ret)
+ 		goto out_release_instance;
+ 
+-	nvme_get_ctrl(ctrl);
+ 	cdev_init(&ctrl->cdev, &nvme_dev_fops);
+ 	ctrl->cdev.owner = ops->module;
+ 	ret = cdev_device_add(&ctrl->cdev, ctrl->device);
+@@ -4696,13 +4696,16 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	if (ret)
+ 		goto out_free_cdev;
+ 
++	nvme_get_ctrl(ctrl);
+ 	return 0;
+ out_free_cdev:
+ 	nvme_fault_inject_fini(&ctrl->fault_inject);
+ 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+ 	cdev_device_del(&ctrl->cdev, ctrl->device);
+-out_free_name:
+ 	nvme_put_ctrl(ctrl);
++	return ret;
++
++out_free_name:
+ 	kfree_const(ctrl->device->kobj.name);
+ out_release_instance:
+ 	ida_free(&nvme_instance_ida, ctrl->instance);
+--
 
