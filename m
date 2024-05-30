@@ -4,120 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DECEFC25B74
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 06:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C581C25B74
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 06:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P2UinUncKMG3mfEDsS3Xt/JMMJoyLDA5LlKHUtD/VBs=; b=vFfvgdA3nQ11xax+cvpqwtTiG8
-	RxuFO9X7GnUbx7RzIf/TxDZ2xt5FmlqntiKwsuUCEOUR9LD4nBlXnLofA3CbmyKu+XpEJrWQrBsAf
-	RapIV343Eu4dVIuSTbSRIrCQ9Zq8kjUkby9z8Z2pv7nRhfU/BrcbIyFd/eIhIOzzfnq6t/fElmw39
-	ybimyvf+USQowO7W6ix72X+aDymrHEKeYAR/mBA7svmCLxPhgftPANluYdOztKPIzX4pmxfRgu3EG
-	ydMeqboc8uwsMaeKaRCInle0p1X9Hra7PTKJpgFHhMjDoCojkMONfXPiTsnf8/RZFtEvCQs/BYEXi
-	sHh3UJSw==;
+	bh=xu5tfRpUITd2ECuxK10ylFwqpBplwyIlxFNOlyfKtm8=; b=lJZC4yKi4MoJSzuRkxj/UtYy+b
+	T/72Dwuh00pxbce2o2U3mkc2MGTa5qWcMPdWx1ycTdUrd6A+NjwBqaSiJYeog9J25dP6i7vBS7uBH
+	6keh8KKU3lT5B39AxOQoNz0sNFW+KSqBTWHjJutz/tEN4DDrMpLMnQslXQLwI9KrwKG6Ox5OdlU3c
+	6ZblSzd1KIh8Et8zP5SU05/hyhlnKD4H0VqPwAYV1dIrFTfJVlcYBZHeeLkQ9ThRVC35K1Cc+BQjj
+	5BRieRLJtACprVJ/68yK6XPnIa5lV/s2G5SRlxO0nvy04PO1rzwRmPc78tt55hSmmn5ZkdqfSZ2NT
+	Csb5UB3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCZTZ-00000006RQF-3bEk;
-	Thu, 30 May 2024 06:41:25 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1sCZl3-00000006SmT-1xVg;
+	Thu, 30 May 2024 06:59:29 +0000
+Received: from mail-lf1-f44.google.com ([209.85.167.44])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCZTW-00000006RPc-1vOn
+	id 1sCZl0-00000006Sm6-3L6x
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 May 2024 06:41:24 +0000
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4211e42e362so6549535e9.1
-        for <linux-nvme@lists.infradead.org>; Wed, 29 May 2024 23:41:21 -0700 (PDT)
+	Thu, 30 May 2024 06:59:28 +0000
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-525c00843f6so39059e87.3
+        for <linux-nvme@lists.infradead.org>; Wed, 29 May 2024 23:59:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717051280; x=1717656080;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P2UinUncKMG3mfEDsS3Xt/JMMJoyLDA5LlKHUtD/VBs=;
-        b=TR3M4c61gR9mUqZ1Bk+unqnNmj3gkq71Xt97yQkp+iif15tydnilRHCT/JN61MGGDP
-         4XuD6JkcmD003EpiYlO+qDDBbk04BEeLomuEv6rEE/R/lPcshDesfTYf/ntmvuQLo1oN
-         BDxdvJ5gTNH7HuOXMWCjenORJDaegzM93JO3sGlgHYGBNhsKEUbJp8mIUEF+kA2pOlJX
-         e8LK/vfJmy3OTrJZDyXZcjk6yMbo1A+VUUocbcpAzTmxx0Vs6dQkGnpGelw/l3+JSM6j
-         Rddt36ZEVZvf0iz5JodZVXNfdDMcgAAXQVStq9eP2FjBiYJWtiQxFETq9p9uikW+tDnO
-         PO/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXiiIDslWUf1MFt/Jqr+vclzB2htNo0HJWEe5BTQEeFRKYwIiYFXqUkl9agmJ+W/tEhIkvriXaHrc0YTwpUzrI9+ahDgdgPn4BPh0LLFA8=
-X-Gm-Message-State: AOJu0YxL0m7p6wzfXFJZ7BA7JrSlinQqVmBdIaP967LxlNUSSCGVX5th
-	tru/yquLFYlzUmrc0b9+LqV0Etv1Xk2Bc9V8E+0KAzIGbU7aDaPA
-X-Google-Smtp-Source: AGHT+IHArpXGtxZDQ1OBgqkI9aalQ8VjHT6AsZ0RHXdpUsKojMGevnqYYYdjAWulbOzH8edJo+7aLQ==
-X-Received: by 2002:a05:600c:1d05:b0:421:29b4:532a with SMTP id 5b1f17b1804b1-42129b45590mr1343955e9.16.1717051280198;
-        Wed, 29 May 2024 23:41:20 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3557a1c9546sm16439884f8f.82.2024.05.29.23.41.19
+        d=1e100.net; s=20230601; t=1717052364; x=1717657164;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xu5tfRpUITd2ECuxK10ylFwqpBplwyIlxFNOlyfKtm8=;
+        b=Z9OJef06QkQZJTuVJ9bqEbWz97qGmA4/qm9mR4eI0nP0eO1zp4CFVllXVREtuVtMGI
+         R9XDXj2rLGlwHIMNkg1kNtNSgUrbmggOzBw2NPCjBkdbV3hh5vn23EQ9vfwPQ1lLuLlh
+         lKvPbrRzEpexyth6tRMgAaC6bsSxC+hPALAPLm8QUGTCO+PIBPX3CuRFAQ9+I6O/0sLU
+         HbHqLfoN9ZmBqdhI8WRiOehZmnU7RBUosOMdnHaQNFPJD8uomGllNPS6EzGFs9cGx6iJ
+         Dm1LwEcMpOuR16RsoXeeXn1XXy/u7NKRTtf99pzQOpPdNaiNPKpNTpYqwfG+cYMpQCyd
+         E2Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCCoRdN2WEUvMnyZAGHZ7WNdjCsSUxXd9JfKWyqdAlPRu6Sk40GNUy51DMlGGAPgUDFMyXsT5wOXs7+vPVtCbFnj/SI659hiJPyVTZzgQ=
+X-Gm-Message-State: AOJu0YzArK1VRXWfqz8B8cOeSGYe1pajX+ZIu9oNzpv/nyYf+9mJiYrH
+	GU6bF8IuPWT4GuGhIjGktHdip4CaIqqFMqAkc6XnH6I+Xdfk8zGq
+X-Google-Smtp-Source: AGHT+IHiXjWo0tZx8h2GKhqk9ptGA1iYfA9AzbCwMP1bYjcDzxxkSyXUAmr2oq9Yk6Ez1cCQ4Qf+lw==
+X-Received: by 2002:a05:6512:3b7:b0:51e:e6f4:2ef1 with SMTP id 2adb3069b0e04-52b7d4ab269mr896650e87.4.1717052363915;
+        Wed, 29 May 2024 23:59:23 -0700 (PDT)
+Received: from [10.100.102.74] (85.65.193.189.dynamic.barak-online.net. [85.65.193.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421270691b1sm15043515e9.21.2024.05.29.23.59.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 23:41:19 -0700 (PDT)
-Message-ID: <0b2b4a2a-83df-4b79-a295-4da91c841587@kernel.org>
-Date: Thu, 30 May 2024 08:41:18 +0200
+        Wed, 29 May 2024 23:59:23 -0700 (PDT)
+Message-ID: <93883147-490d-4065-a741-3e49288ea3af@grimberg.me>
+Date: Thu, 30 May 2024 09:59:21 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-fc: Remove __counted_by from
- nvmet_fc_tgt_queue.fod[]
-To: Nathan Chancellor <nathan@kernel.org>,
- James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
-References: <20240529-drop-counted-by-fod-nvmet-fc-tgt-queue-v1-1-286adbc25943@kernel.org>
+Subject: Re: blktests nvme 041,042 leak memory
+To: Keith Busch <kbusch@kernel.org>
+Cc: Maurizio Lombardi <mlombard@redhat.com>, Yi Zhang <yi.zhang@redhat.com>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Hannes Reinecke <hare@suse.de>
+References: <c4050a37-ecc9-462c-9772-65e25166f439@grimberg.me>
+ <CAHj4cs9fu9-OcDAHq=WijeCia2ndphbpgA0YiPSSHQQLKBXBZg@mail.gmail.com>
+ <CAFL455=iu16d1xkE9-ReZOrtcOQJ22Lt5vtsiHb5uTwCKJh+hA@mail.gmail.com>
+ <CAFL455mZMka2J8d008JH+WQhDxP6D4dweFOWVQc58rOQk2ybzw@mail.gmail.com>
+ <ff85fd7f-efc7-40d3-8c9a-e0189e3d71f2@grimberg.me>
+ <ZldW7nNrqHCTYTEF@kbusch-mbp.dhcp.thefacebook.com>
 Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20240529-drop-counted-by-fod-nvmet-fc-tgt-queue-v1-1-286adbc25943@kernel.org>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZldW7nNrqHCTYTEF@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240529_234122_589541_AB85FE16 
-X-CRM114-Status: GOOD (  10.69  )
+X-CRM114-CacheID: sfid-20240529_235926_955803_A8BE275B 
+X-CRM114-Status: GOOD (  20.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,47 +89,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 29. 05. 24, 23:42, Nathan Chancellor wrote:
->    drivers/nvme/target/fc.c:151:2: error: 'counted_by' should not be applied to an array with element of unknown size because 'struct nvmet_fc_fcp_iod' is a struct type with a flexible array member.
 
-The same as for mxser_port:
 
-struct nvmet_fc_fcp_iod {
-         struct nvmefc_tgt_fcp_req       *fcpreq;
+On 29/05/2024 19:25, Keith Busch wrote:
+> On Wed, May 29, 2024 at 03:51:09PM +0300, Sagi Grimberg wrote:
+>> But this is ugly...
+> I agree. Could we not work around the device model instead? Once we call
+> device_add successfully, we really need to pair that with a device_del.
+>
+> I see two ways we might be able to do this.
+>
+> First suggestion: move the device_add to the end so we don't have to
+> worry about cleaning up if subsequence actions fail. And auth_init_ctrl
+> doesn't appear to have any dependency on the ctrl->device anyway.
+>
+> ---
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index f5d150c62955d..d86db6a193fcb 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4675,12 +4675,16 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>   	if (ret)
+>   		goto out_release_instance;
+>   
+> +	ret = nvme_auth_init_ctrl(ctrl);
+> +	if (ret)
+> +		goto out_free_name;
+> +
+>   	nvme_get_ctrl(ctrl);
+>   	cdev_init(&ctrl->cdev, &nvme_dev_fops);
+>   	ctrl->cdev.owner = ops->module;
+>   	ret = cdev_device_add(&ctrl->cdev, ctrl->device);
+>   	if (ret)
+> -		goto out_free_name;
+> +		goto auth_free;
+>   
+>   	/*
+>   	 * Initialize latency tolerance controls.  The sysfs files won't
+> @@ -4692,15 +4696,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>   
+>   	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
+>   	nvme_mpath_init_ctrl(ctrl);
+> -	ret = nvme_auth_init_ctrl(ctrl);
+> -	if (ret)
+> -		goto out_free_cdev;
+>   
+>   	return 0;
+> -out_free_cdev:
+> -	nvme_fault_inject_fini(&ctrl->fault_inject);
+> -	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+> -	cdev_device_del(&ctrl->cdev, ctrl->device);
+> +auth_free:
+> +	nvme_auth_free(ctrl);
+>   out_free_name:
+>   	nvme_put_ctrl(ctrl);
+>   	kfree_const(ctrl->device->kobj.name);
+> --
 
-         struct nvme_fc_cmd_iu           cmdiubuf;
-         struct nvme_fc_ersp_iu          rspiubuf;
-         dma_addr_t                      rspdma;
-         struct scatterlist              *next_sg;
-         struct scatterlist              *data_sg;
-         int                             data_sg_cnt;
-         u32                             offset;
-         enum nvmet_fcp_datadir          io_dir;
-         bool                            active;
-         bool                            abort;
-         bool                            aborted;
-         bool                            writedataactive;
-         spinlock_t                      flock;
-
-         struct nvmet_req                req;
-         struct work_struct              defer_work;
-
-         struct nvmet_fc_tgtport         *tgtport;
-         struct nvmet_fc_tgt_queue       *queue;
-
-         struct list_head                fcp_list;       /* 
-tgtport->fcp_list */
-};
-
-The error appears to be invalid.
-
-> This will be an error in a future compiler version [-Werror,-Wbounds-safety-counted-by-elt-type-unknown-size]
->      151 |         struct nvmet_fc_fcp_iod         fod[] __counted_by(sqsize);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    1 error generated.
--- 
--- 
-js
-suse labs
-
+Lets just do that... and add a comment that we don't want to add
+function calls that can fail post cdev_device_add() because we have a
+cleanup problem (with a short explanation), so this is less likely to 
+come back...
 
