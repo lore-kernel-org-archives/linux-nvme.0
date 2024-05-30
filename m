@@ -4,90 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D5E0C25B7E
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 17:11:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 480B2C27C44
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 17:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ul8tShPV3DUMrLj4E7kNdLyBZmST2o57Jd5aN0FDWYg=; b=rL/hdhHsMWACeKHTYzWPM2I49Z
-	mNQRhk2Sn1PXCstzKHh7/gL4Kyiq9zF78OIVVS82SWmor1R8SJfBzmMwtK3M27RF3YsJJ+ChdxqO7
-	TIFKvg6MAs/vSd/neU1yw6YHgAxp0YDyG1+h02+jq+zwfw9Zkh+per4XTHd7Eed0bTpSphkUNHH9i
-	E3E0r65iE1HWzvOmE0+JgNiZUUKQk9DxV0VBVqRkP6tlaVsn+NYYxG/LF70w6dsWWrhJPsJy4xT+W
-	gHyuKiJ4gIdZxdhl4jyGuCXSbpTzmhEpN/UITaoSCBCYseXjfLotyowV/qiZnghXeSH9DIK1YmKvk
-	oOP92D4A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=NnH8P2tVnslrl6i0fyAZbuWEbxxq4Q0t9QNmo5xWFsE=; b=leHunKAglzxUYK
+	N7TbMnpg+Ayt/r6seXb7LoNcE80DMSuiqUNhJL191Vp1BQXTIND4n0XR47WAgZPfH5dmfSzk12642
+	Hf/FzCvl+QMwwTNtXidbY8iHu0MfisBA6Jlx2ASAHKpn7bkQ4eqh1BIDDutaPCl/Ac9LuXkt1HAcY
+	illo0ygX8lyR2fmKkGDeWFn2grqgEZvWwnnIkIsITiJLg3SlObli9TH9wuLtW4YuK2MSGJ0eiH+MB
+	9hq444OgLigFvYZdvLNkUkNFXFFtBmGGO4Bf1dNVF2ay4cmOL6cYKODIWNQZbruuycr1qK2yTf72s
+	G65XJfEC1B0oKe554i1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCjJO-00000007wzo-3PTm;
-	Thu, 30 May 2024 17:11:34 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1sCjQs-00000007yFv-1oBH;
+	Thu, 30 May 2024 17:19:18 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCjJK-00000007wxz-3dh1
+	id 1sCjQp-00000007yFY-27TI
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 May 2024 17:11:33 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Vqt812W1wz6Cnk9F;
-	Thu, 30 May 2024 17:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1717089079; x=1719681080; bh=Ul8tShPV3DUMrLj4E7kNdLyB
-	ZmST2o57Jd5aN0FDWYg=; b=pDdrsLN3JZPbFaUtLRbj37cnYuTv29wYsaoWbWPX
-	0jAfS4sWOekodOat3cJMbqn2RuFn9uq1dvv60rD84RsGZNOhy608uxLLU+fhbyly
-	eKTbCc9wykATpOsmXQs1/utBwypcCkWl3KNU2MCRI5q96GhEKAOJtbitLN7/YNmG
-	3Mn9taXV/EfZN1zWvkxJYjfq7QJgcsxlE8NwOH4KI1q7OAQMt6CrARV53oLIJ5CE
-	jigej7/3tFmHOi5xt9zZPOhIruRk26PiBfPzT3bdqB0Juw5GHorv14poLk5Hg7m/
-	4sx7azLGVHPrQJdDegiabUIRkEKLqqQMji0NKTMLKSNjWA==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id T0Ifl3ssZIoq; Thu, 30 May 2024 17:11:19 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4Vqt7l6w1zz6Cnk97;
-	Thu, 30 May 2024 17:11:15 +0000 (UTC)
-Message-ID: <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org>
-Date: Thu, 30 May 2024 10:11:15 -0700
+	Thu, 30 May 2024 17:19:17 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id C88F762910;
+	Thu, 30 May 2024 17:19:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1A1C2BBFC;
+	Thu, 30 May 2024 17:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717089554;
+	bh=LwjVNxRt17uivAZmnV0QPDf6umgqSn9p4kRd+nlUQfQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=YnbZy+D5DfuqcVeg5aEI9+K3t2YGEgCp5PMR/m+dcoSoBySJJgm7Hpie6n2RRKliU
+	 0cxqnOLjdtr49z5rXY+1/3RSIFTmgiau/oS0qioBJVtOqDHK+zAXcZUrmg17h8tG7M
+	 GWTgIFoiQkXZfADB6Az8eC0Vg8THclQb6IwK8umR7gbdAXh7ADih60xHRg8HaYW/TC
+	 HtVBCqGqLMweWBboyNBlPacyH1R9+PPTd5g3TQGb25Tat4pEDg8mSO2IDdjo+WFC8O
+	 p+sqrv6ERnhWGmiPFUL/1/QjoqcgHJRvfWBKiMkWSKgoVxGJoNxz7IxUQGIw0K8RiT
+	 Kx9Ba30moy99Q==
+Date: Thu, 30 May 2024 12:19:12 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: Ricky Wu <ricky_wu@realtek.com>, Scott Murray <scott@spiteful.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Aapo Vienamo <aapo.vienamo@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] PCI: pciehp: Detect device replacement during system
+ sleep
+Message-ID: <20240530171912.GA552281@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
- <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <20240529061736.rubnzwkkavgsgmie@nj.shetty@samsung.com>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
- <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
- <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a1afaa12f341d146ecbea27c1743661c71683833.1716992815.git.lukas@wunner.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240530_101130_954036_7CB6F54C 
-X-CRM114-Status: GOOD (  11.25  )
+X-CRM114-CacheID: sfid-20240530_101915_780471_70249A94 
+X-CRM114-Status: GOOD (  32.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,57 +74,161 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/30/24 00:16, Nitesh Shetty wrote:
-> +static inline bool blk_copy_offload_attempt_combine(struct request_que=
-ue *q,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-struct bio *bio)
+On Wed, May 29, 2024 at 04:32:09PM +0200, Lukas Wunner wrote:
+> Ricky reports that replacing a device in a hotplug slot during ACPI
+> sleep state S3 does not cause re-enumeration on resume, as one would
+> expect.  Instead, the new device is treated as if it was the old one.
+> 
+> There is no bulletproof way to detect device replacement, but as a
+> heuristic, check whether the device identity in config space matches
+> cached data in struct pci_dev (Vendor ID, Device ID, Class Code,
+> Revision ID, Subsystem Vendor ID, Subsystem ID).  Additionally, cache
+> and compare the Device Serial Number (PCIe r6.2 sec 7.9.3).  If a
+> mismatch is detected, mark the old device disconnected (to prevent its
+> driver from accessing the new device) and synthesize a Presence Detect
+> Changed event.
+> 
+> The device identity in config space which is compared here is the same
+> as the one included in the signed Subject Alternative Name per PCIe r6.1
+> sec 6.31.3.  Thus, the present commit prevents attacks where a valid
+> device is replaced with a malicious device during system sleep and the
+> valid device's driver obliviously accesses the malicious device.
+> 
+> This is about as much as can be done at the PCI layer.  Drivers may have
+> additional ways to identify devices (such as reading a WWID from some
+> register) and may trigger re-enumeration when detecting an identity
+> change on resume.
+> 
+> Reported-by: Ricky Wu <ricky_wu@realtek.com>
+> Closes: https://lore.kernel.org/r/a608b5930d0a48f092f717c0e137454b@realtek.com
+> Tested-by: Ricky Wu <ricky_wu@realtek.com>
+> Signed-off-by: Lukas Wunner <lukas@wunner.de>
+
+Applied to pci/hotplug for v6.11, thanks, Lukas!
+
+> ---
+>  drivers/pci/hotplug/pciehp.h      |  4 ++++
+>  drivers/pci/hotplug/pciehp_core.c | 42 ++++++++++++++++++++++++++++++++++++++-
+>  drivers/pci/hotplug/pciehp_hpc.c  |  5 +++++
+>  drivers/pci/hotplug/pciehp_pci.c  |  4 ++++
+>  4 files changed, 54 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/hotplug/pciehp.h b/drivers/pci/hotplug/pciehp.h
+> index e0a614a..273dd8c 100644
+> --- a/drivers/pci/hotplug/pciehp.h
+> +++ b/drivers/pci/hotplug/pciehp.h
+> @@ -46,6 +46,9 @@
+>  /**
+>   * struct controller - PCIe hotplug controller
+>   * @pcie: pointer to the controller's PCIe port service device
+> + * @dsn: cached copy of Device Serial Number of Function 0 in the hotplug slot
+> + *	(PCIe r6.2 sec 7.9.3); used to determine whether a hotplugged device
+> + *	was replaced with a different one during system sleep
+>   * @slot_cap: cached copy of the Slot Capabilities register
+>   * @inband_presence_disabled: In-Band Presence Detect Disable supported by
+>   *	controller and disabled per spec recommendation (PCIe r5.0, appendix I
+> @@ -87,6 +90,7 @@
+>   */
+>  struct controller {
+>  	struct pcie_device *pcie;
+> +	u64 dsn;
+>  
+>  	u32 slot_cap;				/* capabilities and quirks */
+>  	unsigned int inband_presence_disabled:1;
+> diff --git a/drivers/pci/hotplug/pciehp_core.c b/drivers/pci/hotplug/pciehp_core.c
+> index ddd55ad..ff458e6 100644
+> --- a/drivers/pci/hotplug/pciehp_core.c
+> +++ b/drivers/pci/hotplug/pciehp_core.c
+> @@ -284,6 +284,32 @@ static int pciehp_suspend(struct pcie_device *dev)
+>  	return 0;
+>  }
+>  
+> +static bool pciehp_device_replaced(struct controller *ctrl)
 > +{
-> +=C2=A0=C2=A0=C2=A0 struct blk_plug *plug =3D current->plug;
-> +=C2=A0=C2=A0=C2=A0 struct request *rq;
+> +	struct pci_dev *pdev __free(pci_dev_put);
+> +	u32 reg;
 > +
-> +=C2=A0=C2=A0=C2=A0 if (!plug || rq_list_empty(plug->mq_list))
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return false;
+> +	pdev = pci_get_slot(ctrl->pcie->port->subordinate, PCI_DEVFN(0, 0));
+> +	if (!pdev)
+> +		return true;
 > +
-> +=C2=A0=C2=A0=C2=A0 rq_list_for_each(&plug->mq_list, rq) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (rq->q =3D=3D q) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-(!blk_copy_offload_combine(rq, bio))
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 return true;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
-ak;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> +	if (pci_read_config_dword(pdev, PCI_VENDOR_ID, &reg) ||
+> +	    reg != (pdev->vendor | (pdev->device << 16)) ||
+> +	    pci_read_config_dword(pdev, PCI_CLASS_REVISION, &reg) ||
+> +	    reg != (pdev->revision | (pdev->class << 8)))
+> +		return true;
 > +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Only keep iterating=
- plug list for combines if we have multiple
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * queues
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!plug->multiple_queues)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
-ak;
-> +=C2=A0=C2=A0=C2=A0 }
-> +=C2=A0=C2=A0=C2=A0 return false;
+> +	if (pdev->hdr_type == PCI_HEADER_TYPE_NORMAL &&
+> +	    (pci_read_config_dword(pdev, PCI_SUBSYSTEM_VENDOR_ID, &reg) ||
+> +	     reg != (pdev->subsystem_vendor | (pdev->subsystem_device << 16))))
+> +		return true;
+> +
+> +	if (pci_get_dsn(pdev) != ctrl->dsn)
+> +		return true;
+> +
+> +	return false;
 > +}
-
-This new approach has the following two disadvantages:
-* Without plug, REQ_OP_COPY_SRC and REQ_OP_COPY_DST are not combined. The=
-se two
-   operation types are the only operation types for which not using a plu=
-g causes
-   an I/O failure.
-* A loop is required to combine the REQ_OP_COPY_SRC and REQ_OP_COPY_DST o=
-perations.
-
-Please switch to the approach Hannes suggested, namely bio chaining. Chai=
-ning
-REQ_OP_COPY_SRC and REQ_OP_COPY_DST bios before these are submitted elimi=
-nates the
-two disadvantages mentioned above.
-
-Thanks,
-
-Bart.
+> +
+>  static int pciehp_resume_noirq(struct pcie_device *dev)
+>  {
+>  	struct controller *ctrl = get_service_data(dev);
+> @@ -293,9 +319,23 @@ static int pciehp_resume_noirq(struct pcie_device *dev)
+>  	ctrl->cmd_busy = true;
+>  
+>  	/* clear spurious events from rediscovery of inserted card */
+> -	if (ctrl->state == ON_STATE || ctrl->state == BLINKINGOFF_STATE)
+> +	if (ctrl->state == ON_STATE || ctrl->state == BLINKINGOFF_STATE) {
+>  		pcie_clear_hotplug_events(ctrl);
+>  
+> +		/*
+> +		 * If hotplugged device was replaced with a different one
+> +		 * during system sleep, mark the old device disconnected
+> +		 * (to prevent its driver from accessing the new device)
+> +		 * and synthesize a Presence Detect Changed event.
+> +		 */
+> +		if (pciehp_device_replaced(ctrl)) {
+> +			ctrl_dbg(ctrl, "device replaced during system sleep\n");
+> +			pci_walk_bus(ctrl->pcie->port->subordinate,
+> +				     pci_dev_set_disconnected, NULL);
+> +			pciehp_request(ctrl, PCI_EXP_SLTSTA_PDC);
+> +		}
+> +	}
+> +
+>  	return 0;
+>  }
+>  #endif
+> diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
+> index b1d0a1b3..061f01f 100644
+> --- a/drivers/pci/hotplug/pciehp_hpc.c
+> +++ b/drivers/pci/hotplug/pciehp_hpc.c
+> @@ -1055,6 +1055,11 @@ struct controller *pcie_init(struct pcie_device *dev)
+>  		}
+>  	}
+>  
+> +	pdev = pci_get_slot(subordinate, PCI_DEVFN(0, 0));
+> +	if (pdev)
+> +		ctrl->dsn = pci_get_dsn(pdev);
+> +	pci_dev_put(pdev);
+> +
+>  	return ctrl;
+>  }
+>  
+> diff --git a/drivers/pci/hotplug/pciehp_pci.c b/drivers/pci/hotplug/pciehp_pci.c
+> index ad12515..65e50be 100644
+> --- a/drivers/pci/hotplug/pciehp_pci.c
+> +++ b/drivers/pci/hotplug/pciehp_pci.c
+> @@ -72,6 +72,10 @@ int pciehp_configure_device(struct controller *ctrl)
+>  	pci_bus_add_devices(parent);
+>  	down_read_nested(&ctrl->reset_lock, ctrl->depth);
+>  
+> +	dev = pci_get_slot(parent, PCI_DEVFN(0, 0));
+> +	ctrl->dsn = pci_get_dsn(dev);
+> +	pci_dev_put(dev);
+> +
+>   out:
+>  	pci_unlock_rescan_remove();
+>  	return ret;
+> -- 
+> 2.43.0
+> 
 
