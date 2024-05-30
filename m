@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 867A4C27C44
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 13:27:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99B68C27C43
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 13:27:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hVkNhCbaBeqVcXtN8qAwX3C9rNtmax2JJ1CKS4eYr7E=; b=ZjlFEKxkQDsW+X1UCYXBsRtXEn
-	yQmgFq9+u2tM0A1gkWJlGQwBzdH2Ts2LYihlDnC4T8H5Jy3AdH/ex0glTxh8xg7wEt+Q5JYQY0itd
-	Dmma1SYbcjgOy5JgvXTXbpE251KAsEgotSM6Q3Cpry5ohk+q1gZkhMBIl7ZVGUS3t5smSD3SRmjjs
-	fQnpkNVY/xvSLRTJmn1ocFXkI+L+KSKjPxe0Hbrdk7o6tQ6KMqWHXmDCCpWmHqS2DDp41lxI6cyju
-	h1NybAR8vKzXx9n1j06rE1KOT514b9d9fC0Hx/CoYL8yUqEbrmtWHOGYRi/ZZEDu2BUtM8+/trVPq
-	H507PQ/g==;
+	bh=1Rfv8LDVgRTz9jiC1OhOxn9YPDgrbU5FKBlQ7Avcww4=; b=l2NFYiwGjEH5lLfq7Pdmoq251m
+	U5tBmV7lxB/rvz8B9R81HI/ms1GVHNBhPqJK0c2s44bsrxpBbBNpuvlLJIrqa19y1wzEXbwHIFxfp
+	1Hi/4oiIdPbIa5v697zT8yZwYzZz5PJH/ZiOH804NHxf+MlI+608/mzxk7ApEc6xTEorofp52UdyW
+	CXHVWHV/nSagQQ/MHzMCgezO8nfLYpbGCplgB78IkXIAfcX/HcywXYe/ZgZpcS38CFidNS6GERWNZ
+	+Aj5YWeY4MOnQbz7wc/u5lK4T6pEBKbbazz3SbV1XQ1yp8c0aHNnCu65f/xGPbrnscTDFXwtBsWte
+	BktSvdyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCfo5-00000007MJl-2A01;
-	Thu, 30 May 2024 13:27:01 +0000
-Received: from mail-he1eur04on2071c.outbound.protection.outlook.com ([2a01:111:f403:260f::71c] helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+	id 1sCfoG-00000007MR7-0thf;
+	Thu, 30 May 2024 13:27:12 +0000
+Received: from mail-he1eur04on2070e.outbound.protection.outlook.com ([2a01:111:f403:260f::70e] helo=EUR04-HE1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCfo1-00000007MFK-2K9Q
+	id 1sCfoD-00000007MOX-2o70
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 May 2024 13:27:00 +0000
+	Thu, 30 May 2024 13:27:10 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DSavrcyaD3FwTKJ9w10+v1BSm4oqZ0dW4idNJDeyw+smt0FaAzLK1LNyR5m4vAmY9tCHkFOEKW0w5+z0jOm4cdQOD9o6T5baYtq5X/LAIDt9udEyqXi+ifnFNTKe68764CDTXimPXafoOkpmLtST6cvojYeRdkT6f+Zq5naN5NiPut0/80DKSLmcA2Nk5Pdva0InqQ4UPoxmagu5usV5jnKpJi7PtK5Nfc9a81c1d4RM5VAk4uR+EwetcFmh/tQUVMd273vwjMV4Er+ttVNyLC2j99hnS2T3kKR69g+0RadlWkLczc42eZU7xRC7PLF86ZRI1iXb+NDOTlo7MPNJfw==
+ b=lmPIwbROBTxSIPMmghlMEuwcVL72Er60KUpbj0fWLK5Xxvl3Y15JQ4hCJje87kMUNyPB+tTpwEUm2jEmn0Pz8bhYE9o37ckOby3prV4H0jPPTRBaLw1j7hh4mK9QTBeecoqnyM8g8iR4FJKLaxJdb2SRcju4eO+kifl0N84V7tIrfn67LD+aOgtxxChXw/t95Nu67zrFV/5s1F3I9Zbu3d4tTtl0j4LYIzXcQ0Vqec27uCesbfe8sadZAGBGwVYW10utt9ixm24DmNN0uo4lJVLJ5GSjNdVDCa7MqXXHx7FLX+y867W6VVI419y4dLYCp8d2K4ZcBdbN19cc707koA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hVkNhCbaBeqVcXtN8qAwX3C9rNtmax2JJ1CKS4eYr7E=;
- b=TeC2+QFDVKwYm5id54PiSYLDww+vxqVtIJIVe6gSK6AgpCVMhyB8eDf3PY1zs0jtrX32QMQkHqRXNg8CTMw5G53U78fOJJrpGUZddz1SzGwGp5WhTqYaCP45eUd5XG/QDjUMMiuZ9Hah3dfRPal9o0R/3x1PX88ae0/iNJRn5qVeMAaq4VmaexLkxh+KqYP+fj1zvX6FuKkOoA8litc21cumEnvwlmkp3ovmCt5IFoZLvYI0TknzHEDM8tyfOqb23j8JiWqAoMhXuC1/2fePkvt0sD6vj6Z/nQGrSLKtnqX0z1E3kD8GqycdTZ2KJHirYmlr8ONgFCCyrjqsP8R7AQ==
+ bh=1Rfv8LDVgRTz9jiC1OhOxn9YPDgrbU5FKBlQ7Avcww4=;
+ b=Dyt7FUbMYucu1v9QwRKh2V96s41bGNXWfkGoPHKF88AQn53SpHreUG5RBtDBESgWVjUgNL2lOHZp8X+kdST/vkdEjSaWY5yKGEtiMpQe1z5y/tueN+GnZrDyzs7ns279ztVwGIV6v4IkGXRHcDNbmHrrIPCdBykjWkKdZnDa90/chb27W0eYB3ij7fSKu5rtWVj/x+8g/jhcHI8hSMDEe5b9Soe1LmcmjBLz53usX4YnqIpwZeCxTJIeFFg64VrHKIjt+BwAaavnhq7RfacxltPSMqmvMPq15imYQ2YK+hH8giYlivquGIIvSBJ9vB6Gc1eiGb2qoL+07LO/hIDTWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
  dkim=pass header.d=volumez.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hVkNhCbaBeqVcXtN8qAwX3C9rNtmax2JJ1CKS4eYr7E=;
- b=VW/h5ZwZHOOU6z0w6csaz7Rz16A5Mv2dcgSqnJ8/84R8sa++bA6Bvw0a6NbOb3nqQXXdiSqo62Blto/0d4ypa8jNn5/jPO4Uwd/RkgLrtfs39fjCCOj7DEd6PhcDaXyBxwjSIGFRe55FbNN5H2Gl+rrwETP7Dq4OaQyOObjCZxa8Xsur/nKW2HdDOE55O7PKvbvhO7pleVAgMKhSWSCFdy5kEZE1fyaFA/SMwn7WqBV4k3LMoqteYZUhdVkLjhakYXd0tJ8r+ZbQ47ypAlT77y7D3z1RpUV5GpxO89puSJ2845tPCEOIQHm49/RXcV02t/rp5KhAYbNo4O2g4ZhsvA==
+ bh=1Rfv8LDVgRTz9jiC1OhOxn9YPDgrbU5FKBlQ7Avcww4=;
+ b=SMvB1pzvgoCZLOAndGZOzmxlbngaTuUljF9e3pMTIX2RXVBba92jLeQ6sH3B/DsM/BAqbobWmxOny1ADBxM1x6aMNdumdLe4ATtWI7mCeH5uX++LpDWKPlLIHUBwu7FEgtQyeCe7nGaAGl6iHs03DXQ7krvxyda18bCtc/79tyr4zcSArzmfMMBn0fLgZAWS6eDVSfzURmDcAsJbJ6EfAFmqv1XQ+XwVIqWpIlby4QIQ8VQQf71RDNWu2ywE+1i0ZJ4qU4eDHe1TBP9awaKHmN2/ldm+ZmIYPG3OCMlxRqgB/4GFtTxqpZlz3X4nG9f7H2z3YiiNdVN9PxSOvJWhMQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=volumez.com;
 Received: from AM0PR04MB5107.eurprd04.prod.outlook.com (2603:10a6:208:cb::11)
  by PAXPR04MB8814.eurprd04.prod.outlook.com (2603:10a6:102:20d::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.21; Thu, 30 May
- 2024 13:26:54 +0000
+ 2024 13:27:05 +0000
 Received: from AM0PR04MB5107.eurprd04.prod.outlook.com
  ([fe80::de53:c058:7ef:21fb]) by AM0PR04MB5107.eurprd04.prod.outlook.com
  ([fe80::de53:c058:7ef:21fb%3]) with mapi id 15.20.7611.030; Thu, 30 May 2024
- 13:26:54 +0000
+ 13:27:03 +0000
 From: Ofir Gal <ofir.gal@volumez.com>
 To: davem@davemloft.net,
 	linux-block@vger.kernel.org,
@@ -62,18 +62,11 @@ To: davem@davemloft.net,
 Cc: dhowells@redhat.com,
 	edumazet@google.com,
 	pabeni@redhat.com,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	philipp.reisner@linbit.com,
-	lars.ellenberg@linbit.com,
-	christoph.boehmwalder@linbit.com,
 	idryomov@gmail.com,
 	xiubli@redhat.com
-Subject: [PATCH 1/4] net: introduce helper sendpages_ok()
-Date: Thu, 30 May 2024 16:26:23 +0300
-Message-ID: <20240530132629.4180932-2-ofir.gal@volumez.com>
+Subject: [PATCH 4/4] libceph: use sendpages_ok() to instead of sendpage_ok()
+Date: Thu, 30 May 2024 16:26:26 +0300
+Message-ID: <20240530132629.4180932-5-ofir.gal@volumez.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240530132629.4180932-1-ofir.gal@volumez.com>
 References: <20240530132629.4180932-1-ofir.gal@volumez.com>
@@ -85,76 +78,76 @@ X-ClientProxiedBy: TL2P290CA0005.ISRP290.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM0PR04MB5107:EE_|PAXPR04MB8814:EE_
-X-MS-Office365-Filtering-Correlation-Id: 039a2b5b-8882-46bc-c721-08dc80ac2c5a
+X-MS-Office365-Filtering-Correlation-Id: 654021b9-d290-492d-f2de-08dc80ac3175
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|7416005|1800799015|366007|52116005|38350700005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?swQtvtdekMQTTcj11CrkYkEw3cSQTMR/IYXIZo4BcM5CyajsTJnbX/+BFhav?=
- =?us-ascii?Q?nK/h7lZ8oMYutQw1CQ6fr2zIAYSRLt3+jCd6LOBVSsLOhGdxgJkRmLYByZFf?=
- =?us-ascii?Q?6GJNVMqtDcwvBiaW01UWGQctJdcFIi3fFx/O5ZVCfx7aGjKcXq1VXZb6CYb6?=
- =?us-ascii?Q?l4kzvRxWAjmGyi4PCdoVpQYzAjNksaBFknTG/OYhUE58OOZWqLVSF7d2Sj/6?=
- =?us-ascii?Q?WC5DatQ9X9kDRDLEXsLnnThNooIWnABAahnumcvSQX1PdW5LMwAEtybNmOeb?=
- =?us-ascii?Q?J2mhRtF2WhqtNP86BnFPMLhLhhKFlP37unYSC/2wuWGh24lWBzcfZcipzV4l?=
- =?us-ascii?Q?/CfO44+Cx/y/3lRjWOLx8L71mD1HXDZvmuqpDR3fqrq48XzinFiD3yJvdCRk?=
- =?us-ascii?Q?izgMDVRFeZmv5kWZgiA01QFbyxLoT35vALLErkprEgBut4XEaagCKXf3aK3i?=
- =?us-ascii?Q?ksAt26li3piWXNKgbxKXm3Q1JK0PypjBzVN/fk6fgthKtr/pKFgqjYOTamFu?=
- =?us-ascii?Q?ZBxmON2Q25xglhzxG9GLNQPQu7CC7vSAgV9PNt2Q9tQP0ZLi+odviQ0CpChy?=
- =?us-ascii?Q?TyQDLY+CnnmeamQKgwc0CRBjop0OGi68yzmYUTLaEgW+8A9eZxSEYHBvWjsf?=
- =?us-ascii?Q?goCXblNYf8gz8gFDjWqdqX0EhgdWLXtdx82icKCVbSA87TrAEPipD2WqD/4L?=
- =?us-ascii?Q?pYWqOxVo2k0sAXHgJYwg5S02Fp/WIYIyy3NiF49udcwGQxOcWlzL4zxzNxsZ?=
- =?us-ascii?Q?PlNfWoz5NZmdcJH2zQPs46SBrp5JLKtD1ysmmYybtzynQRNRp6Ru36NmwnXZ?=
- =?us-ascii?Q?Fuf2liO90I1lrxE9zLJnLKkcCoe67/VURihauydDvlCwA+gtj/K9MF4SgiH0?=
- =?us-ascii?Q?cHl+fUGsNVEICSe0vNMIqupqNy5Rjw0Ayb1Jh8kirs/mTHMWAo2QtZPKyXyA?=
- =?us-ascii?Q?+y1CPJRH/eT55BJuaJ0Y0GpDzp3VUO7e9oMkEp5In8sAA13MUq/Gr8gJNCAc?=
- =?us-ascii?Q?al7cL9CGZ38g128mnMNqe61upm8x1mEXz9JBUCDeX8/7gGiM7hU6moFImZAg?=
- =?us-ascii?Q?E27f8coM0YmTqG2MRgjHlgLJ8zInIxBc9D3PrzLX/+uyou/2G18ZRLCiQkEb?=
- =?us-ascii?Q?TKVKpY3td72Syj+Poh3AQBe6m1uKugJixr9tzjQIVGFnYjAa2Lr5SJKO2+m3?=
- =?us-ascii?Q?ZBDOIFwy0BRiBm8cdGeXxX0/Mx5Be77+dfBOM2rG0NGiFCwGS87Dz4iBteqF?=
- =?us-ascii?Q?RTAdCm45IUmAEIORsJyXiCqv8emf5T224BbyQEOTsNZSr17MUs711o8kxKVq?=
- =?us-ascii?Q?S4bFiaRebC/fai/xVHKZJCsJtaLthHR+3iBz23cgGprrTw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9WNn5jGJY3XrebvUfzk+GkzaBraANVyOuxWKP7pesIwO2iD9b4QjIrnyDkig?=
+ =?us-ascii?Q?zu/cpAWqpwW7yFQ9OgOTX8RhAb5RjFi2o1qyy336b/RLIHHAuaR8FfJzjSpO?=
+ =?us-ascii?Q?xBbYgQcUsnBuWri0vNGLfVLnY4l/lWdxqjzapMYzgmo1Z+CCU8gkZ0DbaJW6?=
+ =?us-ascii?Q?L5x9GAV8ZEZOdxH0emjUzWGwc8I3/FLyMy2kuk6lrcRVy1ZPB/FtRITnlVEc?=
+ =?us-ascii?Q?Lgdxqp4FnnKt0WBPG4GLBD1NdODRhr0dRPsUnBHjBPGWJybuPIUPDT5pDz3n?=
+ =?us-ascii?Q?UXoI6V+kyLybTZBdYRqBSPQ9STSh8hZ+8UwGR+9IyiSPwq2cbD234zqICgH0?=
+ =?us-ascii?Q?Ka34w0CdNCv4i1Mz73i0MAoLuRP9FXwdezex7Jz/+ZFoNe/8/+BddvpTzaD/?=
+ =?us-ascii?Q?B3zCOQ7dNSbIditWdt5g14jgZ/308GMrl3L3Zvp6iePn/yH+7KkvbLExpUOM?=
+ =?us-ascii?Q?nufCd6uy7nn2nzS13Z9N+n15rPnCT8AcJ74gloIVG+/XSl27Aa39rhg4Eyju?=
+ =?us-ascii?Q?tKum9yrgdhKOsRQbYHyNozKF5dPM4t69FJD39AJFqORfeuYfYNFY1F6N1wYf?=
+ =?us-ascii?Q?rsii+QiV9Q6fxD+DsyKKguSxkoY9XE7eiqDlZGwGKHK+ULXG79CcCWLjSH4Z?=
+ =?us-ascii?Q?sxpyQO1spTIfJXgvrL2pyUSC/BCjZ4aLOhIs/B3UuQWufJMLipCbN/Y8hi35?=
+ =?us-ascii?Q?8UuuoBLtsIVDMtTK8+4DTZpcmCbwSjugOHPr8JhExrJn9nHEBhO9VtsvKKso?=
+ =?us-ascii?Q?P2ZnbLJZU8zh3mYyqHR6xHxxdfX6Ii+JnEEmSN26hVLhTF9ag7pv5jIYQ3a+?=
+ =?us-ascii?Q?oDHPNPqauLhp7pPZayUP2K9Z1W7uTp62JEh8v7+Bd2UKGwEOSF3ZLAHD60Ma?=
+ =?us-ascii?Q?AH0cFq4cOyy6l4RfCrxQP5q/dcM142/P9e4RT5KxSc91HHyTSQ3HtiYF3tSp?=
+ =?us-ascii?Q?uICbpJAB+Zb/5PzDJASMihKL3J/hz+enKPRiKMBeLYbGZs4OHjwFpnckVSRO?=
+ =?us-ascii?Q?9k7ouTDJRCziVP9rzDsgrwF0hgwF5NGJ3qRTccZatPHQIAx7L2waMygWLkkK?=
+ =?us-ascii?Q?hUFIrllY5jII0elQqHm4npST8bzTvJ+lQ/CHzFgCIoFrc9O8ZVoSnnPLN6bB?=
+ =?us-ascii?Q?CVIE3bEf0kUUXnH472RaTemQ3BC8W+Q8wt8U/l/qttKS6MQBoJiHKTT7hYjc?=
+ =?us-ascii?Q?qGgV8n2MZuukvT+OJJSujX6JZJj0SFkewIcxfvjToIWsnVbX0bHtrdBKIwOa?=
+ =?us-ascii?Q?UTjePTmhGyowTCxhAj/Ut8ASCz2Yb8R55GirXXiaYYaanc+yt68qphsDPsiT?=
+ =?us-ascii?Q?gvf3/lpCx/XsKMTz2ON0lxWjqv4Xr4NgnGVGSSAylgwG+g=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5107.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(52116005)(38350700005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3nzIss3r3wKn97ZdVvNelLJBDBgwKfItRPlnNyKl/eTst43HvTOccOsq6tPK?=
- =?us-ascii?Q?9vE5mfgLe/UGQ9nBHepxYLO9u98N+srsHIcdr1/lvfIPt7S5yN4mrjqLhMLV?=
- =?us-ascii?Q?oRhWL8maozKsG+5LOjQJS5WnBCps+zbcPQ9gQxJlm/MK3diLiRwWExa7aZmw?=
- =?us-ascii?Q?K+rxmrce2+rBct60ueTz1JT/AZhVDbzgZqj4iq1jZweGVvBWanUB3ZhKLIUP?=
- =?us-ascii?Q?M1KVglBdI46OsWGS1eyvsWK3N0EB6epEj/2rnaEG/i22nV6jiEK3ztVoGTaW?=
- =?us-ascii?Q?/dPlMVpMcw0ilSho/ioZzPyY8nSocOHvzcPetV78tBqYy3acHeOM7f/LgOFT?=
- =?us-ascii?Q?LAxe4SZvGH+AeGaCOojXnXrnYU+rnKkD0eiatBbQQMJv7IDngGceuGMmdc6y?=
- =?us-ascii?Q?PdASyr9eC44WQaz4hJOMcGflyXhyxnKcFYBSRIjCkO1YDbbpnX3DuWLbZE8w?=
- =?us-ascii?Q?5Dgm497qc7gixLAmiGND0/rhgqZ/HIFH0X1feaGGzq7DmUPObLKOEVGeoYQ8?=
- =?us-ascii?Q?loxjrORc54CVseKrCe3mH3PcKBkIMvAQIF70F7W34iL4Zncb6RKh20akrB5Q?=
- =?us-ascii?Q?klNc21HmHTKZJnWHBmkEBG4xFJms3vovJGvTRrEqsUfr1awcLTzrH1OzEBy4?=
- =?us-ascii?Q?pUiUhja+fbpgcIwRpH+F+7s8GheGGATgug2jWtf3iNqBUuAvzyHwYALHUY2Y?=
- =?us-ascii?Q?MsanieQyJXXY8Nd1x3gvSCOtnnlJwMjqXhYNjVfUX83PHI7gERZQyjqfl2P7?=
- =?us-ascii?Q?SnOqAZlXEIe86yxymBqo/g27mOaNHVYoPLNBTaqZkQ5vEUxpeq5f5OGKfkpl?=
- =?us-ascii?Q?u6oYwNhUuTh/7Qq6mIO9B+H86BAtE3EGZ5OfvvnxtHjYGgA7h4BFfmkgcdrd?=
- =?us-ascii?Q?pzvECngQOgN1b5G4NZ3sHk3X7YPhlnTv5Y2D3GEFkbO50T/9gIjBDrL9yqg1?=
- =?us-ascii?Q?uck1W6i0PrP2t4B1QF/D8nFrq5NMUuOE6GSQqa3lHdB1Io1GT3HdCipDro+O?=
- =?us-ascii?Q?JLeOllx6KM9+v9X8DLMkGMkJKqzl55CZTW6v4kpq9bcgudnS9tO4VO7P55QZ?=
- =?us-ascii?Q?gWsKI9Q4pe/a6TTl2uxTzl4mO2h6XDj/FJaji9zmAajspVTfHarcZB9KAnr0?=
- =?us-ascii?Q?k+pVyFEy4JIpvh53BeCqqoI6kogne7M9xDmRAKPOOO0ogM+RXChMCxULV7Xi?=
- =?us-ascii?Q?O6mo0x9/+XuJCpNSqlVODWMSsgZOA+IlHVWmKHPxIyrPRTqmjm6Iv1a54SWO?=
- =?us-ascii?Q?0DziN0Nev8oRg0zyv/I3XAVj1fltQNzSScdC8IJEUJP6Qv8X8twNW3TTqE/5?=
- =?us-ascii?Q?S8OIJEo5zBrP1W4l/2v3afu8IslT6gkl89NtKLfdtoybcsxyBfz6Y5v4E4CZ?=
- =?us-ascii?Q?UPdnYvI42BDJ1eEQqxjJz0tV15J+cCBlfmY/k4xF6zd2Ls8bh7aolAFRzMv8?=
- =?us-ascii?Q?Lh2BD/4rCtdNzcl11LmYvd9cNBc8zbdfwS18/JozmXvTBMyxVL9rN+CN9uC4?=
- =?us-ascii?Q?eY9rJB+o2ANwSxNMhxtdSKpbgwUxe0OTeFrHE6hKYIgGGYEqNuPJg5TKqKHL?=
- =?us-ascii?Q?FRvfym1ldTM2ij0kXeNKy6/eEjHNKrJeanSqqIKd?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3zMc9eBd+FCYDZF0RT71icHZWhJSl3Yfzlt+2sB5/VKBN1nKYGDkPm1XKtxa?=
+ =?us-ascii?Q?lAF5ruyAlqgI+xpSLsnacfEYPTtSHcjixkjZd8s6wrAi1d/2uU7j/Xcxe4Zn?=
+ =?us-ascii?Q?IzZ8CfTBakxXuud5V4yJRy7PvoofapnSLXJ1/8yc2Ksk6Tjk9MxSOpH3PjSP?=
+ =?us-ascii?Q?1FY4Do6sXSB6b7AJ67tN0+goAYLhwnx9ThfoTjkQQmrcoBXWw7IHbO3u3ouE?=
+ =?us-ascii?Q?2o/glyf34Uuns9lmheytdM131d51HN3pfddQiW/Rr/rEJDzrtQa4KLbnJfPS?=
+ =?us-ascii?Q?/cwJBUwVaI6Ib7Od1GBy8LnOCQOBePV52lsAGkO8n5qf30+PqOFA9cFFmvjY?=
+ =?us-ascii?Q?EVePV8ZTuGbQdlYQBEyrkWzq2m5HPipAjrFtq5x9NJh5C5geDaXYISfEVJwB?=
+ =?us-ascii?Q?P2ii+XnHOZLbVBSpGmFhUksycc9UGYYK5RYDSblqYMwt0LxLCj/5rXrTRZOk?=
+ =?us-ascii?Q?RLUObEcm08DSZA2Wu6FxddmtWmSsS1t0yLQCUh3tXSegQ0nQy50k7XBODDlm?=
+ =?us-ascii?Q?9G9bLZB9vOSfC8jDiaZa+LjbtbKTOOOBkWsIosSkFFw/yWOep1g6a6pIkG2b?=
+ =?us-ascii?Q?5MblIPg+cNJFVuNXcapaGnq7LcUo5fp/YdUlagrCHh9jzOIhZ1apk5P5/Ypw?=
+ =?us-ascii?Q?RXXEOuOn4dCS+2EDV7pwMNaesIgg7Ac8t0cJgcWqdRedEMh3Q6rApALY7lxZ?=
+ =?us-ascii?Q?H+X7zEJfcAl0irWPThj8dZo61UaH+qjT05F5UNXRFkNLI57V4ndRFfhksHPq?=
+ =?us-ascii?Q?zoGRr2rfScbrBwmsas0xZj5iJw9dHVrnKokgL648sT/iS5Ls6esJANKJwvDY?=
+ =?us-ascii?Q?2dzwrVfZroOWL6oHKaRBxctTET29dnkL2fI3WD6Wur0IQ5ceX01GqXQOYzj8?=
+ =?us-ascii?Q?Z+ChN6EzJc+EUzeOvJDnm7tPKyxnRI3xCMQNJTCeiCm7zGd8VM8wELIXVvfs?=
+ =?us-ascii?Q?NZJ4YGmsxdbxXqZw2Lb1uAGOPLRJ/4l/N7SRPrnINyxQJkHRwveM3pza3BHH?=
+ =?us-ascii?Q?vQPBcg4U+dRbJ1dYfpCYBA5VmqqPZ8mE6VzYdsAmD8nNcrEbveP6Nsskr9s9?=
+ =?us-ascii?Q?Y3KNm/4Vi2O2jkO+8DbdSnBPiy8MkqGhSMNBLUKwxQiK4PU6D3HAfCYmN8Hq?=
+ =?us-ascii?Q?TBXsVwJTqYg2CvR+vp9QdZP8cCj4MMK2RmTrLu5o1rSyo+tJobZjnv+H0Hg3?=
+ =?us-ascii?Q?Rpg0q285VbdQVZv1hqygaVXjCdMMGgOHQnGKq49UwqwxT7s1fkt4qLWOAGvY?=
+ =?us-ascii?Q?dOQaWdQthyHt05AZCN1PSBP5i9uGbv04eu7Ac6gyfNb8ye0Ns+3G4EA8S73Q?=
+ =?us-ascii?Q?PLQy2YlfQ60eqGL80mcOGlyjxmysEnDNEczjm+hGmSJ/hShpT8vVQtwvGg+4?=
+ =?us-ascii?Q?APesuzwG3SoI0UKqiq3Zi80Fn/4p1APjWnKnfRD78j3AZvXXAl5OY3l3mUof?=
+ =?us-ascii?Q?pmnJpa1iHpT7lhXCnKWetCd53d/9ssvich6ONrusJ99jXuukMCE5hN5zxOTO?=
+ =?us-ascii?Q?4hZP7yWuaCuV17e8829HLJ+RICGFd4ntd3Fu03Q3yrucCBV1jCagD7Nnz0Sw?=
+ =?us-ascii?Q?XDsi4fcv36BHFaKJgNgXJPy/vwmgUSh8wdGERbpw?=
 X-OriginatorOrg: volumez.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 039a2b5b-8882-46bc-c721-08dc80ac2c5a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 654021b9-d290-492d-f2de-08dc80ac3175
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5107.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 13:26:54.7451
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 13:27:03.2864
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zj7MRMDngnb7I8EHaG981r9nUzpAcqZbVeDH1gqsfZZ5Mg+S8b+yb2gYAPpTWeWdCJTDKFVZGgyMJ+cD13MeGA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: GY3tElxkCWzdJZMYpfzGlyRgE+/A8/7+dMA7lqouX0DGEA+kWPFltKXY9uKgrH1q0n1E3pCk5AQpAl3BbFsk1A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8814
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240530_062657_684977_71367238 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20240530_062709_732939_902B1DF3 
+X-CRM114-Status: GOOD (  12.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -169,57 +162,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Network drivers are using sendpage_ok() to check the first page of an
-iterator in order to disable MSG_SPLICE_PAGES. The iterator can
-represent list of contiguous pages.
+Currently ceph_tcp_sendpage() and do_try_sendpage() use sendpage_ok() in
+order to enable MSG_SPLICE_PAGES, it check the first page of the
+iterator, the iterator may represent contiguous pages.
 
-When MSG_SPLICE_PAGES is enabled skb_splice_from_iter() is being used,
-it requires all pages in the iterator to be sendable. Therefore it needs
-to check that each page is sendable.
+MSG_SPLICE_PAGES enables skb_splice_from_iter() which checks all the
+pages it sends with sendpage_ok().
 
-The patch introduces a helper sendpages_ok(), it returns true if all the
-contiguous pages are sendable.
+When ceph_tcp_sendpage() or do_try_sendpage() send an iterator that the
+first page is sendable, but one of the other pages isn't
+skb_splice_from_iter() warns and aborts the data transfer.
 
-Drivers who want to send contiguous pages with MSG_SPLICE_PAGES may use
-this helper to check whether the page list is OK. If the helper does not
-return true, the driver should remove MSG_SPLICE_PAGES flag.
+Using the new helper sendpages_ok() in order to enable MSG_SPLICE_PAGES
+solves the issue.
 
 Signed-off-by: Ofir Gal <ofir.gal@volumez.com>
 ---
- include/linux/net.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ net/ceph/messenger_v1.c | 2 +-
+ net/ceph/messenger_v2.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/net.h b/include/linux/net.h
-index 688320b79fcc..b33bdc3e2031 100644
---- a/include/linux/net.h
-+++ b/include/linux/net.h
-@@ -322,6 +322,26 @@ static inline bool sendpage_ok(struct page *page)
- 	return !PageSlab(page) && page_count(page) >= 1;
- }
+diff --git a/net/ceph/messenger_v1.c b/net/ceph/messenger_v1.c
+index 0cb61c76b9b8..a6788f284cd7 100644
+--- a/net/ceph/messenger_v1.c
++++ b/net/ceph/messenger_v1.c
+@@ -94,7 +94,7 @@ static int ceph_tcp_sendpage(struct socket *sock, struct page *page,
+ 	 * coalescing neighboring slab objects into a single frag which
+ 	 * triggers one of hardened usercopy checks.
+ 	 */
+-	if (sendpage_ok(page))
++	if (sendpages_ok(page, size, offset))
+ 		msg.msg_flags |= MSG_SPLICE_PAGES;
  
-+/*
-+ * Check sendpage_ok on contiguous pages.
-+ */
-+static inline bool sendpages_ok(struct page *page, size_t len, size_t offset)
-+{
-+	unsigned int pagecount;
-+	size_t page_offset;
-+	int k;
-+
-+	page = page + offset / PAGE_SIZE;
-+	page_offset = offset % PAGE_SIZE;
-+	pagecount = DIV_ROUND_UP(len + page_offset, PAGE_SIZE);
-+
-+	for (k = 0; k < pagecount; k++)
-+		if (!sendpage_ok(page + k))
-+			return false;
-+
-+	return true;
-+}
-+
- int kernel_sendmsg(struct socket *sock, struct msghdr *msg, struct kvec *vec,
- 		   size_t num, size_t len);
- int kernel_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+ 	bvec_set_page(&bvec, page, size, offset);
+diff --git a/net/ceph/messenger_v2.c b/net/ceph/messenger_v2.c
+index bd608ffa0627..27f8f6c8eb60 100644
+--- a/net/ceph/messenger_v2.c
++++ b/net/ceph/messenger_v2.c
+@@ -165,7 +165,7 @@ static int do_try_sendpage(struct socket *sock, struct iov_iter *it)
+ 		 * coalescing neighboring slab objects into a single frag
+ 		 * which triggers one of hardened usercopy checks.
+ 		 */
+-		if (sendpage_ok(bv.bv_page))
++		if (sendpages_ok(bv.bv_page, bv.bv_len, bv.bv_offset))
+ 			msg.msg_flags |= MSG_SPLICE_PAGES;
+ 		else
+ 			msg.msg_flags &= ~MSG_SPLICE_PAGES;
 -- 
 2.34.1
 
