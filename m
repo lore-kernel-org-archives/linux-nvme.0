@@ -4,87 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EDAFC25B75
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 May 2024 22:42:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1928AC25B75
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 01:55:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wmqAutlJJibPd6rU+UVnuwTKNEx0bdku7UkT7t6UWI8=; b=mt3DUTa7gJZpLXBxs6B3pMvP58
-	k95Z7N0Mt90sGZUqUaO4D7DUfPdBHjQYLQtSHGCrCkCJq3ur7Ung0EBnNgAfqh65ps5rCOwTDJFfg
-	uiwuqXnNlyurvojDjYII99QOGR7+a5Q1UQi5YVcHPqyNuAQ77Ssp/yYP4jvlKEVgFFoJOLowCs+F/
-	lazI8R2ugCb2iP5BEIRS21K4Rv5/40LlKKZkYB0CGys77NieWEkITubcJIcXSjhvX8GLkm4bcLkbz
-	PD3976MjXJveJ7AuJwmTZaXcmmOwv+6p2H8ahDndl4ftv2d+CPpxCPDfOMlqTbrtM3rMTjqF40eS5
-	jcYhaL1Q==;
+	bh=Eoo4T84Cts5mCJ5g3kZGM62SQtBcCIpHRfTeXSGa8nc=; b=nWt+15psx2BAIdth/JQTf5vwyQ
+	nqFNBin5kBkskWVn4A+Xvowjx2+kwVv314il7t0Gz4B1F7j6mkkExztv6/0vUv2rdcowwuhbOqwK1
+	xmKbdLlaq7HwXgX7o3CDX9h6Gx9Y5H00RO8KY9EzRuf715KFsKmyFOCiywFfdVeoyImRxz8saf61R
+	DtpKszFuxw9XqNIhf3zouPrKnZeaguTu5LEAU4aro2uAORpsgvnWYH4qegQEh7HkmWmq3oH428CiL
+	MOFqgEb9d82J4sN0URYDNWD2lVBsbYeylu+ylOTB9wKxGLTAuwjCzawUzblypI70WZawu1euBZisr
+	SKunAQWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCS06-00000005kWy-3NYP;
-	Wed, 29 May 2024 22:42:30 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1sCV0d-000000062HK-3AXS;
+	Thu, 30 May 2024 01:55:15 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCRzz-00000005kV9-0BVk
+	id 1sCV0Z-000000062Ex-3HEl
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 May 2024 22:42:29 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4VqPXB0kc4z6Cnk97;
-	Wed, 29 May 2024 22:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1717022525; x=1719614526; bh=wmqAutlJJibPd6rU+UVnuwTK
-	NEx0bdku7UkT7t6UWI8=; b=PJ33HDfElBr6B2EjMPAfwGu7bE9RZoyBwrnjF5kb
-	ldVDQ25YGiOYb3pvO+o2X4KwZcFOl2ybOFgIkCOc0Ovy3mSs/Qkku5fBtZSpDMAH
-	mo9zWgWAO/CJ+wjKd7BKsK3R35ll6PbtNTvvc0E3qu33t6NW2oxmMmYoqJ0SyYV/
-	CkMts1Kxkn0f77eR5bgC4+EQtVRK5DWNELILtuJUAh/9D3uk14Q74GoSmyK2dSs8
-	ZCbwXv16vYl8xhRpUrE/FHWvAtX/lSM95PUP8DM2HTM46/7eMAE0O6yZP9PjEk+T
-	mNqQ5EKt9zBW3jpgOkylLeHIVqfmpQAEVzpoWX4wuRTsHg==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id b0OFq5KM274R; Wed, 29 May 2024 22:42:05 +0000 (UTC)
-Received: from [192.168.3.219] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VqPWk5M18z6Cnk94;
-	Wed, 29 May 2024 22:41:54 +0000 (UTC)
-Message-ID: <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
-Date: Wed, 29 May 2024 15:41:51 -0700
+	Thu, 30 May 2024 01:55:14 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-2bfae86f1ffso55874a91.0
+        for <linux-nvme@lists.infradead.org>; Wed, 29 May 2024 18:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1717034109; x=1717638909; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Eoo4T84Cts5mCJ5g3kZGM62SQtBcCIpHRfTeXSGa8nc=;
+        b=y/K6HV8SE04Cg/kv5xIITPeb659nvkemg92grnwuKwNqYTat6+gKpM8dCjjAZjLy+c
+         ZJl5QL6Ryy3eZBfUk9/UG1lE8YAHnTsFvshQRn6xPku/Yze5OV3OTLvdBsa5oOzsg+Pk
+         JuYPpPGUKru9Ufi11beQRSbimbn+PVMfEUIlS0rBrdWJvoodHT+5+ifVhH+yKVJpCwJF
+         8+j0B0sf7kLJ6k6+ixau355Ae9ryWwaDyUjoEmxNAQGQizwz3ohUaTEwtVTv7AAy7kD9
+         cl7RfLlwo2loYoxD6bpC0Zey1lCG3ZJMTtm8MFBd6CUK26K53J0BXzuL1gtygeHclJut
+         EElA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717034109; x=1717638909;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Eoo4T84Cts5mCJ5g3kZGM62SQtBcCIpHRfTeXSGa8nc=;
+        b=tEu7lTyVuuQIuRSUQjRPReFk+Mr76M3r0tmpNZEcdDe5beu0yMfqLopZQtlXTh61t6
+         RQgDcoWTh/7rskNwX7/zhFMyg7idCfZkgDBnIP5jCcxPlMwbNHEmc94FhxXtmgIm0xTc
+         hZrxuDDHBBz9CedSrMNQKDpGv3tqDNXieBiV9rDHwd4dUIMjSXq4LLNP2mmyHRa3854V
+         zqWMk7OVD+65sTO6DE3z7UBBaU7uH6BZaTqRLdYtE248pM9yE1DozWZ0+W4asJPt6cwh
+         7v/HUNYrlbAx8562E7SutqifXeTF+KILa7kF7s9Yly3h/l48kmUr1tzMxtuzjkvo9W14
+         4+HA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgqgZNl1ukATJJrTbX5UglSLhuvdptP6hIeFQLBoaSp+bUKeokp+lFDytxGCrBi2HI5OSENC6z5g77qZvPJ1eS6xMtjdBFQvLQRcfrCT0=
+X-Gm-Message-State: AOJu0YxmOsCKPRq+rxbWrxUIn5y7TJ2JNTUHqOAHuO0J88Z/dUcnOZZO
+	hV9yBHb1hNf7ETQS8n0tkatTfdS9hPkRqynX2VZ/TQY8VPL/l65P4zJa2GiJ7cTrTE3vxdssIzB
+	q
+X-Google-Smtp-Source: AGHT+IHsv32HB7SMXOhxF70RnG42n/qpEx0OAi0muS3tDptYvA4w5Gi6gtEvMWAwxxOHh9E+1DMXPg==
+X-Received: by 2002:a05:6a21:60a:b0:1b2:53c5:9e67 with SMTP id adf61e73a8af0-1b264687786mr669373637.4.1717034109171;
+        Wed, 29 May 2024 18:55:09 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9b87b4sm109261355ad.264.2024.05.29.18.55.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 May 2024 18:55:08 -0700 (PDT)
+Message-ID: <ff000445-6ad0-4977-b407-36e74adc1dc4@kernel.dk>
+Date: Wed, 29 May 2024 19:55:07 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Damien Le Moal <dlemoal@kernel.org>, Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
- joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
- <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <20240529061736.rubnzwkkavgsgmie@nj.shetty@samsung.com>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+Subject: Re: [GIT PULL] nvme fixes for Linux 6.10
+To: Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <Zlen3slew1w4dneo@kbusch-mbp.dhcp.thefacebook.com>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Zlen3slew1w4dneo@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240529_154223_210968_658AFDED 
-X-CRM114-Status: GOOD (  13.74  )
+X-CRM114-CacheID: sfid-20240529_185512_028131_4DA89A17 
+X-CRM114-Status: GOOD (  11.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,39 +94,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/29/24 12:48 AM, Damien Le Moal wrote:
-> On 5/29/24 15:17, Nitesh Shetty wrote:
->> On 24/05/24 01:33PM, Bart Van Assche wrote:
->>> On 5/20/24 03:20, Nitesh Shetty wrote:
->>>> We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
->>>> Since copy is a composite operation involving src and dst sectors/lba,
->>>> each needs to be represented by a separate bio to make it compatible
->>>> with device mapper.
->>>> We expect caller to take a plug and send bio with destination information,
->>>> followed by bio with source information.
->>>> Once the dst bio arrives we form a request and wait for source
->>>> bio. Upon arrival of source bio we merge these two bio's and send
->>>> corresponding request down to device driver.
->>>> Merging non copy offload bio is avoided by checking for copy specific
->>>> opcodes in merge function.
->>>
->>> In this patch I don't see any changes for blk_attempt_bio_merge(). Does
->>> this mean that combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC will never
->>> happen if the QUEUE_FLAG_NOMERGES request queue flag has been set?
->>>
->> Yes, in this case copy won't work, as both src and dst bio reach driver
->> as part of separate requests.
->> We will add this as part of documentation.
+On 5/29/24 4:10 PM, Keith Busch wrote:
+> The following changes since commit f0eab3e8d1530b87f3523cee060004dd513a6d2b:
 > 
-> So that means that 2 major SAS HBAs which set this flag (megaraid and mpt3sas)
-> will not get support for copy offload ? Not ideal, by far.
+>   block: t10-pi: add MODULE_DESCRIPTION() (2024-05-20 08:07:44 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.10-2024-05-29
+> 
+> for you to fetch changes up to c758b77d4a0a0ed3a1292b3fd7a2aeccd1a169a4:
+> 
+>   nvmet: fix a possible leak when destroy a ctrl during qp establishment (2024-05-28 10:01:52 -0700)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for Linux 6.10
+> 
+>  - Removing unused fields (Kanchan)
+>  - Large folio offsets support (Kundan)
+>  - Multipath NUMA node initialiazation fix (Nilay)
+>  - Multipath IO stats accounting fixes (Keith)
+>  - Circular lockdep fix (Keith)
+>  - Target race condition fix (Sagi)
+>  - Target memory leak fix (Sagi)
 
-QUEUE_FLAG_NOMERGES can also be set through sysfs (see also
-queue_nomerges_store()). This is one of the reasons why using the merge
-infrastructure for combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC is
-unacceptable.
+Pulled, thanks.
 
-Thanks,
+-- 
+Jens Axboe
 
-Bart.
+
 
