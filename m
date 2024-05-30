@@ -4,143 +4,155 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DB0FC25B74
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 10:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBC94C27C43
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 May 2024 13:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rCniubpfhRi+g2l6XyRehFQ5clmSAHkrG4fc8RUMS8k=; b=0mnjWvx54U/am5wSFZVBRbVLAs
-	T8AwccGZjDcCQEVoGWalsamX6E3bMnh7+q36x7DUmTUEZQNFbN2cWpCYs8v2N9zbPGM5shxvMs4+L
-	JSlQNVfTynUJQ5lSh32f/tbbDOWNs0coyeMT0XSE9OC6OpXL8k54jGkPXUyAMPEL7EwdO7/zWqQW2
-	u9unZuKrH+0W2MIlknez55QnXYv2knD0ShxOw4spGamAU9dzoprqVU9KQjFA+QTNP/ME3NzQVcqQt
-	VoE/M4x2QgC5ngsNnSR2zdldwJh7GuItjQNT6buk5xeiUhVHqQn6RpT3Kei1auMlcgyrawLfpqv7f
-	qQe5sMUg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8LjktfkSojzHlVV+cN/LfzKEvgw75PDXePaqim/1vS4=; b=M/cFRumFy4lPl7zljLAuZg0Baa
+	JCeRT/X04q3Or6iUzqj8ge5Yi3G05MNPyGK70uPWno+RFdzmw/ylIBDYKzScWLFOo5ZMOEaFpi01f
+	D93SwbxdvpdNOdU4SF5KM2ssGbqLtE6ebYwyG1TbOQYCbzI6STi88Q4S4+ryI/pnKumpMzrjeaKLK
+	BBU90dZkg0tkl0tVQvIdsEpsjAGHRguGbfbYJRNlU0/2HcDdjFudejodDp9YIkw46PwM2Vs+ahTUp
+	W6WSxzDyEhXvrvSnrRT5NCNpE9qImBu4BNFctwMm/uNyvgLhN+ZuWBbVMjlzECTVVChUUIfIu6Q4r
+	0yqDBW4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCckb-00000006wMu-2Yvv;
-	Thu, 30 May 2024 10:11:13 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1sCfo2-00000007MHu-23Fw;
+	Thu, 30 May 2024 13:26:58 +0000
+Received: from mail-he1eur04on2071c.outbound.protection.outlook.com ([2a01:111:f403:260f::71c] helo=EUR04-HE1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCckW-00000006wLS-1rs0
+	id 1sCfnz-00000007MFK-2qTk
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 May 2024 10:11:12 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240530101101epoutp019fcb26bf2136aabe2d6f27bc4c8ebe2b~UPHwa2-NT0865008650epoutp01N
-	for <linux-nvme@lists.infradead.org>; Thu, 30 May 2024 10:11:01 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240530101101epoutp019fcb26bf2136aabe2d6f27bc4c8ebe2b~UPHwa2-NT0865008650epoutp01N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1717063861;
-	bh=rCniubpfhRi+g2l6XyRehFQ5clmSAHkrG4fc8RUMS8k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MptEa35tnH//kE2ZSyDiuh8SPwEHLdPETxNEMAdjM2dqCBESdkfpL+mM7zOewK7g7
-	 MOfSkmDkoGlQKzsQZ5LTksCaPGkLaqU0f/4wEgmwl8UPc2oxfyactQr9magBWqCrhc
-	 mER/kOnpzWys3ZiEjsIZ11yxLnPMg50p31LmOwC4=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240530101101epcas5p1c534977e2860b97c465e67c8e0c9abd7~UPHv7LDHX0596505965epcas5p1b;
-	Thu, 30 May 2024 10:11:01 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Vqhpq18dGz4x9Pp; Thu, 30 May
-	2024 10:10:59 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BF.11.08853.2B058566; Thu, 30 May 2024 19:10:59 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240530072334epcas5p2294aaf32c6fd842746a3720b79e4ae0f~UM1jSPnWa0360603606epcas5p2d;
-	Thu, 30 May 2024 07:23:34 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240530072334epsmtrp10c020316720cd13ac5ee23b5f7e3fa95~UM1jQ6LhM2941029410epsmtrp14;
-	Thu, 30 May 2024 07:23:34 +0000 (GMT)
-X-AuditID: b6c32a44-fc3fa70000002295-f2-665850b2a045
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7A.C0.07412.67928566; Thu, 30 May 2024 16:23:34 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240530072330epsmtip275d026b89192731ddd356c1f20d4b985~UM1fnzfni2409724097epsmtip27;
-	Thu, 30 May 2024 07:23:30 +0000 (GMT)
-Date: Thu, 30 May 2024 07:16:30 +0000
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>, Mike
-	Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Keith
-	Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	<jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
-	hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240530071630.ufzrgji6z6abliqx@nj.shetty@samsung.com>
+	Thu, 30 May 2024 13:26:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C6fzBMc9EasrK0hc+JYeHHd+aLX5sl1S3t5D2BjcmjUVeelauu9B7HTZHvSVepccPuffC2v+bJuKLHLN+lknfSy8Dvyub9Hu+/GkL4/A0wij/+LKdF6G69UIBcsH2aI4Mw6ULDRn7t72LZsGxQjonUNzacJHwEgCkUPL2dfMQ+nhQrtfI+NaBJiyY6LvDQHSKyIY1SlSQ2VguNneHRj7+8qpnArMHCHVCK4sdEg18duEWznkvwOhS5zNNJo8OuxnwYz6r+l1TjqMxbOP9jABojkknI+6gbN+UiYTT54xjRKJaovLv9++LYUkEx++kPSuhmOeq3fmaer0Vo2v9cKndw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8LjktfkSojzHlVV+cN/LfzKEvgw75PDXePaqim/1vS4=;
+ b=OE6YLfWlkWdpYDpFQcooIHtEX6NKLh/E0TC2LVLGgAOsSNTds5s+DLB4GMPpF8dU2tX4na5+8B6RSLWrckPvAbHzRSC6jmNuQodnBWLnNiuomBhq82P8I3w+q09gpvo03O866CrzEc9JSbTwwuhU8xRD4BX6cCKWGMm2ejHlARI3H6UX2Q7tfeSQa+LCoNNdsfTujyf2vQ7BfMJEG8BGWsxOfCanP0wUTOn9j6eAsATiFJWDjfN7+hKENTpl6dHp+Y5jdTqqIKYWQpO9BwKcFHA6snpoUHgsEX4iFxSP5bOik11c/6ay3/KJhfR509/tYawnf7bZewQT/ncck21pqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
+ dkim=pass header.d=volumez.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8LjktfkSojzHlVV+cN/LfzKEvgw75PDXePaqim/1vS4=;
+ b=FF5BD8mzADiSra2OYQiZH+1UD3p1fVV3Guz8MDBVzWDAbi64aufLnlZVNZxh3GC1ZDR7h80x4VlfFtzMYEsX7HNEC3Z8hnCUDte7nmKq3thHpVGb+uVN/0BfYaVpbBAOb//r6/2TVIHZBwo1oWf/hh9tDb9E6OZ9I7Y6kaOFb4o4CfVR8YQxnjbNGo6zI1mOxEhMMoTQmtQPkX0YPANSoZGdczdPQmWiDQCijfVNlenujbURfgNVJjdlcN+rycJNrKrip/CLtTa2q4djaIKaS9actFdTILfPIbELECrSTMMEWCA0oRgxkEFrWOEf9hJCsDFMiNHzk3oTOhS/i0oxJQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=volumez.com;
+Received: from AM0PR04MB5107.eurprd04.prod.outlook.com (2603:10a6:208:cb::11)
+ by PAXPR04MB8814.eurprd04.prod.outlook.com (2603:10a6:102:20d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.21; Thu, 30 May
+ 2024 13:26:45 +0000
+Received: from AM0PR04MB5107.eurprd04.prod.outlook.com
+ ([fe80::de53:c058:7ef:21fb]) by AM0PR04MB5107.eurprd04.prod.outlook.com
+ ([fe80::de53:c058:7ef:21fb%3]) with mapi id 15.20.7611.030; Thu, 30 May 2024
+ 13:26:45 +0000
+From: Ofir Gal <ofir.gal@volumez.com>
+To: davem@davemloft.net,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	ceph-devel@vger.kernel.org
+Cc: dhowells@redhat.com,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	philipp.reisner@linbit.com,
+	lars.ellenberg@linbit.com,
+	christoph.boehmwalder@linbit.com,
+	idryomov@gmail.com,
+	xiubli@redhat.com
+Subject: [PATCH 0/4] bugfix: Introduce sendpages_ok() to check sendpage_ok() on contiguous pages
+Date: Thu, 30 May 2024 16:26:22 +0300
+Message-ID: <20240530132629.4180932-1-ofir.gal@volumez.com>
+X-Mailer: git-send-email 2.45.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TL2P290CA0005.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:2::15) To AM0PR04MB5107.eurprd04.prod.outlook.com
+ (2603:10a6:208:cb::11)
 MIME-Version: 1.0
-In-Reply-To: <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TeUxUVxTGc9978+ZhM/oEtBe0QoaaAAaYkaUXy1IjkpfCHzTEtDE2MIXH
-	UmBmOjNUtLFsghVBFsHWQQQpkZ1RQMLiUALIMmKpRVZBqWVQNkEwtEqADjxo/O93vvvdfOfc
-	k0vhxnV8cypcqmIVUkmkkNxB1LXZWNvV+H0VIlpPwJBG14GjhIxVHJWPpZNopm0RoKsLb3E0
-	0XIBoJWHvTiq7XgK0PhvnqigMI9Awy0NGLpXmIWh0vL7GMr9ORFD99fnSJTVOgCQvl+NIe3I
-	IXQzuYhA97TdBOprvE6i/Ft6PiruXMNQ5k/9GKqfiAeoamaeQF0j+1Dvaifvs/1M32MfRlcI
-	mQb1GJ/pfXqHYPoeRjPVZRdJpqYolnlZcw0wTcNxJPPr5Ss8Ji3xFck0JD3jMa/1IwQz39xP
-	MpdrywDTU9DO9zM5GeEWxkqCWYUlKw2SBYdLQ92FPv4BxwKcXURiO7Er+kRoKZVEse5CL18/
-	O+/wSMMDCS2/l0RGGyQ/iVIpdPBwU8iiVaxlmEypchey8uBIuZPcXimJUkZLQ+2lrOqIWCQ6
-	7GwwBkaEvXvWwpcnucWMa5uIODAlSgFGFKSdYN7wKpECdlDGdBOAl0ZzAFcsAphwU4dzxTKA
-	L2/pse0ri2N6kjvQAtiWemnLtQRgzS+XwYaLoA/CttFug4uiSPoQfLBObcimtDVcHi/ezMPp
-	DhKWFmds+k3oQDiny+RtsIA+Bru0/TjHu2H3tQlig43oT+FfT+d5XBeTRnA21ZpjL1idt0hy
-	bAKnO2v5HJvDqfTkLT4NS7NLNruG9HkA1YNqwB14wiRd+mYYTodBtWYO5/SPYI6uCuP0nTBt
-	ZWJrfAGsv7HNVrBCU7AVbAYH/onfHBjSDHxSYcE9ShoO69cGsQxwQP3ePOr34jg+Ai8uJPA4
-	toCJd3MNOmXgfbB4jeLQBmoaHQoAWQbMWLkyKpQNcpaLpezp/zceJIuqBpsfyNarHgzlr9m3
-	AowCrQBSuNBU0JN1IsRYECw5c5ZVyAIU0ZGsshU4G3aViZvvCZIZfqBUFSB2chU5ubi4OLk6
-	uoiFHwpmkvKCjelQiYqNYFk5q9i+h1FG5nFYwcdfx5qSU8rnvBKPup5Q36OmlO52CrH0YshE
-	3XzXITV3NqOqtjrxoKtP55F/d/N83/5h1a4+fsfHcy9PW31j+uwukw+6ugQnR99crwh5sfyt
-	rGUw+tV87lD47+tXHrt6L114Uhnqb1PyzdyXxXzNghXb3PXI7GjV/gGvSq/zg47LLR7VP+Tv
-	CbR+N+lo0fjEPIh+YPtn5siuju9+lDVOZhxvP6fJmMZLWvZmTzeLBl/Gf55deSZnNSZzvbX0
-	eZ9+vbTAbygII17LPaPOpRfdXrKVKUdjvjhFdJsOzSaLy5u1qrETM5NTO/Pn1Me9BRq32KUD
-	f6842iwfO9yUfkqvs7L0f/NISCjDJGJbXKGU/Aem9kfwyQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphleLIzCtJLcpLzFFi42LZdlhJXrdMMyLNYPciMYv1p44xWzRN+Mts
-	sfpuP5vF68OfGC2mffjJbPHkQDujxe+z55ktthy7x2jxYL+9xYJFc1ksbh7YyWSxZ9EkJouV
-	q48yWcye3sxkcfT/WzaLSYeuMVo8vTqLyWLvLW2LhW1LWCz27D3JYnF51xw2i/nLnrJbLD/+
-	j8liYsdVJosdTxoZLda9fs9iceKWtMX5v8dZHWQ8Ll/x9ji1SMJj56y77B7n721k8bh8ttRj
-	06pONo/NS+o9Xmyeyeix+2YDm8fivsmsHr3N79g8drbeZ/X4+PQWi8f7fVfZPPq2rGL0OLPg
-	CHuAcBSXTUpqTmZZapG+XQJXxrXFK9kLpllW3Px9h7mBcbpeFyMnh4SAicSnu0/Zuhi5OIQE
-	djNKLLz5kQkiISmx7O8RZghbWGLlv+fsEEUfGSWmfJ8ElmARUJU4fOckUDcHB5uAtsTp/xwg
-	YREBDYlvD5azgNQzC5xhk5jx8AQrSEJYIEHi7amJYDavgLPEib1XmSGG9jJL3Dz/iRkiIShx
-	cuYTFhCbWcBMYt7mh8wgC5gFpCWW/+OACMtLNG+dDVbOKWAt8fDee9YJjIKzkHTPQtI9C6F7
-	FpLuBYwsqxglUwuKc9Nzkw0LDPNSy/WKE3OLS/PS9ZLzczcxghOKlsYOxnvz/+kdYmTiYDzE
-	KMHBrCTCe2ZSaJoQb0piZVVqUX58UWlOavEhRmkOFiVxXsMZs1OEBNITS1KzU1MLUotgskwc
-	nFINTCsSbv0Xr01mK5O0rxYPOv2i033Fslc9zcLKrBIbEvmMn61yaTVdcz/jCv8OUf03lccc
-	m3xudHFymkTLPJrUYmYyz3oFR8i38x4rJb98EQy0L1WLE2ytV1DNeH0n4ERd/vPkL1xm3S+2
-	Ne7K1ambuD9pYXEli6Bv5r/EPSbLLzndaGCXcTCf5fRw1vyGzk+WRS+D7hz7trDo2B/hfUJz
-	4+VyxDQV5P8KdHkfuO948/PzUJej1/dwTZ5TM23xgX4J0dsP3s/92aZ1e8GbuVu9T35/F6LE
-	NVMj6rveLtazQcut2R8/bFh0fOlc1r9ngmfWJT7O3hX1y8x054eA2gCpdqNupqw+8c2/mGeI
-	V6z2V2Ipzkg01GIuKk4EAPP8g6SXAwAA
-X-CMS-MailID: 20240530072334epcas5p2294aaf32c6fd842746a3720b79e4ae0f
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
-	<20240520102033.9361-3-nj.shetty@samsung.com>
-	<eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
-	<20240529061736.rubnzwkkavgsgmie@nj.shetty@samsung.com>
-	<9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
-	<a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB5107:EE_|PAXPR04MB8814:EE_
+X-MS-Office365-Filtering-Correlation-Id: a523813c-b37c-469d-4f78-08dc80ac26fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|7416005|1800799015|366007|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5K6LXFgqrWvufaEfgeHLMz00z0KC6Nd1JQ2FQXC2C8mhMZsQbSE5MCtAMlv2?=
+ =?us-ascii?Q?LTKaQvkv4xdqFKX5iw6lzF8QlN5Y3u+oT6i0CwfsMIPadrvDKYzThwpGCmar?=
+ =?us-ascii?Q?a2Hfa+aX9nhPHtaHAAWdoPf/yAbtJCqCeMBZoNK+Ci0ZAscZ6by/Ak5Vywwl?=
+ =?us-ascii?Q?ycbAb4kTrjd6fJSmHE36kJZpA+a7wCSNLEiVOJpAoI/8B3+qGYozmnxNQqmV?=
+ =?us-ascii?Q?vEDAUJ/GlUSFEhZrEP1fKBlfy8siEU2PHUeLljmVNfYT0QFY6P09+83vaTJj?=
+ =?us-ascii?Q?LJvRIlXP6iHaGozQhggpfmsWJx4DBH/sCqzhBZXHL5wWIoGuwkiXTzOcfHS2?=
+ =?us-ascii?Q?Rw4dmFFRMvACOCxyrAQIbs2rKzPq77d9xgUh26Wqh1F4XVOgBFWiJoPYUhWo?=
+ =?us-ascii?Q?uAykZxt9Pk0lw5ap28fj8oGexiwHElsdnXV6ErUZx1y03WXw4mex7Bl6pT+e?=
+ =?us-ascii?Q?pDaIyoNxxtMSfWwJQlIkYW6vioabu/doTOGAT0kkZpxTW2Ls/sn9eXQJlxNa?=
+ =?us-ascii?Q?0G85hNoPcnCak8njkER4/2PaC/O3Y0PsaaYZ8DmdaKYfSKRsplIRAHfjC5CN?=
+ =?us-ascii?Q?zG2UyZNZ4G4Nug5QIlISAaD6WnBwJjgjnRuNbG4FaRKvQhSu3Wb3dh2nFArj?=
+ =?us-ascii?Q?aZO7Jy4W8xXvOfiM5Hv7tWhu1INylZW1PAMM+6OwupcBK3rXgztO38Owj/zZ?=
+ =?us-ascii?Q?ivaJZLNoeLxITv57GZdrhQi7PgHKM2GuE+0kkaRR3Qp7CkaxyozBOXnAZb1l?=
+ =?us-ascii?Q?1Z9TZMf2QnB5V4YMU+VNnMdmqmghIZB30uyaAIqWQd0BwsOywFM08Bm+lbE7?=
+ =?us-ascii?Q?u4HLebabEMRfG3DO3ps9AYFPHeUd82VLrYGx81B1gyR3szZtVhRXT6O3aYFb?=
+ =?us-ascii?Q?WefgQQkx47E0ylHNvkTF5cvYsubbKkG4J140t29mz+5sfqIPGXZsXOYCxcbx?=
+ =?us-ascii?Q?DDfQx7KNO/8BvZwWN/UaWbx5ODmtsqs5/T+exT8Pa3U/aJI5g3ThpcvRnEjn?=
+ =?us-ascii?Q?2JK4bw3XgKdA/XyytCQ2tewNxSB2K+EJnHsN0NySdBGoU16yOG7Uh4zCnlhP?=
+ =?us-ascii?Q?YbrvLJ9GPaC6iEr4OdcgHN7RmOENZOlmoE7P78CmDUAq0/spHRdiBM8v9VhA?=
+ =?us-ascii?Q?Cql0DGQSSY+MTgF41TNpSduzjrfxNgXFYWdv0QwHQD/ubupxGjK/h1yTSjMD?=
+ =?us-ascii?Q?7bH21vuSuomjt3cLI27JrG+POeHkMM9HesQlsnkEDXDh43+2iluxemyh3DiC?=
+ =?us-ascii?Q?CqPxWTCMrvFlM033hGQKPwSW8mV7b2E04JhWK9ys64Ryf5TKLXZ5SO7GUEuc?=
+ =?us-ascii?Q?7Q5SRlNRK2eCbr2dIZz4DfIX+I+y+IOCgS0Su6+R9JrBQg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5107.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(52116005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FxylndTLLIT5mi3T1QBvtfSkQsPkA/D/mz3+VU5/6oGrklnPt6TZxhAcwr4b?=
+ =?us-ascii?Q?YjsVXln+/QO/Xlf537gf/b9P2xhdmGfwS9AGCzk7TyygUMmT4mrkLR34RXys?=
+ =?us-ascii?Q?UrIXkYI0h3yRMKUiagNSld2dDYuxfuYselXj8cvNEFTt8TOPnKmdX0QCmeSk?=
+ =?us-ascii?Q?vzAcqI14LaxfCDVne/nVatDnmoCaIvCeAXvzaenR2DnIrTUhg9CUvCOdkqjl?=
+ =?us-ascii?Q?0ysdkNGoj7hOXMLdZDVRvZMAWgoNBLQ/I2Fm/7Ajvq4nFqhxyJ/wschAFzij?=
+ =?us-ascii?Q?BW2iR34NKRLMXkNMhD+eiNcO4gpFSljqzfVjWBUKSw1zqhGolqQE/xtH2kyh?=
+ =?us-ascii?Q?WaO2cnUEq8V113MGMzGvKYSbIRWbM6ZAgzAj4bedbKAFLCXl1lj0oRB0e8T3?=
+ =?us-ascii?Q?f7p04oODve2tN0h9hbZOk1CkYcv2/sm7+tK0+H20dvSuBlFo43is3RRXa5Ng?=
+ =?us-ascii?Q?l66LSDN3ZMLudFuBWsLD2e3FCsZIV9BVWTm69vVTBRk1dZTiG7rH4PGAUArN?=
+ =?us-ascii?Q?6hm+NU1GEvDgdnJYN/cs26/CyqUOTS7Kww9Edy02BxazWSiZLOCf0l4iAMac?=
+ =?us-ascii?Q?/AGPJWq0TaEFuBlhapVqsx4yx43OOse/GBgarByLzLd1GNPCUZsh60hTk63g?=
+ =?us-ascii?Q?vEvVbxWDjil3xGFKtEJi7xFhZsBG8ZGar+7TbF0Fmkuf4rYHKzw4oa7PsGL0?=
+ =?us-ascii?Q?Gc4GD+/3YViitvn4giM3LEuxuGuIpcTKdULIGOaYytYhxXeedo1nUK5TSX/o?=
+ =?us-ascii?Q?e2UQZ11nWN6ExU5eQX2jon5GoCrMZXEyP7qVIvEKQFjC1osANhMlHNZYdJnc?=
+ =?us-ascii?Q?RI2L4YGtnsBk25S3np3INekoSzLoP8+4D+S9QODCAPVA5QqatqMs1AdiK8Yr?=
+ =?us-ascii?Q?hvuzSLRRTS9DMVwrNhX9iz8zjguf+i4GsddSPboTQ0yL63rvRfHbOZlzh4UB?=
+ =?us-ascii?Q?xOr24wjzP+lwjfQjLlUmZkMOFF2srXhahZEMXJppGmTpbEmd9MXMUc/1iPgY?=
+ =?us-ascii?Q?eA1GtNsRyS8nZfuxlbFFh2v6YnB4HA0wDhtPmv5RFIwfGBQha2cCp+QN7ysv?=
+ =?us-ascii?Q?0ep0OAyNWWogiDT3g0NK4xwojPEFj8cKwzVIkzIpsRlzyDjoJzlfGs3m8+u3?=
+ =?us-ascii?Q?9mYV6cEnIWPzot8TX3x0LXUdA2MwB5HUyVm+ORBCkXb+6/2VvEQCXK1hhzo2?=
+ =?us-ascii?Q?thnFcheulDMIbisP6xrmNc6AaGutTe1OLRHl8XW9RW6Wu0vmNyBJLeE9rJ+G?=
+ =?us-ascii?Q?bDRZ4iNQ+S11QGJg2RCHPoXCDNQl2M9mMC43cpzz51onV76cTLCF8X7+gxHe?=
+ =?us-ascii?Q?C64D458kF6JuxuaF4GNyezLWdXFiBlX0nXJg3S4Y1tiuPXgYu6vvAQvVFaeV?=
+ =?us-ascii?Q?JbWca41yNHJ9cjIL4hejGJPFBy02tz2eZdXa+hpjgscAd+bY6i3dWX3+DNvd?=
+ =?us-ascii?Q?KxB3NU9oqqlC8868xPJ4azlqK9ysMsg5gnhKEdchnR4koPXGN/xvrcSfyIN9?=
+ =?us-ascii?Q?StsC9MTjhGD4weOibRF242Y92t6p7A9tzGODp1wgTdxaP2ItR8+SJPFjivmd?=
+ =?us-ascii?Q?6QW+st+JbUlk1fPXpi2ZS4N9xo7ROthEp+h+1YOY?=
+X-OriginatorOrg: volumez.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a523813c-b37c-469d-4f78-08dc80ac26fa
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5107.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 13:26:45.7217
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n/pKJKpIxV1BIax2S9jvVxMhQhmv24+Qt0QRDV6dh1D423I+4Jv7J1YLchX3v7QVhEUeCMWIff82YPLm+jTIDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8814
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240530_031110_147269_D01582A2 
-X-CRM114-Status: GOOD (  31.41  )
+X-CRM114-CacheID: sfid-20240530_062655_917057_BE57407A 
+X-CRM114-Status: GOOD (  22.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,233 +167,226 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+skb_splice_from_iter() warns on !sendpage_ok() which results in nvme-tcp
+data transfer failure. This warning leads to hanging IO.
 
-On 29/05/24 03:41PM, Bart Van Assche wrote:
->On 5/29/24 12:48 AM, Damien Le Moal wrote:
->>On 5/29/24 15:17, Nitesh Shetty wrote:
->>>On 24/05/24 01:33PM, Bart Van Assche wrote:
->>>>On 5/20/24 03:20, Nitesh Shetty wrote:
->>>>>We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
->>>>>Since copy is a composite operation involving src and dst sectors/lba,
->>>>>each needs to be represented by a separate bio to make it compatible
->>>>>with device mapper.
->>>>>We expect caller to take a plug and send bio with destination information,
->>>>>followed by bio with source information.
->>>>>Once the dst bio arrives we form a request and wait for source
->>>>>bio. Upon arrival of source bio we merge these two bio's and send
->>>>>corresponding request down to device driver.
->>>>>Merging non copy offload bio is avoided by checking for copy specific
->>>>>opcodes in merge function.
->>>>
->>>>In this patch I don't see any changes for blk_attempt_bio_merge(). Does
->>>>this mean that combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC will never
->>>>happen if the QUEUE_FLAG_NOMERGES request queue flag has been set?
->>>>
->>>Yes, in this case copy won't work, as both src and dst bio reach driver
->>>as part of separate requests.
->>>We will add this as part of documentation.
->>
->>So that means that 2 major SAS HBAs which set this flag (megaraid and mpt3sas)
->>will not get support for copy offload ? Not ideal, by far.
->
->QUEUE_FLAG_NOMERGES can also be set through sysfs (see also
->queue_nomerges_store()). This is one of the reasons why using the merge
->infrastructure for combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC is
->unacceptable.
->
+nvme-tcp using sendpage_ok() to check the first page of an iterator in
+order to disable MSG_SPLICE_PAGES. The iterator can represent a list of
+contiguous pages.
 
-Bart, Damien, Hannes,
-Thanks for your review.
-We tried a slightly modified approach which simplifies this patch and
-also avoids merge path.
-Also with this, we should be able to solve the QUEUE_FLAG_MERGES issue.
-Previously we also tried payload/token based approach,
-which avoids merge path and tries to combine bios in driver.
-But we received feedback that it wasn't the right approach [1].
-Do below changes look any better or do you guys have anything else in mind ?
+When MSG_SPLICE_PAGES is enabled skb_splice_from_iter() is being used,
+it requires all pages in the iterator to be sendable.
+skb_splice_from_iter() checks each page with sendpage_ok().
 
-[1] https://lore.kernel.org/linux-block/ZIKphgDavKVPREnw@infradead.org/
+nvme_tcp_try_send_data() might allow MSG_SPLICE_PAGES when the first
+page is sendable, but the next one are not. skb_splice_from_iter() will
+attempt to send all the pages in the iterator. When reaching an
+unsendable page the IO will hang.
+
+The patch introduces a helper sendpages_ok(), it returns true if all the
+continuous pages are sendable.
+
+Drivers who want to send contiguous pages with MSG_SPLICE_PAGES may use
+this helper to check whether the page list is OK. If the helper does not
+return true, the driver should remove MSG_SPLICE_PAGES flag.
 
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 82c3ae22d76d..7158bac8cc57 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -122,6 +122,8 @@ static const char *const blk_op_name[] = {
-  	REQ_OP_NAME(ZONE_FINISH),
-  	REQ_OP_NAME(ZONE_APPEND),
-  	REQ_OP_NAME(WRITE_ZEROES),
-+	REQ_OP_NAME(COPY_SRC),
-+	REQ_OP_NAME(COPY_DST),
-  	REQ_OP_NAME(DRV_IN),
-  	REQ_OP_NAME(DRV_OUT),
-  };
-@@ -839,6 +841,11 @@ void submit_bio_noacct(struct bio *bio)
-  		 * requests.
-  		 */
-  		fallthrough;
-+	case REQ_OP_COPY_SRC:
-+	case REQ_OP_COPY_DST:
-+		if (!q->limits.max_copy_sectors)
-+			goto not_supported;
-+		break;
-  	default:
-  		goto not_supported;
-  	}
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 8534c35e0497..a651e7c114d0 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -154,6 +154,20 @@ static struct bio *bio_split_write_zeroes(struct bio *bio,
-  	return bio_split(bio, lim->max_write_zeroes_sectors, GFP_NOIO, bs);
-  }
-  
-+static struct bio *bio_split_copy(struct bio *bio,
-+				  const struct queue_limits *lim,
-+				  unsigned int *nsegs)
-+{
-+	*nsegs = 1;
-+	if (bio_sectors(bio) <= lim->max_copy_sectors)
-+		return NULL;
-+	/*
-+	 * We don't support splitting for a copy bio. End it with EIO if
-+	 * splitting is required and return an error pointer.
-+	 */
-+	return ERR_PTR(-EIO);
+The bug is reproducible, in order to reproduce we need nvme-over-tcp
+controllers with optimal IO size bigger than PAGE_SIZE. Creating a raid
+with bitmap over those devices reproduces the bug.
+
+In order to simulate large optimal IO size you can use dm-stripe with a
+single device.
+Script to reproduce the issue on top of brd devices using dm-stripe is
+attached below.
+
+
+I have added 3 prints to test my theory. One in nvme_tcp_try_send_data()
+and two others in skb_splice_from_iter() the first before sendpage_ok()
+and the second on !sendpage_ok(), after the warning.
+...
+nvme_tcp: sendpage_ok, page: 0x654eccd7 (pfn: 120755), len: 262144, offset: 0
+skbuff: before sendpage_ok - i: 0. page: 0x654eccd7 (pfn: 120755)
+skbuff: before sendpage_ok - i: 1. page: 0x1666a4da (pfn: 120756)
+skbuff: before sendpage_ok - i: 2. page: 0x54f9f140 (pfn: 120757)
+WARNING: at net/core/skbuff.c:6848 skb_splice_from_iter+0x142/0x450
+skbuff: !sendpage_ok - page: 0x54f9f140 (pfn: 120757). is_slab: 1, page_count: 1
+...
+
+
+stack trace:
+...
+WARNING: at net/core/skbuff.c:6848 skb_splice_from_iter+0x141/0x450
+Workqueue: nvme_tcp_wq nvme_tcp_io_work
+Call Trace:
+ ? show_regs+0x6a/0x80
+ ? skb_splice_from_iter+0x141/0x450
+ ? __warn+0x8d/0x130
+ ? skb_splice_from_iter+0x141/0x450
+ ? report_bug+0x18c/0x1a0
+ ? handle_bug+0x40/0x70
+ ? exc_invalid_op+0x19/0x70
+ ? asm_exc_invalid_op+0x1b/0x20
+ ? skb_splice_from_iter+0x141/0x450
+ tcp_sendmsg_locked+0x39e/0xee0
+ ? _prb_read_valid+0x216/0x290
+ tcp_sendmsg+0x2d/0x50
+ inet_sendmsg+0x43/0x80
+ sock_sendmsg+0x102/0x130
+ ? vprintk_default+0x1d/0x30
+ ? vprintk+0x3c/0x70
+ ? _printk+0x58/0x80
+ nvme_tcp_try_send_data+0x17d/0x530
+ nvme_tcp_try_send+0x1b7/0x300
+ nvme_tcp_io_work+0x3c/0xc0
+ process_one_work+0x22e/0x420
+ worker_thread+0x50/0x3f0
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0xd6/0x100
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x3c/0x60
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1b/0x30
+...
+
+Ofir Gal (4):
+  net: introduce helper sendpages_ok()
+  nvme-tcp: use sendpages_ok() instead of sendpage_ok()
+  drbd: use sendpages_ok() to instead of sendpage_ok()
+  libceph: use sendpages_ok() to instead of sendpage_ok()
+
+ drivers/block/drbd/drbd_main.c |  2 +-
+ drivers/nvme/host/tcp.c        |  2 +-
+ include/linux/net.h            | 20 ++++++++++++++++++++
+ net/ceph/messenger_v1.c        |  2 +-
+ net/ceph/messenger_v2.c        |  2 +-
+ 5 files changed, 24 insertions(+), 4 deletions(-)
+
+---
+ reproduce.sh | 114 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 114 insertions(+)
+ create mode 100755 reproduce.sh
+
+diff --git a/reproduce.sh b/reproduce.sh
+new file mode 100755
+index 000000000..8ae226b18
+--- /dev/null
++++ b/reproduce.sh
+@@ -0,0 +1,114 @@
++#!/usr/bin/env sh
++# SPDX-License-Identifier: MIT
++
++set -e
++
++load_modules() {
++    modprobe nvme
++    modprobe nvme-tcp
++    modprobe nvmet
++    modprobe nvmet-tcp
 +}
 +
-  /*
-   * Return the maximum number of sectors from the start of a bio that may be
-   * submitted as a single request to a block device. If enough sectors remain,
-@@ -362,6 +376,12 @@ struct bio *__bio_split_to_limits(struct bio *bio,
-  	case REQ_OP_WRITE_ZEROES:
-  		split = bio_split_write_zeroes(bio, lim, nr_segs, bs);
-  		break;
-+	case REQ_OP_COPY_SRC:
-+	case REQ_OP_COPY_DST:
-+		split = bio_split_copy(bio, lim, nr_segs);
-+		if (IS_ERR(split))
-+			return NULL;
-+		break;
-  	default:
-  		split = bio_split_rw(bio, lim, nr_segs, bs,
-  				get_max_io_size(bio, lim) << SECTOR_SHIFT);
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 3b4df8e5ac9e..6d4ffbdade28 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2833,6 +2833,63 @@ static void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
-  		blk_mq_commit_rqs(hctx, queued, false);
-  }
-  
-+/*
-+ * Copy offload sends a pair of bio with REQ_OP_COPY_DST and REQ_OP_COPY_SRC
-+ * operation by taking a plug.
-+ * Initially DST bio is sent which forms a request and
-+ * waits for SRC bio to arrive. Once SRC bio arrives
-+ * we combine it and send request down to driver.
-+ */
-+static inline bool blk_copy_offload_combine_ok(struct request *req,
-+					      struct bio *bio)
-+{
-+	return (req_op(req) == REQ_OP_COPY_DST &&
-+		bio_op(bio) == REQ_OP_COPY_SRC);
++setup_ns() {
++    local dev=$1
++    local num=$2
++    local port=$3
++    ls $dev > /dev/null
++
++    mkdir -p /sys/kernel/config/nvmet/subsystems/$num
++    cd /sys/kernel/config/nvmet/subsystems/$num
++    echo 1 > attr_allow_any_host
++
++    mkdir -p namespaces/$num
++    cd namespaces/$num/
++    echo $dev > device_path
++    echo 1 > enable
++
++    ln -s /sys/kernel/config/nvmet/subsystems/$num \
++        /sys/kernel/config/nvmet/ports/$port/subsystems/
 +}
 +
-+static int blk_copy_offload_combine(struct request *req, struct bio *bio)
-+{
-+	if (!blk_copy_offload_combine_ok(req, bio))
-+		return 1;
++setup_port() {
++    local num=$1
 +
-+	if (req->__data_len != bio->bi_iter.bi_size)
-+		return 1;
-+
-+	req->biotail->bi_next = bio;
-+	req->biotail = bio;
-+	req->nr_phys_segments++;
-+	req->__data_len += bio->bi_iter.bi_size;
-+
-+	return 0;
++    mkdir -p /sys/kernel/config/nvmet/ports/$num
++    cd /sys/kernel/config/nvmet/ports/$num
++    echo "127.0.0.1" > addr_traddr
++    echo tcp > addr_trtype
++    echo 8009 > addr_trsvcid
++    echo ipv4 > addr_adrfam
 +}
 +
-+static inline bool blk_copy_offload_attempt_combine(struct request_queue *q,
-+					     struct bio *bio)
-+{
-+	struct blk_plug *plug = current->plug;
-+	struct request *rq;
++setup_big_opt_io() {
++    local dev=$1
++    local name=$2
 +
-+	if (!plug || rq_list_empty(plug->mq_list))
-+		return false;
-+
-+	rq_list_for_each(&plug->mq_list, rq) {
-+		if (rq->q == q) {
-+			if (!blk_copy_offload_combine(rq, bio))
-+				return true;
-+			break;
-+		}
-+
-+		/*
-+		 * Only keep iterating plug list for combines if we have multiple
-+		 * queues
-+		 */
-+		if (!plug->multiple_queues)
-+			break;
-+	}
-+	return false;
++    # Change optimal IO size by creating dm stripe
++    dmsetup create $name --table \
++        "0 `blockdev --getsz $dev` striped 1 512 $dev 0"
 +}
 +
-  static bool blk_mq_attempt_bio_merge(struct request_queue *q,
-  				     struct bio *bio, unsigned int nr_segs)
-  {
-@@ -2977,6 +3034,9 @@ void blk_mq_submit_bio(struct bio *bio)
-  	if (blk_mq_attempt_bio_merge(q, bio, nr_segs))
-  		goto queue_exit;
-  
-+	if (blk_copy_offload_attempt_combine(q, bio))
-+		goto queue_exit;
++setup_targets() {
++    # Setup ram devices instead of using real nvme devices
++    modprobe brd rd_size=1048576 rd_nr=2 # 1GiB
 +
-  	if (blk_queue_is_zoned(q) && blk_zone_plug_bio(bio, nr_segs))
-  		goto queue_exit;
-  
-diff --git a/block/blk.h b/block/blk.h
-index 189bc25beb50..112c6736f44c 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -323,6 +323,8 @@ static inline bool bio_may_exceed_limits(struct bio *bio,
-  	case REQ_OP_DISCARD:
-  	case REQ_OP_SECURE_ERASE:
-  	case REQ_OP_WRITE_ZEROES:
-+	case REQ_OP_COPY_SRC:
-+	case REQ_OP_COPY_DST:
-  		return true; /* non-trivial splitting decisions */
-  	default:
-  		break;
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 781c4500491b..22a08425d13e 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -342,6 +342,10 @@ enum req_op {
-  	/* reset all the zone present on the device */
-  	REQ_OP_ZONE_RESET_ALL	= (__force blk_opf_t)15,
-  
-+	/* copy offload source and destination operations */
-+	REQ_OP_COPY_SRC		= (__force blk_opf_t)18,
-+	REQ_OP_COPY_DST		= (__force blk_opf_t)19,
++    setup_big_opt_io /dev/ram0 ram0_big_opt_io
++    setup_big_opt_io /dev/ram1 ram1_big_opt_io
 +
-  	/* Driver private requests */
-  	REQ_OP_DRV_IN		= (__force blk_opf_t)34,
-  	REQ_OP_DRV_OUT		= (__force blk_opf_t)35,
---·
++    setup_port 1
++    setup_ns /dev/mapper/ram0_big_opt_io 1 1
++    setup_ns /dev/mapper/ram1_big_opt_io 2 1
++}
++
++setup_initiators() {
++    nvme connect -t tcp -n 1 -a 127.0.0.1 -s 8009
++    nvme connect -t tcp -n 2 -a 127.0.0.1 -s 8009
++}
++
++reproduce_warn() {
++    local devs=$@
++
++    # Hangs here
++    mdadm --create /dev/md/test_md --level=1 --bitmap=internal \
++        --bitmap-chunk=1024K --assume-clean --run --raid-devices=2 $devs
++}
++
++echo "###################################
++
++The script creates 2 nvme initiators in order to reproduce the bug.
++The script doesn't know which controllers it created, choose the new nvme
++controllers when asked.
++
++###################################
++
++Press enter to continue.
++"
++
++read tmp
++
++echo "# Creating 2 nvme controllers for the reproduction. current nvme devices:"
++lsblk -s | grep nvme || true
++echo "---------------------------------
++"
++
++load_modules
++setup_targets
++setup_initiators
++
++sleep 0.1 # Wait for the new nvme ctrls to show up
++
++echo "# Created 2 nvme devices. nvme devices list:"
++
++lsblk -s | grep nvme
++echo "---------------------------------
++"
++
++echo "# Insert the new nvme devices as separated lines. both should be with size of 1G"
++read dev1
++read dev2
++
++ls /dev/$dev1 > /dev/null
++ls /dev/$dev2 > /dev/null
++
++reproduce_warn /dev/$dev1 /dev/$dev2
+-- 
 2.34.1
-
-
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_
-Content-Type: text/plain; charset="utf-8"
-
-
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_--
 
