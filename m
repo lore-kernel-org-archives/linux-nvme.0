@@ -4,86 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C8D3C25B75
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 14:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1488BC25B75
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 14:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:To:Subject:MIME-Version:Date:Message-ID:
-	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n05EtFe3sdj15ew6SLWTU1Vrct7rRtquCuzOf+gCyVM=; b=gPTY9HfPEIh6JiYAwWshP6GGvH
-	fXjxaparYZ2coaBdYxO8kEpOZQtFuo6mqeiUQaO6mOe4VW0CcRPTSQm+uaSasYv1PS4iJ6DrPty0h
-	d8KN6i9oP6/8oV4j0bOqqCB1KLw5t3noDS0BIC5+H4rBbt87imBvWiBl5rfzyWo+BLKyhF+R02R2S
-	OVUs/fQXkYJ8fkHfavadOhT5tgTGeqKm1x3DBwycl+8ZZHaKXcxHeVNwtdLdmj3Gw1GAZNp74q0TP
-	zaI2ecYWQhXdOpFLEZFuCffD7nz8+/zJ+itDw/yxap1p3HC80ZuU1wG/ARSjvVZLcOsn4f7piaMRO
-	MEVEAE/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EEZUDPG8IaESZsyP/PkDdrfoGtanN7ZjWLyO9o1BDNs=; b=i7H6hBpVdpdVk3ZsNh5V2lCnsb
+	8hspTvOrZj+s80ALAkRNa+ur2Tj7XprjQOIgnSGSotuOdwcT6HaGhLa4yAJZJcFLOJLOKZV7K5S50
+	2PPBLd2SXkoac9QjXHENMXBAft1m1+Di5kYl4bDh9q/IQL0rRaPH7QD4NDqWC+teEwLgvmS82jQt4
+	YUbUpq3B2GNLIUQAkKuy2I/2DGAeKl/VEJ/Sqpo05xCNIkQxNOOhBdAbLBZySxRd731o4XgfwhMgr
+	c7BXf8WgMX2zbzOIIIo9//CJFwu7B+5WIoaI9dp2WvyX/IeSqvOuv0ibAHLrGZaCTrnXuAE03kmuN
+	IwkCAbxQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sD3Lw-0000000AWrt-18Ym;
-	Fri, 31 May 2024 14:35:32 +0000
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
+	id 1sD3Ni-0000000AX8D-3lKX;
+	Fri, 31 May 2024 14:37:22 +0000
+Received: from smtp29.i.mail.ru ([95.163.41.68])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sD3Ls-0000000AWql-3jTX
+	id 1sD3Nc-0000000AX7R-2fXW
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 May 2024 14:35:30 +0000
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2e95a75a90eso22706271fa.2
-        for <linux-nvme@lists.infradead.org>; Fri, 31 May 2024 07:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717166125; x=1717770925; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:subject:user-agent:mime-version:date:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n05EtFe3sdj15ew6SLWTU1Vrct7rRtquCuzOf+gCyVM=;
-        b=APH438CugT2CcAHtnDtdGg5uqHklE93r7VNik2ogrk4x9dNcp1dCa+JW9lQBPmzXJF
-         EIW7V7WfzmGVbssIJhSf3BMVVtNPwFn64OBgkF2WtmdFdAARaL6S3lZZyamSewCcZTtP
-         xjPPc+ZUlLKl31Xk/mylQ4GJ66J6FhBPpoVcDzRuQ8Sw+wUZ6QYAJfwu3B3MM4AqlFMl
-         byBzsQa8FB1xhphgdmN8LuraM6EVgPMfDF8fNJUSDhBQGyKraBnvEDxIq6aP3zV7C6o2
-         o/mkoBmla6KC3ibPh8c4Q0u5mrP++ZPfF8LdgSIlTIDzH2eJspDxZSVggxOY8ou4cgJH
-         zjpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717166125; x=1717770925;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n05EtFe3sdj15ew6SLWTU1Vrct7rRtquCuzOf+gCyVM=;
-        b=Y8TQewVUzjuJBjQTinZ9E4rK8Gwiz6HJ+5bE/rLKwwmEJ1vUSGzKUJb0fWHIshsAia
-         V8teN3//yXWDszGCXlbRrKqvHOsP2QmW74RST4/B/m6OmSGFukqaF1fM5OY81ynTGrcx
-         vIkp0fcaE9Nwhhw01EBmXv58SuCQI+zxcuQTkFD05dd3nOE/yVg2SNOe2jNozg4FJF16
-         YVExRMvqzoA0q+V0l/QRsvIQ8Z4PpWheVnIBtnNwwSH55Vbbfol+62WJJax7YgL3H2T4
-         rsg6ONyc9qWDnOg8bXUNtOemCRGdwGUXC4oAq8a0G7JShYNX41/Y9aVvjxyi+SzXY5Ve
-         0efQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0LFZVzxHnNmfTTCDJhpy3cdnvYkI1/sxEADzC74c7vf1f6z4CPbRLntKIg6W1cw2iXKH3wM6E4rfrJSXYudqlaT+FcmVtXzxANCNAxrM=
-X-Gm-Message-State: AOJu0YxMuQW/H937+9KMM97KK6hlRtHQieuZoh7THA9aA5qh4ZW0wOlw
-	Xc2Dc9O976CXgvHrC0e5EI45wfM4qtjbp17svB4q0BY/ex27evnu
-X-Google-Smtp-Source: AGHT+IGVcCUHaZnpv1MwLaF6IIx1BsHReM37tDQicYsLW0v+utsuiS5MmlTY3NO6OJjjjtHmAt8QVg==
-X-Received: by 2002:a05:651c:1402:b0:2ea:7def:46d0 with SMTP id 38308e7fff4ca-2ea950c896emr12043811fa.9.1717166124628;
-        Fri, 31 May 2024 07:35:24 -0700 (PDT)
-Received: from [10.16.155.254] ([212.227.34.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04da603sm1988134f8f.57.2024.05.31.07.35.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 07:35:24 -0700 (PDT)
-From: Zhu Yanjun <zyjzyj2000@gmail.com>
-X-Google-Original-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-Message-ID: <6cd21274-50b3-44c5-af48-179cbd08b1ba@linux.dev>
-Date: Fri, 31 May 2024 16:35:23 +0200
+	Fri, 31 May 2024 14:37:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+	s=mail4; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:To:Cc:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+	List-Archive:X-Cloud-Ids:Disposition-Notification-To;
+	bh=EEZUDPG8IaESZsyP/PkDdrfoGtanN7ZjWLyO9o1BDNs=; t=1717166233; x=1717256233; 
+	b=dOv/BY0Cgz3YkgNnX5MBcgBh1GkQpipadLFkIKtUpoe85KkLjjsIgqyxDkH6EAsErH2V3X5WjA+
+	uodLrkhQg9IKraWWn8MW1HN0txkjTeGSWqKYGNUE3T/OZIBf5Aeh/KETsCn3npiTx/5J5IVj/K8A4
+	oW8JhuVam0lyUdPlozJ9OAq2c1cWpWVbrWfzFTd0jao8bHcwqt39vDyJybmhoiCYB/OLnt9Y+uS6u
+	dazNFs+vEB/agH4/gl6JucBOnAr9pewky48u0f01y2E2gx+AmnlWfYkL5edD6/hAjMFUm+XnkbEK6
+	Fydq60Xw0AnuQhgCKzbe/xry0fOjAhwclXGQ==;
+Received: by smtp29.i.mail.ru with esmtpa (envelope-from <m.lombardi85@mail.ru>)
+	id 1sD3NV-000000051dS-2K3X; Fri, 31 May 2024 17:37:10 +0300
+Date: Fri, 31 May 2024 16:37:06 +0200
+From: Maurizio Lombardi <m.lombardi85@mail.ru>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Yi Zhang <yi.zhang@redhat.com>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: blktests nvme 041,042 leak memory
+Message-ID: <ZlngkgSTK6IPcVc9@kalibr>
+References: <CAHj4cs9fu9-OcDAHq=WijeCia2ndphbpgA0YiPSSHQQLKBXBZg@mail.gmail.com>
+ <CAFL455=iu16d1xkE9-ReZOrtcOQJ22Lt5vtsiHb5uTwCKJh+hA@mail.gmail.com>
+ <CAFL455mZMka2J8d008JH+WQhDxP6D4dweFOWVQc58rOQk2ybzw@mail.gmail.com>
+ <ff85fd7f-efc7-40d3-8c9a-e0189e3d71f2@grimberg.me>
+ <ZldW7nNrqHCTYTEF@kbusch-mbp.dhcp.thefacebook.com>
+ <93883147-490d-4065-a741-3e49288ea3af@grimberg.me>
+ <CAFL455=ixC0S8aU+AouQFtDFN0bFdNgSXH0d9a2-VXegj8dPuQ@mail.gmail.com>
+ <Zlipe2FVAIRmas1e@kbusch-mbp.dhcp.thefacebook.com>
+ <CAFL455kq_prujkCbNUwJzpqhL1B_P_Yu+b83kBSc0FQRAhQs8w@mail.gmail.com>
+ <CAFL455ndGuGRCv7X6S6qtiEi6KhBs_sxgeyfzoLCqu6i8TyNuQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: blktests failures with v6.10-rc1 kernel
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "nbd@other.debian.org" <nbd@other.debian.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-References: <wnucs5oboi4flje5yvtea7puvn6zzztcnlrfz3lpzlwgblrxgw@7wvqdzioejgl>
-Content-Language: en-US
-In-Reply-To: <wnucs5oboi4flje5yvtea7puvn6zzztcnlrfz3lpzlwgblrxgw@7wvqdzioejgl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFL455ndGuGRCv7X6S6qtiEi6KhBs_sxgeyfzoLCqu6i8TyNuQ@mail.gmail.com>
+Authentication-Results: smtp29.i.mail.ru; auth=pass smtp.auth=m.lombardi85@mail.ru smtp.mailfrom=m.lombardi85@mail.ru
+X-Mailru-Src: smtp
+X-4EC0790: 10
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD9F634E6C4921FF12D5775A4C805B6A3A271F27ED70B9B8D9300894C459B0CD1B9F0932195341800AD32A2F8DE070D437795445CFFA5883864136E7A862CEDAF2AC7997A56A7FEE5D2
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7257031E595304076EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637C218CA8E848E3B7A8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D83998B16BC632553822B7416D13EA57BDD1E8D9DA1CFCE3AD20879F7C8C5043D14489FFFB0AA5F4BFA417C69337E82CC2CC7F00164DA146DAFE8445B8C89999728AA50765F7900637FD2911E685725BF8389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC85FF72824B19451C6F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947CCE135D2742255B35AD7EC71F1DB884274AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C31580D188F428539ABA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CF27ED053E960B195E1DD303D21008E298D5E8D9A59859A8B6D52CD31C43BF465F75ECD9A6C639B01B78DA827A17800CE79C3ED69499EF45C2731C566533BA786AA5CC5B56E945C8DA
+X-C1DE0DAB: 0D63561A33F958A59C7CF1274AE060C95002B1117B3ED696269414DB680EBC62886DC9BC01168B20823CB91A9FED034534781492E4B8EEADB73CFAAED92B6E13BDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF3FED46C3ACD6F73ED3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFE3942288C290C15E59FFEC89FBF059EB17755D8270B0AA82581008E121471C1020A397324AFDE1B899DA2A9D3DD19F1F2B9F1F4849A5D7B3B8DA260F25701C299EC3E2B6BD11A7AA36DDF96CB8D31E6A913E6812662D5F2AAF96C8710EA0325A80F89563ADA45E48C3981EEBE9DB10F943082AE146A756F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj0sbWSqVKv8rqIg/kznEGiw==
+X-Mailru-Sender: A8F475CF1C824D1CBA77B1F2B8087B00C121490C1A767CDE4A63FE079F7B704DBD2C6B34D9420DB20D9A4B9E5233F3B4D8A79CCC3C8D74D41DFF15BC5ABCB624EF07C4B4834D601BDC6127B08F856444D0E43066D6DAA6349E6661CE6659AC881C93572D6AD3136CB4A721A3011E896F
+X-Mras: Ok
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240531_073529_027412_06F6F361 
-X-CRM114-Status: GOOD (  20.48  )
+X-CRM114-CacheID: sfid-20240531_073717_239835_1E78B75F 
+X-CRM114-Status: GOOD (  16.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,75 +95,243 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 31.05.24 03:54, Shinichiro Kawasaki wrote:
-> Hi all,
+V Fri, May 31, 2024 at 01:55:03PM +0200, Maurizio Lombardi napsal(a):
+> Maybe a better idea:
 > 
-> (I added linux-rdma list to the To list since blktests nvme and srp groups
->   depend on rdma drivers.)
-> 
-> I ran the latest blktests (git hash: 698f1a024cb4) with the v6.10-rc1 kernel,
-> and observed a couple of failures as listed below.
-> 
-> There are two notable differences from the result with kernel v6.9-rc1 [1].
-> The first one is srp/002,011 hangs with the rdma rxe driver, which was discussed
+> move device_initialize() to the very beginning of nvme_init_ctrl()
+> initialize ctrl->instance to a negative value, so we can check in the
+> .release() method if we have to call ida_free() or not.
+>
 
-IIRC, the problem with srp/002, 011 also occurs with siw driver, do you 
-make tests with siw driver to verify whether the problem with srp/002, 
-011 is also fixed or not?
+This is how it would look like, I did some base testing with TCP
 
-Thanks,
-Zhu Yanjun
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 371e14f0a203..f809a4fc23f9 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -886,7 +886,7 @@ int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_wait);
 
-> at LSF 2024. I no longer observe these hangs with v6.10-rc1 kernel. Great :) I
-> found Bob Pearson made a number of improvements in the driver. I guess these
-> changes avoided the hangs. Thank you very much!
-> 
-> The other difference is nbd/002 failure. CKI project still reports it for
-> v6.10-rc1 kernel [2]. Recently Josef provided blktests side fix [3] (Thanks!),
-> and it has not yet applied to the CKI test run set up. The fix was made for
-> nbd/001, but I expect that it will avoid the nbd/002 failure also.
-> 
-> [1] https://lore.kernel.org/linux-block/m6a437jvfwzq2jfytvvk62zpgu7e4bjvegr7x73pihhkp5me5c@sh6vs3s7w754/
-> [2] https://datawarehouse.cki-project.org/kcidb/tests/12631448
-> [3] https://lore.kernel.org/linux-block/9377610cbdc3568c172cd7c5d2e9d36da8dd2cf4.1716312272.git.josef@toxicpanda.com/
-> 
-> 
-> List of failures
-> ================
-> #1: nvme/041 (fc transport)
-> #2: nvme/050
-> 
-> Failure description
-> ===================
-> 
-> #1: nvme/041 (fc transport)
-> 
->     With the trtype=fc configuration, nvme/041 fails:
-> 
->    nvme/041 (Create authenticated connections)                  [failed]
->        runtime  2.677s  ...  4.823s
->        --- tests/nvme/041.out      2023-11-29 12:57:17.206898664 +0900
->        +++ /home/shin/Blktests/blktests/results/nodev/nvme/041.out.bad     2024-03-19 14:50:56.399101323 +0900
->        @@ -2,5 +2,5 @@
->         Test unauthenticated connection (should fail)
->         disconnected 0 controller(s)
->         Test authenticated connection
->        -disconnected 1 controller(s)
->        +disconnected 0 controller(s)
->         Test complete
-> 
->     nvme/044 had same failure symptom until the kernel v6.9. A solution was
->     suggested and discussed in Feb/2024 [4].
-> 
->     [4] https://lore.kernel.org/linux-nvme/20240221132404.6311-1-dwagner@suse.de/
-> 
-> #2: nvme/050
-> 
->     The test case fails occasionally with a QEMU NVME device. The failure cause
->     is the lockdep WARN among ctrl->namespaces_rwsem, dev->shutdown_lock and
->     workqueue work completion. After LSF 2024 discussion, Sagi and Keith worked
->     on the solution and Keith provided the fix [5]. Thank you!
-> 
->     [5] https://lore.kernel.org/linux-nvme/20240524155345.243814-1-kbusch@meta.com/
+-static void nvme_ctrl_auth_work(struct work_struct *work)
++void nvme_ctrl_auth_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(work, struct nvme_ctrl, dhchap_auth_work);
+@@ -934,14 +934,13 @@ static void nvme_ctrl_auth_work(struct work_struct *work)
+ 				 "qid %d: authentication failed\n", q);
+ 	}
+ }
++EXPORT_SYMBOL_GPL(nvme_ctrl_auth_work);
+
+ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_dhchap_queue_context *chap;
+ 	int i, ret;
+
+-	mutex_init(&ctrl->dhchap_auth_mutex);
+-	INIT_WORK(&ctrl->dhchap_auth_work, nvme_ctrl_auth_work);
+ 	if (!ctrl->opts)
+ 		return 0;
+ 	ret = nvme_auth_generate_key(ctrl->opts->dhchap_secret,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 954f850f113a..e775c4df9af5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4572,14 +4572,16 @@ static void nvme_free_ctrl(struct device *dev)
+ 		container_of(dev, struct nvme_ctrl, ctrl_device);
+ 	struct nvme_subsystem *subsys = ctrl->subsys;
+
+-	if (!subsys || ctrl->instance != subsys->instance)
++	if (ctrl->instance >= 0 &&
++			(!subsys || ctrl->instance != subsys->instance))
+ 		ida_free(&nvme_instance_ida, ctrl->instance);
+ 	key_put(ctrl->tls_key);
+ 	nvme_free_cels(ctrl);
+ 	nvme_mpath_uninit(ctrl);
+ 	nvme_auth_stop(ctrl);
+ 	nvme_auth_free(ctrl);
+-	__free_page(ctrl->discard_page);
++	if (ctrl->discard_page)
++		__free_page(ctrl->discard_page);
+ 	free_opal_dev(ctrl->opal_dev);
+
+ 	if (subsys) {
+@@ -4610,6 +4612,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
+ 	spin_lock_init(&ctrl->lock);
+ 	mutex_init(&ctrl->scan_lock);
++	mutex_init(&ctrl->dhchap_auth_mutex);
+ 	INIT_LIST_HEAD(&ctrl->namespaces);
+ 	xa_init(&ctrl->cels);
+ 	init_rwsem(&ctrl->namespaces_rwsem);
+@@ -4621,6 +4624,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+ 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
++	INIT_WORK(&ctrl->dhchap_auth_work, nvme_ctrl_auth_work);
++
+ 	init_waitqueue_head(&ctrl->state_wq);
+
+ 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
+@@ -4631,16 +4636,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+
+ 	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
+ 			PAGE_SIZE);
+-	ctrl->discard_page = alloc_page(GFP_KERNEL);
+-	if (!ctrl->discard_page) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
+
+-	ret = ida_alloc(&nvme_instance_ida, GFP_KERNEL);
+-	if (ret < 0)
+-		goto out;
+-	ctrl->instance = ret;
++	ctrl->instance = -1;
+
+ 	device_initialize(&ctrl->ctrl_device);
+ 	ctrl->device = &ctrl->ctrl_device;
+@@ -4654,16 +4651,28 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 		ctrl->device->groups = nvme_dev_attr_groups;
+ 	ctrl->device->release = nvme_free_ctrl;
+ 	dev_set_drvdata(ctrl->device, ctrl);
++
++	ret = ida_alloc(&nvme_instance_ida, GFP_KERNEL);
++	if (ret < 0)
++		goto out;
++
++	ctrl->instance = ret;
+ 	ret = dev_set_name(ctrl->device, "nvme%d", ctrl->instance);
+ 	if (ret)
+-		goto out_release_instance;
++		goto out;
++
++	ctrl->discard_page = alloc_page(GFP_KERNEL);
++	if (!ctrl->discard_page) {
++		ret = -ENOMEM;
++		goto out;
++	}
+
+ 	nvme_get_ctrl(ctrl);
+ 	cdev_init(&ctrl->cdev, &nvme_dev_fops);
+ 	ctrl->cdev.owner = ops->module;
+ 	ret = cdev_device_add(&ctrl->cdev, ctrl->device);
+ 	if (ret)
+-		goto out_free_name;
++		goto out_put_ctrl;
+
+ 	/*
+ 	 * Initialize latency tolerance controls.  The sysfs files won't
+@@ -4684,14 +4693,9 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	nvme_fault_inject_fini(&ctrl->fault_inject);
+ 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+ 	cdev_device_del(&ctrl->cdev, ctrl->device);
+-out_free_name:
++out_put_ctrl:
+ 	nvme_put_ctrl(ctrl);
+-	kfree_const(ctrl->device->kobj.name);
+-out_release_instance:
+-	ida_free(&nvme_instance_ida, ctrl->instance);
+ out:
+-	if (ctrl->discard_page)
+-		__free_page(ctrl->discard_page);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index cacc56f4bbf4..b0e378e6ca63 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1124,6 +1124,7 @@ static inline bool nvme_ctrl_sgl_supported(struct nvme_ctrl *ctrl)
+ #ifdef CONFIG_NVME_HOST_AUTH
+ int __init nvme_init_auth(void);
+ void __exit nvme_exit_auth(void);
++void nvme_ctrl_auth_work(struct work_struct *work);
+ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_auth_stop(struct nvme_ctrl *ctrl);
+ int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 51a62b0c645a..bc749bebe134 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2302,7 +2302,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
+ 				0 /* no quirks, we're perfect! */);
+ 	if (ret)
+-		goto out_kfree_queues;
++		goto out_put_ctrl;
+
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING);
+ 	WARN_ON_ONCE(!changed);
+@@ -2322,12 +2322,11 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+
+ out_uninit_ctrl:
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
++out_put_ctrl:
+ 	nvme_put_ctrl(&ctrl->ctrl);
+ 	if (ret > 0)
+ 		ret = -EIO;
+ 	return ERR_PTR(ret);
+-out_kfree_queues:
+-	kfree(ctrl->queues);
+ out_free_ctrl:
+ 	kfree(ctrl);
+ 	return ERR_PTR(ret);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 8b5e4327fe83..9787a4fdbb00 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2759,7 +2759,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_tcp_ctrl_ops, 0);
+ 	if (ret)
+-		goto out_kfree_queues;
++		goto out_put_ctrl;
+
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+ 		WARN_ON_ONCE(1);
+@@ -2782,12 +2782,11 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+
+ out_uninit_ctrl:
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
++out_put_ctrl:
+ 	nvme_put_ctrl(&ctrl->ctrl);
+ 	if (ret > 0)
+ 		ret = -EIO;
+ 	return ERR_PTR(ret);
+-out_kfree_queues:
+-	kfree(ctrl->queues);
+ out_free_ctrl:
+ 	kfree(ctrl);
+ 	return ERR_PTR(ret);
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index e589915ddef8..6d1359915b6c 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -550,10 +550,8 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_loop_ctrl_ops,
+ 				0 /* no quirks, we're perfect! */);
+-	if (ret) {
+-		kfree(ctrl);
++	if (ret)
+ 		goto out;
+-	}
+
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+ 		WARN_ON_ONCE(1);
+@@ -611,8 +609,8 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+ 	kfree(ctrl->queues);
+ out_uninit_ctrl:
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
+-	nvme_put_ctrl(&ctrl->ctrl);
+ out:
++	nvme_put_ctrl(&ctrl->ctrl);
+ 	if (ret > 0)
+ 		ret = -EIO;
+ 	return ERR_PTR(ret);
+--
+2.43.0
 
 
