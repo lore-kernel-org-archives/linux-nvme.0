@@ -4,80 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78C9FC25B75
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 20:46:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0217AC25B75
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 20:53:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S1p76AS0cf6kXj0arrO4uHwvtCrK3sOZAIQUxCLQYjw=; b=t/MgA9+R3QyMpWQAEl9P0w7SGw
-	B5IyO8Yh2o+vs6URjI5+fTTXnc8cdVSAnmh4eJigGn34FbdktjTVTVs8TU1vpsrmDOQEFxCkBkNgh
-	FOqazglCULAsv+oN9oSfOtWxsD20xftbLtKA7gFPfZxTF+jrwUIn3Y4GoyrEOIjf1rlmh1knv3qMI
-	FAxibkCJUycz1P8pcdzIgHn36skI7TQhK6R3F8PVeHzzxnyCbLCwDiiCYIILygJlt4XTRkKPJzAUD
-	iDzGuV5pApdOWmS6/v2T+0W8iaZUk22wlpRW4XR340JajkuFWZxNy4G6M+Ze+P0uJMO/2HCZQFuWP
-	GB/CK5+w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gM5QZSuGR1yu39v/ATYUqIjts/KFOGABPj6deOWJI9w=; b=OsAgAJYvco+ypgTJiaDNiE5gkM
+	l+OEz11aAhdiGowE6UZwkd3DD6CbRIXwpVb/K3HLydGo7qZpNSVYAIWhJwd7LoBuj3GvDfZloebiu
+	7UY/fYG1U+j1YKlZrXsWuV07dWeEbbkJwZatDTobugm2I/Yg1NQXX8ExYZCn9GZjsHYhlGczY4j6D
+	syCI4CD7ru41ll3PsKGJIxCvHiC+ZC5WT5+Ypuj1oHoG+StXfhqwUFJZDpCoYwsXHm7MAdUd6aq65
+	WZ6xczHgj5NIWIJDco6jJPMIB4RPNguHH0DIUI3JjQUZZgcTnRbeERjQAKquZN/iK0e+Ad4bek0EO
+	o9U0hVzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sD98t-0000000BPqA-3Zez;
-	Fri, 31 May 2024 20:46:27 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1sD9FK-0000000BQSb-2Hyn;
+	Fri, 31 May 2024 20:53:06 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sD98m-0000000BPpc-2pwZ
+	id 1sD9FH-0000000BQS1-3yYu
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 May 2024 20:46:25 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4VrZsS1DQGzlgMVh;
-	Fri, 31 May 2024 20:46:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1717188377; x=1719780378; bh=S1p76AS0cf6kXj0arrO4uHwv
-	tCrK3sOZAIQUxCLQYjw=; b=aIjFOs59T8LcAZQap6j+YsIwrvOvf60UO4e7TfiN
-	pFEQB2abUGrZfcrYKKrkKrB2647WdjDFKB6QJPBEGUU1FyrrFvMdVnauviSoI0hA
-	8Ka1eYWrrnBndgRXrYQjQUBJFhciyTRMhERfTmZPCsXskrnwnZCGQwt1XnP7/BtZ
-	07W9IhNa8k41tcYhKdlOBfPLYBvEupFBPNKEFRz046N7z2cgZzPv6Uww0mHjz2hf
-	XOHvIDbeIENN+oDsEjNrWgbW4T3ZdS+EbpXu6pZaAsIbozHinVgWm+RrA5r3sWC4
-	jWpcpgKCAvcAjIM1NOQJZdB/ncuDWQDEbA7hhY+viPi9zQ==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 3oVgloOHcuuQ; Fri, 31 May 2024 20:46:17 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4VrZsP1vz8zlgMVf;
-	Fri, 31 May 2024 20:46:17 +0000 (UTC)
-Message-ID: <81a63f38-fab0-4536-bbc2-3f06752a7f9e@acm.org>
-Date: Fri, 31 May 2024 13:46:16 -0700
+	Fri, 31 May 2024 20:53:05 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 27DDCCE1CFD;
+	Fri, 31 May 2024 20:53:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3998C116B1;
+	Fri, 31 May 2024 20:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717188780;
+	bh=4cBL8PSfoXNMyyPbVEeK7lNHzCvcgB6JG4qw7Y01ahA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kiVCv2VEW7logfyH7AUWAz1GQbDMkNGm+EWQECnevkMqmbS9PlHF0zC5XktzwhXWq
+	 hHEKU8rr05YfnrL0YzO/HaFNw7xc1r+fa6a3JYcqQ78CqUHIPDU7dwzd/hADkn+ZH+
+	 +as+NV6Qc+fj1BZouJkS7IhQVqrWB8NcEJ/Q8X7HHY4Mo9uW/KoteGkBb47OLYSDjM
+	 Ul1o/4bDWvMpDR+zKl807JXDEKtIllMDUikEUqT5XYtim/qQ6+oS+MvJk7cFfF+mQw
+	 r3KCIbwL7ljVL7w7K0wfjbYZtnbXLWto39jlQRf6Myl0GhYdSlBW+G5mlYZ4BEVdkP
+	 JNwAWPJnobmrw==
+Date: Fri, 31 May 2024 14:52:57 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Weiwen Hu <huweiwen@linux.alibaba.com>
+Cc: linux-nvme@lists.infradead.org,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2] nvme: fix nvme_pr_* status code parsing
+Message-ID: <Zlo4qfY5SFnAIkgl@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240530061646.52167-1-huweiwen@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: blktests failures with v6.10-rc1 kernel
-To: Zhu Yanjun <zyjzyj2000@gmail.com>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "nbd@other.debian.org" <nbd@other.debian.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-References: <wnucs5oboi4flje5yvtea7puvn6zzztcnlrfz3lpzlwgblrxgw@7wvqdzioejgl>
- <6cd21274-50b3-44c5-af48-179cbd08b1ba@linux.dev>
- <b29f3a7a-3d58-44e1-b4ab-dbb4420c04a9@acm.org>
- <CAD=hENdBGcBSzcaniH+En6gecpay7S-fm1foEg5vmuXiVYxhpQ@mail.gmail.com>
- <0a82785a-a417-4f53-8f3a-2a9ad3ab3bf7@acm.org>
- <CAD=hENdgS40CmZs2o5M_O71k07Q7txg9-2XnaHP97_+eC9xT3w@mail.gmail.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAD=hENdgS40CmZs2o5M_O71k07Q7txg9-2XnaHP97_+eC9xT3w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240530061646.52167-1-huweiwen@linux.alibaba.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240531_134620_750296_27DC2EB6 
-X-CRM114-Status: GOOD (  13.07  )
+X-CRM114-CacheID: sfid-20240531_135304_191774_CD2B28D8 
+X-CRM114-Status: UNSURE (   8.23  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,39 +74,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/31/24 13:35, Zhu Yanjun wrote:
-> On Fri, May 31, 2024 at 10:08=E2=80=AFPM Bart Van Assche <bvanassche@ac=
-m.org> wrote:
->>
->> On 5/31/24 13:06, Zhu Yanjun wrote:
->>> On Fri, May 31, 2024 at 10:01=E2=80=AFPM Bart Van Assche <bvanassche@=
-acm.org> wrote:
->>>>
->>>> On 5/31/24 07:35, Zhu Yanjun wrote:
->>>>> IIRC, the problem with srp/002, 011 also occurs with siw driver, do=
- you make
->>>>> tests with siw driver to verify whether the problem with srp/002, 0=
-11 is also > fixed or not?
->>>>
->>>> I have not yet seen any failures of any of the SRP tests when using =
-the siw driver.
->>>> What am I missing?
->>   >
->>   > (left out a bunch of forwarded emails)
->>
->> Forwarding emails is not useful, especially if these emails do not ans=
-wer the question
->> that I asked.
->=20
-> Bob had made tests with siw. From his mail, it seems that the similar
-> problem also occurs with SIW.
+On Thu, May 30, 2024 at 02:16:46PM +0800, Weiwen Hu wrote:
+> Fix the parsing if extra status bits (e.g. MORE) is present.
+> 
+> Fixes: 7fb42780d06c ("nvme: Convert NVMe errors to PR errors")
+> Signed-off-by: Weiwen Hu <huweiwen@linux.alibaba.com>
 
-I'm not aware of anyone other than Bob having reported failures of the SR=
-P tests
-in combination with the siw driver.
-
-Thanks,
-
-Bart.
-
+Thanks, applied to nvme-6.10.
 
