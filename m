@@ -4,87 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BC6DC25B75
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 11:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73DFAC41513
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 11:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gr8k/Vm02ygPW32aJTJ9dTPWwg2hxQoQtvUykdUgDb4=; b=roE6zu9wEGHlbXajuLSFB1Gfn/
-	a2Y9CA0bz/8gkbPYeKMZhp7n3xLKyEo17THqIoyts772ZmRCnKni7KSTmHz7mLegh1tdUwIep/P2G
-	O2Kcux9wxouFCbeeuly1G8CoF3ZcP9FDCHBot9H4VzAM1hH8Qs0cFwYcytlhPTlqWEzsVfcfkYbNg
-	9EyA59HA2nS1oL9cCgKQAsJevbugTI0RQPseFUnmn2jKK2QWof3kqQiEgCrFxwgmFWM5ZwPLfjiTN
-	Xu/0HLps0hgroUlPfC9lEuMH5Ux0CYCZskGnTLN8D7BXOnkvSqNj4usGkWK7SCx4j7k6wl183KDy8
-	EU+o1ZTw==;
+	bh=BjmUNaBnKJHVeFcmGtFfEbKdSyy2gzJv6+pgUU8eU6U=; b=ejIv2X+XRRhE9WtXX1AgMnipN9
+	uch6scjLut41yVcz+aBhxSl++AWK3/Wu7ioOkEnNx7lWD+7P1XDeM7Ui1ia1l4pqbPDMUVW2kVl6K
+	Vm2Nl86DRhgEqFz24f5xjXbcDRLNjY8zjTzejaLvGvuM4HjuMrz8zjHKe6/uYBxDecD7ELlwtE08X
+	iasuKxfJFa16GFYnxhwuR9exdF/kuqpK6nb7+U2NruKFsriVnKdE0+Vjqy2RM3rXiBsDiAl0hmWk/
+	xs9yK/xqVnz4veF3Tnlo4ZaGcPrYnamfMjE6lAhTGVzgI4vpVS3NGLSHCaxs9/hvtQkatDZUo4LBX
+	Iuvgxu0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sD0iW-0000000A6nY-2SX1;
-	Fri, 31 May 2024 11:46:40 +0000
+	id 1sD0qx-0000000A7ba-3gEB;
+	Fri, 31 May 2024 11:55:23 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sD0iQ-0000000A6mn-1uSy
+	id 1sD0qu-0000000A7b7-1Idd
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 May 2024 11:46:39 +0000
+	Fri, 31 May 2024 11:55:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717155992;
+	s=mimecast20190719; t=1717156518;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gr8k/Vm02ygPW32aJTJ9dTPWwg2hxQoQtvUykdUgDb4=;
-	b=YFH+bIWgrlK3omp36Gogj48UX9ZLf0dcnOEwDx1CQjylWB1NK9rE72GYI2y2/Qu4ppeZcL
-	0//qhJCjfEw8oWH4ZsX70gppPtm/YKGnEqT+1ruV6850ySZbz1K9kOJK/3xemTWtRZZwrC
-	tmzjSzZSFbZNwPCiDQ0BRM1YU/PJ0j0=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=BjmUNaBnKJHVeFcmGtFfEbKdSyy2gzJv6+pgUU8eU6U=;
+	b=Zhye52R2OvqssOuwWowoW/hcHOazg87oOK9NeDrAia2lSvUoArE3zsAzqhcGcsH3XKnvgx
+	n3GrDnviVB78Z7Df/+CrMm1/Py2mPy5FaCBWfgT+0vNDxJVUAGkyRV+C7tHNx0wR+k923v
+	WP2epWaBlysnCOgDBjPd4CUvbbaDlZw=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-428-mOhGzjUJNmKMd7pFQWXdZQ-1; Fri, 31 May 2024 07:46:30 -0400
-X-MC-Unique: mOhGzjUJNmKMd7pFQWXdZQ-1
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2bf7dd49cbaso1642620a91.1
-        for <linux-nvme@lists.infradead.org>; Fri, 31 May 2024 04:46:30 -0700 (PDT)
+ us-mta-140-_3TL3DuGMV2vaDDO16OApg-1; Fri, 31 May 2024 07:55:17 -0400
+X-MC-Unique: _3TL3DuGMV2vaDDO16OApg-1
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-80acfda7350so261974241.0
+        for <linux-nvme@lists.infradead.org>; Fri, 31 May 2024 04:55:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717155989; x=1717760789;
+        d=1e100.net; s=20230601; t=1717156516; x=1717761316;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gr8k/Vm02ygPW32aJTJ9dTPWwg2hxQoQtvUykdUgDb4=;
-        b=UJgJElrv4O5f0P8VNPwLKeBX7iMXLqwViFWKU/Ap9h9yyEUDUytk7wdCQzzTXxyife
-         FyfMHBXh21EnbzNxQvI8efuKTJqqD4rCUQuCHqauMoaQAyxA6XrpywFitikECQPqJkMJ
-         OPH2x7gd5ClXnlcJp0Y0G/CKyPSHfXXyZ0WDG/xpYoFVznlB+cfI0vv3E3qmVpfZR3ZV
-         RRhv40i57Nl+ZeeGu5K3DOnWk5r1Dbm4JsOk3hcYCnDkjlAp0vjmuIKGg1LRkHQ/hv3H
-         b5uoa7W/qkpRkVouWIKuZAb+MapcGYoQWPRDTKAfxm+tXfvzLWkcNrHas8bx+TIhkJTX
-         z2tg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5Z6z6K9RFFpxQzQMUfM7F01bS3z5dsIptj1SxiPcsNTzDhAoGFBST+OL7PXbKEfkjcK9ZqzOKUr7Rt9s8Cs/KxO/all+DW+4OIIizA7g=
-X-Gm-Message-State: AOJu0YzKKjV2Oit3Vn/ZeL0tnMUq1ju/UwRRxEsTEVhsC4N4jO8Z+4+a
-	xIQoVrq9zpPP5QIpfBd21uQlLSCR3TjMOkgzWd27c1pYL7PlxSKwlbaF17FUX2jc8cWXs2TSWKn
-	wEzRvxkrMVjyhHzuRfrKpoSgichR/YkzxsXudGcrt50w8IdUM9KfO2AjrzPbUAP5bjXrPbEYw3c
-	8Pcjy99/d+BBQ7BwhQ/nMoZrtz3+4ePaguf8t4uuA=
-X-Received: by 2002:a17:90a:aa94:b0:2bd:f049:932a with SMTP id 98e67ed59e1d1-2c1dc5c8832mr1704309a91.34.1717155989415;
-        Fri, 31 May 2024 04:46:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGTq1sroVC/zyco89stsGzLWmiBt5HeZSFTphj0DZrCDCYOHtXNSLNxvKpXEsf8gGnY0WWV2gmiczJH02FvAx4=
-X-Received: by 2002:a17:90a:aa94:b0:2bd:f049:932a with SMTP id
- 98e67ed59e1d1-2c1dc5c8832mr1704291a91.34.1717155988960; Fri, 31 May 2024
- 04:46:28 -0700 (PDT)
+        bh=BjmUNaBnKJHVeFcmGtFfEbKdSyy2gzJv6+pgUU8eU6U=;
+        b=Qvk9G1HC3yZ+CUts4lkgf9IcjHKHQyV4ndbFdf/++S+WvS43cKp8cPfPbAhFe59NDb
+         7yYF33Jov3u92mzm8A+P4KOI9tGDW0peXk1hTGx+UWWcNwcnl06W8HKlO/81W+uQ+rs9
+         16QAV23RObslKWfE9BsybMS9whXAOSNgGcH84gP67LdIbsLMmC3xLickrlEOU+uTVxo5
+         Tn2Zw7FhLmRHosaHtFfDBE5yfBCoRmul479Ae4slnxQbV5msOqdm6etljWA5lVG7p8t2
+         m80JprqMtIL/+8/8aqGP/XlTk6V0Mh31XT8XCG3aLLfMTFndDd5ZeQmLgqrqSLmuNGMh
+         tIkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVhpQTaS0ZpHJBwRRmcxRUMrVb7buQIhIpz2mhp8InkyHZDfj93HJpZjjoopU1PZUnGygDNl1b7RjILz0MQkjgcY/6Vrlzh06NlUTFOmJg=
+X-Gm-Message-State: AOJu0Yxu07bj8plsYbPgtzjImrUML+8PZEXMzliyxHvbPKzheVzmdj58
+	z/ccfuETFWV1dhillQUsj4wsPhJl2j0cnmxw+m9DMPz1j16xv70wg0JHbOWxXB47fo2uIyDHouS
+	UP1eLBXwMpU+1bZtvyKJQDXaFIgnNz5E7cLeiinBbOtsN54pRZstCsg5QHZT8ozePSyw/8YlJbm
+	eCFP16i94UYAvbDoLTZwGIhwHqj9e03bf8pABoKHO1fSFMjYEyXQ==
+X-Received: by 2002:a67:cfc3:0:b0:48b:c5ed:7ba with SMTP id ada2fe7eead31-48bc5ed0b7amr929452137.28.1717156515795;
+        Fri, 31 May 2024 04:55:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEMtjyxDaiEiO8PsUMZj4W73VUx3aw8MxE9LaGPg382x/o2LtS/zKEwVO7LeYvrfxj+s1EiiLbseQjvQNhuAyk=
+X-Received: by 2002:a67:cfc3:0:b0:48b:c5ed:7ba with SMTP id
+ ada2fe7eead31-48bc5ed0b7amr929434137.28.1717156515415; Fri, 31 May 2024
+ 04:55:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240530-md-nvme-apple-v1-1-b8b7ca569660@quicinc.com>
-In-Reply-To: <20240530-md-nvme-apple-v1-1-b8b7ca569660@quicinc.com>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Fri, 31 May 2024 12:45:53 +0100
-Message-ID: <CAOgh=Fwfab2W=6QzhuBfm4fazXMnNLudSQpWw3rmX5ZcSo36yA@mail.gmail.com>
-Subject: Re: [PATCH] nvme-apple: add missing MODULE_DESCRIPTION()
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <c4050a37-ecc9-462c-9772-65e25166f439@grimberg.me>
+ <CAHj4cs9fu9-OcDAHq=WijeCia2ndphbpgA0YiPSSHQQLKBXBZg@mail.gmail.com>
+ <CAFL455=iu16d1xkE9-ReZOrtcOQJ22Lt5vtsiHb5uTwCKJh+hA@mail.gmail.com>
+ <CAFL455mZMka2J8d008JH+WQhDxP6D4dweFOWVQc58rOQk2ybzw@mail.gmail.com>
+ <ff85fd7f-efc7-40d3-8c9a-e0189e3d71f2@grimberg.me> <ZldW7nNrqHCTYTEF@kbusch-mbp.dhcp.thefacebook.com>
+ <93883147-490d-4065-a741-3e49288ea3af@grimberg.me> <CAFL455=ixC0S8aU+AouQFtDFN0bFdNgSXH0d9a2-VXegj8dPuQ@mail.gmail.com>
+ <Zlipe2FVAIRmas1e@kbusch-mbp.dhcp.thefacebook.com> <CAFL455kq_prujkCbNUwJzpqhL1B_P_Yu+b83kBSc0FQRAhQs8w@mail.gmail.com>
+In-Reply-To: <CAFL455kq_prujkCbNUwJzpqhL1B_P_Yu+b83kBSc0FQRAhQs8w@mail.gmail.com>
+From: Maurizio Lombardi <mlombard@redhat.com>
+Date: Fri, 31 May 2024 13:55:03 +0200
+Message-ID: <CAFL455ndGuGRCv7X6S6qtiEi6KhBs_sxgeyfzoLCqu6i8TyNuQ@mail.gmail.com>
+Subject: Re: blktests nvme 041,042 leak memory
+To: Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	"Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>, Hannes Reinecke <hare@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240531_044634_665607_02C64997 
-X-CRM114-Status: GOOD (  16.13  )
+X-CRM114-CacheID: sfid-20240531_045520_444992_64680DAC 
+X-CRM114-Status: UNSURE (   6.11  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,40 +104,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 31 May 2024 at 06:25, Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
->
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-apple.o
->
-> Add the missing invocation of the MODULE_DESCRIPTION() macro.
->
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+Maybe a better idea:
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+move device_initialize() to the very beginning of nvme_init_ctrl()
+initialize ctrl->instance to a negative value, so we can check in the
+.release() method if we have to call ida_free() or not.
 
-Is mise le meas/Regards,
+Now all the fabrics drivers know that in case of error they have to
+execute nvme_put_ctrl().
+Could it work?
 
-Eric Curtin
-
-> ---
->  drivers/nvme/host/apple.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index dd6ec0865141..0cfa39361d3b 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -1602,4 +1602,5 @@ static struct platform_driver apple_nvme_driver = {
->  module_platform_driver(apple_nvme_driver);
->
->  MODULE_AUTHOR("Sven Peter <sven@svenpeter.dev>");
-> +MODULE_DESCRIPTION("Apple ANS NVM Express device driver");
->  MODULE_LICENSE("GPL");
->
-> ---
-> base-commit: 4a4be1ad3a6efea16c56615f31117590fd881358
-> change-id: 20240530-md-nvme-apple-e0edb9b98c45
->
->
+Maurizio
 
 
