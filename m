@@ -4,53 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99D30C25B75
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 07:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80995C27C44
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 May 2024 07:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=3oWwLJRPRH9OsoTm0ixNQFDx6o
-	wYVjF1zFhWvDI65pRLFgy+MFlo+PQFLmOQZ3xHnQmAC/RhOCje7W1drUnm9YLjoHfag379IGkAQXV
-	GdEnsBXletIQdwS+ssVXEk+eJABNLs4WDuH6r5sc+kQroHGe2RNgzLROYcqsfKiSy6wOzfPLJsdfO
-	g4PxdSDukq7ueRBODgEOqq1xF7HFG8VXMcXBSuGpmTAz07Ygz7wouozfy900V8JLX+pB4i2akfeiz
-	DmnsJRS/1jpBmFsdfTfxR/KtTamGjcOZ0zj5uFbdIXhSVpmly77CLzRj1KW6WIfHTAQODakTcoOlL
-	3jnYU2Sw==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=ofRizpppuEdbt7M9Or8DDAEf9e
+	JhyfzPct5WaBmeuMYlaZdXKcp0CLdf0uWs59W2ZcXmz8hT3IWrYRUfYhhkqWM2r4t61o0OYy0fusI
+	0hDObbsffe/7ZzscPxF36lGm+S1azgfeTf2cNZXaoAGbf7bjIcAsPYEVGMF744ZZPo/E65SgU2uGo
+	v5p99+TmbszSokFnskPc4kVsCDXGsHfKtZpUFKfkIXT6AhMZe4bRhXBZxPdgLCxPyGCGWoA83kxFz
+	FEoLUaf+CWjp4T6UyYpaFzprEPOXNMUY32fnuL02hrTqGVgFXiEp89ok9Ag+p+1uorCZzbUn8Qle9
+	slYPwq0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCwki-00000009Ve1-0hgc;
-	Fri, 31 May 2024 07:32:40 +0000
+	id 1sCwkr-00000009Vi8-2Ger;
+	Fri, 31 May 2024 07:32:49 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCwkf-00000009VcH-1OlC
+	id 1sCwkp-00000009Vgo-0Evw
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 May 2024 07:32:38 +0000
+	Fri, 31 May 2024 07:32:48 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 22FA468BFE; Fri, 31 May 2024 09:32:33 +0200 (CEST)
-Date: Fri, 31 May 2024 09:32:32 +0200
+	id 199EC68C4E; Fri, 31 May 2024 09:32:44 +0200 (CEST)
+Date: Fri, 31 May 2024 09:32:43 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Ofir Gal <ofir.gal@volumez.com>
 Cc: davem@davemloft.net, linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
 	ceph-devel@vger.kernel.org, dhowells@redhat.com,
 	edumazet@google.com, pabeni@redhat.com, kbusch@kernel.org,
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
-	christoph.boehmwalder@linbit.com, idryomov@gmail.com,
-	xiubli@redhat.com
-Subject: Re: [PATCH v2 1/4] net: introduce helper sendpages_ok()
-Message-ID: <20240531073232.GB19108@lst.de>
-References: <20240530142417.146696-1-ofir.gal@volumez.com> <20240530142417.146696-2-ofir.gal@volumez.com>
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH v2 2/4] nvme-tcp: use sendpages_ok() instead of
+ sendpage_ok()
+Message-ID: <20240531073243.GC19108@lst.de>
+References: <20240530142417.146696-1-ofir.gal@volumez.com> <20240530142417.146696-3-ofir.gal@volumez.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240530142417.146696-2-ofir.gal@volumez.com>
+In-Reply-To: <20240530142417.146696-3-ofir.gal@volumez.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240531_003237_522620_4F5B9E66 
-X-CRM114-Status: UNSURE (   8.75  )
+X-CRM114-CacheID: sfid-20240531_003247_292849_8CE9B5DF 
+X-CRM114-Status: UNSURE (   9.17  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
