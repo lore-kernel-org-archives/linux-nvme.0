@@ -4,76 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BDC8C25B74
-	for <linux-nvme@archiver.kernel.org>; Sun,  2 Jun 2024 07:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15FD8C27C44
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Jun 2024 08:19:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9Mi/VKBiZjMcaZsYVmfXcA5vUMibCH5GQOs6BRjI06o=; b=FjOakvO/dOLHZHWOz78tmMICnf
-	zZtjfD0gVcowVWUF2Ria14W/PBu6IrfOsgma3Cku/OyBAGtaR55nr0RyM8J9ZGvXi0wH6wUMUEIPT
-	ffXqBYCDjbzRgdToG5SBzemzfsLyYwEeRlcJ2xmsCn4SalC6kETKo4nIFHBS+gJ+Q9wqBjJc0M5cD
-	l1TqW5Zz3XBCA/HGit5fPRDybn5LnBF3KUfwpKS3lgRxaZ7ftFj8U836EU2T5UNM8lrognn3D/79s
-	hYLaJtrjubzqopl1OP4R4FPlbiGLYP1oza4BDlL6JymKybO3HAl9Wp3ndYGNNAXnDGLTF9ryGTU58
-	LXGF46Ow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QtZHRmSZ5ZPMmTZk2z9vP6wS3JPtlKPN7eyqXRvmOXk=; b=nVyMNKdtmsV0F0lh/JWApCfFpt
+	osRgZIVL9NrUKiRiUieeZFssS0bG1c2As3yOc1vO4yxIf1vUmF0FBvTtNykJLssxers+FY1PTsjbZ
+	8G2xD9l3dtBr8t499uQARpO0drxzqJtkwrXhJbTxaeuXGVosxD67BWKAdX3VHlZWEnhrwIrYU/ccN
+	TxZ7F4AJsuhDTE9uDCPZNknx7zlL9njzEmMVxJbZH5LN7vcx0IkNL5vNiMu68M5qQ774CiFGtTHXd
+	4wXe5xJI7Vmaag2WUOyV6gP8zpk2RxrqZKpw+D9Ae553+6OppHLZ9feDMfYJcIoARm6Uo5EkqTlv+
+	NxkXKjEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sDfx2-0000000Dufb-1qBe;
-	Sun, 02 Jun 2024 07:48:24 +0000
-Received: from mail-wm1-f49.google.com ([209.85.128.49])
+	id 1sDgRU-0000000DwJS-23Rc;
+	Sun, 02 Jun 2024 08:19:52 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sDfwz-0000000Duf6-2slT
+	id 1sDgRR-0000000DwIa-2Ap8
 	for linux-nvme@lists.infradead.org;
-	Sun, 02 Jun 2024 07:48:23 +0000
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42112396582so2938995e9.3
-        for <linux-nvme@lists.infradead.org>; Sun, 02 Jun 2024 00:48:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717314496; x=1717919296;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Mi/VKBiZjMcaZsYVmfXcA5vUMibCH5GQOs6BRjI06o=;
-        b=GYqTDpeMpVhErkNDH+g0wxKlpByyfPo+EM/y68amcV7s//CGCuwVp4oU9XvX2J+7mT
-         MEilazojsaITLy7YsLOGnzBlfWw5NaP07D6g79V/Fvgt7LpVAsRVk/LFXrdGb7OKI7Co
-         QfbQlIX5WXzSRadDX5ioQBcN6rQL5OTnVUhFSzyqyuW7YzqpxEBa97b8owHc5Y/1lHv6
-         aInLjkuxgP2yVazn1Csf8LRFnOFWeGLc9NziJ+Nh9ToHvOK+j7DddX6I8ZlJHKKhfmYn
-         aFQq7FVHfYf8Ob/Rsu/c4XMuyq6syTzDIY8DPgK919g0yHKlgPOOXGZtc5/7U5WuHl51
-         YQ5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXbeFLwQbbw+IljGOzogqYoZ4079L5E4OD78MrGs72Enztp+nXqlv08WR16t41gW51KeqRUm+EfFIXmAM0zgtC/JzugLmv3VWciUuaQqD4=
-X-Gm-Message-State: AOJu0Ywl2X8i3aDxrwJctIdJnORcGU4UDs9Zz8fwlVUeXT9bDvh/mB0r
-	ydheYda4Nv1jnlfgFU0CkKlOfnrOnkM+azi4B1NiUFEQMtpoowNR
-X-Google-Smtp-Source: AGHT+IFsCjXnSMmjNSZUGoj/v4xQvOLvmmlAnC28L1qi45HucRzp7Mm8nzhveD4Y6FLy0KHDf5ir5A==
-X-Received: by 2002:adf:f547:0:b0:358:d0c:b9a0 with SMTP id ffacd0b85a97d-35e0f23ebc2mr4051664f8f.1.1717314495772;
-        Sun, 02 Jun 2024 00:48:15 -0700 (PDT)
-Received: from [10.100.102.74] (85.65.205.146.dynamic.barak-online.net. [85.65.205.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd062edcdsm5532084f8f.70.2024.06.02.00.48.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Jun 2024 00:48:15 -0700 (PDT)
-Message-ID: <9f62247b-ae36-49d9-9ccc-6ea5a238e147@grimberg.me>
-Date: Sun, 2 Jun 2024 10:48:12 +0300
+	Sun, 02 Jun 2024 08:19:51 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 8F185CE09B3;
+	Sun,  2 Jun 2024 08:19:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEEB6C2BBFC;
+	Sun,  2 Jun 2024 08:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717316380;
+	bh=fw7vZEUkP0roXDhN8/W5VJS4D7GNGUGCHJWCO+zC1K0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HT5yTiIgutNM4vgdRUv/29MheyHTayPZRgOXn+xJb8Rb0FiQAybOXHZqphlMKooQi
+	 9GMn7bplO2oObwkWiFl+uj/LQZau+/iFHC1iALen0o3E12iIOOmoILKfzQJORsFPde
+	 E6Jt3W/o4ybzPogHClThfJoBdxDj2/Lo66kzt3DH7YEQG5R9UacqQT37eVlRk2T9Eo
+	 GulNzvSZrNHXrpWsDmMm+1azcoavmIvPE83MJqLOfKy+mnSN5t1HUBxcwElJ4nNNBB
+	 V2N1CkJEZHAwVwm8oOn0E9vCNGBD0blO1Fzh8q23VMuBBtGAVvdeKT2vdcistE8Xw2
+	 5oiAFNnTC1iPA==
+Date: Sun, 2 Jun 2024 11:19:34 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Jason Gunthorpe <jgg@ziepe.ca>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+	Israel Rukshin <israelr@nvidia.com>, Oren Duer <ooren@nvidia.com>
+Subject: Re: [PATCH rfc] rdma/verbs: fix a possible uaf when draining a srq
+ attached qp
+Message-ID: <20240602081934.GJ3884@unreal>
+References: <20240526083125.1454440-1-sagi@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] bugfix: Introduce sendpages_ok() to check
- sendpage_ok() on contiguous pages
-To: Jakub Kicinski <kuba@kernel.org>, Ofir Gal <ofir.gal@volumez.com>
-Cc: davem@davemloft.net, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- ceph-devel@vger.kernel.org, dhowells@redhat.com, edumazet@google.com,
- pabeni@redhat.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
- philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
- christoph.boehmwalder@linbit.com, idryomov@gmail.com, xiubli@redhat.com
-References: <20240530142417.146696-1-ofir.gal@volumez.com>
- <20240601153430.19416989@kernel.org>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240601153430.19416989@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240526083125.1454440-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240602_004821_765960_2261BAFE 
-X-CRM114-Status: GOOD (  11.77  )
+X-CRM114-CacheID: sfid-20240602_011949_941937_A62A4EC4 
+X-CRM114-Status: GOOD (  31.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,30 +73,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sun, May 26, 2024 at 11:31:25AM +0300, Sagi Grimberg wrote:
+> ib_drain_qp does not do drain a shared recv queue (because it is
+> shared). However in the absence of any guarantees that the recv
+> completions were consumed, the ulp can reference these completions
+> after draining the qp and freeing its associated resources, which
+> is a uaf [1].
+> 
+> We cannot drain a srq like a normal rq, however in ib_drain_qp
+> once the qp moved to error state, we reap the recv_cq once in
+> order to prevent consumption of recv completions after the drain.
+> 
+> [1]:
+> --
+> [199856.569999] Unable to handle kernel paging request at virtual address 002248778adfd6d0
+> <....>
+> [199856.721701] Workqueue: ib-comp-wq ib_cq_poll_work [ib_core]
+> <....>
+> [199856.827281] Call trace:
+> [199856.829847]  nvmet_parse_admin_cmd+0x34/0x178 [nvmet]
+> [199856.835007]  nvmet_req_init+0x2e0/0x378 [nvmet]
+> [199856.839640]  nvmet_rdma_handle_command+0xa4/0x2e8 [nvmet_rdma]
+> [199856.845575]  nvmet_rdma_recv_done+0xcc/0x240 [nvmet_rdma]
+> [199856.851109]  __ib_process_cq+0x84/0xf0 [ib_core]
+> [199856.855858]  ib_cq_poll_work+0x34/0xa0 [ib_core]
+> [199856.860587]  process_one_work+0x1ec/0x4a0
+> [199856.864694]  worker_thread+0x48/0x490
+> [199856.868453]  kthread+0x158/0x160
+> [199856.871779]  ret_from_fork+0x10/0x18
+> --
+> 
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+> Note this patch is not yet tested, but sending it for visibility and
+> early feedback. While nothing prevents ib_drain_cq to process a cq
+> directly (even if it has another context) I am not convinced if all
+> the upper layers don't have any assumptions about a single context
+> consuming the cq, even if it is while it is drained. It is also
+> possible to to add ib_reap_cq that fences the cq poll context before
+> reaping the cq, but this may have other side-effects.
 
+Did you have a chance to test this patch?
+I looked at the code and it seems to be correct change, but I also don't
+know about all ULP assumptions.
 
-On 02/06/2024 1:34, Jakub Kicinski wrote:
-> On Thu, 30 May 2024 17:24:10 +0300 Ofir Gal wrote:
->> skbuff: before sendpage_ok - i: 0. page: 0x654eccd7 (pfn: 120755)
->> skbuff: before sendpage_ok - i: 1. page: 0x1666a4da (pfn: 120756)
->> skbuff: before sendpage_ok - i: 2. page: 0x54f9f140 (pfn: 120757)
-> noob question, how do you get 3 contiguous pages, the third of which
-> is slab? is_slab doesn't mean what I think it does, or we got extremely
-> lucky with kmalloc?
->
+Thanks
 
-The contig range according to the trace is 256K, the third page was just the
-first time that it saw this !ok page.
-
-I asked the same thing. nvme-tcp gets a bio and sets up its own iov_iter
-on the bio bvec for sending it over the wire. The test that reproduces this
-creates an raid1 md device which probably has at least some effect into how
-we got this buffer.
-
-With the recent multipage bvecs work from Ming, nvme-tcp bvec entries will
-often point to contiguous ranges that are > PAGE_SIZE. I didn't look 
-into the
-implementation of skb_splice_from_iter, but I think its not very 
-efficient to
-extract a contiguous range in PAGE_SIZE granular vector...
+> 
+> This crash was seen in the wild, and not easy to reproduce. I suspect
+> that moving the nvmet_wq to be unbound expedited the teardown process
+> exposing a possible uaf for srq attached qps (which nvmet-rdma has a
+> mode of using).
+> 
+> 
+>  drivers/infiniband/core/verbs.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
+> index 94a7f3b0c71c..580e9019e96a 100644
+> --- a/drivers/infiniband/core/verbs.c
+> +++ b/drivers/infiniband/core/verbs.c
+> @@ -2962,6 +2962,17 @@ void ib_drain_qp(struct ib_qp *qp)
+>  	ib_drain_sq(qp);
+>  	if (!qp->srq)
+>  		ib_drain_rq(qp);
+> +	else {
+> +		/*
+> +		 * We cannot drain a srq, however the qp is in error state,
+> +		 * and will not generate new recv completions, hence it should
+> +		 * be enough to reap the recv cq to cleanup any recv completions
+> +		 * that may have placed before we drained. Without this nothing
+> +		 * guarantees that the ulp will free resources and only then
+> +		 * consume the recv completion.
+> +		 */
+> +		ib_process_cq_direct(qp->recv_cq, -1);
+> +	}
+>  }
+>  EXPORT_SYMBOL(ib_drain_qp);
+>  
+> -- 
+> 2.40.1
+> 
+> 
 
