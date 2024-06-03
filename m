@@ -4,132 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 705F1C25B75
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 09:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB2A9C25B75
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 09:33:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4aiqyGNs4C6F+459GE4XKKIaj4uHNvODVh4oeUc9YQQ=; b=YYzhqP850OkuVeFtf0snPbz3z+
-	VSi/SODaVPtH0thaYAg2TGRfYFnxlMGd9UESI/JhPrF1JebyffFo3Yi1bYgBe++Hx1ANFpzGHIYw7
-	QvEmz8VKZIxaYquCxRKd4IDXr/5G5gBZ+PY6cXqNJ7tMe3QLf6zEfv6p2dTkJn1lx6/t3ijWnXyU2
-	fh6X8MJxfV/MTxQfaEm55vGv+RQoIjbsGwP+pEj9BdFdn0PTiMZqBfoW7lSIEAEeeyrqF5EerPEjv
-	Rlf1cpWq+m0O99+rb0ZZ7vYjuVfqDk/6mUIYMSevrjmj1iiLFkkGmA418EmXPQTkG3gUvBMSrcNZm
-	oHwDqVvw==;
+	bh=4oOltfEcQUzwsT0hf8pJl6nN+Y3ghrxxX1hvOUIAO24=; b=HiHWVHQG41YTQE9sTod32yKCAP
+	QDsMH7TJgjr/TVK3a3NIKk5KCpgjREkQl84xIIDPcxvZj9gloTalzchGjskRmnFJAuPaCtawSbnFS
+	TxJTsHNxTcS+KmrB71eJlupAgogW20x+EsV5984IW3y5ToAPWs03ZBmYM3idtuK5hsP9lMr+NJnEQ
+	5XzGg372q4bQPIpqkV80iCgbYjBJ79LwViY0eZAIaXlKFW/xYATflPE+n+g2iIZBAS9mVZlZPVJGJ
+	BhlPxEQy61n6KMobMQx3DNhljVY4/tXz2EjyOITGbrHVFd9koodZq9eNKzGlmv4qZq17g5tZyLmeL
+	ageN+aUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sE3xz-0000000GC0T-2U3o;
-	Mon, 03 Jun 2024 09:26:59 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sE44c-0000000GEpA-1jGI;
+	Mon, 03 Jun 2024 09:33:50 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sE3xp-0000000GByr-3wJk
+	id 1sE44R-0000000GEkk-4AyI
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jun 2024 09:26:53 +0000
+	Mon, 03 Jun 2024 09:33:44 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 334982001E;
-	Mon,  3 Jun 2024 09:26:47 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0530B2001E;
+	Mon,  3 Jun 2024 09:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717406808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1717407218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4aiqyGNs4C6F+459GE4XKKIaj4uHNvODVh4oeUc9YQQ=;
-	b=BGYyrAyKVIVppKuFCDEVCQqAMX3+cbzScFb/SmBJE9FsafW60ImLURzecJUbtPj+EU7qd8
-	vkq4XUehN2UOcypeE0ZIW3SwVrqNvJkuFLsuidqJkFvs2knxu+BkLv8kGMMdFOSkNAzf3A
-	W2x/xbKWNR8AJMYK3ikPiqMJa72a2J4=
+	bh=4oOltfEcQUzwsT0hf8pJl6nN+Y3ghrxxX1hvOUIAO24=;
+	b=yhQlPd0MHvK2amD8/768y3cI5D+2sakKDNHLZCMlsVUhZlxTrzVuKSSdaoma1kF4Sdrorj
+	HsyV3IAddUN8RqWE63fHe3Oa8La0Xbk4af7ju7n5+w/0UxYfYhxSSvLJQk0F2dQ0frpi2t
+	L/6wnN5pjNmfL7B3AkDivxeQS0mx5+0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717406808;
+	s=susede2_ed25519; t=1717407218;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4aiqyGNs4C6F+459GE4XKKIaj4uHNvODVh4oeUc9YQQ=;
-	b=iktIf95ibTh8suh83mbxhsmIwD12npaRJTO3Tel2NYrJdwhvuYQHA99L7p0fgRdDp4/Ue3
-	/wbV33bFzYZ0bKDQ==
+	bh=4oOltfEcQUzwsT0hf8pJl6nN+Y3ghrxxX1hvOUIAO24=;
+	b=+RpgWfz0miPuVYsl6OfNOpxmkAuf7g294m39YR4+lwvmUZ0CQAaKleng4I2y4BJl6ofu2O
+	AaotJnrh55atUdDg==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717406807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1717407218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4aiqyGNs4C6F+459GE4XKKIaj4uHNvODVh4oeUc9YQQ=;
-	b=CRtM5bSS3vtA1ctSrWW37O8hx39qarpl0KB1WdfR/cytUAB0x98GLtGwsoz+3wXsVXoPqy
-	sHrlAnlhuzPNMByAZ3blK6KTukZacSrncVwhgoQrfUB+EccNBhJIHpz+SdqGrF7ENHIjCL
-	6XcUDj4wpXXKqHZg8ERCUkXHhrKSxSE=
+	bh=4oOltfEcQUzwsT0hf8pJl6nN+Y3ghrxxX1hvOUIAO24=;
+	b=yhQlPd0MHvK2amD8/768y3cI5D+2sakKDNHLZCMlsVUhZlxTrzVuKSSdaoma1kF4Sdrorj
+	HsyV3IAddUN8RqWE63fHe3Oa8La0Xbk4af7ju7n5+w/0UxYfYhxSSvLJQk0F2dQ0frpi2t
+	L/6wnN5pjNmfL7B3AkDivxeQS0mx5+0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717406807;
+	s=susede2_ed25519; t=1717407218;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4aiqyGNs4C6F+459GE4XKKIaj4uHNvODVh4oeUc9YQQ=;
-	b=9mUkp0giwL7NhJ1jtx4OC9TvCHau/UID+Bkr+jBA9/Q8H2t9tKpcl4lk0QMUm26ZX0arss
-	4oQV6QFAonOh4hBg==
+	bh=4oOltfEcQUzwsT0hf8pJl6nN+Y3ghrxxX1hvOUIAO24=;
+	b=+RpgWfz0miPuVYsl6OfNOpxmkAuf7g294m39YR4+lwvmUZ0CQAaKleng4I2y4BJl6ofu2O
+	AaotJnrh55atUdDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3B1A139CB;
-	Mon,  3 Jun 2024 09:26:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E4735139CB;
+	Mon,  3 Jun 2024 09:33:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rWTdNlaMXWY6AgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 03 Jun 2024 09:26:46 +0000
-Message-ID: <749f9615-2fd2-49a3-9c9e-c725cb027ad3@suse.de>
-Date: Mon, 3 Jun 2024 11:26:46 +0200
+	id IUdTN/GNXWZpBAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 03 Jun 2024 09:33:37 +0000
+Message-ID: <025702f4-5f3a-4fd1-897e-ac7b7d1ca8ec@suse.de>
+Date: Mon, 3 Jun 2024 11:33:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/9] block: Add core atomic write support
-To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
- martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
- brauner@kernel.org, dchinner@redhat.com, jack@suse.cz
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
- ojaswin@linux.ibm.com, linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
- io-uring@vger.kernel.org, nilay@linux.ibm.com, ritesh.list@gmail.com,
- willy@infradead.org, Himanshu Madhani <himanshu.madhani@oracle.com>
-References: <20240602140912.970947-1-john.g.garry@oracle.com>
- <20240602140912.970947-5-john.g.garry@oracle.com>
+Subject: Re: blktests nvme 041,042 leak memory
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: Maurizio Lombardi <m.lombardi85@mail.ru>, Keith Busch
+ <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Yi Zhang <yi.zhang@redhat.com>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+References: <CAHj4cs9fu9-OcDAHq=WijeCia2ndphbpgA0YiPSSHQQLKBXBZg@mail.gmail.com>
+ <CAFL455=iu16d1xkE9-ReZOrtcOQJ22Lt5vtsiHb5uTwCKJh+hA@mail.gmail.com>
+ <CAFL455mZMka2J8d008JH+WQhDxP6D4dweFOWVQc58rOQk2ybzw@mail.gmail.com>
+ <ff85fd7f-efc7-40d3-8c9a-e0189e3d71f2@grimberg.me>
+ <ZldW7nNrqHCTYTEF@kbusch-mbp.dhcp.thefacebook.com>
+ <93883147-490d-4065-a741-3e49288ea3af@grimberg.me>
+ <CAFL455=ixC0S8aU+AouQFtDFN0bFdNgSXH0d9a2-VXegj8dPuQ@mail.gmail.com>
+ <Zlipe2FVAIRmas1e@kbusch-mbp.dhcp.thefacebook.com>
+ <CAFL455kq_prujkCbNUwJzpqhL1B_P_Yu+b83kBSc0FQRAhQs8w@mail.gmail.com>
+ <CAFL455ndGuGRCv7X6S6qtiEi6KhBs_sxgeyfzoLCqu6i8TyNuQ@mail.gmail.com>
+ <ZlngkgSTK6IPcVc9@kalibr> <8058afc6-8272-42fa-a024-e477a29148e1@suse.de>
+ <CAFL455na13RH=6x5oFbFWUccAXenVUBM9QVzAe2A=4Q9e8MMMw@mail.gmail.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240602140912.970947-5-john.g.garry@oracle.com>
+In-Reply-To: <CAFL455na13RH=6x5oFbFWUccAXenVUBM9QVzAe2A=4Q9e8MMMw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.79 / 50.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,mit.edu,google.com,linux.ibm.com,kvack.org,gmail.com,infradead.org,oracle.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[mail.ru];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLusjj3u5c53i6g8q6enupwtij)]
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[mail.ru,kernel.org,grimberg.me,redhat.com,lists.infradead.org,wdc.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240603_022650_519355_1DA22C40 
-X-CRM114-Status: GOOD (  50.26  )
+X-CRM114-CacheID: sfid-20240603_023340_214733_087DFAEB 
+X-CRM114-Status: GOOD (  11.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,265 +148,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/2/24 16:09, John Garry wrote:
-> Add atomic write support, as follows:
-> - add helper functions to get request_queue atomic write limits
-> - report request_queue atomic write support limits to sysfs and update Doc
-> - support to safely merge atomic writes
-> - deal with splitting atomic writes
-> - misc helper functions
-> - add a per-request atomic write flag
+On 6/3/24 10:52, Maurizio Lombardi wrote:
+> po 3. 6. 2024 v 10:37 odesílatel Hannes Reinecke <hare@suse.de> napsal:
+>>
+>> On 5/31/24 16:37, Maurizio Lombardi wrote:
+>> Hmm. Don't really like it.
+>> We took great pains of moving then entire DH-CHAP code into its own
+>> file, and this patch reverts it and is causing the DH-CHAP code to be
+>> littered all over the place.
 > 
-> New request_queue limits are added, as follows:
-> - atomic_write_hw_max is set by the block driver and is the maximum length
->    of an atomic write which the device may support. It is not
->    necessarily a power-of-2.
-> - atomic_write_max_sectors is derived from atomic_write_hw_max_sectors and
->    max_hw_sectors. It is always a power-of-2. Atomic writes may be merged,
->    and atomic_write_max_sectors would be the limit on a merged atomic write
->    request size. This value is not capped at max_sectors, as the value in
->    max_sectors can be controlled from userspace, and it would only cause
->    trouble if userspace could limit atomic_write_unit_max_bytes and the
->    other atomic write limits.
-> - atomic_write_hw_unit_{min,max} are set by the block driver and are the
->    min/max length of an atomic write unit which the device may support. They
->    both must be a power-of-2. Typically atomic_write_hw_unit_max will hold
->    the same value as atomic_write_hw_max.
-> - atomic_write_unit_{min,max} are derived from
->    atomic_write_hw_unit_{min,max}, max_hw_sectors, and block core limits.
->    Both min and max values must be a power-of-2.
-> - atomic_write_hw_boundary is set by the block driver. If non-zero, it
->    indicates an LBA space boundary at which an atomic write straddles no
->    longer is atomically executed by the disk. The value must be a
->    power-of-2. Note that it would be acceptable to enforce a rule that
->    atomic_write_hw_boundary_sectors is a multiple of
->    atomic_write_hw_unit_max, but the resultant code would be more
->    complicated.
+> This was just an example, I'm not asking to merge it.
 > 
-> All atomic writes limits are by default set 0 to indicate no atomic write
-> support. Even though it is assumed by Linux that a logical block can always
-> be atomically written, we ignore this as it is not of particular interest.
-> Stacked devices are just not supported either for now.
+> I just had to find a way to make it possible to call nvme_auth_stop() even
+> when nvme_auth_init() has never been called without crashing the kernel,
+> moving INIT_WORK was the easiest way.
 > 
-> An atomic write must always be submitted to the block driver as part of a
-> single request. As such, only a single BIO must be submitted to the block
-> layer for an atomic write. When a single atomic write BIO is submitted, it
-> cannot be split. As such, atomic_write_unit_{max, min}_bytes are limited
-> by the maximum guaranteed BIO size which will not be required to be split.
-> This max size is calculated by request_queue max segments and the number
-> of bvecs a BIO can fit, BIO_MAX_VECS. Currently we rely on userspace
-> issuing a write with iovcnt=1 for pwritev2() - as such, we can rely on each
-> segment containing PAGE_SIZE of data, apart from the first+last, which each
-> can fit logical block size of data. The first+last will be LBS
-> length/aligned as we rely on direct IO alignment rules also.
-> 
-> New sysfs files are added to report the following atomic write limits:
-> - atomic_write_unit_max_bytes - same as atomic_write_unit_max_sectors in
-> 				bytes
-> - atomic_write_unit_min_bytes - same as atomic_write_unit_min_sectors in
-> 				bytes
-> - atomic_write_boundary_bytes - same as atomic_write_hw_boundary_sectors in
-> 				bytes
-> - atomic_write_max_bytes      - same as atomic_write_max_sectors in bytes
-> 
-> Atomic writes may only be merged with other atomic writes and only under
-> the following conditions:
-> - total resultant request length <= atomic_write_max_bytes
-> - the merged write does not straddle a boundary
-> 
-> Helper function bdev_can_atomic_write() is added to indicate whether
-> atomic writes may be issued to a bdev. If a bdev is a partition, the
-> partition start must be aligned with both atomic_write_unit_min_sectors
-> and atomic_write_hw_boundary_sectors.
-> 
-> FSes will rely on the block layer to validate that an atomic write BIO
-> submitted will be of valid size, so add blk_validate_atomic_write_op_size()
-> for this purpose. Userspace expects an atomic write which is of invalid
-> size to be rejected with -EINVAL, so add BLK_STS_INVAL for this. Also use
-> BLK_STS_INVAL for when a BIO needs to be split, as this should mean an
-> invalid size BIO.
-> 
-> Flag REQ_ATOMIC is used for indicating an atomic write.
-> 
-> Co-developed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-> Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
->   Documentation/ABI/stable/sysfs-block | 53 ++++++++++++++++
->   block/blk-core.c                     | 19 ++++++
->   block/blk-merge.c                    | 95 +++++++++++++++++++++++++++-
->   block/blk-settings.c                 | 52 +++++++++++++++
->   block/blk-sysfs.c                    | 33 ++++++++++
->   block/blk.h                          |  3 +
->   include/linux/blk_types.h            |  8 ++-
->   include/linux/blkdev.h               | 54 ++++++++++++++++
->   8 files changed, 315 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-> index 831f19a32e08..cea8856f798d 100644
-> --- a/Documentation/ABI/stable/sysfs-block
-> +++ b/Documentation/ABI/stable/sysfs-block
-> @@ -21,6 +21,59 @@ Description:
->   		device is offset from the internal allocation unit's
->   		natural alignment.
->   
-> +What:		/sys/block/<disk>/atomic_write_max_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] This parameter specifies the maximum atomic write
-> +		size reported by the device. This parameter is relevant
-> +		for merging of writes, where a merged atomic write
-> +		operation must not exceed this number of bytes.
-> +		This parameter may be greater than the value in
-> +		atomic_write_unit_max_bytes as
-> +		atomic_write_unit_max_bytes will be rounded down to a
-> +		power-of-two and atomic_write_unit_max_bytes may also be
-> +		limited by some other queue limits, such as max_segments.
-> +		This parameter - along with atomic_write_unit_min_bytes
-> +		and atomic_write_unit_max_bytes - will not be larger than
-> +		max_hw_sectors_kb, but may be larger than max_sectors_kb.
-> +
-> +
-> +What:		/sys/block/<disk>/atomic_write_unit_min_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] This parameter specifies the smallest block which can
-> +		be written atomically with an atomic write operation. All
-> +		atomic write operations must begin at a
-> +		atomic_write_unit_min boundary and must be multiples of
-> +		atomic_write_unit_min. This value must be a power-of-two.
-> +
-> +
-> +What:		/sys/block/<disk>/atomic_write_unit_max_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] This parameter defines the largest block which can be
-> +		written atomically with an atomic write operation. This
-> +		value must be a multiple of atomic_write_unit_min and must
-> +		be a power-of-two. This value will not be larger than
-> +		atomic_write_max_bytes.
-> +
-> +
-> +What:		/sys/block/<disk>/atomic_write_boundary_bytes
-> +Date:		February 2024
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] A device may need to internally split an atomic write I/O
-> +		which straddles a given logical block address boundary. This
-> +		parameter specifies the size in bytes of the atomic boundary if
-> +		one is reported by the device. This value must be a
-> +		power-of-two and at least the size as in
-> +		atomic_write_unit_max_bytes.
-> +		Any attempt to merge atomic write I/Os must not result in a
-> +		merged I/O which crosses this boundary (if any).
-> +
->   
->   What:		/sys/block/<disk>/diskseq
->   Date:		February 2021
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 82c3ae22d76d..d9f58fe71758 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -174,6 +174,8 @@ static const struct {
->   	/* Command duration limit device-side timeout */
->   	[BLK_STS_DURATION_LIMIT]	= { -ETIME, "duration limit exceeded" },
->   
-> +	[BLK_STS_INVAL]		= { -EINVAL,	"invalid" },
-> +
->   	/* everything else not covered above: */
->   	[BLK_STS_IOERR]		= { -EIO,	"I/O" },
->   };
-> @@ -739,6 +741,18 @@ void submit_bio_noacct_nocheck(struct bio *bio)
->   		__submit_bio_noacct(bio);
->   }
->   
-> +static blk_status_t blk_validate_atomic_write_op_size(struct request_queue *q,
-> +						 struct bio *bio)
-> +{
-> +	if (bio->bi_iter.bi_size > queue_atomic_write_unit_max_bytes(q))
-> +		return BLK_STS_INVAL;
-> +
-> +	if (bio->bi_iter.bi_size % queue_atomic_write_unit_min_bytes(q))
-> +		return BLK_STS_INVAL;
-> +
-> +	return BLK_STS_OK;
-> +}
-> +
->   /**
->    * submit_bio_noacct - re-submit a bio to the block device layer for I/O
->    * @bio:  The bio describing the location in memory and on the device.
-> @@ -797,6 +811,11 @@ void submit_bio_noacct(struct bio *bio)
->   	switch (bio_op(bio)) {
->   	case REQ_OP_READ:
->   	case REQ_OP_WRITE:
-> +		if (bio->bi_opf & REQ_ATOMIC) {
-> +			status = blk_validate_atomic_write_op_size(q, bio);
-> +			if (status != BLK_STS_OK)
-> +				goto end_io;
-> +		}
->   		break;
->   	case REQ_OP_FLUSH:
->   		/*
-> diff --git a/block/blk-merge.c b/block/blk-merge.c
-> index 8957e08e020c..ad07759ca147 100644
-> --- a/block/blk-merge.c
-> +++ b/block/blk-merge.c
-> @@ -18,6 +18,46 @@
->   #include "blk-rq-qos.h"
->   #include "blk-throttle.h"
->   
-> +/*
-> + * rq_straddles_atomic_write_boundary - check for boundary violation
-> + * @rq: request to check
-> + * @front: data size to be appended to front
-> + * @back: data size to be appended to back
-> + *
-> + * Determine whether merging a request or bio into another request will result
-> + * in a merged request which straddles an atomic write boundary.
-> + *
-> + * The value @front_adjust is the data which would be appended to the front of
-> + * @rq, while the value @back_adjust is the data which would be appended to the
-> + * back of @rq. Callers will typically only have either @front_adjust or
-> + * @back_adjust as non-zero.
-> + *
-> + */
-> +static bool rq_straddles_atomic_write_boundary(struct request *rq,
-> +					unsigned int front_adjust,
-> +					unsigned int back_adjust)
-> +{
-> +	unsigned int boundary = queue_atomic_write_boundary_bytes(rq->q);
-> +	u64 mask, start_rq_pos, end_rq_pos;
-> +
-> +	if (!boundary)
-> +		return false;
-> +
-> +	start_rq_pos = blk_rq_pos(rq) << SECTOR_SHIFT;
-> +	end_rq_pos = start_rq_pos + blk_rq_bytes(rq) - 1;
-> +
-> +	start_rq_pos -= front_adjust;
-> +	end_rq_pos += back_adjust;
-> +
-> +	mask = ~(boundary - 1);
-> +
-> +	/* Top bits are different, so crossed a boundary */
-> +	if ((start_rq_pos & mask) != (end_rq_pos & mask))
-> +		return true;
-> +
-> +	return false;
-> +}
+Like this?
 
-But isn't that precisely what 'chunk_sectors' is doing?
-IE ensuring that requests never cross that boundary?
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index a264b3ae078b..668cc4d891d7 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -983,7 +983,8 @@ EXPORT_SYMBOL_GPL(nvme_auth_init_ctrl);
 
-Q1: Shouldn't we rather use/modify/adapt chunk_sectors for this thing?
-Q2: If we don't, shouldn't we align the atomic write boundary to the 
-chunk_sectors setting to ensure both match up?
+  void nvme_auth_stop(struct nvme_ctrl *ctrl)
+  {
+-       cancel_work_sync(&ctrl->dhchap_auth_work);
++       if (ctrl->dhchap_ctxs)
++               cancel_work_sync(&ctrl->dhchap_auth_work);
+  }
+  EXPORT_SYMBOL_GPL(nvme_auth_stop);
 
 Cheers,
 
 Hannes
+
 
 
