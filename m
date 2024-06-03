@@ -4,90 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5E7FC25B76
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 17:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36082C25B78
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 21:27:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v5lz8KDSVqQxkVH7H7CVN5A4DbKQZhIXNO+ngY2Ze6U=; b=FBK1o1F6rvgMjRA4gsSj0T+5O/
-	YOyZ7oX9yfrmbkk1jUbcS2/hJwc4rtcsNEZWSipN0/5nW+OMgLlRK2VfqF2Na9iDPxwr1lB5Ns4xp
-	9klkWb/gzmyx/BavHVyzTzZztpuDHlweNzxAS8qivmmmyMPXYyM6RZXU+1jE6pBDZG3s3thg9xOBw
-	cneAM+Yw2ZhzQXBCfmJBmlvYXuiv8/1EkCMXFbFEuxOmJ7uog5q2uuiPmscjY8pNfP2uPZwYrg9Tt
-	+Mp/wGrrGvqSbUStcHutQBoMbBKLFiw05zgWQw4lSfacmdvSgW9+GVgx2oiTbF3SToNGQ/cq6SKDy
-	x1RaukaA==;
+	bh=uY599MDCIjCv3UIyzbwe3bA9VXqb6OB7ySlkBu+KXLw=; b=RTPoNPL/ufGh0wyg1guaokEA/6
+	NbImoJN2Ax/mVSfsecS2xsti5liMdAvQCYNFVoFyJySNUTFfDUVKzpCdtY3T7Zhejgkv0uIcMF7jB
+	YsSRXpWeJv6KmGOV9qCztFA8dPQWb5cH4xVCAh2OdNQqi9ARoPBk4uiHLyMhv0ox+pHD8cEwZdLp5
+	hxfMTQIzCd5IDpMRYgC9AKyGwmUJj8MmbHey1EbrUaYHrLZ+W/kMcy3Ja/qTVLwnryseFb4DUaa0Y
+	SM1p1gCwrncz/+W0vDRlwwxVoMfSd0OmvE6pbaucBGZF9oft/7LoguOISRxrrXy7yaw+IbghdMdE6
+	i0ZmlbCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEBFE-0000000HTeb-0ius;
-	Mon, 03 Jun 2024 17:13:16 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1sEFD2-00000000OTZ-3tQp;
+	Mon, 03 Jun 2024 21:27:16 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEBFA-0000000HTcA-3XCs
+	id 1sEFCy-00000000OTF-46kY
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jun 2024 17:13:14 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4VtL036QTzz6CmQtD;
-	Mon,  3 Jun 2024 17:13:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1717434776; x=1720026777; bh=v5lz8KDSVqQxkVH7H7CVN5A4
-	DbKQZhIXNO+ngY2Ze6U=; b=gxqXSxhzpblr5Pr//MwRCn6ubzSylXkeRojMTrLA
-	pI+/3nY5RsSrCKLBRXmo4tvyPlm1atdv/yQUc19ruOrub0WzBxgEngx+z8ZBK7CN
-	z2LWF2xwH0N+8gwAAOUr9vGGxQZfuktIQEH44zyFv0Ozg1U63A6m9MFYm5Z4Vtip
-	R43+TjNareecPim87+fX8wvQtiscHn21Ly4/6EE4o663Pks+2WwoQ5JQuy6T5FVy
-	bHwZP3+sDp8vygc53DhScfnLDQpTHf9mcLZr1Xktgz7bWMSyX+84Ct4IuOn7mWKz
-	7wTjIIowjeVZWKCf0y87eCG7hhXr2HLGMfxeXkwVhMK3OQ==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id MlLOLRIWRk0a; Mon,  3 Jun 2024 17:12:56 +0000 (UTC)
-Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VtKzl6rhRz6CmQwP;
-	Mon,  3 Jun 2024 17:12:51 +0000 (UTC)
-Message-ID: <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
-Date: Mon, 3 Jun 2024 10:12:48 -0700
+	Mon, 03 Jun 2024 21:27:14 +0000
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-35e7dde6223so13292f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Jun 2024 14:27:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717450030; x=1718054830;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uY599MDCIjCv3UIyzbwe3bA9VXqb6OB7ySlkBu+KXLw=;
+        b=RjZtIZYDLBj5MYGPi3hEFR3mcFD0xpS95f7STKLeIr2bGCRJdQH6b0RpLmEJmcIDG9
+         fCwXRq3zZC+55NuA/EfrWYywG2Kj4Kh1OUTY+7/bkeh/t+XbugawkD+9qlnQj3AU767+
+         yqdRIxKjVZm6Ww3YsjF/pae6rgwNRTyKlMqHLVVc6d40iqHPONblfvfzSiBNg2zpxqIv
+         8vDaJcdkDNXjgNfP2pMoU30pcEJ/TM4M6JD/FKMTc/MJMm/YPCDsWjFEytHYuzsYleJ6
+         +GhkQcuKwesWSMdX7pswlbsxIYaGykDauajlW0+vJNFJAkh/eAk0DQvb4gtVjDlf0n+U
+         c90w==
+X-Forwarded-Encrypted: i=1; AJvYcCW3sOU8lRH+/O5Za9s1IYP4hlw53Aub4NAnz9eNWkIyGot5QKS73aHU/t7dCXwTC/KQiMGde6g7/vWZZID+Fpj6ivvSATHCCL+XfZoM2n8=
+X-Gm-Message-State: AOJu0YwzXeVuODp8R45lVtL6aqyYUDWv8i8UZt7BbhsaQCkphaTVbEYq
+	BjaDBHGO/3B2uXhUVkicTn+JEtOkx3Jiz4zjKvHy+K7eoRMrP1fX
+X-Google-Smtp-Source: AGHT+IH46P8IN4JrAN5hCuulfHxINGqT3MUA6PYnKCaDFijovEp8eZHOBGyMyXYbErBqqHO2JIAUtg==
+X-Received: by 2002:a05:600c:1c1e:b0:421:2c02:9779 with SMTP id 5b1f17b1804b1-4212e0c55c3mr82014925e9.4.1717450029553;
+        Mon, 03 Jun 2024 14:27:09 -0700 (PDT)
+Received: from [10.100.102.74] (85.65.205.146.dynamic.barak-online.net. [85.65.205.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42134f12e72sm100165345e9.34.2024.06.03.14.27.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jun 2024 14:27:09 -0700 (PDT)
+Message-ID: <86e60615-9286-4c9c-bffc-72304bd3cc1f@grimberg.me>
+Date: Tue, 4 Jun 2024 00:27:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Christoph Hellwig <hch@lst.de>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, Damien Le Moal
- <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
- joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
- <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
- <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
- <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
- <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
+Subject: Re: [PATCH v2 1/4] net: introduce helper sendpages_ok()
+To: Ofir Gal <ofir.gal@volumez.com>, davem@davemloft.net,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, ceph-devel@vger.kernel.org
+Cc: dhowells@redhat.com, edumazet@google.com, pabeni@redhat.com,
+ kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, philipp.reisner@linbit.com,
+ lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
+ idryomov@gmail.com, xiubli@redhat.com
+References: <20240530142417.146696-1-ofir.gal@volumez.com>
+ <20240530142417.146696-2-ofir.gal@volumez.com>
+ <8d0c198f-9c15-4a8f-957a-2e4aecddd2e5@grimberg.me>
+ <23821101-adf0-4e38-a894-fb05a19cb9c3@volumez.com>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240601055931.GB5772@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <23821101-adf0-4e38-a894-fb05a19cb9c3@volumez.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240603_101313_119656_1345DA86 
-X-CRM114-Status: GOOD (  12.76  )
+X-CRM114-CacheID: sfid-20240603_142713_114390_BC0FB3CD 
+X-CRM114-Status: GOOD (  12.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,36 +89,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/31/24 22:59, Christoph Hellwig wrote:
-> On Thu, May 30, 2024 at 10:11:15AM -0700, Bart Van Assche wrote:
->> This new approach has the following two disadvantages:
->> * Without plug, REQ_OP_COPY_SRC and REQ_OP_COPY_DST are not combined. These two
->>    operation types are the only operation types for which not using a plug causes
->>    an I/O failure.
-> 
-> So?  We can clearly document that and even fail submission with a helpful
-> message trivially to enforce that.
+>> I still don't understand how a page in the middle of a contiguous range ends
+>> up coming from the slab while others don't.
+> I haven't investigate the origin of the IO
+> yet. I suspect the first 2 pages are the superblocks of the raid
+> (mdp_superblock_1 and bitmap_super_s) and the rest of the IO is the bitmap.
 
-Consider the following use case:
-* Task A calls blk_start_plug()
-* Task B calls blk_start_plug()
-* Task A submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-* Task B submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-* The stacking driver to which all REQ_OP_COPY_* operations have been
-   submitted processes bios asynchronusly.
-* Task A calls blk_finish_plug()
-* Task B calls blk_finish_plug()
-* The REQ_OP_COPY_DST bio from task A and the REQ_OP_COPY_SRC bio from
-   task B are combined into a single request.
-* The REQ_OP_COPY_DST bio from task B and the REQ_OP_COPY_SRC bio from
-   task A are combined into a single request.
+Well, if these indeed are different origins and just *happen* to be a 
+mixture
+of slab originated pages and non-slab pages combined together in a 
+single bio of a bvec entry,
+I'd suspect that it would be more beneficial to split the bvec 
+(essentially not allow bio_add_page
+to append the page to tail bvec depending on a queue limit (similar to 
+how we handle sg gaps).
 
-This results in silent and hard-to-debug data corruption. Do you agree
-that we should not restrict copy offloading to stacking drivers that
-process bios synchronously and also that this kind of data corruption
-should be prevented?
+>
+>> Ofir, can you please check which condition in sendpage_ok actually fails?
+> It failed because the page has slab, page count is 1. Sorry for not
+> clarifying this.
+>
+> "skbuff: !sendpage_ok - page: 0x54f9f140 (pfn: 120757). is_slab: 1, page_count: 1"
+>                                                                   ^
+> The print I used:
+> pr_info(
+>      "!sendpage_ok - page: 0x%p (pfn: %lx). is_slab: %u, page_count: %u\n",
+>      (void *)page,
+>      page_to_pfn(page),
+>      page_address(page),
+>      !!PageSlab(page),
+>      page_count(page)
+> );
+>
+>
 
-Thanks,
-
-Bart.
 
