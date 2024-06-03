@@ -4,73 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DCABC25B75
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 23:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C0A7C25B78
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 23:17:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t5bR3bY6o22kgHifcQDlmTetHExUvDKJF6pKOMX9Nyg=; b=s4OIXGO6ZRxE1hQOHdraAdwPNh
-	nWGAaTiSF7Y7dbbZWdj3MulzLTyaAqoums4N2dmc20fgGeC/R64u0gamD9HvHaNhQtzdeXKR5ofcY
-	/kieDCwG1QdHIRU8uBLeGqzb+WWU/4mPYqWTvSGpg2GFXz2E8yjCzdb66dtOB049Z7BGd6ih4ozN0
-	OkJVNt6KHpaQUcZ8+rT6HLd16LhgF67FEap2H9b2e3r4/0W/FvGkJyneyYvMxlnrUwRJWGEyxtt4R
-	uRGVA2sQfvHrt7szHBbARa+7nWIpDlh4coZY45keV5Dm2bY6ybkzKBj1XgqLSE7yuKnJwci/Q/d1j
-	7+0116JQ==;
+	bh=n//7JuWmmDlKjPyCXIvOJTAcm/2nWuy3jjUYwm4ygfc=; b=uRAy76D3pLfWrNh6RMBo+JQCu5
+	a+32EobEVKVK8X5H8smzu2e4HkD/RoQ/z8HflPm1Wzk6eqicFYndsAQ/zp+s7DxMhjU3zk4WKIf0V
+	TD+f9ODR1mnr1aDT7q3FNjFyxX9Ivd6X8Aqxu2Oe3D8fKdAMUlKssImAFSSigI5bIpzVSQSP6Ns47
+	/nWrWoDUvbgmz6C2idSMQTIIpuW68uV8VRjFDM9Od4I6qR6yncmzUO0znzBttDzk+TMwcqfSsfqQC
+	A4wFmYd6rTA9qmLqpWhTYQziKz0nID4s+jG5ucF7Q6OKVS0qtfBHKoHDZ1oed5yLSOr0K/JE5EPAk
+	QQFmArFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEGl5-00000000aMh-0jZo;
-	Mon, 03 Jun 2024 23:06:31 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1sEGvb-00000000bUV-3TZM;
+	Mon, 03 Jun 2024 23:17:23 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEGkz-00000000aL6-3Er8
+	id 1sEGvY-00000000bRn-0pXe
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jun 2024 23:06:29 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 453MxXGZ001702
-	for <linux-nvme@lists.infradead.org>; Mon, 3 Jun 2024 16:06:24 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc :
- content-transfer-encoding : content-type : date : from : in-reply-to :
- message-id : mime-version : references : subject : to; s=s2048-2021-q4;
- bh=t5bR3bY6o22kgHifcQDlmTetHExUvDKJF6pKOMX9Nyg=;
- b=HwOpRcBFAvLEyC/+GH2LBm89VwIk26klPitFcBNhkFIo5W7piDMFsfRpXy9Fkc3btEzp
- /yz8Hg8cZr5MBkFik3Tp9QXGDxQ9JzLreE3ynNfbxOzsvSQFgOgLqeeV8Y/Oz4b87Cyj
- NQn06f5gpeBy5y6YuJFvBDkwsxSZYuJluCB6PdlTQfASSr708ZhocMNfyCyRg5gcCsxc
- U/5QHnYc/zl2O7qZn0vgcynXA5vLmiKJBubTMijFerJ29iB1pRyj2mwo0f6D4fcqQ3Kj
- YLBPAOqnUiHxWlccqYC4HlDULEC36b69uhmhIQOvT25BowRbOJpAD6DHUypIlLSr/d2p bA== 
-Received: from mail.thefacebook.com ([163.114.134.6])
-	by m0001303.ppops.net (PPS) with ESMTPS id 3yhq42r15x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 03 Jun 2024 16:06:24 -0700
-Received: from twshared18280.38.frc1.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Mon, 3 Jun 2024 23:05:36 +0000
-Received: by devbig032.nao3.facebook.com (Postfix, from userid 544533)
-	id 063D03481EBB; Mon,  3 Jun 2024 16:05:25 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <sagi@grimberg.me>, <mlombard@redhat.com>, <hare@suse.de>,
-        <shinichiro.kawasaki@wdc.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH-RFC 2/5] nvme: tcp: split controller bringup handling
-Date: Mon, 3 Jun 2024 16:05:20 -0700
-Message-ID: <20240603230524.3854115-3-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240603230524.3854115-1-kbusch@meta.com>
+	Mon, 03 Jun 2024 23:17:21 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 8E506CE0F8B;
+	Mon,  3 Jun 2024 23:17:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8343CC2BD10;
+	Mon,  3 Jun 2024 23:17:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717456636;
+	bh=strIsf/DyhBWZNKni9ScJM6ldctiDED5cb9LBJmg2rM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HSJhGWBJLaY9KcfQ9iuEnwuPMv/LwKuHafTMeZo6PaOMYWzHXaVl5E1CJIjCnMz3G
+	 WEpyqgPBMwW98J7loDFWhRbM/19rvHfGuU90ivoz4sbfSyfJTBkOVS2Eebg98nIIRb
+	 ixUrTsUAxxYjTEhd9w8pErdvD2CSC+Q75FOlNolsgN99C9gpBLId/3LvOPNVmuq7Mf
+	 n1KDLUXBatcGCMDuFxBLdFoc6BUwACtzbf27fO/awQJTwzsb/PH9nIYw4bRVDC3hLN
+	 h+4/vi9CH2iUL//jfGbdYlpwWOFx7mymWCdpAU6KuvnuQKAJjKvVgx+49A9w82IpoK
+	 A9/4XuJHrd9kA==
+Date: Mon, 3 Jun 2024 17:17:14 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	mlombard@redhat.com, hare@suse.de, shinichiro.kawasaki@wdc.com
+Subject: Re: [PATCH-RFC 1/5] nvme: apple: fix device reference counting
+Message-ID: <Zl5O-nTU4NN-vTCs@kbusch-mbp.dhcp.thefacebook.com>
 References: <20240603230524.3854115-1-kbusch@meta.com>
+ <20240603230524.3854115-2-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: xt7BkcsK_-7rnu1wO6CAnLE06CC4QOe9
-X-Proofpoint-GUID: xt7BkcsK_-7rnu1wO6CAnLE06CC4QOe9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-03_17,2024-05-30_01,2024-05-17_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240603230524.3854115-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240603_160626_033801_FF627D64 
-X-CRM114-Status: GOOD (  15.08  )
+X-CRM114-CacheID: sfid-20240603_161720_431597_584C48C4 
+X-CRM114-Status: UNSURE (   9.76  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,72 +73,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Mon, Jun 03, 2024 at 04:05:19PM -0700, Keith Busch wrote:
+> +static int apple_nvme_probe(struct platform_device *pdev)
+> +{
+> +	struct apple_nvme *anv;
+> +	int ret;
+> +
+> +	anv = apple_nvme_alloc(pdev);
+> +	if (IS_ERR(anv))
+> +		return PTR_ERR(anv);
+> +
+>  	anv->ctrl.admin_q = blk_mq_alloc_queue(&anv->admin_tagset, NULL, NULL);
+>  	if (IS_ERR(anv->ctrl.admin_q)) {
+>  		ret = -ENOMEM;
+> -		goto put_dev;
+> +		goto out_uninit_ctrl;
+>  	}
 
-Drivers must call nvme_uninit_ctrl after a successful nvme_init_ctrl.
-Split the allocation side out to make the error handling boundary easier
-to navigate. The nvme tcp driver's error handling had different returns
-in the error goto labels, which harm readability.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/tcp.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 8b5e4327fe83b..7f75d01dcbed0 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2686,7 +2686,7 @@ nvme_tcp_existing_controller(struct nvmf_ctrl_optio=
-ns *opts)
- 	return found;
- }
-=20
--static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
-+static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
- 		struct nvmf_ctrl_options *opts)
- {
- 	struct nvme_tcp_ctrl *ctrl;
-@@ -2761,6 +2761,24 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(stru=
-ct device *dev,
- 	if (ret)
- 		goto out_kfree_queues;
-=20
-+	return ctrl;
-+out_kfree_queues:
-+	kfree(ctrl->queues);
-+out_free_ctrl:
-+	kfree(ctrl);
-+	return ERR_PTR(ret);
-+}
-+
-+static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
-+		struct nvmf_ctrl_options *opts)
-+{
-+	struct nvme_tcp_ctrl *ctrl;
-+	int ret;
-+
-+	ctrl =3D nvme_tcp_alloc_ctrl(dev, opts);
-+	if (IS_ERR(ctrl))
-+		return (struct nvme_ctrl *)ctrl;
-+
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
- 		WARN_ON_ONCE(1);
- 		ret =3D -EINTR;
-@@ -2786,11 +2804,6 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(stru=
-ct device *dev,
- 	if (ret > 0)
- 		ret =3D -EIO;
- 	return ERR_PTR(ret);
--out_kfree_queues:
--	kfree(ctrl->queues);
--out_free_ctrl:
--	kfree(ctrl);
--	return ERR_PTR(ret);
- }
-=20
- static struct nvmf_transport_ops nvme_tcp_transport =3D {
---=20
-2.43.0
-
+Replying to myself: need to add 'anv->ctrl.admin_q = NULL' before the
+goto.
 
