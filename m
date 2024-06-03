@@ -4,165 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2F05C25B76
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 10:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24940C25B76
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 11:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XFdksna1Kd5K+wXvr50fpAeA/8p5banMyLKhv8Bc8dU=; b=0cdEksz6IOu6yPFbaUrVn8BWke
-	tSaj/7gLz9PgfoUwHtUA17dYX9XoPxTqN3j7NHDqvdanC1eURfyt2IdjJH7IwhGLDmIL3hPCcdCBI
-	cUB/gmCg7dD4QGXtAGpCmXWExjJ2QJMaa57R2az7pHUeC8O4stfeG6wF9FZGAmKILx9vEVqZDO6eu
-	pUCWXH27+cqjSpzkIYy8pz/dMrjxMctvjQwaObkC7xzwlpvFMxeV7zqoC0uCr06QN3uDLbElXjZ9t
-	X6d5OuIBa7crzf1sJv7jkLQ5PXFT6anQEMKlmJuKteT91N3TauyR6rJj6YSFImciIyh8tOkHU94sg
-	FHGmaZEA==;
+	bh=NdbbPTU401HPnUoOaw/F+ZPaUI8FnwtrRdYBN1GmdNc=; b=jXtEOl/Ek1EgLlAWBkTWp4QF5A
+	YS6fsMaDwitofa0F6HoeTYQjNEBSOSE9lHMVS1tkLrCKQdq3VFGU1AhAmQZ/38UsiKBZy+HHQ5Thz
+	Ocg1vGz8JiDmRNkzkqHP6YQTxoVDbNl0xN5zIeXh5PseO8CFKPmXVScMKdHTlPySHrLThzp19uvhV
+	rFeMv+dceRA9qLRKgHGUNSxJC4RWC2llORBqkuG84KQ3hFe9PfPaDCRF6+LgrCcaaGphPz1Yjdu0u
+	kWPO+Xt2ZaLswAmj5BsOeM0CiJd/IhvPBR0VxtzzMlb0rYkFPmqLorNnPgE4KKO3Y2mNBS4TbZNQN
+	Iy13vf/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sE50H-0000000GOOA-1qkr;
-	Mon, 03 Jun 2024 10:33:25 +0000
-Received: from mail-am7eur03on20700.outbound.protection.outlook.com ([2a01:111:f403:260e::700] helo=EUR03-AM7-obe.outbound.protection.outlook.com)
+	id 1sE5h5-0000000GUsT-2ymR;
+	Mon, 03 Jun 2024 11:17:39 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sE50D-0000000GOIw-1ZCA
+	id 1sE5h1-0000000GUp0-2yCd
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jun 2024 10:33:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j2YY2cKmcV8l7OKwHYlP2cP9bymYKH0AOQqlJJl4pGMYv5YdFNGJzW+0K0Uo4rNMOcmtLSqpAnZv8f0zt68pXOyeEFHdgrgE31a4hxj9IiP1l7AP/CWwK1Ky1kP1aWXQio5zWxLzKNoJi4tX5quyZ9KrybZSrZt9Bk0JoYueSO6rXM2AZRiNRToB6Tno6BHZHOmmGZg+Nbkyw2zMHKNU9890PrnD6UcAipmEG99MJ722Enuc/Hja7en54vbDREh0nf0vA/AF8ve5S1sJ37Is9+wiD14/80P8IRflCITOHKnc6OznC9rA7YmziLBwETxuzS+jbn78tOS2LGHHBRLFNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XFdksna1Kd5K+wXvr50fpAeA/8p5banMyLKhv8Bc8dU=;
- b=YEKN6smNaEKaGuExuLtSV/iMnovn423axtzqTel6wrhtgT9GNX9OghvlW3L0DBPE677XDleiLLE3Wa34vY3++UD0SPpf68Fxf2BYxgBbxN955WFLgVLKEovduE9zKCJYh8UPsE/pHT57w882Woop4uermEN9aQ4vhpERROkN6qxfvlyh2i4cy8ym3QJyAUOZtkjVazA8MD8+80hEBJvu8Bs4WRRvl4EsAwdjqvY53G4Kij1rHW0s8FrjWSbkvAOcE0vLgbTcJg/Bu1LWwxjzKsA0qNmzayxja8egRgQpRY6JlVlqMDERcCoXwEzAlQ0J39yLAzEsOVDlfNrkKSeQLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
- dkim=pass header.d=volumez.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XFdksna1Kd5K+wXvr50fpAeA/8p5banMyLKhv8Bc8dU=;
- b=ZG/Ta+JYhLXgGqNHVHCLHSwSpGFi9ONPgt2/QMBJc7+0Fxa20QT+gbS6ASClGewH4HWJ1rM5FN9YB5CPLUgDNj/rYfMjGuuaGYethgDRC6hBnTq3iWd3uYsdD4SGBBOMYnorbJ7fo+XHOS8Hr1Y93WjjQju7k6Utd8xjQ1uOduu+zYFkP61EqJusy0sn9awW54EB3Nr5vG+/DVy4yvSArY3XpV5PFRpwKDSJdIe1KvsD+KHIoJgoM1YT8DXn2i7dNf0PZw1iw2eJ5W7vmv7mbhz3HQd5hMSNC6nl1LqzM5MUe3hKIcN1B49ifJIUKsbU4WqgflHDhqBlLMY9+rhmDA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=volumez.com;
-Received: from AM0PR04MB5107.eurprd04.prod.outlook.com (2603:10a6:208:cb::11)
- by DU4PR04MB11029.eurprd04.prod.outlook.com (2603:10a6:10:590::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.24; Mon, 3 Jun
- 2024 10:32:59 +0000
-Received: from AM0PR04MB5107.eurprd04.prod.outlook.com
- ([fe80::de53:c058:7ef:21fb]) by AM0PR04MB5107.eurprd04.prod.outlook.com
- ([fe80::de53:c058:7ef:21fb%4]) with mapi id 15.20.7633.021; Mon, 3 Jun 2024
- 10:32:58 +0000
-Message-ID: <bca1947a-4826-472d-a62c-5ca5ad724939@volumez.com>
-Date: Mon, 3 Jun 2024 13:32:54 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] bugfix: Introduce sendpages_ok() to check
- sendpage_ok() on contiguous pages
-To: Sagi Grimberg <sagi@grimberg.me>, davem@davemloft.net,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, ceph-devel@vger.kernel.org
-Cc: dhowells@redhat.com, edumazet@google.com, pabeni@redhat.com,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, philipp.reisner@linbit.com,
- lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
- idryomov@gmail.com, xiubli@redhat.com
-References: <20240530132629.4180932-1-ofir.gal@volumez.com>
- <d6b2c19b-c2a6-400c-bbf1-bf0469138777@grimberg.me>
-Content-Language: en-US
-From: Ofir Gal <ofir.gal@volumez.com>
-In-Reply-To: <d6b2c19b-c2a6-400c-bbf1-bf0469138777@grimberg.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TL0P290CA0008.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:5::19) To AM0PR04MB5107.eurprd04.prod.outlook.com
- (2603:10a6:208:cb::11)
+	Mon, 03 Jun 2024 11:17:38 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240603111728epoutp02e30f2a2ed375a7e7c899dad979b9eafe~Vem6qtnmN2922829228epoutp02Z
+	for <linux-nvme@lists.infradead.org>; Mon,  3 Jun 2024 11:17:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240603111728epoutp02e30f2a2ed375a7e7c899dad979b9eafe~Vem6qtnmN2922829228epoutp02Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1717413448;
+	bh=NdbbPTU401HPnUoOaw/F+ZPaUI8FnwtrRdYBN1GmdNc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fBCyfFmmOdsx9UkBEa9C/gMGpiNyDk4AnmSWtZbFfDv+7gBM+/il6hdrezNZoUm6u
+	 brNd0Yu+RFdFsvyiRq3EIXyNs2rR5HOPiAJA2VvMW5i5ShY8k0rytDknHtWX3ygeiW
+	 3INEWIAMTs1GV2KS6JZWO4Og6VhdoTW05ZmMqKO8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240603111727epcas5p447c1effda385c696f1a1dab79263bc00~Vem6CshrS0313903139epcas5p4f;
+	Mon,  3 Jun 2024 11:17:27 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4VtB5f5Krnz4x9Pr; Mon,  3 Jun
+	2024 11:17:26 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F7.39.10035.646AD566; Mon,  3 Jun 2024 20:17:26 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240603110051epcas5p1210a0ffdd361216c504cc342c8d4f247~VeYaUA-3V1603316033epcas5p10;
+	Mon,  3 Jun 2024 11:00:51 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240603110051epsmtrp274773a1330edafc070774ea66a2e82c2~VeYaSaTm90159301593epsmtrp2H;
+	Mon,  3 Jun 2024 11:00:51 +0000 (GMT)
+X-AuditID: b6c32a4b-b11fa70000002733-8b-665da646c938
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2F.BD.18846.362AD566; Mon,  3 Jun 2024 20:00:51 +0900 (KST)
+Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240603110042epsmtip288f7ecce5d34cdfe18b68ceb823a3cdb~VeYRdfn010474404744epsmtip2K;
+	Mon,  3 Jun 2024 11:00:41 +0000 (GMT)
+Date: Mon, 3 Jun 2024 10:53:39 +0000
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	<jack@suse.cz>, martin.petersen@oracle.com, bvanassche@acm.org,
+	david@fromorbit.com, hare@suse.de, damien.lemoal@opensource.wdc.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 00/12] Implement copy offload support
+Message-ID: <20240603105339.keuiudmeplxdmczj@nj.shetty@samsung.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB5107:EE_|DU4PR04MB11029:EE_
-X-MS-Office365-Filtering-Correlation-Id: dac32f5c-7002-4d7a-f21f-08dc83b8898c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005|7416005;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?amN5eloyN2JsanI0VDh6Wkp5ejFva1NTTnZGS2VKR0VnRVZPOXdpZmdScmFM?=
- =?utf-8?B?bzR1VnhWcGY5QUg2RmFkRnNkdWt5M2F3R1duRzNKZGFaRmk2Z0JrNVNveEE3?=
- =?utf-8?B?Vk9OeUc4SVk2R0xFQ2hPSkxNL3hnZTdwZThTYWttMy80YVcxZENqb0Qzb2xF?=
- =?utf-8?B?b2ZqOStZUzVVU2hEWklhSmdyUElKZzA1QkhpYy9JTXdpc3hxOWVEQjNlam1W?=
- =?utf-8?B?UFRLWHh0dXNtcXBRcmxyNXgvVUF5c0k4Y2tQSkFPMlFJZ3NXQm5RNnpwdHh2?=
- =?utf-8?B?Q2g4dzRraU5ZQ21JMTN0UnVoZDl5Zy9PMUVFTHJpUjhLWW8zbGpmaDJMNWN0?=
- =?utf-8?B?WXo3NU9rNEgvU2R6ZEZhdmgvM0RBR1hIc1dydmw3YjErbVFWV25aVno5ZERD?=
- =?utf-8?B?V2hPUVRVZW1ncHRId1JWV2Q2UW9SWU9ncXVlcjBnNGJEY0c1M1RtcjBGY24w?=
- =?utf-8?B?Z3RRdWE5bWh2NHltakEyWFdGSXltVytITlpWNCswNDFVWUMycUV3S05qVmtZ?=
- =?utf-8?B?R0ttdG5BTzM5Mk4wV2V3RUVmc1ZqMTFDcXhHT3pCbkFSamM1L250QTMwQW00?=
- =?utf-8?B?cHRsOUo5YlpnTi9CRTl5a2pCbldLZkVpcy9VYVVlYUFSMExNL2VrYWkxaHJr?=
- =?utf-8?B?VGRUeDlFV2orTTk4b1kzYzIxZEl3TW13Vll1NDFJajRXOERSUURmMXpnZjVW?=
- =?utf-8?B?M1B0VGFQWlZrVGZ0aGYvcE9KZitYTHp3RCtXbWpLcGpRVGllRTM4UUZEMFNC?=
- =?utf-8?B?S3hWbkNmaG9BZ2tFeW5oaU5zcUpiTmV4M3JrblNMUkxHZEVtUmlFbTFNMHBZ?=
- =?utf-8?B?N1FBdE5tZVNoTEppSmdjaUdnU0ZBcTlZOTBFZlUzSHg3N0M0QUovNFFzS2dR?=
- =?utf-8?B?UHF2dFgxcENwZHNieldXUkhETHdGdmpFSXJ6NmxLTG9EMDZYNHhFSS9Lbzl6?=
- =?utf-8?B?bzQzMSsrVE0yajY5b1ZMaCttVHc2bnJqWlFERGhEbTB6ZkRmbU15MHYwdDg5?=
- =?utf-8?B?ZDRWbGUzNm5wQU82anYrcU41eXJvMVVsa3dIeitZVUk2U0k4bVBRYTN5QUUy?=
- =?utf-8?B?Q0lzdWFBUUVGdjhkb282aTYvekhGcmtENVpGbHpqaVpkSXFLa1dUS1g5V0x6?=
- =?utf-8?B?Z204MHdOZjlpaWMwazNFaUgyeFo4Uk15Y2JtWXViK3V0cFo5MG1LbndFUXd6?=
- =?utf-8?B?dXB5eHF0aFBBaXlrdlMwWGMvaVBEdTU2TXZjS09OZmdyUHdhU2hHZWlwRzg0?=
- =?utf-8?B?WlgrcHJhOHRnei9CanQ0TVd3YUpqb1pRa3JOMWF3UWFlZzJDZ1J3OW5rSVpE?=
- =?utf-8?B?T2lTc2ZlN3ZHVkp0WTRKU0NGNzJwTjRoMUNvSDYzRkdCNHcwcmx4VUpsTmZ5?=
- =?utf-8?B?S0tUTVR4cDk5RE9WRHo2WmsyVlJZVHpjanpJVnlUbk9ralN6YmNPeFdUOCtV?=
- =?utf-8?B?MVZQcGVkR2dlSzFTYk5tN21aaWQvaDB6dmdGRzZYdXJXSEY3ZHFyK2ZWNzZ5?=
- =?utf-8?B?MUl2em13QVhmMHJTdnAzU1JIQmt6aCthc3paT1B4bG9uVEowZDZIbVg3cG9r?=
- =?utf-8?B?NEZnNHlWckp3bjhiblZ0ZVZVaTlobWhFWjkwUFU3THIzdWV6TS96bnp2TElk?=
- =?utf-8?B?aUZzZ1JCcEQ3ZG9rL2hEd0JUUUR3cXl4OGd4N0FucVlFMUt1TkhaaEhRTnYy?=
- =?utf-8?B?ZFJxUWtwR3o4Mk5Rd29mZ3NYMzhNc0hsTW00V1ZJdUR2U2pCaEFxK09nPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5107.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005)(7416005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M1dJZ2tBcE55Y2EwcnNXSjNjSEhBeGprREZMUENmaDYvTWxLZEFYRnBWYjZz?=
- =?utf-8?B?cjZxM0F0Z2dROE1OVURIN2RVK0s2ZFRobTNyRnA1cFppWDU2bXJPNE53WFgv?=
- =?utf-8?B?M2VCOVowZkwvQUZhTi83YXBzMWdLYmJuakdKZndaczI3L2pYeHFFOWlEaTRV?=
- =?utf-8?B?TlVFMVhvL01jZlNnL3RQaHVRYnZlbFg2YjhtYlYyWGV4bi9ZZ3lPdHRHM3Az?=
- =?utf-8?B?QWs3WnVrajNDeXEzdUtqRXU3Yms5bTd1azJmVk81QW5nSTAzRDNDeWhwMWRM?=
- =?utf-8?B?bUlVcWVsUWlpSWI0dTcrWkNUR0hYSXpSajJ3MFJqc3gxeXBhdHp6R2R3bjdC?=
- =?utf-8?B?OVNiUDVKYk5XbEVQZHZsaGlyTTgzZjlzMlNrWHhIb1NaWEVMUFZRT1pPTkxo?=
- =?utf-8?B?RG9IUzE4aURnR1RyeXNHdVVCNzg1MXhIMWh6anhHdW82WHMrMXFma0hjNDhQ?=
- =?utf-8?B?TDYwNXIrbWVZL0JWM3phWHlGTkl5czVzWUlQajlzVHg3OWJBc01BZzNxNUpD?=
- =?utf-8?B?RERPWmxTNzRVc0VqNFd1TDUxVEt3YWJCU3pvOUxkbUxCWFRWb1B4WHZaeVRH?=
- =?utf-8?B?MmxOS2U0aGFSVFRpVDQyaWxPb1p4ODdoK0EwNWxQUHRHMmlyM05SdzB0b3Vo?=
- =?utf-8?B?dHVCVEdPMVptOTBpSGtYcWhaUXR1aFI0S2NlOExmVVQxVFRBUVY0V0dXSGNQ?=
- =?utf-8?B?ZG9GaHRhYWhpeExVck40UXZmL1Q1cTZUbUowUW16TnRacDYreCs4anNTRXF4?=
- =?utf-8?B?R0RBQVc0bUNqZTV6bkRQSFNlOUE0bkJTaXEwb21xSlZpRWVmWlF4NWRpL3k0?=
- =?utf-8?B?VDR5QWZ2KzhnbnlBYU1XUHpLYWc2NFEwOFIxWVhmZE8zOTR6SFV4UEJMWHFL?=
- =?utf-8?B?aHhmdTFncUN4OXVWbzNqMkE2QTNQQ01NSEJGQlVPMjN5R3JBaHMxZXdlSVA4?=
- =?utf-8?B?R3YvRVNoOHJSdk8rakR0QWdrTXd0TWRoSjQ1djRvV0gzY2JMbTZFRVRub01u?=
- =?utf-8?B?NlVKaW9veGEraDZaenJ5TFRzUmpvNS8rUWhLNitEMXhwSjRZNTRGSmZzZEtq?=
- =?utf-8?B?akxjTTBEa1paZXcwL2VBaDE2d0ZiN2NBQ3lBZ3VOMzFBM1huMGRQVGlyclJK?=
- =?utf-8?B?VHJwbDdpNWhpOTdMSXJraFU4SXJnSWdjZGp1OVo5MDdnYnlkRGllRFNtK3Nl?=
- =?utf-8?B?UVBmVU9GcS9nbENEMnJMUkd5OTJYMUcwQkVWd284aHNSYmNmVGo3WDJBdktj?=
- =?utf-8?B?R1JKcnoxNXBvektsalJtYm9qWE9JaTh4cUpFM0taem15dk9uRHNCSjg1YkRK?=
- =?utf-8?B?N3ZFem5pSkZzTHdYbmhiY3ZFcXg4dEZENVgyR3FWdFJyTE5rZU9EOCs5c2x6?=
- =?utf-8?B?RnhHa3R3WHByT2ZUYTA2VW5idVhDSmFLbTMvcDRIa2RpNVZUM1RkREVTZElu?=
- =?utf-8?B?UVpPaWhhNjV4ZmhQM0dKMzBJVTB0NFFwemNRSnh1WDhoSy9JNENnb1VXaHJK?=
- =?utf-8?B?Y2FqcER3WWticE85Y2VIaTRxL29XbU1VTHNrZTVkVDc1ZllqY2U4SCtyOGtp?=
- =?utf-8?B?K0RlK1BveVBtOFJyUEliSW1TVUVEamNsUlVZa3R0T080TGRwZ3FiNXEyVVA3?=
- =?utf-8?B?TVAwQjcxMXJhY2MraEdFL1NObTlyREI1WVA4VlVnWXdLR1hKaEVuK01PZGF0?=
- =?utf-8?B?T25Ub2g0L3ltcU9XOTFvdVNYdTYwMHNxY3BaeDV5b2FOdExwZ1FiNjRNVXY2?=
- =?utf-8?B?RVd1Nmk3b2pTclY4eVdMbERvajFRWTQvMytNTEx5Nks5OEMxcGJIODhsRFNo?=
- =?utf-8?B?bTJDb21pVUNMV1BDTWlIcENNVG1pUlFVU2F1UjVNQnM5VTZsK3VQVi92dkx2?=
- =?utf-8?B?QnlULzJhQnFVd3RQQTUvUWkwa1lCQ3dqVTdwRkdiWDg2SDZnUWkwRzZRaDV2?=
- =?utf-8?B?TXd1NXdXY0k0R0FvNVdsVDIxalhhNzlmYUJIZWl3b1k5V2NndXVHY1VyWm9O?=
- =?utf-8?B?Tjk5bUZlNzFOTmJxMnFFbnV6OGF1ZGg0SkpPNkdDTUNidnRjdnJsbVlOWGNK?=
- =?utf-8?B?TG9UNXBwS1o4SEdCYndib2EwZU55ekJqSFlkeitrY2xWeXVZMDhoRTRDcTUv?=
- =?utf-8?Q?9Qo6Kb1+stuDKZxGQX95I0I9O?=
-X-OriginatorOrg: volumez.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dac32f5c-7002-4d7a-f21f-08dc83b8898c
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5107.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 10:32:58.7866
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zoYqfuv7pPX2JrRW+1eokv4dxkwZ1hBMS2yct+zzmfhasAzYM4Y/XtTENQsmKbBWAHDaADjyGy28pXDqE47Zlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11029
+In-Reply-To: <20240601054701.GA5613@lst.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHd+5tby9OSFeQHWAyUkkcEqBVigcGbAmM3Ag69jJOY6CDKyCl
+	bdoizi1bEXDQjbeFWYExROQlRGgWysMQHjJBRhwClilDUjYGE8pLtjBgLReN/31+33N+7/xI
+	nHed40wmSFW0QiqW8IldrJ+6Pd7yCqs6fUawsroPNfbfwdHFvA0c1T3OJdBc9xJAReZ/cWTq
+	/Aag9cEhHOnvTABUXlHKQsZOA4baKwowVFPXi6GrxWkY6t16SqCCrlGApkd0GOoY90Q/Xqpk
+	ofaOuyw03FpCoB+qpjnoRt8mhvIzRzDUYkoFqGFugYV+HndBQxt97HddqOEH4VR/BaQMuscc
+	amjiFosaHkymmmqzCKq58mtqpvkKoNqMaoK6llPIprLT5gnKkPE7m1qcHmdRC7dHCCpHXwuo
+	e+U9nEj7k4mB8bQ4lla40dIYWWyCNC6IH/5RVEiUyE8g9BL6o8N8N6k4iQ7ih0ZEeoUlSCzD
+	4budE0uSLVKkWKnk+wQHKmTJKtotXqZUBfFpeaxE7iv3VoqTlMnSOG8prQoQCgQHRZaP0Ynx
+	xrV6XK53PG9Qa3A1aOBpgA0Jub5wYWOcZWUetw3A4jpPDdhl4SUAq41m4oUx3ToGNIDc9vi+
+	3IXRDQBmG9IxxlgGcLJnHLeGYnHdYeb6M8zqQHA94cAWaZUduHw4PTsIrIxztQTc0rlY2Z4b
+	BB8Z0jlWtuWGQM3NX9gMvwbvXjFtV2djCbOVVcay5oLcbhtYrF7FmRZC4dMnjzgM28PZPv0O
+	O8Pl+Q6C4RRYc7maYJzTAdSN6QDz8A7M6M/FmYriYf53uWxG3wu1/Q0Yo9vB7HUTxui2sKXs
+	Oe+D9Y3lOwmc4Oha6g5T8B9DEYuZSj2A2sJMkAdcdS91pHspH8MBMMt80cKkhV3gjU2SQQ/Y
+	2OpTDti1wImWK5PiaKVIfkhKp7xYcowsqQls38uB8BYwNWn27gIYCboAJHG+g23OV6fO8Gxj
+	xZ9foBWyKEWyhFZ2AZFlQfm4854YmeXgpKoooa+/wNfPz8/X/5CfkP+67VxGaSyPGydW0Yk0
+	LacVz/0w0sZZjb0nQidHP/6vLUtysPJIxG52WrNaqx345Bbvr0vVwYE+JZKZ/pnmtxtOzM27
+	hx6btdfrucvHg7X3H+ZoTkx0NmUeKZy3Xzmv+yJHL8j+M6YwoyAsYtgMvDP17qbotr72cyub
+	xN6JJfKD0T+qJn1MxoCzu/Ubixd0ZYtRutknzbMxqa7Hist//XDt6LPj1Gqz/5RScjXvjW+F
+	sOhU18M3Py0tM3V3hxyVgmDDkpvA10MD3/dTO4X08FJXzKU1Zx1faT1sU8ZZfjCWYzfQc+3m
+	7czeXNeUtLXl03bZX/69qBjec490d7xfMph62Ri91eiwXxTx6vXfCj+bj7Hr3L/iTU7hcxl8
+	ljJeLDyAK5Ti/wH/DoZ6uAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHe897dnY0xOOsfGtFsRJKa2ZEvZGZIOWhqwZBF8yGntRyKptK
+	N0ydWY4yXVG6zKaGppKR95W3vJXpWmaGqSnaVpYsL6BdbFpzRH378/yf3+/58tBQMEQuoUPD
+	ozhZuCRMRNmSFY2i5esCc/xPrC9+vQY/fNECcUKqGeKi99coPNI4AfDNsR8QG+ovATyt00Nc
+	1tIPsCbnDonf1WsJXJ2jInBBUTOBb99SELh51kRhVcNbgI1dagLX9Lji7KR7JK6uaSVx5+NM
+	Ct/NM/Jx/rMZAqdd7iJwlSEe4OKRURI/7xFivfkZz0vIdr7Zzb7IQaxW/Z7P6vsfkWynLpot
+	KUym2NJ7F9jh0gzAPnkXR7G5Kdd57FXFV4rVXhzgsePGHpIdre2i2JSyQsC2a5r4vo5HbD2C
+	uLDQGE7m5nncNiTtzSSM/Oh4+pUpHsaBn/ZKQNOI2YjSNUIlsKUFTCVAU0kaoAQ2f+aLUZ65
+	CVqzIyqY+cS3Lo0DlParl7IUJLMKXZ6eIiwiinFFbbO0ZbyAESHjF92cBzIZFGq/K7VkR2Yb
+	6tMm8i3ZjvFGygcveVZnMUATug7KWjig1gwDaYU3oazSQWjxQ0aI8mfm/DZ/Ts0mZ5GpgFH/
+	R6j/I9T/CA2AhWAhFymXBksDI93FcolUHh0eLA6MkJaAuTdwOVAF8h6axQ2AoEEDQDQULbBL
+	iT16QmAXJDlzlpNFBMiiwzh5AxDSpMjJbmVYcpCACZZEcac4LpKT/W0J2mZJHOEcXxck2Pnj
+	RsXgMpW9h+LLPi+uT/C5XjI0lPi0dsywM9VZNfw6pm7qW1tiwOihRZPrH+gdmkM2+/Wq0n+2
+	d7tFB4bejPWpluY2yUIcYMyq4fjpiOzTwerNHU3MYdGy3pbDWr/z4+f3KHwmfHJXCCeieN6v
+	GpeuXVq+McVTW1F00XQrf/7qWuPKgYCWc7vGElCsl7D8ujIrs1vX4X7QO1Fvr1gBObHO5Jm9
+	/9jyAH/z99X9hbvNb8XqHsP4d+xrSuoe0eaNeoSehO5tNbvcPsw7g2euODlzGemyrcIhp0d1
+	8ytbJ/f2VSTlZm7ZMLCDBE8y2xNcpxy2p7sUzLvf9WtQRMpDJO4uUCaX/AYjgqMpdQMAAA==
+X-CMS-MailID: 20240603110051epcas5p1210a0ffdd361216c504cc342c8d4f247
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102747epcas5p33497a911ca70c991e5da8e22c5d1336b
+References: <CGME20240520102747epcas5p33497a911ca70c991e5da8e22c5d1336b@epcas5p3.samsung.com>
+	<20240520102033.9361-1-nj.shetty@samsung.com> <20240601054701.GA5613@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240603_033321_505989_E52108EC 
-X-CRM114-Status: GOOD (  24.66  )
+X-CRM114-CacheID: sfid-20240603_041736_459905_13611BBB 
+X-CRM114-Status: GOOD (  21.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -177,73 +148,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-
-On 30/05/2024 20:58, Sagi Grimberg wrote:
-> Hey Ofir,
+On 01/06/24 07:47AM, Christoph Hellwig wrote:
+>On Mon, May 20, 2024 at 03:50:13PM +0530, Nitesh Shetty wrote:
+>> So copy offload works only for request based storage drivers.
 >
-> On 30/05/2024 16:26, Ofir Gal wrote:
->> skb_splice_from_iter() warns on !sendpage_ok() which results in nvme-tcp
->> data transfer failure. This warning leads to hanging IO.
->>
->> nvme-tcp using sendpage_ok() to check the first page of an iterator in
->> order to disable MSG_SPLICE_PAGES. The iterator can represent a list of
->> contiguous pages.
->>
->> When MSG_SPLICE_PAGES is enabled skb_splice_from_iter() is being used,
->> it requires all pages in the iterator to be sendable.
->> skb_splice_from_iter() checks each page with sendpage_ok().
->>
->> nvme_tcp_try_send_data() might allow MSG_SPLICE_PAGES when the first
->> page is sendable, but the next one are not. skb_splice_from_iter() will
->> attempt to send all the pages in the iterator. When reaching an
->> unsendable page the IO will hang.
+>I don't think that is actually true.  It just requires a fair amount of
+>code in a bio based driver to match the bios up.
 >
-> Interesting. Do you know where this buffer came from? I find it strange
-> that a we get a bvec with a contiguous segment which consists of non slab
-> originated pages together with slab originated pages... it is surprising to see
-> a mix of the two.
-
-I find it strange as well, I haven't investigate the origin of the IO
-yet. I suspect the first 2 pages are the superblocks of the raid
-(mdp_superblock_1 and bitmap_super_s) and the rest of the IO is the
-bitmap.
-
-I have stumbled with the same issue when running xfs_format (couldn't
-reproduce it from scratch). I suspect there are others cases that mix
-the slab pages and non-slab pages.
-
-> I'm wandering if this is something that happened before david's splice_pages
-> changes. Maybe before that with multipage bvecs? Anyways it is strange, never
-> seen that.
-I haven't bisect the commit that caused the behavior but I have tested
-ubuntu with 6.2.0 kernel, the bug didn't occur. (6.2.0 doesn't contain
-david's splice_pages changes).
-
-I'm not familiar with "multipage bvecs" patch, which patch do you refer
-to?
-
-> David,  strange that nvme-tcp is setting a single contiguous element bvec but it
-> is broken up into PAGE_SIZE increments in skb_splice_from_iter...
+>I'm missing any kind of information on what this patch set as-is
+>actually helps with.  What operations are sped up, for what operations
+>does it reduce resource usage?
 >
->>
->> The patch introduces a helper sendpages_ok(), it returns true if all the
->> continuous pages are sendable.
->>
->> Drivers who want to send contiguous pages with MSG_SPLICE_PAGES may use
->> this helper to check whether the page list is OK. If the helper does not
->> return true, the driver should remove MSG_SPLICE_PAGES flag.
->>
->>
->> The bug is reproducible, in order to reproduce we need nvme-over-tcp
->> controllers with optimal IO size bigger than PAGE_SIZE. Creating a raid
->> with bitmap over those devices reproduces the bug.
->>
->> In order to simulate large optimal IO size you can use dm-stripe with a
->> single device.
->> Script to reproduce the issue on top of brd devices using dm-stripe is
->> attached below.
+The major benefit of this copy-offload/emulation framework is
+observed in fabrics setup, for copy workloads across the network.
+The host will send offload command over the network and actual copy
+can be achieved using emulation on the target (hence patch 4).
+This results in higher performance and lower network consumption,
+as compared to read and write travelling across the network.
+With this design of copy-offload/emulation we are able to see the
+following improvements as compared to userspace read + write on a
+NVMeOF TCP setup:
+
+Setup1: Network Speed: 1000Mb/s
+	Host PC: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+	Target PC: AMD Ryzen 9 5900X 12-Core Processor
+	block size 8k:
+	Improvement in IO BW from 106 MiB/s to 360 MiB/s
+	Network utilisation drops from  97% to 6%.
+	block-size 1M:
+	Improvement in IO BW from 104 MiB/s to 2677 MiB/s
+	Network utilisation drops from 92% to 0.66%.
+
+Setup2: Network Speed: 100Gb/s
+	Server: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, 72 cores
+	(host and target have the same configuration)
+	block-size 8k:
+	17.5% improvement in IO BW (794 MiB/s to 933 MiB/s).
+	Network utilisation drops from  6.75% to 0.16%.
+
+>Part of that might be that the included use case of offloading
+>copy_file_range doesn't seem particularly useful - on any advance
+>file system that would be done using reflinks anyway.
 >
-> This is a great candidate for blktests. would be very beneficial to have it added there.
-Good idea, will do!
+Instead of coining a new user interface just for copy,
+we thought of using existing infra for plumbing.
+When this series gets merged, we can add io-uring interface.
+
+>Have you considered hooking into dm-kcopyd which would be an
+>instant win instead?  Or into garbage collection in zoned or other
+>log structured file systems?  Those would probably really like
+>multiple source bios, though.
+>
+Our initial few version of the series had dm-kcopyd use case.
+We dropped it, to make overall series lightweight and make it
+easier to review and test.
+When the current series gets merged, we will start adding
+more in-kernel users in next phase.
+
+Thank you,
+Nitesh Shetty
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_
+Content-Type: text/plain; charset="utf-8"
+
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_--
 
