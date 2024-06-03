@@ -4,77 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36082C25B78
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 21:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 761D8C25B78
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 23:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uY599MDCIjCv3UIyzbwe3bA9VXqb6OB7ySlkBu+KXLw=; b=RTPoNPL/ufGh0wyg1guaokEA/6
-	NbImoJN2Ax/mVSfsecS2xsti5liMdAvQCYNFVoFyJySNUTFfDUVKzpCdtY3T7Zhejgkv0uIcMF7jB
-	YsSRXpWeJv6KmGOV9qCztFA8dPQWb5cH4xVCAh2OdNQqi9ARoPBk4uiHLyMhv0ox+pHD8cEwZdLp5
-	hxfMTQIzCd5IDpMRYgC9AKyGwmUJj8MmbHey1EbrUaYHrLZ+W/kMcy3Ja/qTVLwnryseFb4DUaa0Y
-	SM1p1gCwrncz/+W0vDRlwwxVoMfSd0OmvE6pbaucBGZF9oft/7LoguOISRxrrXy7yaw+IbghdMdE6
-	i0ZmlbCA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8rDoOZSB8zD1s4PE1bgGnGX+FK0D4ijkDneNUNzad0Q=; b=PQAT9ZWS0L6/V1kKQNRZ3uIkj9
+	iQVczstbpgSVill9lCysfHpYXEVBGwJovJ8CFdvtv2YMOxoeJ3Og4WTQmFQlIDozWUJ7nBUigm639
+	RwcebRABg9X6zDEZQoT6fK76OxG1hX6CjorN4T/GsK+QdmV9MbaIr85zPaVZIHAJeHs0Qnt0d6bte
+	kDF+mhrDs6T/Xm67ObyFOQVC+30G865zT0uyR3ujEDmC7OUysQ97Ff9CtcUvmFoxbJICd/0mXW2lA
+	I3+8duBivkSuPISMY4w0WDky2h8mMhwxUCrv2rVuD9SW+TGE40lwIo4CNy88obTE2M/iESK9rLZoe
+	amebi87g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEFD2-00000000OTZ-3tQp;
-	Mon, 03 Jun 2024 21:27:16 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1sEGkL-00000000a5y-3sUL;
+	Mon, 03 Jun 2024 23:05:45 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEFCy-00000000OTF-46kY
+	id 1sEGkJ-00000000a55-0ZeD
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jun 2024 21:27:14 +0000
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-35e7dde6223so13292f8f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Jun 2024 14:27:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717450030; x=1718054830;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uY599MDCIjCv3UIyzbwe3bA9VXqb6OB7ySlkBu+KXLw=;
-        b=RjZtIZYDLBj5MYGPi3hEFR3mcFD0xpS95f7STKLeIr2bGCRJdQH6b0RpLmEJmcIDG9
-         fCwXRq3zZC+55NuA/EfrWYywG2Kj4Kh1OUTY+7/bkeh/t+XbugawkD+9qlnQj3AU767+
-         yqdRIxKjVZm6Ww3YsjF/pae6rgwNRTyKlMqHLVVc6d40iqHPONblfvfzSiBNg2zpxqIv
-         8vDaJcdkDNXjgNfP2pMoU30pcEJ/TM4M6JD/FKMTc/MJMm/YPCDsWjFEytHYuzsYleJ6
-         +GhkQcuKwesWSMdX7pswlbsxIYaGykDauajlW0+vJNFJAkh/eAk0DQvb4gtVjDlf0n+U
-         c90w==
-X-Forwarded-Encrypted: i=1; AJvYcCW3sOU8lRH+/O5Za9s1IYP4hlw53Aub4NAnz9eNWkIyGot5QKS73aHU/t7dCXwTC/KQiMGde6g7/vWZZID+Fpj6ivvSATHCCL+XfZoM2n8=
-X-Gm-Message-State: AOJu0YwzXeVuODp8R45lVtL6aqyYUDWv8i8UZt7BbhsaQCkphaTVbEYq
-	BjaDBHGO/3B2uXhUVkicTn+JEtOkx3Jiz4zjKvHy+K7eoRMrP1fX
-X-Google-Smtp-Source: AGHT+IH46P8IN4JrAN5hCuulfHxINGqT3MUA6PYnKCaDFijovEp8eZHOBGyMyXYbErBqqHO2JIAUtg==
-X-Received: by 2002:a05:600c:1c1e:b0:421:2c02:9779 with SMTP id 5b1f17b1804b1-4212e0c55c3mr82014925e9.4.1717450029553;
-        Mon, 03 Jun 2024 14:27:09 -0700 (PDT)
-Received: from [10.100.102.74] (85.65.205.146.dynamic.barak-online.net. [85.65.205.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42134f12e72sm100165345e9.34.2024.06.03.14.27.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jun 2024 14:27:09 -0700 (PDT)
-Message-ID: <86e60615-9286-4c9c-bffc-72304bd3cc1f@grimberg.me>
-Date: Tue, 4 Jun 2024 00:27:06 +0300
+	Mon, 03 Jun 2024 23:05:44 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 453N1kt4027143
+	for <linux-nvme@lists.infradead.org>; Mon, 3 Jun 2024 16:05:41 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc :
+ content-transfer-encoding : content-type : date : from : in-reply-to :
+ message-id : mime-version : references : subject : to; s=s2048-2021-q4;
+ bh=8rDoOZSB8zD1s4PE1bgGnGX+FK0D4ijkDneNUNzad0Q=;
+ b=Aae7zfATGU02nNYc4YNF7c2CEVcT65wiHrXfp5a47KuOBxs0A9wyeqZeWbR3zgDYhhZs
+ WtCuzWdlLYgIo5aGyEpwIuMHKgriofRJMTM14zHvp/auCcrBSlQ5qH576TQyhR6GmNJE
+ 2X9Jotto0G6mnaOmkq+zVirDPztx6OYZsF9CCSuLSUotylBUfEQhxPjMR5OvxALDgkz+
+ DwoO/DPDmMG6mOPLzYM0uzXCHLKMP6wHpb+XJA5Dl3d3Nbhacts2Xjep9nwc+jZ8F6mD
+ ShKWPMvM9ArzIhtO++tZgIhChE8cPDqDSpr1JbKLPq/MuVMHJzKhmre7ihL7gXgzgn7y lw== 
+Received: from mail.thefacebook.com ([163.114.134.6])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3yhq5180qe-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 03 Jun 2024 16:05:40 -0700
+Received: from twshared10578.05.ash9.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Mon, 3 Jun 2024 23:05:29 +0000
+Received: by devbig032.nao3.facebook.com (Postfix, from userid 544533)
+	id D2CAA3481EB7; Mon,  3 Jun 2024 16:05:25 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <sagi@grimberg.me>, <mlombard@redhat.com>, <hare@suse.de>,
+        <shinichiro.kawasaki@wdc.com>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH-RFC 1/5] nvme: apple: fix device reference counting
+Date: Mon, 3 Jun 2024 16:05:19 -0700
+Message-ID: <20240603230524.3854115-2-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240603230524.3854115-1-kbusch@meta.com>
+References: <20240603230524.3854115-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] net: introduce helper sendpages_ok()
-To: Ofir Gal <ofir.gal@volumez.com>, davem@davemloft.net,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, ceph-devel@vger.kernel.org
-Cc: dhowells@redhat.com, edumazet@google.com, pabeni@redhat.com,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, philipp.reisner@linbit.com,
- lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com,
- idryomov@gmail.com, xiubli@redhat.com
-References: <20240530142417.146696-1-ofir.gal@volumez.com>
- <20240530142417.146696-2-ofir.gal@volumez.com>
- <8d0c198f-9c15-4a8f-957a-2e4aecddd2e5@grimberg.me>
- <23821101-adf0-4e38-a894-fb05a19cb9c3@volumez.com>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <23821101-adf0-4e38-a894-fb05a19cb9c3@volumez.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: eT108OuHCk3Vv7pl8-jvYFGY8mUjoZ6b
+X-Proofpoint-ORIG-GUID: eT108OuHCk3Vv7pl8-jvYFGY8mUjoZ6b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-06-03_17,2024-05-30_01,2024-05-17_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240603_142713_114390_BC0FB3CD 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20240603_160543_408806_608AF4C4 
+X-CRM114-Status: GOOD (  17.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,38 +85,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->> I still don't understand how a page in the middle of a contiguous range ends
->> up coming from the slab while others don't.
-> I haven't investigate the origin of the IO
-> yet. I suspect the first 2 pages are the superblocks of the raid
-> (mdp_superblock_1 and bitmap_super_s) and the rest of the IO is the bitmap.
+From: Keith Busch <kbusch@kernel.org>
 
-Well, if these indeed are different origins and just *happen* to be a 
-mixture
-of slab originated pages and non-slab pages combined together in a 
-single bio of a bvec entry,
-I'd suspect that it would be more beneficial to split the bvec 
-(essentially not allow bio_add_page
-to append the page to tail bvec depending on a queue limit (similar to 
-how we handle sg gaps).
+Drivers must call nvme_uninit_ctrl after a successful nvme_init_ctrl.
+Split the allocation side out to make the error handling boundary easier
+to navigate. The apple driver had been doing this wrong, leaking the
+controller device memory on a tagset failure.
 
->
->> Ofir, can you please check which condition in sendpage_ok actually fails?
-> It failed because the page has slab, page count is 1. Sorry for not
-> clarifying this.
->
-> "skbuff: !sendpage_ok - page: 0x54f9f140 (pfn: 120757). is_slab: 1, page_count: 1"
->                                                                   ^
-> The print I used:
-> pr_info(
->      "!sendpage_ok - page: 0x%p (pfn: %lx). is_slab: %u, page_count: %u\n",
->      (void *)page,
->      page_to_pfn(page),
->      page_address(page),
->      !!PageSlab(page),
->      page_count(page)
-> );
->
->
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/apple.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index dd6ec0865141a..b6ac8a1630b2b 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1388,7 +1388,7 @@ static void devm_apple_nvme_mempool_destroy(void *d=
+ata)
+ 	mempool_destroy(data);
+ }
+=20
+-static int apple_nvme_probe(struct platform_device *pdev)
++static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
+ {
+ 	struct device *dev =3D &pdev->dev;
+ 	struct apple_nvme *anv;
+@@ -1396,7 +1396,7 @@ static int apple_nvme_probe(struct platform_device =
+*pdev)
+=20
+ 	anv =3D devm_kzalloc(dev, sizeof(*anv), GFP_KERNEL);
+ 	if (!anv)
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+=20
+ 	anv->dev =3D get_device(dev);
+ 	anv->adminq.is_adminq =3D true;
+@@ -1516,10 +1516,25 @@ static int apple_nvme_probe(struct platform_devic=
+e *pdev)
+ 		goto put_dev;
+ 	}
+=20
++	return anv;
++put_dev:
++	put_device(anv->dev);
++	return ERR_PTR(ret);
++}
++
++static int apple_nvme_probe(struct platform_device *pdev)
++{
++	struct apple_nvme *anv;
++	int ret;
++
++	anv =3D apple_nvme_alloc(pdev);
++	if (IS_ERR(anv))
++		return PTR_ERR(anv);
++
+ 	anv->ctrl.admin_q =3D blk_mq_alloc_queue(&anv->admin_tagset, NULL, NULL=
+);
+ 	if (IS_ERR(anv->ctrl.admin_q)) {
+ 		ret =3D -ENOMEM;
+-		goto put_dev;
++		goto out_uninit_ctrl;
+ 	}
+=20
+ 	nvme_reset_ctrl(&anv->ctrl);
+@@ -1527,8 +1542,9 @@ static int apple_nvme_probe(struct platform_device =
+*pdev)
+=20
+ 	return 0;
+=20
+-put_dev:
+-	put_device(anv->dev);
++out_uninit_ctrl:
++	nvme_uninit_ctrl(&dev->ctrl);
++	nvme_put_ctrl(&dev->ctrl);
+ 	return ret;
+ }
+=20
+--=20
+2.43.0
 
 
