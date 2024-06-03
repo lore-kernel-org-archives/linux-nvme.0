@@ -4,95 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EC47C25B75
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 08:53:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A14ECC25B75
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jun 2024 09:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UE3hniQGCsIs630o54C9/tJnbA+j6SzkBWCO12D2YII=; b=l7IJv1AJWld9zwxm0CGDu0ecy9
-	QTM9lhiItgtXrC3+7RC2kV6JaG/BL6zZEVG0EpLsETX0k0uzfcLtSVaTTzdJI/wPZhrt7gmHiHvtt
-	7ekHPY1wUwkhk+po+kRahyzrqLql7XARyeb2o16p8lD3/8gv9+dwZ3tmzJoNvP0UK7G3WkRe+laom
-	rig4onMo1zQUwurAkv6HqS9HwsW2I+Qe5QpFdHgf7LXISGKHpZmHvX/XVhmq3LE5e2k1py7TrbHZN
-	qiSGibchGJGNDrvwlsW13PaIyODDP/LtNTcuX0lGaBjm/DiT4FFz+7LN5sX644TLH1+Piu5l8+z8j
-	2nx4670g==;
+	bh=eSDgE8l46R7RpNxPmAdHDdwYh7tkrvI5HLTyxSYp75U=; b=oPZjz7XloAO0eU78J94fmqku1Z
+	LASq6Nflj2YyiM/kew4kUtRkbOa2WZ5hC4wX5j8TZkEVRVoR7SJzFvQ3+O+qd1Z9XjmiFCoVPM29w
+	b6REE6zWrswCRx8li3ZVkSWT3KJGHiIwtrpHX2Uo2ZeLCbDeZtC8CxQaPpCacYIkWJXlUMM8Eqyq0
+	W30oVfCLClmDHWTCDW/7pY/E5qe1M0r6o01Ydhu7oo71VsIq9Jii3OTj0fBCOioZ+lQXdOsn9DimG
+	SZoQbZhRIAI1+CHx+MyRiVN4D36Pdry3Gr45exCUQWZljpLNKLO4x8Ef53pZ5lsWV38esLYxiABUT
+	/tfJuKPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sE3RI-0000000G6ZJ-3rrP;
-	Mon, 03 Jun 2024 08:53:12 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1sE3fh-0000000G8ow-1AVx;
+	Mon, 03 Jun 2024 09:08:05 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sE3RF-0000000G6Xn-2N3R
+	id 1sE3fc-0000000G8oB-2Nf8
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jun 2024 08:53:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717404785;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Mon, 03 Jun 2024 09:08:02 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 06AF420010;
+	Mon,  3 Jun 2024 09:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717405678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UE3hniQGCsIs630o54C9/tJnbA+j6SzkBWCO12D2YII=;
-	b=KmFzoyutzx2e7bPkk4Lsbdo7LQVHHeoWEn8WyKWc4Ks9Dl/F3EXSQt04iXB8I64jg3i4wn
-	D6L5/+LhHIl/VFTtwNrDl1jojR/MCximkmTeu7JBAayvPzuFT/sK0ZSgdLJq2SwZS49hFb
-	GUt01NWVtfVmlVrJONWv41wq9sqiHkQ=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611-vq_J0908PVK0H0dHYL2WjQ-1; Mon, 03 Jun 2024 04:52:58 -0400
-X-MC-Unique: vq_J0908PVK0H0dHYL2WjQ-1
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-48beba4bc51so165764137.3
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Jun 2024 01:52:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717404777; x=1718009577;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UE3hniQGCsIs630o54C9/tJnbA+j6SzkBWCO12D2YII=;
-        b=Vrfrz/oqkHAqcC7gUHmPtBEqkymXU60WSyjLY8H9EzETnpmqTdRs3OqIHhCv4jNt6v
-         xjwKR5AclnntuepcOuvzl/yR55gk2gDNkFqcXuYgrK+/OA5FYY9iDBIOgjlynC+9KcQv
-         Gf7kxWZunY2uOllrFhGXszqLNugWy7RLVHN/6zrjJOGdOzQsJJBqCSLSq5CLHgHRofTu
-         TaOsamUniOgyQgEeB9jvPIiMYaptNrJVNcGF+5gcfONVuZ7/tA6laD7eDCOsAfZUB4gD
-         m/Ct7yV24IJKPfcRvUvpAZZSfd0iyXZTLWEc1hXUKbJ09UyaD75bMt92GFXeAweD9ijE
-         3ubw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZZzQwAACxVqDR4BEE1OKVxjolvf5Vll2rhoTs1w4yWC7q9ShI1R8ypsmr0jYCLsY0hjGM/wXlWVJ7ux1I8BHd/yIS83ppkCt45wGCVi4=
-X-Gm-Message-State: AOJu0YyuX0Njpbt1YfjtIukoONaIioyoeUcCbjvBQwPrhvqetqaon0wj
-	iU6cgH+sb1ocM9FpB8Y1jzA0cU8u9ortY111BaV1FN5IQqzvB52/MGUVWWdXZquNSPGUfhY+W7U
-	gi0BYwDiaRQfGfJUk9DiRIQDd2imQqoqBpF41/RgYJE2jmPMAH7jH2qwEuGgwOGaLG9Z3nyNuG/
-	kn1KYfysAhuk3GeeB8MJZJyU/HaLq8w5PIGsNJ7HCS00WMY/M=
-X-Received: by 2002:a67:ff9a:0:b0:48b:a6ec:5403 with SMTP id ada2fe7eead31-48bc20c8ecemr7614481137.9.1717404777495;
-        Mon, 03 Jun 2024 01:52:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFt6ZmqSpx2QGqmE+Gng+Uu3QbDyZwrKNZzYx91vDXAleU2bf4C8prPoj1NJdi3Yn/FVGT+5bELzz0Hxu5VeMc=
-X-Received: by 2002:a67:ff9a:0:b0:48b:a6ec:5403 with SMTP id
- ada2fe7eead31-48bc20c8ecemr7614466137.9.1717404777179; Mon, 03 Jun 2024
- 01:52:57 -0700 (PDT)
+	bh=eSDgE8l46R7RpNxPmAdHDdwYh7tkrvI5HLTyxSYp75U=;
+	b=EFaWHWyDM1b5NdDa9MadJ0vfSn36GBj93Cdo8NnNX8E9eQTf6WtvWeEp41mvs3XVDOSUGi
+	4UBndJfX+eQjWfvhwcbhHy1tL7t6i50sMXcm1aFG0COO/5WuSOuDiUVkGhIWAKlh927lod
+	refa9WP2WjR2scL28HAYg6wgC70Aigw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717405678;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eSDgE8l46R7RpNxPmAdHDdwYh7tkrvI5HLTyxSYp75U=;
+	b=Xcyh93ycKFGruh6MNLpCiNc/sPEjWrMG706NVPeNbLQVVxyTyY5LY7MiNck61gKko8W4bu
+	SNHTdMnprM4QlMAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717405678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eSDgE8l46R7RpNxPmAdHDdwYh7tkrvI5HLTyxSYp75U=;
+	b=EFaWHWyDM1b5NdDa9MadJ0vfSn36GBj93Cdo8NnNX8E9eQTf6WtvWeEp41mvs3XVDOSUGi
+	4UBndJfX+eQjWfvhwcbhHy1tL7t6i50sMXcm1aFG0COO/5WuSOuDiUVkGhIWAKlh927lod
+	refa9WP2WjR2scL28HAYg6wgC70Aigw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717405678;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eSDgE8l46R7RpNxPmAdHDdwYh7tkrvI5HLTyxSYp75U=;
+	b=Xcyh93ycKFGruh6MNLpCiNc/sPEjWrMG706NVPeNbLQVVxyTyY5LY7MiNck61gKko8W4bu
+	SNHTdMnprM4QlMAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76FE213A93;
+	Mon,  3 Jun 2024 09:07:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IgRyHO2HXWY4egAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 03 Jun 2024 09:07:57 +0000
+Message-ID: <05d5fd1a-9295-4753-a201-c9a968ee7982@suse.de>
+Date: Mon, 3 Jun 2024 11:07:57 +0200
 MIME-Version: 1.0
-References: <CAHj4cs9fu9-OcDAHq=WijeCia2ndphbpgA0YiPSSHQQLKBXBZg@mail.gmail.com>
- <CAFL455=iu16d1xkE9-ReZOrtcOQJ22Lt5vtsiHb5uTwCKJh+hA@mail.gmail.com>
- <CAFL455mZMka2J8d008JH+WQhDxP6D4dweFOWVQc58rOQk2ybzw@mail.gmail.com>
- <ff85fd7f-efc7-40d3-8c9a-e0189e3d71f2@grimberg.me> <ZldW7nNrqHCTYTEF@kbusch-mbp.dhcp.thefacebook.com>
- <93883147-490d-4065-a741-3e49288ea3af@grimberg.me> <CAFL455=ixC0S8aU+AouQFtDFN0bFdNgSXH0d9a2-VXegj8dPuQ@mail.gmail.com>
- <Zlipe2FVAIRmas1e@kbusch-mbp.dhcp.thefacebook.com> <CAFL455kq_prujkCbNUwJzpqhL1B_P_Yu+b83kBSc0FQRAhQs8w@mail.gmail.com>
- <CAFL455ndGuGRCv7X6S6qtiEi6KhBs_sxgeyfzoLCqu6i8TyNuQ@mail.gmail.com>
- <ZlngkgSTK6IPcVc9@kalibr> <8058afc6-8272-42fa-a024-e477a29148e1@suse.de>
-In-Reply-To: <8058afc6-8272-42fa-a024-e477a29148e1@suse.de>
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Mon, 3 Jun 2024 10:52:45 +0200
-Message-ID: <CAFL455na13RH=6x5oFbFWUccAXenVUBM9QVzAe2A=4Q9e8MMMw@mail.gmail.com>
-Subject: Re: blktests nvme 041,042 leak memory
-To: Hannes Reinecke <hare@suse.de>
-Cc: Maurizio Lombardi <m.lombardi85@mail.ru>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
-	"Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] bugfix: Introduce sendpages_ok() to check
+ sendpage_ok() on contiguous pages
+To: Jakub Kicinski <kuba@kernel.org>, Ofir Gal <ofir.gal@volumez.com>
+Cc: davem@davemloft.net, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ ceph-devel@vger.kernel.org, dhowells@redhat.com, edumazet@google.com,
+ pabeni@redhat.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
+ sagi@grimberg.me, philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+ christoph.boehmwalder@linbit.com, idryomov@gmail.com, xiubli@redhat.com
+References: <20240530142417.146696-1-ofir.gal@volumez.com>
+ <20240601153430.19416989@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240601153430.19416989@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-3.96 / 50.00];
+	BAYES_HAM(-2.67)[98.56%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[davemloft.net,vger.kernel.org,lists.infradead.org,redhat.com,google.com,kernel.org,kernel.dk,lst.de,grimberg.me,linbit.com,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240603_015309_875727_C4EAAC62 
-X-CRM114-Status: UNSURE (   9.51  )
+X-CRM114-CacheID: sfid-20240603_020800_793680_FA2D2AA0 
+X-CRM114-Status: UNSURE (   8.32  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,21 +141,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-po 3. 6. 2024 v 10:37 odes=C3=ADlatel Hannes Reinecke <hare@suse.de> napsal=
-:
->
-> On 5/31/24 16:37, Maurizio Lombardi wrote:
-> Hmm. Don't really like it.
-> We took great pains of moving then entire DH-CHAP code into its own
-> file, and this patch reverts it and is causing the DH-CHAP code to be
-> littered all over the place.
+On 6/2/24 00:34, Jakub Kicinski wrote:
+> On Thu, 30 May 2024 17:24:10 +0300 Ofir Gal wrote:
+>> skbuff: before sendpage_ok - i: 0. page: 0x654eccd7 (pfn: 120755)
+>> skbuff: before sendpage_ok - i: 1. page: 0x1666a4da (pfn: 120756)
+>> skbuff: before sendpage_ok - i: 2. page: 0x54f9f140 (pfn: 120757)
+> 
+> noob question, how do you get 3 contiguous pages, the third of which
+> is slab? is_slab doesn't mean what I think it does, or we got extremely
+> lucky with kmalloc?
+> 
+I guess it's not slab which triggered; the actual code is:
 
-This was just an example, I'm not asking to merge it.
+static inline bool sendpage_ok(struct page *page)
+{
+         return !PageSlab(page) && page_count(page) >= 1;
+}
 
-I just had to find a way to make it possible to call nvme_auth_stop() even
-when nvme_auth_init() has never been called without crashing the kernel,
-moving INIT_WORK was the easiest way.
+My bet is on 'page_count()' triggering.
 
-Maurizio
+Cheers,
+
+Hannes
 
 
