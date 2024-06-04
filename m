@@ -4,71 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 671E3C25B78
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 14:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32DD3C25B78
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 18:59:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lmQkvo1QjqVqq/0mlyFtK3ja/SzWD411cFlsyivogBw=; b=ZOfq64VWbRDvQfyjkDLzXYXN33
-	kXkJGxZ1EYfw2F+/8wn0M84f2IQFNY3+VhkzfgFzk6ZFD92Bl3vRJpn/m74SMa7cbJJEU/lbF6H8h
-	ctzaIRzwTRk6eBEopUM2BufoGiSuRluVftFXjzmcHqawR6lj7R6V+iw1eGKFt2HVMgnUddBW9IQgY
-	Osrlszc8NSU2/DlJPdPP5ww3Q/xdr64gt+nmSur+yCI5b7Hj3UXITkGjj9CCxj+//KEp4vV3pQi8n
-	+iyd070CNXVs/CR9J/zZKTV98YF/KYq2Kr7CBVlXpiblV0yMngAM4audI4+XieLs1uW3ZLSjs+6As
-	dPY/WulA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Dhu6TCWa3tk1q8AARlMASfQnsq213fkraJ14QbZnsQo=; b=G6owMa9UMTDXElZy0U02CncoWn
+	kcxsTx7L4Po5hQfXoMaT9/jtqrrl4B+uNAVvq8w9CctQG4C9akA/eRt8FFU6pI/HqfjjRN+VpRY7g
+	bEgtlF6Sb0YMMk01yseED/QKljQzGvT9yGHbvdvltjuGMO9SLuLRQZcdnPG0zxV+tvhtjZV9P20Xv
+	6EVjVggIBRoNK6O90BOyN1k/SkpztdvCwbbP7tGU2qV2Vqzp8hEmcCxZpbQgSoWBII+VfT3Gcqmq5
+	fVmuRk6lb3NMRTphUX6X8ACEus3r2m2AgDTz+bULy+s4lYJ5WOFtwrolFWoWJDYnA6f87uEaczztf
+	pP4GpHeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEVW4-00000002omt-0rY0;
-	Tue, 04 Jun 2024 14:52:00 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1sEZNk-00000003W13-2Smb;
+	Tue, 04 Jun 2024 18:59:40 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEVW0-00000002oln-37Ep
+	id 1sEZNh-00000003Vzz-1Sxs
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Jun 2024 14:51:58 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42111c2892bso6685895e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Jun 2024 07:51:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717512714; x=1718117514;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lmQkvo1QjqVqq/0mlyFtK3ja/SzWD411cFlsyivogBw=;
-        b=PxbHJv10+BFTRJ9mBTiqIAiCxjLV3AoNYExyr8/ZC0SQxTbazcjaTy4ySz1TYkB/mb
-         hXQiZ2g+ZVUoSf2akZMbqfXun/bIQGAFy2rv6rVd+P47qYgEeuRm5/eLA/ceSn9gFQet
-         BrLl65TZVi1iQUb7FBiJkfExlyQcUSmba9+v9yGEDcF3SrwMnCEZ9VYUwRVzEy/JM8KP
-         Lu4V9U0V9/cpfu3PMgOH/El8z8NtdoTpFAnWvPUBZYU1Ndit/eC5c4ZvNe6pgkCJtcHN
-         EBh+HYsyMH3KWJ3admTVdcmo+uZh+5fgLUSzE06/3CsDoBu3nSQLBqnIt8O3GdXb5egv
-         3AKw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1zakuIf9ej5jSQqBfXv2CdyrvbXYR4tWzKtoL2NmKZX0589koWNHFsV7leKQezDadus1AlUQKQz+SwFGc4URxbaXKfnyT22C6TLzMuS4=
-X-Gm-Message-State: AOJu0Yyg0VPIM7uu+yK06w/CPUWo1T6+G0UBudW8t6HbPVZzHUUWVvaB
-	kj6hCKrYTLNpxkqzKqQ9kuAWd/DDUtLJATVO9XxQF1Xj0m1DtYl6Ma7dDU+Z
-X-Google-Smtp-Source: AGHT+IEkY5sRX3+t87P+ABX81sgD7xGiud+cEpPzXFP7Zr/2rSr4XoYF9dp0mIEtDdIRYcM1mjpAcA==
-X-Received: by 2002:a5d:6842:0:b0:358:a09:2677 with SMTP id ffacd0b85a97d-35e0f259161mr9152207f8f.2.1717512713557;
-        Tue, 04 Jun 2024 07:51:53 -0700 (PDT)
-Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd064b5e9sm11811486f8f.96.2024.06.04.07.51.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 07:51:53 -0700 (PDT)
-Message-ID: <3d4595ff-5f45-458e-81f4-7ed513d9f725@grimberg.me>
-Date: Tue, 4 Jun 2024 17:51:52 +0300
+	Tue, 04 Jun 2024 18:59:38 +0000
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 454HmiuJ020979
+	for <linux-nvme@lists.infradead.org>; Tue, 4 Jun 2024 11:59:37 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc :
+ content-transfer-encoding : content-type : date : from : in-reply-to :
+ message-id : mime-version : references : subject : to; s=s2048-2021-q4;
+ bh=Dhu6TCWa3tk1q8AARlMASfQnsq213fkraJ14QbZnsQo=;
+ b=eb1brYe4yY71AHjKmCNdHYDQ80A0bOYKOZyCkfUpG8NuNDnbJxsJ+ngTym1JPCH2VRDJ
+ aCTm12g+LIssVN/dWVos0+NY1Uz+XaFps7m8Fy/c+2pKpH1MuBfrZlawz4qHSJPeznr5
+ 79XbFmkmgvcIbecAikmWtQjOHWLooHLgaDB7TzJtzF9m8pG/DEY/JYBo01PmuJCaE1J2
+ GKpvk4fbTmpgIyhyn/W+MEtojYTLao7Ej9R9JgwRxGiJr2CfSpplUCyeAKMjWvrdtTFA
+ qqrN/IH6NOZw1vfp7HpUTVXDwFadNnAB43CnIzRqvrrIPpAMTgenyvLjht1frTFZQTQh 6g== 
+Received: from mail.thefacebook.com ([163.114.134.2])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3yhq0xxbr3-11
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 04 Jun 2024 11:59:36 -0700
+Received: from twshared25218.38.frc1.facebook.com (2620:10d:c085:208::11) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Tue, 4 Jun 2024 18:59:35 +0000
+Received: by devbig032.nao3.facebook.com (Postfix, from userid 544533)
+	id 81D6A35076D4; Tue,  4 Jun 2024 11:59:26 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <sagi@grimberg.me>, <mlombard@redhat.com>, <hare@suse.de>,
+        <shinichiro.kawasaki@wdc.com>, <james.smart@broadcom.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCHv2 4/5] nvme: fc: split controller bringup handling
+Date: Tue, 4 Jun 2024 11:59:07 -0700
+Message-ID: <20240604185908.3703052-5-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240604185908.3703052-1-kbusch@meta.com>
+References: <20240604185908.3703052-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-RFC 0/5] nvme: fix initialization memleak
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, mlombard@redhat.com, hare@suse.de,
- shinichiro.kawasaki@wdc.com, Keith Busch <kbusch@kernel.org>
-References: <20240603230524.3854115-1-kbusch@meta.com>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240603230524.3854115-1-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: u2iheNJLhR-aVdKiQ6fs8GwHSZYtiprV
+X-Proofpoint-ORIG-GUID: u2iheNJLhR-aVdKiQ6fs8GwHSZYtiprV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-04_09,2024-06-04_02,2024-05-17_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240604_075156_810622_0680037A 
-X-CRM114-Status: UNSURE (   6.81  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240604_115937_417801_777DF0BE 
+X-CRM114-Status: GOOD (  16.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,22 +87,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Keith Busch <kbusch@kernel.org>
 
+Drivers must call nvme_uninit_ctrl after a successful nvme_init_ctrl.
+Split the allocation side out to make the error handling boundary easier
+to navigate. The nvme fc driver's error handling had different returns
+in the error goto label's, which harm readability.
 
-On 04/06/2024 2:05, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
->
-> The pci driver is the only one runtime tested. Everything else is
-> compile tested, except for apple.
->
->
-> Keith Busch (5):
->    nvme: apple: fix device reference counting
->    nvme: tcp: split controller bringup handling
->    nvme: rdma: split controller bringup handling
->    nvme: fc: split controller bringup handling
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/fc.c | 43 ++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
-For some reason patches 3,4 got lost from my inbox...
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index f0b0813327491..c52446013388f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3444,12 +3444,11 @@ nvme_fc_existing_controller(struct nvme_fc_rport =
+*rport,
+ 	return found;
+ }
+=20
+-static struct nvme_ctrl *
+-nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
++static struct nvme_fc_ctrl *
++nvme_fc_alloc_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	struct nvme_fc_lport *lport, struct nvme_fc_rport *rport)
+ {
+ 	struct nvme_fc_ctrl *ctrl;
+-	unsigned long flags;
+ 	int ret, idx, ctrl_loss_tmo;
+=20
+ 	if (!(rport->remoteport.port_role &
+@@ -3538,7 +3537,31 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_=
+ctrl_options *opts,
+ 	if (lport->dev)
+ 		ctrl->ctrl.numa_node =3D dev_to_node(lport->dev);
+=20
+-	/* at this point, teardown path changes to ref counting on nvme ctrl */
++	return ctrl;
++
++out_free_queues:
++	kfree(ctrl->queues);
++out_free_ida:
++	put_device(ctrl->dev);
++	ida_free(&nvme_fc_ctrl_cnt, ctrl->cnum);
++out_free_ctrl:
++	kfree(ctrl);
++out_fail:
++	/* exit via here doesn't follow ctlr ref points */
++	return ERR_PTR(ret);
++}
++
++static struct nvme_ctrl *
++nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
++	struct nvme_fc_lport *lport, struct nvme_fc_rport *rport)
++{
++	struct nvme_fc_ctrl *ctrl;
++	unsigned long flags;
++	int ret;
++
++	ctrl =3D nvme_fc_alloc_ctrl(dev, opts, lport, rport);
++	if (IS_ERR(ctrl))
++		return ERR_CAST(ctrl);
+=20
+ 	ret =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+ 			&nvme_fc_admin_mq_ops,
+@@ -3597,20 +3620,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_=
+ctrl_options *opts,
+ 	nvme_fc_rport_get(rport);
+=20
+ 	return ERR_PTR(-EIO);
+-
+-out_free_queues:
+-	kfree(ctrl->queues);
+-out_free_ida:
+-	put_device(ctrl->dev);
+-	ida_free(&nvme_fc_ctrl_cnt, ctrl->cnum);
+-out_free_ctrl:
+-	kfree(ctrl);
+-out_fail:
+-	/* exit via here doesn't follow ctlr ref points */
+-	return ERR_PTR(ret);
+ }
+=20
+-
+ struct nvmet_fc_traddr {
+ 	u64	nn;
+ 	u64	pn;
+--=20
+2.43.0
 
-I'll wait for your v1.
 
