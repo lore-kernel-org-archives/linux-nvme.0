@@ -4,91 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6695C25B7E
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 09:15:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F292C25B7E
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 11:17:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=33nRyy8esXmDICnjqHn4xP5iUWtD5/AbljZ4Qu/0q8c=; b=3ejd7/dTI5zXsDzyh/ThwZwv3Q
-	CVU+5oFxmp461n/1m2/JuRL7BHDviVA+z1TmUR4jIWNZsyldUIBEWzhMVI+bAQlf/G1HRaEojAkLB
-	MTQTIVmIOLaePu/sHEPMYlHuR71WBE0jPvXWZqEOO8KVLqZRhJuACV8hVz05zG+Sc5pOmIIgCWuDW
-	8H4xPYu3EO1r7SQRVrOe7uEeJqrA5wNNWJ9E0RUvI/aWhzL4inAi6AsTFTICVUu6KOHxXjUKdTJuv
-	xohe+vtffVeyoCwFGjWgaflGSbNTQ+/Hm3mEj0fYPqj2Kzi616E2+VJATpSVhAifsXHkU9Pfa0sMJ
-	jl/Z/tfg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=W7mPVzQZKRnQDYV+JCtWF0MGoPHuyGT3TYodiOO+3YY=; b=FiIPaPUNnVlu4T13+nD46yReq8
+	evh+idOPHGXsJpLC76t2J5qEhHWTe+1TgIMM/LXRP+fkiEFqFPlr31CMTpx6qIYlk83EC9KAL0d7D
+	2ZUixBqddeRosKpZ28z4H3iQH2oppXPL3DxPidSZjQdHuJo1gyzcXrKV1H6mYorjhhie7NlQW3gss
+	k8L6DLzMaPOQNm1ixlO7LQ+f7sXHV/oskx5zaz3gG6rUDynUlQ5iC/EiTDDQlIu9MQi7seL/dM9ph
+	XHhXQJ2/cS9RpouYnK6orLmNMdpUNwyVknPMHtsMu4rsepPBsTg/C2PdP0dQrYnAgRyXPlTFsFmae
+	7JYk+DEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEQGp-00000001oaI-29XV;
-	Tue, 04 Jun 2024 09:15:55 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1sESA6-0000000274n-2XMb;
+	Tue, 04 Jun 2024 11:17:06 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEQGm-00000001oXr-26by
+	id 1sESA2-00000002739-3ky9
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Jun 2024 09:15:53 +0000
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4548vafX020531;
-	Tue, 4 Jun 2024 09:15:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc :
- content-transfer-encoding : date : from : in-reply-to : message-id :
- mime-version : references : subject : to; s=pp1;
- bh=33nRyy8esXmDICnjqHn4xP5iUWtD5/AbljZ4Qu/0q8c=;
- b=Fb9jvgy+dCiFiRCJeViBYumt1t75okWtnhnpxEqstIn4UFyl6fzIayKVUlFA9drnehu1
- hKJYsUjOd/XQR1QHh0AEUwZPkYMHyOgYHQqZLLI0Wq0/HBz21PAhgNN4b1OqFG6282po
- KneERc5ZRahdN7Oq+okIH8ZByqPf6s2S4QZRfTT3EJec1WbcK/itfp5Rb29tZWQOEC8V
- fZHLpyOztHiVP8RO8h+vMldtF42jfWR6eVddeZu+LXFXP2rQKWANiSNMyUaBmP3wQBL1
- gTA09vCOw+CJE4tlkSJfCYvR2PPhUKHLeLrTfuV7spJUGMSiH0w9EfS5l3qLL/lars18 Kw== 
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yhyv3g1gu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Jun 2024 09:15:42 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4548AsaN008463;
-	Tue, 4 Jun 2024 09:15:41 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ygec0ncxb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Jun 2024 09:15:41 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4549FaP040567140
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 4 Jun 2024 09:15:38 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 154A120040;
-	Tue,  4 Jun 2024 09:15:36 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 472EE2004B;
-	Tue,  4 Jun 2024 09:15:34 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.214])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  4 Jun 2024 09:15:34 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
-        gjoyce@linux.ibm.com, axboe@fb.com, Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH v3 1/1] nvme-pci : Fix EEH failure on ppc after subsystem reset
-Date: Tue,  4 Jun 2024 14:40:04 +0530
-Message-ID: <20240604091523.1422027-2-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240604091523.1422027-1-nilay@linux.ibm.com>
-References: <20240604091523.1422027-1-nilay@linux.ibm.com>
+	Tue, 04 Jun 2024 11:17:05 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240604111654epoutp04e9637ecb26440d870cc2b5eee59e459b~VyPs6Y0qm0583605836epoutp04y
+	for <linux-nvme@lists.infradead.org>; Tue,  4 Jun 2024 11:16:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240604111654epoutp04e9637ecb26440d870cc2b5eee59e459b~VyPs6Y0qm0583605836epoutp04y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1717499814;
+	bh=W7mPVzQZKRnQDYV+JCtWF0MGoPHuyGT3TYodiOO+3YY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=m9vmAwAYD9ZesX8pO9KnR/yMfiQ00Kho/W5I/6d5Z6Uj+zp6fiWCif8ROFnT1PSr/
+	 UIZDfdAr7DSKkLHKyRHmhERSgk7MUnu2rd6fMgjDgAzN2wYGcj9Jm3ru5NWsv48Mby
+	 7sPIJOsKrk4kRjxZdVy3rYV9TTU6mTKGIT0f3Wvo=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20240604111652epcas5p2fb3ff3af2b3a5585597af0238a75772f~VyPrPc7rW2355423554epcas5p2h;
+	Tue,  4 Jun 2024 11:16:52 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4Vtp2T6y1Mz4x9Q2; Tue,  4 Jun
+	2024 11:16:49 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C2.66.10047.1A7FE566; Tue,  4 Jun 2024 20:16:49 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240604105019epcas5p421855f0d2b36c064b41d485af4e2b0cc~Vx4fR6XxJ1521215212epcas5p4c;
+	Tue,  4 Jun 2024 10:50:19 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240604105019epsmtrp2dc2736f53c71be92ea56db72bbf4b564~Vx4fP8yoS0411204112epsmtrp2U;
+	Tue,  4 Jun 2024 10:50:19 +0000 (GMT)
+X-AuditID: b6c32a49-1d5fa7000000273f-2e-665ef7a1bfea
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	42.D4.08336.A61FE566; Tue,  4 Jun 2024 19:50:18 +0900 (KST)
+Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240604105014epsmtip21cc93a7a862e372e31a4b74374219763~Vx4bJDtP80565705657epsmtip2z;
+	Tue,  4 Jun 2024 10:50:14 +0000 (GMT)
+Date: Tue, 4 Jun 2024 10:50:26 +0000
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	<jack@suse.cz>, martin.petersen@oracle.com, bvanassche@acm.org,
+	david@fromorbit.com, hare@suse.de, damien.lemoal@opensource.wdc.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 03/12] block: add copy offload support
+Message-ID: <20240604105026.yqza6ahoo52bbvle@nj.shetty@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: keGGhx8HcjXlEUwn5LVpTjaYUa1EHhUK
-X-Proofpoint-GUID: keGGhx8HcjXlEUwn5LVpTjaYUa1EHhUK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-04_03,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- impostorscore=0 malwarescore=0 phishscore=0 suspectscore=0 clxscore=1015
- mlxscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2406040074
+In-Reply-To: <20240601061653.GA5877@lst.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ta1BUZRjHfc/ZPSxOq4eL9gKDwZHJYOOyucALgjSKzCH6AKM1pgbuwOEi
+	y+62u2SRU9wRBOQSNiyiK6ErlwSEiKshCgi1EnEbELAS0riHATGM0i67NH77Pf957s88HNz0
+	upElJ0qsYGRioYgitrPq79nbO15bDQ53WR4SoKqeThwl5rzAUcX4RQLN3FsC6NLiGo4m29IA
+	Wtf04qiucwIgVUkxC420NWKopSQPQ2UVHRgq+iYJQx0bcwTKax8CaGpQiaHWUR66llrKQi2t
+	3SzU33SZQFdvTBkhdddLDOWeH8RQw2QCQLdmFljowagV6n3RxX7Xiu4fCKB7SiDdqBw3onsn
+	alh0vyaWvl2eTtC1pV/Rz2oLAd08Ek/Q32bns+mspHmCbkx5zKb/nhpl0Qt3Bgk6u64c0D+r
+	7hsFmp2I9opkhGGMzIYRh0rCosQR3lTA0ZDDIa5uLnxHvgdyp2zEwhjGm/J9P9DRL0qkXQ5l
+	86lQFKuVAoVyOeV80EsmiVUwNpESucKbYqRhIqlA6iQXxshjxRFOYkbhyXdxecdV63g6OrIl
+	Z42Qprz9WfVAKRYP6vZmAGMOJAWwNb0IywDbOaZkM4CTCfVsvbEEYH6JkqU3VgAs7nwEtkIG
+	ljS4jk3JVgCHMwz8HMBf1mx1zCLt4Fz5U6MMwOEQJA/+tMHRyeYkBaemNZtpcLKAgBtKKx2b
+	kQfhj6l3N3UueRheuFJgYBPYXTjJ0rGxNk1efjeh6weSD41h4g9P2Pp+fOH9O5W4ns3gdFed
+	kZ4t4fP5VkLPZ2HZ1zcNwckAKoeVhmF8YErPRVzfUSRs+avUkMgaFvTcwvT6Dpi1PonpdS5s
+	uLLFe2FllcpQwAIOrSYYmIbKPt2Uus2NATg2m87KAXuUr0ykfKWenj1h+mIiW6ldGE5aQfVL
+	jh7tYVWTswqwy4EFI5XHRDByVylfzJz9/8ihkpjbYPNfHPwbwPhvi07tAOOAdgA5OGXOzf7y
+	ZLgpN0z4eRwjk4TIYkWMvB24ag+Ui1vuCpVoH06sCOELPFwEbm5uAo/9bnzqde5MSnGYKRkh
+	VDDRDCNlZFtxGMfYMh7z7/B7aqPmWqoeV/rffLKslhSuVh6nM8Ufjg0kWqSdW87WaMIbd69Y
+	N5PAAf9+/t+l9tPJV8k3XCKDDsQ93Gl7LPiYfZ0ka1/PJytH4Zszw7yPRkVq3q6+U8Hj7h1V
+	H8xmBqhNTGw9D9Hni9x3z03gNSd8ugXnAJX28Vt3k0YGHgQe+qKv9ddAdpprfmKB1/Emu6qO
+	5f3rSkk6d4f5H+ZN/u9lTo8sbStbexbUW1b0p6ra2ndPk8wjZtqrxC5oQfHPdwdqbBwvWbV1
+	i0h6J3XSC3ilnyra5jPV7epsWfja7/sq8nwOHalMTeZVq+p4DTc6eusbzlxHj/zkuW1HLp+Z
+	jRuvpVjySCHfAZfJhf8Bt94OkLgEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsWy7bCSvG7Wx7g0g+8fjC3WnzrGbNE04S+z
+	xeq7/WwWrw9/YrSY9uEns8WTA+2MFr/Pnme22HLsHqPFgkVzWSxuHtjJZLFn0SQmi5WrjzJZ
+	zJ7ezGRx9P9bNotJh64xWjy9OovJYu8tbYuFbUtYLPbsPclicXnXHDaL+cueslssP/6PyWJi
+	x1Umix1PGhkt1r1+z2Jx4pa0xfm/x1kdpD0uX/H2OLVIwmPnrLvsHufvbWTxuHy21GPTqk42
+	j81L6j1ebJ7J6LH7ZgObx+K+yawevc3v2Dx2tt5n9fj49BaLx/t9V9k8+rasYvQ4s+AIe4Bw
+	FJdNSmpOZllqkb5dAlfGpb/5Bds1K/oO9bE0MDYodjFyckgImEhc+XSWuYuRi0NIYDejxJOz
+	U5kgEpISy/4eYYawhSVW/nvODmILCXxklLiyOxLEZhFQkXi7CiTOwcEmoC1x+j8HSFhEQEni
+	6auzjCA2s8BMNokz83NBbGEBO4n9bQfB4rwCzhLd86YyQuy9xygxbdcbFoiEoMTJmU9YIJrN
+	JOZtfsgMMp9ZQFpi+T+w+ZxAqyZNPsk2gVFgFpKOWUg6ZiF0LGBkXsUomVpQnJueW2xYYJiX
+	Wq5XnJhbXJqXrpecn7uJEZwStDR3MG5f9UHvECMTB+MhRgkOZiUR3r666DQh3pTEyqrUovz4
+	otKc1OJDjNIcLErivOIvelOEBNITS1KzU1MLUotgskwcnFINTOs+bj92WPe7Q1ZYfL/AE+cV
+	uzTSbO2zBA4Wxm6JO7J9o96KUpHG6eW6CRxNrHc/nWzI+/lq8d865tisE0V1AofZvvUpe9br
+	JL3XzBMoyl/76CTnInZRpb7dXhkCT91PyRxRy//byPvadunJhr4J00NimFdcZz32kV880d3x
+	/+rtXtuDqj87Pbg399Ndn6cPfuW8lPtUuHLFvZMil561RLWcvfS61UEv88TqSoUjLzhFmVT2
+	/9r7YntAo+tRwfMmc9nVn7NqvOoXuyq5d6G8yKmTS3lkmteeXVEbtdH8pNW+D4qSm/ve7dVP
+	mbjfKPNyZR/Pwt32cUfezr3afShkoZm5p3dSje4vj4pL1d5v1yqxFGckGmoxFxUnAgC7zesq
+	eAMAAA==
+X-CMS-MailID: 20240604105019epcas5p421855f0d2b36c064b41d485af4e2b0cc
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102853epcas5p42d635d6712b8876ea22a45d730cb1378
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520102853epcas5p42d635d6712b8876ea22a45d730cb1378@epcas5p4.samsung.com>
+	<20240520102033.9361-4-nj.shetty@samsung.com> <20240601061653.GA5877@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240604_021552_635392_C46DB522 
-X-CRM114-Status: GOOD (  24.46  )
+X-CRM114-CacheID: sfid-20240604_041703_866455_3D9C780F 
+X-CRM114-Status: GOOD (  35.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,92 +150,150 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVMe subsystem reset command when executed may cause the loss of
-the NVMe adapter communication with kernel. And the only way today
-to recover the adapter is to either re-enumerate the pci bus or
-hotplug NVMe disk or reboot OS.
+------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-The PPC architecture supports mechanism called EEH (enhanced error
-handling) which allows pci bus errors to be cleared and a pci card to
-be rebooted, without having to physically hotplug NVMe disk or reboot
-the OS.
+On 01/06/24 08:16AM, Christoph Hellwig wrote:
+>> +/* Keeps track of all outstanding copy IO */
+>> +struct blkdev_copy_io {
+>> +	atomic_t refcount;
+>> +	ssize_t copied;
+>> +	int status;
+>> +	struct task_struct *waiter;
+>> +	void (*endio)(void *private, int status, ssize_t copied);
+>> +	void *private;
+>> +};
+>> +
+>> +/* Keeps track of single outstanding copy offload IO */
+>> +struct blkdev_copy_offload_io {
+>> +	struct blkdev_copy_io *cio;
+>> +	loff_t offset;
+>> +};
+>
+>The structure names confuse me, and the comments make things even worse.
+>
+>AFAICT:
+>
+>blkdev_copy_io is a per-call structure, I'd name it blkdev_copy_ctx.
+>blkdev_copy_offload_io is per-bio pair, and something like blkdev_copy_chunk
+Acked, your suggestion for structure name looks better.
 
-In the current implementation when user executes the nvme subsystem
-reset command and if kernel loses the communication with NVMe adapter
-then subsequent read/write to the PCIe config space of the device
-would fail. Failing to read/write to PCI config space makes NVMe
-driver assume the permanent loss of communication with the device and
-so driver marks the NVMe controller dead and frees all resources
-associate to that controller. As the NVMe controller goes dead, the
-EEH recovery can't succeed.
+>might be a better idea.  Or we could just try to kill it entirely and add
+>a field to struct bio in the union currently holding the integrity
+>information.
+We will explore this.
 
-This patch helps fix this issue so that after user executes subsystem
-reset command if the communication with the NVMe adapter is lost and
-EEH recovery is initiated then we allow the EEH recovery to forward
-progress and gives the EEH thread a fair chance to recover the
-adapter. If in case, the EEH thread couldn't recover the adapter
-communication then it sets the pci channel state of the erring
-adapter to "permanent failure" and removes the device.
+>I'm also quite confused what kind of offset this offset field is.  The
+>type and name suggest it is an offset in a file, which for a block device
+>based helper is pretty odd to start with.  blkdev_copy_offload
+>initializes it to len - rem, so it kind is an offset, but relative
+>to the operation and not to a file. blkdev_copy_offload_src_endio then
+>uses to set the ->copied field, but based on a min which means
+>->copied can only be decreased.  Something is really off there.
+>
+Offset in this context, is with respect to the operation.
+Overall idea was to handle partial copy, where in some of the split copy IO fails.
+In this case we want to return minimum bytes copied.
+We can try to store the offset in a temporary variable similar to
+pos_out, pos_in instead of current (len - rem), to avoid the confusion.
+We will update this in next version.
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/core.c |  1 +
- drivers/nvme/host/pci.c  | 21 ++++++++++++++++++---
- 2 files changed, 19 insertions(+), 3 deletions(-)
+>Taking about types and units: blkdev_copy_offload obviously can only
+>work in terms of LBAs.  Any reason to not make it work in terms of
+>512-byte block layer sectors instead of in bytes?
+>
+Just that number of places where we need to sector shift were
+comparatively more. We will update this to 512-byte sectors in next
+version.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f5d150c62955..afb8419566a9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -562,6 +562,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		switch (old_state) {
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_LIVE:
-+		case NVME_CTRL_CONNECTING:
- 			changed = true;
- 			fallthrough;
- 		default:
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 102a9fb0c65f..f1bb8df20701 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2789,6 +2789,17 @@ static void nvme_reset_work(struct work_struct *work)
-  out_unlock:
- 	mutex_unlock(&dev->shutdown_lock);
-  out:
-+	/*
-+	 * If PCI recovery is ongoing then let it finish first
-+	 */
-+	if (pci_channel_offline(to_pci_dev(dev->dev))) {
-+		if (nvme_ctrl_state(&dev->ctrl) == NVME_CTRL_RESETTING ||
-+		    nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-+			dev_warn(dev->ctrl.device,
-+				"Let pci error recovery finish!\n");
-+			return;
-+		}
-+	}
- 	/*
- 	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
- 	 * may be holding this pci_dev's device lock.
-@@ -3308,10 +3319,14 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
- 	case pci_channel_io_frozen:
- 		dev_warn(dev->ctrl.device,
- 			"frozen state error detected, reset controller\n");
--		if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
--			nvme_dev_disable(dev, true);
--			return PCI_ERS_RESULT_DISCONNECT;
-+		if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
-+			if (!nvme_change_ctrl_state(&dev->ctrl,
-+					NVME_CTRL_RESETTING)) {
-+				nvme_dev_disable(dev, true);
-+				return PCI_ERS_RESULT_DISCONNECT;
-+			}
- 		}
-+		flush_work(&dev->ctrl.reset_work);
- 		nvme_dev_disable(dev, false);
- 		return PCI_ERS_RESULT_NEED_RESET;
- 	case pci_channel_io_perm_failure:
--- 
-2.45.1
+>> +	if ((pos_in & align) || (pos_out & align) || (len & align) || !len ||
+>> +	    len >= BLK_COPY_MAX_BYTES)
+>> +		return -EINVAL;
+>
+>This can be cleaned up an optimized a bit:
+>
+>	if (!len || len >= BLK_COPY_MAX_BYTES)
+>		return -EINVAL;
+>	if ((pos_in | pos_out | len) & align)
+>		return -EINVAL;
+>	
+Acked.
 
+>> + *
+>> + * For synchronous operation returns the length of bytes copied or error
+>> + * For asynchronous operation returns -EIOCBQUEUED or error
+>> + *
+>> + * Description:
+>> + *	Copy source offset to destination offset within block device, using
+>> + *	device's native copy offload feature.
+>> + *	We perform copy operation using 2 bio's.
+>> + *	1. We take a plug and send a REQ_OP_COPY_DST bio along with destination
+>> + *	sector and length. Once this bio reaches request layer, we form a
+>> + *	request and wait for dst bio to arrive.
+>> + *	2. We issue REQ_OP_COPY_SRC bio along with source sector, length.
+>> + *	Once this bio reaches request layer and find a request with previously
+>> + *	sent destination info we merge the source bio and return.
+>> + *	3. Release the plug and request is sent to driver
+>> + *	This design works only for drivers with request queue.
+>
+>The wording with all the We here is a bit odd.  Much of this also seem
+>superfluous or at least misplaced in the kernel doc comment as it doesn't
+>document the API, but just what is done in the code below.
+>
+Since we were doing IO in unconventional way, we felt would be better to
+document this, for easy followup.
+We will remove this in next version and document just API.
+
+>> +	cio = kzalloc(sizeof(*cio), gfp);
+>> +	if (!cio)
+>> +		return -ENOMEM;
+>> +	atomic_set(&cio->refcount, 1);
+>> +	cio->waiter = current;
+>> +	cio->endio = endio;
+>> +	cio->private = private;
+>
+>For the main use this could be allocated on-stack.  Is there any good
+>reason to not let callers that really want an async version to implement
+>the async behavior themselves using suitable helpers?
+>
+We cannot do on-stack allocation of cio as we use it in endio handler.
+cio will be used to track partial IO completion as well.
+Callers requiring async implementation would need to manage all this
+bookkeeping themselves, leading to duplication of code. We felt it is
+better to do it here onetime.
+Do you see it any differently ?
+
+>> +		src_bio = blk_next_bio(dst_bio, bdev, 0, REQ_OP_COPY_SRC, gfp);
+>
+>Please switch to use bio_chain_and_submit, which is a easier to
+>understand API.  I'm trying to phase out blk_next_bio in favour of
+>bio_chain_and_submit over the next few merge windows.
+>
+Acked
+
+>> +		if (!src_bio)
+>> +			goto err_free_dst_bio;
+>> +		src_bio->bi_iter.bi_size = chunk;
+>> +		src_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
+>> +		src_bio->bi_end_io = blkdev_copy_offload_src_endio;
+>> +		src_bio->bi_private = offload_io;
+>> +
+>> +		atomic_inc(&cio->refcount);
+>> +		submit_bio(src_bio);
+>> +		blk_finish_plug(&plug);
+>
+>plugs should be hold over all  I/Os, submitted from the same caller,
+>which is the point of them.
+>
+Acked
+
+Thank You,
+Nitesh Shetty
+
+------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_
+Content-Type: text/plain; charset="utf-8"
+
+
+------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_--
 
