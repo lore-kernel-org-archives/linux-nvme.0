@@ -4,80 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21C0DC25B78
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 13:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8AB8C27C50
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 14:42:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fxHXs7IG64cFNSoqIPh3h+fcJrQqZkul2851soVpEBU=; b=hFxnX0AsVLLqpcA2E7F88qcZ+r
-	/D2CmFtlnHB39oT0fDnVzItlXMgytOLpjCY65OZlOtyPRru3yjTkw6GPxEFnPdzOlHgsBNdV4pYOM
-	URvtqhpg4RU7JsW/YwoxpI4R4EuIgxmUKLIfT2ZFRnubvLNja2kRKXP/al7HrYzIMQ42THatT8sNN
-	P1KkejQrUJ4uJvR4IbPMT25x22n3J5tV6itjnoXl2pEwlv2GFb07GSQNZQ/8br2mezhnJb3Hjb531
-	d3WNHg4mQf0dwhW6ykeQZIwnn85upgawkEblkMarpS3OmRpxfTFpa+kKJV2WU2cZYxafCKoBaFIOZ
-	9Mt83Hgw==;
+	bh=q0xFrfAHM+B8khTimiE+Wta4nJKEpmNlTo0p/B1ZdJA=; b=EwgeMS+gyiVvrEozgDDN4Lb7nj
+	CHm5+wE20LaO6mTQpbEOZosU7syL7LBuMqyfe951VXjmLfJH9NWohABioj/KTF0jdAkApKZS7aRB8
+	qPD7w1xu/kDylzr4GEZolBUGVWIBwiI0/VNf7gQ9xhDHPJ7DX7yQd1f1gG0hZoh6q5fTdYvlmwPRM
+	4/WnZLdrvoHTYrdmklJUDK1ZRnNBJCzX2Z7D5WzLqMvg5QdapmSROuPfI07e8MrxhN18sDTd813Jg
+	ujwA1mUPtk7JX7tyBG7rGDrWikn2REQokxigAnSaMiX/jRm7xSzFEJxZ7uHSrIqOuYuFjP1FhPvbW
+	TNMvk4gw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sETn7-00000002QFu-1YGH;
-	Tue, 04 Jun 2024 13:01:29 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1sEVMw-00000002mJN-3dhd;
+	Tue, 04 Jun 2024 14:42:34 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sETn1-00000002QEz-10iV
+	id 1sEVMu-00000002mIG-3TFI
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Jun 2024 13:01:25 +0000
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4210f0bb857so5430985e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Jun 2024 06:01:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717506080; x=1718110880;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fxHXs7IG64cFNSoqIPh3h+fcJrQqZkul2851soVpEBU=;
-        b=COnSC4hNrknRVoCSiNva+zHeOCgizWuDdMIGtEm6n1rA/Df8X/ATFJ7jav60TcV3Vr
-         vaomAHnUEXt3991e6Od2NAKeApcaFwq8NrvsF87rgMq275KmK1iiye4YuLT/mGoQoj6b
-         hUobT9g45HtOmUfqbeengIQjzvw+TlfGCXef2YV83/jUja5XmYu3q+5tv57NBfhC7J+8
-         wXk4LkF6393/faZ7IDKP0x0EyCvgIv1uKjbRdn3I++euqTQMAh7oMJistrN8p/K1gn2G
-         ynUBc/3PGu4vZkgBnNSM1TyCl1Kqvw32AWHQvTKM+3m2rIhXw6mQUzbkd6ikY4dg7wy9
-         XiTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGz3CFM27xya+km3dvN5X+6YDVfmIo64Ix2RU+HaIxkf+CdvIAuZYxz1s7RpZ40mnMOSlXtw5LTjUlXouZqswPYytIeCCM8J72ATCXlo4=
-X-Gm-Message-State: AOJu0YyySjaR7ehUUZ1KGOtrnvl4lDugGIgpv60kvL/Qj0feLyOVZOWx
-	jx0AgGAN7pvNVQTYhOuCCtyWA1e7kYr0si0o3FtfNykqQK+4RXFUv07g5Xqm
-X-Google-Smtp-Source: AGHT+IH9oq3dFpvLJVUKgEQQ0Vx9YEe7q6Q5Zb8A/OQIgbPFG2wSdi0d9xEzXrAJ0zX69KHy0U2C2g==
-X-Received: by 2002:a05:600c:1382:b0:41b:fdf9:98b5 with SMTP id 5b1f17b1804b1-4212e0c40a5mr92270135e9.4.1717506080292;
-        Tue, 04 Jun 2024 06:01:20 -0700 (PDT)
-Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421542e207esm13638365e9.22.2024.06.04.06.01.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 06:01:20 -0700 (PDT)
-Message-ID: <ef7ea4a8-c0e4-4fd9-9abb-42ae95090fc8@grimberg.me>
-Date: Tue, 4 Jun 2024 16:01:17 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] net: introduce helper sendpages_ok()
-From: Sagi Grimberg <sagi@grimberg.me>
+	Tue, 04 Jun 2024 14:42:34 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id A7328CE11AD;
+	Tue,  4 Jun 2024 14:42:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9731AC32786;
+	Tue,  4 Jun 2024 14:42:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717512146;
+	bh=fmlRiz5M5NjXBFuEtUQcEwmSqlNPoKCDWdQmvJU2bn8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=n4L/sFM8i0oFnDH7F8EaDAMFQuuQh8PoG7QQq1M8IxZeajDv8ixPlzS8RP5O5WSbo
+	 fx1EtGxLjwFmVcfA7L6XJ9nj159hlyDZMc5x3Rop05fJhMF0pnorbMylNaXque9krv
+	 nRofPSsBjJTBD+bxZ5P7AhVAicmfaTkOKshWmMLUxvyDRcPKU89n/WuKiFwbnGnmhg
+	 7nCXXoiTqNiZjM8rwLtJ/ZsklEk4PWnKZZJZr8AwL96O1R3jn01o0gIHPfx3nzAUpc
+	 gjuPAWdnyLbyguqM/uXLIwcHdQYnVguuAoMNTsqVxMHwDWIVHTh0ulOUvJoNsydamC
+	 Bk9alCkb/mfng==
+Date: Tue, 4 Jun 2024 07:42:24 -0700
+From: Jakub Kicinski <kuba@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Ofir Gal <ofir.gal@volumez.com>, davem@davemloft.net,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, ceph-devel@vger.kernel.org, dhowells@redhat.com,
  edumazet@google.com, pabeni@redhat.com, kbusch@kernel.org, axboe@kernel.dk,
- philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+ sagi@grimberg.me, philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
  christoph.boehmwalder@linbit.com, idryomov@gmail.com, xiubli@redhat.com
+Subject: Re: [PATCH v2 0/4] bugfix: Introduce sendpages_ok() to check
+ sendpage_ok() on contiguous pages
+Message-ID: <20240604074224.44668dab@kernel.org>
+In-Reply-To: <20240604043041.GA28886@lst.de>
 References: <20240530142417.146696-1-ofir.gal@volumez.com>
- <20240530142417.146696-2-ofir.gal@volumez.com>
- <8d0c198f-9c15-4a8f-957a-2e4aecddd2e5@grimberg.me>
- <23821101-adf0-4e38-a894-fb05a19cb9c3@volumez.com>
- <86e60615-9286-4c9c-bffc-72304bd3cc1f@grimberg.me>
- <20240604042738.GA28853@lst.de>
- <62c2b8cd-ce6a-4e13-a58c-a6b30a0dcf17@grimberg.me>
-Content-Language: en-US
-In-Reply-To: <62c2b8cd-ce6a-4e13-a58c-a6b30a0dcf17@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+	<20240531073214.GA19108@lst.de>
+	<20240601153610.30a92740@kernel.org>
+	<20240604043041.GA28886@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240604_060123_306958_77243C54 
-X-CRM114-Status: GOOD (  22.86  )
+X-CRM114-CacheID: sfid-20240604_074233_077685_4E02DCA8 
+X-CRM114-Status: GOOD (  18.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,135 +79,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, 4 Jun 2024 06:30:41 +0200 Christoph Hellwig wrote:
+> On Sat, Jun 01, 2024 at 03:36:10PM -0700, Jakub Kicinski wrote:
+> > On Fri, 31 May 2024 09:32:14 +0200 Christoph Hellwig wrote:  
+> > > I still find it hightly annoying that we can't have a helper that
+> > > simply does the right thing for callers, but I guess this is the
+> > > best thing we can get without a change of mind from the networking
+> > > maintainers..  
+> > 
+> > Change mind about what? Did I miss a discussion?  
+> 
+> Having a net helper to just send some memory in the most efficient
+> way and leave it up to the networking code to decide if it wants
+> to use sendpage or sendmsg internally as needed instead of burdening
+> the caller.
 
-
-On 04/06/2024 11:24, Sagi Grimberg wrote:
->
->
-> On 04/06/2024 7:27, Christoph Hellwig wrote:
->> On Tue, Jun 04, 2024 at 12:27:06AM +0300, Sagi Grimberg wrote:
->>>>> I still don't understand how a page in the middle of a contiguous 
->>>>> range ends
->>>>> up coming from the slab while others don't.
->>>> I haven't investigate the origin of the IO
->>>> yet. I suspect the first 2 pages are the superblocks of the raid
->>>> (mdp_superblock_1 and bitmap_super_s) and the rest of the IO is the 
->>>> bitmap.
->>> Well, if these indeed are different origins and just *happen* to be a
->>> mixture
->>> of slab originated pages and non-slab pages combined together in a 
->>> single
->>> bio of a bvec entry,
->>> I'd suspect that it would be more beneficial to split the bvec 
->>> (essentially
->>> not allow bio_add_page
->>> to append the page to tail bvec depending on a queue limit (similar 
->>> to how
->>> we handle sg gaps).
->> So you want to add a PageSlab check to bvec_try_merge_page? That sounds
->> fairly expensive..
->>
->
-> The check needs to happen somewhere apparently, and given that it will 
-> be gated by a queue flag
-> only request queues that actually needed will suffer, but they will 
-> suffer anyways...
-
-Something like the untested patch below:
---
-diff --git a/block/bio.c b/block/bio.c
-index 53f608028c78..e55a4184c0e6 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -18,6 +18,7 @@
-  #include <linux/highmem.h>
-  #include <linux/blk-crypto.h>
-  #include <linux/xarray.h>
-+#include <linux/net.h>
-
-  #include <trace/events/block.h>
-  #include "blk.h"
-@@ -960,6 +961,9 @@ bool bvec_try_merge_hw_page(struct request_queue *q, 
-struct bio_vec *bv,
-                 return false;
-         if (len > queue_max_segment_size(q) - bv->bv_len)
-                 return false;
-+       if (q->limits.splice_pages &&
-+           sendpage_ok(bv->bv_page) ^ sendpage_ok(page))
-+                       return false;
-         return bvec_try_merge_page(bv, page, len, offset, same_page);
-  }
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a7e820840cf7..82e2719acb9c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1937,6 +1937,7 @@ static void nvme_set_ctrl_limits(struct nvme_ctrl 
-*ctrl,
-         lim->virt_boundary_mask = NVME_CTRL_PAGE_SIZE - 1;
-         lim->max_segment_size = UINT_MAX;
-         lim->dma_alignment = 3;
-+       lim->splice_pages = ctrl->splice_pages;
-  }
-
-  static bool nvme_update_disk_info(struct nvme_ns *ns, struct 
-nvme_id_ns *id,
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3f3e26849b61..d9818330e236 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -398,6 +398,7 @@ struct nvme_ctrl {
-
-         enum nvme_ctrl_type cntrltype;
-         enum nvme_dctype dctype;
-+       bool splice_pages
-  };
-
-  static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 02076b8cb4d8..618b8f20206a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2146,6 +2146,12 @@ static int nvme_tcp_configure_admin_queue(struct 
-nvme_ctrl *ctrl, bool new)
-         if (error)
-                 goto out_stop_queue;
-
-+       /*
-+        * we want to prevent contig pages with conflicting 
-splice-ability with
-+        * respect to the network transmission
-+        */
-+       ctrl->splice_pages = true;
-+
-         nvme_unquiesce_admin_queue(ctrl);
-
-         error = nvme_init_ctrl_finish(ctrl, false);
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 69c4f113db42..ec657ddad2a4 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -331,6 +331,12 @@ struct queue_limits {
-          * due to possible offsets.
-          */
-         unsigned int            dma_alignment;
-+
-+       /*
-+        * Drivers that use MSG_SPLICE_PAGES to send the bvec over the 
-network,
-+        * will need either bvec entry contig pages spliceable or not.
-+        */
-+       bool                    splice_pages;
-  };
-
-  typedef int (*report_zones_cb)(struct blk_zone *zone, unsigned int idx,
---
-
-What I now see is that we will check PageSlab twice (bvec last index and 
-append page)
-and skb_splice_from_iter checks it again... How many times check we 
-check this :)
-
-Would be great if the network stack can just check it once and fallback 
-to page copy...
+I'd guess the thinking was that if we push back the callers would
+switch the relevant allocations to be page-backed. But we can add
+a comment above the helper that says "you'd be better off using
+page frags and calling sendmsg(MSG_SPLICE_PAGES) directly".
 
