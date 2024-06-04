@@ -4,73 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3ACC7C41513
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 18:59:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08BCBC27C53
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 18:59:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=x37bdmFYTwI58S4flYaPguFmDJcUfvsGq/WYCRhcxZU=; b=18648eGRDgicxVqMQPk9Hc8ZFi
-	UEtWBifixjp+DJ9XGy37lDeKJzE8Z6e+/P/cyCoZAiNFq+mSUzlxT6CZm8uaffbY/d3WpSrvwfN5t
-	/l+bNlK9IGSY9bSfzIBbMoPylL142XDoSNUV7TbSUFHlAZuAFGReGgcsK94puSEq/uF71Ry3djy/D
-	jwF0GNoBx3Vm6Ap/ArFBHgkvhw41IYD4238lHtpCWpJZjFVMCGXuF84vS+ligPpPzP7EI/0D2BDQx
-	O3xQBeZzj/43jVGUIYZQXBTtFNQckbQKcEmjILlF5AIrmzbKLfCxnZOc62JJZHApwcdqmf6YpoP6T
-	Tt7h3Wuw==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=p2Hg1gJ0YzOw+AbxzdVsn7s6/XfAGdkORtjhhoew0JQ=; b=HHEyF4E4oejgEGpyq+sgCVH4Oj
+	D9jbP6QfpJOG4io+G6KA7G737t6V9eFBfAOOaHgX2XrzBHSaZVx72tCow0rA0HHoekCro0UrlAA5J
+	RGqxs0kgTF/J11AxTXjmY329XG8O8XtG4H9VEATJLCkWO6Q/BMwSiuCkhkIH97su5YBRryORVCvZ4
+	YuiwZ51y3ZfQW44XNgQQ0X6XhyBYii+iyIX/e4vZuEHR9ij7WfL5gF0vRT1gcm8zL0XOZB9PPkwxL
+	G4czMl3dVorQt/ewGTu6TU+nsbF0W8hqgKoBd9B3/pEJZKVbGYDACQH7tiPi4Mpo8e6LvkPffAe9W
+	DcLDuwYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEZNi-00000003W0G-0BGW;
-	Tue, 04 Jun 2024 18:59:38 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1sEZNl-00000003W21-2BTv;
+	Tue, 04 Jun 2024 18:59:41 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEZNf-00000003Vya-1OPb
+	id 1sEZNi-00000003Vzq-1jXM
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Jun 2024 18:59:36 +0000
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 454Hmiu8020979
-	for <linux-nvme@lists.infradead.org>; Tue, 4 Jun 2024 11:59:32 -0700
+	Tue, 04 Jun 2024 18:59:40 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 454Hmgld006342
+	for <linux-nvme@lists.infradead.org>; Tue, 4 Jun 2024 11:59:36 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc :
- content-transfer-encoding : content-type : date : from : message-id :
- mime-version : subject : to; s=s2048-2021-q4;
- bh=x37bdmFYTwI58S4flYaPguFmDJcUfvsGq/WYCRhcxZU=;
- b=P7ZEDnOuCzfDXeOHbZb7tgXR9rIJXC1FKtm8OVDNO9lcnTK7uiGhN769+J0x0RfQdH5C
- uNv+V/ZhQZgutKBGWbhy2iat54hJ9Z5dUfV7mjCesmPFZwcjV67gmELOS42RkpHf62fI
- kdfJfOvhsRUyUWx9NePh9qRlsR//jLlonTu3svb+2DD8YFxk/YBpF9K9ijVTzcMK5D8e
- aOlHk09GlTPpS2YZH8qMxeLSfO87Kj82dGpTlc91TcrtZMHkK9IQQski23Ux+QfDvQPq
- L8MkL7KkBA0dPQ41mY1Al/AvtJwXjIMbBZRhWXdtlq8EMVpRGGySaMozM8xbGxx/ffa/ ww== 
-Received: from mail.thefacebook.com ([163.114.134.2])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3yhq0xxbr3-1
+ content-transfer-encoding : content-type : date : from : in-reply-to :
+ message-id : mime-version : references : subject : to; s=s2048-2021-q4;
+ bh=p2Hg1gJ0YzOw+AbxzdVsn7s6/XfAGdkORtjhhoew0JQ=;
+ b=A3AhfsR4IkEnCZsBsYt7arZAvO9hvLjs0jBCpKNmugGoVpP/XagVIQOavIBRJFqA0SNr
+ H3K4jHedGlUBPhr8es2ehb2IFtmpJsqD+n1y+Apy9qxJk4iM87qW00zUn7OyUkBdv24N
+ kBcdEJp6rtnArKuUgnpHF+WHNcHv+9h0polPiPnMl7DRAeuvToL2+z8KOXFPO9xZs6JQ
+ /2iQzwhvszkae0CM3Ak8hmdTjIIibC8OJB3us0qJ7XSS+5VLqWwTfD4wxNxe8+yNT/w8
+ lAZewzPibAcGPDZ3QPS9PRTwo/iJvpyQqILEfIgq29fzmvwZoK2xUvI/DN4JT7nRZucv +Q== 
+Received: from mail.thefacebook.com ([163.114.134.6])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3yhqbxpg8m-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 04 Jun 2024 11:59:31 -0700
-Received: from twshared24816.07.ash9.facebook.com (2620:10d:c085:108::8) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Tue, 04 Jun 2024 11:59:36 -0700
+Received: from twshared53332.38.frc1.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Tue, 4 Jun 2024 18:59:30 +0000
+ 15.2.1544.11; Tue, 4 Jun 2024 18:59:33 +0000
 Received: by devbig032.nao3.facebook.com (Postfix, from userid 544533)
-	id 0944D35076C9; Tue,  4 Jun 2024 11:59:26 -0700 (PDT)
+	id 4EA1D35076D1; Tue,  4 Jun 2024 11:59:26 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-nvme@lists.infradead.org>
 CC: <hch@lst.de>, <sagi@grimberg.me>, <mlombard@redhat.com>, <hare@suse.de>,
         <shinichiro.kawasaki@wdc.com>, <james.smart@broadcom.com>,
         Keith Busch
 	<kbusch@kernel.org>
-Subject: [PATCHv2 0/5] nvme: fix initialization memleak 
-Date: Tue, 4 Jun 2024 11:59:03 -0700
-Message-ID: <20240604185908.3703052-1-kbusch@meta.com>
+Subject: [PATCHv2 3/5] nvme: rdma: split controller bringup handling
+Date: Tue, 4 Jun 2024 11:59:06 -0700
+Message-ID: <20240604185908.3703052-4-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240604185908.3703052-1-kbusch@meta.com>
+References: <20240604185908.3703052-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: qn277RqFghULBkjeQ2MVgN_7aCFOAKaT
-X-Proofpoint-ORIG-GUID: qn277RqFghULBkjeQ2MVgN_7aCFOAKaT
+X-Proofpoint-GUID: pO6oAvw3B17kGctoxbqK8PpxhLAVcZfO
+X-Proofpoint-ORIG-GUID: pO6oAvw3B17kGctoxbqK8PpxhLAVcZfO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-04_09,2024-06-04_02,2024-05-17_01
+ definitions=2024-06-04_09,2024-06-04_01,2024-05-17_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240604_115935_475643_975F367D 
-X-CRM114-Status: GOOD (  10.63  )
+X-CRM114-CacheID: sfid-20240604_115938_773350_1F8DEAD3 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,33 +89,76 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-I ran more of the blktests on loop in addtion to pci, also did more
-error injection at various points around the early initialization to
-make sure the kmemleak really is gone.
+Drivers must call nvme_uninit_ctrl after a successful nvme_init_ctrl.
+Split the allocation side out to make the error handling boundary easier
+to navigate. The nvme rdma driver's error handling had different returns
+in the error goto label's, which harm readability.
 
-Changes since v1:
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/rdma.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-  Use ERR_CAST() as appropriate (Christoph, Hannes)
-
-  Fix apple cleanup error (me)
-
-Keith Busch (5):
-  nvme: apple: fix device reference counting
-  nvme: tcp: split controller bringup handling
-  nvme: rdma: split controller bringup handling
-  nvme: fc: split controller bringup handling
-  nvme: split device add from initialzation
-
- drivers/nvme/host/apple.c  | 32 +++++++++++++++++----
- drivers/nvme/host/core.c   | 58 +++++++++++++++++++++++---------------
- drivers/nvme/host/fc.c     | 48 ++++++++++++++++++++-----------
- drivers/nvme/host/nvme.h   |  1 +
- drivers/nvme/host/pci.c    |  5 ++++
- drivers/nvme/host/rdma.c   | 33 +++++++++++++++++-----
- drivers/nvme/host/tcp.c    | 30 ++++++++++++++++----
- drivers/nvme/target/loop.c |  5 ++++
- 8 files changed, 155 insertions(+), 57 deletions(-)
-
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 51a62b0c645a7..94d4f3dbac6b6 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2237,12 +2237,11 @@ nvme_rdma_existing_controller(struct nvmf_ctrl_op=
+tions *opts)
+ 	return found;
+ }
+=20
+-static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
++static struct nvme_rdma_ctrl *nvme_rdma_alloc_ctrl(struct device *dev,
+ 		struct nvmf_ctrl_options *opts)
+ {
+ 	struct nvme_rdma_ctrl *ctrl;
+ 	int ret;
+-	bool changed;
+=20
+ 	ctrl =3D kzalloc(sizeof(*ctrl), GFP_KERNEL);
+ 	if (!ctrl)
+@@ -2304,6 +2303,26 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(str=
+uct device *dev,
+ 	if (ret)
+ 		goto out_kfree_queues;
+=20
++	return ctrl;
++
++out_kfree_queues:
++	kfree(ctrl->queues);
++out_free_ctrl:
++	kfree(ctrl);
++	return ERR_PTR(ret);
++}
++
++static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
++		struct nvmf_ctrl_options *opts)
++{
++	struct nvme_rdma_ctrl *ctrl;
++	bool changed;
++	int ret;
++
++	ctrl =3D nvme_rdma_alloc_ctrl(dev, opts);
++	if (IS_ERR(ctrl))
++		return ERR_CAST(ctrl);
++
+ 	changed =3D nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING);
+ 	WARN_ON_ONCE(!changed);
+=20
+@@ -2326,11 +2345,6 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(str=
+uct device *dev,
+ 	if (ret > 0)
+ 		ret =3D -EIO;
+ 	return ERR_PTR(ret);
+-out_kfree_queues:
+-	kfree(ctrl->queues);
+-out_free_ctrl:
+-	kfree(ctrl);
+-	return ERR_PTR(ret);
+ }
+=20
+ static struct nvmf_transport_ops nvme_rdma_transport =3D {
 --=20
 2.43.0
 
