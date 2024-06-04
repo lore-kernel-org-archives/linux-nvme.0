@@ -4,92 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A05DBC25B78
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 11:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21C0DC25B78
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 13:01:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7qUm0UAjYUpYgELaUp3vQTyRsNCZFqUKF3YsXC9VPcI=; b=dm5vWSVkrrBj84mPwi/jcbWq/L
-	F82JZ6mqSS/dVRDUBMJo/hA96Z2hBfMM/hr0C7otgeDrusOPCm+9dB3/fHbNx1Dc7w+VtLBbRXWU0
-	VBP7f/QVR3otT32RjTb+iSWhZI+NzlwUe1GM8KZAPvujie7Rbt9v24EJcseAo83YbVMCLKSYAFUrW
-	n9PLyIqzMJx7DnLHQCvZ3ObmI0KLLbRHmKokhlAjd6QfQayCw6j/NEq4pgRpJhyBkleybAzI87tbG
-	5u0xM9K6//p4+hGSopat+4zNnGT6m5GhoMXem1u8h1diBHt7fybj/9hhe8F4HOPaI3g3AYkfY+Son
-	UZJGcPFg==;
+	bh=fxHXs7IG64cFNSoqIPh3h+fcJrQqZkul2851soVpEBU=; b=hFxnX0AsVLLqpcA2E7F88qcZ+r
+	/D2CmFtlnHB39oT0fDnVzItlXMgytOLpjCY65OZlOtyPRru3yjTkw6GPxEFnPdzOlHgsBNdV4pYOM
+	URvtqhpg4RU7JsW/YwoxpI4R4EuIgxmUKLIfT2ZFRnubvLNja2kRKXP/al7HrYzIMQ42THatT8sNN
+	P1KkejQrUJ4uJvR4IbPMT25x22n3J5tV6itjnoXl2pEwlv2GFb07GSQNZQ/8br2mezhnJb3Hjb531
+	d3WNHg4mQf0dwhW6ykeQZIwnn85upgawkEblkMarpS3OmRpxfTFpa+kKJV2WU2cZYxafCKoBaFIOZ
+	9Mt83Hgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sESaz-00000002AVa-3Ar3;
-	Tue, 04 Jun 2024 11:44:53 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1sETn7-00000002QFu-1YGH;
+	Tue, 04 Jun 2024 13:01:29 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sESaw-00000002AT1-2HYt
+	id 1sETn1-00000002QEz-10iV
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Jun 2024 11:44:52 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Vtpfm2nCnz6CmM6L;
-	Tue,  4 Jun 2024 11:44:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1717501479; x=1720093480; bh=7qUm0UAjYUpYgELaUp3vQTyR
-	sNCZFqUKF3YsXC9VPcI=; b=PH0bzoilwBKbtI0CATbVi7YcINf9EkEcm2c2N0CV
-	1/oVwONzbegPfpgoEMQNU3394kaNh4ZWcqz6bVyW5zyutvi2Xq9VBgu24G8pIM65
-	vc4hx0zpbsrSh7Y9GrAgZKutiC2V9wqzzVN99yfwWnHRIuyclYn7hDFRE96oz8Wq
-	JaAttVggwSu/Djpga3VWgX3kj7CUtYmZqBGYkPXR6AuvhT78LjHBQDX7UYpSsnHC
-	Tgn6ypj7ceaWO8DuUcqBb/5GdadTFhcBUfAwr6Uo6TykNn+CPNk5jEy07Wisb1Gq
-	5Mj52lkVrD41PtszHYQi/5R/4HaVA1eHn9rVUidXnlwTOw==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id JJ_f4sfDEmwz; Tue,  4 Jun 2024 11:44:39 +0000 (UTC)
-Received: from [192.168.132.235] (unknown [65.117.37.195])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VtpfX0Smkz6CmQvG;
-	Tue,  4 Jun 2024 11:44:35 +0000 (UTC)
-Message-ID: <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
-Date: Tue, 4 Jun 2024 04:44:34 -0700
+	Tue, 04 Jun 2024 13:01:25 +0000
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4210f0bb857so5430985e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 04 Jun 2024 06:01:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717506080; x=1718110880;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fxHXs7IG64cFNSoqIPh3h+fcJrQqZkul2851soVpEBU=;
+        b=COnSC4hNrknRVoCSiNva+zHeOCgizWuDdMIGtEm6n1rA/Df8X/ATFJ7jav60TcV3Vr
+         vaomAHnUEXt3991e6Od2NAKeApcaFwq8NrvsF87rgMq275KmK1iiye4YuLT/mGoQoj6b
+         hUobT9g45HtOmUfqbeengIQjzvw+TlfGCXef2YV83/jUja5XmYu3q+5tv57NBfhC7J+8
+         wXk4LkF6393/faZ7IDKP0x0EyCvgIv1uKjbRdn3I++euqTQMAh7oMJistrN8p/K1gn2G
+         ynUBc/3PGu4vZkgBnNSM1TyCl1Kqvw32AWHQvTKM+3m2rIhXw6mQUzbkd6ikY4dg7wy9
+         XiTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGz3CFM27xya+km3dvN5X+6YDVfmIo64Ix2RU+HaIxkf+CdvIAuZYxz1s7RpZ40mnMOSlXtw5LTjUlXouZqswPYytIeCCM8J72ATCXlo4=
+X-Gm-Message-State: AOJu0YyySjaR7ehUUZ1KGOtrnvl4lDugGIgpv60kvL/Qj0feLyOVZOWx
+	jx0AgGAN7pvNVQTYhOuCCtyWA1e7kYr0si0o3FtfNykqQK+4RXFUv07g5Xqm
+X-Google-Smtp-Source: AGHT+IH9oq3dFpvLJVUKgEQQ0Vx9YEe7q6Q5Zb8A/OQIgbPFG2wSdi0d9xEzXrAJ0zX69KHy0U2C2g==
+X-Received: by 2002:a05:600c:1382:b0:41b:fdf9:98b5 with SMTP id 5b1f17b1804b1-4212e0c40a5mr92270135e9.4.1717506080292;
+        Tue, 04 Jun 2024 06:01:20 -0700 (PDT)
+Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421542e207esm13638365e9.22.2024.06.04.06.01.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jun 2024 06:01:20 -0700 (PDT)
+Message-ID: <ef7ea4a8-c0e4-4fd9-9abb-42ae95090fc8@grimberg.me>
+Date: Tue, 4 Jun 2024 16:01:17 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
+Subject: Re: [PATCH v2 1/4] net: introduce helper sendpages_ok()
+From: Sagi Grimberg <sagi@grimberg.me>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, Damien Le Moal
- <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
- joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
- <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
- <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
- <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
- <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
- <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
- <20240604044042.GA29094@lst.de>
+Cc: Ofir Gal <ofir.gal@volumez.com>, davem@davemloft.net,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, ceph-devel@vger.kernel.org, dhowells@redhat.com,
+ edumazet@google.com, pabeni@redhat.com, kbusch@kernel.org, axboe@kernel.dk,
+ philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+ christoph.boehmwalder@linbit.com, idryomov@gmail.com, xiubli@redhat.com
+References: <20240530142417.146696-1-ofir.gal@volumez.com>
+ <20240530142417.146696-2-ofir.gal@volumez.com>
+ <8d0c198f-9c15-4a8f-957a-2e4aecddd2e5@grimberg.me>
+ <23821101-adf0-4e38-a894-fb05a19cb9c3@volumez.com>
+ <86e60615-9286-4c9c-bffc-72304bd3cc1f@grimberg.me>
+ <20240604042738.GA28853@lst.de>
+ <62c2b8cd-ce6a-4e13-a58c-a6b30a0dcf17@grimberg.me>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240604044042.GA29094@lst.de>
+In-Reply-To: <62c2b8cd-ce6a-4e13-a58c-a6b30a0dcf17@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240604_044451_214911_7D72A006 
-X-CRM114-Status: GOOD (  12.49  )
+X-CRM114-CacheID: sfid-20240604_060123_306958_77243C54 
+X-CRM114-Status: GOOD (  22.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,21 +92,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/3/24 21:40, Christoph Hellwig wrote:
-> There is no requirement to process them synchronously, there is just
-> a requirement to preserve the order.  Note that my suggestion a few
-> arounds ago also included a copy id to match them up.  If we don't
-> need that I'm happy to leave it away.  If need it it to make stacking
-> drivers' lifes easier that suggestion still stands.
 
-Including an ID in REQ_OP_COPY_DST and REQ_OP_COPY_SRC operations sounds
-much better to me than abusing the merge infrastructure for combining
-these two operations into a single request. With the ID-based approach
-stacking drivers are allowed to process copy bios asynchronously and it
-is no longer necessary to activate merging for copy operations if
-merging is disabled (QUEUE_FLAG_NOMERGES).
 
-Thanks,
+On 04/06/2024 11:24, Sagi Grimberg wrote:
+>
+>
+> On 04/06/2024 7:27, Christoph Hellwig wrote:
+>> On Tue, Jun 04, 2024 at 12:27:06AM +0300, Sagi Grimberg wrote:
+>>>>> I still don't understand how a page in the middle of a contiguous 
+>>>>> range ends
+>>>>> up coming from the slab while others don't.
+>>>> I haven't investigate the origin of the IO
+>>>> yet. I suspect the first 2 pages are the superblocks of the raid
+>>>> (mdp_superblock_1 and bitmap_super_s) and the rest of the IO is the 
+>>>> bitmap.
+>>> Well, if these indeed are different origins and just *happen* to be a
+>>> mixture
+>>> of slab originated pages and non-slab pages combined together in a 
+>>> single
+>>> bio of a bvec entry,
+>>> I'd suspect that it would be more beneficial to split the bvec 
+>>> (essentially
+>>> not allow bio_add_page
+>>> to append the page to tail bvec depending on a queue limit (similar 
+>>> to how
+>>> we handle sg gaps).
+>> So you want to add a PageSlab check to bvec_try_merge_page? That sounds
+>> fairly expensive..
+>>
+>
+> The check needs to happen somewhere apparently, and given that it will 
+> be gated by a queue flag
+> only request queues that actually needed will suffer, but they will 
+> suffer anyways...
 
-Bart.
+Something like the untested patch below:
+--
+diff --git a/block/bio.c b/block/bio.c
+index 53f608028c78..e55a4184c0e6 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -18,6 +18,7 @@
+  #include <linux/highmem.h>
+  #include <linux/blk-crypto.h>
+  #include <linux/xarray.h>
++#include <linux/net.h>
+
+  #include <trace/events/block.h>
+  #include "blk.h"
+@@ -960,6 +961,9 @@ bool bvec_try_merge_hw_page(struct request_queue *q, 
+struct bio_vec *bv,
+                 return false;
+         if (len > queue_max_segment_size(q) - bv->bv_len)
+                 return false;
++       if (q->limits.splice_pages &&
++           sendpage_ok(bv->bv_page) ^ sendpage_ok(page))
++                       return false;
+         return bvec_try_merge_page(bv, page, len, offset, same_page);
+  }
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a7e820840cf7..82e2719acb9c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1937,6 +1937,7 @@ static void nvme_set_ctrl_limits(struct nvme_ctrl 
+*ctrl,
+         lim->virt_boundary_mask = NVME_CTRL_PAGE_SIZE - 1;
+         lim->max_segment_size = UINT_MAX;
+         lim->dma_alignment = 3;
++       lim->splice_pages = ctrl->splice_pages;
+  }
+
+  static bool nvme_update_disk_info(struct nvme_ns *ns, struct 
+nvme_id_ns *id,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 3f3e26849b61..d9818330e236 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -398,6 +398,7 @@ struct nvme_ctrl {
+
+         enum nvme_ctrl_type cntrltype;
+         enum nvme_dctype dctype;
++       bool splice_pages
+  };
+
+  static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 02076b8cb4d8..618b8f20206a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2146,6 +2146,12 @@ static int nvme_tcp_configure_admin_queue(struct 
+nvme_ctrl *ctrl, bool new)
+         if (error)
+                 goto out_stop_queue;
+
++       /*
++        * we want to prevent contig pages with conflicting 
+splice-ability with
++        * respect to the network transmission
++        */
++       ctrl->splice_pages = true;
++
+         nvme_unquiesce_admin_queue(ctrl);
+
+         error = nvme_init_ctrl_finish(ctrl, false);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 69c4f113db42..ec657ddad2a4 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -331,6 +331,12 @@ struct queue_limits {
+          * due to possible offsets.
+          */
+         unsigned int            dma_alignment;
++
++       /*
++        * Drivers that use MSG_SPLICE_PAGES to send the bvec over the 
+network,
++        * will need either bvec entry contig pages spliceable or not.
++        */
++       bool                    splice_pages;
+  };
+
+  typedef int (*report_zones_cb)(struct blk_zone *zone, unsigned int idx,
+--
+
+What I now see is that we will check PageSlab twice (bvec last index and 
+append page)
+and skb_splice_from_iter checks it again... How many times check we 
+check this :)
+
+Would be great if the network stack can just check it once and fallback 
+to page copy...
 
