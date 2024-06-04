@@ -4,138 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F292C25B7E
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 11:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A05DBC25B78
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 11:44:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W7mPVzQZKRnQDYV+JCtWF0MGoPHuyGT3TYodiOO+3YY=; b=FiIPaPUNnVlu4T13+nD46yReq8
-	evh+idOPHGXsJpLC76t2J5qEhHWTe+1TgIMM/LXRP+fkiEFqFPlr31CMTpx6qIYlk83EC9KAL0d7D
-	2ZUixBqddeRosKpZ28z4H3iQH2oppXPL3DxPidSZjQdHuJo1gyzcXrKV1H6mYorjhhie7NlQW3gss
-	k8L6DLzMaPOQNm1ixlO7LQ+f7sXHV/oskx5zaz3gG6rUDynUlQ5iC/EiTDDQlIu9MQi7seL/dM9ph
-	XHhXQJ2/cS9RpouYnK6orLmNMdpUNwyVknPMHtsMu4rsepPBsTg/C2PdP0dQrYnAgRyXPlTFsFmae
-	7JYk+DEA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7qUm0UAjYUpYgELaUp3vQTyRsNCZFqUKF3YsXC9VPcI=; b=dm5vWSVkrrBj84mPwi/jcbWq/L
+	F82JZ6mqSS/dVRDUBMJo/hA96Z2hBfMM/hr0C7otgeDrusOPCm+9dB3/fHbNx1Dc7w+VtLBbRXWU0
+	VBP7f/QVR3otT32RjTb+iSWhZI+NzlwUe1GM8KZAPvujie7Rbt9v24EJcseAo83YbVMCLKSYAFUrW
+	n9PLyIqzMJx7DnLHQCvZ3ObmI0KLLbRHmKokhlAjd6QfQayCw6j/NEq4pgRpJhyBkleybAzI87tbG
+	5u0xM9K6//p4+hGSopat+4zNnGT6m5GhoMXem1u8h1diBHt7fybj/9hhe8F4HOPaI3g3AYkfY+Son
+	UZJGcPFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sESA6-0000000274n-2XMb;
-	Tue, 04 Jun 2024 11:17:06 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1sESaz-00000002AVa-3Ar3;
+	Tue, 04 Jun 2024 11:44:53 +0000
+Received: from 008.lax.mailroute.net ([199.89.1.11])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sESA2-00000002739-3ky9
+	id 1sESaw-00000002AT1-2HYt
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Jun 2024 11:17:05 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240604111654epoutp04e9637ecb26440d870cc2b5eee59e459b~VyPs6Y0qm0583605836epoutp04y
-	for <linux-nvme@lists.infradead.org>; Tue,  4 Jun 2024 11:16:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240604111654epoutp04e9637ecb26440d870cc2b5eee59e459b~VyPs6Y0qm0583605836epoutp04y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1717499814;
-	bh=W7mPVzQZKRnQDYV+JCtWF0MGoPHuyGT3TYodiOO+3YY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=m9vmAwAYD9ZesX8pO9KnR/yMfiQ00Kho/W5I/6d5Z6Uj+zp6fiWCif8ROFnT1PSr/
-	 UIZDfdAr7DSKkLHKyRHmhERSgk7MUnu2rd6fMgjDgAzN2wYGcj9Jm3ru5NWsv48Mby
-	 7sPIJOsKrk4kRjxZdVy3rYV9TTU6mTKGIT0f3Wvo=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240604111652epcas5p2fb3ff3af2b3a5585597af0238a75772f~VyPrPc7rW2355423554epcas5p2h;
-	Tue,  4 Jun 2024 11:16:52 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Vtp2T6y1Mz4x9Q2; Tue,  4 Jun
-	2024 11:16:49 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C2.66.10047.1A7FE566; Tue,  4 Jun 2024 20:16:49 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240604105019epcas5p421855f0d2b36c064b41d485af4e2b0cc~Vx4fR6XxJ1521215212epcas5p4c;
-	Tue,  4 Jun 2024 10:50:19 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240604105019epsmtrp2dc2736f53c71be92ea56db72bbf4b564~Vx4fP8yoS0411204112epsmtrp2U;
-	Tue,  4 Jun 2024 10:50:19 +0000 (GMT)
-X-AuditID: b6c32a49-1d5fa7000000273f-2e-665ef7a1bfea
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	42.D4.08336.A61FE566; Tue,  4 Jun 2024 19:50:18 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240604105014epsmtip21cc93a7a862e372e31a4b74374219763~Vx4bJDtP80565705657epsmtip2z;
-	Tue,  4 Jun 2024 10:50:14 +0000 (GMT)
-Date: Tue, 4 Jun 2024 10:50:26 +0000
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
-	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
-	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	<jack@suse.cz>, martin.petersen@oracle.com, bvanassche@acm.org,
-	david@fromorbit.com, hare@suse.de, damien.lemoal@opensource.wdc.com,
-	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
-	gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 03/12] block: add copy offload support
-Message-ID: <20240604105026.yqza6ahoo52bbvle@nj.shetty@samsung.com>
+	Tue, 04 Jun 2024 11:44:52 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Vtpfm2nCnz6CmM6L;
+	Tue,  4 Jun 2024 11:44:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1717501479; x=1720093480; bh=7qUm0UAjYUpYgELaUp3vQTyR
+	sNCZFqUKF3YsXC9VPcI=; b=PH0bzoilwBKbtI0CATbVi7YcINf9EkEcm2c2N0CV
+	1/oVwONzbegPfpgoEMQNU3394kaNh4ZWcqz6bVyW5zyutvi2Xq9VBgu24G8pIM65
+	vc4hx0zpbsrSh7Y9GrAgZKutiC2V9wqzzVN99yfwWnHRIuyclYn7hDFRE96oz8Wq
+	JaAttVggwSu/Djpga3VWgX3kj7CUtYmZqBGYkPXR6AuvhT78LjHBQDX7UYpSsnHC
+	Tgn6ypj7ceaWO8DuUcqBb/5GdadTFhcBUfAwr6Uo6TykNn+CPNk5jEy07Wisb1Gq
+	5Mj52lkVrD41PtszHYQi/5R/4HaVA1eHn9rVUidXnlwTOw==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id JJ_f4sfDEmwz; Tue,  4 Jun 2024 11:44:39 +0000 (UTC)
+Received: from [192.168.132.235] (unknown [65.117.37.195])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VtpfX0Smkz6CmQvG;
+	Tue,  4 Jun 2024 11:44:35 +0000 (UTC)
+Message-ID: <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
+Date: Tue, 4 Jun 2024 04:44:34 -0700
 MIME-Version: 1.0
-In-Reply-To: <20240601061653.GA5877@lst.de>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Ta1BUZRjHfc/ZPSxOq4eL9gKDwZHJYOOyucALgjSKzCH6AKM1pgbuwOEi
-	y+62u2SRU9wRBOQSNiyiK6ErlwSEiKshCgi1EnEbELAS0riHATGM0i67NH77Pf957s88HNz0
-	upElJ0qsYGRioYgitrPq79nbO15bDQ53WR4SoKqeThwl5rzAUcX4RQLN3FsC6NLiGo4m29IA
-	Wtf04qiucwIgVUkxC420NWKopSQPQ2UVHRgq+iYJQx0bcwTKax8CaGpQiaHWUR66llrKQi2t
-	3SzU33SZQFdvTBkhdddLDOWeH8RQw2QCQLdmFljowagV6n3RxX7Xiu4fCKB7SiDdqBw3onsn
-	alh0vyaWvl2eTtC1pV/Rz2oLAd08Ek/Q32bns+mspHmCbkx5zKb/nhpl0Qt3Bgk6u64c0D+r
-	7hsFmp2I9opkhGGMzIYRh0rCosQR3lTA0ZDDIa5uLnxHvgdyp2zEwhjGm/J9P9DRL0qkXQ5l
-	86lQFKuVAoVyOeV80EsmiVUwNpESucKbYqRhIqlA6iQXxshjxRFOYkbhyXdxecdV63g6OrIl
-	Z42Qprz9WfVAKRYP6vZmAGMOJAWwNb0IywDbOaZkM4CTCfVsvbEEYH6JkqU3VgAs7nwEtkIG
-	ljS4jk3JVgCHMwz8HMBf1mx1zCLt4Fz5U6MMwOEQJA/+tMHRyeYkBaemNZtpcLKAgBtKKx2b
-	kQfhj6l3N3UueRheuFJgYBPYXTjJ0rGxNk1efjeh6weSD41h4g9P2Pp+fOH9O5W4ns3gdFed
-	kZ4t4fP5VkLPZ2HZ1zcNwckAKoeVhmF8YErPRVzfUSRs+avUkMgaFvTcwvT6Dpi1PonpdS5s
-	uLLFe2FllcpQwAIOrSYYmIbKPt2Uus2NATg2m87KAXuUr0ykfKWenj1h+mIiW6ldGE5aQfVL
-	jh7tYVWTswqwy4EFI5XHRDByVylfzJz9/8ihkpjbYPNfHPwbwPhvi07tAOOAdgA5OGXOzf7y
-	ZLgpN0z4eRwjk4TIYkWMvB24ag+Ui1vuCpVoH06sCOELPFwEbm5uAo/9bnzqde5MSnGYKRkh
-	VDDRDCNlZFtxGMfYMh7z7/B7aqPmWqoeV/rffLKslhSuVh6nM8Ufjg0kWqSdW87WaMIbd69Y
-	N5PAAf9+/t+l9tPJV8k3XCKDDsQ93Gl7LPiYfZ0ka1/PJytH4Zszw7yPRkVq3q6+U8Hj7h1V
-	H8xmBqhNTGw9D9Hni9x3z03gNSd8ugXnAJX28Vt3k0YGHgQe+qKv9ddAdpprfmKB1/Emu6qO
-	5f3rSkk6d4f5H+ZN/u9lTo8sbStbexbUW1b0p6ra2ndPk8wjZtqrxC5oQfHPdwdqbBwvWbV1
-	i0h6J3XSC3ilnyra5jPV7epsWfja7/sq8nwOHalMTeZVq+p4DTc6eusbzlxHj/zkuW1HLp+Z
-	jRuvpVjySCHfAZfJhf8Bt94OkLgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsWy7bCSvG7Wx7g0g+8fjC3WnzrGbNE04S+z
-	xeq7/WwWrw9/YrSY9uEns8WTA+2MFr/Pnme22HLsHqPFgkVzWSxuHtjJZLFn0SQmi5WrjzJZ
-	zJ7ezGRx9P9bNotJh64xWjy9OovJYu8tbYuFbUtYLPbsPclicXnXHDaL+cueslssP/6PyWJi
-	x1Umix1PGhkt1r1+z2Jx4pa0xfm/x1kdpD0uX/H2OLVIwmPnrLvsHufvbWTxuHy21GPTqk42
-	j81L6j1ebJ7J6LH7ZgObx+K+yawevc3v2Dx2tt5n9fj49BaLx/t9V9k8+rasYvQ4s+AIe4Bw
-	FJdNSmpOZllqkb5dAlfGpb/5Bds1K/oO9bE0MDYodjFyckgImEhc+XSWuYuRi0NIYDejxJOz
-	U5kgEpISy/4eYYawhSVW/nvODmILCXxklLiyOxLEZhFQkXi7CiTOwcEmoC1x+j8HSFhEQEni
-	6auzjCA2s8BMNokz83NBbGEBO4n9bQfB4rwCzhLd86YyQuy9xygxbdcbFoiEoMTJmU9YIJrN
-	JOZtfsgMMp9ZQFpi+T+w+ZxAqyZNPsk2gVFgFpKOWUg6ZiF0LGBkXsUomVpQnJueW2xYYJiX
-	Wq5XnJhbXJqXrpecn7uJEZwStDR3MG5f9UHvECMTB+MhRgkOZiUR3r666DQh3pTEyqrUovz4
-	otKc1OJDjNIcLErivOIvelOEBNITS1KzU1MLUotgskwcnFINTOs+bj92WPe7Q1ZYfL/AE+cV
-	uzTSbO2zBA4Wxm6JO7J9o96KUpHG6eW6CRxNrHc/nWzI+/lq8d865tisE0V1AofZvvUpe9br
-	JL3XzBMoyl/76CTnInZRpb7dXhkCT91PyRxRy//byPvadunJhr4J00NimFdcZz32kV880d3x
-	/+rtXtuDqj87Pbg399Ndn6cPfuW8lPtUuHLFvZMil561RLWcvfS61UEv88TqSoUjLzhFmVT2
-	/9r7YntAo+tRwfMmc9nVn7NqvOoXuyq5d6G8yKmTS3lkmteeXVEbtdH8pNW+D4qSm/ve7dVP
-	mbjfKPNyZR/Pwt32cUfezr3afShkoZm5p3dSje4vj4pL1d5v1yqxFGckGmoxFxUnAgC7zesq
-	eAMAAA==
-X-CMS-MailID: 20240604105019epcas5p421855f0d2b36c064b41d485af4e2b0cc
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520102853epcas5p42d635d6712b8876ea22a45d730cb1378
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Christoph Hellwig <hch@lst.de>
+Cc: Nitesh Shetty <nj.shetty@samsung.com>, Damien Le Moal
+ <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
+ hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
+ joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
 References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520102853epcas5p42d635d6712b8876ea22a45d730cb1378@epcas5p4.samsung.com>
-	<20240520102033.9361-4-nj.shetty@samsung.com> <20240601061653.GA5877@lst.de>
+ <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+ <20240520102033.9361-3-nj.shetty@samsung.com>
+ <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
+ <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+ <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+ <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+ <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
+ <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
+ <20240604044042.GA29094@lst.de>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240604044042.GA29094@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240604_041703_866455_3D9C780F 
-X-CRM114-Status: GOOD (  35.16  )
+X-CRM114-CacheID: sfid-20240604_044451_214911_7D72A006 
+X-CRM114-Status: GOOD (  12.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,150 +104,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On 6/3/24 21:40, Christoph Hellwig wrote:
+> There is no requirement to process them synchronously, there is just
+> a requirement to preserve the order.  Note that my suggestion a few
+> arounds ago also included a copy id to match them up.  If we don't
+> need that I'm happy to leave it away.  If need it it to make stacking
+> drivers' lifes easier that suggestion still stands.
 
-On 01/06/24 08:16AM, Christoph Hellwig wrote:
->> +/* Keeps track of all outstanding copy IO */
->> +struct blkdev_copy_io {
->> +	atomic_t refcount;
->> +	ssize_t copied;
->> +	int status;
->> +	struct task_struct *waiter;
->> +	void (*endio)(void *private, int status, ssize_t copied);
->> +	void *private;
->> +};
->> +
->> +/* Keeps track of single outstanding copy offload IO */
->> +struct blkdev_copy_offload_io {
->> +	struct blkdev_copy_io *cio;
->> +	loff_t offset;
->> +};
->
->The structure names confuse me, and the comments make things even worse.
->
->AFAICT:
->
->blkdev_copy_io is a per-call structure, I'd name it blkdev_copy_ctx.
->blkdev_copy_offload_io is per-bio pair, and something like blkdev_copy_chunk
-Acked, your suggestion for structure name looks better.
+Including an ID in REQ_OP_COPY_DST and REQ_OP_COPY_SRC operations sounds
+much better to me than abusing the merge infrastructure for combining
+these two operations into a single request. With the ID-based approach
+stacking drivers are allowed to process copy bios asynchronously and it
+is no longer necessary to activate merging for copy operations if
+merging is disabled (QUEUE_FLAG_NOMERGES).
 
->might be a better idea.  Or we could just try to kill it entirely and add
->a field to struct bio in the union currently holding the integrity
->information.
-We will explore this.
+Thanks,
 
->I'm also quite confused what kind of offset this offset field is.  The
->type and name suggest it is an offset in a file, which for a block device
->based helper is pretty odd to start with.  blkdev_copy_offload
->initializes it to len - rem, so it kind is an offset, but relative
->to the operation and not to a file. blkdev_copy_offload_src_endio then
->uses to set the ->copied field, but based on a min which means
->->copied can only be decreased.  Something is really off there.
->
-Offset in this context, is with respect to the operation.
-Overall idea was to handle partial copy, where in some of the split copy IO fails.
-In this case we want to return minimum bytes copied.
-We can try to store the offset in a temporary variable similar to
-pos_out, pos_in instead of current (len - rem), to avoid the confusion.
-We will update this in next version.
-
->Taking about types and units: blkdev_copy_offload obviously can only
->work in terms of LBAs.  Any reason to not make it work in terms of
->512-byte block layer sectors instead of in bytes?
->
-Just that number of places where we need to sector shift were
-comparatively more. We will update this to 512-byte sectors in next
-version.
-
->> +	if ((pos_in & align) || (pos_out & align) || (len & align) || !len ||
->> +	    len >= BLK_COPY_MAX_BYTES)
->> +		return -EINVAL;
->
->This can be cleaned up an optimized a bit:
->
->	if (!len || len >= BLK_COPY_MAX_BYTES)
->		return -EINVAL;
->	if ((pos_in | pos_out | len) & align)
->		return -EINVAL;
->	
-Acked.
-
->> + *
->> + * For synchronous operation returns the length of bytes copied or error
->> + * For asynchronous operation returns -EIOCBQUEUED or error
->> + *
->> + * Description:
->> + *	Copy source offset to destination offset within block device, using
->> + *	device's native copy offload feature.
->> + *	We perform copy operation using 2 bio's.
->> + *	1. We take a plug and send a REQ_OP_COPY_DST bio along with destination
->> + *	sector and length. Once this bio reaches request layer, we form a
->> + *	request and wait for dst bio to arrive.
->> + *	2. We issue REQ_OP_COPY_SRC bio along with source sector, length.
->> + *	Once this bio reaches request layer and find a request with previously
->> + *	sent destination info we merge the source bio and return.
->> + *	3. Release the plug and request is sent to driver
->> + *	This design works only for drivers with request queue.
->
->The wording with all the We here is a bit odd.  Much of this also seem
->superfluous or at least misplaced in the kernel doc comment as it doesn't
->document the API, but just what is done in the code below.
->
-Since we were doing IO in unconventional way, we felt would be better to
-document this, for easy followup.
-We will remove this in next version and document just API.
-
->> +	cio = kzalloc(sizeof(*cio), gfp);
->> +	if (!cio)
->> +		return -ENOMEM;
->> +	atomic_set(&cio->refcount, 1);
->> +	cio->waiter = current;
->> +	cio->endio = endio;
->> +	cio->private = private;
->
->For the main use this could be allocated on-stack.  Is there any good
->reason to not let callers that really want an async version to implement
->the async behavior themselves using suitable helpers?
->
-We cannot do on-stack allocation of cio as we use it in endio handler.
-cio will be used to track partial IO completion as well.
-Callers requiring async implementation would need to manage all this
-bookkeeping themselves, leading to duplication of code. We felt it is
-better to do it here onetime.
-Do you see it any differently ?
-
->> +		src_bio = blk_next_bio(dst_bio, bdev, 0, REQ_OP_COPY_SRC, gfp);
->
->Please switch to use bio_chain_and_submit, which is a easier to
->understand API.  I'm trying to phase out blk_next_bio in favour of
->bio_chain_and_submit over the next few merge windows.
->
-Acked
-
->> +		if (!src_bio)
->> +			goto err_free_dst_bio;
->> +		src_bio->bi_iter.bi_size = chunk;
->> +		src_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
->> +		src_bio->bi_end_io = blkdev_copy_offload_src_endio;
->> +		src_bio->bi_private = offload_io;
->> +
->> +		atomic_inc(&cio->refcount);
->> +		submit_bio(src_bio);
->> +		blk_finish_plug(&plug);
->
->plugs should be hold over all  I/Os, submitted from the same caller,
->which is the point of them.
->
-Acked
-
-Thank You,
-Nitesh Shetty
-
-------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_
-Content-Type: text/plain; charset="utf-8"
-
-
-------NniuWcEa.zZVU-iq4JS_ZFjyXsesTFtE.O7X-O5.k3Ud19D7=_58104_--
+Bart.
 
