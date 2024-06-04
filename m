@@ -4,61 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 673ACC25B74
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 04:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 552F3C25B7E
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Jun 2024 06:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JSZ4kM1baM0Yr1n8F14QDY/zsEWU3JniU8UtUk1QePc=; b=wEH9byfqFj7xZ3+FFJbXYg85a/
-	es1ShEu6/0iefk8feHi/Sz4NU2oMYWGW+XPCXZ6zn9CobEr90PB4gpUZ/VQ66uv1qIU2801EqKU5q
-	9pKeU7JTxEC8x8J5natcmctR2LUKb1x864zgxtI6h7i/y255e0j2UDZLo9h5vCkxUI3weEPYOxE/X
-	8wMG//iJICCc6pebM4yyKVB53nxgBNlvxQpy8MawEa8fmgssbFZZwf5wLC72v2ovM6s7RGnalu6Qz
-	QTmAa1jZAlSb6KMTpPuLYE4r9IEzWXJ1xjL9vleStVeOfl++VqwsSy4IYySQQrYw6T2EhXXCLX0NB
-	yNhw2MKQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6wehzuMAsbGO5mJxKsUAnIgIPnmsrtH8jEonbB62AKc=; b=Hdsv3Qi+bW8oKFoNTFQg7gsMk0
+	Hls0YyjlUkA9IY8f77GTgwFU546IpEMdMBfkMJ9eaFu+n61RrOrpQFBdUPgmJ4njQy509fOFOc6XS
+	7k4n1RlD3eNFgTRrluw1utXs1cKsE1hLfOmA+y+bkxTTfYpg7sitvkEEK0Jr4lg2SlPw6sTRuQSHa
+	sJdoVmzcZshiTL0bDzsEvoRmMPQMGeN0yOlr4kTtHsiZR3ErIGMnQ747UE9ksoxCz6RZbL0xx7gTc
+	ygzTRs5MgD3FU4XTlSWxKkw2Hexr431E7M7vW46CxiC/yZVc/Uy5oDsxgZgGvMx52PXUKr+LjRLLC
+	scfdLPIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sELyb-00000001C3J-0jei;
-	Tue, 04 Jun 2024 04:40:49 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1sENxp-00000001Ql7-0UG9;
+	Tue, 04 Jun 2024 06:48:09 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sELyZ-00000001C2w-0LH2
+	id 1sENxj-00000001QiM-30tH
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Jun 2024 04:40:48 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EAF7068D12; Tue,  4 Jun 2024 06:40:42 +0200 (CEST)
-Date: Tue, 4 Jun 2024 06:40:42 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Christoph Hellwig <hch@lst.de>, Nitesh Shetty <nj.shetty@samsung.com>,
-	Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240604044042.GA29094@lst.de>
-References: <20240520102033.9361-1-nj.shetty@samsung.com> <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com> <20240520102033.9361-3-nj.shetty@samsung.com> <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org> <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org> <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org> <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com> <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de> <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
+	Tue, 04 Jun 2024 06:48:06 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 51D3E1F7CD;
+	Tue,  4 Jun 2024 06:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717483673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6wehzuMAsbGO5mJxKsUAnIgIPnmsrtH8jEonbB62AKc=;
+	b=Qv++45Ot6Hz/RK0xSiBs4Jxpq9XonP6vdP0b9+srnTMJ794aojtcjrGBK0ZP4Jnm3S5Onc
+	zv/4TVZ6te3zEDhB5CU+/32KP3yH2/IE6quAq37+8L3zUxSfZTosQXZFZRD1xLVcCsVq7/
+	g3yW68uIi/yGe9XBRYrfdOkOAS4eURs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717483673;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6wehzuMAsbGO5mJxKsUAnIgIPnmsrtH8jEonbB62AKc=;
+	b=+wQdxT5nupwd9gfGN98Tb8QW/r8FZTRuhlNbcBLgvsRiFpUJpxUgW4wCHr+6hTWZe7pp3Z
+	5aQu8im0+vGsSdAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Qv++45Ot;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+wQdxT5n
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717483673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6wehzuMAsbGO5mJxKsUAnIgIPnmsrtH8jEonbB62AKc=;
+	b=Qv++45Ot6Hz/RK0xSiBs4Jxpq9XonP6vdP0b9+srnTMJ794aojtcjrGBK0ZP4Jnm3S5Onc
+	zv/4TVZ6te3zEDhB5CU+/32KP3yH2/IE6quAq37+8L3zUxSfZTosQXZFZRD1xLVcCsVq7/
+	g3yW68uIi/yGe9XBRYrfdOkOAS4eURs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717483673;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6wehzuMAsbGO5mJxKsUAnIgIPnmsrtH8jEonbB62AKc=;
+	b=+wQdxT5nupwd9gfGN98Tb8QW/r8FZTRuhlNbcBLgvsRiFpUJpxUgW4wCHr+6hTWZe7pp3Z
+	5aQu8im0+vGsSdAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B97031398F;
+	Tue,  4 Jun 2024 06:47:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aI5HK5i4XmZbdgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 04 Jun 2024 06:47:52 +0000
+Message-ID: <a8524e5d-f9d1-45c1-a641-0e3f57155822@suse.de>
+Date: Tue, 4 Jun 2024 08:47:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-RFC 2/5] nvme: tcp: split controller bringup handling
+Content-Language: en-US
+To: Caleb Sander <csander@purestorage.com>, Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+ mlombard@redhat.com, shinichiro.kawasaki@wdc.com,
+ Keith Busch <kbusch@kernel.org>
+References: <20240603230524.3854115-1-kbusch@meta.com>
+ <20240603230524.3854115-3-kbusch@meta.com>
+ <CADUfDZpbsNmYsVX6AvUtmkjD92zJvWWjyS7KBCDzhHSksL+tqQ@mail.gmail.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CADUfDZpbsNmYsVX6AvUtmkjD92zJvWWjyS7KBCDzhHSksL+tqQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 51D3E1F7CD
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.50 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240603_214047_402963_FE66C598 
-X-CRM114-Status: GOOD (  18.89  )
+X-CRM114-CacheID: sfid-20240603_234803_937203_5A3493F9 
+X-CRM114-Status: GOOD (  15.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,35 +144,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 03, 2024 at 10:12:48AM -0700, Bart Van Assche wrote:
-> Consider the following use case:
-> * Task A calls blk_start_plug()
-> * Task B calls blk_start_plug()
-> * Task A submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-> * Task B submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-> * The stacking driver to which all REQ_OP_COPY_* operations have been
->   submitted processes bios asynchronusly.
-> * Task A calls blk_finish_plug()
-> * Task B calls blk_finish_plug()
-> * The REQ_OP_COPY_DST bio from task A and the REQ_OP_COPY_SRC bio from
->   task B are combined into a single request.
-> * The REQ_OP_COPY_DST bio from task B and the REQ_OP_COPY_SRC bio from
->   task A are combined into a single request.
->
-> This results in silent and hard-to-debug data corruption. Do you agree
-> that we should not restrict copy offloading to stacking drivers that
-> process bios synchronously and also that this kind of data corruption
-> should be prevented?
+On 6/4/24 02:35, Caleb Sander wrote:
+> On Mon, Jun 3, 2024 at 4:08 PM Keith Busch <kbusch@meta.com> wrote:
+>>
+>> From: Keith Busch <kbusch@kernel.org>
+>>
+>> Drivers must call nvme_uninit_ctrl after a successful nvme_init_ctrl.
+>> Split the allocation side out to make the error handling boundary easier
+>> to navigate. The nvme tcp driver's error handling had different returns
+>> in the error goto labels, which harm readability.
+>>
+>> Signed-off-by: Keith Busch <kbusch@kernel.org>
+>> ---
+>>   drivers/nvme/host/tcp.c | 25 +++++++++++++++++++------
+>>   1 file changed, 19 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 8b5e4327fe83b..7f75d01dcbed0 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -2686,7 +2686,7 @@ nvme_tcp_existing_controller(struct nvmf_ctrl_options *opts)
+>>          return found;
+>>   }
+>>
+>> -static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+>> +static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
+>>                  struct nvmf_ctrl_options *opts)
+>>   {
+>>          struct nvme_tcp_ctrl *ctrl;
+>> @@ -2761,6 +2761,24 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+>>          if (ret)
+>>                  goto out_kfree_queues;
+>>
+>> +       return ctrl;
+>> +out_kfree_queues:
+>> +       kfree(ctrl->queues);
+>> +out_free_ctrl:
+>> +       kfree(ctrl);
+>> +       return ERR_PTR(ret);
+>> +}
+>> +
+>> +static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+>> +               struct nvmf_ctrl_options *opts)
+>> +{
+>> +       struct nvme_tcp_ctrl *ctrl;
+>> +       int ret;
+>> +
+>> +       ctrl = nvme_tcp_alloc_ctrl(dev, opts);
+>> +       if (IS_ERR(ctrl))
+>> +               return (struct nvme_ctrl *)ctrl;
+> 
+> This cast doesn't look right, as struct nvme_tcp_ctrl doesn't start
+> with a struct nvme_ctrl field. Looks like this should be &ctrl->ctrl
+> to match the current implementation of nvme_tcp_create_ctrl()?
+> 
+ERR_CAST() ?
 
-There is no requirement to process them synchronously, there is just
-a requirement to preserve the order.  Note that my suggestion a few
-arounds ago also included a copy id to match them up.  If we don't
-need that I'm happy to leave it away.  If need it it to make stacking
-drivers' lifes easier that suggestion still stands.
+Cheers,
 
->
-> Thanks,
->
-> Bart.
----end quoted text---
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
