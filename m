@@ -4,82 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECC10C25B76
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 18:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49AE5C25B76
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 20:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fd2byO/KenOZn3JNqRr82zIhD1Dtb3pD8qnBr2ef1Fo=; b=cWp6uXk6teqSPMMcN8/6ML2vcz
-	BIKpchHks6skc5Vynma4dR44k4+wu2/TXDgJfUCJDpZnCHDJ/iLS9fPl5uzwyWnxpvpr6svM4knnq
-	YsKyRXWwXmlAy7VD48SoWIFaCVgzklPULRNMjTrVlP6FMpkFGeXob16VtJsUP/RJWHy4SbRt9Pvwe
-	qO1zK9pYaNDbglMGReVEH6rx2+TZtla7y79T+VrLpzMCi6kFEa1kBQPUDmoNAMARVdeR4jUQZXLbK
-	uYsSwoA4jmT0NgJ7PaZfg3yjcCN/z4jlnCy19Q8I1hOdP6BL23AjeZf8WQj7Gg/6LSi5QUc2iepz1
-	Ys98pQOA==;
+	bh=Q2sovYnnLqu3ePNoGdykaYCzoGX/KrvirZkk+6UfwMw=; b=KXlWMD+RP9tnzmGIWyibLlVoIe
+	pi3k/UxH5kgEmADmWm7NWGOT/7J4on/KGmSPl5cSgHxQfHfH3IfmayDrPgIkwElhdWfYOQ8Qx4nb1
+	x9vIV7oAyvyXyhBNbE6CspuBN2Ls8smiMCXeUIvKrYqtB4jTSKrYsaBKN4CmWiAGyspICN6bldlfk
+	vx+toeKpJ0G6sYA6h93+FuBSZjZ3s5wLxPueGPudM8vL87UHhQilTQUhcNLvZqEuQiLgZxHJk/GCX
+	ysPE4kZzShHPnMi7aerl1S9YXZ+iCDC/hoEZEnyW4Ej3XsgqI0EbPopwHHMsshUep2G6OaFrVP+ZL
+	BdgOLY9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEv8l-000000077zp-21mt;
-	Wed, 05 Jun 2024 18:13:39 +0000
-Received: from mail-oo1-xc36.google.com ([2607:f8b0:4864:20::c36])
+	id 1sEwtQ-00000007OyT-1O7H;
+	Wed, 05 Jun 2024 20:05:56 +0000
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEv8i-000000077xt-3SGl
+	id 1sEwtM-00000007OwP-3phI
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Jun 2024 18:13:38 +0000
-Received: by mail-oo1-xc36.google.com with SMTP id 006d021491bc7-5b97f09cde3so4456eaf.0
-        for <linux-nvme@lists.infradead.org>; Wed, 05 Jun 2024 11:13:33 -0700 (PDT)
+	Wed, 05 Jun 2024 20:05:54 +0000
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-250bbae0ff6so89850fac.0
+        for <linux-nvme@lists.infradead.org>; Wed, 05 Jun 2024 13:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1717611212; x=1718216012; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fd2byO/KenOZn3JNqRr82zIhD1Dtb3pD8qnBr2ef1Fo=;
-        b=WNf6PDN3XlI8dnLmQLjmaCNR+096TSDbQ7y0Q+UN+wyTA5LQiFzOMfqziCKcUmWPeE
-         vPqIhqvWqVyQTHmr3YzN+POab5SAdTM67rPALTOLUAdZhyTcyK4LDIpDypY0C+D4e1zd
-         wnLdGPCcUv2akWOFv77/GI07LXhmY1l5UFaIsImtZIHij0XqkVCJ8U0D2Nb5GGhDSHa3
-         +cvy6rG79NYqlqdBQ/YQgoyLY3U0ThrJE0i2GENEvmSOj6/XguQ0IhBqAidV1HA3F2Fg
-         QC5ge3EYi+g3OfvTmRFosXi2mADHcGzkXexMcKzyyi/OsE0cHqw93Goy2KdsTUWZm+5o
-         NeMw==
+        d=gmail.com; s=20230601; t=1717617947; x=1718222747; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q2sovYnnLqu3ePNoGdykaYCzoGX/KrvirZkk+6UfwMw=;
+        b=E/YF5Cc09q8iUyUs8/CQcezcb30jLO4aka74p/By8dre0WN2iAToXLRsu3RYz2oZT7
+         IaP9s+LbHdPmYZgUwXT00+wur64Oa1HTBBtxXHrb/82H02SnodIkxHEibnxPSxCEnfaA
+         RJTHBJlPA3K7upbQspJ6408rUyfC3aX+o45/YnN55Krya/aIb2/qL9I3L9TOI8r0yFZe
+         mLEh3b09AIR8Gwm8rS343t1DM0hQUvtlogpT8cfA0Ma+u+m34Dh2yBFKPajnYYOrpiev
+         MVRAvzp+vS2TYRgodWg7qz4E7NYeuwxMPI4I1wVGSE6KBavCI+LCp4PTIgLqqIoK1WFE
+         zP3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717611212; x=1718216012;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fd2byO/KenOZn3JNqRr82zIhD1Dtb3pD8qnBr2ef1Fo=;
-        b=AEjJVanHriVZe/x+GfhA8xJ8SqSQm/pTXUHiZhmh0eloR/nHLoIyRKnwgFJUebvEkK
-         2Ig6tobGDqs+CHfQLbCXO/GTrU7VbB1sx9utzdFRcL41UXgGukFxi74CQCStd0sjdjZg
-         1VR480+N5LPlgOvk4kNKUBP5DiFC0Tijbf1oNDrKhEj4YQZwHYUGJ0ZtZOHkzsRAfWDl
-         nxKO4Ppa5MK+kM+L8uROWywixgWvafBhgCW+uFngWImheMtHQ/C+AhYvXr2d2ntzYkei
-         yVocZBaK7Z5qXIHh/dKOq0QNUwYRDPPcRWJ8uOVpkf2L2bv1cvZ+R0kKhr54h2nMGzXf
-         PFxA==
-X-Gm-Message-State: AOJu0YzIRMHJBQi0sBpip5umZlxpN6l99n5wcmkmh7RTbV/xMUWuSRUc
-	PP5+/RE2v8L1F8ES1WOq08tgfK2dyGa1ncfNe7Yb16IgaspgRXhy49HEbf15xlYt+9odm70xqg6
-	6
-X-Google-Smtp-Source: AGHT+IHvmAYrbI4X7nm6HeSdKbHE4w6ghqM63umF2ggIFw1qdBkDbXE3X0fLLr0tgO0UcWFsT0vj+w==
-X-Received: by 2002:a4a:dfd8:0:b0:5af:be60:ccdc with SMTP id 006d021491bc7-5ba78d49b7fmr3495521eaf.0.1717611212575;
-        Wed, 05 Jun 2024 11:13:32 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ba6df5ae07sm678769eaf.22.2024.06.05.11.13.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jun 2024 11:13:31 -0700 (PDT)
-Message-ID: <a69f0da0-1956-47f5-adce-b6c95101f278@kernel.dk>
-Date: Wed, 5 Jun 2024 12:13:30 -0600
+        d=1e100.net; s=20230601; t=1717617947; x=1718222747;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q2sovYnnLqu3ePNoGdykaYCzoGX/KrvirZkk+6UfwMw=;
+        b=ANbC7MQDpq5W5ncpcooTK4BQQIawHyKYcX8+pMBY5Mv5avthQ+T1kXSbjHnxYUg0RS
+         lTSEkS9a6Lh10CN9XOXcM8cr+PpzWfN3v9qV3WW1pWxVWEhviZdMfEGSPyP5ouVwC1jJ
+         m19YoMTQgzeK/p/l1GXt2urKAFs31OkLOai082BBdQTIU76vxAti2O2qsZXvCftCWoZq
+         2I+ww1Bi/N0bITnOu6w02m27zIs/LRIs3LG6fKQZ9ekkIucKwBF5HLSp6JXxXAeff9V2
+         Vwkw1NcSgd25MwC9sNGIUUPsfOzjgzRjct3bL+niW6QhWKDXlzO2G28GyhaXzfKl13h/
+         e6/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVK0ghPF1wqCWf/jnTyNJz2yv7ofvPlraVkb4/ZoPVWVfCWsoNtutTufKF8zsRGzBLJ9053+w2W+464TZxB5Bv1btif6nvO6q5qtlhXAG8=
+X-Gm-Message-State: AOJu0YxRGCuHrVGjBeuUKROkV+ZvJzxHVNi88x3EL4XdnKqgZ5P1P5Io
+	e4z6vKkSrnsCwyW7/dhGnLxf9a2eXUR/XixGUkTuNGLj5p28HLSC3c/4VgtYAREm/+efKHBzOk0
+	P5grRSvhrhx0vFKUGyqWo9kRWZ2c=
+X-Google-Smtp-Source: AGHT+IGyVhO7rSQAoGDSB+vjloBrx705BG5D6fs1Cr4EcslfrxplrQUigFncTawwbH2U8MnF7SOq8ImGhCk8Gp1b7A4=
+X-Received: by 2002:a05:6871:738f:b0:24c:4f83:48da with SMTP id
+ 586e51a60fabf-254407aeaf0mr366594fac.16.1717617947176; Wed, 05 Jun 2024
+ 13:05:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.10
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-References: <ZmCp_ZJF9ExtjwUP@kbusch-mbp.dhcp.thefacebook.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZmCp_ZJF9ExtjwUP@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240605063031.3286655-1-hch@lst.de> <20240605063031.3286655-5-hch@lst.de>
+In-Reply-To: <20240605063031.3286655-5-hch@lst.de>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Wed, 5 Jun 2024 20:05:20 +0530
+Message-ID: <CA+1E3rJn3uNfkoFtm_am9qwQmwWvhu3nPVMaM63AJ2GBdxZTmQ@mail.gmail.com>
+Subject: Re: [PATCH 04/12] block: remove the blk_integrity_profile structure
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>, 
+	Yu Kuai <yukuai3@huawei.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Ira Weiny <ira.weiny@intel.com>, Keith Busch <kbusch@kernel.org>, 
+	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org, 
+	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_111337_005253_9DDDCE76 
-X-CRM114-Status: UNSURE (   9.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240605_130552_976635_9CF5D2BC 
+X-CRM114-Status: GOOD (  12.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,29 +96,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/5/24 12:10 PM, Keith Busch wrote:
-> The following changes since commit 29459c3eaa5c6261fbe0dea7bdeb9b48d35d862a:
-> 
->   block: Fix zone write plugging handling of devices with a runt zone (2024-05-30 15:03:52 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.10-2024-06-05
-> 
-> for you to fetch changes up to b1a1fdd7096dd2d67911b07f8118ff113d815db4:
-> 
->   nvme: fix nvme_pr_* status code parsing (2024-05-31 13:50:59 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes Linux 6.10
-> 
->  - Use reserved tags for special fabrics operations (Chunguang)
->  - Persistent Reservation status masking fix (Weiwen)
+On Wed, Jun 5, 2024 at 12:01=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
+e:
+> @@ -446,13 +446,14 @@ bool bio_integrity_prep(struct bio *bio)
+>         if (bio_integrity(bio))
+>                 return true;
+>
+> +       if (!bi->csum_type)
+> +               return true;
 
-Pulled, thanks.
+Changes look mostly good, but trigger a behavior change for non-PI
+metadata format.
 
--- 
-Jens Axboe
+Earlier nop profile was registered for that case. And the block-layer
+continued to attach an appropriately sized meta buffer to incoming IO, even
+though it did not generate/verify. Hence, IOs don't fail.
 
+Now also we show that the nop profile is set, but the above
+"csum_type" check ensures that
+meta buffer is not attached and REQ_INTEGRITY is not set in the bio.
+NVMe will start failing IOs with BLK_STS_NOTSUPP now [*].
 
+[*]
+     if (!blk_integrity_rq(req)) {
+             if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
+                     return BLK_STS_NOTSUPP;
+             control |=3D NVME_RW_PRINFO_PRACT;
+     }
 
