@@ -4,65 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7486C25B76
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 12:03:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07054C27C5E
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 12:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NqyJJh+uVQL7R2F4UTvtUmKar+6fcvrZ02spRxy1oYI=; b=cLP+YNekf0jW3YpKPrmDEXbGp0
-	An2jTqVfcJ1+KsAAY0b4531wa98s/Mp2tLkafQmjK4omlj6bXcuRUeKppkEqPOV22avI3g0yA9f80
-	EiABtKQxTOGdSu+9Lbirb4bP6SECfRWKfdFzeuafDo5vo0JR2kbMZ4Hrk4wtSRJ5gvg9xkSVcp76Y
-	Cprhz2tEci7nAZLd/t8TRm+hJWnnuwF89t/YnfmkKC578So5d3kMWhmLXFXQadn4DygfUWqJQyWID
-	IPymNCmvUWK/texwimU2dytEKdZWdnIjEwV8QoZgxndKiTKNIrrvoDQtLRX5N357p1E+FcPsabibg
-	rCWLp2/g==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iK1QR9QRNu7essXbpC7l6LN0JKBlZFz0AM4HitaxnOw=; b=RC63ZKhhwEc0oHTjixN/9oGV7F
+	rQ258pmeRsxsQI+6noii336i+gRzoe4zW9ydHCrUKqN3iYCjke1BfkwiIIRfa6zKMJ8qdcl94fHzJ
+	uhsR3WaAXmFjNV8LTImkLdnbBOHg1wrrMGw+NSRdd7LrwgFjcuYdyj5yUlvD9zRi8taIrTFZbKcx8
+	dx3cQBMiiaQVTwEVgwW3RujqLUyEY5i6TUv1gW9VppOwrIzBvltQHlfNoTQoVsTIQ3KzjavmFXsAM
+	iGQW/nT0m6kH/ygQZkpLYFC+lgwWURyvIEJBRdS1XSmoMdLlW4FG86evyqBJ4Op3lN9YS31frJyAV
+	/W6TUEgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEpMT-00000005qUE-0aNq;
-	Wed, 05 Jun 2024 12:03:25 +0000
+	id 1sEpMY-00000005qWU-1XSk;
+	Wed, 05 Jun 2024 12:03:30 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEpMQ-00000005qTQ-3lue
+	id 1sEpMV-00000005qUy-192F
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Jun 2024 12:03:24 +0000
+	Wed, 05 Jun 2024 12:03:28 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 36AB261867;
-	Wed,  5 Jun 2024 12:03:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01387C32781;
-	Wed,  5 Jun 2024 12:03:20 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 9E13F61265;
+	Wed,  5 Jun 2024 12:03:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68248C32786;
+	Wed,  5 Jun 2024 12:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717589001;
-	bh=vp7txUi8D2St2iqv2V5exkdfuTRTiuxEQ5umbddoIao=;
-	h=From:To:Cc:Subject:Date:From;
-	b=kJ+BX1TLZ/LCkV87oxxoZjz0VCBhepmeIjsRu4FNIhtCCXuL6L0MNdejBjVS4Juuy
-	 lbTV8sLjIn53FxfE0Nc047mPSv4wPQXmW7EuMnEUZ5B3luGTeNKfKPgb0ZajbEzriO
-	 xAiBp89/urhT/kIROtvFoPy3OMunhYd4s2c9ca+Yn76C7Uz4dExXUlZO/wobpCAxBY
-	 aRw9E+ktBvMzq/siwycfu/7EV0vDHCDatmZKSfgXQG3Q2VY947xuIiZH1b/wV5v8mR
-	 19AMRYaf86gsuocv15A2ztRbz2mZB+9lSnYRSOXyHdPiMNt97XoBuNDnFWkKM10yk8
-	 aQH0b0p4vKt0A==
+	s=k20201202; t=1717589006;
+	bh=EpcOa/PoeA1uayk+/SDygq1AbB+riunm58LMI5D8cdI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LcbyPvQ7xPMJtEA3kBkYVqzqWWSWzzHTsDemRUN1Us44Y0DnGHkkhl7r6mLs390S2
+	 aetz+leXNIPgOFiHezj9O4ty0HzUEJVx9Y7m8eiiB6DAO+mRIJHhpdcfIXWy9ZdWkC
+	 ammf9Fa5pTuLyvNK8edSI6/SWrRi7LL4fRvJe248VQspGI4BQcsmBQr1nkS1rXNGIb
+	 hcZcvS8PLw/4gZDR0md7ntzdjw3ajE6A16F42qyaN0zOgVvhaJFw3NDWvXUxo5VbDt
+	 PU74VBEoXHpP28Rnfll3OLdthQzIc4oxy0i25dNUawNyF8/GLy1zEV5rqPe20hnrpk
+	 X6dsx2q/PuQlg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nilay Shroff <nilay@linux.ibm.com>,
+Cc: Kundan Kumar <kundan.kumar@samsung.com>,
 	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.8 01/18] nvme-multipath: find NUMA path only for online numa-node
-Date: Wed,  5 Jun 2024 08:02:51 -0400
-Message-ID: <20240605120319.2966627-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 04/18] nvme: adjust multiples of NVME_CTRL_PAGE_SIZE in offset
+Date: Wed,  5 Jun 2024 08:02:54 -0400
+Message-ID: <20240605120319.2966627-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240605120319.2966627-1-sashal@kernel.org>
+References: <20240605120319.2966627-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.12
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_050323_036599_7B1309A2 
-X-CRM114-Status: GOOD (  16.90  )
+X-CRM114-CacheID: sfid-20240605_050327_386867_27883B1A 
+X-CRM114-Status: GOOD (  12.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,52 +79,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Nilay Shroff <nilay@linux.ibm.com>
+From: Kundan Kumar <kundan.kumar@samsung.com>
 
-[ Upstream commit d3a043733f25d743f3aa617c7f82dbcb5ee2211a ]
+[ Upstream commit 1bd293fcf3af84674e82ed022c049491f3768840 ]
 
-In current native multipath design when a shared namespace is created,
-we loop through each possible numa-node, calculate the NUMA distance of
-that node from each nvme controller and then cache the optimal IO path
-for future reference while sending IO. The issue with this design is that
-we may refer to the NUMA distance table for an offline node which may not
-be populated at the time and so we may inadvertently end up finding and
-caching a non-optimal path for IO. Then latter when the corresponding
-numa-node becomes online and hence the NUMA distance table entry for that
-node is created, ideally we should re-calculate the multipath node distance
-for the newly added node however that doesn't happen unless we rescan/reset
-the controller. So essentially, we may keep using non-optimal IO path for a
-node which is made online after namespace is created.
-This patch helps fix this issue ensuring that when a shared namespace is
-created, we calculate the multipath node distance for each online numa-node
-instead of each possible numa-node. Then latter when a node becomes online
-and we receive any IO on that newly added node, we would calculate the
-multipath node distance for newly added node but this time NUMA distance
-table would have been already populated for newly added node. Hence we
-would be able to correctly calculate the multipath node distance and choose
-the optimal path for the IO.
+bio_vec start offset may be relatively large particularly when large
+folio gets added to the bio. A bigger offset will result in avoiding the
+single-segment mapping optimization and end up using expensive
+mempool_alloc further.
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+Rather than using absolute value, adjust bv_offset by
+NVME_CTRL_PAGE_SIZE while checking if segment can be fitted into one/two
+PRP entries.
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Kundan Kumar <kundan.kumar@samsung.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/multipath.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 75386d3e0f981..615fbdc09d1cc 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -594,7 +594,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 		int node, srcu_idx;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 710043086dffa..102a9fb0c65ff 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -778,7 +778,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		struct bio_vec bv = req_bvec(req);
  
- 		srcu_idx = srcu_read_lock(&head->srcu);
--		for_each_node(node)
-+		for_each_online_node(node)
- 			__nvme_find_path(head, node);
- 		srcu_read_unlock(&head->srcu, srcu_idx);
- 	}
+ 		if (!is_pci_p2pdma_page(bv.bv_page)) {
+-			if (bv.bv_offset + bv.bv_len <= NVME_CTRL_PAGE_SIZE * 2)
++			if ((bv.bv_offset & (NVME_CTRL_PAGE_SIZE - 1)) +
++			     bv.bv_len <= NVME_CTRL_PAGE_SIZE * 2)
+ 				return nvme_setup_prp_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+ 
 -- 
 2.43.0
 
