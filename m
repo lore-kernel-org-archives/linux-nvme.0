@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D16BCC41513
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD077C27C5E
 	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 15:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,30 +12,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iQASk74cL2oZ+k8YTT9QDqdS6hk9qV1wAFpzuUhhMYg=; b=qNjbW5vgD8kEanXbKO1SmsdMIO
-	HIanpCYudiaTOJwWnC4xkqmvckt8s1G4cDr+HCdZFQrBY+Rixa4zjbg36+VbyTD40PVe3Lkc2p3NQ
-	rePgGH8vAl43a8ldT5lqDBvHktymjrDzpjK3b6DbturPoM4zQG9kMrp9Ac3lhvVvarvdarSv5wcZB
-	+OMvp9ve1b0NmHFOr8zRKrbQDRRr3RGTqrSNy5SR1Am5wt4s0oQy6/tDUUfVzeRqq1LFYhk6ryfVJ
-	DqmEdJNhDyv/mkYNYiUXTc2jQ05ugVl8W94YqSOFBIcGecX33Nnsrsap1oV9Yjg67nQJS5ZsI9XBh
-	xKgzlD7A==;
+	bh=vDBzazFC5bDVy8CKs7O9XYop81ERKehD4ewqZxPAJY0=; b=syOLy+bdCWEvZjfFYk/60vy+Av
+	48z21bj+F4L0BTkC4doOhbunMqjvdjGxPR3+hGK+gpXAzjYMfhbnb2Yrc86L2tmi95tidf8JXcUws
+	QbhQSwHGv/u/locCe2pAItb+5PPLL3Wdyg5mYeUhV+irwZ9gMovP6BYaYnAwyJysSzhX45APTWBhJ
+	sLl/9Gi8tR6w8rNGsV4iCqzU007QY6RlceA9QwWjOGdUeBxP0dWdMQJ56UwgnAkFegq00hxmJkXDR
+	9RmD3yKVBZ3ch3Z+QUOEkhTXHXHfWP4zCud5wFoG5SVeyZhLKvmeIail/R8HI6eCpLdTaz/ZxKsgB
+	mtRClfYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEsVP-00000006bcP-2o0r;
-	Wed, 05 Jun 2024 15:24:51 +0000
+	id 1sEsVS-00000006bel-03Ij;
+	Wed, 05 Jun 2024 15:24:54 +0000
 Received: from szxga01-in.huawei.com ([45.249.212.187])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBwQ1-00000000fNh-1P6M;
-	Tue, 28 May 2024 12:59:11 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VpXYK52rLzwQPG;
-	Tue, 28 May 2024 20:55:17 +0800 (CST)
+	id 1sEqoN-00000006GwN-13qY;
+	Wed, 05 Jun 2024 13:36:21 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VvT0M2nGFzwRqB;
+	Wed,  5 Jun 2024 21:32:19 +0800 (CST)
 Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id E97D6180085;
-	Tue, 28 May 2024 20:59:03 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 253B318007A;
+	Wed,  5 Jun 2024 21:36:16 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 28 May 2024 20:59:03 +0800
+ 15.1.2507.39; Wed, 5 Jun 2024 21:36:15 +0800
 From: Yunsheng Lin <linyunsheng@huawei.com>
 To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
 CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
@@ -71,21 +71,21 @@ CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
 	<kvm@vger.kernel.org>, <virtualization@lists.linux.dev>,
 	<linux-mm@kvack.org>, <bpf@vger.kernel.org>, <linux-afs@lists.infradead.org>,
 	<linux-nfs@vger.kernel.org>
-Subject: [PATCH net-next v5 06/13] mm: page_frag: add '_va' suffix to page_frag API
-Date: Tue, 28 May 2024 20:55:56 +0800
-Message-ID: <20240528125604.63048-7-linyunsheng@huawei.com>
+Subject: [PATCH net-next v6 06/15] mm: page_frag: add '_va' suffix to page_frag API
+Date: Wed, 5 Jun 2024 21:32:56 +0800
+Message-ID: <20240605133306.11272-7-linyunsheng@huawei.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20240528125604.63048-1-linyunsheng@huawei.com>
-References: <20240528125604.63048-1-linyunsheng@huawei.com>
+In-Reply-To: <20240605133306.11272-1-linyunsheng@huawei.com>
+References: <20240605133306.11272-1-linyunsheng@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500005.china.huawei.com (7.185.36.74)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240528_055909_919489_0DE78C22 
-X-CRM114-Status: GOOD (  17.46  )
+X-CRM114-CacheID: sfid-20240605_063619_750457_05F53686 
+X-CRM114-Status: GOOD (  17.91  )
 X-Mailman-Approved-At: Wed, 05 Jun 2024 08:24:50 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -131,12 +131,12 @@ Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
  include/linux/skbuff.h                        |  2 +-
  kernel/bpf/cpumap.c                           |  2 +-
  mm/page_frag_cache.c                          | 12 +++++-----
- mm/page_frag_test.c                           | 11 +++++-----
+ mm/page_frag_test.c                           | 13 ++++++-----
  net/core/skbuff.c                             | 18 +++++++--------
  net/core/xdp.c                                |  2 +-
  net/rxrpc/txbuf.c                             | 15 +++++++------
  net/sunrpc/svcsock.c                          |  6 ++---
- 19 files changed, 74 insertions(+), 71 deletions(-)
+ 19 files changed, 76 insertions(+), 71 deletions(-)
 
 diff --git a/drivers/net/ethernet/google/gve/gve_rx.c b/drivers/net/ethernet/google/gve/gve_rx.c
 index acb73d4d0de6..b6c10100e462 100644
@@ -440,7 +440,7 @@ index a8e34416e960..3a6a237e7dd3 100644
  			prefetchw(page);
  		}
 diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index a20f608d857e..7a8d8e3a4bbf 100644
+index d569021376d4..e5fd4acae003 100644
 --- a/mm/page_frag_cache.c
 +++ b/mm/page_frag_cache.c
 @@ -61,9 +61,9 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
@@ -456,7 +456,7 @@ index a20f608d857e..7a8d8e3a4bbf 100644
  {
  	unsigned int size = PAGE_SIZE;
  	struct page *page;
-@@ -129,16 +129,16 @@ void *__page_frag_alloc_align(struct page_frag_cache *nc,
+@@ -128,16 +128,16 @@ void *__page_frag_alloc_align(struct page_frag_cache *nc,
  
  	return nc->va + offset;
  }
@@ -477,10 +477,10 @@ index a20f608d857e..7a8d8e3a4bbf 100644
 -EXPORT_SYMBOL(page_frag_free);
 +EXPORT_SYMBOL(page_frag_free_va);
 diff --git a/mm/page_frag_test.c b/mm/page_frag_test.c
-index 62b7cedeff39..bb9f5aa84631 100644
+index 1349f6c6b521..c3cfce87fbbf 100644
 --- a/mm/page_frag_test.c
 +++ b/mm/page_frag_test.c
-@@ -273,7 +273,7 @@ static int page_frag_pop_thread(void *arg)
+@@ -277,7 +277,7 @@ static int page_frag_pop_thread(void *arg)
  
  		if (obj) {
  			nr--;
@@ -489,18 +489,20 @@ index 62b7cedeff39..bb9f5aa84631 100644
  		} else {
  			cond_resched();
  		}
-@@ -303,17 +303,18 @@ static int page_frag_push_thread(void *arg)
+@@ -305,17 +305,20 @@ static int page_frag_push_thread(void *arg)
+ 		int ret;
  
- 		size = clamp(size, 1U, PAGE_SIZE);
  		if (test_align)
--			va = page_frag_alloc_align(&test_frag, size, GFP_KERNEL,
--						   SMP_CACHE_BYTES);
-+			va = page_frag_alloc_va_align(&test_frag, size,
+-			va = page_frag_alloc_align(&test_frag, test_alloc_len,
+-						   GFP_KERNEL, SMP_CACHE_BYTES);
++			va = page_frag_alloc_va_align(&test_frag,
++						      test_alloc_len,
 +						      GFP_KERNEL,
 +						      SMP_CACHE_BYTES);
  		else
--			va = page_frag_alloc(&test_frag, size, GFP_KERNEL);
-+			va = page_frag_alloc_va(&test_frag, size, GFP_KERNEL);
+-			va = page_frag_alloc(&test_frag, test_alloc_len, GFP_KERNEL);
++			va = page_frag_alloc_va(&test_frag, test_alloc_len,
++						GFP_KERNEL);
  
  		if (!va)
  			continue;
