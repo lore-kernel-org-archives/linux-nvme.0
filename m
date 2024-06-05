@@ -4,68 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F829C27C53
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 12:06:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54B62C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 12:06:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=icRdAs3+JbAxP9pPPp+MxWZYif+CXdy+xKMXW+fOgfk=; b=dJuLGU9OdXeIfxS4beCpi/GbTg
-	wozKbGUY3e+sNMiAeyQRDmp9X4Nzr+nI/TFUq2b9IT9nd5tBkOUW0E6t1cjCJJa6Ikt4Q/MN3Rp6y
-	EXYTQcXp6J+jmnyUwAJm520YeU2at8xheyNlIcdMJKr3K4M2YTSE37W3d03DzBKDuGxzSljiXg99a
-	oVODPIO8hoZV1/A7veBel0/c22KvGccko2j0f1tPyOxw9HA9PlYGIH8wn2mT/jKGS1kkBsm14qjRb
-	qiBz+vxnpNR0OdI383VJy6FUM9FXkJQJcDeINcfPVk/lfQ4+dpkq8kaW8EBNpEAzK8yOQZ1l4BZQU
-	KU1goRxg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=7nLTOguVKvRCer9sbB04LZ6ym0L0X90mB+vw5ilpLIY=; b=N4ZuCTRVN/EbqazYmwoxtHxfnB
+	T5ynmsuGk38KZ3Zfh3ADuWN49obaYYkgzASzXuZ32aCTInhZ1ova0sajcUMiGczeG9ASGYL5WeBQY
+	NYdfZc7QxTKbtS+wPu0lPEAuxEUs8L8aHHUS1OyUmOezNzPsdbYsvAbM9Tdw4NTDF405LdHvhmDOR
+	J3CICPlJBdeMzSXnV5T+LtJ9oAEksQvc2FCyCdtDfwo/CakQGWsjQR9uq6n3bSn2QlHoIjiJB5LtB
+	osiJdiuUW6YD9ekMw+L4RR/yZ2HTb4qo0mERqDGM86kYLd41ZYxJgKyk3xneuiY0fKgxyLf7B++8n
+	UbPcwJzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEpPK-00000005sI7-2sgB;
-	Wed, 05 Jun 2024 12:06:22 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sEpPR-00000005sMD-0M1p;
+	Wed, 05 Jun 2024 12:06:29 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEpP6-00000005s9W-28hr
+	id 1sEpPC-00000005sD0-2eSX
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Jun 2024 12:06:17 +0000
+	Wed, 05 Jun 2024 12:06:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A9B7E61835;
-	Wed,  5 Jun 2024 12:06:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F16C32781;
-	Wed,  5 Jun 2024 12:06:06 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 5F5BECE1730;
+	Wed,  5 Jun 2024 12:06:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B453EC32786;
+	Wed,  5 Jun 2024 12:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717589167;
-	bh=0Q8eaGMyTpjn7ZtOcjGlTiOA+wWWTJCHK9F63KK14yo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r+oCLBIxUQKg9xV6MmTht1tGp/E+zETplYS3BHj5314VDAo2F6/0krI1gOn2qFvg+
-	 JS/narjJIzjKoaPUNSAB7SR7yvjEDfOwXXcxyEG1HuVqvksoT/IRyr2FQAP901nfXp
-	 jQ0z6hzvQ9kOR3T0pSI9KKCRqfs0iTplBrGK7XJbBaBKyP4D9S4UWHSxJnf5thJDHu
-	 imSU3alepTZ8G20oDNHc1IegD192eQ4HV4mVl0khoxT5c5oCqaaJh5G6FG4mQOq8xO
-	 jqaLgHzt9zIqTAstDwkPK73LXrc7vjepjEWQcG8NJJU7qK95lAYCDSVQjttBnmSr/y
-	 BK9TGnDqq4lew==
+	s=k20201202; t=1717589171;
+	bh=FyMwlV6zRQS7jXw1DmRiPuZ2aBUaTVtYyM8UZuF96AM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=igR0OTupJOJlrKb4Ur2vakcY2JXJaoUdZ5xfiomxN0gjxO/SG196asuRp3ZPtJjBq
+	 CHQZ18yDo155zKCMVgWH1MsPW5WTAXT3GthryzWXrSX3169Mof/KHzw+4KqXJvGh2c
+	 4B7mV8ZlDul8lu6qUK3GyoNee62RaGsWAQyJw6onRXopGmFSq70HcgpjYB2Wl+mJln
+	 kQmngoAV4Et4f4uy4woS5yhzswbT/WrYQltI+6PCIcdlZquo56th/ktw9zEaa5tN+P
+	 yXhQEML+WzYOL5zL3Vs4eUJ0SaiU/ct79zarleu0dCYUaNdhEpCVFdy0DY08VjRUQ1
+	 XCQBBtgjYHcrQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Alex Turin <alex@vastdata.com>,
+Cc: Nilay Shroff <nilay@linux.ibm.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	kch@nvidia.com,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 7/8] nvmet: fix a possible leak when destroy a ctrl during qp establishment
-Date: Wed,  5 Jun 2024 08:05:50 -0400
-Message-ID: <20240605120554.2968012-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 1/2] nvme-multipath: find NUMA path only for online numa-node
+Date: Wed,  5 Jun 2024 08:06:08 -0400
+Message-ID: <20240605120609.2968188-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240605120554.2968012-1-sashal@kernel.org>
-References: <20240605120554.2968012-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.218
+X-stable-base: Linux 5.4.277
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_050609_156277_FE1B5703 
-X-CRM114-Status: GOOD (  15.05  )
+X-CRM114-CacheID: sfid-20240605_050614_900769_71F51ECA 
+X-CRM114-Status: GOOD (  16.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,60 +77,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sagi Grimberg <sagi@grimberg.me>
+From: Nilay Shroff <nilay@linux.ibm.com>
 
-[ Upstream commit c758b77d4a0a0ed3a1292b3fd7a2aeccd1a169a4 ]
+[ Upstream commit d3a043733f25d743f3aa617c7f82dbcb5ee2211a ]
 
-In nvmet_sq_destroy we capture sq->ctrl early and if it is non-NULL we
-know that a ctrl was allocated (in the admin connect request handler)
-and we need to release pending AERs, clear ctrl->sqs and sq->ctrl
-(for nvme-loop primarily), and drop the final reference on the ctrl.
+In current native multipath design when a shared namespace is created,
+we loop through each possible numa-node, calculate the NUMA distance of
+that node from each nvme controller and then cache the optimal IO path
+for future reference while sending IO. The issue with this design is that
+we may refer to the NUMA distance table for an offline node which may not
+be populated at the time and so we may inadvertently end up finding and
+caching a non-optimal path for IO. Then latter when the corresponding
+numa-node becomes online and hence the NUMA distance table entry for that
+node is created, ideally we should re-calculate the multipath node distance
+for the newly added node however that doesn't happen unless we rescan/reset
+the controller. So essentially, we may keep using non-optimal IO path for a
+node which is made online after namespace is created.
+This patch helps fix this issue ensuring that when a shared namespace is
+created, we calculate the multipath node distance for each online numa-node
+instead of each possible numa-node. Then latter when a node becomes online
+and we receive any IO on that newly added node, we would calculate the
+multipath node distance for newly added node but this time NUMA distance
+table would have been already populated for newly added node. Hence we
+would be able to correctly calculate the multipath node distance and choose
+the optimal path for the IO.
 
-However, a small window is possible where nvmet_sq_destroy starts (as
-a result of the client giving up and disconnecting) concurrently with
-the nvme admin connect cmd (which may be in an early stage). But *before*
-kill_and_confirm of sq->ref (i.e. the admin connect managed to get an sq
-live reference). In this case, sq->ctrl was allocated however after it was
-captured in a local variable in nvmet_sq_destroy.
-This prevented the final reference drop on the ctrl.
-
-Solve this by re-capturing the sq->ctrl after all inflight request has
-completed, where for sure sq->ctrl reference is final, and move forward
-based on that.
-
-This issue was observed in an environment with many hosts connecting
-multiple ctrls simoutanuosly, creating a delay in allocating a ctrl
-leading up to this race window.
-
-Reported-by: Alex Turin <alex@vastdata.com>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/nvme/host/multipath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 59109eb8e8e46..a04bb02c1251b 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -795,6 +795,15 @@ void nvmet_sq_destroy(struct nvmet_sq *sq)
- 	wait_for_completion(&sq->free_done);
- 	percpu_ref_exit(&sq->ref);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 811f7b96b5517..c993548403f5c 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -436,7 +436,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 		int node, srcu_idx;
  
-+	/*
-+	 * we must reference the ctrl again after waiting for inflight IO
-+	 * to complete. Because admin connect may have sneaked in after we
-+	 * store sq->ctrl locally, but before we killed the percpu_ref. the
-+	 * admin connect allocates and assigns sq->ctrl, which now needs a
-+	 * final ref put, as this ctrl is going away.
-+	 */
-+	ctrl = sq->ctrl;
-+
- 	if (ctrl) {
- 		/*
- 		 * The teardown flow may take some time, and the host may not
+ 		srcu_idx = srcu_read_lock(&head->srcu);
+-		for_each_node(node)
++		for_each_online_node(node)
+ 			__nvme_find_path(head, node);
+ 		srcu_read_unlock(&head->srcu, srcu_idx);
+ 	}
 -- 
 2.43.0
 
