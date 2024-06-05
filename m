@@ -4,84 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49AE5C25B76
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 20:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 075BCC27C52
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 20:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q2sovYnnLqu3ePNoGdykaYCzoGX/KrvirZkk+6UfwMw=; b=KXlWMD+RP9tnzmGIWyibLlVoIe
-	pi3k/UxH5kgEmADmWm7NWGOT/7J4on/KGmSPl5cSgHxQfHfH3IfmayDrPgIkwElhdWfYOQ8Qx4nb1
-	x9vIV7oAyvyXyhBNbE6CspuBN2Ls8smiMCXeUIvKrYqtB4jTSKrYsaBKN4CmWiAGyspICN6bldlfk
-	vx+toeKpJ0G6sYA6h93+FuBSZjZ3s5wLxPueGPudM8vL87UHhQilTQUhcNLvZqEuQiLgZxHJk/GCX
-	ysPE4kZzShHPnMi7aerl1S9YXZ+iCDC/hoEZEnyW4Ej3XsgqI0EbPopwHHMsshUep2G6OaFrVP+ZL
-	BdgOLY9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OD9OjMUq1p2jj7Lj3WfaT1NhfaNSRKvGVlURanYtV0Y=; b=ADWDfNlS4wyo6DbJlsNCBF9pWN
+	v2pZhmMUrm7uMUZxR1HI+uYYNZ4IKiMbBKIhAXGEErpykAK+zM53D5PSOA2gSeARbrYkVvUBEuUvD
+	oeYiomj7kEzeO3Qd1XLfiYKWUNZlIy1h0OzDPYL9IrmOXYPK/9m+ax8KGsP52XEGvlJAWpxIB70GI
+	1Ac932b/8N+csdy9+2NBNBWvYAJxW6gH+gYn/kVFb4nTsauu8UjoJOsF+05oHZyBHMMR+Gosq/xSF
+	G8V7jUbp/ZbJRjzwe6iuNQzol+9M/8Cawn8i84yKQ8HCpiWAS7jO20XNsWwmivXIYI+bymQ1xxybJ
+	wRdSDtow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEwtQ-00000007OyT-1O7H;
-	Wed, 05 Jun 2024 20:05:56 +0000
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
+	id 1sExQa-00000007Tjm-0c2Q;
+	Wed, 05 Jun 2024 20:40:12 +0000
+Received: from mgamail.intel.com ([192.198.163.11])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEwtM-00000007OwP-3phI
+	id 1sExQW-00000007TjJ-3bgB
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Jun 2024 20:05:54 +0000
-Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-250bbae0ff6so89850fac.0
-        for <linux-nvme@lists.infradead.org>; Wed, 05 Jun 2024 13:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717617947; x=1718222747; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q2sovYnnLqu3ePNoGdykaYCzoGX/KrvirZkk+6UfwMw=;
-        b=E/YF5Cc09q8iUyUs8/CQcezcb30jLO4aka74p/By8dre0WN2iAToXLRsu3RYz2oZT7
-         IaP9s+LbHdPmYZgUwXT00+wur64Oa1HTBBtxXHrb/82H02SnodIkxHEibnxPSxCEnfaA
-         RJTHBJlPA3K7upbQspJ6408rUyfC3aX+o45/YnN55Krya/aIb2/qL9I3L9TOI8r0yFZe
-         mLEh3b09AIR8Gwm8rS343t1DM0hQUvtlogpT8cfA0Ma+u+m34Dh2yBFKPajnYYOrpiev
-         MVRAvzp+vS2TYRgodWg7qz4E7NYeuwxMPI4I1wVGSE6KBavCI+LCp4PTIgLqqIoK1WFE
-         zP3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717617947; x=1718222747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q2sovYnnLqu3ePNoGdykaYCzoGX/KrvirZkk+6UfwMw=;
-        b=ANbC7MQDpq5W5ncpcooTK4BQQIawHyKYcX8+pMBY5Mv5avthQ+T1kXSbjHnxYUg0RS
-         lTSEkS9a6Lh10CN9XOXcM8cr+PpzWfN3v9qV3WW1pWxVWEhviZdMfEGSPyP5ouVwC1jJ
-         m19YoMTQgzeK/p/l1GXt2urKAFs31OkLOai082BBdQTIU76vxAti2O2qsZXvCftCWoZq
-         2I+ww1Bi/N0bITnOu6w02m27zIs/LRIs3LG6fKQZ9ekkIucKwBF5HLSp6JXxXAeff9V2
-         Vwkw1NcSgd25MwC9sNGIUUPsfOzjgzRjct3bL+niW6QhWKDXlzO2G28GyhaXzfKl13h/
-         e6/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVK0ghPF1wqCWf/jnTyNJz2yv7ofvPlraVkb4/ZoPVWVfCWsoNtutTufKF8zsRGzBLJ9053+w2W+464TZxB5Bv1btif6nvO6q5qtlhXAG8=
-X-Gm-Message-State: AOJu0YxRGCuHrVGjBeuUKROkV+ZvJzxHVNi88x3EL4XdnKqgZ5P1P5Io
-	e4z6vKkSrnsCwyW7/dhGnLxf9a2eXUR/XixGUkTuNGLj5p28HLSC3c/4VgtYAREm/+efKHBzOk0
-	P5grRSvhrhx0vFKUGyqWo9kRWZ2c=
-X-Google-Smtp-Source: AGHT+IGyVhO7rSQAoGDSB+vjloBrx705BG5D6fs1Cr4EcslfrxplrQUigFncTawwbH2U8MnF7SOq8ImGhCk8Gp1b7A4=
-X-Received: by 2002:a05:6871:738f:b0:24c:4f83:48da with SMTP id
- 586e51a60fabf-254407aeaf0mr366594fac.16.1717617947176; Wed, 05 Jun 2024
- 13:05:47 -0700 (PDT)
+	Wed, 05 Jun 2024 20:40:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717620008; x=1749156008;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DZKCfW/N/v1MY6ehNNqCGkaYfE3qQdeGAYwy/tGjUTk=;
+  b=mHPs1sz7veGeqs2Mpto3Qz5kpgnU4CJM/NjKQZlmp379npqi2Sa99bTS
+   dvk5dYJucvSkBHqBO1wUW8KE1RrLtRzyX8Ne8T/N16m0deIHmHfsOIrxj
+   nWInEvsKuSbwu2IR/u7xk1sk1QKZqP2vq8W+SCpF6rw5r9xbsDJ0X7Cdp
+   VdOgMBZMZ9D8bBGqYrB4hoQlMz7y0oH+ZUHUDSw/cw04tE15XDHYQcob0
+   CHTeuEWUCd9KO7RtjvVytiLA8vCh81CC8YDLD/TWmEhlF3RzYTDSJvNVx
+   dYYkWhevD2/wKEP/a/1JLea5SeaBbzPZaGVb8SXana7l2mZQLy/jKSwTd
+   A==;
+X-CSE-ConnectionGUID: qbiJCXrVRregEge0u1NEVg==
+X-CSE-MsgGUID: PgyLXqyhSKupMukFOm6HJA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="24887164"
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
+   d="scan'208";a="24887164"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 13:40:07 -0700
+X-CSE-ConnectionGUID: GqqQ3gOkSzC/TDc3nSFSZg==
+X-CSE-MsgGUID: K3LEcDf6QLOQZRFiBi/dkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
+   d="scan'208";a="42286660"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Jun 2024 13:40:06 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sExQR-0002E0-2V;
+	Wed, 05 Jun 2024 20:40:03 +0000
+Date: Thu, 6 Jun 2024 04:39:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [linux-nvme:nvme-6.11 2/10] drivers/nvme/host/apple.c:1547:27:
+ error: 'dev' undeclared; did you mean 'pdev'?
+Message-ID: <202406060424.PAp4EYR8-lkp@intel.com>
 MIME-Version: 1.0
-References: <20240605063031.3286655-1-hch@lst.de> <20240605063031.3286655-5-hch@lst.de>
-In-Reply-To: <20240605063031.3286655-5-hch@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Wed, 5 Jun 2024 20:05:20 +0530
-Message-ID: <CA+1E3rJn3uNfkoFtm_am9qwQmwWvhu3nPVMaM63AJ2GBdxZTmQ@mail.gmail.com>
-Subject: Re: [PATCH 04/12] block: remove the blk_integrity_profile structure
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>, 
-	Yu Kuai <yukuai3@huawei.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org, 
-	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_130552_976635_9CF5D2BC 
-X-CRM114-Status: GOOD (  12.20  )
+X-CRM114-CacheID: sfid-20240605_134008_943735_B3C10515 
+X-CRM114-Status: GOOD (  12.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,31 +85,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 5, 2024 at 12:01=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
-e:
-> @@ -446,13 +446,14 @@ bool bio_integrity_prep(struct bio *bio)
->         if (bio_integrity(bio))
->                 return true;
->
-> +       if (!bi->csum_type)
-> +               return true;
+tree:   git://git.infradead.org/nvme.git nvme-6.11
+head:   fd83bacbbc06c5f3e38d8d79784ca1f7bd9cba68
+commit: cfafcbf5792d9d7e5120c3acb78a8afad8878459 [2/10] nvme: apple: fix device reference counting
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240606/202406060424.PAp4EYR8-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060424.PAp4EYR8-lkp@intel.com/reproduce)
 
-Changes look mostly good, but trigger a behavior change for non-PI
-metadata format.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406060424.PAp4EYR8-lkp@intel.com/
 
-Earlier nop profile was registered for that case. And the block-layer
-continued to attach an appropriately sized meta buffer to incoming IO, even
-though it did not generate/verify. Hence, IOs don't fail.
+All errors (new ones prefixed by >>):
 
-Now also we show that the nop profile is set, but the above
-"csum_type" check ensures that
-meta buffer is not attached and REQ_INTEGRITY is not set in the bio.
-NVMe will start failing IOs with BLK_STS_NOTSUPP now [*].
+   drivers/nvme/host/apple.c: In function 'apple_nvme_probe':
+>> drivers/nvme/host/apple.c:1547:27: error: 'dev' undeclared (first use in this function); did you mean 'pdev'?
+    1547 |         nvme_uninit_ctrl(&dev->ctrl);
+         |                           ^~~
+         |                           pdev
+   drivers/nvme/host/apple.c:1547:27: note: each undeclared identifier is reported only once for each function it appears in
 
-[*]
-     if (!blk_integrity_rq(req)) {
-             if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
-                     return BLK_STS_NOTSUPP;
-             control |=3D NVME_RW_PRINFO_PRACT;
-     }
+
+vim +1547 drivers/nvme/host/apple.c
+
+  1524	
+  1525	static int apple_nvme_probe(struct platform_device *pdev)
+  1526	{
+  1527		struct apple_nvme *anv;
+  1528		int ret;
+  1529	
+  1530		anv = apple_nvme_alloc(pdev);
+  1531		if (IS_ERR(anv))
+  1532			return PTR_ERR(anv);
+  1533	
+  1534		anv->ctrl.admin_q = blk_mq_alloc_queue(&anv->admin_tagset, NULL, NULL);
+  1535		if (IS_ERR(anv->ctrl.admin_q)) {
+  1536			ret = -ENOMEM;
+  1537			anv->ctrl.admin_q = NULL;
+  1538			goto out_uninit_ctrl;
+  1539		}
+  1540	
+  1541		nvme_reset_ctrl(&anv->ctrl);
+  1542		async_schedule(apple_nvme_async_probe, anv);
+  1543	
+  1544		return 0;
+  1545	
+  1546	out_uninit_ctrl:
+> 1547		nvme_uninit_ctrl(&dev->ctrl);
+  1548		nvme_put_ctrl(&dev->ctrl);
+  1549		return ret;
+  1550	}
+  1551	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
