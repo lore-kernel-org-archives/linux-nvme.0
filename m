@@ -4,119 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A34C1C25B76
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 13:33:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22454C25B76
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 14:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JUSnVXmdxI4H78wQtioIjCopgxkAnIk5jewWUCX7060=; b=eElnI/hQ+IxUobimWosk7YRrDa
-	mIjeXpOPESC8PROh3SY2RPWoAbryJRGKeWwpAar++mrb23mOkjoiTB9aeHuD29/QXRXqn1+uXEu9W
-	MstZwN19kFu0IZpoWfHoo+YhC3eHN2f2r9+pB7WADYpYSWQ17LXwrAtJ8rFQtPLL/13SHMWutTZpq
-	ktR/C8PJGpmcoBnZ7oKzw3WCFZA5RJupmL4NBDpArN0fZ8a9+DeIdxI0mHlpM177kFy5YIIe3/+GD
-	NoQZKu2SjrfJMxE+G1ELDba8GpQ6oluJ7dwsZHcUQoUzRKpQBZ8td34M+BKfQd4o/TFP2Bk8af7/7
-	V+vKTQ2w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6X/f7PPWIX1Kzms7IPH5lwuYJdnB1Eo9TTaF+YUyUl0=; b=qpR2E9FPwnmjKlIYpVyb1LmVDJ
+	KQRCfHWO2Bn3acLfb22VUszx6KFmhGM+M6Oa+kkpxykfFbVwYfZTjqa7MaNz6yfY4vjEjvNuJW37k
+	IiFXR7FMxpiBx/JvAg4we2k/6jnOANy5gJo7RZ5tITYyIIYqptdG/p5+FBZhcQ08+h/yRhcCDkCBe
+	/1ZcbO0rcLVM4cZVdB8Z6rHdCnckWA1HPSONtpCt9vTpEJQZbfNEun0XWpr2eoW1Rf3dknk3/4Xeo
+	Tl2hnpnsBEz2Y+oSle4vZ1hvFLHruj3SbwHkPLYLvBhX46mWlzNP89xl7klamc9Y25i7hcQkTXp8r
+	hUkz3Xqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEqlA-00000006Fqq-3nQ0;
-	Wed, 05 Jun 2024 13:33:00 +0000
-Received: from mail-vi1eur05olkn20800.outbound.protection.outlook.com ([2a01:111:f403:2e13::800] helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+	id 1sEs0F-00000006WEP-1OT3;
+	Wed, 05 Jun 2024 14:52:39 +0000
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEql3-00000006FpD-2r3m
+	id 1sEs0C-00000006WCL-3sk8
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Jun 2024 13:32:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jgv9ijZsILIXXmSfbeoOBZiGGiBnsMp5++HQZ6z46nWoXQrcB1NYol+Btr1jWNHk/tzUAy+ffiui+bE0pWc7ZWyEOpc4jopNFEdvXKHESLqze9J2cPXwWOg59/YTcbOV1Bflm6hdzQ4KJYhiCtwa1RwmLsf6et7jMr6/k8eC3MRTbSEQCP85tMtSal1to2+bu+d5mniWnZuvzn3lED45xaxeWUxXufYl6t2U6XKqUJTWISX5aNkV8UPPSb5gZ56SGgQBz9av/gvtN+UrbL1FnOibdHHGZJ7TII7FcHlUmm23jJcgBu2agNPUFY1QuBaOXei3vnBiTl5nFvVUimh4CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JUSnVXmdxI4H78wQtioIjCopgxkAnIk5jewWUCX7060=;
- b=NL5MmlR0VD6cGY3KqsARoKvYHC3em1wd4S/ieAHTdxgQxTjHGHVZNsBShcHxHNKkj4+NVewWoYkzmDgv+o86eggwEpfIdWXSBeb2iLdd3Uk5xINFglKC8OqoQnMkzQPaofnme7/g1ebvH+F8iVul5kGVKWSdSirxAVPH+JYWe8QDTFB99ME47tGd3Ua+EO6ul5cvDpvRlGGwpbd0bYb/p8j0ZZ/Qpz0w/QTzo624Isp5+8ZnMfXK0pssHqdMVA+bS6LSNV4+VbmP6+TzAWzVTzDTyf43wNWu884N4KEcS+xv0l3gs9iXA0B6/kDrZ8tEmRKfpFK4AJuwU80X5bLEZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JUSnVXmdxI4H78wQtioIjCopgxkAnIk5jewWUCX7060=;
- b=k+7LH5qbK+dZHX8p3CVGMWhYfHaoXVMBUIfYXqXaljATMpvVUiTHBvj1Dtw2xWJzJ0OwZ7cfR6YJPxt9jVB8UZ8/2JWHVx91FnI8cLJoDmqj/hvn9ftUk2PG+zlwi0Y7QSuQcxqszaX/TDURQMwmTHYGTeuzHhws12qeE3KhZOqlyx8wJjILZQSbisAFB5bXk4NBmYFI46OLN70ltn6pE5jlq6boRV6jnersTcVrWxwc/H656kFw8uD4o9Yd2VnwzykHiaiAWt7hBtOkUAO+mYpYfZ/TVyVAE3I7avfrMaLW48aFpbLuvwu1h9KZqOG+auHYzX46ujd5FlvbtP0etw==
-Received: from GV1P195MB2055.EURP195.PROD.OUTLOOK.COM (2603:10a6:150:a1::5) by
- PR3P195MB0700.EURP195.PROD.OUTLOOK.COM (2603:10a6:102:37::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7633.31; Wed, 5 Jun 2024 13:32:47 +0000
-Received: from GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
- ([fe80::d7e4:bae0:94b0:378f]) by GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
- ([fe80::d7e4:bae0:94b0:378f%5]) with mapi id 15.20.7587.035; Wed, 5 Jun 2024
- 13:32:47 +0000
-Message-ID: <GV1P195MB2055E2A004FFB8DAFED2AC5CEEF92@GV1P195MB2055.EURP195.PROD.OUTLOOK.COM>
-Date: Wed, 5 Jun 2024 15:32:45 +0200
+	Wed, 05 Jun 2024 14:52:38 +0000
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-57a44c2ce80so5185238a12.0
+        for <linux-nvme@lists.infradead.org>; Wed, 05 Jun 2024 07:52:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717599149; x=1718203949; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=6X/f7PPWIX1Kzms7IPH5lwuYJdnB1Eo9TTaF+YUyUl0=;
+        b=JpBphlVXsaW9KEVGt57wpmNkVn/E6YA5l1eU3Iv4MOmBEiDEZ5UPmebELEIBVH3ace
+         3Kpt2gzimQulmctEm1Cv28cu14mAnn8MyJK5OS8FkHp58SDjgAoBChf+3Q6VC74Fus0K
+         jvbOjXbcW2l+KhxTm6JmYFZnyMcmzTiJIH33r6zQMwpHnOAhdF2/eq2q73atAhsHlp50
+         c19nQbVG44HKWY/A3FhpPjFCtwuoAKAUo2rwa+5SEHk08oZ9Sq2+mTc2Ly6F+m7SulCM
+         5wAMVkX3nsI/bXoxlrHqqVQOk7ojIgJ9+pQ/lqoqzoeN+Ir8kMnI2jV/b+/aZkznodOy
+         oblg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717599149; x=1718203949;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6X/f7PPWIX1Kzms7IPH5lwuYJdnB1Eo9TTaF+YUyUl0=;
+        b=TB0LAwgByJawE03Q3Deif5uA4L+6nYjjwTtS21or4bQVvI8wcybG4p8wP83LCIwzju
+         sF+1L/H8JWuAgwn24mqlr382NV7KXiUuWrST/HHkgNrdX0R77SUqL5fI3cyZTymQmLAi
+         2tgYsgddh4V5jlKTqChC/daI8VALnhfa4oWGgaD1rCaB0PuQwTCxm3BOFVsPFuuitDE9
+         G6zLHRScmaAlKWey2BSRsovm7p04vcuDRc7WLazFnpMv4NwgT/K+Qu3mWcm5+wVL8HFj
+         iFeoEHOSKXTJevZNBaIntzdp1ZYBvqRTvUSISo1u0t7U3Z2wDwm97pkQ3yWZiEVo2mxa
+         pKmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWOAkNhL2u3WnJm2fbg1q6qA7SdcIn0zm+AaHI2AxCSuAZpuSpBqTSsjukBhd819AtvOKvpP/NxyJHLSleNKEpUpnQHAC3w40Rn7zcV94s=
+X-Gm-Message-State: AOJu0YzHLNMcPB6dZdzj5pE5vGpiMDPA6cheIWbMU9GW6NRl+kNHByPw
+	B4/537MRuT6iuxYDmlFJpJSuaAWcrL2GmwgHZCbJo4/fBv5IxqMv
+X-Google-Smtp-Source: AGHT+IHfZpY/oJpv1KHxWECam8DBkIhLG621coNQBkTPHDAxVpVXT1v7gNr0xmHExWyRZaSsBNf1Og==
+X-Received: by 2002:a50:d4d2:0:b0:57a:2430:67eb with SMTP id 4fb4d7f45d1cf-57a8bc9506dmr1893838a12.28.1717599149183;
+        Wed, 05 Jun 2024 07:52:29 -0700 (PDT)
+Received: from [147.251.42.107] (laomedon.fi.muni.cz. [147.251.42.107])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31b99445sm9334556a12.18.2024.06.05.07.52.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Jun 2024 07:52:28 -0700 (PDT)
+Message-ID: <a5570194-920c-45d8-98d5-da99db0d2f8d@gmail.com>
+Date: Wed, 5 Jun 2024 16:52:27 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Question] Configuring CPU Cores for NVMe Target & Host in Linux
- Kernel
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-References: <GV1P195MB205539399CE53BDAF0D58AE6EEF82@GV1P195MB2055.EURP195.PROD.OUTLOOK.COM>
- <Zl-JNqNySZk71_3F@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH 01/12] dm-integrity: use the nop integrity profile
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Song Liu <song@kernel.org>, Yu Kuai <yukuai3@huawei.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+References: <20240605063031.3286655-1-hch@lst.de>
+ <20240605063031.3286655-2-hch@lst.de>
 Content-Language: en-US
-From: Jigao Luo <jigao.luo@outlook.com>
-In-Reply-To: <Zl-JNqNySZk71_3F@kbusch-mbp.dhcp.thefacebook.com>
+From: Milan Broz <gmazyland@gmail.com>
+Autocrypt: addr=gmazyland@gmail.com; keydata=
+ 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
+In-Reply-To: <20240605063031.3286655-2-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TMN: [omacDaShlaiGKRt3Qcd7HpXCTRes4yz7]
-X-ClientProxiedBy: FR4P281CA0064.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::16) To GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:150:a1::5)
-X-Microsoft-Original-Message-ID: <482e05f4-a0dc-4fb9-8ca3-c2f458f93cdb@outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1P195MB2055:EE_|PR3P195MB0700:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81b61815-0e1b-4262-3a4d-08dc8563fce6
-X-Microsoft-Antispam: BCL:0;ARA:14566002|461199019|1602099003|440099019|3412199016;
-X-Microsoft-Antispam-Message-Info: aFnkPQrK7H0Tk35JPV3WuBzIoa2xrYOVta/GLd2tmJSbbP5GT0SI+qA8p7XzxOKbctO6cPNVexRnLrwOWz3L4/y5s2CiqSFpQKzOQQVC5lt/6gQuJUSo2XajUm7PF9e9YUH6g1loFrzmrY8wTukP4HDuqkjkU0qwZJ0ph0jQ0A56zKoH+IkHfthA/ZXinAM2UdocSHQseB4d0kgxk/ucYBQ8npoRu4xLNPAENviBMZJclWSSCGEXnecGhF+zHZzzgl5MX7YwdhcBtRTkiSJk/0Fe9um/aLYdT8fbeseiY5LQBF7ojIAQ2+bQSmH3HLH2OWTuDv5Uz6hMlbYbpQUUQyL/FmgBlOsNMm0/V7P6Oe8EsGjsl7vAMEdxU4eIeEA170yNNH7hYDvEcyY7XKtnaLxKdQg/Y4OniIvcCNdLMbeM2nIy1OH8MJt/rUVYSr9fcd3qK4eNgJnRPJualVHepiUyRCmwnsJLy3Z4DeCztAvk8Ea6+r8uG/u3+MC7NA2iAAX5JN1Ah/ArHXM3BsXXx2RkxcMki3v6CEMdpPhNl/jh+K1aOimE4rc3WuagomkAfA9ikCZG/rWvdezkpTkkIHmuBWGq9/kdGG1fD4aCK4db2+iupTZp21v4xivjvUVDUw9WITCWAVf4M3wxf3IutGBa+2Oz0KBQxJQke/K3v/g=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWlZS3BHOVhkek1ubU5XSWdLL25SbW9nY2pDNWFGL056aU5hQncvanArNjRt?=
- =?utf-8?B?NjNvQ0Z2RXN2ajdPYm1ZWU9IVDRkbVF2cExjYktMV2xSL3NiUHNIL2VhL3VG?=
- =?utf-8?B?dHNIVExzeWpEY21udmZwTTV5WmVaQTN3NndPNTNMWHVCQ09pWnpWNjRacHNp?=
- =?utf-8?B?RmRadndHNElSK3ROZy9IOWJOZ2Y1MU96TVVyMVlVQTJMNjVsYzV4Z2k2OW1U?=
- =?utf-8?B?Zk1BOXdqSmtGZlVTcksxSk9lZFhNU0hpTmF1Q054RVY0aTVjZ2ZHcmlxRHRI?=
- =?utf-8?B?TUxPSlVqdE9KK2F4d3BYU0tWL1hQdWtYVGZSbExBUlc0OXJRWHNqc3g0dWtn?=
- =?utf-8?B?ZGRzYTEzYllXRUREMHQrQU5YOU9RWUoyMkxNRkJkTkhJazlEV1gwRUVPU1ZE?=
- =?utf-8?B?OTIrMlJhb1VRSm1GMHhCZU1oV2J0S1ZrVTBPMW84UGZ5Sk8zQzV4N1UvSW9q?=
- =?utf-8?B?MmRkWWhaUHB1ZExaRnVuNGVLOUVJNkJSRnVtaFR6YnFzVFZ6cmJhQi9idjlB?=
- =?utf-8?B?M28vV3hRUVJMVG56RzFQMUcxa3ZQNDdJYnlEMWdQV2Z3RlJSZjB4UlEyYUx5?=
- =?utf-8?B?ektvKzFiS0l1N0ticEl6TU5qOGdybTJCNnQ5ODhpTURaWTJHQ0kzSTVzbytm?=
- =?utf-8?B?N1JncXROVDhCaE83bDZsRWRaUmVQUTVWQjFldG9KMFp1ams5L3dZMURxNUdV?=
- =?utf-8?B?ODJiV0d3clBXem5Md2RIZFExcGRkT3hrVURVdXU3US94TlhWRVBVNUdKc0ZQ?=
- =?utf-8?B?SzBramthdGFBRzZEd2dha051V2txZkI3cEJiN2VrKy81OFdxWlZiL2pCdlpC?=
- =?utf-8?B?b2dxT0REZUpvRWdmMENNSmtpVVFUYjVnTk1QMHRmODdwVjR6YlFzRXhnMzM2?=
- =?utf-8?B?d0RJU0lvNWdLTXlRZ2lWWll5N1NQbGkyQTcwQm4vN01CeTFBUGJqc09HRmNM?=
- =?utf-8?B?SE1mdVF5b00rS0g3VEltWnpHNS8zRDg3RW9uNy9YZjRvaFExNEFzUWtpK3l6?=
- =?utf-8?B?b3IycStaL3AyVy9NMTFVcHlTaVE4THVHUHQxYUp3NXg0UHZVZGpQalNPUTZm?=
- =?utf-8?B?T25RMVh0M3hZSEtHYnBDaWRISHE0SHpEMFlRK1RCMWtubHNWM0ZUVSsvNkRW?=
- =?utf-8?B?UllMeFdLYVVodWJWaTdSRnBpRVhJWXdMckdVNnIrS2M5TUdEeWpmVXAwNjY4?=
- =?utf-8?B?enVPUkFkb0FVeUdsemdJWDkwS0tXSTROSmt1Y1pZNG43VmFHRXpHMUVVUkF6?=
- =?utf-8?B?UjZHOVdzK2pVUVYwNnJ2dW5rNnJWTmlzcFVwdk5lQnZvcFRMZlNRS1hJRENS?=
- =?utf-8?B?K0llcmphVEYwT2xwa3Fqd1dxMWQzYXFxTVZSRkdFNE0rOG9ucU12SUEwdmlw?=
- =?utf-8?B?REtCbzdMbklnVEVFTFBncG9EWlkwcVltUWFtNWdwT1ptZ3lFNGpIa1dPQS8y?=
- =?utf-8?B?bzcxdHVnNHZyZkFQQ2hFTFAycXlWcU91NDdJSit1Qmo1d1JhQ2txNWV5WDVy?=
- =?utf-8?B?MTc4RWxoTFV3c2FadHRQbytDcDFaK2tUenpyYnJFV2kvVjg2czhxeE85Y3Js?=
- =?utf-8?B?UVJ4NHpmYmoxSFA0L015RG16dEpUSElUeFd0SHpwTVZKWDZEdS81VkovYUJ2?=
- =?utf-8?Q?i4ejGeyi9gwMjEOHM34WuZYEbf24kHpm8sn26INw8z/0=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81b61815-0e1b-4262-3a4d-08dc8563fce6
-X-MS-Exchange-CrossTenant-AuthSource: GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2024 13:32:47.3156
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P195MB0700
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_063253_758097_A752F4DB 
-X-CRM114-Status: GOOD (  18.62  )
+X-CRM114-CacheID: sfid-20240605_075236_998114_FD805E16 
+X-CRM114-Status: GOOD (  21.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,46 +147,93 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+On 6/5/24 8:28 AM, Christoph Hellwig wrote:
+> Use the block layer built-in nop profile instead of reinventing it.
 
-Thank you for your response.
+As this is my "invention", I am pretty sure that "nop" profile was
+not available at the time I was prototyping AEAD dmcrypt extension.
+(It was months before we submitted it upstream - and then nobody
+apparently fixed it.)
 
-My question is more focused on the Linux NVMe-oF RDMA target side. 
-Specifically, is there a parameter for e.g. `modprobe nvmet-rdma` (or 
-similar approach) that allows configuring the number of cores the 
-NVMe-oF RDMA target can run on? Additionally, how can we benchmark and 
-collect data on the number of kernel cycles used solely for the NVMe-oF 
-RDMA target? I understand isolcpus, but want to find a way only for 
-NVMe-oF RDMA target.
+So, I am quite happy this hack can go away!
 
-In comparison, SPDK, due to its user-space properties, can be easily 
-configured with the number of cores and benchmarked to collect CPU cycles.
+I run full cryptsetup testuite with this patch and everything
+works, nice cleanup.
 
-Thank you for your assistance.
+Reviewed-by: Milan Broz <gmazyland@gmail.com>
 
-Best regards,
-Jigao
+Thanks,
+Milan
 
-On 6/4/24 11:37 PM, Keith Busch wrote:
-> On Tue, Jun 04, 2024 at 11:10:30PM +0200, Jigao Luo wrote:
->> I am benchmarking NVMe over Fabrics Target and Host using both the Linux
->> kernel driver and the SPDK driver. In SPDK, there is an option to specify a
->> core mask that limits the CPU cores on which SPDK can execute work items.
->> The SPDK team provides a benchmark report that demonstrates the core
->> scalability of NVMe over Fabrics Target and Host: https://ci.spdk.io/download/performance-reports/SPDK_rdma_mlx_perf_report_2401.pdf
->>
->> I am curious if there is a similar parameter available in the Linux kernel
->> target/host driver. I have not been able to find such a parameter. Can you
->> confirm if it is possible to configure the number of cores used by the Linux
->> kernel NVMe driver? If this configuration is not available, could you
->> provide me guidance on understanding core scalability in the Linux
->> implementation?
-> You're using RDMA, so you can assign CPU completion interrupts however
-> you like through the /proc/irq/*/smp_affinity interface.
->
-> On the submission side, you can steer user space programs to some subset
-> of CPUs with the "taskset -c" command.
->
-> For the kernel side, you can mostly set which CPUs can dispatch IO with
-> the "isolcpus=" kernel parameter.
+> 
+> Tested by:
+> 
+> $ dd if=/dev/urandom of=key.bin bs=512 count=1
+> 
+> $ cryptsetup luksFormat -q --type luks2 --integrity hmac-sha256 \
+>   	--integrity-no-wipe /dev/nvme0n1 key.bin
+> $ cryptsetup luksOpen /dev/nvme0n1 luks-integrity --key-file key.bin
+> 
+> and then doing mkfs.xfs and simple I/O on the mount file system.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/md/dm-crypt.c     |  4 ++--
+>   drivers/md/dm-integrity.c | 20 --------------------
+>   2 files changed, 2 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
+> index 1b7a97cc377943..1dfc462f29cd6f 100644
+> --- a/drivers/md/dm-crypt.c
+> +++ b/drivers/md/dm-crypt.c
+> @@ -1176,8 +1176,8 @@ static int crypt_integrity_ctr(struct crypt_config *cc, struct dm_target *ti)
+>   	struct blk_integrity *bi = blk_get_integrity(cc->dev->bdev->bd_disk);
+>   	struct mapped_device *md = dm_table_get_md(ti->table);
+>   
+> -	/* From now we require underlying device with our integrity profile */
+> -	if (!bi || strcasecmp(bi->profile->name, "DM-DIF-EXT-TAG")) {
+> +	/* We require an underlying device with non-PI metadata */
+> +	if (!bi || strcmp(bi->profile->name, "nop")) {
+>   		ti->error = "Integrity profile not supported.";
+>   		return -EINVAL;
+>   	}
+> diff --git a/drivers/md/dm-integrity.c b/drivers/md/dm-integrity.c
+> index 417fddebe367a2..c1cc27541673c7 100644
+> --- a/drivers/md/dm-integrity.c
+> +++ b/drivers/md/dm-integrity.c
+> @@ -350,25 +350,6 @@ static struct kmem_cache *journal_io_cache;
+>   #define DEBUG_bytes(bytes, len, msg, ...)	do { } while (0)
+>   #endif
+>   
+> -static void dm_integrity_prepare(struct request *rq)
+> -{
+> -}
+> -
+> -static void dm_integrity_complete(struct request *rq, unsigned int nr_bytes)
+> -{
+> -}
+> -
+> -/*
+> - * DM Integrity profile, protection is performed layer above (dm-crypt)
+> - */
+> -static const struct blk_integrity_profile dm_integrity_profile = {
+> -	.name			= "DM-DIF-EXT-TAG",
+> -	.generate_fn		= NULL,
+> -	.verify_fn		= NULL,
+> -	.prepare_fn		= dm_integrity_prepare,
+> -	.complete_fn		= dm_integrity_complete,
+> -};
+> -
+>   static void dm_integrity_map_continue(struct dm_integrity_io *dio, bool from_map);
+>   static void integrity_bio_wait(struct work_struct *w);
+>   static void dm_integrity_dtr(struct dm_target *ti);
+> @@ -3656,7 +3637,6 @@ static void dm_integrity_set(struct dm_target *ti, struct dm_integrity_c *ic)
+>   	struct blk_integrity bi;
+>   
+>   	memset(&bi, 0, sizeof(bi));
+> -	bi.profile = &dm_integrity_profile;
+>   	bi.tuple_size = ic->tag_size;
+>   	bi.tag_size = bi.tuple_size;
+>   	bi.interval_exp = ic->sb->log2_sectors_per_block + SECTOR_SHIFT;
+
 
