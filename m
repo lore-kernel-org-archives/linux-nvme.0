@@ -4,73 +4,180 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9141AC25B76
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jun 2024 21:33:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20F65C27C53
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 00:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=56G0S/rlVQwbbRkNvVuB6VFfsNK7b8ZQDzeYAdkl8sc=; b=seDt87DNok6LUP6zdkwLYJMoyO
-	mv8dJ7UFsfJjHlfe6XcKlyQoyirn8CFhdkUcHoRV5majSVYqVT5O2FRogQlZMMrAaHuzmZNGHtWvB
-	YbhD8+P9Bw4KIqkvRK0Jla391OJ/bJsXavQ8JGdayAVwqXLEJlsYEsifoPO4o958YuhaPHjr30bWw
-	LsRg4Zn3HRVZxNojI7anUuX3PBaqmY4qZ38PwFSYlVTKt56AfJk48BVLsHJ2eg/UR9wqkY4Bo89kf
-	NwmRGCu8PH1UIEEyrHsoWFfj3SDAtYHXiBzmcodULelcIq09ogIQS6qzpqdB8llCDZry2XvaN5qqB
-	hvjsuvMg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TO4sEU+G2shSytztFWQUnZvTfmnjkJBqCRkGP/eUGSQ=; b=1/VdDhqvFXLQmPh0ZAJBVSnL0+
+	xjBrBdsmWYZEID2bgg7OupSrLrrd+D953nJ6/649sHyoT/fAvEl6hXEKyGUv24JpCCszInsBblMgF
+	zVvF3D3cOmdKmwXla70P0vhgn0Ta61ZfNQQBP4yTE/MPdbS9tv92U9AwOkjATSTG4a2R4qLK2L9Pl
+	gkYFLPfAd8mXhScYIPEh6jd2FRET740z/PZCiUHFHsEdaRwsTNFoUwuXVOt5mmLLUuLK8aeY/RLQH
+	YCJUBMbbfQnsNFGII9BCY6o/j6ltDuytJQWCNZRUqCVasLEkaxAKNhQpm/wK0YYScKmGTOgVQS10/
+	kcLXqcFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEyG4-00000007d6N-1cdD;
-	Wed, 05 Jun 2024 21:33:24 +0000
-Received: from mgamail.intel.com ([198.175.65.14])
+	id 1sF0ko-00000007vQz-41bC;
+	Thu, 06 Jun 2024 00:13:18 +0000
+Received: from mail-co1nam11on20600.outbound.protection.outlook.com ([2a01:111:f403:2416::600] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEyG1-00000007d5m-1gmZ
+	id 1sF0km-00000007vQY-0cHy
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Jun 2024 21:33:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717623202; x=1749159202;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aJdXo0eF9RbXYZ7pLnemDZX+OFNV/FzTHOGwF9Y11AA=;
-  b=Xi2jM2ybaVUI4zsICvvYQl8ros9dimF/fw39wMORw+QelIdX2q2Sl8h6
-   U1DyMKCdNVMqv+WQTWkxpFSop7DLij7izyNaYQ6aITxz/d2Dksnl/5dcu
-   exJBqxhMHB/T5dTQZ0YTgisq7DVWHir8drsCIu6oBrnm9rjRR/iI3Pk+Q
-   Zihtf1ATPwbh7XQ/FTVX0px2UfJygKiJBRm025hV4iECnzbfBKw2ru6U/
-   Uh3FyEUnC4r+iigXhrpwXLMGiY3FbGqi/PiHjnCsrtS/B3+DDTzEEov7A
-   DtOLPLvzod5bdLsbIxiDUmGroaXznL1j6lG7U/DgOd7h3ssazaA1j6ui6
-   Q==;
-X-CSE-ConnectionGUID: 6dQIfFO9T8OsDpJ5CNliMA==
-X-CSE-MsgGUID: sPGvjIM2R+2W7HClepCYyA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="18082587"
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="18082587"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 14:33:20 -0700
-X-CSE-ConnectionGUID: je+Rs4WRQWSkLCi+lWWWOg==
-X-CSE-MsgGUID: i8uitXinQ2CHw1uUGqFm2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="75204967"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Jun 2024 14:33:18 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sEyFv-0002HI-2k;
-	Wed, 05 Jun 2024 21:33:15 +0000
-Date: Thu, 6 Jun 2024 05:32:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [linux-nvme:nvme-6.11 6/10] drivers/nvme/host/apple.c:1534:9: error:
- 'result' undeclared
-Message-ID: <202406060540.s0O7hkb5-lkp@intel.com>
+	Thu, 06 Jun 2024 00:13:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OkhPdRpdkZfu35f6cUWzjtUO79o7UOSgz7DsH9vquJC6QL/88uoU/022j00YzTEt9yPnGrQYE+ckI7y3Ga85LcqZ4jFl8H2bhUuvGa33R00/id+paK5padkVtk5pCPCubGj0LCZpYUJYV3bBVeMdgzpmi7TS5RHaofYWfBWDyy6V+uLsus+hlYTfw4f83mlidKxYljm8d/5TaJh+Ayb1p5zx29hLNqYh+WZhymPmtbD6sQBNaEAlcdTOg4JqcztJk0pyMN+/n2goeMhDD+3p/tNMRHANgCL2cUl7rCyXbEEKwCc8kuvAcLzKv4U/M4ZFYWE9qbIBZUewNGy6fkz6Zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TO4sEU+G2shSytztFWQUnZvTfmnjkJBqCRkGP/eUGSQ=;
+ b=iW1UrapWQhpVeRAiGivSETh9A8gIfwvtTXo05gVVARfXWnWKCWeSa/xbOLuUCwdRs7WcezTh9KMdxcw/lt9/5RRLrJrQUlLRf29JuDTxSwLBgyEumZCnBqBVJCYgHwWLyOzao+zoFfze7v7r6+m9IY1xk83HqPj6ymgn7RAVrKb6OazGak6vI7Qy1djquQoNB6BNPzopINBiK+y01vdZFE0nYP9jDtH4CA2xCoZjVAbmrR4LjJxOFD3V22huwY1t6TPGnF0bFqO6fgp3IjBqO+MpayyrAxXP8rQZifK4SRjqe4Bq5uWSAZcVzR7urhNohaYPktYhX4ZMbLpPKuj9Ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TO4sEU+G2shSytztFWQUnZvTfmnjkJBqCRkGP/eUGSQ=;
+ b=M5gzIYo4HyGPC2nujjxtiURY7PZn7bL0JGWKT4f1zzR+pRxfGB3kWsmqziTyb4PKBaDBW3POYhypqS1Wl+HnGP+paOljBki7N8Bwd5GX8PEbh925nqbpmL9umSerRJKFDtuZckV5BrhIZjkz/PT1Xbn0ZnUUNoq2LOt4b7tN3N8vY4NqT2LKSF5PKWYZ3IP1yhcMcccTKi/lyAgTP7jyOva2wXLFuNkT5wUn/tANNPBVHGblf+8qqJqi5gBwKVSeHfrV4GvQacQ7Jf2jZqY6sY9khIq5u2DVfWzrcaYk2aikrgkUFWHUE5p4rW+6+bva040hV4J9gZmdRVQNdmoJYQ==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by CH3PR12MB8511.namprd12.prod.outlook.com (2603:10b6:610:15c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.31; Thu, 6 Jun
+ 2024 00:13:07 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.7633.021; Thu, 6 Jun 2024
+ 00:13:07 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>
+CC: Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+	Song Liu <song@kernel.org>, Yu Kuai <yukuai3@huawei.com>, Dan Williams
+	<dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
+ Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Keith Busch
+	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "dm-devel@lists.linux.dev"
+	<dm-devel@lists.linux.dev>, "linux-raid@vger.kernel.org"
+	<linux-raid@vger.kernel.org>, "nvdimm@lists.linux.dev"
+	<nvdimm@lists.linux.dev>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>
+Subject: Re: [PATCH 02/12] block: remove the unused BIP_{CTRL,DISK}_NOCHECK
+ flags
+Thread-Topic: [PATCH 02/12] block: remove the unused BIP_{CTRL,DISK}_NOCHECK
+ flags
+Thread-Index: AQHatxHnWta0jYZBdEeGpjA/lqdERrG53nmA
+Date: Thu, 6 Jun 2024 00:13:07 +0000
+Message-ID: <1f8780c2-3527-4dc5-ab6f-aaf64009de1d@nvidia.com>
+References: <20240605063031.3286655-1-hch@lst.de>
+ <20240605063031.3286655-3-hch@lst.de>
+In-Reply-To: <20240605063031.3286655-3-hch@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|CH3PR12MB8511:EE_
+x-ms-office365-filtering-correlation-id: 28f8cc38-aa62-492c-8216-08dc85bd716a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|366007|1800799015|7416005|376005|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?dmN2bmFyeVNGNjNpZittUWI1NzBSTGY3Z3NtRUljeXVkMnl0TFRXLzJ0V2dN?=
+ =?utf-8?B?QmxXaS9WSHVuZ1JMN1p5ZGUzN3Q4Y0ZUZHZkeVVsZkFjZCs3SzNjcWxUY01q?=
+ =?utf-8?B?S1lPdlVWU2s5VldScUNWaVRyb0NTKzRVS2Jwa2cxQ2kvYkJLTGZYcjEzamhp?=
+ =?utf-8?B?S3BsMjcrbi9VdElFSjdGeDk5RjVZRTVyK1h0MTlLQk1RNEJJbkJ5ZU9CdWRX?=
+ =?utf-8?B?L3FFRTFJT1JMT3VudUlmN2NEbnl5RnNPSlFpSStLdUxqSkVaQVdPOVRSNHBK?=
+ =?utf-8?B?dXlZVUFZUEZYOGV5bnBmWUR4RytOSklNVWI5a0ZyU0dGS1RsaUwxOC9SVXdq?=
+ =?utf-8?B?Rzl2VmFCc2c5Sk9nRjljSmRvMU5XMW1qQ2VOZ2o2VnpMNzBHYTcyRllsakVT?=
+ =?utf-8?B?U1Y3RDlWTUl4Y0FjTG5haytlRkcyQWRjUlNjdmxzSldlUktLNkdUbjVnU0pJ?=
+ =?utf-8?B?MDVoaWVPMEQyOVZwVjVjdXpHRFhFU2FqVmR3UHJPQVN1QVpSRjRhelZ5Yjlq?=
+ =?utf-8?B?M3pSSjRZVjFaK080ajZIbEkxWlBualNSRE9yNmNWQ2RDT0lsbVZsTnNqYWZG?=
+ =?utf-8?B?THFNblFudDFnbW0rSDZPSUlJbUJWa1ZaSU54K0FaVUFzZWVoSVVWNzJSdmRK?=
+ =?utf-8?B?cnlCOHRUS2hJRGxtZlhDMDBNNXlBL2FpKzhaTmY3YmlKRkF3VEpCRE9kRUlG?=
+ =?utf-8?B?Q2twL21MMUhoanNPM2VQMW5Ray8rcTI1RzdLVDhJV0tiUHVTSVRkTkp0aFZ6?=
+ =?utf-8?B?M0pEUFJVL1Ura2xiSm1jZFF6dUFvdTVKTll3OGZrMGtpWlZzcyswZVdUNVcx?=
+ =?utf-8?B?MDB3ci8xaDZSbGM2dDBxcy9tVkozVnlaV0lqZmJZWGk4b1JZa2xpeFVPNURG?=
+ =?utf-8?B?N3FNL1cvK1VQVW12bHROTDRsS3VMK1cwRmVpRkhPQW1oc2tpSkdCU1ZVZzRa?=
+ =?utf-8?B?V0FFL2pQRk8wVWtpaW40N3JLQmJXMlNEUS9rSVF1V1IzNG1IcGFBK1dYRDhD?=
+ =?utf-8?B?SUZKRWcvUG90VDBCT21mSTd6bWVRQnpHUzM1ZkNmSXBvM0xpWEI4dy9NR2U1?=
+ =?utf-8?B?SHNadGdBTjMxUjJWdnAvbjZ5UEJudTJEWkxJb3R2WVBOeFhnWmtJa2lRcXZw?=
+ =?utf-8?B?NlJpNmFjQnh2RjhGSWN1S1Q3K2hPSGZ0LzdydlR3TFBwcWhsZWF1OVQ4bG0w?=
+ =?utf-8?B?S0x3TVJCWEFUelUxNXpvVVNRS0VyZlRhbXF6YmczMGVPK2RzWEU2bktuU29p?=
+ =?utf-8?B?STFiYXNQOVlwRFltQkVhYXhOa3V5OHlNbnpzYjY2N3NSdUtHTTB2dTRmNmUz?=
+ =?utf-8?B?di9RUlBadyt1Mlo5anlRY0lCVWZWTUdGUGNlNy83SEllVW04a3QwT2Q1dEs1?=
+ =?utf-8?B?T1dkclBCRWtJVGVhdnhLaWkwYWFTU1JiRzJLWjJLVFl0dXZ3bWFjbk10dlh3?=
+ =?utf-8?B?RTRaK0tFTEJrQk56cXM3VXhKNUF1TmxTRFAyTnRvN0dxMHpTRGkxQXI1ekFv?=
+ =?utf-8?B?VmxSVSs4UWkxZ1ZpMElNejVvUWRmSjhLYnJsRUhMZ2pqU1pBNHNpNUtaaFNK?=
+ =?utf-8?B?Z21CazRoM085bk1LUjBJZ2JIR3kxS0Q4T2h2TCtVbDdZMlM4eDN5L2FEYStY?=
+ =?utf-8?B?cCtoM21wZVgrTE1xVXNiWHA5Y1lSRE9sbGF2T2VIV2hVR0tKeDlaUDNlYUFj?=
+ =?utf-8?B?dnd0TWsrZldrOXNZc0RRVzZDcXEwdHZCTm16bDdQWVY0RzMxMlJLVmFqbG5V?=
+ =?utf-8?B?MHZZVkpHSGpJYWZyY2dSdGt4b3ZuQWRrVjhIWXZIYTN5U1RudXZXMEp4V0JP?=
+ =?utf-8?Q?iDcyeov4SvuH64u31BPcZAqW0/NB2quL6766I=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(7416005)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aThpSHB2Smw4TmNnNnl3V2ZPRmM2SHFsc0VMV3VTV0YwWXBldGFCdndoOWM0?=
+ =?utf-8?B?bi9uMnJUS3dVVUtXRExqYkhqVU51eG10RnBrbEFQT3ZjaDJvbWRvMzEyYVRu?=
+ =?utf-8?B?QS9YTFdNQ0pqWG56S1E3UnJaQ1FNMDIyd0EyQmhZMFVaWDZyc2pXQktxcDBu?=
+ =?utf-8?B?K2N0bkNzeUNSWDNvRmpDdXN1dDVQMTAxVXI1LzQyMjFETmJqdHpxR1R6eGZn?=
+ =?utf-8?B?Vm4yTzdzWUFsdm1ZaVFQOXhYR3FzeU5sSVJ5U2c5OXBldVRrT0ZIUzJYTEw2?=
+ =?utf-8?B?SVREbWx4UW5EMmdmNzFIdW9IaVc5U0hEVXJNTjhVRngxb0tYdGl2MDVTVUZl?=
+ =?utf-8?B?aTAwcDBSUERmeWhtbkNuODJUVTNyNm9YRk4rQjFMK0pwODl3S3NHNVREN1hH?=
+ =?utf-8?B?N0hOZUZEZEZIQm4wMHhaTXRjVjA2cnpBcVVUQkVHb2JKSmZCRS93OW1EWDIx?=
+ =?utf-8?B?b0x0VzQ2SGNTdUI0d0g5RGFmclZ2aEgvQVlyTU1MMDlteE1GYjVkT3d6b2ZO?=
+ =?utf-8?B?RFJPd2d0YzZhVzIrM2VwNHRKa2wwT3BXY2N6TWJYbmt5alZlR0hZNnB4SFdN?=
+ =?utf-8?B?RFdBNFNrdjl2S0hIVGUyL08vR0h3TmJGcW10MkRkU3A2WGFsakN1YXdnTnJH?=
+ =?utf-8?B?SEVzbUx4QSsxbnFIcC9UeVpDaXdJR05qdkRVQ2tiZU9wQU90UmZnV3ptdS9X?=
+ =?utf-8?B?VlZxVHpjOUtBZ3dXMjN1RkN5MVdvNnhPQytOQ29UMjd4RHAwVzJTajlZTkxB?=
+ =?utf-8?B?dk5aU2VNb3NjQk5kSDlscU56Tk5MUE0vRGhpUXRQNHZoekdqWkk5clEvcmc4?=
+ =?utf-8?B?TVRGQllraWZya2lyZ252SFBHdWZhQ0ExTXAzT0VCa3IrMTJPWktmelArdHNU?=
+ =?utf-8?B?d0I1Q09WekxrbjJQUFFJMVRpNGxYU01OWGp5ZWNTYitiUDdsMnMzUzNNakR2?=
+ =?utf-8?B?U0pWeUt4Skd4ZmNQcThDL0U5M3NBRTIxOEZsSTZOT05GaXplTHBMWHQrNjh0?=
+ =?utf-8?B?WkFraUk1dStvRlZqdi9RcnZyTTNwRTBSN3UydDhQZ3QyajdoOWxPWXp2YU55?=
+ =?utf-8?B?cVQvQUZvTjdMbnVNSHFxMVlacTFrb1hjbXF3Q01zUzg2SE1lRml1QTZBNFVw?=
+ =?utf-8?B?Mm0vTXNjeTFlbFFZNnVEYjNHbThVVlFPNXpkUHNiM0VlNEdzbUdMQnBrVzZk?=
+ =?utf-8?B?KytJdDVqbU1OOHBoTWFmcjNCZmoyVSs2bisxdHh6RWd4Z2tZdTAzSEdKeStJ?=
+ =?utf-8?B?WHpYRFRQSisxZHMycjdaY0ZUVTdOZXFmVE9HQlVJUUxxNnNocm5CbXlDaWVl?=
+ =?utf-8?B?UjllNDNSMmNRMy9qWXQ1d0t1UHl2N3N0Y28rZ01OcUNZaGZ4RHl1ZW5qRnh1?=
+ =?utf-8?B?cHp5WUV1S1hwSFJpUUZMK0FDMEpmSVJqZ0FJNHhtaEpjamhSUXBzNzRZTE5r?=
+ =?utf-8?B?OENnOSsrTmphaENLVFZYNjBkU28rNFRCMWF1em10enhwUmNFeU4yS0tXeHhk?=
+ =?utf-8?B?QjJ5S2ZrRldNNmJrSXNSR29RT0Z1RGlMNmlFNDFwQllEajhvTEVVTVFES0Y5?=
+ =?utf-8?B?V3pQWGFZWmJvTXAweHFJMElyVVBPSHAwMEpCcEljZXNpRTREVDk2dEFIdyth?=
+ =?utf-8?B?cGxrcERpUnIycFYyeCtiTmZ6NWF3cmRFNDY2aG1yRGZOOTIzNkpibUtLMy83?=
+ =?utf-8?B?amc0ZWdmM215VU9vbUhGOXFUOFp5VEMzdEcxTGZxY0xSUndUMk4yTW90T3ky?=
+ =?utf-8?B?K0syVk9tckRJYzRLcHdiUFcvNjFPOWE4eHA2NEt5cS83cVhHRVg3N3MwMmlG?=
+ =?utf-8?B?czhpQ3diVjd4OWlKOWs1L0s0bEV1MXRsQi9xOS9sVENoQjZjWlo5a2krZEZ0?=
+ =?utf-8?B?dmZFTWZGR0E1alREN2ZUQTUrOXpmZVI2SVpjZkxGaWlhalJoWHkrOURDT281?=
+ =?utf-8?B?b3JtK1RLSEJQeHFBbkFwVGZyK3FHR3ZJTzVDR09mTW1IbU1PYkk2d1daNEN3?=
+ =?utf-8?B?UnZNNjVjS0hTbjFQTnVKY3k0elQ2eFp0QVZNSllodjdKTlhxdlRSQTNsK3FU?=
+ =?utf-8?B?ZjZ3bWlSSXhsRkE5QzA3ZGRkaEJDQnR0UVI3UFViY1JXS0x4Wk1vcWJiUDBH?=
+ =?utf-8?B?L1pvNFpBcTg4bW43bzJ6aUpYaEVLTUpzMmlQclZDRVZmZlM5QjY1NDFGM1F5?=
+ =?utf-8?Q?JLqSAV7Xos7HcgrFgfuKYcaR/eqxnF8ERVsrMQnidZ0W?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C07C1BC39B93064EAD12FE156B9C8D86@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28f8cc38-aa62-492c-8216-08dc85bd716a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2024 00:13:07.6562
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wzQlt8TOut3DqUw9GCNtOq1V+ltYdSyIXdKRK0FkGh/wDyFmPiHWTcpwoP5Ytym18Jn0RAXkeCkx6JjlwtNC8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8511
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_143321_542293_214A61AD 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20240605_171316_231190_969557DD 
+X-CRM114-Status: UNSURE (   9.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,68 +192,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-6.11
-head:   fd83bacbbc06c5f3e38d8d79784ca1f7bd9cba68
-commit: ff5ff45d19d8b13ceef35948204b08a51000f15f [6/10] nvme: split device add from initialization
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20240606/202406060540.s0O7hkb5-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240606/202406060540.s0O7hkb5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406060540.s0O7hkb5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/nvme/host/apple.c: In function 'apple_nvme_probe':
->> drivers/nvme/host/apple.c:1534:9: error: 'result' undeclared (first use in this function)
-    1534 |         result = nvme_add_ctrl(&anv->ctrl);
-         |         ^~~~~~
-   drivers/nvme/host/apple.c:1534:9: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/nvme/host/apple.c:1551:27: error: 'dev' undeclared (first use in this function); did you mean 'pdev'?
-    1551 |         nvme_uninit_ctrl(&dev->ctrl);
-         |                           ^~~
-         |                           pdev
-
-
-vim +/result +1534 drivers/nvme/host/apple.c
-
-  1524	
-  1525	static int apple_nvme_probe(struct platform_device *pdev)
-  1526	{
-  1527		struct apple_nvme *anv;
-  1528		int ret;
-  1529	
-  1530		anv = apple_nvme_alloc(pdev);
-  1531		if (IS_ERR(anv))
-  1532			return PTR_ERR(anv);
-  1533	
-> 1534		result = nvme_add_ctrl(&anv->ctrl);
-  1535		if (result)
-  1536			goto out_put_ctrl;
-  1537	
-  1538		anv->ctrl.admin_q = blk_mq_alloc_queue(&anv->admin_tagset, NULL, NULL);
-  1539		if (IS_ERR(anv->ctrl.admin_q)) {
-  1540			ret = -ENOMEM;
-  1541			anv->ctrl.admin_q = NULL;
-  1542			goto out_uninit_ctrl;
-  1543		}
-  1544	
-  1545		nvme_reset_ctrl(&anv->ctrl);
-  1546		async_schedule(apple_nvme_async_probe, anv);
-  1547	
-  1548		return 0;
-  1549	
-  1550	out_uninit_ctrl:
-  1551		nvme_uninit_ctrl(&dev->ctrl);
-  1552	out_put_ctrl:
-  1553		nvme_put_ctrl(&dev->ctrl);
-  1554		return ret;
-  1555	}
-  1556	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+T24gNi80LzIwMjQgMTE6MjggUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOg0KPiBCb3RoIGZs
+YWdzIGFyZSBvbmx5IGNoZWNrZWQsIGJ1dCBuZXZlciBzZXQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
+OiBDaHJpc3RvcGggSGVsbHdpZzxoY2hAbHN0LmRlPg0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdl
+ZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
 
