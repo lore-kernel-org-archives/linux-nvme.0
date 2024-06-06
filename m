@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AD56C25B75
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 10:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F9DCC25B75
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 11:45:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6SIhJMYHbPbMKCy9bx8+/YiqMK6RQnhv3MdFiptfabY=; b=DNozOvsiYm8v270OYZdH1YUVCc
-	yUwHLgm4suhlXuYxmyI9SX5m1ReF4KYtXGamIRjb4Zt8toH1DavKl0IIEOAlp5QO68GU3DXOnRD69
-	wo8jO/u8pUbDSji9AeEWSCbcVna51PniaSR4d7vDbA6ZjK4bi8ajREcRm50zXqAFYeAqos0PbbDLJ
-	piuuxpKagESmJMt7ybPVIUWsfepwGhIIqQrrCODUm6j8xpH9NSfRQJaJTbeI+HZ3vWGWa8zUHUojZ
-	Y9Sn131j5OtucSLkN6CqzNTBq10aDH/ZRukonKaTy8p5y3Azal1+rwmkEP32/hW0uN8u4Q55kYKrY
-	bOzlOnZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DFSHk8n3pCPp8zhFwjxaNKgSKtNhi8Klb/kj01zBBoA=; b=to5bu9JJWD2vHP77iHzN2SotZq
+	dhT7ToSDYb6AtLtqx+g5wUR4PpAzzqd52DNtl88Ckvxbaac4RJ/lf1IcxVauJ6VrC3pHoVBDcDv0T
+	Am8LHciIQEu4utzsGMlij7qX1bBqTZR9AGgJxihiX36zGWNa4cnWU9k+HHNJi+dON0t9wu/Jy8/h7
+	v1ww50MxH/LqSkP6/xB0cc+eDP/D3dqcs90pK+9lqT1Pq4uVzQpv+qrGhLMQFEuNWE1TBXG2qmNo/
+	bR2xB9F10xAioLqh9kI6v+r8h7H+qI8amFp9U0dK4Ewkxl/Rhw/e8hnBIVesPOKc1EJk6JJlEJcDV
+	m2qN5GVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFA7m-00000009LhS-0FCT;
-	Thu, 06 Jun 2024 10:13:38 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1sFBYQ-00000009a1l-4BAt;
+	Thu, 06 Jun 2024 11:45:15 +0000
+Received: from mail-dm6nam10on20619.outbound.protection.outlook.com ([2a01:111:f400:7e88::619] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFA7h-00000009LeJ-1Zuk
+	id 1sFBYN-00000009Zzo-1lbM
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jun 2024 10:13:35 +0000
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42158f53b76so896225e9.1
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Jun 2024 03:13:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717668809; x=1718273609;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6SIhJMYHbPbMKCy9bx8+/YiqMK6RQnhv3MdFiptfabY=;
-        b=EUUokRxWT8RlvsS0shaTkfRaOHOB9kTBciIA0vYmfyl0taLP/7yg2jQa2+i2LaBeZR
-         Ul8Eocemr4ZGa+OMR3DDWGm3Oirjj1IU4CvQeZSQy5cy+BsCoMHRdmzNHRiqTI/+mYK1
-         dEpXDBncIba7etTDSekgs6BkbTQ+aGEOwEVJEKs5l7T5WTAGis1RObZPKRfDNoky/nok
-         13+43INGwks/XinHvNznoN/KrDtTGymvGgZmnciGYgEoaEJu7DtLX1r0WRICnofl1NzD
-         VrC3xfiMT5zzzgwklQReX51g2O2ku+KXqq7HpBxdDHkElPmE+ctIsHyz1BglTBb7Ltod
-         86hA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtxr+oHRg6w0TcReeqBcD1ZdvyVYju4dk7+M7oZY/IWVozkOUIJDfvKVMA3XBlI5zuIOy/4X2BcKXNEInYWED19MNJItrzMn6w7p8GMKU=
-X-Gm-Message-State: AOJu0YwXXN8od75uGJ5bwdVoOBtjwkdkyLdx+aCgT02g9LkAIr1wP5ZL
-	byhRS0NdxdzwjvvQl8yIulyHQA9ram5jTWja8VrHWWiegjYD4fsz
-X-Google-Smtp-Source: AGHT+IFNpBx99+2g9M2z5LcQi1Yl42h7tyGXy5+JvX/MNHffumoCzwJiMsXESIBggzIQFWANl8JJGw==
-X-Received: by 2002:a5d:404d:0:b0:35e:83dc:e6ed with SMTP id ffacd0b85a97d-35e83fcb079mr3649222f8f.0.1717668808901;
-        Thu, 06 Jun 2024 03:13:28 -0700 (PDT)
-Received: from [10.100.102.74] (85.65.205.146.dynamic.barak-online.net. [85.65.205.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d4bcd6sm1144649f8f.45.2024.06.06.03.13.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jun 2024 03:13:28 -0700 (PDT)
-Message-ID: <deb873a4-5c59-4292-a86e-3f0b8c460096@grimberg.me>
-Date: Thu, 6 Jun 2024 13:13:27 +0300
-MIME-Version: 1.0
+	Thu, 06 Jun 2024 11:45:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gK7H0CFkLB3bmBaJsNltU1woAsiuTW1Kj7AiJoKFvifJK1AyRdF/kjFC8s3HRhVIOUS9Qneuf7mm6pEVXhPnAzzEcl0gfWvoknUDCsH/dYT8JAXi5S0LwBPfXjHuC9SSqjF1+GAiiY9uUaveCAgYc2rljXHK/WfxLlhYSgpp2tdSyQdq4y3nVHU01AJOZ8CF2GbG1ELS23AsuijIRZg6Rn2/JyGuHqMJB70IzO9R8xM7g9brpXIQZQQwytEB/opY5M+XPrYQIp+iEVeUlx+RBnAkLhAPuhFAkyb3NW3rSBeXacS61Hp65ccw3VcZGJeaGgC/ihMDSSTCu2BTRmMQwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DFSHk8n3pCPp8zhFwjxaNKgSKtNhi8Klb/kj01zBBoA=;
+ b=HtLyhjpRORh3QmJW6zOo7zRJoxd42qLe7ORbq7Ope1bdh6cDg/3ZvlzharwrmpnkR5008mt5S6YXwBTNP0sCkcKYqizOKwAsdaE63OhXduKFs6c/pbdXb4sz9elCYd8VtvSl1hIwVsbSmQoJXIc9lBS24vef4VqAYhIT/6FYMHguIWbMMNcYLjBIlCrt+cRPWnhDLVRyLcs85wdCrZSwY6Dzb2lr7dPCWzLVSFhAcEA43lRCISDMThir/WBybl7UruuPYZmLStkpzPHrm2NuB83BSc/uORLcNe5drmXW6K4G/yjRaEh+zQOOBxnIOwWMbSwwk2YyrgFEwsksv2QWnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DFSHk8n3pCPp8zhFwjxaNKgSKtNhi8Klb/kj01zBBoA=;
+ b=QvPYNRMTuDq0pPizbx3hDfPYVRnXAmxh30OAZVpku4vA7K9O7qu8Jpb60QOvEvIx+K2SUvTrN0Nf91rGREQFiZwnH/6OnmDsM34EHb/whmehB2ascjqOwtvEI+C0bD67ZciWlVto3urxQq7xsTBVP4GQOR8avTZS79ILMMu+oyNAnUjus0ysxAK9jd+3JAKBXeZ3p0INxWzT+rDO1ZojrYhJUR/VRf3PJzVhx8RGwJj4Mlvhwou7qp6flPh9VnnzaIrQY519x/kcsE8mLT32irLyT+6SGsv/TgZrR9eX/XZ7PiM31km6cUYgK7nv3iGkrUw1pGVoVaYROrPyN7a7WA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by CH0PR12MB8551.namprd12.prod.outlook.com (2603:10b6:610:186::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.34; Thu, 6 Jun
+ 2024 11:30:41 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::a3dc:7ea1:9cc7:ce0f]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::a3dc:7ea1:9cc7:ce0f%4]) with mapi id 15.20.7633.021; Thu, 6 Jun 2024
+ 11:30:41 +0000
+Message-ID: <01ae8b79-fc45-4361-ad28-cea7bc63a330@nvidia.com>
+Date: Thu, 6 Jun 2024 14:30:34 +0300
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH rfc] rdma/verbs: fix a possible uaf when draining a srq
  attached qp
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Leon Romanovsky <leon@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>, Leon Romanovsky <leon@kernel.org>
 Cc: linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org,
  Jason Gunthorpe <jgg@ziepe.ca>, Israel Rukshin <israelr@nvidia.com>,
  Oren Duer <ooren@nvidia.com>
@@ -67,13 +67,104 @@ References: <20240526083125.1454440-1-sagi@grimberg.me>
  <ac1ccd5e-598e-4e67-8e32-2f8d499d6ff7@grimberg.me>
  <d70273b6-56ad-494e-b1d2-884b537dcfa7@nvidia.com>
  <f1f52597-c159-4c87-993d-51221c974dfe@grimberg.me>
+ <deb873a4-5c59-4292-a86e-3f0b8c460096@grimberg.me>
 Content-Language: en-US
-In-Reply-To: <f1f52597-c159-4c87-993d-51221c974dfe@grimberg.me>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <deb873a4-5c59-4292-a86e-3f0b8c460096@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0148.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:98::6) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|CH0PR12MB8551:EE_
+X-MS-Office365-Filtering-Correlation-Id: 533e0a7a-66b3-4261-05e4-08dc861c18ad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ai8walE1aUVZM1l0SHN0c1YwUnFKcDVYdFFjTHlJV0J5RFI5SkFNVlZES0Fx?=
+ =?utf-8?B?bW52TWtLc2dIbUk2R01JcG5kYURTY0pOdnBXR3o1UlpYa0o1STBRNTlGK3lM?=
+ =?utf-8?B?eXZGZ0FxbkxsbjZrWlVZYlBzekR4M0xFZFJzV05QTkZER0hPT295d3pSYVNX?=
+ =?utf-8?B?eW1hVGFkejcyYTlJODk3K1JEOW0rV0dlUmtqZ2ZlWTArWGYrYVJvQlFDMXNM?=
+ =?utf-8?B?WkZnOFhpcWsxMjU5dG5LcmRsVDluODNJU2M1a2djOTB3MFZSbXVuMXBHSDd1?=
+ =?utf-8?B?SEZvNmJVZ2c4TXlDeXJ1K0ZKR3ZLV01acDNqczBsaDNyaGpZRnU3TXNHV05E?=
+ =?utf-8?B?OE9WREtqYzFhUXRhbUF3VGVsZVNWbnB6OTVaRGFmZVBONjBiMjQ1dlpBTWRl?=
+ =?utf-8?B?OVRCNTczSHpNZUY0bWpKTUZJYThHYmhQYU1NeThySFlpOHVPeGNoYmJsdnhJ?=
+ =?utf-8?B?RXVBTFJpcUs4bmhjWGhjaEtpNUE3Ky9vazNnYjE2WFVFR25RR2MrS3o3ZUFh?=
+ =?utf-8?B?MkZnSXN4TDVXVVBuQkpJK3RFcTd0UURQK3JwZTVGOVZnc3NsS1Nsbm5HWVNh?=
+ =?utf-8?B?L3JPMDZqYmgyQk93TDFxZitlUmRGL0s5NG9nRE9iRy8vQnhDTU9CdGJpVExL?=
+ =?utf-8?B?dllqZEZackVPNWlQTlVIK2YzNXdsWnB2NXlGTE9Zc3cxNk96TDRzMVJKWEF2?=
+ =?utf-8?B?c2krMXVwNE93RjdXS0tEUVFlSng5U2hlTjlCcGlaeW5VaEMrMmpzK1BZZmdZ?=
+ =?utf-8?B?U1llWkVXQlcvU1ZsU3g4eHliNHQ1YVdiSTZDdnU0YW1JN2VGbHJiY1o1OVdV?=
+ =?utf-8?B?TVRMWkR6MU13RTBLcGZOemdXcVZGQ3ZpdUgxSndDTU1YUWl4WGh0ek1hckVH?=
+ =?utf-8?B?WGdIQ3NIaldiSXVhMzhMK3pvR2kydUxtcS9Nem9PR0VtMURaMDBwSWdiU3hV?=
+ =?utf-8?B?NW4vM2RCV21QWDBvRVl0cGx1S0k4NUVXVVFtbzJIbGUwaTJPeGFib3pYT1Nh?=
+ =?utf-8?B?aVZlc3kzczk5cDZ2b1E1NzJPZ2pqMzd3cFVDYktHdXZaN2J3bzFqenQrTnps?=
+ =?utf-8?B?SWtSSExrdmR6VGtMUXEvMDBOc2EySGFiaUV6eHdRVUU3dFJudmpvc2Y1TTNV?=
+ =?utf-8?B?Y3JFWVM0QjB4STdUOG5yVy9DODdObWhTT3dtbkQ3M0UvUDZJK01pVmRNUUlD?=
+ =?utf-8?B?dDYzUWtMVTRFRE1BNlN4OXE2MW95bkNja1orTXplTk1ucGVhZUZtUW9Yei81?=
+ =?utf-8?B?TlJSY0ZaTDNzTldYbUh6Um1uMDVCMXNpR2kxT0VQcHhRcUhZN0xwVkhFTy9u?=
+ =?utf-8?B?SjhKbWhCWmExaU1mMUZnbFQ5VkZIK2RDaXpCKzBzOWtBNWFwZloxSXZKaTZx?=
+ =?utf-8?B?SGJpK1laL0h0ZGJWSjhPa29xeGJtM0ZldDI2N1ZHNnljTVp6SGp2bzRYVWRE?=
+ =?utf-8?B?U01SVzgraWVadzZFbHprbVhUSXg5VjROckMxRmU3ZHN6TUQ0QVd1V1VuR21p?=
+ =?utf-8?B?Wk5FVDhtS21sbUlZRDFjZDUvVUlFUnV4ZjhNZkNxOWI5dGVaWEFWc1R1Qito?=
+ =?utf-8?B?WGFNQkFlcDdKMThvaGI0U2d3MkkycmNXaDdOY0NKekNiVlRXa3VzcExaTm5w?=
+ =?utf-8?B?OS9YK3J3NjhWSm92ZXdMWmxoYkpIVEtzRUZLcGhHaEhFaytoZGhjRXZVdkhF?=
+ =?utf-8?B?Ukd0em5kVmVXdlB0S0FzT2FVRDA0ajFNOS94cDh5b1lYMm1aVVhuRGdnTWxD?=
+ =?utf-8?Q?ZUSQemB3g4ELyX4RcC55GLQJa9U/RGY3gMYMks9?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGdjeURxenJNWGY2TmVxcGdEditYZDR5TlBtVXg4VFQ4cFdCNGE3d1FQT25i?=
+ =?utf-8?B?UDVwNUlqY1NYMlY5U3FtbTBnUTBQYVZJTHlrZVNidTBMNExML0pycTQzN0I3?=
+ =?utf-8?B?Zm0vakJFOVZGOFg0eC92Z3o1T055am1yVGhhRlA5SUxLMmYyTFBPZHhaUlp3?=
+ =?utf-8?B?enJZTFpPVFcwaFBxWHlLRm5Lb3pOYmdWVUdFSmtuL0tCcDQwcG43STM0OE1z?=
+ =?utf-8?B?UUtIZHc3YTVrNWRsb1BndVpqTDBkUERaMmFxSmp3d29nU1Y3MzkrSmM5bTFs?=
+ =?utf-8?B?TkZnRnF6ek1aRTJFcnZDVHlsZzVWNVdWQ2ZSbG4zR3JBblFUaGZQbm82NnBw?=
+ =?utf-8?B?NDRYNW92cnV3SFRPbk9KWWovb2pDaTN1cXV5bVBCbmtpMnZKZTU3dFJsR29F?=
+ =?utf-8?B?Y29xbzRkSWdvY3haQm1xUUxlS3dnMkFkdkt2SkM1QVZDVTFEVnUxNE5SbURu?=
+ =?utf-8?B?VUNsUTZSb3VoUEo2ZGVQaWdqY1pER0MzZDh3dmVFNEM2d285VlVtdXRLL01K?=
+ =?utf-8?B?azFZNU9FQ3dIZ2lubk5XeTBSTVBzOFA3Sm96dUVOMElvQXNCQW90aUovdEF1?=
+ =?utf-8?B?a1NIR1czdTVFZElCSHBndkhwaEhNazNZVXQyM2Zuc0luMXhsVXB6ZU51ZFlY?=
+ =?utf-8?B?QlVDUk42QjhvUldydVVIVFBqeElSUUo5MlVUVDJXeDVocXJxbjcyWkZrMVRV?=
+ =?utf-8?B?ZHd1QXNSRS96N2p5Qk9tRSt4Y3NvZGFmeWZRQWMvUUZjSVhnTHEreXhpUGpV?=
+ =?utf-8?B?and3M3dOaGtCTy9GMDRMS2Vod0ZMNHhuNVJLckgyTGNaUkt1dVhsN3hTbnBO?=
+ =?utf-8?B?a2h1Ym02VFBVM3E0eTVjdEk5amdMeGdKVGlYTGZtOEVHQWFYQ3pLUUlsZlNM?=
+ =?utf-8?B?ci9aMlVzZ1lVVHdaNXIrYVlFNllzK25GQmJ5MUt6cVY3QjhBeGZpcytzeDZx?=
+ =?utf-8?B?QUlQWWc4QzljUHExd0FGRThhWTVabU5FN25BQjl2dUdkekJ2ZmxycU5Pcjc5?=
+ =?utf-8?B?S0l0M09GQ2w0S3FsMGdabnk3emlrTTVRejR6SFhHdnpuTzFTQmJlNERvSy9X?=
+ =?utf-8?B?QWFNbzBXZWhTNW4zMTNpbUYrWjNMVWdqTGlzKzFyZlRUai84dnM2M1dtdU1I?=
+ =?utf-8?B?OVRnWUJOZHNqb2pGVkhoeGo0akladWZzMUdBMU9FeWg5cnViQWIzUmJza2Y0?=
+ =?utf-8?B?YWlqelhjWDh5aGN2ZmVFKytmQnpBN3B6TldxOVkwa2cydDlVVGlabDVGZWJZ?=
+ =?utf-8?B?Q3NpM0lhVU9hVE1HNnpiSTFaMjhjTEVQT0dTdGFRTnBCODdyQkRpUzRZazFp?=
+ =?utf-8?B?RnJiNUpUM09QY2I3NVFRVW1GMVd1YXlMRUI1WG1SNzNyWStHaUxmdjJCcm1n?=
+ =?utf-8?B?VG40UlR5Nks3a01QM1VRNm1KdzlBV0pqR2tUREEwbitGdE00UXhkZ2xIY3RD?=
+ =?utf-8?B?aFFDNVlxM3BoM1R4SUJYM1ovdy8vRldMdWVBWmhFVUxOYXcyTGtnTHJra2R3?=
+ =?utf-8?B?SlNjMHlUdUx5Q1dISU1UVTFCcFhyRFVzeGdFK3JZenNESjNvRHMzek1odDNM?=
+ =?utf-8?B?MkIzeWtNVnpUUGpKY2p3NjlkQ25qZDVxbUhLQ0NPYTQxenlIMXp0RHdPTVdz?=
+ =?utf-8?B?MFVlM1o5V1FwWXI1RjRjR1V4SjJTOExoRlZoRjJNQnEyNE1iV2JOZXMzMHJi?=
+ =?utf-8?B?Z0hYM1VTcnB1V2JSa0Q0RG56Z1Q3S1BrdTFHMjVFTkxwU0dnRDBXRm5jQjM5?=
+ =?utf-8?B?RERtdHFwaFduSFpTL1JMcldyZlIyM1FraUlSYmhHUGFOeVVQckhwTVUwc3c0?=
+ =?utf-8?B?a1M1aUViZmVMckF4eHVHT0h3VHd3Y0s5MHc0U3RlVyszOHQwZkFPNWEwRFJ6?=
+ =?utf-8?B?WjBpTjhCckV0SW4zeGJPcVAxOW9QZlRaLzFyRFJmczdsVVVUeWVHd01lMmc4?=
+ =?utf-8?B?SUxJcitVQWJTUnltSFQzRzRCWStjMStqblQ0ajlHOEt6VmV3K054OE1jM2pX?=
+ =?utf-8?B?YkRwbHkrT2lGWlpUU3JhMS9GeFVIUGFROGtwU2p4UXk4dzYxUEF4TFRDTksr?=
+ =?utf-8?B?dzV6Z0h5akVRZG5aOWcyaDNCU0dmeWs1aFJlOThJVjNESk5yU0dZMDZtNjJX?=
+ =?utf-8?Q?lifYNJqvqQe6yrvKxdNSxkDRF?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 533e0a7a-66b3-4261-05e4-08dc861c18ad
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 11:30:41.3328
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6ks1Mvg6sYEKMPyD+ZR0y0GtHshX/Q2w8ARKSAQKxsVt702jBeF1HYTl8y80MGRYzk20HZhLgszfotLZT2gZzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8551
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240606_031333_436731_E05F99A2 
-X-CRM114-Status: GOOD (  25.96  )
+X-CRM114-CacheID: sfid-20240606_044511_472710_0EF95819 
+X-CRM114-Status: GOOD (  24.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,105 +180,116 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+On 06/06/2024 13:13, Sagi Grimberg wrote:
+>
+>
+> On 02/06/2024 16:08, Sagi Grimberg wrote:
+>>
+>>
+>> On 02/06/2024 14:43, Max Gurtovoy wrote:
+>>> Hi Sagi,
+>>>
+>>> On 02/06/2024 11:53, Sagi Grimberg wrote:
+>>>>
+>>>>
+>>>> On 02/06/2024 11:19, Leon Romanovsky wrote:
+>>>>> On Sun, May 26, 2024 at 11:31:25AM +0300, Sagi Grimberg wrote:
+>>>>>> ib_drain_qp does not do drain a shared recv queue (because it is
+>>>>>> shared). However in the absence of any guarantees that the recv
+>>>>>> completions were consumed, the ulp can reference these completions
+>>>>>> after draining the qp and freeing its associated resources, which
+>>>>>> is a uaf [1].
+>>>>>>
+>>>>>> We cannot drain a srq like a normal rq, however in ib_drain_qp
+>>>>>> once the qp moved to error state, we reap the recv_cq once in
+>>>>>> order to prevent consumption of recv completions after the drain.
+>>>>>>
+>>>>>> [1]:
+>>>>>> -- 
+>>>>>> [199856.569999] Unable to handle kernel paging request at virtual 
+>>>>>> address 002248778adfd6d0
+>>>>>> <....>
+>>>>>> [199856.721701] Workqueue: ib-comp-wq ib_cq_poll_work [ib_core]
+>>>>>> <....>
+>>>>>> [199856.827281] Call trace:
+>>>>>> [199856.829847]  nvmet_parse_admin_cmd+0x34/0x178 [nvmet]
+>>>>>> [199856.835007]  nvmet_req_init+0x2e0/0x378 [nvmet]
+>>>>>> [199856.839640]  nvmet_rdma_handle_command+0xa4/0x2e8 [nvmet_rdma]
+>>>>>> [199856.845575]  nvmet_rdma_recv_done+0xcc/0x240 [nvmet_rdma]
+>>>>>> [199856.851109]  __ib_process_cq+0x84/0xf0 [ib_core]
+>>>>>> [199856.855858]  ib_cq_poll_work+0x34/0xa0 [ib_core]
+>>>>>> [199856.860587]  process_one_work+0x1ec/0x4a0
+>>>>>> [199856.864694]  worker_thread+0x48/0x490
+>>>>>> [199856.868453]  kthread+0x158/0x160
+>>>>>> [199856.871779]  ret_from_fork+0x10/0x18
+>>>>>> -- 
+>>>>>>
+>>>>>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+>>>>>> ---
+>>>>>> Note this patch is not yet tested, but sending it for visibility and
+>>>>>> early feedback. While nothing prevents ib_drain_cq to process a cq
+>>>>>> directly (even if it has another context) I am not convinced if all
+>>>>>> the upper layers don't have any assumptions about a single context
+>>>>>> consuming the cq, even if it is while it is drained. It is also
+>>>>>> possible to to add ib_reap_cq that fences the cq poll context before
+>>>>>> reaping the cq, but this may have other side-effects.
+>>>>> Did you have a chance to test this patch?
+>>>>> I looked at the code and it seems to be correct change, but I also 
+>>>>> don't
+>>>>> know about all ULP assumptions.
+>>>>
+>>>> Not yet...
+>>>>
+>>>> One thing that is problematic with this patch though is that there 
+>>>> is no
+>>>> stopping condition to the direct poll. So if the CQ is shared among 
+>>>> a number of
+>>>> qps (and srq's), nothing prevents the polling from consume 
+>>>> completions forever...
+>>>>
+>>>> So we probably need it to be:
+>>>> -- 
+>>>> diff --git a/drivers/infiniband/core/verbs.c 
+>>>> b/drivers/infiniband/core/verbs.c
+>>>> index 580e9019e96a..f411fef35938 100644
+>>>> --- a/drivers/infiniband/core/verbs.c
+>>>> +++ b/drivers/infiniband/core/verbs.c
+>>>> @@ -2971,7 +2971,7 @@ void ib_drain_qp(struct ib_qp *qp)
+>>>>                  * guarantees that the ulp will free resources and 
+>>>> only then
+>>>>                  * consume the recv completion.
+>>>>                  */
+>>>> -               ib_process_cq_direct(qp->recv_cq, -1);
+>>>> +               ib_process_cq_direct(qp->recv_cq, qp->recv_cq->cqe);
+>>>
+>>> I tried to fix the problem few years ago in [1] but eventually the 
+>>> patchset was not accepted.
+>>>
+>>> We should probably try to improve the original series (using cq->cqe 
+>>> instead of -1 for example) and upstream it.
+>>>
+>>> [1] 
+>>> https://lore.kernel.org/all/1516197178-26493-1-git-send-email-maxg@mellanox.com/
+>>
+>> Yes. I'd like to know if the qp event is needed though, given that 
+>> the qp is already in error state (from the sq drain)
+>> and then we run a single pass over the recv_cq, is it possible to 
+>> miss any completions.
+>>
+>> Would like to resolve the drain without involving the ulp drivers.
+>>
+>> If so, then perhaps we can intercept the qp event at the core, before 
+>> sending it to the ulp and there we can complete
+>> the srq completion.
+>
+> Ping?
 
-On 02/06/2024 16:08, Sagi Grimberg wrote:
->
->
-> On 02/06/2024 14:43, Max Gurtovoy wrote:
->> Hi Sagi,
->>
->> On 02/06/2024 11:53, Sagi Grimberg wrote:
->>>
->>>
->>> On 02/06/2024 11:19, Leon Romanovsky wrote:
->>>> On Sun, May 26, 2024 at 11:31:25AM +0300, Sagi Grimberg wrote:
->>>>> ib_drain_qp does not do drain a shared recv queue (because it is
->>>>> shared). However in the absence of any guarantees that the recv
->>>>> completions were consumed, the ulp can reference these completions
->>>>> after draining the qp and freeing its associated resources, which
->>>>> is a uaf [1].
->>>>>
->>>>> We cannot drain a srq like a normal rq, however in ib_drain_qp
->>>>> once the qp moved to error state, we reap the recv_cq once in
->>>>> order to prevent consumption of recv completions after the drain.
->>>>>
->>>>> [1]:
->>>>> -- 
->>>>> [199856.569999] Unable to handle kernel paging request at virtual 
->>>>> address 002248778adfd6d0
->>>>> <....>
->>>>> [199856.721701] Workqueue: ib-comp-wq ib_cq_poll_work [ib_core]
->>>>> <....>
->>>>> [199856.827281] Call trace:
->>>>> [199856.829847]  nvmet_parse_admin_cmd+0x34/0x178 [nvmet]
->>>>> [199856.835007]  nvmet_req_init+0x2e0/0x378 [nvmet]
->>>>> [199856.839640]  nvmet_rdma_handle_command+0xa4/0x2e8 [nvmet_rdma]
->>>>> [199856.845575]  nvmet_rdma_recv_done+0xcc/0x240 [nvmet_rdma]
->>>>> [199856.851109]  __ib_process_cq+0x84/0xf0 [ib_core]
->>>>> [199856.855858]  ib_cq_poll_work+0x34/0xa0 [ib_core]
->>>>> [199856.860587]  process_one_work+0x1ec/0x4a0
->>>>> [199856.864694]  worker_thread+0x48/0x490
->>>>> [199856.868453]  kthread+0x158/0x160
->>>>> [199856.871779]  ret_from_fork+0x10/0x18
->>>>> -- 
->>>>>
->>>>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->>>>> ---
->>>>> Note this patch is not yet tested, but sending it for visibility and
->>>>> early feedback. While nothing prevents ib_drain_cq to process a cq
->>>>> directly (even if it has another context) I am not convinced if all
->>>>> the upper layers don't have any assumptions about a single context
->>>>> consuming the cq, even if it is while it is drained. It is also
->>>>> possible to to add ib_reap_cq that fences the cq poll context before
->>>>> reaping the cq, but this may have other side-effects.
->>>> Did you have a chance to test this patch?
->>>> I looked at the code and it seems to be correct change, but I also 
->>>> don't
->>>> know about all ULP assumptions.
->>>
->>> Not yet...
->>>
->>> One thing that is problematic with this patch though is that there 
->>> is no
->>> stopping condition to the direct poll. So if the CQ is shared among 
->>> a number of
->>> qps (and srq's), nothing prevents the polling from consume 
->>> completions forever...
->>>
->>> So we probably need it to be:
->>> -- 
->>> diff --git a/drivers/infiniband/core/verbs.c 
->>> b/drivers/infiniband/core/verbs.c
->>> index 580e9019e96a..f411fef35938 100644
->>> --- a/drivers/infiniband/core/verbs.c
->>> +++ b/drivers/infiniband/core/verbs.c
->>> @@ -2971,7 +2971,7 @@ void ib_drain_qp(struct ib_qp *qp)
->>>                  * guarantees that the ulp will free resources and 
->>> only then
->>>                  * consume the recv completion.
->>>                  */
->>> -               ib_process_cq_direct(qp->recv_cq, -1);
->>> +               ib_process_cq_direct(qp->recv_cq, qp->recv_cq->cqe);
->>
->> I tried to fix the problem few years ago in [1] but eventually the 
->> patchset was not accepted.
->>
->> We should probably try to improve the original series (using cq->cqe 
->> instead of -1 for example) and upstream it.
->>
->> [1] 
->> https://lore.kernel.org/all/1516197178-26493-1-git-send-email-maxg@mellanox.com/
->
-> Yes. I'd like to know if the qp event is needed though, given that the 
-> qp is already in error state (from the sq drain)
-> and then we run a single pass over the recv_cq, is it possible to miss 
-> any completions.
->
-> Would like to resolve the drain without involving the ulp drivers.
->
-> If so, then perhaps we can intercept the qp event at the core, before 
-> sending it to the ulp and there we can complete
-> the srq completion.
+I think that catching the IB_EVENT_QP_LAST_WQE_REACHED in the core and 
+complete(&qp->srq_completion) is possible but will require some event 
+processing in the ib core.
 
-Ping?
+Probably my patch [1/4] from 
+https://lore.kernel.org/all/1516197178-26493-2-git-send-email-maxg@mellanox.com/#r 
+should be updated with this logic.
+
 
