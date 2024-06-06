@@ -4,172 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF33DC27C54
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 13:18:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2881C25B75
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 13:42:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jHImrJ20hWX2Yn1locZFrexgjpSaL+ByGSrCm6m6aZQ=; b=juGJc2DBaftLBnwBsHO3rpaunZ
-	QPuWovEOIHQ/M2GjMWi+hu/XTEeguqKRd/A3iWxa/Wx7eoEiNheS1+9w0MklqwnIiH6A2GVXqbLqQ
-	oQlDIbr6/sueM0C9HVj//BZzNpxUq1eQtiB6ZJCWyyVdwCT/4MKsDEj/sqCRPTiR8mY1pr4WtnWl4
-	TzPrqcfCmLcNgS+mNlcFiPYFsUEgXxd/bqW19TwIcLl/1q4ErExJ+2jWtq/JbYkfZWif/zQclFiPm
-	4z67LDdjblhhfyAeGOdvb46cgBANs4VOAftTMmmJDUKM52XTDBtVx4g/RQ6QxYxXw0jMsxDp6byln
-	4kiH2rwA==;
+	bh=p7tTRfP93oW43tM94X+26qoMDGFVf+JmM/auxT1ZuaE=; b=ztgak1uSZluus5EAT9IhypNj1E
+	dOxezW6dcIQSxNwOyFJssZDRVfA+sPOPzK9d0Az41CVO++CC8Tzf87AhT3IvAv2dTqTiG0N4TNlwu
+	xeR5ry7ZzYg31aY5VGDK53rk6I1VUAlhtwwmFe3uAdyCMFdqeCHNIvcZ4RYHnTijXYw0RGn0yzOjH
+	82HNt0uOYcJ/OcWPbdBv6WclXyZfMYRshYSlglXsKZFNeC/ujUTZ6yYeJOYNs9Oz6/sFv2jTvwPKb
+	DjDSIbBVGShF66wHUnck6L4xtodzEX6hUxQ1DTOdZiwOzNeR5ClMUtox46JQ+iSVIQ5YgZAwVIcTw
+	mXloErXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFD0s-00000009pgY-3ahX;
-	Thu, 06 Jun 2024 13:18:42 +0000
-Received: from mail-am6eur05on20717.outbound.protection.outlook.com ([2a01:111:f403:2612::717] helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+	id 1sFDNy-00000009wrh-265C;
+	Thu, 06 Jun 2024 13:42:34 +0000
+Received: from pa49-179-32-121.pa.nsw.optusnet.com.au ([49.179.32.121] helo=rh)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFD0p-00000009peK-1n7N
+	id 1sFDNr-00000009wqR-0ssC
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jun 2024 13:18:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EGNIWux1JX/lwehEwinzwX5mMcNUV2w9M8YRf2lPxz+AU7ofPuhOSFlMllYEbf6f9WGRvxI8IUNd4z1SfujtOlx8oCsQZUjQETwdMtSh5q9Lg2ygwzPzLpPGkMvfYCXxkE8QRW/4ZiJosl/clb7xpoqTsljlFao2mouDtjWvIa0DzPtlDmOLT4LRnylMlpaJngJjk7WZ9z7ksYOXBvMN38kfFJmCZaua+ZHVKanxIj0dI6bVdjBPv9r0BEoQ3XwzjI1/tXicOAifLjydjC+H2jt8MjIlIrt1eh6iNjjOXPaSLT5t45yfFpIyJ8KL8Vu+LzZvXws5jsvdcg1nKsKCqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jHImrJ20hWX2Yn1locZFrexgjpSaL+ByGSrCm6m6aZQ=;
- b=nSAsoXN2wWHUfOI5tuROcCYBdXOzYxwrm7kwyZrnXJSBaGBnoyQJX2F70qmostIvDlf+sFy3Ys1cLe35lq3mo1NvcKOYW4SnwCQTyqZqXDf3gImpuAQlHmVUWnxz4dMFrGGnCKoUoSLCw5wob4emma7PTj+mmfFPalHvwfpXMxTyLFL/KJyBFS+qU4PvTiNCK1V9Mh5ACQhDWqL74T7+MwK6/xbH6MTR9F2Ajl9uStOY0Ld+GaBIxnlVG8BSUnf3kNu8Vo6hV2J0GUce/IsU5Loqt93CklN0lP9BqK1RjEjWKulRs5YksG9IAAQT86yBUwLzeLQQYJ79ZBp7XZVpYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
- dkim=pass header.d=volumez.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jHImrJ20hWX2Yn1locZFrexgjpSaL+ByGSrCm6m6aZQ=;
- b=A5EWutyjbYZVDk2omzw3L+VazgCZSeucHa6eNTUM0hidK82emEmO4ph9jOmtf+uJ9hYR2rVkLmXezEG7wBJThVZeTgUnvc7jLu+7Zr6Lah5rFwC52C1VKl2uDlMDe/dRLgtmKVqnDCsT5QfUHrj20cXJuq8ZYWYNKBT4rKeYTifywzCFSHq83f7iKEzbI7HUXlcLFy6iOauhrX+TG/vxa0jItwVrtW34XlL5V45HQ+x3szzCpRyX9kFVXZaGuh7umAUnAs7Eok6nKOBthEmqpiGN5GMQ6EKr9UfHCKAh3mqDRK1NX44LtwGYaIETujh1QcPqE4bD0enQy9/q4cP3ug==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=volumez.com;
-Received: from AM0PR04MB5107.eurprd04.prod.outlook.com (2603:10a6:208:cb::11)
- by PAXPR04MB8365.eurprd04.prod.outlook.com (2603:10a6:102:1cf::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.33; Thu, 6 Jun
- 2024 13:18:32 +0000
-Received: from AM0PR04MB5107.eurprd04.prod.outlook.com
- ([fe80::de53:c058:7ef:21fb]) by AM0PR04MB5107.eurprd04.prod.outlook.com
- ([fe80::de53:c058:7ef:21fb%4]) with mapi id 15.20.7633.021; Thu, 6 Jun 2024
- 13:18:32 +0000
-Message-ID: <ace6e7a9-3a77-43eb-ad86-83eabc42cdb4@volumez.com>
-Date: Thu, 6 Jun 2024 16:18:29 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] net: introduce helper sendpages_ok()
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, davem@davemloft.net,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, ceph-devel@vger.kernel.org, dhowells@redhat.com,
- edumazet@google.com, pabeni@redhat.com, kbusch@kernel.org, axboe@kernel.dk,
- philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
- christoph.boehmwalder@linbit.com, idryomov@gmail.com, xiubli@redhat.com
-References: <20240530142417.146696-1-ofir.gal@volumez.com>
- <20240530142417.146696-2-ofir.gal@volumez.com>
- <8d0c198f-9c15-4a8f-957a-2e4aecddd2e5@grimberg.me>
- <23821101-adf0-4e38-a894-fb05a19cb9c3@volumez.com>
- <86e60615-9286-4c9c-bffc-72304bd3cc1f@grimberg.me>
- <20240604042738.GA28853@lst.de>
- <62c2b8cd-ce6a-4e13-a58c-a6b30a0dcf17@grimberg.me>
- <ef7ea4a8-c0e4-4fd9-9abb-42ae95090fc8@grimberg.me>
- <b13305d7-35c8-432e-bea1-616410a9da15@volumez.com>
- <20240606130832.GA5925@lst.de>
-Content-Language: en-US
-From: Ofir Gal <ofir.gal@volumez.com>
-In-Reply-To: <20240606130832.GA5925@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TLZP290CA0002.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:9::8)
- To AM0PR04MB5107.eurprd04.prod.outlook.com (2603:10a6:208:cb::11)
+	Thu, 06 Jun 2024 13:42:29 +0000
+Received: from localhost ([::1] helo=rh)
+	by rh with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <dchinner@redhat.com>)
+	id 1sFCWF-00000005tvr-0Pit;
+	Thu, 06 Jun 2024 22:47:03 +1000
+Date: Thu, 6 Jun 2024 22:47:01 +1000
+From: Dave Chinner <dchinner@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+	sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
+	djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com, willy@infradead.org,
+	Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH v7 2/9] fs: Initial atomic write support
+Message-ID: <ZmGvxZA6if7_bl63@rh>
+References: <20240602140912.970947-1-john.g.garry@oracle.com>
+ <20240602140912.970947-3-john.g.garry@oracle.com>
+ <20240605083015.GA20984@lst.de>
+ <fbb835ff-f1ae-4b59-8cb3-22a11449d781@oracle.com>
+ <20240606054143.GB9123@lst.de>
+ <cb5e9d41-c625-43b0-aeda-591b4f7edfaf@oracle.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB5107:EE_|PAXPR04MB8365:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6108768-f310-4f1e-c2bb-08dc862b29f4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|7416005|1800799015|366007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QUtUYmxkRUU3dis1UlY3bXczRzR0ZWdKS3gvMUw5VmU5R3lGalZWWU92TDk4?=
- =?utf-8?B?WGRzNks2Q2RhTlEzRkIwdWF2OFF2L0lleVBXbUkxT2dpQjVRSlV6WDZDTUow?=
- =?utf-8?B?bm9VV1RTb2tpaGxobFBieHk3MmlKejBIMlNJTnZpNVlUbEl2dzdrVmJISDEr?=
- =?utf-8?B?aXpKTVJEVVAxRERaUXh0Ui9MT1pvUU5nTWtmUjNnZWN0a2plelNEcTFkOWhX?=
- =?utf-8?B?ZitPaWQxRW96aWc2dXAxZ2lnL0RWVldMSERnNjgydkdKV0QwNFV4SUZhbktl?=
- =?utf-8?B?M1hBb3ZNK1h5QzZHeVY4dGdlYmRtbEkrMFRidHBieVRDaDhyZGdvVUk4Y2ov?=
- =?utf-8?B?RXdRTzEzaTh5MStCZUlVVndrem5WNUF5ZXZnOXRVcGxHM1lSZlJza0ZjOWR5?=
- =?utf-8?B?blgvRnNWZ3UvalZIT2p4SHpacmU1Q1M5aTRqQi9lT0Q4OG9kMzJZblBGWEE1?=
- =?utf-8?B?Nms3bE9pdGcwTG5ld0kwQnllWUVNbHhiOGhERFUzOG9XSThXQThHWVBYdlZ6?=
- =?utf-8?B?UVRBbEZrSWVtODErVXZLemtXWC9QVkpTcWZVY1lNUnhockhvRGJXS3MyaHMx?=
- =?utf-8?B?a2tNOFJUM3NZYW9ubUNMREJWOVpGTTVQeDUweE4yY3ZZSWtpeTc3a1Vzejhh?=
- =?utf-8?B?OXNVdXB3MzEzdDVKeHRiblBVeVFsY3c0emhhMkp6L0RJSDVuMm95Wjd2a1U2?=
- =?utf-8?B?RE1DNWFPWGVkd3NBclp3Rng3RWx1QzJTQUkreTUrM0JCQVdBaTEwd0tnSWRG?=
- =?utf-8?B?U3dhN0Ftd2FwRldlUkRHMXRTN3NNSTlUeGtSVDBuVjhwd0I3RVUvMEYrWlZL?=
- =?utf-8?B?VVFZZmc4RnNEVWdYSFVCTDRVN1lVM2l3bzR0blA3SGJ1VHhmU2ttTkhKQlpH?=
- =?utf-8?B?bjVkWUJVYUIwbEs5S2FvZlQ4Tm12ejVpR21pdFB5ZHJQdFU5Q2lvTk4zbWQr?=
- =?utf-8?B?UmcvZUYxVERYN2lQOUw5LzZBNTlZSnR4NkpQZlo2bjk3dE11VzZ3Vnh0b3Y3?=
- =?utf-8?B?QTk1eEUwUzZBL1YxemVCT2ZjbG1KRU5BbmVYWDRHaEYyTkREbmhzVWRZTnJX?=
- =?utf-8?B?cEVLeE9ZT1laSXNnTm1KL01iVW1pWC8yRG43azFPQ1dUbGFqTHpRZk15TWtH?=
- =?utf-8?B?eGZPdi9GcDBMK0I4MnI3c0hkZWMvWEI0cElkS0VYc0xHZnBoQ3VOQTFMVnhp?=
- =?utf-8?B?N1hkMW5VbmdwNmV4RmwvNHdwRHpub2srZlIzekozT2pTMWFRcnBzYXdVUGhj?=
- =?utf-8?B?R1N1SllPTDFOdVVWUHFwSG9oRFJ5Y3hucDArMWhDNUZldEduWGpqS2FWTXdC?=
- =?utf-8?B?a1NzVFJoSFpPMFg5bThuL2xYY0RDTGZMa0VZRWVXdTB2SCtrbHpzRnpxSWNV?=
- =?utf-8?B?dWc5NXhDOU1QK1dJWWljK0hZUHdXRXB5bmhiaUNKQk1yWVhLMnRIYlp2VHF5?=
- =?utf-8?B?Q0MxWTFFK0JLRGtkZU45L21xR29iTHFOMC9mRDFIRmJsejJnbUR6T29xMm9s?=
- =?utf-8?B?SzdOSzVxWGQxVXE4NHVyNENqcWpTY29hM2E0cDM1NE5KeE9xM3NDQkh2WEl4?=
- =?utf-8?B?UDcwcmh3OFRUWWhLejlvVGVuZ1ZwUEJYQWg1eDk4WXE2UUdid3VWbUlGclo3?=
- =?utf-8?B?L00yb0lXOGNDVk5KYUJZNzVJdk1nQ3VNNUVzK1EwYXZGQXhEL21aZzdqL25F?=
- =?utf-8?B?YVhzaFZWRDh3alFpV3c1YWJVSHZzSjlmZTR1Z2gzUGZrVHRLWEhRSGRLc0Zn?=
- =?utf-8?Q?b+2GTZmjaW3SqXgYiXzuMP7/awjZ4d7LhG/NvkP?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5107.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QlY4WGF2WnlWV3YyRmR3Q2N2SGFBYUlvWlJaRkxWZVI3Qk0xY2tPRFQ4NUdp?=
- =?utf-8?B?MEM3TlN5Q0JsWGZhRVFGNzNtdk40UGdMMHYxWGMyeU9QVVdRa2dHK29jdWVl?=
- =?utf-8?B?aVY5SCs3aTk3b3d6UGlWVFJwSWtvSDliTythNStkZHZOUlc5enJKbTkyMWhV?=
- =?utf-8?B?Z0pKRHUyQ1RoV1MxQlVZL2pyN2MrVndPN2N4dnJNMkNqVTJBMGZyeDJ0b3U3?=
- =?utf-8?B?RXhqMmMramJZdjl1djNXWjlYdjB0OG5hdzVXd0xuRTdGem5jWXp4WEI2djM4?=
- =?utf-8?B?RWJ2NE1LU3FjUUlQc09IVlEydUJkbXpjb0cxWG5pWWFZN2EwbTdqWWkycjNi?=
- =?utf-8?B?RUtFU3ZoL0prMDZqU1JDL3llZmY3R2tlMWxqUE1BU1M4ZGIzMjFwcTlteElo?=
- =?utf-8?B?dERuWlg0aTNWWVR4RHg2dTQrUUIvckV2ditJelQ0dE1ySWU4Mno5ZHBTK0Ja?=
- =?utf-8?B?VlZ0dWdyME0rYjhJVVVMNDIzdStCMm84ZkgyTFBJd3BjN3prY3E4NzhWV243?=
- =?utf-8?B?ODdHV2M2VTMreEYvdU9kUGdSR3l5TDdwb0w0ZkJyL01LTEt4ZTE0TlZVcmhu?=
- =?utf-8?B?aHJMUEt6eERBZGxBUDEzY3p1WnpobU5TdnVZM21jUEloNW9HeW9YSGVCOEtW?=
- =?utf-8?B?OWRMOE8zbENkRU16dUVMcEVqNm92VjVVaUxYQ2ZXdkFmL0owR2NtdWEwNUJt?=
- =?utf-8?B?a0M4Mlo4L2twY21iSFY0YklSejliWHVIMUNmUW5TbVZTeXc0VjBUNnVoOW1I?=
- =?utf-8?B?WnFBVGlmM2h5a2FWZ0Z0Nmhlcy9UOXJiTEphMkpFQWxTM3dPTEROMU9hd2Fm?=
- =?utf-8?B?YzdiUHJMckxob1Y2czR1aW9VV0hsb2RDQnBualVvUHo5b1kwV2J4a3Jsam1y?=
- =?utf-8?B?ZXo2Y3NRMUtkTGx3dmhwcUE0Snl4RjBLWEpvYXNVc0RLK2MvUU94Q3B2aXBt?=
- =?utf-8?B?WmUxZFJFUHNFcFBGSWJ3SFh5OW5YYkcvQTZHTFo1Y3JBWE4wY1NDQzZTc2M3?=
- =?utf-8?B?OUdta0ZUMzIwTmdTWG1MZ1VTbk1BMXBlY0xXNGNpWDMxLy8zdHlmeUVOMkxu?=
- =?utf-8?B?N2dhRTdQS3RFR01QU1VtUXpPTWc5UlhaTFVPanZIOWN3WFVkOTBqbVRtSkdk?=
- =?utf-8?B?bTFWQ3gxL1dxN1NaSW9kVGQ1aTNheXMrL3dYTEFvYzhuSER0SHVUc202dW5M?=
- =?utf-8?B?ckFjaVowSFRzT1hmNER3eHdKZDZnVis4bFczeTRPK2QreEMwamJYNmhwSTMw?=
- =?utf-8?B?cnRNanBnS2x6NTRqc21rVWxyZjZsZU9jeDlWT2hrVkFiV25kWDl2d2Nia3Bz?=
- =?utf-8?B?dW9LWmwyL1hMWkdKc0hRWDdxcEEyVEtYeklVOUFUNTJvM2grOUI4dldDc1dY?=
- =?utf-8?B?eDFGcEQrcktnY05zTXh0OGNiaFQ0Qko2TTc3bmQ5Zmw2OVZhSUp2WUlSOEtx?=
- =?utf-8?B?b05Gdi9HcVBXSmppSndnR0xkRGpBd2E0ZWFmR0pjK1VaVm54VnJSODJFZ01F?=
- =?utf-8?B?TE53QkhwZkwzMUcrNnE1NDV4ZVBHQlI1end5NXlod1ZvU2JJTkJXY3ZKY2J1?=
- =?utf-8?B?SUNtYUxYeXd2WFdna2Q3UnVrVThMMktMUXI2RFBZOVlkMU9KTlV6MVdiMUxu?=
- =?utf-8?B?WjRJRkgxTnFEUkdPTEhDUC8rUE04bmYxZGVPT2k3a3ZkNlpxK3FsQU5rQ1pC?=
- =?utf-8?B?L0hCNEd1UzdCbDA0TkwyYll1eUJ6aXB3cStheDhBbTRuakhubUhHaGhNS2Mv?=
- =?utf-8?B?dm1pMVVkNmlLQVNPN01MZnZqY3pSMUlTNXV5MVZjK1lyTExoSnlTNWMzOWtj?=
- =?utf-8?B?bUdRZk9NSlZOdlNCTU8zT2d0dW94cStEOTY3SU1ZOGY2clFKWldBOHFkdDll?=
- =?utf-8?B?OHRBWWc0TmhnbFBZMTI3UkFPQ0RPejZ1RU5TNHhjK2k4ZUlJQk9VaWkyRU95?=
- =?utf-8?B?UWJFd0RSYlh1dGtVQVRtY1E2NkRlRXlPczMvd1FObW1MQnlPVXpUV2R6Y0wv?=
- =?utf-8?B?ZnV3VitmN1hjTmFVZXNCODZVMWUvVnBYeUVHamlDMnk3SzBCRWtScmpYSDFT?=
- =?utf-8?B?MnFKbEdWckEvS3RURVZ0bUoxTUpUelFyZnZjdDhQY1FEYkw0bWZBTHZlTjlF?=
- =?utf-8?Q?frj4ysUO4yJ+Y9YIToPHaSAt/?=
-X-OriginatorOrg: volumez.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6108768-f310-4f1e-c2bb-08dc862b29f4
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5107.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 13:18:32.6935
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MSq4GqC7nuY/fSZq52+sgWcGyBlSR63dmzOvT8VLZpGKDnY65tLNRUQAPP30taYCBSWccE+AAzEA6mREx/MtRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8365
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb5e9d41-c625-43b0-aeda-591b4f7edfaf@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240606_061839_507619_5B1D161E 
-X-CRM114-Status: GOOD (  10.34  )
+X-CRM114-CacheID: sfid-20240606_064227_266995_57BA4D09 
+X-CRM114-Status: GOOD (  18.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,18 +76,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, Jun 06, 2024 at 07:38:41AM +0100, John Garry wrote:
+> On 06/06/2024 06:41, Christoph Hellwig wrote:
+> > On Wed, Jun 05, 2024 at 11:48:12AM +0100, John Garry wrote:
+> > > I have no strong attachment to that name (atomic).
+> > > 
+> > > For both SCSI and NVMe, it's an "atomic" feature and I was basing the
+> > > naming on that.
+> > > 
+> > > We could have RWF_NOTEARS or RWF_UNTEARABLE_WRITE or RWF_UNTEARABLE or
+> > > RWF_UNTORN or similar. Any preference?
+> > 
+> > No particular preference between any of the option including atomic.
+> > Just mumbling out aloud my thoughts :)
+> 
+> Regardless of the userspace API, I think that the block layer terminology
+> should match that of the underlying HW technology - so I would plan to keep
+> "atomic" in the block layer, including request_queue sysfs limits.
+> 
+> If we used RWF_UNTORN, at some level the "atomic" and "untorn" terminology
+> would need to interface with one another. If it's going to be insane to have
+> RWF_UNTORN from userspace being translated into REQ_ATOMIC, then I could
+> keep RWF_ATOMIC.
+> 
+> Someone please decide ....
 
-On 06/06/2024 16:08, Christoph Hellwig wrote:
-> On Thu, Jun 06, 2024 at 03:57:25PM +0300, Ofir Gal wrote:
->> The slab pages aren't allocated by the md-bitmap, they are pages that
->> happens to be after the allocated pages. I'm applying a patch to the md
->> subsystem asap.
-> Similar cases could happen by other means as well.  E.g. if you write
-> to the last blocks in an XFS allocation group while also writing something
-> to superblock copy at the beginnig of the next one and the two writes get
-> merged.  Probably not easy to reproduce but entirely possible.  Just as
-> as lot of other scenarious could happen due to merges.
-I agree. Do we want to proceed with my patch or would we prefer a more
-efficient solution?
+RWF_ATOMIC for the user interface, please. An "atomic" IO operation is
+easy for application developers to understand and reason about,
+whilst "untorn" or some variant of "torn" will require us having to
+repeated explain that it is a technical storage term that simply
+means "the IO will be completed atomically".
 
+-Dave.
+-- 
+Dave Chinner
+dchinner@redhat.com
 
