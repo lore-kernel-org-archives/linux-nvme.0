@@ -4,167 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F9DCC25B75
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 11:45:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BC70C27C54
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 12:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DFSHk8n3pCPp8zhFwjxaNKgSKtNhi8Klb/kj01zBBoA=; b=to5bu9JJWD2vHP77iHzN2SotZq
-	dhT7ToSDYb6AtLtqx+g5wUR4PpAzzqd52DNtl88Ckvxbaac4RJ/lf1IcxVauJ6VrC3pHoVBDcDv0T
-	Am8LHciIQEu4utzsGMlij7qX1bBqTZR9AGgJxihiX36zGWNa4cnWU9k+HHNJi+dON0t9wu/Jy8/h7
-	v1ww50MxH/LqSkP6/xB0cc+eDP/D3dqcs90pK+9lqT1Pq4uVzQpv+qrGhLMQFEuNWE1TBXG2qmNo/
-	bR2xB9F10xAioLqh9kI6v+r8h7H+qI8amFp9U0dK4Ewkxl/Rhw/e8hnBIVesPOKc1EJk6JJlEJcDV
-	m2qN5GVQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EMi3K2Q+Wm1UmK2MmUf1tbocOK62abdXo6Je0hwpr9c=; b=AraBA5KRGOj6GAgQIVTY7bE0wJ
+	xfjbwtEwQGR83BUSgkWx2ImmP5XiLM/06yBkuUv/PUb4DORVPauwhCOzlBWdsBseVqG5jviHlhG2C
+	H5dCmZmB773pmucsqwfcFZQN/qDYqslgnCYO1YIBSDEfGCMmUktdVyCPWGOgYAm1ppoVK5zFCUuAP
+	v9bVqVzyYDfSHD+FDCo/0sUfBrAYSyMDU7gnkRU6t74iv6ikD3BIE2rUFXYk61/G3G77UP5JJnvxd
+	ZTSm/Xl64l9A7lIQiMM0Rf6FiPcZjETg/UvdNeiL/BfXs0IABcV0IN/2XVJ7+2O2u1DPiHMwO7btL
+	mBeKjY6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFBYQ-00000009a1l-4BAt;
-	Thu, 06 Jun 2024 11:45:15 +0000
-Received: from mail-dm6nam10on20619.outbound.protection.outlook.com ([2a01:111:f400:7e88::619] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1sFC05-00000009eCt-33pT;
+	Thu, 06 Jun 2024 12:13:49 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFBYN-00000009Zzo-1lbM
+	id 1sFC03-00000009eBe-1e0O
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jun 2024 11:45:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gK7H0CFkLB3bmBaJsNltU1woAsiuTW1Kj7AiJoKFvifJK1AyRdF/kjFC8s3HRhVIOUS9Qneuf7mm6pEVXhPnAzzEcl0gfWvoknUDCsH/dYT8JAXi5S0LwBPfXjHuC9SSqjF1+GAiiY9uUaveCAgYc2rljXHK/WfxLlhYSgpp2tdSyQdq4y3nVHU01AJOZ8CF2GbG1ELS23AsuijIRZg6Rn2/JyGuHqMJB70IzO9R8xM7g9brpXIQZQQwytEB/opY5M+XPrYQIp+iEVeUlx+RBnAkLhAPuhFAkyb3NW3rSBeXacS61Hp65ccw3VcZGJeaGgC/ihMDSSTCu2BTRmMQwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DFSHk8n3pCPp8zhFwjxaNKgSKtNhi8Klb/kj01zBBoA=;
- b=HtLyhjpRORh3QmJW6zOo7zRJoxd42qLe7ORbq7Ope1bdh6cDg/3ZvlzharwrmpnkR5008mt5S6YXwBTNP0sCkcKYqizOKwAsdaE63OhXduKFs6c/pbdXb4sz9elCYd8VtvSl1hIwVsbSmQoJXIc9lBS24vef4VqAYhIT/6FYMHguIWbMMNcYLjBIlCrt+cRPWnhDLVRyLcs85wdCrZSwY6Dzb2lr7dPCWzLVSFhAcEA43lRCISDMThir/WBybl7UruuPYZmLStkpzPHrm2NuB83BSc/uORLcNe5drmXW6K4G/yjRaEh+zQOOBxnIOwWMbSwwk2YyrgFEwsksv2QWnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DFSHk8n3pCPp8zhFwjxaNKgSKtNhi8Klb/kj01zBBoA=;
- b=QvPYNRMTuDq0pPizbx3hDfPYVRnXAmxh30OAZVpku4vA7K9O7qu8Jpb60QOvEvIx+K2SUvTrN0Nf91rGREQFiZwnH/6OnmDsM34EHb/whmehB2ascjqOwtvEI+C0bD67ZciWlVto3urxQq7xsTBVP4GQOR8avTZS79ILMMu+oyNAnUjus0ysxAK9jd+3JAKBXeZ3p0INxWzT+rDO1ZojrYhJUR/VRf3PJzVhx8RGwJj4Mlvhwou7qp6flPh9VnnzaIrQY519x/kcsE8mLT32irLyT+6SGsv/TgZrR9eX/XZ7PiM31km6cUYgK7nv3iGkrUw1pGVoVaYROrPyN7a7WA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by CH0PR12MB8551.namprd12.prod.outlook.com (2603:10b6:610:186::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.34; Thu, 6 Jun
- 2024 11:30:41 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f%4]) with mapi id 15.20.7633.021; Thu, 6 Jun 2024
- 11:30:41 +0000
-Message-ID: <01ae8b79-fc45-4361-ad28-cea7bc63a330@nvidia.com>
-Date: Thu, 6 Jun 2024 14:30:34 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH rfc] rdma/verbs: fix a possible uaf when draining a srq
- attached qp
-To: Sagi Grimberg <sagi@grimberg.me>, Leon Romanovsky <leon@kernel.org>
-Cc: linux-rdma@vger.kernel.org, linux-nvme@lists.infradead.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Israel Rukshin <israelr@nvidia.com>,
- Oren Duer <ooren@nvidia.com>
-References: <20240526083125.1454440-1-sagi@grimberg.me>
- <20240602081934.GJ3884@unreal>
- <ac1ccd5e-598e-4e67-8e32-2f8d499d6ff7@grimberg.me>
- <d70273b6-56ad-494e-b1d2-884b537dcfa7@nvidia.com>
- <f1f52597-c159-4c87-993d-51221c974dfe@grimberg.me>
- <deb873a4-5c59-4292-a86e-3f0b8c460096@grimberg.me>
-Content-Language: en-US
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <deb873a4-5c59-4292-a86e-3f0b8c460096@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0148.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::6) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	Thu, 06 Jun 2024 12:13:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717676023;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EMi3K2Q+Wm1UmK2MmUf1tbocOK62abdXo6Je0hwpr9c=;
+	b=h8P0N4snFqF5yYqwY6C1EAQ0mu/pN4y0n+b1U4aoQsgvr0RKf0kSMDUbFUo5eP78Rx5m39
+	EgpbB6OG/+c2IpcMU9BjHRn07O8pUMnQpd+jAlhb+QsrXCY4wUIA0OdYTEVRUnUiBTRM43
+	WejIdZjSLWsD3cRXZ+ZXj+kWEPJpk6U=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-315-j5Dqe-yDMmiul2Edb99YSg-1; Thu, 06 Jun 2024 08:13:41 -0400
+X-MC-Unique: j5Dqe-yDMmiul2Edb99YSg-1
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2c1e6fc4122so831328a91.0
+        for <linux-nvme@lists.infradead.org>; Thu, 06 Jun 2024 05:13:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717676020; x=1718280820;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EMi3K2Q+Wm1UmK2MmUf1tbocOK62abdXo6Je0hwpr9c=;
+        b=uPCRpyp4wNhSrPXN/glVj9PX/LJs0DP1j1SAnuLatIBExfCnGPX5jBDQnHuVE4DQZD
+         VG/cd44b6rif/FoF+Z8TkgzOkB2/moP9nwyWPzHHIsjjs5hTwxx3haW2EyXG28ZZaKEG
+         CMOLXak5zaQeBKTCI89llpt4xv9V6EPVa1BOLbPFuInGV9Xd8GZDCz7fMKVu9LiKvbBW
+         K6qes/F4k05CO/bUyhfNQQEIHlWjKLLt0OKJmMihpaUXXd1ue7JP8PMP9Ug+NqA+W/HX
+         pi6L6sSlFOjsC7nRiBndFCIICz+8Lfa0W7qlB6X8rKcSOcNAXtCG61J13adzT0erjffQ
+         uYlQ==
+X-Gm-Message-State: AOJu0Ywerxo6b873zKIXErmoy/+yVcV9zdxado4P3SIlTpwg/BWLDbgN
+	pdpc2b4bvKjgbgIvoHxxgT71m6ftfAz5mo/EduLBsOqc14pwKXW48UOUBo7In278AFj5NDjH+ta
+	wakBzZsk4S1130B7iu4AJr9FoEMUOrBPhxKHwwV+4yI6Yi1FMy8Id8HgAUiuiwio8AJiT7tijG0
+	868Nuu6jbQLDt4sJOLPNOOY89UJi5HKX0nJNs0IKM=
+X-Received: by 2002:a17:90b:46c7:b0:2c2:264a:3704 with SMTP id 98e67ed59e1d1-2c27db0ac9emr5433729a91.18.1717676020228;
+        Thu, 06 Jun 2024 05:13:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF5MNgq8BpZkpbiGM26NQUGkVuV28yXqnQSD2zNrdE6N3l/Fuhp0U0FCCpFRlyHKm+Tk5GVfyxBEEBkCOsRnGg=
+X-Received: by 2002:a17:90b:46c7:b0:2c2:264a:3704 with SMTP id
+ 98e67ed59e1d1-2c27db0ac9emr5433694a91.18.1717676019696; Thu, 06 Jun 2024
+ 05:13:39 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|CH0PR12MB8551:EE_
-X-MS-Office365-Filtering-Correlation-Id: 533e0a7a-66b3-4261-05e4-08dc861c18ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ai8walE1aUVZM1l0SHN0c1YwUnFKcDVYdFFjTHlJV0J5RFI5SkFNVlZES0Fx?=
- =?utf-8?B?bW52TWtLc2dIbUk2R01JcG5kYURTY0pOdnBXR3o1UlpYa0o1STBRNTlGK3lM?=
- =?utf-8?B?eXZGZ0FxbkxsbjZrWlVZYlBzekR4M0xFZFJzV05QTkZER0hPT295d3pSYVNX?=
- =?utf-8?B?eW1hVGFkejcyYTlJODk3K1JEOW0rV0dlUmtqZ2ZlWTArWGYrYVJvQlFDMXNM?=
- =?utf-8?B?WkZnOFhpcWsxMjU5dG5LcmRsVDluODNJU2M1a2djOTB3MFZSbXVuMXBHSDd1?=
- =?utf-8?B?SEZvNmJVZ2c4TXlDeXJ1K0ZKR3ZLV01acDNqczBsaDNyaGpZRnU3TXNHV05E?=
- =?utf-8?B?OE9WREtqYzFhUXRhbUF3VGVsZVNWbnB6OTVaRGFmZVBONjBiMjQ1dlpBTWRl?=
- =?utf-8?B?OVRCNTczSHpNZUY0bWpKTUZJYThHYmhQYU1NeThySFlpOHVPeGNoYmJsdnhJ?=
- =?utf-8?B?RXVBTFJpcUs4bmhjWGhjaEtpNUE3Ky9vazNnYjE2WFVFR25RR2MrS3o3ZUFh?=
- =?utf-8?B?MkZnSXN4TDVXVVBuQkpJK3RFcTd0UURQK3JwZTVGOVZnc3NsS1Nsbm5HWVNh?=
- =?utf-8?B?L3JPMDZqYmgyQk93TDFxZitlUmRGL0s5NG9nRE9iRy8vQnhDTU9CdGJpVExL?=
- =?utf-8?B?dllqZEZackVPNWlQTlVIK2YzNXdsWnB2NXlGTE9Zc3cxNk96TDRzMVJKWEF2?=
- =?utf-8?B?c2krMXVwNE93RjdXS0tEUVFlSng5U2hlTjlCcGlaeW5VaEMrMmpzK1BZZmdZ?=
- =?utf-8?B?U1llWkVXQlcvU1ZsU3g4eHliNHQ1YVdiSTZDdnU0YW1JN2VGbHJiY1o1OVdV?=
- =?utf-8?B?TVRMWkR6MU13RTBLcGZOemdXcVZGQ3ZpdUgxSndDTU1YUWl4WGh0ek1hckVH?=
- =?utf-8?B?WGdIQ3NIaldiSXVhMzhMK3pvR2kydUxtcS9Nem9PR0VtMURaMDBwSWdiU3hV?=
- =?utf-8?B?NW4vM2RCV21QWDBvRVl0cGx1S0k4NUVXVVFtbzJIbGUwaTJPeGFib3pYT1Nh?=
- =?utf-8?B?aVZlc3kzczk5cDZ2b1E1NzJPZ2pqMzd3cFVDYktHdXZaN2J3bzFqenQrTnps?=
- =?utf-8?B?SWtSSExrdmR6VGtMUXEvMDBOc2EySGFiaUV6eHdRVUU3dFJudmpvc2Y1TTNV?=
- =?utf-8?B?Y3JFWVM0QjB4STdUOG5yVy9DODdObWhTT3dtbkQ3M0UvUDZJK01pVmRNUUlD?=
- =?utf-8?B?dDYzUWtMVTRFRE1BNlN4OXE2MW95bkNja1orTXplTk1ucGVhZUZtUW9Yei81?=
- =?utf-8?B?TlJSY0ZaTDNzTldYbUh6Um1uMDVCMXNpR2kxT0VQcHhRcUhZN0xwVkhFTy9u?=
- =?utf-8?B?SjhKbWhCWmExaU1mMUZnbFQ5VkZIK2RDaXpCKzBzOWtBNWFwZloxSXZKaTZx?=
- =?utf-8?B?SGJpK1laL0h0ZGJWSjhPa29xeGJtM0ZldDI2N1ZHNnljTVp6SGp2bzRYVWRE?=
- =?utf-8?B?U01SVzgraWVadzZFbHprbVhUSXg5VjROckMxRmU3ZHN6TUQ0QVd1V1VuR21p?=
- =?utf-8?B?Wk5FVDhtS21sbUlZRDFjZDUvVUlFUnV4ZjhNZkNxOWI5dGVaWEFWc1R1Qito?=
- =?utf-8?B?WGFNQkFlcDdKMThvaGI0U2d3MkkycmNXaDdOY0NKekNiVlRXa3VzcExaTm5w?=
- =?utf-8?B?OS9YK3J3NjhWSm92ZXdMWmxoYkpIVEtzRUZLcGhHaEhFaytoZGhjRXZVdkhF?=
- =?utf-8?B?Ukd0em5kVmVXdlB0S0FzT2FVRDA0ajFNOS94cDh5b1lYMm1aVVhuRGdnTWxD?=
- =?utf-8?Q?ZUSQemB3g4ELyX4RcC55GLQJa9U/RGY3gMYMks9?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGdjeURxenJNWGY2TmVxcGdEditYZDR5TlBtVXg4VFQ4cFdCNGE3d1FQT25i?=
- =?utf-8?B?UDVwNUlqY1NYMlY5U3FtbTBnUTBQYVZJTHlrZVNidTBMNExML0pycTQzN0I3?=
- =?utf-8?B?Zm0vakJFOVZGOFg0eC92Z3o1T055am1yVGhhRlA5SUxLMmYyTFBPZHhaUlp3?=
- =?utf-8?B?enJZTFpPVFcwaFBxWHlLRm5Lb3pOYmdWVUdFSmtuL0tCcDQwcG43STM0OE1z?=
- =?utf-8?B?UUtIZHc3YTVrNWRsb1BndVpqTDBkUERaMmFxSmp3d29nU1Y3MzkrSmM5bTFs?=
- =?utf-8?B?TkZnRnF6ek1aRTJFcnZDVHlsZzVWNVdWQ2ZSbG4zR3JBblFUaGZQbm82NnBw?=
- =?utf-8?B?NDRYNW92cnV3SFRPbk9KWWovb2pDaTN1cXV5bVBCbmtpMnZKZTU3dFJsR29F?=
- =?utf-8?B?Y29xbzRkSWdvY3haQm1xUUxlS3dnMkFkdkt2SkM1QVZDVTFEVnUxNE5SbURu?=
- =?utf-8?B?VUNsUTZSb3VoUEo2ZGVQaWdqY1pER0MzZDh3dmVFNEM2d285VlVtdXRLL01K?=
- =?utf-8?B?azFZNU9FQ3dIZ2lubk5XeTBSTVBzOFA3Sm96dUVOMElvQXNCQW90aUovdEF1?=
- =?utf-8?B?a1NIR1czdTVFZElCSHBndkhwaEhNazNZVXQyM2Zuc0luMXhsVXB6ZU51ZFlY?=
- =?utf-8?B?QlVDUk42QjhvUldydVVIVFBqeElSUUo5MlVUVDJXeDVocXJxbjcyWkZrMVRV?=
- =?utf-8?B?ZHd1QXNSRS96N2p5Qk9tRSt4Y3NvZGFmeWZRQWMvUUZjSVhnTHEreXhpUGpV?=
- =?utf-8?B?and3M3dOaGtCTy9GMDRMS2Vod0ZMNHhuNVJLckgyTGNaUkt1dVhsN3hTbnBO?=
- =?utf-8?B?a2h1Ym02VFBVM3E0eTVjdEk5amdMeGdKVGlYTGZtOEVHQWFYQ3pLUUlsZlNM?=
- =?utf-8?B?ci9aMlVzZ1lVVHdaNXIrYVlFNllzK25GQmJ5MUt6cVY3QjhBeGZpcytzeDZx?=
- =?utf-8?B?QUlQWWc4QzljUHExd0FGRThhWTVabU5FN25BQjl2dUdkekJ2ZmxycU5Pcjc5?=
- =?utf-8?B?S0l0M09GQ2w0S3FsMGdabnk3emlrTTVRejR6SFhHdnpuTzFTQmJlNERvSy9X?=
- =?utf-8?B?QWFNbzBXZWhTNW4zMTNpbUYrWjNMVWdqTGlzKzFyZlRUai84dnM2M1dtdU1I?=
- =?utf-8?B?OVRnWUJOZHNqb2pGVkhoeGo0akladWZzMUdBMU9FeWg5cnViQWIzUmJza2Y0?=
- =?utf-8?B?YWlqelhjWDh5aGN2ZmVFKytmQnpBN3B6TldxOVkwa2cydDlVVGlabDVGZWJZ?=
- =?utf-8?B?Q3NpM0lhVU9hVE1HNnpiSTFaMjhjTEVQT0dTdGFRTnBCODdyQkRpUzRZazFp?=
- =?utf-8?B?RnJiNUpUM09QY2I3NVFRVW1GMVd1YXlMRUI1WG1SNzNyWStHaUxmdjJCcm1n?=
- =?utf-8?B?VG40UlR5Nks3a01QM1VRNm1KdzlBV0pqR2tUREEwbitGdE00UXhkZ2xIY3RD?=
- =?utf-8?B?aFFDNVlxM3BoM1R4SUJYM1ovdy8vRldMdWVBWmhFVUxOYXcyTGtnTHJra2R3?=
- =?utf-8?B?SlNjMHlUdUx5Q1dISU1UVTFCcFhyRFVzeGdFK3JZenNESjNvRHMzek1odDNM?=
- =?utf-8?B?MkIzeWtNVnpUUGpKY2p3NjlkQ25qZDVxbUhLQ0NPYTQxenlIMXp0RHdPTVdz?=
- =?utf-8?B?MFVlM1o5V1FwWXI1RjRjR1V4SjJTOExoRlZoRjJNQnEyNE1iV2JOZXMzMHJi?=
- =?utf-8?B?Z0hYM1VTcnB1V2JSa0Q0RG56Z1Q3S1BrdTFHMjVFTkxwU0dnRDBXRm5jQjM5?=
- =?utf-8?B?RERtdHFwaFduSFpTL1JMcldyZlIyM1FraUlSYmhHUGFOeVVQckhwTVUwc3c0?=
- =?utf-8?B?a1M1aUViZmVMckF4eHVHT0h3VHd3Y0s5MHc0U3RlVyszOHQwZkFPNWEwRFJ6?=
- =?utf-8?B?WjBpTjhCckV0SW4zeGJPcVAxOW9QZlRaLzFyRFJmczdsVVVUeWVHd01lMmc4?=
- =?utf-8?B?SUxJcitVQWJTUnltSFQzRzRCWStjMStqblQ0ajlHOEt6VmV3K054OE1jM2pX?=
- =?utf-8?B?YkRwbHkrT2lGWlpUU3JhMS9GeFVIUGFROGtwU2p4UXk4dzYxUEF4TFRDTksr?=
- =?utf-8?B?dzV6Z0h5akVRZG5aOWcyaDNCU0dmeWs1aFJlOThJVjNESk5yU0dZMDZtNjJX?=
- =?utf-8?Q?lifYNJqvqQe6yrvKxdNSxkDRF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 533e0a7a-66b3-4261-05e4-08dc861c18ad
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 11:30:41.3328
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6ks1Mvg6sYEKMPyD+ZR0y0GtHshX/Q2w8ARKSAQKxsVt702jBeF1HYTl8y80MGRYzk20HZhLgszfotLZT2gZzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8551
+References: <20240604185908.3703052-1-kbusch@meta.com> <20240604185908.3703052-6-kbusch@meta.com>
+In-Reply-To: <20240604185908.3703052-6-kbusch@meta.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Thu, 6 Jun 2024 20:13:27 +0800
+Message-ID: <CAHj4cs9Pyowh+DUqK4QstNBoPd6LwUO8jgXicGcs+op1J__JkA@mail.gmail.com>
+Subject: Re: [PATCHv2 5/5] nvme: split device add from initialization
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me, 
+	mlombard@redhat.com, hare@suse.de, shinichiro.kawasaki@wdc.com, 
+	james.smart@broadcom.com, Keith Busch <kbusch@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240606_044511_472710_0EF95819 
-X-CRM114-Status: GOOD (  24.38  )
+X-CRM114-CacheID: sfid-20240606_051347_607984_646D9123 
+X-CRM114-Status: GOOD (  28.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -179,117 +98,324 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Verified the kmemleak reported was fixed by this patch, thanks.
 
-On 06/06/2024 13:13, Sagi Grimberg wrote:
+Tested-by: Yi Zhang <yi.zhang@redhat.com>
+
+On Wed, Jun 5, 2024 at 3:01=E2=80=AFAM Keith Busch <kbusch@meta.com> wrote:
+>
+> From: Keith Busch <kbusch@kernel.org>
+>
+> Combining both creates an ambiguous cleanup scenario for the caller if
+> an error is returned: does the device reference need to be dropped or
+> did the error occur before the device was initialized? If an error
+> occurs after the device is added, then the existing cleanup routines
+> will leak memory.
+>
+> Furthermore, the nvme core is taking it upon itself to free the device's
+> kobj.name under certain conditions rather than go the the core device
+> API. We shouldn't be peaking into these implementation details.
+>
+> Split the device initialization from the addition to make it easier to
+> know the error handling actions, fix the existing memory leaks, and stop
+> the device layering violations.
+>
+> Link: https://lore.kernel.org/linux-nvme/c4050a37-ecc9-462c-9772-65e25166=
+f439@grimberg.me/
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/apple.c  |  5 ++++
+>  drivers/nvme/host/core.c   | 58 +++++++++++++++++++++++---------------
+>  drivers/nvme/host/fc.c     |  5 ++++
+>  drivers/nvme/host/nvme.h   |  1 +
+>  drivers/nvme/host/pci.c    |  5 ++++
+>  drivers/nvme/host/rdma.c   |  5 ++++
+>  drivers/nvme/host/tcp.c    |  5 ++++
+>  drivers/nvme/target/loop.c |  5 ++++
+>  8 files changed, 66 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index d3384aecc0d39..9760c97bc8f19 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -1531,6 +1531,10 @@ static int apple_nvme_probe(struct platform_device=
+ *pdev)
+>         if (IS_ERR(anv))
+>                 return PTR_ERR(anv);
+>
+> +       result =3D nvme_add_ctrl(&anv->ctrl);
+> +       if (result)
+> +               goto out_put_ctrl;
+> +
+>         anv->ctrl.admin_q =3D blk_mq_alloc_queue(&anv->admin_tagset, NULL=
+, NULL);
+>         if (IS_ERR(anv->ctrl.admin_q)) {
+>                 ret =3D -ENOMEM;
+> @@ -1545,6 +1549,7 @@ static int apple_nvme_probe(struct platform_device =
+*pdev)
+>
+>  out_uninit_ctrl:
+>         nvme_uninit_ctrl(&dev->ctrl);
+> +out_put_ctrl:
+>         nvme_put_ctrl(&dev->ctrl);
+>         return ret;
+>  }
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index f5d150c62955d..070cc4d76b6a4 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4611,6 +4611,9 @@ static void nvme_free_ctrl(struct device *dev)
+>   * Initialize a NVMe controller structures.  This needs to be called dur=
+ing
+>   * earliest initialization so that we have the initialized structured ar=
+ound
+>   * during probing.
+> + *
+> + * On success, the caller must use the nvme_put_ctrl() to release this w=
+hen
+> + * needed, which also invokes the ops->free_ctrl() callback.
+>   */
+>  int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>                 const struct nvme_ctrl_ops *ops, unsigned long quirks)
+> @@ -4659,6 +4662,12 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct =
+device *dev,
+>                 goto out;
+>         ctrl->instance =3D ret;
+>
+> +       ret =3D nvme_auth_init_ctrl(ctrl);
+> +       if (ret)
+> +               goto out_release_instance;
+> +
+> +       nvme_mpath_init_ctrl(ctrl);
+> +
+>         device_initialize(&ctrl->ctrl_device);
+>         ctrl->device =3D &ctrl->ctrl_device;
+>         ctrl->device->devt =3D MKDEV(MAJOR(nvme_ctrl_base_chr_devt),
+> @@ -4671,16 +4680,36 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct=
+ device *dev,
+>                 ctrl->device->groups =3D nvme_dev_attr_groups;
+>         ctrl->device->release =3D nvme_free_ctrl;
+>         dev_set_drvdata(ctrl->device, ctrl);
+> +
+> +       return ret;
+> +
+> +out_release_instance:
+> +       ida_free(&nvme_instance_ida, ctrl->instance);
+> +out:
+> +       if (ctrl->discard_page)
+> +               __free_page(ctrl->discard_page);
+> +       cleanup_srcu_struct(&ctrl->srcu);
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+> +
+> +/*
+> + * On success, returns with an elevated controller reference and caller =
+must
+> + * use nvme_uninit_ctrl() to properly free resources associated with the=
+ ctrl.
+> + */
+> +int nvme_add_ctrl(struct nvme_ctrl *ctrl)
+> +{
+> +       int ret;
+> +
+>         ret =3D dev_set_name(ctrl->device, "nvme%d", ctrl->instance);
+>         if (ret)
+> -               goto out_release_instance;
+> +               return ret;
+>
+> -       nvme_get_ctrl(ctrl);
+>         cdev_init(&ctrl->cdev, &nvme_dev_fops);
+> -       ctrl->cdev.owner =3D ops->module;
+> +       ctrl->cdev.owner =3D ctrl->ops->module;
+>         ret =3D cdev_device_add(&ctrl->cdev, ctrl->device);
+>         if (ret)
+> -               goto out_free_name;
+> +               return ret;
+>
+>         /*
+>          * Initialize latency tolerance controls.  The sysfs files won't
+> @@ -4691,28 +4720,11 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct=
+ device *dev,
+>                 min(default_ps_max_latency_us, (unsigned long)S32_MAX));
+>
+>         nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device=
+));
+> -       nvme_mpath_init_ctrl(ctrl);
+> -       ret =3D nvme_auth_init_ctrl(ctrl);
+> -       if (ret)
+> -               goto out_free_cdev;
+> +       nvme_get_ctrl(ctrl);
+>
+>         return 0;
+> -out_free_cdev:
+> -       nvme_fault_inject_fini(&ctrl->fault_inject);
+> -       dev_pm_qos_hide_latency_tolerance(ctrl->device);
+> -       cdev_device_del(&ctrl->cdev, ctrl->device);
+> -out_free_name:
+> -       nvme_put_ctrl(ctrl);
+> -       kfree_const(ctrl->device->kobj.name);
+> -out_release_instance:
+> -       ida_free(&nvme_instance_ida, ctrl->instance);
+> -out:
+> -       if (ctrl->discard_page)
+> -               __free_page(ctrl->discard_page);
+> -       cleanup_srcu_struct(&ctrl->srcu);
+> -       return ret;
+>  }
+> -EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+> +EXPORT_SYMBOL_GPL(nvme_add_ctrl);
+>
+>  /* let I/O to all namespaces fail in preparation for surprise removal */
+>  void nvme_mark_namespaces_dead(struct nvme_ctrl *ctrl)
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index c52446013388f..d5a383766b34d 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -3563,6 +3563,10 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_=
+ctrl_options *opts,
+>         if (IS_ERR(ctrl))
+>                 return ERR_CAST(ctrl);
+>
+> +       ret =3D nvme_add_ctrl(&ctrl->ctrl);
+> +       if (ret)
+> +               goto out_put_ctrl;
+> +
+>         ret =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_se=
+t,
+>                         &nvme_fc_admin_mq_ops,
+>                         struct_size_t(struct nvme_fcp_op_w_sgl, priv,
+> @@ -3607,6 +3611,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_c=
+trl_options *opts,
+>         /* initiate nvme ctrl ref counting teardown */
+>         nvme_uninit_ctrl(&ctrl->ctrl);
+>
+> +out_put_ctrl:
+>         /* Remove core ctrl ref. */
+>         nvme_put_ctrl(&ctrl->ctrl);
+>
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index f3a41133ac3f9..9693490680866 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -792,6 +792,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool sh=
+utdown);
+>  int nvme_enable_ctrl(struct nvme_ctrl *ctrl);
+>  int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>                 const struct nvme_ctrl_ops *ops, unsigned long quirks);
+> +int nvme_add_ctrl(struct nvme_ctrl *ctrl);
+>  void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
+>  void nvme_start_ctrl(struct nvme_ctrl *ctrl);
+>  void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 102a9fb0c65ff..c92125b0238d4 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3015,6 +3015,10 @@ static int nvme_probe(struct pci_dev *pdev, const =
+struct pci_device_id *id)
+>         if (IS_ERR(dev))
+>                 return PTR_ERR(dev);
+>
+> +       result =3D nvme_add_ctrl(&dev->ctrl);
+> +       if (result)
+> +               goto out_put_ctrl;
+> +
+>         result =3D nvme_dev_map(dev);
+>         if (result)
+>                 goto out_uninit_ctrl;
+> @@ -3101,6 +3105,7 @@ static int nvme_probe(struct pci_dev *pdev, const s=
+truct pci_device_id *id)
+>         nvme_dev_unmap(dev);
+>  out_uninit_ctrl:
+>         nvme_uninit_ctrl(&dev->ctrl);
+> +out_put_ctrl:
+>         nvme_put_ctrl(&dev->ctrl);
+>         return result;
+>  }
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 94d4f3dbac6b6..5c44c7c5c688c 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -2323,6 +2323,10 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(str=
+uct device *dev,
+>         if (IS_ERR(ctrl))
+>                 return ERR_CAST(ctrl);
+>
+> +       ret =3D nvme_add_ctrl(&ctrl->ctrl);
+> +       if (ret)
+> +               goto out_put_ctrl;
+> +
+>         changed =3D nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECT=
+ING);
+>         WARN_ON_ONCE(!changed);
+>
+> @@ -2341,6 +2345,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(stru=
+ct device *dev,
+>
+>  out_uninit_ctrl:
+>         nvme_uninit_ctrl(&ctrl->ctrl);
+> +out_put_ctrl:
+>         nvme_put_ctrl(&ctrl->ctrl);
+>         if (ret > 0)
+>                 ret =3D -EIO;
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 5ee3bbc67f411..3be67c98c906e 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2779,6 +2779,10 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(stru=
+ct device *dev,
+>         if (IS_ERR(ctrl))
+>                 return ERR_CAST(ctrl);
+>
+> +       ret =3D nvme_add_ctrl(&ctrl->ctrl);
+> +       if (ret)
+> +               goto out_put_ctrl;
+> +
+>         if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+>                 WARN_ON_ONCE(1);
+>                 ret =3D -EINTR;
+> @@ -2800,6 +2804,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struc=
+t device *dev,
+>
+>  out_uninit_ctrl:
+>         nvme_uninit_ctrl(&ctrl->ctrl);
+> +out_put_ctrl:
+>         nvme_put_ctrl(&ctrl->ctrl);
+>         if (ret > 0)
+>                 ret =3D -EIO;
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index e589915ddef85..e32790d8fc260 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -555,6 +555,10 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struc=
+t device *dev,
+>                 goto out;
+>         }
+>
+> +       ret =3D nvme_add_ctrl(&ctrl->ctrl);
+> +       if (ret)
+> +               goto out_put_ctrl;
+> +
+>         if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+>                 WARN_ON_ONCE(1);
+>
+> @@ -611,6 +615,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct=
+ device *dev,
+>         kfree(ctrl->queues);
+>  out_uninit_ctrl:
+>         nvme_uninit_ctrl(&ctrl->ctrl);
+> +out_put_ctrl:
+>         nvme_put_ctrl(&ctrl->ctrl);
+>  out:
+>         if (ret > 0)
+> --
+> 2.43.0
 >
 >
-> On 02/06/2024 16:08, Sagi Grimberg wrote:
->>
->>
->> On 02/06/2024 14:43, Max Gurtovoy wrote:
->>> Hi Sagi,
->>>
->>> On 02/06/2024 11:53, Sagi Grimberg wrote:
->>>>
->>>>
->>>> On 02/06/2024 11:19, Leon Romanovsky wrote:
->>>>> On Sun, May 26, 2024 at 11:31:25AM +0300, Sagi Grimberg wrote:
->>>>>> ib_drain_qp does not do drain a shared recv queue (because it is
->>>>>> shared). However in the absence of any guarantees that the recv
->>>>>> completions were consumed, the ulp can reference these completions
->>>>>> after draining the qp and freeing its associated resources, which
->>>>>> is a uaf [1].
->>>>>>
->>>>>> We cannot drain a srq like a normal rq, however in ib_drain_qp
->>>>>> once the qp moved to error state, we reap the recv_cq once in
->>>>>> order to prevent consumption of recv completions after the drain.
->>>>>>
->>>>>> [1]:
->>>>>> -- 
->>>>>> [199856.569999] Unable to handle kernel paging request at virtual 
->>>>>> address 002248778adfd6d0
->>>>>> <....>
->>>>>> [199856.721701] Workqueue: ib-comp-wq ib_cq_poll_work [ib_core]
->>>>>> <....>
->>>>>> [199856.827281] Call trace:
->>>>>> [199856.829847]  nvmet_parse_admin_cmd+0x34/0x178 [nvmet]
->>>>>> [199856.835007]  nvmet_req_init+0x2e0/0x378 [nvmet]
->>>>>> [199856.839640]  nvmet_rdma_handle_command+0xa4/0x2e8 [nvmet_rdma]
->>>>>> [199856.845575]  nvmet_rdma_recv_done+0xcc/0x240 [nvmet_rdma]
->>>>>> [199856.851109]  __ib_process_cq+0x84/0xf0 [ib_core]
->>>>>> [199856.855858]  ib_cq_poll_work+0x34/0xa0 [ib_core]
->>>>>> [199856.860587]  process_one_work+0x1ec/0x4a0
->>>>>> [199856.864694]  worker_thread+0x48/0x490
->>>>>> [199856.868453]  kthread+0x158/0x160
->>>>>> [199856.871779]  ret_from_fork+0x10/0x18
->>>>>> -- 
->>>>>>
->>>>>> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->>>>>> ---
->>>>>> Note this patch is not yet tested, but sending it for visibility and
->>>>>> early feedback. While nothing prevents ib_drain_cq to process a cq
->>>>>> directly (even if it has another context) I am not convinced if all
->>>>>> the upper layers don't have any assumptions about a single context
->>>>>> consuming the cq, even if it is while it is drained. It is also
->>>>>> possible to to add ib_reap_cq that fences the cq poll context before
->>>>>> reaping the cq, but this may have other side-effects.
->>>>> Did you have a chance to test this patch?
->>>>> I looked at the code and it seems to be correct change, but I also 
->>>>> don't
->>>>> know about all ULP assumptions.
->>>>
->>>> Not yet...
->>>>
->>>> One thing that is problematic with this patch though is that there 
->>>> is no
->>>> stopping condition to the direct poll. So if the CQ is shared among 
->>>> a number of
->>>> qps (and srq's), nothing prevents the polling from consume 
->>>> completions forever...
->>>>
->>>> So we probably need it to be:
->>>> -- 
->>>> diff --git a/drivers/infiniband/core/verbs.c 
->>>> b/drivers/infiniband/core/verbs.c
->>>> index 580e9019e96a..f411fef35938 100644
->>>> --- a/drivers/infiniband/core/verbs.c
->>>> +++ b/drivers/infiniband/core/verbs.c
->>>> @@ -2971,7 +2971,7 @@ void ib_drain_qp(struct ib_qp *qp)
->>>>                  * guarantees that the ulp will free resources and 
->>>> only then
->>>>                  * consume the recv completion.
->>>>                  */
->>>> -               ib_process_cq_direct(qp->recv_cq, -1);
->>>> +               ib_process_cq_direct(qp->recv_cq, qp->recv_cq->cqe);
->>>
->>> I tried to fix the problem few years ago in [1] but eventually the 
->>> patchset was not accepted.
->>>
->>> We should probably try to improve the original series (using cq->cqe 
->>> instead of -1 for example) and upstream it.
->>>
->>> [1] 
->>> https://lore.kernel.org/all/1516197178-26493-1-git-send-email-maxg@mellanox.com/
->>
->> Yes. I'd like to know if the qp event is needed though, given that 
->> the qp is already in error state (from the sq drain)
->> and then we run a single pass over the recv_cq, is it possible to 
->> miss any completions.
->>
->> Would like to resolve the drain without involving the ulp drivers.
->>
->> If so, then perhaps we can intercept the qp event at the core, before 
->> sending it to the ulp and there we can complete
->> the srq completion.
->
-> Ping?
 
-I think that catching the IB_EVENT_QP_LAST_WQE_REACHED in the core and 
-complete(&qp->srq_completion) is possible but will require some event 
-processing in the ib core.
 
-Probably my patch [1/4] from 
-https://lore.kernel.org/all/1516197178-26493-2-git-send-email-maxg@mellanox.com/#r 
-should be updated with this logic.
+--
+Best Regards,
+  Yi Zhang
 
 
