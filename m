@@ -4,56 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 664BCC27C52
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 05:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F7DAC25B75
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 05:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y/7NU+GHWK4+dLJ8ltEoDJuTmeRXw13miLkF9Iv15vs=; b=DWK6jWqbg3EYXRAmEpIBiVPLP0
-	X4oD5vNzxtbK2QHedpyRZbXsg2nrC71Ci2BO29vAlRUmaFiqlkVB/1UK9Bcfw3R/iSAJtVLoFeC2n
-	c8TlX2rckHpNdpxUbI3T2Yqa342EiKKswV490IeyyhTC640vox1PjbKALyuJsVLMPEzswbrQsJq+e
-	0bv8pdcPCDwzXNpuFAWhFz6RnC2I8dZzwb6VUw/li+x38lnepk8zD8Ad5zQkYsTt9JExXkd0Eu2LY
-	SXVVi8T8ARE/xih+tNRbiKPbRpj5T2WZhd7JcKUujOc0VAgUK/YM/NakIdvxdl43wiCN0kgzjdHRv
-	AWlTLXfw==;
+	bh=ffD1lgUoDYCgIS35w84l6DzQXjLfmusVzC7kcHaTZxI=; b=mzRf92sWh4Sr8hD8Xrtxlv+2xz
+	H6y7gO2Bm+GdzoMUhilgNJXw/QFxgnKHiC6g3Uzwb4IRZ1l5hb2uvQsvfb8EPpNhAfdeZ3qbxOEwz
+	W9CEsDWIdsSlXcmy0EHDhyGjOSeHBLD89H8hkcW/q7HfT+5VeXIFHqoXEC5hQOZIgCd+4TYuZEBbf
+	5b2Hf/ZrCLJlo5HjU4aoAVTEQEADQ/SK7utu7MrKoldtPdaMhPiRnJ5pYbLbNFY3mLwsRbhh0e13b
+	qoxEfjoHtu9sBfTyNTYg5drz81tkKU0clvcJxYqGeFgUoU8WIuVJvHZ6ZcY7PO1IuYJWLeDUhVSxx
+	RExcf1Zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sF5sl-00000008QLW-0TJr;
-	Thu, 06 Jun 2024 05:41:51 +0000
+	id 1sF5vM-00000008Qk9-3lYg;
+	Thu, 06 Jun 2024 05:44:32 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sF5si-00000008QKG-1F6N
+	id 1sF5vJ-00000008QjK-3mfa
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jun 2024 05:41:49 +0000
+	Thu, 06 Jun 2024 05:44:31 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5391A68CFE; Thu,  6 Jun 2024 07:41:44 +0200 (CEST)
-Date: Thu, 6 Jun 2024 07:41:43 +0200
+	id 82BB368CFE; Thu,  6 Jun 2024 07:44:25 +0200 (CEST)
+Date: Thu, 6 Jun 2024 07:44:25 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
-	sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
-	djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	dchinner@redhat.com, jack@suse.cz, linux-block@vger.kernel.org,
+Cc: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>,
+	axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
 	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
 	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
 	io-uring@vger.kernel.org, nilay@linux.ibm.com,
 	ritesh.list@gmail.com, willy@infradead.org,
-	Prasad Singamsetty <prasad.singamsetty@oracle.com>
-Subject: Re: [PATCH v7 2/9] fs: Initial atomic write support
-Message-ID: <20240606054143.GB9123@lst.de>
-References: <20240602140912.970947-1-john.g.garry@oracle.com> <20240602140912.970947-3-john.g.garry@oracle.com> <20240605083015.GA20984@lst.de> <fbb835ff-f1ae-4b59-8cb3-22a11449d781@oracle.com>
+	Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: Re: [PATCH v7 4/9] block: Add core atomic write support
+Message-ID: <20240606054425.GC9123@lst.de>
+References: <20240602140912.970947-1-john.g.garry@oracle.com> <20240602140912.970947-5-john.g.garry@oracle.com> <749f9615-2fd2-49a3-9c9e-c725cb027ad3@suse.de> <a84ad9de-a274-4bdf-837a-03c38a32288a@oracle.com> <ee20a47d-3131-41c2-a2fc-39017f535527@suse.de> <76850f4f-0bd0-48ae-92f4-e3af38039938@oracle.com> <20240605083245.GC20984@lst.de> <09907144-45ca-4a48-8831-2f98518cbca4@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fbb835ff-f1ae-4b59-8cb3-22a11449d781@oracle.com>
+In-Reply-To: <09907144-45ca-4a48-8831-2f98518cbca4@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_224148_510309_27E19906 
-X-CRM114-Status: GOOD (  21.20  )
+X-CRM114-CacheID: sfid-20240605_224430_090212_81740924 
+X-CRM114-Status: GOOD (  11.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,37 +69,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 05, 2024 at 11:48:12AM +0100, John Garry wrote:
-> I have no strong attachment to that name (atomic).
->
-> For both SCSI and NVMe, it's an "atomic" feature and I was basing the 
-> naming on that.
->
-> We could have RWF_NOTEARS or RWF_UNTEARABLE_WRITE or RWF_UNTEARABLE or 
-> RWF_UNTORN or similar. Any preference?
+On Wed, Jun 05, 2024 at 12:21:51PM +0100, John Garry wrote:
+> I assume that you are talking about something like 
+> queue_limits_max_zone_append_sectors().
 
-No particular preference between any of the option including atomic.
-Just mumbling out aloud my thoughts :)
+Or rather how that is passed to bio_add_hw_page, yes.
 
-> For io_uring/rw.c, we have io_write() -> io_rw_init_file(..., WRITE), and 
-> then later we set IOCB_WRITE, so would be neat to use there. But then 
-> do_iter_readv_writev() does not set IOCB_WRITE - I can't imagine that 
-> setting IOCB_WRITE would do any harm there. I see a similar change in 
-> https://lore.kernel.org/linux-fsdevel/167391048988.2311931.1567396746365286847.stgit@warthog.procyon.org.uk/
->
-> AFAICS, setting IOCB_WRITE is quite inconsistent. From browsing through 
-> fsdevel on lore, there was some history in trying to use IOCB_WRITE always 
-> instead of iov_iter direction. Any idea what happened to that?
->
-> I'm just getting the feeling that setting IOCB_WRITE in 
-> kiocb_set_rw_flags() is a small part - and maybe counter productive - of a 
-> larger job of fixing IOCB_WRITE usage.
+> Anyway, below is the prep patch I was considering for this re-use. It's 
+> just renaming any infrastructure for "chunk_sectors" to generic 
+> "boundary_sectors".
 
-Someone (IIRC Dave H.) want to move it into the iov_iter a while ago.
-I think that is a bad idea - the iov_iter is a data container except
-for the shoehorned in read/write information doesn't describe the
-operation at all.  So using the flag in the iocb seems like the better
-architecture.  But I can understand that you might want to stay out
-of all of this, so let's not touch IOCB_WRITE here.
+Looks reasonable.  Note that the comment above blk_boundary_sectors_left
+could use a line break.
 
 
