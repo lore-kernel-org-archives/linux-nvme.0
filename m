@@ -4,57 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F7DAC25B75
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 05:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DE90C27C52
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 06:14:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ffD1lgUoDYCgIS35w84l6DzQXjLfmusVzC7kcHaTZxI=; b=mzRf92sWh4Sr8hD8Xrtxlv+2xz
-	H6y7gO2Bm+GdzoMUhilgNJXw/QFxgnKHiC6g3Uzwb4IRZ1l5hb2uvQsvfb8EPpNhAfdeZ3qbxOEwz
-	W9CEsDWIdsSlXcmy0EHDhyGjOSeHBLD89H8hkcW/q7HfT+5VeXIFHqoXEC5hQOZIgCd+4TYuZEBbf
-	5b2Hf/ZrCLJlo5HjU4aoAVTEQEADQ/SK7utu7MrKoldtPdaMhPiRnJ5pYbLbNFY3mLwsRbhh0e13b
-	qoxEfjoHtu9sBfTyNTYg5drz81tkKU0clvcJxYqGeFgUoU8WIuVJvHZ6ZcY7PO1IuYJWLeDUhVSxx
-	RExcf1Zg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Wl4UotmSNPGrfEBwWQN8ldoZrOXqmvjb5gDzyBJQvE4=; b=fS8DuebV1GlBpwaz9hGx3Nz4Gh
+	7X6XdQdG/FWHnGuX2KlJVS3aOKKKX4mejX3RdhEuQUGVcghwGdRALqL3M6tmauX8Oy+8BMdWqNhmM
+	gIQP+95CfMy+oL/WWv68w6ybjcAR6HaznEY29A+3lYZ0J1PcIr2e8AXbty9gTsmWqrdBtwiPAAmbu
+	oMgXmAS5PHfrZeoGXOzFyGpXPbzddxy33/AtdpfzC0QU6Azc9MwtZAVjd+pDK0tKJqADwYgbdha4e
+	Uzc0PphgSC5LCtm4j0Oescj7UkzFnI0vrzr7dhDFfFnhgdpbzrsIow+mRwdF474wBUzB4YGXiJP/H
+	8L+J9zSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sF5vM-00000008Qk9-3lYg;
-	Thu, 06 Jun 2024 05:44:32 +0000
+	id 1sF6OU-00000008URt-2dMq;
+	Thu, 06 Jun 2024 06:14:38 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sF5vJ-00000008QjK-3mfa
+	id 1sF66h-00000008S3x-3gh2
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jun 2024 05:44:31 +0000
+	Thu, 06 Jun 2024 05:56:17 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 82BB368CFE; Thu,  6 Jun 2024 07:44:25 +0200 (CEST)
-Date: Thu, 6 Jun 2024 07:44:25 +0200
+	id 6AACE68CFE; Thu,  6 Jun 2024 07:56:11 +0200 (CEST)
+Date: Thu, 6 Jun 2024 07:56:11 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>,
-	axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
-	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
-	io-uring@vger.kernel.org, nilay@linux.ibm.com,
-	ritesh.list@gmail.com, willy@infradead.org,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH v7 4/9] block: Add core atomic write support
-Message-ID: <20240606054425.GC9123@lst.de>
-References: <20240602140912.970947-1-john.g.garry@oracle.com> <20240602140912.970947-5-john.g.garry@oracle.com> <749f9615-2fd2-49a3-9c9e-c725cb027ad3@suse.de> <a84ad9de-a274-4bdf-837a-03c38a32288a@oracle.com> <ee20a47d-3131-41c2-a2fc-39017f535527@suse.de> <76850f4f-0bd0-48ae-92f4-e3af38039938@oracle.com> <20240605083245.GC20984@lst.de> <09907144-45ca-4a48-8831-2f98518cbca4@oracle.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
+	hare@suse.de, damien.lemoal@opensource.wdc.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 03/12] block: add copy offload support
+Message-ID: <20240606055611.GA9404@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <09907144-45ca-4a48-8831-2f98518cbca4@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Bad-Reply: 'Re:' in Subject but no References or In-Reply-To headers
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240605_224430_090212_81740924 
-X-CRM114-Status: GOOD (  11.63  )
+X-CRM114-CacheID: sfid-20240605_225616_634596_D2C7F0A8 
+X-CRM114-Status: GOOD (  15.59  )
+X-Mailman-Approved-At: Wed, 05 Jun 2024 23:14:37 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,17 +72,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 05, 2024 at 12:21:51PM +0100, John Garry wrote:
-> I assume that you are talking about something like 
-> queue_limits_max_zone_append_sectors().
+On Tue, Jun 04, 2024 at 10:50:26AM +0000, Nitesh Shetty wrote:
+>>> +	if (!cio)
+>>> +		return -ENOMEM;
+>>> +	atomic_set(&cio->refcount, 1);
+>>> +	cio->waiter = current;
+>>> +	cio->endio = endio;
+>>> +	cio->private = private;
+>>
+>> For the main use this could be allocated on-stack.  Is there any good
+>> reason to not let callers that really want an async version to implement
+>> the async behavior themselves using suitable helpers?
+>>
+> We cannot do on-stack allocation of cio as we use it in endio handler.
+> cio will be used to track partial IO completion as well.
+> Callers requiring async implementation would need to manage all this
+> bookkeeping themselves, leading to duplication of code. We felt it is
+> better to do it here onetime.
+> Do you see it any differently ?
 
-Or rather how that is passed to bio_add_hw_page, yes.
-
-> Anyway, below is the prep patch I was considering for this re-use. It's 
-> just renaming any infrastructure for "chunk_sectors" to generic 
-> "boundary_sectors".
-
-Looks reasonable.  Note that the comment above blk_boundary_sectors_left
-could use a line break.
+We don't really to these async variants for other in-kernel I/O,
+so unless we have a really good reason I'd not do here.  The usual
+approach is to just have a submission helper for async in-kernel
+special bios types, and the let the caller handle the rest.
 
 
