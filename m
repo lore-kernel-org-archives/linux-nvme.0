@@ -4,172 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1756C27C54
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 16:28:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B996C27C54
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 16:45:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=uFIG2PIf+zrG95p1W83U82nH4ppR/MDBZY9tN1VXlNs=; b=zwW83GHKv2Z8ceoFDoy1IAIYBp
-	BTVSHVHQCjulGaMCCHJTXhHH1ncSzxmDRVcJNIhojYxS960ejxG15nAsksTWQYGJoEisFCPmy1izZ
-	MvSxhpIModS7u+UUBoZOsAy4OfXhLstxWx/rylnNYXGCqyUxA0Wkfid3nW3zErRrEtq8t3M+63+Ei
-	1BpLsNYP6sa1zamPXO3T0B9sW8xNACoH0UU2jIHmfNFXN2dHpu4WDMOzWUVDewFf/eIHWbyLZxqZ1
-	lCljsNgWi/IlNcaqQgaEG6jHCFK7h7h4GIx6xY+2bi+0wxlEspANwJ0lOuG6KSj8yTRqVabMmpn8v
-	ZZp6aWkA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DVWoZ94Ms0F2PXMXl9M29RDWyH9n8ugMwEG4I+rMNwk=; b=EtaFTxUawV4HhDs+IYFZZgBiM/
+	yeknakYyc+a0TBthTcvWUQGfaxyirr3vG+RYi59tMy38LvbQUcEbErOzEOx1D4zMtV0ln9P82r6+3
+	LD7DbwEJfUjNwl2vhLqht124XHtICzQOMabLFRHK/H9zElq+WCibz0Ef8Os1pEGy/SdDxMBjI9LOA
+	Ai6THmty+ieuMFzvuiYzxSFLc30+f3ns1VXovypo/Z5w9VdWvte7eUoh61sCQVnYyAyyB8zz+n9Nb
+	/jOokepiDiKkjuGFkL/vERRyGyfhVq8YHP3Miyxn0/1BlrOrcYljFrJUyG4uwAkwhflEhxmVd/NZO
+	3U56cAIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFFyy-0000000AXaJ-3m5r;
-	Thu, 06 Jun 2024 16:28:56 +0000
-Received: from mail-db8eur05on20720.outbound.protection.outlook.com ([2a01:111:f400:7e1a::720] helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+	id 1sFGEs-0000000AZpj-05LO;
+	Thu, 06 Jun 2024 16:45:22 +0000
+Received: from 008.lax.mailroute.net ([199.89.1.11])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFFyr-0000000AXZO-16JM
+	id 1sFGEk-0000000AZot-16GT
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jun 2024 16:28:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FKWXPxuKiVfNGkpgyQKWSDOruvn0lKqQTSTnsrJ0vGsPDTZbsX/AiH6aukepDb4Jns/plF7Os+kQZSNDGy0tKNDJrAqr0iC0AKXmCveVN3rZuzOJSnmQYLIfST9njLDgRVBLlSoXJgHE05PGrsc0CilPWD3v5D3Rthz7R7BE+wlWZlpYi/dLWUO8ZbZwefX3kdgnb6x03apPoDuz7y6h4Wt64tfVZT0eEDwgeQ9RnHUqQM+tLU4Cp9TNTCMWRWCBC6nRigH54NvPcKZc/qBC5Qf0nDL94AJKBzYX5gZ7tMvR5ijHn6cUcxFPNdq37EUP1mY8rT2LX8Qgc9kGgjGDqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uFIG2PIf+zrG95p1W83U82nH4ppR/MDBZY9tN1VXlNs=;
- b=XRgsZB6X92DF7WPTJgR/M8xeIZwqA8Bx8f3nLK0Q45EVaeyQ6nL0AfUJeG2Ebwy+ZYnSQZ2NkFVYa0DtY1HaEM7H16R/tjriiQUnTlXFRkhyXfJKOH0yGw/xxG4pfy19sReyvEzXsYTxEo7M/GR2xtmpY00fIJO7mFGs8qnupU8au08lLFhtAjPzVgJKwpgH6WwVwSfqnqHZBAo8L8jR6oU/sJe44AIn7NjwTwfGNYPbfwcotBV4j9exYkwhZmrxHitvi38/tN4P0Ab/MIv8fwf8EMck1XCDpzPxO3CR2Y/LhTxoQKAxU5eAflIqpMT0NlzLOUdtekQ2CCF5LlF+/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
- dkim=pass header.d=volumez.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uFIG2PIf+zrG95p1W83U82nH4ppR/MDBZY9tN1VXlNs=;
- b=abEI+9vxzlifdvI8uoiOaRjbu/eFRGyN2vZoVC12zx4vdFEtprSey01YfXy9yoJR2AlhXlbQXiobtYEc7Z53TCSN4XyQbGJX1Mwsc1My1y+4WxIUWD43JSm7OfmR6jMPMzRPQJx02rq7RceTnuqMe+ykuapJAae7826d0vVhPMcROMYfQz0mIDtKJXuFymB0g6hqmB3q4WhuRIEW6B188b012s4niiyxonOd3dyhOxnORsjwHW3JZy2nSMbTmbM4bdipQ+hoDnAryi6JGFgDpcCSAWUKRHHnd/6NQrDLS+y1Cr7v2aRJsdn6QiSLUHQ+9JkouFnReJV71dKxFORvaQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=volumez.com;
-Received: from AM0PR04MB5107.eurprd04.prod.outlook.com (2603:10a6:208:cb::11)
- by AS8PR04MB7815.eurprd04.prod.outlook.com (2603:10a6:20b:28a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.33; Thu, 6 Jun
- 2024 16:12:31 +0000
-Received: from AM0PR04MB5107.eurprd04.prod.outlook.com
- ([fe80::de53:c058:7ef:21fb]) by AM0PR04MB5107.eurprd04.prod.outlook.com
- ([fe80::de53:c058:7ef:21fb%4]) with mapi id 15.20.7633.021; Thu, 6 Jun 2024
- 16:12:31 +0000
-From: Ofir Gal <ofir.gal@volumez.com>
-To: davem@davemloft.net,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	ceph-devel@vger.kernel.org
-Cc: dhowells@redhat.com,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	philipp.reisner@linbit.com,
-	lars.ellenberg@linbit.com,
-	christoph.boehmwalder@linbit.com,
-	idryomov@gmail.com,
-	xiubli@redhat.com
-Subject: [PATCH v3 0/4] bugfix: Introduce sendpages_ok() to check sendpage_ok() on contiguous pages
-Date: Thu,  6 Jun 2024 19:12:12 +0300
-Message-ID: <20240606161219.2745817-1-ofir.gal@volumez.com>
-X-Mailer: git-send-email 2.45.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TL0P290CA0009.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:5::6)
- To AM0PR04MB5107.eurprd04.prod.outlook.com (2603:10a6:208:cb::11)
+	Thu, 06 Jun 2024 16:45:15 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Vw9DS0Qyfz6Cnk9Y;
+	Thu,  6 Jun 2024 16:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1717692294; x=1720284295; bh=DVWoZ94Ms0F2PXMXl9M29RDW
+	yH9n8ugMwEG4I+rMNwk=; b=4mA5ZvVohYkAsNlESeJ3jT48VdyeK8RVsj3ddKMP
+	SOZ3qL+U8x9NM1ZGSjH50C5K8oZL02MYFmrM4LLS7LcN6Tnu5zK6VqD49X8s+/Wl
+	Q2pqYqBgt3v5m6dNRXCT45LrvYm9WAfeX/gCjCm7WTRpeTMdmX5dtuAQmOOSWnbN
+	hg557ukShq3D5vTZUmN6TJw6dClp7RzjuendtlKDt7Nc9zcakDR8XvWcguj3R4PG
+	/Sit8qPBUqK5xyJbF0768vVr5bMJMJ09pr7q3k1PsWR5jsUvXJYgUG+4L0lkcnZJ
+	KJVBRTo/nHq8gBaiIFh6kHDmcLWyOmgEpPd01gxx+e/Khg==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id riXgj8xOY7Yj; Thu,  6 Jun 2024 16:44:54 +0000 (UTC)
+Received: from [172.20.24.239] (unknown [204.98.150.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4Vw9D15Xxtz6Cnk9X;
+	Thu,  6 Jun 2024 16:44:49 +0000 (UTC)
+Message-ID: <d4946174-32e1-47f0-b448-38377dae0600@acm.org>
+Date: Thu, 6 Jun 2024 10:44:47 -0600
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB5107:EE_|AS8PR04MB7815:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5b66dfa-8c9a-46cf-5f3c-08dc864377f9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|376005|1800799015|52116005|366007|38350700005;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NTNleVVheVNXL2RNUkxNTkZycHBRc0puY1BRRDQvUnV6UHh2TzBaNzRKckVr?=
- =?utf-8?B?SWpCYStoSWtWQXV1N3lYZVRXNFRQb2FwQzRKSHdtMVBrZGs0QzVYNXRCWlhi?=
- =?utf-8?B?UXJ5czNGWFFHeTk3c0I2WXQrVWQreHdna040N2Nzbm5pbTYxanVaSUdkUFV4?=
- =?utf-8?B?Zk4xdTkwV3cxcURQNVpQSDlnZFEyZnQ0Mko5bzBoZFNHdnd2R3pvYVFGUGZT?=
- =?utf-8?B?aVVJQUYvMUthSVRTTS9hVTEyT3J0L3M3UTg2QStXb2VTdkRlNGxqaG5SWnhD?=
- =?utf-8?B?a1BGdkhnWWJLOUhoTFZvUWF5eU9sQjJ2MGxKQ2VDbnhYYVBRakVtQlVJaUV1?=
- =?utf-8?B?WXZVK2hNWXE3ekRsSk5TeVBwdU9XaEFGdUxXTDhwNGZNT1ZCU2tGQjY5UFk0?=
- =?utf-8?B?SXg1d1pKdTZIQ3pKZ1RUeXllWVh5Qm9OKytuOHFWYUxsWjNlalFPcmRRenJa?=
- =?utf-8?B?bFJ3MmVVSzBqTXR3SDkyYXZuaVVndGFEd25TaEcrRmJlalNacVo1VGJNRThO?=
- =?utf-8?B?TDNWMU1tTWNDb2FZQkNqL2ZnUWR5V0xBWXFzcC95RUd0SkZKQmdaQUcyU1lw?=
- =?utf-8?B?R0RoSVAyRlkwZ21nTTVqV3NCRGg3TUNTbEZhZEFRSitBQjlzWEZadVgzVlE4?=
- =?utf-8?B?Zk1WTlF5VEtXSXdlTEdjRTNleG1MV1l5TWI1bXJZU2NVYzdtb2JiYmJmUFdo?=
- =?utf-8?B?eHpxa253ZWtmbDhHM080TysrOXFweFdRR05OTHVUeDZUNWZzRXJBN2EvQzVk?=
- =?utf-8?B?N2VGd05FZFl3SUEzaWNTRjRyVE1qbGJwVXdUMTk4SHNUQWJGOHNBRHZmN2JR?=
- =?utf-8?B?WmJJNFJuc253WWhKamVoai8rdU81SG1jTzNnUk85UDZmNlhKb0M3bkNiUnBN?=
- =?utf-8?B?ckExMnR3Y2JlblhTK3BlN1lMalB1MTdzUVNwT01WUEpsalcyWTlSajRycjZV?=
- =?utf-8?B?cVFNTzZYUmtKNzhCOVJXR1NxVmFsTjZTZVVMYXdiaGt6a1lzUGN6Z1Iwdmpy?=
- =?utf-8?B?ZXVyK3VQUmtCWmd4ZWFIdHBMbGNmZ0EzTTNxWlkzd0JaMTI2L0M2SnJUTElF?=
- =?utf-8?B?eS9HZzRmZGN1Ylk1enVES0RTa05OMk9sekZ6Tk81MDVjak1XMzhSck5Oc2x2?=
- =?utf-8?B?QzhsUXZRNHViM3NEZFh2SGNPWEpxMFFmVjBwblNyZkowVjBZbnlOM1EvK29R?=
- =?utf-8?B?ZzBXVHlHNTFmNjRTUkhLUVlWY3g4ZkdZN2ZaZWJlVVZDMDdJanZ1MzFDcXJJ?=
- =?utf-8?B?QXVheTVDUExMckVTb0JkdjZLZkZmbDYwcE1mZjd6NytDWWorUWljSWRncmVn?=
- =?utf-8?B?U1lSd3I3TlJrMGJ6ZGl6RVpwd2hhZ282aTNGTUY4RTI5T0RQS1dWN1R6Y01B?=
- =?utf-8?B?ZVkyVXFRL2pMbGl0WVljeXJFWGRqeEZuajFmNWJHVjhTbUZwV2xjM0FqbGc0?=
- =?utf-8?B?R250MTZuSnE1VFlpVHV6dkRCbFVuZlZ3MFRXakNraWhLZmNHTWNhck9mTEhM?=
- =?utf-8?B?eHB4bTFsdXlkYmR0WU1qUUc1WVhqWVJDSW12WitSenNCU1VTSkNqM1k2STRP?=
- =?utf-8?B?Q2o5a2dJS1JYbEVSOGhCZWd0OVE1elRKS2lKZVdCVW1IblZNNFdsQnp2Q1ds?=
- =?utf-8?B?T1g0RGthbDVreitxUlRVeENiUjMxVitFUytQSWJUNjBsSXV0TTF2VHRuM2p4?=
- =?utf-8?B?LzBwKzcxeEhpZkplZ2M4cWxPMG13WkNQazJJcThZUEoySk5SdVFpazI3RG9z?=
- =?utf-8?B?OXhQWnRORTd3MUtZM3BxbXNsTUR2ak5qZGNESkxzOXI4ejJYOTZYWDRlU2lW?=
- =?utf-8?Q?GGR1NA4zFiOQFEt/YQeVZjdsZtHCC07TN2uLY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB5107.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(52116005)(366007)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blpGWlN5M3NXdEk0QitQWE5sNjMvMzdKVWNFeDRHaU5ieXM3WHZUYkY1S2R6?=
- =?utf-8?B?V1dmV2laZjdGbmQxdC9DTERrRG5pZzIyL0lwRXdLRWgvZjF0U2paemZTR0Vh?=
- =?utf-8?B?c1RKLzIvTFpiN1BaZG0rL2ZHMVpCVW4yZnNaNTcyMU5GVmYxTFQvSXpNMFE2?=
- =?utf-8?B?N29aUFZmWkNDSFYrcUo1ZHdlVkZRbXhNMTJVTmt2SjFYZkRMSzBCS2tOVDRj?=
- =?utf-8?B?R3BrMjZ2WFFJSmVLc1pkOFEwR2FROW93aDRIRjUrN0IzQVB6MG1Oc1QyV3pZ?=
- =?utf-8?B?cWtmWEhQMmlkelNJemNKQnNnNUEraHduVXFKYzNack1qcDVrVytWcHo0ZEov?=
- =?utf-8?B?R1BPbXF5Y1o4cGpTODAxS2xjUDJGZEdHTEVOQTBwQXFQaDNsTWc2cFpFNTVu?=
- =?utf-8?B?NWxaVHR6Yk5vdkFRem9YUnJ6OEd3SE9MY3FJRDJObVF4ZG5JVGg5RW90VUdP?=
- =?utf-8?B?R1NoREg3MmtaYmp1MEtIU1ZTNzNpZ0hnb1FLMFgvZ1diWkhQK3IxZWRQdURs?=
- =?utf-8?B?N1p0YTcvZTJGeHNjRDFnVVlZcEdJbm5zbmsxdm5JUzBDUjRiSUd1SXNqc3kx?=
- =?utf-8?B?TUdZTUFRdkJsT3hTUUphRmpEblo0K3pGeUpScjlQUHA0aXNFZ1RpazJMMVRr?=
- =?utf-8?B?c1MrYkdpQU8zWVNhVnM1ZUxJMUFQa21ORmEya3dBVzUvUjFzTTRCTC9uZnpm?=
- =?utf-8?B?RGdYT1hPVDErY0FmeHVBNnNIK09pU21lRHlzQW9LS2c3RXJ4ZnNVSm5EVGtF?=
- =?utf-8?B?OENyL3BGUm9OZkF5bWJEVkNnQ21WbkhkM3Q2SmU2TGNmY3pFV0pUdnMvWUpL?=
- =?utf-8?B?WFJQRjF3dml2NmJKOXVmT05JRWhTTUlDTGZzVEdkUTh1Y2x2cFJINHBlcVVE?=
- =?utf-8?B?LzZCeE5ZanIrNnBmYTc2RUkxRU5qKzBsaC9ML0JuL29PT0M5R2lnd2RPNDA4?=
- =?utf-8?B?NTRqVHkyV2tTaXR5Q2pBMlZjczYrek4rNVhaR05TOUh1UmFiT1lFUURLTHYw?=
- =?utf-8?B?V1pJeU9CTVVwYzFpZ04zMjR6Qjl6QWxBbGtuR0FNS0draFAvblNUUjhlLzdt?=
- =?utf-8?B?eUtHbk5xSE5oVm03Rml5eGxFMjNWaEFZWFNPREwvREpJc202bUxkblh2UkQ3?=
- =?utf-8?B?YTlKODYvVUpBOGc5REtxc3RzYUw4SnNRTzQyMXp3SS8ydGZYV3cxbkxSbmxJ?=
- =?utf-8?B?QWVMYUlnUEVZTTJucVBlbWV1VWU5M1U2Q1BRYldJQVBsczRqREdMd3dPWkhL?=
- =?utf-8?B?eDMrNVA3bHZZSTA2ekZPSUluOWhkTDRjVkV2eDF3R2tCbEVmOTV4U2l6bG43?=
- =?utf-8?B?ZDE5WU1WQktweWZuZEppK1FNMWJRSlAwQ055QUtjdUYvMlFaL2Q4eTA4MTA2?=
- =?utf-8?B?Q2xyZ2ZBVjJQRUJRbTRnTWRjRW0xc3VjWlM5S0N6VWRQT0s0Nis4OHBSKytV?=
- =?utf-8?B?OUJiQjdUek10cXdQRzk5aEhtZFpMQ0tld21ObzlXazEyRXNSM0p6cWVLNWJO?=
- =?utf-8?B?MXVIeHZ1cWl1bWxnRFpGRGNjNGlmRWdZMG53YlJCWWtsZHo5RG94NkRDY0Rx?=
- =?utf-8?B?NFZjSkNSZk9DS01ZZUwxbHhXNWdtbDVleDllTlRaWnI5V3htUWsxOXF1Q3Mx?=
- =?utf-8?B?WHgwTlBzRExCT0pPQVN0MU13ZUx3czg2bzllRE80L1RhTHRkM2gzR0FJaXZO?=
- =?utf-8?B?Z1I3ZFZrVVhQUEdlOE9vd1BlZndmRDVsRCtRS3hXM0hoeExPNkxyaUJNRkE5?=
- =?utf-8?B?SzU0dElnUGlVdHphQjFkb3I5SHg3RE56aTFSS1FzdzJnZHlwWjJBU2src3Z4?=
- =?utf-8?B?bDlmaDhsdkNNNHhDc0xkY2dOblpZOVZ6bEROOHdZVngrR3FkY0QwVEdlb0FE?=
- =?utf-8?B?ZWtxaEt5Z2JUbFgwbFhyM3VqQVFLSm9SZHJZWDNBZE1GY1BHUXpDK0VWTklU?=
- =?utf-8?B?TVQrNm9icFd0MkU4Q2NrNmI0OGxXdTBFdHNweHFPeDBwRGFLWjNqVThWUTl6?=
- =?utf-8?B?Ykt3bnJlOHVIa2NJZjJ2elFNZHlEbjNpOEN1b21ZbEEzOGZBRm4ra0s1dzRo?=
- =?utf-8?B?L2NlMmF1YkxVWUdyeml0bm5NTlFmeUR2QUFEdFZadThSVXdEUjdBNVBIcFZy?=
- =?utf-8?Q?glVhtxc3OBMFnTORPkHyuW9Db?=
-X-OriginatorOrg: volumez.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5b66dfa-8c9a-46cf-5f3c-08dc864377f9
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5107.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 16:12:31.5450
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /L1tenLMGjnGtRlyogkI7rZ2pbMsA5DpGSubu0MwPymAZMhZxzYa34gDylYgYdr8OFvWRCB83IkM1FikHaMUnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7815
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Nitesh Shetty <nj.shetty@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240520102033.9361-3-nj.shetty@samsung.com>
+ <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
+ <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+ <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+ <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+ <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
+ <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
+ <20240604044042.GA29094@lst.de>
+ <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
+ <CGME20240606072827epcas5p285de8d4f3b0f6d3a87f8341414336b42@epcas5p2.samsung.com>
+ <66618886.630a0220.4d4fc.1c9cSMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <66618886.630a0220.4d4fc.1c9cSMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240606_092849_478438_1CCBD7AF 
-X-CRM114-Status: GOOD (  22.73  )
+X-CRM114-CacheID: sfid-20240606_094514_491749_3C0810B1 
+X-CRM114-Status: GOOD (  27.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,239 +105,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-skb_splice_from_iter() warns on !sendpage_ok() which results in nvme-tcp
-data transfer failure. This warning leads to hanging IO.
+On 6/6/24 01:28, Nitesh Shetty wrote:
+> On 04/06/24 04:44AM, Bart Van Assche wrote:
+>> On 6/3/24 21:40, Christoph Hellwig wrote:
+>>> There is no requirement to process them synchronously, there is just
+>>> a requirement to preserve the order.=C2=A0 Note that my suggestion a =
+few
+>>> arounds ago also included a copy id to match them up.=C2=A0 If we don=
+'t
+>>> need that I'm happy to leave it away.=C2=A0 If need it it to make sta=
+cking
+>>> drivers' lifes easier that suggestion still stands.
+>>
+>> Including an ID in REQ_OP_COPY_DST and REQ_OP_COPY_SRC operations soun=
+ds
+>> much better to me than abusing the merge infrastructure for combining
+>> these two operations into a single request. With the ID-based approach
+>> stacking drivers are allowed to process copy bios asynchronously and i=
+t
+>> is no longer necessary to activate merging for copy operations if
+>> merging is disabled (QUEUE_FLAG_NOMERGES).
+>>
+> Single request, with bio merging approach:
+> The current approach is to send a single request to driver,
+> which contains both destination and source information inside separate =
+bios.
+> Do you have any different approach in mind ?
 
-nvme-tcp using sendpage_ok() to check the first page of an iterator in
-order to disable MSG_SPLICE_PAGES. The iterator can represent a list of
-contiguous pages.
+No. I did not propose to change how copy offload requests are sent to blo=
+ck
+drivers (other than stacking drivers).
 
-When MSG_SPLICE_PAGES is enabled skb_splice_from_iter() is being used,
-it requires all pages in the iterator to be sendable.
-skb_splice_from_iter() checks each page with sendpage_ok().
+> If we want to proceed with this single request based approach,
+> we need to merge the destination request with source BIOs at some point=
+.
+> a. We chose to do it via plug approach.
+> b. Alternative I see is scheduler merging, but here we need some way to
+> hold the request which has destination info, until source bio is also
+> submitted.
+> c. Is there any other way, which I am missing here ?
 
-nvme_tcp_try_send_data() might allow MSG_SPLICE_PAGES when the first
-page is sendable, but the next one are not. skb_splice_from_iter() will
-attempt to send all the pages in the iterator. When reaching an
-unsendable page the IO will hang.
+There are already exceptions in blk_mq_submit_bio() for zoned writes and =
+for
+flush bios. Another exception could be added for REQ_OP_COPY_* bios. I'm =
+not
+claiming that this is the best possible alternative. I'm only mentioning =
+this
+to show that there are alternatives.
 
-The patch introduces a helper sendpages_ok(), it returns true if all the
-continuous pages are sendable.
+> Copy ID approach:
+> We see 3 possibilities here:
+> 1. No merging: If we include copy-id in src and dst bio, the bio's will=
+ get
+> submitted separately and reach to the driver as separate requests.
+> How do we plan to form a copy command in driver ?
+> 2. Merging BIOs:
+> At some point we need to match the src bio with the dst bio and send th=
+is
+> information together to the driver. The current implementation.
+> This still does not solve the asynchronous submission problem, mentione=
+d
+> above.
+> 3. Chaining BIOs:
+> This won't work with stacked devices as there will be cloning, and henc=
+e
+> chain won't be maintained.
 
-Drivers who want to send contiguous pages with MSG_SPLICE_PAGES may use
-this helper to check whether the page list is OK. If the helper does not
-return true, the driver should remove MSG_SPLICE_PAGES flag.
+I prefer option (2). Option (1) could result in a deadlock because the so=
+urce
+and destination bio both would have to be converted into a request before
+these are sent to a request-based driver.
 
-The root cause of the bug is a bug in md-bitmap, it sends a pages that
-wasn't allocated for the bitmap. This cause the IO to be a mixture of
-slab and non slab pages.
-As Christoph Hellwig said in the v2, the issue can occur in similar
-cases due to IO merges.
+Thanks,
 
-
-The bug is reproducible, in order to reproduce we need nvme-over-tcp
-controllers with optimal IO size bigger than PAGE_SIZE. Creating a raid
-with bitmap over those devices reproduces the bug.
-
-In order to simulate large optimal IO size you can use dm-stripe with a
-single device.
-Script to reproduce the issue on top of brd devices using dm-stripe is
-attached below (will be added as blktest).
-
-
-I have added 3 prints to test my theory. One in nvme_tcp_try_send_data()
-and two others in skb_splice_from_iter() the first before sendpage_ok()
-and the second on !sendpage_ok(), after the warning.
-...
-nvme_tcp: sendpage_ok, page: 0x654eccd7 (pfn: 120755), len: 262144, offset: 0
-skbuff: before sendpage_ok - i: 0. page: 0x654eccd7 (pfn: 120755)
-skbuff: before sendpage_ok - i: 1. page: 0x1666a4da (pfn: 120756)
-skbuff: before sendpage_ok - i: 2. page: 0x54f9f140 (pfn: 120757)
-WARNING: at net/core/skbuff.c:6848 skb_splice_from_iter+0x142/0x450
-skbuff: !sendpage_ok - page: 0x54f9f140 (pfn: 120757). is_slab: 1, page_count: 1
-...
-
-
-stack trace:
-...
-WARNING: at net/core/skbuff.c:6848 skb_splice_from_iter+0x141/0x450
-Workqueue: nvme_tcp_wq nvme_tcp_io_work
-Call Trace:
- ? show_regs+0x6a/0x80
- ? skb_splice_from_iter+0x141/0x450
- ? __warn+0x8d/0x130
- ? skb_splice_from_iter+0x141/0x450
- ? report_bug+0x18c/0x1a0
- ? handle_bug+0x40/0x70
- ? exc_invalid_op+0x19/0x70
- ? asm_exc_invalid_op+0x1b/0x20
- ? skb_splice_from_iter+0x141/0x450
- tcp_sendmsg_locked+0x39e/0xee0
- ? _prb_read_valid+0x216/0x290
- tcp_sendmsg+0x2d/0x50
- inet_sendmsg+0x43/0x80
- sock_sendmsg+0x102/0x130
- ? vprintk_default+0x1d/0x30
- ? vprintk+0x3c/0x70
- ? _printk+0x58/0x80
- nvme_tcp_try_send_data+0x17d/0x530
- nvme_tcp_try_send+0x1b7/0x300
- nvme_tcp_io_work+0x3c/0xc0
- process_one_work+0x22e/0x420
- worker_thread+0x50/0x3f0
- ? __pfx_worker_thread+0x10/0x10
- kthread+0xd6/0x100
- ? __pfx_kthread+0x10/0x10
- ret_from_fork+0x3c/0x60
- ? __pfx_kthread+0x10/0x10
- ret_from_fork_asm+0x1b/0x30
-...
-
----
-Changelog:
-v3, removed the ROUND_DIV_UP as sagi suggested. add reviewed tags from
-    Christoph Hellwig, Hannes Reinecke and Christoph Böhmwalder.
-    Add explanation to the root cause issue in the cover letter.
-v2, fix typo in patch subject
-
-Ofir Gal (4):
-  net: introduce helper sendpages_ok()
-  nvme-tcp: use sendpages_ok() instead of sendpage_ok()
-  drbd: use sendpages_ok() instead of sendpage_ok()
-  libceph: use sendpages_ok() instead of sendpage_ok()
-
- drivers/block/drbd/drbd_main.c |  2 +-
- drivers/nvme/host/tcp.c        |  2 +-
- include/linux/net.h            | 22 ++++++++++++++++++++++
- net/ceph/messenger_v1.c        |  2 +-
- net/ceph/messenger_v2.c        |  2 +-
- 5 files changed, 26 insertions(+), 4 deletions(-)
-
- reproduce.sh | 114 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 114 insertions(+)
- create mode 100755 reproduce.sh
-
-diff --git a/reproduce.sh b/reproduce.sh
-new file mode 100755
-index 000000000..8ae226b18
---- /dev/null
-+++ b/reproduce.sh
-@@ -0,0 +1,114 @@
-+#!/usr/bin/env sh
-+# SPDX-License-Identifier: MIT
-+
-+set -e
-+
-+load_modules() {
-+    modprobe nvme
-+    modprobe nvme-tcp
-+    modprobe nvmet
-+    modprobe nvmet-tcp
-+}
-+
-+setup_ns() {
-+    local dev=$1
-+    local num=$2
-+    local port=$3
-+    ls $dev > /dev/null
-+
-+    mkdir -p /sys/kernel/config/nvmet/subsystems/$num
-+    cd /sys/kernel/config/nvmet/subsystems/$num
-+    echo 1 > attr_allow_any_host
-+
-+    mkdir -p namespaces/$num
-+    cd namespaces/$num/
-+    echo $dev > device_path
-+    echo 1 > enable
-+
-+    ln -s /sys/kernel/config/nvmet/subsystems/$num \
-+        /sys/kernel/config/nvmet/ports/$port/subsystems/
-+}
-+
-+setup_port() {
-+    local num=$1
-+
-+    mkdir -p /sys/kernel/config/nvmet/ports/$num
-+    cd /sys/kernel/config/nvmet/ports/$num
-+    echo "127.0.0.1" > addr_traddr
-+    echo tcp > addr_trtype
-+    echo 8009 > addr_trsvcid
-+    echo ipv4 > addr_adrfam
-+}
-+
-+setup_big_opt_io() {
-+    local dev=$1
-+    local name=$2
-+
-+    # Change optimal IO size by creating dm stripe
-+    dmsetup create $name --table \
-+        "0 `blockdev --getsz $dev` striped 1 512 $dev 0"
-+}
-+
-+setup_targets() {
-+    # Setup ram devices instead of using real nvme devices
-+    modprobe brd rd_size=1048576 rd_nr=2 # 1GiB
-+
-+    setup_big_opt_io /dev/ram0 ram0_big_opt_io
-+    setup_big_opt_io /dev/ram1 ram1_big_opt_io
-+
-+    setup_port 1
-+    setup_ns /dev/mapper/ram0_big_opt_io 1 1
-+    setup_ns /dev/mapper/ram1_big_opt_io 2 1
-+}
-+
-+setup_initiators() {
-+    nvme connect -t tcp -n 1 -a 127.0.0.1 -s 8009
-+    nvme connect -t tcp -n 2 -a 127.0.0.1 -s 8009
-+}
-+
-+reproduce_warn() {
-+    local devs=$@
-+
-+    # Hangs here
-+    mdadm --create /dev/md/test_md --level=1 --bitmap=internal \
-+        --bitmap-chunk=1024K --assume-clean --run --raid-devices=2 $devs
-+}
-+
-+echo "###################################
-+
-+The script creates 2 nvme initiators in order to reproduce the bug.
-+The script doesn't know which controllers it created, choose the new nvme
-+controllers when asked.
-+
-+###################################
-+
-+Press enter to continue.
-+"
-+
-+read tmp
-+
-+echo "# Creating 2 nvme controllers for the reproduction. current nvme devices:"
-+lsblk -s | grep nvme || true
-+echo "---------------------------------
-+"
-+
-+load_modules
-+setup_targets
-+setup_initiators
-+
-+sleep 0.1 # Wait for the new nvme ctrls to show up
-+
-+echo "# Created 2 nvme devices. nvme devices list:"
-+
-+lsblk -s | grep nvme
-+echo "---------------------------------
-+"
-+
-+echo "# Insert the new nvme devices as separated lines. both should be with size of 1G"
-+read dev1
-+read dev2
-+
-+ls /dev/$dev1 > /dev/null
-+ls /dev/$dev2 > /dev/null
-+
-+reproduce_warn /dev/$dev1 /dev/$dev2
--- 
-2.45.1
+Bart.
 
 
