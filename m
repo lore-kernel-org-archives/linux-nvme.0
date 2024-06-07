@@ -4,89 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 331D3C27C53
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jun 2024 06:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7BA4C27C53
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jun 2024 06:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9JttketIPnK3CUu5JLRXu+4te9oL1QmKKrvUlLsQllA=; b=ZNzoyA4le313Qxpy/UF+2o7NuV
-	1vF7KteXfj7k49vMAxU+OBFddm5PPV3HwVY/lhs6O2C05MBpKOxZRqnd3V2XPs4EI4o/Ag2g8gwPQ
-	9XDkC64Nb3TNKNMQ+/F5ECML24rrmRbCnF6nEwJ6ohPGEG+zUJ8nxdf7txlTjEWiVySQQ8HLjs6lA
-	ezVwbInrgL/K/8oXNcZi0HFSZDVjmNVPM+EUrbtswXviZlXNQMlo5+0nqnujYinsqL07YPI8P8TEC
-	M8RtzSBRFFUhfjPFq4BRV2jggiPNbB99oQJj/6snJ3kmA5zVluNu+qkrFKPMnQACGqSzTGLoGndh0
-	WQy02ERg==;
+	bh=Rq9nYjWX5QjyjUqX6I6axUyZpuuyXyO4zh+3o2apteA=; b=ZUp5XwLlMTkMZMhxjbZ3zdrNT2
+	/9zahhFcCs2p8dG4i+uWiLV/VraX69QIp9shAkzTDEPyf2kNJDt2UVNJFMZ+x93owJl8mPuTN6A2r
+	xksmPf3F3kwspNjjDpCdKZKoGGDh3xvUQsDmd3LcsC60g3+Ixk6GCQh7TbS2eZw7QDgeaK2YzU+yn
+	Tk6kNvmwDI0tTiRpsDCb1cOeCTWywJKlgW4d0gxAO0C0yZOCp3tYGBP2cayL0+gERJ2odIRkWfvnb
+	4xxRSrIJGo0tg5MunG3KTTXyf0fRe6li9ICVtGQkWRtVq2qA6hGO9zp00+cNHinkkq4P04MiKtDLU
+	qqO4jPDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFSvU-0000000CfFb-2ws5;
-	Fri, 07 Jun 2024 06:18:12 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sFSxz-0000000CgAm-2JVp;
+	Fri, 07 Jun 2024 06:20:47 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFSvL-0000000CfBb-20Qv
+	id 1sFSxn-0000000Cg7y-3Ztj
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Jun 2024 06:18:06 +0000
+	Fri, 07 Jun 2024 06:20:40 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9C84921B47;
-	Fri,  7 Jun 2024 06:18:01 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 67B861FB81;
+	Fri,  7 Jun 2024 06:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717741082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1717741234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9JttketIPnK3CUu5JLRXu+4te9oL1QmKKrvUlLsQllA=;
-	b=A3OK6E3fd6DC9ROrjkQgKJE0QmfFx28jPVIu1cv5ASfEDW0nbRMebWozXqSKeXtVWB+Anm
-	YDS85NIXSW1cHRFKdZDcEAcAGfYrsyBCoEqLMSSTBYXR1zyHrTwpQdPtXVmUosJbjMZTGG
-	qdjogUkGU/OC8+ySxv1skg/kV8Ic3Wk=
+	bh=Rq9nYjWX5QjyjUqX6I6axUyZpuuyXyO4zh+3o2apteA=;
+	b=a/BTDtAdN7FVVxzWaK4ljzPAm5G+wkhQrZT/7jr0ue+jzyn1sQhFx5Ar4OlY4AmS1p0NAb
+	pgOFsipb7TiawItNpwaHmQgvuLzTv0eTzzksR/eFM2fuwM0EJ1EFYoZmfkQcUkwyI4Pjhk
+	prQtAz9fLZuv7E9idK8bgjrCL/M2sTk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717741082;
+	s=susede2_ed25519; t=1717741234;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9JttketIPnK3CUu5JLRXu+4te9oL1QmKKrvUlLsQllA=;
-	b=qgv2/PCd3vrHta0sqsurfGf5BoPWXA5991hyzzhlZSeg4aHk8Ri6763EojuMJl3O6NW3MJ
-	qwdxUx2jvy06uuAw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=Rq9nYjWX5QjyjUqX6I6axUyZpuuyXyO4zh+3o2apteA=;
+	b=JQPB1WbgBvYWSZErgyXfOxrZdOjNBcdWx5HEUU5HlM3FEvBpuNxD/WvJLs30d7iQl3dteZ
+	zz7FR9UTtQ8+GJAA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717741081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1717741234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9JttketIPnK3CUu5JLRXu+4te9oL1QmKKrvUlLsQllA=;
-	b=OTdva8hCgRpKPS4y2wB89WUIEW2tkS17odt5aGnI7ZeBITL1T4qoz8tAqWOQj7HVd4RHWs
-	H+0okDvDG3AHVvmfxAnDplzTHtNXe6lh2dqtyPzGg0/byMS9L5AdBpfRHBpSdRgKicZ21W
-	jlSSQ0HCWjCjVnz1Iv47iWUeggPEckg=
+	bh=Rq9nYjWX5QjyjUqX6I6axUyZpuuyXyO4zh+3o2apteA=;
+	b=a/BTDtAdN7FVVxzWaK4ljzPAm5G+wkhQrZT/7jr0ue+jzyn1sQhFx5Ar4OlY4AmS1p0NAb
+	pgOFsipb7TiawItNpwaHmQgvuLzTv0eTzzksR/eFM2fuwM0EJ1EFYoZmfkQcUkwyI4Pjhk
+	prQtAz9fLZuv7E9idK8bgjrCL/M2sTk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717741081;
+	s=susede2_ed25519; t=1717741234;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9JttketIPnK3CUu5JLRXu+4te9oL1QmKKrvUlLsQllA=;
-	b=lwQi3UbOZOHK5xZBBB8/5Hh2qPvyjchOKtANVnFEQqry+eXMwVr5AiKBbpgca82QvdsvQC
-	RZo62sJgidF+mkAw==
+	bh=Rq9nYjWX5QjyjUqX6I6axUyZpuuyXyO4zh+3o2apteA=;
+	b=JQPB1WbgBvYWSZErgyXfOxrZdOjNBcdWx5HEUU5HlM3FEvBpuNxD/WvJLs30d7iQl3dteZ
+	zz7FR9UTtQ8+GJAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA9F3133F3;
-	Fri,  7 Jun 2024 06:17:59 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90D40133F3;
+	Fri,  7 Jun 2024 06:20:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6DppKBemYmZEYAAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 07 Jun 2024 06:17:59 +0000
-Message-ID: <d05afd60-f306-4ec7-a97c-2c86f7b6c5bd@suse.de>
-Date: Fri, 7 Jun 2024 08:17:59 +0200
+	id wv1vIbGmYmaVYQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 07 Jun 2024 06:20:33 +0000
+Message-ID: <4070de4c-30c0-4322-bfe5-44b0797037c9@suse.de>
+Date: Fri, 7 Jun 2024 08:20:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/11] block: don't require stable pages for non-PI
- metadata
+Subject: Re: [PATCH 09/11] block: bypass the STABLE_WRITES flag for protection
+ information
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
  "Martin K. Petersen" <martin.petersen@oracle.com>
@@ -100,9 +100,9 @@ Cc: Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
  linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
 References: <20240607055912.3586772-1-hch@lst.de>
- <20240607055912.3586772-9-hch@lst.de>
+ <20240607055912.3586772-10-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240607055912.3586772-9-hch@lst.de>
+In-Reply-To: <20240607055912.3586772-10-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.29 / 50.00];
@@ -111,24 +111,23 @@ X-Spamd-Result: default: False [-4.29 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-0.989];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,imap1.dmz-prg2.suse.org:helo,suse.de:email]
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,lst.de:email,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240606_231803_721807_08C0CECA 
-X-CRM114-Status: UNSURE (   9.52  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240606_232036_083597_D6C2F54A 
+X-CRM114-Status: GOOD (  22.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,14 +143,94 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/7/24 07:59, Christoph Hellwig wrote:
-> Non-PI metadata doesn't contain checksums and thus doesn't require
-> stable pages.
+> Currently registering a checksum-enabled (aka PI) integrity profile sets
+> the QUEUE_FLAG_STABLE_WRITE flag, and unregistering it clears the flag.
+> This can incorrectly clear the flag when the driver requires stable
+> writes even without PI, e.g. in case of iSCSI or NVMe/TCP with data
+> digest enabled.
+> 
+> Fix this by looking at the csum_type directly in bdev_stable_writes and
+> not setting the queue flag.  Also remove the blk_queue_stable_writes
+> helper as the only user in nvme wants to only look at the actual
+> QUEUE_FLAG_STABLE_WRITE flag as it inherits the integrity configuration
+> by other means.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   block/blk-integrity.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   block/blk-integrity.c         |  6 ------
+>   drivers/nvme/host/multipath.c |  3 ++-
+>   include/linux/blkdev.h        | 12 ++++++++----
+>   3 files changed, 10 insertions(+), 11 deletions(-)
 > 
+> diff --git a/block/blk-integrity.c b/block/blk-integrity.c
+> index 1d2d371cd632d3..bec0d1df387ce9 100644
+> --- a/block/blk-integrity.c
+> +++ b/block/blk-integrity.c
+> @@ -379,9 +379,6 @@ void blk_integrity_register(struct gendisk *disk, struct blk_integrity *template
+>   	bi->tag_size = template->tag_size;
+>   	bi->pi_offset = template->pi_offset;
+>   
+> -	if (bi->csum_type != BLK_INTEGRITY_CSUM_NONE)
+> -		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, disk->queue);
+> -
+>   #ifdef CONFIG_BLK_INLINE_ENCRYPTION
+>   	if (disk->queue->crypto_profile) {
+>   		pr_warn("blk-integrity: Integrity and hardware inline encryption are not supported together. Disabling hardware inline encryption.\n");
+> @@ -404,9 +401,6 @@ void blk_integrity_unregister(struct gendisk *disk)
+>   
+>   	if (!bi->tuple_size)
+>   		return;
+> -
+> -	if (bi->csum_type != BLK_INTEGRITY_CSUM_NONE)
+> -		blk_queue_flag_clear(QUEUE_FLAG_STABLE_WRITES, disk->queue);
+>   	memset(bi, 0, sizeof(*bi));
+>   }
+>   EXPORT_SYMBOL(blk_integrity_unregister);
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index d8b6b4648eaff9..12c59db02539e5 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -875,7 +875,8 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
+>   		nvme_mpath_set_live(ns);
+>   	}
+>   
+> -	if (blk_queue_stable_writes(ns->queue) && ns->head->disk)
+> +	if (test_bit(QUEUE_FLAG_STABLE_WRITES, &ns->queue->queue_flags) &&
+> +	    ns->head->disk)
+>   		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES,
+>   				   ns->head->disk->queue);
+>   #ifdef CONFIG_BLK_DEV_ZONED
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index bdd33388e1ced8..f9089750919c6b 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -571,8 +571,6 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+>   #define blk_queue_noxmerges(q)	\
+>   	test_bit(QUEUE_FLAG_NOXMERGES, &(q)->queue_flags)
+>   #define blk_queue_nonrot(q)	test_bit(QUEUE_FLAG_NONROT, &(q)->queue_flags)
+> -#define blk_queue_stable_writes(q) \
+> -	test_bit(QUEUE_FLAG_STABLE_WRITES, &(q)->queue_flags)
+>   #define blk_queue_io_stat(q)	test_bit(QUEUE_FLAG_IO_STAT, &(q)->queue_flags)
+>   #define blk_queue_add_random(q)	test_bit(QUEUE_FLAG_ADD_RANDOM, &(q)->queue_flags)
+>   #define blk_queue_zone_resetall(q)	\
+> @@ -1300,8 +1298,14 @@ static inline bool bdev_synchronous(struct block_device *bdev)
+>   
+>   static inline bool bdev_stable_writes(struct block_device *bdev)
+>   {
+> -	return test_bit(QUEUE_FLAG_STABLE_WRITES,
+> -			&bdev_get_queue(bdev)->queue_flags);
+> +	struct request_queue *q = bdev_get_queue(bdev);
+> +
+> +#ifdef CONFIG_BLK_DEV_INTEGRITY
+> +	/* BLK_INTEGRITY_CSUM_NONE is not available in blkdev.h */
+> +	if (q->integrity.csum_type != 0)
+> +		return true;
+> +#endif
+> +	return test_bit(QUEUE_FLAG_STABLE_WRITES, &q->queue_flags);
+>   }
+>   
+>   static inline bool bdev_write_cache(struct block_device *bdev)
+
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
