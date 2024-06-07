@@ -4,76 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83C0BC27C5E
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jun 2024 23:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52B14C27C53
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jun 2024 05:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u6KkShH+LBPBDtFL/J7+56MEKPg8eU6ralQnJ1U5rNo=; b=b14lEWb4lTctJvJIWRQqJOFXp+
-	WHZ9vVgfiiBW0WRICfnWR4M71kFs5+97+B8iimPNl3O02/ZXLTBGztrwyKwVTeelK+8/pFG0sZFDm
-	oSFwLEQj5YtsYXNXIbOjw4hwOcoMPQWmBoUYgYSoqgtkyCJnQWYNiCwPxEL+FC3UYa9mOidYjDF59
-	ZBkq/C70d/TwCNpSOj+TR9Z7Kkeqvx7i9a1p4zxaxa5pBjilRQrH3qCqhFe8o6cRGcqV3wDdflAUn
-	awATbObxxkTurbZBXQuWnOc7vq7/rtB9pA2r0pl81KQGKkeRSRjLkUsVGFhQz5ZiX33QJ5LFmy+qj
-	rAxtFdmQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hJg1IHT6ctz5VzmbhBIsMLqfKq0fiJuOtJ2q4VPULPg=; b=XIUABpw//Pmpy2yLaqtw9+9e0F
+	A90T/xUw4hMOMA49+IFCIwn2qKS0zT5X9tPOHpBl+wiC2y4z+haoliqF1Rl7s7koppq6Tn/dxmP12
+	kS+cw8IHetuw456e9/UKW+MFXyFeU/Y/2jBwWpcK8zidL/CqQOHSwMhaiwhY/q/u1hZuD1h7OOjy2
+	su22hH2sNvuRU7V8+IJF/nxgJmPOu94sVtJcFRE0iQdGZOLr4p5GJHx56CcoAexN5CKOzhj6bCNX7
+	P2FzYsxWQzzsommtKGIG2Ebjat4FSEPK1sINnNa2RXFamLFpoWnu2j7+aQDF+4CUVqEHXmAF0RS/U
+	kfOWBNbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFMoq-0000000BkIm-2SND;
-	Thu, 06 Jun 2024 23:46:56 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFMok-0000000BkH1-2j0q
-	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jun 2024 23:46:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717717609;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u6KkShH+LBPBDtFL/J7+56MEKPg8eU6ralQnJ1U5rNo=;
-	b=DPULfInrvO4Ui/3lu/QusP1N425/0KVGP8kbHMrw6RZ/Z7kXUODA81LsDyVxN+UUnDPTkQ
-	8C5yfCvEv/xpiUwPOO5rmD2bEOFcWMx/Ry4daZuE36ZQrzJi0k3+ApUWSR/SsyZGtkXxSr
-	UAwCXCn2BfE87FMy0g2kWBK/YkQOoT4=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-632-HAhIOT2zNmKofTm7DiPH8g-1; Thu,
- 06 Jun 2024 19:46:43 -0400
-X-MC-Unique: HAhIOT2zNmKofTm7DiPH8g-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7E5371944D3B;
-	Thu,  6 Jun 2024 23:46:40 +0000 (UTC)
-Received: from fedora (unknown [10.72.112.45])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7CE101955F14;
-	Thu,  6 Jun 2024 23:46:32 +0000 (UTC)
-Date: Fri, 7 Jun 2024 07:46:27 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: yebin <yebin@huaweicloud.com>, axboe@kernel.dk,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ye Bin <yebin10@huawei.com>, Zhang Yi <yizhan@redhat.com>,
-	"Ewan D. Milne" <emilne@redhat.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] block: bio-integrity: fix potential null-ptr-deref in
- bio_integrity_free
-Message-ID: <ZmJKU9mMDg1+mO3i@fedora>
-References: <20240606062655.2185006-1-yebin@huaweicloud.com>
- <ZmFatW3BEzTPgR7S@infradead.org>
- <66619EB6.4040002@huaweicloud.com>
- <ZmHH7mW0M80RaPlj@fedora>
- <ZmHNQ56C6Ee01Kcv@infradead.org>
+	id 1sFSdK-0000000CZys-4AAQ;
+	Fri, 07 Jun 2024 05:59:26 +0000
+Received: from [2001:4bb8:2dd:aa7c:2c19:fa33:48d4:a32f] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sFSd9-0000000CZy7-13zQ;
+	Fri, 07 Jun 2024 05:59:18 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Subject: move integrity settings to queue_limits v2
+Date: Fri,  7 Jun 2024 07:58:54 +0200
+Message-ID: <20240607055912.3586772-1-hch@lst.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZmHNQ56C6Ee01Kcv@infradead.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240606_164650_785022_E636ECE6 
-X-CRM114-Status: GOOD (  19.29  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,33 +66,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 06, 2024 at 07:52:51AM -0700, Christoph Hellwig wrote:
-> On Thu, Jun 06, 2024 at 10:30:06PM +0800, Ming Lei wrote:
-> > Yeah, that is one area queue freezing can't cover logical block size
-> > change, but I'd suggest to put the logical bs check into submit_bio() or
-> > slow path of __bio_queue_enter() at least.
-> 
-> We really need an alignment check in submit_bio anyway, so doing it
-> under the freeze protection would also help with this.
-> 
-> > My concern is that nvme format is started without draining IO, and
-> > IO can be submitted to hardware when nvme FW is handling formatting.
-> > I am not sure if nvme FW can deal with this situation correctly.
-> > Ewan suggested to run 'nvme format' with exclusive nvme disk open, which
-> > needs nvme-cli change.
-> 
-> .. and doesn't protect against someone using a different tool anyway.
-> 
-> That beeing said, nvme_passthru_start actually freezes all queues
-> based on the commands supported an affects log, and
-> nvme_init_known_nvm_effects should force this even for controllers
-> not supporting the log or reporting bogus information.  So in general
-> the queue should be frozen during the actual format.
+Hi Jens, hi Martin,
 
-That is something I missed, thanks for sharing the story.
+this series converts the blk-integrity settings to sit in the queue
+limits and be updated through the atomic queue limits API.
 
+I've mostly tested this with nvme, scsi is only covered by simple
+scsi_debug based tests.
 
-Thanks,
-Ming
+For MD I found an pre-existing error handling bug when combining PI
+capable devices with not PI capable devices.  The fix was posted here
+(and is included in the git branch below):
 
+   https://lore.kernel.org/linux-raid/20240604172607.3185916-1-hch@lst.de/
+
+For dm-integrity my testing showed that even the baseline fails to create
+the luks-based dm-crypto with dm-integrity backing for the authentication
+data.  As the failure is non-fatal I've not addressed it here.
+
+Note that the support for native metadata in dm-crypt by Mikulas will
+need a rebase on top of this, but as it already requires another
+block layer patch and the changes in this series will simplify it a bit
+I hope that is ok.
+
+The series is based on top of my previously sent "convert the SCSI ULDs
+to the atomic queue limits API v2" API.
+
+A git tree is available here:
+
+   git://git.infradead.org/users/hch/block.git block-integrity-limits
+
+Gitweb:
+
+   http://git.infradead.org/?p=users/hch/block.git;a=shortlog;h=refs/heads/block-integrity-limits
+
+Changes since v1:
+ - keep generating (empty) non-PI metadata
+ - use a packed enum for the csum type
+ - remove an unused flag left in the code
+
+Diffstat:
+ Documentation/block/data-integrity.rst |   49 ------
+ block/Kconfig                          |    8 -
+ block/Makefile                         |    3 
+ block/bio-integrity.c                  |   33 +---
+ block/blk-integrity.c                  |  229 ++++++++----------------------
+ block/blk-mq.c                         |   13 -
+ block/blk-settings.c                   |  118 ++++++++++++++-
+ block/blk.h                            |    8 +
+ block/t10-pi.c                         |  249 +++++++++++----------------------
+ drivers/md/dm-core.h                   |    1 
+ drivers/md/dm-crypt.c                  |    4 
+ drivers/md/dm-integrity.c              |   47 +-----
+ drivers/md/dm-table.c                  |  161 +++------------------
+ drivers/md/md.c                        |   72 ++-------
+ drivers/md/md.h                        |    5 
+ drivers/md/raid0.c                     |    7 
+ drivers/md/raid1.c                     |   10 -
+ drivers/md/raid10.c                    |   10 -
+ drivers/md/raid5.c                     |    2 
+ drivers/nvdimm/btt.c                   |   13 -
+ drivers/nvme/host/Kconfig              |    1 
+ drivers/nvme/host/core.c               |   71 ++++-----
+ drivers/nvme/host/multipath.c          |    3 
+ drivers/nvme/target/Kconfig            |    1 
+ drivers/nvme/target/io-cmd-bdev.c      |   16 +-
+ drivers/scsi/Kconfig                   |    1 
+ drivers/scsi/sd.c                      |   28 +--
+ drivers/scsi/sd.h                      |   12 -
+ drivers/scsi/sd_dif.c                  |   45 ++---
+ drivers/target/target_core_iblock.c    |   49 +++---
+ include/linux/bio.h                    |    7 
+ include/linux/blk-integrity.h          |   62 ++------
+ include/linux/blkdev.h                 |   26 ++-
+ include/linux/t10-pi.h                 |   20 --
+ 34 files changed, 523 insertions(+), 861 deletions(-)
 
