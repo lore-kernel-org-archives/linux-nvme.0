@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52B14C27C53
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jun 2024 05:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C57FAC27C53
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jun 2024 05:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=hJg1IHT6ctz5VzmbhBIsMLqfKq0fiJuOtJ2q4VPULPg=; b=XIUABpw//Pmpy2yLaqtw9+9e0F
-	A90T/xUw4hMOMA49+IFCIwn2qKS0zT5X9tPOHpBl+wiC2y4z+haoliqF1Rl7s7koppq6Tn/dxmP12
-	kS+cw8IHetuw456e9/UKW+MFXyFeU/Y/2jBwWpcK8zidL/CqQOHSwMhaiwhY/q/u1hZuD1h7OOjy2
-	su22hH2sNvuRU7V8+IJF/nxgJmPOu94sVtJcFRE0iQdGZOLr4p5GJHx56CcoAexN5CKOzhj6bCNX7
-	P2FzYsxWQzzsommtKGIG2Ebjat4FSEPK1sINnNa2RXFamLFpoWnu2j7+aQDF+4CUVqEHXmAF0RS/U
-	kfOWBNbA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WcS17019swi+eot3hQXZLSEBmFN0nZ0zcexqseGp7yk=; b=xs1NW7sjpun6VPH10LgWCbbJqJ
+	jseB8fIv1e5AK6Yoj09QRsGNKtHu8p/GRcUnb5aIMER/jqEw8yu/sGj9ztK/LbGM0odDi1KLYKTrx
+	wNOGWaLJvxzYPyfqTe7mSlKbPu3QY1w0PRBlaJw6VlxBQA6AlCrqs2Lzs90YZJp+MIUC+IhBxaw8L
+	c6JFgnNqAzZA1LlyRJIPp/RzIrCuo2Y934x9fOPomr4vR39dJYwzJhqHUd7rXBruGm476ujiL/vJ6
+	VAhHKPOjHe9hTDfjgHhPKRdrsk5lA+lE8++MuDj9zIUtPtjikUkC0Usk/JWx8SqWeBQ2zJf31I4z8
+	iWt6WZ2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFSdK-0000000CZys-4AAQ;
-	Fri, 07 Jun 2024 05:59:26 +0000
+	id 1sFSdR-0000000CZzT-1fs6;
+	Fri, 07 Jun 2024 05:59:33 +0000
 Received: from [2001:4bb8:2dd:aa7c:2c19:fa33:48d4:a32f] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFSd9-0000000CZy7-13zQ;
-	Fri, 07 Jun 2024 05:59:18 +0000
+	id 1sFSdF-0000000CZyO-1Bpl;
+	Fri, 07 Jun 2024 05:59:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>
@@ -45,11 +45,14 @@ Cc: Mike Snitzer <snitzer@kernel.org>,
 	linux-raid@vger.kernel.org,
 	nvdimm@lists.linux.dev,
 	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org
-Subject: move integrity settings to queue_limits v2
-Date: Fri,  7 Jun 2024 07:58:54 +0200
-Message-ID: <20240607055912.3586772-1-hch@lst.de>
+	linux-scsi@vger.kernel.org,
+	Milan Broz <gmazyland@gmail.com>
+Subject: [PATCH 01/11] dm-integrity: use the nop integrity profile
+Date: Fri,  7 Jun 2024 07:58:55 +0200
+Message-ID: <20240607055912.3586772-2-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240607055912.3586772-1-hch@lst.de>
+References: <20240607055912.3586772-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -66,79 +69,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens, hi Martin,
+Use the block layer built-in nop profile instead of duplicating it.
 
-this series converts the blk-integrity settings to sit in the queue
-limits and be updated through the atomic queue limits API.
+Tested by:
 
-I've mostly tested this with nvme, scsi is only covered by simple
-scsi_debug based tests.
+$ dd if=/dev/urandom of=key.bin bs=512 count=1
 
-For MD I found an pre-existing error handling bug when combining PI
-capable devices with not PI capable devices.  The fix was posted here
-(and is included in the git branch below):
+$ cryptsetup luksFormat -q --type luks2 --integrity hmac-sha256 \
+ 	--integrity-no-wipe /dev/nvme0n1 key.bin
+$ cryptsetup luksOpen /dev/nvme0n1 luks-integrity --key-file key.bin
 
-   https://lore.kernel.org/linux-raid/20240604172607.3185916-1-hch@lst.de/
+and then doing mkfs.xfs and simple I/O on the mount file system.
 
-For dm-integrity my testing showed that even the baseline fails to create
-the luks-based dm-crypto with dm-integrity backing for the authentication
-data.  As the failure is non-fatal I've not addressed it here.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Milan Broz <gmazyland@gmail.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/md/dm-crypt.c     |  4 ++--
+ drivers/md/dm-integrity.c | 20 --------------------
+ 2 files changed, 2 insertions(+), 22 deletions(-)
 
-Note that the support for native metadata in dm-crypt by Mikulas will
-need a rebase on top of this, but as it already requires another
-block layer patch and the changes in this series will simplify it a bit
-I hope that is ok.
+diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
+index 1b7a97cc377943..1dfc462f29cd6f 100644
+--- a/drivers/md/dm-crypt.c
++++ b/drivers/md/dm-crypt.c
+@@ -1176,8 +1176,8 @@ static int crypt_integrity_ctr(struct crypt_config *cc, struct dm_target *ti)
+ 	struct blk_integrity *bi = blk_get_integrity(cc->dev->bdev->bd_disk);
+ 	struct mapped_device *md = dm_table_get_md(ti->table);
+ 
+-	/* From now we require underlying device with our integrity profile */
+-	if (!bi || strcasecmp(bi->profile->name, "DM-DIF-EXT-TAG")) {
++	/* We require an underlying device with non-PI metadata */
++	if (!bi || strcmp(bi->profile->name, "nop")) {
+ 		ti->error = "Integrity profile not supported.";
+ 		return -EINVAL;
+ 	}
+diff --git a/drivers/md/dm-integrity.c b/drivers/md/dm-integrity.c
+index 417fddebe367a2..c1cc27541673c7 100644
+--- a/drivers/md/dm-integrity.c
++++ b/drivers/md/dm-integrity.c
+@@ -350,25 +350,6 @@ static struct kmem_cache *journal_io_cache;
+ #define DEBUG_bytes(bytes, len, msg, ...)	do { } while (0)
+ #endif
+ 
+-static void dm_integrity_prepare(struct request *rq)
+-{
+-}
+-
+-static void dm_integrity_complete(struct request *rq, unsigned int nr_bytes)
+-{
+-}
+-
+-/*
+- * DM Integrity profile, protection is performed layer above (dm-crypt)
+- */
+-static const struct blk_integrity_profile dm_integrity_profile = {
+-	.name			= "DM-DIF-EXT-TAG",
+-	.generate_fn		= NULL,
+-	.verify_fn		= NULL,
+-	.prepare_fn		= dm_integrity_prepare,
+-	.complete_fn		= dm_integrity_complete,
+-};
+-
+ static void dm_integrity_map_continue(struct dm_integrity_io *dio, bool from_map);
+ static void integrity_bio_wait(struct work_struct *w);
+ static void dm_integrity_dtr(struct dm_target *ti);
+@@ -3656,7 +3637,6 @@ static void dm_integrity_set(struct dm_target *ti, struct dm_integrity_c *ic)
+ 	struct blk_integrity bi;
+ 
+ 	memset(&bi, 0, sizeof(bi));
+-	bi.profile = &dm_integrity_profile;
+ 	bi.tuple_size = ic->tag_size;
+ 	bi.tag_size = bi.tuple_size;
+ 	bi.interval_exp = ic->sb->log2_sectors_per_block + SECTOR_SHIFT;
+-- 
+2.43.0
 
-The series is based on top of my previously sent "convert the SCSI ULDs
-to the atomic queue limits API v2" API.
-
-A git tree is available here:
-
-   git://git.infradead.org/users/hch/block.git block-integrity-limits
-
-Gitweb:
-
-   http://git.infradead.org/?p=users/hch/block.git;a=shortlog;h=refs/heads/block-integrity-limits
-
-Changes since v1:
- - keep generating (empty) non-PI metadata
- - use a packed enum for the csum type
- - remove an unused flag left in the code
-
-Diffstat:
- Documentation/block/data-integrity.rst |   49 ------
- block/Kconfig                          |    8 -
- block/Makefile                         |    3 
- block/bio-integrity.c                  |   33 +---
- block/blk-integrity.c                  |  229 ++++++++----------------------
- block/blk-mq.c                         |   13 -
- block/blk-settings.c                   |  118 ++++++++++++++-
- block/blk.h                            |    8 +
- block/t10-pi.c                         |  249 +++++++++++----------------------
- drivers/md/dm-core.h                   |    1 
- drivers/md/dm-crypt.c                  |    4 
- drivers/md/dm-integrity.c              |   47 +-----
- drivers/md/dm-table.c                  |  161 +++------------------
- drivers/md/md.c                        |   72 ++-------
- drivers/md/md.h                        |    5 
- drivers/md/raid0.c                     |    7 
- drivers/md/raid1.c                     |   10 -
- drivers/md/raid10.c                    |   10 -
- drivers/md/raid5.c                     |    2 
- drivers/nvdimm/btt.c                   |   13 -
- drivers/nvme/host/Kconfig              |    1 
- drivers/nvme/host/core.c               |   71 ++++-----
- drivers/nvme/host/multipath.c          |    3 
- drivers/nvme/target/Kconfig            |    1 
- drivers/nvme/target/io-cmd-bdev.c      |   16 +-
- drivers/scsi/Kconfig                   |    1 
- drivers/scsi/sd.c                      |   28 +--
- drivers/scsi/sd.h                      |   12 -
- drivers/scsi/sd_dif.c                  |   45 ++---
- drivers/target/target_core_iblock.c    |   49 +++---
- include/linux/bio.h                    |    7 
- include/linux/blk-integrity.h          |   62 ++------
- include/linux/blkdev.h                 |   26 ++-
- include/linux/t10-pi.h                 |   20 --
- 34 files changed, 523 insertions(+), 861 deletions(-)
 
