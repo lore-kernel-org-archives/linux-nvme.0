@@ -4,55 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B3A9C25B76
-	for <linux-nvme@archiver.kernel.org>; Sat,  8 Jun 2024 05:08:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C006FC25B76
+	for <linux-nvme@archiver.kernel.org>; Sat,  8 Jun 2024 05:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IsGZZllTxe9R5ooohMI8oPo5J7qzN/5yMz2dxpOdeGU=; b=uejqVLLoyxVJG1uNolSCXQxmLx
-	/ZtTAj0lN7cmCyyFWfM/Z+0xZKFFM0gtM8kSjE25TJ4+jAENTKn4zZZQCNhnF9/DT8nV1ddgvqvbd
-	zwbN3NdiewoXkslMR5uBn8GWWbzZcud8PDVKoLR1E69Br/MndCBoO/g0Br4CgAOkNRhtvtd8T7O6t
-	VI3P73uj/bQwSlGkli/8Tk/XRaBCVk7+8YC/sH3/tJbOSLGZP8nrmvqZRgADzi4rxpPhafyiXug9G
-	aZBJ2hu2W8wrvF183Rie7gaiiWLZBYrR+LW1jSR8JBNOzvTVREjRyyCOG6pnn0xEXtDcFswyVFzxo
-	Rk50H5sQ==;
+	bh=Pcj71wA8x92xSZR9sUMBRdx2JgWjxanLFYuVPLfxKgQ=; b=A1vTKc8XqXKeZ8ocKrYpYFUSA0
+	zIB7K54yO6W6A0pXQx48+9+eoEGzuuRuDUaCA/ok9IpfoRRxLqobA4WMmqwUm/0cnbisRp8QlQKo3
+	PTJPzdftPWGR+4i8PYsF15ECZmMoai2qCtdJii+ADBnvR3oBKWtjCdDUbT1YEWNumNrxJD3eu8O6o
+	iBnR+IgkQKSVDATFTNynp7Nq+o3YQIZSw94/KSqrqbJOf4O7XWcIx+Tx68c0TwCoEfwwTL55CZ4+F
+	wkczxGM6EVCfjF6zIEot9AT4pi/PQER+q3VteUGRfl3fp0fqk0cP0KZznMxtVYl2w4MtDQSW9TCyG
+	JzI81Qnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFoJy-0000000Gadi-0lwV;
-	Sat, 08 Jun 2024 05:08:54 +0000
+	id 1sFoLX-0000000GaqP-1beY;
+	Sat, 08 Jun 2024 05:10:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFoJr-0000000Gabh-0lj2
+	id 1sFoLT-0000000GapW-0moe
 	for linux-nvme@lists.infradead.org;
-	Sat, 08 Jun 2024 05:08:49 +0000
+	Sat, 08 Jun 2024 05:10:28 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 72C1F68AFE; Sat,  8 Jun 2024 07:08:36 +0200 (CEST)
-Date: Sat, 8 Jun 2024 07:08:36 +0200
+	id 2F9AF68AFE; Sat,  8 Jun 2024 07:10:23 +0200 (CEST)
+Date: Sat, 8 Jun 2024 07:10:22 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Mikulas Patocka <mpatocka@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
+	Song Liu <song@kernel.org>, Yu Kuai <yukuai3@huawei.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
 	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
 	nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org,
 	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH 04/11] block: remove the blk_integrity_profile structure
-Message-ID: <20240608050836.GA23942@lst.de>
-References: <20240607055912.3586772-1-hch@lst.de> <CGME20240607060043epcas5p1a6d4d8c3536fe3b6e43ad34155803fc2@epcas5p1.samsung.com> <20240607055912.3586772-5-hch@lst.de> <8d26d133-6fac-531c-d300-5b99678f1cbd@samsung.com>
+Subject: Re: move integrity settings to queue_limits v2
+Message-ID: <20240608051022.GA23972@lst.de>
+References: <20240607055912.3586772-1-hch@lst.de> <ZmMqfj3T9Ft680j6@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8d26d133-6fac-531c-d300-5b99678f1cbd@samsung.com>
+In-Reply-To: <ZmMqfj3T9Ft680j6@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240607_220847_689201_9CA80266 
-X-CRM114-Status: GOOD (  12.05  )
+X-CRM114-CacheID: sfid-20240607_221027_406455_027402B5 
+X-CRM114-Status: GOOD (  13.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,16 +69,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jun 08, 2024 at 12:01:43AM +0530, Kanchan Joshi wrote:
-> > +	if (!bi || bi->csum_type != BLK_INTEGRITY_CSUM_NONE) {
-> >   		ti->error = "Integrity profile not supported.";
-> >   		return -EINVAL;
+On Fri, Jun 07, 2024 at 11:42:54AM -0400, Mike Snitzer wrote:
+> > For dm-integrity my testing showed that even the baseline fails to create
+> > the luks-based dm-crypto with dm-integrity backing for the authentication
+> > data.  As the failure is non-fatal I've not addressed it here.
 > 
-> I'd rename BLK_INTEGRITY_CSUM_NONE to BLK_INTEGRITY_CSUM_NOP. Overall.
+> Setup is complicated. Did you test in terms of cryptsetup's testsuite?
 
-Well, we don't do any checksumming here, and not a no-op checksum.
-So in terms of the checksum field I think the name is correct.  But
-it is indeed confusing vs the format string, but that is an ABI
-we can't change..
+I didn't realize cryptsetup has yet another testsuite..
+
+> Or something else?
+
+I just followed a random guid on the internet on how to set up the
+authenticated encryption, wrote a script to do it and used that for
+testing.
 
 
