@@ -4,57 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C006FC25B76
-	for <linux-nvme@archiver.kernel.org>; Sat,  8 Jun 2024 05:10:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D0A1C25B76
+	for <linux-nvme@archiver.kernel.org>; Sat,  8 Jun 2024 05:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Pcj71wA8x92xSZR9sUMBRdx2JgWjxanLFYuVPLfxKgQ=; b=A1vTKc8XqXKeZ8ocKrYpYFUSA0
-	zIB7K54yO6W6A0pXQx48+9+eoEGzuuRuDUaCA/ok9IpfoRRxLqobA4WMmqwUm/0cnbisRp8QlQKo3
-	PTJPzdftPWGR+4i8PYsF15ECZmMoai2qCtdJii+ADBnvR3oBKWtjCdDUbT1YEWNumNrxJD3eu8O6o
-	iBnR+IgkQKSVDATFTNynp7Nq+o3YQIZSw94/KSqrqbJOf4O7XWcIx+Tx68c0TwCoEfwwTL55CZ4+F
-	wkczxGM6EVCfjF6zIEot9AT4pi/PQER+q3VteUGRfl3fp0fqk0cP0KZznMxtVYl2w4MtDQSW9TCyG
-	JzI81Qnw==;
+	bh=REiL2L2wljhLsNLIIkadqSd+mtXSC59zQIbypX/tQug=; b=lhcNhE1d4Jr1uIGn57mSh8a+PF
+	5An/XKJQ6FCLGj7Sz4kIK//GYNLtfLT5OT2ONVcSwU5RAyNy+o5z0ntj7eBtTUzjRuyCY5Gt2b9DF
+	dqYWKNtaMTfT3046TT4dfhe+uraJ+p2u54JkgokEoPByS9VaATAMwEBUAEaHb7eg9/TZ/IRwciVpk
+	eTaQ3ApE7iEAFCxyA6icqcvVN6HYdmDLqeviIwh/Ca/7Lw0abhoYll6+opFl0BsBeVoXAufmuIjdT
+	l4JedzphdHfUUqskX8UN0wzZEKoBls5Dou8rY25EbitiFQdEiaecandysW9xu5VfsiUDxlb+VkqrC
+	Hd9wCi2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFoLX-0000000GaqP-1beY;
-	Sat, 08 Jun 2024 05:10:31 +0000
+	id 1sFoSd-0000000GbNY-3mq7;
+	Sat, 08 Jun 2024 05:17:51 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sFoLT-0000000GapW-0moe
+	id 1sFoSY-0000000GbN6-0Amp
 	for linux-nvme@lists.infradead.org;
-	Sat, 08 Jun 2024 05:10:28 +0000
+	Sat, 08 Jun 2024 05:17:47 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2F9AF68AFE; Sat,  8 Jun 2024 07:10:23 +0200 (CEST)
-Date: Sat, 8 Jun 2024 07:10:22 +0200
+	id 9DDEC68AFE; Sat,  8 Jun 2024 07:17:41 +0200 (CEST)
+Date: Sat, 8 Jun 2024 07:17:40 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Mikulas Patocka <mpatocka@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Song Liu <song@kernel.org>, Yu Kuai <yukuai3@huawei.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org
-Subject: Re: move integrity settings to queue_limits v2
-Message-ID: <20240608051022.GA23972@lst.de>
-References: <20240607055912.3586772-1-hch@lst.de> <ZmMqfj3T9Ft680j6@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hch@lst.de,
+	sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	javier.gonz@samsung.com, bvanassche@acm.org, gost.dev@samsung.com,
+	Hui Qi <hui81.qi@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v2] nvme: enable FDP support
+Message-ID: <20240608051740.GA24010@lst.de>
+References: <CGME20240528151007epcas5p32583675f647553923e5ba4987e9bc6ed@epcas5p3.samsung.com> <20240528150233.55562-1-joshi.k@samsung.com> <ZmMj3d1Rvv-5E6Ey@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZmMqfj3T9Ft680j6@kernel.org>
+In-Reply-To: <ZmMj3d1Rvv-5E6Ey@kbusch-mbp.dhcp.thefacebook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240607_221027_406455_027402B5 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20240607_221746_249683_01842357 
+X-CRM114-Status: UNSURE (   9.81  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,19 +63,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 07, 2024 at 11:42:54AM -0400, Mike Snitzer wrote:
-> > For dm-integrity my testing showed that even the baseline fails to create
-> > the luks-based dm-crypto with dm-integrity backing for the authentication
-> > data.  As the failure is non-fatal I've not addressed it here.
-> 
-> Setup is complicated. Did you test in terms of cryptsetup's testsuite?
+Nacked-by: Christoph Hellwig <hch@lst.de>
 
-I didn't realize cryptsetup has yet another testsuite..
+This is a really overcomplicated way that does not in any way fit the
+FDP use case (which is also rather overcomplicated).
 
-> Or something else?
-
-I just followed a random guid on the internet on how to set up the
-authenticated encryption, wrote a script to do it and used that for
-testing.
+If you want to pass on life time information to a NVMe device please
+work with the NVMe technical working group to add the equivalent of
+the life time hints added to SCSI as part of the
+constrained streams in SBC.  It would be implementable in the Linux
+nvme driver in a few lines of code, similaly trivially in the device
+and actually makes things work.
 
 
