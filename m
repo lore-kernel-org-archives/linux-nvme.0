@@ -4,119 +4,213 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA531C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1E93C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=25m3KIGLmguUC8/pQLLfTfUUYokxVK5unna2aPd6ENo=; b=vw5Q3nwoCUv0gIxhJcAyIwl1ec
-	r3j2l6i0971GaYXoKNtTgcLhyLgmYKVnOtM5U/N15Q9P4LCimGXqTBX9kGL3nTItzZwtd5xEqPIHm
-	ti388YZ/kkwATLaJsd6Ov8Ezzz0UuPuJ/NAvsABJqKOD/3EyVGcwUl4rNQyj84TKiLQcVgKIj3afE
-	qVu506tdpuMDPR+cX+9qQ86h1OAy44nCC/9DcIfzLRexmARa2FrezWaOxRrh+op0yh68JDtpOpoqj
-	0mM9062AsLLLe2rDC60DE0W918KwEEnRnE05gsohVBKqDLA+cEtCWJDlVFPxteiW5W/WpfoC40o3e
-	EAMKe5pw==;
+	bh=BhY3NwRliREZRdNNM43bZ3OvIln91I1pxlVbr1nPbP0=; b=KbsAUX0Ywjya6s9A3fmP4ruPbj
+	rmfTac0YS3NyCywmVvEXeKdWa11t3gHbTa59uw67IxSg8GiW4EvpIrnZFhq4LikbxxEMhyTAkdr5O
+	+uYrYMg167ghD7lCrlwaStWtgdZL4besnfTRAS+lUJbh+26nxR/n6/I+ukZCGdgIjidzpEcKYApO8
+	+5jLguyE8NuOupYAczfuxrhUt/bDDao+vGQEuUEHkH/tdzdwpRtEtyWh7MzRvUgFOhbFPbJTLDBmN
+	mdnc8S7dG7SBEfXV3lHvSpl7qU81ucUE9+YQMG/15xlKguuIQBmnxOawaBzf6wYNq7tmGzjtEzrz7
+	F/YcGPtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtya-00000007TYk-47Bc;
-	Tue, 11 Jun 2024 05:23:21 +0000
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733])
+	id 1sGtye-00000007TbU-3P1F;
+	Tue, 11 Jun 2024 05:23:24 +0000
+Received: from mgamail.intel.com ([198.175.65.9])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGilW-00000005y5O-0nYn
+	id 1sGmYr-00000006XBU-17yQ
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jun 2024 17:25:08 +0000
-Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-7954f8b818fso7750585a.1
-        for <linux-nvme@lists.infradead.org>; Mon, 10 Jun 2024 10:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1718040304; x=1718645104; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=25m3KIGLmguUC8/pQLLfTfUUYokxVK5unna2aPd6ENo=;
-        b=bo5xPvJqDxt5OYGClimMLSNEzJ2tNbVBC9gCuhTfSrg+glyFZWWRmAE+pJ6vClRknr
-         VXhsxH70p1PWN0tbCeYBS+QIFvXx8At2M7xnXFRgWqA4r2glYYH6VcSgFMznYxs8p99w
-         RMvre0R44NpEx5XRHZx0QF4tdWQ5BEX6G8uaxXJoa8mDZwHebovXKTnFvu2D8mwK6dGD
-         b0AvgQ9fiDrQIh2Mw6HiYNl2/ytq+kk9nyFknHhofoVDdhpx0IkGx9INbQDz1fEQ51oO
-         y5ir6JCf/yLf0MsQdL6EW07KiuwG2ddWgCrZX/gdPP6e+4mRwZsysD2ITFt7F0aHpL/M
-         sKiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718040304; x=1718645104;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=25m3KIGLmguUC8/pQLLfTfUUYokxVK5unna2aPd6ENo=;
-        b=JifKjzrbM41fDe2BHiELEvofkKYO7Lr2ONWXJ8ghWiar0HpPa1jwjsNLlTWKxO8Gph
-         D17xFSXW7nxIv6rxZsHPgnYmg4M96889XSNwjuyc1WASO2xRIKaZ33nrUbFjb9SZz2ZN
-         FWoX7diHpZkrAfp64XcfuYlaEMtuQae/L5Dr+AmaZQ6J0PqgIIVmASKjRI6y1FnUR1hp
-         VasfWFMBfEIENQPuwXqVaRQq62NAov9h9xB5o8ZHx2aQ4MtGVMNLj7q6muifKG4Fwgx1
-         6aRw3iQtgZnJ5A3lAEyMkJu896xT7qb9akboPmvrvUkdVyCT7LHrR+5qHzQwE6S3dXjg
-         /gWA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0Ey88cpvIueUcaubbxjkreeZ+5Uuircnv9fxlzhX8tBLUeI7rhn/dw3DadtQUW7QdvoTIx4nEGmQHZ8B/N/JucT5Ak8qspfqL98+fyDg=
-X-Gm-Message-State: AOJu0Yz7b2QAJfKSRpghIEgFpfQ57qzUSJfIbAarzuG3l8xeBLDg9P/b
-	DvCxWXjrfT32yM3+aN1kNleyeo3lmf4hQmpJ7SikMakP64yQkJVqLSQGU/zbQqg=
-X-Google-Smtp-Source: AGHT+IERiQrm9SUSeQMdKlpq1AJrD/6cpiXXPM5R7XiNqEGctS72ZsZ7Qn7LPR52HM49FztB2xw/bQ==
-X-Received: by 2002:a05:620a:2949:b0:795:60ba:76a3 with SMTP id af79cd13be357-79560ba7949mr495154685a.12.1718040304159;
-        Mon, 10 Jun 2024 10:25:04 -0700 (PDT)
-Received: from ziepe.ca ([128.77.69.89])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7958e85b6b3sm134283285a.100.2024.06.10.10.25.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 10:25:03 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1sGilR-00EocS-4l;
-	Mon, 10 Jun 2024 14:25:01 -0300
-Date: Mon, 10 Jun 2024 14:25:01 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Zeng, Oak" <oak.zeng@intel.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"Brost, Matthew" <matthew.brost@intel.com>,
-	"Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	"Tian, Kevin" <kevin.tian@intel.com>,
+	Mon, 10 Jun 2024 21:28:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718054898; x=1749590898;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=BhY3NwRliREZRdNNM43bZ3OvIln91I1pxlVbr1nPbP0=;
+  b=Ym4Z+AnKJjYd2Nn3L+2kOA9wKaaA3NzlRj9tAtdVUXs3At55Hb5u6sdd
+   I2aHjLNxCRxILRx47KTkXYSMgUkSVs7NGp9pM4zTbM8ry6lbzkg81MHTx
+   h8/sdpPgmDtM5L4ku35i3JYG7pC6ykNPzmD6qyPRGS8fWD9cDcU8K2/3o
+   2/1dnM7kNwJxgTTiHrhKw13zyMV2+hBBtxw+SpqliuEI0A9gXiCfwKq2Q
+   LqZZAy9N97sVsnkOen4di6loG+FvjMrfwvjVLcSz7FiFfpC0hauBoKzF+
+   KSjOQsaD0VHDBcD0uIZ1acVRIiygC3vz8T0alKB5hIhD9XydhvylMwrPm
+   A==;
+X-CSE-ConnectionGUID: jszx7SL6Shedfb8nIlM7zA==
+X-CSE-MsgGUID: H+c08HFcTeCwCKz8KbSGQQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="37262118"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="37262118"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 14:28:11 -0700
+X-CSE-ConnectionGUID: eUv3vfAtSeaYz9bX1BbdJA==
+X-CSE-MsgGUID: Svj42NBxR9+Im31HyZocDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="70356682"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jun 2024 14:28:10 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 10 Jun 2024 14:28:09 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 10 Jun 2024 14:28:09 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 10 Jun 2024 14:28:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oQ5wiXLJ15WP5CiENgk85WPGtphz7Lx8JjcU66zgA5Y4/2brtokQIQIBEr1Z1F2zDoZfzDetKF4McOn61kl3Ma3QmuBKLVx6hLSwbOoFr6TgylFDg+3p9SJg4W0pDZWuGquhW7xQZErwmNWfmb3wt98NUUAn6IvcFARHvYpjxkQYIDiKSlqaFOyTjyHQJ3kL4Sl2ZCZDXt5Hw1fkn4atcyt5MtVO/qnFb/q3vNK5QxsSU/4ywqMcYRM2ndJ83zWWXj3gPQq+SFHShRDMkwDiWQ+mCcVAzBJq/jyFVMX8oYlgaN3/W0ZPkcGn/qNH6sp9eL+mjRjyFx2q+JGKHFf8fA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BhY3NwRliREZRdNNM43bZ3OvIln91I1pxlVbr1nPbP0=;
+ b=O0evvpLs2XG6aet3YtmvsdPNUOgD3O87I+MxhWst91/N8In3Yr6GYRhQgJAZIpwZV0A2bXjsvi2/7QY1mUW1+BeNJBvh/Bjz2OPsmpGrXEshrI0KyI7oIz5sIQ96eD8DpwvARQo8LePwOjJ3SVD8kHdf7IcD+01nsaN6+IDvDMgdfIM2LAJAynleX7K5nJgncjxiW/Ie6b7pm6b3fJ+VEYAN18PCLK+M+NKEQfkkpkFrK28rXvHs/w/mlY8Iy8UDAblRA/BnLjmedLm6RP7MMgP2xI9+lPEMVs5eKPfokNx9M4ABnaLx3Vn/zC4i/Yljy6VIzthVaT07DWKvmzXSow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH7PR11MB7004.namprd11.prod.outlook.com (2603:10b6:510:20b::6)
+ by MW3PR11MB4569.namprd11.prod.outlook.com (2603:10b6:303:54::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Mon, 10 Jun
+ 2024 21:28:04 +0000
+Received: from PH7PR11MB7004.namprd11.prod.outlook.com
+ ([fe80::8c26:2819:d0f9:1984]) by PH7PR11MB7004.namprd11.prod.outlook.com
+ ([fe80::8c26:2819:d0f9:1984%3]) with mapi id 15.20.7633.036; Mon, 10 Jun 2024
+ 21:28:04 +0000
+From: "Zeng, Oak" <oak.zeng@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>, "Robin
+ Murphy" <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Chaitanya
+ Kulkarni" <chaitanyak@nvidia.com>, "Brost, Matthew"
+	<matthew.brost@intel.com>, "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, Keith Busch
+	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas
+	<yishaih@nvidia.com>, Shameer Kolothum
+	<shameerali.kolothum.thodi@huawei.com>, "Tian, Kevin" <kevin.tian@intel.com>,
 	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"Williams, Dan J" <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>,
-	"Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
-	"Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240610172501.GJ791043@ziepe.ca>
+	=?iso-8859-1?Q?J=E9r=F4me_Glisse?= <jglisse@redhat.com>, Andrew Morton
+	<akpm@linux-foundation.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "iommu@lists.linux.dev"
+	<iommu@lists.linux.dev>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "Bart Van
+ Assche" <bvanassche@acm.org>, Damien Le Moal
+	<damien.lemoal@opensource.wdc.com>, Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>, "Martin K. Petersen"
+	<martin.petersen@oracle.com>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"Williams, Dan J" <dan.j.williams@intel.com>, "jack@suse.com"
+	<jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>, "Bommu, Krishnaiah"
+	<krishnaiah.bommu@intel.com>, "Ghimiray, Himal Prasad"
+	<himal.prasad.ghimiray@intel.com>
+Subject: RE: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Thread-Topic: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
+ steps
+Thread-Index: AQHanOEtbi0VHTnLn0mNwgftYB7xRbGEmFqggAEftYCAO5ykoIAAFS8AgAAFauCAAA0xgIAAMSmg
+Date: Mon, 10 Jun 2024 21:28:04 +0000
+Message-ID: <PH7PR11MB7004DDE9816D92F690A5C0B692C62@PH7PR11MB7004.namprd11.prod.outlook.com>
 References: <cover.1709635535.git.leon@kernel.org>
  <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
  <20240503164239.GB901876@ziepe.ca>
  <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
  <20240610161826.GA4966@unreal>
  <PH7PR11MB7004A071F27B4CF45740B87E92C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <20240610172501.GJ791043@ziepe.ca>
+In-Reply-To: <20240610172501.GJ791043@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR11MB7004:EE_|MW3PR11MB4569:EE_
+x-ms-office365-filtering-correlation-id: 37589a98-37ed-4ea4-5c50-08dc89943694
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|366007|1800799015|7416005|376005|38070700009;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?eI1q3pcT7kUZJHjJhmmYCldx30UZuwN2ap1MYL260M/76wUwvTFvvgIUrl?=
+ =?iso-8859-1?Q?Ck/dGCdUutjIbPxkNiN7AJcTu9Sjp5xW4sOPG3SLvU4JE570alWaBa9dQG?=
+ =?iso-8859-1?Q?og64/k5Lil7XsES3sDQCjwVx2KCX/Fs0QlYHkqVeizvm6n+9OP6m/5PHyI?=
+ =?iso-8859-1?Q?tZhWeDCLAXL56BbjO8874YhxiGO8AyTB0iZmX0oyQgZDica80XlVESyeyk?=
+ =?iso-8859-1?Q?lS2HYDZ3jJK/S7iQF97OM/+mH5m88uPoMTxV4gvhcxIgrcXoTP2a+w5uFf?=
+ =?iso-8859-1?Q?j6/lOMD0vv6HFSyZ+89v5CfJw2CJTAE1vMOQgL+j1jNSzPDivQxxMl5sb3?=
+ =?iso-8859-1?Q?RgOWDgfmTJnTvWSydRD0sRH7e0H9CcAThIKYw/Ixf5XsoMzw7Nu1O/UtmI?=
+ =?iso-8859-1?Q?yL/IWhM3t+5ymt2+jNWuRA0+hvOnfX0VTbrfSTECu3y5dDtvVhfTbwpOo9?=
+ =?iso-8859-1?Q?YHD+zY8fjJV4YLYvQmbBFpDCkA4SaTFeoazSAYv3OSxjI0Q5mp4NCmpUmn?=
+ =?iso-8859-1?Q?lciBYZ+5RrdJavnsLFgIK2roPdTp7gPOs7IXTj8xj68zHxTCU2ydK0EvJq?=
+ =?iso-8859-1?Q?WKgd4XXm3PqFjOYL6tw9wg9n7oyz7KGKoKjJih5HcoSQlEmS0wsfoKzapL?=
+ =?iso-8859-1?Q?n/QzLaM4oLoAGWJcOXTzyqllDDbDpymBLHbrBt87c4Jc/PXenwFl7g3DwV?=
+ =?iso-8859-1?Q?aqXNOpM6FuDPTvvgbHT9f9fIXN+REnB+qSjKbZteFPYfKqiODmdFMadsA+?=
+ =?iso-8859-1?Q?9SXMTRn5iXPUnl8lSPQaWYgNwQBL7nbaCMQoAbNKUMJL7sjaAHqj6bSco6?=
+ =?iso-8859-1?Q?EbiOhDfZnp7jTWExrkfIHjfwOBCdCJDOmx1kpm5Aod/vDeHNPbN3rACpIA?=
+ =?iso-8859-1?Q?w3OezTU/H1XqBgfi1YbAnliGjwkamTcq79SWvTTMCHWMbNe15BnLz8YLhv?=
+ =?iso-8859-1?Q?muicqQkpODJfUs8Lzkl8d+UDqIygAHVFPAT4xF+iFUiixbJsuF++h0fw8T?=
+ =?iso-8859-1?Q?WdLI8jAnMs6icoQRkPBy1jFr1VMGvqAyF6T80dn9INLWo/ilMMzk6o48uP?=
+ =?iso-8859-1?Q?pALbSc2qvzx1BXer0TEFnXY3+JLb69TAZgmzBIa/PaI/mROnqpDNUATIvO?=
+ =?iso-8859-1?Q?ioW1gyWk/EMGI/Ggwu4tIj8ELJKI5zclPiczn06ovmy7WQC1+iMEdAleYQ?=
+ =?iso-8859-1?Q?tSTbABFXuXWyrq70jXXug14vhjvObQIt/WV+U3fXEOVOGDx0fUDniKN8D6?=
+ =?iso-8859-1?Q?+wn7pFpdmUW1Etq6MfaUnkr1Mtf292dVIRY7mRd46ytYTkfjFwH93b8pEA?=
+ =?iso-8859-1?Q?eXZTO/hAlY2ELaLOdKqbKBAkYjunRXoIgQenyD2SMR/mhfVHFOqWuIOgzM?=
+ =?iso-8859-1?Q?banKjHG+d9pR69qxU9SXvAjXRYzd42QNzec7khZDdVkB98IKsf4kA=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7004.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(7416005)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?PjcdyxOnSaSGrq+tbgi8+jJ1RCh76Ixo4uQSOUIgXwEcfdhYH60dvSSSCg?=
+ =?iso-8859-1?Q?uAmayoww6Td8Lm5exyoVwK3Ruimaran6JFjYjUn7oKLfusDHLCEwGoBK8s?=
+ =?iso-8859-1?Q?PNRuV/1HgK4icXJF0CrEKu0yWYya73Ys0uOWSdkxSekmRF0t9Ja7XUKoDd?=
+ =?iso-8859-1?Q?d+g/EDvSFLgHnCWhVtt0AWn1LfnA4nW1vSUGbGqXeScuhEYdD+fWyulsp8?=
+ =?iso-8859-1?Q?ETvgIz4cIqpQUk3+yIPSjsiGS9KnWnmtbU7clz6s8ZvSfpLoMARUjFR3lC?=
+ =?iso-8859-1?Q?SBUvA55voMve+iVIxZLj8hNXdPL/sqALb6b+tCq973wUvlKtVG0MMJR6NF?=
+ =?iso-8859-1?Q?4pdrmXirELGkVnFluKfQ6DiDwo6urHzMxnqLaDJSfPGuqZMHGzYKVipLZS?=
+ =?iso-8859-1?Q?nrVgJ+wV4fMXfzJqnpzjRpahWwLV2lVNk3rUnGnu2yvBWbdPe1NwJJTgET?=
+ =?iso-8859-1?Q?lBmEHw2Zfui34kwQ/goQm4AxXDS4vto9g/SJubDAF5sd/o+9vGtERrWJ3Y?=
+ =?iso-8859-1?Q?vM74li+app7/EV5MzeRZakSBqWDv4nXAAoZbSUm4PIONcQ8BowjC7VPXim?=
+ =?iso-8859-1?Q?YB+1svn3+rbS45fWiKRTOq2LHLnukAprFLdBUHPW4J4UBpQVJEsg7i7LL7?=
+ =?iso-8859-1?Q?rJa1YdFNkfpxK9dFNQh0nwpY4GZF+74Ves4LebKXYo8lmXOR4oIvhU4WUh?=
+ =?iso-8859-1?Q?zVk+VZWGgVbIvWhuIHaFaD/f/L41JO5IiEnP+aSstvTUXaEtFqgriHyntP?=
+ =?iso-8859-1?Q?gRGT2EW/2iWQsfWxlbVCld6+O24XTAr0ZGeuHYehzXkbmgGSzCeFJGLlKT?=
+ =?iso-8859-1?Q?LnI4lY+hnYjA02clZmp/zTgYxMY1Fhbj9teM+c7xCq4e9hx0OxLdo0tX/e?=
+ =?iso-8859-1?Q?4GbGJy0lSaRCOdgS9sgXBiawXX+tev5wPpQnGUbpkO/7cwiYQkSzdYgxWx?=
+ =?iso-8859-1?Q?HuwSlxostrJDpMdBY3qowWlinlI2Fo40pM8eJeHnsBTgFSfEmjcap2cbxa?=
+ =?iso-8859-1?Q?e4yEOVrFmebPoBhLL0VkCFySREI5U8gz/IMAhThgwUgY1/GnJz8B9QtrGP?=
+ =?iso-8859-1?Q?d4Vu7DW0q/AGUdhBsB7HBkChBwL0AcTMcWHZCjprWuF8tCoEWjcI+OwbDR?=
+ =?iso-8859-1?Q?3gDGlWgSlOvrdOXnK/J8/jk5fPkTQEyx+1LqygJgjn6e6PWTIdyMGRCMbx?=
+ =?iso-8859-1?Q?oNdDMpjNcQlzciIZmSeLxMe02ofb0wrUwSh00DYrrwc+iC768FlzGS+z/M?=
+ =?iso-8859-1?Q?aMiok0HMjWQHrm4gX8niIjw+G0g+GGqL6PqUycIutzGCa7G9Pdy+Psbox3?=
+ =?iso-8859-1?Q?0w81vALl/0OP4H2MnGqDE8VhVpS/B07r93nzQ5n7ki8ITkANpUimJwwL6Q?=
+ =?iso-8859-1?Q?B7fRkam9NVtLRhZqZ4gsGko2neVZ6Jk03tc1xpCQ0Mk4uE+un8uGZA/ae5?=
+ =?iso-8859-1?Q?w9Uvzn+pxRM2B7uRyzgjCS81WODkbSnnNb8ijGcEmK6oL/TLVi4XWgqsJe?=
+ =?iso-8859-1?Q?NCEPFcrFV6JAjBDKh752M1yAUYW+4uIXpzTdKAcJkZAVPaeeZpZDP4Tkln?=
+ =?iso-8859-1?Q?Nqcx+KGCqwEmjSvP7zQvTZXsfemM3QvsOruR/43e0SXJP8OwTdBYVEJia4?=
+ =?iso-8859-1?Q?I1psmDW/GdYNw=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH7PR11MB7004A071F27B4CF45740B87E92C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7004.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37589a98-37ed-4ea4-5c50-08dc89943694
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2024 21:28:04.3358
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rQ8N4799OngImkQI47K7erSnlVSMJVBu4avWVxd5FwDOMguigj2T6uY1xo4cGeVG11r09CRETuGb9fisGr0sYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4569
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240610_102506_370418_7F461E7B 
-X-CRM114-Status: GOOD (  12.70  )
+X-CRM114-CacheID: sfid-20240610_142818_001803_4ACF615C 
+X-CRM114-Status: GOOD (  20.61  )
 X-Mailman-Approved-At: Mon, 10 Jun 2024 22:22:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -132,15 +226,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 10, 2024 at 04:40:19PM +0000, Zeng, Oak wrote:
-> Thanks Leon and Yanjun for the reply!
-> 
-> Based on the reply, we will continue use the current version for
-> test (as it is tested for vfio and rdma). We will switch to v1 once
-> it is fully tested/reviewed.
+Hi Jason, Leon,
 
-I'm glad you are finding it useful, one of my interests with this work
-is to improve all the HMM users.
+I was able to fix the issue from my side. Things work fine now. I got two q=
+uestions though:
 
-Jason
+1) The value returned from dma_link_range function is not contiguous, see b=
+elow print. The "linked pa" is the function return.
+I think dma_map_sgtable API would return some contiguous dma address. Is th=
+e dma-map_sgtable api is more efficient regarding the iommu page table? i.e=
+., try to use bigger page size, such as use 2M page size when it is possibl=
+e. With your new API, does it also have such consideration? I vaguely remem=
+bered Jason mentioned such thing, but my print below doesn't look like so. =
+Maybe I need to test bigger range (only 16 pages range in the test of below=
+ printing). Comment?
+
+[17584.665126] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
+a =3D 18ef3f000
+[17584.665146] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
+a =3D 190d00000
+[17584.665150] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
+a =3D 190024000
+[17584.665153] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
+a =3D 178e89000
+
+2) in the comment of dma_link_range function, it is said: " @dma_offset nee=
+ds to be advanced by the caller with the size of previous page that was lin=
+ked + DMA address returned for the previous page".
+Is this description correct? I don't understand the part "+ DMA address ret=
+urned for the previous page ".
+In my codes, let's say I call this function to link 10 pages, the first dma=
+_offset is 0, second is 4k, third 8k. This worked for me. I didn't add the =
+previously returned dma address.
+Maybe I need more test. But any comment?
+
+Thanks,
+Oak
+
+> -----Original Message-----
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> Sent: Monday, June 10, 2024 1:25 PM
+> To: Zeng, Oak <oak.zeng@intel.com>
+> Cc: Leon Romanovsky <leon@kernel.org>; Christoph Hellwig <hch@lst.de>;
+> Robin Murphy <robin.murphy@arm.com>; Marek Szyprowski
+> <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
+> Deacon <will@kernel.org>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
+> Brost, Matthew <matthew.brost@intel.com>; Hellstrom, Thomas
+> <thomas.hellstrom@intel.com>; Jonathan Corbet <corbet@lwn.net>; Jens
+> Axboe <axboe@kernel.dk>; Keith Busch <kbusch@kernel.org>; Sagi
+> Grimberg <sagi@grimberg.me>; Yishai Hadas <yishaih@nvidia.com>;
+> Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>; Tian, Kevin
+> <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
+> J=E9r=F4me Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
+> foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
+> iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
+> kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
+> <bvanassche@acm.org>; Damien Le Moal
+> <damien.lemoal@opensource.wdc.com>; Amir Goldstein
+> <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
+> <martin.petersen@oracle.com>; daniel@iogearbox.net; Williams, Dan J
+> <dan.j.williams@intel.com>; jack@suse.com; Zhu Yanjun
+> <zyjzyj2000@gmail.com>; Bommu, Krishnaiah
+> <krishnaiah.bommu@intel.com>; Ghimiray, Himal Prasad
+> <himal.prasad.ghimiray@intel.com>
+> Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to
+> two steps
+>=20
+> On Mon, Jun 10, 2024 at 04:40:19PM +0000, Zeng, Oak wrote:
+> > Thanks Leon and Yanjun for the reply!
+> >
+> > Based on the reply, we will continue use the current version for
+> > test (as it is tested for vfio and rdma). We will switch to v1 once
+> > it is fully tested/reviewed.
+>=20
+> I'm glad you are finding it useful, one of my interests with this work
+> is to improve all the HMM users.
+>=20
+> Jason
 
