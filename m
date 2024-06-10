@@ -4,121 +4,183 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96CDEC27C55
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 11:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4C03C27C55
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 11:27:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=H5PrZC3wARxzuDSS35YKymK2QxWjB5gAOd2JPIJ8IIs=; b=SpEn5H2+yVZkY96+pItj6imIb8
-	rSYoO4FrLHwn4pNAXFEi2/NIsGlPZH8/1qdS4Th9c3weB/PIHcM1KlrucgZs3JTrr97/hJP7ZnNqI
-	SiCjNZ3NKP4pAmTChXQdSZ9x+XsPjN7uYxEgBNBfoYobEbMwZfPzhpiRf/aHKiXpJSaECZRvYoR83
-	mj6vuQaQeaEPaGcPUdQ6TVH6W/qVu8kfGlsoPQICLnCocSD44UOuAw9i89BwZIytM7lV35jMUeIXO
-	84x+KgPHQ28rZIknLhHzj+c8BHSm30K6GTsmTr7jn4mVkBFnrx+mJ22Z2g8437usYtht4GaGUYrF9
-	8FuUCIUg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JVQ1Iux7PDvaudru7qA3HwN9NtP1SIhjJ9DXzhts37o=; b=4d0WucZWJId1Ia2Oj5DQOUpRmE
+	OKEvijRbH8D/Z9ZGCwUp7fd0j/1Bpm58g74aGwRnxjhpgr3FUIokKgrSB7LS2/dtRAUc6gzKMX0a2
+	f7VNcwXGtG6zP4EfN08v0ysXolZKSB5TDhOfkJMcm65gmRGLx+D8PZHKXPVHmtpRvM1Fi2QprfT4B
+	7goD5btZtV8WVj4bjJP6jrYJrf3+vfkcfdjhmhmVzipvC22K43SsSTyOvbqbP3EZP6/8MbUX1oLqE
+	lbdIkodAAz+16Mwbn82Xsm7AI++1cFCJO1A4Cu4m4bhqmxFpfoBCK2YGMMoZ4aCUFlwrw6q2B1/Ft
+	xQhwQBpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGdAN-00000004o7o-0UnH;
-	Mon, 10 Jun 2024 11:26:23 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1sGdBZ-00000004oOa-17Ra;
+	Mon, 10 Jun 2024 11:27:37 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGdAI-00000004o6z-45k0
+	id 1sGdBV-00000004oLx-2ww7
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jun 2024 11:26:21 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240610112610epoutp04743b080367193cf518b882adf9862364~XoPg6osLT0835608356epoutp04F
-	for <linux-nvme@lists.infradead.org>; Mon, 10 Jun 2024 11:26:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240610112610epoutp04743b080367193cf518b882adf9862364~XoPg6osLT0835608356epoutp04F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1718018770;
-	bh=H5PrZC3wARxzuDSS35YKymK2QxWjB5gAOd2JPIJ8IIs=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=e+4T9GWeszLRABgHfvTID+VNQIVrLFPoA9dKS+RwWVsr/J4DVrpaEOrp4jegl5l4B
-	 /pyXfDSejEANhTjjXBDQEnkx8lWaN4u8zZkrdp3WJFvIUw+1UP6PV90X1ILLDgDeC8
-	 tXZOJX2IYU+ADCHqN9TYyxWDb1Pb4+clecuziDBY=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240610112610epcas5p28caefce5679b80e6d39304920f68c5b2~XoPggFFwi2826128261epcas5p2H;
-	Mon, 10 Jun 2024 11:26:10 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4VyTyS5LZNz4x9Q7; Mon, 10 Jun
-	2024 11:26:08 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	93.C1.19174.0D2E6666; Mon, 10 Jun 2024 20:26:08 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240610111927epcas5p1bb534d0a093a9d1243a78a6a93065df7~XoJphKCI72514725147epcas5p1A;
-	Mon, 10 Jun 2024 11:19:27 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240610111927epsmtrp103c1ea7595d63bd46982c4db7082296c~XoJpghO3o1035010350epsmtrp1u;
-	Mon, 10 Jun 2024 11:19:27 +0000 (GMT)
-X-AuditID: b6c32a50-87fff70000004ae6-e3-6666e2d0d7d3
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	08.46.18846.F31E6666; Mon, 10 Jun 2024 20:19:27 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240610111926epsmtip28a89bb83cdd1c4828647a6575ce84c2f~XoJoTr_aK0849908499epsmtip2N;
-	Mon, 10 Jun 2024 11:19:26 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, Anuj Gupta
-	<anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>
-Subject: [PATCH v3] block: unmap and free user mapped integrity via
- submitter
-Date: Mon, 10 Jun 2024 16:41:44 +0530
-Message-Id: <20240610111144.14647-1-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	Mon, 10 Jun 2024 11:27:35 +0000
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45A4BmXM016372;
+	Mon, 10 Jun 2024 11:27:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to
+	:cc:subject:from:in-reply-to:message-id:references:date
+	:content-type:mime-version; s=corp-2023-11-20; bh=JVQ1Iux7PDvaud
+	ru7qA3HwN9NtP1SIhjJ9DXzhts37o=; b=BZQ5iGw7KSNRWVCvLvTqZNLRvIrJcJ
+	Q8ckR4SSVJityA+mdxeWBACRntyEVzS2ZhWxidD0N/5nl0cg1rmQkrlI4pUZaq2e
+	/C/QKsBefkNvMjLudhWeS63VMeNOfQyZkE7KbqABy8PmlENc19e7ny4dkmZSK2rn
+	W81JsCdS4SKfaMHzce/iF5eu6fdco+SrP6zKMSVnbQn5dedz7GTR7rVFP8whG6/J
+	61qKGGSw+xoZQNqagY40lgP9zOrsG8NF4jhisngB9fY/IcTVVDRuRecAExEpkJya
+	+fx0lk98YrnWN2v492tSzaLHIO9GRPP5Yha2XLlT8Pd7tOURoVlrxh7g==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ymhaj2ar7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 Jun 2024 11:27:22 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45A9xOnF014235;
+	Mon, 10 Jun 2024 11:27:21 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3yncescgwc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 Jun 2024 11:27:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c+YJFsytC43iICk8F479DOfwQoPWLGHU4EtYKi5vn729twpshN+cI30qhtsSgi4jm6PwU3Kyaw6W5VFupzqkYE63rJQCHtCm+eq5OlbppfNZUPLg4xHjZ0H0YdiMYNh4cEUQKLmdVsm02cR/5dQoisry203qfLkDnOzLaatX+jmFXWerozbUzyHosp2qn1lR7GIPiyiGDHatsYtzJF5PSh5fkUlPnEoa3XvSF/yrLNRwDDp7ObzMELN6tYv8LT6T7F89DlP+1QWuawCzccugvFWWOMkGMN/6HN1/AZHkPCU2Ri3oRMrRkc8JwybgFnH7MhwqxaNkRuFLdvR3EH1I3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JVQ1Iux7PDvaudru7qA3HwN9NtP1SIhjJ9DXzhts37o=;
+ b=K4u6sB2rLqXfaNGlmPwj9wiZddQETlKeu+/s6yonBFetfhQETW6aKRp41sxh3BLZJT2p6maQsfdf/72Mi7Hx8dVwI6cUDxoeXDjlmQwCRTizvcZkHJOY7aw+5E+gyp/+W4Vb5TY1L/QjTMjlLrl0+sT+zFZAqHltoK+iyYwrBSwNGxOy6yEm5eOdiyrsaKpnMI3Jngrp8uXRbU6pnSluheRDR3dDaSQnWeRjaBIvrs7hsznOEMmsLkdDCRtPmKCGCvfkkc0oQ7FyuAn6+1yra0Z8o4E8YLtyTaOIkQ1Xfml85NqPGkDX9ZUDLIr0AIUqOgnkItedROHYVhTgUkrrzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JVQ1Iux7PDvaudru7qA3HwN9NtP1SIhjJ9DXzhts37o=;
+ b=MMfLVC3z84msG9lAYB+pikGR3y9W5ACEDlL7oDLzAB2UAAkVlQHoY3gtc7DCdNW3j6xUx1HbK99YT9CIxUF3kYdnrCMwLahSRCgIc1p0yAyMYQxz/iEeTO7hkV+r0JgZCtK4x6YsRdVeJGEpHwEy3KRIr+wMY86U5D9GwntO2bw=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by SN7PR10MB7103.namprd10.prod.outlook.com (2603:10b6:806:32b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Mon, 10 Jun
+ 2024 11:27:19 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::5c74:6a24:843e:e8f7]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::5c74:6a24:843e:e8f7%4]) with mapi id 15.20.7633.036; Mon, 10 Jun 2024
+ 11:27:19 +0000
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+        axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+        javier.gonz@samsung.com, bvanassche@acm.org, gost.dev@samsung.com,
+        Hui
+ Qi <hui81.qi@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v2] nvme: enable FDP support
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <5e686875-21de-869d-4b19-bdd9e272d690@samsung.com> (Kanchan
+	Joshi's message of "Mon, 10 Jun 2024 16:08:19 +0530")
+Organization: Oracle Corporation
+Message-ID: <yq1r0d53vi4.fsf@ca-mkp.ca.oracle.com>
+References: <CGME20240528151007epcas5p32583675f647553923e5ba4987e9bc6ed@epcas5p3.samsung.com>
+	<20240528150233.55562-1-joshi.k@samsung.com>
+	<ZmMj3d1Rvv-5E6Ey@kbusch-mbp.dhcp.thefacebook.com>
+	<20240608051740.GA24010@lst.de>
+	<5e686875-21de-869d-4b19-bdd9e272d690@samsung.com>
+Date: Mon, 10 Jun 2024 07:27:16 -0400
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR04CA0012.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::17) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAJsWRmVeSWpSXmKPExsWy7bCmuu6FR2lpBiuWqVg0TfjLbLH6bj+b
-	xcrVR5ksjv5/y2Yx6dA1Rou9t7Qt5i97ym6x/Pg/JgcOj8tnSz02repk89i8pN5j980GNo+P
-	T2+xePRtWcXo8XmTXAB7VLZNRmpiSmqRQmpecn5KZl66rZJ3cLxzvKmZgaGuoaWFuZJCXmJu
-	qq2Si0+ArltmDtBJSgpliTmlQKGAxOJiJX07m6L80pJUhYz84hJbpdSClJwCkwK94sTc4tK8
-	dL281BIrQwMDI1OgwoTsjCcPTzAV3FKt2PX9JFMD41n5LkZODgkBE4nrPz8zdzFycQgJ7GGU
-	+LZwEiuE84lR4uOmaywgVWBO1xltmI6b7fsZIYp2Mkr8Pv6KEaLoM6PE/nW8IDabgLrEkeet
-	YHERgQCJWaevgDUwC3QySvzqugeWEBbwl/g87QIziM0ioCrxbv8NVhCbV8BSYvnvCUwQ2+Ql
-	Zl76zg4RF5Q4OfMJ2EXMQPHmrbPB7pYQuMUusefDVTaIBheJmddfsEPYwhKvjm+BsqUkXva3
-	QdnpEj8uP4VaUCDRfGwfI4RtL9F6qh9oKAfQAk2J9bv0IcKyElNPrWOC2Msn0fv7CVQrr8SO
-	eTC2kkT7yjlQtoTE3nMNULaHxIPFp5ggARQr0fH3GtMERvlZSN6ZheSdWQibFzAyr2KUSi0o
-	zk1PTTYtMNTNSy2Hx2xyfu4mRnDS1ArYwbh6w1+9Q4xMHIyHGCU4mJVEeIUyktOEeFMSK6tS
-	i/Lji0pzUosPMZoCA3kis5Rocj4wbeeVxBuaWBqYmJmZmVgamxkqifO+bp2bIiSQnliSmp2a
-	WpBaBNPHxMEp1cCU+vtjwYO0k5t/tofHqycq7KksL/6aGtiR7y65iid20fqy32cPK7mwvAhp
-	n1zn2Mp/YqrB8Tu3BRcGHAznvd6SHrIi+23jpFDRoJTTOzqUxT9xreZ9cMztbEW0uKDZihzO
-	Wrbf91ctj+Z73BXN9eBR/JMrLeEKCtc0048c3LOZUX97/FmZY1pHvsRf3HW8N/VwvB7L/wKf
-	TQKSHtm73i9fo+EuKLL/8Rwl5cgtZ1YUHv9ou8DyyOWbj8QjhLsrQ5vE5A8/M/RfoPW8LHjB
-	UaNPW29qqT7Iu6+zXfSqw/klJSIKqgtPuknsz/nocINt84z3oovN/1/se3ug4OXKCM0e9jeL
-	oh8bLalcffPpizVsSizFGYmGWsxFxYkAScRBaiMEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOLMWRmVeSWpSXmKPExsWy7bCSvK79w7Q0g/NntS2aJvxltlh9t5/N
-	YuXqo0wWR/+/ZbOYdOgao8XeW9oW85c9ZbdYfvwfkwOHx+WzpR6bVnWyeWxeUu+x+2YDm8fH
-	p7dYPPq2rGL0+LxJLoA9issmJTUnsyy1SN8ugSvjycMTTAW3VCt2fT/J1MB4Vr6LkZNDQsBE
-	4mb7fsYuRi4OIYHtjBJ32r+zQyQkJE69XMYIYQtLrPz3nB2i6COjxO4N3WwgCTYBdYkjz1uB
-	ijg4RARCJHqOmIDUMAv0MkocebGfBaRGWMBX4tzif2CDWARUJd7tv8EKYvMKWEos/z2BCWKB
-	vMTMSxCLeQUEJU7OfALWywwUb946m3kCI98sJKlZSFILGJlWMYqmFhTnpucmFxjqFSfmFpfm
-	pesl5+duYgSHrVbQDsZl6//qHWJk4mA8xCjBwawkwiuUkZwmxJuSWFmVWpQfX1Sak1p8iFGa
-	g0VJnFc5pzNFSCA9sSQ1OzW1ILUIJsvEwSnVwBRknR/UuUXPQPw6txX7s4qcBSsvvfmWoPim
-	5BF3c0atqHrPuqsbP1m3nI75UHfiFturpvdTDht9nPZyCvOys5/rpGZ/7eZvEBfxusd88M35
-	6oiW+cri3zndOW04bL/rWx8zE3XnPGDeI70mm2tu/axnutcT2rzaj049MvVg+vvfbx+eWmh+
-	9WPRzMbjesmn15w3POH1hNXIqNVy8xIrlwq/K8e3L3Z+tsGsd+7zeu0w1rxvvc9TPZwS8xVX
-	HgpfonE651l0pPNGRnup79Lr00K3Z8q3vK07/WdjMtdOfqvC0+c31d1itgxrsDzCNCu+ZrPS
-	yXpGEWOrkpUbvnwRfeGqxe8mcPyGziqeT9sMUpVYijMSDbWYi4oTAUEb6QTKAgAA
-X-CMS-MailID: 20240610111927epcas5p1bb534d0a093a9d1243a78a6a93065df7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240610111927epcas5p1bb534d0a093a9d1243a78a6a93065df7
-References: <CGME20240610111927epcas5p1bb534d0a093a9d1243a78a6a93065df7@epcas5p1.samsung.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|SN7PR10MB7103:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7bfade27-e3dd-4a05-81d1-08dc894049e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|7416005|366007|1800799015;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UnUkx/06P7lrTiZumytuliX25Hmb29MBzAPQFP039Hg75UhXbG4mjLR6D1RO?=
+ =?us-ascii?Q?MOQt/f2c87QgU2PSrawUgjHYeHCAlCPDO+NZuhGQdN0GuDwHCBOaGpd+BO5/?=
+ =?us-ascii?Q?IyBHispwfHB4o/TsVa5uDXygdLdNpvfwSKKfV6m/wDahN61lBpXXfXIW4Ybv?=
+ =?us-ascii?Q?0SN6tUZ/2hd16bosfadCY2NtXuC8ES3ieOmw4ArmCilbhSaJsAMJRtn1Nj5E?=
+ =?us-ascii?Q?pkYvytYmd9n+yZlIkH7ubTEDfAq6tKAQ2w78Un8L9YKKQXtyEKbvYILQb213?=
+ =?us-ascii?Q?NOeCE7fDWFfUQYjRJv8ig9fWMiJ2X96ovFdo/43et7tRRNz2LXJgvvz8cN20?=
+ =?us-ascii?Q?dL5VMkr4tEMaJBKErzJEIqrkfNOKrsCdLEQwBAVXvw13aB5pcy5o6VRdFU6z?=
+ =?us-ascii?Q?bK0/hYK56mp0hJR6mGLXO2DqV0NUWr1LVl+sdm11E+XGKKm7FwijxSm2hWEU?=
+ =?us-ascii?Q?KzUSl1Nmtz2u0M3ga/yoK4sNx+ZlVUABMCis7fpn9zjlrFjgZCYnN5Un11kY?=
+ =?us-ascii?Q?M2ej33070oBXE+QdCwOeKuqqnJW2IM83fE2QRoIrXL7kp5cdpbw865G0U3nl?=
+ =?us-ascii?Q?WmAFmoofsKdFvHZ5dyE3LvFshzM+RzhtP4dsmIZv9Pyj5qwte8jA3J63K9uf?=
+ =?us-ascii?Q?NN2a6XHvzi5cyvFTTm0afz1cIa6nRALVtegLADsIrZHb5SSo0LXJmzIWJzMr?=
+ =?us-ascii?Q?mFL+cCO6k0mj6PiFyDcBOl74vSD+q48SJphQeSU9ih7VTQNQPNPiU+Qqf1xG?=
+ =?us-ascii?Q?VdqlP7FIg7bmbNnJYh3/xOKPJgSqQQcVPI4GBG3Oy/xcJoahtXEN9m8vAATT?=
+ =?us-ascii?Q?quiR2lPbL7+Ukn/g+v6OaCUU8ew3QAV5MFKccmhemZ+jvyJthhfk/V2ZFlGQ?=
+ =?us-ascii?Q?Kohc3zyz7XiQkvZd9lcaT5cOlWV4dEZs/ggGwP67gxp/fIcDL5YHi9dnGBE+?=
+ =?us-ascii?Q?UTHej0d82XzRfe/aqPNwLuXESF90vW2ttmYN/3KkBMkK+BROdccjm19YPDcM?=
+ =?us-ascii?Q?gAKI5XdvETqqPgyEkmqrfupR8KAOMfOgeD83V9J0bksiHt8fsv+5dZ5fLlPx?=
+ =?us-ascii?Q?jnc4E8IGsAJ9b2uPxpxCSPDZXC0o5t2j9dgmuSn0JqzIRy4Td23RlAyRZdxz?=
+ =?us-ascii?Q?836f1cUgNalqCo4E2NL3d6HQqTbl2HvmMzHCxvXDbJoDJNnoiqZdBcb7EeXH?=
+ =?us-ascii?Q?v9OeUhFUsBx+JC53SuYKjBMtr37YYslkQORCM7LM07qQIFSJDjtvJoD/7bBQ?=
+ =?us-ascii?Q?5+M2fn1MXBSRw8UOndqSgupEQNJm6DQqyMlB4/nzA79vzFSG29J4anOKpDho?=
+ =?us-ascii?Q?lpQjjqe4OIXtqFfCs4XhsjUq?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(366007)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BqgqfIS8G89JNvOMlKEuv4TWBSamXKfUVOzLXi7puL7R6qWRBgHv8gBeGd8m?=
+ =?us-ascii?Q?OVDqK5Q0tGb6iHNwKKBeYg/4tcophXFf7Ub77878fVacH/hALkUzpMK52Z++?=
+ =?us-ascii?Q?CxXGogTUt3GQc0X3DaZgUhGK90p22iILdZpHB1UJqCmkcR4Y4r3KjlfSZ6wJ?=
+ =?us-ascii?Q?gNaiKDOh9G4hZHjEKxcEQwAYaxvdnLdDu0u6l0trVuUdQbJJ9hgPue+KJKAL?=
+ =?us-ascii?Q?ACwbNQUFfl4CCzoUy1TtbkSvlYHPQ9YDcl417TFJbOWZmhiK5KoucbD8EXFv?=
+ =?us-ascii?Q?RsfSRuctwo8x9SxAM7T0cG87ACC3xv9hsuIqZLvyc2NwYl2oYdTpvfzFMawJ?=
+ =?us-ascii?Q?CWgFulrwTQvotB6JUvDMLKU1488raBYaK9HFhUmplw4W8GG7DgSs8Elnt0da?=
+ =?us-ascii?Q?/+6/xSKcN/BwVy+qrY5zsyOCBTCde9Msr0zghLNwqBgPdWAo+Ah949FJHrch?=
+ =?us-ascii?Q?WOyBQmqnpHJ6V0T+T78ycznb6OgWXkox9fVqAE+i5k/97N8GSHwf89JCUlkr?=
+ =?us-ascii?Q?JvVKxjgcHYdizau4USrjb4mCN2t75LSW4zGGET300GPvgyNhOBgWe1Q6gBrB?=
+ =?us-ascii?Q?7dM5170bqJOJFo/zEFbtaatrwx1YrWkhviphXpfvC1a4nFFjIgniuxM7txAy?=
+ =?us-ascii?Q?LSMlQBTV5WcQZWFSKiSqGjTxegF90dtjdEQDg51YboR76MDA0GWgaEZK9JaE?=
+ =?us-ascii?Q?3IR8ZkEhxKEdwgk1E3t3Y5xhplF8+Rl4WHrlry8tIrJDsEX4sSAmAUiC1Bc9?=
+ =?us-ascii?Q?UiMAJpuEtyVhyEVcx4IIB+CLIjoXkvQswNUZnI0YdZ6dY8TiqOx7lcfvWSqD?=
+ =?us-ascii?Q?DgQlDZCIrPMaLStmpTnuV2/gxJWapQNYb2ABzQIukl354N/BopAXAey+w6F6?=
+ =?us-ascii?Q?4FlX7AlpLlFQE69m8PKUUWwrXHfkOVuaabeXXdRWHfOe3C7iuyKGtUOCgHDJ?=
+ =?us-ascii?Q?QhN5cDxf9agrz2RivWVW0CT3NFBkcCWpRBMUsv0vEfID6T3OybkoPP6ZyfqI?=
+ =?us-ascii?Q?7C7j1KC4LljOwdgU46gEKKFwas9wkJgN5tGuvVM3+ROwLVDkPFDy+PUMa/gX?=
+ =?us-ascii?Q?H8RCwBamTSspL+joPyEQY1KhX9Ajy2BpE2yCcNvCaqjQmZyTFjnkeoKnHLc+?=
+ =?us-ascii?Q?+VH4krtx98YrtZWgSpPP6waIzZIGyMZ2YLirsA2Qj6rd/vaGttXqF57rynNc?=
+ =?us-ascii?Q?hNPq1HXL7lUw9fczyO4Im6PKdKqOaQ6fHpBbLl7ehNZXd+PWKVQ28fC9drVr?=
+ =?us-ascii?Q?4zWXPdhOwqSlZkJGKkafN/BjHLatW59Y7SJlG4H6+RPY8SifQCazPLC8naWA?=
+ =?us-ascii?Q?TSwqYFLr04/aQ1lmhBlim0Cjnc6DqbUNYwEE0N6vV1yS7gzeay9TAovQyuwr?=
+ =?us-ascii?Q?csxW+6RJ5tbyEiaeeZEfxqDuI8iLlcSs1ivBj3drYfliwxVmGpgS1aLLajEA?=
+ =?us-ascii?Q?e1zw3t+tR2IOt1scNmFJMJUgQtwxk3lfhDNlOcHy3Gkz8EmDkXlgXR9PxWQK?=
+ =?us-ascii?Q?QATk14+OgNT3ia1nIJjLb6wU3lLXCxT9ipESG7Z8KEkSUpTQwOCxjNNNh+v1?=
+ =?us-ascii?Q?Y0i5qz6R/HrsPm41kZi5T//lstQ2JglRzOE4W9OfIm1eUI8LV1a97y2Pe/Lj?=
+ =?us-ascii?Q?UQ=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Nh8zDxRRmNZ2UoAVMTBd5Mk0nKsWNRZRQWW4SygtHlG0gVW5BEn2omxOW7aLaDipeyK0tmxpcvu2EbpWhhFHdfCzi/7GXO6/YlHEcJtrltQjEn6Z/yVP6KpO755tiUCihX15eMuelrFFBMpp29LdR3ephrV5n+DPuzeT9v67xneQrBnT2ffZuD6YdHUHQNqPVIHfEbchgKgzxaJYHBXh8oZQcQIBWAMgDAf0z/9Lsbuw68hcnEsF9vjT98QiwzYNy3m3Kqup2QI33eurUK8I/e7iu1GN26ZG3bR1x/JoAbLKZr0qty6j4WF2FhzBX7iwkldjW6QSiZSh6WVDKp7h2VIU0tK9Zul99NB4Rui0IwkAM/Ivo5x3RfI4+hHdd4y7PWBIrmVAABukVv3i7HoWcFl/mF13CaqQOUQDXAtDeBfucURhlyjqMUiuyVszpcgrwN6o5Ecd6y0GnJYvUyMfiRsto9RG62oQgWwXeV+5dcfBoSJPAHsEBlOCkTAqmvhniXHb5sWJraug2y+XG0rpsLItiHJMeSiGdWmqwVwsMQv/zj/msTtnI+RMVqyz9tSi37YcwZL54f7Ofqbh5K1vmIiXldz6Utg4YCkTVH7/CIM=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7bfade27-e3dd-4a05-81d1-08dc894049e3
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2024 11:27:19.1256
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gtBm5FQv4ZUB3jdOsjYIPkIsBfxWQe7TBz3MJQJnCMPs6QWcs3BzYWP93OFHVJdiV7lE2ZBCZCMxcFibtFvWJ6P5vydzyKZqvV5MswsLAGI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB7103
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-10_02,2024-06-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ mlxlogscore=630 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2406100086
+X-Proofpoint-GUID: MYl3pVmTJb9XembMVtHQ9FSN_PB0hUUl
+X-Proofpoint-ORIG-GUID: MYl3pVmTJb9XembMVtHQ9FSN_PB0hUUl
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240610_042619_784422_C9D9AC09 
-X-CRM114-Status: GOOD (  20.64  )
+X-CRM114-CacheID: sfid-20240610_042733_783532_D68BC553 
+X-CRM114-Status: GOOD (  10.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,142 +195,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The user mapped intergity is copied back and unpinned by
-bio_integrity_free which is a low-level routine. Do it via the submitter
-rather than doing it in the low-level block layer code, to split the
-submitter side from the consumer side of the bio.
 
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
- block/bio-integrity.c     | 26 ++++++++++++++++++++++++--
- drivers/nvme/host/ioctl.c | 15 +++++++++++----
- include/linux/bio.h       |  4 ++++
- 3 files changed, 39 insertions(+), 6 deletions(-)
+Hi Kanchan!
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 2e3e8e04961e..8b528e12136f 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -144,16 +144,38 @@ void bio_integrity_free(struct bio *bio)
- 	struct bio_integrity_payload *bip = bio_integrity(bio);
- 	struct bio_set *bs = bio->bi_pool;
- 
-+	if (bip->bip_flags & BIP_INTEGRITY_USER)
-+		return;
- 	if (bip->bip_flags & BIP_BLOCK_INTEGRITY)
- 		kfree(bvec_virt(bip->bip_vec));
--	else if (bip->bip_flags & BIP_INTEGRITY_USER)
--		bio_integrity_unmap_user(bip);
- 
- 	__bio_integrity_free(bs, bip);
- 	bio->bi_integrity = NULL;
- 	bio->bi_opf &= ~REQ_INTEGRITY;
- }
- 
-+/**
-+ * bio_integrity_unmap_free_user - Unmap and free bio user integrity payload
-+ * @bio:	bio containing bip to be unmapped and freed
-+ *
-+ * Description: Used to unmap and free the user mapped integrity portion of a
-+ * bio. Submitter attaching the user integrity buffer is responsible for
-+ * unmapping and freeing it during completion.
-+ */
-+void bio_integrity_unmap_free_user(struct bio *bio)
-+{
-+	struct bio_integrity_payload *bip = bio_integrity(bio);
-+	struct bio_set *bs = bio->bi_pool;
-+
-+	if (WARN_ON_ONCE(!(bip->bip_flags & BIP_INTEGRITY_USER)))
-+		return;
-+	bio_integrity_unmap_user(bip);
-+	__bio_integrity_free(bs, bip);
-+	bio->bi_integrity = NULL;
-+	bio->bi_opf &= ~REQ_INTEGRITY;
-+}
-+EXPORT_SYMBOL(bio_integrity_unmap_free_user);
-+
- /**
-  * bio_integrity_add_page - Attach integrity metadata
-  * @bio:	bio to update
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 499a8bb7cac7..2dff5933cae9 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -111,6 +111,13 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
- 	return req;
- }
- 
-+static void nvme_unmap_bio(struct bio *bio)
-+{
-+	if (bio_integrity(bio))
-+		bio_integrity_unmap_free_user(bio);
-+	blk_rq_unmap_user(bio);
-+}
-+
- static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
- 		u32 meta_seed, struct io_uring_cmd *ioucmd, unsigned int flags)
-@@ -157,7 +164,7 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 
- out_unmap:
- 	if (bio)
--		blk_rq_unmap_user(bio);
-+		nvme_unmap_bio(bio);
- out:
- 	blk_mq_free_request(req);
- 	return ret;
-@@ -195,7 +202,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	if (result)
- 		*result = le64_to_cpu(nvme_req(req)->result.u64);
- 	if (bio)
--		blk_rq_unmap_user(bio);
-+		nvme_unmap_bio(bio);
- 	blk_mq_free_request(req);
- 
- 	if (effects)
-@@ -406,7 +413,7 @@ static void nvme_uring_task_cb(struct io_uring_cmd *ioucmd,
- 	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
- 
- 	if (pdu->bio)
--		blk_rq_unmap_user(pdu->bio);
-+		nvme_unmap_bio(pdu->bio);
- 	io_uring_cmd_done(ioucmd, pdu->status, pdu->result, issue_flags);
- }
- 
-@@ -432,7 +439,7 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
- 	 */
- 	if (blk_rq_is_poll(req)) {
- 		if (pdu->bio)
--			blk_rq_unmap_user(pdu->bio);
-+			nvme_unmap_bio(pdu->bio);
- 		io_uring_cmd_iopoll_done(ioucmd, pdu->result, pdu->status);
- 	} else {
- 		io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_cb);
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index d5379548d684..818e93612947 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -731,6 +731,7 @@ static inline bool bioset_initialized(struct bio_set *bs)
- 		bip_for_each_vec(_bvl, _bio->bi_integrity, _iter)
- 
- int bio_integrity_map_user(struct bio *bio, void __user *ubuf, ssize_t len, u32 seed);
-+void bio_integrity_unmap_free_user(struct bio *bio);
- extern struct bio_integrity_payload *bio_integrity_alloc(struct bio *, gfp_t, unsigned int);
- extern int bio_integrity_add_page(struct bio *, struct page *, unsigned int, unsigned int);
- extern bool bio_integrity_prep(struct bio *);
-@@ -807,6 +808,9 @@ static inline int bio_integrity_map_user(struct bio *bio, void __user *ubuf,
- {
- 	return -EINVAL;
- }
-+static inline void bio_integrity_unmap_free_user(struct bio *bio)
-+{
-+}
- 
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
- 
+> So current plumbing is nearly identical and as simple as SCSI.
+
+I don't have a problem with your implementation, however...
+
+> And TP 4146 author list shows 10 companies. Perhaps good enough for 
+> diverse opinions on how to go about things before settling down.
+
+I think FDP and SCSI streams are less than ideal. 10+ years and the
+standards bodies still haven't been able to produce an approach that
+makes sense in the context of a general purpose operating system.
+
 -- 
-2.25.1
-
+Martin K. Petersen	Oracle Linux Engineering
 
