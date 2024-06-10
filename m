@@ -4,95 +4,168 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 732CEC27C5E
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 16:20:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD06CC27C55
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 18:32:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MZNAwitC0c5tHXIBqT6sv+PXfqUESdg/lRJ7EWEoqJo=; b=HqOWAUcA8OhbscMS94dhXevjCC
-	mltXmqfcjNrfpYVI8QUjXxBXzmOdFbrbzdUZUHg+Av11s0qau/b4OneF5eQzPOHEsEbragDSOrkee
-	U0M2nmgbCSoQNszTmSdjk4qXy2O13EiJU0uDK686yF7faT4mW0LT1s/97RM4fWkZ1py1VldeHzAOm
-	kW0NOrxK7YIFcVsnb+crRiv08Je9V4Gr9qt7fC5oBc4d8eIiw8xR2UJ1ixH3IN7HBs22XkVoxtBqI
-	TnyOXFwIELtuFwIEimX51MJuzVUR0mURHOYin5CIMv3K6M9iXis4+P0hgtkWGIhvurIij72PF9ZNZ
-	u4dbww+A==;
+	bh=g70rMSIi1JFeN5QljCL08QN9/gHaTFkPhNgRS464mQ0=; b=AHR13GMreI+n5KsZv8zDgHWkcm
+	QjZ9BamAkBS3JfizoEs4l30ejz+48ws8zC1uE8CGtNEtw5RpONWMqCffwC2F+iBZw19aq9XvL5JwR
+	dIIv2DEXiQJz/zma6F7rxXU4pnsJYiG3EgykSsq3g1Mn0mGTAGu25h0LMvrKzxK4ulF+yHbOPBoTO
+	XPBxSPlWYFC29ydopOUlw/FkyGlbAiygoUoMXiqpAnE/WsRDx4UWyECLXf4stjH7sdH6EdOiP/jf4
+	fXotD0uHr2bpIWU+HVnpZ3lOTkW3EPd/GFfb8xLiBarCIShacqXbzgF9oNOAsDHEMbxFnqjIaAaLp
+	oeepZ6Pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGhlM-00000005l6L-2VKz;
-	Mon, 10 Jun 2024 16:20:52 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1sGjoq-0000000699S-0CfM;
+	Mon, 10 Jun 2024 18:32:36 +0000
+Received: from mail-mw2nam04on20626.outbound.protection.outlook.com ([2a01:111:f403:240a::626] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGhjC-00000005kPU-1wTh
+	id 1sGjoj-0000000696Z-1UU6
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jun 2024 16:18:40 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id A2277CE16B8;
-	Mon, 10 Jun 2024 16:18:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 270DCC2BBFC;
-	Mon, 10 Jun 2024 16:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718036311;
-	bh=uZtlK/h+IV89qKq/D7HEEGiIqU3n+5uR+aMUW6bSTYI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=txBNSTf1+1t4Xc9gPPh5vQRc5XfFN8nPv3Ro8SB/Yq/j5yEFp8jrN0I+5Vvp5KhOC
-	 31eIcQtv4gSFNYkJWu5tiUYcRsGWbQIFh2b2tiBQYfLYxsJieRJiOTdFhWwTvQJF/M
-	 fUzjRO+rL2bVJQVsXagyKG+uCYHiF1TBWgw463NfDzmu1rm2XEkNCph2ZdlBvKMPM0
-	 Gr/XbPplhRTbNTmuXHWyp/dAQvRpoJf5jrDLG/1hP72FEcChZfoVi0qm5BQFx6ewcw
-	 vpY5DbRGJh+Zpb2hIoVs4KxbjfSUVKLSS1z59lmFu0jrgvvdpMja9j94fZRFY7GnNT
-	 znfhgKqB0z4zQ==
-Date: Mon, 10 Jun 2024 19:18:26 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: "Zeng, Oak" <oak.zeng@intel.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"Brost, Matthew" <matthew.brost@intel.com>,
-	"Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	"Tian, Kevin" <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Mon, 10 Jun 2024 18:32:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j/brgVfnLkd8sSdZd3FxDLvtwcs60FWV/CcpULPa4uzvvR+al2p+EXEDWvSukbnfJlajT4Eo4kOiN1Ji00/V/QOgISU8PNvQsisL+o7cDiJRUx/dPM0to8cdovUPHtBe1cLgeTdrLZwUYSrbrJ4ah8zWQh3Ovg5u9XUnZ1N8DXLFIYYp3PPxqQqjFjr9hJIznR6odG/jH2s5SdDZhzFJLNLoRJxweH6dHVfStb4zUK1e4cdK2YvoCioX81dCwlIP0AFRFst/cH/kvxBrqmMKvXPErQzaEzKXP6PRstItoIJY3Gi/oip8AIItLe3JRgVKtCEGfXbV6wa2TO84mIKv7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g70rMSIi1JFeN5QljCL08QN9/gHaTFkPhNgRS464mQ0=;
+ b=GJchLj60Qtiv7aRw994TvSbQDB7o5940asG1hx7rm5PWdyVSYvaAKJSXyNzw+6np5AcFldw7juLoK7EBWjQjOXqznLhn2s+ImMW0HPvs16+3SPvCAsp3Do8tgT9GzA6kmiE+LMBz28/nY/Edhjz+BsThmJs6oBa/mVJ6ybQuZBJsAmr1ubwRWa2AG9Ls9oaKM3a5HP/ICXs/7Sg139LSSadAgSr7SkJHP6fPl970vOxWU2eAOOHW3lS6qaQ3y4+JIrDzyyvwsb+9BRdFM+lKim9V1wGRWYE/ku1gUTFilnAKsAooCfMDZwEpv+wVDKVIqZ0xhE9jVzDzsDYouSgnPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g70rMSIi1JFeN5QljCL08QN9/gHaTFkPhNgRS464mQ0=;
+ b=bM5PLeQS/rc76hzIEgZpumheiB2wdVTVyfp3HN9fYp1eRiVshcx+CEV/KFC1UY4IuTWP3daEsS4eFDKayGfLFHZGEDNYEe5dsvccDHaYazgw7NwTRnzLwKLEIsTfuMfn1cFtAl6C+OdWj93NOQYN34b09/CxK941EuiZsB0os9fiFOFs0sN0UduLQVF5Ej3W46Bf4yabpTqxzAGuSLl65CjSt1a/KY/8QWSrjoDaKYCA7yrjTU5jbfTGrOlguk10HeMcoUAdVGMIdChhZihPSYpimj0zNPXcy2OLn3k1EF2FDUWrzu4Be0Lim5aRLEy7eti0xDjc0PjfskKuewkVvw==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by LV3PR12MB9095.namprd12.prod.outlook.com (2603:10b6:408:1a6::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Mon, 10 Jun
+ 2024 18:32:03 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.7633.036; Mon, 10 Jun 2024
+ 18:32:02 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Venkat Rao Bagalkote <venkat88@linux.vnet.ibm.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
 	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"Williams, Dan J" <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>,
-	"Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
-	"Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240610161826.GA4966@unreal>
-References: <cover.1709635535.git.leon@kernel.org>
- <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240503164239.GB901876@ziepe.ca>
- <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+	"sachinp@linux.vnet.com" <sachinp@linux.vnet.com>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: Re: Kernel OOPS while creating a NVMe Namespace
+Thread-Topic: Kernel OOPS while creating a NVMe Namespace
+Thread-Index: AQHauwsHPSBODhXG30iTeBpCs6o+kbHBUuIA
+Date: Mon, 10 Jun 2024 18:32:02 +0000
+Message-ID: <34d5aae8-3a90-433d-87d8-75eedb1d18db@nvidia.com>
+References: <2312e6c3-a069-4388-a863-df7e261b9d70@linux.vnet.ibm.com>
+In-Reply-To: <2312e6c3-a069-4388-a863-df7e261b9d70@linux.vnet.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|LV3PR12MB9095:EE_
+x-ms-office365-filtering-correlation-id: ca8f069d-6fb5-4892-a156-08dc897b9f2c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|1800799015|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?WUdjd21SMFlGTVI5bEJ5cSt1SHhLb3dUM3lHOWFNSlg3SlM5c2dlVUZWZGVO?=
+ =?utf-8?B?WFRqMUF5TzJadGlpcEVYSXd2ZEpLaUY3Z3RWTlRwWVorSzhYdDJRV2wxK0pZ?=
+ =?utf-8?B?RUdUWTdKSDA0M2hZenpydytvbTJmazZqeG9UaFpMZm5qNVhZd3J6OW5Fdm9t?=
+ =?utf-8?B?QjlWRUVtQ3ZzWG1HN2JsUnJvUlZreUZIK3FWbjgxL0g2ekJ3R2ZQMVVucVRB?=
+ =?utf-8?B?QWxDb0FzcTRhTFhWM3NUWGlnS2RhUG05VmcyQkt3aUh6b1dYcU53VDF3cllv?=
+ =?utf-8?B?R29OcHFSRmdpdVEwRDZlQ0VlNDhXb2c3TTY0TFBQRlp4RkFTZkZXQ3R3azdP?=
+ =?utf-8?B?bG9TQkZ3ZGoxamVIVTk1dkh2VUN2eUlkVXF0ckhNT0RxRUxQR3dUdjV5ZXU1?=
+ =?utf-8?B?V3NKUXJleWU2Y2N3bGRtUUZZdXVobkZIbC9BUHpPbG41RXB5VGlmdnFIK1Ra?=
+ =?utf-8?B?TldoTGZyOEprTk9Qb1dXK1duQ0lLWUdVUzdMNjg5WGlGMzQ1dEZGOTlRK3VP?=
+ =?utf-8?B?R0hjMDEwOStneVk2SmFtMk92b01HTnhEMU5pOUtRc2NvN0RRa2doS09hYU52?=
+ =?utf-8?B?ek5Yams3S01YZUQwQnNZOGlwYzByZk5vcHRRSFIrYVl4RUlRTUlYSi84Tnh3?=
+ =?utf-8?B?bk95VElaZmJtdkorVmlkYk5pQ05oUWxFcU5CNFplcC8wVHRQQVo2TDQ3ekpw?=
+ =?utf-8?B?angyMlVObGloRHpOa1ZVR2hPdG5GTmZvZGtWSEw4R2VjU1JFV2lIb0VSUnNp?=
+ =?utf-8?B?dG40NFVwZWtoekhBc3U1bTIzR0h2bVNRalJUOEo0RVRXWmZRUXZ3VEJDVFZ2?=
+ =?utf-8?B?elFNVk84TlJOL2lHVlQxdjdMMG1NTTlHVFNIaUdCSzYwYmtwbE11MG9uMi9n?=
+ =?utf-8?B?T0FZRElmMWM2QU9XNEVCWWlMRERXYXd3RUh2LzJvTm8xUDhqZEhTR3pkSmd4?=
+ =?utf-8?B?enhDRS8yZW42ODFsdXpueEoxV0tDZE1GVlNMSEJKU2E1QzN1aEE1czU3U2dC?=
+ =?utf-8?B?L2RRUDROcExEOUtTWTJYUG5Cb1ZpQzRNMEJCTnZXdkRoNUNiQXVtYW0zMUx0?=
+ =?utf-8?B?eVpud2FUVzBTQXRpN3gydDgyNFVFVWRVZkk3ajk5dWl4NXdrcGJCU2RCRHY0?=
+ =?utf-8?B?cEdxVmp2RzJQT1pwaXNPeUZUSEJqRjM0cEpUVjZ6Q2tTdVZKUFBQc0VCRkhj?=
+ =?utf-8?B?TEgwOFB0MDQvRC9XdVQ1OUZYczBIY0hnbFhoOUhYVHZVWURqSTJRV0xGNE10?=
+ =?utf-8?B?L0ZINUVnaWVXOXhXS0xmblBXSzN6RkRKK0FMTFhBMjE1bzllUFZNa29teVpW?=
+ =?utf-8?B?Z0pMb2xpLzRSRnpZcExTaWlITG83VzlxcFRTb3ZmQWJ5UHozOWV0eEEvZ3VM?=
+ =?utf-8?B?Wjh1S3c0eFVrdWRXOEROSnJubVQ0eExyZEU2eXhGTFdlNFg5WWNxMmxWV1F3?=
+ =?utf-8?B?Z0V6M0pLUEczajZKRk9LWW1sMlVOdlNRcE0wRXE0WG5JVk13ZEcyYUt5Nmc3?=
+ =?utf-8?B?bERhbXJPSXR2VXVtYVpEKzNZaEtkS0Q2cXdmMDk1QnYwVko4NDBzQjdxRE9n?=
+ =?utf-8?B?U3dUdzg4U2lncks1aStRRzZmMGJYeG9lOWtBOEE5clU5dVMyTlBzNk9kLzZr?=
+ =?utf-8?B?ZUczYm1NNXFDN3p2L3BFMGVEb0NRbjRab0JLR3lwblI1L1I3MTBpaHcvdE5x?=
+ =?utf-8?B?U3hTdytWNy9zSTRzNFZBcDVBcUppSlpwOE5YaXE1dVlnRVl5YVlMdEduVUV3?=
+ =?utf-8?B?TmRwUEpEeEU3QUpzMXBRY0tlRE41cjVub0w5VE1FMEc4YkZMTjZleElVUjdY?=
+ =?utf-8?Q?MMqvxz901z9WX6y2rlz5gjLqktdZFg7D8IRE4=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QW1GRGNiUlhFajA5SHcrVE5Hc3pUOCtyZGRDcVZiV0VEYnpyZ3E3OWtmSmQx?=
+ =?utf-8?B?QXh1aytHbGR3M1g5RDRNQXhCYUd4RTQ4MVR6YitBc1p5OXY2bUxPcmE0YXpu?=
+ =?utf-8?B?THd1d1BQZEp3RElpb3h0djlWMmdiTTI0cGFndWN4UEVVRnJTNGhwUlZEclRz?=
+ =?utf-8?B?djAybzhTaGpSMmxxazNDTDd0SS9WbU5hS2sveGdFN2Y1Y3grTVpqNHJMV0kw?=
+ =?utf-8?B?MUdxTGU5b3I2aHN3a01XN0Z3NlBTYkhPMEt1VnNuQTJEeENXZHJVY3lsTXNP?=
+ =?utf-8?B?aXh1RU9OMFVpZjdEMzdLQWVmdmtlenhsN1hZU3M1Y1g2MUlQQlVDKzl6SnZo?=
+ =?utf-8?B?Qm5tNjVONkpHbmVtcVBwWnNFb1Vib2krblJrTWcwcDB2UUZSclF2aExVR2xI?=
+ =?utf-8?B?VE1oVzltVDd1dzkrM3hxT1pzSTNYN0tMTFJMZktqRWNHYXRPMzBVazB5aWEw?=
+ =?utf-8?B?alU4bjBWRFBjSXhwWVU3Z3JCUzZXbi9weVZSL3FTck41UEVpb3J3N0JLOHdO?=
+ =?utf-8?B?OEJuVnd1bVhsYi9jY2VNMVlmQXlPWkIyMGJhQmJmNTVNc2QxdGpxOWdRd3NC?=
+ =?utf-8?B?dlEwSXJUWURjbFFhQXp3cU9oMDdWZDRibzl1aklkSHNNK3d1ZjhvbzRMdnli?=
+ =?utf-8?B?S2tNbjdKSExXbVplN09UZEM2QURIcTM0R2VFYlFDY0c2cnpQcjRrMEpxaWNL?=
+ =?utf-8?B?T3pHUzRrY0pQSXRWWEZTblZCYVZUdENmMTY2WnE1eUpUK1kzUS9NbVI2cDVn?=
+ =?utf-8?B?eTBjaDBPaUxYT2JId0MreUhtWGZyTUhmdW0welBFSzR0R2dNR3Z4ejlhcDdn?=
+ =?utf-8?B?ZXRlYnYxeW56MTM2MUhIcHJpeUl1akk0eHNocVc2anVxbHpjVm4xaHE4d3hB?=
+ =?utf-8?B?RGlBeTNxNTY3SGFXWXNtZkhIRzExYkdUVUxQYlRvUEd1Wm1WMUFmcHdGeTBm?=
+ =?utf-8?B?T0t5M2JSUkR3RTFUbmxxZzhrTE96KytGaVFDQngyUEFXSElPSmgxNElPWUQx?=
+ =?utf-8?B?a0pHakhiQ0RZTUc4em11dFNxcEtXdjY5MVRVZUE3QVR2TXllY2FWdnJxN1Zx?=
+ =?utf-8?B?WE01V2tlWnlSWDdwVldBUWlyb3hqZWZPak5nTVJ2ZkpXZUZNMFJXcStKR1ZB?=
+ =?utf-8?B?ZFNJOUNMMTJRRDVtYno3VTdVMEFTeiswcWMzWUs0QjBtbXgyeE1kQ3dzRWYw?=
+ =?utf-8?B?bkFpK3I4S1ZRcXdXbzJPMEJSQmFkbDBMaUZ5T3hVd2tvZXQ2RytuOEtoa3dF?=
+ =?utf-8?B?MXRRTGRhUVFib0hQRWZkelRNcDBrcHFHbEg5bkczRHFXMUUrZmRGdFBRUUIy?=
+ =?utf-8?B?UlJIblBJK0xhVlhHRlFIMXRRMXhaZW9tUWVCeDNUQTlTS1pQRCtKTGIzMWJi?=
+ =?utf-8?B?Z1FJOWJzS0JRZG41SnM5c2JaNmZLUkJzK3ZqUEE5VDV0TnlwSXp5VEhncElY?=
+ =?utf-8?B?bnJOUjhEektWUnBVRGNqZG5zYVl6M1UyS3ZOcDRacFNnUGJYRWd6all5RG0r?=
+ =?utf-8?B?WXNyQVRod04xRXNRSkR0ZkpYN0ZjK1VxRkhLT2w4Z1R0VjJJaDErRGl2TDla?=
+ =?utf-8?B?dExoNm82QnVzWkxHcHBHRTl6aXhQWjEzaFZRb3dnSTNMYU4wbXBMU0pzRldw?=
+ =?utf-8?B?cHdkQ01HekNVTElsS1VHdEd2YXhvSHRqb0tzSHJha0VleE5zeDZta1FGMXRR?=
+ =?utf-8?B?cm91U1pHcVZ1VjJsS1FDWUduQnJwY1kzOUVxbzlUbEc0dTNoTWdyaWxra25R?=
+ =?utf-8?B?QnNRNVlPcUNSS3N0bFpBWGJ6Q2cwMHRwWHRncEwyYU9QRVB0YllneGZnYzlX?=
+ =?utf-8?B?aEdjcVhsdTlLUVEycndQcHVyOTRIU2FZMmREeTVpOERFNmVvVCt0SnVVODUz?=
+ =?utf-8?B?SHY4U3VNQjVQOVdOOXRCRkc5MjJWM0xJYjdmd2JTSUtoMkNUVi9Vb1FtamNs?=
+ =?utf-8?B?Rnk5eVVWTFZZRVc0d09pNTh2eXZiclBZNzJhN085cVhweEpWejZzYy9GQkJG?=
+ =?utf-8?B?cmt6alBST2pYblh2TS8yaVNQa2xyVTliWlR5NllDWVc1c3YxaEZ4bGcyTll6?=
+ =?utf-8?B?SE0wT3lRY0FOOTk2RGtTQnpBN3REK1JzT1lnM1BCeFV6cFExUW84cGp4WmdG?=
+ =?utf-8?B?YzZKQXQvUEt3d0JpUCs5ZkJqdnl0TnpWcjhtQU1VUFJLOXRNL3ZsTUF3NmlB?=
+ =?utf-8?Q?PWogzAz7qfsG7mo6BeRkcdODJ4hNzDzrcghXCAftqvdA?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6B3993EE45EA8B4F859FBBB9F583CCF1@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca8f069d-6fb5-4892-a156-08dc897b9f2c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2024 18:32:02.4221
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZiRF2tlMdP+z+IzQBZA81amPSeymMMuo+v+gUdgorHJ8L/rpjcn9zPzu8lNAfP2hc8Tqs0auRguXFi3QgruK1g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9095
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240610_091838_907776_2B68C0D4 
-X-CRM114-Status: GOOD (  59.08  )
-X-Mailman-Approved-At: Mon, 10 Jun 2024 09:20:26 -0700
+X-CRM114-CacheID: sfid-20240610_113229_500078_939222C3 
+X-CRM114-Status: GOOD (  13.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,159 +180,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 10, 2024 at 03:12:25PM +0000, Zeng, Oak wrote:
-> Hi Jason, Leon,
-> 
-> I come back to this thread to ask a question. Per the discussion in another thread, I have integrated the new dma-mapping API (the first 6 patches of this series) to DRM subsystem. The new API seems fit pretty good to our purpose, better than scatter-gather dma-mapping. So we want to continue work with you to adopt this new API.
-
-Sounds great, thanks for the feedback.
-
-> 
-> Did you test the new API in RDMA subsystem? 
-
-This version was tested in our regression tests, but there is a chance
-that you are hitting flows that were not relevant for RDMA case.
-
-> Or this RFC series was just some untested codes sending out to get people's design feedback? 
-
-RFC was fully tested in VFIO and RDMA paths, but not NVMe patch.
-
-> Do you have refined version for us to try? I ask because we are seeing some issues but not sure whether it is caused by the new API. We are debugging but it would be good to also ask at the same time.
-
-Yes, as an outcome of the feedback in this thread, I implemented a new
-version. Unfortunately, there are some personal matters that are preventing
-from me to send it right away.
-https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dma-split-v1
-
-There are some differences in the API, but the main idea is the same.
-This version is not fully tested yet.
-
-Thanks
-
-> 
-> Cc Himal/Krishna who are also working/testing the new API.
-> 
-> Thanks,
-> Oak
-> 
-> > -----Original Message-----
-> > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > Sent: Friday, May 3, 2024 12:43 PM
-> > To: Zeng, Oak <oak.zeng@intel.com>
-> > Cc: leon@kernel.org; Christoph Hellwig <hch@lst.de>; Robin Murphy
-> > <robin.murphy@arm.com>; Marek Szyprowski
-> > <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
-> > Deacon <will@kernel.org>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
-> > Brost, Matthew <matthew.brost@intel.com>; Hellstrom, Thomas
-> > <thomas.hellstrom@intel.com>; Jonathan Corbet <corbet@lwn.net>; Jens
-> > Axboe <axboe@kernel.dk>; Keith Busch <kbusch@kernel.org>; Sagi
-> > Grimberg <sagi@grimberg.me>; Yishai Hadas <yishaih@nvidia.com>;
-> > Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>; Tian, Kevin
-> > <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
-> > Jérôme Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
-> > foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
-> > iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
-> > kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
-> > <bvanassche@acm.org>; Damien Le Moal
-> > <damien.lemoal@opensource.wdc.com>; Amir Goldstein
-> > <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
-> > <martin.petersen@oracle.com>; daniel@iogearbox.net; Williams, Dan J
-> > <dan.j.williams@intel.com>; jack@suse.com; Leon Romanovsky
-> > <leonro@nvidia.com>; Zhu Yanjun <zyjzyj2000@gmail.com>
-> > Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to
-> > two steps
-> > 
-> > On Thu, May 02, 2024 at 11:32:55PM +0000, Zeng, Oak wrote:
-> > 
-> > > > Instead of teaching DMA to know these specific datatypes, let's separate
-> > > > existing DMA mapping routine to two steps and give an option to
-> > advanced
-> > > > callers (subsystems) perform all calculations internally in advance and
-> > > > map pages later when it is needed.
-> > >
-> > > I looked into how this scheme can be applied to DRM subsystem and GPU
-> > drivers.
-> > >
-> > > I figured RDMA can apply this scheme because RDMA can calculate the
-> > > iova size. Per my limited knowledge of rdma, user can register a
-> > > memory region (the reg_user_mr vfunc) and memory region's sized is
-> > > used to pre-allocate iova space. And in the RDMA use case, it seems
-> > > the user registered region can be very big, e.g., 512MiB or even GiB
-> > 
-> > In RDMA the iova would be linked to the SVA granual we discussed
-> > previously.
-> > 
-> > > In GPU driver, we have a few use cases where we need dma-mapping. Just
-> > name two:
-> > >
-> > > 1) userptr: it is user malloc'ed/mmap'ed memory and registers to gpu
-> > > (in Intel's driver it is through a vm_bind api, similar to mmap). A
-> > > userptr can be of any random size, depending on user malloc
-> > > size. Today we use dma-map-sg for this use case. The down side of
-> > > our approach is, during userptr invalidation, even if user only
-> > > munmap partially of an userptr, we invalidate the whole userptr from
-> > > gpu page table, because there is no way for us to partially
-> > > dma-unmap the whole sg list. I think we can try your new API in this
-> > > case. The main benefit of the new approach is the partial munmap
-> > > case.
-> > 
-> > Yes, this is one of the main things it will improve.
-> > 
-> > > We will have to pre-allocate iova for each userptr, and we have many
-> > > userptrs of random size... So we might be not as efficient as RDMA
-> > > case where I assume user register a few big memory regions.
-> > 
-> > You are already doing this. dma_map_sg() does exactly the same IOVA
-> > allocation under the covers.
-> > 
-> > > 2) system allocator: it is malloc'ed/mmap'ed memory be used for GPU
-> > > program directly, without any other extra driver API call. We call
-> > > this use case system allocator.
-> > 
-> > > For system allocator, driver have no knowledge of which virtual
-> > > address range is valid in advance. So when GPU access a
-> > > malloc'ed/mmap'ed address, we have a page fault. We then look up a
-> > > CPU vma which contains the fault address. I guess we can use the CPU
-> > > vma size to allocate the iova space of the same size?
-> > 
-> > No. You'd follow what we discussed in the other thread.
-> > 
-> > If you do a full SVA then you'd split your MM space into granuals and
-> > when a fault hits a granual you'd allocate the IOVA for the whole
-> > granual. RDMA ODP is using a 512M granual currently.
-> > 
-> > If you are doing sub ranges then you'd probably allocate the IOVA for
-> > the well defined sub range (assuming the typical use case isn't huge)
-> > 
-> > > But there will be a true difficulty to apply your scheme to this use
-> > > case. It is related to the STICKY flag. As I understand it, the
-> > > sticky flag is designed for driver to mark "this page/pfn has been
-> > > populated, no need to re-populate again", roughly...Unlike userptr
-> > > and RDMA use cases where the backing store of a buffer is always in
-> > > system memory, in the system allocator use case, the backing store
-> > > can be changing b/t system memory and GPU's device private
-> > > memory. Even worse, we have to assume the data migration b/t system
-> > > and GPU is dynamic. When data is migrated to GPU, we don't need
-> > > dma-map. And when migration happens to a pfn with STICKY flag, we
-> > > still need to repopulate this pfn. So you can see, it is not easy to
-> > > apply this scheme to this use case. At least I can't see an obvious
-> > > way.
-> > 
-> > You are already doing this today, you are keeping the sg list around
-> > until you unmap it.
-> > 
-> > Instead of keeping the sg list you'd keep a much smaller datastructure
-> > per-granual. The sticky bit is simply a convient way for ODP to manage
-> > the smaller data structure, you don't have to use it.
-> > 
-> > But you do need to keep track of what pages in the granual have been
-> > DMA mapped - sg list was doing this before. This could be a simple
-> > bitmap array matching the granual size.
-> > 
-> > Looking (far) forward we may be able to have a "replace" API that
-> > allows installing a new page unconditionally regardless of what is
-> > already there.
-> > 
-> > Jason
+T24gNi8xMC8yNCAwMDo1MSwgVmVua2F0IFJhbyBCYWdhbGtvdGUgd3JvdGU6DQo+IEdyZWV0aW5n
+cyEhIQ0KPg0KPiBPYnNlcnZpbmcgS2VybmVsIE9PUFMsIHdoaWxlIGNyZWF0aW5nIG5hbWVzcGFj
+ZSBvbiBhIE5WTWUgZGV2aWNlLg0KPg0KPiBbwqAgMTQwLjIwOTc3N10gQlVHOiBVbmFibGUgdG8g
+aGFuZGxlIGtlcm5lbCBkYXRhIGFjY2VzcyBhdCANCj4gMHgxOGQ3MDAzMDY1NjQ2ZmVlDQo+IFvC
+oCAxNDAuMjA5NzkyXSBGYXVsdGluZyBpbnN0cnVjdGlvbiBhZGRyZXNzOiAweGMwMDAwMDAwMDAy
+M2I0NWMNCj4gW8KgIDE0MC4yMDk3OThdIE9vcHM6IEtlcm5lbCBhY2Nlc3Mgb2YgYmFkIGFyZWEs
+IHNpZzogMTEgWyMxXQ0KPiBbwqAgMTQwLjIwOTgwMl0gTEUgUEFHRV9TSVpFPTY0SyBNTVU9SGFz
+aCBTTVAgTlJfQ1BVUz04MTkyIE5VTUEgcFNlcmllcw0KPiBbwqAgMTQwLjIwOTgwOV0gTW9kdWxl
+cyBsaW5rZWQgaW46IHJwYWRscGFyX2lvIHJwYXBocCB4c2tfZGlhZyANCj4gbmZ0X2ZpYl9pbmV0
+IG5mdF9maWJfaXB2NCBuZnRfZmliX2lwdjYgbmZ0X2ZpYiBuZnRfcmVqZWN0X2luZXQgDQo+IG5m
+X3JlamVjdF9pcHY0IG5mX3JlamVjdF9pcHY2IG5mdF9yZWplY3QgbmZ0X2N0IG5mdF9jaGFpbl9u
+YXQgbmZfbmF0IA0KPiBib25kaW5nIG5mX2Nvbm50cmFjayB0bHMgbmZfZGVmcmFnX2lwdjYgbmZf
+ZGVmcmFnX2lwdjQgcmZraWxsIGlwX3NldCANCj4gbmZfdGFibGVzIG5mbmV0bGluayB2bXhfY3J5
+cHRvIHBzZXJpZXNfcm5nIGJpbmZtdF9taXNjIGZ1c2UgeGZzIA0KPiBsaWJjcmMzMmMgc2RfbW9k
+IHNnIGlibXZzY3NpIHNjc2lfdHJhbnNwb3J0X3NycCBpYm12ZXRoIG52bWUgbnZtZV9jb3JlIA0K
+PiB0MTBfcGkgY3JjNjRfcm9ja3NvZnRfZ2VuZXJpYyBjcmM2NF9yb2Nrc29mdCBjcmM2NA0KPiBb
+wqAgMTQwLjIwOTg2NF0gQ1BVOiAyIFBJRDogMTI5IENvbW06IGt3b3JrZXIvdTY1OjMgS2R1bXA6
+IGxvYWRlZCBOb3QgDQo+IHRhaW50ZWQgNi4xMC4wLXJjMyAjMg0KPiBbwqAgMTQwLjIwOTg3MF0g
+SGFyZHdhcmUgbmFtZTogSUJNLDkwMDktNDJBIFBPV0VSOSAocmF3KSAweDRlMDIwMiANCj4gMHhm
+MDAwMDA1IG9mOklCTSxGVzk1MC5BMCAoVkw5NTBfMTQxKSBodjpwaHlwIHBTZXJpZXMNCj4gW8Kg
+IDE0MC4yMDk4NzZdIFdvcmtxdWV1ZTogbnZtZS13cSBudm1lX3NjYW5fd29yayBbbnZtZV9jb3Jl
+XQ0KPiBbwqAgMTQwLjIwOTg4OV0gTklQOsKgIGMwMDAwMDAwMDAyM2I0NWMgTFI6IGMwMDgwMDAw
+MDZhOTZiMjAgQ1RSOiANCj4gYzAwMDAwMDAwMDIzYjQyYw0KPiBbwqAgMTQwLjIwOTg5NF0gUkVH
+UzogYzAwMDAwMDA1MDYwNzhhMCBUUkFQOiAwMzgwwqDCoCBOb3QgdGFpbnRlZCANCj4gKDYuMTAu
+MC1yYzMpDQo+IFvCoCAxNDAuMjA5ODk5XSBNU1I6wqAgODAwMDAwMDAwMjgwYjAzMyANCj4gPFNG
+LFZFQyxWU1gsRUUsRlAsTUUsSVIsRFIsUkksTEU+wqAgQ1I6IDI0MDAwMjQ0wqAgWEVSOiAwMDAw
+MDAwMA0KPiBbwqAgMTQwLjIwOTkxNV0gQ0ZBUjogYzAwODAwMDAwNmFhODBhYyBJUlFNQVNLOiAw
+DQo+IFvCoCAxNDAuMjA5OTE1XSBHUFIwMDogYzAwODAwMDAwNmE5NmIyMCBjMDAwMDAwMDUwNjA3
+YjQwIA0KPiBjMDAwMDAwMDAxNTczNzAwIGMwMDAwMDAwMDQyOTFlZTANCj4gW8KgIDE0MC4yMDk5
+MTVdIEdQUjA0OiAwMDAwMDAwMDAwMDAwMDAwIGMwMDAwMDAwMDYxNTAwODAgDQo+IDAwMDAwMDAw
+YzAwODAwMDUgZmZmZmZmZmZmZmZlMDAwMA0KPiBbwqAgMTQwLjIwOTkxNV0gR1BSMDg6IDAwMDAw
+MDAwMDAwMDAwMDAgMThkNzAwMzA2NTY0NmY2ZSANCj4gMDAwMDAwMDAwMDAwMDAwMCBjMDA4MDAw
+MDA2YWE4MDk4DQo+IFvCoCAxNDAuMjA5OTE1XSBHUFIxMjogYzAwMDAwMDAwMDIzYjQyYyBjMDAw
+MDAwMDBmN2NkZjAwIA0KPiBjMDAwMDAwMDAwMWExNTFjIGMwMDAwMDAwMDRmMmJlODANCj4gW8Kg
+IDE0MC4yMDk5MTVdIEdQUjE2OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAwMDAwMDAwMDAgDQo+
+IDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAwMDAwMDAwMA0KPiBbwqAgMTQwLjIwOTkxNV0gR1BS
+MjA6IGMwMDAwMDAwMDRkYmNjMDAgMDAwMDAwMDAwMDAwMDAwNiANCj4gMDAwMDAwMDAwMDAwMDAw
+MiBjMDAwMDAwMDA0OTExMjcwDQo+IFvCoCAxNDAuMjA5OTE1XSBHUFIyNDogMDAwMDAwMDAwMDAw
+MDAwMCAwMDAwMDAwMDAwMDAwMDAwIA0KPiBjMDAwMDAwMGVlMjU0ZmZjIGMwMDAwMDAwMDQ5MTEx
+ZjANCj4gW8KgIDE0MC4yMDk5MTVdIEdQUjI4OiAwMDAwMDAwMDAwMDAwMDAwIGMwMDAwMDAwMDQ5
+MTEyNjAgDQo+IGMwMDAwMDAwMDQyOTFlZTAgYzAwMDAwMDAwNDkxMTI2MA0KPiBbwqAgMTQwLjIw
+OTk3NV0gTklQIFtjMDAwMDAwMDAwMjNiNDVjXSBzeW5jaHJvbml6ZV9zcmN1KzB4MzAvMHgxYzAN
+Cj4gW8KgIDE0MC4yMDk5ODRdIExSIFtjMDA4MDAwMDA2YTk2YjIwXSBudm1lX25zX3JlbW92ZSsw
+eDgwLzB4MmQ4IA0KPiBbbnZtZV9jb3JlXQ0KPiBbwqAgMTQwLjIwOTk5NF0gQ2FsbCBUcmFjZToN
+Cj4gW8KgIDE0MC4yMDk5OTddIFtjMDAwMDAwMDUwNjA3YjkwXSBbYzAwODAwMDAwNmE5NmIyMF0g
+DQo+IG52bWVfbnNfcmVtb3ZlKzB4ODAvMHgyZDggW252bWVfY29yZV0NCj4gW8KgIDE0MC4yMTAw
+MDhdIFtjMDAwMDAwMDUwNjA3YmQwXSBbYzAwODAwMDAwNmE5NzJiNF0gDQo+IG52bWVfcmVtb3Zl
+X2ludmFsaWRfbmFtZXNwYWNlcysweDE0NC8weDFhYyBbbnZtZV9jb3JlXQ0KPiBbwqAgMTQwLjIx
+MDAyMF0gW2MwMDAwMDAwNTA2MDdjNjBdIFtjMDA4MDAwMDA2YTlkYmQ0XSANCj4gbnZtZV9zY2Fu
+X25zX2xpc3QrMHgxOWMvMHgzNzAgW252bWVfY29yZV0NCj4gW8KgIDE0MC4yMTAwMzJdIFtjMDAw
+MDAwMDUwNjA3ZDcwXSBbYzAwODAwMDAwNmE5ZGZjOF0gDQo+IG52bWVfc2Nhbl93b3JrKzB4Yzgv
+MHgyNzggW252bWVfY29yZV0NCj4gW8KgIDE0MC4yMTAwNDNdIFtjMDAwMDAwMDUwNjA3ZTQwXSBb
+YzAwMDAwMDAwMDE5NDE0Y10gDQo+IHByb2Nlc3Nfb25lX3dvcmsrMHgyMGMvMHg0ZjQNCj4gW8Kg
+IDE0MC4yMTAwNTFdIFtjMDAwMDAwMDUwNjA3ZWYwXSBbYzAwMDAwMDAwMDE5NTBjY10gDQo+IHdv
+cmtlcl90aHJlYWQrMHgzNzgvMHg1NDQNCj4gW8KgIDE0MC4yMTAwNThdIFtjMDAwMDAwMDUwNjA3
+ZjkwXSBbYzAwMDAwMDAwMDFhMTY0Y10ga3RocmVhZCsweDEzOC8weDE0MA0KPiBbwqAgMTQwLjIx
+MDA2NV0gW2MwMDAwMDAwNTA2MDdmZTBdIFtjMDAwMDAwMDAwMDBkZjk4XSANCj4gc3RhcnRfa2Vy
+bmVsX3RocmVhZCsweDE0LzB4MTgNCj4gW8KgIDE0MC4yMTAwNzJdIENvZGU6IDNjNGMwMTM0IDM4
+NDI4MmQ0IDdjMDgwMmE2IDYwMDAwMDAwIDdjMDgwMmE2IA0KPiBmYmMxZmZmMCBmYmExZmZlOCBm
+YmUxZmZmOCA3YzdlMWI3OCBmODAxMDAxMCBmODIxZmZiMSBlOTIzMDAxMCANCj4gPGU5MjkwMDgw
+PiA3YzIwMDRhYyA3MTI5MDAwMyA0MTgyMDAwOA0KPiBbwqAgMTQwLjIxMDA5M10gLS0tWyBlbmQg
+dHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQo+DQo+DQo+IElzc3VlIGlzIGludHJvZHVjZWQg
+YnkgdGhlIHBhdGNoOiANCj4gYmU2NDdlMmM3NmIyN2Y0MDljZGQ1MjBmNjZjOTViZTg4OGI1NTNh
+My4NCj4NCj4NCj4gUmV2ZXJ0aW5nIGl0LCBpc3N1ZSBpcyBub3Qgc2Vlbi4NCj4NCj4NCj4gUmVn
+YXJkcywNCj4NCj4gVmVua2F0Lg0KPg0KPg0KPg0KDQpkbyB5b3UgaGF2ZSBzdGVwcyB0aGF0IHlv
+dSBjYW4gc2hhcmUgPw0KZGlkIHlvdSBmaW5kIHRoaXMgdXNpbmcgYmxrdGVzdCA/IGlmIG5vdCBj
+YW4geW91IHBsZWFzZSBzdWJtaXQNCnRoZSBibGt0ZXN0IGZvciB0aGlzIGlzc3VlID8gdGhpcyBj
+bGVhcmx5IG5lZWRzIHRvIGJlIHRlc3RlZCByZWd1bGFybHkNCnNpbmNlIHBlb3BsZSBhcmUgd29y
+a2luZyBvbiB0aGlzIHNlbnNpdGl2ZSBhcmVhIC4uLg0KDQotY2sNCg0KDQo=
 
