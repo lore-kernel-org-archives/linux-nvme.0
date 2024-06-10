@@ -4,77 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC7F2C27C65
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 16:20:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94D00C27C55
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 16:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uHVeKuD2AEcCqZ/LjV+OOc1QBnsCnYX2OlH3aXiQ9Bc=; b=WnN+6sc9Bak6nUFH6C4qB7OH79
-	XsUD3egiGE0+HmtD/bWJmYiBut5ztGwxeknmMCwGuMt7huBiceMMjlfTRExOjf6j/xCak7SML1EGD
-	qSOIf/lNSmWvGcjWQopsZdFUrbOf/64Slc02Vzp5wmx93lgmAkLqAgCDF44R4LNy8S0+yZp1bDyhP
-	iskhm9jSAyfhmnc5b9bXiOKYteKMVy/BzQElFwSmEKiRcmF/b6jkqiYdSZYQ0JUuoLry1k/NRJl6c
-	mUY6Z1nOYoAnSuvKWhtNkFZrF+XaPMctTyMmqzchdK90xB1CwOcM+9mCqfipa0AKhOD6UE1lD5bpN
-	BppX62Ew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-Id:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IzYMElQdoafm/KOiCJoqkqo8DHg2mUS9JMz/MJ0HTqY=; b=18r1Kuy1r0vkWUmyBCfu82G7C+
+	bE0Py+43fB4IJa+lOqr6CpgOMnoG6bLUvxxzxOZNA3Jag+BsR05roD6kJGSmvBhvmTydF7hMR0+a9
+	CUDU64LS+8yuadIf+zxqiD304cdLZyDKBxDmoEYlrD+EM94CS7K53J8Lz3oIdRX5NJXsn9lcTdxgA
+	O+MxZCoxFPUNi3zLai9qCB3PW7MoAmtFmf9GgybNSWFly6Zrfj8serYZtWMOfjE05E2WMUAWiWbHz
+	WGTvdkY/EyVXNtR6BIrFIX2eYL5uEYEaJkUGGOP1rdWKJHgGPpaNGk/iIH9voGY1leMqhcECBnkF0
+	fAaOiqTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGhl3-00000005ksb-1PWE;
-	Mon, 10 Jun 2024 16:20:33 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1sGhl8-00000005kup-1pN0;
+	Mon, 10 Jun 2024 16:20:38 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGcVj-00000004gvv-1sx9
+	id 1sGcVo-00000004h02-1eNi
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jun 2024 10:44:28 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45A4Bqiq025709;
-	Mon, 10 Jun 2024 10:44:01 GMT
+	Mon, 10 Jun 2024 10:44:32 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45A4BRx6024983;
+	Mon, 10 Jun 2024 10:44:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:content-transfer-encoding:content-type:mime-version; s=
-	corp-2023-11-20; bh=uHVeKuD2AEcCqZ/LjV+OOc1QBnsCnYX2OlH3aXiQ9Bc=; b=
-	k7O73Ud5D5UymaRohv7hH33qchVmM6XMbJwRMW6Yp3Si1VaRpOEY47GkLuPkar6N
-	Ku/btK31DN8kvCh0833FcwSvxvfIb4dhjYY8BDl2bMZrb9qtoplXUuVV24Ql9vzF
-	2jq9zcSJpDyExLihNY0VoU1r9CtrFQ/gcRiNA2PfcX8pjY8XKVyFqCriMltOgZl4
-	fwJg0cEEnNcuplWcNpyFGg4ReuLgAIx8YBHnoPL2BUGm9JYAv1TDTlxNz5HBE52R
-	O3k3TXf4OWaIGv1WqThyDIv8ctTxI0ADyk1y2yhci2EQ3M0gLkSVFEsqghdT0mDY
-	n1mm0I3FV+DpqJkrfTF9RQ==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ymh1gaagk-1
+	:content-type:content-transfer-encoding:mime-version; s=
+	corp-2023-11-20; bh=IzYMElQdoafm/KOiCJoqkqo8DHg2mUS9JMz/MJ0HTqY=; b=
+	KjXCX7SUri0Sl3DgGrzH5Y6jtNB87c2mdEXOBWob+HIJUVYxKMGp6ELzyiVCl1W/
+	btslEEuLhMZmreSn3Slz6d7T4rLkcWIQFUuB8UyetjMQCERmRbnl84L3018hIbOU
+	s5FzyqejswV344MQ0r3G+NL0leWo+JE7WmA92d0AntjWRIrKoirFMyCr/BkHJ6q0
+	VupPq+Ks1oRlzcZKwg2qWS5HrNpSXLgvItcSbHwr2jktUYJAevPQw74ILvJ/W88J
+	/fOZxmeUEROhUI1huL7VqqU+k3YOdDtVZgGISu6fBaLmmTkebDPM7omPygeU4l0I
+	bsA8h7qC++yMLWlcqKEyNg==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ymh7dj8j2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 10 Jun 2024 10:44:01 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45A9uGuT036740;
-	Mon, 10 Jun 2024 10:44:01 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2040.outbound.protection.outlook.com [104.47.73.40])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3yncdukche-1
+	Mon, 10 Jun 2024 10:44:16 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45AA4BwO021545;
+	Mon, 10 Jun 2024 10:44:14 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3yncasuep3-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 10 Jun 2024 10:44:00 +0000
+	Mon, 10 Jun 2024 10:44:14 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E/NtkekJVgygCkHqp4AWHbhg6w5dulguFIgxuxhDTheNkkiXqbgk1sD6QBBcH7eMcyAiLweQUd7Hor22P5b2B3AP5ggxIYQ/T22qMFR2i4zzzAYjrmCO8nOVNZByMUfyKjT//aJJk8qNEPd3yAN0/Pd2LtaeJ9KLDtZJVN6DVEi1wgPIozMpc8y3KH6ezhfKy2QBiZiJhEmkDXzT2aNBb1dmehbBvpcjkDk7MieYLwgZ6b5adiDvgXjbat0TRK1Bct81GuA8xVdHyya7fzuuJpMStZKmSiqx3MShbGVe96m3o/3zMJfh5WUUky2Y42ccOnRa9nRYg0Zu5bwR2a4q8A==
+ b=Wtl/DwLov5dVcfFR7HI+E9HK+UepQoYsyZMK6k+/t0/u349WfU0IsgCGI9mCKaKbFNFMNgQJBpjC3tLSq+mbwncw1qPRPL6W16pE+98onf42jQ3ojxtQm9ejIezfj7IaAqea4JRZxUa7BMiDQ8ATLSuynDDw4IlK46muNFhSxohr0eiB+DLD/7Tqdh7f4KpvglBTAVJFW/FcLMYcu7q48Q09J69C5MweRaPOudzsIkQRHT8trNR4x5tlZZJzg32j4J5w1zaRZ63FPgUomREoN6Zz6VEmJGzkxUNbEVLbMJ/AWpaFg9+1jz6ujG/C/ISkZl6BxgcyQRoJ0qtsq3Zygg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uHVeKuD2AEcCqZ/LjV+OOc1QBnsCnYX2OlH3aXiQ9Bc=;
- b=YldVa0ymUWbbeKxGOlEZJ44eKlW3hoYIuA/U/CQ1bBE/jwsZKUrCn5scpMst4DCLrzH/uJuzbUocIXx2Gu5kq0NH3B2n/ddqQEoahwwwfpY0RrTSu65Yffc3WwY5gxEGlB+6fEpbznhOnmYO2FV8nzEfsHvyF+pmaLf/pOf2vDEhrSag/MjrpPa6C6kIEkGViHd3eeIfNLN1SrFPntgmmI4qczf2B2m1/hrozre1TgNkjTd6x8m0FSG7NpPhjve79edj4gCBDbqxiwvvfyQyAOScWe8psPI6lnAS2vMlyizg2OHtzPMqP+0Bsv21WaPB78z+Y+x6w0+SFLcrqnklGg==
+ bh=IzYMElQdoafm/KOiCJoqkqo8DHg2mUS9JMz/MJ0HTqY=;
+ b=W9DEgM4HoBgv33VT2ZQ4OJeVQJBFdMISM028jxgAl++5fPE7/v2/2BxKl8G3wEH91qzNB83l5G7QyWYIpNazkXu+8hFdY+un13R6hMbH/QLnzxK2yHRTED/NIKGKrHf50zzib5AB5pXCcDGvSc/tGWkEdLtL3bv9p4qPWzcA1JiXak7atHehc9kH9gyIhLUruxsGQjPN4/SA8cIlFOOYggr7X9AO2gRua+7gbveER5unt7ar+gNH2ENyEOAifmxD3Xb6qmcy2cVA8PcJ8+WdzR4nxDqZtddiU9OsO/qKD7qfVmGHR5upC6p+mmhaoU4gnYB+eu/AYOrwfPPLNfrfAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uHVeKuD2AEcCqZ/LjV+OOc1QBnsCnYX2OlH3aXiQ9Bc=;
- b=ya3EEuRyK43c0v1NocjcOPGjb3Ppsr9iihjwKjL/CLNe5r7XZLSRJrDQhRNyy/5nP/7xcSwJG3qypcPY94A/t1NbGJ411IWcVJupAEk/8FvmSHdABlEK1yru9hCYLAiiDFIuaFdUFRqmUsVxyVAjgvXKUz+ZTjrBGLy/LW5DD6I=
+ bh=IzYMElQdoafm/KOiCJoqkqo8DHg2mUS9JMz/MJ0HTqY=;
+ b=azU+s3lSx3xkoKCalq0N0SRq38SrbVfuYYTdH/IW9EgiigKdPYF8XyZfNNURfQ1B7EtwPdfBkOAv0nIAHVC1qVQluAV+vFORoZeQ+WBKpjoBpEy9Aiz2vAOZ4squCZA/8tKne7fMfzTGU6xFykFFl6ttSP4BL94vNUjsFc0P6sw=
 Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
  by SJ0PR10MB5613.namprd10.prod.outlook.com (2603:10b6:a03:3d0::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.31; Mon, 10 Jun
- 2024 10:43:58 +0000
+ 2024 10:44:11 +0000
 Received: from DM6PR10MB4313.namprd10.prod.outlook.com
  ([fe80::4f45:f4ab:121:e088]) by DM6PR10MB4313.namprd10.prod.outlook.com
  ([fe80::4f45:f4ab:121:e088%6]) with mapi id 15.20.7633.036; Mon, 10 Jun 2024
- 10:43:58 +0000
+ 10:44:11 +0000
 From: John Garry <john.g.garry@oracle.com>
 To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         jejb@linux.ibm.com, martin.petersen@oracle.com,
@@ -88,105 +88,121 @@ Cc: djwong@kernel.org, linux-block@vger.kernel.org,
         nilay@linux.ibm.com, ritesh.list@gmail.com, willy@infradead.org,
         agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
         dm-devel@lists.linux.dev, hare@suse.de,
-        John Garry <john.g.garry@oracle.com>,
-        Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: [PATCH v8 05/10] block: Add core atomic write support
-Date: Mon, 10 Jun 2024 10:43:24 +0000
-Message-Id: <20240610104329.3555488-6-john.g.garry@oracle.com>
+        Alan Adamson <alan.adamson@oracle.com>,
+        John Garry <john.g.garry@oracle.com>
+Subject: [PATCH v8 10/10] nvme: Atomic write support
+Date: Mon, 10 Jun 2024 10:43:29 +0000
+Message-Id: <20240610104329.3555488-11-john.g.garry@oracle.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20240610104329.3555488-1-john.g.garry@oracle.com>
 References: <20240610104329.3555488-1-john.g.garry@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0260.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::25) To DM6PR10MB4313.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P265CA0036.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ae::12) To DM6PR10MB4313.namprd10.prod.outlook.com
  (2603:10b6:5:212::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|SJ0PR10MB5613:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd5ef50e-30ad-4032-b292-08dc893a3b7d
+X-MS-Office365-Filtering-Correlation-Id: c3f4dc8f-58ea-4540-1aae-08dc893a4341
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|376005|1800799015|366007|921011;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TZvYyjQSHEgxC51mVeIgYTJ/YAeXuoPjNbK6Q4X6hZfC9fufQIJS+w3afkRT?=
- =?us-ascii?Q?CdClxAVBVwTLNVj0Fg0tpWuIGzIexUVyTsovXr75dC0/1XedpzZEGpEmFsvN?=
- =?us-ascii?Q?SWnSnRt1HT5p/r9r3uNyofsyS7X4jVXZxFaS+gfGQBZtVsg7iXy8GtcGYgio?=
- =?us-ascii?Q?OcGHxV7SLh3JopJH2ri/kTFqNEWL8HfAoKL0YzThJPdT5LfXrQFrgAB0pN/V?=
- =?us-ascii?Q?3pF6OvevBNG/SrlKbiM6YdSY2n3U1Ul/+f2wfTauibo53VilvQcWqFq1NNbV?=
- =?us-ascii?Q?2Yu2PC1dY843OLhVjhzo87JHfdrHtNo4wzqlZqY9YiPf4q3SuIYSQj6gt0zy?=
- =?us-ascii?Q?kS8Puh7QIEOzqqmD6zkZI/E8OCv4C/lNobifAE75x2IqlkTg1c66K3qbfLQu?=
- =?us-ascii?Q?trHeV5h4JU5XP8xtJjmOGGemTbwPcFHMNljs6jBEy2RfuMQBy8LxAHxPaROi?=
- =?us-ascii?Q?rjLjZJTq1daOLtj+9sfk5I3JLnv3kybzyZT2xVntDa48yyBh7hICE6WCOtCI?=
- =?us-ascii?Q?cfGgFev7cfKBf8COZahJW8lRuMOCv1CJk1XOh9fX4qh4ddi99DKcfnbUXpw5?=
- =?us-ascii?Q?r8tepUfTh+nvDFJwEASYifmnLMKfozRuBTPCeQF5Cx9uDQw5ahaurhJO75NZ?=
- =?us-ascii?Q?3rrpapU5CT6kX+NDplD7GNfFiT3coocFBL4bewa65NOnVApzcu30wguv3ZuG?=
- =?us-ascii?Q?ww3SmvjH/PMhfHsqB3GxkymmnPgOlJckN3s0p77XGdlf/5xcH05GxEo4dPtO?=
- =?us-ascii?Q?gXUJNj+dbTL/k6gg8sbMYW2yZpneqrtYcw5Hu/0Cmyt7up3UD+mWPPUPLRZr?=
- =?us-ascii?Q?Ir2tvUjN2VNb5QPPDUwJ/Hz3IkKEF4uzot5MkvuMzL4wR76qTRYwsiyacI8U?=
- =?us-ascii?Q?q1x/pI9GNu2wXkCGMf27IYD0Nf31k9iAzdNBPNWy+ObcxgOdsuekJnIrFxw6?=
- =?us-ascii?Q?05dGeF6RgbUsUcN+toK05cIa6tjF46UIyfQPj9onjyG0YN5DbNRigB1BF/6O?=
- =?us-ascii?Q?kZPvSYWjrO10N00OXVIgHVgKCeUvzeBc/LKxmUFwy/TJpf23/0+LODd9oCM5?=
- =?us-ascii?Q?eJsLCRgsWiIj+4DI26qChWQ87e4um2MWj+l/OmaZwr7ZDZgMeKEbXVxu+2GJ?=
- =?us-ascii?Q?o7uF0ie2IQL/IqMYNRMMmr+V4C6Ev79L2f5rzgMaVs1wQ40YsnVfTqDootww?=
- =?us-ascii?Q?4q9K+IC+vMdWQ6NoriAHVNvaSzH7AESA6WmXwMVAWKflZVdgx8gy4k/WkWO7?=
- =?us-ascii?Q?ZFEDxou3NQZDNAydg+nkRzbc8tyQri8dXxGFY7KOc13DfRjW1mJOWhYKmOAd?=
- =?us-ascii?Q?Shps4KZXo9jT9zx6cO57INYiYy6V9NZ4NQO1xlBgjKwAZ0XW72HFiPIhdcAe?=
- =?us-ascii?Q?hn7+7mk=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eVZwQzVLRGtCR1VjSFpVSlBYeVkvbzlZQXE1cjlyNGRBNTUwVnB0YWlJUHRG?=
+ =?utf-8?B?SlpubjVQL3Rzcm0rN2YwQy9OTnRoZjJuc1dKRitxYUNERTVPU3VTaXlSbzhh?=
+ =?utf-8?B?dnZkZ3c4cjR2RHdtK0pQYk11N0p3YXRPT0tSbndjQTRLMC9zOWNObHlkL0lz?=
+ =?utf-8?B?WVVSMlRwOTkycFAxeUx4dmx6NjBoK29Zbm9oZ0NkNjhuMHUwZE9DRnphelQ0?=
+ =?utf-8?B?ZWc2YlowRXppNkEvQnVhL3ZmMTNGMWdGTUVtVnNnRm96STFoWWJNY2V4Q3M0?=
+ =?utf-8?B?VWNhTnE3MEhycXcyUVFVOE40elo5QndEMWFKSC9tdnd3dHlFSWY4U3dKZHU3?=
+ =?utf-8?B?UlVPWUZQSE5ZSFdrdEFaSEdEc1A1a0NDdWJyblVsbEVqOWhxU1lXTjJXK2Yx?=
+ =?utf-8?B?d0pweG9WcTQ4NVlNSnB0VUJ3aE5Ba2VoL2VSRHllRk9CRm9NNXdsek5idUxZ?=
+ =?utf-8?B?TEpUTDcyNWJ2SWw3L3pML21EOFMxYmpIS0tDZlQvRkJYdDg5aVhxaFZFbWtl?=
+ =?utf-8?B?MjY1VVRHaFR2MFhZa0N1M2cvbDE5c0Mza09XUERhYTdDQjhkR0g2eWJ2MGxD?=
+ =?utf-8?B?Zk1zRGNuT0dRTU1IR3ZwUEFzOEJxMTViNll5OVpIYnBrUWF4U2JhMWRYbXRS?=
+ =?utf-8?B?MFVleU9Mb0FGYjZ2Y1pLQTBjSndzdUlEVnMrdG9ES0pOSTJxT2Nwc0ViZFRa?=
+ =?utf-8?B?Wk9JV29LU0t6c05SYWU1UnlnVm1hOCsvSjM1Sjh6NFNHQU9UM1k1cmhYcFJr?=
+ =?utf-8?B?S3JKby9tK0lhSnFhY1F5cFl2YStKNHdJZmF5a2k5OEUweVpzSVlZUkEwMWtX?=
+ =?utf-8?B?UE50NUFxRWJnZWVQVHdQTnF2Q0g3b0hpamdhdVROMDJzZG4rektranZMMUxK?=
+ =?utf-8?B?aC9SSkx5OGJKN25maHhVRFR4WkZYRUhQQUVVR1M4NVRVYW9KSXNRYmc0TzRF?=
+ =?utf-8?B?eWtCWHZHWTliVlBLVWlqSWtLTG9OTW5sNjQ4OUpBZExpUFNxcXhUdGIzdUls?=
+ =?utf-8?B?a0ZEd1ozN05IczhQVGUzMnM2MEREeFEwMjlWdm5IeUc2YTh5czZRRlhNeU9O?=
+ =?utf-8?B?YzZST2o4YWU2bDRxdGh6OGdCUHVvclNxNEYvM3NJZ0RiMWZHZTcvUWxyRzNq?=
+ =?utf-8?B?ZW9DVUxmWmduNTFsZjIwZ1J3ZzBkODhnMFhiOXYvTTNnQm5PNGxVMm05R3pP?=
+ =?utf-8?B?T3cvQ0VHK25SL3F5MHhVbDFuU0J6ei9hSUZJY3FWR0dOMkFFMzBBaTd2L3NS?=
+ =?utf-8?B?MERvTS9mQ0M1ZzJaSWNjZWN1N3gvUFlPYzA2dWQ3YjV1NWFDSWczWElqK3Uz?=
+ =?utf-8?B?NlBYVER1R21hcngvdlRxa290ckpoUUl6a0JXUjEvYm1iQ3RRT3VJQ2FpREVy?=
+ =?utf-8?B?TnZ4eWNhWDBFSkdUWi9yT05jQjZMWGlzQlVpNWoySHVYWVdWcHRXdk1iUkM0?=
+ =?utf-8?B?Tit1QWtDaktKcHVPcDIxbUxHMmU2TmUyRVl6MnBFeDZOTTlZQ2tHUkxlcGd2?=
+ =?utf-8?B?ZXoyRUdWTEtkT2tjRWpGeHk0N0orL2VDWTF2OHZ3S05JZ1VkUmZ6alluYTFj?=
+ =?utf-8?B?ekN3V3NlR1dNUWhzQ2Erd2VBN05NNFdHMUwyZHpoQUFLNHB6ZFJFRjZ1eVh3?=
+ =?utf-8?B?TTN4ZnUzVWlJYTdSblp3WFBZRkhsdUVmSEVEMHdoZUFqRVFPVUtkaUR2REJJ?=
+ =?utf-8?B?bmt2TUhKRkhEN1JSL211dlV0TmcyR3IrTEJ0WnJCTzZSSEJvVXRJTTFBY3lr?=
+ =?utf-8?B?c2krOGtpVloxNGIyMDdDNm1JTzlTUTRCeWd3MHR0elFCT0hYdGMySkdlUDJT?=
+ =?utf-8?Q?6dvPk0biwfYN8vK3U33dHvg80ETJJh2fXdtpA=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(366007)(921011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YJSry7v0xGVqisuwbI48iSbswyMs77XSdr+B9ysLEjImSOKxHYYdrx6+2XCK?=
- =?us-ascii?Q?JoXEHmKGWnqgnIhYejuVSU8GT3wrUfMZEa86LzrYbSo+59Wjufjo3P3DkHxh?=
- =?us-ascii?Q?x93qeAGwlZaYyFiUHMtH/G1s2rJO+ZAuXXMtjwDZpuMr2xey/hVuDT6+T5ds?=
- =?us-ascii?Q?Brfmj/M6itKlzGXmIK1wJhaGxqi7JcUMaEYDnttyz3zJqDBCNGf+p/sUYSJY?=
- =?us-ascii?Q?cg4LW7muim2e8OqXDEUJtvUgI9nrcFHVgpwD+ocnhQ2j7CMXPFZiouOPqo62?=
- =?us-ascii?Q?G212u4Mjeai/pxLUtdQGD8Mu6zYk1n94YY79u60MdwOjn7WMQvrHmorRIZfo?=
- =?us-ascii?Q?mFarZxIC/Yl0ar8aeM9REnQeSYxjwoq7BUx0WXQ62fSRt1RBJGS8sQosMoki?=
- =?us-ascii?Q?Su3eMENV2Xpu1ncYxAX8akAYxNglb2J+vE3pXz2PYIorKUa57nj+ti1LKQvZ?=
- =?us-ascii?Q?C3iFw0IyCID+9M5w+amqRpTGg0Uf8Rt3zERbjr1Fq40E9M+6tneV12VGxEFG?=
- =?us-ascii?Q?bpLNGqhpfpw13nIqrkWf0i4FERN78zoyJE03iWGH0H65jlXItRlJ23Su2Auk?=
- =?us-ascii?Q?CHJK/hCu3Foro0uqzczgT9zl3KMHNZfKcATDHtBOz2+lhor9DE8lqFiNlGNf?=
- =?us-ascii?Q?lZxGfJbq3bhaJHbc51ZW8ta7eBowDMDYt/tZht//uOk+oeH4rs610NR+ZZJi?=
- =?us-ascii?Q?No35cVcPO5qRI04uvG+5+L01PX91DqrohTMofiNkY4QrV3gLbos0o+27/6c9?=
- =?us-ascii?Q?g2K0yMHpH3nivFvtFcbL7LzUF34xpZiFRHSc7JBWL9BdoVu3szwVm+ao36pf?=
- =?us-ascii?Q?uYw6S1lq/0yNBHObRL1TpkGChOyUBFvjYdKpYLmfOJhaRqidLZmb5rIaI6I+?=
- =?us-ascii?Q?Rz6UfqlCIhQNt8Y7icTAVEB3lgJ1aVjEuU3XgwQuLHnGlrygtl/Z9JTxybyk?=
- =?us-ascii?Q?NNu2vNV4uRaNr+/CJ1tEskDYIebIu4Hdz/7F1I+OZ9mW8ylh5YNJ7xgyqa5g?=
- =?us-ascii?Q?KgnRZFwYM99jwZHsy2jpDQUnmkCeA/6veeKr4nlWZANswe+kbA2pfsIWvMPO?=
- =?us-ascii?Q?oxaiQ7IeorZRw/tD+YLtfb0zwaaZgHBSmWBT+ZvnMofVZ9TZ95w9SWUcsmiP?=
- =?us-ascii?Q?TzgFq7R9HADiRaYn/Nw0Yl43qDznv/8Nm8oDqDds5bpmvffFbsgeEEs4etYf?=
- =?us-ascii?Q?6TTiWBNV+BB8WoCnvin4C+xCKiL4vokzsfKSg+6x6hberYcwevyCkhdiVLA9?=
- =?us-ascii?Q?ackGn4COkI/Lou5/UTMNquIBaLg9e68SKP7uEZKPnlheDKBawxoQ0dR5iAL9?=
- =?us-ascii?Q?JXxGdCPvS4llKd4ZenRskv6GdWH+mnTJee9t3RY5xKkwYBYC1rqtMofBLnla?=
- =?us-ascii?Q?6tnmpzqVu9hqb0Qxo5CzSsrG5tIxjg237/g5gTTozv34AyOW+g24lfb7vGuq?=
- =?us-ascii?Q?qji+H0q7shTti995y4AebsxdHWYtdvMJrkiGI/fgCMRMrlPxhqOd/kON+UJV?=
- =?us-ascii?Q?IID2RZDSedfqUHopKl02io47EWouM9NlaOJYvSO6OJM8LdaGURzzvlzYu//O?=
- =?us-ascii?Q?oeQpmvLVV1RRD/bo6jkhnpdgbC6QEa5PX1FX1HqY4R4nzD88SH8D4u6n4Oe1?=
- =?us-ascii?Q?ng=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVBWNkQ0S29KRnV3M2Q5emtvTG9RYWVSVEFoNzUwbzU4WnlQbnViTFJLWDhS?=
+ =?utf-8?B?OGFBblZWTXU2SU1YT3RrRWttb1hmaTYzM3VCN0xaU05tUDM2TlhMMW5IdGVD?=
+ =?utf-8?B?N1llVWhzMkxqOFNIektHeHBody9BczlzN1p5RTBDTEJNaHVSYitGZDNVZzdW?=
+ =?utf-8?B?aTV0TDM5TmEvKzFEcURvb3FMU3YrRTJHSVZycVAvRFQvdUUwTXlQN3k2ZGFH?=
+ =?utf-8?B?QTdGUHJqSURVb0tydlgrRnA4b0tveGFBTGNsS3pZUGoremwybnVnNU52dkpN?=
+ =?utf-8?B?VkJtdGZVeCt6K0p4aXpYNEtlRW9ndnorR0JucjQvN3FkdVJ6aG84VjV4STRB?=
+ =?utf-8?B?N3ozdC9HUWp1a3ZydVNjRmllT3dqQ1hzVndmWWdERWpLbnZnNm8rVVFlaVNh?=
+ =?utf-8?B?NlIwZXVPN0p2SGFDRmxOL3NmYjVrYkJWaElNUUpLdHBySmxiUzFDY2UwSVI4?=
+ =?utf-8?B?aGJERERJbGp4Q3lQQlpGZC9JTW9ZTCs3WkJOTDlRZXNKci9FK3F2amVoSVRz?=
+ =?utf-8?B?azcwSGp4L2V2elo3dnI1emUxanZUTHI0VTI4aHJBb0d2UkxMWjdCMWx2SFk1?=
+ =?utf-8?B?anZ0V3FYaGVzU2JmNEowd1U4a0R3L0lIZTQ1T1dHYklIVVp5cWZ6QzlDTGQy?=
+ =?utf-8?B?b2VqZDNKWXI2aEhaMnE2U25ZSGJoWHl3T01uL2g5QjNsQk1OdVdFRWtkQVNI?=
+ =?utf-8?B?SlVtTkd5VUdVY3cxd2tLRTlQMHlrQ2RjbENUUmZYakFlR01IeWd0dW1hOG4v?=
+ =?utf-8?B?WGc2dEtwMmFwMDF3TFJULzZoeDdUY2d5NHNIQUhQVEw0TWxGWXByZTRyZW1C?=
+ =?utf-8?B?WEFYQThoRWxxUWVDbGw5Q0JKbENSK25tWnlYSmtDc0pRbDVETERidk9OeG4w?=
+ =?utf-8?B?ajJKejI5eHlUUURtVC9hQ0I2Zjk1TTFIb0hNcUxkblFNRmdtc01uMHBIWXFw?=
+ =?utf-8?B?d2hZWTFRSjh4d3ZiU3lvR0JDVXl2T1F3NUhtUzkxcWdmb1kyNDRxMG5GVkY2?=
+ =?utf-8?B?SEVIOEppU3dwVmZmRDdRVndrbzRQdXJGeHowWkVmYXlidUhVanIzandUMFBu?=
+ =?utf-8?B?YkZSRlJuc0xhQVdQVWdJUHZ2T0IzTWV4b2Q5aDVSWWcwZ2hicWJvbmFXSmNP?=
+ =?utf-8?B?OWJoUHRnNGZEZkdNRnlaOE0wU2RJTGFsTE10YTB5Mnh3Q1JFYmpCRUlPQ2R5?=
+ =?utf-8?B?WnI0cmUwNWs1WWxibXNKN1p1V3NkZnBsVGcyUE1BeDhqbXZkQWc4RlpwbWdz?=
+ =?utf-8?B?MWVLTExET2dXeDNIV1dnZk9CT2VWcGVXbE9DM3JNcDZteUI0d0hDOE5oV0cw?=
+ =?utf-8?B?UDJHUEEwTTAyRjI4WmR4VytYK3FQdm4wNkVSbkdwVGNVb0duTlp4Qk9ScCtz?=
+ =?utf-8?B?Tm1wU2ZrcjByZU9VYTlBcHpYc0FwdjVlOGNGVWMvcmJkMnAyYWU3d2VycGh2?=
+ =?utf-8?B?UkpmZTNIcVRjMkJSN0swU0FEZEJ3NGdPNmpJeFZzUXlyOENiK09LMGRDcENK?=
+ =?utf-8?B?b0hVaWJQQjRTSXhjRjIrM0FQdHNsYW4vMWxQMHB3cHF5UTZHQWxuS0VQRjJT?=
+ =?utf-8?B?KzBLc1MyWDdWR3BjMVliMGNGbUpzUzRNRVVLQk5Rd205MEpvNEtqU0ozVUp5?=
+ =?utf-8?B?MUtaRytGSGlYN21OVEZVZ2d4aG1Mc2xqSitYRFFmbVBVWXB1NUpXSVNNVkdW?=
+ =?utf-8?B?MEMzczdIaU9aY1Q5MnA3TlZ1QTQ5M3lWYkRPWVIvd0lxVCsxbEcreDVNc2g5?=
+ =?utf-8?B?UlVaVVc1QkUreHJROGROcGMvNWZVVUN0ZnJLOE9hYzV4Q2hhdVJPNlpUdnBz?=
+ =?utf-8?B?SUE0a0c1ZlZZZndoeDJ0NXIvamJxTUE0djkzbU94SUh6WCtRMG9xQkNBazZQ?=
+ =?utf-8?B?b2lPSVM4T2JSMXpSQk56T3E1TDlkUXQ1UmRvbVRDVEZaRms1b29qdzJMREsx?=
+ =?utf-8?B?ZW51NXh0alBmZStwVzFCVGNwbGdLS1phWWREVkt2SjNmcG5IMnRseTVwdzNu?=
+ =?utf-8?B?cUk1RzVqSCtWS2IyRHNXOWNXVU1vNmxlUC9vaGllV2Q5OVdlenh3b2dDb1Vt?=
+ =?utf-8?B?ZUQrVE5RWWxScU1sek5ma2tqM2VKdHhCWHFRQzdISEIzSjBnRVpQV3ZIUVk2?=
+ =?utf-8?B?Q05kWlgrUHp5T3RUdzEzLzdGL3cwZlBKUCtYMWhuMzBmT3BmcVZORFg0R1Ay?=
+ =?utf-8?B?M3c9PQ==?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: YgeACnVvN0bf280Haw4oLWtrJUMGmwarO0WxRqbe0i0BGZREoBcbhDUnov8gRyUrwy0sVVoXdazFCam/oBR8N80qxKj+N90/pDGDheEG5hT/fsOdOMZ5muVUl6hRSfMCYTtON5XckOxUY/tvJBwIq/xI9mKnVQxif+dWhoIwix8CV0/bJAjTpuG+xYKTpqPXiXvx3wbmd2EngsN8icPDEdSgSCtt1b9+Jfn4G8dATucRQsN6+wKW2aZb4XYbrMzHzFwy7BqMvPu7zh/2WvoOzGdVMzQRlnTzK94NtskRa27oi7C9/dtdF5DfD4mXgZlNG3d6Wcgac77j81a9tXb65wDfvkDovSx7NJKWSofiAXoxmTENDp6MkumKnv7b/WS5hkBDCeARwRhSNITKXVZ1URuLHp/q5VV4rn6LQKTRKVTsZOLcADAEbH7B48NapRfj+zAGiURbX/DhbuwP+Grv21aeSF0hBZJWZSlpa4tUqHKnJywRB/wiqOktpFdgkYFOtlPfiCqIVmyJtu5X6fcCoo92zyja1Vg2XXP8d6PEZ7k4alDw5aOo36gUrmbmD+pG+niBBUkLT4No6Jz+k2aEjoQyxnpv3eerKOXF0Vxc+I0=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: ak7TbKT66zYXtPBGpHMW4paXrl2ibaiugxnwrEvR6REUEdIKDfnDwEWTqYNXTDTyBTALMXk2r2fpcrsdT5b5fT3J/2SrM5X4kppn4rjOVSOhLYjfMuK4BdU9b/TibkQ3E0+/UwbMlv37SICXNS9N8jSMJst6/mdqODOeNQMqdsdvW28xhIUVC4vof2x8OMkQFRipRoHx9619WPs/FiyerawuITW8xU01Hoi0D/LUSN8B33e+l1VpLo4vshMFOYdh9vMvG+x2fNOeOfcldYSgEGtFeKMR0JSAIMKqKKCGmL69gSF8+D5Oi7PQq2s9Mi7Vwn+xS6aCMPjuavOv/gOhHxBUsVH6gxdFSJW76HYuZmaCiLvlgfqYcoXLdzOFOXgV8U74gRh2gw9VzU5IBvLaTOh9SsWVDo83h7DyV9xkjHG9VKW4sLIj8Arhs613LiHfgnbV26kMtftTntBbLEuCGDO482rcwGbKpXVVoN5Jjcdln3YJCptJ8f2G3+ShgL1GjjlcUbOrekrv7AmMs/+50z41n9wIYwwp3jcDW7O1zBwT+kFobWS/Kjjp3UMu1zsLm/lMxKaQEI7qIXBXAKECU6CIWIc/hEW5C9C2Qg7iYlY=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd5ef50e-30ad-4032-b292-08dc893a3b7d
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3f4dc8f-58ea-4540-1aae-08dc893a4341
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2024 10:43:58.0600
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2024 10:44:11.0211
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P342nQXQ8gY425pPQDfGV0B6cl6l5fX7e+CbGWlEnuv1uCGrlvBn9GN3ShsMNA75RFkiEEGLYWjZsgCZ5ZevcA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HyWTxtyrc6n7LDVLpJvs0gKax0gych5oGOvFGySS9EIoJbW2TqetlTxbV488HqVV9WpJ3Pyw9c5kT0eE1NtBqQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5613
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-10_02,2024-06-10_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 adultscore=0
- mlxscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
- definitions=main-2406100081
-X-Proofpoint-ORIG-GUID: JFo0uzMO69HIN5WjqhJRck976ags3LPo
-X-Proofpoint-GUID: JFo0uzMO69HIN5WjqhJRck976ags3LPo
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2406100081
+X-Proofpoint-GUID: 3oVZGuYJx9fSa9lTTXE_tmRHvvyxknO-
+X-Proofpoint-ORIG-GUID: 3oVZGuYJx9fSa9lTTXE_tmRHvvyxknO-
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240610_034423_756698_BC46C44C 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20240610_034428_542881_0FA6ADA0 
+X-CRM114-Status: GOOD (  14.67  )
 X-Mailman-Approved-At: Mon, 10 Jun 2024 09:20:26 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -202,593 +218,159 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add atomic write support, as follows:
-- add helper functions to get request_queue atomic write limits
-- report request_queue atomic write support limits to sysfs and update Doc
-- support to safely merge atomic writes
-- deal with splitting atomic writes
-- misc helper functions
-- add a per-request atomic write flag
+From: Alan Adamson <alan.adamson@oracle.com>
 
-New request_queue limits are added, as follows:
-- atomic_write_hw_max is set by the block driver and is the maximum length
-  of an atomic write which the device may support. It is not
-  necessarily a power-of-2.
-- atomic_write_max_sectors is derived from atomic_write_hw_max_sectors and
-  max_hw_sectors. It is always a power-of-2. Atomic writes may be merged,
-  and atomic_write_max_sectors would be the limit on a merged atomic write
-  request size. This value is not capped at max_sectors, as the value in
-  max_sectors can be controlled from userspace, and it would only cause
-  trouble if userspace could limit atomic_write_unit_max_bytes and the
-  other atomic write limits.
-- atomic_write_hw_unit_{min,max} are set by the block driver and are the
-  min/max length of an atomic write unit which the device may support. They
-  both must be a power-of-2. Typically atomic_write_hw_unit_max will hold
-  the same value as atomic_write_hw_max.
-- atomic_write_unit_{min,max} are derived from
-  atomic_write_hw_unit_{min,max}, max_hw_sectors, and block core limits.
-  Both min and max values must be a power-of-2.
-- atomic_write_hw_boundary is set by the block driver. If non-zero, it
-  indicates an LBA space boundary at which an atomic write straddles no
-  longer is atomically executed by the disk. The value must be a
-  power-of-2. Note that it would be acceptable to enforce a rule that
-  atomic_write_hw_boundary_sectors is a multiple of
-  atomic_write_hw_unit_max, but the resultant code would be more
-  complicated.
+Add support to set block layer request_queue atomic write limits. The
+limits will be derived from either the namespace or controller atomic
+parameters.
 
-All atomic writes limits are by default set 0 to indicate no atomic write
-support. Even though it is assumed by Linux that a logical block can always
-be atomically written, we ignore this as it is not of particular interest.
-Stacked devices are just not supported either for now.
+NVMe atomic-related parameters are grouped into "normal" and "power-fail"
+(or PF) class of parameter. For atomic write support, only PF parameters
+are of interest. The "normal" parameters are concerned with racing reads
+and writes (which also applies to PF). See NVM Command Set Specification
+Revision 1.0d section 2.1.4 for reference.
 
-An atomic write must always be submitted to the block driver as part of a
-single request. As such, only a single BIO must be submitted to the block
-layer for an atomic write. When a single atomic write BIO is submitted, it
-cannot be split. As such, atomic_write_unit_{max, min}_bytes are limited
-by the maximum guaranteed BIO size which will not be required to be split.
-This max size is calculated by request_queue max segments and the number
-of bvecs a BIO can fit, BIO_MAX_VECS. Currently we rely on userspace
-issuing a write with iovcnt=1 for pwritev2() - as such, we can rely on each
-segment containing PAGE_SIZE of data, apart from the first+last, which each
-can fit logical block size of data. The first+last will be LBS
-length/aligned as we rely on direct IO alignment rules also.
+Whether to use per namespace or controller atomic parameters is decided by
+NSFEAT bit 1 - see Figure 97: Identify – Identify Namespace Data
+Structure, NVM Command Set.
 
-New sysfs files are added to report the following atomic write limits:
-- atomic_write_unit_max_bytes - same as atomic_write_unit_max_sectors in
-				bytes
-- atomic_write_unit_min_bytes - same as atomic_write_unit_min_sectors in
-				bytes
-- atomic_write_boundary_bytes - same as atomic_write_hw_boundary_sectors in
-				bytes
-- atomic_write_max_bytes      - same as atomic_write_max_sectors in bytes
+NVMe namespaces may define an atomic boundary, whereby no atomic guarantees
+are provided for a write which straddles this per-lba space boundary. The
+block layer merging policy is such that no merges may occur in which the
+resultant request would straddle such a boundary.
 
-Atomic writes may only be merged with other atomic writes and only under
-the following conditions:
-- total resultant request length <= atomic_write_max_bytes
-- the merged write does not straddle a boundary
+Unlike SCSI, NVMe specifies no granularity or alignment rules, apart from
+atomic boundary rule. In addition, again unlike SCSI, there is no
+dedicated atomic write command - a write which adheres to the atomic size
+limit and boundary is implicitly atomic.
 
-Helper function bdev_can_atomic_write() is added to indicate whether
-atomic writes may be issued to a bdev. If a bdev is a partition, the
-partition start must be aligned with both atomic_write_unit_min_sectors
-and atomic_write_hw_boundary_sectors.
+If NSFEAT bit 1 is set, the following parameters are of interest:
+- NAWUPF (Namespace Atomic Write Unit Power Fail)
+- NABSPF (Namespace Atomic Boundary Size Power Fail)
+- NABO (Namespace Atomic Boundary Offset)
 
-FSes will rely on the block layer to validate that an atomic write BIO
-submitted will be of valid size, so add blk_validate_atomic_write_op_size()
-for this purpose. Userspace expects an atomic write which is of invalid
-size to be rejected with -EINVAL, so add BLK_STS_INVAL for this. Also use
-BLK_STS_INVAL for when a BIO needs to be split, as this should mean an
-invalid size BIO.
+and we set request_queue limits as follows:
+- atomic_write_unit_max = rounddown_pow_of_two(NAWUPF)
+- atomic_write_max_bytes = NAWUPF
+- atomic_write_boundary = NABSPF
 
-Flag REQ_ATOMIC is used for indicating an atomic write.
+If in the unlikely scenario that NABO is non-zero, then atomic writes will
+not be supported at all as dealing with this adds extra complexity. This
+policy may change in future.
 
-Co-developed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+In all cases, atomic_write_unit_min is set to the logical block size.
+
+If NSFEAT bit 1 is unset, the following parameter is of interest:
+- AWUPF (Atomic Write Unit Power Fail)
+
+and we set request_queue limits as follows:
+- atomic_write_unit_max = rounddown_pow_of_two(AWUPF)
+- atomic_write_max_bytes = AWUPF
+- atomic_write_boundary = 0
+
+A new function, nvme_valid_atomic_write(), is also called from submission
+path to verify that a request has been submitted to the driver will
+actually be executed atomically. As mentioned, there is no dedicated NVMe
+atomic write command (which may error for a command which exceeds the
+controller atomic write limits).
+
+Note on NABSPF:
+There seems to be some vagueness in the spec as to whether NABSPF applies
+for NSFEAT bit 1 being unset. Figure 97 does not explicitly mention NABSPF
+and how it is affected by bit 1. However Figure 4 does tell to check Figure
+97 for info about per-namespace parameters, which NABSPF is, so it is
+implied. However currently nvme_update_disk_info() does check namespace
+parameter NABO regardless of this bit.
+
+Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+jpg: total rewrite
 Signed-off-by: John Garry <john.g.garry@oracle.com>
 ---
- Documentation/ABI/stable/sysfs-block | 53 ++++++++++++++++++++
- block/blk-core.c                     | 19 +++++++
- block/blk-merge.c                    | 50 +++++++++++++++++--
- block/blk-settings.c                 | 75 ++++++++++++++++++++++++++++
- block/blk-sysfs.c                    | 33 ++++++++++++
- block/blk.h                          |  3 ++
- include/linux/blk_types.h            |  8 ++-
- include/linux/blkdev.h               | 55 ++++++++++++++++++++
- 8 files changed, 291 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 49 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
-index 831f19a32e08..cea8856f798d 100644
---- a/Documentation/ABI/stable/sysfs-block
-+++ b/Documentation/ABI/stable/sysfs-block
-@@ -21,6 +21,59 @@ Description:
- 		device is offset from the internal allocation unit's
- 		natural alignment.
- 
-+What:		/sys/block/<disk>/atomic_write_max_bytes
-+Date:		February 2024
-+Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-+Description:
-+		[RO] This parameter specifies the maximum atomic write
-+		size reported by the device. This parameter is relevant
-+		for merging of writes, where a merged atomic write
-+		operation must not exceed this number of bytes.
-+		This parameter may be greater than the value in
-+		atomic_write_unit_max_bytes as
-+		atomic_write_unit_max_bytes will be rounded down to a
-+		power-of-two and atomic_write_unit_max_bytes may also be
-+		limited by some other queue limits, such as max_segments.
-+		This parameter - along with atomic_write_unit_min_bytes
-+		and atomic_write_unit_max_bytes - will not be larger than
-+		max_hw_sectors_kb, but may be larger than max_sectors_kb.
-+
-+
-+What:		/sys/block/<disk>/atomic_write_unit_min_bytes
-+Date:		February 2024
-+Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-+Description:
-+		[RO] This parameter specifies the smallest block which can
-+		be written atomically with an atomic write operation. All
-+		atomic write operations must begin at a
-+		atomic_write_unit_min boundary and must be multiples of
-+		atomic_write_unit_min. This value must be a power-of-two.
-+
-+
-+What:		/sys/block/<disk>/atomic_write_unit_max_bytes
-+Date:		February 2024
-+Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-+Description:
-+		[RO] This parameter defines the largest block which can be
-+		written atomically with an atomic write operation. This
-+		value must be a multiple of atomic_write_unit_min and must
-+		be a power-of-two. This value will not be larger than
-+		atomic_write_max_bytes.
-+
-+
-+What:		/sys/block/<disk>/atomic_write_boundary_bytes
-+Date:		February 2024
-+Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-+Description:
-+		[RO] A device may need to internally split an atomic write I/O
-+		which straddles a given logical block address boundary. This
-+		parameter specifies the size in bytes of the atomic boundary if
-+		one is reported by the device. This value must be a
-+		power-of-two and at least the size as in
-+		atomic_write_unit_max_bytes.
-+		Any attempt to merge atomic write I/Os must not result in a
-+		merged I/O which crosses this boundary (if any).
-+
- 
- What:		/sys/block/<disk>/diskseq
- Date:		February 2021
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 82c3ae22d76d..d9f58fe71758 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -174,6 +174,8 @@ static const struct {
- 	/* Command duration limit device-side timeout */
- 	[BLK_STS_DURATION_LIMIT]	= { -ETIME, "duration limit exceeded" },
- 
-+	[BLK_STS_INVAL]		= { -EINVAL,	"invalid" },
-+
- 	/* everything else not covered above: */
- 	[BLK_STS_IOERR]		= { -EIO,	"I/O" },
- };
-@@ -739,6 +741,18 @@ void submit_bio_noacct_nocheck(struct bio *bio)
- 		__submit_bio_noacct(bio);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f5d150c62955..91001892f60b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -927,6 +927,30 @@ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
+ 	return BLK_STS_OK;
  }
  
-+static blk_status_t blk_validate_atomic_write_op_size(struct request_queue *q,
-+						 struct bio *bio)
++static bool nvme_valid_atomic_write(struct request *req)
 +{
-+	if (bio->bi_iter.bi_size > queue_atomic_write_unit_max_bytes(q))
-+		return BLK_STS_INVAL;
++	struct request_queue *q = req->q;
++	u32 boundary_bytes = queue_atomic_write_boundary_bytes(q);
 +
-+	if (bio->bi_iter.bi_size % queue_atomic_write_unit_min_bytes(q))
-+		return BLK_STS_INVAL;
-+
-+	return BLK_STS_OK;
-+}
-+
- /**
-  * submit_bio_noacct - re-submit a bio to the block device layer for I/O
-  * @bio:  The bio describing the location in memory and on the device.
-@@ -797,6 +811,11 @@ void submit_bio_noacct(struct bio *bio)
- 	switch (bio_op(bio)) {
- 	case REQ_OP_READ:
- 	case REQ_OP_WRITE:
-+		if (bio->bi_opf & REQ_ATOMIC) {
-+			status = blk_validate_atomic_write_op_size(q, bio);
-+			if (status != BLK_STS_OK)
-+				goto end_io;
-+		}
- 		break;
- 	case REQ_OP_FLUSH:
- 		/*
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 68969e27c831..b158d31940d1 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -154,8 +154,16 @@ static struct bio *bio_split_write_zeroes(struct bio *bio,
- 	return bio_split(bio, lim->max_write_zeroes_sectors, GFP_NOIO, bs);
- }
- 
--static inline unsigned int blk_boundary_sectors(const struct queue_limits *lim)
-+static inline unsigned int blk_boundary_sectors(const struct queue_limits *lim,
-+						bool is_atomic)
- {
-+	/*
-+	 * If chunk_sectors and atomic_write_boundary_sectors are both set,
-+	 * then they must be equal.
-+	 */
-+	if (is_atomic)
-+		return lim->atomic_write_boundary_sectors;
-+
- 	return lim->chunk_sectors;
- }
- 
-@@ -172,8 +180,18 @@ static inline unsigned get_max_io_size(struct bio *bio,
- {
- 	unsigned pbs = lim->physical_block_size >> SECTOR_SHIFT;
- 	unsigned lbs = lim->logical_block_size >> SECTOR_SHIFT;
--	unsigned boundary_sectors = blk_boundary_sectors(lim);
--	unsigned max_sectors = lim->max_sectors, start, end;
-+	bool is_atomic = bio->bi_opf & REQ_ATOMIC;
-+	unsigned boundary_sectors = blk_boundary_sectors(lim, is_atomic);
-+	unsigned max_sectors, start, end;
-+
-+	/*
-+	 * We ignore lim->max_sectors for atomic writes because it may less
-+	 * than the actual bio size, which we cannot tolerate.
-+	 */
-+	if (is_atomic)
-+		max_sectors = lim->atomic_write_max_sectors;
-+	else
-+		max_sectors = lim->max_sectors;
- 
- 	if (boundary_sectors) {
- 		max_sectors = min(max_sectors,
-@@ -311,6 +329,11 @@ struct bio *bio_split_rw(struct bio *bio, const struct queue_limits *lim,
- 	*segs = nsegs;
- 	return NULL;
- split:
-+	if (bio->bi_opf & REQ_ATOMIC) {
-+		bio->bi_status = BLK_STS_INVAL;
-+		bio_endio(bio);
-+		return ERR_PTR(-EINVAL);
-+	}
- 	/*
- 	 * We can't sanely support splitting for a REQ_NOWAIT bio. End it
- 	 * with EAGAIN if splitting is required and return an error pointer.
-@@ -596,11 +619,12 @@ static inline unsigned int blk_rq_get_max_sectors(struct request *rq,
- 	struct request_queue *q = rq->q;
- 	struct queue_limits *lim = &q->limits;
- 	unsigned int max_sectors, boundary_sectors;
-+	bool is_atomic = rq->cmd_flags & REQ_ATOMIC;
- 
- 	if (blk_rq_is_passthrough(rq))
- 		return q->limits.max_hw_sectors;
- 
--	boundary_sectors = blk_boundary_sectors(lim);
-+	boundary_sectors = blk_boundary_sectors(lim, is_atomic);
- 	max_sectors = blk_queue_get_max_sectors(rq);
- 
- 	if (!boundary_sectors ||
-@@ -806,6 +830,18 @@ static enum elv_merge blk_try_req_merge(struct request *req,
- 	return ELEVATOR_NO_MERGE;
- }
- 
-+static bool blk_atomic_write_mergeable_rq_bio(struct request *rq,
-+					      struct bio *bio)
-+{
-+	return (rq->cmd_flags & REQ_ATOMIC) == (bio->bi_opf & REQ_ATOMIC);
-+}
-+
-+static bool blk_atomic_write_mergeable_rqs(struct request *rq,
-+					   struct request *next)
-+{
-+	return (rq->cmd_flags & REQ_ATOMIC) == (next->cmd_flags & REQ_ATOMIC);
-+}
-+
- /*
-  * For non-mq, this has to be called with the request spinlock acquired.
-  * For mq with scheduling, the appropriate queue wide lock should be held.
-@@ -829,6 +865,9 @@ static struct request *attempt_merge(struct request_queue *q,
- 	if (req->ioprio != next->ioprio)
- 		return NULL;
- 
-+	if (!blk_atomic_write_mergeable_rqs(req, next))
-+		return NULL;
-+
- 	/*
- 	 * If we are allowed to merge, then append bio list
- 	 * from next to rq and release next. merge_requests_fn
-@@ -960,6 +999,9 @@ bool blk_rq_merge_ok(struct request *rq, struct bio *bio)
- 	if (rq->ioprio != bio_prio(bio))
- 		return false;
- 
-+	if (blk_atomic_write_mergeable_rq_bio(rq, bio) == false)
++	if (blk_rq_bytes(req) > queue_atomic_write_unit_max_bytes(q))
 +		return false;
 +
- 	return true;
- }
- 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 996f247fc98e..140e13616462 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -97,6 +97,79 @@ static int blk_validate_zoned_limits(struct queue_limits *lim)
- 	return 0;
- }
- 
-+/*
-+ * Returns max guaranteed bytes which we can fit in a bio.
-+ *
-+ * We request that an atomic_write is ITER_UBUF iov_iter (so a single vector),
-+ * so we assume that we can fit in at least PAGE_SIZE in a segment, apart from
-+ * the first and last segments.
-+ */
-+static
-+unsigned int blk_queue_max_guaranteed_bio(struct queue_limits *lim)
-+{
-+	unsigned int max_segments = min(BIO_MAX_VECS, lim->max_segments);
-+	unsigned int length;
++	if (boundary_bytes) {
++		u64 mask = boundary_bytes - 1, imask = ~mask;
++		u64 start = blk_rq_pos(req) << SECTOR_SHIFT;
++		u64 end = start + blk_rq_bytes(req) - 1;
 +
-+	length = min(max_segments, 2) * lim->logical_block_size;
-+	if (max_segments > 2)
-+		length += (max_segments - 2) * PAGE_SIZE;
++		/* If greater then must be crossing a boundary */
++		if (blk_rq_bytes(req) > boundary_bytes)
++			return false;
 +
-+	return length;
-+}
-+
-+static void blk_atomic_writes_update_limits(struct queue_limits *lim)
-+{
-+	unsigned int unit_limit = min(lim->max_hw_sectors << SECTOR_SHIFT,
-+					blk_queue_max_guaranteed_bio(lim));
-+
-+	unit_limit = rounddown_pow_of_two(unit_limit);
-+
-+	lim->atomic_write_max_sectors =
-+		min(lim->atomic_write_hw_max >> SECTOR_SHIFT,
-+			lim->max_hw_sectors);
-+	lim->atomic_write_unit_min =
-+		min(lim->atomic_write_hw_unit_min, unit_limit);
-+	lim->atomic_write_unit_max =
-+		min(lim->atomic_write_hw_unit_max, unit_limit);
-+	lim->atomic_write_boundary_sectors =
-+		lim->atomic_write_hw_boundary >> SECTOR_SHIFT;
-+}
-+
-+static void blk_validate_atomic_write_limits(struct queue_limits *lim)
-+{
-+	unsigned int boundary_sectors_hw;
-+
-+	if (!lim->atomic_write_hw_max)
-+		goto unsupported;
-+
-+	boundary_sectors_hw = lim->atomic_write_hw_boundary >> SECTOR_SHIFT;
-+
-+	if (boundary_sectors_hw) {
-+		/* It doesn't make sense to allow different non-zero values */
-+		if (lim->chunk_sectors &&
-+		    lim->chunk_sectors != boundary_sectors_hw)
-+			goto unsupported;
-+
-+		/* The boundary size just needs to be a multiple of unit_max
-+		 * (and not necessarily a power-of-2), so this following check
-+		 * could be relaxed in future.
-+		 * Furthermore, if needed, unit_max could be reduced so that
-+		 * it is compliant with a !power-of-2 boundary.
-+		 */
-+		if (!is_power_of_2(lim->atomic_write_hw_boundary))
-+			goto unsupported;
-+	}
-+
-+	blk_atomic_writes_update_limits(lim);
-+	return;
-+
-+unsupported:
-+	lim->atomic_write_max_sectors = 0;
-+	lim->atomic_write_boundary_sectors = 0;
-+	lim->atomic_write_unit_min = 0;
-+	lim->atomic_write_unit_max = 0;
-+}
-+
- /*
-  * Check that the limits in lim are valid, initialize defaults for unset
-  * values, and cap values based on others where needed.
-@@ -230,6 +303,8 @@ static int blk_validate_limits(struct queue_limits *lim)
- 		lim->misaligned = 0;
- 	}
- 
-+	blk_validate_atomic_write_limits(lim);
-+
- 	return blk_validate_zoned_limits(lim);
- }
- 
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index f0f9314ab65c..42fbbaa52ccf 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -118,6 +118,30 @@ static ssize_t queue_max_discard_segments_show(struct request_queue *q,
- 	return queue_var_show(queue_max_discard_segments(q), page);
- }
- 
-+static ssize_t queue_atomic_write_max_bytes_show(struct request_queue *q,
-+						char *page)
-+{
-+	return queue_var_show(queue_atomic_write_max_bytes(q), page);
-+}
-+
-+static ssize_t queue_atomic_write_boundary_show(struct request_queue *q,
-+						char *page)
-+{
-+	return queue_var_show(queue_atomic_write_boundary_bytes(q), page);
-+}
-+
-+static ssize_t queue_atomic_write_unit_min_show(struct request_queue *q,
-+						char *page)
-+{
-+	return queue_var_show(queue_atomic_write_unit_min_bytes(q), page);
-+}
-+
-+static ssize_t queue_atomic_write_unit_max_show(struct request_queue *q,
-+						char *page)
-+{
-+	return queue_var_show(queue_atomic_write_unit_max_bytes(q), page);
-+}
-+
- static ssize_t queue_max_integrity_segments_show(struct request_queue *q, char *page)
- {
- 	return queue_var_show(q->limits.max_integrity_segments, page);
-@@ -495,6 +519,11 @@ QUEUE_RO_ENTRY(queue_discard_max_hw, "discard_max_hw_bytes");
- QUEUE_RW_ENTRY(queue_discard_max, "discard_max_bytes");
- QUEUE_RO_ENTRY(queue_discard_zeroes_data, "discard_zeroes_data");
- 
-+QUEUE_RO_ENTRY(queue_atomic_write_max_bytes, "atomic_write_max_bytes");
-+QUEUE_RO_ENTRY(queue_atomic_write_boundary, "atomic_write_boundary_bytes");
-+QUEUE_RO_ENTRY(queue_atomic_write_unit_max, "atomic_write_unit_max_bytes");
-+QUEUE_RO_ENTRY(queue_atomic_write_unit_min, "atomic_write_unit_min_bytes");
-+
- QUEUE_RO_ENTRY(queue_write_same_max, "write_same_max_bytes");
- QUEUE_RO_ENTRY(queue_write_zeroes_max, "write_zeroes_max_bytes");
- QUEUE_RO_ENTRY(queue_zone_append_max, "zone_append_max_bytes");
-@@ -618,6 +647,10 @@ static struct attribute *queue_attrs[] = {
- 	&queue_discard_max_entry.attr,
- 	&queue_discard_max_hw_entry.attr,
- 	&queue_discard_zeroes_data_entry.attr,
-+	&queue_atomic_write_max_bytes_entry.attr,
-+	&queue_atomic_write_boundary_entry.attr,
-+	&queue_atomic_write_unit_min_entry.attr,
-+	&queue_atomic_write_unit_max_entry.attr,
- 	&queue_write_same_max_entry.attr,
- 	&queue_write_zeroes_max_entry.attr,
- 	&queue_zone_append_max_entry.attr,
-diff --git a/block/blk.h b/block/blk.h
-index 75c1683fc320..b2fa42657f62 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -193,6 +193,9 @@ static inline unsigned int blk_queue_get_max_sectors(struct request *rq)
- 	if (unlikely(op == REQ_OP_WRITE_ZEROES))
- 		return q->limits.max_write_zeroes_sectors;
- 
-+	if (rq->cmd_flags & REQ_ATOMIC)
-+		return q->limits.atomic_write_max_sectors;
-+
- 	return q->limits.max_sectors;
- }
- 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 781c4500491b..632edd71f8c6 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -162,6 +162,11 @@ typedef u16 blk_short_t;
-  */
- #define BLK_STS_DURATION_LIMIT	((__force blk_status_t)17)
- 
-+/*
-+ * Invalid size or alignment.
-+ */
-+#define BLK_STS_INVAL	((__force blk_status_t)19)
-+
- /**
-  * blk_path_error - returns true if error may be path related
-  * @error: status the request was completed with
-@@ -370,7 +375,7 @@ enum req_flag_bits {
- 	__REQ_SWAP,		/* swap I/O */
- 	__REQ_DRV,		/* for driver use */
- 	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
--
-+	__REQ_ATOMIC,		/* for atomic write operations */
- 	/*
- 	 * Command specific flags, keep last:
- 	 */
-@@ -402,6 +407,7 @@ enum req_flag_bits {
- #define REQ_SWAP	(__force blk_opf_t)(1ULL << __REQ_SWAP)
- #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
-+#define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
- 
- #define REQ_NOUNMAP	(__force blk_opf_t)(1ULL << __REQ_NOUNMAP)
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index ddff90766f9f..930debeba3f0 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -310,6 +310,16 @@ struct queue_limits {
- 	unsigned int		discard_alignment;
- 	unsigned int		zone_write_granularity;
- 
-+	/* atomic write limits */
-+	unsigned int		atomic_write_hw_max;
-+	unsigned int		atomic_write_max_sectors;
-+	unsigned int		atomic_write_hw_boundary;
-+	unsigned int		atomic_write_boundary_sectors;
-+	unsigned int		atomic_write_hw_unit_min;
-+	unsigned int		atomic_write_unit_min;
-+	unsigned int		atomic_write_hw_unit_max;
-+	unsigned int		atomic_write_unit_max;
-+
- 	unsigned short		max_segments;
- 	unsigned short		max_integrity_segments;
- 	unsigned short		max_discard_segments;
-@@ -1355,6 +1365,30 @@ static inline int queue_dma_alignment(const struct request_queue *q)
- 	return q ? q->limits.dma_alignment : 511;
- }
- 
-+static inline unsigned int
-+queue_atomic_write_unit_max_bytes(const struct request_queue *q)
-+{
-+	return q->limits.atomic_write_unit_max;
-+}
-+
-+static inline unsigned int
-+queue_atomic_write_unit_min_bytes(const struct request_queue *q)
-+{
-+	return q->limits.atomic_write_unit_min;
-+}
-+
-+static inline unsigned int
-+queue_atomic_write_boundary_bytes(const struct request_queue *q)
-+{
-+	return q->limits.atomic_write_boundary_sectors << SECTOR_SHIFT;
-+}
-+
-+static inline unsigned int
-+queue_atomic_write_max_bytes(const struct request_queue *q)
-+{
-+	return q->limits.atomic_write_max_sectors << SECTOR_SHIFT;
-+}
-+
- static inline unsigned int bdev_dma_alignment(struct block_device *bdev)
- {
- 	return queue_dma_alignment(bdev_get_queue(bdev));
-@@ -1596,6 +1630,27 @@ struct io_comp_batch {
- 	void (*complete)(struct io_comp_batch *);
- };
- 
-+static inline bool bdev_can_atomic_write(struct block_device *bdev)
-+{
-+	struct request_queue *bd_queue = bdev->bd_queue;
-+	struct queue_limits *limits = &bd_queue->limits;
-+
-+	if (!limits->atomic_write_unit_min)
-+		return false;
-+
-+	if (bdev_is_partition(bdev)) {
-+		sector_t bd_start_sect = bdev->bd_start_sect;
-+		unsigned int alignment =
-+			max(limits->atomic_write_unit_min,
-+			    limits->atomic_write_hw_boundary);
-+
-+		if (!IS_ALIGNED(bd_start_sect, alignment >> SECTOR_SHIFT))
++		if ((start & imask) != (end & imask))
 +			return false;
 +	}
 +
 +	return true;
 +}
 +
- #define DEFINE_IO_COMP_BATCH(name)	struct io_comp_batch name = { }
+ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 		struct request *req, struct nvme_command *cmnd,
+ 		enum nvme_opcode op)
+@@ -941,6 +965,12 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
  
- #endif /* _LINUX_BLKDEV_H */
+ 	if (req->cmd_flags & REQ_RAHEAD)
+ 		dsmgmt |= NVME_RW_DSM_FREQ_PREFETCH;
++	/*
++	 * Ensure that nothing has been sent which cannot be executed
++	 * atomically.
++	 */
++	if (req->cmd_flags & REQ_ATOMIC && !nvme_valid_atomic_write(req))
++		return BLK_STS_INVAL;
+ 
+ 	cmnd->rw.opcode = op;
+ 	cmnd->rw.flags = 0;
+@@ -1921,6 +1951,23 @@ static void nvme_configure_metadata(struct nvme_ctrl *ctrl,
+ 	}
+ }
+ 
++
++static void nvme_update_atomic_write_disk_info(struct nvme_ns *ns,
++			struct nvme_id_ns *id, struct queue_limits *lim,
++			u32 bs, u32 atomic_bs)
++{
++	unsigned int boundary = 0;
++
++	if (id->nsfeat & NVME_NS_FEAT_ATOMICS && id->nawupf) {
++		if (le16_to_cpu(id->nabspf))
++			boundary = (le16_to_cpu(id->nabspf) + 1) * bs;
++	}
++	lim->atomic_write_hw_max = atomic_bs;
++	lim->atomic_write_hw_boundary = boundary;
++	lim->atomic_write_hw_unit_min = bs;
++	lim->atomic_write_hw_unit_max = rounddown_pow_of_two(atomic_bs);
++}
++
+ static u32 nvme_max_drv_segments(struct nvme_ctrl *ctrl)
+ {
+ 	return ctrl->max_hw_sectors / (NVME_CTRL_PAGE_SIZE >> SECTOR_SHIFT) + 1;
+@@ -1967,6 +2014,8 @@ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
+ 			atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
+ 		else
+ 			atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
++
++		nvme_update_atomic_write_disk_info(ns, id, lim, bs, atomic_bs);
+ 	}
+ 
+ 	if (id->nsfeat & NVME_NS_FEAT_IO_OPT) {
 -- 
 2.31.1
 
