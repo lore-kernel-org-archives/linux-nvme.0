@@ -4,76 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEBD2C27C55
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 10:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F45FC27C55
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jun 2024 10:07:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=nk2TANx1IhHHXfKlW0x95IHimx
-	5vsM5X2t6A5mcMcakH8b16FvkZZGkQX7o3NwbEE7sEUhQQZahxCWkH20NJ62yWmYyRObUQsVZ15s6
-	PBBEJy8dh93514S6itw2TrAvAjpRGfTg4VkSUpZdo9BxA/SzukLyL+dx2e2thHaDKqqyY3xN1CnXh
-	Gvi5iNXWWZRdGpe2yp595osWTZDHB91czgxETP6780CHbA1QVsDupSX06vhLmPKFssIJrvbfaBmT2
-	7LRUGN34wa48HpZDtTpTy/E6mJNiLcrXyKmPC2Lgu17oNMMu2HX91gCv2sGxlYZjPEX4xsQ5Kkw94
-	eAaRaQSg==;
+	bh=gusV37GeNeY+oeCFRFa4YfsAprY6hsRabaSJi44TvCw=; b=KHwxa9wUhX3rcOd8eAxAf1aFKv
+	Ilnha7EJ6jE88MbciDzxAOymKIyxHY+jEmXU0AdRvwAbdF/+7vF1ofTCu6wBawBxU2zZiYihKAecp
+	MSmMujuhMVKg/TY1x4c/2U85OmzCucQ+uEng6rURiRaS8eqErIPtVyg9XFCFezu9B9pcbo7o1ljjU
+	iGERZZ2OhDLcxzyRf1zCIeXaOtOWMok7p0DEWwHJ3pJBWLJKm92Y8NaH7ZPA+OVA+i0BeYuJvRo9e
+	2EJKc4/golxPkwRqifwOxXRDsBdr53zRMjfovz7BaNyCdNFZNCPg0YEn7r0HSrF0tDiG4Lz0Q0boA
+	mHxmcBAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGbu9-00000004ZAT-1JrF;
-	Mon, 10 Jun 2024 10:05:33 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1sGbwL-00000004Zr1-3TCf;
+	Mon, 10 Jun 2024 10:07:49 +0000
+Received: from mail-wm1-f42.google.com ([209.85.128.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGbu5-00000004Z8b-2PkQ
+	id 1sGbwH-00000004Zpd-117T
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jun 2024 10:05:31 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4218e647d62so335705e9.3
-        for <linux-nvme@lists.infradead.org>; Mon, 10 Jun 2024 03:05:29 -0700 (PDT)
+	Mon, 10 Jun 2024 10:07:47 +0000
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4217fd95c78so1525965e9.3
+        for <linux-nvme@lists.infradead.org>; Mon, 10 Jun 2024 03:07:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718013928; x=1718618728;
+        d=1e100.net; s=20230601; t=1718014063; x=1718618863;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=OcGFUyz6Qdlt2uXO9UHimMQARhmwJJpzXWcExRL47mR20cnrmVnWcbYcWeq/h2UzO3
-         7RBXCAoiKHF07jKT1HU9L8eBTneYPzXTB6mMBS8J6HmDIVdv1YYTj7M/t9/2ydSQfFke
-         NqURzKe1NNAuZRdSTLjuwAuIMWpBtNjiPrEsBrNLT4+JBDod6/hHuTVi1DP9dMtD63bu
-         z00l9iVylKzSYwnNehjKQs2W8SdxoWPdpRr02jC5vgZH+m+HMaUzDXOBxF6ygEtxMnsd
-         D93Pit3Uam0ap1aM2N3PsriycktaccUZfPdpnra9kcLZkaY7i+tEY2b3PTrkTD5ZhSB/
-         naYA==
-X-Forwarded-Encrypted: i=1; AJvYcCV7XzwPqsk3SyLAq6bwvcAZkyb3jz/hl24p2tyYkZ0L4GHJwSyYzpiE+/34HV82iLjT47swuQP/Y99UNsn0/iPyNwZI2H6euk2SqIBHNUo=
-X-Gm-Message-State: AOJu0YzYH5RWPj3v5bxF4a33KeoRdgGy4C7fbHagUUBqjcfydKw+Xe7m
-	yydG3gcG1f7SJ7CP14Z0t1I5IHZzCleHmI2oMtCAaQLTMmR3PV9u
-X-Google-Smtp-Source: AGHT+IHd2ytfSWQRZyhEMoJ4OHwdV5oY+VtFMa+gkpFCCXHA6mdBcbjzpIbfF3YSe0sE3AJLKSZkJQ==
-X-Received: by 2002:a05:600c:5104:b0:421:7f30:7ccb with SMTP id 5b1f17b1804b1-4217f307f48mr32593165e9.1.1718013927623;
-        Mon, 10 Jun 2024 03:05:27 -0700 (PDT)
+        bh=gusV37GeNeY+oeCFRFa4YfsAprY6hsRabaSJi44TvCw=;
+        b=GLFZScXyAohkdo6x+awXr1bChG/hqgfJlCNUZKETxd3HBdlBHWt0WEn1bZuh30+EM8
+         igNnUyAW13J7xWdShWBhaQyqW/Fxuam1L0qDdVA1rCuYC8o5sfIYfZPJ1Ab+X2Da/AjK
+         tlZBVmnTKJaLVNePCFhdNx8ck/vaGq3pzV4DZi7yYEQCBYgcV0RCtq0Di/mQrbS2LDJT
+         zFlHTfwJL44W3JBe1ibGn+eDF37cdmXEyTy9L1+2k5NE7FYfDcP9jr2ZgLBLQxxzIkhi
+         7bYxaH9K1/wr+FjU9SqlXuACSYPW9pY8Apo6AOBosmpaLVLFkttds/jcgvcmhmxxatJX
+         6Pyg==
+X-Gm-Message-State: AOJu0YxbKjSpb+vIZYqTtdqyvGmoDzd87lVNudVdREcn05gQUprJJ/ss
+	jaAi28SJO9glit3JtFXgmLnvMB+j0YxdMhSaZBMpDnzvbejjcn3c
+X-Google-Smtp-Source: AGHT+IF1MvSTf+KQ/Fpbu6jYXs3sjGYXa/fDF+6ZROWh3dpcnxcOeS+ygB9F/kRaFlkWEJVF3Am3BQ==
+X-Received: by 2002:a05:600c:5113:b0:421:b65d:2230 with SMTP id 5b1f17b1804b1-421b65d25afmr21427615e9.0.1718014063361;
+        Mon, 10 Jun 2024 03:07:43 -0700 (PDT)
 Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4217ff85ca6sm59795885e9.14.2024.06.10.03.05.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4217f633f2asm63882665e9.28.2024.06.10.03.07.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jun 2024 03:05:27 -0700 (PDT)
-Message-ID: <35b55da5-deb5-4899-852f-7f0f30198adb@grimberg.me>
-Date: Mon, 10 Jun 2024 13:05:25 +0300
+        Mon, 10 Jun 2024 03:07:43 -0700 (PDT)
+Message-ID: <9ed2275c-7887-4ce1-9b1d-3b51e9f47174@grimberg.me>
+Date: Mon, 10 Jun 2024 13:07:41 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] nvme-tcp: use sendpages_ok() instead of
- sendpage_ok()
-To: Ofir Gal <ofir.gal@volumez.com>, davem@davemloft.net,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, ceph-devel@vger.kernel.org
-Cc: dhowells@redhat.com, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
- Hannes Reinecke <hare@suse.de>
-References: <20240606161219.2745817-1-ofir.gal@volumez.com>
- <20240606161219.2745817-3-ofir.gal@volumez.com>
+Subject: Re: [PATCH v25 00/20] nvme-tcp receive offloads
+To: Jakub Kicinski <kuba@kernel.org>, Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org, hch@lst.de,
+ kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com, davem@davemloft.net
+References: <20240529160053.111531-1-aaptel@nvidia.com>
+ <20240530183906.4534c029@kernel.org>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240606161219.2745817-3-ofir.gal@volumez.com>
+In-Reply-To: <20240530183906.4534c029@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240610_030529_686875_2192B4B3 
-X-CRM114-Status: UNSURE (   4.68  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240610_030745_334926_22B15549 
+X-CRM114-Status: GOOD (  12.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,6 +82,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
+
+On 31/05/2024 4:39, Jakub Kicinski wrote:
+> On Wed, 29 May 2024 16:00:33 +0000 Aurelien Aptel wrote:
+>> These offloads are similar in nature to the packet-based NIC TLS offloads,
+>> which are already upstream (see net/tls/tls_device.c).
+>> You can read more about TLS offload here:
+>> https://www.kernel.org/doc/html/latest/networking/tls-offload.html
+> Which I had to send a fix for blindly again today:
+> https://lore.kernel.org/all/20240530232607.82686-1-kuba@kernel.org/
+> because there is no software model and none of the vendors apparently
+> cares enough to rigorously test it.
+>
+> I'm not joking with the continuous tests.
+
+Is there any plans to address the testing concerns here?
 
