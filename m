@@ -4,53 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C981C27C65
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 17:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 030F0C27C65
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 17:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mWGDf7TcJzKDmyqOebxGkoxhuMybSAnvxFIixNLjBgc=; b=acrO3UsEWhfOu+TCBKySYaKcyI
-	BukLUwqawImEK9lQphJ5XXkSnC3Dya/vpRHpL8OGV9dtsYXRi1jWMBU5ph3za1N/sNDHHvI6N0kqA
-	jaL6G/K7UymUjbAp+vi9gMTKw/jyo3POilxr3+C4+rG9QjzFeOyVO/63IBvuwN7qFnrGk+D4Of8va
-	H8DWKh4+voiojoqXePOJU3keBCKM7jQWnM9asoD/r49UTFwdJKLcxHdivTSfYV3jdIETZ+i5zxmZQ
-	cgUx7GNOta5wb0mr+dEun1oCN6NhiKIa4O7/tnlfq2qsayG5s/3J1AHweO3XGolSAhBzzBkuz4uUN
-	3UIOYAdA==;
+	bh=8gJSbCFxQb93IxoirGxPS6Kck4/B26Bdd6Fo/yvtYmU=; b=y97jS5e/u6gS7UXuRTMN0/2Zg+
+	sY4IVj1guhtUD/HEJZQJgf39NTNQHQLTeL6YMDoontobm398wDowSUPHNNp6KCRzPOoWRV7P8atv7
+	yHEBz16vvciGX8DYLzWGHFWHBYlg+P4dC0rlqAucVbV7UzoteYfEFwBF3H3i2+9y8nF0suua5zOdt
+	mEGOq/neUTw829n1tNPJ5VdQpOHMSdT5w0uSUz4UJ0oz86VES5KmyFpxsCQDu1Lca9Adn6DLz6hV5
+	8rHRzbINeQE4+mLX6Dv7D1k3tLRQHpp3/0ymNDFMtROdSpcWQIlJByvbNhiqSSNIm8VCIiqFVTu4U
+	cdDm1RNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH5CI-00000009eVB-3fbR;
-	Tue, 11 Jun 2024 17:22:14 +0000
+	id 1sH5Cu-00000009eaC-2Mon;
+	Tue, 11 Jun 2024 17:22:52 +0000
 Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH5CF-00000009eRP-2dbf
+	id 1sH5Cs-00000009eZa-1z4q
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jun 2024 17:22:13 +0000
+	Tue, 11 Jun 2024 17:22:52 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id A7312CE1128;
-	Tue, 11 Jun 2024 17:22:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B7B9C2BD10;
-	Tue, 11 Jun 2024 17:22:07 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id BED8FCE1CB3;
+	Tue, 11 Jun 2024 17:22:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F22A2C2BD10;
+	Tue, 11 Jun 2024 17:22:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718126527;
-	bh=OYSPTY6E56yAcssiecMZz3By0s5MpBDcS+5AMxOh6so=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sRDHzjL7D3xE8PUkuGQA4bPQdrvsSMfpEOB+dpCGgk3/h8g7NdmokAEBLs1z06cQV
-	 fQoKmLGCEWEs0sKn2J3bAAF0H1+7GWUivdJszHGodzwa0hJf0qu906pWNEBfLjP0VX
-	 mQNA7Kd8Ng4FBeJ+j+Kl+nwKBk9PRW1T2T2KvRgqLZxpDnOMJ+JBptXGUu8gmzKtRR
-	 k2GBZKj7/6/sxWtTFfPn/EuRQM5xOb3kpef5TEClhRlJpc6pqR5cFeakkvPlTfdvSB
-	 OfeAdTyQ/3we+RfM4NwKTSBnThxF8hzBtgjfdK/U20wYszFTlLlsXhLc5A1/F3EyuH
-	 q3GWqjilTFP0Q==
-Date: Tue, 11 Jun 2024 11:22:04 -0600
-From: Keith Busch <kbusch@kernel.org>
+	s=k20201202; t=1718126567;
+	bh=0BZ9tFCVBqaCeHphipKneKXZmMFZJlufZ9XAKIAREqk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=WGaylCcuEOB1jmZ3hoZHsqxpwuA7eykpk34Yg3STpg6SLm4G61iWdT2lQ25uqvZyz
+	 6I5Ae4Wy0tK+pVqjDEWp0EcJ4vDazzIdgKh1GSon4XEyFPW4OQLDUQbxLYskbELd9x
+	 pwkgvnrJzbmibnnTOVfsgVe5bHBwfgvKylX6Tkxso3PHHI4GoFv6aqa7eMNWOca7IM
+	 EjlaLFxIsFiP2TSOncoBYcnpPyOiZmMwXS+hVXka9sOHzNf+w6F/ikJ3hxEb9Ss6UN
+	 9YnvpPXEOx+nnJu9BYvAM9dCJS6RVoGCxWJcKTwaObfGatxk75D1s8wKynEh1MiSVM
+	 MGcnS2RJSc8lg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 96436CE0991; Tue, 11 Jun 2024 10:22:46 -0700 (PDT)
+Date: Tue, 11 Jun 2024 10:22:46 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
+	sagi@grimberg.me, Keith Busch <kbusch@kernel.org>,
 	Venkat Rao Bagalkote <venkat88@linux.vnet.ibm.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>, rcu@vger.kernel.org
+	rcu@vger.kernel.org
 Subject: Re: [PATCH] nvme: fix namespace removal list
-Message-ID: <ZmiHvDaI11gu8K4I@kbusch-mbp.dhcp.thefacebook.com>
+Message-ID: <02b9e73e-aaea-4885-ab8f-692001ccb756@paulmck-laptop>
 References: <20240611152055.2317197-1-kbusch@meta.com>
  <20240611163955.GA12787@lst.de>
 MIME-Version: 1.0
@@ -58,8 +60,8 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20240611163955.GA12787@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_102212_052248_6559432A 
-X-CRM114-Status: GOOD (  17.88  )
+X-CRM114-CacheID: sfid-20240611_102250_719606_EFAA07C6 
+X-CRM114-Status: GOOD (  17.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,6 +73,7 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
@@ -92,15 +95,25 @@ On Tue, Jun 11, 2024 at 06:39:55PM +0200, Christoph Hellwig wrote:
 > mistaken (although chances I'm mistaken on RCU corner cases aren't that
 > low..).
 
-Good call, you are absolutely right that a sync should happen between
-the del and the add for readers to consistently iterate this list.
+Just to confirm, yes, if an RCU reader was referencing the object being
+deleted from the first list, that reader really could be transported
+(free of charge!) to the second list.
 
-I might be able to weasel out of this though: our namespace list is
-sorted, and this function wants to append everything from this element
-all the way to the end to the "rm_list": a reader should get the same
-result either way, whether if it was torn at this element or the move
-happened without the reader seeing it.
+One (slow) way to avoid this involuntary transportation is to do something
+like this:
 
-Now if there was a way to rcu split the list so we don't have to do it
-element by element...
+		list_del_rcu(&ns->list);
+		synchronize_rcu(); // drain all readers from ns.
+		list_add_tail_rcu(&ns->list, &rm_list);
+
+You could speed things up using synchronize_rcu_expedited, with the
+usual downsides.
+
+There are faster ways of getting this effect, but the ones that I
+know of involve putting generation numbers on all objects, duplicating
+objects on each change, and having readers chase pointers to find the
+desired version.  Usually not worth it, but I don't know enough about
+this code to judge.
+
+							Thanx, Paul
 
