@@ -4,83 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C49D0C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 06:19:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 599FDC27C65
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 06:19:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mcIAj+YUEAEGlNaiSbkHdz118C/rH7oCL9C+XeYbJy4=; b=uwP7+RwfYbIadsnf/eSt99psdO
-	/XAWSb+axIp6RNN0dWBZUYoZRrqp/WA8170zUkvwPgA/khovq+QM94WScnfVYTIbAWO62dppm5VV1
-	e0oWt/1vxOR5c8FiMf7i9iQdDtgwS3x4pmUOTcfRKBLFXqn3VKQ1ctUOr3OtMbwdGrlqo2oHwdnid
-	AWNVp0/IpP+Id+EYxQIhqWOu4AkhGelQ/tmaakvyOXsmbF9rj2bGSMewIO98NhvOZfO7fwzOV+zEt
-	kPKN0cS+PA7DY55M1WTETod2ukDjIh351pZOHRJeNpbDyTbIptqKP0hB3gqlWknuQysbcF5KF22df
-	TuC4a8mA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TlR7PRp+u5hS4flrPhjEy1O/hrDwGDVPHXo9O/rdBRs=; b=SFXZ3tiQL3wJz+EneD0MkdGMLv
+	K2flwhi60uQiS5x0Xy3ntOpFNoYJa2EHMiNWolJc/uYwFbchi62MFnSoN2pam18sTNcsvFXpPNpaV
+	cxSq6FePiFwyI7+cTjEfq6KYEFAAXhDBhF3Yf5DLOA768LWM1zP3Ytd/s0euaFmIPq62xaAUaF6aB
+	Mi3+utE4bZZ9VkTBE+53kHzNUkIBej33zOKJa4Oef4KHtM5bUoaoTA7dw0P/5FVcO6HqYCv37F3sB
+	uDP603TIveO+NCogq3sUjrZNlVLALaCzwsVIyg+tfM8T30ALJQh5Vnh9WmAylD3vGAEF/Row9J74B
+	Lw4bHh3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGuqx-00000007eMV-35J4;
-	Tue, 11 Jun 2024 06:19:31 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1sGur0-00000007eNV-2hRh;
+	Tue, 11 Jun 2024 06:19:34 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGuSY-00000007aa8-1hly;
-	Tue, 11 Jun 2024 05:54:20 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 91F99CE19A1;
-	Tue, 11 Jun 2024 05:54:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12FF9C2BD10;
-	Tue, 11 Jun 2024 05:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718085255;
-	bh=ImOyYBG3xCcX0n3tLvSbs6xw/kdWptb6Do6trOqK4QA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qHFHpGL8aUbN9wv5klAImzJ5jjK0oiGT8U4BTD8xfsG5jiCOpGSUv7Km3WvNqtPCD
-	 6j1nrDjh7PhyALjuNQNHYkKLmYYq6Y1xffYfB0MxJDe2yW8SOyNDdlvw/znXF9eZc8
-	 KT4CX+clUIQtduOC06IcHkCGn74lBXgof4aV9GT8PsAx4EZCRJSboZ+IHz3mWN+raN
-	 KotqG4Gp62inAvWnPIr4JchEXO3PbNevMpTBNuCyAHk0M6HQGrIQYLuf6JcDaVG6mV
-	 fVlgaG9YnpTo4YxUBgRoQVMO/dLvogh2Z6hk8kGRTiZh4LaBEnh8YlC7x62pw9weqZ
-	 kWW9/78SoGctQ==
-Message-ID: <c5524425-b2bd-40c4-bdc2-5b7e51ce6d67@kernel.org>
-Date: Tue, 11 Jun 2024 14:54:11 +0900
+	id 1sGuTA-00000007aqg-1nh6;
+	Tue, 11 Jun 2024 05:54:57 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A7EA968BEB; Tue, 11 Jun 2024 07:54:53 +0200 (CEST)
+Date: Tue, 11 Jun 2024 07:54:53 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Richard Weinberger <richard@nod.at>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Christoph B??hmwalder <christoph.boehmwalder@linbit.com>,
+	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Roger Pau Monn?? <roger.pau@citrix.com>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Vineeth Vijayan <vneethv@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
+	drbd-dev@lists.linbit.com, nbd@other.debian.org,
+	linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
+	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 03/26] loop: stop using loop_reconfigure_limits in
+ __loop_clr_fd
+Message-ID: <20240611055453.GA3384@lst.de>
+References: <20240611051929.513387-1-hch@lst.de> <20240611051929.513387-4-hch@lst.de> <ca5a3441-768a-4331-a1c2-a4bdadf2f150@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/26] loop: always update discard settings in
- loop_reconfigure_limits
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Richard Weinberger <richard@nod.at>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
- Yu Kuai <yukuai3@huawei.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
- drbd-dev@lists.linbit.com, nbd@other.debian.org,
- linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
- virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
- linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
-References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-5-hch@lst.de>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20240611051929.513387-5-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ca5a3441-768a-4331-a1c2-a4bdadf2f150@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240610_225418_725662_00CA914B 
-X-CRM114-Status: UNSURE (   7.41  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240610_225456_635718_24909E5A 
+X-CRM114-Status: GOOD (  10.98  )
 X-Mailman-Approved-At: Mon, 10 Jun 2024 23:19:24 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -96,19 +82,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/11/24 2:19 PM, Christoph Hellwig wrote:
-> Simplify loop_reconfigure_limits by always updating the discard limits.
-> This adds a little more work to loop_set_block_size, but doesn't change
-> the outcome as the discard flag won't change.
+On Tue, Jun 11, 2024 at 02:53:19PM +0900, Damien Le Moal wrote:
+> > +	/* reset the block size to the default */
+> > +	lim = queue_limits_start_update(lo->lo_queue);
+> > +	lim.logical_block_size = 512;
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Nit: SECTOR_SIZE ? maybe ?
 
-Looks OK to me.
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
--- 
-Damien Le Moal
-Western Digital Research
+Yes.  I was following the existing code, but SECTOR_SIZE is probably
+a better choice here.
 
 
