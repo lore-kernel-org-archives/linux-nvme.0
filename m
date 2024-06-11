@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5072C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 023A9C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LgTI+Mo1pVMP7QW3HpPljhgNIGtSuvGjjqfKNfk6Ue4=; b=vh9OF77MIVCzugAnCf49HDZ1p7
-	lZpI/k7aqOnmH5VIWk6YViCC+cfswQZ1F/Kbf7n3YnGOaBjQTZ3lk5RrUwV4oBdcA+49rbISt1odc
-	vu5RQVx9IMoJl+4eG92TdrLelyNjy24hW79wG3Q2Kp7TgUJ4KmzTm6oN5VcgE0gaWNZ7oBENbM6nM
-	MrLfCqNQ/mB+Y5W6Fuang8WNLpnR5xBtHlZR4QVQyQ1et/n/RnAzs6ieQDE0Tk+tO5D94gDbBkW2U
-	pJ3bJ0oZG5xX7n/4ALtPBc2yyQyg/mk/Ah8o0n0q2Si9pb8RTwOfqjVfqJ45tN9CxAg2hAAb6WXtp
-	sVSuLdnQ==;
+	bh=QZOtfSoQAA02jj5gA5gptGlEH50imtUdZkhUebJgjrY=; b=iTd5epJRmaF1paLNT4EAoqWooZ
+	nA7KtbVZUfiqVVPukT4fS9xZHxTnlQwvXm2q8KfVJaBmZssUmiGvnpytDhNOub3eJclu4VY1/vBiP
+	fL/7W/ereVBrdaeYY5ZiRec3wBS8F1oUoeQ+nsW6alrMeN/lRzaF8UyFV5wHvzVjJECC38OJQJuAj
+	Q5bLAcL8QtNeFoyDEQ2P5/UywmnSfpVHHthNr24Tz0KagHVZC5sxiOYhGbYQVxx+FIojT1TOgdF+R
+	fdNKjRwPdqjZTGVZW4HcK1NHhGOrFsoqrnwr9fjsEyVJEzmf+3G2nDF2X/R/qjXy3gXwvAnVaapXX
+	+wLLx8fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtyn-00000007Tip-367K;
-	Tue, 11 Jun 2024 05:23:33 +0000
+	id 1sGtys-00000007TmS-1x2V;
+	Tue, 11 Jun 2024 05:23:38 +0000
 Received: from 2a02-8389-2341-5b80-cdb4-8e7d-405d-6b77.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:cdb4:8e7d:405d:6b77] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtuz-00000007Qo9-2Hoe;
-	Tue, 11 Jun 2024 05:19:37 +0000
+	id 1sGtv2-00000007QpR-0wAa;
+	Tue, 11 Jun 2024 05:19:40 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -63,9 +63,9 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-s390@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 02/26] sd: move zone limits setup out of sd_read_block_characteristics
-Date: Tue, 11 Jun 2024 07:19:02 +0200
-Message-ID: <20240611051929.513387-3-hch@lst.de>
+Subject: [PATCH 03/26] loop: stop using loop_reconfigure_limits in __loop_clr_fd
+Date: Tue, 11 Jun 2024 07:19:03 +0200
+Message-ID: <20240611051929.513387-4-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240611051929.513387-1-hch@lst.de>
 References: <20240611051929.513387-1-hch@lst.de>
@@ -86,75 +86,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move a bit of code that sets up the zone flag and the write granularity
-into sd_zbc_read_zones to be with the rest of the zoned limits.
+__loop_clr_fd wants to clear all settings on the device.  Prepare for
+moving more settings into the block limits by open coding
+loop_reconfigure_limits.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/scsi/sd.c     | 21 +--------------------
- drivers/scsi/sd_zbc.c | 13 ++++++++++++-
- 2 files changed, 13 insertions(+), 21 deletions(-)
+ drivers/block/loop.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 85b45345a27739..5bfed61c70db8f 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3308,29 +3308,10 @@ static void sd_read_block_characteristics(struct scsi_disk *sdkp,
- 		blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, q);
- 	}
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 93780f41646b75..93a49c40a31a71 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -1133,6 +1133,7 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
  
--
--#ifdef CONFIG_BLK_DEV_ZONED /* sd_probe rejects ZBD devices early otherwise */
--	if (sdkp->device->type == TYPE_ZBC) {
--		lim->zoned = true;
--
--		/*
--		 * Per ZBC and ZAC specifications, writes in sequential write
--		 * required zones of host-managed devices must be aligned to
--		 * the device physical block size.
--		 */
--		lim->zone_write_granularity = sdkp->physical_block_size;
--	} else {
--		/*
--		 * Host-aware devices are treated as conventional.
--		 */
--		lim->zoned = false;
--	}
--#endif /* CONFIG_BLK_DEV_ZONED */
--
- 	if (!sdkp->first_scan)
- 		return;
+ static void __loop_clr_fd(struct loop_device *lo, bool release)
+ {
++	struct queue_limits lim;
+ 	struct file *filp;
+ 	gfp_t gfp = lo->old_gfp_mask;
  
--	if (lim->zoned)
-+	if (sdkp->device->type == TYPE_ZBC)
- 		sd_printk(KERN_NOTICE, sdkp, "Host-managed zoned block device\n");
- 	else if (sdkp->zoned == 1)
- 		sd_printk(KERN_NOTICE, sdkp, "Host-aware SMR disk used as regular disk\n");
-diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
-index 422eaed8457227..e9501db0450be3 100644
---- a/drivers/scsi/sd_zbc.c
-+++ b/drivers/scsi/sd_zbc.c
-@@ -598,8 +598,19 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, struct queue_limits *lim,
- 	u32 zone_blocks = 0;
- 	int ret;
- 
--	if (!sd_is_zoned(sdkp))
-+	if (!sd_is_zoned(sdkp)) {
-+		lim->zoned = false;
- 		return 0;
-+	}
+@@ -1156,7 +1157,14 @@ static void __loop_clr_fd(struct loop_device *lo, bool release)
+ 	lo->lo_offset = 0;
+ 	lo->lo_sizelimit = 0;
+ 	memset(lo->lo_file_name, 0, LO_NAME_SIZE);
+-	loop_reconfigure_limits(lo, 512, false);
 +
-+	lim->zoned = true;
++	/* reset the block size to the default */
++	lim = queue_limits_start_update(lo->lo_queue);
++	lim.logical_block_size = 512;
++	lim.physical_block_size = 512;
++	lim.io_min = 512;
++	queue_limits_commit_update(lo->lo_queue, &lim);
 +
-+	/*
-+	 * Per ZBC and ZAC specifications, writes in sequential write required
-+	 * zones of host-managed devices must be aligned to the device physical
-+	 * block size.
-+	 */
-+	lim->zone_write_granularity = sdkp->physical_block_size;
- 
- 	/* READ16/WRITE16/SYNC16 is mandatory for ZBC devices */
- 	sdkp->device->use_16_for_rw = 1;
+ 	invalidate_disk(lo->lo_disk);
+ 	loop_sysfs_exit(lo);
+ 	/* let user-space know about this change */
 -- 
 2.43.0
 
