@@ -4,143 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0392C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 08:12:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9C00C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 09:20:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:Subject:References:Cc:To:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wnQIUpYdHgOL/hM9GsXN8B0Ts994fdsauoO8bl3CExk=; b=SkbuXIwCRa1GuvTzpwGcaFucaS
-	YWG5zm5PtJZSehQ5jVgusUAXLUVAR3mLitXEoCmJ6u9Q3/qDcOl6UA9+g3jE5iMZLi7JDjDD1NOYu
-	bbuxbPRT2ZYfwxtLav3MCA+tVO7n3I4KMpq0rHMQ0bbQONMBk81rUmAfLJAhFSibezgVGqwr7Ql3i
-	bEuh95uWiJAzzgYqzPlY5Oq2YgE89hlPt9mUV1M/T8bkjNe7hdLjZlaB32lbs7SeJroCIBo5QiXV8
-	NBcPrLQGTks0Xiq4jfojCcwwaUInYMuqigCpyb28ryGZinb25gG+47QlQjoatghdAVeWIsbAltQTm
-	D2Xugf7w==;
+	bh=SSWdIHLeK6c5qkRxJRQIzSFopdFgLqZQ5bZ8370mvc4=; b=xGJP2KnvEK9ooVNkrwTOil00Ih
+	EExeIuz6QwI7RU2+MKWr+YOdH3/qBzVoytfEAMbeWBEIro9IFDRWhhWidrIC7vwJRtCStkpnrW7vh
+	+Iukt8/g3iACvdQYPF93ey38HqvIlLezw5RfxunL6nzCOG4MKVJbtQ/Rty5Z8FN6mgpt/Dc0ziLDo
+	blBqB7xeAyRev5FB2YJXrMSoh9w0AEhudQkdx+ZcXsnIdooovmANnwoqxgrRMT/gMdB7jyE0Lpjb1
+	bc5whsLjlJoYSrRDpLqKTlrZz1EFKGIbbUonSAWKKDyA1wr8IgUJh45/H3KOqSveW1vfnPin41oN/
+	TteivLmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGwc0-000000080oF-3NJW;
-	Tue, 11 Jun 2024 08:12:12 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1sGxg8-00000008GnC-1fdN;
+	Tue, 11 Jun 2024 09:20:32 +0000
+Received: from mout.web.de ([212.227.15.14])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGwbH-000000080Wq-2DkJ;
-	Tue, 11 Jun 2024 08:11:31 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9402920557;
-	Tue, 11 Jun 2024 08:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718093483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wnQIUpYdHgOL/hM9GsXN8B0Ts994fdsauoO8bl3CExk=;
-	b=Xw7LckrVyqrAakH7KSEDESVADg9MT2w/sOoFpkdH/KzwzUXrjoXFGlasjukRVjQpOXbqnR
-	VEDyTRo7qiPPyB7GBgictg+KZT62wfeU0rWkpx7ertnwVCjRX97V2ITAvcIuwzNOYZyJWm
-	R6IQoIRGoRGYPlreoXuIGgLHDGiR/+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718093483;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wnQIUpYdHgOL/hM9GsXN8B0Ts994fdsauoO8bl3CExk=;
-	b=tY/SuqTuiamIUOCP9Gy6Edetjtr/Waqk3ZBvBpF4W/PGm0bmy0haYRoNg/wzfxeSc++Z+2
-	TUnVbKx5YmbhspBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718093483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wnQIUpYdHgOL/hM9GsXN8B0Ts994fdsauoO8bl3CExk=;
-	b=Xw7LckrVyqrAakH7KSEDESVADg9MT2w/sOoFpkdH/KzwzUXrjoXFGlasjukRVjQpOXbqnR
-	VEDyTRo7qiPPyB7GBgictg+KZT62wfeU0rWkpx7ertnwVCjRX97V2ITAvcIuwzNOYZyJWm
-	R6IQoIRGoRGYPlreoXuIGgLHDGiR/+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718093483;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wnQIUpYdHgOL/hM9GsXN8B0Ts994fdsauoO8bl3CExk=;
-	b=tY/SuqTuiamIUOCP9Gy6Edetjtr/Waqk3ZBvBpF4W/PGm0bmy0haYRoNg/wzfxeSc++Z+2
-	TUnVbKx5YmbhspBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EBB04137DF;
-	Tue, 11 Jun 2024 08:11:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DmIXOaoGaGZ8WQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:11:22 +0000
-Message-ID: <f85620ad-a19b-400d-bae7-29a1815fc33d@suse.de>
-Date: Tue, 11 Jun 2024 10:11:22 +0200
+	id 1sGxg4-00000008Glh-1bbX
+	for linux-nvme@lists.infradead.org;
+	Tue, 11 Jun 2024 09:20:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718097309; x=1718702109; i=markus.elfring@web.de;
+	bh=SSWdIHLeK6c5qkRxJRQIzSFopdFgLqZQ5bZ8370mvc4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=FftRtfIlHxGUAI3vCcm4yTpn/7z8WsjG+Em5dB5ND9N5eedR+QTMfkd+w7F2Zs2i
+	 WI1Yj0slkHGiDMKMlDkpOiP/MjEK/B6R2dAiV03zMK6+t4kT7xBeCDDQ888uoe/W3
+	 HMJ+HG6g52cDLWKEcQbr6xXdD9cRTtNwHwz+bFZPPzkQ7TcZrvW0MggwyEXpoOwch
+	 F1SP/+OJXN2UQv0MqjXDYRgbkFIKPiQyMGI39/lLF6bCcLm4PLaCKaVl0+whiFMsB
+	 SB0PgbV6ShDjyXNFTfm7jH/gkRm4xnMBSXmDKl3ZdmJohCKk1XemhGUQoO6np/E5N
+	 r5idNtThZcYbX7sxNg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MSqTK-1rq7cJ2zhW-00J0sU; Tue, 11
+ Jun 2024 11:15:09 +0200
+Message-ID: <0e1ac9ca-c241-4b48-a219-d1aaef2a752a@web.de>
+Date: Tue, 11 Jun 2024 11:15:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/26] sd: fix sd_is_zoned
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Richard Weinberger <richard@nod.at>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
- Yu Kuai <yukuai3@huawei.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
- drbd-dev@lists.linbit.com, nbd@other.debian.org,
- linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
- virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
- linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
-References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-2-hch@lst.de>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240611051929.513387-2-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-8.29 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLex1noz7jcsrkfdtgx8bqesde)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+To: Ye Bin <yebin10@huawei.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>
+Cc: LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig
+ <hch@infradead.org>, Ming Lei <ming.lei@redhat.com>
+References: <20240606062655.2185006-1-yebin@huaweicloud.com>
+Subject: Re: [PATCH] block: bio-integrity: fix potential null-ptr-deref in
+ bio_integrity_free
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240606062655.2185006-1-yebin@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GHmc89SQ4Td/zPwUg//USd5islR+tdgleigB+jmBeZEuq6FZ7Dy
+ fkE7CjeiMfQNvzY0YK08nYlilwmnduxqbtLEXlZPIHy8TtJwqsAsxfDMtv1kVgp7vN7HY3T
+ IALqM09md0BMzdXXkahjw/wqc3/g/o4um3hx2fvO5m4g3LdePf+xlz9QuKO0YSskYbKSlDW
+ ouYkrcSzcG4LaTCOdkrZg==
+UI-OutboundReport: notjunk:1;M01:P0:w3g6y7385Ok=;4OLDESrn0lp0xrLZI+q1mYjtpDC
+ 9L4XwYlMGBU/2knpMHxRGtTguQQPeZkUn9hbbhdJEbPFwKVuasnXIFwsFPPZMJWGF9Gyi5AdU
+ p2/eh5PYU7JjePGFXBpZuGx5XzQAULZfIJqL3J5wx0xVh8v4k18N+f/UiMmgqVRhUdafKaK5A
+ Vjuvpu5YRwyP4ZaoiHmzSaLZxFMm8rAaGBoCp24NpeW8eOYXiBufOe+roIN7J+3U0i1RO20M5
+ ibiygZB/TDIGdrs9L4FzHsK0UZvGL93mO/3aLCDIdHIZtml9pvBSI9vMWtqOaQ1lZwN9GWrnn
+ XVz0VFlULaG85q/vFA2450eAeTuFWrQ+f0wPCIZ54LPwyy/bGCMqhtVdjGFY+/LHyZeMD3R6a
+ dqQytdUotZXhiS5/f3pfvC3DcWQZFmjSAJed9btt0ovvy25dK/EJiQMLyGp7ZS/w4i7TfZ5Sf
+ RpsDfzZ65tCEBD+iWOM2HkNTcH91z5c7FAQeclUgQeN/Fen8vAr2eZ5OMj7hPPJHya9BbL6rQ
+ JoiO5Gu3MYgjmhHYVNqdPaLjh1TLMVOvgth8ETDFRpS4sBh2VWPFhatcBaZYvOdP8eXxM8sjK
+ ftgSY1q05gPDkmgL3kVTG+xpDRT5wG/zQgS/gOcuzl5Bq6iGmjmXjyXVuqsQ2iYEhAOmZpXue
+ gCx8qIA+QByymh0Zwrxr4B+hHfguxyA3d1JmrVMKmS9XzrIsEbSBj0Uer8v/MBbU9k7tNblRI
+ FX09N3GphcrQdp2SBs4/aZi6w0LFVeRdWqpYu9CJhwdHpyxPlLEDJ9wjmNcyq9xiRm199crh4
+ h2dGqmiwCRC1yvvmWZpUy52+P348tLJ7LBdy0p3mQiSDo=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_011127_739244_A9E74304 
-X-CRM114-Status: UNSURE (   9.88  )
+X-CRM114-CacheID: sfid-20240611_022029_024194_41F76CE8 
+X-CRM114-Status: UNSURE (   6.93  )
 X-CRM114-Notice: Please train this message.
-X-Mailman-Approved-At: Tue, 11 Jun 2024 01:12:04 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,27 +95,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/11/24 07:19, Christoph Hellwig wrote:
-> Since commit 7437bb73f087 ("block: remove support for the host aware zone
-> model"), only ZBC devices expose a zoned access model.  sd_is_zoned is
-> used to check for that and thus return false for host aware devices.
-> 
-> Fixes: 7437bb73f087 ("block: remove support for the host aware zone model")
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/scsi/sd.h     | 7 ++++++-
->   drivers/scsi/sd_zbc.c | 7 +------
->   2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+=E2=80=A6
+> The root cause of this issue is the concurrency between the write proces=
+s
+> and the block size update process. However, this concurrency does not ex=
+ist
+> in actual production environments. To solve above issue, Verify if the
+> segments of BIO are aligned with integrity intervals.
 
-Cheers,
+* Please improve the change description with an imperative wording.
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.10-rc2#n94
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+* Would you like to add the tag =E2=80=9CFixes=E2=80=9D accordingly?
 
+* How do you think about to use the summary phrase =E2=80=9CAvoid null poi=
+nter dereference
+  in bio_integrity_free()=E2=80=9D?
+
+
+Regards,
+Markus
 
