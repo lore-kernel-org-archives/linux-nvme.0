@@ -4,79 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7C15C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 10:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5E64C41513
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 10:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Bb7TwbxjwE4z3urktL4tj3C/83DBgRI+FwFWe0rTRDI=; b=Itct1Ltdqsnz/naowF0TTERJZ0
-	GGi/2E5QUPRrkDKNPC1LFHFt0h2e/CN6s7/k8NPtwOjb3xo6AnnkonY+iMhSHFeUdOWb6atITpMY0
-	a3It7AQrq9dvIv0AxU4Y8Eyd4Q7cxMPX445k/I4wbEPMEpW5+HPcTel/zZlrQLiHLde4ddgl+EGI4
-	bDzhBPbvnQJheRRFl2kEktcYtk5CjI2rRecTdQuSzPZeT/0YjrVwcpzNIgx8cR7lzbd6/+nqIzIdk
-	XjMC6F2UE2rgid08/qp+FLrstziDmnppoW+T8MDAYzEI+f+05TI7XJ8fC3tQnp5eGCCaCqtMLMerQ
-	2lVblpSw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WWjVIb73aPGnSj21KIkV9jfyuMi0dNhpRHNwMUA5nms=; b=UYn1kJGqDDGCOHBTiEsYzb2h1S
+	eczAwjrzGA/OuZqqaQG38+ZGyg6SGTOUx1WXoK/YdiH6l3c0MxTsWNaSljxotea5OowWPGwLfgxDh
+	L4l1qeTjlotllukoYhsd4AOygUT4furNJ/ZUX3U1b+3LNBU4dVEeExgypAmHHoK2OHqAksChTLgT3
+	byJ48QAp/S+56R/REwIff1i9q3htqia3lpWVXUd7mhbSgGzxO14L1+x56SZ2zztP1uq/BxbWLzTIV
+	W61OUiQJnQbL51Nij/hHUU8r4/KAydUxowAaX9S2alAMq7TpjxUOuhryah4LS0VAQrbvTyKpcWmfk
+	U/WMhXgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGyKW-00000008MkX-0nIY;
-	Tue, 11 Jun 2024 10:02:16 +0000
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+	id 1sGz36-00000008Uzx-42Th;
+	Tue, 11 Jun 2024 10:48:20 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGyKS-00000008MiW-2nlU
-	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jun 2024 10:02:14 +0000
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so2073258a12.1
-        for <linux-nvme@lists.infradead.org>; Tue, 11 Jun 2024 03:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718100129; x=1718704929; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bb7TwbxjwE4z3urktL4tj3C/83DBgRI+FwFWe0rTRDI=;
-        b=l2Bf6kh7y7SsASRkyIM0aH7xJ0BOw+0I3IZG6NBKOKvThOhBktne9HT9ON6rm0qiFB
-         weHa/QXYXFXJWedmYjWewT+bGYp+4rNfsnqJpcpNe0Qus212J9MM1AaC00uSlzwzt144
-         JKjsyfDuZm7/466QiG7nLPo0ToW3bwlQuG0rnvc5/gMnzDetbXb+2AMZnbFYOjBAWklh
-         2fs67ZIFyT8/7CFZPrGyFRLl65MEynwq4yThVu25AXzNM0F20f3BsGJRPVqVpdsHx1wu
-         N/JP1pSRwzqH7cn1LxOaWleqXhsfccADL9LANWB8awq2V4GqUaGn/2ncWwicF4prQ0kR
-         j8eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718100129; x=1718704929;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bb7TwbxjwE4z3urktL4tj3C/83DBgRI+FwFWe0rTRDI=;
-        b=XTqvOygiwAPHpGA81ggF1yYRQtS/QmQ4jtvtpfsXDUHj/DCjDXyb40ZI8Tn8eCsGxZ
-         HNFaF/67RoeygiV3ro5ueQEO2GaCZNCKKQHllVOv6BRfw6oWDYuzxb0CAReDb2Ap1T35
-         jxR+gFfgltBlEJEIB4f8fufQNvVLXoCqzwwIb58iLCjLNiJOHI9aEIePi/No6rAoJ+sW
-         iDaiBpk3H/9ynAPvfsTnyOcL3q8SxB0ZHfyrMkrysJ83Esd2i9VoWlmVxID/Xq1x3bIu
-         2XtpHKcyeht2tt+qFe5ndZSnCpxbqc80KbJi3WrD65um2sdDPDb2GWO5QmIKDkU+ImtD
-         brFw==
-X-Gm-Message-State: AOJu0Yz8VahXflXa5FXgWH+kXxV1Y12z0+5Ajm5i517uZH5jNc52Qj2+
-	5L9LPqK7pHh7D0JohBtPBn+AwvqNs2Q1jsmixgKPuhlVLwfd7uJ4p5Od4Oo44Wo=
-X-Google-Smtp-Source: AGHT+IFNwdlUQQWrWIO47c6hGSohBVikjT1TDbiNTz/FFIUFE0aPnw6NSVNXhn0QA4HypAKW1caO2g==
-X-Received: by 2002:a17:902:d487:b0:1f6:612b:96eb with SMTP id d9443c01a7336-1f6d0395667mr139224545ad.50.1718100129058;
-        Tue, 11 Jun 2024 03:02:09 -0700 (PDT)
-Received: from localhost.localdomain ([143.92.64.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6f96c37b6sm55302755ad.231.2024.06.11.03.02.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 03:02:08 -0700 (PDT)
-From: "brookxu.cn" <brookxu.cn@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	maxg@mellanox.com
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme: avoid double free special payload
-Date: Tue, 11 Jun 2024 18:02:08 +0800
-Message-Id: <20240611100208.115211-1-brookxu.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	id 1sGwcZ-0000000815g-3tq3;
+	Tue, 11 Jun 2024 08:12:49 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 3E604CE0988;
+	Tue, 11 Jun 2024 08:12:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85352C2BD10;
+	Tue, 11 Jun 2024 08:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718093565;
+	bh=zMBbLHWiI0o4/6MjscYA2/ULza201WjvhSMdL22ilmQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=efMUQjqzDR6/6LZgdCczIkMTU67PAqpDM0RBu6vBwxbRTCrqV/SLQPjysAgXVIH+u
+	 Gs7FwJjGTrCL01zQP92DMiL3AF1rQHaJ0EqlTORyNynpUYXTzsuY6sJ9mfoqPT1Tvg
+	 BSo7cvDW+fM7fvH1aN5LdfHWfYWXWuQSJiOAXVL+z2KUCiOWthz8XV9sMCo6FSpXv+
+	 2SHsDignO7grM22XDSxgAJ0znadsNiLDmWusigAzWpriOV5Y9jvSmQhMPwNSEb8Bvj
+	 SvInHsx54FSttIPvfIwG30ulL5P3X40mKZipSzOnWLUzNb0kOcJMR/irZgSdTd0fnE
+	 LJc4doaBwGC7g==
+Message-ID: <a10087ad-8b2c-4a6c-accb-fb1e8015e704@kernel.org>
+Date: Tue, 11 Jun 2024 17:12:40 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 17/26] block: move the stable_write flag to queue_limits
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Richard Weinberger <richard@nod.at>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
+ Yu Kuai <yukuai3@huawei.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
+ drbd-dev@lists.linbit.com, nbd@other.debian.org,
+ linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
+ virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
+ linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
+References: <20240611051929.513387-1-hch@lst.de>
+ <20240611051929.513387-18-hch@lst.de>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20240611051929.513387-18-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_030212_977771_385FB2C0 
-X-CRM114-Status: GOOD (  10.23  )
+X-CRM114-CacheID: sfid-20240611_011248_189289_55266415 
+X-CRM114-Status: GOOD (  10.10  )
+X-Mailman-Approved-At: Tue, 11 Jun 2024 03:48:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,36 +94,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Chunguang Xu <chunguang.xu@shopee.com>
+On 6/11/24 2:19 PM, Christoph Hellwig wrote:
+> Move the io_stat flag into the queue_limits feature field so that it can
 
-Now we may double free spacial payload for some requests, such as
-discard. This will corrupt the memory and lead to kernel crash. Now we
-will free special payload before retry it. If we disconnect device
-before reconnect success, then we will fail request by
-nvme_fail_nonready_command(), as a result we will double free
-special payload. Here try to fix it, we may can clear RQF_SPECIAL_LOAD
-bit after we cleanup command. This will not broken following clean
-logic of blkmq, as nvme request will not be partial complete.
+s/io_stat/stable_write
 
-Fixes: 16686f3a6c3c ("nvme: move common call to nvme_cleanup_cmd to core layer")
-Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
----
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+> be set atomically and all I/O is frozen when changing the flag.
+> 
+> The flag is now inherited by blk_stack_limits, which greatly simplifies
+> the code in dm, and fixed md which previously did not pass on the flag
+> set on lower devices.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f5d150c62955..c40930d10bd3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -998,6 +998,7 @@ void nvme_cleanup_cmd(struct request *req)
- 			clear_bit_unlock(0, &ctrl->discard_page_busy);
- 		else
- 			kfree(bvec_virt(&req->special_vec));
-+		req->rq_flags &= ~RQF_SPECIAL_PAYLOAD;
- 	}
- }
- EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
+Other than the nit above, looks OK to me.
+
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
 -- 
-2.25.1
+Damien Le Moal
+Western Digital Research
 
 
