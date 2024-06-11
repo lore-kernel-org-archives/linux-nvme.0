@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0211BC25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5072C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xQZ0tGVxbRfMe28F2c3vaqhpukPqzWUR2mw3UooUIr8=; b=dx0hu1GGPDKAywjOfuBtzhp8l1
-	eWRIfTSD5OiEwyP6wBuFtQDlptoZRBo0JOhavC7tFzlJCRM3s9OLFBw8/iJTLmZtMC0856KP5uZhu
-	en9aopxkF88GV1j3SqQGGPBHR+HkiM6L5JkvjHH5WEano6OAix6LPtq1aYvkk5TkgMLypTQ4AbPEF
-	/hDj+HjKvIBsZ5mV/GMCjTipTDNFm5xLjBo2uVNSQ4i4VulSm3uxgeBGanmX9TzjBh7b9XHm0TM2l
-	KADYsFOuA7sMJkgbdDJydMv9o2NyoJw4Mx2hlALHYrgVq09qxFhy2xrzETHHqpA6EAH4l4fjBasO7
-	GPN8AJdw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LgTI+Mo1pVMP7QW3HpPljhgNIGtSuvGjjqfKNfk6Ue4=; b=vh9OF77MIVCzugAnCf49HDZ1p7
+	lZpI/k7aqOnmH5VIWk6YViCC+cfswQZ1F/Kbf7n3YnGOaBjQTZ3lk5RrUwV4oBdcA+49rbISt1odc
+	vu5RQVx9IMoJl+4eG92TdrLelyNjy24hW79wG3Q2Kp7TgUJ4KmzTm6oN5VcgE0gaWNZ7oBENbM6nM
+	MrLfCqNQ/mB+Y5W6Fuang8WNLpnR5xBtHlZR4QVQyQ1et/n/RnAzs6ieQDE0Tk+tO5D94gDbBkW2U
+	pJ3bJ0oZG5xX7n/4ALtPBc2yyQyg/mk/Ah8o0n0q2Si9pb8RTwOfqjVfqJ45tN9CxAg2hAAb6WXtp
+	sVSuLdnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtyl-00000007TgK-11qN;
-	Tue, 11 Jun 2024 05:23:31 +0000
+	id 1sGtyn-00000007Tip-367K;
+	Tue, 11 Jun 2024 05:23:33 +0000
 Received: from 2a02-8389-2341-5b80-cdb4-8e7d-405d-6b77.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:cdb4:8e7d:405d:6b77] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtuu-00000007Qnj-2sBx;
-	Tue, 11 Jun 2024 05:19:33 +0000
+	id 1sGtuz-00000007Qo9-2Hoe;
+	Tue, 11 Jun 2024 05:19:37 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -63,10 +63,12 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-s390@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org
-Subject: move features flags into queue_limits
-Date: Tue, 11 Jun 2024 07:19:00 +0200
-Message-ID: <20240611051929.513387-1-hch@lst.de>
+Subject: [PATCH 02/26] sd: move zone limits setup out of sd_read_block_characteristics
+Date: Tue, 11 Jun 2024 07:19:02 +0200
+Message-ID: <20240611051929.513387-3-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240611051929.513387-1-hch@lst.de>
+References: <20240611051929.513387-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 10 Jun 2024 22:22:01 -0700
@@ -84,89 +86,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Move a bit of code that sets up the zone flag and the write granularity
+into sd_zbc_read_zones to be with the rest of the zoned limits.
 
-this is the third and last major series to convert settings to
-queue_limits for this merge window.  After a bunch of prep patches to
-get various drivers in shape, it moves all the queue_flags that specify
-driver controlled features into the queue limits so that they can be
-set atomically and are separated from the blk-mq internal flags.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/scsi/sd.c     | 21 +--------------------
+ drivers/scsi/sd_zbc.c | 13 ++++++++++++-
+ 2 files changed, 13 insertions(+), 21 deletions(-)
 
-Note that I've only Cc'ed the maintainers for drivers with non-mechanical
-changes as the Cc list is already huge.
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 85b45345a27739..5bfed61c70db8f 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -3308,29 +3308,10 @@ static void sd_read_block_characteristics(struct scsi_disk *sdkp,
+ 		blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, q);
+ 	}
+ 
+-
+-#ifdef CONFIG_BLK_DEV_ZONED /* sd_probe rejects ZBD devices early otherwise */
+-	if (sdkp->device->type == TYPE_ZBC) {
+-		lim->zoned = true;
+-
+-		/*
+-		 * Per ZBC and ZAC specifications, writes in sequential write
+-		 * required zones of host-managed devices must be aligned to
+-		 * the device physical block size.
+-		 */
+-		lim->zone_write_granularity = sdkp->physical_block_size;
+-	} else {
+-		/*
+-		 * Host-aware devices are treated as conventional.
+-		 */
+-		lim->zoned = false;
+-	}
+-#endif /* CONFIG_BLK_DEV_ZONED */
+-
+ 	if (!sdkp->first_scan)
+ 		return;
+ 
+-	if (lim->zoned)
++	if (sdkp->device->type == TYPE_ZBC)
+ 		sd_printk(KERN_NOTICE, sdkp, "Host-managed zoned block device\n");
+ 	else if (sdkp->zoned == 1)
+ 		sd_printk(KERN_NOTICE, sdkp, "Host-aware SMR disk used as regular disk\n");
+diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
+index 422eaed8457227..e9501db0450be3 100644
+--- a/drivers/scsi/sd_zbc.c
++++ b/drivers/scsi/sd_zbc.c
+@@ -598,8 +598,19 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, struct queue_limits *lim,
+ 	u32 zone_blocks = 0;
+ 	int ret;
+ 
+-	if (!sd_is_zoned(sdkp))
++	if (!sd_is_zoned(sdkp)) {
++		lim->zoned = false;
+ 		return 0;
++	}
++
++	lim->zoned = true;
++
++	/*
++	 * Per ZBC and ZAC specifications, writes in sequential write required
++	 * zones of host-managed devices must be aligned to the device physical
++	 * block size.
++	 */
++	lim->zone_write_granularity = sdkp->physical_block_size;
+ 
+ 	/* READ16/WRITE16/SYNC16 is mandatory for ZBC devices */
+ 	sdkp->device->use_16_for_rw = 1;
+-- 
+2.43.0
 
-This series sits on top of the "convert the SCSI ULDs to the atomic queue
-limits API v2" and "move integrity settings to queue_limits v2" series.
-
-A git tree is available here:
-
-    git://git.infradead.org/users/hch/block.git block-limit-flags
-
-Gitweb:
-
-    http://git.infradead.org/?p=users/hch/block.git;a=shortlog;h=refs/heads/block-limit-flags
-
-Diffstat:
- Documentation/block/writeback_cache_control.rst |   67 +++++---
- arch/m68k/emu/nfblock.c                         |    1 
- arch/um/drivers/ubd_kern.c                      |    3 
- arch/xtensa/platforms/iss/simdisk.c             |    5 
- block/blk-core.c                                |    7 
- block/blk-flush.c                               |   36 ++--
- block/blk-mq-debugfs.c                          |   13 -
- block/blk-mq.c                                  |   42 +++--
- block/blk-settings.c                            |   46 ++----
- block/blk-sysfs.c                               |  118 ++++++++-------
- block/blk-wbt.c                                 |    4 
- block/blk.h                                     |    2 
- drivers/block/amiflop.c                         |    5 
- drivers/block/aoe/aoeblk.c                      |    1 
- drivers/block/ataflop.c                         |    5 
- drivers/block/brd.c                             |    6 
- drivers/block/drbd/drbd_main.c                  |    6 
- drivers/block/floppy.c                          |    3 
- drivers/block/loop.c                            |   79 +++++-----
- drivers/block/mtip32xx/mtip32xx.c               |    2 
- drivers/block/n64cart.c                         |    2 
- drivers/block/nbd.c                             |   24 +--
- drivers/block/null_blk/main.c                   |   13 -
- drivers/block/null_blk/zoned.c                  |    3 
- drivers/block/pktcdvd.c                         |    1 
- drivers/block/ps3disk.c                         |    8 -
- drivers/block/rbd.c                             |   12 -
- drivers/block/rnbd/rnbd-clt.c                   |   14 -
- drivers/block/sunvdc.c                          |    1 
- drivers/block/swim.c                            |    5 
- drivers/block/swim3.c                           |    5 
- drivers/block/ublk_drv.c                        |   21 +-
- drivers/block/virtio_blk.c                      |   37 ++--
- drivers/block/xen-blkfront.c                    |   33 +---
- drivers/block/zram/zram_drv.c                   |    6 
- drivers/cdrom/gdrom.c                           |    1 
- drivers/md/bcache/super.c                       |    9 -
- drivers/md/dm-table.c                           |  181 +++++-------------------
- drivers/md/dm-zone.c                            |    2 
- drivers/md/dm-zoned-target.c                    |    2 
- drivers/md/dm.c                                 |   13 -
- drivers/md/md.c                                 |   40 -----
- drivers/md/raid5.c                              |    6 
- drivers/mmc/core/block.c                        |   42 ++---
- drivers/mmc/core/queue.c                        |   20 +-
- drivers/mmc/core/queue.h                        |    3 
- drivers/mtd/mtd_blkdevs.c                       |    9 -
- drivers/nvdimm/btt.c                            |    4 
- drivers/nvdimm/pmem.c                           |   14 -
- drivers/nvme/host/core.c                        |   33 ++--
- drivers/nvme/host/multipath.c                   |   24 ---
- drivers/nvme/host/zns.c                         |    3 
- drivers/s390/block/dasd_genhd.c                 |    1 
- drivers/s390/block/dcssblk.c                    |    2 
- drivers/s390/block/scm_blk.c                    |    5 
- drivers/scsi/iscsi_tcp.c                        |    8 -
- drivers/scsi/scsi_lib.c                         |    5 
- drivers/scsi/sd.c                               |   60 +++----
- drivers/scsi/sd.h                               |    7 
- drivers/scsi/sd_zbc.c                           |   17 +-
- include/linux/blkdev.h                          |  119 +++++++++++----
- 61 files changed, 556 insertions(+), 710 deletions(-)
 
