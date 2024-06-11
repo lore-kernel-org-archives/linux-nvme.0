@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD643C27C5E
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55D82C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ssio61bxvyjbVvX4GR2JkhWcuVQT+rCdDVvaw5rJLVc=; b=2b3q+41CU17vVKXGeJXMt6GuVB
-	SUayjITTrdMFI7E2JSwsge7lId7QOVG2D/Oq9/CVES2rK0jLmS+2rDSBGBvAUuFawNqYclMa833kc
-	B7Z4FdHgriU5DpYz0D9YmHrWABVdNYFPwoEa5Q8eDaDcpFR3CvuTbs7ojztO9bsIxEU0UeanIkdtU
-	1A7JWxjcAPAanIK2GsGKRcWpIaF94IfiP3lmNAthYLni96pYHyh6/Z3OnrAtlQlc3iVjAJ5Vwz+eN
-	ZrCxVSCLB8sbL5MJrnTfOQZ2nBL0TUWwkPYUMVW1Ml0vV63LSQsFRqYS/CtjWA16ggGDlX0yWL0XN
-	bXqQxZfw==;
+	bh=rkSQ+6nZApqoAfrjo6q+Wq9Ws51k8by9JfSQNhUShHI=; b=Ed1CWf+JheFYoRbzXS7WebAGvI
+	2xqetDmjbCXGtZI4qmMbI3qG94HWIBT7FSvIPEIc9W9gIqF7D4Dz+i95b1ZBNKN5Jn7lPc25Yr+is
+	8N9NDm9EjH9m6UkTX1sWw0rWkXBuWh9MbwfS+6MKzoICxpWPh/esoX3OfY9xeugJp2oHaEZE0Ku9j
+	CTvs4e7EcK5Lohk7g4lMmouG1bXmLvu01qqP6JO7ZMbxY4k0l9pXfEyVAFWgx6gRBHNtnOT+hMWrz
+	rVinVcRjQTjmdXc1GIj6a8ZXzLiKlOKm1ajvommd2U2no9Y3fXwfj0pePqf5rKm5f9GEvU5Cykt0F
+	8VI2yltQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtz6-00000007TzI-2LTT;
-	Tue, 11 Jun 2024 05:23:52 +0000
+	id 1sGtzB-00000007U2Y-430U;
+	Tue, 11 Jun 2024 05:23:57 +0000
 Received: from 2a02-8389-2341-5b80-cdb4-8e7d-405d-6b77.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:cdb4:8e7d:405d:6b77] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtvC-00000007QuL-20ql;
-	Tue, 11 Jun 2024 05:19:51 +0000
+	id 1sGtvF-00000007Qwk-2PPi;
+	Tue, 11 Jun 2024 05:19:54 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -63,9 +63,9 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-s390@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 06/26] loop: also use the default block size from an underlying block device
-Date: Tue, 11 Jun 2024 07:19:06 +0200
-Message-ID: <20240611051929.513387-7-hch@lst.de>
+Subject: [PATCH 07/26] loop: fold loop_update_rotational into loop_reconfigure_limits
+Date: Tue, 11 Jun 2024 07:19:07 +0200
+Message-ID: <20240611051929.513387-8-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240611051929.513387-1-hch@lst.de>
 References: <20240611051929.513387-1-hch@lst.de>
@@ -86,38 +86,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fix the code in loop_reconfigure_limits to pick a default block size for
-O_DIRECT file descriptors to also work when the loop device sits on top
-of a block device and not just on a regular file on a block device based
-file system.
+This prepares for moving the rotational flag into the queue_limits and
+also fixes it for the case where the loop device is backed by a block
+device.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/loop.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/block/loop.c | 23 ++++-------------------
+ 1 file changed, 4 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 4f6d8514d19bd6..d7cf6bbbfb1b86 100644
+index d7cf6bbbfb1b86..2c4a5eb3a6a7f9 100644
 --- a/drivers/block/loop.c
 +++ b/drivers/block/loop.c
-@@ -988,10 +988,16 @@ static int loop_reconfigure_limits(struct loop_device *lo, unsigned short bsize)
- {
- 	struct file *file = lo->lo_backing_file;
- 	struct inode *inode = file->f_mapping->host;
-+	struct block_device *backing_bdev = NULL;
- 	struct queue_limits lim;
+@@ -916,24 +916,6 @@ static void loop_free_idle_workers_timer(struct timer_list *timer)
+ 	return loop_free_idle_workers(lo, false);
+ }
  
-+	if (S_ISBLK(inode->i_mode))
-+		backing_bdev = I_BDEV(inode);
-+	else if (inode->i_sb->s_bdev)
-+		backing_bdev = inode->i_sb->s_bdev;
-+
- 	if (!bsize)
--		bsize = loop_default_blocksize(lo, inode->i_sb->s_bdev);
-+		bsize = loop_default_blocksize(lo, backing_bdev);
- 
- 	lim = queue_limits_start_update(lo->lo_queue);
+-static void loop_update_rotational(struct loop_device *lo)
+-{
+-	struct file *file = lo->lo_backing_file;
+-	struct inode *file_inode = file->f_mapping->host;
+-	struct block_device *file_bdev = file_inode->i_sb->s_bdev;
+-	struct request_queue *q = lo->lo_queue;
+-	bool nonrot = true;
+-
+-	/* not all filesystems (e.g. tmpfs) have a sb->s_bdev */
+-	if (file_bdev)
+-		nonrot = bdev_nonrot(file_bdev);
+-
+-	if (nonrot)
+-		blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
+-	else
+-		blk_queue_flag_clear(QUEUE_FLAG_NONROT, q);
+-}
+-
+ /**
+  * loop_set_status_from_info - configure device from loop_info
+  * @lo: struct loop_device to configure
+@@ -1003,6 +985,10 @@ static int loop_reconfigure_limits(struct loop_device *lo, unsigned short bsize)
  	lim.logical_block_size = bsize;
+ 	lim.physical_block_size = bsize;
+ 	lim.io_min = bsize;
++	if (!backing_bdev || bdev_nonrot(backing_bdev))
++		blk_queue_flag_set(QUEUE_FLAG_NONROT, lo->lo_queue);
++	else
++		blk_queue_flag_clear(QUEUE_FLAG_NONROT, lo->lo_queue);
+ 	loop_config_discard(lo, &lim);
+ 	return queue_limits_commit_update(lo->lo_queue, &lim);
+ }
+@@ -1099,7 +1085,6 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
+ 	if (WARN_ON_ONCE(error))
+ 		goto out_unlock;
+ 
+-	loop_update_rotational(lo);
+ 	loop_update_dio(lo);
+ 	loop_sysfs_init(lo);
+ 
 -- 
 2.43.0
 
