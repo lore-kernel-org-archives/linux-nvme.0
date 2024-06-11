@@ -4,64 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 695B0C27C65
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 17:47:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00F2EC27C65
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 19:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xSm3/mSAdrGoFoAFcszrBVVRPory/rmYE4HpbQSvZhM=; b=E9Ed01/tQZEhFT0P3DDa1dSy24
-	aLudt1u318vSu1CAc2ubZqPRd7YaFg6XC+HiwDYivCtlj1naD117pZSN7WKGyPKKlxgR+y11LzuHl
-	iMSUHcAu2kA2XcvTQyJwjbdBnmmJ0PGMoROcX8S27h1aGN5kBiYccGTrQ+TKQodrXCgT6SRmVu7Ta
-	EQ2+JhsT5BBhRjGRMghGufNsHt/LdEuCprJIZRAcPXmUQnJjYBaEKBmJ193KB6NgzduFqMCZCH4uH
-	Sr3zZ3Yd/NjNQ6OGREwFkz3lAB1xFNW1UiCgBiFXt17HjwGRObBIcm62mAM+uDLnfh9l3pKKKuNqT
-	s+nsTMyw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Rlg7tKxPdWRcmGHiyIBO1+ko+FnfEQf9M9NplmU3irI=; b=r2urur2MfaETV1Idn98M3Bdfx0
+	F8f+h6uZ5QCbSlF6zF3+verKJLBfiKnBhUxp4MKBuuEdpRjojX8iQD5NPvtn5I/kKLS1Mucu8yM96
+	X0v9iKjmMpw8Isv8xlwS2XsfH//AtXLpiWr7tFzojwDAEJds0AicwX0jG4UqCgzZ+OUkST4fX66h6
+	7O7VzX8SKRaKjvsbWyLnbRvjs2m1/x9Ky/2+NxYY+asjuJcF3Jn6gfPOIr91HhuyA401azwf+f0FN
+	yzGXXkxYSP2IlyZ4lRVqfhDPbWxd+rlNKbJ7xr4xq4aEYBbWJtGHsAdsqERbwo4lbYwxSofTq3BAN
+	C56xDWsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH5aR-00000009ijW-3N31;
-	Tue, 11 Jun 2024 17:47:11 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sH6s7-00000009x7c-3l4W;
+	Tue, 11 Jun 2024 19:09:31 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH5aO-00000009iiX-2aEQ
+	id 1sH6s2-00000009x5m-1rvp
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jun 2024 17:47:10 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 942C460DD6;
-	Tue, 11 Jun 2024 17:47:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4F4C2BD10;
-	Tue, 11 Jun 2024 17:47:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718128027;
-	bh=36T2K9aFkBfiAZcwV3STRai8NPf570te/8GleiFFim4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kydNF9SsJ80vSZCuiiCkZuUDwKJZucbSmr9Y3AlI20saZg1IuJDZzKD2QBbt4Vs8d
-	 Eu2Bk08iwefcQgQSA+mqlgEgYHt4DSKFphr0xrPzyjSgn9P9LLT4uX8ihJu+Rknyjg
-	 DmP4Zyw6MppFIOijpkeGQqXp+6xBWtgC3P7OWTR0rCold/FyGzYfFG9mw/4cYGnkei
-	 +e/+NyD68x47FfQf3pqHPTQNbxU7F9ax+JLKhn12YYSkgBeEfq9pzQVDc5YCE7Opb+
-	 nHwgHjXABXCZuU/DX3frnP/NxSs+VrALqgZXjnhKcda2mI77dSmE4Q3c1Z1MOpbzZY
-	 aahWPTm+4Db6Q==
-Date: Tue, 11 Jun 2024 11:47:04 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	Venkat Rao Bagalkote <venkat88@linux.vnet.ibm.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>, rcu@vger.kernel.org
-Subject: Re: [PATCH] nvme: fix namespace removal list
-Message-ID: <ZmiNmIPLom4NFhkY@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240611152055.2317197-1-kbusch@meta.com>
- <20240611163955.GA12787@lst.de>
- <ZmiHvDaI11gu8K4I@kbusch-mbp.dhcp.thefacebook.com>
- <20240611172448.GA13680@lst.de>
+	Tue, 11 Jun 2024 19:09:30 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A9182226B7;
+	Tue, 11 Jun 2024 19:09:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718132955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Rlg7tKxPdWRcmGHiyIBO1+ko+FnfEQf9M9NplmU3irI=;
+	b=OQwB1yqztM2HX8LWyWPvg4OoqJjJn2bBJmFzpUwj5GMvqzlqpAY94A9QamH1XdnizqDZZy
+	3DZYkQ5V7rBBQyHcj0+jE26quVnLkBkzLLL1Pgj++zm3y3Kmzz1k4fGKj1uHbprP8gm0NX
+	iEj/1PkhYrPeO+4/sCx25BeXwsEiLxE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718132955;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Rlg7tKxPdWRcmGHiyIBO1+ko+FnfEQf9M9NplmU3irI=;
+	b=EYRca8Y+QS/Cua5s2918GzhsJs7oidxqOjMt/k/ugMYb+HWOpbPfWi5JyXUo8xERXEejXz
+	NMjI8g4SFUeDUUDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718132955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Rlg7tKxPdWRcmGHiyIBO1+ko+FnfEQf9M9NplmU3irI=;
+	b=OQwB1yqztM2HX8LWyWPvg4OoqJjJn2bBJmFzpUwj5GMvqzlqpAY94A9QamH1XdnizqDZZy
+	3DZYkQ5V7rBBQyHcj0+jE26quVnLkBkzLLL1Pgj++zm3y3Kmzz1k4fGKj1uHbprP8gm0NX
+	iEj/1PkhYrPeO+4/sCx25BeXwsEiLxE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718132955;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Rlg7tKxPdWRcmGHiyIBO1+ko+FnfEQf9M9NplmU3irI=;
+	b=EYRca8Y+QS/Cua5s2918GzhsJs7oidxqOjMt/k/ugMYb+HWOpbPfWi5JyXUo8xERXEejXz
+	NMjI8g4SFUeDUUDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99D66137DF;
+	Tue, 11 Jun 2024 19:09:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hvOUJNugaGZeHQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 11 Jun 2024 19:09:15 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: James Smart <james.smart@broadcom.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v1 0/2]: nvme-fc: fix race with connectivity loss with nvme_fc_create_association
+Date: Tue, 11 Jun 2024 21:06:45 +0200
+Message-ID: <20240611190647.11856-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240611172448.GA13680@lst.de>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_ALL(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_104708_796214_E8B37D46 
-X-CRM114-Status: GOOD (  24.01  )
+X-CRM114-CacheID: sfid-20240611_120926_658728_5DC8C518 
+X-CRM114-Status: UNSURE (   9.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,30 +125,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 11, 2024 at 07:24:48PM +0200, Christoph Hellwig wrote:
-> On Tue, Jun 11, 2024 at 11:22:04AM -0600, Keith Busch wrote:
-> > > Is this actually valid for a (S)RCU protected list?  If the entry gets
-> > > added to the new list before the grace period has completed, we could
-> > > trick a concurrent traversal into following the new list unless I'm
-> > > mistaken (although chances I'm mistaken on RCU corner cases aren't that
-> > > low..).
-> > 
-> > Good call, you are absolutely right that a sync should happen between
-> > the del and the add for readers to consistently iterate this list.
-> > 
-> > I might be able to weasel out of this though: our namespace list is
-> > sorted, and this function wants to append everything from this element
-> > all the way to the end to the "rm_list": a reader should get the same
-> > result either way, whether if it was torn at this element or the move
-> > happened without the reader seeing it.
-> > 
-> > Now if there was a way to rcu split the list so we don't have to do it
-> > element by element...
-> 
-> Isn't that exactly what the list_splice helpers do?  We'd just need to
-> do that exactly once at the cutoff point and not once per namespace.
+We got a bug report that a controller was stuck in the connected state after an
+association dropped. It turns out that nvme_fc_create_association can succeed
+even though some operation do fail. This is on purpose to handle other corner
+cases, thus we can't really make nvme_fc_create_assocication bullet proof.
 
-Not a splice since that takes the entire source list; this usage is more
-aligned to "list_cut_position()", which doesn't look rcu safe as-is, but
-I think we can make one!
+Given this, I think the second best option is to ensure that we always schedule
+a reset whenever a connectivity loss is observed in CONNECTING state. This is
+not perfect (possible back to back reset) but at least it is correct, which wins
+in my books.
+
+Daniel Wagner (2):
+  nvme-fc: go straight to connecting state when initializing
+  nvme-fc: fix race with connectivity loss with
+    nvme_fc_create_association
+
+ drivers/nvme/host/fc.c | 27 ++++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
+
+-- 
+2.45.2
+
 
