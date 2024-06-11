@@ -4,48 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 321D9C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 10:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AB13C27C5E
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 10:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J//3SpzKDDc857L2Pv7qWTh9uZ8XkAvtsdrbgMb/3qY=; b=mMKgs+EIspdLMaU3zXtG014Hdw
-	mbQq2Ua9Iux72P5aur7/j6Wo2M4UqOf96/gRSeFsgZIrjxwcDnhyCpAdFZ/pFMgz6RfjRvTCan8YF
-	cDixYfEvX78VN9gbawZzUTasTRkzSs2zmgltE8CR8dyEaGmH2Kx/6B54clJzQaQrbNRE2184mgSBn
-	sAO5eJneTHPbKV9UsnwzrH9u0ND4JJ4D7FeQs9uFFenabxc3qN7O8qYk0rXHUpf/xGu11GPZc0jgb
-	9zEjmbIxx4sPn3kmhdTDgnzfh//jZoYbq0UCqVWyxLJzMOENA3sNgS9P+I3YQ233uhL8tpkUlb7gy
-	PZ8XUTyg==;
+	bh=tCQUSrpdwOynkpc1Tz9Azge3wgl8NOWv0S2VxuU+NCg=; b=X2IYgoxs8gXAxCN69ihRkRo6LF
+	NlmaClOddlAz88ZzvtD9RCpPzyw56AYSYAKlU7UMo4BXGUvhBrEl0huzvNZlLJItJ8D8+MyOs4d6i
+	bOSU4M1kO1AYW8s0qUkJZaLcr72Tln6cNXi5Ao60/GCC89rJyS1DTP+xxxz+t3P+49A8IZRtHJliL
+	vNDpldPk9xAAqfoei3bmlz+CQGbboOmQZ8RULcOwb54cq1rUkVQ2QJ7+Yg0aSoop3KjTNTfUly1nJ
+	j0nt4Tf3zND5RdqqpES8sdN7JzHdJY49ob14aNnSVdQV2O1hKQyVZC3PIfBxVmFWa34FPiqwhhSkI
+	OOUVZUtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGz3E-00000008V4z-2DAd;
-	Tue, 11 Jun 2024 10:48:28 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sGz36-00000008Uzf-0Q7l;
+	Tue, 11 Jun 2024 10:48:20 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGwhI-000000082yt-2olW;
-	Tue, 11 Jun 2024 08:17:42 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 964F460C99;
-	Tue, 11 Jun 2024 08:17:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001E2C2BD10;
-	Tue, 11 Jun 2024 08:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718093859;
-	bh=8hoK2gKDaRsBvhpNjKWXz1NiL4R/W55wPg0pcyUnTg8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vRlCqU6kXmdmYokXUm2SdAVQKVkuohc6QD634jV5YaAQTtPSpRt6l4PYnhfTViNDw
-	 sbGdXs6SfI8gJDA08QAexH1JSxVl9S/Par06DxrUB4GI0tIhYG/yn58Ww6l/0QCu56
-	 WseAAZIp7UfGEfNQUZDJH/9CKtHnu/6zi6luI2GQJ1poRNm+fPzSuf2EsNdvmJ7qNi
-	 nJSmsZ8E48CIwWwRJgt5yxhenbvusswprhVLBGGicCH3/2nSpxzVzmGUhEFnCcducJ
-	 jqZanUchjNsStFy5gRtuzoGaUYgOY6jNc667Bvz8/tDlqfTuQVB8PXPIosnj3IAUtu
-	 ilukga62R9dEQ==
-Message-ID: <c52f1553-21a2-415b-a9a6-02bc5cde1ac7@kernel.org>
-Date: Tue, 11 Jun 2024 17:17:32 +0900
+	id 1sGwc5-000000080q8-07zn;
+	Tue, 11 Jun 2024 08:12:28 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F414222D0F;
+	Tue, 11 Jun 2024 08:12:14 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EBB43137DF;
+	Tue, 11 Jun 2024 08:12:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VT1AN90GaGbKWQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:12:13 +0000
+Message-ID: <4032635d-a17f-44e5-a547-b175fa271945@suse.de>
+Date: Tue, 11 Jun 2024 10:12:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 20/26] block: move the dax flag to queue_limits
+Subject: Re: [PATCH 02/26] sd: move zone limits setup out of
+ sd_read_block_characteristics
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  Richard Weinberger <richard@nod.at>,
@@ -69,17 +73,26 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
 References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-21-hch@lst.de>
+ <20240611051929.513387-3-hch@lst.de>
 Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20240611051929.513387-21-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240611051929.513387-3-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: F414222D0F
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_011740_797402_D3C72B49 
-X-CRM114-Status: UNSURE (   7.36  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240611_011219_384301_6BA14D4A 
+X-CRM114-Status: GOOD (  17.19  )
 X-Mailman-Approved-At: Tue, 11 Jun 2024 03:48:17 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,18 +108,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/11/24 2:19 PM, Christoph Hellwig wrote:
-> Move the dax flag into the queue_limits feature field so that it
-> can be set atomically and all I/O is frozen when changing the flag.
+On 6/11/24 07:19, Christoph Hellwig wrote:
+> Move a bit of code that sets up the zone flag and the write granularity
+> into sd_zbc_read_zones to be with the rest of the zoned limits.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/scsi/sd.c     | 21 +--------------------
+>   drivers/scsi/sd_zbc.c | 13 ++++++++++++-
+>   2 files changed, 13 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+> index 85b45345a27739..5bfed61c70db8f 100644
+> --- a/drivers/scsi/sd.c
+> +++ b/drivers/scsi/sd.c
+> @@ -3308,29 +3308,10 @@ static void sd_read_block_characteristics(struct scsi_disk *sdkp,
+>   		blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, q);
+>   	}
+>   
+> -
+> -#ifdef CONFIG_BLK_DEV_ZONED /* sd_probe rejects ZBD devices early otherwise */
+> -	if (sdkp->device->type == TYPE_ZBC) {
+> -		lim->zoned = true;
+> -
+> -		/*
+> -		 * Per ZBC and ZAC specifications, writes in sequential write
+> -		 * required zones of host-managed devices must be aligned to
+> -		 * the device physical block size.
+> -		 */
+> -		lim->zone_write_granularity = sdkp->physical_block_size;
+> -	} else {
+> -		/*
+> -		 * Host-aware devices are treated as conventional.
+> -		 */
+> -		lim->zoned = false;
+> -	}
+> -#endif /* CONFIG_BLK_DEV_ZONED */
+> -
+>   	if (!sdkp->first_scan)
+>   		return;
+>   
+> -	if (lim->zoned)
+> +	if (sdkp->device->type == TYPE_ZBC)
 
-Looks good.
+Why not sd_is_zoned()?
 
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Cheers,
 
+Hannes
 -- 
-Damien Le Moal
-Western Digital Research
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
