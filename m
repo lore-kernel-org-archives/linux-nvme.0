@@ -4,214 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45010C27C79
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4141DC27C53
 	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 03:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=joufdrNO2/FLdgGzlnaieoHfZ28FYCwNXGhrZ08f24E=; b=LsQhvpSZ3TcaW9XlFeLXVQam72
-	fBJ/FVL5TNAfJe+iFhGoYBGNWpECRf2llI76RCQdFn9ShoOI2hFFwRJ7zhthbeVGzyXuviZlG2Ujz
-	64bN4WkGklAKHzmZX25D2WMw84fT8fl5FIhicIEaXvPy3H1vbNZarZe/qyD8TqnI+xNJe5AFnhrQw
-	gQwBwJPDJkNrrCZaS8CO1J4dtXTwBA99cGRyxE39xNJK452zsBN7NcZvYC7nc/rc00aNYsigWXSxW
-	wN5M2ZZwSFpbXkdpP1uVVnCjQ34Bx0ZndvumJkLOzoN4BZJif+30wKMJjHpx+PU+4o7myGMxRYGVE
-	OupgpHYQ==;
+	bh=U5eKz+uXHS08rNu2q2pWtoMhiDqRCnMlE/0QAMEdTDw=; b=0i2LlkWwP1U1nJnl+dAH5JNcn6
+	vFJoFf7L8B8iZ1QCOPeOFZCAn04kD8Dx848J7MBtVHx0rBf+rd0CkCXHfiStuQssbDrTIIfBxVESL
+	Wl09XJWjxvZ7+o8EQ9C/B5qKL/uU+4Rao89nAYyiuz7dnEvybdv//m4kV3HOddinwdD66qjCs7g33
+	1rXv/w3kAWF09oe9pTww4l0WgmavBWorA4x8RaBPA353XP01h+IqowBHyk7RIpjvBxBejxcp2ZWUI
+	H0LUxQL+aD1Tne8hjXFFLcdYiQYxOfC+SagmkTZ1+3dk3b7/3LTUHB1fqNj9rnuHwh1+T9t8EN5Fv
+	UN2/kgpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHEyC-0000000AwAP-1ePw;
-	Wed, 12 Jun 2024 03:48:20 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1sHEyD-0000000AwAY-0T6D;
+	Wed, 12 Jun 2024 03:48:21 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH00F-00000008jaa-2v97;
-	Tue, 11 Jun 2024 11:49:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1718106567; x=1749642567;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=joufdrNO2/FLdgGzlnaieoHfZ28FYCwNXGhrZ08f24E=;
-  b=DHrfbkb7HFgM+yY8xguhjN/BM9AHkYQ3wW2Fsr0n9hfchTIIvEFJnc/R
-   6AMdCPWUTYWbhS2AIqaICVidx2Pspvq/2dMqvUN87PxLrbOis5j70CUUa
-   SqmKFEyKLNbtk2Ew2CT7oMcYL72vIRkpfCmXpn9PkB1lrVHo1O7JIexOl
-   SIbjWdH+cn/ZjFqZUCcX/Xo/9q6KVt0kutPjYHJq9uupsL+z04aDirP2Y
-   BubvzwbryFGPVmcNxYTtOQTWQbBAh1gyKygheo+YWdC+Pi1F24IiM3cMn
-   W8pKw1yGmXLU+EEEbl3YeL3ED7c2G0aRnaqaZghhWIsapoYzVHqQwhGln
-   g==;
-X-CSE-ConnectionGUID: JrPDpdWfRG+ZqkmmTiOxOg==
-X-CSE-MsgGUID: E3cjbR6US1mJc3gvMlH95g==
-X-IronPort-AV: E=Sophos;i="6.08,229,1712592000"; 
-   d="scan'208";a="18781831"
-Received: from mail-mw2nam10lp2048.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.48])
-  by ob1.hgst.iphmx.com with ESMTP; 11 Jun 2024 19:49:22 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CRmGq6iSB90y4s8aNIFdy1KnNncJpFLUxVfTcv/yRxyNve+RltmXcIEvt1bSKHThU0VlPg28INa8JFeIncYLOuyorWyLraqrqYhY47AVMStS6ZTLCDwkMEjP6L+Yh6V51U04Q4Klft0CXv3xJNk9KWDjp7k/5jUlOH1jzctSHglGH9KsLVwzkAa1XRekLwtWywu/5nkkrWCp/FJ6z2CvjW63ZPFOUPwrzLmDsPHp8HlrGLhAcsuxOpL1BF83X/qmDVRhp3hnqj1UksYcbIADlUWBSzXIEQAynQOHBvd8tumoZlS9CNtm6EOqNQbcBQIc3+mA6UjNEiFzI+Q4WRkp4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=joufdrNO2/FLdgGzlnaieoHfZ28FYCwNXGhrZ08f24E=;
- b=iO5F3SwUN3X3j77HvgMjY6jG5O7gm7dZZrLDmD0WIOFQAxdRfIZ7BR8wEU9ZMv4qxZjdQcX3RgrKsJCQB5+h7FBo5Rvnzxh9yf/qPpCr5YaaKLndyFNj4h+fxJUnM1HmgMYzeut5iGT+BkoJmEiFET4CVOUNbTIbY1mACXiR3q88O5AVnDLouz7DGwaVjNsrDkBVAyD/80TfEsWxlq0bDJ/WMzaXVkibVOHG9JeCsGBPocarfWyz2IMj7vU2zcKVHi+5hB15gzYfYsZw2ioCshBWZOhEQaY21G8mUhGAF+eCX6MOfsqKJ33eacPbQldtHmTlG2v/gNRzVvspJxF0lA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=joufdrNO2/FLdgGzlnaieoHfZ28FYCwNXGhrZ08f24E=;
- b=OVto4xmIBCZSfAUJmn/NJAVGklt21Os5hPTqNzTajqHqfyRNN/xQkPzIx0w4SrbcjO3PrBonbpVhNOJ+smxroDnUEuwHQyNRVuh8sJ6rhfRV1AdlkCaURdQyWxJ38Jr2v842hXjWVaNAOZs2wpsNceCT0GfYnZH6a+RyQfLDbDA=
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
- by PH0PR04MB7688.namprd04.prod.outlook.com (2603:10b6:510:5f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.37; Tue, 11 Jun
- 2024 11:49:20 +0000
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::ee22:5d81:bfcf:7969]) by PH0PR04MB7416.namprd04.prod.outlook.com
- ([fe80::ee22:5d81:bfcf:7969%4]) with mapi id 15.20.7633.037; Tue, 11 Jun 2024
- 11:49:20 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-CC: Geert Uytterhoeven <geert@linux-m68k.org>, Richard Weinberger
-	<richard@nod.at>, Philipp Reisner <philipp.reisner@linbit.com>, Lars
- Ellenberg <lars.ellenberg@linbit.com>,
-	=?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?= <christoph.boehmwalder@linbit.com>,
-	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	=?utf-8?B?Um9nZXIgUGF1IE1vbm7DqQ==?= <roger.pau@citrix.com>, Alasdair Kergon
-	<agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
-	<mpatocka@redhat.com>, Song Liu <song@kernel.org>, Yu Kuai
-	<yukuai3@huawei.com>, Vineeth Vijayan <vneethv@linux.ibm.com>, "Martin K.
- Petersen" <martin.petersen@oracle.com>, "linux-m68k@lists.linux-m68k.org"
-	<linux-m68k@lists.linux-m68k.org>, "linux-um@lists.infradead.org"
-	<linux-um@lists.infradead.org>, "drbd-dev@lists.linbit.com"
-	<drbd-dev@lists.linbit.com>, "nbd@other.debian.org" <nbd@other.debian.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-	"linux-bcache@vger.kernel.org" <linux-bcache@vger.kernel.org>,
-	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
-	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	id 1sH3aZ-00000009MRD-3Mzh
+	for linux-nvme@lists.infradead.org;
+	Tue, 11 Jun 2024 15:39:15 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 09C6660F1D;
+	Tue, 11 Jun 2024 15:39:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1846C4AF50;
+	Tue, 11 Jun 2024 15:39:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718120350;
+	bh=bbs0nZfYQResOgy6lgmjK0ssfkYQtU/jorgr5vVQcy4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WeVRuVmZNJeBvFynafLllgaQ1sTe/TVDnO5VctQIcUSYQOEU6L/J/vJOIjwNzo3A7
+	 3Dtzy1al9A2/Tr6AlxBQt4JBTgsYowYoL2Bv6Z/KtfTMP8dSDRFtWh0392Fmf3JF2k
+	 fKMz6OPHX2kvVcFojWdEXOXyw1HagFioPBsKsg65MLpyRx/2GOiSJx0A+nqbPJbV3u
+	 A95bFHYsXOdOXRQyF3QNS9yP76xBy7lpFSCBIR/2jJ1QAeLiUXqF71va2CbrHX8VKl
+	 uDjBRTCBn4VAxYQHsvExW6kvFQKq+NKp70xE3plLwPZSkFgB4mIj/paMAwzoxmxS3u
+	 c+uVU5d1JvTpg==
+Date: Tue, 11 Jun 2024 18:39:05 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: "Zeng, Oak" <oak.zeng@intel.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	"Brost, Matthew" <matthew.brost@intel.com>,
+	"Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	"Tian, Kevin" <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
 	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-Subject: Re: [PATCH 08/26] virtio_blk: remove virtblk_update_cache_mode
-Thread-Topic: [PATCH 08/26] virtio_blk: remove virtblk_update_cache_mode
-Thread-Index: AQHau79kF7G5+NsLzE2Hf/a9e+yyI7HCc0sA
-Date: Tue, 11 Jun 2024 11:49:20 +0000
-Message-ID: <89d4138d-92b7-4899-a028-277dde4b662f@wdc.com>
-References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-9-hch@lst.de>
-In-Reply-To: <20240611051929.513387-9-hch@lst.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR04MB7416:EE_|PH0PR04MB7688:EE_
-x-ms-office365-filtering-correlation-id: 89a728e8-ce41-4765-5853-08dc8a0c87ff
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|1800799015|7416005|38070700009;
-x-microsoft-antispam-message-info: =?utf-8?B?NWQ0OExuMTY3TGJVTzcxS0JUanpBVE9EYWRXNEI2K1BJTmV5a0dpQ0NncXpk?=
- =?utf-8?B?cE9WY3VHRnJtdU9BZzdKUjZGdHkvN2p4MWo3WVI1RUt6V0k4aXVXeng3WEln?=
- =?utf-8?B?QkRXRTYxSUovc2IybSthSUF3NlRMYmwwdTk1cWY4Vk1oc1UrWUlyT1NRRnQ2?=
- =?utf-8?B?ckpac2xud0VldFF1MWZUM3VmY0xWRURCNk9pNEtqZ0VseUF3ejJHUWhDUFFW?=
- =?utf-8?B?M09pbWF4blowenFHNHJSb3oxS2krTDc0eWM0Y2FEenFYOVROd3Y5SGg3Smpv?=
- =?utf-8?B?Q1Rib1FzSkIrdWkvUFg1ajJ5b2QwL3ZIUHlmNDY5QlhlUWhXcWtKRzIvOUdK?=
- =?utf-8?B?dmJMRWJxcVJjNHNYV000QmVBVVl1amFHL2d4SDN1ZnBxNXc1ejR6VjBZU2Ri?=
- =?utf-8?B?NDRVVDlJTFRRSkMvQm1sUGM3NmdQU0t6c0FvY2hENC9paE4yQnlyQWIzNlV1?=
- =?utf-8?B?MnNLQ0JGOFM1VWdwbThtUWJ5Q2orS2kvVDdqOGlxUGdmL2g3K3p1SytBcllq?=
- =?utf-8?B?M2hUeVBMaVZ5VFUxK1BtNTE5TnpDRVc1NHJSL0YvT0tsank0aDRXVG1SVkdL?=
- =?utf-8?B?eTJvcENsMUFvdTZVa24rTWtMRDc0Vlh4SCszRkd5RGxlU0pZMWF0RmZtYWgv?=
- =?utf-8?B?TjZzT21Oem51ci9TcCt1ckx1YURTVVlIOTh3SjRzem9FdTEwWVNSZCt0Y2NO?=
- =?utf-8?B?djhNbkQ0N3FTajEwUThXUzhiQTBnK0FPWklYRy9IamhCL0NXbDBaaksvVVdy?=
- =?utf-8?B?SC9IM3JrMDVsZm9wcjExSHhMUFNqeUpmcjhCNS9IN1pHVGRycVFlRWE4T29w?=
- =?utf-8?B?cXpEZGorNnZrLyszdEpZN1NnS1NweDRTKytCVWNOSjVSVFhscDMzSWZnbmNM?=
- =?utf-8?B?VE13Z3pvcXBraGZNRjBjWU9UYlFXYkRMaCthMmI0MitYbjA2VlI0UEdyUTFT?=
- =?utf-8?B?OVBTbW5qTDBpYlNmRCthbHpUaC8zUHVaL2ptNUZ2b0ZTR2VIYjkvSURxK29o?=
- =?utf-8?B?elkrSDhDRkx3ZC9rbm5qM1h3aEx2c2FqUWJVSEpYaUlxRVAxUFJrU0toWkps?=
- =?utf-8?B?RDBwdmFDcVhtZlFRaHZQNC9TL1RvbitBc3lLTzh6M2I1dVRYWUdkS1V6ZlBV?=
- =?utf-8?B?RmFJNkVUZHF4eFdRMjNUUkQxUnJJSzlzTFFQQ1E0M1RKWUpESzViWkZMaWNC?=
- =?utf-8?B?c1FHSUpTRTRsbXlUWWpRekhTUzBlcUk3dzNJY0xZbVNBcGVKWmdSZ1hpRVVs?=
- =?utf-8?B?WGs3djN3SDZpMmRKVnlJZ0xFdTFLUkNORlhxTlBLZ2dWK1lZdDc2eEN0QnBW?=
- =?utf-8?B?N0ttQUZReGpGZW9qTFE4MDZYTk12dGI1THg1alo0b0NJQkhiQ2xTd3ljc21B?=
- =?utf-8?B?aVNwVnRzTm9wQTM1ZjBKQ2ZXdXRNd0dWY0NYNkI3cFZnVkdEWHZIYWVJeExZ?=
- =?utf-8?B?UEVKODB2MDM5V2V4TVJtcnRxTXVoRDUzMThkZHhVTUtySUJ1blJjazk5Nmhx?=
- =?utf-8?B?cUhmcDAxQ1IvNW16RmlwQ2ZERFdIcXRGMHlQRW1PQXdMMngraE9KOVlxZi92?=
- =?utf-8?B?S0JaUXBYQnJtU1FtNkNaa2JCYjFwWXNXSU5uaE5vTGxDR3RnVGxnU0x0OEx2?=
- =?utf-8?B?RzlNcG1WWHRUVU9LWXd6S2FDMm1kQUd2WnhVK096TU56UXZteWZ6ZnFWNndL?=
- =?utf-8?B?bm5sVXk1dnkrT0loSjQ2RHp1bktzN3hyM0x0M0tHdzFXT090bW5sR3B0R1Fy?=
- =?utf-8?B?S0NEWVNiY0tNUUtvdFQ1L2FSMnIrL2R4U3RYMExRcHFQY1VsMFJpY1V0OThu?=
- =?utf-8?Q?fHqIqB2e0zMkLzeieOsvwqCrxfD1ZTx3fy5Pw=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR04MB7416.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MHA5UVJ0K1JMZDFzVVBqQllHbHFJbWd6ZEpRSFJGQTVmRFlxbmhMYndCcm91?=
- =?utf-8?B?M3ZzcG1rV0llY3dpZlFtWWNBWm0wenJpNGpPbnR0NUdvMlF4RmxrTHZsWUZC?=
- =?utf-8?B?bGhhWThzQ1hIYTYzaGJjbHR2bVcyaU0wSU54OElwaDlQNk04Y1lXU2RHOFBi?=
- =?utf-8?B?dUwwdklCMHRPOGlmQnU2bkEzV0xFckdzRmVPL2hKZUJDVWFXVU16TkdUTTZI?=
- =?utf-8?B?ZkVWR3VraCtwdlNvbWZnTXVyNWFoWEFMWkcxUk40NmU3VGYxVDZxNDVtRklQ?=
- =?utf-8?B?TjN5K3Z1ZnFBNkREYnpFd2dobWNFTUpDb2VVOGFjM3NxcjRUekd2Sm96UVRP?=
- =?utf-8?B?QzZEN0FlU1R0d1Nub041OU8yNlNIcnJCQzM2ZTJ3dTVHWERBWU1TVEdVSlI5?=
- =?utf-8?B?dTVWN2tMdTJqZFNNKzZXMkdNaFhTRVJHUlFsY0h2YU4rVUNzUDFWdUpwQVFK?=
- =?utf-8?B?ZXdwVVpBSHQ4b2xPRmozR0xEdndZOGRBRjdacUFUU0lqZGtPelh3R3NRQmVh?=
- =?utf-8?B?TkJKbTdycTBEREFhbFdVaGRJQjVPOSt5UGh1QVNRVDFtT2hMeURIVWlXcnZk?=
- =?utf-8?B?UmVSNTFwK05ZNU9OZXZMSklrTUw5UmhMSE5QWlhHbDgrd08xemE0UENoR3JU?=
- =?utf-8?B?SmFQWEUzZmZIbm5UVStmYklKQmtaRDFzMUNLZmFLSFdtN2FuSlZMYmtmcHVv?=
- =?utf-8?B?SlAwL0NWZVpZZ1ViMDNTQjV0TWMxV2RRbXlzZzl2eWtabHJQV3h2aGJLUkRX?=
- =?utf-8?B?RElzbjQ2YXNISjk5K0VkNFRQdndoMnppMXlIQUpFVFdwT1g4TCt3dW1sOWZq?=
- =?utf-8?B?a0NsRVJXcjVSR21mUVpybTJQYzhtd3owbncxRGVPV2lYYjJpenpucFlVcTQ5?=
- =?utf-8?B?Yk8rUDZFODBXbmhuOS82RHpGWVN6dG1TaSs1ajd0Rk5wYzJpU2c3V2IrdWR0?=
- =?utf-8?B?RUhlUjFodTYyT0ZldjBaejhwU21aemZMT3JsL1p1VENWenhoUm1DRzFWMVJq?=
- =?utf-8?B?a2dGYXZKV2Y1VHh2L2RuY2NsVjMvN28zQTVRYXRlcy9hOXNqMW1aME5qLzgw?=
- =?utf-8?B?em5xZzFCekZZblZ2QWd0YWFhQ1cvbmVHZVlGbk9OSlFZdDlDYUZYUjNzVWtY?=
- =?utf-8?B?RjVGSVBOWGRaU1ZKQ1cyMkpTOVN5clM5ejRQTlJkYmljbCtrN0VRQm1SdWYv?=
- =?utf-8?B?bzMxbmZjZHZ2ZTNyajVwejZJcWo1RmhZclNzMjNTUTlhZVEyZGxVZW5RSmtp?=
- =?utf-8?B?ak5LVHQzTEYxSVYrTUppdWtMNHV0d2JScHcyT2N4RXQ0UXl1QVEzNGhBaXNK?=
- =?utf-8?B?UG9yV01iY1g2NlhyVE5aU1FpS08wUXBJTWJDOU1iLzZMNDhzdUVaS21PVlAy?=
- =?utf-8?B?YWR0QkVuSlRyamJFcm9BTGJYZWFjZm0wbklzMlRIUnlxTTRvT0FvYWYwazND?=
- =?utf-8?B?ZjRpZEg3VHFrTHRWWWlLZkVWSHFlT1RFeGpzU3RYQzl3eVF3UE56aWhwQ2d1?=
- =?utf-8?B?TXl2UmVoaVhVVTBKR2JnSDROUGUvUUFUait3WVhGakJDV1U5dGJXTFcxK21Z?=
- =?utf-8?B?dGhGWGszMXJhQ0k3VWo3bU04ZE80VkIzMWVHelVGR244RGlRZzUraHAxaDU4?=
- =?utf-8?B?am9oS2F1L09aUkFNMWtBbjF4NXM3dnYrZFlJK3J6NVBDSFNJbUhSM0RaeHo2?=
- =?utf-8?B?VjFva0RraDZEMlBrM0p1bjE3RGlnVEZjK1NBNUNjWmo5eEpZNnYrU2pMSC90?=
- =?utf-8?B?V21McGNXU2R3UWkwTjdiVXBPTXRaRjJLMmJTUUJ6a2tpQkw2N0J3MzFsb1Q4?=
- =?utf-8?B?VjV5R2lSbkFxSXpVZ3ZmdU8vbXVJRlBqaEpHWFRveUtQbVhrYzhDcjVyWWJF?=
- =?utf-8?B?dGh3MzZBdWlJZUEyQUhsNFY3ZDZvdWd3UXNaQmFPQjZTTk1Cb05qUElIWEJn?=
- =?utf-8?B?OHpqU0ozUXc0SzU5UlRqNXZVVUZuSVdqKy9qQ1RxZXdacGd6cVBBWFJoRjV3?=
- =?utf-8?B?aWJ2eEIxVXB1V3Q3eDZ6b20ydXI2RmZ6N1I3QVRyZDg1Qm81dE9JbVhyMEZv?=
- =?utf-8?B?OWkxcGtwNHBqT3R2L3RJMnE1MUpkU0d6YlFheHUvU2szdW1BQWg0azQrYkd4?=
- =?utf-8?B?QTQ4Yi9IczdobFdDUjdLdkxXSndueG9vcUUvU2Z4bWpJRkJzeWdTYTZmT2JZ?=
- =?utf-8?B?ckE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <958B41E259453E438A1DB5FF9C75C781@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"Williams, Dan J" <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	"Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
+	"Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Message-ID: <20240611153905.GB4966@unreal>
+References: <cover.1709635535.git.leon@kernel.org>
+ <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240503164239.GB901876@ziepe.ca>
+ <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+ <20240610161826.GA4966@unreal>
+ <PH7PR11MB7004A071F27B4CF45740B87E92C62@PH7PR11MB7004.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: dQw6uzYdE/FnnfxnwjpkW3OgbullM0F/pcQuDv92l5TOph4sKR0fHczCbXxBw5zc/h60Jk6v/g3kf2aFVPiuMYLmWdD0uus26oDDOJnKvSHw1PpSaq1SUGVz9WMxpAbTLRrCBg58vEAS81mnY2M6ZdEKxT3tO0V75X+/r4mD7jv50QHA4T7278REL+/T5ypizLl6wveIKs6Hd+x5S2E4mRyXbI4zaV6X8Xn8uWAHW4jAN0XPGOPnO3ZzoPPrElb8IXZoCbsl97XQ0CeESxrs38qWCIcod6s4IxVQJzqwhjUcWHEMeW7+VrX/9G50f+AqmURZpsBXKQYlUfxe8Et4gh6VmGIBq07SRRlZNsbv8+bWjNvLgimrs1dLC2S73xbMhTos/fTubBOobNUt+fTThGB0KkMSVFOBg7QtJmjsSURPD64/mJdvZJ/OfJEhjL7v/KUMw0qvWDDlBOo7/rCOiqtXADNz03e7C8x2nDeKj81cMMuQHaXiQ5eouZNYjgYxFMfhTr3k3i9YLe6BNPjyoGuAnmmqKfxO0PzdFSP583TCIdW9/1NQFqb4BSKjTAxVZdKv/v7c8BeWp4wpV1/FgyDUGFmobj5x7AOPWeiIqLXmG8/FPKX+vxrn7nf6qOPE
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89a728e8-ce41-4765-5853-08dc8a0c87ff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2024 11:49:20.5036
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: abShtI8J+M5F2N3VJfAC6CnUQqnjNC8m27YeKFq1a1ey9sM9Qw5Nzs0SS0ktb01VOGcWcXfhjpCV/tqsv6p866q7FWxCaD+jL++RMAczM2c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7688
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PH7PR11MB7004A071F27B4CF45740B87E92C62@PH7PR11MB7004.namprd11.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_044927_891524_D620D67D 
-X-CRM114-Status: GOOD (  10.42  )
+X-CRM114-CacheID: sfid-20240611_083912_014841_4BD2553E 
+X-CRM114-Status: GOOD (  68.13  )
 X-Mailman-Approved-At: Tue, 11 Jun 2024 20:48:17 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -227,6 +109,222 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TG9va3MgZ29vZCwNClJldmlld2VkLWJ5OiBKb2hhbm5lcyBUaHVtc2hpcm4gPGpvaGFubmVzLnRo
-dW1zaGlybkB3ZGMuY29tPg0K
+On Mon, Jun 10, 2024 at 04:40:19PM +0000, Zeng, Oak wrote:
+> Thanks Leon and Yanjun for the reply!
+> 
+> Based on the reply, we will continue use the current version for test (as it is tested for vfio and rdma). We will switch to v1 once it is fully tested/reviewed.
+
+Sounds good, if v0 fits your need, the v1 will fit it too.
+
+From HMM perspective, the change is minimal between them.
+In v0, I called to dma_link_page() here and now it is called
+dma_hmm_link_page().
+
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/diff/drivers/infiniband/hw/mlx5/odp.c?h=dma-split-v1&id=a0d719a406133cdc3ef2328dda3ef082a034c45e
+
+
+> 
+> Thanks,
+> Oak
+> 
+> > -----Original Message-----
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Monday, June 10, 2024 12:18 PM
+> > To: Zeng, Oak <oak.zeng@intel.com>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>; Christoph Hellwig <hch@lst.de>; Robin
+> > Murphy <robin.murphy@arm.com>; Marek Szyprowski
+> > <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
+> > Deacon <will@kernel.org>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
+> > Brost, Matthew <matthew.brost@intel.com>; Hellstrom, Thomas
+> > <thomas.hellstrom@intel.com>; Jonathan Corbet <corbet@lwn.net>; Jens
+> > Axboe <axboe@kernel.dk>; Keith Busch <kbusch@kernel.org>; Sagi
+> > Grimberg <sagi@grimberg.me>; Yishai Hadas <yishaih@nvidia.com>;
+> > Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>; Tian, Kevin
+> > <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
+> > Jérôme Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
+> > foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
+> > iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
+> > kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
+> > <bvanassche@acm.org>; Damien Le Moal
+> > <damien.lemoal@opensource.wdc.com>; Amir Goldstein
+> > <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
+> > <martin.petersen@oracle.com>; daniel@iogearbox.net; Williams, Dan J
+> > <dan.j.williams@intel.com>; jack@suse.com; Zhu Yanjun
+> > <zyjzyj2000@gmail.com>; Bommu, Krishnaiah
+> > <krishnaiah.bommu@intel.com>; Ghimiray, Himal Prasad
+> > <himal.prasad.ghimiray@intel.com>
+> > Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to
+> > two steps
+> > 
+> > On Mon, Jun 10, 2024 at 03:12:25PM +0000, Zeng, Oak wrote:
+> > > Hi Jason, Leon,
+> > >
+> > > I come back to this thread to ask a question. Per the discussion in another
+> > thread, I have integrated the new dma-mapping API (the first 6 patches of
+> > this series) to DRM subsystem. The new API seems fit pretty good to our
+> > purpose, better than scatter-gather dma-mapping. So we want to continue
+> > work with you to adopt this new API.
+> > 
+> > Sounds great, thanks for the feedback.
+> > 
+> > >
+> > > Did you test the new API in RDMA subsystem?
+> > 
+> > This version was tested in our regression tests, but there is a chance
+> > that you are hitting flows that were not relevant for RDMA case.
+> > 
+> > > Or this RFC series was just some untested codes sending out to get
+> > people's design feedback?
+> > 
+> > RFC was fully tested in VFIO and RDMA paths, but not NVMe patch.
+> > 
+> > > Do you have refined version for us to try? I ask because we are seeing
+> > some issues but not sure whether it is caused by the new API. We are
+> > debugging but it would be good to also ask at the same time.
+> > 
+> > Yes, as an outcome of the feedback in this thread, I implemented a new
+> > version. Unfortunately, there are some personal matters that are preventing
+> > from me to send it right away.
+> > https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-
+> > rdma.git/log/?h=dma-split-v1
+> > 
+> > There are some differences in the API, but the main idea is the same.
+> > This version is not fully tested yet.
+> > 
+> > Thanks
+> > 
+> > >
+> > > Cc Himal/Krishna who are also working/testing the new API.
+> > >
+> > > Thanks,
+> > > Oak
+> > >
+> > > > -----Original Message-----
+> > > > From: Jason Gunthorpe <jgg@ziepe.ca>
+> > > > Sent: Friday, May 3, 2024 12:43 PM
+> > > > To: Zeng, Oak <oak.zeng@intel.com>
+> > > > Cc: leon@kernel.org; Christoph Hellwig <hch@lst.de>; Robin Murphy
+> > > > <robin.murphy@arm.com>; Marek Szyprowski
+> > > > <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
+> > > > Deacon <will@kernel.org>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
+> > > > Brost, Matthew <matthew.brost@intel.com>; Hellstrom, Thomas
+> > > > <thomas.hellstrom@intel.com>; Jonathan Corbet <corbet@lwn.net>;
+> > Jens
+> > > > Axboe <axboe@kernel.dk>; Keith Busch <kbusch@kernel.org>; Sagi
+> > > > Grimberg <sagi@grimberg.me>; Yishai Hadas <yishaih@nvidia.com>;
+> > > > Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>; Tian,
+> > Kevin
+> > > > <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
+> > > > Jérôme Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
+> > > > foundation.org>; linux-doc@vger.kernel.org; linux-
+> > kernel@vger.kernel.org;
+> > > > linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
+> > > > iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
+> > > > kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
+> > > > <bvanassche@acm.org>; Damien Le Moal
+> > > > <damien.lemoal@opensource.wdc.com>; Amir Goldstein
+> > > > <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
+> > > > <martin.petersen@oracle.com>; daniel@iogearbox.net; Williams, Dan J
+> > > > <dan.j.williams@intel.com>; jack@suse.com; Leon Romanovsky
+> > > > <leonro@nvidia.com>; Zhu Yanjun <zyjzyj2000@gmail.com>
+> > > > Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to
+> > > > two steps
+> > > >
+> > > > On Thu, May 02, 2024 at 11:32:55PM +0000, Zeng, Oak wrote:
+> > > >
+> > > > > > Instead of teaching DMA to know these specific datatypes, let's
+> > separate
+> > > > > > existing DMA mapping routine to two steps and give an option to
+> > > > advanced
+> > > > > > callers (subsystems) perform all calculations internally in advance and
+> > > > > > map pages later when it is needed.
+> > > > >
+> > > > > I looked into how this scheme can be applied to DRM subsystem and
+> > GPU
+> > > > drivers.
+> > > > >
+> > > > > I figured RDMA can apply this scheme because RDMA can calculate the
+> > > > > iova size. Per my limited knowledge of rdma, user can register a
+> > > > > memory region (the reg_user_mr vfunc) and memory region's sized is
+> > > > > used to pre-allocate iova space. And in the RDMA use case, it seems
+> > > > > the user registered region can be very big, e.g., 512MiB or even GiB
+> > > >
+> > > > In RDMA the iova would be linked to the SVA granual we discussed
+> > > > previously.
+> > > >
+> > > > > In GPU driver, we have a few use cases where we need dma-mapping.
+> > Just
+> > > > name two:
+> > > > >
+> > > > > 1) userptr: it is user malloc'ed/mmap'ed memory and registers to gpu
+> > > > > (in Intel's driver it is through a vm_bind api, similar to mmap). A
+> > > > > userptr can be of any random size, depending on user malloc
+> > > > > size. Today we use dma-map-sg for this use case. The down side of
+> > > > > our approach is, during userptr invalidation, even if user only
+> > > > > munmap partially of an userptr, we invalidate the whole userptr from
+> > > > > gpu page table, because there is no way for us to partially
+> > > > > dma-unmap the whole sg list. I think we can try your new API in this
+> > > > > case. The main benefit of the new approach is the partial munmap
+> > > > > case.
+> > > >
+> > > > Yes, this is one of the main things it will improve.
+> > > >
+> > > > > We will have to pre-allocate iova for each userptr, and we have many
+> > > > > userptrs of random size... So we might be not as efficient as RDMA
+> > > > > case where I assume user register a few big memory regions.
+> > > >
+> > > > You are already doing this. dma_map_sg() does exactly the same IOVA
+> > > > allocation under the covers.
+> > > >
+> > > > > 2) system allocator: it is malloc'ed/mmap'ed memory be used for GPU
+> > > > > program directly, without any other extra driver API call. We call
+> > > > > this use case system allocator.
+> > > >
+> > > > > For system allocator, driver have no knowledge of which virtual
+> > > > > address range is valid in advance. So when GPU access a
+> > > > > malloc'ed/mmap'ed address, we have a page fault. We then look up a
+> > > > > CPU vma which contains the fault address. I guess we can use the CPU
+> > > > > vma size to allocate the iova space of the same size?
+> > > >
+> > > > No. You'd follow what we discussed in the other thread.
+> > > >
+> > > > If you do a full SVA then you'd split your MM space into granuals and
+> > > > when a fault hits a granual you'd allocate the IOVA for the whole
+> > > > granual. RDMA ODP is using a 512M granual currently.
+> > > >
+> > > > If you are doing sub ranges then you'd probably allocate the IOVA for
+> > > > the well defined sub range (assuming the typical use case isn't huge)
+> > > >
+> > > > > But there will be a true difficulty to apply your scheme to this use
+> > > > > case. It is related to the STICKY flag. As I understand it, the
+> > > > > sticky flag is designed for driver to mark "this page/pfn has been
+> > > > > populated, no need to re-populate again", roughly...Unlike userptr
+> > > > > and RDMA use cases where the backing store of a buffer is always in
+> > > > > system memory, in the system allocator use case, the backing store
+> > > > > can be changing b/t system memory and GPU's device private
+> > > > > memory. Even worse, we have to assume the data migration b/t
+> > system
+> > > > > and GPU is dynamic. When data is migrated to GPU, we don't need
+> > > > > dma-map. And when migration happens to a pfn with STICKY flag, we
+> > > > > still need to repopulate this pfn. So you can see, it is not easy to
+> > > > > apply this scheme to this use case. At least I can't see an obvious
+> > > > > way.
+> > > >
+> > > > You are already doing this today, you are keeping the sg list around
+> > > > until you unmap it.
+> > > >
+> > > > Instead of keeping the sg list you'd keep a much smaller datastructure
+> > > > per-granual. The sticky bit is simply a convient way for ODP to manage
+> > > > the smaller data structure, you don't have to use it.
+> > > >
+> > > > But you do need to keep track of what pages in the granual have been
+> > > > DMA mapped - sg list was doing this before. This could be a simple
+> > > > bitmap array matching the granual size.
+> > > >
+> > > > Looking (far) forward we may be able to have a "replace" API that
+> > > > allows installing a new page unconditionally regardless of what is
+> > > > already there.
+> > > >
+> > > > Jason
 
