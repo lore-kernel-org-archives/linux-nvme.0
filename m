@@ -4,87 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 759C1C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 10:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77F27C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 10:48:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=; b=hBN3u7dK+mbsjZiFGEODLLOuaL
-	mOGh7VVIYbT98NDRPP6fshMgcwxz8H07xB5xlF94HcwWZJJoU8kSFZ/h8M/zRCZabjd+zeZ7TdjRo
-	UR1ggLoWuEzsVvf9jqvAYxdxHTQP4lOlW7SjU/CDZPLkCdizuEC6COyxUXNTWFrzEdf1Cqheb7Xfo
-	U5AUdpjudxl6G2V95A6t9v5Jc04Ityi4Y4Gb9TZD8Rt2iJ1Jde1ZAsPEqQBCSqFl4V8lPeye0os1F
-	XaMCW8JgZR0niNa75BHzFDuD2jOGeQj/Z4lBoBgbjYqAtJ4MT9FuARrEVczm41m8g+lxrrvddUAwv
-	K3Gsk0LA==;
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=; b=sc0zq/H0l1bREYzPfg9zlKAvWJ
+	6Wg/YFHOXB6I/2WmwCzIdbp0sZPZVbpBnG2wYtkMlcmqP57pbeLGsU4wdYQAzyG9tng+mXROI44ky
+	ReFnDYJnJ5srIbCgkEtHKgN1fsBITwhQdMFdsI8Q6Xrddj/3byZZz6wluJ8rwxSH0nMVJyh/ge04O
+	m5WRJFSvvHVVhkmajWCB7nNZqYeVpOLe2dI8znYj8+C71ur9pLPj22hlPYIdVmEd7l53FpczGngK/
+	mT1DiUCauduMmVzYfQqy+DGkHtd2i/JFijsdy1gGqQvQkepki7QCFc4l63rp8g9D0ax+FGEnfLp2h
+	M8XJwmhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGz3O-00000008VCg-2RKZ;
-	Tue, 11 Jun 2024 10:48:38 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sGz3R-00000008VEc-3H9f;
+	Tue, 11 Jun 2024 10:48:41 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGwj2-000000083Zk-3W2F;
-	Tue, 11 Jun 2024 08:19:34 +0000
+	id 1sGwjz-000000083zZ-2T0i;
+	Tue, 11 Jun 2024 08:20:30 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4AADB22D13;
-	Tue, 11 Jun 2024 08:19:27 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E4DDB2056A;
+	Tue, 11 Jun 2024 08:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718093967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1718094026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=Mz5UZyRupBOC5OyhaduIbHV4wlYjNn2j7sCWgFf6vyQPQnjkDPAfZ6Q/JsN5Cmj6BSiYUF
-	xwezQUEPyxhygG9mxrG/r7jSoy12gHEp2VD+DxfzLjw84R1R+ikRm3duxRjgQt2dRc+rR/
-	zySz8BDz3RCb9rOF3+/OqcxNzULWgh8=
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=CeZPcfC1tei4Yoyik+tGn3KMUx0tYad+9QT86YWgmWIoMwD8SG6Olr8/OpQgGmSlpFOFrV
+	1QMhq17GV3KTHtbekRcFjW6L+u5akZQinRuMUbw96XHeekDnFkAcnzJHDSMFcVSc1JTgCf
+	PIvex34kEKn8lkXWIw8YlQLqvIZdM4k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718093967;
+	s=susede2_ed25519; t=1718094026;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=q1OceNt62q6MVmBZro11IIzTmhALV7YjKRa+RmhhyhFm32XqJpB3kE67x0ShtykE6k333v
-	IXaAxWMTn07ACfBQ==
-Authentication-Results: smtp-out1.suse.de;
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=rbO1KscBBDGwI875BWEKNiUKvkGWpIHf7GXnAoTtDPKgnWXQVIXWhgCl2vWo6uzLSeZXs1
+	kBnIZBFi8VbrEHDg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718093967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1718094025; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=Mz5UZyRupBOC5OyhaduIbHV4wlYjNn2j7sCWgFf6vyQPQnjkDPAfZ6Q/JsN5Cmj6BSiYUF
-	xwezQUEPyxhygG9mxrG/r7jSoy12gHEp2VD+DxfzLjw84R1R+ikRm3duxRjgQt2dRc+rR/
-	zySz8BDz3RCb9rOF3+/OqcxNzULWgh8=
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=ru97uNsYchlahhQRdCUMGWhruNOUhzwEthEA7N1gdGL1zKHNbQZPYXDbsm29DX8BaibMfU
+	TpmRKmq6nzdpHbPVCOGOBsSVgCWvYVMacGcYa+dNJn5XRlpn58CiIVsix1vUeqAKLDkIDY
+	khUgAadqtH4P4RSYCuTBRHzcjnQ3m7o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718093967;
+	s=susede2_ed25519; t=1718094025;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=q1OceNt62q6MVmBZro11IIzTmhALV7YjKRa+RmhhyhFm32XqJpB3kE67x0ShtykE6k333v
-	IXaAxWMTn07ACfBQ==
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=JCo1uwRLDQmHCULWVwq4uscwDUMV84vAByFfE7YcJRHJ+TMx+QhsTnZckChZRP2tohL5Do
+	JYyX/2Jy2/atV/DQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20BA0137DF;
-	Tue, 11 Jun 2024 08:19:26 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 812E7137DF;
+	Tue, 11 Jun 2024 08:20:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8CuOB44IaGZWXAAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:19:26 +0000
-Message-ID: <1208a68f-bac4-4f10-8f67-58eabf5ba89e@suse.de>
-Date: Tue, 11 Jun 2024 10:19:25 +0200
+	id io/THskIaGa0XAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:20:25 +0000
+Message-ID: <161db500-6d5e-4dcc-8e44-f75c0f777a0c@suse.de>
+Date: Tue, 11 Jun 2024 10:20:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/26] virtio_blk: remove virtblk_update_cache_mode
+Subject: Re: [PATCH 09/26] nbd: move setting the cache control flags to
+ __nbd_set_size
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  Richard Weinberger <richard@nod.at>,
@@ -108,10 +109,10 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
 References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-9-hch@lst.de>
+ <20240611051929.513387-10-hch@lst.de>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240611051929.513387-9-hch@lst.de>
+In-Reply-To: <20240611051929.513387-10-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-8.29 / 50.00];
@@ -137,8 +138,9 @@ X-Spamd-Result: default: False [-8.29 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,lst.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_011929_358374_D6992B0F 
-X-CRM114-Status: GOOD (  10.36  )
+X-CRM114-CacheID: sfid-20240611_012028_002667_99BB0AFE 
+X-CRM114-Status: UNSURE (   8.48  )
+X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Tue, 11 Jun 2024 03:48:18 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -155,14 +157,13 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/11/24 07:19, Christoph Hellwig wrote:
-> virtblk_update_cache_mode boils down to a single call to
-> blk_queue_write_cache.  Remove it in preparation for moving the cache
-> control flags into the queue_limits.
+> Move setting the cache control flags in nbd in preparation for moving
+> these flags into the queue_limits structure.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/block/virtio_blk.c | 13 +++----------
->   1 file changed, 3 insertions(+), 10 deletions(-)
+>   drivers/block/nbd.c | 17 +++++++----------
+>   1 file changed, 7 insertions(+), 10 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
