@@ -4,83 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9C00C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 09:20:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7C15C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 10:02:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:Subject:References:Cc:To:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SSWdIHLeK6c5qkRxJRQIzSFopdFgLqZQ5bZ8370mvc4=; b=xGJP2KnvEK9ooVNkrwTOil00Ih
-	EExeIuz6QwI7RU2+MKWr+YOdH3/qBzVoytfEAMbeWBEIro9IFDRWhhWidrIC7vwJRtCStkpnrW7vh
-	+Iukt8/g3iACvdQYPF93ey38HqvIlLezw5RfxunL6nzCOG4MKVJbtQ/Rty5Z8FN6mgpt/Dc0ziLDo
-	blBqB7xeAyRev5FB2YJXrMSoh9w0AEhudQkdx+ZcXsnIdooovmANnwoqxgrRMT/gMdB7jyE0Lpjb1
-	bc5whsLjlJoYSrRDpLqKTlrZz1EFKGIbbUonSAWKKDyA1wr8IgUJh45/H3KOqSveW1vfnPin41oN/
-	TteivLmA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Bb7TwbxjwE4z3urktL4tj3C/83DBgRI+FwFWe0rTRDI=; b=Itct1Ltdqsnz/naowF0TTERJZ0
+	GGi/2E5QUPRrkDKNPC1LFHFt0h2e/CN6s7/k8NPtwOjb3xo6AnnkonY+iMhSHFeUdOWb6atITpMY0
+	a3It7AQrq9dvIv0AxU4Y8Eyd4Q7cxMPX445k/I4wbEPMEpW5+HPcTel/zZlrQLiHLde4ddgl+EGI4
+	bDzhBPbvnQJheRRFl2kEktcYtk5CjI2rRecTdQuSzPZeT/0YjrVwcpzNIgx8cR7lzbd6/+nqIzIdk
+	XjMC6F2UE2rgid08/qp+FLrstziDmnppoW+T8MDAYzEI+f+05TI7XJ8fC3tQnp5eGCCaCqtMLMerQ
+	2lVblpSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGxg8-00000008GnC-1fdN;
-	Tue, 11 Jun 2024 09:20:32 +0000
-Received: from mout.web.de ([212.227.15.14])
+	id 1sGyKW-00000008MkX-0nIY;
+	Tue, 11 Jun 2024 10:02:16 +0000
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGxg4-00000008Glh-1bbX
+	id 1sGyKS-00000008MiW-2nlU
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jun 2024 09:20:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718097309; x=1718702109; i=markus.elfring@web.de;
-	bh=SSWdIHLeK6c5qkRxJRQIzSFopdFgLqZQ5bZ8370mvc4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=FftRtfIlHxGUAI3vCcm4yTpn/7z8WsjG+Em5dB5ND9N5eedR+QTMfkd+w7F2Zs2i
-	 WI1Yj0slkHGiDMKMlDkpOiP/MjEK/B6R2dAiV03zMK6+t4kT7xBeCDDQ888uoe/W3
-	 HMJ+HG6g52cDLWKEcQbr6xXdD9cRTtNwHwz+bFZPPzkQ7TcZrvW0MggwyEXpoOwch
-	 F1SP/+OJXN2UQv0MqjXDYRgbkFIKPiQyMGI39/lLF6bCcLm4PLaCKaVl0+whiFMsB
-	 SB0PgbV6ShDjyXNFTfm7jH/gkRm4xnMBSXmDKl3ZdmJohCKk1XemhGUQoO6np/E5N
-	 r5idNtThZcYbX7sxNg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MSqTK-1rq7cJ2zhW-00J0sU; Tue, 11
- Jun 2024 11:15:09 +0200
-Message-ID: <0e1ac9ca-c241-4b48-a219-d1aaef2a752a@web.de>
-Date: Tue, 11 Jun 2024 11:15:06 +0200
+	Tue, 11 Jun 2024 10:02:14 +0000
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so2073258a12.1
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Jun 2024 03:02:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718100129; x=1718704929; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bb7TwbxjwE4z3urktL4tj3C/83DBgRI+FwFWe0rTRDI=;
+        b=l2Bf6kh7y7SsASRkyIM0aH7xJ0BOw+0I3IZG6NBKOKvThOhBktne9HT9ON6rm0qiFB
+         weHa/QXYXFXJWedmYjWewT+bGYp+4rNfsnqJpcpNe0Qus212J9MM1AaC00uSlzwzt144
+         JKjsyfDuZm7/466QiG7nLPo0ToW3bwlQuG0rnvc5/gMnzDetbXb+2AMZnbFYOjBAWklh
+         2fs67ZIFyT8/7CFZPrGyFRLl65MEynwq4yThVu25AXzNM0F20f3BsGJRPVqVpdsHx1wu
+         N/JP1pSRwzqH7cn1LxOaWleqXhsfccADL9LANWB8awq2V4GqUaGn/2ncWwicF4prQ0kR
+         j8eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718100129; x=1718704929;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bb7TwbxjwE4z3urktL4tj3C/83DBgRI+FwFWe0rTRDI=;
+        b=XTqvOygiwAPHpGA81ggF1yYRQtS/QmQ4jtvtpfsXDUHj/DCjDXyb40ZI8Tn8eCsGxZ
+         HNFaF/67RoeygiV3ro5ueQEO2GaCZNCKKQHllVOv6BRfw6oWDYuzxb0CAReDb2Ap1T35
+         jxR+gFfgltBlEJEIB4f8fufQNvVLXoCqzwwIb58iLCjLNiJOHI9aEIePi/No6rAoJ+sW
+         iDaiBpk3H/9ynAPvfsTnyOcL3q8SxB0ZHfyrMkrysJ83Esd2i9VoWlmVxID/Xq1x3bIu
+         2XtpHKcyeht2tt+qFe5ndZSnCpxbqc80KbJi3WrD65um2sdDPDb2GWO5QmIKDkU+ImtD
+         brFw==
+X-Gm-Message-State: AOJu0Yz8VahXflXa5FXgWH+kXxV1Y12z0+5Ajm5i517uZH5jNc52Qj2+
+	5L9LPqK7pHh7D0JohBtPBn+AwvqNs2Q1jsmixgKPuhlVLwfd7uJ4p5Od4Oo44Wo=
+X-Google-Smtp-Source: AGHT+IFNwdlUQQWrWIO47c6hGSohBVikjT1TDbiNTz/FFIUFE0aPnw6NSVNXhn0QA4HypAKW1caO2g==
+X-Received: by 2002:a17:902:d487:b0:1f6:612b:96eb with SMTP id d9443c01a7336-1f6d0395667mr139224545ad.50.1718100129058;
+        Tue, 11 Jun 2024 03:02:09 -0700 (PDT)
+Received: from localhost.localdomain ([143.92.64.17])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6f96c37b6sm55302755ad.231.2024.06.11.03.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 03:02:08 -0700 (PDT)
+From: "brookxu.cn" <brookxu.cn@gmail.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	maxg@mellanox.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme: avoid double free special payload
+Date: Tue, 11 Jun 2024 18:02:08 +0800
+Message-Id: <20240611100208.115211-1-brookxu.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Ye Bin <yebin10@huawei.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>
-Cc: LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig
- <hch@infradead.org>, Ming Lei <ming.lei@redhat.com>
-References: <20240606062655.2185006-1-yebin@huaweicloud.com>
-Subject: Re: [PATCH] block: bio-integrity: fix potential null-ptr-deref in
- bio_integrity_free
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240606062655.2185006-1-yebin@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GHmc89SQ4Td/zPwUg//USd5islR+tdgleigB+jmBeZEuq6FZ7Dy
- fkE7CjeiMfQNvzY0YK08nYlilwmnduxqbtLEXlZPIHy8TtJwqsAsxfDMtv1kVgp7vN7HY3T
- IALqM09md0BMzdXXkahjw/wqc3/g/o4um3hx2fvO5m4g3LdePf+xlz9QuKO0YSskYbKSlDW
- ouYkrcSzcG4LaTCOdkrZg==
-UI-OutboundReport: notjunk:1;M01:P0:w3g6y7385Ok=;4OLDESrn0lp0xrLZI+q1mYjtpDC
- 9L4XwYlMGBU/2knpMHxRGtTguQQPeZkUn9hbbhdJEbPFwKVuasnXIFwsFPPZMJWGF9Gyi5AdU
- p2/eh5PYU7JjePGFXBpZuGx5XzQAULZfIJqL3J5wx0xVh8v4k18N+f/UiMmgqVRhUdafKaK5A
- Vjuvpu5YRwyP4ZaoiHmzSaLZxFMm8rAaGBoCp24NpeW8eOYXiBufOe+roIN7J+3U0i1RO20M5
- ibiygZB/TDIGdrs9L4FzHsK0UZvGL93mO/3aLCDIdHIZtml9pvBSI9vMWtqOaQ1lZwN9GWrnn
- XVz0VFlULaG85q/vFA2450eAeTuFWrQ+f0wPCIZ54LPwyy/bGCMqhtVdjGFY+/LHyZeMD3R6a
- dqQytdUotZXhiS5/f3pfvC3DcWQZFmjSAJed9btt0ovvy25dK/EJiQMLyGp7ZS/w4i7TfZ5Sf
- RpsDfzZ65tCEBD+iWOM2HkNTcH91z5c7FAQeclUgQeN/Fen8vAr2eZ5OMj7hPPJHya9BbL6rQ
- JoiO5Gu3MYgjmhHYVNqdPaLjh1TLMVOvgth8ETDFRpS4sBh2VWPFhatcBaZYvOdP8eXxM8sjK
- ftgSY1q05gPDkmgL3kVTG+xpDRT5wG/zQgS/gOcuzl5Bq6iGmjmXjyXVuqsQ2iYEhAOmZpXue
- gCx8qIA+QByymh0Zwrxr4B+hHfguxyA3d1JmrVMKmS9XzrIsEbSBj0Uer8v/MBbU9k7tNblRI
- FX09N3GphcrQdp2SBs4/aZi6w0LFVeRdWqpYu9CJhwdHpyxPlLEDJ9wjmNcyq9xiRm199crh4
- h2dGqmiwCRC1yvvmWZpUy52+P348tLJ7LBdy0p3mQiSDo=
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_022029_024194_41F76CE8 
-X-CRM114-Status: UNSURE (   6.93  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240611_030212_977771_385FB2C0 
+X-CRM114-Status: GOOD (  10.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,25 +91,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-=E2=80=A6
-> The root cause of this issue is the concurrency between the write proces=
-s
-> and the block size update process. However, this concurrency does not ex=
-ist
-> in actual production environments. To solve above issue, Verify if the
-> segments of BIO are aligned with integrity intervals.
+From: Chunguang Xu <chunguang.xu@shopee.com>
 
-* Please improve the change description with an imperative wording.
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/submitting-patches.rst?h=3Dv6.10-rc2#n94
+Now we may double free spacial payload for some requests, such as
+discard. This will corrupt the memory and lead to kernel crash. Now we
+will free special payload before retry it. If we disconnect device
+before reconnect success, then we will fail request by
+nvme_fail_nonready_command(), as a result we will double free
+special payload. Here try to fix it, we may can clear RQF_SPECIAL_LOAD
+bit after we cleanup command. This will not broken following clean
+logic of blkmq, as nvme request will not be partial complete.
 
-* Would you like to add the tag =E2=80=9CFixes=E2=80=9D accordingly?
+Fixes: 16686f3a6c3c ("nvme: move common call to nvme_cleanup_cmd to core layer")
+Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
+---
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-* How do you think about to use the summary phrase =E2=80=9CAvoid null poi=
-nter dereference
-  in bio_integrity_free()=E2=80=9D?
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f5d150c62955..c40930d10bd3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -998,6 +998,7 @@ void nvme_cleanup_cmd(struct request *req)
+ 			clear_bit_unlock(0, &ctrl->discard_page_busy);
+ 		else
+ 			kfree(bvec_virt(&req->special_vec));
++		req->rq_flags &= ~RQF_SPECIAL_PAYLOAD;
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
+-- 
+2.25.1
 
-
-Regards,
-Markus
 
