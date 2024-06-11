@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B487C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 674D8C25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZOX70G3pF40EpuFFjfhAf0Owh5pRXHCD6/58K2Ao0Eg=; b=vuJASZ3/GHDm0QWx5b/aDcaaIY
-	3eLrsoeQwxpZGd0nF6Kq38/HUFKo0gSAM6H2YsPr4QYsRg0+UgiPHzLCWHHRW7E+HtUdg83ClR6hF
-	RuvHLmTAaFZ34ra37X9C1o1UK6PKEF17ErGkrcjE2JXnsWmAkt7rldoRfRZfToJ45wQ8ykLLIeq90
-	1vMyVNu2OF+mXw0gMl8Mx6yFChOmloEvH6CJ7eMAiY29Adz6vzH0yhovo+M35ae7B0AsinPMkTpdz
-	pwdZuWfLiXpznwDNHjx91dwP3d0S7d9o6LpZvLdSfeNQehdTGSW0VntN7NzN03IxWF/auGMAA9v+u
-	nwHxxodA==;
+	bh=qlKmtKo7/zX0VXUQdwTjMLe6YSEDvI0ubwsdjUjoyVQ=; b=JeeTEFCoP+W9K1OXrRwt77x8UI
+	fP6JVzlht5HxeDZsUMd1qoLhmix75Yoz+RAebTvmYgnQI6/CmFAoib4cG3uxB9LxfYCJD6BfV7LaN
+	Td8iQjfd7vAtkDPcf48Uoh6B+/SSDOsyh0q9iaJ2tiFbbHISN0pKru9WN2Xv72NepqcXpSkNXGVth
+	6iJv36cYlZhdTeKPGI16fyx38h9lcrbZDNL2WU4FtXPKDj1DbXNpcQEiQUzV6nhien63WTgV67ubS
+	beQrIOz/Qt51qiJ3mH3F9WPaa3Dq+cItC0Z3cCJFc0Y0xX23FHKnrPQNLQtoa0SW2Pf6IfhatY53g
+	yhWL3/aA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGu0I-00000007Usf-2o4r;
-	Tue, 11 Jun 2024 05:25:06 +0000
+	id 1sGu0Q-00000007Uyw-06HD;
+	Tue, 11 Jun 2024 05:25:14 +0000
 Received: from 2a02-8389-2341-5b80-cdb4-8e7d-405d-6b77.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:cdb4:8e7d:405d:6b77] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtvs-00000007RUV-3WAY;
-	Tue, 11 Jun 2024 05:20:33 +0000
+	id 1sGtw1-00000007Rcw-49Vx;
+	Tue, 11 Jun 2024 05:20:42 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -63,9 +63,9 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-s390@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 20/26] block: move the dax flag to queue_limits
-Date: Tue, 11 Jun 2024 07:19:20 +0200
-Message-ID: <20240611051929.513387-21-hch@lst.de>
+Subject: [PATCH 23/26] block: move the zone_resetall flag to queue_limits
+Date: Tue, 11 Jun 2024 07:19:23 +0200
+Message-ID: <20240611051929.513387-24-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240611051929.513387-1-hch@lst.de>
 References: <20240611051929.513387-1-hch@lst.de>
@@ -86,138 +86,176 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the dax flag into the queue_limits feature field so that it
-can be set atomically and all I/O is frozen when changing the flag.
+Move the zone_resetall flag into the queue_limits feature field so that
+it can be set atomically and all I/O is frozen when changing the flag.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-mq-debugfs.c       | 1 -
- drivers/md/dm-table.c        | 4 ++--
- drivers/nvdimm/pmem.c        | 7 ++-----
- drivers/s390/block/dcssblk.c | 2 +-
- include/linux/blkdev.h       | 6 ++++--
- 5 files changed, 9 insertions(+), 11 deletions(-)
+ block/blk-mq-debugfs.c         | 1 -
+ drivers/block/null_blk/zoned.c | 3 +--
+ drivers/block/ublk_drv.c       | 4 +---
+ drivers/block/virtio_blk.c     | 3 +--
+ drivers/nvme/host/zns.c        | 3 +--
+ drivers/scsi/sd_zbc.c          | 5 +----
+ include/linux/blkdev.h         | 6 ++++--
+ 7 files changed, 9 insertions(+), 16 deletions(-)
 
 diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index 62b132e9a9ce3b..f4fa820251ce83 100644
+index 3a21527913840d..f2fd72f4414ae8 100644
 --- a/block/blk-mq-debugfs.c
 +++ b/block/blk-mq-debugfs.c
-@@ -88,7 +88,6 @@ static const char *const blk_queue_flag_name[] = {
- 	QUEUE_FLAG_NAME(SAME_FORCE),
- 	QUEUE_FLAG_NAME(INIT_DONE),
- 	QUEUE_FLAG_NAME(POLL),
--	QUEUE_FLAG_NAME(DAX),
- 	QUEUE_FLAG_NAME(STATS),
+@@ -91,7 +91,6 @@ static const char *const blk_queue_flag_name[] = {
  	QUEUE_FLAG_NAME(REGISTERED),
  	QUEUE_FLAG_NAME(QUIESCED),
-diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-index eee43d27733f9a..d3a960aee03c6a 100644
---- a/drivers/md/dm-table.c
-+++ b/drivers/md/dm-table.c
-@@ -1834,11 +1834,11 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
- 		limits->features |= BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA;
- 
- 	if (dm_table_supports_dax(t, device_not_dax_capable)) {
--		blk_queue_flag_set(QUEUE_FLAG_DAX, q);
-+		limits->features |= BLK_FEAT_DAX;
- 		if (dm_table_supports_dax(t, device_not_dax_synchronous_capable))
- 			set_dax_synchronous(t->md->dax_dev);
- 	} else
--		blk_queue_flag_clear(QUEUE_FLAG_DAX, q);
-+		limits->features &= ~BLK_FEAT_DAX;
- 
- 	if (dm_table_any_dev_attr(t, device_dax_write_cache_enabled, NULL))
- 		dax_write_cache(t->md->dax_dev, true);
-diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
-index b821dcf018f6ae..1dd74c969d5a09 100644
---- a/drivers/nvdimm/pmem.c
-+++ b/drivers/nvdimm/pmem.c
-@@ -465,7 +465,6 @@ static int pmem_attach_disk(struct device *dev,
- 	struct dax_device *dax_dev;
- 	struct nd_pfn_sb *pfn_sb;
- 	struct pmem_device *pmem;
--	struct request_queue *q;
- 	struct gendisk *disk;
- 	void *addr;
- 	int rc;
-@@ -499,6 +498,8 @@ static int pmem_attach_disk(struct device *dev,
+ 	QUEUE_FLAG_NAME(PCI_P2PDMA),
+-	QUEUE_FLAG_NAME(ZONE_RESETALL),
+ 	QUEUE_FLAG_NAME(RQ_ALLOC_TIME),
+ 	QUEUE_FLAG_NAME(HCTX_ACTIVE),
+ 	QUEUE_FLAG_NAME(SQ_SCHED),
+diff --git a/drivers/block/null_blk/zoned.c b/drivers/block/null_blk/zoned.c
+index ca8e739e76b981..b42c00f1313254 100644
+--- a/drivers/block/null_blk/zoned.c
++++ b/drivers/block/null_blk/zoned.c
+@@ -158,7 +158,7 @@ int null_init_zoned_dev(struct nullb_device *dev,
+ 		sector += dev->zone_size_sects;
  	}
- 	if (fua)
- 		lim.features |= BLK_FEAT_FUA;
-+	if (is_nd_pfn(dev))
-+		lim.features |= BLK_FEAT_DAX;
  
- 	if (!devm_request_mem_region(dev, res->start, resource_size(res),
- 				dev_name(&ndns->dev))) {
-@@ -509,7 +510,6 @@ static int pmem_attach_disk(struct device *dev,
- 	disk = blk_alloc_disk(&lim, nid);
- 	if (IS_ERR(disk))
- 		return PTR_ERR(disk);
--	q = disk->queue;
+-	lim->features |= BLK_FEAT_ZONED;
++	lim->features |= BLK_FEAT_ZONED | BLK_FEAT_ZONE_RESETALL;
+ 	lim->chunk_sectors = dev->zone_size_sects;
+ 	lim->max_zone_append_sectors = dev->zone_append_max_sectors;
+ 	lim->max_open_zones = dev->zone_max_open;
+@@ -171,7 +171,6 @@ int null_register_zoned_dev(struct nullb *nullb)
+ 	struct request_queue *q = nullb->q;
+ 	struct gendisk *disk = nullb->disk;
  
- 	pmem->disk = disk;
- 	pmem->pgmap.owner = pmem;
-@@ -547,9 +547,6 @@ static int pmem_attach_disk(struct device *dev,
- 	}
- 	pmem->virt_addr = addr;
+-	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+ 	disk->nr_zones = bdev_nr_zones(disk->part0);
  
--	if (pmem->pfn_flags & PFN_MAP)
--		blk_queue_flag_set(QUEUE_FLAG_DAX, q);
--
- 	disk->fops		= &pmem_fops;
- 	disk->private_data	= pmem;
- 	nvdimm_namespace_disk_name(ndns, disk->disk_name);
-diff --git a/drivers/s390/block/dcssblk.c b/drivers/s390/block/dcssblk.c
-index 6d1689a2717e5f..d5a5d11ae0dcdf 100644
---- a/drivers/s390/block/dcssblk.c
-+++ b/drivers/s390/block/dcssblk.c
-@@ -548,6 +548,7 @@ dcssblk_add_store(struct device *dev, struct device_attribute *attr, const char
+ 	pr_info("%s: using %s zone append\n",
+diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
+index 69c16018cbb19a..4fdff13fc23b8a 100644
+--- a/drivers/block/ublk_drv.c
++++ b/drivers/block/ublk_drv.c
+@@ -248,8 +248,6 @@ static int ublk_dev_param_zoned_validate(const struct ublk_device *ub)
+ 
+ static void ublk_dev_param_zoned_apply(struct ublk_device *ub)
  {
- 	struct queue_limits lim = {
- 		.logical_block_size	= 4096,
-+		.features		= BLK_FEAT_DAX,
- 	};
- 	int rc, i, j, num_of_segments;
- 	struct dcssblk_dev_info *dev_info;
-@@ -643,7 +644,6 @@ dcssblk_add_store(struct device *dev, struct device_attribute *attr, const char
- 	dev_info->gd->fops = &dcssblk_devops;
- 	dev_info->gd->private_data = dev_info;
- 	dev_info->gd->flags |= GENHD_FL_NO_PART;
--	blk_queue_flag_set(QUEUE_FLAG_DAX, dev_info->gd->queue);
+-	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, ub->ub_disk->queue);
+-
+ 	ub->ub_disk->nr_zones = ublk_get_nr_zones(ub);
+ }
  
- 	seg_byte_size = (dev_info->end - dev_info->start + 1);
- 	set_capacity(dev_info->gd, seg_byte_size >> 9); // size in sectors
+@@ -2196,7 +2194,7 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub, struct io_uring_cmd *cmd)
+ 		if (!IS_ENABLED(CONFIG_BLK_DEV_ZONED))
+ 			return -EOPNOTSUPP;
+ 
+-		lim.features |= BLK_FEAT_ZONED;
++		lim.features |= BLK_FEAT_ZONED | BLK_FEAT_ZONE_RESETALL;
+ 		lim.max_active_zones = p->max_active_zones;
+ 		lim.max_open_zones =  p->max_open_zones;
+ 		lim.max_zone_append_sectors = p->max_zone_append_sectors;
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index cea45b296f8bec..6c64a67ab9c901 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -728,7 +728,7 @@ static int virtblk_read_zoned_limits(struct virtio_blk *vblk,
+ 
+ 	dev_dbg(&vdev->dev, "probing host-managed zoned device\n");
+ 
+-	lim->features |= BLK_FEAT_ZONED;
++	lim->features |= BLK_FEAT_ZONED | BLK_FEAT_ZONE_RESETALL;
+ 
+ 	virtio_cread(vdev, struct virtio_blk_config,
+ 		     zoned.max_open_zones, &v);
+@@ -1548,7 +1548,6 @@ static int virtblk_probe(struct virtio_device *vdev)
+ 	 */
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+ 	    (lim.features & BLK_FEAT_ZONED)) {
+-		blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, vblk->disk->queue);
+ 		err = blk_revalidate_disk_zones(vblk->disk);
+ 		if (err)
+ 			goto out_cleanup_disk;
+diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+index 06f2417aa50de7..99bb89c2495ae3 100644
+--- a/drivers/nvme/host/zns.c
++++ b/drivers/nvme/host/zns.c
+@@ -108,13 +108,12 @@ int nvme_query_zone_info(struct nvme_ns *ns, unsigned lbaf,
+ void nvme_update_zone_info(struct nvme_ns *ns, struct queue_limits *lim,
+ 		struct nvme_zone_info *zi)
+ {
+-	lim->features |= BLK_FEAT_ZONED;
++	lim->features |= BLK_FEAT_ZONED | BLK_FEAT_ZONE_RESETALL;
+ 	lim->max_open_zones = zi->max_open_zones;
+ 	lim->max_active_zones = zi->max_active_zones;
+ 	lim->max_zone_append_sectors = ns->ctrl->max_zone_append;
+ 	lim->chunk_sectors = ns->head->zsze =
+ 		nvme_lba_to_sect(ns->head, zi->zone_size);
+-	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, ns->queue);
+ }
+ 
+ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
+diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
+index 26b6e92350cda9..8c79f588f80d8b 100644
+--- a/drivers/scsi/sd_zbc.c
++++ b/drivers/scsi/sd_zbc.c
+@@ -592,8 +592,6 @@ int sd_zbc_revalidate_zones(struct scsi_disk *sdkp)
+ int sd_zbc_read_zones(struct scsi_disk *sdkp, struct queue_limits *lim,
+ 		u8 buf[SD_BUF_SIZE])
+ {
+-	struct gendisk *disk = sdkp->disk;
+-	struct request_queue *q = disk->queue;
+ 	unsigned int nr_zones;
+ 	u32 zone_blocks = 0;
+ 	int ret;
+@@ -603,7 +601,7 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, struct queue_limits *lim,
+ 		return 0;
+ 	}
+ 
+-	lim->features |= BLK_FEAT_ZONED;
++	lim->features |= BLK_FEAT_ZONED | BLK_FEAT_ZONE_RESETALL;
+ 
+ 	/*
+ 	 * Per ZBC and ZAC specifications, writes in sequential write required
+@@ -632,7 +630,6 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, struct queue_limits *lim,
+ 	sdkp->early_zone_info.zone_blocks = zone_blocks;
+ 
+ 	/* The drive satisfies the kernel restrictions: set it up */
+-	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+ 	if (sdkp->zones_max_open == U32_MAX)
+ 		lim->max_open_zones = 0;
+ 	else
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 59c2327692589b..c2545580c5b134 100644
+index c0e06ff1b24a3d..ffb7a42871b4ed 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -307,6 +307,9 @@ enum {
+@@ -316,6 +316,9 @@ enum {
  
- 	/* supports REQ_NOWAIT */
- 	BLK_FEAT_NOWAIT				= (1u << 7),
+ 	/* is a zoned device */
+ 	BLK_FEAT_ZONED				= (1u << 10),
 +
-+	/* supports DAX */
-+	BLK_FEAT_DAX				= (1u << 8),
++	/* supports Zone Reset All */
++	BLK_FEAT_ZONE_RESETALL			= (1u << 11),
  };
  
  /*
-@@ -575,7 +578,6 @@ struct request_queue {
- #define QUEUE_FLAG_SAME_FORCE	12	/* force complete on same CPU */
- #define QUEUE_FLAG_INIT_DONE	14	/* queue is initialized */
- #define QUEUE_FLAG_POLL		16	/* IO polling enabled if set */
--#define QUEUE_FLAG_DAX		19	/* device supports DAX */
- #define QUEUE_FLAG_STATS	20	/* track IO start and completion times */
+@@ -586,7 +589,6 @@ struct request_queue {
  #define QUEUE_FLAG_REGISTERED	22	/* queue has been registered to a disk */
  #define QUEUE_FLAG_QUIESCED	24	/* queue has been quiesced */
-@@ -602,7 +604,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+ #define QUEUE_FLAG_PCI_P2PDMA	25	/* device supports PCI p2p requests */
+-#define QUEUE_FLAG_ZONE_RESETALL 26	/* supports Zone Reset All */
+ #define QUEUE_FLAG_RQ_ALLOC_TIME 27	/* record rq->alloc_time_ns */
+ #define QUEUE_FLAG_HCTX_ACTIVE	28	/* at least one blk-mq hctx is active */
+ #define QUEUE_FLAG_SQ_SCHED     30	/* single queue style io dispatch */
+@@ -607,7 +609,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+ #define blk_queue_nonrot(q)	((q)->limits.features & BLK_FEAT_ROTATIONAL)
  #define blk_queue_io_stat(q)	((q)->limits.features & BLK_FEAT_IO_STAT)
  #define blk_queue_zone_resetall(q)	\
- 	test_bit(QUEUE_FLAG_ZONE_RESETALL, &(q)->queue_flags)
--#define blk_queue_dax(q)	test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
-+#define blk_queue_dax(q)	((q)->limits.features & BLK_FEAT_DAX)
+-	test_bit(QUEUE_FLAG_ZONE_RESETALL, &(q)->queue_flags)
++	((q)->limits.features & BLK_FEAT_ZONE_RESETALL)
+ #define blk_queue_dax(q)	((q)->limits.features & BLK_FEAT_DAX)
  #define blk_queue_pci_p2pdma(q)	\
  	test_bit(QUEUE_FLAG_PCI_P2PDMA, &(q)->queue_flags)
- #ifdef CONFIG_BLK_RQ_ALLOC_TIME
 -- 
 2.43.0
 
