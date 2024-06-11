@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7544DC27C79
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6A0FC2BA15
 	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 03:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,54 +12,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m3mVOlE8X03VcFujwgTUstJqoq0FTNeRmucJ5uXzzb4=; b=F03wGTPqzhmMNZATNK1etmjjJG
-	7If4E+uCyNZfDY2AE3f5935ghw0Y3ocN65h+qv0nZfgCucMHhGJ3zRiPqqA1sF3ubIZC3hDzaZWUz
-	33fpQhgtHr5lwu7vqF5qH1oBVZD/bWcy40oqC4CQCyKLnLJFzDdLhizvjU1V3RIPc1LeotxTOYNNR
-	Ic/WTAIrojaKCAn322IlLg4XGNefQm1LjwmU8oBPnqqp4zXX4/5GsYMpecfC5wCcas0aPJEhJygBQ
-	rsWGdgJClXl1NnYNc+csv5+qfqJY6p+HF1TTvg3vomI1vVMbL9V/6uerWOgs3PTbYHqPIh0llW0Dw
-	TDfo36LQ==;
+	bh=k7qH/Egkqtc5OmSCKcG8suDn1pwScsKWRQ+gioBgKgY=; b=v/AN5r4TC6TpcXfKYRiD8mAKwE
+	YyWZNKdka2v2WsfHW5u4Z3J3ViT8nE4hX48sJ483200JTugHa0arpNA/OlqkRb9dDW1l48s/VYPj4
+	TaB/wB8awZH5l3Ng9SzJKfNojZwdtsBQ+kKHpg77uuEX4xovfLIewj9AeqFAotSZ5VSLZZsJPMAk4
+	3Jb4IU5XpjD2eQlisr0cIMUvBQ04bPV3uuuqkAYHAXKirGT2/L38n2VLBq6eJ4IHjv+mnJut/jbWx
+	j3qE2y04fgfJsgIH0ErpYg0GVJAHuABVyvY766fYISODbARydFQFrE+8Fv1/f0hVeHFN2yKdhRaOE
+	FBVXgpCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHEyE-0000000AwAv-2NqG;
-	Wed, 12 Jun 2024 03:48:22 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1sHEyF-0000000AwB4-22ls;
+	Wed, 12 Jun 2024 03:48:23 +0000
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH3iB-00000009O1e-42IH
+	id 1sH4i2-00000009Yw3-0WW1
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jun 2024 15:47:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718120822;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m3mVOlE8X03VcFujwgTUstJqoq0FTNeRmucJ5uXzzb4=;
-	b=VQDBZESqBTO7FcO7aAiodA3LBZ2t6Dg9wApVrFwIEhrUrxzrPzlYEuyoZt23yKqdPzDDeO
-	tAcgWl4WjZIkMf1+zVoTnR/krSWwJCdiZypLG6BIKoy696yCIzaNHeakVptCeEq1DOGYiA
-	OWfIYndfzgbCNprhcvef8t3E3l184g8=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-541-M7gCHZsfNvaRoPk4wQQxjw-1; Tue,
- 11 Jun 2024 11:43:27 -0400
-X-MC-Unique: M7gCHZsfNvaRoPk4wQQxjw-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8414F1956068;
-	Tue, 11 Jun 2024 15:43:15 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.36])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DD4331954AC1;
-	Tue, 11 Jun 2024 15:43:10 +0000 (UTC)
-Date: Tue, 11 Jun 2024 11:43:09 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
+	Tue, 11 Jun 2024 16:51:00 +0000
+Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-dfa48f505dfso6396068276.3
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Jun 2024 09:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda-com.20230601.gappssmtp.com; s=20230601; t=1718124657; x=1718729457; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k7qH/Egkqtc5OmSCKcG8suDn1pwScsKWRQ+gioBgKgY=;
+        b=nfUswMfi4SUV1LjvJjOXWH2ch5kJBi9zUgkufgiAOl8bKs+UiBaRE0c5edzcYTMOr3
+         ZLl5Bi3nSq2ZanGhbzvB3NWhklgkrVS9mUNjyXvgUYlx6s/zmK0Sd6yMmlDqoHxBtKQH
+         TfcTxJIs/b2ut+MYXsSPYQHfoGFhfd4SyROBR16JjeJR5OgsQ/rxd/9YGM/mokXSbiMa
+         1KUBTDgaNQEmrt7BpNuxbqTI2L3wmU18iqnZBKgWafyPWp3lswviex92t4wedp/z+GcT
+         QAy+mhOFs/rTY/VRcnf2EDKX38lFgUp2x299OtR95TS3YRO4jB13Nb+1pQPYHCtl9lMd
+         E7tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718124657; x=1718729457;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k7qH/Egkqtc5OmSCKcG8suDn1pwScsKWRQ+gioBgKgY=;
+        b=pX+oekTpeNpW4csYl7NZSrWacloB5yFyQDiwC8maqDJJ0XOEnicirII6l0Usm+y2Dg
+         U3ksng6Iz3L26ie8sRxREmTtR8JfICQ9G+2UQfikkqB0GEiMUGWH4ixQ4MXaO0M2T6/C
+         m1J2F3D/mlKMa6jfbs8PGSTqg6OYWeJqtPaMnci7nqT0S3xuNZjpmlUyWdCBv7GwuzbN
+         PsmOOue/setbY433l+IcLTzfBWQPWVSm+5fvygwOz1K9uPHaJEwKjpIDW4UKYHPiDm/m
+         JHgqs4VTYVodrf8XzvqFHQC/b9XaK1WdqUXfEU4vYBYyFFP4KUXHsVJ8ds90ov88MngU
+         GCHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSR9XGutDWbGa3cVCBv7TRCsnrhXKDvh4yBi/ciHnE+nUmCX3+1mvHJlfQAw07xaNCahm92xTShovdOkL+JAx42fwVll2w4v4NDIU+f18=
+X-Gm-Message-State: AOJu0YxsDaZ2C++J8LCm8bv/G+2FSTpq6hslQXS/QKgWkuhoqyRSsnEZ
+	6j8L2kVeMGhNF8FiKXUYDczj4hgxouBkw9widV2SwhYUK/b1LwRQEKUkDxhV6To=
+X-Google-Smtp-Source: AGHT+IFLbNcRGoXteJvsvQz9ePKtTqtffGprFSIVvQoC+S7q0aJ0DFFhhqHjAFy+KyUVXYjD8ktBew==
+X-Received: by 2002:a0d:d851:0:b0:618:95a3:70b9 with SMTP id 00721157ae682-62cd565129cmr130634777b3.36.1718124656832;
+        Tue, 11 Jun 2024 09:50:56 -0700 (PDT)
+Received: from localhost (syn-076-182-020-124.res.spectrum.com. [76.182.20.124])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62ccaef2825sm20935207b3.139.2024.06.11.09.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 09:50:56 -0700 (PDT)
+Date: Tue, 11 Jun 2024 12:50:55 -0400
+From: Josef Bacik <josef@toxicpanda.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
 	Richard Weinberger <richard@nod.at>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
+	Ming Lei <ming.lei@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>,
 	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
@@ -77,19 +88,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
 	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
 	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 08/26] virtio_blk: remove virtblk_update_cache_mode
-Message-ID: <20240611154309.GA371660@fedora.redhat.com>
+Subject: Re: [PATCH 09/26] nbd: move setting the cache control flags to
+ __nbd_set_size
+Message-ID: <20240611165055.GD247672@perftesting>
 References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-9-hch@lst.de>
+ <20240611051929.513387-10-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="RRHJimCDVdpqhQ+7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240611051929.513387-9-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+In-Reply-To: <20240611051929.513387-10-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_084704_141800_63717B0C 
-X-CRM114-Status: GOOD (  15.91  )
+X-CRM114-CacheID: sfid-20240611_095058_187252_0668563A 
+X-CRM114-Status: GOOD (  11.11  )
 X-Mailman-Approved-At: Tue, 11 Jun 2024 20:48:17 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -105,39 +115,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
---RRHJimCDVdpqhQ+7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 11, 2024 at 07:19:08AM +0200, Christoph Hellwig wrote:
-> virtblk_update_cache_mode boils down to a single call to
-> blk_queue_write_cache.  Remove it in preparation for moving the cache
-> control flags into the queue_limits.
->=20
+On Tue, Jun 11, 2024 at 07:19:09AM +0200, Christoph Hellwig wrote:
+> Move setting the cache control flags in nbd in preparation for moving
+> these flags into the queue_limits structure.
+> 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/block/virtio_blk.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 
---RRHJimCDVdpqhQ+7
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmZocI0ACgkQnKSrs4Gr
-c8gYxQf+MiHN7lIto5cvBArHuLRaYXdHSqN8WkOxjyk6pKDVJN3zByol4IsQ1or0
-gi3U/1yXaU1lyM8v76HhRI789ZE9OXHiRD8iKWM54w0uldvJLPNzByqsrvapKvmR
-XjYyMxgp/uFJZ4qxg3nonI2Fa2FzSjqA/ct/sTYj8AbXOsOEK/bUZasvnrwUuIhP
-FwODujdCtfIpzMvn4c262LUiz3TOY+p3nH/CSKsYZwR5xiUbbZCf30PKrwN4RcmU
-ti4hIKoOJcLH5gjgeXpfx7jOM/6Qr7eQrEelsDnuMAKYXC9WMj48+O6Cf8mFja4M
-N1txQKX0NepjOjzDmydD5Dx/69S/sg==
-=ehtQ
------END PGP SIGNATURE-----
-
---RRHJimCDVdpqhQ+7--
-
+Josef
 
