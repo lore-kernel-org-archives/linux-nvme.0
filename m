@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FBB5C27C78
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 06:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 386AAC27C5E
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 06:33:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=29U87g0UHkeYya05OUe00vczhbUtZ3UGETb+Z6Ht4RY=; b=TbXq8U/Cm27NusfngEXqfEqNw8
-	+3Lp3wlQnFEFxMkcWuQhqZ/fq6KfEH8tQHYe/VF70yIpRUNZtTIq8S+Cx00DCcvh+Ch/Msy+Rl6vZ
-	6UlVqpQkxqul960kZf/Mrf9C0fzV98Lb34PdEE04EUZgSnVMmkFg1N1Qn8e9gHq7sT7NgdXIgIdxe
-	WkaQvztXfoBvjDkIavE2cFITRbseC24sAP+nW48hvXsLGz1yiXqObxCGka7EJ2GxYFVnqBQ41q2CK
-	5uNfJWD+685xGbZdKdKMsdq25WQ1eycUD0ksoajwiqSyk8XxY5fCIoseyUbCcWV7l3YCaaLAyL6Ta
-	EZ76/FcQ==;
+	bh=xY3slEHkiIq7NT2sGuMOxA8hJLcOIj4MfNseHu5TMns=; b=yh9yrfj/b9u8Rzk3+norsjggY9
+	rO49RD3kP1+tsawKjSdTegtWc8clQ7YiQCcM0MkzNh/hYuzAptIXOL7UcruMiW8syq7ai/e9idXd5
+	3nYVOY5xifvquKVFs+g3BV1y6a9O1tSAu4X0y2VqlcU1XUJ9EhMqNSLTC+aFG6PkitWQhQLuRQdVN
+	nqj9oUxDOE674elgZ1E3pG6fQ3D4w/5Qhkroa58UE3lYjyqnAlmJgVBX7f4zpSSmoAOpTHFkzYS2x
+	zbCO2bHEaB/pUfbAyk+DHAhG7QdaFXt4t/SJ7I3Fkr2vZBuIHK4LRNmGhqmkVV1d+eqepztl0R48E
+	a0HQpcew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGv4a-00000007hfF-39q2;
-	Tue, 11 Jun 2024 06:33:36 +0000
+	id 1sGv4h-00000007hlV-0P55;
+	Tue, 11 Jun 2024 06:33:43 +0000
 Received: from 2a02-8389-2341-5b80-cdb4-8e7d-405d-6b77.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:cdb4:8e7d:405d:6b77] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtw7-00000007Riw-3tq0;
-	Tue, 11 Jun 2024 05:20:48 +0000
+	id 1sGtwA-00000007RkZ-1jS3;
+	Tue, 11 Jun 2024 05:20:58 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -63,9 +63,9 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-s390@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH 25/26] block: move the skip_tagset_quiesce flag to queue_limits
-Date: Tue, 11 Jun 2024 07:19:25 +0200
-Message-ID: <20240611051929.513387-26-hch@lst.de>
+Subject: [PATCH 26/26] block: move the bounce flag into the feature field
+Date: Tue, 11 Jun 2024 07:19:26 +0200
+Message-ID: <20240611051929.513387-27-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240611051929.513387-1-hch@lst.de>
 References: <20240611051929.513387-1-hch@lst.de>
@@ -86,83 +86,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the skip_tagset_quiesce flag into the queue_limits feature field so
-that it can be set atomically and all I/O is frozen when changing the
-flag.
+Move the bounce field into the flags field to reclaim a little bit of
+space.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-mq-debugfs.c   | 1 -
- drivers/nvme/host/core.c | 8 +++++---
- include/linux/blkdev.h   | 6 ++++--
- 3 files changed, 9 insertions(+), 6 deletions(-)
+ block/blk-settings.c    | 1 -
+ block/blk.h             | 2 +-
+ drivers/scsi/scsi_lib.c | 2 +-
+ include/linux/blkdev.h  | 6 ++++--
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index 8b5a68861c119b..344f9e503bdb32 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -93,7 +93,6 @@ static const char *const blk_queue_flag_name[] = {
- 	QUEUE_FLAG_NAME(RQ_ALLOC_TIME),
- 	QUEUE_FLAG_NAME(HCTX_ACTIVE),
- 	QUEUE_FLAG_NAME(SQ_SCHED),
--	QUEUE_FLAG_NAME(SKIP_TAGSET_QUIESCE),
- };
- #undef QUEUE_FLAG_NAME
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 96e07f24bd9aa1..d0e9096f93ca8a 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -479,7 +479,6 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 					b->max_write_zeroes_sectors);
+ 	t->max_zone_append_sectors = min(queue_limits_max_zone_append_sectors(t),
+ 					 queue_limits_max_zone_append_sectors(b));
+-	t->bounce = max(t->bounce, b->bounce);
  
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 31e752e8d632cd..bf410d10b12006 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4489,13 +4489,15 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 		return ret;
+ 	t->seg_boundary_mask = min_not_zero(t->seg_boundary_mask,
+ 					    b->seg_boundary_mask);
+diff --git a/block/blk.h b/block/blk.h
+index 79e8d5d4fe0caf..fa32f7fad5d7e6 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -394,7 +394,7 @@ struct bio *__blk_queue_bounce(struct bio *bio, struct request_queue *q);
+ static inline bool blk_queue_may_bounce(struct request_queue *q)
+ {
+ 	return IS_ENABLED(CONFIG_BOUNCE) &&
+-		q->limits.bounce == BLK_BOUNCE_HIGH &&
++		(q->limits.features & BLK_FEAT_BOUNCE_HIGH) &&
+ 		max_low_pfn >= max_pfn;
+ }
  
- 	if (ctrl->ops->flags & NVME_F_FABRICS) {
--		ctrl->connect_q = blk_mq_alloc_queue(set, NULL, NULL);
-+		struct queue_limits lim = {
-+			.features	= BLK_FEAT_SKIP_TAGSET_QUIESCE,
-+		};
-+
-+		ctrl->connect_q = blk_mq_alloc_queue(set, &lim, NULL);
-         	if (IS_ERR(ctrl->connect_q)) {
- 			ret = PTR_ERR(ctrl->connect_q);
- 			goto out_free_tag_set;
- 		}
--		blk_queue_flag_set(QUEUE_FLAG_SKIP_TAGSET_QUIESCE,
--				   ctrl->connect_q);
- 	}
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 54f771ec8cfb5e..e2f7bfb2b9e450 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1986,7 +1986,7 @@ void scsi_init_limits(struct Scsi_Host *shost, struct queue_limits *lim)
+ 		shost->dma_alignment, dma_get_cache_alignment() - 1);
  
- 	ctrl->tagset = set;
+ 	if (shost->no_highmem)
+-		lim->bounce = BLK_BOUNCE_HIGH;
++		lim->features |= BLK_FEAT_BOUNCE_HIGH;
+ 
+ 	dma_set_seg_boundary(dev, shost->dma_boundary);
+ 	dma_set_max_seg_size(dev, shost->max_segment_size);
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index cc4f6e64e8e3f5..d7ad25def6e50b 100644
+index d7ad25def6e50b..d1d9787e76ce73 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -322,6 +322,9 @@ enum {
+@@ -325,6 +325,9 @@ enum {
  
- 	/* supports PCI(e) p2p requests */
- 	BLK_FEAT_PCI_P2PDMA			= (1u << 12),
+ 	/* skip this queue in blk_mq_(un)quiesce_tagset */
+ 	BLK_FEAT_SKIP_TAGSET_QUIESCE		= (1u << 13),
 +
-+	/* skip this queue in blk_mq_(un)quiesce_tagset */
-+	BLK_FEAT_SKIP_TAGSET_QUIESCE		= (1u << 13),
++	/* bounce all highmem pages */
++	BLK_FEAT_BOUNCE_HIGH			= (1u << 14),
  };
  
  /*
-@@ -594,7 +597,6 @@ struct request_queue {
- #define QUEUE_FLAG_RQ_ALLOC_TIME 27	/* record rq->alloc_time_ns */
- #define QUEUE_FLAG_HCTX_ACTIVE	28	/* at least one blk-mq hctx is active */
- #define QUEUE_FLAG_SQ_SCHED     30	/* single queue style io dispatch */
--#define QUEUE_FLAG_SKIP_TAGSET_QUIESCE	31 /* quiesce_tagset skip the queue*/
+@@ -332,7 +335,7 @@ enum {
+  */
+ #define BLK_FEAT_INHERIT_MASK \
+ 	(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA | BLK_FEAT_ROTATIONAL | \
+-	 BLK_FEAT_STABLE_WRITES | BLK_FEAT_ZONED)
++	 BLK_FEAT_STABLE_WRITES | BLK_FEAT_ZONED | BLK_FEAT_BOUNCE_HIGH)
  
- #define QUEUE_FLAG_MQ_DEFAULT	(1UL << QUEUE_FLAG_SAME_COMP)
+ /* internal flags in queue_limits.flags */
+ enum {
+@@ -352,7 +355,6 @@ enum blk_bounce {
+ struct queue_limits {
+ 	unsigned int		features;
+ 	unsigned int		flags;
+-	enum blk_bounce		bounce;
+ 	unsigned long		seg_boundary_mask;
+ 	unsigned long		virt_boundary_mask;
  
-@@ -629,7 +631,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
- #define blk_queue_registered(q)	test_bit(QUEUE_FLAG_REGISTERED, &(q)->queue_flags)
- #define blk_queue_sq_sched(q)	test_bit(QUEUE_FLAG_SQ_SCHED, &(q)->queue_flags)
- #define blk_queue_skip_tagset_quiesce(q) \
--	test_bit(QUEUE_FLAG_SKIP_TAGSET_QUIESCE, &(q)->queue_flags)
-+	((q)->limits.features & BLK_FEAT_SKIP_TAGSET_QUIESCE)
- 
- extern void blk_set_pm_only(struct request_queue *q);
- extern void blk_clear_pm_only(struct request_queue *q);
 -- 
 2.43.0
 
