@@ -4,123 +4,190 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4675C27C65
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 19:14:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87776C27C65
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 19:43:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nTg7EHHJKtJSL0bKo1ldYUnj2JTlqGcleyKe5yLGg0k=; b=Aw23th1bwWfwjcXyhX0un4fpN0
-	T7fmPVYzgw4MuZOFwfDTi0wyL+Ix57zPK5fTML8zntaK5eXyt4iLrL7A0YF0Ndkfu6kRrJTaJ/y2K
-	tMx0gCCUzUv5JN9hW/D9lqGeS2c+7Pz8oADJ0BA2equ2UgS3/O9BU1B1k59CRshktvpElBsiBxYda
-	p0z5nOLV7XJjDte5PNAyWS1uOeeLGnTrp9BnA0a8GiYaNRAh31RrtnyiKCsrNsKXgY6LALEMKYyvP
-	qb6nYFhXkq0cGFGeZ+UuaRSJn8r4hXdYNtjPyxAh8EYRmZ+hmPkzrK4AC1UAxiT/5ahWHimU+3g15
-	+WYzA0Bw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PgS1AuCGS1zybHE/9uGGZJ2q5U+kXoYaawB2EaS3N30=; b=UgZ+dbOVP0WolcLN9qVNVG+eCW
+	OUpnPbMWFYEocUJ31fGpelYPOWRvju+IJ91hGL+qy3JcxhiMxXTmWn+d/s8BvdEHuFsJq9dbYbB54
+	9T0CbFwYCvBE3YtVJlWljG2DiKpLj7oEx37PaZERHjlpE5eqK8Q5RbPYm242R9LKaU3tsUwnHFDN4
+	7K6700TKdh+PJPvyRulOqqzrTbv843YQr8yYKFLiNNy+qa2nqlTy7QMparlTjUumrxwsaO7jWGw+Q
+	H65Tvl4UQc7FLdNj2iH8bMKCePXKGI19yqcy6NS2Uso/6ixCP+bDR2tKUsJN8UFEdrP7QJHG2gUON
+	O9V9Olsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH6wd-00000009xl2-0e4d;
-	Tue, 11 Jun 2024 19:14:11 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1sH7P7-0000000A3qi-0mnH;
+	Tue, 11 Jun 2024 19:43:37 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH6wX-00000009xiM-0PZk
+	id 1sH7P3-0000000A3p7-0PIc
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jun 2024 19:14:09 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2D4FF224A0;
-	Tue, 11 Jun 2024 19:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718133243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nTg7EHHJKtJSL0bKo1ldYUnj2JTlqGcleyKe5yLGg0k=;
-	b=2Vt+t6GqKB0NGVHvbC8q8ZtnZAdc+gvNzHb9M3KCvE677yZNrOvatBvFWjpcKmESyDBNyO
-	GsHazWeyvBZuULk/dFZbWdAIzRv+zsYAG2O7lfnbX9wNSJBO8Bxex8jmxU60IjfYqfukTe
-	vrrCn5tRCLiva03slox/YLmGozmhdmY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718133243;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nTg7EHHJKtJSL0bKo1ldYUnj2JTlqGcleyKe5yLGg0k=;
-	b=CtSFV8bD2E5KsXkrPVg6srW0KFJS9vzeiLWMyeeY83m4Jy90dwWD88x1MIc9PI3RRtnoTL
-	GagmtBEHtK+WJXCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718133243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nTg7EHHJKtJSL0bKo1ldYUnj2JTlqGcleyKe5yLGg0k=;
-	b=2Vt+t6GqKB0NGVHvbC8q8ZtnZAdc+gvNzHb9M3KCvE677yZNrOvatBvFWjpcKmESyDBNyO
-	GsHazWeyvBZuULk/dFZbWdAIzRv+zsYAG2O7lfnbX9wNSJBO8Bxex8jmxU60IjfYqfukTe
-	vrrCn5tRCLiva03slox/YLmGozmhdmY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718133243;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nTg7EHHJKtJSL0bKo1ldYUnj2JTlqGcleyKe5yLGg0k=;
-	b=CtSFV8bD2E5KsXkrPVg6srW0KFJS9vzeiLWMyeeY83m4Jy90dwWD88x1MIc9PI3RRtnoTL
-	GagmtBEHtK+WJXCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D68C137DF;
-	Tue, 11 Jun 2024 19:14:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PRVjBvuhaGaDHgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 11 Jun 2024 19:14:03 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v1 2/2] nvme-fc: fix race with connectivity loss with nvme_fc_create_association
-Date: Tue, 11 Jun 2024 21:06:47 +0200
-Message-ID: <20240611190647.11856-3-dwagner@suse.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240611190647.11856-1-dwagner@suse.de>
-References: <20240611190647.11856-1-dwagner@suse.de>
+	Tue, 11 Jun 2024 19:43:34 +0000
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45BFjAUj012053;
+	Tue, 11 Jun 2024 19:43:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to
+	:cc:subject:from:in-reply-to:message-id:references:date
+	:content-type:mime-version; s=corp-2023-11-20; bh=PgS1AuCGS1zybH
+	E/9uGGZJ2q5U+kXoYaawB2EaS3N30=; b=A7T8wo5/us3JkzpStgyHiZoIO7Tqqr
+	qiyW5hygww7YvJ2WviXyDWkyvqfB1G8RxsqBmwlgQvwCJznpUEzQAupPiu5q5srz
+	+/uZNkRfjbyrX6Kr8nw/OMivUHbeuZOeKiXFx8JLqua7k6bfhUleRzmW5YZG2cOC
+	dHPKDImNMDmvoTo0n4aI3srqQA/O5w2lfZYGAmtUS3DgEL0rFhUiWm//PV8WDIfV
+	kPY3MUrICUxQSiaZdaZVw6dTLWjtAb95XrvEtQTUY0CGxOc+/6XflPAPQ3vgHbWM
+	6/hBGQt2jALUT3/kJrEokxqsRyu2DaKzSjeAurSo1SISbGwy2ERZB7Kg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ymhaj5pg7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 11 Jun 2024 19:43:16 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45BIKS8v014455;
+	Tue, 11 Jun 2024 19:43:16 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2041.outbound.protection.outlook.com [104.47.55.41])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ynceuef0d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 11 Jun 2024 19:43:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iQxgAlcrgkX4v1I7qRb3aGHUQfbRqxeelGbQ4Ek0MH1W9+0bw49veUHGTyIHHPnukxnpZH5lygKIpKI5PfLxWyH9bnG+uIq13geEnvlV2aVBpOtApMMiH6qemVy/a+7CBaZEc+NFLqOiWKud29qAFqoqR0DLXBz5JpRL+DLyZTnqhqYw2aBmHnHWMLrponz9Htt1Gs8qv+Oiya7Z0xw08LOOxu96AY4Xn0cuLQvo6x9MPTlySxTP4+aMBFoS7KIm+r2YfInsaQexIBv8Z9Yo7O+9dctSclsRobKNc5S5fHOPkBcZxuxOSM1oIZl5qrB2/RsJx1lw2kmtTvHAFxss4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PgS1AuCGS1zybHE/9uGGZJ2q5U+kXoYaawB2EaS3N30=;
+ b=EuZAqZ3Ev49HqBG62YKxxihhH6xfEp+/CMAzk8C6VPX9F5EEcv45kda+f0HfOtKBkIfrbaJszgkkrr/4hFfFzOYGGUQ48KrZbryx+eO+EpwvvzBKqwv9ZxESxRFfgrPiYQLr2EQZLrF35k4px2QdrQUL1fk+3SZKKhu8LvDYG8a0Gzz9jQ11F3Ble2bOLZsrlf4Z9xk/ZXfZBWmtwVcljkFDWrWCwsTCipXcsFx0TUlUkmZ+E/Y0u6XwI+wt/CW3Kxd+OEl5cmGkpcQG7UK9UF9kUYBlgNSwQDtpRKbCAwvfuYUWxd/Yn3GBmjMXn68C9TDna12QZnXzF51+nfMWww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PgS1AuCGS1zybHE/9uGGZJ2q5U+kXoYaawB2EaS3N30=;
+ b=ugKb0yd0cReixmxQGo2//YTgFQrEKFRCCcD4QNKcnQ4mzBBx/0urT40Vp8NTSx7oTYPOYfJhM0AT60yIrqa6k06NogL8OsNpBpO2IW873EifTa1jWWavDeZxNtiPdYUPk+sM5kxLp7ydvORvKKpwh/l+snnqaO+7s4paoFpoM4g=
+Received: from CO1PR10MB4754.namprd10.prod.outlook.com (2603:10b6:303:91::24)
+ by PH8PR10MB6621.namprd10.prod.outlook.com (2603:10b6:510:223::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Tue, 11 Jun
+ 2024 19:43:13 +0000
+Received: from CO1PR10MB4754.namprd10.prod.outlook.com
+ ([fe80::7878:f42b:395e:aa6a]) by CO1PR10MB4754.namprd10.prod.outlook.com
+ ([fe80::7878:f42b:395e:aa6a%3]) with mapi id 15.20.7633.036; Tue, 11 Jun 2024
+ 19:43:13 +0000
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+        "Martin K. Petersen"
+ <martin.petersen@oracle.com>,
+        Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, sagi@grimberg.me,
+        linux-nvme@lists.infradead.org, javier.gonz@samsung.com,
+        bvanassche@acm.org, gost.dev@samsung.com,
+        Hui
+ Qi <hui81.qi@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v2] nvme: enable FDP support
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <Zmhf9-CaUe4gD9Kl@kbusch-mbp.dhcp.thefacebook.com> (Keith Busch's
+	message of "Tue, 11 Jun 2024 08:32:23 -0600")
+Organization: Oracle Corporation
+Message-ID: <yq15xuf1fnm.fsf@ca-mkp.ca.oracle.com>
+References: <CGME20240528151007epcas5p32583675f647553923e5ba4987e9bc6ed@epcas5p3.samsung.com>
+	<20240528150233.55562-1-joshi.k@samsung.com>
+	<ZmMj3d1Rvv-5E6Ey@kbusch-mbp.dhcp.thefacebook.com>
+	<20240608051740.GA24010@lst.de>
+	<5e686875-21de-869d-4b19-bdd9e272d690@samsung.com>
+	<yq1r0d53vi4.fsf@ca-mkp.ca.oracle.com> <20240610115541.GB19495@lst.de>
+	<ZmcTHMWb-T78Crfn@kbusch-mbp.dhcp.thefacebook.com>
+	<20240611054726.GA2680@lst.de>
+	<Zmhf9-CaUe4gD9Kl@kbusch-mbp.dhcp.thefacebook.com>
+Date: Tue, 11 Jun 2024 15:43:11 -0400
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0117.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::32) To CO1PR10MB4754.namprd10.prod.outlook.com
+ (2603:10b6:303:91::24)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4754:EE_|PH8PR10MB6621:EE_
+X-MS-Office365-Filtering-Correlation-Id: 14e763d4-8f8a-4b80-3c4b-08dc8a4ebb22
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230032|376006|7416006|366008|1800799016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OZfHtD0CYQs1S3kuGQprgi7RgqcHPIfQ+5DOCqoj7TEA8iOP2a21L3JB3a+V?=
+ =?us-ascii?Q?APcZx1i6tS9p6dUBaFS4Zk3RZM4Nt6b8xmkTE9+idbqfVcdNgYi795ZLiSLv?=
+ =?us-ascii?Q?LrkqALETvk8Hx5Cj27GiIO1QOzLZ5nIbYLuxcO6ehhnJiQtcGUyO/7FJhD+c?=
+ =?us-ascii?Q?sqI28QJrjL/Zo+SEJpJpMZ+BLaM20/AhrseLosN+I7s1PDkDqd2ZIJG3k7t/?=
+ =?us-ascii?Q?lYlOFX5vue67ae/poJpS4fECnC+lDZNfuzhAFb1+8PDjv0VbnEM+2/uaetZd?=
+ =?us-ascii?Q?o7IKjWhN4WST8YVyhXBPTd4f7VQ019k5jtrsRlIXmR9g7ZrTAckTa1t38xLv?=
+ =?us-ascii?Q?xX9+t3GIzAJuZhyOljy1Pnl8xsWBlzExcOnWdpdn5yeIijrdCJjFxKjU98Dh?=
+ =?us-ascii?Q?6zy5NAM3G7l4AD7gkgtuPnaq2VduuC4FyscrAkZcK0Z0tQieNBlJy8dBHPk9?=
+ =?us-ascii?Q?UliBsmRWtD24itZ0/xst54Y7Ya4mlAm6szt6n9oAc++moctBxEDgOOtlGAtf?=
+ =?us-ascii?Q?waUcIF68AMC6DLW/AjFC8jCGe59ag8iwvdDrd0mASrXAXmezZIEMlb7VJsZo?=
+ =?us-ascii?Q?5grJqjZOA1GZWbDHKiegbaAropGzmT+RiXgxf/mFxi+9hIa6MNb07Qwem4md?=
+ =?us-ascii?Q?gvKP3YHc2pUHP8bto/zKBORbjIlf9jcYreGtR1emQfmEGnEdN/vYGceQcyb1?=
+ =?us-ascii?Q?bNoNwDVVYIIOmMwK7D4qY0fURPB4+W40A2QGeVkg7v/O9rHWIiOFSNopeLTy?=
+ =?us-ascii?Q?OxtVZNton1Z/Z+6PCzNx1hPyU+cJKbtjGzbY96IwiKP6laTicq9UnKuMlnjS?=
+ =?us-ascii?Q?HJ7ZLH3xoFiqx6vdrrHGJD6wp+mM71WwqZMgzEV05tttmx3YdTYDm3qZfYME?=
+ =?us-ascii?Q?JE3HkUy4GdlUJ/ZFgU8PjZI5/PqphPELgdGCV/X3m6ZTsXYOtA8TlDwrET89?=
+ =?us-ascii?Q?x16mVRmjuJu3BGvOEiOwRwmkzFCjMWUUsVrvLdWQyovS3YIFZAwnpfTOuf+7?=
+ =?us-ascii?Q?eLQjYaJbafSZlyPXX8XTBmEMAA755ITr0F4e1QIXFPO6w1bzbwISqnh4qLBv?=
+ =?us-ascii?Q?R905T72XXfhKA2QatRQafpqOJyScWZrrl1e4HL9tbPLAjMSANza4hOIzzyBY?=
+ =?us-ascii?Q?/0SdjS5/MV17Q/by0sq72Ia00WmJywYeJ4DROjV5OqXmvyv6M2VNDIZOTzIe?=
+ =?us-ascii?Q?TA/wkb2vjCEt9iDfNgEKhc3/0bOGpr6Z1dXsHY3oyAcC3WtERR54W2oc/gcs?=
+ =?us-ascii?Q?iCjkURJh1l9Moodl25nx2oCVS7RlKGbJSKb71iTOlNACuFQcbm4+yUvCyeWm?=
+ =?us-ascii?Q?DAOb+kF/EamrRux2Q8mSS9+Q?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4754.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230032)(376006)(7416006)(366008)(1800799016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u5fZfXQ7htl9e0LAnIe3aMDEwjqQ2bcAiOs4F6ZgfcrTxFMF6fPB2XHrZnoM?=
+ =?us-ascii?Q?PokV5kPOwgAcqwkL4SEC39H/c9V3tnOQtARrDPMCgeFaL7RXlebyYeTc0b22?=
+ =?us-ascii?Q?Y+tGG1kpQeHrdTbWLwvcCHgEEAWpJgS+C0kt8Y/5Bckh/39cPCzIkLN6EZSc?=
+ =?us-ascii?Q?qduY7DHySPJpxlpZQ+FXoesyEYjPEr1iYftgjJrqyMGlXIqS0KCWc47DLxvg?=
+ =?us-ascii?Q?W0SWT1NFOlo+CJ4BJmtKAOsh4Y14NWt/Hpn6Yi02m8aymJ0OnthZrBGv9DZr?=
+ =?us-ascii?Q?NtIdtoM1AWCllIUccAQx80v0Lt9dhdFWSKr91kQPD0Sef1csVp9uqT/Es81s?=
+ =?us-ascii?Q?4OBcD2lSJRIid4oBh+Ix8noPpN/GIWPqL7udKEq+SPOz49DJJSnZxv95/QfE?=
+ =?us-ascii?Q?FE+b+/ZAQqcTgn76TZGENbzpQS5DG0zuZCpuDc4ptq2VEFgyyeTiEU+cDFVU?=
+ =?us-ascii?Q?DgRVJzLHfA6E1Sd60fJlXeV1gc93VRYY7n4LzvLQlyojHKmDYXCwWwQ+2MQT?=
+ =?us-ascii?Q?6iL+uCEVOy5/5B5UGfaPEM0b6tZzVe/VeKh4MC0rLgIWnGpPyNkUXOp7V+ye?=
+ =?us-ascii?Q?amXUS4WqljllCiW8GsevEVWx79jgHz7MMGeLr13bREYNJXrTie9aPnCeoxP4?=
+ =?us-ascii?Q?pLHKOH31glrcsIHTuE6Z5Eu0uq+m2JLP9LUP+a3OSP8mHbpxIjP8tQoMM0HV?=
+ =?us-ascii?Q?TVd8dhsIT9tozn5ZJ4bhbZ9Tdmsw7DwqQxE3fMvxZ39CxmisPpa8MWF7s7wd?=
+ =?us-ascii?Q?ihmAqSGlaKYHeghoXEQTvMAfLELJgo2K8Pm6Zb3rZbeax50C/toajE7vGBdX?=
+ =?us-ascii?Q?7EfNTrRVMC2AAW/vVe7o0YZjcrQUjMfoiCn/+m98mR3nQsDqCNj85d7rl14D?=
+ =?us-ascii?Q?x2AOHtA5dzYEABU1zQTddtPyQsXl/gufj7aPykjAVpVzn1DVL9EoJp08teTT?=
+ =?us-ascii?Q?G30qZi5ghXOy41jgmUp9RrGBFil7603kXN056jF4DJVUaIt9Ae/KkBm2vy/p?=
+ =?us-ascii?Q?TSwxo3L3cq7iu3saoOSgna2RPyEInAI8+NYMHYjkUb91DbZMfuLh4WuI3Oes?=
+ =?us-ascii?Q?1BaW1+08lR5gEuAMyM/WPS9sNwyD0PUjNQUfXr4Uru9zbL4MEHdjqL+INUDQ?=
+ =?us-ascii?Q?4arZMUxc/Nfy1F8MV6YMkQvyhIKEFM3YG4NADi8bGEPqbxIjdcN0gXmLZzcJ?=
+ =?us-ascii?Q?LM+0wgcaabqmGnCTnnLS2oiihzFq5zsUXiyeHKVNrkDwXBhhIcwQEFRbnglv?=
+ =?us-ascii?Q?LwxOq9ye6yPoYtBCHrU/3XwAPkWGF+meZf+tg5lftGdIL3r4uiKXr3N1C+E+?=
+ =?us-ascii?Q?SslrMs7lg6pV6pK0OvuQ0+3aGh/wPDY9BUcqC37jBGtNysAWk8BJccmNcm5E?=
+ =?us-ascii?Q?C+4Cmt8/txyvcVTVpuwRHFPtjXaiEmFfzu4vyzjCqYYJI2PUD0JusfGs8ZLM?=
+ =?us-ascii?Q?bsDPtH1L2i/tt7b5zPpJJK0/Mgt1UhRK4z99wpde3g7dtq+elZfMlv1jFXx5?=
+ =?us-ascii?Q?abJi62Zx5PbXsFsI5FPo0Bkbgd0Q3FPEdzFZ95bCfgXRasRAsU+b+/uR3jZK?=
+ =?us-ascii?Q?vZ6OPBUix4pjAWyTSAwE+v2rkPee9hsH4Ey3WrMOx1NmkLR+7Uc6ibwy/Try?=
+ =?us-ascii?Q?1w=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 5V17DbHL5/8d7hKkWIu97S0THu5rphOWvfzJFG8wLbU+l7jYzMXzlEjdhd4B63Gb9msqIbLdyhv4ySi+XisvVxPOSm5IRgVCmQ4Dky/hKliYUPmk+eurYL9qm11JrBjhUFP9GihN5mQq0GBVM4zNbtT2DoS+n50OIZ/w36LEc6a4lOpuJoM7drZNlytlUm91RffrBTijOxBzWrqsCSVQzuooYH2bWvbqtZwZ/M+uTwTJtXxMiFYgfGmVvklHUWh0p3bFFy5x6Stih9sgUJBl6VyS1VyMiHqTPBsTzHpt7g8/D9uagTG0SHKe00ZpzHmhXlDEJknEDUX7ZncDUGsu1K3ijccQqIAOgs7Ch2Y6dqoasu1+KuaOB/WZFt2e5NBEXOmdAOA8Fht2NrMtVRd4UawlHMXrJoC/FukTweHX6pHVYrNgKBtP+WKElibBho9NuiafGjL3x77KwSpN8ZMzEUGUVvQKQelhyhTAOGvhzpk8cDaibrCw4L1G2wMOwSXl8wCRBxtMqx2oQrSg4AYMl8gZ+GEztz5Vv/4whugil7Lx5J6FGXceO8k9QjVsv5B8l1z8BzrHAJMxAOw4CRgawsMuqaTz3wGLJk7O5m0suLs=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14e763d4-8f8a-4b80-3c4b-08dc8a4ebb22
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4754.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2024 19:43:13.5756
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AZStCgt4eLuyLSsgUu9qhVBuXKwABHb0cBjcdsAsBv4fqI4Ni3pWSSbBL0gjanFhjzJAzO2jRgCSJrTb2UKUMc4cOiux7iRZE1dcUOoWDYE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR10MB6621
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-11_09,2024-06-11_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=2 adultscore=0 suspectscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 spamscore=2 mlxscore=2
+ mlxlogscore=170 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2406110135
+X-Proofpoint-GUID: bw-CMqrgja-oV5DziioPgHlyJNI9YN-Q
+X-Proofpoint-ORIG-GUID: bw-CMqrgja-oV5DziioPgHlyJNI9YN-Q
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_121405_313437_0B680D74 
-X-CRM114-Status: GOOD (  17.83  )
+X-CRM114-CacheID: sfid-20240611_124333_172171_71FC8306 
+X-CRM114-Status: GOOD (  12.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,94 +202,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We are racing with nvme_fc_create_association here. We wouldn't have to
-do anything in nvme_fc_ctrl_connectivity_loss IF
-nvme_fc_create_association would reliable detect that the setup failed.
-In reality, nvme_fc_create_association is able to return success even
-though some of the operation fail during the setup (and this is even on
-purpose):
 
- nvme nvme10: NVME-FC{10}: create association : ...
- nvme nvme10: NVME-FC{10}: controller connectivity lost. Awaiting Reconnect
- nvme nvme10: queue_size 128 > ctrl maxcmd 32, reducing to maxcmd
- nvme nvme10: Could not set queue count (880)
- nvme nvme10: Failed to configure AEN (cfg 900)
- nvme nvme10: NVME-FC{10}: controller connect complete
+Hi Keith!
 
-Thus we transition to the CONNECTED state and don't start the reconnect
-loop. Thus we should unconditionally schedule a reset.
+> One thing FDP got right was mandating the Endurance Log: the drive
+> must provide a feedback mechanism for the host to know if what they're
+> doing is helpful or harmful.
 
-If a reset has already been schedule it's either a no-op or we observe
-back to back reset. But we can't really distinguish between host side
-double scheduled reset work or a connectivity loss event right after a
-reset. Thus we have to live with this corner case. The system will enter
-the correct state eventually.
+Good luck teaching firefox what to do with that information!
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/host/fc.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+> If you're just blindly throwing random fcntl hints, then you're not
+> the target audience for the feature; you're expected to iterate and
+> tweak your usage.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 6ff28d59b169..10dc456928a2 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -169,6 +169,7 @@ struct nvme_fc_ctrl {
- 
- 	struct work_struct	ioerr_work;
- 	struct delayed_work	connect_work;
-+	struct work_struct	fc_reset_work;
- 
- 	struct kref		ref;
- 	unsigned long		flags;
-@@ -779,6 +780,14 @@ nvme_fc_abort_lsops(struct nvme_fc_rport *rport)
- 	return 0;
- }
- 
-+static void nvme_fc_defer_reset_work(struct work_struct *work)
-+{
-+	struct nvme_fc_ctrl *ctrl =
-+		container_of(work, struct nvme_fc_ctrl, fc_reset_work);
-+
-+	nvme_reset_ctrl(&ctrl->ctrl);
-+}
-+
- static void
- nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
- {
-@@ -806,12 +815,20 @@ nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
- 
- 	case NVME_CTRL_CONNECTING:
- 		/*
--		 * The association has already been terminated and the
--		 * controller is attempting reconnects.  No need to do anything
--		 * futher.  Reconnects will be attempted until either the
-+		 * We are racing with nvme_fc_create_association here. Ensure we
-+		 * never lose the connectivity loss event and unconditionally
-+		 * schedule a reset.
-+		 *
-+		 * The reconnects will be attempted until either the
- 		 * ctlr_loss_tmo (max_retries * connect_delay) expires or the
- 		 * remoteport's dev_loss_tmo expires.
-+		 *
-+		 * We can't sleep in this context (e.g flush_delayed_work) but
-+		 * we should execute reset after the connect work item has
-+		 * finished. Thus defer the reset trigger to the nvme_wq where
-+		 * the connect is executed.
- 		 */
-+		queue_work(nvme_wq, &ctrl->fc_reset_work);
- 		break;
- 
- 	case NVME_CTRL_RESETTING:
-@@ -3505,6 +3522,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
- 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
- 	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
-+	INIT_WORK(&ctrl->fc_reset_work, nvme_fc_defer_reset_work);
- 	spin_lock_init(&ctrl->lock);
- 
- 	/* io queue count */
+And that's exactly my point. What the various attempts at data
+management in the specs have in common is that they are unsuitable for a
+general purpose operating system and its applications.
+
+We can all come up with a restrictive model which works beautifully for
+one particular application. No problem. But that's not what standards
+are supposed to be about! We used to produce specifications which worked
+for every type of application and device.
+
+It was a beautiful thing when we went away from cylinders, heads, and
+sectors as tools to do performance management on storage. An abstracted
+model for managing blocks that has worked for everything from USB flash
+drives, over spinning rust, to million dollar storage arrays. With one
+protocol. For decades. And still going. Because the abstraction worked,
+and it removed the burden of having to care about device implementation
+artifacts from applications and operating systems alike.
+
+We need a similar model for data management. Something which works well
+enough on the device media management side but which transcends one
+particular application or device implementation. I really don't believe
+any of the currently defined data management schemes are timeless the
+same way as LBAs have proven to be...
+
 -- 
-2.45.2
-
+Martin K. Petersen	Oracle Linux Engineering
 
