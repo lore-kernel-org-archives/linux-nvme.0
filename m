@@ -4,213 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1E93C25B76
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59DBBC25B76
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jun 2024 05:23:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BhY3NwRliREZRdNNM43bZ3OvIln91I1pxlVbr1nPbP0=; b=KbsAUX0Ywjya6s9A3fmP4ruPbj
-	rmfTac0YS3NyCywmVvEXeKdWa11t3gHbTa59uw67IxSg8GiW4EvpIrnZFhq4LikbxxEMhyTAkdr5O
-	+uYrYMg167ghD7lCrlwaStWtgdZL4besnfTRAS+lUJbh+26nxR/n6/I+ukZCGdgIjidzpEcKYApO8
-	+5jLguyE8NuOupYAczfuxrhUt/bDDao+vGQEuUEHkH/tdzdwpRtEtyWh7MzRvUgFOhbFPbJTLDBmN
-	mdnc8S7dG7SBEfXV3lHvSpl7qU81ucUE9+YQMG/15xlKguuIQBmnxOawaBzf6wYNq7tmGzjtEzrz7
-	F/YcGPtQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lvXE5gTUk5P3TVKgX5q5Q8J1/DjEMwO75JeCg7ieY7s=; b=EtYR6laDRQTHIuToAtl4+2chh2
+	zr9vSZGhJ8S6rWdoFZA7E4YRSfLb+ir7uWXAqvx/aWq0dJQ/49tHLgwQVz4C/Q4OkoeMVIgJIZvUC
+	iUO7FU4V2O96mFqEMe9Fx4hsbI06N4JqrEqv2Nv6RdMWAfXKAFyczh2y14DL/8ArBYtqm3u+0ZoAY
+	z9uEXLAhbwiFS/hPIFLz0zdr5qn9MMVb5hRlhb0i2VXqDDwsHt0Ib6Ne4p+Ka5/hi8//Y681q2Qoa
+	4bgEv//kw0q6Ji5Nom8zrdvKtluEzOb1zFhmzaC+kheI9FqoF2B3cAzB5TvK2n952qrA8tMAZmEL/
+	feixJxzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtye-00000007TbU-3P1F;
-	Tue, 11 Jun 2024 05:23:24 +0000
-Received: from mgamail.intel.com ([198.175.65.9])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGmYr-00000006XBU-17yQ
-	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jun 2024 21:28:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718054898; x=1749590898;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=BhY3NwRliREZRdNNM43bZ3OvIln91I1pxlVbr1nPbP0=;
-  b=Ym4Z+AnKJjYd2Nn3L+2kOA9wKaaA3NzlRj9tAtdVUXs3At55Hb5u6sdd
-   I2aHjLNxCRxILRx47KTkXYSMgUkSVs7NGp9pM4zTbM8ry6lbzkg81MHTx
-   h8/sdpPgmDtM5L4ku35i3JYG7pC6ykNPzmD6qyPRGS8fWD9cDcU8K2/3o
-   2/1dnM7kNwJxgTTiHrhKw13zyMV2+hBBtxw+SpqliuEI0A9gXiCfwKq2Q
-   LqZZAy9N97sVsnkOen4di6loG+FvjMrfwvjVLcSz7FiFfpC0hauBoKzF+
-   KSjOQsaD0VHDBcD0uIZ1acVRIiygC3vz8T0alKB5hIhD9XydhvylMwrPm
-   A==;
-X-CSE-ConnectionGUID: jszx7SL6Shedfb8nIlM7zA==
-X-CSE-MsgGUID: H+c08HFcTeCwCKz8KbSGQQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="37262118"
-X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="37262118"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 14:28:11 -0700
-X-CSE-ConnectionGUID: eUv3vfAtSeaYz9bX1BbdJA==
-X-CSE-MsgGUID: Svj42NBxR9+Im31HyZocDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="70356682"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jun 2024 14:28:10 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 10 Jun 2024 14:28:09 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 10 Jun 2024 14:28:09 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 10 Jun 2024 14:28:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oQ5wiXLJ15WP5CiENgk85WPGtphz7Lx8JjcU66zgA5Y4/2brtokQIQIBEr1Z1F2zDoZfzDetKF4McOn61kl3Ma3QmuBKLVx6hLSwbOoFr6TgylFDg+3p9SJg4W0pDZWuGquhW7xQZErwmNWfmb3wt98NUUAn6IvcFARHvYpjxkQYIDiKSlqaFOyTjyHQJ3kL4Sl2ZCZDXt5Hw1fkn4atcyt5MtVO/qnFb/q3vNK5QxsSU/4ywqMcYRM2ndJ83zWWXj3gPQq+SFHShRDMkwDiWQ+mCcVAzBJq/jyFVMX8oYlgaN3/W0ZPkcGn/qNH6sp9eL+mjRjyFx2q+JGKHFf8fA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BhY3NwRliREZRdNNM43bZ3OvIln91I1pxlVbr1nPbP0=;
- b=O0evvpLs2XG6aet3YtmvsdPNUOgD3O87I+MxhWst91/N8In3Yr6GYRhQgJAZIpwZV0A2bXjsvi2/7QY1mUW1+BeNJBvh/Bjz2OPsmpGrXEshrI0KyI7oIz5sIQ96eD8DpwvARQo8LePwOjJ3SVD8kHdf7IcD+01nsaN6+IDvDMgdfIM2LAJAynleX7K5nJgncjxiW/Ie6b7pm6b3fJ+VEYAN18PCLK+M+NKEQfkkpkFrK28rXvHs/w/mlY8Iy8UDAblRA/BnLjmedLm6RP7MMgP2xI9+lPEMVs5eKPfokNx9M4ABnaLx3Vn/zC4i/Yljy6VIzthVaT07DWKvmzXSow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH7PR11MB7004.namprd11.prod.outlook.com (2603:10b6:510:20b::6)
- by MW3PR11MB4569.namprd11.prod.outlook.com (2603:10b6:303:54::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.36; Mon, 10 Jun
- 2024 21:28:04 +0000
-Received: from PH7PR11MB7004.namprd11.prod.outlook.com
- ([fe80::8c26:2819:d0f9:1984]) by PH7PR11MB7004.namprd11.prod.outlook.com
- ([fe80::8c26:2819:d0f9:1984%3]) with mapi id 15.20.7633.036; Mon, 10 Jun 2024
- 21:28:04 +0000
-From: "Zeng, Oak" <oak.zeng@intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-CC: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>, "Robin
- Murphy" <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Chaitanya
- Kulkarni" <chaitanyak@nvidia.com>, "Brost, Matthew"
-	<matthew.brost@intel.com>, "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, Keith Busch
-	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas
-	<yishaih@nvidia.com>, Shameer Kolothum
-	<shameerali.kolothum.thodi@huawei.com>, "Tian, Kevin" <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?Q?J=E9r=F4me_Glisse?= <jglisse@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, "iommu@lists.linux.dev"
-	<iommu@lists.linux.dev>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "kvm@vger.kernel.org"
-	<kvm@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "Bart Van
- Assche" <bvanassche@acm.org>, Damien Le Moal
-	<damien.lemoal@opensource.wdc.com>, Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, "Martin K. Petersen"
-	<martin.petersen@oracle.com>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"Williams, Dan J" <dan.j.williams@intel.com>, "jack@suse.com"
-	<jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>, "Bommu, Krishnaiah"
-	<krishnaiah.bommu@intel.com>, "Ghimiray, Himal Prasad"
-	<himal.prasad.ghimiray@intel.com>
-Subject: RE: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Thread-Topic: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
- steps
-Thread-Index: AQHanOEtbi0VHTnLn0mNwgftYB7xRbGEmFqggAEftYCAO5ykoIAAFS8AgAAFauCAAA0xgIAAMSmg
-Date: Mon, 10 Jun 2024 21:28:04 +0000
-Message-ID: <PH7PR11MB7004DDE9816D92F690A5C0B692C62@PH7PR11MB7004.namprd11.prod.outlook.com>
-References: <cover.1709635535.git.leon@kernel.org>
- <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240503164239.GB901876@ziepe.ca>
- <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
- <20240610161826.GA4966@unreal>
- <PH7PR11MB7004A071F27B4CF45740B87E92C62@PH7PR11MB7004.namprd11.prod.outlook.com>
- <20240610172501.GJ791043@ziepe.ca>
-In-Reply-To: <20240610172501.GJ791043@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR11MB7004:EE_|MW3PR11MB4569:EE_
-x-ms-office365-filtering-correlation-id: 37589a98-37ed-4ea4-5c50-08dc89943694
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|366007|1800799015|7416005|376005|38070700009;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?eI1q3pcT7kUZJHjJhmmYCldx30UZuwN2ap1MYL260M/76wUwvTFvvgIUrl?=
- =?iso-8859-1?Q?Ck/dGCdUutjIbPxkNiN7AJcTu9Sjp5xW4sOPG3SLvU4JE570alWaBa9dQG?=
- =?iso-8859-1?Q?og64/k5Lil7XsES3sDQCjwVx2KCX/Fs0QlYHkqVeizvm6n+9OP6m/5PHyI?=
- =?iso-8859-1?Q?tZhWeDCLAXL56BbjO8874YhxiGO8AyTB0iZmX0oyQgZDica80XlVESyeyk?=
- =?iso-8859-1?Q?lS2HYDZ3jJK/S7iQF97OM/+mH5m88uPoMTxV4gvhcxIgrcXoTP2a+w5uFf?=
- =?iso-8859-1?Q?j6/lOMD0vv6HFSyZ+89v5CfJw2CJTAE1vMOQgL+j1jNSzPDivQxxMl5sb3?=
- =?iso-8859-1?Q?RgOWDgfmTJnTvWSydRD0sRH7e0H9CcAThIKYw/Ixf5XsoMzw7Nu1O/UtmI?=
- =?iso-8859-1?Q?yL/IWhM3t+5ymt2+jNWuRA0+hvOnfX0VTbrfSTECu3y5dDtvVhfTbwpOo9?=
- =?iso-8859-1?Q?YHD+zY8fjJV4YLYvQmbBFpDCkA4SaTFeoazSAYv3OSxjI0Q5mp4NCmpUmn?=
- =?iso-8859-1?Q?lciBYZ+5RrdJavnsLFgIK2roPdTp7gPOs7IXTj8xj68zHxTCU2ydK0EvJq?=
- =?iso-8859-1?Q?WKgd4XXm3PqFjOYL6tw9wg9n7oyz7KGKoKjJih5HcoSQlEmS0wsfoKzapL?=
- =?iso-8859-1?Q?n/QzLaM4oLoAGWJcOXTzyqllDDbDpymBLHbrBt87c4Jc/PXenwFl7g3DwV?=
- =?iso-8859-1?Q?aqXNOpM6FuDPTvvgbHT9f9fIXN+REnB+qSjKbZteFPYfKqiODmdFMadsA+?=
- =?iso-8859-1?Q?9SXMTRn5iXPUnl8lSPQaWYgNwQBL7nbaCMQoAbNKUMJL7sjaAHqj6bSco6?=
- =?iso-8859-1?Q?EbiOhDfZnp7jTWExrkfIHjfwOBCdCJDOmx1kpm5Aod/vDeHNPbN3rACpIA?=
- =?iso-8859-1?Q?w3OezTU/H1XqBgfi1YbAnliGjwkamTcq79SWvTTMCHWMbNe15BnLz8YLhv?=
- =?iso-8859-1?Q?muicqQkpODJfUs8Lzkl8d+UDqIygAHVFPAT4xF+iFUiixbJsuF++h0fw8T?=
- =?iso-8859-1?Q?WdLI8jAnMs6icoQRkPBy1jFr1VMGvqAyF6T80dn9INLWo/ilMMzk6o48uP?=
- =?iso-8859-1?Q?pALbSc2qvzx1BXer0TEFnXY3+JLb69TAZgmzBIa/PaI/mROnqpDNUATIvO?=
- =?iso-8859-1?Q?ioW1gyWk/EMGI/Ggwu4tIj8ELJKI5zclPiczn06ovmy7WQC1+iMEdAleYQ?=
- =?iso-8859-1?Q?tSTbABFXuXWyrq70jXXug14vhjvObQIt/WV+U3fXEOVOGDx0fUDniKN8D6?=
- =?iso-8859-1?Q?+wn7pFpdmUW1Etq6MfaUnkr1Mtf292dVIRY7mRd46ytYTkfjFwH93b8pEA?=
- =?iso-8859-1?Q?eXZTO/hAlY2ELaLOdKqbKBAkYjunRXoIgQenyD2SMR/mhfVHFOqWuIOgzM?=
- =?iso-8859-1?Q?banKjHG+d9pR69qxU9SXvAjXRYzd42QNzec7khZDdVkB98IKsf4kA=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7004.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(7416005)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?PjcdyxOnSaSGrq+tbgi8+jJ1RCh76Ixo4uQSOUIgXwEcfdhYH60dvSSSCg?=
- =?iso-8859-1?Q?uAmayoww6Td8Lm5exyoVwK3Ruimaran6JFjYjUn7oKLfusDHLCEwGoBK8s?=
- =?iso-8859-1?Q?PNRuV/1HgK4icXJF0CrEKu0yWYya73Ys0uOWSdkxSekmRF0t9Ja7XUKoDd?=
- =?iso-8859-1?Q?d+g/EDvSFLgHnCWhVtt0AWn1LfnA4nW1vSUGbGqXeScuhEYdD+fWyulsp8?=
- =?iso-8859-1?Q?ETvgIz4cIqpQUk3+yIPSjsiGS9KnWnmtbU7clz6s8ZvSfpLoMARUjFR3lC?=
- =?iso-8859-1?Q?SBUvA55voMve+iVIxZLj8hNXdPL/sqALb6b+tCq973wUvlKtVG0MMJR6NF?=
- =?iso-8859-1?Q?4pdrmXirELGkVnFluKfQ6DiDwo6urHzMxnqLaDJSfPGuqZMHGzYKVipLZS?=
- =?iso-8859-1?Q?nrVgJ+wV4fMXfzJqnpzjRpahWwLV2lVNk3rUnGnu2yvBWbdPe1NwJJTgET?=
- =?iso-8859-1?Q?lBmEHw2Zfui34kwQ/goQm4AxXDS4vto9g/SJubDAF5sd/o+9vGtERrWJ3Y?=
- =?iso-8859-1?Q?vM74li+app7/EV5MzeRZakSBqWDv4nXAAoZbSUm4PIONcQ8BowjC7VPXim?=
- =?iso-8859-1?Q?YB+1svn3+rbS45fWiKRTOq2LHLnukAprFLdBUHPW4J4UBpQVJEsg7i7LL7?=
- =?iso-8859-1?Q?rJa1YdFNkfpxK9dFNQh0nwpY4GZF+74Ves4LebKXYo8lmXOR4oIvhU4WUh?=
- =?iso-8859-1?Q?zVk+VZWGgVbIvWhuIHaFaD/f/L41JO5IiEnP+aSstvTUXaEtFqgriHyntP?=
- =?iso-8859-1?Q?gRGT2EW/2iWQsfWxlbVCld6+O24XTAr0ZGeuHYehzXkbmgGSzCeFJGLlKT?=
- =?iso-8859-1?Q?LnI4lY+hnYjA02clZmp/zTgYxMY1Fhbj9teM+c7xCq4e9hx0OxLdo0tX/e?=
- =?iso-8859-1?Q?4GbGJy0lSaRCOdgS9sgXBiawXX+tev5wPpQnGUbpkO/7cwiYQkSzdYgxWx?=
- =?iso-8859-1?Q?HuwSlxostrJDpMdBY3qowWlinlI2Fo40pM8eJeHnsBTgFSfEmjcap2cbxa?=
- =?iso-8859-1?Q?e4yEOVrFmebPoBhLL0VkCFySREI5U8gz/IMAhThgwUgY1/GnJz8B9QtrGP?=
- =?iso-8859-1?Q?d4Vu7DW0q/AGUdhBsB7HBkChBwL0AcTMcWHZCjprWuF8tCoEWjcI+OwbDR?=
- =?iso-8859-1?Q?3gDGlWgSlOvrdOXnK/J8/jk5fPkTQEyx+1LqygJgjn6e6PWTIdyMGRCMbx?=
- =?iso-8859-1?Q?oNdDMpjNcQlzciIZmSeLxMe02ofb0wrUwSh00DYrrwc+iC768FlzGS+z/M?=
- =?iso-8859-1?Q?aMiok0HMjWQHrm4gX8niIjw+G0g+GGqL6PqUycIutzGCa7G9Pdy+Psbox3?=
- =?iso-8859-1?Q?0w81vALl/0OP4H2MnGqDE8VhVpS/B07r93nzQ5n7ki8ITkANpUimJwwL6Q?=
- =?iso-8859-1?Q?B7fRkam9NVtLRhZqZ4gsGko2neVZ6Jk03tc1xpCQ0Mk4uE+un8uGZA/ae5?=
- =?iso-8859-1?Q?w9Uvzn+pxRM2B7uRyzgjCS81WODkbSnnNb8ijGcEmK6oL/TLVi4XWgqsJe?=
- =?iso-8859-1?Q?NCEPFcrFV6JAjBDKh752M1yAUYW+4uIXpzTdKAcJkZAVPaeeZpZDP4Tkln?=
- =?iso-8859-1?Q?Nqcx+KGCqwEmjSvP7zQvTZXsfemM3QvsOruR/43e0SXJP8OwTdBYVEJia4?=
- =?iso-8859-1?Q?I1psmDW/GdYNw=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	id 1sGtyi-00000007Tdo-02Yo;
+	Tue, 11 Jun 2024 05:23:28 +0000
+Received: from 2a02-8389-2341-5b80-cdb4-8e7d-405d-6b77.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:cdb4:8e7d:405d:6b77] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sGtux-00000007Qnu-0nLE;
+	Tue, 11 Jun 2024 05:19:35 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Richard Weinberger <richard@nod.at>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Ming Lei <ming.lei@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Vineeth Vijayan <vneethv@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-m68k@lists.linux-m68k.org,
+	linux-um@lists.infradead.org,
+	drbd-dev@lists.linbit.com,
+	nbd@other.debian.org,
+	linuxppc-dev@lists.ozlabs.org,
+	ceph-devel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	nvdimm@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-block@vger.kernel.org
+Subject: [PATCH 01/26] sd: fix sd_is_zoned
+Date: Tue, 11 Jun 2024 07:19:01 +0200
+Message-ID: <20240611051929.513387-2-hch@lst.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240611051929.513387-1-hch@lst.de>
+References: <20240611051929.513387-1-hch@lst.de>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7004.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37589a98-37ed-4ea4-5c50-08dc89943694
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2024 21:28:04.3358
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rQ8N4799OngImkQI47K7erSnlVSMJVBu4avWVxd5FwDOMguigj2T6uY1xo4cGeVG11r09CRETuGb9fisGr0sYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4569
-X-OriginatorOrg: intel.com
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240610_142818_001803_4ACF615C 
-X-CRM114-Status: GOOD (  20.61  )
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 10 Jun 2024 22:22:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -226,82 +86,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jason, Leon,
+Since commit 7437bb73f087 ("block: remove support for the host aware zone
+model"), only ZBC devices expose a zoned access model.  sd_is_zoned is
+used to check for that and thus return false for host aware devices.
 
-I was able to fix the issue from my side. Things work fine now. I got two q=
-uestions though:
+Fixes: 7437bb73f087 ("block: remove support for the host aware zone model")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/scsi/sd.h     | 7 ++++++-
+ drivers/scsi/sd_zbc.c | 7 +------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-1) The value returned from dma_link_range function is not contiguous, see b=
-elow print. The "linked pa" is the function return.
-I think dma_map_sgtable API would return some contiguous dma address. Is th=
-e dma-map_sgtable api is more efficient regarding the iommu page table? i.e=
-., try to use bigger page size, such as use 2M page size when it is possibl=
-e. With your new API, does it also have such consideration? I vaguely remem=
-bered Jason mentioned such thing, but my print below doesn't look like so. =
-Maybe I need to test bigger range (only 16 pages range in the test of below=
- printing). Comment?
+diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
+index 726f1613f6cb56..65dff3c2108926 100644
+--- a/drivers/scsi/sd.h
++++ b/drivers/scsi/sd.h
+@@ -222,9 +222,14 @@ static inline sector_t sectors_to_logical(struct scsi_device *sdev, sector_t sec
+ 
+ void sd_dif_config_host(struct scsi_disk *sdkp, struct queue_limits *lim);
+ 
++/*
++ * Check if we support a zoned model for this device.
++ *
++ * Note that host aware devices are treated as conventional by Linux.
++ */
+ static inline int sd_is_zoned(struct scsi_disk *sdkp)
+ {
+-	return sdkp->zoned == 1 || sdkp->device->type == TYPE_ZBC;
++	return sdkp->device->type == TYPE_ZBC;
+ }
+ 
+ #ifdef CONFIG_BLK_DEV_ZONED
+diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
+index f685838d9ed214..422eaed8457227 100644
+--- a/drivers/scsi/sd_zbc.c
++++ b/drivers/scsi/sd_zbc.c
+@@ -598,13 +598,8 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, struct queue_limits *lim,
+ 	u32 zone_blocks = 0;
+ 	int ret;
+ 
+-	if (!sd_is_zoned(sdkp)) {
+-		/*
+-		 * Device managed or normal SCSI disk, no special handling
+-		 * required.
+-		 */
++	if (!sd_is_zoned(sdkp))
+ 		return 0;
+-	}
+ 
+ 	/* READ16/WRITE16/SYNC16 is mandatory for ZBC devices */
+ 	sdkp->device->use_16_for_rw = 1;
+-- 
+2.43.0
 
-[17584.665126] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
-a =3D 18ef3f000
-[17584.665146] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
-a =3D 190d00000
-[17584.665150] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
-a =3D 190024000
-[17584.665153] drm_svm_hmmptr_map_dma_pages iova.dma_addr =3D 0x0, linked p=
-a =3D 178e89000
-
-2) in the comment of dma_link_range function, it is said: " @dma_offset nee=
-ds to be advanced by the caller with the size of previous page that was lin=
-ked + DMA address returned for the previous page".
-Is this description correct? I don't understand the part "+ DMA address ret=
-urned for the previous page ".
-In my codes, let's say I call this function to link 10 pages, the first dma=
-_offset is 0, second is 4k, third 8k. This worked for me. I didn't add the =
-previously returned dma address.
-Maybe I need more test. But any comment?
-
-Thanks,
-Oak
-
-> -----Original Message-----
-> From: Jason Gunthorpe <jgg@ziepe.ca>
-> Sent: Monday, June 10, 2024 1:25 PM
-> To: Zeng, Oak <oak.zeng@intel.com>
-> Cc: Leon Romanovsky <leon@kernel.org>; Christoph Hellwig <hch@lst.de>;
-> Robin Murphy <robin.murphy@arm.com>; Marek Szyprowski
-> <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
-> Deacon <will@kernel.org>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
-> Brost, Matthew <matthew.brost@intel.com>; Hellstrom, Thomas
-> <thomas.hellstrom@intel.com>; Jonathan Corbet <corbet@lwn.net>; Jens
-> Axboe <axboe@kernel.dk>; Keith Busch <kbusch@kernel.org>; Sagi
-> Grimberg <sagi@grimberg.me>; Yishai Hadas <yishaih@nvidia.com>;
-> Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>; Tian, Kevin
-> <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
-> J=E9r=F4me Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
-> foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
-> iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
-> kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
-> <bvanassche@acm.org>; Damien Le Moal
-> <damien.lemoal@opensource.wdc.com>; Amir Goldstein
-> <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
-> <martin.petersen@oracle.com>; daniel@iogearbox.net; Williams, Dan J
-> <dan.j.williams@intel.com>; jack@suse.com; Zhu Yanjun
-> <zyjzyj2000@gmail.com>; Bommu, Krishnaiah
-> <krishnaiah.bommu@intel.com>; Ghimiray, Himal Prasad
-> <himal.prasad.ghimiray@intel.com>
-> Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to
-> two steps
->=20
-> On Mon, Jun 10, 2024 at 04:40:19PM +0000, Zeng, Oak wrote:
-> > Thanks Leon and Yanjun for the reply!
-> >
-> > Based on the reply, we will continue use the current version for
-> > test (as it is tested for vfio and rdma). We will switch to v1 once
-> > it is fully tested/reviewed.
->=20
-> I'm glad you are finding it useful, one of my interests with this work
-> is to improve all the HMM users.
->=20
-> Jason
 
