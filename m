@@ -4,116 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B68E5C27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 12:21:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22DE9C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 13:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=; b=0oZRab7e/VcpEZ5TIhJ+QfjkKK
-	ka+pcdNHhv+UZf11vxsS/usFNHJ7DEm7A3aTofgLn5VVtYVdhMI/matcd5x5IbOSjlXd42tH8tSbX
-	xoSaxif8K48P94bomc7SF9MWizMg6HhCQgehyoteQlxZYbi/sOQZq5+ttqwVW20wwekinp8V+WhR+
-	VC7OINXieBDmN+r6zg8bNDeINpEe4GKHS3UdYJmhCccoZNJB2d5enKbQNqPz08uW/vOONtluK9/n5
-	YoApu0duoZRXhOv1cfNWyuRF7V00bhKs4bhjZXH7/s0XlHrRKyf03jUuYnCogA8m7yMwNWf7Q77EW
-	DBhMmV+w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QBMW5M/9uCuip/bSRX1dLBTS2ODu1sCKXWa+SRNoHPM=; b=A0NW5D8O0m++614kBpOfj+UthG
+	zV222Jw7GHR5OfbSgqAUJM5+COXsMyFA+mk5Z0oaDAaXWXUba6KNG7oHTtgIK6Z2rnSzGymZBsooS
+	0mH3m8B6kt5BttVEvtPJzj0ecth+VbTbuSM2yDHJlNgEJhuofTtTqFibYGe14ZLpCVCI3lsc0fMg5
+	POQfV4IAMN/QOHAol9SpODOLBroUVlCdx1G9NYSyJ99ZRbsycF1hiqspEWfBLpGaczS+7eYlTMbv1
+	auFmSSlOvd8AEKJ+jGPVL5EoaseKziVL1cvVjqYH318296Av/e4wX2fqMaGX2MsT4dJtbS0pYtZPA
+	A91EXBPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHMyX-0000000CYu1-1Kky;
-	Wed, 12 Jun 2024 12:21:13 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sHNhZ-0000000CgL3-2msS;
+	Wed, 12 Jun 2024 13:07:45 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHMyT-0000000CYsv-1hvP
+	id 1sHNhW-0000000CgKR-42Nh
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Jun 2024 12:21:12 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Wed, 12 Jun 2024 13:07:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718197662;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QBMW5M/9uCuip/bSRX1dLBTS2ODu1sCKXWa+SRNoHPM=;
+	b=PLj1fo7ZjcDVjvtB+6CiOz15oLfMcCQFttWkylmZkCV3sB4Q9TEYchmWO3CfvW8E6iA5xH
+	xDpFLpBrBO036ehPzWZNpvDr2DRgG6xz3l8Mx9ByP7q2s+ZIicvRUDnNcoPrFLGlyF0VFt
+	GSJxryWyH30h6HlUgnh1mq3FmS8XxNA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-374-PB9uv3aOMD-2o40qdK_hag-1; Wed,
+ 12 Jun 2024 09:07:38 -0400
+X-MC-Unique: PB9uv3aOMD-2o40qdK_hag-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E08625C1BF;
-	Wed, 12 Jun 2024 12:21:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718194866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
-	b=OzMbKuABKKp8eEenmZY3/W/U/R097LIAnM/aC/M0ga4PDa5apls60PdPk3yV+7SfGBeknp
-	ObyMPdxTvDs5wCG05SrnZgzERaFieT/vptbO8ozavosVC1sUp0kYjlkQGp/JmsHatAosLg
-	oGpnH0BM7UwxmT6k8qGUDj0X3GfGUKE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718194866;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
-	b=g+O9ZL+iTX4Bi64mmZS9gp1uRrOKmfIBRPC0Af/KmDZG+EZX8a9EmUqoIEgBvKZG0JJa+l
-	F61tkGcAyoJ/a6Cw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718194866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
-	b=OzMbKuABKKp8eEenmZY3/W/U/R097LIAnM/aC/M0ga4PDa5apls60PdPk3yV+7SfGBeknp
-	ObyMPdxTvDs5wCG05SrnZgzERaFieT/vptbO8ozavosVC1sUp0kYjlkQGp/JmsHatAosLg
-	oGpnH0BM7UwxmT6k8qGUDj0X3GfGUKE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718194866;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
-	b=g+O9ZL+iTX4Bi64mmZS9gp1uRrOKmfIBRPC0Af/KmDZG+EZX8a9EmUqoIEgBvKZG0JJa+l
-	F61tkGcAyoJ/a6Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D62CA1372E;
-	Wed, 12 Jun 2024 12:21:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nG5BNLKSaWZYJAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 12 Jun 2024 12:21:06 +0000
-Date: Wed, 12 Jun 2024 14:21:06 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	Hannes Reinecke <hare@suse.de>, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [RFC blktests v2 3/3] contrib: add remote target setup/cleanup
- script
-Message-ID: <36n7xm55qnlht6mc6n7qgqneugzbepsqcrq22lspalqxfsar3j@l4uukejcfupf>
-References: <20240612110444.4507-1-dwagner@suse.de>
- <20240612110444.4507-4-dwagner@suse.de>
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A4C3019560B3;
+	Wed, 12 Jun 2024 13:07:36 +0000 (UTC)
+Received: from [10.22.32.53] (unknown [10.22.32.53])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 735D11956053;
+	Wed, 12 Jun 2024 13:07:34 +0000 (UTC)
+Message-ID: <868707d5-bbe5-4f10-8395-333caa867a82@redhat.com>
+Date: Wed, 12 Jun 2024 09:07:33 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240612110444.4507-4-dwagner@suse.de>
-X-Spamd-Result: default: False [-3.79 / 50.00];
-	BAYES_HAM(-2.99)[99.95%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/1] nvme-multipath: implement "queue-depth" iopolicy
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "emilne@redhat.com"
+ <emilne@redhat.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "jrani@purestorage.com" <jrani@purestorage.com>,
+ "randyj@purestorage.com" <randyj@purestorage.com>,
+ "hare@kernel.org" <hare@kernel.org>
+References: <20240612002034.1299922-1-jmeneghi@redhat.com>
+ <20240612002034.1299922-2-jmeneghi@redhat.com>
+ <1307c447-65bb-430c-88e1-045191d8d8ba@nvidia.com>
+Content-Language: en-US
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <1307c447-65bb-430c-88e1-045191d8d8ba@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240612_052109_623693_122799AB 
-X-CRM114-Status: UNSURE (   9.72  )
+X-CRM114-CacheID: sfid-20240612_060743_105007_B4F918BC 
+X-CRM114-Status: UNSURE (   8.40  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -129,19 +94,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 12, 2024 at 01:04:44PM GMT, Daniel Wagner wrote:
-> +# blktests calls this script to setup/teardown remote targets. blktests passes
-> +# all relevant information via the command line, e.g. --hostnqn. The interface
-> +# between blktests and this script is 'documentent' here in build_parser
-> +# function.
 
-I just had an offline discussion with Hannes. This script is setting
-up/tearing down the targets on demand. This is fine for a remote Linux
-box the soft target running use case.
+On 6/11/24 21:44, Chaitanya Kulkarni wrote:
+>>    /*
+>>     * List of workarounds for devices that required behavior not specified in
+>>     * the standard.
+>> @@ -195,6 +197,7 @@ enum {
+>>    	NVME_REQ_CANCELLED		= (1 << 0),
+>>    	NVME_REQ_USERCMD		= (1 << 1),
+>>    	NVME_MPATH_IO_STATS		= (1 << 2),
+>> +	NVME_MPATH_CNT_ACTIVE	= (1 << 3),
+> nit:- please align above to existing code ...
 
-Hannes' idea/requirement that it should also support static setups. E.g.
-the admin setups the real remote target and provides the ns uuids, which
-test should run against (this is very similar to TESTS_DEVS). Thus the
-tests should only operate on ns uuids and through this script blktests
-can ask for the ns uuids.
+Ok... there must be something wrong with my tab stop.... are we using 8 space tabs in linux?
+
+Here's what I have in my .vimrc
+
+set smartindent              " always set smartindenting on
+set autoindent               " always set autoindenting on
+set backspace=2              " Influences the working of <BS>, <Del>, CTRL-W and CTRL-U in Insert mode.
+set noexpandtab              " insert tabs instead of spaces
+set textwidth=0              " Don't wrap words by default
+set shiftwidth=4 smarttab    " number of spaces to use for each step of indent
+set tabstop=4 softtabstop=0  " setting tab stops to be different from the indentation width
+
+What is recommended setting for these ?
+
+set shiftwidth=8 ?
+set tabstop=8 ?
+
+/John
+
 
