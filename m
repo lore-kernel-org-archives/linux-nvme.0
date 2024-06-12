@@ -4,92 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C63EC27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 03:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68023C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 03:51:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0hnbQEod74zEsc3xGCFcX6S0bBHUsC8JGcAKSWF8hiY=; b=cTijUYqzDxM7KkyQi2QJHt/tXe
-	fT0mETdXwGZqhnqJzrTUi4wZPTS/Rxn997EZDyndEarXgjBXwPHYPmnRJ9jFUw1bo4//0ANpkJAe3
-	j4ZNNx8B4uZuEquXIBrdZhAvtIRwKAUtts62uSd+3itQ2AdABqpzqLyktOk3Uvcxjqk76UJfjxqDs
-	ghXdVja9nJ7E+STaIPmo5T5DAs5aJI1RW93mXCnVQ8KQMazpinKIb2LqzsBRHekWKrAtNqcRJJpLS
-	u0BdlLe4g53R68+0yYV/6Z5UWd6uC2bBAg3nldkXAfXaT82x3YvU0/Rpb5umvY3mh6h5TPqWBdVm0
-	FzYAXYNw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=t0RTx3EaQ+M8bxrkBxK7TMUCfx+mnUwVjynNcSZ3MY4=; b=xEnQP77a0GaEMQkcKY9Od4Li/f
+	wVteiiA36MEvnwRowyVW0+zcYQp6mbW+VunYYV43kDouOcKun6GP8WdvR4DGPHf5g9wDJNKcL7ozQ
+	2vE9gRaUYVT7dibKdQVRPuzuEaq3hgAna3yWtrWqrexdWZQFw0gmDAKjIpcFmR7/58FklXhf+H6g6
+	IreNVz4aBOSx2MVfmMsH14No8GyiICEzAZ0vMBin3IcpfWMmLcqPsC0dUUwMrT78AMriRkMxmMBzi
+	+64B2gas8wFZCx2DSjPsLVm6omj2QoIPND8rANlACFJaZqq/wp0+3r5qYX8o5yQekYWLFQNpqyr5W
+	Wq4l9HZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHEye-0000000AwVO-2APP;
-	Wed, 12 Jun 2024 03:48:48 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1sHF1N-0000000Axrl-2eJg;
+	Wed, 12 Jun 2024 03:51:37 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sH7Jh-0000000A2m6-3ZcI;
-	Tue, 11 Jun 2024 19:38:03 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4VzJqY2LNKzlgMVP;
-	Tue, 11 Jun 2024 19:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1718134673; x=1720726674; bh=0hnbQEod74zEsc3xGCFcX6S0
-	bBHUsC8JGcAKSWF8hiY=; b=YL4MxZ10FXpIpPLCE4CZCH+u/phW+zPSavUSnees
-	X3hFh+szuiEXRkWSrqQXNYIhU0UJbzi/GHx8Kl9pzwID8L7djiktSWoqSJawtcTN
-	eACQHyinxvwid5PBDKOPXHioaILwfZth5RTqz1dRgkYDlk023V89V3LY0fPlpXR0
-	ZjGrS0ATmGTxDvR88c454EcuD5z2B7TEK4AUazeGvS0OkvYK9K5aLe/SEJZB1fEB
-	WtswPKKjQnmZAIZ2btE2JJFpRK4bbK63mBG2amE83a1CL9Fd2be6YrLh9YZh7k7F
-	6DXimFz0V4Au4RPDc4bBe0TfqrqfZwLel7pBkDBg2DZJFg==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id TYPL5HYORF0n; Tue, 11 Jun 2024 19:37:53 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4VzJqD5hVvzlgMVN;
-	Tue, 11 Jun 2024 19:37:44 +0000 (UTC)
-Message-ID: <f5a5f79e-43f5-46ae-9c11-371e8e558685@acm.org>
-Date: Tue, 11 Jun 2024 12:37:42 -0700
+	id 1sHF1H-0000000AxoH-2IUr
+	for linux-nvme@lists.infradead.org;
+	Wed, 12 Jun 2024 03:51:34 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 939CE68BEB; Wed, 12 Jun 2024 05:51:22 +0200 (CEST)
+Date: Wed, 12 Jun 2024 05:51:22 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
+	Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH 03/11] block: remove the BIP_IP_CHECKSUM flag
+Message-ID: <20240612035122.GA25733@lst.de>
+References: <20240607055912.3586772-1-hch@lst.de> <20240607055912.3586772-4-hch@lst.de> <yq1frtl3tmw.fsf@ca-mkp.ca.oracle.com> <20240610115732.GA19790@lst.de> <yq1bk492dv3.fsf@ca-mkp.ca.oracle.com> <20240610122423.GB21513@lst.de> <yq1zfrrz2hj.fsf@ca-mkp.ca.oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/26] block: remove blk_flush_policy
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Richard Weinberger <richard@nod.at>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
- Yu Kuai <yukuai3@huawei.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
- drbd-dev@lists.linbit.com, nbd@other.debian.org,
- linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
- virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
- linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
-References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-13-hch@lst.de>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240611051929.513387-13-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yq1zfrrz2hj.fsf@ca-mkp.ca.oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_123802_097930_AD26729D 
-X-CRM114-Status: UNSURE (   5.69  )
-X-CRM114-Notice: Please train this message.
-X-Mailman-Approved-At: Tue, 11 Jun 2024 20:48:17 -0700
+X-CRM114-CacheID: sfid-20240611_205131_770846_599B1949 
+X-CRM114-Status: GOOD (  24.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,8 +70,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/10/24 10:19 PM, Christoph Hellwig wrote:
-> Fold blk_flush_policy into the only caller to prepare for pending changes
-> to it.
-  Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+On Tue, Jun 11, 2024 at 03:51:27PM -0400, Martin K. Petersen wrote:
+> > But how do you even toggle the flag?  There is no no code to do that.
+> > And if you already have a special kernel module for that it really
+> > should just use a passthrough request to take care of that.
+> 
+> A passthrough command to the controller?
+
+A passthrough command to the LU that has a mismatching checksum.
+
+> > Note that unlike the NOCHECK flag which I just cleaned up because they
+> > were unused, this one actually does get in the way of the architecture
+> > of the whole series :( We could add a per-bip csum_type but it would
+> > feel really weird.
+> 
+> Why would it feel weird? That's how it currently works.
+
+Because there's no way to have it set to anything but the per-queue
+one.  
+
+> The qualification tool issues a flurry of commands injecting errors at
+> various places in the stack to identify that the right entity (block
+> layer, controller, storage device) catch a bad checksum, reference tag,
+> etc.
+
+How does it do that?  There's no actualy way to make it mismatch.
+
 
