@@ -4,75 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57994C27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 15:52:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B749C27C77
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 17:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Dp9jB3/zWqEW0lejCiauS6edrezGeGq1zpJr+Kx+fZI=; b=jEr82A9YtSJ0nHrtojsTQx3lYM
-	9+llkXcu0/kJwCyLDBW548eJLyex6y2qqEfIQfs2JBOOngeJrXrgyIgtXkuChz1xlU2GgEilt7JxK
-	h1jZNF0xOp7cqrzHZxWeLAN8+EU6oTqsJJmlmi6SqOuHAdBk41fTn8Dk77OABSBU0upImGkChZFfC
-	nCxzoL8tlVfh4XhZa03R70RaqZDGBYVp/DP2skj7Ii12LiQWcYZVtQ+0vnrWnmjtM4gEXqxSpGN33
-	JJib5ib/9zIbBn89vJvMA4XLXktny9RVsytUE3reHoN0wA4N4jszJl8fIR28tkLCWpa4J1oeiLpe8
-	ZyjFdgDw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hksk4wAbIz8bSZzaWxnZT/zZszVoyi90hMirDssVrE4=; b=uF5bYihxaRguxpQYXMff4mizBf
+	5pmcG16OexnRPvij6pjGsTKSj7HiY2a4K5C9JLcbENNPjgpIt1/j2g5Zf6S/xl1P9RZvOej+YGENl
+	vazblQpzcyVt7c281ro0hmQ050EQ0H7/PBcLXiz7sTBaRjOy/Lj+ZN5ISb079jvGmY3K7Dv+baED2
+	dgnj/EFH+m4QFyGjqUeFIxHLqS9toU6gJg9mEjcY9cgoIedS/Bfgk6CivlK/Fr2P0TWsouwjs+0Ja
+	TvrGQYWW4wBBhKcu90R3DTLyewp0lRTlKARCz5G9K9/0RNABZn5iZ3nGX1GLG+jz7cwV89SZcCMXu
+	MeSQtBwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHQGa-0000000DFI7-4BR5;
-	Wed, 12 Jun 2024 15:52:05 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1sHRLZ-0000000DTTq-2Wes;
+	Wed, 12 Jun 2024 17:01:17 +0000
+Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHQGY-0000000DFHI-3EFP
+	id 1sHRLV-0000000DTRh-09VJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Jun 2024 15:52:04 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 45CFbEQ4024314
-	for <linux-nvme@lists.infradead.org>; Wed, 12 Jun 2024 08:52:00 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc :
- content-transfer-encoding : content-type : date : from : in-reply-to :
- message-id : mime-version : references : subject : to; s=s2048-2021-q4;
- bh=Dp9jB3/zWqEW0lejCiauS6edrezGeGq1zpJr+Kx+fZI=;
- b=hV7y+HxNxvW3yl2z+NBnGRGgju03oovha427d0bVPLpvulwd7Dpxq4Z/NgoozRYJOvcR
- +Xt/4MxiTMlgoUXQAI1wFf+hX0TZ371I6GFpGXgXZYDPeqsTqNJsqQCuXrjkUtZbEZLZ
- 66KEAGqPhDNDAwHI9Nc2QZmCkD7ILOwWNOvnsnuhKhv38YElYtKTzpjV6iuJ5CQZsYmc
- hSAus7BVC9RGLNJGgiUuanNri6MFatJb0TvpMAwnG0w+pslM1+mt45/+f+d6xKPDcJnc
- HxL7cuBYW+KevdR72T9866U/2E5/zvlZetAbPFaqIFQgjRNh8Wm42FYboUK1oU0mTctk Dg== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 3yqefm836f-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 12 Jun 2024 08:52:00 -0700
-Received: from twshared26916.05.ash9.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Wed, 12 Jun 2024 15:51:58 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 06B8FF5EA646; Wed, 12 Jun 2024 08:51:47 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>
-CC: <hch@lst.de>, <sagi@grimberg.me>, <paulmck@kernel.org>,
-        <davidgow@google.com>, <akpm@linux-foundation.org>,
-        <venkat88@linux.vnet.ibm.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 2/2] nvme: fix namespace removal list
-Date: Wed, 12 Jun 2024 08:51:35 -0700
-Message-ID: <20240612155135.3060667-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240612155135.3060667-1-kbusch@meta.com>
-References: <20240612155135.3060667-1-kbusch@meta.com>
+	Wed, 12 Jun 2024 17:01:15 +0000
+Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-5bae827df63so7725eaf.3
+        for <linux-nvme@lists.infradead.org>; Wed, 12 Jun 2024 10:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1718211669; x=1718816469; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hksk4wAbIz8bSZzaWxnZT/zZszVoyi90hMirDssVrE4=;
+        b=nuT1bT1zVMKudEI1r6D98VV2WIlzRWmkNlaAjchjmj4qT36dXn9c5jQZ85Z0Ipm2Od
+         B9YWHaRPzOjRB9f3FohEMlEBX1zsp8ctgz8e9BqPWni1ZewsXaQ8jK7ZaPa7hb6NHBpG
+         v0bBPOqTlzfeT535vA1f9qiE+Yvs7BP3dIfaTOStvlHLiYF8lMrNb7iolVhzeGFe7chQ
+         SNamnbk5l6w0Xt8kd1TOVgNUENOlHvHW1HLnCvfzfBk1wrJjouQKefa3ewXBM4LSThGe
+         QpiZFMYW2jJO2vKUAULclptKT2c70YTD77Dzf0k4n6DOCUYbFRPjk2A2LabdVIxmbVrn
+         HW0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718211669; x=1718816469;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hksk4wAbIz8bSZzaWxnZT/zZszVoyi90hMirDssVrE4=;
+        b=oUCIK8PTg/4JYk3VzCGDJsGjSiFq9mlZHhBenUHq5XlhoaG/TBYTUhnQJ92YVHn1hx
+         jbuW9BxUQ/5SF0VqOu2MdeaDJYK2fdptwNZaA1Yq5Dr34UZxfzffV64YJHY/zJKUfOFr
+         H3t+pHwtV5kiOf7zL/e3uSkjaR91yr7wWO2fGuP7/jAp9deFP/U/daRvohlWAr6nVpnc
+         oFHeFrspyp2y06NBFWhHe0vU5zXIj2Mnxx8uLoQwaBwQGwiyG5oZss/7sG5x0zdTsKbO
+         1eByCyWy+PVfy1RF4RZr/UhtnzC+dnY0iDt+M59nAnpEDCJkf4sQy8eqpBzXV9qE1rig
+         o64g==
+X-Gm-Message-State: AOJu0YwVlfuj4UmwWNPxwBiXEVoBMNasUym2KUrJMxvGROJfrz0/VrxU
+	+Q+AgoASlv0qxM0yEbAGh8EpA4lbEe9A5jkqFCqrgax/wFAWQZWhWIb4gGS7qaE=
+X-Google-Smtp-Source: AGHT+IEShVwbkX8uANOzA7Y6++m3AdDkF7i2edh/ZcjLmOq4mCjGmcRKppMnpDEeIrhOSy7IAhNZyw==
+X-Received: by 2002:a4a:a5ca:0:b0:5ba:e11d:a2ae with SMTP id 006d021491bc7-5bb3b9f4ef7mr2474760eaf.1.1718211667997;
+        Wed, 12 Jun 2024 10:01:07 -0700 (PDT)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ba977e03d5sm2464036eaf.22.2024.06.12.10.01.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 10:01:07 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: hch@lst.de, kbusch@kernel.org, martin.petersen@oracle.com, 
+ Anuj Gupta <anuj20.g@samsung.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+ Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20240610111144.14647-1-anuj20.g@samsung.com>
+References: <CGME20240610111927epcas5p1bb534d0a093a9d1243a78a6a93065df7@epcas5p1.samsung.com>
+ <20240610111144.14647-1-anuj20.g@samsung.com>
+Subject: Re: [PATCH v3] block: unmap and free user mapped integrity via
+ submitter
+Message-Id: <171821166696.49890.9778377661533135590.b4-ty@kernel.dk>
+Date: Wed, 12 Jun 2024 11:01:06 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: pbYPUus99QRrb0P984F_erxtbBEjFSUI
-X-Proofpoint-ORIG-GUID: pbYPUus99QRrb0P984F_erxtbBEjFSUI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_08,2024-06-12_02,2024-05-17_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.5-dev-2aabd
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240612_085203_025723_9131632B 
-X-CRM114-Status: GOOD (  15.65  )
+X-CRM114-CacheID: sfid-20240612_100113_108417_423BED5A 
+X-CRM114-Status: UNSURE (   8.35  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,40 +96,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
 
-This function wants to move a subset of a list from an element to the
-end to another list, so do that with the new list_cut helper instead of
-using the wrong list splice.
+On Mon, 10 Jun 2024 16:41:44 +0530, Anuj Gupta wrote:
+> The user mapped intergity is copied back and unpinned by
+> bio_integrity_free which is a low-level routine. Do it via the submitter
+> rather than doing it in the low-level block layer code, to split the
+> submitter side from the consumer side of the bio.
+> 
+> 
 
-Fixes: be647e2c76b27f4 ("nvme: use srcu for iterating namespace list")
-Reported-by: Venkat Rao Bagalkote <venkat88@linux.vnet.ibm.com>
-Tested-by: Venkat Rao Bagalkote <venkat88@linux.vnet.ibm.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f5d150c62955d..30fec15872b3d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3959,9 +3959,10 @@ static void nvme_remove_invalid_namespaces(struct =
-nvme_ctrl *ctrl,
-=20
- 	mutex_lock(&ctrl->namespaces_lock);
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
--		if (ns->head->ns_id > nsid)
--			list_splice_init_rcu(&ns->list, &rm_list,
--					     synchronize_rcu);
-+		if (ns->head->ns_id > nsid) {
-+			list_cut(&rm_list, &ctrl->namespaces, &ns->list);
-+			break;
-+		}
- 	}
- 	mutex_unlock(&ctrl->namespaces_lock);
- 	synchronize_srcu(&ctrl->srcu);
---=20
-2.43.0
+[1/1] block: unmap and free user mapped integrity via submitter
+      commit: e038ee6189842e9662d2fc59d09dbcf48350cf99
+
+Best regards,
+-- 
+Jens Axboe
+
+
 
 
