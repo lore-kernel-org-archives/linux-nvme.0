@@ -4,33 +4,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BFEDC2BA12
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 05:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B589CC27C75
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 05:10:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WJjI0G8yxzZyhVpNSsBpubRGEORD2yt7XNjrMo+9CiQ=; b=tHAftouKelfdJ8a+RXYhx1tZq0
-	XQ/q/fisxQLrXn11RdAJjm/qGvJf6vbEfavYOtWE9HYqek+O8q/7bhxeIX07dfdMjxGmliI/38+m5
-	HceXy9ki/MG5RFIsw5nF43ybQCi6HgZPHsh+ixz2BG3s31/qafljWNOg0N2txSM0Cqek7FsmND7Tx
-	phanmEAGX4GFIBaYhNw57QX0SlwKzjlavzs/mmpHwjTGazXAe+ERwbsDbmZ8tyzlcptlGKJjGCRx4
-	e0ifZ85Loazv7gokc55cEi6kjG9WnMhikDeFXSWWQWo4xVcPE74uzI/oibHBC6eGIE0sy7lhwBHnr
-	uoS4J+dw==;
+	bh=dIwYGkX4/4dGLyGh5yUblzd4L1p9u7UcPnuemPo2wBc=; b=e4SSHEZlboilnFjPIQcxrwjq7o
+	2/m1RicnS3YfGZ2XZ+Yku4ZDh0jFiAL7Xa8Y66vkcsFd+g31Kl04mj3YpQf8zlxpCdoq4BdYHIDUo
+	im72A18kQxRKo2LSm1ZOaJW+62he0O1+q9MKOEvysAs1Fw6k/h81M+UYVI8TVuW3KZG1dhZWXgodl
+	LKnrLVLQtvOatz/fecM/+mTG6nRJlxrbeEX8FhIDVxLAJ/4MI7WktExyBmtL7PoF2cvIFaE9e/6E5
+	Kx6MiXtuOJOOCJongLyQNnkLjM5Jso0znMB44hmGiph2e8/xoEPjJdPuoal7xByY21We5iYfNJUlg
+	ikxZOvnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHGFv-0000000B6g8-0INL;
-	Wed, 12 Jun 2024 05:10:43 +0000
+	id 1sHGFy-0000000B6hw-14Zn;
+	Wed, 12 Jun 2024 05:10:46 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHFyu-0000000B4ST-0IGR;
-	Wed, 12 Jun 2024 04:53:09 +0000
+	id 1sHG9C-0000000B5vk-1WEq;
+	Wed, 12 Jun 2024 05:03:47 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id D6EFD68BEB; Wed, 12 Jun 2024 06:52:57 +0200 (CEST)
-Date: Wed, 12 Jun 2024 06:52:57 +0200
+	id 0069168C4E; Wed, 12 Jun 2024 07:03:41 +0200 (CEST)
+Date: Wed, 12 Jun 2024 07:03:41 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
+To: Damien Le Moal <dlemoal@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Richard Weinberger <richard@nod.at>,
@@ -55,19 +55,17 @@ Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
 	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
 	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 13/26] block: move cache control settings out of
- queue->flags
-Message-ID: <20240612045257.GA26776@lst.de>
-References: <20240611051929.513387-1-hch@lst.de> <20240611051929.513387-14-hch@lst.de> <34a7b2a4-b0cb-4580-85c9-b598fd70449e@suse.de>
+Subject: Re: [PATCH 21/26] block: move the poll flag to queue_limits
+Message-ID: <20240612050341.GA27049@lst.de>
+References: <20240611051929.513387-1-hch@lst.de> <20240611051929.513387-22-hch@lst.de> <d1775d3f-daaa-4193-9f68-06ec47563b35@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <34a7b2a4-b0cb-4580-85c9-b598fd70449e@suse.de>
+In-Reply-To: <d1775d3f-daaa-4193-9f68-06ec47563b35@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240611_215308_349883_24B2B09D 
-X-CRM114-Status: UNSURE (   8.13  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240611_220346_679994_3105C794 
+X-CRM114-Status: GOOD (  12.17  )
 X-Mailman-Approved-At: Tue, 11 Jun 2024 22:10:40 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,7 +81,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A friendly reminder that I've skipped over the full quote.  Please
-properly quote mails if you want your replies to be seen.
+On Tue, Jun 11, 2024 at 05:21:07PM +0900, Damien Le Moal wrote:
+> Kind of the same remark as for io_stat about this not really being a device
+> feature. But I guess seeing "features" as a queue feature rather than just a
+> device feature makes it OK to have poll (and io_stat) as a feature rather than
+> a flag.
 
+So unlike io_stat this very much is a feature and a feature only as
+we don't even allow changing it.  It purely exposes a device (or
+rather driver) capability.
 
