@@ -4,104 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CE91C27C77
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 11:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B68E5C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 12:21:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e/HFuU2SPwb/S+c7dHqYVCXSW+Q8mLdg5oHfD8AeYgQ=; b=Ppv6M93/4d20T6+BvihYhILzoD
-	P1VosA+REaUsrGSm0JtAx39OYKxeNic3iaB0UW90w3/mGgU54eFtL5khSSTrPRwnUtEsf03ze0Fx7
-	3VMYcQhHoIFFdEoQyqBeEC/uFCdhsJactg2xXffOhMMMyGJKehnMfMdPboelwwwZszMdoz4s30+Rs
-	uWAhSkQBnrzxxvPbrGh//FKrJV7KIMNIIiAzAWXF1hMqwdo3Hp7wrdcrOJx2MnClU2IPMsKX/Jh6c
-	DHec15mZKq7pUfpMoIsvneCovqEIkKDOzAGhn/wDLxSW1/eu/phLXD2fVIN4VQvkv/6AUJ/zx3fYk
-	KxgVxWdg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=; b=0oZRab7e/VcpEZ5TIhJ+QfjkKK
+	ka+pcdNHhv+UZf11vxsS/usFNHJ7DEm7A3aTofgLn5VVtYVdhMI/matcd5x5IbOSjlXd42tH8tSbX
+	xoSaxif8K48P94bomc7SF9MWizMg6HhCQgehyoteQlxZYbi/sOQZq5+ttqwVW20wwekinp8V+WhR+
+	VC7OINXieBDmN+r6zg8bNDeINpEe4GKHS3UdYJmhCccoZNJB2d5enKbQNqPz08uW/vOONtluK9/n5
+	YoApu0duoZRXhOv1cfNWyuRF7V00bhKs4bhjZXH7/s0XlHrRKyf03jUuYnCogA8m7yMwNWf7Q77EW
+	DBhMmV+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHLq1-0000000COMa-3GBC;
-	Wed, 12 Jun 2024 11:08:21 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1sHMyX-0000000CYu1-1Kky;
+	Wed, 12 Jun 2024 12:21:13 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHLpy-0000000COLr-1VcR
+	id 1sHMyT-0000000CYsv-1hvP
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Jun 2024 11:08:20 +0000
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CARK38024687;
-	Wed, 12 Jun 2024 11:07:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=e
-	/HFuU2SPwb/S+c7dHqYVCXSW+Q8mLdg5oHfD8AeYgQ=; b=I4SMFdiZPHTzVP40H
-	BykzYufoIjBW8DaHARi6EQj1NAiBM2W1Wn8Fw3xZgKYVGtJ965/C8sioa+HYkI7P
-	bHJgksVzrsZgnFq/AY+B1Lrxk5FhBla5tVMaREqJtaM+VtNSkqni/VnCNVnwzyBz
-	uINbIofhJWbGlwGkVVsHtYxwwgfyj5P9s+16OsL/QABmYyQ2lMNck5HhUrVzNjxH
-	d+rkXeUwK6/pRsuCM8iGlDnygBtzrICV9wp+fUw4Dpooi9sDwxh3IQECm72K04tc
-	RdkiJe2l1ox32hd0T16g9Bfim2B6tH9nCwNaZPIwth1Id2LTns9LTUz3WwWMC9+w
-	U7rzg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yq7rm0ept-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 11:07:32 +0000 (GMT)
-Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45CB7WsX019006;
-	Wed, 12 Jun 2024 11:07:32 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yq7rm0epq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 11:07:32 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45C9g68E020063;
-	Wed, 12 Jun 2024 11:07:31 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3yn34n4v7t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 11:07:31 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45CB7SB219530486
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Jun 2024 11:07:30 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 53FF45807A;
-	Wed, 12 Jun 2024 11:07:28 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 79E385806B;
-	Wed, 12 Jun 2024 11:07:25 +0000 (GMT)
-Received: from [9.43.104.93] (unknown [9.43.104.93])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 12 Jun 2024 11:07:25 +0000 (GMT)
-Message-ID: <15192c9d-ce45-4dbc-bdbb-752cdfd4e663@linux.ibm.com>
-Date: Wed, 12 Jun 2024 16:37:23 +0530
+	Wed, 12 Jun 2024 12:21:12 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E08625C1BF;
+	Wed, 12 Jun 2024 12:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718194866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
+	b=OzMbKuABKKp8eEenmZY3/W/U/R097LIAnM/aC/M0ga4PDa5apls60PdPk3yV+7SfGBeknp
+	ObyMPdxTvDs5wCG05SrnZgzERaFieT/vptbO8ozavosVC1sUp0kYjlkQGp/JmsHatAosLg
+	oGpnH0BM7UwxmT6k8qGUDj0X3GfGUKE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718194866;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
+	b=g+O9ZL+iTX4Bi64mmZS9gp1uRrOKmfIBRPC0Af/KmDZG+EZX8a9EmUqoIEgBvKZG0JJa+l
+	F61tkGcAyoJ/a6Cw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718194866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
+	b=OzMbKuABKKp8eEenmZY3/W/U/R097LIAnM/aC/M0ga4PDa5apls60PdPk3yV+7SfGBeknp
+	ObyMPdxTvDs5wCG05SrnZgzERaFieT/vptbO8ozavosVC1sUp0kYjlkQGp/JmsHatAosLg
+	oGpnH0BM7UwxmT6k8qGUDj0X3GfGUKE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718194866;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qvX6rH0pkljDUwUMsIyxIci4p1n6qg/XubZcJ1g3AwM=;
+	b=g+O9ZL+iTX4Bi64mmZS9gp1uRrOKmfIBRPC0Af/KmDZG+EZX8a9EmUqoIEgBvKZG0JJa+l
+	F61tkGcAyoJ/a6Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D62CA1372E;
+	Wed, 12 Jun 2024 12:21:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nG5BNLKSaWZYJAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 12 Jun 2024 12:21:06 +0000
+Date: Wed, 12 Jun 2024 14:21:06 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	Hannes Reinecke <hare@suse.de>, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [RFC blktests v2 3/3] contrib: add remote target setup/cleanup
+ script
+Message-ID: <36n7xm55qnlht6mc6n7qgqneugzbepsqcrq22lspalqxfsar3j@l4uukejcfupf>
+References: <20240612110444.4507-1-dwagner@suse.de>
+ <20240612110444.4507-4-dwagner@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] nvme-pci : Fix EEH failure on ppc after subsystem
- reset
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
-        sagi@grimberg.me, gjoyce@linux.ibm.com, axboe@fb.com
-References: <20240604091523.1422027-1-nilay@linux.ibm.com>
- <20240604091523.1422027-2-nilay@linux.ibm.com>
- <CAFL455ndCZipuN1bFTWgqjj4Sfh6AB3WUX014W1V2WY4gqzK8w@mail.gmail.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <CAFL455ndCZipuN1bFTWgqjj4Sfh6AB3WUX014W1V2WY4gqzK8w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ZwVwC0O3uFc1K0LRX84VwNPnWBKVzplB
-X-Proofpoint-ORIG-GUID: wWlgI_2vIgWHtf0rnRQRDKhEmYRM8BMC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_06,2024-06-12_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
- suspectscore=0 adultscore=0 malwarescore=0 priorityscore=1501
- clxscore=1015 impostorscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406120079
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240612110444.4507-4-dwagner@suse.de>
+X-Spamd-Result: default: False [-3.79 / 50.00];
+	BAYES_HAM(-2.99)[99.95%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240612_040818_781357_61AA3D0F 
-X-CRM114-Status: GOOD (  21.44  )
+X-CRM114-CacheID: sfid-20240612_052109_623693_122799AB 
+X-CRM114-Status: UNSURE (   9.72  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,61 +129,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Jun 12, 2024 at 01:04:44PM GMT, Daniel Wagner wrote:
+> +# blktests calls this script to setup/teardown remote targets. blktests passes
+> +# all relevant information via the command line, e.g. --hostnqn. The interface
+> +# between blktests and this script is 'documentent' here in build_parser
+> +# function.
 
+I just had an offline discussion with Hannes. This script is setting
+up/tearing down the targets on demand. This is fine for a remote Linux
+box the soft target running use case.
 
-On 6/10/24 18:02, Maurizio Lombardi wrote:
-> út 4. 6. 2024 v 11:16 odesílatel Nilay Shroff <nilay@linux.ibm.com> napsal:
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index f5d150c62955..afb8419566a9 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -562,6 +562,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->>                 switch (old_state) {
->>                 case NVME_CTRL_NEW:
->>                 case NVME_CTRL_LIVE:
->> +               case NVME_CTRL_CONNECTING:
->>                         changed = true;
->>                         fallthrough;
->>                 default:
-> 
-> Side note:
-> 
-> I believe this could fix a race condition in the nvme-tcp driver.
-> Some time ago we received a kernel dump where the controller was
-> flagged as NVME_CTRL_LIVE but the sockets were marked as TCP_CLOSED,
-> the kernel was hanging into io_work.
-> It might be possible that the socket's nvme_tcp_error_recovery
-> callback was executed while the ctrl was still marked as
-> NVME_CTRL_CONNECTING, nvme_change_ctrl_state() doesn't allow a
-> reconnecting controller to switch to the resetting state and therefore
-> nvme_tcp_error_recovery() simply returns without triggering an error
-> recovery.
-> 
-> nvme_tcp_setup_ctrl() then moves the ctrl to the LIVE state, but with
-> closed tcp sockets.
-> 
-> I guess that this change would fix the possible race condition, even
-> if I am not completely sure what could happen in case of a race
-> between nvme_tcp_setup_ctrl() and the error recovery code.
-> 
-I think for your case you shall consider using nvme_wait_reset() before 
-queuing error recovery work. For instance, it could be done something 
-like below  assuming that all callers of nvme_tcp_error_recovery() are
-allowed to sleep (not fully tested) :
-
-static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
-{
-	if (!nvme_wait_reset(ctrl))
-		return;
-
-	dev_warn(ctrl->device, "starting error recovery\n");
-	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
-}
-
-The nvme_wait_reset() shall wait until the nvme_tcp_setup_ctrl() finish 
-its work and then the tcp error recovery work would be initiated. 
-
-Thanks,
---Nilay
+Hannes' idea/requirement that it should also support static setups. E.g.
+the admin setups the real remote target and provides the ns uuids, which
+test should run against (this is very similar to TESTS_DEVS). Thus the
+tests should only operate on ns uuids and through this script blktests
+can ask for the ns uuids.
 
