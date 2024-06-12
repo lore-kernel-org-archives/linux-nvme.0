@@ -4,121 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9566DC27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 11:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CE91C27C77
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jun 2024 11:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=HPrEsNhrIiTbmPWriUWwjbFXqL/xJ8ZfeQ6NuIj/pgg=; b=eLX+YomTGZu5jJYX67NkXejFBV
-	bKAgJIbwaXf6hkgeyHvGrZcplgGuU9/dS7cUxAO0XOYkeo5dGISoSbD6u/xI9GCAd6TB9sCC4d4re
-	RGJgKd27D/uH5xsWHhvvD5q2ErcqF78/b9gMOlOlqBGY9I581TqTBDWg7YAAJqudA+MEzDTm1iHXu
-	fACrTUfjflV71w7xEvTCM783qrqeba3f3QK9Nn9als/7g1alPecoQIXHnd1ECq/i/p5qXd/T+BKJN
-	gaY34X2dni5QwKgmYGP/KhXIpOLxAU9yMPPMTyEtPmlOhYtX+HNYVOJH2zW6nAj1MQq7F0ov3xzGq
-	/kxIZIEQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=e/HFuU2SPwb/S+c7dHqYVCXSW+Q8mLdg5oHfD8AeYgQ=; b=Ppv6M93/4d20T6+BvihYhILzoD
+	P1VosA+REaUsrGSm0JtAx39OYKxeNic3iaB0UW90w3/mGgU54eFtL5khSSTrPRwnUtEsf03ze0Fx7
+	3VMYcQhHoIFFdEoQyqBeEC/uFCdhsJactg2xXffOhMMMyGJKehnMfMdPboelwwwZszMdoz4s30+Rs
+	uWAhSkQBnrzxxvPbrGh//FKrJV7KIMNIIiAzAWXF1hMqwdo3Hp7wrdcrOJx2MnClU2IPMsKX/Jh6c
+	DHec15mZKq7pUfpMoIsvneCovqEIkKDOzAGhn/wDLxSW1/eu/phLXD2fVIN4VQvkv/6AUJ/zx3fYk
+	KxgVxWdg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHLmi-0000000CNb8-2q10;
-	Wed, 12 Jun 2024 11:04:56 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sHLq1-0000000COMa-3GBC;
+	Wed, 12 Jun 2024 11:08:21 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHLmd-0000000CNZD-1mD0
+	id 1sHLpy-0000000COLr-1VcR
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Jun 2024 11:04:54 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5CF59342A9;
-	Wed, 12 Jun 2024 11:04:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718190289; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HPrEsNhrIiTbmPWriUWwjbFXqL/xJ8ZfeQ6NuIj/pgg=;
-	b=tJV/q19IKZjeyKh7poBV0R6j6pE+7GUWcHhyI/VELSRtyoThc9sol+RdQpzJx2mFehlYl2
-	DzXYvHa53w2YIi7Si/c4Pa1FoEvR81bbBMu2Y2TO0TqsIdTXPGGWRJIpaan6TZGcHJftOq
-	eXf+tAc49FKwLGg4W6batHpsMSTAxiw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718190289;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HPrEsNhrIiTbmPWriUWwjbFXqL/xJ8ZfeQ6NuIj/pgg=;
-	b=MypfmEtic9X9ey2isuqKZobK7QyBIJbHnMN4sPmrJaR/1zSj1nShPdGkvi/oRCEyo/Qrzo
-	ixoBm/+qJdQ5SjDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ukzd8zMl;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VvGc9K05
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718190288; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HPrEsNhrIiTbmPWriUWwjbFXqL/xJ8ZfeQ6NuIj/pgg=;
-	b=Ukzd8zMlA6aoR1BCKymMmbOlPYabb4TJMb20ul9vgZ3+Ma8sRbU2wgBk4lzzn5F6Cy39F3
-	48zuv2KIZH9csmqPnCmKOeNHGxqGKse4jKwr7Y8zz/nFvZ7GrFBJaqnuwOPVltNEBW4n7V
-	MRRpyrAkViAC8ikIaBGZ9G84q8yfphE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718190288;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HPrEsNhrIiTbmPWriUWwjbFXqL/xJ8ZfeQ6NuIj/pgg=;
-	b=VvGc9K05OdkRqu/q6DrUgHZg8qhSHvNiMO9XbGNC6F7DtN+tqda3e63pZBt3J8S/L+KI0o
-	WW+VZVe15XXD9tAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 51697137DF;
-	Wed, 12 Jun 2024 11:04:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0QbXE9CAaWaUDQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 12 Jun 2024 11:04:48 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC blktests v2 00/03] Add support to run against real target
-Date: Wed, 12 Jun 2024 13:04:41 +0200
-Message-ID: <20240612110444.4507-1-dwagner@suse.de>
-X-Mailer: git-send-email 2.45.2
+	Wed, 12 Jun 2024 11:08:20 +0000
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CARK38024687;
+	Wed, 12 Jun 2024 11:07:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=e
+	/HFuU2SPwb/S+c7dHqYVCXSW+Q8mLdg5oHfD8AeYgQ=; b=I4SMFdiZPHTzVP40H
+	BykzYufoIjBW8DaHARi6EQj1NAiBM2W1Wn8Fw3xZgKYVGtJ965/C8sioa+HYkI7P
+	bHJgksVzrsZgnFq/AY+B1Lrxk5FhBla5tVMaREqJtaM+VtNSkqni/VnCNVnwzyBz
+	uINbIofhJWbGlwGkVVsHtYxwwgfyj5P9s+16OsL/QABmYyQ2lMNck5HhUrVzNjxH
+	d+rkXeUwK6/pRsuCM8iGlDnygBtzrICV9wp+fUw4Dpooi9sDwxh3IQECm72K04tc
+	RdkiJe2l1ox32hd0T16g9Bfim2B6tH9nCwNaZPIwth1Id2LTns9LTUz3WwWMC9+w
+	U7rzg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yq7rm0ept-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 11:07:32 +0000 (GMT)
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45CB7WsX019006;
+	Wed, 12 Jun 2024 11:07:32 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yq7rm0epq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 11:07:32 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45C9g68E020063;
+	Wed, 12 Jun 2024 11:07:31 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3yn34n4v7t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 11:07:31 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45CB7SB219530486
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 12 Jun 2024 11:07:30 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 53FF45807A;
+	Wed, 12 Jun 2024 11:07:28 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 79E385806B;
+	Wed, 12 Jun 2024 11:07:25 +0000 (GMT)
+Received: from [9.43.104.93] (unknown [9.43.104.93])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 12 Jun 2024 11:07:25 +0000 (GMT)
+Message-ID: <15192c9d-ce45-4dbc-bdbb-752cdfd4e663@linux.ibm.com>
+Date: Wed, 12 Jun 2024 16:37:23 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/1] nvme-pci : Fix EEH failure on ppc after subsystem
+ reset
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
+        sagi@grimberg.me, gjoyce@linux.ibm.com, axboe@fb.com
+References: <20240604091523.1422027-1-nilay@linux.ibm.com>
+ <20240604091523.1422027-2-nilay@linux.ibm.com>
+ <CAFL455ndCZipuN1bFTWgqjj4Sfh6AB3WUX014W1V2WY4gqzK8w@mail.gmail.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <CAFL455ndCZipuN1bFTWgqjj4Sfh6AB3WUX014W1V2WY4gqzK8w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.40 / 50.00];
-	BAYES_HAM(-1.39)[90.83%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 5CF59342A9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ZwVwC0O3uFc1K0LRX84VwNPnWBKVzplB
+X-Proofpoint-ORIG-GUID: wWlgI_2vIgWHtf0rnRQRDKhEmYRM8BMC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-12_06,2024-06-12_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
+ suspectscore=0 adultscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406120079
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240612_040451_640594_5F6ABA7E 
-X-CRM114-Status: GOOD (  14.91  )
+X-CRM114-CacheID: sfid-20240612_040818_781357_61AA3D0F 
+X-CRM114-Status: GOOD (  21.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,43 +116,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I've updated this series and added a simple example how to use it. I didn't
-really know where to put it, so I added this part to new directorty called
-'contrib'.
-
-Don't know if we want to keep adding environment variables for this or if it
-would be simpler to pass in a configuration file. The environemnt variable are
-fairly simple to handle and it works. Adding a configuraiton file adds more code
-to blktests.
-
-changes:
-v2:
-  - many of the preperation patches have been merged, drop them
-  - added a python script which implements the blktests API
-  - add some documentation how to use it
-  - changed the casing of the environment variables to upper case
-
-v1:
-  - initial version
-  - https://lore.kernel.org/linux-nvme/20240318093856.22307-1-dwagner@suse.de/
-  
 
 
-Daniel Wagner (3):
-  nvme/rc: introduce remote target support
-  nvme/030: only run against kernel soft target
-  contrib: add remote target setup/cleanup script
+On 6/10/24 18:02, Maurizio Lombardi wrote:
+> út 4. 6. 2024 v 11:16 odesílatel Nilay Shroff <nilay@linux.ibm.com> napsal:
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index f5d150c62955..afb8419566a9 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -562,6 +562,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>>                 switch (old_state) {
+>>                 case NVME_CTRL_NEW:
+>>                 case NVME_CTRL_LIVE:
+>> +               case NVME_CTRL_CONNECTING:
+>>                         changed = true;
+>>                         fallthrough;
+>>                 default:
+> 
+> Side note:
+> 
+> I believe this could fix a race condition in the nvme-tcp driver.
+> Some time ago we received a kernel dump where the controller was
+> flagged as NVME_CTRL_LIVE but the sockets were marked as TCP_CLOSED,
+> the kernel was hanging into io_work.
+> It might be possible that the socket's nvme_tcp_error_recovery
+> callback was executed while the ctrl was still marked as
+> NVME_CTRL_CONNECTING, nvme_change_ctrl_state() doesn't allow a
+> reconnecting controller to switch to the resetting state and therefore
+> nvme_tcp_error_recovery() simply returns without triggering an error
+> recovery.
+> 
+> nvme_tcp_setup_ctrl() then moves the ctrl to the LIVE state, but with
+> closed tcp sockets.
+> 
+> I guess that this change would fix the possible race condition, even
+> if I am not completely sure what could happen in case of a race
+> between nvme_tcp_setup_ctrl() and the error recovery code.
+> 
+I think for your case you shall consider using nvme_wait_reset() before 
+queuing error recovery work. For instance, it could be done something 
+like below  assuming that all callers of nvme_tcp_error_recovery() are
+allowed to sleep (not fully tested) :
 
- Documentation/running-tests.md |   9 +++
- contrib/nvme_target_control.py | 110 +++++++++++++++++++++++++++++++++
- contrib/nvmet-subsys.jinja2    |  71 +++++++++++++++++++++
- tests/nvme/030                 |   1 +
- tests/nvme/rc                  |  56 +++++++++++++++--
- 5 files changed, 243 insertions(+), 4 deletions(-)
- create mode 100755 contrib/nvme_target_control.py
- create mode 100644 contrib/nvmet-subsys.jinja2
+static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+{
+	if (!nvme_wait_reset(ctrl))
+		return;
 
--- 
-2.45.2
+	dev_warn(ctrl->device, "starting error recovery\n");
+	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
+}
 
+The nvme_wait_reset() shall wait until the nvme_tcp_setup_ctrl() finish 
+its work and then the tcp error recovery work would be initiated. 
+
+Thanks,
+--Nilay
 
