@@ -4,102 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65BF4C27C4F
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68EC6C41513
 	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 14:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0JAgWI6yypeQvJHtBsLjxy9EsiTAtsBZFfQkPH4VMNc=; b=jdfKKggxu3fkSW+o3k4IufQ+Qn
-	RihlimKTGSYw+0KWt6pMvg9ue8u2S7xH1QUEhNfgF+bavNTJeEfgrq2y+8I9IP/y2yF04gOQb5ETx
-	BkkQOc37Y/yBlnY72BdG/ayStICwYKFpSYdekN/0kccZasUU0uQaSeYX8hiUKElNbsVmRf+yrjwnn
-	c+tceWmVTAC4O+DVJL/zh2dwl+NSTy36X9Ce+CNE8lSFdrCpfHa2AgAClYxK8ALi8HycFp5M65BSr
-	BpGdTiwA4gnl1NwBKuXjJ+HTmGO0Mv1Glg/ToFS43+h2IG7/QM1e5V5Zbo1m1/g5J5LNOmX/KLump
-	jdx2WRNw==;
+	bh=N3vRa8XF/OVt9LiqxKw7BTxuYbFzxAtb3fRiXj3LWKA=; b=f/qeR6MiKAk5CoFN6VX314OIN+
+	ZP/HM2ecymia5aA8sctQWJVDXApVRS1Io5TSpjc2CgKLN0LgFj9j7sBWdmFBFeLgl9ZK+czsCHI9q
+	ZaSERV3qwB+LHNcjF0+RfV0LNidTG1R8/PRMaKY+J2e0jSctIic29bcIfq+Z+jNXmogE581X8mMFb
+	cS4+euRcJaWJgbw+Ke5WcJ2YgQTJYqehqkwjs84DdxxrRZaKmYOhu1P0Zf3F7YUC5oI5zeJq0YTjb
+	RSIKPLSZckG2/zKzYJ4yxSU7FQzDFm1kSbTxzMnTOne/KGQyGjQYHOoS3iOr8c6NWoS9Or717XUWY
+	GqfWvgcA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHl6M-0000000Gseo-4C3J;
+	id 1sHl6N-0000000Gsf0-35Ze;
 	Thu, 13 Jun 2024 14:06:55 +0000
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35])
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHQKh-0000000DGBP-1qIB
+	id 1sHUvw-0000000E5m9-0FLW
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Jun 2024 15:56:22 +0000
-Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-6b09072c9d9so5966d6.1
-        for <linux-nvme@lists.infradead.org>; Wed, 12 Jun 2024 08:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1718207778; x=1718812578; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0JAgWI6yypeQvJHtBsLjxy9EsiTAtsBZFfQkPH4VMNc=;
-        b=rX7Bsud9E9W0KKEvRVo9vvePC5oHluX/AQX63C1qV5YfkT+kP1M2N9koFyDpxTruG+
-         noq+TYDb1dy8XBnF7LqyPkoF5phpMnSIAKHq4Mi7DJ/Tv9M9V1uR43PoZ0fnNX2DMpf4
-         COBnzcz8xnnA1TNMGpIZ7/JaF6lhnh6TEeEic=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718207778; x=1718812578;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0JAgWI6yypeQvJHtBsLjxy9EsiTAtsBZFfQkPH4VMNc=;
-        b=YYUqee9nAeP4Dea3M/+/tpbgtSlzriK0vwuxVtp4/2NohCt55wY2Czmv/gITxfksJu
-         AYCT1TQoTra7lRFj69iBGKkVY60yn2/tooVwovHydbm7Y4rmDm7X27wpDNBpjW/A9S24
-         Xy4rmYsIxaKnUH+NgsN4dQ5ELFYejzml8MjbyHK6vhfAi0Nx5zBcE2i300kgQXdkmWoH
-         ohEjf5iNRrfA08mVrYyzccbokeD/hz4UKBtbi8iMKxii9EEtNhqQcBMW3eyJRu5kOCY0
-         Tm17W63OIWRuXhmMn7AfH4R/PmWzN9B2BMfgtIUExxX85lSpp31u1dx7bZ7OrYQIBUon
-         0ogQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkpvLA611XKGGHB2mkX04Ca+oyXFimg4FO9N+Drx9Sm9tkzp7JscfylxNV1agboAOtp261gTU38RPjA+Qz4c1jPZyHLKctVS7pR2s0cTA=
-X-Gm-Message-State: AOJu0YwaedzXrM0HrD+1tNXhi9MYO/mb+idUYvd/0OoVASYqVFl78Z4G
-	xMUoOXsYj5ukaKx1KyU2Bn4E3lCKuF9QbrbV2JMVTEyLjLsGpjwwY45i79vG5VA=
-X-Google-Smtp-Source: AGHT+IH3vJ/Cfk8LzYoeLv9cXT/SgN6Pt3X56xC7VVYFazmjn8i4deMSmAqg4iM25NKqjeo5TBvU1g==
-X-Received: by 2002:a05:6214:2a47:b0:6b0:7365:dde0 with SMTP id 6a1803df08f44-6b2a33de160mr1306776d6.18.1718207777691;
-        Wed, 12 Jun 2024 08:56:17 -0700 (PDT)
-Received: from localhost ([213.195.124.163])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b0884337e9sm22877866d6.16.2024.06.12.08.56.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 08:56:17 -0700 (PDT)
-Date: Wed, 12 Jun 2024 17:56:15 +0200
-From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
-	Richard Weinberger <richard@nod.at>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph =?utf-8?Q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
-	drbd-dev@lists.linbit.com, nbd@other.debian.org,
-	linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
-	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 10/26] xen-blkfront: don't disable cache flushes when
- they fail
-Message-ID: <ZmnFH17bTV2Ot_iR@macbook>
-References: <20240611051929.513387-1-hch@lst.de>
- <20240611051929.513387-11-hch@lst.de>
- <ZmlVziizbaboaBSn@macbook>
- <20240612150030.GA29188@lst.de>
+	Wed, 12 Jun 2024 20:51:05 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1B8EF60AE6;
+	Wed, 12 Jun 2024 20:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B25A2C116B1;
+	Wed, 12 Jun 2024 20:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718225462;
+	bh=qec7j+ugewcloFLvMaArPIx31fouyUzkqT5sKaBT1O0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UCENvW0G3cYGlTa6fqJarMiS5zDLyanxMgNjucmmKeIrMKC857trSKlpeTQdE9tAV
+	 eglVW1Strq5Ihqysy1fAfi2+fyRosi8ElSkWfhZ5JvDquhRgjb6GZU+erYSkFVvHhw
+	 RuMN9IHofeEEHh6YYWzcxfsOVEVAtKOMfw9/+u0QHdXuVNSOz5MEWRnTzzXFt3bk+t
+	 QfRyr2697zE54bXmuGneWX9s4vnQp+qqJ4MstJlV++rLRKO4jyOdHGLJeKhQwQRYsf
+	 1DqUCPnDwb22zl2dy+TTvWxAWKhQLZmqZddBjIAtm/0txsw5EwdZIroeeaBddAeRm9
+	 RlIaLnGdQ2ueQ==
+Date: Wed, 12 Jun 2024 13:51:02 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com, willy@infradead.org, agk@redhat.com,
+	snitzer@kernel.org, mpatocka@redhat.com, dm-devel@lists.linux.dev,
+	hare@suse.de, Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH v8 03/10] fs: Initial atomic write support
+Message-ID: <20240612205102.GB2764780@frogsfrogsfrogs>
+References: <20240610104329.3555488-1-john.g.garry@oracle.com>
+ <20240610104329.3555488-4-john.g.garry@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240612150030.GA29188@lst.de>
+In-Reply-To: <20240610104329.3555488-4-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240612_085619_507663_959C547D 
-X-CRM114-Status: GOOD (  33.04  )
+X-CRM114-CacheID: sfid-20240612_135104_474456_123C90D1 
+X-CRM114-Status: GOOD (  36.88  )
 X-Mailman-Approved-At: Thu, 13 Jun 2024 07:06:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -115,67 +83,277 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 12, 2024 at 05:00:30PM +0200, Christoph Hellwig wrote:
-> On Wed, Jun 12, 2024 at 10:01:18AM +0200, Roger Pau Monné wrote:
-> > On Tue, Jun 11, 2024 at 07:19:10AM +0200, Christoph Hellwig wrote:
-> > > blkfront always had a robust negotiation protocol for detecting a write
-> > > cache.  Stop simply disabling cache flushes when they fail as that is
-> > > a grave error.
-> > 
-> > It's my understanding the current code attempts to cover up for the
-> > lack of guarantees the feature itself provides:
+On Mon, Jun 10, 2024 at 10:43:22AM +0000, John Garry wrote:
+> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
 > 
-> > So even when the feature is exposed, the backend might return
-> > EOPNOTSUPP for the flush/barrier operations.
+> An atomic write is a write issued with torn-write protection, meaning
+> that for a power failure or any other hardware failure, all or none of the
+> data from the write will be stored, but never a mix of old and new data.
 > 
-> How is this supposed to work?  I mean in the worst case we could
-> just immediately complete the flush requests in the driver, but
-> we're really lying to any upper layer.
-
-Right.  AFAICT advertising "feature-barrier" and/or
-"feature-flush-cache" could be done based on whether blkback
-understand those commands, not on whether the underlying storage
-supports the equivalent of them.
-
-Worst case we can print a warning message once about the underlying
-storage failing to complete flush/barrier requests, and that data
-integrity might not be guaranteed going forward, and not propagate the
-error to the upper layer?
-
-What would be the consequence of propagating a flush error to the
-upper layers?
-
-> > Such failure is tied on whether the underlying blkback storage
-> > supports REQ_OP_WRITE with REQ_PREFLUSH operation.  blkback will
-> > expose "feature-barrier" and/or "feature-flush-cache" without knowing
-> > whether the underlying backend supports those operations, hence the
-> > weird fallback in blkfront.
+> Userspace may add flag RWF_ATOMIC to pwritev2() to indicate that the
+> write is to be issued with torn-write prevention, according to special
+> alignment and length rules.
 > 
-> If we are just talking about the Linux blkback driver (I know there
-> probably are a few other implementations) it won't every do that.
-> I see it has code to do so, but the Linux block layer doesn't
-> allow the flush operation to randomly fail if it was previously
-> advertised.  Note that even blkfront conforms to this as it fixes
-> up the return value when it gets this notsupp error to ok.
-
-Yes, I'm afraid it's impossible to know what the multiple incarnations
-of all the scattered blkback implementations possibly do (FreeBSD,
-NetBSD, QEMU and blktap at least I know of).
-
-> > Overall blkback should ensure that REQ_PREFLUSH is supported before
-> > exposing "feature-barrier" or "feature-flush-cache", as then the
-> > exposed features would really match what the underlying backend
-> > supports (rather than the commands blkback knows about).
+> For any syscall interface utilizing struct iocb, add IOCB_ATOMIC for
+> iocb->ki_flags field to indicate the same.
 > 
-> Yes.  The in-tree xen-blkback does that, but even without that the
-> Linux block layer actually makes sure flushes sent by upper layers
-> always succeed even when not supported.
+> A call to statx will give the relevant atomic write info for a file:
+> - atomic_write_unit_min
+> - atomic_write_unit_max
+> - atomic_write_segments_max
+> 
+> Both min and max values must be a power-of-2.
+> 
+> Applications can avail of atomic write feature by ensuring that the total
+> length of a write is a power-of-2 in size and also sized between
+> atomic_write_unit_min and atomic_write_unit_max, inclusive. Applications
+> must ensure that the write is at a naturally-aligned offset in the file
+> wrt the total write length. The value in atomic_write_segments_max
+> indicates the upper limit for IOV_ITER iovcnt.
+> 
+> Add file mode flag FMODE_CAN_ATOMIC_WRITE, so files which do not have the
+> flag set will have RWF_ATOMIC rejected and not just ignored.
+> 
+> Add a type argument to kiocb_set_rw_flags() to allows reads which have
+> RWF_ATOMIC set to be rejected.
+> 
+> Helper function generic_atomic_write_valid() can be used by FSes to verify
+> compliant writes. There we check for iov_iter type is for ubuf, which
+> implies iovcnt==1 for pwritev2(), which is an initial restriction for
+> atomic_write_segments_max. Initially the only user will be bdev file
+> operations write handler. We will rely on the block BIO submission path to
+> ensure write sizes are compliant for the bdev, so we don't need to check
+> atomic writes sizes yet.
+> 
+> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+> jpg: merge into single patch and much rewrite
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
 
-Given the description of the feature in the blkif header, I'm afraid
-we cannot guarantee that seeing the feature exposed implies barrier or
-flush support, since the request could fail at any time (or even from
-the start of the disk attachment) and it would still sadly be a correct
-implementation given the description of the options.
+Seems fine to me, though clearly others have had much stronger opinions
+in the past so:
+Acked-by: Darrick J. Wong <djwong@kernel.org>
 
-Thanks, Roger.
+--D
+
+> ---
+>  fs/aio.c                |  8 ++++----
+>  fs/btrfs/ioctl.c        |  2 +-
+>  fs/read_write.c         | 18 +++++++++++++++++-
+>  include/linux/fs.h      | 17 +++++++++++++++--
+>  include/uapi/linux/fs.h |  5 ++++-
+>  io_uring/rw.c           |  9 ++++-----
+>  6 files changed, 45 insertions(+), 14 deletions(-)
+> 
+> diff --git a/fs/aio.c b/fs/aio.c
+> index 57c9f7c077e6..93ef59d358b3 100644
+> --- a/fs/aio.c
+> +++ b/fs/aio.c
+> @@ -1516,7 +1516,7 @@ static void aio_complete_rw(struct kiocb *kiocb, long res)
+>  	iocb_put(iocb);
+>  }
+>  
+> -static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb)
+> +static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb, int rw_type)
+>  {
+>  	int ret;
+>  
+> @@ -1542,7 +1542,7 @@ static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb)
+>  	} else
+>  		req->ki_ioprio = get_current_ioprio();
+>  
+> -	ret = kiocb_set_rw_flags(req, iocb->aio_rw_flags);
+> +	ret = kiocb_set_rw_flags(req, iocb->aio_rw_flags, rw_type);
+>  	if (unlikely(ret))
+>  		return ret;
+>  
+> @@ -1594,7 +1594,7 @@ static int aio_read(struct kiocb *req, const struct iocb *iocb,
+>  	struct file *file;
+>  	int ret;
+>  
+> -	ret = aio_prep_rw(req, iocb);
+> +	ret = aio_prep_rw(req, iocb, READ);
+>  	if (ret)
+>  		return ret;
+>  	file = req->ki_filp;
+> @@ -1621,7 +1621,7 @@ static int aio_write(struct kiocb *req, const struct iocb *iocb,
+>  	struct file *file;
+>  	int ret;
+>  
+> -	ret = aio_prep_rw(req, iocb);
+> +	ret = aio_prep_rw(req, iocb, WRITE);
+>  	if (ret)
+>  		return ret;
+>  	file = req->ki_filp;
+> diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+> index efd5d6e9589e..6ad524b894fc 100644
+> --- a/fs/btrfs/ioctl.c
+> +++ b/fs/btrfs/ioctl.c
+> @@ -4627,7 +4627,7 @@ static int btrfs_ioctl_encoded_write(struct file *file, void __user *argp, bool
+>  		goto out_iov;
+>  
+>  	init_sync_kiocb(&kiocb, file);
+> -	ret = kiocb_set_rw_flags(&kiocb, 0);
+> +	ret = kiocb_set_rw_flags(&kiocb, 0, WRITE);
+>  	if (ret)
+>  		goto out_iov;
+>  	kiocb.ki_pos = pos;
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index ef6339391351..285b0f5a9a9c 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -730,7 +730,7 @@ static ssize_t do_iter_readv_writev(struct file *filp, struct iov_iter *iter,
+>  	ssize_t ret;
+>  
+>  	init_sync_kiocb(&kiocb, filp);
+> -	ret = kiocb_set_rw_flags(&kiocb, flags);
+> +	ret = kiocb_set_rw_flags(&kiocb, flags, type);
+>  	if (ret)
+>  		return ret;
+>  	kiocb.ki_pos = (ppos ? *ppos : 0);
+> @@ -1736,3 +1736,19 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
+>  
+>  	return 0;
+>  }
+> +
+> +bool generic_atomic_write_valid(struct iov_iter *iter, loff_t pos)
+> +{
+> +	size_t len = iov_iter_count(iter);
+> +
+> +	if (!iter_is_ubuf(iter))
+> +		return false;
+> +
+> +	if (!is_power_of_2(len))
+> +		return false;
+> +
+> +	if (!IS_ALIGNED(pos, len))
+> +		return false;
+> +
+> +	return true;
+> +}
+> \ No newline at end of file
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 0283cf366c2a..e049414bef7d 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -125,8 +125,10 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
+>  #define FMODE_EXEC		((__force fmode_t)(1 << 5))
+>  /* File writes are restricted (block device specific) */
+>  #define FMODE_WRITE_RESTRICTED	((__force fmode_t)(1 << 6))
+> +/* File supports atomic writes */
+> +#define FMODE_CAN_ATOMIC_WRITE	((__force fmode_t)(1 << 7))
+>  
+> -/* FMODE_* bits 7 to 8 */
+> +/* FMODE_* bit 8 */
+>  
+>  /* 32bit hashes as llseek() offset (for directories) */
+>  #define FMODE_32BITHASH         ((__force fmode_t)(1 << 9))
+> @@ -317,6 +319,7 @@ struct readahead_control;
+>  #define IOCB_SYNC		(__force int) RWF_SYNC
+>  #define IOCB_NOWAIT		(__force int) RWF_NOWAIT
+>  #define IOCB_APPEND		(__force int) RWF_APPEND
+> +#define IOCB_ATOMIC		(__force int) RWF_ATOMIC
+>  
+>  /* non-RWF related bits - start at 16 */
+>  #define IOCB_EVENTFD		(1 << 16)
+> @@ -351,6 +354,7 @@ struct readahead_control;
+>  	{ IOCB_SYNC,		"SYNC" }, \
+>  	{ IOCB_NOWAIT,		"NOWAIT" }, \
+>  	{ IOCB_APPEND,		"APPEND" }, \
+> +	{ IOCB_ATOMIC,		"ATOMIC"}, \
+>  	{ IOCB_EVENTFD,		"EVENTFD"}, \
+>  	{ IOCB_DIRECT,		"DIRECT" }, \
+>  	{ IOCB_WRITE,		"WRITE" }, \
+> @@ -3403,7 +3407,8 @@ static inline int iocb_flags(struct file *file)
+>  	return res;
+>  }
+>  
+> -static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+> +static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags,
+> +				     int rw_type)
+>  {
+>  	int kiocb_flags = 0;
+>  
+> @@ -3422,6 +3427,12 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+>  			return -EOPNOTSUPP;
+>  		kiocb_flags |= IOCB_NOIO;
+>  	}
+> +	if (flags & RWF_ATOMIC) {
+> +		if (rw_type != WRITE)
+> +			return -EOPNOTSUPP;
+> +		if (!(ki->ki_filp->f_mode & FMODE_CAN_ATOMIC_WRITE))
+> +			return -EOPNOTSUPP;
+> +	}
+>  	kiocb_flags |= (__force int) (flags & RWF_SUPPORTED);
+>  	if (flags & RWF_SYNC)
+>  		kiocb_flags |= IOCB_DSYNC;
+> @@ -3613,4 +3624,6 @@ extern int vfs_fadvise(struct file *file, loff_t offset, loff_t len,
+>  extern int generic_fadvise(struct file *file, loff_t offset, loff_t len,
+>  			   int advice);
+>  
+> +bool generic_atomic_write_valid(struct iov_iter *iter, loff_t pos);
+> +
+>  #endif /* _LINUX_FS_H */
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index 45e4e64fd664..191a7e88a8ab 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -329,9 +329,12 @@ typedef int __bitwise __kernel_rwf_t;
+>  /* per-IO negation of O_APPEND */
+>  #define RWF_NOAPPEND	((__force __kernel_rwf_t)0x00000020)
+>  
+> +/* Atomic Write */
+> +#define RWF_ATOMIC	((__force __kernel_rwf_t)0x00000040)
+> +
+>  /* mask of flags supported by the kernel */
+>  #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
+> -			 RWF_APPEND | RWF_NOAPPEND)
+> +			 RWF_APPEND | RWF_NOAPPEND | RWF_ATOMIC)
+>  
+>  /* Pagemap ioctl */
+>  #define PAGEMAP_SCAN	_IOWR('f', 16, struct pm_scan_arg)
+> diff --git a/io_uring/rw.c b/io_uring/rw.c
+> index 1a2128459cb4..c004d21e2f12 100644
+> --- a/io_uring/rw.c
+> +++ b/io_uring/rw.c
+> @@ -772,7 +772,7 @@ static bool need_complete_io(struct io_kiocb *req)
+>  		S_ISBLK(file_inode(req->file)->i_mode);
+>  }
+>  
+> -static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+> +static int io_rw_init_file(struct io_kiocb *req, fmode_t mode, int rw_type)
+>  {
+>  	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
+>  	struct kiocb *kiocb = &rw->kiocb;
+> @@ -787,7 +787,7 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+>  		req->flags |= io_file_get_flags(file);
+>  
+>  	kiocb->ki_flags = file->f_iocb_flags;
+> -	ret = kiocb_set_rw_flags(kiocb, rw->flags);
+> +	ret = kiocb_set_rw_flags(kiocb, rw->flags, rw_type);
+>  	if (unlikely(ret))
+>  		return ret;
+>  	kiocb->ki_flags |= IOCB_ALLOC_CACHE;
+> @@ -832,8 +832,7 @@ static int __io_read(struct io_kiocb *req, unsigned int issue_flags)
+>  		if (unlikely(ret < 0))
+>  			return ret;
+>  	}
+> -
+> -	ret = io_rw_init_file(req, FMODE_READ);
+> +	ret = io_rw_init_file(req, FMODE_READ, READ);
+>  	if (unlikely(ret))
+>  		return ret;
+>  	req->cqe.res = iov_iter_count(&io->iter);
+> @@ -1013,7 +1012,7 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
+>  	ssize_t ret, ret2;
+>  	loff_t *ppos;
+>  
+> -	ret = io_rw_init_file(req, FMODE_WRITE);
+> +	ret = io_rw_init_file(req, FMODE_WRITE, WRITE);
+>  	if (unlikely(ret))
+>  		return ret;
+>  	req->cqe.res = iov_iter_count(&io->iter);
+> -- 
+> 2.31.1
+> 
+> 
 
