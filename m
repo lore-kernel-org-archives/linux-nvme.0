@@ -4,69 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2FF8C27C78
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 14:06:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82924C27C75
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 14:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UcuQ/c4/ztu9sABr0HcaA4MQ46Je8/Q+/Z71Hmltl5U=; b=MhoA6sj9SoIdb/7s2eLCfGL6tw
-	MMm7iCE7gM7mzjz+CVlEX9EKDvG+mgsIMGfL8CoJvRMgD4ZJECrCAGIS/tuQQ6j9QatHe29chrRSZ
-	O/0HlwFQotZVk8QTEGZY3uVj6liRtuHEum3bacSIfTzMpRqb1VpNzFxud7wAIkJugDePMRMlg+S1P
-	PtLkdDyJHRmSt8O7WtdI3EHjdaP1i55wgbF6/L0q4yCqyD/+K6iYS6yufdM/b85H3SVDyHowCN1hq
-	C4vn7oxiroZayqU71Qom7h5Vvy51Z9Kwu2WGyeffPqonmwceQuPh59qrjBMW8ITXhtG63yC1Z8xCB
-	aoq7N6iw==;
+	bh=ABD+LT0o8LnPHcYZSXs2MrPxadO4r+QqHvWZGp1tmZw=; b=VxG1NREvZzGZjAwwD+eCvSkyrB
+	Fj9hcY0UdW7pvEaWBRMNJe7QYIqOLCpbxThbQbfTtGcswMG/m6Nh5JU1dkq5UYj53sy+V/0JFgaG9
+	ujibwzQ+DzOABgxNSR28C9GpHDD4emyVqPIGWZc/I93rhTBFafgEmUjlhY2Rhcm3cpiUhgHx3+7vv
+	hSowHl5yk8GS80/Z5AAA7UnFiUIk1y2LIDMIbhlLVqVPqL0/X933DgS3mCDM5wBderKG8UvinZQBS
+	Jmbul+Slw5e5JdWhwfwlMDZoGNW+nroQnWyFqMS9+b6YaBS0chcQXhtFA8eBKmV/sV0LMs98k8VkY
+	ejrG2E5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHl6R-0000000Gsgw-1Q2A;
-	Thu, 13 Jun 2024 14:06:59 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1sHl6O-0000000GsfB-21uj;
+	Thu, 13 Jun 2024 14:06:56 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHl4k-0000000GsKk-3Ry0;
-	Thu, 13 Jun 2024 14:05:16 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C2B2968BEB; Thu, 13 Jun 2024 16:05:08 +0200 (CEST)
-Date: Thu, 13 Jun 2024 16:05:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Richard Weinberger <richard@nod.at>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
-	drbd-dev@lists.linbit.com, nbd@other.debian.org,
-	linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
-	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 10/26] xen-blkfront: don't disable cache flushes when
- they fail
-Message-ID: <20240613140508.GA16529@lst.de>
-References: <20240611051929.513387-1-hch@lst.de> <20240611051929.513387-11-hch@lst.de> <ZmlVziizbaboaBSn@macbook> <20240612150030.GA29188@lst.de> <ZmnFH17bTV2Ot_iR@macbook>
+	id 1sHUzN-0000000E6HC-3jwT
+	for linux-nvme@lists.infradead.org;
+	Wed, 12 Jun 2024 20:54:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 59DD0CE22D5;
+	Wed, 12 Jun 2024 20:54:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E84FBC4AF49;
+	Wed, 12 Jun 2024 20:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718225674;
+	bh=tVILRNA+10i0hkRlIosgMNPqnHFXimug2joZuxy2YOI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gxrF7MM2z/1SfSzr34rFnbmtOilWN+UeGZ8ImffgHGY+OhlEfVW6JYpUxuBPyVKG7
+	 aeVuxyoSIZ8qUjXxwU75rxdiXJ8LHD3mlo3JtyVhbMCfLygoeDcGb4VQhzaI+bzRrP
+	 K8IVMlII/kxMi1wWF31ok9wO3s07nTjdiVpEUtUeODjpo0jIg3cphCVv4dOQeOeQMc
+	 4R/as280MGUrbk3OfNRR1aloN9IVBFaAEjaSGybqZS3QhRWC45sjfz+wZE3i5HE2lO
+	 gwWl14Nn1BmZ5xtAG5SYeDP3MESNrtbe78j/1YpnmHQqIgLSfGv3AW5+g5Sqo3pSVj
+	 mXKci5CJ1cozQ==
+Date: Wed, 12 Jun 2024 13:54:33 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com, willy@infradead.org, agk@redhat.com,
+	snitzer@kernel.org, mpatocka@redhat.com, dm-devel@lists.linux.dev,
+	hare@suse.de, Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH v8 04/10] fs: Add initial atomic write support info to
+ statx
+Message-ID: <20240612205433.GC2764780@frogsfrogsfrogs>
+References: <20240610104329.3555488-1-john.g.garry@oracle.com>
+ <20240610104329.3555488-5-john.g.garry@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZmnFH17bTV2Ot_iR@macbook>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20240610104329.3555488-5-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240613_070515_227385_C12388BF 
-X-CRM114-Status: GOOD (  33.65  )
+X-CRM114-CacheID: sfid-20240612_135438_707329_DED63D8F 
+X-CRM114-Status: GOOD (  28.61  )
 X-Mailman-Approved-At: Thu, 13 Jun 2024 07:06:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -82,147 +84,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 12, 2024 at 05:56:15PM +0200, Roger Pau Monné wrote:
-> Right.  AFAICT advertising "feature-barrier" and/or
-> "feature-flush-cache" could be done based on whether blkback
-> understand those commands, not on whether the underlying storage
-> supports the equivalent of them.
+On Mon, Jun 10, 2024 at 10:43:23AM +0000, John Garry wrote:
+> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
 > 
-> Worst case we can print a warning message once about the underlying
-> storage failing to complete flush/barrier requests, and that data
-> integrity might not be guaranteed going forward, and not propagate the
-> error to the upper layer?
+> Extend statx system call to return additional info for atomic write support
+> support for a file.
 > 
-> What would be the consequence of propagating a flush error to the
-> upper layers?
+> Helper function generic_fill_statx_atomic_writes() can be used by FSes to
+> fill in the relevant statx fields. For now atomic_write_segments_max will
+> always be 1, otherwise some rules would need to be imposed on iovec length
+> and alignment, which we don't want now.
+> 
+> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+> jpg: relocate bdev support to another patch
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
 
-If you propage the error to the upper layer you will generate an
-I/O error there, which usually leads to a file system shutdown.
+Looks fine to me, assuming there's a manpage update lurking somewhere?
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 
-> Given the description of the feature in the blkif header, I'm afraid
-> we cannot guarantee that seeing the feature exposed implies barrier or
-> flush support, since the request could fail at any time (or even from
-> the start of the disk attachment) and it would still sadly be a correct
-> implementation given the description of the options.
+--D
 
-Well, then we could do something like the patch below, which keeps
-the existing behavior, but insolates the block layer from it and
-removes the only user of blk_queue_write_cache from interrupt
-context:
-
----
-From e6e82c769ab209a77302994c3829cf6ff7a595b8 Mon Sep 17 00:00:00 2001
-From: Christoph Hellwig <hch@lst.de>
-Date: Thu, 30 May 2024 08:58:52 +0200
-Subject: xen-blkfront: don't disable cache flushes when they fail
-
-blkfront always had a robust negotiation protocol for detecting a write
-cache.  Stop simply disabling cache flushes in the block layer as the
-flags handling is moving to the atomic queue limits API that needs
-user context to freeze the queue for that.  Instead handle the case
-of the feature flags cleared inside of blkfront.  This removes old
-debug code to check for such a mismatch which was previously impossible
-to hit, including the check for passthrough requests that blkfront
-never used to start with.
-
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/block/xen-blkfront.c | 44 +++++++++++++++++++-----------------
- 1 file changed, 23 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-index 9b4ec3e4908cce..e2c92d5095ff17 100644
---- a/drivers/block/xen-blkfront.c
-+++ b/drivers/block/xen-blkfront.c
-@@ -788,6 +788,14 @@ static int blkif_queue_rw_req(struct request *req, struct blkfront_ring_info *ri
- 			 * A barrier request a superset of FUA, so we can
- 			 * implement it the same way.  (It's also a FLUSH+FUA,
- 			 * since it is guaranteed ordered WRT previous writes.)
-+			 *
-+			 * Note that can end up here with a FUA write and the
-+			 * flags cleared.  This happens when the flag was
-+			 * run-time disabled and raced with I/O submission in
-+			 * the block layer.  We submit it as a normal write
-+			 * here.  A pure flush should never end up here with
-+			 * the flags cleared as they are completed earlier for
-+			 * the !feature_flush case.
- 			 */
- 			if (info->feature_flush && info->feature_fua)
- 				ring_req->operation =
-@@ -795,8 +803,6 @@ static int blkif_queue_rw_req(struct request *req, struct blkfront_ring_info *ri
- 			else if (info->feature_flush)
- 				ring_req->operation =
- 					BLKIF_OP_FLUSH_DISKCACHE;
--			else
--				ring_req->operation = 0;
- 		}
- 		ring_req->u.rw.nr_segments = num_grant;
- 		if (unlikely(require_extra_req)) {
-@@ -887,16 +893,6 @@ static inline void flush_requests(struct blkfront_ring_info *rinfo)
- 		notify_remote_via_irq(rinfo->irq);
- }
- 
--static inline bool blkif_request_flush_invalid(struct request *req,
--					       struct blkfront_info *info)
--{
--	return (blk_rq_is_passthrough(req) ||
--		((req_op(req) == REQ_OP_FLUSH) &&
--		 !info->feature_flush) ||
--		((req->cmd_flags & REQ_FUA) &&
--		 !info->feature_fua));
--}
--
- static blk_status_t blkif_queue_rq(struct blk_mq_hw_ctx *hctx,
- 			  const struct blk_mq_queue_data *qd)
- {
-@@ -908,23 +904,30 @@ static blk_status_t blkif_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	rinfo = get_rinfo(info, qid);
- 	blk_mq_start_request(qd->rq);
- 	spin_lock_irqsave(&rinfo->ring_lock, flags);
--	if (RING_FULL(&rinfo->ring))
--		goto out_busy;
- 
--	if (blkif_request_flush_invalid(qd->rq, rinfo->dev_info))
--		goto out_err;
-+	/*
-+	 * Check if the backend actually supports flushes.
-+	 *
-+	 * While the block layer won't send us flushes if we don't claim to
-+	 * support them, the Xen protocol allows the backend to revoke support
-+	 * at any time.  That is of course a really bad idea and dangerous, but
-+	 * has been allowed for 10+ years.  In that case we simply clear the
-+	 * flags, and directly return here for an empty flush and ignore the
-+	 * FUA flag later on.
-+	 */
-+	if (unlikely(req_op(qd->rq) == REQ_OP_FLUSH && !info->feature_flush))
-+		goto out;
- 
-+	if (RING_FULL(&rinfo->ring))
-+		goto out_busy;
- 	if (blkif_queue_request(qd->rq, rinfo))
- 		goto out_busy;
- 
- 	flush_requests(rinfo);
-+out:
- 	spin_unlock_irqrestore(&rinfo->ring_lock, flags);
- 	return BLK_STS_OK;
- 
--out_err:
--	spin_unlock_irqrestore(&rinfo->ring_lock, flags);
--	return BLK_STS_IOERR;
--
- out_busy:
- 	blk_mq_stop_hw_queue(hctx);
- 	spin_unlock_irqrestore(&rinfo->ring_lock, flags);
-@@ -1627,7 +1630,6 @@ static irqreturn_t blkif_interrupt(int irq, void *dev_id)
- 					blkif_req(req)->error = BLK_STS_OK;
- 				info->feature_fua = 0;
- 				info->feature_flush = 0;
--				xlvbd_flush(info);
- 			}
- 			fallthrough;
- 		case BLKIF_OP_READ:
--- 
-2.43.0
-
+> ---
+>  fs/stat.c                 | 34 ++++++++++++++++++++++++++++++++++
+>  include/linux/fs.h        |  3 +++
+>  include/linux/stat.h      |  3 +++
+>  include/uapi/linux/stat.h | 12 ++++++++++--
+>  4 files changed, 50 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/stat.c b/fs/stat.c
+> index 70bd3e888cfa..72d0e6357b91 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -89,6 +89,37 @@ void generic_fill_statx_attr(struct inode *inode, struct kstat *stat)
+>  }
+>  EXPORT_SYMBOL(generic_fill_statx_attr);
+>  
+> +/**
+> + * generic_fill_statx_atomic_writes - Fill in atomic writes statx attributes
+> + * @stat:	Where to fill in the attribute flags
+> + * @unit_min:	Minimum supported atomic write length in bytes
+> + * @unit_max:	Maximum supported atomic write length in bytes
+> + *
+> + * Fill in the STATX{_ATTR}_WRITE_ATOMIC flags in the kstat structure from
+> + * atomic write unit_min and unit_max values.
+> + */
+> +void generic_fill_statx_atomic_writes(struct kstat *stat,
+> +				      unsigned int unit_min,
+> +				      unsigned int unit_max)
+> +{
+> +	/* Confirm that the request type is known */
+> +	stat->result_mask |= STATX_WRITE_ATOMIC;
+> +
+> +	/* Confirm that the file attribute type is known */
+> +	stat->attributes_mask |= STATX_ATTR_WRITE_ATOMIC;
+> +
+> +	if (unit_min) {
+> +		stat->atomic_write_unit_min = unit_min;
+> +		stat->atomic_write_unit_max = unit_max;
+> +		/* Initially only allow 1x segment */
+> +		stat->atomic_write_segments_max = 1;
+> +
+> +		/* Confirm atomic writes are actually supported */
+> +		stat->attributes |= STATX_ATTR_WRITE_ATOMIC;
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(generic_fill_statx_atomic_writes);
+> +
+>  /**
+>   * vfs_getattr_nosec - getattr without security checks
+>   * @path: file to get attributes from
+> @@ -659,6 +690,9 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+>  	tmp.stx_dio_mem_align = stat->dio_mem_align;
+>  	tmp.stx_dio_offset_align = stat->dio_offset_align;
+>  	tmp.stx_subvol = stat->subvol;
+> +	tmp.stx_atomic_write_unit_min = stat->atomic_write_unit_min;
+> +	tmp.stx_atomic_write_unit_max = stat->atomic_write_unit_max;
+> +	tmp.stx_atomic_write_segments_max = stat->atomic_write_segments_max;
+>  
+>  	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
+>  }
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index e049414bef7d..db26b4a70c62 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -3235,6 +3235,9 @@ extern const struct inode_operations page_symlink_inode_operations;
+>  extern void kfree_link(void *);
+>  void generic_fillattr(struct mnt_idmap *, u32, struct inode *, struct kstat *);
+>  void generic_fill_statx_attr(struct inode *inode, struct kstat *stat);
+> +void generic_fill_statx_atomic_writes(struct kstat *stat,
+> +				      unsigned int unit_min,
+> +				      unsigned int unit_max);
+>  extern int vfs_getattr_nosec(const struct path *, struct kstat *, u32, unsigned int);
+>  extern int vfs_getattr(const struct path *, struct kstat *, u32, unsigned int);
+>  void __inode_add_bytes(struct inode *inode, loff_t bytes);
+> diff --git a/include/linux/stat.h b/include/linux/stat.h
+> index bf92441dbad2..3d900c86981c 100644
+> --- a/include/linux/stat.h
+> +++ b/include/linux/stat.h
+> @@ -54,6 +54,9 @@ struct kstat {
+>  	u32		dio_offset_align;
+>  	u64		change_cookie;
+>  	u64		subvol;
+> +	u32		atomic_write_unit_min;
+> +	u32		atomic_write_unit_max;
+> +	u32		atomic_write_segments_max;
+>  };
+>  
+>  /* These definitions are internal to the kernel for now. Mainly used by nfsd. */
+> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+> index 67626d535316..887a25286441 100644
+> --- a/include/uapi/linux/stat.h
+> +++ b/include/uapi/linux/stat.h
+> @@ -126,9 +126,15 @@ struct statx {
+>  	__u64	stx_mnt_id;
+>  	__u32	stx_dio_mem_align;	/* Memory buffer alignment for direct I/O */
+>  	__u32	stx_dio_offset_align;	/* File offset alignment for direct I/O */
+> -	__u64	stx_subvol;	/* Subvolume identifier */
+>  	/* 0xa0 */
+> -	__u64	__spare3[11];	/* Spare space for future expansion */
+> +	__u64	stx_subvol;	/* Subvolume identifier */
+> +	__u32	stx_atomic_write_unit_min;	/* Min atomic write unit in bytes */
+> +	__u32	stx_atomic_write_unit_max;	/* Max atomic write unit in bytes */
+> +	/* 0xb0 */
+> +	__u32   stx_atomic_write_segments_max;	/* Max atomic write segment count */
+> +	__u32   __spare1[1];
+> +	/* 0xb8 */
+> +	__u64	__spare3[9];	/* Spare space for future expansion */
+>  	/* 0x100 */
+>  };
+>  
+> @@ -157,6 +163,7 @@ struct statx {
+>  #define STATX_DIOALIGN		0x00002000U	/* Want/got direct I/O alignment info */
+>  #define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_id */
+>  #define STATX_SUBVOL		0x00008000U	/* Want/got stx_subvol */
+> +#define STATX_WRITE_ATOMIC	0x00010000U	/* Want/got atomic_write_* fields */
+>  
+>  #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
+>  
+> @@ -192,6 +199,7 @@ struct statx {
+>  #define STATX_ATTR_MOUNT_ROOT		0x00002000 /* Root of a mount */
+>  #define STATX_ATTR_VERITY		0x00100000 /* [I] Verity protected file */
+>  #define STATX_ATTR_DAX			0x00200000 /* File is currently in DAX state */
+> +#define STATX_ATTR_WRITE_ATOMIC		0x00400000 /* File supports atomic write operations */
+>  
+>  
+>  #endif /* _UAPI_LINUX_STAT_H */
+> -- 
+> 2.31.1
+> 
+> 
 
