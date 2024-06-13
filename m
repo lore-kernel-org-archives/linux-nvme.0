@@ -4,63 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79F3BC27C75
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 12:56:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21CC5C27C4F
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 13:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Vns6xjKXrGcJKXefj/xvXweSczLGWUv5Jl8TQiaTV0U=; b=JPzH3w5mVBZ5om5p2+b36g6CTR
-	o6q603W0kQpRQ7drBp6NXtJCEudgbT47ML7D6sqOF2Qu4yJi2L/NQsTyTeo9R/VZDr+tsN1+z4+AN
-	7DvNxEjfC/IR+CwurNuy0uIY0w9kfwLITKeKF7eDfDUuT9k4TRiX37DmOzfnH09GgrPoj5UBrM6hT
-	QsCTxr9x03ZmuEpjv+uWOZCaWeXz9qXIkSKUIfKL8otwP9kS7L6xIKJumzgUc1eL8LL0AlDU5sOJL
-	TyqBLSHYjcE/gBUo4g+eEIOHk8T4JASLEzKpeYaHg39T+ThZBpXKgJAkInbt8/O6/zthfQewh+VJm
-	dKDW51ow==;
+	bh=k2H5kMSGXAcXtZKV+rbK+tIg7d2r+evwWQcLbezoGwA=; b=D8cMvSogLBrRB3SdzgpWwCcyZv
+	auEjUuAlrKg6aqAPegXvjv9lAqKHoCqzscYHN0BYhOJEZJ4JjUoqUMMDYXn/J3dJSBn51wFQpOi9W
+	88aGQbvMpWM/iPa1ifElu8sx8DkZ/MqvlccBICt6RjRlLbZd5nKzzJENGPAeSJ7X+f2//mee6jxEu
+	eAjRXZ5THyOZlzUvE5DgZiwmX0d21C14sIdMFpS8Yo14l+Q+YDGlhMozN3gmfAh7bt65DA7oQ1p5U
+	3kaw5uL3KTj3iMjPm7EAMV2h0wQ1+AHsFw3Gxlm9tgf/iHzv1Z2eoY0/mv1pSEWTS+x6vMGYF3mmM
+	V+0jBwOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHk0E-0000000Gaj8-0Y2r;
-	Thu, 13 Jun 2024 12:56:30 +0000
+	id 1sHk4N-0000000Gc2d-0bX1;
+	Thu, 13 Jun 2024 13:00:47 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHk0B-0000000Gah9-0Jir
+	id 1sHk4J-0000000Gc27-1ZBb
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jun 2024 12:56:28 +0000
+	Thu, 13 Jun 2024 13:00:44 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 428B361883;
-	Thu, 13 Jun 2024 12:56:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A45C2BBFC;
-	Thu, 13 Jun 2024 12:56:21 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8811D61A8E;
+	Thu, 13 Jun 2024 13:00:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEB77C2BBFC;
+	Thu, 13 Jun 2024 13:00:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718283382;
-	bh=bsPL3KQAP7mYRKsmkdNID7B/zfeUGn2fmiXDfN/6S7k=;
+	s=k20201202; t=1718283642;
+	bh=J+FOEDQ8EizaWwa5B+nADOYSJHbx/xeNUz9hDlllVAA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nQR+v4m7I9qXfqIZYmNf1l+zzpKYSFwfe105O2wE+UmX6I3Vljl8g6q1yaIjTa09Q
-	 lHyY4re5v2wpkOQG6WWRVtMp/+g/7Frk4vwd5nFbgnzdnJZt39ILbiBwOyrN8XDIda
-	 FPA4G8/3RTGOB8msLFSwiz5nAtnyKQqsQ8Blr/jrY+BIbtZKBNw/THboHlUc0yTWbs
-	 sPvIgDFqmrKpDNkdbByQVHobIdVlz75IJ0FNpA8N8dOkTxenlEC3WjAayWMN2aTcFN
-	 8Hm0w925eJ9g/SMIwsctjlSeFt0d1145cW4mey1+qqyqNgBGxYudQ1SzTMOAelx90c
-	 rOqSpg33Llnjg==
-Date: Thu, 13 Jun 2024 06:56:19 -0600
+	b=qggwRUULEqiXxuZ7j5UvKifzy33DHtdZrKO56gBNXhQgLtA73AndYpzFdFKPtgajQ
+	 eZ2FrWkaHiyu1CdoFUoJoAYYrvE/N2+CUEp/qa3f0Af+VlZQyOvYOKG67D0tjcqo0x
+	 3EW1/WldLUz1c60Qlz/5z2q1SN7/pTXJ3oF6Xdw9Bd3BKzB0X/HP6kxPWzRVlb+7z4
+	 9mbcbdJWED1dzELNE6rA9JFZltzNE25ja+CDOS0rLms/EmFDwbgjCb9OqLuY02UOac
+	 Ml+wL3j/PPtPYrIAHbcgznafOfDKP/T+JvE6NY0UA7S9SC3cj2JEtsBYFk0OTfG0WS
+	 sRAQ05C8tc5Xg==
+Date: Thu, 13 Jun 2024 07:00:40 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	hch@lst.de, sagi@grimberg.me, paulmck@kernel.org,
-	davidgow@google.com, akpm@linux-foundation.org,
+To: Christoph Hellwig <hch@lst.de>
+Cc: Nilay Shroff <nilay@linux.ibm.com>, Keith Busch <kbusch@meta.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sagi@grimberg.me,
+	paulmck@kernel.org, davidgow@google.com, akpm@linux-foundation.org,
 	venkat88@linux.vnet.ibm.com
 Subject: Re: [PATCH 1/2] list: introduce a new cutting helper
-Message-ID: <ZmrscxG51gFRDVlM@kbusch-mbp>
+Message-ID: <ZmrteDHF_HlWHFth@kbusch-mbp>
 References: <20240612155135.3060667-1-kbusch@meta.com>
  <f0e4c51c-8227-4f5c-876f-38fbb4a0e1bf@linux.ibm.com>
+ <20240613081016.GA21500@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f0e4c51c-8227-4f5c-876f-38fbb4a0e1bf@linux.ibm.com>
+In-Reply-To: <20240613081016.GA21500@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240613_055627_219073_F6895045 
-X-CRM114-Status: GOOD (  17.31  )
+X-CRM114-CacheID: sfid-20240613_060043_514435_AF37471D 
+X-CRM114-Status: GOOD (  15.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,57 +76,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 13, 2024 at 10:26:11AM +0530, Nilay Shroff wrote:
-> On 6/12/24 21:21, Keith Busch wrote:
-> > +static inline void list_cut(struct list_head *list,
-> > +		struct list_head *head, struct list_head *entry)
-> > +{
-> > +	list->next = entry;
-> > +	list->prev = head->prev;
-> > +	head->prev = entry->prev;
-> > +	entry->prev->next = head;
-> > +	entry->prev = list;
-> > +	list->prev->next = list;
-> > +}
-> I am wondering whether we really need the _rcu version of list_cut here?
-> I think that @head could point to an _rcu protected list and that's true 
-> for this patch. So there might be concurrent readers accessing @head using
-> _rcu list-traversal primitives, such as list_for_each_entry_rcu().
+On Thu, Jun 13, 2024 at 10:10:16AM +0200, Christoph Hellwig wrote:
+> On Thu, Jun 13, 2024 at 10:26:11AM +0530, Nilay Shroff wrote:
+> > I am wondering whether we really need the _rcu version of list_cut here?
+> > I think that @head could point to an _rcu protected list and that's true 
+> > for this patch. So there might be concurrent readers accessing @head using
+> > _rcu list-traversal primitives, such as list_for_each_entry_rcu().
 > 
-> An _rcu version of list_cut():
+> Yes, I can't see how this works for a RCU lists without very careful
+> memory ordering.
 > 
-> static inline void list_cut_rcu(struct list_head *list,
-> 		struct list_head *head, struct list_head *entry)
-> {
-> 	list->next = entry;
-> 	list->prev = head->prev;
-> 	head->prev = entry->prev;
-> 	rcu_assign_pointer(list_next_rcu(entry->prev), head);
-> 	entry->prev = list;
-> 	list->prev->next = list;
-> }
+> Btw, another thing - the old vs new list ordering is reversed vs
+> list_splice*, which is a bit confusing (as are the parameter names
+> both for list_splice* and this new helper).  Can you switch them
+> around to match?
 
-I was initially thinking similiar, but this is really just doing a
-"list_del", and the rcu version calls the same generic __list_del()
-helper. To make this more clear, we could change
-
-	head->prev = entry->prev;
-	entry->prev->next = head;
-
-To just this:
-
-	__list_del(entry->prev, head);
-
-And that also gets the "WRITE_ONCE" usage right.
-
-But that's not the problem for the rcu case. It's the last line that's
-the problem:
-
- 	list->prev->next = list;
-
-We can't change forward pointers for any element being detached from
-@head because a reader iterating the list may see that new pointer value
-and end up in the wrong list, breaking iteration. A synchronize rcu
-needs to happen before forward pointers can be mucked with, so it still
-needs to be done in two steps. Oh bother...
+The parameters follow the existing conventions from list_cut_back and
+list_cut_position. Those functions cut off from the head to the "entry",
+and this one cuts off the "entry" to the tail instead.
 
