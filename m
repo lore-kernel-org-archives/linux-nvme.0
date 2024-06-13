@@ -4,71 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C799BC27C4F
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 16:10:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8CF0C27C4F
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 16:43:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jhjoBEixCdgzxQ3iF+r/n1LVF+noWpyI7rGB9WCArWs=; b=r58FR009w/3Rj1pRhjdPScUUyI
-	ztFBkIdorxKVj04P8hotQw31JUl8W3xsORIjY6yJOpF2tmR62YW3IvryjnBvh5pja2jh4Zt2Vlo3L
-	jjAVJvzqYxyY3g637ZGsf+cTe1Qxf8QMLluNPUlijioubq27mGFxGjg0onTHvnBOI2HCyiJPYpQiw
-	YfXIfArTScQseJN+S3aIAkEUEEZNXG40bRkUCXOMfQIDRcCJ+JbbK5fUYhCM/vd5Qp8Cwypf1sUPR
-	3YkaT8sPZA/ODNBGbTMf1UV5p2hf1EQUvY34yXncy3kWWjxnfncF+l6EEGoB3WQJP60q+AXbUuq9k
-	N6Gj7mUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ukz4u6wnq8+GVjMZ7x5zgDj6Z+Na2XO5gVAjzRTFRWw=; b=Tvcco/wzMWYkZCZ+TfPrAotXAq
+	tkuJ+IqEIWpTu1+DSeh7ZUqrPPjSpysVcasMLGQSPF9CYl1AznVIFJbHXadIPHHwEcndlL3PrRXN1
+	Amh0Sv2ulrP52HHzbSVAeN1A8Zb9BEbTfuro4OuauP3zUlSewrwo0gkh7mdpmeRXCl8mgtquFfJUo
+	nqjSQhx0snVzCpfKQS/3wllNg4hW5da7cncG4tuk0GA8yz0mQR47D2mPkY2M+UpT22iEV7z2kNBwi
+	A//wGS0uKRXeatXYCSuxAjQ7lLGr7QJxWZ2vutiwnliiK09yqG32pKudR+/4UFHC5IVLJcxhctotM
+	XVAGTiMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHn2D-0000000HIul-2dpT;
-	Thu, 13 Jun 2024 16:10:45 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sHnYB-0000000HNxr-074L;
+	Thu, 13 Jun 2024 16:43:47 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHn2B-0000000HItv-0p9c
+	id 1sHnY9-0000000HNx2-0eeh
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jun 2024 16:10:44 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id ECF5B61B8C;
-	Thu, 13 Jun 2024 16:10:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E47BBC2BBFC;
-	Thu, 13 Jun 2024 16:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718295041;
-	bh=hg3ZFX1ZdZkhCBl0cycfGdCXZQ4o5gfmME3tRBWguwM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BGawiitrSTl4D4rivmIxK2Oi0t9rHJYvZejrrvqg/cKKXIBd3EO7svZMgXA2PUpzl
-	 UP/u0Z0iqXD/ywWs2CrkUjY7ovZAvm0ZJpzDd5aX5Oms9EaHiZLletbxjOsA+4lYbr
-	 fwz5YexiuheI88zZR9yQwv0SBnNQipiVQmNTypdNkyt2eVPqRKku+QfV28PKZSAg3m
-	 x7MByJYAMGn7iezYywecmd+wUyjXeIbkHtv0YJ/vgYtFPzW2ILqzh4naVVwp2wB/5a
-	 Id7suEadAY11JqGsf6bfPQDdlIS53V0a+Esj+8wHpIFZewp/q+0I5/Vlnd+3iH5prr
-	 0TJnH/oMecg/g==
-Date: Thu, 13 Jun 2024 10:10:38 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, Keith Busch <kbusch@meta.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, hch@lst.de, sagi@grimberg.me,
-	davidgow@google.com, akpm@linux-foundation.org,
-	venkat88@linux.vnet.ibm.com
-Subject: Re: [PATCH 1/2] list: introduce a new cutting helper
-Message-ID: <ZmsZ_lKgOlB6Wypy@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240612155135.3060667-1-kbusch@meta.com>
- <f0e4c51c-8227-4f5c-876f-38fbb4a0e1bf@linux.ibm.com>
- <ZmrscxG51gFRDVlM@kbusch-mbp>
- <c475f0d8-3bc9-4d65-8fce-586f4b75b4fc@linux.ibm.com>
- <ZmsD_HDLBQAqOOU3@kbusch-mbp.dhcp.thefacebook.com>
- <31eb40f9-d68d-4348-b1fd-3cf057939297@paulmck-laptop>
- <ZmsGfle1aZQauzRb@kbusch-mbp.dhcp.thefacebook.com>
- <73b994eb-c689-48e0-b09c-a414041a0525@paulmck-laptop>
- <ZmsS9DZWl8TccvKz@kbusch-mbp.dhcp.thefacebook.com>
- <046f42c5-34b5-41a2-9680-5ef86ef25c01@paulmck-laptop>
+	Thu, 13 Jun 2024 16:43:46 +0000
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 45DFU1mt031450
+	for <linux-nvme@lists.infradead.org>; Thu, 13 Jun 2024 09:43:43 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc :
+ content-transfer-encoding : content-type : date : from : message-id :
+ mime-version : subject : to; s=s2048-2021-q4;
+ bh=ukz4u6wnq8+GVjMZ7x5zgDj6Z+Na2XO5gVAjzRTFRWw=;
+ b=jrdmhzV2pXwOJCK8kHYSE92pfN854EngpXoWYFt3aU6k5wAMm9KGk57eTiTLGwWHLe4y
+ 2kkJifKeZtY+rjhp+OiiLABJ7do64riDzwVX5RbgKUvtgliUDZoocDO5HOJUg5E5S627
+ J/9JxqbSK0vcTu22iqyyp+6oHBOP3lskwuI7/eVIklrr6Kkp66g0PfHmXhmjC+7S4pmS
+ nA+Z3nfpr7cLwGPlx7v22o2gmyxXQnuOLRbgVIexApjw3k9n+GB3jAwqlC6FtWl8aV0W
+ riTPeVGeQqjSPjNVwKxShuH7kvSGo1jW0hpZP7mgbpnsPfoISNZhRVSjuUTV3F9GqGaX ZA== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3yqqvdmg5x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 13 Jun 2024 09:43:43 -0700
+Received: from twshared18280.38.frc1.facebook.com (2620:10d:c0a8:1b::8e35) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Thu, 13 Jun 2024 16:43:41 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id 3267BF6865F6; Thu, 13 Jun 2024 09:43:34 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+        Venkat
+ Rao Bagalkote <venkat88@linux.vnet.ibm.com>
+Subject: [PATCHv3] nvme: fix namespace removal list
+Date: Thu, 13 Jun 2024 09:42:46 -0700
+Message-ID: <20240613164246.75205-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <046f42c5-34b5-41a2-9680-5ef86ef25c01@paulmck-laptop>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: -jlXiKZE6fFUcL4hjdwUCnjGQKsqHNo9
+X-Proofpoint-GUID: -jlXiKZE6fFUcL4hjdwUCnjGQKsqHNo9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-13_11,2024-06-13_02,2024-05-17_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240613_091043_374414_292304DA 
-X-CRM114-Status: GOOD (  12.43  )
+X-CRM114-CacheID: sfid-20240613_094345_272758_CE88671C 
+X-CRM114-Status: GOOD (  18.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,48 +84,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 13, 2024 at 09:01:47AM -0700, Paul E. McKenney wrote:
-> 
-> Is there a way to avoid this issue by making this be a statement parameter
-> to a macro?
+From: Keith Busch <kbusch@kernel.org>
 
-Something like this? It appears to work for the intended use, at least.
+This function wants to move a subset of a list from one element to the
+tail into another list. It also needs to use the srcu synchronize
+instead of the regular rcu version. Do this one element at a time
+because that's the only to do it.
 
+Fixes: be647e2c76b27f4 ("nvme: use srcu for iterating namespace list")
+Reported-by: Venkat Rao Bagalkote <venkat88@linux.vnet.ibm.com>
+Tested-by: Venkat Rao Bagalkote <venkat88@linux.vnet.ibm.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
-diff --git a/include/linux/rculist.h b/include/linux/rculist.h
-index 3dc1e58865f77..cdd2e5c0d5cdb 100644
---- a/include/linux/rculist.h
-+++ b/include/linux/rculist.h
-@@ -204,6 +204,30 @@ static inline void list_replace_rcu(struct list_head *old,
- 	old->prev = LIST_POISON2;
- }
- 
-+
-+static inline void __list_cut_start(struct list_head *list,
-+				    struct list_head *head,
-+				    struct list_head *entry)
-+{
-+	list->next = entry;
-+	list->prev = head->prev;
-+	__list_del(entry->prev, head);
-+}
-+
-+static inline void __list_cut_end(struct list_head *list,
-+				  struct list_head *entry)
-+{
-+	entry->prev = list;
-+	list->prev->next = list;
-+}
-+
-+#define list_cut_rcu(list, head, entry, sync)		\
-+	do {						\
-+		__list_cut_start(list, head, entry);	\
-+		sync;					\
-+		__list_cut_end(list, entry); 		\
-+	} while (0)
-+
- /**
-  * __list_splice_init_rcu - join an RCU-protected list into an existing list.
-  * @list:	the RCU-protected list to splice
---
+It would be neat to have a more elegant helper that we've been messing
+with, and be able to use a single srcu synchronize, but in the interest
+of time, this patch will fix the regression.
+
+I was hoping to not have per-ns srcu sync's, but this path pretty
+much only gets called on the last namespace anyway, so it should
+functionally work out to be a single sync without to optimizations.
+
+ drivers/nvme/host/core.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c40930d10bd34..782090ce0bc10 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3960,12 +3960,13 @@ static void nvme_remove_invalid_namespaces(struct=
+ nvme_ctrl *ctrl,
+=20
+ 	mutex_lock(&ctrl->namespaces_lock);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
+-		if (ns->head->ns_id > nsid)
+-			list_splice_init_rcu(&ns->list, &rm_list,
+-					     synchronize_rcu);
++		if (ns->head->ns_id > nsid) {
++			list_del_rcu(&ns->list);
++			synchronize_srcu(&ctrl->srcu);
++			list_add_tail_rcu(&ns->list, &rm_list);
++		}
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_lock);
+-	synchronize_srcu(&ctrl->srcu);
+=20
+ 	list_for_each_entry_safe(ns, next, &rm_list, list)
+ 		nvme_ns_remove(ns);
+--=20
+2.43.0
+
 
