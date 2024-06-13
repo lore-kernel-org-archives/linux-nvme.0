@@ -4,54 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AAC5C27C75
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 15:40:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CA8AC27C4F
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 16:01:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kFHJYmERSWdF9lYhPIwBg0UWtYgV80aZ30AkDO+o9JU=; b=GjdcBs0BaAoK3z+jMgPr+AFJtV
-	iSyathZTzGSH595e/6QXZPX03VhRZwz8G4bNIDw+Bl1us09Ivf4Sx7HLPpwoOYM0yLc1IvS59Kqvv
-	jDkb5qdw33dEb37/HjmStFeUQoerzJjPs9mpPm6gL7nF/oY0rH04gAhOzqrFDLEtRoznZWKGxU9V9
-	d1ta7rC56167GFxKV6o9BIgDtA5rr53ZsFNVPD/Jkl3u9ambtoFlAf3VYgtUufRFvOXOg+QXzocT4
-	+tlbKYNC8f5E0PexlfMbcdrnG6s8oQ+jXk6uc2VvEmSAHZcKCisYb7o3sevp3T1YyuZi3usP7tjt3
-	Eq7PKlJw==;
+	bh=bMyBbJCraYwS5brTdEj0q8aTkLOVuU/Ab+cP6Azdquo=; b=wTF6xD7aeRAhv9BLWqy8JuBDVp
+	Jgu8cUdur0HgieiT4HsyTt/tTB3ikN4y/h1/7Xmud1IrZhxgKNnfeIvksBpVrq1JVaLF+7vEaV95P
+	wENZWaur7MaOaoSsYxvt7rxVOspBwRyD+sI/urytgVixsW0i48c6h+y2yMUo7BUuzITCvqmPRsDjZ
+	msT8T5g091yj8cesy3XRkSSy9NZNX1vLeIm/8wyn5y950AFCV4vphlEuEI/Yp1LulyXgL/fiQVFGH
+	bRZJHooyi9Ei0v81KbCkAWUWqc5LhQkLhOG/fT1CuZOD/2e3MpnA1khJaSCMhqz1TRYJN5Hl3zTri
+	tOo/3UdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHmZC-0000000HCcw-204H;
-	Thu, 13 Jun 2024 15:40:46 +0000
+	id 1sHmtd-0000000HHTi-17wM;
+	Thu, 13 Jun 2024 16:01:53 +0000
 Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHmZ9-0000000HCap-194P
+	id 1sHmta-0000000HHS8-2gYT
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jun 2024 15:40:45 +0000
+	Thu, 13 Jun 2024 16:01:51 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 4DDDDCE262A;
-	Thu, 13 Jun 2024 15:40:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2ACC2BBFC;
-	Thu, 13 Jun 2024 15:40:38 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id B612FCE26D6;
+	Thu, 13 Jun 2024 16:01:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF1B1C2BBFC;
+	Thu, 13 Jun 2024 16:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718293239;
-	bh=PaVcqWpzvUVb5bqFarvjMoq1WONE9j8JGCxJ79pc1j8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D1Tc42C70PM77KeC0itgIgTLjOly/BlSkyGjkgHZHFYCKI/XleSPPMsbsc53JkgBc
-	 gFVFVfIXHn6b0wnq7+Z6WNswwTGWLg05CFq5RxqmRNFA6jlk6WVJvOZMsIFrDokS2B
-	 Qg1+G9RgdyV/Tvm0OpiQbPYVypQOlb0yis5h29aAh0fjEv4xuczCppnM/MSbXZPZ8K
-	 BLlMNn94XsGg6Qn03ZwvuRyZpuhUY60N1THTSv/nS+EeYAS3TN9MTpiXneeQ+iV0/X
-	 Dltc5nPohmh4VXUTkf+qFuKQl/D5cDzHd12SyfufnnHx56duXSF1g9q/y8GRAPKvAE
-	 wKjzpbeL/F0lQ==
-Date: Thu, 13 Jun 2024 09:40:36 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>
+	s=k20201202; t=1718294507;
+	bh=LKy2D6arl+GpL0o3xCQY76R9veCG4oWlZUUz2h91SqE=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=BWvGEL72ILqyPUF+a50b+MgblLneW9UZ4U+mwtAbphD3OOWIfcm8diwW/DyAGQRkT
+	 HsOf6n1lx2Wu0+5s+1mYY1lvtMPqImxjd7Tug6v/R2J3dYlrZZ+8uRmhVes/imJVUk
+	 i2LMzNDim98YcN8Vs8K4tb4cVb1E8N+sLWAjhH8aVM95ZI8rY9Tofc4A7fP08WmpNY
+	 q0s5RYjGBiSVbdRq8CLCYwVcIGSS54T144xFSLCQsxPRoxsUixbJcf3TxqMKy2099g
+	 JtNqYySXF+cBKKQRrgcUvDbESpqp3+MPjHATiyWTQg+DaeWpE6FhJcWxrJx+dsUJuN
+	 O6vxSMW6Lgraw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 54042CE04D4; Thu, 13 Jun 2024 09:01:47 -0700 (PDT)
+Date: Thu, 13 Jun 2024 09:01:47 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
 Cc: Nilay Shroff <nilay@linux.ibm.com>, l@kbusch-mbp.dhcp.thefacebook.com,
 	Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	hch@lst.de, sagi@grimberg.me, davidgow@google.com,
 	akpm@linux-foundation.org, venkat88@linux.vnet.ibm.com
 Subject: Re: [PATCH 1/2] list: introduce a new cutting helper
-Message-ID: <ZmsS9DZWl8TccvKz@kbusch-mbp.dhcp.thefacebook.com>
+Message-ID: <046f42c5-34b5-41a2-9680-5ef86ef25c01@paulmck-laptop>
 References: <20240612155135.3060667-1-kbusch@meta.com>
  <f0e4c51c-8227-4f5c-876f-38fbb4a0e1bf@linux.ibm.com>
  <ZmrscxG51gFRDVlM@kbusch-mbp>
@@ -60,13 +62,14 @@ References: <20240612155135.3060667-1-kbusch@meta.com>
  <31eb40f9-d68d-4348-b1fd-3cf057939297@paulmck-laptop>
  <ZmsGfle1aZQauzRb@kbusch-mbp.dhcp.thefacebook.com>
  <73b994eb-c689-48e0-b09c-a414041a0525@paulmck-laptop>
+ <ZmsS9DZWl8TccvKz@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <73b994eb-c689-48e0-b09c-a414041a0525@paulmck-laptop>
+In-Reply-To: <ZmsS9DZWl8TccvKz@kbusch-mbp.dhcp.thefacebook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240613_084043_696190_FFA1F0DC 
-X-CRM114-Status: GOOD (  17.44  )
+X-CRM114-CacheID: sfid-20240613_090150_892526_E9CE8A5E 
+X-CRM114-Status: GOOD (  23.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,37 +81,46 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 13, 2024 at 08:15:06AM -0700, Paul E. McKenney wrote:
-> On Thu, Jun 13, 2024 at 08:47:26AM -0600, Keith Busch wrote:
+On Thu, Jun 13, 2024 at 09:40:36AM -0600, Keith Busch wrote:
+> On Thu, Jun 13, 2024 at 08:15:06AM -0700, Paul E. McKenney wrote:
+> > On Thu, Jun 13, 2024 at 08:47:26AM -0600, Keith Busch wrote:
+> > > > 
+> > > > Just make a helper function like this:
+> > > > 
+> > > > 	static void my_synchronize_srcu(void)
+> > > > 	{
+> > > > 		synchronize_srcu(&my_srcu_struct);
+> > > > 	}
+> > > > 
+> > > > Or am I missing something subtle here?
 > > > 
-> > > Just make a helper function like this:
-> > > 
-> > > 	static void my_synchronize_srcu(void)
-> > > 	{
-> > > 		synchronize_srcu(&my_srcu_struct);
-> > > 	}
-> > > 
-> > > Or am I missing something subtle here?
+> > > That would work if we had a global srcu, but the intended usage
+> > > dynamically allocates one per device the driver is attached to, so a
+> > > void callback doesn't know which one to sync.
 > > 
-> > That would work if we had a global srcu, but the intended usage
-> > dynamically allocates one per device the driver is attached to, so a
-> > void callback doesn't know which one to sync.
+> > Ah, good point!  I suppose that a further suggestion to just JIT the
+> > needed function would not be well-received?  ;-)
+> > 
+> > I cannot resist suggesting placing a pointer to the srcu_struct in
+> > the task structure.  /me runs...
+> > 
+> > Perhaps somewhat more constructively, my usual question:  Is it really
+> > necessary to have per-driver SRCU here?  What would break if there was
+> > a global srcu_struct that applied to all drivers?
 > 
-> Ah, good point!  I suppose that a further suggestion to just JIT the
-> needed function would not be well-received?  ;-)
-> 
-> I cannot resist suggesting placing a pointer to the srcu_struct in
-> the task structure.  /me runs...
-> 
-> Perhaps somewhat more constructively, my usual question:  Is it really
-> necessary to have per-driver SRCU here?  What would break if there was
-> a global srcu_struct that applied to all drivers?
+> There's not a strict need for srcu_struct to be per device that I know
+> of. It was just done this way to keep usage localized to the parts that
+> need to be protected. The fear being that one device's long running
+> reader could prevent another device from quickly tearing down.
 
-There's not a strict need for srcu_struct to be per device that I know
-of. It was just done this way to keep usage localized to the parts that
-need to be protected. The fear being that one device's long running
-reader could prevent another device from quickly tearing down.
+That is a legitimate concern.
+
+Is there a way to avoid this issue by making this be a statement parameter
+to a macro?
+
+							Thanx, Paul
 
