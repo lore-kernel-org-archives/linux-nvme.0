@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFBCBC27C75
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 08:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED564C27C4F
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jun 2024 08:48:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xt/cEzI4CksO34TKlgliy2AxvKCGUtTFve6xzQi8/jQ=; b=OWwGETrUhw4tONo/b/xREEyYuG
-	zQCSMf1LPb61GqdEiUU6kVEmDmNmlttOUigY383ckxofZFcQXLpL2pg7C67z32Y6k8S4S1OmUY+2v
-	nLoTAwciXVB4dsYeF8Rv3L81J9S0JIC8+r64Bo2UaRQENjqMz8Y33fIS7r222DqMKQaUeM12PSYvd
-	VpAztq2t1/0+1c+dChVAkJBJmw0Z6RVA0rn5/cy2sTpf5uNvKbTchT/uGZ66IEvmZUYfUUvixxMQ6
-	Yl6hNN5VDxKQxpn2wZB3b7+HskLN32IpjSjq/+v5R9ESFFCKKdwrTp1vD6cvCPTWgqsPxrQ9e2DD6
-	AUOVWkPA==;
+	bh=mKcyvM4r/2P84aZxmwMfKhF19qmlYUHCRYKugbswj8M=; b=4qskUemSwY3iB+Zs4GzpTmNrpO
+	8keEA3oTN2/M7seP7FGXGz4HDl5gqk4fVIqwii0ZVg7BMTewdRv+u9MqyR23bUxm0UlsRBF8MStsl
+	AqOYNlnHDf5z5ei7OZhRRurWfTcQhb6j/JLkub31eSiIffNoniBtcUJCWviHhJcf/ED6wlVUtuO/4
+	jnACu3HHCvhoktCbzrNwg+qRc3DM2d9ESg64j9xBnD6aA76Lhmt4/7D8LbkRXtEes3nfzF9/BcrfC
+	QHdbLOwLTrXLvt8cbF/svCqhgyYEzX1zTUp4lr6LJt578N6bpQvhuDQs0nbqAQ9b+9+tCloqoPicu
+	5xkJAIWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHg8Y-0000000Fn43-1ACH;
-	Thu, 13 Jun 2024 08:48:50 +0000
+	id 1sHg8b-0000000Fn6b-1w5c;
+	Thu, 13 Jun 2024 08:48:53 +0000
 Received: from 2a02-8389-2341-5b80-034b-6bc2-b258-c831.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:34b:6bc2:b258:c831] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHg8W-0000000Fn1R-06kc;
-	Thu, 13 Jun 2024 08:48:49 +0000
+	id 1sHg8Z-0000000Fn3n-0mAX;
+	Thu, 13 Jun 2024 08:48:51 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>
@@ -46,9 +46,9 @@ Cc: Mike Snitzer <snitzer@kernel.org>,
 	nvdimm@lists.linux.dev,
 	linux-nvme@lists.infradead.org,
 	linux-scsi@vger.kernel.org
-Subject: [PATCH 02/12] md/raid0: don't free conf on raid0_run failure
-Date: Thu, 13 Jun 2024 10:48:12 +0200
-Message-ID: <20240613084839.1044015-3-hch@lst.de>
+Subject: [PATCH 03/12] md/raid1: don't free conf on raid0_run failure
+Date: Thu, 13 Jun 2024 10:48:13 +0200
+Message-ID: <20240613084839.1044015-4-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240613084839.1044015-1-hch@lst.de>
 References: <20240613084839.1044015-1-hch@lst.de>
@@ -70,62 +70,59 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 The core md code calls the ->free method which already frees conf.
 
-Fixes: 0c031fd37f69 ("md: Move alloc/free acct bioset in to personality")
+Fixes: 07f1a6850c5d ("md/raid1: fail run raid1 array when active disk less than one")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/raid0.c | 21 +++++----------------
- 1 file changed, 5 insertions(+), 16 deletions(-)
+ drivers/md/raid1.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
-index c5d4aeb68404c9..81c01347cd24e6 100644
---- a/drivers/md/raid0.c
-+++ b/drivers/md/raid0.c
-@@ -365,18 +365,13 @@ static sector_t raid0_size(struct mddev *mddev, sector_t sectors, int raid_disks
- 	return array_sectors;
+diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
+index 7b8a71ca66dde0..1f321826ef02ba 100644
+--- a/drivers/md/raid1.c
++++ b/drivers/md/raid1.c
+@@ -3204,7 +3204,6 @@ static int raid1_set_limits(struct mddev *mddev)
+ 	return queue_limits_set(mddev->gendisk->queue, &lim);
  }
  
--static void free_conf(struct mddev *mddev, struct r0conf *conf)
--{
--	kfree(conf->strip_zone);
--	kfree(conf->devlist);
--	kfree(conf);
--}
--
- static void raid0_free(struct mddev *mddev, void *priv)
+-static void raid1_free(struct mddev *mddev, void *priv);
+ static int raid1_run(struct mddev *mddev)
  {
- 	struct r0conf *conf = priv;
- 
--	free_conf(mddev, conf);
-+	kfree(conf->strip_zone);
-+	kfree(conf->devlist);
-+	kfree(conf);
- }
- 
- static int raid0_set_limits(struct mddev *mddev)
-@@ -415,7 +410,7 @@ static int raid0_run(struct mddev *mddev)
+ 	struct r1conf *conf;
+@@ -3238,7 +3237,7 @@ static int raid1_run(struct mddev *mddev)
  	if (!mddev_is_dm(mddev)) {
- 		ret = raid0_set_limits(mddev);
+ 		ret = raid1_set_limits(mddev);
  		if (ret)
--			goto out_free_conf;
+-			goto abort;
 +			return ret;
  	}
  
- 	/* calculate array device size */
-@@ -427,13 +422,7 @@ static int raid0_run(struct mddev *mddev)
+ 	mddev->degraded = 0;
+@@ -3252,8 +3251,7 @@ static int raid1_run(struct mddev *mddev)
+ 	 */
+ 	if (conf->raid_disks - mddev->degraded < 1) {
+ 		md_unregister_thread(mddev, &conf->thread);
+-		ret = -EINVAL;
+-		goto abort;
++		return -EINVAL;
+ 	}
  
- 	dump_zones(mddev);
+ 	if (conf->raid_disks - mddev->degraded == 1)
+@@ -3277,14 +3275,8 @@ static int raid1_run(struct mddev *mddev)
+ 	md_set_array_sectors(mddev, raid1_size(mddev, 0, 0));
  
--	ret = md_integrity_register(mddev);
--	if (ret)
--		goto out_free_conf;
+ 	ret = md_integrity_register(mddev);
+-	if (ret) {
++	if (ret)
+ 		md_unregister_thread(mddev, &mddev->thread);
+-		goto abort;
+-	}
 -	return 0;
--out_free_conf:
--	free_conf(mddev, conf);
--	return ret;
-+	return md_integrity_register(mddev);
+-
+-abort:
+-	raid1_free(mddev, conf);
+ 	return ret;
  }
  
- /*
 -- 
 2.43.0
 
