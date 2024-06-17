@@ -4,57 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6715C27C79
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 13:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AA8FC2BA15
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 13:22:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=bSDiom7F3viIRo3u9qUH+Xz0REas9CcBq5WrqCByteY=; b=sS+h25KD+JlVukIzlyMQ9b9ObW
-	52a+TQW6gKdsEJ7btAHaji7YVMRncl+b4K0ypvEIIJqF9cRl7C8bP/o0+Huy0Sfcru/I5UXLM3KYw
-	X2vpQEK/JVWP1TcgLFssdhfVIa+28cK/V2lu62Qt/IUQXnl/vC++T96/7xSmMi5euCKsCu8cLPjxT
-	fnctmyzeq/4gtZsWw/ecoIfuL7EnWSGZmWRpC2Rk6GKhjX/SMF3N2THeyEjI2OFexn4XCXmwVjdhh
-	EHHEnT2EfZNHkENMH6aA5EAIkGVag3YYUMFAZI5QLRoX3CGtPNorrksdvZsUFwhnAUkdaN9yjhUcA
-	nXu4sxwA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Gh1ftcBSctjyJfZ4Tmcg0C9iZKXNIXoK6IQhyYBBr7s=; b=B/xv7BswCD1cliCjHO48g0SQ6C
+	chnwITQYBEqiht9cuNcZYVPLAwKcJ4WosRIbWgNEOHMrirULTMrIKEU1UCU5sG8hd0YkYtPFcx3Ny
+	GiS6/9SyjBHNT11HLnEJfy1nEekgHhOHyYHAjRfhpZ4c0vvGC/+9yVUFOD1YrWMlHEkg+kO8D1LSV
+	ezs8WLbLp90NVaqdp2xOC5tKmbpZLnaF1ZSGp/STB2hRgWW9/euEFGDAkasXAkDf8GQe2br978MQK
+	uUPiCyLBGG8m32EvKvyKwkNXw/QkqdAoHgmNkDkRZcpm7swAU58Llc7PWPWQSI6ux2+2VaMHWL8+H
+	HZzunh4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJCAc-0000000AmLR-08sw;
-	Mon, 17 Jun 2024 13:13:14 +0000
-Received: from smtpbgbr2.qq.com ([54.207.22.56])
+	id 1sJCJC-0000000AoeK-2meD;
+	Mon, 17 Jun 2024 13:22:06 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJCAW-0000000AmJ6-3umi
+	id 1sJCJA-0000000AodB-2790
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Jun 2024 13:13:12 +0000
-X-QQ-mid: bizesmtpsz9t1718629912t5494vo
-X-QQ-Originating-IP: ofoZGaY66B9E0Bp1eAiohtnrFFlyHG0pri1WEVYLtFM=
-Received: from localhost.localdomain ( [14.154.190.47])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 17 Jun 2024 21:11:47 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 103092901695252679
-From: Boyang Yu <yuboyang@dapustor.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Boyang Yu <yuboyang@dapustor.com>
-Subject: [PATCH] nvme: fix NVME_NS_DEAC may incorrectly identifying the disk as EXT_LBA.
-Date: Mon, 17 Jun 2024 21:11:44 +0800
-Message-Id: <20240617131144.48955-1-yuboyang@dapustor.com>
-X-Mailer: git-send-email 2.27.0
+	Mon, 17 Jun 2024 13:22:05 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 92E3460EC6;
+	Mon, 17 Jun 2024 13:22:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD6CC4AF1C;
+	Mon, 17 Jun 2024 13:22:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718630523;
+	bh=YNwSeyUWooZMAG25GZh73ttHKehOSMr/3V06jP+H6BM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sBF1l/oNC2VCvyhAk7teW2JRa714KNbC4zIrudYwiybCpS/JL6kiPW/DyVnTkO63b
+	 I+KxtfKNrjKZ2WJjGEUXQBf7IkHdWIL7Cjw1HLGJma8dIEmIEOgr35tOYRvy076uUK
+	 pIwJsOYX0ORbZ8K8VgR2atBqwsR4gQxJGPCnKiPVzhwo4tlxnvOl1v26nt/Hz7zzYQ
+	 0KvCH4aGOKIWz90pSxPQd2/88rgFyNEsvvpQ4O4k9s/qdlUigz80lmd5R6gd37O18c
+	 /RkNyAj/cxT0Iz4wIHz4m9Y/nAEDKwRs6Jh1lqjEgkcO0xcfFpuGWzLb4UMlLerJAA
+	 5FBLNmUQd3SVA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Chunguang Xu <chunguang.xu@shopee.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.9 30/44] nvme-fabrics: use reserved tag for reg read/write command
+Date: Mon, 17 Jun 2024 09:19:43 -0400
+Message-ID: <20240617132046.2587008-30-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240617132046.2587008-1-sashal@kernel.org>
+References: <20240617132046.2587008-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.5
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:dapustor.com:qybglogicsvrgz:qybglogicsvrgz6a-1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240617_061310_569505_D02A05E8 
-X-CRM114-Status: UNSURE (   9.87  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240617_062204_751616_140DE09A 
+X-CRM114-Status: GOOD (  12.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,28 +80,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The value of NVME_NS_DEAC is 3,
-which means NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS.
+From: Chunguang Xu <chunguang.xu@shopee.com>
 
-Signed-off-by: Boyang Yu <yuboyang@dapustor.com>
+[ Upstream commit 7dc3bfcb4c9cc58970fff6aaa48172cb224d85aa ]
+
+In some scenarios, if too many commands are issued by nvme command in
+the same time by user tasks, this may exhaust all tags of admin_q. If
+a reset (nvme reset or IO timeout) occurs before these commands finish,
+reconnect routine may fail to update nvme regs due to insufficient tags,
+which will cause kernel hang forever. In order to workaround this issue,
+maybe we can let reg_read32()/reg_read64()/reg_write32() use reserved
+tags. This maybe safe for nvmf:
+
+1. For the disable ctrl path,  we will not issue connect command
+2. For the enable ctrl / fw activate path, since connect and reg_xx()
+   are called serially.
+
+So the reserved tags may still be enough while reg_xx() use reserved tags.
+
+Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/fabrics.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f3a41133ac3f..68b400f9c42d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -502,7 +502,7 @@ static inline bool nvme_ns_head_multipath(struct nvme_ns_head *head)
- enum nvme_ns_features {
- 	NVME_NS_EXT_LBAS = 1 << 0, /* support extended LBA format */
- 	NVME_NS_METADATA_SUPPORTED = 1 << 1, /* support getting generated md */
--	NVME_NS_DEAC,		/* DEAC bit in Write Zeores supported */
-+	NVME_NS_DEAC = 1 << 2,		/* DEAC bit in Write Zeores supported */
- };
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 1f0ea1f32d22f..f6416f8553f03 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -180,7 +180,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+ 	cmd.prop_get.offset = cpu_to_le32(off);
  
- struct nvme_ns {
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
+-			NVME_QID_ANY, 0);
++			NVME_QID_ANY, NVME_SUBMIT_RESERVED);
+ 
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+@@ -226,7 +226,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ 	cmd.prop_get.offset = cpu_to_le32(off);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
+-			NVME_QID_ANY, 0);
++			NVME_QID_ANY, NVME_SUBMIT_RESERVED);
+ 
+ 	if (ret >= 0)
+ 		*val = le64_to_cpu(res.u64);
+@@ -271,7 +271,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ 	cmd.prop_set.value = cpu_to_le64(val);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0,
+-			NVME_QID_ANY, 0);
++			NVME_QID_ANY, NVME_SUBMIT_RESERVED);
+ 	if (unlikely(ret))
+ 		dev_err(ctrl->device,
+ 			"Property Set error: %d, offset %#x\n",
 -- 
-2.27.0
+2.43.0
 
 
