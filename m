@@ -4,142 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4033C2BA18
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jun 2024 05:45:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37599C27C4F
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jun 2024 05:45:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YRZ+MD2RD7DoqN1zKcgy+HFLwesZ3pPlf+aKbLWxjwU=; b=vgOu/rLg3TxqbOKes1L4V30PCu
-	tB4CPS35TmyFT2nk22tJ02d3l40nvdySjXwFwcKE5w1qQhMq0F2ReKWK1ErBtTyz0Ey9ZeCxdECeN
-	YGMdpgQYmQvTDCPmvhz9/2HGvgf8wOePqxPhZcvNJanZr9hnYWeukY56ZVP9IVGG6oJPKmDmx/H5v
-	C6DJD0HpTm9+nfpXqB/q3P2+99vsDwOKK+taMOtNInKPuaE6if9MrpjWZGILSnpqhLO/JUeyIQF8I
-	fBWik8KdEeRmjNQ8z0zQk8deW5Kuj8p+AtB9vZ8etkDNh18aAQ+gZzyjFkz37HfXtmReIApP4Hxa0
-	q173LJqQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6I7HjTVD0FYGpGJyzdWr9lYyHGbtAeqv6wNa85E5Tlk=; b=zyUDEgdHzEkAb2JohWi/Qgqijv
+	PMbWC2eckHYjP4BUpHguANH/pqjMKUlQi0qB+2f3D9Baj3Wau65E5ONQ2cTI2reKseJ1/zc5B7IJL
+	ifVremxA44LM7A4QM4Aqx0W6cS2jSoVa5dTk/kGFqkJkbiCLAU5mWtry77WwrYhb8ff+Nrh0JfNUt
+	siQE5aEMdMPkRda1VEiZXj6yQu750SIewu8aYa5FzlHO/p8Dgpcc6S2PUOdzM9/bl6GY12rfUnZYQ
+	1O2Qrh5S8gNJ3c3VQf7tzWrRbJ0ATtw/7qm8vwz+PBJJq/ZePzcTrSwN8fX3U/Ag1xDYQMVB5/Vtg
+	rZ1OUlBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJReu-0000000DgJl-1H7e;
-	Tue, 18 Jun 2024 05:45:32 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sJRem-0000000Dg9f-097N;
+	Tue, 18 Jun 2024 05:45:24 +0000
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ9n7-0000000AIgS-2z3L;
-	Mon, 17 Jun 2024 10:40:56 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 502A33803D;
-	Mon, 17 Jun 2024 10:40:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718620848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRZ+MD2RD7DoqN1zKcgy+HFLwesZ3pPlf+aKbLWxjwU=;
-	b=g6i+HE7UdDx9sU/po4lLP5ccgANLhcybh16BiI+67VqBuwRwDVonJPFzOMCDdBfpbCNKBC
-	MD1s1VKGcMU3aCdrY17XV1IfskxdUXEg0QjRAJZi8F4DBktSipA264j6zDbr9/7MInSii3
-	xnuF2R+5yQTsAoOY/MXu1e+Bwa+aCec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718620848;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRZ+MD2RD7DoqN1zKcgy+HFLwesZ3pPlf+aKbLWxjwU=;
-	b=DC8Hya9o4RrY68KluA6Q1U2drYPRvGd5eOn0Qpqja/t1DhzewBZPUwXN8T5m7vch3lMroJ
-	rOjFgOFCF0RfD+BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718620848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRZ+MD2RD7DoqN1zKcgy+HFLwesZ3pPlf+aKbLWxjwU=;
-	b=g6i+HE7UdDx9sU/po4lLP5ccgANLhcybh16BiI+67VqBuwRwDVonJPFzOMCDdBfpbCNKBC
-	MD1s1VKGcMU3aCdrY17XV1IfskxdUXEg0QjRAJZi8F4DBktSipA264j6zDbr9/7MInSii3
-	xnuF2R+5yQTsAoOY/MXu1e+Bwa+aCec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718620848;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRZ+MD2RD7DoqN1zKcgy+HFLwesZ3pPlf+aKbLWxjwU=;
-	b=DC8Hya9o4RrY68KluA6Q1U2drYPRvGd5eOn0Qpqja/t1DhzewBZPUwXN8T5m7vch3lMroJ
-	rOjFgOFCF0RfD+BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74D3713AAA;
-	Mon, 17 Jun 2024 10:40:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TLFtGK8ScGaFDQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 17 Jun 2024 10:40:47 +0000
-Message-ID: <82e013f1-9029-460d-8a71-a64fd8ee58d0@suse.de>
-Date: Mon, 17 Jun 2024 12:40:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/26] block: move the synchronous flag to queue_limits
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Richard Weinberger <richard@nod.at>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
- Yu Kuai <yukuai3@huawei.com>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
- drbd-dev@lists.linbit.com, nbd@other.debian.org,
- linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
- virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
- linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
- Damien Le Moal <dlemoal@kernel.org>
+	id 1sJ7DX-00000009kyd-0qlv
+	for linux-nvme@lists.infradead.org;
+	Mon, 17 Jun 2024 07:55:58 +0000
+Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-4415e623653so37857791cf.1
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Jun 2024 00:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=citrix.com; s=google; t=1718610952; x=1719215752; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6I7HjTVD0FYGpGJyzdWr9lYyHGbtAeqv6wNa85E5Tlk=;
+        b=kde2Gi0dzGwmVuH61qNvwqRS6KjJ9M3gjKx4o5AlmgKD43mlJj2kwo+sqfJNDfOIT4
+         BfG7Co85W89bNm96HwWHLkkJtbVxrWyP7VGWeZqvniqqaqC1atqP0+VptFJ7PZOUhUp1
+         i5oEBtsbO62FDSKfncOB57UsDm2xNxURwXKyA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718610952; x=1719215752;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6I7HjTVD0FYGpGJyzdWr9lYyHGbtAeqv6wNa85E5Tlk=;
+        b=Qmivnw7zU5sZkeMXHRi4i+6C3lHpcxrd7FKPsG8Ljrm4SNJYQAxjSQzM6eq9LkS8qj
+         ztXVGGpKfKTYTAez6cAI77jF61VZDoC3WLjnVnFlyRmwGXLft7G1RPScLzACmgkNQcki
+         FS1k0Mn4qjqLHSpRCp9B9fDRC5QliK9824YaQuS+D4aEhW0k3JiZun3LCXrKZNbddQyr
+         RCoG+ORtrU1F0EWhysf/aDKmoYc7guD/l1BIlUwzw6wBdH9eH2RwNa9EFe++Wg/wfv9O
+         95d6b873bvE3xS7HFsFAu3QA8shBwELrUko7nXzVoO3w+UZ3PsplCCmGp4xqkIZyRI5b
+         J97A==
+X-Forwarded-Encrypted: i=1; AJvYcCWDXzReRKDBPrh0r6V+WarT7JarMcbwwJKfXpmTqBru9pzc4Z2pFbCir2FA9urik/YHJQ7QZspSEgNZxF8Q5A2ftWrN0OCLZE7Fr5LX9+E=
+X-Gm-Message-State: AOJu0YzDfg/qo8frTZj9jaGPird6Q/p+amp00vm4dHfY73Nrlaye2XSI
+	u2U70bMpDRpgd3/RBYst8LDI8nBhudQMkiEgs+mokFkLb7Vc3NHr/iC/pFMlR0Q=
+X-Google-Smtp-Source: AGHT+IFxBb+fxu+zFP9/mPYH5nZSCdE6S/NGqQ55TdkfvSsNQ6okiuS1Itv2iysUUW0wZGmJIGDYbg==
+X-Received: by 2002:ac8:5e11:0:b0:440:10be:3ecf with SMTP id d75a77b69052e-4417ac402c0mr199666251cf.22.1718610952095;
+        Mon, 17 Jun 2024 00:55:52 -0700 (PDT)
+Received: from localhost ([213.195.124.163])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-441ef4eefaesm44094171cf.21.2024.06.17.00.55.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 00:55:51 -0700 (PDT)
+Date: Mon, 17 Jun 2024 09:55:48 +0200
+From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
+	Richard Weinberger <richard@nod.at>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Christoph =?utf-8?Q?B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Vineeth Vijayan <vneethv@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
+	drbd-dev@lists.linbit.com, nbd@other.debian.org,
+	linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
+	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 01/26] xen-blkfront: don't disable cache flushes when
+ they fail
+Message-ID: <Zm_sBInagtSkOZtg@macbook>
 References: <20240617060532.127975-1-hch@lst.de>
- <20240617060532.127975-19-hch@lst.de>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240617060532.127975-19-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20240617060532.127975-2-hch@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-8.29 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLex1noz7jcsrkfdtgx8bqesde)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,lst.de:email]
+In-Reply-To: <20240617060532.127975-2-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240617_034050_089474_A2521B70 
-X-CRM114-Status: GOOD (  10.63  )
+X-CRM114-CacheID: sfid-20240617_005555_253090_DD12469B 
+X-CRM114-Status: GOOD (  14.11  )
 X-Mailman-Approved-At: Mon, 17 Jun 2024 22:43:56 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -155,30 +113,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/17/24 08:04, Christoph Hellwig wrote:
-> Move the synchronous flag into the queue_limits feature field so that it
-> can be set atomically with the queue frozen.
+On Mon, Jun 17, 2024 at 08:04:28AM +0200, Christoph Hellwig wrote:
+> blkfront always had a robust negotiation protocol for detecting a write
+> cache.  Stop simply disabling cache flushes in the block layer as the
+> flags handling is moving to the atomic queue limits API that needs
+> user context to freeze the queue for that.  Instead handle the case
+> of the feature flags cleared inside of blkfront.  This removes old
+> debug code to check for such a mismatch which was previously impossible
+> to hit, including the check for passthrough requests that blkfront
+> never used to start with.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-> ---
->   block/blk-mq-debugfs.c        | 1 -
->   drivers/block/brd.c           | 2 +-
->   drivers/block/zram/zram_drv.c | 4 ++--
->   drivers/nvdimm/btt.c          | 3 +--
->   drivers/nvdimm/pmem.c         | 4 ++--
->   include/linux/blkdev.h        | 7 ++++---
->   6 files changed, 10 insertions(+), 11 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Cheers,
+Acked-by: Roger Pau Monné <roger.pau@citrix.com>
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
-
+Thanks, Roger.
 
