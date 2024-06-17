@@ -4,63 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B58E2C27C6E
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:19:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 909BEC27C7B
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NZ/V/1Gje+lwAsaRU65iTiBQ7cKHOyN7OLZBZCTKqZ4=; b=pWtrLxEOFmDuO/VO4/aeZOPOxm
-	IvNtZRFJcThVFoRQzD+PvvV2jn97FmeqXzobDRcJCEM32smuD8/GzbT5DFG8cli4T3L+wxCgkBZ2a
-	KwyloxV5CFP6PbN/7Qe8wU/FcxpRHC1e1Uu/2NnccCCod+8DktM9CTsI1kMNL+ehE1BWX+Cv5aemj
-	eGIkNqd/UmAvRNkwHfejsKM1uCOZCOhweiLI+2Np+p6ykwjTQ2rTTtbVoCNBcd45oHyTdviHfLHYV
-	3ZRkSwzlukPTGbzmxmAkk5u4qjSfsEZOMOdvqYzSppm8+1U0Nvw8kUfZlk5zF6+33Xw6/6m6DgD7S
-	cgRu5fkw==;
+	bh=D6Vvb8LBU5umTE53B1uu2WJSC19NXQ7RJZ59m5y/5A4=; b=mWrFXSYqwT+4tNJ4jiOjTJ8BOT
+	XhECWSulKrRXciX2oHUiz/3y7ek1gd2sjFFG1yIicbAuSufnduIuzP3+hFuOGoUoBXtIsypstmxRv
+	8Q5W4F6FqFCLdkipnLiJHWGJJ3d9dvOZTI1eBChsejUJGmGX2soXoUVDlPBLn0eqwwDhcPxswRWDg
+	128+el6J+j45cdxuKSXSJDHuUvt6nJSnzo/iiWlDsn706waK5ZPUlu941U6vfqhMbE4SX2HH/1YSV
+	vcEXXoEGPoEsdDKFzJFxWVmyAFedAYfcTnVpHfClBwx9qJI/yfrR41wP0ttKme3+oH9WIv9GAj2/S
+	vkB99yjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ6eO-00000009bqH-0kGX;
-	Mon, 17 Jun 2024 07:19:36 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1sJ6eP-00000009bqk-0UaQ;
+	Mon, 17 Jun 2024 07:19:37 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ5br-00000009NR9-2eg5;
-	Mon, 17 Jun 2024 06:12:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=NZ/V/1Gje+lwAsaRU65iTiBQ7cKHOyN7OLZBZCTKqZ4=; b=j5ZYmG3ZujE3wne5TQpcYK3emm
-	uO8zBNdejJ8m0N+zh4sX+bOQ8wYEQnTwAq7/6aLl1it2tkKSEkUB2QBFdv7YvGOfvCOCnkl6uGjw1
-	A73MnbvF2/u8HBSoG0xESjinh+L0ylUD51UrIqFRZxS7k8eSyjWZTYbgsFWHHRCRPoZG79FWkALgm
-	abLEd4cDzXRKukk4i1fRSnOCaYvum9AX5BTkvAs69DmXQf6pqmMPc3pokK4HKNO6+fy4VSC5vpG4e
-	oroWmWi/XiePlCzha0ycCTew6h8j+VP5+vTd+3Fm2evQWqVhaUumHvWrrssMbdvdEIR7rRMb4t0Qq
-	2J2y15dg==;
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
-	by casper.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ5bn-00000001qCG-0hIA;
-	Mon, 17 Jun 2024 06:12:54 +0000
+	id 1sJ5cZ-00000009Nrh-2toz;
+	Mon, 17 Jun 2024 06:13:47 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id C4E92CE0FD5;
-	Mon, 17 Jun 2024 06:12:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 722E5C2BD10;
-	Mon, 17 Jun 2024 06:12:32 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 79463CE0FD1;
+	Mon, 17 Jun 2024 06:13:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E26F1C2BD10;
+	Mon, 17 Jun 2024 06:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718604757;
-	bh=LrLZKWXkRakpWI4/ueXizJXAwKTR991d/slvg583xhg=;
+	s=k20201202; t=1718604815;
+	bh=i+c+RpVRjeaE7WIb31u0YOButoWpoMUXbmMH2ED9KM8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nFz/S8PqJ0x5s3Ny5I2evBmJDaO2EaUIuiWjAdtRmCQ/A6QpvJbLmjC0Fw7IXR1VT
-	 uSNeYADsaTVxJipaBcqAsdKPSVVmorISGDB8ghzkIoBVgWELX0vnHVqN5Xf3bgHIW/
-	 Jd7IHk4xFBOBn5HxiZsiAifRO0y8cGSStiGE0NqqwYZj3htvKjZ9JxGjZyZWwJADfE
-	 WIUuoyvXMEqafkiqyCnfGPuXY7GxfWhCoyjXAFv1xdeTp+IRRcD16/M5uHMReQAzrM
-	 yLcLncP795V2wNVqCHkdUBLru1ejkUmD3WFgvqGfKNm1zjEea2esQdxNT2nTdM/0yi
-	 xUG82No+arhQQ==
-Message-ID: <e4ce83ca-160f-4dd9-984a-842b6cd2b5c0@kernel.org>
-Date: Mon, 17 Jun 2024 15:12:31 +0900
+	b=NGDwf0zXEmzo9+7Yx4d9cGXV793JqUi91piwr9DLQr9gvYLzjssulS3nd0FDXod4o
+	 1NiEaNf9DKv91oATngwE6MlpuTxufePFFAUPAiGTMSZ8Iyqb43pbMY/AWpT0yfgG9x
+	 h7tK/rGWoSYR5lk30x+/zxQfjGaL8mJv2SH7mMjlqBwSC3JpHWjWgqv3xYEnVpUZ3T
+	 GLm2uelJLLxYyxbZLJP4lmiyxvgd2hfNI8V/LV1wIStwKjwJDXjuh7JmDm0LI0dTdZ
+	 pEsb3rbnrZU0AByYnkj2ZCWuHVBzn8LtTQfnCUTAC98K23Vza+t2P0C82aHVfqiJXZ
+	 7lE9UMorz5Ztg==
+Message-ID: <72e2cebc-a748-4e39-8783-440a82cd40c1@kernel.org>
+Date: Mon, 17 Jun 2024 15:13:29 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/26] sd: move zone limits setup out of
- sd_read_block_characteristics
+Subject: Re: [PATCH 06/26] loop: regularize upgrading the block size for
+ direct I/O
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  Richard Weinberger <richard@nod.at>,
@@ -82,18 +68,19 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
  linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
+ linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
+ Hannes Reinecke <hare@suse.de>, Bart Van Assche <bvanassche@acm.org>
 References: <20240617060532.127975-1-hch@lst.de>
- <20240617060532.127975-4-hch@lst.de>
+ <20240617060532.127975-7-hch@lst.de>
 From: Damien Le Moal <dlemoal@kernel.org>
 Content-Language: en-US
 Organization: Western Digital Research
-In-Reply-To: <20240617060532.127975-4-hch@lst.de>
+In-Reply-To: <20240617060532.127975-7-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240617_071251_495535_E27826CB 
-X-CRM114-Status: UNSURE (   6.75  )
+X-CRM114-CacheID: sfid-20240616_231340_117834_4E9AE051 
+X-CRM114-Status: UNSURE (   8.36  )
 X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Mon, 17 Jun 2024 00:19:34 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -111,12 +98,16 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/17/24 15:04, Christoph Hellwig wrote:
-> Move a bit of code that sets up the zone flag and the write granularity
-> into sd_zbc_read_zones to be with the rest of the zoned limits.
+> The LOOP_CONFIGURE path automatically upgrades the block size to that
+> of the underlying file for O_DIRECT file descriptors, but the
+> LOOP_SET_BLOCK_SIZE path does not.  Fix this by lifting the code to
+> pick the block size into common code.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 
-Looks good.
+Looks good to me.
 
 Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
