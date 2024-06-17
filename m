@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58370C27C6E
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CB13C27C77
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PjgmwXiuV7FK2oQNFsskA59bpZQJKHy+bIXVC2fbd1Q=; b=C+ByjqMqrLNcL8OFTLO6dCM6wR
-	qJkpLnZ7Lwx6d7Ybam8J5XYv7qwGTeCzr3QFf6soFkuWhcAc1ASHajsIaDCaXvN2LiqgY5VmVJ7rN
-	/wHxnHp0vrlzNCWP0BEwtjw/6g2PTLjSdQr/62NK1G+zRWyiHvvFZnoT3IwxvjGK78x0Ld8nWXKCV
-	fEisSms0gtk42Np92oqSNDLDt1YD7tg4YGqLHsLJkZx3lRQXGyWvfDU8RmiDbjfoZbLLkSvo9gGBF
-	9ETupJYfX71nDveTCtfVYc15lZQrJJSi37R7Bj4u7bJVGT5EW/2jJjA+VkiyTf9iyDlR+K0gwn4lN
-	hvNkSocQ==;
+	bh=SK8RArAP4avqHje0rxA9RB84wXcITze6EgEVeCJ1QVg=; b=1EuR7oYSZDsQoIk0Ayur8MG4R4
+	jqYzB9KuCGicDqOJeOfMT5Fsea70tKD2Ij9ZViG05lNunwcC1sPUAex7YcXarwmmBiBSX+Tmkppm5
+	Uo+mZA0LDwkwHIm8rKeIiPmiZHBGA/PqHjzp4qqddhemSUGxPd3BKUQx/o123wzZFybK1OXN5+l4a
+	41OAprBtwJWDBd8tZsP7SgN701cIGq8e5gZAAyWoXXrsO6fluf/gJdbswkwhH0xEKprKAsdidZwKA
+	eD712VZtamHG8Ew0UYKNjJ7cM4vdXQUxW2vRUYjRxlzE/JYFP0hjPIpwR2XpVNIKqvMdvpaCIf0T+
+	0ROaBXfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ6b5-00000009Zz7-2raj;
-	Mon, 17 Jun 2024 07:16:11 +0000
+	id 1sJ6ax-00000009Zt1-3Wxw;
+	Mon, 17 Jun 2024 07:16:03 +0000
 Received: from [91.187.204.140] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ5W6-00000009JIp-3zn2;
-	Mon, 17 Jun 2024 06:06:59 +0000
+	id 1sJ5Vf-00000009IvN-27mo;
+	Mon, 17 Jun 2024 06:06:32 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -64,9 +64,9 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org,
 	Damien Le Moal <dlemoal@kernel.org>
-Subject: [PATCH 26/26] block: move the bounce flag into the features field
-Date: Mon, 17 Jun 2024 08:04:53 +0200
-Message-ID: <20240617060532.127975-27-hch@lst.de>
+Subject: [PATCH 18/26] block: move the synchronous flag to queue_limits
+Date: Mon, 17 Jun 2024 08:04:45 +0200
+Message-ID: <20240617060532.127975-19-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240617060532.127975-1-hch@lst.de>
 References: <20240617060532.127975-1-hch@lst.de>
@@ -87,87 +87,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the bounce flag into the features field to reclaim a little bit of
-space.
+Move the synchronous flag into the queue_limits feature field so that it
+can be set atomically with the queue frozen.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- block/blk-settings.c    | 1 -
- block/blk.h             | 2 +-
- drivers/scsi/scsi_lib.c | 2 +-
- include/linux/blkdev.h  | 6 ++++--
- 4 files changed, 6 insertions(+), 5 deletions(-)
+ block/blk-mq-debugfs.c        | 1 -
+ drivers/block/brd.c           | 2 +-
+ drivers/block/zram/zram_drv.c | 4 ++--
+ drivers/nvdimm/btt.c          | 3 +--
+ drivers/nvdimm/pmem.c         | 4 ++--
+ include/linux/blkdev.h        | 7 ++++---
+ 6 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 96e07f24bd9aa1..d0e9096f93ca8a 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -479,7 +479,6 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
- 					b->max_write_zeroes_sectors);
- 	t->max_zone_append_sectors = min(queue_limits_max_zone_append_sectors(t),
- 					 queue_limits_max_zone_append_sectors(b));
--	t->bounce = max(t->bounce, b->bounce);
+diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+index eb73f1d348e5a9..957774e40b1d0c 100644
+--- a/block/blk-mq-debugfs.c
++++ b/block/blk-mq-debugfs.c
+@@ -85,7 +85,6 @@ static const char *const blk_queue_flag_name[] = {
+ 	QUEUE_FLAG_NAME(SAME_COMP),
+ 	QUEUE_FLAG_NAME(FAIL_IO),
+ 	QUEUE_FLAG_NAME(NOXMERGES),
+-	QUEUE_FLAG_NAME(SYNCHRONOUS),
+ 	QUEUE_FLAG_NAME(SAME_FORCE),
+ 	QUEUE_FLAG_NAME(INIT_DONE),
+ 	QUEUE_FLAG_NAME(POLL),
+diff --git a/drivers/block/brd.c b/drivers/block/brd.c
+index b25dc463b5e3a6..d77deb571dbd06 100644
+--- a/drivers/block/brd.c
++++ b/drivers/block/brd.c
+@@ -335,6 +335,7 @@ static int brd_alloc(int i)
+ 		.max_hw_discard_sectors	= UINT_MAX,
+ 		.max_discard_segments	= 1,
+ 		.discard_granularity	= PAGE_SIZE,
++		.features		= BLK_FEAT_SYNCHRONOUS,
+ 	};
  
- 	t->seg_boundary_mask = min_not_zero(t->seg_boundary_mask,
- 					    b->seg_boundary_mask);
-diff --git a/block/blk.h b/block/blk.h
-index 79e8d5d4fe0caf..fa32f7fad5d7e6 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -394,7 +394,7 @@ struct bio *__blk_queue_bounce(struct bio *bio, struct request_queue *q);
- static inline bool blk_queue_may_bounce(struct request_queue *q)
- {
- 	return IS_ENABLED(CONFIG_BOUNCE) &&
--		q->limits.bounce == BLK_BOUNCE_HIGH &&
-+		(q->limits.features & BLK_FEAT_BOUNCE_HIGH) &&
- 		max_low_pfn >= max_pfn;
- }
+ 	list_for_each_entry(brd, &brd_devices, brd_list)
+@@ -366,7 +367,6 @@ static int brd_alloc(int i)
+ 	strscpy(disk->disk_name, buf, DISK_NAME_LEN);
+ 	set_capacity(disk, rd_size * 2);
+ 	
+-	blk_queue_flag_set(QUEUE_FLAG_SYNCHRONOUS, disk->queue);
+ 	blk_queue_flag_set(QUEUE_FLAG_NOWAIT, disk->queue);
+ 	err = add_disk(disk);
+ 	if (err)
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index f8f1b5b54795ac..efcb8d9d274c31 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -2208,7 +2208,8 @@ static int zram_add(void)
+ #if ZRAM_LOGICAL_BLOCK_SIZE == PAGE_SIZE
+ 		.max_write_zeroes_sectors	= UINT_MAX,
+ #endif
+-		.features			= BLK_FEAT_STABLE_WRITES,
++		.features			= BLK_FEAT_STABLE_WRITES |
++						  BLK_FEAT_SYNCHRONOUS,
+ 	};
+ 	struct zram *zram;
+ 	int ret, device_id;
+@@ -2246,7 +2247,6 @@ static int zram_add(void)
  
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 54f771ec8cfb5e..e2f7bfb2b9e450 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1986,7 +1986,7 @@ void scsi_init_limits(struct Scsi_Host *shost, struct queue_limits *lim)
- 		shost->dma_alignment, dma_get_cache_alignment() - 1);
+ 	/* Actual capacity set using sysfs (/sys/block/zram<id>/disksize */
+ 	set_capacity(zram->disk, 0);
+-	blk_queue_flag_set(QUEUE_FLAG_SYNCHRONOUS, zram->disk->queue);
+ 	ret = device_add_disk(NULL, zram->disk, zram_disk_groups);
+ 	if (ret)
+ 		goto out_cleanup_disk;
+diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+index e474afa8e9f68d..e79c06d65bb77b 100644
+--- a/drivers/nvdimm/btt.c
++++ b/drivers/nvdimm/btt.c
+@@ -1501,6 +1501,7 @@ static int btt_blk_init(struct btt *btt)
+ 		.logical_block_size	= btt->sector_size,
+ 		.max_hw_sectors		= UINT_MAX,
+ 		.max_integrity_segments	= 1,
++		.features		= BLK_FEAT_SYNCHRONOUS,
+ 	};
+ 	int rc;
  
- 	if (shost->no_highmem)
--		lim->bounce = BLK_BOUNCE_HIGH;
-+		lim->features |= BLK_FEAT_BOUNCE_HIGH;
+@@ -1518,8 +1519,6 @@ static int btt_blk_init(struct btt *btt)
+ 	btt->btt_disk->fops = &btt_fops;
+ 	btt->btt_disk->private_data = btt;
  
- 	dma_set_seg_boundary(dev, shost->dma_boundary);
- 	dma_set_max_seg_size(dev, shost->max_segment_size);
+-	blk_queue_flag_set(QUEUE_FLAG_SYNCHRONOUS, btt->btt_disk->queue);
+-
+ 	set_capacity(btt->btt_disk, btt->nlba * btt->sector_size >> 9);
+ 	rc = device_add_disk(&btt->nd_btt->dev, btt->btt_disk, NULL);
+ 	if (rc)
+diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
+index 501cf226df0187..b821dcf018f6ae 100644
+--- a/drivers/nvdimm/pmem.c
++++ b/drivers/nvdimm/pmem.c
+@@ -455,7 +455,8 @@ static int pmem_attach_disk(struct device *dev,
+ 		.logical_block_size	= pmem_sector_size(ndns),
+ 		.physical_block_size	= PAGE_SIZE,
+ 		.max_hw_sectors		= UINT_MAX,
+-		.features		= BLK_FEAT_WRITE_CACHE,
++		.features		= BLK_FEAT_WRITE_CACHE |
++					  BLK_FEAT_SYNCHRONOUS,
+ 	};
+ 	int nid = dev_to_node(dev), fua;
+ 	struct resource *res = &nsio->res;
+@@ -546,7 +547,6 @@ static int pmem_attach_disk(struct device *dev,
+ 	}
+ 	pmem->virt_addr = addr;
+ 
+-	blk_queue_flag_set(QUEUE_FLAG_SYNCHRONOUS, q);
+ 	if (pmem->pfn_flags & PFN_MAP)
+ 		blk_queue_flag_set(QUEUE_FLAG_DAX, q);
+ 
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 2c433ebf6f2030..e96ba7b97288d2 100644
+index 8936eb6ba60956..cee7b44a142513 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -325,6 +325,9 @@ enum {
+@@ -301,6 +301,9 @@ enum {
  
- 	/* skip this queue in blk_mq_(un)quiesce_tagset */
- 	BLK_FEAT_SKIP_TAGSET_QUIESCE		= (1u << 13),
+ 	/* don't modify data until writeback is done */
+ 	BLK_FEAT_STABLE_WRITES			= (1u << 5),
 +
-+	/* bounce all highmem pages */
-+	BLK_FEAT_BOUNCE_HIGH			= (1u << 14),
++	/* always completes in submit context */
++	BLK_FEAT_SYNCHRONOUS			= (1u << 6),
  };
  
  /*
-@@ -332,7 +335,7 @@ enum {
-  */
- #define BLK_FEAT_INHERIT_MASK \
- 	(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA | BLK_FEAT_ROTATIONAL | \
--	 BLK_FEAT_STABLE_WRITES | BLK_FEAT_ZONED)
-+	 BLK_FEAT_STABLE_WRITES | BLK_FEAT_ZONED | BLK_FEAT_BOUNCE_HIGH)
+@@ -566,7 +569,6 @@ struct request_queue {
+ #define QUEUE_FLAG_SAME_COMP	4	/* complete on same CPU-group */
+ #define QUEUE_FLAG_FAIL_IO	5	/* fake timeout */
+ #define QUEUE_FLAG_NOXMERGES	9	/* No extended merges */
+-#define QUEUE_FLAG_SYNCHRONOUS	11	/* always completes in submit context */
+ #define QUEUE_FLAG_SAME_FORCE	12	/* force complete on same CPU */
+ #define QUEUE_FLAG_INIT_DONE	14	/* queue is initialized */
+ #define QUEUE_FLAG_POLL		16	/* IO polling enabled if set */
+@@ -1315,8 +1317,7 @@ static inline bool bdev_nonrot(struct block_device *bdev)
  
- /* internal flags in queue_limits.flags */
- enum {
-@@ -352,7 +355,6 @@ enum blk_bounce {
- struct queue_limits {
- 	unsigned int		features;
- 	unsigned int		flags;
--	enum blk_bounce		bounce;
- 	unsigned long		seg_boundary_mask;
- 	unsigned long		virt_boundary_mask;
+ static inline bool bdev_synchronous(struct block_device *bdev)
+ {
+-	return test_bit(QUEUE_FLAG_SYNCHRONOUS,
+-			&bdev_get_queue(bdev)->queue_flags);
++	return bdev->bd_disk->queue->limits.features & BLK_FEAT_SYNCHRONOUS;
+ }
  
+ static inline bool bdev_stable_writes(struct block_device *bdev)
 -- 
 2.43.0
 
