@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0A0EC2BA18
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6BD7C2BA2B
 	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:16:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,20 +12,20 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=coy7WUktq0cqVSrDGz+XN80hfWwE+5h35+hSlMVetYE=; b=d5gEbYHhagluq3if6kKDxSHXr6
-	HUfva2sj1xMMM9adhucbHKwqpp8mkGF0TTvTlZGDW4ykWweA6QE+/p4+LcWAXIfS/QXeks/kt3nGr
-	z4cws8rOxacWLcMmZTHdKD/2je7yQLx43KtQoYZg1u3cR0ttppQxg2BqqUelUGsF40r/clTTLwCls
-	s5+iybIF+hxmQODPwm4XG4sM+dcKoutx14W8huwROXn8t29wuEM1uisM2VPGkgR2sSx+aOx5G/YcU
-	QqUE0Gv5ZtoU7gL6XSXDtOn1NrcZVXf57JZJL3OagKFc88/9XmBs7HcjhsgWiWUDDfxBJdz0FbisE
-	oxnoFrmA==;
+	bh=XDMmYQEhqfxG2aJiRL/4ZYDAujH/dkiKXCLXQktKzVU=; b=h9sKkkbTr5B0o95Rft1HDe9UKo
+	Vc0p+0cZH5vKAgEQbcXfP8pPgCQomSnNIZRRN0zKNSzrgdVIV8Jqgclo3aHKVgUrTp7mAONZTWizg
+	8AP10nkJPAVoq4KQl6Jh4aYkw5qYVuMp5N5QK5Wh3prS/P6r1WfnpVftaJ8uJMrVRkrHJBUi6Hloa
+	Ttm7o0rSlLwxt3cMkmiAumo9bWbVR6gbcDEA7kLWEZzRrmHygYJxhpIdsksqaud49u3lK80dspyvA
+	qJSXgE/xuGI7FDUUxr3lsy5vNO/E7aLU4jb8WkDvncU2yUSC5V9lMa9rj32cwe8ysJBR0m057D4xB
+	s+D9leqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ6ax-00000009Zsm-0XX4;
-	Mon, 17 Jun 2024 07:16:03 +0000
+	id 1sJ6az-00000009Ztg-2dTQ;
+	Mon, 17 Jun 2024 07:16:05 +0000
 Received: from [91.187.204.140] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ5Vc-00000009Irp-1Kdh;
-	Mon, 17 Jun 2024 06:06:28 +0000
+	id 1sJ5Vp-00000009J4S-1rbZ;
+	Mon, 17 Jun 2024 06:06:42 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -64,9 +64,9 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org,
 	Damien Le Moal <dlemoal@kernel.org>
-Subject: [PATCH 17/26]  block: move the stable_writes flag to queue_limits
-Date: Mon, 17 Jun 2024 08:04:44 +0200
-Message-ID: <20240617060532.127975-18-hch@lst.de>
+Subject: [PATCH 21/26] block: move the poll flag to queue_limits
+Date: Mon, 17 Jun 2024 08:04:48 +0200
+Message-ID: <20240617060532.127975-22-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240617060532.127975-1-hch@lst.de>
 References: <20240617060532.127975-1-hch@lst.de>
@@ -87,367 +87,355 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the stable_writes flag into the queue_limits feature field so that
-it can be set atomically with the queue frozen.
+Move the poll flag into the queue_limits feature field so that it can
+be set atomically with the queue frozen.
 
-The flag is now inherited by blk_stack_limits, which greatly simplifies
-the code in dm, and fixed md which previously did not pass on the flag
-set on lower devices.
+Stacking drivers are simplified in that they now can simply set the
+flag, and blk_stack_limits will clear it when the features is not
+supported by any of the underlying devices.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- block/blk-mq-debugfs.c         |  1 -
- block/blk-sysfs.c              | 29 +----------------------------
- drivers/block/drbd/drbd_main.c |  5 ++---
- drivers/block/rbd.c            |  9 +++------
- drivers/block/zram/zram_drv.c  |  2 +-
- drivers/md/dm-table.c          | 19 -------------------
- drivers/md/raid5.c             |  6 ++++--
- drivers/mmc/core/queue.c       |  5 +++--
- drivers/nvme/host/core.c       |  9 +++++----
- drivers/nvme/host/multipath.c  |  4 ----
- drivers/scsi/iscsi_tcp.c       |  8 ++++----
- include/linux/blkdev.h         |  9 ++++++---
- 12 files changed, 29 insertions(+), 77 deletions(-)
+ block/blk-core.c              |  5 ++--
+ block/blk-mq-debugfs.c        |  1 -
+ block/blk-mq.c                | 31 +++++++++++---------
+ block/blk-settings.c          | 10 ++++---
+ block/blk-sysfs.c             |  4 +--
+ drivers/md/dm-table.c         | 54 +++++++++--------------------------
+ drivers/nvme/host/multipath.c | 12 +-------
+ include/linux/blkdev.h        |  4 ++-
+ 8 files changed, 45 insertions(+), 76 deletions(-)
 
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 2b45a4df9a1aa1..8d9fbd353fc7fc 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -791,7 +791,7 @@ void submit_bio_noacct(struct bio *bio)
+ 		}
+ 	}
+ 
+-	if (!test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
++	if (!(q->limits.features & BLK_FEAT_POLL))
+ 		bio_clear_polled(bio);
+ 
+ 	switch (bio_op(bio)) {
+@@ -915,8 +915,7 @@ int bio_poll(struct bio *bio, struct io_comp_batch *iob, unsigned int flags)
+ 		return 0;
+ 
+ 	q = bdev_get_queue(bdev);
+-	if (cookie == BLK_QC_T_NONE ||
+-	    !test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
++	if (cookie == BLK_QC_T_NONE || !(q->limits.features & BLK_FEAT_POLL))
+ 		return 0;
+ 
+ 	blk_flush_plug(current->plug, false);
 diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index cbe99444ed1a54..eb73f1d348e5a9 100644
+index f4fa820251ce83..3a21527913840d 100644
 --- a/block/blk-mq-debugfs.c
 +++ b/block/blk-mq-debugfs.c
-@@ -88,7 +88,6 @@ static const char *const blk_queue_flag_name[] = {
- 	QUEUE_FLAG_NAME(SYNCHRONOUS),
+@@ -87,7 +87,6 @@ static const char *const blk_queue_flag_name[] = {
+ 	QUEUE_FLAG_NAME(NOXMERGES),
  	QUEUE_FLAG_NAME(SAME_FORCE),
  	QUEUE_FLAG_NAME(INIT_DONE),
--	QUEUE_FLAG_NAME(STABLE_WRITES),
- 	QUEUE_FLAG_NAME(POLL),
- 	QUEUE_FLAG_NAME(DAX),
+-	QUEUE_FLAG_NAME(POLL),
  	QUEUE_FLAG_NAME(STATS),
+ 	QUEUE_FLAG_NAME(REGISTERED),
+ 	QUEUE_FLAG_NAME(QUIESCED),
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 43235acc87505f..e2b9710ddc5ad1 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -4109,6 +4109,12 @@ void blk_mq_release(struct request_queue *q)
+ 	blk_mq_sysfs_deinit(q);
+ }
+ 
++static bool blk_mq_can_poll(struct blk_mq_tag_set *set)
++{
++	return set->nr_maps > HCTX_TYPE_POLL &&
++		set->map[HCTX_TYPE_POLL].nr_queues;
++}
++
+ struct request_queue *blk_mq_alloc_queue(struct blk_mq_tag_set *set,
+ 		struct queue_limits *lim, void *queuedata)
+ {
+@@ -4119,6 +4125,8 @@ struct request_queue *blk_mq_alloc_queue(struct blk_mq_tag_set *set,
+ 	if (!lim)
+ 		lim = &default_lim;
+ 	lim->features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT;
++	if (blk_mq_can_poll(set))
++		lim->features |= BLK_FEAT_POLL;
+ 
+ 	q = blk_alloc_queue(lim, set->numa_node);
+ 	if (IS_ERR(q))
+@@ -4273,17 +4281,6 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
+ 	mutex_unlock(&q->sysfs_lock);
+ }
+ 
+-static void blk_mq_update_poll_flag(struct request_queue *q)
+-{
+-	struct blk_mq_tag_set *set = q->tag_set;
+-
+-	if (set->nr_maps > HCTX_TYPE_POLL &&
+-	    set->map[HCTX_TYPE_POLL].nr_queues)
+-		blk_queue_flag_set(QUEUE_FLAG_POLL, q);
+-	else
+-		blk_queue_flag_clear(QUEUE_FLAG_POLL, q);
+-}
+-
+ int blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 		struct request_queue *q)
+ {
+@@ -4311,7 +4308,6 @@ int blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 	q->tag_set = set;
+ 
+ 	q->queue_flags |= QUEUE_FLAG_MQ_DEFAULT;
+-	blk_mq_update_poll_flag(q);
+ 
+ 	INIT_DELAYED_WORK(&q->requeue_work, blk_mq_requeue_work);
+ 	INIT_LIST_HEAD(&q->flush_list);
+@@ -4798,8 +4794,10 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+ fallback:
+ 	blk_mq_update_queue_map(set);
+ 	list_for_each_entry(q, &set->tag_list, tag_set_list) {
++		struct queue_limits lim;
++
+ 		blk_mq_realloc_hw_ctxs(set, q);
+-		blk_mq_update_poll_flag(q);
++
+ 		if (q->nr_hw_queues != set->nr_hw_queues) {
+ 			int i = prev_nr_hw_queues;
+ 
+@@ -4811,6 +4809,13 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+ 			set->nr_hw_queues = prev_nr_hw_queues;
+ 			goto fallback;
+ 		}
++		lim = queue_limits_start_update(q);
++		if (blk_mq_can_poll(set))
++			lim.features |= BLK_FEAT_POLL;
++		else
++			lim.features &= ~BLK_FEAT_POLL;
++		if (queue_limits_commit_update(q, &lim) < 0)
++			pr_warn("updating the poll flag failed\n");
+ 		blk_mq_map_swqueue(q);
+ 	}
+ 
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index bf4622c19b5c09..026ba68d829856 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -460,13 +460,15 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 	t->features |= (b->features & BLK_FEAT_INHERIT_MASK);
+ 
+ 	/*
+-	 * BLK_FEAT_NOWAIT needs to be supported both by the stacking driver
+-	 * and all underlying devices.  The stacking driver sets the flag
+-	 * before stacking the limits, and this will clear the flag if any
+-	 * of the underlying devices does not support it.
++	 * BLK_FEAT_NOWAIT and BLK_FEAT_POLL need to be supported both by the
++	 * stacking driver and all underlying devices.  The stacking driver sets
++	 * the flags before stacking the limits, and this will clear the flags
++	 * if any of the underlying devices does not support it.
+ 	 */
+ 	if (!(b->features & BLK_FEAT_NOWAIT))
+ 		t->features &= ~BLK_FEAT_NOWAIT;
++	if (!(b->features & BLK_FEAT_POLL))
++		t->features &= ~BLK_FEAT_POLL;
+ 
+ 	t->max_sectors = min_not_zero(t->max_sectors, b->max_sectors);
+ 	t->max_user_sectors = min_not_zero(t->max_user_sectors,
 diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 6f58530fb3c08e..cde525724831ef 100644
+index cde525724831ef..da4e96d686f91e 100644
 --- a/block/blk-sysfs.c
 +++ b/block/blk-sysfs.c
-@@ -296,37 +296,10 @@ static ssize_t queue_##_name##_store(struct request_queue *q,		 \
- 	return queue_feature_store(q, page, count, _feature);		 \
+@@ -394,13 +394,13 @@ static ssize_t queue_poll_delay_store(struct request_queue *q, const char *page,
+ 
+ static ssize_t queue_poll_show(struct request_queue *q, char *page)
+ {
+-	return queue_var_show(test_bit(QUEUE_FLAG_POLL, &q->queue_flags), page);
++	return queue_var_show(q->limits.features & BLK_FEAT_POLL, page);
  }
  
--#define QUEUE_SYSFS_BIT_FNS(name, flag, neg)				\
--static ssize_t								\
--queue_##name##_show(struct request_queue *q, char *page)		\
--{									\
--	int bit;							\
--	bit = test_bit(QUEUE_FLAG_##flag, &q->queue_flags);		\
--	return queue_var_show(neg ? !bit : bit, page);			\
--}									\
--static ssize_t								\
--queue_##name##_store(struct request_queue *q, const char *page, size_t count) \
--{									\
--	unsigned long val;						\
--	ssize_t ret;							\
--	ret = queue_var_store(&val, page, count);			\
--	if (ret < 0)							\
--		 return ret;						\
--	if (neg)							\
--		val = !val;						\
--									\
--	if (val)							\
--		blk_queue_flag_set(QUEUE_FLAG_##flag, q);		\
--	else								\
--		blk_queue_flag_clear(QUEUE_FLAG_##flag, q);		\
--	return ret;							\
--}
--
- QUEUE_SYSFS_FEATURE(rotational, BLK_FEAT_ROTATIONAL)
- QUEUE_SYSFS_FEATURE(add_random, BLK_FEAT_ADD_RANDOM)
- QUEUE_SYSFS_FEATURE(iostats, BLK_FEAT_IO_STAT)
--QUEUE_SYSFS_BIT_FNS(stable_writes, STABLE_WRITES, 0);
--#undef QUEUE_SYSFS_BIT_FNS
-+QUEUE_SYSFS_FEATURE(stable_writes, BLK_FEAT_STABLE_WRITES);
- 
- static ssize_t queue_zoned_show(struct request_queue *q, char *page)
+ static ssize_t queue_poll_store(struct request_queue *q, const char *page,
+ 				size_t count)
  {
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index 2ef29a47807550..f92673f05c7abc 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -2698,7 +2698,8 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
- 		 */
- 		.max_hw_sectors		= DRBD_MAX_BIO_SIZE_SAFE >> 8,
- 		.features		= BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA |
--					  BLK_FEAT_ROTATIONAL,
-+					  BLK_FEAT_ROTATIONAL |
-+					  BLK_FEAT_STABLE_WRITES,
- 	};
- 
- 	device = minor_to_device(minor);
-@@ -2737,8 +2738,6 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
- 	sprintf(disk->disk_name, "drbd%d", minor);
- 	disk->private_data = device;
- 
--	blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, disk->queue);
--
- 	device->md_io.page = alloc_page(GFP_KERNEL);
- 	if (!device->md_io.page)
- 		goto out_no_io_page;
-diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
-index ec1f1c7d4275cd..008e850555f41a 100644
---- a/drivers/block/rbd.c
-+++ b/drivers/block/rbd.c
-@@ -4949,7 +4949,6 @@ static const struct blk_mq_ops rbd_mq_ops = {
- static int rbd_init_disk(struct rbd_device *rbd_dev)
- {
- 	struct gendisk *disk;
--	struct request_queue *q;
- 	unsigned int objset_bytes =
- 	    rbd_dev->layout.object_size * rbd_dev->layout.stripe_count;
- 	struct queue_limits lim = {
-@@ -4979,12 +4978,14 @@ static int rbd_init_disk(struct rbd_device *rbd_dev)
- 		lim.max_write_zeroes_sectors = objset_bytes >> SECTOR_SHIFT;
- 	}
- 
-+	if (!ceph_test_opt(rbd_dev->rbd_client->client, NOCRC))
-+		lim.features |= BLK_FEAT_STABLE_WRITES;
-+
- 	disk = blk_mq_alloc_disk(&rbd_dev->tag_set, &lim, rbd_dev);
- 	if (IS_ERR(disk)) {
- 		err = PTR_ERR(disk);
- 		goto out_tag_set;
- 	}
--	q = disk->queue;
- 
- 	snprintf(disk->disk_name, sizeof(disk->disk_name), RBD_DRV_NAME "%d",
- 		 rbd_dev->dev_id);
-@@ -4996,10 +4997,6 @@ static int rbd_init_disk(struct rbd_device *rbd_dev)
- 		disk->minors = RBD_MINORS_PER_MAJOR;
- 	disk->fops = &rbd_bd_ops;
- 	disk->private_data = rbd_dev;
--
--	if (!ceph_test_opt(rbd_dev->rbd_client->client, NOCRC))
--		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, q);
--
- 	rbd_dev->disk = disk;
- 
- 	return 0;
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index aad840fc7e18e3..f8f1b5b54795ac 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -2208,6 +2208,7 @@ static int zram_add(void)
- #if ZRAM_LOGICAL_BLOCK_SIZE == PAGE_SIZE
- 		.max_write_zeroes_sectors	= UINT_MAX,
- #endif
-+		.features			= BLK_FEAT_STABLE_WRITES,
- 	};
- 	struct zram *zram;
- 	int ret, device_id;
-@@ -2246,7 +2247,6 @@ static int zram_add(void)
- 	/* Actual capacity set using sysfs (/sys/block/zram<id>/disksize */
- 	set_capacity(zram->disk, 0);
- 	blk_queue_flag_set(QUEUE_FLAG_SYNCHRONOUS, zram->disk->queue);
--	blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, zram->disk->queue);
- 	ret = device_add_disk(NULL, zram->disk, zram_disk_groups);
- 	if (ret)
- 		goto out_cleanup_disk;
+-	if (!test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
++	if (!(q->limits.features & BLK_FEAT_POLL))
+ 		return -EINVAL;
+ 	pr_info_ratelimited("writes to the poll attribute are ignored.\n");
+ 	pr_info_ratelimited("please use driver specific parameters instead.\n");
 diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-index 5d5431e531aea9..aaf379cb15d91f 100644
+index e44697037e86f4..ca1f136575cff4 100644
 --- a/drivers/md/dm-table.c
 +++ b/drivers/md/dm-table.c
-@@ -1819,13 +1819,6 @@ static bool dm_table_supports_secure_erase(struct dm_table *t)
- 	return true;
+@@ -582,7 +582,7 @@ int dm_split_args(int *argc, char ***argvp, char *input)
+ static void dm_set_stacking_limits(struct queue_limits *limits)
+ {
+ 	blk_set_stacking_limits(limits);
+-	limits->features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT;
++	limits->features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL;
  }
  
--static int device_requires_stable_pages(struct dm_target *ti,
--					struct dm_dev *dev, sector_t start,
--					sector_t len, void *data)
+ /*
+@@ -1024,14 +1024,13 @@ bool dm_table_request_based(struct dm_table *t)
+ 	return __table_type_request_based(dm_table_get_type(t));
+ }
+ 
+-static bool dm_table_supports_poll(struct dm_table *t);
+-
+ static int dm_table_alloc_md_mempools(struct dm_table *t, struct mapped_device *md)
+ {
+ 	enum dm_queue_mode type = dm_table_get_type(t);
+ 	unsigned int per_io_data_size = 0, front_pad, io_front_pad;
+ 	unsigned int min_pool_size = 0, pool_size;
+ 	struct dm_md_mempools *pools;
++	unsigned int bioset_flags = 0;
+ 
+ 	if (unlikely(type == DM_TYPE_NONE)) {
+ 		DMERR("no table type is set, can't allocate mempools");
+@@ -1048,6 +1047,9 @@ static int dm_table_alloc_md_mempools(struct dm_table *t, struct mapped_device *
+ 		goto init_bs;
+ 	}
+ 
++	if (md->queue->limits.features & BLK_FEAT_POLL)
++		bioset_flags |= BIOSET_PERCPU_CACHE;
++
+ 	for (unsigned int i = 0; i < t->num_targets; i++) {
+ 		struct dm_target *ti = dm_table_get_target(t, i);
+ 
+@@ -1060,8 +1062,7 @@ static int dm_table_alloc_md_mempools(struct dm_table *t, struct mapped_device *
+ 
+ 	io_front_pad = roundup(per_io_data_size,
+ 		__alignof__(struct dm_io)) + DM_IO_BIO_OFFSET;
+-	if (bioset_init(&pools->io_bs, pool_size, io_front_pad,
+-			dm_table_supports_poll(t) ? BIOSET_PERCPU_CACHE : 0))
++	if (bioset_init(&pools->io_bs, pool_size, io_front_pad, bioset_flags))
+ 		goto out_free_pools;
+ 	if (t->integrity_supported &&
+ 	    bioset_integrity_create(&pools->io_bs, pool_size))
+@@ -1404,14 +1405,6 @@ struct dm_target *dm_table_find_target(struct dm_table *t, sector_t sector)
+ 	return &t->targets[(KEYS_PER_NODE * n) + k];
+ }
+ 
+-static int device_not_poll_capable(struct dm_target *ti, struct dm_dev *dev,
+-				   sector_t start, sector_t len, void *data)
 -{
--	return bdev_stable_writes(dev->bdev);
+-	struct request_queue *q = bdev_get_queue(dev->bdev);
+-
+-	return !test_bit(QUEUE_FLAG_POLL, &q->queue_flags);
 -}
 -
- int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
- 			      struct queue_limits *limits)
- {
-@@ -1862,18 +1855,6 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
- 	if (dm_table_any_dev_attr(t, device_dax_write_cache_enabled, NULL))
- 		dax_write_cache(t->md->dax_dev, true);
+ /*
+  * type->iterate_devices() should be called when the sanity check needs to
+  * iterate and check all underlying data devices. iterate_devices() will
+@@ -1459,19 +1452,6 @@ static int count_device(struct dm_target *ti, struct dm_dev *dev,
+ 	return 0;
+ }
  
+-static bool dm_table_supports_poll(struct dm_table *t)
+-{
+-	for (unsigned int i = 0; i < t->num_targets; i++) {
+-		struct dm_target *ti = dm_table_get_target(t, i);
+-
+-		if (!ti->type->iterate_devices ||
+-		    ti->type->iterate_devices(ti, device_not_poll_capable, NULL))
+-			return false;
+-	}
+-
+-	return true;
+-}
+-
+ /*
+  * Check whether a table has no data devices attached using each
+  * target's iterate_devices method.
+@@ -1817,6 +1797,13 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+ 	if (!dm_table_supports_nowait(t))
+ 		limits->features &= ~BLK_FEAT_NOWAIT;
+ 
++	/*
++	 * The current polling impementation does not support request based
++	 * stacking.
++	 */
++	if (!__table_type_bio_based(t->type))
++		limits->features &= ~BLK_FEAT_POLL;
++
+ 	if (!dm_table_supports_discards(t)) {
+ 		limits->max_hw_discard_sectors = 0;
+ 		limits->discard_granularity = 0;
+@@ -1858,21 +1845,6 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+ 		return r;
+ 
+ 	dm_update_crypto_profile(q, t);
+-
 -	/*
--	 * Some devices don't use blk_integrity but still want stable pages
--	 * because they do their own checksumming.
--	 * If any underlying device requires stable pages, a table must require
--	 * them as well.  Only targets that support iterate_devices are considered:
--	 * don't want error, zero, etc to require stable pages.
+-	 * Check for request-based device is left to
+-	 * dm_mq_init_request_queue()->blk_mq_init_allocated_queue().
+-	 *
+-	 * For bio-based device, only set QUEUE_FLAG_POLL when all
+-	 * underlying devices supporting polling.
 -	 */
--	if (dm_table_any_dev_attr(t, device_requires_stable_pages, NULL))
--		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, q);
--	else
--		blk_queue_flag_clear(QUEUE_FLAG_STABLE_WRITES, q);
+-	if (__table_type_bio_based(t->type)) {
+-		if (dm_table_supports_poll(t))
+-			blk_queue_flag_set(QUEUE_FLAG_POLL, q);
+-		else
+-			blk_queue_flag_clear(QUEUE_FLAG_POLL, q);
+-	}
 -
- 	/*
- 	 * For a zoned target, setup the zones related queue attributes
- 	 * and resources necessary for zone append emulation if necessary.
-diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
-index 675c68fa6c6403..e875763d69917d 100644
---- a/drivers/md/raid5.c
-+++ b/drivers/md/raid5.c
-@@ -7082,12 +7082,14 @@ raid5_store_skip_copy(struct mddev *mddev, const char *page, size_t len)
- 		err = -ENODEV;
- 	else if (new != conf->skip_copy) {
- 		struct request_queue *q = mddev->gendisk->queue;
-+		struct queue_limits lim = queue_limits_start_update(q);
+ 	return 0;
+ }
  
- 		conf->skip_copy = new;
- 		if (new)
--			blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, q);
-+			lim.features |= BLK_FEAT_STABLE_WRITES;
- 		else
--			blk_queue_flag_clear(QUEUE_FLAG_STABLE_WRITES, q);
-+			lim.features &= ~BLK_FEAT_STABLE_WRITES;
-+		err = queue_limits_commit_update(q, &lim);
- 	}
- 	mddev_unlock_and_resume(mddev);
- 	return err ?: len;
-diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
-index da00904d4a3c7e..d0b3ca8a11f071 100644
---- a/drivers/mmc/core/queue.c
-+++ b/drivers/mmc/core/queue.c
-@@ -378,13 +378,14 @@ static struct gendisk *mmc_alloc_disk(struct mmc_queue *mq,
- 		lim.max_segments = host->max_segs;
- 	}
- 
-+	if (mmc_host_is_spi(host) && host->use_spi_crc)
-+		lim.features |= BLK_FEAT_STABLE_WRITES;
-+
- 	disk = blk_mq_alloc_disk(&mq->tag_set, &lim, mq);
- 	if (IS_ERR(disk))
- 		return disk;
- 	mq->queue = disk->queue;
- 
--	if (mmc_host_is_spi(host) && host->use_spi_crc)
--		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, mq->queue);
- 	blk_queue_rq_timeout(mq->queue, 60 * HZ);
- 
- 	dma_set_max_seg_size(mmc_dev(host), queue_max_segment_size(mq->queue));
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0d753fe71f35b0..5ecf762d7c8837 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3724,6 +3724,7 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
- 
- static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- {
-+	struct queue_limits lim = { };
- 	struct nvme_ns *ns;
- 	struct gendisk *disk;
- 	int node = ctrl->numa_node;
-@@ -3732,7 +3733,10 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 	if (!ns)
- 		return;
- 
--	disk = blk_mq_alloc_disk(ctrl->tagset, NULL, ns);
-+	if (ctrl->opts && ctrl->opts->data_digest)
-+		lim.features |= BLK_FEAT_STABLE_WRITES;
-+
-+	disk = blk_mq_alloc_disk(ctrl->tagset, &lim, ns);
- 	if (IS_ERR(disk))
- 		goto out_free_ns;
- 	disk->fops = &nvme_bdev_ops;
-@@ -3741,9 +3745,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 	ns->disk = disk;
- 	ns->queue = disk->queue;
- 
--	if (ctrl->opts && ctrl->opts->data_digest)
--		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, ns->queue);
--
- 	if (ctrl->ops->supports_pci_p2pdma &&
- 	    ctrl->ops->supports_pci_p2pdma(ctrl))
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index eea727cfa9e67d..173796f2ddea9f 100644
+index 61a162c9cf4e6c..4933194d00e592 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -868,10 +868,6 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
- 		nvme_mpath_set_live(ns);
- 	}
+@@ -538,7 +538,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
  
--	if (test_bit(QUEUE_FLAG_STABLE_WRITES, &ns->queue->queue_flags) &&
--	    ns->head->disk)
--		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES,
--				   ns->head->disk->queue);
- #ifdef CONFIG_BLK_DEV_ZONED
- 	if (blk_queue_is_zoned(ns->queue) && ns->head->disk)
- 		ns->head->disk->nr_zones = ns->disk->nr_zones;
-diff --git a/drivers/scsi/iscsi_tcp.c b/drivers/scsi/iscsi_tcp.c
-index 60688f18fac6f7..c708e105963833 100644
---- a/drivers/scsi/iscsi_tcp.c
-+++ b/drivers/scsi/iscsi_tcp.c
-@@ -1057,15 +1057,15 @@ static umode_t iscsi_sw_tcp_attr_is_visible(int param_type, int param)
+ 	blk_set_stacking_limits(&lim);
+ 	lim.dma_alignment = 3;
+-	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT;
++	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT | BLK_FEAT_POLL;
+ 	if (head->ids.csi != NVME_CSI_ZNS)
+ 		lim.max_zone_append_sectors = 0;
+ 
+@@ -549,16 +549,6 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	head->disk->private_data = head;
+ 	sprintf(head->disk->disk_name, "nvme%dn%d",
+ 			ctrl->subsys->instance, head->instance);
+-
+-	/*
+-	 * This assumes all controllers that refer to a namespace either
+-	 * support poll queues or not.  That is not a strict guarantee,
+-	 * but if the assumption is wrong the effect is only suboptimal
+-	 * performance but not correctness problem.
+-	 */
+-	if (ctrl->tagset->nr_maps > HCTX_TYPE_POLL &&
+-	    ctrl->tagset->map[HCTX_TYPE_POLL].nr_queues)
+-		blk_queue_flag_set(QUEUE_FLAG_POLL, head->disk->queue);
  	return 0;
  }
  
--static int iscsi_sw_tcp_slave_configure(struct scsi_device *sdev)
-+static int iscsi_sw_tcp_device_configure(struct scsi_device *sdev,
-+		struct queue_limits *lim)
- {
- 	struct iscsi_sw_tcp_host *tcp_sw_host = iscsi_host_priv(sdev->host);
- 	struct iscsi_session *session = tcp_sw_host->session;
- 	struct iscsi_conn *conn = session->leadconn;
- 
- 	if (conn->datadgst_en)
--		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES,
--				   sdev->request_queue);
-+		lim->features |= BLK_FEAT_STABLE_WRITES;
- 	return 0;
- }
- 
-@@ -1083,7 +1083,7 @@ static const struct scsi_host_template iscsi_sw_tcp_sht = {
- 	.eh_device_reset_handler= iscsi_eh_device_reset,
- 	.eh_target_reset_handler = iscsi_eh_recover_target,
- 	.dma_boundary		= PAGE_SIZE - 1,
--	.slave_configure        = iscsi_sw_tcp_slave_configure,
-+	.device_configure	= iscsi_sw_tcp_device_configure,
- 	.proc_name		= "iscsi_tcp",
- 	.this_id		= -1,
- 	.track_queue_depth	= 1,
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 5fafb2f95fd1a3..8936eb6ba60956 100644
+index 7022e06a3dd9a3..cd27b66cbacc00 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -298,13 +298,17 @@ enum {
+@@ -310,6 +310,9 @@ enum {
  
- 	/* do disk/partitions IO accounting */
- 	BLK_FEAT_IO_STAT			= (1u << 4),
+ 	/* supports DAX */
+ 	BLK_FEAT_DAX				= (1u << 8),
 +
-+	/* don't modify data until writeback is done */
-+	BLK_FEAT_STABLE_WRITES			= (1u << 5),
++	/* supports I/O polling */
++	BLK_FEAT_POLL				= (1u << 9),
  };
  
  /*
-  * Flags automatically inherited when stacking limits.
-  */
- #define BLK_FEAT_INHERIT_MASK \
--	(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA | BLK_FEAT_ROTATIONAL)
-+	(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA | BLK_FEAT_ROTATIONAL | \
-+	 BLK_FEAT_STABLE_WRITES)
- 
- /* internal flags in queue_limits.flags */
- enum {
-@@ -565,7 +569,6 @@ struct request_queue {
- #define QUEUE_FLAG_SYNCHRONOUS	11	/* always completes in submit context */
+@@ -577,7 +580,6 @@ struct request_queue {
+ #define QUEUE_FLAG_NOXMERGES	9	/* No extended merges */
  #define QUEUE_FLAG_SAME_FORCE	12	/* force complete on same CPU */
  #define QUEUE_FLAG_INIT_DONE	14	/* queue is initialized */
--#define QUEUE_FLAG_STABLE_WRITES 15	/* don't modify blks until WB is done */
- #define QUEUE_FLAG_POLL		16	/* IO polling enabled if set */
- #define QUEUE_FLAG_DAX		19	/* device supports DAX */
+-#define QUEUE_FLAG_POLL		16	/* IO polling enabled if set */
  #define QUEUE_FLAG_STATS	20	/* track IO start and completion times */
-@@ -1323,7 +1326,7 @@ static inline bool bdev_stable_writes(struct block_device *bdev)
- 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
- 	    q->limits.integrity.csum_type != BLK_INTEGRITY_CSUM_NONE)
- 		return true;
--	return test_bit(QUEUE_FLAG_STABLE_WRITES, &q->queue_flags);
-+	return q->limits.features & BLK_FEAT_STABLE_WRITES;
- }
- 
- static inline bool blk_queue_write_cache(struct request_queue *q)
+ #define QUEUE_FLAG_REGISTERED	22	/* queue has been registered to a disk */
+ #define QUEUE_FLAG_QUIESCED	24	/* queue has been quiesced */
 -- 
 2.43.0
 
