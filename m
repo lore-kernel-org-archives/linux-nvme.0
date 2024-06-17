@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52BBBC27C6E
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C089C27C6E
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0WQECWhfepKpENrL/zOCm+7ze+13JS1wLYL/MAAw080=; b=qoW0G+85/7EEqQ41T+wdStzTr7
-	N+Ks5EfTpeSN2qLWQeYivOWS+fNO20FIp6jp5F+uwyAO3wZKcabwBVFdzxprPbzfd+P2YQ7OF1WsF
-	/i0NHmhybvnIrVs2cBS3e4vp6s0mgELs5XpvSYBlpwNqXL/MtKQj25H59IctSCiyaMAm9DxP1KO6Z
-	tAgoEv2owsZgwAycFFkknZiX86LDmoGBqrCNt3OyBbc3OIymA8vmHJQVqqPJpLtS6cMH62IasjKoQ
-	PMLi4Z6NDGjkP2IZmC8sbOJ6vpnJYXP30f9fwcjAEvCiMtVbQ+z4aBbg3YXW/xqtw1ijAUg8hEq+o
-	4Y1T9u1A==;
+	bh=hNzbOz053bc4tNZD6AvzhkaAlR04h0xIiBtO2+1AIcI=; b=WohnT29upve7u6QtyElUsJ7+WJ
+	GYkeoL7nwZBTmxs0jjZfg7MWfDQKQRcu70Vd6sUxHcYtth90SMOqNsBXOEWB+O2T6pz7o8eMug9KN
+	c4ASEfY+sMcWg0tQiOzclQHbWItbaUXNPWYU0jRgqI6OIcgDqgU/GoBwqFmv+cn3iJG2W0d2lUMjd
+	j+QpBL6bCatyK6gL8yuiveIq7Ss2lbu9MffGYoWSdkCQx5QfKNSrL/wtntTkURZk4+dByczvDznh0
+	JNiyZ2PB8tzxten535hX535ILY4pu/iUfpFvVMoyhYKPqbwbD7/HrXXuHOjBY2EqasAuPze7uuVjJ
+	Awqrw66g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ6eS-00000009bsw-30XT;
-	Mon, 17 Jun 2024 07:19:40 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sJ6eV-00000009bub-2O6q;
+	Mon, 17 Jun 2024 07:19:43 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ5nv-00000009Qww-1doW;
-	Mon, 17 Jun 2024 06:25:24 +0000
+	id 1sJ5p2-00000009RN2-0Udv;
+	Mon, 17 Jun 2024 06:26:33 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 3B2916114E;
-	Mon, 17 Jun 2024 06:25:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B3DC2BD10;
-	Mon, 17 Jun 2024 06:25:17 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id D5232CE0E70;
+	Mon, 17 Jun 2024 06:26:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 897D7C2BD10;
+	Mon, 17 Jun 2024 06:26:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718605521;
-	bh=b4C7oWXm6AiByOywGcEEC3GnqcHjFi/qcKpmuC4GSl4=;
+	s=k20201202; t=1718605589;
+	bh=5ukl1My1jMqhSyTqZEFqdGlI+72qAecy5V2ti5Kc46U=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LEnK17zFqe+hZOSDUj/tOYJPTbrEr/iyN4UNL0SmIILaSKuqTSJ4sjLsh83tbNp98
-	 xMaGs3z4bHthSiIVUGgn6p6k1Hp4OFwjqTvBViQ5r26ZmMaTUT3kdJYmUDeoTb8K+4
-	 jT0vLs8Spfa7yPWU+yf5YKwUzdEIRo48lJNdqGhIlmZTb6k7761bMjs2rcyd0Hfqhj
-	 Vpk+ileeXJ565Q23YPjftwlXpdj9Xgx1bQhDcK36W/6YmID+8NvWJsHJ8cIkaSJCt0
-	 a65W2bmG0g0iV3m+rrO4imip0sJi5o8S5QSdLa4VJ1pKGoVgY8bkQ22MoITZxj7f6K
-	 IsTYJ2fK4dlcQ==
-Message-ID: <dd4ca62c-fc36-4439-a1ad-c55250f8d1a8@kernel.org>
-Date: Mon, 17 Jun 2024 15:25:16 +0900
+	b=OVa4VXa4gPyN4KTWboLud3pwf0TJbbk/rQ5BM4+Ufc5q6edplugfrWWUEhonGkfMR
+	 QHtsT5neG8mJ3vHyVK4COzgFtMwuBSA3Ltr1Kmgg0P9h/SDaPK/4D4vixnSs7AOdoo
+	 HP6agM24471d/vJb4Hh8SFe0zewqIqWCGc3aXNawn13hq27CQJOtkzwEi0TWYKBp4l
+	 c0TLeE0D0RKiKV3rNJyqOIzjVOG/87Bt7edT59MQLl5UfWjsDRSx6vZMzrYnvW4QJA
+	 /RoDuAqhbb/WQma0tOFHLAJHwURkZ+Z0rxy3rGxoovWXWM4rnyYIVDHULrocVjTDvQ
+	 k66Zct4kG1uEw==
+Message-ID: <c9871979-de72-49ca-879b-5f2bd773d517@kernel.org>
+Date: Mon, 17 Jun 2024 15:26:23 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/26] block: move the io_stat flag setting to
- queue_limits
+Subject: Re: [PATCH 19/26] block: move the nowait flag to queue_limits
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  Richard Weinberger <richard@nod.at>,
@@ -70,16 +69,16 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
  linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, linux-block@vger.kernel.org
 References: <20240617060532.127975-1-hch@lst.de>
- <20240617060532.127975-17-hch@lst.de>
+ <20240617060532.127975-20-hch@lst.de>
 From: Damien Le Moal <dlemoal@kernel.org>
 Content-Language: en-US
 Organization: Western Digital Research
-In-Reply-To: <20240617060532.127975-17-hch@lst.de>
+In-Reply-To: <20240617060532.127975-20-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240616_232523_538925_BAD2CDB3 
-X-CRM114-Status: UNSURE (   9.15  )
+X-CRM114-CacheID: sfid-20240616_232632_576857_37884785 
+X-CRM114-Status: UNSURE (   9.89  )
 X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Mon, 17 Jun 2024 00:19:34 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -97,12 +96,12 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/17/24 15:04, Christoph Hellwig wrote:
-> Move the io_stat flag into the queue_limits feature field so that it can
+> Move the nowait flag into the queue_limits feature field so that it can
 > be set atomically with the queue frozen.
 > 
-> Simplify md and dm to set the flag unconditionally instead of avoiding
-> setting a simple flag for cases where it already is set by other means,
-> which is a bit pointless.
+> Stacking drivers are simplified in that they now can simply set the
+> flag, and blk_stack_limits will clear it when the features is not
+> supported by any of the underlying devices.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
