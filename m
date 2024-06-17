@@ -4,63 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34D1FC27C79
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 18:25:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DEF8C2BA1A
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 18:30:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9gD0BW4PYyC6q11JW9+rvy3YDr3tCLx5+h6y7y2wSy0=; b=VJUHiC/7RdN7eHc8ITruxEuvHH
-	3iP/Tij65pzQxcRMF14LStgYNoPMLm886y1mgPQ7R0B4uIzvVzEvL6z+6BeBB/vwOfPJVetuI7LFg
-	urPkCQeFVWo8punjns7JAwRTEosdX7Yewmbg1MYimZ6Kc4wKv2Px7Nr9DJxyb/pCOGoCgTp8VE3DL
-	RJpV9x7E4WBrne0CN9sGO4zg/KRHTHUnp0CXtynEsAnOjziG1iyJR0Rcc0Kvh9WMwwfNvGxdn/aiR
-	q5Me0Mw8BsTAU9cbuxszQFvLRH55HSVblLtKwmpljr8D+QFT+lPd503w3RnhNwaVuhBNypJTZPv8v
-	2irJN+vQ==;
+	bh=Dcc3OM2v70pX4+ellkAMZf0Hxn+7AuyZtKo8dUv85j0=; b=sXES8JlW12snpGS+za7k8thRBU
+	TTa0ILILu/zHymGoW2r4+0Zh3MB2wNomFGPMbL6rA7L3tTIUTNbga0BMmT74XZ21BDB3UvJ0iQoIE
+	wdH2ohVPDswXY4XaFt22597nTopa0wSSawZXK3fX8+sv35t3/rZ/nkb/U5c7Xob2gwCFbX5098oSZ
+	cksznJx7bu2p/onzDq88wN/3fRhI/VMpKrqJ1QTOkGNIvaY2YZq5Z3naRT7suWeTrWrquE949kplw
+	ugYYnwmLP8EBMID4nY+8/EsWX4msyipi3dhh+m6fiTfEK/26mbob7EmC9do430impyh0zsHxri7dX
+	CP+LpB9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJH2W-0000000C9zo-1adh;
-	Mon, 17 Jun 2024 18:25:12 +0000
+	id 1sJH7k-0000000CBYQ-1p1q;
+	Mon, 17 Jun 2024 18:30:36 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJH2Q-0000000C9xf-19iI
+	id 1sJH73-0000000CB4U-1rMe
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Jun 2024 18:25:09 +0000
+	Mon, 17 Jun 2024 18:29:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7A79561462;
-	Mon, 17 Jun 2024 18:25:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C743AC3277B;
-	Mon, 17 Jun 2024 18:25:04 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id EF1276145A;
+	Mon, 17 Jun 2024 18:29:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C14C3277B;
+	Mon, 17 Jun 2024 18:29:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718648705;
-	bh=7/AQgtSakvxJsoFB1zXH5OrpQ4h9ofFWZ5Z7vKtezpY=;
+	s=k20201202; t=1718648991;
+	bh=Dcc3OM2v70pX4+ellkAMZf0Hxn+7AuyZtKo8dUv85j0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m/gbUHQcHic4V4eBg/C8OOdCv+gi//8lkX59yhFAuQOJcBVHqpN8bAD9VPFwUoPPv
-	 qSjYd3owVdsiFb2rQPq06nm7W1tCwK9hEDuYfZVqKUjjPlL02QEPvUsSBVF6ergHCp
-	 QWrydLRf2S9/N5jdMyBS3BwJxtpe4Hd7xR3td1PBTK0wUha50273OUvWSscF5HJYEg
-	 02i1aaaI7V/oMfj0hkbNHEK0ap5uwqe7PAPDAYS5GcnQDvMAxsel7COHe1dbZt2v+C
-	 vPniVeNeQRL5nK81zyJbU073bS3NueRShAMMrh6vhgrvdsfTAx7B3nTkmYrAvbxwVl
-	 xUh7RxRcqNxeg==
-Date: Mon, 17 Jun 2024 12:25:02 -0600
+	b=Iqy94O0pqkL1sxEqYfbdQJy2gaO/sWHQuzHe+lg6Fy3RrBxfT72bPa5CJe/Y+3xZ5
+	 OBJzqwe8BVILIY6nAm67UEsdy5ORGIXtFcwj0YmAsARabdDJMLrFhsNRPyNW2KCUVT
+	 15eCNY59xUs3GEXT5/CrqaBBZ1biSveN9xfuKtV/HyR3QMpCLdLfkTAKuQf7y7XMWl
+	 3qFpano5ex2vvQeT1m2S4gqafIEcB49Q0WhdyN8YraOndK2rag55+YKvXxRFrQnWg/
+	 aDdy4H3wUsmI3kix5+FjAUgoXl2iyosVwadWkPsOKPdX0KtLNHHxhPkoO4qe5DzR6m
+	 lH28iEyYI+5Jw==
+Date: Mon, 17 Jun 2024 12:29:49 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Boyang Yu <yuboyang@dapustor.com>, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme: fix NVME_NS_DEAC may incorrectly identifying the
- disk as EXT_LBA.
-Message-ID: <ZnB_fo-chyiCsvaL@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20240617131354epcas5p189a78f2cedf7f3a3552df5e881e547c4@epcas5p1.samsung.com>
- <20240617131144.48955-1-yuboyang@dapustor.com>
- <90f3cedb-7553-9007-6ab1-38e1562c8f33@samsung.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/3] nvmet: do not return 'reserved' for empty TSAS values
+Message-ID: <ZnCAnRtQBbhIJ9Be@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240617072728.134728-1-hare@kernel.org>
+ <20240617072728.134728-2-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <90f3cedb-7553-9007-6ab1-38e1562c8f33@samsung.com>
+In-Reply-To: <20240617072728.134728-2-hare@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240617_112506_407640_FA5C71D1 
-X-CRM114-Status: GOOD (  10.34  )
+X-CRM114-CacheID: sfid-20240617_112953_689569_3780ADE3 
+X-CRM114-Status: UNSURE (   9.20  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,21 +73,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 17, 2024 at 08:00:00PM +0530, Kanchan Joshi wrote:
-> On 6/17/2024 6:41 PM, Boyang Yu wrote:
-> > The value of NVME_NS_DEAC is 3,
-> > which means NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS.
-> > 
-> > Signed-off-by: Boyang Yu<yuboyang@dapustor.com>
-> 
-> Maybe this requires fixes tag [*].
-> Looks good regardless.
-> 
-> Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
-> 
-> [*] 1b96f862eccc ("nvme: implement the DEAC bit for the Write Zeroes 
-> command")
+On Mon, Jun 17, 2024 at 09:27:26AM +0200, Hannes Reinecke wrote:
+> The 'TSAS' value is only defined for TCP and RDMA, but returning
+> 'reserved' for undefined values tricked nvmetcli to try to write
+> 'reserved' when restoring from a config file. This caused an error
+> and the configuration would not be applied.
 
-Yes, added the fixes tag to the change log to help stable-bot. Thanks,
-applied to nvme-6.10.
+Thanks, applied to nvme-6.10.
 
