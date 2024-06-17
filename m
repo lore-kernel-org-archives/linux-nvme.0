@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C89D6C27C77
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2C85C27C7B
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 07:27:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o6xVvqzH7Lw1nKcXJMLEckeWiSfJihKvkJL/MZyawXA=; b=PzD4oAAfEjqMf4sV9S0epNEFZx
-	oHfhZjEXfnrCBp8srVNfNEASN079VDxEeHJ+vCBN8GZJa64KFEeXDzyyfkAFVbUmxAawsHDeaGu/c
-	bi/ViDvnSONbVpnAbme/jaSRyd2Ca4jY73b7r5j8pU851YPzAhH3sGs2LIjjPWHGLK73tOVA76g+3
-	2J6fhOHF8LFGxHC3VQGgn9OXxOj/wLqQxUhbQpB9MrqCB4bHq/VR2Aycid+cY+E0jMhzJCgyM1Tgv
-	L63h1xJaOO2mPAemaMnLUU07tpDTSuEPlLDnkuZug22ONfe+lx3l/RNbotskyvFWRq9x15htgQgev
-	vIUX3KaQ==;
+	bh=XErsHjvldYtRsFMpcGK0Vm13G25DGg4ajn+zdCo08iE=; b=4+95EkDaNYJKeOENJbwuNnfpCx
+	+ZxsNuMk5Hm6xn84+TmUDSzzSBtoTNoGhDuZvJzHyEoxkSCAxjah4jifM5s9Dv/zihdGEDHDOaQnH
+	v6JD3uCl38EthqpQgQCqds+B/kgB0o467XXtXlGEs3DqQ2Em8f8KeQQZVhGl5aF4rpb4W6R8Tsr5W
+	zRgV1VU8kig3sWd6wg/zMQyAFwJyFY0bKImYl6qYz1q/AY50FJnOhK6fLPzbt7SqVsC6dYeyX90u1
+	RWYqPPASz0qyAQhqlUe6ixRmhlfCnEmKgic7l1eOaiCdxdovZYEG1Vdzpgnyi1UMsrqxNR8cAFdoG
+	3lppu0Jw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ6mL-00000009e41-1XA7;
-	Mon, 17 Jun 2024 07:27:49 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sJ6mN-00000009e5G-19LF;
+	Mon, 17 Jun 2024 07:27:51 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ6mG-00000009e16-1XJX
+	id 1sJ6mJ-00000009e2k-0N9B
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Jun 2024 07:27:45 +0000
+	Mon, 17 Jun 2024 07:27:49 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id BDEC6CE0FCE;
-	Mon, 17 Jun 2024 07:27:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DF02C4AF48;
-	Mon, 17 Jun 2024 07:27:39 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 52C8ECE0FC4;
+	Mon, 17 Jun 2024 07:27:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D07C3277B;
+	Mon, 17 Jun 2024 07:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718609260;
-	bh=dck2yTyqwUOBhZ6skPbR2uZZZc8sZrWfj0rNdEq2XSI=;
+	s=k20201202; t=1718609264;
+	bh=i8fo/oLDZknd+XqbZvFyV++8is9pp5nLyXHplntCrks=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ic3Bmj+NjX50Zkdn49EgnX06V3RXErsc1j6++GnB1K7qcnIHY98CeNCYr8dtGs0A6
-	 2onPXqMCL+y8yKEKSy0cD+LFrLE8aWZzH1qod4ko2WPfzbU0dG9bxVLDBQJCdBgLju
-	 G64FcoRQDHfs6d3EpTqsFQAfj7hRFd5CYeoTy15ZWyajDjKC9TYxKyJV/cWwkkInr2
-	 byiE9FADlacetO39QpHBPTh8XrTChxroO/Lj9uNyHTAxehYkY6wcov5er4frxUHxEo
-	 81dVuzaKSs5KjMcUaHUMzrB6NH1bxu1D+pOQR4WnDNEnKno+DgpdDglOmIWHb6YAem
-	 c1ZCkReA9IhTA==
+	b=nqpxOSSMIi3p/8wzRlzCx4LPjs3zaXwaM5KQ5z5iep7OwvKrEsOpEDN6VFVs7Oez0
+	 6dxVEPyhuAfyTX0LCkICwf/P7Z3LB915calVDYrjx69jjZeQzVfMkhGGEFXOiD5qRz
+	 gUVJj5mrl3Bq+4znwU5HXgTbMMbQ/4gXFt+8pCgcOCvvvVbw7Q1dAUGKGgK4z1lCxU
+	 ziAauskElwl85nacnmjiOJkZEXISjXDep2SxKRlGQmFssxx6J8WUHBG3fbEPGdYbUD
+	 fe7/88JXnzBBjn0kdb0enQXpVkBXFnyl/ouwAnlLxRfkeB5nvCY3A6Rf21i0aVV7SX
+	 J/J+XxXEauo8w==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 1/3] nvmet: do not return 'reserved' for empty TSAS values
-Date: Mon, 17 Jun 2024 09:27:26 +0200
-Message-Id: <20240617072728.134728-2-hare@kernel.org>
+Subject: [PATCH 3/3] nvmet: make 'tsas' attribute idempotent for RDMA
+Date: Mon, 17 Jun 2024 09:27:28 +0200
+Message-Id: <20240617072728.134728-4-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240617072728.134728-1-hare@kernel.org>
 References: <20240617072728.134728-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240617_002744_621468_CEEC8765 
-X-CRM114-Status: GOOD (  11.23  )
+X-CRM114-CacheID: sfid-20240617_002747_687278_95A84E0B 
+X-CRM114-Status: GOOD (  14.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,31 +73,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The 'TSAS' value is only defined for TCP and RDMA, but returning
-'reserved' for undefined values tricked nvmetcli to try to write
-'reserved' when restoring from a config file. This caused an error
-and the configuration would not be applied.
+The RDMA transport defines values for TSAS, but it cannot be changed as
+we only support the 'connected' mode.
+So to avoid errors during reconfiguration we should allow to write the
+current value.
 
 Fixes: 3f123494db72 ("nvmet: make TCP sectype settable via configfs")
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/configfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/configfs.c | 39 ++++++++++++++++++++++++++--------
+ include/linux/nvme.h           |  2 ++
+ 2 files changed, 32 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index bd87dfd173a4..e60224356048 100644
+index e60224356048..685e89b35d33 100644
 --- a/drivers/nvme/target/configfs.c
 +++ b/drivers/nvme/target/configfs.c
-@@ -410,7 +410,7 @@ static ssize_t nvmet_addr_tsas_show(struct config_item *item,
- 				return sprintf(page, "%s\n", nvmet_addr_tsas_rdma[i].name);
- 		}
- 	}
--	return sprintf(page, "reserved\n");
-+	return sprintf(page, "\n");
+@@ -413,25 +413,46 @@ static ssize_t nvmet_addr_tsas_show(struct config_item *item,
+ 	return sprintf(page, "\n");
  }
  
++static u8 nvmet_addr_tsas_rdma_store(const char *page)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_rdma); i++) {
++		if (sysfs_streq(page, nvmet_addr_tsas_rdma[i].name))
++			return nvmet_addr_tsas_rdma[i].type;
++	}
++	return NVMF_RDMA_QPTYPE_INVALID;
++}
++
++static u8 nvmet_addr_tsas_tcp_store(const char *page)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
++		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name))
++			return nvmet_addr_tsas_tcp[i].type;
++	}
++	return NVMF_TCP_SECTYPE_INVALID;
++}
++
  static ssize_t nvmet_addr_tsas_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
+ 	u8 treq = nvmet_port_disc_addr_treq_mask(port);
+-	u8 sectype;
+-	int i;
++	u8 sectype, qptype;
+ 
+ 	if (nvmet_is_port_enabled(port, __func__))
+ 		return -EACCES;
+ 
+-	if (port->disc_addr.trtype != NVMF_TRTYPE_TCP)
+-		return -EINVAL;
+-
+-	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
+-		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name)) {
+-			sectype = nvmet_addr_tsas_tcp[i].type;
++	if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA) {
++		qptype = nvmet_addr_tsas_rdma_store(page);
++		if (qptype == port->disc_addr.tsas.rdma.qptype)
++			return count;
++	} else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
++		sectype = nvmet_addr_tsas_tcp_store(page);
++		if (sectype != NVMF_TCP_SECTYPE_INVALID)
+ 			goto found;
+-		}
+ 	}
+ 
+ 	pr_err("Invalid value '%s' for tsas\n", page);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 0993703f6617..efda407622c1 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -85,6 +85,7 @@ enum {
+ enum {
+ 	NVMF_RDMA_QPTYPE_CONNECTED	= 1, /* Reliable Connected */
+ 	NVMF_RDMA_QPTYPE_DATAGRAM	= 2, /* Reliable Datagram */
++	NVMF_RDMA_QPTYPE_INVALID	= 0xff,
+ };
+ 
+ /* RDMA Provider Type codes for Discovery Log Page entry TSAS
+@@ -110,6 +111,7 @@ enum {
+ 	NVMF_TCP_SECTYPE_NONE = 0, /* No Security */
+ 	NVMF_TCP_SECTYPE_TLS12 = 1, /* TLSv1.2, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
+ 	NVMF_TCP_SECTYPE_TLS13 = 2, /* TLSv1.3, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
++	NVMF_TCP_SECTYPE_INVALID = 0xff,
+ };
+ 
+ #define NVME_AQ_DEPTH		32
 -- 
 2.35.3
 
