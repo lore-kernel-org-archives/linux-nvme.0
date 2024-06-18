@@ -4,60 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DEF8C2BA1A
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jun 2024 18:30:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1554C27C79
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jun 2024 00:11:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Dcc3OM2v70pX4+ellkAMZf0Hxn+7AuyZtKo8dUv85j0=; b=sXES8JlW12snpGS+za7k8thRBU
-	TTa0ILILu/zHymGoW2r4+0Zh3MB2wNomFGPMbL6rA7L3tTIUTNbga0BMmT74XZ21BDB3UvJ0iQoIE
-	wdH2ohVPDswXY4XaFt22597nTopa0wSSawZXK3fX8+sv35t3/rZ/nkb/U5c7Xob2gwCFbX5098oSZ
-	cksznJx7bu2p/onzDq88wN/3fRhI/VMpKrqJ1QTOkGNIvaY2YZq5Z3naRT7suWeTrWrquE949kplw
-	ugYYnwmLP8EBMID4nY+8/EsWX4msyipi3dhh+m6fiTfEK/26mbob7EmC9do430impyh0zsHxri7dX
-	CP+LpB9A==;
+	bh=d7ishIMx0oTwH8R8aZEU3m1gxjUxnldxqZIna8x4s2c=; b=sFa0QYisSXNlqhS5/lp3jZzYBQ
+	xHS+VJ+nMZa6aRubYsI93okQuw/bcPYPLBfvcICgGtLeeANSEqaSaJRnMK7VpVmRm1AxmU8Nf89E5
+	9kj20YWCLJCDeWVUR26mQO6e4NRk5bw02IofYcdbWGm1EhXcjjGb5YuD9BCnu/8rRvofivK32/96r
+	7a6MZYQhBvnRI9YzXYq4oXtVyDjsuGRxdRhGVT+/Sba9WbmLPHZXk1x/Drsr8YLM9vXW4Awxh0Erd
+	b+8YxZmJ6Oo4EuQzlDDxcBPNOHOcFQdYkoofifNS0YSF+M8cUbhGQ8iQJyt0kZ//M7rJGk5UD+SdD
+	XKSNwXbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJH7k-0000000CBYQ-1p1q;
-	Mon, 17 Jun 2024 18:30:36 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sJMRT-0000000D0sN-1XA6;
+	Tue, 18 Jun 2024 00:11:19 +0000
+Received: from mail-dm6nam12on20601.outbound.protection.outlook.com ([2a01:111:f403:2417::601] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJH73-0000000CB4U-1rMe
+	id 1sJMRM-0000000D0pQ-0TRs
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Jun 2024 18:29:59 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id EF1276145A;
-	Mon, 17 Jun 2024 18:29:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C14C3277B;
-	Mon, 17 Jun 2024 18:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718648991;
-	bh=Dcc3OM2v70pX4+ellkAMZf0Hxn+7AuyZtKo8dUv85j0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Iqy94O0pqkL1sxEqYfbdQJy2gaO/sWHQuzHe+lg6Fy3RrBxfT72bPa5CJe/Y+3xZ5
-	 OBJzqwe8BVILIY6nAm67UEsdy5ORGIXtFcwj0YmAsARabdDJMLrFhsNRPyNW2KCUVT
-	 15eCNY59xUs3GEXT5/CrqaBBZ1biSveN9xfuKtV/HyR3QMpCLdLfkTAKuQf7y7XMWl
-	 3qFpano5ex2vvQeT1m2S4gqafIEcB49Q0WhdyN8YraOndK2rag55+YKvXxRFrQnWg/
-	 aDdy4H3wUsmI3kix5+FjAUgoXl2iyosVwadWkPsOKPdX0KtLNHHxhPkoO4qe5DzR6m
-	 lH28iEyYI+5Jw==
-Date: Mon, 17 Jun 2024 12:29:49 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/3] nvmet: do not return 'reserved' for empty TSAS values
-Message-ID: <ZnCAnRtQBbhIJ9Be@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240617072728.134728-1-hare@kernel.org>
- <20240617072728.134728-2-hare@kernel.org>
+	Tue, 18 Jun 2024 00:11:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QmdhKvGpbUb6Q5eT3/KoDws9/VB9RzwLYztadW3c+PuoIDRktBSbeUtMULMmtdD4QARVR5P3hxe6m7U+MerRzmHVDoetYbzoRIKqVMHiBvoNd9kE0Ma69eddqtG943BQW5n6unxDWDwcG72JGbZuNtp5NpG2ElvfZ6fso9OADeNivXUc0GtJqdLEovFNQBrnzVTElrdHsliXChRV3Yzz1Z0OM4yZR2LDCWBDsbjTkuVD82qfIgkz5sgdKNME2q5qADO+kq7Axep85neXk060NgTHpHmCUvqaBgh9zMLVVgcjXSnPup0eEDjmqjWcFy+hlYBxwAt0rf+E/LrasvoURA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d7ishIMx0oTwH8R8aZEU3m1gxjUxnldxqZIna8x4s2c=;
+ b=Czhf1Hd8i8JfpLqDerOyWQclHzKOI0uebDMC9bSK+3o2YLrcGtDNaLJ/7mRoEqgKPoYJ/2GERjcB8+y/4CYFL7dRzxlATDUHwiDCjLBvqiv0h5Cz9wP5Ec2E/v4xsvM1PdimQXw3T2b3ioZBuvCCEDEhdM0f1Ek1LEtog1LxdeOjXkOKs4wB+733+eNwGnLUNs5I0D6Y/8mi9Xqq0bmoEg9nL0tdD7FU2T4Dd3Znzk1epFi6ncNzl1wOcBIlZlgiaMaXPyTTVRSzXEbMeVS06HZULFYIBi5BpXpfqp8mV60EBhPZwEwaGlHlMJbJ3mqUQLPbyxxmAfxi22bgV81s/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d7ishIMx0oTwH8R8aZEU3m1gxjUxnldxqZIna8x4s2c=;
+ b=IJOyJzxrrPShDaaMxKbGSBAssXFj1yPzbYA8UCUMQejvIS0h8mXoIKKQx2euYit7HSKrYsuEel5QYZQ5dP3uZjuS8IygYhqS2QxtB7tjx0o3yYI7lzTOnp209S7OAcVzNOOuYAkbQj3UiycnA+dGb4uDYZmhgQY/Mq03zZAXoxSrIXQDpjZ/PBxX495fLsf/Lzr+ACWBBkn4nRwQCtbtBKjAXuIwnWzGEmi3Bzojb3e1OsN6JnL2xIWevvodJpnOIcx5Xptu5A5JBJl25sMUU5HNKDmpRays8iuKm+B3ueT0tCcS3Tx81piwBwe7YijLbxaSkQVOpE3IY+I9zbz43g==
+Received: from SA9P221CA0027.NAMP221.PROD.OUTLOOK.COM (2603:10b6:806:25::32)
+ by DS7PR12MB5791.namprd12.prod.outlook.com (2603:10b6:8:76::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Tue, 18 Jun
+ 2024 00:11:00 +0000
+Received: from SA2PEPF00003F64.namprd04.prod.outlook.com
+ (2603:10b6:806:25:cafe::27) by SA9P221CA0027.outlook.office365.com
+ (2603:10b6:806:25::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31 via Frontend
+ Transport; Tue, 18 Jun 2024 00:11:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SA2PEPF00003F64.mail.protection.outlook.com (10.167.248.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.15 via Frontend Transport; Tue, 18 Jun 2024 00:11:00 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Jun
+ 2024 17:10:47 -0700
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Jun
+ 2024 17:10:47 -0700
+Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Mon, 17 Jun 2024 17:10:43 -0700
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <leonro@nvidia.com>, <jgg@nvidia.com>, <linux-nvme@lists.infradead.org>,
+	<linux-rdma@vger.kernel.org>, <chuck.lever@oracle.com>
+CC: <oren@nvidia.com>, <israelr@nvidia.com>, <maorg@nvidia.com>,
+	<yishaih@nvidia.com>, <hch@lst.de>, <bvanassche@acm.org>,
+	<shiraz.saleem@intel.com>, <edumazet@google.com>, Max Gurtovoy
+	<mgurtovoy@nvidia.com>
+Subject: [PATCH 2/6] IB/isert: remove the handling of last WQE reached event
+Date: Tue, 18 Jun 2024 03:10:30 +0300
+Message-ID: <20240618001034.22681-3-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
+In-Reply-To: <20240618001034.22681-1-mgurtovoy@nvidia.com>
+References: <20240618001034.22681-1-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240617072728.134728-2-hare@kernel.org>
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F64:EE_|DS7PR12MB5791:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc75635a-849b-49e0-29c4-08dc8f2b2257
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|36860700010|376011|82310400023|1800799021;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?96lKbYK3YoE/VD4cuM2RGxNAaEMeRpPUma+KjuG9Saf8T9Ox1PDwsDDN8b1p?=
+ =?us-ascii?Q?c5SL6dwbzaCtwGfoRDHNM1+ZOlLmi3CUo9QeMx/h9vpLO1UweMk9hE6zgjSJ?=
+ =?us-ascii?Q?ejew2I5087xi1K0Cvzhdm/6e/3NoIrIUcNRtksB9gmTjkCuwdgPFLard/JNe?=
+ =?us-ascii?Q?Ds1t2WxZ0PeyJPydANqxLWD/x11nyedVc0xBQBe7Fd4hQ4Q40RMMvn+6Lwd7?=
+ =?us-ascii?Q?yT99amjJDVEcVjg2Pmc/ECKJSFrQbYTBZ6xZb5YrUHGSiu2DL0Mii4Zw5rlQ?=
+ =?us-ascii?Q?yKxKIel9e7yKKa5OvPgZZFlKpQdTj4hPQEGHvV634yi9FnIjDuvtIucpfFWp?=
+ =?us-ascii?Q?5gi8963p6KFeatfAvoUmiqmI7X1QVc0AsmJpSRhxLWx9T0z+5YxyG0L/kqAX?=
+ =?us-ascii?Q?AelVVZ0TkxLoBulF28HjcWPhnSiUGJHTPIZkf8sULV38vR0CqcYkGLbuUqC/?=
+ =?us-ascii?Q?qd2AjlKde9Ccj+EKxsFcq7DIUjJAMLYsSrXsz+j/Rgz1L9dB731YqdZ/dRsa?=
+ =?us-ascii?Q?46FweLBFqHRQM2GYT0sjc71zcTfQIftxoxG64YwRfcPRCS8gj5r11iLtimP/?=
+ =?us-ascii?Q?zjQyq3KYbvboXEGJYT046VxiXg0aWnT2KkZdGITbnk4G0mylPLsNizc/RmCj?=
+ =?us-ascii?Q?jy78HBHMT6iivq4OVicQReQhiOGv/N58Wa2HUY7atAs4HYUZG0jTwGpCRe1H?=
+ =?us-ascii?Q?25Gt6Is5VKgIwXxhxbV/EqmYdGqUR+ICfEnTlpGUzbCAcpgwPKHnTXgMklid?=
+ =?us-ascii?Q?UhEQkQPT0Bd7ee4LO0wCHwrpvYHsIzeK7HX0zpmIV/yxNIFFhQXywxwpEc0H?=
+ =?us-ascii?Q?dM4ENJWOEDRON0d/Y1xY1eYH2+PaDnslQHbt+0Vdbq1vVVZo37DVdQJSHbmt?=
+ =?us-ascii?Q?AcgYp6pQ2w5edTKGCA2acD+d2vfypANaBaxcSf6aWgZairTkuUC1LA0yLd2S?=
+ =?us-ascii?Q?HyYrtxDW7qVOr/JCS/QZSqSMFvbpBnRoDFoODv4Z6DugRoF07kjxj2rYDVRw?=
+ =?us-ascii?Q?wZdZPn3pHXEustYfZg/wgC4IuwEIO4M88Y4LCgJ6GOv+9eqp7cX1gUXsApPL?=
+ =?us-ascii?Q?Rn/SbOJdV5mpgtuGqEpJX2B9Cmrzj7rwZELZ37YGOihem15WMMMZvDSlokQu?=
+ =?us-ascii?Q?wlkIy36W7QAzrJL6D5HbEKqHkyHjx0TBbMEv0eVf6hfuO7bpi/eKd7bd2xvV?=
+ =?us-ascii?Q?WxBQbPvBQIv8lw2n68QBpdV4M4t19MOx0TFYSMuY+Tj4rmrz7VpKbqNuJYBf?=
+ =?us-ascii?Q?QjgcN82dw1iYd5A5d66rWxPHncV6bNJP+WS7zz/InsTBcWA9yn5AmC2nX9k0?=
+ =?us-ascii?Q?E5vb6khdTrO4KT4+qAd86bEc1W5tP+ECnQmOlaQdBLQ7itK+gwoM5EDSD2Za?=
+ =?us-ascii?Q?PdCE/+vZRepdV+pMkfvZC2WrNbfZT60/WjDha3upitE7TTykGw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230037)(36860700010)(376011)(82310400023)(1800799021);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 00:11:00.0708
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc75635a-849b-49e0-29c4-08dc8f2b2257
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F64.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5791
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240617_112953_689569_3780ADE3 
-X-CRM114-Status: UNSURE (   9.20  )
+X-CRM114-CacheID: sfid-20240617_171112_210531_E4B43272 
+X-CRM114-Status: UNSURE (   7.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,11 +150,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 17, 2024 at 09:27:26AM +0200, Hannes Reinecke wrote:
-> The 'TSAS' value is only defined for TCP and RDMA, but returning
-> 'reserved' for undefined values tricked nvmetcli to try to write
-> 'reserved' when restoring from a config file. This caused an error
-> and the configuration would not be applied.
+This event is handled by the RDMA core layer.
 
-Thanks, applied to nvme-6.10.
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+---
+ drivers/infiniband/ulp/isert/ib_isert.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/infiniband/ulp/isert/ib_isert.c b/drivers/infiniband/ulp/isert/ib_isert.c
+index 00a7303c8cc6..42977a5326ee 100644
+--- a/drivers/infiniband/ulp/isert/ib_isert.c
++++ b/drivers/infiniband/ulp/isert/ib_isert.c
+@@ -91,9 +91,6 @@ isert_qp_event_callback(struct ib_event *e, void *context)
+ 	case IB_EVENT_COMM_EST:
+ 		rdma_notify(isert_conn->cm_id, IB_EVENT_COMM_EST);
+ 		break;
+-	case IB_EVENT_QP_LAST_WQE_REACHED:
+-		isert_warn("Reached TX IB_EVENT_QP_LAST_WQE_REACHED\n");
+-		break;
+ 	default:
+ 		break;
+ 	}
+-- 
+2.18.1
+
 
