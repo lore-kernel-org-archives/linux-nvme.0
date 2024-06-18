@@ -4,75 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B4E7C2BA18
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jun 2024 16:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82BB3C2BA18
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jun 2024 16:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rXm22aa4uNfLbj5oHoqEtahnhATqX9TBEK1apmGNxQQ=; b=gH3v0zDmyyCnQiCS6kvXz2H5f6
-	Y+D2FPFihfzaowbEISoCk9/fVDWh7T0LbjuJLll/AuoNFeNCltmBHJ4IRIktTYokHcYcPtxRrawv5
-	rz/+JUs/Ma5Oj6dOLaCyzjWqojkkS2PDm7LYjNUGIH3eVVU+YKOVNby+GsfIfsGZNmdnXI7PTDlJJ
-	qRwM2Gb9jHZve6JQGEvSbBMz80Fkwshgt0A4veo/Yqtw0zLWIhiYPCXFWHag4LbzmAyXQR3kXTWrj
-	U7oDL5waB+DAm9wJOr9UHjCzi8kz9ZhuAB6VQafZgGZhIxVGBQ+jtCt8siw//WR4UTQxoADWkpR4e
-	lzZ4IEgw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=rmO7nP1cbPRqhvWC1tb+nbJvj4x3lUl3qHkDLwvVLpg=; b=EfHfmDoZCsA0hf
+	eZIereF0BilhWDZvh2EBH08dIOc5y/S7qqWJwYgc1IVqRu5HSgkx6MM+jA9H4asCgo41lj3vVcKFF
+	PA4CpHLiyq0KDU1cPSCu5ZtAu0Em/5MpaZ//smsDXj/FtflHcn9KsZ39bTw4Q9BfW7AdGuJ1BsUZL
+	uEiv+X0tEsc2+XAGnfAos1x3O9rU+Buvo9kISzTAnr+HUUw+kJWPS3s1bKIBnHWTbjryAIAXFxtBx
+	8KTJbVmsoZgfvn5UpaPGXJnjn15vR4nzGseg5qAHER05scm71+Q+jBNnIVDZJHnUYTcTqH9xdhpLP
+	FjHMsiHW5hIEcRRDGJTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJbNp-0000000Fl2h-3k7A;
-	Tue, 18 Jun 2024 16:08:33 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1sJbYx-0000000FpDx-2NUU;
+	Tue, 18 Jun 2024 16:20:03 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJbNm-0000000Fl0S-01Wf
+	id 1sJbYs-0000000FpBb-2BMd
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Jun 2024 16:08:32 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4W3WrX6QzlzlgMVS;
-	Tue, 18 Jun 2024 16:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1718726904; x=1721318905; bh=rXm22aa4uNfLbj5oHoqEtahn
-	hATqX9TBEK1apmGNxQQ=; b=NhmEOlrQaPts2vm1dA+hSzHL6zOzrF14r201rIfL
-	WlXlzeNTFzxO3m0fXXUsdX+kySWS3S76lquG6v2/lZ2rqKpCvzfh23IK2ejHj/Bx
-	AkERAjTTcjyMZlWXvgKUNjr9Xa8msRXHpaTH7DGbD3wkOehhCfqWeBQFQEXdYQXv
-	fCLVFxHncNpYCDHkZLpzl2sioB8YsLHXX96YZdw8ppkslr0B57KG+CritpB9jvAE
-	lffmqU3Zq2G8qyeqkNu9+cgOufkFM3jEhJDtUtSnruw6t6uYvPF95IQj6Qirx/b1
-	Lm/hahq2/c0bSjSEcyyqiJwn51fOBXJMjNEFDLG8dFtauw==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id a2Ikwti1Rv3a; Tue, 18 Jun 2024 16:08:24 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4W3WrP3F8YzlgMVR;
-	Tue, 18 Jun 2024 16:08:21 +0000 (UTC)
-Message-ID: <8d8ada7d-81c1-4706-9263-7854a7847a85@acm.org>
-Date: Tue, 18 Jun 2024 09:08:18 -0700
+	Tue, 18 Jun 2024 16:20:01 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 8CCC5CE12E4;
+	Tue, 18 Jun 2024 16:19:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A927C4AF1C;
+	Tue, 18 Jun 2024 16:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718727594;
+	bh=+I09tVzQ9OtS9eIzACeB4nthPggIMP3+i7udNNOzVvs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=LQzgJSBP7HFiHKA9jkri7zvJ7NUSfYuQQBSgKPuLmObptGzn1arS98vKbeihR775U
+	 GHvY/rrf46nqnbW7Q5H/7+Mx9E5qj8hlQr4tOaduAbDwmbMJ86Au5wGhh//4KEaklw
+	 nxhZE3I30uqXE+CkTmp3B3jNfcXdL1izhMeP99m81hqG0rJeBW4utT00qWx/s+5eEh
+	 pQrr7l25/x7MHNvOuJcGGPDit86H+B4evwMRuPpT1pFyH5f5pbRbx1pbfm5+rzZhv3
+	 HR8bVn/gZ3q+2pvNK570jImcDHca2ri4+oU3U2ZtSRd9GholN9FX0lWML3KYovd7y7
+	 6qBwy62s+zMQw==
+Date: Tue, 18 Jun 2024 11:19:52 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux NVMe <linux-nvme@lists.infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	gloriouseggroll@gmail.com, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: Fwd: Regression: Kernel 6.4 rc1 and higher causes Steam Deck to
+ fail to wake from suspend (bisected)
+Message-ID: <20240618161952.GA1258613@bhelgaas>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] RDMA/srpt: remove the handling of last WQE reached
- event
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, leonro@nvidia.com, jgg@nvidia.com,
- linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
- chuck.lever@oracle.com
-Cc: oren@nvidia.com, israelr@nvidia.com, maorg@nvidia.com,
- yishaih@nvidia.com, hch@lst.de, shiraz.saleem@intel.com, edumazet@google.com
-References: <20240618001034.22681-1-mgurtovoy@nvidia.com>
- <20240618001034.22681-4-mgurtovoy@nvidia.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240618001034.22681-4-mgurtovoy@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4d09ffc-a8e4-4e9f-9032-7c8583ca6abd@leemhuis.info>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240618_090830_136757_6E07F789 
-X-CRM114-Status: GOOD (  12.00  )
+X-CRM114-CacheID: sfid-20240618_091958_757644_857496F2 
+X-CRM114-Status: GOOD (  21.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,30 +74,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/17/24 5:10 PM, Max Gurtovoy wrote:
-> This event is handled by the RDMA core layer.
+On Tue, Jun 18, 2024 at 08:42:07AM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
+> Hi Bjorn!
 > 
-> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> ---
->   drivers/infiniband/ulp/srpt/ib_srpt.c | 5 -----
->   1 file changed, 5 deletions(-)
+> On 08.05.24 17:49, Bjorn Helgaas wrote:
+> > On Tue, Oct 31, 2023 at 03:21:20PM +0700, Bagas Sanjaya wrote:
+> >>
+> >> I notice a regression report on Bugzilla [1]. Quoting from it:
+> >> 
+> >>> On Kernel 6.4 rc1 and higher if you put the Steam Deck into suspend then press the power button again it will not wake up. 
+> >>>
+> >>> I don't have a clue as to -why- this commit breaks wake from suspend on steam deck, but it does. Bisected to:
+> >>>
+> >>> ```
+> >>> 1ad11eafc63ac16e667853bee4273879226d2d1b is the first bad commit
+> >>> commit 1ad11eafc63ac16e667853bee4273879226d2d1b
+> >>> Author: Bjorn Helgaas <bhelgaas@google.com>
+> >>> Date:   Tue Mar 7 14:32:43 2023 -0600
+> >>>
+> >>>     nvme-pci: drop redundant pci_enable_pcie_error_reporting()
+> >>>     
+> >>>     pci_enable_pcie_error_reporting() enables the device to send ERR_*
+> >>>     Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting when AER is
+> >>>     native"), the PCI core does this for all devices during enumeration, so the
+> >>>     driver doesn't need to do it itself.
+> >>> [...]
+> >>>
+> >>> Reverting that commit by itself on top of 6.5.9 (stable) allows it to wake from suspend properly.
+> >>
+> >>> https://bugzilla.kernel.org/show_bug.cgi?id=218090
+> >>
+> > I don't think regzbot picked this up [...]
 > 
-> diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.c b/drivers/infiniband/ulp/srpt/ib_srpt.c
-> index 9632afbd727b..8503f56b5202 100644
-> --- a/drivers/infiniband/ulp/srpt/ib_srpt.c
-> +++ b/drivers/infiniband/ulp/srpt/ib_srpt.c
-> @@ -231,11 +231,6 @@ static void srpt_qp_event(struct ib_event *event, void *ptr)
->   		else
->   			ib_cm_notify(ch->ib_cm.cm_id, event->event);
->   		break;
-> -	case IB_EVENT_QP_LAST_WQE_REACHED:
-> -		pr_debug("%s-%d, state %s: received Last WQE event.\n",
-> -			 ch->sess_name, ch->qp->qp_num,
-> -			 get_ch_state_name(ch->state));
-> -		break;
->   	default:
->   		pr_err("received unrecognized IB QP event %d\n", event->event);
->   		break;
+> This is still open and it seems nothing happened for a few weeks now
+> (sorry, should have sent a reminder earlier, but such old regressions
+> have a lower priority here). Did it fall through the cracks or is this
+> some good reason why giving up on this one might be the right thing to do?
 
-Acked-by: Bart Van Assche <bvanassche@acm.org>
+Thanks for the reminder.  Will work on it today.
+
+Bjorn
 
