@@ -4,137 +4,175 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03792C27C79
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jun 2024 00:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F187C27C79
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Jun 2024 01:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/D57k+qje9srjgeYV7+LAq3vzfnZkskwDhTuSBbfNlY=; b=IukDa4smqRQtrXoQG5eLDE54Jn
-	NkeJ8ZMlvCDxcPyNxwr/mPQW2ilRkrV/7vi93WVXZnmi2lmsNYejh+YWo/0Ys+m9B8ij9zQq8MBW6
-	FZTAgaGWtQydC8hFlPG9HCNcnzpVyMI0ab1bl3VGaJ8aw5yzZAJhz3T0BxxNrbutcC1yc807j+PcL
-	JdXIhI60sJQCeVtZ/KN/3ymcenjee9sJmW5fFoTOpH479dI6UK7lI8PLLG4SJiN0JEcj9w0C/3BZk
-	6RIDNMvAxaEKf1Gn0raGb0Fvw0g3O2deEnrWGM1zJwcu7WWSUispPxggY2i+5d1wyeJ3LlEtcM8zP
-	WrvLI+7w==;
+	bh=Pj3GBEelMTDLLwT6NXSOgKxQsFNxm21rLab1Amr7QaM=; b=nDe9Gg3UC/FbnIph3eocaG2U17
+	0wXLeT5Y0VogKcAw2hUjke/4pIgNZh+oOc5LpvQ2CQovnr42Gfw05O8q537zBsrKBkdf8sV83UMx7
+	RBVJ8wL/wJbv11U7t3ESgE1So/RjkHf6XSzAqc7KGlLkK2jFdTnwLeF0juMxPglnSAKBeJuNDZ80j
+	+FyzbV3HI8tkTsv9hssVVvQZfgq3VIUjdLLVNvwNnnhfVngWncy1YXrN00ryYJ7ac6x0nql8MRB9S
+	yinholerbNzmdni04/6A34gYhA8a+m3im6byESpPnINMHl7l8GsRqahX290RQ9s1WSXU9do4JpnRM
+	7tj+JzWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJMgg-0000000D3Qi-0AWV;
-	Tue, 18 Jun 2024 00:27:02 +0000
-Received: from mail-bn7nam10on20617.outbound.protection.outlook.com ([2a01:111:f403:2009::617] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1sJNa5-0000000DAxZ-2unl;
+	Tue, 18 Jun 2024 01:24:17 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJMgc-0000000D3PD-317j
+	id 1sJNa2-0000000DAx7-2rSa
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Jun 2024 00:27:00 +0000
+	Tue, 18 Jun 2024 01:24:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1718673854; x=1750209854;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=aFWQAXgat3i1Ikm85enN6PrbOmXlSXvtrbY5ROccqJk=;
+  b=TgTK9br+jr9UMpknzfQa5ImNFgrxuE+CR69RuiLoPbuNLXjoXjLE31M/
+   NN8lfRr4/A3DCanaBOC6Oo1HlGbOo5cLY8s8IlxQlTeoV+XJeroiAmQgE
+   G3Lgrt7PMwRtQJC7wgwmB6fCq3G4scc3uife7kqvUDZoMOjUnfMyNLXGq
+   byno2NggqBiXFKFaDb+QLdZeP8kDMqQfeTwRTUTx2bmanOeiToGUcEaU9
+   orGGziz9ZRdussCLUXdcZ4B03DgdKaZd84ibZc4xu12S4B8gZjqOrpBhZ
+   cwVqC9a0s0yCssHvXUP/Pb/xH7PL78k4wIq2ppOiVK2VQBTSGZ/sdTem7
+   g==;
+X-CSE-ConnectionGUID: bYCyNjyaQXGiJ5WlGEjB4Q==
+X-CSE-MsgGUID: Yodkc6XGSIy3kZtcHYBoGQ==
+X-IronPort-AV: E=Sophos;i="6.08,246,1712592000"; 
+   d="scan'208";a="19661211"
+Received: from mail-dm6nam11lp2169.outbound.protection.outlook.com (HELO NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.169])
+  by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2024 09:24:12 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KrXlvE3J+5ETlxgYiJu18FSg/CMhe430+EA2PqlVzlnlfnySF1pFyHe/H90j/Dgk5lQsC+fSHkKChTmGbpYHZKm97NB+Nu9ghNWBYuavT1Sm6Yru3BXQshK90c6ithUg0nuB9/oc/xpoasyTTjookjioZ2FydzTkzyLlCU0Yk7mYjYMzN8HlfOryuX/kEzuA2ImFqkdWjM8N6bEUc7CjpAmaPiRwch0sLmuRwFx9HLeFIe357S6zLNWiQ2lu8QKDUjALBTLjiSQ1w3v7Td9iWtIg8DnOJAhJrgag22GXJMzBqMwH2RQJWZ4kN4E3Ba+TkBJlXIk1jno9/a/CvGx8MA==
+ b=YA07WYZnuayMW4lEhaEiCM8s+TDZWQ/TuLpW1HNOgbnf6jkbfFegJnLgG99377HgROHX5NIdjN2slye/8OHh5Nmgue8yrDZ3J6HCAhUljuBSFBICJX/alFCy3goHmo4EdFKM/A4aUgpVEcTjWwilErgkuYi4ClaxZqycHXAQvVXscpELfMGHA3sos10KSoLMJGP0o6tcH1Q4OyBcE1A4wg/RHLG5x8yLQzhR/YA1TJzh+De6J87RHndjzyhTrnaScy3IyNNZ10MbHQD9yp0eaIxM0gbGYcg4GywShYnYxMi1FjVyCVboku+9hZiUniY7Xm1lS9WpU4kthVY5ni7yWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/D57k+qje9srjgeYV7+LAq3vzfnZkskwDhTuSBbfNlY=;
- b=MY7usu3VnMjT6ARZL9MXXxHOsZ4tYwaJRiXHz8MD+BPiKYfz3Bp/1GY56LXtylFYGoKz4TZ8up53ObFgJ1f90TVcW47nPsOancQ/hE8JGwOVEjE/t4ogq8mGPFOIQ8jcOqVV4QtXPpa/lMjOQPUIeO2U371VfBqGaiCad5lYzpthqbG5bVEMD5AQnxt3S/HpJNUy9SNDr03vp17eBuy4p9gWspqF2RqUg5NkCs0RxuJcvUR3QkgkO/Qn2wavoU1JPV9mbtps7/jTOiBU4oAlXDhaB5kSz0LCbQtfON2BnoD9hkF7rHqlLCGUiCZrAAZGI1BJoob9CAXrmBMSa3mYaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.infradead.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=Pj3GBEelMTDLLwT6NXSOgKxQsFNxm21rLab1Amr7QaM=;
+ b=JYUN0ZNwmWkdzVGUZyp05yT19nglYIOrSdu6axs37X2rbNPS/GO3+4W+WWJRGwz3AHalS5D6wa8BccFQTLUF/gVucbAJnxq2FAWIaTc9L9882uOY5GI/7TOL4sVv49HuWgwJUfpdVSw3v0CwWTKlkXWJ2sQtfMz5nqgyzh70LSLjy23GMXL72XbBoEn5/ZP3lo2VpMaVt1ZA9E3VNdhGrqikaC71QATwTk4vjBpSbPMVL9k9eSqyK2nRe+4KQRZ+31zoYxA9TgIgecTRYPjwvSoDbxAhRuM/sL5OiqGX+ZSE8t0slRC8LQdFUg3LErMo86f38+cz07WTSvQyg5cQuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/D57k+qje9srjgeYV7+LAq3vzfnZkskwDhTuSBbfNlY=;
- b=Td/DSTDtjyw3xwgQNkDIaD0UkchANqbL+EPdC002D4QAgGje/qBFIeuV4WmNKrvG3OCGEjRQ/nIPj++7H1LfQMfRTD0JIVnlsugoLfg3B7EMh1z7yhkeC3EJ2R+Kb1l3R/0cb3I/8CB3TnqFzvpkdhIbRgLA/TlvQZTareDz4pj07niTN/F8C3Qhs9Vi01ng7PmZZmqYkQBITEkptIGWxNoSTeWGclt3q4n1YfEBUobsq7CxZtJz/3A/xFY2x1u9bbLhEDS0OWsrEDW2a5WsTaGb+kcADvmk0DP9wTeypykl53sGAjM4Blm+thXJyuAqOCmTVGZn4CEmgnmXmk27WQ==
-Received: from CH2PR16CA0009.namprd16.prod.outlook.com (2603:10b6:610:50::19)
- by CH3PR12MB7572.namprd12.prod.outlook.com (2603:10b6:610:144::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Tue, 18 Jun
- 2024 00:10:58 +0000
-Received: from DS2PEPF00003448.namprd04.prod.outlook.com
- (2603:10b6:610:50:cafe::1c) by CH2PR16CA0009.outlook.office365.com
- (2603:10b6:610:50::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30 via Frontend
- Transport; Tue, 18 Jun 2024 00:10:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- DS2PEPF00003448.mail.protection.outlook.com (10.167.17.75) with Microsoft
+ bh=Pj3GBEelMTDLLwT6NXSOgKxQsFNxm21rLab1Amr7QaM=;
+ b=I+5bs1010WD/8tFRpxhmNIuG6GJxF0h5RuGIZGAb6qCcJcdmbQ5XJC8LXudlHzF6wfIdFDgcRbKmPHLnbZjrZjCfgQESWKLh/NuZigf8uWGwzunFIrQNpxXc3Gy5xD2X4yfTLnr2ge1l7t4TXi2VBsXPSGbHHFnNbRMGOnes2vE=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ PH0PR04MB8526.namprd04.prod.outlook.com (2603:10b6:510:291::9) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.15 via Frontend Transport; Tue, 18 Jun 2024 00:10:56 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Jun
- 2024 17:10:43 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 17 Jun
- 2024 17:10:42 -0700
-Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Mon, 17 Jun 2024 17:10:39 -0700
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-To: <leonro@nvidia.com>, <jgg@nvidia.com>, <linux-nvme@lists.infradead.org>,
-	<linux-rdma@vger.kernel.org>, <chuck.lever@oracle.com>
-CC: <oren@nvidia.com>, <israelr@nvidia.com>, <maorg@nvidia.com>,
-	<yishaih@nvidia.com>, <hch@lst.de>, <bvanassche@acm.org>,
-	<shiraz.saleem@intel.com>, <edumazet@google.com>, Max Gurtovoy
-	<mgurtovoy@nvidia.com>
-Subject: [PATCH 1/6] IB/core: add support for draining Shared receive queues
-Date: Tue, 18 Jun 2024 03:10:29 +0300
-Message-ID: <20240618001034.22681-2-mgurtovoy@nvidia.com>
-X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20240618001034.22681-1-mgurtovoy@nvidia.com>
-References: <20240618001034.22681-1-mgurtovoy@nvidia.com>
+ 15.20.7677.30; Tue, 18 Jun 2024 01:24:07 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%3]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
+ 01:24:07 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Ofir Gal <ofir.gal@volumez.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Daniel
+ Wagner <dwagner@suse.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH blktests] md: add regression test for "md/md-bitmap: fix
+ writing non bitmap pages"
+Thread-Topic: [PATCH blktests] md: add regression test for "md/md-bitmap: fix
+ writing non bitmap pages"
+Thread-Index: AQHavY1+2yGNDI7RnEqMuaOkwQh00rHL2PmAgABMY4CAAJv1AA==
+Date: Tue, 18 Jun 2024 01:24:07 +0000
+Message-ID: <zbeftlk6oti6uh5wx6m5ijvlvjv3xpxoqa6pj6mlasdr32eqfm@vyc5i3gyyj3s>
+References: <20240613123019.3983399-1-ofir.gal@volumez.com>
+ <cnaunh75p4p45e4hgdaeaqry6whwdc2pqatil5v3oxjitwobda@p2oqftzlwv2r>
+ <34ee55e8-a23c-4e7e-b897-cfbcc8337136@volumez.com>
+In-Reply-To: <34ee55e8-a23c-4e7e-b897-cfbcc8337136@volumez.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|PH0PR04MB8526:EE_
+x-ms-office365-filtering-correlation-id: c51a1052-2e90-43e2-5a51-08dc8f35591f
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230037|376011|1800799021|366013|38070700015;
+x-microsoft-antispam-message-info: =?us-ascii?Q?Ddg0owvZpTRh6pI/ZrfGMoxZJcU4MhrNT3jD3FAk7XRv9K4ndzddr+234bA5?=
+ =?us-ascii?Q?eHHRq2E2r29bWkR/M6Cm4R4SkDEyTG+FzzPGCVimjIt9Cy9ysWA5HpJdDaxw?=
+ =?us-ascii?Q?Xa3i/5Shwi4vRjzeH3362cKHdi9iuGZIfVNcgFNBe6tsceEBd7tfJpO9ZFmz?=
+ =?us-ascii?Q?PJCzpg1WI+GfJCdmoCTkSKPhOq65118hq1o8gpHFNtDTI0nWjd7obh8mOiUs?=
+ =?us-ascii?Q?Pn6O1K07cxkoyaVG0ZyqikmzCv0D1usgkkeqCKTsPtAmMbLmWHCvFFHb6Lgk?=
+ =?us-ascii?Q?2xCoTQ8qnFa6NxGUPd1sMRB4QZLBW5XfR8PjqnpAddZbdTkLv29OweRxdHTW?=
+ =?us-ascii?Q?Y2BRe43haMwfUmjX7CJkmm9m+JB9OiHmd9V55RGm1S9MAqNp009yFkgQ45Xr?=
+ =?us-ascii?Q?UJ6e/FJ1JlLLgpYmUs7B7NT4Abz+aM8Sw/b4hGAYfkJnyJGom4pbktCrrwQL?=
+ =?us-ascii?Q?4rBqlETw6OVIB+0KKIOofjwa/VPdrxiXuF4JM0WKyvQCjp6iNDbfgL6J5Vqg?=
+ =?us-ascii?Q?a1MRH8OlCaNw89PDG/9mk5QarSq6f49AVv/PuCjSBM9mQnHwzmmi4bvDHC2h?=
+ =?us-ascii?Q?P5OgnU2O6bfIFHwY/tEfOW8PZSyfDehHcJzlyIpmOmG37OrU0mhFYRhH0Hje?=
+ =?us-ascii?Q?EBm/qHD2Z7E7hiijbEgSBPYL9+/CFY7VbpDA18+akOYzzjGs9PRN5Df5MCwu?=
+ =?us-ascii?Q?iyfVN1GjchnNEso+Q//9ChkMBZIpyXapUHvebyI/ud8NaBcJo3jeKLbcf9wp?=
+ =?us-ascii?Q?rAWQwvTPmx/YX1B3UY+uFby0CMHGqE/26hAO1s04WVaLgI+TqHRx6JraqyHt?=
+ =?us-ascii?Q?hJhLBv43QatLSsDnQ2tBVxRNSb6B4CT+faftsp8uzqnfw10SdHgVK4vWj+mX?=
+ =?us-ascii?Q?qHEj8YPBLQDx2kj2csSK29Ejlmik3RZNOb7GR9ju3ywEdG4GrChC0hFaEdHF?=
+ =?us-ascii?Q?0TeH+i3eVG9yCkvHbA1lY+YFSpZBX2fKg40OI5rUziV1fX54MqsSM7zh+b52?=
+ =?us-ascii?Q?LuLWsUbXqXIKS8SgYSGdWaEzs9tQ9K8QxjV+cddz3C6g4Dhpyoq4THvg19+U?=
+ =?us-ascii?Q?gyvog6xTh18dzMealwCALoDohD0neESswieVYwnXC+R6NeovW7lfIfAKrZIJ?=
+ =?us-ascii?Q?viZTQViNbuAJXHPskzjF365/zbLQBqronjcd9zkbPj9Wrlu1kZ/+b6MpTaQy?=
+ =?us-ascii?Q?YOXdKTo1n8KBO4ZFN/NZcuwyGmDkynralcP2Yv0MfcM2iULJEQRIxqZKYJJN?=
+ =?us-ascii?Q?S42fdilkWxxyXz8J0Y/gI2VnmrWiSYh+/pb+s9f0HJIuH7ajoC5fBiX9nYCN?=
+ =?us-ascii?Q?In36baCkToWB03jJLv8XVu3BUQMTBPOCQXnFWcNkqon2FV8h6uPH+MEIybIT?=
+ =?us-ascii?Q?ZJBQjuo=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(376011)(1800799021)(366013)(38070700015);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xH562t4XWOL/sPrfYZJRP2Tbn7LUDdWPr0crukTuCYDpZt2IdmqHoaUFwaEd?=
+ =?us-ascii?Q?oG6q79y4lm8RUwyUoP+MFH/TPHy96zhm8rulhcGrxeNXlUynnlDTG7wCyVsc?=
+ =?us-ascii?Q?JdYjxwapjpKujbVpNFiuWefInNLmdGJV+5PyzSXRNuparr7y9o6c1XxqA35D?=
+ =?us-ascii?Q?U1QPR2BERm8B+lVRrGUsvSYqce+KP1wVLshXA8dQsTw0sUI6dyCjPea1Fgqx?=
+ =?us-ascii?Q?ja58H9V0gOrgZRnsQu/dwcJJgPPquZLMPF60gc96sH6xPkk7nU7ggp3hKEJd?=
+ =?us-ascii?Q?V18sv8nwEqBPT1UF1bu0NWp3bXgFASobvuAurt5P9YdP/8smf6CemTdkvtuV?=
+ =?us-ascii?Q?P3QwIGZV0ztETNW7a8mzFPml06sCHHBoJN4hQbEli5lDNkiQz1BDMZ+liGJu?=
+ =?us-ascii?Q?NskHdFkBc4knanIjgAql5oPmDpkMjQJF6Sm40r6Hc1qILLIK5wI21gc3cV/h?=
+ =?us-ascii?Q?r0lxFjTwBavexfaq3jXlp86NTr9Df0wqDLf/EzIbbNnfRBthAxsr8D4Y3i8k?=
+ =?us-ascii?Q?8JAbgPJR9KdeQLD6h9DwaGZ+9wU/xeFEQm930RpXJSFTXEwANALSEhmDX9P8?=
+ =?us-ascii?Q?cCdX2SV2hFTfWtlHSR6K+wT7FtIfY0kyalBi1NuzjHp1Qdou6sYRRK/AA/J2?=
+ =?us-ascii?Q?YkQSRfNb9rCYBKwtZVr+8E29kxPb3y8ieX0gXxQdLhSYUSvzsG8vNP7SetGe?=
+ =?us-ascii?Q?tvWpVgmcrTuIz/w9vyAUQqp2G49bc2VrLOyT0+fYez2mILq1zwIDG9V3g+H6?=
+ =?us-ascii?Q?/KzIaWEupTej/nRWQdT6dQmMsDfwU7hOjPe8lB4BbhE+J1oCZebns8J23NJ1?=
+ =?us-ascii?Q?Qx2nwoQpgJRLcrdSDj24ITZSKJ5jnxqE16pvWwX7V9hGBxUeeC3AVDf/Dq5M?=
+ =?us-ascii?Q?iaf6zq/DL7mgZrHeKJQbtyIRvqdlBqJi/hOq+r6Yw4UIJ1iGbDz+JTs3zHwO?=
+ =?us-ascii?Q?MIHME2dORhSAQLjmS6XsQQZiB00l5hyLuJy2ekl4Q3g3H0fs1hbYGC2vzyIR?=
+ =?us-ascii?Q?akDQ7smnQ18R7ibTG3iLxlCinRn0VEpjjmJT4MaawSHJSYvf0FFcjwRv1RMn?=
+ =?us-ascii?Q?bnriplRPmxYw4uFPjrJjpiS6ELwYotEf6zo/Ws0upmTvk3emOvJHYIcXs9xF?=
+ =?us-ascii?Q?PYEfYYh7uCCJVl7ePqdUI5dx6BzoTvGeeH6oNj8yKRubtZllUaUx+fUsd+4b?=
+ =?us-ascii?Q?U8B2LSZvxm3LFPLVrJjCahJ9vCP3EpVf+eISePp/DjzL3x3yxTc2XhVMVva7?=
+ =?us-ascii?Q?JBSSW00RusI4gFCCi/al34kB32wzB46nNSJ3v5F8RgIK5hlP5vXPI5IImTIq?=
+ =?us-ascii?Q?pnFfPIDgm835fbzUYGsMKC4BqYDP7oFMHy1aNzeteLqy4139rVoqrTJFJfXa?=
+ =?us-ascii?Q?G7B+yjgdn1E6SR/eYEWnVHZGuiFcKiAjrNVYtdeE4+jKYdclTE8zYefvmVsh?=
+ =?us-ascii?Q?hQNsEfhqVrZXVUl/8fLrfiHnnkJ4wyXt7hu/8NzXI7zibxcm9LXBLnBl4N/L?=
+ =?us-ascii?Q?Wmv3iqUmA81ZkcALXhzcPp7dZP2j/DfM5Q0eZgc3Qopi2eWBJ6nreL0PYmAV?=
+ =?us-ascii?Q?08yHVnqBUTQk0QEeHuFSPDnNgjXHZ4+M6q9TE+WJJ25HH39BEwzzihUd6BuG?=
+ =?us-ascii?Q?duYYvnS8Gi+gZGvVI5MPkZ4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <D969841858B63E46BA68ADC4865649D7@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003448:EE_|CH3PR12MB7572:EE_
-X-MS-Office365-Filtering-Correlation-Id: fac4ebb3-bb6c-4580-fef8-08dc8f2b205e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|376011|1800799021|82310400023|36860700010;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?toPmIOlbiB1zIvr6Hs6brcqa8dO+oZtLrAh2japrbJzDMavelV4dsRg81Vmk?=
- =?us-ascii?Q?VdatHdB56Py5B/SU0Fk+NNhrdoQEIx+wLLsg9o8gsNxDqDv6ZR5wbIwPjYvb?=
- =?us-ascii?Q?NncHHpz48wWRBIUUbZhvNZ+5H9glU0Nz5E15rnBEkSjfJpyz0JneSwbLApYT?=
- =?us-ascii?Q?pDEfqcVVPGU/u55kSSVO3pDCi7gL2LYFU9mFkLIuRrYYtbb4eqNzdKjBigt3?=
- =?us-ascii?Q?JE05EAencRB0adAt6fmIi9/shQwMvcNvd+4DSLk+q6FTXqk7mGn086L7PN5V?=
- =?us-ascii?Q?oWVDZ/4MaO7ZMcJKR/NTQdzovaf5ITf1Qs7B12xx9areVgWU/Y2kHLOmol9q?=
- =?us-ascii?Q?7igVCfHmsPoSeewXdM9XsV5/jRqr5FS2PxStP+wrBXW6aVEqQbMzb24oiS7Z?=
- =?us-ascii?Q?N92wA4n3Ow5rq9bdBQkziClBnfvcpB5wLQwpCcZmY/vqIbODEIMXK2/zs+0A?=
- =?us-ascii?Q?pqRdwDf7+MuJ/5ybkGl9nNshFEFHVrt2Ii8OjHdo2H6XVQZeEQncAjQUlFot?=
- =?us-ascii?Q?Gb01zigwUURHdBWbuV4rVZlleWfd3RB9gOvmcEiyhV3P3/yJXyywvY7g8NTs?=
- =?us-ascii?Q?CmgQXwc/w01SWT8EqZnBNGaR9SMLROKVDnSRFSeaKfF3Hf4j23VcEAopiJri?=
- =?us-ascii?Q?wFjxFqj6yFyC9/ALYR8b5ZAfre0p1XNxgRwjk79f4Epirdt6INhKo/ATVLe0?=
- =?us-ascii?Q?IHJINnEU+zIgZz3EJb40bWkexrH0/k2/AhvYPtEYeCf7WYSwrzyjzLJ5Fi2W?=
- =?us-ascii?Q?MJD7FQWU9DcGenLEv2t0esEOxrp0DNMWIXFJZnk37LMBVzrE6RTEKGSjO6hN?=
- =?us-ascii?Q?gYkob8vYesz2mJvanxgkpJ7RNdZqhOxChZKDRTBIh51HUcjw64v+roNyEsXp?=
- =?us-ascii?Q?hOx4W0d/7L2R2GZs850sFAB3LbqNzv/sLoNsXp+2NPuK8IDCQfasQe/Rq74c?=
- =?us-ascii?Q?IIe+mVcThCxCn5pwtxucTkOdwVP8lXS8/11uxaTXBpmVtJ7OZNB7h7I/8tZU?=
- =?us-ascii?Q?BHyY506T/faD/EYSzZNNyyvubnESPZuLRl6DKX18nH3EN6xSTEvYPQhf+tUb?=
- =?us-ascii?Q?AZ2mH9Pc3YtRgK0LhkhCwljy9GUmqrFTN6PlsKFocHS1QHDpBKn6Bh1xY06f?=
- =?us-ascii?Q?eTjk0inaFvbMFs7HX8PInA/5Lo0Ar7ytWoUyZkFuaSGWHnyFv1IUJDU1TY7o?=
- =?us-ascii?Q?RVb79V9hNwUXfJD0KZrJO0NxEjS6xmUhxK13HDqIkbgYCESW33zuPVnnCwH0?=
- =?us-ascii?Q?psIb8FnZAdRiZUGkisNhM+dQ0+7ih5mvdHpmEC8SEEtDChHvNF+ydKOsfbvC?=
- =?us-ascii?Q?LmkpS7UfF5GYr/VJxUPSiMaY4Asj2fcvF6ceSnjv9cJyr0R2X94j78dB68Nb?=
- =?us-ascii?Q?tWVGFOYbx5oUYowd6juhstylOlIf9aCoE4BqzxORejnIIN3aIQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230037)(376011)(1800799021)(82310400023)(36860700010);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2024 00:10:56.7823
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: wRRrapgybCOUmjPJFzYTZUdjRD5rp1k5+wKbJb/wRfQlXSAYrB0FB+RmOO8HV+C12+TAUhquJLJC7syiOPwoD39EHWFjEBO9jY07SQAdWoIW7rUFA6W5tU9/S2KYIzmOQoXoh18trz2a40ayVlhOwibf52ZaHzgOz8nJaizoJemQHFlFYoldbUcmrbB9mQq9kjg9s8TO5r3lHkGTwj+PPxXMzb8rMi6VSmX2OH498Krc6pbNVrpXx2i/5pyGcdhwmXS6qovX8+VSigKbsa4N91wZVtkHEsZwWuVSWJJZqPcLj2PuilqTT4K2bB6sq7zw5vDwOwAL5eDT1VclESGpY1/VDpojGhHjQ9VLaF0s3YeDQaBnDonFKTgFWBSWxIScvwlNPwkQfchCPDzXY/Qw+Rtz4RNCIKxL2MCa7UEZgB3rg7BbBBw9IxPgBol5+E2/qkdRfcTGvM9l26S2TnQ1QtYKhcvv6Cu20QpMphvrTXIYgU/K+XuNuumeNUr6BNha8o+ORRDuYtpc4pK8e5vAq/L46HX6X4XckjqTspFJVJ/X8yv3NMsd7x8BPf7wITeE9BEkTxtXurM/4p2skSDzJpoFcTfDfuVyCuLcWd02qqrUiDO3If/OKgEiXWcd+7TN
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c51a1052-2e90-43e2-5a51-08dc8f35591f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2024 01:24:07.0941
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fac4ebb3-bb6c-4580-fef8-08dc8f2b205e
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003448.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7572
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VuH2HRNFTWEBIaMetyQH9dlJGuHWj2WuZu0mZ6P73T1cs/+3nstfmLQoDkE+LTr3VHb2sPiLMClObOXht/rRCwEgSILU+v8DAN68WGUJu9M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB8526
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240617_172658_862735_6628569D 
-X-CRM114-Status: GOOD (  21.27  )
+X-CRM114-CacheID: sfid-20240617_182414_774522_D26356E8 
+X-CRM114-Status: GOOD (  26.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,177 +187,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To avoid leakage for QPs assocoated with SRQ, according to IB spec
-(section 10.3.1):
+CC+: linux-nvme, Daniel, Chaitanya,
 
-"Note, for QPs that are associated with an SRQ, the Consumer should take
-the QP through the Error State before invoking a Destroy QP or a Modify
-QP to the Reset State. The Consumer may invoke the Destroy QP without
-first performing a Modify QP to the Error State and waiting for the Affiliated
-Asynchronous Last WQE Reached Event. However, if the Consumer
-does not wait for the Affiliated Asynchronous Last WQE Reached Event,
-then WQE and Data Segment leakage may occur. Therefore, it is good
-programming practice to teardown a QP that is associated with an SRQ
-by using the following process:
- - Put the QP in the Error State;
- - wait for the Affiliated Asynchronous Last WQE Reached Event;
- - either:
-   - drain the CQ by invoking the Poll CQ verb and either wait for CQ
-     to be empty or the number of Poll CQ operations has exceeded
-     CQ capacity size; or
-   - post another WR that completes on the same CQ and wait for this
-     WR to return as a WC;
- - and then invoke a Destroy QP or Reset QP."
+On Jun 17, 2024 / 19:05, Ofir Gal wrote:
+[...]
+>=20
+> >> diff --git a/tests/md/001 b/tests/md/001
+> >> new file mode 100755
+> >> index 0000000..d5fb755
+> >> --- /dev/null
+> >> +++ b/tests/md/001
+> >> @@ -0,0 +1,80 @@
+> >> +#!/bin/bash
+> >> +# SPDX-License-Identifier: GPL-3.0+
+> >> +# Copyright (C) 2024 Ofir Gal
+> >> +#
+> >> +# Regression test for patch "md/md-bitmap: fix writing non bitmap pag=
+es" and
+> >> +# for patch "nvme-tcp: use sendpages_ok() instead of sendpage_ok()"
+> >> +
+> >> +. tests/md/rc
+> >> +. tests/nvme/rc
+> > I want to avoid cross references acoss test groups. So far, all test gr=
+oups do
+> > not have any cross reference to keep them independent. How about to add=
+ this
+> > test case to the nvme test group?
+> I don't mind to add it to the nvme test group, just to clarify the test
+> checks a bug in md. The bug is "visible" only when the underlying device
+> of the raid is a network block device that utilize MSG_SPLICE_PAGES.
 
-Catch the Last WQE Reached Event in the core layer without involving the
-ULP drivers with extra logic during drain and destroy QP flows.
+Good to know this background. I suggest to add the last sentence above to t=
+he
+test case script header comment.
 
-The "Last WQE Reached" event will only be send on the errant QP, for
-signaling that the SRQ flushed all the WQEs that have been dequeued from
-the SRQ for processing by the associated QP.
+>=20
+> nvme-tcp is used as the network device, I'm not sure it's related to
+> the nvme test group. What do you think?
 
-Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
----
- drivers/infiniband/core/verbs.c | 83 ++++++++++++++++++++++++++++++++-
- include/rdma/ib_verbs.h         |  2 +
- 2 files changed, 84 insertions(+), 1 deletion(-)
+I see... The bug is in md sub-system, then it's the better to have the new =
+test
+case in the new md test group. To avoid the cross reference, the nvmet rela=
+ted
+helper functions should move from tests/nvme/rc to common/nvmet, so that th=
+is
+test/md/001 can refer them. This will be another separated, preparation pat=
+ch.
 
-diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
-index 94a7f3b0c71c..9e4df7d40e0c 100644
---- a/drivers/infiniband/core/verbs.c
-+++ b/drivers/infiniband/core/verbs.c
-@@ -1101,6 +1101,16 @@ EXPORT_SYMBOL(ib_destroy_srq_user);
- 
- /* Queue pairs */
- 
-+static void __ib_qp_event_handler(struct ib_event *event, void *context)
-+{
-+	struct ib_qp *qp = event->element.qp;
-+
-+	if (event->event == IB_EVENT_QP_LAST_WQE_REACHED)
-+		complete(&qp->srq_completion);
-+	else if (qp->registered_event_handler)
-+		qp->registered_event_handler(event, qp->qp_context);
-+}
-+
- static void __ib_shared_qp_event_handler(struct ib_event *event, void *context)
- {
- 	struct ib_qp *qp = context;
-@@ -1221,7 +1231,10 @@ static struct ib_qp *create_qp(struct ib_device *dev, struct ib_pd *pd,
- 	qp->qp_type = attr->qp_type;
- 	qp->rwq_ind_tbl = attr->rwq_ind_tbl;
- 	qp->srq = attr->srq;
--	qp->event_handler = attr->event_handler;
-+	if (qp->srq)
-+		init_completion(&qp->srq_completion);
-+	qp->event_handler = __ib_qp_event_handler;
-+	qp->registered_event_handler = attr->event_handler;
- 	qp->port = attr->port_num;
- 	qp->qp_context = attr->qp_context;
- 
-@@ -2884,6 +2897,72 @@ static void __ib_drain_rq(struct ib_qp *qp)
- 		wait_for_completion(&rdrain.done);
- }
- 
-+/*
-+ * __ib_drain_srq() - Block until Last WQE Reached event arrives, or timeout
-+ *                    expires.
-+ * @qp:               queue pair associated with SRQ to drain
-+ *
-+ * Quoting 10.3.1 Queue Pair and EE Context States:
-+ *
-+ * Note, for QPs that are associated with an SRQ, the Consumer should take the
-+ * QP through the Error State before invoking a Destroy QP or a Modify QP to the
-+ * Reset State.  The Consumer may invoke the Destroy QP without first performing
-+ * a Modify QP to the Error State and waiting for the Affiliated Asynchronous
-+ * Last WQE Reached Event. However, if the Consumer does not wait for the
-+ * Affiliated Asynchronous Last WQE Reached Event, then WQE and Data Segment
-+ * leakage may occur. Therefore, it is good programming practice to tear down a
-+ * QP that is associated with an SRQ by using the following process:
-+ *
-+ * - Put the QP in the Error State
-+ * - Wait for the Affiliated Asynchronous Last WQE Reached Event;
-+ * - either:
-+ *       drain the CQ by invoking the Poll CQ verb and either wait for CQ
-+ *       to be empty or the number of Poll CQ operations has exceeded
-+ *       CQ capacity size;
-+ * - or
-+ *       post another WR that completes on the same CQ and wait for this
-+ *       WR to return as a WC;
-+ * - and then invoke a Destroy QP or Reset QP.
-+ *
-+ * We use the first option.
-+ */
-+static void __ib_drain_srq(struct ib_qp *qp)
-+{
-+	struct ib_qp_attr attr = { .qp_state = IB_QPS_ERR };
-+	struct ib_cq *cq;
-+	int n, polled = 0;
-+	int ret;
-+
-+	if (!qp->srq) {
-+		WARN_ONCE(1, "QP 0x%p is not associated with SRQ\n", qp);
-+		return;
-+	}
-+
-+	ret = ib_modify_qp(qp, &attr, IB_QP_STATE);
-+	if (ret) {
-+		WARN_ONCE(ret, "failed to drain shared recv queue: %d\n", ret);
-+		return;
-+	}
-+
-+	if (ib_srq_has_cq(qp->srq->srq_type)) {
-+		cq = qp->srq->ext.cq;
-+	} else if (qp->recv_cq) {
-+		cq = qp->recv_cq;
-+	} else {
-+		WARN_ONCE(1, "QP 0x%p has no CQ associated with SRQ\n", qp);
-+		return;
-+	}
-+
-+	if (wait_for_completion_timeout(&qp->srq_completion, 10 * HZ) > 0) {
-+		while (polled != cq->cqe) {
-+			n = ib_process_cq_direct(cq, cq->cqe - polled);
-+			if (!n)
-+				return;
-+			polled += n;
-+		}
-+	}
-+}
-+
- /**
-  * ib_drain_sq() - Block until all SQ CQEs have been consumed by the
-  *		   application.
-@@ -2962,6 +3041,8 @@ void ib_drain_qp(struct ib_qp *qp)
- 	ib_drain_sq(qp);
- 	if (!qp->srq)
- 		ib_drain_rq(qp);
-+	else
-+		__ib_drain_srq(qp);
- }
- EXPORT_SYMBOL(ib_drain_qp);
- 
-diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-index 477bf9dd5e71..5a193008f99c 100644
---- a/include/rdma/ib_verbs.h
-+++ b/include/rdma/ib_verbs.h
-@@ -1788,6 +1788,7 @@ struct ib_qp {
- 	struct list_head	rdma_mrs;
- 	struct list_head	sig_mrs;
- 	struct ib_srq	       *srq;
-+	struct completion	srq_completion;
- 	struct ib_xrcd	       *xrcd; /* XRC TGT QPs only */
- 	struct list_head	xrcd_list;
- 
-@@ -1797,6 +1798,7 @@ struct ib_qp {
- 	struct ib_qp           *real_qp;
- 	struct ib_uqp_object   *uobject;
- 	void                  (*event_handler)(struct ib_event *, void *);
-+	void                  (*registered_event_handler)(struct ib_event *, void *);
- 	void		       *qp_context;
- 	/* sgid_attrs associated with the AV's */
- 	const struct ib_gid_attr *av_sgid_attr;
--- 
-2.18.1
+To nvme experts: If you have comments on this, please chime in.
 
+>=20
+> >> +. common/brd
+> >> +
+> >> +DESCRIPTION=3D"Create a raid with bitmap on top of nvme device with
+> >> +optimal-io-size over bitmap size"
+> > This descrption is printed as blktests runs. All other blktests have si=
+ngle line
+> > description then the two lines description looks strange. Can we make i=
+t shorter
+> > to fit in one line?
+> Yes, does "Raid with bitmap on nvme device with opt-io-size over bitmap
+> size" sounds good?
+
+The word "tcp" sounds important. And the word "nvmet" sounds better than "n=
+vme".
+So how about: "Raid with bitmap on tcp nvmet with opt-io-size over bitmap s=
+ize"?
+
+>=20
+> >> +test() {
+> >> +	echo "Running ${TEST_NAME}"
+> >> +
+> >> +	setup_underlying_device
+> >> +	setup_nvme_over_tcp
+> >> +
+> >> +	# Hangs here without the fix
+> >> +	mdadm -q --create /dev/md/blktests_md --level=3D1 --bitmap=3Dinterna=
+l \
+> > In the past, short options caused some trouble. I suggest to use the lo=
+ng option
+> > "--quiet" in place of the short option "-q".
+> Applied to v2.
+> =
 
