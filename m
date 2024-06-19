@@ -4,104 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE61DC27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 10:50:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28053C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 10:52:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/Rj6uGU++1hB8jn000lJ8DZPwnf+z59uWsb47QYCAdg=; b=Zzee05pta8vhHBwrRd+X+ZAUjK
-	53/EuL2Jmi+9CTFq0wyUiac+OVIX0I4VuRzCDBmR4TrvsOPG4T/rOV3wSjC/heJV0d8jssp4C5AJd
-	FaQKZrQgOUFrQiq/JNUDAZY9deHG2vF9xCQBTeaqOiHsBU9k7L1oRNVLfNEZUGv9aj9Qgu0x98fhd
-	Vu9b6xS58kQCyuGFA9xXAYON8JlNgLm9jdOtgkW1YDAm1Zr4wslKqf8jH6eomjAYhqHhgM8Vjh6ln
-	IHZvv3ecNNTeNq3k4yuPQU+ej5+JW+n77+CemFLJ3DKvIYbF7KKXbpoB8NKDbkOe23A3IO+aaLTv2
-	LltA7oYA==;
+	bh=MYkm1cNYHMldtwvX11gHzR3nTT/P9RsNQJPwgGt3xeE=; b=I/yVcndNUpAix33n04uVuwNBaY
+	j9w+SjzpPBF53OH1mJNpXxEWMBtHXx60VG0eXaesKb71HFAOADRuGAT9RdQzhoD/HztkjqCLm2LOy
+	QQdfRiWWwtf9jpeEHtVP3hpZKuoMG3yEVvqammlPchtT9fZyRNzWa9YCk8/muXT3NGghgB0pk1v3V
+	G2EYi7bJbVg70yAO+dh+j4LBkLun2Bs6URVPRRJ5Me1dPihDPt2OXeMMNj7+dgqOoBYM10VaOQBci
+	14j6o8R+zG29HKdLOD2kAWr2SeIFs1p3Ud2a4cn7TeKc0rJDWFiHKgCmWi9HoE6Rh6Su49m3oPuHh
+	LD23bJ1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJstL-00000000qwQ-1j2i;
-	Wed, 19 Jun 2024 10:50:15 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1sJsvx-00000000rRR-35a8;
+	Wed, 19 Jun 2024 10:52:57 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJstI-00000000qvU-1O3Y
+	id 1sJsvu-00000000rQ0-18NC
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 10:50:13 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45JAQYmZ017859;
-	Wed, 19 Jun 2024 10:50:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:from:to:cc:references
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=/
-	Rj6uGU++1hB8jn000lJ8DZPwnf+z59uWsb47QYCAdg=; b=kC301Qk6rnNMOnAMq
-	/0NQU9sLLxAIKwBIoD02TFqAJwZowa7+yaoOefhqiKcV0Su6uKmSMS40U/83nQLw
-	k6ZfzF70hRw1rxYp4IGkm0wD510aoMdLwBK4EXNPw8HNQQKXt7GdOr2oPpyKSpCw
-	QObj+hySFhjZNYJNL+XuNFz1ttw1AC9ft1CsWPc7kC5jz79exSjfHz8jg7/jZLhB
-	pc/gPgHQ0cWjgij/3F0E9PO05ga9Ft7k6gZUHyNKXVgdtWb58F1trvs6SIT43oxU
-	AyoFF+XgHDEMZTD+m6Qxg3cuSiVMxyVaoOau2MahwDCskhoZ2JFkxtcqSyv0mLRu
-	P2jdg==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yuwbxg26e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 10:50:05 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45JAMwQQ023881;
-	Wed, 19 Jun 2024 10:50:04 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ysp9qbhad-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 10:50:04 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45JAo00G19071518
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Jun 2024 10:50:03 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A90A058068;
-	Wed, 19 Jun 2024 10:50:00 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 009DE58067;
-	Wed, 19 Jun 2024 10:49:57 +0000 (GMT)
-Received: from [9.43.48.107] (unknown [9.43.48.107])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 19 Jun 2024 10:49:56 +0000 (GMT)
-Message-ID: <9383e2de-7431-44af-9c9e-80135df2e79a@linux.ibm.com>
-Date: Wed, 19 Jun 2024 16:19:55 +0530
+	Wed, 19 Jun 2024 10:52:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 30B8961D40
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Jun 2024 10:52:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E359C4AF60
+	for <linux-nvme@lists.infradead.org>; Wed, 19 Jun 2024 10:52:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718794372;
+	bh=x6rRWvFLspQevsB2WpDwXMeeTixJq93OzwM4BU6/jhU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=u3uSaA84l5gVLsWmwxrOtJWM7MF0Vu51G0CMA1IUhuxDqK7DR2yRzGOKrg5XZfJyp
+	 gc1uZ0BFFh/wA26oymxl7R1SluIcT5SJ5t1Ag6XbCE5Xkm7ygActqF/NpHFUki9mlL
+	 JbLwuS31tzqYMGiroNPmsUu+jF8Vggo/jU2YswgPzfH0OUyJKD3lw6P18dgkFZl/0Y
+	 n5dvVHipC+NvVTsEaLa4yR6Z2kvQMtMEiStK1cuhhGDOlvFIk45u6nd3IWZNz0xwwZ
+	 4TMCjh7s4W1TjzGlDdladzFqHv7/kFYAVMXWKntAeSqEk/WhLSN/siYOf+znixzC+C
+	 tKhqZbYVCrBQQ==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-254939503baso511627fac.0
+        for <linux-nvme@lists.infradead.org>; Wed, 19 Jun 2024 03:52:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWr8FBf8TEJS6MyrL5w1fxV37VaD3/Kh/uxjDKc5+aiWhOcirjVVpk4YmzYdHqUhOvRSFq2XKvh893iwMJtKyHym655LUQIAlT7o8fVTlw=
+X-Gm-Message-State: AOJu0YxRQZUk8N+qwDF+WSdTDDfbeWkhFasecm9jHnM7PgJtHMUvO2lF
+	xvW8BLOeiJXUm5EpRm5YtnRTl/+gIxZ9jLcH+7UAp7KaMvvHipMugyD7pCoxc683qVRVRjfSpdg
+	zvqUIaKRG3bWVxmooUyN2Bl6N6Dg=
+X-Google-Smtp-Source: AGHT+IHkfbPpplMOo0+AZF3Oi/SLUmBNejk3LQsh8tt80LEVbwbJ0RTdOmOkrR69Re/mAWO5+pPtyJBD56qHP10v7uQ=
+X-Received: by 2002:a05:6820:2210:b0:5ba:ead2:c742 with SMTP id
+ 006d021491bc7-5c1ad8a198cmr2995209eaf.0.1718794371598; Wed, 19 Jun 2024
+ 03:52:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: nvme-cli : attaching a namespace to an undiscovered nvme
- controller on multi-controller nvme disk
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Gregory Joyce <gjoyce@ibm.com>,
-        Srimannarayana Murthy Maram <msmurthy@imap.linux.ibm.com>,
-        "axboe@fb.com" <axboe@fb.com>
-References: <f1a7c1e2-3203-4b7a-a922-82fa812455bd@linux.ibm.com>
- <yhvmfctxhfzrcsq4lx6nr3f5n67kegrixtthh3pals7vn5qr26@k5as5whcdrum>
- <dfb2488a-6275-4822-94ec-07a575cbf09c@linux.ibm.com>
- <88f230c4-e16e-4a16-a4e6-a48e605147f1@linux.ibm.com>
- <56198b02-b8fa-4afc-8405-5232d1bf23ab@linux.ibm.com>
- <i2pwif6tfqt4cuodue7bs2lrithuxplmtwmsgwioraih4h3ppd@krnf2pxuijet>
- <73e15f32-950c-416f-b488-bc5244f8fcf3@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <73e15f32-950c-416f-b488-bc5244f8fcf3@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 8aaeM5GzKFKHYDlaNi6bq89GHsrzZVRy
-X-Proofpoint-ORIG-GUID: 8aaeM5GzKFKHYDlaNi6bq89GHsrzZVRy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-19_02,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
- spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=737 phishscore=0 impostorscore=0 mlxscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406190077
+References: <20240618204946.1271042-1-helgaas@kernel.org>
+In-Reply-To: <20240618204946.1271042-1-helgaas@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 19 Jun 2024 12:52:39 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hZHnMbTLs3KK3ORQey=-u8SEm5H4X-eDSVzdk8s9Rn5A@mail.gmail.com>
+Message-ID: <CAJZ5v0hZHnMbTLs3KK3ORQey=-u8SEm5H4X-eDSVzdk8s9Rn5A@mail.gmail.com>
+Subject: Re: [PATCH v9 0/2] PCI: Disable AER & DPC on suspend
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, 
+	"Oliver O'Halloran" <oohall@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Thomas Crider <gloriouseggroll@gmail.com>, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.com>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-nvme@lists.infradead.org, 
+	regressions@lists.linux.dev, Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_035012_408887_4139C981 
-X-CRM114-Status: GOOD (  12.77  )
+X-CRM114-CacheID: sfid-20240619_035254_491046_9D3D0951 
+X-CRM114-Status: GOOD (  20.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,21 +87,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Jun 18, 2024 at 10:49=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org>=
+ wrote:
+>
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> This is an old series from Kai-Heng that I didn't handle soon enough.  Th=
+e
+> intent is to fix several suspend/resume issues:
+>
+>   - Spurious wakeup from s2idle
+>     (https://bugzilla.kernel.org/show_bug.cgi?id=3D216295)
+>
+>   - Steam Deck doesn't resume after suspend
+>     (https://bugzilla.kernel.org/show_bug.cgi?id=3D218090)
+>
+>   - Unexpected ACS error and DPC event when resuming after suspend
+>     (https://bugzilla.kernel.org/show_bug.cgi?id=3D209149)
+>
+> It seems that a glitch when the link is powered down during suspend cause=
+s
+> errors to be logged by AER.  When AER is enabled, this causes an AER
+> interrupt, and if that IRQ is shared with PME, it may cause a spurious
+> wakeup.
+>
+> Also, errors logged during link power-down and power-up seem to cause
+> unwanted error reporting during resume.
+>
+> This series disables AER interrupts, DPC triggering, and DPC interrupts
+> during suspend.  On resume, it clears AER and DPC error status before
+> re-enabling their interrupts.
+>
+> I added a couple cosmetic changes for the v9, but this is essentially all
+> Kai-Heng's work.  I'm just posting it as a v9 because I failed to act on
+> this earlier.
+>
+> Bjorn
+>
+> v9:
+>  - Drop pci_ancestor_pr3_present() and pm_suspend_via_firmware; do it
+>    unconditionally
+>  - Clear DPC status before re-enabling DPC interrupt
+>
+> v8: https://lore.kernel.org/r/20240416043225.1462548-1-kai.heng.feng@cano=
+nical.com
+>  - Wording.
+>  - Add more bug reports.
+>
+> v7:
+>  - Wording.
+>  - Disable AER completely (again) if power will be turned off
+>  - Disable DPC completely (again) if power will be turned off
+>
+> v6: https://lore.kernel.org/r/20230512000014.118942-1-kai.heng.feng@canon=
+ical.com
+>
+> v5: https://lore.kernel.org/r/20230511133610.99759-1-kai.heng.feng@canoni=
+cal.com
+>  - Wording.
+>
+> v4: https://lore.kernel.org/r/20230424055249.460381-1-kai.heng.feng@canon=
+ical.com
+> v3: https://lore.kernel.org/r/20230420125941.333675-1-kai.heng.feng@canon=
+ical.com
+>  - Correct subject.
+>
+> v2: https://lore.kernel.org/r/20230420015830.309845-1-kai.heng.feng@canon=
+ical.com
+>  - Only disable AER IRQ.
+>  - No more AER check on PME IRQ#.
+>  - Use AER helper.
+>  - Only disable DPC IRQ.
+>  - No more DPC check on PME IRQ#.
+>
+> v1: https://lore.kernel.org/r/20220727013255.269815-1-kai.heng.feng@canon=
+ical.com
+>
+> Kai-Heng Feng (2):
+>   PCI/AER: Disable AER service on suspend
+>   PCI/DPC: Disable DPC service on suspend
+>
+>  drivers/pci/pcie/aer.c | 18 +++++++++++++
+>  drivers/pci/pcie/dpc.c | 60 +++++++++++++++++++++++++++++++++---------
+>  2 files changed, 66 insertions(+), 12 deletions(-)
+>
+> --
 
+Please feel free to add
 
-On 5/27/24 19:32, Nilay Shroff wrote:
-> 
-> 
-> On 5/27/24 19:06, Daniel Wagner wrote:
->> On Mon, May 27, 2024 at 04:50:34PM GMT, Nilay Shroff wrote:
->>> A gentle ping, if the proposed patch looks good then may I send a formal patch?
->>
->> Sorry for the delay, very busy month. I'll look into it next week.
->>
-Hi Daniel,
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
 
-A gentle ping, just wanted to check with you whether you got a chance to review this change?
+to both patches in the series.
 
-Thanks,
---Nilay
+Thanks!
 
