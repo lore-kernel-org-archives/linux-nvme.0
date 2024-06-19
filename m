@@ -4,92 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8825C2BA15
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 07:42:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7057EC27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 07:51:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=U6bkFzY0Id/LoyyCyCFMSdw3FYnGF4rtcQdK9kyQZZI=; b=woOo0mhFIbPvsk
-	wg5OkdQjElpoJOlG1Y9kRsYRoOFTbqHgAWj0wnxYLKhnntT8D5p0w/DFyp+XVLUpY1Yp3b8aYtDMA
-	QB6xShyRbZfIdQHeF2bEooCm4xZdTkbGuMRaJlPn2S5D3mZzhWEF0AP9eoRXNWzPhOQdPgWgchgRf
-	O1XyeytLhx31p8+ZGcCg7997qbz33IUyQXS9hsKTDPxY//ofkEraT4kGKn3ri0mVDx8XBd2us6w6z
-	XxjfU/g+dDxGRBCQ/LP+mltTy6/6qeGCcOMLHH/PjjAZD1Pc+mmX6+dqdfoQ+y7Y0Umbvh8LSJm0j
-	g9FPqKxhDMq1QY9qmMXQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Tscgn3+/b1xYeRbdnogyAbAzj1RxZEo+8feHfQithEk=; b=FlPfvhBJo1E6X572nDBoKEbxx1
+	yW+JFn/7L+WROQl4yhctGTAdZzmMz5m0F4E2K6eFRkOc1ztqvVmwxIFbcbESNqXCgO6f2NLn4ZxXQ
+	cIEZW1vunpxj1d6pt7ZaGsa53IWbo/75s9+4W4gDepVCQ3QsSqUKLc1gXPDJEXXSLZ1RmHJ3t0CMs
+	J/lpaqfESt6UkHu2dg6ES33m63USTKMgiw46/tP6C18gD2NKrT2T4T6mI0P8+Jt5emu9JwT08BWgc
+	WKYbQLlswJuj5i7DbYoIFwUI6KdqaBKVWDCyA8JWh1Xw1HkRyKcd1oZG4OlkUnSxogFs3cWzfcDS9
+	feQHh/tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJpxe-00000000FCJ-1arh;
-	Wed, 19 Jun 2024 07:42:30 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1sJq61-00000000GuD-1AXo;
+	Wed, 19 Jun 2024 07:51:09 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJpxa-00000000FBa-3gVe
+	id 1sJq5x-00000000GsS-0ogo
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 07:42:28 +0000
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J7egNf001818;
-	Wed, 19 Jun 2024 07:42:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
-	:to:cc:subject:date:message-id:content-transfer-encoding
-	:mime-version; s=pp1; bh=U6bkFzY0Id/LoyyCyCFMSdw3FYnGF4rtcQdK9ky
-	QZZI=; b=fJx0weeH5m9jAdbNoe1l69SNZO8rln0+5e/ESUtngkr7KhkgC+Ti2/2
-	drOcr+wEfJwaxE7a+9Cwmox4D8DEENPUztUopElW/ouC7kEFxSnrTalOB7Eq952+
-	zvePvoLOfuv+16aqEpJuJRDkRafMLo5LbnMsUy34SR4yE6TojH0n4ZzXxEDqfe0r
-	MfABZAIgLlk7PVaoyG0ENJHxq6zSLD/BosKFRW9YB0EXdTi6ZOz9a0yQXdmbtHis
-	1cbMR8X4wxL2Z+1/GFfys9fdEBf+CA5vO+oAFtjQy76+GntoEDi9dXwOoqVZtrDr
-	M9HLRIrE1vi9RAo8giLlhfjg4GgP5Pw==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yuu50005f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 07:42:22 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45J6Cf8Z011037;
-	Wed, 19 Jun 2024 07:42:20 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3yspsna33u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 07:42:20 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45J7gFiA45220264
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Jun 2024 07:42:17 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E927C20063;
-	Wed, 19 Jun 2024 07:42:14 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 411472004E;
-	Wed, 19 Jun 2024 07:42:12 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.43.48.107])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 19 Jun 2024 07:42:12 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: shinichiro.kawasaki@wdc.com, chaitanyak@nvidia.com
-Cc: kbusch@kernel.org, sagi@grimberg.me, hch@lst.de,
-        linux-nvme@lists.infradead.org, venkat88@linux.vnet.ibm.com,
-        sachinp@linux.vnet.ibm.com, linux-block@vger.kernel.org,
-        gjoyce@linux.ibm.com, Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv2 blktests] nvme: add test for creating/deleting file-ns
-Date: Wed, 19 Jun 2024 13:11:40 +0530
-Message-ID: <20240619074208.2900127-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.45.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: zzGQqo71C-BGrqWr9nKq4mTixWjxME42
-X-Proofpoint-ORIG-GUID: zzGQqo71C-BGrqWr9nKq4mTixWjxME42
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	Wed, 19 Jun 2024 07:51:08 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 082E61F804;
+	Wed, 19 Jun 2024 07:51:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718783460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tscgn3+/b1xYeRbdnogyAbAzj1RxZEo+8feHfQithEk=;
+	b=yZOIhKaio69OqwgrwP6UF0EEJvh36E+avLUj4XJDaxRx8SAwxdPIRF7ypTmVQWpskVITLv
+	F1aaUwbYOv5aO05t5UB2W+muj+umww4spHAF/yMUjyub0NbXHJ66PtWYEaPlTHPv4CL9N1
+	OS7H6yn9QNpDqr8HjJx9ogubuLPnCk4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718783460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tscgn3+/b1xYeRbdnogyAbAzj1RxZEo+8feHfQithEk=;
+	b=WMM2SD668tUL41S1gIHIHR/z+fPGtG08cun/OZG8MgNngW/AP3KPcLlubLWUJdoLr9eH/b
+	N2jRl4dt/H15kvAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yZOIhKai;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WMM2SD66
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718783460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tscgn3+/b1xYeRbdnogyAbAzj1RxZEo+8feHfQithEk=;
+	b=yZOIhKaio69OqwgrwP6UF0EEJvh36E+avLUj4XJDaxRx8SAwxdPIRF7ypTmVQWpskVITLv
+	F1aaUwbYOv5aO05t5UB2W+muj+umww4spHAF/yMUjyub0NbXHJ66PtWYEaPlTHPv4CL9N1
+	OS7H6yn9QNpDqr8HjJx9ogubuLPnCk4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718783460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tscgn3+/b1xYeRbdnogyAbAzj1RxZEo+8feHfQithEk=;
+	b=WMM2SD668tUL41S1gIHIHR/z+fPGtG08cun/OZG8MgNngW/AP3KPcLlubLWUJdoLr9eH/b
+	N2jRl4dt/H15kvAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9AC413ABD;
+	Wed, 19 Jun 2024 07:50:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uDDOOOONcmZGEAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 19 Jun 2024 07:50:59 +0000
+Date: Wed, 19 Jun 2024 09:50:59 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: shinichiro.kawasaki@wdc.com, kbusch@kernel.org, sagi@grimberg.me, 
+	hch@lst.de, linux-nvme@lists.infradead.org, chaitanyak@nvidia.com, 
+	venkat88@linux.vnet.ibm.com, sachinp@linux.vnet.com, linux-block@vger.kernel.org, 
+	gjoyce@linux.ibm.com
+Subject: Re: [PATCH blktests] loop: add test for creating/deleting file-ns
+Message-ID: <gpatyu3gqzfswxishsa7juix2z2upmbrkec7n57pbgfzw56jla@lyjvwhv5dvc6>
+References: <20240617092035.2755785-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-19_02,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- spamscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- suspectscore=0 mlxlogscore=869 malwarescore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406190053
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240617092035.2755785-1-nilay@linux.ibm.com>
+X-Rspamd-Queue-Id: 082E61F804
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-2.99)[99.95%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_004226_965127_C4B1E637 
-X-CRM114-Status: GOOD (  18.93  )
+X-CRM114-CacheID: sfid-20240619_005105_557154_8B6C50A3 
+X-CRM114-Status: UNSURE (   8.17  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,118 +140,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is regression test for commit be647e2c76b2 (nvme: use srcu for
-iterating namespace list)[1]. It is fixed in commit ff0ffe5b7c3c(nvme:
-fix namespace removal list)[2].
+On Mon, Jun 17, 2024 at 02:47:22PM GMT, Nilay Shroff wrote:
+> +test() {
+> +	echo "Running ${TEST_NAME}"
+> +
+> +	_setup_nvmet
+> +
+> +	local subsys="blktests-subsystem-1"
 
-This test uses a regular file backed loop device for creating and then
-deleting an NVMe namespace in a loop.
+Use the default variables instead of duplicating them.
 
-[1] https://lore.kernel.org/all/2312e6c3-a069-4388-a863-df7e261b9d70@linux.vnet.ibm.com/
-[2] https://lore.kernel.org/all/20240613164246.75205-1-kbusch@meta.com/
+> +	local iterations="${NVME_NUM_ITER}"
+> +	local loop_dev
+> +	local port
+> +
+> +	truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path)"
+> +
+> +	loop_dev="$(losetup -f --show "$(_nvme_def_file_path)")"
+> +
+> +	port="$(_create_nvmet_port "${nvme_trtype}")"
+> +
+> +	_nvmet_target_setup --subsysnqn "${subsys}" --blkdev "${loop_dev}"
+> +
+> +	_nvme_connect_subsys --subsysnqn "${subsys}"
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
-Changes from v1:
-    - Add nvme prefix in the subject line instead of loop (Chaitanya)
-    - Enrich the commit log with details including link to regression 
-      discussion and fix commit (Chaitanya)
-    - Few other formatting cleanup (Chaitanya)
-    - Add fix commit information in the test header (Shinichiro)
-    - Instead of using default 1000 iteration for test,
-      set the test iteration count to 20 (Shinichiro)
-    - Update test case no. to nvme/052 (Shinichiro)
----
- tests/nvme/052     | 69 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/052.out |  2 ++
- 2 files changed, 71 insertions(+)
- create mode 100755 tests/nvme/052
- create mode 100644 tests/nvme/052.out
+As far I can tell this could just be:
 
-diff --git a/tests/nvme/052 b/tests/nvme/052
-new file mode 100755
-index 0000000..9daed8f
---- /dev/null
-+++ b/tests/nvme/052
-@@ -0,0 +1,69 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2024 Nilay Shroff
-+#
-+# Regression test for commit be647e2c76b2(nvme: use srcu for iterating
-+# namespace list). This regression is resolved with commit ff0ffe5b7c3c
-+# (nvme: fix namespace removal list)
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="Test file-ns creation/deletion under one subsystem"
-+
-+requires() {
-+	_nvme_requires
-+	_have_loop
-+	_require_nvme_trtype_is_loop
-+}
-+
-+set_conditions() {
-+	_set_nvme_trtype "$@"
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+
-+	local subsys="blktests-subsystem-1"
-+	local iterations=20
-+	local loop_dev
-+	local port
-+
-+	truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path)"
-+
-+	loop_dev="$(losetup -f --show "$(_nvme_def_file_path)")"
-+
-+	port="$(_create_nvmet_port "${nvme_trtype}")"
-+
-+	_nvmet_target_setup --subsysnqn "${subsys}" --blkdev "${loop_dev}"
-+
-+	_nvme_connect_subsys --subsysnqn "${subsys}"
-+
-+	# start iteration from ns-id 2 because ns-id 1 is created
-+	# by default when nvme target is setup. Also ns-id 1 is
-+	# deleted when nvme target is cleaned up.
-+	for ((i = 2; i <= iterations; i++)); do {
-+		truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).$i"
-+		_create_nvmet_ns "${subsys}" "${i}" "$(_nvme_def_file_path).$i"
-+
-+		# allow async request to be processed
-+		sleep 1
-+
-+		_remove_nvmet_ns "${subsys}" "${i}"
-+		rm "$(_nvme_def_file_path).$i"
-+	}
-+	done
-+
-+	_nvme_disconnect_subsys --subsysnqn "${subsys}" >> "${FULL}" 2>&1
-+
-+	_nvmet_target_cleanup --subsysnqn "${subsys}" --blkdev "${loop_dev}"
-+
-+	_remove_nvmet_port "${port}"
-+
-+	losetup -d "$loop_dev"
-+
-+	rm "$(_nvme_def_file_path)"
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/052.out b/tests/nvme/052.out
-new file mode 100644
-index 0000000..f2d186d
---- /dev/null
-+++ b/tests/nvme/052.out
-@@ -0,0 +1,2 @@
-+Running nvme/052
-+Test complete
--- 
-2.45.1
+	_nvmet_target_setup
 
+	_nvme_connect_subsys
 
