@@ -4,71 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C23CC27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 15:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 115C0C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 15:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YBrbJgpjroKF92elbEfX0nEf7EwnXpqdK0a2jCtYn84=; b=ePhWBFwpXmkiwn2r/2NZHNP4k0
-	+HvJWAjIxYj5D30o6sCpkN5klDakF53i4iixtB0NSuVe3gHqpGeMUBpGQ9IlyjoWLWR1T49Q6JFxi
-	6BzPdA+/MMHVvFmyhA2VPZRoY5t5N0GpmnbiRJayuaJxgCfFKfbLTmtqmEK3GWqja5dPiwNU05pve
-	Y0+NQOce4bL7Ri4KoAk06laeNvgxox8/8q/9wGoTsshapfNlC4Ivd5jcr4bJ1r9oxy0m0hDielgSV
-	gNvpfb75P9QGVEBkepc8nDC51NGyFZiNi2PT4Gxob2s/Ad2rWKT69hg+oxy468Wm6UOPTBkRGW1+d
-	BWSGaBNg==;
+	bh=crmfw9nGEYND9twKivZHUhF+pajzWUmsBYjoitLN7pk=; b=VzuUhJJD6YlDHVD6jCXwBNZ0HL
+	IPNGIVp/JAuRAnR3bumHG5Z4NhnFUzn47oEsQ435+CPruKrr6yUnFJSycVCFyWE7BdEhSmPwmfEnB
+	fJ+YWyHQQEwWulkjQV2wX4IKS6PjIgTG5v6v/8SEYus9+j8wBnsOgYrviZnUjnCuILFohVpKTpmZc
+	MzI6VPc6MHl11EVu5uvzEne0DINOxPT+d2rGMd0HPVKeOIBAU3R+OUCttm980U6TfcnE3aH4ik0C7
+	hC5vUhSj9tLalPOuv4KbvZjbzT7hJjBY12vi5H9UJX5g3MsOP5PVZP4TgcYG76j1yEoVGUiQ5mPhB
+	F3kKsJRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJxTh-00000001rwd-29SE;
-	Wed, 19 Jun 2024 15:44:05 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1sJxU4-00000001s4m-1KrP;
+	Wed, 19 Jun 2024 15:44:28 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJxTc-00000001run-3ntU
+	id 1sJxTs-00000001ryx-2dGz
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 15:44:04 +0000
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-35f1c7d1286so512474f8f.3
-        for <linux-nvme@lists.infradead.org>; Wed, 19 Jun 2024 08:44:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718811839; x=1719416639;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YBrbJgpjroKF92elbEfX0nEf7EwnXpqdK0a2jCtYn84=;
-        b=mi334Fk2pLTrCguVl0HM8toTjobFRniDmDqd+i6vAfX8HNwGicvHFJHQrc0yy3V82g
-         ca/tA0VIO+Hjbn2I6oj/NAfM8epjxs+hDS805IhKaVpuSo4WLwQjyMNBB1wS8yFAEfYf
-         VmqvZ8xTcYMhj3SUX1UxncSfaK4uIpVe9E1dN1qrVQq4aHimUoDHbtqeRaHdyOcqbIyf
-         ebMgefZ2LWuAfw9+iW1q2sd1eeT8fOsghWBYWVS9LGI4NGiXZxADI2VbtfdhZWszc/oL
-         dlP/z7WLEJDEMFAfhv7fP39oqH7sQyNoD3OpaASg2GknQEL4DLe1gm1JG15PHojMw6Qd
-         JUSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmrJ+npbPcWplxCeP0j+z1iH5/eXepS1QQewto7yQ+7pAZWqfXJNqh5vShKpmCz3Pb2z1aEbKVnBYvn9+YBO9RdN3FE+75r/7UOLQil24=
-X-Gm-Message-State: AOJu0Yw4cLPF7qXJReZt40uk6L1mBVhav52Jd4fBlWSElVfbWPnfsmx8
-	P8jUzR+T9DhQlP6Xpy5PzHoB1miNhFkIu4GkodBoMjrlWWWw2LCo
-X-Google-Smtp-Source: AGHT+IEx7c+jLT7XjwlW339sXTSaIWcEt8ISf7dWsqmFjCIQiUL4TD+xa7izNp1YxfOjS3ty33vWSw==
-X-Received: by 2002:a05:600c:1c29:b0:423:445:4aaf with SMTP id 5b1f17b1804b1-424750148ffmr20427525e9.0.1718811838832;
-        Wed, 19 Jun 2024 08:43:58 -0700 (PDT)
-Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3609aa60a59sm6828158f8f.84.2024.06.19.08.43.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jun 2024 08:43:58 -0700 (PDT)
-Message-ID: <f1348234-1dcb-4ac2-a0d4-305c39643a48@grimberg.me>
-Date: Wed, 19 Jun 2024 18:43:57 +0300
+	Wed, 19 Jun 2024 15:44:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718811851;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=crmfw9nGEYND9twKivZHUhF+pajzWUmsBYjoitLN7pk=;
+	b=aXqgDzlV0mGHhxhXGSwSixfiVZ8tgsCDdd4tRsN0NMeWCCC4AOTC7Wi5ZeHknbBV2jBSWU
+	2Ib/0NHTWRoGIy7534VT+rhqZ6hoUOF+XZaOP2HM/uD5CQB0LTAqIjcMrVvcXOpug+0YKF
+	9UV4crSEt1/HxjfNKVPsbRCUcOtUmnU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-215-PkCrYSDMPjiv1lagfPOr2w-1; Wed,
+ 19 Jun 2024 11:44:07 -0400
+X-MC-Unique: PkCrYSDMPjiv1lagfPOr2w-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E23319560B4;
+	Wed, 19 Jun 2024 15:44:05 +0000 (UTC)
+Received: from [10.22.33.177] (unknown [10.22.33.177])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E593119560B3;
+	Wed, 19 Jun 2024 15:44:02 +0000 (UTC)
+Message-ID: <76f3ded6-7922-4c90-a650-7bbd08e442b4@redhat.com>
+Date: Wed, 19 Jun 2024 11:44:02 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] nvme-tcp: align I/O cpu with blk-mq mapping
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240619145553.89736-1-hare@kernel.org>
- <20240619145958.GA2254@lst.de> <d5c87821-54a7-4fb4-9222-501174d6058b@suse.de>
+Subject: Re: [PATCH v6 1/1] nvme-multipath: implement "queue-depth" iopolicy
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "emilne@redhat.com"
+ <emilne@redhat.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "jrani@purestorage.com" <jrani@purestorage.com>,
+ "randyj@purestorage.com" <randyj@purestorage.com>,
+ "hare@kernel.org" <hare@kernel.org>
+References: <20240612002034.1299922-1-jmeneghi@redhat.com>
+ <20240612002034.1299922-2-jmeneghi@redhat.com>
+ <1307c447-65bb-430c-88e1-045191d8d8ba@nvidia.com>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <d5c87821-54a7-4fb4-9222-501174d6058b@suse.de>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <1307c447-65bb-430c-88e1-045191d8d8ba@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_084400_969110_8A4E99EE 
-X-CRM114-Status: GOOD (  29.57  )
+X-CRM114-CacheID: sfid-20240619_084423_463149_A6D778AF 
+X-CRM114-Status: GOOD (  31.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,121 +93,151 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 19/06/2024 18:23, Hannes Reinecke wrote:
-> On 6/19/24 16:59, Christoph Hellwig wrote:
->>>       if (wq_unbound)
->>>           queue->io_cpu = WORK_CPU_UNBOUND;
+On 6/11/24 21:44, Chaitanya Kulkarni wrote:
+> On 6/11/24 17:20, John Meneghini wrote:
+>> From: Thomas Song <tsong@purestorage.com>
 >>
->> None of the above computed information is even used for the wq_unbound
->> code.  This would make a lot more sense if the above assignment was in
->> the (only) caller.
->>
->> Yes, that probably should have been done when merging the wq_unbound
->> option (which honestly looks so whacky that I wish it wasn't merged).
->>
-> Ah, you noticed?
->
-> This patch is actually got sparked off by one of our partners notifying
-> a severe latency increase proportional with the number of controllers.
-> With a marked increase when (sw) TLS is active; they even managed to run
-> into command timeouts.
->
-> What happens is that we shove all work from identical queue numbers 
-> onto the same CPU; so if your controller only exports 4 queues _all_ 
-> work from qid 1 (from all controllers!) is pushed onto CPU 0 causing a 
-> massive oversubscription on that CPU and leaving all other CPUs in the 
-> system idle.
 
-I see how you address multiple controllers falling into the same 
-mappings case in your patch.
-You could have selected a different mq_map entry for each controller 
-(out of the entries that map to the qid).
+>> +
+>> +	if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE)) {
+>> +		result = atomic_dec_if_positive(&ns->ctrl->nr_active);
+>> +		WARN_ON_ONCE(result < 0);
+>> +	}
+>>    
+>>    	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+>>    		return;
+> 
+> can we remove result variable ? that is only used once,
+> how about something like this unless there is something wrong with
+> totally untested :-
 
->
-> Not sure how wq_unbound helps in this case; in theory the workqueue
-> items can be pushed on arbitrary CPUs, but that only leads to even worse
-> thread bouncing.
->
-> However, topic for ALPSS. We really should have some sore of 
-> backpressure here.
+Sure I can do that.
 
-I have a patch that was sitting for some time now, to make the RX path 
-run directly
-from softirq, which should make RX execute from the cpu core mapped to 
-the RSS hash.
-Perhaps you or your customer can give it a go.
+>> +static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head)
+>>    {
+>> -	struct nvme_ns *ns, *found = NULL;
+>> +	struct nvme_ns *ns, *old, *found = NULL;
+>> +	int node = numa_node_id();
+>> +
+>> +	old = srcu_dereference(head->current_path[node], &head->srcu);
+>> +
+> 
+> nit:- no need for white-line above ?
 
-disclaimer, lightly tested:
---
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index b6ea7e337eb8..02076b8cb4d8 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -44,6 +44,13 @@ static bool wq_unbound;
-  module_param(wq_unbound, bool, 0644);
-  MODULE_PARM_DESC(wq_unbound, "Use unbound workqueue for nvme-tcp IO 
-context (default false)");
+I sometimes add a line feed because I think it makes the code more readable, But everyone seems to dislike extra white lines so 
+I'll remove them.
 
-+/*
-+ * RX context runs in softirq
-+ */
-+static bool softirq_rx;
-+module_param(softirq_rx, bool, 0644);
-+MODULE_PARM_DESC(softirq_rx, "nvme-tcp RX context in softirq");
-+
-  /*
-   * TLS handshake timeout
-   */
-@@ -976,8 +983,13 @@ static void nvme_tcp_data_ready(struct sock *sk)
-         read_lock_bh(&sk->sk_callback_lock);
-         queue = sk->sk_user_data;
-         if (likely(queue && queue->rd_enabled) &&
--           !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
--               queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-+           !test_bit(NVME_TCP_Q_POLLING, &queue->flags)) {
-+               if (softirq_rx)
-+                       nvme_tcp_try_recv_locked(queue);
-+               else
-+                       queue_work_on(queue->io_cpu, nvme_tcp_wq,
-+                               &queue->io_work);
-+       }
-         read_unlock_bh(&sk->sk_callback_lock);
-  }
+>> +inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+>> +{
+>> +	switch (READ_ONCE(head->subsys->iopolicy)) {
+>> +	case NVME_IOPOLICY_QD:
+>> +		return nvme_queue_depth_path(head);
+>> +	case NVME_IOPOLICY_RR:
+>> +		return nvme_round_robin_path(head);
+>> +	default:
+>> +		return nvme_numa_path(head);
+>> +	}
+> 
+> should we use another case for NVME_IOPOLICY_NUMA that will call
+> nvme_numa_path() and report ratelimited error on the default lable
+> before settling on nvme_numa_path()?
+> 
+> something like this totally untested :-
 
-@@ -1291,11 +1303,13 @@ static void nvme_tcp_io_work(struct work_struct *w)
-                                 break;
-                 }
+Actually, I don't think this is worth it. The likelihood that the iopolicy will get corrupted is almost NILL. The only way this 
+can happen is if there were a bug in the sysfs code that controls this variable. I've tested this enough to know there's not 
+going to be any problem here and I don't think adding a warning to a code path that can only be hit by a programming error is 
+needed.
 
--               result = nvme_tcp_try_recv(queue);
--               if (result > 0)
--                       pending = true;
--               else if (unlikely(result < 0))
--                       return;
-+               if (!softirq_rx) {
-+                       result = nvme_tcp_try_recv(queue);
-+                       if (result > 0)
-+                               pending = true;
-+                       else if (unlikely(result < 0))
-+                               return;
-+               }
+>> +}
+>> +
+>>    static bool nvme_available_path(struct nvme_ns_head *head)
+>>    {
+>>    	struct nvme_ns *ns;
+>> @@ -803,6 +870,28 @@ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
+>>    			  nvme_iopolicy_names[READ_ONCE(subsys->iopolicy)]);
+>>    }
+>>    
+>> +static void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys,
+>> +		int iopolicy)
+>> +{
+>> +	struct nvme_ctrl *ctrl;
+>> +	int old_iopolicy = READ_ONCE(subsys->iopolicy);
+>> +
+>> +	if (old_iopolicy == iopolicy)
+>> +		return;
+>> +
+>> +	WRITE_ONCE(subsys->iopolicy, iopolicy);
+>> +
+>> +	/* iopolicy changes clear the mpath by design */
+>> +	mutex_lock(&nvme_subsystems_lock);
+>> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+>> +		nvme_mpath_clear_ctrl_paths(ctrl);
+>> +	mutex_unlock(&nvme_subsystems_lock);
+>> +
+>> +	pr_notice("%s: changed from %s to %s for subsysnqn %s\n", __func__,
+>> +			nvme_iopolicy_names[old_iopolicy], nvme_iopolicy_names[iopolicy],
+>> +			subsys->subnqn);
+>> +}
+>> +
+>>    static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+>>    		struct device_attribute *attr, const char *buf, size_t count)
+>>    {
+>> @@ -812,7 +901,7 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+>>    
+>>    	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
+>>    		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
+>> -			WRITE_ONCE(subsys->iopolicy, i);
+>> +			nvme_subsys_iopolicy_update(subsys, i);
+>>    			return count;
+>>    		}
+>>    	}
+>> @@ -923,6 +1012,9 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>>    	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
+>>    		return 0;
+>>    
+>> +	/* initialize this in the identify path to cover controller resets */
+> 
+> nit: If I'm not wrong, this function gets called from
+> |nvme_init_identify()|,
+> so it's pretty clear. That makes above comment kind of redundant ?
+> However, if others want that comment here, please ignore this message.
 
-                 if (!pending || !queue->rd_enabled)
-                         return;
---
+Yes, but it's not clear that nvme_init_identify() is called in the controller reset path.
 
-Note, I don't yet know if this behavior should go conditional behind a 
-parameter, or
-simply replace the existing behavior.
+Hannes asked for a comment here so I'd like to keep this.
 
-Note that it depends on a patch I've sent (and will need to send a v2 for):
+>> +	atomic_set(&ctrl->nr_active, 0);
+>> +
+>>    	if (!ctrl->max_namespaces ||
+>>    	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
+>>    		dev_err(ctrl->device,
+>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>> index 73442d3f504b..d6c1fe3e2832 100644
+>> --- a/drivers/nvme/host/nvme.h
+>> +++ b/drivers/nvme/host/nvme.h
+>> @@ -50,6 +50,8 @@ extern struct workqueue_struct *nvme_wq;
+>>    extern struct workqueue_struct *nvme_reset_wq;that 
+>>    extern struct workqueue_struct *nvme_delete_wq;
+>>    
+>> +extern struct mutex nvme_subsystems_lock;
+>> +
+>>    /*
+>>     * List of workarounds for devices that required behavior not specified in
+>>     * the standard.
+>> @@ -195,6 +197,7 @@ enum {
+>>    	NVME_REQ_CANCELLED		= (1 << 0),
+>>    	NVME_REQ_USERCMD		= (1 << 1),
+>>    	NVME_MPATH_IO_STATS		= (1 << 2),
+>> +	NVME_MPATH_CNT_ACTIVE	= (1 << 3),
+> 
+> nit:- please align above to existing code ...
+> 
 
-lore.kernel.org
+I changed my tab stop from 4 to 8 and fixed this.
 
-[PATCH] net: micro-optimize skb_datagram_iter <#>
+Thanks for your review. I will follow up with a v7 patch.
 
-🔗 https://lore.kernel.org/netdev/20240617095852.66c96be9@kernel.org/T/ 
-<https://lore.kernel.org/netdev/20240617095852.66c96be9@kernel.org/T/>
+/John
 
 
