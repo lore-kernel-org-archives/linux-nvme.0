@@ -4,73 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 252CBC2BA15
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 10:14:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37667C2BA15
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 10:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VHQhN1szDWrDWl9R/voChBxS4nnD7Vlm4eiYbJkz4qY=; b=f4bK8SMAVAx5ik6Jvn0ZRQ8LGL
-	gv9HrIMW/ea6UBjivDY+QNbcft+1K2BCWU4NuPX3xN7e63qyHZPjW/TxqclfTx42rjFhZjeTC60id
-	EkQcjwSz2ZNHJkc/20wKy4EDSIRcEUUfu3NsgLoAiS6feVe8yhYhtL6jBkf/4LKa2i1zulF4bcJkP
-	kX3bOP0AhBZWEEb44NkCykV5AE3nnqdVuBowlP/QBVSl6squJ1fjmJh/WgRjPwZYmHknqunP5IU73
-	mDO7QI2qAXJtPqPUmRM+aAzzpyzruQ7aOjWU8MwALTHKhqtyiSkQo28eC32MGit4GC2L0Ypm6PHeK
-	v5ge2pCQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=9cviPDMkSoytLVdNjIT5PIyf2EgfbdePnFfNSotHAb8=; b=igMtMcJq0s+IGq
+	AKi3bMOgD3/oWTIG/zv/sxynYeJK9nnRWxV3ZCUCPD/JEJdFmB1genewE4q2PnLATmRKascxeA7Ij
+	v+R6oDmLz1qHfrVBnAhNQOuD/1G7hxtacF79eOi12WpN6KTkHzmhxSjMGUw82A0iJpGDngT4ULrZN
+	cp9+m3p17acf3HsvPpBSMD9YHDdu5wDEujYq2eq3IFSm3E0k+rSAPXyF8Gny1eqzJlMCN3WeQDv6W
+	mrrA/nfT0ytG/RTaTKlLANeM3fC/TFQxdm5xzjI6O0w1/5B8XKnd0hRY0tDFQjZMfqKB6g875J6lM
+	dC06ZnPN42yJXs7OXMNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJsKX-00000000kME-1icX;
-	Wed, 19 Jun 2024 10:14:17 +0000
-Received: from mail-lf1-f52.google.com ([209.85.167.52])
+	id 1sJsr0-00000000qW7-3y93;
+	Wed, 19 Jun 2024 10:47:50 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJsKV-00000000kKu-00LY
+	id 1sJsqu-00000000qTw-2gU7
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 10:14:16 +0000
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52a559e4429so841424e87.0
-        for <linux-nvme@lists.infradead.org>; Wed, 19 Jun 2024 03:14:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718792053; x=1719396853;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VHQhN1szDWrDWl9R/voChBxS4nnD7Vlm4eiYbJkz4qY=;
-        b=l9Dw5/mdwdJTu8rnCk8z+lEWeJnm7y2S1kinvh+OaSv7fuMXstx5DzB1rI5S8ZvLuy
-         yGI/3lqyycM5I7iZkDVx5/9ZuWa6aEq/Ac6Mauy97Ycn3lD+LqGU5FPjGq4eLH3bYqv3
-         LjvLj/it5dqHYAFvA8OugmJ0A6iovC1sBQ/p2sWwpINnq+LwWL1Wto8g2uNPdsPlKamn
-         /N6F2v+PvD38zUX0P3T401siIrM3KUMnOMmcoD5Fpt7vTVDWOxgEypmqsEDWQ343H3gQ
-         i9lU4n69UY+31XYnNmyS3FUouZmh5CbogBbRhBziUp57uZgTmngU8vXzZA74/gGGuvXR
-         M3yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXarmkNLSyXqLJz+7GXjSeNmv86ey6MXZlXs8pEoWJJ7f27kHFi+lRxHJQ/q2cCtVOH5bxAYHmC36GiQ4WHJUdPyYNn2IcrvBuZTMxxbOw=
-X-Gm-Message-State: AOJu0YxbwPVu+ejcwd7+xUQ+ReyEz9QkyMlRK7o9JsDbR6lpFJ5CyYmF
-	0pKkQ+N3OCD8pWQOty1eb8p1Cj1shuPsplLwFQzDD1SaZEdGq34x
-X-Google-Smtp-Source: AGHT+IGYs23kOvqE2e/iOibeZmfygpRTYPgOH9wu4dtGOI6bRghWqGJIFpXVm4oOJNs/euEwTLBwmw==
-X-Received: by 2002:a2e:8199:0:b0:2ec:18c7:169d with SMTP id 38308e7fff4ca-2ec3ce7e201mr10567511fa.1.1718792052409;
-        Wed, 19 Jun 2024 03:14:12 -0700 (PDT)
-Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-363c795febfsm901506f8f.104.2024.06.19.03.14.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jun 2024 03:14:12 -0700 (PDT)
-Message-ID: <5928a2c0-43ff-434b-bfd8-01fe5ff792ac@grimberg.me>
-Date: Wed, 19 Jun 2024 13:14:11 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-tcp: align I/O cpu with blk-mq mapping
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240618120345.64761-1-hare@kernel.org>
- <20240619053015.GB29159@lst.de>
- <e8d5e591-0f19-4cc8-b7a4-9d6a5687b019@grimberg.me>
- <f30bff6b-5c9a-46e4-89df-1a1df088faeb@suse.de>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <f30bff6b-5c9a-46e4-89df-1a1df088faeb@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+	Wed, 19 Jun 2024 10:47:48 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J9A6WF013786;
+	Wed, 19 Jun 2024 10:47:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+	:to:cc:subject:date:message-id:content-transfer-encoding
+	:mime-version; s=pp1; bh=9cviPDMkSoytLVdNjIT5PIyf2EgfbdePnFfNSot
+	HAb8=; b=Ojd57aHMsEj7eSTi3ovRU1C3rPCRHZ09N4j00c+ywQLJh1Knnuy8CBf
+	/JwD35gjzCtRjYyx/f4qD2NyPOP25MEcG1XXfAUwJZOpceyPMRv35/Ei5bKGwbko
+	8eyZvzLdhyqG3bggAzhAIN74+qzdZTym2deW258LNfi/uK0rsf/tWKQMP4m9JQxi
+	hp4uHY0cvMA1u1nnjVmT8zvrRYXunC/X8NAJkXQhIlaZjq+j2VvfPQBgGlA4QPOF
+	Zx7e5DSSHbgMKlePfKBR87fldB2x6y6OTYD+QYibFWSrV0McrjnABxGBVhqlexoP
+	zafkPlE9aKXTjNuPog3K2IliPIDh5XA==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yuvf206ct-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Jun 2024 10:47:31 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45J9NZmx006285;
+	Wed, 19 Jun 2024 10:47:31 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ysn9uut8q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Jun 2024 10:47:31 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45JAlPt852494716
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 Jun 2024 10:47:27 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A83122004F;
+	Wed, 19 Jun 2024 10:47:25 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AE94C20043;
+	Wed, 19 Jun 2024 10:47:22 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.43.48.107])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 19 Jun 2024 10:47:22 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: shinichiro.kawasaki@wdc.com, chaitanyak@nvidia.com, dwagner@suse.de
+Cc: kbusch@kernel.org, sagi@grimberg.me, hch@lst.de,
+        linux-nvme@lists.infradead.org, venkat88@linux.vnet.ibm.com,
+        sachinp@linux.vnet.ibm.com, linux-block@vger.kernel.org,
+        gjoyce@linux.ibm.com, Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCHv3 blktests] nvme: add test for creating/deleting file-ns
+Date: Wed, 19 Jun 2024 16:16:40 +0530
+Message-ID: <20240619104705.2921801-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 6LGaCSBAxQSLYp8M2txVeK7B7VR4CZ-h
+X-Proofpoint-GUID: 6LGaCSBAxQSLYp8M2txVeK7B7VR4CZ-h
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-19_02,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 mlxscore=0 phishscore=0 mlxlogscore=824
+ malwarescore=0 spamscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406190077
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_031415_064571_CBBE5818 
-X-CRM114-Status: GOOD (  22.96  )
+X-CRM114-CacheID: sfid-20240619_034746_346539_09DAE8E1 
+X-CRM114-Status: GOOD (  19.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,119 +104,106 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+This is regression test for commit be647e2c76b2 (nvme: use srcu for
+iterating namespace list)[1]. It is fixed in commit ff0ffe5b7c3c(nvme:
+fix namespace removal list)[2].
 
+This test uses a regular file backed loop device for creating and then
+deleting an NVMe namespace in a loop.
 
-On 19/06/2024 13:01, Hannes Reinecke wrote:
-> On 6/19/24 10:57, Sagi Grimberg wrote:
->>
->>
->> On 19/06/2024 8:30, Christoph Hellwig wrote:
->>> On Tue, Jun 18, 2024 at 02:03:45PM +0200, Hannes Reinecke wrote:
->>>> Add a new module parameter 'wq_affinity' to spread the I/O
->>>> over all cpus within the blk-mq hctx mapping for the queue.
->>>> This avoids bouncing I/O between cpus when we have less
->>>> hardware queues than cpus.
->>> What is the benefit when setting it?  What is the downside? Why do you
->>> think it needs to be conditional?
->>
->> Not entirely sure.
->>
->
-> Hehe. But I am :-)
->
->> Hannes,
->>
->> Can you please show what is the hctx<->cpu mappings before/after this
->> patch? Please use different queue counts so we can see the pattern.
->>
->> Can you please show any performance comparisons for low and high
->> queue counts?
->>
->> I'm not entirely clear what exactly "spreads I/O over all CPUs" mean.
->> Every nvme-tcp queue has an io context that does network sends and 
->> receives
->> (unless it goes within .queue_rq() context when possible). Does this 
->> somehow mean
->> that now a queue io context will run from multiple cpus at the same 
->> time?
->
-> We are having on connection per queue, doing a 'queue_work_on()' for 
-> each queue, based on the value of 'io_cpu'.
-> That cpu should align to the set of CPUs per associated hwctx, otherwise
-> we need to bounce the thread from one cpu to another.
-> Case in point on this AMD machine I get this blk-mq mapping:
->
-> queue 0: 6, 7, 8, 54, 55, 56
-> queue 1: 9, 10, 11, 57, 58, 59
-> queue 10: 42, 43, 44, 90, 91, 92
-> queue 11: 45, 46, 47, 93, 94, 95
-> queue 12: 12, 13, 14, 60, 61, 62
-> queue 13: 15, 16, 17, 63, 64, 65
-> queue 14: 0, 1, 2, 48, 49, 50
-> queue 15: 3, 4, 5, 51, 52, 53
-> queue 2: 18, 19, 20, 66, 67, 68
-> queue 3: 21, 22, 23, 69, 70, 71
-> queue 4: 24, 25, 26, 72, 73, 74
-> queue 5: 27, 28, 29, 75, 76, 77
-> queue 6: 30, 31, 32, 78, 79, 80
-> queue 7: 33, 34, 35, 81, 82, 83
-> queue 8: 36, 37, 38, 84, 85, 86
-> queue 9: 39, 40, 41, 87, 88, 89
->
-> - default behaviour:
->
-> nvme nvme1: mapped 16/0/0 default/read/poll queues.
-> nvme nvme1: queue 1: using cpu 0
-> nvme nvme1: queue 2: using cpu 1
-> nvme nvme1: queue 3: using cpu 2
-> nvme nvme1: queue 4: using cpu 3
-> nvme nvme1: queue 5: using cpu 4
-> nvme nvme1: queue 6: using cpu 5
-> nvme nvme1: queue 7: using cpu 6
-> nvme nvme1: queue 8: using cpu 7
-> nvme nvme1: queue 9: using cpu 8
-> nvme nvme1: queue 10: using cpu 9
-> nvme nvme1: queue 11: using cpu 10
-> nvme nvme1: queue 12: using cpu 11
-> nvme nvme1: queue 13: using cpu 12
-> nvme nvme1: queue 14: using cpu 13
-> nvme nvme1: queue 15: using cpu 14
-> nvme nvme1: queue 16: using cpu 15
->
-> So just queue 12 is using the correct CPU; all other queues are
-> scheduled on cpus which are not part of the hwctx map.
->
-> - wq_affinity behaviour:
->
-> nvme nvme1: queue 1: using cpu 6
-> nvme nvme1: queue 2: using cpu 9
-> nvme nvme1: queue 3: using cpu 18
-> nvme nvme1: queue 4: using cpu 21
-> nvme nvme1: queue 5: using cpu 24
-> nvme nvme1: queue 6: using cpu 27
-> nvme nvme1: queue 7: using cpu 30
-> nvme nvme1: queue 8: using cpu 33
-> nvme nvme1: queue 9: using cpu 36
-> nvme nvme1: queue 10: using cpu 39
-> nvme nvme1: queue 11: using cpu 42
-> nvme nvme1: queue 12: using cpu 45
-> nvme nvme1: queue 13: using cpu 12
-> nvme nvme1: queue 14: using cpu 15
-> nvme nvme1: queue 15: using cpu 0
-> nvme nvme1: queue 16: using cpu 3
->
-> All queues are scheduled on a cpu which is part of the
-> blk-mq hwctx map.
+[1] https://lore.kernel.org/all/2312e6c3-a069-4388-a863-df7e261b9d70@linux.vnet.ibm.com/
+[2] https://lore.kernel.org/all/20240613164246.75205-1-kbusch@meta.com/
 
-OK, I think I understand what this patch does now, thanks (this should 
-appear in the patch change log).
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+Changes from v2:
+    - Use defaults for creating and connecting to nvme target (Daniel)
+Changes from v1:
+    - Add nvme prefix in the subject line instead of loop (Chaitanya)
+    - Enrich the commit log with details including link to regression 
+      discussion and fix commit (Chaitanya)
+    - Few other formatting cleanup (Chaitanya)
+    - Add fix commit information in the test header (Shinichiro)
+    - Instead of using default 1000 iteration for test,
+      set the test iteration count to 20 (Shinichiro)
+    - Update test case no. to nvme/052 (Shinichiro)
 
-The change log really needs to improve here Hannes,
-The wording "spread the I/O over all cpus within the blk-mq hctx mapping 
-for the queue" is very misleading. It is actually addressing a incorrect 
-selection io_cpu selection for certain cpu topologies which leads to 
-running different queue threads on sibling cpus, which may lead to 
-suboptimal performance. And please add performance comparisons of this 
-change. And lets remove the module parameter, iiuc this change is 
-universally better.
+---
+ tests/nvme/052     | 54 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/052.out |  2 ++
+ 2 files changed, 56 insertions(+)
+ create mode 100755 tests/nvme/052
+ create mode 100644 tests/nvme/052.out
+
+diff --git a/tests/nvme/052 b/tests/nvme/052
+new file mode 100755
+index 0000000..ec72e1f
+--- /dev/null
++++ b/tests/nvme/052
+@@ -0,0 +1,54 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2024 Nilay Shroff
++#
++# Regression test for commit be647e2c76b2(nvme: use srcu for iterating
++# namespace list). This regression is resolved with commit ff0ffe5b7c3c
++# (nvme: fix namespace removal list)
++
++. tests/nvme/rc
++
++DESCRIPTION="Test file-ns creation/deletion under one subsystem"
++
++requires() {
++	_nvme_requires
++	_have_loop
++	_require_nvme_trtype_is_loop
++}
++
++set_conditions() {
++	_set_nvme_trtype "$@"
++}
++
++test() {
++	echo "Running ${TEST_NAME}"
++
++	_setup_nvmet
++
++	local iterations=20
++
++	_nvmet_target_setup
++
++	_nvme_connect_subsys
++
++	# start iteration from ns-id 2 because ns-id 1 is created
++	# by default when nvme target is setup. Also ns-id 1 is
++	# deleted when nvme target is cleaned up.
++	for ((i = 2; i <= iterations; i++)); do {
++		truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).$i"
++		_create_nvmet_ns "${def_subsysnqn}" "${i}" "$(_nvme_def_file_path).$i"
++
++		# allow async request to be processed
++		sleep 1
++
++		_remove_nvmet_ns "${def_subsysnqn}" "${i}"
++		rm "$(_nvme_def_file_path).$i"
++	}
++	done
++
++	_nvme_disconnect_subsys >> "${FULL}" 2>&1
++
++	_nvmet_target_cleanup
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/052.out b/tests/nvme/052.out
+new file mode 100644
+index 0000000..f2d186d
+--- /dev/null
++++ b/tests/nvme/052.out
+@@ -0,0 +1,2 @@
++Running nvme/052
++Test complete
+-- 
+2.45.1
+
 
