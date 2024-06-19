@@ -4,75 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5138FC27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 16:35:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 060F0C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 17:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=r2m/DNJOhv4IL+ZQkVkshtKTjE43+QNp6sZzmfrX6oc=; b=PW8OyDNCR2X+nHC16BDm/Xktv6
-	4sgxnOpDdr2kQTh1SCXUWccUXCoo16Ryi4a7qIUflqVyUtrxVO9Jthf7ED8mIIOzjStDn3PZJtPn+
-	2joMR6ya2gVZhxug1vj5gbN1e3Q+hWWA7jjuHt2DJWcuhBIO417yE75vpSsSWnVGYKd8ZIyBgX/8C
-	VOy/06BDrAfSaHTPBaAqMigBeJdA+rrtYfagXYER37afbN9Pf0Ru+mh+e48mhvQ3Fp9Jq1pHc0B2C
-	gCkpHcOyUW5LGsKaUnLYUCVLoYlsh6kN5Xc1HYpFza5qlwMsZAgG7u1MvfvEmy//C2W6wbrCY0jGk
-	ld0WyXKw==;
+	bh=YOGATrBX4LJwEB9xtRbU7nOchBPhQAwHaxVa32lp0dQ=; b=WHQboG9E6jdDTEsSmsp5iSUYiE
+	dx8C6iAU8ORXmPVG9/2NZxZp0sWTjGOZ95eXeCtkzWgB6Qk6EFR8TeK/lL/EQkzigsxxK2F6K9pkP
+	9Rxe1q0GafaVuVQWXVWnKAkOVvwoC10Myjclkecvunmm7eu6qxq/vlPOK7RqGrZHhntzj+nlH3txB
+	vUqPSP3TDanT0W+cB7Iq4NkTuRYUfvWv37ig/U2jGOOWhlBIHo7z7oEdiBPEvCU5YpxFbblwWcZTD
+	3HG/3fU3a3qsGLVmsNBjnVclTEcDdgJss32tab6id3pu+K4QWPT/rm6hq9whZVGROq0YIkLtBYv70
+	Eltq7Uyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJyHG-000000023E5-3gSH;
-	Wed, 19 Jun 2024 16:35:18 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1sJyrF-00000002AoQ-1hr1;
+	Wed, 19 Jun 2024 17:12:29 +0000
+Received: from mail-mw2nam12on20622.outbound.protection.outlook.com ([2a01:111:f403:200a::622] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJyHD-000000023BN-3eyb
+	id 1sJyrD-00000002AnT-05r6
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 16:35:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718814914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=r2m/DNJOhv4IL+ZQkVkshtKTjE43+QNp6sZzmfrX6oc=;
-	b=NfC5iFd9LBlcNvS4mpZ3oWxa+56B4qFUmUIExCA4E7Todyn48/gxNAJQKjU8K4ZX5w+pXg
-	eKDfN3uOjc370Q96Hn6E2z8Hh0roomhNv2jt6et7OTA2WhyH2JsszEukEg0v1cFxYKpUUd
-	E+VXzC8vFonTRvDItNvOe5JngZJz+aw=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-519-Y4Ypdd7fNY6RCLwWE0LHJg-1; Wed,
- 19 Jun 2024 12:35:11 -0400
-X-MC-Unique: Y4Ypdd7fNY6RCLwWE0LHJg-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C43071956089;
-	Wed, 19 Jun 2024 16:35:09 +0000 (UTC)
-Received: from jmeneghi-thinkpadp1gen3.rmtusnh.csb (unknown [10.22.33.177])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9C87A19560AF;
-	Wed, 19 Jun 2024 16:35:07 +0000 (UTC)
-From: John Meneghini <jmeneghi@redhat.com>
-To: kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	emilne@redhat.com,
-	jmeneghi@redhat.com,
-	jrani@purestorage.com,
-	randyj@purestorage.com,
-	chaitanyak@nvidia.com,
-	hare@kernel.org
-Subject: [PATCH v7 0/1] nvme: queue-depth multipath iopolicy
-Date: Wed, 19 Jun 2024 12:35:02 -0400
-Message-ID: <20240619163503.500844-1-jmeneghi@redhat.com>
+	Wed, 19 Jun 2024 17:12:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eI6d8NgIHOBIRAeigIEKW3FHeBJNozu1C0m+VBY72fCuEsN879/9632CrG+zT1IU91theG+FhXt44XRpsRr31V6WFkeQPD4H7iFqxRFpmXYKiJo3vBwGIYuokewflYskb4YKdD+OsabjZpL8SLnPWlnTSOeQFsy3Lrri6u8ZR3XRx//yBO+3monuMysgpCTLQ279UTFhF0iu6sIpPROFXd5yd3NeU702DsXJe/c5fiG9kx7pE293l8l8z6WA9bTyRIZUh2xEsSligwf7YTebO1ThFeGkvYN01cE4SFN5fzk0VwA+Jn5zrfhebU8ZRVH3k+0gv8i4domEVD+m2nTfgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YOGATrBX4LJwEB9xtRbU7nOchBPhQAwHaxVa32lp0dQ=;
+ b=hFtJPOzdZq6fdcyUolSQqGZGff6BH0h7OwFCpOywaMkfdav0QnAWfijEVGkEuIrbYVCZNS7UpRnzwV+O4iOGEO6NoS1+JCYJ6Eau91nQ6xQVchu5mwyjucDBTXnUpn+qa4SmpzxQT8TR0rTEZzE/MnDFbJiOP5FCOt11P0aBw8KMqSANDlKVcgn+N9gXA13yCj5HNx7Qx2LAXJQ2vHZitYa6nGN2kZXOGyHuizHy2GIe7MAsxeIPJpmauC5/I3K8t+JnN2gGXHx27TDloIEFdwGP4cdopkzvsjKbusYz0H35VH85gBFfEsophNoO0gbjSdWLAHPQ3iMIN1xKPUkWaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YOGATrBX4LJwEB9xtRbU7nOchBPhQAwHaxVa32lp0dQ=;
+ b=ukd1fb4VN0AibmwAmSYazPNZgP33ysCmE9GePQh6qrce7AG7ZVwUBbT3MzdHDaF7gynD1vcxot115Tjd9XBTXH2rbCCiPO9Giys2GcAShGnLaVB2SKjMB1yt8w9TSCJkieeN3rHmnrKsjfkv2/ljG0aovaV7y98KNtAmOE7l521i+PCM0PACVNg1WUNwS7iuqtRNH1h7xlmzvR5LDL9twCzkfIA7DigQCtSqtmLpE47WVKjsW9dxA+AmtpW4N5lMu972A4yBHAT+rsxPMmftogIZe79RzzQBwQd1JOJo7R7wX0NPyQediUKSK1jM0ehOpQ/J8zIHth0CSkXIAJ8mtA==
+Received: from BYAPR01CA0020.prod.exchangelabs.com (2603:10b6:a02:80::33) by
+ IA1PR12MB6258.namprd12.prod.outlook.com (2603:10b6:208:3e6::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Wed, 19 Jun
+ 2024 17:12:16 +0000
+Received: from SJ5PEPF000001D0.namprd05.prod.outlook.com
+ (2603:10b6:a02:80:cafe::d7) by BYAPR01CA0020.outlook.office365.com
+ (2603:10b6:a02:80::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.32 via Frontend
+ Transport; Wed, 19 Jun 2024 17:12:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ5PEPF000001D0.mail.protection.outlook.com (10.167.242.52) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.15 via Frontend Transport; Wed, 19 Jun 2024 17:12:15 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 19 Jun
+ 2024 10:11:59 -0700
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 19 Jun
+ 2024 10:11:58 -0700
+Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Wed, 19 Jun 2024 10:11:54 -0700
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <leonro@nvidia.com>, <jgg@nvidia.com>, <linux-nvme@lists.infradead.org>,
+	<linux-rdma@vger.kernel.org>, <chuck.lever@oracle.com>, <sagi@grimberg.me>
+CC: <oren@nvidia.com>, <israelr@nvidia.com>, <maorg@nvidia.com>,
+	<yishaih@nvidia.com>, <hch@lst.de>, <bvanassche@acm.org>,
+	<shiraz.saleem@intel.com>, <edumazet@google.com>, Max Gurtovoy
+	<mgurtovoy@nvidia.com>
+Subject: [PATCH v2 0/2] Last WQE Reached event treatment
+Date: Wed, 19 Jun 2024 20:11:51 +0300
+Message-ID: <20240619171153.34631-1-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D0:EE_|IA1PR12MB6258:EE_
+X-MS-Office365-Filtering-Correlation-Id: 99820f50-f424-4e59-9f01-08dc9082f785
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|1800799021|36860700010|376011|82310400023;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bc18E/HzNMEn1vtG/AienDk48yPqd2PYDa+dvjoSTQTLuhhCHt9xXZ67EnV0?=
+ =?us-ascii?Q?krX8mOgoH+W6dVjRQpf4ZlMZU0DlyKgrQDLx9d3jBFfa6eh3t8sgij0DfpVH?=
+ =?us-ascii?Q?Krw748WVJz9/nDBByVlJu0073+bwjFNG1bNMgfUIHYgHFeQ3scct3YmQ+zlI?=
+ =?us-ascii?Q?DxdMAs6gDu6Cj0IFelSy8nhIBSQCaA/fj7qKbWhjTFhT7nWL3yt9IlRcCIzQ?=
+ =?us-ascii?Q?o3cNHt4uqnrmEZy4enfjoBHSBqnh7q/989UJIhnOqIRvSAPnt3wqvAkKLiSY?=
+ =?us-ascii?Q?CnEbqLgX89OUTk1tDhohMuhtzcPTScgk7SVXAOOJdu/9E6J+9hm4KBClSNwu?=
+ =?us-ascii?Q?ts9LFLBL4HhB3Cs52VxNjhB88U6ZmcwHR3m+0u4Munyw+or1L3oieHQq6jX6?=
+ =?us-ascii?Q?NoxGNFol+E7FBTGqNtY5atXl0+XF2phhPCm2qzqLhcx3kWjRgVedpsgu1bpn?=
+ =?us-ascii?Q?TvrHwJOze09O5Pa32ZIIpCANY1T0LdppgCHO6bZtY5NZctKNYbPLvbS0fyoK?=
+ =?us-ascii?Q?8q+I/yotVaGZSYgQ2OpoFenQU+BaUF6d+PPzeHziZZ9+8zwdwAo/nLsPLOKY?=
+ =?us-ascii?Q?MEBmA3zoebhcndKQNWthHMcRjew+MCGWzuuNy8rteO05bbcbKIb+YjJts5re?=
+ =?us-ascii?Q?b2b/v/KZuSW4m37SmeOUk3jTWPvTme2TMAthD2jkLXx8upSzARejYdVU1B/L?=
+ =?us-ascii?Q?iaRHdkc0/8kXDZ7tYrwrD7ZaSpiaJo4idQBir2vLaSWGaDf3BGh6nDzkfh05?=
+ =?us-ascii?Q?mFTop0WLLX3kZYxbWziS+K5bB/JVubHFLl9JpSS6Fh+LTanJvNCMcujE2gCX?=
+ =?us-ascii?Q?xSSpkKUtugPVE/AMiylK3dblTr488U9pLBcP+IGCUj9YjynKr64bmkwFcXsL?=
+ =?us-ascii?Q?LoGUFeQQOEinjjwn4idILIPEpchi3yWPaYrr3+GkSCFuEnRrHJtw9W2qIcmd?=
+ =?us-ascii?Q?EvtTs36eYU7D3fnOcI4btP9qZ3RyHUnPJhwJKTjTLgeBfNjfrkbBgUZ4/NEr?=
+ =?us-ascii?Q?D/VXFhQmexxo+o/fQlRDDr5XjGc2L66xgN2qEPMVZZuGWclT/Oykon+IZhdt?=
+ =?us-ascii?Q?H3YqOKcgtfc1Ae2JA1vV2EWu0QvbbEIdeQMX9UOTGI8pFXhqy/jNUS2US25M?=
+ =?us-ascii?Q?A5mxduQmYhgT3/hyuS8er7FITiKFw1JakIu83EGqS7VKShpX6FRGEp7SIbWQ?=
+ =?us-ascii?Q?MubVrkqua+JsP5qlDfQHY98URjPje+AwOFXAoNKeO1I1f20C0PLF/Zn7lziE?=
+ =?us-ascii?Q?RQSFam2UGrpD60KmAhNpw+LJYHC61AGkui59DTIvmD+Y92Jr4KRnl66VlQiR?=
+ =?us-ascii?Q?Fivd7k/H8qZTdVQe1Ytk7G4bV5vP4yhU8r21LDMwVmjxTolhWX2AzbUPNedW?=
+ =?us-ascii?Q?6WOsSzGtT89xzjGzEorRfAgbvnwAgwG9V60bvs6Dnr2dPei1eA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230037)(1800799021)(36860700010)(376011)(82310400023);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2024 17:12:15.1395
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99820f50-f424-4e59-9f01-08dc9082f785
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001D0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6258
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_093516_265105_C1E03AE7 
-X-CRM114-Status: GOOD (  14.02  )
+X-CRM114-CacheID: sfid-20240619_101227_090363_BB21DC47 
+X-CRM114-Status: GOOD (  11.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,80 +147,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I've addressed Chaitanya's and Hannes's review comments 
-and retested everything. Test results can be seen at:
+Hi Jason/Leon/Sagi,
 
-https://github.com/johnmeneghini/iopolicy/tree/sample3
+This series adds a support for draining a QP that is associated with a
+SRQ (Shared Receive Queue).
+Leakage problem can occur if we won't treat Last WQE Reached event.
 
-Please add this to nvme-6.11.
+In the series, that is based on some old series I've send during 2018, I
+used a different approach and handled the event in the RDMA core, as was
+suggested in discussion in the mailing list.
 
-Changes since V6:
+In addition to the main patch 1/2 I've added another 2/2 to remove dead
+code.
 
-Cleanup tab formatting in nvme.h and removed extra white lines.  Removed the
-results variable from nvme_mpath_end_request(). 
+I've tested this series with NVMf/RDMA on RoCE.
 
-Changes since V5:
+Changes from v1:
+ 1. don't withhold the LAST_WQE_REACHED from the ULPs (Sagi)
+ 2. Remove ULP update as a result from #1
+ 3. Increase the wait_for_completion_timeout to 60 seconds
 
-Refactored nvme_find_path() to reduce the spaghetti code.
-Cleaned up all comments and reduced the total size of the 
-diff, and fixed the commit message. Thomas Song now 
-gets credit as the first author.
+Max Gurtovoy (2):
+  IB/core: add support for draining Shared receive queues
+  IB/isert: remove the handling of last WQE reached event
 
-Changes since V4:
-
-Removed atomic_set() from and return if (old_iopolicy == iopolicy)
-At the beginning of nvme_subsys_iopolicy_update().
-
-Changes since V3:
-
-Addresssed all review comments, fixed the commit log, and moved
-nr_counter initialization from nvme_mpath_init_ctlr() to
-nvme_mpath_init_identify().
-
-Changes since V2:
-
-Add the NVME_MPATH_CNT_ACTIVE flag to eliminate a READ_ONCE in the
-completion path and increment/decrement the active_nr count on all mpath
-IOs - including passthru commands.
-
-Send a pr_notice when ever the iopolicy on a subsystem is changed. This
-is important for support reasons. It is fully expected that users will
-be changing the iopolicy with active IO in progress.
-
-Squashed everything and rebased to nvme-v6.10
-
-Changes since V1:
-
-I'm re-issuing Ewan's queue-depth patches in preparation for LSFMM
-
-These patches were first show at ALPSS 2023 where I shared the following
-graphs which measure the IO distribution across 4 active-optimized
-controllers using the round-robin verses queue-depth iopolicy.
-
- https://people.redhat.com/jmeneghi/ALPSS_2023/NVMe_QD_Multipathing.pdf
-
-Since that time we have continued testing these patches with a number of
-different nvme-of storage arrays and test bed configurations, and I've
-codified the tests and methods we use to measure IO distribution
-
-All of my test results, together with the scripts I used to generate these
-graphs, are available at:
-
- https://github.com/johnmeneghini/iopolicy
-
-Please use the scripts in this repository to do your own testing.
-
-These patches are based on nvme-v6.9
-
-Thomas Song (1):
-  nvme-multipath: implement "queue-depth" iopolicy
-
- drivers/nvme/host/core.c      |   2 +-
- drivers/nvme/host/multipath.c | 103 +++++++++++++++++++++++++++++++---
- drivers/nvme/host/nvme.h      |   5 ++
- 3 files changed, 101 insertions(+), 9 deletions(-)
+ drivers/infiniband/core/verbs.c         | 82 ++++++++++++++++++++++++-
+ drivers/infiniband/ulp/isert/ib_isert.c |  3 -
+ include/rdma/ib_verbs.h                 |  2 +
+ 3 files changed, 83 insertions(+), 4 deletions(-)
 
 -- 
-2.45.1
+2.18.1
 
 
