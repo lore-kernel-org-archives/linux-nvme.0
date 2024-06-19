@@ -4,81 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 115C0C27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 15:44:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2442C27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 15:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=crmfw9nGEYND9twKivZHUhF+pajzWUmsBYjoitLN7pk=; b=VzuUhJJD6YlDHVD6jCXwBNZ0HL
-	IPNGIVp/JAuRAnR3bumHG5Z4NhnFUzn47oEsQ435+CPruKrr6yUnFJSycVCFyWE7BdEhSmPwmfEnB
-	fJ+YWyHQQEwWulkjQV2wX4IKS6PjIgTG5v6v/8SEYus9+j8wBnsOgYrviZnUjnCuILFohVpKTpmZc
-	MzI6VPc6MHl11EVu5uvzEne0DINOxPT+d2rGMd0HPVKeOIBAU3R+OUCttm980U6TfcnE3aH4ik0C7
-	hC5vUhSj9tLalPOuv4KbvZjbzT7hJjBY12vi5H9UJX5g3MsOP5PVZP4TgcYG76j1yEoVGUiQ5mPhB
-	F3kKsJRg==;
+	bh=onz9ifwXkL45Z5MVbC+bMFcJp8WjTyTPYVHGjzctfo0=; b=MSGUcbDAwDBLWajLYYOZ8kIKFs
+	JrHpQIbhxFmVG8pEhRtjJFYV9PbH2F4HGjR58X94V+/rLq5nYTShRisNKIC/brDBu8jRpXlP97wG8
+	3Apn2TK1F0pyPBHL8Q1XEr4IIwMu3Am/08BZluEfIuv4H78ZTOK5TgNXa915u3yiGVHWtVrFjx1VR
+	HJTriK1YPCX/YVZGLN1rQ1iOAQbZgMFTULhVx98H+uJRsfCD+8XO8xThfDv1ztA/s0m0jBa+AQOsw
+	GBra32xlUtJH+svZVhpNpPdURDPTzmiejShIIdTX0ZxdbGTpTHF6mve3voubGdIt9bcvK4x4Scorq
+	scVKLX6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJxU4-00000001s4m-1KrP;
-	Wed, 19 Jun 2024 15:44:28 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1sJxYv-00000001tfR-1LZ6;
+	Wed, 19 Jun 2024 15:49:29 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJxTs-00000001ryx-2dGz
+	id 1sJxYp-00000001tcV-1CZc
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 15:44:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718811851;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Wed, 19 Jun 2024 15:49:27 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D86A1F7EE;
+	Wed, 19 Jun 2024 15:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718812161; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=crmfw9nGEYND9twKivZHUhF+pajzWUmsBYjoitLN7pk=;
-	b=aXqgDzlV0mGHhxhXGSwSixfiVZ8tgsCDdd4tRsN0NMeWCCC4AOTC7Wi5ZeHknbBV2jBSWU
-	2Ib/0NHTWRoGIy7534VT+rhqZ6hoUOF+XZaOP2HM/uD5CQB0LTAqIjcMrVvcXOpug+0YKF
-	9UV4crSEt1/HxjfNKVPsbRCUcOtUmnU=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-215-PkCrYSDMPjiv1lagfPOr2w-1; Wed,
- 19 Jun 2024 11:44:07 -0400
-X-MC-Unique: PkCrYSDMPjiv1lagfPOr2w-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	bh=onz9ifwXkL45Z5MVbC+bMFcJp8WjTyTPYVHGjzctfo0=;
+	b=HM4mzyJksraI0s38hJJ4EKX3cPARy+Wg2RWEZ+rlzsaHPM9a0UhOaGiK3teED58W9YzSu7
+	/M9/+UPRfBqA4yWHm3YIWLBfYPyFSUu8Jrt3DUHMZ5MC0zbnmaDiP0652ufnAkbLx1ATHq
+	h8rXk0EBAzZof6dvCSq8eiVOlI+uDCY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718812161;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=onz9ifwXkL45Z5MVbC+bMFcJp8WjTyTPYVHGjzctfo0=;
+	b=MBvBSxcx/GE+tnUfjrVzSQHgWi9DmnTx6oI6OvdqH+sbFWGxk3Vw0Nw0Z4WBXZtXOLOzF1
+	k4KRLtuLndRApWAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718812161; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=onz9ifwXkL45Z5MVbC+bMFcJp8WjTyTPYVHGjzctfo0=;
+	b=HM4mzyJksraI0s38hJJ4EKX3cPARy+Wg2RWEZ+rlzsaHPM9a0UhOaGiK3teED58W9YzSu7
+	/M9/+UPRfBqA4yWHm3YIWLBfYPyFSUu8Jrt3DUHMZ5MC0zbnmaDiP0652ufnAkbLx1ATHq
+	h8rXk0EBAzZof6dvCSq8eiVOlI+uDCY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718812161;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=onz9ifwXkL45Z5MVbC+bMFcJp8WjTyTPYVHGjzctfo0=;
+	b=MBvBSxcx/GE+tnUfjrVzSQHgWi9DmnTx6oI6OvdqH+sbFWGxk3Vw0Nw0Z4WBXZtXOLOzF1
+	k4KRLtuLndRApWAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E23319560B4;
-	Wed, 19 Jun 2024 15:44:05 +0000 (UTC)
-Received: from [10.22.33.177] (unknown [10.22.33.177])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E593119560B3;
-	Wed, 19 Jun 2024 15:44:02 +0000 (UTC)
-Message-ID: <76f3ded6-7922-4c90-a650-7bbd08e442b4@redhat.com>
-Date: Wed, 19 Jun 2024 11:44:02 -0400
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F33F13AAA;
+	Wed, 19 Jun 2024 15:49:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2ccwAgH+cmbfKgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 19 Jun 2024 15:49:21 +0000
+Message-ID: <eb0023bc-3a3b-4f31-955b-c6aad4cad4a3@suse.de>
+Date: Wed, 19 Jun 2024 17:49:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/1] nvme-multipath: implement "queue-depth" iopolicy
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>, "emilne@redhat.com"
- <emilne@redhat.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "jrani@purestorage.com" <jrani@purestorage.com>,
- "randyj@purestorage.com" <randyj@purestorage.com>,
- "hare@kernel.org" <hare@kernel.org>
-References: <20240612002034.1299922-1-jmeneghi@redhat.com>
- <20240612002034.1299922-2-jmeneghi@redhat.com>
- <1307c447-65bb-430c-88e1-045191d8d8ba@nvidia.com>
+Subject: Re: [PATCHv2] nvme-tcp: align I/O cpu with blk-mq mapping
 Content-Language: en-US
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <1307c447-65bb-430c-88e1-045191d8d8ba@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Hannes Reinecke <hare@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240619145553.89736-1-hare@kernel.org>
+ <20240619145958.GA2254@lst.de> <d5c87821-54a7-4fb4-9222-501174d6058b@suse.de>
+ <f1348234-1dcb-4ac2-a0d4-305c39643a48@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <f1348234-1dcb-4ac2-a0d4-305c39643a48@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_084423_463149_A6D778AF 
-X-CRM114-Status: GOOD (  31.99  )
+X-CRM114-CacheID: sfid-20240619_084923_908185_059DDD28 
+X-CRM114-Status: GOOD (  24.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,151 +134,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/11/24 21:44, Chaitanya Kulkarni wrote:
-> On 6/11/24 17:20, John Meneghini wrote:
->> From: Thomas Song <tsong@purestorage.com>
+On 6/19/24 17:43, Sagi Grimberg wrote:
+> 
+> 
+> On 19/06/2024 18:23, Hannes Reinecke wrote:
+>> On 6/19/24 16:59, Christoph Hellwig wrote:
+>>>>       if (wq_unbound)
+>>>>           queue->io_cpu = WORK_CPU_UNBOUND;
+>>>
+>>> None of the above computed information is even used for the wq_unbound
+>>> code.  This would make a lot more sense if the above assignment was in
+>>> the (only) caller.
+>>>
+>>> Yes, that probably should have been done when merging the wq_unbound
+>>> option (which honestly looks so whacky that I wish it wasn't merged).
+>>>
+>> Ah, you noticed?
 >>
-
->> +
->> +	if ((nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE)) {
->> +		result = atomic_dec_if_positive(&ns->ctrl->nr_active);
->> +		WARN_ON_ONCE(result < 0);
->> +	}
->>    
->>    	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
->>    		return;
+>> This patch is actually got sparked off by one of our partners notifying
+>> a severe latency increase proportional with the number of controllers.
+>> With a marked increase when (sw) TLS is active; they even managed to run
+>> into command timeouts.
+>>
+>> What happens is that we shove all work from identical queue numbers 
+>> onto the same CPU; so if your controller only exports 4 queues _all_ 
+>> work from qid 1 (from all controllers!) is pushed onto CPU 0 causing a 
+>> massive oversubscription on that CPU and leaving all other CPUs in the 
+>> system idle.
 > 
-> can we remove result variable ? that is only used once,
-> how about something like this unless there is something wrong with
-> totally untested :-
-
-Sure I can do that.
-
->> +static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head)
->>    {
->> -	struct nvme_ns *ns, *found = NULL;
->> +	struct nvme_ns *ns, *old, *found = NULL;
->> +	int node = numa_node_id();
->> +
->> +	old = srcu_dereference(head->current_path[node], &head->srcu);
->> +
+> I see how you address multiple controllers falling into the same 
+> mappings case in your patch.
+> You could have selected a different mq_map entry for each controller 
+> (out of the entries that map to the qid).
 > 
-> nit:- no need for white-line above ?
+Looked at it, but hadn't any idea how to figure out the load.
+The load is actually per-cpu, but we only have per controller structures.
+So we would need to introduce a per-cpu counter, detailing out the
+number of queues scheduled on that CPU.
+But that won't help with the CPU oversubscription issue; we still might 
+have substantially higher number of overall queues than we have CPUs...
 
-I sometimes add a line feed because I think it makes the code more readable, But everyone seems to dislike extra white lines so 
-I'll remove them.
-
->> +inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
->> +{
->> +	switch (READ_ONCE(head->subsys->iopolicy)) {
->> +	case NVME_IOPOLICY_QD:
->> +		return nvme_queue_depth_path(head);
->> +	case NVME_IOPOLICY_RR:
->> +		return nvme_round_robin_path(head);
->> +	default:
->> +		return nvme_numa_path(head);
->> +	}
+>>
+>> Not sure how wq_unbound helps in this case; in theory the workqueue
+>> items can be pushed on arbitrary CPUs, but that only leads to even worse
+>> thread bouncing.
+>>
+>> However, topic for ALPSS. We really should have some sore of 
+>> backpressure here.
 > 
-> should we use another case for NVME_IOPOLICY_NUMA that will call
-> nvme_numa_path() and report ratelimited error on the default lable
-> before settling on nvme_numa_path()?
+> I have a patch that was sitting for some time now, to make the RX path 
+> run directly
+> from softirq, which should make RX execute from the cpu core mapped to 
+> the RSS hash.
+> Perhaps you or your customer can give it a go.
 > 
-> something like this totally untested :-
+No s**t. That is pretty much what I wanted to do.
+I'm sure to give it a go.
+Thanks for that!
 
-Actually, I don't think this is worth it. The likelihood that the iopolicy will get corrupted is almost NILL. The only way this 
-can happen is if there were a bug in the sysfs code that controls this variable. I've tested this enough to know there's not 
-going to be any problem here and I don't think adding a warning to a code path that can only be hit by a programming error is 
-needed.
+Cheers,
 
->> +}
->> +
->>    static bool nvme_available_path(struct nvme_ns_head *head)
->>    {
->>    	struct nvme_ns *ns;
->> @@ -803,6 +870,28 @@ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
->>    			  nvme_iopolicy_names[READ_ONCE(subsys->iopolicy)]);
->>    }
->>    
->> +static void nvme_subsys_iopolicy_update(struct nvme_subsystem *subsys,
->> +		int iopolicy)
->> +{
->> +	struct nvme_ctrl *ctrl;
->> +	int old_iopolicy = READ_ONCE(subsys->iopolicy);
->> +
->> +	if (old_iopolicy == iopolicy)
->> +		return;
->> +
->> +	WRITE_ONCE(subsys->iopolicy, iopolicy);
->> +
->> +	/* iopolicy changes clear the mpath by design */
->> +	mutex_lock(&nvme_subsystems_lock);
->> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
->> +		nvme_mpath_clear_ctrl_paths(ctrl);
->> +	mutex_unlock(&nvme_subsystems_lock);
->> +
->> +	pr_notice("%s: changed from %s to %s for subsysnqn %s\n", __func__,
->> +			nvme_iopolicy_names[old_iopolicy], nvme_iopolicy_names[iopolicy],
->> +			subsys->subnqn);
->> +}
->> +
->>    static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
->>    		struct device_attribute *attr, const char *buf, size_t count)
->>    {
->> @@ -812,7 +901,7 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
->>    
->>    	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
->>    		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
->> -			WRITE_ONCE(subsys->iopolicy, i);
->> +			nvme_subsys_iopolicy_update(subsys, i);
->>    			return count;
->>    		}
->>    	}
->> @@ -923,6 +1012,9 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->>    	    !(ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA))
->>    		return 0;
->>    
->> +	/* initialize this in the identify path to cover controller resets */
-> 
-> nit: If I'm not wrong, this function gets called from
-> |nvme_init_identify()|,
-> so it's pretty clear. That makes above comment kind of redundant ?
-> However, if others want that comment here, please ignore this message.
-
-Yes, but it's not clear that nvme_init_identify() is called in the controller reset path.
-
-Hannes asked for a comment here so I'd like to keep this.
-
->> +	atomic_set(&ctrl->nr_active, 0);
->> +
->>    	if (!ctrl->max_namespaces ||
->>    	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
->>    		dev_err(ctrl->device,
->> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
->> index 73442d3f504b..d6c1fe3e2832 100644
->> --- a/drivers/nvme/host/nvme.h
->> +++ b/drivers/nvme/host/nvme.h
->> @@ -50,6 +50,8 @@ extern struct workqueue_struct *nvme_wq;
->>    extern struct workqueue_struct *nvme_reset_wq;that 
->>    extern struct workqueue_struct *nvme_delete_wq;
->>    
->> +extern struct mutex nvme_subsystems_lock;
->> +
->>    /*
->>     * List of workarounds for devices that required behavior not specified in
->>     * the standard.
->> @@ -195,6 +197,7 @@ enum {
->>    	NVME_REQ_CANCELLED		= (1 << 0),
->>    	NVME_REQ_USERCMD		= (1 << 1),
->>    	NVME_MPATH_IO_STATS		= (1 << 2),
->> +	NVME_MPATH_CNT_ACTIVE	= (1 << 3),
-> 
-> nit:- please align above to existing code ...
-> 
-
-I changed my tab stop from 4 to 8 and fixed this.
-
-Thanks for your review. I will follow up with a v7 patch.
-
-/John
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
+Werner Knoblich
 
 
