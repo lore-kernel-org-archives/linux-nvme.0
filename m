@@ -4,167 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 965D6C27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 15:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C23CC27C53
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 15:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Rh5PCn3VPguwtfrwiupKbGti0iGQeWSCXvrMoIMqPcI=; b=dIzgcxsa9Igx1fwWLRvuswEi3X
-	0zhq97HTDlq6NgDNiIbk1mgFNZ4iKbj2h6vdFRcfcZB3FHYsdN+M/kjNQfnUJWQc9pLZiymEqXVGe
-	CNvLaLKTqmQsxLT+VzW0I77R6B/C3S7NJUa+301taDl8ZMOGsydIEwG7lMgYs7gO25v1uW1fapVdR
-	q12CZqIIoa5bb8srrMAERB6pjYsHFUGyVQLq2cEMFUCyzQaPQHBIeZ5I/KjSqTOH6IX5s+tZqWlG2
-	7NuO3zmtPspJk7lEq6JOm4l/jzQ8JC9mL/TLiWtfCE06ulUmlmhAqPuthpUs5w21DAbBlq8lLMSXU
-	+X+wZIlg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YBrbJgpjroKF92elbEfX0nEf7EwnXpqdK0a2jCtYn84=; b=ePhWBFwpXmkiwn2r/2NZHNP4k0
+	+HvJWAjIxYj5D30o6sCpkN5klDakF53i4iixtB0NSuVe3gHqpGeMUBpGQ9IlyjoWLWR1T49Q6JFxi
+	6BzPdA+/MMHVvFmyhA2VPZRoY5t5N0GpmnbiRJayuaJxgCfFKfbLTmtqmEK3GWqja5dPiwNU05pve
+	Y0+NQOce4bL7Ri4KoAk06laeNvgxox8/8q/9wGoTsshapfNlC4Ivd5jcr4bJ1r9oxy0m0hDielgSV
+	gNvpfb75P9QGVEBkepc8nDC51NGyFZiNi2PT4Gxob2s/Ad2rWKT69hg+oxy468Wm6UOPTBkRGW1+d
+	BWSGaBNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJxC4-00000001nIV-1ZHP;
-	Wed, 19 Jun 2024 15:25:52 +0000
-Received: from mail-dm6nam10on20616.outbound.protection.outlook.com ([2a01:111:f400:7e88::616] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1sJxTh-00000001rwd-29SE;
+	Wed, 19 Jun 2024 15:44:05 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJxBu-00000001nDE-12JI
+	id 1sJxTc-00000001run-3ntU
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 15:25:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WxIXxR1BHoEl+3PVFR5ghFkM41a5KLv5xGtU9mycpiEFgW8kTPRFBY7JC8eD+PWvamXA2cnguwyw53YfB2rGTUoemPCZN/k7lb4iO+C7e6qxAIMXUqFmNE/EwhtvJu6OsVg2Gsi34kDuZwwiHfcfKx3hcVCQ8YeTfnQR5n7Rrs2FhvHpOmASpk+OLTjVu0ytBpYBTyL+DE0oyb8U+VDQYl9JU+ykECRXAK452ks7i1ZtdhteubQpJzyomjYrzfm8+Jeyb0YJUbNuDeegaucWgxgJ55KGaH2U0RU/rFT21G6VeWY6cZKnVFdXXqvUXmj1+Q0TYnWSnnpCoqp/lAo+Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rh5PCn3VPguwtfrwiupKbGti0iGQeWSCXvrMoIMqPcI=;
- b=UhRhUG3HNS/by5LE3BCii8ULoug/eJCuvykUa0jeVYkiADePyWto1dgJr5rA3BlbXGVoYFJq9cWsOtJnb7iWJCfJ1K4jr7gTmuTifVnShbVclYSmWg/v5xfE1xBqKqX4ZNWHgeydDbgPqT7vetERFGCEkppUBojWpWxDvkF2zHG0MrAzNWKcuNDhvwuinlkgwf3PhWgs3btWfovB05Ew4KU2WwL+ztIqCWUdxmAJm9vCzomzORyUe0isYkJ6ZviCn/qcsTyNIjPKVomaEu2YptTIRd7SoPT5MFwg9Vbu5c7ca3QtZ4fh89nd1z5uKG4vZXQgCCwxJRBTkGSYBqJ+Ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rh5PCn3VPguwtfrwiupKbGti0iGQeWSCXvrMoIMqPcI=;
- b=afnaGOO9hkbViIoD6e0g6w33ferfHD1b5zGL+ug57vI6HGJnbH0SQTu7NOKY86xz3dzZMxO61bfPxs71tMEaJ0mOXUBbVW5ch1zFly+HDyVvANASD3UCcx/O8R56PHY3yUBaymeN38jxvM4VQIDTLt3mkbRHPoEUcdkJS+jm/4GveRf1U9xodT1z6bnjdmDGnoEF9+xz51P8IA3BVJETKDKQxk1D+4y+gZrgqYdfeTmOI/RlfP87bZiIvNedmifVPKmqk2JDzmAmAwW6QTs8UbvQMQ+X0aiuM5F2zNxPr44ZFwrEM49KmWJmt/9d6b0jTzMXU+mfrlP9ukqFfb+zPQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by SN7PR12MB6789.namprd12.prod.outlook.com (2603:10b6:806:26b::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.19; Wed, 19 Jun
- 2024 15:25:26 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::a3dc:7ea1:9cc7:ce0f%4]) with mapi id 15.20.7698.019; Wed, 19 Jun 2024
- 15:25:26 +0000
-Message-ID: <e86ac51d-a6ba-436b-93d1-bffdfc65cb46@nvidia.com>
-Date: Wed, 19 Jun 2024 18:25:17 +0300
+	Wed, 19 Jun 2024 15:44:04 +0000
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-35f1c7d1286so512474f8f.3
+        for <linux-nvme@lists.infradead.org>; Wed, 19 Jun 2024 08:44:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718811839; x=1719416639;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YBrbJgpjroKF92elbEfX0nEf7EwnXpqdK0a2jCtYn84=;
+        b=mi334Fk2pLTrCguVl0HM8toTjobFRniDmDqd+i6vAfX8HNwGicvHFJHQrc0yy3V82g
+         ca/tA0VIO+Hjbn2I6oj/NAfM8epjxs+hDS805IhKaVpuSo4WLwQjyMNBB1wS8yFAEfYf
+         VmqvZ8xTcYMhj3SUX1UxncSfaK4uIpVe9E1dN1qrVQq4aHimUoDHbtqeRaHdyOcqbIyf
+         ebMgefZ2LWuAfw9+iW1q2sd1eeT8fOsghWBYWVS9LGI4NGiXZxADI2VbtfdhZWszc/oL
+         dlP/z7WLEJDEMFAfhv7fP39oqH7sQyNoD3OpaASg2GknQEL4DLe1gm1JG15PHojMw6Qd
+         JUSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVmrJ+npbPcWplxCeP0j+z1iH5/eXepS1QQewto7yQ+7pAZWqfXJNqh5vShKpmCz3Pb2z1aEbKVnBYvn9+YBO9RdN3FE+75r/7UOLQil24=
+X-Gm-Message-State: AOJu0Yw4cLPF7qXJReZt40uk6L1mBVhav52Jd4fBlWSElVfbWPnfsmx8
+	P8jUzR+T9DhQlP6Xpy5PzHoB1miNhFkIu4GkodBoMjrlWWWw2LCo
+X-Google-Smtp-Source: AGHT+IEx7c+jLT7XjwlW339sXTSaIWcEt8ISf7dWsqmFjCIQiUL4TD+xa7izNp1YxfOjS3ty33vWSw==
+X-Received: by 2002:a05:600c:1c29:b0:423:445:4aaf with SMTP id 5b1f17b1804b1-424750148ffmr20427525e9.0.1718811838832;
+        Wed, 19 Jun 2024 08:43:58 -0700 (PDT)
+Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3609aa60a59sm6828158f8f.84.2024.06.19.08.43.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jun 2024 08:43:58 -0700 (PDT)
+Message-ID: <f1348234-1dcb-4ac2-a0d4-305c39643a48@grimberg.me>
+Date: Wed, 19 Jun 2024 18:43:57 +0300
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] IB/isert: remove the handling of last WQE reached
- event
-To: Sagi Grimberg <sagi@grimberg.me>, leonro@nvidia.com, jgg@nvidia.com,
- linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
- chuck.lever@oracle.com
-Cc: oren@nvidia.com, israelr@nvidia.com, maorg@nvidia.com,
- yishaih@nvidia.com, hch@lst.de, bvanassche@acm.org, shiraz.saleem@intel.com,
- edumazet@google.com
-References: <20240618001034.22681-1-mgurtovoy@nvidia.com>
- <20240618001034.22681-3-mgurtovoy@nvidia.com>
- <f12e1a75-2fd1-46ef-aee9-520cced08f11@grimberg.me>
+Subject: Re: [PATCHv2] nvme-tcp: align I/O cpu with blk-mq mapping
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Hannes Reinecke <hare@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240619145553.89736-1-hare@kernel.org>
+ <20240619145958.GA2254@lst.de> <d5c87821-54a7-4fb4-9222-501174d6058b@suse.de>
 Content-Language: en-US
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <f12e1a75-2fd1-46ef-aee9-520cced08f11@grimberg.me>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <d5c87821-54a7-4fb4-9222-501174d6058b@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0675.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:351::19) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|SN7PR12MB6789:EE_
-X-MS-Office365-Filtering-Correlation-Id: fdafc35d-db34-4b84-919d-08dc90740b6f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|376011|1800799021|366013;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZXp2NElVS1ZsRzU0UFRjU3QwcTJraitabG5wOVdKNlpoU29kTC9pR0dxL1hu?=
- =?utf-8?B?TEE1N0IyaTVaWnJMdGhLOUtNNTVNeFJJcHJVVE8rYUo1MUlFeDVIN0h4dVV6?=
- =?utf-8?B?ZEV3bUg1ZVRNQnlxMW9hUWMvVEF0ZmwrcWNqdVJuL3hFSXhhMzBFbnhFVzRy?=
- =?utf-8?B?dk5md29HK1hIRCt5ZFdpZk1pdC9zWE90ck0vWjFoWVJHZXJxMkdQd1Bvc3I3?=
- =?utf-8?B?VTdxMVlzbmVhYjRTRm5zbGQzdWl3aFRnUFI2VzVWa2h5RTkwOXNwcUdwV25a?=
- =?utf-8?B?TUd1c2JJdVhiUFNIdjRmdkRrSDBTNEk0cnRHMldRNm9mT3ZDUGxPYVJOVDBu?=
- =?utf-8?B?ZEcwZm91VzY4WW10NjdtVW9MWkRRb1FZZm1hNmR1SzN2WmtpbGZmZXlMVGcw?=
- =?utf-8?B?ZFUrcXQxWXlodFBDZ2ZUbEtJY1ZDQ0lMdnR1VlFHd1FvOXdTcjdSSTlBM056?=
- =?utf-8?B?aVliWTJlVzlZWUJxWlpFR1RhRjVyWmJacTB6Wm1mK2pla2gydmRuaDJ4ZXo4?=
- =?utf-8?B?WGRoeTUzcktzVlk0YnVmcWp4ak9GYlJKV3JLVzBmcy9ZeEUvWE5aVm9pVGYr?=
- =?utf-8?B?b3lYdi9XZSsrb0o5RjdEaGN4ZGQ0eCtmVmlkdjVhMzliU3Y1YVBkZitxZjZy?=
- =?utf-8?B?TUxBdEZmNTVOa3paeVkyK3lyY3Jhb2luRVNwaVl0SzBDMWN0UHN0eWRCeG5U?=
- =?utf-8?B?b2xMVTYyTloxaWR0ZjltR0JqdjF1RDY1V0tyanNQaDRENlFSdWlVWFl5Y0dp?=
- =?utf-8?B?RmhRZ29JaGk2RjlLamVwYVZnZUlwMWxBbW1YeE1PbTVWYnYyMmY3dUdtS09C?=
- =?utf-8?B?M0RCdSs1M1h0YnZKY0pndEw0K0hxN1JkTS91RXNicTBoMTBTaFBDNTRkT3l6?=
- =?utf-8?B?WkVIRGJ4UWhNK0tKeEcvM0I3NERQSFJ1b1ZPWFJveWV3V2Y3MVZaUTNsTExs?=
- =?utf-8?B?dS9icThPWnpOMlNkWElzMEJlUjUyY042NEtZcG9WNEpidm1VZktRSGpIaFho?=
- =?utf-8?B?VzJFajFEWW5rdVBSenYvYnhRNHptWGQzMFlidXhLYTZvTFBqZjV5TGI3VW9Y?=
- =?utf-8?B?RWpQbDIrczVQOTJmVE1ZYXhUZ1RLeTF6L2RCVnZzRmFwMU91ekJKZGErODhQ?=
- =?utf-8?B?cWdFNWFDenVOOVFYbFdwbTlKL2haUDNYcHhMYVRDQ0NVdm1ZY1hPUThMQnZj?=
- =?utf-8?B?YmczT2ZhMTkvaXdGZGlXTmJUMW80QkUwbmtVTmczM3JOemZqS1VMM1A3RUgz?=
- =?utf-8?B?QU53dmxkYXcvS2U2eVNweEhKWUQ3b2dxWFY1VmhUZUpNK0J1M2dBcFZWTjJx?=
- =?utf-8?B?eEluVTk2OGZwYUZZVXlzRzZrelovRVdmQ1V4cUs0TmdFOVdXMmJuK2g5b1dI?=
- =?utf-8?B?cVlsUFgvOExIMmFWd2praFd2T2Q4MWN2VDhId3NIKzhXcHZwdzdvTVNXUHFR?=
- =?utf-8?B?RXVtdmtab1BDZGk2Y0RzcDBKSjlBU3Q3MHF2aVZNdTk2dUR1T1lUWUU2djhv?=
- =?utf-8?B?eDdGT2dtV3FnSkxPWHVDaU5yZGJzdTZNYXZaYmVRNzZDcWRrcDVPbW1LUmdQ?=
- =?utf-8?B?VHlUZlFUNHhyTWRGV3dvelBETGJXbjNSZXMwSytFT0IxMU96cFk0Si9sdkEz?=
- =?utf-8?B?REpocDhta2N1QmZMUFA5NjRxM1h5WHJsTkJwL0k0WUJ2R3Rkc216QWVqN0F1?=
- =?utf-8?B?WXMybXFpcTNPSytONWkxQU9SVFRMZlM1TVRSdWMvRTJzVUVvOEpmbExOMmpH?=
- =?utf-8?Q?kuQ7liJ0QLJWxpiqM9R+cyxUBsBYVzxJ1tuqgPG?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(376011)(1800799021)(366013);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L2tnN2V0bE1SaTdrNTZqWDh3RGtPcjh4ajFRT3Ezc21IcG5vcnZ2Mlh3UGtG?=
- =?utf-8?B?dVZ4TVdCemdnOFo4ZTBWOTJhOGlOU041NEZuWnBvT3NlYnRqYjFxM2pXaDdB?=
- =?utf-8?B?ajJKTUI2VHduZUFQdjNxZnJ6cStoRkxtdk1Rd0h0VkExcGZRdlRKVWhGbWZh?=
- =?utf-8?B?aWU0YWljMXpHc0VvbzdvakRnYWlmb0twa1JjQzdkeVByTk1GYjJIOGZ1T2F4?=
- =?utf-8?B?VUNETmtvaUkrdjRoaERtYVFMb3h3L0xsUFhJbUNPUDUvemdHbkJ1ZTIwbWRn?=
- =?utf-8?B?RkMvTnliaXJlanJ3T1FRTnE2TFIycmxoNHJUellTQithUVlLU241NllFNmhu?=
- =?utf-8?B?K2tjMWVuZ2dDUmgzazJMNmVaMHVMNEJLR2Y4bVRZelFZZEdUMFVDRW9uSWR3?=
- =?utf-8?B?RHBlZUZsYnhHWjFhU0NIbHF4dlJid1Zwd29JOVg2K2JiemZFVE0vK2VrNlU0?=
- =?utf-8?B?VHBiaVFhbkh0dXZpK29lTmNxTmJTZG50cTIzbnp6V2lqaThMMVlKUmpiRWlt?=
- =?utf-8?B?QzBQTzdJNnZoZG9SZ1RncDU5ZjlDUEJlc3liUEJpSGRnck1rdEZtbkJFVHVm?=
- =?utf-8?B?YXdCNFZVSjR5ZjBkWmlLTkt3OVE5UVpmbVBEZWFtaHlrRjVPRUlTOE1TZ0Yr?=
- =?utf-8?B?ZUY2YVZhYUh3dU9BcnJrS3JSMThob0NlZGxYMG1BTllZQ3MvWVRadERNaTBx?=
- =?utf-8?B?Vm41RTdsSDVNMjYzNmoxMndmWnQ0Mk9KZCtCbkI5MDhlNlNzbnp6YmMzRUFP?=
- =?utf-8?B?RXBuNlZlS3pQZVZFZGttTkVzZ0VwdlR3a2JlQ25KUnlQTkx5WEhtS091VE04?=
- =?utf-8?B?YTZWK3V5MGprdm1sUzRZUi9QMFRzMGcydDhLbFpDN052dHA0ak5TUkJ3a0h3?=
- =?utf-8?B?WVN4YmRseDhrVWNmQ2ZYb01LY2l0bFdGdVU2TVkxL1dVT1VwYlBDNnVkdWdx?=
- =?utf-8?B?cHZPM0xBdlpJVGo4VkhJSjBMd0drSndNbjZHZlhCMXJBTlFrODVtTFNyUzhL?=
- =?utf-8?B?SHFWY0M5enNrNHZ0S0s4MWxwZlQ2c1VVTHFkdjYzWlZLN292Q3p3NzdIVHVm?=
- =?utf-8?B?Yk9Yd0R3aEgvWDk3T3hyQldOcnZCUUtybG5ENG5ORThiNUtLamVPVHU2OVJE?=
- =?utf-8?B?OW0zNXBIdkN1N3ZyLzV4MHdCOGhwMVRjTjNibStIemdmM2w0b2NRSFo4ZVRS?=
- =?utf-8?B?QkQzRDBSVmphSGZETllXVWZOTWMvVEt2bjl2dDR5a1FIRzNSdnFBZkFxV05z?=
- =?utf-8?B?c3pLeWlsODZoYjduTXNCODZ0SHpXUFNsWS9MRGZCRURmc3BWUnFTZkNwYXk4?=
- =?utf-8?B?WjFYQzgvOUNFcWtxRTE3cHZXU3BKM3NJUWZSd05FbzFLL1NUakJ5b1VrcWRv?=
- =?utf-8?B?QUdrdWtKZTd4NUdhVVo5dXF6VFgydmhKaWZzNlNnZ1Vjb2hGazVBbTg2TU1G?=
- =?utf-8?B?WS84VHVJTXdFRkFnN3pKazZIVXNlTFpMTlZieHdGaGNKVjh0cHRVR1lqNmtS?=
- =?utf-8?B?T2tzempGRlByTFZwMGRIeDhCZDh1Znlxc3A4WExKbmEwNGpmaXVPMEFQaENN?=
- =?utf-8?B?aGRQUUI1MlAwT1VFYjNuc0g1QUZJYzJ5SzNEQ09sOHZIQzhPcmdmREo1cDlC?=
- =?utf-8?B?TnVPMG1QTlJ6anR4Q3JDdFBZK0xqSVFOSnIzRmJuY1hyRWxOMzZmZURHTkZB?=
- =?utf-8?B?d0VraVdScXgxeXpHelp6dUdyYllRUTg4VFpmaWFoQ1AvbmxiT3RTZ1NmMVFR?=
- =?utf-8?B?SHN6TzQvV0NYekFaZ3BRSFpVK2tNayt5NXlNWDhRZ0VTbDF4RG43K1VLcmhk?=
- =?utf-8?B?bVZJUE9RcDJVV25wOFR2RjBjREFuWCtQLzkxTDVPWktLdCtxUUswRXk1K2lH?=
- =?utf-8?B?ek53L0QzSEhiT1pwL0I5Y2k3WXVyc1dyU0oxREdMZ216cjdiT2Z5NDF4Ty9W?=
- =?utf-8?B?UDJDdkJyMkQ5S3pvcFdsMFR0T3Jubk5NYWkveDlWTDExMjdsR3AzVzdDMzJv?=
- =?utf-8?B?NnlzY2FkNE10bmhyemNLTXoydFlIWXFTYTBtODV5enBPNzQwZE1MSldiQVlT?=
- =?utf-8?B?endxUTlUQ2FwNXRvMmphSjNpOWNHSUpESkFxL29xN2dhb2I2UkU0cEJMRlFI?=
- =?utf-8?B?eHlUemlnQ2VGeGJIMFZRcWFoWXBXbUJVVU00aER0V1VLUTBWU0kxTHd0bVdI?=
- =?utf-8?B?a1E9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdafc35d-db34-4b84-919d-08dc90740b6f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2024 15:25:26.3826
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sjVQL6HPjpT9jOGSolg5WM1xd8uSFs8K5f9hi1MrBDMPWLkkGYnDwsEgzg1wZ3OceyTBTHX6GPO9NTRYVVrQ1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6789
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_082542_627077_2C05D893 
-X-CRM114-Status: GOOD (  11.93  )
+X-CRM114-CacheID: sfid-20240619_084400_969110_8A4E99EE 
+X-CRM114-Status: GOOD (  29.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,39 +84,120 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-On 19/06/2024 12:16, Sagi Grimberg wrote:
->
->
-> On 18/06/2024 3:10, Max Gurtovoy wrote:
->> This event is handled by the RDMA core layer.
+
+On 19/06/2024 18:23, Hannes Reinecke wrote:
+> On 6/19/24 16:59, Christoph Hellwig wrote:
+>>>       if (wq_unbound)
+>>>           queue->io_cpu = WORK_CPU_UNBOUND;
 >>
->> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
->> ---
->>   drivers/infiniband/ulp/isert/ib_isert.c | 3 ---
->>   1 file changed, 3 deletions(-)
+>> None of the above computed information is even used for the wq_unbound
+>> code.  This would make a lot more sense if the above assignment was in
+>> the (only) caller.
 >>
->> diff --git a/drivers/infiniband/ulp/isert/ib_isert.c 
->> b/drivers/infiniband/ulp/isert/ib_isert.c
->> index 00a7303c8cc6..42977a5326ee 100644
->> --- a/drivers/infiniband/ulp/isert/ib_isert.c
->> +++ b/drivers/infiniband/ulp/isert/ib_isert.c
->> @@ -91,9 +91,6 @@ isert_qp_event_callback(struct ib_event *e, void 
->> *context)
->>       case IB_EVENT_COMM_EST:
->>           rdma_notify(isert_conn->cm_id, IB_EVENT_COMM_EST);
->>           break;
->> -    case IB_EVENT_QP_LAST_WQE_REACHED:
->> -        isert_warn("Reached TX IB_EVENT_QP_LAST_WQE_REACHED\n");
->> -        break;
+>> Yes, that probably should have been done when merging the wq_unbound
+>> option (which honestly looks so whacky that I wish it wasn't merged).
+>>
+> Ah, you noticed?
 >
-> Don't think you need to touch the ulps, they want to log these events, 
-> so be it.
-> Although, a warn is not appropriate at all here.
+> This patch is actually got sparked off by one of our partners notifying
+> a severe latency increase proportional with the number of controllers.
+> With a marked increase when (sw) TLS is active; they even managed to run
+> into command timeouts.
+>
+> What happens is that we shove all work from identical queue numbers 
+> onto the same CPU; so if your controller only exports 4 queues _all_ 
+> work from qid 1 (from all controllers!) is pushed onto CPU 0 causing a 
+> massive oversubscription on that CPU and leaving all other CPUs in the 
+> system idle.
 
-Ok. I'll remove the ULP patches, besides iSER target that is not even 
-implement SRQ.
+I see how you address multiple controllers falling into the same 
+mappings case in your patch.
+You could have selected a different mq_map entry for each controller 
+(out of the entries that map to the qid).
 
-This is a dead code.
+>
+> Not sure how wq_unbound helps in this case; in theory the workqueue
+> items can be pushed on arbitrary CPUs, but that only leads to even worse
+> thread bouncing.
+>
+> However, topic for ALPSS. We really should have some sore of 
+> backpressure here.
 
+I have a patch that was sitting for some time now, to make the RX path 
+run directly
+from softirq, which should make RX execute from the cpu core mapped to 
+the RSS hash.
+Perhaps you or your customer can give it a go.
+
+disclaimer, lightly tested:
+--
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index b6ea7e337eb8..02076b8cb4d8 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -44,6 +44,13 @@ static bool wq_unbound;
+  module_param(wq_unbound, bool, 0644);
+  MODULE_PARM_DESC(wq_unbound, "Use unbound workqueue for nvme-tcp IO 
+context (default false)");
+
++/*
++ * RX context runs in softirq
++ */
++static bool softirq_rx;
++module_param(softirq_rx, bool, 0644);
++MODULE_PARM_DESC(softirq_rx, "nvme-tcp RX context in softirq");
++
+  /*
+   * TLS handshake timeout
+   */
+@@ -976,8 +983,13 @@ static void nvme_tcp_data_ready(struct sock *sk)
+         read_lock_bh(&sk->sk_callback_lock);
+         queue = sk->sk_user_data;
+         if (likely(queue && queue->rd_enabled) &&
+-           !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
+-               queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
++           !test_bit(NVME_TCP_Q_POLLING, &queue->flags)) {
++               if (softirq_rx)
++                       nvme_tcp_try_recv_locked(queue);
++               else
++                       queue_work_on(queue->io_cpu, nvme_tcp_wq,
++                               &queue->io_work);
++       }
+         read_unlock_bh(&sk->sk_callback_lock);
+  }
+
+@@ -1291,11 +1303,13 @@ static void nvme_tcp_io_work(struct work_struct *w)
+                                 break;
+                 }
+
+-               result = nvme_tcp_try_recv(queue);
+-               if (result > 0)
+-                       pending = true;
+-               else if (unlikely(result < 0))
+-                       return;
++               if (!softirq_rx) {
++                       result = nvme_tcp_try_recv(queue);
++                       if (result > 0)
++                               pending = true;
++                       else if (unlikely(result < 0))
++                               return;
++               }
+
+                 if (!pending || !queue->rd_enabled)
+                         return;
+--
+
+Note, I don't yet know if this behavior should go conditional behind a 
+parameter, or
+simply replace the existing behavior.
+
+Note that it depends on a patch I've sent (and will need to send a v2 for):
+
+lore.kernel.org
+
+[PATCH] net: micro-optimize skb_datagram_iter <#>
+
+🔗 https://lore.kernel.org/netdev/20240617095852.66c96be9@kernel.org/T/ 
+<https://lore.kernel.org/netdev/20240617095852.66c96be9@kernel.org/T/>
 
 
