@@ -4,142 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26EDEC27C4F
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Jun 2024 06:35:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0775AC41513
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Jun 2024 06:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r1BlICI+5gigoBuJzINX9RLMovcoOejI1LZxSX8ehXg=; b=MoarRo0+IATcGvhZnZxZcB1mdy
-	GE4f4Kh//sDremSFp0R7t5p1XMIzOiOIPPcl9SiiTS6nLwh85TY4/2HvA3GgnvSQTmgn9V41mB13W
-	ujvH+UcyvctaypcvehWQM4ZUCCw1smJqnjuAzrzTZxDSLiBaf5kH55GCMKpKQVB46VecqyuW9ADkh
-	Nmk/gggaM3UFB+280S4lN6axyE+/7wQY870OJyXk2NDuBCW8IijbGbW0v3CXQSREM/E2l0AIqMD+F
-	3o3xBmo4Q8C3qjj0uHVyQxYZBKWoupjoB+H1zUZ8xNwojjfww0lzfq2EQiaoq0DvuMfg49b4Q0PbI
-	aAKiW02g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=y/LHQyfPsOpepjixn2kmdpmr2s/nyPt3MW+LM7kv/vU=; b=dOX067GteGslK5MiOc7vXu3wci
+	rZKzlAPInalRvN2cLj/cZChwj/EFooo6uB3L4r+bJxF3PnlPExpVTwuCaBVntTPA3OTOdkBroxW2I
+	X2KWzrTt9dTDaM9omJK8BJmxLtyOD9ssW1pbzfpe44wpsU2uC+p4pWKTQ5quv+JuZEoZCzvJcyJHY
+	x2shrRjVuif0MN2WVHvzXv3ce+O0f+V6dWH88UEcif4vj5U4wg+DITbhuxaCBOlMy3knmqrX5Q/xJ
+	pVh3HCcpv1oS58b+pgMLmjwLZ9FTtZEl8eyzXURTR085gPdPU64SVk/fcSUoMwaRv09u1/s9qfARw
+	ThJ4rxmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sKXrr-00000007zF0-3uk1;
-	Fri, 21 Jun 2024 06:35:27 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sKXri-00000007zAp-1VLK;
+	Fri, 21 Jun 2024 06:35:18 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sKXaP-00000007uSi-0OlN
+	id 1sKNk6-00000006VaY-2mJI
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Jun 2024 06:17:36 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 20ED121A8A;
-	Fri, 21 Jun 2024 06:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718950643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r1BlICI+5gigoBuJzINX9RLMovcoOejI1LZxSX8ehXg=;
-	b=q2q6LjI7eDIzYi4henwTHx8dRZaXAa7+djX0kFR5UUHAuudm612MXBypNr5L9JL2tDJ6n2
-	Y9PstPp7dMAetzheYdoenWPRwS+ttJ3wvFIHfKhd6/50oiS9OO1SxpHN6kGDfIvCbIsLJE
-	iOtD2wq1yAlAgmwsCLDr1D2bwOxaIa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718950643;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r1BlICI+5gigoBuJzINX9RLMovcoOejI1LZxSX8ehXg=;
-	b=gLtfOlca4LtQoIRswmFkkMgUUOfoNpIVhowLo7kOWZagO0qVTO0s7HFZBroAJlDB7s8EXe
-	qicHOQVc/Os4wTAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q2q6LjI7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gLtfOlca
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718950643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r1BlICI+5gigoBuJzINX9RLMovcoOejI1LZxSX8ehXg=;
-	b=q2q6LjI7eDIzYi4henwTHx8dRZaXAa7+djX0kFR5UUHAuudm612MXBypNr5L9JL2tDJ6n2
-	Y9PstPp7dMAetzheYdoenWPRwS+ttJ3wvFIHfKhd6/50oiS9OO1SxpHN6kGDfIvCbIsLJE
-	iOtD2wq1yAlAgmwsCLDr1D2bwOxaIa0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718950643;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r1BlICI+5gigoBuJzINX9RLMovcoOejI1LZxSX8ehXg=;
-	b=gLtfOlca4LtQoIRswmFkkMgUUOfoNpIVhowLo7kOWZagO0qVTO0s7HFZBroAJlDB7s8EXe
-	qicHOQVc/Os4wTAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E88D13ABD;
-	Fri, 21 Jun 2024 06:17:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MNsdIvEadWbDfAAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 21 Jun 2024 06:17:21 +0000
-Message-ID: <e2574365-cb5b-4376-aa8e-adf05b788337@suse.de>
-Date: Fri, 21 Jun 2024 08:17:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v9 10/10] nvme: Atomic write support
-Content-Language: en-US
-To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
- martin.petersen@oracle.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
- dchinner@redhat.com, jack@suse.cz
-Cc: djwong@kernel.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
- linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org,
- linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org, nilay@linux.ibm.com,
- ritesh.list@gmail.com, willy@infradead.org, agk@redhat.com,
- snitzer@kernel.org, mpatocka@redhat.com, dm-devel@lists.linux.dev,
- Alan Adamson <alan.adamson@oracle.com>
+	Thu, 20 Jun 2024 19:46:48 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 18A0462294;
+	Thu, 20 Jun 2024 19:46:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D58F6C2BD10;
+	Thu, 20 Jun 2024 19:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718912805;
+	bh=NOXrZZ78IGZVhFJah42haGiQhcKtgPlchliubLibNbQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iF7Jf0V6MxMlfrr5Rgpz7hsN47YbOthkjXFvJso/wh76d7mGGy7OuHpHvTuiSXzQx
+	 dv//qW5Xxsd3CpYXOBgfZznlroKttBOwPJz3r47EHcsL5cF8eRuK5Tfcas30TmFyls
+	 Tr1uUb5KjKCdnNO3zm0C254rZFe5QeK7ngeONnl5FwUln1Rwst9PvqjEIUxUfrZL+3
+	 993k0ImdQ8LalafeFDgz8knEEnBOIMMFVeUvuJvGZSSFhb+80jqfB/o02kb959m/fm
+	 N6rEEvbwS5SAkyii0YsbFb3yNNkDWCmwwMitjTkHXxIJKPomps4I11fbaW0rfb18Tj
+	 6aCxakGyMlmAA==
+Date: Thu, 20 Jun 2024 13:46:41 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, dchinner@redhat.com, jack@suse.cz,
+	djwong@kernel.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com, willy@infradead.org, agk@redhat.com,
+	snitzer@kernel.org, mpatocka@redhat.com, dm-devel@lists.linux.dev,
+	hare@suse.de
+Subject: Re: [Patch v9 07/10] block: Add fops atomic write support
+Message-ID: <ZnSHIWVeMlpZ-OJb@kbusch-mbp.dhcp.thefacebook.com>
 References: <20240620125359.2684798-1-john.g.garry@oracle.com>
- <20240620125359.2684798-11-john.g.garry@oracle.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240620125359.2684798-11-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 20ED121A8A
-X-Spamd-Result: default: False [-3.00 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.infradead.org,mit.edu,google.com,linux.ibm.com,kvack.org,gmail.com,infradead.org,redhat.com,lists.linux.dev,oracle.com];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,oracle.com:email,suse.de:email,suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+ <20240620125359.2684798-8-john.g.garry@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240620125359.2684798-8-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240620_231725_809934_69670800 
-X-CRM114-Status: GOOD (  24.16  )
+X-CRM114-CacheID: sfid-20240620_124646_763797_A108269C 
+X-CRM114-Status: GOOD (  10.06  )
 X-Mailman-Approved-At: Thu, 20 Jun 2024 23:35:15 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -155,89 +83,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/20/24 14:53, John Garry wrote:
-> From: Alan Adamson <alan.adamson@oracle.com>
+On Thu, Jun 20, 2024 at 12:53:56PM +0000, John Garry wrote:
+> Support atomic writes by submitting a single BIO with the REQ_ATOMIC set.
 > 
-> Add support to set block layer request_queue atomic write limits. The
-> limits will be derived from either the namespace or controller atomic
-> parameters.
+> It must be ensured that the atomic write adheres to its rules, like
+> naturally aligned offset, so call blkdev_dio_invalid() ->
+> blkdev_atomic_write_valid() [with renaming blkdev_dio_unaligned() to
+> blkdev_dio_invalid()] for this purpose. The BIO submission path currently
+> checks for atomic writes which are too large, so no need to check here.
 > 
-> NVMe atomic-related parameters are grouped into "normal" and "power-fail"
-> (or PF) class of parameter. For atomic write support, only PF parameters
-> are of interest. The "normal" parameters are concerned with racing reads
-> and writes (which also applies to PF). See NVM Command Set Specification
-> Revision 1.0d section 2.1.4 for reference.
+> In blkdev_direct_IO(), if the nr_pages exceeds BIO_MAX_VECS, then we cannot
+> produce a single BIO, so error in this case.
 > 
-> Whether to use per namespace or controller atomic parameters is decided by
-> NSFEAT bit 1 - see Figure 97: Identify – Identify Namespace Data
-> Structure, NVM Command Set.
-> 
-> NVMe namespaces may define an atomic boundary, whereby no atomic guarantees
-> are provided for a write which straddles this per-lba space boundary. The
-> block layer merging policy is such that no merges may occur in which the
-> resultant request would straddle such a boundary.
-> 
-> Unlike SCSI, NVMe specifies no granularity or alignment rules, apart from
-> atomic boundary rule. In addition, again unlike SCSI, there is no
-> dedicated atomic write command - a write which adheres to the atomic size
-> limit and boundary is implicitly atomic.
-> 
-> If NSFEAT bit 1 is set, the following parameters are of interest:
-> - NAWUPF (Namespace Atomic Write Unit Power Fail)
-> - NABSPF (Namespace Atomic Boundary Size Power Fail)
-> - NABO (Namespace Atomic Boundary Offset)
-> 
-> and we set request_queue limits as follows:
-> - atomic_write_unit_max = rounddown_pow_of_two(NAWUPF)
-> - atomic_write_max_bytes = NAWUPF
-> - atomic_write_boundary = NABSPF
-> 
-> If in the unlikely scenario that NABO is non-zero, then atomic writes will
-> not be supported at all as dealing with this adds extra complexity. This
-> policy may change in future.
-> 
-> In all cases, atomic_write_unit_min is set to the logical block size.
-> 
-> If NSFEAT bit 1 is unset, the following parameter is of interest:
-> - AWUPF (Atomic Write Unit Power Fail)
-> 
-> and we set request_queue limits as follows:
-> - atomic_write_unit_max = rounddown_pow_of_two(AWUPF)
-> - atomic_write_max_bytes = AWUPF
-> - atomic_write_boundary = 0
-> 
-> A new function, nvme_valid_atomic_write(), is also called from submission
-> path to verify that a request has been submitted to the driver will
-> actually be executed atomically. As mentioned, there is no dedicated NVMe
-> atomic write command (which may error for a command which exceeds the
-> controller atomic write limits).
-> 
-> Note on NABSPF:
-> There seems to be some vagueness in the spec as to whether NABSPF applies
-> for NSFEAT bit 1 being unset. Figure 97 does not explicitly mention NABSPF
-> and how it is affected by bit 1. However Figure 4 does tell to check Figure
-> 97 for info about per-namespace parameters, which NABSPF is, so it is
-> implied. However currently nvme_update_disk_info() does check namespace
-> parameter NABO regardless of this bit.
-> 
-> Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
-> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-> jpg: total rewrite
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
->   drivers/nvme/host/core.c | 52 ++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 52 insertions(+)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Finally set FMODE_CAN_ATOMIC_WRITE when the bdev can support atomic writes
+> and the associated file flag is for O_DIRECT.
 
-Cheers,
+Looks good.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
-
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
