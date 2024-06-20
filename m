@@ -4,76 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D64BAC27C53
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jun 2024 21:35:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E56BCC27C79
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Jun 2024 06:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jheZMYcORyiVsqz0W30Qu6HZiy7qEPHLc5nz8KlBd50=; b=DW2ngCObqUlUlTS9NMAkEav5t5
-	jFHaJWMGY4LYnyi3pQeqH5pLjiSVEXqbjxelJdy5P654if1P461wlr5u9PbfB6am0AczdtWGjYedJ
-	bTv2nPLRjf5OKsCI1NGk3bgqWpg+nwWtjg3qDfyVwF/CEonrKzXC5G+5m2Ii+WmiLqCX3vesiGbt7
-	acrvNVc9SYZVLZXUaCrkw2JqMsg25+ipBa/cD2HpKdPmncsNVnOcu+JPn9uQys7BowCMOlildmJWX
-	Yn98xmu2qBlcdTWf2n9Mu6YOXnbG8QhAnJ4giCi+e6crRE37n4j2LJm3gznsyyxf9mGudWahSwZZR
-	12C31ljA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g2pgPTlCKPAPvO4GsArfFhSZ2SLNTihNRuzVg6k4aFQ=; b=b1kzw/eAwB2aWA1wl2TbZyt+DY
+	qefjDMvyrBJi6pfzE1ajf2aTNMsa8HcK5ZTB/6PY5GlbbOE7AW6tS8HR+rxzCoUNpYQfqgES0kHZl
+	dzvn6PTQY/WfAclY4kdE3TVowd3Cx+q/UYl8SQSlD3EbO44ntZi5aSRAUfPbzdK81pwrKathSBEtZ
+	+lo3aJnn3kI3+cnIeDhQ0km3itIUoAd1PdnfYTr+JmmPozUDZ/T3eIrySDO78PeykZdfX95L8aGF5
+	z3c3yb/KBgb+Q19KxF2eYgUQidKcisLCG1J0FoGFTqGTBarhq0bB1hWvd/KdkwRZCIypPtYbVq8b4
+	ZLoZlCFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sK2y7-00000002n4S-2QgC;
-	Wed, 19 Jun 2024 21:35:51 +0000
-Received: from mgamail.intel.com ([192.198.163.15])
+	id 1sKBOv-00000003p3w-47c2;
+	Thu, 20 Jun 2024 06:36:06 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sK2y1-00000002n3k-3yOO
+	id 1sKBOo-00000003p2z-25i9
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jun 2024 21:35:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718832946; x=1750368946;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IVLWGrQdrwxSxrECnzIWel80hY9K41v1LW8UYZES0Ag=;
-  b=NiGTeYWS1ldApejzECdxd7IkOXKuMh/1gbQWjgMdl5TZ2C0k3M3O7C0o
-   9TiCHM9hvRXY+iQe6+1wM1Chu/I8ryOvG77a+ApLhUQaOgK888A1mGFG5
-   2sqg1Uf6WVG4ySsvNC+zkaqUKxglko1rSPqdIAs2zIF77x/BCmOse0h/u
-   REbPkSC+Jf4JhEiDg0M/YqB3KKjx3CiO19+/NU+2F00J25wZbb5uQnvCQ
-   aM6qnCLQWRBUefke2Vx3VpEEiiUv4xH+y9emVn/Cf5qNsrTdpJBHbHUGA
-   aQP6etBTX9t4E2/ZexllVGP9Q8RzdGvMoVcFsUbCoRqmAh3mlGz3bqkHP
-   A==;
-X-CSE-ConnectionGUID: 5eDPLea1RMC/dVKK7FJGvw==
-X-CSE-MsgGUID: ktP/k2FaREuX5IgC5Gr+aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15929789"
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="15929789"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 14:35:44 -0700
-X-CSE-ConnectionGUID: t8AxtTr9RPKl7eP9/pZjIQ==
-X-CSE-MsgGUID: /FZzdGeLRV2wsOOiZeqmfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="65278305"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2024 14:35:42 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sK2xw-00071Q-1q;
-	Wed, 19 Jun 2024 21:35:40 +0000
-Date: Thu, 20 Jun 2024 05:34:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [linux-nvme:nvme-6.11 10/16] drivers/nvme/target/debugfs.c:16:15:
- sparse: sparse: symbol 'nvmet_debugfs' was not declared. Should it be
- static?
-Message-ID: <202406200501.5DrFu8Fu-lkp@intel.com>
+	Thu, 20 Jun 2024 06:36:02 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2860B21A93;
+	Thu, 20 Jun 2024 06:35:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718865356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g2pgPTlCKPAPvO4GsArfFhSZ2SLNTihNRuzVg6k4aFQ=;
+	b=VUvEirpI+Pa/KqY5Bt7oRq7PkepCup39LDxxT8YBnk51HOWUZC+SMCWw0teh1CZIxacO64
+	mg8BHgdwIRB3BSgiPFyTkDNgtm3vfXQzlWj5ps8+HVZAqcRWlQ2zkOJLcUmw/9t3QkB/Fd
+	iDblrDaSAIszPymysNtW1aY/83xJtoM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718865356;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g2pgPTlCKPAPvO4GsArfFhSZ2SLNTihNRuzVg6k4aFQ=;
+	b=cEDEkc7nafqb32PtxqQXv+H5wbOfBhr/icF0d5J+WTfsw0ex75z9dJAQqK3FVZPERj2DSb
+	clojvTHOLYuhJuAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VUvEirpI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cEDEkc7n
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718865356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g2pgPTlCKPAPvO4GsArfFhSZ2SLNTihNRuzVg6k4aFQ=;
+	b=VUvEirpI+Pa/KqY5Bt7oRq7PkepCup39LDxxT8YBnk51HOWUZC+SMCWw0teh1CZIxacO64
+	mg8BHgdwIRB3BSgiPFyTkDNgtm3vfXQzlWj5ps8+HVZAqcRWlQ2zkOJLcUmw/9t3QkB/Fd
+	iDblrDaSAIszPymysNtW1aY/83xJtoM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718865356;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g2pgPTlCKPAPvO4GsArfFhSZ2SLNTihNRuzVg6k4aFQ=;
+	b=cEDEkc7nafqb32PtxqQXv+H5wbOfBhr/icF0d5J+WTfsw0ex75z9dJAQqK3FVZPERj2DSb
+	clojvTHOLYuhJuAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 162101369F;
+	Thu, 20 Jun 2024 06:35:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Dm50BMzNc2YsPgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 20 Jun 2024 06:35:56 +0000
+Date: Thu, 20 Jun 2024 08:35:55 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: shinichiro.kawasaki@wdc.com, chaitanyak@nvidia.com, kbusch@kernel.org, 
+	sagi@grimberg.me, hch@lst.de, linux-nvme@lists.infradead.org, 
+	linux-block@vger.kernel.org, venkat88@linux.vnet.ibm.com, sachinp@linux.vnet.ibm.com, 
+	gjoyce@linux.ibm.com
+Subject: Re: [PATCHv4 blktests] nvme: add test for creating/deleting file-ns
+Message-ID: <rxeyn6susgjlguqg3jk7ntthjvhn6gt3meu4dcb5kchynz3b2e@uznnvlner6ri>
+References: <20240619172556.2968660-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240619172556.2968660-1-nilay@linux.ibm.com>
+X-Rspamd-Queue-Id: 2860B21A93
+X-Spamd-Result: default: False [-6.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240619_143548_072479_9043C6A7 
-X-CRM114-Status: UNSURE (   8.35  )
+X-CRM114-CacheID: sfid-20240619_233558_715644_51BE1198 
+X-CRM114-Status: UNSURE (   8.95  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -89,28 +137,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-6.11
-head:   30576c4bdf564c6afef97a6306e5aae7f2fd744b
-commit: 7586ba95433d12335aa71bfc0ff61654a79797aa [10/16] nvmet: add debugfs support
-config: mips-randconfig-r111-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200501.5DrFu8Fu-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce: (https://download.01.org/0day-ci/archive/20240620/202406200501.5DrFu8Fu-lkp@intel.com/reproduce)
+On Wed, Jun 19, 2024 at 10:55:02PM GMT, Nilay Shroff wrote:
+> +		truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).$i"
+> +		uuid="$(uuidgen -r)"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406200501.5DrFu8Fu-lkp@intel.com/
+This adds a new dependency on an external tool. It should be mentioned
+in the README and added to the list of tools to check for:
+_check_dependencies(). Alternatively you could skip the test if the tool
+is not available. Anyway the rest looks good.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/debugfs.c:16:15: sparse: sparse: symbol 'nvmet_debugfs' was not declared. Should it be static?
-
-vim +/nvmet_debugfs +16 drivers/nvme/target/debugfs.c
-
-    15	
-  > 16	struct dentry *nvmet_debugfs;
-    17	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
