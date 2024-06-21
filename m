@@ -4,90 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DA13C3DA40
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Jun 2024 06:35:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F00FDC27C4F
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Jun 2024 06:35:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q32PR8VJwyaaGnJCPVdwaybh8Bp1RWGH3YQnrF9Y1fw=; b=ueCpnr9ulnPtGyxCg6ffdXCfUC
-	Bailro94k96JSU7LSBLpGAA4Onf26lR8JLkIPQMxcAaLoU/CsfXh8teVm90jFyzmy1gYuTORvFVnC
-	XGPwM0Nq8p92FFrOso1sfrDZwsWhVSKZ+GzrGDl9x8Mn1hQgtIAd8FzaZ/CkYV3CmyHJYHNMWvuwy
-	nTURCgy8imBHk/MCCzmyfL+1psqr0JCXvlf0B9CdeSsxM0J7Ul8lw0JxLCOFO8YlIQc19JkyhFN23
-	n4FLvVK/WrkQAR9BhDozijgSKIRm574CdccHFBpuJqKVq4fMnTAofreOkV7KIgCkAuK7xgJYvnSFm
-	EOdPjrVA==;
+	bh=Tzs1uWbqYDjrVbt6j5jc0RX32zWwNTB/IuFKdea3/lk=; b=VmYkXvc5dsqNHt0OCHGBviAwhi
+	N2zvNqrBo6ph0/55q3AvxXYr56EVAhp3bo9eXUJ0Yj44xvypPaYE+qzB+bamAwAZZvVoYd2C1WDLb
+	PVXvgExDxU5SxNz7M/PSecpmRPs+nEdWRry0/UYXAUUaTkX5bMW0wIhDKB3dPX+GV2d7LKrCJL2hI
+	o/bocUCKEjCJnUkrtaSDXW+EsINsUvadmKF2Dzfsobi8RsTySocCPB8DSKtXvv1Hr8p49CmdlzQjI
+	5AQt+u8QC9g/TYrRRbAdhktFRXqn+DvR5qf2yutUU6GfRKnMg3DzbNMtCnzye9rXPORZDLs2AYI79
+	V2If5lbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sKXrj-00000007zB9-38UE;
-	Fri, 21 Jun 2024 06:35:19 +0000
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+	id 1sKXrk-00000007zBK-1riu;
+	Fri, 21 Jun 2024 06:35:20 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sKPFQ-00000006kqU-0oSi
+	id 1sKXFr-00000007qG3-3Bmv
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Jun 2024 21:23:14 +0000
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1f9a617f88cso1251425ad.2
-        for <linux-nvme@lists.infradead.org>; Thu, 20 Jun 2024 14:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1718918591; x=1719523391; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q32PR8VJwyaaGnJCPVdwaybh8Bp1RWGH3YQnrF9Y1fw=;
-        b=LF4QpfHnAncjx/nDcokTp7UsFCY/uffocL0WWH+z6afvaHqnwUWG+n4DxWCJwVMs26
-         n+1kGwgBYjRWrtcfO/AKbB9yjuMZPwYft/ob0u1sJSnLfYal3wjURxChPR7TCaKe4/oG
-         NXAgNidH0kEaX53g1T93mpau0dvgLkMM+oAqsrny12cVzxWuQ/i2jHlJNkVQrlZJhY5i
-         P1eVBhyFvr4Xm70wdr8Fm5fMnLY3BTPVGcedP25UHWAbw2fREX9nRYvmW930oOfO29Xf
-         PpkuLLEs2OxITnGz0JfPWZiB8f36Izb0Vdd2dFMP1oRY26/hie9C/3b9OkaAJmQVNY+h
-         NWdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718918591; x=1719523391;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q32PR8VJwyaaGnJCPVdwaybh8Bp1RWGH3YQnrF9Y1fw=;
-        b=j+y3o9hLbv2xzYvEp2um6c0lJLwIuc51k3eFE6kjgZrLglbkjPpqj0a9+p0WJn7T5O
-         gO0+mkQl37KLgia4UoUN7P8fAjW0c5h8k3INIKtuX8XIlFHRvXVoT/jnsDH2KFc1zbef
-         xuHJR2YruyrNGbfwuaYGEKq9pxo/5sEP3K66CKb4s/5IMyN+cQ45Xld6AnbXb8qsqk+J
-         dS/yJbWwfpIrYX28wE9KNMtyVlV8WfQHzzU/WBx201tqL5oMXGKaNRgiTNaNyax28XgK
-         04paNms40AWxe5DFeVdT7ggV6UfMyBWwR7y0i922dPlrrnRx7/QG7AwV2TD1t0k6EtO1
-         GQQA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6o651XWs+rCpJBjLfZOezhkVGgRwXvCjWneg3PIShlSXAlBKkILtu63VzM4JqDuMPXrkHoksU5zpIjxu1/jjuAKX2GhoU0AqjITaMgAE=
-X-Gm-Message-State: AOJu0YxFKPLufUgl8zrnaGLUjVgs7tklVK7iw728wj+CFpah+/abszIA
-	dxCHMjeEkh+twQCmJAi72THhnIFkCAS93/Eb+bffAmMif+gmrJc9OQ66oFLzbNU=
-X-Google-Smtp-Source: AGHT+IFpAE8rRXH210v7uuhhLHSJBtr+lAuPBX0TSREwLr72nwKk3bIU+qQDyxKzIteobELD9VqsaA==
-X-Received: by 2002:a17:903:1cc:b0:1f7:1a37:d0b5 with SMTP id d9443c01a7336-1f9aad9d286mr68451195ad.4.1718918591063;
-        Thu, 20 Jun 2024 14:23:11 -0700 (PDT)
-Received: from [127.0.0.1] ([2600:380:7562:ac7c:9f3c:87fb:fc6a:615c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3d5089sm668135ad.193.2024.06.20.14.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 14:23:10 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com, 
- martin.petersen@oracle.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
- dchinner@redhat.com, jack@suse.cz, John Garry <john.g.garry@oracle.com>
-Cc: djwong@kernel.org, linux-block@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com, 
- linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org, 
- linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org, nilay@linux.ibm.com, 
- ritesh.list@gmail.com, willy@infradead.org, agk@redhat.com, 
- snitzer@kernel.org, mpatocka@redhat.com, dm-devel@lists.linux.dev, 
- hare@suse.de
-In-Reply-To: <20240620125359.2684798-1-john.g.garry@oracle.com>
-References: <20240620125359.2684798-1-john.g.garry@oracle.com>
-Subject: Re: [Patch v9 00/10] block atomic writes
-Message-Id: <171891858790.154563.14863944476258774433.b4-ty@kernel.dk>
-Date: Thu, 20 Jun 2024 15:23:07 -0600
+	Fri, 21 Jun 2024 05:56:15 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4A40D1FB51;
+	Fri, 21 Jun 2024 05:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718949369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tzs1uWbqYDjrVbt6j5jc0RX32zWwNTB/IuFKdea3/lk=;
+	b=EMMK1RfIvC+AAjKvN1vCekL0/GtGFJ+n0cCaP9DBuqSREh5h4pZ8Pp5zcJ/qkSGksAgMuw
+	IOVQFo+6fRYrIIGuyWvIpNS8Ye5+HZJGpqXQukgSZ05IErTyMGxjjsVO4k7262Yaj/sTxb
+	/ij1hVOSvcg8Zl5iMR7yBRwyTf9OtLU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718949369;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tzs1uWbqYDjrVbt6j5jc0RX32zWwNTB/IuFKdea3/lk=;
+	b=4L8kd9sl/Mdr03kr3F069mHEXM+zT1r18vc5GDFIUc6ljiV4C8m1g1wQ9mPmGswpS+0bd5
+	GFjdp5bcTK7hu8BQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718949369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tzs1uWbqYDjrVbt6j5jc0RX32zWwNTB/IuFKdea3/lk=;
+	b=EMMK1RfIvC+AAjKvN1vCekL0/GtGFJ+n0cCaP9DBuqSREh5h4pZ8Pp5zcJ/qkSGksAgMuw
+	IOVQFo+6fRYrIIGuyWvIpNS8Ye5+HZJGpqXQukgSZ05IErTyMGxjjsVO4k7262Yaj/sTxb
+	/ij1hVOSvcg8Zl5iMR7yBRwyTf9OtLU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718949369;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tzs1uWbqYDjrVbt6j5jc0RX32zWwNTB/IuFKdea3/lk=;
+	b=4L8kd9sl/Mdr03kr3F069mHEXM+zT1r18vc5GDFIUc6ljiV4C8m1g1wQ9mPmGswpS+0bd5
+	GFjdp5bcTK7hu8BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A86413ABD;
+	Fri, 21 Jun 2024 05:56:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rKd1O/cVdWbQdwAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 21 Jun 2024 05:56:07 +0000
+Message-ID: <373ec4bc-0919-47b1-bac1-55914c369e13@suse.de>
+Date: Fri, 21 Jun 2024 07:56:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Patch v9 03/10] fs: Initial atomic write support
+Content-Language: en-US
+To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+ dchinner@redhat.com, jack@suse.cz
+Cc: djwong@kernel.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+ linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org,
+ linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org, nilay@linux.ibm.com,
+ ritesh.list@gmail.com, willy@infradead.org, agk@redhat.com,
+ snitzer@kernel.org, mpatocka@redhat.com, dm-devel@lists.linux.dev,
+ Prasad Singamsetty <prasad.singamsetty@oracle.com>
+References: <20240620125359.2684798-1-john.g.garry@oracle.com>
+ <20240620125359.2684798-4-john.g.garry@oracle.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240620125359.2684798-4-john.g.garry@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLusjj3u5c53i6g8q6enupwtij)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.infradead.org,mit.edu,google.com,linux.ibm.com,kvack.org,gmail.com,infradead.org,redhat.com,lists.linux.dev,oracle.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240620_142312_382878_376F6992 
-X-CRM114-Status: UNSURE (   8.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240620_225611_990672_FDFEDDEF 
+X-CRM114-Status: GOOD (  21.83  )
 X-Mailman-Approved-At: Thu, 20 Jun 2024 23:35:15 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,44 +148,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Thu, 20 Jun 2024 12:53:49 +0000, John Garry wrote:
-> This series introduces a proposal to implementing atomic writes in the
-> kernel for torn-write protection.
+On 6/20/24 14:53, John Garry wrote:
+> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
 > 
-> This series takes the approach of adding a new "atomic" flag to each of
-> pwritev2() and iocb->ki_flags - RWF_ATOMIC and IOCB_ATOMIC, respectively.
-> When set, these indicate that we want the write issued "atomically".
+> An atomic write is a write issued with torn-write protection, meaning
+> that for a power failure or any other hardware failure, all or none of the
+> data from the write will be stored, but never a mix of old and new data.
 > 
-> [...]
+> Userspace may add flag RWF_ATOMIC to pwritev2() to indicate that the
+> write is to be issued with torn-write prevention, according to special
+> alignment and length rules.
+> 
+> For any syscall interface utilizing struct iocb, add IOCB_ATOMIC for
+> iocb->ki_flags field to indicate the same.
+> 
+> A call to statx will give the relevant atomic write info for a file:
+> - atomic_write_unit_min
+> - atomic_write_unit_max
+> - atomic_write_segments_max
+> 
+> Both min and max values must be a power-of-2.
+> 
+> Applications can avail of atomic write feature by ensuring that the total
+> length of a write is a power-of-2 in size and also sized between
+> atomic_write_unit_min and atomic_write_unit_max, inclusive. Applications
+> must ensure that the write is at a naturally-aligned offset in the file
+> wrt the total write length. The value in atomic_write_segments_max
+> indicates the upper limit for IOV_ITER iovcnt.
+> 
+> Add file mode flag FMODE_CAN_ATOMIC_WRITE, so files which do not have the
+> flag set will have RWF_ATOMIC rejected and not just ignored.
+> 
+> Add a type argument to kiocb_set_rw_flags() to allows reads which have
+> RWF_ATOMIC set to be rejected.
+> 
+> Helper function generic_atomic_write_valid() can be used by FSes to verify
+> compliant writes. There we check for iov_iter type is for ubuf, which
+> implies iovcnt==1 for pwritev2(), which is an initial restriction for
+> atomic_write_segments_max. Initially the only user will be bdev file
+> operations write handler. We will rely on the block BIO submission path to
+> ensure write sizes are compliant for the bdev, so we don't need to check
+> atomic writes sizes yet.
+> 
+> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+> jpg: merge into single patch and much rewrite
+> Acked-by: "Darrick J. Wong" <djwong@kernel.org>
+> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>   fs/aio.c                |  8 ++++----
+>   fs/btrfs/ioctl.c        |  2 +-
+>   fs/read_write.c         | 18 +++++++++++++++++-
+>   include/linux/fs.h      | 17 +++++++++++++++--
+>   include/uapi/linux/fs.h |  5 ++++-
+>   io_uring/rw.c           |  9 ++++-----
+>   6 files changed, 45 insertions(+), 14 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Applied, thanks!
+Cheers,
 
-[01/10] block: Pass blk_queue_get_max_sectors() a request pointer
-        commit: 8d1dfd51c84e202df05a999ce82cb27554f7d152
-[02/10] block: Generalize chunk_sectors support as boundary support
-        commit: f70167a7a6e7e8a6911f3a216dc044cbfe7c1983
-[03/10] fs: Initial atomic write support
-        commit: c34fc6f26ab86d03a2d47446f42b6cd492dfdc56
-[04/10] fs: Add initial atomic write support info to statx
-        commit: 0f9ca80fa4f9670ba09721e4e36b8baf086a500c
-[05/10] block: Add core atomic write support
-        commit: 9da3d1e912f3953196e66991d75208cde3e845e1
-[06/10] block: Add atomic write support for statx
-        commit: 9abcfbd235f59fb5b6379e5bc0231dad831ebace
-[07/10] block: Add fops atomic write support
-        commit: caf336f81b3a3ca744e335972e86ec7244512d4a
-[08/10] scsi: sd: Atomic write support
-        commit: bf4ae8f2e6407a779c0368eb0f3e047a8333be17
-[09/10] scsi: scsi_debug: Atomic write support
-        commit: 84f3a3c01d70efba736bc42155cf32722067b327
-[10/10] nvme: Atomic write support
-        commit: 5f9bbea02f06110ec5cf95a3327019b3194b2d80
-
-Best regards,
+Hannes
 -- 
-Jens Axboe
-
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
