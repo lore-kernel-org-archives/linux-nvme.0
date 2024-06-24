@@ -4,92 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE3EDC2BD09
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 16:25:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99445C2BD09
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 17:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5YRbJCfER9/t7o2py5oZPcEOb9O2alYeZUroDpPtXOU=; b=IHF5uYEQq9z6m0V/IY8wqt5sFO
-	ciLSdEB2kThnRTTwqKplRCW79H+6fhga+cdkhRiLk9L6+zU0b+q9n3xP3Ml22/jrtVHY0gVFDsjtx
-	p6vGNyM8oLvQgSnaC6L1bUX2QLPetAUxvqdlmvggMnSs7k5SPiFbWMpVHTpbR+C9m/dp6PLu3hK1i
-	wAukApRRJjMRoqrFRPh4RHFt3hFPf0xBuL1j8cbOBrWZy/fXoMSwNXnDELppkdUILAmcPsGJUsMrQ
-	VYQSQVb8ek/3r79qJzkUouU+JhZNmS3tWYS+l26zItzyqzj7RuEW4K4Vzn/MGCG36C3lAHeyDGw3f
-	CVhPla9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FdipEvRDLp554TK6MfbC0RKU5cwPnSeRgiYA7tDAPWA=; b=RM6p5U6e9lqsJofsje7yCfx8E/
+	5ogM7uWWMSeB2ETpncpkXebJxE6fPoWjZG6gOqVZQ7oyIwQG0jEE6Zc/C9sQTuw71sFcVZRcVuD5t
+	QlDmxn6l81n0qATj3NffXMKFnBifhNpVGu4Zi51hLpahNHa08vWS/5clun6vtaHppzjteQ6FAE24m
+	ePjqXOU9dbl6SM7hH1QU+iA1+HMZBgpmypzSNT+55X0YQdOMQMAjwvXbIudoqTkGsh/qrjRASIySY
+	1CxYuVtjXxWl23pFa3xl5+xTJK/zAeogbPXYRabtxteP7sJOhsRSqbzEmdcJxljMfQGA491pISHZp
+	KakuYBqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLmVk-0000000HVG7-16fH;
-	Mon, 24 Jun 2024 16:25:44 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1sLnTC-000000005Ov-31H1;
+	Mon, 24 Jun 2024 17:27:10 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLmVh-0000000HVEv-1o3j
+	id 1sLnTA-000000005MT-1W6p
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jun 2024 16:25:42 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4W7Cxc1b4Czll9bs;
-	Mon, 24 Jun 2024 16:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:content-language:references:subject:subject:from:from
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1719246327; x=1721838328; bh=5YRbJCfER9/t7o2py5oZPcEO
-	b9O2alYeZUroDpPtXOU=; b=ikAL02jYcnW8oADCx4MyOFEykz3GGfzi6eWwiW9Z
-	qiD+dR0/fHNfI+Q6K0nONWMiiVlJ+aAomIKaZSKGu22m5ca76dqZkTNzCzXVftDr
-	j0DYgelboKWwKWHnBg+NV9g5B+h9mdpeKGFBC9vYwx6dye62o4gF7YLMcCV3+xMy
-	cnnlClziVI0W0ib/ncr7xzIVqTP/82AlTek/vbofMTYNyQaw7t5/parPScAR+eIs
-	ZWUEAB6AU5kfaH2lpyKjHEugC6rLSzGQualGEX1d9T5ytrnrpbdAE0IzQvz6FYTd
-	0ng0XDcORkIuLC53eCL7RCfIuhaNHKotvbEgrm+nv0kfJg==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id fRVPZY9Z3RGh; Mon, 24 Jun 2024 16:25:27 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4W7CxF1FMyzll9br;
-	Mon, 24 Jun 2024 16:25:20 +0000 (UTC)
-Message-ID: <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
-Date: Mon, 24 Jun 2024 09:25:19 -0700
+	Mon, 24 Jun 2024 17:27:09 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45OGobXw006791
+	for <linux-nvme@lists.infradead.org>; Mon, 24 Jun 2024 10:27:07 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from
+	:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=s2048-2021-q4; bh=Fdi
+	pEvRDLp554TK6MfbC0RKU5cwPnSeRgiYA7tDAPWA=; b=ng/DBBSqFkWQjlg9Snn
+	xYJuFe20HY3g3kUbgTxuYLNzJ2bp9ESEThxsOY0CO8BllKN4Oqv0fPm+9rn6RAF6
+	m0EiDWq4RboYGzElqbFFzR0J5MYnd7GWiOqt+4za7Ltefb6iEp59NZjpRckFB3Cr
+	4/JZxZ/0ZbTNNocdkkFDOx8/z04rzcwqpUYeuCcIAsIoAQuMt25m/TpLfmeqPlJK
+	Rij+WP4AIYJLdGrPg2ekcy8oD2OaQVyzukdk/4OzA96+ODfeGqgjLnOIxwgZ5qys
+	NZnhrzo0LOwCGE7CbVY2rTykKbbB2/+/e0CBOzv4G0OzUIqnckIzFVHe+Jwsx7Lp
+	zKw==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3yy218kj92-10
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 24 Jun 2024 10:27:07 -0700 (PDT)
+Received: from twshared19013.17.frc2.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Mon, 24 Jun 2024 17:26:53 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id F3631FD0E687; Mon, 24 Jun 2024 10:26:50 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <hch@lst.de>, <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>
+CC: Keith Busch <kbusch@kernel.org>, Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCHv2] nvme-pci: do not directly handle subsys reset fallout
+Date: Mon, 24 Jun 2024 10:26:49 -0700
+Message-ID: <20240624172649.2268634-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Nitesh Shetty <nj.shetty@samsung.com>, Christoph Hellwig <hch@lst.de>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
- joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
- <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
- <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
- <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
- <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
- <20240604044042.GA29094@lst.de>
- <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
- <20240605082028.GC18688@lst.de>
- <CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
- <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
-Content-Language: en-US
-In-Reply-To: <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: WDeR2oj_Zp3ATuH2QdQC3H8uTqScdHaI
+X-Proofpoint-GUID: WDeR2oj_Zp3ATuH2QdQC3H8uTqScdHaI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-24_14,2024-06-24_01,2024-05-17_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_092541_551823_EBDF38F9 
-X-CRM114-Status: GOOD (  19.72  )
+X-CRM114-CacheID: sfid-20240624_102708_445828_F6E844AA 
+X-CRM114-Status: GOOD (  22.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,57 +83,229 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/24/24 3:44 AM, Nitesh Shetty wrote:
-> For reference, I have listed the approaches we have taken in the past.
-> 
-> a. Token/payload based approach:
-> 1. Here we allocate a buffer/payload.
-> 2. First source BIO is sent along with the buffer.
-> 3. Once the buffer reaches driver, it is filled with the source LBA
-> and length and namespace info. And the request is completed.
-> 4. Then destination BIO is sent with same buffer.
-> 5. Once the buffer reaches driver, it retrieves the source information from
-> the BIO and forms a copy command and sends it down to device.
-> 
-> We received feedback that putting anything inside payload which is not
-> data, is not a good idea[1].
+From: Keith Busch <kbusch@kernel.org>
 
-A token-based approach (pairing copy_src and copy_dst based on a token)
-is completely different from a payload-based approach (copy offload
-parameters stored in the bio payload). From [1] (I agree with what has
-been quoted): "In general every time we tried to come up with a request
-payload that is not just data passed to the device it has been a
-nightmare." [ ... ] "The only thing we'd need is a sequence number / idr
-/ etc to find an input and output side match up, as long as we
-stick to the proper namespace scope."
+Scheduling reset_work after a nvme subsystem reset is expected to fail
+on pcie, but this also prevents potential handling from the platform's
+pcie services may provide that may successfully recovering the link
+without re-enumeration. Such examples include AER, DPC, and power's EEH.
 
-> c. List/ctx based approach:
-> A new member is added to bio, bio_copy_ctx, which will a union with
-> bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
-> add the bio to this list.
-> 1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
-> will add the destination BIO to the list inside bi_copy_ctx and return
-> without forming any request.
-> 2. Send source BIO, once this reaches blk_mq_submit_bio, this will
-> retrieve the destination BIO from bi_copy_ctx and form a request with
-> destination BIO and source BIO. After this request will be sent to
-> driver.
-> 
-> This work is still in POC phase[2]. But this approach makes lifetime
-> management of BIO complicated, especially during failure cases.
+Provide a pci specific operation that safely initiates a subsystem
+reset, and instead of scheduling reset work, read back the status
+register to trigger a pcie read error.
 
-Associating src and dst operations by embedding a pointer to a third
-data structure in struct bio is an implementation choice and is not the
-only possibility for assocating src and dst operations. Hence, the
-bio lifetime complexity mentioned above is not inherent to the list
-based approach but is a result of the implementation choice made for
-associating src and dst operations.
+Since this only affects pci, the other fabrics drivers subscribe to a
+generic nvmf subsystem reset that is exactly the same as before. The
+loop fabric doesn't use it because nvmet doesn't support setting that
+property anyway.
 
-Has it been considered to combine the list-based approach for managing
-unpaired copy operations with the token based approach for pairing copy
-src and copy dst operations?
+And since we're using the magic NSSR value in two places now, provide a
+symbolic define for it.
 
-Thanks,
+Reported-by: Nilay Shroff <nilay@linux.ibm.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+Changes from v1, applied comments from Christoph:
 
-Bart.
+  Split out and require new ctrl subsystem reset op
+
+  Comments updated for correctness and clarity
+
+  Use a symbolic name for the special reset value
+
+ drivers/nvme/host/fabrics.c | 15 +++++++++++++++
+ drivers/nvme/host/fabrics.h |  1 +
+ drivers/nvme/host/fc.c      |  1 +
+ drivers/nvme/host/nvme.h    | 14 +++-----------
+ drivers/nvme/host/pci.c     | 35 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/rdma.c    |  1 +
+ drivers/nvme/host/tcp.c     |  1 +
+ include/linux/nvme.h        |  3 +++
+ 8 files changed, 60 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index ceb9c0ed3120b..bb52049cb7c54 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -280,6 +280,21 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off=
+, u32 val)
+ }
+ EXPORT_SYMBOL_GPL(nvmf_reg_write32);
+=20
++int nvmf_subsystem_reset(struct nvme_ctrl *ctrl)
++{
++	int ret;
++
++	if (!nvme_wait_reset(ctrl))
++		return -EBUSY;
++
++	ret =3D ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, NVME_SUBSYS_RESET);
++	if (ret)
++		return ret;
++
++	return nvme_try_sched_reset(ctrl);
++}
++EXPORT_SYMBOL_GPL(nvmf_subsystem_reset);
++
+ /**
+  * nvmf_log_connect_error() - Error-parsing-diagnostic print out functio=
+n for
+  * 				connect() errors.
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 602135910ae9c..21d75dc4a3a09 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -217,6 +217,7 @@ static inline unsigned int nvmf_nr_io_queues(struct n=
+vmf_ctrl_options *opts)
+ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
++int nvmf_subsystem_reset(struct nvme_ctrl *ctrl);
+ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
+ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
+ int nvmf_register_transport(struct nvmf_transport_ops *ops);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index f0b0813327491..67802078c78c1 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3382,6 +3382,7 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops =
+=3D {
+ 	.reg_read32		=3D nvmf_reg_read32,
+ 	.reg_read64		=3D nvmf_reg_read64,
+ 	.reg_write32		=3D nvmf_reg_write32,
++	.subsystem_reset	=3D nvmf_subsystem_reset,
+ 	.free_ctrl		=3D nvme_fc_free_ctrl,
+ 	.submit_async_event	=3D nvme_fc_submit_async_event,
+ 	.delete_ctrl		=3D nvme_fc_delete_ctrl,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 68b400f9c42d5..9909ca8a1f476 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -551,6 +551,7 @@ struct nvme_ctrl_ops {
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
+ 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
++	int (*subsystem_reset)(struct nvme_ctrl *ctrl);
+ 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
+ 	void (*stop_ctrl)(struct nvme_ctrl *ctrl);
+ 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+@@ -649,18 +650,9 @@ int nvme_try_sched_reset(struct nvme_ctrl *ctrl);
+=20
+ static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
+ {
+-	int ret;
+-
+-	if (!ctrl->subsystem)
++	if (!ctrl->subsystem || !ctrl->ops->subsystem_reset)
+ 		return -ENOTTY;
+-	if (!nvme_wait_reset(ctrl))
+-		return -EBUSY;
+-
+-	ret =3D ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 0x4E564D65);
+-	if (ret)
+-		return ret;
+-
+-	return nvme_try_sched_reset(ctrl);
++	return ctrl->ops->subsystem_reset(ctrl);
+ }
+=20
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 102a9fb0c65ff..6cb7acef05576 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1143,6 +1143,40 @@ static void nvme_pci_submit_async_event(struct nvm=
+e_ctrl *ctrl)
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
+=20
++static int nvme_pci_subsystem_reset(struct nvme_ctrl *ctrl)
++{
++	struct nvme_dev *dev =3D to_nvme_dev(ctrl);
++	int ret =3D 0;
++
++	/*
++	 * Taking the shutdown_lock ensures the BAR mapping is not being
++	 * altered by reset_work. Holding this lock before the RESETTING state
++	 * change, if successful, also ensures nvme_remove won't be able to
++	 * proceed to iounmap until we're done.
++	 */
++	mutex_lock(&dev->shutdown_lock);
++	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING)) {
++		ret =3D -EBUSY;
++		goto unlock;
++	}
++
++	if (!dev->bar_mapped_size) {
++		ret =3D -ENODEV;
++		goto unlock;
++	}
++
++	writel(NVME_SUBSYS_RESET, dev->bar + NVME_REG_NSSR);
++
++	/*
++	 * Read controller status to flush the previous write and trigger a
++	 * pcie read error.
++	 */
++	readl(dev->bar + NVME_REG_CSTS);
++unlock:
++	mutex_unlock(&dev->shutdown_lock);
++	return ret;
++}
++
+ static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
+ {
+ 	struct nvme_command c =3D { };
+@@ -2859,6 +2893,7 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops=
+ =3D {
+ 	.reg_read64		=3D nvme_pci_reg_read64,
+ 	.free_ctrl		=3D nvme_pci_free_ctrl,
+ 	.submit_async_event	=3D nvme_pci_submit_async_event,
++	.subsystem_reset	=3D nvme_pci_subsystem_reset,
+ 	.get_address		=3D nvme_pci_get_address,
+ 	.print_device_info	=3D nvme_pci_print_device_info,
+ 	.supports_pci_p2pdma	=3D nvme_pci_supports_pci_p2pdma,
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 51a62b0c645a7..f514ffa671879 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2201,6 +2201,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_op=
+s =3D {
+ 	.reg_read32		=3D nvmf_reg_read32,
+ 	.reg_read64		=3D nvmf_reg_read64,
+ 	.reg_write32		=3D nvmf_reg_write32,
++	.subsystem_reset	=3D nvmf_subsystem_reset,
+ 	.free_ctrl		=3D nvme_rdma_free_ctrl,
+ 	.submit_async_event	=3D nvme_rdma_submit_async_event,
+ 	.delete_ctrl		=3D nvme_rdma_delete_ctrl,
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 8b5e4327fe83b..46c1c4c5128c0 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2662,6 +2662,7 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops=
+ =3D {
+ 	.reg_read32		=3D nvmf_reg_read32,
+ 	.reg_read64		=3D nvmf_reg_read64,
+ 	.reg_write32		=3D nvmf_reg_write32,
++	.subsystem_reset	=3D nvmf_subsystem_reset,
+ 	.free_ctrl		=3D nvme_tcp_free_ctrl,
+ 	.submit_async_event	=3D nvme_tcp_submit_async_event,
+ 	.delete_ctrl		=3D nvme_tcp_delete_ctrl,
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c693ac344ec05..b7d06d46aa08c 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -25,6 +25,9 @@
+=20
+ #define NVME_NSID_ALL		0xffffffff
+=20
++/* Special NSSR value, 'NVMe' */
++#define NVME_SUBSYS_RESET	0x4E564D65
++
+ enum nvme_subsys_type {
+ 	/* Referral to another discovery type target subsystem */
+ 	NVME_NQN_DISC	=3D 1,
+--=20
+2.43.0
+
 
