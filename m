@@ -4,60 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D056FC2BD09
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 21:49:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A643C2BD09
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 21:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rhZ7j7YNkPyKckEl5HyXXXRhv0XlLwRB/8QeLdVwG+M=; b=UveFLF6slewNOFajxJfm6acApY
-	9CdWGdd8N5p2HEkWjVuoPXqUOhdckLCSSgtB2wyqR7xpPbBGojtuOHBrw28fwVd9LruFzWNQDkEFu
-	+HhgPt8iGboOL4kbyXdewIFnMWi5nG4nnGLfKLwSl2FRM38ECCgfcvGO7Aqv94qRL2AdYFA2mJBmi
-	vn4mvbBDHMNI5iEfXcn8Ijc9BkaJ+hAXEkBt53nAqxw8lqQXppIYPeLV1j3Ha2Y38YaD3YWJIgfkJ
-	GQQq6zUPV3J2up8E67Xy2Pqvuybxffte1IdmHxNOsC4XpR+xuwsXo2XmA8FQzNlRKC5kguk3UGh00
-	hMi4Qi2A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ntoRXSEN9SZCphIaQ2aupyFZT1WapB0YDpMf+o5RoFQ=; b=pBI4Lmtxz/F9QY/TAjfoU9ME9u
+	mduYfFCKQOtnna8ur4YjAzezxE5IjNQosmeYUUf7MtfVoJJxSepe9pzdSVeKdQZ6nKRtsztw5VlkM
+	lTQUkibthTtPUwPV2vtqTQvnOrNiZTDPjmPEz9H7iE+OxoO7cfa2EBYC4RdvRoPil4p0OSLWid/uG
+	Excr8KC0yrt90ys5v+qoBolNXSjoTU1hbvDsfLH3NPVJmqFk9Y33Ly/PmI0tlFxibjUgtjl50jmma
+	EqyItbx7Zyf3CWqErhuwTfVBvnbvHljYJI+fHl2zBucdl/2LRHO6J9YMcuIA/sDUipFgeOvJ6JH7r
+	la0Ufa0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLrZD-00000000kNd-02Jx;
-	Mon, 24 Jun 2024 21:49:39 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sLrf0-00000000l8D-1pLg;
+	Mon, 24 Jun 2024 21:55:38 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLrZ9-00000000kN5-4AGa
+	id 1sLrey-00000000l7n-0dfh
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jun 2024 21:49:37 +0000
+	Mon, 24 Jun 2024 21:55:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id DF584CE0F96;
-	Mon, 24 Jun 2024 21:49:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BEB7C2BBFC;
-	Mon, 24 Jun 2024 21:49:32 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E6FFB61178;
+	Mon, 24 Jun 2024 21:55:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C22C2BBFC;
+	Mon, 24 Jun 2024 21:55:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719265773;
-	bh=NoMsGuylpEJI82FlH9CaAKGAu0TMQ1SmZandLQUgBAQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YrOHeK73b3yB8k38TuJJReLU6gzg4sMKkvH5ANgXzeW5/xQx0OKtFTIRbxwFtRNoO
-	 qan8ddebJOC2QYDsL3T9qBd+wCjcsOBhWbvnjEiScHqaF7mXWGAz39UwPh9emChG4N
-	 V6rEYXBGH9SGmbzumMZD2RPyThE6hKDvS8bbhxHdG16qH7QboWHkWjX2tszqnqWC9Q
-	 NiUXQ+3dBzRBx29nbiT0M1ipYMyznkgf/c+2PwnMbN2d4v06U513MEUxequy5lNQgp
-	 +FZW0mQHVDW+7GSd4eM5ruRp9CrQScW/vre7iMKGhmOeBpayFlqbUzGTSCZX/x4Y7a
-	 QYJbqEVjyAjDA==
-Date: Mon, 24 Jun 2024 15:49:30 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: WangYuli <wangyuli@uniontech.com>
-Cc: guanwentao@uniontech.com, huanglin@uniontech.com, axboe@fb.com,
-	hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RESEND. PATCH] nvme/pci: Add APST quirk for Lenovo N60z laptop
-Message-ID: <Znnp6jIfcNYoDb2m@kbusch-mbp.dhcp.thefacebook.com>
-References: <AFD9EEAB191702D0+20240622042108.10427-1-wangyuli@uniontech.com>
+	s=k20201202; t=1719266134;
+	bh=ssw0CE3X6rtJAiVWYNCh9l8N9P1eQeBKDrj05miOGGg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h5e5otElt6qUnWFncwXReRgalS93n3GWdHfZI61HaUNM702vEiLU2OL3hRtmeZ7pW
+	 ohhQ3/5IVk0g8hUUHWlUqfFBEMPtZPqq9cQTQXiwSXMSd207XtxM9X16zMkpmCwa1h
+	 P7loUD40U+W2bSN567WlBElAPghrvm140h9uxIRABpJMhzaJxKaale7wIivArgxwds
+	 17sJnrpbor04AXrsi4bw/9WuT16U52EHU+4DHQipBM/gHcQC+G9CN1yr9Xg4UveXWD
+	 yQLKSBhNO7cmx1X2iEik5+dutOQ4SzhHG4PwsLAFryjtPCKpTROi/LdExZix+Cs8Gm
+	 97NMXmBhfGsSg==
+Message-ID: <de54c406-9270-4145-ab96-5fc3dd51765e@kernel.org>
+Date: Tue, 25 Jun 2024 06:55:29 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AFD9EEAB191702D0+20240622042108.10427-1-wangyuli@uniontech.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Bart Van Assche <bvanassche@acm.org>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
+ <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+ <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+ <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+ <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
+ <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
+ <20240604044042.GA29094@lst.de>
+ <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
+ <20240605082028.GC18688@lst.de>
+ <CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
+ <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
+ <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_144936_234420_C29F0C63 
-X-CRM114-Status: GOOD (  20.81  )
+X-CRM114-CacheID: sfid-20240624_145536_332718_A8A1CB65 
+X-CRM114-Status: GOOD (  26.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,39 +97,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jun 22, 2024 at 12:21:08PM +0800, WangYuli wrote:
-> There is a hardware power-saving problem with the Lenovo N60z
-> board. When turn it on and leave it for 30 minutes, there is a
-> 20% chance that a nvme disk will not wake up until reboot.
+On 2024/06/25 1:25, Bart Van Assche wrote:
+> On 6/24/24 3:44 AM, Nitesh Shetty wrote:
+>> For reference, I have listed the approaches we have taken in the past.
+>>
+>> a. Token/payload based approach:
+>> 1. Here we allocate a buffer/payload.
+>> 2. First source BIO is sent along with the buffer.
+>> 3. Once the buffer reaches driver, it is filled with the source LBA
+>> and length and namespace info. And the request is completed.
+>> 4. Then destination BIO is sent with same buffer.
+>> 5. Once the buffer reaches driver, it retrieves the source information from
+>> the BIO and forms a copy command and sends it down to device.
+>>
+>> We received feedback that putting anything inside payload which is not
+>> data, is not a good idea[1].
 > 
-> Signed-off-by: hmy <huanglin@uniontech.com>
-> Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
-> ---
->  drivers/nvme/host/pci.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+> A token-based approach (pairing copy_src and copy_dst based on a token)
+> is completely different from a payload-based approach (copy offload
+> parameters stored in the bio payload). From [1] (I agree with what has
+> been quoted): "In general every time we tried to come up with a request
+> payload that is not just data passed to the device it has been a
+> nightmare." [ ... ] "The only thing we'd need is a sequence number / idr
+> / etc to find an input and output side match up, as long as we
+> stick to the proper namespace scope."
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 282d808400c5..1e0991667453 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2903,6 +2903,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
->  			return NVME_QUIRK_SIMPLE_SUSPEND;
->  	}
->  
-> +	/*
-> +	 * NVMe SSD drops off the PCIe bus after system idle
-> +	 * for 30 minuites on a Lenovo N60z board.
-> +	 */
-> +	if (dmi_match(DMI_BOARD_NAME, "LXKT-ZXEG-N6"))
-> +		return NVME_QUIRK_NO_APST;
+>> c. List/ctx based approach:
+>> A new member is added to bio, bio_copy_ctx, which will a union with
+>> bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
+>> add the bio to this list.
+>> 1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
+>> will add the destination BIO to the list inside bi_copy_ctx and return
+>> without forming any request.
+>> 2. Send source BIO, once this reaches blk_mq_submit_bio, this will
+>> retrieve the destination BIO from bi_copy_ctx and form a request with
+>> destination BIO and source BIO. After this request will be sent to
+>> driver.
+>>
+>> This work is still in POC phase[2]. But this approach makes lifetime
+>> management of BIO complicated, especially during failure cases.
+> 
+> Associating src and dst operations by embedding a pointer to a third
+> data structure in struct bio is an implementation choice and is not the
+> only possibility for assocating src and dst operations. Hence, the
+> bio lifetime complexity mentioned above is not inherent to the list
+> based approach but is a result of the implementation choice made for
+> associating src and dst operations.
+> 
+> Has it been considered to combine the list-based approach for managing
+> unpaired copy operations with the token based approach for pairing copy
+> src and copy dst operations?
 
-Based on your commit message, it sounds like the platform works the
-majority of the time. Is it possible that NVME_QUIRK_NO_DEEPEST_PS is
-sufficient for this? Or do you really need to disable it entirely? The
-power usage differences can be meaningful.
+I am still a little confused as to why we need 2 BIOs, one for src and one for
+dst... Is it because of the overly complex scsi extended copy support ?
 
-Also, 30 minutes of idle is an eternity for APST to kick in, so I'm
-curious if there's something else going on here or if the breakage
-occurs earlier than that.
+Given that the main use case is copy offload for data within the same device,
+using a single BIO which somehow can carry a list of LBA sources and a single
+destination LBA would be far simpler and perfectly matching nvme simple copy and
+ATA write gathered. And I think that this would also match the simplest case for
+scsi extended copy as well.
+
+-- 
+Damien Le Moal
+Western Digital Research
+
 
