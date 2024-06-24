@@ -4,148 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 473C0C2BD05
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 11:03:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9290C3064D
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 13:46:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uxpMOuA3IRgLqQWXX8+eqtJkWwddlx/GN7rdVWV2/6g=; b=oG97HowstZzgI4SvexYvXXbQUp
-	h+B8y6FAvedx4zgnu/fjstSoqewRPT1sQgf2aVbFI84BsBjM5cLf0LWjQghs6ji/OdUUzlHgLPXAK
-	tVIhbyO098yZp1tWYydyP6hWpgzgtwEH9Kto5V7G+xqcNkf/qoj/J/or1rjFsIdGZufxMvZKQIpVq
-	PCkNGuDI96yjTn+4GlqPG/zsbT5K3UG9M6M3tu4qGQlKRh0SSW/ICDcSxXeqQxe8dbClaL7UnYGwO
-	S27JRpvtXOanvhvFXofMht02AV7DiyKLhTI6Zd2AdiucL6f7VxsVDWM+dhBP37IJuIOx62/bBTkXp
-	/xsq/0nA==;
+	bh=dS1oQIHIHscKh88VbYCDBf5zsHO7alPwC0ZgdKxEDHc=; b=D3Dl3zDJc2+k1QoLT37H4vV822
+	CEf2yKMQcFeTb4WOfeQvvz4kVg09Lt2XAoGNQXM4zcBw1W7wRdeVTbUHkvXL+4cltA2GQxxdMagLF
+	YnQO9ThJucYxuQKnEYGo0Kh8FiCr6dmBEMqs0cfXf34JjyElwsJIrmED7tIOlVbCjFEBCcbPeaYbA
+	Slq6NDG64kB3+iuHFgYi7t1sBAJnhoDYryWA//CxMgQgyCOQjYCvAFVB1o56IMEff9eb5DkhQftFX
+	U+Q48+Lxi9SljRoQgohATqSOX6znEelwSpslJMxc0odxTyQiH+GZYSB4++0h8sr9KD94NVx85WUJC
+	NEOcVJvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLhTh-0000000GWGx-0woj;
-	Mon, 24 Jun 2024 11:03:17 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1sLk1M-0000000Gyp7-3iw9;
+	Mon, 24 Jun 2024 13:46:12 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLhTc-0000000GWFM-356K
-	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jun 2024 11:03:15 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240624110306epoutp03d99d4e9ae23775e800e9ca51fa79f17f~b69XEb5Eo0430004300epoutp03Z
-	for <linux-nvme@lists.infradead.org>; Mon, 24 Jun 2024 11:03:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240624110306epoutp03d99d4e9ae23775e800e9ca51fa79f17f~b69XEb5Eo0430004300epoutp03Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1719226986;
-	bh=uxpMOuA3IRgLqQWXX8+eqtJkWwddlx/GN7rdVWV2/6g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JLflTxBU070L20Ugm/A+/Dt0F7x6DQp5L5lpX/pqEyk0zue6JVzb0+f1K50kGRwIF
-	 zOeDFNP1CNgOc1JkJCWsvapVrdeL2DSGMYsVVplCj6UNquW+ZgaIJcXBbeU7kio2Yz
-	 dmx8omQMkOOG2og1ZnMCbWcIR9nHh0fdSitznPU4=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240624110304epcas5p4c8ab6937c499617cbbaaa96fc5a4769f~b69Vn-po40506905069epcas5p4q;
-	Mon, 24 Jun 2024 11:03:04 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4W74nL5C7Kz4x9Pt; Mon, 24 Jun
-	2024 11:03:02 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	24.C9.09989.66259766; Mon, 24 Jun 2024 20:03:02 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0~b6zG9Ypk82450824508epcas5p3C;
-	Mon, 24 Jun 2024 10:51:21 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240624105121epsmtrp130aa2d7a4474a6eba09309959ab71409~b6zG3AObb1223312233epsmtrp1c;
-	Mon, 24 Jun 2024 10:51:21 +0000 (GMT)
-X-AuditID: b6c32a4a-bffff70000002705-3d-6679526612e3
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E4.9B.29940.9AF49766; Mon, 24 Jun 2024 19:51:21 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240624105114epsmtip2b4e30650a5edb6427c3e9344921bba5e~b6zAu4Mi31228012280epsmtip2c;
-	Mon, 24 Jun 2024 10:51:14 +0000 (GMT)
-Date: Mon, 24 Jun 2024 16:14:07 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
+	id 1sLk1H-0000000Gyn6-310j;
+	Mon, 24 Jun 2024 13:46:09 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 511A060346;
+	Mon, 24 Jun 2024 13:46:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6A4C32782;
+	Mon, 24 Jun 2024 13:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719236766;
+	bh=nEbRkmLliGbrhN7a0dFrrROolzsUWf2ymgDG1frRQgc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HPvBUv03t5fHmHl5Vdhl5NNvWh/1rmgJmDIUT78BrhNjkekMyiHBemsXBtITKK+pk
+	 Ph9y6SGv/k+x5Jl2xhlIMX2sddEfv5ScOkESPGjMaDvg1ZXM5kaST/YeMPDuDVXpgg
+	 iH6h0sucNAo73sjXdAnuoapZ6RfRXTSWnSxyRGyPeNDve4kUinDBuUenLUefA9rCqX
+	 54StG+jluCv5aLHX9mMsHCk5XhZuGMG20N2tbjRRxE9agT2YFzShKRFvN/weyUUZ99
+	 p5MaDhc41zpO0i44wkIP3EtvIWnOiXRYHg0365/uFE0+rIV0Jq+m7pwvM4OmoBjW+O
+	 CdaoXjn9E8fNg==
+Date: Mon, 24 Jun 2024 15:45:57 +0200
+From: Niklas Cassel <cassel@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Bart Van Assche <bvanassche@acm.org>, Damien Le Moal
-	<dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>, Jonathan Corbet
-	<corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>, Mike Snitzer
-	<snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Keith Busch
-	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240624103212.2donuac5apwwqaor@nj.shetty@samsung.com>
+Cc: kernel test robot <oliver.sang@intel.com>, oe-lkp@lists.linux.dev,
+	lkp@intel.com, Jens Axboe <axboe@kernel.dk>,
+	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	drbd-dev@lists.linbit.com, nbd@other.debian.org,
+	linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
+	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, ying.huang@intel.com,
+	feng.tang@intel.com, fengwei.yin@intel.com
+Subject: Re: [axboe-block:for-next] [block]  bd4a633b6f: fsmark.files_per_sec
+ -64.5% regression
+Message-ID: <Znl4lXRmK2ukDB7r@ryzen.lan>
+References: <202406241546.6bbd44a7-oliver.sang@intel.com>
+ <20240624083537.GA19941@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20240605082028.GC18688@lst.de>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TezBcdxTH53fv3buXic56lB8aNTeTZCReKx4/EZI2hlvRjKnRaZsRNvay
-	Brs7ux5lmnqE1CPeCWMboZh6pQyhg41SaiUEI0JCSyWlJSJIUn1k0OXSyX+f8z2P3++cM4fC
-	Ddr4ZlS4NJpVSEWRNKlLfN9rZWUT+lF8qL36AY0aBzQ4SsnbwFH9dC6JlnpfAFS0+g+O5rq/
-	Auj10AiOWjQzAM12nUTlFaUEmuxux9DtigIM1db3Yejr4ksY6ttaJlFBzwRA8+MqDHVOHUXf
-	XK4i0O3OuwQa67hOorJv5/moun8TQ/np4xhqm0sGqGFphUB3pszRyEY/79Q7zNiDM8xABWTa
-	VdN8ZmSmiWDGhmKY5roMkrlVlcgs3CoBjHoyiWQqcwp5TPal5yTTnvYrj1mbnyKYlR/GSSan
-	pQ4w98p/4vsZfhZxQsKKxKzCkpWGyMTh0jB3+ox/0OkgJ2d7oY3QFbnQllJRFOtOe/r62XiF
-	R2oHRFvGiiJjtJKfSKmk7TxOKGQx0aylRKaMdqdZuThS7ii3VYqilDHSMFspG31caG/v4KQN
-	DI6QPKzr48snLT5fy7rPSwIq00ygQ0GBI/z7+hQvE+hSBgI1gBnDMxhnvACwsbCd5Ix1AOsr
-	urG9lCcNVbtRnQC+nMgDnPESwP5Hs+R2FCE4CDc0an4moChScBQOblHbspGAhvNPh3biccEw
-	CTNUi/i2w1AQDJcH8nnbrCc4DRueP+JzrA/vlswR26wjsIbFqYM7yVDwuw4saV3BuS95wt6y
-	Nh7HhvBpfwufYzO4mHt5l+Ng7dUakktOBVD1UAU4x0mYNpC7UwgXSOCf7RW7hfbDawMNGKe/
-	BbNfz+32rwfbbuzxAXizsZzk2BRO/JW8ywxc6lojuLF8R8AbeXP8PGCheqMj1RvvcXwcZqym
-	aJnSsjms3qQ42Rj+PNZMcLIVbOywKwdkHTBl5cqoMFbpJHeQsnH/7zxEFtUMdk7oiE8beDy7
-	atsDMAr0AEjhtJFecWJsqIGeWBSfwCpkQYqYSFbZA5y028rHzd4OkWlvUBodJHR0tXd0dnZ2
-	dD3mLKRN9JbSSsUGgjBRNBvBsnJWsZeHUTpmSViryuXxoXsL+rUf+L6XzE9/NhJS16V+FXjB
-	7tr7M+fjE0BA+NRFz4yFL0267cStg8fKhgJ6fvF3e/KhxPKL0Ua3aqGJcSl12NvbxKLoj+HZ
-	bM+O0voLqfir3qIf/bxaazSTBz2dmvwT9xeMBGY7eI9nBRSfX3Itai431WgS0yvfDRqc8Lji
-	bxVXzRwIoD2fxQ8e9vDgZyxWjpjonjvrsFXKD6uB+r5SbFQhLfx3dH2fzELswpu56Y6bNzcl
-	ZeWqvTOTw+yj9k0nSGM/7lodDUw4t6zc8nEzu5KCZfetR2Sfihu2u+9l/UlHs91Fec7Z2uBu
-	v08PGY0vxltvsoXGv6kTfe7QhFIiEh7BFUrRfzJEnsTLBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxzG855zejjFoMdTL29pRdNpIqAo0W3vB68x6IvGeIlfqovQ2SMQ
-	oUJL6XTZQAG5TAXUQSzIXZQyQS4y7kqhMOgIItYIBkYZDQ6E4iXLFCla2DK+PXl+z/N/vvwZ
-	kosVuDMhqkherVKEymhXqrpFtnpj8aFzpze3TolRWWcbiS6mzpCoZCCFRuMtbwBKn3pPopFH
-	CQBNd3WTqKptEKChhztRbv4tCvU9qiVQQ/41AhWXmAiUmRFLINPsBI2uGZ8BZLPoCdTY743y
-	LhVSqKGxg0K9dVk0yimyuaA77Q4CpSVaCFQzcgGg0nE7hX7rl6DumXbBLinufXoAd+ZDXKsf
-	cMHdg+UU7u3S4gpDEo0rC6Pxy8qbANf3xdC44Op1Ab4SO0nj2vg/BPi1rZ/C9iYLja9WGQD+
-	PbfV5bDouOs2JR8aEsWrN+0IdA22FpRQ4W8l383eeyiIAT0rkoGQgexWOFxaSDg1x9YDmG3n
-	530xLJppJee1CBY7Rl2SgevnzGsAe5rMlBNQ7Do401b/GTAMzXpD8yzjtJexMmgb6wLOPMk+
-	oWHjg0yBE4jYQDjRmTan3dg9sHTy+b9H+0jYOhVHzIOlsOPmyNwAyX4Fsyut5LxeAV/0VlDO
-	MZKVwDuOuTEhuwFmxJlBKliqX9DWL2jrF7T1/7dzAWUAYj5cExYUpvEN91XxOh+NIkyjVQX5
-	nDobVgHm/sTLswb8apjyMQKCAUYAGVK2zC0jOuo056ZUnDvPq88GqLWhvMYIJAwlW+m28uUV
-	JccGKSL5Mzwfzqv/owQjdI8hKkwmd6tw2hKR5/FjkviLA8bpg7QuoTs7aktdAs+M9r/bZjpx
-	+YglxCw5KVovlZd/neZ312N3k277t2aD3+hs+2K5yfCD50FlYAkTcXvfPb/OBNhSdLQOJh+r
-	Pp/FLTekZy1xVJX/aU+ps8n3x9vE/2SO+W+Rft9jTdG+WPX4ho5jh/ePld33ePVL9cdF9T+T
-	uqyLggGHPEpIK4+mNhxrnvQY3rAx3hNX2Q0dlYnyDuUhf+6D9q61OW5iyJH5tC/RXMCtvRDR
-	tHc7aX0VII0cbNM/qJFvHvJeI/a6/KW03b9Z8CY4qWxc+fYv9u9vcuDeZz8Ne93Wr1FFB3B7
-	RM/TZZQmWOHrRao1ik966v6UlgMAAA==
-X-CMS-MailID: 20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0
-References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
-	<9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
-	<a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
-	<665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
-	<abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org>
-	<20240601055931.GB5772@lst.de>
-	<d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
-	<20240604044042.GA29094@lst.de>
-	<4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
-	<20240605082028.GC18688@lst.de>
-	<CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240624083537.GA19941@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_040313_479896_680C8DCA 
-X-CRM114-Status: GOOD (  23.71  )
+X-CRM114-CacheID: sfid-20240624_064607_874942_E7F71C3F 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,94 +84,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-Content-Description: 
+On Mon, Jun 24, 2024 at 10:35:37AM +0200, Christoph Hellwig wrote:
+> This is odd to say at least.  Any chance you can check the value
+> of /sys/block/$DEVICE/queue/rotational for the relevant device before
+> and after this commit?  And is this an ATA or NVMe SSD?
+> 
 
-On 05/06/24 10:20AM, Christoph Hellwig wrote:
->On Tue, Jun 04, 2024 at 04:44:34AM -0700, Bart Van Assche wrote:
->> On 6/3/24 21:40, Christoph Hellwig wrote:
->>> There is no requirement to process them synchronously, there is just
->>> a requirement to preserve the order.  Note that my suggestion a few
->>> arounds ago also included a copy id to match them up.  If we don't
->>> need that I'm happy to leave it away.  If need it it to make stacking
->>> drivers' lifes easier that suggestion still stands.
->>
->> Including an ID in REQ_OP_COPY_DST and REQ_OP_COPY_SRC operations sounds
->> much better to me than abusing the merge infrastructure for combining
->> these two operations into a single request. With the ID-based approach
->> stacking drivers are allowed to process copy bios asynchronously and it
->> is no longer necessary to activate merging for copy operations if
->> merging is disabled (QUEUE_FLAG_NOMERGES).
->
->Again, we can decided on QUEUE_FLAG_NOMERGES per request type.  In fact
->I think we should not use it for discards as that just like copy
->is a very different kind of "merge".
->
->I'm in fact much more happy about avoiding the copy_id IFF we can.  It
->it a fair amout of extra overhead, so we should only add it if there
->is a real need for it
+Seems to be ATA SSD:
+https://download.01.org/0day-ci/archive/20240624/202406241546.6bbd44a7-oliver.sang@intel.com/job.yaml
 
-Christoph, Martin, Bart, Hannes, Damien
+ssd_partitions: "/dev/disk/by-id/ata-INTEL_SSDSC2BG012T4_BTHC428201ZX1P2OGN-part1"
 
-We have iterated over couple of designs for copy offload, but ended up
-with changing them owing to some drawbacks. I would like to take your
-opinion on how we can plumb copy offload in block and dm layer.
-
-For reference, I have listed the approaches we have taken in the past.
-
-a. Token/payload based approach:
-1. Here we allocate a buffer/payload.
-2. First source BIO is sent along with the buffer.
-3. Once the buffer reaches driver, it is filled with the source LBA
-and length and namespace info. And the request is completed.
-4. Then destination BIO is sent with same buffer.
-5. Once the buffer reaches driver, it retrieves the source information from
-the BIO and forms a copy command and sends it down to device.
-
-We received feedback that putting anything inside payload which is not
-data, is not a good idea[1].
+Most likely btrfs does something different depending on the nonrot flag
+being set or not. (And like you are suggesting, most likely the value of
+the nonrot flag is somehow different after commit bd4a633b6f)
 
 
-b. Plug based approach:
-1. We take a plug.
-2. Send a destination BIO, this forms a copy request and waits for source BIO
-to arrive.
-3. Send a source BIO, this merges with the copy request which was formed
-by destination BIO.
-4. We release the plug, then copy request reaches driver layer and forms
-a copy command.
-
-This approach won't work with stacked devices which has asynchronous
-submission.
-Overall taking plug and merging BIOs received not so good feedback from
-community.
-
-c. List/ctx based approach:
-A new member is added to bio, bio_copy_ctx, which will a union with
-bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
-add the bio to this list.
-1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
-will add the destination BIO to the list inside bi_copy_ctx and return
-without forming any request.
-2. Send source BIO, once this reaches blk_mq_submit_bio, this will
-retrieve the destination BIO from bi_copy_ctx and form a request with
-destination BIO and source BIO. After this request will be sent to
-driver.
-
-This work is still in POC phase[2]. But this approach makes lifetime
-management of BIO complicated, especially during failure cases.
-
-Thank You,
-Nitesh Shetty
-
-[1] https://lore.kernel.org/linux-block/20230605121732.28468-1-nj.shetty@samsung.com/
-[2] https://github.com/SamsungDS/linux/tree/feat/co/v21/ctx
-
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_
-Content-Type: text/plain; charset="utf-8"
-
-
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_--
+Kind regards,
+Niklas
 
