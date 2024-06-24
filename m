@@ -4,49 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E41DBC2BD09
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 17:54:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41BE0C2BD09
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 19:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eZISsWq+Zbh1zUlkNXNx3aK3v1zGbcqMb+n5yJw8Ft8=; b=FnfRvykMgG6zIXnQd0UAfUiYYl
-	WEWw+N5hSiIR7jAftct7bqxdoAHX2zSF4t/OcOwCY+bMozFK2hh/m3WpBN/ssKUJvDTnbbyd1xcAo
-	ExbiyXJiMhEN75romQhE+u1fQK870n38oCW2GMv8enirUyAiIT5T0KlGcTlaxrAA+2mnnztY7UeU0
-	rv1xd3Zh/lwl0c6AIuhqUGWlbLXThAue5axLwdeMrJupLBaQYO1Qp8wsN+Xz/9csT/V7mLV3tzYE4
-	jpYZCaY8BLnCf8M18RcsMyik9qCbgAddjKWJJJlNa1jikOOoy6jURfQryMLLmyzQgrErKjCpCVyWO
-	8h612QqA==;
+	bh=WFHK/pMLmXPkOSu4/mxnxL00KVdKukzaNBj6wPCZDbc=; b=I2NQKw9QvEcoZBqPutrkeXOm7q
+	lSx6g5SqtBctyOwMjzGA6IcxHQePjWz3W8yPvCHWugFwbvC3/vhGomLkrmvl10NYfsHkpzcqMYnAm
+	SbT8HbJBA2Rc0tW2zKU26JgGdGWNlJi4TJM+qCCpYBlc9ZMHhhNgYpS/nfvTD6y9dpkHYFvQjYfGl
+	J5MyG+bSbvgLMcRjV1duBxNifMpCW+4Bt+TOfHS5NB7Zp42f6DhJdDmJtXeQtDWAI6N5qOCvWXyD8
+	XMjttS0CV9utl4I23pUADYiELhrxh2zH0gB13+fQiR0TBDXI1FjJl7rAlzHlqlnMyEmSSNlyMKeLE
+	dQHJbeqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLntM-00000000BFW-1LDJ;
-	Mon, 24 Jun 2024 17:54:12 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1sLpEw-00000000P8K-2BoB;
+	Mon, 24 Jun 2024 19:20:34 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLntG-00000000BBv-2BSY
+	id 1sLpEu-00000000P7s-1RdY
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jun 2024 17:54:08 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C03B068CFE; Mon, 24 Jun 2024 19:54:01 +0200 (CEST)
-Date: Mon, 24 Jun 2024 19:54:01 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	emilne@redhat.com, jrani@purestorage.com, randyj@purestorage.com,
-	chaitanyak@nvidia.com, hare@kernel.org
-Subject: Re: [PATCH v7 1/1] nvme-multipath: implement "queue-depth" iopolicy
-Message-ID: <20240624175401.GA24863@lst.de>
-References: <20240619163503.500844-1-jmeneghi@redhat.com> <20240619163503.500844-2-jmeneghi@redhat.com> <20240620065641.GA22113@lst.de> <d4ae4b0a-b3a4-40db-87e3-c9a493408172@redhat.com> <20240624084627.GA20032@lst.de> <59921b0a-1e16-4f39-bdda-9e11ba2edbbd@redhat.com>
+	Mon, 24 Jun 2024 19:20:33 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A727260F80;
+	Mon, 24 Jun 2024 19:20:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9B23C2BBFC;
+	Mon, 24 Jun 2024 19:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719256830;
+	bh=WFHK/pMLmXPkOSu4/mxnxL00KVdKukzaNBj6wPCZDbc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tdNGc1DpyA7It1yBtmtKSE6ywzXj78nvfD/H4FYRy452EdcDeVqaoMW21p6A5NZBB
+	 iOUXgY+TlFJQ5SOVdeS0EewwNnbhgymoPYk4TR7ArXDFkCakwXUF3vcLzd8d/H8Azv
+	 jt1zYL8AU2bBKt4rZluJe10oOZxRan4USB2qBdXAvYXeZBcwTt5+giSrJRqCCfV0f8
+	 6nwb8Ah8ko6UgUOAzYTkOdiudEre3duVkmRVVMcoa7HIb96QNayx27ga9nWx8ELvsJ
+	 Q+yre31jkTnKXzRuc1NFT5C+HVju48AgomH5kVLqINhdrfSMj0puRyPcCZjQEbpjuo
+	 Pg1SqVnMuKaxg==
+Date: Mon, 24 Jun 2024 13:20:27 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, Nilay Shroff <nilay@linux.ibm.com>
+Subject: Re: [PATCHv2] nvme-pci: do not directly handle subsys reset fallout
+Message-ID: <ZnnG-yVan8ABMdMl@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240624172649.2268634-1-kbusch@meta.com>
+ <20240624173619.GB23483@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <59921b0a-1e16-4f39-bdda-9e11ba2edbbd@redhat.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20240624173619.GB23483@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_105406_804633_1EDA635B 
-X-CRM114-Status: UNSURE (   9.86  )
+X-CRM114-CacheID: sfid-20240624_122032_476318_EAE7F0B1 
+X-CRM114-Status: UNSURE (   4.44  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -62,12 +73,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 24, 2024 at 01:50:21PM -0400, John Meneghini wrote:
->> Having the identification as the prefixe seems easier to parse
->> and grep for.
->
-> To be clear Christoph, your saying you'd like the NQN in the prefix of the dmesg?
-
-Yes.
-
+Applied to nvme-6.11
 
