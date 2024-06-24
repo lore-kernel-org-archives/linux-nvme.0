@@ -4,71 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73D9AC3064D
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 14:00:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13C98C2BD09
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jun 2024 16:07:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=8+fjJ9Baitgo0UgWfCLr6E+5Vs/72fFgDrBYY9F6eYE=; b=IQKrQTU8kRTwSEarBaZfiNko9X
-	WuXoE0Rw6Z80LZN+zgEsZJYue0c5/dh5r1aLOY6Qk3UGNKdesxttbT1yeWi0nFWH+JFGQG93vg66A
-	IqO74MXcW/+k9dUUM4P52oDmG+eczajMgJ+TpX4ZPqt8EyG1vMGXAftHel8UOZOuaBBuIKs3/ioYZ
-	+whWy4b8f66JiMMl6W4VI3+LB1iBwoqTiq5vo8iJ8ESZutHk2kjLJG5hHUiN20SJI0ZNETUkNXyvX
-	xkewMjOV8H1dMvpNwpesXhbSZFuoLKKCCqfH2eGv2DhJclWNTtkUvbPUMXJKoucCiVsFW8QvbCQMb
-	APL+ynWA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HuyOiUqUkue5p9iuni8KOUbV1KQSfzHcOXv5eBsp7ao=; b=OLUzgfK2ECdPHAq8zfxmgbT4f9
+	4JVLSDGAtEEtwCmICmsXmSMdvg2J1Jm2YBG87sGykWl4iK5oBc5n5AkIE5/kSYpuyR669wOXQPXjK
+	vc2ySOq650DvtPy3TkrDtDsFb4H20fIAL+eC0WSg2YYKAtnS6IMscudWrrSZLo/ry7TF8gyWy4xq2
+	1sHXydD66iWBCUJZi8A4+21vfbLVAFijsquSojjoND0zOSXgK3surthrE6pzLHtYmdc/IAtGRfuJQ
+	lp1x2I6tlx9xCPjZEFUJFfYcWp+lS+AVCTzSEn44DAQfl1iRsgyWWuMK9aH3RPZhzq519wLefU74N
+	aCAXAMtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLkFQ-0000000H1j1-1OJS;
-	Mon, 24 Jun 2024 14:00:44 +0000
-Received: from mgamail.intel.com ([198.175.65.11])
+	id 1sLmEI-0000000HQOP-0Gru;
+	Mon, 24 Jun 2024 16:07:42 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLkFM-0000000H1hB-3u8E
+	id 1sLmEE-0000000HQNa-0Cv8
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jun 2024 14:00:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719237641; x=1750773641;
-  h=date:from:to:cc:subject:message-id;
-  bh=OW+nPJELMq0qxmcs7EOLbp7XVguzyfzLQRUcddbFwsg=;
-  b=Wkz4416AxvBDigoJDdhCVUN3qkGWqwGGigAAu8DQoW0zSLM6B8G1f0Mp
-   rTtVPObP6FvAlsCkLswcz4VmvFJhFxGSCgwJspuDfOg6azX3/WExXkA0l
-   tjp55nv/zoglaynVdWnRpwKAaG93Zxedjyv6NqPryxQ9B5oMwiRgpB+fy
-   nAsAOZ+nVzPOXX7knM0oGXXZzkuDDwKR6rVz+tVBTbEsVXB8Q5hKHjKKE
-   iLZk49eEZ0P+QpZVwuPgevXQQtL9cdwNFYAwxnRRSfl9Ol2sX9zru/kUO
-   Jyt1+ffv1b4j1pMtPlUWsKU3rF6TJn427gh3EtaS2P1XqcPHFiQ26QEn8
-   g==;
-X-CSE-ConnectionGUID: opECZij2TcmjTKtHl1FeiA==
-X-CSE-MsgGUID: QlJrgbM+QhilhRLkkZIY0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="26798875"
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="26798875"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 07:00:40 -0700
-X-CSE-ConnectionGUID: VyRWjDubT+mlZqALrMWDyw==
-X-CSE-MsgGUID: MMk0WZj5Ti6gNjaGHzU3Eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
-   d="scan'208";a="43384372"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Jun 2024 07:00:38 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sLkFH-000Cwb-2v;
-	Mon, 24 Jun 2024 14:00:35 +0000
-Date: Mon, 24 Jun 2024 22:00:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.11] BUILD SUCCESS
- 30576c4bdf564c6afef97a6306e5aae7f2fd744b
-Message-ID: <202406242230.bJjGmgDu-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Mon, 24 Jun 2024 16:07:39 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id A8C0ACE009F;
+	Mon, 24 Jun 2024 16:07:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4120CC2BBFC;
+	Mon, 24 Jun 2024 16:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719245251;
+	bh=QmvzWqL6upjkrYqN2k46t5dvqMTjwqkhZJjJmyjFo6Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gnpembcgq859uJ4JP4ByPYZirdgTS6QJrm52LTexweFNyaxdWH4VLLamqDhpvm59e
+	 GFVdRyRbkEtGvDkeD4g+dIOKGdzBhRN9iCPiGTB/Qi3b85mdGsrcAleWG50YwtWkwD
+	 itXk+wu7fHZmOpI+tjZ/QDo08+znD/yyVpbdg24JsI50JQHcPMrKazuwx9ls0BhwKu
+	 3Eo479bv5Wp9ooKQ2n/DTVdZO8ZsmEKR4T/UJ84hZPwlpKNGeW7oxyG/AuurgMI9mN
+	 J0mETj0r78UQkB8776nUHGCJlK7J/eSeCJy1Jn7Ul4kSLzH8G0ZJr51PygVXVKu8aR
+	 gg8vhjzBz+6/A==
+Date: Mon, 24 Jun 2024 10:07:28 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	gjoyce@linux.ibm.com, axboe@fb.com
+Subject: Re: [PATCH v3 1/1] nvme-pci : Fix EEH failure on ppc after subsystem
+ reset
+Message-ID: <ZnmZwOUOuz6g2PFH@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240604091523.1422027-1-nilay@linux.ibm.com>
+ <20240604091523.1422027-2-nilay@linux.ibm.com>
+ <ZnWsXmRdCCgMwL5V@kbusch-mbp>
+ <653be192-cfa7-45d6-adf0-2a863960630a@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <653be192-cfa7-45d6-adf0-2a863960630a@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_070041_033821_FBD3D958 
-X-CRM114-Status: UNSURE (   4.85  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240624_090738_486441_124F356E 
+X-CRM114-Status: GOOD (  17.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,81 +75,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.11
-branch HEAD: 30576c4bdf564c6afef97a6306e5aae7f2fd744b  lpfc_nvmet: implement 'host_traddr'
+On Sat, Jun 22, 2024 at 08:37:02PM +0530, Nilay Shroff wrote:
+> On 6/21/24 22:07, Keith Busch wrote:
+> >  static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
+> >  {
+> > +	u32 val;
+> >  	int ret;
+> >  
+> >  	if (!ctrl->subsystem)
+> > @@ -657,10 +660,10 @@ static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
+> >  		return -EBUSY;
+> >  
+> >  	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 0x4E564D65);
+> > -	if (ret)
+> > -		return ret;
+> > -
+> > -	return nvme_try_sched_reset(ctrl);
+> > +	nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE);
+> > +	if (!ret)
+> > +		ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &val);
+> > +	return ret;
 
-elapsed time: 9761m
+> This is a nice idea! These changes look good. I have tested it on powerpc with 
+> EEH and I observed that post nvme subsystem-reset, EEH is able to recover the disk. 
+> I have also tested it on a platform which *doesn't* support EEH or pci error recovery
+> and on this platform I observed that nvme disk falls through the dead state. 
+> 
+> So I think you may submit a formal patch with this change.
 
-configs tested: 61
-configs skipped: 2
+Just a little concerned about the reg_read32 at the end there. A hot
+plug event is potentially expected outcome from the reg write, and that
+may unmap the pci bar before read.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+And come to think of it, a hot plug could occur before the reg_write32,
+too, for a reason unrelated to the requested subsys-reset operation...
 
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-alpha                               defconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                                 defconfig   gcc-13.2.0
-arm                               allnoconfig   clang-19
-arm                                 defconfig   clang-14
-arm64                             allnoconfig   gcc-13.2.0
-arm64                               defconfig   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                                defconfig   gcc-13.2.0
-hexagon                           allnoconfig   clang-19
-hexagon                             defconfig   clang-19
-i386         buildonly-randconfig-001-20240618   gcc-13
-i386         buildonly-randconfig-002-20240618   gcc-12
-i386         buildonly-randconfig-003-20240618   gcc-8
-i386         buildonly-randconfig-004-20240618   gcc-10
-i386         buildonly-randconfig-005-20240618   gcc-10
-i386         buildonly-randconfig-006-20240618   gcc-10
-i386                  randconfig-001-20240618   clang-18
-i386                  randconfig-002-20240618   gcc-13
-i386                  randconfig-003-20240618   gcc-13
-i386                  randconfig-004-20240618   clang-18
-i386                  randconfig-005-20240618   clang-18
-i386                  randconfig-006-20240618   clang-18
-i386                  randconfig-011-20240618   gcc-13
-i386                  randconfig-012-20240618   gcc-11
-i386                  randconfig-013-20240618   gcc-7
-i386                  randconfig-014-20240618   gcc-11
-i386                  randconfig-015-20240618   clang-18
-i386                  randconfig-016-20240618   clang-18
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch                           defconfig   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                                defconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-microblaze                          defconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                               defconfig   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-openrisc                            defconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                              defconfig   gcc-13.2.0
-parisc64                            defconfig   gcc-13.2.0
-powerpc                           allnoconfig   gcc-13.2.0
-riscv                             allnoconfig   gcc-13.2.0
-riscv                               defconfig   clang-19
-s390                              allnoconfig   clang-19
-s390                                defconfig   clang-19
-sh                               allmodconfig   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                               allyesconfig   gcc-13.2.0
-sh                                  defconfig   gcc-13.2.0
-sparc                             allnoconfig   gcc-13.2.0
-sparc                               defconfig   gcc-13.2.0
-sparc64                             defconfig   gcc-13.2.0
-um                                allnoconfig   clang-17
-um                                  defconfig   clang-19
-um                             i386_defconfig   gcc-13
-um                           x86_64_defconfig   clang-15
-xtensa                            allnoconfig   gcc-13.2.0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Anyway, I think this needs a driver specific op to handle it safely.
+I'll send a patch.
 
