@@ -4,142 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C03B9C30653
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 06:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F982C2BBCA
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 06:49:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=; b=nfgYhwJljjDudLqgpjo1MsuomV
-	KLxRGuuzQ7tN17nmYsVPQI9b5TJVS3qcHQrVjpfP0BkdXxm5Q/kmbrv2ANRKj9XXnQpjZbZkdaSm0
-	qFDTtkA7wbxzbrl5wK5XG0meaPMGQhN+sm4wLdszplpzMk1VZb7MsukFpc1rqNz55uRkiNXA2ryBa
-	B0ByqNpcMCWvlzIfZ7CNvr5S1ebnrZ8AM6Xp81Wi+6sVy6WZ0utgPG31SLSK1++n9j5inpujVm3zP
-	xrnz52PiBRUThvJQ+oL87dAwVc4EKGPFIjD2leE8A0lN9/A9vPhpWsKpdMs3yHcycxVp+kzjtuwFi
-	LIFfip0w==;
+	bh=ONL0FgIX2sUz4izMxsakEXWbAUPL/9YDsaEmV+aRNGw=; b=fVE7JT2wl3upkXmzy60NrB7QzS
+	+IOpfxtEIHKBAcpx3LeXPtVnaryRXDog33L4zPpdLREpeH+3Vwmh6rUQsIgycKxWfpnxX/LubMdTL
+	DYGiEqJlTPJe/jn2q24TLOVQp0HNcyEOiDbVbL2c+xdyVEreVQ1ztv2TY/8NedghfiMt8LuUQUOl8
+	BS2lzLlhKopP54qwUvvhM911NTcvJ17aFJrfbFVtaBgpPKd8eYi1LDDQdi3yGLWBdi+GZH7xtWbH7
+	zbUSVDIcbKsj3z8BoD3YaEia6eYiGm2/Lj0vNsw6bSop1qP/lYz8OzAs4omo1KzsOw+FBW4whFLe2
+	/OpuJOeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLzoE-00000001orQ-2B0C;
-	Tue, 25 Jun 2024 06:37:42 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sLzzv-00000001q4l-3MyJ;
+	Tue, 25 Jun 2024 06:49:47 +0000
+Received: from mail-lj1-f169.google.com ([209.85.208.169])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLzo9-00000001oor-1q4q
+	id 1sLzzs-00000001q3c-2zgT
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Jun 2024 06:37:40 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F65A1F849;
-	Tue, 25 Jun 2024 06:37:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719297455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
-	b=j7hsXQI1BBfJ0DmHLbYegDowQcM7GI6Jp7Em+jQFMUS+wFBgzBfqZOfwYy6F6RypI7sJYq
-	6EMRvpS6soHeXXgku0TH3BcXE4yUQIJ9CE7s9MP58ODaJK2OVqYaxJIMLP97liB3QCSdj7
-	T+dBoT1plJ94GjvVY7zZQ/rLdvZTT8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719297455;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
-	b=UtkR0vWHw/bFimZRLB16FqMqiOI+rummyanAZG4EvbBxIuMGe6CeRYzIXyQTlpjEg2fW10
-	Tr4uBWyEnjZynYDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=j7hsXQI1;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UtkR0vWH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719297455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
-	b=j7hsXQI1BBfJ0DmHLbYegDowQcM7GI6Jp7Em+jQFMUS+wFBgzBfqZOfwYy6F6RypI7sJYq
-	6EMRvpS6soHeXXgku0TH3BcXE4yUQIJ9CE7s9MP58ODaJK2OVqYaxJIMLP97liB3QCSdj7
-	T+dBoT1plJ94GjvVY7zZQ/rLdvZTT8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719297455;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
-	b=UtkR0vWHw/bFimZRLB16FqMqiOI+rummyanAZG4EvbBxIuMGe6CeRYzIXyQTlpjEg2fW10
-	Tr4uBWyEnjZynYDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E28291384C;
-	Tue, 25 Jun 2024 06:37:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BDFtMq5lembMDwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 25 Jun 2024 06:37:34 +0000
-Message-ID: <55315fc9-4439-43b0-a4d2-89ab4ea598f0@suse.de>
-Date: Tue, 25 Jun 2024 08:37:34 +0200
+	Tue, 25 Jun 2024 06:49:46 +0000
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ec4df7077bso1951801fa.0
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Jun 2024 23:49:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719298183; x=1719902983;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ONL0FgIX2sUz4izMxsakEXWbAUPL/9YDsaEmV+aRNGw=;
+        b=GGI96ZWlKof0orjK+LCvAWhsjqTqW59+WeSGs0uzVsz4N+f4BaRHdY4rkDGd1ly7SD
+         zQe5RuoFzwNclyigxE1iwQCtTYlDCn9jzdTKKyONxoF+F3Hx6ycHxe8zCohCoXvmExMQ
+         ejBNSIwls52CwRcM5cq6cqbsghZvjl8WhK9wiZ1BJLJGII5x4ciimNRYQtQ4VxGHc/2u
+         WM8UNoZgyHzU5heM9Bcdexduo+0524HVpwa72MKITcNmmirk0kx2MYN5Zi+ZZYoXEhTY
+         G37h5lcf6YKSySwTE+8jO2cPIaq9Jlg5TPCl2bj7Nsa8stodlYc4UVVnNbHQKtsZzPBj
+         7oAA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVCBfTO8DrRvapbTas5iIAArM4vx06mbLZBkmNLIz7w0wXjkKEmYFIzogV0fSJrqGIyGlS9URaU9nGNPpVJYzGGRslVZCz8h41seZ4wJo=
+X-Gm-Message-State: AOJu0Yzx6NaXpmuQSK1bOOXfBkt+E0UZ0hTP7pa+FVR/rg+OHWtcXVnV
+	0sy/BjyvNDuheDbd5UhTSX218tx25G9pb9kX4IPEZOmnESFbzk1H
+X-Google-Smtp-Source: AGHT+IH6kbBXgi0SvFnkU1YzY4k7I3LlCL8dbNlQFwfLk38RPv9WoPN57mT/TiDxemzJllWi/mV3ow==
+X-Received: by 2002:a2e:bc08:0:b0:2ec:6196:55e4 with SMTP id 38308e7fff4ca-2ec61965794mr32554831fa.2.1719298182392;
+        Mon, 24 Jun 2024 23:49:42 -0700 (PDT)
+Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42481910fd4sm158628985e9.30.2024.06.24.23.49.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Jun 2024 23:49:42 -0700 (PDT)
+Message-ID: <e03b73ab-0856-48b6-b580-a3c7e393dead@grimberg.me>
+Date: Tue, 25 Jun 2024 09:49:40 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] sched/isolation: Add io_queue housekeeping option
+Subject: Re: [PATCHv2] nvme-tcp: align I/O cpu with blk-mq mapping
+To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Hannes Reinecke <hare@suse.de>,
+ hch <hch@lst.de>, Hannes Reinecke <hare@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20240619145553.89736-1-hare@kernel.org>
+ <20240619145958.GA2254@lst.de> <d5c87821-54a7-4fb4-9222-501174d6058b@suse.de>
+ <f1348234-1dcb-4ac2-a0d4-305c39643a48@grimberg.me>
+ <eb0023bc-3a3b-4f31-955b-c6aad4cad4a3@suse.de>
+ <b4dc2a6a-1663-4144-a607-edb6beef48c0@grimberg.me>
+ <f67d4572-f625-48eb-a8e3-3e7a5527d9c6@grimberg.me>
+ <BY5PR04MB6849C4BFA9AA491AA5C3BFAABCD42@BY5PR04MB6849.namprd04.prod.outlook.com>
 Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>,
- Frederic Weisbecker <fweisbecker@suse.com>, Mel Gorman <mgorman@suse.de>,
- Sridhar Balaraman <sbalaraman@parallelwireless.com>,
- "brookxu.cn" <brookxu.cn@gmail.com>, Ming Lei <ming.lei@redhat.com>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <20240621-isolcpus-io-queues-v1-0-8b169bf41083@suse.de>
- <20240621-isolcpus-io-queues-v1-1-8b169bf41083@suse.de>
- <20240622051156.GA11303@lst.de>
- <x2mjbnluozxykdtqns47f37ssdkziovkdzchon5zkcadgkuuif@qloym5wjwomm>
- <20240624084705.GA20292@lst.de>
- <sjna556zvxyyj6as5pk6bbgmdwoiybl4gubqnlrxyfdvhbnlma@ewka5cxxowr7>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <sjna556zvxyyj6as5pk6bbgmdwoiybl4gubqnlrxyfdvhbnlma@ewka5cxxowr7>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <BY5PR04MB6849C4BFA9AA491AA5C3BFAABCD42@BY5PR04MB6849.namprd04.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9F65A1F849
-X-Spamd-Result: default: False [-3.00 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,suse.com,suse.de,parallelwireless.com,gmail.com,redhat.com,vger.kernel.org,lists.infradead.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_233737_684309_A93BF3C7 
-X-CRM114-Status: GOOD (  19.83  )
+X-CRM114-CacheID: sfid-20240624_234944_882194_F3B823EC 
+X-CRM114-Status: GOOD (  15.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,33 +89,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/24/24 11:00, Daniel Wagner wrote:
-> On Mon, Jun 24, 2024 at 10:47:05AM GMT, Christoph Hellwig wrote:
->>> Do you think we should introduce a new type or just use the existing
->>> managed_irq for this?
+
+
+On 24/06/2024 23:01, Kamaljit Singh wrote:
+> On 19/06/2024 18:58, Sagi Grimberg wrote:
+>>>>> I see how you address multiple controllers falling into the same
+>>>>> mappings case in your patch.
+>>>>> You could have selected a different mq_map entry for each controller
+>>>>> (out of the entries that map to the qid).
+>>>>>
+>>>> Looked at it, but hadn't any idea how to figure out the load.
+>>>> The load is actually per-cpu, but we only have per controller
+>>>> structures.
+>>>> So we would need to introduce a per-cpu counter, detailing out the
+>>>> number of queues scheduled on that CPU.
+>>>> But that won't help with the CPU oversubscription issue; we still
+>>>> might have substantially higher number of overall queues than we have
+>>>> CPUs...
+>>> I think that it would still be better than what you have right now:
+>>>
+>>> IIUC Right now you will have for all controllers (based on your example):
+>>> queue 1: using cpu 6
+>>> queue 2: using cpu 9
+>>> queue 3: using cpu 18
+>>>
+>>> But selecting a different mq_map entry can give:
+>>> ctrl1:
+>>> queue 1: using cpu 6
+>>> queue 2: using cpu 9
+>>> queue 3: using cpu 18
+>>>
+>>> ctrl2:
+>>> queue 1: using cpu 7
+>>> queue 2: using cpu 10
+>>> queue 3: using cpu 19
+>>>
+>>> ctrl3:
+>>> queue 1: using cpu 8
+>>> queue 2: using cpu 11
+>>> queue 3: using cpu 20
+>>>
+>>> ctrl4:
+>>> queue 1: using cpu 54
+>>> queue 2: using cpu 57
+>>> queue 3: using cpu 66
+>>>
+>>> and so on...
+>> Hey Hannes,
 >>
->> No idea really.  What was the reason for adding a new one?
-> 
-> I've added the new type so that the current behavior of spreading the
-> queues over to the isolated CPUs is still possible. I don't know if this
-> a valid use case or not. I just didn't wanted to kill this feature it
-> without having discussed it before.
-> 
-> But if we agree this doesn't really makes sense with isolcpus, then I
-> think we should use the managed_irq one as nvme-pci is using the managed
-> IRQ API.
-> 
-I'm in favour in expanding/modifying the managed irq case.
-For managed irqs the driver will be running on the housekeeping CPUs 
-only, and has no way of even installing irq handlers for the isolcpus.
+>> Did you make progress with this one?
+> Sagi,
+> Looks like this change should also address the other NVMe/TCP issue that I had
+> reported for WQ_UNBOUND, agree?
 
-Cheers,
+Well, this reduces load from the nvme-tcp io_work, so it makes sense 
+that it is shorter now.
+However its not clear to me that we are not spending these 10ms in 
+softirq in your test case.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Is it possible to measure it? with adding debug prints or trace events?
 
+>   If so, would this also be merged into
+> 6.8.xx branch as well?
+
+I don't know if this will be considered as a bug fix. the complaint is 
+advisory really, and does not affect
+the stability of the driver afaiu.
 
