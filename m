@@ -4,76 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9DC1C30653
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 06:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 880E4C2BBCA
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 07:07:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S503bXwUZwsbLHG3rT3ocKN+gymdm8bTViNCtB1nafQ=; b=xtyywi4rxyiacgthZlsexOGzTd
-	zOMVFTkYU1QYk+wr3K0upcyWGYWBCVJ1mtvfMILoVe4OgwSexFZtaeDz+FwCoXrvaJKE6HZ6mlgh2
-	aRWZWtpuvXwm8sAhkkJbFwYBMmKkxw/z/OUU5x0+GMwJ1/bCx2rpb/D/vLRcRjVnHLk0NxNevYiKS
-	vugH6IvX+YmFdIc1pURZ+qXZaugeTpX5tdyrRf/EWaLxNzVTFwKRqPETB8L8ois3yO+VFolE4pdFZ
-	5nXhZuIAmEfYaPLPW2AyAY3zj1fHmtsFVQ0i7l4gxeXSLxSY2zbQQ4PMXLYeyOOZdpaFCCQEbuFzd
-	5E/gejTg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iSI7fj3SMbgXLwqwSqXjXKJNJqsQgRCaFKgsC6I5fZU=; b=4Z7/jETe9hjRaGdQgAp+MmKCTZ
+	SIa8i1+5uVZceIGpO3+lsNExOYtstFqTSPzsF1VtzDoukvcyRnCxmSXuG51j2mq7gGgDvPmfpMt8Y
+	1KE8c0wSNgNFFWaoIuFyXhbRuiKkeaiZut0vsUPcMi6nXKVnFZmBABIpc50JbnP9j4GbroBeHGNHS
+	rZ3kpHoAat+t6Gw2YsEIFF5uXKl3M3py5nqOgf6XhShbMftqWJ1LT10PmJrcE8/JlOeZGk2weI21H
+	mhqfdrdjuFXwyh9RQKoTUXWlFRe5+C3TqWq0qiNnMSrLkcgCazDll08XrH8wchrJP/4QEA+2+W9Kr
+	xDbAFlNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sM025-00000001qSM-1hDo;
-	Tue, 25 Jun 2024 06:52:01 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1sM0HJ-00000001tXF-0GwB;
+	Tue, 25 Jun 2024 07:07:45 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sM022-00000001qRu-2e7s
+	id 1sM0H9-00000001tRc-0RRv
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Jun 2024 06:51:59 +0000
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42111cf2706so6452595e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 24 Jun 2024 23:51:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719298317; x=1719903117;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S503bXwUZwsbLHG3rT3ocKN+gymdm8bTViNCtB1nafQ=;
-        b=YtKvMfsSR6ng+sUv3WKlS7rhfzSZxnlsueTFzvNhqtQMj+tI+MdRPe8RHZBKhifTKQ
-         yOMHAslqB2b7KpUOSv4wF3NuXvqJlJX4LFPrIL47+XR2Js/swekwfWJXfON+VQ6SaDYq
-         Ps1OmaDI+qN9gVEDspS8uQgI3lBWY/WCRB726izIRd1ffhYgKtHs4INPlUcb7RBkU3f3
-         lCmdJnjQniAjxSthr3O2mNWti2RnEWeEFebU4ficw9dhEeIYTliNv1q91nlnjZSEaVxX
-         5gQJoG56iPahzz7sCX21KnqSPk/Jy0i453gMLZiVO1oQlXX63DIBWLQmWkKZ3iJPLb6w
-         8EaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbNxa9DL7yS63bQxSf5buQXJef1qy3sWO3+aJ7Gk8TdOk8K/gcDLajsSuVRM/3WBy+JxC4yKSjakjquGT/B2fOV7QgaYxlGsVdTSRPwY8=
-X-Gm-Message-State: AOJu0Yy9UWxhIsC7/bLISxtoShv59+fLG3Ft6EVcCxkl/uHWftcaFeru
-	O0pxlx48CFJkxCW0j/8FH2QnV3TfyTASbBrpLJxS4NKPiRDGNQUCJdgFlQ==
-X-Google-Smtp-Source: AGHT+IFQgSdzaKbWpOVjQ7fNmr+O48i4Bqkr6TnGjw1b3d0KZfOnW9Vht/tGyHpJi+7lWFB3SpYdDw==
-X-Received: by 2002:a05:600c:3b8d:b0:421:de31:76 with SMTP id 5b1f17b1804b1-424891aa2a7mr57214285e9.3.1719298316594;
-        Mon, 24 Jun 2024 23:51:56 -0700 (PDT)
-Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b5554sm164124015e9.26.2024.06.24.23.51.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 23:51:56 -0700 (PDT)
-Message-ID: <08cb20fb-f5dc-430c-957b-0c9f57e21ff7@grimberg.me>
-Date: Tue, 25 Jun 2024 09:51:54 +0300
+	Tue, 25 Jun 2024 07:07:42 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1719299250;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iSI7fj3SMbgXLwqwSqXjXKJNJqsQgRCaFKgsC6I5fZU=;
+	b=ipv+GCo/a3XKt1bVhJ8qHmQ5iX9Y3xQeAwTl/NVuKmfo3NwwWPQ4ZG+8oJfO6PUR/YrrRV
+	qzcPbG2cqMmLO3jzlf3kxT3KrpJ/HSBr8DwOgIHJ0Zgo770WTAClKqwUE8pJyIpRtpqsn8
+	+C/RtY6LHcyXj61YjXH+LSSOOy5L0Jf6l7lVR71qp5J06nzqXRsc7BifCtuuC2chCMIfHK
+	ccTgrQBT55cPvqX827TetCpeLSAFybY18O4YDXVtuwUBajpQN7AR3PWlzYPZV8FLPAIswh
+	6z/3dQxrXIDT1lvoBnoMiLHntKaIo4Gg4iHl5Ud9S94WGbOl3GhdeumZ5Ssxaw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1719299250;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iSI7fj3SMbgXLwqwSqXjXKJNJqsQgRCaFKgsC6I5fZU=;
+	b=T+H7/aRCp62Ttz3TJuYUoPdXWA9RMxgNdzwdKonscOY2UYnMchLq93iXOKqY8hFfo3KAYU
+	fYuHJypFsZD1HqDw==
+To: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Sagi
+ Grimberg <sagi@grimberg.me>, Frederic Weisbecker <fweisbecker@suse.com>,
+ Mel Gorman <mgorman@suse.de>, Sridhar Balaraman
+ <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>,
+ Ming Lei <ming.lei@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/3] sched/isolation: Add io_queue housekeeping option
+In-Reply-To: <55315fc9-4439-43b0-a4d2-89ab4ea598f0@suse.de>
+References: <20240621-isolcpus-io-queues-v1-0-8b169bf41083@suse.de>
+ <20240621-isolcpus-io-queues-v1-1-8b169bf41083@suse.de>
+ <20240622051156.GA11303@lst.de>
+ <x2mjbnluozxykdtqns47f37ssdkziovkdzchon5zkcadgkuuif@qloym5wjwomm>
+ <20240624084705.GA20292@lst.de>
+ <sjna556zvxyyj6as5pk6bbgmdwoiybl4gubqnlrxyfdvhbnlma@ewka5cxxowr7>
+ <55315fc9-4439-43b0-a4d2-89ab4ea598f0@suse.de>
+Date: Tue, 25 Jun 2024 09:07:30 +0200
+Message-ID: <878qyt7b65.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] nvme-tcp: align I/O cpu with blk-mq mapping
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240619145553.89736-1-hare@kernel.org>
- <20240619145958.GA2254@lst.de> <d5c87821-54a7-4fb4-9222-501174d6058b@suse.de>
- <f1348234-1dcb-4ac2-a0d4-305c39643a48@grimberg.me>
- <eb0023bc-3a3b-4f31-955b-c6aad4cad4a3@suse.de>
- <b4dc2a6a-1663-4144-a607-edb6beef48c0@grimberg.me>
- <f67d4572-f625-48eb-a8e3-3e7a5527d9c6@grimberg.me>
- <bf241d6c-3123-4047-b393-32eb46f692fe@suse.de>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <bf241d6c-3123-4047-b393-32eb46f692fe@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_235158_705499_AAFF7390 
-X-CRM114-Status: GOOD (  15.13  )
+X-CRM114-CacheID: sfid-20240625_000735_825945_BDD4E5D3 
+X-CRM114-Status: GOOD (  18.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,83 +85,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Jun 25 2024 at 08:37, Hannes Reinecke wrote:
+> On 6/24/24 11:00, Daniel Wagner wrote:
+>> On Mon, Jun 24, 2024 at 10:47:05AM GMT, Christoph Hellwig wrote:
+>>>> Do you think we should introduce a new type or just use the existing
+>>>> managed_irq for this?
+>>>
+>>> No idea really.  What was the reason for adding a new one?
+>> 
+>> I've added the new type so that the current behavior of spreading the
+>> queues over to the isolated CPUs is still possible. I don't know if this
+>> a valid use case or not. I just didn't wanted to kill this feature it
+>> without having discussed it before.
+>> 
+>> But if we agree this doesn't really makes sense with isolcpus, then I
+>> think we should use the managed_irq one as nvme-pci is using the managed
+>> IRQ API.
+>> 
+> I'm in favour in expanding/modifying the managed irq case.
+> For managed irqs the driver will be running on the housekeeping CPUs 
+> only, and has no way of even installing irq handlers for the isolcpus.
 
+Yes, that's preferred, but please double check with the people who
+introduced that in the first place.
 
-On 25/06/2024 9:05, Hannes Reinecke wrote:
-> On 6/24/24 12:02, Sagi Grimberg wrote:
->>
->>
->> On 19/06/2024 18:58, Sagi Grimberg wrote:
->>>
->>>
->>>>> I see how you address multiple controllers falling into the same 
->>>>> mappings case in your patch.
->>>>> You could have selected a different mq_map entry for each 
->>>>> controller (out of the entries that map to the qid).
->>>>>
->>>> Looked at it, but hadn't any idea how to figure out the load.
->>>> The load is actually per-cpu, but we only have per controller 
->>>> structures.
->>>> So we would need to introduce a per-cpu counter, detailing out the
->>>> number of queues scheduled on that CPU.
->>>> But that won't help with the CPU oversubscription issue; we still 
->>>> might have substantially higher number of overall queues than we 
->>>> have CPUs...
->>>
->>> I think that it would still be better than what you have right now:
->>>
->>> IIUC Right now you will have for all controllers (based on your 
->>> example):
->>> queue 1: using cpu 6
->>> queue 2: using cpu 9
->>> queue 3: using cpu 18
->>>
->>> But selecting a different mq_map entry can give:
->>> ctrl1:
->>> queue 1: using cpu 6
->>> queue 2: using cpu 9
->>> queue 3: using cpu 18
->>>
->>> ctrl2:
->>> queue 1: using cpu 7
->>> queue 2: using cpu 10
->>> queue 3: using cpu 19
->>>
->>> ctrl3:
->>> queue 1: using cpu 8
->>> queue 2: using cpu 11
->>> queue 3: using cpu 20
->>>
->>> ctrl4:
->>> queue 1: using cpu 54
->>> queue 2: using cpu 57
->>> queue 3: using cpu 66
->>>
->>> and so on...
->>
->> Hey Hannes,
->>
->> Did you make progress with this one?
->
-> Yeah, just trying to get some performance numbers.
+Thanks,
 
-Nice.
-
-I understand that you took my comment above about spreading the
-queue->io_cpu assignments to different cpus from the mq_map for
-different controllers?
-
-Plus, it would be good to understand the performance implications without
-the softirq_rx patch, to see the performance implications of this patch 
-alone.
-
-Aside from that, I'll be also interested to see the performance 
-implications of
-the softirq_rx change.
-
->
-> Cheers,
->
-> Hannes
-
+        tglx
 
