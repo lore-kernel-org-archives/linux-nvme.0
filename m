@@ -4,99 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF685C3064D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 06:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C03B9C30653
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 06:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TCWZ9MBotSkbYl99ctuLh6W54nsSq/LaktbBC6/0bKE=; b=rQ7pMtgYRS2BUni9at34WSfDPB
-	zvHkCHf7cjXS3IO7XUT1jlhlQtmdRESxLZMc9IVsQFUpY2oC7dGsvjl3vEW0PcA9K5XRid82TGNdT
-	eJLTcbqJj5CLidZu6ZxV5Q/VLDAZaOCzLmpQjLr3rEdoRwrjQhI2xxMzJF3UbXTfS8h35SL67E0ux
-	yCaSU4sIvetiktM0D7w18d0z2EifhNWwCHS4lWSfxaiKvcwvq+mD/B0x3qfXrAEZB9hAgjB1dOphP
-	ciCrFimlk7WRzeuskZECsva98CW4uKTkuasbTcRUFeVxCejLyDsl/iopfVUB9J6RvPP0sEg4oRoJK
-	pyRityag==;
+	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=; b=nfgYhwJljjDudLqgpjo1MsuomV
+	KLxRGuuzQ7tN17nmYsVPQI9b5TJVS3qcHQrVjpfP0BkdXxm5Q/kmbrv2ANRKj9XXnQpjZbZkdaSm0
+	qFDTtkA7wbxzbrl5wK5XG0meaPMGQhN+sm4wLdszplpzMk1VZb7MsukFpc1rqNz55uRkiNXA2ryBa
+	B0ByqNpcMCWvlzIfZ7CNvr5S1ebnrZ8AM6Xp81Wi+6sVy6WZ0utgPG31SLSK1++n9j5inpujVm3zP
+	xrnz52PiBRUThvJQ+oL87dAwVc4EKGPFIjD2leE8A0lN9/A9vPhpWsKpdMs3yHcycxVp+kzjtuwFi
+	LIFfip0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLzck-00000001nQA-3vGF;
-	Tue, 25 Jun 2024 06:25:50 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1sLzoE-00000001orQ-2B0C;
+	Tue, 25 Jun 2024 06:37:42 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLzci-00000001nLo-18JK
+	id 1sLzo9-00000001oor-1q4q
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Jun 2024 06:25:49 +0000
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45P5ueBL015310;
-	Tue, 25 Jun 2024 06:25:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=T
-	CWZ9MBotSkbYl99ctuLh6W54nsSq/LaktbBC6/0bKE=; b=slAMuYQ9VByKb4F72
-	LHQ/F7ji7udLSiMVwShbqCXn+p6C96/2Bl/y7fpfbt8YeXBzU+0T40ICRBCBjJIs
-	WS5twt78/bQnxXuX5DgadX8PjPWV0Vl+Ci6PTLKT5wWKSJZwT6x1LVzU6dXoAZgc
-	zaCbGO2zKvP7zHkm8y22Xz+o5aqv/J1ncSviGhEeIoRe5wykhynwj30Vclc8jh/B
-	+MUK/GvvltMVegfyvRvxml43BCaamwFKZS9DVmzyccKTSdDXe7PdzYNOUpRndLLL
-	scrB1jNRmi5Gt/E4ua8Ra0FHV1eWiaBe2AXk6zflhBbUaYqUK6Ed99XKfri3kuL2
-	0R37g==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yyqg8r4aw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Jun 2024 06:25:32 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45P5aamd000388;
-	Tue, 25 Jun 2024 06:23:25 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3yxbn34grt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Jun 2024 06:23:25 +0000
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45P6NLce38011616
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Jun 2024 06:23:23 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5A9175805A;
-	Tue, 25 Jun 2024 06:23:21 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BCDC958051;
-	Tue, 25 Jun 2024 06:23:18 +0000 (GMT)
-Received: from [9.109.198.223] (unknown [9.109.198.223])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 25 Jun 2024 06:23:18 +0000 (GMT)
-Message-ID: <6795690a-4352-4f8d-abfd-e686bcd2fb4f@linux.ibm.com>
-Date: Tue, 25 Jun 2024 11:53:16 +0530
+	Tue, 25 Jun 2024 06:37:40 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F65A1F849;
+	Tue, 25 Jun 2024 06:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719297455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
+	b=j7hsXQI1BBfJ0DmHLbYegDowQcM7GI6Jp7Em+jQFMUS+wFBgzBfqZOfwYy6F6RypI7sJYq
+	6EMRvpS6soHeXXgku0TH3BcXE4yUQIJ9CE7s9MP58ODaJK2OVqYaxJIMLP97liB3QCSdj7
+	T+dBoT1plJ94GjvVY7zZQ/rLdvZTT8U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719297455;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
+	b=UtkR0vWHw/bFimZRLB16FqMqiOI+rummyanAZG4EvbBxIuMGe6CeRYzIXyQTlpjEg2fW10
+	Tr4uBWyEnjZynYDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=j7hsXQI1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UtkR0vWH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1719297455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
+	b=j7hsXQI1BBfJ0DmHLbYegDowQcM7GI6Jp7Em+jQFMUS+wFBgzBfqZOfwYy6F6RypI7sJYq
+	6EMRvpS6soHeXXgku0TH3BcXE4yUQIJ9CE7s9MP58ODaJK2OVqYaxJIMLP97liB3QCSdj7
+	T+dBoT1plJ94GjvVY7zZQ/rLdvZTT8U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1719297455;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Dw67TcI8wAAs6NeF87J/NxxswPE+07yoxyWkCK0pOo=;
+	b=UtkR0vWHw/bFimZRLB16FqMqiOI+rummyanAZG4EvbBxIuMGe6CeRYzIXyQTlpjEg2fW10
+	Tr4uBWyEnjZynYDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E28291384C;
+	Tue, 25 Jun 2024 06:37:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BDFtMq5lembMDwAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 25 Jun 2024 06:37:34 +0000
+Message-ID: <55315fc9-4439-43b0-a4d2-89ab4ea598f0@suse.de>
+Date: Tue, 25 Jun 2024 08:37:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH nvme-cli] nvme: warn about attaching a namespace to
- unknown controller
-To: Keith Busch <kbusch@kernel.org>
-Cc: dwagner@suse.de, linux-nvme@lists.infradead.org, hch@lst.de,
-        sagi@grimberg.me, gjoyce@ibm.com, msmurthy@imap.linux.ibm.com,
-        axboe@fb.com
-References: <20240620125604.3017138-1-nilay@linux.ibm.com>
- <ZnWXc8wrNR_ijnTH@kbusch-mbp>
- <702e63dd-8fe6-4c23-89fd-7075573bb445@linux.ibm.com>
- <ZnnJyfZDg4xbxYDv@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH 1/3] sched/isolation: Add io_queue housekeeping option
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ZnnJyfZDg4xbxYDv@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 9eqEyfJ-1YGeaXew7l7fa8gmyXMXTage
-X-Proofpoint-GUID: 9eqEyfJ-1YGeaXew7l7fa8gmyXMXTage
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-25_03,2024-06-24_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- adultscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- bulkscore=0 clxscore=1015 phishscore=0 mlxlogscore=999 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406250048
+To: Daniel Wagner <dwagner@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>,
+ Frederic Weisbecker <fweisbecker@suse.com>, Mel Gorman <mgorman@suse.de>,
+ Sridhar Balaraman <sbalaraman@parallelwireless.com>,
+ "brookxu.cn" <brookxu.cn@gmail.com>, Ming Lei <ming.lei@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <20240621-isolcpus-io-queues-v1-0-8b169bf41083@suse.de>
+ <20240621-isolcpus-io-queues-v1-1-8b169bf41083@suse.de>
+ <20240622051156.GA11303@lst.de>
+ <x2mjbnluozxykdtqns47f37ssdkziovkdzchon5zkcadgkuuif@qloym5wjwomm>
+ <20240624084705.GA20292@lst.de>
+ <sjna556zvxyyj6as5pk6bbgmdwoiybl4gubqnlrxyfdvhbnlma@ewka5cxxowr7>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <sjna556zvxyyj6as5pk6bbgmdwoiybl4gubqnlrxyfdvhbnlma@ewka5cxxowr7>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9F65A1F849
+X-Spamd-Result: default: False [-3.00 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,suse.com,suse.de,parallelwireless.com,gmail.com,redhat.com,vger.kernel.org,lists.infradead.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240624_232548_391742_A373E140 
-X-CRM114-Status: GOOD (  33.89  )
+X-CRM114-CacheID: sfid-20240624_233737_684309_A93BF3C7 
+X-CRM114-Status: GOOD (  19.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,78 +154,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 6/25/24 01:02, Keith Busch wrote:
-> On Sat, Jun 22, 2024 at 04:05:01PM +0530, Nilay Shroff wrote:
+On 6/24/24 11:00, Daniel Wagner wrote:
+> On Mon, Jun 24, 2024 at 10:47:05AM GMT, Christoph Hellwig wrote:
+>>> Do you think we should introduce a new type or just use the existing
+>>> managed_irq for this?
 >>
->>
->> On 6/21/24 20:38, Keith Busch wrote:
->>> On Thu, Jun 20, 2024 at 06:25:45PM +0530, Nilay Shroff wrote:
->>>> Sometime it's possible for a multi-controller NVMe disk to have only
->>>> one of its controller discovered by the kernel. And if this happens
->>>> then it's also possible for a user to create and then attach a namespace
->>>> to a controller which has not been discovered by the kernel. In such a
->>>> case the attached namespace can't be used for IO because there's no path
->>>> to reach such namespace from the kernel.
->>>
->>> Isn't that a pretty normal thing to do, though? Like for an sriov
->>> situation, a primary controller attaches namespaces to secondaries, but
->>> not to itself.
->> Yes correct, but in case of sriov, AFAIK, the "nvme list-secondary ...." shall 
->> not list any secondary controller unless the secondary controller's corresponding 
->> VF is enabled (i.e. /sys/class/nvme/nvmeX/device/sriov_numvfs set to at least the 
->> secondary controller's VF number). 
->>
->> So it means that before attaching namespace to secondaries, user would first set 
->> sriov_numvfs. Setting numvfs would then enable the kernel to discover all secondary
->> controllers. 
+>> No idea really.  What was the reason for adding a new one?
 > 
-> You'd usually bind those to vfio, not nvme. So while the kernel knows
-> those pci functions exist, the nvme driver doesn't necessarily know
-> about these.
+> I've added the new type so that the current behavior of spreading the
+> queues over to the isolated CPUs is still possible. I don't know if this
+> a valid use case or not. I just didn't wanted to kill this feature it
+> without having discussed it before.
 > 
-> And that's not even an sriov exclusive thing. You can bind other PFs
-> just the same, though they just don't have the resource provisioning
-> features that VFs can do. But you can still attach and detach namespaces
-> to/from them all the same.
->  
->> However, in the proposed patch we're trying to address a case where "nvme list-ctrl ..."
->> shows multiple controller entries however only one of those controllers is discovered
->> by kernel. All controllers shown in the output of "nvme list-ctrl ..." are physical
->> controllers on the nvme disk. In this case attaching a namespace to any of the 
->> undiscovered controller has a side effect due which the namespace rendered unusable.  
+> But if we agree this doesn't really makes sense with isolcpus, then I
+> think we should use the managed_irq one as nvme-pci is using the managed
+> IRQ API.
 > 
-> Unusable from the driver the admin ran the command from. Some other
-> machine (real or virtual) may be able to use it, or maybe even the same
-> machine that you handed some function to a user space driver, and that's
-> not really an error.
-> 
-Ok got it... I didn't know this topology is also supported!
+I'm in favour in expanding/modifying the managed irq case.
+For managed irqs the driver will be running on the housekeeping CPUs 
+only, and has no way of even installing irq handlers for the isolcpus.
 
->> This patch tries to address this issue by showing a WARNING to the user and optionally
->> allowing user to cancel the attach operation. However if user still prefers to go 
->> ahead without cancelling the attach operation then nvme-cli would execute this command
->> as usual. 
-> 
-> Have you received bug reports of people mistakenly attaching namespaces
-> to the wrong controller or something?
-Not from customer but it was an internally found defect where someone (mistakenly!) 
-attached a namespace to a controller which was not discovered by the kernel and that
-caused the namespace remains hidden behind undiscovered controller... 
+Cheers,
 
-The "nvme list" command would not show up that hidden namespace, and also 
-"nvme list-ns <dev>" wouldn't list that namespace. However later I found that 
-the only way to list that hidden namespace was to use "nvme list <dev> -a" 
-command.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
-I think, it might be difficult to gauge what's the intent here when user/admin runs 
-a command to attach a namespace. If the intent is to attach namespace behind 
-controller/VF which might be usable from other (real/virtual) machine then it's OK. 
-However if the intent is to use the namespace on the same host machine and using the 
-same kernel driver where the command is being executed then there could be an issue. 
-Any comment...?
-
-Thanks,
---Nilay 
 
