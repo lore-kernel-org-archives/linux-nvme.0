@@ -4,128 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 901A1C2BBCA
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 08:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7749C2BBCA
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jun 2024 10:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PgrnSv7iTsORqiBqIbgAFanma+OLSb36OJTxyTfWs8A=; b=M0eyYzwohSpuw5ViuYljgRXb6S
-	9GdE+V6WnAADUe25/WCe6o2+BSFWKW8xnjv4GSBQiEckUq4itMpZPS+9TUykBCEcyoMs0tGY8ymEX
-	IzELfsE6z/FHEFeCCaw/KzCM2hflGw5AmnlQoyNWwto/0FZ62Q8kre7VYMqAcOwtIxPdADTV1e05O
-	N6UiOzUUPIneusg2mLmltsShD4jrJPRwOu6bM5ljaxITMVrFK1we3H8ctTEMeiXIJqszYwYGIGNee
-	3djTCI6ir3HSUv+5KV3JrBgWIW3E5OI/GsaHycgKs6WIN2SZ8VbY+9v1TS48jIUp0IVFQU6rA7+Y2
-	POcc+0tQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mQ7L7rRBN6X4YzC0LClbkr0J0xi6q0fsdKXuChcwY7c=; b=beTiIXF/y3qY17y5CApOcKBg+H
+	d+VQPEf2Ofv5PIUmW9qK1/49aljq/3Velu1fx+Oyf0ZvXkAR7oeqwq7ozffFvpXUPA4TgfxM6T/H8
+	obmWbGpidCRqaG2vfyLnSGbe026OeCb3LgxKOZukLHFB1Knnw2t3fj1kLxxL/kq53Z3/CTfOkTCfq
+	WD7ZVBivyVg/OAWJ88oMTmQvT88wconX28JKBvKL9As7f9/VPecR6682ubsStct3UUMRTEh4vDJWH
+	5M+FiPyuLjgYAa35ZxAoDF+3irWG0BOjcAVuwL/DDYgdk6heFL2LiVoAVbwU1vFcQWzOnJ+Ug2/Gd
+	jPWoLtQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sM204-00000002C5A-067S;
-	Tue, 25 Jun 2024 08:58:04 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sM31G-00000002Ld9-1dwG;
+	Tue, 25 Jun 2024 10:03:22 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sM1zt-00000002Bxt-3qH4
+	id 1sM31D-00000002LcX-0fep
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Jun 2024 08:58:01 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E39CC1F7D3;
-	Tue, 25 Jun 2024 08:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719305871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PgrnSv7iTsORqiBqIbgAFanma+OLSb36OJTxyTfWs8A=;
-	b=EvB9fFdkD+Sop+gsGm20VvTbFcL5U04T+3ULHB8KIUL95RbBbEApOMewpM2Xc8Z9zK6HQS
-	vnrNa6FUw+e+1ew3LREZZaUJNo7BXVc2GBXiRMNBNfnX7rZfUW0+kdQPjqCDiKAt0R5ZdS
-	PbpiaxpmL4dGGMkN4MX/ua2z6xf6md8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719305871;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PgrnSv7iTsORqiBqIbgAFanma+OLSb36OJTxyTfWs8A=;
-	b=kJDBYi6xqWkn4x42bKVzxW2FGnKTdDUWAS4g4TG4+5w031jEP7umiactHn/TtywgGUqjXA
-	35bOGL24O+zUdaAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719305870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PgrnSv7iTsORqiBqIbgAFanma+OLSb36OJTxyTfWs8A=;
-	b=lLGWY32yF5j0kwO7OBOonfkM6oIZB1LQW2hrc1oBvuf28zUkLAPHj9YfdoETurlqVKx8uB
-	hjrntORUK2oSHu9nAE9xPwQ/Pv+72vDSD5oXsAy3KWjw0RCn2KjMzMsJmhEuw8pgMjygek
-	mxtxTJq/6kr3+8jTKY4Bv+6/HEs7+/Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719305870;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PgrnSv7iTsORqiBqIbgAFanma+OLSb36OJTxyTfWs8A=;
-	b=fCDG/Nxf5Riz7Jnv5fCpd+9O/F2i8/BTJ1xbRptUXcGq6fzEe+L71oCEXFo886mXYMVKJR
-	SW7Reb6ZWhSXCaBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3D391384C;
-	Tue, 25 Jun 2024 08:57:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4RoVM46Gema8PQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 25 Jun 2024 08:57:50 +0000
-Date: Tue, 25 Jun 2024 10:57:42 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, 
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Frederic Weisbecker <fweisbecker@suse.com>, 
-	Mel Gorman <mgorman@suse.de>, Sridhar Balaraman <sbalaraman@parallelwireless.com>, 
-	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 1/3] sched/isolation: Add io_queue housekeeping option
-Message-ID: <rk2ywo6y3ppki2gfogter2p2p2b556kmawqsuqrif3xcalsc2m@aosprmhypcav>
-References: <20240621-isolcpus-io-queues-v1-0-8b169bf41083@suse.de>
- <20240621-isolcpus-io-queues-v1-1-8b169bf41083@suse.de>
- <20240622051156.GA11303@lst.de>
- <x2mjbnluozxykdtqns47f37ssdkziovkdzchon5zkcadgkuuif@qloym5wjwomm>
- <20240624084705.GA20292@lst.de>
- <sjna556zvxyyj6as5pk6bbgmdwoiybl4gubqnlrxyfdvhbnlma@ewka5cxxowr7>
- <55315fc9-4439-43b0-a4d2-89ab4ea598f0@suse.de>
- <878qyt7b65.ffs@tglx>
+	Tue, 25 Jun 2024 10:03:20 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45P9U8KQ011911;
+	Tue, 25 Jun 2024 10:03:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=m
+	Q7L7rRBN6X4YzC0LClbkr0J0xi6q0fsdKXuChcwY7c=; b=f0YAdK43LFSB3NufA
+	xVQgTDjTTpSGFDuf9IU0WS1YeSXEHZOf8H2WOnRk4uP5WZXKaipRGXRwUqkFAvCQ
+	CJPIDAMLp2j74flJ7qP8YiFUg2TpKNFUb6znH8aMxTUUkEzKDrxw8eNrHzN+vM9c
+	rtlMOSdTnFrmpweELPjdu1DYcxDzdi/Fe/5xp0GjDQnPuyjYPEFeFE+JBqBobXSa
+	9/qZq3NBKcKJ3SntCNC7QXAM6BBhBlMs9Fsc2rG5O8HGqHEUSwq9rd6XpcNT/2rx
+	KNwzp5BbT57tEVMswrCZnxmZ+LEnWhkgNMY11VyB9K5oJFFP+Sv69otfz8dBzwID
+	2bLqA==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yyua702m1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 25 Jun 2024 10:03:06 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45P8YbP4020058;
+	Tue, 25 Jun 2024 10:03:06 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3yxb5mdfh2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 25 Jun 2024 10:03:06 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45PA338Q43320028
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 25 Jun 2024 10:03:05 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F015D5805C;
+	Tue, 25 Jun 2024 10:03:02 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2D59358051;
+	Tue, 25 Jun 2024 10:03:01 +0000 (GMT)
+Received: from [9.109.198.223] (unknown [9.109.198.223])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 25 Jun 2024 10:03:00 +0000 (GMT)
+Message-ID: <e4eb3d7c-e9d9-41fa-81cf-e3f248d3e0a8@linux.ibm.com>
+Date: Tue, 25 Jun 2024 15:32:59 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878qyt7b65.ffs@tglx>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,lst.de,kernel.dk,kernel.org,grimberg.me,suse.com,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,linutronix.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2] nvme-pci: do not directly handle subsys reset fallout
+To: Keith Busch <kbusch@meta.com>, hch@lst.de, sagi@grimberg.me,
+        linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Gregory Joyce <gjoyce@ibm.com>
+References: <20240624172649.2268634-1-kbusch@meta.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240624172649.2268634-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: pg-cHkvJyHtX_x0Ukoyycsk3Nq9aVCMp
+X-Proofpoint-ORIG-GUID: pg-cHkvJyHtX_x0Ukoyycsk3Nq9aVCMp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-25_06,2024-06-24_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0
+ impostorscore=0 mlxscore=0 adultscore=0 priorityscore=1501 malwarescore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406250068
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240625_015754_169792_1F035FFF 
-X-CRM114-Status: GOOD (  29.83  )
+X-CRM114-CacheID: sfid-20240625_030319_351497_D4FDAC3D 
+X-CRM114-Status: GOOD (  34.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,51 +106,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 25, 2024 at 09:07:30AM GMT, Thomas Gleixner wrote:
-> On Tue, Jun 25 2024 at 08:37, Hannes Reinecke wrote:
-> > On 6/24/24 11:00, Daniel Wagner wrote:
-> >> On Mon, Jun 24, 2024 at 10:47:05AM GMT, Christoph Hellwig wrote:
-> >>>> Do you think we should introduce a new type or just use the existing
-> >>>> managed_irq for this?
-> >>>
-> >>> No idea really.  What was the reason for adding a new one?
-> >> 
-> >> I've added the new type so that the current behavior of spreading the
-> >> queues over to the isolated CPUs is still possible. I don't know if this
-> >> a valid use case or not. I just didn't wanted to kill this feature it
-> >> without having discussed it before.
-> >> 
-> >> But if we agree this doesn't really makes sense with isolcpus, then I
-> >> think we should use the managed_irq one as nvme-pci is using the managed
-> >> IRQ API.
-> >> 
-> > I'm in favour in expanding/modifying the managed irq case.
-> > For managed irqs the driver will be running on the housekeeping CPUs 
-> > only, and has no way of even installing irq handlers for the isolcpus.
+Hi Keith,
+
+On 6/24/24 22:56, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> Yes, that's preferred, but please double check with the people who
-> introduced that in the first place.
+> Scheduling reset_work after a nvme subsystem reset is expected to fail
+> on pcie, but this also prevents potential handling from the platform's
+> pcie services may provide that may successfully recovering the link
+> without re-enumeration. Such examples include AER, DPC, and power's EEH.
+> 
+> Provide a pci specific operation that safely initiates a subsystem
+> reset, and instead of scheduling reset work, read back the status
+> register to trigger a pcie read error.
+> 
+> Since this only affects pci, the other fabrics drivers subscribe to a
+> generic nvmf subsystem reset that is exactly the same as before. The
+> loop fabric doesn't use it because nvmet doesn't support setting that
+> property anyway.
+> 
+> And since we're using the magic NSSR value in two places now, provide a
+> symbolic define for it.
+> 
+> Reported-by: Nilay Shroff <nilay@linux.ibm.com>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+> Changes from v1, applied comments from Christoph:
+> 
+>   Split out and require new ctrl subsystem reset op
+> 
+>   Comments updated for correctness and clarity
+> 
+>   Use a symbolic name for the special reset value
+> 
+>  drivers/nvme/host/fabrics.c | 15 +++++++++++++++
+>  drivers/nvme/host/fabrics.h |  1 +
+>  drivers/nvme/host/fc.c      |  1 +
+>  drivers/nvme/host/nvme.h    | 14 +++-----------
+>  drivers/nvme/host/pci.c     | 35 +++++++++++++++++++++++++++++++++++
+>  drivers/nvme/host/rdma.c    |  1 +
+>  drivers/nvme/host/tcp.c     |  1 +
+>  include/linux/nvme.h        |  3 +++
+>  8 files changed, 60 insertions(+), 11 deletions(-)
+> 
+>  
+>  /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 102a9fb0c65ff..6cb7acef05576 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1143,6 +1143,40 @@ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
+>  	spin_unlock(&nvmeq->sq_lock);
+>  }
+>  
+> +static int nvme_pci_subsystem_reset(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_dev *dev = to_nvme_dev(ctrl);
+> +	int ret = 0;
+> +
+> +	/*
+> +	 * Taking the shutdown_lock ensures the BAR mapping is not being
+> +	 * altered by reset_work. Holding this lock before the RESETTING state
+> +	 * change, if successful, also ensures nvme_remove won't be able to
+> +	 * proceed to iounmap until we're done.
+> +	 */
+> +	mutex_lock(&dev->shutdown_lock);
+> +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING)) {
+> +		ret = -EBUSY;
+> +		goto unlock;
+> +	}
+> +
+> +	if (!dev->bar_mapped_size) {
+> +		ret = -ENODEV;
+> +		goto unlock;
+> +	}
+> +
+> +	writel(NVME_SUBSYS_RESET, dev->bar + NVME_REG_NSSR);
+> +
+> +	/*
+> +	 * Read controller status to flush the previous write and trigger a
+> +	 * pcie read error.
+> +	 */
+> +	readl(dev->bar + NVME_REG_CSTS);
+> +unlock:
+> +	mutex_unlock(&dev->shutdown_lock);
+> +	return ret;
+> +}
+I noticed that in your earlier proposal we were changing the NVMe controller 
+state from RESETTING to LIVE just after write to NVME_REG_NSSR. In this patch,
+you removed that code and due to it now pci error recovery code (nvme_error_detected()) 
+couldn't change the state of controller to RESETTING and that causes the pci error 
+recovery to immediately bail out without recovering the NVMe adapter. 
 
-The relevant code was added by Ming:
+I think we need to change state of controller to LIVE after write to NVME_REG_NSSR.
+So was there any specific reason you removed that code or was it missed out by mistake?
 
-11ea68f553e2 ("genirq, sched/isolation: Isolate from handling managed
-interrupts")
-
-    [...] it can happen that a managed interrupt whose affinity
-    mask contains both isolated and housekeeping CPUs is routed to an isolated
-    CPU. As a consequence IO submitted on a housekeeping CPU causes interrupts
-    on the isolated CPU.
-
-    Add a new sub-parameter 'managed_irq' for 'isolcpus' and the corresponding
-    logic in the interrupt affinity selection code.
-
-    The subparameter indicates to the interrupt affinity selection logic that
-    it should try to avoid the above scenario.
-    [...]
-
-From the commit message I read the original indent is that managed_irq
-should avoid speading queues on isolcated CPUs.
-
-Ming, do you agree to use the managed_irq mask to limit the queue
-spreading on isolated CPUs? It would make the io_queue option obsolete.
+Thanks,
+--Nilay
 
