@@ -4,125 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0450C30653
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jun 2024 12:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E495C27C4F
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jun 2024 13:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ms96jkmQ0kuaCcPQfmnfod94T8OohipgnI02PQvTjo0=; b=B2RVt/QjTzSVEJ5vbMfxKj5vWC
-	j2AIRKwkjVLCFjvFB7CtluGA/k2wyLwsb/sePtXTSrFH75RK3FtfoEdJewavRpxI2Wf0qBbYDKbdS
-	EflwbhjBRSJOrAG5gqioIKSsX3rYVZpMZTFWxpVeqWgnulu29pblOMJcWmYYhjb2AI5L5jjgjL3oV
-	iq5deE4Ofiho2K6rKStoKtQa07oUGnhruYkxQ4jE9Q6EM4UvL+1RVA8GoXgrxfzCKfvwaosniAe95
-	/lyfkNJlojmIMyKNsVoLpmdcqHDEAl5YVXmWIF0seb9jfDJJO7d50tzukreU63xW4MS6fpY3s6uV9
-	vjJEDdfA==;
+	bh=ihBpMTTiNrKvmk9diRPzmMFpksKDsJ37Y+fvSUt2P4o=; b=SNiYGMuqp2QSV8hMLH65/2ytGn
+	T1L5MpnKamxwyiD+0cw+jRL6WW/v2ZDRuovRnksI1jGdFSiGVwlrQeu/paQkIAPgXQsysnS5nARkA
+	Q8s+tvN4guqt0eN2V7+CtSxEeyU+n9Fphxo1+P0qnTq3xxGtl+sHXqNqIgmh5+h4O7Hhf70bgMbLx
+	pGSCcw4Zo69JYqLdVE6F1KPa4AuF/6wTXK1tkH9Q5RdvuOcykCQs1GhiR/dECuWdqlMSzG+eHj/MB
+	ResUpvU+FAM6d9Ec3LGy5AiiUY0Jm92k8UMpYg67ZlwxRdkOE0xMhuyxkIGOM8CZX02Gb6DZOhTbv
+	1qX6dvAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMS2V-00000006nUL-0MTc;
-	Wed, 26 Jun 2024 12:46:19 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1sMSqH-00000006zy1-11zW;
+	Wed, 26 Jun 2024 13:37:45 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMR3G-00000006apW-0wPW
+	id 1sMSqD-00000006zwA-3Zaq
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jun 2024 11:43:07 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240626114300epoutp025b5d30ed228eee468eaa65b55fc397a2~ciyxPpCE63216632166epoutp02f
-	for <linux-nvme@lists.infradead.org>; Wed, 26 Jun 2024 11:43:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240626114300epoutp025b5d30ed228eee468eaa65b55fc397a2~ciyxPpCE63216632166epoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1719402180;
-	bh=Ms96jkmQ0kuaCcPQfmnfod94T8OohipgnI02PQvTjo0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TWQdpJWSVXt6fwQA668mibYDtcPydd+2U1afNb6JaAAtiQ6PAgYRl7GzYoOEq7EVN
-	 jy6Q8RFKI4aDUCDClVHhnYMlXFzDtLMW2jjyLNcEDvIIRsIgD3w+ecY1W0oJ4OCpnP
-	 fGR6rcqssCgZIvHfRWfzsLnQcNpRtQe96NAVWWLU=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240626114259epcas5p1b6818f7576e9665da59304f5e9b015e4~ciyw6V50m1003510035epcas5p1q;
-	Wed, 26 Jun 2024 11:42:59 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4W8KZV1NqTz4x9Pq; Wed, 26 Jun
-	2024 11:42:58 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	36.48.09989.2CEFB766; Wed, 26 Jun 2024 20:42:58 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240626101527epcas5p23e10a6701f552d16bd6a999418009ba0~chmVION0E2207822078epcas5p2-;
-	Wed, 26 Jun 2024 10:15:27 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240626101527epsmtrp19e14a3ce1656ea45bee13c5af862a824~chmVGgijU1052710527epsmtrp1H;
-	Wed, 26 Jun 2024 10:15:27 +0000 (GMT)
-X-AuditID: b6c32a4a-e57f970000002705-a4-667bfec2bc8f
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5B.6A.19057.F3AEB766; Wed, 26 Jun 2024 19:15:27 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240626101525epsmtip1585e16aa5c4eb50dd6c82ce8c3bc9c15~chmTc1YNM0324303243epsmtip16;
-	Wed, 26 Jun 2024 10:15:25 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: asml.silence@gmail.com, mpatocka@redhat.com, axboe@kernel.dk,
-	hch@lst.de, kbusch@kernel.org, martin.petersen@oracle.com
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: [PATCH v2 09/10] block: add support to pass user meta buffer
-Date: Wed, 26 Jun 2024 15:36:59 +0530
-Message-Id: <20240626100700.3629-10-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240626100700.3629-1-anuj20.g@samsung.com>
+	Wed, 26 Jun 2024 13:37:43 +0000
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-424a5d998eeso1909745e9.3
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Jun 2024 06:37:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719409060; x=1720013860;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ihBpMTTiNrKvmk9diRPzmMFpksKDsJ37Y+fvSUt2P4o=;
+        b=TOrHl2XShBTN0ik2/G6xCmh5Ok8zvkJUTEr6PS+ocNaLgMEm4vteczDxogRxq6EINp
+         2dPgB3qLsbn7RV/Vt2zgkeVjp1qhce6QZo4yaH+PXFsbLE2rKYuuzkeGhU1CuZCYxpnr
+         cDKpq/HalT8CoyaTAWPS3vJcV+b7vH4kD6PiZafUoUn+obNJQI4hadBBfx4aUJtCbt6n
+         SBdZ5frmFZ1msPlwlGJCzxThyAKXZzkPc/teTaF5xhM4ra7S0VdiuL+/2P9TyOzGPXFR
+         OxcQTPBcusE6/FaZoYg9Fh24g4mLvMwT+3bvEk2vNJ19nSJLmMlyWcV5p+hmLxxe1usC
+         CQXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXpB27Q0CSr2ebeWzGXFnHdNfpAzEVwuioJkHlVAWvwnNXYJ162yV2Ri3gi8nfBvkK/PctWZYfJf+gzfEIU1iMBgvVw/erdpaZnfJOQaqI=
+X-Gm-Message-State: AOJu0YzBUpQUQ1kN8tPk2w5v9eyRx6Qm1VTYbMV2AFc0Szln/Bdp3Ph4
+	LsH16drtPd94s4jVBkPzRZSoPCr6wih6BaFc8aluHtw/MIOnbnunZ64/mw==
+X-Google-Smtp-Source: AGHT+IHKE63Fbq9icSFxiZAidbQaLrEUFY04fGPLWoXaHY7GQBp9t969oTz0ETYzI1tnamlXXss/FQ==
+X-Received: by 2002:a05:600c:1c0f:b0:424:a74b:32d3 with SMTP id 5b1f17b1804b1-424a74b3420mr28815705e9.0.1719409059593;
+        Wed, 26 Jun 2024 06:37:39 -0700 (PDT)
+Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424c8266a37sm26189935e9.19.2024.06.26.06.37.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 06:37:39 -0700 (PDT)
+Message-ID: <d14c86cc-b6cf-4b86-840f-fd514ad8a8c0@grimberg.me>
+Date: Wed, 26 Jun 2024 16:37:38 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMJsWRmVeSWpSXmKPExsWy7bCmpu6hf9VpBoc/sVg0TfjLbDFn1TZG
-	i9V3+9ksVq4+ymTxrvUci8XR/2/ZLCYdusZosfeWtsX8ZU/ZLZYf/8dkMbHjKpMDt8fOWXfZ
-	PS6fLfXYtKqTzWPzknqP3Tcb2Dw+Pr3F4vF+31U2j74tqxg9Pm+SC+CMyrbJSE1MSS1SSM1L
-	zk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy8QnQdcvMAbpVSaEsMacUKBSQWFyspG9n
-	U5RfWpKqkJFfXGKrlFqQklNgUqBXnJhbXJqXrpeXWmJlaGBgZApUmJCdsfFNSEGHRcW2N3uY
-	Ghi36HYxcnJICJhILL25h7mLkYtDSGA3o8SbOZ+YQBJCAp8YJW7+04JIfGOUmNv7nQWm4+m7
-	1SwQib2MElvfzWOCcD4zSnx+fJ8NpIpNQF3iyPNWRhBbRKBWYmXrdHaQImaBpYwSB3atB0sI
-	C7hKLLm6iB3EZhFQlXg3/yXQIRwcvAKWEnPuOUBsk5eYeek7WAknUPjO5u1grbwCghInZz4B
-	u4gZqKZ562ywHyQE5nJIzFt4hwVkjoSAi8TNUwEQc4QlXh3fwg5hS0m87G+DstMlflx+ygRh
-	F0g0H9vHCGHbS7Se6gc7h1lAU2L9Ln2IsKzE1FPrmCDW8kn0/n4C1corsWMejK0k0b5yDpQt
-	IbH3XAOU7SGxc+YpVkhY9TBK7OxdyTqBUWEWkndmIXlnFsLqBYzMqxglUwuKc9NTi00LjPJS
-	y+FxnJyfu4kRnHq1vHYwPnzwQe8QIxMH4yFGCQ5mJRHe0JKqNCHelMTKqtSi/Pii0pzU4kOM
-	psDgnsgsJZqcD0z+eSXxhiaWBiZmZmYmlsZmhkrivK9b56YICaQnlqRmp6YWpBbB9DFxcEo1
-	MHk29GfXT59gG7df0KAxYW92ObOA7radX2651iaeqdK5fOdAzldh+eYvleXbj99o974a9ffy
-	qn8R0s9XX4rLXiK9odDeK2PiFokJF252+y7iW9D1L8laP9N39Qoz+VvXPQ70iBlOaDPhs5S6
-	ut3z3r+cn0nl4asXZdxYLLySN6456+Peu/8qQjinRRQvn6armF7/c9fzetUdzxYwXz30Qrd5
-	xrxHdRmuq9e0toW9W+fdf/+UwrnO1o3snU/0W9yE5/83WX6jxUbpUSPP/TMNYa0GH+fteZhS
-	HMaqO6/2vOPds7Xf+mW19KRVGbh2PrKdNH3mxulNuyWkooIa4hXUdVzNXA+wX+sSv+t34FTq
-	HSWW4oxEQy3mouJEADwhZYNGBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsWy7bCSnK79q+o0g97jnBZNE/4yW8xZtY3R
-	YvXdfjaLlauPMlm8az3HYnH0/1s2i0mHrjFa7L2lbTF/2VN2i+XH/zFZTOy4yuTA7bFz1l12
-	j8tnSz02repk89i8pN5j980GNo+PT2+xeLzfd5XNo2/LKkaPz5vkAjijuGxSUnMyy1KL9O0S
-	uDI2vgkp6LCo2PZmD1MD4xbdLkZODgkBE4mn71azgNhCArsZJU7PMoWIS0icermMEcIWllj5
-	7zk7RM1HRomDv2tAbDYBdYkjz1uBarg4RARaGSUOTG0Bc5gFVgI5HefBOoQFXCWWXF0EZrMI
-	qEq8m/+SuYuRg4NXwFJizj0HiAXyEjMvfQcr4QQK39m8nRFimYXEg+fNrCA2r4CgxMmZT8AO
-	ZQaqb946m3kCo8AsJKlZSFILGJlWMUqmFhTnpucWGxYY5aWW6xUn5haX5qXrJefnbmIER4eW
-	1g7GPas+6B1iZOJgPMQowcGsJMIbWlKVJsSbklhZlVqUH19UmpNafIhRmoNFSZz32+veFCGB
-	9MSS1OzU1ILUIpgsEwenVAPTlPyVX7+fPbac321yaWjX/Rtvzs+KvPN5dpvHd1EWWdlvs8pD
-	RD1yXE6p2v58oB7g5jPzxQpV9/ccU8pmNyzY27bR4qnZvqIXa7sWPNc0W8M624Nh8o9tal+3
-	yZycJMVyYZFXohNfDdvHHwyXt4mc2D2vui1YRf5Lc/PPN5sctjX+XbVMQ6GNaekhteMbvlr1
-	2B36Fhmm7540+cML153rZ8ncyGdKMXFqMGE9s/qffcXpjV9ZlFqduaUj/llc9wrLa7w9Y4fv
-	t+zr0gccXzBn5U999VJpsuocjpOn8948d18qr/Mq7WLvquMHLmzfe0bgYnfbavf/X1sWJXSZ
-	XL/ziWvjpIb9NsYpEV/nHvPZLaXEUpyRaKjFXFScCACHBxPA/QIAAA==
-X-CMS-MailID: 20240626101527epcas5p23e10a6701f552d16bd6a999418009ba0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240626101527epcas5p23e10a6701f552d16bd6a999418009ba0
-References: <20240626100700.3629-1-anuj20.g@samsung.com>
-	<CGME20240626101527epcas5p23e10a6701f552d16bd6a999418009ba0@epcas5p2.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] nvme-tcp scalability improvements
+To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
+References: <20240626121347.1116-1-hare@kernel.org>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240626121347.1116-1-hare@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240626_044302_845289_38B4295C 
-X-CRM114-Status: GOOD (  24.64  )
+X-CRM114-CacheID: sfid-20240626_063741_941124_56FB4EBB 
+X-CRM114-Status: GOOD (  19.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,232 +82,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Kanchan Joshi <joshi.k@samsung.com>
 
-If iocb contains the meta, extract that and prepare the bip.
-Extend bip so that can it can carry three new integrity-check flags
-and application tag.
 
-Make sure that ->prepare_fn and ->complete_fn are skipped for
-user-owned meta buffer.
+On 26/06/2024 15:13, Hannes Reinecke wrote:
+> From: Hannes Reinecke <hare@suse.de>
+>
+> Hi all,
+>
+> we have had reports from partners that nvme-tcp suffers from scalability
+> problems with the number of controllers; they even managed to run into
+> a request timeout by just connecting enough controllers to the host.
+>
+> Looking into it I have found several issues with the nvme-tcp implementation:
+> - the 'io_cpu' assignment is static, leading to the same calculation
+>    for each controller. Thus each queue with the same number is
+>    assigned the same CPU, leading to CPU starvation.
+> - The blk-mq cpu mapping is not taken into account when calculating
+>    the 'io_cpu' number, leading to excessive thread bouncing during I/O
+> - The socket state is not evaluating, so we're piling more and more
+>    requests onto the socket even when it's already full.
+>
+> This patchset addresses these issues, leading to a better I/O
+> distribution for several controllers.
 
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- block/bio-integrity.c | 44 +++++++++++++++++++++++++++++++++++++++++++
- block/fops.c          | 28 ++++++++++++++++++++++++++-
- block/t10-pi.c        |  6 ++++++
- include/linux/bio.h   | 10 ++++++++++
- 4 files changed, 87 insertions(+), 1 deletion(-)
+Hannes, Please quantify what every change gives us please. Each
+change on its own should present merit, otherwise we should consider
+weather it is actually needed.
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 38418be07139..599f39999174 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -12,6 +12,7 @@
- #include <linux/bio.h>
- #include <linux/workqueue.h>
- #include <linux/slab.h>
-+#include <uapi/linux/io_uring.h>
- #include "blk.h"
- 
- static struct kmem_cache *bip_slab;
-@@ -337,6 +338,49 @@ static unsigned int bvec_from_pages(struct bio_vec *bvec, struct page **pages,
- 	return nr_bvecs;
- }
- 
-+static void bio_uio_meta_to_bip(struct bio *bio, struct uio_meta *meta)
-+{
-+	struct bio_integrity_payload *bip = bio_integrity(bio);
-+	u16 bip_flags = 0;
-+
-+	if (meta->flags & INTEGRITY_CHK_GUARD)
-+		bip_flags |= BIP_USER_CHK_GUARD;
-+	if (meta->flags & INTEGRITY_CHK_APPTAG)
-+		bip_flags |= BIP_USER_CHK_APPTAG;
-+	if (meta->flags & INTEGRITY_CHK_REFTAG)
-+		bip_flags |= BIP_USER_CHK_REFTAG;
-+
-+	bip->bip_flags |= bip_flags;
-+	bip->apptag = meta->apptag;
-+}
-+
-+int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
-+{
-+	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
-+	unsigned int integrity_bytes;
-+	int ret;
-+	struct iov_iter it;
-+
-+	if (!bi)
-+		return -EINVAL;
-+	/*
-+	 * original meta iterator can be bigger.
-+	 * process integrity info corresponding to current data buffer only.
-+	 */
-+	it = meta->iter;
-+	integrity_bytes = bio_integrity_bytes(bi, bio_sectors(bio));
-+	if (it.count < integrity_bytes)
-+		return -EINVAL;
-+
-+	it.count = integrity_bytes;
-+	ret = bio_integrity_map_user(bio, &it, 0);
-+	if (!ret) {
-+		bio_uio_meta_to_bip(bio, meta);
-+		iov_iter_advance(&meta->iter, integrity_bytes);
-+	}
-+	return ret;
-+}
-+
- int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter,
- 			   u32 seed)
- {
-diff --git a/block/fops.c b/block/fops.c
-index be36c9fbd500..6477424b4ebc 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -126,12 +126,13 @@ static void blkdev_bio_end_io(struct bio *bio)
- {
- 	struct blkdev_dio *dio = bio->bi_private;
- 	bool should_dirty = dio->flags & DIO_SHOULD_DIRTY;
-+	bool is_async = !(dio->flags & DIO_IS_SYNC);
- 
- 	if (bio->bi_status && !dio->bio.bi_status)
- 		dio->bio.bi_status = bio->bi_status;
- 
- 	if (atomic_dec_and_test(&dio->ref)) {
--		if (!(dio->flags & DIO_IS_SYNC)) {
-+		if (is_async) {
- 			struct kiocb *iocb = dio->iocb;
- 			ssize_t ret;
- 
-@@ -154,6 +155,9 @@ static void blkdev_bio_end_io(struct bio *bio)
- 		}
- 	}
- 
-+	if (is_async && (dio->iocb->ki_flags & IOCB_HAS_META))
-+		bio_integrity_unmap_free_user(bio);
-+
- 	if (should_dirty) {
- 		bio_check_pages_dirty(bio);
- 	} else {
-@@ -231,6 +235,16 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 			}
- 			bio->bi_opf |= REQ_NOWAIT;
- 		}
-+		if (!is_sync && unlikely(iocb->ki_flags & IOCB_HAS_META)) {
-+			ret = bio_integrity_map_iter(bio, iocb->private);
-+			if (unlikely(ret)) {
-+				bio_release_pages(bio, false);
-+				bio_clear_flag(bio, BIO_REFFED);
-+				bio_put(bio);
-+				blk_finish_plug(&plug);
-+				return ret;
-+			}
-+		}
- 
- 		if (is_read) {
- 			if (dio->flags & DIO_SHOULD_DIRTY)
-@@ -288,6 +302,9 @@ static void blkdev_bio_end_io_async(struct bio *bio)
- 		ret = blk_status_to_errno(bio->bi_status);
- 	}
- 
-+	if (unlikely(iocb->ki_flags & IOCB_HAS_META))
-+		bio_integrity_unmap_free_user(bio);
-+
- 	iocb->ki_complete(iocb, ret);
- 
- 	if (dio->flags & DIO_SHOULD_DIRTY) {
-@@ -348,6 +365,15 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		task_io_account_write(bio->bi_iter.bi_size);
- 	}
- 
-+	if (unlikely(iocb->ki_flags & IOCB_HAS_META)) {
-+		ret = bio_integrity_map_iter(bio, iocb->private);
-+		WRITE_ONCE(iocb->private, NULL);
-+		if (unlikely(ret)) {
-+			bio_put(bio);
-+			return ret;
-+		}
-+	}
-+
- 	if (iocb->ki_flags & IOCB_ATOMIC)
- 		bio->bi_opf |= REQ_ATOMIC;
- 
-diff --git a/block/t10-pi.c b/block/t10-pi.c
-index cd7fa60d63ff..38c3da245b11 100644
---- a/block/t10-pi.c
-+++ b/block/t10-pi.c
-@@ -131,6 +131,8 @@ static void t10_pi_type1_prepare(struct request *rq)
- 		/* Already remapped? */
- 		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
- 			break;
-+		if (bip->bip_flags & BIP_INTEGRITY_USER)
-+			break;
- 
- 		bip_for_each_vec(iv, bip, iter) {
- 			unsigned int j;
-@@ -180,6 +182,8 @@ static void t10_pi_type1_complete(struct request *rq, unsigned int nr_bytes)
- 		struct bio_vec iv;
- 		struct bvec_iter iter;
- 
-+		if (bip->bip_flags & BIP_INTEGRITY_USER)
-+			break;
- 		bip_for_each_vec(iv, bip, iter) {
- 			unsigned int j;
- 			void *p;
-@@ -305,6 +309,8 @@ static void ext_pi_type1_prepare(struct request *rq)
- 		/* Already remapped? */
- 		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
- 			break;
-+		if (bip->bip_flags & BIP_INTEGRITY_USER)
-+			break;
- 
- 		bip_for_each_vec(iv, bip, iter) {
- 			unsigned int j;
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 966e22a04996..ff22b627906d 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -330,6 +330,9 @@ enum bip_flags {
- 	BIP_INTEGRITY_USER	= 1 << 5, /* Integrity payload is user address */
- 	BIP_COPY_USER		= 1 << 6, /* Kernel bounce buffer in use */
- 	BIP_CLONED		= 1 << 7, /* Indicates that bip is cloned */
-+	BIP_USER_CHK_GUARD	= 1 << 8,
-+	BIP_USER_CHK_APPTAG	= 1 << 9,
-+	BIP_USER_CHK_REFTAG	= 1 << 10,
- };
- 
- struct uio_meta {
-@@ -349,6 +352,7 @@ struct bio_integrity_payload {
- 	unsigned short		bip_vcnt;	/* # of integrity bio_vecs */
- 	unsigned short		bip_max_vcnt;	/* integrity bio_vec slots */
- 	unsigned short		bip_flags;	/* control flags */
-+	u16			apptag;		/* apptag */
- 
- 	struct bvec_iter	bio_iter;	/* for rewinding parent bio */
- 
-@@ -738,6 +742,7 @@ static inline bool bioset_initialized(struct bio_set *bs)
- 		bip_for_each_vec(_bvl, _bio->bi_integrity, _iter)
- 
- int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter, u32 seed);
-+int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta);
- void bio_integrity_unmap_free_user(struct bio *bio);
- extern struct bio_integrity_payload *bio_integrity_alloc(struct bio *, gfp_t, unsigned int);
- extern int bio_integrity_add_page(struct bio *, struct page *, unsigned int, unsigned int);
-@@ -817,6 +822,11 @@ static inline int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter,
- 	return -EINVAL;
- }
- 
-+static inline int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
-+{
-+	return -EINVAL;
-+}
-+
- static inline void bio_integrity_unmap_free_user(struct bio *bio)
- {
- }
--- 
-2.25.1
+>
+> Performance for read increases from:
+> 4k seq read: bw=368MiB/s (386MB/s), 11.5MiB/s-12.7MiB/s
+>    (12.1MB/s-13.3MB/s), io=16.0GiB (17.2GB), run=40444-44468msec
+> 4k rand read: bw=360MiB/s (378MB/s), 11.3MiB/s-12.1MiB/s
+>    (11.8MB/s-12.7MB/s), io=16.0GiB (17.2GB), run=42310-45502msec
+> to:
+> 4k seq read: bw=520MiB/s (545MB/s), 16.3MiB/s-21.1MiB/s
+>    (17.0MB/s-22.2MB/s), io=16.0GiB (17.2GB), run=24208-31505msec
+> 4k rand read: bw=533MiB/s (559MB/s), 16.7MiB/s-22.2MiB/s
+>    (17.5MB/s-23.3MB/s), io=16.0GiB (17.2GB), run=23014-30731msec
+>
+> However, peak write performance degrades from:
+> 4k seq write: bw=657MiB/s (689MB/s), 20.5MiB/s-20.7MiB/s
+>    (21.5MB/s-21.8MB/s), io=16.0GiB (17.2GB), run=24678-24950msec
+> 4k rand write: bw=687MiB/s (720MB/s), 21.5MiB/s-21.7MiB/s
+>    (22.5MB/s-22.8MB/s), io=16.0GiB (17.2GB), run=23559-23859msec
+> to:
+> 4k seq write: bw=535MiB/s (561MB/s), 16.7MiB/s-19.9MiB/s
+>    (17.5MB/s-20.9MB/s), io=16.0GiB (17.2GB), run=25707-30624msec
+> 4k rand write: bw=560MiB/s (587MB/s), 17.5MiB/s-22.3MiB/s
+>    (18.4MB/s-23.4MB/s), io=16.0GiB (17.2GB), run=22977-29248msec
+>
+> which is not surprising, seeing that the original implementation would
+> be pushing as many writes as possible to the workqueue, with complete
+> disregard of the utilisation of the queue (which was precisely the
+> issue we're addressing here).
+
+Well, I do not expect performance to degrade here. Its a noticeable drop 
+I'd say.
+
+>
+> Hannes Reinecke (5):
+>    nvme-tcp: align I/O cpu with blk-mq mapping
+>    nvme-tcp: distribute queue affinity
+>    nvmet-tcp: add wq_unbound module parameter
+>    nvme-tcp: SOCK_NOSPACE handling
+>    nvme-tcp: make softirq_rx the default
+>
+> Sagi Grimberg (2):
+>    net: micro-optimize skb_datagram_iter
+>    nvme-tcp: receive data in softirq
+>
+>   drivers/nvme/host/tcp.c   | 126 ++++++++++++++++++++++++++++----------
+>   drivers/nvme/target/tcp.c |  34 +++++++---
+>   net/core/datagram.c       |   4 +-
+>   3 files changed, 122 insertions(+), 42 deletions(-)
+>
 
 
