@@ -4,121 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A4EFC27C4F
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jun 2024 14:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C594DC27C4F
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jun 2024 15:15:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZisKXaQlV//V59MHsxPUDCYi9bHNu06Qxmnvtb3AV5c=; b=HmJrsKkp6GfoPEgTPZ/JAl97NW
-	aTSPmDrdHaEHgIJTNdjTfsf9HmBXeJhyRv+R6JYXoGdVkTl/qow5Ebrb+Kf8OBypDhq12DkPBV303
-	AClFZZfvEyUU2JyBUumYwRiZvAQ7ecNLW840E2ZHnAKK6Rh4olGIMAql0rkyj7Cmer04ChjexgAy7
-	YFO7uly51HuK8vIgWXyNcP+ujKd40e76Ii/HRs6d/h4ULf1HlXgRZt64uX6PDa9hbSikTTDIf/Ym9
-	IveMYtn8si9P+5s+hNjW+LX1G6UerkIi2Vz9NyepwMOs0zLJb6JeLKgVoJCfCNmWyTPlEBnwzvbHy
-	THsdZOVA==;
+	bh=ejiLOCPjQYH7ACXd016xEl0yCudpyXAA5MF+cxuWv6M=; b=OmLnAcVXt1cBsewt1OBCYo4IzD
+	+P9H7otuK0xNvEzePaZYOJjCYdfJLWBEFVWysmEZXEc0nwT1EBQ5LvV5zorf0i1qZ1FD5VfPivlkc
+	inkmQkvjFP7f384ZW5V3UUKQmcsQfFCX9GKqnQ1eJxrDxH+2TaG5SNhMSCtO48UIzjRrd/OjY6aZ6
+	kqPP1ddEtoQnhQzdm2fAXVbq4U9MhP8DINm5uWjlDpjVlXm7FgZtxZPEcJuKAbMHpoQ62/Ye6SsGl
+	c+ahOUHRFFxgCPAkSgt5CgfPEhyZMbuJvKp44AVskvtwye22cJMhmLxDmGpSWWDwJElaa2AQArFCY
+	WEMK0uCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMTcw-00000007A5P-464G;
-	Wed, 26 Jun 2024 14:28:02 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sMUML-00000007Lwm-2wHl;
+	Wed, 26 Jun 2024 15:14:57 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMTch-000000079yv-1D1u
+	id 1sMUMJ-00000007LwF-08rE
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jun 2024 14:27:57 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 175151FB57;
-	Wed, 26 Jun 2024 14:27:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719412064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZisKXaQlV//V59MHsxPUDCYi9bHNu06Qxmnvtb3AV5c=;
-	b=sqD5Ua5w6dvJ+tCtAM2PvGcCZMYmnbJ6aSHGXtdP9XuNMg0QuDIVDaxAUCrxAc4xWnVzAv
-	aeB55T6RiQub0VTdNcWWLRTFm6SfFF8c8GqWaUuTeT8Jx7f/3ZhKsxhwjTu0hB8fXl5pAj
-	E7M3VTm3q/O3oCse6DrsydZpk5/QvuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719412064;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZisKXaQlV//V59MHsxPUDCYi9bHNu06Qxmnvtb3AV5c=;
-	b=8OhZda6RTM6E1LQ1sDxJtVSsKGlEijh0B2J/BGNEHuS1uHmMC8/qVfwSyR13BeM9zfow7C
-	xKcg7iNBzjJif5Bw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719412064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZisKXaQlV//V59MHsxPUDCYi9bHNu06Qxmnvtb3AV5c=;
-	b=sqD5Ua5w6dvJ+tCtAM2PvGcCZMYmnbJ6aSHGXtdP9XuNMg0QuDIVDaxAUCrxAc4xWnVzAv
-	aeB55T6RiQub0VTdNcWWLRTFm6SfFF8c8GqWaUuTeT8Jx7f/3ZhKsxhwjTu0hB8fXl5pAj
-	E7M3VTm3q/O3oCse6DrsydZpk5/QvuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719412064;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZisKXaQlV//V59MHsxPUDCYi9bHNu06Qxmnvtb3AV5c=;
-	b=8OhZda6RTM6E1LQ1sDxJtVSsKGlEijh0B2J/BGNEHuS1uHmMC8/qVfwSyR13BeM9zfow7C
-	xKcg7iNBzjJif5Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4D0E139C2;
-	Wed, 26 Jun 2024 14:27:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id inY/Ml8lfGY1UwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 26 Jun 2024 14:27:43 +0000
-Message-ID: <54329e96-918f-46af-a112-dba40c6529b5@suse.de>
-Date: Wed, 26 Jun 2024 16:27:43 +0200
+	Wed, 26 Jun 2024 15:14:56 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7065c2a55e0so180216b3a.0
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Jun 2024 08:14:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1719414893; x=1720019693; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ejiLOCPjQYH7ACXd016xEl0yCudpyXAA5MF+cxuWv6M=;
+        b=ZNeZUD/kKnbWn14NKd1HNDG95RnA1IgUTXn/zhtpUhZlEzih8fMvCvDYqsD/PIGK0n
+         gzs9Y+lRYf+Eu/Y/I7RxPFfk7ULsGTOEXfOW9SN6H/KknV9IhRBn6ds8kC/Ib/o4M7gA
+         c9aSHX0DIM3qHB6lObcbCbDd36w+i1mVHqhz+FI/rKAVHbGau103DN8QwgRw5lsUFp+S
+         rQZRSb0ppRuxSOeWayLOU9KyAsTEwxCBDjn3NjhbgW3KlLBhP1WPY+KhEaKqnZVu5FUG
+         tGNlRTqvMzqI9yiEZXbtOPFA5g3y/gjYJlNw2UIylVuYVNkuCISpk3rGkNa19L/FuVqm
+         AVuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719414893; x=1720019693;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ejiLOCPjQYH7ACXd016xEl0yCudpyXAA5MF+cxuWv6M=;
+        b=xNyLtC5bpHLasrDeTiJOcUDl30eQtsWXbB5U1c+WtiAs4ONfVI9LVUHcBfS/49zh7o
+         VnNygRAc9wrvVUeR5rrS34aMU2bAGgQJSROmtnTwSmjvJeL4qJj7B7kcaPO0Ki8spO96
+         9iDX9IEirntaaPUquQe5Cb2kzFpNE/EpQ2dFceugobZ1Y8bx1AxXYiQMb4MMK73QYwU0
+         a2DUNC1hM8wb6fs1tsVebis3riHyeB1sMILT3JtKFKSso6y4WqXGOyP8P/GkVfhoZVmA
+         MYyA+2V4BImE4CbcYOicUEwzLfIwKK/GePjh4CjHXD2SA7NduzCmOGlMEgVwfKfJZ18X
+         02/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVrdRTyao77klFh43Ohf1/8Ho6OGzbDEa5+0Ef4jxWECefleG8fQ8C5DZ+L/WFGwmSfDVrqhVqfNJSaNftiwlEbaa/PZAESOb8zyZdGklY=
+X-Gm-Message-State: AOJu0Yy7JC5AMB7KPZMEkraIVS5pFyitFixKCVkHeCqYvyPsFW/oje9W
+	TKAymcJEr8R7WH5mLNgjqIdn25HMKUVCoLZti40pyjkJWES252QxKl94I/ZxDr0=
+X-Google-Smtp-Source: AGHT+IFmzeqdqLg5SiV0tu6djto+9EcNyF5jowS1AcAqpWmkqpnRMXJ/vbnzGjN2TKNNd7d+87nUFA==
+X-Received: by 2002:a05:6a00:6085:b0:705:d60f:e64e with SMTP id d2e1a72fcca58-70667e2b1cfmr12723111b3a.1.1719414893526;
+        Wed, 26 Jun 2024 08:14:53 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7066c2ebd85sm8184326b3a.93.2024.06.26.08.14.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 08:14:53 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Mike Snitzer <snitzer@kernel.org>, 
+ Milan Broz <gmazyland@gmail.com>, Anuj gupta <anuj1072538@gmail.com>, 
+ Mikulas Patocka <mpatocka@redhat.com>
+Cc: linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
+ linux-nvme@lists.infradead.org
+In-Reply-To: <719d2e-b0e6-663c-ec38-acf939e4a04b@redhat.com>
+References: <719d2e-b0e6-663c-ec38-acf939e4a04b@redhat.com>
+Subject: Re: (subset) [PATCH 0/2 v4] dm-crypt support for per-sector NVMe
+ metadata
+Message-Id: <171941489217.836289.13164322028417269597.b4-ty@kernel.dk>
+Date: Wed, 26 Jun 2024 09:14:52 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] nvme-tcp scalability improvements
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240626121347.1116-1-hare@kernel.org>
- <d14c86cc-b6cf-4b86-840f-fd514ad8a8c0@grimberg.me>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <d14c86cc-b6cf-4b86-840f-fd514ad8a8c0@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240626_072747_506501_EA3EB722 
-X-CRM114-Status: GOOD (  19.43  )
+X-CRM114-CacheID: sfid-20240626_081455_109870_2F0FBDE7 
+X-CRM114-Status: GOOD (  10.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,57 +97,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/26/24 15:37, Sagi Grimberg wrote:
-> 
-> 
-> On 26/06/2024 15:13, Hannes Reinecke wrote:
->> From: Hannes Reinecke <hare@suse.de>
->>
->> Hi all,
->>
->> we have had reports from partners that nvme-tcp suffers from scalability
->> problems with the number of controllers; they even managed to run into
->> a request timeout by just connecting enough controllers to the host.
->>
->> Looking into it I have found several issues with the nvme-tcp 
->> implementation:
->> - the 'io_cpu' assignment is static, leading to the same calculation
->>    for each controller. Thus each queue with the same number is
->>    assigned the same CPU, leading to CPU starvation.
->> - The blk-mq cpu mapping is not taken into account when calculating
->>    the 'io_cpu' number, leading to excessive thread bouncing during I/O
->> - The socket state is not evaluating, so we're piling more and more
->>    requests onto the socket even when it's already full.
->>
->> This patchset addresses these issues, leading to a better I/O
->> distribution for several controllers.
-> 
-> Hannes, Please quantify what every change gives us please. Each
-> change on its own should present merit, otherwise we should consider
-> weather it is actually needed.
-> 
-Oh, I do agree with you. It's just hard to quantify, as with the current
-implementation we vastly favour writes over reads. If we try to balance
-things out (as these patches do) read performance goes up significantly,
-and write performance goes down. So one can't really say its a 
-performance regression in general, we're just shifting things around.
 
-I'll try to get some more meaningful data, but this is a hard task as
-I first need to setup a scale-out target such that I can demonstrate the
-issues more clearly.
+On Mon, 27 May 2024 17:39:14 +0200, Mikulas Patocka wrote:
+> Here I'm resending the dm-crypt support for per-sector NVMe metadata. I
+> made some changes to the first patch as suggested by Christoph Hellwig.
+> 
+> The first patch fixes a bug when splitting a bio with attached metadata.
+> The second patch enables dm-crypt to use NVMe metadata for authenticated
+> encryption. dm-crypt can run directly on NVMe without using dm-integrity.
+> 
+> [...]
 
-In the end I've send out these patches primarily to show the direction 
-I'm investigating in, in case other people want to play around with 
-them, too.
+Applied, thanks!
 
-Cheers,
+[1/2] block: change rq_integrity_vec to respect the iterator
+      commit: cf546dd289e0f6d2594c25e2fb4e19ee67c6d988
 
-Hannes
+Best regards,
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
-Werner Knoblich
+Jens Axboe
+
+
 
 
