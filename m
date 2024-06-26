@@ -4,176 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00416C27C4F
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jun 2024 11:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CFF8C27C4F
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jun 2024 11:42:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2NiKH7QCNSO6uoSKHneE1s7DC1v9RY1C1zJCJ+1qws4=; b=F6iwK+Su+p6EakZ6LmgKOg2whN
-	RmL1RpmyVZnlExxPyq41boVTftTorfmHrjZ640cAJkHOc/a0eyKxk4WVSGQl+mzQIkSUgqsQHpY25
-	wUMheZRv0MLRSPQcO7QG8WAU4NElVeKNWEvr1AFKzGVNv/gtid+TP7F3WRfzxfF/SaKsMPGKVCX76
-	Cl9zKNgDRMQGGpKJj3JDPt9Sq+vxZ0FTAx6DnixXB0/TSXShQGiU7/Go/B+QfCgu7HZ50V2miPFHH
-	ot1o57Hwul5aDhzerQ9AgwsOWFcDPD42cKUSqNLw/EhZ0K1OZuAQRuN4aKkqD2pKHIBM4InlR6RoF
-	xo6c1UFQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=AiYF3SvzbJSOOU9YaBYI5hh4dDdtFAHbd8Yk/ZuJRac=; b=vUjp0dPHKO2ocp7JlT1EI5ACar
+	RyAeodma9p+tLo6qeAzXAx4Am7K8nO3NDPuLHgcv4GzBIJklzj05CifbRaxx+2xKt50fBLuaf7NUY
+	Fkc6R5p6P6ygQOXpo+jwBQ/upKZKvrGEWR+TlKIKJg0K/XMHpk6i8EvsonzF1kG4bXEA4SZxgbWZh
+	08E/CPALTcX9TiSPKK1X8sYumTrevgpstOMWs+zCFa7lCAnUn5uSc+XvhvcON1PVvQcYb/jk9f/kd
+	M5xFarJQSJMxKx+g/gbJ5YyVuZfdPVMxLCpMZoPV1+S1c5ii/ajJ8y5Pz0ajeC1kna7eQ2xfeTLpK
+	fCmXE57Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMQfs-00000006Vrm-2hJU;
-	Wed, 26 Jun 2024 11:18:52 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1sMR2G-00000006aID-16Zp;
+	Wed, 26 Jun 2024 11:42:00 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMQfn-00000006Vqw-3QvD
+	id 1sMR28-00000006aFc-2874
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jun 2024 11:18:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1719400727; x=1750936727;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=P/Xl+MljU9eV2gWGN1POdL93Xny+RMe+sXkWsKtfpzk=;
-  b=Hf1xiKAoor3mC6y2vvjo5NSvcD2oAffSdqp3bo6E3SUe4axgf/OGA3Mh
-   qhHQIs4mZrBo5ngoNt5TRvGpZ6/GGSdbotDFiW21Wf5XgyEgzFSrDSMFu
-   8g1wSVwA2ibwMMB0Q4JWI0bhsM8Vbaf8uzWyPegkoHrf1ROOoY+ka6i7U
-   0T45mteCd7zsHTQE8ws0qwYdkg0RVLUXgr74BLYU/9j5oG00MvjCjKmYJ
-   urgZfa4DC6rvDt1b29honP/8WAWSdDVZGjTbowv8xGxyFRSI0xucaqprg
-   c+1kTgY6UvDKO0v4T463CHu4+7IXe2mRxTemUUKJkURtvQzJsbIajlGT3
-   w==;
-X-CSE-ConnectionGUID: cK2vJk2/R4yfpFm5Ms1tRA==
-X-CSE-MsgGUID: MwDMIZUvR1aHZERYuz2sug==
-X-IronPort-AV: E=Sophos;i="6.08,266,1712592000"; 
-   d="scan'208";a="20433597"
-Received: from mail-bn7nam10lp2042.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.42])
-  by ob1.hgst.iphmx.com with ESMTP; 26 Jun 2024 19:18:43 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HCF2+BJeX0S9piXbEAc9kINMVlfmaHI7x/XDEw5a2jgVn1YCG/EhhwRiAVRb/GlqhDr01ijddVQ4dsPaurm7bhh+wShFSSDQ9KCYkNJeIfs4pdKybUrnw7SPSf0QoQFcE53sITeWj5wQULwvvSiNsJAwhYNae/2e8dPdOkV05RjcjyXJ9LZEVtQ2B58+ueXifxzAp7Hm+aWDNGf4ePTojnDITMBdpbJRaIQBxCiN6aUglkszD/xX59gFRaI+st0o9yz+KabSrAkOvZKh6rWr+JPUC11As7MX3LWib3JnLJgB0OiQWdXGZu0AC18T+loLGvL65qRWM3yrAKl2zGDm6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2NiKH7QCNSO6uoSKHneE1s7DC1v9RY1C1zJCJ+1qws4=;
- b=ihUli1yVNk66dW1GISBXz/nqGQwBAhvZVnNq1rf/4vKoEADmIVsGWWDB3LFwAdE3KsawDgIRTz5nJ0VtegrcgOP1jTNhsxTvXNRso04r8JwLREgjlgyg9altpzSbiE+xwsD3Gv6e/sx/im4tlyPmTCAPNFBUJ2OimdYoJwdFoD7sNOJu6zoNnTvo0qh1toIyX2WNIvVCkoeq9FvO6BOtlsvp1kD7Jm7ylzf1KgBu65dzHR3cc5C8ljUU5VMSBoTxCwExj+9TuLZt0D94i5deKdiM54YafHjNGRQFOoz3SKvuvlZP6zg2Dzrm8nnYhEfxtFJWm2zczG80seEwuzjlKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2NiKH7QCNSO6uoSKHneE1s7DC1v9RY1C1zJCJ+1qws4=;
- b=og+2ZysDD4aOCdA0EdHM/DqxpN9/GIXC/3G1oSpcZeTZn/MIFGz+2/Bd2PxrePpnTyAcptTZrugSoOx5wOaMLkUxS1TlyH+Xe7ODo8Xa6nGN3cfwK3BjOXzxk/cjZlCZjekx4qsPTZu7SpyMuxeODA0YVdM5GWus8dBJ1jwSiYs=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CH4PR04MB9281.namprd04.prod.outlook.com (2603:10b6:610:223::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.32; Wed, 26 Jun
- 2024 11:18:38 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%3]) with mapi id 15.20.7698.025; Wed, 26 Jun 2024
- 11:18:38 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Ofir Gal <ofir.gal@volumez.com>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"dwagner@suse.de" <dwagner@suse.de>, "chaitanyak@nvidia.com"
-	<chaitanyak@nvidia.com>
-Subject: Re: [PATCH blktests v2 1/2] nvme: move helper functions to
- common/nvme
-Thread-Topic: [PATCH blktests v2 1/2] nvme: move helper functions to
- common/nvme
-Thread-Index: AQHaxiPT1BRmWl2JZUKjefql9PfXzrHZ6OcA
-Date: Wed, 26 Jun 2024 11:18:38 +0000
-Message-ID: <g5ob2s5hhobdr3nwbv6bdt5yg7ca4jff6g4w5nrkaqac3ozu4s@lhre6wr43bub>
-References: <20240624104620.2156041-1-ofir.gal@volumez.com>
- <20240624104620.2156041-2-ofir.gal@volumez.com>
-In-Reply-To: <20240624104620.2156041-2-ofir.gal@volumez.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH4PR04MB9281:EE_
-x-ms-office365-filtering-correlation-id: d9b133ae-8733-4dfe-afca-08dc95d1ba64
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230038|376012|1800799022|366014|38070700016;
-x-microsoft-antispam-message-info: =?us-ascii?Q?dl5/mvAqhEdJx1CXfsKDCbnRlDcLjLMmeXe3TLxgyg45YG96EiUMeKL2pIXd?=
- =?us-ascii?Q?t4yehYHaZBPwkZeG7bH7K12kJDIwY7s3RRLaF9PwQodSguCXlAfncO7Wi0e/?=
- =?us-ascii?Q?7V5gM7Qf7R/uVB4lUtrPBqm8iBFPqgwUn5NHk0MzswjpgrodmE0M0mDHcq4x?=
- =?us-ascii?Q?UAf8NGqJSICHmj7tV75sp3DpMAfjbuzWNeA684XwD5p3kFLoWFxiaf4uxNM8?=
- =?us-ascii?Q?5vkRw3BqQc1/+PLvknVeqxjYynxOhrxi7Nl1jSuLQnwBMKUDazi/Uf7UC2XD?=
- =?us-ascii?Q?/mPkIEXnl6jJZVk6AzeA0yDmgnGvmmVW1ri97W3j/kjI+lL66A6KVHVtTOxf?=
- =?us-ascii?Q?qv8poqE27/X5aVKpGPZgLXIlTfI0trdEuyG5PK5n8GTwhbdwMhEWrZNzNv+6?=
- =?us-ascii?Q?CpItdINfLcMkkJYzcKW8sMGHWpD9RUVNL61PJtX2sEGazLALuFKC3/NaWcqa?=
- =?us-ascii?Q?FQlIvjRZ2EgceCVajrQohjQRdu1m1J/fsjAvo2QbXpbZc4dsVLjcbNpI5Wax?=
- =?us-ascii?Q?PRlhycuqrx6t2HL8Bod61PbqrNxO0d9sLZStVUe2Um6EgtfHh6ugvoEwdSre?=
- =?us-ascii?Q?JkcYckbPxtk/4Eajy1SYMlpIMERkZhUrPooLLg1XRutZP/5U0cfYDJUnKjEU?=
- =?us-ascii?Q?FIyAyoF2yU1oh9oS25cFYmGez1YremJAiPl5oD/HvJVPEcNb8wqMRHKH33Nf?=
- =?us-ascii?Q?4WeJzuxDnBnsqRdgWAUrhh04gV2SN2jDQT8BMr5S/mqFG6q1KwuDsEPW5I+e?=
- =?us-ascii?Q?zQMFl9tuQJ1zGaviUA8RWU+unnUjTnNFqBxWE/UlMy6NBheZLb2ezGLSZIU9?=
- =?us-ascii?Q?S35G7JuyhfpZXcWDgkhVd8n7EuUZZAJAWBj4Tq53MOEUrFQWldAIsL/s2q7P?=
- =?us-ascii?Q?6DV1IfGpsGl+P59ZQQBWFof5bSQXgUuRhrDGbS4xJluolYeOgBpnE4vfRAq8?=
- =?us-ascii?Q?cw1QVKgAFTfaydSp+lONsVwqUeYO9u1jEehcfNpYOCf86BiUWJU5wwgQksHR?=
- =?us-ascii?Q?AkKvEPywvz0GtFZZLOme9bRICpilmLiHLL72VdGxJozpVVUBaDOQ0wStgnh7?=
- =?us-ascii?Q?H6EqmoAIfI8umJsiD1GRxYm972TP7ySDDgOnHaTgu6zWO/QK1V9+MpLHJiPr?=
- =?us-ascii?Q?V/7GnzNeZFLCI1Mqe0eoOieq8NOkTrnM5yN45tfetTjSjTgbiQw+6A6wbKRC?=
- =?us-ascii?Q?cDArAMB0FR1Y6rBYYyCCy4ktlWJIU+33WpSZcLzMvTWv8cza0B9EEXPp3Ucc?=
- =?us-ascii?Q?ymIuGZ0tB/jfMG6ZR2YuEV88q22CH/Pd7kuUrSVx+Eafb0GcX/Wo2Z8sBpZW?=
- =?us-ascii?Q?WdSsqqPrDs0yOdsEyNgsY2WPkzhW8KD/FvprbzROCghenRAeraYfoRyBcTiS?=
- =?us-ascii?Q?yFIPY6FqKOkJpmm9fFNbBJ4RN2P7fWOlAhy4SiDj32QUOrVMVg=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230038)(376012)(1800799022)(366014)(38070700016);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+BSIfGoSTDOAnSgS+O7MS1kMI+wYZWGTE0Gz/DzURbsnL9SN5DVXUpNE9H4n?=
- =?us-ascii?Q?5NizB3cYRkqe8jon0r5G57Wq4hW8/xoCMwIpzk684eIRycDStyd//Oyfpcz8?=
- =?us-ascii?Q?cgyij9+2Td//IYf5wv2XI8kA1Ktkpdh4Wda9NDbvWAnnEUuXLp3EPur5+smQ?=
- =?us-ascii?Q?BSUegXmMWwpYbNh0reJwJAz12rkXq3rl4qmnECTg7M/s06Hl0UVkAySo55Ju?=
- =?us-ascii?Q?zUIwyJ6DwjicwGaekEEfU/Ea9/NfCYCsWzDYYe/iQSRazolNaJZGxu0OvfTK?=
- =?us-ascii?Q?VU6ZK9rBkyo0D7xeiyUEO67MgedTiDivBJOHA7BymOl0V23aRKPuw10hPSa7?=
- =?us-ascii?Q?+6j82++T9Wz30UpGWPmgX2DhV/YM1MFksvDl/dQEKxC17RxBjkUhUS8cqh8X?=
- =?us-ascii?Q?VSECV65MRlWPIP2IMk5vz77zQ2N9oBLhKXGr2xo84gjn5Ki7LMHpNwW6itXB?=
- =?us-ascii?Q?uxKsL4wIVIRcETFXuW3MZjWJHdpX1/N7hDWulGAXNOkbNcee3eAW+Y1V71Ge?=
- =?us-ascii?Q?YZ5DRpKFe4WztWaGRukzlf5DT1ZPZO3Couvlm1By4wyJJYanfxHyptkmN5WS?=
- =?us-ascii?Q?CD+NtNvQLAZ6Xnqt/5BKVJuuYFPmpB6EHAmemtm4Fs39bLsH6EA+6kmQVr5q?=
- =?us-ascii?Q?PcwajWYGuM7DgNgD8Io3oCXg4WVPcU76zUN2mYhEzXb7oZdT6U78Wr5zCCaB?=
- =?us-ascii?Q?+lqZVDb0OU+i7Xk2P3m6zXIAiZdNkmXfY383faeWFbNjLi8FyowJVxqV26WV?=
- =?us-ascii?Q?87RmoSDESWv0XYy/+uDB3wAKOZTKz0jLLHknxs998qG4x+OkuxHmPXr0H8g6?=
- =?us-ascii?Q?m1z6VaExYJcba5uzk+hDPnoG+5oGXJGg9zZGXK3PoCRcS4uWiJj6fcDNiLPA?=
- =?us-ascii?Q?wkt9cHlFBLjI1/FjhkKA1oZ632cegqpd4k3s+RWpq/kT4udP6wPhh1DGQM42?=
- =?us-ascii?Q?JkgdtzyrNjmEE5jrsOEtqM9NNTGzpsPu9oEjKJPhSWN7W3USIdjyQs8Fovig?=
- =?us-ascii?Q?vYvR3YpXlqixHuVzK3ruv/1d6MkdA/a2mIqdhUptho5jLvIFIPTuGNW0Cokq?=
- =?us-ascii?Q?9kolZvPfMCBUPRyIAm+HUAtjRDZTsX/Yy2OScCGViAw7F24qDgTj+ssiHhPv?=
- =?us-ascii?Q?aMZrpDk3Gf537H2aasjM38YOpJFT3OtzKzsUwdPNn7M4m5cLR23s980vwtwE?=
- =?us-ascii?Q?85cUUGTS4klHuWT3BWoaWvqdEUev9PWeIFIiKRblH0Ta7dBSrOylRc9uGbn3?=
- =?us-ascii?Q?s4FQUREdpbt5fsq8PVgJ+UVZnNRyxJPAe4MZp1aJnWfJy3uTxAeK3llGM7Ll?=
- =?us-ascii?Q?xjV/Ng+z1aI3BmzdASe8RuxsmGdW5jJNW+A8vAMBFUo6T2U+u6kwZS5LfcDi?=
- =?us-ascii?Q?H0cevEoOo09RfhRP8SXfw+3pl1CeVzmFcgPZA+esdH25plSE2YcopfUyd4K5?=
- =?us-ascii?Q?q5Kt8nTmWC1BMvbYY9FOuM7Cq5ojBkNe3Q4mpjWG6VkgUPQnyBsYxxXlrkkJ?=
- =?us-ascii?Q?6aZvMH9tprqnWyffPIlkbiKxvWyU0KPpgd+fcQ/Vcs+0y4rk2fDm540anMGV?=
- =?us-ascii?Q?N9KmU7fO5fAZOTk9euSDMzhATsxhce4Z2QuHJppY2/b8Obh3dENRrZXDsr2k?=
- =?us-ascii?Q?yilM0D5sP5MVnbju1P7IdXU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1AA15C218289A34BBAAA03F11D7955F4@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Wed, 26 Jun 2024 11:41:58 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240626114140epoutp02454071e3835e59169129a8ec88280600~cixnQnbFj0125401254epoutp02Z
+	for <linux-nvme@lists.infradead.org>; Wed, 26 Jun 2024 11:41:40 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240626114140epoutp02454071e3835e59169129a8ec88280600~cixnQnbFj0125401254epoutp02Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1719402100;
+	bh=AiYF3SvzbJSOOU9YaBYI5hh4dDdtFAHbd8Yk/ZuJRac=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=XU7uainox3ieFkj6lKbJp4RdHjSxbscYsynXkRgnoHINyLyphuJVTq78cdPvyWYbZ
+	 jzOwYxA1h84tSyyS82CjXotDwqmj384maHxOlMG9LoKq2HVxEMgLu/NfHCdla1aJCL
+	 /LD/lvcvBnrDqCYvbX2n2H84h2WmXanQo5rBJBBA=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240626114140epcas5p35428e65ab929ff0f1a7e2ab94d35cb2f~cixm1JCu02483924839epcas5p3Y;
+	Wed, 26 Jun 2024 11:41:40 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.178]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4W8KXy3bLBz4x9Pp; Wed, 26 Jun
+	2024 11:41:38 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	77.5B.06857.27EFB766; Wed, 26 Jun 2024 20:41:38 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240626101415epcas5p3b06a963aa0b0196d6599fb86c90bc38c~chlSN__Xh1180011800epcas5p3P;
+	Wed, 26 Jun 2024 10:14:15 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240626101415epsmtrp24b09ca7def050861363084196318513a~chlSNPRkx1187111871epsmtrp2I;
+	Wed, 26 Jun 2024 10:14:15 +0000 (GMT)
+X-AuditID: b6c32a4b-88bff70000021ac9-25-667bfe72c043
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	54.3C.18846.7F9EB766; Wed, 26 Jun 2024 19:14:15 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240626101413epsmtip10ad8b44a48c3bfcd84e91742fe72acdf~chlQLwbJ20093400934epsmtip1c;
+	Wed, 26 Jun 2024 10:14:13 +0000 (GMT)
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: asml.silence@gmail.com, mpatocka@redhat.com, axboe@kernel.dk,
+	hch@lst.de, kbusch@kernel.org, martin.petersen@oracle.com
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>
+Subject: [PATCH v2 00/10] Read/Write with meta/integrity
+Date: Wed, 26 Jun 2024 15:36:50 +0530
+Message-Id: <20240626100700.3629-1-anuj20.g@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: FzRchrwGfcZOO2YyG68kydYPG7rqETISdleGYku415TMHNxQc7DY0RwYOgVOdSJAS63XI4x50nqi5W33s8lKGC+8Ce2uvNs8lrrOZOdt7KhyWv2tDYTNIuvjKqoKM95jjsaKGqukYN9dwVU5LAePMlv027Bn1DkxKqx64weQEPaO87WWRoJtFOifKzntfsK6PyvI3Yh1gSJbL2LeXH2RAH3GgKNWLofU8wDCkTBeQLnRD1YfZDykZ6aYZMQ9ogNkA2u4DFam44dmbEFHmPHnvM/QlnhKG3Blovaijjjxqp1fC7NBHVsmK3np8fDKj3vHzE7NgQa8sMJRR3CfCRQkBrHEDMWeNLziC7EcCcrCxFFK/If+gf9FS9eDDYxpyt7vvCD3VieEBjTbjawoUUMrR3a7L0LFqlDslifYuVk9HzHyR+fhxlu5eAum7w117BKBPF6MiK76xbhJYsv4jwHYiWLNehWWUuXn+bGHThtmy+DXe6VdFXXUz7vCW0un3DarfnNEWxMS8YtB78g0s2UAoQfRWWCeR5EqnTIjBDd9BAi/Ognx0u4JiwMB6E+KkxcLQGv17vamR8FPoKFVVd5d4tTG1oUz1tt4qx7AsT9v7POtq4Ol/OJS4i6d2/HCf2P3
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9b133ae-8733-4dfe-afca-08dc95d1ba64
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2024 11:18:38.7284
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r3FTAoo+3MZCgDXLrqND5WQApHRKpiNdcjj2EC+XRpq2Du2T5VGKlKL0kk5cBV6IoB1b7u6fVMkV0/0qPFBLyNQzmJtOGCBU2ZLviHgbAj8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR04MB9281
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMJsWRmVeSWpSXmKPExsWy7bCmum7Rv+o0g64dQhZNE/4yW8xZtY3R
+	YvXdfjaLlauPMlm8az3HYjHp0DVGi723tC3mL3vKbrH8+D8mi4kdV5kcuDx2zrrL7nH5bKnH
+	plWdbB6bl9R77L7ZwObx8ektFo/3+66yefRtWcXo8XmTXABnVLZNRmpiSmqRQmpecn5KZl66
+	rZJ3cLxzvKmZgaGuoaWFuZJCXmJuqq2Si0+ArltmDtCZSgpliTmlQKGAxOJiJX07m6L80pJU
+	hYz84hJbpdSClJwCkwK94sTc4tK8dL281BIrQwMDI1OgwoTsjAWnnjAVHLKvmHaykb2B8b92
+	FyMnh4SAicTxzXeZuhi5OIQEdjNKTO76xQLhfGKUaJvVyA7nLH23jrGLkQOs5fx3qKKdjBIN
+	q1uhnM9ARdebmEDmsgmoSxx53soIYosI1EqsbJ3ODmIzC9RJzLrxH8wWFrCQ+LZ9AwuIzSKg
+	KnG39ThYLy9QvO/sGWaI++QlZl76zg4RF5Q4OfMJC8QceYnmrbOZQRZLCPxll+j9vJgNosFF
+	4tiVw1DNwhKvjm9hh7ClJD6/2wtVky7x4/JTJgi7QKL52D5GCNteovVUPzPIl8wCmhLrd+lD
+	hGUlpp5axwSxl0+i9/cTqFZeiR3zYGwlifaVc6BsCYm95xqgbA+Jw88gaoQEYiU2n1/BNIFR
+	fhaSd2YheWcWwuYFjMyrGCVTC4pz01OLTQuM81LL4RGbnJ+7iRGcWrW8dzA+evBB7xAjEwfj
+	IUYJDmYlEd7Qkqo0Id6UxMqq1KL8+KLSnNTiQ4ymwDCeyCwlmpwPTO55JfGGJpYGJmZmZiaW
+	xmaGSuK8r1vnpggJpCeWpGanphakFsH0MXFwSjUwSV06ezAkplKL902/L59o+6n4xONtZzf1
+	ebz+mXbzeP683H86i/NmCdv/YXe/vrjfVOnICl2xglnxziLx3ebPnSdu+KrZ7bZv8nqhk4oq
+	Bz6yFN6amhThs/uaV9r5mg+CRqf/XCzxkuPVWGqU9v+y7mLNNT1my9u7f7xbOctzzhJJmWOc
+	t6/cKO999u94zZTErt9BhcqLJmowOopWM/2ZoeMlcu6pg5V9sJoT82Gzd1JHv6c7KczdVnRz
+	xzWf2KReyercF8yR7ryHdJ7sEvVY6W34v/DK1W06Kq8nr1zw9O3n1TIf4qxn5ZgvrnCoXtSm
+	rbOFJ/QnV+feh0eXsgY6yEyu/cRf9uBsovaf6XkcSizFGYmGWsxFxYkAzcFFljYEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDLMWRmVeSWpSXmKPExsWy7bCSnO73l9VpBj9viVk0TfjLbDFn1TZG
+	i9V3+9ksVq4+ymTxrvUci8WkQ9cYLfbe0raYv+wpu8Xy4/+YLCZ2XGVy4PLYOesuu8fls6Ue
+	m1Z1snlsXlLvsftmA5vHx6e3WDze77vK5tG3ZRWjx+dNcgGcUVw2Kak5mWWpRfp2CVwZC049
+	YSo4ZF8x7WQjewPjf+0uRg4OCQETifPfWboYuTiEBLYzSjz4t4uxi5ETKC4hcerlMihbWGLl
+	v+fsEEUfGSWmNu4DS7AJqEsced7KCJIQEWhllDgwtQXMYRZoYpRY9eAEG0iVsICFxLftG1hA
+	bBYBVYm7rceZQGxeoHjf2TPMECvkJWZe+s4OEReUODnzCVg9M1C8eets5gmMfLOQpGYhSS1g
+	ZFrFKJpaUJybnptcYKhXnJhbXJqXrpecn7uJERzgWkE7GJet/6t3iJGJg/EQowQHs5IIb2hJ
+	VZoQb0piZVVqUX58UWlOavEhRmkOFiVxXuWczhQhgfTEktTs1NSC1CKYLBMHp1QDU+Ktr73l
+	C30vWey+FfYmRmqB7pJPD9Xddr/IcxWZfmrmBt5pe+Kcbu32OLesaeN87UQmpS2HhUMEI1jO
+	HHhUfa0vO2KS0sy+iX+n8Gi6zN/z/vm7Za4hnb184k2cAntCrPRUOxte/frFcDPU8svn/ztP
+	Cx+Uqvjz/fP6jnUvLk1T+rZJ4avKuWilmVfVS403xKVfzTt/71/nzyajUwXbTFRm72LaW971
+	i0lKleOd5Qft6wbGEx8GWsXY9QgoMrUaHDEOzmVze5h0p8fN7tWu6V6/1Pj5mFe5LTlxxnjP
+	rKavR89H+M3fzvvdY/KqwMwU+8lzVwmLMNzc+GGPvPLj/50Jcrkqx9PrL1YnyxUVLVdiKc5I
+	NNRiLipOBAAQh07h3wIAAA==
+X-CMS-MailID: 20240626101415epcas5p3b06a963aa0b0196d6599fb86c90bc38c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240626101415epcas5p3b06a963aa0b0196d6599fb86c90bc38c
+References: <CGME20240626101415epcas5p3b06a963aa0b0196d6599fb86c90bc38c@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240626_041847_944818_105BE325 
-X-CRM114-Status: GOOD (  25.87  )
+X-CRM114-CacheID: sfid-20240626_044155_819583_79B3913D 
+X-CRM114-Status: GOOD (  21.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -188,1340 +133,251 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Jun 24, 2024 / 13:46, Ofir Gal wrote:
-> Move functions from tests/nvme/rc to common/nvme to be able to reuse
-> them in other tests groups.
->=20
-> Signed-off-by: Ofir Gal <ofir.gal@volumez.com>
-> ---
-> I have moved the function that are nessecary for the regression test I
-> add. Let me know if we want to move more or all the functions to
-> common/nvme.
->=20
-> shellcheck detects 2 new warnings:
-> common/nvme:35:10: warning: nvme_trtype is referenced but not assigned. [=
-SC2154]
-> common/nvme:234:11: warning: nvme_adrfam is referenced but not assigned. =
-[SC2154]
->=20
-> I have tried to figure out why but I couldn't figure out what is
-> different than the upstream version. How can I fix them?
+This adds a new io_uring interface to exchange meta along with read/write.
 
-Hi Ofir, thanks for this work. Please find two comments in line below. One =
-of
-them suggests a fix for the shellcheck warnings.
+Interface:
+Meta information is represented using a newly introduced 'struct io_uring_meta'.
+Application sets up a SQE128 ring, and prepares io_uring_meta within unused
+portion of SQE. Application populates 'struct io_uring_meta' fields as below:
 
->=20
->=20
->  common/nvme   | 595 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/rc | 591 +------------------------------------------------
->  2 files changed, 596 insertions(+), 590 deletions(-)
->  create mode 100644 common/nvme
->=20
-> diff --git a/common/nvme b/common/nvme
-> new file mode 100644
-> index 0000000..1800263
-> --- /dev/null
-> +++ b/common/nvme
-> @@ -0,0 +1,595 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +#
-> +# nvme helper functions.
-> +
-> +. common/shellcheck
-> +
-> +def_traddr=3D"127.0.0.1"
-> +def_adrfam=3D"ipv4"
-> +def_trsvcid=3D"4420"
-> +def_remote_wwnn=3D"0x10001100aa000001"
-> +def_remote_wwpn=3D"0x20001100aa000001"
-> +def_local_wwnn=3D"0x10001100aa000002"
-> +def_local_wwpn=3D"0x20001100aa000002"
-> +def_hostid=3D"0f01fb42-9f7f-4856-b0b3-51e60b8de349"
-> +def_hostnqn=3D"nqn.2014-08.org.nvmexpress:uuid:${def_hostid}"
-> +export def_subsysnqn=3D"blktests-subsystem-1"
-> +export def_subsys_uuid=3D"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-> +_check_conflict_and_set_default NVMET_TRTYPES nvme_trtype "loop"
-> +_check_conflict_and_set_default NVME_IMG_SIZE nvme_img_size 1G
-> +_check_conflict_and_set_default NVME_NUM_ITER nvme_num_iter 1000
-> +nvmet_blkdev_type=3D${nvmet_blkdev_type:-"device"}
-> +NVMET_BLKDEV_TYPES=3D${NVMET_BLKDEV_TYPES:-"device file"}
-> +NVMET_CFS=3D"/sys/kernel/config/nvmet/"
+* meta_type: describes type of meta that is passed. Currently one type
+"Integrity" is supported.
+* meta_flags: these are meta-type specific flags. Three flags are exposed for
+integrity type, namely INTEGRITY_CHK_GUARD/APPTAG/REFTAG.
+* meta_len: length of the meta buffer
+* meta_addr: address of the meta buffer
+* apptag: optional application-specific 16b value; this goes along with
+INTEGRITY_CHK_APPTAG flag.
 
-As for the shellcheck warnings, I suggestto add two lines below here to sup=
-press
-them.
+Block path (direct IO) and NVMe driver are modified to support
+this.
 
-nvme_trtype=3D${nvme_trtype:-}
-nvme_adrfam=3D${nvme_adrfam:-}
+The first patch is borrowed from Mikulas series[1] to make the metadata split
+work correctly.
+Next 5 patches are enhancements in the block/nvme so that user meta buffer
+is handled correctly (mostly when it gets split).
 
-> +
-> +# TMPDIR can not be referred out of test() or test_device() context. Ins=
-tead of
-> +# global variable def_flie_path, use this getter function.
-> +_nvme_def_file_path() {
-> +	echo "${TMPDIR}/img"
-> +}
-> +
-> +_require_nvme_trtype() {
-> +	local trtype
-> +	for trtype in "$@"; do
-> +		if [[ "${nvme_trtype}" =3D=3D "$trtype" ]]; then
-> +			return 0
-> +		fi
-> +	done
-> +	SKIP_REASONS+=3D("nvme_trtype=3D${nvme_trtype} is not supported in this=
- test")
-> +	return 1
-> +}
-> +
-> +_require_nvme_trtype_is_loop() {
-> +	if ! _require_nvme_trtype loop; then
-> +		return 1
-> +	fi
-> +	return 0
-> +}
-> +
-> +_require_nvme_trtype_is_fabrics() {
-> +	if ! _require_nvme_trtype loop fc rdma tcp; then
-> +		return 1
-> +	fi
-> +	return 0
-> +}
-> +
-> +_nvme_fcloop_add_rport() {
-> +	local local_wwnn=3D"$1"
-> +	local local_wwpn=3D"$2"
-> +	local remote_wwnn=3D"$3"
-> +	local remote_wwpn=3D"$4"
-> +	local loopctl=3D/sys/class/fcloop/ctl
-> +
-> +	echo "wwnn=3D${remote_wwnn},wwpn=3D${remote_wwpn},lpwwnn=3D${local_wwnn=
-},lpwwpn=3D${local_wwpn},roles=3D0x60" > ${loopctl}/add_remote_port
-> +}
-> +
-> +_nvme_fcloop_add_lport() {
-> +	local wwnn=3D"$1"
-> +	local wwpn=3D"$2"
-> +	local loopctl=3D/sys/class/fcloop/ctl
-> +
-> +	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > ${loopctl}/add_local_port
-> +}
-> +
-> +_nvme_fcloop_add_tport() {
-> +	local wwnn=3D"$1"
-> +	local wwpn=3D"$2"
-> +	local loopctl=3D/sys/class/fcloop/ctl
-> +
-> +	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > ${loopctl}/add_target_port
-> +}
-> +
-> +_setup_fcloop() {
-> +	local local_wwnn=3D"${1:-$def_local_wwnn}"
-> +	local local_wwpn=3D"${2:-$def_local_wwpn}"
-> +	local remote_wwnn=3D"${3:-$def_remote_wwnn}"
-> +	local remote_wwpn=3D"${4:-$def_remote_wwpn}"
-> +
-> +	_nvme_fcloop_add_tport "${remote_wwnn}" "${remote_wwpn}"
-> +	_nvme_fcloop_add_lport "${local_wwnn}" "${local_wwpn}"
-> +	_nvme_fcloop_add_rport "${local_wwnn}" "${local_wwpn}" \
-> +		               "${remote_wwnn}" "${remote_wwpn}"
-> +}
-> +
-> +_nvme_fcloop_del_rport() {
-> +	local local_wwnn=3D"$1"
-> +	local local_wwpn=3D"$2"
-> +	local remote_wwnn=3D"$3"
-> +	local remote_wwpn=3D"$4"
-> +	local loopctl=3D/sys/class/fcloop/ctl
-> +
-> +	if [[ ! -f "${loopctl}/del_remote_port" ]]; then
-> +		return
-> +	fi
-> +	echo "wwnn=3D${remote_wwnn},wwpn=3D${remote_wwpn}" > "${loopctl}/del_re=
-mote_port"
-> +}
-> +
-> +_nvme_fcloop_del_lport() {
-> +	local wwnn=3D"$1"
-> +	local wwpn=3D"$2"
-> +	local loopctl=3D/sys/class/fcloop/ctl
-> +
-> +	if [[ ! -f "${loopctl}/del_local_port" ]]; then
-> +		return
-> +	fi
-> +	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > "${loopctl}/del_local_port"
-> +}
-> +
-> +_nvme_fcloop_del_tport() {
-> +	local wwnn=3D"$1"
-> +	local wwpn=3D"$2"
-> +	local loopctl=3D/sys/class/fcloop/ctl
-> +
-> +	if [[ ! -f "${loopctl}/del_target_port" ]]; then
-> +		return
-> +	fi
-> +	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > "${loopctl}/del_target_port"
-> +}
-> +
-> +_cleanup_fcloop() {
-> +	local local_wwnn=3D"${1:-$def_local_wwnn}"
-> +	local local_wwpn=3D"${2:-$def_local_wwpn}"
-> +	local remote_wwnn=3D"${3:-$def_remote_wwnn}"
-> +	local remote_wwpn=3D"${4:-$def_remote_wwpn}"
-> +
-> +	_nvme_fcloop_del_tport "${remote_wwnn}" "${remote_wwpn}"
-> +	_nvme_fcloop_del_lport "${local_wwnn}" "${local_wwpn}"
-> +	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
-> +			       "${remote_wwnn}" "${remote_wwpn}"
-> +}
-> +
-> +_cleanup_blkdev() {
-> +	local blkdev
-> +	local dev
-> +
-> +	blkdev=3D"$(losetup -l | awk '$6 =3D=3D "'"$(_nvme_def_file_path)"'" { =
-print $1 }')"
-> +	for dev in ${blkdev}; do
-> +		losetup -d "${dev}"
-> +	done
-> +	rm -f "$(_nvme_def_file_path)"
-> +}
-> +
-> +_cleanup_nvmet() {
-> +	local dev
-> +	local port
-> +	local subsys
-> +	local transport
-> +	local name
-> +
-> +	if [[ ! -d "${NVMET_CFS}" ]]; then
-> +		return 0
-> +	fi
-> +
-> +	# Don't let successive Ctrl-Cs interrupt the cleanup processes
-> +	trap '' SIGINT
-> +
-> +	shopt -s nullglob
-> +
-> +	for dev in /sys/class/nvme/nvme*; do
-> +		dev=3D"$(basename "$dev")"
-> +		transport=3D"$(cat "/sys/class/nvme/${dev}/transport" 2>/dev/null)"
-> +		if [[ "$transport" =3D=3D "${nvme_trtype}" ]]; then
-> +			# if udev auto connect is enabled for FC we get false positives
-> +			if [[ "$transport" !=3D "fc" ]]; then
-> +				echo "WARNING: Test did not clean up ${nvme_trtype} device: ${dev}"
-> +			fi
-> +			_nvme_disconnect_ctrl "${dev}" 2>/dev/null
-> +		fi
-> +	done
-> +
-> +	for port in "${NVMET_CFS}"/ports/*; do
-> +		name=3D$(basename "${port}")
-> +		echo "WARNING: Test did not clean up port: ${name}"
-> +		rm -f "${port}"/subsystems/*
-> +		rmdir "${port}"
-> +	done
-> +
-> +	for subsys in "${NVMET_CFS}"/subsystems/*; do
-> +		name=3D$(basename "${subsys}")
-> +		echo "WARNING: Test did not clean up subsystem: ${name}"
-> +		for ns in "${subsys}"/namespaces/*; do
-> +			rmdir "${ns}"
-> +		done
-> +		rmdir "${subsys}"
-> +	done
-> +
-> +	for host in "${NVMET_CFS}"/hosts/*; do
-> +		name=3D$(basename "${host}")
-> +		echo "WARNING: Test did not clean up host: ${name}"
-> +		rmdir "${host}"
-> +	done
-> +
-> +	shopt -u nullglob
-> +	trap SIGINT
-> +
-> +	if [[ "${nvme_trtype}" =3D=3D "fc" ]]; then
-> +		_cleanup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
-> +				"${def_remote_wwnn}" "${def_remote_wwpn}"
-> +		modprobe -rq nvme-fcloop 2>/dev/null
-> +	fi
-> +	modprobe -rq nvme-"${nvme_trtype}" 2>/dev/null
-> +	if [[ "${nvme_trtype}" !=3D "loop" ]]; then
-> +		modprobe -rq nvmet-"${nvme_trtype}" 2>/dev/null
-> +	fi
-> +	modprobe -rq nvmet 2>/dev/null
-> +	if [[ "${nvme_trtype}" =3D=3D "rdma" ]]; then
-> +		stop_soft_rdma
-> +	fi
-> +
-> +	_cleanup_blkdev
-> +}
-> +
-> +_setup_nvmet() {
-> +	_register_test_cleanup _cleanup_nvmet
-> +	modprobe -q nvmet
-> +	if [[ "${nvme_trtype}" !=3D "loop" ]]; then
-> +		modprobe -q nvmet-"${nvme_trtype}"
-> +	fi
-> +	modprobe -q nvme-"${nvme_trtype}"
-> +	if [[ "${nvme_trtype}" =3D=3D "rdma" ]]; then
-> +		start_soft_rdma
-> +		for i in $(rdma_network_interfaces)
-> +		do
-> +			if [[ "${nvme_adrfam}" =3D=3D "ipv6" ]]; then
-> +				ipv6_addr=3D$(get_ipv6_ll_addr "$i")
-> +				if [[ -n "${ipv6_addr}" ]]; then
-> +					def_traddr=3D${ipv6_addr}
-> +				fi
-> +			else
-> +				ipv4_addr=3D$(get_ipv4_addr "$i")
-> +				if [[ -n "${ipv4_addr}" ]]; then
-> +					def_traddr=3D${ipv4_addr}
-> +				fi
-> +			fi
-> +		done
-> +	fi
-> +	if [[ "${nvme_trtype}" =3D "fc" ]]; then
-> +		modprobe -q nvme-fcloop
-> +		_setup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
-> +			      "${def_remote_wwnn}" "${def_remote_wwpn}"
-> +
-> +		def_traddr=3D$(printf "nn-%s:pn-%s" \
-> +				    "${def_remote_wwnn}" \
-> +				    "${def_remote_wwpn}")
-> +		def_host_traddr=3D$(printf "nn-%s:pn-%s" \
-> +					 "${def_local_wwnn}" \
-> +					 "${def_local_wwpn}")
-> +	fi
-> +}
-> +
-> +_nvme_disconnect_ctrl() {
-> +	local ctrl=3D"$1"
-> +
-> +	nvme disconnect --device "${ctrl}"
-> +}
-> +
-> +_nvme_connect_subsys() {
-> +	local subsysnqn=3D"$def_subsysnqn"
-> +	local hostnqn=3D"$def_hostnqn"
-> +	local hostid=3D"$def_hostid"
-> +	local hostkey=3D""
-> +	local ctrlkey=3D""
-> +	local nr_io_queues=3D""
-> +	local nr_write_queues=3D""
-> +	local nr_poll_queues=3D""
-> +	local keep_alive_tmo=3D""
-> +	local reconnect_delay=3D""
-> +	local ctrl_loss_tmo=3D""
-> +	local no_wait=3Dfalse
-> +	local i
-> +
-> +	while [[ $# -gt 0 ]]; do
-> +		case $1 in
-> +			--subsysnqn)
-> +				subsysnqn=3D"$2"
-> +				shift 2
-> +				;;
-> +			--hostnqn)
-> +				hostnqn=3D"$2"
-> +				shift 2
-> +				;;
-> +			--hostid)
-> +				hostid=3D"$2"
-> +				shift 2
-> +				;;
-> +			--dhchap-secret)
-> +				hostkey=3D"$2"
-> +				shift 2
-> +				;;
-> +			--dhchap-ctrl-secret)
-> +				ctrlkey=3D"$2"
-> +				shift 2
-> +				;;
-> +			--nr-io-queues)
-> +				nr_io_queues=3D"$2"
-> +				shift 2
-> +				;;
-> +			--nr-write-queues)
-> +				nr_write_queues=3D"$2"
-> +				shift 2
-> +				;;
-> +			--nr-poll-queues)
-> +				nr_poll_queues=3D"$2"
-> +				shift 2
-> +				;;
-> +			--keep-alive-tmo)
-> +				keep_alive_tmo=3D"$2"
-> +				shift 2
-> +				;;
-> +			--reconnect-delay)
-> +				reconnect_delay=3D"$2"
-> +				shift 2
-> +				;;
-> +			--ctrl-loss-tmo)
-> +				ctrl_loss_tmo=3D"$2"
-> +				shift 2
-> +				;;
-> +			--no-wait)
-> +				no_wait=3Dtrue
-> +				shift 1
-> +				;;
-> +			*)
-> +				echo "WARNING: unknown argument: $1"
-> +				shift
-> +				;;
-> +		esac
-> +	done
-> +
-> +	ARGS=3D(--transport "${nvme_trtype}" --nqn "${subsysnqn}")
-> +	if [[ "${nvme_trtype}" =3D=3D "fc" ]] ; then
-> +		ARGS+=3D(--traddr "${def_traddr}" --host-traddr "${def_host_traddr}")
-> +	elif [[ "${nvme_trtype}" !=3D "loop" ]]; then
-> +		ARGS+=3D(--traddr "${def_traddr}" --trsvcid "${def_trsvcid}")
-> +	fi
-> +	ARGS+=3D(--hostnqn=3D"${hostnqn}")
-> +	ARGS+=3D(--hostid=3D"${hostid}")
-> +	if [[ -n "${hostkey}" ]]; then
-> +		ARGS+=3D(--dhchap-secret=3D"${hostkey}")
-> +	fi
-> +	if [[ -n "${ctrlkey}" ]]; then
-> +		ARGS+=3D(--dhchap-ctrl-secret=3D"${ctrlkey}")
-> +	fi
-> +	if [[ -n "${nr_io_queues}" ]]; then
-> +		ARGS+=3D(--nr-io-queues=3D"${nr_io_queues}")
-> +	fi
-> +	if [[ -n "${nr_write_queues}" ]]; then
-> +		ARGS+=3D(--nr-write-queues=3D"${nr_write_queues}")
-> +	fi
-> +	if [[ -n "${nr_poll_queues}" ]]; then
-> +		ARGS+=3D(--nr-poll-queues=3D"${nr_poll_queues}")
-> +	fi
-> +	if [[ -n "${keep_alive_tmo}" ]]; then
-> +		ARGS+=3D(--keep-alive-tmo=3D"${keep_alive_tmo}")
-> +	fi
-> +	if [[ -n "${reconnect_delay}" ]]; then
-> +		ARGS+=3D(--reconnect-delay=3D"${reconnect_delay}")
-> +	fi
-> +	if [[ -n "${ctrl_loss_tmo}" ]]; then
-> +		ARGS+=3D(--ctrl-loss-tmo=3D"${ctrl_loss_tmo}")
-> +	fi
-> +
-> +	nvme connect "${ARGS[@]}" 2> /dev/null | grep -v "connecting to device:=
-"
-> +
-> +	# Wait until device file and uuid/wwid sysfs attributes get ready for
-> +	# all namespaces.
-> +	if [[ ${no_wait} =3D false ]]; then
-> +		udevadm settle
-> +		for ((i =3D 0; i < 10; i++)); do
-> +			_nvme_ns_ready "${subsysnqn}" && return
-> +			sleep .1
-> +		done
-> +	fi
-> +}
-> +
-> +_nvme_ns_ready() {
-> +	local subsysnqn=3D"${1}"
-> +	local ns_path ns_id dev
-> +	local cfs_path=3D"${NVMET_CFS}/subsystems/$subsysnqn"
-> +
-> +	dev=3D$(_find_nvme_dev "$subsysnqn")
-> +	for ns_path in "${cfs_path}/namespaces/"*; do
-> +		ns_id=3D${ns_path##*/}
-> +		if [[ ! -b /dev/${dev}n${ns_id} ||
-> +			   ! -e /sys/block/${dev}n${ns_id}/uuid ||
-> +			   ! -e /sys/block/${dev}n${ns_id}/wwid ]]; then
-> +			return 1
-> +		fi
-> +	done
-> +	return 0
-> +}
-> +
-> +_create_nvmet_port() {
-> +	local trtype=3D"$1"
-> +	local traddr=3D"${2:-$def_traddr}"
-> +	local adrfam=3D"${3:-$def_adrfam}"
-> +	local trsvcid=3D"${4:-$def_trsvcid}"
-> +
-> +	local port
-> +	for ((port =3D 0; ; port++)); do
-> +		if [[ ! -e "${NVMET_CFS}/ports/${port}" ]]; then
-> +			break
-> +		fi
-> +	done
-> +
-> +	mkdir "${NVMET_CFS}/ports/${port}"
-> +	echo "${trtype}" > "${NVMET_CFS}/ports/${port}/addr_trtype"
-> +	echo "${traddr}" > "${NVMET_CFS}/ports/${port}/addr_traddr"
-> +	echo "${adrfam}" > "${NVMET_CFS}/ports/${port}/addr_adrfam"
-> +	if [[ "${adrfam}" !=3D "fc" ]]; then
-> +		echo "${trsvcid}" > "${NVMET_CFS}/ports/${port}/addr_trsvcid"
-> +	fi
-> +
-> +	echo "${port}"
-> +}
-> +
-> +_remove_nvmet_port() {
-> +	local port=3D"$1"
-> +	rmdir "${NVMET_CFS}/ports/${port}"
-> +}
-> +
-> +_create_nvmet_ns() {
-> +	local nvmet_subsystem=3D"$1"
-> +	local nsid=3D"$2"
-> +	local blkdev=3D"$3"
-> +	local uuid=3D"00000000-0000-0000-0000-000000000000"
-> +	local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> +	local ns_path=3D"${subsys_path}/namespaces/${nsid}"
-> +
-> +	if [[ $# -eq 4 ]]; then
-> +		uuid=3D"$4"
-> +	fi
-> +
-> +	mkdir "${ns_path}"
-> +	printf "%s" "${blkdev}" > "${ns_path}/device_path"
-> +	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
-> +	printf 1 > "${ns_path}/enable"
-> +}
-> +
-> +_create_nvmet_subsystem() {
-> +	local nvmet_subsystem=3D"$1"
-> +	local blkdev=3D"$2"
-> +	local uuid=3D$3
-> +	local cfs_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> +
-> +	mkdir -p "${cfs_path}"
-> +	echo 0 > "${cfs_path}/attr_allow_any_host"
-> +	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
-> +}
-> +
-> +_add_nvmet_allow_hosts() {
-> +	local nvmet_subsystem=3D"$1"
-> +	local nvmet_hostnqn=3D"$2"
-> +	local cfs_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> +	local host_path=3D"${NVMET_CFS}/hosts/${nvmet_hostnqn}"
-> +
-> +	ln -s "${host_path}" "${cfs_path}/allowed_hosts/${nvmet_hostnqn}"
-> +}
-> +
-> +_create_nvmet_host() {
-> +	local nvmet_subsystem=3D"$1"
-> +	local nvmet_hostnqn=3D"$2"
-> +	local nvmet_hostkey=3D"$3"
-> +	local nvmet_ctrlkey=3D"$4"
-> +	local host_path=3D"${NVMET_CFS}/hosts/${nvmet_hostnqn}"
-> +
-> +	if [[ -d "${host_path}" ]]; then
-> +		echo "FAIL target setup failed. stale host configuration found"
-> +		return 1;
-> +	fi
-> +
-> +	mkdir "${host_path}"
-> +	_add_nvmet_allow_hosts "${nvmet_subsystem}" "${nvmet_hostnqn}"
-> +	if [[ "${nvmet_hostkey}" ]] ; then
-> +		echo "${nvmet_hostkey}" > "${host_path}/dhchap_key"
-> +	fi
-> +	if [[ "${nvmet_ctrlkey}" ]] ; then
-> +		echo "${nvmet_ctrlkey}" > "${host_path}/dhchap_ctrl_key"
-> +	fi
-> +}
-> +
-> +_remove_nvmet_ns() {
-> +	local nvmet_subsystem=3D"$1"
-> +	local nsid=3D$2
-> +	local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> +	local nvmet_ns_path=3D"${subsys_path}/namespaces/${nsid}"
-> +
-> +	echo 0 > "${nvmet_ns_path}/enable"
-> +	rmdir "${nvmet_ns_path}"
-> +}
-> +
-> +_remove_nvmet_subsystem() {
-> +	local nvmet_subsystem=3D"$1"
-> +	local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> +
-> +	_remove_nvmet_ns "${nvmet_subsystem}" "1"
-> +	rm -f "${subsys_path}"/allowed_hosts/*
-> +	rmdir "${subsys_path}"
-> +}
-> +
-> +_remove_nvmet_host() {
-> +	local nvmet_host=3D"$1"
-> +	local host_path=3D"${NVMET_CFS}/hosts/${nvmet_host}"
-> +
-> +	rmdir "${host_path}"
-> +}
-> +
-> +_add_nvmet_subsys_to_port() {
-> +	local port=3D"$1"
-> +	local nvmet_subsystem=3D"$2"
-> +
-> +	ln -s "${NVMET_CFS}/subsystems/${nvmet_subsystem}" \
-> +		"${NVMET_CFS}/ports/${port}/subsystems/${nvmet_subsystem}"
-> +}
-> +
-> +_remove_nvmet_subsystem_from_port() {
-> +	local port=3D"$1"
-> +	local nvmet_subsystem=3D"$2"
-> +
-> +	rm "${NVMET_CFS}/ports/${port}/subsystems/${nvmet_subsystem}"
-> +}
-> +
-> +_get_nvmet_ports() {
-> +	local nvmet_subsystem=3D"$1"
-> +	local -n nvmet_ports=3D"$2"
-> +	local cfs_path=3D"${NVMET_CFS}/ports"
-> +	local sarg
-> +
-> +	sarg=3D"s;^${cfs_path}/\([0-9]\+\)/subsystems/${nvmet_subsystem}$;\1;p"
-> +
-> +	for path in "${cfs_path}/"*"/subsystems/${nvmet_subsystem}"; do
-> +		nvmet_ports+=3D("$(echo "${path}" | sed -n -s "${sarg}")")
-> +	done
-> +}
-> +
-> +_find_nvme_dev() {
-> +	local subsys=3D$1
-> +	local subsysnqn
-> +	local dev
-> +	for dev in /sys/class/nvme/nvme*; do
-> +		[ -e "$dev" ] || continue
-> +		dev=3D"$(basename "$dev")"
-> +		subsysnqn=3D"$(cat "/sys/class/nvme/${dev}/subsysnqn" 2>/dev/null)"
-> +		if [[ "$subsysnqn" =3D=3D "$subsys" ]]; then
-> +			echo "$dev"
-> +		fi
-> +	done
-> +}
-> +
-> +_nvmet_target_cleanup() {
-> +	local ports
-> +	local port
-> +	local blkdev
-> +	local subsysnqn=3D"${def_subsysnqn}"
-> +	local blkdev_type=3D""
-> +
-> +	while [[ $# -gt 0 ]]; do
-> +		case $1 in
-> +			--blkdev)
-> +				blkdev_type=3D"$2"
-> +				shift 2
-> +				;;
-> +			--subsysnqn)
-> +				subsysnqn=3D"$2"
-> +				shift 2
-> +				;;
-> +			*)
-> +				echo "WARNING: unknown argument: $1"
-> +				shift
-> +				;;
-> +		esac
-> +	done
-> +
-> +	_get_nvmet_ports "${subsysnqn}" ports
-> +
-> +	for port in "${ports[@]}"; do
-> +		_remove_nvmet_subsystem_from_port "${port}" "${subsysnqn}"
-> +		_remove_nvmet_port "${port}"
-> +	done
-> +	_remove_nvmet_subsystem "${subsysnqn}"
-> +	_remove_nvmet_host "${def_hostnqn}"
-> +
-> +	if [[ "${blkdev_type}" =3D=3D "device" ]]; then
-> +		_cleanup_blkdev
-> +	fi
-> +}
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index c1ddf41..3462f2e 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -5,25 +5,9 @@
->  # Test specific to NVMe devices
-> =20
->  . common/rc
-> +. common/nvme
->  . common/multipath-over-rdma
-> =20
-> -def_traddr=3D"127.0.0.1"
-> -def_adrfam=3D"ipv4"
-> -def_trsvcid=3D"4420"
-> -def_remote_wwnn=3D"0x10001100aa000001"
-> -def_remote_wwpn=3D"0x20001100aa000001"
-> -def_local_wwnn=3D"0x10001100aa000002"
-> -def_local_wwpn=3D"0x20001100aa000002"
-> -def_hostid=3D"0f01fb42-9f7f-4856-b0b3-51e60b8de349"
-> -def_hostnqn=3D"nqn.2014-08.org.nvmexpress:uuid:${def_hostid}"
-> -export def_subsysnqn=3D"blktests-subsystem-1"
-> -export def_subsys_uuid=3D"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-> -_check_conflict_and_set_default NVMET_TRTYPES nvme_trtype "loop"
-> -_check_conflict_and_set_default NVME_IMG_SIZE nvme_img_size 1G
-> -_check_conflict_and_set_default NVME_NUM_ITER nvme_num_iter 1000
-> -nvmet_blkdev_type=3D${nvmet_blkdev_type:-"device"}
-> -NVMET_BLKDEV_TYPES=3D${NVMET_BLKDEV_TYPES:-"device file"}
-> -
->  _NVMET_TRTYPES_is_valid() {
->  	local type
-> =20
-> @@ -70,12 +54,6 @@ _set_nvmet_blkdev_type() {
->  	COND_DESC=3D"bd=3D${nvmet_blkdev_type}"
->  }
-> =20
-> -# TMPDIR can not be referred out of test() or test_device() context. Ins=
-tead of
-> -# global variable def_flie_path, use this getter function.
-> -_nvme_def_file_path() {
-> -	echo "${TMPDIR}/img"
-> -}
-> -
->  _nvme_requires() {
->  	_have_program nvme
->  	_require_nvme_test_img_size 4m
-> @@ -144,8 +122,6 @@ group_device_requires() {
->  	_require_test_dev_is_nvme
->  }
-> =20
-> -NVMET_CFS=3D"/sys/kernel/config/nvmet/"
-> -
->  _require_test_dev_is_nvme() {
->  	if ! readlink -f "$TEST_DEV_SYSFS/device" | grep -q nvme; then
->  		SKIP_REASONS+=3D("$TEST_DEV is not a NVMe device")
-> @@ -168,31 +144,6 @@ _require_nvme_test_img_size() {
->  	return 0
->  }
-> =20
-> -_require_nvme_trtype() {
-> -	local trtype
-> -	for trtype in "$@"; do
-> -		if [[ "${nvme_trtype}" =3D=3D "$trtype" ]]; then
-> -			return 0
-> -		fi
-> -	done
-> -	SKIP_REASONS+=3D("nvme_trtype=3D${nvme_trtype} is not supported in this=
- test")
-> -	return 1
-> -}
-> -
-> -_require_nvme_trtype_is_loop() {
-> -	if ! _require_nvme_trtype loop; then
-> -		return 1
-> -	fi
-> -	return 0
-> -}
-> -
-> -_require_nvme_trtype_is_fabrics() {
-> -	if ! _require_nvme_trtype loop fc rdma tcp; then
-> -		return 1
-> -	fi
-> -	return 0
-> -}
-> -
->  _require_nvme_cli_auth() {
->  	if ! nvme gen-dhchap-key --nqn nvmf-test-subsys > /dev/null 2>&1 ; then
->  		SKIP_REASONS+=3D("nvme gen-dhchap-key command missing")
-> @@ -235,216 +186,6 @@ _nvme_calc_rand_io_size() {
->  	echo "${io_size_kb}k"
->  }
-> =20
-> -_nvme_fcloop_add_rport() {
-> -	local local_wwnn=3D"$1"
-> -	local local_wwpn=3D"$2"
-> -	local remote_wwnn=3D"$3"
-> -	local remote_wwpn=3D"$4"
-> -	local loopctl=3D/sys/class/fcloop/ctl
-> -
-> -	echo "wwnn=3D${remote_wwnn},wwpn=3D${remote_wwpn},lpwwnn=3D${local_wwnn=
-},lpwwpn=3D${local_wwpn},roles=3D0x60" > ${loopctl}/add_remote_port
-> -}
-> -
-> -_nvme_fcloop_add_lport() {
-> -	local wwnn=3D"$1"
-> -	local wwpn=3D"$2"
-> -	local loopctl=3D/sys/class/fcloop/ctl
-> -
-> -	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > ${loopctl}/add_local_port
-> -}
-> -
-> -_nvme_fcloop_add_tport() {
-> -	local wwnn=3D"$1"
-> -	local wwpn=3D"$2"
-> -	local loopctl=3D/sys/class/fcloop/ctl
-> -
-> -	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > ${loopctl}/add_target_port
-> -}
-> -
-> -_setup_fcloop() {
-> -	local local_wwnn=3D"${1:-$def_local_wwnn}"
-> -	local local_wwpn=3D"${2:-$def_local_wwpn}"
-> -	local remote_wwnn=3D"${3:-$def_remote_wwnn}"
-> -	local remote_wwpn=3D"${4:-$def_remote_wwpn}"
-> -
-> -	_nvme_fcloop_add_tport "${remote_wwnn}" "${remote_wwpn}"
-> -	_nvme_fcloop_add_lport "${local_wwnn}" "${local_wwpn}"
-> -	_nvme_fcloop_add_rport "${local_wwnn}" "${local_wwpn}" \
-> -		               "${remote_wwnn}" "${remote_wwpn}"
-> -}
-> -
-> -_nvme_fcloop_del_rport() {
-> -	local local_wwnn=3D"$1"
-> -	local local_wwpn=3D"$2"
-> -	local remote_wwnn=3D"$3"
-> -	local remote_wwpn=3D"$4"
-> -	local loopctl=3D/sys/class/fcloop/ctl
-> -
-> -	if [[ ! -f "${loopctl}/del_remote_port" ]]; then
-> -		return
-> -	fi
-> -	echo "wwnn=3D${remote_wwnn},wwpn=3D${remote_wwpn}" > "${loopctl}/del_re=
-mote_port"
-> -}
-> -
-> -_nvme_fcloop_del_lport() {
-> -	local wwnn=3D"$1"
-> -	local wwpn=3D"$2"
-> -	local loopctl=3D/sys/class/fcloop/ctl
-> -
-> -	if [[ ! -f "${loopctl}/del_local_port" ]]; then
-> -		return
-> -	fi
-> -	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > "${loopctl}/del_local_port"
-> -}
-> -
-> -_nvme_fcloop_del_tport() {
-> -	local wwnn=3D"$1"
-> -	local wwpn=3D"$2"
-> -	local loopctl=3D/sys/class/fcloop/ctl
-> -
-> -	if [[ ! -f "${loopctl}/del_target_port" ]]; then
-> -		return
-> -	fi
-> -	echo "wwnn=3D${wwnn},wwpn=3D${wwpn}" > "${loopctl}/del_target_port"
-> -}
-> -
-> -_cleanup_fcloop() {
-> -	local local_wwnn=3D"${1:-$def_local_wwnn}"
-> -	local local_wwpn=3D"${2:-$def_local_wwpn}"
-> -	local remote_wwnn=3D"${3:-$def_remote_wwnn}"
-> -	local remote_wwpn=3D"${4:-$def_remote_wwpn}"
-> -
-> -	_nvme_fcloop_del_tport "${remote_wwnn}" "${remote_wwpn}"
-> -	_nvme_fcloop_del_lport "${local_wwnn}" "${local_wwpn}"
-> -	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
-> -			       "${remote_wwnn}" "${remote_wwpn}"
-> -}
-> -
-> -_cleanup_blkdev() {
-> -	local blkdev
-> -	local dev
-> -
-> -	blkdev=3D"$(losetup -l | awk '$6 =3D=3D "'"$(_nvme_def_file_path)"'" { =
-print $1 }')"
-> -	for dev in ${blkdev}; do
-> -		losetup -d "${dev}"
-> -	done
-> -	rm -f "$(_nvme_def_file_path)"
-> -}
-> -
-> -_cleanup_nvmet() {
-> -	local dev
-> -	local port
-> -	local subsys
-> -	local transport
-> -	local name
-> -
-> -	if [[ ! -d "${NVMET_CFS}" ]]; then
-> -		return 0
-> -	fi
-> -
-> -	# Don't let successive Ctrl-Cs interrupt the cleanup processes
-> -	trap '' SIGINT
-> -
-> -	shopt -s nullglob
-> -
-> -	for dev in /sys/class/nvme/nvme*; do
-> -		dev=3D"$(basename "$dev")"
-> -		transport=3D"$(cat "/sys/class/nvme/${dev}/transport" 2>/dev/null)"
-> -		if [[ "$transport" =3D=3D "${nvme_trtype}" ]]; then
-> -			# if udev auto connect is enabled for FC we get false positives
-> -			if [[ "$transport" !=3D "fc" ]]; then
-> -				echo "WARNING: Test did not clean up ${nvme_trtype} device: ${dev}"
-> -			fi
-> -			_nvme_disconnect_ctrl "${dev}" 2>/dev/null
-> -		fi
-> -	done
-> -
-> -	for port in "${NVMET_CFS}"/ports/*; do
-> -		name=3D$(basename "${port}")
-> -		echo "WARNING: Test did not clean up port: ${name}"
-> -		rm -f "${port}"/subsystems/*
-> -		rmdir "${port}"
-> -	done
-> -
-> -	for subsys in "${NVMET_CFS}"/subsystems/*; do
-> -		name=3D$(basename "${subsys}")
-> -		echo "WARNING: Test did not clean up subsystem: ${name}"
-> -		for ns in "${subsys}"/namespaces/*; do
-> -			rmdir "${ns}"
-> -		done
-> -		rmdir "${subsys}"
-> -	done
-> -
-> -	for host in "${NVMET_CFS}"/hosts/*; do
-> -		name=3D$(basename "${host}")
-> -		echo "WARNING: Test did not clean up host: ${name}"
-> -		rmdir "${host}"
-> -	done
-> -
-> -	shopt -u nullglob
-> -	trap SIGINT
-> -
-> -	if [[ "${nvme_trtype}" =3D=3D "fc" ]]; then
-> -		_cleanup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
-> -				"${def_remote_wwnn}" "${def_remote_wwpn}"
-> -		modprobe -rq nvme-fcloop 2>/dev/null
-> -	fi
-> -	modprobe -rq nvme-"${nvme_trtype}" 2>/dev/null
-> -	if [[ "${nvme_trtype}" !=3D "loop" ]]; then
-> -		modprobe -rq nvmet-"${nvme_trtype}" 2>/dev/null
-> -	fi
-> -	modprobe -rq nvmet 2>/dev/null
-> -	if [[ "${nvme_trtype}" =3D=3D "rdma" ]]; then
-> -		stop_soft_rdma
-> -	fi
-> -
-> -	_cleanup_blkdev
-> -}
-> -
-> -_setup_nvmet() {
-> -	_register_test_cleanup _cleanup_nvmet
-> -	modprobe -q nvmet
-> -	if [[ "${nvme_trtype}" !=3D "loop" ]]; then
-> -		modprobe -q nvmet-"${nvme_trtype}"
-> -	fi
-> -	modprobe -q nvme-"${nvme_trtype}"
-> -	if [[ "${nvme_trtype}" =3D=3D "rdma" ]]; then
-> -		start_soft_rdma
-> -		for i in $(rdma_network_interfaces)
-> -		do
-> -			if [[ "${nvme_adrfam}" =3D=3D "ipv6" ]]; then
-> -				ipv6_addr=3D$(get_ipv6_ll_addr "$i")
-> -				if [[ -n "${ipv6_addr}" ]]; then
-> -					def_traddr=3D${ipv6_addr}
-> -				fi
-> -			else
-> -				ipv4_addr=3D$(get_ipv4_addr "$i")
-> -				if [[ -n "${ipv4_addr}" ]]; then
-> -					def_traddr=3D${ipv4_addr}
-> -				fi
-> -			fi
-> -		done
-> -	fi
-> -	if [[ "${nvme_trtype}" =3D "fc" ]]; then
-> -		modprobe -q nvme-fcloop
-> -		_setup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
-> -			      "${def_remote_wwnn}" "${def_remote_wwpn}"
-> -
-> -		def_traddr=3D$(printf "nn-%s:pn-%s" \
-> -				    "${def_remote_wwnn}" \
-> -				    "${def_remote_wwpn}")
-> -		def_host_traddr=3D$(printf "nn-%s:pn-%s" \
-> -					 "${def_local_wwnn}" \
-> -					 "${def_local_wwpn}")
-> -	fi
-> -}
-> -
-> -_nvme_disconnect_ctrl() {
-> -	local ctrl=3D"$1"
-> -
-> -	nvme disconnect --device "${ctrl}"
-> -}
-> -
->  _nvme_disconnect_subsys() {
->  	local subsysnqn=3D"$def_subsysnqn"
-> =20
-> @@ -465,141 +206,6 @@ _nvme_disconnect_subsys() {
->  		grep -o "disconnected.*"
->  }
-> =20
-> -_nvme_connect_subsys() {
-> -	local subsysnqn=3D"$def_subsysnqn"
-> -	local hostnqn=3D"$def_hostnqn"
+Patch 8 adds the io_uring support.
+Patch 9 adds the support for block direct IO, and patch 10 for NVMe.
 
-It looks weird that _nvme_connect_subsys() is moved to common/nvme, but
-_nvme_disconnect_subsys() stays in tests/nvme/rc. I think it's the better t=
-o
-move _nvme_disconnect_subsys() also. Currently, md/001 does not use
-_nvme_disconnect_subsys(). Isn't it the better to call it in
-cleanup_nvme_over_tcp()?
+Example program on how to use the interface is appended below [2]
 
-> -	local hostid=3D"$def_hostid"
-> -	local hostkey=3D""
-> -	local ctrlkey=3D""
-> -	local nr_io_queues=3D""
-> -	local nr_write_queues=3D""
-> -	local nr_poll_queues=3D""
-> -	local keep_alive_tmo=3D""
-> -	local reconnect_delay=3D""
-> -	local ctrl_loss_tmo=3D""
-> -	local no_wait=3Dfalse
-> -	local i
-> -
-> -	while [[ $# -gt 0 ]]; do
-> -		case $1 in
-> -			--subsysnqn)
-> -				subsysnqn=3D"$2"
-> -				shift 2
-> -				;;
-> -			--hostnqn)
-> -				hostnqn=3D"$2"
-> -				shift 2
-> -				;;
-> -			--hostid)
-> -				hostid=3D"$2"
-> -				shift 2
-> -				;;
-> -			--dhchap-secret)
-> -				hostkey=3D"$2"
-> -				shift 2
-> -				;;
-> -			--dhchap-ctrl-secret)
-> -				ctrlkey=3D"$2"
-> -				shift 2
-> -				;;
-> -			--nr-io-queues)
-> -				nr_io_queues=3D"$2"
-> -				shift 2
-> -				;;
-> -			--nr-write-queues)
-> -				nr_write_queues=3D"$2"
-> -				shift 2
-> -				;;
-> -			--nr-poll-queues)
-> -				nr_poll_queues=3D"$2"
-> -				shift 2
-> -				;;
-> -			--keep-alive-tmo)
-> -				keep_alive_tmo=3D"$2"
-> -				shift 2
-> -				;;
-> -			--reconnect-delay)
-> -				reconnect_delay=3D"$2"
-> -				shift 2
-> -				;;
-> -			--ctrl-loss-tmo)
-> -				ctrl_loss_tmo=3D"$2"
-> -				shift 2
-> -				;;
-> -			--no-wait)
-> -				no_wait=3Dtrue
-> -				shift 1
-> -				;;
-> -			*)
-> -				echo "WARNING: unknown argument: $1"
-> -				shift
-> -				;;
-> -		esac
-> -	done
-> -
-> -	ARGS=3D(--transport "${nvme_trtype}" --nqn "${subsysnqn}")
-> -	if [[ "${nvme_trtype}" =3D=3D "fc" ]] ; then
-> -		ARGS+=3D(--traddr "${def_traddr}" --host-traddr "${def_host_traddr}")
-> -	elif [[ "${nvme_trtype}" !=3D "loop" ]]; then
-> -		ARGS+=3D(--traddr "${def_traddr}" --trsvcid "${def_trsvcid}")
-> -	fi
-> -	ARGS+=3D(--hostnqn=3D"${hostnqn}")
-> -	ARGS+=3D(--hostid=3D"${hostid}")
-> -	if [[ -n "${hostkey}" ]]; then
-> -		ARGS+=3D(--dhchap-secret=3D"${hostkey}")
-> -	fi
-> -	if [[ -n "${ctrlkey}" ]]; then
-> -		ARGS+=3D(--dhchap-ctrl-secret=3D"${ctrlkey}")
-> -	fi
-> -	if [[ -n "${nr_io_queues}" ]]; then
-> -		ARGS+=3D(--nr-io-queues=3D"${nr_io_queues}")
-> -	fi
-> -	if [[ -n "${nr_write_queues}" ]]; then
-> -		ARGS+=3D(--nr-write-queues=3D"${nr_write_queues}")
-> -	fi
-> -	if [[ -n "${nr_poll_queues}" ]]; then
-> -		ARGS+=3D(--nr-poll-queues=3D"${nr_poll_queues}")
-> -	fi
-> -	if [[ -n "${keep_alive_tmo}" ]]; then
-> -		ARGS+=3D(--keep-alive-tmo=3D"${keep_alive_tmo}")
-> -	fi
-> -	if [[ -n "${reconnect_delay}" ]]; then
-> -		ARGS+=3D(--reconnect-delay=3D"${reconnect_delay}")
-> -	fi
-> -	if [[ -n "${ctrl_loss_tmo}" ]]; then
-> -		ARGS+=3D(--ctrl-loss-tmo=3D"${ctrl_loss_tmo}")
-> -	fi
-> -
-> -	nvme connect "${ARGS[@]}" 2> /dev/null | grep -v "connecting to device:=
-"
-> -
-> -	# Wait until device file and uuid/wwid sysfs attributes get ready for
-> -	# all namespaces.
-> -	if [[ ${no_wait} =3D false ]]; then
-> -		udevadm settle
-> -		for ((i =3D 0; i < 10; i++)); do
-> -			_nvme_ns_ready "${subsysnqn}" && return
-> -			sleep .1
-> -		done
-> -	fi
-> -}
-> -
-> -_nvme_ns_ready() {
-> -	local subsysnqn=3D"${1}"
-> -	local ns_path ns_id dev
-> -	local cfs_path=3D"${NVMET_CFS}/subsystems/$subsysnqn"
-> -
-> -	dev=3D$(_find_nvme_dev "$subsysnqn")
-> -	for ns_path in "${cfs_path}/namespaces/"*; do
-> -		ns_id=3D${ns_path##*/}
-> -		if [[ ! -b /dev/${dev}n${ns_id} ||
-> -			   ! -e /sys/block/${dev}n${ns_id}/uuid ||
-> -			   ! -e /sys/block/${dev}n${ns_id}/wwid ]]; then
-> -			return 1
-> -		fi
-> -	done
-> -	return 0
-> -}
-> -
->  _nvme_discover() {
->  	local trtype=3D"$1"
->  	local traddr=3D"${2:-$def_traddr}"
-> @@ -617,73 +223,6 @@ _nvme_discover() {
->  	nvme discover "${ARGS[@]}"
->  }
-> =20
-> -_create_nvmet_port() {
-> -	local trtype=3D"$1"
-> -	local traddr=3D"${2:-$def_traddr}"
-> -	local adrfam=3D"${3:-$def_adrfam}"
-> -	local trsvcid=3D"${4:-$def_trsvcid}"
-> -
-> -	local port
-> -	for ((port =3D 0; ; port++)); do
-> -		if [[ ! -e "${NVMET_CFS}/ports/${port}" ]]; then
-> -			break
-> -		fi
-> -	done
-> -
-> -	mkdir "${NVMET_CFS}/ports/${port}"
-> -	echo "${trtype}" > "${NVMET_CFS}/ports/${port}/addr_trtype"
-> -	echo "${traddr}" > "${NVMET_CFS}/ports/${port}/addr_traddr"
-> -	echo "${adrfam}" > "${NVMET_CFS}/ports/${port}/addr_adrfam"
-> -	if [[ "${adrfam}" !=3D "fc" ]]; then
-> -		echo "${trsvcid}" > "${NVMET_CFS}/ports/${port}/addr_trsvcid"
-> -	fi
-> -
-> -	echo "${port}"
-> -}
-> -
-> -_remove_nvmet_port() {
-> -	local port=3D"$1"
-> -	rmdir "${NVMET_CFS}/ports/${port}"
-> -}
-> -
-> -_create_nvmet_ns() {
-> -	local nvmet_subsystem=3D"$1"
-> -	local nsid=3D"$2"
-> -	local blkdev=3D"$3"
-> -	local uuid=3D"00000000-0000-0000-0000-000000000000"
-> -	local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> -	local ns_path=3D"${subsys_path}/namespaces/${nsid}"
-> -
-> -	if [[ $# -eq 4 ]]; then
-> -		uuid=3D"$4"
-> -	fi
-> -
-> -	mkdir "${ns_path}"
-> -	printf "%s" "${blkdev}" > "${ns_path}/device_path"
-> -	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
-> -	printf 1 > "${ns_path}/enable"
-> -}
-> -
-> -_create_nvmet_subsystem() {
-> -	local nvmet_subsystem=3D"$1"
-> -	local blkdev=3D"$2"
-> -	local uuid=3D$3
-> -	local cfs_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> -
-> -	mkdir -p "${cfs_path}"
-> -	echo 0 > "${cfs_path}/attr_allow_any_host"
-> -	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
-> -}
-> -
-> -_add_nvmet_allow_hosts() {
-> -	local nvmet_subsystem=3D"$1"
-> -	local nvmet_hostnqn=3D"$2"
-> -	local cfs_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> -	local host_path=3D"${NVMET_CFS}/hosts/${nvmet_hostnqn}"
-> -
-> -	ln -s "${host_path}" "${cfs_path}/allowed_hosts/${nvmet_hostnqn}"
-> -}
-> -
->  _remove_nvmet_allow_hosts() {
->  	local nvmet_subsystem=3D"$1"
->  	local nvmet_hostnqn=3D"$2"
-> @@ -692,54 +231,6 @@ _remove_nvmet_allow_hosts() {
->  	rm "${cfs_path}/allowed_hosts/${nvmet_hostnqn}"
->  }
-> =20
-> -_create_nvmet_host() {
-> -	local nvmet_subsystem=3D"$1"
-> -	local nvmet_hostnqn=3D"$2"
-> -	local nvmet_hostkey=3D"$3"
-> -	local nvmet_ctrlkey=3D"$4"
-> -	local host_path=3D"${NVMET_CFS}/hosts/${nvmet_hostnqn}"
-> -
-> -	if [[ -d "${host_path}" ]]; then
-> -		echo "FAIL target setup failed. stale host configuration found"
-> -		return 1;
-> -	fi
-> -
-> -	mkdir "${host_path}"
-> -	_add_nvmet_allow_hosts "${nvmet_subsystem}" "${nvmet_hostnqn}"
-> -	if [[ "${nvmet_hostkey}" ]] ; then
-> -		echo "${nvmet_hostkey}" > "${host_path}/dhchap_key"
-> -	fi
-> -	if [[ "${nvmet_ctrlkey}" ]] ; then
-> -		echo "${nvmet_ctrlkey}" > "${host_path}/dhchap_ctrl_key"
-> -	fi
-> -}
-> -
-> -_remove_nvmet_ns() {
-> -	local nvmet_subsystem=3D"$1"
-> -	local nsid=3D$2
-> -	local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> -	local nvmet_ns_path=3D"${subsys_path}/namespaces/${nsid}"
-> -
-> -	echo 0 > "${nvmet_ns_path}/enable"
-> -	rmdir "${nvmet_ns_path}"
-> -}
-> -
-> -_remove_nvmet_subsystem() {
-> -	local nvmet_subsystem=3D"$1"
-> -	local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> -
-> -	_remove_nvmet_ns "${nvmet_subsystem}" "1"
-> -	rm -f "${subsys_path}"/allowed_hosts/*
-> -	rmdir "${subsys_path}"
-> -}
-> -
-> -_remove_nvmet_host() {
-> -	local nvmet_host=3D"$1"
-> -	local host_path=3D"${NVMET_CFS}/hosts/${nvmet_host}"
-> -
-> -	rmdir "${host_path}"
-> -}
-> -
->  _create_nvmet_passthru() {
->  	local nvmet_subsystem=3D"$1"
->  	local subsys_path=3D"${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> @@ -765,34 +256,6 @@ _remove_nvmet_passhtru() {
->  	rmdir "${subsys_path}"
->  }
-> =20
-> -_add_nvmet_subsys_to_port() {
-> -	local port=3D"$1"
-> -	local nvmet_subsystem=3D"$2"
-> -
-> -	ln -s "${NVMET_CFS}/subsystems/${nvmet_subsystem}" \
-> -		"${NVMET_CFS}/ports/${port}/subsystems/${nvmet_subsystem}"
-> -}
-> -
-> -_remove_nvmet_subsystem_from_port() {
-> -	local port=3D"$1"
-> -	local nvmet_subsystem=3D"$2"
-> -
-> -	rm "${NVMET_CFS}/ports/${port}/subsystems/${nvmet_subsystem}"
-> -}
-> -
-> -_get_nvmet_ports() {
-> -	local nvmet_subsystem=3D"$1"
-> -	local -n nvmet_ports=3D"$2"
-> -	local cfs_path=3D"${NVMET_CFS}/ports"
-> -	local sarg
-> -
-> -	sarg=3D"s;^${cfs_path}/\([0-9]\+\)/subsystems/${nvmet_subsystem}$;\1;p"
-> -
-> -	for path in "${cfs_path}/"*"/subsystems/${nvmet_subsystem}"; do
-> -		nvmet_ports+=3D("$(echo "${path}" | sed -n -s "${sarg}")")
-> -	done
-> -}
-> -
->  _set_nvmet_hostkey() {
->  	local nvmet_hostnqn=3D"$1"
->  	local nvmet_hostkey=3D"$2"
-> @@ -829,20 +292,6 @@ _set_nvmet_dhgroup() {
->  	     "${cfs_path}/dhchap_dhgroup"
->  }
-> =20
-> -_find_nvme_dev() {
-> -	local subsys=3D$1
-> -	local subsysnqn
-> -	local dev
-> -	for dev in /sys/class/nvme/nvme*; do
-> -		[ -e "$dev" ] || continue
-> -		dev=3D"$(basename "$dev")"
-> -		subsysnqn=3D"$(cat "/sys/class/nvme/${dev}/subsysnqn" 2>/dev/null)"
-> -		if [[ "$subsysnqn" =3D=3D "$subsys" ]]; then
-> -			echo "$dev"
-> -		fi
-> -	done
-> -}
-> -
->  _find_nvme_ns() {
->  	local subsys_uuid=3D$1
->  	local uuid
-> @@ -924,44 +373,6 @@ _nvmet_target_setup() {
->  			"${hostkey}" "${ctrlkey}"
->  }
-> =20
-> -_nvmet_target_cleanup() {
-> -	local ports
-> -	local port
-> -	local blkdev
-> -	local subsysnqn=3D"${def_subsysnqn}"
-> -	local blkdev_type=3D""
-> -
-> -	while [[ $# -gt 0 ]]; do
-> -		case $1 in
-> -			--blkdev)
-> -				blkdev_type=3D"$2"
-> -				shift 2
-> -				;;
-> -			--subsysnqn)
-> -				subsysnqn=3D"$2"
-> -				shift 2
-> -				;;
-> -			*)
-> -				echo "WARNING: unknown argument: $1"
-> -				shift
-> -				;;
-> -		esac
-> -	done
-> -
-> -	_get_nvmet_ports "${subsysnqn}" ports
-> -
-> -	for port in "${ports[@]}"; do
-> -		_remove_nvmet_subsystem_from_port "${port}" "${subsysnqn}"
-> -		_remove_nvmet_port "${port}"
-> -	done
-> -	_remove_nvmet_subsystem "${subsysnqn}"
-> -	_remove_nvmet_host "${def_hostnqn}"
-> -
-> -	if [[ "${blkdev_type}" =3D=3D "device" ]]; then
-> -		_cleanup_blkdev
-> -	fi
-> -}
-> -
->  _nvmet_passthru_target_setup() {
->  	local subsysnqn=3D"$def_subsysnqn"
->  	local port
-> --=20
-> 2.45.1
-> =
+Tree:
+https://github.com/SamsungDS/linux/tree/feat/pi_us_v2
+Testing:
+has been done by modifying fio to use this interface.
+https://github.com/samsungds/fio/commits/feat/test-meta-v3
+
+Changes since v1:
+https://lore.kernel.org/linux-block/20240425183943.6319-1-joshi.k@samsung.com/
+- Do not use new opcode for meta, and also add the provision to introduce new
+meta types beyond integrity (Pavel)
+- Stuff IOCB_HAS_META check in need_complete_io (Jens)
+- Split meta handling in NVMe into a separate handler (Keith)
+- Add meta handling for __blkdev_direct_IO too (Keith)
+- Don't inherit BIP_COPY_USER flag for cloned bio's (Christoph)
+- Better commit descriptions (Christoph)
+
+Changes since RFC:
+- modify io_uring plumbing based on recent async handling state changes
+- fixes/enhancements to correctly handle the split for meta buffer
+- add flags to specify guard/reftag/apptag checks
+- add support to send apptag
+
+[1] https://lore.kernel.org/linux-block/719d2e-b0e6-663c-ec38-acf939e4a04b@redhat.com/
+
+[2]
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <linux/io_uring.h>
+#include <linux/types.h>
+#include "liburing.h"
+
+/* write data/meta. read both. compare. send apptag too.
+* prerequisite:
+* unprotected xfer: format namespace with 4KB + 8b, pi_type = 0
+* protected xfer: format namespace with 4KB + 8b, pi_type = 1
+*/
+
+#define DATA_LEN 4096
+#define META_LEN 8
+
+struct t10_pi_tuple {
+        __be16  guard;
+        __be16  apptag;
+        __be32  reftag;
+};
+
+int main(int argc, char *argv[])
+{
+         struct io_uring ring;
+         struct io_uring_sqe *sqe = NULL;
+         struct io_uring_cqe *cqe = NULL;
+         void *wdb,*rdb;
+         char wmb[META_LEN], rmb[META_LEN];
+         char *data_str = "data buffer";
+         char *meta_str = "meta";
+         int fd, ret, blksize;
+         struct stat fstat;
+         unsigned long long offset = DATA_LEN;
+         struct t10_pi_tuple *pi;
+	 struct io_uring_meta *md;
+
+         if (argc != 2) {
+                 fprintf(stderr, "Usage: %s <block-device>", argv[0]);
+                 return 1;
+         };
+
+         if (stat(argv[1], &fstat) == 0) {
+                 blksize = (int)fstat.st_blksize;
+         } else {
+                 perror("stat");
+                 return 1;
+         }
+
+         if (posix_memalign(&wdb, blksize, DATA_LEN)) {
+                 perror("posix_memalign failed");
+                 return 1;
+         }
+         if (posix_memalign(&rdb, blksize, DATA_LEN)) {
+                 perror("posix_memalign failed");
+                 return 1;
+         }
+
+         strcpy(wdb, data_str);
+         strcpy(wmb, meta_str);
+
+         fd = open(argv[1], O_RDWR | O_DIRECT);
+         if (fd < 0) {
+                 printf("Error in opening device\n");
+                 return 0;
+         }
+
+         ret = io_uring_queue_init(8, &ring, IORING_SETUP_SQE128);
+         if (ret) {
+                 fprintf(stderr, "ring setup failed: %d\n", ret);
+                 return 1;
+         }
+
+         /* write data + meta-buffer to device */
+         sqe = io_uring_get_sqe(&ring);
+         if (!sqe) {
+                 fprintf(stderr, "get sqe failed\n");
+                 return 1;
+         }
+
+         io_uring_prep_write(sqe, fd, wdb, DATA_LEN, offset);
+
+	 md = (struct io_uring_meta *) sqe->cmd;
+	 md->meta_type = META_TYPE_INTEGRITY;
+	 md->meta_addr = (__u64)wmb;
+	 md->meta_len = META_LEN;
+         /* flags to ask for guard/reftag/apptag*/
+	 md->meta_flags = INTEGRITY_CHK_APPTAG;
+         md->apptag = 0x1234;
+
+	 pi = (struct t10_pi_tuple *)wmb;
+         pi->apptag = 0x3412;
+
+         ret = io_uring_submit(&ring);
+         if (ret <= 0) {
+                 fprintf(stderr, "sqe submit failed: %d\n", ret);
+                 return 1;
+         }
+
+         ret = io_uring_wait_cqe(&ring, &cqe);
+         if (!cqe) {
+                 fprintf(stderr, "cqe is NULL :%d\n", ret);
+                 return 1;
+         }
+         if (cqe->res < 0) {
+                 fprintf(stderr, "write cqe failure: %d", cqe->res);
+                 return 1;
+         }
+
+         io_uring_cqe_seen(&ring, cqe);
+
+         /* read data + meta-buffer back from device */
+         sqe = io_uring_get_sqe(&ring);
+         if (!sqe) {
+                 fprintf(stderr, "get sqe failed\n");
+                 return 1;
+         }
+
+         io_uring_prep_read(sqe, fd, rdb, DATA_LEN, offset);
+
+	 md = (struct io_uring_meta *) sqe->cmd;
+	 md->meta_type = META_TYPE_INTEGRITY;
+	 md->meta_addr = (__u64)rmb;
+	 md->meta_len = META_LEN;
+	 md->meta_flags = INTEGRITY_CHK_APPTAG;
+         md->apptag = 0x1234;
+
+         ret = io_uring_submit(&ring);
+         if (ret <= 0) {
+                 fprintf(stderr, "sqe submit failed: %d\n", ret);
+                 return 1;
+         }
+
+         ret = io_uring_wait_cqe(&ring, &cqe);
+         if (!cqe) {
+                 fprintf(stderr, "cqe is NULL :%d\n", ret);
+                 return 1;
+         }
+
+         if (cqe->res < 0) {
+                 fprintf(stderr, "read cqe failure: %d", cqe->res);
+                 return 1;
+         }
+         io_uring_cqe_seen(&ring, cqe);
+
+         if (strncmp(wmb, rmb, META_LEN))
+                 printf("Failure: meta mismatch!, wmb=%s, rmb=%s\n", wmb, rmb);
+
+         if (strncmp(wdb, rdb, DATA_LEN))
+                 printf("Failure: data mismatch!\n");
+
+         io_uring_queue_exit(&ring);
+         free(rdb);
+         free(wdb);
+         return 0;
+}
+
+Anuj Gupta (5):
+  block: set bip_vcnt correctly
+  block: copy bip_max_vcnt vecs instead of bip_vcnt during clone
+  block: Handle meta bounce buffer correctly in case of split
+  block: modify bio_integrity_map_user to accept iov_iter as argument
+  io_uring/rw: add support to send meta along with read/write
+
+Kanchan Joshi (4):
+  block: introduce BIP_CLONED flag
+  block: define meta io descriptor
+  block: add support to pass user meta buffer
+  nvme: add handling for user integrity buffer
+
+Mikulas Patocka (1):
+  block: change rq_integrity_vec to respect the iterator
+
+ block/bio-integrity.c         | 75 ++++++++++++++++++++++++++-----
+ block/fops.c                  | 28 +++++++++++-
+ block/t10-pi.c                |  6 +++
+ drivers/nvme/host/core.c      | 85 ++++++++++++++++++++++++-----------
+ drivers/nvme/host/ioctl.c     | 11 ++++-
+ drivers/nvme/host/pci.c       |  6 +--
+ include/linux/bio.h           | 25 +++++++++--
+ include/linux/blk-integrity.h | 16 +++----
+ include/linux/fs.h            |  1 +
+ include/uapi/linux/io_uring.h | 30 ++++++++++++-
+ io_uring/io_uring.c           |  7 +++
+ io_uring/rw.c                 | 68 ++++++++++++++++++++++++++--
+ io_uring/rw.h                 |  9 +++-
+ 13 files changed, 308 insertions(+), 59 deletions(-)
+
+-- 
+2.25.1
+
 
