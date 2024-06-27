@@ -4,49 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAE41C3064D
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 06:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5DA9C3064D
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 07:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7tZXFY05GCOT0iGm2ZB1vl7yQMTSknlRX/Zg2mKjRg8=; b=cNOQKvTY27PGsobg9cGh+8KoZ5
-	x4vvLKk0WONKv1WrW+U0mXGy8wT0oL8Nx52XVOM5Dy+pgZJv4Y2l9qZJdZi7yG6XNIeEpp8tEPVrv
-	9yxiXWul3WYLeWNITZOixal2Oo9tdxlkrXX8JIW8nGy1umgSLUJSDj5wMEraVdHuT11GG2cS6Nlg+
-	MnyYHSUBgolVn+JYUafBTgIBEfVCxjeOn99Nje06WhuHju4YR9pWNE3Ff/Z0dJUR/riJoylbGKlB4
-	J165O/4mbKjk2f2g+uC0uIQH7vilGdlWJ7yyJRqa8qWAiWTPmtD2nPJutIl051wBV3K6KG0GPViCR
-	VlVnbsIA==;
+	bh=0bR90yF9CxK5qNKIXPi1mTv8uwRBPcQ1z40D3aWH0sE=; b=3PYWMT2O6IX3cHwZNhijMDdk20
+	5v4svBhr1BUyX/gTZuSmn1hUr0z11GlMI0Gjp/Q4hQYJEBVL686WpURDkP42NYnp9PNNQ98qYE0Cc
+	YUbZULipfxDxLgr2nZ1bNAVtcJAQ50J0wSrnHry6UYVXDmsfUOtBRr09jPqODJJlPS8ftvUhtQxS4
+	4XuSSMK/1WN8FnUn6uPx8ygPq45lV2rM7BmZSgmS4Gx5rlOEXvSNoDnZsmCBaXvCkDmElQg/WI1Qv
+	TNx2DFhmybtwYMtmf5CNz/O1zy7vhKK4gU/D0XD9lO7+2kwO6ANOr2RslUA43qI4nHIIz2w+EKEX/
+	XDewlwfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMidU-00000009ODZ-0nRI;
-	Thu, 27 Jun 2024 06:29:36 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1sMjaO-00000009Z3s-24Tt;
+	Thu, 27 Jun 2024 07:30:28 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMidP-00000009OCX-1qNd
+	id 1sMja8-00000009Z0p-3qU4
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jun 2024 06:29:33 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id CC3A768AFE; Thu, 27 Jun 2024 08:29:27 +0200 (CEST)
-Date: Thu, 27 Jun 2024 08:29:27 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: asml.silence@gmail.com, mpatocka@redhat.com, axboe@kernel.dk,
-	hch@lst.de, kbusch@kernel.org, martin.petersen@oracle.com,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v2 10/10] nvme: add handling for user integrity buffer
-Message-ID: <20240627062927.GF16047@lst.de>
-References: <20240626100700.3629-1-anuj20.g@samsung.com> <CGME20240626101529epcas5p49976c46701337830c400cefd8f074b40@epcas5p4.samsung.com> <20240626100700.3629-11-anuj20.g@samsung.com>
+	Thu, 27 Jun 2024 07:30:14 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 7D525CE2DB0;
+	Thu, 27 Jun 2024 07:30:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22A6EC2BBFC;
+	Thu, 27 Jun 2024 07:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1719473409;
+	bh=L0iDbGCphSHH/3ZKqfEW7HtNdel6Lk26zULKayrmyUg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0iTGi8ciwkk0hWC8JQsX60EJpqDx+oxe+mR/d4pDNiRZmwhf5xVqm5vAynPenA31B
+	 v2Fxa34RenmP+eg6dNXYUoTLWFtitiIvPB/xmpOPtv0HJwdxU/zG6TB7WOHG/n/fBh
+	 YeabEevW2RldDVgeUYcTT1W1Cb7KJwgyU2+RLCdE=
+Date: Thu, 27 Jun 2024 09:30:06 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Martin Belanger <Martin.Belanger@dell.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, David Jeffery <djeffery@redhat.com>,
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v7 1/4] driver core: don't always lock parent in shutdown
+Message-ID: <2024062751-itunes-silk-ae8d@gregkh>
+References: <20240626194650.3837-1-stuart.w.hayes@gmail.com>
+ <20240626194650.3837-2-stuart.w.hayes@gmail.com>
+ <20240627055121.GA15415@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626100700.3629-11-anuj20.g@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20240627055121.GA15415@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240626_232932_527307_4329A355 
-X-CRM114-Status: GOOD (  22.71  )
+X-CRM114-CacheID: sfid-20240627_003013_234654_676003DA 
+X-CRM114-Status: GOOD (  14.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,60 +76,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 26, 2024 at 03:37:00PM +0530, Anuj Gupta wrote:
-> From: Kanchan Joshi <joshi.k@samsung.com>
+On Thu, Jun 27, 2024 at 07:51:21AM +0200, Christoph Hellwig wrote:
+> On Wed, Jun 26, 2024 at 02:46:47PM -0500, Stuart Hayes wrote:
+> > Don't lock a parent device unless it is needed in device_shutdown. This
+> > is in preparation for making device shutdown asynchronous, when it will
+> > be needed to allow children of a common parent to shut down
+> > simultaneously.
 > 
-> Create a new helper that contains the handling for both kernel and user
-> generated integrity buffer.
-> For user provided integrity buffer, convert bip flags
-> (guard/reftag/apptag checks) to protocol specific flags. Also pass
-> apptag and reftag down.
+> Looks good:
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
+> .. but I guess this means async shutdown won't work well for busses
+> that set this flag (just usb currently)?
 
-The driver should not have to know about the source.
+USB can't do async shutdown due to the tree topology requirements here
+so hopefully this should be ok.
 
-> +static void nvme_set_app_tag(struct nvme_command *cmnd, u16 apptag)
-> +{
-> +	cmnd->rw.apptag = cpu_to_le16(apptag);
-> +	/* use 0xfff as mask so that apptag is used in entirety*/
+thanks,
 
-missing space before the closing comment.   But I think this also make
-sense as:
-
-	/* use the entire application tag */
-
-> +	if (!bip || !(bip->bip_flags & BIP_INTEGRITY_USER)) {
-> +		/*
-> +		 * If formated with metadata, the block layer always provides a
-> +		 * metadata buffer if CONFIG_BLK_DEV_INTEGRITY is enabled.  Else
-> +		 * we enable the PRACT bit for protection information or set the
-> +		 * namespace capacity to zero to prevent any I/O.
-> +		 */
-> +		if (!blk_integrity_rq(req)) {
-> +			if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
-> +				return BLK_STS_NOTSUPP;
-> +			*control |= NVME_RW_PRINFO_PRACT;
-> +		}
-
-This feels like the wrong level of conditionals.  !bip implies
-!blk_integrity_rq(req) already.
-
-> +	} else {
-> +		unsigned short bip_flags = bip->bip_flags;
-> +
-> +		if (bip_flags & BIP_USER_CHK_GUARD)
-> +			*control |= NVME_RW_PRINFO_PRCHK_GUARD;
-> +		if (bip_flags & BIP_USER_CHK_REFTAG) {
-> +			*control |= NVME_RW_PRINFO_PRCHK_REF;
-> +			nvme_set_ref_tag(ns, cmnd, req);
-> +		}
-> +		if (bip_flags & BIP_USER_CHK_APPTAG) {
-> +			*control |= NVME_RW_PRINFO_PRCHK_APP;
-> +			nvme_set_app_tag(cmnd, bip->apptag);
-> +		}
-
-But excpept for that the driver should always rely on the actual
-flags passed by the block layer instead of having to see if it
-is user passthrough data.  Also it seems like this series fails
-to update the SCSI code to account for these new flags.
-
+greg k-h
 
