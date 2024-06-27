@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AB80C2BD09
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 05:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1DFDC2BD09
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 05:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0Cwk2VONJl41zeNHHpSWKmJc0pxIbuvQNHVjxwd5eRc=; b=JZrkkkTAR/NwfA1kvf7UPTpKav
-	qSbhz/TcJqMZLexlFhHzc4l4eGen2JyBoNnBgcirAEAVPjGlzvh2UXgMpCLr3fOw8HJVqSXh8IRpM
-	76gYeDmS0MeuZh+x0/b1H54G+Oj8JQvflR+3gs1Ipwi2HCYWoYhYq/3UwPi8XONyZsaANAq1GqN7k
-	YPSFYexBBz9CI6y480D5oFMJpUmsCXcpr3TGmEft4lpu+P7YhXvSPrNpjecd5d4L8BZru3R/nGxW6
-	04K5rIgMljrgNaiIpUs7V1tkhlFKvRhWueI4MfuNzxv2W0iH/kRt1CD6sPwOibE36kX1XoJWn5XtE
-	iUHrkE9g==;
+	bh=3S4MOQWq75PjVfYb3NeSd0mr55BZaHNtYmfjwxb5FFI=; b=kuTkIUZi3/QlCT4WMsb4F1fr4T
+	vrY9CLw0+32LW897zM3YOeFFppEnfd/sienyroDE3jA7QdcPSgHl2ICYpnOaQhwu7ojQxeBdoHBwL
+	991yUNAR26R3IT4ec8KyAgxCE7fDFXUbhvAM62DXxGvQNlwjCU8hrhbykMM/6JfReKgILPsgXZnq7
+	+B1WmEY7Y0QXCXJNNhfosDaWe9lrBML37THarneNp6QOa7fio1EqgnD50vi8xpM4kSy5qfWD1Y/y4
+	HmBuzgOhWCubHrGBTIGdnfzx8RIBinTEETic9jmSNit+ZxZwsSHXFf3qmcebEyN/N1T9bDGNDQ1Wf
+	sHnwv8WA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMi30-00000009JfB-04yx;
-	Thu, 27 Jun 2024 05:51:54 +0000
+	id 1sMi6c-00000009KD4-2dt9;
+	Thu, 27 Jun 2024 05:55:38 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMi2x-00000009Jef-1BsK
+	id 1sMi6J-00000009KB7-2cMK
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jun 2024 05:51:52 +0000
+	Thu, 27 Jun 2024 05:55:36 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9878268C4E; Thu, 27 Jun 2024 07:51:47 +0200 (CEST)
-Date: Thu, 27 Jun 2024 07:51:47 +0200
+	id A2FEB68CFE; Thu, 27 Jun 2024 07:55:15 +0200 (CEST)
+Date: Thu, 27 Jun 2024 07:55:15 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Stuart Hayes <stuart.w.hayes@gmail.com>
 Cc: linux-kernel@vger.kernel.org,
@@ -42,18 +42,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
 	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v7 2/4] driver core: separate function to shutdown one
- device
-Message-ID: <20240627055147.GB15415@lst.de>
-References: <20240626194650.3837-1-stuart.w.hayes@gmail.com> <20240626194650.3837-3-stuart.w.hayes@gmail.com>
+Subject: Re: [PATCH v7 3/4] driver core: shut down devices asynchronously
+Message-ID: <20240627055515.GC15415@lst.de>
+References: <20240626194650.3837-1-stuart.w.hayes@gmail.com> <20240626194650.3837-4-stuart.w.hayes@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626194650.3837-3-stuart.w.hayes@gmail.com>
+In-Reply-To: <20240626194650.3837-4-stuart.w.hayes@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240626_225151_593517_02C923CB 
-X-CRM114-Status: GOOD (  13.85  )
+X-CRM114-CacheID: sfid-20240626_225527_984370_858FB74D 
+X-CRM114-Status: GOOD (  18.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,16 +67,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 26, 2024 at 02:46:48PM -0500, Stuart Hayes wrote:
-> Make a separate function for the part of device_shutdown() that does the
-> shutown for a single device.  This is in preparation for making device
-> shutdown asynchronous.
+On Wed, Jun 26, 2024 at 02:46:49PM -0500, Stuart Hayes wrote:
+> Add code to allow asynchronous shutdown of devices, ensuring that each
+> device is shut down before its parents & suppliers.
 > 
-> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-> Signed-off-by: David Jeffery <djeffery@redhat.com>
+> Add async_shutdown_enable to struct device_driver, and expose it via sysfs.
+> This can be used to view or change driver opt-in to asynchronous shutdown.
+> Only devices with drivers that have async_shutdown_enable enabled will be
+> shut down asynchronously.
+> 
+> This can dramatically reduce system shutdown/reboot time on systems that
+> have multiple devices that take many seconds to shut down (like certain
+> NVMe drives). On one system tested, the shutdown time went from 11 minutes
+> without this patch to 55 seconds with the patch.
 
-Looks good:
+We discussed this before, but there is no summary of it and I of course
+forgot the conclusion:
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+ - why don't we do this by default?
+ - why is it safe to user enable it?
+
+> + * @shutdown_after - used during device shutdown to ensure correct shutdown ordering.
+
+Overly long line.
+
+> +static ssize_t async_shutdown_enable_store(struct device_driver *drv, const char *buf,
+
+.. and here.
 
 
