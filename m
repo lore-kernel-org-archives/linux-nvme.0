@@ -4,75 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AC65C3064D
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 08:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CD49C3064D
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 09:59:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x3+eAOe1i1Z7vPP2L6p8LjDhEKjTebGqK0YH2zEsuOg=; b=durCbATc9wc751BTpY1n4IsFWZ
-	8sjr56E5aZG706SAdJ1LxI1grpIr7e25hRVP2W3meoHfdCB2Anh4HAYJTbkoI4F/4O+y1XiwbqLB7
-	yD/u43aQnHlMZO4H/+9ykF0I0B5m1aqDn5hOm/3XaTUFXsWBpcBveO1PQE5k0XWLMHgc4M5Yfail6
-	biCaUG+hnQhCTzvlDSJLCXHRrl9AEfyfcavO+zKpNvgFTlksOm9hQXH5uRF8QZijdgjW665CYETy9
-	2DYAuOGtvm79w1dDDe0E8Y1ZbdP2fj2RWa2O77S8ckRj3zQW6uSvXmQWA09TXfPkbmbrFZ4Li9DD2
-	djxkO3tg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AthWkCW+CQaGxsr6kGOrEkezMD/+1YpWLtEgGiikRv4=; b=b6PRHVHgQ32MVws+3VE7EecIby
+	hLci0HFEeLWTekZi1MBxX4TkiJDP6cbVssPlf9Ffak7m3APrrvXSpNmcRkaXjCUz2HMFVKMg9CsBZ
+	OxPJoYozw39rrwkfVY3DG2V6PpGEjjv9YvJ0yKc/BUbJ2bPpcy6CLjglMhrEVXewLB78PsZooDfm0
+	Dl7rgVc9pL3GdjH4SxUl2mfcdw+T6BDj14IrLFmHi1QwKi9vLyfURl6zdhIqc2l1lnk/+ZDif1Lgl
+	nmSEET6rdbcVU1DBmsI13VBnB92cv03vb1PrDdCnzVK+LLB8+izow/7bI87Gx97Oe3KFrVbB4IJ6h
+	9XA9pqpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMkF1-00000009gsh-2Bug;
-	Thu, 27 Jun 2024 08:12:27 +0000
-Received: from smtp45.i.mail.ru ([95.163.41.83])
+	id 1sMluQ-00000009rKo-2Dtr;
+	Thu, 27 Jun 2024 09:59:18 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMkEx-00000009gr4-3fEK
+	id 1sMluL-00000009rIu-2WeA
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jun 2024 08:12:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
-	s=mail4; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:To:Cc:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-	List-Archive:X-Cloud-Ids:Disposition-Notification-To;
-	bh=x3+eAOe1i1Z7vPP2L6p8LjDhEKjTebGqK0YH2zEsuOg=; t=1719475941; x=1719565941; 
-	b=GEcc8yHZB9AHDm5qSwyl12WhhAzCqSBsqjgXfrlZ74ysfYwmx70cp+Lge1OIMh1ZH8zLWGvCJmw
-	Yn3i/wOH5ouCMOJqGSQdhSyHkZOnVIszPzD+LJznV/lbrJnzRg2EXT7jPj4zRJqE/7x0ocs765u3j
-	09Al4oNKdzARLx2Kx9G6A3fIedBYIaDOI+ndw+sfmcmqCdaY4kOUAQEE1nEM5AabRtkcjdTsDaGma
-	uYkahZI7mSROQ1KTL2G4/M2HT0XDFkfO3Ns8WkfMbzUPCBNQ0hY/6UvvUXjXZqw0f3sNZMCePOeIY
-	pGbR4+tXXu3caGMWknBkf+0vMM7BPqCzbH3Q==;
-Received: by exim-smtp-84f7fbf7d8-hgbp6 with esmtpa (envelope-from <m.lombardi85@mail.ru>)
-	id 1sMkEq-00000000IIS-2ARm; Thu, 27 Jun 2024 11:12:17 +0300
-Date: Thu, 27 Jun 2024 10:12:13 +0200
-From: Maurizio Lombardi <m.lombardi85@mail.ru>
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: Keith Busch <kbusch@kernel.org>, sagi@grimberg.me, emilne@redhat.com,
-	hare@kernel.org, kbusch@meta.com, linux-nvme@lists.infradead.org,
-	mlombard@redhat.com
-Subject: Re: [PATCH v2 7/7] nvme: add reserved ioq tags for cancel
-Message-ID: <Zn0e0PK+PM0G4Xkl@kalibr>
-References: <50a62d8e-b45e-4ae0-81dc-f12c46a5a65b@grimberg.me>
- <20240626183819.23960-1-jmeneghi@redhat.com>
- <Znxl9kFmoJWg1S0D@kbusch-mbp.dhcp.thefacebook.com>
- <fc2fd513-ab39-4d87-b2ce-e1f86bdf5d45@redhat.com>
+	Thu, 27 Jun 2024 09:59:16 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AC16E21B00;
+	Thu, 27 Jun 2024 09:59:11 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81C7D137DF;
+	Thu, 27 Jun 2024 09:59:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MPC6Hu83fWaaJAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 27 Jun 2024 09:59:11 +0000
+Message-ID: <c3475515-e776-41cd-8c60-e0f5fccea052@suse.de>
+Date: Thu, 27 Jun 2024 11:59:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH blktests v3 1/3] nvme/rc: introduce remote target support
+To: Daniel Wagner <dwagner@suse.de>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <20240627091016.12752-1-dwagner@suse.de>
+ <20240627091016.12752-2-dwagner@suse.de>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240627091016.12752-2-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fc2fd513-ab39-4d87-b2ce-e1f86bdf5d45@redhat.com>
-Authentication-Results: exim-smtp-84f7fbf7d8-hgbp6; auth=pass smtp.auth=m.lombardi85@mail.ru smtp.mailfrom=m.lombardi85@mail.ru
-X-Mailru-Src: smtp
-X-4EC0790: 1
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD99270B3E0DC24D31F5B22ABB6212E75010C393A61199937B3182A05F538085040CA18840792EFC4503DE06ABAFEAF670592D03C92C1332CE242691B0D61574D9D67D05D8178A78D18
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7811C3E343B302E2EEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E1AAA91777E61F958638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8E7DD242A918C0CA735F198FCC5BB6E55467B8D0DABA48FEE20879F7C8C5043D14489FFFB0AA5F4BF176DF2183F8FC7C02F11D39E7306DD338941B15DA834481FA18204E546F3947C2FFDA4F57982C5F4F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637F3E38EE449E3E2AE389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637CD70681E7BFD3F6ED81D268191BDAD3DBD4B6F7A4D31EC0BE2F48590F00D11D6D81D268191BDAD3D78DA827A17800CE7BF2C217CD5393D68EC76A7562686271ED91E3A1F190DE8FD2E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6D082881546D9349175ECD9A6C639B01B78DA827A17800CE70711EC19236D5A3D731C566533BA786AA5CC5B56E945C8DA
-X-C1DE0DAB: 0D63561A33F958A50DBFCA885B49B1B75002B1117B3ED696171575B65B8C712B33EE06AFCD964888823CB91A9FED034534781492E4B8EEADFCE5E68AF59B345DBDAD6C7F3747799A
-X-C8649E89: 1C3962B70DF3F0AD93B9BA3C444D644977DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF73CE5ED334B109971B409890F28D265C9E02706BFDCD54D8E3939CE84F3A4057192AF36DABE85845443676941C84C1C8A4B24C32AE573C610698F5CD53E22D8CE27C0CBEB90944DB9FDC11CE098E8E5C913E6812662D5F2AAF96C8710EA0325A80F89563ADA45E48C3981EEBE9DB10F943082AE146A756F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojLaF05p8kWooaXnKDo4m1OA==
-X-Mailru-Sender: A8F475CF1C824D1CBA77B1F2B8087B007CF7695A04774D2EECD36BBCDBC78BF8CA487BE980650175E4F3502559AA9718D8A79CCC3C8D74D41DFF15BC5ABCB624EF07C4B4834D601BDC6127B08F856444D0E43066D6DAA6349E6661CE6659AC881C93572D6AD3136CB4A721A3011E896F
-X-Mras: Ok
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Queue-Id: AC16E21B00
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240627_011224_446334_B1F49426 
-X-CRM114-Status: GOOD (  17.84  )
+X-CRM114-CacheID: sfid-20240627_025914_187870_BCF02D0A 
+X-CRM114-Status: GOOD (  30.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,56 +89,241 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-V Wed, Jun 26, 2024 at 03:20:08PM -0400, John Meneghini napsal(a):
-> > >   	else if (ctrl->ops->flags & NVME_F_FABRICS)
-> > >   		/* Reserved for fabric connect */
-> > >   		set->reserved_tags = 1;
-> > 
-> > You mentioned an addtional tags is supposed to be reserved for fabrics.
-> > Shouldn't this just be an "if", not an "else if", and then increment
-> > reserved_tags?
+On 6/27/24 11:10, Daniel Wagner wrote:
+> Most of the NVMEeoF tests are exercising the host code of the nvme
+> subsystem. There is no real reason not to run these against a real
+> target. We just have to skip the soft target setup and make it possible
+> to setup a remote target.
 > 
-> Yes, good point. I was thinking we don't need more than 2 tags if it's a fabric.
+> Because all tests use now the common setup/cleanup helpers we just need
+> to intercept this call and forward it to an external component.
 > 
-> So you want to reserve 3 tags when both cancel and fabrics are true?
+> As we already have various nvme variables to setup the target which we
+> should allow to overwrite. Also introduce a NVME_TARGET_CONTROL variable
+> which points to a script which gets executed whenever a targets needs to
+> be created/destroyed.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   Documentation/running-tests.md | 33 ++++++++++++++++++++
+>   check                          |  4 +++
+>   tests/nvme/rc                  | 57 ++++++++++++++++++++++++++++++++--
+>   3 files changed, 92 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
+> index 968702e76bb5..fe4f729bd037 100644
+> --- a/Documentation/running-tests.md
+> +++ b/Documentation/running-tests.md
+> @@ -120,6 +120,9 @@ The NVMe tests can be additionally parameterized via environment variables.
+>   - NVME_NUM_ITER: 1000 (default)
+>     The number of iterations a test should do. This parameter had an old name
+>     'nvme_num_iter'. The old name is still usable, but not recommended.
+> +- NVME_TARGET_CONTROL: When defined, the generic target setup/cleanup code will
+> +  be skipped and this script gets called. This makes it possible to run
+> +  the fabric nvme tests against a real target.
+>   
+>   ### Running nvme-rdma and SRP tests
+>   
+> @@ -167,3 +170,33 @@ if ! findmnt -t configfs /sys/kernel/config > /dev/null; then
+>   	mount -t configfs configfs /sys/kernel/config
+>   fi
+>   ```
+> +### NVME_TARGET_CONTROL
+> +
+> +When NVME_TARGET_CONTROL is set, blktests will call the script which the
+> +environment variable points to, to fetch the configuration values to be used for
+> +the runs, e.g subsysnqn or hostnqn. This allows the blktest to be run against
+> +external configured/setup targets.
+> +
+> +The blktests expects that the script interface implements following
+> +commands:
+> +
+> +config:
+> +  --show-blkdev-type
+> +  --show-trtype
+> +  --show-hostnqn
+> +  --show-hostid
+> +  --show-host-traddr
+> +  --show-traddr
+> +  --show-trsvid
+> +  --show-subsys-uuid
+> +  --show-subsysnqn
+> +
+> +setup:
+> +  --subsysnqn SUBSYSNQN
+> +  --subsys-uuid SUBSYS_UUID
+> +  --hostnqn HOSTNQN
+> +  --ctrlkey CTRLKEY
+> +  --hostkey HOSTKEY
+> +
+> +cleanup:
+> +  --subsysnqn SUBSYSNQN
+> diff --git a/check b/check
+> index 3ed4510f3f40..d0475629773d 100755
+> --- a/check
+> +++ b/check
+> @@ -603,6 +603,10 @@ _run_group() {
+>   	# shellcheck disable=SC1090
+>   	. "tests/${group}/rc"
+>   
+> +	if declare -fF group_setup >/dev/null; then
+> +		group_setup
+> +	fi
+> +
+>   	if declare -fF group_requires >/dev/null; then
+>   		group_requires
+>   		if [[ -v SKIP_REASONS ]]; then
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index c1ddf412033b..4465dea0370b 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -23,6 +23,7 @@ _check_conflict_and_set_default NVME_IMG_SIZE nvme_img_size 1G
+>   _check_conflict_and_set_default NVME_NUM_ITER nvme_num_iter 1000
+>   nvmet_blkdev_type=${nvmet_blkdev_type:-"device"}
+>   NVMET_BLKDEV_TYPES=${NVMET_BLKDEV_TYPES:-"device file"}
+> +nvme_target_control="${NVME_TARGET_CONTROL:-}"
+>   
+>   _NVMET_TRTYPES_is_valid() {
+>   	local type
+> @@ -135,6 +136,13 @@ _nvme_requires() {
+>   	return 0
+>   }
+>   
+> +group_setup() {
+> +	if [[ -n "${nvme_target_control}" ]]; then
+> +		NVMET_TRTYPES="$(${nvme_target_control} config --show-trtype)"
+> +		NVMET_BLKDEV_TYPES="$(${nvme_target_control} config --show-blkdev-type)"
+> +	fi
+> +}
+> +
+>   group_requires() {
+>   	_have_root
+>   	_NVMET_TRTYPES_is_valid
+> @@ -359,6 +367,10 @@ _cleanup_nvmet() {
+>   		fi
+>   	done
+>   
+> +	if [[ -n "${nvme_target_control}" ]]; then
+> +		return
+> +	fi
+> +
+>   	for port in "${NVMET_CFS}"/ports/*; do
+>   		name=$(basename "${port}")
+>   		echo "WARNING: Test did not clean up port: ${name}"
+> @@ -403,11 +415,26 @@ _cleanup_nvmet() {
+>   
+>   _setup_nvmet() {
+>   	_register_test_cleanup _cleanup_nvmet
+> +
+> +	if [[ -n "${nvme_target_control}" ]]; then
+> +		def_hostnqn="$(${nvme_target_control} config --show-hostnqn)"
+> +		def_hostid="$(${nvme_target_control} config --show-hostid)"
+> +		def_host_traddr="$(${nvme_target_control} config --show-host-traddr)"
+> +		def_traddr="$(${nvme_target_control} config --show-traddr)"
+> +		def_trsvcid="$(${nvme_target_control} config --show-trsvid)"
+> +		def_subsys_uuid="$(${nvme_target_control} config --show-subsys-uuid)"
+> +		def_subsysnqn="$(${nvme_target_control} config --show-subsysnqn)"
+> +		return
+> +	fi
+> +
+>   	modprobe -q nvmet
+> +
+>   	if [[ "${nvme_trtype}" != "loop" ]]; then
+>   		modprobe -q nvmet-"${nvme_trtype}"
+>   	fi
+> +
+>   	modprobe -q nvme-"${nvme_trtype}"
+> +
+>   	if [[ "${nvme_trtype}" == "rdma" ]]; then
+>   		start_soft_rdma
+>   		for i in $(rdma_network_interfaces)
+> @@ -425,6 +452,7 @@ _setup_nvmet() {
+>   			fi
+>   		done
+>   	fi
+> +
+>   	if [[ "${nvme_trtype}" = "fc" ]]; then
+>   		modprobe -q nvme-fcloop
+>   		_setup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
+> @@ -873,11 +901,13 @@ _find_nvme_passthru_loop_dev() {
+>   
+>   _nvmet_target_setup() {
+>   	local blkdev_type="${nvmet_blkdev_type}"
+> +	local subsys_uuid="${def_subsys_uuid}"
+> +	local subsysnqn="${def_subsysnqn}"
+>   	local blkdev
+> +	local ARGS=()
+>   	local ctrlkey=""
+>   	local hostkey=""
+> -	local subsysnqn="${def_subsysnqn}"
+> -	local subsys_uuid="${def_subsys_uuid}"
+> +	local blkdev
+>   	local port
+>   
+>   	while [[ $# -gt 0 ]]; do
+> @@ -909,6 +939,22 @@ _nvmet_target_setup() {
+>   		esac
+>   	done
+>   
+> +	if [[ -n "${hostkey}" ]]; then
+> +		ARGS+=(--hostkey "${hostkey}")
+> +	fi
+> +	if [[ -n "${ctrlkey}" ]]; then
+> +		ARGS+=(--ctrkey "${ctrlkey}")
+> +	fi
+> +
+> +	if [[ -n "${nvme_target_control}" ]]; then
+> +		eval "${nvme_target_control}" setup \
+> +			--subsysnqn "${subsysnqn}" \
+> +			--subsys-uuid "${subsys_uuid}" \
+> +			--hostnqn "${def_hostnqn}" \
+> +			"${ARGS[@]}" &> /dev/null
+> +		return
+> +	fi
+> +
+>   	truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path)"
+>   	if [[ "${blkdev_type}" == "device" ]]; then
+>   		blkdev="$(losetup -f --show "$(_nvme_def_file_path)")"
+> @@ -948,6 +994,13 @@ _nvmet_target_cleanup() {
+>   		esac
+>   	done
+>   
+> +	if [[ -n "${nvme_target_control}" ]]; then
+> +		eval "${nvme_target_control}" cleanup \
+> +			--subsysnqn "${subsysnqn}" \
+> +			> /dev/null
+> +		return
+> +	fi
+> +
+>   	_get_nvmet_ports "${subsysnqn}" ports
+>   
+>   	for port in "${ports[@]}"; do
 
-You dropped the reserved tag for the connect command, this is from
-the V2 patchset I am working on:
+Hmm. This wasn't quite what I had in mind; I think it'd be simpler
+if we could just check if the requested controller is visible to the
+host already (ie checking sysfs here), and then skip all the setup
+steps at they are obviously not required anymore.
+That would save quite a lot of issues, and we wouldn't need to specify
+a target setup script (or whatever).
 
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Tue, 25 Jun 2024 15:45:54 +0200
-Subject: [PATCH 3/8] nvme-core: reserve tags for cancel commands
+Quite a bit of churn, I agree, as that would mean we have to roll
 
-If the controller supports cancel commands, reserve two tags for them
+	_setup_nvmet
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/core.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+	_nvmet_target_setup
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fea5400ddf92..1b20f1a10321 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4532,9 +4532,14 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
-         */
-        if (ctrl->quirks & NVME_QUIRK_SHARED_TAGS)
-                set->reserved_tags = NVME_AQ_DEPTH;
--       else if (ctrl->ops->flags & NVME_F_FABRICS)
-+       else if (ctrl->ops->flags & NVME_F_FABRICS) {
-                /* Reserved for fabric connect */
-                set->reserved_tags = 1;
-+               if (nvme_io_command_supported(ctrl, nvme_cmd_cancel)) {
-+                       /* Reserved for cancel commands */
-+                       set->reserved_tags += 2;
-+               }
-+       }
-        set->numa_node = ctrl->numa_node;
-        set->flags = BLK_MQ_F_SHOULD_MERGE;
-        if (ctrl->ops->flags & NVME_F_BLOCKING)
+	_nvme_connect_subsys
+
+all into one function. But it might be easier in the long run.
+Hmm?
+
+Cheers,
+
+Hannes
 -- 
-2.43.0
-
-Maurizio
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 NÃ¼rnberg
+HRB 36809 (AG NÃ¼rnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
