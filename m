@@ -4,55 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1DFDC2BD09
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 05:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8B73C30658
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 06:05:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3S4MOQWq75PjVfYb3NeSd0mr55BZaHNtYmfjwxb5FFI=; b=kuTkIUZi3/QlCT4WMsb4F1fr4T
-	vrY9CLw0+32LW897zM3YOeFFppEnfd/sienyroDE3jA7QdcPSgHl2ICYpnOaQhwu7ojQxeBdoHBwL
-	991yUNAR26R3IT4ec8KyAgxCE7fDFXUbhvAM62DXxGvQNlwjCU8hrhbykMM/6JfReKgILPsgXZnq7
-	+B1WmEY7Y0QXCXJNNhfosDaWe9lrBML37THarneNp6QOa7fio1EqgnD50vi8xpM4kSy5qfWD1Y/y4
-	HmBuzgOhWCubHrGBTIGdnfzx8RIBinTEETic9jmSNit+ZxZwsSHXFf3qmcebEyN/N1T9bDGNDQ1Wf
-	sHnwv8WA==;
+	bh=sKohXuC3ZAf8k7XZYuCkYima2qDbkZiCaW0PmntYqYk=; b=PN4hhTe9kYLyev9v1tk0YAQIar
+	XH+DPfC45PPbi6C32NmJN8us4wVeDYkeHqVkf4FQauK9mqPcmYC6Pxn5ZGHVHxe0KqDK0Rt4Oy3ex
+	WjRv+56n15wghUO04uUxPm7aK6xrflVVIVZrmTPnqE8JlaThpKKIoKqfuv0z2CzxO3Lg4FZ8zDFDK
+	pZB6V+Ez7MPQonwoWlrMHDgvJgOrfm1VBHCfJDxsMkFbhx9CnsVwLjXtqeNmTgabnpUsbcb/2HP7B
+	qcAK9PmrYde6OrPHMnLrS1c80d4HAreGH/a504hoWmUlPQlQsFRXFUba3NC0FLbcwKt9SqukwXw+m
+	cZGAVFNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMi6c-00000009KD4-2dt9;
-	Thu, 27 Jun 2024 05:55:38 +0000
+	id 1sMiGW-00000009LEw-43bO;
+	Thu, 27 Jun 2024 06:05:52 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMi6J-00000009KB7-2cMK
+	id 1sMiGT-00000009LEF-1Sz6
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jun 2024 05:55:36 +0000
+	Thu, 27 Jun 2024 06:05:51 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A2FEB68CFE; Thu, 27 Jun 2024 07:55:15 +0200 (CEST)
-Date: Thu, 27 Jun 2024 07:55:15 +0200
+	id BCAEF68CFE; Thu, 27 Jun 2024 08:05:43 +0200 (CEST)
+Date: Thu, 27 Jun 2024 08:05:42 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, David Jeffery <djeffery@redhat.com>,
-	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v7 3/4] driver core: shut down devices asynchronously
-Message-ID: <20240627055515.GC15415@lst.de>
-References: <20240626194650.3837-1-stuart.w.hayes@gmail.com> <20240626194650.3837-4-stuart.w.hayes@gmail.com>
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: asml.silence@gmail.com, mpatocka@redhat.com, axboe@kernel.dk,
+	hch@lst.de, kbusch@kernel.org, martin.petersen@oracle.com,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] Read/Write with meta/integrity
+Message-ID: <20240627060542.GA15865@lst.de>
+References: <CGME20240626101415epcas5p3b06a963aa0b0196d6599fb86c90bc38c@epcas5p3.samsung.com> <20240626100700.3629-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626194650.3837-4-stuart.w.hayes@gmail.com>
+In-Reply-To: <20240626100700.3629-1-anuj20.g@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240626_225527_984370_858FB74D 
-X-CRM114-Status: GOOD (  18.10  )
+X-CRM114-CacheID: sfid-20240626_230550_073959_E446FD80 
+X-CRM114-Status: UNSURE (   7.87  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,32 +62,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 26, 2024 at 02:46:49PM -0500, Stuart Hayes wrote:
-> Add code to allow asynchronous shutdown of devices, ensuring that each
-> device is shut down before its parents & suppliers.
-> 
-> Add async_shutdown_enable to struct device_driver, and expose it via sysfs.
-> This can be used to view or change driver opt-in to asynchronous shutdown.
-> Only devices with drivers that have async_shutdown_enable enabled will be
-> shut down asynchronously.
-> 
-> This can dramatically reduce system shutdown/reboot time on systems that
-> have multiple devices that take many seconds to shut down (like certain
-> NVMe drives). On one system tested, the shutdown time went from 11 minutes
-> without this patch to 55 seconds with the patch.
-
-We discussed this before, but there is no summary of it and I of course
-forgot the conclusion:
-
- - why don't we do this by default?
- - why is it safe to user enable it?
-
-> + * @shutdown_after - used during device shutdown to ensure correct shutdown ordering.
-
-Overly long line.
-
-> +static ssize_t async_shutdown_enable_store(struct device_driver *drv, const char *buf,
-
-.. and here.
+What tree does this apply to?  There's quite a few rejects vs
+for-6.11/block.
 
 
