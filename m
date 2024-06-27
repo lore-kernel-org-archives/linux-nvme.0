@@ -4,64 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C43EC2BD09
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 14:11:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87F2FC3064D
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 18:03:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Nkl4SSxNIrBpfNEBv/GE9DiJBjq3oTyTgR3zzoHTSJo=; b=05ZYf1iahk4Yw/CLRKaaAm6F7q
-	5fFUDJ5TBFUSTrAiIWsz1+47supqmYN9KHXVIVn3+/S0gJlzbblbC/cTvd++NFD8DyOIpKpbtH5Hr
-	zxKyHPOWWi0FMeJ3yvx4I0DnjyPKsSrZAyTzncVEkb3bYeXbHgBsf3ENaK6YKVmM3jBErAdaYJv3c
-	P21xSxsLL6NgXxZQFnUTH3dCJzOjbX8LB9DIZ85CE/0s76SPom4cniF/JAk0rBhw7f4cNST2EHsIe
-	ByOX3hcLpZa4a+M6JD04xJ+BRb1mfnnUhTsoUmEObnCVoc+Wlujb1n0XMr4uAHnOXHeBay8lzZ9n9
-	HsonBg4w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5AOmhiaI7FZiUToAVL+em9t2qjUjmagJQvAUL0LtGbk=; b=a+HTproLNFe9C+PqDSimg2rkqa
+	azUAU8xv1xd9mcrDEl9Ep6gXLfEGDsShhZdq+SHQtd6ZHd4LvLqvJAOKHbaJCtSdRO/OWTJggQ4V4
+	In/xtKswoD9UPrgw/qCDgozGqsA5vTymEcHOajB+r6ujAH2gXYCfLRjLcMwEdwitkZ/g7BxxP5gQZ
+	h/T4l+ze+mcMa8i7tsr/d1WNLZMaVaPY/x+gIY5fYe3v4wZJpaROAJlhlZ+jpAtCknJ/Q7Rb//riK
+	JU1Y7i+hDcm3FywTvWUvMyadKzwuzUKQ0+OwGEJq6wdWzvT2ode4GVkoBJgo11dHfLmr7Y71iXJP3
+	btfqQD+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMpqR-0000000Aac5-3mBB;
-	Thu, 27 Jun 2024 14:11:27 +0000
-Received: from mail.nearlyone.de ([49.12.199.46])
+	id 1sMtTM-0000000BKh4-3iy3;
+	Thu, 27 Jun 2024 18:03:52 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMpqM-0000000AaWV-1vm2
+	id 1sMtTK-0000000BKgc-2akz
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jun 2024 14:11:24 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8A320DAD95;
-	Thu, 27 Jun 2024 16:11:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1719497477; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Nkl4SSxNIrBpfNEBv/GE9DiJBjq3oTyTgR3zzoHTSJo=;
-	b=TBSa/VW0F7MgASJWdBxd+i0xd5Qo40RT1tgbWvqWgJtpR6PP/jIxnKKvkPzlGMvLzZ+qDb
-	Q7HNuPGKlX4vAJOxXhwrNB8vueggY+5cypioKqyFIxoS+Cpf00b5vlB/HDn4pxwcx4ncOW
-	v5dn1jZ4tmq/S+/YDueN9QBc8+V5Km0VIHFMioFUtSvMaQXN+9Qy0bcb6m76S9jyrd/Hzt
-	C3M0mnywpHldvCjlnirR0CyHVzqIo9EAtP6fPkoguTOBqebJAUcbB4MF5XcjA+YOnro6sa
-	M5e/GnVbQrawx84af8PJeyflU1YlNKKsuB6DgT2vvzqal1389dbjp8fP827Sgw==
-From: Daniel Wagner <dwagner@suse.de>
-Date: Thu, 27 Jun 2024 16:10:53 +0200
-Subject: [PATCH v2 3/3] lib/group_cpus.c: honor housekeeping config when
- grouping CPUs
+	Thu, 27 Jun 2024 18:03:52 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 92E9561F43;
+	Thu, 27 Jun 2024 18:03:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BA2C2BBFC;
+	Thu, 27 Jun 2024 18:03:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719511428;
+	bh=pLZm178y4tPZaszRH5mqJDMU84s8xskbJkDdW1zNe/A=;
+	h=Date:From:To:Cc:Subject:From;
+	b=X4ZLiz6Cup1DaYnjGDJe4lJJ84GOjrPxMRgn/LyoaIWDh4EA7yNubaXZcrkTeJrMQ
+	 SHHyVRE3VblxFLZr5/HmPeWeskcuLZahhGZF5q01lYhfWl6Jw5nmoZtzhIrV+nXcwB
+	 VURKkB867IiRNRnj4lBK4oYUWscs+ANW2FU4N2jnCdv5gXLD4K9YEzzgZwHs9pyQVo
+	 UaD62WLrajNZpkGlHVXRLnVDsw7oVclQR4UnBYfOHPGv3rV+HvsvBolrz0peaZ11Z5
+	 gtEJNNYqmQ22XMAvSxXrtLlZ7ND9js/4KI2AJlO2bNyLgKZVErYXVHsNYfNwLTTXCS
+	 ExEX+Q9K45RMg==
+Date: Thu, 27 Jun 2024 12:03:45 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: [GIT PULL] nvme fixes for Linux 6.10
+Message-ID: <Zn2pgbTvj8TYr_W5@kbusch-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240627-isolcpus-io-queues-v2-3-26a32e3c4f75@suse.de>
-References: <20240627-isolcpus-io-queues-v2-0-26a32e3c4f75@suse.de>
-In-Reply-To: <20240627-isolcpus-io-queues-v2-0-26a32e3c4f75@suse.de>
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
- Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
- Christoph Hellwig <hch@lst.de>
-Cc: Frederic Weisbecker <fweisbecker@suse.com>, 
- Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
- Sridhar Balaraman <sbalaraman@parallelwireless.com>, 
- "brookxu.cn" <brookxu.cn@gmail.com>, Ming Lei <ming.lei@redhat.com>, 
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>
-X-Mailer: b4 0.14.0
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240627_071123_186155_F84A7402 
-X-CRM114-Status: GOOD (  16.78  )
+X-CRM114-CacheID: sfid-20240627_110350_829030_15018AD3 
+X-CRM114-Status: UNSURE (   6.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,128 +69,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-group_cpus_evenly distributes all present CPUs into groups. This ignores
-the isolcpus configuration and assigns isolated CPUs into the groups.
+The following changes since commit 5f75e081ab5cbfbe7aca2112a802e69576ee9778:
 
-Make group_cpus_evenly aware of isolcpus configuration and use the
-housekeeping CPU mask as base for distributing the available CPUs into
-groups.
+  loop: Disable fallocate() zero and discard if not supported (2024-06-14 06:21:25 -0600)
 
-Fixes: 11ea68f553e2 ("genirq, sched/isolation: Isolate from handling managed interrupts")
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- lib/group_cpus.c | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 73 insertions(+), 2 deletions(-)
+are available in the Git repository at:
 
-diff --git a/lib/group_cpus.c b/lib/group_cpus.c
-index ee272c4cefcc..19fb7186f9d4 100644
---- a/lib/group_cpus.c
-+++ b/lib/group_cpus.c
-@@ -8,6 +8,7 @@
- #include <linux/cpu.h>
- #include <linux/sort.h>
- #include <linux/group_cpus.h>
-+#include <linux/sched/isolation.h>
- 
- #ifdef CONFIG_SMP
- 
-@@ -330,7 +331,7 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
- }
- 
- /**
-- * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * group_possible_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-  * @numgrps: number of groups
-  *
-  * Return: cpumask array if successful, NULL otherwise. And each element
-@@ -344,7 +345,7 @@ static int __group_cpus_evenly(unsigned int startgrp, unsigned int numgrps,
-  * We guarantee in the resulted grouping that all CPUs are covered, and
-  * no same CPU is assigned to multiple groups
-  */
--struct cpumask *group_cpus_evenly(unsigned int numgrps)
-+static struct cpumask *group_possible_cpus_evenly(unsigned int numgrps)
- {
- 	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
- 	cpumask_var_t *node_to_cpumask;
-@@ -423,6 +424,76 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
- 	}
- 	return masks;
- }
-+
-+/**
-+ * group_mask_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * @numgrps: number of groups
-+ * @cpu_mask: CPU to consider for the grouping
-+ *
-+ * Return: cpumask array if successful, NULL otherwise. And each element
-+ * includes CPUs assigned to this group.
-+ *
-+ * Try to put close CPUs from viewpoint of CPU and NUMA locality into
-+ * same group. Allocate present CPUs on these groups evenly.
-+ */
-+static struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
-+					      const struct cpumask *cpu_mask)
-+{
-+	cpumask_var_t *node_to_cpumask;
-+	cpumask_var_t nmsk;
-+	int ret = -ENOMEM;
-+	struct cpumask *masks = NULL;
-+
-+	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
-+		return NULL;
-+
-+	node_to_cpumask = alloc_node_to_cpumask();
-+	if (!node_to_cpumask)
-+		goto fail_nmsk;
-+
-+	masks = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
-+	if (!masks)
-+		goto fail_node_to_cpumask;
-+
-+	build_node_to_cpumask(node_to_cpumask);
-+
-+	ret = __group_cpus_evenly(0, numgrps, node_to_cpumask, cpu_mask, nmsk,
-+				  masks);
-+
-+fail_node_to_cpumask:
-+	free_node_to_cpumask(node_to_cpumask);
-+
-+fail_nmsk:
-+	free_cpumask_var(nmsk);
-+	if (ret < 0) {
-+		kfree(masks);
-+		return NULL;
-+	}
-+	return masks;
-+}
-+
-+/**
-+ * group_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * @numgrps: number of groups
-+ *
-+ * Return: cpumask array if successful, NULL otherwise.
-+ *
-+ * group_possible_cpus_evently() is used for distributing the cpus on all
-+ * possible cpus in absence of isolcpus command line argument.
-+ * group_mask_cpu_evenly() is used when the isolcpus command line
-+ * argument is used with managed_irq option. In this case only the
-+ * housekeeping CPUs are considered.
-+ */
-+struct cpumask *group_cpus_evenly(unsigned int numgrps)
-+{
-+	const struct cpumask *hk_mask;
-+
-+	hk_mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
-+	if (!cpumask_empty(hk_mask))
-+		return group_mask_cpus_evenly(numgrps, hk_mask);
-+
-+	return group_possible_cpus_evenly(numgrps);
-+}
- #else /* CONFIG_SMP */
- struct cpumask *group_cpus_evenly(unsigned int numgrps)
- {
+  git://git.infradead.org/nvme.git tags/nvme-6.10-2024-06-27
 
--- 
-2.45.2
+for you to fetch changes up to 440e2051c577896275c0e0513ec26964e04c7810:
+
+  nvmet-fc: Remove __counted_by from nvmet_fc_tgt_queue.fod[] (2024-06-26 10:13:04 -0700)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.10
+
+ - Fabrics fixes (Hannes)
+ - Missing module description (Jeff)
+ - Clang warning fix (Nathan)
+
+----------------------------------------------------------------
+Boyang Yu (1):
+      nvme: fix NVME_NS_DEAC may incorrectly identifying the disk as EXT_LBA.
+
+Hannes Reinecke (3):
+      nvmet: do not return 'reserved' for empty TSAS values
+      nvme: fixup comment for nvme RDMA Provider Type
+      nvmet: make 'tsas' attribute idempotent for RDMA
+
+Jeff Johnson (1):
+      nvme-apple: add missing MODULE_DESCRIPTION()
+
+Nathan Chancellor (1):
+      nvmet-fc: Remove __counted_by from nvmet_fc_tgt_queue.fod[]
+
+ drivers/nvme/host/apple.c      |  1 +
+ drivers/nvme/host/nvme.h       |  2 +-
+ drivers/nvme/target/configfs.c | 41 +++++++++++++++++++++++++++++++----------
+ drivers/nvme/target/fc.c       |  2 +-
+ include/linux/nvme.h           |  6 ++++--
+ 5 files changed, 38 insertions(+), 14 deletions(-)
 
 
