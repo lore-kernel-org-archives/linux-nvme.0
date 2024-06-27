@@ -4,56 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87F2FC3064D
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 18:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30EA0C2BD09
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 18:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5AOmhiaI7FZiUToAVL+em9t2qjUjmagJQvAUL0LtGbk=; b=a+HTproLNFe9C+PqDSimg2rkqa
-	azUAU8xv1xd9mcrDEl9Ep6gXLfEGDsShhZdq+SHQtd6ZHd4LvLqvJAOKHbaJCtSdRO/OWTJggQ4V4
-	In/xtKswoD9UPrgw/qCDgozGqsA5vTymEcHOajB+r6ujAH2gXYCfLRjLcMwEdwitkZ/g7BxxP5gQZ
-	h/T4l+ze+mcMa8i7tsr/d1WNLZMaVaPY/x+gIY5fYe3v4wZJpaROAJlhlZ+jpAtCknJ/Q7Rb//riK
-	JU1Y7i+hDcm3FywTvWUvMyadKzwuzUKQ0+OwGEJq6wdWzvT2ode4GVkoBJgo11dHfLmr7Y71iXJP3
-	btfqQD+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QlxmnszsaSQ4qJCFcqsLiE5hBNHHurOxzY8wO4JdUo4=; b=DmkMdbOvnX/F4KM0YAlFtc86+c
+	jhL8Ih+CwO69WFFbY6czmIEghvf9GM8CMvMEMZYuoqks/BsRhcftlmdWx3XP2GmCaaQZ/nBX12RXQ
+	cKwZ5FYKyZA+gDl8P+43Q04Q7D3cNVcBq06UngYcBbl2RFMQd2ZIgteoM1Ct6+iWmxHdJC+JeDce+
+	iDim9tfrPUZYbr9jUVK2Z8JfBc6K2suhUWlX+DtrByHw6yWzp32uFSXuP9XpCeDkgRMZUChP42S6i
+	pIC4EOtle/k+xocyltPUWj+FP6101jQan3eNvrQVldwKxQ8qkJ8E8fxyS5xoKbc1h/1vzlhYEEf1c
+	npdzTvMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMtTM-0000000BKh4-3iy3;
-	Thu, 27 Jun 2024 18:03:52 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sMtex-0000000BMdG-25vF;
+	Thu, 27 Jun 2024 18:15:51 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMtTK-0000000BKgc-2akz
+	id 1sMteu-0000000BMcf-0IXR
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jun 2024 18:03:52 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 92E9561F43;
-	Thu, 27 Jun 2024 18:03:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BA2C2BBFC;
-	Thu, 27 Jun 2024 18:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719511428;
-	bh=pLZm178y4tPZaszRH5mqJDMU84s8xskbJkDdW1zNe/A=;
-	h=Date:From:To:Cc:Subject:From;
-	b=X4ZLiz6Cup1DaYnjGDJe4lJJ84GOjrPxMRgn/LyoaIWDh4EA7yNubaXZcrkTeJrMQ
-	 SHHyVRE3VblxFLZr5/HmPeWeskcuLZahhGZF5q01lYhfWl6Jw5nmoZtzhIrV+nXcwB
-	 VURKkB867IiRNRnj4lBK4oYUWscs+ANW2FU4N2jnCdv5gXLD4K9YEzzgZwHs9pyQVo
-	 UaD62WLrajNZpkGlHVXRLnVDsw7oVclQR4UnBYfOHPGv3rV+HvsvBolrz0peaZ11Z5
-	 gtEJNNYqmQ22XMAvSxXrtLlZ7ND9js/4KI2AJlO2bNyLgKZVErYXVHsNYfNwLTTXCS
-	 ExEX+Q9K45RMg==
-Date: Thu, 27 Jun 2024 12:03:45 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: [GIT PULL] nvme fixes for Linux 6.10
-Message-ID: <Zn2pgbTvj8TYr_W5@kbusch-mbp>
+	Thu, 27 Jun 2024 18:15:49 +0000
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1faa9d5d25fso1260065ad.2
+        for <linux-nvme@lists.infradead.org>; Thu, 27 Jun 2024 11:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1719512147; x=1720116947; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QlxmnszsaSQ4qJCFcqsLiE5hBNHHurOxzY8wO4JdUo4=;
+        b=iff5yzY88llMFGvm5aIdysuxHsKOg7wchpT8PohSiH2+WQQyLoPNpGab34bD50CtAK
+         AA0pE097spMXxIG+gBVPTNH364y5U6fdRoWlGMc5QIERhlXxaLg/uymngFUkdd2e3gVq
+         jnznQi6tnCLMai2p41G6FTL8g6vppWxJ1hEk6p/jBksqPCYPwL1vTufEzzOp9pXch6UH
+         slofj+UsbBQBossTs0gLFjSGCP1EjI4in6v6cVRgL4OzHD7ty9HbZKTVMu42NYt+OAWV
+         chPfaGS7YVJlA9KhgTpAD2V9VuDgc40PQ9ZS2CV8Yfo2lQtA/3EOZFyQ53ZE8FB/XmnO
+         NgTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719512147; x=1720116947;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QlxmnszsaSQ4qJCFcqsLiE5hBNHHurOxzY8wO4JdUo4=;
+        b=ZrA0hcBg/Wac9i/rmfKxvY0RrPY3tOlEbpBfHKaSOej1eCk7ZEcjjeTi1b19+B+3sS
+         eqOJjf6lL15NUUbsaSPg2dT1PuL6cUT11csciaPNkv8Jq+wTTFS7OT8lWYbMJucL9T7J
+         cL/5egCA0h8myivQlDsZgb97UIyCRCN7+tqMbXvLIU3SShQTyB30t+SsyopvUN1892rM
+         1rGriyhSgqDmsq636OVxP2egE9HSc2vrmmw+XB52d61VSZ4oNCRyDn8GAT0pmqbJIdDj
+         H7rQ+eNYvB4+lm/QH3LtPcCI9Z95dAFZzgkKmXTIheh8ipxyKc2TC/2PCCFp4cL44W+S
+         hwKg==
+X-Gm-Message-State: AOJu0YxGPxwihppvIcgZpC4cU2xZIFbzhYW3rqOBK9JNa5vQi/Pr/IVw
+	5qkNfbo5d32po8C9w1oMGe/nO6NqZLSfe8qCiLGQ1sb7nbtsLOZoY2ext0zjClw=
+X-Google-Smtp-Source: AGHT+IE/F97uFjBU3Wts4KR6zBBe4s4+ZBpF2GC1MeDRg3tI7HGrRdwXRSrThQZpmfufJgw/5HAITQ==
+X-Received: by 2002:a17:902:e54e:b0:1f7:2b3:3331 with SMTP id d9443c01a7336-1fa0d81773emr177962355ad.4.1719512146794;
+        Thu, 27 Jun 2024 11:15:46 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac15388fdsm506625ad.127.2024.06.27.11.15.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jun 2024 11:15:46 -0700 (PDT)
+Message-ID: <29ff079a-f61e-42f7-8521-a56c35eb1bcd@kernel.dk>
+Date: Thu, 27 Jun 2024 12:15:45 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme fixes for Linux 6.10
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+References: <Zn2pgbTvj8TYr_W5@kbusch-mbp>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Zn2pgbTvj8TYr_W5@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240627_110350_829030_15018AD3 
-X-CRM114-Status: UNSURE (   6.82  )
+X-CRM114-CacheID: sfid-20240627_111548_148487_D5583650 
+X-CRM114-Status: UNSURE (   9.53  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,45 +93,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 5f75e081ab5cbfbe7aca2112a802e69576ee9778:
+On 6/27/24 12:03 PM, Keith Busch wrote:
+> The following changes since commit 5f75e081ab5cbfbe7aca2112a802e69576ee9778:
+> 
+>   loop: Disable fallocate() zero and discard if not supported (2024-06-14 06:21:25 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.10-2024-06-27
+> 
+> for you to fetch changes up to 440e2051c577896275c0e0513ec26964e04c7810:
+> 
+>   nvmet-fc: Remove __counted_by from nvmet_fc_tgt_queue.fod[] (2024-06-26 10:13:04 -0700)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for Linux 6.10
+> 
+>  - Fabrics fixes (Hannes)
+>  - Missing module description (Jeff)
+>  - Clang warning fix (Nathan)
 
-  loop: Disable fallocate() zero and discard if not supported (2024-06-14 06:21:25 -0600)
+Pulled, thanks.
 
-are available in the Git repository at:
+-- 
+Jens Axboe
 
-  git://git.infradead.org/nvme.git tags/nvme-6.10-2024-06-27
-
-for you to fetch changes up to 440e2051c577896275c0e0513ec26964e04c7810:
-
-  nvmet-fc: Remove __counted_by from nvmet_fc_tgt_queue.fod[] (2024-06-26 10:13:04 -0700)
-
-----------------------------------------------------------------
-nvme fixes for Linux 6.10
-
- - Fabrics fixes (Hannes)
- - Missing module description (Jeff)
- - Clang warning fix (Nathan)
-
-----------------------------------------------------------------
-Boyang Yu (1):
-      nvme: fix NVME_NS_DEAC may incorrectly identifying the disk as EXT_LBA.
-
-Hannes Reinecke (3):
-      nvmet: do not return 'reserved' for empty TSAS values
-      nvme: fixup comment for nvme RDMA Provider Type
-      nvmet: make 'tsas' attribute idempotent for RDMA
-
-Jeff Johnson (1):
-      nvme-apple: add missing MODULE_DESCRIPTION()
-
-Nathan Chancellor (1):
-      nvmet-fc: Remove __counted_by from nvmet_fc_tgt_queue.fod[]
-
- drivers/nvme/host/apple.c      |  1 +
- drivers/nvme/host/nvme.h       |  2 +-
- drivers/nvme/target/configfs.c | 41 +++++++++++++++++++++++++++++++----------
- drivers/nvme/target/fc.c       |  2 +-
- include/linux/nvme.h           |  6 ++++--
- 5 files changed, 38 insertions(+), 14 deletions(-)
 
 
