@@ -4,76 +4,190 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DB56C27C4F
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jun 2024 20:14:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E19A8C27C4F
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jun 2024 02:36:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IMmhAqVKhaT/I70GcaIET5tzZPjOLHwmjcqLYp1YnDU=; b=1Xg3rnvA8qlOO/nSVf13Xy7hKj
-	nH44vJYimD5Sb6XqX1sOy+MxsWP9dM2VXFtZiEa/q7ZEbg/9Asb+zQ/xrTp6DP6vrTfVl11hbPdEn
-	BJhYpCeEF8UytQQPsVWpMrFhFJldBAJiW+14Qggsgm2M/97c6IpQwf/RxS7PlVw2KlIB/v6MVhdRG
-	AgGWoDi2VvSJPOhyaQETFqOJeiN5ftpSJFmKBnx7BKTCsqZCdPAjtQ/aY+OmnW7ZwppPKf+kD/i8Q
-	yFPcKHDkOMrC9cgPpJ1hNuv3lt6NJFyTs4OBiMhQarLedYZMdYD3Y1vbBVTJfgeBPwpKT+Ina8NLs
-	za6A/7cA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+jSD7+FSTNy4cDlgbUVR5l0uy8U1HhJxiVCdYXXKGto=; b=GibU/47Z5RJLVQELlAH28vY0ch
+	+vE4GVl1r9PHKbesUjwhwXc/gdOV+4lME1A0/OPeS1aILQs6oxwc29ef6uVucS59U52VWcbrmEte3
+	c90tLiD6ZQkrTpy8j1aZAO0SfmW8LOqlmILVj3DAbrOWHAxcoLaTdO1kglrKnuLwbcVPJaRXX79wC
+	jS/kKJupsQCK/q7cNWD/5Vm4zABxozbV9m9Zzsff3HfDGF5WkDSysOC4FSyAw2ub0zkGBi5LTTCzG
+	gg8YpEwSqw4QEerkEAJhc4jmQtqOTFqHDyHRRM6oNuYhtkJrtIyghb8xxXYTFeltCzuYnAF10C/dq
+	YnI0qSkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMZ2C-00000008Abd-1JIi;
-	Wed, 26 Jun 2024 20:14:28 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sMezb-000000091Fu-14nV;
+	Thu, 27 Jun 2024 02:36:11 +0000
+Received: from mgamail.intel.com ([198.175.65.11])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMZ28-00000008Ab7-3pKJ
-	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jun 2024 20:14:26 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E97F26198E;
-	Wed, 26 Jun 2024 20:14:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E605FC116B1;
-	Wed, 26 Jun 2024 20:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719432863;
-	bh=CMAaGZ+AZHbMdAhaJIFZn5YNhfegdNBmB1wWg2nw8vs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ArW/+NlHnuZ3Do1CbYyRZbIjNh2yRnRRsMPT+uEzUCdw5soSdlwfh2Ogj8wRLjQlY
-	 SnZZ4YvqkLuyrYkqIxDHFy6kZrTeBBuKcAn4mm0mP1rhOw5eUIvo10IU1LPmM6w0nt
-	 hc+flhKHm0/5g5osGG2ulEQMb9XZ+i/vUc/9hWVWypp3GIs4ZaletnHXK7WVuOsyL/
-	 2+kxdXEFPznMZU7OwWYWl/LqtEQBqaFI5laiEvMfJqJA+nHOa5QlShc+eVD6SwM5IO
-	 eXvwhfErvu1uS3RfLxrkTplSK9WUOqRir6hRHwjhA13sP4cd8IPx/FShktdMVDqduR
-	 Q7baKX1XcITRw==
-Date: Wed, 26 Jun 2024 13:14:22 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org"
- <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>, "davem@davemloft.net"
- <davem@davemloft.net>, Shai Malin <smalin@nvidia.com>,
- "malin1024@gmail.com" <malin1024@gmail.com>, Yoray Zack
- <yorayz@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Tariq Toukan
- <tariqt@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, Gal Shalom
- <galshalom@nvidia.com>, Boris Pismenny <borisp@nvidia.com>, Or Gerlitz
- <ogerlitz@nvidia.com>, Aurelien Aptel <aaptel@nvidia.com>
-Subject: Re: [PATCH v25 00/20] nvme-tcp receive offloads
-Message-ID: <20240626131422.1d39738c@kernel.org>
-In-Reply-To: <475934b5-4e41-44c9-92c7-50ad04fa70d6@nvidia.com>
-References: <20240529160053.111531-1-aaptel@nvidia.com>
-	<20240530183906.4534c029@kernel.org>
-	<9ed2275c-7887-4ce1-9b1d-3b51e9f47174@grimberg.me>
-	<SJ1PR12MB60759C892F32A1E4F3A36CCEA5C62@SJ1PR12MB6075.namprd12.prod.outlook.com>
-	<253v81vpw4t.fsf@nvidia.com>
-	<20240626085017.553f793f@kernel.org>
-	<d23e80c9-1109-4c1a-b013-552986892d40@nvidia.com>
-	<20240626124301.38bfa047@kernel.org>
-	<475934b5-4e41-44c9-92c7-50ad04fa70d6@nvidia.com>
+	id 1sMezW-000000091ES-2B9Q;
+	Thu, 27 Jun 2024 02:36:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719455766; x=1750991766;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=Tm5fXzj/0p2EHgLOiFB38ADrMsp4/BzPcBMAMvA3Zcg=;
+  b=LfDkt/SFQz0cESqD6v5jnbsSC+pIVIC0mRd67f/XZtXuoPxkqBk2ZH6Q
+   VF7TuKgOjBSN1q4dCVt/WvhJi0ZcCzcoG5RPJxGC3uyS2ndm4K6lVIswV
+   O/QKbQHnqdiAZZjM+w61T+Eg3vWewO6xupridMK9KR3nLjV5FBpNLRUrP
+   OUkplOIao4waa6N6w45E5ELeQ2NkgUxG8++v5bLygVnOK2ewT/cxM5ubz
+   FXtphBA+jydcl9xY3CKUbPCRcw6IMHTsrr8BhcYUORsVczvZvaHa83xIL
+   3XkDyniE9gUdVvRy/PSf/KiKHRyMFA37cYqePRLLNBv/OypF64WDijOEu
+   g==;
+X-CSE-ConnectionGUID: TPsC82xaSoqK99coijxRdA==
+X-CSE-MsgGUID: 6SEZ60BIRQmpo0+sIP3RQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27150860"
+X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
+   d="scan'208";a="27150860"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 19:35:59 -0700
+X-CSE-ConnectionGUID: j10ZU3/DQnqD1weyP265+g==
+X-CSE-MsgGUID: iUcHYBtvRKG8/JVyWBtSnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
+   d="scan'208";a="44643323"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Jun 2024 19:36:00 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 26 Jun 2024 19:35:58 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 26 Jun 2024 19:35:58 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.46) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 26 Jun 2024 19:35:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ekMKBmk67ur17JmKVOIbQXZ1fARbRMGad4UXkuRY2r5YWVhRlmYLRuAa+tk1/jQevXtZHlBL8lUxrEMhSQJsAURlKSzRRiRw0jEbfll1whAAun0sBah1iYobacA6l5JVeYheJXjv+ThwF0/cdVlkV6FbZRrf1v9yFFidoWgXOJ0ZDKV9PTlyKmuQvshTXGPE3dTjc0ErAMv8vh95mcvW7Fhst5mLVb6+KVI5wsNpPZWsFw/F2t7Xfc1zrwjTNiZciiNHPCHR3eufqHQmDBlNg0exJng8atRJBdhjD0Qlp0TygNLw+LcMRT/bcdj8s56rYC49D04Rl+uTrDmRjXJX9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+jSD7+FSTNy4cDlgbUVR5l0uy8U1HhJxiVCdYXXKGto=;
+ b=cS1onbZTaz6hoAaeHtDFbFFAoLCBqY89YJ0ChMu/l5JygZp83vUplEo1j5ino1QNK0G5wxNYjBav2K4grmtn42ti+SzaiVdJQXHKI2rSYMyt6vlHYR4NtdibDCki+rI4OzvLVJPtupLeN7/ryWBhwuB8cVD62dKxeySX/pzy2w3lI71tWZqfH+s4TY6x7F4SxSh9qsfL8m6gpv1LlU5Xsg2aeJEpec41cykvfRENtheWAohONum+gjJQGsAsHQ7g+hhZIBvf2SnCXF4YVi4La+KNibZcbdQTWYAzAYwY5RdzxJEN4WWwBIgChOqdJcnKa9UeBmftpbkYiZTnwp1e4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by PH8PR11MB6998.namprd11.prod.outlook.com (2603:10b6:510:222::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.30; Thu, 27 Jun
+ 2024 02:35:55 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%2]) with mapi id 15.20.7698.025; Thu, 27 Jun 2024
+ 02:35:55 +0000
+Date: Thu, 27 Jun 2024 10:35:38 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Christoph Hellwig <hch@infradead.org>
+CC: Christoph Hellwig <hch@lst.de>, <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
+	Jens Axboe <axboe@kernel.dk>, Ulf Hansson <ulf.hansson@linaro.org>, "Damien
+ Le Moal" <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	<linux-block@vger.kernel.org>, <linux-um@lists.infradead.org>,
+	<drbd-dev@lists.linbit.com>, <nbd@other.debian.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <virtualization@lists.linux.dev>,
+	<xen-devel@lists.xenproject.org>, <linux-bcache@vger.kernel.org>,
+	<dm-devel@lists.linux.dev>, <linux-raid@vger.kernel.org>,
+	<linux-mmc@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+	<nvdimm@lists.linux.dev>, <linux-nvme@lists.infradead.org>,
+	<linux-scsi@vger.kernel.org>, <ying.huang@intel.com>, <feng.tang@intel.com>,
+	<fengwei.yin@intel.com>, <oliver.sang@intel.com>
+Subject: Re: [axboe-block:for-next] [block]  1122c0c1cc:  aim7.jobs-per-min
+ 22.6% improvement
+Message-ID: <ZnzP+nUrk8+9bANK@xsang-OptiPlex-9020>
+References: <202406250948.e0044f1d-oliver.sang@intel.com>
+ <ZnqGf49cvy6W-xWf@infradead.org>
+ <Znt4qTr/NdeIPyNp@xsang-OptiPlex-9020>
+ <ZnuNhkH26nZi8fz6@infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZnuNhkH26nZi8fz6@infradead.org>
+X-ClientProxiedBy: KL1PR01CA0154.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:149::8) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|PH8PR11MB6998:EE_
+X-MS-Office365-Filtering-Correlation-Id: 674cc3cf-f9ec-45c0-a6a8-08dc9651dedf
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TRxfcgNOCtfec4hTwWFvMGMk/COYA0kIqOAMmNI1yLflOEUnMrC3HKSuGvS7?=
+ =?us-ascii?Q?FlZ5anx25Bn6ds9LE7sKSXWnS9P0z+RqwfQwFZKr+N8xbpF4rO4O0JckG4yr?=
+ =?us-ascii?Q?18GkU0fXamh/e6RVsa6DxlKZIQ/siRR2kROXVVBspKb1TXmivGfTpqoSALDT?=
+ =?us-ascii?Q?D6K8RFOdaN23OAQr/BzT579DCtLzqhLQw89jGBHWmddgAc5XlHMsoxm23v9x?=
+ =?us-ascii?Q?ZGf094sZ/4Do+7jifvn7Noc+OwuzRT06IKl/5fLQ3ZslTgJRLGfgJCRJsO+R?=
+ =?us-ascii?Q?b7mWhhQBVT5hsWsYMBgyyKLwtteXCPK1OH5xqdNJeH470XH+opeH3e8hYtrJ?=
+ =?us-ascii?Q?yyNTwe0U7WX2XUwY8FrMtkItIBEGZX2cbquzZSy+59z9gFt7g4Uc2zBjsE98?=
+ =?us-ascii?Q?Jvf3otBt+Mg9ThMrpecwfNx1wJMEsHdeaywbAaGUkBBgHssBmYiqxpEA8EAq?=
+ =?us-ascii?Q?77ii0hZNzvN5Jb2LhIDw7rBPHTt8GWY3doXv2iyu0T1BQOhnfSpVgDazU6SF?=
+ =?us-ascii?Q?2IoUQY14B6+aa4aqByEtt2QVDHvbRHKRVBbEZGjNBn5WAEZYT/bgi/TvkzOX?=
+ =?us-ascii?Q?LwAsZ5td/r7dAQBAlBn0ikMs5cH4ulNUo9onVMsbIS+4HRuv2mNxC1EWbMQh?=
+ =?us-ascii?Q?guAGtIdIstekDRPHgnbw2C0dIZu4y5YePzd5+2834CTx90RUj/X59bcH1h9p?=
+ =?us-ascii?Q?CzmIKkV5lQ6qMtlBj/tGbC93hWjhwyCSmZifp/5omvOc3LVCQCgPzR9azrYk?=
+ =?us-ascii?Q?/KNMniNOMacvN921845wipSaJPH84jegt+JSwAgw3fZ/wHlftemOgt75jQ9/?=
+ =?us-ascii?Q?Nr0kTnfvJYjRtYWW8DyprJDkprrhwicy36nlg0fpv+rOUZlIjZruK/L13TW8?=
+ =?us-ascii?Q?fWG7Q3+w/PTcceIGkWsoQwqM6YktLrnX/51grMHgplF8Jv+gvCSFD49Xrwut?=
+ =?us-ascii?Q?csqVFJVPJRNxYhDbY+0DL2cy+Ugg+zoDd6jcKJAY8VC/f083O62ANCxuDGKi?=
+ =?us-ascii?Q?NnPxUHYRCfJMBcN6t8DDuG8JMK/XVC4rs5gKDCyw+p5Pj2jzHmnbhuzf8cRa?=
+ =?us-ascii?Q?8PzXWrK7CZVb+j8DL9di6kKrGIzUAjYGzjt/3RHS453vPktsWB7toBbq9AXI?=
+ =?us-ascii?Q?GHR8zOCq+qocCiTCtGphEI4+rqenHgANTDUD1lbjRtwRjYqYPCuLkobS63HM?=
+ =?us-ascii?Q?K3OZGEX3MCVDLHNrnA4XhfEKQYFnecI1PKZBLqd99TsGBPVcF1qPZQ6YcjpF?=
+ =?us-ascii?Q?RpjpoLTZqRCuCe4TIGY01vwDDQm2JW9SsDj2PFuaihrMaRJxm+K9FVVf30q6?=
+ =?us-ascii?Q?fshmX05BlCbat33Li4490RGv?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XkJHoqEbbM3JioGWYfAmoP8lBk7qjFj2lkgZoon44AEkR4yGBxONytPQaEcz?=
+ =?us-ascii?Q?bvt87CcroadHHVHWDkhzgrZPOr8Ai6Oo3vK1kK6wtUatWrn84K3MSVps9Plz?=
+ =?us-ascii?Q?Q5eaG+UHCcQGUfYkz6Mud6z1tvPGKRyuF5/O0EBDqofeWMvPurkeRfZFYPqN?=
+ =?us-ascii?Q?+2m03Q8dPHKXlBC2CTYZREbzJaM7sFbOzyYyewMBegAmXRNL0UFpo6QDHh+c?=
+ =?us-ascii?Q?3FRW6irHhD36jivRQTtEHJs7z7qKsfvIxMZVR1+dVN5oi1UahV0Kx4nwAv6B?=
+ =?us-ascii?Q?OR0HNy3/wxjkKw2Z2LsOHpxwRpYHd9+spuEXpi8sLDC1Hs4BafOMY00LbILM?=
+ =?us-ascii?Q?Pnq7UEPrbKxOrAGZ0VfyOgu50nGFpYbDiNKaQAf+E+38/Z6ewWSTg+itcUyD?=
+ =?us-ascii?Q?tKBd2rYqbWAwT8fQ9n4MxKtoWHf4Gv8O8Cj32SYJXLayD/bGJ0Z+v47dSI8V?=
+ =?us-ascii?Q?fNx2bjPhrfVU8v0o8eKyp5AphavWzAkHAE3Fy1TTysXTXpiRqPmcJVSVI+Z0?=
+ =?us-ascii?Q?Bow6fPlu2zwES1M2fMyErOgyiPkOOBsM7vKZGDKPY3yyQ2GjriCafbzfMQZf?=
+ =?us-ascii?Q?xQJrtkEV7M5US6pwa9vQNwf4duLiTSfGqpDuzXa2+RFNxu9lNh5TI9h27NjI?=
+ =?us-ascii?Q?a8jenYz7gz0t2CfFu4n26V/NdNtJ+f3TYubNK+it6XWRJP5WNDlYF+UzpSSL?=
+ =?us-ascii?Q?Lj1Fy4HTcK9AFV0i4JKWKEPjkDcq5cxKz8KnrklZ2puizFeWJDuyOIsFqzqn?=
+ =?us-ascii?Q?R1hmLstI8hD3U36TYol6f8vUZgEiZPFvItB3yJsuPup9LDWndW+PTYYZ+NaR?=
+ =?us-ascii?Q?p6pecjyt06v9HMEP48DUKqBQ2V7AR+FJv0NPuB/A8YYknTXgxoSrCxRHfvOb?=
+ =?us-ascii?Q?nBUSVHivLm++m/fEbMf9/ISWG1Cyu3Dkwf1CNm6rJ1PtoSPQfJ+3c4zarTG4?=
+ =?us-ascii?Q?YT2v4zViUKxGQvVm1QqlN7yRm0VieczBOmGECoTtL3Ab4lSwVvTfhM17EkhR?=
+ =?us-ascii?Q?79oCcpcBtlivNjLrS9dGvcph3hGtOCusnR3p9kJLJb+QFsSFd0zJPKgeVDBj?=
+ =?us-ascii?Q?nQ0lRzd3afMc7qoIBREKDB7eUv7cjcHZpBfeMsNhtCuhi7TigsvplUHzztl0?=
+ =?us-ascii?Q?d9wSS1OHvHR6l7GtMxb3XIdE3Thj8fpX5G1ZErs0THQKnEMRDh5xkIa6ZTXZ?=
+ =?us-ascii?Q?hu0qs4qeubuRegkSL8thgXY6AcgylxwoFb1pjftNYxVZZQXT32WhfTAfm+ci?=
+ =?us-ascii?Q?InvlSSFUukZnNxmg62LuKScj73V93eNWqGam7DQC48VYvCTbet23Lu3BhgeX?=
+ =?us-ascii?Q?AcJJKNVtgv2JYLpgQg31EOCyxK1nqo62id1JjOp0Ku+xOzt1IoZVDUAncb2E?=
+ =?us-ascii?Q?bEv/vHy6YUGIOzX9W6On4eERqHrtiXLpEj4uFgZHs50CD3cRiN/muEQlDL0p?=
+ =?us-ascii?Q?pgWPxkVUCXMdEBQzT9mt5FcFMn4c5rGB7B8611DgnuepOzrcpAMqZxkgRRYz?=
+ =?us-ascii?Q?fj6tdXb1MOfADBp6CPNP6OZ5c2TijvsXYdp6G60Ex2MfiTay+7Ic4GOVHWmn?=
+ =?us-ascii?Q?OWwsOpxOauCPVRJfTbRJUl/4EBkIArnZ+JM6VLbc?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 674cc3cf-f9ec-45c0-a6a8-08dc9651dedf
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 02:35:55.6518
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hEBCTBXCHr+NZDa/x9iWUFtzY8u2lfF7JCHOgMZESWvucK+BA/PXRt59u98o1xusx6adaHjnRY53UbVFdCazpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6998
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240626_131425_033590_745D7691 
-X-CRM114-Status: UNSURE (   9.09  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240626_193606_821663_2E0745C1 
+X-CRM114-Status: GOOD (  23.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,13 +202,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 26 Jun 2024 20:10:41 +0000 Chaitanya Kulkarni wrote:
-> My other question is how can we make progress on getting this
-> code merge ? (assuming that we do all the above, but it will take some time
-> to build the infra) IOW, can we get this code merge before we build above
-> infrastructure ?
-> 
-> If we can, which repo it should go through ? nvme or netdev ?
+hi, Christoph Hellwig,
 
-Let's wait for the testing.
+On Tue, Jun 25, 2024 at 08:39:50PM -0700, Christoph Hellwig wrote:
+> On Wed, Jun 26, 2024 at 10:10:49AM +0800, Oliver Sang wrote:
+> > I'm not sure I understand this test request. as in title, we see a good
+> > improvement of aim7 for 1122c0c1cc, and we didn't observe other issues for
+> > this commit.
+> 
+> The improvement suggests we are not sending cache flushes when we should
+> send them, or at least just handle them in md.
+
+thanks for explanation!
+
+> 
+> > do you mean this improvement is not expected or exposes some problems instead?
+> > then by below patch, should the performance back to the level of parent of
+> > 1122c0c1cc?
+> > 
+> > sure! it's our great pleasure to test your patches. I noticed there are
+> > [1]
+> > https://lore.kernel.org/all/20240625110603.50885-2-hch@lst.de/
+> > which includes "[PATCH 1/7] md: set md-specific flags for all queue limits"
+> > [2]
+> > https://lore.kernel.org/all/20240625145955.115252-2-hch@lst.de/
+> > which includes "[PATCH 1/8] md: set md-specific flags for all queue limits"
+> > 
+> > which one you suggest us to test?
+> > do we only need to apply the first patch "md: set md-specific flags for all queue limits"
+> > upon 1122c0c1cc?
+> > then is the expectation the performance back to parent of 1122c0c1cc?
+> 
+> Either just the patch in reply or the entire [2] series would be fine.
+
+I failed to apply patch in your previous reply to 1122c0c1cc or current tip
+of axboe-block/for-next:
+c1440ed442a58 (axboe-block/for-next) Merge branch 'for-6.11/block' into for-next
+
+but it's ok to apply upon next:
+* 0fc4bfab2cd45 (tag: next-20240625) Add linux-next specific files for 20240625
+
+I've already started the test based on this applyment.
+is the expectation that patch should not introduce performance change comparing
+to 0fc4bfab2cd45?
+
+or if this applyment is not ok, please just give me guidance. Thanks!
+
+
+> 
+> Thanks!
+> 
 
