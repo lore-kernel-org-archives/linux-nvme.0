@@ -4,84 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8A47C30658
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jun 2024 20:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27889C2BD09
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jun 2024 22:47:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5l0qovf4jTVxYzo2d0+ddTKgfILRCCXgo0o1Ulo6Ekk=; b=hM7u746EvWiwrdfEELz3c6fyIm
-	RBecwnZmwtcFMF2awnAhg1cCqMJO+b0wha62Cqcd9JYx02e1vv/gKq63SvZayXk5AYuzLABLkqC31
-	F8QFzvhdAuMD9NqQEm0dBvj3OktVMRr9clpOiDIGA8y03dhgdtai/gVtR02IyDfSMwK9IsC+1SAbr
-	hk2YJzANb77rIUtFSDG7vtuySlZFlUFbo1shi1e+2Ig24QVol2CxHIBapFaDr9kc6RYsotg3H1Xc0
-	lkvVpIrXPKRkAo6BQhVFn1cZUfV14cyh5EYzia8laAnifdCwFHG6JvPU1kbE2BVB/TjTF374R+48D
-	FitH5JYQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=VGdxo2oSoGRRhJNbxMDmh8F+lCrJk3O5SHPnSvVbxe8=; b=kjJnMoF25T3w4eoSJv8pn2mkTj
+	8xckx158airXn7h3dPnqk92U+tZ8PPwtWDqfINNvaERAQCdmMV7HHwHBMBUcYEK4W8hFYwruMMHca
+	ZRDFHpWgLFPP1Jvz3rt4SvtbrneiHl2LmERdrogYe42FChIWUq8c+IE0Aiy/FrBI+e7uZkMGZ9Suc
+	nroxEedexwxbiQdGUgv2hCr5zIVSU0bcXIvffudubClah9CKO17mCHSoQOa+O3jBppXrL2qDmR5Wj
+	U4ZCunzH8jLHihCT/JGBnmDd9YbnvgUnA5ABm+Z0V2YZJt4SV7RiZVXBuzUF1i2N2ue8S7d3gC32o
+	n16eB6fQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sNIKL-0000000Esyv-1z7t;
-	Fri, 28 Jun 2024 20:36:13 +0000
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
+	id 1sNKNX-0000000FDQ4-3wwW;
+	Fri, 28 Jun 2024 22:47:39 +0000
+Received: from mgamail.intel.com ([192.198.163.17])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sNIKI-0000000Esxz-1sJr
+	id 1sNKNV-0000000FDPg-0anJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Jun 2024 20:36:11 +0000
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-254925e6472so107172fac.0
-        for <linux-nvme@lists.infradead.org>; Fri, 28 Jun 2024 13:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1719606969; x=1720211769; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5l0qovf4jTVxYzo2d0+ddTKgfILRCCXgo0o1Ulo6Ekk=;
-        b=WWBVa53jnEFUD6XjLX8TThxZHKKFBubyL2FgTb/X6Pwk71gPI+Bs1UYzin8Gc2IzeS
-         pLrnzHtAnlDT06les1L44y+qWhULDTkeGlf7VASJ8RbGHboKc42R7Pz/6D05emuGUTXd
-         MY68PLl5fv+VneUUuytEzZEIFAyeiFnLNnfCb/q5n9lqBCN/mwe8YUF4SulMSgvoBu6q
-         q9jp6Y12JvpJ/I1Qd6gC/seC0PTbLaciQFdmfpnFoh2vhdReCY+ACcdy4Lr7v7xTiJWm
-         y9UNvO7/eHW+Qb1kEmxzs2hUEh+WxVJaP141u0CjxhXlabO0kdL5XnYhzBVW+SO4IPxP
-         oQww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719606969; x=1720211769;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5l0qovf4jTVxYzo2d0+ddTKgfILRCCXgo0o1Ulo6Ekk=;
-        b=qOBovkZ0uSo3GC4ExwP9MTDlv0wsOG8345dJXDuwhB9FUEyfTeE1ov9YU2R3lQsiJT
-         Mjs2WsWh7PUVVeBzxsVewZebWK3ljUsjmXvBuEqsGRdG3XarwtVtFh7xtOhtAY6lxFj+
-         HJlV3XoRCclDGHdC7DrX+cZYgij52VP/rNYvHRlToyEhFsaNJ6M1X3Fm8u3cD6dHuIbI
-         L5tErNGQP2mWFeitavx7TfzDw6S5aeo8UwPSNWxf9O+UzTRiqMqhPO08I5+KUz8BgMq+
-         NGGDihIOD1VciqHj80jk6wuCw5FCtDaEuRP6jK3lSChVDnzzMl0Dnd5Sa4iudPM+Duk3
-         w3cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVaTcUSe6Ft6j5klUpFGcHVOJqy+0jKMtJ2TYMFdu2akqmQ6zdBnyh6IhomFhZ453fQ1ENVh62SaH63OWifspvEXWtmA9J1zXCCc4+IZpc=
-X-Gm-Message-State: AOJu0YwqXwXZzOa6vwGx6BaDFGNMAI24btQ3HRyVABQWEv61f3ZFc6NI
-	WO3j6NdEU+ndbbzQARFEoswDIQntA1nABi1Wjq6XdZua+ehlLYX4LMv5CK4WHrc=
-X-Google-Smtp-Source: AGHT+IH4WazrWMA1Jhl7+Mv0AnHm21EMJQcJF3b3HRLS4CUfPejixBcFUyOtlBC/ESyNwt5bq0+QDw==
-X-Received: by 2002:a4a:c186:0:b0:5c2:25cb:e6c6 with SMTP id 006d021491bc7-5c225cbe811mr7965464eaf.0.1719606969571;
-        Fri, 28 Jun 2024 13:36:09 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c4149c37c4sm367003eaf.42.2024.06.28.13.36.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 13:36:08 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: asml.silence@gmail.com, mpatocka@redhat.com, hch@lst.de, 
- kbusch@kernel.org, martin.petersen@oracle.com, 
- Anuj Gupta <anuj20.g@samsung.com>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-block@vger.kernel.org
-In-Reply-To: <20240626100700.3629-1-anuj20.g@samsung.com>
-References: <CGME20240626101415epcas5p3b06a963aa0b0196d6599fb86c90bc38c@epcas5p3.samsung.com>
- <20240626100700.3629-1-anuj20.g@samsung.com>
-Subject: Re: (subset) [PATCH v2 00/10] Read/Write with meta/integrity
-Message-Id: <171960696798.897195.9522006867615686131.b4-ty@kernel.dk>
-Date: Fri, 28 Jun 2024 14:36:07 -0600
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.0
+	Fri, 28 Jun 2024 22:47:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719614857; x=1751150857;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZAR0COZwZoNHLOiqPAOC93hMSMJ2GcPADYi+Cr7G65Q=;
+  b=mHnbskY79PpVFqEQZn03BtkfhYiirRNfHO0AONZataU9WK8hZB9mWGz2
+   BoizRGqH4Rej3tW0EpcJyVQXLQ1VX4KME3fjtms7xYISZI44Pl3yrjuRK
+   YonrYnlVBXdiVPXVEFESywpfguQP2IkSyjpj4GiJFiGGodPZ1SJWhkV7t
+   04/vUu2Hsx338bCw9kB0XAUYIF8TA1hKw/p9oG2UAQkkgSnyGOqFb7dwO
+   VzBzqThnbVN3tbSLhkuZTlAH6C1IWVgJGEjS2QsAShdROxjdA3I+2RxNG
+   EvWwJxWfXd2YXxLz17DdEX3iql2b1eX3HSUZ4MXbrs2V3tF+tWTR7Fdvf
+   g==;
+X-CSE-ConnectionGUID: 6aGi4BWoTmSQfzlHiIU/Wg==
+X-CSE-MsgGUID: nItHTtuhR+mfm3MB1jjtsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16691971"
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="16691971"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 15:47:34 -0700
+X-CSE-ConnectionGUID: +oJeC/N8Sr6e9A5UhpH+AQ==
+X-CSE-MsgGUID: QKOWzd/xRwmMHBEZTQxG8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="49345193"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 28 Jun 2024 15:47:32 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sNKNO-000Icp-2t;
+	Fri, 28 Jun 2024 22:47:30 +0000
+Date: Sat, 29 Jun 2024 06:47:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.10] BUILD SUCCESS
+ 440e2051c577896275c0e0513ec26964e04c7810
+Message-ID: <202406290622.qqA1sNWo-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240628_133610_520052_48EDE9EE 
-X-CRM114-Status: UNSURE (   7.22  )
+X-CRM114-CacheID: sfid-20240628_154737_243709_0BAD66B2 
+X-CRM114-Status: UNSURE (   5.40  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -97,26 +83,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree/branch: git://git.infradead.org/nvme.git nvme-6.10
+branch HEAD: 440e2051c577896275c0e0513ec26964e04c7810  nvmet-fc: Remove __counted_by from nvmet_fc_tgt_queue.fod[]
 
-On Wed, 26 Jun 2024 15:36:50 +0530, Anuj Gupta wrote:
-> This adds a new io_uring interface to exchange meta along with read/write.
-> 
-> Interface:
-> Meta information is represented using a newly introduced 'struct io_uring_meta'.
-> Application sets up a SQE128 ring, and prepares io_uring_meta within unused
-> portion of SQE. Application populates 'struct io_uring_meta' fields as below:
-> 
-> [...]
+elapsed time: 3167m
 
-Applied, thanks!
+configs tested: 83
+configs skipped: 2
 
-[02/10] block: set bip_vcnt correctly
-        commit: 3991657ae7074c3c497bf095093178bed37ea1b4
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Best regards,
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                   randconfig-001-20240628   gcc-13.2.0
+arc                   randconfig-002-20240628   gcc-13.2.0
+arm                               allnoconfig   clang-19
+arm                               allnoconfig   gcc-13.2.0
+arm                   randconfig-001-20240628   gcc-13.2.0
+arm                   randconfig-002-20240628   gcc-13.2.0
+arm                   randconfig-003-20240628   gcc-13.2.0
+arm                   randconfig-004-20240628   clang-19
+arm                   randconfig-004-20240628   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                 randconfig-001-20240628   gcc-13.2.0
+arm64                 randconfig-002-20240628   gcc-13.2.0
+arm64                 randconfig-003-20240628   clang-19
+arm64                 randconfig-003-20240628   gcc-13.2.0
+arm64                 randconfig-004-20240628   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                  randconfig-001-20240628   gcc-13.2.0
+csky                  randconfig-002-20240628   gcc-13.2.0
+hexagon                           allnoconfig   clang-19
+hexagon               randconfig-001-20240628   clang-19
+hexagon               randconfig-002-20240628   clang-19
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch             randconfig-001-20240628   gcc-13.2.0
+loongarch             randconfig-002-20240628   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                 randconfig-001-20240628   gcc-13.2.0
+nios2                 randconfig-002-20240628   gcc-13.2.0
+parisc                randconfig-001-20240628   gcc-13.2.0
+parisc                randconfig-002-20240628   gcc-13.2.0
+powerpc               randconfig-001-20240628   gcc-13.2.0
+powerpc               randconfig-002-20240628   gcc-13.2.0
+powerpc               randconfig-003-20240628   gcc-13.2.0
+powerpc64             randconfig-001-20240628   gcc-13.2.0
+powerpc64             randconfig-002-20240628   gcc-13.2.0
+powerpc64             randconfig-003-20240628   clang-19
+powerpc64             randconfig-003-20240628   gcc-13.2.0
+riscv                 randconfig-001-20240628   gcc-13.2.0
+riscv                 randconfig-002-20240628   gcc-13.2.0
+s390                  randconfig-001-20240628   clang-19
+s390                  randconfig-001-20240628   gcc-13.2.0
+s390                  randconfig-002-20240628   clang-19
+s390                  randconfig-002-20240628   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                    randconfig-001-20240628   gcc-13.2.0
+sh                    randconfig-002-20240628   gcc-13.2.0
+sparc64               randconfig-001-20240628   gcc-13.2.0
+sparc64               randconfig-002-20240628   gcc-13.2.0
+um                    randconfig-001-20240628   gcc-13
+um                    randconfig-001-20240628   gcc-13.2.0
+um                    randconfig-002-20240628   clang-19
+um                    randconfig-002-20240628   gcc-13.2.0
+x86_64       buildonly-randconfig-001-20240628   gcc-13
+x86_64       buildonly-randconfig-002-20240628   clang-18
+x86_64       buildonly-randconfig-003-20240628   gcc-13
+x86_64       buildonly-randconfig-004-20240628   gcc-13
+x86_64       buildonly-randconfig-005-20240628   gcc-13
+x86_64       buildonly-randconfig-006-20240628   clang-18
+x86_64                randconfig-001-20240628   clang-18
+x86_64                randconfig-002-20240628   clang-18
+x86_64                randconfig-003-20240628   gcc-11
+x86_64                randconfig-004-20240628   gcc-7
+x86_64                randconfig-005-20240628   clang-18
+x86_64                randconfig-006-20240628   clang-18
+x86_64                randconfig-011-20240628   clang-18
+x86_64                randconfig-012-20240628   gcc-10
+x86_64                randconfig-013-20240628   gcc-13
+x86_64                randconfig-014-20240628   clang-18
+x86_64                randconfig-015-20240628   clang-18
+x86_64                randconfig-016-20240628   gcc-12
+x86_64                randconfig-071-20240628   clang-18
+x86_64                randconfig-072-20240628   gcc-13
+x86_64                randconfig-073-20240628   clang-18
+x86_64                randconfig-074-20240628   gcc-13
+x86_64                randconfig-075-20240628   gcc-13
+x86_64                randconfig-076-20240628   gcc-13
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                randconfig-001-20240628   gcc-13.2.0
+xtensa                randconfig-002-20240628   gcc-13.2.0
+
 -- 
-Jens Axboe
-
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
