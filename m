@@ -4,71 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68564C2BD09
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Jun 2024 00:29:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C686C27C4F
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Jun 2024 05:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ph3bLpC7zOYiIKTxgTVFGMmDl7ZKeJw0H9zJqouxgp0=; b=cQbQswXyYU1wIf+21Ua6lvLO0E
-	hzunGcdTYpu8FThL/j5iDF7LI5A6J2eKbv8yLxWmRXDkxqeJhN/4t+2szh1cxomOJO4Se5xef3rTv
-	n3kI7UOEs1AcVovagPxtBc8YYTcI1/0HyVSPrscLrklVVvh1UHe1PULm5kSvjFIHgKQlYAH/W+cM1
-	xXVvmtDXD6psArnm8E15hpZmijLleJYDX1t8oQaP2/DKDaihwW8aP2Cihd+QqMHuhjl2WrVmhHlJX
-	/EkBNcLmr60k+bCWJRi7KqJqoNX04OuyY1lIhOQRCDIvbmB9Vm8lQ3nviKKgc9li+KekkOHm7xK0q
-	2gO1oNeQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=So3TtxdM/Pehl8mDbpH44rfDiNq+YRUG7Kvl4qjlX3s=; b=vpUXimnoGSPiOC0QlD1iF8cHeU
+	G3w/z6KJdgiipSFBf2ehiKt3mAr366KoS7EZ6dluf8GmBNV7IXjqcGz8AkR3qhu38N0BJbRRp+KaS
+	O/YpQ95Cww9v4OSOtg1wpnif1Ibpet4Bh7tVWHvKFqL0Vk/Lzm98EjF83gjRL5RiZhZ5Ozzx4A1XR
+	VsPWAWnI98RZKFPqyBV1MFfrzmM3hOLPEvyyUMeo9Y51OifF990VuKRE/qgXsXV4w9p1mvoqMdbnI
+	26sRmhDp+0XGyHsBj2Zxz5jOh2cZPq22V0Ut466LKutapQvq8uxmXQKHoP1fHOwzrOr4AsBGC0K30
+	YlNm70Nw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sNLxv-0000000FQnU-2L1B;
-	Sat, 29 Jun 2024 00:29:19 +0000
-Received: from mgamail.intel.com ([198.175.65.20])
+	id 1sNQVS-0000000Fw07-451S;
+	Sat, 29 Jun 2024 05:20:14 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sNLxs-0000000FQmH-11eL
+	id 1sNQVP-0000000FvzR-1QRB
 	for linux-nvme@lists.infradead.org;
-	Sat, 29 Jun 2024 00:29:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719620956; x=1751156956;
-  h=date:from:to:cc:subject:message-id;
-  bh=vYOLWQZlgFYl5lwgcT0Xz0GUrB6djldp3s5VRJ3lPwg=;
-  b=bo3gksQOzI/N83FWyeyf6VG31iwepWK17MFPYLHM5n2qRDT0fDNDpl64
-   ZdYpr3BftlGe/66s1m2uvBVLMSVW3ZhGIbrahQBL167WIzo0zRHTjdpuP
-   RbAuBcBi9UAaDiNXEN2IIKaxnZqU8CNBvR3QWjO4pj5O6eWR8TI4yFoJa
-   83Ftpnb4BRCvT6qQYc/0Yv/xSBV9qz1wg8ULpEQfJR8HWjTN45pclDqJu
-   Ai9E7enU03W1YTm4rfnLIigOBOCQjsqIbla5B1/QimxatyOxK5QUJWTnn
-   mmaigUBuTYu19Rcb1VIPfUIQHZRZ6Gy33TEU3ilNYEwy1UvWcGQjNiJtp
-   g==;
-X-CSE-ConnectionGUID: MBCZv+dmRF6IIFJWuaqYsA==
-X-CSE-MsgGUID: TYI5w4o1SeaBo/qFb8KxgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16642826"
-X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="16642826"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 17:29:15 -0700
-X-CSE-ConnectionGUID: op2I1xMmTVSVuZGIXLMH2Q==
-X-CSE-MsgGUID: LkrMAnW9QN+QHf1RlWz1eQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="75619881"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 28 Jun 2024 17:29:14 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sNLxo-000Ilb-1i;
-	Sat, 29 Jun 2024 00:29:12 +0000
-Date: Sat, 29 Jun 2024 08:28:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.11] BUILD SUCCESS
- 62eaa15c6aeef5011d3d41b69b63e02cf280324c
-Message-ID: <202406290850.XzkHDk9p-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Sat, 29 Jun 2024 05:20:13 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 0280A68BEB; Sat, 29 Jun 2024 07:19:58 +0200 (CEST)
+Date: Sat, 29 Jun 2024 07:19:58 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	virtualization@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 12/15] virtio_blk: pass queue_limits to
+ blk_mq_alloc_disk
+Message-ID: <20240629051958.GA15371@lst.de>
+References: <20240122173645.1686078-1-hch@lst.de> <20240122173645.1686078-13-hch@lst.de> <4f515e0f-f370-4096-85a8-907942bb41fe@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4f515e0f-f370-4096-85a8-907942bb41fe@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240628_172916_361260_1E5770C1 
-X-CRM114-Status: UNSURE (   5.07  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240628_222011_548158_C1AC3917 
+X-CRM114-Status: GOOD (  20.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,116 +68,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.11
-branch HEAD: 62eaa15c6aeef5011d3d41b69b63e02cf280324c  nvme-multipath: implement "queue-depth" iopolicy
+On Fri, Jun 28, 2024 at 03:25:02PM +0100, John Garry wrote:
+> I think that we might need a change like the following change after this:
+>
+> ----8<----
+> [PATCH] virtio_blk: Fix default logical block size
+>
+> If we fail to read a logical block size in virtblk_read_limits() ->
+> virtio_cread_feature(), then we default to what is in
+> lim->logical_block_size, but that would be 0.
+>
+> We can deal with lim->logical_block_size = 0 later in the
+> blk_mq_alloc_disk(), but the subsequent code in virtblk_read_limits() 
+> cannot, so give a default of SECTOR_SIZE.
 
-elapsed time: 3267m
+I think the right fix would be to initialize it where the virtio code
+currently uses the uninitialized lim->logical_block_size.  That assumes
+that we really want to handle this case.  If reading the block size
+fails, can we really trust reading other less basic attributes?  Or
+should we just fail the probe?
 
-configs tested: 96
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                   randconfig-001-20240628   gcc-13.2.0
-arc                   randconfig-002-20240628   gcc-13.2.0
-arm                               allnoconfig   gcc-13.2.0
-arm                   randconfig-001-20240628   gcc-13.2.0
-arm                   randconfig-002-20240628   gcc-13.2.0
-arm                   randconfig-003-20240628   gcc-13.2.0
-arm                   randconfig-004-20240628   clang-19
-arm                   randconfig-004-20240628   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                 randconfig-001-20240628   gcc-13.2.0
-arm64                 randconfig-002-20240628   gcc-13.2.0
-arm64                 randconfig-003-20240628   clang-19
-arm64                 randconfig-003-20240628   gcc-13.2.0
-arm64                 randconfig-004-20240628   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                  randconfig-001-20240628   gcc-13.2.0
-csky                  randconfig-002-20240628   gcc-13.2.0
-hexagon               randconfig-001-20240628   clang-19
-hexagon               randconfig-002-20240628   clang-19
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch             randconfig-001-20240628   gcc-13.2.0
-loongarch             randconfig-002-20240628   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                 randconfig-001-20240628   gcc-13.2.0
-nios2                 randconfig-002-20240628   gcc-13.2.0
-parisc                randconfig-001-20240628   gcc-13.2.0
-parisc                randconfig-002-20240628   gcc-13.2.0
-powerpc               randconfig-001-20240628   gcc-13.2.0
-powerpc               randconfig-002-20240628   gcc-13.2.0
-powerpc               randconfig-003-20240628   gcc-13.2.0
-powerpc64             randconfig-001-20240628   gcc-13.2.0
-powerpc64             randconfig-002-20240628   gcc-13.2.0
-powerpc64             randconfig-003-20240628   clang-19
-powerpc64             randconfig-003-20240628   gcc-13.2.0
-riscv                 randconfig-001-20240628   gcc-13.2.0
-riscv                 randconfig-002-20240628   gcc-13.2.0
-s390                  randconfig-001-20240628   clang-19
-s390                  randconfig-001-20240628   gcc-13.2.0
-s390                  randconfig-002-20240628   clang-19
-s390                  randconfig-002-20240628   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                    randconfig-001-20240628   gcc-13.2.0
-sh                    randconfig-002-20240628   gcc-13.2.0
-sparc64               randconfig-001-20240628   gcc-13.2.0
-sparc64               randconfig-002-20240628   gcc-13.2.0
-um                    randconfig-001-20240628   gcc-13
-um                    randconfig-001-20240628   gcc-13.2.0
-um                    randconfig-002-20240628   clang-19
-um                    randconfig-002-20240628   gcc-13.2.0
-x86_64       buildonly-randconfig-001-20240628   gcc-13
-x86_64       buildonly-randconfig-002-20240628   clang-18
-x86_64       buildonly-randconfig-002-20240628   gcc-13
-x86_64       buildonly-randconfig-003-20240628   gcc-13
-x86_64       buildonly-randconfig-004-20240628   gcc-13
-x86_64       buildonly-randconfig-005-20240628   gcc-13
-x86_64       buildonly-randconfig-006-20240628   clang-18
-x86_64       buildonly-randconfig-006-20240628   gcc-13
-x86_64                randconfig-001-20240628   clang-18
-x86_64                randconfig-001-20240628   gcc-13
-x86_64                randconfig-002-20240628   clang-18
-x86_64                randconfig-002-20240628   gcc-13
-x86_64                randconfig-003-20240628   gcc-11
-x86_64                randconfig-003-20240628   gcc-13
-x86_64                randconfig-004-20240628   gcc-13
-x86_64                randconfig-004-20240628   gcc-7
-x86_64                randconfig-005-20240628   clang-18
-x86_64                randconfig-005-20240628   gcc-13
-x86_64                randconfig-006-20240628   clang-18
-x86_64                randconfig-006-20240628   gcc-13
-x86_64                randconfig-011-20240628   clang-18
-x86_64                randconfig-011-20240628   gcc-13
-x86_64                randconfig-012-20240628   gcc-10
-x86_64                randconfig-012-20240628   gcc-13
-x86_64                randconfig-013-20240628   gcc-13
-x86_64                randconfig-014-20240628   clang-18
-x86_64                randconfig-014-20240628   gcc-13
-x86_64                randconfig-015-20240628   clang-18
-x86_64                randconfig-015-20240628   gcc-13
-x86_64                randconfig-016-20240628   gcc-12
-x86_64                randconfig-016-20240628   gcc-13
-x86_64                randconfig-071-20240628   clang-18
-x86_64                randconfig-071-20240628   gcc-13
-x86_64                randconfig-072-20240628   gcc-13
-x86_64                randconfig-073-20240628   clang-18
-x86_64                randconfig-073-20240628   gcc-13
-x86_64                randconfig-074-20240628   gcc-13
-x86_64                randconfig-075-20240628   gcc-13
-x86_64                randconfig-076-20240628   gcc-13
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240628   gcc-13.2.0
-xtensa                randconfig-002-20240628   gcc-13.2.0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index 6c64a67ab9c901..5bde41505818f9 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -1303,7 +1303,7 @@ static int virtblk_read_limits(struct virtio_blk *vblk,
+ 
+ 		lim->logical_block_size = blk_size;
+ 	} else
+-		blk_size = lim->logical_block_size;
++		blk_size = SECTOR_SIZE;
+ 
+ 	/* Use topology information if available */
+ 	err = virtio_cread_feature(vdev, VIRTIO_BLK_F_TOPOLOGY,
 
