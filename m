@@ -4,82 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 840B4C2BD09
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jul 2024 08:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 919F3C2BD09
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jul 2024 09:16:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LDtWWIDoqguko+pUdjQLfQBznPwiHSC95eDCujomuVM=; b=RORRY+5QI286h0r1a6TZluBu+Q
-	/xfmcaftc9+OCiMlhDZisOT4TS2xmzTEwEcyaZFzvFqgp5823H/PvN1frzl0iGYZ7gldoGU/IdS9Z
-	yazAI5C6R5lOujwqJyuj3vyYMEqf0//NU6RAqpKrfQpqyngvRqaj8qMIDTOj97VAHKRI326nh7WiH
-	jPuqQtvxmCqzhDUQ8xe1suA85rTN5lct7IAyaLZEYQ1o03T037YNJHuAjZLni0UbSzXBpll42/xnj
-	qE56FTZZlDH41/yFdxhYqwTcl0IKBd9g97slofZN07Ww3BIuefBXQJ9tSF8mjygiJA9SbO32Qk5QV
-	Ic6d4OJQ==;
+	bh=EDqyRdhYnb9M1XMOG4X5CSh/FJ2XKI6Btl8RCyPZq18=; b=dh3YlwqCAdBDGDrwSTKXosm+ee
+	U/cOXQXzAaUI50d0iMHrbig5OFFHNQil1BdkbspUY6j8jb2u3NvMmVByyviCEV302umxWav7lcGtX
+	XQbqSVRYLa0eLP1LvkGikxgaV/SR1QZ6kiULMdF0CHqrEFs8Ps51i3mbf7F13yPkmdS5g/VEdmIJd
+	R2UviuSwBZoDan/vF2B7Mk1b3MTaA8QpYa9hiROvHb40gDa09CLDEoLL6PO/EZjTaaSXDAheQx39J
+	Y3XnatR31Ll8QxkiE+uXnUhHUYjq1oLtO2uA7053koffCs2eOiHk3QO900TqPHkHGn9xOXr6loBJA
+	00f3LznQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOChr-00000002Idc-28gD;
-	Mon, 01 Jul 2024 08:48:15 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1sOD9I-00000002Pjh-0FFa;
+	Mon, 01 Jul 2024 09:16:36 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOChp-00000002IbB-0fJm
+	id 1sOD9E-00000002Pj3-39Ls
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Jul 2024 08:48:14 +0000
+	Mon, 01 Jul 2024 09:16:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719823692;
+	s=mimecast20190719; t=1719825391;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LDtWWIDoqguko+pUdjQLfQBznPwiHSC95eDCujomuVM=;
-	b=Ud0VuJoluLjkuK0r9pLQuQZh+H97kTv7ZGRsal/vlFUA3YeNs0fIPe7y3cbFOgm69RuwaV
-	tPfgrjUR6b3KDqPXKKCo5uzIZVKxxRrL+lQW+qcaBt8Q6vUOR57uXOQbn+z2Tl7fqxxI4D
-	bOaxF0bpN7ekcwHW/3zEZ7MZNrFTMQI=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+	bh=EDqyRdhYnb9M1XMOG4X5CSh/FJ2XKI6Btl8RCyPZq18=;
+	b=cTNl0fyOHcEMT7X2y43m8dtIGNFEHBixrPLc+qDdEmWfP1LBMg0IU8VO1TXCTsY3x8iIcC
+	mYNt53X9+CSRV1AH8KSPP0/YxO+7qloVBkftCyKXeNbzeWseRkJlvMo7GoxPAkvqI+sFWy
+	1kwt37Gt8IhOptrV5aVKNLlXMa8itYI=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-192-Rj5SFsdSMl6F9fBBv64G1Q-1; Mon,
- 01 Jul 2024 04:48:06 -0400
-X-MC-Unique: Rj5SFsdSMl6F9fBBv64G1Q-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-177-NPstdspGOHmTb05q43_i_A-1; Mon,
+ 01 Jul 2024 05:16:28 -0400
+X-MC-Unique: NPstdspGOHmTb05q43_i_A-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0E9FC1944D39;
-	Mon,  1 Jul 2024 08:48:04 +0000 (UTC)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BFCFB19560AD;
+	Mon,  1 Jul 2024 09:16:25 +0000 (UTC)
 Received: from fedora (unknown [10.72.112.45])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C1921956053;
-	Mon,  1 Jul 2024 08:47:53 +0000 (UTC)
-Date: Mon, 1 Jul 2024 16:47:48 +0800
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 85E941956089;
+	Mon,  1 Jul 2024 09:16:16 +0000 (UTC)
+Date: Mon, 1 Jul 2024 17:16:11 +0800
 From: Ming Lei <ming.lei@redhat.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
+To: Hannes Reinecke <hare@suse.de>
+Cc: Daniel Wagner <dwagner@suse.de>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Christoph Hellwig <hch@lst.de>,
 	Frederic Weisbecker <fweisbecker@suse.com>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Mel Gorman <mgorman@suse.de>,
 	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
 	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
 	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
 Subject: Re: [PATCH v2 3/3] lib/group_cpus.c: honor housekeeping config when
  grouping CPUs
-Message-ID: <ZoJtNMUBWlJapUfb@fedora>
+Message-ID: <ZoJz23UJLQ0NKpH4@fedora>
 References: <20240627-isolcpus-io-queues-v2-0-26a32e3c4f75@suse.de>
  <20240627-isolcpus-io-queues-v2-3-26a32e3c4f75@suse.de>
  <ZoFgLxGXrk4VCR03@fedora>
  <b2ncik6c7xicsnzihhwfjjqood2yys52tzotohjnxj6o2mapg5@m364yzsjbvs2>
  <ZoJY6a1CHCENAZZ8@fedora>
- <pmnqhamoec7u7ibtt4vccjfecp3ixgdlxzgncelvgczfbt74x5@26rjmpubji6s>
+ <0d8a5256-9719-45c5-b098-237b5a82fd36@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <pmnqhamoec7u7ibtt4vccjfecp3ixgdlxzgncelvgczfbt74x5@26rjmpubji6s>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+In-Reply-To: <0d8a5256-9719-45c5-b098-237b5a82fd36@suse.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240701_014813_293053_782AA4EA 
-X-CRM114-Status: GOOD (  27.47  )
+X-CRM114-CacheID: sfid-20240701_021632_887994_89FD1AE8 
+X-CRM114-Status: GOOD (  29.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,8 +94,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 01, 2024 at 10:19:25AM +0200, Daniel Wagner wrote:
-> On Mon, Jul 01, 2024 at 03:21:13PM GMT, Ming Lei wrote:
+On Mon, Jul 01, 2024 at 10:43:14AM +0200, Hannes Reinecke wrote:
+> On 7/1/24 09:21, Ming Lei wrote:
 > > On Mon, Jul 01, 2024 at 09:08:32AM +0200, Daniel Wagner wrote:
 > > > On Sun, Jun 30, 2024 at 09:39:59PM GMT, Ming Lei wrote:
 > > > > > Make group_cpus_evenly aware of isolcpus configuration and use the
@@ -116,24 +116,36 @@ On Mon, Jul 01, 2024 at 10:19:25AM +0200, Daniel Wagner wrote:
 > > 
 > > userspace is free to run any application from isolated CPUs via 'taskset
 > > -c' even though 'isolcpus=' is passed from command line.
-> >
+> > 
 > > Kernel can not add such new constraint on userspace.
-> 
-> Okay, that is why I asked if we need an additional HK type.
-> 
+> > 
 > > > We have customers who are complaining that even with isolcpus provided
 > > > they still see IO noise on the isolated CPUs.
 > > 
 > > That is another issue, which has been fixed by the following patch:
 > > 
 > > a46c27026da1 blk-mq: don't schedule block kworker on isolated CPUs
+> > 
+> Hmm. Just when I thought I understood the issue ...
 > 
-> I've checked our downstream kernels and we don't have this one yet. I'll
-> ask our customer to test if this patch addressed their issue.
+> How is this supposed to work, then, given that I/O can be initiated
+> from the isolated CPUs?
+> I would have accepted that we have two scheduling domains, blk-mq is
+> spread across all cpus, and the blk-mq cpusets are arranged according
+> to the isolcpu settings.
+> Then we can initiate I/O from the isolated cpus, and the scheduler
+> would 'magically' ensure that everything is only run on isolated cpus.
 
-BTW, you need the following one too:
+blk-mq issues IO either from current context or kblockd context.
 
-7b815817aa58 blk-mq: add helper for checking if one CPU is mapped to specified hctx
+> 
+> But that patch would completely counteract such a setup, as during
+> I/O we more often than not will invoke kblockd, which then would cause
+> cross-talk on non-isolated cpus.
+
+If IO is submitted from isolated CPU, blk-mq will issue this IO via
+unbound kblockd WQ, which is guaranteed to not run on isolated CPUs.
+
 
 Thanks,
 Ming
