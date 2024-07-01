@@ -4,127 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF1ABC2BD09
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jul 2024 08:19:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3C54C2BD09
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jul 2024 08:22:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CRYGLoPAgz4Kckx8H1tNt+H/fOv5Rx00dQoQrq5R2vY=; b=w440IYv8hUANgt5zdyDiqAs5xe
-	kJYZj7Ye2NBt6zCrS4UattKL/DKjiuzMAAungXTheqFyyP3CB2JSPUpHhP9S59aHvhyDkFD6UUVbe
-	NNNCpQ86YFqPVQ3MKPGfSePMGUKnA2BkS2kvLXasfIJoll8Rjbm2o9+DF7biH0SDNx/KN6cMzl06+
-	ZY+49X6iN9rweGVS18WClXjRzi28WhKpjva23Uv+Hi7Qt7tyVyWv//i3TmHOok67HsuZgUoFCu9Nb
-	gVfztd6wgcgDlKghhYXQRGpN7yM7rNF6afEFEcjXxVSnM4DgieeZu3GUWSPAXp4n2f1Ksxmjc3s7G
-	KQzpLwcQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gaP5w0WmO/BebCNFZntsO+CPAvXO89ZzwU0nrSMDmXQ=; b=wr5O7xMZFEjW6k/hB6Z7+wawac
+	R3GT35VX+JeMBhfIwzZl5FtQoQMFBN7ch7lIhQ3X6BeribN5v2dwl1dlyKyuuimxEixPvWvC6LZJv
+	cmWAskAtvvYUkG1mvhNRZaFZw1Ud/1bmeJjrm+d0kvl52LXrXMby+Wqdbkh00iuqzweEF8fcUZgvk
+	pAeAQth589k13ucHO+4kASA2yP5MeMyL6Ci7bYH32v8NwsoeeStqgdxcJcd7PbaU7JSPXv5bN1FcQ
+	+LsQddeooFOYWa3t+F2BBzPQCinrORLqhb1cL2ftvIdBwEPD7ISWoO3yDzDegPoX0R7XDgruuvRw2
+	HXEVk6Vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOCG5-00000002CdJ-0xji;
-	Mon, 01 Jul 2024 08:19:33 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1sOCJ4-00000002D7K-2bng;
+	Mon, 01 Jul 2024 08:22:38 +0000
+Received: from mail-lj1-f176.google.com ([209.85.208.176])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOCFz-00000002CcJ-1rsO
+	id 1sOCJ0-00000002D6h-2sZc
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Jul 2024 08:19:31 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B9EE0219DC;
-	Mon,  1 Jul 2024 08:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719821965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRYGLoPAgz4Kckx8H1tNt+H/fOv5Rx00dQoQrq5R2vY=;
-	b=iAlJRtBKDdJCzLp4krfRz1Gp3xutLSrvwNCbAVLeLp3+a5jnsBJSSG8yxSotc9Ta3aTd5e
-	UpZYtz6lS5d3vV/Pflcw5iOY1Hv6nV4UsOG29QTzScnIh+mpw7l3B5XFrqJDUniR84Wn/0
-	1RApYSkWXG5qe+gFfauK4LuQf8vvXYw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719821965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRYGLoPAgz4Kckx8H1tNt+H/fOv5Rx00dQoQrq5R2vY=;
-	b=ncJjRUcV9XT0IyhBAswqvNfj0WrsL57g89+QO33bAmgfKE739GJoRooHosGuaGcuJYsKLZ
-	goPzb3fsJsp8pzCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719821965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRYGLoPAgz4Kckx8H1tNt+H/fOv5Rx00dQoQrq5R2vY=;
-	b=iAlJRtBKDdJCzLp4krfRz1Gp3xutLSrvwNCbAVLeLp3+a5jnsBJSSG8yxSotc9Ta3aTd5e
-	UpZYtz6lS5d3vV/Pflcw5iOY1Hv6nV4UsOG29QTzScnIh+mpw7l3B5XFrqJDUniR84Wn/0
-	1RApYSkWXG5qe+gFfauK4LuQf8vvXYw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719821965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRYGLoPAgz4Kckx8H1tNt+H/fOv5Rx00dQoQrq5R2vY=;
-	b=ncJjRUcV9XT0IyhBAswqvNfj0WrsL57g89+QO33bAmgfKE739GJoRooHosGuaGcuJYsKLZ
-	goPzb3fsJsp8pzCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A2A9213800;
-	Mon,  1 Jul 2024 08:19:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cIlsJ41mgmYCfwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 01 Jul 2024 08:19:25 +0000
-Date: Mon, 1 Jul 2024 10:19:25 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
-	Christoph Hellwig <hch@lst.de>, Frederic Weisbecker <fweisbecker@suse.com>, 
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 3/3] lib/group_cpus.c: honor housekeeping config when
- grouping CPUs
-Message-ID: <pmnqhamoec7u7ibtt4vccjfecp3ixgdlxzgncelvgczfbt74x5@26rjmpubji6s>
-References: <20240627-isolcpus-io-queues-v2-0-26a32e3c4f75@suse.de>
- <20240627-isolcpus-io-queues-v2-3-26a32e3c4f75@suse.de>
- <ZoFgLxGXrk4VCR03@fedora>
- <b2ncik6c7xicsnzihhwfjjqood2yys52tzotohjnxj6o2mapg5@m364yzsjbvs2>
- <ZoJY6a1CHCENAZZ8@fedora>
+	Mon, 01 Jul 2024 08:22:36 +0000
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ec5d86e759so2435441fa.2
+        for <linux-nvme@lists.infradead.org>; Mon, 01 Jul 2024 01:22:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719822153; x=1720426953;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gaP5w0WmO/BebCNFZntsO+CPAvXO89ZzwU0nrSMDmXQ=;
+        b=C8MsFxXWqHEhj2Gr+1LR6MBczkoSuhk3NsR7sq/M6ZS0ZH3dTVg4WWQtiZ4bF2o9Cp
+         SxchCwBw97bpCSin4e6NWZtqG5VbezM4e7U+PF8BDec+BcOq9irGqB2boQBOz8bb4UIi
+         CtRp2s4R9Dfx8SR+/6pqNUFOSUDSdNV0AHEK1SMiSu1GYi26Lb79EpwCbH9imaCPk/0M
+         LMn6osr7u8ibI3cblIv+EsJJlIGtSKaM/u6Nvm03GL3bDW/9BIyWBUXc/RfoKZgNzfeb
+         pkOsuOWiCj8XH/YKbm6p7yhvEwkDTq+HEG1iMDIZBxquhQeE7vutmrbO31fpG9OYEy6J
+         zaYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSU4G4kSlLWXiPBaMW02ODkfbVkf/tTHpbTDdl1Sj+vd+hwjL8At/Yr04J35obHSa/gOSIgrG/dwomBiH5waqj5DK4DnCWC8UTjiKe0mE=
+X-Gm-Message-State: AOJu0YxNz+b/nMxAqvLWUP0X50cVzMbsVuQjaJUTrRcO77TA4fVR6TnE
+	smSlczoGUaXLczgA785TXFaXeBZEZ2szD/RqLGG4HBlYPb+HMVI1VF2Ciw==
+X-Google-Smtp-Source: AGHT+IFuX/aRh+/2oeCaBxwgLCJAgVDmsxLq+dFmpsqq5OOpdob4L+PPh5M5IZYik62pZtZDjvVrxw==
+X-Received: by 2002:a2e:8e90:0:b0:2ec:31d9:16e1 with SMTP id 38308e7fff4ca-2ee5e6e745emr24732201fa.5.1719822152602;
+        Mon, 01 Jul 2024 01:22:32 -0700 (PDT)
+Received: from [10.50.4.180] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256f55c4b5sm128104555e9.43.2024.07.01.01.22.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jul 2024 01:22:32 -0700 (PDT)
+Message-ID: <f9828eb4-39be-498b-8b90-2cb7ce42d3c7@grimberg.me>
+Date: Mon, 1 Jul 2024 11:22:31 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZoJY6a1CHCENAZZ8@fedora>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,suse.com,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] nvmet: support polling task for RDMA and TCP
+To: hch@lst.de, kch@nvidia.com, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: ping.gan@dell.com
+References: <0779b376-38e3-42ef-b32a-a9cfab2749f2@grimberg.me>
+ <20240701074245.73348-1-jacky_gam_2001@163.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240701074245.73348-1-jacky_gam_2001@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240701_011927_664954_CA51DD12 
-X-CRM114-Status: GOOD (  26.81  )
+X-CRM114-CacheID: sfid-20240701_012234_765314_C7499E04 
+X-CRM114-Status: GOOD (  26.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,42 +83,93 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 01, 2024 at 03:21:13PM GMT, Ming Lei wrote:
-> On Mon, Jul 01, 2024 at 09:08:32AM +0200, Daniel Wagner wrote:
-> > On Sun, Jun 30, 2024 at 09:39:59PM GMT, Ming Lei wrote:
-> > > > Make group_cpus_evenly aware of isolcpus configuration and use the
-> > > > housekeeping CPU mask as base for distributing the available CPUs into
-> > > > groups.
-> > > > 
-> > > > Fixes: 11ea68f553e2 ("genirq, sched/isolation: Isolate from handling managed interrupts")
-> > > 
-> > > isolated CPUs are actually handled when figuring out irq effective mask,
-> > > so not sure how commit 11ea68f553e2 is wrong, and what is fixed in this
-> > > patch from user viewpoint?
-> > 
-> > IO queues are allocated/spread on the isolated CPUs and if there is an
-> > thread submitting IOs from an isolated CPU it will cause noise on the
-> > isolated CPUs. The question is this a use case you need/want to support?
-> 
-> I have talked RH Openshift team weeks ago and they have such usage.
-> 
-> userspace is free to run any application from isolated CPUs via 'taskset
-> -c' even though 'isolcpus=' is passed from command line.
->
-> Kernel can not add such new constraint on userspace.
 
-Okay, that is why I asked if we need an additional HK type.
 
-> > We have customers who are complaining that even with isolcpus provided
-> > they still see IO noise on the isolated CPUs.
-> 
-> That is another issue, which has been fixed by the following patch:
-> 
-> a46c27026da1 blk-mq: don't schedule block kworker on isolated CPUs
+On 01/07/2024 10:42, Ping Gan wrote:
+>> Hey Ping Gan,
+>>
+>>
+>> On 26/06/2024 11:28, Ping Gan wrote:
+>>> When running nvmf on SMP platform, current nvme target's RDMA and
+>>> TCP use kworker to handle IO. But if there is other high workload
+>>> in the system(eg: on kubernetes), the competition between the
+>>> kworker and other workload is very radical. And since the kworker
+>>> is scheduled by OS randomly, it's difficult to control OS resource
+>>> and also tune the performance. If target support to use delicated
+>>> polling task to handle IO, it's useful to control OS resource and
+>>> gain good performance. So it makes sense to add polling task in
+>>> rdma-rdma and rdma-tcp modules.
+>> This is NOT the way to go here.
+>>
+>> Both rdma and tcp are driven from workqueue context, which are bound
+>> workqueues.
+>>
+>> So there are two ways to go here:
+>> 1. Add generic port cpuset and use that to direct traffic to the
+>> appropriate set of cores
+>> (i.e. select an appropriate comp_vector for rdma and add an appropriate
+>> steering rule
+>> for tcp).
+>> 2. Add options to rdma/tcp to use UNBOUND workqueues, and allow users
+>> to
+>> control
+>> these UNBOUND workqueues cpumask via sysfs.
+>>
+>> (2) will not control interrupts to steer to other workloads cpus, but
+>> the handlers may
+>> run on a set of dedicated cpus.
+>>
+>> (1) is a better solution, but harder to implement.
+>>
+>> You also should look into nvmet-fc as well (and nvmet-loop for that
+>> matter).
+> hi Sagi Grimberg,
+> Thanks for your reply, actually we had tried the first advice you
+> suggested, but we found the performance was poor when using spdk
+> as initiator.
 
-I've checked our downstream kernels and we don't have this one yet. I'll
-ask our customer to test if this patch addressed their issue.
+I suggest that you focus on that instead of what you proposed.
+What is the source of your poor performance?
 
-Thanks!
-Daniel
+>   You know this patch is not only resolving OS resource
+> competition issue, but also the perf issue. We have analyzed if we
+> still use workqueue(kworker) as target when initiator is polling
+> driver(eg: spdk), then workqueue/kworker target is the bottleneck
+> since every nvmf request may have a wait latency from queuing on
+> workqueue to begin processing,
+
+That is incorrect, the work context polls the cq until it either drains it
+completely, or exhaust a quota of IB_POLL_BUDGET_WORKQUEUE (or
+NVMET_TCP_IO_WORK_BUDGET). Not every command gets its own workqueue
+queuing delay.
+
+And, what does the spdk initiator has to do with it? Didn't understand...
+
+>   and the latency can be traced by wqlat
+> of bcc (https://github.com/iovisor/bcc/blob/master/tools/wqlat.py).
+> We think the latency is a disaster for the polling driver data plane,
+> right?
+
+If you need a target that polls all the time, you should probably resort 
+to spdk.
+If there is room for optimization in nvmet we'll gladly take it, but 
+this is not the
+way to go IMO.
+
+> So we think adding a polling task mode on nvmet side to handle
+> IO does really make sense; what's your opinion about this?
+
+I personally think that adding a polling kthread is questionable.
+However there is a precedent, io_uring sqthreads. So please look
+into what is done there. I don't mind having something like 
+IB_POLL_IOTASK (or
+io_task threads in nvmet-tcp) if its done correctly (leverages common code).
+
+>   And you
+> mentioned we should also look into nvmet-fc, I agree with you.
+> However currently we have no nvmf-fc's testbed; if we get the testbed,
+> will do that.
+
+There is fcloop, you should use that to test, same for loop. We don't want
+the transports to diverge in functionality.
 
