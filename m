@@ -4,175 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B8B2C3064D
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jul 2024 09:31:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B3A0C3064D
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jul 2024 10:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Subject:Cc:To:From:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZSdxLm7P4H+QvXfKGCWONhLrW2jvUUh9LoXZmu5TquQ=; b=o5bDelU0xRZCxXWhpOJXs5wfyu
-	CMpRk1z050LNkOD/F6cCG4O2CEVb5wvlHMKvEzzgYYeyQ2tVEjc7COjC+8Um4G8rUMoUN6sqWicn9
-	cHteL33Nz3of88o2LANckAY4bBON2R8g7Pu5ErBxGVvUeOBbtMxlbHUePlFHCIsHOGysUh17mk7Vt
-	V0QZpYwzrRBHHvulw5j8ikf1Qa5dPetAUy1ryAViUmUegj/DRSlBo8jRAEgw7K2CCDQtkIm5TjEi+
-	wrkpPzr/5jHBe3A1Gpy+l0dPcFIt43jqrYcTXbSoenV/5hGg+G9dZ+xVgQQ17bOHqfUAZZMpSRoNV
-	8/8fGxMg==;
+	bh=8FbDO25MgR0OBg4ghDSk/qfsedlmdOP5SL6u05bo5P8=; b=ES8L6Tt06rVBcMEKpExOz+NnGj
+	MKmB03LfeL2bs626tLxjHZXCjdwtFZqUIHU2KoYh9Dmr1hoS8ZcDwxOxUJB7WOwPapmC0JA8MN/Xj
+	xzCENHP5/QJSAgg1x9Ngz0DWDuc7FMTZlB27GAcQ8Q19pnT7lxTvzV8jrGP18NhsJRqY818mPmTII
+	o9R9DgirRuDZ8UTvkn5b7nA1KZkoyEJIyp16ZCNfb7rKVJtCbho5YMB4+yvDMTgx2o5cjSZbp8HMn
+	WG19JR3rhc/v7ukwAoNjbHEo8xCXclRywzaclgFkGFEXdQzN92uTRMEplU2WGaHMs++Acf+TE03eu
+	2YgC5MDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOZrO-00000006Btc-3gjT;
-	Tue, 02 Jul 2024 09:31:38 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOZrL-00000006BrO-1geS
+	id 1sOaMB-00000006Hd4-0qzx;
+	Tue, 02 Jul 2024 10:03:27 +0000
+Received: from m16.mail.163.com ([220.197.31.4])
+	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sOaM7-00000006HbZ-2vjB
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Jul 2024 09:31:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1719912695; x=1751448695;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=JInuokPC0zI2/SOVyMGd5xYQ8qBu70Vs9q6tBksOkCc=;
-  b=ntoxpXEQPc4bDDETEUJ0ji0N2Ag2UUWxi5eHr1xnexsr6Xvu7kQZNNVI
-   5SGhx4P493bnWGsk9bFF4UCMW2cF+jJESkGb2QqSmmMXQM02lR3MIiKbL
-   5yOFjHZ78kP4S51Hp5eRt4C64nJ2bW22ssFLA5iGfs7+XMle9WYrLgXwp
-   zraOxOu7FjTfcuT+QdJYrvxWA/BskCEHcF9Tb4ee5b1ocLsxFtPkWfLuv
-   /s+0CACWFzIwtkyAmFNkiE8/RRzJNIVudxzXHs0ISlcGPm89yELNe7q/J
-   Sm2DiGsVOo6Zk3c2lCDuYHmpAC2n/CQ2outXQjDUwemyEfIlZy2UgK/ZD
-   A==;
-X-CSE-ConnectionGUID: cq81Y3WZS3yZDp8yT0h/qw==
-X-CSE-MsgGUID: l696cYMNRXWGs3iM8VxOHQ==
-X-IronPort-AV: E=Sophos;i="6.09,178,1716220800"; 
-   d="scan'208";a="20687020"
-Received: from mail-co1nam11lp2169.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.169])
-  by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2024 17:31:33 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kkOWpYkCNOgTtGxI/H/It7WMiHOMZbdBNCyDhl6HTTkhinu7iICj20oAmlZ1FXEam0vbXKRzfXDh63YPj0fKXx5T5M1wmxJPWICsZCIfmLGnJV2F2+slGJjuOzfZcn96qyNBUq15uh0cu1KeXJ7TBQ0LyBOHtCZ9ikZ7wVYbed0ggq+b6cBU9+6QFeEnB/REDevvje6C/MXVnmUQGDcBt/3Fdg62D+cK5URA3g7FQkgUOYKI4c/rBxIfnZ94m5u9kTO0hggR57JWRWjJ/3TiL0sx/d7Jlx0ksrrmDv2O/pzSgfHmMquHZl2P5xDtLC9H91upoib4Ubuhz1R27nNwhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZSdxLm7P4H+QvXfKGCWONhLrW2jvUUh9LoXZmu5TquQ=;
- b=HfmqgUJzMU/vUTfYTGpXaLtnRLaMoVbi74b0vWsFjZZZP9pXIQMptGMuppX9l4FE4a4oaWK1Kym2n8mVWsR4plDMBINFjblEHMm+KuAb+0itxFMT+3OScjwxamd1CzcUzcLEgbIy8OgBKXQg/UDrz8i+OhS1hrKZsd4sWr1ZLHpbh04DeX5OC8RMp/w6OAJg5xBzbOkFlhMl2k0OpfuPY1sapkwxxgZCAb2BCkq8jV8u/KHxlHEobEIbCVS0AW/R3hRf9XDf49FvVBEHnZwrXFCd3tVPZHJiNRr6DHsY0F55ldAabxfGekjb87HXhYiziMfxuAbYij05ez0k62+g5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZSdxLm7P4H+QvXfKGCWONhLrW2jvUUh9LoXZmu5TquQ=;
- b=beQmwmiVytUvEss37AHr+FCsnQyycrcRsKo5jIP3PyEAlfzVrPNCWsSD7Dn/bKApghgIfK9KF0TjY6nxoBJhIZksdFi+/AjjE5MRAJEVabFvRKKC2z3YKSWNDKcR809YnS3cLtiTPAAX6UxOtxpau3ippGvb0ByhnXLDc0HM6l0=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- PH0PR04MB8573.namprd04.prod.outlook.com (2603:10b6:510:296::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.32; Tue, 2 Jul
- 2024 09:31:31 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%3]) with mapi id 15.20.7719.029; Tue, 2 Jul 2024
- 09:31:31 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Hannes Reinecke
-	<hare@suse.de>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Ofir Gal
-	<ofir.gal@volumez.com>
-Subject: Re: [PATCH blktests v3 1/3] nvme/rc: introduce remote target support
-Thread-Topic: [PATCH blktests v3 1/3] nvme/rc: introduce remote target support
-Thread-Index: AQHayHHfaO+i28+dmkSocZJbcLbOWrHjKUQAgAALFIA=
-Date: Tue, 2 Jul 2024 09:31:31 +0000
-Message-ID: <gpbfvnkocibvptwedmm23x4mryt2zxt2aofyovl5p6e4tetbxi@rrhmg36uksuh>
-References: <20240627091016.12752-1-dwagner@suse.de>
- <20240627091016.12752-2-dwagner@suse.de>
- <2le6usvr4sfzconrglndjq52i5zwykftrfqc43ddx7cpqanq4m@g4ocikmnnw4s>
-In-Reply-To: <2le6usvr4sfzconrglndjq52i5zwykftrfqc43ddx7cpqanq4m@g4ocikmnnw4s>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|PH0PR04MB8573:EE_
-x-ms-office365-filtering-correlation-id: 65cd9686-001f-4c8e-2b46-08dc9a79c1e2
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?LxxLf3STNcxJMZp4w/83ds0nyUzJFYfvBYxyF4Jt1IS0QbBin6qzy5Nu6jxD?=
- =?us-ascii?Q?qz0g/eECptZk2fd8bzuPHQMR3x2Zm9MnlJrtGaf8/igndQBfnXIHn8Ps0vQ8?=
- =?us-ascii?Q?exC6s8exwdrbuEsq3vAXBfsqBoKbYXpvaCzFT9N4LF0c3BmivL1IIYbcAwyI?=
- =?us-ascii?Q?8C3A66W+v2I6ZXu8p3a9s3LR0+ihvxlJDCGhKUwLehN5QwE9HfcccbTv9Icp?=
- =?us-ascii?Q?qGon30IVuG9pleCi0PQaU+sHlx1xGNcgXr58pdP4aF/RDO9/OZNV5ZUiVsA6?=
- =?us-ascii?Q?86YVy/Xp5kutIxORP4b1lgTgbnvjSywDwaceqWJFWXamh4l5zwpLa+9YMSsz?=
- =?us-ascii?Q?UVuRi4ebocXpUPZwlQnZG1puwxfE56ugzqweMtHv8aAn58X/2XQ0K9BeLO/K?=
- =?us-ascii?Q?kHhySpUd+ZNa0KovbwlQ4DLTbGKIrHe+8dH/sFMl1wDHNU3Kbt4WezA1jpgk?=
- =?us-ascii?Q?5G7DN+we3XRfu0GdNcBEofLqVQlWU6b7nS0qDL7HpW4x+gHtgB4pe5XTQlkW?=
- =?us-ascii?Q?CUPy9DUJlPoxENsvdZ3hvUdQtWHicA6ZBZfvAJq8cg9nkimG8ptPnOclhoaw?=
- =?us-ascii?Q?Vz4tJRLrWAa7dXKKRTp7KQdSdBWWoioRyHJdYVwnBVp+WYRbzNsymVOqkYpY?=
- =?us-ascii?Q?60+xkKl+MkFOtcyZ67JE9hw6dQJDs6P4VfrmCSbsF9u5dTN79h0Ts4oH3xaX?=
- =?us-ascii?Q?ATLV6++I9tTjrGLwHNYIc20+APfQ+w2EYmOenQNNrvf3gxuy+UBuufS1xqsb?=
- =?us-ascii?Q?OwZl9XecNwv0S2omosp1YtLPcb0cv0z9MmzYWZ/nJ9IaQbzgUGbSyb7R886a?=
- =?us-ascii?Q?h4/MEeKSOuzvGhfE9lR7nm3js6lqr+zrPqi0agJ/57YImwYKNxb2uLFYZ+dl?=
- =?us-ascii?Q?MM2tvUDUzQmjbLj3gvnSczArPhHCr8Z/w2tWFZ/HQTcTclpi2RM+6Ru3DIOY?=
- =?us-ascii?Q?liUjYHWESySsiINlo1t0upndhxxTND3YbwUZtWQraQt2Q/8n3p1G35ij3mtx?=
- =?us-ascii?Q?b/wnvyzXMKXA+fw7OyYEuETljeDhmHFiWxMAin1A+Q+XNbK3Mb72odS6tc9K?=
- =?us-ascii?Q?rZ5yfW1zCHptc/RghWAwB/oamvYd4klPJC/PnC3FdAuEYB4mc9J5abRaDT+l?=
- =?us-ascii?Q?n9UBCPSnMoeFZ8IAeD9QjasZKQ40Fc1gLihmYoUWc3pttZPEQqsnCFPbmHYg?=
- =?us-ascii?Q?47odotmev/FiI1MoVcdfQZXK0Y98kIbxVpNUyRbFGh5ajk2Gnb6d8Ko/Sgos?=
- =?us-ascii?Q?5UH49sLSXLsiegUvy3dP3wuqUZZstKg3c5GpLs4Z7t5roFiDN0VPFWGTMCD0?=
- =?us-ascii?Q?BePy/EeQGGcvmLglWTv4K/mL74KFISFv6pm2dpMm9lgPRW9Wwsdz8bAZZTMt?=
- =?us-ascii?Q?MD19S3g=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WPDtR6UnovjjlA0b2aAcp0nxUkG3DTX8wTDDScTbAedRMOgQyE7GMioVH4Ko?=
- =?us-ascii?Q?sMEYUIqtw0GsKQntGV8+3+WSpbPj/cgZ+emsRLrwsnpWk6XoEVRSztwClH9y?=
- =?us-ascii?Q?DLTLZ8tEiUcbZDXED+aZvYKXmoWVvV8pBFuMDoj8ad/qXko5MRq3tJxrUKKZ?=
- =?us-ascii?Q?FzPdaXzMcX3HIbtyEk8UZIYx23cr4CYha+U4duIJ5j2tAiWN0fND0HiI7/RO?=
- =?us-ascii?Q?CPs1hwVtcgT/txzb0dv6cqhRik/wVuTzT1dmHKdTft/dFzWQSjJTCxB8ShHz?=
- =?us-ascii?Q?mdfVU6vkop04rBZj46AZgCiBIC4yWDiroKQf6/HpaCpAOsfT43xYBp2h/TwE?=
- =?us-ascii?Q?DUBOJUXHoyRKcLgHD3JxWs6fjNqSgEgQUEKJqNKTnhOtZNU3G/8qAGXUKu7q?=
- =?us-ascii?Q?nL+bPvePiNB4s8vJ8BzJ57gIjSnXG2xhw9ND3hzXkg5T8t5Cgf6yAHp7JvPX?=
- =?us-ascii?Q?9kzKxWfzgpK+piYdrzFFd6+F7d2KlptGAt80sIe9p5WiUBWIYEgbk/+yge4k?=
- =?us-ascii?Q?gjx9jui04tKhJMv4sMr8sTcg3/Cf6sLevKA5SRPYp3QsAdUqd3UgcBHxuO9Y?=
- =?us-ascii?Q?Fc3ann5xKljkWDD53U3x+sgWLZPKfV0h2GL/H+7BK2IMHBS90C24XmeTAjKA?=
- =?us-ascii?Q?ku3YA6ZRMns5ywJRb3Lbf751Xn5q3XwLz8hlg9xCMQt1WKmq6V5zAZvXuvkX?=
- =?us-ascii?Q?+xLUV0cUtVGkUTuaSL5bmuy2A0sA/wAu/M/ZCesCbh+QSg6R2hkeDz1NvHJY?=
- =?us-ascii?Q?mBs9fT8hAVKzx6BYCSLudyUhPLlAfzo54ZQE16umE/K8EnLWiNnDMveMlSXS?=
- =?us-ascii?Q?k5qiDBRnVN3jLbn9ecZQzW678WiHT9w4md7YvB+7nFmIypiIRyQ4G62x9JnN?=
- =?us-ascii?Q?D0w8U5idc2+Hl650w9oS5aZfx6dyl/tZr4XZh+J+mAdZCpqLd1bEF0FwUBHy?=
- =?us-ascii?Q?iF4nppv6LCYJz8NvX8U2UmVKUI9Oa8ZBB+FvJ3tCt1nOaQkyouu2cvEp2MVU?=
- =?us-ascii?Q?hoM04FmpjXFlRz1uj7p98YXOJ+6SYy7/8jE49kBo1e8H1bX+DiO8dr0DcEvi?=
- =?us-ascii?Q?Z7o9+PEVZt1V2NhhByiJFWku2KWcE42vt7uerY3vDmTiX7UK+oWFxCx56MRQ?=
- =?us-ascii?Q?iRsPO3uyDi79fPw49li9oGH6m/9Q9UMRULZY7NsAYiiUi69PB/76dMyhCkk3?=
- =?us-ascii?Q?QKyImtLwDtHFNJZKHiYTyBLkaXlK3W5eTZ9B4+J9JH+edRyi/v5lwE2a3inT?=
- =?us-ascii?Q?HR5ThWtbO1ni70HHDe7KegwCnQUPowab5xu9VwtFECjOHZCaebrBHoV64yCH?=
- =?us-ascii?Q?0V8WJ5ZS/s2yf5i1uyfo6GhkKcKcH6Gp+H65DDcZwIxY3uU0giN1Rwni6gMe?=
- =?us-ascii?Q?EBKLx7WB6twhssIMlDH1YSH0UReHUgCxZyCTHCXXxSpLmb4zEpRPtrT/ktCT?=
- =?us-ascii?Q?yQDhc4gwGki2VH1Zj3WoOanqJDbOd2ZeyIT0MUhpL/FYT+WUL/Ajcc82c7zn?=
- =?us-ascii?Q?/tNc00HS8TmuqeGNVWa/PdbHLsoAzWY3bDA/i1FSgIzyJQs1mzixqqw8CsP5?=
- =?us-ascii?Q?Y7aU/SUK3o7Qy3sip0ZneJ50dLrD7yGHgfihHyQCM8Q6S4i+pNeAQE9YM5S7?=
- =?us-ascii?Q?wHAgyjBwR6TEBuirgmW/on8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <367CA63B278ACA49A837291CC805DC08@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Tue, 02 Jul 2024 10:03:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:Reply-To:MIME-Version;
+	bh=8FbDO25MgR0OBg4ghDSk/qfsedlmdOP5SL6u05bo5P8=; b=EiLHhZOFu7tJS
+	aZFRQ4lXR+37PglfQm4Z8c0jf2Rnsf91yj97XoQruB8TZMhmmqA7DucuvJ6KYYy9
+	D5xd7TlzeWXMMA3DtFgTP/7Wtt4wJ7U8Kvd7LKcyfj/pjeLGofZrqoKih7V6pBg5
+	ryDYrO9JlX83IUqU9mX7zx7Karllpc=
+Received: from localhost.localdomain (unknown [183.192.130.164])
+	by gzga-smtp-mta-g1-2 (Coremail) with SMTP id _____wD3_2Vb0INmpmSMBQ--.35615S2;
+	Tue, 02 Jul 2024 18:03:08 +0800 (CST)
+From: Ping Gan <jacky_gam_2001@163.com>
+To: sagi@grimberg.me,
+	hch@lst.de,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: ping.gan@dell.com
+Subject: Re: [PATCH 0/2] nvmet: support polling task for RDMA and TCP 
+Date: Tue,  2 Jul 2024 18:02:14 +0800
+Message-Id: <20240702100215.2265-1-jacky_gam_2001@163.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <f9828eb4-39be-498b-8b90-2cb7ce42d3c7@grimberg.me>
+References: <f9828eb4-39be-498b-8b90-2cb7ce42d3c7@grimberg.me>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: oLESjUIfU/VX6cgK3kebokpSiTaABJndZO/fzzSahtEFJExLvJULzLxCRpunQrZZmCLuoXhxTtEGixbv1wQo8oG9nQXXcvQb6FSTW66rA8IDGPUnz9hXAUF8R1QVY3p7LG1qgUzMrIfzL2dCcZNUDUoblJP7sUR6DWcIOjFawBalh0LoNQc+TOX72F/hxsUsEfmLPAOf807a0I6Y/AQvrPukB/JI8qYNHvfTWju1XMs0SVleRzY8M4aip4Ke1zfePsPqGNAyFYPMqGaLdTRk7ttfUSKeex3Q+bXdpy29hhile3x7e0o8vNAWXFatTfU7tTS+jCREkgiUJspGo3KUpPEZ2S93ecG5M7YoZuCUE2lItecnkKxewxqi/nN0ntGZZYh+YuxFsTY7kDz15dnnYHJ51irtsTeyl2gIFPxfPt+ZOjWFnm49yYdxG3nTqIOCEw6P/BArFnmG/N2Y4iCO22FB3AZauCaAafGG+QSX6EyXHdExu1vXOpl140NmNsh5BeXuZyx9CvtMnm/4g+LLP6d8sm33w3N+6mO/FtI8R41VA/Js8Ynsrtt3UpUA8TK2vJkYnecP3xvQGR28Q7PKLJ0B2D9Nlf9Xokmz/EekTNEuBxsckeM3mao+wuFOHtv8
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65cd9686-001f-4c8e-2b46-08dc9a79c1e2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2024 09:31:31.3778
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uCEkVg8tnT8lx5jDcPanDUn3EL5sFamZwh3NT/MmN1Lf3Wow0l+k4lqD7Qqi3xNoQJwXplsh+4gxJOG3+2YUJtDiRg4gc9kk2G3smkEhu5U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB8573
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD3_2Vb0INmpmSMBQ--.35615S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3AF17uFWfCFW5Zr4DXF4xWFg_yoWxGFy7pF
+	WftFW5KrsrKrWUCw1IvanruFy09wn3J3y5Jr1fJry7Cw1Y93sxAryxKr15WFyDCr1kKw1a
+	qFyDX3sxuF1qyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UI2N_UUUUU=
+X-Originating-IP: [183.192.130.164]
+X-CM-SenderInfo: 5mdfy55bjdzsisqqiqqrwthudrp/1tbiEB0QKWXAluk-igAAsb
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240702_023135_615379_B138F3F2 
-X-CRM114-Status: GOOD (  32.93  )
+X-CRM114-CacheID: sfid-20240702_030324_231362_8A8D1C9F 
+X-CRM114-Status: GOOD (  26.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,304 +72,181 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sagi@grimberg.me
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Jul 02, 2024 / 17:51, Shin'ichiro Kawasaki wrote:
-> CC+: Ofir
+>On 01/07/2024 10:42, Ping Gan wrote:
+>>> Hey Ping Gan,
+>>>
+>>>
+>>> On 26/06/2024 11:28, Ping Gan wrote:
+>>>> When running nvmf on SMP platform, current nvme target's RDMA and
+>>>> TCP use kworker to handle IO. But if there is other high workload
+>>>> in the system(eg: on kubernetes), the competition between the
+>>>> kworker and other workload is very radical. And since the kworker
+>>>> is scheduled by OS randomly, it's difficult to control OS resource
+>>>> and also tune the performance. If target support to use delicated
+>>>> polling task to handle IO, it's useful to control OS resource and
+>>>> gain good performance. So it makes sense to add polling task in
+>>>> rdma-rdma and rdma-tcp modules.
+>>> This is NOT the way to go here.
+>>>
+>>> Both rdma and tcp are driven from workqueue context, which are bound
+>>> workqueues.
+>>>
+>>> So there are two ways to go here:
+>>> 1. Add generic port cpuset and use that to direct traffic to the
+>>> appropriate set of cores
+>>> (i.e. select an appropriate comp_vector for rdma and add an
+>>> appropriate
+>>> steering rule
+>>> for tcp).
+>>> 2. Add options to rdma/tcp to use UNBOUND workqueues, and allow
+>>> users
+>>> to
+>>> control
+>>> these UNBOUND workqueues cpumask via sysfs.
+>>>
+>>> (2) will not control interrupts to steer to other workloads cpus,
+>>> but
+>>> the handlers may
+>>> run on a set of dedicated cpus.
+>>>
+>>> (1) is a better solution, but harder to implement.
+>>>
+>>> You also should look into nvmet-fc as well (and nvmet-loop for that
+>>> matter).
+>> hi Sagi Grimberg,
+>> Thanks for your reply, actually we had tried the first advice you
+>> suggested, but we found the performance was poor when using spdk
+>> as initiator.
+>
+>I suggest that you focus on that instead of what you proposed.
+>What is the source of your poor performance?
+Before these patches, we had used linux's RPS to forward the packets
+to a fixed cpu set for nvmet-tcp. But when did that we can still not 
+cancel the competition between softirq and workqueue since nvme target's
+kworker cpu core bind on socket's cpu which is from skb. Besides that
+we found workqueue's wait latency was very high even we enabled polling
+on nvmet-tcp by module parameter idle_poll_period_usecs. So when
+initiator
+is polling mode, the target of workqueue is the bottleneck. Below is 
+work's wait latency trace log of our test on our cluster(per node uses 
+4 numas 96 cores, 192G memory, one dual ports mellanox CX4LX(25Gbps X 2)
+ethernet adapter and randrw 1M IO size) by RPS to 6 cpu cores. And
+system's CPU and memory were used about 80%.
+ogden-brown:~ #/usr/share/bcc/tools/wqlat -T -w nvmet_tcp_wq 1 2
+01:06:59
+     usecs               : count     distribution
+         0 -> 1          : 0        |                              |
+         2 -> 3          : 0        |                              |
+         4 -> 7          : 0        |                              |
+         8 -> 15         : 3        |                              |
+        16 -> 31         : 10       |                              |
+        32 -> 63         : 3        |                              |
+        64 -> 127        : 2        |                              |
+       128 -> 255        : 0        |                              |
+       256 -> 511        : 5        |                              |
+       512 -> 1023       : 12       |                              |
+      1024 -> 2047       : 26       |*                             |
+      2048 -> 4095       : 34       |*                             |
+      4096 -> 8191       : 350      |************                  |
+      8192 -> 16383      : 625      |******************************|
+     16384 -> 32767      : 244      |*********                     |
+     32768 -> 65535      : 39       |*                             |
 
-Sorry, I forgot to add Ofir to the CC list. Let me resend this note.
+01:07:00
+     usecs               : count     distribution
+         0 -> 1          : 1        |                              |
+         2 -> 3          : 0        |                              |
+         4 -> 7          : 4        |                              |
+         8 -> 15         : 3        |                              |
+        16 -> 31         : 8        |                              |
+        32 -> 63         : 10       |                              |
+        64 -> 127        : 3        |                              |
+       128 -> 255        : 6        |                              |
+       256 -> 511        : 8        |                              |
+       512 -> 1023       : 20       |*                             |
+      1024 -> 2047       : 19       |*                             |
+      2048 -> 4095       : 57       |**                            |
+      4096 -> 8191       : 325      |****************              |
+      8192 -> 16383      : 647      |******************************|
+     16384 -> 32767      : 228      |***********                   |
+     32768 -> 65535      : 43       |**                            |
+     65536 -> 131071     : 1        |                              |
 
->=20
-> A heads up: this patch causes conflict with Ofir's patch to move tests/nv=
-me/rc
-> helpers to common/nvme [*]. Depending on which comes first, Daniel or Ofi=
-r will
-> need patch rework.
->=20
-> [*] https://lore.kernel.org/linux-block/20240624104620.2156041-2-ofir.gal=
-@volumez.com/
->=20
->=20
-> On Jun 27, 2024 / 11:10, Daniel Wagner wrote:
-> > Most of the NVMEeoF tests are exercising the host code of the nvme
-> > subsystem. There is no real reason not to run these against a real
-> > target. We just have to skip the soft target setup and make it possible
-> > to setup a remote target.
-> >=20
-> > Because all tests use now the common setup/cleanup helpers we just need
-> > to intercept this call and forward it to an external component.
-> >=20
-> > As we already have various nvme variables to setup the target which we
-> > should allow to overwrite. Also introduce a NVME_TARGET_CONTROL variabl=
-e
-> > which points to a script which gets executed whenever a targets needs t=
-o
-> > be created/destroyed.
-> >=20
-> > Signed-off-by: Daniel Wagner <dwagner@suse.de>
->=20
-> Daniel, thanks for this v3 patch. Please find some comments in line.
-> I ran "make check" and observed some shellcheck warnings:
->=20
-> $ make check
-> shellcheck -x -e SC2119 -f gcc check common/* \
->         tests/*/rc tests/*/[0-9]*[0-9] src/*.sh
-> tests/nvme/rc:962:5: warning: eval negates the benefit of arrays. Drop ev=
-al to preserve whitespace/symbols (or eval as string). [SC2294]
-> tests/nvme/041:34:36: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/042:40:52: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/042:54:61: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/043:37:36: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/044:36:36: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/044:42:36: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/045:41:36: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/045:47:36: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/045:72:43: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/045:82:43: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/051:40:25: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
-> tests/nvme/051:41:25: note: Double quote to prevent globbing and word spl=
-itting. [SC2086]
->=20
-> > ---
-> >  Documentation/running-tests.md | 33 ++++++++++++++++++++
-> >  check                          |  4 +++
-> >  tests/nvme/rc                  | 57 ++++++++++++++++++++++++++++++++--
-> >  3 files changed, 92 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/running-tests.md b/Documentation/running-tes=
-ts.md
-> > index 968702e76bb5..fe4f729bd037 100644
-> > --- a/Documentation/running-tests.md
-> > +++ b/Documentation/running-tests.md
-> > @@ -120,6 +120,9 @@ The NVMe tests can be additionally parameterized vi=
-a environment variables.
-> >  - NVME_NUM_ITER: 1000 (default)
-> >    The number of iterations a test should do. This parameter had an old=
- name
-> >    'nvme_num_iter'. The old name is still usable, but not recommended.
-> > +- NVME_TARGET_CONTROL: When defined, the generic target setup/cleanup =
-code will
-> > +  be skipped and this script gets called. This makes it possible to ru=
-n
-> > +  the fabric nvme tests against a real target.
-> > =20
-> >  ### Running nvme-rdma and SRP tests
-> > =20
-> > @@ -167,3 +170,33 @@ if ! findmnt -t configfs /sys/kernel/config > /dev=
-/null; then
-> >  	mount -t configfs configfs /sys/kernel/config
-> >  fi
-> >  ```
-> > +### NVME_TARGET_CONTROL
-> > +
-> > +When NVME_TARGET_CONTROL is set, blktests will call the script which t=
-he
-> > +environment variable points to, to fetch the configuration values to b=
-e used for
-> > +the runs, e.g subsysnqn or hostnqn. This allows the blktest to be run =
-against
-> > +external configured/setup targets.
-> > +
-> > +The blktests expects that the script interface implements following
-> > +commands:
-> > +
-> > +config:
-> > +  --show-blkdev-type
-> > +  --show-trtype
-> > +  --show-hostnqn
-> > +  --show-hostid
-> > +  --show-host-traddr
-> > +  --show-traddr
-> > +  --show-trsvid
-> > +  --show-subsys-uuid
-> > +  --show-subsysnqn
-> > +
-> > +setup:
-> > +  --subsysnqn SUBSYSNQN
-> > +  --subsys-uuid SUBSYS_UUID
-> > +  --hostnqn HOSTNQN
-> > +  --ctrlkey CTRLKEY
-> > +  --hostkey HOSTKEY
-> > +
-> > +cleanup:
-> > +  --subsysnqn SUBSYSNQN
->=20
-> Thanks. I think the NVME_TARGET_CONTROL script command line interface is =
-well
-> documented.
->=20
-> > diff --git a/check b/check
-> > index 3ed4510f3f40..d0475629773d 100755
-> > --- a/check
-> > +++ b/check
-> > @@ -603,6 +603,10 @@ _run_group() {
-> >  	# shellcheck disable=3DSC1090
-> >  	. "tests/${group}/rc"
-> > =20
-> > +	if declare -fF group_setup >/dev/null; then
-> > +		group_setup
-> > +	fi
->=20
-> This new hook adds some complexity, but I can not think of better way. So=
-, I
-> agree to add this hook.
->=20
-> > +
-> >  	if declare -fF group_requires >/dev/null; then
-> >  		group_requires
-> >  		if [[ -v SKIP_REASONS ]]; then
-> > diff --git a/tests/nvme/rc b/tests/nvme/rc
-> > index c1ddf412033b..4465dea0370b 100644
-> > --- a/tests/nvme/rc
-> > +++ b/tests/nvme/rc
-> > @@ -23,6 +23,7 @@ _check_conflict_and_set_default NVME_IMG_SIZE nvme_im=
-g_size 1G
-> >  _check_conflict_and_set_default NVME_NUM_ITER nvme_num_iter 1000
-> >  nvmet_blkdev_type=3D${nvmet_blkdev_type:-"device"}
-> >  NVMET_BLKDEV_TYPES=3D${NVMET_BLKDEV_TYPES:-"device file"}
-> > +nvme_target_control=3D"${NVME_TARGET_CONTROL:-}"
-> > =20
-> >  _NVMET_TRTYPES_is_valid() {
-> >  	local type
-> > @@ -135,6 +136,13 @@ _nvme_requires() {
-> >  	return 0
-> >  }
-> > =20
-> > +group_setup() {
-> > +	if [[ -n "${nvme_target_control}" ]]; then
-> > +		NVMET_TRTYPES=3D"$(${nvme_target_control} config --show-trtype)"
-> > +		NVMET_BLKDEV_TYPES=3D"$(${nvme_target_control} config --show-blkdev-=
-type)"
-> > +	fi
-> > +}
-> > +
-> >  group_requires() {
-> >  	_have_root
-> >  	_NVMET_TRTYPES_is_valid
-> > @@ -359,6 +367,10 @@ _cleanup_nvmet() {
-> >  		fi
-> >  	done
-> > =20
-> > +	if [[ -n "${nvme_target_control}" ]]; then
-> > +		return
-> > +	fi
-> > +
-> >  	for port in "${NVMET_CFS}"/ports/*; do
-> >  		name=3D$(basename "${port}")
-> >  		echo "WARNING: Test did not clean up port: ${name}"
-> > @@ -403,11 +415,26 @@ _cleanup_nvmet() {
-> > =20
-> >  _setup_nvmet() {
-> >  	_register_test_cleanup _cleanup_nvmet
-> > +
-> > +	if [[ -n "${nvme_target_control}" ]]; then
-> > +		def_hostnqn=3D"$(${nvme_target_control} config --show-hostnqn)"
-> > +		def_hostid=3D"$(${nvme_target_control} config --show-hostid)"
-> > +		def_host_traddr=3D"$(${nvme_target_control} config --show-host-tradd=
-r)"
-> > +		def_traddr=3D"$(${nvme_target_control} config --show-traddr)"
-> > +		def_trsvcid=3D"$(${nvme_target_control} config --show-trsvid)"
-> > +		def_subsys_uuid=3D"$(${nvme_target_control} config --show-subsys-uui=
-d)"
-> > +		def_subsysnqn=3D"$(${nvme_target_control} config --show-subsysnqn)"
->=20
-> I guess that the lines above caused unpredictable values in $def_*, then
-> caused many of the shellcheck warnings in tests/nvme/*. I'm afraid that a=
-nother
-> commit will be required to modify tests/nvme/* and address the warnings.
->=20
-> > +		return
-> > +	fi
-> > +
-> >  	modprobe -q nvmet
-> > +
-> >  	if [[ "${nvme_trtype}" !=3D "loop" ]]; then
-> >  		modprobe -q nvmet-"${nvme_trtype}"
-> >  	fi
-> > +
-> >  	modprobe -q nvme-"${nvme_trtype}"
-> > +
-> >  	if [[ "${nvme_trtype}" =3D=3D "rdma" ]]; then
-> >  		start_soft_rdma
-> >  		for i in $(rdma_network_interfaces)
-> > @@ -425,6 +452,7 @@ _setup_nvmet() {
-> >  			fi
-> >  		done
-> >  	fi
-> > +
-> >  	if [[ "${nvme_trtype}" =3D "fc" ]]; then
-> >  		modprobe -q nvme-fcloop
-> >  		_setup_fcloop "${def_local_wwnn}" "${def_local_wwpn}" \
-> > @@ -873,11 +901,13 @@ _find_nvme_passthru_loop_dev() {
-> > =20
-> >  _nvmet_target_setup() {
-> >  	local blkdev_type=3D"${nvmet_blkdev_type}"
-> > +	local subsys_uuid=3D"${def_subsys_uuid}"
-> > +	local subsysnqn=3D"${def_subsysnqn}"
-> >  	local blkdev
-> > +	local ARGS=3D()
-> >  	local ctrlkey=3D""
-> >  	local hostkey=3D""
-> > -	local subsysnqn=3D"${def_subsysnqn}"
-> > -	local subsys_uuid=3D"${def_subsys_uuid}"
-> > +	local blkdev
-> >  	local port
-> > =20
-> >  	while [[ $# -gt 0 ]]; do
-> > @@ -909,6 +939,22 @@ _nvmet_target_setup() {
-> >  		esac
-> >  	done
-> > =20
-> > +	if [[ -n "${hostkey}" ]]; then
-> > +		ARGS+=3D(--hostkey "${hostkey}")
-> > +	fi
-> > +	if [[ -n "${ctrlkey}" ]]; then
-> > +		ARGS+=3D(--ctrkey "${ctrlkey}")
-> > +	fi
-> > +
-> > +	if [[ -n "${nvme_target_control}" ]]; then
-> > +		eval "${nvme_target_control}" setup \
-> > +			--subsysnqn "${subsysnqn}" \
-> > +			--subsys-uuid "${subsys_uuid}" \
-> > +			--hostnqn "${def_hostnqn}" \
-> > +			"${ARGS[@]}" &> /dev/null
->=20
-> I suggest to replaces ${ARGS[@]} with ${ARGS[*]}. It avoids one of the
-> shellcheck warnings, hopefully.
->=20
-> > +		return
-> > +	fi
-> > +
-> >  	truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path)"
-> >  	if [[ "${blkdev_type}" =3D=3D "device" ]]; then
-> >  		blkdev=3D"$(losetup -f --show "$(_nvme_def_file_path)")"
-> > @@ -948,6 +994,13 @@ _nvmet_target_cleanup() {
-> >  		esac
-> >  	done
-> > =20
-> > +	if [[ -n "${nvme_target_control}" ]]; then
-> > +		eval "${nvme_target_control}" cleanup \
-> > +			--subsysnqn "${subsysnqn}" \
-> > +			> /dev/null
-> > +		return
-> > +	fi
-> > +
-> >  	_get_nvmet_ports "${subsysnqn}" ports
-> > =20
-> >  	for port in "${ports[@]}"; do
-> > --=20
-> > 2.45.2
-> > =
+And the bandwidth of a node is only 3100MB. While we used the patch
+and enable 6 polling task, the bandwidth can be 4000MB. It's a good 
+improvement.
+
+>>   You know this patch is not only resolving OS resource
+>> competition issue, but also the perf issue. We have analyzed if we
+>> still use workqueue(kworker) as target when initiator is polling
+>> driver(eg: spdk), then workqueue/kworker target is the bottleneck
+>> since every nvmf request may have a wait latency from queuing on
+>> workqueue to begin processing,
+>
+>That is incorrect, the work context polls the cq until it either drains
+>it
+>completely, or exhaust a quota of IB_POLL_BUDGET_WORKQUEUE (or
+>NVMET_TCP_IO_WORK_BUDGET). Not every command gets its own workqueue
+>queuing delay.
+>
+>And, what does the spdk initiator has to do with it? Didn't
+>understand...
+Yes, target workqueue implementation will poll a quota; but when the
+work
+load was high we found many work will wait too long(some of them at
+several
+ms to hundred ms shown above histogram). We use the spdk initiator(by 
+polling mode) to send IO's read/write to nvme disks of a kubernetes 
+cluster's remote node.
+
+>>   and the latency can be traced by wqlat
+>> of bcc (https://github.com/iovisor/bcc/blob/master/tools/wqlat.py).
+>> We think the latency is a disaster for the polling driver data plane,
+>> right?
+>
+>If you need a target that polls all the time, you should probably
+>resort 
+>to spdk.
+>If there is room for optimization in nvmet we'll gladly take it, but 
+>this is not the
+>way to go IMO.
+Yes, in the begining we did use the spdk as polling target driver,
+but we suffered from spdk target could not support disk hot plug/unplug
+well, sometimes it will cause data loss when did disk hot plug/unplug.
+So we switch to kernel target driver because in production customer's
+data security is first priority. And for kernel's target it has no
+polling mode target driver, so we implemented these patches.
+
+>> So we think adding a polling task mode on nvmet side to handle
+>> IO does really make sense; what's your opinion about this?
+>
+>I personally think that adding a polling kthread is questionable.
+>However there is a precedent, io_uring sqthreads. So please look
+>into what is done there. I don't mind having something like 
+>IB_POLL_IOTASK (or
+>io_task threads in nvmet-tcp) if its done correctly (leverages common
+>code).
+Yes, we have studied io_uring's code before implementing the patches.
+Actually we followed io_uring's design idea in these patches.
+
+>>   And you
+>> mentioned we should also look into nvmet-fc, I agree with you.
+>> However currently we have no nvmf-fc's testbed; if we get the
+>> testbed,
+>> will do that.
+>
+>There is fcloop, you should use that to test, same for loop. We don't
+>want
+>the transports to diverge in functionality.
+Ok, I will try, would you please give me some configuration guide for
+fcloop since I never used fcloop before.
+
+Thanks,
+Ping
+
+
 
