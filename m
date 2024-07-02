@@ -4,66 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52410C3064D
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jul 2024 10:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C34EC30658
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jul 2024 10:15:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Subject:Cc:To:From:Content-Type:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H8E+Sy95f1wvg9QrRX1Lu+FTsFS+/TcipMRWQA1B6NE=; b=pOyc7DSVpxscA6k5ysuSE2XKLp
-	O0tD4H3yt+4FPCZUwrShXP9Xg5C7rQ0gDjo4NSjSQRm2EMcMWoC7bdUGPM+CiSyHVSPS5sHPAqMG6
-	iZqVqaGB2r5qGR/JhtKSxazILVer9CZNqo7VccEg1uuX6V5AJjg65F8F+ylVpiad8hFqQXLXwLkwH
-	QdsOgGCDlibboO5J3IUSAZlc64ktb7TsjrU4oVIqkZvMWj560jNKVSvOoq9CeTGcvDdACr/zi4jEI
-	v9Df1g89pEydKP1CwgvMS+MwicTGsBfoMLoLLmDzFYiZRaepdGIDZ5dkaf+3zeaEBSpTG135t5Ay1
-	hupNjIFQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wlDjMGMoY5vmg8XP+VTRHx2+O1DZwsQWCcm7mjUpOdM=; b=t4J+Qg4tzTeskRKCyN9zeICT0r
+	GAr4Y8GuL7xwyDkktFQuF+CW7jCH6fqT4nfSc4P9T/v2JYI2iFdivNCOTwncWjXXlMomje0mwI4ou
+	nRXCAFKov8Vhex2zMWb//dSnPNRqcysNpQdE9O4NE757n8g8rxQV4gDR1SnhAwCRKW9s4+LmyLSwK
+	LGRTSUOn0DWlvDzAOX8ERMAzOUMmlKgAaa3sI7/UAJT3UupvPkPq/0IhX3xl27j6KJvo0c7z+Sm0J
+	eRvb3BpbpnNX5G9QcqNOrgOslsz7yc33md/voESIXlp74x5M55PJkZ5EzQBwl5amDSBe27gYhv/VQ
+	l10enMSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOaMB-00000006HdM-3sgX;
-	Tue, 02 Jul 2024 10:03:27 +0000
-Received: from m16.mail.163.com ([117.135.210.2])
-	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOaM9-00000006Hbn-01m4
+	id 1sOaXs-00000006JJw-2uiW;
+	Tue, 02 Jul 2024 10:15:32 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sOZXC-000000065hZ-2mDJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Jul 2024 10:03:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:Reply-To:MIME-Version;
-	bh=H8E+Sy95f1wvg9QrRX1Lu+FTsFS+/TcipMRWQA1B6NE=; b=g1tJa76q6qe2y
-	O1ICk0Tph2/eQ4o/z2y8d4IQVbWdVeG7TqWTV0ZoraxpK1IdU/LLXsNGyyQPbdd2
-	TV5Nss5DQ5u8DffCm0NWOahcufmG4bneu0IKSDqaep67ABbirYaNXhtH8W4WbxKa
-	gWU+hOCT33pbW3aisu1rUXqyuz498Q=
-Received: from localhost.localdomain (unknown [183.192.130.164])
-	by gzga-smtp-mta-g1-2 (Coremail) with SMTP id _____wD3_2Vb0INmpmSMBQ--.35615S3;
-	Tue, 02 Jul 2024 18:03:14 +0800 (CST)
-From: Ping Gan <jacky_gam_2001@163.com>
-To: sagi@grimberg.me,
-	hch@lst.de,
-	kch@nvidia.com,
+	Tue, 02 Jul 2024 09:10:59 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0574461A24;
+	Tue,  2 Jul 2024 09:10:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB9F3C4AF0A;
+	Tue,  2 Jul 2024 09:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719911445;
+	bh=pdK7V9xHdNBFoHCz59AGR5WOTx5xl2Vj8twOHvengYk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KTz8NtUcFIGsDCeQDH+Db9PamT6/nlViuegQcsznIc+DF9srj7x240NEr4il//Xc/
+	 8i6luwPgO0yiJWdOnRcYYR5NL7yfawxlEKbv7drJYa8B4a339djv3OvkkqYT8c8H3F
+	 2fawWfN+3TdW5300DYyGBMMir31FVKME3Mb0rFDkEafNNmyz4K9325deM1XSwCqvmZ
+	 j68Pmkr7YplRS9KcdrYMe4vUV3x2d5CnPCIdbVmN1wj2l59g8sgHeEOk1PKw3gUGEO
+	 sLuttA9bzZDdVviGMe/UOzCvZZ/jZMpHBqkeBTmM9HISPNn+o452NCrh1hoAqBSCYz
+	 dRKD1bcV6Pa7w==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	"Zeng, Oak" <oak.zeng@intel.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
 	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: ping.gan@dell.com,
-	Ping Gan <jacky_gam_2001@163.com>
-Subject: [PATCH 0/2] nvmet: support polling task for RDMA and TCP
-Date: Tue,  2 Jul 2024 18:02:15 +0800
-Message-Id: <20240702100215.2265-2-jacky_gam_2001@163.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20240702100215.2265-1-jacky_gam_2001@163.com>
-References: <f9828eb4-39be-498b-8b90-2cb7ce42d3c7@grimberg.me>
- <20240702100215.2265-1-jacky_gam_2001@163.com>
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v1 12/18] RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+Date: Tue,  2 Jul 2024 12:09:42 +0300
+Message-ID: <d18c454636bf3cfdba9b66b7cc794d713eadc4a5.1719909395.git.leon@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <cover.1719909395.git.leon@kernel.org>
+References: <cover.1719909395.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3_2Vb0INmpmSMBQ--.35615S3
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZF4DCrW8tr45XF1kWr1DGFg_yoWfWrc_ZF
-	WfJryDGa1xWa4DtFy7KryrZrZ5t3y5tryUuF4vqF4Utr98Xr1UAr1UAryrCF1xAr18JF15
-	JrnxAF4fCwsxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRmzutUUUUUU==
-X-Originating-IP: [183.192.130.164]
-X-CM-SenderInfo: 5mdfy55bjdzsisqqiqqrwthudrp/1tbiEB0QKWXAluk-igABsa
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240702_030325_441837_747F27CA 
-X-CRM114-Status: UNSURE (   6.78  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240702_021046_992855_9EC6BCBA 
+X-CRM114-Status: GOOD (  15.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,29 +93,128 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: sagi@grimberg.me
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When running nvmf on SMP platform, current nvme target's RDMA and
-TCP use kworker to handle IO. But if there is other high workload 
-in the system(eg: on kubernetes), the competition between the 
-kworker and other workload is very radical. And since the kworker
-is scheduled by OS randomly, it's difficult to control OS resource 
-and also tune the performance. If target support to use delicated 
-polling task to handle IO, it's useful to control OS resource and 
-gain good performance. So it makes sense to add polling task in
-rdma-rdma and rdma-tcp modules.
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Ping Gan (2):
-  nvmet-rdma: add polling cq task for nvmet-rdma
-  nvmet-tcp: add polling task for nvmet-tcp
+RDMA UMEM never supported DMA addresses returned from SWIOTLB, as these
+addresses should be programmed to the hardware which is not aware that
+it is bounce buffers and not real ones.
 
- drivers/nvme/target/rdma.c | 331 +++++++++++++++++++++++++++++++++-
- drivers/nvme/target/tcp.c  | 356 +++++++++++++++++++++++++++++++++++--
- 2 files changed, 665 insertions(+), 22 deletions(-)
+Instead of silently leave broken system for the users who didn't
+know it, let's be explicit and return an error to them.
 
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/infiniband/core/umem_odp.c | 81 +++++++++++++++---------------
+ 1 file changed, 41 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index 6e170cb5110c..12186717a892 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -42,7 +42,8 @@
+ #include <linux/interval_tree.h>
+ #include <linux/hmm.h>
+ #include <linux/pagemap.h>
+-
++#include <linux/dma-map-ops.h>
++#include <linux/swiotlb.h>
+ #include <rdma/ib_umem_odp.h>
+ 
+ #include "uverbs.h"
+@@ -51,50 +52,50 @@ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+ 				   const struct mmu_interval_notifier_ops *ops)
+ {
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
++	size_t page_size = 1UL << umem_odp->page_shift;
++	unsigned long start, end;
++	size_t ndmas, npfns;
+ 	int ret;
+ 
+ 	umem_odp->umem.is_odp = 1;
+ 	mutex_init(&umem_odp->umem_mutex);
++	if (umem_odp->is_implicit_odp)
++		return 0;
++
++	if (dev_use_swiotlb(dev->dma_device, page_size, DMA_BIDIRECTIONAL) ||
++	    is_swiotlb_force_bounce(dev->dma_device))
++		return -EOPNOTSUPP;
++
++	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
++	if (check_add_overflow(umem_odp->umem.address,
++			       (unsigned long)umem_odp->umem.length, &end))
++		return -EOVERFLOW;
++	end = ALIGN(end, page_size);
++	if (unlikely(end < page_size))
++		return -EOVERFLOW;
++
++	ndmas = (end - start) >> umem_odp->page_shift;
++	if (!ndmas)
++		return -EINVAL;
++
++	npfns = (end - start) >> PAGE_SHIFT;
++	umem_odp->pfn_list =
++		kvcalloc(npfns, sizeof(*umem_odp->pfn_list), GFP_KERNEL);
++	if (!umem_odp->pfn_list)
++		return -ENOMEM;
++
++	umem_odp->iova.dev = dev->dma_device;
++	umem_odp->iova.size = end - start;
++	umem_odp->iova.dir = DMA_BIDIRECTIONAL;
++	ret = dma_alloc_iova(&umem_odp->iova);
++	if (ret)
++		goto out_pfn_list;
+ 
+-	if (!umem_odp->is_implicit_odp) {
+-		size_t page_size = 1UL << umem_odp->page_shift;
+-		unsigned long start;
+-		unsigned long end;
+-		size_t ndmas, npfns;
+-
+-		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
+-		if (check_add_overflow(umem_odp->umem.address,
+-				       (unsigned long)umem_odp->umem.length,
+-				       &end))
+-			return -EOVERFLOW;
+-		end = ALIGN(end, page_size);
+-		if (unlikely(end < page_size))
+-			return -EOVERFLOW;
+-
+-		ndmas = (end - start) >> umem_odp->page_shift;
+-		if (!ndmas)
+-			return -EINVAL;
+-
+-		npfns = (end - start) >> PAGE_SHIFT;
+-		umem_odp->pfn_list = kvcalloc(
+-			npfns, sizeof(*umem_odp->pfn_list), GFP_KERNEL);
+-		if (!umem_odp->pfn_list)
+-			return -ENOMEM;
+-
+-
+-		umem_odp->iova.dev = dev->dma_device;
+-		umem_odp->iova.size = end - start;
+-		umem_odp->iova.dir = DMA_BIDIRECTIONAL;
+-		ret = dma_alloc_iova(&umem_odp->iova);
+-		if (ret)
+-			goto out_pfn_list;
+-
+-		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
+-						   umem_odp->umem.owning_mm,
+-						   start, end - start, ops);
+-		if (ret)
+-			goto out_free_iova;
+-	}
++	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
++					   umem_odp->umem.owning_mm, start,
++					   end - start, ops);
++	if (ret)
++		goto out_free_iova;
+ 
+ 	return 0;
+ 
 -- 
-2.26.2
+2.45.2
 
 
