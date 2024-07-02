@@ -4,117 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D946C30658
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jul 2024 16:28:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7785C30658
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jul 2024 19:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mPQrY/R+c1/dpFbHCsxL7vA916P/QbttkVplMgYUQDA=; b=F4RKabAYOhPdZlVUu9CKgpeIh3
-	TB6v3KZLl2Zwu390mcYgh/UUhPegLpKFpWpIGDRgIFPh3DpG4TaxQhFH0Nr+/bF5CcholTOvTHGFT
-	tiOsLRk8h0cJRNJbui5OhskvIDb4hfH/ATeS9oSvePRwoXs1RlOfPmur/my//5t82+zwGv9zvRB+k
-	jJqoCyG2F+2b5ZQ+1lx8FzE7f1QvIP05o3leXJfNNvT7mlwX7mKC5xrYIB87J+/Nytkuy+KI/SnyK
-	C9AMjOc8+kOm4z6Ooo5v0UCqipCekULEWuYaU19C+kbpaeveBpSAtjpDNw8bUVVlja3l7YFtImArj
-	wpH0+Gsw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=NEPcVloGJVi0kMi856li8WXobhyjRWBvmAFJPrUl1oc=; b=GnaOZxh7DxK3Mmr8wlBH+7yZPk
+	VCCiP0K6PTEAbUQ+ceqsB5L6IhyypSAPz+9MgqJQGH7tQ+4IPd/wiRDKIU8jJl3ID3RrUjrpIANhn
+	MNaGYO3dSbLkCKfkAgIe/miOxs18OFbpnn+/CKWx8JmwDCTnJdvKYWVTBBgIGN+oHMi6+wOO9ho22
+	Xrj5Ela/aKfy7KEefMcCHFnWH0YeWfx+lzfOMhlnbkrvb/SKkS9oE2dbMLYE5CUGpQw167ia7f8ut
+	96hniJLB/EQdHoK1y6TA9/WirB4bV3vEaCwMwMoN2YyEhUezOGrVxEyPEIb8FP5DXsFsTmpDBgWjS
+	NJQSYPkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOgMl-00000007NQx-0J1t;
-	Tue, 02 Jul 2024 16:28:27 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sOijd-00000007hyo-1KeK;
+	Tue, 02 Jul 2024 19:00:13 +0000
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOgMf-00000007NOp-30v1
+	id 1sOija-00000007hwV-12fM
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Jul 2024 16:28:24 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0BAAA1FBB0;
-	Tue,  2 Jul 2024 16:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719937700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mPQrY/R+c1/dpFbHCsxL7vA916P/QbttkVplMgYUQDA=;
-	b=Ta07kawNLSoOU9iudB6JwHsC2K+tJgCT6ht8shUpRQzMJe5vUKvp8VwEG9SxkVxpUIez6M
-	z5OM0m1jNuqXMCXSBYKFb/a1yPdvLTVGsSoH8/nriZ6L56w+OtBW04CUzFeWyCsb7/Yso8
-	EgcQpdK8MOtPz9NrPN2c0Kb33gcV7XA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719937700;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mPQrY/R+c1/dpFbHCsxL7vA916P/QbttkVplMgYUQDA=;
-	b=1v+AXUJUrl3jmCWfRQXzwk1nCm+UhXG4vFLBhNDCgmYq7iY2t+JSoxWS4zUV4PqSQ9zH2Y
-	pVnNvI12vBlhQfDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1719937700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mPQrY/R+c1/dpFbHCsxL7vA916P/QbttkVplMgYUQDA=;
-	b=Ta07kawNLSoOU9iudB6JwHsC2K+tJgCT6ht8shUpRQzMJe5vUKvp8VwEG9SxkVxpUIez6M
-	z5OM0m1jNuqXMCXSBYKFb/a1yPdvLTVGsSoH8/nriZ6L56w+OtBW04CUzFeWyCsb7/Yso8
-	EgcQpdK8MOtPz9NrPN2c0Kb33gcV7XA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1719937700;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mPQrY/R+c1/dpFbHCsxL7vA916P/QbttkVplMgYUQDA=;
-	b=1v+AXUJUrl3jmCWfRQXzwk1nCm+UhXG4vFLBhNDCgmYq7iY2t+JSoxWS4zUV4PqSQ9zH2Y
-	pVnNvI12vBlhQfDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F113113A9A;
-	Tue,  2 Jul 2024 16:28:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id K7PeOaMqhGZUOwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 02 Jul 2024 16:28:19 +0000
-Date: Tue, 2 Jul 2024 18:28:19 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
-	linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
-	Lawrence Troup <ltroup@cisco.com>, Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH V3] nvme-pci: allow unmanaged interrupts
-Message-ID: <hdvvssh5azfwzgymk3olmtfwwpc2fnyzjflqt4pl2jt3pm4s2w@nbek7v47kzcv>
-References: <20240702104112.4123810-1-ming.lei@redhat.com>
- <20240702115002.GA16219@lst.de>
- <ZoPum7MPTuA6/t7O@fedora>
+	Tue, 02 Jul 2024 19:00:12 +0000
+Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-3d841a56e1dso1204968b6e.2
+        for <linux-nvme@lists.infradead.org>; Tue, 02 Jul 2024 12:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719946808; x=1720551608; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NEPcVloGJVi0kMi856li8WXobhyjRWBvmAFJPrUl1oc=;
+        b=dh7ihlsmxPB/qLrAOtjjNWE7Al4/2ifZb9EZi6Jl2BA0ew8aIrB4R4Ay06WVOJmxHi
+         ij0SLL5IXOv0bgjpQVkrKJZ2ot28whI/9bxAFNDeN/OrUWveaABnY4sLamSQbOEfusge
+         xXg2OhWQsWvlHWw+tqKfa3Po3AOIxxbfMUsFBnPzIftK9JAEH6t81GU9YvgYULIJw9BA
+         57WBN2fBWTc9ixfZrEA4fkmqVOhxuZvpWUgjD6jCtVxIrzXYozw7unoUIb7saJWXwTae
+         zCX2RRyXZoSApLBDI36fOjUtUjuku4amd59JDiD4kdQpVf/9BGk7DzDZx3s3OXhGgPiZ
+         K1qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719946808; x=1720551608;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NEPcVloGJVi0kMi856li8WXobhyjRWBvmAFJPrUl1oc=;
+        b=l46D/uqVn28jtvw8M4Qm9kgAf4ghFCd0wOVSWqwPefftr0JvT+CMlr2Hfdix9WK+zn
+         al3DrHyR2ail8DgHt3Y5LjcjslZ08SgwPofOJwcTfO+lJAh3V3Xqb/YO8cAM+2eL/yI3
+         okGxfXGHdyzBJjRWyS6wRsOc6hqDwHIHUggZJhmrk11Fu3tWiXtn5dnJgUC+DqGlFiOx
+         zVi2xHlxjJvxjX7lombJ0voPZnqTN+ztF+4AhMjSF8ilkSSqMoK51gBxCKj0JPYp+BCR
+         IcB0M30bB1DYMHk4FA357ljlqXpzUceHGlwTeH8ectmsmmqU5UZt/EwdSH0AndIK74h0
+         zdyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVBg1G+P0yPTVFRDXsDxpQX0GiGu/gfcT506Bac9ocsDakIg4U8IFZcdTs5h3231Gc+L35Qe0UgBXG/Oefek3CMzFqioXArsREkzat64Ig=
+X-Gm-Message-State: AOJu0YzCLsKtSJ8/r0gl35VzUasIWSXxeQBm0xQqM1+OPqCha57/BWWE
+	L29LxP4ivf1z5phjSO/KqTuHnI3Cdyi406Ql7zdr8r0ssIDkSqW7
+X-Google-Smtp-Source: AGHT+IGFvWHJtacROjfKFmOg43PzeldA66DcuTBL4Gi+UrJFsKFpDfb1I7YxraopyCUscgjBJNzn/g==
+X-Received: by 2002:a05:6808:1823:b0:3d6:9c05:1aff with SMTP id 5614622812f47-3d6b2b257e1mr14737075b6e.10.1719946808156;
+        Tue, 02 Jul 2024 12:00:08 -0700 (PDT)
+Received: from [192.168.1.224] (syn-067-048-091-116.res.spectrum.com. [67.48.91.116])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-701f7b20963sm1824515a34.49.2024.07.02.12.00.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jul 2024 12:00:07 -0700 (PDT)
+Message-ID: <13d0a0db-e113-42c4-9fbe-74ebfa46f46b@gmail.com>
+Date: Tue, 2 Jul 2024 14:00:05 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZoPum7MPTuA6/t7O@fedora>
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/4] driver core: shut down devices asynchronously
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Martin Belanger <Martin.Belanger@dell.com>,
+ Oliver O'Halloran <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>,
+ Keith Busch <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>,
+ David Jeffery <djeffery@redhat.com>, Jeremy Allison <jallison@ciq.com>,
+ Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20240626194650.3837-1-stuart.w.hayes@gmail.com>
+ <20240626194650.3837-4-stuart.w.hayes@gmail.com>
+ <20240627055515.GC15415@lst.de>
+ <8a7ae125-883c-4c45-8b89-791066fb5866@gmail.com>
+ <20240702050414.GA22160@lst.de>
+Content-Language: en-US
+From: stuart hayes <stuart.w.hayes@gmail.com>
+In-Reply-To: <20240702050414.GA22160@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240702_092822_452396_2DBBD5BF 
-X-CRM114-Status: GOOD (  21.57  )
+X-CRM114-CacheID: sfid-20240702_120010_378878_F7B5D35A 
+X-CRM114-Status: GOOD (  24.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,38 +105,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 02, 2024 at 08:12:11PM GMT, Ming Lei wrote:
-> On Tue, Jul 02, 2024 at 01:50:02PM +0200, Christoph Hellwig wrote:
-> > On Tue, Jul 02, 2024 at 06:41:12PM +0800, Ming Lei wrote:
-> > > From: Keith Busch <kbusch@kernel.org>
-> > > 
-> > > People _really_ want to control their interrupt affinity in some
-> > > cases, such as Openshift with Performance profile, in which each
-> > > irq's affinity is completely specified from userspace. Turns out
-> > > that 'isolcpus=managed_irqs' isn't enough.
-> > > 
-> > > Add module parameter to allow unmanaged interrupts, just as some
-> > > SCSI drivers are doing.
-> > 
-> > Same as before: hell no.  We can't just add hacky global kernel
-> > parameters everywhere.  We need the cpu isolation infrastructure to
-> > work properly instead of piling hacks of hacks in every relevant driver.
-> 
-> Per my understanding, here cpu isolation infrastructure can't work for
-> Openshift, in which IO workload can be run on applications which are executed
-> on isolated CPUs, meantime userspace do expect that interrupts can be
-> triggered on user-specified CPU cores only in controllable way.  
-> 
-> Marcelo and Lawrence may have more input in this area.
-> 
-> Also irq allocation really belongs to device & driver stuff, how can that be
-> hack? We even may not abstract public API in block layer for handling
-> irq related thing.
 
-I am confused. I though you told me that my series 'nvme-pci: honor
-isolcpus configuration' is not necessary. But you still need this patch
-to get the affinity sorted out? Wouldn't it make sense to figure out how
-we can make my series working also for your use case? E.g. we could
-introduce another HK type (io_queue) to control the affinity. This would
-decouple if from the managed_irq option.
+
+On 7/2/2024 12:04 AM, Christoph Hellwig wrote:
+> On Mon, Jul 01, 2024 at 12:57:40PM -0500, stuart hayes wrote:
+>>> We discussed this before, but there is no summary of it and I of course
+>>> forgot the conclusion:
+>>>
+>>>    - why don't we do this by default?
+>>
+>> It is done by default in this version, for devices whose drivers opt-in.
+>>
+>> In the previous discussion, you mentioned that you thought "safe" was the
+>> only sensible option (where "safe" was driver opt-in to async shutdown)...
+>> that is the default (and only) option with this version.  Greg K-H also
+>> requested opt-in as well, and suggested that "on" (driver opt-out) could
+>> be removed.
+>>
+>>>    - why is it safe to user enable it?
+>>
+>> I guess it isn't necessarily safe, if there are any drivers that can't
+>> handle their devices shutting down asynchronously. I thought it would be
+>> nice to be able to enable driver opt-in from user space for testing, before
+>> changing the default setting for the driver.
+> 
+> I was mostly getting into the contradiction that either we think the
+> async shutdown is safe everywhere, in which case we don't need a driver
+> opt-in, or it is not, in which case allowing user to just enabled it
+> also seems like a bad idea.
+> 
+
+I understand. My thinking was that is was very likely to be safe (the initial
+version of this patch didn't have an opt-in or opt-out).
+
+I have no issue removing the sysfs attribute if you think that's best.
+
+>> I can correct these lines. I thought that an 80 character line length limit
+>> was no longer required, and saw another line a few lines above these that was
+>> even longer... and the checkpatch script didn't flag it either.
+> 
+> checkpatch is unfortunately completely broken, it flags totally harmless
+> things and doesn't catch other things.  > 80 characters are allowed for
+> individual lines where it improves readability.  The exact definition
+> of that depends on the maintainers and reviewers, but outside of
+> string constants I can't really find anything where it does.
+
+Got it, thanks for the feedback.
 
