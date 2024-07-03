@@ -4,66 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A84CC2BD09
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 10:05:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59AAEC2BD09
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 10:17:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Is1cfEeUNYF1r1md8mSw/qkiJWZBZJq3TBjLLkTXUKo=; b=0HnwBXhrgu5kbKJ5raNH0HL8ef
-	V+5Iw/tFZ8qRVDx5BJQM2Yb6bNkwPMEL/U84raIG+4xTBdIXr1nuFNv6Y71uVQuM1P1PP2+RW8nNN
-	wW4FPvu5DREP8S8HQWKH0FY4nnZIJtxew1KxD3/10KGYI1d+ft0+mWP+/jiR3a9MK8VUZikl4Ja2G
-	BUWm2ReyN8LqOmoT8JQVI8/79+TW8HV9XZRx5NX6jCZVWp8kFfsuZyGvzNYa11ZDMTMkCSPo9KVOe
-	Vp2F1LyY/0Zf+TVytv6+X37gY1YHJZrM2sobgeA1Fyv28BS+D4QvwYCVkrBMyCzWZWAnEILClTpZH
-	YKbhojQg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kEMQXAai3EQOftvN+ftFcYj8WUFSkq7plYqi6G2NryY=; b=0aq6tWv6BURDnkuya9WLZT4gE+
+	SRGZnSKTbqe3bBX2eBWytdsN5YvGDzwHvoAwYckp4ogTM1JPTvZ0OhruU1Ke21mLHZcEocuJxF28O
+	5gNeY8LtjJ/yyiJrAXljNcytCN4bgx0ABWgLEIHFNr/qQiqQyq/m270bqqlYfbghfjnSfXa7i324a
+	jpwI1L6qNYJWKu1JoaWpfTTWwFGNz50OLAsYO03/iW7vzYonLWWiBSy9p7H6ETl31jmA8iH9lPf7l
+	8z+gMy8edMgEPbbm0XlGJQruypA6gajv7TOX1OVZh8nBLvQnYLoeLKSavV9Akgn9Nj9Y8gKNNMvAc
+	aFT1pcuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOwrD-00000009fZf-34iF;
-	Wed, 03 Jul 2024 10:04:59 +0000
-Received: from smtpbguseast1.qq.com ([54.204.34.129])
+	id 1sOx3G-00000009iG8-2pXb;
+	Wed, 03 Jul 2024 10:17:26 +0000
+Received: from smtpbgbr1.qq.com ([54.207.19.206])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOwr7-00000009fYE-1M8R
+	id 1sOx3C-00000009iCo-48OK
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jul 2024 10:04:55 +0000
-X-QQ-mid: bizesmtpsz5t1720001040tepgz58
-X-QQ-Originating-IP: JVJParCQJX31txIFihbcR4urx36FbLnqLbvHyv5bb5A=
-Received: from [10.20.53.89] ( [113.57.152.160])
+	Wed, 03 Jul 2024 10:17:25 +0000
+X-QQ-mid: bizesmtpsz12t1720001725tyek6r
+X-QQ-Originating-IP: 0CPp79MTsHqkM18lAy7D0pnMC3EqUbGTyZ/+H3IFfbo=
+Received: from localhost.localdomain ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 03 Jul 2024 18:03:58 +0800 (CST)
+	id ; Wed, 03 Jul 2024 18:15:23 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11011914129124645858
-Message-ID: <A929246EF5D140F2+6a40266f-73c2-4ec3-9667-3503ed1ff3a8@uniontech.com>
-Date: Wed, 3 Jul 2024 18:03:58 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND. PATCH] nvme/pci: Add APST quirk for Lenovo N60z laptop
-To: Keith Busch <kbusch@kernel.org>
-Cc: guanwentao@uniontech.com, huanglin@uniontech.com, axboe@fb.com,
- hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <AFD9EEAB191702D0+20240622042108.10427-1-wangyuli@uniontech.com>
- <Znnp6jIfcNYoDb2m@kbusch-mbp.dhcp.thefacebook.com>
+X-BIZMAIL-ID: 5959315883507809437
 From: WangYuli <wangyuli@uniontech.com>
-Autocrypt: addr=wangyuli@uniontech.com; keydata=
- xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
- IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
- qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
- 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
- 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
- VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
- DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
- o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
-In-Reply-To: <Znnp6jIfcNYoDb2m@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	guanwentao@uniontech.com,
+	huanglin@uniontech.com
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	WangYuli <wangyuli@uniontech.com>
+Subject: [PATCH v2] nvme/pci: Add DEEPEST_PS quirk for Lenovo N60z laptop
+Date: Wed,  3 Jul 2024 18:15:13 +0800
+Message-ID: <C0A44727E997523C+20240703101513.72590-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.43.4
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240703_030453_873313_B977C011 
-X-CRM114-Status: GOOD (  10.83  )
+X-CRM114-CacheID: sfid-20240703_031723_945704_6BC237D8 
+X-CRM114-Status: UNSURE (   9.71  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,28 +71,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+There is a hardware power-saving problem with the Lenovo N60z
+board. When turn it on and leave it for 30 minutes, there is a
+20% chance that a nvme disk will not wake up until reboot.
 
-On 2024/6/25 05:49, Keith Busch wrote:
-> Based on your commit message, it sounds like the platform works the
-> majority of the time. Is it possible that NVME_QUIRK_NO_DEEPEST_PS is
-> sufficient for this? Or do you really need to disable it entirely? The
-> power usage differences can be meaningful.
->
-> Also, 30 minutes of idle is an eternity for APST to kick in, so I'm
-> curious if there's something else going on here or if the breakage
-> occurs earlier than that.
->
-When we "quiesce" a machine, some applications may not stop disk I/O 
-promptly,
-so the 30 minutes include the time to wait for these background 
-processes to quiet down.
+Signed-off-by: hmy <huanglin@uniontech.com>
+Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ drivers/nvme/host/pci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Thanks for the reminder. I've tested it and 'NVME_QUIRK_NO_DEEPEST_PS' 
-is effective and
-more appropriate than 'NVME_QUIRK_NO_APST'. I'll send a patch v2 to 
-update my code.
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 282d808400c5..4c840d468fce 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2903,6 +2903,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 			return NVME_QUIRK_SIMPLE_SUSPEND;
+ 	}
+ 
++	/*
++	 * NVMe SSD drops off the PCIe bus after system idle
++	 * for 30 minuites on a Lenovo N60z board.
++	 */
++	if (dmi_match(DMI_BOARD_NAME, "LXKT-ZXEG-N6"))
++		return NVME_QUIRK_NO_DEEPEST_PS;
++
+ 	return 0;
+ }
+ 
 -- 
-WangYuli <wangyuli@uniontech.com>
+2.43.4
 
 
