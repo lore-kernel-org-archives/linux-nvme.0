@@ -4,79 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE32FC2BD09
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 15:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42A5FC2BD09
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 17:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qP4/CssV7EecAy6DBJ2E05mJLaRfSKqBc4cWbAljFuc=; b=w0/EimITAVkzdFhLTqhM0sGTUf
-	Dexqvi8xeRkMMEcu7/pv+JPhHOd5AKme6CThnBfgBy+Vueulg14Azz/SNtazJDZxwvMAHGmuKGR+B
-	MO6UlNQOUUoYNbytR6QzQbgmKt/WCjbXhl5gssPHdpTvW7Kyt1B4Ay1ARlMvKDLprPlad9riuND6G
-	jJPRo1j1a2CHDX1SQUiv44hVe/b9xjmnG8UAtI9q/kn/DGpDjGjBpyaENuck4GoPQ2JH7/mlhVJbc
-	5H8VXE7SheYBTZ2/hv9pSGIbzbuFPlAgLmpf1fBieBbByWsHqaAmodMQB3qAJPsHgK7U5Rt9XwkZf
-	dQW+RK+w==;
+	bh=lCbQ3e/fctAMsFyFSsmL2a2i8WF2NmpOHJaDLgzQpK0=; b=juGFgeRO3OOMGZwKAtGA0Q7cHc
+	jeXHc0PEivOhPWaBo1EtAH8PFdBn2KHBmQqCZD+sfKIwkRrtihX/7MPteoKkMbi/opliAutr3seN3
+	M+8VeuTlykmtCCFwYYIXGxlO1PR9Kg1FdkzO4S5mcV90IDPfVkkqeGsFY+pElPo/RJdu3HfeZr5RJ
+	36skaJ6op2MO+A6c6J7DuPDd/lPlk4h+orcam9MgEhy6JixOp5KfgcjEIixIC/lmEvaZZW13uc/eo
+	gJn6by0HTaYewgVfCn+AZLuVd1ClzgTgSLrlxmI2bYUBzeU//IJoQRZXhjH04Uw2i3q9g0JQR6nHI
+	HD6ELXNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sP2GT-0000000Akem-158K;
-	Wed, 03 Jul 2024 15:51:25 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1sP3Rq-0000000Ax0j-0maw;
+	Wed, 03 Jul 2024 17:07:14 +0000
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sP2GR-0000000Akdv-0puV
+	id 1sP3Rm-0000000AwzR-3xQb
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jul 2024 15:51:24 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id CB14ACE2B26;
-	Wed,  3 Jul 2024 15:51:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E69C2BD10;
-	Wed,  3 Jul 2024 15:51:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720021880;
-	bh=M2TBqenJePHMkynb5A1SIOpLVmH3H7D/iXSAlQYnb5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kc+qeyNjcvMfXoLoLSYrV/OjBmRYjN560U9rM5g1KNtJfyhDmn8WFYPVUX8lcMSL6
-	 khJVCU+KU0IiJB0lH+20qj4DzqeRN3kur43qZjoGlHey1qRNicXUsAjw8d2newAM5x
-	 C+2La9qYNOaB19TaKRZeUR8kFkS7h1waDmf4ltPCmAiGBKFugxc54BFHXWm/8SeN1a
-	 GFdr9hsxxrrrevbZ0JCLF/Lyi27Mu1ricAFJVROJUceiw5jv8XbgqQBBd0Xa8n4q+N
-	 RK6NYvdVvLuJ0x0RwfmANnmb6Fu17VSB8t/0ZiSc4qAzbWALiN0J6a9hx7YlBm/nHW
-	 7fUJVXY2mTrPQ==
-Date: Wed, 3 Jul 2024 18:51:14 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	"Zeng, Oak" <oak.zeng@intel.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v1 00/18] Provide a new two step DMA API mapping API
-Message-ID: <20240703155114.GB95824@unreal>
-References: <cover.1719909395.git.leon@kernel.org>
- <20240703054238.GA25366@lst.de>
- <20240703105253.GA95824@unreal>
- <20240703143530.GA30857@lst.de>
+	Wed, 03 Jul 2024 17:07:12 +0000
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-2c7fa0c9a8cso3518678a91.1
+        for <linux-nvme@lists.infradead.org>; Wed, 03 Jul 2024 10:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720026429; x=1720631229; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lCbQ3e/fctAMsFyFSsmL2a2i8WF2NmpOHJaDLgzQpK0=;
+        b=kyn3Dxo7Ao3sEt74ljtB01xSOIqfrceJYcsk6yz6i+ddqszyMAapkI8n2hXNg29Q5f
+         KPjDvPfylSsannfHroibkF0CvNKmgJ+XryOw1h9cZnV5Q2OLPVi9Gt15P8UTlReVwTtR
+         dTqvm1MNVDq9QROKPsSi1kfpuckOOMPQ0EJ6OGxIO2SkssSlqfesA+YWhk0xo6B0XnNe
+         XDCjH95/6UbGRg+gC8nBp4wG6MOPfXMYyB85MI26pvJKz+LRuwFxHrwspQCsMm+Enxop
+         AB16u9Y4nNCReocv45Hq9kjikO+KHciVONcCL1MIjuMt/xKnDx5dwSIll3XqDlk0gfbv
+         M7Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720026429; x=1720631229;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lCbQ3e/fctAMsFyFSsmL2a2i8WF2NmpOHJaDLgzQpK0=;
+        b=IZfrADDkfWGw8Rc5/f4b6aIgGeWH27uI0pvrJ2MIy5CRXWaUbsp47gRX1ZRrX9yRdq
+         pApNrURg3C5M6Ga76I0g7WBx6Q+an3XYSMepCA1Vr1WKmx+gz/BtPnG+QtgZXpIe0KJ8
+         IKfZk8JfW07Xaueebluyf6EYkBOeGKB0vu810XwkSBUetGs/Ci+UHF+UlARWxHW8B6jC
+         7OxmhGmw4cl9MTzJxPC3ki4WW+6bQs6mgVBllvvChoe8vI4CUPMrXjZPt9W+CodhsIOb
+         BX0hvu64LfnQWbsDstvyMSaHHk57yA1OZmljK67psnrkW1l1Ym42rXpMhFg0yFaXJ3MC
+         hLZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPeHJXj56q/6Ns7FKoe6WKz1RqC5YRzxF6l39obpqEunVuKoUp5Et9ng69y3kkyFGgFpaBeFoyCR6tRT4tPTEdLEpnDWEZnElfABkqsKw=
+X-Gm-Message-State: AOJu0YzeW9yk1DEhlRmc8RstFeKbYh9iILkvtr9R9NLFnI0WxICHtX06
+	Keyr1bmCigCTOzw/inaq3GYMFx6t99LiTy7ze6ugxy/DnvqAiYKE
+X-Google-Smtp-Source: AGHT+IHD/uCEq3nsAsg7M9ZkpbNNafKX++rH2FgH/jfaEFVxkzDQx9UkuAWZfst9fHUQXzcKHWCk5Q==
+X-Received: by 2002:a17:90a:784a:b0:2c7:c306:8a69 with SMTP id 98e67ed59e1d1-2c93d6c68cfmr8345947a91.9.1720026428764;
+        Wed, 03 Jul 2024 10:07:08 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c98adcfa1esm536158a91.23.2024.07.03.10.07.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 10:07:08 -0700 (PDT)
+Date: Wed, 3 Jul 2024 07:07:06 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/4] nvme-tcp: per-controller I/O workqueues
+Message-ID: <ZoWFOnvgWEiKipW6@slm.duckdns.org>
+References: <20240703135021.34143-1-hare@kernel.org>
+ <20240703135021.34143-2-hare@kernel.org>
+ <7e4444d0-f156-439e-9363-4beb86bb6248@grimberg.me>
+ <c9f73300-9860-4965-88af-9a7b4d7b0e1b@suse.de>
+ <ad15b94b-9414-4ec1-9acf-465a8b190fe5@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240703143530.GA30857@lst.de>
+In-Reply-To: <ad15b94b-9414-4ec1-9acf-465a8b190fe5@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240703_085123_625185_2DF5B6B8 
-X-CRM114-Status: GOOD (  19.98  )
+X-CRM114-CacheID: sfid-20240703_100711_006592_AA1C8BFA 
+X-CRM114-Status: GOOD (  26.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,80 +97,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 03, 2024 at 04:35:30PM +0200, Christoph Hellwig wrote:
-> On Wed, Jul 03, 2024 at 01:52:53PM +0300, Leon Romanovsky wrote:
-> > On Wed, Jul 03, 2024 at 07:42:38AM +0200, Christoph Hellwig wrote:
-> > > I just tried to boot this on my usual qemu test setup with emulated
-> > > nvme devices, and it dead-loops with messages like this fairly late
-> > > in the boot cycle:
-> > > 
-> > > [   43.826627] iommu: unaligned: iova 0xfff7e000 pa 0x000000010be33650 size 0x1000 min_pagesz 0x1000
-> > > [   43.826982] dma_mapping_error -12
-> > > 
-> > > passing intel_iommu=off instead of intel_iommu=on (expectedly) makes
-> > > it go away.
+Hello,
+
+On Wed, Jul 03, 2024 at 06:16:32PM +0300, Sagi Grimberg wrote:
+...
+> > > OK, wonder what is the cost here. Is it in ALL conditions better
+> > > than a single workqueue?
 > > 
-> > Can you please share your kernel command line and qemu?
-> > On my and Chaitanya setups it works fine.
+> > Well, clearly not on memory-limited systems; a workqueue per controller
+> > takes up more memory that a single one. And it's questionable whether
+> > such a system isn't underprovisioned for nvme anyway.
+
+Each workqueue does take up some memory but it's not enormous (I think it's
+512 + 512 * nr_cpus + some extra + rescuer if MEM_RECLAIM). Each workqueue
+is just a frontend to shared backend worker pools, so splitting a workqueue
+into multiple that do about the same work usually won't create more workers.
+
+> > We will see a higher scheduler interaction as the scheduler needs to
+> > switch between workqueues, but that was kinda the idea. And I doubt one
+
+This isn't necessarily true. The backend worker pools don't care whether you
+have one or multiple workqueues. For per-cpu workqueues, the concurrency
+management applies across different workqueues. For unbound workqueues,
+because concurrency limit is per workqueue, if there are enough concurrent
+work items being queued, the concurrent number of running kworkers may go up
+but that's just because the total concurrency went up. Whether you have one
+or many workqueues, as long as workqueues share the properties, they map to
+the same backend worker pools and execute exactly the same way.
+
+> > can measure it; the overhead between switching workqueues should be
+> > pretty much identical to the overhead switching between workqueue items.
+
+They are identical.
+
+> > I could do some measurements, but really I don't think it'll yield any
+> > surprising results.
 > 
-> qemu-system-x86_64 \
->         -nographic \
-> 	-enable-kvm \
-> 	-m 6g \
-> 	-smp 4 \
-> 	-cpu host \
-> 	-M q35,kernel-irqchip=split \
-> 	-kernel arch/x86/boot/bzImage \
-> 	-append "root=/dev/vda console=ttyS0,115200n8 intel_iommu=on" \
->         -device intel-iommu,intremap=on \
-> 	-device ioh3420,multifunction=on,bus=pcie.0,id=port9-0,addr=9.0,chassis=0 \	
->         -blockdev driver=file,cache.direct=on,node-name=root,filename=/home/hch/images/bookworm.img \
-> 	-blockdev driver=host_device,cache.direct=on,node-name=test,filename=/dev/nvme0n1p4 \
-> 	-device virtio-blk,drive=root \
-> 	-device nvme,drive=test,serial=1234
-
-Thanks, Chaitanya will take a look.
-
-If we put aside this issue, do you think that the proposed API is the right one?
-
-BTW, I have more fancy command line, it is probably the root cause of working/not-working:
-/opt/simx/bin/qemu-system-x86_64
-        -append root=/dev/root rw ignore_loglevel rootfstype=9p
-        rootflags="cache=loose,trans=virtio" earlyprintk=serial,ttyS0,115200
-                console=hvc0 noibrs noibpb nopti nospectre_v2 nospectre_v1
-                l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off
-                mitigations=off panic_on_warn=1
-                intel_iommu=on iommu=nopt iommu.forcedac=true
-                vfio_iommu_type1.allow_unsafe_interrupts=1
-                systemd.hostname=mtl-leonro-l-vm
-        -chardev stdio,id=stdio,mux=on,signal=off   
-        -cpu host                                  
-        -device virtio-rng-pci                    
-        -device virtio-balloon-pci               
-        -device isa-serial,chardev=stdio        
-        -device virtio-serial-pci              
-        -device virtconsole,chardev=stdio     
-        -device virtio-9p-pci,fsdev=host_fs,mount_tag=/dev/root  
-        -device virtio-9p-pci,fsdev=host_bind_fs0,mount_tag=bind0
-        -device virtio-9p-pci,fsdev=host_bind_fs1,mount_tag=bind1
-        -device virtio-9p-pci,fsdev=host_bind_fs2,mount_tag=bind2
-        -device intel-iommu,intremap=on 
-        -device connectx7              
-        -device nvme,drive=drv0,serial=foo 
-        -drive file=/home/leonro/.cache/mellanox/mkt/nvme-1g.raw,if=none,id=drv0,format=raw 
-        -enable-kvm                                                                        
-        -fsdev local,id=host_bind_fs1,security_model=none,path=/logs          
-        -fsdev local,id=host_fs,security_model=none,path=/mnt/self           
-        -fsdev local,id=host_bind_fs0,security_model=none,path=/plugins     
-        -fsdev local,id=host_bind_fs2,security_model=none,path=/home/leonro
-        -fw_cfg etc/sercon-port,string=2  
-        -kernel /home/leonro/src/kernel/arch/x86/boot/bzImage 
-        -m 5G -machine q35,kernel-irqchip=split              
-        -mon chardev=stdio                                  
-        -net nic,model=virtio,macaddr=52:54:01:d8:e5:f9    
-        -net user,hostfwd=tcp:127.0.0.1:46645-:22  
-        -no-reboot -nodefaults -nographic -smp 16 -vga none 
-
+> I'm just not used to seeing drivers create non-global workqueues. I've seen
+> some filesystems have workqueues per-super, but
+> it's not a common pattern around the kernel.
 > 
-> 
+> Tejun,
+> Is this a pattern that we should pursue? Do multiple symmetric workqueues
+> really work better (faster, with less overhead) than
+> a single global workqueues?
+
+Yeah, there's nothing wrong with creating multiple if for the right reasons.
+Here are some reasons I can think of:
+
+- Not wanting to share concurrency limit so that one one device can't
+  interfere with another. Not sharing rescuer may also have *some* benefits
+  although I doubt it'd be all that noticeable.
+
+- To get separate flush domains. e.g. If you want to be able to do
+  flush_workqueue() on the work items that service one device without
+  getting affected by work items from other devices.
+
+- To get different per-device workqueue attribtes - e.g. maybe you wanna
+  confine workers serving a specific device to a subset of CPUs or give them
+  higher priority.
+
+Note that separating workqueues does not necessarily change how things are
+executed. e.g. You don't get your own kworkers.
+
+Thanks.
+
+-- 
+tejun
 
