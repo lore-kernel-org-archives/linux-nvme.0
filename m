@@ -4,59 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59AAEC2BD09
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 10:17:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 660CAC2BD09
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 10:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=kEMQXAai3EQOftvN+ftFcYj8WUFSkq7plYqi6G2NryY=; b=0aq6tWv6BURDnkuya9WLZT4gE+
-	SRGZnSKTbqe3bBX2eBWytdsN5YvGDzwHvoAwYckp4ogTM1JPTvZ0OhruU1Ke21mLHZcEocuJxF28O
-	5gNeY8LtjJ/yyiJrAXljNcytCN4bgx0ABWgLEIHFNr/qQiqQyq/m270bqqlYfbghfjnSfXa7i324a
-	jpwI1L6qNYJWKu1JoaWpfTTWwFGNz50OLAsYO03/iW7vzYonLWWiBSy9p7H6ETl31jmA8iH9lPf7l
-	8z+gMy8edMgEPbbm0XlGJQruypA6gajv7TOX1OVZh8nBLvQnYLoeLKSavV9Akgn9Nj9Y8gKNNMvAc
-	aFT1pcuA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VQ0x5M8745iJdoh6tHN0tzYonslhz7xwJWvLxeue+x0=; b=l3udHXiG9f2fHxCfV9scxb1+iI
+	etaMiG9h19eBfBkzVeyTfIB7ioxgmCSLKUtvdjnhxY9r13NfV5juv43lOC+YbNUKomLXCc4j1UxWa
+	zQSWRsfORVCJmSvzb49S3TKhoMiqPzSXYT6Ir0EPDHYeYbE+RsE+Uy5TPWLddN1aal8txMmXUzfsX
+	MvG8BKvWs/zy3T/2g1wbCsOlRn9ZsR4f8G0NEhpgVM8HS03+thUgQsDuUijgUlL7As/Ym7u4tn17k
+	1XuxuIn6KqgaTaaDTwu7jTIoNeoN4y/KhCwMVMkCIENsK0wew+0zLHRSF8ykleQLlI0Mxn8oJwGE5
+	XIfF1twQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOx3G-00000009iG8-2pXb;
-	Wed, 03 Jul 2024 10:17:26 +0000
-Received: from smtpbgbr1.qq.com ([54.207.19.206])
+	id 1sOxS5-00000009r9M-1ttC;
+	Wed, 03 Jul 2024 10:43:05 +0000
+Received: from out-172.mta1.migadu.com ([95.215.58.172])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOx3C-00000009iCo-48OK
+	id 1sOxS2-00000009r7L-0wxg
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jul 2024 10:17:25 +0000
-X-QQ-mid: bizesmtpsz12t1720001725tyek6r
-X-QQ-Originating-IP: 0CPp79MTsHqkM18lAy7D0pnMC3EqUbGTyZ/+H3IFfbo=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 03 Jul 2024 18:15:23 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 5959315883507809437
-From: WangYuli <wangyuli@uniontech.com>
-To: kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	guanwentao@uniontech.com,
-	huanglin@uniontech.com
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	WangYuli <wangyuli@uniontech.com>
-Subject: [PATCH v2] nvme/pci: Add DEEPEST_PS quirk for Lenovo N60z laptop
-Date: Wed,  3 Jul 2024 18:15:13 +0800
-Message-ID: <C0A44727E997523C+20240703101513.72590-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.43.4
+	Wed, 03 Jul 2024 10:43:04 +0000
+X-Envelope-To: hch@lst.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1720003375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VQ0x5M8745iJdoh6tHN0tzYonslhz7xwJWvLxeue+x0=;
+	b=UGo3+dYatV3+LHOqZstdITsJeOnkGNrjjKudxHxps7f66nrP6L2jPec8eQh+kgocd01E++
+	5ZH9rxoshew0yf6Kc3Deyv+ijw/nOCWKOnj/sPJHL/iD1p19uxG1dh3GI+QQiruFD8TsYh
+	lVwQS8zKiifLTR0s/1tHh0utloLHppM=
+X-Envelope-To: leon@kernel.org
+X-Envelope-To: axboe@kernel.dk
+X-Envelope-To: jgg@ziepe.ca
+X-Envelope-To: robin.murphy@arm.com
+X-Envelope-To: joro@8bytes.org
+X-Envelope-To: will@kernel.org
+X-Envelope-To: kbusch@kernel.org
+X-Envelope-To: oak.zeng@intel.com
+X-Envelope-To: kch@nvidia.com
+X-Envelope-To: sagi@grimberg.me
+X-Envelope-To: bhelgaas@google.com
+X-Envelope-To: logang@deltatee.com
+X-Envelope-To: yishaih@nvidia.com
+X-Envelope-To: shameerali.kolothum.thodi@huawei.com
+X-Envelope-To: kevin.tian@intel.com
+X-Envelope-To: alex.williamson@redhat.com
+X-Envelope-To: m.szyprowski@samsung.com
+X-Envelope-To: jglisse@redhat.com
+X-Envelope-To: akpm@linux-foundation.org
+X-Envelope-To: linux-block@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: linux-rdma@vger.kernel.org
+X-Envelope-To: iommu@lists.linux.dev
+X-Envelope-To: linux-nvme@lists.infradead.org
+X-Envelope-To: linux-pci@vger.kernel.org
+X-Envelope-To: kvm@vger.kernel.org
+X-Envelope-To: linux-mm@kvack.org
+Message-ID: <f781c3ea-8097-4e5f-84b2-0cd1f49bdb96@linux.dev>
+Date: Wed, 3 Jul 2024 18:42:42 +0800
 MIME-Version: 1.0
+Subject: Re: [RFC PATCH v1 00/18] Provide a new two step DMA API mapping API
+To: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ "Zeng, Oak" <oak.zeng@intel.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+References: <cover.1719909395.git.leon@kernel.org>
+ <20240703054238.GA25366@lst.de>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20240703054238.GA25366@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240703_031723_945704_6BC237D8 
-X-CRM114-Status: UNSURE (   9.71  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240703_034302_723252_E61A2C3A 
+X-CRM114-Status: GOOD (  11.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,36 +110,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There is a hardware power-saving problem with the Lenovo N60z
-board. When turn it on and leave it for 30 minutes, there is a
-20% chance that a nvme disk will not wake up until reboot.
+在 2024/7/3 13:42, Christoph Hellwig 写道:
+> I just tried to boot this on my usual qemu test setup with emulated
+> nvme devices, and it dead-loops with messages like this fairly late
+> in the boot cycle:
+> 
+> [   43.826627] iommu: unaligned: iova 0xfff7e000 pa 0x000000010be33650 size 0x1000 min_pagesz 0x1000
+> [   43.826982] dma_mapping_error -12
+> 
+> passing intel_iommu=off instead of intel_iommu=on (expectedly) makes
 
-Signed-off-by: hmy <huanglin@uniontech.com>
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- drivers/nvme/host/pci.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+I also confronted this problem.IMO, if intel_iommu=off, the driver of 
+drivers/iommu can not be used.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 282d808400c5..4c840d468fce 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2903,6 +2903,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 			return NVME_QUIRK_SIMPLE_SUSPEND;
- 	}
- 
-+	/*
-+	 * NVMe SSD drops off the PCIe bus after system idle
-+	 * for 30 minuites on a Lenovo N60z board.
-+	 */
-+	if (dmi_match(DMI_BOARD_NAME, "LXKT-ZXEG-N6"))
-+		return NVME_QUIRK_NO_DEEPEST_PS;
-+
- 	return 0;
- }
- 
--- 
-2.43.4
+If I remember correctly, some guys in the first version can fix this 
+problem. I will check the mails.
+
+To me, I just revert this commit because I do not use this commit about 
+nvme.
+
+Zhu Yanjun
+
+> it go away.
+> 
 
 
