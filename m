@@ -4,52 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3CEEC2BD09
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 05:24:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01B9DC2BD09
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 05:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zZ5pRoj6ASiWQl43qED1aOsiR+0zmum+aKUxJ27/Rrc=; b=yIsyjgr3gzcbv3pkJGgxx9hqhT
-	pSiDZujTE4erut4gCMsrj1xlI/YMr936hV4TStuSN+Sd1V7A4li7AxBsP9s7SewJRjKcfKTwIFak9
-	8iGe46i88IYmfq9XX+bNJ/oKHv6dHew+O77qkbdyYebXPtSIA6kLCbyWzsYEj6261I1ouD9u6Yz3q
-	xDD9kAdOjeDADYbS8YrxXRRQ1Nf5Om/DHPMEF8QxRNZVJn7dQ671IpqCqXR2sdU4LuJ3PBoancDPt
-	DsNnMHN0ES4HQHRk9Q6zlvKkxMP9FOJtyqZsDdV8fCJtcva95WAq7THVW9SWWT9jHwsY2Z5k+cHAM
-	kOSwbZzw==;
+	bh=nNTxIee6+fNrZf/QasFUxDqsFFDOf6ZXvrLCIf+W7jI=; b=cQWaSzWRz+Fyv0W2mH1jW9IWSS
+	GZiqvf87HOHUY/TTji6eRPzAKD81RSB/KrF3n4FJHCABUfsBUPh3lKZRrkBsj+tJYf+ZHniIe3cDU
+	Ip+Q/PmDtRns3AJtGuYsuk4fp8IQ5kbaSh6ZZl3tt0rN/ompQAga4vOcrnwBMM4e11mzm2+YiIIT9
+	VATz9e3FB1+z7ttxl9IjyZANLskquWfvGkn5Fgo7nl92geG8n4vJqZaCY/C0BUSuiWqwPrFUjwmUV
+	UVMIim8dYPsj4ipnw7Z5OlgEBmEjFFMag7sg0aPlDfHBqEvG8c+HnZwRCOIfF1Hs6xGqUBCohVMkY
+	1De9+nvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOsTS-000000092hU-1m8i;
-	Wed, 03 Jul 2024 05:24:10 +0000
+	id 1sOslS-000000095LX-2bBJ;
+	Wed, 03 Jul 2024 05:42:46 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sOsTP-000000092gw-1t5v
+	id 1sOslP-000000095Kf-18PW
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jul 2024 05:24:08 +0000
+	Wed, 03 Jul 2024 05:42:44 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1B5E6227A87; Wed,  3 Jul 2024 07:24:03 +0200 (CEST)
-Date: Wed, 3 Jul 2024 07:24:03 +0200
+	id A3C19227A87; Wed,  3 Jul 2024 07:42:38 +0200 (CEST)
+Date: Wed, 3 Jul 2024 07:42:38 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	"Lawrence Troup (ltroup)" <ltroup@cisco.com>,
-	Keith Busch <kbusch@kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, "Zeng, Oak" <oak.zeng@intel.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Franck Baudin <fbaudin@redhat.com>
-Subject: Re: [PATCH V3] nvme-pci: allow unmanaged interrupts
-Message-ID: <20240703052403.GA25182@lst.de>
-References: <20240702104112.4123810-1-ming.lei@redhat.com> <20240702115002.GA16219@lst.de> <ZoPum7MPTuA6/t7O@fedora> <MN0PR11MB6280284585EC79A329095CC6C0DC2@MN0PR11MB6280.namprd11.prod.outlook.com> <20240702152809.GA32373@lst.de> <ZoSwCeZZIiQqisYG@fedora>
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 00/18] Provide a new two step DMA API mapping API
+Message-ID: <20240703054238.GA25366@lst.de>
+References: <cover.1719909395.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZoSwCeZZIiQqisYG@fedora>
+In-Reply-To: <cover.1719909395.git.leon@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240702_222407_654546_8476FC1D 
-X-CRM114-Status: GOOD (  12.27  )
+X-CRM114-CacheID: sfid-20240702_224243_472989_84304696 
+X-CRM114-Status: GOOD (  10.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,12 +76,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 03, 2024 at 09:57:29AM +0800, Ming Lei wrote:
-> So far, most popular SCSI hosts support the option via module parameter, and
-> the only remainder could be nvme-pci.
+I just tried to boot this on my usual qemu test setup with emulated
+nvme devices, and it dead-loops with messages like this fairly late
+in the boot cycle:
 
-Until something new comes along and then we need to play this game again.
+[   43.826627] iommu: unaligned: iova 0xfff7e000 pa 0x000000010be33650 size 0x1000 min_pagesz 0x1000
+[   43.826982] dma_mapping_error -12
 
-I might sound like a broken record but we need to fix this for real.
+passing intel_iommu=off instead of intel_iommu=on (expectedly) makes
+it go away.
 
 
