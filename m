@@ -4,132 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7294FC2BD09
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 14:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73028C30653
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 14:53:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SrmizUHX0HwEegaw8iwnzu4LfBjA5+KdXuscKcv8Bqo=; b=mOwaBMt2h66EPsfGppkOnm9WAH
-	shdKR/+vXnc/E3yCqLDvBqbESHunSOfZvPWz8Y+OY1kg/3l9u3nTdElD2j61mLk5xbf5L57Lue3pZ
-	ojg7dNkV6f71+u5Lfker98BhA+K0HQ6jVKEYNi47insjpwbLKKnUrZa1CRgGkf9xbGXQuxG/3LFnA
-	tXpKrILNXvZ6zsuRUVY8SwohAQLJGbH2Cn6okPDNqhFvRHV/FhlfwyGwGRCfe4jnD46Bn5+uyYjKX
-	kKYIoKl6i5D7pudR/XaRdqXejzhSAoiK9DA7ixbqA4pBlg7wrJH6qTBs5acWyltAm+j7OW7fyo860
-	MUnO1R8g==;
+	bh=0da+BB2sN+SouYMqFnSNNrb8n64F7dLJxPa5qnOlpwQ=; b=pFG+ygCRkp1Vh0+6H5/MeSRYqf
+	OL9O0xS3Vk3HFfkkNm2UjCmxGWS8DxMlVMk/S9mTP4UhkQmivkfHfMV98mlTHyQgaeCnCGemfYMQP
+	VxHW9Q5IxtoSkk/F5ATmMdq2OgcOxLcU5RhltdcCs1MJ3ELYsbuu1yenpF9xHFEzjp2x6spC3vNeU
+	4Pbzv+6bel4t9wWB7buqnYPabEq5dTBfGXzaZN5cne0jJ0rzEhrenfzWcFYeHYlEZvUIxJqdGe2Pd
+	p6E434cDNvcOr2nLgTtDI4Tg8GaVbrtzLHY5GGYSNcvrdC5TZAUcD/1ZKPC3Ckg7/joTEuGaAENdU
+	CVFB59Bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sP1FM-0000000AWcr-26id;
-	Wed, 03 Jul 2024 14:46:12 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sP1MZ-0000000AXx8-1qIO;
+	Wed, 03 Jul 2024 14:53:39 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sP1FH-0000000AWbb-40ar
+	id 1sP1MU-0000000AXvy-188G
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jul 2024 14:46:11 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Wed, 03 Jul 2024 14:53:37 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 74FB61F44F;
-	Wed,  3 Jul 2024 14:46:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 211A721BDB;
+	Wed,  3 Jul 2024 14:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720017964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1720018412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SrmizUHX0HwEegaw8iwnzu4LfBjA5+KdXuscKcv8Bqo=;
-	b=AQ1yrOjgLyt9qHeBa9ydpLSMLZo1mOjkC+ASYSLzSPa88WzvixDIIj78kmFrPx/WtXpu0S
-	tgUkWdYr403XpIPxR5qSEkQeVTX3uzGuvXUnPrIp400XSbhT9WWytgJZH8NGnQSAJpbF1a
-	TVAtei6WzmYkzQT+T4FMRI7qxswEwLQ=
+	bh=0da+BB2sN+SouYMqFnSNNrb8n64F7dLJxPa5qnOlpwQ=;
+	b=D+d3eJuV13JjvdkOHzOMolsBt9llzJr+I4PnXAUJzBnQMfqM7eo7wMk9e+GZyoAn630MC3
+	0rQ69MUGnYH0HRaHGJidoNiWM8Kg3gRviINMxHA9pm2ZhovoQWcjBzfS5geUahWw7CKaHc
+	GCn1o2tCI3NasM/+MwUy+M7z0CNqGpw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720017964;
+	s=susede2_ed25519; t=1720018412;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SrmizUHX0HwEegaw8iwnzu4LfBjA5+KdXuscKcv8Bqo=;
-	b=bzcw6+npyQgaKVS75RwbYgsMWq4KOTParoljW//7GGzOjlnez0KpNezOfz3IcRr8QDISa1
-	ZaIljOquI2JGhxCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="X/e6UQHm";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DhtSgCXh
+	bh=0da+BB2sN+SouYMqFnSNNrb8n64F7dLJxPa5qnOlpwQ=;
+	b=8YCbstxOTX74nYC1oEjNHKmQ2i+SL4tGK0wh6XFEBwAg+zY4R7+SJOfCtkBcnuwKvQwp0M
+	ssA8gP/Wz4WIxJAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720017963; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1720018412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SrmizUHX0HwEegaw8iwnzu4LfBjA5+KdXuscKcv8Bqo=;
-	b=X/e6UQHmB7bgkXpS3ORpcojGgS7DIAdORsNigaqbXYuHEn4eTJjYoL058NnsXMS/6ox/Ak
-	SqY8eXTVBxylZkY1COsbwEKzQE9fVUmdC231zm4crA2KaIJcDMl/n3rgwbgZRNjvm+ozhL
-	riD6yLb7jNqfRwXn/mewMN7fxzZupuQ=
+	bh=0da+BB2sN+SouYMqFnSNNrb8n64F7dLJxPa5qnOlpwQ=;
+	b=D+d3eJuV13JjvdkOHzOMolsBt9llzJr+I4PnXAUJzBnQMfqM7eo7wMk9e+GZyoAn630MC3
+	0rQ69MUGnYH0HRaHGJidoNiWM8Kg3gRviINMxHA9pm2ZhovoQWcjBzfS5geUahWw7CKaHc
+	GCn1o2tCI3NasM/+MwUy+M7z0CNqGpw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720017963;
+	s=susede2_ed25519; t=1720018412;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SrmizUHX0HwEegaw8iwnzu4LfBjA5+KdXuscKcv8Bqo=;
-	b=DhtSgCXhwmMP/ZZa0qyyHqJWm93uFj44gusbb8o5gfHrAQgyCuvjsmIcJwrH56ZIW1zP5r
-	rhMOzTBTSF0DgEAA==
+	bh=0da+BB2sN+SouYMqFnSNNrb8n64F7dLJxPa5qnOlpwQ=;
+	b=8YCbstxOTX74nYC1oEjNHKmQ2i+SL4tGK0wh6XFEBwAg+zY4R7+SJOfCtkBcnuwKvQwp0M
+	ssA8gP/Wz4WIxJAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 327C013889;
-	Wed,  3 Jul 2024 14:46:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD9F413889;
+	Wed,  3 Jul 2024 14:53:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B4tlCitkhWbcQwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 03 Jul 2024 14:46:03 +0000
-Message-ID: <c9f73300-9860-4965-88af-9a7b4d7b0e1b@suse.de>
-Date: Wed, 3 Jul 2024 16:46:02 +0200
+	id jQx3NOtlhWYIRgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 03 Jul 2024 14:53:31 +0000
+Message-ID: <11c0b02b-03a3-4097-948b-651b14baa0cf@suse.de>
+Date: Wed, 3 Jul 2024 16:53:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] nvme-tcp: per-controller I/O workqueues
+Subject: Re: [PATCH 2/4] nvme-tcp: align I/O cpu with blk-mq mapping
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org
 References: <20240703135021.34143-1-hare@kernel.org>
- <20240703135021.34143-2-hare@kernel.org>
- <7e4444d0-f156-439e-9363-4beb86bb6248@grimberg.me>
+ <20240703135021.34143-3-hare@kernel.org>
+ <b6702586-12c4-4390-9085-2cc6d9fbb462@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <7e4444d0-f156-439e-9363-4beb86bb6248@grimberg.me>
+In-Reply-To: <b6702586-12c4-4390-9085-2cc6d9fbb462@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.50 / 50.00];
+X-Spamd-Result: default: False [-4.29 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 74FB61F44F
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240703_074608_168415_9D9C7D80 
-X-CRM114-Status: GOOD (  10.09  )
+X-CRM114-CacheID: sfid-20240703_075334_485297_8B299E5F 
+X-CRM114-Status: GOOD (  18.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,26 +134,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/3/24 16:11, Sagi Grimberg wrote:
+On 7/3/24 16:19, Sagi Grimberg wrote:
 > 
 > 
 > On 03/07/2024 16:50, Hannes Reinecke wrote:
->> Implement per-controller I/O workqueues to reduce workqueue contention
->> during I/O.
+>> When 'wq_unbound' is selected we should select the
+>> the first CPU from a given blk-mq hctx mapping to queue
+>> the tcp workqueue item. With this we can instruct the
+>> workqueue code to keep the I/O affinity and avoid
+>> a performance penalty.
 > 
-> OK, wonder what is the cost here. Is it in ALL conditions better than a 
-> single workqueue?
+> wq_unbound is designed to keep io_cpu to be UNBOUND, my recollection
+> was the the person introducing it was trying to make the io_cpu always be
+> on a specific NUMA node, or a subset of cpus within a numa node. So he uses
+> that and tinkers with wq cpumask via sysfs.
+> 
+> I don't see why you are tying this to wq_unbound in the first place.
+> 
+Because in the default case the workqueue is nailed to a cpu, and will 
+not move from it. IE if you call 'queue_work_on()' it _will_ run on that 
+cpu.
+But if something else is running on that CPU (printk logging, say), you 
+will have to stand in the queue until the scheduler gives you some time.
 
-Well, clearly not on memory-limited systems; a workqueue per controller 
-takes up more memory that a single one. And it's questionable whether
-such a system isn't underprovisioned for nvme anyway.
-We will see a higher scheduler interaction as the scheduler needs to 
-switch between workqueues, but that was kinda the idea. And I doubt one
-can measure it; the overhead between switching workqueues should be 
-pretty much identical to the overhead switching between workqueue items.
+If the workqueue is unbound the workqueue code is able to switch away 
+from the cpu if it finds it busy or otherwise unsuitable, leading to a 
+better utilization and avoiding a workqueue stall.
+And in the 'unbound' case the 'cpu' argument merely serves as a hint
+where to place the workqueue item.
+At least, that's how I understood the code.
 
-I could do some measurements, but really I don't think it'll yield any
-surprising results.
+And it makes the 'CPU hogged' messages go away, which is a bonus in 
+itself...
+
+>>
+>> One should switch to 'cpu' workqueue affinity to
+>> get full advantage of this by issuing:
+>>
+>> echo cpu > /sys/devices/virtual/workqueue/nvme_tcp_wq_*/affinity_scope
+> 
+> Quantify improvement please.
+
+I'll see to get some number.
 
 Cheers,
 
