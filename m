@@ -4,63 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97C5CC3065C
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jul 2024 10:37:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29CF0C38150
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jul 2024 13:18:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LtjdzxKyhYhDYgQd38DjpnlGmWC1h3DS/QgiILardZ8=; b=uPs1nJfYlZyBIz+MHS9bbxQ0wB
-	wyaICQQEJuacKrPc/GCsl6g/CW5CkfPki2lv08OmOMZc6CplHE+q8r3hbQlPb959PLHBjHmoibWzz
-	fU0GAAaYmY7WS4z58NpPF81+mrqO4jAxHK0YPOz06YFYo1Q2thKL0QvJiipWeG2UehtGjQDKG2bhZ
-	feQKY4fGXBDIuCbon6MpmkVxvhi2FyxJVImrIn9Dy4vDI88Ynw/DkMf/CJC2hhJN9PTtQoSmpw9tT
-	GvvFRaJiUm5ewcT4fetT0gZztdhUVIThvgVFfal4fu/mynJ9ZrCV4U+2oc8U451x0KxkfuRQl9OO6
-	nP01Ig7A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FiW+P+gEbk03re9caf8GbaZIS2rrKaSGcFy9JQgS9RY=; b=pFKkHU7oLqyQATT1RCqg8IDgYS
+	v/Wh/Ft1wuaGYCRsHWNtQEuAp+WculqA3NVaytLuZ3j129p6kPRIGHOQqowzE5VIK8bwtWBFRYgVN
+	uRr1jXolFW2IOAmPXDOUJc948elCTkZOoyYMuG3gZIGqdeRNGCiC7bH23bTK1XCDTbKs5UWWwUpsw
+	A5ADAfeqfIpSiluyOgJXqW/Y2NU3OcwGnkMl5tl2o4Q0p1KrT4TNSM+HSxuwSMmiEMWZKfGwj1cgH
+	wIGwIMtTnB7pJFl88vlnQnR3LyqZRUZQ7Gk5qrfeSQpJ9BBfVC0VfAQ9wIKVaRQ35Y6oHWmc/Fnvg
+	C4+LSGsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPJpg-0000000CtGM-3zLZ;
-	Thu, 04 Jul 2024 10:36:56 +0000
-Received: from m16.mail.163.com ([220.197.31.4])
-	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPJpS-0000000CtDt-3MEZ
+	id 1sPMMO-0000000DG6a-2kpZ;
+	Thu, 04 Jul 2024 13:18:52 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sPMMK-0000000DG5c-3n0H
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jul 2024 10:36:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Ltjdz
-	xKyhYhDYgQd38DjpnlGmWC1h3DS/QgiILardZ8=; b=Hu6XfAg7RP2M+pb7+iRzf
-	ThuKAE0JoR9//c8HU8QJYKAB3vgqxjVpXgejndRUIWR6Pm2VUCE8F4js3543SPy0
-	AnXJNIAkA2qJfNxs8qSPttjH0Y5Fq1IA2nh+D7S/s3Tj0KnUtBVfHQfR5pYo6WOK
-	WsxWIes0ifOxzHJMmXSaHM=
-Received: from localhost.localdomain (unknown [183.192.130.88])
-	by gzga-smtp-mta-g1-3 (Coremail) with SMTP id _____wDnDxsqe4Zm5Yo3Bg--.37145S2;
-	Thu, 04 Jul 2024 18:36:27 +0800 (CST)
-From: Ping Gan <jacky_gam_2001@163.com>
-To: sagi@grimberg.me,
-	hch@lst.de,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: ping.gan@dell.com
-Subject: Re: [PATCH 0/2] nvmet: support polling task for RDMA and TCP 
-Date: Thu,  4 Jul 2024 18:35:32 +0800
-Message-Id: <20240704103533.68118-1-jacky_gam_2001@163.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <2797ce03-a52a-459a-a1a1-7591233f51cd@grimberg.me>
-References: <2797ce03-a52a-459a-a1a1-7591233f51cd@grimberg.me>
+	Thu, 04 Jul 2024 13:18:50 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 1DBFFCE33EF;
+	Thu,  4 Jul 2024 13:18:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0368AC3277B;
+	Thu,  4 Jul 2024 13:18:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720099124;
+	bh=nkzC1R2Sn6KADvFNDPp0hrnIwln3xVG+eb9R42IPSdQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D/KR/8A6xd5D4R/wyMmVXVBhTLC00uoxpBMQxG4XlqhIi5KAQVaC2WfSC/JKuTQBK
+	 kEFxwYczrrp8jHD/rU7Io7O7FanCrAZSqBu/PdOnbPEDswb3D7N14ui//u++auZfNR
+	 SUqz2Rl1HBcmgvgZwCQlOkR19edRQbzDh6tI/mypTJD/RTH4hYtagEvYh76WNN1/VY
+	 UCe/SDCeqqwlLAKAvWNk+uJtnN8vjygt8Gaomlc3u7lhSQZuSImjGamtHE5l/qm9H/
+	 l7cdU0pdx3G3PZZgD6CMT+HJGLLMzzhXBkWp2c6sJY4t+AJp3EHJFmV84AgiTky6jN
+	 DmhQgo4POHvOw==
+Date: Thu, 4 Jul 2024 16:18:39 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	"Zeng, Oak" <oak.zeng@intel.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 00/18] Provide a new two step DMA API mapping API
+Message-ID: <20240704131839.GD95824@unreal>
+References: <cover.1719909395.git.leon@kernel.org>
+ <20240703054238.GA25366@lst.de>
+ <20240703105253.GA95824@unreal>
+ <20240703143530.GA30857@lst.de>
+ <20240703155114.GB95824@unreal>
+ <20240704074855.GA26913@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDnDxsqe4Zm5Yo3Bg--.37145S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3XrW7Jw4ftFW3Jry3Jw1DKFg_yoW3XrW7pr
-	W5JF1UJr4DJr1jyr1qyw4DZryUKw18Jw15XF1rJr1UJr1Dt34UJr1Utry5GrykGr18tr15
-	tF1DJF9xZF1jyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UIFAXUUUUU=
-X-Originating-IP: [183.192.130.88]
-X-CM-SenderInfo: 5mdfy55bjdzsisqqiqqrwthudrp/1tbiKAsSKWXAmGPvLgAAsH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240704074855.GA26913@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240704_033643_277261_ED1E8CE4 
-X-CRM114-Status: GOOD (  26.26  )
+X-CRM114-CacheID: sfid-20240704_061849_323708_C315432E 
+X-CRM114-Status: GOOD (  28.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,232 +93,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> On 7/4/24 11:10, Ping Gan wrote:
->>> On 02/07/2024 13:02, Ping Gan wrote:
->>>>> On 01/07/2024 10:42, Ping Gan wrote:
->>>>>>> Hey Ping Gan,
->>>>>>>
->>>>>>>
->>>>>>> On 26/06/2024 11:28, Ping Gan wrote:
->>>>>>>> When running nvmf on SMP platform, current nvme target's RDMA
->>>>>>>> and
->>>>>>>> TCP use kworker to handle IO. But if there is other high
->>>>>>>> workload
->>>>>>>> in the system(eg: on kubernetes), the competition between the
->>>>>>>> kworker and other workload is very radical. And since the
->>>>>>>> kworker
->>>>>>>> is scheduled by OS randomly, it's difficult to control OS
->>>>>>>> resource
->>>>>>>> and also tune the performance. If target support to use
->>>>>>>> delicated
->>>>>>>> polling task to handle IO, it's useful to control OS resource
->>>>>>>> and
->>>>>>>> gain good performance. So it makes sense to add polling task in
->>>>>>>> rdma-rdma and rdma-tcp modules.
->>>>>>> This is NOT the way to go here.
->>>>>>>
->>>>>>> Both rdma and tcp are driven from workqueue context, which are
->>>>>>> bound
->>>>>>> workqueues.
->>>>>>>
->>>>>>> So there are two ways to go here:
->>>>>>> 1. Add generic port cpuset and use that to direct traffic to the
->>>>>>> appropriate set of cores
->>>>>>> (i.e. select an appropriate comp_vector for rdma and add an
->>>>>>> appropriate
->>>>>>> steering rule
->>>>>>> for tcp).
->>>>>>> 2. Add options to rdma/tcp to use UNBOUND workqueues, and allow
->>>>>>> users
->>>>>>> to
->>>>>>> control
->>>>>>> these UNBOUND workqueues cpumask via sysfs.
->>>>>>>
->>>>>>> (2) will not control interrupts to steer to other workloads
->>>>>>> cpus,
->>>>>>> but
->>>>>>> the handlers may
->>>>>>> run on a set of dedicated cpus.
->>>>>>>
->>>>>>> (1) is a better solution, but harder to implement.
->>>>>>>
->>>>>>> You also should look into nvmet-fc as well (and nvmet-loop for
->>>>>>> that
->>>>>>> matter).
->>>>>> hi Sagi Grimberg,
->>>>>> Thanks for your reply, actually we had tried the first advice you
->>>>>> suggested, but we found the performance was poor when using spdk
->>>>>> as initiator.
->>>>> I suggest that you focus on that instead of what you proposed.
->>>>> What is the source of your poor performance?
->>>> Before these patches, we had used linux's RPS to forward the
->>>> packets
->>>> to a fixed cpu set for nvmet-tcp. But when did that we can still
->>>> not
->>>> cancel the competition between softirq and workqueue since nvme
->>>> target's
->>>> kworker cpu core bind on socket's cpu which is from skb. Besides
->>>> that
->>>> we found workqueue's wait latency was very high even we enabled
->>>> polling
->>>> on nvmet-tcp by module parameter idle_poll_period_usecs. So when
->>>> initiator
->>>> is polling mode, the target of workqueue is the bottleneck. Below
->>>> is
->>>> work's wait latency trace log of our test on our cluster(per node
->>>> uses
->>>> 4 numas 96 cores, 192G memory, one dual ports mellanox CX4LX(25Gbps
->>>> X
->>>> 2)
->>>> ethernet adapter and randrw 1M IO size) by RPS to 6 cpu cores. And
->>>> system's CPU and memory were used about 80%.
->>> I'd try a simple unbound CPU case, steer packets to say cores [0-5]
->>> and
->>> assign
->>> the cpumask of the unbound workqueue to cores [6-11].
->> Okay, thanks for your guide.
->>
->>>> ogden-brown:~ #/usr/share/bcc/tools/wqlat -T -w nvmet_tcp_wq 1 2
->>>> 01:06:59
->>>>    usecs               : count     distribution
->>>>        0 -> 1          : 0        |                              |
->>>>        2 -> 3          : 0        |                              |
->>>>        4 -> 7          : 0        |                              |
->>>>        8 -> 15         : 3        |                              |
->>>>       16 -> 31         : 10       |                              |
->>>>       32 -> 63         : 3        |                              |
->>>>       64 -> 127        : 2        |                              |
->>>>      128 -> 255        : 0        |                              |
->>>>      256 -> 511        : 5        |                              |
->>>>      512 -> 1023       : 12       |                              |
->>>>     1024 -> 2047       : 26       |*                             |
->>>>     2048 -> 4095       : 34       |*                             |
->>>>     4096 -> 8191       : 350      |************                  |
->>>>     8192 -> 16383      : 625      |******************************|
->>>>    16384 -> 32767      : 244      |*********                     |
->>>>    32768 -> 65535      : 39       |*                             |
->>>>
->>>> 01:07:00
->>>>    usecs               : count     distribution
->>>>        0 -> 1          : 1        |                              |
->>>>        2 -> 3          : 0        |                              |
->>>>        4 -> 7          : 4        |                              |
->>>>        8 -> 15         : 3        |                              |
->>>>       16 -> 31         : 8        |                              |
->>>>       32 -> 63         : 10       |                              |
->>>>       64 -> 127        : 3        |                              |
->>>>      128 -> 255        : 6        |                              |
->>>>      256 -> 511        : 8        |                              |
->>>>      512 -> 1023       : 20       |*                             |
->>>>     1024 -> 2047       : 19       |*                             |
->>>>     2048 -> 4095       : 57       |**                            |
->>>>     4096 -> 8191       : 325      |****************              |
->>>>     8192 -> 16383      : 647      |******************************|
->>>>    16384 -> 32767      : 228      |***********                   |
->>>>    32768 -> 65535      : 43       |**                            |
->>>>    65536 -> 131071     : 1        |                              |
->>>>
->>>> And the bandwidth of a node is only 3100MB. While we used the patch
->>>> and enable 6 polling task, the bandwidth can be 4000MB. It's a good
->>>> improvement.
->>> I think you will see similar performance with unbound workqueue and
->>> rps.
->> Yes, I remodified the nvmet-tcp/nvmet-rdma code for supporting
->> unbound
->> workqueue, and in same prerequisites of above to run test, and
->> compared
->> the result of unbound workqueue and polling mode task. And I got a
->> good
->> performance for unbound workqueue. For unbound workqueue TCP we got
->> 3850M/node, it's almost equal to polling task. And also tested
->> nvmet-rdma
->> we get 5100M/node for unbound workqueue RDMA versus 5600M for polling
->> task,
->> seems the diff is very small. Anyway, your advice is good.
->
-> I'm a bit surprised that you see ~10% delta here. I would look into
-> what 
-> is the root-cause of
-> this difference. If indeed the load is high, the overhead of the 
-> workqueue mgmt should be
-> negligible. I'm assuming you used IB_POLL_UNBOUND_WORKQUEUE ?
+On Thu, Jul 04, 2024 at 09:48:56AM +0200, Christoph Hellwig wrote:
+> On Wed, Jul 03, 2024 at 06:51:14PM +0300, Leon Romanovsky wrote:
+> > If we put aside this issue, do you think that the proposed API is the right one?
+> 
+> I haven't look at it in detail yet, but from a quick look there is a
+> few things to note:
+> 
+> 
+> 1) The amount of code needed in nvme worries me a bit.  Now NVMe a messy
+> driver due to the stupid PRPs vs just using SGLs, but needing a fair
+> amount of extra boilerplate code in drivers is a bit of a warning sign.
+> I plan to look into this to see if I can help on improving it, but for
+> that I need a working version first.
 
-Yes, we used IB_POLL_UNBOUND_WORKQUEUE to create ib CQ. And I observed
-3% CPU
-usage of unbound workqueue versus 6% of polling task. 
+Chaitanya is working on this and I'll join him to help on next Sunday,
+after I'll return to the office from my sick leave/
 
->>   Do you think
->> we
->> should submit the unbound workqueue patches for nvmet-tcp and
->> nvmet-rdma
->> to upstream nvmet?
->
-> For nvmet-tcp, I think there is merit to split socket processing from 
-> napi context. For nvmet-rdma
-> I think the only difference is if you have multiple CQs assigned with 
-> the same comp_vector.
->
-> How many queues do you have in your test?
+> 
+> 
+> 2) The amount of seemingly unrelated global headers pulled into other
+> global headers.  Some of this might just be sloppiness, e.g. I can't
+> see why dma-mapping.h would actually need iommu.h to start with,
+> but pci.h in dma-map-ops.h is a no-go.
 
-We used 24 IO queues to nvmet-rdma target. I think this may also be 
-related to workqueue's wait latency. We still see some several ms wait
-latency for unbound workqueue of RMDA. You can see below trace log.
+pci.h was pulled because I needed to call to pci_p2pdma_map_type()
+in dma_can_use_iova().
 
-ogden-brown:~ # /usr/share/bcc/tools/wqlat -T -w ib-comp-unb-wq 1 3
-Tracing work queue request latency time... Hit Ctrl-C to end.
+> 
+> 3) which brings me to real layering violations.  dev_is_untrusted and
+> dev_use_swiotlb are DMA API internals, no way I'd ever want to expose
+> them. dma-map-ops.h is a semi-internal header only for implementations
+> of the dma ops (as very clearly documented at the top of that file),
+> it must not be included by drivers.  Same for swiotlb.h.
 
-10:09:10
-     usecs               : count     distribution
-         0 -> 1          : 6        |                              |
-         2 -> 3          : 105      |**                            |
-         4 -> 7          : 1732     |******************************|
-         8 -> 15         : 1597     |******************************|
-        16 -> 31         : 526      |************                  |
-        32 -> 63         : 543      |************                  |
-        64 -> 127        : 950      |*********************         |
-       128 -> 255        : 1335     |***************************** |
-       256 -> 511        : 1534     |******************************|
-       512 -> 1023       : 1039     |***********************       |
-      1024 -> 2047       : 592      |*************                 |
-      2048 -> 4095       : 112      |**                            |
-      4096 -> 8191       : 6        |                              |
+These item shouldn't worry you and will be changed in the final version.
+They are outcome of patch "RDMA/umem: Prevent UMEM ODP creation with SWIOTLB".
+https://lore.kernel.org/all/d18c454636bf3cfdba9b66b7cc794d713eadc4a5.1719909395.git.leon@kernel.org/
 
-10:09:11
-     usecs               : count     distribution
-         0 -> 1          : 3        |                              |
-         2 -> 3          : 62       |*                             |
-         4 -> 7          : 1459     |***************************** |
-         8 -> 15         : 1869     |******************************|
-        16 -> 31         : 612      |*************                 |
-        32 -> 63         : 478      |**********                    |
-        64 -> 127        : 844      |******************            |
-       128 -> 255        : 1123     |************************      |
-       256 -> 511        : 1278     |***************************   |
-       512 -> 1023       : 1113     |***********************       |
-      1024 -> 2047       : 632      |*************                 |
-      2048 -> 4095       : 158      |***                           |
-      4096 -> 8191       : 18       |                              |
-      8192 -> 16383      : 1        |                              |
+All HMM users need such "prevention" so it will be moved to a common place.
 
-10:09:12
-     usecs               : count     distribution
-         0 -> 1          : 1        |                              |
-         2 -> 3          : 68       |*                             |
-         4 -> 7          : 1399     |***************************   |
-         8 -> 15         : 1822     |******************************|
-        16 -> 31         : 559      |************                  |
-        32 -> 63         : 513      |***********                   |
-        64 -> 127        : 906      |*******************           |
-       128 -> 255        : 1217     |***********************       |
-       256 -> 511        : 1391     |***************************   |
-       512 -> 1023       : 1135     |************************      |
-      1024 -> 2047       : 569      |************                  |
-      2048 -> 4095       : 110      |**                            |
-      4096 -> 8191       : 26       |                              |
-      8192 -> 16383      : 11       |                              |
+> 
+> Not quite as concerning, but doing an indirect call for each map
+> through dma_map_ops in addition to the iommu ops is not every efficient.
+> We've through for a while to allow direct calls to dma-iommu similar
+> how we do direct calls to dma-direct from the core mapping.c code.
+> This might be a good time to do that as a prep step for this work.
 
-Thanks,
-Ping
+Sure, no problem, will start in parallel to work on this.
 
-
+> 
 
