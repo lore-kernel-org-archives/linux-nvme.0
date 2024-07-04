@@ -4,71 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A39FC2BD09
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jul 2024 21:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70818C30653
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jul 2024 05:36:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4eQ397GU/WSnKztxTJy5MN6awEDECZh8Q3Eun17ejKM=; b=Q+gI2gTKvy5V0c90uDn7hxzWTy
-	jUdxgqDP6Ee5F0D1DZNigA3oh+fWIr8uGDdMIIUTWVp8VimmNmUhPvMF8tuz3PqCHhf0jQzsT4F+C
-	LZc7NuaQCUxzdw0fp94+HAiQqSGKXKNXVJTp+k0yvrOJlU12vahbdXWVRoXQ/6yMqDcuznJc4B+9Y
-	ADGg7VucJ8EJBG/tKV0SyqO/qB1+nyusA6sT3APFNqwf/QkD8e7/8gOeRBUR9EkIULELXJKnFaP2N
-	Rv+o2VcoJrfhVQSVotdqmViInbeX6cXfenO/fc/I7yWyF78iTDkVnBDGNZiCKJ38f8lC1idTlvRcC
-	7QwC6dXg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=O4UH8Km1LRzks5lPP4rWr4zhJO0izHiyvA7fZ9kGt3Y=; b=uxUHFY1/d0ArRAko9Cf30vosy8
+	WeciGbrUl+gSndh7BpbJUY1iP/WwZSI6UqdkSMUNf3RAgNIeXh1wPW87MsIfyNCdJZ6a0zanhQbrw
+	NLdPzVikNUE0Qmq5rzI1w3Dmbrdme39TM7RzzknzYSSMAbxCO2JJdhQkgncsbJmRIU60HOrbWXUKr
+	qnfXL/c1d1BraiCBJIothNSpnwogk4DwjtppRQT+MO810wB6CVr6trWlNp9mDLVTDoVDxY/jRa+UP
+	O6nXeXAOPblTb5dLb1JZCo8xf8du2wMWG/A0b5Op6svSm1q5Q/PHWGsXNYGZf/jduHYXKEmHg0JJi
+	vxTmIqFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sP7Ql-0000000BTu8-2DKT;
-	Wed, 03 Jul 2024 21:22:23 +0000
-Received: from mgamail.intel.com ([192.198.163.16])
+	id 1sPF8t-0000000CDmi-0ms7;
+	Thu, 04 Jul 2024 05:36:27 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sP7Qi-0000000BTtj-1Cu2
+	id 1sPF8q-0000000CDmA-2N5j
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jul 2024 21:22:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720041740; x=1751577740;
-  h=date:from:to:cc:subject:message-id;
-  bh=C92obHAxKGrDEeZILBkLFgbUVA7diR+qqWju0wLM22g=;
-  b=JQL6ynayWSu+o/DmZNpCBoncfeRIRdZVe2agbO7xHp/74C3QFFm0aFjQ
-   WLXReexbLTGyd7qRNQmsxnIMvNTW8FN/GWLKWBdthXlTAeXL5bSpmqWGD
-   DzIR05J9aQLhhQ5DPWK3CASqwuhlILhD9wDnRDbGMqB0NtBCVXYpXzzyM
-   iLmPDiz3wILCWoQs4H4oE1IX/I0I8QecFsfesyxsKlpdxHHdrjkKsLysB
-   rIRgK+1WQmk9ze69fNZnOkNmGUyjw36eslg7gMq6/pYnKJZikXVBPNaqs
-   OILFlE4eO8dE/4ZAgX9tQYmLwCjxJTt96DptNnkoHoIjgiLEA2rRtGBXA
-   w==;
-X-CSE-ConnectionGUID: B5J4rN5WTcyOWCbMxSl2Lg==
-X-CSE-MsgGUID: axAlRG7QQ6uIdAjIc0DQTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="12382450"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="12382450"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 14:22:17 -0700
-X-CSE-ConnectionGUID: 4f+sv+xjS/aPkgZqE3IYuw==
-X-CSE-MsgGUID: 1mdypUlPRBi/VMbGXUc4hA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="46391228"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Jul 2024 14:22:16 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sP7Qc-000QF6-00;
-	Wed, 03 Jul 2024 21:22:14 +0000
-Date: Thu, 04 Jul 2024 05:21:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.11] BUILD SUCCESS
- f227345f0a70f011647ae7ae12778bf258ff71f2
-Message-ID: <202407040548.JKs0JSCh-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Thu, 04 Jul 2024 05:36:26 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B773568AFE; Thu,  4 Jul 2024 07:36:13 +0200 (CEST)
+Date: Thu, 4 Jul 2024 07:36:13 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/4] nvme-tcp: per-controller I/O workqueues
+Message-ID: <20240704053613.GA19735@lst.de>
+References: <20240703135021.34143-1-hare@kernel.org> <20240703135021.34143-2-hare@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703135021.34143-2-hare@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240703_142220_365254_43E75F39 
-X-CRM114-Status: UNSURE (   5.07  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240703_223624_773921_AEE14A04 
+X-CRM114-Status: GOOD (  13.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,120 +59,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.11
-branch HEAD: f227345f0a70f011647ae7ae12778bf258ff71f2  nvme-multipath: implement "queue-depth" iopolicy
+On Wed, Jul 03, 2024 at 03:50:18PM +0200, Hannes Reinecke wrote:
+> Implement per-controller I/O workqueues to reduce workqueue contention
+> during I/O.
 
-elapsed time: 1886m
+Gee, I can see that you are implementing it.  But given that workqueues
+are scalable contexts I'd really like to see where you hit limits.
+Maybe it's totally expected, maybe you found a bug in the workqueues,
+or maybe you just did because you need some of this later.
 
-configs tested: 100
-configs skipped: 1
+You'll need to tell the reviewers and also people finding the inevitable
+bugs later on why you are doing this.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> +		queue_work_on(queue->io_cpu, queue->ctrl->io_wq, &queue->io_work);
 
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                   randconfig-001-20240703   gcc-13.2.0
-arc                   randconfig-002-20240703   gcc-13.2.0
-arm                               allnoconfig   clang-19
-arm                     am200epdkit_defconfig   gcc-13.2.0
-arm                            hisi_defconfig   gcc-13.2.0
-arm                   randconfig-001-20240703   clang-19
-arm                   randconfig-002-20240703   gcc-13.2.0
-arm                   randconfig-003-20240703   clang-19
-arm                   randconfig-004-20240703   clang-19
-arm                         s5pv210_defconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                 randconfig-001-20240703   clang-19
-arm64                 randconfig-002-20240703   gcc-13.2.0
-arm64                 randconfig-003-20240703   gcc-13.2.0
-arm64                 randconfig-004-20240703   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                  randconfig-001-20240703   gcc-13.2.0
-csky                  randconfig-002-20240703   gcc-13.2.0
-hexagon                           allnoconfig   clang-19
-hexagon               randconfig-001-20240703   clang-16
-hexagon               randconfig-002-20240703   clang-19
-i386                             allmodconfig   gcc-13
-i386                              allnoconfig   gcc-13
-i386                             allyesconfig   gcc-13
-i386         buildonly-randconfig-001-20240703   clang-18
-i386         buildonly-randconfig-002-20240703   gcc-13
-i386         buildonly-randconfig-003-20240703   gcc-13
-i386         buildonly-randconfig-004-20240703   gcc-13
-i386         buildonly-randconfig-005-20240703   clang-18
-i386         buildonly-randconfig-006-20240703   gcc-13
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240703   gcc-13
-i386                  randconfig-002-20240703   clang-18
-i386                  randconfig-003-20240703   gcc-13
-i386                  randconfig-004-20240703   gcc-11
-i386                  randconfig-005-20240703   clang-18
-i386                  randconfig-006-20240703   gcc-7
-i386                  randconfig-011-20240703   gcc-13
-i386                  randconfig-012-20240703   gcc-13
-i386                  randconfig-013-20240703   gcc-13
-i386                  randconfig-014-20240703   gcc-13
-i386                  randconfig-015-20240703   gcc-13
-i386                  randconfig-016-20240703   clang-18
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch             randconfig-001-20240703   gcc-13.2.0
-loongarch             randconfig-002-20240703   gcc-13.2.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                         apollo_defconfig   gcc-13.2.0
-microblaze                       alldefconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-mips                         db1xxx_defconfig   clang-19
-mips                 decstation_r4k_defconfig   gcc-13.2.0
-mips                           ip22_defconfig   gcc-13.2.0
-mips                           ip27_defconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-13.2.0
-nios2                 randconfig-001-20240703   gcc-13.2.0
-nios2                 randconfig-002-20240703   gcc-13.2.0
-openrisc                          allnoconfig   gcc-13.2.0
-openrisc                            defconfig   gcc-13.2.0
-openrisc                  or1klitex_defconfig   gcc-13.2.0
-parisc                            allnoconfig   gcc-13.2.0
-parisc                              defconfig   gcc-13.2.0
-parisc                randconfig-001-20240703   gcc-13.2.0
-parisc                randconfig-002-20240703   gcc-13.2.0
-powerpc                      acadia_defconfig   clang-19
-powerpc                           allnoconfig   gcc-13.2.0
-powerpc                  iss476-smp_defconfig   gcc-13.2.0
-powerpc                    mvme5100_defconfig   gcc-13.2.0
-powerpc               randconfig-001-20240703   clang-19
-powerpc               randconfig-002-20240703   gcc-13.2.0
-powerpc               randconfig-003-20240703   clang-15
-powerpc64             randconfig-001-20240703   gcc-13.2.0
-powerpc64             randconfig-002-20240703   gcc-13.2.0
-powerpc64             randconfig-003-20240703   clang-19
-riscv                             allnoconfig   gcc-13.2.0
-riscv                 randconfig-001-20240703   clang-19
-riscv                 randconfig-002-20240703   gcc-13.2.0
-s390                              allnoconfig   clang-19
-s390                  randconfig-001-20240703   clang-15
-s390                  randconfig-002-20240703   clang-19
-sh                                allnoconfig   gcc-13.2.0
-sh                         ap325rxa_defconfig   gcc-13.2.0
-sh                    randconfig-001-20240703   gcc-13.2.0
-sh                    randconfig-002-20240703   gcc-13.2.0
-sh                           se7750_defconfig   gcc-13.2.0
-sparc64               randconfig-001-20240703   gcc-13.2.0
-sparc64               randconfig-002-20240703   gcc-13.2.0
-um                                allnoconfig   clang-17
-um                    randconfig-001-20240703   clang-19
-um                    randconfig-002-20240703   clang-19
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64                              defconfig   gcc-13
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240703   gcc-13.2.0
-xtensa                randconfig-002-20240703   gcc-13.2.0
+.. and avoid allthe overly long lines.  Maybe by adding a helper to
+de-duplicate this code?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +		queue_work_on(queue->io_cpu, queue->ctrl->io_wq, &queue->io_work);
+
+> +		queue_work_on(queue->io_cpu, queue->ctrl->io_wq, &queue->io_work);
+
+> +	queue_work_on(queue->io_cpu, queue->ctrl->io_wq, &queue->io_work);
+
+> +		queue_work_on(queue->io_cpu, queue->ctrl->io_wq, &queue->io_work);
+
 
