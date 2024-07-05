@@ -4,51 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEBFDC30653
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jul 2024 17:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0415C30658
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jul 2024 05:58:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9KROelGKBC9X8zygbyVHd+/u9O89HdRaXY4hDVBCstw=; b=W1BNhYroteteDd69ZoStJeKgDe
-	7lTqcl5UnCj038U+h2y1F4s1YCYEslEWIGOMiQkSg+o4hnSyZwrFl5FmnSH8xLaX1VSrZkNZk4qOg
-	ooqQxv5s44zwRohAOTB7Xc9u4fMXLKT6Bdwzlv9cn1zSYpOgiLVrUXJRpNi543+VbjtaXzaipzjzK
-	81vDpzrUNePBCldtow/cqlnNwb2zIQcruTrQhjsscZzXkMNBiY/Z9hh8R093l1p2tjqNlAallGYs4
-	yy+7WiJJV/3eDviVLVOsycYkFHasa0i8pyYOFoMgvBptdHDDFIyOPQxeLPGatyqENu2HmM2TKWtwP
-	RSzBMWEw==;
+	bh=mYMUrppzh72Sww94OJKRlF7cR50trgUleXV7zn70HCU=; b=kDxzDrVfB71Todz0NVEVJoRuuJ
+	thPDncBfxyNBx1lMrQE5ESGUrffwW6c0USJFfoCsbeR69Wf2c9vNEnRT8k3XGZxOm9z3BqW89ikpB
+	XFWoEcpzQE+QaIBW6enHB8slFjnuhGFzHw3qa9MsMWWhgHzcwBlPF3PNW5mAno5HMnzLDAVGQ3uCr
+	LiZjaAnZLaWN/v0HdJO0Mwu59FOy9oQz0ftMk8r/i3vRpnJ98odfmNOSMdKeiHfbLekcBGmzzF9p5
+	0QWHCfhRavWVNI4uWkc7k017dlTEWDca1t9+2ygNwkSK0DFQ3x7j1mk+6gdlzignVkaLtKNCxXRJb
+	hfQyBP9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPQ46-0000000DxGJ-0YIg;
-	Thu, 04 Jul 2024 17:16:14 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sPbxc-0000000EyzL-3klH;
+	Fri, 05 Jul 2024 05:58:20 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPQ42-0000000DxFB-2XYQ
+	id 1sPbxa-0000000Eyxw-0HpH
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jul 2024 17:16:12 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id A5487CE384F;
-	Thu,  4 Jul 2024 17:16:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33CBDC3277B;
-	Thu,  4 Jul 2024 17:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720113368;
-	bh=pNA8/Q/+goKs7oTKt+a3Cw9yHcXIncdaNs7gbU3axuo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CaAwoQJrZLArTEOfKusmY+hI3dr6PuiWIDAGemB23zwQ/bD7VJTzy3rb1U9K40ZyB
-	 /otipiTe+bwUNsaC6ZuVc/FviZm+4xAk2xQacK3lQNi9b9C6Rc7h/wCI7BS0VScrsf
-	 4tpxSoBJ33RZtNcI49felKJ65GDyJxoFFc0vfS3DWE0TZBsc0CA7zajLlHMMZq2nJ1
-	 BWwTxUhNOiJTR9T9zELEmujZkVJUUwVvWzO3p2r1Bum7+UJPdGxvl/n/B2MHdq+XCm
-	 MP6AVd9901F70GjDlGUnmWKECr+ExRRv6xOr2s0RZ4V/pVSadlxpSNJHRlLbIQ94pP
-	 b/fDR1hY0KIrA==
-Date: Thu, 4 Jul 2024 20:16:02 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	"Zeng, Oak" <oak.zeng@intel.com>,
+	Fri, 05 Jul 2024 05:58:19 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id D8AEF68AA6; Fri,  5 Jul 2024 07:58:06 +0200 (CEST)
+Date: Fri, 5 Jul 2024 07:58:06 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, "Zeng, Oak" <oak.zeng@intel.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -65,17 +52,17 @@ Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
 	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org, linux-mm@kvack.org
 Subject: Re: [RFC PATCH v1 18/18] nvme-pci: use new dma API
-Message-ID: <20240704171602.GE95824@unreal>
-References: <cover.1719909395.git.leon@kernel.org>
- <47eb0510b0a6aa52d9f5665d75fa7093dd6af53f.1719909395.git.leon@kernel.org>
- <249ec228-4ffd-4121-bd51-f4a19275fee1@arm.com>
+Message-ID: <20240705055806.GA11885@lst.de>
+References: <cover.1719909395.git.leon@kernel.org> <47eb0510b0a6aa52d9f5665d75fa7093dd6af53f.1719909395.git.leon@kernel.org> <249ec228-4ffd-4121-bd51-f4a19275fee1@arm.com> <20240704171602.GE95824@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <249ec228-4ffd-4121-bd51-f4a19275fee1@arm.com>
+In-Reply-To: <20240704171602.GE95824@unreal>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240704_101611_034524_6A16193F 
-X-CRM114-Status: GOOD (  16.14  )
+X-CRM114-CacheID: sfid-20240704_225818_257415_0C687F6C 
+X-CRM114-Status: UNSURE (   9.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,85 +77,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 04, 2024 at 04:23:47PM +0100, Robin Murphy wrote:
-> On 02/07/2024 10:09 am, Leon Romanovsky wrote:
-> [...]
-> > +static inline dma_addr_t nvme_dma_link_page(struct page *page,
-> > +					   unsigned int poffset,
-> > +					   unsigned int len,
-> > +					   struct nvme_iod *iod)
-> >   {
-> > -	int i;
-> > -	struct scatterlist *sg;
-> > +	struct dma_iova_attrs *iova = &iod->dma_map->iova;
-> > +	struct dma_iova_state *state = &iod->dma_map->state;
-> > +	dma_addr_t dma_addr;
-> > +	int ret;
-> > +
-> > +	if (iod->dma_map->use_iova) {
-> > +		phys_addr_t phys = page_to_phys(page) + poffset;
-> 
-> Yeah, there's no way this can possibly work. You can't do the
-> dev_use_swiotlb() check up-front based on some overall DMA operation size,
-> but then build that operation out of arbitrarily small fragments of
-> different physical pages that *could* individually need bouncing to not
-> break coherency.
+> This is exactly how dma_map_sg() works.
 
-This is exactly how dma_map_sg() works. It checks in advance all SG and
-proceeds with bounce buffer if needed. In our case all checks which
-exists in dev_use_sg_swiotlb() will give "false". In v0, Christoph said
-that NVMe guarantees alignment, which is only one "dynamic" check in
-that function.
+Which dma_map_sg?  swiotlb handling is implemented in the underlying
+ops, dma-direct and dma-iommu specifically.
 
-   600 static bool dev_use_sg_swiotlb(struct device *dev, struct scatterlist *sg,
-   601                                int nents, enum dma_data_direction dir)
-   602 {
-   603         struct scatterlist *s;
-   604         int i;
-   605
-   606         if (!IS_ENABLED(CONFIG_SWIOTLB))
-   607                 return false;
-   608
-   609         if (dev_is_untrusted(dev))
-   610                 return true;
-   611
-   612         /*
-   613          * If kmalloc() buffers are not DMA-safe for this device and
-   614          * direction, check the individual lengths in the sg list. If any
-   615          * element is deemed unsafe, use the swiotlb for bouncing.
-   616          */
-   617         if (!dma_kmalloc_safe(dev, dir)) {
-   618                 for_each_sg(sg, s, nents, i)
-   619                         if (!dma_kmalloc_size_aligned(s->length))
-   620                                 return true;
-   621         }
-   622
-   623         return false;
-   624 }
+dma-direct just iterates over the entries and calls dma_direct_map_page,
+which does a per-entry decision to bounce based on
+is_swiotlb_force_bounce, dma_capable and dma_kmalloc_needs_bounce.
 
-   ...
-  1338 static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
-  1339                 int nents, enum dma_data_direction dir, unsigned long attrs)
-  ...
-  1360         if (dev_use_sg_swiotlb(dev, sg, nents, dir))                          
-  1361                 return iommu_dma_map_sg_swiotlb(dev, sg, nents, dir, attrs);   
-
-Thanks
-
-> 
-> Thanks,
-> Robin.
-> 
-> > +
-> > +		dma_addr = state->iova->addr + state->range_size;
-> > +		ret = dma_link_range(&iod->dma_map->state, phys, len);
-> > +		if (ret)
-> > +			return DMA_MAPPING_ERROR;
-> > +	} else {
-> > +		dma_addr = dma_map_page_attrs(iova->dev, page, poffset, len,
-> > +					      iova->dir, iova->attrs);
-> > +	}
-> > +	return dma_addr;
-> > +}
-> 
 
