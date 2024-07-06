@@ -4,57 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38DDEC2BD09
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Jul 2024 06:46:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67B0FC2BD09
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Jul 2024 07:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Br5SZctjoUMzAffZCZmcdpuen31MiKKvH6XM2nEAT5o=; b=oBzZkBDw5wKwSMFE8XAIEA0yzq
-	sjSOwU4eGiI3gkARGLHTm9/k12VBmK2Tr3tzJ6KnpncS1HIRRZXZfFvG/HxNUjztHGNPoJwXbae0E
-	noOMH1Hmi9fxAyTe2P+vQm8yvSTy6TKjwFwrG99BYdSD6x8+mt7k0U9IWogldxdDejwrxkuj1p/PO
-	RuVcXxJpDPkuyumVZYj11fSo0fcZQdfPsbhyF0jjzIcsZkiLycpGygnZJlfFwi4DcBUvC+85D8JI2
-	KLhHrELU0xiUxBTXp41F9LbINyfvWyuwDSS5HJUhNChHy8fxRvU9tnAFFtoGX6vfCndo4TQ83NjMn
-	TstCy2Mw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FJjvC1mF0q7aqcVpwtDwuOCzqnQ0w4rL5HfWLZFRs+E=; b=19h3TYhDhnP4Par/70JxUpXQVg
+	wcNHbhfH2leJneobcGGEe+ib7j4E9OslheSlnMsdHmpkSZt7LqET1PDkMlTikyhm5up3e3/kmsGo+
+	yxBAqHbNElWa+1tczQOaVAmBarzfCstr34Ac7LD4Y0sDIEsDHQWksVel/ID48oV3LQPsY2M4tGKlS
+	+oM2oFF2pkwm18/zBXBGyKnifd15IMOoKkGAh1Vdui61io3VNHEBJItzbiqvCw0L8AkGTwt1sFVXP
+	4cxu2mINPS6J/bKZHHBk9i3UpKJgGHJGCbrImJeVGlk4yhNqm03vQ4gDFxSiUiVPHEGYw8UD0K61d
+	mdGWt2Ww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPzBx-0000000HQyd-0ueh;
-	Sat, 06 Jul 2024 06:46:41 +0000
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+	id 1sPzeZ-0000000HSaS-38hI;
+	Sat, 06 Jul 2024 07:16:15 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPzBt-0000000HQxw-0iMN
+	id 1sPybL-0000000HOcI-1qs9
+	for linux-nvme@bombadil.infradead.org;
+	Sat, 06 Jul 2024 06:08:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FJjvC1mF0q7aqcVpwtDwuOCzqnQ0w4rL5HfWLZFRs+E=; b=LEz0h5gOMssF3VOfbLwrwOB0HN
+	CuHqaH2jDu2ee2V/C6MkKgmOzIR3iZzyaOWA26Yc0StcixRU1eJsSVhCCQU1BPbF/NYZTd/DRMEJZ
+	MynFupFcGciw2n4c0FjplhwCAm9CG0MVHTB89xN6zPHg/fj569gv8EJKNAaPPlY3efXpz5K0OkHWE
+	ZcklQuQFgftDVich/bkPlBY4yzjajRoF+NXXMClp2RvQC6ey83GJqEps0mjAF9cDFgmRIHW83bCop
+	QFvudn53LYv5Xj1kBdz27xQKLPS9WCDhg4HirO71Hum3KQGDwyrzK8P3jgkc1zEfxgyT/HzUUOsPQ
+	QSQwIqjQ==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sPyb0-0000000AP99-3ZJ5
 	for linux-nvme@lists.infradead.org;
-	Sat, 06 Jul 2024 06:46:39 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WGLQX276HzxSF4;
-	Sat,  6 Jul 2024 14:41:56 +0800 (CST)
-Received: from kwepemd200011.china.huawei.com (unknown [7.221.188.251])
-	by mail.maildlp.com (Postfix) with ESMTPS id E111F180AA6;
-	Sat,  6 Jul 2024 14:46:26 +0800 (CST)
-Received: from cgs.huawei.com (10.244.148.83) by
- kwepemd200011.china.huawei.com (7.221.188.251) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Sat, 6 Jul 2024 14:46:26 +0800
-From: Gaosheng Cui <cuigaosheng1@huawei.com>
-To: <hare@suse.de>, <hch@lst.de>, <sagi@grimberg.me>, <kch@nvidia.com>,
-	<axboe@kernel.dk>, <cuigaosheng1@huawei.com>
-CC: <linux-nvme@lists.infradead.org>
-Subject: [PATCH -next] nvmet-auth: Fix the error handling path in nvmet_auth_host_hash and nvmet_auth_ctrl_hash
-Date: Sat, 6 Jul 2024 14:46:25 +0800
-Message-ID: <20240706064625.447744-1-cuigaosheng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	Sat, 06 Jul 2024 06:08:48 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1FCD868D0E; Sat,  6 Jul 2024 08:08:19 +0200 (CEST)
+Date: Sat, 6 Jul 2024 08:08:18 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, "Zeng, Oak" <oak.zeng@intel.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 18/18] nvme-pci: use new dma API
+Message-ID: <20240706060818.GA13470@lst.de>
+References: <cover.1719909395.git.leon@kernel.org> <47eb0510b0a6aa52d9f5665d75fa7093dd6af53f.1719909395.git.leon@kernel.org> <249ec228-4ffd-4121-bd51-f4a19275fee1@arm.com> <20240704171602.GE95824@unreal> <20240705055806.GA11885@lst.de> <20240705184846.GF95824@unreal>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.244.148.83]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemd200011.china.huawei.com (7.221.188.251)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240705184846.GF95824@unreal>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240705_234637_411819_456A2BC2 
-X-CRM114-Status: UNSURE (   9.12  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240706_070845_159190_437CBE34 
+X-CRM114-Status: GOOD (  11.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,80 +91,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If we fail to call nvme_auth_augmented_challenge, or fail to kmalloc
-for shash, we should free the memory allocation for challenge, so add
-err path out_free_challenge to fix the memory leak.
+On Fri, Jul 05, 2024 at 09:48:46PM +0300, Leon Romanovsky wrote:
+> In that case the flow is dma_map_sg()->iommu_dma_map_sg()->dev_use_sg_swiotlb().
 
-Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
-Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
----
- drivers/nvme/target/auth.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 7d2633940f9b..8bc3f431c77f 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -314,7 +314,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 						    req->sq->dhchap_c1,
- 						    challenge, shash_len);
- 		if (ret)
--			goto out_free_response;
-+			goto out_free_challenge;
- 	}
- 
- 	pr_debug("ctrl %d qid %d host response seq %u transaction %d\n",
-@@ -325,7 +325,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 			GFP_KERNEL);
- 	if (!shash) {
- 		ret = -ENOMEM;
--		goto out_free_response;
-+		goto out_free_challenge;
- 	}
- 	shash->tfm = shash_tfm;
- 	ret = crypto_shash_init(shash);
-@@ -361,9 +361,10 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 		goto out;
- 	ret = crypto_shash_final(shash, response);
- out:
-+	kfree(shash);
-+out_free_challenge:
- 	if (challenge != req->sq->dhchap_c1)
- 		kfree(challenge);
--	kfree(shash);
- out_free_response:
- 	nvme_auth_free_key(transformed_key);
- out_free_tfm:
-@@ -427,14 +428,14 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 						    req->sq->dhchap_c2,
- 						    challenge, shash_len);
- 		if (ret)
--			goto out_free_response;
-+			goto out_free_challenge;
- 	}
- 
- 	shash = kzalloc(sizeof(*shash) + crypto_shash_descsize(shash_tfm),
- 			GFP_KERNEL);
- 	if (!shash) {
- 		ret = -ENOMEM;
--		goto out_free_response;
-+		goto out_free_challenge;
- 	}
- 	shash->tfm = shash_tfm;
- 
-@@ -471,9 +472,10 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 		goto out;
- 	ret = crypto_shash_final(shash, response);
- out:
-+	kfree(shash);
-+out_free_challenge:
- 	if (challenge != req->sq->dhchap_c2)
- 		kfree(challenge);
--	kfree(shash);
- out_free_response:
- 	nvme_auth_free_key(transformed_key);
- out_free_tfm:
--- 
-2.25.1
+Even for that you'll still need to check the first and last entry
+for being kmalloc misaligned if we assume that all middle entries are
+aligned (which for NVMe they have to, but we're probably better off
+figuring out a way to enforce that).
 
 
