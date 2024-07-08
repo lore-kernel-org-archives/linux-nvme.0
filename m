@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEAFBC3271E
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jul 2024 14:25:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1919C3271E
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jul 2024 14:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bL64+wZkU2iUfENWrhWVq9xKXTux9tKW9+b+BgRap68=; b=g+SXa6/pVa/2LuCEAXcNB0M9MB
-	kdY0Cq+25FgcJuGFV6uJSZXwgxmxYYmpZjZau9S3tsumMl/yLOk3P6SyVlfB/ZsJDNhrNSjdFjWld
-	kAx8dqgGUkcSe0M3XcwzthUUrKfdnNZGrK6ew5G7CBcce9vZIbo3Wp0vb4j/3LuJ02drxlz4VEhvn
-	GUR9tO+Tukzjh/Wz10iznqBo/pjT1Lfftn5RuFueprndegMRf06NYd4zZV9QVOm43qeAub+jlEAKE
-	FJ8Qp4vrvd5h2v3mTETCcnISAcruNu1KWog8zzNRJmVTmFglYs0GJpOyt/lATgsH2E/l5LaQFlARG
-	jEw6iqOg==;
+	bh=ALkOLR2GbgTlCh1APD9eaYJPD+CXayMkm+sid4h2xhY=; b=nYuegNb8tQXvYpQSRS8cN9O/1e
+	wxxmB3PxEZqVxgqCbjyVxsPV8nL4LpID2PTNHq4X6zhtBmyM+8AnF3d9jiM7DQo9WeEe1X1TvOBjF
+	9MwxHniZK4luZjV5fhBN6+/9pPmxXXey2LLMrZIFl+uPjQCsWMsbiXMG7TEsGm3k1txj30S6P6JxZ
+	UUhhGmt+aTbxqY9El6cgfIbu+PA6GXWRs3TGKMvINtCfnX439+K/nrv2/nra4SN7CxAKfYHMek1Gf
+	npf2FHvCOaQr4CM9OUj60rdgpieC/CuKsaPt+zqXKqaj2yY8FRU/SMGSxnFJ8QYMWGCIhU/Tvq2X2
+	l0MD4Erg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sQpIl-000000043br-2Yrr;
-	Mon, 08 Jul 2024 14:25:11 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1sQpWD-000000046K0-3IFT;
+	Mon, 08 Jul 2024 14:39:05 +0000
+Received: from mail-wr1-f50.google.com ([209.85.221.50])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sQpIh-000000043bG-41xR
+	id 1sQpWA-000000046Hf-3XtT
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Jul 2024 14:25:09 +0000
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42111cf2706so4702375e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 08 Jul 2024 07:25:06 -0700 (PDT)
+	Mon, 08 Jul 2024 14:39:04 +0000
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3679483091aso276651f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 08 Jul 2024 07:39:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720448705; x=1721053505;
+        d=1e100.net; s=20230601; t=1720449540; x=1721054340;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bL64+wZkU2iUfENWrhWVq9xKXTux9tKW9+b+BgRap68=;
-        b=NeH1tJSsAtVqQbJbC/dBDOUm7FWgg5NpOjHA/k580YiugGtwhrlvxBQ39IDKu28c1K
-         rfuGzGyxyFdKwREHZjdPyDkCtJmKCWM+30ByRB8UB29rYIU5pEsyaluXkCWqEaOtcMA6
-         TYCS02PUKwJO7vykwBxr2Jx0ZeHK/Zm9xMCiwRpqmoyqnj9VTgO2QD9oLGZV+NpkQw/T
-         tTXh9DrgxuJkHGCX3pzugJc10JFOXlQJMOsdoduRmTWYHPVvmi6FPuXAIrm+2ndPqgLH
-         0h9ZGpFX0N05T6tmosDVT61r0hkaV4ItYafhmt3wiZu7hjmUDhZftLEkQ/t/mQQJtbMU
-         FILA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPNQA5KQYQ1DgHg9ppafSOnTjeE1X/4x7b6hGqnp7tFZnYbYkhnXZgSNiFRu/KwmCAzBzzEFb5Qrj1wxzVkcF0Ztp/2EmF4fPBnMpQ6Lg=
-X-Gm-Message-State: AOJu0YzuOPpt+HFfXEBJPM1I5BBr/2vE5SaJnrG5N1LdltIOBilaR33D
-	ZLReUypvtksDrs+e5V2xHffo4ffItUrfqb8bPimLgcZMeWPxAsW5
-X-Google-Smtp-Source: AGHT+IHOMvYBP1f9Pay8CCFP1dwKa7iGuXiQXIqFahoeV6LL6ptELe9EmIDSloEWg2+CbDkxN1qMew==
-X-Received: by 2002:a05:600c:4f03:b0:426:6358:7c5d with SMTP id 5b1f17b1804b1-4266358805emr33887955e9.4.1720448704790;
-        Mon, 08 Jul 2024 07:25:04 -0700 (PDT)
+        bh=ALkOLR2GbgTlCh1APD9eaYJPD+CXayMkm+sid4h2xhY=;
+        b=bzHfRKXdBxBivPJkHTPyBT5A6WN2Ys1EQ3Za8IrBQ0yLTUzZbMSt6kH6J2CicJi5SB
+         tjTKA+zwKbIigPuDcyaGrq6lPSH55pBOGhsswsDqmyfntoxsyuAD/VoXJbYlhVXUhJAh
+         VXA4bBOUoIoMII48kGOUTS052923TGEIoXvCTGdhc/GVy/sQqwX9wERI+vQBS4LcP98g
+         GuXhqccm7mNsNzNw12/IlE0U6Yur78+eF7Il5ezDVi+bf5NgODCTUE1ZsRCwoStz6FxJ
+         RrJo8TgtsGqxHZmr0jsva/3Qs2hhH0tg9fUvlSOU5R4d8aDLhbY3bfQ9C6z0WFIcuTDI
+         i8mw==
+X-Forwarded-Encrypted: i=1; AJvYcCXnPcedqxP9o5xX/rqkBL3dGhHYDEt+UNCwoGzmTMNU8ZPpCC+m4RI8zyRJAs/iuxE0C+fpX1cBiKVwXS8z0TZE7us7xoD7rgOmh7XY0x8=
+X-Gm-Message-State: AOJu0YxQK03h7i1jorUQuTkhfVB/KDooYxsGC6z5GRWwgs+BDJUGgkb7
+	g/sr6jPK2ojT0AHOtXfexCQ4guSG8vxWWARTxpPD5B+e3lSMZBkQ
+X-Google-Smtp-Source: AGHT+IFVRGgWK2VkNyQigvOVUDM2ruwFR/9Eg/6Sywt9sN+ZvNfcR+6QA5+uLYGpSNgGQidogb5VSg==
+X-Received: by 2002:a05:6000:1788:b0:35f:1edb:4695 with SMTP id ffacd0b85a97d-3679dd73a60mr8624042f8f.6.1720449540423;
+        Mon, 08 Jul 2024 07:39:00 -0700 (PDT)
 Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1d16b0sm165949635e9.7.2024.07.08.07.25.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3679887d58fsm12210772f8f.42.2024.07.08.07.38.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 07:25:04 -0700 (PDT)
-Message-ID: <5334b2dd-23ab-4637-a762-e871f884db54@grimberg.me>
-Date: Mon, 8 Jul 2024 17:25:03 +0300
+        Mon, 08 Jul 2024 07:39:00 -0700 (PDT)
+Message-ID: <af15dbd5-56d0-4179-a898-51c1486f3260@grimberg.me>
+Date: Mon, 8 Jul 2024 17:38:58 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] nvme-tcp: improve rx/tx fairness
+Subject: Re: [PATCH 2/3] nvme-tcp: align I/O cpu with blk-mq mapping
 To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
  Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20240708071013.69984-1-hare@kernel.org>
- <20240708071013.69984-2-hare@kernel.org>
- <96bb4107-abc0-4fd3-8e2b-35eafa6a5d4f@grimberg.me>
- <a54ac72e-f04f-4bb7-a9de-5a3d3d71d9c6@suse.de>
+ <20240708071013.69984-3-hare@kernel.org>
+ <a089cc30-fe38-46fe-b953-83a8ada222fd@grimberg.me>
+ <072f0e6b-8827-4b04-a374-0cfe228bd9d4@suse.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <a54ac72e-f04f-4bb7-a9de-5a3d3d71d9c6@suse.de>
+In-Reply-To: <072f0e6b-8827-4b04-a374-0cfe228bd9d4@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240708_072508_037614_5BC60101 
-X-CRM114-Status: GOOD (  58.70  )
+X-CRM114-CacheID: sfid-20240708_073902_915291_998DD1E0 
+X-CRM114-Status: GOOD (  34.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,344 +87,215 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 08/07/2024 16:21, Hannes Reinecke wrote:
-> On 7/8/24 13:57, Sagi Grimberg wrote:
->> Hey Hannes, thanks for doing this.
+On 08/07/2024 15:43, Hannes Reinecke wrote:
+> On 7/8/24 14:08, Sagi Grimberg wrote:
+>>
 >>
 >> On 08/07/2024 10:10, Hannes Reinecke wrote:
->>> We need to restrict both side, rx and tx, to only run for a certain 
->>> time
->>> to ensure that we're not blocking the other side and induce starvation.
->>> So pass in a 'deadline' value to nvme_tcp_send_all()
->>
->> Please split the addition of nvme_tcp_send_all() to a separate prep 
->> patch.
->>
-> Okay, no problem.
->
->>>   and nvme_tcp_try_recv()
->>> and break out of the loop if the deadline is reached.
->>
->> I think we want to limit the rx/tx in pdus/bytes. This will also 
->> allow us
->> to possibly do burst rx from data-ready.
->>
-> PDUs is not the best scheduling boundary here, as each PDU can be of 
-> different size, and the network interface most definitely is limited by
-> the number of bytes transferred.
-
-Well, PDUs is at least A proxy of bytes in terms of limits, but I agree 
-bytes may be more appropriate.
-
->
->>>
->>> As we now have a timestamp we can also use it to print out a warning
->>> if the actual time spent exceeds the deadline.
+>>> We should align the 'io_cpu' setting with the blk-mq
+>>> cpu mapping to ensure that we're not bouncing threads
+>>> when doing I/O. To avoid cpu contention this patch also
+>>> adds an atomic counter for the number of queues on each
+>>> cpu to distribute the load across all CPUs in the blk-mq cpu set.
+>>> Additionally we should always set the 'io_cpu' value, as
+>>> in the WQ_UNBOUND case it'll be treated as a hint anyway.
 >>>
 >>> Performance comparison:
->>>                 baseline rx/tx fairness
->>> 4k seq write:  449MiB/s 480MiB/s
->>> 4k rand write: 410MiB/s 481MiB/s
->>> 4k seq read:   478MiB/s 481MiB/s
->>> 4k rand read:  547MiB/s 480MiB/s
->>>
->>> Random read is ever so disappointing, but that will be fixed with 
->>> the later
->>> patches.
->>
->> That is a significant decline in relative perf. I'm counting 12.5%...
->> Can you explain why that is?
->>
-> Not really :-(
-> But then fairness cuts both ways; so I am not surprised that some 
-> workloads suffer here.
-
-Well, 12.5% is rather steep, don't you agree?
-I'm even more surprised that seq/rand read make a difference...
-
->
->
->> How does this look for multiple controllers?
->>
-> Haven't really checked (yet); it would make a rather weak case if
-> we killed performance just to scale better ...
->
->>
->>
+>>>                 baseline rx/tx    blk-mq align
+>>> 4k seq write:  449MiB/s 480MiB/s 524MiB/s
+>>> 4k rand write: 410MiB/s 481MiB/s 524MiB/s
+>>> 4k seq read:   478MiB/s 481MiB/s 566MiB/s
+>>> 4k rand read:  547MiB/s 480MiB/s 511MiB/s
 >>>
 >>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
 >>> ---
->>>   drivers/nvme/host/tcp.c | 38 +++++++++++++++++++++++++++++---------
->>>   1 file changed, 29 insertions(+), 9 deletions(-)
+>>>   drivers/nvme/host/tcp.c | 65 
+>>> +++++++++++++++++++++++++++++++----------
+>>>   1 file changed, 49 insertions(+), 16 deletions(-)
 >>>
 >>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>> index 0873b3949355..f621d3ba89b2 100644
+>>> index f621d3ba89b2..a5c42a7b4bee 100644
 >>> --- a/drivers/nvme/host/tcp.c
 >>> +++ b/drivers/nvme/host/tcp.c
->>> @@ -153,6 +153,7 @@ struct nvme_tcp_queue {
->>>       size_t            data_remaining;
->>>       size_t            ddgst_remaining;
->>>       unsigned int        nr_cqe;
->>> +    unsigned long        deadline;
->>
->> I don't see why you need to keep this in the queue struct. You could 
->> have
->> easily initialize it in the read_descriptor_t and test against it.
->>
-> Because I wanted to interrupt the receive side for large data 
-> transfers, and haven't found a way to pass the deadline into 
-> ->read_sock().
-
-desc.count is for you to interpret however you want it to be no?
-
->
->>>       /* send state */
->>>       struct nvme_tcp_request *request;
->>> @@ -359,14 +360,18 @@ static inline void nvme_tcp_advance_req(struct 
->>> nvme_tcp_request *req,
->>>       }
->>>   }
->>> -static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
->>> +static inline int nvme_tcp_send_all(struct nvme_tcp_queue *queue,
->>> +                    unsigned long deadline)
->>>   {
->>>       int ret;
->>>       /* drain the send queue as much as we can... */
->>>       do {
->>>           ret = nvme_tcp_try_send(queue);
->>> +        if (time_after(jiffies, deadline))
->>> +            break;
->>>       } while (ret > 0);
->>> +    return ret;
->>
->> I think you want a different interface, nvme_tcp_send_budgeted(queue, 
->> budget).
->> I don't know what you pass here, but jiffies is a rather large 
->> granularity...
->>
-> Hmm. I've been using jiffies as the io_work loop had been counting
-> in jiffies. But let me check what would happen if I move that over to
-> PDU / size counting.
-
-Cool.
-
->
->>>   }
->>>   static inline bool nvme_tcp_queue_has_pending(struct 
+>>> @@ -26,6 +26,8 @@
+>>>   struct nvme_tcp_queue;
+>>> +static atomic_t nvme_tcp_cpu_queues[NR_CPUS];
+>>> +
+>>>   /* Define the socket priority to use for connections were it is 
+>>> desirable
+>>>    * that the NIC consider performing optimized packet processing or 
+>>> filtering.
+>>>    * A non-zero value being sufficient to indicate general 
+>>> consideration of any
+>>> @@ -1578,20 +1580,42 @@ static bool nvme_tcp_poll_queue(struct 
 >>> nvme_tcp_queue *queue)
->>> @@ -385,6 +390,7 @@ static inline void nvme_tcp_queue_request(struct 
->>> nvme_tcp_request *req,
->>>           bool sync, bool last)
+>>>   static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
 >>>   {
->>>       struct nvme_tcp_queue *queue = req->queue;
->>> +    unsigned long deadline = jiffies + msecs_to_jiffies(1);
->>>       bool empty;
->>>       empty = llist_add(&req->lentry, &queue->req_list) &&
->>> @@ -397,7 +403,7 @@ static inline void nvme_tcp_queue_request(struct 
->>> nvme_tcp_request *req,
->>>        */
->>>       if (queue->io_cpu == raw_smp_processor_id() &&
->>>           sync && empty && mutex_trylock(&queue->send_mutex)) {
->>> -        nvme_tcp_send_all(queue);
->>> +        nvme_tcp_send_all(queue, deadline);
->>>           mutex_unlock(&queue->send_mutex);
->>>       }
+>>>       struct nvme_tcp_ctrl *ctrl = queue->ctrl;
+>>> -    int qid = nvme_tcp_queue_id(queue);
+>>> -    int n = 0;
+>>> -
+>>> -    if (nvme_tcp_default_queue(queue))
+>>> -        n = qid - 1;
+>>> -    else if (nvme_tcp_read_queue(queue))
+>>> -        n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] - 1;
+>>> -    else if (nvme_tcp_poll_queue(queue))
+>>> +    struct blk_mq_tag_set *set = &ctrl->tag_set;
+>>> +    int qid = nvme_tcp_queue_id(queue) - 1;
 >>
->> Umm, spend up to a millisecond in in queue_request ? Sounds like way 
->> too much...
->> Did you ever see this deadline exceeded? sends should be rather quick...
+>> umm, its not the qid, why change it? I mean it looks harmless, but
+>> I don't see why.
 >>
-> Of _course_ it's too long. That's kinda the point.
-> But I'm seeing network latency up to 4000 msecs (!) on my test setup,
-> so _that_ is the least of my worries ...
+>>> +    unsigned int *mq_map = NULL;;
+>>> +    int n = 0, cpu, io_cpu, min_queues = WORK_CPU_UNBOUND;
+>>
+>> min_queues initialization looks very very weird. I can't even parse it.
+>> besides, why is it declared in this scope?
+>>
+> Because it's evaluated in the loop, with the value carried over across
+> loop iterations.
 
-This has nothing to do with the network latency afaict. This is just a 
-matter
-of how long does it take to write to the socket buffer (or in our case, 
-construct
-skbs and add them to the socket as TX is zero copy).
+Right. missed that.
+
+> WORK_CPU_UNBOUND is the init value, to detect if it had been set at all.
+
+as far as I read this patch, min_queues and num_queues are a quantity of
+queues. So it is bizzar to see it initiatlized to this completely 
+unrelated value
+of WORK_CPU_UNBOUND. its really confusing. Still not sure what is tbh.
 
 >
->>> @@ -959,9 +965,14 @@ static int nvme_tcp_recv_skb(read_descriptor_t 
->>> *desc, struct sk_buff *skb,
->>> nvme_tcp_error_recovery(&queue->ctrl->ctrl);
->>>               return result;
->>>           }
->>> +        if (time_after(jiffies, queue->deadline)) {
->>> +            desc->count = 0;
->>> +            break;
+>>> +
+>>> +    if (nvme_tcp_default_queue(queue)) {
+>>> +        mq_map = set->map[HCTX_TYPE_DEFAULT].mq_map;
+>>> +        n = qid;
+>>> +    } else if (nvme_tcp_read_queue(queue)) {
+>>> +        mq_map = set->map[HCTX_TYPE_READ].mq_map;
+>>> +        n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT];
+>>> +    } else if (nvme_tcp_poll_queue(queue)) {
+>>> +        mq_map = set->map[HCTX_TYPE_POLL].mq_map;
+>>>           n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
+>>> -                ctrl->io_queues[HCTX_TYPE_READ] - 1;
+>>> -    if (wq_unbound)
+>>> -        queue->io_cpu = WORK_CPU_UNBOUND;
+>>> -    else
+>>> -        queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, 
+>>> -1, false);
+>>> +                ctrl->io_queues[HCTX_TYPE_READ];
+>>> +    }
+>>> +
+>>> +    if (WARN_ON(!mq_map))
+>>> +        return;
+>>> +    for_each_online_cpu(cpu) {
+>>> +        int num_queues;
+>>> +
+>>> +        if (mq_map[cpu] != qid)
+>>> +            continue;
+>>> +        num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
+>>> +        if (num_queues < min_queues) {
+>>> +            min_queues = num_queues;
+>>> +            io_cpu = cpu;
 >>> +        }
+>>> +    }
+>>> +    if (io_cpu != queue->io_cpu) {
+>>> +        queue->io_cpu = io_cpu;
+>>> +        atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
+>>> +    }
+>>
+>> Why is that conditioned ? why not always assign and inc the counter?
+>>
+> Because we're having the conditional
+>
+> if (mq_map[cpu] != qid)
+>
+> above, so technically we might not find the correct mapping.
+> Might be worthwhile doing a WARN_ON() here, but it might trigger
+> with CPU hotplug...
+
+Writing code that looks like:
+     if (a != b) {
+         a = b;
+     }
+
+is silly.
+
+iiuc It is probably because you initialized the queue->io_cpu to
+WORK_CPU_UNBOUND and now you don't want to touch it. But it is
+still kinda ugly.
+
+I suggest that you always select a io_cpu and always account it.
+You said yourself that if the wq is unbound, it doesn't really matter what
+the io_cpu is...
+
+And I think that a code comment would help here. its not the most trivial
+code...
+
+>
+>>> +    dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
+>>> +        qid, queue->io_cpu);
+>>>   }
+>>>   static void nvme_tcp_tls_done(void *data, int status, key_serial_t 
+>>> pskid)
+>>> @@ -1735,7 +1759,7 @@ static int nvme_tcp_alloc_queue(struct 
+>>> nvme_ctrl *nctrl, int qid,
+>>>       queue->sock->sk->sk_allocation = GFP_ATOMIC;
+>>>       queue->sock->sk->sk_use_task_frag = false;
+>>> -    nvme_tcp_set_queue_io_cpu(queue);
+>>> +    queue->io_cpu = WORK_CPU_UNBOUND;
+>>>       queue->request = NULL;
+>>>       queue->data_remaining = 0;
+>>>       queue->ddgst_remaining = 0;
+>>> @@ -1847,6 +1871,10 @@ static void __nvme_tcp_stop_queue(struct 
+>>> nvme_tcp_queue *queue)
+>>>       kernel_sock_shutdown(queue->sock, SHUT_RDWR);
+>>>       nvme_tcp_restore_sock_ops(queue);
+>>>       cancel_work_sync(&queue->io_work);
+>>> +    if (queue->io_cpu != WORK_CPU_UNBOUND) {
+>>> + atomic_dec(&nvme_tcp_cpu_queues[queue->io_cpu]);
+>>> +        queue->io_cpu = WORK_CPU_UNBOUND;
+>>> +    }
+>>
+>> Does anything change if we still set the io_cpu in wq_unbound case?
+>> If not, I think we should always do it and simplify the code.
+>>
+> See above. WORK_CPU_UNBOUND means that we failed to find the cpu
+> in the mq_map. Yes, I know, unlikely, but not impossible.
+
+If you always select a cpu, it should be fine.
+
+>
+>>>   }
+>>>   static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
+>>> @@ -1891,9 +1919,10 @@ static int nvme_tcp_start_queue(struct 
+>>> nvme_ctrl *nctrl, int idx)
+>>>       nvme_tcp_init_recv_ctx(queue);
+>>>       nvme_tcp_setup_sock_ops(queue);
+>>> -    if (idx)
+>>> +    if (idx) {
+>>> +        nvme_tcp_set_queue_io_cpu(queue);
+>>>           ret = nvmf_connect_io_queue(nctrl, idx);
+>>> -    else
+>>> +    } else
+>>>           ret = nvmf_connect_admin_queue(nctrl);
+>>>       if (!ret) {
+>>> @@ -2920,6 +2949,7 @@ static struct nvmf_transport_ops 
+>>> nvme_tcp_transport = {
+>>>   static int __init nvme_tcp_init_module(void)
+>>>   {
+>>>       unsigned int wq_flags = WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_SYSFS;
+>>> +    int cpu;
+>>>       BUILD_BUG_ON(sizeof(struct nvme_tcp_hdr) != 8);
+>>>       BUILD_BUG_ON(sizeof(struct nvme_tcp_cmd_pdu) != 72);
+>>> @@ -2937,6 +2967,9 @@ static int __init nvme_tcp_init_module(void)
+>>>       if (!nvme_tcp_wq)
+>>>           return -ENOMEM;
+>>> +    for_each_possible_cpu(cpu)
+>>> +        atomic_set(&nvme_tcp_cpu_queues[cpu], 0);
 >>> +
 >>
->> That is still not right.
->> You don't want to spend a full deadline reading from the socket, and 
->> then spend a full deadline writing to the socket...
->>
-> Yes, and no.
-> Problem is that the current code serializes writes  and reads.
-> Essentially for each iteration we first to a write, and then a read.
-> If we spend the full deadline on write we will need to reschedule,
-> but we then _again_ start with writes. This leads to a heavy preference
-> for writing, and negative performance impact.
-
-Yes, the assumption we should take is that the tx/rx limits allow to 
-switch between the
-two at least once or twice in the io_work while loop, and that they get 
-a fair'ish share
-of quota.
-
+>> Why?
 >
->> You want the io_work to take a full deadline, and send budgets of 
->> try_send and try_recv. And set it to sane counts. Say 8 pdus, or
->> 64k bytes. We want to get to some magic value that presents a
->> sane behavior, that confidently fits inside a deadline, and is fair.
->>
-> Easier said than done.
-> Biggest problem is that most of the latency increase comes from the
-> actual 'sendmsg()' and 'read_sock()' calls.
+> Don't we need to initialize the atomic counters?
 
-This is a bit surprising. because read_sock reads data that is already
-processed by the tcp stack, and ready to simply copy back to the user
-pages. Same for sendmsg, the socket is non-blocking, so I would not
-expect it to stall for unusually long periods. Maybe there is an issue
-hiding in how we call send/recv?
-
-> And the only way of inhibiting that would be to check _prior_ whether
-> we can issue the call in the first place.
-> (That's why I did the SOCK_NOSPACE tests in the previous patchsets).
-
-The socket is non-blocking. I always thought that SOCK_NOSPACE is 
-serving blocking
-sockets... afaik, there shouldn't be a real difference between checking 
-NOSPACE vs.
-attempting sendmsg on a non-blocking socket... But I could be wrong here..
-
->
->>>       }
->>> -    return consumed;
->>> +    return consumed - len;
->>>   }
->>>   static void nvme_tcp_data_ready(struct sock *sk)
->>> @@ -1258,7 +1269,7 @@ static int nvme_tcp_try_send(struct 
->>> nvme_tcp_queue *queue)
->>>       return ret;
->>>   }
->>> -static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
->>> +static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue, unsigned 
->>> long deadline)
->>>   {
->>>       struct socket *sock = queue->sock;
->>>       struct sock *sk = sock->sk;
->>> @@ -1269,6 +1280,7 @@ static int nvme_tcp_try_recv(struct 
->>> nvme_tcp_queue *queue)
->>>       rd_desc.count = 1;
->>>       lock_sock(sk);
->>>       queue->nr_cqe = 0;
->>> +    queue->deadline = deadline;
->>>       consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
->>>       release_sock(sk);
->>>       return consumed;
->>> @@ -1278,14 +1290,15 @@ static void nvme_tcp_io_work(struct 
->>> work_struct *w)
->>>   {
->>>       struct nvme_tcp_queue *queue =
->>>           container_of(w, struct nvme_tcp_queue, io_work);
->>> -    unsigned long deadline = jiffies + msecs_to_jiffies(1);
->>> +    unsigned long tx_deadline = jiffies + msecs_to_jiffies(1);
->>> +    unsigned long rx_deadline = tx_deadline + msecs_to_jiffies(1), 
->>> overrun;
->>>       do {
->>>           bool pending = false;
->>>           int result;
->>>           if (mutex_trylock(&queue->send_mutex)) {
->>> -            result = nvme_tcp_try_send(queue);
->>> +            result = nvme_tcp_send_all(queue, tx_deadline);
->>>               mutex_unlock(&queue->send_mutex);
->>>               if (result > 0)
->>>                   pending = true;
->>> @@ -1293,7 +1306,7 @@ static void nvme_tcp_io_work(struct 
->>> work_struct *w)
->>>                   break;
->>>           }
->>> -        result = nvme_tcp_try_recv(queue);
->>> +        result = nvme_tcp_try_recv(queue, rx_deadline);
->>
->> I think you want a more frequent substitution of sends/receives. the 
->> granularity of 1ms budget may be too coarse?
->>
-> The problem is not the granularity, the problem is the latency spikes
-> I'm seeing when issuing 'sendmsg' or 'read_sock'.
-
-I think that its possible that there is another underlying issue. 
-Because these calls
-should NOT be blocked for a long period of time for non-blocking sockets.
-
->
->>>           if (result > 0)
->>>               pending = true;
->>>           else if (unlikely(result < 0))
->>> @@ -1302,7 +1315,13 @@ static void nvme_tcp_io_work(struct 
->>> work_struct *w)
->>>           if (!pending || !queue->rd_enabled)
->>>               return;
->>> -    } while (!time_after(jiffies, deadline)); /* quota is exhausted */
->>> +    } while (!time_after(jiffies, rx_deadline)); /* quota is 
->>> exhausted */
->>> +
->>> +    overrun = jiffies - rx_deadline;
->>> +    if (nvme_tcp_queue_id(queue) > 0 &&
->>> +        overrun > msecs_to_jiffies(10))
->>> +        dev_dbg(queue->ctrl->ctrl.device, "queue %d: queue stall 
->>> (%u msecs)\n",
->>> +            nvme_tcp_queue_id(queue), jiffies_to_msecs(overrun));
->>
->> Umm, ok. why 10? why not 2? or 3?
->> Do you expect io_work to spend more time executing?
->>
-> Eg 4000 msecs like on my testbed?
-
-If you see ANYTHING in the IO path stalling for 4 seconds then we have a 
-bigger issue here.
-
-> Yes.
->
->>>       queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
->>>   }
->>> @@ -2666,6 +2685,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx 
->>> *hctx, struct io_comp_batch *iob)
->>>   {
->>>       struct nvme_tcp_queue *queue = hctx->driver_data;
->>>       struct sock *sk = queue->sock->sk;
->>> +    unsigned long deadline = jiffies + msecs_to_jiffies(1);
->>>       if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
->>>           return 0;
->>> @@ -2673,7 +2693,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx 
->>> *hctx, struct io_comp_batch *iob)
->>>       set_bit(NVME_TCP_Q_POLLING, &queue->flags);
->>>       if (sk_can_busy_loop(sk) && 
->>> skb_queue_empty_lockless(&sk->sk_receive_queue))
->>>           sk_busy_loop(sk, true);
->>> -    nvme_tcp_try_recv(queue);
->>> +    nvme_tcp_try_recv(queue, deadline);
->>
->> spend a millisecond in nvme_tcp_poll() ??
->> Isn't it too long?
-> Haven't tried with polling, so can't honestly answer.
->
-> In the end, it all boils down to numbers.
-> I'm having 2 controllers with 32 queues and 256 requests.
-> Running on a 10GigE link one should be getting a net throughput
-> of 1GB/s, or, with 4k requests, 256k IOPS.
-> Or a latency of 0.25 milliseconds per command.
-> In the optimal case. As I'm seeing a bandwidth of around
-> 500MB/s, I'm looking at a latency 0.5 milliseconds _in the ideal case_.
->
-> So no, I don't think the 1 milliseconds is too long.
-
-nvme_tcp_poll is NOT designed to poll for the entirety or an individual 
-IO lifetime. Its
-a non-selective polling interface wired to io_uring. It should peek the 
-socket, consume what ever
-is there, and break. It most definitely should not spend 1ms in this 
-check...
+I thought this was the module __exit function, sorry.
 
