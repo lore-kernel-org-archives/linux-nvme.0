@@ -4,61 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E988C3271E
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B243C3DA45
 	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jul 2024 07:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e4JvfPDpYzwMW9ctF/e69wP2WiuW5Cqwa+ycuy7l2Ls=; b=hzlLHKfR8fhN1W18M908Zxoa0u
-	/F24ISw8F/PrTeDJqjvcELFdWixULgkgFIdXc0T3wjuP0qEydyEpE8p4HP2aB0GMSED7SYdaSmXSC
-	wW1wGq4reg9AucUmx0alJV0Yr16pCUWGcRJvp86kqBZ/VNStTuvWeSsqWk4b2CYhC+rp74LxmGg4x
-	5LcdxoPfMgb+fR0tPX31jek3zaRLRkEMMBUQIMJoPc6H+cScKe3hy9Jopwwt2kXnlwwKuBD/lg0U5
-	oVP3ikIcJDHmxqsRvFFMQJEFtS4byVAK2SNk8mXEsQlYfvi+Tp9H7ZgkPnv42tK9afhfooEKtaCiD
-	TL5Aa1Vw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=KByJ5y+5nV9+n1XV9Q/N+xRPLpArgQJnMvTfswttdRw=; b=fXqFxTcq4e7XcnssQMwO09uGfn
+	T+9cX4/LiVLyj+CkajRDh9hpfTL7aHkrezSXJ8crRmQRpOdVX7+XD+LvKge+gNw4oxf65nvDodSrh
+	ClY9/wGkihtCmCz0kKzE2HI3FjFGdmk+jjlz+tT9waIfc7H/t1vysve2Xz7GerMpG6J19Cupz7FYO
+	gwBSAX2yTanZscpTpeDmZ9VP+3gbdpq1rv8lwkXrjvsOQWpFIItUns01UAPJ9nyGDKpOmv6IlIHlm
+	CTYeV3JUUQiE2UbkQD0TsBWncBchAnWvVfAflfJJbaICZTnXsuJ/bu0wa34fm8QFibqCqe4xLgsd6
+	r7Qo1TNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sQiW7-00000002z72-0qWG;
-	Mon, 08 Jul 2024 07:10:31 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sQiW6-00000002z6Q-1kDa;
+	Mon, 08 Jul 2024 07:10:30 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sQiVy-00000002z4V-1uGw
+	id 1sQiVy-00000002z4T-0ZLA
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Jul 2024 07:10:24 +0000
+	Mon, 08 Jul 2024 07:10:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 575CB60A0C;
-	Mon,  8 Jul 2024 07:10:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6DCBC4AF0D;
-	Mon,  8 Jul 2024 07:10:19 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 0DD6CCE0A7C;
+	Mon,  8 Jul 2024 07:10:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16DEDC116B1;
+	Mon,  8 Jul 2024 07:10:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720422621;
-	bh=J5XOIyvDrxAnmj0GIMPT1L8U5fJ8cDXhWfXgK41/p9g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qXDZf5n2KgR0ElxtgAJ7KHqbtS/0P1aQkxS8rW9MbaDisa0o6byX+Z0P+wysWut+E
-	 4vTqDxJuKvkLG2vWyKpN4QHtbHFXeT7cyx77bHnEejpLxC7sDMbCi8gTdNRaeg/5mv
-	 bw1O6nFQGyG0nzMZBlJIJut8wR7dpZ+IcryWzX3wBiOpyx3hh+yF9eEzM3LmtQjNWP
-	 dxS2cvWW/lVo+qEc58oj3S6DyjxlGJAW+yk2XXHsgB9tAthYfS4sQL1N4SaB8dFEno
-	 SUdBXOxgAsxyNTJ14F+4Z+UzkPKWQrrhpViGdjx0YZK5wUMoxwqe8kYawM6jQOih8t
-	 O2kGUbOkwg3ow==
+	s=k20201202; t=1720422619;
+	bh=ncS9j2xtSGs89Ss6UeFv7gXes7BrNhe8Fb9llLLGPu4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=E0QPRRjAzaDuLL5NW1XCsZNqhkWPRymOXTbQMLD4D99HKu0G1YaC6TF5z7g4YEndE
+	 NJA1/8kkR2wGlyQJrKsB32FFa5rqFKF+6Fb6mKtai3BH2EhXPlb7QUb+L4jkJkorJJ
+	 fOmeKdufFxGpsIu/jhTt8kPcVoICaYR+y8DjmJ7KwzrOeqc1VaTOfcJ+/m85RKW1j9
+	 yGVKKmQQdtOPkdjYmxkdfJYWTEr4ZFz1YURUAlJAK5je3NEjnvM90byFS97C6qlw+w
+	 6HDMLdykXdEAqDD47d4vUznDU6LOkS7x/M7iEqruXTT37RPIUqdbS44hHOXJNUH2SQ
+	 qN9dbgfEzv7zw==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 1/3] nvme-tcp: improve rx/tx fairness
-Date: Mon,  8 Jul 2024 09:10:11 +0200
-Message-Id: <20240708071013.69984-2-hare@kernel.org>
+Subject: [PATCHv2 0/3] nvme-tcp: improve scalability
+Date: Mon,  8 Jul 2024 09:10:10 +0200
+Message-Id: <20240708071013.69984-1-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240708071013.69984-1-hare@kernel.org>
-References: <20240708071013.69984-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240708_001022_707026_140E15C3 
-X-CRM114-Status: GOOD (  19.70  )
+X-CRM114-CacheID: sfid-20240708_001022_704695_D29B65C8 
+X-CRM114-Status: UNSURE (   9.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,170 +72,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We need to restrict both side, rx and tx, to only run for a certain time
-to ensure that we're not blocking the other side and induce starvation.
-So pass in a 'deadline' value to nvme_tcp_send_all() and nvme_tcp_try_recv()
-and break out of the loop if the deadline is reached.
+Hi all,
 
-As we now have a timestamp we can also use it to print out a warning
-if the actual time spent exceeds the deadline.
+for workloads with a lot of controllers we run into workqueue contention,
+where the single workqueue is not able to service requests fast enough,
+leading to spurious I/O errors and connect resets during high load.
+This patchset improves the situation by improve the fairness between
+rx and tx scheduling, introducing per-controller workqueues,
+and distribute the load accoring to the blk-mq cpu mapping.
+With this we reduce the spurious I/O errors and improve the overall
+performance for highly contended workloads.
 
-Performance comparison:
-               baseline rx/tx fairness
-4k seq write:  449MiB/s 480MiB/s
-4k rand write: 410MiB/s 481MiB/s
-4k seq read:   478MiB/s 481MiB/s
-4k rand read:  547MiB/s 480MiB/s
+All performance number are derived from the 'tiobench-example.fio'
+sample from the fio sources, running on a 96 core machine with one
+subsystem and two paths, each path exposing 32 queues.
+Backend is nvmet using an Intel DC P3700 NVMe SSD.
 
-Random read is ever so disappointing, but that will be fixed with the later
-patches.
+Changes to the initial submission:
+- Make the changes independent from the 'wq_unbound' parameter
+- Drop changes to the workqueue
+- Add patch to improve rx/tx fairness
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/host/tcp.c | 38 +++++++++++++++++++++++++++++---------
- 1 file changed, 29 insertions(+), 9 deletions(-)
+Hannes Reinecke (3):
+  nvme-tcp: improve rx/tx fairness
+  nvme-tcp: align I/O cpu with blk-mq mapping
+  nvme-tcp: per-controller I/O workqueues
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 0873b3949355..f621d3ba89b2 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -153,6 +153,7 @@ struct nvme_tcp_queue {
- 	size_t			data_remaining;
- 	size_t			ddgst_remaining;
- 	unsigned int		nr_cqe;
-+	unsigned long		deadline;
- 
- 	/* send state */
- 	struct nvme_tcp_request *request;
-@@ -359,14 +360,18 @@ static inline void nvme_tcp_advance_req(struct nvme_tcp_request *req,
- 	}
- }
- 
--static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
-+static inline int nvme_tcp_send_all(struct nvme_tcp_queue *queue,
-+				    unsigned long deadline)
- {
- 	int ret;
- 
- 	/* drain the send queue as much as we can... */
- 	do {
- 		ret = nvme_tcp_try_send(queue);
-+		if (time_after(jiffies, deadline))
-+			break;
- 	} while (ret > 0);
-+	return ret;
- }
- 
- static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *queue)
-@@ -385,6 +390,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
- 		bool sync, bool last)
- {
- 	struct nvme_tcp_queue *queue = req->queue;
-+	unsigned long deadline = jiffies + msecs_to_jiffies(1);
- 	bool empty;
- 
- 	empty = llist_add(&req->lentry, &queue->req_list) &&
-@@ -397,7 +403,7 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
- 	 */
- 	if (queue->io_cpu == raw_smp_processor_id() &&
- 	    sync && empty && mutex_trylock(&queue->send_mutex)) {
--		nvme_tcp_send_all(queue);
-+		nvme_tcp_send_all(queue, deadline);
- 		mutex_unlock(&queue->send_mutex);
- 	}
- 
-@@ -959,9 +965,14 @@ static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
- 			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
- 			return result;
- 		}
-+		if (time_after(jiffies, queue->deadline)) {
-+			desc->count = 0;
-+			break;
-+		}
-+
- 	}
- 
--	return consumed;
-+	return consumed - len;
- }
- 
- static void nvme_tcp_data_ready(struct sock *sk)
-@@ -1258,7 +1269,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
- 	return ret;
- }
- 
--static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-+static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue, unsigned long deadline)
- {
- 	struct socket *sock = queue->sock;
- 	struct sock *sk = sock->sk;
-@@ -1269,6 +1280,7 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
- 	rd_desc.count = 1;
- 	lock_sock(sk);
- 	queue->nr_cqe = 0;
-+	queue->deadline = deadline;
- 	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
- 	release_sock(sk);
- 	return consumed;
-@@ -1278,14 +1290,15 @@ static void nvme_tcp_io_work(struct work_struct *w)
- {
- 	struct nvme_tcp_queue *queue =
- 		container_of(w, struct nvme_tcp_queue, io_work);
--	unsigned long deadline = jiffies + msecs_to_jiffies(1);
-+	unsigned long tx_deadline = jiffies + msecs_to_jiffies(1);
-+	unsigned long rx_deadline = tx_deadline + msecs_to_jiffies(1), overrun;
- 
- 	do {
- 		bool pending = false;
- 		int result;
- 
- 		if (mutex_trylock(&queue->send_mutex)) {
--			result = nvme_tcp_try_send(queue);
-+			result = nvme_tcp_send_all(queue, tx_deadline);
- 			mutex_unlock(&queue->send_mutex);
- 			if (result > 0)
- 				pending = true;
-@@ -1293,7 +1306,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
- 				break;
- 		}
- 
--		result = nvme_tcp_try_recv(queue);
-+		result = nvme_tcp_try_recv(queue, rx_deadline);
- 		if (result > 0)
- 			pending = true;
- 		else if (unlikely(result < 0))
-@@ -1302,7 +1315,13 @@ static void nvme_tcp_io_work(struct work_struct *w)
- 		if (!pending || !queue->rd_enabled)
- 			return;
- 
--	} while (!time_after(jiffies, deadline)); /* quota is exhausted */
-+	} while (!time_after(jiffies, rx_deadline)); /* quota is exhausted */
-+
-+	overrun = jiffies - rx_deadline;
-+	if (nvme_tcp_queue_id(queue) > 0 &&
-+	    overrun > msecs_to_jiffies(10))
-+		dev_dbg(queue->ctrl->ctrl.device, "queue %d: queue stall (%u msecs)\n",
-+			nvme_tcp_queue_id(queue), jiffies_to_msecs(overrun));
- 
- 	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
- }
-@@ -2666,6 +2685,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
- {
- 	struct nvme_tcp_queue *queue = hctx->driver_data;
- 	struct sock *sk = queue->sock->sk;
-+	unsigned long deadline = jiffies + msecs_to_jiffies(1);
- 
- 	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
- 		return 0;
-@@ -2673,7 +2693,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
- 	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
- 	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
- 		sk_busy_loop(sk, true);
--	nvme_tcp_try_recv(queue);
-+	nvme_tcp_try_recv(queue, deadline);
- 	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
- 	return queue->nr_cqe;
- }
+ drivers/nvme/host/tcp.c | 135 ++++++++++++++++++++++++++++------------
+ 1 file changed, 95 insertions(+), 40 deletions(-)
+
 -- 
 2.35.3
 
