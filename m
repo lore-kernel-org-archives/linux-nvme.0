@@ -4,90 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD69BC2BD09
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jul 2024 06:52:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91312C2BD09
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jul 2024 07:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3yEV5Mth4GbtX1rg5f10INAr+H52NO/l+mmP1MPeBIE=; b=40TP30lDf1xERnBmts441o8l5j
-	DQ+5sifOgL5R3GgfUNrdXcEUShsuif98Ypp7xRAqPNXJB6aOh3fkRnE5E+5EfdzKp9k949PXavJ0E
-	mbVVbVWKOHwLGpB/ghNwDXaqWEQpp38bB41yLqrJNZC0snOUK59bk6aYvsd+xqNYfT1TcLNw5KPQA
-	EkK6cEnJADR7GG3SNKNEUm2K5u85RtHwfectvfSQHeoBRh3sVLKzsIiOwkT39/+wnxAxAlFAthgqO
-	T/Wn/rBzuywYJ+YVoF9YUkKfl3VsMkyicetTco26qZgdy7nvFb5Tyf5aMhu65aTIQAWjy3OHnAjHR
-	L4lrOxuw==;
+	bh=nUv2+NrWujwe8BVkD9DgfeEYs8ucJpa3kx7QKzhfrgo=; b=PLtnCnpdYfKyffn8gmNAT7L3gY
+	nmqJGBEWg2XlL8UBPmP9yTL1nntJgYmcjFIKIBHAhdPk2SRZsus0u4QPCtSCh7EUmP+MTfTiLwpO2
+	Wvl0AvmDt70oHyhAapWcl2pq4ph7SysrqMZq3WpEE9Wo9Yy/XALVnuD2L4j2OdjA8QjpYozWxTXXk
+	q749acrzL7j8rz8hLOtzI4OiiU6d4cbJg9emkloPNjq3Yp+DlUr8EqmunlwQ73NZvfzNa2xAQ3D+2
+	knq8DnHviS7rQ7pAB08o6qeEYmaK4YFph80tBz+vyQxq01TmGslmDoIrTOt4qkUQ3njHE23Q4ihjA
+	WgdXXtSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sR4ho-000000069ER-2fPf;
-	Tue, 09 Jul 2024 06:52:04 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1sR4vc-00000006BSP-1xQ2;
+	Tue, 09 Jul 2024 07:06:20 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sR4hk-000000069Cb-0J4N
+	id 1sR4vZ-00000006BRZ-2FB3
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Jul 2024 06:52:03 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EE04421B8B;
-	Tue,  9 Jul 2024 06:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720507917; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yEV5Mth4GbtX1rg5f10INAr+H52NO/l+mmP1MPeBIE=;
-	b=Kud8DhROLrPCKB4f7jT6DEzGLahcMo7kcNctdNf4rTM2Oi9dAmBHwpdFdYsSTySLklqUmh
-	3EtydosoRkkb8RfdyBMbCfIbPJdhSKsICOd4QsyhByjOtP51sSTHHxqaWwob1W3S6cLtUP
-	cfUZPK/nDqAlpmHZIsApz4rGV8Jik78=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720507917;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yEV5Mth4GbtX1rg5f10INAr+H52NO/l+mmP1MPeBIE=;
-	b=8jaH1cq0g+bWULPVLdWKEIBpfGhwrSt445rk+qzUyJXSDLjxwfazWyLlek70tnxGJwdMMM
-	Y5hUiDA1MA568PAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1720507916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yEV5Mth4GbtX1rg5f10INAr+H52NO/l+mmP1MPeBIE=;
-	b=CVFQs96LGcUSEJtzdFLtFo+TvkJK3tdzb15Fgt7/imlJSKWPo/jS8MDDTbCewlYevkZaNv
-	ze54H+DDX8iCkySaIRlk4PVjD9wr3XkIxQb/rPGebIhwIV7iwFkP3nyUOzqQo2Homuhayl
-	TIcZ70pU6Z4Q/3txbI5Pc0Vs54Znmpg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1720507916;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yEV5Mth4GbtX1rg5f10INAr+H52NO/l+mmP1MPeBIE=;
-	b=uCOFHfYpRAj7OAG+4iM67VVjmwGhQU3XNL0iUEA3wpg6tsY2Zijj1U7BL2p7IymzXCjOet
-	uOuU3ogt1/i2b4AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEA071396E;
-	Tue,  9 Jul 2024 06:51:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Pl7BLAzejGY4CgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 09 Jul 2024 06:51:56 +0000
-Message-ID: <7b5006e7-9df3-4ee3-a2e9-0ce091c21434@suse.de>
-Date: Tue, 9 Jul 2024 08:51:52 +0200
+	Tue, 09 Jul 2024 07:06:18 +0000
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-426719e2efeso728115e9.0
+        for <linux-nvme@lists.infradead.org>; Tue, 09 Jul 2024 00:06:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720508776; x=1721113576;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nUv2+NrWujwe8BVkD9DgfeEYs8ucJpa3kx7QKzhfrgo=;
+        b=qOdZISVZhkyHSMfueYNxd+g6y++UweSKhy6Fr3T86/Fv8tThUZ1zPUEL2MU1OCnwzu
+         HMKKJEQ7Ea+knTk/D7hOFEu98TqQtGHyO0wbh4sShnzbkuzEh/RFJkGwtwqvuJ0jDLY1
+         HJKjCxREDWNM8FK7RzxYoHwsTSAJXIIlqTcM8PuiGu5GiQxOsV4Py1xPm9j/LEsyKUyg
+         TwbxjWsppNcILmXtMR2NIjEDjz875ACP7hCyaxaAMB3H8Zzkp8B+/UpBjjVn1HdDn9f8
+         ONWZFHJgHhoONVkFFxd5rjWWO6OQjz1+sR1sZvhIXZVYzeHu+6HQX8CRVDGqIyHBrXmg
+         KMjA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeeJ08I4lxik4VnzNOD4LW2HwEVBQJ8x1flvbuDD0J+yfXLGy6/xBPTX76u2Cvso5P8xpi/6E+YQZkl0NNiDFxNs/09U1t0Ms7QhDKkYg=
+X-Gm-Message-State: AOJu0Yz5fAos19s2TM1g97XocSojr48Yfy+tnR3BUrXMnxUj1znXuO0d
+	fr0Aa2t4JYY5JZHIL7Ut1Vg0UOeRSkUUFFDhsPdOmaWyMOW7/nDNBhAltUox
+X-Google-Smtp-Source: AGHT+IEcM7gqGBpRsxO3e6ufFDqOMHoW89mms9DMpv5GYkn6ulijmq0AMhcSykFkdBKu4ckEb/Nlzw==
+X-Received: by 2002:a05:600c:3b16:b0:426:6cd1:d104 with SMTP id 5b1f17b1804b1-426708ff5c6mr10339965e9.4.1720508775488;
+        Tue, 09 Jul 2024 00:06:15 -0700 (PDT)
+Received: from [10.100.102.74] (85.65.198.251.dynamic.barak-online.net. [85.65.198.251])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f1182sm26022765e9.14.2024.07.09.00.06.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jul 2024 00:06:15 -0700 (PDT)
+Message-ID: <7fb81dc1-1921-488a-9b8a-f48ba3f59f6b@grimberg.me>
+Date: Tue, 9 Jul 2024 10:06:13 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] nvme-tcp: improve rx/tx fairness
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
  Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20240708071013.69984-1-hare@kernel.org>
@@ -97,33 +66,15 @@ References: <20240708071013.69984-1-hare@kernel.org>
  <5334b2dd-23ab-4637-a762-e871f884db54@grimberg.me>
  <7d52a56b-2311-4f64-a0f4-383c5521e91c@suse.de>
  <8013f402-4831-46c3-b207-c08821c15760@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <8013f402-4831-46c3-b207-c08821c15760@grimberg.me>
+ <7b5006e7-9df3-4ee3-a2e9-0ce091c21434@suse.de>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <7b5006e7-9df3-4ee3-a2e9-0ce091c21434@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240708_235200_293711_86DBE12D 
-X-CRM114-Status: GOOD (  14.04  )
+X-CRM114-CacheID: sfid-20240709_000617_596348_25604666 
+X-CRM114-Status: GOOD (  17.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,85 +89,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/8/24 21:31, Sagi Grimberg wrote:
-> 
-> 
-> On 08/07/2024 18:50, Hannes Reinecke wrote:
-[ .. ]
+
+
+On 09/07/2024 9:51, Hannes Reinecke wrote:
+> On 7/8/24 21:31, Sagi Grimberg wrote:
 >>
->> Weellll ... if 'SOCK_NOSPACE' is for blocking sockets, why do we even 
->> get the 'write_space()' callback?
->> It gets triggered quite often, and checking for the SOCK_NOSPACE bit 
->> before sending drops the number of invocations quite significantly.
-> 
-> I need to check, but where have you testing it? in the inline path?
-> Thinking further, I do agree that because the io_work is shared, we may
-> sendmsg immediately as space is becomes available instead of some 
-> minimum space.
->  > Can you please quantify this with your testing?
-> How many times we get write_space() callback? how many times we get 
-> EAGAIN, and what
-> is the perf... Also interesting if this is more apparent in specific 
-> workloads. I'm assuming its
-> more apparent with large write workloads.
+>>
+>> On 08/07/2024 18:50, Hannes Reinecke wrote:
+> [ .. ]
+>>>
+>>> Weellll ... if 'SOCK_NOSPACE' is for blocking sockets, why do we 
+>>> even get the 'write_space()' callback?
+>>> It gets triggered quite often, and checking for the SOCK_NOSPACE bit 
+>>> before sending drops the number of invocations quite significantly.
+>>
+>> I need to check, but where have you testing it? in the inline path?
+>> Thinking further, I do agree that because the io_work is shared, we may
+>> sendmsg immediately as space is becomes available instead of some 
+>> minimum space.
+>>  > Can you please quantify this with your testing?
+>> How many times we get write_space() callback? how many times we get 
+>> EAGAIN, and what
+>> is the perf... Also interesting if this is more apparent in specific 
+>> workloads. I'm assuming its
+>> more apparent with large write workloads.
+>
+> Stats for my testing
+> (second row is controller 1, third row controller 2):
 
-Stats for my testing
-(second row is controller 1, third row controller 2):
+Which row? you mean column?
 
-write_space:
-0: 0 0
-1: 489 2
-10: 325 20
-11: 28 1
-12: 14 1
-13: 252 1
-14: 100 12
-15: 310 1
-16: 454 2
-2: 31 11
-3: 50 1
-4: 299 42
-5: 1 19
-6: 12 0
-7: 737 16
-8: 636 1
-9: 19 1
+>
+> write_space:
+> 0: 0 0
+> 1: 489 2
+> 10: 325 20
+> 11: 28 1
+> 12: 14 1
+> 13: 252 1
+> 14: 100 12
+> 15: 310 1
+> 16: 454 2
+> 2: 31 11
+> 3: 50 1
+> 4: 299 42
+> 5: 1 19
+> 6: 12 0
+> 7: 737 16
+> 8: 636 1
+> 9: 19 1
 
-queue_busy:
-0: 0 0
-1: 396 2
-10: 66 18
-11: 91 8
-12: 56 14
-13: 464 7
-14: 24 15
-15: 574 8
-16: 516 9
-2: 22 29
-3: 56 5
-4: 153 99
-5: 2 40
-6: 18 0
-7: 632 5
-8: 590 13
-9: 129 2
+These are incrementing counters where ctrl1 and ctrl2 got the 
+.write_space() callbacks?
+What are 0-16? queues? I thought you had 32 queues...
 
-The send latency is actually pretty good, and around 150 us on 
-controller 1 (with two notable exceptions of 480 us on queue 5 and 646 
-us on queue 6) and around 100 us on controller 2 (again with exceptions 
-of 444 us on queue 5 and 643 us on queue 6). Each queue processing 
-around 150k requests.
+>
+> queue_busy:
+> 0: 0 0
+> 1: 396 2
+> 10: 66 18
+> 11: 91 8
+> 12: 56 14
+> 13: 464 7
+> 14: 24 15
+> 15: 574 8
+> 16: 516 9
+> 2: 22 29
+> 3: 56 5
+> 4: 153 99
+> 5: 2 40
+> 6: 18 0
+> 7: 632 5
+> 8: 590 13
+> 9: 129 2
 
-Receive latency is far more consistent; each queue has around 150 us on 
-controller 1 and 140 us on controller 2.
+What is queue_busy?
 
-Cheers,
+>
+> The send latency is actually pretty good, and around 150 us on 
+> controller 1
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+150us for what? the average duration of sendmsg call alone?
 
+i.e.
+start
+sendmsg
+end
+
+> (with two notable exceptions of 480 us on queue 5 and 646 us on queue 
+> 6) and around 100 us on controller 2 (again with exceptions of 444 us 
+> on queue 5 and 643 us on queue 6). Each queue processing around 150k 
+> requests.
+
+Are you referring to the above measurements? I'm having trouble 
+understanding what you wrote...
+
+>
+> Receive latency is far more consistent; each queue has around 150 us 
+> on controller 1 and 140 us on controller 2.
+
+Again, latency of what?
 
