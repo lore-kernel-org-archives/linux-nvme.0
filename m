@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64DA3C2BD09
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jul 2024 12:18:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B266C3DA47
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jul 2024 13:04:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vNtD5NpkmCOz3eHZHSs6fEfPD2eX4F8PRAg3A1sXohk=; b=Gyo2qsH/XsY3KS7E8b7e4lnPhU
-	/MqUL4ynyqzbbM3HsaoLZqD59PJDuupzGHd/ho++hOO8MfhH2mIy4DsDRpAsr3qdIhou1uakEpJyh
-	pNM7dSNzU1S9b0TMtx0LPtkUWcma8Ns0jdWIkKjpQ+3gYFLoP6hX0Bilw6BXChLWfPdOK0C3Zty39
-	bgEuD9NhnMBLB6IVsow3QTcNU/7f60QYeH4fZILiGYro5Jcy9mclv+M6P+tK278SvzjIZBAlhDpP+
-	Vr9GbqjOEtY2kMjFkq5yzwcxtdd/gjmc2zLvYrQ2COfMSdjMlbSeAlSs4L4oG0KR6pzoD34X9dIcQ
-	AFbyvZTg==;
+	bh=qGbbgOM+L4rigwsUv77cjmHjaIgqdDkyO7piHumUB9M=; b=bYOwECPkqYByI9/GQ8WjA6PBiD
+	F8FG9JgD4n1b1WqiQnidSAGs3mxIYUaEixZk4ZXZqfJXrGdsnqjMatZmWvHcII9r4WLufGgQ/uloZ
+	MBy2pcW1n/mdmfwqFurDwYXLrqij3UN8lrxQdGjvlCHyvTL3QYGAMj+20vN7gWVrl4bN1SRcmDFkt
+	ahp5QuCjdY/yA5nHl479P0UJiQqzznQII3pYYd6vDjHAYEFqJ0aMcIIN/EuQlYYr27Muy3cDIw2cz
+	Eck6R+/9BooYpz+yEhyYV3AlMhJxxjaWOEOhJ/1kcelAg9MOa2U33V+ypBd953F4D1svbs8EwS4SX
+	+oiI73uA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sR9nl-0000000761P-0vfX;
-	Tue, 09 Jul 2024 12:18:33 +0000
-Received: from mgamail.intel.com ([198.175.65.15])
+	id 1sRAVl-00000007FW6-11qt;
+	Tue, 09 Jul 2024 13:04:01 +0000
+Received: from mgamail.intel.com ([192.198.163.9])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sR9ni-0000000760y-45rX
+	id 1sRAUN-00000007EtI-2Uuj
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Jul 2024 12:18:32 +0000
+	Tue, 09 Jul 2024 13:02:37 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720527511; x=1752063511;
+  t=1720530155; x=1752066155;
   h=date:from:to:cc:subject:message-id;
-  bh=xBBHsDTYbtJAUlt7W8Dr3iD1eal8C0TjApMvNG+Ycyo=;
-  b=Ub+A55CrBIqk4vJi6r8frkOZTIrx2HGnnSUaVOMG6mbakqOSDT39JFw0
-   yFgLEw81VXo3BH5RHNjimHnUZfL8pYNc4I3z4d3Pekv6EYdK1QG6SgSRy
-   o/fSwaj5jeBLkBz7P0Hp9YRiF9FYC9hRRUxPA300QxfwUG02Wk831+Kl9
-   iRSP7ctSFo79KknNxFz73SBvLgeI+GtTM2ujvvOf5HfZdttNSzm9oOXGq
-   qA9qM7pQvFYgsP4EvgxZLXMg1WcrIz1/hg+x53NxyExxBTcbn3YW2kRAk
-   cNMFf+X0hEF0msnovU3oxP4CE/td5ZaAO1mhOtgnx/GCXe+DXMnLNyhtj
+  bh=R79vlnUjn5lp5x6dJPmAhxm6+VPLvuz7KygblMmx6jI=;
+  b=nyvXIWTsnAj/Oy2xzonE5TcCpS1fwt4NMOvRHfP/NAslL1pGgBdOeolM
+   +sQqjeRoICeVmmrF+vSELJYdGou8PXCvb0mbl0MuzTIKP7pKtruFAxoa3
+   aOxwCIe3u0ZB70b00jmsSbHet8KIsakFFvAl7oy6JRYLasZ5mrmlZYqF7
+   UVwPMxOWGSwN3sayqeGr8szzmheRX3C6004GylQ75ie7ektMScdoFUx5F
+   t5r8X5tafaCYgiMFXyhAA+NZyWdVfjggsbj0VIbu4WfMQkTapYNCR1Cnk
+   oIbvYBGFJtBnevP1T3FtgEIZh4PPOUvN/WSPKR2ARES0qrVNKTS1Z9BxH
    A==;
-X-CSE-ConnectionGUID: 1Q+gEQa+Qd+Gu9g5q4U3yA==
-X-CSE-MsgGUID: 2ng0V4eMT6CKAs61Km5WVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="21545439"
+X-CSE-ConnectionGUID: KHAirj69QRuXXtcp1XuLew==
+X-CSE-MsgGUID: z6bCSBbhT++I/hw5smoDsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="28452493"
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="21545439"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 05:18:27 -0700
-X-CSE-ConnectionGUID: OX6XQIHZTR2ZxQGUv6a1vQ==
-X-CSE-MsgGUID: XsYQfM6RSR+8OGaC3+uLxg==
+   d="scan'208";a="28452493"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 06:02:30 -0700
+X-CSE-ConnectionGUID: SBWZiTRLTuakgHoGsLeYJQ==
+X-CSE-MsgGUID: FIb3l5mKRNiZk6G1GgaL1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="85379753"
+   d="scan'208";a="52786701"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Jul 2024 05:18:26 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2024 06:02:29 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sR9nb-000Weh-39;
-	Tue, 09 Jul 2024 12:18:23 +0000
-Date: Tue, 09 Jul 2024 20:17:30 +0800
+	id 1sRAUE-000Wgg-2p;
+	Tue, 09 Jul 2024 13:02:26 +0000
+Date: Tue, 09 Jul 2024 21:02:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Keith Busch <kbusch@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-fdp] BUILD SUCCESS
- 266c0b5092161ad0e83155552944f223e8ef1680
-Message-ID: <202407092028.49DOa7P9-lkp@intel.com>
+Subject: [linux-nvme:nvme-6.11] BUILD SUCCESS
+ 89f58f96d1e2357601c092d85b40a2109cf25ef3
+Message-ID: <202407092115.aSW1uOZ7-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240709_051831_138356_65FD1B74 
+X-CRM114-CacheID: sfid-20240709_060235_693817_9249E0C5 
 X-CRM114-Status: UNSURE (   5.00  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -83,10 +83,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-fdp
-branch HEAD: 266c0b5092161ad0e83155552944f223e8ef1680  nvme: enable FDP support
+tree/branch: git://git.infradead.org/nvme.git nvme-6.11
+branch HEAD: 89f58f96d1e2357601c092d85b40a2109cf25ef3  nvmet-auth: fix nvmet_auth hash error handling
 
-elapsed time: 1098m
+elapsed time: 1143m
 
 configs tested: 228
 configs skipped: 5
