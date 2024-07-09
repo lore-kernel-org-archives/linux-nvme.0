@@ -4,81 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 549EDC2BD09
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jul 2024 05:57:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14743C2BD09
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jul 2024 06:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UTCK+V3PUiwaLjd0RY2gDMw8PfFbDuwnRHMswGe6FHI=; b=m/DktoHBuCWETFWvXQ0cDz1KsV
-	42MprUuiQ4LDTNKCbzXDLYauaJMXns+PGVfXfcemgj23+eL2w7ConRJcyOhau2YdhyaLg5/APgrOH
-	iKRxzhFUla5mMwOItPO056JeHgDS/sQniuxKXaGIiSnQ1Wc1Aw9AVOqg4DQgzABdIeoqZDaXfAkc3
-	EaAfZjVF/+silBfqi+0i/YxgI0yrei/jtY/LR5KO5EC5EGPgs/0eNLqcjxoLDbs5kztsobXpZVZW7
-	V92fDXdHsIKoD+28Bw416ob7URp13eSfVqvrCpoEFMNmvX+a6qAvVtzYQhrUQyFi4j69NeZ2fDf1M
-	ibTkPEgg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aCNTWVYaP51zgkYgTkFQITxMZCYoN3ocgkKQSV5XmJ4=; b=1GMiKqZl7n0757TyWx3/JCfDOB
+	jmSgMrfiaKTRMUoRggSuOB4qatkPK64oSS47l4OJk2C/YL+vv6UkyjQr11jqseQOiHhxiTlfbaxG1
+	IBEBsHuMspj7vpV95EXgApkVwkSjU/GHg3Fzang36V4D6HKd5FwyXEo8M5yXAigTaHuDA+aCxjhEE
+	/9c+fu5vEdEEJYNc4u7ChYj+YB9p0NDFBm2MhN3tgYsEr5NcuCyMIfAqJi4LHZf5u5SLJRPXhqVkV
+	aGqtU7ITcp2tYJ9GDWrdZOOp2YnW3X1YGCssm7GVzw2xj0Yk9luW1m0+tdMf4bBi5W1IVX7Cak6/F
+	jFUs0j3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sR3rN-00000005zgV-4ADE;
-	Tue, 09 Jul 2024 05:57:53 +0000
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+	id 1sR4AP-000000062Mh-2V6E;
+	Tue, 09 Jul 2024 06:17:33 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sR3rK-00000005zfW-3pWU
+	id 1sR4AL-000000062LE-36Jz
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Jul 2024 05:57:52 +0000
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-52a559e4429so707445e87.0
-        for <linux-nvme@lists.infradead.org>; Mon, 08 Jul 2024 22:57:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1720504668; x=1721109468; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UTCK+V3PUiwaLjd0RY2gDMw8PfFbDuwnRHMswGe6FHI=;
-        b=Xp9qpGw1zUZjksq++aUDBVxcWmCkg+esnw86N/AVyO9ytVZzsFdLXG1mws12/FgEE+
-         SCVquE3AJ9ziQgh05svx4d00EY49irNV5qhWEG4au2eLRubiXq3W2Wpt3qIgbwKcfVCl
-         ZVUwkfrqscomjHMwWeFZAefOzKktbCL0IfWDkOXcOMe+ojwREoRD+JnkTUs8KbKm/ei2
-         mS5/Kb1/INJyRem0ADWDdErxleMiOFqvFYvN1cUsxbsmXdk72H8r2mK8qi4CbgnAIO6q
-         /La9jUG/6YsbNph0AUVtS7pC7UArNMdABovjaQA8CIA0JovC08Jl6sZHpR5AIDHA3NJU
-         efaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720504668; x=1721109468;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UTCK+V3PUiwaLjd0RY2gDMw8PfFbDuwnRHMswGe6FHI=;
-        b=duw6J5NLXZ+mLEpVRO11aAZ9P8cwmb3+6s1ytd2xsM/ya6/BW8nDQy8bNSu3Gx5luq
-         7L7T+Y8+HCvna16NPhk+01rv6vizS58qyLkWgV0DoMSv38pXQh4VucjaVDi5AXGvcRiE
-         /ozF9Ktx/58tOCsPA2TOX084IuesKeYwBCg6G2FMJspC5e+Lm6N6LxVL4xXuI/mmukU2
-         d8H69m9rv6SNbwr84IHBYdKzMgRJxRoxcAQDmXGAi3b6d/6o+X2m89l/gegvwyKfFufb
-         QQvOodDtWcsa4XWDdFIwSVHImMP5vmpOyrtzimvirDsxcRJHjsAdR7TQVWY8k1ut2Lri
-         X5Gw==
-X-Gm-Message-State: AOJu0YyV3PaDp7qfjYVnhUePC0xA8ZaCTucvRlSr8WPD+DIeiccxA32d
-	L5sRkFWZxHiSe9iYtoVsVfn9NsqUGdh9J+IbjPPXrSICN5NmDN+Ohx3Ny2mxMCH6DcP2usXsL8l
-	6nSuHuq8W
-X-Google-Smtp-Source: AGHT+IEJUfStr1hX7g8umxZPSWYsGkTXYhF2+RGGxHRSWs1VVNOJ5xIvNJpHERfyRMfZ2scupHN2Dw==
-X-Received: by 2002:a05:6512:39c2:b0:52e:93d9:8f39 with SMTP id 2adb3069b0e04-52eb99d3490mr825024e87.3.1720504668328;
-        Mon, 08 Jul 2024 22:57:48 -0700 (PDT)
-Received: from [192.168.1.68] (87-52-80-167-dynamic.dk.customer.tdc.net. [87.52.80.167])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52eb8e34568sm147856e87.55.2024.07.08.22.57.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 22:57:47 -0700 (PDT)
-Message-ID: <528fdc07-99fd-4e64-86e5-132ba6c6cc0c@kernel.dk>
-Date: Mon, 8 Jul 2024 23:57:46 -0600
+	Tue, 09 Jul 2024 06:17:31 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 52C0568AFE; Tue,  9 Jul 2024 08:17:21 +0200 (CEST)
+Date: Tue, 9 Jul 2024 08:17:21 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, "Zeng, Oak" <oak.zeng@intel.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH v1 00/18] Provide a new two step DMA API mapping API
+Message-ID: <20240709061721.GA16180@lst.de>
+References: <cover.1719909395.git.leon@kernel.org> <20240703054238.GA25366@lst.de> <20240703105253.GA95824@unreal> <20240703143530.GA30857@lst.de> <20240703155114.GB95824@unreal> <20240704074855.GA26913@lst.de> <20240708165238.GE14050@ziepe.ca>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme updates for Linux 6.11
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-References: <ZoxM6r4B2bxhi_i1@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZoxM6r4B2bxhi_i1@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240708165238.GE14050@ziepe.ca>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240708_225751_175004_BCD0E277 
-X-CRM114-Status: GOOD (  10.92  )
+X-CRM114-CacheID: sfid-20240708_231729_944471_946B5562 
+X-CRM114-Status: GOOD (  23.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,34 +76,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/8/24 2:32 PM, Keith Busch wrote:
-> The following changes since commit 44348870de4b8f292f97b84583a298d66fbaf738:
+On Mon, Jul 08, 2024 at 01:52:38PM -0300, Jason Gunthorpe wrote:
+> Ideally we'd have some template code that consolidates these loops to
+> common code with driver provided hooks - there are a few ways to get
+> that efficiently in C.
 > 
->   block: fix the blk_queue_nonrot polarity (2024-06-24 13:06:12 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.11-2024-07-08
-> 
-> for you to fetch changes up to 89f58f96d1e2357601c092d85b40a2109cf25ef3:
-> 
->   nvmet-auth: fix nvmet_auth hash error handling (2024-07-08 10:28:16 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme updates for Linux 6.11
-> 
->  - Device initialization memory leak fixes (Keith)
->  - More constants defined (Weiwen)
->  - Target debugfs support (Hannes)
->  - PCIe subsystem reset enhancements (Keith)
->  - Queue-depth multipath policy (Redhat and PureStorage)
->  - Implement get_unique_id (Christoph)
->  - Authentication error fixes (Gaosheng)
+> I think it will be clearer when we get to RDMA and there we have the
+> same SGL/PRP kind of split up and we can see what is sharable.
 
-Pulled, thanks.
+I really would not want to build common code for PRPs - this is a concept
+very specific to RDMA and NVMe.  OTOH more common code SGLs would be
+nice.  If you look at e.g. SCSI drivers most of them have a simpe loop of
+mapping the SG table and then copying the fields into the hardware SGL.
+This would be a very common case for a helper.
 
--- 
-Jens Axboe
+That whole thing of course opens the question if we want a pure
+in-memory version of the dma_addr_t/len tuple.  IMHO that is the best
+way to migrate and allows to share code easily.  We can look into ways
+to avoiding that more for drivers that care, but most drivers are
+probably best serve with it to keep the code simple and make the
+conversion easier.
 
+> I'm also cooking something that should let us build a way to iommu map
+> a bio_vec very efficiently, which should transform this into a single
+> indirect call into the iommu driver per bio_vec, and a single radix
+> walk/etc.
+
+I assume you mean array of bio_vecs here.  That would indeed nice.
+We'd still potentially need a few calls for block drivers as
+requests can have multiple bios and thus bio_vec arrays, but it would
+still be a nice reduction of calls.
 
 
