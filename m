@@ -4,64 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2A49C3DA45
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jul 2024 06:27:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D6FAC38150
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jul 2024 08:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OQu9eN1e2F2Cfdkhv8ZV9riRn7gffplRUvSc+bjovss=; b=TuLYZVPeF1eyNLP3mlB7R4E9cA
-	FnSj5zyHQtiEEupAykvOyqfRcGXEHzJHDIqEy2driscqCRbYiy4Y1ULCHAqwssWAg1A3mffuh5nnX
-	Ty4SQpLbZxZuwkCBI5J+bGw/x7lmC6QufnBYDM4ag93GSEGMZEKFLCL45XoG9GV64YWLN29Vteqz5
-	Q4RNeYsdC1pC/Sz+klG7a9HQlTohBBSMXoy1odDlAqsTJVZESBOojSbOz7NrtJIy6UlPNUmjn/rDW
-	WIg1yZocf242rHDgYpKyZDEvxJtqnnsVAczZp2WC2ngFdtrOFSOJqQxApWUSWW6OlveOPfyboqhFE
-	MLYJ4RAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=; b=vSTPC9p1jsasDLvXurl6sKtXC9
+	5OBpku+MBNGEhRLt7cb2J0bqTAGUGkVAS6dojRUuLwM7UZNgFQ3g8zcYVfjT4D8Ckrm4xT1gn30IG
+	fbxAS2XueYoiN9hAG4z4EM72Ljg/nl1fi3IB7tSaCtmA6AAiSk1k2DKcIRNWreMZIZPEhkg99Bi23
+	YdM39tQ7E+zuG9ddp3Pmf745jZ5nHO8/GaD8YbpVp7XCpI1wtlzp3s8XBgTKCjMiI1M0WcKT/Ytxf
+	ARAFBmSpXEuaqqeuwkc9ar1oDaIi4QV4oGzmP11vKXoKCgWk14xmbMBoCIRkeRVSFj4U5TOzJ676x
+	/Gz4jfdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRQnT-00000009bhd-1wcE;
-	Wed, 10 Jul 2024 06:27:23 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1sRSIm-00000009pR5-2mfh;
+	Wed, 10 Jul 2024 08:03:48 +0000
+Received: from mail.quirkbyte.pl ([94.177.238.152])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRQnG-00000009bec-03hM
+	id 1sRSIh-00000009pQT-1tCt
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jul 2024 06:27:11 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5C935227A87; Wed, 10 Jul 2024 08:27:04 +0200 (CEST)
-Date: Wed, 10 Jul 2024 08:27:04 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Keith Busch <kbusch@kernel.org>, "Zeng, Oak" <oak.zeng@intel.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC PATCH v1 00/18] Provide a new two step DMA API mapping API
-Message-ID: <20240710062704.GA25953@lst.de>
-References: <cover.1719909395.git.leon@kernel.org> <20240703054238.GA25366@lst.de> <20240703105253.GA95824@unreal> <20240703143530.GA30857@lst.de> <20240703155114.GB95824@unreal> <20240704074855.GA26913@lst.de> <20240708165238.GE14050@ziepe.ca> <20240709061721.GA16180@lst.de> <20240709185315.GM14050@ziepe.ca>
+	Wed, 10 Jul 2024 08:03:44 +0000
+Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
+	id E33D989CE2; Wed, 10 Jul 2024 09:57:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
+	t=1720598347; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
+	h=Date:From:To:Subject:From;
+	b=y2af75dRlr5dYtq3vc3VIXSKKl+eSelyqsZUoYC1YrsAovsoKvwKk83ZYwP8bmdfp
+	 ttdeDQsGtReo1ldmBo02u5jIS870i5Ph4JziACaSLVJEeJJ+eyUpBqGyYIv/wGnNqb
+	 rwkasQuKfCQPgGE/6GmnKItecwqf1505ch9ZaZCsjJbGJHyZaUPUM3Xw+8qr8/YlWL
+	 1I3NG1j7YuU5WY0syXgCQY8jS/DQXxWDRLPiHcS72zX7gabVpOCrSBRb4ESBgw6yKC
+	 kgjdj6fbOyspOwBVuNi4Xbq7TjUpRbw5QYlA79U7KdvCDAgqKpQqdPCs/MUlPMNnfA
+	 zCH4xJH3d8hOQ==
+Received: by mail.quirkbyte.pl for <linux-nvme@lists.infradead.org>; Wed, 10 Jul 2024 07:56:25 GMT
+Message-ID: <20240710084500-0.1.43.2ck6t.0.nld78teahp@quirkbyte.pl>
+Date: Wed, 10 Jul 2024 07:56:25 GMT
+From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Fotowoltaika - propozycja instalacji
+X-Mailer: mail.quirkbyte.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240709185315.GM14050@ziepe.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240709_232710_218741_E2A59FC0 
-X-CRM114-Status: GOOD (  27.06  )
+X-CRM114-CacheID: sfid-20240710_010343_629105_C1161E42 
+X-CRM114-Status: UNSURE (   1.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,39 +66,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 09, 2024 at 03:53:15PM -0300, Jason Gunthorpe wrote:
-> > That whole thing of course opens the question if we want a pure
-> > in-memory version of the dma_addr_t/len tuple.  IMHO that is the best
-> > way to migrate and allows to share code easily.  We can look into ways
-> > to avoiding that more for drivers that care, but most drivers are
-> > probably best serve with it to keep the code simple and make the
-> > conversion easier.
-> 
-> My feeling has been that this RFC is the low level interface and we
-> can bring our own data structure on top.
->
-> It would probably make sense to build a scatterlist v2 on top of this
-> that has an in-memory dma_addr_t/len list close to today
+Dzie=C5=84 dobry,
+=20
+Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
+=20
+Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
+ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
+sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
+ elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
+d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
+rodowiska naturalnego.
+=20
+Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
+wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
+zak=C5=82adu energetycznego.=20
+=20
+Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
 
-Yes, the usage of the dma_vec would be in a higher layer.  But I'd
-really like to see it from the beginning.
 
-> . Yes it costs
-> a memory allocation, or a larger initial allocation, but many places
-> may not really care. Block drivers have always allocated a SGL, for
-> instance.
-
-Except for those optimizing for snall transfer of a single segment
-(like nvme). 
-
-> My main take away was that we should make the dma_ops interface
-> simpler and more general so we can have this choice instead of welding
-> a single datastructure through everything.
-
-Yes, I don't think the dma_vec should be the low-level interface.
-I think a low-level interface based on physical address is the right
-one.  I'll see what I can do to move the single segment map interface
-to be physical address based instead of page based so that we can
-unify them.
-
+Pozdrawiam
+Norbert Karecki
 
