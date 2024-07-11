@@ -4,68 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E245C3DA41
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jul 2024 23:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AECBC3271E
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jul 2024 05:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MW/LFME6Lsdc+4FiS6MpNVW112NfaW7b3f8dERH2vAs=; b=C7kgvJGK4zYzmvZInWodUkeJY3
-	L5W3HXMc0Mq8ng9wXKqbv0O4u5bt3nr9xIcAFFzlkkYZ8IEGspQ5OzHULOlOCgskGodfCQvS73/81
-	xe8n8ZyHA0DhcEVYiZIeeNlN12O4SG5o4KwkdwFg36nVXPNsCLKon5nF5YUle5duCAQ82F6wQHfjf
-	ULrYzWRKbWQE89iClKYpQa7goppRwYpRCviHZA4NjjoDRMq2Rnvd7YZhrW+B7E1PFIvkR+iHThIqR
-	gF5HPS2lIFsB5Ik/b1a3WF7Ak5RghOMwMy9c6odcP+aiHgCwpAq/uZYlh+WRFjnY7f8O6zaBXR147
-	4FW7ekDw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=NA8kU+K9F2oh4S5xjK/4oC/evsEspSQKY/xJMAfemNQ=; b=zPQcru4ePlQCj+kCKnha+YYqNB
+	76jsbTnDophH3mbEzAVYo5pOPF9xDjx8kvQntaJjadWhAbDQhr8kXHz41NFCe6utlA2XF86cGH8cG
+	4g233SMZqiwQL/FzhVZz2F8wMJzNKPgpl3nJJsalVS4HWyBl+acFGNU04v9QiDAgGBVENJwmZhZZx
+	lktzf8KyQsmFC/yHcizFiLwMqhsy5iqqusEWocG45u0zjwcxk8FYC5bvtL2zpsKwwVGwOnYES8Y5S
+	4ndYrF5fkuFio8gSSMkMRnEO3op+FW04nOUv40MbDaKjpiiDKOs8ap2kfZB8wRjlQaM/Kq/UmPasP
+	Kmz6EMpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRgZn-0000000C3jM-1SkS;
-	Wed, 10 Jul 2024 23:18:19 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1sRmZd-0000000CoB5-3wWl;
+	Thu, 11 Jul 2024 05:42:33 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRgZj-0000000C3i3-3Ief
+	id 1sRmZb-0000000CoAX-18AK
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jul 2024 23:18:17 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4WKDLF2Qx0z6ClbFV;
-	Wed, 10 Jul 2024 23:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:mime-version:x-mailer:message-id:date
-	:date:subject:subject:from:from:received:received; s=mr01; t=
-	1720653491; x=1723245492; bh=MW/LFME6Lsdc+4FiS6MpNVW112NfaW7b3f8
-	dERH2vAs=; b=KU7fW9L4pVqvzyN7FGhW11SE2a5eU59HTd7Fh5+vPbtaGKsNRwP
-	1IlaqLn0Wc5Uo/cQv3V4KCsbGF6C4lkJObTeQmpzjxNy1W52DeLxiC/jrZHcETCT
-	35LhYLa1RT0W3P7dsHDCyFrZP+rPVqnAlCcIJRIjjX/s3DhDJZ0aIFKkv4jl80cq
-	c7vbTl7q+BIKPw53l3zonOHEPFQRrzJk/JstdUdcB0sEg/W2Oee9/AVdMpkeO5qw
-	ZMnrTi99qm+2zNCihAfa1JNc5xI6OENkhIntgs2jY7jBzx45mwd3GtvxIteM9l79
-	2Qyf+swb9b2kRgET4J++CXCR2K/npwf9rjA==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id jXIlabdb_ExX; Wed, 10 Jul 2024 23:18:11 +0000 (UTC)
-Received: from asus.hsd1.ca.comcast.net (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4WKDL95Xmgz6CmLxT;
-	Wed, 10 Jul 2024 23:18:09 +0000 (UTC)
-From: Bart Van Assche <bvanassche@acm.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH] nvme-pci: Fix the instructions for disabling power management
-Date: Wed, 10 Jul 2024 16:18:05 -0700
-Message-ID: <20240710231805.10481-1-bvanassche@acm.org>
-X-Mailer: git-send-email 2.45.2
+	Thu, 11 Jul 2024 05:42:32 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1A8CA68AA6; Thu, 11 Jul 2024 07:42:25 +0200 (CEST)
+Date: Thu, 11 Jul 2024 07:42:24 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: fine-grained PI control
+Message-ID: <20240711054224.GA4331@lst.de>
+References: <20240705083205.2111277-1-hch@lst.de> <yq1ttgz5l6d.fsf@ca-mkp.ca.oracle.com> <20240709071604.GB18993@lst.de> <yq1h6cy3r3f.fsf@ca-mkp.ca.oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yq1h6cy3r3f.fsf@ca-mkp.ca.oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240710_161815_895902_F8014623 
-X-CRM114-Status: GOOD (  13.69  )
+X-CRM114-CacheID: sfid-20240710_224231_473124_729CE52C 
+X-CRM114-Status: GOOD (  22.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,39 +60,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-pcie_aspm=3Doff tells the kernel not to modify the ASPM configuration. Th=
-is
-setting does not guarantee that ASPM (Active State Power Management) is
-disabled. pcie_port_pm=3Doff disables power management for all PCIe ports=
-.
+On Tue, Jul 09, 2024 at 11:47:58PM -0400, Martin K. Petersen wrote:
+> For the user API I think it would be most sensible to have CHECK_GUARD,
+> CHECK_APP, CHECK_REF to cover the common DIX/NVMe case.
+> 
+> And then we could have NO_CHECK_DISK and IP_CHECKSUM_CONVERSION to
+> handle the peculiar SCSI corner cases and document that these are
+> experimental flags to be used for test purposes only. Not particularly
+> elegant but I don't have a better idea. Especially since things are
+> inherently asymmetric with controller-to-target communication being
+> protected even if you don't attach PI to the bio.
+> 
+> I.e. I think the CHECK_{GUARD,APP,REF} flags should describe how a
+> DIX or NVMe controller should check the attached bip payload. And
+> nothing else.
 
-This patch has been tested on a workstation with a Samsung SSD 970 EVO Pl=
-us
-NVMe SSD.
+I really hate an API that is basically exposes a completely
+different set of flags for SCSI vs NVMe.
 
-Fixes: 4641a8e6e145 ("nvme-pci: add trouble shooting steps for timeouts")
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am also really not sold on IP_CHECKSUM_CONVERSION and the separate
+no check for disk vs controller things.  I can see why someone would
+want to do that for testing, but as a general API at the syscall
+level it just is not a useful abstraction and highly confusing.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 102a9fb0c65f..358822ea40e7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1274,7 +1274,7 @@ static void nvme_warn_reset(struct nvme_dev *dev, u=
-32 csts)
- 	dev_warn(dev->ctrl.device,
- 		 "Does your device have a faulty power saving mode enabled?\n");
- 	dev_warn(dev->ctrl.device,
--		 "Try \"nvme_core.default_ps_max_latency_us=3D0 pcie_aspm=3Doff\" and =
-report a bug\n");
-+		 "Try \"nvme_core.default_ps_max_latency_us=3D0 pcie_port_pm=3Doff\" a=
-nd report a bug\n");
- }
-=20
- static enum blk_eh_timer_return nvme_timeout(struct request *req)
+Can we figure out a way to do these as error injection points in
+scsi or something similar so that we don't have to overload the
+user interface with it?
+
+> I'll try to connect my NVMe test box tomorrow. It's been offline after a
+> rack move. Would like to understand what's going on. Are we not setting
+> ILBRT/EILBRT appropriately?
+
+I think NVMe just had a real mess with deallocation and Write Zeroes
+in the past, and my test driver might be old enough to have implemented
+the ECNs that fixes this eventually, assuming it actually got fixed
+everywhere.
+
 
