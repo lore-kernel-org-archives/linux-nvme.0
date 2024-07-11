@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93B73C3DA45
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jul 2024 23:21:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 981FCC3DA45
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jul 2024 23:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iA5EkoKdOMHWMqTqv30k2JtFjPGSRguy2LMuZP+mDPQ=; b=vQbT/tqQH0b6BtQbGhpBWw+vi6
-	Gx8HkiKmYKf5iTsmqWV37jmLSTP8yLUDwA71b/ZJ5oBJCXBOSbyGMcGSrA/nfJB9SfR29Mk6ArPYb
-	n/UYSvSNbSajVPUqPNUAcAnzJOOH4rrdn3L7l4oKP4QCOsa8L2TsJaw5IZ0wQYCi+LusCtYeD0gqy
-	/OBtU3p6Tq5vmtJ/RRUKucmiS8PEU2jBt3tInL/iK4V8jfiBEMaePz0vCawrEEJErSm8zh5Fnu8Jh
-	wDSnFcUc0WHUzqUy4bwW1tK8T4JvkPMcT4ytCxyQDjBegelb8+rrKpJrC4XeKEY8iRYeutWWJgbeo
-	DofwUQ/g==;
+	bh=sqjQlEH3CKHFjb6SyBS/N/HAG+tY7keJdf7Z8lIqTro=; b=ADzcdq8qRMmzn0oZq1sXeLuV0Z
+	9JsjPNjOTpehMQGXLvHLba7rdb9705T9HriozFE1FlnP97axg7qJ5CLAVZiANoBOJ/ubjzGYOCuSb
+	N7iEwXXCuSb8ISPRz6/8DdfQ0DwjkduTuy3sUCPegb06g1jd48RuNbBkWI8hTelnBzR1zpCID3/zc
+	48/5JH7HqtDvcCu2xjVgsrsm0D7VE0xwEPvdxuueelvU9BgZNu6h1UwrCGmX0zXdcBl5gVq2si6QZ
+	+y7oHwF8Ermi5vtmved8nWdhnmvrW1dv2a4Sy48ObOgvaeE5ws/Va35BmBmSdt8BcKyi8uDq/Mvdh
+	p2H4gRkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sS36m-0000000FnhO-2zIH;
-	Thu, 11 Jul 2024 23:21:52 +0000
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
+	id 1sS3E6-0000000FoUJ-2vHA;
+	Thu, 11 Jul 2024 23:29:26 +0000
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sS36j-0000000Fngc-1u3i
+	id 1sS3E3-0000000FoT5-2zhy
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Jul 2024 23:21:51 +0000
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-6b5d42758a7so8300746d6.2
-        for <linux-nvme@lists.infradead.org>; Thu, 11 Jul 2024 16:21:48 -0700 (PDT)
+	Thu, 11 Jul 2024 23:29:25 +0000
+Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-df4d5d0b8d0so1365490276.2
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Jul 2024 16:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1720740107; x=1721344907; darn=lists.infradead.org;
+        d=ziepe.ca; s=google; t=1720740562; x=1721345362; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iA5EkoKdOMHWMqTqv30k2JtFjPGSRguy2LMuZP+mDPQ=;
-        b=S0o7D1cTp6aw+yGM6VZfW77wa32kdLR/KJ2BA3tyTrp4Ja3WuV6NmEd9PFxPrYvKQi
-         CudDuPHA9aZwmvoHYiSGNVlL//5HeyhS6P+3I1T8Ar9ypPZSt7RrnqvLNqX3o0CtmL9l
-         9a5moJa9PzVg0tzJKnkNzjNcynczYOCrXOpt1zsx3Lxg2mKe65Z3fNHzNlKL5h9jL75U
-         XxoZMtUDo6fV58sItCh4ikX+W/xvjQ2jf7UluJSxzFaJB8Q4wB78rYADF4YfjlDO2y66
-         +4enPsmWEf+9Ns100yfNYvccBgWuVJ7+In+QQRNtCXCK2zo45D0tRzILxRy8UWgk++OF
-         7aWg==
+        bh=sqjQlEH3CKHFjb6SyBS/N/HAG+tY7keJdf7Z8lIqTro=;
+        b=fUgfk+ji1UH6PuJJwYsQb7NcHbSF5i923vOKCq12Lu09yxcZNDYuWE+bDzjsh9HlXS
+         jJQ/ebwdPCDnsGQKEjXV+2NnQyOhL61nXdblj/TgOOerz1hTvWaJXltUO0GPebNHoMHt
+         xu0vPO8qJYVaDY2eOa5wg6dmlvXV0s63EsUDOZXXlajZAes/P20MWQRhnc/5sfegxFQt
+         GUm1d3N+VN6q8THuLXvlBm7GJoysfctv8+VTMPCs4E9PqQEtAu/JwtjEru7XkNQ2YAfg
+         /13bWv/XaihGLONO5w52V7bGkTBiC/mU7eoDTcvb7gbUdsmnC2d3+xXIMKKjbFuFPjLD
+         2o+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720740107; x=1721344907;
+        d=1e100.net; s=20230601; t=1720740562; x=1721345362;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iA5EkoKdOMHWMqTqv30k2JtFjPGSRguy2LMuZP+mDPQ=;
-        b=e8Cg+LozYIowpd50FtAVEj0WBW6cZllVz4iQlX5A1kA1Lt2Q5GPgLh0tvgflTxeahN
-         T0a8TowWrhvA8b/fdw3GpcJoY/WXdjuZjOAwjcqQajB+tdeTa9hwyWKa2T8QNJaiaD1+
-         I+rWFAIC/E20tGiZdVaxQOcEHFZDEtG6ValhOebK5Phuw1KQv/naWDQNCM+9TYr2lJt5
-         qnP5zzenTjr2s21vp1682WGRmKtmmZljpo8CEW5AIFcTBP/CXWIAPAMW6iG70zW4yY0i
-         jZ3ttWj4x7YNU2glqbUw29lFBptyNB0/qJQNkzbQXmCXtL5S4pg0cIkQGZNKfpOfnO/a
-         mZLw==
-X-Forwarded-Encrypted: i=1; AJvYcCUrynC2zylwviaVv5z9IyW0YnEJ2gDkiXwEPaJaOUQa+AUM/HfDR3ZLRuP8kEBtpCpMi6grZewl+f/7P4fVfCij3Ks/rprao14ycwptSxY=
-X-Gm-Message-State: AOJu0YwzDF9X8wmf2Oj0ljmDuMa1GVFgT0xamBWV0x6v1wPVd5Okfeko
-	AtBp4Cs3FuDypXTDeJb2z7cBAwsSO002q/tHxzkxFe2tViehnUd6gTRzwZaillo=
-X-Google-Smtp-Source: AGHT+IE3EReOFfP9Gp9yOBbEQdd9ZoxHQTHmzRvm3onKx9Jai/yPhMccTCjhIICDfGTUxTuCo6A+VA==
-X-Received: by 2002:a05:6214:1c83:b0:6b0:6a57:c982 with SMTP id 6a1803df08f44-6b61bcff6edmr121290886d6.28.1720740107241;
-        Thu, 11 Jul 2024 16:21:47 -0700 (PDT)
+        bh=sqjQlEH3CKHFjb6SyBS/N/HAG+tY7keJdf7Z8lIqTro=;
+        b=bRi0FVfUUlS5QVpKNfhcdVTki9owseOvZCftjf2bYT4UlaLSuVBnlAyMPhYBNFVXFi
+         zWpfd9BhWLgJh+7wpuuww6Iyi4NTEAfWqX72tCkEWuwW8pXzExJTt1UcTWSgPM5fsecg
+         neKvzMjH2knTmJSfIcKHL8m1r5NQ1FHFVbeTUUE2RB3SIbELeLugnQeYHcttgf3JzbFC
+         MwuXHx+uwSvhH67YPf6d6Ctm8eIBWk+Ok9FigKlZLJb02+36cbrzojP1mXIsoh0v6Z4k
+         /e6Db/UmfhvUInxW3MTrrQZCJrkjfDYM5IEZ1YHBQY0rq78A6QF22gFbFwRnIZXfmaCG
+         fvUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNf39r5RNFx+wgjO7VUMvR4z0BTB7bWmfi243heiey3DgCDFnqLhWOpo+BeS6kwo+jXieDBiFKgBo/p+G5zfiKcJkIcSuPadti6lSzHkk=
+X-Gm-Message-State: AOJu0YxORgCQ/uV/q776n8sytH/YPV74k5Y1H3RphB+t9dXuOGwUL1ij
+	GSF9s7YQYhSt0d5CqXcAILO6HLUilEwu5PN4s7GKxflYPwv2kHtEqg7PQBFxxyA=
+X-Google-Smtp-Source: AGHT+IGo/R/9vr/JQ8/zyNR81M/Hy4HYANX0IxAKDGShf5hUDU3ZGhkQLcCJ3hGHl6ul2XGkV4cgvA==
+X-Received: by 2002:a25:aa66:0:b0:e03:5fee:66a with SMTP id 3f1490d57ef6-e041b123aefmr11985783276.42.1720740560216;
+        Thu, 11 Jul 2024 16:29:20 -0700 (PDT)
 Received: from ziepe.ca ([128.77.69.90])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b61ba7a437sm29827036d6.85.2024.07.11.16.21.46
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-79f190128d0sm341135085a.44.2024.07.11.16.29.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 16:21:46 -0700 (PDT)
+        Thu, 11 Jul 2024 16:29:19 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.95)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1sS36e-00FPgi-P3;
-	Thu, 11 Jul 2024 20:21:44 -0300
-Date: Thu, 11 Jul 2024 20:21:44 -0300
+	id 1sS3Dx-00FQzB-7b;
+	Thu, 11 Jul 2024 20:29:17 -0300
+Date: Thu, 11 Jul 2024 20:29:17 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
@@ -89,24 +89,20 @@ Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org, linux-mm@kvack.org
 Subject: Re: [RFC PATCH v1 00/18] Provide a new two step DMA API mapping API
-Message-ID: <20240711232144.GQ14050@ziepe.ca>
+Message-ID: <20240711232917.GR14050@ziepe.ca>
 References: <cover.1719909395.git.leon@kernel.org>
- <20240703054238.GA25366@lst.de>
- <20240703105253.GA95824@unreal>
- <20240703143530.GA30857@lst.de>
- <20240703155114.GB95824@unreal>
- <20240704074855.GA26913@lst.de>
- <20240708165238.GE14050@ziepe.ca>
- <20240709061721.GA16180@lst.de>
- <20240709185315.GM14050@ziepe.ca>
- <20240710062704.GA25953@lst.de>
+ <20240705063910.GA12337@lst.de>
+ <20240708235721.GF14050@ziepe.ca>
+ <20240709062015.GB16180@lst.de>
+ <20240709190320.GN14050@ziepe.ca>
+ <20240710062212.GA25895@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240710062704.GA25953@lst.de>
+In-Reply-To: <20240710062212.GA25895@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240711_162149_518921_3E786293 
-X-CRM114-Status: GOOD (  30.45  )
+X-CRM114-CacheID: sfid-20240711_162923_776743_2AE40475 
+X-CRM114-Status: GOOD (  19.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,45 +117,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 10, 2024 at 08:27:04AM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 09, 2024 at 03:53:15PM -0300, Jason Gunthorpe wrote:
-> > > That whole thing of course opens the question if we want a pure
-> > > in-memory version of the dma_addr_t/len tuple.  IMHO that is the best
-> > > way to migrate and allows to share code easily.  We can look into ways
-> > > to avoiding that more for drivers that care, but most drivers are
-> > > probably best serve with it to keep the code simple and make the
-> > > conversion easier.
+On Wed, Jul 10, 2024 at 08:22:12AM +0200, Christoph Hellwig wrote:
+> On Tue, Jul 09, 2024 at 04:03:20PM -0300, Jason Gunthorpe wrote:
+> > > Except for the powerpc bypass IOMMU or not is a global decision,
+> > > and the bypass is per I/O.  So I'm not sure what else you want there?
 > > 
-> > My feeling has been that this RFC is the low level interface and we
-> > can bring our own data structure on top.
-> >
-> > It would probably make sense to build a scatterlist v2 on top of this
-> > that has an in-memory dma_addr_t/len list close to today
+> > For P2P we know if the DMA will go through the IOMMU or not based on
+> > the PCIe fabric path between the initiator (the one doing the DMA) and
+> > the target (the one providing the MMIO memory).
 > 
-> Yes, the usage of the dma_vec would be in a higher layer.  But I'd
-> really like to see it from the beginning.
+> Oh, yes.  So effectively you are asking if we can arbitrarily mix
+> P2P sources in a single map request.  I think the only sane answer
+> from the iommu/dma subsystem perspective is: hell no.
 
-Well, lets start with agreeing on this layer's API and be confident it
-can succeed.
+Well, today we can mix them and the dma_map_sg will sort it out. With
+this new API we can't anymore.
 
-Then I'd say to look at RDMA as it is a logical place to build such a
-data structure and we can build something that at least does what RDMA
-needs.
+So this little detail needs to be taken care of somehow as well, and I
+didn't see it in this RFC.
 
-I need something anyhow to plumb through to DMABUF and over to iommufd
-and VFIO, can't skip out on it :)
+> For the block layer just having one kind per BIO is fine right now,
+> although I could see use cases where people would want to combine
+> them.  We can probably defer that until it is needed, though.
 
-> Yes, I don't think the dma_vec should be the low-level interface.
-> I think a low-level interface based on physical address is the right
-> one.  I'll see what I can do to move the single segment map interface
-> to be physical address based instead of page based so that we can
-> unify them.
-
-Yeah, I've been talking to Matthew explaining that starting at the DMA
-API makes the most sense and lets remove mandatory struct page
-entanglements there. Then we can start to examine other layers. Having
-a consistent option in the DMA API to be physically based with a
-memory type fits with that plan.
+Do you have an application in mind that would want multi-kind per BIO?
 
 Jason
 
