@@ -4,73 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD35AC3DA4B
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jul 2024 19:10:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BA12C3DA4B
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jul 2024 19:13:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YKWCWTTVQoClgLKrkg7foAPSQlOJ8RIPpyjZ7FmXw0Y=; b=rvXR4cy+A67jZULkJIzdEt1KkH
-	4QWdNmQHQq8JMqZYqowuCnjDMi5S8Uq87Ix2kyCpZ6vHgTjboLGXLWIZyDNTShIOA/Rf9s0vekSLQ
-	W9qznwXR4Pq65sLUJy5mIhDptBhMSc7LuPUQc+D89BEPSlf6cGZKTLIKnK17rfBgAxm63f+rPcXQw
-	gaZ31CUWZUnvGJptphVELnGd9IeMQNjWc+Y1tCi6VButnbAOEiTWwXWlLRMJIN4Fm1uyNqRMd8Eek
-	ZYnjBKxYV425XdzV+i9xhgf2RqTrny1mqEVGTVDdvbP0Il15edlQ8WWaKpwJgVkWleyJ/rQ3KY1rF
-	NSYmZO7Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yH733/o+2f3QUCuzhnXRV1EV69bTXlDQSAnjpwL/swI=; b=GVNaSGKbehZgLp7YWoSNCjGy4/
+	oWNDlmCTsuMbV/FJsCKLQuOOnjBCDwjqKdJ0nz32I1+fSW6pgbPtCwB16RSq6Ti/qLNAOT6FDmoUD
+	5luAY3Fb26h1vwhyVBBNlGks7JvH71mgpbFA/MAM48TRBHjxuQ4YODs5aA5LTUpaAyyT/BqyAFArv
+	Vbd5DAAVljPFFdw/7aJMfTisrUclpJM+RNLKnwkznfiyJJEzBK1kcOp21it5OQ65BMrxiDzQ0uRLM
+	gfUVoAW6S//jpHFx+GrkRSnueES3vqILEyu8+jsBpk1RClaQ2MkDsodvjXMxJ2Gx5bYMjsFv68rA3
+	VPSXNRJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRzBJ-0000000F9rS-3BVN;
-	Thu, 11 Jul 2024 19:10:17 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1sRzEO-0000000FAMK-0U9B;
+	Thu, 11 Jul 2024 19:13:28 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRzBG-0000000F9qm-3Puz
+	id 1sRzEL-0000000FALq-1qxi
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Jul 2024 19:10:16 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4WKknd3jlWzllCRr;
-	Thu, 11 Jul 2024 19:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1720725012; x=1723317013; bh=YKWCWTTVQoClgLKrkg7foAPS
-	QlOJ8RIPpyjZ7FmXw0Y=; b=HevVribMMdTwLS+nMoB6WgPdVX+ZHcg2LEPdiGyr
-	shHgepd0CtAHgPA51dgcU2JVBPRG3SuEGm90GxWpFEyW6Yv0DwRZ09cdR5Q8Q5ln
-	tooLAsfOuT19Wbu/nyJO4AEAUh1E/0mWhpn6kSZgoWxXgg8fYnv4jGSh44vyZsbc
-	/MtVh5apVIRjKX1UdrR84JeP205R5bDDl55QN4qi8HYpMSQ7LSHvuJkrH7RdgZU7
-	l8d/SvbcmrLcLqt8dCfaSVQQ/GaG+pMNd50g25ZFWUgzJw9CQpOHh2Mdm9H8cTqR
-	/7jvh3jlrSt2OMUhoALoMujtn0mUaVtt2jtqK6c0sk/fgg==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id SpTKEcg_acx7; Thu, 11 Jul 2024 19:10:12 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4WKknb6KzbzllBdl;
-	Thu, 11 Jul 2024 19:10:11 +0000 (UTC)
-Message-ID: <76184984-3ca5-4df8-9c54-f803ea9d5499@acm.org>
-Date: Thu, 11 Jul 2024 12:10:11 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Thu, 11 Jul 2024 19:13:26 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8BEE661DE5;
+	Thu, 11 Jul 2024 19:13:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC44EC116B1;
+	Thu, 11 Jul 2024 19:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720725204;
+	bh=fb6F4ol47dP7+bz/+EvvUi/INvjK2iwBH+DWXuJtOqo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ryo/hwyXnxbpRKX9TMrRpVu3L2R8DpgiSNUuYuSpfnjXyKDX5UJAaVZO+aD3AmcuU
+	 zlwoFSP83ibLWySfzbFdCwt9usEIwttLOHcXE5/MUmn41ZFvf+ZSUyAYDIwTLswyIS
+	 TZkPlhc7VZT7MvyDIi72+zi9+7uPsNBKT500xomTtZud8KkQJILqZ9wVaof+8Q3aQ1
+	 JXPKxv8EkMaiuDeZ7elSVDcJzm5MXQbRGKKFlY/2dbAHTL+xYM/yqQIfT6OdHA5SYX
+	 +Q0BQvSdPhZ9SUamfFKLBUl7fyi8rFY3bsUFjmE81xUiYvDPBpJNUURadIoIiYQIzl
+	 8xpKT0K8CEYXQ==
+Date: Thu, 11 Jul 2024 13:13:21 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>
 Subject: Re: [PATCH] nvme-pci: Fix the instructions for disabling power
  management
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <kch@nvidia.com>
+Message-ID: <ZpAu0elweZP6wcFr@kbusch-mbp.dhcp.thefacebook.com>
 References: <20240710231805.10481-1-bvanassche@acm.org>
  <ZpAr89uectd_fTzV@kbusch-mbp.dhcp.thefacebook.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <ZpAr89uectd_fTzV@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <76184984-3ca5-4df8-9c54-f803ea9d5499@acm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76184984-3ca5-4df8-9c54-f803ea9d5499@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240711_121014_908838_3790E717 
-X-CRM114-Status: GOOD (  13.13  )
+X-CRM114-CacheID: sfid-20240711_121325_568098_E46B5DE6 
+X-CRM114-Status: GOOD (  19.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,26 +74,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/11/24 12:01 PM, Keith Busch wrote:
-> On Wed, Jul 10, 2024 at 04:18:05PM -0700, Bart Van Assche wrote:
->> pcie_aspm=off tells the kernel not to modify the ASPM configuration. This
->> setting does not guarantee that ASPM (Active State Power Management) is
->> disabled. pcie_port_pm=off disables power management for all PCIe ports.
->>
->> This patch has been tested on a workstation with a Samsung SSD 970 EVO Plus
->> NVMe SSD.
+On Thu, Jul 11, 2024 at 12:10:11PM -0700, Bart Van Assche wrote:
+> On 7/11/24 12:01 PM, Keith Busch wrote:
+> > On Wed, Jul 10, 2024 at 04:18:05PM -0700, Bart Van Assche wrote:
+> > > pcie_aspm=off tells the kernel not to modify the ASPM configuration. This
+> > > setting does not guarantee that ASPM (Active State Power Management) is
+> > > disabled. pcie_port_pm=off disables power management for all PCIe ports.
+> > > 
+> > > This patch has been tested on a workstation with a Samsung SSD 970 EVO Plus
+> > > NVMe SSD.
+> > 
+> > Interesting, didn't know about that parameter. Does this actually aspm
+> > too, though? It looks like we want aspm policy to be performance for
+> > that to happen.
 > 
-> Interesting, didn't know about that parameter. Does this actually aspm
-> too, though? It looks like we want aspm policy to be performance for
-> that to happen.
+> Hi Keith,
+> 
+> I don't know the answer to your question. All I know is that the
+> settings from this patch are required to make the SSD mentioned above
+> work reliably.
 
-Hi Keith,
-
-I don't know the answer to your question. All I know is that the
-settings from this patch are required to make the SSD mentioned above
-work reliably.
-
-Thanks,
-
-Bart.
+Okay, do you think we could just append the new parameter to the
+existing recommendation rather than replace the aspm one? I could swear
+I recall some platform where pcie_aspm=off did fix something, but it's
+been a while.
 
