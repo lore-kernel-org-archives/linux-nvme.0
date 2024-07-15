@@ -4,60 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4085EC3DA59
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jul 2024 20:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85EBDC3DA4B
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jul 2024 20:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0PVm1jzoalcMOTWE6B0y7yqmnfUDCUb+u7ztxv/z/FQ=; b=jmQRj7JlRPbYvv3eVfrV1Z0M0W
-	O+HRIwWTCRvMgCW5TTJzEWd/QZgVX8q4hInatYMlJO/C7YAhGAkds9kqAYmbB+NtH3No1pqSgt6lI
-	DhFONKn/995Yx05vN6T+4Hbby9hnXjVF7XmjazoM0/lsienx5CxAaRgzDcRrLg8KW+tHu0IBunsen
-	nxk2S5sEnqPEts+Bcc+Bl8Y2WfohvJNATQwoejHuI2QnxkG8gdyrUVQKNmOhve5niTLokpx6gbMEm
-	6kpDdI5QUedwMX4FOg1Zb3HC2pEM2Hy672qrnTmr4rVnf4gEhkYIglOa7Xh4V33O64PV7Gs+l0N2w
-	A8DPsW7Q==;
+	bh=drCQ9j7adeNpqn7R/0YTdxBm7kLO5bSNM67j7kPpUL4=; b=hbR7zn2p7cA0M2T+9/x0VXiZFb
+	Ew1s5D6cyJHsNuo751EXnl4xaw22U0IUMZ7vj664KhNdsqZqnjsgkPKCqGKMVadvlIik4o7UMocML
+	DBOUhflv2f9HkS5PD+NghhmBsPiYl7+ZqFyELdroM9vnf3wXFHaBXMbMf31xGzbTHyU5+fWZ/7MGR
+	wTrlLq7JB4/v5v9qElAwmFSdQopvYbRJpKuzHQ4QwSlE53/QboRus8UxfgtpTv+IYNxLirj7NZkss
+	DKCRUB3I9mc53o+QYxqo0e11fCbksYif/CG/6jmPLyEtakOXcFoJE+51g70fH2qnPJRBFVC32R5VJ
+	oscndBxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTSeY-00000008MUo-3VNa;
-	Mon, 15 Jul 2024 20:50:34 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sTSeu-00000008MbM-0vF9;
+	Mon, 15 Jul 2024 20:50:56 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTSeW-00000008MUL-0neV
+	id 1sTSeq-00000008MaU-30jf
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Jul 2024 20:50:34 +0000
+	Mon, 15 Jul 2024 20:50:54 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7854761284;
-	Mon, 15 Jul 2024 20:50:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85E2FC4AF0B;
-	Mon, 15 Jul 2024 20:50:30 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id CEA56CE11EF;
+	Mon, 15 Jul 2024 20:50:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469A4C32782;
+	Mon, 15 Jul 2024 20:50:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721076631;
-	bh=0PVm1jzoalcMOTWE6B0y7yqmnfUDCUb+u7ztxv/z/FQ=;
+	s=k20201202; t=1721076650;
+	bh=DsKv1AnbLIi/huCDomUZSsXmSWwVkesZakSY1Ot4E10=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qBvrGOt6hJFyIMre/LuVsWV6M4MbvZopWto0Y6qS7GXQzMdedkgab50aKCCMpc68F
-	 pPbq0y1POGHlk7l3VpMWrQAuIVtet1ILHo5fiPPMe3dZZ3Q07YLIZvOYL9ysBcM4u8
-	 vVzMNVdSYCtCQRPgzRxvyX8kkFzrh+5t8rIRD9AUnnjaUtwMP2d6GnQEkjDI1IGtPw
-	 kngjA3q3C86qhY6BpoMnK7UESzN10a+mbGopspLZ7DGY0K0sw3a0Lk84EXf2LEA94F
-	 nKIqfCdE+IyvDdcEhbaPsGpOkdTzx48H6xW7wDSzyXS+kA92eJfw83wqqZUB72FOP+
-	 bbEZ96hsmkGHw==
-Date: Mon, 15 Jul 2024 14:50:28 -0600
+	b=sBx1NCskOtENzvyYcblevhJxDIA5+vo5nA5XHlD8Q4m6Fi5vfNySjP7GH624wmmTV
+	 qXItdniWSCy73pv/FC48KRnouYOfB/5IKs01Thc27AWdY74qj2B0v0bjSka3lQt30/
+	 i/+WZHX1L8eSayNofrevKjZofKLGlMQo2hJYc2qGjtnUpomxuunZqS07jrCcCvI9MX
+	 68isftP1phj+YU/vZHAvcL0QN/PDU0NPPSjPzgnk50RCgIIJa7q7RXmU+pqEVcYYDU
+	 oxg9MJ/hJD8DrEqLBQ3ybW+v4r+RaIH7zuGE8DiTYnR/Ca+9hZWFK7XdVu+GsEOJ+j
+	 m5POjaD+Rnf2Q==
+Date: Mon, 15 Jul 2024 14:50:47 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: WangYuli <wangyuli@uniontech.com>
-Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me, guanwentao@uniontech.com,
-	huanglin@uniontech.com, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] nvme/pci: Add APST quirk for Lenovo N60z laptop
-Message-ID: <ZpWLlOgZ69dmT_-t@kbusch-mbp.dhcp.thefacebook.com>
-References: <6CDDDB0BA2EAE00D+20240715093144.1548609-1-wangyuli@uniontech.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-nvme@lists.infradead.org, kernel-janitors@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] nvme-fabrics: Use seq_putc() in
+ __nvmf_concat_opt_tokens()
+Message-ID: <ZpWLpxwNTYlIbdAc@kbusch-mbp.dhcp.thefacebook.com>
+References: <45f97bd8-21eb-4ef6-bc7d-9201e7447c08@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <6CDDDB0BA2EAE00D+20240715093144.1548609-1-wangyuli@uniontech.com>
+In-Reply-To: <45f97bd8-21eb-4ef6-bc7d-9201e7447c08@web.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240715_135032_314528_CA989EAB 
-X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-CacheID: sfid-20240715_135052_947847_D8098F55 
+X-CRM114-Status: UNSURE (   8.85  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,10 +75,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 15, 2024 at 05:31:44PM +0800, WangYuli wrote:
-> There is a hardware power-saving problem with the Lenovo N60z
-> board. When turn it on and leave it for 10 hours, there is a
-> 20% chance that a nvme disk will not wake up until reboot.
+On Sat, Jul 13, 2024 at 03:50:24PM +0200, Markus Elfring wrote:
+> Single characters should be put into a sequence.
+> Thus use the corresponding function "seq_putc".
+> 
+> This issue was transformed by using the Coccinelle software.
 
 Thanks, applied to nvme-6.11.
 
