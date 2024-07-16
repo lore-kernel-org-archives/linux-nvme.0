@@ -4,127 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 027D7C3DA59
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jul 2024 06:38:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B989C3DA49
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jul 2024 07:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5FJuK6Fis1UUpg2efJbAlxag0NrAZFB4KfL5+Ws1fWg=; b=m6/Ve1cx7wmzNePAG3Ae4HshkS
-	BX46/t12xeexvMNyCXHXi+F7o6ZxQht6Rd+bUpu0eIhJCjDLUxx1d33SJkpPXDsxfGd6cvjGlHxeV
-	y0hxEwJrxvbR0BQ0p7EoYxAkOQ23Q1g9BeeyPKKEdeCyi8+4ZyxY5ReIul0pjCUUXQqi5GLCYmvaD
-	d/OF4/BIuaLFtFpwyUxQyDY1MJGtpsvqOd6H5m+bEHa8sw7wNTZShiaCfTBEmQMtgs0G14CuDuti4
-	zJOhGnQqJASLLeLPZ5z7OubF2OIZRUjTCZhA7wreE6orfhFskCDcuU4YEKQXtNyrcXjYMbN+eAd7j
-	qqxK8f4Q==;
+	bh=3liAj1SgCJ1gA9YP24iEqiLHwNLgd2un0xO4DdNzxmU=; b=wBmWeo+rzRxSsqZ1VoVhvpGAux
+	yva70qb9sk1qH4rpkTSaxkr48oBPbQWzT1IUjwYeChXXa+bk6ymRektI0yKJ8ulgi94Zg/ZcIQtJ8
+	HmrpZTJ2xdxcZn+vVdVCqbWooaMfnxXGKQ/Iu5WuVkO7bvdm41K0cwpcM0yx8/vPGRK0uPdyFNVZG
+	kKTd0FiwyzjLRUofGI9+y6GSoZ01uPE69MJc7xaSolTpFGWrUOqumGTk5yL3FIAn6XbsM/a8rlw8Y
+	1J5sxVKTbbdtqj5Sri+CpcThSjjuHEHvVLOvGPVPJtM2SjAP5ttVfkOCX69xfjgDas5L+SWxq3Gvz
+	DyQCYoBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTbp1-00000009Tyy-3LCA;
-	Tue, 16 Jul 2024 06:37:59 +0000
+	id 1sTcKW-00000009YRg-0k3Q;
+	Tue, 16 Jul 2024 07:10:32 +0000
 Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTbow-00000009Txn-3oaC
+	id 1sTcKP-00000009YQE-0ovO
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Jul 2024 06:37:58 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Tue, 16 Jul 2024 07:10:28 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 895CE21B85;
-	Tue, 16 Jul 2024 06:37:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 63EBA21B0D;
+	Tue, 16 Jul 2024 07:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721111871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1721113823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5FJuK6Fis1UUpg2efJbAlxag0NrAZFB4KfL5+Ws1fWg=;
-	b=a/PpPfkofETW1WBPdP98fVMx01HQux4U6F8lyrkxkHCYaMkZqncG97ALZrGGKRnKdg9vh2
-	L0DPIsZG4aDUBHH5LgPYq3EwZznqrz1HhjeU2B1ODW4FhcCb8CzdjQk8RujyLoOIxyuCof
-	2y5cVcKvxTPKJIKTIaCb+MzJB/YWVSw=
+	bh=3liAj1SgCJ1gA9YP24iEqiLHwNLgd2un0xO4DdNzxmU=;
+	b=ylDiaQnAQz5S3HcYyeYf238Qft/sKH5p2ZVSkrPoUkh9708va1EhexlK9bSR8h1/WL5PT0
+	E0CEr29W1Aed7bPYs9ZqTDK3u3Xq4fWNaZ+H561dkOYuljkif7L6XfTXUakoCTlmn2RbF3
+	FbEpSw1dUL9G3X3q8xENHG1Eq5jdAso=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721111871;
+	s=susede2_ed25519; t=1721113823;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5FJuK6Fis1UUpg2efJbAlxag0NrAZFB4KfL5+Ws1fWg=;
-	b=WENOgmqs0gBL1zZRcJuXc/1QrYkpBNDnN/hz1+a21LeG1WST0qw7I5kjkEs8fBlSri/cq4
-	R6rESkosGyXZJcBw==
+	bh=3liAj1SgCJ1gA9YP24iEqiLHwNLgd2un0xO4DdNzxmU=;
+	b=gkL21zsdeqysXZ41GUtHNgzhqgBCOnkkd0lBipEwiLn/w4lbA3HezwJ4vywxQHshhUud4m
+	WRp47W/9Q6uSepAA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ylDiaQnA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gkL21zsd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721111871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1721113823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5FJuK6Fis1UUpg2efJbAlxag0NrAZFB4KfL5+Ws1fWg=;
-	b=a/PpPfkofETW1WBPdP98fVMx01HQux4U6F8lyrkxkHCYaMkZqncG97ALZrGGKRnKdg9vh2
-	L0DPIsZG4aDUBHH5LgPYq3EwZznqrz1HhjeU2B1ODW4FhcCb8CzdjQk8RujyLoOIxyuCof
-	2y5cVcKvxTPKJIKTIaCb+MzJB/YWVSw=
+	bh=3liAj1SgCJ1gA9YP24iEqiLHwNLgd2un0xO4DdNzxmU=;
+	b=ylDiaQnAQz5S3HcYyeYf238Qft/sKH5p2ZVSkrPoUkh9708va1EhexlK9bSR8h1/WL5PT0
+	E0CEr29W1Aed7bPYs9ZqTDK3u3Xq4fWNaZ+H561dkOYuljkif7L6XfTXUakoCTlmn2RbF3
+	FbEpSw1dUL9G3X3q8xENHG1Eq5jdAso=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721111871;
+	s=susede2_ed25519; t=1721113823;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5FJuK6Fis1UUpg2efJbAlxag0NrAZFB4KfL5+Ws1fWg=;
-	b=WENOgmqs0gBL1zZRcJuXc/1QrYkpBNDnN/hz1+a21LeG1WST0qw7I5kjkEs8fBlSri/cq4
-	R6rESkosGyXZJcBw==
+	bh=3liAj1SgCJ1gA9YP24iEqiLHwNLgd2un0xO4DdNzxmU=;
+	b=gkL21zsdeqysXZ41GUtHNgzhqgBCOnkkd0lBipEwiLn/w4lbA3HezwJ4vywxQHshhUud4m
+	WRp47W/9Q6uSepAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 051C813808;
-	Tue, 16 Jul 2024 06:37:48 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 29FA713795;
+	Tue, 16 Jul 2024 07:10:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oddROzwVlmbJZQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 16 Jul 2024 06:37:48 +0000
-Message-ID: <c99a0d82-e76d-4ed8-afc3-e26be5497ba2@suse.de>
-Date: Tue, 16 Jul 2024 08:37:47 +0200
+	id LmunCN8clmbAbgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 16 Jul 2024 07:10:23 +0000
+Message-ID: <025f47be-129d-443c-9672-0eb33db40577@suse.de>
+Date: Tue, 16 Jul 2024 09:10:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] nvme_core: scan namespaces asynchronously
+Subject: Re: [PATCHv2 0/3] nvme-tcp: improve scalability
 Content-Language: en-US
-To: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-Cc: Martin Wilck <martin.wilck@suse.com>,
- Ayush Siddarath <ayush.siddarath@dell.com>
-References: <20240715203434.20212-1-stuart.w.hayes@gmail.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240708071013.69984-1-hare@kernel.org>
+ <311fc12c-fc52-4881-9f49-d51780ca4ecb@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240715203434.20212-1-stuart.w.hayes@gmail.com>
+In-Reply-To: <311fc12c-fc52-4881-9f49-d51780ca4ecb@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.79 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Rspamd-Queue-Id: 63EBA21B0D
+X-Spamd-Result: default: False [-1.50 / 50.00];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	XM_UA_NO_VERSION(0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,kernel.org,kernel.dk,lst.de,grimberg.me,lists.infradead.org];
-	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240715_233755_126195_B82E8686 
-X-CRM114-Status: GOOD (  38.35  )
+X-CRM114-CacheID: sfid-20240716_001025_408892_5A26064D 
+X-CRM114-Status: GOOD (  12.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,172 +142,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/15/24 22:34, Stuart Hayes wrote:
-> Use async function calls to make namespace scanning happen in parallel.
-> 
-> Without the patch, NVME namespaces are scanned serially, so it can take
-> a long time for all of a controller's namespaces to become available,
-> especially with a slower (TCP) interface with large number of
-> namespaces.
-> 
-> It is not uncommon to have large numbers (hundreds or thousands) of
-> namespaces on nvme-of with storage servers.
-> 
-> The time it took for all namespaces to show up after connecting (via
-> TCP) to a controller with 1002 namespaces was measured on one system:
-> 
-> network latency   without patch   with patch
->       0                 6s            1s
->      50ms             210s           10s
->     100ms             417s           18s
-> 
-> Measurements taken on another system show the effect of the patch on the
-> time nvme_scan_work() took to complete, when connecting to a linux
-> nvme-of target with varying numbers of namespaces, on a network of
-> 400us.
-> 
-> namespaces    without patch   with patch
->       1            16ms           14ms
->       2            24ms           16ms
->       4            49ms           22ms
->       8           101ms           33ms
->      16           207ms           56ms
->     100           1.4s           0.6s
->    1000          12.9s           2.0s
-> 
-> On the same system, connecting to a local PCIe NVMe drive (a Samsung
-> PM1733) instead of a network target:
-> 
-> namespaces    without patch   with patch
->       1            13ms           12ms
->       2            41ms           13ms
-> 
-> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-> ---
-> changes from V2:
->    * make a separate function nvme_scan_ns_async() that calls
->      nvme_scan_ns(), instead of modifying nvme_scan_ns()
->    * only scan asynchronously from nvme_scan_ns_list(), not from
->      nvme_scan_ns_sequential()
->    * provide more timing data in the commit message
-> 
-> changes from V1:
->    * remove module param to enable/disable async scanning
->    * add scan time measurements to commit message
+On 7/16/24 08:31, Sagi Grimberg wrote:
 > 
 > 
->   drivers/nvme/host/core.c | 48 +++++++++++++++++++++++++++++++++-------
->   1 file changed, 40 insertions(+), 8 deletions(-)
+> On 08/07/2024 10:10, Hannes Reinecke wrote:
+>> Hi all,
+>>
+>> for workloads with a lot of controllers we run into workqueue contention,
+>> where the single workqueue is not able to service requests fast enough,
+>> leading to spurious I/O errors and connect resets during high load.
+>> This patchset improves the situation by improve the fairness between
+>> rx and tx scheduling, introducing per-controller workqueues,
+>> and distribute the load accoring to the blk-mq cpu mapping.
+>> With this we reduce the spurious I/O errors and improve the overall
+>> performance for highly contended workloads.
+>>
+>> All performance number are derived from the 'tiobench-example.fio'
+>> sample from the fio sources, running on a 96 core machine with one
+>> subsystem and two paths, each path exposing 32 queues.
+>> Backend is nvmet using an Intel DC P3700 NVMe SSD.
+>>
+>> Changes to the initial submission:
+>> - Make the changes independent from the 'wq_unbound' parameter
+>> - Drop changes to the workqueue
+>> - Add patch to improve rx/tx fairness
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 782090ce0bc1..dbf05cfea063 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4,6 +4,7 @@
->    * Copyright (c) 2011-2014, Intel Corporation.
->    */
->   
-> +#include <linux/async.h>
->   #include <linux/blkdev.h>
->   #include <linux/blk-mq.h>
->   #include <linux/blk-integrity.h>
-> @@ -3952,6 +3953,30 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   	}
->   }
->   
-> +/*
-> + * struct async_scan_info - keeps track of controller & NSIDs to scan
-> + * @ctrl:	Controller on which namespaces are being scanned
-> + * @next_idx:	Index of next NSID to scan in ns_list
-> + * @ns_list:	Pointer to list of NSIDs to scan
-> + */
-> +struct async_scan_info {
-> +	struct nvme_ctrl *ctrl;
-> +	atomic_t next_idx;
-> +	__le32 *ns_list;
-> +};
-> +
-> +static void nvme_scan_ns_async(void *data, async_cookie_t cookie)
-> +{
-> +	struct async_scan_info *scan_info = data;
-> +	int idx;
-> +	u32 nsid;
-> +
-> +	idx = (u32)atomic_fetch_add(1, &scan_info->next_idx);
-> +	nsid = le32_to_cpu(scan_info->ns_list[idx]);
-> +
-> +	nvme_scan_ns(scan_info->ctrl, nsid);
-> +}
-> +
->   static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
->   					unsigned nsid)
->   {
-> @@ -3975,12 +4000,14 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
->   static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
->   {
->   	const int nr_entries = NVME_IDENTIFY_DATA_SIZE / sizeof(__le32);
-> -	__le32 *ns_list;
-> +	struct async_scan_info scan_info;
->   	u32 prev = 0;
->   	int ret = 0, i;
-> +	ASYNC_DOMAIN(domain);
->   
-> -	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
-> -	if (!ns_list)
-> +	scan_info.ctrl = ctrl;
-> +	scan_info.ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
-> +	if (!scan_info.ns_list)
->   		return -ENOMEM;
->   
->   	for (;;) {
-> @@ -3990,28 +4017,33 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
->   			.identify.nsid		= cpu_to_le32(prev),
->   		};
->   
-> -		ret = nvme_submit_sync_cmd(ctrl->admin_q, &cmd, ns_list,
-> -					    NVME_IDENTIFY_DATA_SIZE);
-> +		ret = nvme_submit_sync_cmd(ctrl->admin_q, &cmd,
-> +					   scan_info.ns_list,
-> +					   NVME_IDENTIFY_DATA_SIZE);
->   		if (ret) {
->   			dev_warn(ctrl->device,
->   				"Identify NS List failed (status=0x%x)\n", ret);
->   			goto free;
->   		}
->   
-> +		atomic_set(&scan_info.next_idx, 0);
->   		for (i = 0; i < nr_entries; i++) {
-> -			u32 nsid = le32_to_cpu(ns_list[i]);
-> +			u32 nsid = le32_to_cpu(scan_info.ns_list[i]);
->   
->   			if (!nsid)	/* end of the list? */
->   				goto out;
-> -			nvme_scan_ns(ctrl, nsid);
-> +			async_schedule_domain(nvme_scan_ns_async, &scan_info,
-> +						&domain);
->   			while (++prev < nsid)
->   				nvme_ns_remove_by_nsid(ctrl, prev);
->   		}
-> +		async_synchronize_full_domain(&domain);
+> Hey Hannes, were you able to make progress here?
+> Thought I'd ask...
 
-Let me see if I get this right ...
-You allocate 'scan_info' on the stack, so every call to
-'async_schedule_domain()' in the loop will be using the same
-scan_info context, right?
-So each instance of nvme_scan_ns_async() will be using
-whichever value is in 'next_idx', right?
-Effectively making 'nvme_scan_ns_async()' completely free-floating,
-spawning 'nr_entry' instances, and letting each instance pick whichever
-nsid is (at the time of execution) the next one.
-
-If that's the case then I would welcome some comments in the code, as
-this is somewhat non-obvious. And it also spells out clearly why the
-atomic 'next_idx' value is absolutely crucial to that mechanism, and
-we don't want anyone getting wrong ideas by 'optimizing' that away.
-
-Otherwise:
-
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Oh, well. Things are going back and forth, and occasionally sideways.
+But I'm having something resembling a patchset; most of it is
+actually debugging stuff allowing to analyse latencies.
+Currently trying to get some performance numbers, but should be ready
+shortly.
 
 Cheers,
 
