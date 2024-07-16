@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1320C3DA49
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jul 2024 07:36:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33A8BC3DA5D
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jul 2024 07:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aEsX1Uly8pT4EcPWYrspXJiik+CSkIuPjJxqtIlWZGg=; b=RwRJlLRlhGO9ye3q0l0jWdWX5c
-	cORWFO3xsT5kDpwlEBsTYu4jhyb+Gy/1A+e+h45+uNtuCZdKzijFo8UMgyuwJnY/qLlvvo2tskrIU
-	6TjMqLOiMSBOK3Ea+PCmho503TUdgkD1FCZcVbH77ul+vkxb9QRbXs7q65ZCXltj9id7yCjI8tA7Y
-	5n/0T+hbUPv0I64qAYXu9JXC/0lTmtuUC8EdNno+Kz2NRm/wjyCc08OxUtN525Ddv2ZrUQX+MtFLm
-	AhgxUM4WRQibk5drpho5bbshfBLCY8htjSRFqlUf/9AQJKLAfMzIAG0CHKOrSOaum/2Vnkk5KGfv8
-	Kilos0Fw==;
+	bh=JqrgcCHJdCspyuPHaTG3LFNrt/wv8PFc57GwJSPS1zo=; b=uXDkA10fOzALWjP7oHOdkLAK+i
+	0uIr0d3NCXzMqv0r5SRv2nZs7C14kA6KKv5QDW+K+FlYy8IksEz7MEYXxqOnTTiQb32RvyPIT8rZr
+	0Rc1+guxsmcFIkwgvaiptvrNkk0oB0m7W0b/rtti/FXR232Vczk5x/T6Oyi/298WYe5G5X9eqrpnt
+	KcGKnEZFSNJvQB13AM3HQSHrWxMp7hPrpRctJcHHG5zVNH1+xrLpIa/oggGXwg7FbLKHhzbSyHP+f
+	nb1QOpRZwEAcBl4NodkkHKJyinlmXRZnzeHczHfJi10bVG+9yyIRbh/BtaTS+yiLF9WQOVPPbDBVF
+	0YYvZvJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTcjr-00000009buL-1Ua5;
-	Tue, 16 Jul 2024 07:36:43 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1sTcjs-00000009bvH-2O94;
+	Tue, 16 Jul 2024 07:36:44 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTcjl-00000009bqN-2GPG
+	id 1sTcjl-00000009bqt-3enJ
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Jul 2024 07:36:39 +0000
+	Tue, 16 Jul 2024 07:36:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id D74A6CE0F22;
+	by dfw.source.kernel.org (Postfix) with ESMTP id 31D2960EA0;
+	Tue, 16 Jul 2024 07:36:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BC83C116B1;
 	Tue, 16 Jul 2024 07:36:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800BCC4AF0B;
-	Tue, 16 Jul 2024 07:36:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721115395;
-	bh=dwOyGisHfs3/7Ql0cH7a8D0a+vnmYzjhPfrAsSNRx3I=;
+	s=k20201202; t=1721115396;
+	bh=9K8mOVDUxZt7ImKufIf6FedAaHjYG0VMNEgBTibGjDo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WkApqxEqA0Ao7SrVJOP5OvJz73JEynR1gsTOrdUT03yportjzAIlXbg1zwqSiSL54
-	 cveNDPxiDNPmeX+GTKCFU9F9sen99J/QBdxlQFXkZruMMyF4OEyB99chEQvNWz12s5
-	 nQ+6pD0w/ebJOFatZbu+w1/in/C+GRiRAm2pML5otqVw5ZG8cUUgmBe7SBlW4UlVPz
-	 BzGYqDntmqKoXbXxx8SDWThTsEo9w5y8UpFsAgp/6XO3zCASJLWf1zMoz7n8h0n3o8
-	 bQjt4bxFC3JKDjnWBXrIGLk4DYeiBxK/zO4MV1QGEfthor4rgqhvPjSc8pi8FIj45l
-	 0plY4AK3Dt2Nw==
+	b=M+tH6O5jWy8j5dM0Ycgg2Gl3cMWU/Ysl9q5cPrlIQq9PupZUTDMdGfm1s8qCbx7X2
+	 4Hx2NbXNnE6YbqwY5tquViNXQBWkCUCuznMUez541bJacbsvDlIq7WhGKaWaXR9guM
+	 YUbMkQcFwgNZ5XBMdTd8fQm69sv2bD2BbNtRLpHPwBZ+UeZ1VOqCYM8q34lWu03btX
+	 pcPNTJmXmX8nLPIAM8iHLSpWe5DtjUlgxUeIrTm8QpZ4YY1OL6mqGu7XH64POOJIuT
+	 ePlP5R9mRYaq/RqGiVi5ScbmL7F41JJS/RiG1yQS6GLjC+C78nXVdjvcAtNYV4rOfH
+	 pYuciWcyEvtFQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -49,17 +49,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 2/8] nvme-tcp: io_work stall debugging
-Date: Tue, 16 Jul 2024 09:36:10 +0200
-Message-Id: <20240716073616.84417-3-hare@kernel.org>
+Subject: [PATCH 3/8] nvme-tcp: re-init request list entries
+Date: Tue, 16 Jul 2024 09:36:11 +0200
+Message-Id: <20240716073616.84417-4-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240716073616.84417-1-hare@kernel.org>
 References: <20240716073616.84417-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240716_003637_835563_EA3AAE3C 
-X-CRM114-Status: GOOD (  13.04  )
+X-CRM114-CacheID: sfid-20240716_003638_018918_4BD18E8C 
+X-CRM114-Status: GOOD (  12.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,61 +76,43 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-Add a debug message when the io workqueue exceeds the latency target
-given by 'deadline'.
+When removing entries from a list we should re-init the list entries
+to allow for checking if the entries are still on the list.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/host/tcp.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/nvme/host/tcp.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3cf9a9abb0e0..7876bf7d2fac 100644
+index 7876bf7d2fac..04d840709d5d 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -1282,13 +1282,14 @@ static void nvme_tcp_io_work(struct work_struct *w)
+@@ -412,11 +412,13 @@ static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req,
+ static void nvme_tcp_process_req_list(struct nvme_tcp_queue *queue)
  {
- 	struct nvme_tcp_queue *queue =
- 		container_of(w, struct nvme_tcp_queue, io_work);
--	u64 start = ktime_to_us(ktime_get());
-+	u64 start = ktime_to_us(ktime_get()), overrun;
- 	u64 tx_deadline = start + deadline;
-+	bool pending = false;
+ 	struct nvme_tcp_request *req;
+-	struct llist_node *node;
++	struct llist_node *node, *next;
  
- 	do {
--		bool pending = false;
- 		int result;
- 
-+		pending = false;
- 		if (mutex_trylock(&queue->send_mutex)) {
- 			result = nvme_tcp_try_send(queue);
- 			mutex_unlock(&queue->send_mutex);
-@@ -1304,12 +1305,23 @@ static void nvme_tcp_io_work(struct work_struct *w)
- 		else if (unlikely(result < 0))
- 			return;
- 
--		if (!pending || !queue->rd_enabled)
-+		if (!queue->rd_enabled)
- 			return;
-+		if (!pending)
-+			goto check;
- 
- 	} while (ktime_to_us(ktime_get()) < tx_deadline); /* quota is exhausted */
- 
--	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-+check:
-+	overrun = ktime_to_us(ktime_get()) - start;
-+	if (overrun > 10 * deadline) {
-+		dev_dbg(queue->ctrl->ctrl.device,
-+			"queue %d: stall (%llu msecs)%s%s\n",
-+			nvme_tcp_queue_id(queue), div_u64(overrun, 1000),
-+			list_empty(&queue->send_list) ? " empty" : "", queue->request ? " pending" : "");
-+	}
-+	if (pending)
-+		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+-	for (node = llist_del_all(&queue->req_list); node; node = node->next) {
++	for (node = llist_del_all(&queue->req_list); node; node = next) {
+ 		req = llist_entry(node, struct nvme_tcp_request, lentry);
+ 		list_add(&req->entry, &queue->send_list);
++		next = node->next;
++		init_llist_node(node);
+ 	}
  }
  
- static void nvme_tcp_free_crypto(struct nvme_tcp_queue *queue)
+@@ -435,7 +437,7 @@ nvme_tcp_fetch_request(struct nvme_tcp_queue *queue)
+ 			return NULL;
+ 	}
+ 
+-	list_del(&req->entry);
++	list_del_init(&req->entry);
+ 	return req;
+ }
+ 
 -- 
 2.35.3
 
