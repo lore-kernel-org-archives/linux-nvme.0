@@ -4,80 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2774C3DA5E
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jul 2024 09:00:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C05FC3DA42
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jul 2024 09:10:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wQxVKOZRWZH4KWipiQnJFFf46L7FDmYSv688Dpn970w=; b=YeegaL78lUJZYVLhpKt5W/xYbc
-	DWHShjq5lPn9w7jFjglvQOKqSDydLXbJM6+T3I9AYan49LCluKL6gNfewyN42AfCsGhobBAMe7QhN
-	923rTAugl8En2XNIuNfmwcQIyRsB2alR0WCf7tR13GwONjMXKoBxOd6/ELZh8i6CXXORLRpkAyQ8S
-	zcR58IHtXcvCFExqu/TNSR3THtZse6Caavn/3OrvtLrf7tXhIV9tkbGsMVPCiM5HdCjvuhsDjZ8U0
-	Uz9dbL5/3wIvTULVtouswIdxS8dIJke7aqIGdWuV97/fvIcCbPg6bPZCFgRYp0Xk48mqqIPBEhndf
-	K/m34Adw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4JSPXLkbQjB6jpLngyGuD0osTGvofCj4s+JEm3Q87Ko=; b=fzyVMl16408AS8yFTc6q62qRmQ
+	IrvpN94XbSyawlAQxBz6nBt/mzhoqeFmIaFM+eDEKPLhgvkBsfVEdcIEYOmwh01R7awmcvvdbWJC6
+	uBK8vjYcmMf8zfkS9qo3Bs2W/7Wgij29L06lUiQ8eyacm6rV5lGo253MJEqOnuvQmpQUhUmXm8REn
+	PL3O8iVFH+pwp/ceIwTzYicJqS7It9rn5aArSQhDGvO3DG988dEDImJYeP2BO4RKaP/moOAHmdRm/
+	GWTD9PdBT7zklpn4hjayvV8OTk237KMYub8eRsUD7mWthTp/CgGtQXZGw+56OHf6Y+nt+xu6RKtrB
+	n4Z+Fs9Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sU0Wd-0000000DEL1-1B60;
-	Wed, 17 Jul 2024 09:00:39 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1sU0gR-0000000DFlm-0i3e;
+	Wed, 17 Jul 2024 09:10:47 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTzTZ-0000000D2Qt-3dhC
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 17 Jul 2024 07:53:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=wQxVKOZRWZH4KWipiQnJFFf46L7FDmYSv688Dpn970w=; b=dL4z4W90i2hdu84YDrNSASPnHs
-	/3VVdjdnyrcgw22c5tzza3tMsmpjeaOa5p2DS4G76XwidZN3syt6+iWLYnQnwFzP1+XCF3OkhzaU8
-	foGo5TDRICZmyrUbKgic4+wSyPzO3hnceRJjrBRW4JtYug+bDSlCQTuTyP+Hxa82o5IUMeY7GLM48
-	fi+yK8pY96oGNiSuz7SchFm1inxT/SaEIFii/LX5xa3sV0TyuWHRcr8n/P3rqZgagteDMAXb8ylLo
-	H+oY853gaQzzZ47fuk3fVdENsvOPyDIZy6g6vFbMHpM6iIpRz5zDkknHr0UmpdU+Q+Ls0x1RbcYU7
-	B+gLVufQ==;
-Received: from m15.mail.163.com ([45.254.50.220])
-	by desiato.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTzTW-00000002GGw-1dE3
+	id 1sU0gO-0000000DFkm-1VKx
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jul 2024 07:53:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=wQxVK
-	OZRWZH4KWipiQnJFFf46L7FDmYSv688Dpn970w=; b=K25G2YbHuJS9M3WyLTE0V
-	XJD8u0v6WMTYuT48wNm/EgbQqZMWYI2edYTZxtnbnEmC/M7asDbRhjjLciM4OGh9
-	AU6x81b1Eumfy+YWqn/aemAFebLikHU5SeRM8fmd6IFaHbg5Oh51/ollczPsqb4T
-	0Yxw2XAhJ8Hxi47UGZ+Kbw=
-Received: from localhost.localdomain (unknown [223.166.237.119])
-	by gzga-smtp-mta-g0-5 (Coremail) with SMTP id _____wD3f3ddeJdmTsbxAA--.36565S3;
-	Wed, 17 Jul 2024 15:53:08 +0800 (CST)
-From: Ping Gan <jacky_gam_2001@163.com>
-To: hare@suse.de,
-	sagi@grimberg.me,
-	hch@lst.de,
-	kch@nvidia.com,
+	Wed, 17 Jul 2024 09:10:46 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id F29E7CE12E0;
+	Wed, 17 Jul 2024 09:10:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E42F2C32782;
+	Wed, 17 Jul 2024 09:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721207441;
+	bh=gmLB5pyqUrJtm+x1yGiDYoKRudaYbWj7HACSyliOeK4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ww3tqfAJIZKX9ooXfKNYd/wbAOvH0PgJZhfR1yjPNdZOr3O4/mESAvY/Z4n3yjVZ9
+	 /33o3L3P/2SIoRB2wwWwkzR0XYzA3ZwwLcnELA7/DISm/HVj9XcVw0C9DJsk/HICKT
+	 WPbDL4qhMcEoPZd5uQcd6acocEKs+enqiGVT6Mv5qCIE90hGk8Z/uypeOSlY/kaU3P
+	 s/LbO7me9RmgprvKeKRNw6wXe+HVz1VI0dsDxdztgIAy8hZjfe1DBSTGDP+wEHANYw
+	 bYR41ID5lH+MAqC66pFmMFo22ThkxiYypdEN/wzojJPMe6WDNTXZNqTl5isXxUpQrJ
+	 WIVTpvf3qvyPA==
+From: Hannes Reinecke <hare@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: ping.gan@dell.com,
-	Ping Gan <jacky_gam_2001@163.com>
-Subject: [PATCH 1/2] nvmet-tcp: add unbound_wq support for nvmet-tcp
-Date: Wed, 17 Jul 2024 15:52:07 +0800
-Message-Id: <20240717075208.87324-2-jacky_gam_2001@163.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20240717075208.87324-1-jacky_gam_2001@163.com>
-References: <20240717075208.87324-1-jacky_gam_2001@163.com>
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCHv5 00/16] nvme: implement secure concatenation
+Date: Wed, 17 Jul 2024 11:10:15 +0200
+Message-Id: <20240717091031.143188-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3f3ddeJdmTsbxAA--.36565S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cry3uw15urW8Ar1UJw1fJFb_yoW8Gry3pa
-	nxtF15Jr43J3yDKa1rCr4DXrWfCa17C3srua1xCw45Aw1FqFZ5AFyqqF1Y9r47ury8Zr12
-	kFyDZr1UWF1jy37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zinYFJUUUUU=
-X-Originating-IP: [223.166.237.119]
-X-CM-SenderInfo: 5mdfy55bjdzsisqqiqqrwthudrp/1tbiSBgfKWXAmTHxfwADsm
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240717_085323_107174_76E56DE6 
-X-CRM114-Status: GOOD (  10.61  )
+X-CRM114-CacheID: sfid-20240717_021044_782271_41057971 
+X-CRM114-Status: GOOD (  18.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,46 +71,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-To define a module parameter use_unbound_wq to enable unbound
-workqueue to handle TCP's IO.
+Hi all,
 
-Signed-off-by: jackygam2001 <jacky_gam_2001@163.com>
----
- drivers/nvme/target/tcp.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+here's my attempt to implement secure concatenation for NVMe-of TCP
+as outlined in TP8018.
+Secure concatenation means that a TLS PSK is generated from the key
+material negotiated by the DH-HMAC-CHAP protocol, and the TLS PSK
+is then used for a subsequent TLS connection.
+The difference between the original definition of secure concatenation
+and the method outlined in TP8018 is that with TP8018 the connection
+is reset after DH-HMAC-CHAP negotiation, and a new connection is setup
+with the generated TLS PSK.
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 5bff0d5464d1..f71d56843e1a 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -73,6 +73,10 @@ device_param_cb(idle_poll_period_usecs, &set_param_ops,
- MODULE_PARM_DESC(idle_poll_period_usecs,
- 		"nvmet tcp io_work poll till idle time period in usecs: Default 0");
- 
-+static bool use_unbound_wq;
-+module_param(use_unbound_wq, bool, 0444);
-+MODULE_PARM_DESC(use_unbound_wq, "use unbound workqueue to handle IO request: Default false");
-+
- #ifdef CONFIG_NVME_TARGET_TCP_TLS
- /*
-  * TLS handshake timeout
-@@ -2196,9 +2200,13 @@ static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
- static int __init nvmet_tcp_init(void)
- {
- 	int ret;
-+	unsigned int flags;
-+
-+	flags = WQ_MEM_RECLAIM | WQ_HIGHPRI;
-+	if (use_unbound_wq)
-+		flags |= (WQ_UNBOUND | WQ_SYSFS);
- 
--	nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq",
--				WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
-+	nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq", flags, 0);
- 	if (!nvmet_tcp_wq)
- 		return -ENOMEM;
- 
+To implement that Sagi came up with the idea to directly reset the
+admin queue once the DH-CHAP negotiation has completed; that way
+it will be transparent to the upper layers and we don't have to
+worry about exposing queues which should not be used.
+
+As usual, comments and reviews are welcome.
+
+Patchset can be found at
+git.kernel.org:/pub/scm/linux/kernel/git/hare/nvme.git
+branch secure-concat.v5
+
+Changes to v4:
+- Rework reset admin queue functionality based on an idea
+  from Sagi (thanks!)
+- kbuild robot fixes
+- Fixup dhchap negotiation with non-empty C2 value
+
+Changes to v3:
+- Include reviews from Sagi
+- Do not start I/O queues after DH-HMAC-CHAP negotiation
+- Use bool to indicate TLS has been enabled on a queue
+- Add 'tls_keyring' sysfs attribute
+- Add 'tls_configured_key' sysfs attribute
+
+Changes to v2:
+- Fixup reset after dhchap negotiation
+- Disable namespace scanning on I/O queues after
+  dhchap negotiation
+    - Reworked TLS key handling (again)
+
+Changes to the original submission:
+- Sanitize TLS key handling
+- Fixup modconfig compilation
+
+Hannes Reinecke (16):
+  nvme-keyring: restrict match length for version '1' identifiers
+  nvme-tcp: sanitize TLS key handling
+  nvme-tcp: check for invalidated or revoked key
+  nvme: add a newline to the 'tls_key' sysfs attribute
+  nvme-sysfs: add 'tls_configured_key' sysfs attribute
+  nvme-sysfs: add 'tls_keyring' attribute
+  crypto,fs: Separate out hkdf_extract() and hkdf_expand()
+  nvme: add nvme_auth_generate_psk()
+  nvme: add nvme_auth_generate_digest()
+  nvme: add nvme_auth_derive_tls_psk()
+  nvme-keyring: add nvme_tls_psk_refresh()
+  nvme-tcp: request secure channel concatenation
+  nvme-fabrics: reset admin connection for secure concatenation
+  nvmet-auth: allow to clear DH-HMAC-CHAP keys
+  nvme-target: do not check authentication status for admin commands
+    twice
+  nvmet-tcp: support secure channel concatenation
+
+ crypto/Makefile                        |   1 +
+ crypto/hkdf.c                          | 112 +++++++++
+ drivers/nvme/common/auth.c             | 303 +++++++++++++++++++++++++
+ drivers/nvme/common/keyring.c          | 103 ++++++++-
+ drivers/nvme/host/auth.c               | 105 ++++++++-
+ drivers/nvme/host/core.c               |   1 -
+ drivers/nvme/host/fabrics.c            |  36 ++-
+ drivers/nvme/host/fabrics.h            |   3 +
+ drivers/nvme/host/nvme.h               |   2 +-
+ drivers/nvme/host/sysfs.c              |  37 ++-
+ drivers/nvme/host/tcp.c                | 108 +++++++--
+ drivers/nvme/target/admin-cmd.c        |   2 -
+ drivers/nvme/target/auth.c             |  84 ++++++-
+ drivers/nvme/target/fabrics-cmd-auth.c |  49 +++-
+ drivers/nvme/target/fabrics-cmd.c      |  26 ++-
+ drivers/nvme/target/nvmet.h            |  30 ++-
+ drivers/nvme/target/tcp.c              |  25 +-
+ fs/crypto/hkdf.c                       |  68 +-----
+ include/crypto/hkdf.h                  |  18 ++
+ include/linux/nvme-auth.h              |   7 +
+ include/linux/nvme-keyring.h           |  10 +-
+ include/linux/nvme.h                   |   7 +
+ 22 files changed, 1015 insertions(+), 122 deletions(-)
+ create mode 100644 crypto/hkdf.c
+ create mode 100644 include/crypto/hkdf.h
+
 -- 
-2.26.2
+2.35.3
 
 
