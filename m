@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07364C3DA42
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jul 2024 09:11:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E47BC3DA42
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jul 2024 09:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0Umpk3NRBPUbLZXRs9nqLTXnV3Ah4/H2RPJHMpHrQKI=; b=Sce+24T7F1QLVVvxy7SOA0pwd7
-	MPZxj+PCBVmkpi1H0MYmC62jNXwlZDBa+F9VmV6BBaTPLv0747RQ5n/XMQejxJr59Z9MZqbYHCiyQ
-	C6NnguKKllWW5eVTdDu1CfnWHPZP+5bkMv4fPMgSpTlL+2HQbmygE+44Lo+UnOhiai2c2V2s4RJHl
-	ghEaTxq3lR1LhS5VlHPu2asP8vEkkxfpM/75/uqW/eH1unC7mHqZzcYQHWgii/z77ZsKUAzu340Nk
-	M+DeTgKI1lG7OxaLCn/b6HCUCNQFw2Sx+CBixr6KWIjOz5DTkj0jIaOZrO2VFlt1ntpEYmQjAMarB
-	IHCkm4NA==;
+	bh=QhE2PiQ//AcZsUUBivDqFWVn3oGuLvfNEoyYPRuBMCE=; b=4J9rlr8VmARxkNZ1C1g1gG+CWP
+	9kGIayUi/jW6ZeKg4L2a2ktCfd/Ewrgy8fBm2+y+l23nU72SVF7wnx7qP8G8++Vi+XobmVV5mMxbI
+	WX/hEFQHIMScVSvjIJAb+9AfPDfLwFZaf5/9ElSp9uRr5o5p1MYXXsKpDvu+UzB0GJ/vxXIS13a+W
+	SKQPFpm9VkihCHJy3OC2biB0VYJHIHrKJEnjbFWKDtm5YVtLmreFw1vcYN2WRlloY3o50vQ2XUf+g
+	I1QLgKTtkO8M0P8JChHGQQrGEwm5/cxIuGXRjFInqmzVYS7ou6SzckAh+uVSzVN8Mtbx6bMRKFrIm
+	fXZIjzgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sU0hK-0000000DGC5-2Odz;
-	Wed, 17 Jul 2024 09:11:42 +0000
+	id 1sU0hO-0000000DGEg-0rQW;
+	Wed, 17 Jul 2024 09:11:46 +0000
 Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sU0gb-0000000DFs6-0nJ8
+	id 1sU0gg-0000000DFvq-2pyo
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jul 2024 09:11:28 +0000
+	Wed, 17 Jul 2024 09:11:29 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 82DDCCE16DB;
-	Wed, 17 Jul 2024 09:10:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D114AC4AF11;
-	Wed, 17 Jul 2024 09:10:53 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 155CFCE16D3;
+	Wed, 17 Jul 2024 09:11:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09773C4AF0C;
+	Wed, 17 Jul 2024 09:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721207455;
-	bh=doKYCexsrnFUuf8hvAHdQvOsB3mMlcJ5tJxV61/Z6mI=;
+	s=k20201202; t=1721207460;
+	bh=BouBhJgh+VfqULU5PHrJm8IKLwX+YDEv4TUnGvRw3/k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AAWbV9MOQp3DLGBqTotU/t428Zj8bkwl2hE7wk0e+lBtBaccSrWwESvmf1r3bwAiV
-	 aqltg6E7B5UwZfe6j07Ss16GCfOVVGYfFrva5GLxlvCFI9Ajmthtk/JBRdSOlz2tqN
-	 X3aNL0UzlM9qlYLM1ho6afmo+wwvElz/d3A0qQ7mbPkmpg2rYelLwx4my02zWIIGV3
-	 RLWlgGX/huGfhIyHMuxpbWmeYLVCiZjlDn9ktu+eWOjxI3NYPHn4fxVUBJZh0HAD9v
-	 qfkZfavxxUR6Jg04AmqUlKwdLX/Ogtd9BHwvgKzERRI1qYA/LhvV6EN8usUZ8E0HqU
-	 SKL9HXK3tW8rQ==
+	b=ZMzJhJt8m/fxi7OPdlNTa5xhp2hLH/JFgKCWDvtsBYQ+4VltTYAddodUzYaMhqVus
+	 RwpSAwNz8lEn96SNTzkBtJSxI7dfqaA2j3REyLxUaV+3YeHloj9w7e2P4tLKfKHFSF
+	 WrhcGVJ2TogabmtK6RNxZh+vMQUrvzyWU72OGflEZaC/nE+0hi9RQE5BmZgsp4gfj4
+	 EumOoU7srsIPx1aABpI9ZWKE041ksOgCCPM+67Nogxwy9oZNn9J9if+X8qTwUgouJ8
+	 pwFz2wyf5ny6o6G30QGphgRJXFO6IB0bEIqMyVBCyORoTdc15+2rf62K/me2EpCudY
+	 muS8THfJp+3eQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 08/16] nvme: add nvme_auth_generate_psk()
-Date: Wed, 17 Jul 2024 11:10:23 +0200
-Message-Id: <20240717091031.143188-9-hare@kernel.org>
+Subject: [PATCH 11/16] nvme-keyring: add nvme_tls_psk_refresh()
+Date: Wed, 17 Jul 2024 11:10:26 +0200
+Message-Id: <20240717091031.143188-12-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240717091031.143188-1-hare@kernel.org>
 References: <20240717091031.143188-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240717_021057_618398_5F1929DE 
-X-CRM114-Status: GOOD (  14.85  )
+X-CRM114-CacheID: sfid-20240717_021103_109656_2BF280CC 
+X-CRM114-Status: GOOD (  13.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,133 +73,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a function to generate a NVMe PSK from the shared credentials
-negotiated by DH-HMAC-CHAP.
+Add a function to refresh a generated PSK in the specified keyring.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/common/auth.c | 87 ++++++++++++++++++++++++++++++++++++++
- include/linux/nvme-auth.h  |  3 ++
- 2 files changed, 90 insertions(+)
+ drivers/nvme/common/keyring.c | 50 +++++++++++++++++++++++++++++++++++
+ include/linux/nvme-keyring.h  |  7 +++++
+ 2 files changed, 57 insertions(+)
 
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index a3455f1d67fa..f6d21960b140 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -11,6 +11,7 @@
- #include <asm/unaligned.h>
- #include <crypto/hash.h>
- #include <crypto/dh.h>
-+#include <crypto/hkdf.h>
- #include <linux/nvme.h>
- #include <linux/nvme-auth.h>
- 
-@@ -471,5 +472,91 @@ int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key)
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 5b886fd6c3e7..9e847c3ee820 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -123,6 +123,56 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 	return key_ref_to_ptr(keyref);
  }
- EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
  
-+/*
-+ * nvme_auth_generate_psk - Generate a PSK for TLS
-+ *
-+ * Generate a PSK for TLS as specified in NVMe base specification, section 8.13.5.9:
-+ *    Generated PSK for TLS
-+ *
-+ * The generated PSK for TLS shall be computed applying the HMAC function using the
-+ * hash function H( ) selected by the HashID parameter in the DH-HMAC-CHAP_Challenge
-+ * message with the session key KS as key to the concatenation of the two challenges
-+ * C1 and C2 (i.e., generated PSK = HMAC(KS, C1 || C2)).
-+ */
-+int nvme_auth_generate_psk(u8 hmac_id, u8 *skey, size_t skey_len,
-+		u8 *c1, u8 *c2, size_t hash_len, u8 **ret_psk,size_t *ret_len)
++struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
++		u8 hmac_id, bool generated, u8 *data, size_t data_len, char *digest)
 +{
-+	struct crypto_shash *tfm;
-+	struct shash_desc *shash;
-+	u8 *psk;
-+	const char *hmac_name;
-+	int ret, psk_len;
++	key_perm_t keyperm =
++		KEY_POS_SEARCH | KEY_POS_VIEW | KEY_POS_READ |
++		KEY_POS_WRITE | KEY_POS_LINK | KEY_POS_SETATTR |
++		KEY_USR_SEARCH | KEY_USR_VIEW | KEY_USR_READ;
++	char *identity;
++	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 77;
++	key_ref_t keyref;
++	key_serial_t keyring_id;
++	struct key *key;
 +
-+	if (!c1 || !c2) {
-+		pr_warn("%s: invalid parameter\n", __func__);
-+		return -EINVAL;
++	if (!hostnqn || !subnqn || !data || !data_len)
++		return ERR_PTR(-EINVAL);
++
++	identity = kzalloc(identity_len, GFP_KERNEL);
++	if (!identity)
++		return ERR_PTR(-ENOMEM);
++
++	snprintf(identity, identity_len, "NVMe1%c%02d %s %s %s",
++		 generated ? 'G' : 'R', hmac_id, hostnqn, subnqn, digest);
++
++	if (!keyring)
++		keyring = nvme_keyring;
++	keyring_id = key_serial(keyring);
++	pr_debug("keyring %x refresh tls psk '%s'\n",
++		 keyring_id, identity);
++	keyref = key_create_or_update(make_key_ref(keyring, true),
++				"psk", identity, data, data_len,
++				keyperm, KEY_ALLOC_NOT_IN_QUOTA |
++				      KEY_ALLOC_BUILT_IN |
++				      KEY_ALLOC_BYPASS_RESTRICTION);
++	if (IS_ERR(keyref)) {
++		pr_debug("refresh tls psk '%s' failed, error %ld\n",
++			 identity, PTR_ERR(keyref));
++		kfree(identity);
++		return ERR_PTR(-ENOKEY);
 +	}
-+
-+	hmac_name = nvme_auth_hmac_name(hmac_id);
-+	if (!hmac_name) {
-+		pr_warn("%s: invalid hash algoritm %d\n",
-+			__func__, hmac_id);
-+		return -EINVAL;
-+	}
-+
-+	tfm = crypto_alloc_shash(hmac_name, 0, 0);
-+	if (IS_ERR(tfm))
-+		return PTR_ERR(tfm);
-+
-+	psk_len = crypto_shash_digestsize(tfm);
-+	psk = kzalloc(psk_len, GFP_KERNEL);
-+	if (!psk) {
-+		ret = -ENOMEM;
-+		goto out_free_tfm;
-+	}
-+
-+	shash = kmalloc(sizeof(struct shash_desc) +
-+			crypto_shash_descsize(tfm),
-+			GFP_KERNEL);
-+	if (!shash) {
-+		ret = -ENOMEM;
-+		goto out_free_psk;
-+	}
-+
-+	shash->tfm = tfm;
-+	ret = crypto_shash_setkey(tfm, skey, skey_len);
-+	if (ret)
-+		goto out_free_shash;
-+
-+	ret = crypto_shash_init(shash);
-+	if (ret)
-+		goto out_free_shash;
-+
-+	ret = crypto_shash_update(shash, c1, hash_len);
-+	if (ret)
-+		goto out_free_shash;
-+
-+	ret = crypto_shash_update(shash, c2, hash_len);
-+	if (ret)
-+		goto out_free_shash;
-+
-+	ret = crypto_shash_final(shash, psk);
-+	if (!ret) {
-+		*ret_psk = psk;
-+		*ret_len = psk_len;
-+	}
-+
-+out_free_shash:
-+	kfree_sensitive(shash);
-+out_free_psk:
-+	if (ret)
-+		kfree_sensitive(psk);
-+out_free_tfm:
-+	crypto_free_shash(tfm);
-+
-+	return ret;
++	kfree(identity);
++	/*
++	 * Set the default timeout to 1 hour
++	 * as suggested in TP8018.
++	 */
++	key = key_ref_to_ptr(keyref);
++	key_set_timeout(key, 3600);
++	return key;
 +}
-+EXPORT_SYMBOL_GPL(nvme_auth_generate_psk);
++EXPORT_SYMBOL_GPL(nvme_tls_psk_refresh);
 +
- MODULE_DESCRIPTION("NVMe Authentication framework");
- MODULE_LICENSE("GPL v2");
-diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
-index c1d0bc5d9624..b13884b04dfd 100644
---- a/include/linux/nvme-auth.h
-+++ b/include/linux/nvme-auth.h
-@@ -40,5 +40,8 @@ int nvme_auth_gen_pubkey(struct crypto_kpp *dh_tfm,
- int nvme_auth_gen_shared_secret(struct crypto_kpp *dh_tfm,
- 				u8 *ctrl_key, size_t ctrl_key_len,
- 				u8 *sess_key, size_t sess_key_len);
-+int nvme_auth_generate_psk(u8 hmac_id, u8 *skey, size_t skey_len,
-+			   u8 *c1, u8 *c2, size_t hash_len,
-+			   u8 **ret_psk, size_t *ret_len);
+ /*
+  * NVMe PSK priority list
+  *
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+index e092e3e6ffb2..ae9bac51291e 100644
+--- a/include/linux/nvme-keyring.h
++++ b/include/linux/nvme-keyring.h
+@@ -8,6 +8,8 @@
  
- #endif /* _NVME_AUTH_H */
+ #if IS_ENABLED(CONFIG_NVME_KEYRING)
+ 
++struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
++				 u8 hmac_id, bool generated, u8 *data, size_t data_len, char *digest);
+ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn);
+ 
+@@ -15,6 +17,11 @@ key_serial_t nvme_keyring_id(void);
+ struct key *nvme_tls_key_lookup(key_serial_t key_id);
+ #else
+ 
++static struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
++		u8 hmac_id, bool generated, u8 *data, size_t data_len, char *digest)
++{
++	return -ENOTSUPP;
++}
+ static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn)
+ {
 -- 
 2.35.3
 
