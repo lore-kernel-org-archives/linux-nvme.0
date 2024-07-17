@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C1F4C3DA5D
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jul 2024 21:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF880C3DA60
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jul 2024 21:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xeot4Wl845K+K7G6zsJDtzVvcHd8h/5gd+6gXVn14fU=; b=mRAqHe0e2KqRbKkb8ILDW3QOmF
-	g7fzu0DtOt+GbY7cituxDNmFruzY2+xicJoltptET1YacDP5XNBwtnZutDhmjMxWl5ubmeMDkylR1
-	x/qP8d8p3Nim8qsPJhb1ssk8ZHcC29ZqC5MRhRxCkn6HiHztsrzD0Myz4YvNrQIh1+lzQJUgP/YoW
-	2If55SDNy22nFL0GWcGPo4iHoxg6oJby6wy6Jncwxorrk/oxwABEH6K40e2eckpmpuji9W9fNSia0
-	J6EYUh/ezz+0P7MjtvMm5Ue/39bWwVESGVBMAHkwNcva8KvtTiKllsL+CzLmfgtcS77a+PxvASJUK
-	PO/KExMQ==;
+	bh=IRD3NxWp275WjREyYJfzZ+Z7SwKL95z9qJHmZBUMqi4=; b=pQBmwAb7fMMi0Egd6HgCxXTido
+	JATSMR7Cjo5/hCCrgwCOheu1lCsAue4YjTQSZ8Jz+Zg1STwfAYF1GTnh9QwyTbXmu72AB5GuZ5e0t
+	w8nBp+4ZsGhbSlUXyetw7ZJuPaKe+qbHrBwcePFoqRbUORX2cLGDHIwHhAgQVrSP8h5ElMn6ZRUzS
+	GEihrlubTSoFyPQeStWtHnlDADKWZhyNPHwiefmj/hu4TAWMGzUzT47ri7hO6SR9MJKBHVm85uX7F
+	HE8KmnScHOsWD7e+KJPcG6Gqo69qbCX8BtL3rFKtA5llXqCP/BXZO+k39qGvkgcIBiJpy9/DQ9qVZ
+	iKNViNPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUBwT-0000000Evxm-3WQn;
-	Wed, 17 Jul 2024 21:12:05 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1sUByT-0000000EwEV-1Vd8;
+	Wed, 17 Jul 2024 21:14:09 +0000
+Received: from mail-wr1-f53.google.com ([209.85.221.53])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUBvx-0000000Evuq-16o1
+	id 1sUByP-0000000EwDS-38FO
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jul 2024 21:12:04 +0000
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-426ff626778so84705e9.2
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Jul 2024 14:11:32 -0700 (PDT)
+	Wed, 17 Jul 2024 21:14:07 +0000
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3684e2d0d8bso4044f8f.2
+        for <linux-nvme@lists.infradead.org>; Wed, 17 Jul 2024 14:14:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721250691; x=1721855491;
+        d=1e100.net; s=20230601; t=1721250844; x=1721855644;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xeot4Wl845K+K7G6zsJDtzVvcHd8h/5gd+6gXVn14fU=;
-        b=LygrTbMe38u7LogiRvOOf1HvBQOD6TvCcDvxWnszpEh+F9aEShh6zlsbkVeXrYh/Fv
-         xNXM4b7BImyQU7Ql+9q41cfFOCaTY/EmKC7o1iA+xhu1Cik6CAFykCmAGdj5rm7u9S49
-         n1CNPST/hAynHZ06lMEhydksWa0Sv26FQ5X6H96IEILSfbwBYQTZKIHdlXouuW3uGBea
-         kxQ3atGgqBYiWkrcuEL56YEeDX61pbTHp4yPplsh1Rjfns3ChVUfkVg218XH+ahG+NdD
-         nvIkGya60ZG9L52E363dRAWTkTY/WRsfvHFYeqzMjLSGLv4xhKJ9D/4Fk24zoKxed2M9
-         U9bw==
-X-Forwarded-Encrypted: i=1; AJvYcCXiN73CCpgd0UwiyW4RetH92YZ2KQoJIlIupbZ4EZIe/Or/dr5kvcvTKCCviGvhr8q9Jqwdn2eoCywI@lists.infradead.org
-X-Gm-Message-State: AOJu0YxRDHXcih3ys1Osuc7g4WYeylMxZit/R0yU7djj2B2SFigo1PEG
-	fcVpi1mMtltVM3yeLfi/Ei+ztjnX2GuJQPyKGP1IETHqrHWfTG7IFOwMhg==
-X-Google-Smtp-Source: AGHT+IGYswnCLAZA0V9N4LNmSmBH9O/f6tU5VjiYn+PTrQA+cmzW7Uc6a7WYfg+zpEpFNt65Al6jqw==
-X-Received: by 2002:a05:600c:1d21:b0:426:6ecc:e5c4 with SMTP id 5b1f17b1804b1-427c5817cabmr9069335e9.4.1721250691376;
-        Wed, 17 Jul 2024 14:11:31 -0700 (PDT)
+        bh=IRD3NxWp275WjREyYJfzZ+Z7SwKL95z9qJHmZBUMqi4=;
+        b=b8voqlCiHkMCEHm3MaWkNtjef47f92gRPI/urOiS7NtrxUZOmER7iOiFWeIDyhG75s
+         7J/OPZTQNmge2haw9vRaZU4E0A7f+yESJRmC69IluRh1yDMgmn+uu2Vivuhua1uBY/T/
+         qaSo+0GQ90jJe6TX4epi9sX0FZiuPDzd3ZExEIr8n+W4UUbHRaW7lVL+/TG3KtRdarFS
+         t234PsCvGcTQ4rQnfRLV2w/JmtHY4NAB+pfXR3sZYGgOi559MTa/Qz925PVXWF194aAs
+         wvpIUj3z1gt31zPUcuUnhWk+4p30NridRCCam0+gfLWGDNTx11h3kbcuzHJiNAfqvw+v
+         Hskw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTChSo4DaeqIS6pHTEbUdwtB6OhfyzPZAqQ139RtCo2QIyFeGeY4KJdqyxmf06VsjJgh3shYpYyiQnK8rWCbWYodHoYFuZGPTmpK5hoYg=
+X-Gm-Message-State: AOJu0YzaDfQZgCRwEtIDLOwH9fXJwdtmvRt7g68zlIdJ8InGzOaP08u1
+	l61fp2PqNxYaJwUcONaHyfiX/cN1+AzVYputSkmn/6S6CfMsRXoK
+X-Google-Smtp-Source: AGHT+IERMOMq22V/e5asjIlk+YnmJaXItNKA4JHX2RC4czjaxu++yq8+6OLgkp4+k9kOLqqu4mb/7w==
+X-Received: by 2002:a05:6000:1fae:b0:367:9cf7:6df8 with SMTP id ffacd0b85a97d-368315efe80mr1401476f8f.2.1721250843864;
+        Wed, 17 Jul 2024 14:14:03 -0700 (PDT)
 Received: from [10.100.102.74] (85.65.198.251.dynamic.barak-online.net. [85.65.198.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427c7859125sm10391865e9.43.2024.07.17.14.11.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680db0ee46sm12560829f8f.114.2024.07.17.14.14.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jul 2024 14:11:30 -0700 (PDT)
-Message-ID: <7a854ec5-adcc-49d5-bc4f-1a41238437b0@grimberg.me>
-Date: Thu, 18 Jul 2024 00:11:28 +0300
+        Wed, 17 Jul 2024 14:14:03 -0700 (PDT)
+Message-ID: <7c45f379-f6f1-4b9b-a929-863bdaf072da@grimberg.me>
+Date: Thu, 18 Jul 2024 00:14:01 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/8] nvme-tcp: improve stall debugging
+Subject: Re: [PATCH 5/8] nvme-tcp: debugfs entries for latency statistics
 To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
 References: <20240716073616.84417-1-hare@kernel.org>
- <20240716073616.84417-5-hare@kernel.org>
+ <20240716073616.84417-6-hare@kernel.org>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240716073616.84417-5-hare@kernel.org>
+In-Reply-To: <20240716073616.84417-6-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240717_141133_342533_08F2CFC1 
-X-CRM114-Status: GOOD (  21.20  )
+X-CRM114-CacheID: sfid-20240717_141405_841673_3FE3F257 
+X-CRM114-Status: GOOD (  26.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,121 +86,490 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 16/07/2024 10:36, Hannes Reinecke wrote:
-> Add counter for the number of send and receive calls, and an additional
-> counter for the number of SQEs processed.
+> From: Hannes Reinecke <hare@suse.de>
+>
+> Add debugfs entries to display latency statistics:
+> 'send_lat' displays the average latency for sendmsg() calls,
+> 'recv_lat' the average latency for '->read_sock()' calls,
+> 'write_space' the number of 'write_space' callbacks,
+> 'data_ready' the number of 'data_ready' callbacks,
+> and 'queue_busy' the number -EAGAIN returns from sendmsg().
 
-TBH, this looks like something that should be added as trace points
-and have something like an ebpf program that attach to them and performs 
-this type of logic.
-
-Otherwise, these counters need to be grouped in a proper stats struct to
-clarify what they are used for.
+This is for sure something that ebpf is better used IMO.
+What I'd recommend is that we add traces and move this
+stats logic to an ebpf program (iovisor project would probably
+welcome such a program).
 
 >
 > Signed-off-by: Hannes Reinecke <hare@kernel.org>
 > ---
->   drivers/nvme/host/tcp.c | 17 ++++++++++++++++-
->   1 file changed, 16 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/tcp.c | 253 +++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 249 insertions(+), 4 deletions(-)
 >
 > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 04d840709d5d..9caee99955c2 100644
+> index 9caee99955c2..a758fbb3f9bb 100644
 > --- a/drivers/nvme/host/tcp.c
 > +++ b/drivers/nvme/host/tcp.c
-> @@ -156,7 +156,10 @@ struct nvme_tcp_queue {
->   	int			pdu_offset;
->   	size_t			data_remaining;
->   	size_t			ddgst_remaining;
-> +	unsigned int		nr_sqe;
-> +	unsigned int		nr_send;
->   	unsigned int		nr_cqe;
-> +	unsigned int		nr_recv;
+> @@ -21,6 +21,8 @@
+>   #include <net/busy_poll.h>
+>   #include <trace/events/sock.h>
 >   
+> +#include <linux/debugfs.h>
+> +
+>   #include "nvme.h"
+>   #include "fabrics.h"
+>   
+> @@ -139,6 +141,13 @@ enum nvme_tcp_recv_state {
+>   	NVME_TCP_RECV_DDGST,
+>   };
+>   
+> +struct nvme_tcp_stat {
+> +	u64 samples;
+> +	u64 batch;
+> +	s64 mean;
+> +	u64 sqmean;
+> +};
+> +
+>   struct nvme_tcp_ctrl;
+>   struct nvme_tcp_queue {
+>   	struct socket		*sock;
+> @@ -164,6 +173,14 @@ struct nvme_tcp_queue {
 >   	/* send state */
 >   	struct nvme_tcp_request *request;
-> @@ -368,6 +371,8 @@ static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
->   	int ret;
 >   
->   	/* drain the send queue as much as we can... */
-> +	queue->nr_sqe = 0;
-> +	queue->nr_send = 0;
->   	do {
->   		ret = nvme_tcp_try_send(queue);
->   	} while (ret > 0);
-> @@ -944,6 +949,7 @@ static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
->   	if (unlikely(!queue->rd_enabled))
->   		return -EFAULT;
+> +	/* statistics */
+> +	struct dentry		*debugfs_dir;
+> +	u64			data_ready_cnt;
+> +	u64			write_space_cnt;
+> +	u64			queue_busy_cnt;
+> +	struct nvme_tcp_stat	send_lat;
+> +	struct nvme_tcp_stat	recv_lat;
+> +
+>   	u32			maxh2cdata;
+>   	size_t			cmnd_capsule_len;
+>   	struct nvme_tcp_ctrl	*ctrl;
+> @@ -198,6 +215,7 @@ struct nvme_tcp_ctrl {
+>   	struct sockaddr_storage src_addr;
+>   	struct nvme_ctrl	ctrl;
 >   
-> +	queue->nr_recv++;
->   	while (len) {
->   		switch (nvme_tcp_recv_state(queue)) {
->   		case NVME_TCP_RECV_PDU:
-> @@ -1028,6 +1034,7 @@ static void nvme_tcp_state_change(struct sock *sk)
->   static inline void nvme_tcp_done_send_req(struct nvme_tcp_queue *queue)
+> +	struct dentry           *debugfs_dir;
+>   	struct work_struct	err_work;
+>   	struct delayed_work	connect_work;
+>   	struct nvme_tcp_request async_req;
+> @@ -207,10 +225,163 @@ struct nvme_tcp_ctrl {
+>   static LIST_HEAD(nvme_tcp_ctrl_list);
+>   static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
+>   static struct workqueue_struct *nvme_tcp_wq;
+> +static struct dentry *nvme_tcp_debugfs;
+>   static const struct blk_mq_ops nvme_tcp_mq_ops;
+>   static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
+>   static int nvme_tcp_try_send(struct nvme_tcp_queue *queue);
+>   
+> +static void nvme_tcp_stat_add(struct nvme_tcp_stat *stat, u64 start)
+> +{
+> +	u64 usec;
+> +	s64 delta, delta2;
+> +
+> +	usec = ktime_to_us(ktime_get());
+> +	if (usec < start)
+> +		return;
+> +	usec -= start;
+> +	/* Count in nanoseconds to improve precision */
+> +	usec *= 1000;
+> +	stat->batch += usec;
+> +	/* Welford's algorithm */
+> +	stat->samples++;
+> +	delta = (s64)usec - stat->mean;
+> +	stat->mean += div_s64(delta, (s64)stat->samples);
+> +	delta2 = (s64)usec - stat->mean;
+> +	stat->sqmean += (u64)(delta * delta2);
+> +}
+> +
+> +#define NVME_TCP_DEBUGFS_ATTR(field)				       \
+> +       static int field##_open(struct inode *inode, struct file *file) \
+> +       { return single_open(file, field##_show, inode->i_private); }   \
+> +								       \
+> +       static const struct file_operations field##_fops = {	       \
+> +	       .open = field##_open,				       \
+> +	       .read = seq_read,				       \
+> +	       .release = single_release,			       \
+> +       }
+> +
+> +#define NVME_TCP_DEBUGFS_RW_ATTR(field)					\
+> +	static int field##_open(struct inode *inode, struct file *file) \
+> +	{ return single_open(file, field##_show, inode->i_private); }	\
+> +									\
+> +	static const struct file_operations field##_fops = {		\
+> +		.open = field##_open,					\
+> +		.read = seq_read,					\
+> +		.write = field##_write,					\
+> +		.release = single_release,				\
+> +	}
+> +
+> +static int nvme_tcp_queue_data_ready_show(struct seq_file *m, void *p)
+> +{
+> +	struct nvme_tcp_queue *queue = m->private;
+> +
+> +	seq_printf(m, "%llu\n", queue->data_ready_cnt);
+> +	return 0;
+> +}
+> +NVME_TCP_DEBUGFS_ATTR(nvme_tcp_queue_data_ready);
+> +
+> +static int nvme_tcp_queue_write_space_show(struct seq_file *m, void *p)
+> +{
+> +	struct nvme_tcp_queue *queue = m->private;
+> +
+> +	seq_printf(m, "%llu\n", queue->write_space_cnt);
+> +	return 0;
+> +}
+> +NVME_TCP_DEBUGFS_ATTR(nvme_tcp_queue_write_space);
+> +
+> +static int nvme_tcp_queue_queue_busy_show(struct seq_file *m, void *p)
+> +{
+> +	struct nvme_tcp_queue *queue = m->private;
+> +
+> +	seq_printf(m, "%llu\n", queue->queue_busy_cnt);
+> +	return 0;
+> +}
+> +NVME_TCP_DEBUGFS_ATTR(nvme_tcp_queue_queue_busy);
+> +
+> +static int nvme_tcp_queue_recv_lat_show(struct seq_file *m, void *p)
+> +{
+> +	struct nvme_tcp_queue *queue = m->private;
+> +	struct nvme_tcp_stat *st = &queue->recv_lat;
+> +	u64 var = 0;
+> +
+> +	if (st->samples > 1)
+> +		var = div_u64(st->sqmean, st->samples * 1000);
+> +
+> +	seq_printf(m, "%llu %llu %u\n",
+> +		   st->samples, div_u64(st->batch, st->samples * 1000), int_sqrt64(var));
+> +	return 0;
+> +}
+> +NVME_TCP_DEBUGFS_ATTR(nvme_tcp_queue_recv_lat);
+> +
+> +static int nvme_tcp_queue_send_lat_show(struct seq_file *m, void *p)
+> +{
+> +	struct nvme_tcp_queue *queue = m->private;
+> +	struct nvme_tcp_stat *st = &queue->send_lat;
+> +	u64 var = 0;
+> +
+> +	if (st->samples > 1)
+> +		var = div_u64(st->sqmean, st->samples * 1000);
+> +
+> +	seq_printf(m, "%llu %llu %u\n",
+> +		   st->samples, div_u64(st->batch, st->samples * 1000), int_sqrt64(var));
+> +	return 0;
+> +}
+> +NVME_TCP_DEBUGFS_ATTR(nvme_tcp_queue_send_lat);
+> +
+> +static int nvme_tcp_ctrl_recv_lat_show(struct seq_file *m, void *p)
+> +{
+> +	struct nvme_tcp_ctrl *ctrl = m->private;
+> +	struct nvme_tcp_stat *st, lat;
+> +	u64 mean = 0, var = 0;
+> +	int i;
+> +
+> +	lat.samples = 0;
+> +	lat.mean = 0;
+> +	lat.sqmean = 0;
+> +	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+> +		st = &ctrl->queues[i].recv_lat;
+> +		lat.mean += st->mean;
+> +		lat.sqmean += st->sqmean;
+> +		lat.samples += st->samples;
+> +	}
+> +	if (lat.samples > 1) {
+> +		mean = lat.mean;
+> +		var = int_sqrt(div_u64(lat.sqmean, lat.samples));
+> +	}
+> +
+> +	seq_printf(m, "%llu %llu %llu\n",
+> +		   lat.samples, mean, var);
+> +	return 0;
+> +}
+> +NVME_TCP_DEBUGFS_ATTR(nvme_tcp_ctrl_recv_lat);
+> +
+> +static int nvme_tcp_ctrl_send_lat_show(struct seq_file *m, void *p)
+> +{
+> +	struct nvme_tcp_ctrl *ctrl = m->private;
+> +	struct nvme_tcp_stat *st, lat;
+> +	u64 mean = 0, var = 0;
+> +	int i;
+> +
+> +	lat.samples = 0;
+> +	lat.mean = 0;
+> +	lat.sqmean = 0;
+> +	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+> +		st = &ctrl->queues[i].send_lat;
+> +		lat.mean += st->mean;
+> +		lat.sqmean += st->sqmean;
+> +		lat.samples += st->samples;
+> +	}
+> +	if (lat.samples > 1) {
+> +		mean = lat.mean;
+> +		var = int_sqrt(div_u64(lat.sqmean, lat.samples));
+> +	}
+> +
+> +	seq_printf(m, "%llu %llu %llu\n",
+> +		   lat.samples, mean, var);
+> +	return 0;
+> +}
+> +NVME_TCP_DEBUGFS_ATTR(nvme_tcp_ctrl_send_lat);
+> +
+>   static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctrl)
 >   {
->   	queue->request = NULL;
-> +	queue->nr_sqe++;
+>   	return container_of(ctrl, struct nvme_tcp_ctrl, ctrl);
+> @@ -985,8 +1156,10 @@ static void nvme_tcp_data_ready(struct sock *sk)
+>   	read_lock_bh(&sk->sk_callback_lock);
+>   	queue = sk->sk_user_data;
+>   	if (likely(queue && queue->rd_enabled) &&
+> -	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
+> +	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags)) {
+>   		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+> +		queue->data_ready_cnt++;
+> +	}
+>   	read_unlock_bh(&sk->sk_callback_lock);
 >   }
 >   
->   static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
-> @@ -1071,6 +1078,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+> @@ -999,6 +1172,7 @@ static void nvme_tcp_write_space(struct sock *sk)
+>   	if (likely(queue && sk_stream_is_writeable(sk))) {
+>   		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+>   		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+> +		queue->write_space_cnt++;
+>   	}
+>   	read_unlock_bh(&sk->sk_callback_lock);
+>   }
+> @@ -1067,6 +1241,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>   		bool last = nvme_tcp_pdu_last_send(req, len);
+>   		int req_data_sent = req->data_sent;
+>   		int ret;
+> +		u64 start;
 >   
+>   		if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
+>   			msg.msg_flags |= MSG_EOR;
+> @@ -1079,7 +1254,9 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
 >   		bvec_set_page(&bvec, page, len, offset);
 >   		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
-> +		queue->nr_send++;
+>   		queue->nr_send++;
+> +		start = ktime_to_us(ktime_get());
 >   		ret = sock_sendmsg(queue->sock, &msg);
+> +		nvme_tcp_stat_add(&queue->send_lat, start);
 >   		if (ret <= 0)
 >   			return ret;
-> @@ -1127,6 +1135,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
 >   
+> @@ -1124,6 +1301,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>   	int len = sizeof(*pdu) + hdgst - req->offset;
+>   	int ret;
+> +	u64 start;
+>   
+>   	if (inline_data || nvme_tcp_queue_more(queue))
+>   		msg.msg_flags |= MSG_MORE;
+> @@ -1136,7 +1314,9 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
 >   	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
 >   	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
-> +	queue->nr_send++;
+>   	queue->nr_send++;
+> +	start = ktime_to_us(ktime_get());
 >   	ret = sock_sendmsg(queue->sock, &msg);
+> +	nvme_tcp_stat_add(&queue->send_lat, start);
 >   	if (unlikely(ret <= 0))
 >   		return ret;
-> @@ -1165,6 +1174,7 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
 >   
+> @@ -1165,6 +1345,7 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
+>   	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>   	int len = sizeof(*pdu) - req->offset + hdgst;
+>   	int ret;
+> +	u64 start;
+>   
+>   	if (queue->hdr_digest && !req->offset)
+>   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+> @@ -1175,7 +1356,9 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
 >   	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
 >   	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
-> +	queue->nr_send++;
+>   	queue->nr_send++;
+> +	start = ktime_to_us(ktime_get());
 >   	ret = sock_sendmsg(queue->sock, &msg);
+> +	nvme_tcp_stat_add(&queue->send_lat, start);
 >   	if (unlikely(ret <= 0))
 >   		return ret;
-> @@ -1198,6 +1208,7 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
->   	else
+>   
+> @@ -1202,6 +1385,7 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
+>   		.iov_base = (u8 *)&req->ddgst + req->offset,
+>   		.iov_len = NVME_TCP_DIGEST_LENGTH - req->offset
+>   	};
+> +	u64 start;
+>   
+>   	if (nvme_tcp_queue_more(queue))
+>   		msg.msg_flags |= MSG_MORE;
+> @@ -1209,7 +1393,9 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
 >   		msg.msg_flags |= MSG_EOR;
 >   
-> +	queue->nr_send++;
+>   	queue->nr_send++;
+> +	start = ktime_to_us(ktime_get());
 >   	ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
+> +	nvme_tcp_stat_add(&queue->send_lat, start);
 >   	if (unlikely(ret <= 0))
 >   		return ret;
-> @@ -1275,6 +1286,7 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+>   
+> @@ -1263,6 +1449,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+>   		ret = nvme_tcp_try_send_ddgst(req);
+>   done:
+>   	if (ret == -EAGAIN) {
+> +		queue->queue_busy_cnt++;
+>   		ret = 0;
+>   	} else if (ret < 0) {
+>   		dev_err(queue->ctrl->ctrl.device,
+> @@ -1281,13 +1468,16 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+>   	struct sock *sk = sock->sk;
+>   	read_descriptor_t rd_desc;
+>   	int consumed;
+> +	u64 start;
+>   
+>   	rd_desc.arg.data = queue;
 >   	rd_desc.count = 1;
 >   	lock_sock(sk);
 >   	queue->nr_cqe = 0;
-> +	queue->nr_recv = 0;
+>   	queue->nr_recv = 0;
+> +	start = ktime_to_us(ktime_get());
 >   	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+> +	nvme_tcp_stat_add(&queue->recv_lat, start);
 >   	release_sock(sk);
 >   	return consumed;
-> @@ -1288,6 +1300,8 @@ static void nvme_tcp_io_work(struct work_struct *w)
->   	u64 tx_deadline = start + deadline;
->   	bool pending = false;
->   
-> +	queue->nr_sqe = 0;
-> +	queue->nr_send = 0;
->   	do {
->   		int result;
->   
-> @@ -1318,8 +1332,9 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>   }
+> @@ -1331,11 +1521,18 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>   check:
 >   	overrun = ktime_to_us(ktime_get()) - start;
 >   	if (overrun > 10 * deadline) {
+> +		u64 slat = 0, clat = 0;
+> +
+> +		if (queue->send_lat.samples)
+> +			slat = queue->send_lat.mean;
+> +		if (queue->recv_lat.samples)
+> +			clat = queue->recv_lat.mean;
 >   		dev_dbg(queue->ctrl->ctrl.device,
-> -			"queue %d: stall (%llu msecs)%s%s\n",
-> +			"queue %d: stall (%llu msecs) send %u sqe %u recv %u cqe %u%s%s\n",
+> -			"queue %d: stall (%llu msecs) send %u sqe %u recv %u cqe %u%s%s\n",
+> +			"queue %d: stall (%llu msecs), send %u lat %llu %u sqes, recv %u lat %llu %u cqes%s%s\n",
 >   			nvme_tcp_queue_id(queue), div_u64(overrun, 1000),
-> +			queue->nr_send, queue->nr_sqe, queue->nr_recv, queue->nr_cqe,
->   			list_empty(&queue->send_list) ? " empty" : "", queue->request ? " pending" : "");
+> -			queue->nr_send, queue->nr_sqe, queue->nr_recv, queue->nr_cqe,
+> -			list_empty(&queue->send_list) ? " empty" : "", queue->request ? " pending" : "");
+> +			queue->nr_send, slat, queue->nr_sqe, queue->nr_recv, clat, queue->nr_cqe,
+> +			list_empty(&queue->send_list) ? " empty" : "",
+> +			queue->request ? " pending" : "");
 >   	}
 >   	if (pending)
+>   		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+> @@ -1408,6 +1605,11 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+>   	if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+>   		return;
+>   
+> +	if (queue->debugfs_dir) {
+> +		debugfs_remove_recursive(queue->debugfs_dir);
+> +		queue->debugfs_dir = NULL;
+> +	}
+> +
+>   	if (queue->hdr_digest || queue->data_digest)
+>   		nvme_tcp_free_crypto(queue);
+>   
+> @@ -1696,6 +1898,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+>   	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+>   	int ret, rcv_pdu_size;
+>   	struct file *sock_file;
+> +	char queue_name[32];
+>   
+>   	mutex_init(&queue->queue_lock);
+>   	queue->ctrl = ctrl;
+> @@ -1756,6 +1959,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+>   	queue->ddgst_remaining = 0;
+>   	queue->pdu_remaining = 0;
+>   	queue->pdu_offset = 0;
+> +	queue->write_space_cnt = 0;
+> +	queue->data_ready_cnt = 0;
+> +	queue->queue_busy_cnt = 0;
+> +	memset(&queue->recv_lat, 0, sizeof(struct nvme_tcp_stat));
+> +	memset(&queue->send_lat, 0, sizeof(struct nvme_tcp_stat));
+>   	sk_set_memalloc(queue->sock->sk);
+>   
+>   	if (nctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
+> @@ -1802,6 +2010,19 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+>   		goto err_crypto;
+>   	}
+>   
+> +	sprintf(queue_name, "%d", nvme_tcp_queue_id(queue));
+> +	queue->debugfs_dir = debugfs_create_dir(queue_name, ctrl->debugfs_dir);
+> +	debugfs_create_file("recv_lat", S_IRUSR, queue->debugfs_dir,
+> +			    queue, &nvme_tcp_queue_recv_lat_fops);
+> +	debugfs_create_file("send_lat", S_IRUSR, queue->debugfs_dir,
+> +			    queue, &nvme_tcp_queue_send_lat_fops);
+> +	debugfs_create_file("data_ready", S_IRUSR, queue->debugfs_dir,
+> +			    queue, &nvme_tcp_queue_data_ready_fops);
+> +	debugfs_create_file("write_space", S_IRUSR, queue->debugfs_dir,
+> +			    queue, &nvme_tcp_queue_write_space_fops);
+> +	debugfs_create_file("queue_busy", S_IRUSR, queue->debugfs_dir,
+> +			    queue, &nvme_tcp_queue_queue_busy_fops);
+> +
+>   	dev_dbg(nctrl->device, "connecting queue %d\n",
+>   			nvme_tcp_queue_id(queue));
+>   
+> @@ -2420,7 +2641,14 @@ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+>   
+>   static void nvme_tcp_delete_ctrl(struct nvme_ctrl *ctrl)
+>   {
+> +	struct nvme_tcp_ctrl *nctrl = to_tcp_ctrl(ctrl);
+> +
+>   	nvme_tcp_teardown_ctrl(ctrl, true);
+> +
+> +	if (nctrl->debugfs_dir) {
+> +		debugfs_remove_recursive(nctrl->debugfs_dir);
+> +		nctrl->debugfs_dir = NULL;
+> +	}
+>   }
+>   
+>   static void nvme_reset_ctrl_work(struct work_struct *work)
+> @@ -2890,6 +3118,13 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+>   	if (ret)
+>   		goto out_put_ctrl;
+>   
+> +	ctrl->debugfs_dir = debugfs_create_dir(dev_name(ctrl->ctrl.device),
+> +					       nvme_tcp_debugfs);
+> +	debugfs_create_file("recv_lat", S_IRUSR, ctrl->debugfs_dir,
+> +			    ctrl, &nvme_tcp_ctrl_recv_lat_fops);
+> +	debugfs_create_file("send_lat", S_IRUSR, ctrl->debugfs_dir,
+> +			    ctrl, &nvme_tcp_ctrl_send_lat_fops);
+> +
+>   	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+>   		WARN_ON_ONCE(1);
+>   		ret = -EINTR;
+> @@ -2910,6 +3145,10 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+>   	return &ctrl->ctrl;
+>   
+>   out_uninit_ctrl:
+> +	if (ctrl->debugfs_dir) {
+> +		debugfs_remove_recursive(ctrl->debugfs_dir);
+> +		ctrl->debugfs_dir = NULL;
+> +	}
+>   	nvme_uninit_ctrl(&ctrl->ctrl);
+>   out_put_ctrl:
+>   	nvme_put_ctrl(&ctrl->ctrl);
+> @@ -2951,6 +3190,10 @@ static int __init nvme_tcp_init_module(void)
+>   	if (!nvme_tcp_wq)
+>   		return -ENOMEM;
+>   
+> +	nvme_tcp_debugfs = debugfs_create_dir("nvme_tcp", NULL);
+> +	if (!nvme_tcp_debugfs)
+> +		return -ENOMEM;
+> +
+>   	nvmf_register_transport(&nvme_tcp_transport);
+>   	return 0;
+>   }
+> @@ -2961,6 +3204,8 @@ static void __exit nvme_tcp_cleanup_module(void)
+>   
+>   	nvmf_unregister_transport(&nvme_tcp_transport);
+>   
+> +	debugfs_remove_recursive(nvme_tcp_debugfs);
+> +
+>   	mutex_lock(&nvme_tcp_ctrl_mutex);
+>   	list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list)
+>   		nvme_delete_ctrl(&ctrl->ctrl);
 
 
