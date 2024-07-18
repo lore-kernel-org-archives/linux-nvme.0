@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEF54C3DA49
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 15:07:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87ED6C3DA63
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 15:07:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KPuctEzieutM3Dsqjmt2vTjU4XYogJTNkXvQnMcfY6o=; b=hpF/mpFZBby6j5/Ksye95P4eId
-	lGno8tNiIwDQ5gyYhoehev9iULDGXo00AAH7q/VeuTd0gfdb/fxLqV5PhPbOPgjFtYENoID3BAIlW
-	uK20x8WDvz6qHchKyG3cUW3CYL+Envkn97pwHpGaKqbCFtM1Jt8xbhHiFvHf+NOduNeBQsMFnf0J1
-	ILXXYF2Cb0tV5NSW6BZ4+ZPBbur9ZRv2Ww08g4ODhncCx5Imyc1Adw96LPwhGqcTsY4eUhKYE3/Zy
-	cwHccaebPQ2zmVKOCrRQWIk955qwgO4PLO90jR79/FZe4jJFW01ow9ZnDvxzS6YquvrE9ib6mEInD
-	E8TaYbig==;
+	bh=ie6Z55AjFGrQg2MVAC63Jh7Nc8sutxh/xbc1zTDs5Xo=; b=CK7Yzc1N208O2C1kh+hYFhx+Mo
+	A1/DMoAy9KOkoLgoSwTmk/HAYFGuP1Rzl7ai6TvVis+xMmABQ88K9rDkN1NAJxk72ILOg+xg7wJTf
+	augchNZeH+kVINHN9di2Xb2AcGmPBX+MGEwvDEmU5U3u9x97/LcOJbosKVDJGe4LTU+OHZz4eYnz1
+	ExqK/14mUiOuu2wQNB50XIJ/ibfcyGzCsQxk0TrtgWm7FqTgERwlZyshCUkwE0Um0ppdQllqsbTgB
+	UJzNa9Rj+eaPy+pyAxJfCqFvWHqayzJyTqwEF5KadnSl9dK8ID0W9VfbWA8vrjj5y0B7Ab5ebBHmQ
+	ZoXjPcnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUSjH-0000000HODj-3w9H;
-	Thu, 18 Jul 2024 15:07:35 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sUSjK-0000000HOGo-3V87;
+	Thu, 18 Jul 2024 15:07:38 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUSjB-0000000HO7E-1ovF
+	id 1sUSjA-0000000HO7L-2Onw
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jul 2024 15:07:32 +0000
+	Thu, 18 Jul 2024 15:07:33 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 43848CE1A84;
+	by dfw.source.kernel.org (Postfix) with ESMTP id AD56461B9D;
+	Thu, 18 Jul 2024 15:07:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45C9BC4AF10;
 	Thu, 18 Jul 2024 15:07:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8E0BC4AF0A;
-	Thu, 18 Jul 2024 15:07:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721315244;
-	bh=1MxMTfaf9gvYhvJPVErSb6nbPeSc7JemGlS1GGLPHvM=;
+	s=k20201202; t=1721315247;
+	bh=BR/ap865QfF+yXRu6eY7SUpVGraLcPRVGgr7Zxpbc4c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WxU6YogSuEYijaCclkcqFGhCp2wyYJeBGSnp+oQE0N6zD+r9fqGutYY8jmKQ5px3S
-	 ql8WmtR5Czzy8fumR4SIWTo3dsVOXpXPthyHO002eov5IRHO1eXfspQTPqyxsCfrA7
-	 RMYTM0rigrjiZJi13v47eSjMu+GGgwO3aY1TQ/NuIsH0VkwLvgK92i7to7PWkQBq8K
-	 I3lQZrs/DtV/3XjtE8LRdlHip3LEqqlwDabVL8bzjiLecMDMKspChP4nu1HAmoQPaQ
-	 /DRG1RhsjcgEoF2s0/5fZ9itiA7zqqFTA3mih7by4D7tWkUY00mtVlkgcSmHk51wp+
-	 YCWmcw/azhGuQ==
+	b=KArO+ZosNmjeQRFvaB+PBkim62y8LcV2c9Otd547IC7P2bJtvvb1O5jLdCjd/MIP5
+	 zmvL+GBS6+2ElrcZAkC5/zHMLo5aNSU9/YMkfpAfqJoLDfEJqr98j6VwTpwRScw41c
+	 qTNoGhZ5afldstpihvHo60Bmiky/BC8+Lgg+41Rw/S3fdR6yYjB35EJB54gbkJjL71
+	 BCVQJsZO00H5zBzJC/8lnWm0wf2N13aPhFnEX5rb/TmVdkSgtnCYpiGw3qKLqsfdQV
+	 UBWkZI/mEnkKiWaJkMzeO3LUcOVpEmDfYTZhZGlyk2pM6VS1VWBmPWeGjCtIcz4zGS
+	 O2a257543EU4Q==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 6/8] nvme-tcp: request secure channel concatenation
-Date: Thu, 18 Jul 2024 17:06:56 +0200
-Message-Id: <20240718150658.99580-7-hare@kernel.org>
+Subject: [PATCH 8/8] nvmet-tcp: support secure channel concatenation
+Date: Thu, 18 Jul 2024 17:06:58 +0200
+Message-Id: <20240718150658.99580-9-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240718150658.99580-1-hare@kernel.org>
 References: <20240718150658.99580-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240718_080729_896558_DDAE6019 
-X-CRM114-Status: GOOD (  28.23  )
+X-CRM114-CacheID: sfid-20240718_080729_255844_48D2C73F 
+X-CRM114-Status: GOOD (  21.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,408 +73,442 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a fabrics option 'concat' to request secure channel concatenation.
-When secure channel concatenation is enabled a 'generated PSK' is inserted
-into the keyring such that it's available after reset.
+Evaluate the SC_C flag during DH-CHAP-HMAC negotiation and insert
+the generated PSK once negotiation has finished.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/host/auth.c    | 100 ++++++++++++++++++++++++++++++++++--
- drivers/nvme/host/fabrics.c |  34 ++++++++++--
- drivers/nvme/host/fabrics.h |   3 ++
- drivers/nvme/host/tcp.c     |  56 +++++++++++++++++---
- include/linux/nvme.h        |   7 +++
- 5 files changed, 188 insertions(+), 12 deletions(-)
+ drivers/nvme/target/auth.c             | 72 +++++++++++++++++++++++++-
+ drivers/nvme/target/fabrics-cmd-auth.c | 49 +++++++++++++++---
+ drivers/nvme/target/fabrics-cmd.c      | 26 +++++++---
+ drivers/nvme/target/nvmet.h            | 38 +++++++++++---
+ drivers/nvme/target/tcp.c              | 23 +++++++-
+ 5 files changed, 185 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 371e14f0a203..5f71aa7b5e27 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -12,6 +12,7 @@
- #include "nvme.h"
- #include "fabrics.h"
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 7897d02c681d..560321df5bf6 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -15,6 +15,7 @@
+ #include <linux/ctype.h>
+ #include <linux/random.h>
  #include <linux/nvme-auth.h>
 +#include <linux/nvme-keyring.h>
+ #include <asm/unaligned.h>
  
- #define CHAP_BUF_SIZE 4096
- static struct kmem_cache *nvme_chap_buf_cache;
-@@ -131,7 +132,12 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
- 	data->auth_type = NVME_AUTH_COMMON_MESSAGES;
- 	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
- 	data->t_id = cpu_to_le16(chap->transaction);
--	data->sc_c = 0; /* No secure channel concatenation */
-+	if (!ctrl->opts->concat || chap->qid != 0)
-+		data->sc_c = NVME_AUTH_SECP_NOSC;
-+	else if (ctrl->opts->tls_key)
-+		data->sc_c = NVME_AUTH_SECP_REPLACETLSPSK;
-+	else
-+		data->sc_c = NVME_AUTH_SECP_NEWTLSPSK;
- 	data->napd = 1;
- 	data->auth_protocol[0].dhchap.authid = NVME_AUTH_DHCHAP_AUTH_ID;
- 	data->auth_protocol[0].dhchap.halen = 3;
-@@ -311,8 +317,9 @@ static int nvme_auth_set_dhchap_reply_data(struct nvme_ctrl *ctrl,
- 	data->hl = chap->hash_len;
- 	data->dhvlen = cpu_to_le16(chap->host_key_len);
- 	memcpy(data->rval, chap->response, chap->hash_len);
--	if (ctrl->ctrl_key) {
-+	if (ctrl->ctrl_key)
- 		chap->bi_directional = true;
-+	if (ctrl->ctrl_key || ctrl->opts->concat) {
- 		get_random_bytes(chap->c2, chap->hash_len);
- 		data->cvalid = 1;
- 		memcpy(data->rval + chap->hash_len, chap->c2,
-@@ -322,7 +329,10 @@ static int nvme_auth_set_dhchap_reply_data(struct nvme_ctrl *ctrl,
- 	} else {
- 		memset(chap->c2, 0, chap->hash_len);
- 	}
--	chap->s2 = nvme_auth_get_seqnum();
-+	if (ctrl->opts->concat)
-+		chap->s2 = 0;
-+	else
-+		chap->s2 = nvme_auth_get_seqnum();
- 	data->seqnum = cpu_to_le32(chap->s2);
- 	if (chap->host_key_len) {
- 		dev_dbg(ctrl->device, "%s: qid %d host public key %*ph\n",
-@@ -677,6 +687,76 @@ static void nvme_auth_free_dhchap(struct nvme_dhchap_queue_context *chap)
- 		crypto_free_kpp(chap->dh_tfm);
+ #include "nvmet.h"
+@@ -138,7 +139,7 @@ int nvmet_setup_dhgroup(struct nvmet_ctrl *ctrl, u8 dhgroup_id)
+ 	return ret;
  }
  
-+static int nvme_auth_secure_concat(struct nvme_ctrl *ctrl,
-+				   struct nvme_dhchap_queue_context *chap)
+-u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
++u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ {
+ 	int ret = 0;
+ 	struct nvmet_host_link *p;
+@@ -164,6 +165,11 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+ 		goto out_unlock;
+ 	}
+ 
++	if (nvmet_queue_tls_keyid(req->sq)) {
++		pr_debug("host %s tls enabled\n", ctrl->hostnqn);
++		goto out_unlock;
++	}
++
+ 	ret = nvmet_setup_dhgroup(ctrl, host->dhchap_dhgroup_id);
+ 	if (ret < 0) {
+ 		pr_warn("Failed to setup DH group");
+@@ -232,6 +238,9 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
+ void nvmet_auth_sq_free(struct nvmet_sq *sq)
+ {
+ 	cancel_delayed_work(&sq->auth_expired_work);
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++	sq->tls_key = 0;
++#endif
+ 	kfree(sq->dhchap_c1);
+ 	sq->dhchap_c1 = NULL;
+ 	kfree(sq->dhchap_c2);
+@@ -260,6 +269,12 @@ void nvmet_destroy_auth(struct nvmet_ctrl *ctrl)
+ 		nvme_auth_free_key(ctrl->ctrl_key);
+ 		ctrl->ctrl_key = NULL;
+ 	}
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++	if (ctrl->tls_key) {
++		key_put(ctrl->tls_key);
++		ctrl->tls_key = NULL;
++	}
++#endif
+ }
+ 
+ bool nvmet_check_auth_status(struct nvmet_req *req)
+@@ -541,3 +556,58 @@ int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
+ 
+ 	return ret;
+ }
++
++void nvmet_auth_insert_psk(struct nvmet_sq *sq)
 +{
++	int hash_len = nvme_auth_hmac_hash_len(sq->ctrl->shash_id);
 +	u8 *psk, *digest, *tls_psk;
-+	struct key *tls_key;
 +	size_t psk_len;
-+	int ret = 0;
++	int ret;
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++	struct key *tls_key = NULL;
++#endif
 +
-+	if (!chap->sess_key) {
-+		dev_warn(ctrl->device,
-+			 "%s: qid %d no session key negotiated\n",
-+			 __func__, chap->qid);
-+		return -ENOKEY;
-+	}
-+
-+	ret = nvme_auth_generate_psk(chap->hash_id, chap->sess_key,
-+				     chap->sess_key_len,
-+				     chap->c1, chap->c2,
-+				     chap->hash_len, &psk, &psk_len);
++	ret = nvme_auth_generate_psk(sq->ctrl->shash_id,
++				     sq->dhchap_skey,
++				     sq->dhchap_skey_len,
++				     sq->dhchap_c1, sq->dhchap_c2,
++				     hash_len, &psk, &psk_len);
 +	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "%s: qid %d failed to generate PSK, error %d\n",
-+			 __func__, chap->qid, ret);
-+		return ret;
++		pr_warn("%s: ctrl %d qid %d failed to generate PSK, error %d\n",
++			__func__, sq->ctrl->cntlid, sq->qid, ret);
++		return;
 +	}
-+	dev_dbg(ctrl->device,
-+		  "%s: generated psk %*ph\n", __func__, (int)psk_len, psk);
-+
-+	ret = nvme_auth_generate_digest(chap->hash_id, psk, psk_len,
-+					ctrl->opts->subsysnqn,
-+					ctrl->opts->host->nqn, &digest);
++	ret = nvme_auth_generate_digest(sq->ctrl->shash_id, psk, psk_len,
++					sq->ctrl->subsysnqn,
++					sq->ctrl->hostnqn, &digest);
 +	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "%s: qid %d failed to generate digest, error %d\n",
-+			 __func__, chap->qid, ret);
++		pr_warn("%s: ctrl %d qid %d failed to generate digest, error %d\n",
++			__func__, sq->ctrl->cntlid, sq->qid, ret);
 +		goto out_free_psk;
-+	};
-+	dev_dbg(ctrl->device, "%s: generated digest %s\n",
-+		 __func__, digest);
-+	ret = nvme_auth_derive_tls_psk(chap->hash_id, psk, psk_len, digest, &tls_psk);
++	}
++	ret = nvme_auth_derive_tls_psk(sq->ctrl->shash_id, psk, psk_len,
++				       digest, &tls_psk);
 +	if (ret) {
-+		dev_warn(ctrl->device,
-+			 "%s: qid %d failed to derive TLS psk, error %d\n",
-+			 __func__, chap->qid, ret);
++		pr_warn("%s: ctrl %d qid %d failed to derive TLS PSK, error %d\n",
++			__func__, sq->ctrl->cntlid, sq->qid, ret);
 +		goto out_free_digest;
-+	};
-+
-+	tls_key = nvme_tls_psk_refresh(ctrl->opts->keyring, ctrl->opts->host->nqn,
-+				       ctrl->opts->subsysnqn, chap->hash_id,
-+				       true, tls_psk, psk_len, digest);
++	}
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++	tls_key = nvme_tls_psk_refresh(NULL, sq->ctrl->hostnqn, sq->ctrl->subsysnqn,
++				       sq->ctrl->shash_id, true, tls_psk, psk_len, digest);
 +	if (IS_ERR(tls_key)) {
-+		ret = PTR_ERR(tls_key);
-+		dev_warn(ctrl->device,
-+			 "%s: qid %d failed to insert generated key, error %d\n",
-+			 __func__, chap->qid, ret);
++		pr_warn("%s: ctrl %d qid %d failed to refresh key, error %ld\n",
++			__func__, sq->ctrl->cntlid, sq->qid, PTR_ERR(tls_key));
 +		tls_key = NULL;
 +		kfree_sensitive(tls_psk);
 +	}
-+	if (ctrl->opts->tls_key) {
-+		key_revoke(ctrl->opts->tls_key);
-+		key_put(ctrl->opts->tls_key);
-+	}
-+	ctrl->opts->tls_key = tls_key;
++	if (sq->ctrl->tls_key)
++		key_put(sq->ctrl->tls_key);
++	sq->ctrl->tls_key = tls_key;
++#endif
++
 +out_free_digest:
 +	kfree_sensitive(digest);
 +out_free_psk:
 +	kfree_sensitive(psk);
-+	return ret;
 +}
-+
- static void nvme_queue_auth_work(struct work_struct *work)
- {
- 	struct nvme_dhchap_queue_context *chap =
-@@ -833,6 +913,14 @@ static void nvme_queue_auth_work(struct work_struct *work)
- 	}
- 	if (!ret) {
- 		chap->error = 0;
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index d68c2dae5feb..4c392488c451 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -43,8 +43,26 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
+ 		 data->auth_protocol[0].dhchap.halen,
+ 		 data->auth_protocol[0].dhchap.dhlen);
+ 	req->sq->dhchap_tid = le16_to_cpu(data->t_id);
+-	if (data->sc_c)
+-		return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
++	if (data->sc_c != NVME_AUTH_SECP_NOSC) {
++		if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
++			return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
 +		/* Secure concatenation can only be enabled on the admin queue */
-+		if (!chap->qid && ctrl->opts->concat &&
-+		    (ret = nvme_auth_secure_concat(ctrl, chap))) {
-+			dev_warn(ctrl->device,
-+				 "%s: qid %d failed to enable secure concatenation\n",
-+				 __func__, chap->qid);
-+			chap->error = ret;
-+		}
- 		return;
- 	}
- 
-@@ -912,6 +1000,12 @@ static void nvme_ctrl_auth_work(struct work_struct *work)
- 			 "qid 0: authentication failed\n");
- 		return;
- 	}
-+	/*
-+	 * Only run authentication on the admin queue for
-+	 * secure concatenation
-+	 */
-+	if (ctrl->opts->concat)
-+		return;
- 
- 	for (q = 1; q < ctrl->queue_count; q++) {
- 		ret = nvme_auth_negotiate(ctrl, q);
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 432efcbf9e2f..93e9041b9657 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -472,8 +472,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	result = le32_to_cpu(res.u32);
- 	ctrl->cntlid = result & 0xFFFF;
- 	if (result & (NVME_CONNECT_AUTHREQ_ATR | NVME_CONNECT_AUTHREQ_ASCR)) {
--		/* Secure concatenation is not implemented */
--		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
-+		/* Check for secure concatenation */
-+		if ((result & NVME_CONNECT_AUTHREQ_ASCR) &&
-+		    !ctrl->opts->concat) {
- 			dev_warn(ctrl->device,
- 				 "qid 0: secure concatenation is not supported\n");
- 			ret = -EOPNOTSUPP;
-@@ -550,7 +551,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 		/* Secure concatenation is not implemented */
- 		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
- 			dev_warn(ctrl->device,
--				 "qid 0: secure concatenation is not supported\n");
-+				 "qid %d: secure concatenation is not supported\n", qid);
- 			ret = -EOPNOTSUPP;
- 			goto out_free_data;
- 		}
-@@ -706,6 +707,7 @@ static const match_table_t opt_tokens = {
- #endif
- #ifdef CONFIG_NVME_TCP_TLS
- 	{ NVMF_OPT_TLS,			"tls"			},
-+	{ NVMF_OPT_CONCAT,		"concat"		},
- #endif
- 	{ NVMF_OPT_ERR,			NULL			}
- };
-@@ -735,6 +737,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->tls = false;
- 	opts->tls_key = NULL;
- 	opts->keyring = NULL;
-+	opts->concat = false;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -1053,6 +1056,14 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			}
- 			opts->tls = true;
- 			break;
-+		case NVMF_OPT_CONCAT:
-+			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-+				pr_err("TLS is not supported\n");
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			opts->concat = true;
++		if (req->sq->qid)
++			return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
++		switch (data->sc_c) {
++		case NVME_AUTH_SECP_NEWTLSPSK:
++			if (nvmet_queue_tls_keyid(req->sq))
++				return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
 +			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -1079,6 +1090,23 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
- 				opts->fast_io_fail_tmo, ctrl_loss_tmo);
- 	}
-+	if (opts->concat) {
-+		if (opts->tls) {
-+			pr_err("Secure concatenation over TLS is not supported\n");
-+			ret = -EINVAL;
-+			goto out;
++		case NVME_AUTH_SECP_REPLACETLSPSK:
++			if (!nvmet_queue_tls_keyid(req->sq))
++				return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
++			break;
++		default:
++			return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
 +		}
-+		if (opts->tls_key) {
-+			pr_err("Cannot specify a TLS key for secure concatenation\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+		if (!opts->dhchap_secret) {
-+			pr_err("Need to enable DH-CHAP for secure concatenation\n");
-+			ret = -EINVAL;
-+			goto out;
-+		}
++		ctrl->concat = true;
 +	}
  
- 	opts->host = nvmf_host_add(hostnqn, &hostid);
- 	if (IS_ERR(opts->host)) {
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 21d75dc4a3a0..9cf5b020adba 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -66,6 +66,7 @@ enum {
- 	NVMF_OPT_TLS		= 1 << 25,
- 	NVMF_OPT_KEYRING	= 1 << 26,
- 	NVMF_OPT_TLS_KEY	= 1 << 27,
-+	NVMF_OPT_CONCAT		= 1 << 28,
- };
+ 	if (data->napd != 1)
+ 		return NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
+@@ -103,6 +121,13 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
+ 			 nvme_auth_dhgroup_name(fallback_dhgid));
+ 		ctrl->dh_gid = fallback_dhgid;
+ 	}
++	if (ctrl->dh_gid == NVME_AUTH_DHGROUP_NULL &&
++	    ctrl->concat) {
++		pr_debug("%s: ctrl %d qid %d: NULL DH group invalid "
++			 "for secure channel concatenation\n", __func__,
++			 ctrl->cntlid, req->sq->qid);
++		return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
++	}
+ 	pr_debug("%s: ctrl %d qid %d: selected DH group %s (%d)\n",
+ 		 __func__, ctrl->cntlid, req->sq->qid,
+ 		 nvme_auth_dhgroup_name(ctrl->dh_gid), ctrl->dh_gid);
+@@ -154,6 +179,12 @@ static u8 nvmet_auth_reply(struct nvmet_req *req, void *d)
+ 	kfree(response);
+ 	pr_debug("%s: ctrl %d qid %d host authenticated\n",
+ 		 __func__, ctrl->cntlid, req->sq->qid);
++	if (!data->cvalid && ctrl->concat) {
++		pr_debug("%s: ctrl %d qid %d invalid challenge\n",
++			 __func__, ctrl->cntlid, req->sq->qid);
++		return NVME_AUTH_DHCHAP_FAILURE_FAILED;
++	}
++	req->sq->dhchap_s2 = le32_to_cpu(data->seqnum);
+ 	if (data->cvalid) {
+ 		req->sq->dhchap_c2 = kmemdup(data->rval + data->hl, data->hl,
+ 					     GFP_KERNEL);
+@@ -163,11 +194,15 @@ static u8 nvmet_auth_reply(struct nvmet_req *req, void *d)
+ 		pr_debug("%s: ctrl %d qid %d challenge %*ph\n",
+ 			 __func__, ctrl->cntlid, req->sq->qid, data->hl,
+ 			 req->sq->dhchap_c2);
+-	} else {
++	}
++	if (req->sq->dhchap_s2 == 0) {
++		if (ctrl->concat)
++			nvmet_auth_insert_psk(req->sq);
+ 		req->sq->authenticated = true;
++		kfree(req->sq->dhchap_c2);
+ 		req->sq->dhchap_c2 = NULL;
+-	}
+-	req->sq->dhchap_s2 = le32_to_cpu(data->seqnum);
++	} else if (!data->cvalid)
++		req->sq->authenticated = true;
  
- /**
-@@ -101,6 +102,7 @@ enum {
-  * @keyring:    Keyring to use for key lookups
-  * @tls_key:    TLS key for encrypted connections (TCP)
-  * @tls:        Start TLS encrypted connections (TCP)
-+ * @concat:     Enabled Secure channel concatenation (TCP)
-  * @disable_sqflow: disable controller sq flow control
-  * @hdr_digest: generate/verify header digest (TCP)
-  * @data_digest: generate/verify data digest (TCP)
-@@ -130,6 +132,7 @@ struct nvmf_ctrl_options {
- 	struct key		*keyring;
- 	struct key		*tls_key;
- 	bool			tls;
+ 	return 0;
+ }
+@@ -241,7 +276,7 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
+ 			pr_debug("%s: ctrl %d qid %d reset negotiation\n",
+ 				 __func__, ctrl->cntlid, req->sq->qid);
+ 			if (!req->sq->qid) {
+-				dhchap_status = nvmet_setup_auth(ctrl);
++				dhchap_status = nvmet_setup_auth(ctrl, req);
+ 				if (dhchap_status) {
+ 					pr_err("ctrl %d qid 0 failed to setup re-authentication\n",
+ 					       ctrl->cntlid);
+@@ -298,6 +333,8 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
+ 		}
+ 		goto done_kfree;
+ 	case NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2:
++		if (ctrl->concat)
++			nvmet_auth_insert_psk(req->sq);
+ 		req->sq->authenticated = true;
+ 		pr_debug("%s: ctrl %d qid %d ctrl authenticated\n",
+ 			 __func__, ctrl->cntlid, req->sq->qid);
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 344ab75d8864..1aabf55ef0a8 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -199,10 +199,19 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ 	return ret;
+ }
+ 
+-static u32 nvmet_connect_result(struct nvmet_ctrl *ctrl)
++static u32 nvmet_connect_result(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ {
++	bool needs_auth = nvmet_has_auth(ctrl, req);
++
++	/* Do not authenticate I/O queues for secure concatenation */
++	if (ctrl->concat && req->sq->qid)
++		needs_auth = false;
++
++	pr_debug("%s: ctrl %d qid %d should %sauthenticate, tls psk %08x\n",
++		 __func__, ctrl->cntlid, req->sq->qid,
++		 needs_auth ? "" : "not ", nvmet_queue_tls_keyid(req->sq));
+ 	return (u32)ctrl->cntlid |
+-		(nvmet_has_auth(ctrl) ? NVME_CONNECT_AUTHREQ_ATR : 0);
++		(needs_auth ? NVME_CONNECT_AUTHREQ_ATR : 0);
+ }
+ 
+ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+@@ -254,7 +263,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 
+ 	uuid_copy(&ctrl->hostid, &d->hostid);
+ 
+-	dhchap_status = nvmet_setup_auth(ctrl);
++	dhchap_status = nvmet_setup_auth(ctrl, req);
+ 	if (dhchap_status) {
+ 		pr_err("Failed to setup authentication, dhchap status %u\n",
+ 		       dhchap_status);
+@@ -272,12 +281,13 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 		goto out;
+ 	}
+ 
+-	pr_info("creating %s controller %d for subsystem %s for NQN %s%s%s.\n",
++	pr_info("creating %s controller %d for subsystem %s for NQN %s%s%s%s.\n",
+ 		nvmet_is_disc_subsys(ctrl->subsys) ? "discovery" : "nvm",
+ 		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn,
+-		ctrl->pi_support ? " T10-PI is enabled" : "",
+-		nvmet_has_auth(ctrl) ? " with DH-HMAC-CHAP" : "");
+-	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl));
++		ctrl->pi_support ? ", T10-PI" : "",
++		nvmet_has_auth(ctrl, req) ? ", DH-HMAC-CHAP" : "",
++		nvmet_queue_tls_keyid(req->sq) ? ", TLS" : "");
++	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl, req));
+ out:
+ 	kfree(d);
+ complete:
+@@ -336,7 +346,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 		goto out_ctrl_put;
+ 
+ 	pr_debug("adding queue %d to ctrl %d.\n", qid, ctrl->cntlid);
+-	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl));
++	req->cqe->result.u32 = cpu_to_le32(nvmet_connect_result(ctrl, req));
+ out:
+ 	kfree(d);
+ complete:
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 190f55e6d753..c2e17201c757 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -121,6 +121,9 @@ struct nvmet_sq {
+ 	u32			dhchap_s2;
+ 	u8			*dhchap_skey;
+ 	int			dhchap_skey_len;
++#endif
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++	struct key		*tls_key;
+ #endif
+ 	struct completion	free_done;
+ 	struct completion	confirm_done;
+@@ -237,6 +240,7 @@ struct nvmet_ctrl {
+ 	u64			err_counter;
+ 	struct nvme_error_slot	slots[NVMET_ERROR_LOG_SLOTS];
+ 	bool			pi_support;
 +	bool			concat;
- 	bool			disable_sqflow;
- 	bool			hdr_digest;
- 	bool			data_digest;
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 5885aa452aa1..b748e4033df2 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -227,7 +227,7 @@ static inline bool nvme_tcp_tls_configured(struct nvme_ctrl *ctrl)
- 	if (!IS_ENABLED(CONFIG_NVME_TCP_TLS))
+ #ifdef CONFIG_NVME_TARGET_AUTH
+ 	struct nvme_dhchap_key	*host_key;
+ 	struct nvme_dhchap_key	*ctrl_key;
+@@ -246,6 +250,9 @@ struct nvmet_ctrl {
+ 	u8			*dh_key;
+ 	size_t			dh_keysize;
+ #endif
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++	struct key		*tls_key;
++#endif
+ };
+ 
+ struct nvmet_subsys {
+@@ -716,13 +723,29 @@ static inline void nvmet_req_bio_put(struct nvmet_req *req, struct bio *bio)
+ 		bio_put(bio);
+ }
+ 
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq)
++{
++	return sq->tls_key ? key_serial(sq->tls_key) : 0;
++}
++static inline void nvmet_sq_put_tls_key(struct nvmet_sq *sq)
++{
++	if (sq->tls_key) {
++		key_put(sq->tls_key);
++		sq->tls_key = NULL;
++	}
++}
++#else
++static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq) { return 0; }
++static inline void nvmet_sq_put_tls_key(struct nvmet_sq *sq) {}
++#endif
+ #ifdef CONFIG_NVME_TARGET_AUTH
+ void nvmet_execute_auth_send(struct nvmet_req *req);
+ void nvmet_execute_auth_receive(struct nvmet_req *req);
+ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
+ 		       bool set_ctrl);
+ int nvmet_auth_set_host_hash(struct nvmet_host *host, const char *hash);
+-u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl);
++u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req);
+ void nvmet_auth_sq_init(struct nvmet_sq *sq);
+ void nvmet_destroy_auth(struct nvmet_ctrl *ctrl);
+ void nvmet_auth_sq_free(struct nvmet_sq *sq);
+@@ -732,16 +755,18 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
+ 			 unsigned int hash_len);
+ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
+ 			 unsigned int hash_len);
+-static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl)
++static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ {
+-	return ctrl->host_key != NULL;
++	return ctrl->host_key != NULL && !nvmet_queue_tls_keyid(req->sq);
+ }
+ int nvmet_auth_ctrl_exponential(struct nvmet_req *req,
+ 				u8 *buf, int buf_size);
+ int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
+ 			    u8 *buf, int buf_size);
++void nvmet_auth_insert_psk(struct nvmet_sq *sq);
+ #else
+-static inline u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl)
++static inline u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl,
++				  struct nvmet_req *req)
+ {
+ 	return 0;
+ }
+@@ -754,11 +779,12 @@ static inline bool nvmet_check_auth_status(struct nvmet_req *req)
+ {
+ 	return true;
+ }
+-static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl)
++static inline bool nvmet_has_auth(struct nvmet_ctrl *ctrl,
++				  struct nvmet_req *req)
+ {
+ 	return false;
+ }
+ static inline const char *nvmet_dhchap_dhgroup_name(u8 dhgid) { return NULL; }
++static inline void nvmet_auth_insert_psk(struct nvmet_sq *sq) {};
+ #endif
+-
+ #endif /* _NVMET_H */
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 5bff0d5464d1..49849f028966 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1073,10 +1073,11 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_queue *queue)
+ 
+ 	if (unlikely(!nvmet_req_init(req, &queue->nvme_cq,
+ 			&queue->nvme_sq, &nvmet_tcp_ops))) {
+-		pr_err("failed cmd %p id %d opcode %d, data_len: %d\n",
++		pr_err("failed cmd %p id %d opcode %d, data_len: %d, status: %04x\n",
+ 			req->cmd, req->cmd->common.command_id,
+ 			req->cmd->common.opcode,
+-			le32_to_cpu(req->cmd->common.dptr.sgl.length));
++		       le32_to_cpu(req->cmd->common.dptr.sgl.length),
++		       le16_to_cpu(req->cqe->status));
+ 
+ 		nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
  		return 0;
+@@ -1602,6 +1603,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 	/* stop accepting incoming data */
+ 	queue->rcv_state = NVMET_TCP_RECV_ERR;
  
--	return ctrl->opts->tls;
-+	return ctrl->opts->tls || ctrl->opts->concat;
- }
++	nvmet_sq_put_tls_key(&queue->nvme_sq);
+ 	nvmet_tcp_uninit_data_in_cmds(queue);
+ 	nvmet_sq_destroy(&queue->nvme_sq);
+ 	cancel_work_sync(&queue->io_work);
+@@ -1807,6 +1809,23 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
+ 	spin_unlock_bh(&queue->state_lock);
  
- static inline struct blk_mq_tags *nvme_tcp_tagset(struct nvme_tcp_queue *queue)
-@@ -1942,7 +1942,7 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- 	if (nvme_tcp_tls_configured(ctrl)) {
- 		if (ctrl->opts->tls_key)
- 			pskid = key_serial(ctrl->opts->tls_key);
--		else {
-+		else if (ctrl->opts->tls) {
- 			pskid = nvme_tls_psk_default(ctrl->opts->keyring,
- 						      ctrl->opts->host->nqn,
- 						      ctrl->opts->subsysnqn);
-@@ -1972,9 +1972,25 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- {
- 	int i, ret;
- 
--	if (nvme_tcp_tls_configured(ctrl) && !ctrl->tls_pskid) {
--		dev_err(ctrl->device, "no PSK negotiated\n");
--		return -ENOKEY;
-+	if (nvme_tcp_tls_configured(ctrl)) {
-+		if (ctrl->opts->concat) {
-+			/*
-+			 * The generated PSK is stored in the
-+			 * fabric options
-+			 */
-+			if (!ctrl->opts->tls_key) {
-+				dev_err(ctrl->device, "no PSK generated\n");
-+				return -ENOKEY;
-+			}
-+			if (ctrl->tls_pskid &&
-+			    ctrl->tls_pskid != key_serial(ctrl->opts->tls_key)) {
-+				dev_err(ctrl->device, "Stale PSK id %08x\n", ctrl->tls_pskid);
-+				ctrl->tls_pskid = 0;
-+			}
-+		} else if (!ctrl->tls_pskid) {
-+			dev_err(ctrl->device, "no PSK negotiated\n");
-+			return -ENOKEY;
+ 	cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
++
++	if (!status) {
++		struct key *tls_key = nvme_tls_key_lookup(peerid);
++
++		if (IS_ERR(tls_key)) {
++			pr_warn("%s: queue %d failed to lookup key %x\n",
++				__func__, queue->idx, peerid);
++			spin_lock_bh(&queue->state_lock);
++			queue->state = NVMET_TCP_Q_FAILED;
++			spin_unlock_bh(&queue->state_lock);
++			status = PTR_ERR(tls_key);
++		} else {
++			pr_debug("%s: queue %d using TLS PSK %x\n",
++				 __func__, queue->idx, peerid);
++			queue->nvme_sq.tls_key = tls_key;
 +		}
- 	}
- 
- 	for (i = 1; i < ctrl->queue_count; i++) {
-@@ -2205,6 +2221,30 @@ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl,
- 	}
- }
- 
-+/*
-+ * The TLS key needs to be revoked when:
-+ * - concatenation is enabled and
-+ *   -> This is a generated key and only valid for this session
-+ * - the generated key is present in ctrl->tls_key and
-+ *   -> authentication has completed and the key has been generated
-+ * - tls has been enabled
-+ *   -> otherwise we are about to reset the admin queue after authentication
-+ *      to enable TLS with the generated key
-+ */
-+static bool nvme_tcp_key_revoke_needed(struct nvme_ctrl *ctrl)
-+{
-+	return ctrl->opts->concat && ctrl->opts->tls_key && ctrl->tls_pskid;
-+}
-+
-+static void nvme_tcp_revoke_tls_key(struct nvme_ctrl *ctrl)
-+{
-+	dev_dbg(ctrl->device, "Wipe generated TLS PSK %08x\n",
-+		key_serial(ctrl->opts->tls_key));
-+	key_revoke(ctrl->opts->tls_key);
-+	key_put(ctrl->opts->tls_key);
-+	ctrl->opts->tls_key = NULL;
-+}
-+
- static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->opts;
-@@ -2308,6 +2348,8 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 				struct nvme_tcp_ctrl, err_work);
- 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
- 
-+	if (nvme_tcp_key_revoke_needed(ctrl))
-+		nvme_tcp_revoke_tls_key(ctrl);
- 	nvme_stop_keep_alive(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	nvme_tcp_teardown_io_queues(ctrl, false);
-@@ -2348,6 +2390,8 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- 		container_of(work, struct nvme_ctrl, reset_work);
- 	int ret;
- 
-+	if (nvme_tcp_key_revoke_needed(ctrl))
-+		nvme_tcp_revoke_tls_key(ctrl);
- 	nvme_stop_ctrl(ctrl);
- 	nvme_tcp_teardown_ctrl(ctrl, false);
- 
-@@ -2842,7 +2886,7 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
- 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
- 			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
- 			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS |
--			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY,
-+			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY | NVMF_OPT_CONCAT,
- 	.create_ctrl	= nvme_tcp_create_ctrl,
- };
- 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 5c2290f0d5af..5626894d7700 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1676,6 +1676,13 @@ enum {
- 	NVME_AUTH_DHGROUP_INVALID	= 0xff,
- };
- 
-+enum {
-+	NVME_AUTH_SECP_NOSC		= 0x00,
-+	NVME_AUTH_SECP_SC		= 0x01,
-+	NVME_AUTH_SECP_NEWTLSPSK	= 0x02,
-+	NVME_AUTH_SECP_REPLACETLSPSK	= 0x03,
-+};
-+
- union nvmf_auth_protocol {
- 	struct nvmf_auth_dhchap_protocol_descriptor dhchap;
- };
++	}
+ 	if (status)
+ 		nvmet_tcp_schedule_release_queue(queue);
+ 	else
 -- 
 2.35.3
 
