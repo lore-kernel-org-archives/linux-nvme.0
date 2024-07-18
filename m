@@ -4,86 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CAF4C3DA5D
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 02:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36915C3DA60
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 06:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bIFfDmFpN4eqAMaaNo7FF8H1RWJDQ9fSWvSB6h3IB14=; b=D/z0+DVWjlsifMg/x1KVeROwVZ
-	WAOyW23yhnT+RK197xzpjCAcxrU1do7/CxaVy6hQpLOrlp3ahGPWQjpt4Tc5/cUyuHEyv7jFwSKef
-	QWWrGvqwyqC+f1oFhhKttuUT15zD63r5Nj/dEj28Qpa9P7bsqgnEIdf+91GlI1jiEtHUlibJ6hWt8
-	8NxJxqeoYTbg9AOZPLeGs8z9g2edatSdv4NqqwplMLM9JlfBaV7GcSbh6unVdtqm4ZkyD55LCu1PZ
-	OcHd2TcHdGNpN2hLdYBrv6LLP0EQACjhQAJUrJw/kODCMZCa94dnE4qvqkPw1lLcvhOnrisGZIT8T
-	TZhzHT4w==;
+	bh=sDxTXDMj0Eb469RiWLSPUp9oiaiGrnD8qsD4psBCzLo=; b=ifwYWYZt6qA084U4/j03nCr6WK
+	H/552cPkbsHZwWWZue7JBYHSEXZ9jJSTI2iUxODBRWlkz+JRwDhMvYnpkTkoJl5piz5PV01cU5dd+
+	65uTzkD/jTopo+p3y8Vq34GuWJfjnfBmHZXKAk8r90OMOeUv4PJNwaxgxFGH7/62Rqe5Uiirdrgl+
+	xjLKFDWBB0MuUX9q5EgOel8hd2YD6zFPlSGqgvMbuYiOREPug4j2CI5w7EoT56BFX2hUfKaFEU17y
+	xeUF3z/m/OGcFBNnQG43vIM3fTd/5hTgvEVjxjqQZAC6/ARRYmUDIGy5jkxIqHvmEwanhyEyhkCAS
+	SzovvBBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUGbE-0000000FVAG-2NRj;
-	Thu, 18 Jul 2024 02:10:28 +0000
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332])
+	id 1sUKV6-0000000FvhE-27N1;
+	Thu, 18 Jul 2024 06:20:24 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUGbC-0000000FV9d-1hpz
+	id 1sUKV3-0000000Fvg6-0T1c
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jul 2024 02:10:27 +0000
-Received: by mail-ot1-x332.google.com with SMTP id 46e09a7af769-7039e4a4a03so167481a34.3
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Jul 2024 19:10:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721268625; x=1721873425; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bIFfDmFpN4eqAMaaNo7FF8H1RWJDQ9fSWvSB6h3IB14=;
-        b=A2itu+lukucHj9S2IFXOVeoXaqEVpfCothK51KqFPmzTXhpANct3dF9klMqd+2pz8l
-         IWf3qjVF+nkOoeUHO6mH3hfn03bVl208B9ZDFai8fVAv+E/89Q5GR17DLuFjzVeXwVqp
-         hXZyZshTDGCtZPSHzpzI0MGM6EfUzuPqoboqfyhltsnMtg/sQtMo7Fxu4TWJO7KlDbLi
-         8GCCnW7G/8YDpBpB4XPlbenUtgrhfRj1QYqyFBB/8nVSx8DQsusup0tRrwSI+ixHruiL
-         yqvnDug2SHpZaRhHibzN5RUJnxG4KA7hrN4pgx79Xam83dz/Vx7uBkUfujOjqUxcZZ+x
-         nvPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721268625; x=1721873425;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bIFfDmFpN4eqAMaaNo7FF8H1RWJDQ9fSWvSB6h3IB14=;
-        b=IZzvj7EIYfRHehqZ0bGRo/eF08wBvmG5R+ppM0D5/3AVuGcacXqAPHR23tMeUf+Y/4
-         +HST1bWauQx+0qwMjGMvUhu5frl5SD/41Tv76L5nGDRuW6SY3Gbgy4QMEmqFU47qFWmd
-         tDnYOEcGO71ia57OceWjg2WkVynvZMvPX+IG3hGb5xcvzh6t3bh4KE9Hgd6zw31FP2oz
-         IlPBDIvjDjNHkTMxJrWOGGQlTtZylpfAxV9YjgMEakBTfgFtDxPB4MUU7ZuMJGcU3BQK
-         zd1PffgvcooQmv1NkFffbgsXsiITksuMNt0ZH9jSrkPS1LGUtpsp2aoF5I8puvIv0D81
-         yCAg==
-X-Forwarded-Encrypted: i=1; AJvYcCU2pGG9ChBgYAc17kdb/Y8h/uoZzga8sSDSF3LtJ5OpB9jcDbgU39UziNQ2+hGn6bRQy3tWbBputQkYPXZ3QhmsuChT2MDs3XOhz/DRWEo=
-X-Gm-Message-State: AOJu0Yx9124H4NOA0E1S6jmDUXa027GQPnINIu6ErpsaN+oMWsh7grJ2
-	PNVW3AWnOLIHBCo1J4mp3hySMMTqN2pZ21RRw5VpnSzit9rf3AME
-X-Google-Smtp-Source: AGHT+IFdfi1fpC7A1dDA7DH5ZmL+8xb4lKgvB0goy07ZvGthxot9YWzsXiGqELyb/+bAn7uzc0FvNQ==
-X-Received: by 2002:a05:6830:314f:b0:704:2dd4:3628 with SMTP id 46e09a7af769-708e37891a2mr4276406a34.9.1721268625174;
-        Wed, 17 Jul 2024 19:10:25 -0700 (PDT)
-Received: from [192.168.1.224] (syn-067-048-091-116.res.spectrum.com. [67.48.91.116])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708e7901391sm314553a34.74.2024.07.17.19.10.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jul 2024 19:10:24 -0700 (PDT)
-Message-ID: <6629583d-4681-49bc-8a7c-a87c3051c30b@gmail.com>
-Date: Wed, 17 Jul 2024 21:10:23 -0500
+	Thu, 18 Jul 2024 06:20:23 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D4D5C21C1B;
+	Thu, 18 Jul 2024 06:20:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721283618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sDxTXDMj0Eb469RiWLSPUp9oiaiGrnD8qsD4psBCzLo=;
+	b=g5BqHI8RVFAE6MdJesD9zhS75pc/nTqeXlJWBeLfopKq1QFzRG6wTfC8tsA2+CoE6/lbTS
+	YYs0yoz6U3tVNzwYSaaexqo2v0OIaX4rPkwmF9dSnU5op5fAxKqIKhn7va4ZhGKfgZDMIS
+	QEz0AYmV+eNMNUD2+B6H4wR9KhgYe2M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721283618;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sDxTXDMj0Eb469RiWLSPUp9oiaiGrnD8qsD4psBCzLo=;
+	b=kQfjUX7suOoqvvvD49niHKohhWl1G8MqGc6piO34aS7YIPC7zfbMqErLL4wbN0bJiJqoLs
+	kDI2S5YSJY8oUcDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721283618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sDxTXDMj0Eb469RiWLSPUp9oiaiGrnD8qsD4psBCzLo=;
+	b=g5BqHI8RVFAE6MdJesD9zhS75pc/nTqeXlJWBeLfopKq1QFzRG6wTfC8tsA2+CoE6/lbTS
+	YYs0yoz6U3tVNzwYSaaexqo2v0OIaX4rPkwmF9dSnU5op5fAxKqIKhn7va4ZhGKfgZDMIS
+	QEz0AYmV+eNMNUD2+B6H4wR9KhgYe2M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721283618;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sDxTXDMj0Eb469RiWLSPUp9oiaiGrnD8qsD4psBCzLo=;
+	b=kQfjUX7suOoqvvvD49niHKohhWl1G8MqGc6piO34aS7YIPC7zfbMqErLL4wbN0bJiJqoLs
+	kDI2S5YSJY8oUcDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9EA361379D;
+	Thu, 18 Jul 2024 06:20:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qqLXJCK0mGZLfAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 18 Jul 2024 06:20:18 +0000
+Message-ID: <7e1c9300-ab39-47cd-b3aa-c4d66ab70f6b@suse.de>
+Date: Thu, 18 Jul 2024 08:20:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] nvme_core: scan namespaces asynchronously
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
- Martin Wilck <martin.wilck@suse.com>,
- Ayush Siddarath <ayush.siddarath@dell.com>
-References: <20240717185550.22102-1-stuart.w.hayes@gmail.com>
- <Zpgtr33uqbMogK7c@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCHv3 0/8] nvme-tcp: improve scalability
 Content-Language: en-US
-From: stuart hayes <stuart.w.hayes@gmail.com>
-In-Reply-To: <Zpgtr33uqbMogK7c@kbusch-mbp.dhcp.thefacebook.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240716073616.84417-1-hare@kernel.org>
+ <3c7aafde-f08b-4ea2-b017-ceceb842238a@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <3c7aafde-f08b-4ea2-b017-ceceb842238a@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240717_191026_482155_4CB29669 
-X-CRM114-Status: GOOD (  18.99  )
+X-CRM114-CacheID: sfid-20240717_232021_594394_8E88977C 
+X-CRM114-Status: GOOD (  24.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,59 +133,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 7/17/24 23:01, Sagi Grimberg wrote:
+> 
+> 
+> On 16/07/2024 10:36, Hannes Reinecke wrote:
+>> Hi all,
+>>
+>> for workloads with a lot of controllers we run into workqueue contention,
+>> where the single workqueue is not able to service requests fast enough,
+>> leading to spurious I/O errors and connect resets during high load.
+>> One culprit here was a lock contention on the callbacks, where we
+>> acquired the 'sk_callback_lock()' on every callback. As we are dealing
+>> with parallel rx and tx flows this induces quite a lot of contention.
+>> I have also added instrumentation to analyse I/O flows, by adding
+>> a I/O stall debug messages and added debugfs entries to display
+>> detailed statistics for each queue.
+> 
+> Hanneds, I'm getting really confused with this...
+> 
+> Once again you submit a set that is a different direction almost
+> entirely from v1 and v2... Again without quantifying what each
+> change is giving us, and it makes it very hard to review and understand.
+> 
+I fully concur. But the previous patchsets turned out to not give a 
+substantial improvements when scaling up.
+And getting reliable performance numbers is _really_ hard, as there is
+quite a high fluctuation in them. This was the reason for including
+the statistics patches; there we get a direct insight of the I/O path
+latency, and can directly measure the impact of the changes.
 
+And that's also how I found the lock contention on the callbacks...
 
-On 7/17/2024 3:46 PM, Keith Busch wrote:
-> On Wed, Jul 17, 2024 at 01:55:50PM -0500, Stuart Hayes wrote:
+> I suggest we split the changes that have consensus to a separate series
+> (still state what each change gets us), and understand better the rest...
 > 
-> Looks good to me. Just one minor comment below.
-> 
->> @@ -3978,11 +4008,15 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
->>   	__le32 *ns_list;
->>   	u32 prev = 0;
->>   	int ret = 0, i;
->> +	ASYNC_DOMAIN(domain);
->> +	struct async_scan_info scan_info;
->>   
->>   	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
->>   	if (!ns_list)
->>   		return -ENOMEM;
->>   
->> +	scan_info.ctrl = ctrl;
->> +	scan_info.ns_list = ns_list;
->>   	for (;;) {
->>   		struct nvme_command cmd = {
->>   			.identify.opcode	= nvme_admin_identify,
->> @@ -3998,19 +4032,23 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
->>   			goto free;
->>   		}
->>   
->> +		atomic_set(&scan_info.next_nsid, 0);
->>   		for (i = 0; i < nr_entries; i++) {
->>   			u32 nsid = le32_to_cpu(ns_list[i]);
->>   
->>   			if (!nsid)	/* end of the list? */
->>   				goto out;
->> -			nvme_scan_ns(ctrl, nsid);
->> +			async_schedule_domain(nvme_scan_ns_async, &scan_info,
->> +						&domain);
->>   			while (++prev < nsid)
->>   				nvme_ns_remove_by_nsid(ctrl, prev);
->>   		}
->> +		async_synchronize_full_domain(&domain);
->>   	}
->>    out:
->>   	nvme_remove_invalid_namespaces(ctrl, prev);
->>    free:
->> +	async_synchronize_full_domain(&domain);
-> 
-> A goto this "free" label appears to mean the async domain has nothing
-> scheduled, so synchronizing won't be necessary. This should be moved up
-> tharmlesso the "out" label, I think.
-> 
-> I can change that up when applying; just wanted to mention it in case
-> I'm missing something.
+The patchset here is (apart from the statistics patches) just the one 
+removing lock contention on callbacks (which _really_ were causing 
+issues), and the alignment with blk-mq, for which I do see an improvement.
 
-I agree, you aren't missing anything.  Thank you very much!  If you want
-me to submit a new patch with this and Thomas' changes, let me know.
+All other patches posted previously turned out to increase the latency
+(thanks to the statistics patches), so I left them out from this round.
+
+>>
+>> All performance number are derived from the 'tiobench-example.fio'
+>> sample from the fio sources, running on a 96 core machine with one,
+>> two, or four subsystem and two paths, each path exposing 32 queues.
+>> Backend is nvmet using an Intel DC P3700 NVMe SSD.
+> 
+> The patchset in v1 started by stating a performance issue when
+> controllers have a limited number of queues, does this test case
+> represent the original issue?
+> 
+Oh, but it does. The entire test is run on machine with 96 cores.
+
+>>
+>> write performance:
+>> baseline:
+>> 1 subsys, 4k seq:  bw=523MiB/s (548MB/s), 16.3MiB/s-19.0MiB/s 
+>> (17.1MB/s-20.0MB/s)
+>> 1 subsys, 4k rand: bw=502MiB/s (526MB/s), 15.7MiB/s-21.5MiB/s 
+>> (16.4MB/s-22.5MB/s)
+>> 2 subsys, 4k seq:  bw=420MiB/s (440MB/s), 2804KiB/s-4790KiB/s 
+>> (2871kB/s-4905kB/s)
+>> 2 subsys, 4k rand: bw=416MiB/s (436MB/s), 2814KiB/s-5503KiB/s 
+>> (2881kB/s-5635kB/s)
+>> 4 subsys, 4k seq:  bw=409MiB/s (429MB/s), 1990KiB/s-8396KiB/s 
+>> (2038kB/s-8598kB/s)
+>> 4 subsys, 4k rand: bw=386MiB/s (405MB/s), 2024KiB/s-6314KiB/s 
+>> (2072kB/s-6466kB/s)
+>>
+>> patched:
+>> 1 subsys, 4k seq:  bw=440MiB/s (461MB/s), 13.7MiB/s-16.1MiB/s 
+>> (14.4MB/s-16.8MB/s)
+>> 1 subsys, 4k rand: bw=427MiB/s (448MB/s), 13.4MiB/s-16.2MiB/s 
+>> (13.0MB/s-16.0MB/s)
+> 
+> That is a substantial degradation. I also keep asking, how does null_blk 
+> looks like?
+> 
+Tested, and doesn't make a difference. Similar numbers.
+Surprisingly, but there you are.
+
+>> 2 subsys, 4k seq:  bw=506MiB/s (531MB/s), 3581KiB/s-4493KiB/s 
+>> (3667kB/s-4601kB/s)
+>> 2 subsys, 4k rand: bw=494MiB/s (518MB/s), 3630KiB/s-4421KiB/s 
+>> (3717kB/s-4528kB/s)
+>> 4 subsys, 4k seq:  bw=457MiB/s (479MB/s), 2564KiB/s-8297KiB/s 
+>> (2625kB/s-8496kB/s)
+>> 4 subsys, 4k rand: bw=424MiB/s (444MB/s), 2509KiB/s-9414KiB/s 
+>> (2570kB/s-9640kB/s)
+> 
+> There is still an observed degradation when moving from 2 to 4 
+> subsystems, what is the cause of it?
+> 
+All subsystems are running over the same 10GigE link, so some 
+performance degradation is to be expected as we are having higher
+contention.
+
+>>
+>> read performance:
+>> baseline:
+>> 1 subsys, 4k seq:  bw=389MiB/s (408MB/s), 12.2MiB/s-18.1MiB/s 
+>> (12.7MB/s-18.0MB/s)
+>> 1 subsys, 4k rand: bw=430MiB/s (451MB/s), 13.5MiB/s-19.2MiB/s 
+>> (14.1MB/s-20.2MB/s)
+>> 2 subsys, 4k seq:  bw=377MiB/s (395MB/s), 2603KiB/s-3987KiB/s 
+>> (2666kB/s-4083kB/s)
+>> 2 subsys, 4k rand: bw=377MiB/s (395MB/s), 2431KiB/s-5403KiB/s 
+>> (2489kB/s-5533kB/s)
+>> 4 subsys, 4k seq:  bw=139MiB/s (146MB/s), 197KiB/s-11.1MiB/s 
+>> (202kB/s-11.6MB/s)
+>> 4 subsys, 4k rand: bw=352MiB/s (369MB/s), 1360KiB/s-13.9MiB/s 
+>> (1392kB/s-14.6MB/s)
+>>
+>> patched:
+>> 1 subsys, 4k seq:  bw=405MiB/s (425MB/s), 2.7MiB/s-14.7MiB/s 
+>> (13.3MB/s-15.4MB/s)
+>> 1 subsys, 4k rand: bw=427MiB/s (447MB/s), 13.3MiB/s-16.1MiB/s 
+>> (13.0MB/s-16.9MB/s)
+>> 2 subsys, 4k seq:  bw=411MiB/s (431MB/s), 2462KiB/s-4523KiB/s 
+>> (2522kB/s-4632kB/s)
+>> 2 subsys, 4k rand: bw=392MiB/s (411MB/s), 2258KiB/s-4220KiB/s 
+>> (2312kB/s-4321kB/s)
+>> 4 subsys, 4k seq:  bw=378MiB/s (397MB/s), 1859KiB/s-8110KiB/s 
+>> (1904kB/s-8305kB/s)
+>> 4 subsys, 4k rand: bw=326MiB/s (342MB/s), 1781KiB/s-4499KiB/s 
+>> (1823kB/s-4607kB/s)
+> 
+> Same question here, your patches do not seem to eliminate the overall 
+> loss of efficiency.
+
+Never claimed that, and really I can't see that we can.
+All subsystems are running over the same link, so we are having to push
+more independent frames across it, and we will suffer from higher
+contention here. A performance degradation when scaling up subsystems
+is unavoidable.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
