@@ -4,132 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B37FC3DA49
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 07:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEDB2C3DA60
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 07:13:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0SdeTWlHgqldcOwD/iVPHZSwa7mrgxWCOkW0o75+uSc=; b=v7X/g7fAJ5tR9u4PSjUelHP08Y
-	IqDa27FFQ/Ue2qGqCtgvY8nGy5JMU1wabBknWa/wrn3+I2jWLp8SKGcheUftO+3PO5hmxt/4Y4NXb
-	baw/967qqH5j65KIjTMix/Wb4r4x2Ew0Q+I7Xo6mfyvFNENmuLOLwSpAMyL9xxrG4Txi9mEqJ9eSb
-	Z+Mu7tXiShDfXCAbdttzgGGE+zSsRA+lny8R89YIsKGaw+U99JVAhsyATUYyVpBM3P834xySB+Kat
-	7E8lqmn9frrYBUCFPMJ/zP6wNaBPQDj1q6/WQ6sRasOEyuLaAqUIrmz3isg47YYBu2e/ybU+hIJiw
-	0Qzag9/Q==;
+	bh=ZzMwdYEqkBn1xyQ4tU7cVsz0GrDYjPW0SWCT9hPvY7w=; b=euum0+fycW3jQfjGdDgVgslXFv
+	nNcHRzX7XQFL/abWByTj0BZyUMZc0MNx3ENab+wjfA9bbAKiWsWLEVoo+TEGE6R2gAr/OGJEslW8l
+	jr5NEYCGbqld61xN0SX194KvzpAIPCAo1VmMnAFpvzSltH6axNCBsAly/MMbLzVzmrq6P8a5hJAzy
+	VMzl0nMHIWFZ3Gpd1FTTVr6mUNNa2jAErLBjQZwzYioc6HmK9zrRXdh7J0000mE1QWUsPS0GZ5M6c
+	8Av2QsVhqhdYPvdAQoTABLI0SmavRoI6Ku14t7hnGOmb7iLx3olWzlktgd537YxKWGENa0ikL+o1T
+	lZQAsKHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sULI5-0000000G7RE-2Zp2;
-	Thu, 18 Jul 2024 07:11:01 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1sULKi-0000000G800-3M9S;
+	Thu, 18 Jul 2024 07:13:44 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sULI1-0000000G7Px-0QtO
+	id 1sULKd-0000000G7x4-3sSj
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jul 2024 07:11:00 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Thu, 18 Jul 2024 07:13:42 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98B071FBAD;
-	Thu, 18 Jul 2024 07:10:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8170D21C33;
+	Thu, 18 Jul 2024 07:13:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721286655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1721286818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0SdeTWlHgqldcOwD/iVPHZSwa7mrgxWCOkW0o75+uSc=;
-	b=yJLiU9d9wCj/9YV43l1JLWktW8qC+8+KZDdrhyTC8wKgnBkOgrqUrYoOOopZGcb1iOxM0b
-	fzjhxAlE0rfFTOgNYJdJD2uzRDGQkjbU3p6OLxD6qOaXCHyvOzyO1aIZ26g9Ptcq0aJ1YY
-	+Gvp6g6wTpRcDeEx4WCJKhOANZ85uIM=
+	bh=ZzMwdYEqkBn1xyQ4tU7cVsz0GrDYjPW0SWCT9hPvY7w=;
+	b=YPTjsx8kAUJu3b/IeB4pGK1s9694smHNb9Fylqrm//1D7X8NIVT7wC/NL9Qma7W3Y4Bwqp
+	8CD+DEP9oYNERBKe2U2MQByFSrvkoqiZQKozD+acMvrbwK4VKU4Yfkn+Hjb40kwl5QsR5q
+	74krtlHMYWmoFvU2p0SbUoWaiL191TM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721286655;
+	s=susede2_ed25519; t=1721286818;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0SdeTWlHgqldcOwD/iVPHZSwa7mrgxWCOkW0o75+uSc=;
-	b=z/mE1ogNVVrHxWlfqpxv9K2g8kEwqlBa2Kn7Z1K2Yg9NRmfs7YtbOM36UAtzHGdeHqIaFV
-	7Z601Ydzg3O4SQAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yJLiU9d9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="z/mE1ogN"
+	bh=ZzMwdYEqkBn1xyQ4tU7cVsz0GrDYjPW0SWCT9hPvY7w=;
+	b=PWgwpG3Fl9JZRuUjHYrJR/PNfo5btuwLjane8riwXPhL/NarfQLotBONKpBPFFjVZBuIDn
+	ZF1ZRy7RRnNyU+AA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721286655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1721286818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0SdeTWlHgqldcOwD/iVPHZSwa7mrgxWCOkW0o75+uSc=;
-	b=yJLiU9d9wCj/9YV43l1JLWktW8qC+8+KZDdrhyTC8wKgnBkOgrqUrYoOOopZGcb1iOxM0b
-	fzjhxAlE0rfFTOgNYJdJD2uzRDGQkjbU3p6OLxD6qOaXCHyvOzyO1aIZ26g9Ptcq0aJ1YY
-	+Gvp6g6wTpRcDeEx4WCJKhOANZ85uIM=
+	bh=ZzMwdYEqkBn1xyQ4tU7cVsz0GrDYjPW0SWCT9hPvY7w=;
+	b=YPTjsx8kAUJu3b/IeB4pGK1s9694smHNb9Fylqrm//1D7X8NIVT7wC/NL9Qma7W3Y4Bwqp
+	8CD+DEP9oYNERBKe2U2MQByFSrvkoqiZQKozD+acMvrbwK4VKU4Yfkn+Hjb40kwl5QsR5q
+	74krtlHMYWmoFvU2p0SbUoWaiL191TM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721286655;
+	s=susede2_ed25519; t=1721286818;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0SdeTWlHgqldcOwD/iVPHZSwa7mrgxWCOkW0o75+uSc=;
-	b=z/mE1ogNVVrHxWlfqpxv9K2g8kEwqlBa2Kn7Z1K2Yg9NRmfs7YtbOM36UAtzHGdeHqIaFV
-	7Z601Ydzg3O4SQAQ==
+	bh=ZzMwdYEqkBn1xyQ4tU7cVsz0GrDYjPW0SWCT9hPvY7w=;
+	b=PWgwpG3Fl9JZRuUjHYrJR/PNfo5btuwLjane8riwXPhL/NarfQLotBONKpBPFFjVZBuIDn
+	ZF1ZRy7RRnNyU+AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60DE2136F7;
-	Thu, 18 Jul 2024 07:10:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 412DA136F7;
+	Thu, 18 Jul 2024 07:13:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eYc0FP+/mGbrCwAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 18 Jul 2024 07:10:55 +0000
-Message-ID: <5afb5554-2dd1-4261-8d11-9e1372df430e@suse.de>
-Date: Thu, 18 Jul 2024 09:10:54 +0200
+	id xodgDqLAmGarDAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 18 Jul 2024 07:13:38 +0000
+Message-ID: <eea02389-244b-4428-9299-0ddad504ca16@suse.de>
+Date: Thu, 18 Jul 2024 09:13:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/16] nvme-tcp: sanitize TLS key handling
+Subject: Re: [PATCH 05/16] nvme-sysfs: add 'tls_configured_key' sysfs
+ attribute
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org
 References: <20240717091031.143188-1-hare@kernel.org>
- <20240717091031.143188-3-hare@kernel.org>
- <715ffc48-cd34-4776-a51a-e1199b8d0435@grimberg.me>
+ <20240717091031.143188-6-hare@kernel.org>
+ <e77a7fb7-f753-4a48-882b-ced61ba0c668@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <715ffc48-cd34-4776-a51a-e1199b8d0435@grimberg.me>
+In-Reply-To: <e77a7fb7-f753-4a48-882b-ced61ba0c668@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-5.50 / 50.00];
+X-Spamd-Result: default: False [-4.29 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 98B071FBAD
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240718_001057_321627_91404481 
-X-CRM114-Status: GOOD (  19.32  )
+X-CRM114-CacheID: sfid-20240718_001340_133295_A7508490 
+X-CRM114-Status: GOOD (  18.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,94 +135,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/17/24 23:53, Sagi Grimberg wrote:
+On 7/17/24 23:58, Sagi Grimberg wrote:
 > 
 > 
 > On 17/07/2024 12:10, Hannes Reinecke wrote:
->> There is a difference between TLS configured (ie the user has
->> provisioned/requested a key) and TLS enabled (ie the connection
->> is encrypted with TLS). This becomes important for secure concatenation,
->> where the initial authentication is run unencrypted (ie with
->> TLS configured, but not enabled), and then the queue is reset to
->> run over TLS (ie TLS configured _and_ enabled).
->> So to differentiate between those two states store the provisioned
->> key in opts->tls_key (as we're using the same TLS key for all queues)
->> and only the key serial of the key negotiated by the TLS handshake
->> in queue->tls_pskid.
+>> There is a difference between the negotiated TLS key (which is
+>> always present for a TLS encrypted connection) and the configured
+>> TLS key (which is specified with the --tls_key command line option).
+>> To differentate between these two add a new sysfs attribute
+>> 'tls_configured_key' to hold the specified on the command line.
 >>
 >> Signed-off-by: Hannes Reinecke <hare@kernel.org>
 >> ---
->>   drivers/nvme/host/core.c  |  1 -
->>   drivers/nvme/host/nvme.h  |  2 +-
->>   drivers/nvme/host/sysfs.c |  4 ++--
->>   drivers/nvme/host/tcp.c   | 47 ++++++++++++++++++++++++++++-----------
->>   4 files changed, 37 insertions(+), 17 deletions(-)
+>>   drivers/nvme/host/sysfs.c | 17 +++++++++++++++++
+>>   1 file changed, 17 insertions(+)
 >>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 8d8e7a3549c6..947f1e631ee5 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -4641,7 +4641,6 @@ static void nvme_free_ctrl(struct device *dev)
->>       if (!subsys || ctrl->instance != subsys->instance)
->>           ida_free(&nvme_instance_ida, ctrl->instance);
->> -    key_put(ctrl->tls_key);
->>       nvme_free_cels(ctrl);
->>       nvme_mpath_uninit(ctrl);
->>       cleanup_srcu_struct(&ctrl->srcu);
->> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
->> index c63f2b452369..cdb53323f4eb 100644
->> --- a/drivers/nvme/host/nvme.h
->> +++ b/drivers/nvme/host/nvme.h
->> @@ -370,7 +370,7 @@ struct nvme_ctrl {
->>       struct nvme_dhchap_key *ctrl_key;
->>       u16 transaction;
->>   #endif
->> -    struct key *tls_key;
->> +    key_serial_t tls_pskid;
->>       /* Power saving configuration */
->>       u64 ps_max_latency_us;
 >> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
->> index 3c55f7edd181..5b1dee8a66ef 100644
+>> index be36206cb594..e5cd738660b1 100644
 >> --- a/drivers/nvme/host/sysfs.c
 >> +++ b/drivers/nvme/host/sysfs.c
->> @@ -671,9 +671,9 @@ static ssize_t tls_key_show(struct device *dev,
->>   {
->>       struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->> -    if (!ctrl->tls_key)
->> +    if (!ctrl->tls_pskid)
->>           return 0;
->> -    return sysfs_emit(buf, "%08x", key_serial(ctrl->tls_key));
->> +    return sysfs_emit(buf, "%08x", ctrl->tls_pskid);
+>> @@ -676,6 +676,19 @@ static ssize_t tls_key_show(struct device *dev,
+>>       return sysfs_emit(buf, "%08x\n", ctrl->tls_pskid);
 >>   }
 >>   static DEVICE_ATTR_RO(tls_key);
->>   #endif
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index a2a47d3ab99f..92ad5b8cc1b4 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -165,6 +165,7 @@ struct nvme_tcp_queue {
->>       bool            hdr_digest;
->>       bool            data_digest;
->> +    bool            tls_enabled;
+>> +
+>> +static ssize_t tls_configured_key_show(struct device *dev,
+>> +        struct device_attribute *attr, char *buf)
+>> +{
+>> +    struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+>> +    struct key *key = ctrl->opts->tls_key;
+>> +
+>> +    if (!key)
+>> +        return 0;
 > 
-> I swear I'll ask this every single time that I don't understand it. Why 
-> is this per-queue and
-> not per controller?
+> Shouldn't this check move to the are_visible part so it isn't visible if
+> tls_key is not provided?
 
-TLS is a per-queue setting (each queue has it's own TCP connection, and 
-that connection might or might not have TLS enabled), _and_, more 
-importantly, it's a queue _status_ (ie the queue is TLS enabled), and
-set ex-post _after_ TLS handshake is run.
+Guess you are right. I thought we could not as the tls_key might change
+with secure concatenation, but that doesn't affect the configured key.
 
-This is to differentiate against the TLS _configuration_ (ie the option
-'--tls'), which is indeed per controller, but is the _intention_ to 
-enable TLS.
-
-The distinction becomes important for secure concatenation, as there
-one can have an admin queue where TLS should be enabled (the 
-configuration setting), but currently is not as authentication is 
-ongoing (the status), then a reset of the admin queue, at the end
-of which TLS is enabled (the status).
+Will be updating the patch.
 
 Cheers,
 
