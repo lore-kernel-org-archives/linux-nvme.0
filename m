@@ -4,86 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5CA4C3DA5D
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jul 2024 23:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CAF4C3DA5D
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 02:10:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oB2a2SllLAwtI5Pb8o7rvTOM/lYPEb9fucZNuBoleq4=; b=U+W57iYgvSenASmTy4z2/YRORb
-	Q7o7i/nEqaMawL5+BPRbz/W6qSg12qTIDc7lvDeckfgyChs5A2eACkBZxqobZlfDbIkf1Wwn47ZNK
-	nRtO/NzNDRHHIruGvke7E0nSXIEbKhgyJLvJUEBpdLNITyeuHe5uwRXSUbHyLEyMcOA+8yh1hhwA+
-	wW94D/WZLkqmBL3SodhESzqiIc8SuR2ZopUQVmAHJEuy1Q2Ii5vx1kCGT3+nHBOpfQYR31REbo2KD
-	pYTTPGv5/1AfbwZ+TbFi47i2bOJJW4J2lgBd/CRXwoG3jXALC69vuJXaG/Wh7QL9CFMzReCs3cMPb
-	5B36uMJA==;
+	bh=bIFfDmFpN4eqAMaaNo7FF8H1RWJDQ9fSWvSB6h3IB14=; b=D/z0+DVWjlsifMg/x1KVeROwVZ
+	WAOyW23yhnT+RK197xzpjCAcxrU1do7/CxaVy6hQpLOrlp3ahGPWQjpt4Tc5/cUyuHEyv7jFwSKef
+	QWWrGvqwyqC+f1oFhhKttuUT15zD63r5Nj/dEj28Qpa9P7bsqgnEIdf+91GlI1jiEtHUlibJ6hWt8
+	8NxJxqeoYTbg9AOZPLeGs8z9g2edatSdv4NqqwplMLM9JlfBaV7GcSbh6unVdtqm4ZkyD55LCu1PZ
+	OcHd2TcHdGNpN2hLdYBrv6LLP0EQACjhQAJUrJw/kODCMZCa94dnE4qvqkPw1lLcvhOnrisGZIT8T
+	TZhzHT4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUDdZ-0000000FAWm-2143;
-	Wed, 17 Jul 2024 23:00:41 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1sUGbE-0000000FVAG-2NRj;
+	Thu, 18 Jul 2024 02:10:28 +0000
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUCaf-0000000F1wc-05yu
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 17 Jul 2024 21:53:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=oB2a2SllLAwtI5Pb8o7rvTOM/lYPEb9fucZNuBoleq4=; b=bhno4auD3QHinnCCUNiZgJ5pR+
-	DvNam7Okb2yb7/HujihvFvway+NGEzw+Y/q8A+qH4NeH5f3NElyY1K6HtIOAuBrkqb6TM7jvhTdFJ
-	klqgvOJq4ScYXnqs4IBrU9++fDolg0sxDCJUfai2nvofcR4dvDmHBOJtIASfjrz24u9i0A44IbBMs
-	YS1Md+a66OTsNDEA5ZKqIyW5zNQHwPuXUM/ns30IUAeppJWPSNFUqB0399pE9NU5gBmrG+Qs4JrT5
-	C1A07pgrUBMtE1mL4zpISRr+QBhj+G8LDOGPnwox/nEQGFJzAzPeLvGwT4dl6KGzX+xx3rWuoIZnO
-	IH2m5fUg==;
-Received: from mail-wm1-f52.google.com ([209.85.128.52])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUCab-00000002Pm1-3LRG
+	id 1sUGbC-0000000FV9d-1hpz
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jul 2024 21:53:35 +0000
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-427bc3877d0so239185e9.2
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Jul 2024 14:53:31 -0700 (PDT)
+	Thu, 18 Jul 2024 02:10:27 +0000
+Received: by mail-ot1-x332.google.com with SMTP id 46e09a7af769-7039e4a4a03so167481a34.3
+        for <linux-nvme@lists.infradead.org>; Wed, 17 Jul 2024 19:10:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721268625; x=1721873425; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bIFfDmFpN4eqAMaaNo7FF8H1RWJDQ9fSWvSB6h3IB14=;
+        b=A2itu+lukucHj9S2IFXOVeoXaqEVpfCothK51KqFPmzTXhpANct3dF9klMqd+2pz8l
+         IWf3qjVF+nkOoeUHO6mH3hfn03bVl208B9ZDFai8fVAv+E/89Q5GR17DLuFjzVeXwVqp
+         hXZyZshTDGCtZPSHzpzI0MGM6EfUzuPqoboqfyhltsnMtg/sQtMo7Fxu4TWJO7KlDbLi
+         8GCCnW7G/8YDpBpB4XPlbenUtgrhfRj1QYqyFBB/8nVSx8DQsusup0tRrwSI+ixHruiL
+         yqvnDug2SHpZaRhHibzN5RUJnxG4KA7hrN4pgx79Xam83dz/Vx7uBkUfujOjqUxcZZ+x
+         nvPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721253211; x=1721858011;
+        d=1e100.net; s=20230601; t=1721268625; x=1721873425;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oB2a2SllLAwtI5Pb8o7rvTOM/lYPEb9fucZNuBoleq4=;
-        b=mdfUTEIovCnTzi8PbwVxyjW2tFPadp2TNU+W2nCTshu2yHhgliPypwQdOlJ0r3TwTB
-         pxRqNx3qRiA6ebRIhVq47UF6fc6yUvGckEYSR5qzlm1RQ1BOp1SVLpR6/obXYPvVGsNl
-         qjVe1uzCjp0gFRKSoHh1v3CJN1uX7lgYAxVGnGp4UXps/9SkWYkrG25xPSZEP99qef4M
-         sLwzFTevpLAnBCN1crq+e5rZ6D754JTSbH/tQ1U9Hl3xEfUxm/08bgDhtBLYkaKlHanz
-         mR//7CYiLFBQApvijurCYnLcGARfHWjcqartUTJTq99pVwOo9+Whz+eH9P2rRp4r3i9D
-         Xqlg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtKROOe2YU2mEDXgnAm1BOVcpQPzGaNFcmmKP865dhzYqVKgS2PbJE9U8Fa5MkRbegKmb7vqfC5BwtLIBlgGQySddxzQMkP/RgxtOAwr8=
-X-Gm-Message-State: AOJu0YzXtGz7l89Gfd3NRLvemsVEtrKL1Vsd2wX4ocHyNY+efjrkmy84
-	aeTvyIPDF7Nup2Mj7UNl8MSOtfDB43QIl4EPyowScyoCo6FWhA4vgIt9qg==
-X-Google-Smtp-Source: AGHT+IHes3m/YPX344oz2L14ZNSOrs7UWzFLJrpbrj+bIm3I2L9dlzHaw3JcKlcHR5/1oBaLwvoqTQ==
-X-Received: by 2002:a05:6000:4020:b0:364:8215:7142 with SMTP id ffacd0b85a97d-368315e8055mr905100f8f.1.1721253210623;
-        Wed, 17 Jul 2024 14:53:30 -0700 (PDT)
-Received: from [10.100.102.74] (85.65.198.251.dynamic.barak-online.net. [85.65.198.251])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dab3ed9sm12793028f8f.9.2024.07.17.14.53.29
+        bh=bIFfDmFpN4eqAMaaNo7FF8H1RWJDQ9fSWvSB6h3IB14=;
+        b=IZzvj7EIYfRHehqZ0bGRo/eF08wBvmG5R+ppM0D5/3AVuGcacXqAPHR23tMeUf+Y/4
+         +HST1bWauQx+0qwMjGMvUhu5frl5SD/41Tv76L5nGDRuW6SY3Gbgy4QMEmqFU47qFWmd
+         tDnYOEcGO71ia57OceWjg2WkVynvZMvPX+IG3hGb5xcvzh6t3bh4KE9Hgd6zw31FP2oz
+         IlPBDIvjDjNHkTMxJrWOGGQlTtZylpfAxV9YjgMEakBTfgFtDxPB4MUU7ZuMJGcU3BQK
+         zd1PffgvcooQmv1NkFffbgsXsiITksuMNt0ZH9jSrkPS1LGUtpsp2aoF5I8puvIv0D81
+         yCAg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2pGG9ChBgYAc17kdb/Y8h/uoZzga8sSDSF3LtJ5OpB9jcDbgU39UziNQ2+hGn6bRQy3tWbBputQkYPXZ3QhmsuChT2MDs3XOhz/DRWEo=
+X-Gm-Message-State: AOJu0Yx9124H4NOA0E1S6jmDUXa027GQPnINIu6ErpsaN+oMWsh7grJ2
+	PNVW3AWnOLIHBCo1J4mp3hySMMTqN2pZ21RRw5VpnSzit9rf3AME
+X-Google-Smtp-Source: AGHT+IFdfi1fpC7A1dDA7DH5ZmL+8xb4lKgvB0goy07ZvGthxot9YWzsXiGqELyb/+bAn7uzc0FvNQ==
+X-Received: by 2002:a05:6830:314f:b0:704:2dd4:3628 with SMTP id 46e09a7af769-708e37891a2mr4276406a34.9.1721268625174;
+        Wed, 17 Jul 2024 19:10:25 -0700 (PDT)
+Received: from [192.168.1.224] (syn-067-048-091-116.res.spectrum.com. [67.48.91.116])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708e7901391sm314553a34.74.2024.07.17.19.10.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jul 2024 14:53:30 -0700 (PDT)
-Message-ID: <715ffc48-cd34-4776-a51a-e1199b8d0435@grimberg.me>
-Date: Thu, 18 Jul 2024 00:53:28 +0300
+        Wed, 17 Jul 2024 19:10:24 -0700 (PDT)
+Message-ID: <6629583d-4681-49bc-8a7c-a87c3051c30b@gmail.com>
+Date: Wed, 17 Jul 2024 21:10:23 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/16] nvme-tcp: sanitize TLS key handling
-To: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org
-References: <20240717091031.143188-1-hare@kernel.org>
- <20240717091031.143188-3-hare@kernel.org>
+Subject: Re: [PATCH v4] nvme_core: scan namespaces asynchronously
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
+ Martin Wilck <martin.wilck@suse.com>,
+ Ayush Siddarath <ayush.siddarath@dell.com>
+References: <20240717185550.22102-1-stuart.w.hayes@gmail.com>
+ <Zpgtr33uqbMogK7c@kbusch-mbp.dhcp.thefacebook.com>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240717091031.143188-3-hare@kernel.org>
+From: stuart hayes <stuart.w.hayes@gmail.com>
+In-Reply-To: <Zpgtr33uqbMogK7c@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240717_225334_030039_73EB2BDF 
-X-CRM114-Status: GOOD (  21.17  )
+X-CRM114-CacheID: sfid-20240717_191026_482155_4CB29669 
+X-CRM114-Status: GOOD (  18.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,78 +100,57 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 17/07/2024 12:10, Hannes Reinecke wrote:
-> There is a difference between TLS configured (ie the user has
-> provisioned/requested a key) and TLS enabled (ie the connection
-> is encrypted with TLS). This becomes important for secure concatenation,
-> where the initial authentication is run unencrypted (ie with
-> TLS configured, but not enabled), and then the queue is reset to
-> run over TLS (ie TLS configured _and_ enabled).
-> So to differentiate between those two states store the provisioned
-> key in opts->tls_key (as we're using the same TLS key for all queues)
-> and only the key serial of the key negotiated by the TLS handshake
-> in queue->tls_pskid.
->
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->   drivers/nvme/host/core.c  |  1 -
->   drivers/nvme/host/nvme.h  |  2 +-
->   drivers/nvme/host/sysfs.c |  4 ++--
->   drivers/nvme/host/tcp.c   | 47 ++++++++++++++++++++++++++++-----------
->   4 files changed, 37 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 8d8e7a3549c6..947f1e631ee5 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4641,7 +4641,6 @@ static void nvme_free_ctrl(struct device *dev)
->   
->   	if (!subsys || ctrl->instance != subsys->instance)
->   		ida_free(&nvme_instance_ida, ctrl->instance);
-> -	key_put(ctrl->tls_key);
->   	nvme_free_cels(ctrl);
->   	nvme_mpath_uninit(ctrl);
->   	cleanup_srcu_struct(&ctrl->srcu);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index c63f2b452369..cdb53323f4eb 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -370,7 +370,7 @@ struct nvme_ctrl {
->   	struct nvme_dhchap_key *ctrl_key;
->   	u16 transaction;
->   #endif
-> -	struct key *tls_key;
-> +	key_serial_t tls_pskid;
->   
->   	/* Power saving configuration */
->   	u64 ps_max_latency_us;
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index 3c55f7edd181..5b1dee8a66ef 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
-> @@ -671,9 +671,9 @@ static ssize_t tls_key_show(struct device *dev,
->   {
->   	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->   
-> -	if (!ctrl->tls_key)
-> +	if (!ctrl->tls_pskid)
->   		return 0;
-> -	return sysfs_emit(buf, "%08x", key_serial(ctrl->tls_key));
-> +	return sysfs_emit(buf, "%08x", ctrl->tls_pskid);
->   }
->   static DEVICE_ATTR_RO(tls_key);
->   #endif
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index a2a47d3ab99f..92ad5b8cc1b4 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -165,6 +165,7 @@ struct nvme_tcp_queue {
->   
->   	bool			hdr_digest;
->   	bool			data_digest;
-> +	bool			tls_enabled;
+On 7/17/2024 3:46 PM, Keith Busch wrote:
+> On Wed, Jul 17, 2024 at 01:55:50PM -0500, Stuart Hayes wrote:
+> 
+> Looks good to me. Just one minor comment below.
+> 
+>> @@ -3978,11 +4008,15 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+>>   	__le32 *ns_list;
+>>   	u32 prev = 0;
+>>   	int ret = 0, i;
+>> +	ASYNC_DOMAIN(domain);
+>> +	struct async_scan_info scan_info;
+>>   
+>>   	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
+>>   	if (!ns_list)
+>>   		return -ENOMEM;
+>>   
+>> +	scan_info.ctrl = ctrl;
+>> +	scan_info.ns_list = ns_list;
+>>   	for (;;) {
+>>   		struct nvme_command cmd = {
+>>   			.identify.opcode	= nvme_admin_identify,
+>> @@ -3998,19 +4032,23 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+>>   			goto free;
+>>   		}
+>>   
+>> +		atomic_set(&scan_info.next_nsid, 0);
+>>   		for (i = 0; i < nr_entries; i++) {
+>>   			u32 nsid = le32_to_cpu(ns_list[i]);
+>>   
+>>   			if (!nsid)	/* end of the list? */
+>>   				goto out;
+>> -			nvme_scan_ns(ctrl, nsid);
+>> +			async_schedule_domain(nvme_scan_ns_async, &scan_info,
+>> +						&domain);
+>>   			while (++prev < nsid)
+>>   				nvme_ns_remove_by_nsid(ctrl, prev);
+>>   		}
+>> +		async_synchronize_full_domain(&domain);
+>>   	}
+>>    out:
+>>   	nvme_remove_invalid_namespaces(ctrl, prev);
+>>    free:
+>> +	async_synchronize_full_domain(&domain);
+> 
+> A goto this "free" label appears to mean the async domain has nothing
+> scheduled, so synchronizing won't be necessary. This should be moved up
+> tharmlesso the "out" label, I think.
+> 
+> I can change that up when applying; just wanted to mention it in case
+> I'm missing something.
 
-I swear I'll ask this every single time that I don't understand it. Why 
-is this per-queue and
-not per controller?
+I agree, you aren't missing anything.  Thank you very much!  If you want
+me to submit a new patch with this and Thomas' changes, let me know.
 
