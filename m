@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6BF6C3DA63
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 14:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57123C3DA49
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jul 2024 14:49:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iVQbJ0k/ZpL9QoZJP1YIAKikm4N7mLhpAb4QN8tAEF8=; b=o1quHPcvZJieeNg5ehNViG3WT9
-	t+xhjlrK4WEuyDrjYYLus5lCfn6p7ZVOzCW6J09x8CvnzVhXpwTM6Ba2aVpGS6wFT5WWHTsC/RChz
-	8ofkmh6C+mbWF4eFtHv8qIs4C9IGJzprnsB4xI+7ZJJwouufbG5WinVBuUed/IiS35LyNdGNAkP/h
-	mYHe7VHK2hDPvjHHIyDwwCWX+OGSMUMeyakbot96qEGbmUEZZx7KuiVwt1hpyBzllNRlqjgnS0Nox
-	AFEKeg9IbVoE2tDBvncKwOIBpSxIiv3Pmw/e6wnG/fn9mmJsz5FjI+vkd7vssSUNVDcIaLrgQ6rpM
-	52FM7sGQ==;
+	bh=IObcVW1TfaE10TMnRMNmeU6Lcc3/T4KtGdcWTCupPic=; b=DJyG7SWdY7BvwryGquVA6pCzzf
+	PK2ewdPVhxTkLMUZt6dfvv1Yo1FrFme9n6+ZoFFbGlw3oKWSLM3zN9wo325fHW8Xlbduue24JTv0O
+	cnKbIRMLwVljtkvhv4ZeEzTRV+yZIzIaxnjennKO3he4IxV15qLIjc/Ghm27sYgeOgnmPPIyz4MAi
+	oZVbxmugu0HQ6WRAimjQVJIf8Ckf2ie0KHq2YD4WxIvo2OmzrLyyyTotHQIg4MwbEeNwfZ8j78aiY
+	9gFo8Tfc2J4dE3FRiqkc2fDrmezIqrpe3Eak6Wy3yT2AX5G4LYRW/hdwdyOjFetd+i9WyNTBIfuK2
+	/RSsXzYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUSRm-0000000HKSJ-2HrF;
-	Thu, 18 Jul 2024 14:49:30 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1sUSRd-0000000HKM5-0iO9;
+	Thu, 18 Jul 2024 14:49:21 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUSRg-0000000HKO8-3ZyN
+	id 1sUSRa-0000000HKL9-17nt
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jul 2024 14:49:26 +0000
+	Thu, 18 Jul 2024 14:49:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 4AE7161B32;
-	Thu, 18 Jul 2024 14:49:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B47ACC4AF0D;
-	Thu, 18 Jul 2024 14:49:22 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8EE9E61B8A;
+	Thu, 18 Jul 2024 14:49:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05AD1C4AF0A;
+	Thu, 18 Jul 2024 14:49:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721314163;
-	bh=PZ01QvDc+z85qfQK1Q8Tc8696mUZCItoBpgFuFc24xc=;
+	s=k20201202; t=1721314157;
+	bh=D06q7VmFz0+qhJMZwCqD7ljku6z7O03McmfKWIfZThM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EP+hyjmp4FQaSmXL4ogrqDBE5k/LncPa9txsJ2jnAdLnJqfAzQ/r1N4pUYj12J0XI
-	 JbWqyVNaRrejqArNKVCFY/4fyrUzbcKWVC/4FtP9oxUrxYrhFiVAjcWlbeo6D9rQli
-	 oRqzDoY3a8LXWtgnp8Cm3qpVgzdNtHNU6SHMRoT2RLdv0WD8uFbKfSijGYL/brtUIW
-	 AoU0dXVX7R5qu+gEs1ZNL4aIIjpfoBftqtnjQZ9xm25jxh/Y7OUe1ciH48K5zlgGdI
-	 /4t6FwsGgZVNw6Lv7TV8Zm0Kxysisofm6BjiMehcx+TTAgEQ+pP6yr91GHmNKU19YT
-	 wXJTk9dKCtGcA==
+	b=AqmuWScz/MYVZEpgdxFbBXNwe1+FfnAr3SNVgaxSf3juPMI61Xllq9b5e6mAWgKx2
+	 g6Cq082g7KK9tB542SR3roVMNhZVl+QFubELUybxfSDm2b5Zesi/2eyiVxcjgE5rCA
+	 e4YP7246EvuD+e2bQ4W+r6zaRx/cpYHoXQwQlmluo1un/OEICXPaNZJXauFRUWro3B
+	 o3d5G7ogNXRwnIr3KqIxUyT+kf7vCDws/cUNNn0mpwPG4bHQ9H4S9govXeTqS51CID
+	 IJkFirXPfhhU7PE+gtNhtndfL+J8WDI+B+WvssoYTlvN6+2g/fDKYiHTA12P18D+o1
+	 M+fijm/njJLog==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 5/8] nvme-sysfs: add 'tls_configured_key' sysfs attribute
-Date: Thu, 18 Jul 2024 16:48:55 +0200
-Message-Id: <20240718144858.19074-6-hare@kernel.org>
+Subject: [PATCH 1/8] nvme-keyring: restrict match length for version '1' identifiers
+Date: Thu, 18 Jul 2024 16:48:51 +0200
+Message-Id: <20240718144858.19074-2-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240718144858.19074-1-hare@kernel.org>
 References: <20240718144858.19074-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240718_074924_963142_5CFF3C1D 
-X-CRM114-Status: GOOD (  12.65  )
+X-CRM114-CacheID: sfid-20240718_074918_458374_2A86CC7A 
+X-CRM114-Status: GOOD (  13.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,57 +73,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There is a difference between the negotiated TLS key (which is
-always present for a TLS encrypted connection) and the configured
-TLS key (which is specified with the --tls_key command line option).
-To differentate between these two add a new sysfs attribute
-'tls_configured_key' to hold the specified on the command line.
+TP8018 changed the TLS PSK identifiers to append a PSK hash value,
+so to lookup identifiers we should just consider the length of
+the match value, not the length of the identifiers to compare
+against.
+And we should modify the PSK lookup algorithm to prefer v1 identifiers
+as they can be uniquely identified.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/sysfs.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/nvme/common/keyring.c | 32 +++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index c391ad6c5a88..62f03aa530c8 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -675,6 +675,16 @@ static ssize_t tls_key_show(struct device *dev,
- 	return sysfs_emit(buf, "%08x\n", ctrl->tls_pskid);
- }
- static DEVICE_ATTR_RO(tls_key);
-+
-+static ssize_t tls_configured_key_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct key *key = ctrl->opts->tls_key;
-+
-+	return sysfs_emit(buf, "%08x\n", key_serial(key));
-+}
-+static DEVICE_ATTR_RO(tls_configured_key);
- #endif
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 6f7e7a8fa5ae..c60ebbdc52b8 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -36,14 +36,12 @@ static bool nvme_tls_psk_match(const struct key *key,
+ 		pr_debug("%s: no key description\n", __func__);
+ 		return false;
+ 	}
+-	match_len = strlen(key->description);
+-	pr_debug("%s: id %s len %zd\n", __func__, key->description, match_len);
+-
+ 	if (!match_data->raw_data) {
+ 		pr_debug("%s: no match data\n", __func__);
+ 		return false;
+ 	}
+ 	match_id = match_data->raw_data;
++	match_len = strlen(match_id);
+ 	pr_debug("%s: match '%s' '%s' len %zd\n",
+ 		 __func__, match_id, key->description, match_len);
+ 	return !memcmp(key->description, match_id, match_len);
+@@ -71,7 +69,7 @@ static struct key_type nvme_tls_psk_key_type = {
  
- static struct attribute *nvme_dev_attrs[] = {
-@@ -706,6 +716,7 @@ static struct attribute *nvme_dev_attrs[] = {
- #endif
- #ifdef CONFIG_NVME_TCP_TLS
- 	&dev_attr_tls_key.attr,
-+	&dev_attr_tls_configured_key.attr,
- #endif
- 	&dev_attr_adm_passthru_err_log_enabled.attr,
- 	NULL
-@@ -741,6 +752,10 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 	if (a == &dev_attr_tls_key.attr &&
- 	    (!ctrl->opts || strcmp(ctrl->opts->transport, "tcp")))
- 		return 0;
-+	if (a == &dev_attr_tls_configured_key.attr &&
-+	    (!ctrl->opts || !ctrl->opts->tls_key ||
-+	     strcmp(ctrl->opts->transport, "tcp")))
-+		return 0;
- #endif
+ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn,
+-		int hmac, bool generated)
++		u8 hmac, u8 psk_ver, bool generated)
+ {
+ 	char *identity;
+ 	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
+@@ -82,8 +80,8 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 	if (!identity)
+ 		return ERR_PTR(-ENOMEM);
  
- 	return a->mode;
+-	snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
+-		 generated ? 'G' : 'R', hmac, hostnqn, subnqn);
++	snprintf(identity, identity_len, "NVMe%u%c%02u %s %s",
++		 psk_ver, generated ? 'G' : 'R', hmac, hostnqn, subnqn);
+ 
+ 	if (!keyring)
+ 		keyring = nvme_keyring;
+@@ -109,19 +107,38 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+  *
+  * 'Retained' PSKs (ie 'generated == false')
+  * should be preferred to 'generated' PSKs,
++ * PSKs with hash (psk_ver 1) should be
++ * preferred to PSKs without (psk_ver 0),
+  * and SHA-384 should be preferred to SHA-256.
+  */
+ static struct nvme_tls_psk_priority_list {
+ 	bool generated;
++	u8 psk_ver;
+ 	enum nvme_tcp_tls_cipher cipher;
+ } nvme_tls_psk_prio[] = {
+ 	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = false,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = false,
++	  .psk_ver = 0,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = true,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = true,
++	  .psk_ver = 1,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ };
+ 
+@@ -137,10 +154,11 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 
+ 	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
+ 		bool generated = nvme_tls_psk_prio[prio].generated;
++		u8 ver = nvme_tls_psk_prio[prio].psk_ver;
+ 		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
+ 
+ 		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
+-					      cipher, generated);
++					      cipher, ver, generated);
+ 		if (!IS_ERR(tls_key)) {
+ 			tls_key_id = tls_key->serial;
+ 			key_put(tls_key);
 -- 
 2.35.3
 
