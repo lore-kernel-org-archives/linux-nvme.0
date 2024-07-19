@@ -4,121 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECF63C3DA5D
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jul 2024 08:26:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 334D4C3DA59
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jul 2024 08:39:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=; b=WgObH0/qxXbECrYbRIpEKGb2is
-	vP6oW/5yeZIV0HKyOEv1kYSwa7GimTGllaQmu1W5l2/Ka2vuciKxHNpc87o8pX/gr26/3/dUeMCg5
-	DwR70olLEmOJqk9n5M8XcQOA97Pb/WpLqjBBPYl4OiGa/5DhRsoEBA2uM2VcQBAUdjQGW/hkRuWd0
-	L9qVBEQClJPW2b3//HqELzkSWejFazoKN+MMa8tVd/4kuRR9oaj1fs7lxNZmuvMvbSLs4yRj6UDev
-	nqP+JsrYvAxKjY0Lc6T85ppTiWdWIx9U5yEB9TNsoUfsZa2MxQ/L78Lyx/zOJEwr/QpW/IsjQ874+
-	T1VzCYaQ==;
+	bh=Wn6gvqL117m7iHZnz2A5rXQ12R2zJY6efojGHouPQgI=; b=WKyP7ykKsF/HqdKca7aR9wgrkN
+	i82XTpYdbzXR5JdGDOn0FpmpmPNu9sHvpwXQA6fyR61one4xUDMBgkY6JsjPZOb/meyC9OdBZLdxr
+	eVQYoXHHSaG2k3EEsEW7fYZmWgn7VeuoNJXwpHwAngjY3DKMvW7kuu9lNcb7F1WzbAQ5YxGKizied
+	HNV4GFm23C3vN3gAGP52G+1kld0Or8lAGMiH8egatdSNe0C1bOYCTCmcfFdPEd4fNV6C5SU8tJ0Cm
+	KXBFAzwub+26cteREcPWasvQYc84t9K1KdsOxj+He30qU0B/y92wuhvS2SDKdcoWM/DhcxPDY2MsA
+	R5kb5mLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUiwo-000000023yb-4A4e;
-	Fri, 19 Jul 2024 08:26:38 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1sUj96-000000026Dq-442R;
+	Fri, 19 Jul 2024 08:39:20 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUiwk-000000023xV-1ftb
+	id 1sUj92-000000026CI-454o
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Jul 2024 08:26:37 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AF6441F799;
-	Fri, 19 Jul 2024 08:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721377592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
-	b=bXVCSMs6hu6ms1lEuaun4+Z+fRW54PKi/A4122lnk4TJhSEwriT3Q4XgjSLxy2/VgqqcMF
-	zThl0sj1D5+nLJiIDyBaIn+32RIp/NAHvXavxNNB9snQFQBU/tEDBPJ4I96oMfb6P9KdTK
-	dC3yXkVIp5ou3ndcqFchT0sWh7SbxoU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721377592;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
-	b=UzAhIMRoizZ2Gv6OdAejWncdHh7lMObN1YCe5r0WVEaXWebdW0XCsNl1oAuEMsJvXhBxUu
-	AME8AJV4IuFU4yAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1721377592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
-	b=bXVCSMs6hu6ms1lEuaun4+Z+fRW54PKi/A4122lnk4TJhSEwriT3Q4XgjSLxy2/VgqqcMF
-	zThl0sj1D5+nLJiIDyBaIn+32RIp/NAHvXavxNNB9snQFQBU/tEDBPJ4I96oMfb6P9KdTK
-	dC3yXkVIp5ou3ndcqFchT0sWh7SbxoU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1721377592;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
-	b=UzAhIMRoizZ2Gv6OdAejWncdHh7lMObN1YCe5r0WVEaXWebdW0XCsNl1oAuEMsJvXhBxUu
-	AME8AJV4IuFU4yAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F36A132CB;
-	Fri, 19 Jul 2024 08:26:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LXA9GTgjmmauNQAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 19 Jul 2024 08:26:32 +0000
-Message-ID: <716c2c20-9471-4a37-9a75-c1bed7b30116@suse.de>
-Date: Fri, 19 Jul 2024 10:26:32 +0200
+	Fri, 19 Jul 2024 08:39:18 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1DC1C61C3A;
+	Fri, 19 Jul 2024 08:39:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8492EC32782;
+	Fri, 19 Jul 2024 08:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721378355;
+	bh=g4p7QAgZiXZ18GnTV24ezqWyOj4Bh1akAhrXWAD6S2A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m1nCzXrPDL86G+pkKi6NwIvumWEkXyYeofJGzjQl95ATKj8spw5aEO6xmY9b26VNT
+	 AqUTpKiI2S9lb3gzNynmY/c1H6aRgjzQ98UujaSkgHBY1qdTxvp0hTw9nH98/Du4WY
+	 XABjC5Rn76CGnbBZ6IOGcLeR7kfvnmkCy2rppwm7wc5k3ZycN+XU6HzfmslrJIem2E
+	 vfDWpac+qzp+S2d0d4ZLC0+jv02FeD2mdcyps1pZPMzcVDIjitCz1MS76+YvBMb88c
+	 kdrs6wzqbwPcNEzGLp2flxXlM/jwXlzngCJ8mOZWumatfnsGhao2apUiJKHEju0TiD
+	 G+ujFHzG9dK3Q==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH 1/9] nvme-keyring: restrict match length for version '1' identifiers
+Date: Fri, 19 Jul 2024 10:38:53 +0200
+Message-Id: <20240719083901.35399-2-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240719083901.35399-1-hare@kernel.org>
+References: <20240719083901.35399-1-hare@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] nvmet: support unbound_wq for RDMA and TCP
-To: Ping Gan <jacky_gam_2001@163.com>, hch@lst.de
-Cc: ping.gan@dell.com, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <0f15a932-1a42-4c51-a267-3f765866edc4@suse.de>
- <20240719080723.125046-1-jacky_gam_2001@163.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240719080723.125046-1-jacky_gam_2001@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.29 / 50.00];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_TO(0.00)[163.com,lst.de];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240719_012634_609602_74A4CC9D 
-X-CRM114-Status: GOOD (  15.33  )
+X-CRM114-CacheID: sfid-20240719_013917_134275_B091F3BF 
+X-CRM114-Status: GOOD (  15.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,44 +73,125 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/19/24 10:07, Ping Gan wrote:
->> On 7/19/24 07:31, Christoph Hellwig wrote:
->>> On Wed, Jul 17, 2024 at 05:14:49PM +0800, Ping Gan wrote:
->>>> When running nvmf on SMP platform, current nvme target's RDMA and
->>>> TCP use bounded workqueue to handle IO, but when there is other high
->>>> workload on the system(eg: kubernetes), the competition between the
->>>> bounded kworker and other workload is very radical. To decrease the
->>>> resource race of OS among them, this patchset will enable unbounded
->>>> workqueue for nvmet-rdma and nvmet-tcp; besides that, it can also
->>>> get some performance improvement. And this patchset bases on
->>>> previous
->>>> discussion from below session.
->>>
->>> So why aren't we using unbound workqueues by default?  Who makea the
->>> policy decision and how does anyone know which one to chose?
->>>
->> I'd be happy to switch to unbound workqueues per default.
->> It actually might be a left over from the various workqueue changes;
->> at one point 'unbound' meant that effectively only one CPU was used
->> for the workqueue, and you had to remove the 'unbound' parameter to
->> have the workqueue run on all CPUs. That has since changed, so I guess
->> switching to unbound per default is the better option here.
-> 
-> I don't fully understand what you said 'by default'. Did you mean we
-> should just remove 'unbounded' parameter and create workqueue by
-> WQ_UNBOUND flag or besides that, we should also add other parameter
-> to switch 'unbounded' workqueue  to 'bounded' workqueue?
-> 
-The former. Just remove the 'unbounded' parameter and always us
-'WQ_UNBOUND' flag when creating workqueues.
+TP8018 introduced a new TLS PSK identifier version (version 1), which appended
+a PSK hash value to the existing identifier (cf NVMe TCP specification v1.1,
+section 3.6.1.3 'TLS PSK and PSK Identity Derivation').
+An original (version 0) identifier has the form:
 
-Cheers,
+NVMe0<type><hmac> <hostnqn> <subsysnqn>
 
-Hannes
+and a version 1 identifier has the form:
+
+NVMe1<type><hmac> <hostnqn> <subsysnqn> <hash>
+
+This patch modifies the lookup algorthm to compare only the first part
+of the identifier (excluding the hash value) to handle both version 0 and
+version 1 identifiers.
+And the spec declares 'version 0' identifiers obsolete, so the lookup
+algorithm is modified to prever v1 identifiers.
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/common/keyring.c | 36 +++++++++++++++++++++++++----------
+ 1 file changed, 26 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 6f7e7a8fa5ae..05e89307c8aa 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -36,14 +36,12 @@ static bool nvme_tls_psk_match(const struct key *key,
+ 		pr_debug("%s: no key description\n", __func__);
+ 		return false;
+ 	}
+-	match_len = strlen(key->description);
+-	pr_debug("%s: id %s len %zd\n", __func__, key->description, match_len);
+-
+ 	if (!match_data->raw_data) {
+ 		pr_debug("%s: no match data\n", __func__);
+ 		return false;
+ 	}
+ 	match_id = match_data->raw_data;
++	match_len = strlen(match_id);
+ 	pr_debug("%s: match '%s' '%s' len %zd\n",
+ 		 __func__, match_id, key->description, match_len);
+ 	return !memcmp(key->description, match_id, match_len);
+@@ -71,7 +69,7 @@ static struct key_type nvme_tls_psk_key_type = {
+ 
+ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn,
+-		int hmac, bool generated)
++		u8 hmac, u8 psk_ver, bool generated)
+ {
+ 	char *identity;
+ 	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
+@@ -82,8 +80,8 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 	if (!identity)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
+-		 generated ? 'G' : 'R', hmac, hostnqn, subnqn);
++	snprintf(identity, identity_len, "NVMe%u%c%02u %s %s",
++		 psk_ver, generated ? 'G' : 'R', hmac, hostnqn, subnqn);
+ 
+ 	if (!keyring)
+ 		keyring = nvme_keyring;
+@@ -107,21 +105,38 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ /*
+  * NVMe PSK priority list
+  *
+- * 'Retained' PSKs (ie 'generated == false')
+- * should be preferred to 'generated' PSKs,
+- * and SHA-384 should be preferred to SHA-256.
++ * 'Retained' PSKs (ie 'generated == false') should be preferred to 'generated'
++ * PSKs, PSKs with hash (psk_ver 1) should be preferred to PSKs without hash
++ * (psk_ver 0), and SHA-384 should be preferred to SHA-256.
+  */
+ static struct nvme_tls_psk_priority_list {
+ 	bool generated;
++	u8 psk_ver;
+ 	enum nvme_tcp_tls_cipher cipher;
+ } nvme_tls_psk_prio[] = {
+ 	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = false,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = false,
++	  .psk_ver = 0,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = true,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = true,
++	  .psk_ver = 1,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ };
+ 
+@@ -137,10 +152,11 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 
+ 	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
+ 		bool generated = nvme_tls_psk_prio[prio].generated;
++		u8 ver = nvme_tls_psk_prio[prio].psk_ver;
+ 		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
+ 
+ 		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
+-					      cipher, generated);
++					      cipher, ver, generated);
+ 		if (!IS_ERR(tls_key)) {
+ 			tls_key_id = tls_key->serial;
+ 			key_put(tls_key);
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.35.3
 
 
