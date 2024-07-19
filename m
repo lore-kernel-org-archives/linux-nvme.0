@@ -4,54 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D131CC3DA59
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jul 2024 08:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECF63C3DA5D
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jul 2024 08:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=; b=g3JfBj2IvbOsvZI0v0i6peefoQ
-	xgUOOm04Tql/iiL7NlzH2K85wVBKdS2H59HMbfFAPRMx6KA2z3bBEyPj9nkzSN6PlMJMwIl3f6oTf
-	qQRKk31jEl3P3DQpEeG4rMOFd3IzoF+CxW1JT/ix+e0WJPmXmKxn1ncS4VM7CU8S4JZ5gk5SD4EW2
-	EpxBZpKdyd/alcHRbhWRhInQ6dyhu5lbCZZxfJymQA3nXXh7iO/J5sUndz7SygozFixe2ThLSa21O
-	/0u3Tzzk14ltatX/OFawoZNAUCdr8Xhvka94yFw6JZZFMJ6FahdfwxYO7Z1sawb4wH3UVWiXv7cg3
-	4HD8A0fw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=; b=WgObH0/qxXbECrYbRIpEKGb2is
+	vP6oW/5yeZIV0HKyOEv1kYSwa7GimTGllaQmu1W5l2/Ka2vuciKxHNpc87o8pX/gr26/3/dUeMCg5
+	DwR70olLEmOJqk9n5M8XcQOA97Pb/WpLqjBBPYl4OiGa/5DhRsoEBA2uM2VcQBAUdjQGW/hkRuWd0
+	L9qVBEQClJPW2b3//HqELzkSWejFazoKN+MMa8tVd/4kuRR9oaj1fs7lxNZmuvMvbSLs4yRj6UDev
+	nqP+JsrYvAxKjY0Lc6T85ppTiWdWIx9U5yEB9TNsoUfsZa2MxQ/L78Lyx/zOJEwr/QpW/IsjQ874+
+	T1VzCYaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUir2-000000022pa-3daH;
-	Fri, 19 Jul 2024 08:20:40 +0000
-Received: from mail.quirkbyte.pl ([94.177.238.152])
+	id 1sUiwo-000000023yb-4A4e;
+	Fri, 19 Jul 2024 08:26:38 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUir0-000000022os-0yRE
+	id 1sUiwk-000000023xV-1ftb
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Jul 2024 08:20:39 +0000
-Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
-	id 2C3A58AF94; Fri, 19 Jul 2024 10:12:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
-	t=1721376807; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
-	h=Date:From:To:Subject:From;
-	b=heXsBbmUD3uM5gQ1gI9zBq8sEGM0bwTipBSKyF5DTqFynWCBzCytSOrsATM/55u0l
-	 xLZmfSqq4HwQEl6LORjPXi/VI+IY0jOo2UWeWokEM1wBPLQbZjfJy9sS0jWoZiRGZx
-	 ksAlRFNGLA06aOXZp1u+DYftcfvQQQ1aZUSuajdELqmfF4nO73v3Yk62VIqkmB3FzH
-	 NeQcHe6XquU9PKTN/QXaVBX+O2q/xL8fnBX6q3jzdbJFr/7mvXelo9sBFAVogjMB6c
-	 uiMcIl3t/TDqSBJkyNd6YiqerwLcg/plaMPpdkyQLH4hoR4W6sfadrUErVLNfBjz77
-	 QHSLPLbHDft2A==
-Received: by mail.quirkbyte.pl for <linux-nvme@lists.infradead.org>; Fri, 19 Jul 2024 08:11:13 GMT
-Message-ID: <20240719084500-0.1.4a.2h32o.0.4ng8n3hn9c@quirkbyte.pl>
-Date: Fri, 19 Jul 2024 08:11:13 GMT
-From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
-To: <linux-nvme@lists.infradead.org>
-Subject: Fotowoltaika - propozycja instalacji
-X-Mailer: mail.quirkbyte.pl
+	Fri, 19 Jul 2024 08:26:37 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AF6441F799;
+	Fri, 19 Jul 2024 08:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721377592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
+	b=bXVCSMs6hu6ms1lEuaun4+Z+fRW54PKi/A4122lnk4TJhSEwriT3Q4XgjSLxy2/VgqqcMF
+	zThl0sj1D5+nLJiIDyBaIn+32RIp/NAHvXavxNNB9snQFQBU/tEDBPJ4I96oMfb6P9KdTK
+	dC3yXkVIp5ou3ndcqFchT0sWh7SbxoU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721377592;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
+	b=UzAhIMRoizZ2Gv6OdAejWncdHh7lMObN1YCe5r0WVEaXWebdW0XCsNl1oAuEMsJvXhBxUu
+	AME8AJV4IuFU4yAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721377592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
+	b=bXVCSMs6hu6ms1lEuaun4+Z+fRW54PKi/A4122lnk4TJhSEwriT3Q4XgjSLxy2/VgqqcMF
+	zThl0sj1D5+nLJiIDyBaIn+32RIp/NAHvXavxNNB9snQFQBU/tEDBPJ4I96oMfb6P9KdTK
+	dC3yXkVIp5ou3ndcqFchT0sWh7SbxoU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721377592;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RFe5mANEdJaN6HYGQ0mLltG2ifywrVncOqwrmHC3J0k=;
+	b=UzAhIMRoizZ2Gv6OdAejWncdHh7lMObN1YCe5r0WVEaXWebdW0XCsNl1oAuEMsJvXhBxUu
+	AME8AJV4IuFU4yAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F36A132CB;
+	Fri, 19 Jul 2024 08:26:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LXA9GTgjmmauNQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 19 Jul 2024 08:26:32 +0000
+Message-ID: <716c2c20-9471-4a37-9a75-c1bed7b30116@suse.de>
+Date: Fri, 19 Jul 2024 10:26:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] nvmet: support unbound_wq for RDMA and TCP
+To: Ping Gan <jacky_gam_2001@163.com>, hch@lst.de
+Cc: ping.gan@dell.com, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <0f15a932-1a42-4c51-a267-3f765866edc4@suse.de>
+ <20240719080723.125046-1-jacky_gam_2001@163.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240719080723.125046-1-jacky_gam_2001@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.29 / 50.00];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_TO(0.00)[163.com,lst.de];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240719_012038_419904_AC4CFD7A 
-X-CRM114-Status: UNSURE (   1.72  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240719_012634_609602_74A4CC9D 
+X-CRM114-Status: GOOD (  15.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,24 +133,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dzie=C5=84 dobry,
-=20
-Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
-=20
-Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
-ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
-sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
- elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
-d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
-rodowiska naturalnego.
-=20
-Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
-wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
-zak=C5=82adu energetycznego.=20
-=20
-Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
+On 7/19/24 10:07, Ping Gan wrote:
+>> On 7/19/24 07:31, Christoph Hellwig wrote:
+>>> On Wed, Jul 17, 2024 at 05:14:49PM +0800, Ping Gan wrote:
+>>>> When running nvmf on SMP platform, current nvme target's RDMA and
+>>>> TCP use bounded workqueue to handle IO, but when there is other high
+>>>> workload on the system(eg: kubernetes), the competition between the
+>>>> bounded kworker and other workload is very radical. To decrease the
+>>>> resource race of OS among them, this patchset will enable unbounded
+>>>> workqueue for nvmet-rdma and nvmet-tcp; besides that, it can also
+>>>> get some performance improvement. And this patchset bases on
+>>>> previous
+>>>> discussion from below session.
+>>>
+>>> So why aren't we using unbound workqueues by default?  Who makea the
+>>> policy decision and how does anyone know which one to chose?
+>>>
+>> I'd be happy to switch to unbound workqueues per default.
+>> It actually might be a left over from the various workqueue changes;
+>> at one point 'unbound' meant that effectively only one CPU was used
+>> for the workqueue, and you had to remove the 'unbound' parameter to
+>> have the workqueue run on all CPUs. That has since changed, so I guess
+>> switching to unbound per default is the better option here.
+> 
+> I don't fully understand what you said 'by default'. Did you mean we
+> should just remove 'unbounded' parameter and create workqueue by
+> WQ_UNBOUND flag or besides that, we should also add other parameter
+> to switch 'unbounded' workqueue  to 'bounded' workqueue?
+> 
+The former. Just remove the 'unbounded' parameter and always us
+'WQ_UNBOUND' flag when creating workqueues.
 
+Cheers,
 
-Pozdrawiam
-Norbert Karecki
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
