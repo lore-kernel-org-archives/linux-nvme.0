@@ -4,64 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 063F9C3DA5D
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jul 2024 08:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D131CC3DA59
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jul 2024 08:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dxy69Vkbak9zsjGVTjGLdoPayVPvBj27QHGHH4yqIAU=; b=hk1Do0tLwzBJwsj/mP53n2E705
-	7qi236h9zxZ62+RvHhmwOHCW1rje5eY+yawsoQ1kxW4gIBzYFu4/A2BwNxLbBs8ilFvHaOYfNVgwI
-	vlh9Ei5/ikAUl2gSkMENBsfUuxVQlqsMs1YeR2A++F/im0Juz+Ai3WlbXrSTm1RbwDTxdZ+mvTlWP
-	TRx/kZzJGWsUdrciXtocNzmfvT14daImNFQpUXW743Ile1KPu9dJUlX14l28aWP7AjIi+rdWapBsz
-	LNp+bxcB8idZ8ycgDqWcvfW40JJ1oIUmo8dQKCvu2CrrTxWB6MXw1h2/QkS8wHNALOjv9FenOQLCG
-	8ApdEooA==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=; b=g3JfBj2IvbOsvZI0v0i6peefoQ
+	xgUOOm04Tql/iiL7NlzH2K85wVBKdS2H59HMbfFAPRMx6KA2z3bBEyPj9nkzSN6PlMJMwIl3f6oTf
+	qQRKk31jEl3P3DQpEeG4rMOFd3IzoF+CxW1JT/ix+e0WJPmXmKxn1ncS4VM7CU8S4JZ5gk5SD4EW2
+	EpxBZpKdyd/alcHRbhWRhInQ6dyhu5lbCZZxfJymQA3nXXh7iO/J5sUndz7SygozFixe2ThLSa21O
+	/0u3Tzzk14ltatX/OFawoZNAUCdr8Xhvka94yFw6JZZFMJ6FahdfwxYO7Z1sawb4wH3UVWiXv7cg3
+	4HD8A0fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUihR-000000021Ha-3Wz8;
-	Fri, 19 Jul 2024 08:10:45 +0000
-Received: from m16.mail.163.com ([117.135.210.2])
-	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sUifK-000000020Hp-3gSQ
+	id 1sUir2-000000022pa-3daH;
+	Fri, 19 Jul 2024 08:20:40 +0000
+Received: from mail.quirkbyte.pl ([94.177.238.152])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sUir0-000000022os-0yRE
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Jul 2024 08:08:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=dxy69
-	Vkbak9zsjGVTjGLdoPayVPvBj27QHGHH4yqIAU=; b=m75v15wAYR27WLxFk3//Y
-	C5Nyp24WEXnXsO33g4Xz+7hvN2GgWGxWobt2mAhQUu6kSmucKZk3rccjTh6nHGo3
-	z4yB1ZSIbUCK3DWx2liPJVbGicnysFcji1yaufpOcwgdvCfxBp4hb0sveMkE4rz4
-	6axFSx326AEIg+SejvoSwk=
-Received: from localhost.localdomain (unknown [223.166.237.249])
-	by gzga-smtp-mta-g3-2 (Coremail) with SMTP id _____wD3PyDvHppmvJLJCQ--.60815S2;
-	Fri, 19 Jul 2024 16:08:16 +0800 (CST)
-From: Ping Gan <jacky_gam_2001@163.com>
-To: hare@suse.de,
-	hch@lst.de
-Cc: ping.gan@dell.com,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] nvmet: support unbound_wq for RDMA and TCP 
-Date: Fri, 19 Jul 2024 16:07:22 +0800
-Message-Id: <20240719080723.125046-1-jacky_gam_2001@163.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <0f15a932-1a42-4c51-a267-3f765866edc4@suse.de>
-References: <0f15a932-1a42-4c51-a267-3f765866edc4@suse.de>
+	Fri, 19 Jul 2024 08:20:39 +0000
+Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
+	id 2C3A58AF94; Fri, 19 Jul 2024 10:12:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
+	t=1721376807; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
+	h=Date:From:To:Subject:From;
+	b=heXsBbmUD3uM5gQ1gI9zBq8sEGM0bwTipBSKyF5DTqFynWCBzCytSOrsATM/55u0l
+	 xLZmfSqq4HwQEl6LORjPXi/VI+IY0jOo2UWeWokEM1wBPLQbZjfJy9sS0jWoZiRGZx
+	 ksAlRFNGLA06aOXZp1u+DYftcfvQQQ1aZUSuajdELqmfF4nO73v3Yk62VIqkmB3FzH
+	 NeQcHe6XquU9PKTN/QXaVBX+O2q/xL8fnBX6q3jzdbJFr/7mvXelo9sBFAVogjMB6c
+	 uiMcIl3t/TDqSBJkyNd6YiqerwLcg/plaMPpdkyQLH4hoR4W6sfadrUErVLNfBjz77
+	 QHSLPLbHDft2A==
+Received: by mail.quirkbyte.pl for <linux-nvme@lists.infradead.org>; Fri, 19 Jul 2024 08:11:13 GMT
+Message-ID: <20240719084500-0.1.4a.2h32o.0.4ng8n3hn9c@quirkbyte.pl>
+Date: Fri, 19 Jul 2024 08:11:13 GMT
+From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Fotowoltaika - propozycja instalacji
+X-Mailer: mail.quirkbyte.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3PyDvHppmvJLJCQ--.60815S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Zry8Ww1rZr4furW5Jw4DCFg_yoW8Xr47pr
-	WfAa18Krs7JrW8A3sxCw47Jr4rCw1IvF93W3WkXr12yw45uF9xZw18Ka4YkFWfGF92qw4j
-	yF98X34DCan0y37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRuc_hUUUUU=
-X-Originating-IP: [223.166.237.249]
-X-CM-SenderInfo: 5mdfy55bjdzsisqqiqqrwthudrp/1tbiSBMhKWXAmWEXHAAAsF
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240719_010835_452471_9D5B4293 
-X-CRM114-Status: GOOD (  14.44  )
+X-CRM114-CacheID: sfid-20240719_012038_419904_AC4CFD7A 
+X-CRM114-Status: UNSURE (   1.72  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,35 +66,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> On 7/19/24 07:31, Christoph Hellwig wrote:
->> On Wed, Jul 17, 2024 at 05:14:49PM +0800, Ping Gan wrote:
->>> When running nvmf on SMP platform, current nvme target's RDMA and
->>> TCP use bounded workqueue to handle IO, but when there is other high
->>> workload on the system(eg: kubernetes), the competition between the
->>> bounded kworker and other workload is very radical. To decrease the
->>> resource race of OS among them, this patchset will enable unbounded
->>> workqueue for nvmet-rdma and nvmet-tcp; besides that, it can also
->>> get some performance improvement. And this patchset bases on
->>> previous
->>> discussion from below session.
->> 
->> So why aren't we using unbound workqueues by default?  Who makea the
->> policy decision and how does anyone know which one to chose?
->> 
-> I'd be happy to switch to unbound workqueues per default.
-> It actually might be a left over from the various workqueue changes;
-> at one point 'unbound' meant that effectively only one CPU was used
-> for the workqueue, and you had to remove the 'unbound' parameter to
-> have the workqueue run on all CPUs. That has since changed, so I guess
-> switching to unbound per default is the better option here.
-
-I don't fully understand what you said 'by default'. Did you mean we 
-should just remove 'unbounded' parameter and create workqueue by 
-WQ_UNBOUND flag or besides that, we should also add other parameter 
-to switch 'unbounded' workqueue  to 'bounded' workqueue?
-
-Thanks,
-Ping
+Dzie=C5=84 dobry,
+=20
+Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
+=20
+Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
+ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
+sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
+ elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
+d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
+rodowiska naturalnego.
+=20
+Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
+wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
+zak=C5=82adu energetycznego.=20
+=20
+Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
 
 
+Pozdrawiam
+Norbert Karecki
 
