@@ -4,72 +4,165 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FE86C3DA61
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Jul 2024 12:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0668C3DA5D
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Jul 2024 14:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q/Dl3tRyAatsYMwXk7DsOQlOrcgBVVOLMWt0tFBK/SY=; b=DmS1AMM/y9+VZVt5C2LSqpnwtm
-	u6Xl+XQRtpBTsgzewbJx3Wwi3G5iZmGR3mpLIwu97n0V769HYpeScEDICkAlGV1xEprtRUV8pVuvR
-	JeSYveB5MJWDYXF/i9862D9xOOgK5SCrtP/ESM4HpOhh1Aj5rBZL0Ujun9gVPzp4jKCcKTdnD7ROf
-	jKksPSecEyy0dD96gCKwwnjGvc2v6/zFNSTRTkYIB5k/kVIc96JlWcQvF8Emi05liZ/i/BBW/j0IY
-	zsbL6V8xTaj4+fxRh8zYSi4ObN00RbWTWaYER05vvgvAVpm+zE6a8GDsD+qQVv7Hamf89Sbiyvkon
-	GbSqxD/A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PqFJQOiA7RXR5LPqC3KGG3TVEmrqvtNWPOO8G1JT3AU=; b=O+L3QmlpL6OLiCH8uOhrDyblg4
+	pxggr3JngO/qAhC19hAByd+qH1F1PuLVNmm+9RiTuw1sQTRovCj63dzMo5b8V+Y7jCu0ekDfSYdxn
+	/l5bb9Hl+hP7c7DwUlYN0j3TqOV7JpdE3lDTO1Xl6umIvRrSsT6/usxJ6UPvFPhLwKRRcasZlwNuk
+	9M2EU1LI5WWgwWSfpXjO2uMnLD48G/7db/Uo3kxTEWzXmIg5GBR1CwLffaSvVKINLAluy76CtuyYH
+	vHjQ70ncH4lEUe/hOFsOs6Sbahy4TWZ+87/DPf0vgr6Q16W8Y7vimxRhm2t27BMK+oKej6Gc8rRsX
+	JBq2QnNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVVJL-00000006m8x-3iyn;
-	Sun, 21 Jul 2024 12:05:07 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1sVXkM-00000006zUX-0E9k;
+	Sun, 21 Jul 2024 14:41:10 +0000
+Received: from mail-westeuropeazlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c201::3] helo=AS8PR04CU009.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVVJI-00000006m8Z-3rD9
+	id 1sVXkF-00000006zSP-0dFg
 	for linux-nvme@lists.infradead.org;
-	Sun, 21 Jul 2024 12:05:06 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-427b9fca517so3039735e9.2
-        for <linux-nvme@lists.infradead.org>; Sun, 21 Jul 2024 05:05:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721563503; x=1722168303;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/Dl3tRyAatsYMwXk7DsOQlOrcgBVVOLMWt0tFBK/SY=;
-        b=c0hgOKi+56kJZR8raiCogh9U+UKNFhmFpnPqHrA9uC0CBu1rq+L2ylesucK+NHNJ2O
-         EA6cGG5P/HJluXScVwa+aFKCCUUeMGcJsoo7y/eU5Eny+JQLNHNtNcW9B/HaaAl9lrsu
-         kOS10Ig0Zd0Me7d7hVrT+RVj36dtQwFtdVrqecNZ6yYwMWMFbL7ouYLrvdRrQiOi5WnT
-         BpiG1VkDbq8XshTOQYzYIxRJYmOceeHe2RtY1xJe+z8l4vS1E72z4IMERf1PPrM3+dwy
-         u2ztVLaVacSj7yCyonZ8K6oXH2YksPZK1Y4hICgt+z+GRtqfM+jROENu/eTrkwqfGWs6
-         0xaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIkZTUAAh9lTqA9rUS/gdwPYsFo5k292Gv0TrfInwr9+8hv22vNi1fA/A4kCX+Gb0JEGBRLjPfPXxclnhZIAt+SuvpNQKjjbyYJcRMaD8=
-X-Gm-Message-State: AOJu0YzzCBzb4VI9WvpG3n6E63e2JhOD1I3TOBHky0Teas+E5hwa6jbZ
-	4bANZw3lclwfL8tw3bOCRz1HuPOpJdZBBnQDIvEjTtCFVKUtUA4a
-X-Google-Smtp-Source: AGHT+IFv0Hf6ECjJY7tYPW2CPJQuH/gCaDOi1iaNxUam0CofP/t2HmWdLBGG6OSDP/FuR+CcVgxEMA==
-X-Received: by 2002:a05:600c:1d04:b0:427:9f6f:4913 with SMTP id 5b1f17b1804b1-427daa6de29mr21040375e9.5.1721563503014;
-        Sun, 21 Jul 2024 05:05:03 -0700 (PDT)
-Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d2a8e42bsm117801495e9.30.2024.07.21.05.05.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Jul 2024 05:05:02 -0700 (PDT)
-Message-ID: <c9f67df8-dacf-4e53-9406-0c1dead43488@grimberg.me>
-Date: Sun, 21 Jul 2024 15:05:00 +0300
-MIME-Version: 1.0
+	Sun, 21 Jul 2024 14:41:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=u9dSv2wxqOtl6MAXN54fSs3vdjz0qTQ7z7Xc4BcpNU5q9v5Cx6Fk6iymC3k2B//8a9+RhpSGK/vMle1LW2eROmTQe5lXxxrDo8HXQ/YrdmgN68v0AhLLh+iOrKjP/sIHJzjeBFD1IzlwcPH8qXg3PsdD4wYF0Dk/pPQDfUuwdQmvcT5zMTFEhJliaV0F1FSahnLX9E/i0/HgAjsMH7tPc2RvZEJB9RUuDmy1H8VL6ljEf50KlqOXqDhJKuUQfTcjCHHI282TuDARI5/sMcJOIw1LLdKl7GRyDJhadeon9f1JPkhKONADhBDwoYDhZHvSyC13cXhS+nbApwtALiDFfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PqFJQOiA7RXR5LPqC3KGG3TVEmrqvtNWPOO8G1JT3AU=;
+ b=eHvD9AHX9oRTpAL3W1f0Ljt0KluOSMpYZPs0vioaqHkZz6W1tfiqHgmdebxQJA1rOSCprhQuO1VEPfZQuNaFgGtywicuGehuKp2wPxF+ub3vkuM73weQYnYF6eolzJWxiaaRbH5Qw+6SvqOxzQKU1/gowMwIorPJKcwwTTTu7vAdMrDrZNGHQvOm2apLUUL/RL1Z+bVhVqQz/vFj53DaFNXasTjhQPrtoeP7KLqWO0T1IJfzlIxbOD66PReawFzTWL7KRFStj9LqzN4lbkAtOtdoYsecjQAGNyBNzxSITHQgc1d4RaqaQ/+8Jp6EaBwjTox373KgldzpQsCKUAhhLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
+ dkim=pass header.d=volumez.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PqFJQOiA7RXR5LPqC3KGG3TVEmrqvtNWPOO8G1JT3AU=;
+ b=OwRmJrLJBfJqAVT1F9OeByeX1zBHwXMTATRinGJVIauPGLMcBt86MOMAIyqKE9kUQ4D0X0eTwX2MXzXau9EoLU2KsQXtJ8fEC1BgUMaOLz3T2Ph4nqhIuw8keaiA39FzBPHe/srJTtaTbTqE/MEy9AIFaYqh9FXWxe8M08q+/vOAPNrcbZwDi6rVvGvG7SR3XzuMZXE/te6nWaG0qWGTevsaXDaYWP+EVrQy216kdprZpORmFz78KZm+2Cr8lAAldPtWEaY639WUFLl05kegvLvTn7ThbO7d9sSbwB8J9c+ISzAsnA9HqITeloK2637BzQbUANZ2UwyeKvwKYwo9BQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=volumez.com;
+Received: from AS8PR04MB8344.eurprd04.prod.outlook.com (2603:10a6:20b:3b3::20)
+ by PAXPR04MB8655.eurprd04.prod.outlook.com (2603:10a6:102:21e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.16; Sun, 21 Jul
+ 2024 14:40:51 +0000
+Received: from AS8PR04MB8344.eurprd04.prod.outlook.com
+ ([fe80::d3e7:36d9:18b3:3bc7]) by AS8PR04MB8344.eurprd04.prod.outlook.com
+ ([fe80::d3e7:36d9:18b3:3bc7%5]) with mapi id 15.20.7784.016; Sun, 21 Jul 2024
+ 14:40:51 +0000
+Message-ID: <eb9475e5-5a86-4331-8dfa-55e342e1cf37@volumez.com>
+Date: Sun, 21 Jul 2024 17:40:47 +0300
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 0/8] nvme-tcp: improve scalability
-To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240716073616.84417-1-hare@kernel.org>
- <3c7aafde-f08b-4ea2-b017-ceceb842238a@grimberg.me>
- <7e1c9300-ab39-47cd-b3aa-c4d66ab70f6b@suse.de>
+Subject: Re: [PATCH blktests v4 2/2] md: add regression test for
+ "md/md-bitmap: fix writing non bitmap pages"
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: shinichiro.kawasaki@wdc.com, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, dwagner@suse.de, chaitanyak@nvidia.com,
+ yukuai3@huawei.com, linux-raid@vger.kernel.org
+References: <20240721071121.1929422-1-ofir.gal@volumez.com>
+ <20240721071121.1929422-3-ofir.gal@volumez.com>
+ <8aac874e-f4f5-40a6-9e3c-1c88a8c49378@molgen.mpg.de>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <7e1c9300-ab39-47cd-b3aa-c4d66ab70f6b@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Ofir Gal <ofir.gal@volumez.com>
+In-Reply-To: <8aac874e-f4f5-40a6-9e3c-1c88a8c49378@molgen.mpg.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TLZP290CA0015.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:9::11) To AS8PR04MB8344.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3b3::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8344:EE_|PAXPR04MB8655:EE_
+X-MS-Office365-Filtering-Correlation-Id: 496f536f-e6c4-4302-4d54-08dca9931e3e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZlNWdURhaU1ZaEFJdFlKOGpmN3orV3dGSUpoN05aTkpQS3lqT2kyZUQvWmsy?=
+ =?utf-8?B?RXhESW94b1dmWnFNYThOMzZtK1lQZW9EbWJQcFYyL0JCVXljcjFDL2VhVmZh?=
+ =?utf-8?B?VmxZMGlsY1FUWlJGaU1XMDluYkhIeFhGbXorSnRHQXdnRlVYR2tEcWZiTUtQ?=
+ =?utf-8?B?aXhKaUFIN2p6cFJNWU9GcnRNL2JaM0VSREs4ZTlKaTZwby91S0tma0VmbWNi?=
+ =?utf-8?B?ZWdCUndLeGc5dHJlVkViQXVFNkRUSUtnNFY3VzltdVJCc083S241M1A2RzVp?=
+ =?utf-8?B?SVkxbzZURWhZVFFHK0VrRjVYcTlnc0g2UlJwNTJMS0krVDRNVVhoQ0FVYU96?=
+ =?utf-8?B?NnBodVNISWNvNkNuektiMjJ1UU5LbUFPQnJRUk5kWlBFWDFoLzExRGN6ZXdD?=
+ =?utf-8?B?YnN1STMvaGs4UE1zNERWQUZRdXNhMmRHVzdaWmpCVVJ4YnNuTWFoeVJvMXdr?=
+ =?utf-8?B?dlo0SlhlM1NjVnlWekU2SDRwV1F5dW0yemlRSzA3MmN0MWt6NkpEcldUTHR6?=
+ =?utf-8?B?czl0cTAxalRQZXZib05CWUd3VCtqTldNb3BUOFpsSmc1TlpsTUNTdHVTSnhX?=
+ =?utf-8?B?MUF6Tkh1M21VVUZpbjRnZU9DWXpmUDhKMUtjckRoaE9yQjFKTnl5QlhtbjJt?=
+ =?utf-8?B?ZzdNZW5ZcHp3b0pFcUI3SUFkek56N3FBU0VWcEx5UDlBazJPQVBPbFJZMmdQ?=
+ =?utf-8?B?Y1UxSS9xWEVTd3BEOUE3bDFVYjFCaDljangrRWtDaXBmdDBNbzQ5OGwvM1Ba?=
+ =?utf-8?B?b0hrT1RCTFB0TXZFdWhncm5BTHptWmVEOTJKMjZLbUdsOU03cnAxMGpuTVRh?=
+ =?utf-8?B?RTRhakI4Zm9IQ3pTdlMzQXBVSE5QL2Z2OE1zckp6STFyRVlvYStSSHlSSjlS?=
+ =?utf-8?B?R2J0RkxwVjVkV3lIaUpkdkpMeHpzUFpkUDYvQ1oyYktjKzVuUEN3R2RNb3Jp?=
+ =?utf-8?B?ZWpOUkh0QnM2VHZhYWw3OUFGVUVTMnB4QnFnNnAzOVBwK1J6eTllWkpRMEJF?=
+ =?utf-8?B?a2dWN1ZlQ0pVVGROYms3MkE0OW1oa1A2Q05ja1hnalVjWXNtYzNDTjRkN2NN?=
+ =?utf-8?B?UExnMmUzZ1VaSDZaZllPRFk1SUVyT2dkRWtuNHN2V3F0YzZHakV4RXFKdG5C?=
+ =?utf-8?B?MXpBbmtSQjdLbUNiWUc0ekU4RHVsOFk0RGZubW9uU3loYW1OUGxhaHU2bFNZ?=
+ =?utf-8?B?cVZlcTRwTHZLaGF3RlVweElUc0Q4RXZ3Sml1ZmhXNjRFUjdoM3NqZGx1NEN6?=
+ =?utf-8?B?VmFybGJxUmc1cFdzbVU4bDhWWWlWeUlDNXNMMCtxSi8xUjBwMm1KcVREa1c1?=
+ =?utf-8?B?SWRWOEJJNVc1OFlHNzJqc3hiaFcwZUN2d3NqT3NPTE1HUXBPZ2hWa1BrVFRy?=
+ =?utf-8?B?cnk0dzVWWlNPRU90dzNUWXhJdzJxOFRCbE5USVFndSsyRW9pcTFWVWxwMUI1?=
+ =?utf-8?B?K3Vxa01Vd3p4MWRVWThIb053MVJNRmk1MzJ2dDhJTlh1U1RWcWR0dWVqd29P?=
+ =?utf-8?B?eFVwRUw1THNKa0hqQzBXZ0toVzk0ZGFJSm9qSmJTekJZU3U5bEYwakMySnRm?=
+ =?utf-8?B?N0kvQmdwU1h1N3ZKbUkyclI4NWdDdld2bTVYeDBtTlArMDdGZUZ6ZVZCZkg0?=
+ =?utf-8?B?Ky9OZWNPSlg0dzd0OExGSHRGMlo4V2lrRUF4RWwzdjFZSDVNekNqbXE2RGtq?=
+ =?utf-8?B?QXlNWHRNeGRKVXVsSy9IMWQ3VUtmWkRCbXZseTd0QWR5dHI1SVBEMkJpVmd5?=
+ =?utf-8?B?Q0FUQi9hbmNndUZKblhvRFBMMXdtUHhKdm9GSWEvRXFwZWs5cFNHcGlieXRB?=
+ =?utf-8?B?MDRYNktGaEIxNzc3dmhGUT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8344.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXFUakxTcW40Qk1yVjYvekl3QWw0WUswYXI5bm1qb3VoeVhpYjhmd1hZMmpi?=
+ =?utf-8?B?OVBlREJQLzdXRlpCdERmRnJLU2NNQUMxdHg0VUdtcnduQ2dRZU9KQStvRVdw?=
+ =?utf-8?B?UXE1V0Y4U1V1bFJBUStlS1lqSzBYTUdjejlYWkhmOUx1ZWpJcmo5QWJWZUNn?=
+ =?utf-8?B?ZHFQRzhVQm9Yc0gwODZhREJOQ2d6dFk5aTFhZEJTbElQaHNlTmJmdGRmczJP?=
+ =?utf-8?B?d0o5VmtML1BUNGJaS25UUUYyRXpPbk9GMFY3OGJzZEZudWEvb2VFM1oycDVl?=
+ =?utf-8?B?QnBqM21mZ0RoOUI1SzdGVytYVTMybkRhakFkZ0NOdEozYUtLWDkrNFJXdXRB?=
+ =?utf-8?B?SUFuVzkwVXpGUHAzdzBjbFVOU0Rsb1liUnpwS0Q0NHdxQlg1VFhCUG5BR3Qv?=
+ =?utf-8?B?YUo5RU1oMkZGRkhrVnM5TnEvT1crRVRmelNlaTlYaDc2azBybzcwenlvOUpL?=
+ =?utf-8?B?TFZYYWFZbzlFcjBseldiL0JhQks4RW1aZitENEZXVWJMWW5qMG1PalB3VDIv?=
+ =?utf-8?B?WEZyOGNxNVcxTzYrUkYvS3dhS1ROVmY5UWNBU2R0SWFsd09ZenA2NGNweGVF?=
+ =?utf-8?B?OWJZQkoxYjBzN3E3eVlSeGFTcGRJVkUwbGFZTUFkeFJsQnBJWGtBd1BCcUJB?=
+ =?utf-8?B?QjBVaWVUN1ptZ2hmQ2xmbmFLYmFpdVBMdkgreWRYemI4OTUweUNqKzN5ZTFT?=
+ =?utf-8?B?RU9jV2lscHY2dFNUQml3Sk0yQXpvZ1V0cFEzYXNOMnczdWRvQjdIcTJMTVlm?=
+ =?utf-8?B?ZkxpS2d4QUJRWTNoRUp2OFBFT0dHbDVjVklsbFdpeDhsK3BKRGJYdjJyem9N?=
+ =?utf-8?B?S2MxeThIcjBoT25oUldXcUtoQTg1Vks0STlmVFhGR08zTWIxTkNFK2RHZTBi?=
+ =?utf-8?B?dTFoZjZHTnRmTkZHUW56R0ovVlJ6bEQzMVJaZThTbFlkYTNBb0Y5VWw0K2RZ?=
+ =?utf-8?B?VWFGbkJobUFnSGM5QUJGUHB2QS81TVFQK01wY3pUcWVSNGRvMVFuV2Y0bE9Q?=
+ =?utf-8?B?aUpzS3ZZakROOWVhQTNxanNITlpSNXFtNW11RGRXQnFzbm5PNEZ0aFNFbTcz?=
+ =?utf-8?B?ODRKQ3ovVHpQSUEwOFpVa1A2Nk9RcWowK3VtbFRFOGUyYVBBM1Nid0YzUWlD?=
+ =?utf-8?B?dVVvNGZpK1o2bk5lUmVuSjdMWjdpR1dDbTIzN0FFckFrRFlJV0NPTmhpeHJG?=
+ =?utf-8?B?dGhiOUphMWs3M3BkOGdZSkF5a1ZWQ242Wk1YMkdNKzAzYmtjd2Q3ODZrR1c4?=
+ =?utf-8?B?cXNXMk9NVU5FbFBPTEVndDFkbk0wV29pMnFvbE5NTWovblRXTU9ocnBlLzRr?=
+ =?utf-8?B?d1hpa2thSVIrWDZ6UkJIOEhiOVlQNDh2OS9Wd1doTUNteE4xV3VyeW5jNnJt?=
+ =?utf-8?B?UGpDb2xYQzhqS0E1THNqMnR5VDJNbmw1Ym94dWNBTTFxaGFadzJxdS92b09H?=
+ =?utf-8?B?TUt0NnVmVHJlYWkyVnlFRTM2NForbjZWOWpQZlN5NUJzRVR3eWMwOWl1OW92?=
+ =?utf-8?B?ZFFyZFhId1BtcUkvYXRiekpJUjFCVzd3RVM2MktKQlNnTkM4OERSMy9jN1lL?=
+ =?utf-8?B?YmJnSzRwREZwMG4yeXVDQ2NVTzcrOHYvdm9jYTE5em0rYWg4RG1ST1hrSU8r?=
+ =?utf-8?B?eEZoNHJhM3NKaXZBQjhQN2pKbzBTa09ybDk0WmhrMmlFUTJ4ZjYxQks0WnpM?=
+ =?utf-8?B?MkhBc0hvZXFmKzZ1UUIydlFlbldNTCtzY0ZtaEVoZWFqbG5ISmpLSW44c00x?=
+ =?utf-8?B?eEZnWlZxRG5hNElwWk42b1lHWTFGYk9lNU5OWFdRNVVQYlA0YVNJWkJVQmxD?=
+ =?utf-8?B?NDloaGY5dUVQWEZHbTZqT0hjOTF6Q25La2hrbjUySzVUeEtvVy9Ob0pDU1B1?=
+ =?utf-8?B?enBZUkhIY1M3b3YxbUptdjVNMUFZOWY3WiswdlNlRWRrZGpObWdzWTNWTE1t?=
+ =?utf-8?B?aDlzZDNESC9LbmhTdTVkTlJ0V1ZIK3hSNENhQ0l5b1F0QmNvazhoSWkwcHox?=
+ =?utf-8?B?LzA4UzdWSEpqd3hRRGhKTVFRS3Y4cldWeDZ6ckF2L1RlZ0M1d2E1M3AxL3VW?=
+ =?utf-8?B?eUs0V2thcCtEclNMQktaOHJ1MVpQNkF3K1pjeW5LZVBzMUx2YUJRUC8wZEZV?=
+ =?utf-8?Q?jnvTadk9rEwbqitOVf8yV17Pt?=
+X-OriginatorOrg: volumez.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 496f536f-e6c4-4302-4d54-08dca9931e3e
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8344.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2024 14:40:51.3423
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vmi/EiGMSilwAynsIlePxdBTWGpzxwHjHjl9mqMKSjM2PM4LfZ9mobN42B6tvdW7cRCeMf3MMiRVo4jnj0csew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8655
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240721_050504_992731_0BF62A11 
-X-CRM114-Status: GOOD (  36.04  )
+X-CRM114-CacheID: sfid-20240721_074103_233598_0AAC0AE7 
+X-CRM114-Status: GOOD (  13.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,191 +178,30 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-
-On 18/07/2024 9:20, Hannes Reinecke wrote:
-> On 7/17/24 23:01, Sagi Grimberg wrote:
->>
->>
->> On 16/07/2024 10:36, Hannes Reinecke wrote:
->>> Hi all,
->>>
->>> for workloads with a lot of controllers we run into workqueue 
->>> contention,
->>> where the single workqueue is not able to service requests fast enough,
->>> leading to spurious I/O errors and connect resets during high load.
->>> One culprit here was a lock contention on the callbacks, where we
->>> acquired the 'sk_callback_lock()' on every callback. As we are dealing
->>> with parallel rx and tx flows this induces quite a lot of contention.
->>> I have also added instrumentation to analyse I/O flows, by adding
->>> a I/O stall debug messages and added debugfs entries to display
->>> detailed statistics for each queue.
->>
->> Hanneds, I'm getting really confused with this...
->>
->> Once again you submit a set that is a different direction almost
->> entirely from v1 and v2... Again without quantifying what each
->> change is giving us, and it makes it very hard to review and understand.
->>
-> I fully concur. But the previous patchsets turned out to not give a 
-> substantial improvements when scaling up.
-
-I thought they did, at least the numbers you listed did (to some extent 
-afaict).
-
-> And getting reliable performance numbers is _really_ hard, as there is
-> quite a high fluctuation in them. This was the reason for including
-> the statistics patches; there we get a direct insight of the I/O path
-> latency, and can directly measure the impact of the changes.
+On 7/21/24 13:23, Paul Menzel wrote:
+> Dear Ofir,
 >
-> And that's also how I found the lock contention on the callbacks...
-
-I am still not clear at all that we can simply omit this lock. Would 
-like the
-networking folks to tell us if it is safe to do, and an audit if any 
-other socket
-consumer does this (and if not, should they?)
-
 >
->> I suggest we split the changes that have consensus to a separate series
->> (still state what each change gets us), and understand better the 
->> rest...
->>
-> The patchset here is (apart from the statistics patches) just the one 
-> removing lock contention on callbacks (which _really_ were causing 
-> issues), and the alignment with blk-mq, for which I do see an 
-> improvement.
-
-Let's move forward with the blk-mq alignment patches (after addressing 
-the review comments).
-Then we can continue to hunt this down.
-
+> Thank you very much for submitting a test case.
 >
-> All other patches posted previously turned out to increase the latency
-> (thanks to the statistics patches), so I left them out from this round.
-
-I think that the cover letter should call that out. It does not reflect 
-your previous posting.
-
-So there is no mutual interference between rx and tx? at all?
-
+> Am 21.07.24 um 09:11 schrieb Ofir Gal:
+>> A bug in md-bitmap has been discovered by setting up a md raid on top of
+>> nvme-tcp devices that has optimal io size larger than the allocated
+>> bitmap.
+>>
+>> The following test reproduce the bug by setting up a md-raid on top of
 >
->>>
->>> All performance number are derived from the 'tiobench-example.fio'
->>> sample from the fio sources, running on a 96 core machine with one,
->>> two, or four subsystem and two paths, each path exposing 32 queues.
->>> Backend is nvmet using an Intel DC P3700 NVMe SSD.
->>
->> The patchset in v1 started by stating a performance issue when
->> controllers have a limited number of queues, does this test case
->> represent the original issue?
->>
-> Oh, but it does. The entire test is run on machine with 96 cores.
+> reproduce*s*
 >
->>>
->>> write performance:
->>> baseline:
->>> 1 subsys, 4k seq:  bw=523MiB/s (548MB/s), 16.3MiB/s-19.0MiB/s 
->>> (17.1MB/s-20.0MB/s)
->>> 1 subsys, 4k rand: bw=502MiB/s (526MB/s), 15.7MiB/s-21.5MiB/s 
->>> (16.4MB/s-22.5MB/s)
->>> 2 subsys, 4k seq:  bw=420MiB/s (440MB/s), 2804KiB/s-4790KiB/s 
->>> (2871kB/s-4905kB/s)
->>> 2 subsys, 4k rand: bw=416MiB/s (436MB/s), 2814KiB/s-5503KiB/s 
->>> (2881kB/s-5635kB/s)
->>> 4 subsys, 4k seq:  bw=409MiB/s (429MB/s), 1990KiB/s-8396KiB/s 
->>> (2038kB/s-8598kB/s)
->>> 4 subsys, 4k rand: bw=386MiB/s (405MB/s), 2024KiB/s-6314KiB/s 
->>> (2072kB/s-6466kB/s)
->>>
->>> patched:
->>> 1 subsys, 4k seq:  bw=440MiB/s (461MB/s), 13.7MiB/s-16.1MiB/s 
->>> (14.4MB/s-16.8MB/s)
->>> 1 subsys, 4k rand: bw=427MiB/s (448MB/s), 13.4MiB/s-16.2MiB/s 
->>> (13.0MB/s-16.0MB/s)
->>
->> That is a substantial degradation. I also keep asking, how does 
->> null_blk looks like?
->>
-> Tested, and doesn't make a difference. Similar numbers.
-> Surprisingly, but there you are.
+Thanks, will be applied in v5.
 
-So in effect you should be reaching a ~1+GB/s throughput in this test 
-and HW, and yet you see less than
-half of it, also with null_blk ?
-
-Is there a configuration that you _are_ able to saturate the wire?
-
+>> nvme-tcp device over ram device that sets the optimal io size by using
+>> dm-stripe.
 >
->>> 2 subsys, 4k seq:  bw=506MiB/s (531MB/s), 3581KiB/s-4493KiB/s 
->>> (3667kB/s-4601kB/s)
->>> 2 subsys, 4k rand: bw=494MiB/s (518MB/s), 3630KiB/s-4421KiB/s 
->>> (3717kB/s-4528kB/s)
->>> 4 subsys, 4k seq:  bw=457MiB/s (479MB/s), 2564KiB/s-8297KiB/s 
->>> (2625kB/s-8496kB/s)
->>> 4 subsys, 4k rand: bw=424MiB/s (444MB/s), 2509KiB/s-9414KiB/s 
->>> (2570kB/s-9640kB/s)
->>
->> There is still an observed degradation when moving from 2 to 4 
->> subsystems, what is the cause of it?
->>
-> All subsystems are running over the same 10GigE link, so some 
-> performance degradation is to be expected as we are having higher
-> contention.
-
-Not sure why its so expected? I mean, obviously it is the case now, but 
-why is it intrinsically expected?
-
+> For people ignorant of the test infrastructure, maybe add a line how to run this one test, and maybe even paste the output of the failed test.
 >
->>>
->>> read performance:
->>> baseline:
->>> 1 subsys, 4k seq:  bw=389MiB/s (408MB/s), 12.2MiB/s-18.1MiB/s 
->>> (12.7MB/s-18.0MB/s)
->>> 1 subsys, 4k rand: bw=430MiB/s (451MB/s), 13.5MiB/s-19.2MiB/s 
->>> (14.1MB/s-20.2MB/s)
->>> 2 subsys, 4k seq:  bw=377MiB/s (395MB/s), 2603KiB/s-3987KiB/s 
->>> (2666kB/s-4083kB/s)
->>> 2 subsys, 4k rand: bw=377MiB/s (395MB/s), 2431KiB/s-5403KiB/s 
->>> (2489kB/s-5533kB/s)
->>> 4 subsys, 4k seq:  bw=139MiB/s (146MB/s), 197KiB/s-11.1MiB/s 
->>> (202kB/s-11.6MB/s)
->>> 4 subsys, 4k rand: bw=352MiB/s (369MB/s), 1360KiB/s-13.9MiB/s 
->>> (1392kB/s-14.6MB/s)
->>>
->>> patched:
->>> 1 subsys, 4k seq:  bw=405MiB/s (425MB/s), 2.7MiB/s-14.7MiB/s 
->>> (13.3MB/s-15.4MB/s)
->>> 1 subsys, 4k rand: bw=427MiB/s (447MB/s), 13.3MiB/s-16.1MiB/s 
->>> (13.0MB/s-16.9MB/s)
->>> 2 subsys, 4k seq:  bw=411MiB/s (431MB/s), 2462KiB/s-4523KiB/s 
->>> (2522kB/s-4632kB/s)
->>> 2 subsys, 4k rand: bw=392MiB/s (411MB/s), 2258KiB/s-4220KiB/s 
->>> (2312kB/s-4321kB/s)
->>> 4 subsys, 4k seq:  bw=378MiB/s (397MB/s), 1859KiB/s-8110KiB/s 
->>> (1904kB/s-8305kB/s)
->>> 4 subsys, 4k rand: bw=326MiB/s (342MB/s), 1781KiB/s-4499KiB/s 
->>> (1823kB/s-4607kB/s)
->>
->> Same question here, your patches do not seem to eliminate the overall 
->> loss of efficiency.
->
-> Never claimed that, and really I can't see that we can.
-> All subsystems are running over the same link, so we are having to push
-> more independent frames across it, and we will suffer from higher
-> contention here. A performance degradation when scaling up subsystems
-> is unavoidable.
+blktests already documents pretty well how to run the tests, people
+should read the docs of the infrastructure. The expected output exists
+in a different file (md/001.out) as the infrastructure demands.
 
-I took another look at the fio jobfile. Is my understanding correct that 
-there are only 4 inflight
-requests at once (numjobs=4)? Maybe I'm missing something here, but I'm 
-lost on where is the
-high load you are talking about here? Isn't this is a latency 
-optimization exercise?
-
-Not questioning the necessity of it, I would just like us to be on the 
-same page as you previously
-gave the impression that there is very high concurrency and load on the 
-system here (for example when we
-asked Tejun about workqueues per controller).
 
