@@ -4,56 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63DF1C3DA5D
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Jul 2024 10:24:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A4F2C3DA61
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 Jul 2024 11:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YJs6uZ6wLzO5WP5DhPwsnhmkKGvOw1BOBIyEGLO2t1c=; b=dDEfT2cuE4IsKse9aMO80T7LI5
-	ZmMjpPoXSkt/Xrej8yI5z7fVIodN05ojRPHNtOkEaJTK40DXu9TRqzgfkvq0FTM9L5zd0FBLRp6O7
-	Bw2MZ+vDEFjSsAHKuotonZNaFaU78aoqFwlQtzp7Xj80rR5k5d78CjPx5/kBJUw+6IWGgJhihePX9
-	aboJuD8/2pVwgDGQ06N7SXUpRwKijiZkounOXIb3/uNnvdH1QMQaLRw1ZOm+X7PO4Lc0lrdamcWd7
-	Qxv0sLRomSEQ5LFqSJQxU8il4O6+v37OHiJNBSt57RHXK2NRR8qW6hBc05ZZK5eyQY1MPvU6sYmbi
-	DsqGwT4A==;
+	bh=jRTNVA0hrrTGGlNMnedMlTjxgz8134922UjhxbdxbXI=; b=O47zGt8I/3caELnyXHvVkHoUx5
+	L5L410gKTAWhDLMYDzG1MnojcQ66nNcJQfzfNRemYX4CXwC2GXKmwK7CAwZXpqNv3qrtdDJpONazI
+	XsJ0ZYVzKRc0XLKYFnQeIbPlGGlDGYz3SkSO77jT9mlpGVMLTp3XICMaWj2X68dZsOj96DN6BkqAC
+	mNk7y1PuzWNxoBGKKO8t5Zk/m58TCP1063GF0qHkIoTej+WJ7mfL4yWtar930l0wwGEtI1p8dc1SH
+	GCslkz1ZlcVmDqjZSXAuEHkCzdbeMfup76LPrKe5kTSKg7J6zfieZHxadyOzwRhNzKRaIQ20MxzfJ
+	abZgMOTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVTjY-00000006dQv-0vZl;
-	Sun, 21 Jul 2024 10:24:04 +0000
-Received: from mx3.molgen.mpg.de ([141.14.17.11])
+	id 1sVUM2-00000006gdB-0PE4;
+	Sun, 21 Jul 2024 11:03:50 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVTjT-00000006dOx-1k1t
+	id 1sVULz-00000006gce-3JB6
 	for linux-nvme@lists.infradead.org;
-	Sun, 21 Jul 2024 10:24:02 +0000
-Received: from [192.168.0.4] (ip5f5af54b.dynamic.kabel-deutschland.de [95.90.245.75])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 5782061E5FE05;
-	Sun, 21 Jul 2024 12:23:31 +0200 (CEST)
-Message-ID: <8aac874e-f4f5-40a6-9e3c-1c88a8c49378@molgen.mpg.de>
-Date: Sun, 21 Jul 2024 12:23:30 +0200
+	Sun, 21 Jul 2024 11:03:49 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-426593b99daso2986535e9.1
+        for <linux-nvme@lists.infradead.org>; Sun, 21 Jul 2024 04:03:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721559826; x=1722164626;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jRTNVA0hrrTGGlNMnedMlTjxgz8134922UjhxbdxbXI=;
+        b=sVpj/16xy12sgCH9S0fQB7t9RNKH98THMDbOtZmq7INsmgA7cfi96P+1/tJm9iFneO
+         2qVhPCDUfQuFVzA4498PSBLsChz3bZYl6C9bU+IHWiPdphxIkCnhYd2k6miDPkkaLQvX
+         Y2v/AelbIQzaAgWfWOtRe8hxxaM9akGNzyrQSLPIMBeGs5gxNE1PQNz4AYZEJJ0MXdNs
+         C4J3v2eaNro29m7nNAdCVBcnd8bEOLRoGjt4+3qFqvTFEwZknDdLVfO+hxh8D3hjRVBI
+         HH2F3gM3+QwzMuATQ9Up06j2LVXWAIsKcVY0cP73+ZbhH9HFsfiqjlZGkwWMKqVCzqqq
+         bStQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXuMwNzt9b4W+gqGKlahnM1nyZc1+eveqHBsmJSmbsWNpbL5xkYp6RJWP2aPjmtr4Vd/vsbob6rkJTQxqFyH5UJTquYP7oWtyO3bubM1UY=
+X-Gm-Message-State: AOJu0YwZihScILFassHmP+bshYeLOVz1V/e8fmMkB5Ka+DDjAZDDaY40
+	aOd/eZSPe1BmjAJQB6YhVsJVz+ALnLBJ1fEFowxj6imKVZBDv+D1
+X-Google-Smtp-Source: AGHT+IHBdD8Pzny25jyW1tkHaPWCBvyiMEds++6BdmSyMQpzQ0KW5gFznV0rwpP85kwO4sgqmwwf8w==
+X-Received: by 2002:a05:600c:3542:b0:425:6962:4253 with SMTP id 5b1f17b1804b1-427daa683eamr20436505e9.4.1721559825450;
+        Sun, 21 Jul 2024 04:03:45 -0700 (PDT)
+Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d292077dsm115652825e9.0.2024.07.21.04.03.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Jul 2024 04:03:44 -0700 (PDT)
+Message-ID: <196a9f11-ba97-4c9c-9815-0ddd0cb50808@grimberg.me>
+Date: Sun, 21 Jul 2024 14:03:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests v4 2/2] md: add regression test for
- "md/md-bitmap: fix writing non bitmap pages"
-To: Ofir Gal <ofir.gal@volumez.com>
-Cc: shinichiro.kawasaki@wdc.com, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, dwagner@suse.de, chaitanyak@nvidia.com,
- yukuai3@huawei.com, linux-raid@vger.kernel.org
-References: <20240721071121.1929422-1-ofir.gal@volumez.com>
- <20240721071121.1929422-3-ofir.gal@volumez.com>
+Subject: Re: [PATCH v3 0/2] nvmet: use unbound_wq for RDMA and TCP by default
+To: Ping Gan <jacky_gam_2001@163.com>, hare@suse.de, hch@lst.de,
+ kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: ping.gan@dell.com
+References: <20240719091959.17163-1-jacky_gam_2001@163.com>
 Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20240721071121.1929422-3-ofir.gal@volumez.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240719091959.17163-1-jacky_gam_2001@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240721_032359_790851_346F978F 
-X-CRM114-Status: GOOD (  26.09  )
+X-CRM114-CacheID: sfid-20240721_040347_863888_331AF88A 
+X-CRM114-Status: UNSURE (   9.70  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,196 +83,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dear Ofir,
 
 
-Thank you very much for submitting a test case.
 
-Am 21.07.24 um 09:11 schrieb Ofir Gal:
-> A bug in md-bitmap has been discovered by setting up a md raid on top of
-> nvme-tcp devices that has optimal io size larger than the allocated
-> bitmap.
-> 
-> The following test reproduce the bug by setting up a md-raid on top of
+On 19/07/2024 12:19, Ping Gan wrote:
+> When running nvmf on SMP platform, current nvme target's RDMA and
+> TCP use bounded workqueue to handle IO, but when there is other high
+> workload on the system(eg: kubernetes), the competition between the
+> bounded kworker and other workload is very radical. To decrease the
+> resource race of OS among them, this patchset will switch to unbounded
+> workqueue for nvmet-rdma and nvmet-tcp; besides that, it can also
+> get some performance improvement. And this patchset bases on previous
+> discussion from below session.
+>
+> https://lore.kernel.org/lkml/20240719084953.8050-1-jacky_gam_2001@163.com/
 
-reproduce*s*
+Hold your horses.
 
-> nvme-tcp device over ram device that sets the optimal io size by using
-> dm-stripe.
+This cannot be just switched without a thorough testing and actual 
+justification/proof of
+a benefit beyond just a narrow use-case brought initially by Ping Gan.
 
-For people ignorant of the test infrastructure, maybe add a line how to 
-run this one test, and maybe even paste the output of the failed test.
-
-
-Kind regards,
-
-Paul
-
-
-> Signed-off-by: Ofir Gal <ofir.gal@volumez.com>
-> ---
->   common/brd       | 28 ++++++++++++++++
->   tests/md/001     | 86 ++++++++++++++++++++++++++++++++++++++++++++++++
->   tests/md/001.out |  3 ++
->   tests/md/rc      | 13 ++++++++
->   4 files changed, 130 insertions(+)
->   create mode 100644 common/brd
->   create mode 100755 tests/md/001
->   create mode 100644 tests/md/001.out
->   create mode 100644 tests/md/rc
-> 
-> diff --git a/common/brd b/common/brd
-> new file mode 100644
-> index 0000000..31e964f
-> --- /dev/null
-> +++ b/common/brd
-> @@ -0,0 +1,28 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2024 Ofir Gal
-> +#
-> +# brd helper functions
-> +
-> +. common/shellcheck
-> +
-> +_have_brd() {
-> +	_have_module brd
-> +}
-> +
-> +_init_brd() {
-> +	# _have_brd loads brd, we need to wait a bit for brd to be not in use in
-> +	# order to reload it
-> +	sleep 0.2
-> +
-> +	if ! modprobe -r brd || ! modprobe brd "$@" ; then
-> +		echo "failed to reload brd with args: $*"
-> +		return 1
-> +	fi
-> +
-> +	return 0
-> +}
-> +
-> +_cleanup_brd() {
-> +	modprobe -r brd
-> +}
-> diff --git a/tests/md/001 b/tests/md/001
-> new file mode 100755
-> index 0000000..5c8c59a
-> --- /dev/null
-> +++ b/tests/md/001
-> @@ -0,0 +1,86 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2024 Ofir Gal
-> +#
-> +# The bug is "visible" only when the underlying device of the raid is a network
-> +# block device that utilize MSG_SPLICE_PAGES. nvme-tcp is used as the network device.
-> +#
-> +# Regression test for patch "md/md-bitmap: fix writing non bitmap pages" and
-> +# for patch "nvme-tcp: use sendpages_ok() instead of sendpage_ok()"
-> +
-> +. tests/md/rc
-> +. common/brd
-> +. common/nvme
-> +
-> +DESCRIPTION="Raid with bitmap on tcp nvmet with opt-io-size over bitmap size"
-> +QUICK=1
-> +
-> +#restrict test to nvme-tcp only
-> +nvme_trtype=tcp
-> +nvmet_blkdev_type="device"
-> +
-> +requires() {
-> +	# Require dm-stripe
-> +	_have_program dmsetup
-> +	_have_driver dm-mod
-> +	_have_driver raid1
-> +
-> +	_require_nvme_trtype tcp
-> +	_have_brd
-> +}
-> +
-> +# Sets up a brd device of 1G with optimal-io-size of 256K
-> +setup_underlying_device() {
-> +	if ! _init_brd rd_size=1048576 rd_nr=1; then
-> +		return 1
-> +	fi
-> +
-> +	dmsetup create ram0_big_optio --table \
-> +		"0 $(blockdev --getsz /dev/ram0) striped 1 512 /dev/ram0 0"
-> +}
-> +
-> +cleanup_underlying_device() {
-> +	dmsetup remove ram0_big_optio
-> +	_cleanup_brd
-> +}
-> +
-> +# Sets up a local host nvme over tcp
-> +setup_nvme_over_tcp() {
-> +	_setup_nvmet
-> +
-> +	local port
-> +	port="$(_create_nvmet_port "${nvme_trtype}")"
-> +
-> +	_create_nvmet_subsystem "${def_subsysnqn}" "/dev/mapper/ram0_big_optio" "${def_subsys_uuid}"
-> +	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-> +
-> +	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-> +
-> +	_nvme_connect_subsys
-> +}
-> +
-> +cleanup_nvme_over_tcp() {
-> +	_nvme_disconnect_subsys
-> +	_nvmet_target_cleanup --subsysnqn "${def_subsysnqn}"
-> +}
-> +
-> +test() {
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	setup_underlying_device
-> +	setup_nvme_over_tcp
-> +
-> +	local ns
-> +	ns=$(_find_nvme_ns "${def_subsys_uuid}")
-> +
-> +	# Hangs here without the fix
-> +	mdadm --quiet --create /dev/md/blktests_md --level=1 --bitmap=internal \
-> +		--bitmap-chunk=1024K --assume-clean --run --raid-devices=2 \
-> +		/dev/"${ns}" missing
-> +
-> +	mdadm --quiet --stop /dev/md/blktests_md
-> +	cleanup_nvme_over_tcp
-> +	cleanup_underlying_device
-> +
-> +	echo "Test complete"
-> +}
-> diff --git a/tests/md/001.out b/tests/md/001.out
-> new file mode 100644
-> index 0000000..23071ec
-> --- /dev/null
-> +++ b/tests/md/001.out
-> @@ -0,0 +1,3 @@
-> +Running md/001
-> +disconnected 1 controller(s)
-> +Test complete
-> diff --git a/tests/md/rc b/tests/md/rc
-> new file mode 100644
-> index 0000000..96bcd97
-> --- /dev/null
-> +++ b/tests/md/rc
-> @@ -0,0 +1,13 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2024 Ofir Gal
-> +#
-> +# Tests for md raid
-> +
-> +. common/rc
-> +
-> +group_requires() {
-> +	_have_root
-> +	_have_program mdadm
-> +	_have_driver md-mod
-> +}
+If the ask is to universally use an unbound workqueue, please provide 
+detailed
+benchmarking convincing us that this makes sense.
 
