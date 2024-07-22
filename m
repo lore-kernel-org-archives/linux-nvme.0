@@ -4,61 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9483DC3DA59
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jul 2024 12:02:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75F91C3DA59
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jul 2024 14:18:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gvuqq1Y40CkNlRc27HbVDJOOg8mtTS03BNLU2TiiDaE=; b=2qi0hWn70TOxMW69vYXyIxx6qU
-	Lu7TELc5fdk3Kq8TAjRrvMwB0s4reYDn5Yalu72cMKCB6JM7qaM1j32hYTH7WbN/ingcvltur3ULr
-	+4s2uMEslRhjDWSbT9xpqf8KfB6OEVZxhdU+rgm5iIJOf7SF05R1snT6V3hYhy5d+mSLLcBHnT+6Q
-	Za1+GNRsk9cokz3ikSUyGkRSSLAJwhFK9lw6fC84TxMkMS+Z4sjR+qM6QI6pIOXjPlWbJomzExqfs
-	J97Eh9LVLlAgbzSpAqAA6tUvx8WwvTJftZ3duXgURUYDMquuVBTBAz2exR8L/UDkmE5tuUpF/6ELH
-	nRNNjP7Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=85e/su7iJAQzM7TzET902i1Cb1TCPibnz0maKB0G3SI=; b=tlqNXiqxZYuTNfidor7SYJPyTz
+	5hFaX7AVrnPuxMt1PxeHZjE630z3FQ5poV8znHgQCknfD2lUFJAupdZwByBXLgV1f8dqTAjwMEiIi
+	z39poIDLO4kTgKUPK6ee7ufRdhvTuUbCElw7U74LZMJbcf4rQZN62gFywmZwgZmO0E4zqvxyAiTqs
+	19BZ7d/wNmCS5/+louJbUe5xPyhXa6XaWJEaBqsEimOh4Citc+q+atMbguSFXwBef1R9G5DgM9yno
+	TmlFKmiZPcY3SL+evfjTX3v0BXiq1lT/lthfmytgkwPdB1EoqOYpvmQNZFXKgXRacPYxMP+L80Yyp
+	rByEU5PA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVrkm-00000009Smb-2xJQ;
-	Mon, 22 Jul 2024 12:02:56 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sVts7-00000009kIH-13hW;
+	Mon, 22 Jul 2024 14:18:39 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVrkc-00000009SdQ-2vTP
+	id 1sVts3-00000009kHK-1SKD
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jul 2024 12:02:48 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id EF66060B2D;
-	Mon, 22 Jul 2024 12:02:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85170C4AF13;
-	Mon, 22 Jul 2024 12:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721649765;
-	bh=Ct3yntYKwmCmb0uFolRW5QmEppdd4ydogYoNtk2aY0c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PxvOQA+V1INph/qVUL7C51KUefA8wFY3p5zSp1J5HlJX3wgkV3T5xVpyJlW9s4Jlm
-	 i+T/XYXoC5lwZ61WkIAsRePCQ+f8Rlbp99eGrCVl/e1QtNqVUIu/wEbmluFs9C1Y9Y
-	 Eu24PzE9b25HnElHNfNp3AwIkCWD9TbZuArcwc2nFqcvQdk9FnxSCFCILwM7rNkzTP
-	 GDQSZBoTgZnE3xEi3PpfCPWiag12h/d01qW1pOidltJRTcTjnOaS44fbUcVAw5ZiEw
-	 aV0DY2hOqsqmLFvbBhbCR+rcc0V/cbeFR1UI7Mqe17rnE+v7vBTpcRSMOBVHA1/0o1
-	 9hM+Q3WR1ko0g==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 9/9] nvme-target: do not check authentication status for admin commands twice
-Date: Mon, 22 Jul 2024 14:02:26 +0200
-Message-Id: <20240722120226.88737-10-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240722120226.88737-1-hare@kernel.org>
-References: <20240722120226.88737-1-hare@kernel.org>
+	Mon, 22 Jul 2024 14:18:38 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3AB0C21B8C;
+	Mon, 22 Jul 2024 14:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721657912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=85e/su7iJAQzM7TzET902i1Cb1TCPibnz0maKB0G3SI=;
+	b=TNfxe50rIc+g0c5Sb5fgmRCdeqDxV+3DcIR1b+Q5sfS4S5eAH/m6Dnw0ltaXHm2lk8VSMt
+	fhoOQiRfnHCa9O4obzagW5Hq4zS8Rf83wfGteKvdsgQG7ojA2wbIs6ArCzIl4Of2bioXvB
+	0uf4Ya0nCRy8EFIUmTipG2SRqsKSPRk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721657912;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=85e/su7iJAQzM7TzET902i1Cb1TCPibnz0maKB0G3SI=;
+	b=DsQQiq3dThcGHT9t7lLqT/ii7DMOiFtRqeOBNTV+esAgfVUvx05t5Dlcyi1N6bv4P86S2m
+	lxc0YB0AFHGvzZCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TNfxe50r;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DsQQiq3d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721657912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=85e/su7iJAQzM7TzET902i1Cb1TCPibnz0maKB0G3SI=;
+	b=TNfxe50rIc+g0c5Sb5fgmRCdeqDxV+3DcIR1b+Q5sfS4S5eAH/m6Dnw0ltaXHm2lk8VSMt
+	fhoOQiRfnHCa9O4obzagW5Hq4zS8Rf83wfGteKvdsgQG7ojA2wbIs6ArCzIl4Of2bioXvB
+	0uf4Ya0nCRy8EFIUmTipG2SRqsKSPRk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721657912;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=85e/su7iJAQzM7TzET902i1Cb1TCPibnz0maKB0G3SI=;
+	b=DsQQiq3dThcGHT9t7lLqT/ii7DMOiFtRqeOBNTV+esAgfVUvx05t5Dlcyi1N6bv4P86S2m
+	lxc0YB0AFHGvzZCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 272BF138A7;
+	Mon, 22 Jul 2024 14:18:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GNcGCDhqnmZ9SAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 22 Jul 2024 14:18:32 +0000
+Date: Mon, 22 Jul 2024 16:18:31 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org, 
+	sagi@grimberg.me, axboe@fb.com, gjoyce@linux.ibm.com
+Subject: Re: [PATCH RFC 0/1] Add visibility for native NVMe miltipath using
+ debugfs
+Message-ID: <5nwflcpqoyknrruzdlvgnt5bpcoxh6nrirjwnjes4oazkr7nai@uwsynbuduibr>
+References: <20240722093124.42581-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240722093124.42581-1-nilay@linux.ibm.com>
+X-Spamd-Result: default: False [-0.81 / 50.00];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 3AB0C21B8C
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Bar: /
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240722_050246_863909_29AC26E7 
-X-CRM114-Status: GOOD (  10.85  )
+X-CRM114-CacheID: sfid-20240722_071835_560849_B14DB9F9 
+X-CRM114-Status: GOOD (  16.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,30 +136,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_check_ctrl_status() checks the authentication status, so
-we don't need to do that prior to calling it.
+On Mon, Jul 22, 2024 at 03:01:08PM GMT, Nilay Shroff wrote:
+> This patch propose adding a new debugfs file entry for NVMe native
+> multipath. As we know NVMe native multipath today supports three different
+> io-policies (numa, round-robin and queue-depth) for selecting optimal I/O
+> path and forwarding data. However we don't have yet any visibility to find
+> the I/O path being selected by NVMe native multipath code.
+> 
+> IMO, it'd be nice to have this visibility information available under 
+> debugfs which could help a user to validate the I/O path being chosen is 
+> optimal for a given io policy. This patch propose adding a debugfs file 
+> for each head disk node on the system. The proposal is to create a file 
+> named "multipath" under "/sys/kernel/debug/nvmeXnY/".
+> 
+> Please find below output generated with this patch applied on a system 
+> with a multi-controller PCIe NVMe disk attached to it. This system is also
+> an NVMf-TCP host which is connected to NVMf-TCP target over two NIC cards. 
+> This system has two numa nodes online when the below output was
+> captured:
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/target/admin-cmd.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index f7e1156ac7ec..d64480f01f4a 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -1005,8 +1005,6 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 
- 	if (nvme_is_fabrics(cmd))
- 		return nvmet_parse_fabrics_admin_cmd(req);
--	if (unlikely(!nvmet_check_auth_status(req)))
--		return NVME_SC_AUTH_REQUIRED | NVME_STATUS_DNR;
- 	if (nvmet_is_disc_subsys(nvmet_req_subsys(req)))
- 		return nvmet_parse_discovery_cmd(req);
- 
--- 
-2.35.3
-
+Wouldn't it make sense to extend nvme-cli instead adding additional
+debugfs entries to the kernel, e.g. extending show-topology?
 
