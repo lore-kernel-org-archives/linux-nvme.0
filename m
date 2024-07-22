@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F428C49EA1
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jul 2024 12:02:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9483DC3DA59
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jul 2024 12:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NFcbOTta/sWGeHL3xJnS7QP4LQCPFYZhb6oJOaepyeE=; b=Zc+Dsq2ahzL63sgvepv5A9YqJq
-	0GrHP79nGU+jtrGkxtZ4Rdymyq1oFE5EleQu90pOYWQUuY0gR3aUVr4ZK7ipnpyfSjn+V7trvWlqF
-	X3d4DQAu9sxcMTPdBJ0LxqMVgUQZ6wJJuR6N9GLX0T5lIA6G33mISX/2/EYIcNN/CQVRTgVU9h1g8
-	rW3j9qzezURCnYCq3VaIYbyFBTLzFydA808v5UjSXJwmmY4eWmfj5lwd6qJkwheZXh1Yuq+McYk4t
-	tu4upnFEJ3cQSOGfQy6KdRPugTE0pOSfSffuhyBRx024NSPmxnMOP4DRyNCxAP/3V9ZVgUFjsCh7e
-	wXBEgjzg==;
+	bh=gvuqq1Y40CkNlRc27HbVDJOOg8mtTS03BNLU2TiiDaE=; b=2qi0hWn70TOxMW69vYXyIxx6qU
+	Lu7TELc5fdk3Kq8TAjRrvMwB0s4reYDn5Yalu72cMKCB6JM7qaM1j32hYTH7WbN/ingcvltur3ULr
+	+4s2uMEslRhjDWSbT9xpqf8KfB6OEVZxhdU+rgm5iIJOf7SF05R1snT6V3hYhy5d+mSLLcBHnT+6Q
+	Za1+GNRsk9cokz3ikSUyGkRSSLAJwhFK9lw6fC84TxMkMS+Z4sjR+qM6QI6pIOXjPlWbJomzExqfs
+	J97Eh9LVLlAgbzSpAqAA6tUvx8WwvTJftZ3duXgURUYDMquuVBTBAz2exR8L/UDkmE5tuUpF/6ELH
+	nRNNjP7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVrkh-00000009Sic-2W0Z;
-	Mon, 22 Jul 2024 12:02:51 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sVrkm-00000009Smb-2xJQ;
+	Mon, 22 Jul 2024 12:02:56 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVrkb-00000009SZQ-13QW
+	id 1sVrkc-00000009SdQ-2vTP
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jul 2024 12:02:47 +0000
+	Mon, 22 Jul 2024 12:02:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id C0DF2CE0B27;
+	by dfw.source.kernel.org (Postfix) with ESMTP id EF66060B2D;
+	Mon, 22 Jul 2024 12:02:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85170C4AF13;
 	Mon, 22 Jul 2024 12:02:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C700DC4AF11;
-	Mon, 22 Jul 2024 12:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721649764;
-	bh=ckP8spu9Y334zsY1hP3lwQ0QxDQLjumGIKD2JDX/hgQ=;
+	s=k20201202; t=1721649765;
+	bh=Ct3yntYKwmCmb0uFolRW5QmEppdd4ydogYoNtk2aY0c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TMSrBvkZme6icbQd/jY5QhsXPQjeAACU2lDJy/j7etEp2RiSPBbO208mZEsUahZq3
-	 xCdTY6sbmDiUBSNgW2LBJVdvAvNHdIsTmsVuzZUFB086GfhBSeMRSty8QL5mQmd1vp
-	 DR+eN5dUDHSudCYJTZMvMjGEv3lUBjee8VP9tUSZGxKzOO8il5bGC+AUi2CkmqoMsC
-	 y9+xqykX9EUmGoSKRLwH1+BGkAHRxsaLyzsQ5w958xrXUlhIuCnzbnkaMjP1o2j5pD
-	 DfzZaz3c7kGwO+8EA1F5X+AvIX+Nf1amAH7tSNwhQd1Oj+b62nZ9VkLoEu05raYx/O
-	 Hn14c/y3ik7Og==
+	b=PxvOQA+V1INph/qVUL7C51KUefA8wFY3p5zSp1J5HlJX3wgkV3T5xVpyJlW9s4Jlm
+	 i+T/XYXoC5lwZ61WkIAsRePCQ+f8Rlbp99eGrCVl/e1QtNqVUIu/wEbmluFs9C1Y9Y
+	 Eu24PzE9b25HnElHNfNp3AwIkCWD9TbZuArcwc2nFqcvQdk9FnxSCFCILwM7rNkzTP
+	 GDQSZBoTgZnE3xEi3PpfCPWiag12h/d01qW1pOidltJRTcTjnOaS44fbUcVAw5ZiEw
+	 aV0DY2hOqsqmLFvbBhbCR+rcc0V/cbeFR1UI7Mqe17rnE+v7vBTpcRSMOBVHA1/0o1
+	 9hM+Q3WR1ko0g==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 8/9] nvmet-auth: allow to clear DH-HMAC-CHAP keys
-Date: Mon, 22 Jul 2024 14:02:25 +0200
-Message-Id: <20240722120226.88737-9-hare@kernel.org>
+Subject: [PATCH 9/9] nvme-target: do not check authentication status for admin commands twice
+Date: Mon, 22 Jul 2024 14:02:26 +0200
+Message-Id: <20240722120226.88737-10-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240722120226.88737-1-hare@kernel.org>
 References: <20240722120226.88737-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240722_050245_498870_FC6C5094 
-X-CRM114-Status: GOOD (  11.77  )
+X-CRM114-CacheID: sfid-20240722_050246_863909_29AC26E7 
+X-CRM114-Status: GOOD (  10.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,38 +73,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As we can set DH-HMAC-CHAP keys, we should also be
-able to unset them.
+nvmet_check_ctrl_status() checks the authentication status, so
+we don't need to do that prior to calling it.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/auth.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/nvme/target/admin-cmd.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 8bc3f431c77f..7897d02c681d 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -25,6 +25,18 @@ int nvmet_auth_set_key(struct nvmet_host *host, const char *secret,
- 	unsigned char key_hash;
- 	char *dhchap_secret;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index f7e1156ac7ec..d64480f01f4a 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -1005,8 +1005,6 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
  
-+	if (!strlen(secret)) {
-+		if (set_ctrl) {
-+			kfree(host->dhchap_ctrl_secret);
-+			host->dhchap_ctrl_secret = NULL;
-+			host->dhchap_ctrl_key_hash = 0;
-+		} else {
-+			kfree(host->dhchap_secret);
-+			host->dhchap_secret = NULL;
-+			host->dhchap_key_hash = 0;
-+		}
-+		return 0;
-+	}
- 	if (sscanf(secret, "DHHC-1:%hhd:%*s", &key_hash) != 1)
- 		return -EINVAL;
- 	if (key_hash > 3) {
+ 	if (nvme_is_fabrics(cmd))
+ 		return nvmet_parse_fabrics_admin_cmd(req);
+-	if (unlikely(!nvmet_check_auth_status(req)))
+-		return NVME_SC_AUTH_REQUIRED | NVME_STATUS_DNR;
+ 	if (nvmet_is_disc_subsys(nvmet_req_subsys(req)))
+ 		return nvmet_parse_discovery_cmd(req);
+ 
 -- 
 2.35.3
 
