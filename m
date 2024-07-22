@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C43BC3DA7E
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jul 2024 12:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31FADC52CD8
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jul 2024 12:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VdDHS5I/MeGdEhv8lTrzq3PGoygnmwlv22nUtdKFtVI=; b=lvqXovBn4Z2xDXIpX8MF7ipCev
-	HAJ9mHL1ha6GRHs009LWIWydGoewAaZda2VKSdzGIgwWcv7w/G+g2hQhmrjtpFS6jVzHwKrsNk4RG
-	5RdTmWgEAEQcah688v6OzPHaPFelo/5USaFgq/5QwwkHYQRqYznvFTfhbWsMNiie377n703MZC/+J
-	5x0PJqJoU1TcQBDZuMV3JEjXd+ESYCk7aco9/oZGhVteE7F2M/GwGwrrGEfAFpQDd1oEK3LpyrlAm
-	YJunViMZwzEJMUhlzYlNzmtOVRH43qKJwztx+ZwYWMlIHyxGQYCDrYqwt9WE9lJQXMOlAClxmB8aY
-	0+wbEdLA==;
+	bh=oLQyJLpqfAdFkJXnxgEIBqmjb0XINeSVQ+CxRDn9XtM=; b=HTQ+SCnKQw7vdJAbdbniqoF387
+	oFLRYyvEcz860XoA/GfM4BtVYhv0EItKWBfmKlMqVcNOc7/lmVTOW/rIi1fL5WBUUrt+1HkmeImjV
+	GuvPP5lPjPpjf2j36UKpTJnoLvVuaAhlsiUUjn4G7PQq51Am9N/GsPNXwZbgb5stEK4f/xd/92vi6
+	xSQrDbVaFdP36AtYsXMgwDIOsYg79VLlHhHjj6CtqhbNKelQPNGVLyHi8nu2nvdRz9/CpelADn/Vp
+	WbXZ541JxcBnbUuMG+8Pb1NWwik8iHkdH11r/QTwPy0eQiMy7kA3RB3FXoKYiE4wRLie6ctE7o+FL
+	fzDSzDqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVrkX-00000009SZR-3bhZ;
-	Mon, 22 Jul 2024 12:02:41 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sVrkY-00000009SaF-3Ew4;
+	Mon, 22 Jul 2024 12:02:42 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVrkS-00000009SW3-1UN7
+	id 1sVrkV-00000009SXF-2Bsg
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jul 2024 12:02:37 +0000
+	Mon, 22 Jul 2024 12:02:41 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id AC4B060B2B;
+	by sin.source.kernel.org (Postfix) with ESMTP id D17F6CE0764;
+	Mon, 22 Jul 2024 12:02:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1A98C116B1;
 	Mon, 22 Jul 2024 12:02:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F90C4AF0B;
-	Mon, 22 Jul 2024 12:02:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721649755;
-	bh=Eli4O692TP6KRXOGQszqm5EfsW8LosIr0elcxCqFq6A=;
+	s=k20201202; t=1721649757;
+	bh=FmPlUIHoCmFMgHseJZrvVh9i0TiwVeYiFuAHc9ZSRBo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Sff7plX7lqMtFu7TcGbuQz9qbJKhRc4UG6AfvExGnaLCR7D6K9uprc3ygrP3FYlQY
-	 G/SwjbFLpYY7CyktUOmFdUXD/R2aRHSEPRb4OZLMVzfN+pKl6n820KFJRgJyGE/5FO
-	 7h9fkHX/dgIMXrWLhW7SF9aw9n4TJOhO//vynnjPYsmjShT/uV7197Rnl/QZ5RRKgH
-	 nqVf8i/jvlSh4RMDac9N9NQYexJZ0Te7zSVUcj20Pjb1elcTOGNyJckavxPVSBLY56
-	 20ZkenvtoGOpC1z2VK+fF1/RrNgt7+KZ56A3K+8uC1KqcqS5vMH93pFDVsu05rnrFC
-	 zRfXN8U67s7DQ==
+	b=u9j8FCFp2uXo3lvNiacL96UPwE+MTH3/Q+/lDyubvX8ivzlmrXhZ61rZNwtiKrQuc
+	 O16gZ+nfRDIzDBG5tfH7MvWfnVegeMI+rFLRuiFlmUsLWb6aOmXxCjmZrnI2SR2hgz
+	 lZiLY6zPhNphrYYm94DSDvL4grTEXyGa91S+uSr3X2dAPr+M5UvtlAP9gwOmLxEBBF
+	 V2de4jRFVorkf6mHbwVZpUS4CJP6g1CobC8KYc3NZ8PLCo9wsgeMeGvLr1TuD+uGcY
+	 mT9EYgJKFQ7Z3rMzrTIBpi0aV1aLZEr4A9vHOekDVk/Y4pGgRVg1A9nPivyWVccmib
+	 ObpnNT+HuDUkA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 3/9] nvme-tcp: check for invalidated or revoked key
-Date: Mon, 22 Jul 2024 14:02:20 +0200
-Message-Id: <20240722120226.88737-4-hare@kernel.org>
+Subject: [PATCH 4/9] nvme: add a newline to the 'tls_key' sysfs attribute
+Date: Mon, 22 Jul 2024 14:02:21 +0200
+Message-Id: <20240722120226.88737-5-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240722120226.88737-1-hare@kernel.org>
 References: <20240722120226.88737-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240722_050236_553492_14832F9E 
-X-CRM114-Status: GOOD (  13.86  )
+X-CRM114-CacheID: sfid-20240722_050239_777938_38FDB9BB 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,100 +73,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-key_lookup() will always return a key, even if that key is revoked
-or invalidated. So check for invalid keys before continuing.
+Print a newline for easier userspace handling.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/common/keyring.c | 22 ++++++++++++++++++++++
- drivers/nvme/host/fabrics.c   |  2 +-
- drivers/nvme/host/tcp.c       |  2 +-
- include/linux/nvme-keyring.h  |  6 +++++-
- 4 files changed, 29 insertions(+), 3 deletions(-)
+ drivers/nvme/host/sysfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-index 05e89307c8aa..ed5167f942d8 100644
---- a/drivers/nvme/common/keyring.c
-+++ b/drivers/nvme/common/keyring.c
-@@ -20,6 +20,28 @@ key_serial_t nvme_keyring_id(void)
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 72675b59a7a7..c391ad6c5a88 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -672,7 +672,7 @@ static ssize_t tls_key_show(struct device *dev,
+ 
+ 	if (!ctrl->tls_pskid)
+ 		return 0;
+-	return sysfs_emit(buf, "%08x", ctrl->tls_pskid);
++	return sysfs_emit(buf, "%08x\n", ctrl->tls_pskid);
  }
- EXPORT_SYMBOL_GPL(nvme_keyring_id);
- 
-+static bool nvme_tls_psk_revoked(struct key *psk)
-+{
-+	return test_bit(KEY_FLAG_REVOKED, &psk->flags) ||
-+		test_bit(KEY_FLAG_INVALIDATED, &psk->flags);
-+}
-+
-+struct key *nvme_tls_key_lookup(key_serial_t key_id)
-+{
-+	struct key *key = key_lookup(key_id);
-+
-+	if (IS_ERR(key)) {
-+		pr_err("key id %08x not found\n", key_id);
-+		return key;
-+	}
-+	if (nvme_tls_psk_revoked(key)) {
-+		pr_err("key id %08x revoked\n", key_id);
-+		return ERR_PTR(-EKEYREVOKED);
-+	}
-+	return key;
-+}
-+EXPORT_SYMBOL_GPL(nvme_tls_key_lookup);
-+
- static void nvme_tls_psk_describe(const struct key *key, struct seq_file *m)
- {
- 	seq_puts(m, key->description);
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index f5f545fa0103..432efcbf9e2f 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -665,7 +665,7 @@ static struct key *nvmf_parse_key(int key_id)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	key = key_lookup(key_id);
-+	key = nvme_tls_key_lookup(key_id);
- 	if (IS_ERR(key))
- 		pr_err("key id %08x not found\n", key_id);
- 	else
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index b305873e588e..e3d82e91151a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1596,7 +1596,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
- 		goto out_complete;
- 	}
- 
--	tls_key = key_lookup(pskid);
-+	tls_key = nvme_tls_key_lookup(pskid);
- 	if (IS_ERR(tls_key)) {
- 		dev_warn(ctrl->ctrl.device, "queue %d: Invalid key %x\n",
- 			 qid, pskid);
-diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-index e10333d78dbb..19d2b256180f 100644
---- a/include/linux/nvme-keyring.h
-+++ b/include/linux/nvme-keyring.h
-@@ -12,7 +12,7 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
- 		const char *hostnqn, const char *subnqn);
- 
- key_serial_t nvme_keyring_id(void);
--
-+struct key *nvme_tls_key_lookup(key_serial_t key_id);
- #else
- 
- static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
-@@ -24,5 +24,9 @@ static inline key_serial_t nvme_keyring_id(void)
- {
- 	return 0;
- }
-+static inline struct key *nvme_tls_key_lookup(key_serial_t key_id)
-+{
-+	return ERR_PTR(-ENOTSUPP);
-+}
- #endif /* !CONFIG_NVME_KEYRING */
- #endif /* _NVME_KEYRING_H */
+ static DEVICE_ATTR_RO(tls_key);
+ #endif
 -- 
 2.35.3
 
