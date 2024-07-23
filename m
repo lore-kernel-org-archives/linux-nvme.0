@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F88EC3DA7F
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jul 2024 06:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B58E4C3DA49
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jul 2024 06:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=sIeglkQf2Ce7nUekoDC7ByWrJIPsL+R+qVXXvWoowWE=; b=whHBi2pY7Vio/Q80ifrlD9+qnE
-	FPo9qyJBfkZwA9E4ZL3dw+eFmmqdvcS/cWo0GwaOGG1ZkKd0MTo0CSDJSaLCFyCUl5b+IdzFKAHE1
-	O56//3wHDEw4Y57IJnJP4KXiREXdfbfP4uhRd7wwGSZwGdVdSovDhYcX6BA0KJqEOvHIRbyLmFJV2
-	EwNKfwQH5zisPwk+gDLOhXDUJ8GAgRXep2Nv9U3SKBsIa2CW95JC1LdRS+0fXW7bK/c4Go20D52kU
-	F+CHbHgfLJ9LQ/3dfZrbUu+6M/vyjVmsASeoBW2EOPrWQKe0/yG9Ip7O7ho8GCyww1SLxiee2HGsP
-	YJGBgsvg==;
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YZ0tWBiQ2iqQ8K+UeCzLmCv2laXrL4ME8WggNX5AW9w=; b=cXjw1X1etcQguHiocQt7ddzAhi
+	Aq0Ci8b9fdJM/nmOBfu7XPxDBv07rtrv8Sbi+hIolV3CcD7pZ9vksqFEfCmMaA7Zpry/CTBAV8yyK
+	i0d5k/jS8gDRWHL+iaojW6K+uoddShOzb+hLDTF+2uGJoMdVxkIFOwzftjuvQKrMMlsB+vSR+D5rC
+	nxfAdZFZQVLnFJAsUL5iSXn3tQfS3y2tuLDi4kQcMQqseh1GntP79yEwINLuyDfovxERidhcUk+fj
+	toviR1yr5rpWE/PnT6Zgfp94u/bG3KRYUKlwjAPM2fc47iOhGw4jyvg/13tQ+GO8D3kMRIHbkVv03
+	NYRxRWkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sW9Rr-0000000Bdj5-2sLC;
-	Tue, 23 Jul 2024 06:56:35 +0000
+	id 1sW9Rw-0000000BdnC-16Gk;
+	Tue, 23 Jul 2024 06:56:40 +0000
 Received: from mail-westeuropeazlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c201::3] helo=AS8PR04CU009.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sW9Ro-0000000BdhG-36Lv
+	id 1sW9Rs-0000000BdhG-28vQ
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jul 2024 06:56:34 +0000
+	Tue, 23 Jul 2024 06:56:38 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AhBW3EV+08rV+Ja5gXCKZR74X4v//MAOpOYBCQznghxvRk1Z2+423SiR0isYZ0neYCBNyXuvFegPa7gYAbbBhddfo0dQA9/afq6pXbT/wZFiTQsIUXco6tIMvAe9Hx1itSZnAp/LWdWZUIuElpa4kQ+1Po2iyK3V25dJR4uXBqMJ533/ZD2Rv2Jen8yXambC/O2D2MccETV3J5pixCm/9J/hb5r5zniQefdjSI8RPRogHmacHCVlnvE+gqpP+AkgLQSQ2M7+DM4zcgcF5JGQqRVodEB5n5P4UrVn4Qy+HadGZGIp/248pxOxQCl0Yg5cqMrYObuUrFB5yHj9M53DaQ==
+ b=hpaw+9uMWMZPF8Y38R9Se+n2e2caxD1eTNgiNwG0MyZnd/Hhek6l+cLs5GrfSH/gKCogB6UgQQq4M0TEi6CcKbf3qL/S2KqWiO10vslho9JrlNIgvBYBFjz66RxVJr0AWUEBbgIjW3JhC21di3gdz/gWdfeaAxEyppg20rTchm8cKt62Vdl0GzCOd277jj9di4Fwgpbj9mTcdERhf/Md49cxrQg2R6pK1k7krA8AvPX9sg0ser6Ubm3NO+dSjLO0+tCZGwYGbt+Q0HbokbuuVUCURXEP6knYaZZVNZVTLG6MdNRp2hxR3ckwuQYqBULyFth1Hg4sHFIxwMpTj7lPgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sIeglkQf2Ce7nUekoDC7ByWrJIPsL+R+qVXXvWoowWE=;
- b=hvi2pqpG3+wSZKpMTNRnphIp93LUURqMK2sjibzzzL5tuZKANRl9+jxOmA/zdhhnDDUw26WbLv0wBstsvhbVrsU4z3a5p/XSZx4hyKtMqRMAidtkxYxJIec3bMeS2pKyKIOoEjZvscOs71qL9VgTQXvNjhF4PRURf8DzC4hma+6daRhclxeP5Tcoikk0UhPYZE+PL/cUXhQAPjOWAOnh1I8oJMeHREyVOYQYd1mH2r1CotO8OW3ZqYyW6WXxIwnhXotUq6b7zjr3ISPV3y4q0fPGnt7hIZfMoEJ9Nlycvt7Tm5RRz/diD0Fbs0UVs51Xl6jlsdmd/bFxgDKD46JalA==
+ bh=YZ0tWBiQ2iqQ8K+UeCzLmCv2laXrL4ME8WggNX5AW9w=;
+ b=VW/onWWPBEUyysGXhsYtzpg5OQclUWaMxrPp/ov/iyPLSWoAwU/YfWctg9wEB8Q9LN1tMVU07RppSBQAdZvSS4erTYJJ0euJrG+0JxbKcWxiTwf+mCcxhsBX6lkE0eNYV8VkvJe+9ASGLRTtJy328TpF73+TvPdVEpF9mRMu82G3yL4b4wQaNELGnbREZTkkL1v5K46NmO0o8fQvRKCeSUzU6bMklzvBxKi+UdAQKuiwrkRGHveDHsvd9A/JEmBZvcTMw4HVLDFY/yJU+DWaIt1Wk/eaALwADA6tVS8T3KIwCENgiLYHKn6TxYkzC9l+28owrRHZl7JXW/ECmUNHug==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
  dkim=pass header.d=volumez.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sIeglkQf2Ce7nUekoDC7ByWrJIPsL+R+qVXXvWoowWE=;
- b=J+NapzJ9ZteDAd3IvVLpw7H2BWy0G5KS4Xmc3PZdv/Fws4xcQ5QuBXBC+fhriE66GOxkk+DxQ5Lkgo4gVHter5nns0SRaCPsCGSFG96RkcEBebzs4PEtQ6mdmaMXMOYyqYIPswzvqTp0ihi6Gg/9XMLm5tm5mZeMfssJ34AQhp8P6c4pihc+fmqSXDJ/YEnFHr1u3BGMnzhrzMk5Txtn/qqFs+d3VYzf62nPfTsAI3FEDfpBzJ1OhC4OrMMxbqdIeJqocJ5dBCn+INUN0AyIeTMBW8JXHeYLQ1+t14mMCVY3fzMolZRWPP9VzOaH+vOvpvKTEdgHLKSVEcWUhzopgw==
+ bh=YZ0tWBiQ2iqQ8K+UeCzLmCv2laXrL4ME8WggNX5AW9w=;
+ b=jQqDI2ZAbicn8JxnRl0z0v0EgwB/XtvmmimVbNEBCuexs0i5N08MWndQIvxjml7zyRBxhx7KuVT2d61M9DY36Qey9T6vSFPOLu5S3dkmEpEj1M5cZUyodeBoU1lceNQbHOaLTjQKorD38OyHrJGt9E36M25CQtgdOqgvVlmfmL5TVS6dd4H8JDc9anCSWDpvAB50zNfwzykIeMSbgSIpYfEVHLaiO1w1mzvVVPOb5CbKkNl3GO4huO9rFYR5MN2lvJL1C+bPMoc90QtfJrhxfr/OrD7k/ypFVQTy/OuX1uSncv69BELNGvyBAaAlHzxSLwVbB+BLIPo7j6DProYpoQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=volumez.com;
 Received: from AS8PR04MB8344.eurprd04.prod.outlook.com (2603:10a6:20b:3b3::20)
  by DBBPR04MB8044.eurprd04.prod.outlook.com (2603:10a6:10:1e5::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.19; Tue, 23 Jul
- 2024 06:56:20 +0000
+ 2024 06:56:24 +0000
 Received: from AS8PR04MB8344.eurprd04.prod.outlook.com
  ([fe80::d3e7:36d9:18b3:3bc7]) by AS8PR04MB8344.eurprd04.prod.outlook.com
  ([fe80::d3e7:36d9:18b3:3bc7%5]) with mapi id 15.20.7784.016; Tue, 23 Jul 2024
- 06:56:19 +0000
+ 06:56:23 +0000
 From: Ofir Gal <ofir.gal@volumez.com>
 To: davem@davemloft.net,
 	linux-block@vger.kernel.org,
@@ -69,10 +69,12 @@ Cc: dhowells@redhat.com,
 	philipp.reisner@linbit.com,
 	lars.ellenberg@linbit.com,
 	christoph.boehmwalder@linbit.com
-Subject: [PATCH v6 0/3] bugfix: Introduce sendpages_ok() to check sendpage_ok() on contiguous pages
-Date: Tue, 23 Jul 2024 09:56:04 +0300
-Message-ID: <20240723065608.338883-1-ofir.gal@volumez.com>
+Subject: [PATCH v6 3/3] drbd: use sendpages_ok() instead of sendpage_ok()
+Date: Tue, 23 Jul 2024 09:56:07 +0300
+Message-ID: <20240723065608.338883-4-ofir.gal@volumez.com>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240723065608.338883-1-ofir.gal@volumez.com>
+References: <20240723065608.338883-1-ofir.gal@volumez.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: TL2P290CA0021.ISRP290.PROD.OUTLOOK.COM
@@ -81,94 +83,94 @@ X-ClientProxiedBy: TL2P290CA0021.ISRP290.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR04MB8344:EE_|DBBPR04MB8044:EE_
-X-MS-Office365-Filtering-Correlation-Id: b585b092-f820-43d1-c6d5-08dcaae48e30
+X-MS-Office365-Filtering-Correlation-Id: c4a455ec-78f4-4893-3656-08dcaae490c8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VkhuZXRFWEVBWDI4cXJlRzBSMXpwYjlWeisyR2ZpemFyVWhub2pTK1hHUFZv?=
- =?utf-8?B?OHZsTXJHa1pINTVHTFNuYzZXUFVVVTNiL1ZwMjRQMDF5emNpQlV1Z3U2em15?=
- =?utf-8?B?MzQyTUROVzFvNXpZdHAvZU1DTlBSQ0Z6Q0diZ1hrN2hQMGYvNFdlaytJSWNT?=
- =?utf-8?B?dDd5dXVWSHJWbzZOR09xL1Q3MEhOSEZDaHpXUDdSWVI2Um9Ebkl3ODAvY3JS?=
- =?utf-8?B?TGFqbjlNRjhLNTFUOTBRaEVDYiszT3U4WkNaZld0cUhGZDdUcTdQMlJ5eWJ1?=
- =?utf-8?B?ZHBRVGNJRGxsZzNIMmhHOXYzVXo1Ulh6cmd1Zk90Y1E0V2hlaDRMTXFzSFBx?=
- =?utf-8?B?bVBCdmthZUdmem15VXpsSDc1dDA5R1dicUpFbXZvWVRpM3RzZWNqZmdlSlNx?=
- =?utf-8?B?YThoejNrNUZBa2JzRS90SjYrL0trRyt3WDR2Y1pQOExJdmhtUCtaY0l4T1FQ?=
- =?utf-8?B?Q2ZROTd0N2RUM243cWxYVDFtVHZtTklWM2NpTjJNWU50YWtpQTI3d25BZ0pa?=
- =?utf-8?B?WnBvdjhpcXVWaUttRFpZUk5tQU95N3FyL0MrYzUxUU9XQTRQU1dkdzdMU1JN?=
- =?utf-8?B?akI2WU1DdGw2YnVpbGhaZnhBL0RVN3g3VFhPQVNnZTdzd0E0bEVBdWJGaTJv?=
- =?utf-8?B?bFMyK3E2dUZhUTR6MEtSTlBjVWM4aDJsYjRLOUhkRHlpV3A3QlhMVktUeVpD?=
- =?utf-8?B?V2lIWHcybEFSK0d5TVJTbUhFRXZoZFcxb2RaNkhaOGptRnNudHVpaEhGYXZ0?=
- =?utf-8?B?V3FTMTZYbzdFYTdHQzlLMGhZd1k0Y2JNeHFadmJCUTJIbXdBclpRV1l6eFg0?=
- =?utf-8?B?OE9CaHJMVzh6RHRjYlduSXZQd21sdzNJaUw1Tk9rMGtiSnFvRmlqSHVEdGV4?=
- =?utf-8?B?Q3o0aE9YOE1wVWpuKzVWeHM3d0kvL2Q0dHliVHdYekZhdGZpeGpib1BTSkcv?=
- =?utf-8?B?YVlhTmZsa3huaHdTQVEvRnI5WnpoQThHVVhvWXlKekxvOXBtVVZHZVA3S0pT?=
- =?utf-8?B?WDZjZkgvZTRGN0R6V0VyV1MvSWxHR1NsNjVoVnJON3hQekdySmw3UEhxdS9T?=
- =?utf-8?B?a2xOZHJYZEhKQURac2p5NEExVW9JMXlSQWZ5SGV4bTRZdSt5dExhcTJHZCta?=
- =?utf-8?B?eHN1czZjVW9NVFZiUEtqUWJGTGV1SWN5aWNoVm9JRDJJeUFCeU54MkZhUno2?=
- =?utf-8?B?QVhOeHJnaHlGM2pyUTNkamVqR3RuRjhLOTdneDBST000ZXlmWHR0TVFBaUJo?=
- =?utf-8?B?M29CaWF0M0FrUGliSlF0WjUyZGZZdXFCczcwTStLZSs2YlY3NDgzRUF4aVgv?=
- =?utf-8?B?NC9WRk1weXEvZW43VDI3Q1pIaGV5TTJSNWNWbmt1dHhCZnNFNUtvVjUvRlhB?=
- =?utf-8?B?cTYzc2hOdE1xS2F4ZDhmY2NDK3pnOStxQ0phZEpzUGtOczJiaGk2MEJmMS9N?=
- =?utf-8?B?NUx1WWZhTlZ1bUIxUG94eENvWUxFNHNkdFI0WGlqUGxEVmNiZnV4NUt5ZUd6?=
- =?utf-8?B?UkF2UTdLZ1BSd2FzckJodU1XMDFTWnhJU3llT1NiaWM1dStKUmIvOW9UMmxz?=
- =?utf-8?B?eDFhM2tHVVhzYXlwck9XRmFlZzlJNGg2MkxiQmd6MEw3SE55TjNiT01sM0Rv?=
- =?utf-8?B?ZUFkUmRqWFNsWmFUcDNQOUNQL1pIMFI4cjB3YkpNZEVqUlFtN0ZkK1BTY01w?=
- =?utf-8?B?bTZ5ZENUZ1gwSWEzTmtSaFNJUGhiaFpjR2VXcUhqZHF1eDIvZ1phUCtHVTRW?=
- =?utf-8?B?ZTYwS0QyZU5xUjBEa2tXZnV3U1V2QThLVTUzang0M3Y0UG1UL3E5Wnc3MEdO?=
- =?utf-8?B?c25nZ1k5Mks1RlQrZEVVWGxzc2VuNTRGRXFydUlwcnpERy8wUml1R1FaaXBR?=
- =?utf-8?B?bXFNU05sZW92OHphdmlHcWY3cUxrZFd3SDd2ZVFlSm9jRUE9PQ==?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OGhSTU5CZVpIWGdheWdpY0YzSS9yQ0pnenJZelN6ZHVXQTU5M0Z4N2E0ZndP?=
+ =?utf-8?B?c1ZtdnFUaWFrelVFQk5TcHUyK2xsb1BuVDNhS2EzWW1yTVpwOGJYWUZORnJz?=
+ =?utf-8?B?N0dWd2xMN0MrRWhNNDB1Z3RRRVBxNG0xT2tvTkNOL21tZ2RkMXFJOXZNcTNi?=
+ =?utf-8?B?emVxajNoRUdiN2t3TTQvVzkvNDZNR2NXK0VvK2xlSFJDNGhUS0EvemJpY0tl?=
+ =?utf-8?B?SGR2YkJ1R05vVWFWUS9mNU5aR2ttVmszbFVvVFZ6b3JtV1NrY1JaemZqSlZD?=
+ =?utf-8?B?Q2RRNDhQSEVpczE2T3orcG93RWRXSjlRNTA5UGZkTzVVL2xrTGdlUTQ2MU9G?=
+ =?utf-8?B?QWtZL0REbWVMdHcwTTNNcS81dlRFTW1odVVLRUhRbzZQRjZEcU0wWFNxeUQ3?=
+ =?utf-8?B?aWZEUEU1Y3c0UEQ4T2IrZjhQSWJpT1FBc25zZlVoTWdmUk5Mb0tVQ2dVbkhi?=
+ =?utf-8?B?MEpDOGMyTG5NdjdJT0tSV3JHaFRrREVORUhtdEwzbm8rQVJYWkVxdjdXVzM0?=
+ =?utf-8?B?ZkNUdFNBWnJKNXdBOHNuSVE1Skt5NUtUMU8vNCtydDVtWFhDY0s2SHhQK2kv?=
+ =?utf-8?B?dHVhMHdPTDVaVmpWblU0S1czL0VkQktaSWxabHBPQjdsdUhLV3Fob0hXaXBG?=
+ =?utf-8?B?UWxReHcvZHlidjNKU1lqWDlRUGdoWis2eGppak9Jd1dNcHVrVXVPdURHT3hu?=
+ =?utf-8?B?d1pwd25MdkdoaHNtZUNWbVZ6NkFHTEZNeVdsUDhubVRxc1dZd2NQakpLUkt6?=
+ =?utf-8?B?WHVzeEdCRDRLZ2VvcFFlK0VUR1h2ZUNqaFBKSWZIem9XYTNLTmRwa2dYSXJ1?=
+ =?utf-8?B?K1IxMzVza3lVdUNMSE4xN0Zkb3NCN0N3dlJRTHVQMjlOMmh1WHpYWFcvdk96?=
+ =?utf-8?B?L0tCOVlQWTdiN0lPc1Z3Tk43UGtyTWljTHhoMFFSZkJtVExTN0NEdkRlNkdG?=
+ =?utf-8?B?ODZuV25VRldWVlZqM0pXeFJoK2FVeFU2Q2xoR0lOamRaUTM0ZWFuTDVURVI3?=
+ =?utf-8?B?aXFWbVdZOVh2THRveEZyVWx5U3IxWHU4M3JCVnZtV2w3alArcHdQZVFkYUlp?=
+ =?utf-8?B?REVHK3JTY0VvR24xVU93KzFZbjh3Y0hWTlJPZTRzNVhQN1lZQktMYkVheita?=
+ =?utf-8?B?bXA1K2VoN0pNTEFCdHpIczZSUmhiQnExL3pRZThidDFRRjV6Vk9jVU14K2Vp?=
+ =?utf-8?B?RjQzVGw3M2lVUU56c2YzOU5iREdFMWdPU3JLcFAvUE02VU5FQkV6eWVVMjY4?=
+ =?utf-8?B?b1laMWhQcGFNQmdQZjZxZDExcTA2WmxJaUhqeXdZY0QzQlVIdFNTbjQzb2ZD?=
+ =?utf-8?B?YWtrWUZhbnVHclpBQlUyemZsaFg5QlNXRVhkYS9vS0hFdlViVnFTc3ZQc3hF?=
+ =?utf-8?B?dVNDa040RndKV0t1WkU0TVBxRlpmVlNOSG1IdkR2cjV2dVpFRDZ6NkFGUjNW?=
+ =?utf-8?B?dE9nWjN2b01xN25SM1FhYVNoem9JN3JSeXV5dy9oNHhUQkRSb0pjRWtXa1Zi?=
+ =?utf-8?B?NjVGODNtSnJJTFUyTUswOUxIZ3U1SllzR29VYmdhVmttRWcyVzc1N3YzRDg1?=
+ =?utf-8?B?c1JMSFVDeGRQemdyMWRUQ0VXb0Q2bEtPbkpHeTU4WU8zeFladTZ1MkE2NG45?=
+ =?utf-8?B?bzdDTDAySTZ3eU9mK01ldE81ejhuczZRWmg0aDdYTW1lRFM3eEJzZ3pXSlBD?=
+ =?utf-8?B?ek5lNWFRYmtkU2tCOVRONEFFWDVuK0VvTVBmcTBTNjJzekNDOXpUQ0cycVUv?=
+ =?utf-8?B?WjVOVUxiaEYyU0NITG1UcTNEVDRvd3dDQytPYVM4czM5RkxLUllOMUpuazVo?=
+ =?utf-8?B?YUpQSkViNlA4dnNZVUs0NE81UGY1dzVIUURSaU81MVNISUFVQXFNQnl2ZDBX?=
+ =?utf-8?B?amdKUnViLzVSWGptek5oSGYyY0tseHkvVnIzNmdaekNMNmc9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8344.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmJ2eDlFWEZJMm1zSHUwRUhGeTE4R2hmUXVOR3BjUm1sa3dVYmxRcVhBZFdi?=
- =?utf-8?B?NGsycVduY2FUbEcxUUZHcHRsNmtINGRZOEtYbTZOY1ZiVW5xRGhBZWNsM25N?=
- =?utf-8?B?S3laSEZOMzZvVDhLWFEyLy9YZmFBRmlLN01MZWpLMG5RWXpmTGpXMEk2dWpz?=
- =?utf-8?B?d0k4aE53L1RqTWxFRWxGb3V3TVlNd1VLZDJMQm9YQk0rTklxN1dkci8zVGhE?=
- =?utf-8?B?bHpNQUpCNHB5OWF0ODlvYmNkM0Eram5XVEFjTUVNU21OSE41MHNRclJBSmdF?=
- =?utf-8?B?SmI1TWhuRHZqUlczU2tiMHNGNU1Gbjg5ZzhOakV5U3BZcVZvRDhSNjlFVWlk?=
- =?utf-8?B?M3NqMjVlNkROQVlCaDU2Yms1c1VzWEU4bmZUYUh2M3FPNFpJM2NVcmtRRDNG?=
- =?utf-8?B?TlkzWjJFUDNmMk9LS0VwMzZzSWIzelJTd2U0bm5OdzMvS0lRNWYvSVUzMlFO?=
- =?utf-8?B?UXRRaHJhRHRhNG10b1RYK1g0VjhWZFI3Um9wSy9PeDZldW81WGpWdkU4TEdx?=
- =?utf-8?B?MVFhL0p6MWNZdEErSWhNNUorUWplUGIzaVBLYitpV1dQdHpDblB1RXZtclVX?=
- =?utf-8?B?UkdydCs3VXBpbk5Zb0l3ekxYWk5wakkwaTJsQVI2UmIzbisyNWdoUDR3K1hK?=
- =?utf-8?B?RFl2NlhkK21tQWt0cHhucGFINkNhajBPNFlmUkZDaXZPaEJKeUlJV2NTZ2Qx?=
- =?utf-8?B?c1hmN3FGTlNYR3hLOGpwcjUzZDNza0dqeTE3NUpGdk96MmFQakZoT2RDV3lR?=
- =?utf-8?B?UUtxZlQ0WmhscG9jdDgwODZvSktWUFM1SU1HdG1DUTRvK1VOdnpZajNOWlcz?=
- =?utf-8?B?YzVaRTRwdTByOGVDVGk1NEt1L1lHMGdtSCtMcG5TOVRhZ0lSY1lFNlhmdEht?=
- =?utf-8?B?QlhVRWo2NU5KVzRoUzJsOWtVY2RHcXliSWJKSmt5RjBtOHZRb0FnbEJEbThx?=
- =?utf-8?B?N2t2SkZwc29RbzdiR3o3dEpLdXk4OXkrUnFPN2ZQZ0ZRR1VyOGUyYmRBTjZt?=
- =?utf-8?B?R29vU3p0Y3lXcVhMN1dCT3QzenVnZVhXQVdxQjBqbzhZajYrRDEvZFZvMjlC?=
- =?utf-8?B?ektSNUp1V2k2Q1FnRVY5NjF0cjUwU1REM2NGT3Q0RXRQcUtOUXZqZ1RwKy9J?=
- =?utf-8?B?ZlljckRBS2dqdm1ob1hFY2FYeDJLZjVIYURSRVA1VFBxamtzR3FuOUM1NmRO?=
- =?utf-8?B?STRGdTloTTkvNWZwR2xJRWtvN1MzMDFsTyt4ZlNSNDUvUnQzdFMyVVdMVURM?=
- =?utf-8?B?UzRPOG5SOTg1YlZuMXY5anlJWFNtbWZuMFBsd0U4ZE5Vb0xXeExXeTFZSlUy?=
- =?utf-8?B?NDFDT25TcWlObStyd00rUlFSeXphaCs0dFFhZ1RaZU9HeHQvclpDSXpreW42?=
- =?utf-8?B?V2l3NmtEYzBHQXNpOVIvMG5QTG5GOEJ6V2Fpc3hGb0tUcDcyNTR3S1dJY00y?=
- =?utf-8?B?QllTNDRFUkNBUDQrdWVmMk9RaWZFd0RMUnFvU1pydzNlK1FUTWJLczNkV2kv?=
- =?utf-8?B?aW9sR045OCtSQllUTHRDemc3SHl6cFJnYTBSQndIcHJJTzZoS29IdkxmYzlS?=
- =?utf-8?B?MmZ4Y1lRdngvU1Vxd2FMVG0zMDNyMEk1eU1NNmVaQUM4WlplM0RKdzZBOWhT?=
- =?utf-8?B?bWw1UUpaUStzY3JqS0g2Z05uTGhvUkV0UjVMTjVVYlJHMWpoRnBIT1FDTWoy?=
- =?utf-8?B?RFB2cGdZa0hzM2FHTDhyTG5neDRSWEhweDZVWmE4WU5nYWZJMDBoVGc3aEE4?=
- =?utf-8?B?dFZHd24yRGRyOGRwMGMydDF2Q09ZM0Z2QjljSlNodXZQU2FONHRJOFdHbEF4?=
- =?utf-8?B?THZDSS85ZnYwRmZJdVFlb3hzSjE0TVk1L210NW9ENmsxYTJNNUw2aEU1WHJC?=
- =?utf-8?B?VGpidnpVYXJTdlFJNkJvOUxEWllWY1FaZVZzdThyRTVnWkx2bm9VVXNQY0hq?=
- =?utf-8?B?a1VqR2hjREQwSzZpUk5xY1MwSUFqK0dFZXArWnJuTXREV1VLL0hGb0ZEQkN4?=
- =?utf-8?B?VHZrdUpwQWZhamkrK1RiMmQ2Ry9pWVBITjFOSWNURnRtRUE2cHJzeUZKOGFX?=
- =?utf-8?B?ZkVsNUZPeFFQVUc4V2tKN3JLdnl2YTd2YUZCdTZMMk1TakZiME1Wc0VwTUR1?=
- =?utf-8?Q?iGpyB/oAtCgBQ3aoEYvVaUNJn?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHB2WFZFQnVEb1A2R3NsM2NhMC9jcWt0bDNJZE9GakpxNGUrRXQ1K2dPUHJq?=
+ =?utf-8?B?aWJXeE1KYlBybmZQdVJxanNxd3FCVUMwVi9PR25nbXVZVW1qVyt1d3p4QlJP?=
+ =?utf-8?B?cXRsV1E4YStXK0sxdDA0dWdUdmVsUUhpeXYwZ21mdkNRWFZEVHFuMXhkKzBr?=
+ =?utf-8?B?QTVkTHNKWEZwN0hUM1JBeWdYQ2FZZGp1QVBQejRoMnBiSlVtOXB5cG9ZVWNP?=
+ =?utf-8?B?a1RkaVlSbTVJUHoyNkZmMThpdDE5MW1BL0FpTVFIbCsrMndwdG8rZ0VxbG0z?=
+ =?utf-8?B?U0NrUmxGR1hnN292RmhYU3BEMjQ2eUZXeVBhT2JPTUFDdmovVjV1cjJZVUFN?=
+ =?utf-8?B?Skw3UkVmd3psczgxRCthZy9QMUllWnhLb2NUNXFCL1JzU09ZbGw4TlVGcTJQ?=
+ =?utf-8?B?UTFLdUpWQTdlS1Q5QXZwOVhjbVJhMkF0bFlzTEQ2WTdUaGxBSDhPWmxSZ2g0?=
+ =?utf-8?B?RHhKc2E1RkxhNU1mUTZqTVc4QkxaOUpad3Uyb2lHUGNlNlNLM3hIMlJoNnYv?=
+ =?utf-8?B?c0tWMjhhM1NPREVYMlFUVFZsSWVJc0N0WFdFazRJU29kZDFmY08wd2ZJeVhJ?=
+ =?utf-8?B?MXVPRDhod09xTi93WUF1anpsWUVWUk5uWDhJbzYreVl4aHFpcTJ4aEJSeXRv?=
+ =?utf-8?B?L3grMzRFYUVyWmpuVUp5NnJyOTNqbm9YNWN2blgya1NoS0FrU01VTlBIdU9q?=
+ =?utf-8?B?d256UzVVcmhjOEhUYXQ3bUNKK3liS2x1VGdRYWRZVDlodGI5ZCtaN0hobHpi?=
+ =?utf-8?B?bDNKa0w1YnZ5dmRUYUZOdFpMNnNLcFNjbVFDajRXeDRaTjZvSnJMQ3J6K0p2?=
+ =?utf-8?B?ZUFsQlNNUWZlWnlMMW1BU1J1eEhQdWVOTGRoLzNuR0ltRkJhYlVKVUlsUUZp?=
+ =?utf-8?B?QUxpU1BvNFpSTjloSmY0UWJJMklJNVE3WUFiQVpjakRDc254Tk16NkpnV2g0?=
+ =?utf-8?B?N2FpOFQrWEtmVGdDZytLNEcvRVh1azV1UkZFTCt1RTY5V2xINm1rRksxZXJV?=
+ =?utf-8?B?UWhzdTlkMVZ2ZUhNb3JwMmZWVzRlMzJRWGJ0M3pXL2tHb09vSnBoaEpUVGJq?=
+ =?utf-8?B?a2lSeHBOdWEzOS80UURqazg2MFdKOVR5S05ObUVtTUo0d1dzMjR3SFdDdllX?=
+ =?utf-8?B?bmd6bnA0Yk5EanVMcTFLTUVlL2h2Z0F1R0dIQVVDdHlIcG1jU3NzZ1AwL251?=
+ =?utf-8?B?UjMwL05KMHg1WEczK2hTUTlhR21QRGtINlQzMDlGSTZYSVdqNzZGNEJVNmNV?=
+ =?utf-8?B?Rm5wa3ZHOTNDRkJRSEpJZE5tbW1qWGpPVDhJQjVwY2VYQnZzMW5vampUU2ly?=
+ =?utf-8?B?cW12KzRHaGszREg3WmFydXF4UXdyR2lacWtCMEVRMTBLRVM5ZWQ3ZENSSnJy?=
+ =?utf-8?B?alBGbE42ZU5KU3FhU3RoSDNjUG5UWUt2TC8wbHVFaEtpbGNuQ1JhRjFZTlNv?=
+ =?utf-8?B?L2ErY0l3Q2JjVXBKR2V2U0pSdDR2amxBZXpxZTdCV0xvZklaOThGTjVUMGND?=
+ =?utf-8?B?bG5FS3ZSZ1htN0hEbURVcFhQdFJNT2tIdEo3U1hMVUJOWVczMURhNEFvZG9G?=
+ =?utf-8?B?bnJzdEp1WDBCcTVhMnpHQk1FYTM5WDVCVk1CUGo0MTArMHJMdzRrTDlZMWlZ?=
+ =?utf-8?B?L1NNZFJHekVwMWlvdk05UVBKa2RlS3kvMTU1Qmd0WGJjQVpjRkwrZXlrU0Fl?=
+ =?utf-8?B?T3BpVUovVXZ4S3FDTUZiakNObTBOVFIrOHlhUkl3MWwwd21Vb0Y2SEQ1eGRQ?=
+ =?utf-8?B?bkJnMU8xbzA0dmNEM1dVWldXSXBBU09KYzEzbGlJVU9rODJ0eUU0Q3F1dFBl?=
+ =?utf-8?B?STdtdGhtcnNQMC9oME1kMGh6YlJOSXNEVHZLYlZ5U3BhY1h1SVNvWVNieHFC?=
+ =?utf-8?B?QzYrbTUzQlRsWkwwTmU1dXdMVzhhZG8vYnp4RTlrTDBDV2JSeDRTVWJ1MWRC?=
+ =?utf-8?B?UlhvV2o3WnNSejRoV2FaVUN5cFpsTUFVbUhTRU16YVNRbHNRN21kMWZhSGFx?=
+ =?utf-8?B?dzU3MUQwdE1yb01FMXJkczNxSnZWbzgwQ1lYV0s5dTRUQ3JWUFFrSklKSE5Q?=
+ =?utf-8?B?anIwTDRtTTVYS0UzaXZNNTc0aDk2QXpXQWRsR0pBWlhCSUhka0kxTkFJcUpw?=
+ =?utf-8?Q?XgrVsr+7jwsNCjtZL9OE6lu3u?=
 X-OriginatorOrg: volumez.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b585b092-f820-43d1-c6d5-08dcaae48e30
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4a455ec-78f4-4893-3656-08dcaae490c8
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8344.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2024 06:56:19.5807
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2024 06:56:23.9036
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yuicnl3iYa2BMTND7L2XkbShOO9AYf4s0eidFDWwg69BwAgAgcDmyJNLdImwcMB7UCW8lZHCZLWLq5LVEYj4Pw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: bbnasO5W25erGYPS2lkUb8g92aHINibf4xZjIJfUyj0Mjkxs9L75Fq8pJ+YUeSoPF+va7vyciB6JIdRd63AhbQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB8044
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240722_235632_988298_BD57372C 
-X-CRM114-Status: GOOD (  17.76  )
+X-CRM114-CacheID: sfid-20240722_235636_613749_F76DFC70 
+X-CRM114-Status: GOOD (  13.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -183,120 +185,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-skb_splice_from_iter() warns on !sendpage_ok() which results in nvme-tcp
-data transfer failure. This warning leads to hanging IO.
+Currently _drbd_send_page() use sendpage_ok() in order to enable
+MSG_SPLICE_PAGES, it check the first page of the iterator, the iterator
+may represent contiguous pages.
 
-nvme-tcp using sendpage_ok() to check the first page of an iterator in
-order to disable MSG_SPLICE_PAGES. The iterator can represent a list of
-contiguous pages.
+MSG_SPLICE_PAGES enables skb_splice_from_iter() which checks all the
+pages it sends with sendpage_ok().
 
-When MSG_SPLICE_PAGES is enabled skb_splice_from_iter() is being used,
-it requires all pages in the iterator to be sendable.
-skb_splice_from_iter() checks each page with sendpage_ok().
+When _drbd_send_page() sends an iterator that the first page is
+sendable, but one of the other pages isn't skb_splice_from_iter() warns
+and aborts the data transfer.
 
-nvme_tcp_try_send_data() might allow MSG_SPLICE_PAGES when the first
-page is sendable, but the next one are not. skb_splice_from_iter() will
-attempt to send all the pages in the iterator. When reaching an
-unsendable page the IO will hang.
+Using the new helper sendpages_ok() in order to enable MSG_SPLICE_PAGES
+solves the issue.
 
-The patch introduces a helper sendpages_ok(), it returns true if all the
-continuous pages are sendable.
-
-Drivers who want to send contiguous pages with MSG_SPLICE_PAGES may use
-this helper to check whether the page list is OK. If the helper does not
-return true, the driver should remove MSG_SPLICE_PAGES flag.
-
-The root cause of the bug is a bug in md-bitmap, it sends a pages that
-wasn't allocated for the bitmap. This cause the IO to be a mixture of
-slab and non slab pages.
-As Christoph Hellwig said in the v2, the issue can occur in similar
-cases due to IO merges.
-
-
-The bug is reproducible, in order to reproduce we need nvme-over-tcp
-controllers with optimal IO size bigger than PAGE_SIZE. Creating a raid
-with bitmap over those devices reproduces the bug.
-
-In order to simulate large optimal IO size you can use dm-stripe with a
-single device.
-Test to reproduce the issue on top of brd devices using dm-stripe is
-being added to blktests ("md: add regression test for "md/md-bitmap: fix
-writing non bitmap pages").
-
-The bug won't reproduce once "md/md-bitmap: fix writing non bitmap
-pages" is merged, becuase it solve the root cause issue. A different
-test can be done to reproduce the bug.
-
-
-I have added 3 prints to test my theory. One in nvme_tcp_try_send_data()
-and two others in skb_splice_from_iter() the first before sendpage_ok()
-and the second on !sendpage_ok(), after the warning.
-...
-nvme_tcp: sendpage_ok, page: 0x654eccd7 (pfn: 120755), len: 262144, offset: 0
-skbuff: before sendpage_ok - i: 0. page: 0x654eccd7 (pfn: 120755)
-skbuff: before sendpage_ok - i: 1. page: 0x1666a4da (pfn: 120756)
-skbuff: before sendpage_ok - i: 2. page: 0x54f9f140 (pfn: 120757)
-WARNING: at net/core/skbuff.c:6848 skb_splice_from_iter+0x142/0x450
-skbuff: !sendpage_ok - page: 0x54f9f140 (pfn: 120757). is_slab: 1, page_count: 1
-...
-
-
-stack trace:
-...
-WARNING: at net/core/skbuff.c:6848 skb_splice_from_iter+0x141/0x450
-Workqueue: nvme_tcp_wq nvme_tcp_io_work
-Call Trace:
- ? show_regs+0x6a/0x80
- ? skb_splice_from_iter+0x141/0x450
- ? __warn+0x8d/0x130
- ? skb_splice_from_iter+0x141/0x450
- ? report_bug+0x18c/0x1a0
- ? handle_bug+0x40/0x70
- ? exc_invalid_op+0x19/0x70
- ? asm_exc_invalid_op+0x1b/0x20
- ? skb_splice_from_iter+0x141/0x450
- tcp_sendmsg_locked+0x39e/0xee0
- ? _prb_read_valid+0x216/0x290
- tcp_sendmsg+0x2d/0x50
- inet_sendmsg+0x43/0x80
- sock_sendmsg+0x102/0x130
- ? vprintk_default+0x1d/0x30
- ? vprintk+0x3c/0x70
- ? _printk+0x58/0x80
- nvme_tcp_try_send_data+0x17d/0x530
- nvme_tcp_try_send+0x1b7/0x300
- nvme_tcp_io_work+0x3c/0xc0
- process_one_work+0x22e/0x420
- worker_thread+0x50/0x3f0
- ? __pfx_worker_thread+0x10/0x10
- kthread+0xd6/0x100
- ? __pfx_kthread+0x10/0x10
- ret_from_fork+0x3c/0x60
- ? __pfx_kthread+0x10/0x10
- ret_from_fork_asm+0x1b/0x30
-...
-
+Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
+Signed-off-by: Ofir Gal <ofir.gal@volumez.com>
 ---
-Changelog:
-v6, add acked-by tag from Jakub.
-v5, removed libceph patch as it not necessary
-v4, move assigment to declaration at sendpages_ok(), add review tags
-    from Sagi Grimberg
-v3, removed the ROUND_DIV_UP as sagi suggested. add reviewed tags from
-    Christoph Hellwig, Hannes Reinecke and Christoph Böhmwalder.
-    Add explanation to the root cause issue in the cover letter.
-v2, fix typo in patch subject
+ drivers/block/drbd/drbd_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ofir Gal (3):
-  net: introduce helper sendpages_ok()
-  nvme-tcp: use sendpages_ok() instead of sendpage_ok()
-  drbd: use sendpages_ok() instead of sendpage_ok()
-
- drivers/block/drbd/drbd_main.c |  2 +-
- drivers/nvme/host/tcp.c        |  2 +-
- include/linux/net.h            | 19 +++++++++++++++++++
- 3 files changed, 21 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index f92673f05c7a..3d02015c1ddc 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -1550,7 +1550,7 @@ static int _drbd_send_page(struct drbd_peer_device *peer_device, struct page *pa
+ 	 * put_page(); and would cause either a VM_BUG directly, or
+ 	 * __page_cache_release a page that would actually still be referenced
+ 	 * by someone, leading to some obscure delayed Oops somewhere else. */
+-	if (!drbd_disable_sendpage && sendpage_ok(page))
++	if (!drbd_disable_sendpage && sendpages_ok(page, len, offset))
+ 		msg.msg_flags |= MSG_NOSIGNAL | MSG_SPLICE_PAGES;
+ 
+ 	drbd_update_congested(peer_device->connection);
 -- 
 2.45.1
 
