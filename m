@@ -4,173 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B58E4C3DA49
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jul 2024 06:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 837FEC3DA49
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jul 2024 07:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YZ0tWBiQ2iqQ8K+UeCzLmCv2laXrL4ME8WggNX5AW9w=; b=cXjw1X1etcQguHiocQt7ddzAhi
-	Aq0Ci8b9fdJM/nmOBfu7XPxDBv07rtrv8Sbi+hIolV3CcD7pZ9vksqFEfCmMaA7Zpry/CTBAV8yyK
-	i0d5k/jS8gDRWHL+iaojW6K+uoddShOzb+hLDTF+2uGJoMdVxkIFOwzftjuvQKrMMlsB+vSR+D5rC
-	nxfAdZFZQVLnFJAsUL5iSXn3tQfS3y2tuLDi4kQcMQqseh1GntP79yEwINLuyDfovxERidhcUk+fj
-	toviR1yr5rpWE/PnT6Zgfp94u/bG3KRYUKlwjAPM2fc47iOhGw4jyvg/13tQ+GO8D3kMRIHbkVv03
-	NYRxRWkg==;
+	bh=4i3qQlUhX+mc9+73TL0GC3OSseEBlN3qBlkF7YrlDjU=; b=Q7iXyBzImuny2S2j9iN1ycIfoF
+	waUEdqPlQ0JYe/HwtDSZD6QPA+dRnX9uMBk/ui7HN5c2FScXOBJn+2281d0lmw/sBYccs15+NT7t7
+	I6lCsG4dpcCaYfQEi2spHY2wtAnD8lcgUrBIF5djR44eR3/JTCS2ihNF/tFz7L/EWXdPB5+TdVjEa
+	G5Tqsy7WXzEdIXnPutXXej+h1KxSCt9S350l9UkcMd7U05Wn1qD1SGCdQN3qX9regFpVymR5dUFuL
+	5qorS0XbwhDhC5lEjAS9kpfuXF0HdGZ3qNH+XnqD0Sg+hOMyrBK209p3Pyh14VVWvA1lm97caNDGD
+	HLqSRdvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sW9Rw-0000000BdnC-16Gk;
-	Tue, 23 Jul 2024 06:56:40 +0000
-Received: from mail-westeuropeazlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c201::3] helo=AS8PR04CU009.outbound.protection.outlook.com)
+	id 1sWA8x-0000000BkK3-0CR4;
+	Tue, 23 Jul 2024 07:41:07 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sW9Rs-0000000BdhG-28vQ
+	id 1sWA8s-0000000BkIq-1H3I
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jul 2024 06:56:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hpaw+9uMWMZPF8Y38R9Se+n2e2caxD1eTNgiNwG0MyZnd/Hhek6l+cLs5GrfSH/gKCogB6UgQQq4M0TEi6CcKbf3qL/S2KqWiO10vslho9JrlNIgvBYBFjz66RxVJr0AWUEBbgIjW3JhC21di3gdz/gWdfeaAxEyppg20rTchm8cKt62Vdl0GzCOd277jj9di4Fwgpbj9mTcdERhf/Md49cxrQg2R6pK1k7krA8AvPX9sg0ser6Ubm3NO+dSjLO0+tCZGwYGbt+Q0HbokbuuVUCURXEP6knYaZZVNZVTLG6MdNRp2hxR3ckwuQYqBULyFth1Hg4sHFIxwMpTj7lPgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YZ0tWBiQ2iqQ8K+UeCzLmCv2laXrL4ME8WggNX5AW9w=;
- b=VW/onWWPBEUyysGXhsYtzpg5OQclUWaMxrPp/ov/iyPLSWoAwU/YfWctg9wEB8Q9LN1tMVU07RppSBQAdZvSS4erTYJJ0euJrG+0JxbKcWxiTwf+mCcxhsBX6lkE0eNYV8VkvJe+9ASGLRTtJy328TpF73+TvPdVEpF9mRMu82G3yL4b4wQaNELGnbREZTkkL1v5K46NmO0o8fQvRKCeSUzU6bMklzvBxKi+UdAQKuiwrkRGHveDHsvd9A/JEmBZvcTMw4HVLDFY/yJU+DWaIt1Wk/eaALwADA6tVS8T3KIwCENgiLYHKn6TxYkzC9l+28owrRHZl7JXW/ECmUNHug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=volumez.com; dmarc=pass action=none header.from=volumez.com;
- dkim=pass header.d=volumez.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=storingio.onmicrosoft.com; s=selector1-storingio-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YZ0tWBiQ2iqQ8K+UeCzLmCv2laXrL4ME8WggNX5AW9w=;
- b=jQqDI2ZAbicn8JxnRl0z0v0EgwB/XtvmmimVbNEBCuexs0i5N08MWndQIvxjml7zyRBxhx7KuVT2d61M9DY36Qey9T6vSFPOLu5S3dkmEpEj1M5cZUyodeBoU1lceNQbHOaLTjQKorD38OyHrJGt9E36M25CQtgdOqgvVlmfmL5TVS6dd4H8JDc9anCSWDpvAB50zNfwzykIeMSbgSIpYfEVHLaiO1w1mzvVVPOb5CbKkNl3GO4huO9rFYR5MN2lvJL1C+bPMoc90QtfJrhxfr/OrD7k/ypFVQTy/OuX1uSncv69BELNGvyBAaAlHzxSLwVbB+BLIPo7j6DProYpoQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=volumez.com;
-Received: from AS8PR04MB8344.eurprd04.prod.outlook.com (2603:10a6:20b:3b3::20)
- by DBBPR04MB8044.eurprd04.prod.outlook.com (2603:10a6:10:1e5::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.19; Tue, 23 Jul
- 2024 06:56:24 +0000
-Received: from AS8PR04MB8344.eurprd04.prod.outlook.com
- ([fe80::d3e7:36d9:18b3:3bc7]) by AS8PR04MB8344.eurprd04.prod.outlook.com
- ([fe80::d3e7:36d9:18b3:3bc7%5]) with mapi id 15.20.7784.016; Tue, 23 Jul 2024
- 06:56:23 +0000
-From: Ofir Gal <ofir.gal@volumez.com>
-To: davem@davemloft.net,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org
-Cc: dhowells@redhat.com,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	philipp.reisner@linbit.com,
-	lars.ellenberg@linbit.com,
-	christoph.boehmwalder@linbit.com
-Subject: [PATCH v6 3/3] drbd: use sendpages_ok() instead of sendpage_ok()
-Date: Tue, 23 Jul 2024 09:56:07 +0300
-Message-ID: <20240723065608.338883-4-ofir.gal@volumez.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240723065608.338883-1-ofir.gal@volumez.com>
-References: <20240723065608.338883-1-ofir.gal@volumez.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TL2P290CA0021.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:3::15) To AS8PR04MB8344.eurprd04.prod.outlook.com
- (2603:10a6:20b:3b3::20)
+	Tue, 23 Jul 2024 07:41:05 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CE4F41F387;
+	Tue, 23 Jul 2024 07:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721720460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i3qQlUhX+mc9+73TL0GC3OSseEBlN3qBlkF7YrlDjU=;
+	b=OquijDk13X+Z1cw2N66rx3QAjj/vpPLhIFWjtBYlOpFs4Xy0oZ4043xbAruZHeuxmzAq42
+	rKib+NJvWshDIHfjTsSyVv6x68Ftsm66w+g+Oira8RzR6Acfcu9czcRKL/KJ2TiY9ggOZx
+	0V/zbLMQ9PFWY3cOCjApR5e2KYn7om4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721720460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i3qQlUhX+mc9+73TL0GC3OSseEBlN3qBlkF7YrlDjU=;
+	b=1ly58XWAJI4S2xOdgrCSpbbZHraP34hHibNMI5sz63mm1SRueytEQgV0WuQBOHI/sWVdqy
+	+GwfMotNM0a6nrBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1721720460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i3qQlUhX+mc9+73TL0GC3OSseEBlN3qBlkF7YrlDjU=;
+	b=OquijDk13X+Z1cw2N66rx3QAjj/vpPLhIFWjtBYlOpFs4Xy0oZ4043xbAruZHeuxmzAq42
+	rKib+NJvWshDIHfjTsSyVv6x68Ftsm66w+g+Oira8RzR6Acfcu9czcRKL/KJ2TiY9ggOZx
+	0V/zbLMQ9PFWY3cOCjApR5e2KYn7om4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1721720460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4i3qQlUhX+mc9+73TL0GC3OSseEBlN3qBlkF7YrlDjU=;
+	b=1ly58XWAJI4S2xOdgrCSpbbZHraP34hHibNMI5sz63mm1SRueytEQgV0WuQBOHI/sWVdqy
+	+GwfMotNM0a6nrBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECC0513874;
+	Tue, 23 Jul 2024 07:40:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ynARIYten2aLWQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 23 Jul 2024 07:40:59 +0000
+Date: Tue, 23 Jul 2024 09:40:55 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org, 
+	sagi@grimberg.me, axboe@fb.com, gjoyce@linux.ibm.com
+Subject: Re: [PATCH RFC 0/1] Add visibility for native NVMe miltipath using
+ debugfs
+Message-ID: <dpwafli2lwjlita6pcxwg5ilvxbqm4c4tckjcawhzzwfqywpow@o47xxyrwcmmw>
+References: <20240722093124.42581-1-nilay@linux.ibm.com>
+ <5nwflcpqoyknrruzdlvgnt5bpcoxh6nrirjwnjes4oazkr7nai@uwsynbuduibr>
+ <831af264-7f8a-495e-99b0-51f294e0948f@linux.ibm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8344:EE_|DBBPR04MB8044:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4a455ec-78f4-4893-3656-08dcaae490c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OGhSTU5CZVpIWGdheWdpY0YzSS9yQ0pnenJZelN6ZHVXQTU5M0Z4N2E0ZndP?=
- =?utf-8?B?c1ZtdnFUaWFrelVFQk5TcHUyK2xsb1BuVDNhS2EzWW1yTVpwOGJYWUZORnJz?=
- =?utf-8?B?N0dWd2xMN0MrRWhNNDB1Z3RRRVBxNG0xT2tvTkNOL21tZ2RkMXFJOXZNcTNi?=
- =?utf-8?B?emVxajNoRUdiN2t3TTQvVzkvNDZNR2NXK0VvK2xlSFJDNGhUS0EvemJpY0tl?=
- =?utf-8?B?SGR2YkJ1R05vVWFWUS9mNU5aR2ttVmszbFVvVFZ6b3JtV1NrY1JaemZqSlZD?=
- =?utf-8?B?Q2RRNDhQSEVpczE2T3orcG93RWRXSjlRNTA5UGZkTzVVL2xrTGdlUTQ2MU9G?=
- =?utf-8?B?QWtZL0REbWVMdHcwTTNNcS81dlRFTW1odVVLRUhRbzZQRjZEcU0wWFNxeUQ3?=
- =?utf-8?B?aWZEUEU1Y3c0UEQ4T2IrZjhQSWJpT1FBc25zZlVoTWdmUk5Mb0tVQ2dVbkhi?=
- =?utf-8?B?MEpDOGMyTG5NdjdJT0tSV3JHaFRrREVORUhtdEwzbm8rQVJYWkVxdjdXVzM0?=
- =?utf-8?B?ZkNUdFNBWnJKNXdBOHNuSVE1Skt5NUtUMU8vNCtydDVtWFhDY0s2SHhQK2kv?=
- =?utf-8?B?dHVhMHdPTDVaVmpWblU0S1czL0VkQktaSWxabHBPQjdsdUhLV3Fob0hXaXBG?=
- =?utf-8?B?UWxReHcvZHlidjNKU1lqWDlRUGdoWis2eGppak9Jd1dNcHVrVXVPdURHT3hu?=
- =?utf-8?B?d1pwd25MdkdoaHNtZUNWbVZ6NkFHTEZNeVdsUDhubVRxc1dZd2NQakpLUkt6?=
- =?utf-8?B?WHVzeEdCRDRLZ2VvcFFlK0VUR1h2ZUNqaFBKSWZIem9XYTNLTmRwa2dYSXJ1?=
- =?utf-8?B?K1IxMzVza3lVdUNMSE4xN0Zkb3NCN0N3dlJRTHVQMjlOMmh1WHpYWFcvdk96?=
- =?utf-8?B?L0tCOVlQWTdiN0lPc1Z3Tk43UGtyTWljTHhoMFFSZkJtVExTN0NEdkRlNkdG?=
- =?utf-8?B?ODZuV25VRldWVlZqM0pXeFJoK2FVeFU2Q2xoR0lOamRaUTM0ZWFuTDVURVI3?=
- =?utf-8?B?aXFWbVdZOVh2THRveEZyVWx5U3IxWHU4M3JCVnZtV2w3alArcHdQZVFkYUlp?=
- =?utf-8?B?REVHK3JTY0VvR24xVU93KzFZbjh3Y0hWTlJPZTRzNVhQN1lZQktMYkVheita?=
- =?utf-8?B?bXA1K2VoN0pNTEFCdHpIczZSUmhiQnExL3pRZThidDFRRjV6Vk9jVU14K2Vp?=
- =?utf-8?B?RjQzVGw3M2lVUU56c2YzOU5iREdFMWdPU3JLcFAvUE02VU5FQkV6eWVVMjY4?=
- =?utf-8?B?b1laMWhQcGFNQmdQZjZxZDExcTA2WmxJaUhqeXdZY0QzQlVIdFNTbjQzb2ZD?=
- =?utf-8?B?YWtrWUZhbnVHclpBQlUyemZsaFg5QlNXRVhkYS9vS0hFdlViVnFTc3ZQc3hF?=
- =?utf-8?B?dVNDa040RndKV0t1WkU0TVBxRlpmVlNOSG1IdkR2cjV2dVpFRDZ6NkFGUjNW?=
- =?utf-8?B?dE9nWjN2b01xN25SM1FhYVNoem9JN3JSeXV5dy9oNHhUQkRSb0pjRWtXa1Zi?=
- =?utf-8?B?NjVGODNtSnJJTFUyTUswOUxIZ3U1SllzR29VYmdhVmttRWcyVzc1N3YzRDg1?=
- =?utf-8?B?c1JMSFVDeGRQemdyMWRUQ0VXb0Q2bEtPbkpHeTU4WU8zeFladTZ1MkE2NG45?=
- =?utf-8?B?bzdDTDAySTZ3eU9mK01ldE81ejhuczZRWmg0aDdYTW1lRFM3eEJzZ3pXSlBD?=
- =?utf-8?B?ek5lNWFRYmtkU2tCOVRONEFFWDVuK0VvTVBmcTBTNjJzekNDOXpUQ0cycVUv?=
- =?utf-8?B?WjVOVUxiaEYyU0NITG1UcTNEVDRvd3dDQytPYVM4czM5RkxLUllOMUpuazVo?=
- =?utf-8?B?YUpQSkViNlA4dnNZVUs0NE81UGY1dzVIUURSaU81MVNISUFVQXFNQnl2ZDBX?=
- =?utf-8?B?amdKUnViLzVSWGptek5oSGYyY0tseHkvVnIzNmdaekNMNmc9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8344.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHB2WFZFQnVEb1A2R3NsM2NhMC9jcWt0bDNJZE9GakpxNGUrRXQ1K2dPUHJq?=
- =?utf-8?B?aWJXeE1KYlBybmZQdVJxanNxd3FCVUMwVi9PR25nbXVZVW1qVyt1d3p4QlJP?=
- =?utf-8?B?cXRsV1E4YStXK0sxdDA0dWdUdmVsUUhpeXYwZ21mdkNRWFZEVHFuMXhkKzBr?=
- =?utf-8?B?QTVkTHNKWEZwN0hUM1JBeWdYQ2FZZGp1QVBQejRoMnBiSlVtOXB5cG9ZVWNP?=
- =?utf-8?B?a1RkaVlSbTVJUHoyNkZmMThpdDE5MW1BL0FpTVFIbCsrMndwdG8rZ0VxbG0z?=
- =?utf-8?B?U0NrUmxGR1hnN292RmhYU3BEMjQ2eUZXeVBhT2JPTUFDdmovVjV1cjJZVUFN?=
- =?utf-8?B?Skw3UkVmd3psczgxRCthZy9QMUllWnhLb2NUNXFCL1JzU09ZbGw4TlVGcTJQ?=
- =?utf-8?B?UTFLdUpWQTdlS1Q5QXZwOVhjbVJhMkF0bFlzTEQ2WTdUaGxBSDhPWmxSZ2g0?=
- =?utf-8?B?RHhKc2E1RkxhNU1mUTZqTVc4QkxaOUpad3Uyb2lHUGNlNlNLM3hIMlJoNnYv?=
- =?utf-8?B?c0tWMjhhM1NPREVYMlFUVFZsSWVJc0N0WFdFazRJU29kZDFmY08wd2ZJeVhJ?=
- =?utf-8?B?MXVPRDhod09xTi93WUF1anpsWUVWUk5uWDhJbzYreVl4aHFpcTJ4aEJSeXRv?=
- =?utf-8?B?L3grMzRFYUVyWmpuVUp5NnJyOTNqbm9YNWN2blgya1NoS0FrU01VTlBIdU9q?=
- =?utf-8?B?d256UzVVcmhjOEhUYXQ3bUNKK3liS2x1VGdRYWRZVDlodGI5ZCtaN0hobHpi?=
- =?utf-8?B?bDNKa0w1YnZ5dmRUYUZOdFpMNnNLcFNjbVFDajRXeDRaTjZvSnJMQ3J6K0p2?=
- =?utf-8?B?ZUFsQlNNUWZlWnlMMW1BU1J1eEhQdWVOTGRoLzNuR0ltRkJhYlVKVUlsUUZp?=
- =?utf-8?B?QUxpU1BvNFpSTjloSmY0UWJJMklJNVE3WUFiQVpjakRDc254Tk16NkpnV2g0?=
- =?utf-8?B?N2FpOFQrWEtmVGdDZytLNEcvRVh1azV1UkZFTCt1RTY5V2xINm1rRksxZXJV?=
- =?utf-8?B?UWhzdTlkMVZ2ZUhNb3JwMmZWVzRlMzJRWGJ0M3pXL2tHb09vSnBoaEpUVGJq?=
- =?utf-8?B?a2lSeHBOdWEzOS80UURqazg2MFdKOVR5S05ObUVtTUo0d1dzMjR3SFdDdllX?=
- =?utf-8?B?bmd6bnA0Yk5EanVMcTFLTUVlL2h2Z0F1R0dIQVVDdHlIcG1jU3NzZ1AwL251?=
- =?utf-8?B?UjMwL05KMHg1WEczK2hTUTlhR21QRGtINlQzMDlGSTZYSVdqNzZGNEJVNmNV?=
- =?utf-8?B?Rm5wa3ZHOTNDRkJRSEpJZE5tbW1qWGpPVDhJQjVwY2VYQnZzMW5vampUU2ly?=
- =?utf-8?B?cW12KzRHaGszREg3WmFydXF4UXdyR2lacWtCMEVRMTBLRVM5ZWQ3ZENSSnJy?=
- =?utf-8?B?alBGbE42ZU5KU3FhU3RoSDNjUG5UWUt2TC8wbHVFaEtpbGNuQ1JhRjFZTlNv?=
- =?utf-8?B?L2ErY0l3Q2JjVXBKR2V2U0pSdDR2amxBZXpxZTdCV0xvZklaOThGTjVUMGND?=
- =?utf-8?B?bG5FS3ZSZ1htN0hEbURVcFhQdFJNT2tIdEo3U1hMVUJOWVczMURhNEFvZG9G?=
- =?utf-8?B?bnJzdEp1WDBCcTVhMnpHQk1FYTM5WDVCVk1CUGo0MTArMHJMdzRrTDlZMWlZ?=
- =?utf-8?B?L1NNZFJHekVwMWlvdk05UVBKa2RlS3kvMTU1Qmd0WGJjQVpjRkwrZXlrU0Fl?=
- =?utf-8?B?T3BpVUovVXZ4S3FDTUZiakNObTBOVFIrOHlhUkl3MWwwd21Vb0Y2SEQ1eGRQ?=
- =?utf-8?B?bkJnMU8xbzA0dmNEM1dVWldXSXBBU09KYzEzbGlJVU9rODJ0eUU0Q3F1dFBl?=
- =?utf-8?B?STdtdGhtcnNQMC9oME1kMGh6YlJOSXNEVHZLYlZ5U3BhY1h1SVNvWVNieHFC?=
- =?utf-8?B?QzYrbTUzQlRsWkwwTmU1dXdMVzhhZG8vYnp4RTlrTDBDV2JSeDRTVWJ1MWRC?=
- =?utf-8?B?UlhvV2o3WnNSejRoV2FaVUN5cFpsTUFVbUhTRU16YVNRbHNRN21kMWZhSGFx?=
- =?utf-8?B?dzU3MUQwdE1yb01FMXJkczNxSnZWbzgwQ1lYV0s5dTRUQ3JWUFFrSklKSE5Q?=
- =?utf-8?B?anIwTDRtTTVYS0UzaXZNNTc0aDk2QXpXQWRsR0pBWlhCSUhka0kxTkFJcUpw?=
- =?utf-8?Q?XgrVsr+7jwsNCjtZL9OE6lu3u?=
-X-OriginatorOrg: volumez.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4a455ec-78f4-4893-3656-08dcaae490c8
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8344.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2024 06:56:23.9036
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b1841924-914b-4377-bb23-9f1fac784a1d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bbnasO5W25erGYPS2lkUb8g92aHINibf4xZjIJfUyj0Mjkxs9L75Fq8pJ+YUeSoPF+va7vyciB6JIdRd63AhbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB8044
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <831af264-7f8a-495e-99b0-51f294e0948f@linux.ibm.com>
+X-Spamd-Result: default: False [-0.60 / 50.00];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240722_235636_613749_F76DFC70 
-X-CRM114-Status: GOOD (  13.85  )
+X-CRM114-CacheID: sfid-20240723_004102_523917_C1B2E8F7 
+X-CRM114-Status: GOOD (  24.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,40 +127,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently _drbd_send_page() use sendpage_ok() in order to enable
-MSG_SPLICE_PAGES, it check the first page of the iterator, the iterator
-may represent contiguous pages.
+On Tue, Jul 23, 2024 at 10:48:02AM GMT, Nilay Shroff wrote:
+> On 7/22/24 19:48, Daniel Wagner wrote:
+> > On Mon, Jul 22, 2024 at 03:01:08PM GMT, Nilay Shroff wrote:
+> >> This patch propose adding a new debugfs file entry for NVMe native
+> >> multipath. As we know NVMe native multipath today supports three different
+> >> io-policies (numa, round-robin and queue-depth) for selecting optimal I/O
+> >> path and forwarding data. However we don't have yet any visibility to find
+> >> the I/O path being selected by NVMe native multipath code.
+> >>
+> >> IMO, it'd be nice to have this visibility information available under 
+> >> debugfs which could help a user to validate the I/O path being chosen is 
+> >> optimal for a given io policy. This patch propose adding a debugfs file 
+> >> for each head disk node on the system. The proposal is to create a file 
+> >> named "multipath" under "/sys/kernel/debug/nvmeXnY/".
+> >>
+> >> Please find below output generated with this patch applied on a system 
+> >> with a multi-controller PCIe NVMe disk attached to it. This system is also
+> >> an NVMf-TCP host which is connected to NVMf-TCP target over two NIC cards. 
+> >> This system has two numa nodes online when the below output was
+> >> captured:
+> > 
+> > Wouldn't it make sense to extend nvme-cli instead adding additional
+> > debugfs entries to the kernel, e.g. extending show-topology?
+> > 
+> Yeah we may extend nvme-cli to print this(multipathing) information however from
+> where would nvme-cli retrieve that information? AFAIK, today this multipath information
+> is not exported by NVMe driver. So we have to first make this information available from
+> driver either through sysfs or ioctl and then nvme-cli could parse it and show it to the 
+> user. If everyone thinks that it's worth extending nvme-cli so that it could display this 
+> information then yes we can certainly implement it. Please suggest.
 
-MSG_SPLICE_PAGES enables skb_splice_from_iter() which checks all the
-pages it sends with sendpage_ok().
+debugfs might always be available. IIRC when lockdown is enabled, debugfs
+is not available or parts of it.
 
-When _drbd_send_page() sends an iterator that the first page is
-sendable, but one of the other pages isn't skb_splice_from_iter() warns
-and aborts the data transfer.
-
-Using the new helper sendpages_ok() in order to enable MSG_SPLICE_PAGES
-solves the issue.
-
-Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
-Signed-off-by: Ofir Gal <ofir.gal@volumez.com>
----
- drivers/block/drbd/drbd_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index f92673f05c7a..3d02015c1ddc 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -1550,7 +1550,7 @@ static int _drbd_send_page(struct drbd_peer_device *peer_device, struct page *pa
- 	 * put_page(); and would cause either a VM_BUG directly, or
- 	 * __page_cache_release a page that would actually still be referenced
- 	 * by someone, leading to some obscure delayed Oops somewhere else. */
--	if (!drbd_disable_sendpage && sendpage_ok(page))
-+	if (!drbd_disable_sendpage && sendpages_ok(page, len, offset))
- 		msg.msg_flags |= MSG_NOSIGNAL | MSG_SPLICE_PAGES;
- 
- 	drbd_update_congested(peer_device->connection);
--- 
-2.45.1
-
+I'd suggest going the full way and add expose the relevant information
+via sysfs and extend libnvme and nvme-cli. But this just my take on this.
 
