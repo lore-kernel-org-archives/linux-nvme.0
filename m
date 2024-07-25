@@ -4,90 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C42E1C3DA49
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jul 2024 15:10:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EAA2C3DA7E
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jul 2024 15:10:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A2VuDAKeSGGGRwdNEgASvdRePK2jE6LTgdknFzfGiVg=; b=DyVHFj59HGWdg4BOv+l6+okNpt
-	JZKPTEJByjEYByWsWpM2hiXk8HLf2mI3ppsMX2Sg41ML2HvVVw3A9+txb6ylLqFLDz8+CrwQ4edkJ
-	xxNoCOqtXPaGemKiOysjyV6CJsgZXCJ60ZuLCunl2htM/H+hcpwMsk0FdRSnL8sq1tZzoViK9evI2
-	bVSvpwnazzlMNxB0aedAr3Mky7+QqGtdBD4M74SGZ16ZQrcKclEefey/Qz5pF5qnWlD5r7KHuDKHs
-	Q6HC7GFiJZbIxIJRTx9lV3ePVjEAp3pf7ssQRC8uLv+rBcEuq6/3HNY+u/tLIHxa6eefi0Iafd2R/
-	DigmUjQQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BgSeWtp2yzQk2FRjPaDRrPwx0CpbQ2b/9NffTsqAfkI=; b=iE/8ihtVVArpZGeJT7D/JL2hDM
+	DChdzU5jA8FgO7syQA4Ms2yprP+AzITsWr3GfioL/CMSSQi1Sps2qj7CmrKZk4aeDmXBMODaVKAUq
+	ABOkyikQWcNTAhjuq/FGY8KhSXLUWfDEjRdhdS4xiKi71OSNFJ48B1dTCoPkeABeUpyV35iePTIes
+	M2x2L6RbDk80BmeDcQeEp9GPBy4I6PwGS3VdH5/t/dXtTVLYKVEcm9E5oS0W8He9djrEUivFSoMMF
+	SQwCfxVvk39HbRjS4tcXWx+ujGXfXoKYNjsFxyc7nDkzi/tB5tZ0VdakRK4pbBQ4pOskbtoGzOusR
+	0YDcBb/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYoUM-0000000FbCE-10rr;
+	id 1sYoUM-0000000FbCo-3rWL;
 	Tue, 30 Jul 2024 15:10:10 +0000
-Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
+Received: from szxga01-in.huawei.com ([45.249.212.187])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sWwm5-00000000mSv-07hW;
-	Thu, 25 Jul 2024 11:36:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
-	s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=A2VuDAKeSGGGRwdNEgASvdRePK2jE6LTgdknFzfGiVg=; b=HRSnzfY+SxqUo9lzjJBHswdyNO
-	izEqhcP/7tFCFgJJGzzhTZHV+hkIJ95lvet5keDsrZB2SVJh4LM2TT0rY+nfGtvBDiOATcCiQ/ZZp
-	NX14nRCfBdImELKCJsEds0YwtB87PNneYsFwhe69klvX8hKaVd3bPAdUOO5oKLpwqsdI1TpEV3xHA
-	zPeruYumASMydrGBh8+RD0p+DiFqZyJ0vUaImcbHlwd7Aik2LDO+RgK3xJUkwPiJj9pwJIeGrrPKF
-	y3yZwQEUsA40VBWzlQvQ+rZPVwPFNOT65DR9yRxPQziuObFSyUbJuGiw7PBH1R7FTtIfgagxi0sHi
-	wC/6XZ8A==;
-Received: from [102.39.153.168] (helo=pc220518)
-	by lounge.grep.be with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <w@uter.be>)
-	id 1sWwlF-001dJr-31;
-	Thu, 25 Jul 2024 13:35:53 +0200
-Received: from wouter by pc220518 with local (Exim 4.98)
-	(envelope-from <w@uter.be>)
-	id 1sWwl8-00000002sGZ-0mps;
-	Thu, 25 Jul 2024 13:35:46 +0200
-Date: Thu, 25 Jul 2024 13:35:46 +0200
-From: Wouter Verhelst <w@uter.be>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
-	Richard Weinberger <richard@nod.at>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
-	drbd-dev@lists.linbit.com, nbd@other.debian.org,
-	linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
-	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH 14/26] block: move the nonrot flag to queue_limits
-Message-ID: <ZqI4kosy20WkLC2P@pc220518.home.grep.be>
-References: <20240617060532.127975-1-hch@lst.de>
- <20240617060532.127975-15-hch@lst.de>
+	id 1sWxTm-00000000taH-0Jjn;
+	Thu, 25 Jul 2024 12:21:56 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WV93n3b0KzxVFN;
+	Thu, 25 Jul 2024 20:21:41 +0800 (CST)
+Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
+	by mail.maildlp.com (Postfix) with ESMTPS id 406D6140121;
+	Thu, 25 Jul 2024 20:21:45 +0800 (CST)
+Received: from [10.67.120.129] (10.67.120.129) by
+ dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 25 Jul 2024 20:21:44 +0800
+Message-ID: <11187fe4-9419-4341-97b5-6dad7583b5b6@huawei.com>
+Date: Thu, 25 Jul 2024 20:21:42 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240617060532.127975-15-hch@lst.de>
-X-Speed: Gates' Law: Every 18 months, the speed of software halves.
-Organization: none
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v11 04/14] mm: page_frag: add '_va' suffix to page_frag API
+To: Alexander Duyck <alexander.duyck@gmail.com>
+CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Subbaraya Sundeep
+	<sbhatta@marvell.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
+	Eric Dumazet <edumazet@google.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Sunil Goutham
+	<sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>, hariprasad
+	<hkelam@marvell.com>, Felix Fietkau <nbd@nbd.name>, Sean Wang
+	<sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
+ Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith
+ Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang
+	<jasowang@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>, Alexei Starovoitov
+	<ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Andrii
+ Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
+ Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+	<yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
+	<sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck
+ Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Neil Brown
+	<neilb@suse.de>, Olga Kornievskaia <kolga@netapp.com>, Dai Ngo
+	<Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	<intel-wired-lan@lists.osuosl.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
+	<kvm@vger.kernel.org>, <virtualization@lists.linux.dev>,
+	<linux-mm@kvack.org>, <bpf@vger.kernel.org>, <linux-afs@lists.infradead.org>,
+	<linux-nfs@vger.kernel.org>
+References: <20240719093338.55117-1-linyunsheng@huawei.com>
+ <20240719093338.55117-5-linyunsheng@huawei.com>
+ <CAKgT0UcqELiXntRA_uD8eJGjt-OCLO64ax=YFXrCHNnaj9kD8g@mail.gmail.com>
+Content-Language: en-US
+From: Yunsheng Lin <linyunsheng@huawei.com>
+In-Reply-To: <CAKgT0UcqELiXntRA_uD8eJGjt-OCLO64ax=YFXrCHNnaj9kD8g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.120.129]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemf200006.china.huawei.com (7.185.36.61)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240725_043645_521918_7A3ACEC0 
-X-CRM114-Status: GOOD (  17.58  )
+X-CRM114-CacheID: sfid-20240725_052154_501101_0B457A4C 
+X-CRM114-Status: GOOD (  25.35  )
 X-Mailman-Approved-At: Tue, 30 Jul 2024 08:10:07 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,42 +103,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 17, 2024 at 08:04:41AM +0200, Christoph Hellwig wrote:
-> Use the chance to switch to defaulting to non-rotational and require
-> the driver to opt into rotational, which matches the polarity of the
-> sysfs interface.
-[...]
-> diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-> index cb1c86a6a3fb9d..6cddf5baffe02a 100644
-> --- a/drivers/block/nbd.c
-> +++ b/drivers/block/nbd.c
-> @@ -1867,11 +1867,6 @@ static struct nbd_device *nbd_dev_add(int index, unsigned int refs)
->  		goto out_err_disk;
->  	}
->  
-> -	/*
-> -	 * Tell the block layer that we are not a rotational device
-> -	 */
-> -	blk_queue_flag_set(QUEUE_FLAG_NONROT, disk->queue);
-> -
->  	mutex_init(&nbd->config_lock);
->  	refcount_set(&nbd->config_refs, 0);
->  	/*
+On 2024/7/22 4:41, Alexander Duyck wrote:
+> On Fri, Jul 19, 2024 at 2:37 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> Currently the page_frag API is returning 'virtual address'
+>> or 'va' when allocing and expecting 'virtual address' or
+>> 'va' as input when freeing.
+>>
+>> As we are about to support new use cases that the caller
+>> need to deal with 'struct page' or need to deal with both
+>> 'va' and 'struct page'. In order to differentiate the API
+>> handling between 'va' and 'struct page', add '_va' suffix
+>> to the corresponding API mirroring the page_pool_alloc_va()
+>> API of the page_pool. So that callers expecting to deal with
+>> va, page or both va and page may call page_frag_alloc_va*,
+>> page_frag_alloc_pg*, or page_frag_alloc* API accordingly.
+>>
+>> CC: Alexander Duyck <alexander.duyck@gmail.com>
+>> Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+>> Reviewed-by: Subbaraya Sundeep <sbhatta@marvell.com>
+> 
+> Rather than renaming the existing API I would rather see this follow
+> the same approach as we use with the other memory subsystem functions.
 
-NBD actually exports a flag for rotational devices; it's defined in
-nbd.h in the NBD userland source as
+I am not sure if I understand what 'the other memory subsystem functions'
+is referring to, it would be better to be more specific about that.
 
-#define NBD_FLAG_ROTATIONAL     (1 << 4)        /* Use elevator algorithm - rotational media */
+For allocation side:
+alloc_pages*()
+extern unsigned long get_free_page*(gfp_t gfp_mask, unsigned int order);
 
-which is passed in the same flags field which also contains the
-NBD_FLAG_SEND_FLUSH and NBD_FLAG_SEND_FUA flags.
+For free side, it seems we have:
+extern void __free_pages(struct page *page, unsigned int order);
+extern void free_pages(unsigned long addr, unsigned int order);
+static inline void put_page(struct page *page)
 
-Perhaps we might want to look at that flag and set the device to
-rotational if it is specified?
+So there seems to be no clear pattern that the mm APIs with double
+underscore is dealing with 'struct page' and the one without double
+underscore is dealing with virtual address, at least not from the
+allocation side.
 
--- 
-     w@uter.{be,co.za}
-wouter@{grep.be,fosdem.org,debian.org}
+> A specific example being that with free_page it is essentially passed
+> a virtual address, while the double underscore version is passed a
+> page. I would be more okay with us renaming the double underscore
+> version of any functions we might have to address that rather than
+> renaming all the functions with "va".
 
-I will have a Tin-Actinium-Potassium mixture, thanks.
+Before this patchset, page_frag has the below APIs as below:
+
+void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
+			      gfp_t gfp_mask, unsigned int align_mask);
+
+static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
+					  unsigned int fragsz, gfp_t gfp_mask,
+					  unsigned int align)
+
+extern void page_frag_free(void *addr);
+
+It would be better to be more specific about what renaming does the above
+APIs need in order to support the new usecases.
+
+> 
+> In general I would say this patch is adding no value as what it is
+
+As above, it would be better to give a more specific suggestion to
+back up the above somewhat abstract agrument, otherwise it is hard
+to tell if there is better option here, and why it is better than
+the one proposed in this patchset.
+
+> doing is essentially pushing the primary users of this API to change
+> to support use cases that won't impact most of them. It is just
+> creating a ton of noise in terms of changes with no added value so we
+> can reuse the function names.
+
+
+After this patchset, we have the below page_frag APIs:
+
+For allocation side, we have below APIs:
+struct page *page_frag_alloc_pg*(struct page_frag_cache *nc,
+                                unsigned int *offset, unsigned int fragsz,
+                                gfp_t gfp);
+void *page_frag_alloc_va*(struct page_frag_cache *nc,
+                                 unsigned int fragsz, gfp_t gfp_mask,
+                                 unsigned int align_mask);
+struct page *page_frag_alloc*(struct page_frag_cache *nc,
+                                     unsigned int *offset,
+                                     unsigned int fragsz,
+                                     void **va, gfp_t gfp);
+
+For allocation side, we have below APIs:
+void page_frag_free_va(void *addr);
+
+The main rules for the about naming are:
+1. The API with 'align' suffix ensure the offset or va is aligned
+2. The API with double underscore has no checking for the algin parameter.
+3. The API with 'va' suffix is dealing with virtual address.
+4. The API with 'pg' suffix is dealing with 'struct page'.
+5. The API without 'pg' and 'va' suffix is dealing with both 'struct page'
+   and virtual address.
+
+Yes, I suppose it is not perfect mainly because we reuse some existing mm
+API for page_frag free API.
+
+As mentioned before, I would be happy to change it if what you are proposing
+is indeed the better option.
 
