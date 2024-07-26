@@ -4,80 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4167C3DA4A
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jul 2024 14:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E839C3DA4A
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jul 2024 14:48:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B4gLEWOhBBZePEATRyF+n476aoTs9cAAFkncKCl7z20=; b=V3Wh1CeEXgxPd+RFuhkCwlmRnQ
-	P0lF4vZ1CqXZasxsi8Y/TuG8WGkucRk1snc/rTERuUmOOWAuKk63Gwi0vYHiQDXICcbOct2ht7RM0
-	hdoqPB9VNqMiIaEediWkopXRzIhn/VzIpbWQODEayfM6k00ozJsNVRhSj5gAny16d5l1NsxzXy9B4
-	DIk0OIXUgbuMpwzO16DjWjgRN52NTFB2EEhUlNRgu+xGwud9+0qrrfkDXhM84yjdNUvHPmf5ve6hg
-	uSr0lmux/naJ+YnljHS9uGoSImvsKuroGyuuF8yz9lJOxJfeoOUMneuGmoufJjMQUEvYB3qZQgkNb
-	FL6ZRLFg==;
+	bh=0Q9q1k+QhC5g2t76lLIcYeKNmwYGWa4J5VpRWz8hx0c=; b=atLkM8HsUKEw5eJc6uc6Xk9JSG
+	34ZUzphHOpj6Ayq+YgTLy7MEoAg34abbsqopGRmx4891gvnrbyaICkRStDhoQZ6uQAPuJhuO9MmON
+	zyege7Mf8AOZpmtWdzF3ZytwuhIDqsSKrowFcQUgS/CpsdfeD1x7BCfE3ZURKU9JaSyaUAfsfYwWY
+	hDRd+PwZq2mLIWOd93VKiYJRQLFmTSDgG5OcY9cFVV03qkgKRmyHaL4dObFjml6iRlMSLJjHGZGmO
+	nVIN3z/7D4PM54wVvwkGau6tYMdqp1U0tERlhDWwJpRSVsIDfXbmsn9d7YgajfSpLWhip8iqkISfo
+	orKLTi1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sXLaq-000000045hs-3OPy;
-	Fri, 26 Jul 2024 14:06:48 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1sXMFK-00000004C1L-3Rcw;
+	Fri, 26 Jul 2024 14:48:38 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sXLam-000000045gb-3SWU
+	id 1sXMFF-00000004C0Q-25KA
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Jul 2024 14:06:47 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-70d2357df99so13244b3a.1
-        for <linux-nvme@lists.infradead.org>; Fri, 26 Jul 2024 07:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1722002802; x=1722607602; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B4gLEWOhBBZePEATRyF+n476aoTs9cAAFkncKCl7z20=;
-        b=yiLv8w8jIIi9D19tEtHafk975PqTpNEGY0G0RhK5TLltLPpC6oRBB5HCzG936hi4kB
-         tA42Srjt0SxS9lPeDND5/s3U0B6LNcVy8edvC2ABAky5t4OJSWEWlM2/g/46AqYEN+CU
-         WFNm97FoaAXMQt8kxmRHRtRUMF4GHkdGYKJ2jAO5CBz4+ZjgzeEStw8gXt7t6I/I2Wmn
-         +ANk6DDNcpCGStMACqw1FvolQm96DK5baj5PDSPMhP9Bh+Eeekfq0iIU4ucy3++ZWE8t
-         4L/NpdmhAwoOcSGBlxNTCQI592WtSsgU8i5kYwicaqaNCDnTI2SZhW0kBXNcflqpl9p9
-         d7nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722002802; x=1722607602;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B4gLEWOhBBZePEATRyF+n476aoTs9cAAFkncKCl7z20=;
-        b=ZRAI+EMlOmHkKNLXeW/YV3HsoN01BmB8i7e8fCYJqybp2p476+9m4aPdOuuHiEpFya
-         g/ML5O2H1b2fFgm5eSGmGWO4eL7wT/ZkhRApYZnDRkjHOjY1heit3ktRLm5aVIsY30e5
-         fGXqSazaig2ObWmzJdnwbY3rNIMBndkvwpKQ7wj1ecO4aS+3X7krAsYgQPM8DW81mo9r
-         v9IEWaV4LvZ1GVWZJwQOKInPG9QKLpQyO7Xk5iAuhcE2U8i3C1+2I2DvHabT+GDaCxXD
-         hh5RsBdukPa3ooNcxzLolE6dnNJ9117lRaPibCw8mxrjGeQwxZGihS8LWCWr+8Y3XIG6
-         vMCA==
-X-Gm-Message-State: AOJu0YwLBRVFsg0S42NtyWFYS4NPRUzPD4ZC1uzvCEH2xeOzDx1UoxPx
-	GfGJuMl+cfGaEJ053q6w7bIpmk54t5EP7/60v21LQvyxxqxJWp2SLoMPUasyBjg=
-X-Google-Smtp-Source: AGHT+IE6/yUZk21dRlHhgwICETo7e5nBX9BT2u97DMyRWcg3C7/Pu6wEYdRRAVALGm8LDXJjsKO3CQ==
-X-Received: by 2002:a05:6a21:9218:b0:1c3:c1d0:227 with SMTP id adf61e73a8af0-1c4774d95b0mr3771615637.8.1722002802544;
-        Fri, 26 Jul 2024 07:06:42 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7a9f7d6b09dsm2810572a12.10.2024.07.26.07.06.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jul 2024 07:06:41 -0700 (PDT)
-Message-ID: <c8a2b6ac-2488-44b5-b332-3a5b92ae80a1@kernel.dk>
-Date: Fri, 26 Jul 2024 08:06:40 -0600
+	Fri, 26 Jul 2024 14:48:36 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E9AF21B71;
+	Fri, 26 Jul 2024 14:48:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722005310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0Q9q1k+QhC5g2t76lLIcYeKNmwYGWa4J5VpRWz8hx0c=;
+	b=V1d6kyd57fvKNe12NHUZiVuIZrdO5uX0Z8feo2bp6cnnBIikjyRyvjgiz2GQpENE0oPopl
+	fSgd0OlWXgPWdjAWzAAaH+oTJstTf2YciVVyU0rZ1ZK9/WPtnkvDl3HsjL+pO8GVnOcCjl
+	xjKcRkTjEn39xfMKF8qlolROySgDGag=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722005310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0Q9q1k+QhC5g2t76lLIcYeKNmwYGWa4J5VpRWz8hx0c=;
+	b=dsrgCcOtGLmTFu6GgLkDjgqyee3zuv0mavrOpTih/OWQdd+gXdVjytIBZ2VxW/QkkgsZFk
+	N9sIQClVxhnNsoCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=V1d6kyd5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dsrgCcOt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722005310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0Q9q1k+QhC5g2t76lLIcYeKNmwYGWa4J5VpRWz8hx0c=;
+	b=V1d6kyd57fvKNe12NHUZiVuIZrdO5uX0Z8feo2bp6cnnBIikjyRyvjgiz2GQpENE0oPopl
+	fSgd0OlWXgPWdjAWzAAaH+oTJstTf2YciVVyU0rZ1ZK9/WPtnkvDl3HsjL+pO8GVnOcCjl
+	xjKcRkTjEn39xfMKF8qlolROySgDGag=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722005310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0Q9q1k+QhC5g2t76lLIcYeKNmwYGWa4J5VpRWz8hx0c=;
+	b=dsrgCcOtGLmTFu6GgLkDjgqyee3zuv0mavrOpTih/OWQdd+gXdVjytIBZ2VxW/QkkgsZFk
+	N9sIQClVxhnNsoCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35546138A7;
+	Fri, 26 Jul 2024 14:48:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nfNRCz63o2aIJQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 26 Jul 2024 14:48:30 +0000
+Message-ID: <39b9e26e-e471-4e51-8ce7-7cb6149223db@suse.de>
+Date: Fri, 26 Jul 2024 16:48:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.11
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-References: <ZqOs77uDJQGEFHf2@kbusch-mbp>
+Subject: Re: [PATCH v1 2/2] nvme-fc: fix race with connectivity loss with
+ nvme_fc_create_association
+To: Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20240611190647.11856-1-dwagner@suse.de>
+ <20240611190647.11856-3-dwagner@suse.de>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZqOs77uDJQGEFHf2@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240611190647.11856-3-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7E9AF21B71
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	MX_GOOD(-0.01)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240726_070645_022534_3B8AF7F8 
-X-CRM114-Status: GOOD (  10.12  )
+X-CRM114-CacheID: sfid-20240726_074833_706292_5DEBA35D 
+X-CRM114-Status: GOOD (  15.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,32 +140,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/26/24 8:04 AM, Keith Busch wrote:
-> The following changes since commit 8e64d2356cbc800b4cd0e3e614797f76bcf0cdb8:
+On 6/11/24 21:06, Daniel Wagner wrote:
+> We are racing with nvme_fc_create_association here. We wouldn't have to
+> do anything in nvme_fc_ctrl_connectivity_loss IF
+> nvme_fc_create_association would reliable detect that the setup failed.
+> In reality, nvme_fc_create_association is able to return success even
+> though some of the operation fail during the setup (and this is even on
+> purpose):
 > 
->   s390/dasd: fix error checks in dasd_copy_pair_store() (2024-07-15 10:57:39 -0600)
+>   nvme nvme10: NVME-FC{10}: create association : ...
+>   nvme nvme10: NVME-FC{10}: controller connectivity lost. Awaiting Reconnect
+>   nvme nvme10: queue_size 128 > ctrl maxcmd 32, reducing to maxcmd
+>   nvme nvme10: Could not set queue count (880)
+>   nvme nvme10: Failed to configure AEN (cfg 900)
+>   nvme nvme10: NVME-FC{10}: controller connect complete
 > 
-> are available in the Git repository at:
+> Thus we transition to the CONNECTED state and don't start the reconnect
+> loop. Thus we should unconditionally schedule a reset.
 > 
->   git://git.infradead.org/nvme.git tags/nvme-6.11-2024-07-26
+> If a reset has already been schedule it's either a no-op or we observe
+> back to back reset. But we can't really distinguish between host side
+> double scheduled reset work or a connectivity loss event right after a
+> reset. Thus we have to live with this corner case. The system will enter
+> the correct state eventually.
 > 
-> for you to fetch changes up to c31fad1470389666ac7169fe43aa65bf5b7e2cfd:
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   drivers/nvme/host/fc.c | 24 +++++++++++++++++++++---
+>   1 file changed, 21 insertions(+), 3 deletions(-)
 > 
->   nvme-pci: add missing condition check for existence of mapped data (2024-07-25 07:20:54 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.11
-> 
->  - Fix request without payloads cleanup  (Leon)
->  - Use new protection information format (Francis)
->  - Improved debug message for lost pci link (Bart)
->  - Another apst quirk (Wang)
->  - Use appropriate sysfs api for printing chars (Markus)
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Pulled, thanks.
+Cheers,
 
+Hannes
 -- 
-Jens Axboe
-
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
+Werner Knoblich
 
 
