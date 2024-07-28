@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5013BC3DA4A
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jul 2024 00:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E9A1C3DA7E
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jul 2024 00:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v+4jRn09kkTxBMZIc3IY7seCpX62rPXtVeyTvtT1rVg=; b=gEk0iMa//WYwb345x1KKTplzDI
-	/qxOReLx/IE64ZtkoXMlhHeYWTzIxzFBxQ6wP2/DSA6o5Xs6OOHOPRsgJEm5L+lBOpl3rJNhI2947
-	Il7Ls5jZsZ9YtEvV9IHvp06dfvFYxOvPwh8o01B5MxfEHKniWdx2p2A2PMiuyo9J6b0dF0HWIayua
-	WfsVv/FaPrcfhiDt7+stv+6P1Wf+RPZqrP0VCsC6fdxGjDg9C/BjHcj6zat6miicwMZvYY4BLwufW
-	wKajFmKm2dEiGCYT4mFYlj1IRgoyXg/ggyB9abz9ljE3lPJh66b/auXwUQIGvTYz5t8aqNKQTaygK
-	6oeRqu/w==;
+	bh=nGqkeFAkbcv4z8RCf1qr4WxfwwRLNp08umo4uiv1YFc=; b=JjUH6TDyoYCy5kTnvthGmiK+yQ
+	bdDM5wjc1Y8B7Nm9e5Gs8it7GNMHbJBq61Wz0nGB3SnRZrW3VNxvXx2QTPiDSI+MuB1HJoPtEig6C
+	8IK5BBlGGr+9K4CgLl5FSNTkocorTQx6FMDmikLwc1/iVfnAwGLvjCZp2kd20TxKkGID6F8WK4N5Z
+	ydQTbWdgiqyeVFUpS8LsxZNfyQuBeUV/zzq+Fc0GVzTF4qaQTp9OkWjQp9gScLiNjznIkVP8gSa9r
+	Z9qXEwzbIHjTwVlswYfSEV0j3JN9q/Z/6ppp6Xg2cTZ9WykUlSmZBLLFte7fV2djcxkaHNnhu/hPP
+	63j+F2yA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sXs5o-00000007Z6Y-3n8l;
-	Sun, 28 Jul 2024 00:48:56 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sXs5p-00000007Z75-2yDn;
+	Sun, 28 Jul 2024 00:48:57 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sXs5L-00000007YvB-18t1
+	id 1sXs5d-00000007Z1I-3NuD
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Jul 2024 00:48:28 +0000
+	Sun, 28 Jul 2024 00:48:47 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 61A266108E;
-	Sun, 28 Jul 2024 00:48:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB893C4AF0F;
-	Sun, 28 Jul 2024 00:48:24 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 0B449CE0929;
+	Sun, 28 Jul 2024 00:48:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6DA8C4AF0F;
+	Sun, 28 Jul 2024 00:48:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722127706;
-	bh=cCrF0eILIbTULWrteyOh0RqBozS/DkpMy1BxsHTqIv4=;
+	s=k20201202; t=1722127723;
+	bh=OP4Jz20guFdytwqiSyJYMbytLrEavIFQ99UdbvUPhO0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=POIQAdT43Biw89AifVJcWKTqu6bM68+H6X17bAY1pCZSpkzKDUm7W8z52K/3dcJ1n
-	 P9k43RqJTMDmZRKT987tO+hfvWitcsBatIbbfG3Fy/an9+V6ImClGVkLiVO5whNND1
-	 cLnlMpYITSnRF3C+90HHwYT8F9i3rPmGlSJV2PluH/jNxvfSTMWCkxJ7Umn7g4VDGX
-	 1rsQ57DOp6KfhfUuxhLiszVRxgM7LBMt1l81i+VMdNFXvhVxHxciQUHtymH30AtKyo
-	 820o8DhgFZBtY1a1uwyAwcPaPstM9Idcc8R8ATYPdGe3/DsbTCPZSUjwn0Lur4EVdx
-	 iCxjK/ji2pz7g==
+	b=VbLCZgVKQvHzZPnEULyKfkMXvccc5miJWxFgPRQ3/STLpGvlmN8zzUSi9xcYDlLPB
+	 q1SGP3MNZIT+yJ1zBxEhWZX+YPaUZhUQAkNWA95OaROmTcU/yNCagy95+fDwdFPwtr
+	 UQM6UROVNOogF+HA3avYdD1kRHo5t5tPVVgy2EmNiV2Y6++fRyqzm+BEOangIG3t57
+	 3F36fL8oGtA1hzAmcKQTGnSXo89zQgELfpZ9XlFxSYArt6i/SW084Jgl97ode8+T6D
+	 5ASL7S+9N5ruo2kDbVig7sjckR0QahbYARbT1JR7L4yATWT1oNYpFnUP9N+VtFckbu
+	 hnMlJUdvlX3rA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -55,19 +55,19 @@ Cc: Mikulas Patocka <mpatocka@redhat.com>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 7/9] block: change rq_integrity_vec to respect the iterator
-Date: Sat, 27 Jul 2024 20:48:08 -0400
-Message-ID: <20240728004812.1701139-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 6/8] block: change rq_integrity_vec to respect the iterator
+Date: Sat, 27 Jul 2024 20:48:28 -0400
+Message-ID: <20240728004831.1702511-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240728004812.1701139-1-sashal@kernel.org>
-References: <20240728004812.1701139-1-sashal@kernel.org>
+In-Reply-To: <20240728004831.1702511-1-sashal@kernel.org>
+References: <20240728004831.1702511-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.43
+X-stable-base: Linux 6.1.102
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240727_174827_468853_9BBB0171 
+X-CRM114-CacheID: sfid-20240727_174846_240033_7E58CEDF 
 X-CRM114-Status: GOOD (  18.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -123,10 +123,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 710fd4d862520..c2f53267cb8c3 100644
+index 32e89ea853a47..21712063cbd5a 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -826,9 +826,9 @@ static blk_status_t nvme_map_metadata(struct nvme_dev *dev, struct request *req,
+@@ -873,9 +873,9 @@ static blk_status_t nvme_map_metadata(struct nvme_dev *dev, struct request *req,
  		struct nvme_command *cmnd)
  {
  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
@@ -138,7 +138,7 @@ index 710fd4d862520..c2f53267cb8c3 100644
  	if (dma_mapping_error(dev->dev, iod->meta_dma))
  		return BLK_STS_IOERR;
  	cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
-@@ -968,7 +968,7 @@ static __always_inline void nvme_pci_unmap_rq(struct request *req)
+@@ -1015,7 +1015,7 @@ static __always_inline void nvme_pci_unmap_rq(struct request *req)
  	        struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
  
  		dma_unmap_page(dev->dev, iod->meta_dma,
