@@ -4,70 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 836A4C3DA64
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jul 2024 20:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85380C3DA4A
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jul 2024 04:51:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4fOkcJDRNToPHQZUBta3OCRjs/znt5HfYgsSbVlpWO8=; b=nucWzS1RxNL85SWgXOmXaRn/vN
-	99jF54xW+4j21ADuQiuDRrgR74DzQTzZaKhrVIw+x94dm90eu5dCF8u4TyS+xHzlR66I9W5Ut9JS3
-	/en4NceKF0d7eVgw0GvM8W2PQPbRD8hO5k5fB/LLyyKV0cHfD+hXMK6lQ7jsedorLNnYxBS20ZHUN
-	oSNTb3Jas4T766xo1ZRGtWDSo+GJI7Z/C/kn+DHnPh9co/+dNcXC5TnjwvCdq0jcXNpa8qKJFel1f
-	AendE13EL9boMcthJ2nEUflcCeQdOWKw8PDxiHWay1S12fyY4g4lD9vwg153kHvo+lzvWXy+LTD7Q
-	a4w0xoWw==;
+	bh=g1XBxAnvX54KuX1ZU3/mQt3QejHHysI6hnueTU9/mTs=; b=1rh6X+O5Jwr6RsFTxY3HHNGLV3
+	PsmhZcRRtJmc8Cl6UjSSPr7/02ljvx6w/DyDP1jSQnxA8ak6SeV87/kpp7ITy+MO/ICzLBPgp0j4l
+	/6ttU1gpnD/g8be4Zohg/UPkeKeRje7/6zQkn8kH6FRoYvS7b3mFDaXjhlH/l+Xq9/RDsza1ZYjdg
+	NkDg0ZurOWnghvgOBWoNRaMOaCAzxYOEuGSebLiM0MeOPUDQEp1GZ/xZ7vG+gm/qkYeiGQnSGd+e2
+	uZJv868jCWRoKFZTcWS/GhvnYcOKuf2kckD8IbBb3QJv1HMCPh85/2ajvgfCfpTxvBDWgApouNg3y
+	6ROj+2RA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYAqi-00000009C1V-3m6n;
-	Sun, 28 Jul 2024 20:50:36 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
+	id 1sYILn-0000000A07S-10Ro;
+	Mon, 29 Jul 2024 04:51:11 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYAqf-00000009C0r-2Lla
+	id 1sYILg-0000000A06n-2vTc
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Jul 2024 20:50:34 +0000
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42803adb420so2241755e9.2
-        for <linux-nvme@lists.infradead.org>; Sun, 28 Jul 2024 13:50:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722199832; x=1722804632;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4fOkcJDRNToPHQZUBta3OCRjs/znt5HfYgsSbVlpWO8=;
-        b=kMpsT3F9EnDxMXEZKZkfejtJRXkIeKJaGtdwYPdGwLp3bOaQcOPGK7pvG37geESPRQ
-         bqC7msWMNA5IzYZgjdduTn+t2+7w/0eBC/gI9Ma5ZyflFYFevv1FviKt+6cq2E8yqlQr
-         f9Fj1qcOp2jq1XvXsUnnEm2OCYhbcxZvKeHlXILdddZ95z77iU3di1k3aQ4keVmbVBE5
-         kWCQ/ArPB8eWvHIK7heXGW/unWUxaVYlY8xSxPxo+NWT6eWdgNM5Rt5xXR1Y73T6jAF1
-         ZK/hYObl3LGaj2lomVfrtcRSJv6TgX1RHBjLl5PPEFb+UCIpdXeTmaV/CXPLmRhdziy7
-         RvUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUIxCCmGIco1kQm7SmoCcPmv76w7yqDzMYM2ErnwQnF0bJL0RlXOxfdtjw2eVnuhcCALdpS+a9TUlp1ABvhOkTPXKSNV/gfCWpFHQNnTpA=
-X-Gm-Message-State: AOJu0Yy/x+aWq+w/5f0gahlm9mq0P6quGS7LiaewNAXugRdlb/bbs5X/
-	/2/AvcGalYtKP/pDzMjncu63hP9FcY96Q7Tx+DNo9v9X4Jrrv76C
-X-Google-Smtp-Source: AGHT+IED+zeyxzN9JB6HirBf/qXPP7qnC4qIb9Q+VbBMnALR5B/F2aAlppSNfbK6j8qoU8lig4OwhQ==
-X-Received: by 2002:a05:600c:3ba8:b0:426:4920:2846 with SMTP id 5b1f17b1804b1-428054f12e2mr50866275e9.3.1722199831497;
-        Sun, 28 Jul 2024 13:50:31 -0700 (PDT)
-Received: from [10.100.102.74] (89-138-69-172.bb.netvision.net.il. [89.138.69.172])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42809eb192csm89916755e9.1.2024.07.28.13.50.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jul 2024 13:50:31 -0700 (PDT)
-Message-ID: <62235abd-a1bf-4892-8310-34bbf6c8982f@grimberg.me>
-Date: Sun, 28 Jul 2024 23:50:30 +0300
+	Mon, 29 Jul 2024 04:51:09 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46T2tUB1007133;
+	Mon, 29 Jul 2024 04:50:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=g
+	1XBxAnvX54KuX1ZU3/mQt3QejHHysI6hnueTU9/mTs=; b=FvOR6ufJBPviUIVl5
+	EWS4EIsLkZXwOI2nriBVIaT3kXwF+9dM8IUjnQ8lsyNE0kWMsmBdj3YjPKG8NS06
+	mvubb1Zl+RpSqBYMFB7fHhclSTm+bA490S5ycFzMb0qVwzOzjmvitMghp+9umbsg
+	9v94c88MZ8FtSwN6gqqsLBh/TnPGkvc9M42XjUu0ZT1LTZ+sa2mKCXvLoUPaGmWZ
+	govCmXCx6wRfR1UKZKT1ADf6rhV7g2iHl9gfQbKH802VTJOLOoKswUfXjNbb9Y/F
+	arJX8Nod8nqvVdKbqCdO65iBubwOBdcCY3BWgvITSWTAae6SwI6FFzAtjrtN++Td
+	27Rew==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 40mwdn37r2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Jul 2024 04:50:52 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 46T2lbVA011133;
+	Mon, 29 Jul 2024 04:50:51 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 40ncqmcrkr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Jul 2024 04:50:51 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 46T4onkx64880948
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 29 Jul 2024 04:50:51 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 48B8E5805A;
+	Mon, 29 Jul 2024 04:50:49 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0A0545805F;
+	Mon, 29 Jul 2024 04:50:47 +0000 (GMT)
+Received: from [9.109.198.216] (unknown [9.109.198.216])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 29 Jul 2024 04:50:46 +0000 (GMT)
+Message-ID: <14377a5b-c83d-405a-bcec-6932dfdc99b9@linux.ibm.com>
+Date: Mon, 29 Jul 2024 10:20:45 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv8 0/9] nvme: fixes for secure concatenation
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
-References: <20240722120226.88737-1-hare@kernel.org>
+Subject: Re: [PATCH RFC 0/1] Add visibility for native NVMe miltipath using
+ debugfs
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, axboe@fb.com, gjoyce@linux.ibm.com
+References: <20240722093124.42581-1-nilay@linux.ibm.com>
+ <ed89f058-93e8-40b7-936f-b5ee83c70bf8@grimberg.me>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240722120226.88737-1-hare@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <ed89f058-93e8-40b7-936f-b5ee83c70bf8@grimberg.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: tlXuO0l5kwagbRR14sxdW_-IsI8iTCTm
+X-Proofpoint-GUID: tlXuO0l5kwagbRR14sxdW_-IsI8iTCTm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-29_02,2024-07-26_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 mlxlogscore=999
+ suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2407290025
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240728_135033_632124_006FA5D7 
-X-CRM114-Status: GOOD (  11.32  )
+X-CRM114-CacheID: sfid-20240728_215105_107963_B17104F0 
+X-CRM114-Status: GOOD (  15.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,22 +109,45 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
+On 7/29/24 02:17, Sagi Grimberg wrote:
+> 
+>> # cat /sys/kernel/debug/block/nvme2n2/multipath
+>> io-policy: numa
+>> io-path:
+>> --------
+>> node  current-path  ctrl    ana-state
+>> 2     nvme2c2n2     nvme2   optimized
+>> 3     nvme2c0n2     nvme0   optimized
+>>
+>> The above output shows that current selected iopolicy is numa. And when we
+>> have workload running I/O on numa node 2, accessing namespace "nvme2n2",
+>> it uses path nvme2c2n2 and controller nvme2 for forwarding data. Moreover
+>> the current ana-state for this path is optimized. Similarly, for I/O
+>> workload running on numa node 3 would use path nvme2c0n2 and controller
+>> nvme0.
+>>
+>> Now changing the iopolicy to round-robin,
+>>
+>> # echo "round-robin" > /sys/class/nvme-subsystem/nvme-subsys2/iopolicy
+>>
+>> # cat /sys/kernel/debug/block/nvme2n2/multipath
+>> io-policy: round-robin
+>> io-path:
+>> --------
+>> node  rr-path       ctrl    ana-state
+>> 2     nvme2c2n2     nvme2   optimized
+>> 2     nvme2c0n2     nvme0   optimized
+>> 3     nvme2c2n2     nvme2   optimized
+>> 3     nvme2c0n2     nvme0   optimized
+> 
+> Can we avoid a formatted output in sysfs? I'd much rather prefer that nvme-cli/libnvme to
+> format this (maybe this may be wanted as json in the future for example)...
+> 
+> Can we simply expose the individual components and have userpace format the output?
 
-On 22/07/2024 15:02, Hannes Reinecke wrote:
-> From: Hannes Reinecke <hare@suse.de>
->
-> Hi all,
->
-> here's a list of fixes split off from the secure concatenation patchset
-> as they really are unrelated and just are assorted fixes to get things
-> rolling.
-> The most important here is the first patch, which implements TP8018 to
-> support the 'version 1' format for TLS PSK identifiers. And it also
-> updates the sysfs interface to allow us to re-construct the nvme-cli
-> commandline from sysfs attributes.
->
-> As usual, comments and reviews are welcome.
+Yes that's what I am planning to implement. The sysfs would only expose the relevant 
+information from NVMe driver  and then libnvme/nvme-cli format the sysfs output as needed.
 
-Keith, for clarification, I think that both Christoph and I are good 
-with this being included.
+Thanks,
+--Nilay
 
