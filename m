@@ -4,70 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 388E8C3DA7E
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jul 2024 15:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5AD4C3DA49
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jul 2024 16:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TOmpyDcm1CthrtcJk0B6SRkKyBUOYq6t4Cca/cnKfwU=; b=nSoi4NNrn4kfKLWfwvnInmXaVC
-	kqDBCj3NCdu2EKd9D82n+JWLMNsYBTrJdJBXZrGW8JBVy0PO00xJ7ArCofcMqUBJp+LD87S779dK9
-	3N10sG4w6LGrGsY/e6BlSpurD2v6BtyRj7+rVZ/5x1H3ZOQRa2uR18NILJRngO4NkKmDoZDYD/G4V
-	dcIU/MdqPh3G88DxBn8dBn/2gIdhM06AeQdVDHBHHSGnG4yE5aRhMZBb1RvPUVNezy4TfqhRkOIaL
-	nThJMyqmktiguDIPMA8lk4JSRnVgIaz5YbHMKz3xuEcL4yRImbNdrNoa/P1cfd6l6silsB+fYZHyF
-	XoVGuoFg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=HKzBQ+T/p+5mSPnTVPLhKRtACj
+	sdupdC1SX9QnX4++TCacyfbQPv/w/Qfq7R5vdok3A9DSQra+xGmULePpI+0WeaEHQq8109wkvLbIV
+	oQDBZXfPeCFLy1bC9eIv59ZI50aNNSA8pXXPXhtDaHCGIGNXvCatjMIwwbpvKuUwh2YDWQgIemG5T
+	qKGg+5yGtmjrbsfM14b6clThm88yDtfKCJGAAPYIERy8Xj4hFQPqFWxnH6kTvXyA0PEJpY1XHHV6K
+	SGKzuhYc0QsfTRYwHSUS1X6wPLfM3+Y5cqTtR08N6BDLVFOYoApTOE2zCMwneajcVrisx148wPXUv
+	hrr/BOrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYoUX-0000000FbIC-3WNi;
-	Tue, 30 Jul 2024 15:10:21 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1sYpVh-0000000FoN5-1Ilp;
+	Tue, 30 Jul 2024 16:15:37 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sWy52-000000010Fw-29Nf;
-	Thu, 25 Jul 2024 13:00:26 +0000
+	id 1sYoNr-0000000FZjk-3cqI
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 30 Jul 2024 15:03:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=EPg4xuwGPXbajTNZmKFbgaBz1Q
+	R82XBOFKzKyr3E26tt1ZCjEhEMPgM42itlFBzsVnDl4Mdo1lU6mTWAbcFuk43oMYDqGyyXGCBI9Ak
+	FC6HhvK6O6VsszNzXWgBH66yiFpet7qT1ptflD/6Sfbmct9FazGUBS/LySi5DVbw7u6XNVbfILC2d
+	juA7YjZ6wkwJ9S4PKeNcHI645Ns3yKhP+Wwh8kYYEwwUag/ABuBo30ec9+gfVZftgK+N87N06oGrU
+	fAS4YsQaH4C39x8wWBAcebz0uMzF+7PodNMrOObcyr7ZxQjGWSyaka+s4g96JoR3Zmnp1naFgzMlv
+	JU6tMfcw==;
+Received: from verein.lst.de ([213.95.11.211])
+	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sYoNo-000000051fa-3d5B
+	for linux-nvme@lists.infradead.org;
+	Tue, 30 Jul 2024 15:03:26 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id C4CD1227A8E; Thu, 25 Jul 2024 15:00:09 +0200 (CEST)
-Date: Thu, 25 Jul 2024 15:00:08 +0200
+	id 4334168AA6; Tue, 30 Jul 2024 17:03:21 +0200 (CEST)
+Date: Tue, 30 Jul 2024 17:03:20 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Wouter Verhelst <w@uter.be>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Richard Weinberger <richard@nod.at>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Josef Bacik <josef@toxicpanda.com>, Ming Lei <ming.lei@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-m68k@lists.linux-m68k.org, linux-um@lists.infradead.org,
-	drbd-dev@lists.linbit.com, nbd@other.debian.org,
-	linuxppc-dev@lists.ozlabs.org, ceph-devel@vger.kernel.org,
-	virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
-	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, nvdimm@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH 14/26] block: move the nonrot flag to queue_limits
-Message-ID: <20240725130008.GA22625@lst.de>
-References: <20240617060532.127975-1-hch@lst.de> <20240617060532.127975-15-hch@lst.de> <ZqI4kosy20WkLC2P@pc220518.home.grep.be>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/3] nvme: change data type of lba_shift
+Message-ID: <20240730150320.GB29099@lst.de>
+References: <20240730103138.66714-1-joshi.k@samsung.com> <CGME20240730103943epcas5p392d6c4261213e7a9cf43e103e4dc76b7@epcas5p3.samsung.com> <20240730103138.66714-3-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZqI4kosy20WkLC2P@pc220518.home.grep.be>
+In-Reply-To: <20240730103138.66714-3-joshi.k@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240725_060024_819639_08BB032A 
-X-CRM114-Status: GOOD (  14.37  )
-X-Mailman-Approved-At: Tue, 30 Jul 2024 08:10:19 -0700
+X-CRM114-CacheID: sfid-20240730_160325_098889_4D9D3B17 
+X-CRM114-Status: UNSURE (   9.20  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,18 +75,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 25, 2024 at 01:35:46PM +0200, Wouter Verhelst wrote:
-> NBD actually exports a flag for rotational devices; it's defined in
-> nbd.h in the NBD userland source as
-> 
-> #define NBD_FLAG_ROTATIONAL     (1 << 4)        /* Use elevator algorithm - rotational media */
-> 
-> which is passed in the same flags field which also contains the
-> NBD_FLAG_SEND_FLUSH and NBD_FLAG_SEND_FUA flags.
-> 
-> Perhaps we might want to look at that flag and set the device to
-> rotational if it is specified?
+Looks good:
 
-Yes, that sounds good.  Can you send a patch?
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
