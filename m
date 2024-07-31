@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93E90C3DA7F
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jul 2024 07:12:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AA1AC3DA7F
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jul 2024 07:16:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=50ngMc518HVyx8DwW4zmm4juf5Q4Aoz7kMHGuIVF/28=; b=EwEjTP9iqiQmi/JGxv2I7RQsCL
-	ny6s0mi9qphZ7/MfO6Pnt93ZQpqooF2U4duFFw3lb905px9bARUEdvTt57h1JdLTwCYISvBTlaroF
-	58JH6WiA/TnQ/r+g45apzaBXjHhnQLnF8vLPxgNLOZedUwGKOPKxslsKUiAkhByTHoa4mPu44Nd/K
-	f1RzyrZmpefZLPgJpTldzgvtNCjynI9IGAHdfut2hiX+qzyhQkySF0CwMTnlSWB5EoMzu/nNhZEoB
-	+0My2Gg82r1RgfklV7wNkSVw/Um0cRwtbNB32qoOdkwzIwaJtaEFu5xP9EhP9jncBGC98fa+v7o3Y
-	EAf6vlBA==;
+	bh=Zn25LL93s5W9NXbacEAQcqI5Mm6cyoqmHJdr6+2fYnI=; b=ZmRmdSI8FVZfP1UxNNTT6FSvSj
+	euBEbf4LuiWSed5Hjx2+/HiRB/TSsbo3bFZ0X7Z1eAHgu1pLC+pBc/flZ/i9Bgaqn0cbkOkKe3zo7
+	0Fz0aUDleYdZ1ImEK6ECAoj91VEAMI/Sj9YkZyVxw9Wx0U4LRKKrAaRBgozoovIN2Y0tTFMgixzrj
+	MKxVwyGtvAdGjpErr3UYcVXMWYO7ljiHJnwb29lKtIoQYNyGPi8BdpXRD5WR8xwHnZvgiTFq0d/oQ
+	O7uznfGjqUSbSHoJjgsXBosABcRgeLoPI3lE8Zzjna2YrQU6PwSwhK9n/xG2tSeqCXdmHiO1R9qre
+	eWjckc7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZ3VS-000000004dc-0lsj;
-	Wed, 31 Jul 2024 07:12:18 +0000
-Received: from smtpbg150.qq.com ([18.132.163.193])
+	id 1sZ3Za-000000005e1-3RCP;
+	Wed, 31 Jul 2024 07:16:34 +0000
+Received: from smtpbgeu1.qq.com ([52.59.177.22])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZ3VP-000000004ao-0iVH
+	id 1sZ3ZT-000000005cR-2gMZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 Jul 2024 07:12:17 +0000
-X-QQ-mid: bizesmtp82t1722409846t9y894bn
-X-QQ-Originating-IP: FOg9DxHI9YWI5+Z3ZM+7/3WT6X/u1/eRWdy2vDnql8U=
+	Wed, 31 Jul 2024 07:16:32 +0000
+X-QQ-mid: bizesmtpsz13t1722410123toi7hb
+X-QQ-Originating-IP: NjX5CDpy6uVrOOnF6b+RGaCU2h4IvTKExtNn+fp+44Q=
 Received: from localhost.localdomain ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 31 Jul 2024 15:10:44 +0800 (CST)
+	id ; Wed, 31 Jul 2024 15:15:20 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17477064754091558293
+X-BIZMAIL-ID: 9501571679352240106
 From: WangYuli <wangyuli@uniontech.com>
 To: stable@vger.kernel.org,
 	gregkh@linuxfoundation.org,
@@ -50,16 +50,16 @@ Cc: keith.busch@intel.com,
 	hmy <huanglin@uniontech.com>,
 	Wentao Guan <guanwentao@uniontech.com>,
 	Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 4.19] nvme/pci: Add APST quirk for Lenovo N60z laptop
-Date: Wed, 31 Jul 2024 15:10:34 +0800
-Message-ID: <579BC59E06EFBC7F+20240731071034.106350-1-wangyuli@uniontech.com>
+Subject: [PATCH 5.4/5.10] nvme/pci: Add APST quirk for Lenovo N60z laptop
+Date: Wed, 31 Jul 2024 15:15:19 +0800
+Message-ID: <9243A56C7835B52C+20240731071519.109778-1-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.43.4
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240731_001215_798457_F94DDFD6 
+X-CRM114-CacheID: sfid-20240731_001628_208264_D642FD21 
 X-CRM114-Status: GOOD (  10.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -91,11 +91,11 @@ Signed-off-by: Keith Busch <kbusch@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 163497ef48fd..a243c066d923 100644
+index 486e44d20b43..e4776cff4208 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2481,6 +2481,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 			return NVME_QUIRK_NO_APST;
+@@ -2821,6 +2821,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 			return NVME_QUIRK_SIMPLE_SUSPEND;
  	}
  
 +	/*
