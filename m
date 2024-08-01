@@ -4,68 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4B37C3DA7F
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jul 2024 23:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8789C3DA64
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Aug 2024 08:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n+pOWS3wcUAX9NgewrwA4VLYDkN2ln1b86w+bGL6THA=; b=FDW/P0EYcoosVQjg9od6dPSgyg
-	JkUJsxkBklLARTlh0qF86JTYqMEKuO3pR3RiO7jtFIMUIU6xfaJUUsAD+lSKJUGjxOKZKkRJPogmy
-	8j3Wo+Hr0DvVJ7JMuGryMu2kR4IwpLi+5N8YO8o+ePmY2KVy+O8TXRWoX+kHYz7CjH1owPsqxeFNt
-	xPr69Oie+PMFIn+AdKOhmOPoYMg7XzX4vFiSMlgZ/RaujExuo5do8YzvJtoffSF4T0q7JaSRZLhnU
-	OH8634Tr02Mm4Y/hCaIitIrZlblOtf0+kLZ3J3K6/S6XwpvJQQf/53bjC2dJN8n29lJ4DjZdfjDuf
-	rqTyYWtw==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=; b=ifGF0ukzLhYh9XT+1CnSavYnWU
+	4e4WkhtzoqJ8t/FDPyE+x96zeWHPIlO+dF4huVV0tPU/LayYSc+d83uRMexrWuTkNiDkdvdnumwN5
+	oG/VS3sVr1Uzh7lBHdR9wr3a/iOq2Z1PXan5vycpqVASjg8pj8jcLSTNGgmcXh7+eLYpsSw7ICVNJ
+	DpytaOJrwHBUm4m+lalOllIpWGSWkoMtRYZc6q9FBtVMXhIWUWz0yezHnsiPTjSlOjJgRVFAoX3B/
+	f/40t5HaSwi8HgssrXRwpJWxVGxeItr3Hvyl4ENwsKZcdgfKAw5lYmH3JM3QtzUCMXTqlj+K9Eca0
+	s87bRz1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZJBQ-00000002r4L-0ZTf;
-	Wed, 31 Jul 2024 23:56:40 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1sZR9i-00000004LsD-2l6r;
+	Thu, 01 Aug 2024 08:27:26 +0000
+Received: from mail.quirkbyte.pl ([94.177.238.152])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZJBM-00000002r1Z-0BDl
+	id 1sZR9b-00000004Lpz-3cnD
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 Jul 2024 23:56:38 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 55DACCE1836;
-	Wed, 31 Jul 2024 23:56:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9143EC4AF0C;
-	Wed, 31 Jul 2024 23:56:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722470193;
-	bh=8roy8Xw2jj/VUUAXDLqEtyfSX75T55OU+WbOye7wrto=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aOJyIKTQMvuUvlg5Y6+P1amhoJ4O6lBK3C+xy6c5g3TNR6pNW5apfDzplFtLYI7Tz
-	 g/hubAajM0yEHS+5VN+9JovrHu9OzrcfJiRtHEervYSRmsi+2EoAohxQWkw5kpeR1Q
-	 uRWYE4jjyA6KWcIA/y6B21ypT30c1/zs5V4sJNk3o4pEqOLxHWIGQi3s+DoC/+Dl34
-	 secGByXQZ9GbiY9wNKSPwloXUDSQoU8W1si4tx43EAyMd3f2JKaDH/bQz91n+yZnVG
-	 Cig65bEQT2EaM4fHQZihq54dQX+VWghPtl6iuMoUD7xFgREE+0xrc/h+/Oz0ii2bWE
-	 YXGondBW7apew==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: WangYuli <wangyuli@uniontech.com>,
-	hmy <huanglin@uniontech.com>,
-	Wentao Guan <guanwentao@uniontech.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.19 2/2] nvme/pci: Add APST quirk for Lenovo N60z laptop
-Date: Wed, 31 Jul 2024 19:56:28 -0400
-Message-ID: <20240731235629.3929769-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240731235629.3929769-1-sashal@kernel.org>
-References: <20240731235629.3929769-1-sashal@kernel.org>
+	Thu, 01 Aug 2024 08:27:21 +0000
+Received: by mail.quirkbyte.pl (Postfix, from userid 1002)
+	id 2EA9389964; Thu,  1 Aug 2024 10:16:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quirkbyte.pl; s=mail;
+	t=1722500315; bh=V4qwQGqC7KpJoyielzRpnopuINFIOvKXsSgJ3ZENIXU=;
+	h=Date:From:To:Subject:From;
+	b=jZF6kZDdyTgvD62iYE0cPzR4tCw23yuNkJX4ZH1zyWGVde8S/oOdce46eSlvJUhNU
+	 bYtIfJZWQqAoxFDb7nD9QJm13Hsp2psdl9qROy4Xe7M26QRD/lSv2ChpXBKcsqbz2j
+	 DH9lvvPbbhQyn0of6Wqv4n70peB9Mx4RkT0v2/F5sqXpbmfi0hYUSU0gBTxsorBNXD
+	 uKv4TE5qSmqK/ZwOrORPm+PLv9BUk1cvQMiD8AXmMokODDMP1c8PqCNkf2+ijm3SnG
+	 raRlxwYO4lUhbzjPR2yFJs/lQmHSPoifupKXakSjdD5A+gtmiJ2oq5XIODdP5C/hfq
+	 Mk73GOWG9jVaQ==
+Received: by mail.quirkbyte.pl for <linux-nvme@lists.infradead.org>; Thu,  1 Aug 2024 08:16:19 GMT
+Message-ID: <20240801084501-0.1.4j.2lzr1.0.l1qe57bfgp@quirkbyte.pl>
+Date: Thu,  1 Aug 2024 08:16:19 GMT
+From: "Norbert Karecki" <norbert.karecki@quirkbyte.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Fotowoltaika - propozycja instalacji
+X-Mailer: mail.quirkbyte.pl
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.319
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240731_165636_514588_61081684 
-X-CRM114-Status: GOOD (  11.54  )
+X-CRM114-CacheID: sfid-20240801_012720_051767_BF571CE4 
+X-CRM114-Status: UNSURE (   2.31  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,43 +66,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: WangYuli <wangyuli@uniontech.com>
+Dzie=C5=84 dobry,
+=20
+Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
+=20
+Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
+ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
+sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
+ elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
+d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
+rodowiska naturalnego.
+=20
+Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
+wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
+zak=C5=82adu energetycznego.=20
+=20
+Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
 
-[ Upstream commit ab091ec536cb7b271983c0c063b17f62f3591583 ]
 
-There is a hardware power-saving problem with the Lenovo N60z
-board. When turn it on and leave it for 10 hours, there is a
-20% chance that a nvme disk will not wake up until reboot.
-
-Link: https://lore.kernel.org/all/2B5581C46AC6E335+9c7a81f1-05fb-4fd0-9fbb-108757c21628@uniontech.com
-Signed-off-by: hmy <huanglin@uniontech.com>
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/pci.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 163497ef48fd7..a243c066d9234 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2481,6 +2481,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 			return NVME_QUIRK_NO_APST;
- 	}
- 
-+	/*
-+	 * NVMe SSD drops off the PCIe bus after system idle
-+	 * for 10 hours on a Lenovo N60z board.
-+	 */
-+	if (dmi_match(DMI_BOARD_NAME, "LXKT-ZXEG-N6"))
-+		return NVME_QUIRK_NO_APST;
-+
- 	return 0;
- }
- 
--- 
-2.43.0
-
+Pozdrawiam
+Norbert Karecki
 
