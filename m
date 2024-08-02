@@ -4,98 +4,174 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5D48C3DA4A
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Aug 2024 12:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC8EDC3DA4A
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Aug 2024 12:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
-	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gfrQUcaV+s7Gq+mfEJj2TyZrzhoHEQtKSiBupzjJV6w=; b=vk9pOKerC5REwUSqd9FvLx9tlO
-	52K9rfy88SPqyyxk7SIx1qFn5I47yRGtGCMazAFjBHOew+M0wIiZEpGjF1bb4xCxryGc4Y0kd/Y46
-	3FwNGDbdk4eyCF70p9yuoKWGmwkkQmUHn0AIi9hZrirvGduB+RNe+uBy68eppu2j5oq+vv1Lq1a1I
-	dkBrUsDmWHrBzbOJeKWOHBTx1f1CYGS3ySmv9xMQBTkEbV4Ch7NbTz79rBfV8iVqtAFDXdgR3sL+P
-	QOdUSXnPlb3p6zY5bJ8hjA8kRJPO3jN1AbLskD+pMVc15i3lvunVrNPQ+ODnmuq5qgqQzn4awpJ9J
-	jyzuNcvw==;
+	bh=+1Puj5frYY/2nv4aHCbSVCjhJwxE4aZwT9aFA9qxp3c=; b=M34LHaK2XDfG2H+Vv5vGo0NepE
+	SBTBIwlzMSFKBowvFnk0e3EFwFZQ+dfnSPWd4M30iRtS0jRWBXIaVbQEaTMJ6uIRMgcUePbHHHouY
+	LTXDUNRadytKooK9WWlpfFl0prj61OPnhauD60M1Gjb8rxUPg1QnqCXnoQS9XDqVSybvJGmT4I4oh
+	AQurhgR7CfXoiuYVQclbLpVFtwOlHpYNp5bL+zcLwUP/cRJEEwiFmlopwYQeCBR5YY19MRDOzo90C
+	4p7Q/jufodB9BgM5HaBGzHnlOc+DjBpdxoUtzSXe8+aV1tySFxSUh8mhUcmEDfOmTkpMQ5iFFLHlj
+	WkxRB7VQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZrDQ-00000008mi2-3xC9;
-	Fri, 02 Aug 2024 12:17:00 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1sZrU9-00000008ogE-3XXy;
+	Fri, 02 Aug 2024 12:34:17 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZrDN-00000008mgf-1ZGh
+	id 1sZrU6-00000008ofh-0AOs
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Aug 2024 12:16:59 +0000
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 472AuAU3022965;
-	Fri, 2 Aug 2024 12:16:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:subject:to:references:from:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
-	gfrQUcaV+s7Gq+mfEJj2TyZrzhoHEQtKSiBupzjJV6w=; b=WbN0ni5jlWG+TLVK
-	tjVqme9RTMj8HccdsCMCd+LnwFdp+l1FboMEB6tD/JrW0MK/x0qAN3VF+6xyikKJ
-	YV/DXHoPzp/rXirQmwroXXop/oNkC3UuE5NoFx+lvPnXAH69/X26WIGpB+m1K6Gg
-	rctsAE2V7NOQxxvrImmEk5W3H8P+oO2fQclFWJlu9UHR0IJO0gIrqQpIold1o6d4
-	YwjyR/VdYAfBvxhLd2wKUynfQ+fbAzUwrksUno3aV8qy/8NkB0/KbEEr3lN1Fw5b
-	3uaxtZzJ6fk/tyBLZPPVQLWdDYn/G+DYE1WblYRjU5HDj14Ly5uGNJ2Pjp8nd2Sn
-	LnzDMA==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 40ru3grjp0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Aug 2024 12:16:54 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 472A02Gl007682;
-	Fri, 2 Aug 2024 12:16:53 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 40nb7uqd6e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Aug 2024 12:16:53 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 472CGpuZ25625122
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 2 Aug 2024 12:16:53 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 379225805D;
-	Fri,  2 Aug 2024 12:16:51 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 11C6758052;
-	Fri,  2 Aug 2024 12:16:49 +0000 (GMT)
-Received: from [9.109.198.216] (unknown [9.109.198.216])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  2 Aug 2024 12:16:48 +0000 (GMT)
-Message-ID: <ab363932-ab3d-49b1-853d-7313f02cce9e@linux.ibm.com>
-Date: Fri, 2 Aug 2024 17:46:47 +0530
-User-Agent: Mozilla Thunderbird
+	Fri, 02 Aug 2024 12:34:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1722602054; x=1754138054;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=5GPH2qcR7y7+E9s4QL141C9t4jYU8/ojzVlBUqRt7N4=;
+  b=P7TOiWr2tCCnEAB91mFIww+O1jhWLsxUeRUoVczkj/SVXjVenzdZPz5D
+   /ILBuG0a1qBrQoaxYtJPFxJtxq7xVqdJJIKSTFw/KTUKBczeUPg4AkvJ2
+   upJxJ1e7HKU2A2BBIE1tymxd9sBVEIE4zsnjXzGfNyUM0OTGABi+VJSQk
+   aTDAeksbhKfNZ4MjodLjIb4soNaPe+Qb7Dsi0jOFPpzv2qAgq2q/85fsO
+   DEhPwZnYteUmksN8su1mhKtaWT3KuNwGt5repwaEgWKx8I/v8AMpv7tXO
+   5F2DpCm1GsmQjEq6eew2MXGJTLPb7Z2fpHNP95BEU2SmZlRlxlBSdvVON
+   g==;
+X-CSE-ConnectionGUID: FVivJEj6SBaMQPyw3edEiw==
+X-CSE-MsgGUID: AtSbiAtIRu+vLQcGdJ22aQ==
+X-IronPort-AV: E=Sophos;i="6.09,257,1716220800"; 
+   d="scan'208";a="23296219"
+Received: from mail-westcentralusazlp17010007.outbound.protection.outlook.com (HELO CY4PR05CU001.outbound.protection.outlook.com) ([40.93.6.7])
+  by ob1.hgst.iphmx.com with ESMTP; 02 Aug 2024 20:34:11 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PnEEzdHHlWOOm/8H/SdUptBKNCgb/myyIC/O4jVEQXlJoEGlrdVBx9/yeVH0ZaSD8aOUpqGE0tK9QKNMlkDHV1uYVhDkDb3wKEp6YZ2DWRfed+bbFfkslbGiA289Gt6bnSJs/np71N7H90PJ9aBYT/8ukRYWtbwkczPkILdGaBkyCHLfjjqtavlLbCjZWcHr59ubkHcK17wBZgfIQklvOjsusjmCaO4YgUJ5KX+Nm/pYpwfI51Q4wAt46gl8UaSWbNz6cWmcN3l/7AoFSg6zPUWOCKNtk33lPyFmPTbKvFzHBVZKgasYxYxkfBd7mGoaplHZVGAtehzPtnsLEfwpgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+1Puj5frYY/2nv4aHCbSVCjhJwxE4aZwT9aFA9qxp3c=;
+ b=pxfmXALvIx0zSrXmUBppzLMB6Av+tl1v3AgsE0m+JtQv78CZW/MGocd05MpTcded0ASTxGE6q7Ads/Oy5EvBoT/wzgYDkFjh5spPumXAIlo8rbn4Ej23fnOQ2UeDtrjBYhcZkoNzV1HDPnYhSki05k5uN0ZMI/wfHWX9yx8c/f3q0/6n4WhztcxyFJvpG1UlomrjweP5Aq3O+6oNiHAGx3GyiqYhnqiKxJRcaqa5A880elX2Q8GzuXtUgbuB+RP3/iILXph4EpynZfX1HLLGO9Zl29Huu49VA64Kkgs6h4q7MIskbrfC+YzmGvg8EUITBTlquASs3uLoSuQdexn9Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+1Puj5frYY/2nv4aHCbSVCjhJwxE4aZwT9aFA9qxp3c=;
+ b=mP42Gqd6DAUYeq470To3XiwyzV/jq6VfrD5xFiOJJ95y8I0Un/jCqB9wCSZ4FY1nmDRDqWJhdHZpEsgaFp5SnqiTZN2m4nPM2jdNV0iotxr7nyEgYIj/I8OLkQpSqktSrCVt6WOvgsTysQ7lMYGfFGGhxgqpRlY7fLKpMK5RVJc=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ CH4PR04MB9388.namprd04.prod.outlook.com (2603:10b6:610:244::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7828.24; Fri, 2 Aug 2024 12:34:09 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.7828.023; Fri, 2 Aug 2024
+ 12:34:09 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, Yi Zhang <yi.zhang@redhat.com>
 Subject: Re: blktests failures with v6.11-rc1 kernel
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "nbd@other.debian.org" <nbd@other.debian.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+Thread-Topic: blktests failures with v6.11-rc1 kernel
+Thread-Index: AQHa5LuxC+CuFbi0TEaEvvPM0kqq9rIT4jmAgAAE2QA=
+Date: Fri, 2 Aug 2024 12:34:09 +0000
+Message-ID: <ljqlgkvhkojsmehqddmeo4dng6l3yaav6le2uslsumfxivluwu@m7lkx3j4mkkw>
 References: <5yal5unzvisrvfhhvsqrsqgu4tfbjp2fsrnbuyxioaxjgbojsi@o2arvhebzes3>
+ <ab363932-ab3d-49b1-853d-7313f02cce9e@linux.ibm.com>
+In-Reply-To: <ab363932-ab3d-49b1-853d-7313f02cce9e@linux.ibm.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <5yal5unzvisrvfhhvsqrsqgu4tfbjp2fsrnbuyxioaxjgbojsi@o2arvhebzes3>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bGpNXLnrJPuFn3RsWliBR8kq6B5Dy3Py
-X-Proofpoint-ORIG-GUID: bGpNXLnrJPuFn3RsWliBR8kq6B5Dy3Py
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH4PR04MB9388:EE_
+x-ms-office365-filtering-correlation-id: 58b3d122-086e-4e79-6fcd-08dcb2ef680a
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?2lUTfjUxkyyM42VMrAB62bfI4PRgNjkrgFYovOXijrpvI7cy/BBPpeBBJRZz?=
+ =?us-ascii?Q?lXHFKcNMrCNQnGIiLg9Kn+Gxrk/aBZtyPR9cQijjI+ol7hOKpMV/W/3t6aAX?=
+ =?us-ascii?Q?P2VPmm9jbDUhwUa2mpzcNy1whRntvpAQMqZkyaLuxfAv60qWe2kelfYW49dt?=
+ =?us-ascii?Q?z4kOxL0yuZiX8uIKUNtuJ5PazDhBX8KexGMOXIliBI4abTXYhlDlar8ie/xb?=
+ =?us-ascii?Q?/603noTu6J9/HV3GUOjsgBDpnMhbibJd7RBdcPseDCl/sYoBmEmrph1GAFkv?=
+ =?us-ascii?Q?tCI9/2+85DypquB01J0fkaYW6hdGVl3CXDN0uZo+ORHf2zoNaB7Hdj8zqNQ1?=
+ =?us-ascii?Q?iD5gqtsKxKu73MulvImymqQoDU+hg1EuJWdGW66aBNKZwTvgDdwfM5iMs3Q2?=
+ =?us-ascii?Q?b5b08QW2DhgBsdzo/MvNXqTtSQVFzl7CCCf84NYtaOiT9NRHfbs5/mrczo/B?=
+ =?us-ascii?Q?ZR6YxWMrF8LBXYqDMecXlQldy55KLKf7krTUBcl8uMWVgUh2LWYgji4DPplJ?=
+ =?us-ascii?Q?g2LOrqYjWt7ObWLxwpKOGjmMyqN4jGFbW4px//eDliuM2HRY+dybiqzUFo+B?=
+ =?us-ascii?Q?O/ZYZlrGOC32zBdQXwRDTICh6FV1SBTmPZHUxFoQ5VZbE+5cknPSqTgFbGU9?=
+ =?us-ascii?Q?IPeiAiSM6RJFmbWbQhTGiiLw9fjsqGqLi6WVHWFfO9K5nzwde9cGGvvYUpIS?=
+ =?us-ascii?Q?uf6dYg1Th0KRE5jTdKn8SADf9pxsg0GVyODfWTeIOANx2JjijIhD+sLa0Hje?=
+ =?us-ascii?Q?c2b+pQ3CnfgUIG3Uk+E4PXDqv6HcttkNRm996SQ/ieqm9IoCl+brmfQMViCW?=
+ =?us-ascii?Q?CtMX5F7rDgsxl9CiBFukPJcYQpEUJ1uqMU/0gP2VERg2IciuVI2mvMlyBSDo?=
+ =?us-ascii?Q?a0t3aHQq/bOx83tQPdN5fOMNelBOTbRrIBzxP99vXvvVMfaD/VqqMzUPXyDT?=
+ =?us-ascii?Q?mueEcjfuVy3vkbm/uIxZbYwHhQr023qrKDIcQhmEEUzuIJCVpNvSDqm+ai2v?=
+ =?us-ascii?Q?Er55pVByw2rsJq2m/q4i7AOD46XLjfSGBnDwPuSp4amLaFTIlOXU4xDGhVFa?=
+ =?us-ascii?Q?g21UF8vjoHQbzkxXU8TC5KS9OS2P2BTenPgeYS469BabJFyrNb0DdkJ5i4rL?=
+ =?us-ascii?Q?sc7Nl/dPStzooQElSQzSJbJO+ipLe1vPwe6jgYqZx4kYsN++7fQqZmZ/3pRS?=
+ =?us-ascii?Q?LtQM3rSXO85mbGMXLcLREnKd79lpegHUVr2M4iRUcJS/+SyWgKarOV9GeNZa?=
+ =?us-ascii?Q?ruvWqQikN+rCwsPM4ay9jXvU523Zrph/dWyCHFJOnD5Dp19qM9OaP644Wo1R?=
+ =?us-ascii?Q?O+5UnjTxg9ts0lTCmU2nbyA03lve1pBcP6nLDxO8jEIDZc/lJV1SLU4NJ8LC?=
+ =?us-ascii?Q?VGtItaI=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nVb4ZPP8Z3ALDqYmTJImGr838LuphBugQjDack7mrHrjhiZJWT/HzQvmMxWB?=
+ =?us-ascii?Q?u6pnetPIc4Z7tbZ6PynWh4j/FE10rwBxVJgj1j7JwRaNMqSvljMaxltFkoCh?=
+ =?us-ascii?Q?iW1/RWyIlKb8uo+xiIrJm4/I5qRSZkbn27WXWkwTzaFp0+c+1K2qgby7xq+E?=
+ =?us-ascii?Q?RGsWt+gXBQT2mP9dimOTB1xvRICrovv7V5+bkUoVDvtHbw1IXKfVHpMZTRnj?=
+ =?us-ascii?Q?HgLuIISGGqCdBMDKDfjSwlpIopCH8Fb1+TXItPEV/8da4ow4pBU2V8YY7Ql0?=
+ =?us-ascii?Q?BsNUwVMjfABrxzUSxnF8MjmdwfJad7f/psw2LEH8dQy7KpyqlSKlqPSAp4ES?=
+ =?us-ascii?Q?jzt+BobGrHLHLJdHzJSILUcum873WZtyvyVLUKAXEPNrDOrqBKYn6hNzqwZr?=
+ =?us-ascii?Q?TDdM+iMWHlGRBZnevbEzuoeDRKTj5vkPNuJsswT1y3MHsEWE+rlCZFEb55SO?=
+ =?us-ascii?Q?00XwInec6IEYb6UWwIxa2juUFAaKO9M02/spWOiIOsocoq+zPCzgGZYw8o8j?=
+ =?us-ascii?Q?VNexRJpUzkV0l1I68oWxLeJbWu9WF4igXgZ/9/JEzRD5FaY+D9HCS1gxjgJZ?=
+ =?us-ascii?Q?/2gg62cFHiPI6Mgg9fkr2E+dmUV611yLDsrcqByDqsKBIOmtBlVTlhiU4fgt?=
+ =?us-ascii?Q?3K72Q9bHZd2dfTn4bFeLrxAbauj/dFjf97IBpFAvjww2HNfWAmdv3AF3otuB?=
+ =?us-ascii?Q?qUz2ReEqcL+0ptr9clsG+B6qQclLGMEFApZM8laJzeOIE7UKjUKntFMnQn2G?=
+ =?us-ascii?Q?9EhVAJua3pn7Tx2/eWT5VPhTD2p3WVue57GywTDi+YHXaUumES6l6BvD/CNi?=
+ =?us-ascii?Q?JtKIPycMAT/4jsZzk9deM2Bg+LT69ucRHexAtxpTdCBme+TVMaMMntW45jl5?=
+ =?us-ascii?Q?h/+QlvZKciGQ84o3x8lfZj4AYzz3lke8BmRS6KZPPcg9kPW9JXbpA1gmkGeo?=
+ =?us-ascii?Q?znncmPlcT15VpKYUPktepGwhZ0eEsRaNB3Tnf6RXTBDZ28wgwCEP89CDBAAs?=
+ =?us-ascii?Q?HU3vKaZXyDzwJJgkwvcs+1mkuIIol0Y8xL0r3qI+ukIm1MOupQ3bI1mROZEv?=
+ =?us-ascii?Q?o1ogPFwJpuuzdt6wKfde3JU+R6i1lbKT/VrfhonZj3suceSwimelA286B1G+?=
+ =?us-ascii?Q?puXr9ok9F8wvqLAc5DEunhdZTtrjt/Do1jmvUH6Wh1cN35GeXTFFEp8jMQ2L?=
+ =?us-ascii?Q?dq/l5ibKJ/MG76zZ8uMi56qP256EfmcjptFdn6I9fJerOnDBNxSyLpHPVrFQ?=
+ =?us-ascii?Q?RIF8Mg1N61/8YBQX0rUak3ghVP+6PBsWZ+q0DpYnq/fUJBGaOrn77yRm95Cy?=
+ =?us-ascii?Q?fI2vBQ9t8Nnsqy8IpYWorBoEGPE2hPEzC+4lcjFLUGYzkiH1j8+814h5nSgt?=
+ =?us-ascii?Q?9fmrR38er9dhZGpZmYaXZAa4J2tDomPAX3x/vsJR+8f/qPo3oNLkQKSfO01D?=
+ =?us-ascii?Q?fiqLPLK09NxhnSLbFBbg/vAkidEHcH8HyAj1Q1pad4oDxVfxkTc705HPy+iz?=
+ =?us-ascii?Q?NYi67IjwLt12QtIxCcfEzmQNN9l/kdlbNrGpivLHRhiKASU96fyt6U1sDxTP?=
+ =?us-ascii?Q?yOqlnBQmaSACAryWwu9L35lK4c5f2ucKFeTB0MTHOAR8yPcuSLmAr2t10atG?=
+ =?us-ascii?Q?Zp5K7gTmS9xIMpAh5Z0mp+Q=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <20A850B433B02D4E91A419169CBFD41F@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-02_08,2024-08-01_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 clxscore=1011 spamscore=0
- adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408020081
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 8I+UpY+fYZ+KWn1ueBweNpHEcD5V7fsITErFNtEzckeNqmU2naVwDUiDOltTGtbO7V4ssd8LQpcriHzfJK9FQc+9LJnyy1p2G2NdIEvw3VU32lNCUtn0Sy64EMcF+tnDQlNHC2QKV5sqW5vbPMSTkPV1HcV6SGf8H5uBipuvW9VvaWfdUbCBEor1h8MKYT+9je5LGfYAH82IsUHG0iZnoPmO7fu4F6ESXXuH9+heUMVgKMPYi9AgGtIkAPpmtc2m77tkKXvIbVgfRAXLfd2rlAoPXEgebPBteOBKVaIPrXJqZmgrQ6nXLbAMq7fmzey/PoPEHUR8P2JRmsacOWfa3xATAVPpMjI/d/sIQPqCIwRM7nBx/GTyxS9ftDaB4RlJBZ+9bcD1L32AvCRccyvcd825o3oObhAHgBoqH0x3E0mJNpkIFtuge375TDuLEugBKrIkCeeMJQzvJvKXc70yKTx9GFMOZOmwOHxp/vtvxKikk2V+f5vO5+nO5e8YqaRhB/7VnHmPOkiNu3nngzW0SiFFvUMj5hw7sbK1yDw3nnU7tkw/QcP7w48Nbp1QeAJoM8d/50/zf5gisJ7In2cszDtciwKgslHAPRP40ug1/CWuHlkfr2AXTsOzfDWvhaCg
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58b3d122-086e-4e79-6fcd-08dcb2ef680a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Aug 2024 12:34:09.2155
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9elpUcbHS8VXFBMUjWCuY0jQEPE6psnJ4T3ns9BhRbFeLAqWUvc1CvMdpbQgkZmA0Gz/EDm7sy+34mjSt30MV+VPfsZ/WLpa2tFSHfGP18A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR04MB9388
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240802_051657_564906_7FEF8EB5 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20240802_053414_132964_126491BC 
+X-CRM114-Status: GOOD (  19.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,35 +186,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+CC+: Yi Zhang,
 
+On Aug 02, 2024 / 17:46, Nilay Shroff wrote:
+>=20
+>=20
+> On 8/2/24 14:39, Shinichiro Kawasaki wrote:
+> >=20
+> > #3: nvme/052 (CKI failure)
+> >=20
+> >    The CKI project reported that nvme/052 fails occasionally [4].
+> >    This needs further debug effort.
+> >=20
+> >   nvme/052 (tr=3Dloop) (Test file-ns creation/deletion under one subsys=
+tem) [failed]
+> >       runtime    ...  22.209s
+> >       --- tests/nvme/052.out	2024-07-30 18:38:29.041716566 -0400
+> >       +++ /mnt/tests/gitlab.com/redhat/centos-stream/tests/kernel/kerne=
+l-tests/-/archive/production/kernel-tests-production.zip/storage/blktests/n=
+vme/nvme-loop/blktests/results/nodev_tr_loop/nvme/052.out.bad	2024-07-30 18=
+:45:35.438067452 -0400
+> >       @@ -1,2 +1,4 @@
+> >        Running nvme/052
+> >       +cat: /sys/block/nvme1n2/uuid: No such file or directory
+> >       +cat: /sys/block/nvme1n2/uuid: No such file or directory
+> >        Test complete
+> >=20
+> >    [4] https://datawarehouse.cki-project.org/kcidb/tests/13669275
+>=20
+> I just checked the console logs of the nvme/052 and from the logs it's=20
+> apparent that all namespaces were created successfully and so it's strang=
+e
+> to see that the test couldn't access "/sys/block/nvme1n2/uuid".
 
-On 8/2/24 14:39, Shinichiro Kawasaki wrote:
-> 
-> #3: nvme/052 (CKI failure)
-> 
->    The CKI project reported that nvme/052 fails occasionally [4].
->    This needs further debug effort.
-> 
->   nvme/052 (tr=loop) (Test file-ns creation/deletion under one subsystem) [failed]
->       runtime    ...  22.209s
->       --- tests/nvme/052.out	2024-07-30 18:38:29.041716566 -0400
->       +++ /mnt/tests/gitlab.com/redhat/centos-stream/tests/kernel/kernel-tests/-/archive/production/kernel-tests-production.zip/storage/blktests/nvme/nvme-loop/blktests/results/nodev_tr_loop/nvme/052.out.bad	2024-07-30 18:45:35.438067452 -0400
->       @@ -1,2 +1,4 @@
->        Running nvme/052
->       +cat: /sys/block/nvme1n2/uuid: No such file or directory
->       +cat: /sys/block/nvme1n2/uuid: No such file or directory
->        Test complete
-> 
->    [4] https://datawarehouse.cki-project.org/kcidb/tests/13669275
+I agree that it's strange. I think the "No such file or directory" error
+happened in _find_nvme_ns(), and it checks existence of the uuid file befor=
+e
+the cat command. I have no idea why the error happens.
 
-I just checked the console logs of the nvme/052 and from the logs it's 
-apparent that all namespaces were created successfully and so it's strange
-to see that the test couldn't access "/sys/block/nvme1n2/uuid". Do you know
-if there's any chance of simultaneous blktests running on this machine?
- 
-On my test machine, I couldn't reproduce this issue on 6.11-rc1 kernel.
+> Do you know
+> if there's any chance of simultaneous blktests running on this machine?
 
-Thanks,
---Nilay
- 
+The error was observed in CKI project test environment. I'm not sure if suc=
+h
+simultaneous runs can happen in the environment.
+
+Yi, in case you have any comment, please share.
+
+> =20
+> On my test machine, I couldn't reproduce this issue on 6.11-rc1 kernel.
+
+I tried on my two test machines (QEMU and baremetal), and couldn't reproduc=
+e
+either.=
 
