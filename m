@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64482C3DA64
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 Aug 2024 11:42:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F4133C3DA64
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 Aug 2024 11:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PGVXwGIeb7N3J4+10swQ61/JYCMx3W28Do3i6QPWuig=; b=x1hJOCj1ZcqIeH87wPN+Dmhqfd
-	vP+wrxff9jthcmipi2cOjosZ2LbtZXcF0hmGKUWUQLP45+KxkwBAW45Kuvr7nVKzpvAl5p/lJqtV7
-	xIjlBtW8vvChSof18vJCZNI5k/pA+5N8n4QZLdfi9LfF5uMXHv+K/03Rd7+ZN7Yfn1FcpBWlJc0hE
-	StmZuy8nda2rUjkj/GHWWSAAWlVRSj7bwnrX0TyQtrWONzTwrUY/3nAtDaCbGG9/dMhPt5Dt1uAAp
-	TujVrHu7LKPjbF5ZIIZLgDlH9hd7O1y03H34DCt0IdinpLnEFeKuWgY9WMSU7Z3gNc8tV/VvyRVKc
-	2zU38a2A==;
+	bh=HGKaaQieag+Q14DTix3aGJa4i3xg34VJO5/0gIeYwCA=; b=TqkSWyKqaJmYFCBTGxPQV896iK
+	JwQ6GxekwBJyMEtfKm3onopt8ueabhr4VzkwY8s+j01J6McoigKovdJX1rRtwfQEuqLxFFWFaBNkn
+	0RgJA+coz5nDqEfc5G/9pWj+21JKjdIuin9Emvni1Kw70S4oecQko+wzjrKE0/tA5HmkYB3iE6tp/
+	7aDsFztPu5j1OuDwB+Mor77rWLdshlhprRzgpsMZdFF4a7I4Pnip7ZdzjsU/a/8IbTcJX1tStcbR0
+	vN8HEFp2/3p5c+tjynHuMpNOD657EhD0se1AFAsRMw38bS7/z7x8HaUeBnt5MFyhDkfBpPfXWJ3C4
+	eyN9p6xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1saZcq-0000000DAgi-1vMy;
-	Sun, 04 Aug 2024 11:42:12 +0000
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+	id 1saZd2-0000000DAsz-3zqI;
+	Sun, 04 Aug 2024 11:42:25 +0000
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1saZcl-0000000DAbb-1c9Q;
-	Sun, 04 Aug 2024 11:42:09 +0000
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-367940c57ddso5120460f8f.3;
-        Sun, 04 Aug 2024 04:42:06 -0700 (PDT)
+	id 1saZcq-0000000DAg9-2aVT;
+	Sun, 04 Aug 2024 11:42:15 +0000
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-3684e8220f9so2569122f8f.1;
+        Sun, 04 Aug 2024 04:42:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722771725; x=1723376525; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1722771731; x=1723376531; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PGVXwGIeb7N3J4+10swQ61/JYCMx3W28Do3i6QPWuig=;
-        b=a3lkIN7q2yN9N6AEtl/ualoTgN0y7g229nRg9b62FwCmwKKC0kKOLxvVZ4Fh66mMu0
-         bUSjzWcu/BwypLFJ0/YWKcXynm7ug/aiggG4i8UjepfXfQY4KqCsM4twCAr7j4lzJnhr
-         Iborj6Z6yllGyXwawT8PESTfHTQ6OyN3dFIFpCYmUgZf72ZeYPoNx5X63cMusDNk5kO6
-         FBHnx8fxvSNN3RTJPXHdO4oxTSpTYsPwULGg0WFb5YSBUlC+vKmYXRfazAc3hZQSSXnk
-         OsVJGMhbLFxNy2zanHl83K8gwOT40Lmc0G4lLFyS6znscLmyQ4IHqANfvTSJd7gM2ZS7
-         +PJg==
+        bh=HGKaaQieag+Q14DTix3aGJa4i3xg34VJO5/0gIeYwCA=;
+        b=VyplsHhZV6iqYuC2ysGYrVEbnQFzv03KADhgO3q4N/xFR8LWUeRWd4QKSktqMPWdh8
+         p5ILXZoNIDDFGRYgAvXgvpqZUVD/VMLa8cd/jhYANm3UsPrixCoVpupYSEp44/KIwXUI
+         57+TWYheRbNsXQKkOYxqeO2UhtW2luXsqSJ+rUxjwDPm4CAaA2MpUOiQnnTZ3/9guca3
+         8vQq+iC3jpiJZXeGI81RyWkkfQmhcsB+dxzEMKPWC8ALPMZoUjd8E6A0l75yQI0gAfnB
+         aFZ9eWMsPALqhUDrNc653OZx1jh6iE3UL4TZiciqJGRASAUL2WyB5/IPCyZjw1LgGgyn
+         ZKZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722771725; x=1723376525;
+        d=1e100.net; s=20230601; t=1722771731; x=1723376531;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PGVXwGIeb7N3J4+10swQ61/JYCMx3W28Do3i6QPWuig=;
-        b=D+HwU6kzd8QkO/lsvThOyiKvxZCGKskpMAOltli0CILgvoTfwTIQL5GSygKTZ1dM1c
-         ZwYGSny2RHEXz4lfOZYwyCLvwgNNUfAMPW3s9pE6o/oSzn0qLpexhZ5zaDzJkT9Bkyin
-         2ADeywou3d5lD3q0TXMxZhci6apxhiFz9YPGUjB6WPf+ZNfZUwDeqZHPenY8D5sXbVdT
-         ilaxxk4peLwl3qkPVPo6/QmfWmaPOzGIjKNdserQr3YKzH6CYt/tQy8hb40YnTdYuafB
-         jhls3hBscVs3eJBJlhJaYiov3nkroT5RoYUK0iABz7hGExoHVf9cU6kFYz6e1FBOiuOG
-         Ulyw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/B0CRJuSsYlR0hlxiDkceIxiKCR3fUIG6ZSue8yujR++gitd9chprdu2P0cuXdoCg+LP0BrdqCCZuDthGWenGMXMD/Xt0vh4ka/F4gdwbdENKhZUlgzgv3tpTW+YxQ6e7qfPZF0QhkS5bin38
-X-Gm-Message-State: AOJu0YyMHc8wbNgErA4ZtBQkc200/2jLMi0L190PlUU+177Rjc7Zi+lU
-	UulSmrFqvX9KEEBCQmUlK9hr4PBTmTI3L/Drn/LjuMhe9mlz1Hvy
-X-Google-Smtp-Source: AGHT+IEkEsf7rgv+FK5pMw1rjBxefAm0Wya/QF5fP5oHTqQufDhgjOYXj5NRtQfw4DJZ93Td23+0cg==
-X-Received: by 2002:a05:6000:1faf:b0:368:d0d:a5d6 with SMTP id ffacd0b85a97d-36bbc1beb75mr5955215f8f.50.1722771724985;
-        Sun, 04 Aug 2024 04:42:04 -0700 (PDT)
+        bh=HGKaaQieag+Q14DTix3aGJa4i3xg34VJO5/0gIeYwCA=;
+        b=uH2jYxbTx1A1hRjRiq/m9H5Dl/mKQtyndgaYo7aPj3ntPYr/vz/xrQwITldHlCNo8D
+         PwSDOG71XumhF8zRBuEvFzkXQIr7Tv42vvPZjaYUrkUnsUzPwvq8kD0/7grhZEuYrueC
+         nFO7b+pcwrSIWKyZSVwL8iny8lUd+K6Ki4yksP1W5vJYf/8OJfogixeBBRWl47l0rr3Q
+         bVMpBPCer04ox8AjRqDS5apjVNQa8yw3bfa+ZSwvyrQ9adnSdsihfgzw1gjakrG02ZmX
+         Fgd10WzRw/90mBJXGCFOBevo9uzBhId5lRiAhrBMYCLtBAZQP90Au0Px2zQg0T83FIMm
+         UBDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWLqevbms5X420cEPrPAR5E/8etgP6qVcFnaK/YJP/xkesed8Af4evrm/60EIGyBPZASGUm7CUEIxOHmISewHzPjw0IiQihnbHh8db64hIhVmLRpORZBFRkwZgP2RLCzDMH+JfYCu5+q+rfhF/A
+X-Gm-Message-State: AOJu0Yy9ogUjuvbe5kT5KX71oP1oUF0R+PfPeegVXZOCVIZBnKRi/rzf
+	MJczJlMle825yw5cKLIBvE9AjlsdPQ/07tonVropJI1wGD+Rkt1z
+X-Google-Smtp-Source: AGHT+IFLHuekhjS3wn/gQuthegTYTE1hpUglR72MMyu4qD76bmaYcfmhvlzvI4IbB+867YnyApqvfQ==
+X-Received: by 2002:a5d:59a2:0:b0:366:ee84:6a77 with SMTP id ffacd0b85a97d-36bb358463cmr8743186f8f.3.1722771730142;
+        Sun, 04 Aug 2024 04:42:10 -0700 (PDT)
 Received: from localhost.localdomain ([109.52.148.115])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-36bbd01eff1sm6635130f8f.44.2024.08.04.04.42.02
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-36bbd01eff1sm6635130f8f.44.2024.08.04.04.42.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 04:42:04 -0700 (PDT)
+        Sun, 04 Aug 2024 04:42:09 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Ulf Hansson <ulf.hansson@linaro.org>,
 	Rob Herring <robh@kernel.org>,
@@ -84,17 +84,17 @@ To: Ulf Hansson <ulf.hansson@linaro.org>,
 	linux-kernel@vger.kernel.org,
 	linux-mtd@lists.infradead.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 4/6] block2mtd: attach device OF node to MTD device
-Date: Sun,  4 Aug 2024 13:41:04 +0200
-Message-ID: <20240804114108.1893-5-ansuelsmth@gmail.com>
+Subject: [PATCH 5/6] dt-bindings: mtd: Add Documentation for Airoha fixed-partitions
+Date: Sun,  4 Aug 2024 13:41:05 +0200
+Message-ID: <20240804114108.1893-6-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240804114108.1893-1-ansuelsmth@gmail.com>
 References: <20240804114108.1893-1-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240804_044207_602247_9D1EAF1A 
-X-CRM114-Status: GOOD (  15.94  )
+X-CRM114-CacheID: sfid-20240804_044213_171877_5E417588 
+X-CRM114-Status: GOOD (  17.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,53 +109,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Attach device OF node to MTD device if defined and the root blockdev is
-being used to add support for partitions defined in DT node.
+Add Documentation for Airoha fixed-partitions compatibles.
 
-This permits the usage of fixed-partition or alternative parser with the
-use of block2mtd module.
+Airoha based SoC declare a dedicated partition at the end of the flash to
+store calibration and device specific data, in addition to fixed
+partitions.
+The offset of this special partition is not well defined as it depends on
+flash bad block management that might require reserving additional space
+at the end of the flash.
+
+This binding allows defining all fixed partitions and marking the last one
+to detect the correct offset.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- drivers/mtd/devices/block2mtd.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../partitions/airoha,fixed-partitions.yaml   | 80 +++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mtd/partitions/airoha,fixed-partitions.yaml
 
-diff --git a/drivers/mtd/devices/block2mtd.c b/drivers/mtd/devices/block2mtd.c
-index b06c8dd51562..0c4ecea51717 100644
---- a/drivers/mtd/devices/block2mtd.c
-+++ b/drivers/mtd/devices/block2mtd.c
-@@ -324,6 +324,15 @@ static struct block2mtd_dev *add_device(char *devname, int erase_size,
- 	dev->mtd.priv = dev;
- 	dev->mtd.owner = THIS_MODULE;
- 
-+	/*
-+	 * Check if we are using root blockdev.
-+	 * If it's the case, connect the MTD of_node to the ddev parent
-+	 * to support providing partition in DT node.
-+	 */
-+	ddev = disk_to_dev(dev->blkdev->bd_disk);
-+	if (ddev == &dev->blkdev->bd_device)
-+		dev->mtd.dev.of_node = of_node_get(ddev->parent->of_node);
+diff --git a/Documentation/devicetree/bindings/mtd/partitions/airoha,fixed-partitions.yaml b/Documentation/devicetree/bindings/mtd/partitions/airoha,fixed-partitions.yaml
+new file mode 100644
+index 000000000000..da7879c98317
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mtd/partitions/airoha,fixed-partitions.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mtd/partitions/airoha,fixed-partitions.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	if (mtd_device_register(&dev->mtd, NULL, 0)) {
- 		/* Device didn't get added, so free the entry */
- 		goto err_destroy_mutex;
-@@ -337,6 +346,7 @@ static struct block2mtd_dev *add_device(char *devname, int erase_size,
- 	return dev;
- 
- err_destroy_mutex:
-+	of_node_put(dev->mtd.dev.of_node);
- 	mutex_destroy(&dev->write_mutex);
- err_free_block2mtd:
- 	block2mtd_free_device(dev);
-@@ -515,6 +525,7 @@ static void block2mtd_exit(void)
- 		struct block2mtd_dev *dev = list_entry(pos, typeof(*dev), list);
- 		block2mtd_sync(&dev->mtd);
- 		mtd_device_unregister(&dev->mtd);
-+		of_node_put(dev->mtd.dev.of_node);
- 		mutex_destroy(&dev->write_mutex);
- 		pr_info("mtd%d: [%s] removed\n",
- 			dev->mtd.index,
++title: Airoha SoC partitioning
++
++description: |
++  Airoha based SoC declare a dedicated partition at the end of the flash to
++  store calibration and device specific data, in addition to fixed partitions.
++  The offset of this special partition is not well defined as it depends on
++  flash bad block management that might require reserving additional space at the
++  end of the flash.
++
++  This binding allows defining all fixed partitions and marking the last one to
++  detect the correct offset.
++
++maintainers:
++  - Christian Marangi <ansuelsmth@gmail.com>
++
++select: false
++
++properties:
++  compatible:
++    const: airoha,fixed-partition
++
++  "#address-cells":
++    enum: [ 1, 2 ]
++
++  "#size-cells":
++    enum: [ 1, 2 ]
++
++patternProperties:
++  "^partition@[0-9a-f]+$":
++    $ref: partition.yaml#
++    properties:
++      compatible:
++        const: airoha,dynamic-art
++    unevaluatedProperties: false
++
++required:
++  - "#address-cells"
++  - "#size-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    partitions {
++        compatible = "airoha,fixed-partitions";
++        #address-cells = <1>;
++        #size-cells = <1>;
++
++        partition@0 {
++          label = "bootloader";
++          reg = <0x00000000 0x00080000>;
++        };
++
++        partition@80000 {
++          label = "tclinux";
++          reg = <0x00080000 0x02800000>;
++        };
++
++        partition@2880000 {
++          label = "tclinux_slave";
++          reg = <0x02880000 0x02800000>;
++        };
++
++        partition@5080000 {
++          label = "rootfs_data";
++          reg = <0x5080000 0x00800000>;
++        };
++
++        partition@ffffffff {
++          compatible = "airoha,dynamic-art";
++          label = "art";
++          reg = <0xffffffff 0x00300000>;
++        };
++    };
 -- 
 2.45.2
 
