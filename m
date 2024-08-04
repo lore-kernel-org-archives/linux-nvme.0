@@ -4,88 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9899CC3DA7F
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 Aug 2024 15:22:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72973C52D6D
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 Aug 2024 17:44:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YMQrA+z3EHOZAEWn5lkdbXaAVgpgsIexusI9ugcNbpY=; b=FaeLfU9fSkDvLy0IKjWtuyBrDE
-	dq8z1QyhcMmO5FGpi+SHwdgikxtgCwuGTSJrPoeoXr/MxGXApKaYcJBNV1SVgl+Sj32Sswu8B9mCu
-	9UZ/bPLn429BAy20FfsbhwQVVk/yDbZhaO9h3hS5au+3cnrQkXpR6TDi5EeO5kzEwE/q26ViJnf0d
-	SmsCZH/cCilGtgaBABdt126XUBTAWmLyBV/zaWQ4gNt6rNJuS51kZyRTM1v2W6alZzouEoydqy8Nn
-	MVtuEBzqn7iFGqy1g38G/cm1498JxYBRzy0EgqiTZLCaN51F+BeZ/XtHx1LE66pvs73tw8TFMUuez
-	5k5QvAaQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=N4Tqx/xl+do4nmfv0ZFIXdX55krJHtI/dy8e3uyNR1Y=; b=WT16LgsS+lEpfVMcwHRr5oX656
+	QuoP8VYjn0W1qr7Y1LYJ3IwbiBVfIdOpyH9ZNyN389OBMEopbt1BGlOTyjWlppSpKUtc3cV/s3Ozm
+	S3RFL7ihmvEwbOuh7JjphVCtEwaQX2Tg7oBPSgzEOmEGl32mg4qxOLoI+thANZPnVoBloRdSFSulG
+	3UhGNDEKewW1R5mb/o4ojN4+Olsp5xOXehS6HCCT0uAvhqxbCLpODjrFLhhAfBHRBND6uTqXJ1XEu
+	WXRd0R/RheQLhVdSe4XoHSnPejKOJOSvCYxVjdcZLAw7m+ijhu3/N/63T2U4xtbXSWEJt010+Afnz
+	VmemVSyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sad3g-0000000DUbZ-20jj;
-	Sun, 04 Aug 2024 15:22:08 +0000
-Received: from mgamail.intel.com ([192.198.163.15])
+	id 1safHX-0000000DgvN-20kA;
+	Sun, 04 Aug 2024 17:44:35 +0000
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sad3c-0000000DUas-3UjN;
-	Sun, 04 Aug 2024 15:22:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722784925; x=1754320925;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pMW2V5YCdfDRYopjZj7CafypLSiEa8//6/HwOwZDAaQ=;
-  b=R4OK2IS1OeeAx3wyAY1Uz4vdwkDbI4hHcCtTAPcrxGbmS4RNW5QcjJUB
-   Jz+5j9wYJ1sanpa6+DXzxynx2myoStPgBX1eDtS4qr0P14zmMUTZp45fF
-   BjzRa1N0rFMIttiGgr5YgWwAuBf6SaZIT/MU//YONh+SMhdSET8HYzCjX
-   MZghsk5k4pJqtv100lZDAAoKG1k6Jre4auMpkElYHoduNCvVkqSkztj9d
-   s1cLewGKvg4E9ZLaGCnWWLnpjAgbaliS5LQn3L/G9SUHSS8Fs47cF7273
-   UDFTODDcJLtHBvSU50skhIREfDR4at9ydYtXFHZScpOlT1UZhGTN0+Ej5
-   g==;
-X-CSE-ConnectionGUID: OfcQJBSwRLiiUJgZQU7xaw==
-X-CSE-MsgGUID: NeGMrGa/Q9Kzj0qD0g4Qgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="20910273"
-X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="20910273"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 08:22:04 -0700
-X-CSE-ConnectionGUID: g7fQh+VDQoWJtahEfnAHNg==
-X-CSE-MsgGUID: rFqPu/ZDQyOddIZtPRAcLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,262,1716274800"; 
-   d="scan'208";a="60757645"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Aug 2024 08:21:58 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sad3T-0001Ty-1T;
-	Sun, 04 Aug 2024 15:21:55 +0000
-Date: Sun, 4 Aug 2024 23:21:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	id 1safHU-0000000Dgtw-1sum;
+	Sun, 04 Aug 2024 17:44:33 +0000
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-368313809a4so2763383f8f.0;
+        Sun, 04 Aug 2024 10:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722793470; x=1723398270; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N4Tqx/xl+do4nmfv0ZFIXdX55krJHtI/dy8e3uyNR1Y=;
+        b=g11TvcJtEdjUDt2DaViK0o8i4sVPz+L9lfvDJJOWPDOpMPaWf164kGSOezIoZ4ASS3
+         5fhhtHHh8c41NJWkNsEvElTdN3SbQkBySerqv/E0NJcimoTLvy1NC1um1XHEL00zC1Yj
+         lUtBdDYzX6XruAzvWHfBtarWPWfWLyGt118SOQjtfq+XZfa21G/qGT5j97OzRccgyjwz
+         yVCXZ/THYQVgrMo2TlNO7r2BSAPssYQhZ9BkD1nfcUGNGM7rp7RTWfPEaB4sCsn19VUJ
+         eMDl7FsfE3PorAOj6G03AbFFy8jC42Oa1OtzsE2wyPX0djhBF13DJvGb0cWFS5AuQO6W
+         3V6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722793470; x=1723398270;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N4Tqx/xl+do4nmfv0ZFIXdX55krJHtI/dy8e3uyNR1Y=;
+        b=U/aHKGDXUXR10JO6ypzHxFJuvVB1ahqHWcPgBSeLxmrFN7V6BxwQWm4JRQgluO2rjF
+         YjZO+fRfiqsMiFO/j3PugUPHKvUrPaKjRhlmJbE0ZEV12zv4W4Nib+9xrHibX4DHIX17
+         22CjVWiT2WkI+o4f47kF3+UComS+d7IpZaLuaRDzi/9o55Zfu0R7YAkWXxT9DXYE5WGo
+         16mPfvontsyDYALxzn0sxRL/N/LXXCuXdxBVucskb0y5jljHY3rE4l9OZk2l1/DrhVIN
+         /xKmWeMJbEZa1yqpECr9spftkDBEUkd7LmnK3lZmpWxefehE3VsSjJBfM2wY3pWK8yzK
+         4Bzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUaKueC6NVF0corPexcjfEfprgFSKIFewsFS/n3LB2IS394uQow5sw/dpl4lfj5Lx5qgReXQQ9hEsrTk2kud1eLvOjdplGEi4FQmzzo/PLsLzdjf3xyUahdjJnDQ2JbbkoKExhhUkimdHu0oObB
+X-Gm-Message-State: AOJu0YzAjA47Zu7t4aFart13AcyY9FInrJRnQubQebJaMaFrl2/lmH8k
+	xJ36zm4WZzXofFzuADdPYizl03Uit1rnNyqjVNNhAmMx63vp594g
+X-Google-Smtp-Source: AGHT+IEmGipmy6C03p1fUHWreExFigGkvjGoxjZh2tkYrSz+71MUHqO1UlAfqWKZFbKWjp32T3vinQ==
+X-Received: by 2002:a05:6000:b50:b0:367:938f:550 with SMTP id ffacd0b85a97d-36bb35de344mr8566122f8f.25.1722793470174;
+        Sun, 04 Aug 2024 10:44:30 -0700 (PDT)
+Received: from localhost.localdomain (host-87-6-196-30.retail.telecomitalia.it. [87.6.196.30])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-428e6e0357asm109530485e9.12.2024.08.04.10.44.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Aug 2024 10:44:29 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
 	Vignesh Raghavendra <vigneshr@ti.com>,
 	Joern Engel <joern@lazybastard.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Florian Fainelli <f.fainelli@gmail.com>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
 	linux-nvme@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/6] nvme: assign of_node to nvme device
-Message-ID: <202408042203.CNpuv8Wt-lkp@intel.com>
-References: <20240804114108.1893-3-ansuelsmth@gmail.com>
+Subject: [PATCH v2 1/6] dt-bindings: nvme: Document nvme-card compatible
+Date: Sun,  4 Aug 2024 19:44:05 +0200
+Message-ID: <20240804174414.18171-2-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240804174414.18171-1-ansuelsmth@gmail.com>
+References: <20240804174414.18171-1-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240804114108.1893-3-ansuelsmth@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240804_082204_922005_5E7D634B 
-X-CRM114-Status: GOOD (  15.33  )
+X-CRM114-CacheID: sfid-20240804_104432_497642_7C8F4538 
+X-CRM114-Status: GOOD (  14.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,193 +109,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christian,
+Document new nvme-card compatible to permit defining fixed-partition in
+DT by the use of the block2mtd module to use block devices as MTD.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+---
+ .../devicetree/bindings/nvme/nvme-card.yaml   | 78 +++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/nvme/nvme-card.yaml
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.11-rc1 next-20240802]
-[cannot apply to mtd/mtd/next mtd/mtd/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvme-Document-nvme-card-compatible/20240804-194357
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240804114108.1893-3-ansuelsmth%40gmail.com
-patch subject: [PATCH 2/6] nvme: assign of_node to nvme device
-config: i386-buildonly-randconfig-005-20240804 (https://download.01.org/0day-ci/archive/20240804/202408042203.CNpuv8Wt-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408042203.CNpuv8Wt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408042203.CNpuv8Wt-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/nvme/host/core.c:4654:2: error: call to undeclared function 'of_node_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4654 |         of_node_put(ctrl->device->of_node);
-         |         ^
->> drivers/nvme/host/core.c:4775:26: error: call to undeclared function 'of_get_compatible_child'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4775 |         ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
-         |                                 ^
->> drivers/nvme/host/core.c:4775:24: error: incompatible integer to pointer conversion assigning to 'struct device_node *' from 'int' [-Wint-conversion]
-    4775 |         ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
-         |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4776 |                                                         "nvme-card");
-         |                                                         ~~~~~~~~~~~~
-   3 errors generated.
-
-
-vim +/of_node_put +4654 drivers/nvme/host/core.c
-
-  4648	
-  4649	void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
-  4650	{
-  4651		nvme_hwmon_exit(ctrl);
-  4652		nvme_fault_inject_fini(&ctrl->fault_inject);
-  4653		dev_pm_qos_hide_latency_tolerance(ctrl->device);
-> 4654		of_node_put(ctrl->device->of_node);
-  4655		cdev_device_del(&ctrl->cdev, ctrl->device);
-  4656		nvme_put_ctrl(ctrl);
-  4657	}
-  4658	EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
-  4659	
-  4660	static void nvme_free_cels(struct nvme_ctrl *ctrl)
-  4661	{
-  4662		struct nvme_effects_log	*cel;
-  4663		unsigned long i;
-  4664	
-  4665		xa_for_each(&ctrl->cels, i, cel) {
-  4666			xa_erase(&ctrl->cels, i);
-  4667			kfree(cel);
-  4668		}
-  4669	
-  4670		xa_destroy(&ctrl->cels);
-  4671	}
-  4672	
-  4673	static void nvme_free_ctrl(struct device *dev)
-  4674	{
-  4675		struct nvme_ctrl *ctrl =
-  4676			container_of(dev, struct nvme_ctrl, ctrl_device);
-  4677		struct nvme_subsystem *subsys = ctrl->subsys;
-  4678	
-  4679		if (!subsys || ctrl->instance != subsys->instance)
-  4680			ida_free(&nvme_instance_ida, ctrl->instance);
-  4681		key_put(ctrl->tls_key);
-  4682		nvme_free_cels(ctrl);
-  4683		nvme_mpath_uninit(ctrl);
-  4684		cleanup_srcu_struct(&ctrl->srcu);
-  4685		nvme_auth_stop(ctrl);
-  4686		nvme_auth_free(ctrl);
-  4687		__free_page(ctrl->discard_page);
-  4688		free_opal_dev(ctrl->opal_dev);
-  4689	
-  4690		if (subsys) {
-  4691			mutex_lock(&nvme_subsystems_lock);
-  4692			list_del(&ctrl->subsys_entry);
-  4693			sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
-  4694			mutex_unlock(&nvme_subsystems_lock);
-  4695		}
-  4696	
-  4697		ctrl->ops->free_ctrl(ctrl);
-  4698	
-  4699		if (subsys)
-  4700			nvme_put_subsystem(subsys);
-  4701	}
-  4702	
-  4703	/*
-  4704	 * Initialize a NVMe controller structures.  This needs to be called during
-  4705	 * earliest initialization so that we have the initialized structured around
-  4706	 * during probing.
-  4707	 *
-  4708	 * On success, the caller must use the nvme_put_ctrl() to release this when
-  4709	 * needed, which also invokes the ops->free_ctrl() callback.
-  4710	 */
-  4711	int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
-  4712			const struct nvme_ctrl_ops *ops, unsigned long quirks)
-  4713	{
-  4714		int ret;
-  4715	
-  4716		WRITE_ONCE(ctrl->state, NVME_CTRL_NEW);
-  4717		ctrl->passthru_err_log_enabled = false;
-  4718		clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-  4719		spin_lock_init(&ctrl->lock);
-  4720		mutex_init(&ctrl->namespaces_lock);
-  4721	
-  4722		ret = init_srcu_struct(&ctrl->srcu);
-  4723		if (ret)
-  4724			return ret;
-  4725	
-  4726		mutex_init(&ctrl->scan_lock);
-  4727		INIT_LIST_HEAD(&ctrl->namespaces);
-  4728		xa_init(&ctrl->cels);
-  4729		ctrl->dev = dev;
-  4730		ctrl->ops = ops;
-  4731		ctrl->quirks = quirks;
-  4732		ctrl->numa_node = NUMA_NO_NODE;
-  4733		INIT_WORK(&ctrl->scan_work, nvme_scan_work);
-  4734		INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
-  4735		INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
-  4736		INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
-  4737		init_waitqueue_head(&ctrl->state_wq);
-  4738	
-  4739		INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
-  4740		INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
-  4741		memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
-  4742		ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
-  4743		ctrl->ka_last_check_time = jiffies;
-  4744	
-  4745		BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
-  4746				PAGE_SIZE);
-  4747		ctrl->discard_page = alloc_page(GFP_KERNEL);
-  4748		if (!ctrl->discard_page) {
-  4749			ret = -ENOMEM;
-  4750			goto out;
-  4751		}
-  4752	
-  4753		ret = ida_alloc(&nvme_instance_ida, GFP_KERNEL);
-  4754		if (ret < 0)
-  4755			goto out;
-  4756		ctrl->instance = ret;
-  4757	
-  4758		ret = nvme_auth_init_ctrl(ctrl);
-  4759		if (ret)
-  4760			goto out_release_instance;
-  4761	
-  4762		nvme_mpath_init_ctrl(ctrl);
-  4763	
-  4764		device_initialize(&ctrl->ctrl_device);
-  4765		ctrl->device = &ctrl->ctrl_device;
-  4766		ctrl->device->devt = MKDEV(MAJOR(nvme_ctrl_base_chr_devt),
-  4767				ctrl->instance);
-  4768		ctrl->device->class = &nvme_class;
-  4769		ctrl->device->parent = ctrl->dev;
-  4770		if (ops->dev_attr_groups)
-  4771			ctrl->device->groups = ops->dev_attr_groups;
-  4772		else
-  4773			ctrl->device->groups = nvme_dev_attr_groups;
-  4774		ctrl->device->release = nvme_free_ctrl;
-> 4775		ctrl->device->of_node = of_get_compatible_child(ctrl->dev->of_node,
-  4776								"nvme-card");
-  4777		dev_set_drvdata(ctrl->device, ctrl);
-  4778	
-  4779		return ret;
-  4780	
-  4781	out_release_instance:
-  4782		ida_free(&nvme_instance_ida, ctrl->instance);
-  4783	out:
-  4784		if (ctrl->discard_page)
-  4785			__free_page(ctrl->discard_page);
-  4786		cleanup_srcu_struct(&ctrl->srcu);
-  4787		return ret;
-  4788	}
-  4789	EXPORT_SYMBOL_GPL(nvme_init_ctrl);
-  4790	
-
+diff --git a/Documentation/devicetree/bindings/nvme/nvme-card.yaml b/Documentation/devicetree/bindings/nvme/nvme-card.yaml
+new file mode 100644
+index 000000000000..20e9a877fac4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/nvme/nvme-card.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/nvme/nvme-card.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVME Card
++
++maintainers:
++  - Christian Marangi <ansuelsmth@gmail.com>
++
++description: |
++  This documents describes the devicetree bindings for a NVME controller
++  child node describing a nvme-card.
++
++properties:
++  compatible:
++    const: nvme-card
++
++  partitions:
++    $ref: /schemas/mtd/partitions/partitions.yaml
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    pcie {
++        #address-cells = <3>;
++        #size-cells = <2>;
++
++        bridge@0,0 {
++            reg = <0x00000000 0 0 0 0>;
++            #address-cells = <3>;
++            #size-cells = <2>;
++            ranges;
++
++            nvme@1,0 {
++                compatible = "pci144d,a809";
++
++                reg = <0x00010000 0 0 0 0>;
++                #address-cells = <1>;
++                #size-cells = <1>;
++
++                card {
++                    compatible = "nvme-card";
++
++                    partitions {
++                        compatible = "fixed-partitions";
++                        #address-cells = <1>;
++                        #size-cells = <1>;
++
++                        bootloader@0 {
++                          label = "bootloader";
++                          reg = <0x00000000 0x00080000>;
++                        };
++
++                        tclinux@80000 {
++                          label = "tclinux";
++                          reg = <0x00080000 0x02800000>;
++                        };
++
++                        tclinux_slave@2880000 {
++                          label = "tclinux_slave";
++                          reg = <0x02880000 0x02800000>;
++                        };
++
++                        rootfs_data@5080000 {
++                          label = "rootfs_data";
++                          reg = <0x5080000 0x00800000>;
++                        };
++                    };
++                };
++            };
++        };
++    };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
 
