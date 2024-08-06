@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84518C3DA64
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 13:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1F1BC49EA1
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 13:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Subject:Cc:To:From:Date:Message-ID:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q7zPzbWeT3ajGHr373KRI//jHW9eGHoTwTI24+zUeFk=; b=OoAjBeMGU9d2A7W601dyVHBL0a
-	bzK3rIrfkIxlUhgdxEAizsd3jz818W8GtDI5NoOnVQSZg+bNxZsDVBFPkQXUznCapvA2o4VwvKm32
-	HjLH65Xqg5oZgf6fQxJwSbDIFqavwIl95c+wHcO1eNs+WYHN7y8leK5oVewXedwhcEVBwiWKzinPS
-	kZ3td2IOZcxDGYLYMfHoKfl8k+FMaP9SbtJp/ri/5HjD4jQc0VDIWSOHx3mDQghHHbyhgMrwSPIyT
-	j3ZKtojbyxQylyCbt17CX7II0FxSjmZArYvG69JNvfulTUR33RIVcuTYLCdsEzX6n5JSTPiBOTyKx
-	mNPBp4Kw==;
+	bh=WJLq6wZ3V9tDfVtOdZGITLF+SX3fZ5WHv+sByglbu5s=; b=lZZ6ZFexMX93i7HE2tBc9YFRBY
+	AW1rbYbmh6tjbsOq5D0v0EtPFH/w+HgcEDGQ5j44AFKkAyx69wTMa3NpcMav76oahyJIOQ+FU+Zv8
+	4wWtp9AR/uKiqTZUUdOvo+2ZKg4kK7i58uschBYraguBBdOdONr4cIA9T8IUB1JWefNhViQs8WfKk
+	eUFvZ615Ma6fY2kYH6OXdHjgvvDelCLeAL6rzSXfYtfjOqU6VN4Q1fL3EOdfspo2CQxM0U6K771Lg
+	R87PtGYBiPsGAQLJ1UCKzHdAGjOCGaxcgJSmvPb8Mvz4ikO3pNYqslMPPice9MJslcjzQemstCAdb
+	L6xsIoRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbK5R-00000001i26-1DqD;
-	Tue, 06 Aug 2024 13:18:49 +0000
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+	id 1sbKDH-00000001lEo-3XiJ;
+	Tue, 06 Aug 2024 13:26:55 +0000
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbK43-00000001hR9-2CQr;
-	Tue, 06 Aug 2024 13:17:24 +0000
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4281faefea9so3881115e9.2;
-        Tue, 06 Aug 2024 06:17:22 -0700 (PDT)
+	id 1sbKDE-00000001lD4-1sjC;
+	Tue, 06 Aug 2024 13:26:54 +0000
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a728f74c23dso73080866b.1;
+        Tue, 06 Aug 2024 06:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722950241; x=1723555041; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1722950811; x=1723555611; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=q7zPzbWeT3ajGHr373KRI//jHW9eGHoTwTI24+zUeFk=;
-        b=gn5rzHiYJHpxpPTU1BVwJFjVvEROsxBvu5CTGKGogXr9E9PWtw+n+k7MisxaXjajGn
-         oxVE5oWgeaaP15Rke0t/KPtnu7mk+84L8w530qYpm1fR8gfbu0JamFDfg70EjE9KQ/48
-         YbgUzJN4LH3WdVtXjrIkoiDKlyWbdU6xPKqqte/nO2YX2VA/DoMmDIxpbQMksUUGa+1B
-         Gt6W9H4Fn25ewmpoNigFxShzNK/VEHd/lY3foVHuqy6OneTQM4bzV162lcplGQaUc0Pk
-         Y+zJCG696d1lzK9iFxSETYD0Rk1qStHCxZeMbol0URyR7cD0yvCaDAP6n8YBwPa2sADd
-         5BDQ==
+        bh=WJLq6wZ3V9tDfVtOdZGITLF+SX3fZ5WHv+sByglbu5s=;
+        b=J6yXkuvv9/tAQBh5eGmXuS1bi/LnS42Af3D5UCBcPxL0x3dSVe7k0aIDNNIqoyHN38
+         1Jz3oEE8XOb+iKiycE6sIxCFttlMbdgBLNIs1b86si7p1VUgmFklmvS4bXlRYcMp8G3B
+         AT2rIU8eDg+bVB78lz+3xT0R4IwB2i93Od/tjXLYwG9LJSxwO+EgmH1Ie+Gu1SSldsxF
+         l6rnqKzZ4Iu3R6NpJIEIHlEps0kx/z0fpW2JiwfXGQ4KBJtiYwyNX2fJT+er7sycL1Pp
+         1i+oa1JBTgnF7EMF0bCtiWKNDAdUAJURYn6/kXtC76AlGjGCg7wXgH1CwSjKhzTiqKIR
+         8iRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722950241; x=1723555041;
+        d=1e100.net; s=20230601; t=1722950811; x=1723555611;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q7zPzbWeT3ajGHr373KRI//jHW9eGHoTwTI24+zUeFk=;
-        b=kSnymyADTeSoEXP+B5XbYwknM3FVi6n3yZOF28R3AOMYSfbJWx36P+Va6t+AYeRBgc
-         SbHgVFI7VJKO1rkeyNceRZBQglOua9KvxQvcGaePhU7WR+R4Vu7P0XlefxhFZ58rVwgt
-         uimA+L7/0vK8RMbIuTTg/AaT1YSK5PZSYYE8prjwp2G6G5OYSlzJzHwxfbyRuZYOOxGD
-         AIf2+0L6VFgPrdphJyTnaWoM7xWA3Ctu+/3q2HG8/jEX4/PluPTbSrrjS3AT5Wf3TCqZ
-         L2U8LBNBdbLxlXUl+v7G3V7qvY3ujgm2Y3kXQvfq6Q+ykefhxoYCVTuadwOmOW/I7i5v
-         mnvA==
-X-Forwarded-Encrypted: i=1; AJvYcCWrc0exG96Fp8b4ER41RYfpNCvLol7Do1A5YmEiVDY096qu/W+G7osQe/4jEZVZH9qtHaC+kI6/4TJXllZUZzAU8ADwyEFuALrD6xvHpNEzDaTeJK17aNkZhh6SNWry3afMbY4ZdyjTW1aele2w
-X-Gm-Message-State: AOJu0YzlHz6QXXK5xNdXWOrpfcz6r0fqkJNdnI95I+raAQnMYyAc/ASb
-	wE2yUO5u5Vui3wxkoFLDKNg/iSbUtn6Lgg9hbI1lQ1I9wYeB5fVf0iUsxg==
-X-Google-Smtp-Source: AGHT+IEut66y9HBGYWpB8iEX0ePNj2Rw9qoCD9Mj6LeeUaFBErVh4YbDclRk8F/WRbu/POoNdZxUOA==
-X-Received: by 2002:a05:600c:35ca:b0:427:ac40:d4b1 with SMTP id 5b1f17b1804b1-428e6b7be88mr102599445e9.27.1722950241128;
-        Tue, 06 Aug 2024 06:17:21 -0700 (PDT)
+        bh=WJLq6wZ3V9tDfVtOdZGITLF+SX3fZ5WHv+sByglbu5s=;
+        b=QAbQAnSzmb+F+zp2q/xSKl42RKomfK1OiLhbckfd1JwC8x1cNnlfPtX8x9wyV/i2TW
+         sGm/1Vrwm7mWK9RBGRhjKlKtTRShKCxfYToCI9fPmnm5S15UVxldTbeTrpQ5knzKORli
+         DxUEKCGsouiobL9mXXWSAozEJKEql43saHdAFgtWxsz58VGnqy8BbWRGmMtZW4k+RSs2
+         dk9YmgONQCKoX2RtTunD/4tM5eM4avwy7oXlXsVyQx0ySvFslnXQPSLGo1hSfh3SBkS0
+         Q8m4mUBdfvapjy2m+dFfId9NMVoMd4eJYN+UeoVhNDGQEKJayQcZYV2s9DcGHgmaTnn5
+         TL9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUnFCFgJxUrxRpLa3YIqICyOn+VmaGVhLh6N+fzzBBPgdggFkHIxL2O/r5MZHjsZqXCco89rlXdVktj7/wmFkMcz5l/tW80H/LP1NveLqySVdCqtBAYh7aBpORJ92ZZZzpIGNMPsrsA6YbbEYSq
+X-Gm-Message-State: AOJu0YxOMQF8900eU6ibs2LntPl8AlHj8wlJK4WUlIysvsRtDN+J5Koc
+	itxGAP1nepKE/z09fY/xP4XCIX70/8huuAYU4dt1+07VwO7AwD9V
+X-Google-Smtp-Source: AGHT+IFCZboMdtGhjAjAlddCPcdXU/2ru7VniI37xRcVSX5ZWE/iyT9EsbOEIdYyKoXwTHhvEvlGlg==
+X-Received: by 2002:a17:907:7ba1:b0:a7d:a008:abca with SMTP id a640c23a62f3a-a7dc509e2damr1049187866b.56.1722950810418;
+        Tue, 06 Aug 2024 06:26:50 -0700 (PDT)
 Received: from Ansuel-XPS. (host-87-6-196-30.retail.telecomitalia.it. [87.6.196.30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8adaadsm242847475e9.12.2024.08.06.06.17.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9ec285bsm545048066b.188.2024.08.06.06.26.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 06:17:20 -0700 (PDT)
-Message-ID: <66b22260.050a0220.18f4fd.5a4d@mx.google.com>
-X-Google-Original-Message-ID: <ZrIiXBYsm8a1WjGM@Ansuel-XPS.>
-Date: Tue, 6 Aug 2024 15:17:16 +0200
+        Tue, 06 Aug 2024 06:26:49 -0700 (PDT)
+Message-ID: <66b22499.170a0220.cc48.fa2b@mx.google.com>
+X-Google-Original-Message-ID: <ZrIklQiyQvFIIPz8@Ansuel-XPS.>
+Date: Tue, 6 Aug 2024 15:26:45 +0200
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
@@ -81,19 +81,19 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
 	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 1/6] dt-bindings: nvme: Document nvme-card compatible
+Subject: Re: [PATCH v3 2/6] nvme: assign of_node to nvme device
 References: <20240806114118.17198-1-ansuelsmth@gmail.com>
- <20240806114118.17198-2-ansuelsmth@gmail.com>
- <20240806124224.GA10156@lst.de>
- <66b21d35.050a0220.3799b3.7e8c@mx.google.com>
- <20240806130003.GA11766@lst.de>
+ <20240806114118.17198-3-ansuelsmth@gmail.com>
+ <20240806124312.GB10156@lst.de>
+ <66b21f20.5d0a0220.200175.4b9b@mx.google.com>
+ <20240806130938.GA12231@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806130003.GA11766@lst.de>
+In-Reply-To: <20240806130938.GA12231@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_061723_604249_07F5E82A 
-X-CRM114-Status: GOOD (  16.24  )
+X-CRM114-CacheID: sfid-20240806_062652_510765_8CE698B1 
+X-CRM114-Status: GOOD (  19.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,33 +108,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 06, 2024 at 03:00:03PM +0200, Christoph Hellwig wrote:
-> I don't see how this works.  There is absolutely nothing nvme specific
-> in there, and we really should not bring OF into NVMe.
+On Tue, Aug 06, 2024 at 03:09:38PM +0200, Christoph Hellwig wrote:
+> On Tue, Aug 06, 2024 at 03:03:24PM +0200, Christian Marangi wrote:
+> > Well on embedded pure PCIe card most of the time are not a thing...
+> > Unless it's an enterprise product, everything is integrated in the pcb
+> > and not detachable for cost saving measure or also if the thing use PCIe
+> > protocol but it tighlty coupled with the SoC.
+> 
+> Yes, PCIe has a bunch of form factors, including just soldered on BGA
+> devices, but none of that matters at all for the logical protocol.
 >
 
-Thing is that OF for PCIe devices is already a thing so NVMe already
-have OF support. And that is totally OK if the PCIe is not removable.
+Correct, for the context of soldered stuff tho things can be
+malfunctioning (problem in the PCIe driver) or working so it's possibile
+to make assumption and attach OF node in DT. Consider that the thing is
+probed only if the card is correctly detected. Card not present ->
+nothing is done.
 
-So it's really a simple subnode to keep things organized in DT and
-permit common code. Why this would be problematic, the implications of
-adding support for this are really none, only additional support for the
-new devices that are taking this path. (you would be surprised by the
-amount of hacks they use downstream so about times to stabilize this the
-correct way)
-
-> > (alternative is to have in block2mtd all kind of extra logic with switch
-> > case to check for major block ID that deviates from a common schema)
+> > This implementation is already very common for all kind of pcie devices
+> > like wireless card, gpio expander that are integrated in the PCB and
+> > require property in DT like calibration data, quirks or GPIO pin
+> > definitions, i2c...
 > 
-> What common scheme?
+> Do you have a document on that/
 > 
 
-The emmc one and also nand attached to spi. They all follow this.
+You mean example of PCIe that makes use of OF? Pretty much ath10k-11k
+mediatek and in general all wireless card. Example ath11k-pci.yaml [1]
 
-controller {
-	card {
-	};
-};
+Compatible is set to the ID. PCIe will attach an OF node if found in the
+pcie child nodes (already supported)
+
+On NVMe driver side, the NVMe controller will already have an OF node
+present.
+
+We are now just adding an additional subnode "nvme-card" and attach it
+on the root disk when it's created.
+
+[1] https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/net/wireless/qcom%2Cath11k-pci.yaml
 
 -- 
 	Ansuel
