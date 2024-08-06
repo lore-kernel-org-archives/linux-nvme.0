@@ -4,106 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67B74C3DA4A
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 03:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D93CC3DA64
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 08:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8Dx2Bv0d2od3Km7MjoXRYzhl1VfhP4WqwsY5gBZHcjc=; b=U8F/AIo+OKAUlOy4WCnh7m8JKs
-	PqdMM/c3ccO39uYckxsF3WMWQbi0QkqvYYdBObERyvLZcDWWHcii9pLMMDlF7OloF1UnlgXFZtBnJ
-	C1G4nCX6qNR/56d9jCotp1abr7X2vqrAiWzegKTbhTMsSV6rNZcWDr+O7PkRN7eiKTx4rZ8BGILEO
-	VmRVWMndr30C94JdLb4jfa6chvR5AFptniiU8MI8TxAUBx/IVsAXuYrC4eCqobsi7ZQFoVJvDeRTk
-	hiotvDrqDt0nH+Hzrm5QhBoJMeXUidFBsE+SQyBveG2/tMP3N4q+QRqBnPHcVckJcUQ0lEJT/hsLe
-	nJtQ5P+Q==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oJaqmGlj5TkkwWqEb+gsxUJwhTuXKSuSwVaCsIihbaE=; b=b8O5C7w3MV60lKjog7T9cACVbm
+	5nskrUkE6sJd6TwpwuSO+Q4lo4ga5yzb/5pj9BVKrjGsiEIkKPLxyiH8WSLk16iiT8DABGA4FkLSt
+	gUG2nWhUXqbZqSIP9OUGyMuLTWxW+AIaBryGnLMNc5YJQKyMS4JJbDL6uYsc9snqn3T/wX/EFzwIA
+	wKD+g7AeQvAdW+tHXLu4oP2GW6u3D+rugsMlqOV2s4tg/y3JrYi/eEE6Z3EpZtQVy7sktiCDDgcyK
+	wL5g3Cyk2szpoMvtazl+ylUHvBG2Cc7NB9xPVaeM0fAjzWaXT3VAJsHZ7tPO20ZbasaCqZwCeYQWw
+	z6FBtJ6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbAee-00000000LGZ-3PHA;
-	Tue, 06 Aug 2024 03:14:32 +0000
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+	id 1sbFIv-00000000tpc-0vzZ;
+	Tue, 06 Aug 2024 08:12:25 +0000
+Received: from mail-wm1-f52.google.com ([209.85.128.52])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZXdW-00000005qP3-2xXc;
-	Thu, 01 Aug 2024 15:22:40 +0000
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-428e0d184b4so6439285e9.2;
-        Thu, 01 Aug 2024 08:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722525756; x=1723130556; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Dx2Bv0d2od3Km7MjoXRYzhl1VfhP4WqwsY5gBZHcjc=;
-        b=XslYqm01ZuG2hwiK/ltovYDhfbTwtLb0VeUHlz4ZeXoV/+D80vafzv3i/+jXe/S85U
-         lsqvjcQI8UIuSXJGT9XpKVCWC2j+nVrEb+J0FlqgX9OOZCD5eRJ/USReWfbSIGex+BtK
-         014saqBbLcEkjFFUnNsdHQ1Gq7aT3TSoh9Y+sgGqEGqO48i9wggD5zVMBD0HUiwIYOhU
-         cyX5H5Z/LiZVTbcG6MrrMnBqyRfesv9vKESZ333BLjJLYYJFqKetbI9s++up0u2DJGDU
-         RQCqwBHxQEYZbskakBEPUCgtdy1jRHhriIqGUjzSlsq7nxRLP4Rzbc0oOGbh44XC4F7Z
-         etbg==
+	id 1sbFIY-00000000tjo-0iij
+	for linux-nvme@lists.infradead.org;
+	Tue, 06 Aug 2024 08:12:04 +0000
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-427d71e746aso85855e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Aug 2024 01:12:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722525756; x=1723130556;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Dx2Bv0d2od3Km7MjoXRYzhl1VfhP4WqwsY5gBZHcjc=;
-        b=IYn4JbP2PWYvSwYppZF7w2nNIYEWlxFMGUqv5Zaf25mZqQQeaw2F2xRosKVE4s3Fys
-         P8cPWwitW4hPiffUh5/JDMGiUR+czpqtvO/AZxjckNBvwcoK/xDhZgte1shwTMyNr2cc
-         gBpXJpFzLxEl7byEVDLd+dMDZAOxvWv9UVVWybA5I4KzRjqUeM3gsmrtDo7obl/m0Xuw
-         vUlqFUzS58NG9vVWNkIeVeXtQyel+v160F+fhneCZbrwLqndNapzEgwPd6EpTKdMG0LY
-         zvlqn+Z5Zzwv24HmanWq93X2b7TvC/r0D15FHqpO4I8JKLMqeBfYhu8q8y6Xk8COVyyx
-         lD4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUDzPaQ5kqBysrvWT69JYfGHq+Qblcv20nTLQMtwMZ+K7DtmrLG+IXDNEfETBQDm/2iwSInby5NLTPipXzD/6yhjuVE6ngJDV/Q9sxpGE6eHL7XOg9NrCfZ8HjUWHQQjW50Fa9QDFdKVVWUxMftzshSrDQuwFYAOozjMgfGlcozBpL2MWC9zOIHfBmHkzbBVywI7yaTaZnMwoqR/nl4OexsGb4pTIeU4h8qq8m3iWrh7DSmV7mrsXM=
-X-Gm-Message-State: AOJu0YzW8ZNBImhCDaAf4jRANGQjpsJdJrzgssyHJ77eKHNadmsPqlsb
-	7fcuTsVf99QNhK49FrruaJ8bvcBCS2xDkRtb2KvaXPeDINNIEhsCmKlMq6u2SltZzCp9kdDzNsW
-	CAoiCLcLrRiS0oFYKZhHTVE5j+eU=
-X-Google-Smtp-Source: AGHT+IHJwpMJUuvVBDGd0+iVwndbV1UbEfs+MYBNb+0c/veShsqCR+fklPSjDi/gK00dEDB9UQYZf/nj06+15imHIwM=
-X-Received: by 2002:adf:f14d:0:b0:368:4bc0:9211 with SMTP id
- ffacd0b85a97d-36bbc0f3459mr125871f8f.17.1722525756248; Thu, 01 Aug 2024
- 08:22:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722931920; x=1723536720;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oJaqmGlj5TkkwWqEb+gsxUJwhTuXKSuSwVaCsIihbaE=;
+        b=qYjYxsMVDB3363urGzXBLVGuIhK9f7KLjngwrc46ujFXLQDkcnEfIL3s5mKxxzIRJt
+         8f3AwarZeD2ELOVCD2crz6XglK2l5Jup5wGRgs9IHaXglwbuGh05ElqW0WRu2i1euVBv
+         idm6R5hYa1dLrGxHjID9w2WV5Kei+X3i+yvVGDDJgx7e1Q74JDk962Cai+C2UjLJVM8q
+         gGN6LN9MyhXy6YfOh4/94Udpp4dTJZuVmYS0HRYqtz+s8Ru4/wTdEyRg56pvfJasdW/4
+         pNnEnaaTOjHd82NLsohbiDP5JKx4spQ6GRuaZhh/NNENpzUCPb3SjsQBWH9sT1QsVkHd
+         jJig==
+X-Forwarded-Encrypted: i=1; AJvYcCUPXirxQlSYUUJfmLOHcQBPC80YWGNn4zkq7O+FrxqJizqGJX9do6B49TGS0BqP39ZlypEZp17L9ZBk@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy6jajbiviOCfGeUdOCYvNtvKECi8kmuTsyZiXAIGIEVyLtMLTp
+	yPtkiCr2SYUprIOAkfPmzEBbz/bg5oWYS6OSQ0+BDoAJyVj6UuCU8f2nsQ==
+X-Google-Smtp-Source: AGHT+IGzfYE3pRTpvWAJGqKR9N43Pgm2j9KCbSVPG4Zm4sqAhoDFHsnrXuiAkWXJb7v8kbT6Gv2n4g==
+X-Received: by 2002:a05:600c:19d3:b0:427:9f6f:9c00 with SMTP id 5b1f17b1804b1-428e6ba92e9mr63444705e9.6.1722931919384;
+        Tue, 06 Aug 2024 01:11:59 -0700 (PDT)
+Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e4073f7bsm190529595e9.18.2024.08.06.01.11.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Aug 2024 01:11:58 -0700 (PDT)
+Message-ID: <6ec0d9af-1972-4181-bd12-218f0e566cd1@grimberg.me>
+Date: Tue, 6 Aug 2024 11:11:58 +0300
 MIME-Version: 1.0
-References: <20240731124505.2903877-1-linyunsheng@huawei.com>
- <20240731124505.2903877-5-linyunsheng@huawei.com> <CAKgT0UcqdeSJdjZ_FfwyCnT927TwOkE4zchHLOkrBEmhGzex9g@mail.gmail.com>
- <22fda86c-d688-42e7-99e8-e2f8fcf1a5ba@huawei.com>
-In-Reply-To: <22fda86c-d688-42e7-99e8-e2f8fcf1a5ba@huawei.com>
-From: Alexander Duyck <alexander.duyck@gmail.com>
-Date: Thu, 1 Aug 2024 08:21:59 -0700
-Message-ID: <CAKgT0UcuGj8wvC87=A+hkarRupfhjGM0BPzLUT2AJc8Ovg_TFg@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 04/14] mm: page_frag: add '_va' suffix to
- page_frag API
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Subbaraya Sundeep <sbhatta@marvell.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>, 
-	Eric Dumazet <edumazet@google.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Sunil Goutham <sgoutham@marvell.com>, 
-	Geetha sowjanya <gakula@marvell.com>, hariprasad <hkelam@marvell.com>, Felix Fietkau <nbd@nbd.name>, 
-	Sean Wang <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>, 
-	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, intel-wired-lan@lists.osuosl.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-nvme@lists.infradead.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] nvmet: basic RMEDIA support for target
+To: Wang Yugui <wangyugui@e16-tech.com>, linux-nvme@lists.infradead.org
+References: <20240806004823.27417-1-wangyugui@e16-tech.com>
+ <20240806004928.27605-1-wangyugui@e16-tech.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240806004928.27605-1-wangyugui@e16-tech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240801_082238_766551_3F955A80 
-X-CRM114-Status: GOOD (  21.80  )
-X-Mailman-Approved-At: Mon, 05 Aug 2024 20:14:30 -0700
+X-CRM114-CacheID: sfid-20240806_011202_253991_84E82C6D 
+X-CRM114-Status: GOOD (  19.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,50 +81,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 1, 2024 at 6:01=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
-> wrote:
->
-> On 2024/8/1 2:13, Alexander Duyck wrote:
-> > On Wed, Jul 31, 2024 at 5:50=E2=80=AFAM Yunsheng Lin <linyunsheng@huawe=
-i.com> wrote:
-> >>
-> >> Currently the page_frag API is returning 'virtual address'
-> >> or 'va' when allocing and expecting 'virtual address' or
-> >> 'va' as input when freeing.
-> >>
-> >> As we are about to support new use cases that the caller
-> >> need to deal with 'struct page' or need to deal with both
-> >> 'va' and 'struct page'. In order to differentiate the API
-> >> handling between 'va' and 'struct page', add '_va' suffix
-> >> to the corresponding API mirroring the page_pool_alloc_va()
-> >> API of the page_pool. So that callers expecting to deal with
-> >> va, page or both va and page may call page_frag_alloc_va*,
-> >> page_frag_alloc_pg*, or page_frag_alloc* API accordingly.
-> >>
-> >> CC: Alexander Duyck <alexander.duyck@gmail.com>
-> >> Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
-> >> Reviewed-by: Subbaraya Sundeep <sbhatta@marvell.com>
-> >
-> > I am naking this patch. It is a pointless rename that is just going to
-> > obfuscate the git history for these callers.
->
-> I responded to your above similar comment in v2, and then responded more
-> detailedly in v11, both got not direct responding, it would be good to
-> have more concrete feedback here instead of abstract argument.
->
-> https://lore.kernel.org/all/74e7259a-c462-e3c1-73ac-8e3f49fb80b8@huawei.c=
-om/
-> https://lore.kernel.org/all/11187fe4-9419-4341-97b5-6dad7583b5b6@huawei.c=
-om/
 
-I will make this much more understandable. This patch is one of the
-ones that will permanently block this set in my opinion. As such I
-will never ack this patch as I see no benefit to it. Arguing with me
-on this is moot as you aren't going to change my mind, and I don't
-have all day to argue back and forth with you on every single patch.
 
-As far as your API extension and naming maybe you should look like
-something like bio_vec and borrow the naming from that since that is
-essentially what you are passing back and forth is essentially that
-instead of a page frag which is normally a virtual address.
+
+On 06/08/2024 3:49, Wang Yugui wrote:
+> Rotational media(RMEDIA) support is added to the NVMe 2.0 specification.
+> We add Rotational media(RMEDIA) basic support to nvme target.
+>
+> Signed-off-by: Wang Yugui <wangyugui@e16-tech.com>
+> ---
+>   drivers/nvme/target/admin-cmd.c   | 50 +++++++++++++++++++++++++++++++
+>   drivers/nvme/target/core.c        |  2 ++
+>   drivers/nvme/target/io-cmd-bdev.c |  1 +
+>   drivers/nvme/target/nvmet.h       |  1 +
+>   4 files changed, 54 insertions(+)
+>
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index f7e1156ac7ec..20a28102f8a0 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -489,6 +489,53 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+>   	nvmet_req_complete(req, status);
+>   }
+>   
+> +static void nvmet_execute_identify_indep(struct nvmet_req *req)
+> +{
+> +	struct nvme_id_ns_cs_indep  *id;
+> +	u16 status;
+> +
+> +	id = kzalloc(sizeof(*id), GFP_KERNEL);
+> +	if (!id) {
+> +		status = NVME_SC_INTERNAL;
+> +		goto out;
+> +	}
+> +
+> +	/* return an all zeroed buffer if we can't find an active namespace */
+> +	status = nvmet_req_find_ns(req);
+> +	if (status) {
+> +		status = 0;
+> +		goto done;
+> +	}
+> +
+> +	if (nvmet_ns_revalidate(req->ns)) {
+> +		mutex_lock(&req->ns->subsys->lock);
+> +		nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
+> +		mutex_unlock(&req->ns->subsys->lock);
+> +	}
+> +
+> +	/*
+> +	 * Our namespace might always be shared.  Not just with other
+> +	 * controllers, but also with any other user of the block device.
+> +	 */
+> +	id->nmic = NVME_NS_NMIC_SHARED;
+> +	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+> +
+> +	if (req->ns->readonly)
+> +		id->nsattr |= NVME_NS_ATTR_RO;
+> +
+> +	id->nstat |= NVME_NSTAT_NRDY;
+> +
+> +	if(req->ns->rotational)
+> +		id->nsfeat |= NVME_INDEP_NS_FEAT_RMEDIA;
+> +
+> +done:
+> +	if (!status)
+> +		status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+> +	kfree(id);
+> +out:
+> +	nvmet_req_complete(req, status);
+> +}
+> +
+>   static void nvmet_execute_identify_ns(struct nvmet_req *req)
+>   {
+>   	struct nvme_id_ns *id;
+> @@ -706,6 +724,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+>   			break;
+>   		}
+>   		break;
+> +	case NVME_ID_CNS_NS_CS_INDEP:
+> +		nvmet_execute_identify_indep(req);
+> +		return;
+>   	case NVME_ID_CNS_CS_CTRL:
+>   		switch (req->cmd->identify.csi) {
+>   		case NVME_CSI_NVM:
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index ed2424f8a396..2790fedb593b 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -1254,6 +1254,8 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+>   	else
+>   		ctrl->cap |= ctrl->port->max_queue_size - 1;
+>   
+> +	ctrl->cap |= NVME_CAP_CRMS_CRIMS;
+> +
+>   	if (nvmet_is_passthru_subsys(ctrl->subsys))
+>   		nvmet_passthrough_override_cap(ctrl);
+>   }
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index 0bda83d0fc3e..d15ad1a864bc 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -104,6 +104,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+>   
+>   	ns->pi_type = 0;
+>   	ns->metadata_size = 0;
+> +	ns->rotational = bdev_nonrot(ns->bdev);
+
+Shouldn't this be !bdev_nonrot(ns->bdev) ?
 
