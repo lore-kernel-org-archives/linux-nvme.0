@@ -4,96 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26420C3DA64
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 11:33:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA6E0C3DA64
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 11:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Subject:Cc:To:From:Date:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IVejJhSSwefbToNWC/vMSJDYdMIZMCdNUKTcNbMdxLc=; b=cL6rG0LmYWJGHl3vlLqCFt/KvJ
-	ZhLWzAcXzF6gOklGVyxd0C+rWAlaxevrt7ngeMgIjdg4qGi651oYzbI18ylPbjb9mPPYabS1i3sDe
-	yvX6Egm3ZVb4RoRtmZo8UtcaEpOAtzNbORw2ZwLKJajtS4wMddaW8Pe0Oe7re5f4wGwQzUCr9/sx3
-	c7Y4NPMP7TkObtv1oPev6p2yUQHAYioGC+4PdKCHMk+3L5wtBUiIjV0AcxqqBDT7G95ECa1+8iWQ8
-	4vw3iNnlY1WtFu5qXD+HXHx57ghWJWo1oV2EOo450YpLginhM/IGwhJLMBcDD9goDKYlLTDNhBU0p
-	0rLMwU6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YpfYwGb98vUIAZ4eOkYm143SZkEFj932lYgjUfhnx5I=; b=GwpavlmlOrwykbjk8Z61XC8zqz
+	JgcmgiF0Zzrf/c8RCZ/IYX8pz1Jbqnnqxpr2mvcyRhHEfAxDPAmaHMWv9UfZLBrTq+8oJEZTUR0lE
+	M6I8tJ2AyM4zM4BpdLlidycjV/WxpRgOaPXg1TGyy61xX6fv5mz5CnZOgsc9GZlm2E7sfqf936ojq
+	gY75v+7t2QyyUlCLfFB61IxNaYOtyRy5wtATXQbygf8AklHYfyIReclIBAM7jDPfOSR+NzfzX/65x
+	jDuS+71Z1Ks4LZf/YHxpUOju7If//9SaXkOkGqU62N7eboNIzzsUU2SO/wmz1igTMx9l5tmY59xnH
+	5uk0TctQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbIR4-00000001M3R-3VXI;
-	Tue, 06 Aug 2024 11:33:02 +0000
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
+	id 1sbIZI-00000001N7P-39hn;
+	Tue, 06 Aug 2024 11:41:32 +0000
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbIR1-00000001M2p-2M8a;
-	Tue, 06 Aug 2024 11:33:01 +0000
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2f032cb782dso4401351fa.3;
-        Tue, 06 Aug 2024 04:32:58 -0700 (PDT)
+	id 1sbIZE-00000001N4x-2rSR;
+	Tue, 06 Aug 2024 11:41:30 +0000
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-428101fa30aso3152205e9.3;
+        Tue, 06 Aug 2024 04:41:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722943977; x=1723548777; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IVejJhSSwefbToNWC/vMSJDYdMIZMCdNUKTcNbMdxLc=;
-        b=j+G7R14iOjrxjJ7VCEm4LqtjgxJaOWwlXM878DUJXEhzHcfEkZNsDXzttTyYn82FQO
-         0FCtjHW3pQBNfNX0VFKdaEX+G8HnbreNt3hgt8LbZy+gvcaoG6I/aNtaCG0x5xULix1D
-         q8qLmn6MfV0aX+EiuK8PWi2I9q+/2M7L+W5FrzJG0Zqv3I05MRkv50R7PxA2m9xdx/Hm
-         NyUfvIQB7Kk6BVt/CbAKyi80yTegANuq0OkUWI+fLrvRGp4MzD7NsbPCQPsgSB4LOXbq
-         wEu3Jd2OkSmfB+OWoS9yxhk4oEMp0kJr6JqLSFLx2xzibH7eNjZuWbhJdIjGJideAPfA
-         bdjQ==
+        d=gmail.com; s=20230601; t=1722944487; x=1723549287; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YpfYwGb98vUIAZ4eOkYm143SZkEFj932lYgjUfhnx5I=;
+        b=aMpcF6zcjSpcIdhup00J6GgswvuVlGy6yd0JLCM/2PCMruvw0usVEOE977Rrl1Qxa9
+         FPvSoWlGzlesrSglrOpPPFoPSCzfPil0mvyJDEZUOEyThOk15QxxnDtGbLdsAB7BgHc/
+         pP2+8hk6SmQwTBzq1NQFY6SIWCo8MXyhLlXBuFaZameR0G7xYJbtGEPVp9WMQJtYSFZd
+         IuRSTnDi6ELcHuuTUUQ3E2Xep0Jpq3/Jbf4lEyzLq9HVslWYTRzSWkbioEzWMm8q2kaV
+         UhGejisM8wTcjrtjClLzl8wPtWM7Fl0GkCNLBXp/rcYTIroX6To0RO4Eu4HRLExzI4Fl
+         gflg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722943977; x=1723548777;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IVejJhSSwefbToNWC/vMSJDYdMIZMCdNUKTcNbMdxLc=;
-        b=rqdB96Enm+ycLwH6n5emvkVn3mkDHSS3m4l6o1awVYmXO1NS/x2G9+ytHJYGbvEuX1
-         tVt2WyYOAesZrYY8a/KJ1MwbIKXhf+sIHO7LgLkWLJGURI0DknKTq5d6Ah+bCVeXOd8x
-         6s8/huw6Objg8vndHO4CbXiElzcoEXtP3W4xtMW7xSqvsgImoUnraxACXnSWbfm+t35O
-         0JmMkX4MOojY2skfxH0+nRuaXE/8ds4HMwof6i7Pc028agL07IwcDGoST/6VQ1FCf2JG
-         1bqb6NKCaXtCArSaRpZ3ihCo7bdURDIXREHl5XWmUEqGXEl6skjcxeSNy/ypT22kblRd
-         HFRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW14YGEfeOGRABeDbTr1RUwsDEJWTp+aaGi68iKcMb7WiM+6ZCbftKskiK+y3OD35eCAG/ViUYd9jIh7PF1ZP6JN1QUAnQt/cL9tjR8G6ykQXOaQ+6GJN1dhSEPJ7YTIM4YgbI7rQfbcNJP46zN
-X-Gm-Message-State: AOJu0Ywu57kR46f2ducyRjrZrvvgGZLZAUtHaPgGQ6OptfrIc1Coj4Ec
-	aCWscK2KXRlkpy8idmAXW1mZe8QS3tJwl8ZwQB7HElBkhu/pVJs6
-X-Google-Smtp-Source: AGHT+IEIML1fcbxEmifD6CYWnibQGgfrmZhaChuLVp5niogHyeL8TR72e1QzDfH14JBGB+amQfws3Q==
-X-Received: by 2002:a2e:8046:0:b0:2ee:7c12:7b36 with SMTP id 38308e7fff4ca-2f15aaacc1dmr104556941fa.19.1722943976887;
-        Tue, 06 Aug 2024 04:32:56 -0700 (PDT)
-Received: from Ansuel-XPS. (host-87-6-196-30.retail.telecomitalia.it. [87.6.196.30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282babaa2esm240389145e9.25.2024.08.06.04.32.54
+        d=1e100.net; s=20230601; t=1722944487; x=1723549287;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YpfYwGb98vUIAZ4eOkYm143SZkEFj932lYgjUfhnx5I=;
+        b=Z5mCgzeWvq3/SdgfyIgU9p8KRY4+Xo5hHPRI/IbizW2BKRa+9OBDOu8Aws1ffsVnBE
+         eG5NRUdSt5w9GuWnbBn64WqZh7mlop8opilhxJ3qG1pQUVvQwOdTxwH+uF71NXNxpIbd
+         Yn3p++ljINq2WoTW8E1eCEjdU2XhLs1BoRTTqIoCOp8h7pHLpc7geSmTawYzAHgooZku
+         /cRv5N3Aj/85hRZXMrMROHZOQMonP05Yu+6j2l0F7jaRwY/ZyIbcj9HpHCm/WDHZZer7
+         SPqD5fH9y3PtpxagzAnmPkB6OcDAtwpkT4UKWcOM5tgH7sIQ8stjXzjVpMMDmFh1s3TK
+         cKPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVsgavXEyHTqmBSj8QrJDiPsN9dRWRTM847lmswt2nhvB9UpupTg6gWJTOX726LO9nsgyMFHrzVWr0GmP8a7cAk94MPKs9mFFhnFddzB95r6betDiZKmA3wtTvpZd8xam1Z199jhHUcOvjDTrEz
+X-Gm-Message-State: AOJu0YxY3vNzO6MPeJderxpKYR2spMv8GJRT6gWd4uWn8MNz0734V50Q
+	sZKMaMnnicqQdTivwPE8GKttf8dU3BIls0HjA5XYhFuxSn2ua8gp
+X-Google-Smtp-Source: AGHT+IH3bACCHKh1gLb1eYfDR32vW4Ay/HBQR1YwSGOa4TNKvGPiVuBbrwRDssiyzifL5Rm50ofl/w==
+X-Received: by 2002:a05:600c:4f4b:b0:426:614b:1a72 with SMTP id 5b1f17b1804b1-428e6b07ea1mr107971085e9.17.1722944486415;
+        Tue, 06 Aug 2024 04:41:26 -0700 (PDT)
+Received: from localhost.localdomain (host-87-6-196-30.retail.telecomitalia.it. [87.6.196.30])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-428e6e7cce6sm176105845e9.31.2024.08.06.04.41.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 04:32:56 -0700 (PDT)
-Message-ID: <66b209e8.050a0220.1f20c8.5a92@mx.google.com>
-X-Google-Original-Message-ID: <ZrIJ4y8S0sEtDOQ2@Ansuel-XPS.>
-Date: Tue, 6 Aug 2024 13:32:51 +0200
+        Tue, 06 Aug 2024 04:41:26 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+To: Ulf Hansson <ulf.hansson@linaro.org>,
 	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
 	Vignesh Raghavendra <vigneshr@ti.com>,
 	Joern Engel <joern@lazybastard.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Florian Fainelli <f.fainelli@gmail.com>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nvme@lists.infradead.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 6/6] mtd: parser: add support for Airoha parser
-References: <20240804174414.18171-7-ansuelsmth@gmail.com>
- <202408050612.Ya1m6REu-lkp@intel.com>
- <66b0b109.050a0220.93681.d015@mx.google.com>
- <ZrHrn9NzeOhp+Sdl@rli9-mobl>
+	linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH v3 0/6] mtd: improve block2mtd + airoha parser
+Date: Tue,  6 Aug 2024 13:41:10 +0200
+Message-ID: <20240806114118.17198-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZrHrn9NzeOhp+Sdl@rli9-mobl>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_043259_643245_0D966473 
-X-CRM114-Status: GOOD (  30.53  )
+X-CRM114-CacheID: sfid-20240806_044128_746854_D195BC9B 
+X-CRM114-Status: GOOD (  20.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,86 +105,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 06, 2024 at 05:23:43PM +0800, Philip Li wrote:
-> On Mon, Aug 05, 2024 at 04:54:45AM +0200, Christian Marangi wrote:
-> > On Mon, Aug 05, 2024 at 06:52:04AM +0800, kernel test robot wrote:
-> > > Hi Christian,
-> > > 
-> > > kernel test robot noticed the following build errors:
-> > > 
-> > > [auto build test ERROR on robh/for-next]
-> > > [also build test ERROR on linus/master v6.11-rc1 next-20240802]
-> > > [cannot apply to mtd/mtd/next mtd/mtd/fixes]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > > And when submitting patch, we suggest to use '--base' as documented in
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvme-Document-nvme-card-compatible/20240805-014740
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> > > patch link:    https://lore.kernel.org/r/20240804174414.18171-7-ansuelsmth%40gmail.com
-> > > patch subject: [PATCH v2 6/6] mtd: parser: add support for Airoha parser
-> > > config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/config)
-> > > compiler: xtensa-linux-gcc (GCC) 14.1.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202408050612.Ya1m6REu-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    drivers/mtd/parsers/ofpart_airoha.c: In function 'airoha_partitions_post_parse':
-> > >    drivers/mtd/parsers/ofpart_airoha.c:33:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-> > >       33 |         prop = kzalloc(sizeof(*prop), GFP_KERNEL);
-> > >          |                ^~~~~~~
-> > > >> drivers/mtd/parsers/ofpart_airoha.c:33:14: error: assignment to 'struct property *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-> > >       33 |         prop = kzalloc(sizeof(*prop), GFP_KERNEL);
-> > >          |              ^
-> > > 
-> > > 
-> > > vim +33 drivers/mtd/parsers/ofpart_airoha.c
-> > > 
-> > >     10	
-> > >     11	int airoha_partitions_post_parse(struct mtd_info *mtd,
-> > >     12					 struct mtd_partition *parts,
-> > >     13					 int nr_parts)
-> > >     14	{
-> > >     15		struct mtd_partition *part;
-> > >     16		int len, a_cells, s_cells;
-> > >     17		struct device_node *pp;
-> > >     18		struct property *prop;
-> > >     19		const __be32 *reg;
-> > >     20		__be32 *new_reg;
-> > >     21	
-> > >     22		part = &parts[nr_parts - 1];
-> > >     23		pp = part->of_node;
-> > >     24	
-> > >     25		/* Skip if ART partition have a valid offset instead of a dynamic one */
-> > >     26		if (!of_device_is_compatible(pp, "airoha,dynamic-art"))
-> > >     27			return 0;
-> > >     28	
-> > >     29		/* ART partition is set at the end of flash - size */
-> > >     30		part->offset = mtd->size - part->size;
-> > >     31	
-> > >     32		/* Update the offset with the new calculate value in DT */
-> > >   > 33		prop = kzalloc(sizeof(*prop), GFP_KERNEL);
-> > > 
-> > > -- 
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > 
-> > Mhhh somehow I can't repro this with instructions?
-> 
-> Hi Ansuel, would you mind sharing the steps of reproduce? I can reproduce this with steps
-> described in the repro link [1]
-> 
-> [1] https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/reproduce
->
+This small series handle 2 problems.
 
-Hi, thanks for confirming that. Manage to repro, just had dirty
-build-dir and config wasn't correctly applying.
+It does try to ""standardize"" the usage of block2mtd module with
+MTD OF nodes.
+
+It is very easy to add support for MTD parser by just adding an
+OF node to the mtd created for block2mtd.
+
+This apply only if the root block is used for block2mtd to allow
+scenario where the full eMMC or an NVME is used for MTD and it doesn't
+have any partition table.
+
+To also support NVME, similar to how it's done with eMMC, we introduce
+a subnode to the NVME controller that needs to have the "nvme-card"
+compatible where a dev can define fixed-paritions for MTD parser usage.
+
+This series also add support for the Airoha partition table where
+the last partition is always ART and is placed at the end of the flash.
+
+This require dynamic calculation of the offset as some dedicated
+driver for bad block management might be used that reserve some space
+at the end of the flash for block accounting.
+
+New aarch64 Airoha SoC make use of this partition table and use block2mtd
+for eMMC to treat them as MTD with custom bad block management and block
+tracking.
+
+Changes v3:
+- Fix compilation error for missing slab.h header
+- Add compatible to partitions.yaml
+Changes v2:
+- Fix typo in DT patch
+- Fix compilation error for non-OF platform
+- Fix compilation error due to recent changes in block2mtd module
+
+Christian Marangi (6):
+  dt-bindings: nvme: Document nvme-card compatible
+  nvme: assign of_node to nvme device
+  dt-bindings: mmc: add property for partitions node in mmc-card node
+  block2mtd: attach device OF node to MTD device
+  dt-bindings: mtd: Add Documentation for Airoha fixed-partitions
+  mtd: parser: add support for Airoha parser
+
+ .../devicetree/bindings/mmc/mmc-card.yaml     | 40 ++++++++++
+ .../partitions/airoha,fixed-partitions.yaml   | 80 +++++++++++++++++++
+ .../bindings/mtd/partitions/partitions.yaml   |  1 +
+ .../devicetree/bindings/nvme/nvme-card.yaml   | 78 ++++++++++++++++++
+ drivers/mtd/devices/block2mtd.c               | 12 +++
+ drivers/mtd/parsers/Kconfig                   | 10 +++
+ drivers/mtd/parsers/Makefile                  |  1 +
+ drivers/mtd/parsers/ofpart_airoha.c           | 57 +++++++++++++
+ drivers/mtd/parsers/ofpart_airoha.h           | 18 +++++
+ drivers/mtd/parsers/ofpart_core.c             |  6 ++
+ drivers/nvme/host/core.c                      |  4 +
+ 11 files changed, 307 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mtd/partitions/airoha,fixed-partitions.yaml
+ create mode 100644 Documentation/devicetree/bindings/nvme/nvme-card.yaml
+ create mode 100644 drivers/mtd/parsers/ofpart_airoha.c
+ create mode 100644 drivers/mtd/parsers/ofpart_airoha.h
 
 -- 
-	Ansuel
+2.45.2
+
 
