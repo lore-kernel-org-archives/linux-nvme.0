@@ -4,79 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81C97C52D70
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 14:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12924C49EA1
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 14:52:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K2bsze7ezb+slXPQ4bNAIIy8wybtR+D2TJArZapU+cQ=; b=lv6/LwSw2hsnEeimVJ8OZXRS3W
-	xj00T0Z4AI78ocffO+9rKySXUmZcSMWbFxMUJpTT8dD5fvKY0S0wRPLyxQIU9dkqJHj0aYjRTNIm6
-	Dm8jFtNI63qLD+kGyzbJ2x0mYyZWaY97fcuFUhfK1/npGjFdUmX2Z+bKLqGMBI8nk1zX/bhBP3s/9
-	cFBimmHAHK5UvER4XOc8ZLLACju3GaZQW8MaCs5eNUWnKBHxNSBEouWSqQTU2SyU0hNdrGQLScVu3
-	uFD4TZjrhyRFAsL38qI+rNgIcVLtMZ8k1vTpu+KmETNxOzegMYt7RLO3WU6cz6zvz7Ne08vqf+eiO
-	oKiy8rDA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KREccnRV9/lcz1AxarrngZjnkiUg2IvSSWsvWfX4xFM=; b=3M1zA+UPHOcHRs1MZY8NgbxaN4
+	s/nPb+CdEMhU+SafOrff8Nh3akADKYC/iscFGA2hQAUvrEXmmtuVKuxe55+P6fhpACfoSAccwtEgM
+	Tx5o8up+++283Ik3WxEhq5KkLPNivE8dXc8nOqWjbFIA6aFRp+5oDeT7oj/kwQ4x5m7cEOG8t9a50
+	PulnLvxuEOZDJwvRa/Njek4DydNWRc8nxL5HeMAIF2IXrNk6GwF+Jkg8zErYaYIKbMwlhUUpAXPlU
+	klDX1RJEdwwCZPmU4b6VSiwR49iKSNi70180GcPBnxI//iGPW2CiL1m7BkeZKaXw7OYNakr01eoUH
+	ab2ucB/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbLY0-000000023Vb-2ABb;
-	Tue, 06 Aug 2024 14:52:24 +0000
-Received: from mail.nearlyone.de ([49.12.199.46])
+	id 1sbLY3-000000023Yf-1pE1;
+	Tue, 06 Aug 2024 14:52:27 +0000
+Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbIyf-00000001RAm-2MEz
+	id 1sbJwz-00000001eLD-17CB
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Aug 2024 12:07:47 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 89206DAE28;
-	Tue,  6 Aug 2024 14:07:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1722946063; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=K2bsze7ezb+slXPQ4bNAIIy8wybtR+D2TJArZapU+cQ=;
-	b=tTGUux5AC/Uk20RXr+NxBO7HWhYzxcUt11TumR8DSPHGCBv6uxLlApfR3XG9AePQeQU5h+
-	BV7HB7CPO6RrdHe/ocJaAE3caYnM1dn8AkvFhgikgXbNIxfR2ZB01H7LEc8WStUJ5Go0AP
-	d/nx/I4+hCNzkMbRXoTyG1zsxM7fDyDqzhhzVSN/foeQsfFtIHF50v0GmEgi3VvLNWWTAW
-	Dv5n56BIWsEkZ2AmjpksM5dqns6lO/Xw/9Q034k0hIgHiph0dSB1myGy5w3caNIE2BjiDn
-	V+0Y5eN0PMpFkison9rMooG+Yfa+CduSYwsFSxqO5N1HvDYUAwIMvO/lSkJO6Q==
-From: Daniel Wagner <dwagner@suse.de>
-Date: Tue, 06 Aug 2024 14:06:47 +0200
-Subject: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
+	Tue, 06 Aug 2024 13:10:06 +0000
+Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-5d5d0535396so369467eaf.1
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Aug 2024 06:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722949803; x=1723554603; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KREccnRV9/lcz1AxarrngZjnkiUg2IvSSWsvWfX4xFM=;
+        b=Ka3MUS4HhXWXGiJlM62eK2u/IuVOjl4GTiF+T995jvJaSx9wJlzcS/TzaTTpmGWlOg
+         LTtUIBQTZWB4z3eDAdrF0cMSy6kgAucmwrfLXK1ZIp+HuqA8HdqRZvHmR1U8UVFwHVYC
+         PTY1J0c789fzaNXUcBGSS9v07yYeaQstF2M34zubnLa6x1lNFJUpZ/7zTh86JqNNEtST
+         E0emhwAY77QQt5HqOIjku9M+yLl3GPDyG9D/zfzMz4BZSXooT6+TgcAQH2dFhzx0otKq
+         oAvAiQU6gggge1Pdi7nEarRPR29dVkq1hvma4rufE0buTymBygYnvf0jIWShg2QlnjCE
+         1tzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722949803; x=1723554603;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KREccnRV9/lcz1AxarrngZjnkiUg2IvSSWsvWfX4xFM=;
+        b=QMDkGAVXqaqMafWAoI3vCBASPLUnbxM7QqUbLu2H1OTliQHq9MFqorvVvlDWGyc9kF
+         YOf84FA34+X+zqwLPFBouSl7xGlKluo97enLeEvRxaKVNLo8sQvCACZj/AaN8XHPPj6P
+         Px9qCC3vSyW0S6LUHec6RQ3QHWDn3bCoQA2y+Llc9ZobAyyBMALw+pZ+YYmUO6/2Eg8S
+         px4D+I3Ok52s2afZbHcTkbv0ksCjr/7VJfKB7gN6fIgpDomkl0bBhU2TZMTVT1/gdY9L
+         gxAZqxhM80qk/UguN2Yl+x4+QdO6rv2YbRL4PbDECGm3QO43Atp03wOecTapF7xXn7K0
+         jVzw==
+X-Forwarded-Encrypted: i=1; AJvYcCWxDWuoB3DhnfRF/7n1ABW+4cbCB05G9o+se4UW03pmTX8f16TzT7t6LOgxxC8vBMo3qwLV9zMVo0hUG9UHhgavTJxGm8VoRozIaBPTHQ4=
+X-Gm-Message-State: AOJu0YwNlaqb6opswHDzAvUly/ElUmaHXwThENfTj0v6Rv65cnBp3cE4
+	LsAABcVFF8GM/JCOxtpiB+xfsL8hok813uXLtaUlOkjuvKvFzGpwx+DsLulgaWhK+WJKvnbFlr2
+	5gJcf8pzC85P/tnx4IUsYZcd1MLM=
+X-Google-Smtp-Source: AGHT+IGVJxX/HbV5Wr6MzBf+fuxb+mIBQRp2TWTznpKDIx+yrOgDwhY5P4ZF8kRUebG9zXa+VAy7m3G1u1r+X9IB2Rg=
+X-Received: by 2002:a05:6870:50d:b0:259:8b4e:e71a with SMTP id
+ 586e51a60fabf-26891ee1b6dmr17272867fac.46.1722949803427; Tue, 06 Aug 2024
+ 06:10:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
 References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
 In-Reply-To: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
- Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
- Christoph Hellwig <hch@lst.de>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Jason Wang <jasowang@redhat.com>, 
- Kashyap Desai <kashyap.desai@broadcom.com>, 
- Sumit Saxena <sumit.saxena@broadcom.com>, 
- Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
- Chandrakanth patil <chandrakanth.patil@broadcom.com>, 
- Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, 
- Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, 
- Hannes Reinecke <hare@suse.de>, 
- Sridhar Balaraman <sbalaraman@parallelwireless.com>, 
- "brookxu.cn" <brookxu.cn@gmail.com>, Ming Lei <ming.lei@redhat.com>, 
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
- virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
- mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, 
- storagedev@microchip.com, linux-doc@vger.kernel.org, 
- Daniel Wagner <dwagner@suse.de>
-X-Mailer: b4 0.14.0
-X-Last-TLS-Session-Version: TLSv1.3
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 6 Aug 2024 09:09:50 -0400
+Message-ID: <CAJSP0QVod5DA2hdNFrpN+HZcfm6Bg11teRmt5d+MBTB1wH4vZg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/15] honor isolcpus configuration
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Thomas Gleixner <tglx@linutronix.de>, Christoph Hellwig <hch@lst.de>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, John Garry <john.g.garry@oracle.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Kashyap Desai <kashyap.desai@broadcom.com>, Sumit Saxena <sumit.saxena@broadcom.com>, 
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>, 
+	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, Nilesh Javali <njavali@marvell.com>, 
+	GR-QLogic-Storage-Upstream@marvell.com, Jonathan Corbet <corbet@lwn.net>, 
+	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
+	Ming Lei <ming.lei@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, 
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_050745_928619_BC794736 
-X-CRM114-Status: GOOD (  14.77  )
+X-CRM114-CacheID: sfid-20240806_061005_330172_FFFA5D1D 
+X-CRM114-Status: GOOD (  14.27  )
 X-Mailman-Approved-At: Tue, 06 Aug 2024 07:51:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -92,126 +105,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When isolcpus=io_queue is enabled all hardware queues should run on the
-housekeeping CPUs only. Thus ignore the affinity mask provided by the
-driver. Also we can't use blk_mq_map_queues because it will map all CPUs
-to first hctx unless, the CPU is the same as the hctx has the affinity
-set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
+On Tue, 6 Aug 2024 at 08:10, Daniel Wagner <dwagner@suse.de> wrote:
+> The only stall I was able to trigger
+> reliable was with qemu's PCI emulation. It looks like when a CPU is
+> offlined, the PCI affinity is reprogrammed but qemu still routes IRQs to
+> an offline CPU instead to newly programmed destination CPU. All worked
+> fine on real hardware.
 
-  queue mapping for /dev/nvme0n1
-        hctx0: default 2 3 4 6 7
-        hctx1: default 5
-        hctx2: default 0
-        hctx3: default 1
+Hi Daniel,
+Please file a QEMU bug report here (or just reply to this emails with
+details on how to reproduce the issue and I'll file the issue on your
+behalf):
+https://gitlab.com/qemu-project/qemu/-/issues
 
-  PCI name is 00:05.0: nvme0n1
-        irq 57 affinity 0-1 effective 1 is_managed:0 nvme0q0
-        irq 58 affinity 4 effective 4 is_managed:1 nvme0q1
-        irq 59 affinity 5 effective 5 is_managed:1 nvme0q2
-        irq 60 affinity 0 effective 0 is_managed:1 nvme0q3
-        irq 61 affinity 1 effective 1 is_managed:1 nvme0q4
+We can also wait until your Linux patches have landed if that makes it
+easier to reproduce the bug.
 
-where as with blk_mq_hk_map_queues we get
+Thanks!
 
-  queue mapping for /dev/nvme0n1
-        hctx0: default 2 4
-        hctx1: default 3 5
-        hctx2: default 0 6
-        hctx3: default 1 7
-
-  PCI name is 00:05.0: nvme0n1
-        irq 56 affinity 0-1 effective 1 is_managed:0 nvme0q0
-        irq 61 affinity 4 effective 4 is_managed:1 nvme0q1
-        irq 62 affinity 5 effective 5 is_managed:1 nvme0q2
-        irq 63 affinity 0 effective 0 is_managed:1 nvme0q3
-        irq 64 affinity 1 effective 1 is_managed:1 nvme0q4
-
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- block/blk-mq-cpumap.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
-
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index c1277763aeeb..7e026c2ffa02 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -60,11 +60,64 @@ unsigned int blk_mq_num_online_queues(unsigned int max_queues)
- }
- EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
- 
-+static bool blk_mq_hk_map_queues(struct blk_mq_queue_map *qmap)
-+{
-+	struct cpumask *hk_masks;
-+	cpumask_var_t isol_mask;
-+
-+	unsigned int queue, cpu;
-+
-+	if (!housekeeping_enabled(HK_TYPE_IO_QUEUE))
-+		return false;
-+
-+	/* map housekeeping cpus to matching hardware context */
-+	hk_masks = group_cpus_evenly(qmap->nr_queues);
-+	if (!hk_masks)
-+		goto fallback;
-+
-+	for (queue = 0; queue < qmap->nr_queues; queue++) {
-+		for_each_cpu(cpu, &hk_masks[queue])
-+			qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+	}
-+
-+	kfree(hk_masks);
-+
-+	/* map isolcpus to hardware context */
-+	if (!alloc_cpumask_var(&isol_mask, GFP_KERNEL))
-+		goto fallback;
-+
-+	queue = 0;
-+	cpumask_andnot(isol_mask,
-+		       cpu_possible_mask,
-+		       housekeeping_cpumask(HK_TYPE_IO_QUEUE));
-+
-+	for_each_cpu(cpu, isol_mask) {
-+		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+		queue = (queue + 1) % qmap->nr_queues;
-+	}
-+
-+	free_cpumask_var(isol_mask);
-+
-+	return true;
-+
-+fallback:
-+	/* map all cpus to hardware context ignoring any affinity */
-+	queue = 0;
-+	for_each_possible_cpu(cpu) {
-+		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+		queue = (queue + 1) % qmap->nr_queues;
-+	}
-+	return true;
-+}
-+
- void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
- {
- 	const struct cpumask *masks;
- 	unsigned int queue, cpu;
- 
-+	if (blk_mq_hk_map_queues(qmap))
-+		return;
-+
- 	masks = group_cpus_evenly(qmap->nr_queues);
- 	if (!masks) {
- 		for_each_possible_cpu(cpu)
-@@ -118,6 +171,9 @@ void blk_mq_dev_map_queues(struct blk_mq_queue_map *qmap,
- 	const struct cpumask *mask;
- 	unsigned int queue, cpu;
- 
-+	if (blk_mq_hk_map_queues(qmap))
-+		return;
-+
- 	for (queue = 0; queue < qmap->nr_queues; queue++) {
- 		mask = get_queue_affinity(dev_data, dev_off, queue);
- 		if (!mask)
-
--- 
-2.46.0
-
+Stefan
 
