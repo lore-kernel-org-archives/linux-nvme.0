@@ -4,71 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5237C52D70
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 15:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E55F3C52D70
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 17:15:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2Chn8ymlqazavJ1DZmXPdLBrye9DBk3cugxlezlxhvc=; b=vs/K8L9+W3dSd8nudhMA7uAuiF
-	X2z4VLFHdZk7RQuUzFxX5qZRmiaTTizZGXCdCmE+SCiqUpd6XnD2J9i6bspOV06O/N91loEqXW2fV
-	MBVT7VYXEl9LBe7jYdC9KHzj31w5qJBqVlMa5uFueNJFYL5ZmCjPfCM1Eb7LLEvhVFwiJ+E2OR2fV
-	aXYlDV7x08zfbP4iR36Sms7Lr8BRsJxQVLg1wnY3HJn3qNzOG344/XdKJzp8UbWxide1K1XuOuHYP
-	gKhiY8YGhlGzVbI3I7NemmjpiHqjq5yiZ5XrG6t8Sa8NMXx4mGybgPRaQpNuG7XrNFC0E+NlOsqi9
-	i9+VdYLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5W/f9Go6KqLTcoO7AGO4U5RXIhiU1JoC/JlTAULsf7o=; b=jHCm/TvalbEP+VvmI3Ye3+NK7O
+	RGdfj+9alPCw+xMVfbq12Jz5QorpaShbtkzBUDKke6QMQilpIO709RCV4Shy3rOt/qqygHHed4OnE
+	KV/eA0vbGv4lOXFZ/3xchPRwEgdt+kmIH9OLmtTk4BDE1SN2TuNGjQQS2m2HjHDikZuAxaM1gDLoX
+	B4zUVzwdmMzA/whkuMxQt1txvTOZzwfL5bNPDjHr4P1hNXBtsLinw3kykKlDV+iu9H9GkflDTaPLM
+	AmrKT3Wtr39uYmZJwjfVj8t26PD9U6LGX7R+3lu1IFOWHG4AcAcZFVxLisZAG/2DrZ6DojeSaJjcb
+	+nyC+kpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbMHz-00000002CsU-2Omt;
-	Tue, 06 Aug 2024 15:39:55 +0000
-Received: from mail.manjaro.org ([2a01:4f8:c0c:51f3::1])
+	id 1sbNme-00000002Sqk-2bAo;
+	Tue, 06 Aug 2024 17:15:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbMHi-00000002Cog-046m;
-	Tue, 06 Aug 2024 15:39:40 +0000
-MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1722958773;
+	id 1sbLbF-000000025Kd-2VTz
+	for linux-nvme@lists.infradead.org;
+	Tue, 06 Aug 2024 14:55:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722956144;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2Chn8ymlqazavJ1DZmXPdLBrye9DBk3cugxlezlxhvc=;
-	b=VfEMfp9veTf9vofJGHvARhjKJLQWxXoE6CZ4ZfPJBcyubeBt6RFYznvEmk0qhNLGaLcWIZ
-	V4ZVilXZpCU9C/H3Fj/ysZ/XgET0TF1ZDcxMeq8V3CyxyQdsNk7NIj2fbogg2t01z7WsLv
-	wvZqgRJCniv7XWLsHstRuSCgMls15R5RXpdkYXYEbuirc0/HNhXfXfbC+UTQp1+RTHuNyc
-	HQCGgdhhrNGrjo/ZN4a8er9JdyzG+eHz0KiwhMuHq/wV0VtW6AozR7DoRbDrDnLY5G34gi
-	SGgRl+hV/9eqi04hVkBzZk6CNzURj7hKvvnqvMopGb0w7ymNHesO9/LnmyrCtw==
-Date: Tue, 06 Aug 2024 17:39:32 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Ulf Hansson <ulf.hansson@linaro.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Joern Engel <joern@lazybastard.org>, Keith
- Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg
- <sagi@grimberg.me>, Wolfram Sang <wsa+renesas@sang-engineering.com>, Florian
- Fainelli <f.fainelli@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, linux-mmc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 2/6] nvme: assign of_node to nvme device
-In-Reply-To: <66b21f20.5d0a0220.200175.4b9b@mx.google.com>
-References: <20240806114118.17198-1-ansuelsmth@gmail.com>
- <20240806114118.17198-3-ansuelsmth@gmail.com>
- <20240806124312.GB10156@lst.de>
- <66b21f20.5d0a0220.200175.4b9b@mx.google.com>
-Message-ID: <ceab3813dad635387e9f216203292fbe@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+	bh=5W/f9Go6KqLTcoO7AGO4U5RXIhiU1JoC/JlTAULsf7o=;
+	b=HRFcEpGOP0aGPEm0ud8VgWKaNrZiDwLeOp8H3S+C59v7b1BrNwQUklXanGn573NVTGFsYL
+	lCGCD2mH/fCUPwwXrWUb9UWvJjQP+cK5L0vvL0Jzk5z+7WLcZ0OcPPGFQ8Z0Fdzpy08Lzy
+	RVVUNSxXD7Onq6AVCEJOe/f0gw1mxh4=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-640-HwAq-aLEOvWa8u616gwxEQ-1; Tue,
+ 06 Aug 2024 10:55:39 -0400
+X-MC-Unique: HwAq-aLEOvWa8u616gwxEQ-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A54CF1955BEE;
+	Tue,  6 Aug 2024 14:55:33 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.14])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A49C91956046;
+	Tue,  6 Aug 2024 14:55:15 +0000 (UTC)
+Date: Tue, 6 Aug 2024 22:55:09 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Christoph Hellwig <hch@lst.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
+	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
+ is enabled
+Message-ID: <ZrI5TcaAU82avPZn@fedora>
+References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
+ <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_083938_701293_45C5F903 
-X-CRM114-Status: GOOD (  24.73  )
+X-CRM114-CacheID: sfid-20240806_075545_733293_E05229CF 
+X-CRM114-Status: GOOD (  15.32  )
+X-Mailman-Approved-At: Tue, 06 Aug 2024 10:15:39 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,53 +108,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello all,
+On Tue, Aug 06, 2024 at 02:06:47PM +0200, Daniel Wagner wrote:
+> When isolcpus=io_queue is enabled all hardware queues should run on the
+> housekeeping CPUs only. Thus ignore the affinity mask provided by the
+> driver. Also we can't use blk_mq_map_queues because it will map all CPUs
+> to first hctx unless, the CPU is the same as the hctx has the affinity
+> set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
 
-On 2024-08-06 15:03, Christian Marangi wrote:
-> On Tue, Aug 06, 2024 at 02:43:12PM +0200, Christoph Hellwig wrote:
->> On Tue, Aug 06, 2024 at 01:41:12PM +0200, Christian Marangi wrote:
->> > Introduce support for a dedicated node for a nvme card. This will be a
->> > subnode of the nvme controller node that will have the "nvme-card"
->> > compatible.
->> >
->> > This follow a similar implementation done for mmc where the specific mmc
->> > card have a dedicated of_node.
->> >
->> > This can be used for scenario where block2mtd module is used to declare
->> > partition in DT and block2mtd is called on the root block of the nvme
->> > card, permitting the usage of fixed-partition parser or alternative
->> > ones.
->> 
->> Err, hell no.  Why would you wire up a purely PCIe device to OF?
->> PCIe is self-discovering.
->> 
-> 
-> Well on embedded pure PCIe card most of the time are not a thing...
-> Unless it's an enterprise product, everything is integrated in the pcb
-> and not detachable for cost saving measure or also if the thing use 
-> PCIe
-> protocol but it tighlty coupled with the SoC.
-> 
-> This implementation is already very common for all kind of pcie devices
-> like wireless card, gpio expander that are integrated in the PCB and
-> require property in DT like calibration data, quirks or GPIO pin
-> definitions, i2c...
-> 
-> In modern SoC we are seeing an influx of using cheap flash storage
-> option instead of NAND or NOR as modern hw require more space and price
-> increase is not that high... Almost any high tier device is switching 
-> to
-> using emmc and even attached NVME and simulating MTD with them for easy
-> usage.
-> 
-> Please consider this well used scenario in emebedded where PCIe is just
-> a comunication way and the concept of detachable doesn't exist at all
-> and things can be described in DT as static. Also these storage are 
-> used
-> for rootfs mount so userspace is not so viable.
+What is the expected behavior if someone still tries to submit IO on isolated
+CPUs?
 
-As a note, perhaps this is another good example of a "fixed layout"
-PCIe device found on an SBC:
+BTW, I don't see any change in blk_mq_get_ctx()/blk_mq_map_queue() in this
+patchset, that means one random hctx(or even NULL) may be used for submitting
+IO from isolated CPUs, then there can be io hang risk during cpu hotplug, or
+kernel panic when submitting bio.
 
-https://lore.kernel.org/linux-rockchip/20240805073425.3492078-1-jacobe.zang@wesion.com/T/#u
+Thanks,
+Ming
+
 
