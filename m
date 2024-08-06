@@ -4,98 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78293C49EA1
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 14:51:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFF37C52D7B
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 14:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S0SiEONYRpxrZtR0HPzp22zIJEvfV4+9ZJaxARbtylc=; b=rR1ySuXyyhGzAM2ltLDqLvKERD
-	oAAxfY5LnldJK45irXRw2dA24GjXtjEjYVOoVzkUXJM2ZdIT9I+puVolDu0XM17v9n1IOH/fhq5FZ
-	eg+WNA8UKzcTO4TpPOZw805Vk8c6bMKrPabh2tro1WD8G+54+yxxWlhuuPkpE89R+TtGkgnhTaCGr
-	TwtevyZY4runvgJ6O7lMhIAVRDAEZyyflRGm0r6OQ99cnCp2YyR1LPb8Ohu7fkg+xAqTLiZjnchY0
-	fCOqpLXJFRWu0o2gkpO6yAGX5Fr2bVZodiBpeHK4eN9OnqnC78BR0wSHHRQFHVTihvsamrrle43rq
-	2iSbGR9w==;
+	bh=cVDCNY6LvJbeDAGt09DL8tGpto0NtX7ZOAOrA4JJUms=; b=hxCrHD4yvEjh5Q+yR2FvZ+ROzO
+	+RAO0I+Mj1jVPqJxpfMv/vunymX+b7KRsBra1w+ZCIdUYpVNoEG9HRV2PXBcLuBRIWbqarVeVtc1t
+	a7cKK708KEjxsNObY4+hkZj902x4gynaKIUiV4GrcratJhzimH5kmGwZPvThvf7ib+6E7bl5TeBjl
+	rZuSmh59sZm7lMVFnTSd2m9CjVRqBl7NZ8pIDDGRgfgz6n0soVXRivYMT589D0GrUKGd/gzaMNbnC
+	OxaEtdK5l8VVUhxSY2feEoIgmeqJsEnELsRHtWLtz1/DOoP0tpYKaG3mOc1V5jpnIOPAE0PuhUmpg
+	/PfVAGTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbLXW-0000000236G-45Op;
-	Tue, 06 Aug 2024 14:51:54 +0000
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+	id 1sbLXc-0000000239l-1Xdt;
+	Tue, 06 Aug 2024 14:52:00 +0000
+Received: from mail.nearlyone.de ([49.12.199.46])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbIVj-00000001MiF-4AwW;
-	Tue, 06 Aug 2024 11:37:54 +0000
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4WdWQD3tK9zQpC4;
-	Tue,  6 Aug 2024 19:33:08 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id 28868180102;
-	Tue,  6 Aug 2024 19:37:34 +0800 (CST)
-Received: from [10.67.120.129] (10.67.120.129) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 6 Aug 2024 19:37:33 +0800
-Message-ID: <ca6be29e-ab53-4673-9624-90d41616a154@huawei.com>
-Date: Tue, 6 Aug 2024 19:37:33 +0800
+	id 1sbIyM-00000001Qyu-2T82
+	for linux-nvme@lists.infradead.org;
+	Tue, 06 Aug 2024 12:07:28 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B7202DAE1A;
+	Tue,  6 Aug 2024 14:07:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1722946042; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=cVDCNY6LvJbeDAGt09DL8tGpto0NtX7ZOAOrA4JJUms=;
+	b=cjEtMMZnl3ZSNyx2WwYX4zi03MZlzjO79YyidzppW2+d/0SpDLB9RGMn6GuB6aRpzh4Dfe
+	65LGkPRM2YIp4ksmttHHY5U9cG2chZ2E5Y8wP4P0ZmxPuVNQ9Pm+sf0zPtOvG0JSMZwtP7
+	EH/jVVbKnaJG8bfEOnyN6kJs2ZCal00vZknbJw7Eg/IePQ8/JtVeMNW/ym5GJa04JZ4NQZ
+	ljLOrAcnGZchxyM5oXBDzC4GuabNbeMuc+ENQKbWjelUPngnAyg5BqUNZzqqff5j7JUMF4
+	2kicGhMFDQlTxBAucNCHHpDKm0wSFqp4iNRgBv4VUlFJfO9E5eIdNHn1qPPedA==
+From: Daniel Wagner <dwagner@suse.de>
+Date: Tue, 06 Aug 2024 14:06:37 +0200
+Subject: [PATCH v3 05/15] nvme: replace blk_mq_pci_map_queues with
+ blk_mq_dev_map_queues
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 04/14] mm: page_frag: add '_va' suffix to
- page_frag API
-To: Alexander Duyck <alexander.duyck@gmail.com>, Yunsheng Lin
-	<yunshenglin0825@gmail.com>
-CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Subbaraya Sundeep
-	<sbhatta@marvell.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
-	Eric Dumazet <edumazet@google.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Sunil Goutham
-	<sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>, hariprasad
-	<hkelam@marvell.com>, Felix Fietkau <nbd@nbd.name>, Sean Wang
-	<sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
- Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith
- Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang
-	<jasowang@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>, Alexei Starovoitov
-	<ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard
- Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Andrii
- Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
- Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
-	<yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
-	<sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
-	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Neil
- Brown <neilb@suse.de>, Olga Kornievskaia <kolga@netapp.com>, Dai Ngo
-	<Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Trond Myklebust
-	<trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
-	<intel-wired-lan@lists.osuosl.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
-	<kvm@vger.kernel.org>, <virtualization@lists.linux.dev>,
-	<linux-mm@kvack.org>, <bpf@vger.kernel.org>, <linux-afs@lists.infradead.org>,
-	<linux-nfs@vger.kernel.org>
-References: <20240731124505.2903877-1-linyunsheng@huawei.com>
- <20240731124505.2903877-5-linyunsheng@huawei.com>
- <CAKgT0UcqdeSJdjZ_FfwyCnT927TwOkE4zchHLOkrBEmhGzex9g@mail.gmail.com>
- <22fda86c-d688-42e7-99e8-e2f8fcf1a5ba@huawei.com>
- <CAKgT0UcuGj8wvC87=A+hkarRupfhjGM0BPzLUT2AJc8Ovg_TFg@mail.gmail.com>
- <877efebe-f316-4192-aada-dd2657b74125@huawei.com>
- <CAKgT0UfUkqR2TJQt6cSEdANNxQEOkjGqpPXhaXmrrxB0KwXmEQ@mail.gmail.com>
- <2a29ce61-7136-4b9b-9940-504228b10cba@gmail.com>
- <CAKgT0Uc6yw4u5Tjw1i0cV=C_ph+A5w0b_mtQMXmnBfKN_vvaDA@mail.gmail.com>
-Content-Language: en-US
-From: Yunsheng Lin <linyunsheng@huawei.com>
-In-Reply-To: <CAKgT0Uc6yw4u5Tjw1i0cV=C_ph+A5w0b_mtQMXmnBfKN_vvaDA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.120.129]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240806-isolcpus-io-queues-v3-5-da0eecfeaf8b@suse.de>
+References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
+In-Reply-To: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
+To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
+ Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
+ Christoph Hellwig <hch@lst.de>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, 
+ Kashyap Desai <kashyap.desai@broadcom.com>, 
+ Sumit Saxena <sumit.saxena@broadcom.com>, 
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
+ Chandrakanth patil <chandrakanth.patil@broadcom.com>, 
+ Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, 
+ Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, 
+ Hannes Reinecke <hare@suse.de>, 
+ Sridhar Balaraman <sbalaraman@parallelwireless.com>, 
+ "brookxu.cn" <brookxu.cn@gmail.com>, Ming Lei <ming.lei@redhat.com>, 
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+ virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
+ mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, 
+ storagedev@microchip.com, linux-doc@vger.kernel.org, 
+ Daniel Wagner <dwagner@suse.de>
+X-Mailer: b4 0.14.0
+X-Last-TLS-Session-Version: TLSv1.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_043752_370121_D4B42699 
-X-CRM114-Status: GOOD (  47.49  )
+X-CRM114-CacheID: sfid-20240806_050726_819099_4A1AA2CA 
+X-CRM114-Status: GOOD (  10.32  )
 X-Mailman-Approved-At: Tue, 06 Aug 2024 07:51:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -111,188 +92,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2024/8/6 8:52, Alexander Duyck wrote:
-> On Sun, Aug 4, 2024 at 10:00 AM Yunsheng Lin <yunshenglin0825@gmail.com> wrote:
->>
->> On 8/3/2024 1:00 AM, Alexander Duyck wrote:
->>
->>>>
->>>>>
->>>>> As far as your API extension and naming maybe you should look like
->>>>> something like bio_vec and borrow the naming from that since that is
->>>>> essentially what you are passing back and forth is essentially that
->>>>> instead of a page frag which is normally a virtual address.
->>>>
->>>> I thought about adding something like bio_vec before, but I am not sure
->>>> what you have in mind is somthing like I considered before?
->>>> Let's say that we reuse bio_vec like something below for the new APIs:
->>>>
->>>> struct bio_vec {
->>>>          struct page     *bv_page;
->>>>          void            *va;
->>>>          unsigned int    bv_len;
->>>>          unsigned int    bv_offset;
->>>> };
->>>
->>> I wasn't suggesting changing the bio_vec. I was suggesting that be
->>> what you pass as a pointer reference instead of the offset. Basically
->>> your use case is mostly just for populating bio_vec style structures
->>> anyway.
->>
->> I wasn't trying/going to reuse/change bio_vec for page_frag, I was just
->> having a hard time coming with a good new name for it.
->> The best one I came up with is pfrag_vec, but I am not sure about the
->> 'vec' as the "vec" portion of the name would suggest, iovec structures
->> tend to come in arrays, mentioned in the below article:
->> https://lwn.net/Articles/625077/
->>
->> Anther one is page_frag, which is currently in use.
->>
->> Or any better one in your mind?
-> 
-> I was suggesting using bio_vec, not some new structure. The general
-> idea is that almost all the values you are using are exposed by that
-> structure already in the case of the page based calls you were adding,
-> so it makes sense to use what is there rather than reinventing the
-> wheel.
+Replace all users of blk_mq_pci_map_queues with the more generic
+blk_mq_dev_map_queues. This in preparation to retire
+blk_mq_pci_map_queues.
 
-Through a quick look, there seems to be at least three structs which have
-similar values: struct bio_vec & struct skb_frag & struct page_frag.
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-As your above agrument about using bio_vec, it seems it is ok to use any
-one of them as each one of them seems to have almost all the values we
-are using?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6cd9395ba9ec..5d509405a3e4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -457,7 +457,8 @@ static void nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ 		 */
+ 		map->queue_offset = qoff;
+ 		if (i != HCTX_TYPE_POLL && offset)
+-			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
++			blk_mq_dev_map_queues(map, to_pci_dev(dev->dev), offset,
++					      blk_mq_pci_get_queue_affinity);
+ 		else
+ 			blk_mq_map_queues(map);
+ 		qoff += map->nr_queues;
 
-Personally, my preference over them: 'struct page_frag' > 'struct skb_frag'
-> 'struct bio_vec', as the naming of 'struct page_frag' seems to best match
-the page_frag API, 'struct skb_frag' is the second preference because we
-mostly need to fill skb frag anyway, and 'struct bio_vec' is the last
-preference because it just happen to have almost all the values needed.
+-- 
+2.46.0
 
-Is there any specific reason other than the above "almost all the values you
-are using are exposed by that structure already " that you prefer bio_vec?
-
-> 
->>>
->>>> It seems we have the below options for the new API:
->>>>
->>>> option 1, it seems like a better option from API naming point of view, but
->>>> it needs to return a bio_vec pointer to the caller, it seems we need to have
->>>> extra space for the pointer, I am not sure how we can avoid the memory waste
->>>> for sk_page_frag() case in patch 12:
->>>> struct bio_vec *page_frag_alloc_bio(struct page_frag_cache *nc,
->>>>                                      unsigned int fragsz, gfp_t gfp_mask);
->>>>
->>>> option 2, it need both the caller and callee to have a its own local space
->>>> for 'struct bio_vec ', I am not sure if passing the content instead of
->>>> the pointer of a struct through the function returning is the common pattern
->>>> and if it has any performance impact yet:
->>>> struct bio_vec page_frag_alloc_bio(struct page_frag_cache *nc,
->>>>                                     unsigned int fragsz, gfp_t gfp_mask);
->>>>
->>>> option 3, the caller passes the pointer of 'struct bio_vec ' to the callee,
->>>> and page_frag_alloc_bio() fills in the data, I am not sure what is the point
->>>> of indirect using 'struct bio_vec ' instead of passing 'va' & 'fragsz' &
->>>> 'offset' through pointers directly:
->>>> bool page_frag_alloc_bio(struct page_frag_cache *nc,
->>>>                           unsigned int fragsz, gfp_t gfp_mask, struct bio_vec *bio);
->>>>
->>>> If one of the above option is something in your mind? Yes, please be more specific
->>>> about which one is the prefer option, and why it is the prefer option than the one
->>>> introduced in this patchset?
->>>>
->>>> If no, please be more specific what that is in your mind?
->>>
->>> Option 3 is more or less what I had in mind. Basically you would
->>> return an int to indicate any errors and you would be populating a
->>> bio_vec during your allocation. In addition you would use the bio_vec
->>
->> Actually using this new bio_vec style structures does not seem to solve
->> the APIs naming issue this patch is trying to solve as my understanding,
->> as the new struct is only about passing one pointer or multi-pointers
->> from API naming perspective. It is part of the API naming, but not all
->> of it.
-> 
-> I have no idea what you are talking about. The issue was you were
-> splitting things page_frag_alloc_va and page_frag_alloc_pg. Now it
-> would be page_frag_alloc and page_frag_alloc_bio or maybe
-> page_frag_fill_bio which would better explain what you are doing with
-> this function.
-
-There are three types of API as proposed in this patchset instead of
-two types of API:
-1. page_frag_alloc_va() returns [va].
-2. page_frag_alloc_pg() returns [page, offset].
-3. page_frag_alloc() returns [va] & [page, offset].
-
-You seemed to miss that we need a third naming for the type 3 API.
-Do you see type 3 API as a valid API? if yes, what naming are you
-suggesting for it? if no, why it is not a valid API?
-
-> 
->>> as a tracker of the actual fragsz so when you commit you are
->>> committing with the fragsz as it was determined at the time of putting
->>> the bio_vec together so you can theoretically catch things like if the
->>> underlying offset had somehow changed from the time you setup the
->>
->> I think we might need a stronger argument than the above to use the new
->> *vec thing other than the above debugging feature.
->>
->> I looked throught the bio_vec related info, and come along somewhat not
->> really related, but really helpful "What’s all this get us" section:
->> https://docs.kernel.org/block/biovecs.html
->>
->> So the question seems to be: what is this new struct for page_frag get
->> us?
->>
->> Generally, I am argeed with the new struct thing if it does bring us
->> something other than the above debugging feature. Otherwise we should
->> avoid introducing a new thing which is hard to argue about its existent.
-> 
-> I don't want a new structure. I just want you to use the bio_vec for
-> spots where you are needing to use a page because you are populating a
-> bio_vec.
-> 
->>> allocation. It would fit well into your probe routines since they are
->>> all essentially passing the page, offset, and fragsz throughout the
->>> code.
->>
->> For the current probe routines, the 'va' need to be passed, do you
->> expect the 'va' to be passed by function return, double pointer, or
->> new the *_vec pointer?
-> 
-> I would suggest doing so via the *_vec pointer. The problem as I see
-
-As your above suggestion, I can safely assume *_ve is 'struct bio_vec',
-right?
-
-I am really confused here, you just clarified that you wasn't suggesting
-changing the bio_vec, and now you are suggesting passing 'va' via the
-'struct bio_vec' pointer?  How is it possible with current definition of
-'struct bio_vec'?
-
-struct bio_vec {
-	struct page	*bv_page;
-	unsigned int	bv_len;
-	unsigned int	bv_offset;
-};
-
-Or am I mising something obvious here?
-
-> it is that the existing code is exposing too much of the internals and
-> setting up the possibility for a system to get corrupted really
-
-If most of the page_frag API callers doesn't access 'struct bio_vec'
-directly and use something like bvec_iter_* API to do the accessing,
-then I am agreed with the above argument.
-
-But right now, most of the page_frag API callers are accessing 'va'
-directly to do the memcpy'ing, and accessing 'page & off & len' directly
-to do skb frag filling, so I am not really sure what's the point of
-indirection using the 'struct bio_vec' here.
-
-And adding 'struct bio_vec' for page_frag and accessing the value of it
-directly may be against of the design choice of 'struct bio_vec', as
-there seems to be no inline helper defined to access the value of
-'struct bio_vec' directly in bvec.h
 
