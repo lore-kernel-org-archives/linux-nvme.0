@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97C68C49EA1
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 14:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6A95C52D76
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 14:52:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uV7dh0N2larDX2g3QWTw2MMv1JZzOaYRQlPxw6dMC7A=; b=EbzcebzNGSPCKeXQijmsA6R0mT
-	3UAFypn+5FkeNHrZxVsfj04KRsM1Rc/Q5/phWBmm2wkRT4ZVA1hcrcqui5uREtDEe2Jiqzu6f0Cfh
-	e5lmuKGPM30fDkT7TdEFW9GxFH3FnAf6t7HbMLLGAx1qE7CPS+awF8ShPA/m4iinEGmuxzbLR2X4C
-	vNg0jNFDU7eh1aG/uWSGRSWV4DnqaMXqex3rtu1lIR+De2vZvvlOhgrDesRgafzwwfcTdICb/LMCq
-	nJ/bgfDqz9rEf/gxBAAEFnJZ3c3BxfwM8XCYGHT9pjgXU5AHc0yOiwQc/vjoapir8WU6awxqHrkkv
-	FRpNkZJg==;
+	bh=HGHIibLh7VAu9I4NPj8HyvkwsyByHUpfbBbGy49uXs8=; b=qSEsWaoZS8NtNC0LSRXKknPx1K
+	y4HuyK9MGnj8FqU45GztMiWttQhCySeQqA1YNeWhBnzwCgJy/gzKubMiJAWsKfjXLPRG8kxT/vQJw
+	uJDcp91kGeF0ohm9Ads+UjywORQ8DyFRsHr48+wp7xb5Yf8Kb65SMYiHP066u+X1Rz5yOz8HpKpFE
+	avbqwdIpy0oAkl2srYTKVoveAO4Ocjb2IZFVUVDiojISl3F4cqOxUWWnv18/jb9L40NCZkZ/olD5m
+	/DwXJWF0WZFEmowFLrkV5GYNnC/5aMBTFg6P/IGf1aSCzEkj6pewS6lvR4OQp+LxQNuzHnj0EjdpV
+	gJk5s3zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbLXe-000000023Au-0Ppv;
-	Tue, 06 Aug 2024 14:52:02 +0000
-Received: from mail.nearlyone.de ([49.12.199.46])
+	id 1sbLXf-000000023C2-0zeF;
+	Tue, 06 Aug 2024 14:52:03 +0000
+Received: from mail.nearlyone.de ([2a01:4f8:1c1e:abde::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbIyO-00000001Qzk-1GGU
+	id 1sbIyQ-00000001R0l-28P5
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Aug 2024 12:07:30 +0000
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2DEC1DAE1C;
-	Tue,  6 Aug 2024 14:07:25 +0200 (CEST)
+	Tue, 06 Aug 2024 12:07:32 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5DD50DAE1D;
+	Tue,  6 Aug 2024 14:07:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1722946046; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1722946048; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=uV7dh0N2larDX2g3QWTw2MMv1JZzOaYRQlPxw6dMC7A=;
-	b=dfNLMrOpaD7bQ/KOm/zpAyiQ1W6K+FcWIAAib4dxAZxDcdl2ii+Sq9YGQfyUgAJveDpWmE
-	xF4sHB7q1KwcLbUHD+x3YarFfjk3GXf+J6N27uHErZsPQjqQo37bp5tlW9LzncggL0za8e
-	EjdZvNhp2l5lK9IQxulglmL89DvqPZbXnbViySyKbLoU9GA+8ic+st+9NZmE2BaZ1V12gd
-	jIEdVhwBWOAHGr8bod/aJ0Gnay/ju3QDD5wluIkuEVKP7kfQP/zhHDxVxBdXOvibT5PIco
-	Ee3DFTu94LZzYYHyTzfeJ57GBnBZLKqS2SvhOvcYhkikDaJ3OEjIZ6XU+sk8Kg==
+	bh=HGHIibLh7VAu9I4NPj8HyvkwsyByHUpfbBbGy49uXs8=;
+	b=v2ETkv+BBkWSAxgMFSEQzaS4FkIjHuM35t/9M3xy6fA0tFeZkNYnxxHcGAssFmbjzBrf+E
+	bwOIH6tKTIxeZcwItusD7HyJV4lFWqvogq/eZAP2F2S96QY+RTkvbGf+PPr50yM0Z1+IhK
+	vIkfb2fBqatq3jg1t/MF47GnwBZsHRrK2ZEmAMRKz9VHewQdMldpAqFYsKeUcC3ACMhBzP
+	HjaZWUkPI3kU+mQhBlSwy9BCVcNSZYSb2qZAaMukwR3xs1LvxgbbpUALG5cXEG8tRkAid1
+	rzIm1IB4dvY6e0bWnvPYcnrBedr/C30z6+7T5pEOKGxPsrqVsMR+kjfcBFH9Ew==
 From: Daniel Wagner <dwagner@suse.de>
-Date: Tue, 06 Aug 2024 14:06:39 +0200
-Subject: [PATCH v3 07/15] blk-mq: remove unused queue mapping helpers
+Date: Tue, 06 Aug 2024 14:06:40 +0200
+Subject: [PATCH v3 08/15] sched/isolation: Add io_queue housekeeping option
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240806-isolcpus-io-queues-v3-7-da0eecfeaf8b@suse.de>
+Message-Id: <20240806-isolcpus-io-queues-v3-8-da0eecfeaf8b@suse.de>
 References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
 In-Reply-To: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -74,8 +74,8 @@ Cc: Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>,
 X-Mailer: b4 0.14.0
 X-Last-TLS-Session-Version: TLSv1.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_050728_844771_1051A8BE 
-X-CRM114-Status: GOOD (  13.94  )
+X-CRM114-CacheID: sfid-20240806_050730_729313_CE3937C1 
+X-CRM114-Status: GOOD (  11.86  )
 X-Mailman-Approved-At: Tue, 06 Aug 2024 07:51:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -91,157 +91,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There are no users left of the pci and virtio queue mapping helpers.
-Thus remove them.
+Multiqueue drivers such as nvme-pci are spreading IO queues on all CPUs
+for optimal performance. isolcpu users are usually more concerned about
+noise on isolated CPUs. Introduce a new isolcpus mask which allows the
+user to define on which CPUs IO queues should be placed.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- block/blk-mq-pci.c            | 39 ---------------------------------------
- block/blk-mq-virtio.c         | 41 +----------------------------------------
- include/linux/blk-mq-pci.h    |  5 -----
- include/linux/blk-mq-virtio.h |  5 -----
- 4 files changed, 1 insertion(+), 89 deletions(-)
+ include/linux/sched/isolation.h | 15 +++++++++++++++
+ kernel/sched/isolation.c        |  7 +++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
-index 71a73238aeb2..b69dd52d8719 100644
---- a/block/blk-mq-pci.c
-+++ b/block/blk-mq-pci.c
-@@ -2,49 +2,10 @@
- /*
-  * Copyright (c) 2016 Christoph Hellwig.
-  */
--#include <linux/kobject.h>
--#include <linux/blkdev.h>
- #include <linux/blk-mq-pci.h>
- #include <linux/pci.h>
- #include <linux/module.h>
+diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
+index 2b461129d1fa..0101d0fc8c00 100644
+--- a/include/linux/sched/isolation.h
++++ b/include/linux/sched/isolation.h
+@@ -6,6 +6,20 @@
+ #include <linux/init.h>
+ #include <linux/tick.h>
  
--#include "blk-mq.h"
--
--/**
-- * blk_mq_pci_map_queues - provide a default queue mapping for PCI device
-- * @qmap:	CPU to hardware queue map.
-- * @pdev:	PCI device associated with @set.
-- * @offset:	Offset to use for the pci irq vector
-- *
-- * This function assumes the PCI device @pdev has at least as many available
-- * interrupt vectors as @set has queues.  It will then query the vector
-- * corresponding to each queue for it's affinity mask and built queue mapping
-- * that maps a queue to the CPUs that have irq affinity for the corresponding
-- * vector.
-- */
--void blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev *pdev,
--			   int offset)
--{
--	const struct cpumask *mask;
--	unsigned int queue, cpu;
--
--	for (queue = 0; queue < qmap->nr_queues; queue++) {
--		mask = pci_irq_get_affinity(pdev, queue + offset);
--		if (!mask)
--			goto fallback;
--
--		for_each_cpu(cpu, mask)
--			qmap->mq_map[cpu] = qmap->queue_offset + queue;
--	}
--
--	return;
--
--fallback:
--	WARN_ON_ONCE(qmap->nr_queues > 1);
--	blk_mq_clear_mq_map(qmap);
--}
--EXPORT_SYMBOL_GPL(blk_mq_pci_map_queues);
--
- /**
-  * blk_mq_pci_get_queue_affinity - get affinity mask queue mapping for PCI device
-  * @dev_data:	Pointer to struct pci_dev.
-diff --git a/block/blk-mq-virtio.c b/block/blk-mq-virtio.c
-index d3d33f8d69ce..0fd9f17a2f44 100644
---- a/block/blk-mq-virtio.c
-+++ b/block/blk-mq-virtio.c
-@@ -2,48 +2,9 @@
- /*
-  * Copyright (c) 2016 Christoph Hellwig.
-  */
--#include <linux/device.h>
- #include <linux/blk-mq-virtio.h>
--#include <linux/virtio_config.h>
-+#include <linux/virtio.h>
- #include <linux/module.h>
--#include "blk-mq.h"
--
--/**
-- * blk_mq_virtio_map_queues - provide a default queue mapping for virtio device
-- * @qmap:	CPU to hardware queue map.
-- * @vdev:	virtio device to provide a mapping for.
-- * @first_vec:	first interrupt vectors to use for queues (usually 0)
-- *
-- * This function assumes the virtio device @vdev has at least as many available
-- * interrupt vectors as @set has queues.  It will then query the vector
-- * corresponding to each queue for it's affinity mask and built queue mapping
-- * that maps a queue to the CPUs that have irq affinity for the corresponding
-- * vector.
-- */
--void blk_mq_virtio_map_queues(struct blk_mq_queue_map *qmap,
--		struct virtio_device *vdev, int first_vec)
--{
--	const struct cpumask *mask;
--	unsigned int queue, cpu;
--
--	if (!vdev->config->get_vq_affinity)
--		goto fallback;
--
--	for (queue = 0; queue < qmap->nr_queues; queue++) {
--		mask = vdev->config->get_vq_affinity(vdev, first_vec + queue);
--		if (!mask)
--			goto fallback;
--
--		for_each_cpu(cpu, mask)
--			qmap->mq_map[cpu] = qmap->queue_offset + queue;
--	}
--
--	return;
--
--fallback:
--	blk_mq_map_queues(qmap);
--}
--EXPORT_SYMBOL_GPL(blk_mq_virtio_map_queues);
++/**
++ * enum hk_type - housekeeping cpu mask types
++ * @HK_TYPE_TIMER:	housekeeping cpu mask for timers
++ * @HK_TYPE_RCU:	housekeeping cpu mask for RCU
++ * @HK_TYPE_MISC:	housekeeping cpu mask for miscalleanous resources
++ * @HK_TYPE_SCHED:	housekeeping cpu mask for scheduling
++ * @HK_TYPE_TICK:	housekeeping cpu maks for timer tick
++ * @HK_TYPE_DOMAIN:	housekeeping cpu mask for general SMP balancing
++ *			and scheduling algoririthms
++ * @HK_TYPE_WQ:		housekeeping cpu mask for worksqueues
++ * @HK_TYPE_MANAGED_IRQ: housekeeping cpu mask for managed IRQs
++ * @HK_TYPE_KTHREAD:	housekeeping cpu mask for kthreads
++ * @HK_TYPE_IO_QUEUE:	housekeeping cpu mask for I/O queues
++ */
+ enum hk_type {
+ 	HK_TYPE_TIMER,
+ 	HK_TYPE_RCU,
+@@ -16,6 +30,7 @@ enum hk_type {
+ 	HK_TYPE_WQ,
+ 	HK_TYPE_MANAGED_IRQ,
+ 	HK_TYPE_KTHREAD,
++	HK_TYPE_IO_QUEUE,
+ 	HK_TYPE_MAX
+ };
  
- /**
-  * blk_mq_virtio_get_queue_affinity - get affinity mask queue mapping for virtio device
-diff --git a/include/linux/blk-mq-pci.h b/include/linux/blk-mq-pci.h
-index 2e701f6f6341..e6de88da8eea 100644
---- a/include/linux/blk-mq-pci.h
-+++ b/include/linux/blk-mq-pci.h
-@@ -2,11 +2,6 @@
- #ifndef _LINUX_BLK_MQ_PCI_H
- #define _LINUX_BLK_MQ_PCI_H
+diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
+index 5891e715f00d..91d7a434330c 100644
+--- a/kernel/sched/isolation.c
++++ b/kernel/sched/isolation.c
+@@ -18,6 +18,7 @@ enum hk_flags {
+ 	HK_FLAG_WQ		= BIT(HK_TYPE_WQ),
+ 	HK_FLAG_MANAGED_IRQ	= BIT(HK_TYPE_MANAGED_IRQ),
+ 	HK_FLAG_KTHREAD		= BIT(HK_TYPE_KTHREAD),
++	HK_FLAG_IO_QUEUE	= BIT(HK_TYPE_IO_QUEUE),
+ };
  
--struct blk_mq_queue_map;
--struct pci_dev;
--
--void blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev *pdev,
--			   int offset);
- const struct cpumask *blk_mq_pci_get_queue_affinity(void *dev_data, int offset,
- 						    int queue);
+ DEFINE_STATIC_KEY_FALSE(housekeeping_overridden);
+@@ -228,6 +229,12 @@ static int __init housekeeping_isolcpus_setup(char *str)
+ 			continue;
+ 		}
  
-diff --git a/include/linux/blk-mq-virtio.h b/include/linux/blk-mq-virtio.h
-index 9d3273ba4abf..de01dfb36c43 100644
---- a/include/linux/blk-mq-virtio.h
-+++ b/include/linux/blk-mq-virtio.h
-@@ -2,11 +2,6 @@
- #ifndef _LINUX_BLK_MQ_VIRTIO_H
- #define _LINUX_BLK_MQ_VIRTIO_H
- 
--struct blk_mq_queue_map;
--struct virtio_device;
--
--void blk_mq_virtio_map_queues(struct blk_mq_queue_map *qmap,
--		struct virtio_device *vdev, int first_vec);
- const struct cpumask *blk_mq_virtio_get_queue_affinity(void *dev_data,
- 						       int offset,
- 						       int queue);
++		if (!strncmp(str, "io_queue,", 9)) {
++			str += 9;
++			flags |= HK_FLAG_IO_QUEUE;
++			continue;
++		}
++
+ 		/*
+ 		 * Skip unknown sub-parameter and validate that it is not
+ 		 * containing an invalid character.
 
 -- 
 2.46.0
