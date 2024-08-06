@@ -4,47 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD88CC52D70
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 12:41:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FB60C49EA1
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 12:44:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Lp2wsZtRO+sVZ3VIB9OdIAIMy4xDCPcB6LwRezoftnQ=; b=kS330NQTgY50KPri7tE8mYu5gK
-	Bx/ksd6gUZ8LqMPBq/srZmI0nbujhxVf7+saaQUHe2px/hq/XR9mkDIbYIxuWvYFwMgogepFIBODB
-	jTK+bZRN1urfpBos4jHwerQG4vpbp/sD3FlkqiUAoZmJ2bcJ4/xohu950MlGOilWMehDYSa1LcgRH
-	nlNqIOl6dTg+nO0KlnSJdk/1o6yFBpJPGktmKxs7LoY/P083MfkFfHiXLbGq3fl8nej41J4aGcqb9
-	cAE0kT3ec6Zq9y6PWhN6Ok3oe74U3aCJsZVuphKNt5HvwfVYz3x+DU7T6RKskrNs23Cs8Psks5EnH
-	tkTqmziw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FH+PIjnN/rLQEpUK8oIcJ1uXGyA/a6HreCWjFq+oZc8=; b=qQnb51vQMarxT2RZ315lQASkDb
+	HJxGTSRwcY01OyB8qiMLGrZP/aKEwrqS2fBXmeGkXP8wGkZ09bmz8VQLhwF966xU2mCFiovy3ND27
+	pIRAt/eTzctzpksW89meoOXaEE/yhFXNsv0kJL1XaCjy3vTV+/rqzF3/cJOFHOsj7Ipj9hDX6vc1u
+	ZMmz4lw6CM5UojAwO87VX1ViR8J4JsZxZRIm5M03M+0tiC703EeXNDC0PRv131ivOFYmIpQwFx7Vu
+	auTf0MkMikEAEEC/I7LO2jJxPq+jLeVDWCbukogukU5XvsK/Toa1FcS7RbyXwg5TEHLS/MZr/wECR
+	qV1AKNqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbJV1-00000001XFI-3BlO;
-	Tue, 06 Aug 2024 12:41:11 +0000
-Received: from out28-79.mail.aliyun.com ([115.124.28.79])
+	id 1sbJYO-00000001Xfi-0lJ5;
+	Tue, 06 Aug 2024 12:44:40 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbJUP-00000001X7R-2QOw
-	for linux-nvme@lists.infradead.org;
-	Tue, 06 Aug 2024 12:41:10 +0000
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.8754421|0.07364632;CH=green;DM=|AD|false|;DS=CONTINUE|ham_system_inform|0.00218639-0.000192767-0.997621;FP=1565038376961197586|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033023181100;MF=wangyugui@e16-tech.com;NM=1;PH=DS;RN=2;RT=2;SR=0;TI=SMTPD_---.Yjo7vE8_1722948026;
-Received: from T640.e16-tech.com(mailfrom:wangyugui@e16-tech.com fp:SMTPD_---.Yjo7vE8_1722948026)
-          by smtp.aliyun-inc.com;
-          Tue, 06 Aug 2024 20:40:26 +0800
-From: Wang Yugui <wangyugui@e16-tech.com>
-To: linux-nvme@lists.infradead.org
-Cc: Wang Yugui <wangyugui@e16-tech.com>
-Subject: [PATCH RFC v3] nvmet: basic RMEDIA support for target
-Date: Tue,  6 Aug 2024 20:40:25 +0800
-Message-ID: <20240806124026.43168-1-wangyugui@e16-tech.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20240806004928.27605-1-wangyugui@e16-tech.com>
-References: <20240806004928.27605-1-wangyugui@e16-tech.com>
+	id 1sbJWP-00000001XR3-2zVh;
+	Tue, 06 Aug 2024 12:44:38 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5887E68D05; Tue,  6 Aug 2024 14:42:25 +0200 (CEST)
+Date: Tue, 6 Aug 2024 14:42:24 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Joern Engel <joern@lazybastard.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 1/6] dt-bindings: nvme: Document nvme-card compatible
+Message-ID: <20240806124224.GA10156@lst.de>
+References: <20240806114118.17198-1-ansuelsmth@gmail.com> <20240806114118.17198-2-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240806114118.17198-2-ansuelsmth@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_054033_822122_4E54DFEB 
-X-CRM114-Status: GOOD (  14.24  )
+X-CRM114-CacheID: sfid-20240806_054237_915980_B43D2401 
+X-CRM114-Status: GOOD (  12.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,130 +71,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Rotational media(RMEDIA) support is added to the NVMe 2.0 specification.
-We add Rotational media(RMEDIA) basic support to nvme target.
-
-Signed-off-by: Wang Yugui <wangyugui@e16-tech.com>
----
-changelog of PATCH RFC v3
-- restore the process nvmet_req_find_ns() dropped in v2
-changelog of PATCH RFC v2
-- change 'bdev_nonrot(ns->bdev)' to '!bdev_nonrot(ns->bdev)' based on comment.
-- add some support for 'nvme cmdset-ind-id-ns'
-
- drivers/nvme/target/admin-cmd.c   | 42 +++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c        |  2 ++
- drivers/nvme/target/io-cmd-bdev.c |  1 +
- drivers/nvme/target/nvmet.h       |  1 +
- 4 files changed, 55 insertions(+)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index f7e1156ac7ec..20a28102f8a0 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -489,6 +489,54 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
+On Tue, Aug 06, 2024 at 01:41:11PM +0200, Christian Marangi wrote:
+> Document new nvme-card compatible to permit defining fixed-partition in
+> DT by the use of the block2mtd module to use block devices as MTD.
  
-+static void nvmet_execute_identify_indep(struct nvmet_req *req)
-+{
-+	struct nvme_id_ns_cs_indep  *id;
-+	u16 status;
-+
-+	id = kzalloc(sizeof(*id), GFP_KERNEL);
-+	if (!id) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Our namespace might always be shared.  Not just with other
-+	 * controllers, but also with any other user of the block device.
-+	 */
-+	id->nmic |= NVME_NS_NMIC_SHARED;
-+
-+	id->nstat |= NVME_NSTAT_NRDY;
-+
-+	/* return an all zeroed buffer if we can't find an active namespace */
-+	status = nvmet_req_find_ns(req);
-+	if (status) {
-+		status = 0;
-+		goto done;
-+	}
-+
-+	if (nvmet_ns_revalidate(req->ns)) {
-+		mutex_lock(&req->ns->subsys->lock);
-+		nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
-+		mutex_unlock(&req->ns->subsys->lock);
-+	}
-+
-+	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
-+
-+	if (req->ns->readonly)
-+		id->nsattr |= NVME_NS_ATTR_RO;
-+
-+	if (req->ns->rotational)
-+		id->nsfeat |= NVME_INDEP_NS_FEAT_RMEDIA;
-+
-+done:
-+	if (!status)
-+		status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
-+	kfree(id);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
- static void nvmet_execute_identify_ns(struct nvmet_req *req)
- {
- 	struct nvme_id_ns *id;
-@@ -706,6 +745,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
- 			break;
- 		}
- 		break;
-+	case NVME_ID_CNS_NS_CS_INDEP:
-+		nvmet_execute_identify_indep(req);
-+		return;
- 	case NVME_ID_CNS_CS_CTRL:
- 		switch (req->cmd->identify.csi) {
- 		case NVME_CSI_NVM:
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index ed2424f8a396..2790fedb593b 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1254,6 +1254,8 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
- 	else
- 		ctrl->cap |= ctrl->port->max_queue_size - 1;
- 
-+	ctrl->cap |= NVME_CAP_CRMS_CRIMS;
-+
- 	if (nvmet_is_passthru_subsys(ctrl->subsys))
- 		nvmet_passthrough_override_cap(ctrl);
- }
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 0bda83d0fc3e..d15ad1a864bc 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -104,6 +104,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 
- 	ns->pi_type = 0;
- 	ns->metadata_size = 0;
-+	ns->rotational = !bdev_nonrot(ns->bdev);
- 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY))
- 		nvmet_bdev_ns_enable_integrity(ns);
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 190f55e6d753..86eeeadf3787 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -62,6 +62,7 @@ struct nvmet_ns {
- 	struct block_device	*bdev;
- 	struct file		*file;
- 	bool			readonly;
-+	bool			rotational;
- 	u32			nsid;
- 	u32			blksize_shift;
- 	loff_t			size;
--- 
-2.36.2
+What does nvme card mean?  Is this about nvmem or nvme?  If this is nvme,
+are you talking about nvme-pci?  Why would that needs a device binding
+when it is a PCI device?
 
 
