@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A54BCC3DA7F
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 00:48:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 572F7C3DA7F
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 00:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OSQgrT19AxS3hLfItho0XbwwgOO3fv7uycX9+eNg63k=; b=v6qitp5Qn5Ys2jfZ0oCyCitrq6
-	y3gF1kZopMqYtfx/NxaFUCSQsGwlopCNY/3REl8g/4c2N7fiEak0pBw1p9tqlsfitVh89JhXLBwkA
-	30UbDPvDGRQJcdb+LlcGm4zp3lK1jEZp8dEulH14NmDYAWYnAxZvOa+zYUnF5kWixvn8RjVU5fih/
-	dMZ6Q8TC+GLo0bm/kEbt/4N+H/zxeSyzdOuxHd7c1vM6mgUr4IxNg9edRbkEBfwfT3OsFbfyo/G1D
-	mcWAUFQz1fQOsNQsJFUYgulxFRxHi04bfb8PCEqHmA8wNgH+8pwyIdi6ZiCIbSEokgKR9n/qiZlLi
-	ergpg3Pw==;
+	bh=Vpz/TjxzvYDFnb/aK7sPozaW7iCDnwdqwffyL7H0rew=; b=na4f3yelpdPRP+2se5k6uoGczr
+	4yX/BUZbp7edTqZcsXr/KO/ncLDR++ALCQj0MjVbtLYpMO5HtIOwHSf9yHfdvdIPQ/R92mH5KLOpF
+	vhQDcMO+4JrGuwN1yefovXzPOwPp4bnpc43dxpRFwgeozgrEn2WYTJKR7N9Mn6oVyGhazvu9OKQ5y
+	Z4T5SIBNWDi2Ia55Y3jjqExponsScRFKmKJ1A4L2HoQDctR2rf/Uz1JNvdB4XRwTkMdYF1ezd+Bm+
+	al+K79psQscyBcMM6+1vQRkLRDWeu/7I7Cmpq90aLGL0nDti0JMmaIEfxzpdkdssEGrEjkmYJNMVg
+	hNAWA8lA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sb8NP-000000006eA-1rrG;
-	Tue, 06 Aug 2024 00:48:35 +0000
-Received: from out28-79.mail.aliyun.com ([115.124.28.79])
+	id 1sb8OM-000000006k7-430H;
+	Tue, 06 Aug 2024 00:49:34 +0000
+Received: from out28-88.mail.aliyun.com ([115.124.28.88])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sb8NM-000000006cW-2QFb
+	id 1sb8OK-000000006jR-06lO
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Aug 2024 00:48:35 +0000
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.8943517|0.07638286;CH=green;DM=|AD|false|;DS=CONTINUE|ham_enroll_verification|0.0204372-0.00150517-0.978058;FP=8373677206662632614|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033038033188;MF=wangyugui@e16-tech.com;NM=1;PH=DS;RN=2;RT=2;SR=0;TI=SMTPD_---.Yj9xG7y_1722905304;
-Received: from T640.e16-tech.com(mailfrom:wangyugui@e16-tech.com fp:SMTPD_---.Yj9xG7y_1722905304)
+	Tue, 06 Aug 2024 00:49:33 +0000
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.8700965|0.07665365;CH=green;DM=|AD|false|;DS=CONTINUE|ham_system_inform|0.00207762-0.000184275-0.997738;FP=1556031182001423922|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037088118;MF=wangyugui@e16-tech.com;NM=1;PH=DS;RN=2;RT=2;SR=0;TI=SMTPD_---.YjAOSiP_1722905368;
+Received: from T640.e16-tech.com(mailfrom:wangyugui@e16-tech.com fp:SMTPD_---.YjAOSiP_1722905368)
           by smtp.aliyun-inc.com;
-          Tue, 06 Aug 2024 08:48:24 +0800
+          Tue, 06 Aug 2024 08:49:29 +0800
 From: Wang Yugui <wangyugui@e16-tech.com>
 To: linux-nvme@lists.infradead.org
 Cc: Wang Yugui <wangyugui@e16-tech.com>
-Subject: [PATCH RFC v3] nvme: basic RMEDIA support for host
-Date: Tue,  6 Aug 2024 08:48:23 +0800
-Message-ID: <20240806004823.27417-1-wangyugui@e16-tech.com>
+Subject: [PATCH RFC] nvmet: basic RMEDIA support for target
+Date: Tue,  6 Aug 2024 08:49:28 +0800
+Message-ID: <20240806004928.27605-1-wangyugui@e16-tech.com>
 X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20240723232419.19753-1-wangyugui@e16-tech.com>
-References: <20240723232419.19753-1-wangyugui@e16-tech.com>
+In-Reply-To: <20240806004823.27417-1-wangyugui@e16-tech.com>
+References: <20240806004823.27417-1-wangyugui@e16-tech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240805_174832_818062_4E1557E6 
-X-CRM114-Status: GOOD (  11.33  )
+X-CRM114-CacheID: sfid-20240805_174932_251995_84629E8B 
+X-CRM114-Status: GOOD (  12.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,96 +60,121 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Rotational media(RMEDIA) support is added to the NVMe 2.0 specification.
-We add Rotational media(RMEDIA) basic support to nvme host firstly.
+We add Rotational media(RMEDIA) basic support to nvme target.
 
 Signed-off-by: Wang Yugui <wangyugui@e16-tech.com>
 ---
-changelog of RFC v3
- - rename var based on comments.
-   change is_rmedia to is_rotational;
-   but keep RMEDIA of NVME_INDEP_NS_FEAT_RMEDIA to match NVME spec 2.0.
+ drivers/nvme/target/admin-cmd.c   | 50 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c        |  2 ++
+ drivers/nvme/target/io-cmd-bdev.c |  1 +
+ drivers/nvme/target/nvmet.h       |  1 +
+ 4 files changed, 54 insertions(+)
 
- drivers/nvme/host/core.c      | 5 +++++
- drivers/nvme/host/multipath.c | 3 +++
- drivers/nvme/host/nvme.h      | 1 +
- include/linux/nvme.h          | 1 +
- 4 files changed, 10 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 19917253ba7b..f4c41bf70b19 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -40,6 +40,7 @@ struct nvme_ns_info {
- 	bool is_readonly;
- 	bool is_ready;
- 	bool is_removed;
-+	bool is_rotational;
- };
- 
- unsigned int admin_timeout = 60;
-@@ -1622,6 +1623,7 @@ static int nvme_ns_info_from_id_cs_indep(struct nvme_ctrl *ctrl,
- 		info->is_shared = id->nmic & NVME_NS_NMIC_SHARED;
- 		info->is_readonly = id->nsattr & NVME_NS_ATTR_RO;
- 		info->is_ready = id->nstat & NVME_NSTAT_NRDY;
-+		info->is_rotational = id->nsfeat & NVME_INDEP_NS_FEAT_RMEDIA;
- 	}
- 	kfree(id);
- 	return ret;
-@@ -3613,6 +3618,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	head->ns_id = info->nsid;
- 	head->ids = info->ids;
- 	head->shared = info->is_shared;
-+	head->rotational = info->is_rotational;
- 	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
- 	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
- 	kref_init(&head->ref);
-@@ -3816,6 +3816,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 
- 	if (ctrl->opts && ctrl->opts->data_digest)
- 		lim.features |= BLK_FEAT_STABLE_WRITES;
-+	if (info->is_rotational)
-+		lim.features |= BLK_FEAT_ROTATIONAL;
- 	if (ctrl->ops->supports_pci_p2pdma &&
- 	    ctrl->ops->supports_pci_p2pdma(ctrl))
- 		lim.features |= BLK_FEAT_PCI_P2PDMA;
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 91d9eb3c22ef..a3cd6525d24d 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -626,6 +626,9 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	head->disk->private_data = head;
- 	sprintf(head->disk->disk_name, "nvme%dn%d",
- 			ctrl->subsys->instance, head->instance);
-+
-+	if (head->rotational)
-+		lim.features |= BLK_FEAT_ROTATIONAL;
- 	return 0;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index f7e1156ac7ec..20a28102f8a0 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -489,6 +489,53 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
  }
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f900e44243ae..9f2789c44249 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -465,6 +465,7 @@ struct nvme_ns_head {
- 	struct list_head	entry;
- 	struct kref		ref;
- 	bool			shared;
++static void nvmet_execute_identify_indep(struct nvmet_req *req)
++{
++	struct nvme_id_ns_cs_indep  *id;
++	u16 status;
++
++	id = kzalloc(sizeof(*id), GFP_KERNEL);
++	if (!id) {
++		status = NVME_SC_INTERNAL;
++		goto out;
++	}
++
++	/* return an all zeroed buffer if we can't find an active namespace */
++	status = nvmet_req_find_ns(req);
++	if (status) {
++		status = 0;
++		goto done;
++	}
++
++	if (nvmet_ns_revalidate(req->ns)) {
++		mutex_lock(&req->ns->subsys->lock);
++		nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
++		mutex_unlock(&req->ns->subsys->lock);
++	}
++
++	/*
++	 * Our namespace might always be shared.  Not just with other
++	 * controllers, but also with any other user of the block device.
++	 */
++	id->nmic = NVME_NS_NMIC_SHARED;
++	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
++
++	if (req->ns->readonly)
++		id->nsattr |= NVME_NS_ATTR_RO;
++
++	id->nstat |= NVME_NSTAT_NRDY;
++
++	if(req->ns->rotational)
++		id->nsfeat |= NVME_INDEP_NS_FEAT_RMEDIA;
++
++done:
++	if (!status)
++		status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
++	kfree(id);
++out:
++	nvmet_req_complete(req, status);
++}
++
+ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ {
+ 	struct nvme_id_ns *id;
+@@ -706,6 +724,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+ 			break;
+ 		}
+ 		break;
++	case NVME_ID_CNS_NS_CS_INDEP:
++		nvmet_execute_identify_indep(req);
++		return;
+ 	case NVME_ID_CNS_CS_CTRL:
+ 		switch (req->cmd->identify.csi) {
+ 		case NVME_CSI_NVM:
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index ed2424f8a396..2790fedb593b 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1254,6 +1254,8 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+ 	else
+ 		ctrl->cap |= ctrl->port->max_queue_size - 1;
+ 
++	ctrl->cap |= NVME_CAP_CRMS_CRIMS;
++
+ 	if (nvmet_is_passthru_subsys(ctrl->subsys))
+ 		nvmet_passthrough_override_cap(ctrl);
+ }
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 0bda83d0fc3e..d15ad1a864bc 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -104,6 +104,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 
+ 	ns->pi_type = 0;
+ 	ns->metadata_size = 0;
++	ns->rotational = bdev_nonrot(ns->bdev);
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY))
+ 		nvmet_bdev_ns_enable_integrity(ns);
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 190f55e6d753..86eeeadf3787 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -62,6 +62,7 @@ struct nvmet_ns {
+ 	struct block_device	*bdev;
+ 	struct file		*file;
+ 	bool			readonly;
 +	bool			rotational;
- 	bool			passthru_err_log_enabled;
- 	int			instance;
- 	struct nvme_effects_log *effects;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c12a329dd463..2c259d126f80 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -546,6 +546,7 @@ enum {
- 	NVME_NS_FEAT_THIN	= 1 << 0,
- 	NVME_NS_FEAT_ATOMICS	= 1 << 1,
- 	NVME_NS_FEAT_IO_OPT	= 1 << 4,
-+	NVME_INDEP_NS_FEAT_RMEDIA = 1 << 4,
- 	NVME_NS_ATTR_RO		= 1 << 0,
- 	NVME_NS_FLBAS_LBA_MASK	= 0xf,
- 	NVME_NS_FLBAS_LBA_UMASK	= 0x60,
+ 	u32			nsid;
+ 	u32			blksize_shift;
+ 	loff_t			size;
 -- 
 2.36.2
 
