@@ -4,48 +4,190 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9A88C3DA64
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 09:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B065CC3DA64
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Aug 2024 09:24:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:References:In-Reply-To:Cc:Subject:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hcYMlLb35XLMz7POQuExQL0m7LMjrBYkD4TCGzO3coY=; b=kpvSvG6BuiTMXpUAggWYDXmd67
-	4TZ6hF/84/CGXJCBrJ8QxmMq06J8fzLp+Os6fyRkZRRBbEZIVXBPZ37rta59Em6nE8qhaLPw8GTTH
-	XR4n8HMZGMivXiftf4cdiEFn9rMtoM7/9wV/+q/s645nPqxnSCP5KfnrU2gL7oqxO8xju8XElqn8d
-	mwHAC6MAGPgqEQEkrqjEsY5DgEFTJ1nD2w5WII331CiI1KER5mact+ihwuaticSQUUWYJm9Pec5gE
-	Sijm4EmLG5rb86t1eNATGt6w8mhbCToUgaBSRKBIQOTdx+aLS7PfYEme22cIglLDinphLvYnR9GRz
-	ln7aOyMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=j4YngrO/ie+momr1mtK1eZHFOBeLltyFaAyqihqLPRQ=; b=V4DLiHtWQfi6zBHrXHQ1KtOn2d
+	Xd9mbB4HJABDjfeDe+Zwqwc60gZr+QKL0ajAjqsh6L4tapUGByuL82qSDosi5pgwJ1gjO7eSrI6ry
+	7weCHHAlBChppQg1GYaoThqL8BpQfmCIhZIKlED38xQStKQZA/Byny2JsMvbr4lWtSbjf/Gm+jDS2
+	jFlsf021udTqZTCJPWaNVJ1z14wxY7itdr9Ehr2S8y9rSnvxm7rTDv57+sX5CgyJwIdtZcW0h/KES
+	OqIjl/nmTQT8CYmF2tODIdKXsEo4ONI9TdimGWbSrTkadRT1/3412ZJ9GUydmFZyNKEhNZ4j7vbDs
+	+pOSJMew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbGBV-000000013Mu-0T02;
-	Tue, 06 Aug 2024 09:08:49 +0000
-Received: from out28-62.mail.aliyun.com ([115.124.28.62])
+	id 1sbGQJ-000000015s8-1nNn;
+	Tue, 06 Aug 2024 09:24:07 +0000
+Received: from mgamail.intel.com ([192.198.163.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbGBN-000000013ML-2oJL
-	for linux-nvme@lists.infradead.org;
-	Tue, 06 Aug 2024 09:08:44 +0000
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.8301688|0.08157015;CH=green;DM=|AD|false|;DS=CONTINUE|ham_regular_dialog|0.0020804-0.000321619-0.997598;FP=1574043381487715862|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033055230028;MF=wangyugui@e16-tech.com;NM=1;PH=DS;RN=2;RT=2;SR=0;TI=SMTPD_---.Yje79tu_1722935314;
-Received: from 192.168.2.112(mailfrom:wangyugui@e16-tech.com fp:SMTPD_---.Yje79tu_1722935314)
-          by smtp.aliyun-inc.com;
-          Tue, 06 Aug 2024 17:08:35 +0800
-Date: Tue, 06 Aug 2024 17:08:36 +0800
-From: Wang Yugui <wangyugui@e16-tech.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH RFC] nvmet: basic RMEDIA support for target
-Cc: linux-nvme@lists.infradead.org
-In-Reply-To: <6ec0d9af-1972-4181-bd12-218f0e566cd1@grimberg.me>
-References: <20240806004928.27605-1-wangyugui@e16-tech.com> <6ec0d9af-1972-4181-bd12-218f0e566cd1@grimberg.me>
-Message-Id: <20240806170835.CF79.409509F4@e16-tech.com>
+	id 1sbGQF-000000015r3-2Fdq;
+	Tue, 06 Aug 2024 09:24:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722936243; x=1754472243;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=zcMiJSY3LofeRSh+fbVNTpX7F5qR5Hf57lWi74x7KTw=;
+  b=lTixvis9YJcSWKXIkHBNJGdu7DuNfADHF21inufOifNaIgjef1mb1Y5m
+   zDa8aJXMdH1ELj4nQCMvlOQkX8F3uHyJqDEbBFTsrjqfLgNNTkDBQfPmA
+   Sqf9apC6ihQst9MPWSkmW348AQwssrhgu3Yjs1iy21zKQ+EtVVpwqNOJ6
+   RHzydKOD6a00gYkrHPs58NU1aPVTCvEd7AGqyNff83oSQQKmDFeS6ONg2
+   9lBcxkM+9CjZRLGUhgaZtwnBSSYtmw9zHY8Fw1i7jNDZE0nEoIx0jEREi
+   LoqqdQSW1O+InMKzKTl9/WK60RK1M4HVddoxNk99XC3bGqKlfr/qkn2xq
+   A==;
+X-CSE-ConnectionGUID: UUTTFaQNSCOYAyouCbQfXQ==
+X-CSE-MsgGUID: JvF4bi8mRMqvM3S5P2ka7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="24804498"
+X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
+   d="scan'208";a="24804498"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 02:24:02 -0700
+X-CSE-ConnectionGUID: tPmp0XXUSrCyhbWoh7Pz5Q==
+X-CSE-MsgGUID: NgYuYPyGT0GnDpeFeC2ADA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
+   d="scan'208";a="56394576"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Aug 2024 02:24:02 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 6 Aug 2024 02:24:01 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 6 Aug 2024 02:24:01 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 6 Aug 2024 02:24:01 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 6 Aug 2024 02:24:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IZRIFIxNp+K3sp9fQivRdvG8K/vmfx0AgRaZ+gj3cOheVQnRike0RkXEMwbXcn4wJ1XLM/Ie3oEkkHO7Z9EI2ZWggPOs/S/j64YvrAYYgcZdCv3+al8V6ceTxR6iNK+s4l2Xsa3a/4K+vCmSYgrmgJQPcnY4gAUWewpkCIv3DvC6aq5q2uCqOdGS1a2X/fVTsX3GaPmNP3uoG1fcTm2NTEAHxRob9GFV4tZIJotfG78zrZT09/31D/8NPZIUzgiaxjHLKjduoKOlJi89cpJLFN+o9DqYtUlV1Onuajc4+BDDEOS3AZvSyjb1iXzfqKijQQrTRp0fjhF/P0Uq+Yxsog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j4YngrO/ie+momr1mtK1eZHFOBeLltyFaAyqihqLPRQ=;
+ b=JSCArwNtpqDj3t1vV+WCH6YnQ0TLhxpfTzxuILazpw5zh6iEPtYAKfNPtGBDXs4blVQGWEKXuyXWny9TQBPWDzpY0ETyhvBpUDxQTRql9zcd4OT0jiqrpQ/ARjH5a+8fcMuCnXlQg1vBzHeU7eRlv1uFCzv1IlS3DTh5vpRtmKWH6Kd+5bUq3ZqcKzLNpRgD/si4yYMZO6+CvPcjklTknPjJNq+9v2KKkDTWc9SwyZmfsrNLgCoC3guz/OKEMGCsF/Unp1HOencGxtoKdBWD02ngLc47smEaZqwbHZHGaaj3sM7VcZB7h53NSh3oUdfrnEuNcfBZaxSmNm7qG/Rgyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by PH7PR11MB6425.namprd11.prod.outlook.com (2603:10b6:510:1f7::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Tue, 6 Aug
+ 2024 09:23:58 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%5]) with mapi id 15.20.7828.023; Tue, 6 Aug 2024
+ 09:23:58 +0000
+Date: Tue, 6 Aug 2024 17:23:43 +0800
+From: Philip Li <philip.li@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+CC: kernel test robot <lkp@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Joern Engel <joern@lazybastard.org>, Keith Busch <kbusch@kernel.org>, "Jens
+ Axboe" <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, Wolfram Sang <wsa-dev@sang-engineering.com>, "Florian
+ Fainelli" <f.fainelli@gmail.com>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, <linux-mmc@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mtd@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
+	<oe-kbuild-all@lists.linux.dev>
+Subject: Re: [PATCH v2 6/6] mtd: parser: add support for Airoha parser
+Message-ID: <ZrHrn9NzeOhp+Sdl@rli9-mobl>
+References: <20240804174414.18171-7-ansuelsmth@gmail.com>
+ <202408050612.Ya1m6REu-lkp@intel.com>
+ <66b0b109.050a0220.93681.d015@mx.google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <66b0b109.050a0220.93681.d015@mx.google.com>
+X-ClientProxiedBy: SG2PR04CA0168.apcprd04.prod.outlook.com (2603:1096:4::30)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Becky! ver. 2.81.06 [en]
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH7PR11MB6425:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2d420c8-411f-450f-7a99-08dcb5f9805a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Jzyyp7gTaT3aB+la4mG/9m15tLlGBBHKgdGii3IFm+/D5N2TLFtniRb/8DWJ?=
+ =?us-ascii?Q?2UNcLRhuKcBuWsCg9FI3l2LD4Fb2BrtlFqfW9v2u1bI93++AwxHA7mK1zUik?=
+ =?us-ascii?Q?OKBvQwAJzgTKEBL5XUtQyYTUjAorpyg/nzNWzQJhix7Vo6cGW+DwCSsTwuMY?=
+ =?us-ascii?Q?FntftSDcxtwzeBgyXdr/8QcC1a1SlILGtogvfP2oMp86wRrrtWeurxlGb3Fa?=
+ =?us-ascii?Q?6DIvD+mIEihZ71rXi4VEKGhbfgwb/f5cCJUBwfTcS5kCwdlDEhDdOLN78H9h?=
+ =?us-ascii?Q?BbRnR9LeOpigKBhfIMz8IuoBLmGCMawkgr4FNZiQI0pw5v39Fx121iiLE7m9?=
+ =?us-ascii?Q?N+4AeBxvlOihExKUInHxkP1xL7BGZl1t2I1UEJyUyVqdASmqFFXVnPTY+Zt3?=
+ =?us-ascii?Q?5Kcj7pfBC8qhcjxvAcn6LYevrh+mcFyPQFYUpZ53qA5xA6ZUbOk0zAUoCWto?=
+ =?us-ascii?Q?amai+gukVhEdzWdNZDYgQk/KMGpaC/SR7QZsyhjp8ov3oYb88SQm6EG9RJ1Q?=
+ =?us-ascii?Q?YcI4sHoZMF426okbfZSmw9TTXrusHpsNELnu9H/NSS0GKb7dkG4uTgKncRQS?=
+ =?us-ascii?Q?CSX5YZCuQiZVegaLVib2pt2oVxDX7aev6OCD1jcdCQR0Qp6YS8zeiJnMWsTK?=
+ =?us-ascii?Q?tHINkcQ6bapPFgU6NMLSv0AQVRs7ejpWYg6avSWPJcEr+Bxz/caHuEX1oipy?=
+ =?us-ascii?Q?KIhzsFqyGX1lJ7WlZVR+7vsx++hJ0ZA8UoUOtHwz5GkwoqVU6rKyRhUq5SWP?=
+ =?us-ascii?Q?HPS22WswK/SpCcQ2jxaTUckm8TGUdi/S+qS/39p3JR+bQKDqqney3dXG8g+w?=
+ =?us-ascii?Q?jYkUmMfbqG5RXa/EIoouXIv8a3TRXDw6ZcpZPeLD1NjTzgcNGyEg73tcHE5j?=
+ =?us-ascii?Q?y+KA0i9bHudnFNNUFm9RF/+K0RPq8f80quLAG3iO04M5AdzS590bnFajUb3x?=
+ =?us-ascii?Q?wSdoMbIwRNINisi9/OzZxtAX2wuf1vAmjXBeCkGBT9AJ3XzGLKE3kky2AoKT?=
+ =?us-ascii?Q?bPaugrvs15bOfHoMHNt9oSr3I2abmc8mgEiiz3b3WfQ8zwlw328YMOrkz7hT?=
+ =?us-ascii?Q?FBN7hdbk8UrfBafk25KCkLz/Ay3Hn8dH/d2KzxaqDralP9mNtx0pk54hI/uE?=
+ =?us-ascii?Q?FZmeQpSZd86ZQxDyLICx3HT2RR2vTo9OfKWpHg+jqezEC1dJF6Y9XevCoS/w?=
+ =?us-ascii?Q?oH44UFD0AMGEnh9eOezsYvL4MseaAdWaCkC7c9CY/ZbHHAgCgWI6o6zNCgdY?=
+ =?us-ascii?Q?gEVlF9XBRIfkzBgNBecwu9l0qzpanHzZvEg0gfrI2G/W0+yQjopU3uXX0s1C?=
+ =?us-ascii?Q?f/nQrXpfmiZ7nKmEiEafiC8x?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JMHHKJor+0bgFFsTR5gpmDeuVYkSvj8gAqUrpndUVz1sCJ4ExYzBlv5e2zo0?=
+ =?us-ascii?Q?zZ0EV5XUb8L8aRtx5JHJTNSGcpJ9KB2FTkzz72by2dY5IZM1oqIz0t2o2pB+?=
+ =?us-ascii?Q?q8f5xTLR2FsfMPaNGlPH+UcaqjT+PH2Mmbf34GirmVxYOr8meL+fSqcrS7M1?=
+ =?us-ascii?Q?sDi3Q5Lfh+BC5TF1LewUPD9DXqlHAWfOAbnApT5JldeRqbqCjzViu8iI/eod?=
+ =?us-ascii?Q?ntXnSEPcNHsYKP9oSuj/bd9nb1t9zIw8jbvzzlQJLujoSXnkTy0R5Ldt387A?=
+ =?us-ascii?Q?PO+6SaN0cHbB+r6cGBdB/u3DGzQ/EkhNwGfK+cQEoa/ghOagkWsasVx9gblT?=
+ =?us-ascii?Q?BrZiGbrwL6JarfYSoXTv4V7cTbhSOr5WSUTVP9Cg2pq1rKfpOT1EiUXmvpVZ?=
+ =?us-ascii?Q?bApfNfOEYoUnYt0nYoID0uev9eRbaRDjqDNx6G42NW7YBHoLLPMXDyx62Liq?=
+ =?us-ascii?Q?VTakSTOG/Rwk+ixvq6S+Ifc8N/44pBXc0F2KwBTKVbtZcskaCZwIs9v3eptG?=
+ =?us-ascii?Q?gf2MfoAhf8Bma/ptIhMyqzc3MzWDxGy7+xrXc1E5b4FTMdxkT7/843MZaoAv?=
+ =?us-ascii?Q?wWX5gSs9ruyz9w8c53YXnza33IG4VD9w03IcpYL4rTbssQj/aPrfmYaIwktH?=
+ =?us-ascii?Q?pE2049s6KqHi6LDIgULT6gbIynEedaaZQl0xVeWyoZscQMtc2/HQ85zx//It?=
+ =?us-ascii?Q?OcCDlIjNYv4JR5l+J01T8lEK5f+cYbAQZxHY2FEqqhqIwut+Ts6FOTlHv6Th?=
+ =?us-ascii?Q?c78grABoBFBbGMQSRc5hSCg7PAj4RScxHECK1zSAZA6pqgBNBA5O94Dm3xQ3?=
+ =?us-ascii?Q?y/tTgK1ixdRdhTaQ5PrNUu6+xvYpYnzk12KhwXEHMn+9NP634tCmf94xuCse?=
+ =?us-ascii?Q?MSCOgB8gZizRHaFbKisdm4K9j57R0eJlRq2pyYT05lorS7Nf9cprFeqFghCy?=
+ =?us-ascii?Q?MNt5BBfY+gsIZiB4wJ87q11jUH+XrpsPDkXyl+1Ek9BUGhxdm9ciBWI0spL6?=
+ =?us-ascii?Q?RPlSKpAEPR6S3RBKDXT/mUjTWq43arUuRkC6GupduTj7W+aS5wcP8Ghkcxce?=
+ =?us-ascii?Q?lw4UPEpuEFvtntfOT/L608kyiTGGAXllQL3A/fL5cNiXEiGTeeyJFRDetCUU?=
+ =?us-ascii?Q?Pb/7cIpmnFZ7Piu5JDQAGzpg9o+mohJQ0/uSPulbG3h5ZFI3GUF1wKbqKjYJ?=
+ =?us-ascii?Q?pYlCQckNjKowbHLsnIrysZu3cNOWrSIEhWLqn+/Qmasf7xxLAy0E7XzhhGEL?=
+ =?us-ascii?Q?nXaoXiWl/poKpKA8QrRRzIJ8Fdxcwrqub2sjg2rGqLnuTBAcOx2v7AVRMnwV?=
+ =?us-ascii?Q?lSlf2b/r9Zqq77VNEqkagfbLZjpeVd3ePLy3U8c9H/MEMgnAYYT0lb3XxSLI?=
+ =?us-ascii?Q?6UbqpWAe48+spUAwv2pZOf+MisHRoXC9538PLwLMjkMbqezkxZ7uuJZdBwej?=
+ =?us-ascii?Q?FxmYd8LnIvwAkQNEBSwPoAuJ3ZgPL6sYWkpjlIVapULKeN13gxYCtV5sMXeF?=
+ =?us-ascii?Q?wIl1wQTcbaUijUDcs+b8Al+VU+9kMfb9EVrF+L+b+BgzJjZQHQKp0j77gzJv?=
+ =?us-ascii?Q?niIbN1SgmZNQC3OvbzaodoC1KR9A7vXr5ppus21L?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2d420c8-411f-450f-7a99-08dcb5f9805a
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2024 09:23:58.7640
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZGCROC1TLXFXfdLFjHh6Rakgh/LRTWfRhJN2fyCpbfZj4+QRctw4SyQJ0M+RbwJcIURXlMV5vfjdkP6C2m7Z9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6425
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_020841_905511_26092243 
-X-CRM114-Status: GOOD (  20.01  )
+X-CRM114-CacheID: sfid-20240806_022403_624390_C18904FF 
+X-CRM114-Status: GOOD (  25.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,118 +202,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
+On Mon, Aug 05, 2024 at 04:54:45AM +0200, Christian Marangi wrote:
+> On Mon, Aug 05, 2024 at 06:52:04AM +0800, kernel test robot wrote:
+> > Hi Christian,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on robh/for-next]
+> > [also build test ERROR on linus/master v6.11-rc1 next-20240802]
+> > [cannot apply to mtd/mtd/next mtd/mtd/fixes]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvme-Document-nvme-card-compatible/20240805-014740
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> > patch link:    https://lore.kernel.org/r/20240804174414.18171-7-ansuelsmth%40gmail.com
+> > patch subject: [PATCH v2 6/6] mtd: parser: add support for Airoha parser
+> > config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/config)
+> > compiler: xtensa-linux-gcc (GCC) 14.1.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202408050612.Ya1m6REu-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    drivers/mtd/parsers/ofpart_airoha.c: In function 'airoha_partitions_post_parse':
+> >    drivers/mtd/parsers/ofpart_airoha.c:33:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+> >       33 |         prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+> >          |                ^~~~~~~
+> > >> drivers/mtd/parsers/ofpart_airoha.c:33:14: error: assignment to 'struct property *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+> >       33 |         prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+> >          |              ^
+> > 
+> > 
+> > vim +33 drivers/mtd/parsers/ofpart_airoha.c
+> > 
+> >     10	
+> >     11	int airoha_partitions_post_parse(struct mtd_info *mtd,
+> >     12					 struct mtd_partition *parts,
+> >     13					 int nr_parts)
+> >     14	{
+> >     15		struct mtd_partition *part;
+> >     16		int len, a_cells, s_cells;
+> >     17		struct device_node *pp;
+> >     18		struct property *prop;
+> >     19		const __be32 *reg;
+> >     20		__be32 *new_reg;
+> >     21	
+> >     22		part = &parts[nr_parts - 1];
+> >     23		pp = part->of_node;
+> >     24	
+> >     25		/* Skip if ART partition have a valid offset instead of a dynamic one */
+> >     26		if (!of_device_is_compatible(pp, "airoha,dynamic-art"))
+> >     27			return 0;
+> >     28	
+> >     29		/* ART partition is set at the end of flash - size */
+> >     30		part->offset = mtd->size - part->size;
+> >     31	
+> >     32		/* Update the offset with the new calculate value in DT */
+> >   > 33		prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
 > 
-> On 06/08/2024 3:49, Wang Yugui wrote:
-> > Rotational media(RMEDIA) support is added to the NVMe 2.0 specification.
-> > We add Rotational media(RMEDIA) basic support to nvme target.
-> >
-> > Signed-off-by: Wang Yugui <wangyugui@e16-tech.com>
-> > ---
-> >   drivers/nvme/target/admin-cmd.c   | 50 +++++++++++++++++++++++++++++++
-> >   drivers/nvme/target/core.c        |  2 ++
-> >   drivers/nvme/target/io-cmd-bdev.c |  1 +
-> >   drivers/nvme/target/nvmet.h       |  1 +
-> >   4 files changed, 54 insertions(+)
-> >
-> > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> > index f7e1156ac7ec..20a28102f8a0 100644
-> > --- a/drivers/nvme/target/admin-cmd.c
-> > +++ b/drivers/nvme/target/admin-cmd.c
-> > @@ -489,6 +489,53 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
-> >   	nvmet_req_complete(req, status);
-> >   }
-> >  > +static void nvmet_execute_identify_indep(struct nvmet_req *req)
-> > +{
-> > +	struct nvme_id_ns_cs_indep  *id;
-> > +	u16 status;
-> > +
-> > +	id = kzalloc(sizeof(*id), GFP_KERNEL);
-> > +	if (!id) {
-> > +		status = NVME_SC_INTERNAL;
-> > +		goto out;
-> > +	}
-> > +
-> > +	/* return an all zeroed buffer if we can't find an active namespace */
-> > +	status = nvmet_req_find_ns(req);
-> > +	if (status) {
-> > +		status = 0;
-> > +		goto done;
-> > +	}
-> > +
-> > +	if (nvmet_ns_revalidate(req->ns)) {
-> > +		mutex_lock(&req->ns->subsys->lock);
-> > +		nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
-> > +		mutex_unlock(&req->ns->subsys->lock);
-> > +	}
-> > +
-> > +	/*
-> > +	 * Our namespace might always be shared.  Not just with other
-> > +	 * controllers, but also with any other user of the block device.
-> > +	 */
-> > +	id->nmic = NVME_NS_NMIC_SHARED;
-> > +	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
-> > +
-> > +	if (req->ns->readonly)
-> > +		id->nsattr |= NVME_NS_ATTR_RO;
-> > +
-> > +	id->nstat |= NVME_NSTAT_NRDY;
-> > +
-> > +	if(req->ns->rotational)
-> > +		id->nsfeat |= NVME_INDEP_NS_FEAT_RMEDIA;
-> > +
-> > +done:
-> > +	if (!status)
-> > +		status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
-> > +	kfree(id);
-> > +out:
-> > +	nvmet_req_complete(req, status);
-> > +}
-> > +
-> >   static void nvmet_execute_identify_ns(struct nvmet_req *req)
-> >   {
-> >   	struct nvme_id_ns *id;
-> > @@ -706,6 +724,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
-> >   			break;
-> >   		}
-> >   		break;
-> > +	case NVME_ID_CNS_NS_CS_INDEP:
-> > +		nvmet_execute_identify_indep(req);
-> > +		return;
-> >   	case NVME_ID_CNS_CS_CTRL:
-> >   		switch (req->cmd->identify.csi) {
-> >   		case NVME_CSI_NVM:
-> > diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> > index ed2424f8a396..2790fedb593b 100644
-> > --- a/drivers/nvme/target/core.c
-> > +++ b/drivers/nvme/target/core.c
-> > @@ -1254,6 +1254,8 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
-> >   	else
-> >   		ctrl->cap |= ctrl->port->max_queue_size - 1;
-> >  > +	ctrl->cap |= NVME_CAP_CRMS_CRIMS;
-> > +
-> >   	if (nvmet_is_passthru_subsys(ctrl->subsys))
-> >   		nvmet_passthrough_override_cap(ctrl);
-> >   }
-> > diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> > index 0bda83d0fc3e..d15ad1a864bc 100644
-> > --- a/drivers/nvme/target/io-cmd-bdev.c
-> > +++ b/drivers/nvme/target/io-cmd-bdev.c
-> > @@ -104,6 +104,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
-> >  >   	ns->pi_type = 0;
-> >   	ns->metadata_size = 0;
-> > +	ns->rotational = bdev_nonrot(ns->bdev);
+> Mhhh somehow I can't repro this with instructions?
+
+Hi Ansuel, would you mind sharing the steps of reproduce? I can reproduce this with steps
+described in the repro link [1]
+
+[1] https://download.01.org/0day-ci/archive/20240805/202408050612.Ya1m6REu-lkp@intel.com/reproduce
+
+> -- 
+> 	Ansuel
 > 
-> Shouldn't this be !bdev_nonrot(ns->bdev) ?
-
-You are right. It will be fixed in next version.
-
-Thanks a lot.
-
-Best Regards
-Wang Yugui (wangyugui@e16-tech.com)
-2024/08/06
-
-
 
