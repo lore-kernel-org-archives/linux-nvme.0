@@ -4,168 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1673CC52D6F
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Aug 2024 03:30:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA17AC3DA7F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Aug 2024 12:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OTF5f8H/vg2QvU9W9xflrM+8f3KnOrTNC26y2NXB65Q=; b=ji/2fAqRSjbx7pWlMNbitC5ISK
-	VYd0grguesHQ+myJ9kGGBWHtJB5eLdoXQQ5JTH9zQlUkxoK07hSnUFdggAg4rhQ20chSZX+sY+AZM
-	mg6O5yNKxmN0m3fZSVbE4qwgm3PSfhjKt8Hg4typ2z4j5+zVbztV/Rky0ymX5E6w2kSpLuUn8tqDP
-	icWpsWT2kqPeKCxviwe/pCnmdQlfW2TXeI3MkrkLyzHOfL82b1VtzKOBRIHohKQSimWhqe8NR174u
-	lOfHLfv/SX08k1WO3pwogWqLmS6WeW0pVHyOLOJlI6TXAhahWMysr2yj3eIzy+9juOtSwUiMjLMDg
-	kBDT3aXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WuNDYTrrj/OWq/ui0fLt7dk0dWb6Lg3YGc0EyR1K/jE=; b=BA0wEmrTw/rAT7BsU3va5MvMvf
+	Hf4LCFbUJFtKNfikssmrE9wWHTJ73bA8f/Sh8X/VsizAawx/rCUFbyHtiEYghCZe/x9R9vByUv7Sz
+	10kZSnCOyD+cij1lBkg3wyyVK1Iioy2qsKv6Etz85eMTzvDhqjoXFCSD1PI/JBon8g97k2TI0Swnl
+	h/kRdSQZQnxcjixHk2BeVqWy2+Wfc/robtxujoL6w2u+rbRkMDrdEKN+L0Fo1ghjC7LBGttfcSEeO
+	x0ClZjuSSi0weIBvv7g1pa91ORtT0bof+LnvaiXjDq9YxNXwv5NwjNoCe76Ummm9fviFbba7RwZ8W
+	Ho9acp7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbXNx-00000003iO3-31Xf;
-	Wed, 07 Aug 2024 03:30:49 +0000
-Received: from mail-centralusazlp170100005.outbound.protection.outlook.com ([2a01:111:f403:c111::5] helo=DM1PR04CU001.outbound.protection.outlook.com)
+	id 1sbfZ3-00000004yLR-1ic1;
+	Wed, 07 Aug 2024 12:14:49 +0000
+Received: from mail-wr1-f54.google.com ([209.85.221.54])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbXNu-00000003iNE-09Ah
+	id 1sbfYi-00000004yH4-1RQL
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Aug 2024 03:30:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bKvKJRKZ8mwp91Q+KBTOUtVZQPtegXu76soK150/SGuDX6dxdlUvUEInPDDEVI24rIcFgNStLkc6cCsJXqmklKeU7jBusW8iZTOUrCsU7SUpbZXwRegu3+KHxfVm8jbKk50cHiyHWCcx/PbuM0VqGQSwSvq1H9JKEfmBEfMrGu/sHXT/7QHMc/Bu/z1vV7SjgetqTgOhqcholWLXr4GQa+RkaTv+aeWOgwXV849oNaBqssyYf6eeToSjyjaIxHBWgge66eExKnVOQQhTZ7ojWFXMb/H/TM5vkdWWZkN5jlMxP4MVQt7r2MWLMOdG8I0aYTC6HgF2exQeWZVQgeOBNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OTF5f8H/vg2QvU9W9xflrM+8f3KnOrTNC26y2NXB65Q=;
- b=eUD/P/pEVcAdyoCsPcOmxD1CLIR5hLthfjh1LSkaJbJ2aFcHyMvYSvQRtAvWSeggXGne4/KcqJ4Qs5BZ8E9mCo0VDFu1ruYW114nnD+25gE0P2xHcmn8pqJ2hhRaqdx508ov2Rlmp9mP08dqzSShn0Cb/Vao/OsiePiF6/YC7WOLdmhgLJfN8f1V48y0f/2UVNWGYeJak3XMs+bBlWpomyJbRUQNxq7JiIfEcshJ3WTwk7TP3IgYzJrWhXNzs0C9OFtep/2F0CmsGH1DyOF1H8gRNeUzBxbgV33rOKlJQknpo1H1SZ5FB3hFqEyYxZQZ4UxXLBTP2PWsFRs3YoiMqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=psmnv.com; dmarc=pass action=none header.from=psmnv.com;
- dkim=pass header.d=psmnv.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=psmnv.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OTF5f8H/vg2QvU9W9xflrM+8f3KnOrTNC26y2NXB65Q=;
- b=Do7CZsLKnZc6qDt/xlxTCoYohiSflvQAfuP4wWFEVQhdGgXTpUbyo4MvLQ2c3aiNU+9BZmDKWLnOWXg35NfoEzPYmm6wJPPnfrBwibJv7PQCR1hUTs0lZqI6R6o9bZnAvAjbSqFrmSN/+P6WqsyO4+4NcvDlwEROx9eNBoEc8y4=
-Received: from SJ0PR03MB6501.namprd03.prod.outlook.com (2603:10b6:a03:386::18)
- by MN2PR03MB5328.namprd03.prod.outlook.com (2603:10b6:208:1e2::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.23; Wed, 7 Aug
- 2024 03:30:42 +0000
-Received: from SJ0PR03MB6501.namprd03.prod.outlook.com
- ([fe80::520:c240:b60c:57b]) by SJ0PR03MB6501.namprd03.prod.outlook.com
- ([fe80::520:c240:b60c:57b%5]) with mapi id 15.20.7807.026; Wed, 7 Aug 2024
- 03:30:42 +0000
-From: Eric Robinson <eric.robinson@psmnv.com>
-To: Keith Busch <kbusch@kernel.org>
-CC: Daniel Wagner <dwagner@suse.de>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-Subject: RE: Disk Says It is Full But There's Nothing on It
-Thread-Topic: Disk Says It is Full But There's Nothing on It
-Thread-Index: Adrnh75MzNJkXFWcSMupUSjuDERcWgAbfTgAAAMQYXAADoXcAAAAtK2wAAxuOAAAAku5kA==
-Date: Wed, 7 Aug 2024 03:30:42 +0000
-Message-ID: <SJ0PR03MB6501BFAE090733BFC57F1430FAB82@SJ0PR03MB6501.namprd03.prod.outlook.com>
-References: <SJ0PR03MB65014AE3AD77A352D0C88855FABE2@SJ0PR03MB6501.namprd03.prod.outlook.com>
- <zsyfgzmoyvjgvywkbkgtxchpfei3pyfcaf2mzu4gltraf34ymx@vocftyxjmedn>
- <SJ0PR03MB65010C717291244293A88CAEFABF2@SJ0PR03MB6501.namprd03.prod.outlook.com>
- <vqbcmbet5jfbhmjfuhr66om2ta5lw2octpynjdzyvk66ok47kd@oj7vhatyai3g>
- <SJ0PR03MB650188563CEBA3B2E6D2130BFABF2@SJ0PR03MB6501.namprd03.prod.outlook.com>
- <ZrLaTHyvN6F7qZf5@kbusch-mbp>
-In-Reply-To: <ZrLaTHyvN6F7qZf5@kbusch-mbp>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=psmnv.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR03MB6501:EE_|MN2PR03MB5328:EE_
-x-ms-office365-filtering-correlation-id: e67a3bea-a324-45dd-f5ef-08dcb69150cf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?aXhaSlZXZFF2SDBsY2VoS3h1SUhZQkJrd2twcmVrSCtiaDZOMlIwVDA1bUdY?=
- =?utf-8?B?VEtTZjE4MzV0SFpzMXY3Y0hMTkhXem80eXk4VFVORjE1NVNkM0pRVHhDdjRZ?=
- =?utf-8?B?NFhjOFZsbzhCbnkrTENiNGpTRVU0VXFXbVdrRkVnYUN3ZExBUHFUb0IrYWs2?=
- =?utf-8?B?M0s3L2UwdDRmQVR4SEYvMWtIVkhpb0h0eDkwN0xmQlhVckZZRC9DOFQrRFRN?=
- =?utf-8?B?U2V5NzExTkFUWFgvM09ybVdGNElNQnl1UkRGWkx1OTI0QSt1aTlGQnNMRlFU?=
- =?utf-8?B?R0ZQYWZvY1UzWGdra2UvdCsyb2pZcTVybWh5WW0vWmtNUC9pN3JxelRaSjll?=
- =?utf-8?B?TnoyclY0SnlWVmJHMXJzK3FzZGJ1Qk1pa2JVTHAzV3FpMHFKSm90Z0oybElo?=
- =?utf-8?B?dHVFM25COHBVR2RZV00wMU9HbkNPOTVCdFZNZW81MWw4bXpCanpQTFY1OUlB?=
- =?utf-8?B?QlpwazFQZmFoK25jWW9pWEZ5dFJYM3habTE2WjFWb3ZQa29od3BNTUx0dTBV?=
- =?utf-8?B?YjlIeWdVTm9YWGllN014bUgySHg2TnhaTk9RVVVId3VRdEZDc3FjS2FZLzNV?=
- =?utf-8?B?UURKSDB4K1pvZHNWT3lLd0wvNkl0dWx4cG56YVc0bHl4SlhFZlV2M201UVBi?=
- =?utf-8?B?WUo5cHhESjBiUGRuZmJKYXJodmFJaStXSzlhTS9yTWxOT2NNNTBST2M2STU5?=
- =?utf-8?B?SWF3eWRORGM3bG1PZ0dwaVRpcjA5Vk5iN0F2WmJBS2VFMlVzeVdqUm9ZSUM1?=
- =?utf-8?B?VE1KanNxK0IzZXRxc3ZtRVBHZWxpaUI2TXBPaFdzTUhVNUg2WUwyN3FqMUVu?=
- =?utf-8?B?VzQwekFzdXpTVU82aXJZaE00WVpRTk8zaGJhTm1wRTlheDc4ejlDcjBhRFp0?=
- =?utf-8?B?U21NMG1pV2FDejY0Qmh0aUVhc0l0VGxsVWgyTjhkVVdwMzlJNzFDR0l2c0Ns?=
- =?utf-8?B?ZmdKL3NjYlNGUk83cjZIaGpLUnpTbFI3UjVqemI0V0R2akV2OHJRZS9kK04w?=
- =?utf-8?B?S2FoM3lBTE9maExmQVdIajg3RWlSajRua1pBeE9USXdwWlJUSFhjK2hTSTRB?=
- =?utf-8?B?Y21nMTdQSnFXUzcvRGxOb3laa2p1Tm0xbE8xTTczb1k1Q0lpQnpZNWxONFlp?=
- =?utf-8?B?a25INUtJKzYxNlFKeGxEa2RXZ2dhREJsL3JxeU9jNmdGM21HTVVsL1NKR0VD?=
- =?utf-8?B?MEgzWHhvMTk0WkpndUxPVWt3SCs0WUxmRzBCam5EOXl3Z1FtdUplcytrTWF0?=
- =?utf-8?B?OUJSNXVVTEVNZVdTTGJSaVVZTGExaXlrZW91N3orWmNwa1h1aWlCK3pONyta?=
- =?utf-8?B?UEQyVlUrM2ExcGJ4RWgxVkt0RkxkMnp3TTRqK3VRTmxsSTFDSVpQWGRwNGxo?=
- =?utf-8?B?R2pNSzhCMFc2ZzNTeURzSmhQa3RIY0szR2p3SzQ4WUh1MHNad2pEWTVWZHMw?=
- =?utf-8?B?dlBGUUZJei9rbDRxUEtPZ2pPRjVTV1p3RzAvT0pSMGhVS0Z2TENkQW5QTGVZ?=
- =?utf-8?B?Q0JBR3ZqWlJWUUNCai9BYzNLN0daMXpYWEpoc09kd1pNMkkzUkFHd3hTK3Y0?=
- =?utf-8?B?VHlBZ0xDYnZTaVloUVB5d2dITlhCY1JPTEw3Ujg4UDVpbHQvVXRvVVpFVTVI?=
- =?utf-8?B?K0FWUytsOXR0WVUrVnQwQnVqSEtLRy9QOEFUd2s0eGlXZGZCVXBadVl6Szdk?=
- =?utf-8?B?VTYwNVJtMXNxc0VzcGFITWJiVVVkOVM3TnFmVWFnVlM4TG5Ka3RhaE1XaGcr?=
- =?utf-8?B?K094TTN0RWNCc080L0hUa1J6ekpnRm1ZbnFEcDNXSnF2NWRUQ0JRNDY4ajFt?=
- =?utf-8?B?cVRSKys1N3VXdk5QYkNGVENwMFhwdzhoOG5tM3ZOY0Rrd2k4L0VYbGJGVks5?=
- =?utf-8?B?MVcrb0xHTHdKVVBXanZiYjBrQ2lKSzFBL1NqMEFCRU5WUUE9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6501.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RTRMOEFHTVpiN0p4OStKYnVWK0JFWEdGbklVenU5U1NtOVZueTM1QXU1MUw3?=
- =?utf-8?B?VEovRm11cDFiN2Y5a1RkeUkyd1NMenZXekZGZWhhd0I2akFDbGFJUDdETTdi?=
- =?utf-8?B?MXFVemlxNkorMmNRazRkY3BIYnFyelRDOWxnMG96V3dScUoxTDZpU2p0bVB3?=
- =?utf-8?B?QjVkZGZud2t4eStGTjhhMUtSdDE0QkhzRlU0d29JeGFrUjNQbW9XRG1DaHBk?=
- =?utf-8?B?ME9kd3dQZDM1MlZVd2dQWUZKeU9ocXA0M1EvR2p4Q01xWmg5MFl6Q014K3o2?=
- =?utf-8?B?em01b3JmWGtPR0RLckQ4cjFNYllldDFmUXNtMmxBRHpraEhpcFMxcXEyWWZq?=
- =?utf-8?B?SFBHc2pGQ0Mza3I5bnJ4ZlpXS2RqK0JMM2tJdnJUVnIxY1hUUDVnOFhSUEoy?=
- =?utf-8?B?amprWnRMVDg4OGRIY3ZVcStSVE9JbUVNcE9GZTN6SDdiU3NhVi9WaHBqeENT?=
- =?utf-8?B?bDRaWGdrWCs1UGpxSGtIUmF0RnplcUlJNjFJaTBYY0xBa0FvK3I4T205OEgy?=
- =?utf-8?B?ejFqenRxN3RQUDRlajlLbW8zbklyWXNub1cwVTBoRU12Y0RHVHJJdzZJNDBo?=
- =?utf-8?B?SS9pRXI5WGczWjhLWXJ4SVFLYkhvTkVJaUNvS3RIVEFGdi9vMWlLQUFlOWc0?=
- =?utf-8?B?Vk12L1pWdDhrdVpzUTNBMCt4U0g4eVJFem4rN25XS043YnJ3YWxGa05qem5m?=
- =?utf-8?B?UjBDMDdUeHVHL2VUWWszMzh5SFNVOEcveTV0VXdYWnBEWVBYK2kzb1NqcE5p?=
- =?utf-8?B?UXA3eWtTd0p3RFF0dFFuNWRaRFhFeWFRa3IzcFVlemp6NGxRYmN1RjhSSGRF?=
- =?utf-8?B?NmxuQkpOd3BsUTIrbms2aVNRNXdZaGtuUjFVUllsOG10ZjFGa1M4T0V5bGRj?=
- =?utf-8?B?Tk01R0FoY1lXcVl1d2lEc1RSUmYvaWRoU1Z6eXpjSXdLR2hRNnphNkNFcS9p?=
- =?utf-8?B?aWpDcnhRZlJ5TXBlMHVFYUlpSm9yNWFwSUNwNU4rclRxN0xNQWQvVEFhWjY2?=
- =?utf-8?B?V1FGcWljRzNWUG1oVytKQXN2S25peVMybkRWRTRiaE9mcWJqaDBQdFFXRmR6?=
- =?utf-8?B?SWJYVHlnVFJjakUzdmVhSDV5enowYThaZi95c0JtVkw5Z2NnblVLSlFrK2hh?=
- =?utf-8?B?NGQxcExBWEFiZFh1OHMxWjU4Y1pQelVlMzN5Y1lLZHpsclU4ckJUOW11RW15?=
- =?utf-8?B?TW5EY0JjbXV2d3VuSnVnSDRPQUkvN3dhMU9Da3VKdHFvQ3h1NlN5N05nWXVu?=
- =?utf-8?B?WkcvSlQvcWlsNzJaZk1VVENodnVDc3owMjMyMit6SjdKMnNXMFdmVzFGRnNV?=
- =?utf-8?B?VHM2WjFRcmxCNmE5UzI0MVRQTkRXcHlBK3NodkZQTzNHUWxXd01nMEZpVTl1?=
- =?utf-8?B?MW9RNjBKT0k0UnR4dmkrWFdMQmxLM2hsQ2Irc1Y2b0FFUEpkNFIvT0ttOGNS?=
- =?utf-8?B?Q0FXM3F2cmFHbWppLy9tSTN5bHpsVm5ESXVnbGJMNURudUQralRYem5YZFYw?=
- =?utf-8?B?WVA3bm9SYWlSN1JGSkY3TnZER3NCMmhEMGx3aDJUNkhwSFNPSXNIakljWTRU?=
- =?utf-8?B?a1hrMlAzTkhRem1kOUx0L2dEZitkeHQ5clhJY2RBUTN0R21TUTA0c3QxbkRZ?=
- =?utf-8?B?NHZrVHBabHVLZ3BFRjd2SzEzL1RlMkhHRnFYQVgwb2NOMGlhZld4Z05Lby9K?=
- =?utf-8?B?UU91YnlaTkI0bXMxU0FOL1JLN0IvTmlETlNtK293MjE3Ym5iamo0VFFOWkNG?=
- =?utf-8?B?ejJZRTFBMEl5VVBQNitkMmRKZTd2N2lza2Z0REtBT3RNTlYrWnBaekJ2elBi?=
- =?utf-8?B?ZjBybVRDL0xZS3k1NUZWQXNSL1F3aTkxVTU2ZkZpTGlkVkorcmNFQkpTTjhw?=
- =?utf-8?B?aHovS2dObThyRk1lRHcwMnVzRXlNMTVweEFIZk5EMi9DSGZlaVNxVVpySHZP?=
- =?utf-8?B?bUF4eXl6WWNVMHJuM2VVZEJXY0RlMTM5d2hYZ3dIQUpXUnZtTUExam9iNzgz?=
- =?utf-8?B?RVBhR3NxOXlkSitDOUxpVW4yaFJONm5RVHFSNDdsckV3YnJnaU5vU1BrYWE5?=
- =?utf-8?B?N05aVVpzSzNVUlZ6czNqN2VzV1RSamxIa1BxeFJYa05MZDJ1KzIwWkN3NG5n?=
- =?utf-8?Q?eQQ+BkXu1/JjjggUHHrfqAKN4?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	Wed, 07 Aug 2024 12:14:29 +0000
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-36874d7f70bso230250f8f.1
+        for <linux-nvme@lists.infradead.org>; Wed, 07 Aug 2024 05:14:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723032866; x=1723637666;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WuNDYTrrj/OWq/ui0fLt7dk0dWb6Lg3YGc0EyR1K/jE=;
+        b=CT2TOdyK13hziSN/t6gA+LWbNF2+oBM/OE7Hqvv+eFxjV/K7gvrl369p8xXD2MGWRD
+         F7q2BdJNQ0QC39MwH44M2jAg7HrJc7Ih5VlV933kmCuzmeZvaYu8MHFke9kH/QqCj99i
+         PyKhvejsZ7WqrWIIImjEuHA2vAnvSFKrYRaD2sucY8K2tPrukKRgOrW8ZN38oC4isizE
+         eJu0/W9YIngHqxizLd8+dvHrXvzioaxrjubMHZxhNvIwjbo5mRCESojriHB0Bmenx0ab
+         teJgT6dMea7Kc2BOhbW/ryhgxeYUpTG73biM/1lbik3uY2fr+LzQkY/0ktCiXrsh2dqf
+         iQJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIaCs72NeuthJDJ+bTh+VlHui6gaFVvmZF7WmiBd82DDWk7DkZ9i4CJBWJlS4T8Ge71bKZK0HwJT7u@lists.infradead.org
+X-Gm-Message-State: AOJu0YzKhfaPHEoDcCAQIUJa1x2U/BC8TpCTxrs3Ye4ovdN8VxCWTEdZ
+	HZfvl+vSmAeW+DxyKrDpjFWSGdU/QooXbQBS5/po88ZGC6ev/sxjNrEn6w==
+X-Google-Smtp-Source: AGHT+IEkpAZ1aPrgVnAONWdVwMrWWyAoPW5jRlXQmSfoka9OUCCOHw7lCjAZNkUIxmsFhevBbh1cVA==
+X-Received: by 2002:a05:600c:4515:b0:426:6cd1:d104 with SMTP id 5b1f17b1804b1-428e6b98524mr79903535e9.4.1723032865103;
+        Wed, 07 Aug 2024 05:14:25 -0700 (PDT)
+Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429057a9d9esm27150045e9.27.2024.08.07.05.14.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Aug 2024 05:14:24 -0700 (PDT)
+Message-ID: <4fca6886-beed-4615-b01f-52499d0f01d2@grimberg.me>
+Date: Wed, 7 Aug 2024 15:14:23 +0300
 MIME-Version: 1.0
-X-OriginatorOrg: psmnv.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6501.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e67a3bea-a324-45dd-f5ef-08dcb69150cf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2024 03:30:42.1637
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 41c01403-a265-4172-8028-7972e133fa87
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yN1CcnGg0jHwGGE+r+N0cgjR0mqRrfxDBHZ1FlylivAmWbuklWuiOq9L71kpSawp/qgQ4WF22bc54YbKMccvOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB5328
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3] nvmet: basic RMEDIA support for target
+To: Wang Yugui <wangyugui@e16-tech.com>, linux-nvme@lists.infradead.org
+References: <20240806004928.27605-1-wangyugui@e16-tech.com>
+ <20240806124026.43168-1-wangyugui@e16-tech.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240806124026.43168-1-wangyugui@e16-tech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240806_203046_106412_9453DF09 
-X-CRM114-Status: GOOD (  18.04  )
+X-CRM114-CacheID: sfid-20240807_051428_418504_6C2B6347 
+X-CRM114-Status: GOOD (  23.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,38 +81,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLZWl0aCBCdXNjaCA8a2J1c2No
-QGtlcm5lbC5vcmc+DQo+IFNlbnQ6IFR1ZXNkYXksIEF1Z3VzdCA2LCAyMDI0IDk6MjIgUE0NCj4g
-VG86IEVyaWMgUm9iaW5zb24gPGVyaWMucm9iaW5zb25AcHNtbnYuY29tPg0KPiBDYzogRGFuaWVs
-IFdhZ25lciA8ZHdhZ25lckBzdXNlLmRlPjsgbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3Jn
-DQo+IFN1YmplY3Q6IFJlOiBEaXNrIFNheXMgSXQgaXMgRnVsbCBCdXQgVGhlcmUncyBOb3RoaW5n
-IG9uIEl0DQo+DQo+IE9uIFR1ZSwgQXVnIDA2LCAyMDI0IGF0IDA4OjI4OjA1UE0gKzAwMDAsIEVy
-aWMgUm9iaW5zb24gd3JvdGU6DQo+ID4gRGlzY2xhaW1lciA6IFRoaXMgZW1haWwgYW5kIGFueSBm
-aWxlcyB0cmFuc21pdHRlZCB3aXRoIGl0IGFyZSBjb25maWRlbnRpYWwgYW5kDQo+IGludGVuZGVk
-IHNvbGVseSBmb3IgaW50ZW5kZWQgcmVjaXBpZW50cy4gSWYgeW91IGFyZSBub3QgdGhlIG5hbWVk
-IGFkZHJlc3NlZSB5b3UNCj4gc2hvdWxkIG5vdCBkaXNzZW1pbmF0ZSwgZGlzdHJpYnV0ZSwgY29w
-eSBvciBhbHRlciB0aGlzIGVtYWlsLiBBbnkgdmlld3Mgb3INCj4gb3BpbmlvbnMgcHJlc2VudGVk
-IGluIHRoaXMgZW1haWwgYXJlIHNvbGVseSB0aG9zZSBvZiB0aGUgYXV0aG9yIGFuZCBtaWdodCBu
-b3QNCj4gcmVwcmVzZW50IHRob3NlIG9mIFBoeXNpY2lhbiBTZWxlY3QgTWFuYWdlbWVudC4gV2Fy
-bmluZzogQWx0aG91Z2ggUGh5c2ljaWFuDQo+IFNlbGVjdCBNYW5hZ2VtZW50IGhhcyB0YWtlbiBy
-ZWFzb25hYmxlIHByZWNhdXRpb25zIHRvIGVuc3VyZSBubyB2aXJ1c2VzIGFyZQ0KPiBwcmVzZW50
-IGluIHRoaXMgZW1haWwsIHRoZSBjb21wYW55IGNhbm5vdCBhY2NlcHQgcmVzcG9uc2liaWxpdHkg
-Zm9yIGFueSBsb3NzIG9yDQo+IGRhbWFnZSBhcmlzaW5nIGZyb20gdGhlIHVzZSBvZiB0aGlzIGVt
-YWlsIG9yIGF0dGFjaG1lbnRzLg0KPiA+DQo+DQo+IFBsZWFzZSBmaXggeW91ciBlbWFpbCBjbGll
-bnQuIFRoaXMgbWVzc2FnZSBpcyBub3QgYXBwcm9wcmlhdGUgZm9yIHB1YmxpYyBtYWlsaW5nDQo+
-IGxpc3RzLg0KDQpUaGF0J3Mgbm90IG15IGVtYWlsIGNsaWVudC4gVGhlIGRpc2NsYWltZXIgaXMg
-YXBwZW5kZWQgYnkgb3VyIGNvcnBvcmF0ZSBlbWFpbCBwcm92aWRlciBhbmQgaGFzIGJlZW4gdGhh
-dCB3YXkgZm9yIGEgY291cGxlIG9mIGRlY2FkZXMuIE5vdCBtdWNoIEkgY2FuIGRvIGFib3V0IGl0
-LiBTb21lb25lIGNvbW1lbnRzIG9uIGl0IGFib3V0IG9uY2UgcGVyIGRlY2FkZS4g8J+Yig0KDQoN
-Cg0KDQpEaXNjbGFpbWVyIDogVGhpcyBlbWFpbCBhbmQgYW55IGZpbGVzIHRyYW5zbWl0dGVkIHdp
-dGggaXQgYXJlIGNvbmZpZGVudGlhbCBhbmQgaW50ZW5kZWQgc29sZWx5IGZvciBpbnRlbmRlZCBy
-ZWNpcGllbnRzLiBJZiB5b3UgYXJlIG5vdCB0aGUgbmFtZWQgYWRkcmVzc2VlIHlvdSBzaG91bGQg
-bm90IGRpc3NlbWluYXRlLCBkaXN0cmlidXRlLCBjb3B5IG9yIGFsdGVyIHRoaXMgZW1haWwuIEFu
-eSB2aWV3cyBvciBvcGluaW9ucyBwcmVzZW50ZWQgaW4gdGhpcyBlbWFpbCBhcmUgc29sZWx5IHRo
-b3NlIG9mIHRoZSBhdXRob3IgYW5kIG1pZ2h0IG5vdCByZXByZXNlbnQgdGhvc2Ugb2YgUGh5c2lj
-aWFuIFNlbGVjdCBNYW5hZ2VtZW50LiBXYXJuaW5nOiBBbHRob3VnaCBQaHlzaWNpYW4gU2VsZWN0
-IE1hbmFnZW1lbnQgaGFzIHRha2VuIHJlYXNvbmFibGUgcHJlY2F1dGlvbnMgdG8gZW5zdXJlIG5v
-IHZpcnVzZXMgYXJlIHByZXNlbnQgaW4gdGhpcyBlbWFpbCwgdGhlIGNvbXBhbnkgY2Fubm90IGFj
-Y2VwdCByZXNwb25zaWJpbGl0eSBmb3IgYW55IGxvc3Mgb3IgZGFtYWdlIGFyaXNpbmcgZnJvbSB0
-aGUgdXNlIG9mIHRoaXMgZW1haWwgb3IgYXR0YWNobWVudHMuDQo=
+
+
+
+On 06/08/2024 15:40, Wang Yugui wrote:
+> Rotational media(RMEDIA) support is added to the NVMe 2.0 specification.
+> We add Rotational media(RMEDIA) basic support to nvme target.
+>
+> Signed-off-by: Wang Yugui <wangyugui@e16-tech.com>
+> ---
+> changelog of PATCH RFC v3
+> - restore the process nvmet_req_find_ns() dropped in v2
+> changelog of PATCH RFC v2
+> - change 'bdev_nonrot(ns->bdev)' to '!bdev_nonrot(ns->bdev)' based on comment.
+> - add some support for 'nvme cmdset-ind-id-ns'
+>
+>   drivers/nvme/target/admin-cmd.c   | 42 +++++++++++++++++++++++++++++++
+>   drivers/nvme/target/core.c        |  2 ++
+>   drivers/nvme/target/io-cmd-bdev.c |  1 +
+>   drivers/nvme/target/nvmet.h       |  1 +
+>   4 files changed, 55 insertions(+)
+>
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index f7e1156ac7ec..20a28102f8a0 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -489,6 +489,54 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+>   	nvmet_req_complete(req, status);
+>   }
+>   
+> +static void nvmet_execute_identify_indep(struct nvmet_req *req)
+> +{
+> +	struct nvme_id_ns_cs_indep  *id;
+> +	u16 status;
+> +
+> +	id = kzalloc(sizeof(*id), GFP_KERNEL);
+> +	if (!id) {
+> +		status = NVME_SC_INTERNAL;
+> +		goto out;
+> +	}
+> +
+> +	/*
+> +	 * Our namespace might always be shared.  Not just with other
+> +	 * controllers, but also with any other user of the block device.
+> +	 */
+
+Non useful comment. especially the other users part...
+
+> +	id->nmic |= NVME_NS_NMIC_SHARED;
+> +
+
+unneeded newline.
+
+> +	id->nstat |= NVME_NSTAT_NRDY;
+> +
+> +	/* return an all zeroed buffer if we can't find an active namespace */
+> +	status = nvmet_req_find_ns(req);
+> +	if (status) {
+> +		status = 0;
+> +		goto done;
+> +	}
+
+I think this should move up to be first...
+
+> +
+> +	if (nvmet_ns_revalidate(req->ns)) {
+> +		mutex_lock(&req->ns->subsys->lock);
+> +		nvmet_ns_changed(req->ns->subsys, req->ns->nsid);
+> +		mutex_unlock(&req->ns->subsys->lock);
+> +	}
+
+This should move down to be last.
+
+> +
+> +	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+> +
+> +	if (req->ns->readonly)
+> +		id->nsattr |= NVME_NS_ATTR_RO;
+> +
+> +	if (req->ns->rotational)
+> +		id->nsfeat |= NVME_INDEP_NS_FEAT_RMEDIA;
+> +
+> +done:
+> +	if (!status)
+> +		status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+> +	kfree(id);
+> +out:
+> +	nvmet_req_complete(req, status);
+> +}
+> +
+>   static void nvmet_execute_identify_ns(struct nvmet_req *req)
+>   {
+>   	struct nvme_id_ns *id;
+> @@ -706,6 +745,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+>   			break;
+>   		}
+>   		break;
+> +	case NVME_ID_CNS_NS_CS_INDEP:
+> +		nvmet_execute_identify_indep(req);
+> +		return;
+>   	case NVME_ID_CNS_CS_CTRL:
+>   		switch (req->cmd->identify.csi) {
+>   		case NVME_CSI_NVM:
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index ed2424f8a396..2790fedb593b 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -1254,6 +1254,8 @@ static void nvmet_init_cap(struct nvmet_ctrl *ctrl)
+>   	else
+>   		ctrl->cap |= ctrl->port->max_queue_size - 1;
+>   
+> +	ctrl->cap |= NVME_CAP_CRMS_CRIMS;
+> +
+>   	if (nvmet_is_passthru_subsys(ctrl->subsys))
+>   		nvmet_passthrough_override_cap(ctrl);
+>   }
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index 0bda83d0fc3e..d15ad1a864bc 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -104,6 +104,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+>   
+>   	ns->pi_type = 0;
+>   	ns->metadata_size = 0;
+> +	ns->rotational = !bdev_nonrot(ns->bdev);
+>   	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY))
+>   		nvmet_bdev_ns_enable_integrity(ns);
+>   
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 190f55e6d753..86eeeadf3787 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -62,6 +62,7 @@ struct nvmet_ns {
+>   	struct block_device	*bdev;
+>   	struct file		*file;
+>   	bool			readonly;
+> +	bool			rotational;
+>   	u32			nsid;
+>   	u32			blksize_shift;
+>   	loff_t			size;
+
 
