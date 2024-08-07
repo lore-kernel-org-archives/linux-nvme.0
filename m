@@ -4,143 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC353C52D6F
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Aug 2024 12:54:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0AF2C3DA7F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Aug 2024 21:29:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=; b=BAcDlQboFwhyNwHu+D6PtRnVpo
-	IS65WOli2gVShpAnRwh/YpCqGF/Hjel7urtG7Xh+IUHS4ZQbc5aXvm2gDX2jrIIIjFK9q44oWXwt9
-	ygxbAiG5cxJGy6yWVDYAACeQCzCDlu6Z9dis0lnOYj4nICCBr/kudFxFEQ+Hb3bpl+Qf53VhiVeZg
-	8Xnm9/cOdCGX/5/2Ea3QfYH3S7muQu43BjosPKbqcQcWMTXlM1/FmRxSuLXFtt7NE1GROL3lyriB0
-	0tRxL++NBF9qhTv3lL9mm711wNaQWWBw9LEPwZV0OY+ovLabd3S/R8QG/HhPoSaKHSh+ZBVV8jx2i
-	5JQS1J4w==;
+	bh=ruwTAj3D9XWkETMzAnkpM6U/B28FpiNVG0xBS7q7En0=; b=e+g4oDf0gcbMf3rAf8QBv3sdYq
+	Hm0LByyBLy2Djg8nQahSgkb1jMAD34Vr/TMvnjcNdjLdNvrA6sCseRnQ9kmfDiDD5ilio5BKr7m+E
+	eXLWY1Dltl7JuIh4xDPatR7rnnVYJbrN3HvUOYxfaqBbCikLblBgksbSNSyUu28AQBEbosK/lRA0k
+	LqpLadB1vMG/gjzdm9tPyBgIJ+73hv9W4BMzmskOH5QYq+yDZHJDvV9ZRy4VQzSW/vcedA2wZsyxg
+	zZlsmJ0Uy1CVPIvBm/EGob+sIgFNc5poV4ms0mlfemUqYSrVnDUY168Q1uBgLDH0A02Ydk+ZIZSeq
+	rxzqVTjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbgBS-000000053LK-3nEn;
-	Wed, 07 Aug 2024 12:54:30 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1sboDr-00000006Klj-0gCM;
+	Wed, 07 Aug 2024 21:29:31 +0000
+Received: from mgamail.intel.com ([198.175.65.17])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbfjc-00000004zVH-3eLr
-	for linux-nvme@lists.infradead.org;
-	Wed, 07 Aug 2024 12:25:48 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5CA421F396;
-	Wed,  7 Aug 2024 12:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723033541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
-	b=bd3Wn+py9efQxXW3smgg7jWhVe14RwWStx4yd+9rm3RSots00g1+pMF8Rxi99XkI0Oa3ZV
-	ffKJfsoGd9hBJyR79g97A1yjz+avRUU3YYCJrFi9CxgZAD8tXLWQTLz5AuzkAA1I7R0hHZ
-	HZuFqDRcKeYfr0PX9SAmW8igYpYe4tY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723033541;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
-	b=8fQVj1Psr2pB7zzi/JFRxgVGhdNpUPbPydqVCH7CJ8h1B91xrbmHVjI8k2KN7bzY+/JOzM
-	ULLsvKvFhNPorcDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oop01eNG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=J8Ka3YmO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723033540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
-	b=oop01eNGkx0mPBr5oUBWM9I23aXnYMryYtskQ6clC/qMJ7j1BufNd5fgbi7VxkLJbvuJC/
-	faVEHigyzxcey6HK1izbuRtp7Om3kmkKMGiwHlV0K/+84vH+UIM2PeAZL6x1ylUaF7Mz7H
-	9nU9fGSf6VEoXf6nprg90vwlmZnIkws=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723033540;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
-	b=J8Ka3YmONW96GsfVhq+lIJJXvXtL3PEvRJKVAvV1diw1Y6hN2UdE5T1a2fUvsbPp1uojOU
-	sf7KQNJ7IfQSarDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E75313A7D;
-	Wed,  7 Aug 2024 12:25:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /cv6DsRns2YzQQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 07 Aug 2024 12:25:40 +0000
-Date: Wed, 7 Aug 2024 14:25:39 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
-	Christoph Hellwig <hch@lst.de>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Kashyap Desai <kashyap.desai@broadcom.com>, 
-	Sumit Saxena <sumit.saxena@broadcom.com>, Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>, Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, Nilesh Javali <njavali@marvell.com>, 
-	GR-QLogic-Storage-Upstream@marvell.com, Jonathan Corbet <corbet@lwn.net>, 
-	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
-	Ming Lei <ming.lei@redhat.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, 
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 00/15] honor isolcpus configuration
-Message-ID: <f48a032f-e1e0-42fc-afc6-5aa5ccc3514d@flourine.local>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
- <CAJSP0QVod5DA2hdNFrpN+HZcfm6Bg11teRmt5d+MBTB1wH4vZg@mail.gmail.com>
+	id 1sboDl-00000006KjH-3xWv;
+	Wed, 07 Aug 2024 21:29:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723066166; x=1754602166;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qzOKWUz41TYDR4cdz3l1k0/R2WuyA/BV//cD3NYMHPA=;
+  b=X2jr41G3XqJNaZQz1HpI5Q7wnD1FioeLOxpPfxD/LyTe1nUkqy1b+kWn
+   W8fyQbvFhppJGXUTUeH2Up/9ePbLARu94LhJv6B6W099VjdWn5Sei4Fn8
+   EMpbj4y9EbsYoLmFCRYkLz9g9jFqGBAb9ulSjV0iRJKr3w/FAkSHyC3T2
+   RiYiv7sHgMIzbI7AZA1muiPsdY59fh1Auj4qbKvk4X9sh2t7zSXJkZIns
+   HoNeJ56/nDslGxxBJ5BylZKxK14jeNa2reP2C8KJvK7TgE1JaIjfFYlJs
+   PY7Woz60qer7WGmk8nfVZzsvlrAyOPTDUBv/WgelddJhWaGwSQNkN7rKF
+   A==;
+X-CSE-ConnectionGUID: ShL5oFQ4TuWSOGu3AxQx+g==
+X-CSE-MsgGUID: 2GvjaooiTbyQGEF5Poh8Ig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="21286287"
+X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
+   d="scan'208";a="21286287"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 14:29:16 -0700
+X-CSE-ConnectionGUID: VO5TdQLCThqYeLxhxHYGww==
+X-CSE-MsgGUID: iSgMtuprRgqN7ExnMuFUDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
+   d="scan'208";a="56947521"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 07 Aug 2024 14:29:08 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sboDM-0005jV-21;
+	Wed, 07 Aug 2024 21:29:02 +0000
+Date: Thu, 8 Aug 2024 05:27:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Joern Engel <joern@lazybastard.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 6/6] mtd: parser: add support for Airoha parser
+Message-ID: <202408080559.nVw5Qez6-lkp@intel.com>
+References: <20240806114118.17198-7-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJSP0QVod5DA2hdNFrpN+HZcfm6Bg11teRmt5d+MBTB1wH4vZg@mail.gmail.com>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.01 / 50.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim]
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 5CA421F396
-X-Rspamd-Action: no action
+In-Reply-To: <20240806114118.17198-7-ansuelsmth@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240807_052545_093576_85D5811D 
-X-CRM114-Status: GOOD (  19.38  )
-X-Mailman-Approved-At: Wed, 07 Aug 2024 05:54:28 -0700
+X-CRM114-CacheID: sfid-20240807_142926_056690_064EA958 
+X-CRM114-Status: GOOD (  12.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,24 +100,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 06, 2024 at 09:09:50AM GMT, Stefan Hajnoczi wrote:
-> On Tue, 6 Aug 2024 at 08:10, Daniel Wagner <dwagner@suse.de> wrote:
-> > The only stall I was able to trigger
-> > reliable was with qemu's PCI emulation. It looks like when a CPU is
-> > offlined, the PCI affinity is reprogrammed but qemu still routes IRQs to
-> > an offline CPU instead to newly programmed destination CPU. All worked
-> > fine on real hardware.
-> 
-> Hi Daniel,
-> Please file a QEMU bug report here (or just reply to this emails with
-> details on how to reproduce the issue and I'll file the issue on your
-> behalf):
-> https://gitlab.com/qemu-project/qemu/-/issues
-> 
-> We can also wait until your Linux patches have landed if that makes it
-> easier to reproduce the bug.
+Hi Christian,
 
-Thanks for the offer. I tried simplify the setup and come up with
-producer using qemu directly instead with libvirt. And now it works just
-fine. I'll try to figure out what the magic argument...
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on mtd/mtd/fixes linus/master v6.11-rc2 next-20240807]
+[cannot apply to mtd/mtd/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvme-Document-nvme-card-compatible/20240806-195029
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240806114118.17198-7-ansuelsmth%40gmail.com
+patch subject: [PATCH v3 6/6] mtd: parser: add support for Airoha parser
+config: arc-randconfig-r121-20240807 (https://download.01.org/0day-ci/archive/20240808/202408080559.nVw5Qez6-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240808/202408080559.nVw5Qez6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408080559.nVw5Qez6-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+>> ERROR: modpost: "of_update_property" [drivers/mtd/parsers/ofpart.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
