@@ -4,83 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13817C3DA7F
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Aug 2024 12:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC353C52D6F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Aug 2024 12:54:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j3D8zwa0EAIBkB3CAmMxugbCWHzPs+nDHC+oncyiz9A=; b=NnQDz6iPLr5PtVgdPbeAlagjGn
-	Idngpqunu1xxq02ktRPC6SEbwFo2KMvAyMnmeRuuaablZz8yMLdHIkMJ1d++DROjJGTpcUFvjQx2L
-	UTHKgBvHoeYLsBHqcm2RQv0sGFyxJB92rz/GoUP4x3SgOygs6gPF4GJ1adN4Bqo94yT2vAAjUetsj
-	3tc1/Tbd5uuZ+yf4V+p+HdCyVBKc4A0x5Msa7gQQLx6YIk78S/xGbZbeXNxlXGi7KQgNYT1yvlbxE
-	XDfPu46GJprAGH0/LL6YZAM7JDeNvk8XhCwPEjHd4kfKkUHkJiPEJoW9tuvqaoyIEpe9P95EJijCV
-	grqsmn0Q==;
+	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=; b=BAcDlQboFwhyNwHu+D6PtRnVpo
+	IS65WOli2gVShpAnRwh/YpCqGF/Hjel7urtG7Xh+IUHS4ZQbc5aXvm2gDX2jrIIIjFK9q44oWXwt9
+	ygxbAiG5cxJGy6yWVDYAACeQCzCDlu6Z9dis0lnOYj4nICCBr/kudFxFEQ+Hb3bpl+Qf53VhiVeZg
+	8Xnm9/cOdCGX/5/2Ea3QfYH3S7muQu43BjosPKbqcQcWMTXlM1/FmRxSuLXFtt7NE1GROL3lyriB0
+	0tRxL++NBF9qhTv3lL9mm711wNaQWWBw9LEPwZV0OY+ovLabd3S/R8QG/HhPoSaKHSh+ZBVV8jx2i
+	5JQS1J4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbgBT-000000053LT-2P9C;
-	Wed, 07 Aug 2024 12:54:31 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sbgBS-000000053LK-3nEn;
+	Wed, 07 Aug 2024 12:54:30 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sbfxf-000000051Ns-3ehj
+	id 1sbfjc-00000004zVH-3eLr
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Aug 2024 12:40:19 +0000
+	Wed, 07 Aug 2024 12:25:48 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A42421D11;
-	Wed,  7 Aug 2024 12:40:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5CA421F396;
+	Wed,  7 Aug 2024 12:25:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723034413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1723033541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j3D8zwa0EAIBkB3CAmMxugbCWHzPs+nDHC+oncyiz9A=;
-	b=i2lr4TqiJlsJVU9BWjmeBMgrbYbjhrMZZTYxnSg9mmZTJQG8EQbQFqVU7ZQQYlUlRc3IMz
-	frcTZDPPvvGzeGMi8KJO3Cly9njD1EKemXW+UYA+pT0vs/B+WpB2sbx/s3NWkwUNljSXYD
-	+/yE06i/DbL3v2uorv/YxdqdIgIbosE=
+	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
+	b=bd3Wn+py9efQxXW3smgg7jWhVe14RwWStx4yd+9rm3RSots00g1+pMF8Rxi99XkI0Oa3ZV
+	ffKJfsoGd9hBJyR79g97A1yjz+avRUU3YYCJrFi9CxgZAD8tXLWQTLz5AuzkAA1I7R0hHZ
+	HZuFqDRcKeYfr0PX9SAmW8igYpYe4tY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723034413;
+	s=susede2_ed25519; t=1723033541;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j3D8zwa0EAIBkB3CAmMxugbCWHzPs+nDHC+oncyiz9A=;
-	b=OPn1so4532CHDBcImGuWndEQYqC/43rT4zFOJnVwr/HorkTx5d08gC9+HNx+jfM7bMkUie
-	qDA/8RQxOkMPZTCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="i+Q3/YfZ";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=13AZM8WA
+	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
+	b=8fQVj1Psr2pB7zzi/JFRxgVGhdNpUPbPydqVCH7CJ8h1B91xrbmHVjI8k2KN7bzY+/JOzM
+	ULLsvKvFhNPorcDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oop01eNG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=J8Ka3YmO
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723034412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1723033540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j3D8zwa0EAIBkB3CAmMxugbCWHzPs+nDHC+oncyiz9A=;
-	b=i+Q3/YfZLkqeva9wE8QJu2DWWpg8FyirSYyxU0+Sq6sJxVmoneZuKS4OK3S1HnLxTIDn/f
-	MbMGJCNCjg2ZSjyeaID4AogpD2A4If+JlS+zI6BpITn33SbPqm6j0SE211xOd5rr0ba84o
-	0vmeJmvhw+lf3M+hBFkTpMGWxbB0Ojw=
+	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
+	b=oop01eNGkx0mPBr5oUBWM9I23aXnYMryYtskQ6clC/qMJ7j1BufNd5fgbi7VxkLJbvuJC/
+	faVEHigyzxcey6HK1izbuRtp7Om3kmkKMGiwHlV0K/+84vH+UIM2PeAZL6x1ylUaF7Mz7H
+	9nU9fGSf6VEoXf6nprg90vwlmZnIkws=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723034412;
+	s=susede2_ed25519; t=1723033540;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j3D8zwa0EAIBkB3CAmMxugbCWHzPs+nDHC+oncyiz9A=;
-	b=13AZM8WAynpgxBBasMTgR7QvRiMPKF3AHMfPz/dfdbbB1Q8JHQEykIP9d1rsnNcAkLtlNP
-	2gZ1X6qb8V8r2pDw==
+	bh=yVWjAs9WXrl4kGgXGATPkVai9PljP0etPSTQQnS2QiI=;
+	b=J8Ka3YmONW96GsfVhq+lIJJXvXtL3PEvRJKVAvV1diw1Y6hN2UdE5T1a2fUvsbPp1uojOU
+	sf7KQNJ7IfQSarDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F21E713297;
-	Wed,  7 Aug 2024 12:40:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E75313A7D;
+	Wed,  7 Aug 2024 12:25:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id c0zLOitrs2bpRQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 07 Aug 2024 12:40:11 +0000
-Date: Wed, 7 Aug 2024 14:40:11 +0200
+	id /cv6DsRns2YzQQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 07 Aug 2024 12:25:40 +0000
+Date: Wed, 7 Aug 2024 14:25:39 +0200
 From: Daniel Wagner <dwagner@suse.de>
-To: Ming Lei <ming.lei@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
 	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
 	Christoph Hellwig <hch@lst.de>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
@@ -92,55 +92,54 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	GR-QLogic-Storage-Upstream@marvell.com, Jonathan Corbet <corbet@lwn.net>, 
 	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
 	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
+	Ming Lei <ming.lei@redhat.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, 
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/15] honor isolcpus configuration
+Message-ID: <f48a032f-e1e0-42fc-afc6-5aa5ccc3514d@flourine.local>
 References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
- <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
- <ZrI5TcaAU82avPZn@fedora>
+ <CAJSP0QVod5DA2hdNFrpN+HZcfm6Bg11teRmt5d+MBTB1wH4vZg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZrI5TcaAU82avPZn@fedora>
+In-Reply-To: <CAJSP0QVod5DA2hdNFrpN+HZcfm6Bg11teRmt5d+MBTB1wH4vZg@mail.gmail.com>
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-0.01 / 50.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
+	RCPT_COUNT_TWELVE(0.00)[35];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
 	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim]
 X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 1A42421D11
+X-Rspamd-Queue-Id: 5CA421F396
 X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240807_054016_098741_710D70C4 
-X-CRM114-Status: GOOD (  24.78  )
+X-CRM114-CacheID: sfid-20240807_052545_093576_85D5811D 
+X-CRM114-Status: GOOD (  19.38  )
 X-Mailman-Approved-At: Wed, 07 Aug 2024 05:54:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -156,41 +155,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 06, 2024 at 10:55:09PM GMT, Ming Lei wrote:
-> On Tue, Aug 06, 2024 at 02:06:47PM +0200, Daniel Wagner wrote:
-> > When isolcpus=io_queue is enabled all hardware queues should run on the
-> > housekeeping CPUs only. Thus ignore the affinity mask provided by the
-> > driver. Also we can't use blk_mq_map_queues because it will map all CPUs
-> > to first hctx unless, the CPU is the same as the hctx has the affinity
-> > set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
+On Tue, Aug 06, 2024 at 09:09:50AM GMT, Stefan Hajnoczi wrote:
+> On Tue, 6 Aug 2024 at 08:10, Daniel Wagner <dwagner@suse.de> wrote:
+> > The only stall I was able to trigger
+> > reliable was with qemu's PCI emulation. It looks like when a CPU is
+> > offlined, the PCI affinity is reprogrammed but qemu still routes IRQs to
+> > an offline CPU instead to newly programmed destination CPU. All worked
+> > fine on real hardware.
 > 
-> What is the expected behavior if someone still tries to submit IO on isolated
-> CPUs?
+> Hi Daniel,
+> Please file a QEMU bug report here (or just reply to this emails with
+> details on how to reproduce the issue and I'll file the issue on your
+> behalf):
+> https://gitlab.com/qemu-project/qemu/-/issues
+> 
+> We can also wait until your Linux patches have landed if that makes it
+> easier to reproduce the bug.
 
-If a user thread is issuing an IO the IO is handled by the housekeeping
-CPU, which will cause some noise on the submitting CPU. As far I was
-told this is acceptable. Our customers really don't want to have any
-IO not from their application ever hitting the isolcpus. When their
-application is issuing an IO.
-
-> BTW, I don't see any change in blk_mq_get_ctx()/blk_mq_map_queue() in this
-> patchset,
-
-I was trying to figure out what you tried to explain last time with
-hangs, but didn't really understand what the conditions are for this
-problem to occur.
-
-> that means one random hctx(or even NULL) may be used for submitting
-> IO from isolated CPUs,
-> then there can be io hang risk during cpu hotplug, or
-> kernel panic when submitting bio.
-
-Can you elaborate a bit more? I must miss something important here.
-
-Anyway, my understanding is that when the last CPU of a hctx goes
-offline the affinity is broken and assigned to an online HK CPU. And we
-ensure all flight IO have finished and also ensure we don't submit any
-new IO to a CPU which goes offline.
-
-FWIW, I tried really hard to get an IO hang with cpu hotplug.
+Thanks for the offer. I tried simplify the setup and come up with
+producer using qemu directly instead with libvirt. And now it works just
+fine. I'll try to figure out what the magic argument...
 
