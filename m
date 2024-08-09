@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 796E2C5320C
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Aug 2024 23:02:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56198C52D7D
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Aug 2024 23:02:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1AwITVf2WPGSBxmw93SjsOJVEu1oqZyIKeUGfTrfzs4=; b=kfBhd7WY07JM1s0Dxn0jYNt8xJ
-	RQAWCjQZCCTnaSmoJlt6vAJoUmpEUgXMGKd1X+h5LT5qgQ0KX9OrZejKJn8Bjvt2NydllPb4TEuVV
-	I3cuS9DRF+uYvOCJtbsHi2gPFiJScu2ExHRGoV63AgOth46x5QLK5Ft/CoKXbfBvVIH1Y4RcWZ6Wm
-	0/lsFh6tiOepRyeNzYlPEQ0n4I64/tm0mJPkHqRHjZhfkVf5oPnMgpvl2f5mJwBJuUe/YB2hneyGi
-	13+QsJEOvo+p1gVqwzvrS2xJq2Ii2RPOaotcHMk9gBQ7Nqex6Ut0m7aXDKnag0pz/Cfqq5GkQRHmj
-	CUGqK27A==;
+	bh=mH3iAq1TAeBK36lg95WliQsOcKLSEbditM8M8e4wTwE=; b=VfT72SgsM7s6KdkDqWhjgFDOjt
+	Yxo5enKoomNZk0NUmgV7+H4NNCDfibx+00QXmvS/Tr2gX8d8qTb01QjsrSqb3nyLawdPnjBUmdkvx
+	p76F7Nx/2vikUVW8Rw9mDOLKPfca7dGeuVj+oyzshsAUEBPHTdAry6RvxJLq0ZiM7JEVpSxmaiLWH
+	SbmMHPFtf8NI3ma2gA9bIbFufvmEzc+Yl5pvETBkIUU5c+YcUiuVZXUiKQZ3/Cqu6JSv2OrhIyMJI
+	bM4MOOobtZWpN7C3DeWSHDFTp1oZazBTvGj4cyDkq/1TJT22vzHMVHUSwtXDzm4pe1S5HhXq7AhHw
+	D6ldpGaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1scYd8-0000000Ci7m-3anm;
-	Fri, 09 Aug 2024 23:02:42 +0000
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+	id 1scYdC-0000000CiAV-3L8O;
+	Fri, 09 Aug 2024 23:02:46 +0000
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1scYd1-0000000Ci1l-2smt;
-	Fri, 09 Aug 2024 23:02:37 +0000
-Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2f189a2a841so24625481fa.3;
-        Fri, 09 Aug 2024 16:02:35 -0700 (PDT)
+	id 1scYd3-0000000Ci2P-0JYh;
+	Fri, 09 Aug 2024 23:02:39 +0000
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-36bd70f6522so1345481f8f.1;
+        Fri, 09 Aug 2024 16:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723244554; x=1723849354; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1723244555; x=1723849355; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1AwITVf2WPGSBxmw93SjsOJVEu1oqZyIKeUGfTrfzs4=;
-        b=MALSuVfP+BuZ+QaXPYYhyWhFBAOeMAX1c2o9m1SDDL1YY0cR4uF+Xbm/nOy8/kWCbG
-         cKzlxZo2XGOmfE+wx/o10Q4wmQ1tjZ2LxaeEyyL0maTQMZz6hbgRdfViIidOmvGBB79x
-         BnmZvkcV2m/ZI642TzoWIrGutHIMJuoy0iEWZ1yIhzGRoTZdXODnTYoUYY1D31i3DD2K
-         KUMVhRKesbAs4dEZXKTbkEwJGlLxJJwDnWMXSBDzOKWWqts5BmLJiG4AWjL6StFFQR+Q
-         pjY7dRM89Om7t5vB4R4bcBZ0sEAZtQfJv1jH2XuYeYepXGfOQmho3gX6O6PhUwv9yCDB
-         SFBA==
+        bh=mH3iAq1TAeBK36lg95WliQsOcKLSEbditM8M8e4wTwE=;
+        b=gXou8smySe7sCaoEDZceQxgYhoj3t7wsUCD8mT5duCZAx7lo1DKkom8Loj431itgz+
+         Fp422lopdFwVSfxoXlS8jCG3w9xrMDSDxncP4NaOgapvTgMj7J7FllmsaDyOlscbTiGv
+         yA/zAJgjvZz2thIIXXG4WHo3pMg313a7WXFj4isr482o7Dlk+0Gi370I9EFHHGG6DWQs
+         fPEbwkln+TIKo/kzsu3HWGCuYArkeACZ5MoA/IdIox7Tnyxi05fCMiJNJKa3X34CJEbe
+         6tOYV5MdELUFuh03wY7CYtR6hvSysQew7x11jwyy36uNuyNYJgJncj0XepsRf538NL/T
+         i1qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723244554; x=1723849354;
+        d=1e100.net; s=20230601; t=1723244555; x=1723849355;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1AwITVf2WPGSBxmw93SjsOJVEu1oqZyIKeUGfTrfzs4=;
-        b=RmHwfzBll3j2DINsYpbWT4fK17qvGvtUYMaZWiZ5yl4GiH1QlWj0LMu91vDUY5xQio
-         /9LNn9+amY1c0GGLINjut5gyoaDQnF7Ylhdlet4SyEyaAbWGb3ylMukjw5l+VxTcorLl
-         YOBJ0Dus7i3oV+wDg1PQj2E5pMQ+wL7pRmncChLK3mB7JyD+WqjSMADDbuwq0ZZL/107
-         6IxGzo2AUeYVCxm7wTeSCEX7LYBq5sLnZPAqrhyOJWVrWH3JKYxZ+8nCu56Ifd70srBK
-         gIy8SrzD986GQyNxOmMSGug8MZxlFZQZKUbQcJXuzSGaylpsTMzF1DUqfSgzQsQLgMNY
-         pJrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGThQB8YkPikbnimlpaIH9IFl135gxBfdIQYmYS6RsVD5nM+vOpXkhVqI9aB8ljY/MZLWHqcoJRnZwfpaVdsjsfM9zqCUl6aHthCCghDmoST4t2ZFYod06Z1Q6nd/mN7tYyPp23LNA3jbpcRgy
-X-Gm-Message-State: AOJu0Yw0CfRs8ERyiEsD+qnDaKHC0YsUVPBpm06sRXk/assP55medtA6
-	JNKvsXswLoVKNYxgvfAnei8uYPweND+tHiIV89L3HBN1Is1GCH8A
-X-Google-Smtp-Source: AGHT+IEF0Y3NVeo/gUFLIVY34RZUu3ByxZUGMianP0w6Y0uhOo40dlxWIt5krkPxbZ2lUqfhtQM47Q==
-X-Received: by 2002:a2e:a589:0:b0:2ef:228a:1b86 with SMTP id 38308e7fff4ca-2f1a6c6b8b6mr20863381fa.21.1723244553325;
-        Fri, 09 Aug 2024 16:02:33 -0700 (PDT)
+        bh=mH3iAq1TAeBK36lg95WliQsOcKLSEbditM8M8e4wTwE=;
+        b=D1PiU7RNJj7dRAlC+IODNJPif5rvtV93zcyuLrRmGw+18P9NIt2Qgv8DLlEFrNK8FU
+         oU9ghNDou7HGMeXeH3Ofeii9NeeTHT9UbFhdSHQQtUjHhd0y/SC68O+GHDBfH05P2Zo1
+         U1cwJMvKBOR8147BvOg5S7CN38sZld9/rMNIgD1g+kFiEncZh8qSfEDQtNQvmdyDLJ5n
+         4SWAeQIuv+DMFcQgrvbOb9wi4l9ssPx3oT2+tfhW6gle3O1HAsVGoiTEzn5u+B/XA5jY
+         8y52hB4fl8zACevoCqknzON7crggNmwbQ63UOGW6AO8jjc6jyuYCB9MUmliB+ty5pNpG
+         j3Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCXAWDy7mFCt6BDmIyrUw8k8w6bR115h4nICMBm06f/4MekgQEBF2dgOhMhlLsee/Pdw9Yu41rmKoCkRV8sbVXDP0jLS7JPkbtUNTy3tRG+6D9LlsuAWWg1qlS9zUib6AwP9qcuEeYwwNxCGZejH
+X-Gm-Message-State: AOJu0YxnvgmBv47EeBH30CVqbzRjA99EjZGLLVO/6FvjqeWLNrz83xBM
+	0e1wNB03mtw8g7dsPdKwkXKw5LzWVF24LrpLWhiUH5rsnyvKJAG+
+X-Google-Smtp-Source: AGHT+IEYUgoe/HmhkLHhfaXC3TnoDjBeLv9p7ql+4nY9eg91VGbHZYMA1St4QZZjnSafD8UlbLFHsQ==
+X-Received: by 2002:adf:e98d:0:b0:367:91d8:a1d2 with SMTP id ffacd0b85a97d-36d5e7fa63fmr2252440f8f.30.1723244555242;
+        Fri, 09 Aug 2024 16:02:35 -0700 (PDT)
 Received: from localhost.localdomain (host-87-10-253-138.retail.telecomitalia.it. [87.10.253.138])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-429c75044a8sm7987485e9.9.2024.08.09.16.02.31
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-429c75044a8sm7987485e9.9.2024.08.09.16.02.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Aug 2024 16:02:33 -0700 (PDT)
+        Fri, 09 Aug 2024 16:02:34 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Ulf Hansson <ulf.hansson@linaro.org>,
 	Rob Herring <robh@kernel.org>,
@@ -85,17 +85,17 @@ To: Ulf Hansson <ulf.hansson@linaro.org>,
 	linux-kernel@vger.kernel.org,
 	linux-mtd@lists.infradead.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH v4 4/7] block2mtd: attach device OF node to MTD device
-Date: Fri,  9 Aug 2024 19:21:02 +0200
-Message-ID: <20240809172106.25892-5-ansuelsmth@gmail.com>
+Subject: [PATCH v4 5/7] of: also export of_update_property
+Date: Fri,  9 Aug 2024 19:21:03 +0200
+Message-ID: <20240809172106.25892-6-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240809172106.25892-1-ansuelsmth@gmail.com>
 References: <20240809172106.25892-1-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240809_160235_768729_D942AB4E 
-X-CRM114-Status: GOOD (  16.98  )
+X-CRM114-CacheID: sfid-20240809_160237_141622_A652C63A 
+X-CRM114-Status: GOOD (  11.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,61 +110,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Attach device OF node to MTD device if defined and the root blockdev is
-being used to add support for partitions defined in DT node.
-
-This permits the usage of fixed-partition or alternative parser with the
-use of block2mtd module.
+Similar to how is done for of_add_property and of_remove_property, also
+export of_update_property to permit kmod to use this additional function
+and correctly update entry in DT.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- drivers/mtd/devices/block2mtd.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/of/base.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mtd/devices/block2mtd.c b/drivers/mtd/devices/block2mtd.c
-index b06c8dd51562..8ff9787edc24 100644
---- a/drivers/mtd/devices/block2mtd.c
-+++ b/drivers/mtd/devices/block2mtd.c
-@@ -265,6 +265,7 @@ static struct block2mtd_dev *add_device(char *devname, int erase_size,
- 	struct file *bdev_file;
- 	struct block_device *bdev;
- 	struct block2mtd_dev *dev;
-+	struct device *ddev;
- 	loff_t size;
- 	char *name;
+diff --git a/drivers/of/base.c b/drivers/of/base.c
+index 20603d3c9931..b2d523cf4925 100644
+--- a/drivers/of/base.c
++++ b/drivers/of/base.c
+@@ -1746,6 +1746,7 @@ int of_update_property(struct device_node *np, struct property *newprop)
  
-@@ -324,6 +325,15 @@ static struct block2mtd_dev *add_device(char *devname, int erase_size,
- 	dev->mtd.priv = dev;
- 	dev->mtd.owner = THIS_MODULE;
+ 	return rc;
+ }
++EXPORT_SYMBOL_GPL(of_update_property);
  
-+	/*
-+	 * Check if we are using root blockdev.
-+	 * If it's the case, connect the MTD of_node to the ddev parent
-+	 * to support providing partition in DT node.
-+	 */
-+	ddev = disk_to_dev(bdev->bd_disk);
-+	if (ddev == &bdev->bd_device)
-+		dev->mtd.dev.of_node = of_node_get(ddev->parent->of_node);
-+
- 	if (mtd_device_register(&dev->mtd, NULL, 0)) {
- 		/* Device didn't get added, so free the entry */
- 		goto err_destroy_mutex;
-@@ -337,6 +347,7 @@ static struct block2mtd_dev *add_device(char *devname, int erase_size,
- 	return dev;
- 
- err_destroy_mutex:
-+	of_node_put(dev->mtd.dev.of_node);
- 	mutex_destroy(&dev->write_mutex);
- err_free_block2mtd:
- 	block2mtd_free_device(dev);
-@@ -515,6 +526,7 @@ static void block2mtd_exit(void)
- 		struct block2mtd_dev *dev = list_entry(pos, typeof(*dev), list);
- 		block2mtd_sync(&dev->mtd);
- 		mtd_device_unregister(&dev->mtd);
-+		of_node_put(dev->mtd.dev.of_node);
- 		mutex_destroy(&dev->write_mutex);
- 		pr_info("mtd%d: [%s] removed\n",
- 			dev->mtd.index,
+ static void of_alias_add(struct alias_prop *ap, struct device_node *np,
+ 			 int id, const char *stem, int stem_len)
 -- 
 2.45.2
 
