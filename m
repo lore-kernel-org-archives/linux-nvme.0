@@ -4,96 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92A7AC52D7F
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Aug 2024 16:26:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD6DAC3DA4A
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Aug 2024 17:31:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O0M5zXAWQyeF4Jzk4EMsV0bzXAk2k6LTOOLJMOg7+eQ=; b=L40U9lIBETgco2OmqecM7Lv4To
-	dikQwCanHNXwqEX39ydsmiQhEyXfcrR2ARJqwmKfT1IeDuffSjUqCeQpfER6kkr/0Js7Kjky1AXvk
-	FPKnTtBnlzWwKLYbb3rK+Lp/1ppoKx3+PmlRkMVKRjinXNhA3wlxB/k+1XPloaofpurh1RPdWiF5A
-	/1eLvUjmc/xprQIR/rNBCzmENTMN6f4vCvBXMFdVJduAOoaFqx37lhOTQjuD7feCe6fWianQq0ufr
-	2RAHJChEe6TkZCSoZrDiYUCppfCK0g06idzr88dAsd687A9kWdZowZ6TTzhunFybfkwhgEFBbzlr8
-	npZG1u3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=KKVQAdlLBd820cUBfpsL7J6Msuf9hs+1Y1vSSVaOMJQ=; b=5El+ArDPPngywxzN6J9crAtpt1
+	pi5DIB9gq5RiF3gmMOT6aVCyPB24rgmF+97hcwJile69CFYpSsgzGx8EViExEY0LWkFWGx09VmFnT
+	XDTfzQzKD6vgcL8msM23tHj7HfQ7jxVIR3T5GK2yh33dK8pAVZFYnZ/bhdV3VZ5nUZ/CU30u56qcE
+	OPkamAvrrW5Vtd0ANu5ghcZFpH/AbgWVyFrPSsMSQ09UGv7ot0RsvhuEbVBRkR3H8M9p2ETzWTkP1
+	Zdfg9VqVezqgS54EJjwoQZO7hfGnGT/pr6rR2X/hdlCP5dW6cePFKP4moQRJEAxh4IVtx36qp5LCd
+	k4gfj9bg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1scSRW-0000000Buuw-0o0y;
-	Fri, 09 Aug 2024 16:26:18 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1scTSK-0000000C4pd-3MEC;
+	Fri, 09 Aug 2024 17:31:12 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1scRTl-0000000Bhsn-27bB
+	id 1scTSG-0000000C4os-0WAx
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 Aug 2024 15:24:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723217072;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O0M5zXAWQyeF4Jzk4EMsV0bzXAk2k6LTOOLJMOg7+eQ=;
-	b=f3j5EVXtsPK7qvUfov2ChLkEzhCL5aa9F/7k/lPIeIb8Qf3qSEH6THs3cAYkLDXOY5qSFx
-	O9aXfvZJiVa8us45wgb2D2lt+WYuTLJyGMP+Bw/nXHBuWacW0qZaZVcVzhnpXifabXOt5H
-	jku0IDcxowq2esyxg6u+O5hV1PdUoDc=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-185-uBgThbOOPc2IUzmiZF41Lw-1; Fri,
- 09 Aug 2024 11:24:29 -0400
-X-MC-Unique: uBgThbOOPc2IUzmiZF41Lw-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 50FBF1944CC9;
-	Fri,  9 Aug 2024 15:24:24 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.16])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D74043000199;
-	Fri,  9 Aug 2024 15:24:04 +0000 (UTC)
-Date: Fri, 9 Aug 2024 23:23:58 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Christoph Hellwig <hch@lst.de>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
-	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
-	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <ZrY0jp7S0Xnk9VUw@fedora>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
- <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+	Fri, 09 Aug 2024 17:31:10 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4796G3Ln003074;
+	Fri, 9 Aug 2024 17:30:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+	:to:cc:subject:date:message-id:content-type
+	:content-transfer-encoding:mime-version; s=pp1; bh=KKVQAdlLBd820
+	cUBfpsL7J6Msuf9hs+1Y1vSSVaOMJQ=; b=cts5uk8RjFa203dPWQRp4ZQjzumG6
+	H0Ysh1ABV3UbNQKnoQPyLLxXD4IOHATadjuZ0I6YpkU54uaDVJ66UOsrBDIIi624
+	1o5SkWtyzg/VasTpnczuYBkJjqrj0J7ED3Rwx2hvVojlAh4wLzBoUCUerdp1WhCT
+	SMCMo/w8wLV5vcjmAmlYliqB9hlKWqvIka9RrPmBiFViE3Amyhi+yGp7E0fUVDUK
+	chV5dPpaW/HtZl4eipM2teUB724CFaz1y0CYA/GdVwsf6IEpQlIruMnjXdEGtT+I
+	/angDL2T7VgsNL1EVhqE1hciPIVIjX6cetOVv+QLBWF6F8ozKykcT0k/Q==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 40vwkc3j99-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Aug 2024 17:30:50 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 479EZgOm018615;
+	Fri, 9 Aug 2024 17:30:50 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 40sxvumv93-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Aug 2024 17:30:49 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 479HUisg55247242
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 9 Aug 2024 17:30:46 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 76E8A2004E;
+	Fri,  9 Aug 2024 17:30:44 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BCB3520040;
+	Fri,  9 Aug 2024 17:30:42 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.5.214])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  9 Aug 2024 17:30:42 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+        axboe@fb.com, gjoyce@linux.ibm.com, Nilay Shroff <nilay@linux.ibm.com>
+Subject: [RFC PATCH v2 0/1] Add visibility for native NVMe multipath using sysfs
+Date: Fri,  9 Aug 2024 22:59:56 +0530
+Message-ID: <20240809173030.2281021-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ZYtGCWzHw58t6bx3J3h8CafxJ_r1erdp
+X-Proofpoint-ORIG-GUID: ZYtGCWzHw58t6bx3J3h8CafxJ_r1erdp
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-09_13,2024-08-07_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 spamscore=0 suspectscore=0 mlxscore=0
+ phishscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1011
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408090122
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240809_082433_656266_03B1320F 
-X-CRM114-Status: GOOD (  28.61  )
-X-Mailman-Approved-At: Fri, 09 Aug 2024 09:25:49 -0700
+X-CRM114-CacheID: sfid-20240809_103108_404311_DF4A1513 
+X-CRM114-Status: GOOD (  22.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,140 +103,164 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 06, 2024 at 02:06:47PM +0200, Daniel Wagner wrote:
-> When isolcpus=io_queue is enabled all hardware queues should run on the
-> housekeeping CPUs only. Thus ignore the affinity mask provided by the
-> driver. Also we can't use blk_mq_map_queues because it will map all CPUs
-> to first hctx unless, the CPU is the same as the hctx has the affinity
-> set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
-> 
->   queue mapping for /dev/nvme0n1
->         hctx0: default 2 3 4 6 7
->         hctx1: default 5
->         hctx2: default 0
->         hctx3: default 1
-> 
->   PCI name is 00:05.0: nvme0n1
->         irq 57 affinity 0-1 effective 1 is_managed:0 nvme0q0
->         irq 58 affinity 4 effective 4 is_managed:1 nvme0q1
->         irq 59 affinity 5 effective 5 is_managed:1 nvme0q2
->         irq 60 affinity 0 effective 0 is_managed:1 nvme0q3
->         irq 61 affinity 1 effective 1 is_managed:1 nvme0q4
-> 
-> where as with blk_mq_hk_map_queues we get
-> 
->   queue mapping for /dev/nvme0n1
->         hctx0: default 2 4
->         hctx1: default 3 5
->         hctx2: default 0 6
->         hctx3: default 1 7
-> 
->   PCI name is 00:05.0: nvme0n1
->         irq 56 affinity 0-1 effective 1 is_managed:0 nvme0q0
->         irq 61 affinity 4 effective 4 is_managed:1 nvme0q1
->         irq 62 affinity 5 effective 5 is_managed:1 nvme0q2
->         irq 63 affinity 0 effective 0 is_managed:1 nvme0q3
->         irq 64 affinity 1 effective 1 is_managed:1 nvme0q4
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
->  block/blk-mq-cpumap.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-> index c1277763aeeb..7e026c2ffa02 100644
-> --- a/block/blk-mq-cpumap.c
-> +++ b/block/blk-mq-cpumap.c
-> @@ -60,11 +60,64 @@ unsigned int blk_mq_num_online_queues(unsigned int max_queues)
->  }
->  EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
->  
-> +static bool blk_mq_hk_map_queues(struct blk_mq_queue_map *qmap)
-> +{
-> +	struct cpumask *hk_masks;
-> +	cpumask_var_t isol_mask;
-> +
-> +	unsigned int queue, cpu;
-> +
-> +	if (!housekeeping_enabled(HK_TYPE_IO_QUEUE))
-> +		return false;
-> +
-> +	/* map housekeeping cpus to matching hardware context */
-> +	hk_masks = group_cpus_evenly(qmap->nr_queues);
-> +	if (!hk_masks)
-> +		goto fallback;
-> +
-> +	for (queue = 0; queue < qmap->nr_queues; queue++) {
-> +		for_each_cpu(cpu, &hk_masks[queue])
-> +			qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +	}
-> +
-> +	kfree(hk_masks);
-> +
-> +	/* map isolcpus to hardware context */
-> +	if (!alloc_cpumask_var(&isol_mask, GFP_KERNEL))
-> +		goto fallback;
-> +
-> +	queue = 0;
-> +	cpumask_andnot(isol_mask,
-> +		       cpu_possible_mask,
-> +		       housekeeping_cpumask(HK_TYPE_IO_QUEUE));
-> +
-> +	for_each_cpu(cpu, isol_mask) {
-> +		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +		queue = (queue + 1) % qmap->nr_queues;
-> +	}
-> +
-> +	free_cpumask_var(isol_mask);
-> +
-> +	return true;
-> +
-> +fallback:
-> +	/* map all cpus to hardware context ignoring any affinity */
-> +	queue = 0;
-> +	for_each_possible_cpu(cpu) {
-> +		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +		queue = (queue + 1) % qmap->nr_queues;
-> +	}
-> +	return true;
-> +}
-> +
->  void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
->  {
->  	const struct cpumask *masks;
->  	unsigned int queue, cpu;
->  
-> +	if (blk_mq_hk_map_queues(qmap))
-> +		return;
-> +
->  	masks = group_cpus_evenly(qmap->nr_queues);
->  	if (!masks) {
->  		for_each_possible_cpu(cpu)
-> @@ -118,6 +171,9 @@ void blk_mq_dev_map_queues(struct blk_mq_queue_map *qmap,
->  	const struct cpumask *mask;
->  	unsigned int queue, cpu;
->  
-> +	if (blk_mq_hk_map_queues(qmap))
-> +		return;
-> +
->  	for (queue = 0; queue < qmap->nr_queues; queue++) {
->  		mask = get_queue_affinity(dev_data, dev_off, queue);
->  		if (!mask)
+Hi,
 
-From above implementation, "isolcpus=io_queue" is actually just one
-optimization on "isolcpus=managed_irq", and there isn't essential
-difference between the two.
+This patch propose adding new sysfs attributes for adding visibility of
+native multipath I/O. The previous version of this RFC[1] proposed using 
+debugfs for visibility however the general feedback was to instead export 
+the multipath I/O information using sysfs attributes and then latter parse
+and format those sysfs attributes using libnvme/nvme-cli. 
 
-And I'd suggest to optimize 'isolcpus=managed_irq' directly, such as:
+As we know, NVMe native multipath supports three different io policies 
+(numa, round-robin and queue-depth) for selecting I/O path, however, we 
+don't have any visibility about which path is being selected by multipath
+code for forwarding I/O. This RFC propose adding three new sysfs attribute 
+files named "numa", "round_robin", and "queue_depth" under the namespace 
+head block path /sys/block/<nvmeXnY>/multipath/. As the name suggests, 
+attribute file named "numa" shall show the information about multipath I/O 
+for numa poilcy, "round_robin" shall show the information about multipath 
+I/O for round-robin policy and  "queue_depth" shall show the information 
+about multipath I/O for queue-depth policy.
 
-- reduce nr_queues or numgrps for group_cpus_evenly() according to
-house-keeping cpu mask
+Please find below output generated with this proposed RFC patch applied on 
+a system with two multi-controller PCIe NVMe disks attached to it. This 
+system is also an NVMf-TCP host which is connected to an NVMf-TCP target 
+over two NIC cards. This system has four numa nodes online when the below 
+output was captured:
 
-- spread house-keeping & isolate cpu mask evenly on each queue, and
-you can use the existed two-stage spread for doing that
+# cat /sys/devices/system/node/online 
+0-3
 
+# lscpu
+<snip>
+NUMA:
+  NUMA node(s):           4
+  NUMA node0 CPU(s):
+  NUMA node1 CPU(s):      0-7
+  NUMA node2 CPU(s):      8-31
+  NUMA node3 CPU(s):      32-63
+<snip>
 
-thanks,
-Ming
+Please note that numa node 0 though online, doesn't have any CPU assigned to it.
+
+# nvme list -v 
+Subsystem        Subsystem-NQN                                                                                    Controllers
+---------------- ------------------------------------------------------------------------------------------------ ----------------
+nvme-subsys0     nvmet_subsystem                                                                                  nvme0, nvme3
+nvme-subsys2     nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1                                                 nvme1, nvme2
+nvme-subsys4     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme4, nvme5
+
+Device           Cntlid SN                   MN                                       FR       TxPort Address        Slot   Subsystem    Namespaces      
+---------------- ------ -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+nvme0    1      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100        nvme-subsys0 nvme0n1
+nvme1    2      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0524:28:00.0   U50EE.001.WZS000E-P3-C4-R1 nvme-subsys2 nvme2n2
+nvme2    1      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0584:28:00.0   U50EE.001.WZS000E-P3-C4-R2 nvme-subsys2 nvme2n2
+nvme3    2      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100        nvme-subsys0 nvme0n1
+nvme4    65     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0   U50EE.001.WZS000E-P3-C14-R2 nvme-subsys4 nvme4n1
+nvme5    66     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0   U50EE.001.WZS000E-P3-C14-R1 nvme-subsys4 nvme4n1
+
+Device            Generic           NSID       Usage                      Format           Controllers     
+----------------- ----------------- ---------- -------------------------- ---------------- ----------------
+/dev/nvme0n1 /dev/ng0n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0, nvme3
+/dev/nvme2n2 /dev/ng2n2   0x2          0.00   B /   5.75  GB      4 KiB +  0 B   nvme1, nvme2
+/dev/nvme4n1 /dev/ng4n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme4, nvme5
+
+As we could see above, we've three shared namespaces created and for each 
+shared namespace there's a head disk node created. In terms of iopolicy, 
+we have "queue-depth" configured for nvme-subsys0, "numa" configured 
+for nvme-subsys2 and "round-robin" configured for nvme-subsys4.
+
+# cat /sys/class/nvme-subsystem/nvme-subsys0/iopolicy
+queue-depth
+# cat /sys/class/nvme-subsystem/nvme-subsys2/iopolicy
+numa
+# cat /sys/class/nvme-subsystem/nvme-subsys4/iopolicy
+round-robin
+
+Now, under each "namespace head disk node", we create sysfs attributes 
+"numa", "round-robin" and "queue-depth" as shown below. 
+
+# tree /sys/block/nvme0n1/multipath/
+/sys/block/nvme0n1/multipath/
+├── numa
+├── queue_depth
+└── round_robin
+
+0 directories, 3 files
+
+# tree /sys/block/nvme2n2/multipath/
+/sys/block/nvme2n2/multipath/
+├── numa
+├── queue_depth
+└── round_robin
+
+0 directories, 3 files
+
+# tree /sys/block/nvme4n1/multipath/
+/sys/block/nvme4n1/multipath/
+├── numa
+├── queue_depth
+└── round_robin
+
+0 directories, 3 files
+
+The mutlipath I/O information for each of the above head disk node and 
+it's respective iopolicy is then respresented as below.
+
+# cat /sys/block/nvme0n1/multipath/queue_depth 
+nvme0c0n1 423
+nvme0c3n1 425
+
+In the above output, we print the multipath I/O information about the 
+queue_depth iopolicy as the head disk node "nvme0n1" is defined under 
+nvme-subsys0 which has queue-depth iopolicy configured. For queue-depth 
+iopolicy, it doesn't matter on which numa node IO workload is running. So 
+we print each I/O path once and its respective current queue depth.
+
+# cat /sys/block/nvme2n2/multipath/numa 
+node1: nvme2c1n2
+node2: nvme2c2n2
+node3: nvme2c2n2
+
+In the above output, we print the multipath I/O information about the numa 
+iopolicy as the head disk node "nvme2n2" is defined under nvme-subsys2 
+which has numa iopolicy configured. For numa iopolicy, we print the 
+preferred I/O path for each numa node.
+
+# cat /sys/block/nvme4n1/multipath/round_robin 
+node1: nvme4c4n1 nvme4c5n1 
+node2: nvme4c4n1 nvme4c5n1 
+node3: nvme4c5n1 nvme4c4n1 
+
+In the above output, we print the multipath I/O information about the 
+round-robin iopolicy as the head disk node "nvme4n1" is defined under 
+nvme-subsys4 which has round-robin iopolicy configured. For round-robin 
+iopolicy, we print the per node I/O paths in round-robin fashion.
+
+Please note that we don't print ana_state information in the above output 
+because that could be retrieved from another sysfs attribute per I/O path. 
+Also we don't print I/O controller in the output because that can be also 
+easily made up from the respective I/O path. For instance, I/O path 
+nvme4c5n1 is accessible from controller nvme5. 
+
+IMO, once we have above information exported through sysfs, we shall be 
+able to easily parse it in libnvme/nvme-cli and use it to further extend 
+the output of nvme show-topology command or add a new nvme-cli command.
+
+[1] https://lore.kernel.org/all/20240722093124.42581-1-nilay@linux.ibm.com/
+
+Changes since v1:
+    - Use sysfs to export multipath I/O information instead of debugfs
+	 
+Nilay Shroff (1):
+  nvme-multipath: Add sysfs attributes for showing multipath info
+
+ drivers/nvme/host/multipath.c |   2 +-
+ drivers/nvme/host/nvme.h      |   1 +
+ drivers/nvme/host/sysfs.c     | 108 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 110 insertions(+), 1 deletion(-)
+
+-- 
+2.45.2
 
 
