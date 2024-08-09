@@ -4,135 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88B35C3DA4A
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Aug 2024 16:26:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEB16C52D7C
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Aug 2024 16:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=; b=IHcrKHGFQqZtBpFTeb9T0E3/eS
-	Xh8F0BH+rxJQfMk4ZpFXDouYWAO429/qJGfZqE2VA9lEKQn1/WLmfJLMv39Qtcm/8yE4lyNcWLTKs
-	W3q5NWVRCEyTNPBrYI5pHojoSd9f5M9H/TBH8B/evAXWOtz7yAJ2S6AH6s9jZdqojSGyeawAZKiKe
-	WpDFml324+oVxPEnHtMyHDIrHxqSNhizv55Nti4xckfg0hzNHsRfsW7mkAbR0qR/xs7e/Ey5nr07s
-	ZzE23z42tnRdjQrHZeQIlixehaPUQj6AzcM0rx+hYhBXbhS/hTZhq9DjBMvvEkcHWdmzcV+26suv4
-	0dbFcqoQ==;
+	bh=S3hmYgUok+ozXUThpLpe+47uXAQDhVMRnl+vdYpiArY=; b=fHmqlv8YNUyOT092seZ+Ie3BDF
+	wYkKgRflPotP/G+HOLhZYqY0za3cx1yamK9ICatq4YaIvEWdN+hq5HXpYIjP5xqzRnlG52fm1p7I+
+	QN9DZ3HeeosG5fP87DPt/lA8fYBNxR7S+UUnt5zA7FVsqBk1rczD48KkPwbqklM8MtKBCjyrur4nH
+	1e3vC/Y7JF8mJTXS0092NpwbHCymMSUxK/eX91a/Q/gyR/2beUuehfb0kp1k7Rzr6knrGpJ+S8pf8
+	jFU1f+yuTP1e/WDxC4UIo7OOiqSspUT/H9vITUELBhJEKS7l4O1v6NUydf3aWibuMQdZdl7TKUaNx
+	G9i+NmSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1scSRU-0000000Butg-0S9M;
-	Fri, 09 Aug 2024 16:26:16 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1scSRV-0000000BuuS-1q69;
+	Fri, 09 Aug 2024 16:26:17 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1scJx1-0000000AWn6-3NYr
+	id 1scR06-0000000Bbkc-2XC7
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 Aug 2024 07:22:18 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Fri, 09 Aug 2024 14:53:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723215233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S3hmYgUok+ozXUThpLpe+47uXAQDhVMRnl+vdYpiArY=;
+	b=bqD5tr7kpQ6X7T0lGGYDCix2BB4cRSZwRVeHpYFHNSre3qlZWHrcq7/lA8fYdX8mlwsL5M
+	XNnU+Z/9c4IZu/7C2VRkNQrPqlqAsqIXdDOWV4Xv1bnedbf93G5pDXvbbfie2JIj5hpLtk
+	B+Yuq5kCkJ4StiR72MHr522a2/z6fU0=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-112-tLJEm6q_PmKvEMMDC9bkdg-1; Fri,
+ 09 Aug 2024 10:53:47 -0400
+X-MC-Unique: tLJEm6q_PmKvEMMDC9bkdg-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9170B21EB4;
-	Fri,  9 Aug 2024 07:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723188132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=qRBJYlZP10SZWLOuW224PwXJnb9NdkAwHqyzI4zJIbxa7x82Kn5LIRVQo6gYVBZJq/fRhb
-	jWCfop6Rgz7eKAjnPVkWyPujE5f1ZWPn/Td/6U1/1QIQrXNw7NV1SxMc0TZBIg/oh8VFE+
-	GigUI+02Aw/lncykX5e1s4atPk9xdak=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723188132;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=NTTbxdNSv22I/uNcvvM5kXc2YMty5QSKzyvVojSy9LCXC0bfiOUc+vbfTpPux/FGx2cW/V
-	7qqDBipp3r8IDEAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723188132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=qRBJYlZP10SZWLOuW224PwXJnb9NdkAwHqyzI4zJIbxa7x82Kn5LIRVQo6gYVBZJq/fRhb
-	jWCfop6Rgz7eKAjnPVkWyPujE5f1ZWPn/Td/6U1/1QIQrXNw7NV1SxMc0TZBIg/oh8VFE+
-	GigUI+02Aw/lncykX5e1s4atPk9xdak=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723188132;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=NTTbxdNSv22I/uNcvvM5kXc2YMty5QSKzyvVojSy9LCXC0bfiOUc+vbfTpPux/FGx2cW/V
-	7qqDBipp3r8IDEAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 77DA513A7D;
-	Fri,  9 Aug 2024 07:22:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5Yc7HaTDtWbgEAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 09 Aug 2024 07:22:12 +0000
-Date: Fri, 9 Aug 2024 09:22:11 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
-	Christoph Hellwig <hch@lst.de>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Kashyap Desai <kashyap.desai@broadcom.com>, 
-	Sumit Saxena <sumit.saxena@broadcom.com>, Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>, Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, Nilesh Javali <njavali@marvell.com>, 
-	GR-QLogic-Storage-Upstream@marvell.com, Jonathan Corbet <corbet@lwn.net>, 
-	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, 
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5B25119560A2;
+	Fri,  9 Aug 2024 14:53:42 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.16])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0EEFF19560AA;
+	Fri,  9 Aug 2024 14:53:22 +0000 (UTC)
+Date: Fri, 9 Aug 2024 22:53:16 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Christoph Hellwig <hch@lst.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
+	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
 	linux-doc@vger.kernel.org
 Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
  is enabled
-Message-ID: <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
+Message-ID: <ZrYtXDrdPjn48r6k@fedora>
 References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
  <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
  <ZrI5TcaAU82avPZn@fedora>
  <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
  <ZrRXEUko5EwKJaaP@fedora>
+ <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZrRXEUko5EwKJaaP@fedora>
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+In-Reply-To: <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240809_002216_027429_5EEE2CE5 
-X-CRM114-Status: GOOD (  34.23  )
+X-CRM114-CacheID: sfid-20240809_075354_737891_B00970D2 
+X-CRM114-Status: GOOD (  41.31  )
 X-Mailman-Approved-At: Fri, 09 Aug 2024 09:25:49 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -148,183 +112,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 08, 2024 at 01:26:41PM GMT, Ming Lei wrote:
-> Isolated CPUs are removed from queue mapping in this patchset, when someone
-> submit IOs from the isolated CPU, what is the correct hctx used for handling
-> these IOs?
-
-No, every possible CPU gets a mapping. What this patch series does, is
-to limit/aligns the number of hardware context to the number of
-housekeeping CPUs. There is still a complete ctx-hctc mapping. So
-whenever an user thread on an isolated CPU is issuing an IO a
-housekeeping CPU will also be involved (with the additional overhead,
-which seems to be okay for these users).
-
-Without hardware queue on the isolated CPUs ensures we really never get
-any unexpected IO on those CPUs unless userspace does it own its own.
-It's a safety net.
-
-Just to illustrate it, the non isolcpus configuration (default) map
-for an 8 CPU setup:
-
-queue mapping for /dev/vda
-        hctx0: default 0
-        hctx1: default 1
-        hctx2: default 2
-        hctx3: default 3
-        hctx4: default 4
-        hctx5: default 5
-        hctx6: default 6
-        hctx7: default 7
-
-and with isolcpus=io_queue,2-3,6-7
-
-queue mapping for /dev/vda
-        hctx0: default 0 2
-        hctx1: default 1 3
-        hctx2: default 4 6
-        hctx3: default 5 7
-
-> From current implementation, it depends on implied zero filled
-> tag_set->map[type].mq_map[isolated_cpu], so hctx 0 is used.
+On Fri, Aug 09, 2024 at 09:22:11AM +0200, Daniel Wagner wrote:
+> On Thu, Aug 08, 2024 at 01:26:41PM GMT, Ming Lei wrote:
+> > Isolated CPUs are removed from queue mapping in this patchset, when someone
+> > submit IOs from the isolated CPU, what is the correct hctx used for handling
+> > these IOs?
 > 
-> During CPU offline, in blk_mq_hctx_notify_offline(),
-> blk_mq_hctx_has_online_cpu() returns true even though the last cpu in
-> hctx 0 is offline because isolated cpus join hctx 0 unexpectedly, so IOs in
-> hctx 0 won't be drained.
+> No, every possible CPU gets a mapping. What this patch series does, is
+> to limit/aligns the number of hardware context to the number of
+> housekeeping CPUs. There is still a complete ctx-hctc mapping. So
+
+OK, then I guess patch 1~7 aren't supposed to belong to this series,
+cause you just want to reduce nr_hw_queues, meantime spread
+house-keeping CPUs first for avoiding queues with all isolated cpu mask.
+
+> whenever an user thread on an isolated CPU is issuing an IO a
+> housekeeping CPU will also be involved (with the additional overhead,
+> which seems to be okay for these users).
 > 
-> However managed irq core code still shutdowns the hw queue's irq because all
-> CPUs in this hctx are offline now. Then IO hang is triggered, isn't
-> it?
+> Without hardware queue on the isolated CPUs ensures we really never get
+> any unexpected IO on those CPUs unless userspace does it own its own.
+> It's a safety net.
+> 
+> Just to illustrate it, the non isolcpus configuration (default) map
+> for an 8 CPU setup:
+> 
+> queue mapping for /dev/vda
+>         hctx0: default 0
+>         hctx1: default 1
+>         hctx2: default 2
+>         hctx3: default 3
+>         hctx4: default 4
+>         hctx5: default 5
+>         hctx6: default 6
+>         hctx7: default 7
+> 
+> and with isolcpus=io_queue,2-3,6-7
+> 
+> queue mapping for /dev/vda
+>         hctx0: default 0 2
+>         hctx1: default 1 3
+>         hctx2: default 4 6
+>         hctx3: default 5 7
 
-Thanks for the explanation. I was able to reproduce this scenario, that
-is a hardware context with two CPUs which go offline. Initially, I used
-fio for creating the workload but this never hit the hanger. Instead
-some background workload from systemd-journald is pretty reliable to
-trigger the hanger you describe.
+OK, Looks I missed the point in patch 15 in which you added isolated cpu
+into mapping manually, just wondering why not take the current two-stage
+policy to cover both house-keeping and isolated CPUs in group_cpus_evenly()?
 
-Example:
+Such as spread house-keeping CPUs first, then isolated CPUs, just like
+what we did for present & non-present cpus.
 
-  hctx2: default 4 6
+Then the whole patchset can be simplified a lot.
 
-CPU 0 stays online, CPU 1-5 are offline. CPU 6 is offlined:
+> 
+> > From current implementation, it depends on implied zero filled
+> > tag_set->map[type].mq_map[isolated_cpu], so hctx 0 is used.
+> > 
+> > During CPU offline, in blk_mq_hctx_notify_offline(),
+> > blk_mq_hctx_has_online_cpu() returns true even though the last cpu in
+> > hctx 0 is offline because isolated cpus join hctx 0 unexpectedly, so IOs in
+> > hctx 0 won't be drained.
+> > 
+> > However managed irq core code still shutdowns the hw queue's irq because all
+> > CPUs in this hctx are offline now. Then IO hang is triggered, isn't
+> > it?
+> 
+> Thanks for the explanation. I was able to reproduce this scenario, that
+> is a hardware context with two CPUs which go offline. Initially, I used
+> fio for creating the workload but this never hit the hanger. Instead
+> some background workload from systemd-journald is pretty reliable to
+> trigger the hanger you describe.
+> 
+> Example:
+> 
+>   hctx2: default 4 6
+> 
+> CPU 0 stays online, CPU 1-5 are offline. CPU 6 is offlined:
+> 
+>   smpboot: CPU 5 is now offline
+>   blk_mq_hctx_has_online_cpu:3537 hctx3 offline
+>   blk_mq_hctx_has_online_cpu:3537 hctx2 offline
+> 
+> and there is no forward progress anymore, the cpuhotplug state machine
+> is blocked and an IO is hanging:
+> 
+>   # grep busy /sys/kernel/debug/block/*/hctx*/tags | grep -v busy=0
+>   /sys/kernel/debug/block/vda/hctx2/tags:busy=61
+> 
+> and blk_mq_hctx_notify_offline busy loops forever:
+> 
+>    task:cpuhp/6         state:D stack:0     pid:439   tgid:439   ppid:2      flags:0x00004000
+>    Call Trace:
+>     <TASK>
+>     __schedule+0x79d/0x15c0
+>     ? lockdep_hardirqs_on_prepare+0x152/0x210
+>     ? kvm_sched_clock_read+0xd/0x20
+>     ? local_clock_noinstr+0x28/0xb0
+>     ? local_clock+0x11/0x30
+>     ? lock_release+0x122/0x4a0
+>     schedule+0x3d/0xb0
+>     schedule_timeout+0x88/0xf0
+>     ? __pfx_process_timeout+0x10/0x10d
+>     msleep+0x28/0x40
+>     blk_mq_hctx_notify_offline+0x1b5/0x200
+>     ? cpuhp_thread_fun+0x41/0x1f0
+>     cpuhp_invoke_callback+0x27e/0x780
+>     ? __pfx_blk_mq_hctx_notify_offline+0x10/0x10
+>     ? cpuhp_thread_fun+0x42/0x1f0
+>     cpuhp_thread_fun+0x178/0x1f0
+>     smpboot_thread_fn+0x12e/0x1c0
+>     ? __pfx_smpboot_thread_fn+0x10/0x10
+>     kthread+0xe8/0x110
+>     ? __pfx_kthread+0x10/0x10
+>     ret_from_fork+0x33/0x40
+>     ? __pfx_kthread+0x10/0x10
+>     ret_from_fork_asm+0x1a/0x30
+>     </TASK>
+> 
+> I don't think this is a new problem this code introduces. This problem
+> exists for any hardware context which has more than one CPU. As far I
+> understand it, the problem is that there is no forward progress possible
+> for the IO itself (I assume the corresponding resources for the CPU
 
-  smpboot: CPU 5 is now offline
-  blk_mq_hctx_has_online_cpu:3537 hctx3 offline
-  blk_mq_hctx_has_online_cpu:3537 hctx2 offline
+When blk_mq_hctx_notify_offline() is running, the current CPU isn't
+offline yet, and the hctx is active, same with the managed irq, so it is fine
+to wait until all in-flight IOs originated from this hctx completed there.
 
-and there is no forward progress anymore, the cpuhotplug state machine
-is blocked and an IO is hanging:
+The reason is why these requests can't be completed? And the forward
+progress is provided by blk-mq. And these requests are very likely
+allocated & submitted from CPU6.
 
-  # grep busy /sys/kernel/debug/block/*/hctx*/tags | grep -v busy=0
-  /sys/kernel/debug/block/vda/hctx2/tags:busy=61
+Can you figure out what is effective mask for irq of hctx2?  It is
+supposed to be cpu6. And block debugfs for vda should provide helpful
+hint.
 
-and blk_mq_hctx_notify_offline busy loops forever:
+> going offline have already been shutdown, thus no progress?) and
+> blk_mq_hctx_notifiy_offline isn't doing anything in this scenario.
 
-   task:cpuhp/6         state:D stack:0     pid:439   tgid:439   ppid:2      flags:0x00004000
-   Call Trace:
-    <TASK>
-    __schedule+0x79d/0x15c0
-    ? lockdep_hardirqs_on_prepare+0x152/0x210
-    ? kvm_sched_clock_read+0xd/0x20
-    ? local_clock_noinstr+0x28/0xb0
-    ? local_clock+0x11/0x30
-    ? lock_release+0x122/0x4a0
-    schedule+0x3d/0xb0
-    schedule_timeout+0x88/0xf0
-    ? __pfx_process_timeout+0x10/0x10d
-    msleep+0x28/0x40
-    blk_mq_hctx_notify_offline+0x1b5/0x200
-    ? cpuhp_thread_fun+0x41/0x1f0
-    cpuhp_invoke_callback+0x27e/0x780
-    ? __pfx_blk_mq_hctx_notify_offline+0x10/0x10
-    ? cpuhp_thread_fun+0x42/0x1f0
-    cpuhp_thread_fun+0x178/0x1f0
-    smpboot_thread_fn+0x12e/0x1c0
-    ? __pfx_smpboot_thread_fn+0x10/0x10
-    kthread+0xe8/0x110
-    ? __pfx_kthread+0x10/0x10
-    ret_from_fork+0x33/0x40
-    ? __pfx_kthread+0x10/0x10
-    ret_from_fork_asm+0x1a/0x30
-    </TASK>
+RH has internal cpu hotplug stress test, but not see such report so far.
 
-I don't think this is a new problem this code introduces. This problem
-exists for any hardware context which has more than one CPU. As far I
-understand it, the problem is that there is no forward progress possible
-for the IO itself (I assume the corresponding resources for the CPU
-going offline have already been shutdown, thus no progress?) and
-blk_mq_hctx_notifiy_offline isn't doing anything in this scenario.
+I will try to setup such kind of setting and see if it can be
+reproduced.
 
-Couldn't we do something like:
+> 
+> Couldn't we do something like:
 
-+static bool blk_mq_hctx_timeout_rq(struct request *rq, void *data)
-+{
-+       blk_mq_rq_timed_out(rq);
-+       return true;
-+}
-+
-+static void blk_mq_hctx_timeout_rqs(struct blk_mq_hw_ctx *hctx)
-+{
-+       struct blk_mq_tags *tags = hctx->sched_tags ?
-+                       hctx->sched_tags : hctx->tags;
-+       blk_mq_all_tag_iter(tags, blk_mq_hctx_timeout_rq, NULL);
-+}
-+
-+
- static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
- {
-        struct blk_mq_hw_ctx *hctx = hlist_entry_safe(node,
-                        struct blk_mq_hw_ctx, cpuhp_online);
-+       int i;
+I usually won't thinking about any solution until root-cause is figured
+out, :-)
+ 
 
-        if (blk_mq_hctx_has_online_cpu(hctx, cpu))
-                return 0;
-@@ -3551,9 +3589,16 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
-         * requests.  If we could not grab a reference the queue has been
-         * frozen and there are no requests.
-         */
-+       i = 0;
-        if (percpu_ref_tryget(&hctx->queue->q_usage_counter)) {
--               while (blk_mq_hctx_has_requests(hctx))
-+               while (blk_mq_hctx_has_requests(hctx) && i++ < 10)
-                        msleep(5);
-+               if (blk_mq_hctx_has_requests(hctx)) {
-+                       pr_info("%s:%d hctx %d force timeout request\n",
-+                               __func__, __LINE__, hctx->queue_num);
-+                       blk_mq_hctx_timeout_rqs(hctx);
-+               }
-+
+Thanks, 
+Ming
 
-This guarantees forward progress and it worked in my test scenario, got
-the corresponding log entries
-
-  blk_mq_hctx_notify_offline:3598 hctx 2 force timeout request
-
-and the hotplug state machine continued. Didn't see an IO error either,
-but I haven't looked closely, this is just a POC.
-
-BTW, when looking at the tag allocator, I didn't see any hctx state
-checks for the batched alloction path. Don't we need to check if the
-corresponding hardware context is active there too?
-
-@ -486,6 +487,15 @@ static struct request *__blk_mq_alloc_requests(struct blk_mq_alloc_data *data)
-        if (data->nr_tags > 1) {
-                rq = __blk_mq_alloc_requests_batch(data);
-                if (rq) {
-+                       if (unlikely(test_bit(BLK_MQ_S_INACTIVE,
-+                                             &data->hctx->state))) {
-+                               blk_mq_put_tag(blk_mq_tags_from_data(data),
-+                                              rq->mq_ctx, rq->tag);
-+                               msleep(3);
-+                               goto retry;
-+                       }
-                        blk_mq_rq_time_init(rq, alloc_time_ns);
-                        return rq;
-                }
-
-But given this is the hotpath and the hotplug path is very unlikely to
-be used at all, at least for the majority of users, I would suggest to
-try to get blk_mq_hctx_notify_offline to guarantee forward progress?.
-This would make the hotpath an 'if' less.
 
