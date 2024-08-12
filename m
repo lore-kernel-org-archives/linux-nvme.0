@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D670C52D7C
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 16:01:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFB4EC3DA7F
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 16:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xtGxf+PpYxSrTrZ07rT5a5n2wsliBThmMNLODLbzJgk=; b=NnrvBdO7mnJgQdaKM9wpqqHRdN
-	fEcEt1pQrKul63FgDVgfJlegmIXnsL35+5ZSgWjZKKVnonfgO3O4maGsxRexOwOCUtCviL2+WHQwW
-	ZdbWGTVG7MxMj0m7yM8BSsiiQqPxmnERP5ckO0Gjs93ALzfmo1d0tK/YjSizvBg3blVs5jANX/WJD
-	NYKpcsfr+h6BjUTtxAPOJs6D6aILWdVrfxUm2yxipOOYpZMh4ZShPD3f94jHthPL2xKk20/5+5Dpe
-	XSz+uWT/7epObEgQ367PPIZyJlNoZXYg08sxzXZSMxEsNO3eEyAfmZOO3HbZ3D/lEO6/1yVWToxWq
-	Nckj0qJw==;
+	bh=3Fu5e7RPi7QLpPAibifFADXJAxRspYEgPPK8BR98HIc=; b=wZqSfdpJwIJKyayOadXG5mKbXV
+	e7pykvZcg82WCxg9ohxSP+3e0ds+EopWnxMpgTp7rIzkEw0SFdXzM3ehAXTT9aVe+Ib2EvsSrvRHl
+	oQOc/rc08ObBBnC36RvZ5OEcN0gM2IGTBolwVjHNfn/1wByTLAZnDyqJRCQ9xR5CL/XqqsvADWwYu
+	0ALhnref2DAagCpz6xhCJIB+RETzit0aO9J3YXBYH2PeXp1t2ptk3gOeLiS5loHJyD4oqSsop8ssj
+	Xk3c3y74rj9GEUvnSNdYuHZcgBKFP2W5E4jNvePAWRYGFfwIBvMn4bJ870xrQwHOJp/lWHt868Ua+
+	bGtuvwhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdXUb-00000000pIN-100e;
-	Mon, 12 Aug 2024 16:01:57 +0000
+	id 1sdXUc-00000000pJI-1Gtt;
+	Mon, 12 Aug 2024 16:01:58 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdR2q-0000000HNbY-1haX
+	id 1sdR3J-0000000HNie-0YvK
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Aug 2024 09:08:53 +0000
+	Mon, 12 Aug 2024 09:09:22 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E7A9068AA6; Mon, 12 Aug 2024 11:08:48 +0200 (CEST)
-Date: Mon, 12 Aug 2024 11:08:48 +0200
+	id 5A852227A87; Mon, 12 Aug 2024 11:09:18 +0200 (CEST)
+Date: Mon, 12 Aug 2024 11:09:18 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Daniel Wagner <dwagner@suse.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
@@ -58,17 +58,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com,
 	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
 	storagedev@microchip.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 07/15] blk-mq: remove unused queue mapping helpers
-Message-ID: <20240812090848.GH5497@lst.de>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de> <20240806-isolcpus-io-queues-v3-7-da0eecfeaf8b@suse.de>
+Subject: Re: [PATCH v3 12/15] scsi: use block layer helpers to calculate
+ num of queues
+Message-ID: <20240812090918.GI5497@lst.de>
+References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de> <20240806-isolcpus-io-queues-v3-12-da0eecfeaf8b@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806-isolcpus-io-queues-v3-7-da0eecfeaf8b@suse.de>
+In-Reply-To: <20240806-isolcpus-io-queues-v3-12-da0eecfeaf8b@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240812_020852_608897_D7FDAE3F 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20240812_020921_367956_B1A5B761 
+X-CRM114-Status: GOOD (  10.55  )
 X-Mailman-Approved-At: Mon, 12 Aug 2024 09:01:51 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -84,18 +85,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 06, 2024 at 02:06:39PM +0200, Daniel Wagner wrote:
->   * Copyright (c) 2016 Christoph Hellwig.
-
-None of my code left at this point :)
-
->  /**
->   * blk_mq_pci_get_queue_affinity - get affinity mask queue mapping for PCI device
->   * @dev_data:	Pointer to struct pci_dev.
-
-But on to something more substancial:  thes get_queue_affinity
-wrappers have nothing specific in them.  So maybe move them into
-the PCI and virtio subsystems instead and kill off these files
-entirely.
+Can you avoid the overly long lines?  Otherwise this looks fine.
 
 
