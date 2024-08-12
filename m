@@ -4,106 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0BD0C3DA7F
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 11:15:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53264C52D7C
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 11:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Subject:Cc:To:From:Date:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6AGDbHeUwy43L7QOiWatnM3/EWv9Db1La7THgNc4U5U=; b=snU6snccMfgwRaL00Ukv1yvveB
-	lF2a/2AMs1RisIvwa+NMw4IwSRqDsC9MTzjK8wHyBwbK0pZ0r7dvcN+OXE+Wc2CwaxgTQ2SObPKsV
-	twt5qa9ajt/3IBbUn6Qt5O71JL6R3UT+MP/uDziDVFW4FMgDwEb8URX5SYAXs0eudRcPZvYAK07a/
-	u/j2sy7Tqb6I6NoQWvrChyvqYe/zW2MusHhYXshnC1IHDTOWJPPpnsw2kse5FVTQZThPenGGhVEPL
-	JbJX+qlJeM8yDb3aZfdMPcNK7BsEfeQHhAJFxRGgFronwBEVTaAqjNHo4MF7a+5toWKqUcjuJZZ+K
-	I+z0muPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lOdyr+wxN1cDjj6ceR17TGN4lCtZMdLyctV6JzMS36w=; b=A+BaPyPawUx41qKV4keiuOW0WM
+	wU6dmCAhtYj7OAjFVKPDzvP3M4vYHSqQZ7TH9WsJ9iPz98VCJVoFIgjL1b6nPOZLf4NVMtqqllsh2
+	3aGhvPVoCVobzoCM/J3O3r53902XO//Td5CEjpcK+a/AhtKwjFnAxi3ofLxH/ify9N/2Q8U16G3cU
+	siLzcEJlz6JEo/vZpE/Lh6UWXQpHYPhbpgTP0/Gct0/R+ufrXGCn/EIayw976uR2jyeUHNTqh0DjJ
+	pQN+DIIgRf3iZyCcs47gF3AFAMt6mTj/jaKAkP7LvhQMMClTpYHlRKzpSzW1nfLtfSaX5SlU+roRP
+	IJ8C1quQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdT1H-000000006uP-23IM;
-	Mon, 12 Aug 2024 11:15:23 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1sdTej-00000000BOn-0O1l;
+	Mon, 12 Aug 2024 11:56:09 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdS0C-0000000HZ8E-3i8Q;
-	Mon, 12 Aug 2024 10:10:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6AGDbHeUwy43L7QOiWatnM3/EWv9Db1La7THgNc4U5U=; b=lKEw0/HrfQ3jEWRI0pomgb5kTW
-	Zumd3C29abhH12TeqRKbFPTrjI8bOtYatjwAvGKl+rO0OiJvC+ifLXSD/Qy1y1gd4eM4t69QB8HA7
-	VYwA5vYXAgQz0D9YkPKlGOcw3NoGRjMTIANtaIqBh8qqd7LhTDGcxb5GPmVuEheG114hry9RbkpwS
-	ezS2gGQXkqWXphfpkCiCdkc6yrBdc3AoEa3beRiUTF2YNEHUnfL/Bl+Yfol3/OadEmPbq4yh39Qyk
-	ziK6FcNbw24mHkMIqQksQQxskvsu3MkLFM6OsGXfXF5a+vM4TH/mLnyQcC9m/z74EMpHJfteiqqkD
-	ny+J5B+Q==;
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdS08-00000007WB7-1xKX;
-	Mon, 12 Aug 2024 10:10:11 +0000
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2f149845fbaso43592781fa.3;
-        Mon, 12 Aug 2024 03:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723457405; x=1724062205; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=6AGDbHeUwy43L7QOiWatnM3/EWv9Db1La7THgNc4U5U=;
-        b=bNYlADMCERSvRL+dSnEssQRw+mJhNSkWhQsHgkj7zPzNbj/eOpqB2l6e48jaE6eDHi
-         9JwLh5sWL4fAOyRTvLsjIzGyp0uxeSgZeSinFPfT9ZKJLTEENbAU/ywOlT44oqS98Ubv
-         2OhIY5y9t1VWBlvafjEBCRMXDrRHWLJpQNR5OOl9dN17WuMurMHWZTjJTxiYllbqpP37
-         cYl+FzKItFcgJqhbTPIiwQBKai3cf7QIGlUiydMjupdPKxaPWH0hipp5XLGaC3YKY2gA
-         DblzJX0RGfdX6NTHApFCxCjCfGLPfzyVF0jRnPkiQpqCBhqgvWxk8TS0rqbUvYLZ/0D4
-         +Y8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723457405; x=1724062205;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6AGDbHeUwy43L7QOiWatnM3/EWv9Db1La7THgNc4U5U=;
-        b=JR6yWCLZlNhXfMuUDUmMaihZbSAhx3tlOkgr1PXb3WmTzVrUgPGayxUCB35fBNJCIV
-         dg1pfsUp8x9iqRwBFWrfQ0pU4bLMaNTcheeCNeTTqlYqckTQpKUfpuY34kXr3UYUmZNo
-         b9hU5CsQO2/FOc+JYLDq1EoBlpOcfn0Gd4EoxT70+PfkcNupl2205ro9HObh/VSb3LU6
-         Nabmo9l5+NuUg3T0GWnCVZ7nhKHbyii0uDgoX+s+13AiQAj7hgfHbF/LMUoI0z5OEkre
-         iOcVM3DcjyHAzi8jgfhZNYBPYwoxaETaMQwS3V5USw1i2UuD7eY70H23+0UtC5fhL8U3
-         HX4g==
-X-Forwarded-Encrypted: i=1; AJvYcCWReENOLg8shS958DO2MJ5TkJY8iouhg2AwnqHSi1ztdXl7D7ISxAjayvjbKCyghL4UavciQlzO5YYoHM1l5GKv5QCADMoYA8IROJP9TQOvTJ2Ca7S48WyM8k5bvqoFXegefe/XIYJZIYYIks55
-X-Gm-Message-State: AOJu0Yxaza7qm4s5artAEt+b9/6EPNUw8UqsP1lLi/3GA0bBdtl0UG8Q
-	LHsvvFV7NciNcnfRUW0QzFfUkjAwD3TAU5w4LV+Iu1NS4HXRlS3K
-X-Google-Smtp-Source: AGHT+IF7gXVzTH4CvkvVbJhZb4UZN3i53JvW8K9dJlvL2BXg7c8PPh33br3AXeB8LmLX5nWpLcfQ6g==
-X-Received: by 2002:a2e:602:0:b0:2ef:2c20:e064 with SMTP id 38308e7fff4ca-2f1a6d0c988mr58328141fa.12.1723457404706;
-        Mon, 12 Aug 2024 03:10:04 -0700 (PDT)
-Received: from Ansuel-XPS. (host-79-52-250-20.retail.telecomitalia.it. [79.52.250.20])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4290c74a698sm184004695e9.21.2024.08.12.03.10.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 03:10:04 -0700 (PDT)
-Message-ID: <66b9df7c.050a0220.3574aa.d5bb@mx.google.com>
-X-Google-Original-Message-ID: <Zrnfe21jJLJ310O_@Ansuel-XPS.>
-Date: Mon, 12 Aug 2024 12:10:03 +0200
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Joern Engel <joern@lazybastard.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Saravana Kannan <saravanak@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Florian Fainelli <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v4 0/7] mtd: improve block2mtd + airoha parser
-References: <20240809172106.25892-1-ansuelsmth@gmail.com>
- <20240812104954.1e8d55f7@xps-13>
+	id 1sdTee-00000000BN7-0AzT
+	for linux-nvme@lists.infradead.org;
+	Mon, 12 Aug 2024 11:56:07 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E13A122525;
+	Mon, 12 Aug 2024 11:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723463762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lOdyr+wxN1cDjj6ceR17TGN4lCtZMdLyctV6JzMS36w=;
+	b=udYnqcLuaQaoV+HEoClgLJuE3R442xeiQ0zKZ0ZNjxV7Cy4A/FVZBXQgVKdg+i0XBzUvk3
+	DOTEKjfU4/HvN1S0LOHJ/GL6oe4vg82m8ROUQZAuVK+2A1Gp97sA2KTaTHbnpvCpg8w75z
+	9VH5whwGrqhhWAHXYb3+Oy4allaNPtg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723463762;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lOdyr+wxN1cDjj6ceR17TGN4lCtZMdLyctV6JzMS36w=;
+	b=p5juXZcHgbJUzoBo+/PHocnzOCdabgpwgt67xdjM2Qcs6z/0dBJ0m7hY1IlAJSXBX8hLBX
+	SQ4M2kCMwrhzQyAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723463761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lOdyr+wxN1cDjj6ceR17TGN4lCtZMdLyctV6JzMS36w=;
+	b=fY6hvu2veXkTqE2Hh+0RhG8qC6QIpyvaVm9avIMMS0IRNppplwDAPkMFz3/NxzCXnNDWRw
+	UjahQyX0iugzY8P5EwnZahzrHbqzOjrMk+3IpfhMpGZNjjbxfG3w50pvjLAihau1q/DSs9
+	jNqWnMdIIWS68kAPhazyyHcDnMpm3HY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723463761;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lOdyr+wxN1cDjj6ceR17TGN4lCtZMdLyctV6JzMS36w=;
+	b=kGgzGi6z1gUgW/uW+9ZlyeCAlHtx+PpIb6INJKW45jMCsKvXoWr+0kUVPGcF+vABZ0aoaP
+	CdM+HQQuOQCn1RBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9E6613A23;
+	Mon, 12 Aug 2024 11:56:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id t5LHLFH4uWYKXgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 12 Aug 2024 11:56:01 +0000
+Message-ID: <17cbd822-daae-4954-b184-974432ca2fe1@suse.de>
+Date: Mon, 12 Aug 2024 13:56:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240812104954.1e8d55f7@xps-13>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: move stopping keep-alive into nvme_uninit_ctrl()
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Mark O'Donovan <shiftee@posteo.net>, Changhui Zhong <czhong@redhat.com>
+References: <20240809135427.378953-1-ming.lei@redhat.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240809135427.378953-1-ming.lei@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.10 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240812_111009_916314_47E524FA 
-X-CRM114-Status: GOOD (  36.62  )
+X-CRM114-CacheID: sfid-20240812_045604_262218_DB73E771 
+X-CRM114-Status: GOOD (  19.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,71 +131,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 12, 2024 at 10:49:54AM +0200, Miquel Raynal wrote:
-> Hi Christian,
+On 8/9/24 15:54, Ming Lei wrote:
+> Commit 4733b65d82bd ("nvme: start keep-alive after admin queue setup")
+> moves starting keep-alive from nvme_start_ctrl() into
+> nvme_init_ctrl_finish(), but don't move stopping keep-alive into
+> nvme_uninit_ctrl(), so keep-alive work can be started and keep pending
+> after failing to start controller, finally use-after-free is triggered if
+> nvme host driver is unloaded.
 > 
-> ansuelsmth@gmail.com wrote on Fri,  9 Aug 2024 19:20:58 +0200:
+> This patch fixes kernel panic when running nvme/004 in case that connection
+> failure is triggered, by moving stopping keep-alive into nvme_uninit_ctrl().
 > 
-> > This small series handle 2 problems.
-> > 
-> > It does try to ""standardize"" the usage of block2mtd module with
-> > MTD OF nodes.
-> > 
-> > It is very easy to add support for MTD parser by just adding an
-> > OF node to the mtd created for block2mtd.
-> > 
-> > This apply only if the root block is used for block2mtd to allow
-> > scenario where the full eMMC or an NVME is used for MTD and it doesn't
-> > have any partition table.
-> > 
-> > To also support NVME, similar to how it's done with eMMC, we introduce
-> > a subnode to the NVME controller that needs to have the "nvme-card"
-> > compatible where a dev can define fixed-paritions for MTD parser usage.
-> > 
-> > This series also add support for the Airoha partition table where
-> > the last partition is always ART and is placed at the end of the flash.
-> > 
-> > This require dynamic calculation of the offset as some dedicated
-> > driver for bad block management might be used that reserve some space
-> > at the end of the flash for block accounting.
+> This way is reasonable because keep-alive is now started in
+> nvme_init_ctrl_finish().
 > 
-> Who is reserving this space? And this is not reflected anywhere in the
-> partition table?
->
-
-To be more precise Mediatek use a custom way to handle bad blocks called
-BMT where they reserve and store data at the end of the nand. This is
-loaded before the flash driver controller so when MTD is init, the size
-is already reduced. The reserved space can change and it really depends
-on the tuned values hence it may change.
-
-> > New aarch64 Airoha SoC make use of this partition table and use block2mtd
-> > for eMMC to treat them as MTD with custom bad block management and block
-> > tracking.
+> Fixes: 4733b65d82bd ("nvme: start keep-alive after admin queue setup")
+> Cc: Hannes Reinecke <hare@suse.de>
+> Cc: Mark O'Donovan <shiftee@posteo.net>
+> Reported-by: Changhui Zhong <czhong@redhat.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+>   drivers/nvme/host/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I am sorry, I am not used to such use cases, and I really fail getting
-> why you would like to use mtd with an eMMC. Can you explain a little
-> bit more what is not available in the block world that you really need
-> from mtd?
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 053d5b4909cd..562afa71ea85 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4612,7 +4612,6 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+>   {
+>   	nvme_mpath_stop(ctrl);
+>   	nvme_auth_stop(ctrl);
+> -	nvme_stop_keep_alive(ctrl);
+>   	nvme_stop_failfast_work(ctrl);
+>   	flush_work(&ctrl->async_event_work);
+>   	cancel_work_sync(&ctrl->fw_act_work);
 
-Since vendor needs more space and doesn't want to adapt to block world,
-they are starting to use eMMC or block devices in general unpartitioned
-and raw and using block2mtd to simulate it. They don't care about the
-performance penalities as it's something read at boot time and only new
-firmware or some config files are written.
+Huh? What happened here?
+Commit 4733b65d82bd ("nvme: start keep-alive after admin queue setup")
+has _exactly_ the same hunk.
+Someone else must've changed it afterwards, so please update the 'fixes'
+tag to refer to the correct commit.
 
-Is it more clear now?
+Cheers,
 
-> 
-> Also, did you consider nvmem layouts instead to detect and define the
-> ART area? (just asking).
-> 
-
-They still need a MTD partition and most of the time userspace tool are
-used on the ART partition. Using block2mtd and DT support will permit
-the use of nvmem cell as a side effect (and that is a missive bonus
-point of this honestly)
-
+Hannes
 -- 
-	Ansuel
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
