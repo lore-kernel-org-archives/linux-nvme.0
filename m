@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07AECC531DC
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB3ACC531DD
 	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 16:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,24 +12,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=cer8SC0lo3sxih03y7jqN4jvPM
-	jM/rYx45908WxDw8Zjf/ZqAzvKHGDJ62KyFfbry0ByfOxBO4IBfH7079YeeC1gahCo/MUnw70UP1s
-	pNoxJImxVVqSNU1uVIpRK4BSTxVoits7bZvqD6o9RKSSQ1XcIE2pFhcZJFxf/QbxbO8rNxgZh5zGM
-	FsfQjferMBiwKlHxcUBe5OO92kI0QVoNsZW5y/SwF2hqj6o5kAYgB+yAoopkPI8n0NcK5D5r3k1ql
-	ZAz9AtKmQWBbC0Sr+h9h7D+Bk2iszeRuLr/7UpLn2/otKQ+Br66kHs89m+3GwH7AC+9ky6Y/4726U
-	iugm8Wqg==;
+	bh=xCVIybzFXtO90Va28ZXPh+hDyytpysKWwTzTspdhcSw=; b=rTEFBF5FXdjgnyLhZ52RxFdqRu
+	x/zAVMx4XkX4oKSLwm6xrvwCK/rkD+DGYunWDZC0q6UKm0CIbGd7dJT4LQOm5oXsN1t5HiA/eXkYf
+	bY4bWaj0TjsQk5idGc6gl5iedpCjK3dkA/3zaPt+WOEUrwGosXOgqosOGDKECmKs4BaHQuN5s47t0
+	zx2KmH6Z+4wSjk8hUq0t6zRxFNnb8bwKab2GnmZ09lcy0mJFQW4WKxys+BlKPZYrIouB1+jf1rHCu
+	hgZ9K1Ofabd9ZYHuxJEI18Bj30bWdLmTtNQi2l3zI7kL1O24rIkbuNcQHMbcn7frtT/pdUtFoLEXs
+	HKFPmHQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdXUZ-00000000pHU-2geO;
-	Mon, 12 Aug 2024 16:01:55 +0000
+	id 1sdXUa-00000000pHw-1pVS;
+	Mon, 12 Aug 2024 16:01:56 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdR0d-0000000HN8h-395L
+	id 1sdR17-0000000HNHb-05el
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Aug 2024 09:06:37 +0000
+	Mon, 12 Aug 2024 09:07:06 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1CBFF68AA6; Mon, 12 Aug 2024 11:06:33 +0200 (CEST)
-Date: Mon, 12 Aug 2024 11:06:32 +0200
+	id 53914227A8E; Mon, 12 Aug 2024 11:07:02 +0200 (CEST)
+Date: Mon, 12 Aug 2024 11:07:02 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Daniel Wagner <dwagner@suse.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
@@ -58,18 +58,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com,
 	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
 	storagedev@microchip.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 05/15] nvme: replace blk_mq_pci_map_queues with
- blk_mq_dev_map_queues
-Message-ID: <20240812090632.GF5497@lst.de>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de> <20240806-isolcpus-io-queues-v3-5-da0eecfeaf8b@suse.de>
+Subject: Re: [PATCH v3 06/15] virtio: blk/scs: replace
+ blk_mq_virtio_map_queues with blk_mq_dev_map_queues
+Message-ID: <20240812090701.GG5497@lst.de>
+References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de> <20240806-isolcpus-io-queues-v3-6-da0eecfeaf8b@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806-isolcpus-io-queues-v3-5-da0eecfeaf8b@suse.de>
+In-Reply-To: <20240806-isolcpus-io-queues-v3-6-da0eecfeaf8b@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240812_020635_942543_6BB4529F 
-X-CRM114-Status: GOOD (  11.81  )
+X-CRM114-CacheID: sfid-20240812_020705_218605_0234E676 
+X-CRM114-Status: GOOD (  10.84  )
 X-Mailman-Approved-At: Mon, 12 Aug 2024 09:01:51 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -85,8 +85,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+What is blk/scs supposed to mean?
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-
+The code changes themselves look fine to me.
 
