@@ -4,69 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F196C52D7C
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 08:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FCF0C3DA7F
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 11:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=73GvcgdSLrMZXGcYPjAJiYsspT+yFL38vgOcQSxgjFk=; b=CwEOmI7nsVUPi5aEJaRDDKrhlH
-	5hH06TEP0dAln8FDykkiBx/w7j9Xlc1kF4PVtMEDqJdJ9JyyNwOJ89EzPe+qB9Ix7c6axNNjDWjO5
-	gLsLsv+cEYVV3q7d056YtBAb54GmVpaZlPRacZtFikKgUKzGjvWIWiRT3FKS/YIsMp45D+RyoUHka
-	lWLj+7+lmQE6Gfeu1yVeK1m3TFwEIFFCfmjhr3e02sQsPRsYoJERhFkyKybAVGRliRkvf+7Foy5Nd
-	Lz0Sxap1YrfPIHo7bl7UK6dL7U+i0HlEQygdNVt7FATvZ8Xqi/nR6Fv1iG+kiC2GnTbdLuvd51/mp
-	hHbXJyOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=psoFzskKnYn5gPUdTlFUtEZmx7PsFNmNMZB/UT0IHBA=; b=2EZIKF0k3xgE9qhVLcpIoiY+vV
+	wA154V0EqzkgaZGj7Sgu9kzOcHBvsJXuIoWrn1gdp7oqpDxxtvplHI8YkY7KMMQgdIld3F9XIbCyH
+	Ukh/OWPqNNxD1iwotaQ7GUZGHQTjM23qQYqRhFGauShUFYIdRlXQmzb3mttr3xCtzjQmtV8b6aFi+
+	BT2wegzNKxHNTIJmJnd+K5957GoSj57X+tqa3FMtOFsBxYZpC8ayIGvmLRM0/OlGINUxbpHCU/U9y
+	UXjw16dowyFZjSItDdndPq3QyT9p48ezb6j1IPE2LyOCHdNO2QkbjABo+uzLdMuthpdEnG8dxoU3y
+	b8J7lF0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdQkh-0000000HK7p-1uFK;
-	Mon, 12 Aug 2024 08:50:07 +0000
-Received: from relay7-d.mail.gandi.net ([2001:4b98:dc4:8::227])
+	id 1sdSyF-000000006YT-2Hkn;
+	Mon, 12 Aug 2024 11:12:15 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdQkd-0000000HK6t-20eU;
-	Mon, 12 Aug 2024 08:50:04 +0000
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A7AE420007;
-	Mon, 12 Aug 2024 08:49:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1723452599;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=73GvcgdSLrMZXGcYPjAJiYsspT+yFL38vgOcQSxgjFk=;
-	b=hsUZH/C8PXrcNQJubX+GqA3kU3D3BCLoUqm0Nuwf/7zwdpBWAhom6I5lp+UeuskT4/kWmz
-	ftrP1rxNG10SZ4ErGuXCdc33Wl9LPw6QSB++RRHH3gFDd/uYKExSJGihp9k5EO5DGpZRWS
-	Vhug+ZdnbZCC7T/doh7pjomhBB0v6AthvjEYPTC1WEKTeV+zjEPFpeqqEOmZKcIVzCdP9N
-	VckV7vn4nKMrx12x2qerZAXsz4COE8RZhfbTGbMmn5Dhhlo7SqFwIws17BKJcODEQDwM+P
-	bJ4gepsVvcU/1x3lF6f4fU2YKzRk3W0mow+kBu19yQpGsDh6BtkWPN96iehkMw==
-Date: Mon, 12 Aug 2024 10:49:54 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
+	id 1sdSyC-000000006Xc-0ywU;
+	Mon, 12 Aug 2024 11:12:13 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id C778B68AFE; Mon, 12 Aug 2024 13:12:05 +0200 (CEST)
+Date: Mon, 12 Aug 2024 13:12:05 +0200
+From: Christoph Hellwig <hch@lst.de>
 To: Christian Marangi <ansuelsmth@gmail.com>
 Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Joern Engel <joern@lazybastard.org>, Keith
- Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
- <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Saravana Kannan
- <saravanak@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, Florian Fainelli
- <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v4 0/7] mtd: improve block2mtd + airoha parser
-Message-ID: <20240812104954.1e8d55f7@xps-13>
-In-Reply-To: <20240809172106.25892-1-ansuelsmth@gmail.com>
-References: <20240809172106.25892-1-ansuelsmth@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Joern Engel <joern@lazybastard.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Saravana Kannan <saravanak@google.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Florian Fainelli <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v4 2/7] nvme: assign of_node to nvme device
+Message-ID: <20240812111205.GC14300@lst.de>
+References: <20240809172106.25892-1-ansuelsmth@gmail.com> <20240809172106.25892-3-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240809172106.25892-3-ansuelsmth@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240812_015003_689614_6009C28A 
-X-CRM114-Status: GOOD (  22.84  )
+X-CRM114-CacheID: sfid-20240812_041212_434996_F215CFAA 
+X-CRM114-Status: GOOD (  15.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,48 +71,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christian,
+On Fri, Aug 09, 2024 at 07:21:00PM +0200, Christian Marangi wrote:
+> Introduce support for a dedicated node for a nvme card. This will be a
+> subnode of the nvme controller node that will have the "nvme-card"
+> compatible.
 
-ansuelsmth@gmail.com wrote on Fri,  9 Aug 2024 19:20:58 +0200:
+FYI, there really is no such thing as an NVMe card.  There is an
+NVMe Namespace, which is the entity that contains the block data,
+the Controller which corresponds to the pci_dev for NVMe-PCIe, and
+the NVMe Subsystem, which contains Controllers and Namespaces.
 
-> This small series handle 2 problems.
->=20
-> It does try to ""standardize"" the usage of block2mtd module with
-> MTD OF nodes.
->=20
-> It is very easy to add support for MTD parser by just adding an
-> OF node to the mtd created for block2mtd.
->=20
-> This apply only if the root block is used for block2mtd to allow
-> scenario where the full eMMC or an NVME is used for MTD and it doesn't
-> have any partition table.
->=20
-> To also support NVME, similar to how it's done with eMMC, we introduce
-> a subnode to the NVME controller that needs to have the "nvme-card"
-> compatible where a dev can define fixed-paritions for MTD parser usage.
->=20
-> This series also add support for the Airoha partition table where
-> the last partition is always ART and is placed at the end of the flash.
->=20
-> This require dynamic calculation of the offset as some dedicated
-> driver for bad block management might be used that reserve some space
-> at the end of the flash for block accounting.
+> This follow a similar implementation done for mmc where the specific mmc
+> card have a dedicated of_node.
 
-Who is reserving this space? And this is not reflected anywhere in the
-partition table?
+That's not a good explanation to be honest.  Most eMMC host controllers
+are OF probed devices, so of course they'll have an of_node.
 
-> New aarch64 Airoha SoC make use of this partition table and use block2mtd
-> for eMMC to treat them as MTD with custom bad block management and block
-> tracking.
+Binding PCIe functions to of_nodes seems completely weird to me, and
+you'll need to explain what this totally non-obvious thing makes sense.
+Maybe it does, but it needs to be backed up with a very good rationale
+that is very clearly documented.
 
-I am sorry, I am not used to such use cases, and I really fail getting
-why you would like to use mtd with an eMMC. Can you explain a little
-bit more what is not available in the block world that you really need
-from mtd?
-
-Also, did you consider nvmem layouts instead to detect and define the
-ART area? (just asking).
-
-Thanks,
-Miqu=C3=A8l
 
