@@ -4,72 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 190F8C3DA7F
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 08:37:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F196C52D7C
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 08:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=Sxdx4Kti0RcQNxbKNK8fV+9vOJ
-	gWKvh6hAqueaImrLzpaXSje0vL7v3uUqTRKjho6zSLe38QBQl/M1Ndw2SaggkkovzTIPa0bW79FpV
-	0GkkWmOmMznS0ybH5w/7TMPB8B1msot0oN7OHzORn+uT80nCKFCR2K/bUQ+Hc1B7IZxr+1dHfIasc
-	Gv6fBOvCI0HxWVhOUYYs7MoPdaC8dEBeePpfFfy+6r+KFC3ZpHOJy8ZbTEjZ0JQMe6A/4xUQ8t9po
-	dMJ3g2w9CaTJ+srq2KMUiySSjlJs2B5Kak4pk43i1Yfxsro9c8xrshAC6yv4FrTqq7E0SRY+tS7fs
-	dDTnvk2Q==;
+	bh=73GvcgdSLrMZXGcYPjAJiYsspT+yFL38vgOcQSxgjFk=; b=CwEOmI7nsVUPi5aEJaRDDKrhlH
+	5hH06TEP0dAln8FDykkiBx/w7j9Xlc1kF4PVtMEDqJdJ9JyyNwOJ89EzPe+qB9Ix7c6axNNjDWjO5
+	gLsLsv+cEYVV3q7d056YtBAb54GmVpaZlPRacZtFikKgUKzGjvWIWiRT3FKS/YIsMp45D+RyoUHka
+	lWLj+7+lmQE6Gfeu1yVeK1m3TFwEIFFCfmjhr3e02sQsPRsYoJERhFkyKybAVGRliRkvf+7Foy5Nd
+	Lz0Sxap1YrfPIHo7bl7UK6dL7U+i0HlEQygdNVt7FATvZ8Xqi/nR6Fv1iG+kiC2GnTbdLuvd51/mp
+	hHbXJyOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdQYc-0000000HIJl-2nCq;
-	Mon, 12 Aug 2024 08:37:38 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1sdQkh-0000000HK7p-1uFK;
+	Mon, 12 Aug 2024 08:50:07 +0000
+Received: from relay7-d.mail.gandi.net ([2001:4b98:dc4:8::227])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdQYa-0000000HIJQ-0bZW
-	for linux-nvme@lists.infradead.org;
-	Mon, 12 Aug 2024 08:37:37 +0000
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-36841f5f3a1so114130f8f.2
-        for <linux-nvme@lists.infradead.org>; Mon, 12 Aug 2024 01:37:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723451854; x=1724056654;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=nbaPjdMEzVuY6YBk4cG0fdFkGlcttGWp7b+fcvplUxcouahLoVFPsY8pdaRlXoP/tX
-         YsbRIN1HTyKnpBJIuHakfGTJdb08QDO8u567ijbpRg+2Pkib+ZaVKWsYjZgWRv5UZCUV
-         XsWxkjaIL0VptvzG2LI+rx+fyuVggt6HOP9k/m1OZD7Wl2EKAe9r94NfyIQW9YjErrYS
-         SD3i+BC65nhlmsl+nvk64U4SGiQT4WGKP6OEQoRcOkz9PFWuy95QzHWG7XmBwuQEUtBd
-         kWG+T9EQaXMko4DTC01TvclbyWTCFMWwJLEwrFTghucpOMpj5026a9T3Xg1/pXWhFvav
-         5kXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXw2CDMzCzlCFPUFIQNamroJeO+PMMFE91TbGDpnvkBFcbN8cED/USM/JGt7oUOUbTFjWLcMtaUQhZzDgoR2PIdStUotlfFuxejlTPAC6M=
-X-Gm-Message-State: AOJu0YzKuvOzh+BE92a82EKKC7vjv5eNiBpUg77T8KBqGb9Mk1nUyskn
-	G1nqjf/EWgHdyzujI88eo8TSirrHqSnglrHFT9Zn6l6Oy85i/jVV
-X-Google-Smtp-Source: AGHT+IHl47OefcspPOG8ggaVunE2STKbt+8ufh9QSa53vp+7BPhGP6jZu6+Qab8VUY7HA0w8g+HEaw==
-X-Received: by 2002:a05:600c:510d:b0:425:6962:4253 with SMTP id 5b1f17b1804b1-429c3a68e56mr39610375e9.4.1723451853573;
-        Mon, 12 Aug 2024 01:37:33 -0700 (PDT)
-Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c750ec0bsm93450135e9.15.2024.08.12.01.37.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Aug 2024 01:37:33 -0700 (PDT)
-Message-ID: <7d7e367c-6c22-423a-9272-f422068def90@grimberg.me>
-Date: Mon, 12 Aug 2024 11:37:31 +0300
+	id 1sdQkd-0000000HK6t-20eU;
+	Mon, 12 Aug 2024 08:50:04 +0000
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A7AE420007;
+	Mon, 12 Aug 2024 08:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1723452599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=73GvcgdSLrMZXGcYPjAJiYsspT+yFL38vgOcQSxgjFk=;
+	b=hsUZH/C8PXrcNQJubX+GqA3kU3D3BCLoUqm0Nuwf/7zwdpBWAhom6I5lp+UeuskT4/kWmz
+	ftrP1rxNG10SZ4ErGuXCdc33Wl9LPw6QSB++RRHH3gFDd/uYKExSJGihp9k5EO5DGpZRWS
+	Vhug+ZdnbZCC7T/doh7pjomhBB0v6AthvjEYPTC1WEKTeV+zjEPFpeqqEOmZKcIVzCdP9N
+	VckV7vn4nKMrx12x2qerZAXsz4COE8RZhfbTGbMmn5Dhhlo7SqFwIws17BKJcODEQDwM+P
+	bJ4gepsVvcU/1x3lF6f4fU2YKzRk3W0mow+kBu19yQpGsDh6BtkWPN96iehkMw==
+Date: Mon, 12 Aug 2024 10:49:54 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Joern Engel <joern@lazybastard.org>, Keith
+ Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
+ <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Saravana Kannan
+ <saravanak@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, Florian Fainelli
+ <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v4 0/7] mtd: improve block2mtd + airoha parser
+Message-ID: <20240812104954.1e8d55f7@xps-13>
+In-Reply-To: <20240809172106.25892-1-ansuelsmth@gmail.com>
+References: <20240809172106.25892-1-ansuelsmth@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: move stopping keep-alive into nvme_uninit_ctrl()
-To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-Cc: Hannes Reinecke <hare@suse.de>, Mark O'Donovan <shiftee@posteo.net>,
- Changhui Zhong <czhong@redhat.com>
-References: <20240809135427.378953-1-ming.lei@redhat.com>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240809135427.378953-1-ming.lei@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240812_013736_214198_F1A5DE3B 
-X-CRM114-Status: UNSURE (   6.77  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240812_015003_689614_6009C28A 
+X-CRM114-Status: GOOD (  22.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,5 +81,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Hi Christian,
+
+ansuelsmth@gmail.com wrote on Fri,  9 Aug 2024 19:20:58 +0200:
+
+> This small series handle 2 problems.
+>=20
+> It does try to ""standardize"" the usage of block2mtd module with
+> MTD OF nodes.
+>=20
+> It is very easy to add support for MTD parser by just adding an
+> OF node to the mtd created for block2mtd.
+>=20
+> This apply only if the root block is used for block2mtd to allow
+> scenario where the full eMMC or an NVME is used for MTD and it doesn't
+> have any partition table.
+>=20
+> To also support NVME, similar to how it's done with eMMC, we introduce
+> a subnode to the NVME controller that needs to have the "nvme-card"
+> compatible where a dev can define fixed-paritions for MTD parser usage.
+>=20
+> This series also add support for the Airoha partition table where
+> the last partition is always ART and is placed at the end of the flash.
+>=20
+> This require dynamic calculation of the offset as some dedicated
+> driver for bad block management might be used that reserve some space
+> at the end of the flash for block accounting.
+
+Who is reserving this space? And this is not reflected anywhere in the
+partition table?
+
+> New aarch64 Airoha SoC make use of this partition table and use block2mtd
+> for eMMC to treat them as MTD with custom bad block management and block
+> tracking.
+
+I am sorry, I am not used to such use cases, and I really fail getting
+why you would like to use mtd with an eMMC. Can you explain a little
+bit more what is not available in the block world that you really need
+from mtd?
+
+Also, did you consider nvmem layouts instead to detect and define the
+ART area? (just asking).
+
+Thanks,
+Miqu=C3=A8l
 
