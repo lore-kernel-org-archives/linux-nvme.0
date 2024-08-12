@@ -4,60 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8E56C3DA7F
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 13:31:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D6B3C52D7C
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Aug 2024 13:51:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tvBkiG4AA7FtHRwLk78lD5fI1TgDbAXwH1R4znJH1R0=; b=r/5kdzeNlMhSoKsZjVlyArCuxi
-	vXBvCL7a2wNHbG25n6h18Tsom5lDk4QIA9FXT88d4GlWvw37TD4dLEvq3cdA+/x20ixCRZOiSLRnR
-	Bx263VBySdJVpLS4oYoCq7WqnP9Q2diyHeJa2FAGBofUiKHu/5B9l5FC+z+uEHsosa6kb+W1Cps3C
-	I6b4xtHhvELW1BS05cWvHK/NPxQRwnS6bCh+nvrXglgZUMHxP8xeMVDXRMMMoHT8PlD7gllAdj6Da
-	KV+y7PV8MZlS3eoIhrEl4lBbYFs7wB7OlRMiruaME0/YeM+NWbNgwxEM8GTQu8zQ6sEsq7bf3Md/5
-	bGT3KJwA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oYNWecBNQD/HK31j1lJJNGLNPb6l6+w2Frq/u/cDgFM=; b=YSeXALve1TLNiieJHlQaM8Y1bu
+	7HkgQ7el9+FSZ03MB1LoSkIZKWSfAEBBXLVmLvzKtRgN66h4pS6sjFxm5rQYmRp45CoI7cro9pwu2
+	mtUyTnTNSxrQsMz1ZAOqKW5joOL+0jYdKLI4gT3q8jQ88Li0YVA2mNV1m8xiJxBUc1mbkoCjQATI0
+	KrdcGHMqqdLdnEK+0BIgKspYiqVl+GaqNzJdsFUEdXTCnLyzcdvAYCnVE/PydFD8RkbZ3WsFc4Eew
+	N6zohtMmiT40x2Q20F7Gujh/Os7IWd87S70DzUtFKwnlaLsEAayS/EtxRInAtXl4ITeeAYfVjD20l
+	WtjCBlaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdV98-00000000QQX-0cn8;
-	Mon, 12 Aug 2024 13:31:38 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1sdVSl-00000000UAJ-3kF6;
+	Mon, 12 Aug 2024 13:51:55 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdV94-00000000QOW-1cWf;
-	Mon, 12 Aug 2024 13:31:35 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6F38168AA6; Mon, 12 Aug 2024 15:31:28 +0200 (CEST)
-Date: Mon, 12 Aug 2024 15:31:28 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Joern Engel <joern@lazybastard.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Saravana Kannan <saravanak@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Florian Fainelli <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v4 2/7] nvme: assign of_node to nvme device
-Message-ID: <20240812133128.GA24058@lst.de>
-References: <20240809172106.25892-1-ansuelsmth@gmail.com> <20240809172106.25892-3-ansuelsmth@gmail.com> <20240812111205.GC14300@lst.de> <66b9fbb4.df0a0220.3bee6e.1e99@mx.google.com>
+	id 1sdVSi-00000000U7j-02af
+	for linux-nvme@lists.infradead.org;
+	Mon, 12 Aug 2024 13:51:54 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 68DDECE0B7F;
+	Mon, 12 Aug 2024 13:51:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3AB3C32782;
+	Mon, 12 Aug 2024 13:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723470708;
+	bh=NC4tazcis1jSVDgkpJprpwF0eRbJkaFqXwFdKxjDB4E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cphgbrVt1l435qTXWYs/HLQ/IuQzjPeAU0azb8Ce/+u9Hz8WjxpZDBgZVivdaN6J7
+	 EJu4bLeWqlTmeA72RgUSX+hHU9cKPD9T7c8wo0fwMauxf4bhBEzg1XxvMzNOqUTEwD
+	 sJcO1qIenQNuu/JnA0Wzd9BCGqgxsXNF6XOgck+D0YGvyu7Et7Y93LN4t0plCdCKYu
+	 PGuU2EchBmNtJpOEbcQt0OKqXJ5IoIarlqfudjDDwfeUIlU1Cp9qFM5GJjaOrU5pHx
+	 0/tkl1ACm9+Tauzbwn8rBB20pna6wRCN3tihEvRsmjWTluVsKmTIWZX6GlhogEVcva
+	 c7HPPK5Hj1XcQ==
+Message-ID: <7f38f5bc-6bd2-4e3a-92e6-c232761fafc6@kernel.org>
+Date: Mon, 12 Aug 2024 15:51:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66b9fbb4.df0a0220.3bee6e.1e99@mx.google.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH AUTOSEL 6.10 13/16] block: change rq_integrity_vec to
+ respect the iterator
+Content-Language: en-GB
+To: Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: Mikulas Patocka <mpatocka@redhat.com>, Anuj Gupta <anuj20.g@samsung.com>,
+ Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, kbusch@kernel.org, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240728004739.1698541-1-sashal@kernel.org>
+ <20240728004739.1698541-13-sashal@kernel.org>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <20240728004739.1698541-13-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240812_063134_595467_CD67F7F4 
-X-CRM114-Status: GOOD (  20.77  )
+X-CRM114-CacheID: sfid-20240812_065152_532744_976C3DAB 
+X-CRM114-Status: GOOD (  19.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,42 +123,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 12, 2024 at 02:10:28PM +0200, Christian Marangi wrote:
-> The chosen name was arbritrary just to follow eMMC ones. Can totally
-> change if problematic.
+Hi Sasha, Greg,
 
-NVMe namespaces are dynamic and can be created and deleted at will
-at runtime.  I just don't see how they would even fit into OF
-concepts.
+On 28/07/2024 02:47, Sasha Levin wrote:
+> From: Mikulas Patocka <mpatocka@redhat.com>
+> 
+> [ Upstream commit cf546dd289e0f6d2594c25e2fb4e19ee67c6d988 ]
+> 
+> If we allocate a bio that is larger than NVMe maximum request size,
+> attach integrity metadata to it and send it to the NVMe subsystem, the
+> integrity metadata will be corrupted.
 
-There is a huge impedance mismatch here, to the point where I completely
-fail to understand what you are trying to do.
+(...)
 
-> But support of OF for PCIe is already a thing for a long time. (it all
-> works by setting the compatible of the PCIe ID card) and used in wifi
-> card at assign MAC address, calibration data, disable frequency.
+> diff --git a/include/linux/blk-integrity.h b/include/linux/blk-integrity.h
+> index 7428cb43952da..d16dd24719841 100644
+> --- a/include/linux/blk-integrity.h
+> +++ b/include/linux/blk-integrity.h
+> @@ -100,14 +100,13 @@ static inline bool blk_integrity_rq(struct request *rq)
+>  }
+>  
+>  /*
+> - * Return the first bvec that contains integrity data.  Only drivers that are
+> - * limited to a single integrity segment should use this helper.
+> + * Return the current bvec that contains the integrity data. bip_iter may be
+> + * advanced to iterate over the integrity data.
+>   */
+> -static inline struct bio_vec *rq_integrity_vec(struct request *rq)
+> +static inline struct bio_vec rq_integrity_vec(struct request *rq)
+>  {
+> -	if (WARN_ON_ONCE(queue_max_integrity_segments(rq->q) > 1))
+> -		return NULL;
+> -	return rq->bio->bi_integrity->bip_vec;
+> +	return mp_bvec_iter_bvec(rq->bio->bi_integrity->bip_vec,
+> +				 rq->bio->bi_integrity->bip_iter);
+>  }
+>  #else /* CONFIG_BLK_DEV_INTEGRITY */
+>  static inline int blk_rq_count_integrity_sg(struct request_queue *q,
+> @@ -169,7 +168,8 @@ static inline int blk_integrity_rq(struct request *rq)
+>  
+>  static inline struct bio_vec *rq_integrity_vec(struct request *rq)
+>  {
+> -	return NULL;
+> +	/* the optimizer will remove all calls to this function */
+> +	return (struct bio_vec){ };
 
-Please point to a document describing how, but more importantly why
-this is done.  I've worked with and maintained Linux PCI(e) drivers for
-about 20 years and never seen it.  And the concept simply doesn't make
-sense in terms of a dynamically probed bus.
+If CONFIG_BLK_DEV_INTEGRITY is not defined, there is a compilation error
+here in v6.10 with the recently queued patches because the signature has
+not been updated:
 
-> Not having this well organized and consistent schema in DT will result
-> in additional condition in the drivers...
+> In file included from block/bdev.c:15:                                                                                                                                             
+> include/linux/blk-integrity.h: In function 'rq_integrity_vec':
+> include/linux/blk-integrity.h:172:16: error: incompatible types when returning type 'struct bio_vec' but 'struct bio_vec *' was expected
+>   172 |         return (struct bio_vec){ };                 
+>       |                ^
 
-NVMe Controllers are PCI functions (or virtual entities over the network).
-Defining them in a static DT scheme does not make sense.  NVMe Namespaces
-which are what contains the block data are dynamically discoverred and
-can be created and deleted at runtime, so refering to them in DT is even
-more broken.  I really don't see how any of this could remotely work.
+Could it be possible to backport the following fix to v6.10 as well please?
 
-> If these 2 patch are problematic I can totally drop from the series but
-> it was really to add consistency in NVMe and eMMC. The real important
-> part is eMMC that is becoming the de-facto replacement for NAND/NOR on
-> high tier devices (mostly wifi6/7 consumer router)
+  69b6517687a4 ("block: use the right type for stub rq_integrity_vec()")
 
-If you aren't dealing with raw(ish) NAND don't use mtd.  MTD is designed
-to deal with the nitty gritty details of NOR and NAND flash.  If you
-already have an FTL running in the device there is absolutely no reason
-to use it.
+It is also needed for v6.6 and v6.1.
+
+Cheers,
+Matt
+-- 
+Sponsored by the NGI0 Core fund.
+
 
