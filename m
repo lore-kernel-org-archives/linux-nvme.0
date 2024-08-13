@@ -4,95 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA493C531DD
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Aug 2024 15:01:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A048C52D7C
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Aug 2024 15:02:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fdMETTEImRyAVHiJjuMBFrMxCEIjWPptnF/f3Mcubwk=; b=nIrxfWjdY3b/cpgOhQ4OFwoQpC
-	vmFaji0qzYJLMMMDSFeVncybmqgYpbjFq6kXN0X/PPlJ0NIZsrJPYdZhs4cNsIim1WAc6SOzmEYdU
-	FykkdQh5Sw1SBTPsXlqkh4Xxh/8KLrapaHNZ66UT0GxujwlVDpw3Avk3ILVHfaz4vXiG7ZBf6rjfr
-	6lQ41jueef9lpXnQ051HKPJDHegaSVZ8Q/pQBLCCilhK57hOZleP9F76DH4ERqvi/joo9yQTIZbvH
-	9vJ5fxfkDmEmZCP5QYjgv/TaBqzZtrXbhYLquOwka9/ooT1CdtF6+cXjrf9PkbYYpQAE6ayNRBUaN
-	lZY0Y9fw==;
+	bh=bUnP8H0MFd0Vy0Rk4/ku8LtrtayAnI+xZK51aPc0WlE=; b=HxV2gxEbfWlKF6OWMa71c1l+cp
+	bNw/yuklyv3wwM7iEpJAe5h5oYtpanVrOZhRZ2SUVfO9/krdTJLX2HHA4dNky48cD0BgCR7VesOYf
+	r0/3MUxQm1PyFKSP3OXaeZES8Z/ccxghZn8JJrT/+aqSsZHDnwS3yxBCvvN81RBuZTqpcFHCjpPze
+	Mtaz9LEpA9utfBQmQpnSvOVXpJrjqFXCyV9QKchcnfShmOMeCehPnRPxhYUkHBHQnIhU2ZvPE+JEr
+	8tMglzrWKVsAnrJmvGWVP11Li7cItk/fwUsrCba5YX8AInSBtnOsFfh6xqlsSOREwzRSZpON0Acfd
+	h+H4fEIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdt25-000000047WX-21an;
-	Tue, 13 Aug 2024 15:01:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1sdt23-000000047VM-3z1a;
+	Tue, 13 Aug 2024 15:01:55 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdr4p-00000003mjP-0UEb
+	id 1sdqTS-00000003fJw-1rhF
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Aug 2024 12:56:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723553798;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fdMETTEImRyAVHiJjuMBFrMxCEIjWPptnF/f3Mcubwk=;
-	b=X8atI2EqCscvVXLmkjzqEmUBCsMQk1Wh8bdSDfjPYJg0p/WWi7hUesUx8yHQyXzK+V0wB5
-	XkJwCM6RxK0Rk56NRuNyj7lrQPNqTY+xzZOLm8hRIqId2zGs2Oi06nxxLucsuy2Tj4qDZk
-	8dVc5ROCTshTbjHXCeRHmVV+eVGMEFw=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-81-aWKwkjLwMuy558NDq8AgRg-1; Tue,
- 13 Aug 2024 08:56:32 -0400
-X-MC-Unique: aWKwkjLwMuy558NDq8AgRg-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	Tue, 13 Aug 2024 12:18:05 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B21C91954B13;
-	Tue, 13 Aug 2024 12:56:27 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.133])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CDEF119560AA;
-	Tue, 13 Aug 2024 12:56:08 +0000 (UTC)
-Date: Tue, 13 Aug 2024 20:56:02 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Christoph Hellwig <hch@lst.de>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
-	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
-	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
-	linux-doc@vger.kernel.org, ming.lei@redhat.com
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A8FE5227C6;
+	Tue, 13 Aug 2024 12:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723551480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bUnP8H0MFd0Vy0Rk4/ku8LtrtayAnI+xZK51aPc0WlE=;
+	b=SJ/3n9mH5+eZc79ywnDNNBZy712ttAXvGho6oslO4n6FTrjX7P7nnmYQZU/BgB0LFGlTE/
+	uDJKlFH3xeCut3aos7ypTf0yT7y7TX8tJA3KmWuXJ/zIPswzhY2uN85GXJJwKw+fbyEBif
+	oAciqqjraPVTSsgvvaLfABDScPTjwfA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723551480;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bUnP8H0MFd0Vy0Rk4/ku8LtrtayAnI+xZK51aPc0WlE=;
+	b=kqGovRh5WJwUNyvr3ezligOM7FXcxrJAdr4kWr34BMWV/Pse5p3j71BZYWhTj2luB2dwim
+	RKu9mnvL887TnDDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723551480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bUnP8H0MFd0Vy0Rk4/ku8LtrtayAnI+xZK51aPc0WlE=;
+	b=SJ/3n9mH5+eZc79ywnDNNBZy712ttAXvGho6oslO4n6FTrjX7P7nnmYQZU/BgB0LFGlTE/
+	uDJKlFH3xeCut3aos7ypTf0yT7y7TX8tJA3KmWuXJ/zIPswzhY2uN85GXJJwKw+fbyEBif
+	oAciqqjraPVTSsgvvaLfABDScPTjwfA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723551480;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bUnP8H0MFd0Vy0Rk4/ku8LtrtayAnI+xZK51aPc0WlE=;
+	b=kqGovRh5WJwUNyvr3ezligOM7FXcxrJAdr4kWr34BMWV/Pse5p3j71BZYWhTj2luB2dwim
+	RKu9mnvL887TnDDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BEF713983;
+	Tue, 13 Aug 2024 12:18:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JdrQIfhOu2b1fAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 13 Aug 2024 12:18:00 +0000
+Date: Tue, 13 Aug 2024 14:17:59 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
+	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
+	Christoph Hellwig <hch@lst.de>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Kashyap Desai <kashyap.desai@broadcom.com>, 
+	Sumit Saxena <sumit.saxena@broadcom.com>, Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>, Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, Nilesh Javali <njavali@marvell.com>, 
+	GR-QLogic-Storage-Upstream@marvell.com, Jonathan Corbet <corbet@lwn.net>, 
+	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
+	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com
 Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
  is enabled
-Message-ID: <ZrtX4pzqwVUEgIPS@fedora>
+Message-ID: <844ee653-241c-42b8-84e0-1065ae715005@flourine.local>
 References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
  <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+ <ZrI5TcaAU82avPZn@fedora>
+ <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
+ <ZrRXEUko5EwKJaaP@fedora>
+ <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
+ <ZrYtXDrdPjn48r6k@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+In-Reply-To: <ZrYtXDrdPjn48r6k@fedora>
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLqmh8xjmb7g5apbd4gmjneg9b)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240813_055639_253550_00DAAF5A 
-X-CRM114-Status: GOOD (  27.66  )
+X-CRM114-CacheID: sfid-20240813_051802_825102_67CC4EC7 
+X-CRM114-Status: GOOD (  41.18  )
 X-Mailman-Approved-At: Tue, 13 Aug 2024 08:01:52 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -108,104 +150,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 06, 2024 at 02:06:47PM +0200, Daniel Wagner wrote:
-> When isolcpus=io_queue is enabled all hardware queues should run on the
-> housekeeping CPUs only. Thus ignore the affinity mask provided by the
-> driver. Also we can't use blk_mq_map_queues because it will map all CPUs
-> to first hctx unless, the CPU is the same as the hctx has the affinity
-> set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
+On Fri, Aug 09, 2024 at 10:53:16PM GMT, Ming Lei wrote:
+> On Fri, Aug 09, 2024 at 09:22:11AM +0200, Daniel Wagner wrote:
+> > On Thu, Aug 08, 2024 at 01:26:41PM GMT, Ming Lei wrote:
+> > > Isolated CPUs are removed from queue mapping in this patchset, when someone
+> > > submit IOs from the isolated CPU, what is the correct hctx used for handling
+> > > these IOs?
+> > 
+> > No, every possible CPU gets a mapping. What this patch series does, is
+> > to limit/aligns the number of hardware context to the number of
+> > housekeeping CPUs. There is still a complete ctx-hctc mapping. So
 > 
->   queue mapping for /dev/nvme0n1
->         hctx0: default 2 3 4 6 7
->         hctx1: default 5
->         hctx2: default 0
->         hctx3: default 1
-> 
->   PCI name is 00:05.0: nvme0n1
->         irq 57 affinity 0-1 effective 1 is_managed:0 nvme0q0
->         irq 58 affinity 4 effective 4 is_managed:1 nvme0q1
->         irq 59 affinity 5 effective 5 is_managed:1 nvme0q2
->         irq 60 affinity 0 effective 0 is_managed:1 nvme0q3
->         irq 61 affinity 1 effective 1 is_managed:1 nvme0q4
-> 
-> where as with blk_mq_hk_map_queues we get
-> 
->   queue mapping for /dev/nvme0n1
->         hctx0: default 2 4
->         hctx1: default 3 5
->         hctx2: default 0 6
->         hctx3: default 1 7
-> 
->   PCI name is 00:05.0: nvme0n1
->         irq 56 affinity 0-1 effective 1 is_managed:0 nvme0q0
->         irq 61 affinity 4 effective 4 is_managed:1 nvme0q1
->         irq 62 affinity 5 effective 5 is_managed:1 nvme0q2
->         irq 63 affinity 0 effective 0 is_managed:1 nvme0q3
->         irq 64 affinity 1 effective 1 is_managed:1 nvme0q4
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
->  block/blk-mq-cpumap.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-> index c1277763aeeb..7e026c2ffa02 100644
-> --- a/block/blk-mq-cpumap.c
-> +++ b/block/blk-mq-cpumap.c
-> @@ -60,11 +60,64 @@ unsigned int blk_mq_num_online_queues(unsigned int max_queues)
->  }
->  EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
->  
-> +static bool blk_mq_hk_map_queues(struct blk_mq_queue_map *qmap)
-> +{
-> +	struct cpumask *hk_masks;
-> +	cpumask_var_t isol_mask;
-> +
-> +	unsigned int queue, cpu;
-> +
-> +	if (!housekeeping_enabled(HK_TYPE_IO_QUEUE))
-> +		return false;
-> +
-> +	/* map housekeeping cpus to matching hardware context */
-> +	hk_masks = group_cpus_evenly(qmap->nr_queues);
-> +	if (!hk_masks)
-> +		goto fallback;
-> +
-> +	for (queue = 0; queue < qmap->nr_queues; queue++) {
-> +		for_each_cpu(cpu, &hk_masks[queue])
-> +			qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +	}
-> +
-> +	kfree(hk_masks);
-> +
-> +	/* map isolcpus to hardware context */
-> +	if (!alloc_cpumask_var(&isol_mask, GFP_KERNEL))
-> +		goto fallback;
-> +
-> +	queue = 0;
-> +	cpumask_andnot(isol_mask,
-> +		       cpu_possible_mask,
-> +		       housekeeping_cpumask(HK_TYPE_IO_QUEUE));
-> +
-> +	for_each_cpu(cpu, isol_mask) {
-> +		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +		queue = (queue + 1) % qmap->nr_queues;
-> +	}
-> +
+> OK, then I guess patch 1~7 aren't supposed to belong to this series,
+> cause you just want to reduce nr_hw_queues, meantime spread
+> house-keeping CPUs first for avoiding queues with all isolated cpu
+> mask.
 
-With patch 14 and the above change, managed irq's affinity becomes not
-matched with blk-mq mapping any more.
+I tried to explain the reason for these patches in the cover letter. The
+idea here is that it makes the later changes simpler, because we only
+have to touch one place. Furthermore, the caller just needs to provide
+an affinity mask the rest of the code then is generic. This allows to
+replace the open coded mapping code in hisi for example. Overall I think
+the resulting code is nicer and cleaner.
 
-If the last CPU in managed irq's affinity becomes offline, blk-mq
-mapping may have other isolated CPUs, so IOs in this hctx won't be
-drained from blk_mq_hctx_notify_offline() in case of CPU offline,
-but genirq still shutdowns this manage irq.
+> OK, Looks I missed the point in patch 15 in which you added isolated cpu
+> into mapping manually, just wondering why not take the current two-stage
+> policy to cover both house-keeping and isolated CPUs in
+> group_cpus_evenly()?
 
-So IO hang risk is introduced here, it should be the reason of your
-hang observation.
+Patch #15 explains why this approach didn't work in the current form.
+blk_mq_map_queues will map all isolated CPUs to the first hctx.
 
+> Such as spread house-keeping CPUs first, then isolated CPUs, just like
+> what we did for present & non-present cpus.
 
-Thanks, 
-Ming
+I've experimented with this approach and it didn't work (see above).
 
+> When blk_mq_hctx_notify_offline() is running, the current CPU isn't
+> offline yet, and the hctx is active, same with the managed irq, so it is fine
+> to wait until all in-flight IOs originated from this hctx completed
+> there.
+
+But if the if for some reason these never complete (as in my case),
+this blocks forever. Wouldn't it make sense to abort the wait after a
+while?
+
+> The reason is why these requests can't be completed? And the forward
+> progress is provided by blk-mq. And these requests are very likely
+> allocated & submitted from CPU6.
+
+Yes, I can confirm that the in flight request have been allocated and
+submitted by the CPU which is offlined.
+
+Here a log snipped from a different debug session. CPU 1 and 2 are
+already offline, CPU 3 is offlined. The CPU mapping for hctx1 is
+
+        hctx1: default 1 3
+
+I've added a printk to my hack timeout handler:
+
+ blk_mq_hctx_notify_offline:3600 hctx 1 force timeout request
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+ blk_mq_hctx_timeout_rq:3556 state 1 rq cpu 3
+
+that means these request have been allocated on CPU 3 and are still
+marked as in flight. I am trying to figure out why they are not
+completed as next step.
+
+> Can you figure out what is effective mask for irq of hctx2?  It is
+> supposed to be cpu6. And block debugfs for vda should provide helpful
+> hint.
+
+The effective mask for the above debug output is
+
+queue mapping for /dev/vda
+        hctx0: default 0 2
+        hctx1: default 1 3
+        hctx2: default 4 6
+        hctx3: default 5 7
+
+PCI name is 00:02.0: vda
+        irq 27 affinity 0-1 effective 0  virtio0-config
+        irq 28 affinity 0 effective 0  virtio0-req.0
+        irq 29 affinity 1 effective 1  virtio0-req.1
+        irq 30 affinity 4 effective 4  virtio0-req.2
+        irq 31 affinity 5 effective 5  virtio0-req.3
+
+Maybe there is still something off with qemu and the IRQ routing and the
+interrupts have been delivered to the wrong CPU.
+
+> > going offline have already been shutdown, thus no progress?) and
+> > blk_mq_hctx_notifiy_offline isn't doing anything in this scenario.
+> 
+> RH has internal cpu hotplug stress test, but not see such report so
+> far.
+
+Is this stress test running on real hardware? If so, it adds to my
+theory that the interrupt might be lost in certain situation when
+running qemu.
+
+ > Couldn't we do something like:
+> 
+> I usually won't thinking about any solution until root-cause is figured
+> out, :-)
+
+I agree, though sometimes is also is okay to have some defensive
+programming in place, such an upper limit when until giving up the wait.
+
+But yeah, let's focus figuring out what's wrong.
 
