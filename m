@@ -4,74 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20B11C52D7C
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Aug 2024 01:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3811CC52D7B
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Aug 2024 06:16:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zWja+EmAb7NF5oRwkWU0mymnALSqI0vx+xhbChfS6to=; b=40pf7tZWd3xM7Rs2leX9R73BRT
-	NWTQ7s0PpUjZFjND1Bl+l1cMjqp49eq5iiTLhtX1FxqkNrskWJLC4+MppI5R74PFlS/B6RJSPLAez
-	0rR469OUGtPxkwRCOUT0CPbz+l2T8Z7nHxZzELgb1wCat9X4MFgig1zeRosjHe8hHtg/gehCDJPra
-	ZJWDxk2v7i2z3nd/oVQXT4vu08VbQnRwW5MwU2+5wzsbTBjyS1NgH1L3X1gPQN5E16hfdO0dQsnmQ
-	ihS6C3hbeYua3samBfGlJBb1eV098vtJwGrSP3ftpcDHFRPqy4z1RmLRCcR9LVcSHJrn0iXgYnOXo
-	QpG42ufA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9fHtZseue14ViqRgi8X6malYopuN0jjVBWYrPzmhb/w=; b=Co4eP1b+zacC9hTTWrqjA6q7YY
+	dTa7h4C4qECOlC3UGS3CD4M7dTTSW1XipEHSkt4irkeLB6CsiMHaQ5sDGpDHTiTMxA/JRxMzXxct7
+	BUn4+xFEYbuKbx9cyO9xkuPenMnZ/0p5m5nptHMD2Lnkxac4GFALwncoQjfJfVtujQmpV/kNvwwV1
+	YWJUTxvSTJ1N5KWgUvdSTYXD7M6LTC13oqEJNXse0BGt5wCrOhS2ZRzE9Gl2mYCAm9Cyx7mjud49I
+	Is6c9TgpU5dlcEKcD7X8q9k+rBwlh4Rq/Pm7Yko89P8r4HTQF20uoUU10GVraMpU3kkGOh6KloXKV
+	5fQ1qnwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdgS1-00000001zs1-4Az7;
-	Tue, 13 Aug 2024 01:35:53 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1sdkpS-00000002YHl-17gQ;
+	Tue, 13 Aug 2024 06:16:22 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdgRx-00000001zrY-0FBj
+	id 1sdkpM-00000002YEB-0wY1
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Aug 2024 01:35:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723512948;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=zWja+EmAb7NF5oRwkWU0mymnALSqI0vx+xhbChfS6to=;
-	b=h1370a/C503nOQ4vocloU+Lw8jxtAw5dvHEHMvCaLUVZGlTFv8VqHEDCTRt/k1dpcAhbkM
-	Qm5gTVrtcNlQjnKLhMAsuf6MKZQDNp6vaWhMWT5vrPdCLX5IejS5WAK5N4us8FpUHd0X0u
-	ULBvTZbOK/YJZfC3ZntaZRFVPTsLH3w=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-54-lUNNv3oYMwq59rBY3Egztg-1; Mon,
- 12 Aug 2024 21:35:44 -0400
-X-MC-Unique: lUNNv3oYMwq59rBY3Egztg-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	Tue, 13 Aug 2024 06:16:20 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CCECA1944EB5;
-	Tue, 13 Aug 2024 01:35:42 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.100])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B46AB197703E;
-	Tue, 13 Aug 2024 01:35:40 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Ming Lei <ming.lei@redhat.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Mark O'Donovan <shiftee@posteo.net>,
-	Changhui Zhong <czhong@redhat.com>
-Subject: [PATCH V2] nvme: move stopping keep-alive into nvme_uninit_ctrl()
-Date: Tue, 13 Aug 2024 09:35:27 +0800
-Message-ID: <20240813013527.666491-1-ming.lei@redhat.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4456D22718;
+	Tue, 13 Aug 2024 06:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723529774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9fHtZseue14ViqRgi8X6malYopuN0jjVBWYrPzmhb/w=;
+	b=18o1xJU68ybPaRloja7hhYRirPs+d/fYnXBVLQ2gvVEnqYSks11EJfBtMELhv8MqcuZKuR
+	NOesZIh26dOTWdtNBWsalsk/ET/ko+aYhREaJdjhaSp+4K75hBn3+oPiBUmaxVnIexg7V0
+	EdOeYeOl1EHmyp33RFT8pbpP8fCyelY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723529774;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9fHtZseue14ViqRgi8X6malYopuN0jjVBWYrPzmhb/w=;
+	b=Q/lLp8m8bAnwJZ51HRgYMENHndH9Sm51XhoBol4ADSpjSFCQ0i4V+30t1BySEgsMK/zq+F
+	uYV7xCDF7RvOosAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723529774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9fHtZseue14ViqRgi8X6malYopuN0jjVBWYrPzmhb/w=;
+	b=18o1xJU68ybPaRloja7hhYRirPs+d/fYnXBVLQ2gvVEnqYSks11EJfBtMELhv8MqcuZKuR
+	NOesZIh26dOTWdtNBWsalsk/ET/ko+aYhREaJdjhaSp+4K75hBn3+oPiBUmaxVnIexg7V0
+	EdOeYeOl1EHmyp33RFT8pbpP8fCyelY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723529774;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9fHtZseue14ViqRgi8X6malYopuN0jjVBWYrPzmhb/w=;
+	b=Q/lLp8m8bAnwJZ51HRgYMENHndH9Sm51XhoBol4ADSpjSFCQ0i4V+30t1BySEgsMK/zq+F
+	uYV7xCDF7RvOosAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B4D613983;
+	Tue, 13 Aug 2024 06:16:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hPs9AS76umYfDgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 13 Aug 2024 06:16:14 +0000
+Message-ID: <110b9276-9aac-47e9-8f88-9dccd60b949c@suse.de>
+Date: Tue, 13 Aug 2024 08:16:12 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] nvme: move stopping keep-alive into nvme_uninit_ctrl()
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Mark O'Donovan <shiftee@posteo.net>, Changhui Zhong <czhong@redhat.com>
+References: <20240813013527.666491-1-ming.lei@redhat.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240813013527.666491-1-ming.lei@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240812_183549_190462_DF37358E 
-X-CRM114-Status: GOOD (  13.68  )
+X-CRM114-CacheID: sfid-20240812_231616_492244_ED7339DB 
+X-CRM114-Status: GOOD (  17.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,54 +133,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit 4733b65d82bd ("nvme: start keep-alive after admin queue setup")
-moves starting keep-alive from nvme_start_ctrl() into
-nvme_init_ctrl_finish(), but don't move stopping keep-alive into
-nvme_uninit_ctrl(), so keep-alive work can be started and keep pending
-after failing to start controller, finally use-after-free is triggered if
-nvme host driver is unloaded.
+On 8/13/24 03:35, Ming Lei wrote:
+> Commit 4733b65d82bd ("nvme: start keep-alive after admin queue setup")
+> moves starting keep-alive from nvme_start_ctrl() into
+> nvme_init_ctrl_finish(), but don't move stopping keep-alive into
+> nvme_uninit_ctrl(), so keep-alive work can be started and keep pending
+> after failing to start controller, finally use-after-free is triggered if
+> nvme host driver is unloaded.
+> 
+> This patch fixes kernel panic when running nvme/004 in case that connection
+> failure is triggered, by moving stopping keep-alive into nvme_uninit_ctrl().
+> 
+> This way is reasonable because keep-alive is now started in
+> nvme_init_ctrl_finish().
+> 
+> Fixes: 3af755a46881 ("nvme: move nvme_stop_keep_alive() back to original position")
+> Cc: Hannes Reinecke <hare@suse.de>
+> Cc: Mark O'Donovan <shiftee@posteo.net>
+> Reported-by: Changhui Zhong <czhong@redhat.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+> V2:
+> 	- fix "Fixes" tag
+> 
+>   drivers/nvme/host/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-This patch fixes kernel panic when running nvme/004 in case that connection
-failure is triggered, by moving stopping keep-alive into nvme_uninit_ctrl().
+Cheers,
 
-This way is reasonable because keep-alive is now started in
-nvme_init_ctrl_finish().
-
-Fixes: 3af755a46881 ("nvme: move nvme_stop_keep_alive() back to original position")
-Cc: Hannes Reinecke <hare@suse.de>
-Cc: Mark O'Donovan <shiftee@posteo.net>
-Reported-by: Changhui Zhong <czhong@redhat.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
-V2:
-	- fix "Fixes" tag
-
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 053d5b4909cd..562afa71ea85 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4612,7 +4612,6 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_mpath_stop(ctrl);
- 	nvme_auth_stop(ctrl);
--	nvme_stop_keep_alive(ctrl);
- 	nvme_stop_failfast_work(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
-@@ -4648,6 +4647,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- {
-+	nvme_stop_keep_alive(ctrl);
- 	nvme_hwmon_exit(ctrl);
- 	nvme_fault_inject_fini(&ctrl->fault_inject);
- 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+Hannes
 -- 
-2.45.2
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
