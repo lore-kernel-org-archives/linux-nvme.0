@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 690CEC52D7C
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Aug 2024 19:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF038C52D7B
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Aug 2024 19:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RrqBJVGTlh5ZtHH92QXhX9ddeZFS69LoB5LowDVWzGY=; b=SDVDSvsdNqssEwDzRyxUpMdmJ4
-	1wVNypNik2N+6zcyX4Zj5uyW9X/rRnNbPDdcu98XB94BJJf3IJKtt/nf2lmOnEEq/7PdTk6mwaRoJ
-	TtvFoZ7TywbFvnLIMm4fWzogz0qNIYXMvXCXTM4vQJK9Tb/b0QlIlM7pX5ho3IiIyyLgg6KjXvByl
-	m9jl/OM4azSGgPujcCH3QnE3UCBCpPCfpanlxjm7Q/UU/Nqb3vJNyPdLkqihXOl8jZSjQcAG/LkGN
-	4yjM0YEqA9XV8aQVFAnuzCxOOw8TzHJpMUi4aJOZikz/deLYtMY1pZ8Ih6yj97RdmhnmbYcto4uOp
-	Bzs+m6lg==;
+	bh=OObZkmJINb/IIxszMLBUQ4Cgfst2nCw5TRa3UJeIPjA=; b=XVN13IyiGsBmkif71mc3FY2i0j
+	GdL+qxjyjLLBdEePj36cN+qLr+O/Yk4Tqi2LJluvhxcqW3Ne2RAu1WcdFnRxUVVvE2x2d2SHAVmmW
+	UM3nuiM1Ynw/+ERd5BnnlmEETf3+6JcS7QlwWSuIU+NVIapMr+x6TZAYQsNO0mvfbmBbaOIgPdQhi
+	S6i/CoMWz8JMFHKMcoulse+ynh7XHzg5oqV4JeN5WPrQ5g76qvSaxocvkhtgVRy3M4WgPVE93GSSI
+	y7Amws2/tqfuXzw1eolbfv2imcJDjsAq8J6fqqEupvIDt5BARTpvuvJgr3Xgi44w4pA+lA33jgC9v
+	Yo9NeVDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdxJP-00000004lpj-0NAS;
-	Tue, 13 Aug 2024 19:36:07 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1sdxSf-00000004mhz-0OGZ;
+	Tue, 13 Aug 2024 19:45:41 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sdxJL-00000004lpE-37Iz
+	id 1sdxSc-00000004mhY-0ym9
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Aug 2024 19:36:05 +0000
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42802ddfaa6so6872775e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 13 Aug 2024 12:36:03 -0700 (PDT)
+	Tue, 13 Aug 2024 19:45:39 +0000
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42808a69a93so7329705e9.3
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Aug 2024 12:45:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723577762; x=1724182562;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1723578336; x=1724183136;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RrqBJVGTlh5ZtHH92QXhX9ddeZFS69LoB5LowDVWzGY=;
-        b=LF1PVLtysntEuI4juLoYY1LymTzO1rzZHU4h/Ej+UtLKgtlRvA3x3GnleK4CkjaHU4
-         XOdLVETuOlpinF9BhgUcn9ngfo5BZwtyR34ROGV/jUhCYMqfQB2h/Z7sMMLNY7d/uGzf
-         X5aA2Y8Oq+OV8cuICWY8VjEP07znHP0BJipMJBpVFIGrj6XqZ4OczrQPb+K+84DXF2hU
-         KB+zIoDXAfRYnMIDOF+42ZRUhLI65BQwHgwzg3s7F7O07M8yWOV31tgE5wLxPJcQ9nOT
-         x1lVDpm+WYhlK088X2Dg5Vpu2EILCWZ/ogxhpX7y/kxADH0wd7rshT7XOgC8Li1ADz5V
-         BnFw==
-X-Forwarded-Encrypted: i=1; AJvYcCUiIabyfChm1O917JG5r7+G0D9JPI0gI8RRE5IRELHgD5jroWKAe+dSW9G3iyskzKuG5pKJXNnd+VJSZ6+Oawxs9PQpDANFEq69qTOuZkY=
-X-Gm-Message-State: AOJu0YzOdsEE5MhYOGZyn3iWH7e81HR9EodiVPRUoTn9fBgI/lFIKvJ3
-	06bjQcCgwbcXPXCGltX4rtRpF4Nop/v2vfS2TKgxVJW/C+rLjkZ0
-X-Google-Smtp-Source: AGHT+IGGOddiqtWY/jUwRyrTe6O6DaJ92J93stEJjNbOPNJViZ++V1jJF0hLblDj0PiCdPPemnukgw==
-X-Received: by 2002:a5d:5f93:0:b0:367:9495:9016 with SMTP id ffacd0b85a97d-3717783bfc7mr274783f8f.6.1723577761645;
-        Tue, 13 Aug 2024 12:36:01 -0700 (PDT)
+        bh=OObZkmJINb/IIxszMLBUQ4Cgfst2nCw5TRa3UJeIPjA=;
+        b=EXeeIeupd+roZLfB5bLY6dbm5CuJAvhaBuACmi3b/Uy9n+XpEE0NJx3XotSan1c9A4
+         TSCLfbF7UYanwnw7dIRuuZB3LmEfrx85u0hrDcQTqSwlRZgH6w9FXgomfaj0t7eGp+mt
+         2jdvu+MxNQkzQXvy6cNQVVs/DlokMgfRt43XwCC0mdR7taTjx6hc+v2YBRPJv6CYz0Ol
+         83UyasRpZXgdrgH+ZlsjkUVa2RRrpRVrNKaPWDmfoz1NOUNFHN3h5Ewz+fgl5gABAgxP
+         kEKz/Hqh5IjcOwd5SEsijl+4+LfDiCTWK2GxC97BPc/PRrwl7yXNTeiOa+oFFaZozY4o
+         c/eA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlkuRNor0ogSnh3rsj5YQKicVr/VVVlIadN74OH9ddJdbNVURltikoUU8EvYkkkC+iJwsRcZs/HEV3@lists.infradead.org
+X-Gm-Message-State: AOJu0YzP97IeESQotuphHwP4CpWbqgmXwXER8S2yEoopgB4n/B7fPlUo
+	HgCRob+zEFk95QL1Iqk0kUm/Qzq7p7tSxrNm84BWhSSV1mf1Qcar
+X-Google-Smtp-Source: AGHT+IFjh0flMVAInfaguwcG+ZKN9eRR0f8b/aIbQZi5fMnXt+2lSKbxpwlNb70nQ/qlxAmzEAVlZg==
+X-Received: by 2002:a05:600c:4446:b0:427:9f6c:e4bc with SMTP id 5b1f17b1804b1-429dd27ea06mr2138605e9.5.1723578336216;
+        Tue, 13 Aug 2024 12:45:36 -0700 (PDT)
 Received: from [10.100.102.74] ([95.35.173.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c751d875sm150478805e9.25.2024.08.13.12.36.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4290c74a96bsm239279125e9.24.2024.08.13.12.45.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Aug 2024 12:36:01 -0700 (PDT)
-Message-ID: <83c23710-372c-4eae-9529-8f9c71669cb9@grimberg.me>
-Date: Tue, 13 Aug 2024 22:36:00 +0300
+        Tue, 13 Aug 2024 12:45:35 -0700 (PDT)
+Message-ID: <4b64fa0f-cfda-465c-8be6-60b4cf60f558@grimberg.me>
+Date: Tue, 13 Aug 2024 22:45:33 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] nvme-tcp: align I/O cpu with blk-mq mapping
-From: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 6/9] nvme-tcp: request secure channel concatenation
 To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240716073616.84417-1-hare@kernel.org>
- <20240716073616.84417-9-hare@kernel.org>
- <cdd6bc37-fd55-45d1-a1d9-dcb2b4461242@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org
+References: <20240813111512.135634-1-hare@kernel.org>
+ <20240813111512.135634-7-hare@kernel.org>
 Content-Language: en-US
-In-Reply-To: <cdd6bc37-fd55-45d1-a1d9-dcb2b4461242@grimberg.me>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240813111512.135634-7-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240813_123603_806054_9BAB9B20 
-X-CRM114-Status: GOOD (  33.00  )
+X-CRM114-CacheID: sfid-20240813_124538_328386_034D9C39 
+X-CRM114-Status: GOOD (  32.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,144 +86,465 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 18/07/2024 0:34, Sagi Grimberg wrote:
+On 13/08/2024 14:15, Hannes Reinecke wrote:
+> Add a fabrics option 'concat' to request secure channel concatenation.
+> When secure channel concatenation is enabled a 'generated PSK' is inserted
+> into the keyring such that it's available after reset.
 >
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+> ---
+>   drivers/nvme/host/auth.c    | 108 +++++++++++++++++++++++++++++++++++-
+>   drivers/nvme/host/fabrics.c |  34 +++++++++++-
+>   drivers/nvme/host/fabrics.h |   3 +
+>   drivers/nvme/host/nvme.h    |   2 +
+>   drivers/nvme/host/sysfs.c   |   4 +-
+>   drivers/nvme/host/tcp.c     |  47 ++++++++++++++--
+>   include/linux/nvme.h        |   7 +++
+>   7 files changed, 191 insertions(+), 14 deletions(-)
 >
-> On 16/07/2024 10:36, Hannes Reinecke wrote:
->> We should align the 'io_cpu' setting with the blk-mq
->> cpu mapping to ensure that we're not bouncing threads
->> when doing I/O. To avoid cpu contention this patch also
->> adds an atomic counter for the number of queues on each
->> cpu to distribute the load across all CPUs in the blk-mq cpu set.
->> Additionally we should always set the 'io_cpu' value, as
->> in the WQ_UNBOUND case it'll be treated as a hint anyway.
->>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
->>   drivers/nvme/host/tcp.c | 65 +++++++++++++++++++++++++++++++----------
->>   1 file changed, 49 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index f3a94168b2c3..a391a3f7c4d7 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -28,6 +28,8 @@
->>     struct nvme_tcp_queue;
->>   +static atomic_t nvme_tcp_cpu_queues[NR_CPUS];
->> +
->>   /* Define the socket priority to use for connections were it is 
->> desirable
->>    * that the NIC consider performing optimized packet processing or 
->> filtering.
->>    * A non-zero value being sufficient to indicate general 
->> consideration of any
->> @@ -1799,20 +1801,42 @@ static bool nvme_tcp_poll_queue(struct 
->> nvme_tcp_queue *queue)
->>   static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
->>   {
->>       struct nvme_tcp_ctrl *ctrl = queue->ctrl;
->> -    int qid = nvme_tcp_queue_id(queue);
->> -    int n = 0;
->> -
->> -    if (nvme_tcp_default_queue(queue))
->> -        n = qid - 1;
->> -    else if (nvme_tcp_read_queue(queue))
->> -        n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] - 1;
->> -    else if (nvme_tcp_poll_queue(queue))
->> +    struct blk_mq_tag_set *set = &ctrl->tag_set;
->> +    int qid = nvme_tcp_queue_id(queue) - 1;
->> +    unsigned int *mq_map = NULL;;
->> +    int n = 0, cpu, io_cpu, min_queues = WORK_CPU_UNBOUND;
->
-> Again, min_queues is a minimum quantity, not an id. It makes zero sense
-> to use WORK_CPU_UNBOUND as the initializer. Just set it to INT_MAX or 
-> something.
->> +
->> +    if (nvme_tcp_default_queue(queue)) {
->> +        mq_map = set->map[HCTX_TYPE_DEFAULT].mq_map;
->> +        n = qid;
->> +    } else if (nvme_tcp_read_queue(queue)) {
->> +        mq_map = set->map[HCTX_TYPE_READ].mq_map;
->> +        n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT];
->> +    } else if (nvme_tcp_poll_queue(queue)) {
->> +        mq_map = set->map[HCTX_TYPE_POLL].mq_map;
->>           n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
->> -                ctrl->io_queues[HCTX_TYPE_READ] - 1;
->> -    if (wq_unbound)
->> -        queue->io_cpu = WORK_CPU_UNBOUND;
->> -    else
->> -        queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, 
->> -1, false);
->> +                ctrl->io_queues[HCTX_TYPE_READ];
->> +    }
->> +
->> +    if (WARN_ON(!mq_map))
->> +        return;
->> +    for_each_online_cpu(cpu) {
->> +        int num_queues;
->> +
->> +        if (mq_map[cpu] != qid)
->> +            continue;
->> +        num_queues = atomic_read(&nvme_tcp_cpu_queues[cpu]);
->> +        if (num_queues < min_queues) {
->> +            min_queues = num_queues;
->> +            io_cpu = cpu;
->> +        }
->> +    }
->> +    if (io_cpu != queue->io_cpu) {
->> +        queue->io_cpu = io_cpu;
->
-> Hannes, the code may make sense to you, but not to me.
-> Please do not add code like:
->     if (a != b) {
->         b = a;
->     }
->
-> I think it is a sign that we are doing something wrong here.
->
->> + atomic_inc(&nvme_tcp_cpu_queues[io_cpu]);
->> +    }
->
-> Again, why can't we always set io_cpu and increment the counter?
-> If the wq is unbound, it makes no difference, and if the wq is bound, 
-> that
-> is actually what you want to do. What am I missing?
->
->> +    dev_dbg(ctrl->ctrl.device, "queue %d: using cpu %d\n",
->> +        qid, queue->io_cpu);
->>   }
->>     static void nvme_tcp_tls_done(void *data, int status, 
->> key_serial_t pskid)
->> @@ -1957,7 +1981,7 @@ static int nvme_tcp_alloc_queue(struct 
->> nvme_ctrl *nctrl, int qid,
->>         queue->sock->sk->sk_allocation = GFP_ATOMIC;
->>       queue->sock->sk->sk_use_task_frag = false;
->> -    nvme_tcp_set_queue_io_cpu(queue);
->> +    queue->io_cpu = WORK_CPU_UNBOUND;
->>       queue->request = NULL;
->>       queue->data_remaining = 0;
->>       queue->ddgst_remaining = 0;
->> @@ -2088,6 +2112,10 @@ static void __nvme_tcp_stop_queue(struct 
->> nvme_tcp_queue *queue)
->>       kernel_sock_shutdown(queue->sock, SHUT_RDWR);
->>       nvme_tcp_restore_sock_ops(queue);
->>       cancel_work_sync(&queue->io_work);
->> +    if (queue->io_cpu != WORK_CPU_UNBOUND) {
->
-> I think that we can safely always set queue->io_cpu to a cpu. If the 
-> unbound_wq
-> only operates on a subset of the cores, it doesn't matter anyways...
->
-> The rest of the patch looks good though.
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index 371e14f0a203..d2fdaefd236f 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+> @@ -12,6 +12,7 @@
+>   #include "nvme.h"
+>   #include "fabrics.h"
+>   #include <linux/nvme-auth.h>
+> +#include <linux/nvme-keyring.h>
+>   
+>   #define CHAP_BUF_SIZE 4096
+>   static struct kmem_cache *nvme_chap_buf_cache;
+> @@ -131,7 +132,12 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+>   	data->auth_type = NVME_AUTH_COMMON_MESSAGES;
+>   	data->auth_id = NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE;
+>   	data->t_id = cpu_to_le16(chap->transaction);
+> -	data->sc_c = 0; /* No secure channel concatenation */
+> +	if (!ctrl->opts->concat || chap->qid != 0)
+> +		data->sc_c = NVME_AUTH_SECP_NOSC;
+> +	else if (ctrl->opts->tls_key)
+> +		data->sc_c = NVME_AUTH_SECP_REPLACETLSPSK;
+> +	else
+> +		data->sc_c = NVME_AUTH_SECP_NEWTLSPSK;
+>   	data->napd = 1;
+>   	data->auth_protocol[0].dhchap.authid = NVME_AUTH_DHCHAP_AUTH_ID;
+>   	data->auth_protocol[0].dhchap.halen = 3;
+> @@ -311,8 +317,9 @@ static int nvme_auth_set_dhchap_reply_data(struct nvme_ctrl *ctrl,
+>   	data->hl = chap->hash_len;
+>   	data->dhvlen = cpu_to_le16(chap->host_key_len);
+>   	memcpy(data->rval, chap->response, chap->hash_len);
+> -	if (ctrl->ctrl_key) {
+> +	if (ctrl->ctrl_key)
+>   		chap->bi_directional = true;
+> +	if (ctrl->ctrl_key || ctrl->opts->concat) {
+>   		get_random_bytes(chap->c2, chap->hash_len);
+>   		data->cvalid = 1;
+>   		memcpy(data->rval + chap->hash_len, chap->c2,
+> @@ -322,7 +329,10 @@ static int nvme_auth_set_dhchap_reply_data(struct nvme_ctrl *ctrl,
+>   	} else {
+>   		memset(chap->c2, 0, chap->hash_len);
+>   	}
+> -	chap->s2 = nvme_auth_get_seqnum();
+> +	if (ctrl->opts->concat)
+> +		chap->s2 = 0;
+> +	else
+> +		chap->s2 = nvme_auth_get_seqnum();
+>   	data->seqnum = cpu_to_le32(chap->s2);
+>   	if (chap->host_key_len) {
+>   		dev_dbg(ctrl->device, "%s: qid %d host public key %*ph\n",
+> @@ -677,6 +687,84 @@ static void nvme_auth_free_dhchap(struct nvme_dhchap_queue_context *chap)
+>   		crypto_free_kpp(chap->dh_tfm);
+>   }
+>   
+> +void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl)
+> +{
+> +	dev_dbg(ctrl->device, "Wipe generated TLS PSK %08x\n",
+> +		key_serial(ctrl->opts->tls_key));
+> +	key_revoke(ctrl->opts->tls_key);
+> +	key_put(ctrl->opts->tls_key);
+> +	ctrl->opts->tls_key = NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_auth_revoke_tls_key);
+> +
+> +static int nvme_auth_secure_concat(struct nvme_ctrl *ctrl,
+> +				   struct nvme_dhchap_queue_context *chap)
+> +{
+> +	u8 *psk, *digest, *tls_psk;
+> +	struct key *tls_key;
+> +	size_t psk_len;
+> +	int ret = 0;
+> +
+> +	if (!chap->sess_key) {
+> +		dev_warn(ctrl->device,
+> +			 "%s: qid %d no session key negotiated\n",
+> +			 __func__, chap->qid);
+> +		return -ENOKEY;
+> +	}
+> +
+> +	ret = nvme_auth_generate_psk(chap->hash_id, chap->sess_key,
+> +				     chap->sess_key_len,
+> +				     chap->c1, chap->c2,
+> +				     chap->hash_len, &psk, &psk_len);
+> +	if (ret) {
+> +		dev_warn(ctrl->device,
+> +			 "%s: qid %d failed to generate PSK, error %d\n",
+> +			 __func__, chap->qid, ret);
+> +		return ret;
+> +	}
+> +	dev_dbg(ctrl->device,
+> +		  "%s: generated psk %*ph\n", __func__, (int)psk_len, psk);
+> +
+> +	ret = nvme_auth_generate_digest(chap->hash_id, psk, psk_len,
+> +					ctrl->opts->subsysnqn,
+> +					ctrl->opts->host->nqn, &digest);
+> +	if (ret) {
+> +		dev_warn(ctrl->device,
+> +			 "%s: qid %d failed to generate digest, error %d\n",
+> +			 __func__, chap->qid, ret);
+> +		goto out_free_psk;
+> +	};
+> +	dev_dbg(ctrl->device, "%s: generated digest %s\n",
+> +		 __func__, digest);
+> +	ret = nvme_auth_derive_tls_psk(chap->hash_id, psk, psk_len, digest, &tls_psk);
+> +	if (ret) {
+> +		dev_warn(ctrl->device,
+> +			 "%s: qid %d failed to derive TLS psk, error %d\n",
+> +			 __func__, chap->qid, ret);
+> +		goto out_free_digest;
+> +	};
+> +
+> +	tls_key = nvme_tls_psk_refresh(ctrl->opts->keyring, ctrl->opts->host->nqn,
+> +				       ctrl->opts->subsysnqn, chap->hash_id,
+> +				       tls_psk, psk_len, digest);
+> +	if (IS_ERR(tls_key)) {
+> +		ret = PTR_ERR(tls_key);
+> +		dev_warn(ctrl->device,
+> +			 "%s: qid %d failed to insert generated key, error %d\n",
+> +			 __func__, chap->qid, ret);
+> +		tls_key = NULL;
+> +		kfree_sensitive(tls_psk);
+> +	}
+> +	if (ctrl->opts->tls_key)
+> +		nvme_auth_revoke_tls_key(ctrl);
+> +	ctrl->opts->tls_key = tls_key;
+> +out_free_digest:
+> +	kfree_sensitive(digest);
+> +out_free_psk:
+> +	kfree_sensitive(psk);
+> +	return ret;
+> +}
+> +
+>   static void nvme_queue_auth_work(struct work_struct *work)
+>   {
+>   	struct nvme_dhchap_queue_context *chap =
+> @@ -833,6 +921,14 @@ static void nvme_queue_auth_work(struct work_struct *work)
+>   	}
+>   	if (!ret) {
+>   		chap->error = 0;
+> +		/* Secure concatenation can only be enabled on the admin queue */
+> +		if (!chap->qid && ctrl->opts->concat &&
+> +		    (ret = nvme_auth_secure_concat(ctrl, chap))) {
+> +			dev_warn(ctrl->device,
+> +				 "%s: qid %d failed to enable secure concatenation\n",
+> +				 __func__, chap->qid);
+> +			chap->error = ret;
+> +		}
 
-Hey Hannes,
+Lets break up the if condition:
 
- From this series, I think that this is one patch that we both agree 
-that should
-be addressed. The idea that we want to spread out multiple 
-controllers/queues
-over multiple cpu cores is correct.
+	if (!chap->qid && ctrl->opts->concat) {
+		ret = nvme_auth_secure_concat(ctrl, chap);
+		if (!ret)
+			return;
+		dev_warn(ctrl->device,
+			"%s: qid %d failed to enable secure concatenation\n",
+			 __func__, chap->qid);
+		chap->error = ret;
+	}
 
-How about addressing the comments on this patch and split it from the series
-until we have more info on the rest?
+
+
+>   		return;
+
+No need for the return statement.
+
+>   	}
+>   
+> @@ -912,6 +1008,12 @@ static void nvme_ctrl_auth_work(struct work_struct *work)
+>   			 "qid 0: authentication failed\n");
+>   		return;
+>   	}
+> +	/*
+> +	 * Only run authentication on the admin queue for
+> +	 * secure concatenation
+> +	 */
+> +	if (ctrl->opts->concat)
+> +		return;
+>   
+>   	for (q = 1; q < ctrl->queue_count; q++) {
+>   		ret = nvme_auth_negotiate(ctrl, q);
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 432efcbf9e2f..93e9041b9657 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -472,8 +472,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+>   	result = le32_to_cpu(res.u32);
+>   	ctrl->cntlid = result & 0xFFFF;
+>   	if (result & (NVME_CONNECT_AUTHREQ_ATR | NVME_CONNECT_AUTHREQ_ASCR)) {
+> -		/* Secure concatenation is not implemented */
+> -		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+> +		/* Check for secure concatenation */
+> +		if ((result & NVME_CONNECT_AUTHREQ_ASCR) &&
+> +		    !ctrl->opts->concat) {
+>   			dev_warn(ctrl->device,
+>   				 "qid 0: secure concatenation is not supported\n");
+>   			ret = -EOPNOTSUPP;
+> @@ -550,7 +551,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+>   		/* Secure concatenation is not implemented */
+>   		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+>   			dev_warn(ctrl->device,
+> -				 "qid 0: secure concatenation is not supported\n");
+> +				 "qid %d: secure concatenation is not supported\n", qid);
+>   			ret = -EOPNOTSUPP;
+>   			goto out_free_data;
+>   		}
+> @@ -706,6 +707,7 @@ static const match_table_t opt_tokens = {
+>   #endif
+>   #ifdef CONFIG_NVME_TCP_TLS
+>   	{ NVMF_OPT_TLS,			"tls"			},
+> +	{ NVMF_OPT_CONCAT,		"concat"		},
+>   #endif
+>   	{ NVMF_OPT_ERR,			NULL			}
+>   };
+> @@ -735,6 +737,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   	opts->tls = false;
+>   	opts->tls_key = NULL;
+>   	opts->keyring = NULL;
+> +	opts->concat = false;
+>   
+>   	options = o = kstrdup(buf, GFP_KERNEL);
+>   	if (!options)
+> @@ -1053,6 +1056,14 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   			}
+>   			opts->tls = true;
+>   			break;
+> +		case NVMF_OPT_CONCAT:
+> +			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
+> +				pr_err("TLS is not supported\n");
+> +				ret = -EINVAL;
+> +				goto out;
+> +			}
+> +			opts->concat = true;
+> +			break;
+>   		default:
+>   			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+>   				p);
+> @@ -1079,6 +1090,23 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   			pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
+>   				opts->fast_io_fail_tmo, ctrl_loss_tmo);
+>   	}
+> +	if (opts->concat) {
+> +		if (opts->tls) {
+> +			pr_err("Secure concatenation over TLS is not supported\n");
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +		if (opts->tls_key) {
+> +			pr_err("Cannot specify a TLS key for secure concatenation\n");
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +		if (!opts->dhchap_secret) {
+> +			pr_err("Need to enable DH-CHAP for secure concatenation\n");
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +	}
+>   
+>   	opts->host = nvmf_host_add(hostnqn, &hostid);
+>   	if (IS_ERR(opts->host)) {
+> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+> index 21d75dc4a3a0..9cf5b020adba 100644
+> --- a/drivers/nvme/host/fabrics.h
+> +++ b/drivers/nvme/host/fabrics.h
+> @@ -66,6 +66,7 @@ enum {
+>   	NVMF_OPT_TLS		= 1 << 25,
+>   	NVMF_OPT_KEYRING	= 1 << 26,
+>   	NVMF_OPT_TLS_KEY	= 1 << 27,
+> +	NVMF_OPT_CONCAT		= 1 << 28,
+>   };
+>   
+>   /**
+> @@ -101,6 +102,7 @@ enum {
+>    * @keyring:    Keyring to use for key lookups
+>    * @tls_key:    TLS key for encrypted connections (TCP)
+>    * @tls:        Start TLS encrypted connections (TCP)
+> + * @concat:     Enabled Secure channel concatenation (TCP)
+>    * @disable_sqflow: disable controller sq flow control
+>    * @hdr_digest: generate/verify header digest (TCP)
+>    * @data_digest: generate/verify data digest (TCP)
+> @@ -130,6 +132,7 @@ struct nvmf_ctrl_options {
+>   	struct key		*keyring;
+>   	struct key		*tls_key;
+>   	bool			tls;
+> +	bool			concat;
+>   	bool			disable_sqflow;
+>   	bool			hdr_digest;
+>   	bool			data_digest;
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 1970484e3f46..50515ad0f9d6 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -1128,6 +1128,7 @@ void nvme_auth_stop(struct nvme_ctrl *ctrl);
+>   int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
+>   int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid);
+>   void nvme_auth_free(struct nvme_ctrl *ctrl);
+> +void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl);
+>   #else
+>   static inline int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+>   {
+> @@ -1150,6 +1151,7 @@ static inline int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid)
+>   	return -EPROTONOSUPPORT;
+>   }
+>   static inline void nvme_auth_free(struct nvme_ctrl *ctrl) {};
+> +static void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl) {};
+>   #endif
+>   
+>   u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index eb345551d6fe..32a621f75821 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+> @@ -779,10 +779,10 @@ static umode_t nvme_tls_attrs_are_visible(struct kobject *kobj,
+>   		return 0;
+>   
+>   	if (a == &dev_attr_tls_key.attr &&
+> -	    !ctrl->opts->tls)
+> +	    !ctrl->opts->tls && !ctrl->opts->concat)
+>   		return 0;
+>   	if (a == &dev_attr_tls_configured_key.attr &&
+> -	    !ctrl->opts->tls_key)
+> +	    (!ctrl->opts->tls_key || ctrl->opts->concat))
+>   		return 0;
+>   	if (a == &dev_attr_tls_keyring.attr &&
+>   	    !ctrl->opts->keyring)
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index e3d82e91151a..b229c4402482 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -233,7 +233,7 @@ static inline bool nvme_tcp_tls_configured(struct nvme_ctrl *ctrl)
+>   	if (!IS_ENABLED(CONFIG_NVME_TCP_TLS))
+>   		return 0;
+>   
+> -	return ctrl->opts->tls;
+> +	return ctrl->opts->tls || ctrl->opts->concat;
+>   }
+>   
+>   static inline struct blk_mq_tags *nvme_tcp_tagset(struct nvme_tcp_queue *queue)
+> @@ -1948,7 +1948,7 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+>   	if (nvme_tcp_tls_configured(ctrl)) {
+>   		if (ctrl->opts->tls_key)
+>   			pskid = key_serial(ctrl->opts->tls_key);
+> -		else {
+> +		else if (ctrl->opts->tls) {
+>   			pskid = nvme_tls_psk_default(ctrl->opts->keyring,
+>   						      ctrl->opts->host->nqn,
+>   						      ctrl->opts->subsysnqn);
+> @@ -1978,9 +1978,25 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>   {
+>   	int i, ret;
+>   
+> -	if (nvme_tcp_tls_configured(ctrl) && !ctrl->tls_pskid) {
+> -		dev_err(ctrl->device, "no PSK negotiated\n");
+> -		return -ENOKEY;
+> +	if (nvme_tcp_tls_configured(ctrl)) {
+> +		if (ctrl->opts->concat) {
+> +			/*
+> +			 * The generated PSK is stored in the
+> +			 * fabric options
+> +			 */
+> +			if (!ctrl->opts->tls_key) {
+> +				dev_err(ctrl->device, "no PSK generated\n");
+> +				return -ENOKEY;
+> +			}
+> +			if (ctrl->tls_pskid &&
+> +			    ctrl->tls_pskid != key_serial(ctrl->opts->tls_key)) {
+> +				dev_err(ctrl->device, "Stale PSK id %08x\n", ctrl->tls_pskid);
+> +				ctrl->tls_pskid = 0;
+> +			}
+> +		} else if (!ctrl->tls_pskid) {
+> +			dev_err(ctrl->device, "no PSK negotiated\n");
+> +			return -ENOKEY;
+> +		}
+>   	}
+>   
+>   	for (i = 1; i < ctrl->queue_count; i++) {
+> @@ -2211,6 +2227,21 @@ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl,
+>   	}
+>   }
+>   
+> +/*
+> + * The TLS key needs to be revoked when:
+> + * - concatenation is enabled and
+> + *   -> This is a generated key and only valid for this session
+> + * - the generated key is present in ctrl->tls_key and
+> + *   -> authentication has completed and the key has been generated
+> + * - tls has been enabled
+> + *   -> otherwise we are about to reset the admin queue after authentication
+> + *      to enable TLS with the generated key
+> + */
+> +static bool nvme_tcp_key_revoke_needed(struct nvme_ctrl *ctrl)
+> +{
+> +	return ctrl->opts->concat && ctrl->opts->tls_key && ctrl->tls_pskid;
+> +}
+> +
+>   static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+>   {
+>   	struct nvmf_ctrl_options *opts = ctrl->opts;
+> @@ -2314,6 +2345,8 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>   				struct nvme_tcp_ctrl, err_work);
+>   	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+>   
+> +	if (nvme_tcp_key_revoke_needed(ctrl))
+> +		nvme_auth_revoke_tls_key(ctrl);
+>   	nvme_stop_keep_alive(ctrl);
+>   	flush_work(&ctrl->async_event_work);
+>   	nvme_tcp_teardown_io_queues(ctrl, false);
+> @@ -2354,6 +2387,8 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+>   		container_of(work, struct nvme_ctrl, reset_work);
+>   	int ret;
+>   
+> +	if (nvme_tcp_key_revoke_needed(ctrl))
+> +		nvme_auth_revoke_tls_key(ctrl);
+>   	nvme_stop_ctrl(ctrl);
+>   	nvme_tcp_teardown_ctrl(ctrl, false);
+>   
+> @@ -2848,7 +2883,7 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
+>   			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
+>   			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
+>   			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS |
+> -			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY,
+> +			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY | NVMF_OPT_CONCAT,
+>   	.create_ctrl	= nvme_tcp_create_ctrl,
+>   };
+>   
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 7b2ae2e43544..8072edf3c842 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -1678,6 +1678,13 @@ enum {
+>   	NVME_AUTH_DHGROUP_INVALID	= 0xff,
+>   };
+>   
+> +enum {
+> +	NVME_AUTH_SECP_NOSC		= 0x00,
+> +	NVME_AUTH_SECP_SC		= 0x01,
+> +	NVME_AUTH_SECP_NEWTLSPSK	= 0x02,
+> +	NVME_AUTH_SECP_REPLACETLSPSK	= 0x03,
+> +};
+> +
+>   union nvmf_auth_protocol {
+>   	struct nvmf_auth_dhchap_protocol_descriptor dhchap;
+>   };
+
+Wandering if splitting core/fabrics from tcp would be viable here...
 
