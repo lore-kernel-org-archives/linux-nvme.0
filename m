@@ -4,71 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 642EFC52D7C
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Aug 2024 23:35:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E31D4C3DA4A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Aug 2024 06:12:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XfwMDs/SoF4XmDaRLD0mT+7cPgQhWSy4zetw48+K8Tg=; b=SQTXFYBhbnO5Jy+A2taINRzTjU
-	UOTSkn9FkIf2w0bvkpio6DQDUdKEwpC1uw8W9Zox7jl6IVdDG/xx3z+2FaN0OPmAWBg9D1XiQhHO5
-	TJgs+NaJhsEevTkr6YeQctgSiDdkbyzD77TTs3Hhkgq8fzSjUeEXhG4orA4Fjtnh1Lo8E56ygqpz6
-	Au+IMGCvjsPalMogEXIN9E19ZjY7tRd8e9MB4QORcK4wIqG3Xle6ohVzznWCOzGdVtem3RICLXgSB
-	CAeqz0KUhy7W/yHnQhAWaUVaEjF7JrY72ay1NOwwIWqL3x7mP9LhrYwX5ticjhmP55+M2yTZwnMtF
-	V1nTBNIg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=L77LMhB1RZ1z2/fegLqCgeWr+Rz3ex9q8mOsIhpqmG8=; b=AV1BkFAVu03k8M1tmj1q1Us38W
+	oWpqg89K0gwQOQhLc7/ZUuUZ28wdQBLfbtcISpG8khd5g4KpWpi21uex9RT0CFUS6HyOsEBso/Igs
+	eifjUKI+amc6TZx1mJDQcnb4RhjQ/EbgcDTsLRMgtolOk05A4pgvomco9xGNaJqa8erhzZ28qn3Mg
+	DBjwH3h5EvNM8cxrR3o+2SrxZCVikaRDBlAFYEr48kVe33Rt65YusNnE+5KHw/bK3tFSJh5o/oerK
+	i5H8iTEZ1vkU8WoAau+b+U2kJqsjhXxaCfD+zZXTLab6fBrQZcysYKFx+C4eOVFr4qa+DE/FzpW6p
+	Cn2L2N0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1se13M-00000005CIO-1V5J;
-	Tue, 13 Aug 2024 23:35:48 +0000
-Received: from mgamail.intel.com ([198.175.65.20])
+	id 1se7Eo-00000005stl-13w8;
+	Wed, 14 Aug 2024 06:12:02 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1se13I-00000005CHv-2sax
+	id 1se7Eh-00000005ssx-2B1z
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Aug 2024 23:35:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723592144; x=1755128144;
-  h=date:from:to:cc:subject:message-id;
-  bh=3ND3K5gx4ySPzYZIoVEkv7U5v06hIXz1bIWFdEge9XU=;
-  b=MnpBu1QsqWhfh6MrWcBUweHhW5tvjaP9wI+ckgmfO5Pcua0QWM8f3ezF
-   LceBRqCbRI9wzaJLB9OX32x7y3TuVTn5vGtiICELtNnMBux9XXdG9DKsT
-   O8FKQcKZGUYN9Sxh/KTuqG5nqi+xKAYynU3Ytlw2s8u0N3JYoaX4VWn3w
-   Aq0gWM6r6Bd6kRQQXeomqk935MGQLnP8E6MsidkjaKFBImuj6gyo2zumu
-   /unO3ODGIE6o5/BcRne3gEJZ9cErIgci2wdgZnIbtOGup1fFNC4m/xkk/
-   +YljAlCDqL56w/82fRwki+gajFl2uEf0Uh3sWHUnuw0gw4Y21sVxgY+Id
-   Q==;
-X-CSE-ConnectionGUID: yd+oYdFLRMith1yjcX4GYg==
-X-CSE-MsgGUID: xjgJTMMTStG2bCx0tyoDGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="21601944"
-X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="21601944"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 16:35:43 -0700
-X-CSE-ConnectionGUID: vgODI+lbQkeTT4lKAORN2A==
-X-CSE-MsgGUID: FG/YRpz1RSyWOEtTKj/t3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,287,1716274800"; 
-   d="scan'208";a="62974149"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Aug 2024 16:35:42 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1se13E-0000mA-0X;
-	Tue, 13 Aug 2024 23:35:40 +0000
-Date: Wed, 14 Aug 2024 07:34:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.11] BUILD SUCCESS
- 32f2866762ea9478f9fbef37e0a7c4efaf7bf096
-Message-ID: <202408140750.uRZAoVlH-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Wed, 14 Aug 2024 06:11:58 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7BDB52259D;
+	Wed, 14 Aug 2024 06:11:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723615912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L77LMhB1RZ1z2/fegLqCgeWr+Rz3ex9q8mOsIhpqmG8=;
+	b=ECCCbUtcm9ZBXNwVzNvPRf0HSZK9qkBsRx2FBaFCFKMueIF1Xj3Tp0VmHyDTuWCesx14su
+	/P2G1qb950I2Grw0r2I2HujfmKXeq8WPDk8U/7VWvLI++LGCKh8h2c1v0SrKZRtTPR1I/8
+	f6kgTlgxA2QZge5KOgfjNGuqNzYpVtE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723615912;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L77LMhB1RZ1z2/fegLqCgeWr+Rz3ex9q8mOsIhpqmG8=;
+	b=LwJd/qgrb1dMOe4OuNWucNEb0Kw4DszKBUI4DOXVv+gg6DVe2+vn3l4RSrTU28nWmcqMHz
+	00oj9JiLOL3tqPCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723615912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L77LMhB1RZ1z2/fegLqCgeWr+Rz3ex9q8mOsIhpqmG8=;
+	b=ECCCbUtcm9ZBXNwVzNvPRf0HSZK9qkBsRx2FBaFCFKMueIF1Xj3Tp0VmHyDTuWCesx14su
+	/P2G1qb950I2Grw0r2I2HujfmKXeq8WPDk8U/7VWvLI++LGCKh8h2c1v0SrKZRtTPR1I/8
+	f6kgTlgxA2QZge5KOgfjNGuqNzYpVtE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723615912;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L77LMhB1RZ1z2/fegLqCgeWr+Rz3ex9q8mOsIhpqmG8=;
+	b=LwJd/qgrb1dMOe4OuNWucNEb0Kw4DszKBUI4DOXVv+gg6DVe2+vn3l4RSrTU28nWmcqMHz
+	00oj9JiLOL3tqPCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 345861348F;
+	Wed, 14 Aug 2024 06:11:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8jDzCqhKvGbFGQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 14 Aug 2024 06:11:52 +0000
+Message-ID: <5051f4e7-cce4-436f-b4c8-cf121330e4c2@suse.de>
+Date: Wed, 14 Aug 2024 08:11:51 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] nvme-tcp: request secure channel concatenation
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org
+References: <20240813111512.135634-1-hare@kernel.org>
+ <20240813111512.135634-7-hare@kernel.org>
+ <4b64fa0f-cfda-465c-8be6-60b4cf60f558@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <4b64fa0f-cfda-465c-8be6-60b4cf60f558@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240813_163544_866560_4829307F 
-X-CRM114-Status: UNSURE (   4.84  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240813_231155_729438_EAD20C14 
+X-CRM114-Status: GOOD (  19.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,258 +135,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.11
-branch HEAD: 32f2866762ea9478f9fbef37e0a7c4efaf7bf096  nvme-sysfs: add 'tls_keyring' attribute
+On 8/13/24 21:45, Sagi Grimberg wrote:
+> 
+> On 13/08/2024 14:15, Hannes Reinecke wrote:
+>> Add a fabrics option 'concat' to request secure channel concatenation.
+>> When secure channel concatenation is enabled a 'generated PSK' is 
+>> inserted
+>> into the keyring such that it's available after reset.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+>> ---
+>>   drivers/nvme/host/auth.c    | 108 +++++++++++++++++++++++++++++++++++-
+>>   drivers/nvme/host/fabrics.c |  34 +++++++++++-
+>>   drivers/nvme/host/fabrics.h |   3 +
+>>   drivers/nvme/host/nvme.h    |   2 +
+>>   drivers/nvme/host/sysfs.c   |   4 +-
+>>   drivers/nvme/host/tcp.c     |  47 ++++++++++++++--
+>>   include/linux/nvme.h        |   7 +++
+>>   7 files changed, 191 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+>> index 371e14f0a203..d2fdaefd236f 100644
+>> --- a/drivers/nvme/host/auth.c
+>> +++ b/drivers/nvme/host/auth.c
+[ .. ]
+>> @@ -833,6 +921,14 @@ static void nvme_queue_auth_work(struct 
+>> work_struct *work)
+>>       }
+>>       if (!ret) {
+>>           chap->error = 0;
+>> +        /* Secure concatenation can only be enabled on the admin 
+>> queue */
+>> +        if (!chap->qid && ctrl->opts->concat &&
+>> +            (ret = nvme_auth_secure_concat(ctrl, chap))) {
+>> +            dev_warn(ctrl->device,
+>> +                 "%s: qid %d failed to enable secure concatenation\n",
+>> +                 __func__, chap->qid);
+>> +            chap->error = ret;
+>> +        }
+> 
+> Lets break up the if condition:
+> 
+>      if (!chap->qid && ctrl->opts->concat) {
+>          ret = nvme_auth_secure_concat(ctrl, chap);
+>          if (!ret)
+>              return;
+>          dev_warn(ctrl->device,
+>              "%s: qid %d failed to enable secure concatenation\n",
+>               __func__, chap->qid);
+>          chap->error = ret;
+>      }
+> 
+> 
+> 
+Okay.
 
-elapsed time: 1357m
+>>           return;
+> 
+> No need for the return statement.
+> 
+[ .. ]
+>> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+>> index 7b2ae2e43544..8072edf3c842 100644
+>> --- a/include/linux/nvme.h
+>> +++ b/include/linux/nvme.h
+>> @@ -1678,6 +1678,13 @@ enum {
+>>       NVME_AUTH_DHGROUP_INVALID    = 0xff,
+>>   };
+>> +enum {
+>> +    NVME_AUTH_SECP_NOSC        = 0x00,
+>> +    NVME_AUTH_SECP_SC        = 0x01,
+>> +    NVME_AUTH_SECP_NEWTLSPSK    = 0x02,
+>> +    NVME_AUTH_SECP_REPLACETLSPSK    = 0x03,
+>> +};
+>> +
+>>   union nvmf_auth_protocol {
+>>       struct nvmf_auth_dhchap_protocol_descriptor dhchap;
+>>   };
+> 
+> Wandering if splitting core/fabrics from tcp would be viable here...
 
-configs tested: 238
-configs skipped: 6
+Well, authentication is a base functionality, not a tcp one.
+Even though it's pretty much TCP-centric.
+So I'd rather keep in in nvme.h for now.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Cheers,
 
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-alpha                             allnoconfig   gcc-13.3.0
-alpha                            allyesconfig   gcc-13.3.0
-alpha                               defconfig   gcc-13.2.0
-arc                              allmodconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                              allyesconfig   gcc-13.2.0
-arc                                 defconfig   gcc-13.2.0
-arc                   randconfig-001-20240813   gcc-13.2.0
-arc                   randconfig-002-20240813   gcc-13.2.0
-arm                              allmodconfig   gcc-13.2.0
-arm                              allmodconfig   gcc-14.1.0
-arm                               allnoconfig   clang-20
-arm                               allnoconfig   gcc-13.2.0
-arm                              allyesconfig   gcc-13.2.0
-arm                              allyesconfig   gcc-14.1.0
-arm                       aspeed_g4_defconfig   clang-20
-arm                         at91_dt_defconfig   clang-20
-arm                         bcm2835_defconfig   clang-20
-arm                                 defconfig   gcc-13.2.0
-arm                            dove_defconfig   gcc-12.4.0
-arm                          ep93xx_defconfig   clang-14
-arm                           h3600_defconfig   clang-14
-arm                            hisi_defconfig   gcc-12.4.0
-arm                          moxart_defconfig   gcc-12.4.0
-arm                         mv78xx0_defconfig   gcc-12.4.0
-arm                        neponset_defconfig   clang-20
-arm                             pxa_defconfig   clang-14
-arm                   randconfig-001-20240813   gcc-13.2.0
-arm                   randconfig-002-20240813   gcc-13.2.0
-arm                   randconfig-003-20240813   gcc-13.2.0
-arm                   randconfig-004-20240813   gcc-13.2.0
-arm                           sama5_defconfig   clang-14
-arm                        shmobile_defconfig   clang-20
-arm                         socfpga_defconfig   clang-20
-arm                         wpcm450_defconfig   gcc-12.4.0
-arm64                            allmodconfig   clang-20
-arm64                            allmodconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-14.1.0
-arm64                               defconfig   gcc-13.2.0
-arm64                 randconfig-001-20240813   gcc-13.2.0
-arm64                 randconfig-002-20240813   gcc-13.2.0
-arm64                 randconfig-003-20240813   gcc-13.2.0
-arm64                 randconfig-004-20240813   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                              allnoconfig   gcc-14.1.0
-csky                                defconfig   gcc-13.2.0
-csky                  randconfig-001-20240813   gcc-13.2.0
-csky                  randconfig-002-20240813   gcc-13.2.0
-hexagon                          alldefconfig   clang-20
-hexagon                          allmodconfig   clang-20
-hexagon                           allnoconfig   clang-20
-hexagon                          allyesconfig   clang-20
-i386                             alldefconfig   gcc-12.4.0
-i386                             allmodconfig   clang-18
-i386                             allmodconfig   gcc-12
-i386                              allnoconfig   clang-18
-i386                              allnoconfig   gcc-12
-i386                             allyesconfig   clang-18
-i386                             allyesconfig   gcc-12
-i386         buildonly-randconfig-001-20240813   gcc-12
-i386         buildonly-randconfig-001-20240814   clang-18
-i386         buildonly-randconfig-002-20240813   gcc-12
-i386         buildonly-randconfig-002-20240814   clang-18
-i386         buildonly-randconfig-003-20240813   gcc-12
-i386         buildonly-randconfig-003-20240814   clang-18
-i386         buildonly-randconfig-004-20240813   gcc-11
-i386         buildonly-randconfig-004-20240813   gcc-12
-i386         buildonly-randconfig-004-20240814   clang-18
-i386         buildonly-randconfig-005-20240813   clang-18
-i386         buildonly-randconfig-005-20240813   gcc-12
-i386         buildonly-randconfig-005-20240814   clang-18
-i386         buildonly-randconfig-006-20240813   gcc-12
-i386         buildonly-randconfig-006-20240814   clang-18
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240813   gcc-12
-i386                  randconfig-001-20240814   clang-18
-i386                  randconfig-002-20240813   clang-18
-i386                  randconfig-002-20240813   gcc-12
-i386                  randconfig-002-20240814   clang-18
-i386                  randconfig-003-20240813   gcc-12
-i386                  randconfig-003-20240814   clang-18
-i386                  randconfig-004-20240813   gcc-12
-i386                  randconfig-004-20240814   clang-18
-i386                  randconfig-005-20240813   clang-18
-i386                  randconfig-005-20240813   gcc-12
-i386                  randconfig-005-20240814   clang-18
-i386                  randconfig-006-20240813   clang-18
-i386                  randconfig-006-20240813   gcc-12
-i386                  randconfig-006-20240814   clang-18
-i386                  randconfig-011-20240813   gcc-12
-i386                  randconfig-011-20240814   clang-18
-i386                  randconfig-012-20240813   gcc-12
-i386                  randconfig-012-20240814   clang-18
-i386                  randconfig-013-20240813   clang-18
-i386                  randconfig-013-20240813   gcc-12
-i386                  randconfig-013-20240814   clang-18
-i386                  randconfig-014-20240813   clang-18
-i386                  randconfig-014-20240813   gcc-12
-i386                  randconfig-014-20240814   clang-18
-i386                  randconfig-015-20240813   clang-18
-i386                  randconfig-015-20240813   gcc-12
-i386                  randconfig-015-20240814   clang-18
-i386                  randconfig-016-20240813   clang-18
-i386                  randconfig-016-20240813   gcc-12
-i386                  randconfig-016-20240814   clang-18
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch                         allnoconfig   gcc-14.1.0
-loongarch                           defconfig   gcc-13.2.0
-loongarch             randconfig-001-20240813   gcc-13.2.0
-loongarch             randconfig-002-20240813   gcc-13.2.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                              allnoconfig   gcc-14.1.0
-m68k                             allyesconfig   gcc-14.1.0
-m68k                         amcore_defconfig   gcc-12.4.0
-m68k                                defconfig   gcc-13.2.0
-m68k                        mvme16x_defconfig   gcc-12.4.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-13.2.0
-microblaze                        allnoconfig   gcc-14.1.0
-microblaze                       allyesconfig   gcc-14.1.0
-microblaze                          defconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-14.1.0
-mips                           gcw0_defconfig   clang-20
-nios2                             allnoconfig   gcc-13.2.0
-nios2                             allnoconfig   gcc-14.1.0
-nios2                               defconfig   gcc-13.2.0
-nios2                 randconfig-001-20240813   gcc-13.2.0
-nios2                 randconfig-002-20240813   gcc-13.2.0
-openrisc                          allnoconfig   gcc-14.1.0
-openrisc                         allyesconfig   gcc-14.1.0
-openrisc                            defconfig   gcc-14.1.0
-openrisc                  or1klitex_defconfig   gcc-12.4.0
-parisc                           allmodconfig   gcc-14.1.0
-parisc                            allnoconfig   gcc-14.1.0
-parisc                           allyesconfig   gcc-14.1.0
-parisc                              defconfig   gcc-14.1.0
-parisc                randconfig-001-20240813   gcc-13.2.0
-parisc                randconfig-002-20240813   gcc-13.2.0
-parisc64                            defconfig   gcc-13.2.0
-powerpc                          allmodconfig   gcc-14.1.0
-powerpc                           allnoconfig   gcc-14.1.0
-powerpc                          allyesconfig   clang-20
-powerpc                          allyesconfig   gcc-14.1.0
-powerpc                      cm5200_defconfig   clang-20
-powerpc                   currituck_defconfig   clang-20
-powerpc                    gamecube_defconfig   clang-20
-powerpc                      katmai_defconfig   gcc-12.4.0
-powerpc                     mpc5200_defconfig   clang-14
-powerpc                     powernv_defconfig   clang-20
-powerpc                      ppc44x_defconfig   clang-14
-powerpc                       ppc64_defconfig   gcc-12.4.0
-powerpc               randconfig-002-20240813   gcc-13.2.0
-powerpc               randconfig-003-20240813   gcc-13.2.0
-powerpc64             randconfig-001-20240813   gcc-13.2.0
-powerpc64             randconfig-002-20240813   gcc-13.2.0
-powerpc64             randconfig-003-20240813   gcc-13.2.0
-riscv                            allmodconfig   clang-20
-riscv                            allmodconfig   gcc-14.1.0
-riscv                             allnoconfig   gcc-14.1.0
-riscv                            allyesconfig   clang-20
-riscv                            allyesconfig   gcc-14.1.0
-riscv                               defconfig   gcc-14.1.0
-riscv                 randconfig-001-20240813   gcc-13.2.0
-riscv                 randconfig-002-20240813   gcc-13.2.0
-s390                             allmodconfig   clang-20
-s390                              allnoconfig   clang-20
-s390                              allnoconfig   gcc-14.1.0
-s390                             allyesconfig   clang-20
-s390                             allyesconfig   gcc-14.1.0
-s390                                defconfig   gcc-14.1.0
-s390                  randconfig-001-20240813   gcc-13.2.0
-s390                  randconfig-002-20240813   gcc-13.2.0
-sh                               allmodconfig   gcc-14.1.0
-sh                                allnoconfig   gcc-13.2.0
-sh                                allnoconfig   gcc-14.1.0
-sh                               allyesconfig   gcc-14.1.0
-sh                                  defconfig   gcc-14.1.0
-sh                            migor_defconfig   gcc-12.4.0
-sh                          polaris_defconfig   gcc-12.4.0
-sh                    randconfig-001-20240813   gcc-13.2.0
-sh                    randconfig-002-20240813   gcc-13.2.0
-sh                      rts7751r2d1_defconfig   gcc-12.4.0
-sh                           sh2007_defconfig   gcc-12.4.0
-sh                     sh7710voipgw_defconfig   gcc-12.4.0
-sparc                            allmodconfig   gcc-14.1.0
-sparc                       sparc64_defconfig   gcc-12.4.0
-sparc64                             defconfig   gcc-14.1.0
-sparc64               randconfig-001-20240813   gcc-13.2.0
-sparc64               randconfig-002-20240813   gcc-13.2.0
-um                               allmodconfig   clang-20
-um                               allmodconfig   gcc-13.3.0
-um                                allnoconfig   clang-17
-um                                allnoconfig   gcc-14.1.0
-um                               allyesconfig   gcc-12
-um                               allyesconfig   gcc-13.3.0
-um                                  defconfig   gcc-14.1.0
-um                             i386_defconfig   gcc-14.1.0
-um                    randconfig-001-20240813   gcc-13.2.0
-um                    randconfig-002-20240813   gcc-13.2.0
-um                           x86_64_defconfig   gcc-14.1.0
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240813   clang-18
-x86_64       buildonly-randconfig-002-20240813   clang-18
-x86_64       buildonly-randconfig-003-20240813   clang-18
-x86_64       buildonly-randconfig-004-20240813   clang-18
-x86_64       buildonly-randconfig-005-20240813   clang-18
-x86_64       buildonly-randconfig-006-20240813   clang-18
-x86_64                              defconfig   clang-18
-x86_64                              defconfig   gcc-11
-x86_64                randconfig-001-20240813   clang-18
-x86_64                randconfig-002-20240813   clang-18
-x86_64                randconfig-003-20240813   clang-18
-x86_64                randconfig-004-20240813   clang-18
-x86_64                randconfig-005-20240813   clang-18
-x86_64                randconfig-006-20240813   clang-18
-x86_64                randconfig-011-20240813   clang-18
-x86_64                randconfig-012-20240813   clang-18
-x86_64                randconfig-013-20240813   clang-18
-x86_64                randconfig-014-20240813   clang-18
-x86_64                randconfig-015-20240813   clang-18
-x86_64                randconfig-016-20240813   clang-18
-x86_64                randconfig-071-20240813   clang-18
-x86_64                randconfig-072-20240813   clang-18
-x86_64                randconfig-073-20240813   clang-18
-x86_64                randconfig-074-20240813   clang-18
-x86_64                randconfig-075-20240813   clang-18
-x86_64                randconfig-076-20240813   clang-18
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                            allnoconfig   gcc-14.1.0
-xtensa                randconfig-001-20240813   gcc-13.2.0
-xtensa                randconfig-002-20240813   gcc-13.2.0
-
+Hannes
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
