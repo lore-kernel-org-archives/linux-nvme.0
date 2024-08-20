@@ -4,70 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03B46C531DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Aug 2024 13:25:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6656C531DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Aug 2024 14:08:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q5Ym9Qp9E7MfCV7To+0JD5zEyWK3hbZwW9g9lElnKZ8=; b=qnC0VKo7lMruHiAn8UyQfcO2AN
-	1E0z3sFnOcz6Q2M7BDokUA2a2k4XlkK6yTDgxSBTRugMlJLHevzXJf3V+3so/lwRNx0TD9xSmAUTJ
-	IJON4vdTcHTtnu9UHYSlFMbLoYCMSJPALUbFwhkfVm0dmIa/d4aUGZ66QQrTTLAOAP6wCOhIlEz4K
-	iJvH59AQ08pFpu8eCl6L/wTJTjYqvXLPGyWtwwj5+G2y1p4brseMm8ki91n1yD9bQ0/4qQg/9T5lj
-	pZgeSiVM+7WXarGKuR0liAJOu032f9h6V8mRthCgBAXJLrfWwSV5lLEe6mx6kW5gDvMMlSKNhfZA5
-	U0gYhPFg==;
+	bh=CsgPtatDExPP1jrSfSsmW8hqO74SxPHgUyBqFyAc7/o=; b=C2mp2omUQMvmOGTUL9f5sPe42j
+	ev8z0ibinMQcbS2FfoGondUSWx5mTwNQAuaVvuUzWvWN+VPgAFdOX1KoWSQTPxghD8RI5URkT1ha2
+	UJNuM0AnbifBVjwT5k7Js+qtVCk39VJS1ixqF1xg3h4NymyphzwkjiAcmze+GG64aksgvR3FvRirs
+	XrlC9zMNaDQBkzi2cTOrGhlFT4/NrWtIGRpRgCL74QV7ogexCJe47emuAVc0o6xTlbWXp6pdSrz+p
+	RwbzmRAP5tqQH0enowU0AJQIUbXtQA+uWkyt3STuFHikFXQKu/6gU0Axda7PShFiQvLMOm08xDTjg
+	J739Fz/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sgOrj-00000005Lix-0fKo;
-	Tue, 20 Aug 2024 13:25:39 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1sgPX5-00000005ToU-2X7Z;
+	Tue, 20 Aug 2024 14:08:23 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sgOrf-00000005LgD-2KnH
+	id 1sgPV6-00000005TGJ-3Yyr
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 Aug 2024 13:25:37 +0000
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-428243f928cso44320315e9.3
-        for <linux-nvme@lists.infradead.org>; Tue, 20 Aug 2024 06:25:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724160332; x=1724765132;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q5Ym9Qp9E7MfCV7To+0JD5zEyWK3hbZwW9g9lElnKZ8=;
-        b=l31Y6F+EraDqz5AMEYnO8e6xYMhOcu4QlzAb0gpdbD+JBgrGNTpFx0hZp3v9mkOt07
-         bSv1PoNnedlgjR4SR/1XE3q18LTPHfhwshCdpXM/6tGpi90AeLnzeWvZqYfDLDnXs4ub
-         HMYUaUzcpySEWTZo8MO//0xT9Xlpqe9+5qIbCHNHKvcXlED4dGxW5um6zWbnaOM+qBxf
-         +q8xAv/oLdZpUeDMf6SH6nzOqa1L+jmHtBl/VL2xIrYt+iy3SqNPl9zdS2k4dCwlkQkQ
-         LFLJCFqMbi5HQdt8CUFv5jY486fgxawrVwNN6IotH3JgNA9o9HHgeWy5y4sqXuYjZ34h
-         tszw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYHJplbfmiQ7xYQx7oZqG9xOpgukfQeqi9cOtRRWxlp7EkbikgnnAvZKDNOY6MtZ0aoHwXfhFyP1cK@lists.infradead.org
-X-Gm-Message-State: AOJu0YxxaHq4RJ+7ErP3y40Ptl1S94CxmIVyXho/JW6b+JqYJejsBIAe
-	fI/wRN5whbEbmky9N1iJWwvDl4x2J4GNdUX3N0w/kRtmSZxCesj9
-X-Google-Smtp-Source: AGHT+IFdxEjJMgEHLXLrPGLfXpXOEV5/QGDrBGNyQVng/5t3XQZfSCGwI7NCuzcoIhEDRN9zrOZYWg==
-X-Received: by 2002:adf:ea87:0:b0:371:87d4:8f23 with SMTP id ffacd0b85a97d-371946c2fbamr7784796f8f.58.1724160331875;
-        Tue, 20 Aug 2024 06:25:31 -0700 (PDT)
-Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded7d5a9sm195253095e9.43.2024.08.20.06.25.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 06:25:31 -0700 (PDT)
-Message-ID: <bc54be12-b7d6-42a6-9afe-298422b89046@grimberg.me>
-Date: Tue, 20 Aug 2024 16:25:30 +0300
+	Tue, 20 Aug 2024 14:06:24 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 92FF91FFF9
+	for <linux-nvme@lists.infradead.org>; Tue, 20 Aug 2024 14:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724162777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CsgPtatDExPP1jrSfSsmW8hqO74SxPHgUyBqFyAc7/o=;
+	b=1tm9qoxkLL8LRYxFbH038pOU7sjd6FAriwzhszdb8McIYZ5hc/iygI+tic75nJmTMQlW6t
+	KIQvciyzwhxyjhgoGM+cQ9CfEvKY2K/HZj4I7asVXQ7GqyeCXuYU+j5pZn93UkxLEhUM9J
+	mPSW35pe4btRQIBjmF569qWHPRtpPL8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724162777;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CsgPtatDExPP1jrSfSsmW8hqO74SxPHgUyBqFyAc7/o=;
+	b=Ddxn2ZgKVKZjYfr8+LzBQirRmQD9s2jEiE/C+o+2aHkV/21Khn+YMfVaeTwEUZLBkCgqdu
+	SsoxxB6BamJDCADQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724162777; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CsgPtatDExPP1jrSfSsmW8hqO74SxPHgUyBqFyAc7/o=;
+	b=1tm9qoxkLL8LRYxFbH038pOU7sjd6FAriwzhszdb8McIYZ5hc/iygI+tic75nJmTMQlW6t
+	KIQvciyzwhxyjhgoGM+cQ9CfEvKY2K/HZj4I7asVXQ7GqyeCXuYU+j5pZn93UkxLEhUM9J
+	mPSW35pe4btRQIBjmF569qWHPRtpPL8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724162777;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CsgPtatDExPP1jrSfSsmW8hqO74SxPHgUyBqFyAc7/o=;
+	b=Ddxn2ZgKVKZjYfr8+LzBQirRmQD9s2jEiE/C+o+2aHkV/21Khn+YMfVaeTwEUZLBkCgqdu
+	SsoxxB6BamJDCADQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85A5813A17
+	for <linux-nvme@lists.infradead.org>; Tue, 20 Aug 2024 14:06:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0U8WH9mixGZnGwAAD6G6ig
+	(envelope-from <hare@suse.de>)
+	for <linux-nvme@lists.infradead.org>; Tue, 20 Aug 2024 14:06:17 +0000
+Message-ID: <98c91e6e-e390-45a7-81fa-a4eaa7e85b44@suse.de>
+Date: Tue, 20 Aug 2024 16:06:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Question] IRQ Affinity Setup for NVMe over Fabrics (RDMA) Target
- and Host
-To: Jigao LUO <jigao.luo@outlook.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <GV1P195MB2055FBE89BC74CF83305CF40EE8C2@GV1P195MB2055.EURP195.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH 0/2] nvme: restrict authentication to the admin queue
+To: linux-nvme@lists.infradead.org
+References: <20240717110338.27332-1-hare@kernel.org>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <GV1P195MB2055FBE89BC74CF83305CF40EE8C2@GV1P195MB2055.EURP195.PROD.OUTLOOK.COM>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240717110338.27332-1-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	PREVIOUSLY_DELIVERED(0.00)[linux-nvme@lists.infradead.org];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240820_062535_642875_8C5A9065 
-X-CRM114-Status: GOOD (  14.68  )
+X-CRM114-CacheID: sfid-20240820_070621_061164_55A23B67 
+X-CRM114-Status: GOOD (  15.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,35 +131,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 7/17/24 13:03, Hannes Reinecke wrote:
+> Hi all,
+> 
+> it might be an idea to restrict authentication to the admin queue only,
+> as authentication on I/O queues brings only so much additional benefit,
+> and the entire authentication is noticeably faster.
+> This patchsets enables the host to handle this situation, and adds a
+> new configfs entry 'dhchap_admin_only' for the target to enable this
+> behaviour.
+> Patches are on top of my 'secure-concat.v5' branch on kernel.org.
+> 
+> As usual, comments and reviews are welcome.
+> 
+> Hannes Reinecke (2):
+>    nvme: Do not re-authenticate queues with no prior authentication
+>    nvmet: Implement 'admin_only' authentication
+> 
+>   drivers/nvme/host/auth.c               | 17 ++++++++++++++++-
+>   drivers/nvme/target/auth.c             | 11 +++++++----
+>   drivers/nvme/target/configfs.c         | 24 ++++++++++++++++++++++++
+>   drivers/nvme/target/fabrics-cmd-auth.c |  7 +++++++
+>   drivers/nvme/target/fabrics-cmd.c      |  7 +++++--
+>   drivers/nvme/target/nvmet.h            |  2 ++
+>   6 files changed, 61 insertions(+), 7 deletions(-)
+> 
+Ping? What's the status here? Should I resend?
 
+Cheers,
 
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
-On 19/08/2024 15:48, Jigao LUO wrote:
-> Hi everyone,
-
-Hey,
-
-> I’m currently benchmarking NVMe over Fabrics (RDMA) using the Linux kernel driver and would appreciate your guidance on setting up IRQ affinity for optimal performance.
->
-> - **Target Side**: It is logical to place both the NIC and SSDs within the same NUMA node to minimize latency, and to pin the IRQs to cores within this NUMA node. However, I'm unsure about the optimal number of cores that should be dedicated to handling IRQs. Are there any guidelines or best practices for determining this?
-
-Steering the IRQ vectors to cpu cores on the same numa as the backend 
-SSDs is definitely desirable if possible.
-How much is hard to say. The more cores you spread the vectors among, 
-the better. If you are trying to host other workloads along side nvmet-rdma,
-then it depends on what are you optimizing for (as well as the platform 
-you are using).
-
->
-> - **Host Side**: Most of my questions relate to the host configuration. Assuming we are running fio on the host, my understanding is that both fio and IRQs should be on the NUMA node where the NIC is located. Should fio and IRQs share the same set of cores, or is it recommended to separate them with two isolated core sets? Additionally, what would be the recommended number of cores to allocate for IRQ handling in this scenario?
-
-The nvme host design is where submission-completion are cpu local as 
-much as possible, such that multiple threads/workloads do not interfere 
-with each other and provide good scalability.
-If you have prior knowledge of you workload, you may prefer to dedicate 
-some cores for completion processing and have the associated load 
-removed from the cores that are submitting I/O.
-I don't know of any specific guideline on how one would arrange the 
-cores and IRQ vectors to optimize any given workload. Empirical tests 
-may guide you.
 
