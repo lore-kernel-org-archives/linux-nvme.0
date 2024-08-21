@@ -4,97 +4,175 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F76BC52D7C
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Aug 2024 05:23:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B48BAC52D6F
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Aug 2024 07:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rYWegBJAhK5ZvoZYtZ2pLr6P490Wm6p+KDF6+zKd5Fc=; b=sVtWl+u9A14rl6DAX+9q+mYzNR
-	qOfu1FiPFsPOrGCnqqCRWBVW+nMSvtqdlLOqWHAvfCXIDw44EaObrrFqypw6DvQN/p6YZPCk/2jaj
-	bQh+nFJftt5kGR5bc0mP4bgH5uedc7XSTTgZSx0QgAIOnL8GLJwGSyP+vKlOv9LMY/b0zqUn8YERP
-	Azwo5v1bzUgBWNYNJGpLvqIhE4VxsbOhfts5DTrFhVLyX+hgLpGgk9Fj4V1LlFCB3hfcLYQFjUFBI
-	1YfKSCuHrYE+sPKKJnjL+XqY8dmkz0A73J79EIIlJXNgqLPg4WVn7Ow4+u+0mAgf/VxRItLL20dlE
-	nSwaCrtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cmpPnuLTX614rB2ZsooLiE3BV52zkFNYIxHMjjkBTzA=; b=Ol39hRUy23VfbeObCw2y8SV7ie
+	J7jXMqg0TWi6sUTF6BgoD7pRCYVT3n7/2vj5wdqYjX/mLHiGhxp0iRdda67SCcnUtftIomID/0xKd
+	AMCfysOxcYohPfYPks6VdKW8hTKsRfQYVnzppOYluMCR5jeAVfqJDzCKJ4KUoWlxx7eFJgy5mNqSC
+	lP3MrZzcIuz2DwhkOPOHDrdgMOR/DiUpWhYzFfJC5LCSvhJKi/28WxAYS8Ow36f0jj+61jAWJKCQ3
+	WdaXBfTtgDDs5bqb1k4wu2YFw3AB+pdkvIDN1GPMuSULr8OUJE+Y9at7AFpYVfB8gBh94RpONT0di
+	MEDP7zUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sgdoA-00000007Z0j-2sH8;
-	Wed, 21 Aug 2024 05:22:58 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1sgfk6-00000007uIl-3Jfs;
+	Wed, 21 Aug 2024 07:26:54 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sgdo7-00000007Z0C-2GZo
+	id 1sgfeg-00000007sRk-0DP3
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Aug 2024 05:22:57 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47L5EhPS027065;
-	Wed, 21 Aug 2024 05:22:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:from:to:cc:references
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=r
-	YWegBJAhK5ZvoZYtZ2pLr6P490Wm6p+KDF6+zKd5Fc=; b=cn5mqbiVX6COxrukM
-	3eg0Zt9/okg//tq9icLncPwMSrwn96k0yJ7b3UdLyfjdqgP2r+YfUQcF17fd2aQ/
-	PfWWWNoMhsBRXyYd8K/+Aa8ePuhcJTfvyMrFHiUWGcaLljU2t2mlojnQm3poLFeW
-	ogAYs+kpa3Un659Hsw9fw62sRjt9TNW3dTt0VvHLUIVXoagCJvcoCFTY76osCQr9
-	4ciZOvda2Tyo395esQd8eEuSf0l4OuY82DX9fHb8dLotW1rFeH+22B+D3FqsvMA9
-	WoFbclMrmdIxzbh1NyZQMv0dzm/TrcmB8wN5WLIdp6TXjqYGjmd3PNI0G4+Gqylx
-	KtGVw==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4141y1sgk9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Aug 2024 05:22:45 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 47L1bcbS017663;
-	Wed, 21 Aug 2024 05:22:44 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4138w35w7c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Aug 2024 05:22:44 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 47L5Mgjt25625284
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 21 Aug 2024 05:22:44 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1B41B58059;
-	Wed, 21 Aug 2024 05:22:42 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 84E1858058;
-	Wed, 21 Aug 2024 05:22:39 +0000 (GMT)
-Received: from [9.109.198.144] (unknown [9.109.198.144])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 21 Aug 2024 05:22:39 +0000 (GMT)
-Message-ID: <5a49c4e2-81e9-4fc3-81c7-c8c3db6aee1f@linux.ibm.com>
-Date: Wed, 21 Aug 2024 10:52:37 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/1] Add visibility for native NVMe multipath using
- sysfs
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, dwagner@suse.de, hch@lst.de,
-        sagi@grimberg.me, axboe@fb.com, gjoyce@linux.ibm.com
-References: <20240809173030.2281021-1-nilay@linux.ibm.com>
- <ZrZ9WKimhqSJXGnn@kbusch-mbp>
- <5e6da341-3e2f-415b-bbd6-2aea420bf057@linux.ibm.com>
+	Wed, 21 Aug 2024 07:21:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1724224878; x=1755760878;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=mxYNrMYQi97iixVCkUXiH+0DluiN9JeXhmEQ1zolNck=;
+  b=blk/HRN5MSEHgCURIHRNIAdM+Hec/7mKFOpYYxqBra0X1fopfMeMvxWq
+   ErJUvAJNfozRgf2ftIluTklVrHp58auKaq1x/UBFHvnyUjRHTfQybvh+K
+   DnC74SHcrOzs/roLL2d7YrAUhW29nRTScEMwvLlIBoFn0WRqh09lL1fLq
+   YDT3Z6pjxY1d3WCpGNXf78K7SFqMkXun8vy0C2T45SpZfj0tyxtiCp5WE
+   Oan8UijaaHBlgrk3U61dWK8kr5usCvLE7LP/5uMfaFjjbGOBMV8rFimex
+   uHDORpS+oCOLLJEDklfqcE2EjqJ2flydANmdfTqftjhvmO3EY7b0qV30A
+   w==;
+X-CSE-ConnectionGUID: k0qdFBlIRsyK6DAqa4hXRA==
+X-CSE-MsgGUID: 4NPrC19kQZWnG0NIHzkQTg==
+X-IronPort-AV: E=Sophos;i="6.10,164,1719849600"; 
+   d="scan'208";a="24783318"
+Received: from mail-mw2nam12lp2045.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.45])
+  by ob1.hgst.iphmx.com with ESMTP; 21 Aug 2024 15:21:15 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=C+jLHhrlE/kWmUcTsef4lsIo4l1qtUiSyrNKl6Qxi+K1GVkbiuFpexQcXrTdI1dKa+slR91YaA4IY2KgU29oVnyL3aVuVW4mMtjBOigs1GbsIJBBJn8um4O403TszrIxoKlcY8bRCOO9pz7VV2TsNaUG/U/9/lNVAczz7gR3kV02HAtnffhIsbtEdujaAXHpv+KE7G8jlYch2IzPCowwJBzlrwl9mX6KfO1ZhaggCRXttH+/wzvXTyfJb03ILBzY+1CUKA29RAvwhu92T95+hkedQrr5EdO+eAqPDoIQnlnZD4Z3T2S4PaW10L1QfTSOSdJFhalJ7P3ZDRtScW62ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cmpPnuLTX614rB2ZsooLiE3BV52zkFNYIxHMjjkBTzA=;
+ b=ZZ7ovjTw5eh/ObTY03/br9ceR9LFRoPilTYw8CtwNLETa7gCJ9sQSCzNnoNVNWfgrbbuorENDOa+5vkCFjHlb/jTDo+36/0JlwuA0Cvmnw3toCluiFyHnvyZAPwqPeDkIn6j/es0oCKmeCAuT750k46eiS00n2HgxdMU4ZoQ7iHdWnzIlroDTiPnolCIrnNIchYP8oDSY7/i+tXmKKaodAnxMdZXKNV/EI8YagpbAptMGHLaSG572OCxuOMPqJW0HbySyL33GbeDpnfcrgF9VFE+JQUVa9eD116bUJckJAz9ycmTOfO2iBlaOgb1UVSS4Zs2VcoKGjR7/+XgVooq7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cmpPnuLTX614rB2ZsooLiE3BV52zkFNYIxHMjjkBTzA=;
+ b=ncxKC1g2zxlv+SjK+5+50aj1NNndMyD3ky8WnEhjnsJzjmsM0bt9LjRX0kREG0+r1mU0dhdnHUXmKjjrnhR6z9R/lHw1db/+Cs7u1wEEJP2Ca+0SQfRqva0sFTRhdbFmPlpC8brMWgBGRH93ffgBqolytEkuUJN+GrCnCY/qot0=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ CO6PR04MB8331.namprd04.prod.outlook.com (2603:10b6:303:136::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Wed, 21 Aug
+ 2024 07:21:13 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.7875.019; Wed, 21 Aug 2024
+ 07:21:13 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Yi Zhang
+	<yi.zhang@redhat.com>
+Subject: Re: [PATCH blktests] nvme/052: wait for namespace removal before
+ recreating namespace
+Thread-Topic: [PATCH blktests] nvme/052: wait for namespace removal before
+ recreating namespace
+Thread-Index: AQHa8uqR0Nq3uU3VMkila6SfAwK3vLIwXbgAgADx2QA=
+Date: Wed, 21 Aug 2024 07:21:13 +0000
+Message-ID: <zzodkioqxp6dcskfv6p5grncnvjdmakof3wemjemnralqhes4e@edr2n343oy62>
+References: <20240820102013.781794-1-shinichiro.kawasaki@wdc.com>
+ <d22e0c6f-0451-4299-970f-602458b6556d@linux.ibm.com>
+In-Reply-To: <d22e0c6f-0451-4299-970f-602458b6556d@linux.ibm.com>
+Accept-Language: en-US
 Content-Language: en-US
-In-Reply-To: <5e6da341-3e2f-415b-bbd6-2aea420bf057@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 33ftwkfxKwYa2MQ_qL9E8SVG1l2yHjns
-X-Proofpoint-ORIG-GUID: 33ftwkfxKwYa2MQ_qL9E8SVG1l2yHjns
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-21_05,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- suspectscore=0 spamscore=0 mlxlogscore=997 bulkscore=0 impostorscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408210034
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CO6PR04MB8331:EE_
+x-ms-office365-filtering-correlation-id: 7c7703eb-cdb9-49e9-ddc1-08dcc1b1d6b4
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?ZP/4lEOPebXQskauqEkmENYQNky6Xm3E2aa8um3XzlGE/uXcw2rpuuMZd7eY?=
+ =?us-ascii?Q?+KAbii4HUYN1HzxzDaNHFMIXJO8H6CqDqFlOx7YTXVmEXkVLw9axM8pWyxgJ?=
+ =?us-ascii?Q?tx/KYTUkdqcCUV50nrBjbCdow/3+B0ovJQOjm9SXRasPmZrTA3xsopkxo5zk?=
+ =?us-ascii?Q?SpVVwPD8prLrVn9DiIeEUedUf11pWD7ZU/Rdjsvr3xRPfmIf5jNs2NiLJgnq?=
+ =?us-ascii?Q?jfeO5QQPcuDiaMD3b03see9iZHW7ypEOu9AvUkBMfeqv81Dmr6YeYOOcNHNa?=
+ =?us-ascii?Q?VdZS0WqiKxPquPr6J2JcbW0W+0RKZk+O57sTO6xqDoorb1TBDUy2DpkZxDjh?=
+ =?us-ascii?Q?R95U5Zwcl5XemJ6RLtLKxy3VKvP8pftZBHzYa4V85vYtv5Ta22qs9stTxjS0?=
+ =?us-ascii?Q?a1WrHwDND9LbGoFhFwCiUtbk6oNZWsHaqtvsJeBkEFeevDN33hFwRFUhh55f?=
+ =?us-ascii?Q?hvAkYEKPmL9iDSQ7XGawI6HdrEZ0lfff42FFeocYDvQm5Zw49Aen8gygxSrV?=
+ =?us-ascii?Q?cUY7RESv/PK7W7LczpwPI7l5a+hW61kVzmtQViqpjMWI1wyqKtb+VOLFKFtp?=
+ =?us-ascii?Q?dtPy1ywtykdCRUk+a3N5CvV2I8hg85IKTPBpJHhUuT48UQFauJNcyVTVGj2j?=
+ =?us-ascii?Q?kTTd83Cqt2lnrPksRQEXy0AetPueRyunybDE5qUPz6xl4oghEShToFb7iO3Y?=
+ =?us-ascii?Q?3E5MfYOpuYlO7FGGU1exS88t+Zx0NT3bf3IeivNBvk2a0x/FfmJZeNbc843J?=
+ =?us-ascii?Q?Dl2mtOw0Bqvtd5ez0KOIUt1ZzgKemkBSr44dxnDc9rXkMCPsKNQPrOJqSoEW?=
+ =?us-ascii?Q?y5IKzi1L8PgZiuupCxp+y1VuhuLrkY6yKBwK5c4A7LuBp3MYiHp2NVQuyic0?=
+ =?us-ascii?Q?NRJyrjMLFRh29qd2sLXlOxw8gxmKdFqPXZLuErbZUAuvB+5U8Y22fFWOLj2n?=
+ =?us-ascii?Q?0kN47B3m3yD7q5GYxlk8N6M7FIdTh1YghY1t1paY2EoGjlf3hwQFZdoNxbKU?=
+ =?us-ascii?Q?KkbGWK2ZSEOhWdvCUZEc5EoT+F1DJLtcNOrCobvowzUwY9iIrQ3STgVeUm7b?=
+ =?us-ascii?Q?+/5aGQ8Equ8yA2ioPvXgBxux2WG6I6EevDe2zlh/GOLdmLblwI7gWKd8PgXu?=
+ =?us-ascii?Q?gXaNAepq55sx7tgsQBfoTyNoQjBMmo/i7pN6FaSP+VokGiMuQUXvsrwT9zUp?=
+ =?us-ascii?Q?zBQ6/zzAUoiJaVf4OrnYVe8AXaUJZ4DHgZ/lKpMS0ZEaeMXUxMk5Jzh1j9Kt?=
+ =?us-ascii?Q?/wKazNZiQ7Ky6r0AdYccW0QK7q7MxH7cFxLPqLg3IagxXMo7fvhHcry53lt+?=
+ =?us-ascii?Q?S0xOd17itKd6elIKrHg75QffIhoKttoPoikWMj/fTnq2x2aiaKv33oR81bwV?=
+ =?us-ascii?Q?dfDxhSf87Vg5iWlKLytwW10ZrVOSPSx3osIKVVkGU0+I5rymsw=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5JeZVnYw3/OSRlHZWRPizaQjAcT0q6aIMnlWDEm68Z2/xe36MKzzYZkcox9k?=
+ =?us-ascii?Q?loSeT01mrSsmrVnlbynKcKmPfehNQoCWUMIwOObtWdVZs0trKLRuImAwNgY+?=
+ =?us-ascii?Q?wWxtKHmW8PqwWqspT3CPXHbFyIf20Pqg6CHX9tV2gP8vPlpTulmhUpaUQ5JC?=
+ =?us-ascii?Q?/k3pQS0dU4HozdIh4MMy7kVe8idWTVbD16PNXFyYYqsxqppIhPTvikRpBgl1?=
+ =?us-ascii?Q?BWsXK49bBrreKjM0z3lZ4oTd4GsgocNzKx02lqIgO6s3mDy3sNcgpjBwRFz4?=
+ =?us-ascii?Q?v8BBhJg926NQyhCziHDKQIHJI3/oMQG+Sxz2X0OS30SyDQ2m4/PtiujsMt6O?=
+ =?us-ascii?Q?YAJ+ZK9mdtR9K+KdMVKKK5wJn1OYK5nt6/+J3MJ7e0pRzuEXEPCWVBXOjzSp?=
+ =?us-ascii?Q?wtgkfFF0eH1xH+t/l/OJItY5NvQR5gMg/ywNEbRasI+gq7fFqhHBR9Ky99AW?=
+ =?us-ascii?Q?MLfDOcfqClMyRjxj0P13810ewoWPiKPriqcpG+VSrxnAZVwODJsi2YBxb/Wj?=
+ =?us-ascii?Q?5tzDEzoscKv3vD9oDcedFcWiA7S5V0DHwZuQ77qULJjSBdwGNyIr+q1uPRgz?=
+ =?us-ascii?Q?/TERTUWPeOYYsCVi2pCzVLDvnckHRVBHLqaZtR9Uy8U63ZsDNN1QswT12rhr?=
+ =?us-ascii?Q?U9reW6S7JEu9OBCJJTQu6yu/C1LzkMHAVcI7VFmJmmDj1anMUG1TIFSFl8Rr?=
+ =?us-ascii?Q?WgtRP0Pd4dmnV8wBDFxtEXMgCYXzFvCx0SY4KBbWHfXX8G3MwQJY1v67OUyH?=
+ =?us-ascii?Q?vjJg47ufyRz/rBGFsMSUUmrwCU7oryW9ehbpaFuOvaIyLpatlQ+nqE21Qq0K?=
+ =?us-ascii?Q?8do03K3m33lR1N630Zm/HyWwMvU68adVwhnp3ynEFRWCDzP8mzOnES6tkRtB?=
+ =?us-ascii?Q?A5TKz2rHolzJlBU9zlNqpwlFGfSy8PxvlJgezpcnfkBM6tUMAiu1/Lyi/UZw?=
+ =?us-ascii?Q?6pSCMFDSGxwpHxc1sT/Kz2DOi4KTgov4EoJMSOTvyTlpmKNbM1/6OkBIys5R?=
+ =?us-ascii?Q?pZF7vJvHFQvzd+j8ZwTC61BeZD7k9Ufwncyl0C2SxvieeSqA6+Ax9X5q3NSO?=
+ =?us-ascii?Q?z+xr58kTuw50K7/MelW5bj/DpFyLKIU1DLw14ejr65PRF3jMbeVH1yWYNGfs?=
+ =?us-ascii?Q?5RIKqu6shF6UjmpH/sG275XUF1JxbA4tovgeH5Ay/GO2TKIlutQuag/8b//e?=
+ =?us-ascii?Q?q+MHCTaMF/3S192LavBKHiZffcKyKpv8pvDo8PIDY18iC5N0fihSFH08I93r?=
+ =?us-ascii?Q?xqUTNuvm1QKjNO2kXNdCOvrJ2XqoA/UlKlLBgL+bxDuVQw4YVKOWxQmcUHkD?=
+ =?us-ascii?Q?kSDfGSclvkv6Gfx3wEGcsh8Tu8YX5lWxO8DM4b0QzsFO7w69yz8ngdCQ7Uou?=
+ =?us-ascii?Q?nVAIOLfymoZOgj9nH1C5uo0qRzQZ/VnKb1q3XloN/nmzWpQWfR+A1yrhtLyY?=
+ =?us-ascii?Q?rlDtuTNQJhQf6r/kjt0qh0yDy2gIC59LfqIeJE8mPHPzcVq7K0yGEHPbWj8W?=
+ =?us-ascii?Q?6DVPpzmAY+HN5VJZ3eNZ1xbMycR1XKWszLQXWoRQmU2enuUbdrOC5Nu39euV?=
+ =?us-ascii?Q?LASqEvoknYC5PLvk4tFqFDl0x02sdRYqOThxAR4k4e20BonWp5yK53RVd2N3?=
+ =?us-ascii?Q?YRyD2vsTt6GY/Wpw0yUA4z4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <5F5D8834451D1041A5095FBC5301EC82@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 2nkcqZ/4PkdDXwe976vVLWlFOVc6/QMAtNC3fSW8AnYoos2WB5wWrLrRo9yz/99/w3r+YEMc2lpR8ojk5DInyvmhU5r1Kf3axqUdyAXI3zyWQM7PpwOgXuYtX4P1H7K1TbfCzDMfRD2s88cw6ycrCHqxU0jvZSao94Cc7G6qDebO26bHHqez+zsJg33i+g78LCVBDgoOSYV4ZVjZ7JcDr0xrJ5RSqtuVatKDR2nohWmMrgBRIRLSJQ2Ftkgc9yexLB1h/iSBYMslHRyM55n9nSoFaz4GoT/DoKwh2PFJOYAXAqCKD3ktfHyr+HJi9hkKSt+GcM7vHlATkoJ389ZCEp1y1i3WOm9+mkMRViphTYHKjy5pG/UjSPhdULBiagQ9DzqWHlZiv4FlgS3B+A+oExlKMJr7AUo9arxky4/iUqI0BjTLcPbDWH/jtoxiu4wnF48ymG3rEC3dXB9fiBwW6MIi8ql+IszDr5iQ9fIBJet43IJC4XRJVOd9NTXRqo6IlrXrzkmxq2JEkZ63byFkkovtXASuZ5xNtS+UbuXJ/D9BhdeBgCjlns02ItsGlynxHE4NTDnbHTzCDK0C33XNADkjAenS67SPyjZiP5QT3QPzktKI0MBqq6Kx9VHsoJ+j
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c7703eb-cdb9-49e9-ddc1-08dcc1b1d6b4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2024 07:21:13.4983
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KE3B6Q/w5fzMr0/VqVOPzQf/lVusCUMWn7TRzTkgqvYTObt24gOrePb9+6lpB68/rPs5wcFqNDm4MBAH4MtoN3JvJ+0d6iSYyrXBVSEs7OY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB8331
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240820_222255_838137_CB335004 
-X-CRM114-Status: GOOD (  26.50  )
+X-CRM114-CacheID: sfid-20240821_002118_171740_51264BBB 
+X-CRM114-Status: GOOD (  29.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,84 +187,179 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+On Aug 20, 2024 / 22:25, Nilay Shroff wrote:
+>=20
+>=20
+> On 8/20/24 15:50, Shin'ichiro Kawasaki wrote:
+[...]
+> > diff --git a/tests/nvme/052 b/tests/nvme/052
+> > index cf6061a..e1ac823 100755
+> > --- a/tests/nvme/052
+> > +++ b/tests/nvme/052
+> > @@ -39,15 +39,32 @@ nvmf_wait_for_ns() {
+> >  		ns=3D$(_find_nvme_ns "${uuid}")
+> >  	done
+> > =20
+> > +	echo "$ns"
+> >  	return 0
+> >  }
+> > =20
+> > +nvmf_wait_for_ns_removal() {
+> > +	local ns=3D$1 i
+> > +
+> > +	for ((i =3D 0; i < 10; i++)); do
+> > +		if [[ ! -e /dev/$ns ]]; then
+> > +			return
+> > +		fi
+> > +		sleep .1
+> > +		echo "wait removal of $ns" >> "$FULL"
+> > +	done
+> > +
+> > +	if [[ -e /dev/$ns ]]; then
+> > +		echo "Failed to remove the namespace $ns"
+> > +	fi
+> > +}
+> > +
+> Under nvmf_wait_for_ns_removal(), instead of checking the existence of "/=
+dev/$ns",=20
+> how about checking the existence of file "/sys/block/$ns"? As we know, wh=
+en this issue=20
+> manifests, we have a stale entry "/sys/block/$ns/$uuid" lurking around fr=
+om the=20
+> previous iteration for sometime causing the observed symptom. So I think,=
+ we may reuse the=20
+> _find_nvme_ns() function to wait until the stale "/sys/block/$ns/$uuid" f=
+ile=20
+> exists.
 
->>
->>  /sys/block/nvme0n1/multipatch/nvme0c0n1/
->>  /sys/block/nvme0n1/multipatch/nvme0c3n1/
->>
->> And each directory has their attributes so they print exactly one value
->> instead of the multi-line output. You'd know which path the output
->> corresponds to from the file's directory.
->>
-> Yes you were right, we need 1 value per file but I thought keeping 
-> multipath details concisely in a single file may be then easier for 
-> libnvme/nvme-cli to format and parse. 
-> 
-> I also read in the sysfs documentation, "attribute file should preferably 
-> contain only one value per file. However, it is noted that it may not be 
-> efficient to contain only one value per file, so it is socially acceptable
-> to express an array of values of the same type." 
-> 
-> Anyways, I believe, most of us prefer 1 value per file rule for the sysfs 
-> attributes, so how about exporting multipath details as shown below?
-> 
-> Let's assume namespace head node nvmeXnY points to two different paths: 
-> nvmeXc1nY and nvmeXc3nY.
-> 
-> First we create the "multipath" directory under /sys/block/nvmeXnY 
-> 
-> The multipath directory would then contain two sub-directories (which are
-> the two paths pointed by namespace head node)  named nvmeXc1nY and nvmeXc3nY. 
-> In fact, these two sub-directories are actually soft link to the respective 
-> namespace block device under /sys/block
-> 
-> For instance, we have a namespace head node nvme1n1 which points to two 
-> different paths: nvme1c1n1 and nvme1c3n1.
-> 
-> # ls -l /sys/block/nvme1n1/multipath
-> lrwxrwxrwx. 1 root root     0 Aug 11 12:30 nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
-> lrwxrwxrwx. 1 root root     0 Aug 11 12:30 nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
-> 
-> # ls -l /sys/block/
-> lrwxrwxrwx. 1 root root 0 Aug 11 12:30 nvme1c1n1 -> ../devices/pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
-> lrwxrwxrwx. 1 root root 0 Aug 11 12:30 nvme1c3n1 -> ../devices/pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
-> 
-> As we see above, /sys/block/nvme1n1/multipath/nvme1c1n1 is soft link to 
-> /sys/block/nvme1c1n1 and similarly /sys/block/nvme1n1/multipath/nvme1c3n1
-> is soft link to /sys/block/nvme1c3n1. 
-> 
-> For round-robin I/O policy, we could easily infer from the above output 
-> that I/O workload targeted to nvme1n1 would toggle across nvme1c1n1 and nvme1c3n1.
-> 
-> We also create two new sysfs attribute files named "numa_nodes" and "queue_depth" 
-> under /sys/block/nvmeXcYnZ. 
-> 
-> # cat  /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes 
-> 0-1
-> # cat  /sys/block/nvme1n1/multipath/nvme1c3n1/numa_nodes 
-> 2-3
-> 
-> For I/O policy numa, above output signifies that I/O workload targeted to nvme1n1 and
-> running on node 0 and 1 would prefer using path nvm1c1n1. Similarly, I/O workload 
-> targeted to nvme1n1 and running on node 2 and 3 would prefer using path nvme1c3n1.
-> 
-> # cat /sys/block/nvme1n1/multipath/nvme1c1n1/queue_depth
-> 423
-> # cat /sys/block/nvme1n1/multipath/nvme1c3n1/queue_depth
-> 425
-> 
-> For I/O policy queue-depth, above output signifies that for I/O workload targeted to nvme1n1, 
-> we have got two paths nvme1c1n1 and nvme1c3n1 and the queue_depth for each path is 423 and 425 
-> respectively.
->
+It sounds a good idea to reuse _find_nvme_ns().
 
-A gentle ping about the above proposed solution.
- 
-As you proposed about 1 file 1 attribute value, I reworked the proposal and would like to know if
-you have any further feedback/comment. If this looks good then shall I resend the RFC v3 with the 
-above changes incorporated?
- 
-Thanks,
---Nilay
+> Maybe something like below:
+>=20
+> nvmf_wait_for_ns_removal() {
+>         local ns
+>         local timeout=3D"5"
+>         local uuid=3D"$1"
+>=20
+>         ns=3D$(_find_nvme_ns "${uuid}")
+
+I tried this, and found that the _find_nvme_ns call spits out the failure
+"cat: /sys/block/nvme1n2/uuid: No such file or directory", because the
+delayed namespace removal can happen here. To suppress the error message,
+this line should be,
+
+         ns=3D$(_find_nvme_ns "${uuid}" 2> /dev/null)
+
+>=20
+>         start_time=3D$(date +%s)
+>         while [[ ! -z "$ns" ]]; do
+>                 sleep 1
+>                 end_time=3D$(date +%s)
+>                 if (( end_time - start_time > timeout )); then
+>                         echo "namespace with uuid \"${uuid}\" still " \
+>                                 "not deleted within ${timeout} seconds"
+>                         return 1
+>                 fi
+> 		echo "Waiting for $ns removal" >> ${FULL}
+>                 ns=3D$(_find_nvme_ns "${uuid}")
+
+Same comment as above.
+
+> 			=09
+>         done
+>=20
+>         return 0
+> }
+
+I found that your nvmf_wait_for_ns_removal() above has certain amount of
+duplication with the existing nvmf_wait_for_ns(). To avoid the duplication,
+I suggest to reuse nvmf_wait_for_ns() and add a new argument to control wai=
+t
+target event: namespace 'created' or 'removed'. With this idea, I created t=
+he
+patch below. I confirmed the patch avoids the failure.
+
+One drawback of this new patch based on your suggestion is that it extends
+execution time of the test case from 20+ seconds to 40+ seconds. In most ca=
+ses,
+the while loop condition check in nvmf_wait_for_ns() is true at the first t=
+ime,
+and false at the the second time. So, nvmf_wait_for_ns() takes 1 second for=
+ one
+time "sleep 1". Before applying this patch, it took 20+ seconds for 20 time=
+s
+iteration. After applying the patch, it takes 40+ seconds, since one iterat=
+ion
+calls nvmf_wait_for_ns() twice. So how about to reduce the sleep time from =
+1 to
+0.1? I tried it and observed that it reduced the runtime from 40+ seconds t=
+o 10+
+seconds.
+
+diff --git a/tests/nvme/052 b/tests/nvme/052
+index cf6061a..22e0bf5 100755
+--- a/tests/nvme/052
++++ b/tests/nvme/052
+@@ -20,23 +20,35 @@ set_conditions() {
+ 	_set_nvme_trtype "$@"
+ }
+=20
++find_nvme_ns() {
++	if [[ "$2" =3D=3D removed ]]; then
++		_find_nvme_ns "$1" 2> /dev/null
++	else
++		_find_nvme_ns "$1"
++	fi
++}
++
++# Wait for the namespace with specified uuid to fulfill the specified cond=
+tion,
++# "created" or "removed".
+ nvmf_wait_for_ns() {
+ 	local ns
+ 	local timeout=3D"5"
+ 	local uuid=3D"$1"
++	local condition=3D"$2"
+=20
+-	ns=3D$(_find_nvme_ns "${uuid}")
++	ns=3D$(find_nvme_ns "${uuid}" "${condition}")
+=20
+ 	start_time=3D$(date +%s)
+-	while [[ -z "$ns" ]]; do
++	while [[ -z "$ns" && "$condition" =3D=3D created  ]] ||
++		      [[ -n "$ns" && "$condition" =3D=3D removed ]]; do
+ 		sleep 1
+ 		end_time=3D$(date +%s)
+ 		if (( end_time - start_time > timeout )); then
+ 			echo "namespace with uuid \"${uuid}\" not " \
+-				"found within ${timeout} seconds"
++				"${condition} within ${timeout} seconds"
+ 			return 1
+ 		fi
+-		ns=3D$(_find_nvme_ns "${uuid}")
++		ns=3D$(find_nvme_ns "${uuid}" "${condition}")
+ 	done
+=20
+ 	return 0
+@@ -63,7 +75,7 @@ test() {
+ 		_create_nvmet_ns "${def_subsysnqn}" "${i}" "$(_nvme_def_file_path).$i" "=
+${uuid}"
+=20
+ 		# wait until async request is processed and ns is created
+-		nvmf_wait_for_ns "${uuid}"
++		nvmf_wait_for_ns "${uuid}" created
+ 		if [ $? -eq 1 ]; then
+ 			echo "FAIL"
+ 			rm "$(_nvme_def_file_path).$i"
+@@ -71,6 +83,10 @@ test() {
+ 		fi
+=20
+ 		_remove_nvmet_ns "${def_subsysnqn}" "${i}"
++
++		# wait until async request is processed and ns is removed
++		nvmf_wait_for_ns "${uuid}" removed
++
+ 		rm "$(_nvme_def_file_path).$i"
+ 	}
+ 	done=
 
