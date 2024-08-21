@@ -4,85 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAFC8C52D6F
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Aug 2024 13:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 488FCC5321D
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Aug 2024 13:33:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ND82RYn7MaNSpzb7NAOhxgHIKl6E8lI43wkdqiWtnl8=; b=Y30OSE2xQwYEk/hAwolse52JCb
-	Ey3OyjnX+jCXb8LZad3GY6GvesZsASsGinUGncbYSXXvm26CCV8Z8zbZicVFHPm3HPtQ2rE2WUobb
-	9YzOURblEbwz4YJfclIVxCIg892d26TegV6lCLS47XYJLvskgVk7ZgNr7ie9yIC23DDCJP1AvizpI
-	+tmNIOJM5ew9xr4dA+9e2ECmILiqZY3OBu6nXNDk/DYhitHcQSQEJr0jN3zKnqoDPL2S9Tl0/IwSv
-	c6jEVSnaAR2X9qRVqKPMr9f63X6d8UzqI2ViWS3379z4oyNIMRnb859Wf5zj2acxPB/2IwJrG0lEw
-	EzH9hb3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1AnLQArsGTATyL4MdvT91fu+LNpUpQbqPFUvVbkUg8U=; b=fOkNHc5385+DsAgc/Svkur1VW0
+	8gssduOamUemnmZ/bDbRoAZ4WOs1XAiRqXRNRuUiIOqbxavD1egexs4K9E3f4SdVFhAljgAzEQhwl
+	P4oeTt2+vHpBPvswPjQV8BNL2amNYS0J2ZdLEvVzLMcklbWdnyajdAtKb7VeGJnoVXsDwbHAburF7
+	EIpqpXLH6qYpPdC+PN9wSjdre03GHQ9XNHkYnvLNxgXxENTDB+sOTbEWIpIJYCysHL4qf5FH7ENkD
+	TW64rUbsD4MI3sS1I5bltgkX7oGScHsSVnA23uBFJCB7jSVTJdglQvRm0veNY/eACxmHMv0lgI7Yg
+	mxmJc9Vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sglCD-000000095mN-1Prb;
-	Wed, 21 Aug 2024 13:16:17 +0000
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+	id 1sglSr-000000098gc-3XYs;
+	Wed, 21 Aug 2024 13:33:29 +0000
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sglB5-000000095L4-3hLm
+	id 1sglRo-000000098Zh-3zP2
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Aug 2024 13:15:09 +0000
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-e13c2ef0f6fso4990858276.3
-        for <linux-nvme@lists.infradead.org>; Wed, 21 Aug 2024 06:15:07 -0700 (PDT)
+	Wed, 21 Aug 2024 13:33:27 +0000
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-428119da952so54339895e9.0
+        for <linux-nvme@lists.infradead.org>; Wed, 21 Aug 2024 06:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724246107; x=1724850907; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ND82RYn7MaNSpzb7NAOhxgHIKl6E8lI43wkdqiWtnl8=;
-        b=pD/6aEyf/Mtef85JrZ6/0izuHY+AjCbQzOamZmYohvMaEKu4FxrYa+FbQZkYeLsb8I
-         EiK1B8FvKQ40LzhgHIn1yx/Po9yHa5rp3Y7Tr6izK0Ab50MZCBl3VWJA0DHYdXZJ43dw
-         TgYBehcY9IIBlMsujMDCPyqxbK3EKeoPSrd5VygCsZT2fWRALTjJP92gEIDq8PZNjbLR
-         aQ2btKm8O4ZhXgrVtVWD9aN8kSXJ+DNifhIceP1n/Du0vWdzcTLwJ/VWDYVJvqC5s+2Z
-         nqz75wfIDhjGK+vDu2qiDvx0fOt7677+nIAGPvkWgszCz7FaKXrEbS9TDxpq+PiVR1p6
-         WLIg==
+        d=yawk.at; s=google; t=1724247143; x=1724851943; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1AnLQArsGTATyL4MdvT91fu+LNpUpQbqPFUvVbkUg8U=;
+        b=NRx1J65tjzeHqOtakllYjxaj8Pv6+rG1LEjIyuHZbcjhaaes2A8VT8SgBTo7JSHlmb
+         Bfowhhi9n3u82fxaIBf7qbwqA6Garjq26Ti0OgZuwtL5NhFDfm7V18D9vd1AN0o+ZKP8
+         U+9tD3pz77mj+ne+WapIdf/uDw1UmuocdUqlGtVaLDsl8km6AvMnnk8SUNYuMkv0tV75
+         EYntpxWVB8TjmlYiGJBlTKwXy4y3Ql75vgt6IHxAWjClqFVs/zFbSRofzy59aqC9h4yZ
+         C99k9iw2gqTzH165AqhFh/Ps7MXw4MoiGYTVxNayG7uHs8qYJ/IFFSRPA5l+9JrCrvGm
+         semw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724246107; x=1724850907;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ND82RYn7MaNSpzb7NAOhxgHIKl6E8lI43wkdqiWtnl8=;
-        b=f4CU+vttVqBPlFZJp0furfBjyCQ3ORSlQnaP5eSJTVQWaV2yivfsz5d2w0DdsgzjOw
-         2xQ79QFkuSbUA0E1KS/ND3AIGKQel/riH29c3nh/jmrC3e1whofkGMeuX3pzf2p8G+wc
-         2Du/h1G9EQ/0MdXmxwYXmVrReQXASZCbAks+cQuGCBC5Qy7X1qlNILJGx+AKirXxD0C3
-         Lzfdx1A2/BecMlsQa2R0OvGzNk/9qGzPeW+bNZdk3W5bhAd8ORXd8pT/DjdYQ1bjHumi
-         xbWTrYGkbnqzUdZw7iqK7IrR3gFZ6jLv/CQoZfpbiGJH9RngOIuL/RrZ/oJjxQy4IXq7
-         CZRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMuKvGiUsIrWBin8xhXZ0D46lr77M51HiJiGfyx2VRMzYaPehoQiJjAg0eA2jIF1rD0Tr9D2G0+/D2@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx4CWPMJ+5KMCb9XOJgcSaxL8BPzDHuNXvp8rkKp2EpOjB0BPj1
-	aPen7LJ6iK8xAKGq+7ajEjTZkmYUGCnGQjozNvCoA2bs72u8Wz99GbLjnqdRFUy4xUNMf5OGwyl
-	+JCkt2Vv1NPeeQuKAgNDVcrN5gsb44mujxGjrxin5hFKpvsTPKCk=
-X-Google-Smtp-Source: AGHT+IHMFrZYqcZ+YKGN6ef7K45igq5+avAhanl2GUzgRB1IEkFvh06daR52Rd2yBylT0BHej583UvwMIolio13isH8=
-X-Received: by 2002:a05:6902:1244:b0:e0e:8319:c6e4 with SMTP id
- 3f1490d57ef6-e16663ec35cmr2880278276.8.1724246106550; Wed, 21 Aug 2024
- 06:15:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724247143; x=1724851943;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1AnLQArsGTATyL4MdvT91fu+LNpUpQbqPFUvVbkUg8U=;
+        b=cD6WywtpfqthZ+5KTs0K4UCtg68fjhHi02B491ARgrNpzpK8G5BzROAXOduGMSDDAX
+         3SNzPsKTLT2BKH5WbWGVRfCnJ7HIVD6oy91xjVbiq6S4OeejuQMR55nCrrgH0n8n1J64
+         rfl7+SraimzRcO9/hlkadzbCXYwC23ZgbgVHl3L9TVOXN2l6oMtvHY8ewdSYEwPJQUkg
+         xa6sO7/+HdSeFh1I8En/uH9vne9hq2ptW97gMydSgrNSi+2r417SaqsN8xjxRsQR4d1M
+         0Fa755V5beZ8hXUHj/owgdt7m/13DlJHECowmFHIjDSawD76gc83Qi7YxE2qTG+3aj3i
+         gihg==
+X-Gm-Message-State: AOJu0Yx/doTjctqyiI2ioI9ezXph5xLRnZjcZ5KfGMDEawmeL9tjC9e7
+	HtJ48LtvZyXplcXWIPSAggU6yVn5ZZLSPs7PAhIZvoYxuAoOrzkzA3K1r4YhfEs=
+X-Google-Smtp-Source: AGHT+IFrTTtVdQQJstuhAWTIkaPqXt38OtttzNl666uNrTaCFtTnPXjykJQp88J6zg8WGpGKujVaXg==
+X-Received: by 2002:a5d:534d:0:b0:366:ee9b:847 with SMTP id ffacd0b85a97d-372fd598551mr1894021f8f.14.1724247142566;
+        Wed, 21 Aug 2024 06:32:22 -0700 (PDT)
+Received: from ?IPV6:2a02:8109:833c:e300:f556:5d1c:aa18:d31a? ([2a02:8109:833c:e300:f556:5d1c:aa18:d31a])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bebbbe274asm8321770a12.8.2024.08.21.06.32.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Aug 2024 06:32:22 -0700 (PDT)
+Message-ID: <ec426603-0ba8-4370-8036-7fa90e334348@yawk.at>
+Date: Wed, 21 Aug 2024 15:31:03 +0200
 MIME-Version: 1.0
-References: <20240809172106.25892-1-ansuelsmth@gmail.com> <20240809172106.25892-4-ansuelsmth@gmail.com>
- <20240813200734.GA1659224-robh@kernel.org> <66c5b8ec.5d0a0220.11ef1f.b572@mx.google.com>
-In-Reply-To: <66c5b8ec.5d0a0220.11ef1f.b572@mx.google.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 21 Aug 2024 15:14:29 +0200
-Message-ID: <CAPDyKFq0cR10d1jUc5gnoUR5P=cbDEZy2iA-HOq9oNcWZevbDg@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] dt-bindings: mmc: add property for partitions node
- in mmc-card node
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Joern Engel <joern@lazybastard.org>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Saravana Kannan <saravanak@google.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Florian Fainelli <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Occasional kernel error with NVMe-oF TCP target
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: linux-nvme@lists.infradead.org
+References: <364590b3-c3d1-49d6-be6f-d36c1a1412d8@yawk.at>
+ <CAFL455mQ=0VoTPsTN-YZzZ9bu7gy4y2eUnEv69wACjODSQChzw@mail.gmail.com>
+ <CAFL455mhJKNZqxHvTBehLxBNn75gGj9ecd3FZWe4yncSz-OZxw@mail.gmail.com>
+Content-Language: en-US
+From: Jonas Konrad <me@yawk.at>
+In-Reply-To: <CAFL455mhJKNZqxHvTBehLxBNn75gGj9ecd3FZWe4yncSz-OZxw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240821_061507_950933_6F3B8C6C 
-X-CRM114-Status: GOOD (  40.27  )
+X-CRM114-CacheID: sfid-20240821_063225_021371_48AD3867 
+X-CRM114-Status: GOOD (  18.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,79 +94,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 21 Aug 2024 at 11:52, Christian Marangi <ansuelsmth@gmail.com> wrote:
->
-> On Tue, Aug 13, 2024 at 02:07:34PM -0600, Rob Herring wrote:
-> > On Fri, Aug 09, 2024 at 07:21:01PM +0200, Christian Marangi wrote:
-> > > Add property for defining partitions node in mmc-card node to define
-> > > partitions in DT by the use of the block2mtd module to use block
-> > > devices as MTD.
-> >
-> > You justified patch 1 saying eMMC already supported this, but then here
-> > you add support.
-> >
-> > Both are a NAK for me as both already have a way to describe partitions
-> > with GPT.
-> >
->
-> I think this got a bit confused and hope we can find a way to add
-> support for this.
->
-> What is "already supported" is assigning an OF node so driver can
-> reference it. This patch was just adding the nodes in the schema to say
-> that partitions can be defined.
->
-> I think what is not clear is that block devices might be used as raw
-> devices without a partition table defined in the device. In such case
-> it's the kernel that define a fixed partition table.
->
-> One example is [1] where the partition table is provided by cmdline.
-> Similar to cmdlinepart MTD parser.
->
-> The use of block2mtd is just to make use of the MTD parser system.
->
-> Considering
-> - eMMC is soldered to the device (no dynamic scan)
-> - cmdline might be not tunable and hardcoding it might also be
->   problematic (as some cmdline needs to be used)
-> - concept of fixed partition for block device is already a thing and
->   used a lot (android AFAIK)
+Thanks!
 
-Sorry for sidestepping your discussion, but I just wanted to add a few comments.
+So from what I understand, this patch fixes the "NULL pointer 
+dereference" part. However, the allocation failure and associated error 
+still remains, yes? And I assume the nvme-of connection would still fail?
 
-It's not clear to me why we need something different than what we
-already have today.
+Is it possible that the allocation failure is caused by one of the leaks 
+that have been fixed in the past year in nvme-of (I saw some in the git 
+blame), and they haven't reached LTS yet? I can try getting a kdump next 
+time this issue happens to see why there is an allocation failure in the 
+first place.
 
-If it's a partuuid/uuid/label or a fixed block-partition from the
-command line, we still need to know what partition we shall use for
-what. So why is this problem different from how we manage filesystem
-mounts, for example?
+- Jonas
 
->
-> I think it should be acceptable to introduce in DT support for defining
-> fixed partition for block devices and some kind of parser system similar
-> to MTD. What do you think? Would this be more acceptable? Idea is to
-> just have a DT schema that makes use of the values that can be set in
-> [1].
-
-In DT we can describe that there is an eMMC card soldered to the
-board, because it's a description of the HW. But describing what
-stored inside the eMMC-flash doesn't belong in DT.
-
->
-> Hope we can find a solution to this, I'm totally OK for dropping NVMe as
-> I understand it's PCIe stuff and very dynamic but OEM are making lots of
-> use of eMMC and are starting to use these strange way (block2mtd) as we
-> currently don't give a proper and easy solution for the task.
-
-I certainly appreciate that you are trying to solve the fragmentation
-issue around this, but it looks like we need a different approach than
-using DT to describe partitions.
-
->
-> [1] https://github.com/torvalds/linux/blob/master/Documentation/block/cmdline-partition.rst
->
-
-Kind regards
-Uffe
+On 8/21/24 2:16 PM, Maurizio Lombardi wrote:
+> st 21. 8. 2024 v 12:57 odesílatel Maurizio Lombardi
+> <mlombard@redhat.com> napsal:
+>>
+>>> Is the stack trace enough to go on? Is this already fixed in a newer
+>>> kernel? Do you need me to gather more information?
+>>
+>> The stack trace was more than sufficient, it's still reproducible on 6.11.0-rc4
+>> What happens is that the nvme-tcp failed to allocate sufficient memory
+>> for the commands and the
+>> queue release procedure dereferences a NULL pointer
+>>
+> 
+> This should be sufficient to fix the crash
+> 
+> 
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 5bff0d5464d1..b37506ad851f 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1534,6 +1534,7 @@ static int nvmet_tcp_alloc_cmds(struct
+> nvmet_tcp_queue *queue)
+>                  nvmet_tcp_free_cmd(cmds + i);
+>          kfree(cmds);
+>   out:
+> +       queue->nr_cmds = 0;
+>          return ret;
+>   }
+> 
+> Maurizio
+> 
 
