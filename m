@@ -4,82 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AF8DC52D7C
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 19:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 606C5C3DA4A
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 20:14:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=T9cnv+MdXwy4zAHoFrkb8mhAg31ASXI3YdjEyMyWEjg=; b=GmUzdllAAxuve1TLbGW4C/ANvQ
-	IzY/0Yl8MffO1Kr6SIgD8M2ekcevzFAaT2/uW/QBxERqYJTSSq2+yh6L2PanahSFeIia7KNwGfa3v
-	0yhSafEk5e2rx0XMtSdNT1q5c0kTuXL+GZ0fzjxXeYeQ51oYuq2pT9JpVRfWCLxeRcCKaFlehMgfE
-	qfllFR2OwxIm7w2N9suGTm3XYwH0RzUhroqSxzB8ribC8FXGK7olygJFlM0VmfvXg6ymYr/gcVCYH
-	g5h+pj5roqFYGSMBqFQEEDgvVkRFcNKTBuuSkXnwX8V5Kyp4W6l2yk+KYcizLTjAN73cJV4mwauPP
-	TRuiJKgg==;
+	bh=E8qq1+rJTV6QlIcBlmP32ULiTU79Wc7hdDRM7Jn604E=; b=tEGHWe6WWeIrVfcGNeUVJXykC6
+	NA03UId0C0daDiL6UMHIvFolvX4q14vX4htTpKIIpVXq5oSBdVxzcxG/ZsFpBLfWFUCPMWhXprfZw
+	QOmlimSaqp62248don/vz4p8ncI29D71crOQMVkZUKWCo6uF610u7oY1b3x+ikBTFGdk3Yot0XgA/
+	lSr9PKzMMo879mzbfy7n8nPeQG2bnN8oDcJPNXNUYXJOri/A7T0EPyECqBMoUy8dBeYMJBfrigzBO
+	Pbeqxqv6BQgVMNfg82siEWeXh2Vi9hYI4gU6eiVtHjV0Zxcldo3YSltUxAmsaPw++VFGxqecKukWY
+	64M9U8+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shDdt-0000000E7Q5-15Kv;
-	Thu, 22 Aug 2024 19:38:45 +0000
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+	id 1shECL-0000000ECFZ-3bMc;
+	Thu, 22 Aug 2024 20:14:21 +0000
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shDdp-0000000E7Ov-0UFc
+	id 1shECI-0000000ECEg-1aNW
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Aug 2024 19:38:43 +0000
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5befd2f35bfso1635642a12.2
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 12:38:39 -0700 (PDT)
+	Thu, 22 Aug 2024 20:14:20 +0000
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a8679f534c3so153655766b.0
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 13:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1724355518; x=1724960318; darn=lists.infradead.org;
+        d=suse.com; s=google; t=1724357657; x=1724962457; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T9cnv+MdXwy4zAHoFrkb8mhAg31ASXI3YdjEyMyWEjg=;
-        b=KUG+mD64YU2nrGjjaPCt+po+FJ2fUYeINd7El0ZIGOO6WtI258YQ16dL5kcg5TCNEx
-         Nn7m1Rn7b10VzHFBug7xjWiobVj9g6JfU6coizmMZAXfjDEdFe3286n35T0bRoLsZTei
-         L3eaLGfrb0QzlCP4OlMUu2Rj9t+AGHz96kqhmDv8AR5P4JWRFwMDI+DOCENy5etT7U6A
-         uYRgXjx+2nZqUq34H+R+QXVTvOOsvpqM+e+LOJKqk5jlPnmDah0kMSHkfO1pMXM2TK+T
-         lFVgoi1/8Ga+OuaIB0yGGKf20wHi8vW17W1VAtZ0wj+Y20XxWiRoWQDdFPAzu47/Wc6d
-         Mk/A==
+        bh=E8qq1+rJTV6QlIcBlmP32ULiTU79Wc7hdDRM7Jn604E=;
+        b=apc7DpQPcDbHY/DpMBGlVEpVx0uMXK23KCrX4PUSEIZV59tPPXRdKS6HK74QZD47so
+         byLrAR/ygBuHfavX7vGb1atu0mELUAHKp4WFXzL7Sltp5vzgMScrGYkZqVVOzGXqVe+5
+         5vgk+3kKYSvRGD+MXcuBZ1fQ683h0a23FZ6N4DojTZ4PCfORHHhNRxebBbkUfkcNhRMn
+         ULSDt8O+1sl2aAblSP4IJ7BQ5lR0SPP1mkUO2/UC/jrOXRz1FxJyzXtvUaxLe/sz5wtU
+         n/6W4UmWEvDYlzM96T+WfadGGbx4NUAIuZhRMJQCUKf8YNqJ6hcUyZT5Ve5bwxtIbwYi
+         o9HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724355518; x=1724960318;
+        d=1e100.net; s=20230601; t=1724357657; x=1724962457;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T9cnv+MdXwy4zAHoFrkb8mhAg31ASXI3YdjEyMyWEjg=;
-        b=Lh5Ei8bnx/MbknCn80GFlJJwDFN1zw26r//eN7mWgYp6LBSGUh/9imCLRkjhNfQgvB
-         56pfUr18yL6xnsIbIxW6bgSOGQWXglMunGR5/CSph5flKePF7knOjh8kaUMEKNdA+lj7
-         6KJAs2hxtM680k4LKbVDdayN7wvzhLLQ/62zcldFf/byfY9JSC6jjvqKJoEITWz2yTbf
-         wj9F4Mxgj1ALr3SIjmYCjfYCKXs9l2pYHmFZy9Ns44xlYOMsR99xMHU02tlTjrM/5Hdv
-         1JIJb1cP58vr+d9FyfiKo7lx/cc0+CjChZS0rMV3NT5rMyjcG+lCe4kPOjblaRjxWwC3
-         vo6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWkp/x3aQNfvgBqrwNUlVpEBkxuqHXWiWYsCFAbbuHGBTEMVuFX2h+ShRiPJDSUvy2a6HBNwv4KGQvo@lists.infradead.org
-X-Gm-Message-State: AOJu0YyWCuIalkW6UeCTEZ0xelm6TUZV1ekMEGgvn4n0oh6qeSn5xeFm
-	pqjg6IVF+Gb0rMpRTecLbcO+lIMm+PhKHx+dgZJGfmkKA6jmR1yA8lq+oWp7kJ8=
-X-Google-Smtp-Source: AGHT+IH9qlKGYHZCb4YNYmE00kgmI8xojuOxfpDY7bV3fdw2VD8FzFJOuPsUodin3Se8Inlu8aJP4Q==
-X-Received: by 2002:a17:907:7251:b0:a86:993a:93db with SMTP id a640c23a62f3a-a86993adc45mr136738766b.39.1724355518045;
-        Thu, 22 Aug 2024 12:38:38 -0700 (PDT)
+        bh=E8qq1+rJTV6QlIcBlmP32ULiTU79Wc7hdDRM7Jn604E=;
+        b=KyGjNcF01E8eQN7nfbMaY1gjt0MCSyCOHDI6G5NIEzwPUvq/yje+Q4TB1oyY45m3z/
+         VGT+LUo4tb5f2Z2U3BEk53Vmsg8abexXL3uOvkozepXUMezP8X2jPGUMbnJns4wSnhZG
+         2h/AJQOBYbGJutrd+aD+z9i5SIPk0jjAq+B9yvV53fdLfRYe8AqTb3PoSTe4ba3FKFEx
+         PKSDdXoaom1X0Rk17sdovpctT2NSxToeWw4F0RtxsumRMkSzVN6TTZihkH6QU9Y0ccyq
+         DKuimfOdB4fIEfnbzSQ/MA/8LK7xHqvnnykKvnJzWgCv991K1B+tBJE2yNHNKlNr3Luu
+         f6Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAI5Y58u6Vg7fTOBh9obmSGzxZGndA5ov3aURf6fhJFFQbB3pNtOJzXL5HIOg3a7iWczoF4FeacNEg@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyk0sNULkUd7tIhpZlHvK9WlrtS+6NG2wHwFvtd2yLQW+5ozy2D
+	foPCpn5yZnldBgmZQgCzBdOoG946gxXWc0fVCQjVPdRVnrI1n4AFAF7CVAnwynyT3pU4ckOI3pv
+	Z
+X-Google-Smtp-Source: AGHT+IHzu56cqlZ49A1w9vGG2LfBKiRAx28b40um8WnvQmVh7SEi+A83kUcv62ViqMyqXSlXgwc5Tg==
+X-Received: by 2002:a17:907:2d06:b0:a86:829d:317d with SMTP id a640c23a62f3a-a8691cbab76mr222888266b.64.1724357656317;
+        Thu, 22 Aug 2024 13:14:16 -0700 (PDT)
 Received: from localhost (p200300de37360a00d7e56139e90929dd.dip0.t-ipconnect.de. [2003:de:3736:a00:d7e5:6139:e909:29dd])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-a868f2202fdsm156968666b.13.2024.08.22.12.38.37
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-a868f48a98asm157724766b.182.2024.08.22.13.14.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Aug 2024 12:38:37 -0700 (PDT)
+        Thu, 22 Aug 2024 13:14:16 -0700 (PDT)
 From: Martin Wilck <martin.wilck@suse.com>
 X-Google-Original-From: Martin Wilck <mwilck@suse.com>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>,
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Martin Wilck <mwilck@suse.com>
-Subject: [PATCH 1/3] blktests: nvme: skip passthru tests on multipath devices
-Date: Thu, 22 Aug 2024 21:38:12 +0200
-Message-ID: <20240822193814.106111-1-mwilck@suse.com>
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme: core: freeze multipath queue early in nvme_update_ns_info()
+Date: Thu, 22 Aug 2024 22:14:13 +0200
+Message-ID: <20240822201413.112268-1-mwilck@suse.com>
 X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240822_123841_181545_9277DE91 
-X-CRM114-Status: GOOD (  12.34  )
+X-CRM114-CacheID: sfid-20240822_131418_438505_EFCFD489 
+X-CRM114-Status: GOOD (  15.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,127 +96,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe multipath devices have no associated character device that
-can be used for NVMe passtrhu. Skip them.
+For multipath devices, nvme_update_ns_info() needs to freeze both
+the queue of the path and the queue of the multipath device. For
+both operations, it waits for one RCU grace period to pass, ~25ms
+on my test system. By calling blk_freeze_queue_start() for the
+multipath queue early, we avoid waiting twice; tests using ftrace
+have shown that the second blk_mq_freeze_queue_wait() call finishes
+in just a few microseconds. The path queue is unfrozen before
+calling blk_mq_freeze_queue_wait() on the multipath queue, so that
+possibly outstanding IO in the multipath queue can be flushed.
+
+I tested this using the "controller rescan under I/O load" test
+I submitted recently [1].
+
+[1] https://lore.kernel.org/linux-nvme/20240822193814.106111-3-mwilck@suse.com/T/#u
 
 Signed-off-by: Martin Wilck <mwilck@suse.com>
 ---
- tests/nvme/033 | 4 ++++
- tests/nvme/034 | 4 ++++
- tests/nvme/035 | 1 +
- tests/nvme/036 | 4 ++++
- tests/nvme/037 | 4 ++++
- tests/nvme/039 | 4 ++++
- tests/nvme/rc  | 8 ++++++++
- 7 files changed, 29 insertions(+)
+ drivers/nvme/host/core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/tests/nvme/033 b/tests/nvme/033
-index 7a69b94..dda0763 100755
---- a/tests/nvme/033
-+++ b/tests/nvme/033
-@@ -13,6 +13,10 @@ requires() {
- 	_have_kernel_option NVME_TARGET_PASSTHRU
- }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 33fa01c599ad..e2454398c660 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2217,6 +2217,9 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 	bool unsupported = false;
+ 	int ret;
  
-+device_requires() {
-+	_require_test_dev_is_nvme_no_mpath
-+}
++	if (nvme_ns_head_multipath(ns->head))
++		blk_freeze_queue_start(ns->head->disk->queue);
 +
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/034 b/tests/nvme/034
-index 239757c..41f1542 100755
---- a/tests/nvme/034
-+++ b/tests/nvme/034
-@@ -14,6 +14,10 @@ requires() {
- 	_have_fio
- }
+ 	switch (info->ids.csi) {
+ 	case NVME_CSI_ZNS:
+ 		if (!IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
+@@ -2254,7 +2257,7 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		struct queue_limits *ns_lim = &ns->disk->queue->limits;
+ 		struct queue_limits lim;
  
-+device_requires() {
-+	_require_test_dev_is_nvme_no_mpath
-+}
-+
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/035 b/tests/nvme/035
-index 8286178..4357efa 100755
---- a/tests/nvme/035
-+++ b/tests/nvme/035
-@@ -17,6 +17,7 @@ requires() {
- }
+-		blk_mq_freeze_queue(ns->head->disk->queue);
++		blk_mq_freeze_queue_wait(ns->head->disk->queue);
+ 		/*
+ 		 * queue_limits mixes values that are the hardware limitations
+ 		 * for bio splitting with what is the device configuration.
+@@ -2288,7 +2291,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		nvme_mpath_revalidate_paths(ns);
  
- device_requires() {
-+	_require_test_dev_is_nvme_no_mpath
- 	_require_test_dev_size "${NVME_IMG_SIZE}"
- }
+ 		blk_mq_unfreeze_queue(ns->head->disk->queue);
+-	}
++	} else if (nvme_ns_head_multipath(ns->head))
++		blk_mq_unfreeze_queue(ns->head->disk->queue);
  
-diff --git a/tests/nvme/036 b/tests/nvme/036
-index ef6c29d..3a28cb7 100755
---- a/tests/nvme/036
-+++ b/tests/nvme/036
-@@ -13,6 +13,10 @@ requires() {
- 	_have_kernel_option NVME_TARGET_PASSTHRU
+ 	return ret;
  }
- 
-+device_requires() {
-+	_require_test_dev_is_nvme_no_mpath
-+}
-+
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/037 b/tests/nvme/037
-index ef7ac59..557d491 100755
---- a/tests/nvme/037
-+++ b/tests/nvme/037
-@@ -12,6 +12,10 @@ requires() {
- 	_have_kernel_option NVME_TARGET_PASSTHRU
- }
- 
-+device_requires() {
-+	_require_test_dev_is_nvme_no_mpath
-+}
-+
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/039 b/tests/nvme/039
-index a0f135c..ff8c1eb 100755
---- a/tests/nvme/039
-+++ b/tests/nvme/039
-@@ -18,6 +18,10 @@ requires() {
- 	    _have_kernel_option FAULT_INJECTION_DEBUG_FS
- }
- 
-+device_requires() {
-+	_require_test_dev_is_nvme_no_mpath
-+}
-+
- # Get the last dmesg lines as many as specified. Exclude the lines to indicate
- # suppression by rate limit.
- last_dmesg()
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index dedc412..b3b1149 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -130,6 +130,14 @@ _require_test_dev_is_nvme() {
- 	return 0
- }
- 
-+_require_test_dev_is_nvme_no_mpath() {
-+	if [[ "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ /nvme-subsystem/ ]]; then
-+		SKIP_REASONS+=("$TEST_DEV is a NVMe multipath device")
-+		return 1
-+	fi
-+	return 0
-+}
-+
- _require_nvme_test_img_size() {
- 	local require_sz_mb
- 	local nvme_img_size_mb
 -- 
-2.46.0
+2.35.3
 
 
