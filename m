@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B40AC3DA4A
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 18:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 470C2C52D7C
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 18:37:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Subject:To:From:Cc:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AYiVVcr8/wboBmezLWjDsQm81ttJxTuVeu5qAg4kVjI=; b=tj3uzUdM1nmFKaSt/hu8EiUcoc
-	vft40k5qcxllD2WVsZnsEUzFg0fmunv+l2DoVAJc88s6TKlKQMmzhxKZNCkGkycdShNIERkBT6uX/
-	PW/IcdshUI6DoRCI6Lfld1Hejvkpw/xWhH3BfKsgw2MeL16edfgV7SWmjzAb6papIZ/RFLR7EZYJL
-	n1XpnbaIPabuCIDuAdy1sQ9iMLtWd0Aq8DtDlV9h/tAuGehaZFDZvFBmg0Z5C/NPWH/VAQw6GvlaO
-	s91xCUQGnItTnBlGIC7likh3nkhRbMeG/cUdIpjUeHb4pgzRgj+ttcDT1w2NIm8QzZdO943v6J64r
-	M+azxL5Q==;
+	bh=/FSttR6p2yucCC2C1ycZHoGqThcAXEf4kSal+8QkByQ=; b=P//GLLJS7BYGJXp8V5YkMOohC9
+	umCqSASKsoyTy2JzXTwlA7yPcYvwBwyqrpUTnrgXsya0RcjFupjLA+op2nbNAsKNFeSSiBbvlZIb2
+	58r57m5A7xtktxbmo/vw01SX3X2PlxfUL7AdSYhH0Sr39E/JzSH+kUM7/hfkIDDB6gkcKXnKpChYA
+	99PE+D2zVZ4fTjunSDnQzVT/2pxBcURhPQ78gDUq80iV2bbAFnKoQu+oS2BVYoYFooDvU158phG70
+	AJcFW7Pp79soP7K/XyhSav5eqKCecwUE8ru8k49077RmZLo2/B6aXa0WZZ2x0FHNqw70UJc8WFFGV
+	h9L94ckA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shCh1-0000000DyAs-2t4P;
-	Thu, 22 Aug 2024 18:37:55 +0000
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+	id 1shCh2-0000000DyBb-3WyS;
+	Thu, 22 Aug 2024 18:37:56 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shCgw-0000000Dy6F-23el
+	id 1shCgx-0000000Dy6y-2Ecf
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Aug 2024 18:37:51 +0000
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-201ed196debso10601985ad.1
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 11:37:50 -0700 (PDT)
+	Thu, 22 Aug 2024 18:37:53 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-20227ba378eso10564855ad.0
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 11:37:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724351869; x=1724956669; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1724351870; x=1724956670; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AYiVVcr8/wboBmezLWjDsQm81ttJxTuVeu5qAg4kVjI=;
-        b=DheCcCw+8bGpveDb5EXE/LRlpUGlG+XYhhI7R6KofXSnRX6Bb//8UfyuaZmdFw0p7P
-         eYF4yfRHJyoX1tAHOQq/dnrSM9kxDXDGq2c3igSqfwDttzvbTCGzYcGbCkReF2DvS8N6
-         XA8yAax9Ts52+fVJgw/Os4teJPXFgTCn11oVVFg9ZpV7nb1Hv3xa3h7sWqqs+q4izwjR
-         lDwHm9LaBy96FCzBXbz6kt9sl6Qspa100ik3ogNScVwULNvdNCl5lC3cqFW8N/LoDXou
-         THLf8bwjHCrYS6AlW7mD6zTbGij/wlgmhWgwRtrBZN3Kw60IBG0J8ZRknd61bPjhbi2m
-         0COQ==
+        bh=/FSttR6p2yucCC2C1ycZHoGqThcAXEf4kSal+8QkByQ=;
+        b=MRDODlaVirX9FKFXbHGpnJjXuOADEPBqATbPXeEufEAP6NLtOO6NV+NyZliWnMfnUl
+         9jkzG6MpUhO29waXZirAKmpPbw5XQvJPUTNTrBSbx0MNwrVOlXEo6BDQyc4ZdwdvR5X3
+         i+AvfXAUnuVg/yyof+fwZnbLfY3TF0z1WbEmiYB+1TeY56h/Hc4lzjzS38rbmjEJuYIx
+         RzK8cgE7dAs5ruKHLKwFfCO0/FXmsrpJrUoaZV8eu09n73NkbUdt8pLf4woyBzYP/Wan
+         5T5S40SJ9vmDVmJK7xgGSgsNS7aX/KxDsv24KQ1+9K4bXqhWZCA/dOtVDJdkpkxst7GY
+         Tw9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724351869; x=1724956669;
+        d=1e100.net; s=20230601; t=1724351870; x=1724956670;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:to:from:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AYiVVcr8/wboBmezLWjDsQm81ttJxTuVeu5qAg4kVjI=;
-        b=KF6pXL0O+N3XQsrQapS9Qo7cyx1s2EH3v/jHLQm2Vhs3EW4qhs+C6jewrSQ932nvrN
-         OfFVYtTDjechvNvWMP/REfy7Rs0IM5GD3OGzN9SZV7Zf9aGVtq+NeWwfDH0yJlykIJvW
-         R+Bjq69EurZbS+x7DEfFyEVPKTnkl2DtaCdSk90l56PhVhf8Oxe+o0wAFCntpVBXYeUC
-         P5e2CRBsbJSiJ8lc4vQFwd1TARVfEGXNO9oVE8Lkd/YpARMRx8X1WKJO+rnUGLZa2Efo
-         E9ZNy2n+F85Y/gpnouZkE+2SqXpeIrJvCSOCf+jm7pCqF1YFR7KhrCHUxWQHAqLbnN2j
-         Vufg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9M9tG/L1XEcwFzeJ4VMLOs7MCp/007lpg2I4xXOMozObxQI6siR2XHnCSGcARCBJJZuXSubh4P7x7@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx01gu7fsNBDLnYLkac5xOSa7Eb5f1z22KrYtXddmalYGZuRXL0
-	I8ghvUMYa7qJrseONOdK7W/qEYl173zjcLDXd+Zfyswz4JMZmQRKsFE70Iae
-X-Google-Smtp-Source: AGHT+IH8+45q6oXd8x8II3Jds1dxAoYSz31lmfPW/kQ0FnzP0cCsfuNQ8sVNo0lwZUKJpv9rCx8MxQ==
-X-Received: by 2002:a17:903:228d:b0:1fc:f65:cd8a with SMTP id d9443c01a7336-20367d1394dmr75819225ad.18.1724351869298;
-        Thu, 22 Aug 2024 11:37:49 -0700 (PDT)
+        bh=/FSttR6p2yucCC2C1ycZHoGqThcAXEf4kSal+8QkByQ=;
+        b=JW2s30WF0+bsFb9f77oOyJq6whubrL6ff6aEGBD51Li8SfWOrar9+rb9Cy1iTXQ6gt
+         Gvh19zgykxF/E2+Wo3eLDSfuviV+sVd10kADWPKM/qLD6KJ+NByiOJ5camEh0Zl9cvKX
+         Sh3CHXHFu5DSSQqVVMF/tqLSv8CEc4A1kHQTMv5TxTEWx+TZRE2dJlmsgQ/Z/n5ngCCh
+         x+hQ/T89NDK+XQcgEO8mP/Viy4jZNVrTbrzkED3DbNKGpk+f+jR9DuM7yhRh2rCa6gV8
+         BLg1mw/XeCnYzn4DnxR1u5AYcUB8rNFf2V3LD+uZCj4+HQ/rulC1/XRiHajRXWYirPve
+         0NXA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpFCPflRsxorOrC3oM9vqBhHQ29VdiqTbYFXelhCYMQAf0j9zghT/DzMyW2gcUjHWdjLGV6dXFQft9@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzzufnn3r1BOBq2K0c+davxsayjU+NbHtu+U0+mA/wh1EMyepEr
+	/dV7+GNSg1rYdZ1mybDM1iZLc6lkfEcF3R13ZafB++lpOHRUxzwA
+X-Google-Smtp-Source: AGHT+IG0xFiyyhUEAVqUeNP4awQwMQmb0ao3xlY9kk2g+DZ4RUL1iV7dvaFZrYLPjHsqT4Fbvb/IyA==
+X-Received: by 2002:a17:902:ce85:b0:1fc:6740:3ce6 with SMTP id d9443c01a7336-2038822be0cmr36095425ad.20.1724351870494;
+        Thu, 22 Aug 2024 11:37:50 -0700 (PDT)
 Received: from localhost.localdomain (c-67-160-120-253.hsd1.wa.comcast.net. [67.160.120.253])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557e4f9sm15667145ad.65.2024.08.22.11.37.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557e4f9sm15667145ad.65.2024.08.22.11.37.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 11:37:49 -0700 (PDT)
+        Thu, 22 Aug 2024 11:37:50 -0700 (PDT)
 From: mhkelley58@gmail.com
 X-Google-Original-From: mhklinux@outlook.com
 To: kbusch@kernel.org,
@@ -84,17 +84,17 @@ To: kbusch@kernel.org,
 	linux-scsi@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	linux-coco@lists.linux.dev
-Subject: [RFC 3/7] dma: Add function for drivers to know if allowing blocking is useful
-Date: Thu, 22 Aug 2024 11:37:14 -0700
-Message-Id: <20240822183718.1234-4-mhklinux@outlook.com>
+Subject: [RFC 4/7] scsi_lib_dma: Add _attrs variant of scsi_dma_map()
+Date: Thu, 22 Aug 2024 11:37:15 -0700
+Message-Id: <20240822183718.1234-5-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240822183718.1234-1-mhklinux@outlook.com>
 References: <20240822183718.1234-1-mhklinux@outlook.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240822_113750_556294_8E020626 
-X-CRM114-Status: GOOD (  15.82  )
+X-CRM114-CacheID: sfid-20240822_113751_637879_AD38513C 
+X-CRM114-Status: GOOD (  14.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,101 +112,80 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Michael Kelley <mhklinux@outlook.com>
 
-With the addition of swiotlb throttling functionality, storage
-device drivers may want to know whether using the DMA_ATTR_MAY_BLOCK
-attribute is useful. In a CoCo VM or environment where swiotlb=force
-is used, the MAY_BLOCK attribute enables swiotlb throttling. But if
-throttling is not enable or useful, storage device drivers probably
-do not want to set BLK_MQ_F_BLOCKING at the blk-mq request queue level.
-
-Add function dma_recommend_may_block() that indicates whether
-the underlying implementation of the DMA map calls would benefit
-from allowing blocking. If the kernel was built with
-CONFIG_SWIOTLB_THROTTLE, and swiotlb=force is set (on the kernel
-command line or due to being a CoCo VM), this function returns
-true. Otherwise it returns false.
+Extend the SCSI DMA mapping interfaces by adding the "_attrs" variant
+of scsi_dma_map(). This variant allows passing DMA_ATTR_* values, such
+as is needed to support swiotlb throttling. The existing scsi_dma_map()
+interface is unchanged, so no incompatibilities are introduced.
 
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
- include/linux/dma-mapping.h |  5 +++++
- kernel/dma/direct.c         |  6 ++++++
- kernel/dma/direct.h         |  1 +
- kernel/dma/mapping.c        | 10 ++++++++++
- 4 files changed, 22 insertions(+)
+ drivers/scsi/scsi_lib_dma.c | 13 +++++++------
+ include/scsi/scsi_cmnd.h    |  7 +++++--
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 7b78294813be..ec2edf068218 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -145,6 +145,7 @@ int dma_set_mask(struct device *dev, u64 mask);
- int dma_set_coherent_mask(struct device *dev, u64 mask);
- u64 dma_get_required_mask(struct device *dev);
- bool dma_addressing_limited(struct device *dev);
-+bool dma_recommend_may_block(struct device *dev);
- size_t dma_max_mapping_size(struct device *dev);
- size_t dma_opt_mapping_size(struct device *dev);
- unsigned long dma_get_merge_boundary(struct device *dev);
-@@ -252,6 +253,10 @@ static inline bool dma_addressing_limited(struct device *dev)
- {
- 	return false;
- }
-+static inline bool dma_recommend_may_block(struct device *dev)
-+{
-+	return false;
-+}
- static inline size_t dma_max_mapping_size(struct device *dev)
- {
- 	return 0;
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index 80e03c0838d4..34d14e4ace64 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -649,6 +649,12 @@ bool dma_direct_all_ram_mapped(struct device *dev)
- 				      check_ram_in_range_map);
- }
+diff --git a/drivers/scsi/scsi_lib_dma.c b/drivers/scsi/scsi_lib_dma.c
+index 5723915275ad..34453a79be97 100644
+--- a/drivers/scsi/scsi_lib_dma.c
++++ b/drivers/scsi/scsi_lib_dma.c
+@@ -14,30 +14,31 @@
+ #include <scsi/scsi_host.h>
  
-+bool dma_direct_recommend_may_block(struct device *dev)
-+{
-+	return IS_ENABLED(CONFIG_SWIOTLB_THROTTLE) &&
-+			is_swiotlb_force_bounce(dev);
-+}
-+
- size_t dma_direct_max_mapping_size(struct device *dev)
+ /**
+- * scsi_dma_map - perform DMA mapping against command's sg lists
++ * scsi_dma_map_attrs - perform DMA mapping against command's sg lists
+  * @cmd:	scsi command
++ * @attrs:	DMA attribute flags
+  *
+  * Returns the number of sg lists actually used, zero if the sg lists
+  * is NULL, or -ENOMEM if the mapping failed.
+  */
+-int scsi_dma_map(struct scsi_cmnd *cmd)
++int scsi_dma_map_attrs(struct scsi_cmnd *cmd, unsigned long attrs)
  {
- 	/* If SWIOTLB is active, use its maximum mapping size */
-diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-index d2c0b7e632fc..63516a540276 100644
---- a/kernel/dma/direct.h
-+++ b/kernel/dma/direct.h
-@@ -21,6 +21,7 @@ bool dma_direct_need_sync(struct device *dev, dma_addr_t dma_addr);
- int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
- 		enum dma_data_direction dir, unsigned long attrs);
- bool dma_direct_all_ram_mapped(struct device *dev);
-+bool dma_direct_recommend_may_block(struct device *dev);
- size_t dma_direct_max_mapping_size(struct device *dev);
+ 	int nseg = 0;
  
- #if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index b1c18058d55f..832982bafd5a 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -858,6 +858,16 @@ bool dma_addressing_limited(struct device *dev)
+ 	if (scsi_sg_count(cmd)) {
+ 		struct device *dev = cmd->device->host->dma_dev;
+ 
+-		nseg = dma_map_sg(dev, scsi_sglist(cmd), scsi_sg_count(cmd),
+-				  cmd->sc_data_direction);
++		nseg = dma_map_sg_attrs(dev, scsi_sglist(cmd),
++			scsi_sg_count(cmd), cmd->sc_data_direction, attrs);
+ 		if (unlikely(!nseg))
+ 			return -ENOMEM;
+ 	}
+ 	return nseg;
  }
- EXPORT_SYMBOL_GPL(dma_addressing_limited);
+-EXPORT_SYMBOL(scsi_dma_map);
++EXPORT_SYMBOL(scsi_dma_map_attrs);
  
-+bool dma_recommend_may_block(struct device *dev)
-+{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
+ /**
+- * scsi_dma_unmap - unmap command's sg lists mapped by scsi_dma_map
++ * scsi_dma_unmap - unmap command's sg lists mapped by scsi_dma_map_attrs
+  * @cmd:	scsi command
+  */
+ void scsi_dma_unmap(struct scsi_cmnd *cmd)
+diff --git a/include/scsi/scsi_cmnd.h b/include/scsi/scsi_cmnd.h
+index 45c40d200154..6603003bc588 100644
+--- a/include/scsi/scsi_cmnd.h
++++ b/include/scsi/scsi_cmnd.h
+@@ -170,11 +170,14 @@ extern void scsi_kunmap_atomic_sg(void *virt);
+ blk_status_t scsi_alloc_sgtables(struct scsi_cmnd *cmd);
+ void scsi_free_sgtables(struct scsi_cmnd *cmd);
+ 
++#define scsi_dma_map(cmd) scsi_dma_map_attrs(cmd, 0)
 +
-+	if (dma_map_direct(dev, ops))
-+		return dma_direct_recommend_may_block(dev);
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(dma_recommend_may_block);
-+
- size_t dma_max_mapping_size(struct device *dev)
- {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ #ifdef CONFIG_SCSI_DMA
+-extern int scsi_dma_map(struct scsi_cmnd *cmd);
++extern int scsi_dma_map_attrs(struct scsi_cmnd *cmd, unsigned long attrs);
+ extern void scsi_dma_unmap(struct scsi_cmnd *cmd);
+ #else /* !CONFIG_SCSI_DMA */
+-static inline int scsi_dma_map(struct scsi_cmnd *cmd) { return -ENOSYS; }
++static inline int scsi_dma_map_attrs(struct scsi_cmnd *cmd, unsigned long attrs)
++						{ return -ENOSYS; }
+ static inline void scsi_dma_unmap(struct scsi_cmnd *cmd) { }
+ #endif /* !CONFIG_SCSI_DMA */
+ 
 -- 
 2.25.1
 
