@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FEAEC52D7C
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 20:28:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E91BC5321E
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 20:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M1s37SmFSoutq4Cla0ROl94+jxjLFGaNMPkeu36ZGaw=; b=tvKDL/26NvNmCjfCTI/S89cLtR
-	k0Yfqc3pUN3CP93yOrM+6S5v3ba8tpsDR73Azy7zkXDY/FbL694Ia3GkobezscAfyOx6Kotn7td5K
-	y/C7MOSE0oT8QNvr0XsKFGgu/ejWgIN3XdLXpxL5X4GWpvZNh5N66mMDsiwylhzIyX9QVVYLlJEiI
-	gy0KEqEqD9Pa3Dac++CeLe4ZkncgomgK7+YtwwTE9d632izuzUWND/hkYGimwqE5SjaM4uj62HjXy
-	ozPNlHZ6nSPIXaiL6XqJ29dbdDree9oONq6RcF0APaSGHSFsyEWes/9QFHnH47uW/Uh0L7/O5EtRl
-	L2DVk/VA==;
+	bh=BN9Dqeft6D+8f3HlmvNpHrHmxwq4si7sL5spWhZXP/0=; b=cDXeIl6DkKs2SuwBWqSoM1yWm+
+	BSJBRVX1Oi3AJ0UGongR32g+Lrqfy8T3fd4Xim4PV1HLhuVTGtf3o4ZqPGw8EXPL9RTFP63aeh3Fq
+	DLTT6RkPFJ/0JsuJ9MTUHpTmTZox+85az3SfZ7uBm4w7kW+1jLPu7A3acvUl5uGaCQHaWnq4WC5VM
+	zVKFDAPCXbBzuK/R7OHTtkiJbMXZI3GN8QhC5gSaITHgudFFnPqZFabPdhNPOR8BxI/sRxYvPaPBX
+	g5p6qASKZJl3bScfv0hbnA/TVrPa8Y8L0UCAdqtAG1Wy0is43gFWa+jwoGz1uCpWddoEUSuzsAqoJ
+	hweZYOvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shEPr-0000000EDce-2vDv;
-	Thu, 22 Aug 2024 20:28:19 +0000
-Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31])
+	id 1shEPu-0000000EDeM-100N;
+	Thu, 22 Aug 2024 20:28:22 +0000
+Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shEPo-0000000EDam-48SN
+	id 1shEPq-0000000EDby-3JeL
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Aug 2024 20:28:18 +0000
-Received: by mail-oo1-xc31.google.com with SMTP id 006d021491bc7-5d608060241so943358eaf.1
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 13:28:16 -0700 (PDT)
+	Thu, 22 Aug 2024 20:28:20 +0000
+Received: by mail-oo1-xc29.google.com with SMTP id 006d021491bc7-5d5bf833de7so895749eaf.2
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 13:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724358496; x=1724963296; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1724358497; x=1724963297; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M1s37SmFSoutq4Cla0ROl94+jxjLFGaNMPkeu36ZGaw=;
-        b=aRdQE+lwgsEjNct0nitlwsQTvXicx8pa8k2psmDKeGscBB/j9UCQGIL6Jaxm4Evfs5
-         NAw6ABtRQslxFz5JalASGDe+RKGCHdW4EbN0qTMZxF7cglMXi4yX7J4WncbPkF1tDBi8
-         XmXXBPluVrV2Ow95+h12x66+8OgFjXth1i3FP75moJ6NnL0zl4ftvJ9VoZ25OKAfe1s2
-         NYti0Y4WpFFp3rbuH4nz1565C63rLtt7oJSpE3exEx7vkS50ReMTjSexjuECQxk3Wbmy
-         wUy22XKwva2k9OzrtF4r3WJgGcaWWfABFVYYa9kS6wjtcCW7eFl2YNqOKZ9GmN8dpWac
-         14IQ==
+        bh=BN9Dqeft6D+8f3HlmvNpHrHmxwq4si7sL5spWhZXP/0=;
+        b=DwxHgIlC2QIDYd0oQucVS/26TosdWW/S3lnLFpS2JwZvTaesdkkq13+49hyFK8klr3
+         7xp0MlchH0k0vZR1ce2XbG+qoKIeJo2j9bQXAQXHX5+6LoA8mqKfc7lGmYykajIshF3E
+         OmoNUGw3Y5leTePwWmv8DI7v/kM7C9lB0GM5Cyrxq3ygHR86tQWILR4XvSRvyVnk3y4r
+         InfHhOH4t/Red6JEM93fLvq7cqlCvEqgFpagPChtdyyQj3usMxqiRuCF+8H5LWmNEF7v
+         hgSnd9Q0u/urr9CQrvE0sUuTY5q18IQH0IjfWryN+qKRyP6pcWv5ma2LkPYciFhfSS/4
+         73GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724358496; x=1724963296;
+        d=1e100.net; s=20230601; t=1724358497; x=1724963297;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M1s37SmFSoutq4Cla0ROl94+jxjLFGaNMPkeu36ZGaw=;
-        b=GQUpteafK0c7iEZh1rntTouH9NfcU8h+Z9D5nj79DI4G/pjHXYEkF2BOp49SkoZUbc
-         3MpDOmrO1TY1t5s9iYvct1D1DP6GaEhVqEo045V9IAu6jt0tEWnW0AY/1vmFSGkiLaYi
-         RWx9sn3xMLBDVLlzcTeDHkv6UOMyGC8/kWCLRX5AuvVCfgKdoE+SwEPYL875KKiOsbkD
-         gAU5ngOZyMSD9LxItqyR2g4LsccFQ4uHRwtF6topOvBFU5vDZXLmIdVvHOg/rjHma24Y
-         Vnr1JAdNLsTvq6gBq36194Vd75iWKzo4Jw9w1eI9HPMHmGy4VnjqRVdFG0SKoacdocOo
-         0I3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUNHsmQrPHBhZ1daJQsv1mXFlJA6uoOmCIaK/vW1Ez7jc44aDLSadJ5xIYxR1Xq7I9UXc8X27B6aNfd@lists.infradead.org
-X-Gm-Message-State: AOJu0YxvwEmrOfD0ec4KRcjz5vcXPxY+HrWPJGHAb2QyycXGSnJSA7JM
-	ydRn7+3n19pfVPOebxuTOMViXqqaw2wlV5FhYL+sqmBYPkvHnRnK
-X-Google-Smtp-Source: AGHT+IESHeMuha44i7IqObiLapfOnL+cMBaJAbHcBE9nj4YdYiZRc6zMz0Cm5JYiCByoc907pOT7Yg==
-X-Received: by 2002:a05:6808:30a6:b0:3d9:e22a:97a4 with SMTP id 5614622812f47-3de19576b43mr8046514b6e.36.1724358496188;
-        Thu, 22 Aug 2024 13:28:16 -0700 (PDT)
+        bh=BN9Dqeft6D+8f3HlmvNpHrHmxwq4si7sL5spWhZXP/0=;
+        b=akkG27e0OTLGePqu2ILikrIQPvc7fxFShez7P5LuQWYqdCnSUY2btlUMo1swfHsbKf
+         w8cVkIWe8YG7z8HwJwNaloZJsxfWLV0iorKo66oymiYqvooWCZNnOG5LA840tAo/AU1x
+         yLCdTJDdcb5Hh8y2qF+PJ59dEZn1UYVOSBlI+aYMSs5DPtARd46SjZAirNVXwSHU0GF9
+         XsteUxTRKSf722+D3fJQBs7/fod/R9N8eqH5AENWRhr6xeOzoQYGpCSFFsns5vjY3ssD
+         yEPu0cxYODma5kByx/OGEFL9ChigcsGmLIZpLFeeQM4tHOU3sZwg2DpDXn4UX8y+Tvio
+         8JVg==
+X-Forwarded-Encrypted: i=1; AJvYcCXIN53lpCLwhvO0bqp/Q6tuOOBN7KK+wrQXFVp8js3zj9i+rleYDz3luTNsD35sBMLMTMXLmd//Phlp@lists.infradead.org
+X-Gm-Message-State: AOJu0YznFotq2ZkHTHv5e8khc6QKPb7/e8p8LNJ09F0tX8P4KweMpaj0
+	eNt5FqN5SerNkHZbTMfNWCxgEozdc+2McSy6nFEKyir8e/7owqkN
+X-Google-Smtp-Source: AGHT+IGVMGaJf5A17/+BmjJ2vW4XtZLorWv8OhPuJs/pRN8TEJbUI0Rv/UopCyIInmLEHWlKrzkavA==
+X-Received: by 2002:a54:4393:0:b0:3d9:245c:422e with SMTP id 5614622812f47-3de2a869a43mr21710b6e.21.1724358497424;
+        Thu, 22 Aug 2024 13:28:17 -0700 (PDT)
 Received: from localhost.localdomain ([143.166.81.254])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3de2252d5fbsm421265b6e.1.2024.08.22.13.28.15
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3de2252d5fbsm421265b6e.1.2024.08.22.13.28.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 13:28:15 -0700 (PDT)
+        Thu, 22 Aug 2024 13:28:17 -0700 (PDT)
 From: Stuart Hayes <stuart.w.hayes@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -79,17 +79,17 @@ To: linux-kernel@vger.kernel.org,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org
 Cc: Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: [PATCH v8 2/4] driver core: separate function to shutdown one device
-Date: Thu, 22 Aug 2024 15:28:03 -0500
-Message-Id: <20240822202805.6379-3-stuart.w.hayes@gmail.com>
+Subject: [PATCH v8 3/4] driver core: shut down devices asynchronously
+Date: Thu, 22 Aug 2024 15:28:04 -0500
+Message-Id: <20240822202805.6379-4-stuart.w.hayes@gmail.com>
 X-Mailer: git-send-email 2.39.3
 In-Reply-To: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
 References: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240822_132817_046741_1862A3DB 
-X-CRM114-Status: GOOD (  16.70  )
+X-CRM114-CacheID: sfid-20240822_132818_856294_7D9DE952 
+X-CRM114-Status: GOOD (  27.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,100 +104,177 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Make a separate function for the part of device_shutdown() that does the
-shutown for a single device.  This is in preparation for making device
-shutdown asynchronous.
+Add code to allow asynchronous shutdown of devices, ensuring that each
+device is shut down before its parents & suppliers.
+
+Only devices with drivers that have async_shutdown_enable enabled will be
+shut down asynchronously.
+
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch.
 
 Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
 Signed-off-by: David Jeffery <djeffery@redhat.com>
 ---
- drivers/base/core.c | 66 ++++++++++++++++++++++++---------------------
- 1 file changed, 36 insertions(+), 30 deletions(-)
+ drivers/base/base.h           |  4 +++
+ drivers/base/core.c           | 54 ++++++++++++++++++++++++++++++++++-
+ include/linux/device/driver.h |  2 ++
+ 3 files changed, 59 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 0b53593372d7..aa5a2bd3f2b8 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -10,6 +10,7 @@
+  * shared outside of the drivers/base/ directory.
+  *
+  */
++#include <linux/async.h>
+ #include <linux/notifier.h>
+ 
+ /**
+@@ -97,6 +98,8 @@ struct driver_private {
+  *	the device; typically because it depends on another driver getting
+  *	probed first.
+  * @async_driver - pointer to device driver awaiting probe via async_probe
++ * @shutdown_after - used during device shutdown to ensure correct shutdown
++ *	ordering.
+  * @device - pointer back to the struct device that this structure is
+  * associated with.
+  * @dead - This device is currently either in the process of or has been
+@@ -114,6 +117,7 @@ struct device_private {
+ 	struct list_head deferred_probe;
+ 	const struct device_driver *async_driver;
+ 	char *deferred_probe_reason;
++	async_cookie_t shutdown_after;
+ 	struct device *device;
+ 	u8 dead:1;
+ };
 diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 13253d105062..7e50daa65ca0 100644
+index 7e50daa65ca0..dd3652ea56fe 100644
 --- a/drivers/base/core.c
 +++ b/drivers/base/core.c
-@@ -4781,6 +4781,41 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/acpi.h>
++#include <linux/async.h>
+ #include <linux/cpufreq.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+@@ -3531,6 +3532,7 @@ static int device_private_init(struct device *dev)
+ 	klist_init(&dev->p->klist_children, klist_children_get,
+ 		   klist_children_put);
+ 	INIT_LIST_HEAD(&dev->p->deferred_probe);
++	dev->p->shutdown_after = 0;
+ 	return 0;
+ }
+ 
+@@ -4781,6 +4783,8 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
  }
  EXPORT_SYMBOL_GPL(device_change_owner);
  
-+static void shutdown_one_device(struct device *dev)
++static ASYNC_DOMAIN(sd_domain);
++
+ static void shutdown_one_device(struct device *dev)
+ {
+ 	/* hold lock to avoid race with probe/release */
+@@ -4816,12 +4820,34 @@ static void shutdown_one_device(struct device *dev)
+ 		put_device(dev->parent);
+ }
+ 
++/**
++ * shutdown_one_device_async
++ * @data: the pointer to the struct device to be shutdown
++ * @cookie: not used
++ *
++ * Shuts down one device, after waiting for shutdown_after to complete.
++ * shutdown_after should be set to the cookie of the last child or consumer
++ * of this device to be shutdown (if any), or to the cookie of the previous
++ * device to be shut down for devices that don't enable asynchronous shutdown.
++ */
++static void shutdown_one_device_async(void *data, async_cookie_t cookie)
 +{
-+	/* hold lock to avoid race with probe/release */
-+	if (dev->parent && dev->bus && dev->bus->need_parent_lock)
-+		device_lock(dev->parent);
-+	device_lock(dev);
++	struct device *dev = data;
 +
-+	/* Don't allow any more runtime suspends */
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_barrier(dev);
++	async_synchronize_cookie_domain(dev->p->shutdown_after + 1, &sd_domain);
 +
-+	if (dev->class && dev->class->shutdown_pre) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown_pre\n");
-+		dev->class->shutdown_pre(dev);
-+	}
-+	if (dev->bus && dev->bus->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->bus->shutdown(dev);
-+	} else if (dev->driver && dev->driver->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->driver->shutdown(dev);
-+	}
-+
-+	device_unlock(dev);
-+	if (dev->parent && dev->bus && dev->bus->need_parent_lock)
-+		device_unlock(dev->parent);
-+
-+	put_device(dev);
-+	if (dev->parent)
-+		put_device(dev->parent);
++	shutdown_one_device(dev);
 +}
 +
  /**
   * device_shutdown - call ->shutdown() on each device to shutdown.
   */
-@@ -4817,36 +4852,7 @@ void device_shutdown(void)
+ void device_shutdown(void)
+ {
+ 	struct device *dev, *parent;
++	async_cookie_t cookie = 0;
++	struct device_link *link;
++	int idx;
+ 
+ 	wait_for_device_probe();
+ 	device_block_probing();
+@@ -4852,11 +4878,37 @@ void device_shutdown(void)
  		list_del_init(&dev->kobj.entry);
  		spin_unlock(&devices_kset->list_lock);
  
--		/* hold lock to avoid race with probe/release */
--		if (parent && dev->bus && dev->bus->need_parent_lock)
--			device_lock(parent);
--		device_lock(dev);
--
--		/* Don't allow any more runtime suspends */
--		pm_runtime_get_noresume(dev);
--		pm_runtime_barrier(dev);
--
--		if (dev->class && dev->class->shutdown_pre) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown_pre\n");
--			dev->class->shutdown_pre(dev);
--		}
--		if (dev->bus && dev->bus->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->bus->shutdown(dev);
--		} else if (dev->driver && dev->driver->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->driver->shutdown(dev);
--		}
--
--		device_unlock(dev);
--		if (parent && dev->bus && dev->bus->need_parent_lock)
--			device_unlock(parent);
--
--		put_device(dev);
--		put_device(parent);
-+		shutdown_one_device(dev);
+-		shutdown_one_device(dev);
++
++		/*
++		 * Set cookie for devices that will be shut down synchronously
++		 */
++		if (!dev->driver || !dev->driver->async_shutdown_enable)
++			dev->p->shutdown_after = cookie;
++
++		get_device(dev);
++		get_device(parent);
++
++		cookie = async_schedule_domain(shutdown_one_device_async,
++					       dev, &sd_domain);
++		/*
++		 * Ensure parent & suppliers wait for this device to shut down
++		 */
++		if (parent) {
++			parent->p->shutdown_after = cookie;
++			put_device(parent);
++		}
++
++		idx = device_links_read_lock();
++		list_for_each_entry_rcu(link, &dev->links.suppliers, c_node,
++				device_links_read_lock_held())
++			link->supplier->p->shutdown_after = cookie;
++		device_links_read_unlock(idx);
++		put_device(dev);
  
  		spin_lock(&devices_kset->list_lock);
  	}
+ 	spin_unlock(&devices_kset->list_lock);
++	async_synchronize_full_domain(&sd_domain);
+ }
+ 
+ /*
+diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
+index 1fc8b68786de..2b6127faaa25 100644
+--- a/include/linux/device/driver.h
++++ b/include/linux/device/driver.h
+@@ -56,6 +56,7 @@ enum probe_type {
+  * @mod_name:	Used for built-in modules.
+  * @suppress_bind_attrs: Disables bind/unbind via sysfs.
+  * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
++ * @async_shutdown_enable: Enables devices to be shutdown asynchronously.
+  * @of_match_table: The open firmware table.
+  * @acpi_match_table: The ACPI match table.
+  * @probe:	Called to query the existence of a specific device,
+@@ -102,6 +103,7 @@ struct device_driver {
+ 
+ 	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
+ 	enum probe_type probe_type;
++	bool async_shutdown_enable;
+ 
+ 	const struct of_device_id	*of_match_table;
+ 	const struct acpi_device_id	*acpi_match_table;
 -- 
 2.39.3
 
