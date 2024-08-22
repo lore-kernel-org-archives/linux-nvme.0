@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8887C5321E
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 18:37:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B40AC3DA4A
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 18:37:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Subject:To:From:Cc:Content-Type:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QjfMtdcDLGDQnBLpB5ievgILoCMnyG9pAUBPHV8Ka68=; b=uA5VVz4EqZrAAC62NeT4dfHJ3X
-	y4BD1Q3PggIyQfAgKV+hKIRf/BoAINuVdMqujREtL85ZNFouybkH5tKFTDEzyyX8A3T8Tbr4UPX5L
-	ud0NLEsYjTuGDDBEXw3JLu0TaTjupHQa1DPq6r0VmZ5Ng03pS3dmHkuWisayEqha01VjUdyPMnhs9
-	JtmWK8Eg4KIiiuKPlQwphqrJEtPsUM2DYD7ScTzgxeUW0NPofJTV5L2KiiNYcGnLT+N5FB1F8RpP9
-	ZNVkfzOmaaaTa4ge/DCIL2htrtx0rrbF7olx+DIi5MZ6mKdLYdBD2ZwqfcUiAJNiMAX+MlbJF2SeR
-	2Ae4d6Ew==;
+	bh=AYiVVcr8/wboBmezLWjDsQm81ttJxTuVeu5qAg4kVjI=; b=tj3uzUdM1nmFKaSt/hu8EiUcoc
+	vft40k5qcxllD2WVsZnsEUzFg0fmunv+l2DoVAJc88s6TKlKQMmzhxKZNCkGkycdShNIERkBT6uX/
+	PW/IcdshUI6DoRCI6Lfld1Hejvkpw/xWhH3BfKsgw2MeL16edfgV7SWmjzAb6papIZ/RFLR7EZYJL
+	n1XpnbaIPabuCIDuAdy1sQ9iMLtWd0Aq8DtDlV9h/tAuGehaZFDZvFBmg0Z5C/NPWH/VAQw6GvlaO
+	s91xCUQGnItTnBlGIC7likh3nkhRbMeG/cUdIpjUeHb4pgzRgj+ttcDT1w2NIm8QzZdO943v6J64r
+	M+azxL5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shCgx-0000000Dy72-23jg;
-	Thu, 22 Aug 2024 18:37:51 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1shCh1-0000000DyAs-2t4P;
+	Thu, 22 Aug 2024 18:37:55 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shCgu-0000000Dy5S-1Mof
+	id 1shCgw-0000000Dy6F-23el
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Aug 2024 18:37:50 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-201e52ca0caso8967565ad.3
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 11:37:47 -0700 (PDT)
+	Thu, 22 Aug 2024 18:37:51 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-201ed196debso10601985ad.1
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 11:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724351867; x=1724956667; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1724351869; x=1724956669; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QjfMtdcDLGDQnBLpB5ievgILoCMnyG9pAUBPHV8Ka68=;
-        b=CWw54OiPTPcnzTbWYX9McS7eNwtsIBeGIYE0/9XH8TqKx52dK6iV3bUN652RQ6zja/
-         GhIbjQrhw/HHR/l1Y8Vapc+khGkBqUEDLJI0IVG9pMfYqPEYEAaiEPPMk4JtbSFa7muI
-         cDieowfCytBL7exisDJ6cvdbl9QjNHvTvmfIaX+Jl6suFgdG/xN+1/ur/QiBeRAL7kT0
-         yDSBheyUPiFqupRtoMa9Dm2hslYriHMQCTRuIWtS629NH1zcE0V1mrJiGrw4wDL6NgEV
-         1fr3t1c8GwRmbUZxPR07UulyTuAOUrZtZKU5XzmYVYpSeBw2GfrB3f6xGJ8BEFNqwEpf
-         +Mbw==
+        bh=AYiVVcr8/wboBmezLWjDsQm81ttJxTuVeu5qAg4kVjI=;
+        b=DheCcCw+8bGpveDb5EXE/LRlpUGlG+XYhhI7R6KofXSnRX6Bb//8UfyuaZmdFw0p7P
+         eYF4yfRHJyoX1tAHOQq/dnrSM9kxDXDGq2c3igSqfwDttzvbTCGzYcGbCkReF2DvS8N6
+         XA8yAax9Ts52+fVJgw/Os4teJPXFgTCn11oVVFg9ZpV7nb1Hv3xa3h7sWqqs+q4izwjR
+         lDwHm9LaBy96FCzBXbz6kt9sl6Qspa100ik3ogNScVwULNvdNCl5lC3cqFW8N/LoDXou
+         THLf8bwjHCrYS6AlW7mD6zTbGij/wlgmhWgwRtrBZN3Kw60IBG0J8ZRknd61bPjhbi2m
+         0COQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724351867; x=1724956667;
+        d=1e100.net; s=20230601; t=1724351869; x=1724956669;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:to:from:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QjfMtdcDLGDQnBLpB5ievgILoCMnyG9pAUBPHV8Ka68=;
-        b=J03TLJuybjMbxMdijiYFoRKRTXB68ayuufc89WcNfDm+qlcNqMXATLep848D4y9EWY
-         6gru0+dMsTdwqgip7KLUD09+4DNzhJVBCzO7ceTHuyV1vd7PwBBefN2/hl/bZRgYXYjk
-         QCaq2ota36D9qo+ylKgBER0Zv8g+E0r0Bo+VURiiglN7ANVLi/3kMNKrddYPlzq/Ld07
-         zmOnBAmog4xVwnpAdtGLyrwH7A2KW+jvJBux333N23luNC3AXGl6f/ZyGdn8McAZWWpu
-         nZnpED7COpuN+VBuqDyIJBkekYtpv7ihiTtP+dQ4QVcsKYlD9Pc9t4U0KedgW4EbQ4tA
-         fCmw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLWUYy1ejXme3Yu9BXgLv7JevsQTIGYdtsv8Yx4msFCbW09/lmx0D9QV5LEntkuIZn+broFdSMNqam@lists.infradead.org
-X-Gm-Message-State: AOJu0YyZPk1la1eL8T0sg8DkdYFIfeE6gFd/DLC7Wg+6eV4CJFF2bgIs
-	wwjiNouiXB3oEb0MyRrMAeGQ+Q8JC0GZF9jwKdCUp8egzN/4VNQ1
-X-Google-Smtp-Source: AGHT+IF9sdhX5APdafE8rQTPJt8ZBQnqDD/V3BB+n+PgpkNa+qh0s6M1LpksFMMVRYmHv6tGpAsIfg==
-X-Received: by 2002:a17:902:ea02:b0:1fd:d56e:2c0d with SMTP id d9443c01a7336-20368197745mr58216485ad.31.1724351866979;
-        Thu, 22 Aug 2024 11:37:46 -0700 (PDT)
+        bh=AYiVVcr8/wboBmezLWjDsQm81ttJxTuVeu5qAg4kVjI=;
+        b=KF6pXL0O+N3XQsrQapS9Qo7cyx1s2EH3v/jHLQm2Vhs3EW4qhs+C6jewrSQ932nvrN
+         OfFVYtTDjechvNvWMP/REfy7Rs0IM5GD3OGzN9SZV7Zf9aGVtq+NeWwfDH0yJlykIJvW
+         R+Bjq69EurZbS+x7DEfFyEVPKTnkl2DtaCdSk90l56PhVhf8Oxe+o0wAFCntpVBXYeUC
+         P5e2CRBsbJSiJ8lc4vQFwd1TARVfEGXNO9oVE8Lkd/YpARMRx8X1WKJO+rnUGLZa2Efo
+         E9ZNy2n+F85Y/gpnouZkE+2SqXpeIrJvCSOCf+jm7pCqF1YFR7KhrCHUxWQHAqLbnN2j
+         Vufg==
+X-Forwarded-Encrypted: i=1; AJvYcCV9M9tG/L1XEcwFzeJ4VMLOs7MCp/007lpg2I4xXOMozObxQI6siR2XHnCSGcARCBJJZuXSubh4P7x7@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx01gu7fsNBDLnYLkac5xOSa7Eb5f1z22KrYtXddmalYGZuRXL0
+	I8ghvUMYa7qJrseONOdK7W/qEYl173zjcLDXd+Zfyswz4JMZmQRKsFE70Iae
+X-Google-Smtp-Source: AGHT+IH8+45q6oXd8x8II3Jds1dxAoYSz31lmfPW/kQ0FnzP0cCsfuNQ8sVNo0lwZUKJpv9rCx8MxQ==
+X-Received: by 2002:a17:903:228d:b0:1fc:f65:cd8a with SMTP id d9443c01a7336-20367d1394dmr75819225ad.18.1724351869298;
+        Thu, 22 Aug 2024 11:37:49 -0700 (PDT)
 Received: from localhost.localdomain (c-67-160-120-253.hsd1.wa.comcast.net. [67.160.120.253])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557e4f9sm15667145ad.65.2024.08.22.11.37.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557e4f9sm15667145ad.65.2024.08.22.11.37.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 11:37:46 -0700 (PDT)
+        Thu, 22 Aug 2024 11:37:49 -0700 (PDT)
 From: mhkelley58@gmail.com
 X-Google-Original-From: mhklinux@outlook.com
 To: kbusch@kernel.org,
@@ -84,17 +84,17 @@ To: kbusch@kernel.org,
 	linux-scsi@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	linux-coco@lists.linux.dev
-Subject: [RFC 1/7] swiotlb: Introduce swiotlb throttling
-Date: Thu, 22 Aug 2024 11:37:12 -0700
-Message-Id: <20240822183718.1234-2-mhklinux@outlook.com>
+Subject: [RFC 3/7] dma: Add function for drivers to know if allowing blocking is useful
+Date: Thu, 22 Aug 2024 11:37:14 -0700
+Message-Id: <20240822183718.1234-4-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240822183718.1234-1-mhklinux@outlook.com>
 References: <20240822183718.1234-1-mhklinux@outlook.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240822_113748_414629_DFF64C3C 
-X-CRM114-Status: GOOD (  36.47  )
+X-CRM114-CacheID: sfid-20240822_113750_556294_8E020626 
+X-CRM114-Status: GOOD (  15.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,477 +112,101 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Michael Kelley <mhklinux@outlook.com>
 
-Implement throttling of swiotlb map requests. Because throttling requires
-temporarily pending some requests, throttling can only be used by map
-requests made in contexts that can block. Detecting such contexts at
-runtime is infeasible, so device driver code must be updated to add
-DMA_ATTR_MAY_BLOCK on map requests done in a context that can block.
-Even if a map request is throttled, the corresponding unmap request will
-never block, so unmap has no context restrictions, just like current code.
-If a swiotlb map request does *not* have DMA_ATTR_MAY_BLOCK, no throttling
-is done and there is no functional change.
+With the addition of swiotlb throttling functionality, storage
+device drivers may want to know whether using the DMA_ATTR_MAY_BLOCK
+attribute is useful. In a CoCo VM or environment where swiotlb=force
+is used, the MAY_BLOCK attribute enables swiotlb throttling. But if
+throttling is not enable or useful, storage device drivers probably
+do not want to set BLK_MQ_F_BLOCKING at the blk-mq request queue level.
 
-The goal of throttling is to reduce peak usage of swiotlb memory,
-particularly in environments like CoCo VMs which must use bounce buffering
-for all DMA I/O. These VMs currently allocate up to 1 GiB for swiotlb
-memory to ensure that it isn't exhausted. But for many workloads, this
-memory is effectively wasted because it can't be used for other purposes.
-Throttling can lower the swiotlb memory requirements without unduly raising
-the risk of exhaustion, thus making several hundred MiBs of additional
-memory available for general usage.
-
-The high-level implementation is as follows:
-
-1.  Each struct io_tlb_mem has a semaphore that is initialized to 1.  A
-semaphore is used instead of a mutex because the semaphore likely won't
-be released by the same thread that obtained it.
-
-2. Each struct io_tlb_mem has a swiotlb space usage level above which
-throttling is done. This usage level is initialized to 70% of the total
-size of that io_tlb_mem, and is tunable at runtime via /sys if
-CONFIG_DEBUG_FS is set.
-
-3. When swiotlb_tbl_map_single() is invoked with throttling allowed, if
-the current usage of that io_tlb_mem is above the throttle level, the
-semaphore must be obtained before proceeding. The semaphore is then
-released by the corresponding swiotlb unmap call. If the semaphore is
-already held when swiotlb_tbl_map_single() must obtain it, the calling
-thread blocks until the semaphore is available. Once the thread obtains
-the semaphore, it proceeds to allocate swiotlb space in the usual way.
-The swiotlb map call saves throttling information in the io_tlb_slot, and
-then swiotlb unmap uses that information to determine if the semaphore
-is held. If so, it releases the semaphore, potentially allowing a
-queued request to proceed. Overall, the semaphore queues multiple waiters
-and wakes them up in the order in which they waited. Effectively, the
-semaphore single threads map/unmap pairs to reduce peak usage.
-
-4. A "low throttle" level is also implemented and initialized to 65% of
-the total size of the io_tlb_mem. If the current usage is between the
-throttle level and the low throttle level, AND the semaphore is held, the
-requestor must obtain the semaphore. Consider if throttling occurs, so
-that one map request holds the semaphore, and three others are queued
-waiting for the semaphore. If swiotlb usage then drops because of
-unrelated unmap's, a new incoming map request may not get throttled, and
-bypass the three requests waiting in the semaphore queue. There's not
-a forward progress issue because the requests in the queue will complete
-as long as the underlying I/Os make forward progress. But to somewhat
-address the fairness issue, the low throttle level provides hysteresis
-in that new incoming requests continue to queue on the semaphore as long
-as used swiotlb memory is above that lower limit.
-
-5. SGLs are handled in a subsequent patch.
-
-In #3 above the check for being above the throttle level is an
-instantaneous check with no locking and no reservation of space, to avoid
-atomic operations. Consequently, multiple threads could all make the check
-and decide they are under the throttle level. They can all proceed without
-obtaining the semaphore, and potentially generate a peak in usage.
-Furthermore, other DMA map requests that don't have throttling enabled
-proceed without even checking, and hence can also push usage toward a peak.
-So throttling can blunt and reduce peaks in swiotlb memory usage, but
-does it not guarantee to prevent exhaustion.
+Add function dma_recommend_may_block() that indicates whether
+the underlying implementation of the DMA map calls would benefit
+from allowing blocking. If the kernel was built with
+CONFIG_SWIOTLB_THROTTLE, and swiotlb=force is set (on the kernel
+command line or due to being a CoCo VM), this function returns
+true. Otherwise it returns false.
 
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
- include/linux/dma-mapping.h |   8 +++
- include/linux/swiotlb.h     |  15 ++++-
- kernel/dma/Kconfig          |  13 ++++
- kernel/dma/swiotlb.c        | 114 ++++++++++++++++++++++++++++++++----
- 4 files changed, 136 insertions(+), 14 deletions(-)
+ include/linux/dma-mapping.h |  5 +++++
+ kernel/dma/direct.c         |  6 ++++++
+ kernel/dma/direct.h         |  1 +
+ kernel/dma/mapping.c        | 10 ++++++++++
+ 4 files changed, 22 insertions(+)
 
 diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index f693aafe221f..7b78294813be 100644
+index 7b78294813be..ec2edf068218 100644
 --- a/include/linux/dma-mapping.h
 +++ b/include/linux/dma-mapping.h
-@@ -62,6 +62,14 @@
-  */
- #define DMA_ATTR_PRIVILEGED		(1UL << 9)
- 
-+/*
-+ * DMA_ATTR_MAY_BLOCK: Indication by a driver that the DMA map request is
-+ * allowed to block. This flag must only be used on DMA map requests made in
-+ * contexts that allow blocking. The corresponding unmap request will not
-+ * block.
-+ */
-+#define DMA_ATTR_MAY_BLOCK		(1UL << 10)
-+
- /*
-  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
-  * be given to a device to use as a DMA source or target.  It is specific to a
-diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index 3dae0f592063..10d07d0ee00c 100644
---- a/include/linux/swiotlb.h
-+++ b/include/linux/swiotlb.h
-@@ -89,6 +89,10 @@ struct io_tlb_pool {
-  * @defpool:	Default (initial) IO TLB memory pool descriptor.
-  * @pool:	IO TLB memory pool descriptor (if not dynamic).
-  * @nslabs:	Total number of IO TLB slabs in all pools.
-+ * @high_throttle: Slab count above which requests are throttled.
-+ * @low_throttle: Slab count abouve which requests are throttled when
-+ *		throttle_sem is already held.
-+ * @throttle_sem: Semaphore that throttled requests must obtain.
-  * @debugfs:	The dentry to debugfs.
-  * @force_bounce: %true if swiotlb bouncing is forced
-  * @for_alloc:  %true if the pool is used for memory allocation
-@@ -104,10 +108,17 @@ struct io_tlb_pool {
-  *		in debugfs.
-  * @transient_nslabs: The total number of slots in all transient pools that
-  *		are currently used across all areas.
-+ * @high_throttle_count: Count of requests throttled because high_throttle
-+ *		was exceeded.
-+ * @low_throttle_count: Count of requests throttled because low_throttle was
-+ *		exceeded and throttle_sem was already held.
-  */
- struct io_tlb_mem {
- 	struct io_tlb_pool defpool;
- 	unsigned long nslabs;
-+	unsigned long high_throttle;
-+	unsigned long low_throttle;
-+	struct semaphore throttle_sem;
- 	struct dentry *debugfs;
- 	bool force_bounce;
- 	bool for_alloc;
-@@ -118,11 +129,11 @@ struct io_tlb_mem {
- 	struct list_head pools;
- 	struct work_struct dyn_alloc;
- #endif
--#ifdef CONFIG_DEBUG_FS
- 	atomic_long_t total_used;
- 	atomic_long_t used_hiwater;
- 	atomic_long_t transient_nslabs;
--#endif
-+	unsigned long high_throttle_count;
-+	unsigned long low_throttle_count;
- };
- 
- struct io_tlb_pool *__swiotlb_find_pool(struct device *dev, phys_addr_t paddr);
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index c06e56be0ca1..d45ba62f58c8 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -103,6 +103,19 @@ config SWIOTLB_DYNAMIC
- 
- 	  If unsure, say N.
- 
-+config SWIOTLB_THROTTLE
-+	bool "Throttle DMA map requests from enabled drivers"
-+	default n
-+	depends on SWIOTLB
-+	help
-+	  Enable throttling of DMA map requests to help avoid exhausting
-+	  bounce buffer space, causing request failures. Throttling
-+	  applies only where the calling driver has enabled blocking in
-+	  DMA map requests. This option is most useful in CoCo VMs where
-+	  all DMA operations must go through bounce buffers.
-+
-+	  If unsure, say N.
-+
- config DMA_BOUNCE_UNALIGNED_KMALLOC
- 	bool
- 	depends on SWIOTLB
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index df68d29740a0..940b95cf02b7 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -34,6 +34,7 @@
- #include <linux/init.h>
- #include <linux/memblock.h>
- #include <linux/mm.h>
-+#include <linux/semaphore.h>
- #include <linux/pfn.h>
- #include <linux/rculist.h>
- #include <linux/scatterlist.h>
-@@ -71,12 +72,15 @@
-  *		from each index.
-  * @pad_slots:	Number of preceding padding slots. Valid only in the first
-  *		allocated non-padding slot.
-+ * @throttled:  Boolean indicating the slot is used by a request that was
-+ *		throttled. Valid only in the first allocated non-padding slot.
-  */
- struct io_tlb_slot {
- 	phys_addr_t orig_addr;
- 	size_t alloc_size;
- 	unsigned short list;
--	unsigned short pad_slots;
-+	u8 pad_slots;
-+	u8 throttled;
- };
- 
- static bool swiotlb_force_bounce;
-@@ -249,6 +253,31 @@ static inline unsigned long nr_slots(u64 val)
- 	return DIV_ROUND_UP(val, IO_TLB_SIZE);
- }
- 
-+#ifdef CONFIG_SWIOTLB_THROTTLE
-+static void init_throttling(struct io_tlb_mem *mem)
-+{
-+	sema_init(&mem->throttle_sem, 1);
-+
-+	/*
-+	 * The default thresholds are somewhat arbitrary. They are
-+	 * conservative to allow space for devices that can't throttle and
-+	 * because the determination of whether to throttle is done without
-+	 * any atomicity. The low throttle exists to provide a modest amount
-+	 * of hysteresis so that the system doesn't flip rapidly between
-+	 * throttling and not throttling when usage fluctuates near the high
-+	 * throttle level.
-+	 */
-+	mem->high_throttle = (mem->nslabs * 70) / 100;
-+	mem->low_throttle = (mem->nslabs * 65) / 100;
-+}
-+#else
-+static void init_throttling(struct io_tlb_mem *mem)
-+{
-+	mem->high_throttle = 0;
-+	mem->low_throttle = 0;
-+}
-+#endif
-+
- /*
-  * Early SWIOTLB allocation may be too early to allow an architecture to
-  * perform the desired operations.  This function allows the architecture to
-@@ -415,6 +444,8 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
- 
- 	if (flags & SWIOTLB_VERBOSE)
- 		swiotlb_print_info();
-+
-+	init_throttling(&io_tlb_default_mem);
- }
- 
- void __init swiotlb_init(bool addressing_limit, unsigned int flags)
-@@ -511,6 +542,7 @@ int swiotlb_init_late(size_t size, gfp_t gfp_mask,
- 	swiotlb_init_io_tlb_pool(mem, virt_to_phys(vstart), nslabs, true,
- 				 nareas);
- 	add_mem_pool(&io_tlb_default_mem, mem);
-+	init_throttling(&io_tlb_default_mem);
- 
- 	swiotlb_print_info();
- 	return 0;
-@@ -947,7 +979,7 @@ static unsigned int wrap_area_index(struct io_tlb_pool *mem, unsigned int index)
-  * function gives imprecise results because there's no locking across
-  * multiple areas.
-  */
--#ifdef CONFIG_DEBUG_FS
-+#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_SWIOTLB_THROTTLE)
- static void inc_used_and_hiwater(struct io_tlb_mem *mem, unsigned int nslots)
- {
- 	unsigned long old_hiwater, new_used;
-@@ -966,14 +998,14 @@ static void dec_used(struct io_tlb_mem *mem, unsigned int nslots)
- 	atomic_long_sub(nslots, &mem->total_used);
- }
- 
--#else /* !CONFIG_DEBUG_FS */
-+#else /* !CONFIG_DEBUG_FS && !CONFIG_SWIOTLB_THROTTLE*/
- static void inc_used_and_hiwater(struct io_tlb_mem *mem, unsigned int nslots)
- {
- }
- static void dec_used(struct io_tlb_mem *mem, unsigned int nslots)
- {
- }
--#endif /* CONFIG_DEBUG_FS */
-+#endif /* CONFIG_DEBUG_FS || CONFIG_SWIOTLB_THROTTLE */
- 
- #ifdef CONFIG_SWIOTLB_DYNAMIC
- #ifdef CONFIG_DEBUG_FS
-@@ -1277,7 +1309,7 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
- 
- #endif /* CONFIG_SWIOTLB_DYNAMIC */
- 
--#ifdef CONFIG_DEBUG_FS
-+#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_SWIOTLB_THROTTLE)
- 
- /**
-  * mem_used() - get number of used slots in an allocator
-@@ -1293,7 +1325,7 @@ static unsigned long mem_used(struct io_tlb_mem *mem)
- 	return atomic_long_read(&mem->total_used);
- }
- 
--#else /* !CONFIG_DEBUG_FS */
-+#else /* !CONFIG_DEBUG_FS && !CONFIG_SWIOTLB_THROTTLE */
- 
- /**
-  * mem_pool_used() - get number of used slots in a memory pool
-@@ -1373,6 +1405,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
- 	unsigned int offset;
- 	struct io_tlb_pool *pool;
-+	bool throttle = false;
- 	unsigned int i;
- 	size_t size;
- 	int index;
-@@ -1398,6 +1431,32 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 	dev_WARN_ONCE(dev, alloc_align_mask > ~PAGE_MASK,
- 		"Alloc alignment may prevent fulfilling requests with max mapping_size\n");
- 
-+	if (IS_ENABLED(CONFIG_SWIOTLB_THROTTLE) && attrs & DMA_ATTR_MAY_BLOCK) {
-+		unsigned long used = atomic_long_read(&mem->total_used);
-+
-+		/*
-+		 * Determining whether to throttle is intentionally done without
-+		 * atomicity. For example, multiple requests could proceed in
-+		 * parallel when usage is just under the threshold, putting
-+		 * usage above the threshold by the aggregate size of the
-+		 * parallel requests. The thresholds must already be set
-+		 * conservatively because of drivers that can't enable
-+		 * throttling, so this slop in the accounting shouldn't be
-+		 * problem. It's better than the potential bottleneck of a
-+		 * globally synchronzied reservation mechanism.
-+		 */
-+		if (used > mem->high_throttle) {
-+			throttle = true;
-+			mem->high_throttle_count++;
-+		} else if ((used > mem->low_throttle) &&
-+					(mem->throttle_sem.count <= 0)) {
-+			throttle = true;
-+			mem->low_throttle_count++;
-+		}
-+		if (throttle)
-+			down(&mem->throttle_sem);
-+	}
-+
- 	offset = swiotlb_align_offset(dev, alloc_align_mask, orig_addr);
- 	size = ALIGN(mapping_size + offset, alloc_align_mask + 1);
- 	index = swiotlb_find_slots(dev, orig_addr, size, alloc_align_mask, &pool);
-@@ -1406,6 +1465,8 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 			dev_warn_ratelimited(dev,
- 	"swiotlb buffer is full (sz: %zd bytes), total %lu (slots), used %lu (slots)\n",
- 				 size, mem->nslabs, mem_used(mem));
-+		if (throttle)
-+			up(&mem->throttle_sem);
- 		return (phys_addr_t)DMA_MAPPING_ERROR;
- 	}
- 
-@@ -1424,6 +1485,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 	offset &= (IO_TLB_SIZE - 1);
- 	index += pad_slots;
- 	pool->slots[index].pad_slots = pad_slots;
-+	pool->slots[index].throttled = throttle;
- 	for (i = 0; i < (nr_slots(size) - pad_slots); i++)
- 		pool->slots[index + i].orig_addr = slot_addr(orig_addr, i);
- 	tlb_addr = slot_addr(pool->start, index) + offset;
-@@ -1440,7 +1502,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
- 	return tlb_addr;
- }
- 
--static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
-+static bool swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
- 				  struct io_tlb_pool *mem)
- {
- 	unsigned long flags;
-@@ -1448,8 +1510,10 @@ static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
- 	int index, nslots, aindex;
- 	struct io_tlb_area *area;
- 	int count, i;
-+	bool throttled;
- 
- 	index = (tlb_addr - offset - mem->start) >> IO_TLB_SHIFT;
-+	throttled = mem->slots[index].throttled;
- 	index -= mem->slots[index].pad_slots;
- 	nslots = nr_slots(mem->slots[index].alloc_size + offset);
- 	aindex = index / mem->area_nslabs;
-@@ -1478,6 +1542,7 @@ static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
- 		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
- 		mem->slots[i].alloc_size = 0;
- 		mem->slots[i].pad_slots = 0;
-+		mem->slots[i].throttled = 0;
- 	}
- 
- 	/*
-@@ -1492,6 +1557,8 @@ static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
- 	spin_unlock_irqrestore(&area->lock, flags);
- 
- 	dec_used(dev->dma_io_tlb_mem, nslots);
-+
-+	return throttled;
- }
- 
- #ifdef CONFIG_SWIOTLB_DYNAMIC
-@@ -1501,6 +1568,9 @@ static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
-  * @dev:	Device which mapped the buffer.
-  * @tlb_addr:	Physical address within a bounce buffer.
-  * @pool:       Pointer to the transient memory pool to be checked and deleted.
-+ * @throttled:	If the function returns %true, return boolean indicating
-+ *		if the transient allocation was throttled. Not set if the
-+ *		function returns %false.
-  *
-  * Check whether the address belongs to a transient SWIOTLB memory pool.
-  * If yes, then delete the pool.
-@@ -1508,11 +1578,18 @@ static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
-  * Return: %true if @tlb_addr belonged to a transient pool that was released.
-  */
- static bool swiotlb_del_transient(struct device *dev, phys_addr_t tlb_addr,
--		struct io_tlb_pool *pool)
-+		struct io_tlb_pool *pool, bool *throttled)
- {
-+	unsigned int offset;
-+	int index;
-+
- 	if (!pool->transient)
- 		return false;
- 
-+	offset = swiotlb_align_offset(dev, 0, tlb_addr);
-+	index = (tlb_addr - offset - pool->start) >> IO_TLB_SHIFT;
-+	*throttled = pool->slots[index].throttled;
-+
- 	dec_used(dev->dma_io_tlb_mem, pool->nslabs);
- 	swiotlb_del_pool(dev, pool);
- 	dec_transient_used(dev->dma_io_tlb_mem, pool->nslabs);
-@@ -1522,7 +1599,7 @@ static bool swiotlb_del_transient(struct device *dev, phys_addr_t tlb_addr,
- #else  /* !CONFIG_SWIOTLB_DYNAMIC */
- 
- static inline bool swiotlb_del_transient(struct device *dev,
--		phys_addr_t tlb_addr, struct io_tlb_pool *pool)
-+		phys_addr_t tlb_addr, struct io_tlb_pool *pool, bool *throttled)
+@@ -145,6 +145,7 @@ int dma_set_mask(struct device *dev, u64 mask);
+ int dma_set_coherent_mask(struct device *dev, u64 mask);
+ u64 dma_get_required_mask(struct device *dev);
+ bool dma_addressing_limited(struct device *dev);
++bool dma_recommend_may_block(struct device *dev);
+ size_t dma_max_mapping_size(struct device *dev);
+ size_t dma_opt_mapping_size(struct device *dev);
+ unsigned long dma_get_merge_boundary(struct device *dev);
+@@ -252,6 +253,10 @@ static inline bool dma_addressing_limited(struct device *dev)
  {
  	return false;
  }
-@@ -1536,6 +1613,8 @@ void __swiotlb_tbl_unmap_single(struct device *dev, phys_addr_t tlb_addr,
- 		size_t mapping_size, enum dma_data_direction dir,
- 		unsigned long attrs, struct io_tlb_pool *pool)
++static inline bool dma_recommend_may_block(struct device *dev)
++{
++	return false;
++}
+ static inline size_t dma_max_mapping_size(struct device *dev)
  {
-+	bool throttled;
-+
- 	/*
- 	 * First, sync the memory before unmapping the entry
- 	 */
-@@ -1544,9 +1623,11 @@ void __swiotlb_tbl_unmap_single(struct device *dev, phys_addr_t tlb_addr,
- 		swiotlb_bounce(dev, tlb_addr, mapping_size,
- 						DMA_FROM_DEVICE, pool);
- 
--	if (swiotlb_del_transient(dev, tlb_addr, pool))
--		return;
--	swiotlb_release_slots(dev, tlb_addr, pool);
-+	if (!swiotlb_del_transient(dev, tlb_addr, pool, &throttled))
-+		throttled = swiotlb_release_slots(dev, tlb_addr, pool);
-+
-+	if (throttled)
-+		up(&dev->dma_io_tlb_mem->throttle_sem);
+ 	return 0;
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 80e03c0838d4..34d14e4ace64 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -649,6 +649,12 @@ bool dma_direct_all_ram_mapped(struct device *dev)
+ 				      check_ram_in_range_map);
  }
  
- void __swiotlb_sync_single_for_device(struct device *dev, phys_addr_t tlb_addr,
-@@ -1719,6 +1800,14 @@ static void swiotlb_create_debugfs_files(struct io_tlb_mem *mem,
- 		return;
++bool dma_direct_recommend_may_block(struct device *dev)
++{
++	return IS_ENABLED(CONFIG_SWIOTLB_THROTTLE) &&
++			is_swiotlb_force_bounce(dev);
++}
++
+ size_t dma_direct_max_mapping_size(struct device *dev)
+ {
+ 	/* If SWIOTLB is active, use its maximum mapping size */
+diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+index d2c0b7e632fc..63516a540276 100644
+--- a/kernel/dma/direct.h
++++ b/kernel/dma/direct.h
+@@ -21,6 +21,7 @@ bool dma_direct_need_sync(struct device *dev, dma_addr_t dma_addr);
+ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+ 		enum dma_data_direction dir, unsigned long attrs);
+ bool dma_direct_all_ram_mapped(struct device *dev);
++bool dma_direct_recommend_may_block(struct device *dev);
+ size_t dma_direct_max_mapping_size(struct device *dev);
  
- 	debugfs_create_ulong("io_tlb_nslabs", 0400, mem->debugfs, &mem->nslabs);
-+	debugfs_create_ulong("high_throttle", 0600, mem->debugfs,
-+			&mem->high_throttle);
-+	debugfs_create_ulong("low_throttle", 0600, mem->debugfs,
-+			&mem->low_throttle);
-+	debugfs_create_ulong("high_throttle_count", 0600, mem->debugfs,
-+			&mem->high_throttle_count);
-+	debugfs_create_ulong("low_throttle_count", 0600, mem->debugfs,
-+			&mem->low_throttle_count);
- 	debugfs_create_file("io_tlb_used", 0400, mem->debugfs, mem,
- 			&fops_io_tlb_used);
- 	debugfs_create_file("io_tlb_used_hiwater", 0600, mem->debugfs, mem,
-@@ -1841,6 +1930,7 @@ static int rmem_swiotlb_device_init(struct reserved_mem *rmem,
- 		INIT_LIST_HEAD_RCU(&mem->pools);
- #endif
- 		add_mem_pool(mem, pool);
-+		init_throttling(mem);
+ #if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index b1c18058d55f..832982bafd5a 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -858,6 +858,16 @@ bool dma_addressing_limited(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(dma_addressing_limited);
  
- 		rmem->priv = mem;
- 
++bool dma_recommend_may_block(struct device *dev)
++{
++	const struct dma_map_ops *ops = get_dma_ops(dev);
++
++	if (dma_map_direct(dev, ops))
++		return dma_direct_recommend_may_block(dev);
++	return false;
++}
++EXPORT_SYMBOL_GPL(dma_recommend_may_block);
++
+ size_t dma_max_mapping_size(struct device *dev)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
 -- 
 2.25.1
 
