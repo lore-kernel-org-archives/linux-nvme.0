@@ -4,97 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 696C5C5321D
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 18:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3CC2C3DA4A
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Aug 2024 19:29:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Subject:To:From:Cc:Content-Type:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1Hlc/i1KYMFZn1UW3B36jY0bAKWAgeG5KXhGYCaItEQ=; b=20F4yBH49dpvXwPrJJdVq/wjF0
-	GMoWngXz6Ki4bcbvQVcGLOBitcLjUOGH9BRtA8ig7GDyB6qFu09OOyvoVcO07DYVW4O7GVbYdqoUv
-	GG+C3MVuqJUVuJagMCi7Xsi7j/Auj9S6lbqkC0kHCpufCPhcpmt51CxwNyrDzhyV3pxf9/9AFPwVS
-	tWIHM6bAbxtgxE4bg0kA+QzEGtWJA+EK8kNabcRuY6bWZ6cpu+wtY93lfrHoTYyPh0p5jIua5xFFY
-	t0lhxSXoEGYzjQaa4gaZpjWMNm/eu5OOxULCNGTbBphOyiRy4D8ee91yJumsqLzfirLICU88+KqI8
-	SEbIKzJA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9ZEgusTWJU2HXLnzHir15+nHfQOEL9J2dmjPlBk4gZ4=; b=Tp6xdF2xRyOmLVTaLUbfsZxS9u
+	wzD4TxzrtQSfvBEEBpIskgzC2Fo7gkWugtlQl0UhxiceS3tyK+Dnqt3D2LM0Uto333j027CxmK4U2
+	CiFLdEQV6SFNHaSpNVrvT81K5vOikkI6RHPALmGsGLfADghJaQrb+jX7ztRhwL5UACbTTxMLkJIZy
+	ge6s0QNe21weoxiQMCCa7tEXRcUIGd7aOpcb50+KabnI0ys1BSc9q+N0JoRxbUnxHmQH9dgac06L0
+	8DBTlZOIbxi2yaTq0pJ1Ze0TB994unpZ+3jYDvMMeO0j68ceJFgyev5uhCY9rC3KTWBlneLYb0dbP
+	pBbfinfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shCh7-0000000DyG1-3W6a;
-	Thu, 22 Aug 2024 18:38:01 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1shDV0-0000000E67d-0GzX;
+	Thu, 22 Aug 2024 19:29:34 +0000
+Received: from 009.lax.mailroute.net ([199.89.1.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shCh0-0000000DyAE-3UQh
+	id 1shDUw-0000000E66h-0ikw
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Aug 2024 18:37:57 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-201f2b7fe0dso10988975ad.1
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Aug 2024 11:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724351874; x=1724956674; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Hlc/i1KYMFZn1UW3B36jY0bAKWAgeG5KXhGYCaItEQ=;
-        b=eyHjDG45rw3sb6qu6UO9jQ/TPm0vSE9GA6pm4f7mdcFO/8QASeoWiBza6jvdWSPIjt
-         mOYr0/+srrdJg9QUQQLVILm6X9DUb8tJ+1Tb0DSiVrOGL/6clKG5DBNQGop8zpzKqiKb
-         s1hqQsM6He2rFVr3bCzUqpRdBtD9OTAB8iHwQHYZ4aZakPkf7m7CZyE+PPc6Tah2ufLn
-         a/cRKnlO8k3QdAxirE6IDG9jp2yNtXRwLAKtTTPv3JOKe7K5FFXz64StS1pDvoHTzkkf
-         4TeLtZhHuyQ9SE1kgqJZu9QhUsYA73UzwSXzrDOF5yQ2CAMlOrXkSRiVook0YXg2+k9N
-         OHWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724351874; x=1724956674;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1Hlc/i1KYMFZn1UW3B36jY0bAKWAgeG5KXhGYCaItEQ=;
-        b=o+JllZQg2X+DP6KOOKAMlvOnwW+oVGALYlJEUAYkmuLRCqpfs8wZzKqSh9PH47vMO8
-         cCyuVF5KtwkkDGaTnmiJc5zUixkNcw0Ag3ivydcrRkiUrSxk3Q4v4McXAzQa8unERkZQ
-         fYHPzZUws6DLLUl9Z027MDbvJtmStAyaGm2a98tBYRaVuBnuB2jiLsilSoxk7GRD8yNR
-         FCV345Xu4V9p0oWz87FUneXqH27qmKh9vj+NGXOB8noGHsz51kZ6VfltQoTCvIwjMDpi
-         LqXv91rCIYhhWnJybjv3VEJ6Xbrao2KZWeRWm+omocovijrR3xmsXAVlY3lMxsdcr6/J
-         h7cw==
-X-Forwarded-Encrypted: i=1; AJvYcCUG6TiIruwMQXe7FI05zq1gzWj3u8U91IWeapqi4cCAjzedw7guu1COYvb4xPWvBW0kjHPImnhdUK1U@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy3M7YgKcU2D6bwF9McnNWTNpZch7KlRtVnFW+tVwcHneLTQXsu
-	SdHNO3pT4kD4+nSTOcYJtNDXpjy4IBBJiNektMMqqXfvUqTQUrCT
-X-Google-Smtp-Source: AGHT+IE+oTsuXbaq9ZvaSNrcslYkvt3uX+Tvp8+A11rBrdRfV8hOJKmntJKX/3gWBiFYZVMV3hYEuw==
-X-Received: by 2002:a17:902:d2ce:b0:202:13ca:d73e with SMTP id d9443c01a7336-20388240fbcmr30142745ad.28.1724351873947;
-        Thu, 22 Aug 2024 11:37:53 -0700 (PDT)
-Received: from localhost.localdomain (c-67-160-120-253.hsd1.wa.comcast.net. [67.160.120.253])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038557e4f9sm15667145ad.65.2024.08.22.11.37.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 11:37:53 -0700 (PDT)
-From: mhkelley58@gmail.com
-X-Google-Original-From: mhklinux@outlook.com
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	sagi@grimberg.me,
-	James.Bottomley@HansenPartnership.com,
-	martin.petersen@oracle.com,
-	kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	robin.murphy@arm.com,
-	hch@lst.de,
-	m.szyprowski@samsung.com,
-	petr@tesarici.cz,
-	iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-coco@lists.linux.dev
-Subject: [RFC 7/7] nvme: Enable swiotlb throttling for NVMe PCI devices
-Date: Thu, 22 Aug 2024 11:37:18 -0700
-Message-Id: <20240822183718.1234-8-mhklinux@outlook.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240822183718.1234-1-mhklinux@outlook.com>
-References: <20240822183718.1234-1-mhklinux@outlook.com>
+	Thu, 22 Aug 2024 19:29:31 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4WqYDT0MPfzlgVnK;
+	Thu, 22 Aug 2024 19:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1724354964; x=1726946965; bh=9ZEgusTWJU2HXLnzHir15+nH
+	fQOEL9J2dmjPlBk4gZ4=; b=Q80JPWcPlkv2CO7rMQcOBV9cJQj4CxnH8yk4cRxO
+	1nfR9UrEJAzCs41yxpGZg2MZWpK6InAbCRglO7WakUDR4dP6dMVqJMlaIINenVTD
+	rGn+PuDbqf59N9yxrvJq0CyK9ZHs3XK2tYrmI9RKb70tVcS0t0cUwRx/dy1/rvZq
+	Laar2dL9MOWAc4J5YUs/zfBnhh49UdXKCAIymaCND9Kba2legHFyDhYRbFUfCF4h
+	c/w3qL6ZtGV7m5jA3NroU3bHhypV41Wshg8HYHB/+b1Ngm5XpizUduyPJgd2pz8W
+	UNIB+/2P3SWRDWs+ITC9BqqXG0o0j1UgeU+KWsWuZTJ6yg==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id itsm-lJJiOpf; Thu, 22 Aug 2024 19:29:24 +0000 (UTC)
+Received: from [100.66.154.22] (unknown [104.135.204.82])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4WqYDL0lXRzlgVnF;
+	Thu, 22 Aug 2024 19:29:21 +0000 (UTC)
+Message-ID: <f8bb65ed-cdf2-4d23-b794-765ce0b48a4b@acm.org>
+Date: Thu, 22 Aug 2024 12:29:21 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/7] Introduce swiotlb throttling
+To: mhklinux@outlook.com, kbusch@kernel.org, axboe@kernel.dk,
+ sagi@grimberg.me, James.Bottomley@HansenPartnership.com,
+ martin.petersen@oracle.com, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, robin.murphy@arm.com, hch@lst.de,
+ m.szyprowski@samsung.com, petr@tesarici.cz, iommu@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-coco@lists.linux.dev
+References: <20240822183718.1234-1-mhklinux@outlook.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240822183718.1234-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240822_113755_376985_9B872175 
-X-CRM114-Status: GOOD (  18.20  )
+X-CRM114-CacheID: sfid-20240822_122930_283632_AFA28806 
+X-CRM114-Status: UNSURE (   6.71  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,105 +86,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: mhklinux@outlook.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Michael Kelley <mhklinux@outlook.com>
+On 8/22/24 11:37 AM, mhkelley58@gmail.com wrote:
+> Linux device drivers may make DMA map/unmap calls in contexts that
+> cannot block, such as in an interrupt handler.
 
-In a CoCo VM, all DMA-based I/O must use swiotlb bounce buffers
-because DMA cannot be done to private (encrypted) portions of VM
-memory. The bounce buffer memory is marked shared (decrypted) at
-boot time, so I/O is done to/from the bounce buffer memory and then
-copied by the CPU to/from the final target memory (i.e, "bounced").
-Storage devices can be large consumers of bounce buffer memory because
-it is possible to have large numbers of I/Os in flight across multiple
-devices. Bounce buffer memory must be pre-allocated at boot time, and
-it is difficult to know how much memory to allocate to handle peak
-storage I/O loads. Consequently, bounce buffer memory is typically
-over-provisioned, which wastes memory, and may still not avoid a peak
-that exhausts bounce buffer memory and cause storage I/O errors.
+Although I really appreciate your work, what alternatives have been
+considered? How many drivers perform DMA mapping from atomic context?
+Would it be feasible to modify these drivers such that DMA mapping
+always happens in a context in which sleeping is allowed?
 
-For Coco VMs running with NVMe PCI devices, update the driver to
-permit bounce buffer throttling. Gate the throttling behavior
-on a DMA layer check indicating that throttling is useful, so that
-no change occurs in a non-CoCo VM. If throttling is useful, enable
-the BLK_MQ_F_BLOCKING flag, and pass the DMA_ATTR_MAY_BLOCK attribute
-into dma_map_bvec() and dma_map_sgtable() calls. With these options in
-place, DMA map requests are pended when necessary to reduce the
-likelihood of usage peaks caused by the NVMe driver that could exhaust
-bounce buffer memory and generate errors.
+Thanks,
 
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
----
- drivers/nvme/host/pci.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6cd9395ba9ec..2c39943a87f8 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -156,6 +156,7 @@ struct nvme_dev {
- 	dma_addr_t host_mem_descs_dma;
- 	struct nvme_host_mem_buf_desc *host_mem_descs;
- 	void **host_mem_desc_bufs;
-+	unsigned long dma_attrs;
- 	unsigned int nr_allocated_queues;
- 	unsigned int nr_write_queues;
- 	unsigned int nr_poll_queues;
-@@ -735,7 +736,8 @@ static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
- 	unsigned int offset = bv->bv_offset & (NVME_CTRL_PAGE_SIZE - 1);
- 	unsigned int first_prp_len = NVME_CTRL_PAGE_SIZE - offset;
- 
--	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
-+	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req),
-+					dev->dma_attrs);
- 	if (dma_mapping_error(dev->dev, iod->first_dma))
- 		return BLK_STS_RESOURCE;
- 	iod->dma_len = bv->bv_len;
-@@ -754,7 +756,8 @@ static blk_status_t nvme_setup_sgl_simple(struct nvme_dev *dev,
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 
--	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
-+	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req),
-+					dev->dma_attrs);
- 	if (dma_mapping_error(dev->dev, iod->first_dma))
- 		return BLK_STS_RESOURCE;
- 	iod->dma_len = bv->bv_len;
-@@ -800,7 +803,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out_free_sg;
- 
- 	rc = dma_map_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req),
--			     DMA_ATTR_NO_WARN);
-+			     dev->dma_attrs | DMA_ATTR_NO_WARN);
- 	if (rc) {
- 		if (rc == -EREMOTEIO)
- 			ret = BLK_STS_TARGET;
-@@ -828,7 +831,8 @@ static blk_status_t nvme_map_metadata(struct nvme_dev *dev, struct request *req,
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	struct bio_vec bv = rq_integrity_vec(req);
- 
--	iod->meta_dma = dma_map_bvec(dev->dev, &bv, rq_dma_dir(req), 0);
-+	iod->meta_dma = dma_map_bvec(dev->dev, &bv, rq_dma_dir(req),
-+					dev->dma_attrs);
- 	if (dma_mapping_error(dev->dev, iod->meta_dma))
- 		return BLK_STS_IOERR;
- 	cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
-@@ -3040,6 +3044,12 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
- 	 * a single integrity segment for the separate metadata pointer.
- 	 */
- 	dev->ctrl.max_integrity_segments = 1;
-+
-+	if (dma_recommend_may_block(dev->dev)) {
-+		dev->ctrl.blocking = true;
-+		dev->dma_attrs = DMA_ATTR_MAY_BLOCK;
-+	}
-+
- 	return dev;
- 
- out_put_device:
--- 
-2.25.1
-
+Bart.
 
