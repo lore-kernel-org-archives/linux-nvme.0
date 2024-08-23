@@ -4,99 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 799C3C52D7C
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 13:40:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAA88C531DC
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 14:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ml8aME6CkcZn0CiUXBYWpDsskLSscE04s646w9nv9sI=; b=b/HalMUG/e4VfU3ij7n4Nusrmm
-	mzco8xizilEVa+e5qSr21XuATELP/R6H6H03LDmh9hDnqiBusgWKKXqv4BEiHVbzT4KWTcnw60Q9E
-	4JHLnXh+KpOMT9uKMB+ue03/KNASSS0tl8c1IHr0AUIyFPlyTBtlt6sWWwza1rgIGynVBSJRs4eU9
-	VcsBgQun68IuOZzRPRsalM9FtgzGKegXq3fRIoxYfMqsf3kYrG0ej+rJI7awTCd8F9jqY7ud6wg8m
-	CAbDZafwZZVN9cXAzNeAe21Lk35A5uCQq/yf3LeMxRPCMvbWr2tE6kZjNqdNO2UJgMidG7wXTECjF
-	x/bquGVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=P8gF0VRc9Y7rNBPRo/VdLr5wb4xFr5AtxCkwB+zyjs0=; b=QlpwDhPwptxYxz9ZltQkFWkFFM
+	CHVCL1nWZXnwWyN1yUDQNa6r6OAak+husdbrptqTI86xAo76UXiEi/apnKzsJwISc4Dg6xhkD68Nn
+	zDVtR8buP0lg3Nhzxes/07HVSlRaAvbq34+mO7sYJ9dS24GqVp1DdlS3AQXXhmjevrlJhZqQq/0C+
+	eiT4X0yRrbqwu0IafmqSmOCcsYXpg9IK9sfGJkidn2eqJLE4TyMRzrOI6LaCOpwftjcOsCo4T9ZGp
+	MBBrlbPNuyGhXnVZPIdRrhRkwCgqhNjxnY0ljI4OuI87Q34o1Xmm/qYQb0HQPtQx/+ALP+V8Y0o0C
+	lk9ukubA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shUWG-0000000GuPA-3cip;
-	Fri, 23 Aug 2024 13:40:00 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1shVc7-0000000HAYI-3B1y;
+	Fri, 23 Aug 2024 14:50:07 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shUWE-0000000GuO6-0lRu
+	id 1shVbt-0000000HAVn-169e
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Aug 2024 13:39:59 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47N8PjPN011130;
-	Fri, 23 Aug 2024 13:39:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:from:to:cc:references
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=m
-	l8aME6CkcZn0CiUXBYWpDsskLSscE04s646w9nv9sI=; b=i6wtZcH5bHOIZQoRE
-	+clsI11dICrWEOJ6P4KggEKbdSpgBHhYgjIJxfUktgqpFacUajxd6mrl7xLcr50V
-	GJYd1z3ml8qFLmb0B4lsoswX7t3Ht7P5AIWmYRgGD3BG2JQN5PoVZ5Ln6kdLsWtj
-	Q7OwYGrXSQZrDPGa9w8GzLRYQ7WgeODjIUl+LSicuTLRZJNJbgXJrgOnT9OZMuwx
-	N+8w0oKpRGBIqnIxUpXvxbjBinK8hzsaDIfTainUQppuo+R1yHwkO512oT3mdBeA
-	DjlCoD8uGiUILMxv33wAQBKnZ9XK8bCEPXVJkexRPZfORb/k+I/rtCiKmREAA1Nb
-	6IyzA==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 412mc547mp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Aug 2024 13:39:55 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 47NBHcdI019050;
-	Fri, 23 Aug 2024 13:39:55 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41376qa3km-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Aug 2024 13:39:55 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 47NDdqR812386912
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Aug 2024 13:39:55 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D2AF658067;
-	Fri, 23 Aug 2024 13:39:52 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8971C58065;
-	Fri, 23 Aug 2024 13:39:49 +0000 (GMT)
-Received: from [9.171.23.201] (unknown [9.171.23.201])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 23 Aug 2024 13:39:49 +0000 (GMT)
-Message-ID: <d3d56275-b88b-4f95-941d-6f4a0d2e2868@linux.ibm.com>
-Date: Fri, 23 Aug 2024 19:09:47 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Fri, 23 Aug 2024 14:49:54 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6F5182032A;
+	Fri, 23 Aug 2024 14:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1724424590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8gF0VRc9Y7rNBPRo/VdLr5wb4xFr5AtxCkwB+zyjs0=;
+	b=ZJ5SggyfHyMVH4mBqAVtEuFAVR+60VKvNCDblLPKQGIa1nozRRxUQyRcbaPa+wmeXiyDeE
+	aMRqwZZCByXG0RWCbY+gQM1X/R/eZ7gOfmDsOgAWYtERysfBySrKzL+2O4U/x/Fh/oZu2D
+	xMaeSjmu9Tz6bfR60E577FlJcpptwSo=
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1724424590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8gF0VRc9Y7rNBPRo/VdLr5wb4xFr5AtxCkwB+zyjs0=;
+	b=ZJ5SggyfHyMVH4mBqAVtEuFAVR+60VKvNCDblLPKQGIa1nozRRxUQyRcbaPa+wmeXiyDeE
+	aMRqwZZCByXG0RWCbY+gQM1X/R/eZ7gOfmDsOgAWYtERysfBySrKzL+2O4U/x/Fh/oZu2D
+	xMaeSjmu9Tz6bfR60E577FlJcpptwSo=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2EC021333E;
+	Fri, 23 Aug 2024 14:49:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qEbKCY6hyGZ7fQAAD6G6ig
+	(envelope-from <mwilck@suse.com>); Fri, 23 Aug 2024 14:49:50 +0000
+Message-ID: <2cb6f86256803af00557f07e9573331c51111953.camel@suse.com>
 Subject: Re: [PATCH 3/3] nvme: add test for controller rescan under I/O load
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: Martin Wilck <martin.wilck@suse.com>,
-        "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-        Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
-        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-        Martin Wilck <mwilck@suse.com>
-References: <20240822193814.106111-1-mwilck@suse.com>
- <20240822193814.106111-3-mwilck@suse.com>
- <9c260acf-48c1-4b4e-8e02-594bff222af3@linux.ibm.com>
-Content-Language: en-US
+From: Martin Wilck <mwilck@suse.com>
+To: Nilay Shroff <nilay@linux.ibm.com>, Shin'ichiro Kawasaki
+	 <shinichiro.kawasaki@wdc.com>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Hannes Reinecke
+ <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+ linux-block@vger.kernel.org,  linux-nvme@lists.infradead.org
+Date: Fri, 23 Aug 2024 16:49:49 +0200
 In-Reply-To: <9c260acf-48c1-4b4e-8e02-594bff222af3@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 641EkEgyRCZL65KGt3sICMd-kOf1tNZM
-X-Proofpoint-GUID: 641EkEgyRCZL65KGt3sICMd-kOf1tNZM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-23_10,2024-08-22_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
- clxscore=1015 priorityscore=1501 mlxlogscore=999 adultscore=0 phishscore=0
- impostorscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408230099
+References: <20240822193814.106111-1-mwilck@suse.com>
+	 <20240822193814.106111-3-mwilck@suse.com>
+	 <9c260acf-48c1-4b4e-8e02-594bff222af3@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 
+MIME-Version: 1.0
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240823_063958_588693_A55AEC71 
-X-CRM114-Status: GOOD (  31.74  )
+X-CRM114-CacheID: sfid-20240823_074953_478111_F2D1A632 
+X-CRM114-Status: GOOD (  16.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,141 +116,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 8/23/24 15:48, Nilay Shroff wrote:
-> 
-> 
+On Fri, 2024-08-23 at 15:48 +0530, Nilay Shroff wrote:
+>=20
 > On 8/23/24 01:08, Martin Wilck wrote:
->> Add a test that repeatedly rescans nvme controllers while doing IO
->> on an nvme namespace connected to these controllers. The purpose
->> of the test is to make sure that no I/O errors or data corruption
->> occurs because of the rescan operations.
->>
->> Signed-off-by: Martin Wilck <mwilck@suse.com>
->> ---
->>  tests/nvme/053 | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++
->>  tests/nvme/rc  | 18 ++++++++++++++++
->>  2 files changed, 74 insertions(+)
->>  create mode 100755 tests/nvme/053
->>
->> diff --git a/tests/nvme/053 b/tests/nvme/053
->> new file mode 100755
->> index 0000000..41dc8f2
->> --- /dev/null
->> +++ b/tests/nvme/053
->> @@ -0,0 +1,56 @@
->> +#!/bin/bash
->> +# SPDX-License-Identifier: GPL-3.0+
->> +# Copyright (C) 2024 Martin Wilck, SUSE LLC
->> +
->> +. tests/nvme/rc
->> +
->> +DESCRIPTION="test controller rescan under I/O load"
->> +TIMED=1
->> +: "${TIMEOUT:=60}"
->> +
->> +rescan_controller() {
->> +	local finish
->> +
->> +	[[ -f "$1/rescan_controller" ]] || {
->> +		echo "cannot rescan $1"
->> +		return 1
->> +	}
->> +
->> +	finish=$(($(date +%s) + TIMEOUT))
->> +	while [[ $(date +%s) -le $finish ]]; do
->> +		# sleep interval between 0.1 and 5s
->> +		usleep "$(((RANDOM%50 + 1)*100000))"
->> +		echo 1 >"$1/rescan_controller"
->> +	done
->> +}
+> >=20
+> > +	finish=3D$(($(date +%s) + TIMEOUT))
+> > +	while [[ $(date +%s) -le $finish ]]; do
+> > +		# sleep interval between 0.1 and 5s
+> > +		usleep "$(((RANDOM%50 + 1)*100000))"
+> > +		echo 1 >"$1/rescan_controller"
+> > +	done
+> > +}
 > I think here usleep may not be available by default on all systems.
-> For instance, on fedora/rhel I don't have usleep installed in the 
+> For instance, on fedora/rhel I don't have usleep installed in the=20
 > defualt configuration and so I have to first install it. So you may
-> want to add "usleep" as per-requisite for this test. Moreover, after 
-> I installed usleep on fedora and ran the above test I see this warning:
-> 
+> want to add "usleep" as per-requisite for this test. Moreover, after=20
+> I installed usleep on fedora and ran the above test I see this
+> warning:
+>=20
 > warning: usleep is deprecated, and will be removed in near future!
-> 
-> Due to above warning the test fails. So is it possible to replace 
+>=20
+> Due to above warning the test fails. So is it possible to replace=20
 > usleep with sleep?
->  
->> +
->> +test_device() {
->> +	local -a ctrls
->> +	local c
->> +
->> +	echo "Running ${TEST_NAME}"
->> +	ctrls=($(_nvme_get_ctrl_list))
->> +
->> +	_run_fio_verify_io --filename="$TEST_DEV" --time_based &> "$FULL" &
->> +
->> +	for c in "${ctrls[@]}"; do
->> +		rescan_controller "$c" &
->> +	done
->> +
->> +	while true; do
->> +		wait -n &>/dev/null
->> +		st=$?
->> +		case $st in
->> +			127)
->> +				break
->> +				;;
->> +			0)
->> +				;;
->> +			*)
->> +				echo "child process exited with $st!"
->> +				;;
->> +		esac
->> +	done
->> +
->> +	echo "Test complete"
->> +}
->> diff --git a/tests/nvme/rc b/tests/nvme/rc
->> index e7d2ab1..93b0571 100644
->> --- a/tests/nvme/rc
->> +++ b/tests/nvme/rc
->> @@ -192,6 +192,24 @@ _test_dev_nvme_nsid() {
->>  	cat "${TEST_DEV_SYSFS}/nsid"
->>  }
->>  
->> +_nvme_get_ctrl_list() {
->> +	local subsys
->> +	local c
->> +
->> +	subsys=$(readlink  "${TEST_DEV_SYSFS}/device/subsystem")
->> +	case $subsys in
->> +		*/nvme)
->> +			readlink -f "${TEST_DEV_SYSFS}/device"
->> +			;;
->> +		*/nvme-subsystem)
->> +			for c in "${TEST_DEV_SYSFS}"/device/nvme*; do
->> +				[[ -L "$c" ]] || continue
->> +				[[ -f "$c/dev" ]] && readlink -f "$c"
->> +			done
->> +			;;
->> +	esac
->> +}
->> +
-> I don't know if I am missing anything here but just curious to know 
-> for which case $subsys would point to link ending in */nvme?
-> I think that for all cases $subsys shall point to link which ends 
-> in */nvme-subsystem, isn't it? I assume here that $TEST_DEV_SYSFS would 
-> always resolve to a nvme block device.
-> 
-I think I got the answer for the above query, when I disabled the nvme 
-multipath in the kernel config, I could see we hit the first case when 
-$subsys would point to the link ending in */nvme, so this is not an issue.
 
-> And the last point: I don't see 053.out file in your patchset. Did you forget
-> to add this file?
-> 
-> Thanks,
-> --Nilay
-> 
-> 
-> 
-> 
-> 
+The README states that blktests requires GNU coreutils, so yes, that
+would be feasible - in principle.
+
+The problem is that bash can't do floating point math, and I want to
+be able to sleep for fractions of a second. So I'd need to do something
+like this:
+
+usleep() {
+    sleep "$(awk "BEGIN { print $1 / 1.e6; }" </dev/null)"
+}
+
+But the fork-and-exec to "awk" is slow. millisecond sleep times can't
+be realized this way.=C2=A0Anyway, I realize that calling "usleep" also
+carries a lot of overhead, and thus "usleep 1000" doesn't do what one
+would na=C3=AFvely expect, either.
+
+The only way I can see to make this work as originally intended is to
+implement is as an awk script. The README says that GNU awk is
+required, so sleep() with floating point argument is available.
+
+Thanks
+Martin
+
 
