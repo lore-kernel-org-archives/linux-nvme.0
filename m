@@ -4,68 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8AECC52D7C
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 08:41:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70D42C5472C
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 10:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Cb6PqhKpP7ar8ly8cR261dRzbAdFkd8uMnNKWb2a72o=; b=2W+uRIvsPzKPHv7QU0VqLnVh6I
-	i1TyeV2Ws7hN1KUl8LJuISAEDMAtt/ZfCPHO4vYi0poLGSWdHgEnAJf8T8aHxPWifYPpicCMTkqja
-	6p6juXOGOBo4iDg/MiCs30T7XnZn4+AJE74om+cgkhgkw6Vs5eJCBy8g5KVlPdmX1j1cue+y0Wmhn
-	5YsdZDGeXmvBvH7qetQ90GRK7KzvjavqKdYEAY1SS+MBfFaaXrkqpwVVKlVS5vwPTXlXejpV77SnI
-	/KjpMQG8ZADNNmmVuv95szkVsL6RcO7DwFEa2y+QSy294ZJDVoJ+C/oAxb+fQcHDmPoKpDWWwn+kI
-	G519pXhA==;
+	bh=YnX/CYPg46ufwMFBeJik/ByRTw1OMorfiS4qpoaUxHM=; b=fxAlB5RXgV8Dvx49dOVBxXc8ze
+	VSu6RjLcyAqG0zi73AOpYZTwhN/43IW/JyVhSQFiZMeXOsYMs5s8ds+G6GnU6+jBlvVmrcRRw9c/h
+	i1KOQLZT9olZ+GazrtNq0ACyCpXV3cINUQh1eipMyA97N+YOA4U6q37wgRw0byOmfWMHNzVowTxXv
+	EW4irOuzIBJwAVCUlE70nFkvQ1E5b5G2naXPl2SjGdfmOtgQNhU99RgvltQhjKjlg/CrlbwCdwWQU
+	uc5Rbj2GwSnslVnV6h0MPD+eRwQOMQQZLkz1W/NaKUACMEZiyaH41CkmbJdjuCLHd0WAW2SY5xbCU
+	Zf0Xg4tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shPrG-0000000FvW8-0Vbf;
-	Fri, 23 Aug 2024 08:41:22 +0000
-Received: from bee.tesarici.cz ([2a03:3b40:fe:2d4::1])
+	id 1shRRC-0000000GJpA-28Mc;
+	Fri, 23 Aug 2024 10:22:34 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shPd6-0000000Frkq-2JD2
+	id 1shRNS-0000000GIir-3T6D
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Aug 2024 08:26:46 +0000
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id DE4CB1EFCD7;
-	Fri, 23 Aug 2024 10:26:42 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1724401603; bh=Cb6PqhKpP7ar8ly8cR261dRzbAdFkd8uMnNKWb2a72o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XC9qMPOORHKhGxtuEqYZWhvcUQLSNDTTWFjMy7+rqMjBR9aYZGjGlBG+CmW7OwuBd
-	 79L2I6aLuc6yr04anJqToCOvN8WGrTn4Qj3hDxFjqcIPA19NIw9Qv5BX9fA94+0GLp
-	 l0KLIqCBvO5HvmmGNdpFXIx5W/2SAWYzfdlkVsvrgKK7684mvl3vazypXIiu4q3eT6
-	 ly51l/+pDVIJAnQLo31UocvED2gBi2BKjLawYJsX20XKZjre3ZP5ZDr36H+cLhz3Cq
-	 FS9QfPScXdp/I8kJkYGIub0pHKSC4fz0ZnE8ceUv/MIW5c8GKhp+GCt7HxqKo4RFyf
-	 E3DQF8XeboGVQ==
-Date: Fri, 23 Aug 2024 10:26:42 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: mhkelley58@gmail.com
-Cc: mhklinux@outlook.com, kbusch@kernel.org, axboe@kernel.dk,
- sagi@grimberg.me, James.Bottomley@HansenPartnership.com,
- martin.petersen@oracle.com, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, robin.murphy@arm.com, hch@lst.de,
- m.szyprowski@samsung.com, iommu@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-coco@lists.linux.dev
-Subject: Re: [RFC 7/7] nvme: Enable swiotlb throttling for NVMe PCI devices
-Message-ID: <20240823102642.3f7f893a@meshulam.tesarici.cz>
-In-Reply-To: <20240822183718.1234-8-mhklinux@outlook.com>
-References: <20240822183718.1234-1-mhklinux@outlook.com>
-	<20240822183718.1234-8-mhklinux@outlook.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
+	Fri, 23 Aug 2024 10:18:44 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47NA9khv016917;
+	Fri, 23 Aug 2024 10:18:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=Y
+	nX/CYPg46ufwMFBeJik/ByRTw1OMorfiS4qpoaUxHM=; b=DjzvgUN6/xe9p+SRD
+	W4SuZqxZfQIfTBICvRmhYBToyWsxxbG7x4ZCfKCy8KhcAAwfqar2nWwKTxp6tV1h
+	pv4iVTE5tfBfIRftR/HsFdxiZ5CqiO1EXdIopg+T5WN/+/J/otAH2d+ng/ao2ROP
+	2CtzaToyFXL3vCy9gxITa/50RCI7jfR64TSXYUTpT5JQisONgd+kAclCeVA0gD0q
+	WGRv+VDOhsTvYjsnfmsOgFUl32qbbpqIMAtXFbsyrpsqWldDtMs9OHZEGl/jvPmH
+	180kzKEDCCd3XkyPz6lMeMxL+PsKak+31Jawb/HFocSGIrX0yx8r3+Zoqf6Np3Cf
+	3awIA==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 412ma0mcwg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Aug 2024 10:18:41 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 47NAEsHk013097;
+	Fri, 23 Aug 2024 10:18:40 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 41366uhkv6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Aug 2024 10:18:40 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 47NAIbKo28836514
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 23 Aug 2024 10:18:39 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AA67458055;
+	Fri, 23 Aug 2024 10:18:37 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 702BE58065;
+	Fri, 23 Aug 2024 10:18:34 +0000 (GMT)
+Received: from [9.171.23.201] (unknown [9.171.23.201])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 23 Aug 2024 10:18:34 +0000 (GMT)
+Message-ID: <9c260acf-48c1-4b4e-8e02-594bff222af3@linux.ibm.com>
+Date: Fri, 23 Aug 2024 15:48:32 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] nvme: add test for controller rescan under I/O load
+To: Martin Wilck <martin.wilck@suse.com>,
+        "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+        Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+        Martin Wilck <mwilck@suse.com>
+References: <20240822193814.106111-1-mwilck@suse.com>
+ <20240822193814.106111-3-mwilck@suse.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240822193814.106111-3-mwilck@suse.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ZlWBhoi2H-1KPVNyEE0fDhtKXCw0OZgR
+X-Proofpoint-ORIG-GUID: ZlWBhoi2H-1KPVNyEE0fDhtKXCw0OZgR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-23_06,2024-08-22_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 spamscore=0 malwarescore=0
+ bulkscore=0 adultscore=0 impostorscore=0 suspectscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408230073
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240823_012644_788409_6FA7CFA4 
-X-CRM114-Status: GOOD (  27.31  )
+X-CRM114-CacheID: sfid-20240823_031843_347596_616A2B80 
+X-CRM114-Status: GOOD (  27.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,109 +110,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 22 Aug 2024 11:37:18 -0700
-mhkelley58@gmail.com wrote:
 
-> From: Michael Kelley <mhklinux@outlook.com>
+
+On 8/23/24 01:08, Martin Wilck wrote:
+> Add a test that repeatedly rescans nvme controllers while doing IO
+> on an nvme namespace connected to these controllers. The purpose
+> of the test is to make sure that no I/O errors or data corruption
+> occurs because of the rescan operations.
 > 
-> In a CoCo VM, all DMA-based I/O must use swiotlb bounce buffers
-> because DMA cannot be done to private (encrypted) portions of VM
-> memory. The bounce buffer memory is marked shared (decrypted) at
-> boot time, so I/O is done to/from the bounce buffer memory and then
-> copied by the CPU to/from the final target memory (i.e, "bounced").
-> Storage devices can be large consumers of bounce buffer memory because
-> it is possible to have large numbers of I/Os in flight across multiple
-> devices. Bounce buffer memory must be pre-allocated at boot time, and
-> it is difficult to know how much memory to allocate to handle peak
-> storage I/O loads. Consequently, bounce buffer memory is typically
-> over-provisioned, which wastes memory, and may still not avoid a peak
-> that exhausts bounce buffer memory and cause storage I/O errors.
-> 
-> For Coco VMs running with NVMe PCI devices, update the driver to
-> permit bounce buffer throttling. Gate the throttling behavior
-> on a DMA layer check indicating that throttling is useful, so that
-> no change occurs in a non-CoCo VM. If throttling is useful, enable
-> the BLK_MQ_F_BLOCKING flag, and pass the DMA_ATTR_MAY_BLOCK attribute
-> into dma_map_bvec() and dma_map_sgtable() calls. With these options in
-> place, DMA map requests are pended when necessary to reduce the
-> likelihood of usage peaks caused by the NVMe driver that could exhaust
-> bounce buffer memory and generate errors.
-> 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-
-LGTM.
-
-Reviewed-by: Petr Tesarik <ptesarik@suse.com>
-
-Petr T
-
+> Signed-off-by: Martin Wilck <mwilck@suse.com>
 > ---
->  drivers/nvme/host/pci.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+>  tests/nvme/053 | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/rc  | 18 ++++++++++++++++
+>  2 files changed, 74 insertions(+)
+>  create mode 100755 tests/nvme/053
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 6cd9395ba9ec..2c39943a87f8 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -156,6 +156,7 @@ struct nvme_dev {
->  	dma_addr_t host_mem_descs_dma;
->  	struct nvme_host_mem_buf_desc *host_mem_descs;
->  	void **host_mem_desc_bufs;
-> +	unsigned long dma_attrs;
->  	unsigned int nr_allocated_queues;
->  	unsigned int nr_write_queues;
->  	unsigned int nr_poll_queues;
-> @@ -735,7 +736,8 @@ static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
->  	unsigned int offset = bv->bv_offset & (NVME_CTRL_PAGE_SIZE - 1);
->  	unsigned int first_prp_len = NVME_CTRL_PAGE_SIZE - offset;
->  
-> -	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
-> +	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req),
-> +					dev->dma_attrs);
->  	if (dma_mapping_error(dev->dev, iod->first_dma))
->  		return BLK_STS_RESOURCE;
->  	iod->dma_len = bv->bv_len;
-> @@ -754,7 +756,8 @@ static blk_status_t nvme_setup_sgl_simple(struct nvme_dev *dev,
->  {
->  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->  
-> -	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
-> +	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req),
-> +					dev->dma_attrs);
->  	if (dma_mapping_error(dev->dev, iod->first_dma))
->  		return BLK_STS_RESOURCE;
->  	iod->dma_len = bv->bv_len;
-> @@ -800,7 +803,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->  		goto out_free_sg;
->  
->  	rc = dma_map_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req),
-> -			     DMA_ATTR_NO_WARN);
-> +			     dev->dma_attrs | DMA_ATTR_NO_WARN);
->  	if (rc) {
->  		if (rc == -EREMOTEIO)
->  			ret = BLK_STS_TARGET;
-> @@ -828,7 +831,8 @@ static blk_status_t nvme_map_metadata(struct nvme_dev *dev, struct request *req,
->  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->  	struct bio_vec bv = rq_integrity_vec(req);
->  
-> -	iod->meta_dma = dma_map_bvec(dev->dev, &bv, rq_dma_dir(req), 0);
-> +	iod->meta_dma = dma_map_bvec(dev->dev, &bv, rq_dma_dir(req),
-> +					dev->dma_attrs);
->  	if (dma_mapping_error(dev->dev, iod->meta_dma))
->  		return BLK_STS_IOERR;
->  	cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
-> @@ -3040,6 +3044,12 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
->  	 * a single integrity segment for the separate metadata pointer.
->  	 */
->  	dev->ctrl.max_integrity_segments = 1;
+> diff --git a/tests/nvme/053 b/tests/nvme/053
+> new file mode 100755
+> index 0000000..41dc8f2
+> --- /dev/null
+> +++ b/tests/nvme/053
+> @@ -0,0 +1,56 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-3.0+
+> +# Copyright (C) 2024 Martin Wilck, SUSE LLC
 > +
-> +	if (dma_recommend_may_block(dev->dev)) {
-> +		dev->ctrl.blocking = true;
-> +		dev->dma_attrs = DMA_ATTR_MAY_BLOCK;
+> +. tests/nvme/rc
+> +
+> +DESCRIPTION="test controller rescan under I/O load"
+> +TIMED=1
+> +: "${TIMEOUT:=60}"
+> +
+> +rescan_controller() {
+> +	local finish
+> +
+> +	[[ -f "$1/rescan_controller" ]] || {
+> +		echo "cannot rescan $1"
+> +		return 1
 > +	}
 > +
->  	return dev;
+> +	finish=$(($(date +%s) + TIMEOUT))
+> +	while [[ $(date +%s) -le $finish ]]; do
+> +		# sleep interval between 0.1 and 5s
+> +		usleep "$(((RANDOM%50 + 1)*100000))"
+> +		echo 1 >"$1/rescan_controller"
+> +	done
+> +}
+I think here usleep may not be available by default on all systems.
+For instance, on fedora/rhel I don't have usleep installed in the 
+defualt configuration and so I have to first install it. So you may
+want to add "usleep" as per-requisite for this test. Moreover, after 
+I installed usleep on fedora and ran the above test I see this warning:
+
+warning: usleep is deprecated, and will be removed in near future!
+
+Due to above warning the test fails. So is it possible to replace 
+usleep with sleep?
+ 
+> +
+> +test_device() {
+> +	local -a ctrls
+> +	local c
+> +
+> +	echo "Running ${TEST_NAME}"
+> +	ctrls=($(_nvme_get_ctrl_list))
+> +
+> +	_run_fio_verify_io --filename="$TEST_DEV" --time_based &> "$FULL" &
+> +
+> +	for c in "${ctrls[@]}"; do
+> +		rescan_controller "$c" &
+> +	done
+> +
+> +	while true; do
+> +		wait -n &>/dev/null
+> +		st=$?
+> +		case $st in
+> +			127)
+> +				break
+> +				;;
+> +			0)
+> +				;;
+> +			*)
+> +				echo "child process exited with $st!"
+> +				;;
+> +		esac
+> +	done
+> +
+> +	echo "Test complete"
+> +}
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index e7d2ab1..93b0571 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -192,6 +192,24 @@ _test_dev_nvme_nsid() {
+>  	cat "${TEST_DEV_SYSFS}/nsid"
+>  }
 >  
->  out_put_device:
+> +_nvme_get_ctrl_list() {
+> +	local subsys
+> +	local c
+> +
+> +	subsys=$(readlink  "${TEST_DEV_SYSFS}/device/subsystem")
+> +	case $subsys in
+> +		*/nvme)
+> +			readlink -f "${TEST_DEV_SYSFS}/device"
+> +			;;
+> +		*/nvme-subsystem)
+> +			for c in "${TEST_DEV_SYSFS}"/device/nvme*; do
+> +				[[ -L "$c" ]] || continue
+> +				[[ -f "$c/dev" ]] && readlink -f "$c"
+> +			done
+> +			;;
+> +	esac
+> +}
+> +
+I don't know if I am missing anything here but just curious to know 
+for which case $subsys would point to link ending in */nvme?
+I think that for all cases $subsys shall point to link which ends 
+in */nvme-subsystem, isn't it? I assume here that $TEST_DEV_SYSFS would 
+always resolve to a nvme block device.
+
+And the last point: I don't see 053.out file in your patchset. Did you forget
+to add this file?
+
+Thanks,
+--Nilay
+
+
+
 
 
