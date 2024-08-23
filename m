@@ -4,123 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 132FEC52D7C
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EFE7C5472D
 	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 10:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=ADBIpkeIB8Qi21TqEW0JFS/Lus6pDiHqXhO9uvgTh08=; b=rD3zXuhs2bjNBZcoV/fowvjbPD
-	zwdhDFZjyFZaH+5H5Z/hVYoCXgpg5QNqm8q6vDSTc23a0UpNh2ADAZJdjcRtEft1fROrn2NcE+itX
-	T51Lr7z6bOMcdx+2JbkILM3C6shB13DbFyankKqkB52pMosFf6i23eX526tEMOEq0El8Y8BtspeyM
-	5T+5aDJGp8u+ij7GgHVE+zr2p4UcfegllLsXWsuhdRCsefZXfPynYJGXBCZsVFzUlyXvI58tJRWL9
-	ilFnnTTIh0eJaHfUuPyERf3Nn2Rj4sCmBvg/0hzp76W7AfsmDMGrwhB37FkNYXGRDLCifcuFcWReK
-	/bhj3DAQ==;
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8jA6l5tMs++plw+N26Lk0rdh9tUDLvjEvpwEPgRSsMw=; b=00yN1+hovXzsKxnH1ZBzoZzpGd
+	xUkWeFRSakuE1kpY9VJ2T+OqwHsEcCAN2CMmA4bJ0Zy9+XfH8/dTzdLMMdYfQJdap5s3lXXsAuZ99
+	UzCDF/nzo2lCUVUpKb80U0hHHtA+xjtfXH4OtvvTFQ1ZISn3qkqjYJxuK2xwhzzx4H80CzPfoLjGS
+	BtwaotSUbCNFvDJc/OpL6XgS5eyOYjmtXZ2U2vuozxSz90tJb/V4/NaFaYw461WGjb7Ei6fa1YE7B
+	9ZPswhl0/DYceG4hfIOeuo/JPyljj0/oEQQtVOsJ1HDy6tkxdXiisw+La/K2vR5VR55D7q6rP5l68
+	eKb3EfBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shRqM-0000000GOor-2xXO;
-	Fri, 23 Aug 2024 10:48:34 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1shRqO-0000000GOr1-3uII;
+	Fri, 23 Aug 2024 10:48:36 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shRpy-0000000GOWs-0TbQ
+	id 1shRq5-0000000GOcy-3ykK
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Aug 2024 10:48:13 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240823104759epoutp026acf71e42c5cdfb89578e8a9f19a1b62~uVdTSQpu51071510715epoutp02q
-	for <linux-nvme@lists.infradead.org>; Fri, 23 Aug 2024 10:47:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240823104759epoutp026acf71e42c5cdfb89578e8a9f19a1b62~uVdTSQpu51071510715epoutp02q
+	Fri, 23 Aug 2024 10:48:20 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240823104813epoutp0326989a1d823113e76be95375ec195a5b~uVdgLLRAR0936909369epoutp03A
+	for <linux-nvme@lists.infradead.org>; Fri, 23 Aug 2024 10:48:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240823104813epoutp0326989a1d823113e76be95375ec195a5b~uVdgLLRAR0936909369epoutp03A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1724410079;
-	bh=ADBIpkeIB8Qi21TqEW0JFS/Lus6pDiHqXhO9uvgTh08=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=DMXeaswnxGx/c3Gfv1vTcRTWdtuAuSM993/lHvFWDTJkzLBIyQ9gUK6qiOMX+uxvV
-	 5rCbXzj2Qe9PuzPxfTnS8XTeVgLOGdLt3sgcmQu0P/EraUGI1fRghuRrF9kHIohsfJ
-	 KU62oyaz6xRKzqF8Ymef8zG+Dd10FfRoXhkfcqvQ=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240823104759epcas5p201ae2ecf4f855e66d2c4b5e06368aaf7~uVdS3L3pZ2862728627epcas5p2c;
-	Fri, 23 Aug 2024 10:47:59 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4WqxcF4njbz4x9Py; Fri, 23 Aug
-	2024 10:47:57 +0000 (GMT)
+	s=mail20170921; t=1724410093;
+	bh=8jA6l5tMs++plw+N26Lk0rdh9tUDLvjEvpwEPgRSsMw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Bfbd4dcquQvzRBXt3rFZ1lPrq6fWhWV/tyaUVPFGI0iZsO6QkHYs9EX9tV+e9YxUc
+	 ERGwPe2g3ZDgR3BA2f3OaNcyzwACiB5VflafQGfbTHgqu/lBU7WBW7qm5C2mh7Mbfl
+	 PN/6o+8j1850HQaV2/qecUBPdrt23zrSmsiX89YU=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240823104813epcas5p31e498e0c26224c6efcfc9b2222bc5a6b~uVdfzMXFK1288512885epcas5p3C;
+	Fri, 23 Aug 2024 10:48:13 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4WqxcW44ZWz4x9Pw; Fri, 23 Aug
+	2024 10:48:11 +0000 (GMT)
 Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2C.7A.19863.DD868C66; Fri, 23 Aug 2024 19:47:57 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240823104552epcas5p226dbbbd448cd0ee0955ffdd3ad1b112d~uVbdEJJAv1853818538epcas5p2J;
-	Fri, 23 Aug 2024 10:45:52 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240823104552epsmtrp1fce2f756964da5da85f1fe7c679dcebe~uVbdDfnuq0200102001epsmtrp1S;
-	Fri, 23 Aug 2024 10:45:52 +0000 (GMT)
-X-AuditID: b6c32a50-ef5fe70000004d97-ce-66c868ddd764
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	60.F3.09640.BE868C66; Fri, 23 Aug 2024 19:48:11 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240823104618epcas5p4b9983678886dceed75edd9cbec9341b2~uVb0vhpeM1988919889epcas5p46;
+	Fri, 23 Aug 2024 10:46:18 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240823104618epsmtrp2daca9994ff06c5d5736525680aef473b~uVb0uxG2Z0122301223epsmtrp2A;
+	Fri, 23 Aug 2024 10:46:18 +0000 (GMT)
+X-AuditID: b6c32a49-a57ff700000025a8-34-66c868eb61d2
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	EA.40.19367.06868C66; Fri, 23 Aug 2024 19:45:52 +0900 (KST)
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	21.6F.07567.A7868C66; Fri, 23 Aug 2024 19:46:18 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240823104550epsmtip207cc970cee2c454ad86ac71f553e16a2~uVbbI4dcd1240712407epsmtip2T;
-	Fri, 23 Aug 2024 10:45:50 +0000 (GMT)
+	20240823104616epsmtip206aa9085094eaa85cbf4914c5ff3b2b4~uVby08i-N1244412444epsmtip2j;
+	Fri, 23 Aug 2024 10:46:16 +0000 (GMT)
 From: Anuj Gupta <anuj20.g@samsung.com>
 To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
 	martin.petersen@oracle.com, asml.silence@gmail.com, krisman@suse.de
 Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com,
 	linux-scsi@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>
-Subject: [PATCH v3 00/10] Read/Write with meta/integrity
-Date: Fri, 23 Aug 2024 16:08:00 +0530
-Message-Id: <20240823103811.2421-1-anuj20.g@samsung.com>
+Subject: [PATCH v3 02/10] block: introduce a helper to determine metadata
+ bytes from data iter
+Date: Fri, 23 Aug 2024 16:08:02 +0530
+Message-Id: <20240823103811.2421-3-anuj20.g@samsung.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240823103811.2421-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLJsWRmVeSWpSXmKPExsWy7bCmuu7djBNpBheWKVg0TfjLbDFn1TZG
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJJsWRmVeSWpSXmKPExsWy7bCmuu7rjBNpBk/+yVo0TfjLbDFn1TZG
 	i9V3+9ksbh7YyWSxcvVRJot3redYLCYdusZosf3MUmaLvbe0LeYve8pu0X19B5vF8uP/mBx4
 	PHbOusvucflsqcemVZ1sHpuX1HvsvtnA5vHx6S0Wj74tqxg9Np+u9vi8SS6AMyrbJiM1MSW1
 	SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwfoXiWFssScUqBQQGJx
-	sZK+nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdsai1RtYCma4
-	V8xu+83WwPjTsIuRk0NCwETi1bJuli5GLg4hgT2MEhu697NBOJ8YJRpa7jHCOW2nT7HAtPy4
-	OwsqsZNRYtnci+wQzmdGiSl9D5lBqtgE1CWOPG9lBLFFBColnu/6AbaEWWATo8Sv68eYQBLC
-	AhYS299uZgexWQRUJfb2LAGL8wLFX9y7ygaxTl5i5qXv7BBxQYmTM5+AncEMFG/eOpsZZKiE
-	QCuHROvLi0AOB5DjIvH1pz1Er7DEq+Nb2CFsKYmX/W1QdrrEj8tPmSDsAonmY/sYIWx7idZT
-	/WBjmAU0Jdbv0ocIy0pMPbWOCWItn0Tv7ydQrbwSO+bB2EoS7SvnQNkSEnvPNTBBXOMh0X2M
-	DyQsJBArcXveJuYJjPKzkDwzC8kzsxAWL2BkXsUolVpQnJuemmxaYKibl1oOj9nk/NxNjOB0
-	qxWwg3H1hr96hxiZOBgPMUpwMCuJ8CbdO5omxJuSWFmVWpQfX1Sak1p8iNEUGMQTmaVEk/OB
-	CT+vJN7QxNLAxMzMzMTS2MxQSZz3devcFCGB9MSS1OzU1ILUIpg+Jg5OqQYm3lP/uGZXbBJy
-	trv+Qqxe+6aqQe4+l65epZ0CXp5W/9mb3Nunn1tmzfbqQqTPQX+etWnHJt2T//xn118vnkLm
-	/5s5N101nZTJN8vyzgyxQwcOS51eHHXRbq/T+feKR1dvvd9ud+r5gyKPmXKKCjFnv3q9uThl
-	f8H1H/d1/8RMdDHMuqZV6j/j9tW4nID86iWL82+KpWWsLvzuVPT5ub2FyfuQ1THz/Y52vY74
-	cWHRfS6HOWKlrV2Fy3jn7W4t1Khf1tErNPFYXUdWjqf9HcnZV6o8vX+JJ56x+rrk5PzZxrMm
-	NhQ+4EhIPHL+0FLJO2rl7Nv+vFb5N2+ul0+QSO/cem6zq1qnGHTXfs+6EbrslxJLcUaioRZz
-	UXEiAOAkDb5ABAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKLMWRmVeSWpSXmKPExsWy7bCSvG5Cxok0g8kzjC2aJvxltpizahuj
-	xeq7/WwWNw/sZLJYufook8W71nMsFpMOXWO02H5mKbPF3lvaFvOXPWW36L6+g81i+fF/TA48
-	Hjtn3WX3uHy21GPTqk42j81L6j1232xg8/j49BaLR9+WVYwem09Xe3zeJBfAGcVlk5Kak1mW
-	WqRvl8CVsWj1BpaCGe4Vs9t+szUw/jTsYuTkkBAwkfhxdxYjiC0ksJ1RYuf5VIi4hMSpl8sY
-	IWxhiZX/nrN3MXIB1XxklPj28QhYgk1AXeLI81ZGkISIQCOjxJbmLywgDrPADkaJdc8Wg1UJ
-	C1hIbH+7mR3EZhFQldjbs4QJxOYFir+4d5UNYoW8xMxL39kh4oISJ2c+YQGxmYHizVtnM09g
-	5JuFJDULSWoBI9MqRtHUguLc9NzkAkO94sTc4tK8dL3k/NxNjOCQ1wrawbhs/V+9Q4xMHIyH
-	GCU4mJVEeJPuHU0T4k1JrKxKLcqPLyrNSS0+xCjNwaIkzquc05kiJJCeWJKanZpakFoEk2Xi
-	4JRqYFp9aU/vnS9eG5sjF7peZt+vr+5T9v3Rita+6kTF+uq/544JihbzL1wzuz9V+4ahDltw
-	TFBWnhCveqq9i/kLA72eP0G35K5U/eENn6LFfPRhg4fRQgPhlCTh1KPzaq8oXrJpMeCedDS/
-	4vkE8wnHxZ65m4ed+bBwmdUXA/ZtTgu//dA8vljXLMDV0qtU5cOpCREnz0y/zf/Ru767rWDK
-	HPfJvySe1Lpf2Cu6UpTpNfu9Y217t+8trQydY/z60371nLaTfJHPOfr1p/fKN9j0uh87X8x2
-	Y9umdWuTgzW+PJfQVVnu8if8XejMBY68HIqHF5ya9jj++fLk16LKXSmfDt5y6J3ieMdMgzvh
-	tvPtECWW4oxEQy3mouJEALqBhZroAgAA
-X-CMS-MailID: 20240823104552epcas5p226dbbbd448cd0ee0955ffdd3ad1b112d
+	sZK+nU1RfmlJqkJGfnGJrVJqQUpOgUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdkbnli6Wggdc
+	Ff1vLjI1MH7l6GLk5JAQMJF4vmwbcxcjF4eQwG5GiV9XFkI5nxgl+nZ0s0I43xglfk7YxATT
+	8u7/DVYQW0hgL6PEm5UuEEWfGSXanjWDJdgE1CWOPG9lBLFFBColnu/6wQJSxCywCWjH9WNg
+	k4QFEiQ2zgZZzsnBIqAqcXr6bTCbV8BC4sChl1Db5CVmXvrODmJzClhKNM1uYIGoEZQ4OfMJ
+	mM0MVNO8dTbY3RICSzkkultnMkM0u0jcfvGFBcIWlnh1fAs7hC0l8fndXjYIO13ix+WnUMsK
+	JJqP7WOEsO0lWk/1A83hAFqgKbF+lz5EWFZi6ql1TBB7+SR6fz+BauWV2DEPxlaSaF85B8qW
+	kNh7roEJZIyEgIfEtjOqkMDqYZRYv/U/2wRGhVlI3pmF5J1ZCJsXMDKvYpRMLSjOTU8tNi0w
+	zEsth8dycn7uJkZwGtby3MF498EHvUOMTByMhxglOJiVRHiT7h1NE+JNSaysSi3Kjy8qzUkt
+	PsRoCgzvicxSosn5wEyQVxJvaGJpYGJmZmZiaWxmqCTO+7p1boqQQHpiSWp2ampBahFMHxMH
+	p1QD0/zZMUzT3s9tkg3QK3qzdN7d1M0Xij7/6jPJuBj1/ceM98dVkpbuFU0Jul+nOe1t87Ej
+	j9wEraM2XbQOvzdJ+vOH87uPbpSIClfWvehV+6MwlfurACvL2vOtr71X32xtqNV22bT23Vm5
+	ipjFrxbfemvGbuySpOL2dNKWQolVz/5P5D/xOcpxm2F7p1yM8qOXG16q72aa1bvzf9CSwozu
+	5HVMVXN/xWUUv63csGOOHsfZCYbHdiacK+XM/yp6e50j58zory/Y/b/UbpwfrHpYdeG3Zv7Q
+	DzLb1i6f73J+1g5DfQ2+6jJu+/qYmx2rraKvGSo1vGy/dugJ6707Yod1tzeXW57gM5X/L7rd
+	t0nc964SS3FGoqEWc1FxIgC0ceB3TAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrILMWRmVeSWpSXmKPExsWy7bCSvG5Vxok0g/YVvBZNE/4yW8xZtY3R
+	YvXdfjaLmwd2MlmsXH2UyeJd6zkWi0mHrjFabD+zlNli7y1ti/nLnrJbdF/fwWax/Pg/Jgce
+	j52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8eovFo2/LKkaPzaerPT5vkgvgjOKySUnNySxL
+	LdK3S+DK6NzSxVLwgKui/81FpgbGrxxdjJwcEgImEu/+32AFsYUEdjNKfG4Ph4hLSJx6uYwR
+	whaWWPnvOXsXIxdQzUdGiT0HV4E1sAmoSxx53soIkhARaGSU2NL8hQXEYRbYwSix7tlisHZh
+	gTiJ0x+ugdksAqoSp6ffZgaxeQUsJA4ceskEsUJeYual7+wgNqeApUTT7AYWiJMsJJYtP8MI
+	US8ocXLmE7A4M1B989bZzBMYBWYhSc1CklrAyLSKUTK1oDg3PTfZsMAwL7Vcrzgxt7g0L10v
+	OT93EyM4VrQ0djDem/9P7xAjEwfjIUYJDmYlEd6ke0fThHhTEiurUovy44tKc1KLDzFKc7Ao
+	ifMazpidIiSQnliSmp2aWpBaBJNl4uCUamDyvqe2TWbqH8lFys5qb7Om6wd7KDWoBzoxW3tc
+	Tzr73HfRw+nBe8I87mqpfHJLFdGbtXlNOLPqkqan995PX7Lj87+8R843O530tvgee+YmX7d/
+	qVbrrtuWb7MzZP7skXgbsfxpvrdLzYRUTzeld12lB55u3eGTKWDsMvfHlp/ywW8/u2Zf5fE5
+	OvFJoY+G5ZxTh8TrnALs3DMfX5m4QDlhm27aU/bbWR0R7I/tklqa2xY+fs/Bv2DC1V/zhP7v
+	NF5iVtefGPVGdrGR/NYLp12mLrj28tDjpawn5S/e2Fa8Zl0Fv2BM1YZ98fJzQzatSLCa7LJw
+	stHeGOuUu66pmqYL/UpDrktfqLAVStyXHXVHiaU4I9FQi7moOBEARZhMZAQDAAA=
+X-CMS-MailID: 20240823104618epcas5p4b9983678886dceed75edd9cbec9341b2
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240823104552epcas5p226dbbbd448cd0ee0955ffdd3ad1b112d
-References: <CGME20240823104552epcas5p226dbbbd448cd0ee0955ffdd3ad1b112d@epcas5p2.samsung.com>
+X-CMS-RootMailID: 20240823104618epcas5p4b9983678886dceed75edd9cbec9341b2
+References: <20240823103811.2421-1-anuj20.g@samsung.com>
+	<CGME20240823104618epcas5p4b9983678886dceed75edd9cbec9341b2@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240823_034811_671553_AEEE0B58 
-X-CRM114-Status: GOOD (  23.19  )
+X-CRM114-CacheID: sfid-20240823_034818_416641_FCE2425F 
+X-CRM114-Status: GOOD (  12.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,268 +138,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This adds a new io_uring interface to exchange meta along with read/write.
+Introduce a new helper bio_iter_integrity_bytes to determine the number
+of metadata bytes corresponding to data iter.
 
-Interface:
-Meta information is represented using a newly introduced 'struct io_uring_meta'.
-Application sets up a SQE128 ring, and prepares io_uring_meta within second
-SQE. Application populates 'struct io_uring_meta' fields as below:
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+---
+ include/linux/blk-integrity.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-* meta_type: describes type of meta that is passed. Currently one type
-"Integrity" is supported.
-* meta_flags: these are meta-type specific flags. Three flags are exposed for
-integrity type, namely INTEGRITY_CHK_GUARD/APPTAG/REFTAG.
-* meta_len: length of the meta buffer
-* meta_addr: address of the meta buffer
-* app_tag: optional application-specific 16b value; this goes along with
-INTEGRITY_CHK_APPTAG flag.
-
-Block path (direct IO) , NVMe and SCSI driver are modified to support
-this.
-
-The first three patches are required to make the user metadata split
-work correctly.
-Patch 4,5 are prep patches.
-Patch 6 adds the io_uring support.
-Patch 7 gives us unified interface for user and kernel generated
-integrity.
-Patch 8 adds the support for block direct IO, patch 9 for NVMe, and
-patch 10 for SCSI.
-
-Some of the design choices came from this discussion [2].
-
-Example program on how to use the interface is appended below [3]
-
-Tree:
-https://github.com/SamsungDS/linux/tree/feat/pi_us_v3
-Testing:
-has been done by modifying fio to use this interface.
-https://github.sec.samsung.net/DS8-MemoryOpenSource/fio/tree/feat/test-meta-v4
-
-Changes since v2:
-https://lore.kernel.org/linux-block/20240626100700.3629-1-anuj20.g@samsung.com/
-- io_uring error handling styling (Gabriel)
-- add documented helper to get metadata bytes from data iter (hch)
-- during clone specify "what flags to clone" rather than
-"what not to clone" (hch)
-- Move uio_meta defination to bio-integrity.h (hch)
-- Rename apptag field to app_tag (hch)
-- Change datatype of flags field in uio_meta to bitwise (hch)
-- Don't introduce BIP_USER_CHK_FOO flags (hch, martin)
-- Driver should rely on block layer flags instead of seeing if it is
-user-passthrough (hch)
-- update the scsi code for handling user-meta (hch, martin)
-
-Changes since v1:
-https://lore.kernel.org/linux-block/20240425183943.6319-1-joshi.k@samsung.com/
-- Do not use new opcode for meta, and also add the provision to introduce new
-meta types beyond integrity (Pavel)
-- Stuff IOCB_HAS_META check in need_complete_io (Jens)
-- Split meta handling in NVMe into a separate handler (Keith)
-- Add meta handling for __blkdev_direct_IO too (Keith)
-- Don't inherit BIP_COPY_USER flag for cloned bio's (Christoph)
-- Better commit descriptions (Christoph)
-
-Changes since RFC:
-- modify io_uring plumbing based on recent async handling state changes
-- fixes/enhancements to correctly handle the split for meta buffer
-- add flags to specify guard/reftag/apptag checks
-- add support to send apptag
-
-[1] https://lore.kernel.org/linux-block/719d2e-b0e6-663c-ec38-acf939e4a04b@redhat.com/
-
-[2] https://lore.kernel.org/linux-block/20240705083205.2111277-1-hch@lst.de/
-
-[3]
-
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <linux/io_uring.h>
-#include <linux/types.h>
-#include "liburing.h"
-
-/* write data/meta. read both. compare. send apptag too.
-* prerequisite:
-* unprotected xfer: format namespace with 4KB + 8b, pi_type = 0
-* protected xfer: format namespace with 4KB + 8b, pi_type = 1
-*/
-
-#define DATA_LEN 4096
-#define META_LEN 8
-
-struct t10_pi_tuple {
-        __be16  guard;
-        __be16  apptag;
-        __be32  reftag;
-};
-
-int main(int argc, char *argv[])
-{
-         struct io_uring ring;
-         struct io_uring_sqe *sqe = NULL;
-         struct io_uring_cqe *cqe = NULL;
-         void *wdb,*rdb;
-         char wmb[META_LEN], rmb[META_LEN];
-         char *data_str = "data buffer";
-         char *meta_str = "meta";
-         int fd, ret, blksize;
-         struct stat fstat;
-         unsigned long long offset = DATA_LEN;
-         struct t10_pi_tuple *pi;
-         struct io_uring_meta *md;
-
-         if (argc != 2) {
-                 fprintf(stderr, "Usage: %s <block-device>", argv[0]);
-                 return 1;
-         };
-
-         if (stat(argv[1], &fstat) == 0) {
-                 blksize = (int)fstat.st_blksize;
-         } else {
-                 perror("stat");
-                 return 1;
-         }
-
-         if (posix_memalign(&wdb, blksize, DATA_LEN)) {
-                 perror("posix_memalign failed");
-                 return 1;
-         }
-         if (posix_memalign(&rdb, blksize, DATA_LEN)) {
-                 perror("posix_memalign failed");
-                 return 1;
-         }
-
-         strcpy(wdb, data_str);
-         strcpy(wmb, meta_str);
-
-         fd = open(argv[1], O_RDWR | O_DIRECT);
-         if (fd < 0) {
-                 printf("Error in opening device\n");
-                 return 0;
-         }
-
-         ret = io_uring_queue_init(8, &ring, IORING_SETUP_SQE128);
-         if (ret) {
-                 fprintf(stderr, "ring setup failed: %d\n", ret);
-                 return 1;
-         }
-
-         /* write data + meta-buffer to device */
-         sqe = io_uring_get_sqe(&ring);
-         if (!sqe) {
-                 fprintf(stderr, "get sqe failed\n");
-                 return 1;
-         }
-
-         io_uring_prep_write(sqe, fd, wdb, DATA_LEN, offset);
-
-         md = (struct io_uring_meta *) sqe->big_sqe_cmd;
-         md->meta_type = META_TYPE_INTEGRITY;
-         md->meta_addr = (__u64)wmb;
-         md->meta_len = META_LEN;
-         /* flags to ask for guard/reftag/apptag*/
-         md->meta_flags = INTEGRITY_CHK_APPTAG;
-         md->app_tag = 0x1234;
-
-         pi = (struct t10_pi_tuple *)wmb;
-         pi->apptag = 0x3412;
-
-         ret = io_uring_submit(&ring);
-         if (ret <= 0) {
-                 fprintf(stderr, "sqe submit failed: %d\n", ret);
-                 return 1;
-         }
-
-         ret = io_uring_wait_cqe(&ring, &cqe);
-         if (!cqe) {
-                 fprintf(stderr, "cqe is NULL :%d\n", ret);
-                 return 1;
-         }
-         if (cqe->res < 0) {
-                 fprintf(stderr, "write cqe failure: %d", cqe->res);
-                 return 1;
-         }
-
-         io_uring_cqe_seen(&ring, cqe);
-
-         /* read data + meta-buffer back from device */
-         sqe = io_uring_get_sqe(&ring);
-         if (!sqe) {
-                 fprintf(stderr, "get sqe failed\n");
-                 return 1;
-         }
-
-         io_uring_prep_read(sqe, fd, rdb, DATA_LEN, offset);
-
-         md = (struct io_uring_meta *) sqe->big_sqe_cmd;
-         md->meta_type = META_TYPE_INTEGRITY;
-         md->meta_addr = (__u64)rmb;
-         md->meta_len = META_LEN;
-         md->meta_flags = INTEGRITY_CHK_APPTAG;
-         md->app_tag = 0x1234;
-
-         ret = io_uring_submit(&ring);
-         if (ret <= 0) {
-                 fprintf(stderr, "sqe submit failed: %d\n", ret);
-                 return 1;
-         }
-
-         ret = io_uring_wait_cqe(&ring, &cqe);
-         if (!cqe) {
-                 fprintf(stderr, "cqe is NULL :%d\n", ret);
-                 return 1;
-         }
-
-         if (cqe->res < 0) {
-                 fprintf(stderr, "read cqe failure: %d", cqe->res);
-                 return 1;
-         }
-         io_uring_cqe_seen(&ring, cqe);
-
-         if (strncmp(wmb, rmb, META_LEN))
-                 printf("Failure: meta mismatch!, wmb=%s, rmb=%s\n", wmb, rmb);
-
-         if (strncmp(wdb, rdb, DATA_LEN))
-                 printf("Failure: data mismatch!\n");
-
-         io_uring_queue_exit(&ring);
-         free(rdb);
-         free(wdb);
-         return 0;
-}
-
-Anuj Gupta (7):
-  block: define set of integrity flags to be inherited by cloned bip
-  block: introduce a helper to determine metadata bytes from data iter
-  block: handle split correctly for user meta bounce buffer
-  block: modify bio_integrity_map_user to accept iov_iter as argument
-  io_uring/rw: add support to send meta along with read/write
-  block,nvme: introduce BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags
-  scsi: add support for user-meta interface
-
-Kanchan Joshi (3):
-  block: define meta io descriptor
-  block: add support to pass user meta buffer
-  nvme: add handling for app_tag
-
- block/bio-integrity.c         | 71 ++++++++++++++++++++++++++++++-----
- block/fops.c                  | 25 ++++++++++++
- block/t10-pi.c                |  6 +++
- drivers/nvme/host/core.c      | 24 +++++++-----
- drivers/nvme/host/ioctl.c     | 11 +++++-
- drivers/scsi/sd.c             | 25 +++++++++++-
- drivers/scsi/sd_dif.c         |  2 +-
- include/linux/bio-integrity.h | 33 ++++++++++++++--
- include/linux/blk-integrity.h | 17 +++++++++
- include/linux/fs.h            |  1 +
- include/uapi/linux/io_uring.h | 32 ++++++++++++++++
- io_uring/io_uring.c           |  6 +++
- io_uring/rw.c                 | 70 ++++++++++++++++++++++++++++++++--
- io_uring/rw.h                 | 10 ++++-
- 14 files changed, 302 insertions(+), 31 deletions(-)
-
+diff --git a/include/linux/blk-integrity.h b/include/linux/blk-integrity.h
+index de98049b7ded..2ff65c933c50 100644
+--- a/include/linux/blk-integrity.h
++++ b/include/linux/blk-integrity.h
+@@ -76,6 +76,15 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
+ 	return bio_integrity_intervals(bi, sectors) * bi->tuple_size;
+ }
+ 
++/*
++ * Return the integrity bytes corresponding to data iter
++ */
++static inline unsigned int bio_iter_integrity_bytes(struct blk_integrity *bi,
++						    struct bvec_iter iter)
++{
++	return bio_integrity_bytes(bi, bvec_iter_sectors(iter));
++}
++
+ static inline bool blk_integrity_rq(struct request *rq)
+ {
+ 	return rq->cmd_flags & REQ_INTEGRITY;
+@@ -132,6 +141,13 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
+ {
+ 	return 0;
+ }
++
++static inline unsigned int bio_iter_integrity_bytes(struct blk_integrity *bi,
++						    struct bvec_iter iter)
++{
++	return 0;
++}
++
+ static inline int blk_integrity_rq(struct request *rq)
+ {
+ 	return 0;
 -- 
 2.25.1
 
