@@ -4,87 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B56B5C531DC
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 20:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C4F9C531DC
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 20:40:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qSE07mevysGs4hIlAiWiKLrTdVKJ6Yd2deEW2FZkz/M=; b=OSshF8CZhZna8vsOjQu9EmqN6T
-	FFDiiq13pePF5FU6Q2Jy2KUMER+mR3MTU9sz39s+NMStYwVboctTvxSCb9Eiuy8ZBAnYCSKcjuVBG
-	gSKsnntoOh/L8bevmwa3wGq/3jZoSGDdH9j4VB2lDU3ksJDg0jEeRcrc+nB817jTmRyHPR1Tav6fs
-	sRytFozer/N/brIXCjdj0N+Mvi5g3x8dHLX1RUIGfPtMDp1kjfxRmq1GXenCQ2dPZnjFKYkjdwjkD
-	6YzDTj/VWi1JT0ClzMPhfH692Szn7Z3BGVHrTe5mLDw8HIY8ZFxGf9OO7o9fw6A/xINQyKXCD5v+N
-	7Jc+RT0Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uTeRk3boFcaxCGWHlJ4tNzptrSiHl9sJwQxI4pNCfsM=; b=p53NxVP/J+GyOERk9UeOa2Orlc
+	MQ5MjsyKI9IkkkUKby120wJzDTMTZJ5nk36c7GQZYxOLWL+zfB//QUTiTd+JM+WBKE8pfhgMBwYO/
+	ppoqHe0mlje+xGT9yHDNNrV2y+qnV82CUr67mQDBgyN4lkh8swypH8pp3jeOnS5J3jigk42skpBXH
+	aCOepO5T/AQpyPhWF36SQJcmmhLH4Kk9wz2mklXvMV9QwA+Y/Oa8ZTOFSeYN/1xRtprRs6HbvpW+8
+	nDj4qUl6W5V3DztbJqZYPTjolghK3LsrnBiLnMtNPhsfPLiSgpABxQv65iPw4gLs4xLQWf8RucUBt
+	m+P6eR8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shaak-00000000Vbj-1WzP;
-	Fri, 23 Aug 2024 20:09:02 +0000
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+	id 1shb5A-00000000bL5-0u02;
+	Fri, 23 Aug 2024 20:40:28 +0000
+Received: from mail-centralusazolkn190100000.outbound.protection.outlook.com ([2a01:111:f403:d107::] helo=DM1PR04CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shaaf-00000000VYW-2IqY
+	id 1shb56-00000000bKe-0o4o
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Aug 2024 20:08:59 +0000
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a868831216cso300920066b.3
-        for <linux-nvme@lists.infradead.org>; Fri, 23 Aug 2024 13:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1724443736; x=1725048536; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qSE07mevysGs4hIlAiWiKLrTdVKJ6Yd2deEW2FZkz/M=;
-        b=HS8hy4A6GsWcfJSbeccwOvaudfE4Ho1t5enlTJ3KOzfLlOn2dt55zDu2xtgYlGn6jO
-         vaEhgHXw+w8Sshv12mGLiONIrMRwBUZ/XyHov6MM8hGceo85IWyPjEUeneYArnSjiNhl
-         sa31NA03HWHZ3qdwtcPNNUAtm74YQC1bcfEohcdKcVNHP5Ds5kajc9vTU0dYJAB/YvMe
-         Bv6o3LNCDBlCxmjVkHatKS2Omr4LgOPlNWrWCD5pVtqeVsFIypfqBGZIGMhxn7voePEO
-         fUJr4lYp4sO4QxutEpbopZlSOEHUnD3SLXlDWAq27iMqEGW7glf+SV+Csehpxs6LKSKD
-         3iwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724443736; x=1725048536;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qSE07mevysGs4hIlAiWiKLrTdVKJ6Yd2deEW2FZkz/M=;
-        b=F56Z3RdoqN+5kN6/09GJjhKnZpGT6LxbTqYhNbexGYxld0uLNYUgMLMCsJ7T5aMbZ8
-         3H8wOIv6Vj3MYs53hhTX3B7CEVKP2JylNkjivSr+VA/QUYkk5meUbiNrnl5l127Iqt4P
-         wjjhxotXd46flk3RsFkWBMcEY1SK8fhWnXhlTekA3x/TsYNCpY7N44QW83vXpghieNDA
-         F0YcbTUfH9w0JBk1WTRZyuWiGRjK2IwRCmZFA86yqhsprjPG2A0p2pp7T3UV/+fIx8Tt
-         LJ1GnkU4QzKSEcTzMGyvkNiJrjeQ7WjSuibAXoMhY41Thha7fmggBNDeCYkw8qc/XpRF
-         sUjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMymHRCSZJe50IMk7B2ngjXj+tRGRrcR87QHBtJJ3bm4eOEVVh+xpfXZUC8P2ZLyRmxOpUEoIeqQ8J@lists.infradead.org
-X-Gm-Message-State: AOJu0YzWuUKOx+8gXKfngVS8XSiylCNQfausy4DXl3j2WmYHHnVpjWIv
-	s34uQihln39mzgrlB07X0UUA1n5u0BBLdw5NQDHyW2YyMkpLZ9UrQD7EXfCpYpPeNISx70HRYWv
-	b
-X-Google-Smtp-Source: AGHT+IGADpIP4DvJCkCm1/Xu7gk2/E9mDpWF9e4TUjiERBdiNyPX75m2yIkqc4OIg2WNUrh5OfKQew==
-X-Received: by 2002:a17:907:e92:b0:a86:8917:fcd6 with SMTP id a640c23a62f3a-a86a54cf719mr207090766b.60.1724443735545;
-        Fri, 23 Aug 2024 13:08:55 -0700 (PDT)
-Received: from localhost (p200300de37360a00d7e56139e90929dd.dip0.t-ipconnect.de. [2003:de:3736:a00:d7e5:6139:e909:29dd])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-a868f43367fsm304014866b.115.2024.08.23.13.08.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 13:08:55 -0700 (PDT)
-From: Martin Wilck <martin.wilck@suse.com>
-X-Google-Original-From: Martin Wilck <mwilck@suse.com>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Martin Wilck <mwilck@suse.com>
-Subject: [PATCH v2 2/3] blktests: nvme/032: skip on non-PCI devices
-Date: Fri, 23 Aug 2024 22:08:20 +0200
-Message-ID: <20240823200822.129867-2-mwilck@suse.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240823200822.129867-1-mwilck@suse.com>
-References: <20240823200822.129867-1-mwilck@suse.com>
+	Fri, 23 Aug 2024 20:40:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cwODwUV1dKJ0RvNyWqRoNjV+DhL2tj/oOFAbp1cPjKOBLeNKcY73vBXeo2baQvIxQRrq6VqTIqtQzJ1cuxsCva3mUES9nkmC4OSk6l2LaG2NI2uxtZi8oA5ab3c/gQx9uVjdNcuhxbr26aMC8G/OnpzhiV/p2oym+eNYyTu51JYDtz/KWXx6n+0Lg7vSXS39OfZQlvYWmRbYZ8X3TUAdFNx9mXvpWUg3vliY0diqCTuJD0qIzkuhsj+bxfZrVzrlOaxKlBXZ6BV3Ol97NBxLaATUTJHkiflz8miKw3u5+oKQ148EZb9qlCtsavSYV+ncXwEtx8BxVTl/8yiBHdgY9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uTeRk3boFcaxCGWHlJ4tNzptrSiHl9sJwQxI4pNCfsM=;
+ b=Vh7jP409Xe1cSVqjYv/mi+zuc2RobZMTw0amvv3JY91wKrWMV7wzoITNDHLEh1gFXikJ+STXfh9g2vqmuBdIcrmcIoCnxGEbo0Se/+/BhVeimRkeehfhgU9orPKFeEG4zUbVuXUvSHPlpHus8n3Hb/2Ki5msBMYzqaIKplwGVKeQ+pCZj3IXYy5D4q/QiDIvQDONT6a1Yq9MyGuiiBLkTNsdUdx3RFAdXiVGqBvqFiHDgWo7QnkQ51OAYAwqyKBR9jO1Xg6EgtJH5eUx+nJUYQlBvVIs31Ol/Y3Z/pgggxjuj/yj+3YL6Lt4fSmnDF+Tsu3vHQj7z4b1v+lloTJlFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uTeRk3boFcaxCGWHlJ4tNzptrSiHl9sJwQxI4pNCfsM=;
+ b=nn1UnoUBeenzxCDH1F8r1g4bWuEk5mQQ2x9ngfoDunN05IuAPDhNRszIoLrH3gkwQMqcCl1/gVmlQ5rcEaiv5ECD+Zu+GEnfEHaUzDcvIYBTFLlYO7vrd24faENEH8TwYrrjGT7jHwwPjPKyH7JDIfHmwaIKWIkORzZxv0CS8RyaOzWLa74/waAKdhFaeZnOK6Iks5Sgh2/Zgr7e5/gmDShqVuVx6KkUwe1sJZ/p4TDrwLDUMQPCmHxlwMEGJWLhbRDwX1qpsvz3sDhn4L+tzbLunQhjSyC5TwTAjZiRHNNtrolk/gGGnX5X1IDHxRMYB6bEBTLkeKuWhsMMGsJZcg==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by BY5PR02MB6962.namprd02.prod.outlook.com (2603:10b6:a03:235::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.22; Fri, 23 Aug
+ 2024 20:40:17 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df%6]) with mapi id 15.20.7875.018; Fri, 23 Aug 2024
+ 20:40:16 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: =?iso-8859-2?Q?Petr_Tesa=F8=EDk?= <petr@tesarici.cz>, Michael Kelley
+	<mhklinux@outlook.com>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
+	<axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"James.Bottomley@HansenPartnership.com"
+	<James.Bottomley@HansenPartnership.com>, "martin.petersen@oracle.com"
+	<martin.petersen@oracle.com>, "kys@microsoft.com" <kys@microsoft.com>,
+	"haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
+	<wei.liu@kernel.org>, "decui@microsoft.com" <decui@microsoft.com>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>,
+	"m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
+Subject: RE: [RFC 0/7] Introduce swiotlb throttling
+Thread-Topic: [RFC 0/7] Introduce swiotlb throttling
+Thread-Index: AQHa9MJuV8zHlUlbFEOu4P5Y/AqjALI0ZmsAgADTyNA=
+Date: Fri, 23 Aug 2024 20:40:16 +0000
+Message-ID: <SN6PR02MB415758F12C59E6CA67227DCFD4882@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20240822183718.1234-1-mhklinux@outlook.com>
+ <20240823084458.4394b401@meshulam.tesarici.cz>
+In-Reply-To: <20240823084458.4394b401@meshulam.tesarici.cz>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-tmn: [QPfqj8FxiyL0u3GI73Q55BNGYt0TcTqM]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|BY5PR02MB6962:EE_
+x-ms-office365-filtering-correlation-id: 0771684e-c18d-4833-ad8d-08dcc3b3cbe2
+x-microsoft-antispam: BCL:0;ARA:14566002|8060799006|19110799003|15080799003|461199028|102099032|3412199025|440099028|1710799026;
+x-microsoft-antispam-message-info: sP4q++1BbrH7t9wY1WSe2aWaBPg3EF2LxRCaAul9rS8X2M5hSCVpPSuJdADf0olm4fAhYRnWpMLsh/kh6VlyR7kFl7BOBCVYb/s93L0cBPyvBvcJmirPKN4NhgoBXsdZ7KHahKT5KVLSrBSi6aQlzlpBVaampvGvJWroutGtW1oYAmQ1ulXr+fBN5d4dIEhM4XTEG2CzvUaxCs9cZAxTRHU9UhJ5tpv0Pxxed0xurH9ZNVV5OTVrOFbQMAVLNSTf/VZ+NcxnzknDSwwbuSJDJ9j/JF1X0cppjnBCAyNm4KQGpdcUViv+nfqHfb6TFJfNff1kTjTTg4/n00FGdoumiGiLE+l4O4H9olcXipiByKDm0zcbyTwLfbo7AmzPdIqKFo8nhDPHwmx7evfbsIoWwhZ7+UjWMvJtgqwV6pwH0qI5pH1LvMb1JPNYB+Jij0MoaCWtwIHIKBkbHCSpaueiExEjMPyzRqZovcTC8fo4ag3tYCEn00AM+qWFMMubZRLNiu3TwrckVV2mTf3WkGXtK6yzgbRUMzv4v719SIxrtCMzC01xsRSCMaQG25+vZCiBbLIidptlBdge314g9bA+Xaw13NF+aUu/ymXFFDQY4TPYKdRpFzPkt7M+Cf4fJ6Y672Hlx7aBqGtrJ2Vqfk+S4HiDEB/xnMNSKFsNcF3V15bty2DMo6U91wMx46VWgWC+9QmF044Kzpq97ey/goHapA==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?Ssjr3dZ4TlMe1r2Rd6KZamfyuGaOKzBiVypbl7UinoRhM1XON5bR1EmxgJ?=
+ =?iso-8859-2?Q?xHe+Uu8SNCe8yw7qBgfKy2NF6ITL30xltd5sHXyPoNgKIpM1+IKAGkzKLO?=
+ =?iso-8859-2?Q?vpEF+FWo49eak9IXyDUmbjrApW4p0FG/mOUCpgEaHWA8VDL1d8FxrO24cv?=
+ =?iso-8859-2?Q?pWZVG6IIFYaf/AcSxVLKbGR4XP4K7qBeihOnTd+HureMZsZbw5FCK5Akdr?=
+ =?iso-8859-2?Q?B6eeyxUPmlvJ40d1F65j1H17Skpw+dSFzsp+HA6RX8uZai7NG1tezRymAe?=
+ =?iso-8859-2?Q?HxHyF5VKSmkc4eGmbcYAhOTdDdqJolPehUalqpKAbsd6xoaScMcxPeXQ7t?=
+ =?iso-8859-2?Q?QBJ84i+3ZLanWBGkf3LJVQIGsPx6Ob7F/KJyr+DJaBXav0/TF9Cb3XU91O?=
+ =?iso-8859-2?Q?m7lvdSaCKKXqEu5vV5hSWGC/J14x82mt6CxWm9ekzMX0vTfCFmGbCUmIod?=
+ =?iso-8859-2?Q?jBRBqSeN9woxI+0MU8KEU9xjty60SD7fIHkMNGanE3Y067xm5CHNt9vDRH?=
+ =?iso-8859-2?Q?p/bh6JyGeYZuTb64lQvmUz00S1omElk1Ylt9POsx41Ne+GqzmPHeqF7OpZ?=
+ =?iso-8859-2?Q?KNQx+xmlVcIaY7O8/Fky3PEoe/LzEEmNWvv/BtbHX7gLP4Ct2Mb2+lTTsL?=
+ =?iso-8859-2?Q?GmtikenybLx0+3dKQO+EI/dasi5W4E6CMa0pmdWfGxrWBjki+IjytEr2aU?=
+ =?iso-8859-2?Q?+i3Wy/YzvZlV0B7eieVYhyD781kYc3lyb55C55uF2UZV+L/lVLF7+m0uuO?=
+ =?iso-8859-2?Q?qTLjd8RvJCDzQw8RGEkMeDjl8bAhU4UGUWb5BuAVgFXXAXaBiKLpVo1Z8O?=
+ =?iso-8859-2?Q?1WI6BBs6PjcbMU44SuMvwWdiVXF8ptJhnxNvDnu7BEKfxsC+juKv4Gx3Hj?=
+ =?iso-8859-2?Q?2tEYEN+k3LmGEetuP0SdVfRXiGurt8DpesbPm0GvIBEqW8iDvYwwlYL925?=
+ =?iso-8859-2?Q?V2cRYnQg0pdBqXvFQiTr3ltYEndqyQZOpqkGtrnctmOMZpjK+ky05UHmii?=
+ =?iso-8859-2?Q?52WA9N2N1XQCt2RkHswbOUSirabFuuzKq5vTqz46UD6ShDRuxc4qHYzEiN?=
+ =?iso-8859-2?Q?jbjvZELW9d9DhjueV4GkWd5f4/DsNgopND3wLOPSSCibEQAr+5MCEwKyDH?=
+ =?iso-8859-2?Q?0+jRqL7NnuGOg8MNxWq3Zxhi9Xg/RZzcK9nwtcbStRz2Yjc+78Uy98vlpT?=
+ =?iso-8859-2?Q?Iwe/CHH5Um09ERGkMMt/vGHSsj/FMjSlE/rxy+8F/diXeaBvnpI2kk/Ivh?=
+ =?iso-8859-2?Q?fbKZ+Wygf0XFfukNIsV6nnpw0bvh2EUYC8IuaqGfE=3D?=
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0771684e-c18d-4833-ad8d-08dcc3b3cbe2
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2024 20:40:16.6386
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6962
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240823_130857_607447_7567B0AC 
-X-CRM114-Status: GOOD (  12.53  )
+X-CRM114-CacheID: sfid-20240823_134024_339490_989BD64A 
+X-CRM114-Status: GOOD (  56.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,47 +140,223 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme/032 is a PCI-specific test.
+From: Petr Tesa=F8=EDk <petr@tesarici.cz> Sent: Thursday, August 22, 2024 1=
+1:45 PM
+>=20
+> Hi all,
+>=20
+> upfront, I've had more time to consider this idea, because Michael
+> kindly shared it with me back in February.
+>=20
+> On Thu, 22 Aug 2024 11:37:11 -0700
+> mhkelley58@gmail.com wrote:
+>=20
+> > From: Michael Kelley <mhklinux@outlook.com>
+> >
+> > Background
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > Linux device drivers may make DMA map/unmap calls in contexts that
+> > cannot block, such as in an interrupt handler. Consequently, when a
+> > DMA map call must use a bounce buffer, the allocation of swiotlb
+> > memory must always succeed immediately. If swiotlb memory is
+> > exhausted, the DMA map call cannot wait for memory to be released. The
+> > call fails, which usually results in an I/O error.
+>=20
+> FTR most I/O errors are recoverable, but the recovery usually takes
+> a lot of time. Plus the errors are logged and usually treated as
+> important by monitoring software. In short, I agree it's a poor choice.
+>=20
+> > Bounce buffers are usually used infrequently for a few corner cases,
+> > so the default swiotlb memory allocation of 64 MiB is more than
+> > sufficient to avoid running out and causing errors. However, recently
+> > introduced Confidential Computing (CoCo) VMs must use bounce buffers
+> > for all DMA I/O because the VM's memory is encrypted. In CoCo VMs
+> > a new heuristic allocates ~6% of the VM's memory, up to 1 GiB, for
+> > swiotlb memory. This large allocation reduces the likelihood of a
+> > spike in usage causing DMA map failures. Unfortunately for most
+> > workloads, this insurance against spikes comes at the cost of
+> > potentially "wasting" hundreds of MiB's of the VM's memory, as swiotlb
+> > memory can't be used for other purposes.
+>=20
+> It may be worth mentioning that page encryption state can be changed by
+> a hypercall, but that's a costly (and non-atomic) operation. It's much
+> faster to copy the data to a page which is already unencrypted (a
+> bounce buffer).
+>=20
+> > Approach
+> > =3D=3D=3D=3D=3D=3D=3D=3D
+> > The goal is to significantly reduce the amount of memory reserved as
+> > swiotlb memory in CoCo VMs, while not unduly increasing the risk of
+> > DMA map failures due to memory exhaustion.
+> >
+> > To reach this goal, this patch set introduces the concept of swiotlb
+> > throttling, which can delay swiotlb allocation requests when swiotlb
+> > memory usage is high. This approach depends on the fact that some
+> > DMA map requests are made from contexts where it's OK to block.
+> > Throttling such requests is acceptable to spread out a spike in usage.
+> >
+> > Because it's not possible to detect at runtime whether a DMA map call
+> > is made in a context that can block, the calls in key device drivers
+> > must be updated with a MAY_BLOCK attribute, if appropriate.
+>=20
+> Before somebody asks, the general agreement for decades has been that
+> there should be no global state indicating whether the kernel is in
+> atomic context. Instead, if a function needs to know, it should take an
+> explicit parameter.
+>=20
+> IOW this MAY_BLOCK attribute follows an unquestioned kernel design
+> pattern.
+>=20
+> > When this
+> > attribute is set and swiotlb memory usage is above a threshold, the
+> > swiotlb allocation code can serialize swiotlb memory usage to help
+> > ensure that it is not exhausted.
+> >
+> > In general, storage device drivers can take advantage of the MAY_BLOCK
+> > option, while network device drivers cannot. The Linux block layer
+> > already allows storage requests to block when the BLK_MQ_F_BLOCKING
+> > flag is present on the request queue. In a CoCo VM environment,
+> > relatively few device types are used for storage devices, and updating
+> > these drivers is feasible. This patch set updates the NVMe driver and
+> > the Hyper-V storvsc synthetic storage driver. A few other drivers
+> > might also need to be updated to handle the key CoCo VM storage
+> > devices.
+> >
+> > Because network drivers generally cannot use swiotlb throttling, it is
+> > still possible for swiotlb memory to become exhausted. But blunting
+> > the maximum swiotlb memory used by storage devices can significantly
+> > reduce the peak usage, and a smaller amount of swiotlb memory can be
+> > allocated in a CoCo VM. Also, usage by storage drivers is likely to
+> > overall be larger than for network drivers, especially when large
+> > numbers of disk devices are in use, each with many I/O requests in-
+> > flight.
+>=20
+> The system can also handle network packet loss much better than I/O
+> errors, mainly because lost packets have always been part of normal
+> operation, unlike I/O errors. After all, that's why we unmount all
+> filesystems on removable media before physically unplugging (or
+> ejecting) them.
+>=20
+> > swiotlb throttling does not affect the context requirements of DMA
+> > unmap calls. These always complete without blocking, even if the
+> > corresponding DMA map call was throttled.
+> >
+> > Patches
+> > =3D=3D=3D=3D=3D=3D=3D
+> > Patches 1 and 2 implement the core of swiotlb throttling. They define
+> > DMA attribute flag DMA_ATTR_MAY_BLOCK that device drivers use to
+> > indicate that a DMA map call is allowed to block, and therefore can be
+> > throttled. They update swiotlb_tbl_map_single() to detect this flag and
+> > implement the throttling. Similarly, swiotlb_tbl_unmap_single() is
+> > updated to handle a previously throttled request that has now freed
+> > its swiotlb memory.
+> >
+> > Patch 3 adds the dma_recommend_may_block() call that device drivers
+> > can use to know if there's benefit in using the MAY_BLOCK option on
+> > DMA map calls. If not in a CoCo VM, this call returns "false" because
+> > swiotlb is not being used for all DMA I/O. This allows the driver to
+> > set the BLK_MQ_F_BLOCKING flag on blk-mq request queues only when
+> > there is benefit.
+> >
+> > Patch 4 updates the SCSI-specific DMA map calls to add a "_attrs"
+> > variant to allow passing the MAY_BLOCK attribute.
+> >
+> > Patch 5 adds the MAY_BLOCK option to the Hyper-V storvsc driver, which
+> > is used for storage in CoCo VMs in the Azure public cloud.
+> >
+> > Patches 6 and 7 add the MAY_BLOCK option to the NVMe PCI host driver.
+> >
+> > Discussion
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > * Since swiotlb isn't visible to device drivers, I've specifically
+> > named the DMA attribute as MAY_BLOCK instead of MAY_THROTTLE or
+> > something swiotlb specific. While this patch set consumes MAY_BLOCK
+> > only on the DMA direct path to do throttling in the swiotlb code,
+> > there might be other uses in the future outside of CoCo VMs, or
+> > perhaps on the IOMMU path.
+>=20
+> I once introduced a similar flag and called it MAY_SLEEP. I chose
+> MAY_SLEEP, because there is already a might_sleep() annotation, but I
+> don't have a strong opinion unless your semantics is supposed to be
+> different from might_sleep(). If it is, then I strongly prefer
+> MAY_BLOCK to prevent confusing the two.
 
-Signed-off-by: Martin Wilck <mwilck@suse.com>
----
- tests/nvme/032 | 2 +-
- tests/nvme/rc  | 8 ++++++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+My intent is that the semantics are the same as might_sleep(). I
+vacillated between MAY_SLEEP and MAY_BLOCK. The kernel seems
+to treat "sleep" and "block" as equivalent, because blk-mq has
+the BLK_MQ_F_BLOCKING flag, and SCSI has the=20
+queuecommand_may_block flag that is translated to
+BLK_MQ_F_BLOCKING. So I settled on MAY_BLOCK, but as you
+point out, that's inconsistent with might_sleep(). Either way will
+be inconsistent somewhere, and I don't have a preference.
 
-diff --git a/tests/nvme/032 b/tests/nvme/032
-index 5353e96..512d7ea 100755
---- a/tests/nvme/032
-+++ b/tests/nvme/032
-@@ -24,7 +24,7 @@ requires() {
- }
- 
- device_requires() {
--	_require_test_dev_is_nvme
-+	_require_test_dev_is_nvme_pci
- }
- 
- test_device() {
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 5c554b6..b702a57 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -130,6 +130,14 @@ _require_test_dev_is_nvme() {
- 	return 0
- }
- 
-+_require_test_dev_is_nvme_pci() {
-+	if [[ ! "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ devices/pci ]]; then
-+		SKIP_REASONS+=("$TEST_DEV is not a PCI NVMe device")
-+		return 1
-+	fi
-+	return 0
-+}
-+
- _require_test_dev_is_not_nvme_multipath() {
- 	if [[ "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ /nvme-subsystem/ ]]; then
- 		SKIP_REASONS+=("$TEST_DEV is a NVMe multipath device")
--- 
-2.46.0
+>=20
+> > * The swiotlb throttling code in this patch set throttles by
+> > serializing the use of swiotlb memory when usage is above a designated
+> > threshold: i.e., only one new swiotlb request is allowed to proceed at
+> > a time. When the corresponding unmap is done to release its swiotlb
+> > memory, the next request is allowed to proceed. This serialization is
+> > global and without knowledge of swiotlb areas. From a storage I/O
+> > performance standpoint, the serialization is a bit restrictive, but
+> > the code isn't trying to optimize for being above the threshold. If a
+> > workload regularly runs above the threshold, the size of the swiotlb
+> > memory should be increased.
+>=20
+> With CONFIG_SWIOTLB_DYNAMIC, this could happen automatically in the
+> future. But let's get the basic functionality first.
+>=20
+> > * Except for knowing how much swiotlb memory is currently allocated,
+> > throttle accounting is done without locking or atomic operations. For
+> > example, multiple requests could proceed in parallel when usage is
+> > just under the threshold, putting usage above the threshold by the
+> > aggregate size of the parallel requests. The threshold must already be
+> > set relatively conservatively because of drivers that can't enable
+> > throttling, so this slop in the accounting shouldn't be a problem.
+> > It's better than the potential bottleneck of a globally synchronized
+> > reservation mechanism.
+>=20
+> Agreed.
+>=20
+> > * In a CoCo VM, mapping a scatter/gather list makes an independent
+> > swiotlb request for each entry. Throttling each independent request
+> > wouldn't really work, so the code throttles only the first SGL entry.
+> > Once that entry passes any throttle, subsequent entries in the SGL
+> > proceed without throttling. When the SGL is unmapped, entries 1 thru
+> > N-1 are unmapped first, then entry 0 is unmapped, allowing the next
+> > serialized request to proceed.
+> >
+> > Open Topics
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > 1. swiotlb allocations from Xen and the IOMMU code don't make use of
+> > throttling. This could be added if beneficial.
+> >
+> > 2. The throttling values are currently exposed and adjustable in
+> > /sys/kernel/debug/swiotlb. Should any of this be moved so it is
+> > visible even without CONFIG_DEBUG_FS?
+>=20
+> Yes. It should be possible to control the thresholds through sysctl.
 
+Good point.  I was thinking about creating /sys/kernel/swiotlb, but
+sysctl is better.
+
+Michael
+
+>=20
+> > 3. I have not changed the current heuristic for the swiotlb memory
+> > size in CoCo VMs. It's not clear to me how to link this to whether the
+> > key storage drivers have been updated to allow throttling. For now,
+> > the benefit of reduced swiotlb memory size must be realized using the
+> > swiotlb=3D kernel boot line option.
+>=20
+> This sounds fine for now.
+>=20
+> > 4. I need to update the swiotlb documentation to describe throttling.
+> >
+> > This patch set is built against linux-next-20240816.
+>=20
+> OK, I'm going try it out.
+>=20
+> Thank you for making this happen!
+>=20
+> Petr T
 
