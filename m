@@ -4,66 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B727C531DC
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 15:51:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4F19C531DC
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 16:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PwPsAQt+Jv+gjry7cR7kuuKKSaGoJXMh6JrxMG8jXS0=; b=Q4kssAD1BAF/cCDQK0s0gRfpmi
-	Ymp2R+PuyOVzUmwL4L+ndkqdECoCuoq4LXHlW4FFya9dRvmrbhVWGxJVY2BenfF77UyNE7tLzh6Mh
-	ui1z8O5RFvexrg7NhOrSyiwUo/z8Wx/nic+skviUKksPW+AUGRUAmCARAb0bw1Srj3uXJJrA7/nC7
-	YqjezPk8kLRITlCHBAaYLpSaxN2yhHxB5+5cwRwLOAe0fsof9UBDyqtZSQSUTxqPaa4vSdp5QWJPg
-	U1cIe19nvnwQrukq6jAv2SIdfkZtTXq6Ia3WPGd/6KEzCrpksBWprjmWZrLiMJP2uDhtX7vcMjgVC
-	GWEBBAOQ==;
+	bh=Xet+aDXcxhCJo1zJfnECj885UXwiik8EZ+iR72SJUrA=; b=RzQRnAUXwB9dbKWDn+XvWfiHdK
+	5t+k3swMMf1PYCmfPSqMqvEpATpiBMShCy0FwZ12j+hhcie2nRfGop/8+YyVkK/Zav7rH0ac9sVTF
+	ODEtxbuyrd1v0YS2WbvKmIrg88RSA06GfWvUZlIwOpSLiR5N/TqWq4tE6TCyW3XfLZ+xWIdecPwMd
+	ZB2pF269gmZaRI8ObAznX1M7kMRjzTd6//oK9YpQ7d1dDcsK8qmhaH1rWbTLugr3hQsS/gQxePFOk
+	ZEQgbOZyX1SjXQGVI5vlCWgDGOfAs8uuXnhTEd88jr6VmJX1TBSw125tJpCB+jm3zjdUQ3WwlFbtA
+	eZPkRgtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shWZo-0000000HP4B-3OAQ;
-	Fri, 23 Aug 2024 15:51:48 +0000
+	id 1shXZY-000000002gI-1y9A;
+	Fri, 23 Aug 2024 16:55:36 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shWZd-0000000HP21-3FK6
+	id 1shXYm-000000002QF-3eVl
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Aug 2024 15:51:39 +0000
+	Fri, 23 Aug 2024 16:54:50 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0199560ED3;
-	Fri, 23 Aug 2024 15:51:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F746C32786;
-	Fri, 23 Aug 2024 15:51:34 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 28B89608C0;
+	Fri, 23 Aug 2024 16:54:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD1B2C32786;
+	Fri, 23 Aug 2024 16:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724428296;
-	bh=dQuCzkYHaln+embwFMxiEp3sanc8aZRGEa31HMKiSs4=;
+	s=k20201202; t=1724432087;
+	bh=n9VpSAGA9V2fepelu0lGtZ5GVNOMysEMYA/hBvgL38M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kzzbb4TJZjd3qpqUZLQoRPEDMHtlfLRr3+NP6Jiz5cdVs1UZx11Bs1vkprImDuctb
-	 hlvQ2K7lNTiv1huPRyC/Fhtjp+lB66lXnIJaZIM8kPKxfL8vGi5kq+7LoxB0cgLqSW
-	 /Q7gENlxZpyocnFMeISVnIQSltZZCTlQRFtSJ3mJOW9F6q9gR/ebufiDM1E5EixqyX
-	 dLZAlBGhjNLX73z7PAva0f5YMVHXhxTy8GpjvvVE3cdRQbyWMqXrI7GyBeYuiZNqw+
-	 63moS8GAO4JIudeZRdI3uXKjwDte0EPZh44+CPnnEZMxpYOqv0VB6SWl99U/VhkYfo
-	 7WpCx6wHVGpFA==
-Date: Fri, 23 Aug 2024 17:51:32 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Martin Wilck <martin.wilck@suse.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	b=j+LNrFFbwczkVfRHdxugB8DCFkfd9B659qcuK1wIsWFU+I0k5T5Ie0a0fV75AoDsK
+	 LAxP0YCkusRhpzsJhmNYVtUbidgN10CU2OINePEovvujwnZ4W8aPxF8Sz2S0eLsR5L
+	 7T3OjWaYPnrzNkmoBYOiTHcozyNb/wxRI32ruae0fIPoH3gBvgBZvAcYJrD9c1z1CP
+	 imUmwR3yK/QPJqfFf/vBkDX2Dc0KC8eal7UhKhIqr3c2CcenUxgFrTNlV69meWN8oA
+	 dTr0HISaqhSW71TvKCvzhCNSXxxslH2rWf7dcxXVqJT3rxj/edxVBkyRW3xK6ECsGu
+	 iym5EX0YVG8kA==
+Date: Fri, 23 Aug 2024 10:54:44 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Stuart Hayes <stuart.w.hayes@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Martin Belanger <Martin.Belanger@dell.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Daniel Wagner <dwagner@suse.de>, Lukas Wunner <lukas@wunner.de>,
+	David Jeffery <djeffery@redhat.com>,
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
 	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: core: freeze multipath queue early in
- nvme_update_ns_info()
-Message-ID: <ZsiwBOCVqRGfEegm@ryzen.lan>
-References: <20240822201413.112268-1-mwilck@suse.com>
- <ZsiQ4yCji0PexMQ-@ryzen.lan>
- <5476d3dc188caea1fa0e7cdedcdc07f58b4ec643.camel@suse.com>
+Subject: Re: [PATCH v8 0/4] shut down devices asynchronously
+Message-ID: <Zsi-1H1w5VY5I4Ea@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5476d3dc188caea1fa0e7cdedcdc07f58b4ec643.camel@suse.com>
+In-Reply-To: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240823_085137_976355_9DC96D19 
-X-CRM114-Status: GOOD (  32.55  )
+X-CRM114-CacheID: sfid-20240823_095449_026230_90E13D80 
+X-CRM114-Status: GOOD (  11.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,82 +79,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 23, 2024 at 05:26:56PM +0200, Martin Wilck wrote:
-> On Fri, 2024-08-23 at 15:38 +0200, Niklas Cassel wrote:
-> > On Thu, Aug 22, 2024 at 10:14:13PM +0200, Martin Wilck wrote:
-> > > For multipath devices, nvme_update_ns_info() needs to freeze both
-> > > the queue of the path and the queue of the multipath device. For
-> > > both operations, it waits for one RCU grace period to pass, ~25ms
-> > > on my test system. By calling blk_freeze_queue_start() for the
-> > > multipath queue early, we avoid waiting twice; tests using ftrace
-> > > have shown that the second blk_mq_freeze_queue_wait() call finishes
-> > > in just a few microseconds. The path queue is unfrozen before
-> > > calling blk_mq_freeze_queue_wait() on the multipath queue, so that
-> > > possibly outstanding IO in the multipath queue can be flushed.
-> > > 
-> > > I tested this using the "controller rescan under I/O load" test
-> > > I submitted recently [1].
-> > > 
-> > > [1]
-> > > https://lore.kernel.org/linux-nvme/20240822193814.106111-3-mwilck@suse.com/T/#u
-> > > 
-> > > Signed-off-by: Martin Wilck <mwilck@suse.com>
-> > > ---
-> > >  drivers/nvme/host/core.c | 8 ++++++--
-> > >  1 file changed, 6 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > index 33fa01c599ad..e2454398c660 100644
-> > > --- a/drivers/nvme/host/core.c
-> > > +++ b/drivers/nvme/host/core.c
-> > > @@ -2217,6 +2217,9 @@ static int nvme_update_ns_info(struct nvme_ns
-> > > *ns, struct nvme_ns_info *info)
-> > >  	bool unsupported = false;
-> > >  	int ret;
-> > >  
-> > > +	if (nvme_ns_head_multipath(ns->head))
-> > > +		blk_freeze_queue_start(ns->head->disk->queue);
-> > > +
-> > 
-> > From someone reading this code, it looks quite similar to
-> > nvme_mpath_start_freeze().
+On Thu, Aug 22, 2024 at 03:28:01PM -0500, Stuart Hayes wrote:
+> This adds the ability for the kernel to shutdown devices asynchronously.
 > 
-> That function takes a struct nvme_subsystem as argument, and walks over
-> all namespaces in that subsystem, whereas here we're just acting on a
-> single namespace.
+> Only devices with drivers that enable it are shut down asynchronously.
 > 
-> > Perhaps create a new helper, with proper kdoc, and possibly also add
-> > kdoc to
-> > nvme_mpath_start_freeze(), so that a user can easily tell (from the
-> > kdoc)
-> > when to use which function.
-> 
-> What's the benefit of introducing such a trivial helper, used only in a
-> single place of the code?
+> This can dramatically reduce system shutdown/reboot time on systems that
+> have multiple devices that take many seconds to shut down (like certain
+> NVMe drives). On one system tested, the shutdown time went from 11 minutes
+> without this patch to 55 seconds with the patch.
 
-To make nvme_update_ns_info() easier to read, and to keep the existing code
-style of calling nvme_mpath_*() functions unconditionally.
+Still looks good. For the series:
 
-Sure, with my suggestion you would need a mpath_freeze() and mpath_unfreeze()
-helper.
-
-But if you add a helper that simply does:
-if (nvme_ns_head_multipath(ns->head))
-	blk_freeze_queue_start(ns->head->disk->queue);
-
-nvme_update_ns_info() could call the helper unconditionally,
-just like how e.g. nvme_passthru_start() calls nvme_mpath_start_freeze()
-unconditionally for both multipath and non-multipath NS heads:
-https://github.com/torvalds/linux/blob/v6.11-rc4/drivers/nvme/host/core.c#L1205
-
-(And how core.c calls many other nvme_mpath_*() functions unconditionally.)
-
-> Thanks for the suggestion, but I'd like to see other maintainers'
-> opinions about this.
-
-Of course, a suggestion is just a suggestion :)
-
-
-Kind regards,
-Niklas
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Tested-by: Keith Busch <kbusch@kernel.org>
 
