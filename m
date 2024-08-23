@@ -4,124 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC01EC52D7C
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 07:03:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA109C531DC
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Aug 2024 07:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QVMay1/QtkkGYYKu3OlZND+NeJp5eXTB/e2pj+fLdOc=; b=mqnmG0tGz0zx1toHtrYaVzoAnP
-	n+kHeCbD/HjwLa9iWf9csXWtSNrcbwWZ2q3q054iCSZMk1fWxbfrzTdGKn03lT1rmx1CNc19DB39Y
-	y927zQZD+rR/0b6UJrGzGJGie18uIOi7zxjmnEbyl+k/dEhjt9fE+QOOfsSv0szT/Q738W83lk3eU
-	1HP/WVIhL2Oihdhz/ZmoCdA+TjhubGsKId01ToAW9uMD7Vw7ZpMNCyKQMMCI4yB92aDNHqdFlhMiW
-	qL+5yXROMGJ4mKBydOpwk9IYlmdrAnGQtZPk/Fyul9p133s8nhJMlO5Bqys9QPU489N01y+bxeQiD
-	enovccmQ==;
+	bh=8rDmBd9HLhTDJUrGMnLYVq8vzoOuYeZb7dst6tqcz9Y=; b=W3xERXBU8atWBoSM+3Hc1qdBQx
+	KucmvK2Tn0//xvBtT4nhICesDrGKVhBQRnqmi8Bq91YrRyZsteDFXgo94QSa8TwqpRU8wslkT/ESh
+	gklAOnph8eGX77weZWfcHT2idMbIiVRJiHnQrCOhp+9LbiVflXn/kcuF/PWhmYL0GmK3ayhRN1wwO
+	3HvBRGfFQi43DWOuVWZvDMiuit8pabQi5YXQLrMp1QEfczvnVYNaLE+CXoEeeGk7HrmIq1sejv1xm
+	0Y4nNLbzeAhI/dbCJeWkL9IWiTq5pl7cs6ZtLCeksHxUKraAptiQfEPoPBe5J+fNL+V66YL1lnAA0
+	ItJZDazA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shOKE-0000000FYr3-2d8S;
-	Fri, 23 Aug 2024 07:03:10 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1shOVg-0000000FbtO-08Uj;
+	Fri, 23 Aug 2024 07:15:00 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shOK9-0000000FYpj-2Kcq
+	id 1shOOu-0000000Fa66-1aqM
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Aug 2024 07:03:08 +0000
+	Fri, 23 Aug 2024 07:08:01 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BF42121E7D;
-	Fri, 23 Aug 2024 07:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724396582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QVMay1/QtkkGYYKu3OlZND+NeJp5eXTB/e2pj+fLdOc=;
-	b=oPVBnHl2lQ1vsQ0/PV+nV/e1gCLlSsoRxWHpj5MXdO1EWtdH3lkfLo5/f8KXKjkCMeJXZA
-	VwV3FXcvbxlYimkGA1Nk1IFvxBMPUj2wJflPIVRM4s7kh7DcKhJtTCVpjZG3gDcQ5i65CN
-	8v+RQ53DZsGFeaXvFztG449LdIjZFhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724396582;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QVMay1/QtkkGYYKu3OlZND+NeJp5eXTB/e2pj+fLdOc=;
-	b=4ZzzLyiMt+4BLqTiJ2Cd4Mz1K0RtvPfP1ac69a1Yj5TVz+Ua0EqzTBp92W+/cU/TYWdg1O
-	XLzq86LUgGdfGABA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=b6Npn9hJ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1O7tC5HP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1724396581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QVMay1/QtkkGYYKu3OlZND+NeJp5eXTB/e2pj+fLdOc=;
-	b=b6Npn9hJvSl8cpklCy4YZK2lShMhmGquvQg1DZ9rj2vfgtBX3XrOx8t0jtwIzNtTE9EhJA
-	M8JuF6fP11YDHeGvRMSMAqN6WigyWEZGuvLKcZ1bKKg4esV0yHjbnpD33RlkqxqUeKiIbY
-	kftVfYfJn4uDjBWzrQtz6JpCsEj4hWQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1724396581;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QVMay1/QtkkGYYKu3OlZND+NeJp5eXTB/e2pj+fLdOc=;
-	b=1O7tC5HPNMRoPbeCPoEDMyKntZcNKCKNBOVLl4FzNSjY8PaemxDTjGoN2X/o73kGeybiUA
-	o8IPuYMJWTRIaKBQ==
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 088B31F770;
+	Fri, 23 Aug 2024 07:07:59 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
+	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F57D1333E;
-	Fri, 23 Aug 2024 07:03:01 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DFCDB1333E;
+	Fri, 23 Aug 2024 07:07:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VGFiJCU0yGZ6cAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 23 Aug 2024 07:03:01 +0000
-Date: Fri, 23 Aug 2024 09:03:00 +0200
+	id URfJNE41yGbecQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 23 Aug 2024 07:07:58 +0000
+Date: Fri, 23 Aug 2024 09:07:58 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Martin Wilck <mwilck@suse.com>
 Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
 	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Hannes Reinecke <hare@suse.de>, linux-block@vger.kernel.org, 
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 3/3] nvme: add test for controller rescan under I/O load
-Message-ID: <496211ed-9706-4d37-bc17-1b0207b6e780@flourine.local>
+Subject: Re: [PATCH 1/3] blktests: nvme: skip passthru tests on multipath
+ devices
+Message-ID: <faa71c11-94b5-4375-a645-b4eb5011ed75@flourine.local>
 References: <20240822193814.106111-1-mwilck@suse.com>
- <20240822193814.106111-3-mwilck@suse.com>
- <9e199fd0-5767-4a63-930a-b08e89e4e354@flourine.local>
- <746c53383557efde6bfa09e2bd848b553f88ff3a.camel@suse.com>
+ <d1282549-f037-4556-93f7-adb3d890db82@flourine.local>
+ <1106fb07918468cb8cacb35ef0448573ec7be156.camel@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <746c53383557efde6bfa09e2bd848b553f88ff3a.camel@suse.com>
-X-Rspamd-Queue-Id: BF42121E7D
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+In-Reply-To: <1106fb07918468cb8cacb35ef0448573ec7be156.camel@suse.com>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: 088B31F770
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
 X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240823_000305_767627_D16C5F88 
-X-CRM114-Status: GOOD (  18.70  )
+X-CRM114-CacheID: sfid-20240823_000800_590411_EC192089 
+X-CRM114-Status: GOOD (  15.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,22 +89,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 23, 2024 at 08:50:04AM GMT, Martin Wilck wrote:
-> On Fri, 2024-08-23 at 08:45 +0200, Daniel Wagner wrote:
-> > On Thu, Aug 22, 2024 at 09:38:14PM GMT, Martin Wilck wrote:
-> > > Add a test that repeatedly rescans nvme controllers while doing IO
-> > > on an nvme namespace connected to these controllers. The purpose
-> > > of the test is to make sure that no I/O errors or data corruption
-> > > occurs because of the rescan operations.
+On Fri, Aug 23, 2024 at 08:41:59AM GMT, Martin Wilck wrote:
+> On Fri, 2024-08-23 at 08:35 +0200, Daniel Wagner wrote:
+> > On Thu, Aug 22, 2024 at 09:38:12PM GMT, Martin Wilck wrote:
+> > > +_require_test_dev_is_nvme_no_mpath() {
+> > > +	if [[ "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ /nvme-
+> > > subsystem/ ]]; then
+> > > +		SKIP_REASONS+=("$TEST_DEV is a NVMe multipath
+> > > device")
+> > > +		return 1
+> > > +	fi
+> > > +	return 0
+> > > +}
 > > 
-> > Could you elaborate why this tests is added? Does it test for a
-> > regression, are there any patches for this? Or is it more let's
-> > ensure
-> > this actually works?
+> > Just a nit: what about _require_test_dev_is_native_multipath?
 > 
-> The rationale was to test the kernel patch that I submitted yesterday: 
-> https://lore.kernel.org/linux-nvme/9de89e5a-04fc-4684-8514-b86884643a5d@suse.de/T/#t
+> The intention was to require a device that is _not_ a native multipath
+> device. Change it to "_require_test_dev_is_not_native_multipath"?
 
-I figured this out later too :) Just going chronology through the
-inbox.
+I confused mpath with dm-mpath when I read the function name. Doesn't
+make any sence obviously but still got me confused. I prefer the more
+explicit function name you suggested. But let's here what others say.
 
