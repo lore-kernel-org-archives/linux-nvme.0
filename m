@@ -4,51 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99DABC52D6F
-	for <linux-nvme@archiver.kernel.org>; Sat, 24 Aug 2024 19:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B31AEC5320E
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Aug 2024 20:06:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jmAC944ISCidHnUwcR4x0UuSWh9TH7n54p4N1rya7jM=; b=QkZCcWEOolF6bl+YoEpwHDdhj7
-	pgYWGPp4A2vdiUxKz4CqeoMiXZhkQruyn6Zr1pQQ2uyaaT41xjSxpBc+Dle78OdPkF2XJwY+ojvBE
-	HFX8wa+4KcHPsEtLRRQvWV41slzyq1DK8IIe5zu28ePbZY9MXgRWCEZFUcNK00LhslF9GyhXrnN7F
-	kZI6wwX1w1iPSeM/6pO2KRXPnvM2ib0ojsXYfnVjiYzI5LO04Kx7OwWBD7+t7e1NAcIPwvfTKIOJv
-	iK7OKfdQcr3zdQ31WZBeUDs0QMk0xTMV/r96DTIVVtck+QFmjJgbF+2T/fS2UN3kgaGRzT7LZlAjQ
-	xdiZn71A==;
+	bh=6q+DC9qEi4FRPHzOR4JhQ0nGEEP7YVA8G4HC6P+cUdg=; b=n5jRXRKUb2UE7zkxDUUuj2m063
+	H0FM0VaPzCL2Ms8mfwL0tfTQyzR/Q+tYe6FaNGiMAd7uvXKRZ/RkILUp5yPRmHb6bkjWGHBEeFHxy
+	wzAolRUeQSROttm+nAOOt0/OiXAlmn9q60F1BuMReIHXI9SHItGqK2KC65ukBKxB8QRKpavtH+6rc
+	ERInKc+hdpDhNqRdJeI17A2t/PlsvzJ2fg8JQeBERbDfFrycPIycxwVWQXTynWupL/UN5k8o4+hm5
+	qIhvcyEnQAMnAAbxC2le38GVBYemnhRMFfNU/pFTCklxn2un63s/D28birbSPONuqnuCJpHLRBB5m
+	/9m+LTYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shwsg-00000002pag-2um7;
-	Sat, 24 Aug 2024 19:57:02 +0000
+	id 1shx1P-00000002qmA-2VrG;
+	Sat, 24 Aug 2024 20:06:03 +0000
 Received: from bee.tesarici.cz ([2a03:3b40:fe:2d4::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shwsQ-00000002pWu-2lNk
+	id 1shx1L-00000002qld-33qE
 	for linux-nvme@lists.infradead.org;
-	Sat, 24 Aug 2024 19:56:48 +0000
+	Sat, 24 Aug 2024 20:06:02 +0000
 Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id D8C081EF371;
-	Sat, 24 Aug 2024 21:56:38 +0200 (CEST)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id B2CB31F36F1;
+	Sat, 24 Aug 2024 22:05:57 +0200 (CEST)
 Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1724529399; bh=jmAC944ISCidHnUwcR4x0UuSWh9TH7n54p4N1rya7jM=;
+	t=1724529958; bh=6q+DC9qEi4FRPHzOR4JhQ0nGEEP7YVA8G4HC6P+cUdg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k+tG6LisKBq7voHQ0bQ6+lBvUOcU2LoyXaJfiah5wNcUIauVh56QV0v9PFOeg6Drl
-	 Fr+oRwGly1ejLvF3qN6qwmuVgyq4nS9Uzpz73JNo2EyW55InLgf490RISl+cF2idpM
-	 CuPX/kj5djSrNU8RpJ5u9kd5pJp/cMwHU1IumdzgjBNfbzMtvoKgfLS8JrzJ79+ApU
-	 6uNPr7caYHUeRdr/dEPZZpQ4tkR2fzWl6BTDlesDjpjuxMHu+/VbuzSG4ZZDh3UzyP
-	 PdnheeGXY5skrcWIBrRbzThAvl0Ifzg8tNiIA7Lf9ecCbAaMoIH+yvyH4XBztvZe0v
-	 bMuGG9mOlbedA==
-Date: Sat, 24 Aug 2024 21:56:37 +0200
+	b=fR6UW6h84uQyCzzVZNSO0UWSzM5bGYLmY1G76UqvJUBOJXPzsISmYl/OWFY5HBXxV
+	 MDkPHxv+1rabIGBdc8lw/KrqFnp/+ThasVMTP9xmaTAKfphiA5FYFaRYqZryLtfndw
+	 4ovWnUZkv06IGKawoXxwJNia+R34Y4769D8oG3m/FOI55O0qbXjSJ/h67h7etOWn0M
+	 v31Al/bNYDgPvfI/md3dxAMfx+MVdGYmt+hR7GQqe/Md97Rrv4aCWfr0lt57YdbqhO
+	 RQdS3uf6P9OlV1AQFLcx67uZ9cQi+2nqE3iwduF6NypvU0JZ6jalCuhtKb0gsuCq6t
+	 ah3J7uG9R0cog==
+Date: Sat, 24 Aug 2024 22:05:56 +0200
 From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
 To: Michael Kelley <mhklinux@outlook.com>
-Cc: "mhkelley58@gmail.com" <mhkelley58@gmail.com>, "kbusch@kernel.org"
- <kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
+ <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
  "James.Bottomley@HansenPartnership.com"
  <James.Bottomley@HansenPartnership.com>, "martin.petersen@oracle.com"
  <martin.petersen@oracle.com>, "kys@microsoft.com" <kys@microsoft.com>,
@@ -62,20 +61,19 @@ Cc: "mhkelley58@gmail.com" <mhkelley58@gmail.com>, "kbusch@kernel.org"
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
  "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
  "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
-Subject: Re: [RFC 2/7] dma: Handle swiotlb throttling for SGLs
-Message-ID: <20240824215637.2bbacb50@meshulam.tesarici.cz>
-In-Reply-To: <SN6PR02MB41577D08C73A93C32F836E17D4882@SN6PR02MB4157.namprd02.prod.outlook.com>
+Subject: Re: [RFC 0/7] Introduce swiotlb throttling
+Message-ID: <20240824220556.0e2587d5@meshulam.tesarici.cz>
+In-Reply-To: <SN6PR02MB415758F12C59E6CA67227DCFD4882@SN6PR02MB4157.namprd02.prod.outlook.com>
 References: <20240822183718.1234-1-mhklinux@outlook.com>
-	<20240822183718.1234-3-mhklinux@outlook.com>
-	<20240823100252.4f2a1a43@meshulam.tesarici.cz>
-	<SN6PR02MB41577D08C73A93C32F836E17D4882@SN6PR02MB4157.namprd02.prod.outlook.com>
+	<20240823084458.4394b401@meshulam.tesarici.cz>
+	<SN6PR02MB415758F12C59E6CA67227DCFD4882@SN6PR02MB4157.namprd02.prod.outlook.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240824_125647_216771_F0D118C9 
-X-CRM114-Status: GOOD (  48.40  )
+X-CRM114-CacheID: sfid-20240824_130559_963222_EFBD755A 
+X-CRM114-Status: GOOD (  25.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,153 +88,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 23 Aug 2024 20:42:08 +0000
+On Fri, 23 Aug 2024 20:40:16 +0000
 Michael Kelley <mhklinux@outlook.com> wrote:
 
-> From: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> Sent: Friday, August 23, =
-2024 1:03 AM
+> From: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> Sent: Thursday, August 22=
+, 2024 11:45 PM
+>[...]
+> > > Discussion
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > * Since swiotlb isn't visible to device drivers, I've specifically
+> > > named the DMA attribute as MAY_BLOCK instead of MAY_THROTTLE or
+> > > something swiotlb specific. While this patch set consumes MAY_BLOCK
+> > > only on the DMA direct path to do throttling in the swiotlb code,
+> > > there might be other uses in the future outside of CoCo VMs, or
+> > > perhaps on the IOMMU path. =20
 > >=20
-> > On Thu, 22 Aug 2024 11:37:13 -0700
-> > mhkelley58@gmail.com wrote:
-> >  =20
-> > > From: Michael Kelley <mhklinux@outlook.com>
-> > >
-> > > When a DMA map request is for a SGL, each SGL entry results in an
-> > > independent mapping operation. If the mapping requires a bounce buffer
-> > > due to running in a CoCo VM or due to swiotlb=3Dforce on the boot lin=
-e,
-> > > swiotlb is invoked. If swiotlb throttling is enabled for the request,
-> > > each SGL entry results in a separate throttling operation. This is
-> > > problematic because a thread may be holding swiotlb memory while wait=
-ing
-> > > for memory to become free.
-> > >
-> > > Resolve this problem by only allowing throttling on the 0th SGL
-> > > entry. When unmapping the SGL, unmap entries 1 thru N-1 first, then
-> > > unmap entry 0 so that the throttle isn't released until all swiotlb
-> > > memory has been freed.
-> > >
-> > > Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> > > ---
-> > > This approach to SGLs muddies the line between DMA direct and swiotlb
-> > > throttling functionality. To keep the MAY_BLOCK attr fully generic, it
-> > > should propagate to the mapping of all SGL entries.
-> > >
-> > > An alternate approach is to define an additional DMA attribute that
-> > > is internal to the DMA layer. Instead of clearing MAX_BLOCK, this
-> > > attr is added by dma_direct_map_sg() when mapping SGL entries other
-> > > than the 0th entry. swiotlb would do throttling only when MAY_BLOCK
-> > > is set and this new attr is not set.
-> > >
-> > > This approach has a modest amount of additional complexity. Given
-> > > that we currently have no other users of the MAY_BLOCK attr, the
-> > > conceptual cleanliness may not be warranted until we do.
-> > >
-> > > Thoughts? =20
-> >=20
-> > If we agree to change the unthrottling logic (see my comment to your
-> > RFC 1/7), we'll need an additional attribute to delay unthrottling when
-> > unmapping sg list entries 1 to N-1. This attribute could convey that
-> > the mapping is the non-initial segment of an sg list and it could then
-> > be also used to disable blocking in swiotlb_tbl_map_single().
-> >  =20
-> > >
-> > >  kernel/dma/direct.c | 35 ++++++++++++++++++++++++++++++-----
-> > >  1 file changed, 30 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> > > index 4480a3cd92e0..80e03c0838d4 100644
-> > > --- a/kernel/dma/direct.c
-> > > +++ b/kernel/dma/direct.c
-> > > @@ -438,6 +438,18 @@ void dma_direct_sync_sg_for_cpu(struct device *d=
-ev,
-> > >  		arch_sync_dma_for_cpu_all();
-> > >  }
-> > >
-> > > +static void dma_direct_unmap_sgl_entry(struct device *dev,
-> > > +		struct scatterlist *sgl, enum dma_data_direction dir, =20
-> >=20
-> > Nitpick: This parameter should probably be called "sg", because it is
-> > never used to do any operation on the whole list. Similarly, the
-> > function could be called dma_direct_unmap_sg_entry(), because there is
-> > no dma_direct_unmap_sgl() either... =20
+> > I once introduced a similar flag and called it MAY_SLEEP. I chose
+> > MAY_SLEEP, because there is already a might_sleep() annotation, but I
+> > don't have a strong opinion unless your semantics is supposed to be
+> > different from might_sleep(). If it is, then I strongly prefer
+> > MAY_BLOCK to prevent confusing the two. =20
 >=20
-> OK.  I agree.
->=20
-> >  =20
-> > > +		unsigned long attrs)
-> > > +
-> > > +{
-> > > +	if (sg_dma_is_bus_address(sgl))
-> > > +		sg_dma_unmark_bus_address(sgl);
-> > > +	else
-> > > +		dma_direct_unmap_page(dev, sgl->dma_address,
-> > > +				      sg_dma_len(sgl), dir, attrs);
-> > > +}
-> > > +
-> > >  /*
-> > >   * Unmaps segments, except for ones marked as pci_p2pdma which do not
-> > >   * require any further action as they contain a bus address.
-> > > @@ -449,12 +461,20 @@ void dma_direct_unmap_sg(struct device *dev, st=
-ruct =20
-> > scatterlist *sgl, =20
-> > >  	int i;
-> > >
-> > >  	for_each_sg(sgl,  sg, nents, i) {
-> > > -		if (sg_dma_is_bus_address(sg))
-> > > -			sg_dma_unmark_bus_address(sg);
-> > > -		else
-> > > -			dma_direct_unmap_page(dev, sg->dma_address,
-> > > -					      sg_dma_len(sg), dir, attrs);
-> > > +		/*
-> > > +		 * Skip the 0th SGL entry in case this SGL consists of
-> > > +		 * throttled swiotlb mappings. In such a case, any other
-> > > +		 * entries should be unmapped first since unmapping the
-> > > +		 * 0th entry will release the throttle semaphore.
-> > > +		 */
-> > > +		if (!i)
-> > > +			continue;
-> > > +		dma_direct_unmap_sgl_entry(dev, sg, dir, attrs);
-> > >  	}
-> > > +
-> > > +	/* Now do the 0th SGL entry */
-> > > +	if (nents) =20
-> >=20
-> > I wonder if nents can ever be zero here, but it's nowhere enforced and
-> > dma_map_sg_attrs() is exported, so I agree, let's play it safe. =20
->=20
-> Yep -- my thinking exactly.
->=20
-> >  =20
-> > > +		dma_direct_unmap_sgl_entry(dev, sgl, dir, attrs);
-> > >  }
-> > >  #endif
-> > >
-> > > @@ -492,6 +512,11 @@ int dma_direct_map_sg(struct device *dev, struct=
- scatterlist =20
-> > *sgl, int nents, =20
-> > >  			ret =3D -EIO;
-> > >  			goto out_unmap;
-> > >  		}
-> > > +
-> > > +		/* Allow only the 0th SGL entry to block */
-> > > +		if (!i) =20
-> >=20
-> > Are you sure? I think the modified value of attrs is first used in the
-> > next loop iteration, so the conditional should be removed, or else both
-> > segment index 0 and 1 will keep the flag. =20
->=20
-> I don't understand your comment. If it's present, the MAY_BLOCK flag
-> is used for the index 0 SGL entry, and then is cleared before the loop is
-> run again for the index 1 and subsequent SGL entries. But it would
-> still work with the conditional removed, and maybe the CPU overhead
-> of always clearing the flag is the same as doing the conditional.
+> My intent is that the semantics are the same as might_sleep(). I
+> vacillated between MAY_SLEEP and MAY_BLOCK. The kernel seems
+> to treat "sleep" and "block" as equivalent, because blk-mq has
+> the BLK_MQ_F_BLOCKING flag, and SCSI has the=20
+> queuecommand_may_block flag that is translated to
+> BLK_MQ_F_BLOCKING. So I settled on MAY_BLOCK, but as you
+> point out, that's inconsistent with might_sleep(). Either way will
+> be inconsistent somewhere, and I don't have a preference.
 
-Yes, this was my original thinking, but then I somehow got caught up in
-it and went on to thinking that the condition was not only unnecessary,
-but wrong. You're right, the code is perfectly fine as it is.
+Fair enough. Let's stay with MAY_BLOCK then, so you don't have to
+change it everywhere.
 
-Sorry for the noise.
+>[...]
+> > > Open Topics
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > 1. swiotlb allocations from Xen and the IOMMU code don't make use
+> > > of throttling. This could be added if beneficial.
+> > >
+> > > 2. The throttling values are currently exposed and adjustable in
+> > > /sys/kernel/debug/swiotlb. Should any of this be moved so it is
+> > > visible even without CONFIG_DEBUG_FS? =20
+> >=20
+> > Yes. It should be possible to control the thresholds through
+> > sysctl. =20
+>=20
+> Good point.  I was thinking about creating /sys/kernel/swiotlb, but
+> sysctl is better.
+
+That still leaves the question where it should go.
+
+Under /proc/sys/kernel? Or should we make a /proc/sys/kernel/dma
+subdirectory to make room for more dma-related controls?
 
 Petr T
 
