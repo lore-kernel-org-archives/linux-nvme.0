@@ -4,71 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A156C5472D
-	for <linux-nvme@archiver.kernel.org>; Sat, 24 Aug 2024 18:05:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99DABC52D6F
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Aug 2024 19:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6SN9lLX07X3mghlwh/njye0r6qL9XU9tu3ScdVIthS8=; b=f/fJfuQa4uVX2EuMhLsmep1iy2
-	JgaWPB5tkg5U2INoazfmlz9JpW46RXs+in+Y1Yne7rEU9UkC/WOc4MYl7Tq5YW4QkzcTGfMKx47ZP
-	Jjztfy0YjWA6G2ADApNf1na488I3FsNWDjWEVg21VU4Pxi/pmmNnj0sDujM7ggrK19kIITlWu7din
-	KHoiwjqT4ZIFfk2ZX9MNNFrszf4/lVw0Jxw9n61urR6iemw7K1Ipy3Vj/wBqzQ66n3X+cMRgSpyZJ
-	N0JdDmtFVxgUrHkmKXW2gwMToyJXXVOYAyNVRWtfb2gt2YVfe83bTfOj6v8suQNxrgxK9BqctmZE5
-	52d9ORpg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jmAC944ISCidHnUwcR4x0UuSWh9TH7n54p4N1rya7jM=; b=QkZCcWEOolF6bl+YoEpwHDdhj7
+	pgYWGPp4A2vdiUxKz4CqeoMiXZhkQruyn6Zr1pQQ2uyaaT41xjSxpBc+Dle78OdPkF2XJwY+ojvBE
+	HFX8wa+4KcHPsEtLRRQvWV41slzyq1DK8IIe5zu28ePbZY9MXgRWCEZFUcNK00LhslF9GyhXrnN7F
+	kZI6wwX1w1iPSeM/6pO2KRXPnvM2ib0ojsXYfnVjiYzI5LO04Kx7OwWBD7+t7e1NAcIPwvfTKIOJv
+	iK7OKfdQcr3zdQ31WZBeUDs0QMk0xTMV/r96DTIVVtck+QFmjJgbF+2T/fS2UN3kgaGRzT7LZlAjQ
+	xdiZn71A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shv8F-00000002egj-3fdb;
-	Sat, 24 Aug 2024 18:04:59 +0000
-Received: from mgamail.intel.com ([192.198.163.11])
+	id 1shwsg-00000002pag-2um7;
+	Sat, 24 Aug 2024 19:57:02 +0000
+Received: from bee.tesarici.cz ([2a03:3b40:fe:2d4::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shv7Y-00000002eZG-0eup
+	id 1shwsQ-00000002pWu-2lNk
 	for linux-nvme@lists.infradead.org;
-	Sat, 24 Aug 2024 18:04:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724522656; x=1756058656;
-  h=date:from:to:cc:subject:message-id;
-  bh=6rY+w3kptvRRd5X5RNyVvIFiQklm8mqezQ+xmtVEq5s=;
-  b=fL9EsjjI/9yQQsPxbcb1v20hYJT7pwwJyIaKrsV0w+jktzIgjYhIWw7U
-   Xe4NfZI3Oh6/TAK2GJl1KFuRx3l4oc4ThTepSEcTuY0o2AzvNPp8nR8St
-   q6atm0zCJeXNuUoeKfdx+6Tv1LOxGxCTcFXqmfVN6kctsYhSZnmHPNwql
-   D13lhVv0w2Ip4WFW3jQEqUiXsOnlc4pye8aDFDkUkIIAE/Ow968zntLbG
-   UiZ+sut++qe/TsWmvbyUVIHwTvJiRAhtRuSgLoIyE88qEqvT26zj+dC+W
-   wURoXh+BdA9zlMgD7PoKZ5mfQ4epdE+K1WvZAz/LfNomLJX3/M8Fu0PPH
-   g==;
-X-CSE-ConnectionGUID: VdiKLCsSTKKZUsoQe1n2XA==
-X-CSE-MsgGUID: vB5jyHneTf+mh/FQQLDNLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="33604819"
-X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="33604819"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 11:04:12 -0700
-X-CSE-ConnectionGUID: +buLfAv6TZyJs0ByttzBRQ==
-X-CSE-MsgGUID: P8AgyR8IR4aYiDRkzBIvvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="66910971"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 24 Aug 2024 11:04:11 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1shv7Q-000EfD-2N;
-	Sat, 24 Aug 2024 18:04:08 +0000
-Date: Sun, 25 Aug 2024 02:03:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.11] BUILD SUCCESS
- 5a6d3a638c93881b7a7c13df870238b91399578a
-Message-ID: <202408250225.vbCJ4Hzc-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Sat, 24 Aug 2024 19:56:48 +0000
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id D8C081EF371;
+	Sat, 24 Aug 2024 21:56:38 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1724529399; bh=jmAC944ISCidHnUwcR4x0UuSWh9TH7n54p4N1rya7jM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=k+tG6LisKBq7voHQ0bQ6+lBvUOcU2LoyXaJfiah5wNcUIauVh56QV0v9PFOeg6Drl
+	 Fr+oRwGly1ejLvF3qN6qwmuVgyq4nS9Uzpz73JNo2EyW55InLgf490RISl+cF2idpM
+	 CuPX/kj5djSrNU8RpJ5u9kd5pJp/cMwHU1IumdzgjBNfbzMtvoKgfLS8JrzJ79+ApU
+	 6uNPr7caYHUeRdr/dEPZZpQ4tkR2fzWl6BTDlesDjpjuxMHu+/VbuzSG4ZZDh3UzyP
+	 PdnheeGXY5skrcWIBrRbzThAvl0Ifzg8tNiIA7Lf9ecCbAaMoIH+yvyH4XBztvZe0v
+	 bMuGG9mOlbedA==
+Date: Sat, 24 Aug 2024 21:56:37 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: "mhkelley58@gmail.com" <mhkelley58@gmail.com>, "kbusch@kernel.org"
+ <kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
+ "James.Bottomley@HansenPartnership.com"
+ <James.Bottomley@HansenPartnership.com>, "martin.petersen@oracle.com"
+ <martin.petersen@oracle.com>, "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
+ <wei.liu@kernel.org>, "decui@microsoft.com" <decui@microsoft.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>,
+ "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
+Subject: Re: [RFC 2/7] dma: Handle swiotlb throttling for SGLs
+Message-ID: <20240824215637.2bbacb50@meshulam.tesarici.cz>
+In-Reply-To: <SN6PR02MB41577D08C73A93C32F836E17D4882@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20240822183718.1234-1-mhklinux@outlook.com>
+	<20240822183718.1234-3-mhklinux@outlook.com>
+	<20240823100252.4f2a1a43@meshulam.tesarici.cz>
+	<SN6PR02MB41577D08C73A93C32F836E17D4882@SN6PR02MB4157.namprd02.prod.outlook.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240824_110416_234881_325A2CD9 
-X-CRM114-Status: UNSURE (   4.49  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240824_125647_216771_F0D118C9 
+X-CRM114-Status: GOOD (  48.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,197 +90,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.11
-branch HEAD: 5a6d3a638c93881b7a7c13df870238b91399578a  nvme: use better description for async reset reason
+On Fri, 23 Aug 2024 20:42:08 +0000
+Michael Kelley <mhklinux@outlook.com> wrote:
 
-elapsed time: 1450m
+> From: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> Sent: Friday, August 23, =
+2024 1:03 AM
+> >=20
+> > On Thu, 22 Aug 2024 11:37:13 -0700
+> > mhkelley58@gmail.com wrote:
+> >  =20
+> > > From: Michael Kelley <mhklinux@outlook.com>
+> > >
+> > > When a DMA map request is for a SGL, each SGL entry results in an
+> > > independent mapping operation. If the mapping requires a bounce buffer
+> > > due to running in a CoCo VM or due to swiotlb=3Dforce on the boot lin=
+e,
+> > > swiotlb is invoked. If swiotlb throttling is enabled for the request,
+> > > each SGL entry results in a separate throttling operation. This is
+> > > problematic because a thread may be holding swiotlb memory while wait=
+ing
+> > > for memory to become free.
+> > >
+> > > Resolve this problem by only allowing throttling on the 0th SGL
+> > > entry. When unmapping the SGL, unmap entries 1 thru N-1 first, then
+> > > unmap entry 0 so that the throttle isn't released until all swiotlb
+> > > memory has been freed.
+> > >
+> > > Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> > > ---
+> > > This approach to SGLs muddies the line between DMA direct and swiotlb
+> > > throttling functionality. To keep the MAY_BLOCK attr fully generic, it
+> > > should propagate to the mapping of all SGL entries.
+> > >
+> > > An alternate approach is to define an additional DMA attribute that
+> > > is internal to the DMA layer. Instead of clearing MAX_BLOCK, this
+> > > attr is added by dma_direct_map_sg() when mapping SGL entries other
+> > > than the 0th entry. swiotlb would do throttling only when MAY_BLOCK
+> > > is set and this new attr is not set.
+> > >
+> > > This approach has a modest amount of additional complexity. Given
+> > > that we currently have no other users of the MAY_BLOCK attr, the
+> > > conceptual cleanliness may not be warranted until we do.
+> > >
+> > > Thoughts? =20
+> >=20
+> > If we agree to change the unthrottling logic (see my comment to your
+> > RFC 1/7), we'll need an additional attribute to delay unthrottling when
+> > unmapping sg list entries 1 to N-1. This attribute could convey that
+> > the mapping is the non-initial segment of an sg list and it could then
+> > be also used to disable blocking in swiotlb_tbl_map_single().
+> >  =20
+> > >
+> > >  kernel/dma/direct.c | 35 ++++++++++++++++++++++++++++++-----
+> > >  1 file changed, 30 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> > > index 4480a3cd92e0..80e03c0838d4 100644
+> > > --- a/kernel/dma/direct.c
+> > > +++ b/kernel/dma/direct.c
+> > > @@ -438,6 +438,18 @@ void dma_direct_sync_sg_for_cpu(struct device *d=
+ev,
+> > >  		arch_sync_dma_for_cpu_all();
+> > >  }
+> > >
+> > > +static void dma_direct_unmap_sgl_entry(struct device *dev,
+> > > +		struct scatterlist *sgl, enum dma_data_direction dir, =20
+> >=20
+> > Nitpick: This parameter should probably be called "sg", because it is
+> > never used to do any operation on the whole list. Similarly, the
+> > function could be called dma_direct_unmap_sg_entry(), because there is
+> > no dma_direct_unmap_sgl() either... =20
+>=20
+> OK.  I agree.
+>=20
+> >  =20
+> > > +		unsigned long attrs)
+> > > +
+> > > +{
+> > > +	if (sg_dma_is_bus_address(sgl))
+> > > +		sg_dma_unmark_bus_address(sgl);
+> > > +	else
+> > > +		dma_direct_unmap_page(dev, sgl->dma_address,
+> > > +				      sg_dma_len(sgl), dir, attrs);
+> > > +}
+> > > +
+> > >  /*
+> > >   * Unmaps segments, except for ones marked as pci_p2pdma which do not
+> > >   * require any further action as they contain a bus address.
+> > > @@ -449,12 +461,20 @@ void dma_direct_unmap_sg(struct device *dev, st=
+ruct =20
+> > scatterlist *sgl, =20
+> > >  	int i;
+> > >
+> > >  	for_each_sg(sgl,  sg, nents, i) {
+> > > -		if (sg_dma_is_bus_address(sg))
+> > > -			sg_dma_unmark_bus_address(sg);
+> > > -		else
+> > > -			dma_direct_unmap_page(dev, sg->dma_address,
+> > > -					      sg_dma_len(sg), dir, attrs);
+> > > +		/*
+> > > +		 * Skip the 0th SGL entry in case this SGL consists of
+> > > +		 * throttled swiotlb mappings. In such a case, any other
+> > > +		 * entries should be unmapped first since unmapping the
+> > > +		 * 0th entry will release the throttle semaphore.
+> > > +		 */
+> > > +		if (!i)
+> > > +			continue;
+> > > +		dma_direct_unmap_sgl_entry(dev, sg, dir, attrs);
+> > >  	}
+> > > +
+> > > +	/* Now do the 0th SGL entry */
+> > > +	if (nents) =20
+> >=20
+> > I wonder if nents can ever be zero here, but it's nowhere enforced and
+> > dma_map_sg_attrs() is exported, so I agree, let's play it safe. =20
+>=20
+> Yep -- my thinking exactly.
+>=20
+> >  =20
+> > > +		dma_direct_unmap_sgl_entry(dev, sgl, dir, attrs);
+> > >  }
+> > >  #endif
+> > >
+> > > @@ -492,6 +512,11 @@ int dma_direct_map_sg(struct device *dev, struct=
+ scatterlist =20
+> > *sgl, int nents, =20
+> > >  			ret =3D -EIO;
+> > >  			goto out_unmap;
+> > >  		}
+> > > +
+> > > +		/* Allow only the 0th SGL entry to block */
+> > > +		if (!i) =20
+> >=20
+> > Are you sure? I think the modified value of attrs is first used in the
+> > next loop iteration, so the conditional should be removed, or else both
+> > segment index 0 and 1 will keep the flag. =20
+>=20
+> I don't understand your comment. If it's present, the MAY_BLOCK flag
+> is used for the index 0 SGL entry, and then is cleared before the loop is
+> run again for the index 1 and subsequent SGL entries. But it would
+> still work with the conditional removed, and maybe the CPU overhead
+> of always clearing the flag is the same as doing the conditional.
 
-configs tested: 177
-configs skipped: 7
+Yes, this was my original thinking, but then I somehow got caught up in
+it and went on to thinking that the condition was not only unnecessary,
+but wrong. You're right, the code is perfectly fine as it is.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Sorry for the noise.
 
-tested configs:
-alpha                             allnoconfig   gcc-13.2.0
-alpha                            allyesconfig   gcc-13.3.0
-alpha                               defconfig   gcc-13.2.0
-arc                              allmodconfig   gcc-13.2.0
-arc                               allnoconfig   gcc-13.2.0
-arc                              allyesconfig   gcc-13.2.0
-arc                                 defconfig   gcc-13.2.0
-arc                        nsim_700_defconfig   gcc-13.2.0
-arc                   randconfig-001-20240824   gcc-13.2.0
-arc                   randconfig-002-20240824   gcc-13.2.0
-arm                              allmodconfig   gcc-13.2.0
-arm                               allnoconfig   gcc-13.2.0
-arm                              allyesconfig   gcc-13.2.0
-arm                       aspeed_g4_defconfig   clang-20
-arm                                 defconfig   gcc-13.2.0
-arm                      footbridge_defconfig   gcc-13.2.0
-arm                          gemini_defconfig   clang-20
-arm                      integrator_defconfig   clang-20
-arm                       multi_v4t_defconfig   gcc-13.2.0
-arm                        mvebu_v5_defconfig   clang-20
-arm                   randconfig-001-20240824   gcc-13.2.0
-arm                   randconfig-002-20240824   gcc-13.2.0
-arm                   randconfig-003-20240824   gcc-13.2.0
-arm                   randconfig-004-20240824   gcc-13.2.0
-arm                        spear3xx_defconfig   gcc-13.2.0
-arm                           spitz_defconfig   clang-20
-arm                           sunxi_defconfig   gcc-13.2.0
-arm                        vexpress_defconfig   gcc-13.2.0
-arm64                            allmodconfig   gcc-13.2.0
-arm64                             allnoconfig   gcc-13.2.0
-arm64                               defconfig   gcc-13.2.0
-arm64                 randconfig-001-20240824   gcc-13.2.0
-arm64                 randconfig-002-20240824   gcc-13.2.0
-arm64                 randconfig-003-20240824   gcc-13.2.0
-arm64                 randconfig-004-20240824   gcc-13.2.0
-csky                              allnoconfig   gcc-13.2.0
-csky                                defconfig   gcc-13.2.0
-csky                  randconfig-001-20240824   gcc-13.2.0
-csky                  randconfig-002-20240824   gcc-13.2.0
-i386                             allmodconfig   clang-18
-i386                              allnoconfig   clang-18
-i386                             allyesconfig   clang-18
-i386         buildonly-randconfig-001-20240824   clang-18
-i386         buildonly-randconfig-002-20240824   clang-18
-i386         buildonly-randconfig-003-20240824   clang-18
-i386         buildonly-randconfig-004-20240824   clang-18
-i386         buildonly-randconfig-005-20240824   clang-18
-i386         buildonly-randconfig-006-20240824   clang-18
-i386                                defconfig   clang-18
-i386                  randconfig-001-20240824   clang-18
-i386                  randconfig-002-20240824   clang-18
-i386                  randconfig-003-20240824   clang-18
-i386                  randconfig-004-20240824   clang-18
-i386                  randconfig-005-20240824   clang-18
-i386                  randconfig-006-20240824   clang-18
-i386                  randconfig-011-20240824   clang-18
-i386                  randconfig-012-20240824   clang-18
-i386                  randconfig-013-20240824   clang-18
-i386                  randconfig-014-20240824   clang-18
-i386                  randconfig-015-20240824   clang-18
-i386                  randconfig-016-20240824   clang-18
-loongarch                        allmodconfig   gcc-14.1.0
-loongarch                         allnoconfig   gcc-13.2.0
-loongarch                           defconfig   gcc-13.2.0
-loongarch             randconfig-001-20240824   gcc-13.2.0
-loongarch             randconfig-002-20240824   gcc-13.2.0
-m68k                             allmodconfig   gcc-14.1.0
-m68k                              allnoconfig   gcc-13.2.0
-m68k                             allyesconfig   gcc-14.1.0
-m68k                                defconfig   gcc-13.2.0
-microblaze                       allmodconfig   gcc-14.1.0
-microblaze                        allnoconfig   gcc-13.2.0
-microblaze                       allyesconfig   gcc-14.1.0
-microblaze                          defconfig   gcc-13.2.0
-mips                              allnoconfig   gcc-13.2.0
-mips                       bmips_be_defconfig   gcc-13.2.0
-mips                         cobalt_defconfig   clang-20
-mips                 decstation_r4k_defconfig   gcc-13.2.0
-mips                      loongson3_defconfig   gcc-13.2.0
-mips                          rb532_defconfig   clang-20
-nios2                             allnoconfig   gcc-13.2.0
-nios2                               defconfig   gcc-13.2.0
-nios2                 randconfig-001-20240824   gcc-13.2.0
-nios2                 randconfig-002-20240824   gcc-13.2.0
-openrisc                          allnoconfig   gcc-14.1.0
-openrisc                         allyesconfig   gcc-14.1.0
-openrisc                            defconfig   gcc-14.1.0
-parisc                           allmodconfig   gcc-14.1.0
-parisc                            allnoconfig   gcc-14.1.0
-parisc                           allyesconfig   gcc-14.1.0
-parisc                              defconfig   gcc-14.1.0
-parisc                randconfig-001-20240824   gcc-13.2.0
-parisc                randconfig-002-20240824   gcc-13.2.0
-parisc64                            defconfig   gcc-13.2.0
-powerpc                          allmodconfig   gcc-14.1.0
-powerpc                           allnoconfig   gcc-14.1.0
-powerpc                          allyesconfig   gcc-14.1.0
-powerpc                    amigaone_defconfig   gcc-13.2.0
-powerpc                      bamboo_defconfig   gcc-13.2.0
-powerpc                      cm5200_defconfig   clang-20
-powerpc                     ep8248e_defconfig   clang-20
-powerpc                    gamecube_defconfig   clang-20
-powerpc                      katmai_defconfig   clang-20
-powerpc                 mpc837x_rdb_defconfig   gcc-13.2.0
-powerpc                      pasemi_defconfig   clang-20
-powerpc                      pcm030_defconfig   clang-20
-powerpc                     powernv_defconfig   clang-20
-powerpc                      ppc64e_defconfig   clang-20
-powerpc               randconfig-001-20240824   gcc-13.2.0
-powerpc                     tqm8548_defconfig   clang-20
-powerpc                     tqm8555_defconfig   clang-20
-powerpc                         wii_defconfig   clang-20
-powerpc64             randconfig-001-20240824   gcc-13.2.0
-powerpc64             randconfig-002-20240824   gcc-13.2.0
-powerpc64             randconfig-003-20240824   gcc-13.2.0
-riscv                            allmodconfig   gcc-14.1.0
-riscv                             allnoconfig   gcc-14.1.0
-riscv                            allyesconfig   gcc-14.1.0
-riscv                               defconfig   gcc-14.1.0
-riscv                 randconfig-001-20240824   gcc-13.2.0
-riscv                 randconfig-002-20240824   gcc-13.2.0
-s390                             allmodconfig   clang-20
-s390                              allnoconfig   gcc-14.1.0
-s390                             allyesconfig   clang-20
-s390                          debug_defconfig   clang-20
-s390                                defconfig   gcc-14.1.0
-s390                  randconfig-001-20240824   gcc-13.2.0
-s390                  randconfig-002-20240824   gcc-13.2.0
-sh                                allnoconfig   gcc-13.2.0
-sh                                  defconfig   gcc-14.1.0
-sh                          landisk_defconfig   gcc-13.2.0
-sh                    randconfig-001-20240824   gcc-13.2.0
-sh                    randconfig-002-20240824   gcc-13.2.0
-sh                          rsk7203_defconfig   gcc-13.2.0
-sh                        sh7785lcr_defconfig   gcc-13.2.0
-sparc64                             defconfig   gcc-14.1.0
-sparc64               randconfig-001-20240824   gcc-13.2.0
-sparc64               randconfig-002-20240824   gcc-13.2.0
-um                               allmodconfig   gcc-13.3.0
-um                                allnoconfig   gcc-14.1.0
-um                               allyesconfig   gcc-13.3.0
-um                                  defconfig   gcc-14.1.0
-um                             i386_defconfig   gcc-14.1.0
-um                    randconfig-001-20240824   gcc-13.2.0
-um                    randconfig-002-20240824   gcc-13.2.0
-um                           x86_64_defconfig   gcc-14.1.0
-x86_64                            allnoconfig   clang-18
-x86_64                           allyesconfig   clang-18
-x86_64       buildonly-randconfig-001-20240824   clang-18
-x86_64       buildonly-randconfig-002-20240824   clang-18
-x86_64       buildonly-randconfig-003-20240824   clang-18
-x86_64       buildonly-randconfig-004-20240824   clang-18
-x86_64       buildonly-randconfig-005-20240824   clang-18
-x86_64       buildonly-randconfig-006-20240824   clang-18
-x86_64                              defconfig   clang-18
-x86_64                randconfig-001-20240824   clang-18
-x86_64                randconfig-002-20240824   clang-18
-x86_64                randconfig-003-20240824   clang-18
-x86_64                randconfig-004-20240824   clang-18
-x86_64                randconfig-005-20240824   clang-18
-x86_64                randconfig-006-20240824   clang-18
-x86_64                randconfig-011-20240824   clang-18
-x86_64                randconfig-012-20240824   clang-18
-x86_64                randconfig-013-20240824   clang-18
-x86_64                randconfig-014-20240824   clang-18
-x86_64                randconfig-015-20240824   clang-18
-x86_64                randconfig-016-20240824   clang-18
-x86_64                randconfig-071-20240824   clang-18
-x86_64                randconfig-072-20240824   clang-18
-x86_64                randconfig-073-20240824   clang-18
-x86_64                randconfig-074-20240824   clang-18
-x86_64                randconfig-075-20240824   clang-18
-x86_64                randconfig-076-20240824   clang-18
-x86_64                          rhel-8.3-rust   clang-18
-xtensa                            allnoconfig   gcc-13.2.0
-xtensa                randconfig-001-20240824   gcc-13.2.0
-xtensa                randconfig-002-20240824   gcc-13.2.0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Petr T
 
