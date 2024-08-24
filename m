@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36E99C5472C
-	for <linux-nvme@archiver.kernel.org>; Sat, 24 Aug 2024 08:24:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B63DEC52D6F
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Aug 2024 08:32:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=NoGJpzwYgGaRAzo/nrTNP0ZyiT
-	VgxplT9OVXTWyxdFMa1MpCJ4I+wgliJk2VgmbGx5AgeJU5AjqUUBkLIc2rD03kEFLEiG12bz4upzB
-	MsGlf6Ei+trQepA/fVPIGQtmuVbbXVsYyahQ34InqdBGeSxZcyBAIeFoFzTcJq29xt7TBxpSreA7+
-	ECf0Zv+AwgbiJNobSqFTVo2Nk3Hixol5vCvme7pJ3UFa8/KVTP6qZeN00wRzacjZiaylRzHvyabFs
-	/0VyUmuPh7DOkPnLNoA6NsbD32zpzCbFPxNP7j2ArLlWB1F5b6sX/Vo3zTIQyrAdhjEfc90rW5ULq
-	VdsPLiQQ==;
+	bh=O61WWPFf7UXN5rmuKJWuPi4lX7aSBVTi0ZpFbeInO/g=; b=rKSPeGO+wTt3/hXH6qDirwFNmM
+	zkV8jftRDqyjqGlM+791bwNDxdbWxm/J5Xubx94OtTIkfRZUWkgq5kyl6X/x4hwpp+NudGHFd0mSO
+	UnHNoIWXiAMItiDNGq0gKdCAUrmITw12WO/JiM5ghnHFqqcLCeO0rmPme+Soxaj3+CeDGeTztL5YA
+	kSxjJx3dFZ7LoimxuYpJKP+dNv+9xM7UZhOSDFh1cb0Po9LJ5aWPff1bHcC+T6RDqN9wyQJJz9wwT
+	tfNjLeF/00Kkw9JGaXg/iZ9EyWmdez9IMhOD1xECBy/zpoNn7X2XBS4RIcjkIZz4G8nMr6AfLCxte
+	j6YQn2Xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shm4u-00000001pXZ-3XRE;
-	Sat, 24 Aug 2024 08:24:56 +0000
+	id 1shmBl-00000001qmi-2TNS;
+	Sat, 24 Aug 2024 08:32:01 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shm4s-00000001pWh-17EM
+	id 1shmB7-00000001qfH-1qzn
 	for linux-nvme@lists.infradead.org;
-	Sat, 24 Aug 2024 08:24:55 +0000
+	Sat, 24 Aug 2024 08:31:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id C72F5227A87; Sat, 24 Aug 2024 10:24:50 +0200 (CEST)
-Date: Sat, 24 Aug 2024 10:24:50 +0200
+	id 3176A227A87; Sat, 24 Aug 2024 10:31:17 +0200 (CEST)
+Date: Sat, 24 Aug 2024 10:31:16 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Anuj Gupta <anuj20.g@samsung.com>
 Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
@@ -37,19 +37,18 @@ Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
 	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, gost.dev@samsung.com,
 	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v3 02/10] block: introduce a helper to determine
- metadata bytes from data iter
-Message-ID: <20240824082450.GB8805@lst.de>
-References: <20240823103811.2421-1-anuj20.g@samsung.com> <CGME20240823104618epcas5p4b9983678886dceed75edd9cbec9341b2@epcas5p4.samsung.com> <20240823103811.2421-3-anuj20.g@samsung.com>
+Subject: Re: [PATCH v3 03/10] block: handle split correctly for user meta
+ bounce buffer
+Message-ID: <20240824083116.GC8805@lst.de>
+References: <20240823103811.2421-1-anuj20.g@samsung.com> <CGME20240823104620epcas5p2118c152963d6cadfbc9968790ac0e536@epcas5p2.samsung.com> <20240823103811.2421-4-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240823103811.2421-3-anuj20.g@samsung.com>
+In-Reply-To: <20240823103811.2421-4-anuj20.g@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240824_012454_508928_F1C06985 
-X-CRM114-Status: UNSURE (   7.54  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240824_013121_705862_43218869 
+X-CRM114-Status: GOOD (  10.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,8 +63,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Fri, Aug 23, 2024 at 04:08:03PM +0530, Anuj Gupta wrote:
+> Copy back the bounce buffer to user-space in entirety when the parent
+> bio completes.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-
+This looks odd to me.  The usual way to handle iterating the entire
+submitter controlled data is to just iterate over the bvec array, as
+done by bio_for_each_segment_all/bio_for_each_bvec_all for the bio
+data.  I think you want to do the same here, probably with a
+similar bip_for_each_bvec_all or similar helper.  That way you don't
+need to stash away the iter.  Currently we have the field for that,
+but I really want to split up struct bio_integrity_payload into
+what is actually needed for the payload and stuff only needed for
+the block layer autogenerated PI (bip_bio/bio_iter/bip_work).
 
