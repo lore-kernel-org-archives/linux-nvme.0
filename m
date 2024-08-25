@@ -4,76 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B31AEC5320E
-	for <linux-nvme@archiver.kernel.org>; Sat, 24 Aug 2024 20:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8F4BC5320E
+	for <linux-nvme@archiver.kernel.org>; Sun, 25 Aug 2024 07:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6q+DC9qEi4FRPHzOR4JhQ0nGEEP7YVA8G4HC6P+cUdg=; b=n5jRXRKUb2UE7zkxDUUuj2m063
-	H0FM0VaPzCL2Ms8mfwL0tfTQyzR/Q+tYe6FaNGiMAd7uvXKRZ/RkILUp5yPRmHb6bkjWGHBEeFHxy
-	wzAolRUeQSROttm+nAOOt0/OiXAlmn9q60F1BuMReIHXI9SHItGqK2KC65ukBKxB8QRKpavtH+6rc
-	ERInKc+hdpDhNqRdJeI17A2t/PlsvzJ2fg8JQeBERbDfFrycPIycxwVWQXTynWupL/UN5k8o4+hm5
-	qIhvcyEnQAMnAAbxC2le38GVBYemnhRMFfNU/pFTCklxn2un63s/D28birbSPONuqnuCJpHLRBB5m
-	/9m+LTYg==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=2lRvDJmlRezSfqqeoIHD6IIZqC
+	JtdLUbfEqtGlNWS5H89VQ04sb6YrO7/IoAGDc9rDfKzP6tJVtLPrhLcPGhCVcEgFP6Kyj8oBu9nst
+	LYT2QMnKglk251dblResMLJUuui+EJDFW5ZcFjQOkvf6r1Gcs/g+bUYttQYRtVCpX5/OZkJ3o3SPk
+	FyhTlwJZclfbC5O2BFp668q9hj6IyM4WkmVMyovMeK2i2kQe95Iwb+9S1iSMa0MyUAoTFBcijNmoi
+	fzSgef3zUuhHeA5TenounSvqnUhYhKHrSsWYW7ltKLKGHG3Y37X8PM0mrhvFUdI9T2b23anE1KpQf
+	KwgsSbnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shx1P-00000002qmA-2VrG;
-	Sat, 24 Aug 2024 20:06:03 +0000
-Received: from bee.tesarici.cz ([2a03:3b40:fe:2d4::1])
+	id 1si86z-00000003uDW-2w9Z;
+	Sun, 25 Aug 2024 07:56:33 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1shx1L-00000002qld-33qE
+	id 1si86v-00000003uCs-35ug
 	for linux-nvme@lists.infradead.org;
-	Sat, 24 Aug 2024 20:06:02 +0000
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id B2CB31F36F1;
-	Sat, 24 Aug 2024 22:05:57 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1724529958; bh=6q+DC9qEi4FRPHzOR4JhQ0nGEEP7YVA8G4HC6P+cUdg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fR6UW6h84uQyCzzVZNSO0UWSzM5bGYLmY1G76UqvJUBOJXPzsISmYl/OWFY5HBXxV
-	 MDkPHxv+1rabIGBdc8lw/KrqFnp/+ThasVMTP9xmaTAKfphiA5FYFaRYqZryLtfndw
-	 4ovWnUZkv06IGKawoXxwJNia+R34Y4769D8oG3m/FOI55O0qbXjSJ/h67h7etOWn0M
-	 v31Al/bNYDgPvfI/md3dxAMfx+MVdGYmt+hR7GQqe/Md97Rrv4aCWfr0lt57YdbqhO
-	 RQdS3uf6P9OlV1AQFLcx67uZ9cQi+2nqE3iwduF6NypvU0JZ6jalCuhtKb0gsuCq6t
-	 ah3J7uG9R0cog==
-Date: Sat, 24 Aug 2024 22:05:56 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
- <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "James.Bottomley@HansenPartnership.com"
- <James.Bottomley@HansenPartnership.com>, "martin.petersen@oracle.com"
- <martin.petersen@oracle.com>, "kys@microsoft.com" <kys@microsoft.com>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org"
- <wei.liu@kernel.org>, "decui@microsoft.com" <decui@microsoft.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>
-Subject: Re: [RFC 0/7] Introduce swiotlb throttling
-Message-ID: <20240824220556.0e2587d5@meshulam.tesarici.cz>
-In-Reply-To: <SN6PR02MB415758F12C59E6CA67227DCFD4882@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20240822183718.1234-1-mhklinux@outlook.com>
-	<20240823084458.4394b401@meshulam.tesarici.cz>
-	<SN6PR02MB415758F12C59E6CA67227DCFD4882@SN6PR02MB4157.namprd02.prod.outlook.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
+	Sun, 25 Aug 2024 07:56:31 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-428e0d184b4so26590505e9.2
+        for <linux-nvme@lists.infradead.org>; Sun, 25 Aug 2024 00:56:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724572587; x=1725177387;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=ZtNEOCbPotA9lrjMG85TzlQDgcYjlnAo1GOvM+VQ1c9uZ9dU/YIW2dzWcghuvehDA9
+         reIkh/VDXvlRdoccbV6//kCoTUBYE9bEDm0KdNapuT9B4i0jGnqWBTL1pFuQXDAZiOfj
+         tJH3AcOZVJM1PUtcVknvtSguJgbSK1k2kPE5rs6A+8hcW6Akjmxmm74pennenhx9MhE2
+         rLPsr1Cpeq68fNlCwWPcvqBiM5tMeJdcbHCGkuCbRJG0qS31C6rzCxW8givPMqBn6W4h
+         +3kTrJ0lPjbBcSzkTNPqQrh73yl8hhfE4trKz/N7ufsovR3PE4bbvokn/10D1HGFIoRc
+         kzoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5EfS/Y0jDUUeGG4TNv17TTGIvFQAv8uVntLFuNqY5qJ55MTCHdriUCs8zeBDy8XY1lClAOktijsyg@lists.infradead.org
+X-Gm-Message-State: AOJu0YyWXWiVCi+ax0EjXmD1y5DP528yscjpOjYJmToNUgTAw4KweOpK
+	/GCrPoDcDd1Q28SeZnoktBlCpkVrveZHjdi+hM+8xXbd4mNByodo
+X-Google-Smtp-Source: AGHT+IG0f6m2Txdcli7jeDGYiXwvELfz4bhY1jjk+4bKm+jmig3A5htbFfiO1OFzRdiL/JYSlzuSww==
+X-Received: by 2002:a05:600c:4453:b0:42b:8965:1638 with SMTP id 5b1f17b1804b1-42b896516a5mr37440565e9.1.1724572586682;
+        Sun, 25 Aug 2024 00:56:26 -0700 (PDT)
+Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ab6e90db5sm176340785e9.0.2024.08.25.00.56.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Aug 2024 00:56:26 -0700 (PDT)
+Message-ID: <f6a21ba6-5e76-462f-8360-1cb160ac6467@grimberg.me>
+Date: Sun, 25 Aug 2024 10:56:24 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/4] driver core: don't always lock parent in shutdown
+To: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Martin Belanger <Martin.Belanger@dell.com>,
+ Oliver O'Halloran <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>,
+ Keith Busch <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>,
+ David Jeffery <djeffery@redhat.com>, Jeremy Allison <jallison@ciq.com>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
+References: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
+ <20240822202805.6379-2-stuart.w.hayes@gmail.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240822202805.6379-2-stuart.w.hayes@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240824_130559_963222_EFBD755A 
-X-CRM114-Status: GOOD (  25.98  )
+X-CRM114-CacheID: sfid-20240825_005629_813049_1983B746 
+X-CRM114-Status: UNSURE (   5.58  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,59 +90,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 23 Aug 2024 20:40:16 +0000
-Michael Kelley <mhklinux@outlook.com> wrote:
-
-> From: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> Sent: Thursday, August 22=
-, 2024 11:45 PM
->[...]
-> > > Discussion
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > * Since swiotlb isn't visible to device drivers, I've specifically
-> > > named the DMA attribute as MAY_BLOCK instead of MAY_THROTTLE or
-> > > something swiotlb specific. While this patch set consumes MAY_BLOCK
-> > > only on the DMA direct path to do throttling in the swiotlb code,
-> > > there might be other uses in the future outside of CoCo VMs, or
-> > > perhaps on the IOMMU path. =20
-> >=20
-> > I once introduced a similar flag and called it MAY_SLEEP. I chose
-> > MAY_SLEEP, because there is already a might_sleep() annotation, but I
-> > don't have a strong opinion unless your semantics is supposed to be
-> > different from might_sleep(). If it is, then I strongly prefer
-> > MAY_BLOCK to prevent confusing the two. =20
->=20
-> My intent is that the semantics are the same as might_sleep(). I
-> vacillated between MAY_SLEEP and MAY_BLOCK. The kernel seems
-> to treat "sleep" and "block" as equivalent, because blk-mq has
-> the BLK_MQ_F_BLOCKING flag, and SCSI has the=20
-> queuecommand_may_block flag that is translated to
-> BLK_MQ_F_BLOCKING. So I settled on MAY_BLOCK, but as you
-> point out, that's inconsistent with might_sleep(). Either way will
-> be inconsistent somewhere, and I don't have a preference.
-
-Fair enough. Let's stay with MAY_BLOCK then, so you don't have to
-change it everywhere.
-
->[...]
-> > > Open Topics
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > 1. swiotlb allocations from Xen and the IOMMU code don't make use
-> > > of throttling. This could be added if beneficial.
-> > >
-> > > 2. The throttling values are currently exposed and adjustable in
-> > > /sys/kernel/debug/swiotlb. Should any of this be moved so it is
-> > > visible even without CONFIG_DEBUG_FS? =20
-> >=20
-> > Yes. It should be possible to control the thresholds through
-> > sysctl. =20
->=20
-> Good point.  I was thinking about creating /sys/kernel/swiotlb, but
-> sysctl is better.
-
-That still leaves the question where it should go.
-
-Under /proc/sys/kernel? Or should we make a /proc/sys/kernel/dma
-subdirectory to make room for more dma-related controls?
-
-Petr T
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
