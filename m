@@ -4,68 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E84ACC5321E
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Aug 2024 12:03:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE8B7C5321E
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Aug 2024 13:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=uDbSCRVb62WPuOUWEOiR233b1J5xG5lQox4Y5acq8D8=; b=xn9q6VHfQ0bBhivGU/Ei78EOZ6
-	D4lhO5BYOGOx2dqkyzY53W6ProS1+2szyndlljfViiTZiJf0wblwHlvjDaZGiE62v+IujG+2AR7GH
-	H8hIVpIADezN2q3bRrzZiXUMxuaUKCwjgyUrzPoU883jODBlZ6UPl27SrkpokiMY7sGkYC8KCQJZJ
-	WTGJGiHRiOo9CZzPvwIiBr1oK3+GcZ4jNWLctXJyCD+/FBo2AmcjoBspZBROEexCcAeEDLp4OqYAS
-	5XnItG/5RuFFGgBfNFSCrXvufF9amczc+IckWi4rGfYkO0NywEaE+ezQ3kSZ43IyuZUXEgb1eMKQv
-	4hbcJASQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=Cb0ktkShL41fe+NDEqAnr71Zi/
+	IS2emsjCR0nnA3AGfAQpqTskzT/DAKLD7oh26wqFh66VZLRKSUwaCC4oLBnFS04pyCknxaa89jd0p
+	ET92bklaZdHBzicMmQrCsxd7pMHVuCcduZNMLDzdjn1SHOh4Nf6QvaB0nDGQsaoKFqA7jpbg2IwwZ
+	buJhJHVKSTsbyIwDhHWbaFB/ihlSc2ycMvqlCnLHycIRJv6tm/xT3f0Otwsx773i31rEPYr/ncNXW
+	0IPqvKmilFeS/8DVvYnoIP3Zzod3ySOG0GalNbe++Wh1a2AVg8WxlgmP+MkJo74Z11D3PzROBJCjD
+	5HxF9JnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siYRh-00000007E4F-31GX;
-	Mon, 26 Aug 2024 12:03:41 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1siZzE-00000007XY9-2EtQ;
+	Mon, 26 Aug 2024 13:42:24 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siYRe-00000007E2m-2D1b
+	id 1siZzB-00000007XXe-3l1U
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Aug 2024 12:03:39 +0000
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-371afae614aso2241417f8f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Aug 2024 05:03:38 -0700 (PDT)
+	Mon, 26 Aug 2024 13:42:23 +0000
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-367990aaef3so2040039f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 26 Aug 2024 06:42:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724673816; x=1725278616;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uDbSCRVb62WPuOUWEOiR233b1J5xG5lQox4Y5acq8D8=;
-        b=o2OZKr5yReqQ03Ns4iqOMTSQXEycU6+L7F3lEGbHFL6LnS0lDqaLP9HowpmKQ8oCLV
-         AUOsKO2jCSlU5OnbzS+5n2P7ccpXcwJnXw0CZiuU4M7q59AI9hszYP+YRDveB8SZeqlV
-         6wsFJPq1hQXeyAUm4hMaW40NZDGnTMrfV+s2fyoNC+p5AxAjflIgyc+RT4o81IAp8skG
-         RcIgsOWD7cypX5I7bCCWJAMiDpDsbR9yY9cdnt2ai0ZlXarBCgQKq9tHZNBGdYychemp
-         1V0lw0EB1VURndxVr9mnPcB/qhm8zV05UuWhD6tdZFYQMLbyj+f3nnD5+FbvbnXdU3Jb
-         vV4A==
-X-Gm-Message-State: AOJu0YzIfDnYRZkLy4xTwxA77eG3qcT93xggZNM5q+RmFK6MutwQbR+l
-	9t+hqccpAdF0Y60ITrDqTkyeDsNEaiMk0gwFCyXtjAVc5gtuJX+WD3vKig==
-X-Google-Smtp-Source: AGHT+IFS26Rzkztx1cri9GxrLgCLMyZtUUSEShzsiTIOZLWptsAagw74YNwlAhFZV0EIOgPEvdWThA==
-X-Received: by 2002:a05:6000:1c4:b0:364:6c08:b9b2 with SMTP id ffacd0b85a97d-373118c83aemr6336383f8f.45.1724673815832;
-        Mon, 26 Aug 2024 05:03:35 -0700 (PDT)
-Received: from vastdata-ubuntu2.vastdata.com (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308141dc3sm10624464f8f.41.2024.08.26.05.03.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 05:03:35 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Maurizio Lombardi <mlombard@redhat.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvmet-tcp: get rid of a high-order allocation
-Date: Mon, 26 Aug 2024 15:03:33 +0300
-Message-ID: <20240826120333.529128-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1724679740; x=1725284540;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=BBxWEIloKYhg8BQKbEgy8CfYZwNT0s5Y1MERhKElVG2AInqpV0HoCyEtsJzBCmOK3M
+         t4q53SNwkWomhvRMc3pIE2iy4zMKXQ5H6QRU9x7JIEEaYMnn/CeGqNDhP6RS+epAmcIq
+         qIks/8WK2LOHgs7rRlOsekAbg/+gU0xcBK0vWgPZZJZXEULsEaVZPq0WTddFQVEzWMrF
+         qBfMGFKq1JVDlScMyWnpAzKk444SDp7T1YJPKtv/xbMNbX7sP+Ar9f0uDCFKqnqiy95I
+         XTVLHBXIGmqRMcTzfMABN/wfmJ8X9t7BtiIFap88wquQu/4zfDZ6ob2mOKTp+36MGTl3
+         Q2oA==
+X-Gm-Message-State: AOJu0YzZe3Z5dD+1qA95uPvMJdnocJ804zB6bRFW2sZvp16zLYzdwNXE
+	aWZnJSBDTCDS32q/rqyXkUImqqcH6DULfHK8J0878quwj6WxaZ6O
+X-Google-Smtp-Source: AGHT+IGS7JJXylRmY+ZSxgLsl1g2UpgcRz/TDpMfusEwXQgYqk/AJpsqGlOf5zkV5opNUPLWRM/YNA==
+X-Received: by 2002:adf:9592:0:b0:373:b87:55d8 with SMTP id ffacd0b85a97d-37311840c5emr6333101f8f.3.1724679739631;
+        Mon, 26 Aug 2024 06:42:19 -0700 (PDT)
+Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3730810fb33sm10727319f8f.13.2024.08.26.06.42.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Aug 2024 06:42:19 -0700 (PDT)
+Message-ID: <bca2ad17-f625-4fa2-b92d-593d3c00f9fd@grimberg.me>
+Date: Mon, 26 Aug 2024 16:42:18 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: rename apptag and appmask to lbat and lbatm
+To: Anuj Gupta <anuj20.g@samsung.com>, hch@lst.de, kbusch@kernel.org,
+ axboe@kernel.dk, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org, Kanchan Joshi <joshi.k@samsung.com>
+References: <CGME20240826104721epcas5p2ed0968a3369d61762c8bfda767120e44@epcas5p2.samsung.com>
+ <20240826103943.143962-1-anuj20.g@samsung.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240826103943.143962-1-anuj20.g@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240826_050338_587773_D8031286 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20240826_064221_940121_C131D71A 
+X-CRM114-Status: UNSURE (   4.64  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,57 +83,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Allocating the queue commands array leads to a high order
-allocation.
-
-The current size of nvmet_tcp_cmd is 704 bytes. Allocating
-128 of those (default queue depth) means that we are allocating
-an array of 90K bytes. There is no reason why this will be
-a single contiguous allocation. Change the allocation to be
-kvcalloc instead.
-
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
-Hannes, I did not test tls (I wish there were blktests for it)
-Can you please double check that nothing breaks? Given that now
-cmd->recv_cbuf is coming from a virtually contiguous allocation
-(which shouldn't be a problem as far as I can tell...)
-
- drivers/nvme/target/tcp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 5bff0d5464d1..ba50474c8afc 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1516,7 +1516,7 @@ static int nvmet_tcp_alloc_cmds(struct nvmet_tcp_queue *queue)
- 	struct nvmet_tcp_cmd *cmds;
- 	int i, ret = -EINVAL, nr_cmds = queue->nr_cmds;
- 
--	cmds = kcalloc(nr_cmds, sizeof(struct nvmet_tcp_cmd), GFP_KERNEL);
-+	cmds = vcalloc(nr_cmds, sizeof(struct nvmet_tcp_cmd));
- 	if (!cmds)
- 		goto out;
- 
-@@ -1532,7 +1532,7 @@ static int nvmet_tcp_alloc_cmds(struct nvmet_tcp_queue *queue)
- out_free:
- 	while (--i >= 0)
- 		nvmet_tcp_free_cmd(cmds + i);
--	kfree(cmds);
-+	vfree(cmds);
- out:
- 	return ret;
- }
-@@ -1546,7 +1546,7 @@ static void nvmet_tcp_free_cmds(struct nvmet_tcp_queue *queue)
- 		nvmet_tcp_free_cmd(cmds + i);
- 
- 	nvmet_tcp_free_cmd(&queue->connect);
--	kfree(cmds);
-+	vfree(cmds);
- }
- 
- static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
--- 
-2.43.0
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
