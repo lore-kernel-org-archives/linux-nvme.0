@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC3F0C5321D
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Aug 2024 10:40:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C2A9C5321E
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Aug 2024 10:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=fbpojjNxuDZ1PzqBwTsSUyUXw5
-	NmNzXtPewhz9HnTYamcSTiFDWyuP5EKwY/dRa13IG0b9KaddmKjUYMpVuM2n0mip2ToAUGImvkH5b
-	7DNc9wlZwba28hSrek6kGv7goaCNX3SVLwUgr3JJPvyMQJgk1bMUk27GhfTb2tmVU5IOhK3g3Hwr3
-	moqmxhN3ZA7QoK5sxs9NTlXDOmewH39948rnRCt9BwMh93o3GQM22dz1TsF+1svZ5wqUEDdX4ugxI
-	IKx/VQk+qe9Em96iVOlqu0XPzCDaZPBJfwYNX1ekXcjEgOOhAHa02HYR/4Jgo3hpIg8WtO/bphO+c
-	u9CDUDZA==;
+	bh=l7V6BAddGgkfxAgYPTJasOV4P7ESflLm7+jnMT7oxdY=; b=jicRVxPYBdsggPuInmrFRyjy2w
+	PXJ58EeGAyhilgz3Loy8PhE2mEKkx/2EE8l4GUqRVVHZTihEIqsXfR2Gv+XUBduhv/6OX9iwNzh6V
+	Zj/7oy/N3KLA0GGACHyDGq1FWvRz6SCYdc/28JARbqvZht0LILZVKqvmzMvQ8SMYZJhnbMi67AWQx
+	LZ8ip/L6WhhKR2QuEuvKH+56YMKsV6N1uoWAQ7W9wdbJ/qOKKS6uIaz+zrtWjmORbyRwZD/mHwpJq
+	t2yKYai5pPcmKQIq2WH4yHVdw0qAQbhJ5/BMEi1qoQaPLSOc3QC1CrksE+3truopU7FnVgWV6RBVM
+	AZaLUCMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siX9G-00000006xvo-1YGJ;
-	Mon, 26 Aug 2024 10:40:34 +0000
-Received: from mail-wr1-f51.google.com ([209.85.221.51])
+	id 1siX9R-00000006y0c-27lH;
+	Mon, 26 Aug 2024 10:40:45 +0000
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siX9B-00000006xtV-0FEU
+	id 1siX9P-00000006xzh-0I2H
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Aug 2024 10:40:32 +0000
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-371b97cfd6fso2603684f8f.2
-        for <linux-nvme@lists.infradead.org>; Mon, 26 Aug 2024 03:40:20 -0700 (PDT)
+	Mon, 26 Aug 2024 10:40:44 +0000
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-428ec6c190eso36338545e9.1
+        for <linux-nvme@lists.infradead.org>; Mon, 26 Aug 2024 03:40:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724668819; x=1725273619;
+        d=1e100.net; s=20230601; t=1724668841; x=1725273641;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=cdEfCANA3SIEmUQyCO/BvDqfkWjFdQJ5Q8cX4+/35BHt9S2FyTuaDhQIBrq+5MKUxr
-         57mUDVPET/xLxY04kqZ8MwLRnHiG1JR9Wu1ICUStV9okpQE1GTdYdVy6sTBGaPWtMMLC
-         nSPIA19cROklPjvcG8w1HPRgq7uosdVo7+EAYcZyibfRV5NPIbGAqxs6+fPxnKmsk+zA
-         zJEXtPWSER9BwtEjuEZv7Z1gkPWFftA8Zko2Fl0wPA+iCquUG0Nqu4LFXNK6PA8HMS+R
-         vyBiu5bwD/pT4WYjNCrQZOyILmaIH4jLaQGSPzDEAUcoUgotSMudfg62bje3xeNTBgd0
-         eGxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW2dtYsrvvrIwcuHDP/LYY75Zll7WC5/Jh8l1EDceV8ELOaB1cNFTBl+w5RR6G58fidYT58FekkT1cB@lists.infradead.org
-X-Gm-Message-State: AOJu0YyU42ENG7Lp2dZ8ft161VVVal+xMJq3ZgHJy1qpVRaIeuN6wAaQ
-	Dir1vJKFQsuo5fmHgPGkH5SdHopF/SZXElUhjvIXetsZVAWq98yf
-X-Google-Smtp-Source: AGHT+IEoX/xUp/XIu/lunyXVhQWOKxAZ6QKdi4LIcSjH7nJeNPd7ANSuRBJP6dtMdiBUB4Bv+AlJlw==
-X-Received: by 2002:a5d:59a4:0:b0:368:30a6:16d8 with SMTP id ffacd0b85a97d-373118fbb5amr6869843f8f.57.1724668818213;
-        Mon, 26 Aug 2024 03:40:18 -0700 (PDT)
+        bh=l7V6BAddGgkfxAgYPTJasOV4P7ESflLm7+jnMT7oxdY=;
+        b=sw3TcOLFEF1mzyejb24wasiCsNMByLXrBTFNQdr55F0yDsx+h+4E5qaeUs46k3NXjH
+         aH9uOKVOxTnX7tN0mzJuP/rOFuiQv8ciu6Zn88yOn9oAvsiS0g0gPwNedkNQnSuJz6ze
+         u4MJDuy+o6z8tEWooK3gGY0qcPFDp5IucrrGABRt+ZuN3XvlDjkpf6Rxd83PdbT8nYbD
+         ex21y/hAFJto7JEXQehwaVgUXk6huTqweM5wefMLTW3CACVcZERgulXAqw7kCXX4tZPL
+         LaYA65iZ0m8poaGdgwKG1d0S5pNEikq8OupTe1OXUbl3njnFhdbx/1uJk9QG8VQO29l5
+         DeMw==
+X-Forwarded-Encrypted: i=1; AJvYcCX5GRWmUtnEs/vNF4UUvA9srQKatDV+WYmSCtuB8P8Uw+8rH8SKL2m9RwDKYP7V2UI3q0EcfMXnH0DF@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw4vbrIyw8VMKUEs3tIFxrJIruSuFCPSi74+AtqGjMwTgM1g1NE
+	LE0bt8XSUVUeKSkIMBgRjdING3DMvNs2fDcDng/PLNyJ+NZZBgXb
+X-Google-Smtp-Source: AGHT+IE8D2+FuVX2t4AxfbOp7NjdWIjJygJcoVOwKAzc4i9UNB4FCzNAXYrDXwWLYM+mCEYUQ2RB/A==
+X-Received: by 2002:a05:600c:4e4f:b0:426:61af:e1d3 with SMTP id 5b1f17b1804b1-42acc9fdd69mr65622145e9.31.1724668841053;
+        Mon, 26 Aug 2024 03:40:41 -0700 (PDT)
 Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308110336sm10486878f8f.1.2024.08.26.03.40.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac517a490sm150720085e9.31.2024.08.26.03.40.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2024 03:40:17 -0700 (PDT)
-Message-ID: <aed78f39-9fc5-4340-8146-1049cc743b14@grimberg.me>
-Date: Mon, 26 Aug 2024 13:40:16 +0300
+        Mon, 26 Aug 2024 03:40:40 -0700 (PDT)
+Message-ID: <bc8a07ee-bf04-477f-a38d-b8e5ffed2fc3@grimberg.me>
+Date: Mon, 26 Aug 2024 13:40:39 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] nvme-rdma: send cntlid in the RDMA_CM_REQUEST Private
@@ -62,15 +62,15 @@ To: Niklas Cassel <cassel@kernel.org>, Keith Busch <kbusch@kernel.org>,
 Cc: kamaljit.singh1@wdc.com, dlemoal@kernel.org,
  linux-nvme@lists.infradead.org
 References: <20240815201131.1439811-2-cassel@kernel.org>
+ <ZsxKfZCxfNfSXzGI@ryzen.lan>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240815201131.1439811-2-cassel@kernel.org>
+In-Reply-To: <ZsxKfZCxfNfSXzGI@ryzen.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240826_034029_107086_0864970A 
-X-CRM114-Status: UNSURE (   6.15  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240826_034043_146773_BF054625 
+X-CRM114-Status: GOOD (  16.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,5 +85,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+
+
+On 26/08/2024 12:27, Niklas Cassel wrote:
+> On Thu, Aug 15, 2024 at 10:11:31PM +0200, Niklas Cassel wrote:
+>> When sending a RDMA_CM_REQUEST, the NVMe RDMA Transport Specification
+>> allows you to populate the cntlid field in the RDMA_CM_REQUEST Private
+>> Data.
+>>
+>> The cntlid is returned by the target on completion of the first
+>> RDMA_CM_REQUEST command (which creates the admin queue).
+>>
+>> The cntlid field can then be populated by the host when the I/O queues
+>> are created (using additional RDMA_CM_REQUEST commands), such that the
+>> target can perform extra validation for additional RDMA_CM_REQUEST
+>> commands.
+>>
+>> This additional error code and error message is also added, such that
+>> nvme_rdma_cm_msg() will display the proper error message if the target
+>> fails the RDMA_CM_REQUEST command because of this extra validation.
+>>
+>> Signed-off-by: Niklas Cassel <cassel@kernel.org>
+>> ---
+>>   drivers/nvme/host/rdma.c  | 2 ++
+>>   include/linux/nvme-rdma.h | 6 +++++-
+>>   2 files changed, 7 insertions(+), 1 deletion(-)
+> Hello NVMe maintainers,
+>
+> is there any chance of getting this picked up?
+
+Keith will probably pick it up for 6.12...
 
