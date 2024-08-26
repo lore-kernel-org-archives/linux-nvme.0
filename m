@@ -4,99 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60DB7C5320E
-	for <linux-nvme@archiver.kernel.org>; Sun, 25 Aug 2024 15:19:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55946C5321D
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Aug 2024 05:38:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=s+3uVq3WzYoeQ3TK93acDgMc2ToNXafEvhGqjVou6p4=; b=d4AojPzc9SWPa7zxK2EzyDt0BX
-	wOhVlH4CdPdoJDEZK/nCgE2FnbopJP8GahVKLpytg7lBf8aPYiXwAoS7IF3nBfAQRBz8C5CrYcYAw
-	iFp/uuszvhKuLCCa8hn2vW35ZTYkq/oG7tpZCEEHfwhEPydvFyzJOn9sLUbR6gfM+fVkZgSMLlA+4
-	9eLFt0h0iqOZovefPylgZ2+/CpRF33tJ9t22iTIZh+k7zOvNWnp+P7ajH73gDlbMGpE/iqCmnbv/A
-	l/VdN/ygAvgwmC0i9EQEonvULCvA9s4Jjv9sdNWeWgkjGqgdiW6jSIzDqoFCZHwiSppFYMGViIc0s
-	nEfMljIw==;
+	bh=T54Wsk777Xf2haqY7FfYY/vjVxpBNUfJDXngv7zp/k4=; b=g2tIKewlJjjrfquCXgqI3z2wSQ
+	KeiGszobs/DFw2B/0DSApvqlyJSj3DVan4BFC3rqJTTCcMsj9h/rMrq7oMxfDBN9HmNOVyGyTnkEa
+	6M6Hpj+eZrDtobBMG4aqdt11CzFtH12sYYILUWLR8EcW8ipcREcWetIqR5FE90XP5QE7cvOlKHa4h
+	W7yp2lX0K5C4yAoGQLiQDeEHZmJyOS82nHAW6pDDdzO48ma3bbNZF0asoMObCmlfXNgF24rKSOpU5
+	68q1SQEgC6G2z1blKxjJJW8pYbUdhNtklhuINF5sTgJmlG+j87aXZZcvanA4HSiHyB1qn6rUJsS6Y
+	xnYEFiug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siF19-00000004ZCT-1nnO;
-	Sun, 25 Aug 2024 15:18:59 +0000
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+	id 1siSQZ-00000005tiQ-0dPN;
+	Mon, 26 Aug 2024 05:38:07 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sgkUL-00000008veA-06vF;
-	Wed, 21 Aug 2024 12:30:59 +0000
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wply83bHMzpTXZ;
-	Wed, 21 Aug 2024 20:29:20 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id EF9A9140138;
-	Wed, 21 Aug 2024 20:30:51 +0800 (CST)
-Received: from [10.67.120.129] (10.67.120.129) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 21 Aug 2024 20:30:51 +0800
-Message-ID: <ec27c801-db0a-4e57-b0bd-03a695e70e56@huawei.com>
-Date: Wed, 21 Aug 2024 20:30:51 +0800
+	id 1siSQT-00000005tgi-0RdT
+	for linux-nvme@lists.infradead.org;
+	Mon, 26 Aug 2024 05:38:04 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47Q1dwTl016372;
+	Mon, 26 Aug 2024 05:37:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=T
+	54Wsk777Xf2haqY7FfYY/vjVxpBNUfJDXngv7zp/k4=; b=Z/17Y1zAT6eChEQa1
+	AratEC72ywUce37acz12OylG05ixpa5oUDKKGg6voiOQ8EJlJIYRQcB82C7rtnK1
+	KbQwtrxwPfr/RrLH7PTG5PexfBfMaJindrTQZmMved+KWrAlLlYn1Wlu1fyi5HXD
+	yn8H1Ct400DTLVDoIB531HWeEXEHSPsRT2caqMq3VyZa3mLtpRNyLSJ9HaAx1YvL
+	+J4pk0YM0gohPALH0XXZJYXHOjVOxVSiCFLS2azyKCd0+KSZJzZtxw5S4IP7OQgm
+	5wrw+okTikwpNRqLKu1OScrxkjmw9SEQTxIg63j6JkJp+Lxmw8EwYR3ShCYnkDi2
+	PZ2TA==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 417ged538u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Aug 2024 05:37:59 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 47Q4psAr028010;
+	Mon, 26 Aug 2024 05:37:58 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 417ubmvgxs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Aug 2024 05:37:58 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 47Q5buAa28246560
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 26 Aug 2024 05:37:58 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E11CC58062;
+	Mon, 26 Aug 2024 05:37:55 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 596BF58057;
+	Mon, 26 Aug 2024 05:37:53 +0000 (GMT)
+Received: from [9.109.198.144] (unknown [9.109.198.144])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 26 Aug 2024 05:37:53 +0000 (GMT)
+Message-ID: <2a550653-89b4-4c3c-840a-a905152adb5f@linux.ibm.com>
+Date: Mon, 26 Aug 2024 11:07:51 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v13 04/14] mm: page_frag: add '_va' suffix to
- page_frag API
-To: Alexander Duyck <alexander.duyck@gmail.com>
-CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Subbaraya Sundeep
-	<sbhatta@marvell.com>, Chuck Lever <chuck.lever@oracle.com>, Sagi Grimberg
-	<sagi@grimberg.me>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
-	Eric Dumazet <edumazet@google.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Sunil Goutham
-	<sgoutham@marvell.com>, Geetha sowjanya <gakula@marvell.com>, hariprasad
-	<hkelam@marvell.com>, Felix Fietkau <nbd@nbd.name>, Sean Wang
-	<sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
- Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith
- Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
-	<hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>, "Michael S. Tsirkin"
-	<mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko
-	<andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
- Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
-	<yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
-	<sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
-	Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>, Olga
- Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
-	<tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker
-	<anna@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	<intel-wired-lan@lists.osuosl.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
-	<kvm@vger.kernel.org>, <virtualization@lists.linux.dev>,
-	<linux-mm@kvack.org>, <bpf@vger.kernel.org>, <linux-afs@lists.infradead.org>,
-	<linux-nfs@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-References: <20240808123714.462740-1-linyunsheng@huawei.com>
- <20240808123714.462740-5-linyunsheng@huawei.com>
- <d1a23116d054e2ebb00067227f0cffecefe33e11.camel@gmail.com>
- <676a2a15-d390-48a7-a8d7-6e491c89e200@huawei.com>
- <CAKgT0Uct5ptfs9ZEoe-9u-fOVz4HLf+5MS-YidKV+xELCBHKNw@mail.gmail.com>
- <3e069c81-a728-4d72-a5bb-3be00d182107@huawei.com>
- <CAKgT0UcDDFeMqD_eRe1-2Og0GEEFyNP90E9SDxDjskdgtMe0Uw@mail.gmail.com>
- <98ceade3-8d60-45bf-a419-ff3982a96101@huawei.com>
- <CAKgT0Uc+e3MUb4CK1i7H7F=y-fHTxiGF8zddBFiqFRdbd6ofLg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] nvme: add test for controller rescan under I/O
+ load
+To: Martin Wilck <martin.wilck@suse.com>,
+        "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
+        Daniel Wagner <dwagner@suse.de>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+        Hannes Reinecke <hare@suse.de>, linux-block@vger.kernel.org,
+        linux-nvme@lists.infradead.org, Martin Wilck <mwilck@suse.com>
+References: <20240823200822.129867-1-mwilck@suse.com>
+ <20240823200822.129867-3-mwilck@suse.com>
 Content-Language: en-US
-From: Yunsheng Lin <linyunsheng@huawei.com>
-In-Reply-To: <CAKgT0Uc+e3MUb4CK1i7H7F=y-fHTxiGF8zddBFiqFRdbd6ofLg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.120.129]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240823200822.129867-3-mwilck@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 4D0Tawf7huLmRhvFxrl2TSznisSaeXYe
+X-Proofpoint-GUID: 4D0Tawf7huLmRhvFxrl2TSznisSaeXYe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-26_02,2024-08-23_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 phishscore=0 mlxscore=0 clxscore=1015 impostorscore=0
+ spamscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408260043
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240821_053057_603451_EBEB3E3A 
-X-CRM114-Status: GOOD (  59.45  )
-X-Mailman-Approved-At: Sun, 25 Aug 2024 08:18:56 -0700
+X-CRM114-CacheID: sfid-20240825_223801_540132_54016798 
+X-CRM114-Status: GOOD (  23.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,214 +111,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2024/8/21 0:02, Alexander Duyck wrote:
-> On Tue, Aug 20, 2024 at 6:07 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>
->> On 2024/8/19 23:54, Alexander Duyck wrote:
->>
->> ...
->>
->>>>>>
->>>>>> "There are three types of API as proposed in this patchset instead of
->>>>>> two types of API:
->>>>>> 1. page_frag_alloc_va() returns [va].
->>>>>> 2. page_frag_alloc_pg() returns [page, offset].
->>>>>> 3. page_frag_alloc() returns [va] & [page, offset].
->>>>>>
->>>>>> You seemed to miss that we need a third naming for the type 3 API.
->>>>>> Do you see type 3 API as a valid API? if yes, what naming are you
->>>>>> suggesting for it? if no, why it is not a valid API?"
->>>>>
->>>>> I didn't. I just don't see the point in pushing out the existing API
->>>>> to support that. In reality 2 and 3 are redundant. You probably only
->>>>> need 3. Like I mentioned earlier you can essentially just pass a
->>>>
->>>> If the caller just expect [page, offset], do you expect the caller also
->>>> type 3 API, which return both [va] and [page, offset]?
->>>>
->>>> I am not sure if I understand why you think 2 and 3 are redundant here?
->>>> If you think 2 and 3 are redundant here, aren't 1 and 3 also redundant
->>>> as the similar agrument?
->>>
->>> The big difference is the need to return page and offset. Basically to
->>> support returning page and offset you need to pass at least one value
->>> as a pointer so you can store the return there.
->>>
->>> The reason why 3 is just a redundant form of 2 is that you will
->>> normally just be converting from a va to a page and offset so the va
->>> should already be easily accessible.
->>
->> I am assuming that by 'easily accessible', you meant the 'va' can be
->> calculated as below, right?
->>
->> va = encoded_page_address(encoded_va) +
->>                 (page_frag_cache_page_size(encoded_va) - remaining);
->>
->> I guess it is easily accessible, but it is not without some overhead
->> to calculate the 'va' here.
+
+
+On 8/24/24 01:38, Martin Wilck wrote:
+> Add a test that repeatedly rescans nvme controllers while doing IO
+> on an nvme namespace connected to these controllers. The purpose
+> of the test is to make sure that no I/O errors or data corruption
+> occurs because of the rescan operations. The test uses sub-second
+> sleeps, which can't be easily accomplished in bash because of
+> missing floating-point arithmetic (and because usleep(1) isn't
+> portable). Therefore an awk program is used to trigger the
+> device rescans.
 > 
-> It is just the encoded_page_address + offset that you have to
-> calculate anyway. So the only bit you actually have to do is 2
-> instructions, one to mask the encoded_va and then the addition of the
-> offset that you provided to the page. As it stands those instruction
-> can easily be slipped in while you are working on converting the va to
-> a page.
-
-Well, with your suggestions against other optimizations like avoiding
-a checking in fast patch and avoid calling virt_to_page(), the overhead
-is kind of added up.
-
-And I am really surprised by your above suggestion about deciding the
-API for users according to the internal implementation detail here. As
-the overhead of calculating 'va' is really depending on the layout of
-'struct page_frag_cache' here, what if we change the implementation and
-the overhead of calculating 'va' becomes bigger? Do we expect to change
-the API for the callers when we change the internal implementation of
-page_frag_cache?
-
+> Signed-off-by: Martin Wilck <mwilck@suse.com>
+> ---
+> v2: - don't use usleep (Nilay Shroff). Use an awk program to do floating
+>       point arithmetic and achieve more accurate sub-second sleep times.
+>     - add 053.out (Nilay Shroff).
+> ---
+>  tests/nvme/053     | 70 ++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/053.out |  2 ++
+>  tests/nvme/rc      | 18 ++++++++++++
+>  3 files changed, 90 insertions(+)
+>  create mode 100755 tests/nvme/053
+>  create mode 100644 tests/nvme/053.out
 > 
-> 
->>>
->>>>> page_frag via pointer to the function. With that you could also look
->>>>> at just returning a virtual address as well if you insist on having
->>>>> something that returns all of the above. No point in having 2 and 3 be
->>>>> seperate functions.
->>>>
->>>> Let's be more specific about what are your suggestion here: which way
->>>> is the prefer way to return the virtual address. It seems there are two
->>>> options:
->>>>
->>>> 1. Return the virtual address by function returning as below:
->>>> void *page_frag_alloc_bio(struct page_frag_cache *nc, struct bio_vec *bio);
->>>>
->>>> 2. Return the virtual address by double pointer as below:
->>>> int page_frag_alloc_bio(struct page_frag_cache *nc, struct bio_vec *bio,
->>>>                         void **va);
->>>
->>> I was thinking more of option 1. Basically this is a superset of
->>> page_frag_alloc_va that is also returning the page and offset via a
->>> page frag. However instead of bio_vec I would be good with "struct
->>> page_frag *" being the value passed to the function to play the role
->>> of container. Basically the big difference between 1 and 2/3 if I am
->>> not mistaken is the fact that for 1 you pass the size, whereas with
->>> 2/3 you are peeling off the page frag from the larger page frag cache
->>
->> Let's be clear here: The callers just expecting [page, offset] also need
->> to call type 3 API, which return both [va] and [page, offset]? and it
->> is ok to ignore the overhead of calculating the 'va' for those kinds
->> of callers just because we don't want to do the renaming for a existing
->> API and can't come up with good naming for that?
->>
->>> after the fact via a commit type action.
->>
->> Just be clear here, there is no commit type action for some subtype of
->> type 2/3 API.
->>
->> For example, for type 2 API in this patchset, it has below subtypes:
->>
->> subtype 1: it does not need a commit type action, it just return
->>            [page, offset] instead of page_frag_alloc_va() returning [va],
->>            and it does not return the allocated fragsz back to the caller
->>            as page_frag_alloc_va() does not too:
->> struct page *page_frag_alloc_pg(struct page_frag_cache *nc,
->>                                 unsigned int *offset, unsigned int fragsz,
->>                                 gfp_t gfp)
->>
->> subtype 2: it does need a commit type action, and @fragsz is returned to
->>            the caller and caller used that to commit how much fragsz to
->>            commit.
->> struct page *page_frag_alloc_pg_prepare(struct page_frag_cache *nc,
->>                                         unsigned int *offset,
->>                                         unsigned int *fragsz, gfp_t gfp)
->>
->> Do you see subtype 1 as valid API? If no, why?
-> 
-> Not really, it is just a wrapper for page_frag_alloc that is
-> converting the virtual address to a page and offset. They are the same
-> data and don't justify the need for two functions. It kind of explains
+> diff --git a/tests/nvme/053 b/tests/nvme/053
+> new file mode 100755
+> index 0000000..d32484c
+> --- /dev/null
+> +++ b/tests/nvme/053
+> @@ -0,0 +1,70 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-3.0+
+> +# Copyright (C) 2024 Martin Wilck, SUSE LLC
+> +
+> +. tests/nvme/rc
+> +
+> +DESCRIPTION="test controller rescan under I/O load"
+> +TIMED=1
+> +: "${TIMEOUT:=60}"
+> +
+> +rescan_controller() {
+> +	local path
+> +	path="$1/rescan_controller"
+> +
+> +	[[ -f "$path" ]] || {
+> +		echo "cannot rescan $1"
+> +		return 1
+> +	}
+> +
+> +	awk -f "$TMPDIR/rescan.awk" \
+> +	    -v path="$path" -v timeout="$TIMEOUT" -v seed="$2" &
+> +}
+> +
+> +create_rescan_script() {
+> +	cat >"$TMPDIR/rescan.awk" <<EOF
+> +@load "time"
+> +
+> +BEGIN {
+> +    srand(seed);
+> +    finish = gettimeofday() + strtonum(timeout);
+> +    while (gettimeofday() < finish) {
+> +	sleep(0.1 + 5 * rand());
+> +	printf("1\n") > path;
+> +	close(path);
+> +    }
+> +}
+> +EOF
+> +}
+The "rand()" function in 'awk' returns a floating point value between
+0 and 1 (i.e. [0, 1]). So it's possible to have sleep for some cases go
+upto ~5.1 seconds. So if the intention is to sleep between 0.1 and 5 
+seconds precisely then we may want to use,
+ 
+sleep(0.1 + 4.9 * rand());
 
-I am supposing you meant something like below:
-struct page *page_frag_alloc_pg(struct page_frag_cache *nc,
-				unsigned int *offset, unsigned int fragsz,
-				gfp_t gfp)
-{
-	struct page *page;
-	void *va;
+However this is not a major problem and we may ignore. 
+Otherwise, code looks good to me.
+    
+Reviewed-by: Nilay Shroff (nilay@linux.ibm.com)
 
-	va = page_frag_alloc_va(nc, fragsz, gfp);
-	if (!va)
-		return NULL;
 
-	page = virt_to_head_page(va);
-	*offset = va - page_to_virt(page);
-
-	return page;
-}
-
-If yes, I really think you are caring about maintainability too much by
-trading off too much performance here by not only recalculating the offset
-here, but also sometimes calling virt_to_head_page() unnecessarily.
-
-If no, please share the pseudo code in your mind.
-
-> one of the complaints I had about this code. Supposedly it was
-> refactoring and combining several different callers into one, but what
-> it is actually doing is fracturing the code path into 3 different
-> variants based on little if any actual difference as it is doing
-> unnecessary optimization.
-
-I am supposing the 3 different variants meant the below, right?
-1. page_frag_alloc_va() returns [va].
-2. page_frag_alloc_pg() returns [page, offset].
-3. page_frag_alloc() returns [va] & [page, offset].
-
-And there is others 3 different variants for prepare API too:
-4. page_frag_alloc_va_prepare() returns [va].
-5. page_frag_alloc_pg_prepare() returns [page, offset].
-6. page_frag_alloc_prepare() returns [va] & [page, offset].
-
-Side note: I just found the '4. page_frag_alloc_va_prepare()' API is
-not used/called currently and can be removed in next revision for this
-patchset.
-
-It seems what you really want is 3 & 2 to be a wrapper for 1, and
-5 & 6 to be a wrapper for 4?
-
-If yes, too much performance is traded off here as my understanding.
-Does't the introducing of __page_frag_cache_reload() already enable the
-balance between performance and maintainability as much as possible in
-patch 8?
-
-> 
->> If yes, do you also expect the caller to use "struct page_frag *" as the
->> container? If yes, what is the caller expected to do with the size field in
->> "struct page_frag *" from API perspective? Just ignore it?
-> 
-> It should be populated. You passed a fragsz, so you should populate
-> the output fragsz so you can get the truesize in the case of network
-> packets. The removal of the page_frag from the other callers is making
-> it much harder to review your code anyway. If we keep the page_frag
-> there it should reduce the amount of change needed when you replace
-> page_frag with the page_frag_cache.
-
-I am not starting to use page_frag as the container yet, but the above
-part is something that I am probably agreed with.
-
-> 
-> Honestly this is eating up too much of my time. As I said before this
-> patch set is too big and it is trying to squeeze in more than it
-> really should for a single patch set to be reviewable. Going forward
-> please split up the patch set as I had suggested before and address my
-> comments. Ideally you would have your first patch just be some
-> refactor and cleanup to get the "offset" pointer moving in the
-> direction you want. With that we can at least get half of this set
-> digested before we start chewing into all this refactor for the
-> replacement of page_frag with the page_frag_cache.
-
-I don't really think breaking this patchset into more patchsets without
-a newcase is helping to speed up the process here, it might slow down
-the process instead, as the different idea about the refactoring and
-new API naming is not going to disappear by breaking the patchset, and
-the breaking may make the discussion harder without a bigger picture
-and context.
 
