@@ -4,99 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55946C5321D
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Aug 2024 05:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9045C5321D
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Aug 2024 07:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T54Wsk777Xf2haqY7FfYY/vjVxpBNUfJDXngv7zp/k4=; b=g2tIKewlJjjrfquCXgqI3z2wSQ
-	KeiGszobs/DFw2B/0DSApvqlyJSj3DVan4BFC3rqJTTCcMsj9h/rMrq7oMxfDBN9HmNOVyGyTnkEa
-	6M6Hpj+eZrDtobBMG4aqdt11CzFtH12sYYILUWLR8EcW8ipcREcWetIqR5FE90XP5QE7cvOlKHa4h
-	W7yp2lX0K5C4yAoGQLiQDeEHZmJyOS82nHAW6pDDdzO48ma3bbNZF0asoMObCmlfXNgF24rKSOpU5
-	68q1SQEgC6G2z1blKxjJJW8pYbUdhNtklhuINF5sTgJmlG+j87aXZZcvanA4HSiHyB1qn6rUJsS6Y
-	xnYEFiug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mpl+4dk1lTIMG1sUQ9PCAlKzWtVwLt3AQ/wWblfdjUo=; b=dk7ZAW4HvG1lAfZfZUBIAPo3+J
+	0wIR7VrIjvDks/HgaACOB0t/B8s0HL53ZtPlNxnafM968ozodq2zQecUlXhmedlRB+caTXezB18iG
+	qdwypboN/EFCECR/hMQJr2YvCk/C9ijiRPyZa7COmX7zg/fPV2vb/wUMSyonEykA4opVW1yiltdn5
+	f0PGo0N2MMrBHv+bRYXnPn5gunbRHp3Sc3hkftwE3GbK8Ph0i4u4IaIOzSiObx9K1O7o1WR8uXIfA
+	4vX5yPVUIl5+GYbuU/0dqfrM53G0BHdrHclqi7AyBbtCFMY3OO5Dh2TGAYbnZIcqCIvU1A0U0+qR5
+	+RUi66rA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siSQZ-00000005tiQ-0dPN;
-	Mon, 26 Aug 2024 05:38:07 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1siUd1-00000006Mn5-47WR;
+	Mon, 26 Aug 2024 07:59:07 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siSQT-00000005tgi-0RdT
+	id 1siUd0-00000006Mlg-0LMK
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 26 Aug 2024 07:59:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
+	:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=mpl+4dk1lTIMG1sUQ9PCAlKzWtVwLt3AQ/wWblfdjUo=; b=m6XSkX63oWoHdXcRw20pvLgfAE
+	SXokxw04puIa1ckQRm8QuiP4Dr3D3xk76czL31lVXIpsbo6GBrroTi41i9GVzFmtaoEMa8zKtwK5D
+	bjjMJS1dZSKqXCGnz1qEyGKo/yUwCJABlvuzgZd3fBUThtMCBOSW2v4Wv8WOJqia79iOcMg+I4Vyw
+	w/hiJBn2LPTsGq8yZwN5KyR7Tu331SHlmPSRstgbdD5R/LfiKZP97ESuE9h+LAqOvC0XtQFzi4A8Z
+	Vw9x6HD/Pu3FjpAKTBNP51rS+v+2pve5WVie7NgrIXOtB9hYF8tCsEOLlGXoTPS0vx6mQ6yx1BC/f
+	e97ygezA==;
+Received: from smtp-out2.suse.de ([195.135.223.131])
+	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1siUcw-0000000AbCe-0Ueo
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Aug 2024 05:38:04 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47Q1dwTl016372;
-	Mon, 26 Aug 2024 05:37:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=T
-	54Wsk777Xf2haqY7FfYY/vjVxpBNUfJDXngv7zp/k4=; b=Z/17Y1zAT6eChEQa1
-	AratEC72ywUce37acz12OylG05ixpa5oUDKKGg6voiOQ8EJlJIYRQcB82C7rtnK1
-	KbQwtrxwPfr/RrLH7PTG5PexfBfMaJindrTQZmMved+KWrAlLlYn1Wlu1fyi5HXD
-	yn8H1Ct400DTLVDoIB531HWeEXEHSPsRT2caqMq3VyZa3mLtpRNyLSJ9HaAx1YvL
-	+J4pk0YM0gohPALH0XXZJYXHOjVOxVSiCFLS2azyKCd0+KSZJzZtxw5S4IP7OQgm
-	5wrw+okTikwpNRqLKu1OScrxkjmw9SEQTxIg63j6JkJp+Lxmw8EwYR3ShCYnkDi2
-	PZ2TA==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 417ged538u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Aug 2024 05:37:59 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 47Q4psAr028010;
-	Mon, 26 Aug 2024 05:37:58 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 417ubmvgxs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Aug 2024 05:37:58 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 47Q5buAa28246560
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 26 Aug 2024 05:37:58 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E11CC58062;
-	Mon, 26 Aug 2024 05:37:55 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 596BF58057;
-	Mon, 26 Aug 2024 05:37:53 +0000 (GMT)
-Received: from [9.109.198.144] (unknown [9.109.198.144])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 26 Aug 2024 05:37:53 +0000 (GMT)
-Message-ID: <2a550653-89b4-4c3c-840a-a905152adb5f@linux.ibm.com>
-Date: Mon, 26 Aug 2024 11:07:51 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Mon, 26 Aug 2024 07:59:04 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 136521F842;
+	Mon, 26 Aug 2024 07:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1724659139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mpl+4dk1lTIMG1sUQ9PCAlKzWtVwLt3AQ/wWblfdjUo=;
+	b=YRBXdrIcgiGQUV7IV/Spqygo9MS0w1xp1sh9UpfkC1Sww12hNwu8vY5gWVHFSxHKd0jQX+
+	/YyMJ5FqfWmNhpQPhfhiYKI2EDdxRNHe76RqgllPl81uUHQjITeBIrxQ8muPD/39Tuq9Gg
+	NnHl35j3p+NrPqrPByJqhIoErSrZnng=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=YRBXdrIc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1724659139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mpl+4dk1lTIMG1sUQ9PCAlKzWtVwLt3AQ/wWblfdjUo=;
+	b=YRBXdrIcgiGQUV7IV/Spqygo9MS0w1xp1sh9UpfkC1Sww12hNwu8vY5gWVHFSxHKd0jQX+
+	/YyMJ5FqfWmNhpQPhfhiYKI2EDdxRNHe76RqgllPl81uUHQjITeBIrxQ8muPD/39Tuq9Gg
+	NnHl35j3p+NrPqrPByJqhIoErSrZnng=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C71341398D;
+	Mon, 26 Aug 2024 07:58:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id P6EFL8I1zGajUgAAD6G6ig
+	(envelope-from <mwilck@suse.com>); Mon, 26 Aug 2024 07:58:58 +0000
+Message-ID: <3be250bbaede895861092d055d9f49a71566a78f.camel@suse.com>
 Subject: Re: [PATCH v2 3/3] nvme: add test for controller rescan under I/O
  load
-To: Martin Wilck <martin.wilck@suse.com>,
-        "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
-        Daniel Wagner <dwagner@suse.de>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-        Hannes Reinecke <hare@suse.de>, linux-block@vger.kernel.org,
-        linux-nvme@lists.infradead.org, Martin Wilck <mwilck@suse.com>
+From: Martin Wilck <mwilck@suse.com>
+To: Nilay Shroff <nilay@linux.ibm.com>, Shin'ichiro Kawasaki
+	 <shinichiro.kawasaki@wdc.com>, Daniel Wagner <dwagner@suse.de>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Hannes Reinecke
+ <hare@suse.de>, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Date: Mon, 26 Aug 2024 09:58:58 +0200
+In-Reply-To: <2a550653-89b4-4c3c-840a-a905152adb5f@linux.ibm.com>
 References: <20240823200822.129867-1-mwilck@suse.com>
- <20240823200822.129867-3-mwilck@suse.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20240823200822.129867-3-mwilck@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4D0Tawf7huLmRhvFxrl2TSznisSaeXYe
-X-Proofpoint-GUID: 4D0Tawf7huLmRhvFxrl2TSznisSaeXYe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-26_02,2024-08-23_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 phishscore=0 mlxscore=0 clxscore=1015 impostorscore=0
- spamscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408260043
+	 <20240823200822.129867-3-mwilck@suse.com>
+	 <2a550653-89b4-4c3c-840a-a905152adb5f@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 
+MIME-Version: 1.0
+X-Rspamd-Queue-Id: 136521F842
+X-Spamd-Result: default: False [-6.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	DWL_DNSWL_MED(-2.00)[suse.com:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:dkim,suse.com:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240825_223801_540132_54016798 
-X-CRM114-Status: GOOD (  23.92  )
+X-CRM114-CacheID: sfid-20240826_085902_528541_ABF4A153 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,86 +140,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, 2024-08-26 at 11:07 +0530, Nilay Shroff wrote:
+> >=20
+> The "rand()" function in 'awk' returns a floating point value between
+> 0 and 1 (i.e. [0, 1]). So it's possible to have sleep for some cases
+> go
+> upto ~5.1 seconds. So if the intention is to sleep between 0.1 and 5=20
+> seconds precisely then we may want to use,
+> =C2=A0
+> sleep(0.1 + 4.9 * rand());
+>=20
 
+Yes, I know. I thought it didn't really matter as the 5s limit was
+arbitrary anyway.
 
-On 8/24/24 01:38, Martin Wilck wrote:
-> Add a test that repeatedly rescans nvme controllers while doing IO
-> on an nvme namespace connected to these controllers. The purpose
-> of the test is to make sure that no I/O errors or data corruption
-> occurs because of the rescan operations. The test uses sub-second
-> sleeps, which can't be easily accomplished in bash because of
-> missing floating-point arithmetic (and because usleep(1) isn't
-> portable). Therefore an awk program is used to trigger the
-> device rescans.
-> 
-> Signed-off-by: Martin Wilck <mwilck@suse.com>
-> ---
-> v2: - don't use usleep (Nilay Shroff). Use an awk program to do floating
->       point arithmetic and achieve more accurate sub-second sleep times.
->     - add 053.out (Nilay Shroff).
-> ---
->  tests/nvme/053     | 70 ++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/053.out |  2 ++
->  tests/nvme/rc      | 18 ++++++++++++
->  3 files changed, 90 insertions(+)
->  create mode 100755 tests/nvme/053
->  create mode 100644 tests/nvme/053.out
-> 
-> diff --git a/tests/nvme/053 b/tests/nvme/053
-> new file mode 100755
-> index 0000000..d32484c
-> --- /dev/null
-> +++ b/tests/nvme/053
-> @@ -0,0 +1,70 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2024 Martin Wilck, SUSE LLC
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="test controller rescan under I/O load"
-> +TIMED=1
-> +: "${TIMEOUT:=60}"
-> +
-> +rescan_controller() {
-> +	local path
-> +	path="$1/rescan_controller"
-> +
-> +	[[ -f "$path" ]] || {
-> +		echo "cannot rescan $1"
-> +		return 1
-> +	}
-> +
-> +	awk -f "$TMPDIR/rescan.awk" \
-> +	    -v path="$path" -v timeout="$TIMEOUT" -v seed="$2" &
-> +}
-> +
-> +create_rescan_script() {
-> +	cat >"$TMPDIR/rescan.awk" <<EOF
-> +@load "time"
-> +
-> +BEGIN {
-> +    srand(seed);
-> +    finish = gettimeofday() + strtonum(timeout);
-> +    while (gettimeofday() < finish) {
-> +	sleep(0.1 + 5 * rand());
-> +	printf("1\n") > path;
-> +	close(path);
-> +    }
-> +}
-> +EOF
-> +}
-The "rand()" function in 'awk' returns a floating point value between
-0 and 1 (i.e. [0, 1]). So it's possible to have sleep for some cases go
-upto ~5.1 seconds. So if the intention is to sleep between 0.1 and 5 
-seconds precisely then we may want to use,
- 
-sleep(0.1 + 4.9 * rand());
+> However this is not a major problem and we may ignore.=20
+> Otherwise, code looks good to me.
+> =C2=A0=C2=A0=C2=A0=20
+> Reviewed-by: Nilay Shroff (nilay@linux.ibm.com)
+>=20
 
-However this is not a major problem and we may ignore. 
-Otherwise, code looks good to me.
-    
-Reviewed-by: Nilay Shroff (nilay@linux.ibm.com)
-
+Thanks!
+Martin
 
 
