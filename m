@@ -4,71 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F090EC54734
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 13:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7091FC54734
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 13:28:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=62szxidneznjILbAIpV8/I7PRmxZEtb/XE12nVr2RDA=; b=yJBVMprQ/k+evI
-	29Isa1ktBcUSElj2ps64MguLjVam+nTYiWro2SAuPSbjJ0gE3hHmBIFz8GMrpOtVL4QsBPJ0g0fVd
-	5IIcV/DM/wIxQEPxVJjdrmB9NXDMcQE8QMIYfHoq3Zml34CeJ4dN1SItV/SdiMkQIXAvlEDOok6MB
-	qXIQWDINrpDxVyjI7KgVgyBWYSv5bHWWooF6NHPx7Y4mZ4OIWJhzUxLCjkoNvSfNAMBxdgMg94MpV
-	hxtB1+LUwBC6dm7YpTJ0H44Zv3ps8Mhr2QUdo3Q2DhPe7R8yG3vLpCEO8mfjtBdgFl0b5cC2cEaeY
-	3QOQ4dAXyym12FzHbc3g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pgclxmzqd3oTDyB+3skSsbxX5e8+XGqsFoQD3A2GBc0=; b=iml0wjjSGUe8jKZiqjvi1B4u8y
+	Irhp5VGpBNay7qwlrVm5CjHm6kUdIC2YzfVPbe52/oKepqjA9XtiShWEp8sn3okHMrhLmgJHGceFJ
+	qk996qm4MezH1ZMSnBjWd5bDL0dNxrLNHgdysEIUk+Icj7H7kHs+cipMHVgXKoQ+CyyVDYAcE93zi
+	gOdpiemxPEPYwNpGz1mucmPx4UtsB+rP30tSDUDbtCCj7THEr05Cn8WojoQ0yVIJKR1A3KdqvNOQk
+	1BNCs0NlxX5XeAVazv4ceLME7XXyZutf5Z2L80GwHsoLilf37cFpxurch2ZVGiDAwQ3y3qDe5ljIb
+	9Oq8Bzpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siwAb-0000000BRDH-2z5w;
-	Tue, 27 Aug 2024 13:23:37 +0000
-Received: from smtp-fw-52002.amazon.com ([52.119.213.150])
+	id 1siwFS-0000000BSrL-0AOA;
+	Tue, 27 Aug 2024 13:28:38 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1siwAY-0000000BRBN-0iE6
+	id 1siwEp-0000000BSfq-0uEk
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Aug 2024 13:23:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1724765015; x=1756301015;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=62szxidneznjILbAIpV8/I7PRmxZEtb/XE12nVr2RDA=;
-  b=ag+wjooHwOmxJyH/r+2tjKzr57dhpcRm2nSaH/KymEgzonw/2GH9gvCZ
-   8bx3NfuaHNUWWRGr+J2rxtqmPghSAwwNbIOCXX/C72qnPbebyMP/WYUcL
-   N8Y7GU9cqmmTLm/NGVbSUkEu46x17VpYpVPGtoaIoGwYVAYnh/deKoXGk
-   s=;
-X-IronPort-AV: E=Sophos;i="6.10,180,1719878400"; 
-   d="scan'208";a="655093382"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 13:23:31 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.38.20:30580]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.20.83:2525] with esmtp (Farcaster)
- id 992ff484-32b4-404e-8bfe-5b8840fc9acd; Tue, 27 Aug 2024 13:23:30 +0000 (UTC)
-X-Farcaster-Flow-ID: 992ff484-32b4-404e-8bfe-5b8840fc9acd
-Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.218) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Tue, 27 Aug 2024 13:23:29 +0000
-Received: from dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (10.15.97.110) by
- mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP Server id
- 15.2.1258.34 via Frontend Transport; Tue, 27 Aug 2024 13:23:29 +0000
-Received: by dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (Postfix, from userid 22993570)
-	id 536B320A60; Tue, 27 Aug 2024 13:23:29 +0000 (UTC)
-From: Puranjay Mohan <pjy@amazon.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<puranjay@kernel.org>
-Subject: [PATCH v2] nvme: check if the namespace supports metadata in nvme_map_user_request()
-Date: Tue, 27 Aug 2024 13:23:27 +0000
-Message-ID: <20240827132327.1704-1-pjy@amazon.com>
-X-Mailer: git-send-email 2.40.1
+	Tue, 27 Aug 2024 13:28:36 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47R1tKSJ014329;
+	Tue, 27 Aug 2024 13:27:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=p
+	gclxmzqd3oTDyB+3skSsbxX5e8+XGqsFoQD3A2GBc0=; b=eW/L3uPX0xdD8M9iy
+	EiHbro6mq6KWrkivntpSx0mALX2P+ajxpJDnB0yUU2j7EcQlp4rvhgVTF5z+N7f9
+	EuJoxJ7DCXUDoo3JNntkFLaQnIt65f4Pg8rpnu7GbCSu0HfffO/SfqRSG832uAQK
+	FL8mLaZ7scl/wYe8T9ZM32Lk7fj1TfAPobexN/9L0NVLNBZRRyTJhhbJPNbdEITO
+	e1kqtvQcuDft2+blzLa4j9qOwND0CkvEjYZmioenESz/j9NbZZTOiBoxgH4/kSkm
+	i9Tg5uEzBUGhRMwP04drtUlSsh0j10mm3q5WT2wkUI/fydXt9sJsFSgufy7/860B
+	NH5Dw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 417h66kpkm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Aug 2024 13:27:44 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 47RDRihl022275;
+	Tue, 27 Aug 2024 13:27:44 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 417h66kpkj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Aug 2024 13:27:44 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 47R90axx024622;
+	Tue, 27 Aug 2024 13:27:43 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 417vj3ak4d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Aug 2024 13:27:43 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 47RDRhCL25297424
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 27 Aug 2024 13:27:43 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 326C558059;
+	Tue, 27 Aug 2024 13:27:43 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EB0AF58043;
+	Tue, 27 Aug 2024 13:27:40 +0000 (GMT)
+Received: from [9.179.13.33] (unknown [9.179.13.33])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 27 Aug 2024 13:27:40 +0000 (GMT)
+Message-ID: <f6091325-3df6-4de5-8c0c-ecc42d9124fc@linux.ibm.com>
+Date: Tue, 27 Aug 2024 18:57:39 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet-tcp: get rid of a high-order allocation
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+        Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+        Maurizio Lombardi <mlombard@redhat.com>,
+        Hannes Reinecke <hare@suse.de>
+References: <20240826120333.529128-1-sagi@grimberg.me>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240826120333.529128-1-sagi@grimberg.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _syZM_VpKfrDy3kmpEaGB0pPv8bHxZBh
+X-Proofpoint-ORIG-GUID: Rtv_iuxR73PTUa4DCf9W-apHlU3ZlFqB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-27_06,2024-08-27_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
+ adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408270096
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240827_062334_399290_0937B0C6 
-X-CRM114-Status: GOOD (  16.96  )
+X-CRM114-CacheID: sfid-20240827_062759_298391_2C27620F 
+X-CRM114-Status: GOOD (  23.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,76 +115,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On an NVMe namespace that does not support metadata, it is possible to
-send an IO command with metadata through io-passthru.
-nvme_map_user_request() doesn't check if the namespace supports metadata
-before sending it forward.
 
-Reject an IO command with metadata when the NVMe namespace doesn't
-support it.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Puranjay Mohan <pjy@amazon.com>
----
-V1: https://lore.kernel.org/all/20240827121701.48792-1-pjy@amazon.com/
-Changes in V2:
-- Add a flag called 'has_metadata' and use it for the support check and
-also for the check before calling bio_integrity_map_user()
----
- drivers/nvme/host/ioctl.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+On 8/26/24 17:33, Sagi Grimberg wrote:
+> Allocating the queue commands array leads to a high order
+> allocation.
+> 
+> The current size of nvmet_tcp_cmd is 704 bytes. Allocating
+> 128 of those (default queue depth) means that we are allocating
+> an array of 90K bytes. There is no reason why this will be
+> a single contiguous allocation. Change the allocation to be
+> kvcalloc instead.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index f1d58e70933f..74d963d425c4 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -4,6 +4,7 @@
-  * Copyright (c) 2017-2021 Christoph Hellwig.
-  */
- #include <linux/bio-integrity.h>
-+#include <linux/blk-integrity.h>
- #include <linux/ptrace.h>	/* for force_successful_syscall_return */
- #include <linux/nvme_ioctl.h>
- #include <linux/io_uring/cmd.h>
-@@ -119,9 +120,13 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 	struct request_queue *q = req->q;
- 	struct nvme_ns *ns = q->queuedata;
- 	struct block_device *bdev = ns ? ns->disk->part0 : NULL;
-+	bool has_metadata = bdev && meta_buffer && meta_len;
- 	struct bio *bio = NULL;
- 	int ret;
- 
-+	if (has_metadata && !blk_get_integrity(bdev->bd_disk))
-+		return -EINVAL;
-+
- 	if (ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED)) {
- 		struct iov_iter iter;
- 
-@@ -143,15 +148,15 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 		goto out;
- 
- 	bio = req->bio;
--	if (bdev) {
-+	if (bdev)
- 		bio_set_dev(bio, bdev);
--		if (meta_buffer && meta_len) {
--			ret = bio_integrity_map_user(bio, meta_buffer, meta_len,
--						     meta_seed);
--			if (ret)
--				goto out_unmap;
--			req->cmd_flags |= REQ_INTEGRITY;
--		}
-+
-+	if (has_metadata) {
-+		ret = bio_integrity_map_user(bio, meta_buffer, meta_len,
-+					     meta_seed);
-+		if (ret)
-+			goto out_unmap;
-+		req->cmd_flags |= REQ_INTEGRITY;
- 	}
- 
- 	return ret;
--- 
-2.40.1
+Though the description suggests using kvcalloc, the implementation 
+uses vcalloc. Maybe a typo here or you want to use kvcalloc instead
+of vcalloc? In fact, either of them (kvcalloc or vcalloc) would work
+in this case. 
+> 
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+> Hannes, I did not test tls (I wish there were blktests for it)
+> Can you please double check that nothing breaks? Given that now
+> cmd->recv_cbuf is coming from a virtually contiguous allocation
+> (which shouldn't be a problem as far as I can tell...)
+> 
+>  drivers/nvme/target/tcp.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 5bff0d5464d1..ba50474c8afc 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1516,7 +1516,7 @@ static int nvmet_tcp_alloc_cmds(struct nvmet_tcp_queue *queue)
+>  	struct nvmet_tcp_cmd *cmds;
+>  	int i, ret = -EINVAL, nr_cmds = queue->nr_cmds;
+>  
+> -	cmds = kcalloc(nr_cmds, sizeof(struct nvmet_tcp_cmd), GFP_KERNEL);
+> +	cmds = vcalloc(nr_cmds, sizeof(struct nvmet_tcp_cmd));
+>  	if (!cmds)
+>  		goto out;
+>  
+> @@ -1532,7 +1532,7 @@ static int nvmet_tcp_alloc_cmds(struct nvmet_tcp_queue *queue)
+>  out_free:
+>  	while (--i >= 0)
+>  		nvmet_tcp_free_cmd(cmds + i);
+> -	kfree(cmds);
+> +	vfree(cmds);
+>  out:
+>  	return ret;
+>  }
+> @@ -1546,7 +1546,7 @@ static void nvmet_tcp_free_cmds(struct nvmet_tcp_queue *queue)
+>  		nvmet_tcp_free_cmd(cmds + i);
+>  
+>  	nvmet_tcp_free_cmd(&queue->connect);
+> -	kfree(cmds);
+> +	vfree(cmds);
+>  }
+>  
+>  static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
 
+Thanks,
+--Nilay
 
