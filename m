@@ -4,63 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18C63C54731
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 19:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F791C5472F
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 19:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WDLr3YTdkM3TpIIDMpfuISPV/GPFciyhWAaDjRrEhuI=; b=ZesyYbhkWT+t/SfhGOcpLT20eK
-	Gjaf/e6j4mOB1MaYRt+rDW8LXR1ZFiiAYtSmGAUgqX36Hmi6xZa6wUTN16EzSr0JoHoUZ+Q38kdbA
-	XUp0GJxJcwPpiWI1DxAIJcJaVnk6W3Jg1Bru/T7GbQnZQv13bPtZZHkKs3WtZj0Q1z1oQ7FHq2XFe
-	0lHpC7Xw04WSdMT6RR9HTIKbdJmOQDtWLVyE0iT4aGBUsZtSQjTwoFFbdsRv8e/Wlrvnlo8BLmQta
-	lLQQ48nbcY9vJ4J3wNvGhmpAx5MTzQbDUKp/1Ey2PCrUKk5LgyN6QoI4K3kc2P6Ug6GXGzsfL/WNW
-	xLDy7aEw==;
+	bh=b7iOhk/SFf+wk8StzTf5Y//H6GfRKSciVv063WZnyrI=; b=IvmqtNXaOCK++0MSl8aOCVlBiQ
+	ALjn1h/IRIA9rtOB/qTYLqUcCZc1zS8WW594kon2h4hysazmtflE6uOwWChLiWAM3nHL8dLFIS4We
+	6G7TTuf+QYMjZH8LOzEXr893boL07T/zUo8lBVkmS7AYUNk5cWQUck1nstKTEI9o2DlIjWSN6/qm1
+	CTeZDoiQij9EfaASa0IGtsdayYA+w+QUepWom+FLtMD4CDiSi4XcJJeMGfognbeJpifNAWJb5kjgr
+	Dn8csVnCynVS+ZAiZ/THJ0eIDnbfoiwMJE5rdACJ7eCY7HG2zE0TCEx2MhgUFMcYK4Ihl1g499Td5
+	lRBcU85A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sj1aO-0000000CbD3-210h;
-	Tue, 27 Aug 2024 19:10:36 +0000
+	id 1sj1cd-0000000Cbs1-1yFH;
+	Tue, 27 Aug 2024 19:12:56 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sj1aM-0000000CbCJ-0IW3
+	id 1sj1cB-0000000CbmB-0AEt
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Aug 2024 19:10:35 +0000
+	Tue, 27 Aug 2024 19:12:30 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5A0B2A41B77;
-	Tue, 27 Aug 2024 19:10:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72BFEC4AF54;
-	Tue, 27 Aug 2024 19:10:32 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 55B2CA42821;
+	Tue, 27 Aug 2024 19:12:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29462C4AF1C;
+	Tue, 27 Aug 2024 19:06:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724785832;
-	bh=RPIQ9vG8OGc95glQixUGVxTdHhONO00TTltSs09zxzc=;
+	s=k20201202; t=1724785596;
+	bh=GjwL/TztTTTJZS7egkf+4b2C1QhowBjdFFPiIAq5wEE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R40N/fmIuyJl6elg+cwGiv2hpg/hDLlVtiVslzx5ZOj+mX7a+C08zli+rPePHnTn0
-	 StbJXDhBOG2/kx44RvGGzJyT2YbkcQuxZOClyehpwN7jfWRFOaXopU1GMQOkZ0+0Bb
-	 fFZHrB6peHIsOGV5Axe8ANNpVasLeFaUgjcEmlUovA1WAdAKJxpuzQD9lXJC4kDym8
-	 +9SjLuGqk4zKPgn456PIDFTAp4Iomsk57PPtD+f3uWTNsGernJxi/CAS7iZN9xnOrw
-	 2yjaJ2W80hftEMlDAM62qFdUNzqYBk04GvvVnpCCAgaxsMHZQS1oiqVBK+nKSy/L4U
-	 uaqQK+73XnYOw==
-Date: Tue, 27 Aug 2024 13:10:30 -0600
+	b=E77juzqsKJVRDrgt8clNMouCxiWITMIfP+9wjFM3yT/dqEQGqcKgPIP/gqaGSHZuQ
+	 RLZW2R1EQZ3tRZ0VQRWsbo4fzwIkVCyZY8H3YlY5sAXTMfoIBf8FiUHcg0+sIbzuCi
+	 EGcg+pGlAo1Ai9QwoLoJdutsQ68GXJ4TG+Z7B1VFnjXcg5515EsTe9nstEQ2NIE7qa
+	 G5g6cPJzGd5IMhohQ/lDj0oYhaK74EV1eMHxcKtC3FOTjIF11LkLGBZk0N/ibsEMN1
+	 YBSP8H5vNy3sce6RnOvYjAHxEgBwqiPJQcpKm6eLzCmz5SDgiyzGthunILJLIbhGAc
+	 6NoawmWwD2K/A==
+Date: Tue, 27 Aug 2024 13:06:33 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Anuj Gupta <anuj20.g@samsung.com>, axboe@kernel.dk, sagi@grimberg.me,
-	kch@nvidia.com, linux-nvme@lists.infradead.org,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH] nvme: rename apptag and appmask to lbat and lbatm
-Message-ID: <Zs4kpqXWAb87VHcv@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20240826104721epcas5p2ed0968a3369d61762c8bfda767120e44@epcas5p2.samsung.com>
- <20240826103943.143962-1-anuj20.g@samsung.com>
- <Zsy4xXsmBr57p6Jn@kbusch-mbp.dhcp.thefacebook.com>
- <20240827032243.GA9442@lst.de>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Georg Gottleuber <ggo@tuxedocomputers.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] nvme-pci: Add sleep quirk for Samsung 990 Evo
+Message-ID: <Zs4juYi-kkO9_NAy@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240827104134.11697-1-wse@tuxedocomputers.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240827032243.GA9442@lst.de>
+In-Reply-To: <20240827104134.11697-1-wse@tuxedocomputers.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240827_121034_199340_556B745A 
-X-CRM114-Status: GOOD (  15.41  )
+X-CRM114-CacheID: sfid-20240827_121227_201601_CC3641B2 
+X-CRM114-Status: GOOD (  10.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,23 +73,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 27, 2024 at 05:22:43AM +0200, Christoph Hellwig wrote:
-> On Mon, Aug 26, 2024 at 11:17:57AM -0600, Keith Busch wrote:
-> > On Mon, Aug 26, 2024 at 04:09:43PM +0530, Anuj Gupta wrote:
-> > > Rename apptag and appmask to lbat and lbatm so that it matches the field
-> > > names used in NVMe spec.
-> > 
-> > Thanks, applied to nvme-6.12.
-> > 
-> > FWIW, the previous names were set before NVMe spec defined those fields
-> > that way.
+On Tue, Aug 27, 2024 at 12:41:33PM +0200, Werner Sembach wrote:
+> From: Georg Gottleuber <ggo@tuxedocomputers.com>
 > 
-> Btw, IFF we want to get the metadata through io_uring in, it might be
-> better to move this patch out of the nvme tree and into that series.
+> On some TUXEDO platforms, a Samsung 990 Evo NVMe leads to a high
+> power consumption in s2idle sleep (2-3 watts).
+> 
+> This patch applies 'Force No Simple Suspend' quirk to achieve a
+> sleep with a lower power consumption, typically around 0.5 watts.
 
-Oh good point. I'll pop the commit off the if it's going with that
-series for 6.12. If Anuj wants to resubmit with this one, you can
-include:
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Thanks, queued up for nvme-6.11.
 
