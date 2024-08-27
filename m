@@ -4,47 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA2D2C52D6F
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 05:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 510DAC5472F
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 06:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gV5GygWtVaMrbStKo0+9WPbVQ1n09MQV54s29bZChak=; b=KxQTxwKyP793pI/PqwILBtYzBe
-	kM6qE/8Bxabw8KW3qin/hOOvSbmIpgadtCwII66L+sEZqg8zfsBKfA64tv1igPyEzoXobqnrEkZxR
-	wuCMY2xwUP99f6lwtzNCR74EPhN8eYcleUicmrHLIJ8BTT4YudzLbWcsTghT41W5liguCZiKpUUJN
-	gugGmsTaju6s0tLj/l9ckhJI0EELOAmT+Jj+glm6x8vRFKRnBGxgZwHqUXVt1zhUJQ2zxeKs6zi7E
-	UrLhy2SwIFPE93SwSanbSm/qSlakXvpVyQqYG/XpnwjCWttn4l1zVF6eCjw3rcqHiFxFnO3hREbOa
-	OtAUSFwA==;
+	bh=LMQVxNlXbF712LsWa1qgWFyXCexfrV6PW7q0ZSWmjHs=; b=xiNPWfVIekts4bGhARCiQCr31R
+	YZiiUoK1AJ8dUzalFl4pG/beb3cq/1zn5PadBCUeWNsoesQ5lgXDZLWiNUa94Z0Jf2FWn+QsPpexD
+	8TWT4647E+cvY9bOQtjVNdObH0aKwEe6JKDMqa5HlxQ1mw9kQbagj0JtH3nOUIGWMFmrk9qdoe0mY
+	yJMcNwmdlUZF13zsTCUnzVD5314RUx4S/yBlGxzSwsShmrjQZseCm51U/hEIOAZLxqp6rQSj+6PJi
+	CHqw1MeqX1uyJ0KuZmDvKdO5f9/Yv4CDMJc10pCFO7ahqcU517Hr/Dq4SOY/kVRhDYAA+FBqO6Hn8
+	b5WttCjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sip5B-00000009uui-3XoL;
-	Tue, 27 Aug 2024 05:49:33 +0000
+	id 1siply-0000000A1qs-2TQo;
+	Tue, 27 Aug 2024 06:33:46 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sip56-00000009uty-1i9q
+	id 1siplv-0000000A1pC-1AbC
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Aug 2024 05:49:30 +0000
+	Tue, 27 Aug 2024 06:33:45 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1EA40227AAA; Tue, 27 Aug 2024 07:49:24 +0200 (CEST)
-Date: Tue, 27 Aug 2024 07:49:23 +0200
+	id 5EAB2227AB1; Tue, 27 Aug 2024 08:33:32 +0200 (CEST)
+Date: Tue, 27 Aug 2024 08:33:32 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme-pci: allocate tagset on reset if necessary
-Message-ID: <20240827054923.GA11156@lst.de>
-References: <20240826182719.3830725-1-kbusch@meta.com>
+To: Martin Wilck <martin.wilck@suse.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Niklas Cassel <cassel@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	linux-nvme@lists.infradead.org, Martin Wilck <mwilck@suse.com>
+Subject: Re: [PATCH v3] nvme: core: shorten duration of multipath namespace
+ rescan
+Message-ID: <20240827063332.GA11773@lst.de>
+References: <20240826163951.68078-1-mwilck@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826182719.3830725-1-kbusch@meta.com>
+In-Reply-To: <20240826163951.68078-1-mwilck@suse.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240826_224928_609587_CFD5DBFB 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20240826_233343_489755_AA1BE113 
+X-CRM114-Status: GOOD (  18.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,18 +64,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 26, 2024 at 11:27:19AM -0700, Keith Busch wrote:
-> +	if (!dev->ctrl.tagset) {
-> +		nvme_alloc_io_tag_set(&dev->ctrl, &dev->tagset, &nvme_mq_ops,
-> +				nvme_pci_nr_maps(dev), sizeof(struct nvme_iod));
-> +	} else {
-> +		blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
+> +	/*
+> +	 * The controller queue is going to be frozen in
+> +	 * nvme_update_ns_info_{generic,block}(). Every freeze implies waiting
+> +	 * for an RCU grace period to pass. For multipath devices, we
+> +	 * need to freeze the multipath queue, too. Start freezing the
+> +	 * multipath queue now, lest we need to wait for two grace periods.
+> +	 */
+> +	if (nvme_ns_head_multipath(ns->head))
+> +		blk_freeze_queue_start(ns->head->disk->queue);
 
-Overly long line here.  Maybe just return early after the allocation
-above?
+I really don't like how we keep this state around the calls into
+the command set specific nvme_update_ns_info_* calls, and how it
+feels very open coded.
 
-Otherwise looks good:
+And while looking at it, I think we might even want the multipath
+queue frozen over the actual update as well, as there is no point
+in sending the I/O even to other paths while we are updating the
+information, as they'll probably fail.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Here is what might make sense:
+
+ 1) move the code past the csi switch statement in nvme_update_ns_info
+    into a new nvme_update_ns_info_common helper and all that
+    from nvme_update_ns_info_block and nvme_update_ns_info_generic.
+    Maybe having another helper just for the multipath updates might
+    also be worthwhile.
+ 2) add new nvme_freeze_ns helpers that freeze the ns and nshead
+    queues and use those in nvme_update_ns_info_block and
+    nvme_update_ns_info_generic over the entire update
+ 3) update these new helpers to use the trick from this patch to
+    only require a single grace period.
 
 
