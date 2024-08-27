@@ -4,62 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D88E5C54734
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 10:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1818C54734
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Aug 2024 12:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=O8z0az3FVJk8o0jCJUzYwr7yw2OZPPMX5YYQGX1IePw=; b=A5Df8uOqZ/FRsQa1rmFoLZNcDk
-	1Qwk6X+G3Dtzp2xSbOv/STEI+p8xIR0U5tXwVCIQqHE3OmTNylpZgVz9yKvQ3MLboRR5Oe7vCczj2
-	xw1+Qftv/fm2cYFlJt1cVkxsOWcVIvD1mO0TBDPg7i6ZIv7TAxXai6O1aSyeoVDx7jFW1rS5U6FmI
-	X1Gpf1mWUCj4zdkL5iDzgWy7N+4VxC0Bk7zG/JExWi3hvV5kf+Ns1g1vwAdXQtNi8141dQiTSOzMk
-	23NboLSiIci0mfO2Giu5dk/GI7BPM2fZfYYH7AMw/ybhEJUTEZ1KqQTnJzw6Kax4M1whmuWiqweSr
-	OTtHoO0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=dZafkTBMgG7yzSjlIbdpVuKXbZLWp3xe1QfVap/dPy0=; b=ALDoOQETzpbYQt
+	o1SHYfRslDQkOrIrgghCev1C51szIgfmU3/xvfY+32e5tNGSnvqn0j5hNRgJMXdguu+n+fOZkHrEQ
+	kEai+I/XlNlWKSQBgXpBys/YIygIjONiUNPxWuvzSucS1XJMqKvQy8+AYoWHDYFJTdSoj3Gttsrcp
+	hMsEDRg4d6OPcAiKh95AqfBGg+VS2dLQqi9JGOpaGcA2dJOHkKtm56oWsgBkbgtnquZvmxQ4a5zD6
+	UyKm7gIJyS8W7s//AKLRCpkC8DzNnOtE6GoILzaK2c7OGcLR3P0BCrXkLDpt4B2np1tsz4mSKAg8g
+	8bfGk17OEJ/+/sGU/1gQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1site2-0000000Aqs9-02Xa;
-	Tue, 27 Aug 2024 10:41:50 +0000
-Received: from mail.tuxedocomputers.com ([157.90.84.7])
+	id 1sivAG-0000000BBTd-2R2l;
+	Tue, 27 Aug 2024 12:19:12 +0000
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sitdz-0000000Aqr1-057C
+	id 1siv8J-0000000BAxD-1jt7
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Aug 2024 10:41:49 +0000
-Received: from wse.fritz.box (p5b164fa4.dip0.t-ipconnect.de [91.22.79.164])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 949BB2FC005F;
-	Tue, 27 Aug 2024 12:41:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1724755301;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=O8z0az3FVJk8o0jCJUzYwr7yw2OZPPMX5YYQGX1IePw=;
-	b=qG7YUdX1sLUp1ujY4Od7ahRfqv4wuloFT7a4uNUzyP8/qnJpecziOA0fr0pD8ITJr9C5m9
-	dyaqZY5CDKH5ybqjfM9Fh+gg2ca/ywXX1YHgpNA1CYMxRR0+VBHJorVEVuO8gdpBJux3i7
-	V4wDhlNdTIQYgDiaSV1z7P4fg7hMmVI=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Georg Gottleuber <ggo@tuxedocomputers.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] nvme-pci: Add sleep quirk for Samsung 990 Evo
-Date: Tue, 27 Aug 2024 12:41:33 +0200
-Message-Id: <20240827104134.11697-1-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.34.1
+	Tue, 27 Aug 2024 12:17:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1724761032; x=1756297032;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dZafkTBMgG7yzSjlIbdpVuKXbZLWp3xe1QfVap/dPy0=;
+  b=t+3xvDFwL4LYrH+Bh36SD2wyUEzjBF03zUMD6A4pdYLVHMr+I3Anz/qH
+   gZgsP95eZ99JNh0ifY6T7+cjXi7svJdueW/eaJkqQp76QjrcxaO060B93
+   bZTQ9X54OHoiJTZq2900KMVmqD4g1ebr1Htfaup2NdwTy3IueMl5WLLIm
+   E=;
+X-IronPort-AV: E=Sophos;i="6.10,180,1719878400"; 
+   d="scan'208";a="419835842"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.2])
+  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 12:17:05 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:55652]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.4.67:2525] with esmtp (Farcaster)
+ id f7dbd5e8-420e-40fc-b1d5-d92734efcffa; Tue, 27 Aug 2024 12:17:04 +0000 (UTC)
+X-Farcaster-Flow-ID: f7dbd5e8-420e-40fc-b1d5-d92734efcffa
+Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.204) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Tue, 27 Aug 2024 12:17:03 +0000
+Received: from dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (10.15.97.110) by
+ mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP Server id
+ 15.2.1258.34 via Frontend Transport; Tue, 27 Aug 2024 12:17:03 +0000
+Received: by dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (Postfix, from userid 22993570)
+	id 6351F20A60; Tue, 27 Aug 2024 12:17:03 +0000 (UTC)
+From: Puranjay Mohan <pjy@amazon.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<puranjay@kernel.org>
+Subject: [PATCH] nvme: check if the namespace supports metadata in nvme_map_user_request()
+Date: Tue, 27 Aug 2024 12:17:01 +0000
+Message-ID: <20240827121701.48792-1-pjy@amazon.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240827_034147_526497_460486A2 
-X-CRM114-Status: GOOD (  11.01  )
+X-CRM114-CacheID: sfid-20240827_051711_620852_35203FAB 
+X-CRM114-Status: GOOD (  13.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,46 +83,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Georg Gottleuber <ggo@tuxedocomputers.com>
+On an NVMe namespace that does not support metadata, it is possible to
+send an IO command with metadata through io-passthru.
+nvme_map_user_request() doesn't check if the namespace supports metadata
+before sending it forward.
 
-On some TUXEDO platforms, a Samsung 990 Evo NVMe leads to a high
-power consumption in s2idle sleep (2-3 watts).
+Reject an IO command with metadata when the NVMe namespace doesn't
+support it.
 
-This patch applies 'Force No Simple Suspend' quirk to achieve a
-sleep with a lower power consumption, typically around 0.5 watts.
-
-v2: Rebase onto v6.11-rc5
-
-Signed-off-by: Georg Gottleuber <ggo@tuxedocomputers.com>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Cc: <stable@vger.kernel.org>
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Puranjay Mohan <pjy@amazon.com>
 ---
- drivers/nvme/host/pci.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/nvme/host/ioctl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6cd9395ba9ec3..48beea7e2f249 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2967,6 +2967,17 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 		    dmi_match(DMI_BOARD_NAME, "NS5x_7xPU") ||
- 		    dmi_match(DMI_BOARD_NAME, "PH4PRX1_PH6PRX1"))
- 			return NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND;
-+	} else if (pdev->vendor == 0x144d && pdev->device == 0xa80d) {
-+		/*
-+		 * Exclude Samsung 990 Evo from NVME_QUIRK_SIMPLE_SUSPEND
-+		 * because of high power consumption (> 2 Watt) in s2idle
-+		 * sleep. Only some boards with Intel CPU are affected.
-+		 */
-+		if (dmi_match(DMI_BOARD_NAME, "GMxPXxx") ||
-+		    dmi_match(DMI_BOARD_NAME, "PH4PG31") ||
-+		    dmi_match(DMI_BOARD_NAME, "PH4PRX1_PH6PRX1") ||
-+		    dmi_match(DMI_BOARD_NAME, "PH6PG01_PH6PG71"))
-+			return NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND;
- 	}
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index f1d58e70933f..4f49523b8a41 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2017-2021 Christoph Hellwig.
+  */
+ #include <linux/bio-integrity.h>
++#include <linux/blk-integrity.h>
+ #include <linux/ptrace.h>	/* for force_successful_syscall_return */
+ #include <linux/nvme_ioctl.h>
+ #include <linux/io_uring/cmd.h>
+@@ -122,6 +123,9 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 	struct bio *bio = NULL;
+ 	int ret;
  
- 	/*
++	if (meta_buffer && meta_len && bdev && !blk_get_integrity(bdev->bd_disk))
++		return -EINVAL;
++
+ 	if (ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED)) {
+ 		struct iov_iter iter;
+ 
 -- 
-2.34.1
+2.40.1
 
 
