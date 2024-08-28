@@ -4,132 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9937CC54E71
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Aug 2024 11:05:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB565C54EE3
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Aug 2024 12:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DQRf8sa+9WldPEN6mF1FnwCn42mPXzl/+1j3nPC5tpg=; b=Zy0ZK1oS5nqK9jW3vDPWFEJtFk
-	wHENDK113cM9nVqLVNFeTHdFvMl7BYV0zkbPd/s1SDSBaR3oZ1oZajMyihM7nnecmDMdpsK98Waxe
-	YCLwMrgc7s9ey8TTCFX/8sT7ucthDG7L7Eb7CHTxDpJbYJYb11IiBwdUKljlydIynmSQsM8ZyPCAH
-	BSJuLaYq9gFrlHfixVPoyxjvEdlbjenJ2AxC5xYbrxKFDX8SwbmXEU1CbFjAs9WoMe8EDNbyaKPJI
-	73bdM9AhCet4IXs0EQkS83/4RuKlXJaN/8Z8iRTOnq4duNZ6z9YXkVHGyXHnGRNBaXin8MX1Oyrhe
-	SmU56Tmg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fOIylNkjiXXuvzkwPoyhEqAntuJwi16nu4kg9b65VLI=; b=URIN4z23XnXkm3T18efxVoSsLX
+	hxDMLtvMWnYAuYpKcV2Yu7plopHaeZ8igV+sHV8KBh3hYCaXQpaIuKgGIqFsaZlIOyv9CtBm+/4sh
+	j3HtfeRk2hheh5P1AV1t269mC1pZArBf/ytHRwJ+IreTonF66kN2teCJtBaK8FJvYLv3INrVBIuux
+	Q5BfcNkTLrIuFHTKFADZrxsvNh8tuSD2Hg1dZsk5o5Y78rtP0DbvDD4HV+aD6pLIG7DY+Dh59bmY/
+	iLupsIn3duPYbhAst23fpK3OcyuOSssSr/GYQOKiFmyNh/BChOUZCKaQN7pAQpsPv0UjaX4o7QtZP
+	gP7Iq3Bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjGUl-0000000F3iN-3r8N;
-	Wed, 28 Aug 2024 11:05:47 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjGRs-0000000F33y-0kne
+	id 1sjHO5-0000000FEFP-30c2;
+	Wed, 28 Aug 2024 12:02:57 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sjHO1-0000000FEEc-3a4y
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Aug 2024 11:03:00 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240828110242euoutp02df2d53679f87472bc20185dcc4b62d49~v34kbVf4E2959029590euoutp02J
-	for <linux-nvme@lists.infradead.org>; Wed, 28 Aug 2024 11:02:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240828110242euoutp02df2d53679f87472bc20185dcc4b62d49~v34kbVf4E2959029590euoutp02J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1724842962;
-	bh=DQRf8sa+9WldPEN6mF1FnwCn42mPXzl/+1j3nPC5tpg=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=EhVSfTRQ0lEQNPaDGhK8zSNPMLquPkEpecpUlfUoKvgRBsJPtxIyscs4sHvTEErJA
-	 B9YHPIhrYH/CelcttTvZKIkxnwI/aN1wS24IVGJtLv/1kESfGKZ6oUIg1qsKJ6AoEU
-	 6zNKNjUQSNy9LujLJnLwzpZFiXACMPrLo7hCMJ9c=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20240828110242eucas1p1e97f35a9323d2353f4ef0665970acfcf~v34kOmYNa1193511935eucas1p1K;
-	Wed, 28 Aug 2024 11:02:42 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 82.E7.09875.1D30FC66; Wed, 28
-	Aug 2024 12:02:41 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240828110241eucas1p2f237730e7ac898a732309978a4b1d10c~v34jtf40O1271212712eucas1p22;
-	Wed, 28 Aug 2024 11:02:41 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240828110241eusmtrp1b8c7af4cad45e402bbd0bf963005b2e5~v34jsOgXY0653006530eusmtrp1w;
-	Wed, 28 Aug 2024 11:02:41 +0000 (GMT)
-X-AuditID: cbfec7f4-11bff70000002693-7e-66cf03d1d2f0
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id E4.6E.08810.1D30FC66; Wed, 28
-	Aug 2024 12:02:41 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240828110241eusmtip1def6386c765cdbee79315dd7ff10b9de~v34japGLD0491604916eusmtip1q;
-	Wed, 28 Aug 2024 11:02:41 +0000 (GMT)
-Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Wed, 28 Aug 2024 12:02:41 +0100
-Date: Wed, 28 Aug 2024 13:02:39 +0200
-From: "javier.gonz@samsung.com" <javier.gonz@samsung.com>
-To: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-CC: Pankaj Raghav <p.raghav@samsung.com>, Christoph Hellwig <hch@lst.de>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>, Keith Busch
-	<kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Sagi Grimberg
-	<sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/1] nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung
- PM173X
-Message-ID: <20240828110239.hnljbiow2zbaduhu@ArmHalley.local>
+	Wed, 28 Aug 2024 12:02:55 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B67AFDA7;
+	Wed, 28 Aug 2024 05:03:16 -0700 (PDT)
+Received: from [10.57.15.188] (unknown [10.57.15.188])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD0133F762;
+	Wed, 28 Aug 2024 05:02:43 -0700 (PDT)
+Message-ID: <efc1eafc-dba4-4991-9f9a-58ceca1d9a35@arm.com>
+Date: Wed, 28 Aug 2024 13:02:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <53369ABE-DB4F-44B0-831C-E4CB232A949A@oracle.com>
-X-Originating-IP: [106.110.32.122]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDKsWRmVeSWpSXmKPExsWy7djP87oXmc+nGbT1WFj833OMzWLl6qNM
-	FpMOXWO0uLxrDpvF/GVP2S2WLj/GbLHu9XsWiwUbHzE6cHhMbH7H7nH+3kYWj02rOtk8Ni+p
-	99h9s4HN4+PTWywenzfJBbBHcdmkpOZklqUW6dslcGWs+neIuWAVZ8Xm3XOZGxi3sHcxcnJI
-	CJhIrHxxl7GLkYtDSGAFo8TNzlPsEM4XRol73WtYIZzPjBKr/u1kgWk5s/4lVNVyRol33ReY
-	4arOToPp3wLUcnIXWAuLgKrEzH/fWUFsNgFLiR+3LjKD2CICVhLPT9xnA2lgFnjKJHFxwxWw
-	hLBAgMSMW3fBbF4BW4m+V6vZIWxBiZMzn4ANZQZq7vzQBDSUA8iWllj+jwMiLC/RvHU2WCun
-	gJ1Ex50PzBBnK0k8fvGWEcKulTi15RYTyF4JgXZOic49F1ghEi4SW7a/hbKFJV4dhwWTjMTp
-	yT1Q/1dLNJw8AdXcwijR2rEV7AgJAWuJvjM5EKajxOmPPhAmn8SNt4IQp/FJTNo2nRkizCvR
-	0SY0gVFlFpK/ZiH5axbCX7OQ/LWAkWUVo3hqaXFuemqxUV5quV5xYm5xaV66XnJ+7iZGYII6
-	/e/4lx2My1991DvEyMTBeIhRgoNZSYT3xPGzaUK8KYmVValF+fFFpTmpxYcYpTlYlMR5VVPk
-	U4UE0hNLUrNTUwtSi2CyTBycUg1Mk5Y0nm2ZMvGsqdaEj8kyxzmXs0qXWqSobPa0Nm7ZtOdm
-	jtQ+iViztaKPzvhPles99bT7VIAaMxeTueCcvDmFh4VmCRcmBr22l3m8/dmpH4vuM1yq25z0
-	PeLAfrNr95cG/9hmHiTnkaZhctQl/UPwwtlXNOvLBV94Jutn7ZAosOv/YBBbIXb3jv4b2wiO
-	vbPdcur46zrEuZnDpxfNWeZm/vpQU19mQuojpbSpZXqHzzA7WOepWGw/IMf9KKpuj5/kJZ3L
-	89kCby2Y1a3MILVnnaUYB7dn/a+/01L0g16ZJWrsu/PlrN9h/ldHQ1iVL+3n2/Nlwr8HdyeY
-	fco13yPU8GLWBd4Plzx+fVAQePVUiaU4I9FQi7moOBEAEZ1zI78DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRmVeSWpSXmKPExsVy+t/xu7oXmc+nGTR/E7X4v+cYm8XK1UeZ
-	LCYdusZocXnXHDaL+cueslssXX6M2WLd6/csFgs2PmJ04PCY2PyO3eP8vY0sHptWdbJ5bF5S
-	77H7ZgObx8ent1g8Pm+SC2CP0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXS
-	t7NJSc3JLEst0rdL0MtY9e8Qc8EqzorNu+cyNzBuYe9i5OSQEDCROLP+JZDNxSEksJRRYuXN
-	p8wQCRmJjV+uskLYwhJ/rnWxQRR9ZJTY/auDFcLZwihx5ukqNpAqFgFViZn/voN1sAlYSvy4
-	dRFskoiAlcTzE/fBupkFnjJJXNxwBSwhLOAn0dLTzAhi8wrYSvS9Wg11xwEmiSvPjzBBJAQl
-	Ts58wgJiMwtYSMycfx6ogQPIlpZY/o8DIiwv0bx1NthMTgE7iY47H6BeUJJ4/OItI4RdK/H5
-	7zPGCYwis5BMnYVk6iyEqbOQTF3AyLKKUSS1tDg3PbfYUK84Mbe4NC9dLzk/dxMjMIa3Hfu5
-	eQfjvFcf9Q4xMnEwHmKU4GBWEuE9cfxsmhBvSmJlVWpRfnxRaU5q8SFGU2AYTWSWEk3OByaR
-	vJJ4QzMDU0MTM0sDU0szYyVxXs+CjkQhgfTEktTs1NSC1CKYPiYOTqkGpuKVwiIzpDVUp617
-	bR0QtLq+/PuXtos8q7mK1y9usvr0Sy3pv7ZViUv63I1bmZuOT1n9+e7EJ2/PKkxdfzmYWXTS
-	pLs/fm1n+bA2ct3U1pt6fSveR+6eliGSz3zEOvvKMu+GC9bMvPmJzVbLPinkH7+/4PttN521
-	l7f7uj6ddMUwWqRvyjSpsxP/n89W0lmk6lsY3SfFqVB5v67W2upA8iXLSZtWPTrj0dcnOCl8
-	u2z+dKbInE6X/Unbzn6bfKfykeH1qGUMX6dysXSaSk3mESnsK99yKoyn7JXad8vIg3yKtxw7
-	gvlMqjPyFz++uKBrumKW6EkhP0fhpPgXE81FD5r6zlVSna/n8vzJhJ0P+ZRYijMSDbWYi4oT
-	AcBR011qAwAA
-X-CMS-MailID: 20240828110241eucas1p2f237730e7ac898a732309978a4b1d10c
-X-Msg-Generator: CA
-X-RootMTR: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230427074641eucas1p185bb564521b6c01366293d20970fdfe2
-References: <20230315223436.2857712-1-saeed.mirzamohammadi@oracle.com>
-	<20230321132604.GA14120@lst.de> <20230414051259.GA11464@lst.de>
-	<CGME20230427074641eucas1p185bb564521b6c01366293d20970fdfe2@eucas1p1.samsung.com>
-	<20230427073752.3e3spo2vgfxdfcv2@localhost>
-	<53369ABE-DB4F-44B0-831C-E4CB232A949A@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/7] Introduce swiotlb throttling
+To: mhklinux@outlook.com, kbusch@kernel.org, axboe@kernel.dk,
+ sagi@grimberg.me, James.Bottomley@HansenPartnership.com,
+ martin.petersen@oracle.com, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, hch@lst.de,
+ m.szyprowski@samsung.com, petr@tesarici.cz, iommu@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-coco@lists.linux.dev
+References: <20240822183718.1234-1-mhklinux@outlook.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240822183718.1234-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240828_040248_847536_8EEAF20E 
-X-CRM114-Status: GOOD (  18.72  )
+X-CRM114-CacheID: sfid-20240828_050254_024537_7715F92F 
+X-CRM114-Status: GOOD (  55.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,43 +69,188 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 27.08.2024 19:08, Saeed Mirzamohammadi wrote:
->Hi Pankaj/Samsung team,
->
->Sorry for pulling up an old thread. Has this been fixed in the
->firmware? If not, we could fix this issue with quirk for now until it’s
->resolved on the firmware side.
+On 2024-08-22 7:37 pm, mhkelley58@gmail.com wrote:
+> From: Michael Kelley <mhklinux@outlook.com>
+> 
+> Background
+> ==========
+> Linux device drivers may make DMA map/unmap calls in contexts that
+> cannot block, such as in an interrupt handler. Consequently, when a
+> DMA map call must use a bounce buffer, the allocation of swiotlb
+> memory must always succeed immediately. If swiotlb memory is
+> exhausted, the DMA map call cannot wait for memory to be released. The
+> call fails, which usually results in an I/O error.
+> 
+> Bounce buffers are usually used infrequently for a few corner cases,
+> so the default swiotlb memory allocation of 64 MiB is more than
+> sufficient to avoid running out and causing errors. However, recently
+> introduced Confidential Computing (CoCo) VMs must use bounce buffers
+> for all DMA I/O because the VM's memory is encrypted. In CoCo VMs
+> a new heuristic allocates ~6% of the VM's memory, up to 1 GiB, for
+> swiotlb memory. This large allocation reduces the likelihood of a
+> spike in usage causing DMA map failures. Unfortunately for most
+> workloads, this insurance against spikes comes at the cost of
+> potentially "wasting" hundreds of MiB's of the VM's memory, as swiotlb
+> memory can't be used for other purposes.
+> 
+> Approach
+> ========
+> The goal is to significantly reduce the amount of memory reserved as
+> swiotlb memory in CoCo VMs, while not unduly increasing the risk of
+> DMA map failures due to memory exhaustion.
 
-Saeed,
-
-I believe we had concluded that this was a _requested_ feature by
-specific customers. Therefore, we would not work on an upstream quirk.
-
-Did I misunderstand?
+Isn't that fundamentally the same thing that SWIOTLB_DYNAMIC was already 
+meant to address? Of course the implementation of that is still young 
+and has plenty of scope to be made more effective, and some of the ideas 
+here could very much help with that, but I'm struggling a little to see 
+what's really beneficial about having a completely disjoint mechanism 
+for sitting around doing nothing in the precise circumstances where it 
+would seem most possible to allocate a transient buffer and get on with it.
 
 Thanks,
-Javier
+Robin.
 
->
->Thanks,
->Saeed
->
->
->> On Apr 27, 2023, at 12:37 AM, Pankaj Raghav <p.raghav@samsung.com> wrote:
->>
->> Hi Christoph,
->> On Fri, Apr 14, 2023 at 07:12:59AM +0200, Christoph Hellwig wrote:
->>> On Tue, Mar 21, 2023 at 02:26:04PM +0100, Christoph Hellwig wrote:
->>>> Can you send a patch with a new quirk that just disables the EUI64,
->>>> but keeps the NGUID?
->>>
->>> Did this go anywhere?
->> We had a discussion about this internally with our firmware team, and it
->> looks like these firmware were given to specific customers based on
->> mutual agreement. They are already in discussion with our firmware team
->> regarding this.
->>
->> I don't think this should go into as a generic quirk in Linux for these
->> models.
->
+> To reach this goal, this patch set introduces the concept of swiotlb
+> throttling, which can delay swiotlb allocation requests when swiotlb
+> memory usage is high. This approach depends on the fact that some
+> DMA map requests are made from contexts where it's OK to block.
+> Throttling such requests is acceptable to spread out a spike in usage.
+> 
+> Because it's not possible to detect at runtime whether a DMA map call
+> is made in a context that can block, the calls in key device drivers
+> must be updated with a MAY_BLOCK attribute, if appropriate. When this
+> attribute is set and swiotlb memory usage is above a threshold, the
+> swiotlb allocation code can serialize swiotlb memory usage to help
+> ensure that it is not exhausted.
+> 
+> In general, storage device drivers can take advantage of the MAY_BLOCK
+> option, while network device drivers cannot. The Linux block layer
+> already allows storage requests to block when the BLK_MQ_F_BLOCKING
+> flag is present on the request queue. In a CoCo VM environment,
+> relatively few device types are used for storage devices, and updating
+> these drivers is feasible. This patch set updates the NVMe driver and
+> the Hyper-V storvsc synthetic storage driver. A few other drivers
+> might also need to be updated to handle the key CoCo VM storage
+> devices.
+> 
+> Because network drivers generally cannot use swiotlb throttling, it is
+> still possible for swiotlb memory to become exhausted. But blunting
+> the maximum swiotlb memory used by storage devices can significantly
+> reduce the peak usage, and a smaller amount of swiotlb memory can be
+> allocated in a CoCo VM. Also, usage by storage drivers is likely to
+> overall be larger than for network drivers, especially when large
+> numbers of disk devices are in use, each with many I/O requests in-
+> flight.
+> 
+> swiotlb throttling does not affect the context requirements of DMA
+> unmap calls. These always complete without blocking, even if the
+> corresponding DMA map call was throttled.
+> 
+> Patches
+> =======
+> Patches 1 and 2 implement the core of swiotlb throttling. They define
+> DMA attribute flag DMA_ATTR_MAY_BLOCK that device drivers use to
+> indicate that a DMA map call is allowed to block, and therefore can be
+> throttled. They update swiotlb_tbl_map_single() to detect this flag and
+> implement the throttling. Similarly, swiotlb_tbl_unmap_single() is
+> updated to handle a previously throttled request that has now freed
+> its swiotlb memory.
+> 
+> Patch 3 adds the dma_recommend_may_block() call that device drivers
+> can use to know if there's benefit in using the MAY_BLOCK option on
+> DMA map calls. If not in a CoCo VM, this call returns "false" because
+> swiotlb is not being used for all DMA I/O. This allows the driver to
+> set the BLK_MQ_F_BLOCKING flag on blk-mq request queues only when
+> there is benefit.
+> 
+> Patch 4 updates the SCSI-specific DMA map calls to add a "_attrs"
+> variant to allow passing the MAY_BLOCK attribute.
+> 
+> Patch 5 adds the MAY_BLOCK option to the Hyper-V storvsc driver, which
+> is used for storage in CoCo VMs in the Azure public cloud.
+> 
+> Patches 6 and 7 add the MAY_BLOCK option to the NVMe PCI host driver.
+> 
+> Discussion
+> ==========
+> * Since swiotlb isn't visible to device drivers, I've specifically
+> named the DMA attribute as MAY_BLOCK instead of MAY_THROTTLE or
+> something swiotlb specific. While this patch set consumes MAY_BLOCK
+> only on the DMA direct path to do throttling in the swiotlb code,
+> there might be other uses in the future outside of CoCo VMs, or
+> perhaps on the IOMMU path.
+> 
+> * The swiotlb throttling code in this patch set throttles by
+> serializing the use of swiotlb memory when usage is above a designated
+> threshold: i.e., only one new swiotlb request is allowed to proceed at
+> a time. When the corresponding unmap is done to release its swiotlb
+> memory, the next request is allowed to proceed. This serialization is
+> global and without knowledge of swiotlb areas. From a storage I/O
+> performance standpoint, the serialization is a bit restrictive, but
+> the code isn't trying to optimize for being above the threshold. If a
+> workload regularly runs above the threshold, the size of the swiotlb
+> memory should be increased.
+> 
+> * Except for knowing how much swiotlb memory is currently allocated,
+> throttle accounting is done without locking or atomic operations. For
+> example, multiple requests could proceed in parallel when usage is
+> just under the threshold, putting usage above the threshold by the
+> aggregate size of the parallel requests. The threshold must already be
+> set relatively conservatively because of drivers that can't enable
+> throttling, so this slop in the accounting shouldn't be a problem.
+> It's better than the potential bottleneck of a globally synchronized
+> reservation mechanism.
+> 
+> * In a CoCo VM, mapping a scatter/gather list makes an independent
+> swiotlb request for each entry. Throttling each independent request
+> wouldn't really work, so the code throttles only the first SGL entry.
+> Once that entry passes any throttle, subsequent entries in the SGL
+> proceed without throttling. When the SGL is unmapped, entries 1 thru
+> N-1 are unmapped first, then entry 0 is unmapped, allowing the next
+> serialized request to proceed.
+> 
+> Open Topics
+> ===========
+> 1. swiotlb allocations from Xen and the IOMMU code don't make use of
+> throttling. This could be added if beneficial.
+> 
+> 2. The throttling values are currently exposed and adjustable in
+> /sys/kernel/debug/swiotlb. Should any of this be moved so it is
+> visible even without CONFIG_DEBUG_FS?
+> 
+> 3. I have not changed the current heuristic for the swiotlb memory
+> size in CoCo VMs. It's not clear to me how to link this to whether the
+> key storage drivers have been updated to allow throttling. For now,
+> the benefit of reduced swiotlb memory size must be realized using the
+> swiotlb= kernel boot line option.
+> 
+> 4. I need to update the swiotlb documentation to describe throttling.
+> 
+> This patch set is built against linux-next-20240816.
+> 
+> Michael Kelley (7):
+>    swiotlb: Introduce swiotlb throttling
+>    dma: Handle swiotlb throttling for SGLs
+>    dma: Add function for drivers to know if allowing blocking is useful
+>    scsi_lib_dma: Add _attrs variant of scsi_dma_map()
+>    scsi: storvsc: Enable swiotlb throttling
+>    nvme: Move BLK_MQ_F_BLOCKING indicator to struct nvme_ctrl
+>    nvme: Enable swiotlb throttling for NVMe PCI devices
+> 
+>   drivers/nvme/host/core.c    |   4 +-
+>   drivers/nvme/host/nvme.h    |   2 +-
+>   drivers/nvme/host/pci.c     |  18 ++++--
+>   drivers/nvme/host/tcp.c     |   3 +-
+>   drivers/scsi/scsi_lib_dma.c |  13 ++--
+>   drivers/scsi/storvsc_drv.c  |   9 ++-
+>   include/linux/dma-mapping.h |  13 ++++
+>   include/linux/swiotlb.h     |  15 ++++-
+>   include/scsi/scsi_cmnd.h    |   7 ++-
+>   kernel/dma/Kconfig          |  13 ++++
+>   kernel/dma/direct.c         |  41 +++++++++++--
+>   kernel/dma/direct.h         |   1 +
+>   kernel/dma/mapping.c        |  10 ++++
+>   kernel/dma/swiotlb.c        | 114 ++++++++++++++++++++++++++++++++----
+>   14 files changed, 227 insertions(+), 36 deletions(-)
+> 
 
