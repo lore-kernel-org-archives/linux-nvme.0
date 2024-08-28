@@ -4,72 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAF9FC5474E
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Aug 2024 07:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4813C5472D
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Aug 2024 07:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=R/5E8xol4JaJhnqxZnatWmr25Q
-	srMppnPJW4nSxpQ1ql+ysK0IDbGPRM9PNm8mkVPCCX4AkEm+bcXJKK+OHqL/bJ0ka0vwwhS8eiWpM
-	3NDa5ldtZayry7Jn0Cj+nG+WpAlpbGgsaxAjEe8P1MZUsEHcfbdxGrRQmi8pfz48fATywJhEn8Gc6
-	qw4HCCCCT31ngJIFix+fvBHTeX03lRib37NgYko0zEej24S0S1B4M/2gnHQD9qDFPwE/CI1JsLMRq
-	H2HfCrgtSqkWKGk1KeJ/3cA4Wv7yxwMjlVkCpeTHRrVr5kPlwBrbI272uS340YCoQzTjMWv39y9rO
-	E1xcKMvw==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=7b2Hseb9QY/049WYSH5jOQc1GsDAtRo2MBj6O2PAhWg=; b=FklOcY2i+B1y+7DrYgcENYnWMc
+	Nqq5Y/iHPCRqyVu5brHwz5ok34p/ke0eh8f5DdoBlezCJGzoN+mMj/cJjsaEHsh3OF3DsDCEHJuWx
+	7mT+6Kg5IKgYlYu8bYIf5y+3rcN67d2W3lF2YbjrCyAi8NZVET75NQZlXREU7qZaoF1cDhm2RVaqr
+	LSWrk/ddtzhPKK93XIyWZJpFRfFiSwjnv0tInwAdOeX+PHl0HiiKb1h2TqgVTPP/Mvcua1CsNys8U
+	TnbcxbYFXg7zE8NvovcOLqG7pH1hy04fDHs+/0tuIRr7LALj9unjhK/lf8Quzr4s3iv+EUIqHhm7F
+	bSAl6DNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjCzY-0000000EFZo-10i7;
-	Wed, 28 Aug 2024 07:21:20 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1sjDXw-0000000EPvM-3GTp;
+	Wed, 28 Aug 2024 07:56:52 +0000
+Received: from mail.widebizscope.pl ([51.77.245.187])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjCzV-0000000EFXb-3cp3
+	id 1sjDXE-0000000EPh9-0hpG
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Aug 2024 07:21:19 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-428e0d18666so54590075e9.3
-        for <linux-nvme@lists.infradead.org>; Wed, 28 Aug 2024 00:21:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724829676; x=1725434476;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=uANKRLO0hQD6rRZpnXi0ELtlYfn5tdqRQHdhtszBCXy4ll4wziusb8CRiT4bEuwl/V
-         BqgfHmMtuvriP2pR2ExMHBF/2fGLoXDkb3hs9O7oX8AfdOme3yUx9r6+tn9UaywaT1f7
-         5li5UQKMfX56o/KlsNjU6xyZyE0l9T2ICm3mCUyeyzx+wlgP3elTJuJo31saNW+Z9/LS
-         5dClnQroX+r4oGqG+mQJrc1EGa1mcgg8sd+5mKaTKjyWDxxIyCXVYQ0b/+RDlbQM8z2V
-         MQ10V2nJ/L4QLYoz/fWkNoVMmy8fnfnAcYJESeELIt/nFb1diuvBag0D8FqTJf/2gU0h
-         AN5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUODjvn/z5ihjyOCjOAu41r2iopCweEywgnHV9tx5XIQH9vcsOLHPgfkFQflgl7+q51pKP3YF7OrDIR@lists.infradead.org
-X-Gm-Message-State: AOJu0YzTcX33/czcMYOQbIPtc3+wQakMNrN2ZIIYwQ8GTOkA6X7j4ft1
-	qF3dsITa0lW2z+RvEFyzfwFW1oLZGBLznb/eF+P08HvN9oFnUvYj
-X-Google-Smtp-Source: AGHT+IEGJZdA3zvixLCvIXaagTRCXYmH0vz055XZp+0Wc/q1JrJ+WLhLLmXFEmrklDgOFEqcyWFzWQ==
-X-Received: by 2002:a05:600c:4687:b0:426:5b29:b5c8 with SMTP id 5b1f17b1804b1-42ba66a957amr7106115e9.28.1724829675219;
-        Wed, 28 Aug 2024 00:21:15 -0700 (PDT)
-Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6397ec1sm11779745e9.4.2024.08.28.00.21.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 00:21:14 -0700 (PDT)
-Message-ID: <9e2c5b2d-a582-488e-9afa-31ae6183816e@grimberg.me>
-Date: Wed, 28 Aug 2024 10:21:12 +0300
+	Wed, 28 Aug 2024 07:56:10 +0000
+Received: by mail.widebizscope.pl (Postfix, from userid 1002)
+	id A94D924784; Wed, 28 Aug 2024 09:55:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=widebizscope.pl;
+	s=mail; t=1724831766;
+	bh=7b2Hseb9QY/049WYSH5jOQc1GsDAtRo2MBj6O2PAhWg=;
+	h=Date:From:To:Subject:From;
+	b=Vk1BadWkqgkSFFiljX0TCTGl+Xeup6dRXC66kH8lxcwHvzpMxqhxGxIOd/6Bfe2xA
+	 J9vxwgvDyzntIXRxN7Bb8rtFcluRKoynvKTcqlxgsZQ7QSMLeoH9QpDTWgcVytorKH
+	 rDbdJR66y7dZM91SzYRRU/JsrD9PMNZxLavC4k3KrIeVfqFK5Ssrq+s1IxGAfqXy71
+	 A2Y0B4ukbw5bL+pwrlJ+KkmgByJopSriUc5Mcu7tkCPRlZPokpacNx+GygOvjt6mPi
+	 k8wRmpDY2+wX5BnipyNN1b7z9WSrQ7ZLzOvxuTfIzK4pygTl3KbulxxZd4mOub+R2I
+	 F88rxCjuOCKXw==
+Received: by mail.widebizscope.pl for <linux-nvme@lists.infradead.org>; Wed, 28 Aug 2024 07:55:32 GMT
+Message-ID: <20240828084500-0.1.dc.rn7k.0.2r7f499qjm@widebizscope.pl>
+Date: Wed, 28 Aug 2024 07:55:32 GMT
+From: "Szczepan Andryszczuk" <szczepan.andryszczuk@widebizscope.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Faktury
+X-Mailer: mail.widebizscope.pl
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme: check if the namespace supports metadata in
- nvme_map_user_request()
-To: Puranjay Mohan <pjy@amazon.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- puranjay@kernel.org
-References: <20240827132327.1704-1-pjy@amazon.com>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240827132327.1704-1-pjy@amazon.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240828_002117_936665_CAD1D5F5 
-X-CRM114-Status: UNSURE (   6.10  )
+X-CRM114-CacheID: sfid-20240828_005608_380085_8A370843 
+X-CRM114-Status: UNSURE (   1.07  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -85,5 +67,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Szanowni Pa=C5=84stwo,
+
+Czy zmagaj=C4=85 si=C4=99 Pa=C5=84stwo z problemami p=C5=82ynno=C5=9Bci f=
+inansowej wynikaj=C4=85cymi z d=C5=82ugich termin=C3=B3w p=C5=82atno=C5=9B=
+ci od klient=C3=B3w?=20
+
+Nasze us=C5=82ugi faktoringowe mog=C4=85 by=C4=87 rozwi=C4=85zaniem, kt=C3=
+=B3rego potrzebuje Pa=C5=84stwa firma, aby szybciej zamienia=C4=87 wystaw=
+ione faktury na got=C3=B3wk=C4=99.
+
+Je=C5=9Bli zale=C5=BCy Pa=C5=84stwu na natychmiastowym dost=C4=99pie do =C5=
+=9Brodk=C3=B3w finansowych po wystawieniu faktury, zapraszam do kontaktu.
+
+
+Pozdrawiam
+Szczepan Andryszczuk
 
