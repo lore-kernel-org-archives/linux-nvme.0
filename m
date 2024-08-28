@@ -4,77 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2727EC636E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Aug 2024 16:45:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7DC8C636EE
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Aug 2024 19:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:CC:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bqc44ABQg6ruaDWPYgMyOlBqJ7wwPaJPKM6xG5VakJw=; b=byseSs6R8AkXGKiQA/pYrZwm1F
-	nTmvUegU5lMy6lmICWLPbMoUPNSogBhp0bgNg3iPpMueFw7zvmPciTtiyCT58O4X1sxeC+xBkdp9e
-	c90kRO1VixJ0T1lzte/M9q/lZBJ3EVl7PhYwEGkCgyoriGw72fd9+lCd7r3BX4Ln36/z70pqhqmCv
-	689ScoFsOcUIFb0YsUfA/5Nn5VLgqOnHjfFe32obf54MgL96fJRbmoRLstuTPAtD8MDGflgndswTC
-	Wa5qPfgLAV7ZOQGT8/durBkM2n1Xu3CNCCUYpGCpjDHe5SWtdL/PA73cpUoOyygiw0ktivE0kRpD3
-	KZ1FbkJw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=m6Hko/tJ406QEf+N2PZ1RVUPjSpH1MG8D5bksv/nUIA=; b=mBX6sTmJFGYhU3Nl5FTsL0294l
+	9igZfA2c5TFsxBTYI9rD4rXNQ8v6tay/vl4QkFx7dMjZxNIWNkiHePC6EE9YsLGWQxZi7me8VJaGM
+	RpCqPBBZez980KHtxDJvG1UrcTP2xz5w+hLFWb6gJHiX6r75AHodkn7evDsngFpSYhb3Sl6qhGkQo
+	DvP8i51bdF6qPnVt5bGLkQZax9dfVxlo3FB5xXfjQ1GoAF7yCsCK4s+XInTF0JQ8BEAp7K6T74bKR
+	qg91X3uIcP+R7lUtvv90wJ5Sf+i93PeAoZ2OTztxCclHdQz8kMjTHBobyI0KerI3gv0M0XiUutTH/
+	/xBbEsWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjLnm-0000000GEzk-3Y9S;
-	Wed, 28 Aug 2024 16:45:46 +0000
-Received: from smtp-fw-52005.amazon.com ([52.119.213.156])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjKdf-0000000FzLD-47Sg
+	id 1sjOgv-0000000GmyF-2Fp5;
+	Wed, 28 Aug 2024 19:50:53 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sjOgW-0000000Gmqy-0YB6
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Aug 2024 15:31:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1724859076; x=1756395076;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=bqc44ABQg6ruaDWPYgMyOlBqJ7wwPaJPKM6xG5VakJw=;
-  b=VEAumESNcHjt0pvzJ2SYE33qk6FZTl6DP5iYXVyS2VgEt0nnB3yKaacd
-   oSIbHPQPKgqkwv+fjf4368RWmoabkUZWkVem7/548ngHIBfkSvg+sKWsw
-   VdWKn9qzWHh1UC5vZ67Ix3vWfY4G/dSWDLdOyMd1c3Ckxqw1HqVi/UI7w
-   M=;
-X-IronPort-AV: E=Sophos;i="6.10,183,1719878400"; 
-   d="scan'208";a="676735071"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 15:31:12 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.7.35:6576]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.40.150:2525] with esmtp (Farcaster)
- id 4ed1dc69-1286-4d0a-b0b9-c846a8cc70ec; Wed, 28 Aug 2024 15:31:11 +0000 (UTC)
-X-Farcaster-Flow-ID: 4ed1dc69-1286-4d0a-b0b9-c846a8cc70ec
-Received: from EX19EXOUWA001.ant.amazon.com (10.250.64.209) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 28 Aug 2024 15:31:11 +0000
-Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.218) by
- EX19EXOUWA001.ant.amazon.com (10.250.64.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 28 Aug 2024 15:31:10 +0000
-Received: from dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (10.15.97.110) by
- mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP Server id
- 15.2.1258.34 via Frontend Transport; Wed, 28 Aug 2024 15:31:10 +0000
-Received: by dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (Postfix, from userid 22993570)
-	id B435F20841; Wed, 28 Aug 2024 15:31:09 +0000 (UTC)
-From: Puranjay Mohan <pjy@amazon.com>
-To: Keith Busch <kbusch@kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, "Sagi
- Grimberg" <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <puranjay@kernel.org>
-Subject: Re: [PATCH v2] nvme: check if the namespace supports metadata in
- nvme_map_user_request()
-In-Reply-To: <Zs8360kRPGa1B5xy@kbusch-mbp>
-References: <20240827132327.1704-1-pjy@amazon.com>
- <Zs8360kRPGa1B5xy@kbusch-mbp>
-Date: Wed, 28 Aug 2024 15:31:09 +0000
-Message-ID: <mb61p1q28y88y.fsf@amazon.com>
+	Wed, 28 Aug 2024 19:50:29 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18CDDDA7;
+	Wed, 28 Aug 2024 12:50:52 -0700 (PDT)
+Received: from [10.57.15.188] (unknown [10.57.15.188])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 269DF3F762;
+	Wed, 28 Aug 2024 12:50:23 -0700 (PDT)
+Message-ID: <bb7dd4ca-948f-4af7-b2ac-3ca02e82699f@arm.com>
+Date: Wed, 28 Aug 2024 20:50:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/7] Introduce swiotlb throttling
+To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
+Cc: mhklinux@outlook.com, kbusch@kernel.org, axboe@kernel.dk,
+ sagi@grimberg.me, James.Bottomley@HansenPartnership.com,
+ martin.petersen@oracle.com, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, hch@lst.de,
+ m.szyprowski@samsung.com, iommu@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-coco@lists.linux.dev
+References: <20240822183718.1234-1-mhklinux@outlook.com>
+ <efc1eafc-dba4-4991-9f9a-58ceca1d9a35@arm.com>
+ <20240828150356.46d3d3dc@mordecai.tesarici.cz>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20240828150356.46d3d3dc@mordecai.tesarici.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240828_083116_332736_45A6C9BA 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20240828_125028_284876_1FDFF6B1 
+X-CRM114-Status: GOOD (  27.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,38 +72,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Keith Busch <kbusch@kernel.org> writes:
+On 2024-08-28 2:03 pm, Petr Tesařík wrote:
+> On Wed, 28 Aug 2024 13:02:31 +0100
+> Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+>> On 2024-08-22 7:37 pm, mhkelley58@gmail.com wrote:
+>>> From: Michael Kelley <mhklinux@outlook.com>
+>>>
+>>> Background
+>>> ==========
+>>> Linux device drivers may make DMA map/unmap calls in contexts that
+>>> cannot block, such as in an interrupt handler. Consequently, when a
+>>> DMA map call must use a bounce buffer, the allocation of swiotlb
+>>> memory must always succeed immediately. If swiotlb memory is
+>>> exhausted, the DMA map call cannot wait for memory to be released. The
+>>> call fails, which usually results in an I/O error.
+>>>
+>>> Bounce buffers are usually used infrequently for a few corner cases,
+>>> so the default swiotlb memory allocation of 64 MiB is more than
+>>> sufficient to avoid running out and causing errors. However, recently
+>>> introduced Confidential Computing (CoCo) VMs must use bounce buffers
+>>> for all DMA I/O because the VM's memory is encrypted. In CoCo VMs
+>>> a new heuristic allocates ~6% of the VM's memory, up to 1 GiB, for
+>>> swiotlb memory. This large allocation reduces the likelihood of a
+>>> spike in usage causing DMA map failures. Unfortunately for most
+>>> workloads, this insurance against spikes comes at the cost of
+>>> potentially "wasting" hundreds of MiB's of the VM's memory, as swiotlb
+>>> memory can't be used for other purposes.
+>>>
+>>> Approach
+>>> ========
+>>> The goal is to significantly reduce the amount of memory reserved as
+>>> swiotlb memory in CoCo VMs, while not unduly increasing the risk of
+>>> DMA map failures due to memory exhaustion.
+>>
+>> Isn't that fundamentally the same thing that SWIOTLB_DYNAMIC was already
+>> meant to address? Of course the implementation of that is still young
+>> and has plenty of scope to be made more effective, and some of the ideas
+>> here could very much help with that, but I'm struggling a little to see
+>> what's really beneficial about having a completely disjoint mechanism
+>> for sitting around doing nothing in the precise circumstances where it
+>> would seem most possible to allocate a transient buffer and get on with it.
+> 
+> This question can be probably best answered by Michael, but let me give
+> my understanding of the differences. First the similarity: Yes, one
+> of the key new concepts is that swiotlb allocation may block, and I
+> introduced a similar attribute in one of my dynamic SWIOTLB patches; it
+> was later dropped, but dynamic SWIOTLB would still benefit from it.
+> 
+> More importantly, dynamic SWIOTLB may deplete memory following an I/O
+> spike. I do have some ideas how memory could be returned back to the
+> allocator, but the code is not ready (unlike this patch series).
+> Moreover, it may still be a better idea to throttle the devices
+> instead, because returning DMA'able memory is not always cheap. In a
+> CoCo VM, this memory must be re-encrypted, and that requires a
+> hypercall that I'm told is expensive.
 
-> On Tue, Aug 27, 2024 at 01:23:27PM +0000, Puranjay Mohan wrote:
->> @@ -119,9 +120,13 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
->>  	struct request_queue *q = req->q;
->>  	struct nvme_ns *ns = q->queuedata;
->>  	struct block_device *bdev = ns ? ns->disk->part0 : NULL;
->> +	bool has_metadata = bdev && meta_buffer && meta_len;
->
-> If this is an admin command, then bdev is NULL, so "has_metadata" is
-> false.
->
->>  	struct bio *bio = NULL;
->>  	int ret;
->>  
->> +	if (has_metadata && !blk_get_integrity(bdev->bd_disk))
->> +		return -EINVAL;
->> +
->
-> Since has_metadata is false, we continue on to process this admin
-> command, but ignore the user's metadata settings. Do we want to return
-> error there too?
+Sure, making a hypercall in order to progress is expensive relative to 
+being able to progress without doing that, but waiting on a lock for an 
+unbounded time in the hope that other drivers might release their DMA 
+mappings soon represents a potentially unbounded expense, since it 
+doesn't even carry any promise of progress at all - oops userspace just 
+filled up SWIOTLB with a misguided dma-buf import and now the OS has 
+livelocked on stalled I/O threads fighting to retry :(
 
-As an admin command with metadata is an invalid configuration, we can
-ignore the metada and go ahead with the admin command or I can add the
-following after the above check:
+As soon as we start tracking thresholds etc. then that should equally 
+put us in the position to be able to manage the lifecycle of both 
+dynamic and transient pools more effectively - larger allocations which 
+can be reused by multiple mappings until the I/O load drops again could 
+amortise that initial cost quite a bit.
 
-	if (!bdev && (meta_buffer || meta_len))
-    	return -EINVAL;
+Furthermore I'm not entirely convinced that the rationale for throttling 
+being beneficial is even all that sound. Serialising requests doesn't 
+make them somehow use less memory, it just makes them use it... 
+serially. If a single CPU is capable of queueing enough requests at once 
+to fill the SWIOTLB, this is going to do absolutely nothing; if two CPUs 
+are capable of queueing enough requests together to fill the SWIOTLB, 
+making them take slightly longer to do so doesn't inherently mean 
+anything more than reaching the same outcome more slowly. At worst, if a 
+thread is blocked from polling for completion and releasing a bunch of 
+mappings of already-finished descriptors because it's stuck on an unfair 
+lock trying to get one last one submitted, then throttling has actively 
+harmed the situation.
 
-I don't know what is the best approach here.
+AFAICS this is dependent on rather particular assumptions of driver 
+behaviour in terms of DMA mapping patterns and interrupts, plus the 
+overall I/O workload shape, and it's not clear to me how well that 
+really generalises.
+
+> In short, IIUC it is faster in a CoCo VM to delay some requests a bit
+> than to grow the swiotlb.
+
+I'm not necessarily disputing that for the cases where the assumptions 
+do hold, it's still more a question of why those two things should be 
+separate and largely incompatible (I've only skimmed the patches here, 
+but my impression is that it doesn't look like they'd play all that 
+nicely together if both enabled). To me it would make far more sense for 
+this to be a tuneable policy of a more holistic SWIOTLB_DYNAMIC itself, 
+i.e. blockable calls can opportunistically wait for free space up to a 
+well-defined timeout, but then also fall back to synchronously 
+allocating a new pool in order to assure a definite outcome of success 
+or system-is-dying-level failure.
 
 Thanks,
-Puranjay
+Robin.
 
