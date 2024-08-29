@@ -4,130 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1341AC83030
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Aug 2024 10:19:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 733CDC83034
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Aug 2024 10:39:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hSzswj1NNsgnJo6oCya0ujyGaZeNMIhhqc23NKTmwJk=; b=rv7Zq58Dz8uc8HOxJDoCq3lqqL
-	xmO3Omue5dTlkbjzflyKyATH5DW6zy2Xw1qJUhL+/9EM6WLypb5lXCQ4Arxgb1zCwc/az5InzzMS5
-	jxkfsKUVJzS1IOoaa5f01GeeMxXVjgtho2LQHcSg9LHlc5zHtqUVVVg1PRh8Jt7T6Rf8hfqE4/kTj
-	67as+13TMv98bsJTqG2VVHxcMwgxKLKKet8M5PASLCLoe4qNWoxexD/HtuQ79oKIK77XhAEL3L547
-	t/Be1PyBDSSSSsvQfHltsHFtiK6GX41LWzFY1GL0Pwci+Mcv2DACf4EDRgEGHA0GLlBCthW+Xhds6
-	jyrO1EXQ==;
+	bh=umAStsEu04FsvooHLwG3t9d1B3HZBKR11TXDxfQmkyk=; b=V4kp/UzcJUL2NNOlYxlTCK//NF
+	Xq19GNE7fBxzQsGv6K2E/UQnrZR3XFt1O0AQihDcEfjPzEkJ5VYqLqT4zdnie3DXvWjyOmv4QGXyU
+	0peRrMROlcR8Lddu8DHeVVzsZWmlmSy83z+Ymcj/5T6qYN0OL+KXMvmzRzqbi10w5YuBsw3Uo5bF8
+	NtiJQI6TrXXHAFgHUHk+9Xqj/0dAFUaaf/l8pWHH8bRS4pk2j5qrZhWn0pQwQzDbY8mCivqzMXiA5
+	TCQmvF4mWoISQ2AemzOqHjLPeJTrYL34hwjmhVKHiGgjVvpGFM5X8LP7pKYBy1wZXZA4bFPlvO4qc
+	v3YM4s7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjcFA-00000001WgG-15Cq;
-	Thu, 29 Aug 2024 10:19:08 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1sjcZ4-00000001cJU-0xXy;
+	Thu, 29 Aug 2024 10:39:42 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjcF1-00000001WcP-43rg
+	id 1sjcYy-00000001cId-3NG6
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Aug 2024 10:19:06 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240829101850epoutp01dfe1dd85bb0d1e2573986ff4c625ed09~wK7jwWaQj1509015090epoutp01i
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Aug 2024 10:18:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240829101850epoutp01dfe1dd85bb0d1e2573986ff4c625ed09~wK7jwWaQj1509015090epoutp01i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1724926730;
-	bh=hSzswj1NNsgnJo6oCya0ujyGaZeNMIhhqc23NKTmwJk=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=syqWtkHIefmjlpjo4k0oVuZM6bmrnitTv+blDCxurASIavzvuO73xT1HZUs3VV73A
-	 GZ1svIuyi/bJU5mZxmucatYSpjGN0L51lfAXX9rJbOvULPoMbbndmh9SmIp04CE2lm
-	 yrpJj8PLBSNCqjiqtz6E8rG20Y65YJvGihYQ7a/s=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20240829101850epcas5p37173ce4ff9649c3c3eb6126b19dd3aba~wK7jZb_8T0999309993epcas5p3V;
-	Thu, 29 Aug 2024 10:18:50 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Wvcgr3LPTz4x9Pv; Thu, 29 Aug
-	2024 10:18:48 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	9C.45.09743.80B40D66; Thu, 29 Aug 2024 19:18:48 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240829101847epcas5p134da1e20a99136599a6c6f9000b1ed56~wK7hV62-_0719907199epcas5p1q;
-	Thu, 29 Aug 2024 10:18:47 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240829101847epsmtrp26ed6682a8130a00ada0c2bb700f9b842~wK7hVOniN1264412644epsmtrp2T;
-	Thu, 29 Aug 2024 10:18:47 +0000 (GMT)
-X-AuditID: b6c32a4a-14fff7000000260f-4a-66d04b08e0c5
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	9F.04.07567.70B40D66; Thu, 29 Aug 2024 19:18:47 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240829101845epsmtip11c65f782df2f666bbea63fd929e0a1ec~wK7fKRtui2260422604epsmtip1S;
-	Thu, 29 Aug 2024 10:18:45 +0000 (GMT)
-Message-ID: <efe8215a-9b02-9dfe-db84-988e15d4abcf@samsung.com>
-Date: Thu, 29 Aug 2024 15:48:44 +0530
+	Thu, 29 Aug 2024 10:39:40 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 73AD92198F;
+	Thu, 29 Aug 2024 10:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724927973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=umAStsEu04FsvooHLwG3t9d1B3HZBKR11TXDxfQmkyk=;
+	b=GTNVpHSg4DSyId8y/KBi3DEgL/NBVtt7LA6X2mezPgGOtapNM7xCryTlvsPc6NTNfNvoZu
+	3nr09imU18rKA6tMHP+eHwu24F0YrSIu5eXUQpmFlo31L3VPfOzkDIFUM2DGDpvxp1KvcO
+	jno8OqmTQaUhlWCH7zgMY06hSL3nm8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724927973;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=umAStsEu04FsvooHLwG3t9d1B3HZBKR11TXDxfQmkyk=;
+	b=xBiO97bTOgBqiQeyxIeFRDQVB4+9lNOX9MqLe3NSPE3lSz/hRyjs/QI8Ga6fK2UutzD7AU
+	N7StbYX9bM+lu+Dg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GTNVpHSg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xBiO97bT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724927973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=umAStsEu04FsvooHLwG3t9d1B3HZBKR11TXDxfQmkyk=;
+	b=GTNVpHSg4DSyId8y/KBi3DEgL/NBVtt7LA6X2mezPgGOtapNM7xCryTlvsPc6NTNfNvoZu
+	3nr09imU18rKA6tMHP+eHwu24F0YrSIu5eXUQpmFlo31L3VPfOzkDIFUM2DGDpvxp1KvcO
+	jno8OqmTQaUhlWCH7zgMY06hSL3nm8Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724927973;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=umAStsEu04FsvooHLwG3t9d1B3HZBKR11TXDxfQmkyk=;
+	b=xBiO97bTOgBqiQeyxIeFRDQVB4+9lNOX9MqLe3NSPE3lSz/hRyjs/QI8Ga6fK2UutzD7AU
+	N7StbYX9bM+lu+Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 501AC139B0;
+	Thu, 29 Aug 2024 10:39:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gTIKE+VP0GZ6CQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 29 Aug 2024 10:39:33 +0000
+Message-ID: <0697a6c9-85a3-4f56-879c-b096fb5072b8@suse.de>
+Date: Thu, 29 Aug 2024 12:39:33 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v3 09/10] nvme: add handling for app_tag
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] crypto,fs: Separate out hkdf_extract() and
+ hkdf_expand()
+To: Eric Biggers <ebiggers@kernel.org>, Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-crypto@vger.kernel.org
+References: <20240813111512.135634-1-hare@kernel.org>
+ <20240813111512.135634-2-hare@kernel.org>
+ <20240827175225.GA2049@sol.localdomain>
 Content-Language: en-US
-To: "Martin K. Petersen" <martin.petersen@oracle.com>, Anuj Gupta
-	<anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, asml.silence@gmail.com,
-	krisman@suse.de, io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <yq1cylsc9w2.fsf@ca-mkp.ca.oracle.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIJsWRmVeSWpSXmKPExsWy7bCmhi6H94U0g0UtYhZNE/4yW8xZtY3R
-	YvXdfjaLmwd2MlmsXH2UyeJd6zkWi0mHrjFabD+zlNli7y1ti/nLnrJbdF/fwWax/Pg/Jgce
-	j52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8eovFo2/LKkaPzaerPT5vkgvgjMq2yUhNTEkt
-	UkjNS85PycxLt1XyDo53jjc1MzDUNbS0MFdSyEvMTbVVcvEJ0HXLzAG6V0mhLDGnFCgUkFhc
-	rKRvZ1OUX1qSqpCRX1xiq5RakJJTYFKgV5yYW1yal66Xl1piZWhgYGQKVJiQndH4ZjljQS9b
-	xexHt9gaGJ+xdDFyckgImEjc7t7G2sXIxSEksJtR4tqx+cwQzidGiUnnmqAy3xglpr15ANdy
-	feIjJojEXkaJF/e2sUA4b4GqFq8CauHg4BWwk3izwBCkgUVAVeL29qtsIDavgKDEyZlPwAaJ
-	CiRJ/Lo6hxHEFhawkTg7exs7iM0sIC5x68l8JhBbRCBKom3RVDaQ+cwCrxglPvW1sIPMZxPQ
-	lLgwuRTE5BQwltj+mAmiVV5i+9s5YB9ICJzhkJizbgoLSI2EgIvEwrteEPcLS7w6voUdwpaS
-	+PxuLxuEnS3x4BHMjzUSOzb3sULY9hINf26AfcUMtHX9Ln2IVXwSvb+fMEFM55XoaBOCqFaU
-	uDfpKVSnuMTDGUugbA+Jqyvugm0SEnjKKLH2lfMERoVZSGEyC8nvs5A8Mwth8QJGllWMkqkF
-	xbnpqcWmBUZ5qeXw2E7Oz93ECE7LWl47GB8++KB3iJGJg/EQowQHs5II74njZ9OEeFMSK6tS
-	i/Lji0pzUosPMZoCI2cis5Rocj4wM+SVxBuaWBqYmJmZmVgamxkqifO+bp2bIiSQnliSmp2a
-	WpBaBNPHxMEp1cA0u1Hdy+66E4/8Od/63EMTpks6mVtp5rX6bDzF+Mja3fGl8aGPgXcX7b22
-	9NvZF20iS5gmymk+fC278HTDCaW/NzXyzD6eeH8kJ/+vi4jV9CKl+RvXGi4K83V+6aks97Vi
-	q7b2jn8Xp4n4vefXifsSEtXYPTGHPdeL/8TW5dWdX2ZF2ui8Lzl9fMPc5C+TmL0OXjmxcEbr
-	h7dvl7zV0ajtet+uJvoq25RldkvDujcMS3Yo5a8r+lwiXcW8hVfaI/aoc5Gbgam0bLaozXLh
-	U/umr+aa73Sv807p/Unm32p2z45nnf6YI2Jpx+Krz79pLLCsdFs10zq5Srha7sFXE853+eYX
-	LfccDJwqt6V/17SLSizFGYmGWsxFxYkA8c0BgVQEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsWy7bCSnC6794U0g8XnzS2aJvxltpizahuj
-	xeq7/WwWNw/sZLJYufook8W71nMsFpMOXWO02H5mKbPF3lvaFvOXPWW36L6+g81i+fF/TA48
-	Hjtn3WX3uHy21GPTqk42j81L6j1232xg8/j49BaLR9+WVYwem09Xe3zeJBfAGcVlk5Kak1mW
-	WqRvl8CV0fhmOWNBL1vF7Ee32BoYn7F0MXJySAiYSFyf+IgJxBYS2M0o8fe0PERcXKL52g92
-	CFtYYuW/50A2F1DNa0aJBTf/snYxcnDwCthJvFlgCFLDIqAqcXv7VTYQm1dAUOLkzCdg80UF
-	kiT23G8Emy8sYCNxdvY2sJnMQPNvPZkPFhcRiJJ4sKSTDWQ+s8ALRol5ez8wQSx7yigx69kE
-	RpBlbAKaEhcml4KYnALGEtsfM0HMMZPo2trFCGHLS2x/O4d5AqPQLCRnzEKybhaSlllIWhYw
-	sqxilEwtKM5Nz002LDDMSy3XK07MLS7NS9dLzs/dxAiOQi2NHYz35v/TO8TIxMF4iFGCg1lJ
-	hPfE8bNpQrwpiZVVqUX58UWlOanFhxilOViUxHkNZ8xOERJITyxJzU5NLUgtgskycXBKNTBN
-	nyfvt1n55OLV3HrZvTevPJBZN1//xqvw/jv625wq8rfaFqXn5p/X6Dnuabf0u2Jie+bsK4su
-	XPASfHLb7rab9eNXK3+bnFY+aXYlOUJSamXdqidiy9L5uGNrZLcxemXNCP3vsS80md26fsmc
-	2MqnixydJxvO9XrGET9F2ubt0b8H+09edtssIqdX8/xi+aGb63b4rtFN/nzH65khw5XVkzew
-	nrP4lqug8floycdjrq5X5p9yP36kbj+7wpHI+/m212++uM13as4uvdDtubtYmUpCF+yL9576
-	XWn7JRPL9Bguf7/fE5K3XfuaEPI75JR9bznPw0MybUsu8P7fcMKe6ScbN78pK48472sJ5a/y
-	SizFGYmGWsxFxYkA4XW2aDEDAAA=
-X-CMS-MailID: 20240829101847epcas5p134da1e20a99136599a6c6f9000b1ed56
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240823104636epcas5p4825a6d2dd9e45cfbcc97895264662d30
-References: <20240823103811.2421-1-anuj20.g@samsung.com>
-	<CGME20240823104636epcas5p4825a6d2dd9e45cfbcc97895264662d30@epcas5p4.samsung.com>
-	<20240823103811.2421-11-anuj20.g@samsung.com>
-	<yq1cylsc9w2.fsf@ca-mkp.ca.oracle.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240827175225.GA2049@sol.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 73AD92198F
+X-Spamd-Result: default: False [-6.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240829_031900_687737_8448ABAD 
-X-CRM114-Status: GOOD (  15.71  )
+X-CRM114-CacheID: sfid-20240829_033937_019981_60C2D4DF 
+X-CRM114-Status: GOOD (  21.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,22 +146,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/29/2024 8:30 AM, Martin K. Petersen wrote:
+On 8/27/24 19:52, Eric Biggers wrote:
+> On Tue, Aug 13, 2024 at 01:15:04PM +0200, Hannes Reinecke wrote:
+>> Separate out the HKDF functions into a separate module to
+>> to make them available to other callers.
+>> And add a testsuite to the module with test vectors
+>> from RFC 5869 to ensure the integrity of the algorithm.
+[ .. ]
+>> +	desc->tfm = hmac_tfm;
+>> +
+>> +	for (i = 0; i < okmlen; i += hashlen) {
+>> +
+>> +		err = crypto_shash_init(desc);
+>> +		if (err)
+>> +			goto out;
+>> +
+>> +		if (prev) {
+>> +			err = crypto_shash_update(desc, prev, hashlen);
+>> +			if (err)
+>> +				goto out;
+>> +		}
+>> +
+>> +		if (info && infolen) {
 > 
-> Anuj,
+> 'if (infolen)' instead of 'if (info && infolen)'.  The latter is a bad practice
+> because it can hide bugs.
 > 
->> With user integrity buffer, there is a way to specify the app_tag. Set
->> the corresponding protocol specific flags and send the app_tag down.
-> 
-> This assumes the app tag is the same for every block in the I/O? That's
-> not how it's typically used (to the extent that it is used at all due to
-> the value 0xffff acting as escape).
-> 
+Do I need to set a 'WARN_ON(!info)' (or something) in this case? Or are 
+the '->update' callbacks expected to handle it themselves?
 
-NVMe spec allows only one value to be passed in each read/write command 
-(LBAT for write, and ELBAT for read). And that's what controller checks 
-for the entire block range covered by one command.
-So per-io tag rather than per-block tag. The integrity buffer creator is 
-supposed to put the same application-tag for each block if it is sending 
-multi-block IO.
+[ .. ]
+>> diff --git a/include/crypto/hkdf.h b/include/crypto/hkdf.h
+>> new file mode 100644
+>> index 000000000000..ee3e7d21a5fe
+>> --- /dev/null
+>> +++ b/include/crypto/hkdf.h
+>> @@ -0,0 +1,34 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * HKDF: HMAC-based Key Derivation Function (HKDF), RFC 5869
+>> + *
+>> + * Extracted from fs/crypto/hkdf.c, which has
+>> + * Copyright 2019 Google LLC
+>> + */
+>> +
+>> +#ifndef _CRYPTO_HKDF_H
+>> +#define _CRYPTO_HKDF_H
+>> +
+>> +#ifdef CONFIG_CRYPTO_HKDF
+>> +int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
+>> +		 unsigned int ikmlen, const u8 *salt, unsigned int saltlen,
+>> +		 u8 *prk);
+>> +int hkdf_expand(struct crypto_shash *hmac_tfm,
+>> +		const u8 *info, unsigned int infolen,
+>> +		u8 *okm, unsigned int okmlen);
+>> +#else
+>> +static inline int hkdf_extract(struct crypto_shash *hmac_tfm,
+>> +			       const u8 *ikm, unsigned int ikmlen,
+>> +			       const u8 *salt, unsigned int saltlen,
+>> +			       u8 *prk)
+>> +{
+>> +	return -ENOTSUP;
+>> +}
+>> +static inline int hkdf_expand(struct crypto_shash *hmac_tfm,
+>> +			      const u8 *info, unsigned int infolen,
+>> +			      u8 *okm, unsigned int okmlen)
+>> +{
+>> +	return -ENOTSUP;
+>> +}
+>> +#endif
+>> +#endif
+> 
+> This header is missing <crypto/hash.h> which it depends on.
+> 
+> Also the !CONFIG_CRYPTO_HKDF stubs are unnecessary and should not be included.
+> 
+But that would mean that every call to '#include <crypto/hkdf.h>' would 
+need to be encapsulated by 'CONFIG_CRYPTO_HKDF' (or the file itself is
+conditionally compiled on that symbol).
+Is that the direction you want to head?
+
+Thanks for the review!
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
