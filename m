@@ -4,59 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2923EC6FD35
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Aug 2024 08:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F1F0C83026
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Aug 2024 09:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:To:From:
-	Subject:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o2URNaV+So08jD62OZYouRt8wnCVQmMTL9F/ovqhZr4=; b=y0h3okfep1to0jWBaRl0rx4EJd
-	+Ap+RyAJTByntc8ub+T0zZZfpN+nfpZqWqX1dDhTarIklFYD2SjV0pKHhkmw4DcxbPSvtuua6zlr1
-	mxbB7UPPDiZFwEPaFlgBklhxn/ikQrS3S+tGHqnjouY5NAVyActwhscRLQmiaJ6kkZ5u2SX+HDYsu
-	iFAyMAblo9o0mq3PtmyYl7iWUBJAMniFL9wzzyGAXwEjcEVuvix29I8v15IwlXZ6FGbkuanSbIdX6
-	P9hjobu6a4m92iyuDZFiGKIYX7OBhXWJsnC57MCvwvOyIMIDDJuzSr2bWJwp7AYcdRXv9+3MxjKes
-	lum9Sg1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=akdsIgKI6MCphk7qMqhXoOLgQD3uYWJcX5VRu/FPDsU=; b=jtBgxlIjD5R/elxhORYQheYYUB
+	OqKFmxyFsyKsUeVBXk2EX4Epjzk3uKKTsgbDdVSrEENmD7HXqG3efKViVPDHE0TmcHwkE5poKOuWU
+	g0v/+4urQG48GlGHfu0t/uN/VgzzUhJEYVxxi+yyFidx+uiyc1a3Yz9X+XtAk8O2dKpBW/b6pAkQF
+	j84/u3YzPqeogkRtSM5jPFbyfkoUHwyTyB+8wZPcDEFoSO7rmond0N+hvlNH7SaMAIHStsiX7LuKw
+	09fi6DnWV8dhkguX47wkrJknPdbUiSo4y0szLQTHo5OEyP5mJNqZE45vuUylIhSZw6dFa259ilyUr
+	W4SevXGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjaHa-0000000169d-2V68;
-	Thu, 29 Aug 2024 08:13:30 +0000
-Received: from mout01.posteo.de ([185.67.36.65])
+	id 1sjbpJ-00000001SRF-2KP6;
+	Thu, 29 Aug 2024 09:52:25 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjaHX-0000000168m-1WKd
+	id 1sjbpG-00000001SQj-3d4H
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Aug 2024 08:13:28 +0000
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 75A3E240029
-	for <linux-nvme@lists.infradead.org>; Thu, 29 Aug 2024 10:13:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1724919202; bh=o2URNaV+So08jD62OZYouRt8wnCVQmMTL9F/ovqhZr4=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:From;
-	b=XpCldlyL4JtxF3ZlOZqB9XAcvT8SWxcUVtQ98uuYP31JW2mW16m289QMSRd9qNmx3
-	 +OTp3tYhRzLvRcD8yiDcyp/cPs6LK0x0BWNIByGz93KgsmoaECgY27CgYUwdnZZMmJ
-	 sLNK+dKBHmYFCGA08Xn7Ezu7B2P0V6FmP37ho8r18YhKHkQOQ+Bv7FC6f5xPtcBqru
-	 tjN1Lf4bDOkhz/iGYwJdKmw1QVPLYBrmJrJIOcZmt86BYmQ18Zpoc5vR95INxyUhkQ
-	 YtUZY+iY4z3usAaYhS63Hqtw6g1fUZsIMomVOS1uJ5ihKRVSoeWb20pvvOvEg1xyoB
-	 9QJ79ZkPwswLw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4WvYv46wl8z9rxT;
-	Thu, 29 Aug 2024 10:13:20 +0200 (CEST)
-Message-ID: <618b2e2dfd1366b0f0e911522529811cdfccec19.camel@posteo.net>
-Subject: Re: [PATCH 3/9] nvme: add nvme_auth_generate_digest()
-From: Mark O'Donovan <shiftee@posteo.net>
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Date: Thu, 29 Aug 2024 08:13:20 +0000
-In-Reply-To: <35c9bea6-0898-428c-ba23-04c7444494de@grimberg.me>
-References: <f82b4614b95be6f826da4350fb39c4eb8daafbfd.camel@posteo.net>
-	 <35c9bea6-0898-428c-ba23-04c7444494de@grimberg.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	Thu, 29 Aug 2024 09:52:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1724925141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=akdsIgKI6MCphk7qMqhXoOLgQD3uYWJcX5VRu/FPDsU=;
+	b=XtWPjuVzmRb8xCc3MkN6lr4MyBoIwCLlHb4pH35PnOG+9R7z1iPn37LPlJS4i/nI9Gxe3R
+	MaD9ydEw5+zBWC6WLR4OWoLps7btrvhLrwlm1Kexq631j/IUTTdx1aMQ8WndFDx/eUtrTd
+	jW8Np7g9/oYf9mVPgvgqhu/UyN0ApgQ=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-663-eYVEQ-NjNWi-fC0naTiN4w-1; Thu,
+ 29 Aug 2024 05:52:19 -0400
+X-MC-Unique: eYVEQ-NjNWi-fC0naTiN4w-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9A2A61955BF2;
+	Thu, 29 Aug 2024 09:52:17 +0000 (UTC)
+Received: from rocky.redhat.com (unknown [10.45.224.216])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A85641955DD8;
+	Thu, 29 Aug 2024 09:52:15 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: hch@lst.de
+Cc: sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	kbusch@meta.com
+Subject: [PATCH V2] nvmet: Identify-Active Namespace ID List command should reject invalid nsid
+Date: Thu, 29 Aug 2024 11:52:14 +0200
+Message-ID: <20240829095214.48915-1-mlombard@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240829_011327_567151_21C46A28 
-X-CRM114-Status: GOOD (  17.01  )
+X-CRM114-CacheID: sfid-20240829_025222_996915_D55D6D66 
+X-CRM114-Status: GOOD (  10.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,42 +83,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sorry, it is not a patch. It is a section of Hannes' patch.
-I used the In-Reply-To / Reply-To / mailto header from the web archive
-as I am not currently subscribed to the list.
-I guess I should have added the > indent characters manually.
+nsid values of 0xFFFFFFFE and 0XFFFFFFFF should be rejected with
+a status code of "Invalid Namespace or Format".
+See NVMe Base Specification, Active Namespace ID list (CNS 02h).
 
-Ar Domh, 2024-08-25 ag 11:55 +0300, Sagi Grimberg scr=C3=ADobh:
-> > Your patch is not formatted correctly.
-> > Please create a proper patch and use git-send-email to send it to
-> > the mailing list.
-> >=20
-> >=20
-> > On 21/08/2024 13:18, Mark O'Donovan wrote:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hmac_name =3D nvme_auth_=
-hmac_name(hmac_id);
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!hmac_name) {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0pr_warn("%s: invalid hash algoritm %d\n",
-> > > > algoritm should be algorithm.
-> > > > This typo is also present in other patches.
-> > > >=20
-> > > >=20
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D base64_encode(di=
-gest, digest_len, hmac);
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret < hmac_len)
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0ret =3D -ENOKEY;
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0*ret_digest =3D hmac;
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D 0;
-> > > > The value assigned to ret in the if statement will be
-> > > > overwritten.
-> > > > It looks like a goto is missing.
-> > > >=20
-> > > > Regards,
-> > > > Mark
-> > > >=20
-> >=20
+Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
 
+v2: Explicitely check against the two constants, add a reference to the specs
+
+ drivers/nvme/target/admin-cmd.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index f7e1156ac7ec..85006b2df8ae 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -587,6 +587,16 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
+ 	u16 status = 0;
+ 	int i = 0;
+ 
++	/*
++	 * NSID values 0xFFFFFFFE and NVME_NSID_ALL are invalid
++	 * See NVMe Base Specification, Active Namespace ID list (CNS 02h).
++	 */
++	if (min_nsid == 0xFFFFFFFE || min_nsid == NVME_NSID_ALL) {
++		req->error_loc = offsetof(struct nvme_identify, nsid);
++		status = NVME_SC_INVALID_NS | NVME_STATUS_DNR;
++		goto out;
++	}
++
+ 	list = kzalloc(buf_size, GFP_KERNEL);
+ 	if (!list) {
+ 		status = NVME_SC_INTERNAL;
+-- 
+2.43.5
 
 
