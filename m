@@ -4,82 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77C46C83F16
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Aug 2024 13:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73099C83F15
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Aug 2024 13:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pZvP4akX1FNW4jsFlwLLkJZAHk1+SP6pnWAd6+58RhM=; b=YsK2T1+E+lTrPotY6wmlLC4Y+7
-	iog5acru4ke99uk/3tRv9utH3myxCgZDoP95l3xfcyvCYxHsml3V5L7vdPG8Lsjn+iYm3+aJ0SMVf
-	c9NwkEnGZhSKwFCD+l21TI+ys2O+2DVeToJutzJ4+GJ3nHVvMEenMOfrDw5Hlnr0SfbaJcDK8jzNW
-	iSK23gPMas8jbIr6bgtPVAchNWb0s7uWEerX9aXndE9l+q/OcghI0gZus+r3GZVFVez1YBqMrj6kf
-	x1Jk89pRCG98+OkYY3mpmAI+8qdWY04jbOlu6y3QDSSD3GY1B2VPoxWeXLTOOredRj8/KCgZQyF6s
-	PkFfrXSw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=vvr7g01Sw9GYgNz0LoAAg4T3ibT+u+jm1p9VxTddzJ8=; b=ktuHwEuRkcqltC
+	qCf6vE/6OqSSiOobQSJpPia/6CcYMVHuoSjnL5nxQmBVp/m7xVxlqB/WHkVRWJRPdONqBq9HXpiKw
+	ZpbMYqiwWlbRof9oCGY4YL/+VL9+RFMwmKqsyuBlaT9thlFll7+FIIs7bNrfSAT7r53Oi/6bkyk8Z
+	I4SP/DzyaMbav0DJZJ6cH+u21/+bKj+CmSM7K8KhAFVUbgVNtAhKn5QKAyWtkIPa2VVByVxN0z5i2
+	8OIldJAnIs7jYRCG+sAT0rKPg3aAO07HP3xu+SnN25df8Hr8ILuArerNTXr0JSip0WUfSnU47kTlh
+	He6ilHD263L5/62Gbbzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjfDp-00000002BNv-0C7F;
-	Thu, 29 Aug 2024 13:29:57 +0000
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
+	id 1sjfGb-00000002CcS-16pA;
+	Thu, 29 Aug 2024 13:32:49 +0000
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sjfDe-00000002BKB-2RR7
+	id 1sjfGY-00000002CZP-1JwI
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Aug 2024 13:29:47 +0000
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-2701c010388so243751fac.0
-        for <linux-nvme@lists.infradead.org>; Thu, 29 Aug 2024 06:29:45 -0700 (PDT)
+	Thu, 29 Aug 2024 13:32:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724938184; x=1725542984; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pZvP4akX1FNW4jsFlwLLkJZAHk1+SP6pnWAd6+58RhM=;
-        b=EdtKGlCMvSdOvGXgCl8AASbUVEIkiuiV1pXZXtKu0/1Qk5/TCQivQcpd3Xz3pfm1Yb
-         CoLeoKUv1bYQHALDJQi2WHkGJow0QUiRbdPGcpEyAzzkxNFszV8me5J19yrSLpWWvvGi
-         DYt1P3FdJnqWbRZoYaYGWp9G2QIy1UoWsReiTjIFVsow1ndlLa4/ywYwRKXDilvwvwhF
-         3Akuh4SfmQLaiEOylRlvpDyaIUdaKaiT0O/0Q5lj7wqA/egHu3ds5y9XZVc2HoStc5F5
-         mea+ACxN+z8FfJKAEvSwAFG79gX95sCdsilHv2SJr6G3xrdulcRvq96qmqQX4hyPmLOG
-         Gd9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724938184; x=1725542984;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pZvP4akX1FNW4jsFlwLLkJZAHk1+SP6pnWAd6+58RhM=;
-        b=ZQfUT5mDs6hEq1UqPZM4Xb9DDiRFa5YaPsbGZ3tkOaqn+wqPDB09tWFj/MMb/SMWJe
-         oom2PPbSsQIhoO/xmvLHtL1P7yBJz3C4unVS2Nj1nzbjSKnYWqHWTjsnkZoxRORBC7vj
-         njDLB2QUH+S61CqdumIIlb88tICEP8V9aRLnrcN7ycnJrR44b5k7lXtV+OpJBLnKaj1c
-         X6FxbgzpGtlDnRpN5CA49SVEuGvLOkTedBv4KOtkMHtLOFplnnkaIdZJv9AgZ0rGhNDx
-         anX3CyQDSeLK2IJkEfEG1DUyuGim0WT3OBdXgXii43JuquS0uOU8hLQ75iAaFQWnXa12
-         xW4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXmnIccwWt6LUGoWF5mBLW7Sh17u8uDtobnqfmq2sFUnn1rvSvsL3nq56Zc6yi7W3c+lo5pmhjO6yx9@lists.infradead.org
-X-Gm-Message-State: AOJu0YxEYVwVPFeMv2m2qDEWC1P5d0G02WY0hsm2aEhICXgXejGfPoeo
-	ceoEVmMSd9hFwNVvoXebjpcor5uHeuwGIewFehU/A6Let2hEwtqBcvxoKUrSaORBKKvRlGQPi2R
-	vCmziilskSAlDRT5x9j5DVBk/DnS+MoW0Qw==
-X-Google-Smtp-Source: AGHT+IEB9AghDWmQTaWbGpeIraxIQPqERplZzNtYk9DNetcO5Rt7NpJPuYrDDGDj8FK1DdGZ/2QbinPEhl0Lrhh+j2M=
-X-Received: by 2002:a05:6870:f153:b0:229:f022:ef83 with SMTP id
- 586e51a60fabf-2779035fabdmr3133038fac.43.1724938184280; Thu, 29 Aug 2024
- 06:29:44 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1724938367; x=1756474367;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vvr7g01Sw9GYgNz0LoAAg4T3ibT+u+jm1p9VxTddzJ8=;
+  b=tiF9xhltEt05JZ5ljbMehr0m/mOc3W5klckkVm0lQXKLkK+mBRctt/rc
+   X+jTGSFsKMQjBJ0UzM5tvuln1OAhAOa2PMtkX63RLfhR2JcovgRuZYEhE
+   n4XmS0bTyxacfAhSr/79SyejaDUI1xg9tY5tKQy5m21kJ0NUrFs52KSiz
+   w=;
+X-IronPort-AV: E=Sophos;i="6.10,185,1719878400"; 
+   d="scan'208";a="448725231"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 13:32:38 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [10.0.7.35:31780]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.21.120:2525] with esmtp (Farcaster)
+ id 52e6a62b-1635-4469-8507-9256d931fde3; Thu, 29 Aug 2024 13:32:36 +0000 (UTC)
+X-Farcaster-Flow-ID: 52e6a62b-1635-4469-8507-9256d931fde3
+Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.218) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Thu, 29 Aug 2024 13:32:36 +0000
+Received: from dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (10.15.97.110) by
+ mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP Server id
+ 15.2.1258.34 via Frontend Transport; Thu, 29 Aug 2024 13:32:36 +0000
+Received: by dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (Postfix, from userid 22993570)
+	id 0277A20836; Thu, 29 Aug 2024 13:32:35 +0000 (UTC)
+From: Puranjay Mohan <pjy@amazon.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, "Christoph
+ Hellwig" <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<puranjay@kernel.org>, <amazon-linux-kernel@amazon.com>
+Subject: [PATCH v3] nvme: fix metadata handling in nvme-passthrough
+Date: Thu, 29 Aug 2024 13:32:17 +0000
+Message-ID: <20240829133217.1627-1-pjy@amazon.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20240823103811.2421-1-anuj20.g@samsung.com> <CGME20240823104629epcas5p3fea0cb7e66b0446ddacf7648c08c3ba8@epcas5p3.samsung.com>
- <20240823103811.2421-8-anuj20.g@samsung.com> <20240824083553.GF8805@lst.de>
- <fe85a641-c974-3fa7-43f1-eacbb7834210@samsung.com> <yq1plpsauu5.fsf@ca-mkp.ca.oracle.com>
-In-Reply-To: <yq1plpsauu5.fsf@ca-mkp.ca.oracle.com>
-From: Anuj gupta <anuj1072538@gmail.com>
-Date: Thu, 29 Aug 2024 18:59:05 +0530
-Message-ID: <CACzX3AuX9FkxPoBRLmy_HEmu6Ex63jHLyz9Z8fhUd_Y5_MdJyw@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] block: introduce BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>, Anuj Gupta <anuj20.g@samsung.com>, 
-	axboe@kernel.dk, kbusch@kernel.org, asml.silence@gmail.com, krisman@suse.de, 
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-block@vger.kernel.org, gost.dev@samsung.com, linux-scsi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240829_062946_657431_1317109D 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20240829_063246_422826_4341AF2A 
+X-CRM114-Status: GOOD (  17.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,23 +83,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 29, 2024 at 8:47=E2=80=AFAM Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
->
->
-> Kanchan,
->
-> > With Guard/Reftag/Apptag, we get 6 combinations. For NVMe, all can be
-> > valid. For SCSI, maximum 4 can be valid. And we factor the pi-type in
-> > while listing what all is valid. For example: 010 or 001 is not valid
-> > for SCSI and should not be shown by this.
->
-> I thought we had tentatively agreed to let the block layer integrity
-> flags only describe what the controller should do? And then let sd.c
-> decide what to do about RDPROTECT/WRPROTECT (since host-to-target is a
-> different protection envelope anyway). That is kind of how it works
-> already.
->
-Do you see that this patch (and this set of flags) are fine?
-If not, which specific flags do you suggest should be introduced?
+On an NVMe namespace that does not support metadata, it is possible to
+send an IO command with metadata through io-passthru. This allows issues
+like [1] to trigger in the completion code path.
+nvme_map_user_request() doesn't check if the namespace supports metadata
+before sending it forward. It also allows admin commands with metadata to
+be processed as it ignores metadata when bdev == NULL and may report
+success.
+
+Reject an IO command with metadata when the NVMe namespace doesn't
+support it and reject an admin command if it has metadata.
+
+[1] https://lore.kernel.org/all/mb61pcylvnym8.fsf@amazon.com/
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Puranjay Mohan <pjy@amazon.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
+---
+V2: https://lore.kernel.org/all/20240827132327.1704-1-pjy@amazon.com/
+Changes in V3
+- Reject admin commands with metadata by also failing if there's no bdev
+
+V1: https://lore.kernel.org/all/20240827121701.48792-1-pjy@amazon.com/
+Changes in V2:
+- Add a flag called 'has_metadata' and use it for the support check and
+also for the check before calling bio_integrity_map_user()
+---
+ drivers/nvme/host/ioctl.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index f1d58e70933f..15c93ce07e26 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2017-2021 Christoph Hellwig.
+  */
+ #include <linux/bio-integrity.h>
++#include <linux/blk-integrity.h>
+ #include <linux/ptrace.h>	/* for force_successful_syscall_return */
+ #include <linux/nvme_ioctl.h>
+ #include <linux/io_uring/cmd.h>
+@@ -119,9 +120,14 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 	struct request_queue *q = req->q;
+ 	struct nvme_ns *ns = q->queuedata;
+ 	struct block_device *bdev = ns ? ns->disk->part0 : NULL;
++	bool supports_metadata = bdev && blk_get_integrity(bdev->bd_disk);
++	bool has_metadata = meta_buffer && meta_len;
+ 	struct bio *bio = NULL;
+ 	int ret;
+ 
++	if (has_metadata && !supports_metadata)
++		return -EINVAL;
++
+ 	if (ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED)) {
+ 		struct iov_iter iter;
+ 
+@@ -143,15 +149,15 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		goto out;
+ 
+ 	bio = req->bio;
+-	if (bdev) {
++	if (bdev)
+ 		bio_set_dev(bio, bdev);
+-		if (meta_buffer && meta_len) {
+-			ret = bio_integrity_map_user(bio, meta_buffer, meta_len,
+-						     meta_seed);
+-			if (ret)
+-				goto out_unmap;
+-			req->cmd_flags |= REQ_INTEGRITY;
+-		}
++
++	if (has_metadata) {
++		ret = bio_integrity_map_user(bio, meta_buffer, meta_len,
++					     meta_seed);
++		if (ret)
++			goto out_unmap;
++		req->cmd_flags |= REQ_INTEGRITY;
+ 	}
+ 
+ 	return ret;
+-- 
+2.40.1
+
 
