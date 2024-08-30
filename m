@@ -4,131 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EF5ECA0FE1
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2024 11:59:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBF97CA0FE4
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2024 12:17:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DHfHERZ6en3013iCiK+PboFb1SXkYatz5nFnB7G0GlY=; b=Yb6R8vQFMYiW1HMxs6ZtQ8tmAy
-	C/AuT7C9bsAdjK6SEVWoKkPbXHJLGpvtkoHokK/W6m7uYsHXxuNpHPy3UMWgMWfJLORPw3VDEFG3i
-	zdCELe/5dUsu4F2UUDZtreggyRv8CQcfTtBJVzaJ5vgdRYEw59Q9JOzqzQkf5qe1iAylkt1fJov3D
-	OaYWpBO4NZ81tmk1tcumv56dLvMAgYt1S1COMRIMi8l/vZLYFzRLYVhzYg6KQ5JKS/I6KOYjT6OoT
-	lzBXusoVovRz1OGlpAfCSkxHNPhayP6x3D4Dg1lpjeb1ri2ggI8ZuR9yMeUCgAPtQe5Dsp5OaqY0q
-	VRxwXDYw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6GlW9yIoadQq46MmyoepJYJ8q9LfdZqy08l1271Zu+4=; b=pk9CvbnfowhSws0XQnQOMK/T78
+	D5B6VSI7rfalU2JsbIs6pldynDD4/FUfl5vwr26mtI1JGHOoOVlAhCEmG0BsoN43jfquUfd+fFtky
+	6pD6DUKkFXQzP6SUamECtc+krERdBckFf0/TI63RnEspNXzfeJTo0dYqO8h80hYtCdh0RV5AX8/V8
+	+3gRbWSOQcqtXISa9jKMdLFMlORMEfqB74UG/cHpPzzapsLkIU//ZR1jNvJBwJai+vdR6XH+m6UAz
+	oko7KQU4PlOcE4ExFJYU2Dcld39rA4/cv5MdnzuNAXBIimNmr9oHpwG6HRubllcls2c/DQz0jAMtL
+	Y3ROSrNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sk0IH-0000000697p-1nNh;
-	Fri, 30 Aug 2024 11:59:57 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1sk0ZP-00000006B6x-1MaI;
+	Fri, 30 Aug 2024 12:17:39 +0000
+Received: from 009.lax.mailroute.net ([199.89.1.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sk0Hd-000000068y7-1blC
+	id 1sk0ZH-00000006B65-1ePq
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Aug 2024 11:59:18 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240830115916euoutp02b2c73dfcede766b497ea706ef9164aa9~wf8hv_dmH2915229152euoutp02o
-	for <linux-nvme@lists.infradead.org>; Fri, 30 Aug 2024 11:59:16 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240830115916euoutp02b2c73dfcede766b497ea706ef9164aa9~wf8hv_dmH2915229152euoutp02o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1725019156;
-	bh=DHfHERZ6en3013iCiK+PboFb1SXkYatz5nFnB7G0GlY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=gbYUKLEuEwKPI68ulqU/oAR4XTO9SPNEkHPy+P2ywlsjfpkAsGn/NOSwG6vv6E+5S
-	 fNASe1qmB/Y5wYMQZQhUjIQDaXrDJyxdSgON44sS5dJW6Dg7L93dKioAx6i79uIFEs
-	 qY/n5ZTa0YeeoVjAxhcq+NCleVZf5lL4ynjng54Y=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20240830115915eucas1p1ec9aa5512061fffdee90f1cdc93ec447~wf8hdiS0U2675426754eucas1p1o;
-	Fri, 30 Aug 2024 11:59:15 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 1D.45.09624.314B1D66; Fri, 30
-	Aug 2024 12:59:15 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240830115915eucas1p122027e15f14938de31489f75c174b1fd~wf8g84L7A1990419904eucas1p1Y;
-	Fri, 30 Aug 2024 11:59:15 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240830115915eusmtrp22562364f0592658a6eaf77b9fcae9cad~wf8g6O6Qc3191831918eusmtrp2T;
-	Fri, 30 Aug 2024 11:59:15 +0000 (GMT)
-X-AuditID: cbfec7f2-bfbff70000002598-02-66d1b41327b7
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 45.87.14621.314B1D66; Fri, 30
-	Aug 2024 12:59:15 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240830115914eusmtip2c32ae4bfe73d445aa2fd37cd74966ac0~wf8gp-A_b0276402764eusmtip2F;
-	Fri, 30 Aug 2024 11:59:14 +0000 (GMT)
-Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 30 Aug 2024 12:59:14 +0100
-Date: Fri, 30 Aug 2024 13:59:13 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-CC: <axboe@kernel.dk>, <kbusch@kernel.org>, <hch@lst.de>,
-	<sagi@grimberg.me>, <martin.petersen@oracle.com>,
-	<James.Bottomley@HansenPartnership.com>, <brauner@kernel.org>,
-	<jack@suse.cz>, <jaegeuk@kernel.org>, <jlayton@kernel.org>,
-	<chuck.lever@oracle.com>, <bvanassche@acm.org>,
-	<linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-f2fs-devel@lists.sourceforge.net>, <linux-block@vger.kernel.org>,
-	<linux-scsi@vger.kernel.org>, <gost.dev@samsung.com>, <vishak.g@samsung.com>
-Subject: Re: [PATCH v4 0/5] Write-placement hints and FDP
-Message-ID: <20240830115913.b5pcs7bo26wkj2it@ArmHalley.local>
+	Fri, 30 Aug 2024 12:17:37 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4WwHGL1TxYzlgMVf;
+	Fri, 30 Aug 2024 12:17:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1725020245; x=1727612246; bh=6GlW9yIoadQq46MmyoepJYJ8
+	q9LfdZqy08l1271Zu+4=; b=HDLC/X2jGKS6GEr8dCi4sdxXG4856TtMCXnGwrLk
+	hPO1wOwiL6OJ5gZBVzRO5iAqQ8W4nld9tlezsQD3axIrvx2xAuAlifeCxIYW04lY
+	XJNOmPI/qZS6iG5xzXM5UkRSAOla/trI5M9M5DbVuebf06mqh1FL8K07ZJa9Qw5T
+	25j8wENOw8vzEmOhvCWIjuUYTIRNi/H/oSN2GNzUKuHhDihlqmBEh5SR5LjdlqFj
+	HulYBaWrWGYBKs21TSU7+5oPrTh/qcnkDchEoNA+3/RuPO3N9ZZqHetbg0nhVbSr
+	zJTXX/O48XQSFBtvs76WvzyIGyvQL1f6moM7RRiKzuyaAw==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id CK5wHqhS3E6t; Fri, 30 Aug 2024 12:17:25 +0000 (UTC)
+Received: from [10.254.113.103] (unknown [207.164.135.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4WwHG807ZyzlgMVb;
+	Fri, 30 Aug 2024 12:17:19 +0000 (UTC)
+Message-ID: <0cfd7841-ea11-48c6-93fb-7817236c81c8@acm.org>
+Date: Fri, 30 Aug 2024 08:17:18 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-In-Reply-To: <20240826170606.255718-1-joshi.k@samsung.com>
-X-Originating-IP: [106.110.32.122]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDKsWRmVeSWpSXmKPExsWy7djP87rCWy6mGcz4qGOx+m4/m8Xrw58Y
-	LaZ9+Mls8f/ucyaLlauPMlnMnt7MZPFk/Sxmi439HBY/l61it5h06Bqjxd5b2haXFrlb7Nl7
-	ksVi/rKn7Bbd13ewWSw//o/JYt3r9ywOgh6Xr3h7nL+3kcVj2qRTbB6Xz5Z6bFrVyeaxeUm9
-	x+4Fn5k8dt9sYPP4+PQWi8eZBUfYPT5vkgvgjuKySUnNySxLLdK3S+DKeLrkA2PBD+GK1nst
-	TA2MZ/i7GDk5JARMJJ62/mHrYuTiEBJYwSjx7ehlVgjnC6PE8hsTmSCcz4wSby5OYYFpOXV+
-	AlRiOaPE0Ts/WeCqll7ZCzVsC6PE3r71QBkODhYBVYknu7NButkE7CUuLbvFDGKLCKhLdEw/
-	BzaJWeAvs0TL9DPsIAlhAUuJQ2ffsoLYvAK2EtMnbGCGsAUlTs58AnYGs4CVROeHJlaQ+cwC
-	0hLL/3GAhDmBwv8/vGeHuFRJ4vGLt4wQdq3EqS23wHZJCNzilFh29wYbRMJF4tzU98wQtrDE
-	q+NboJplJP7vnM8EYVdLNJw8AdXcwijR2rEVbLGEgLVE35kciBpHiYlLD0OF+SRuvBWEOJNP
-	YtK26cwQYV6JjjYhiGo1idX33rBMYFSeheSxWUgem4Xw2AJG5lWM4qmlxbnpqcWGeanlesWJ
-	ucWleel6yfm5mxiBCfD0v+OfdjDOffVR7xAjEwfjIUYJDmYlEd4Tx8+mCfGmJFZWpRblxxeV
-	5qQWH2KU5mBREudVTZFPFRJITyxJzU5NLUgtgskycXBKNTD57XcxmrmxRlF3Cm/bdym9K5xx
-	uyZczfgV9ccp+eL9x+bby0zf75Gp12M1DN4+O8zgo2Ng+qNP9XU7ZztL/HP5fv6zXtLPRXNN
-	3ypUOgpsvnl/p7Z5s5h/2ZQDfj9SN07UVCjfsTFn0tLTPVNzS/lFvaw6cu2dz6d/Z3Q9e83t
-	qOfnVWt1Gxyl/h3/EyQ1vYPli3x7bNRTlciyt4nz3EyMg5YrKX7317jKKKJ2oDe8QnjPqXiD
-	o+ma2zi5849aJTo4+5/7riei+Wb6iymKjT940hPfxD9tOn1O999y8xWyIg0PJt3aUMvXr2M9
-	5XD9B/sf+6tSC5MEfur2l5UUiqc789i+vdDILXwtRVtHVImlOCPRUIu5qDgRAOixgofvAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFIsWRmVeSWpSXmKPExsVy+t/xe7rCWy6mGbSvZrNYfbefzeL14U+M
-	FtM+/GS2+H/3OZPFytVHmSxmT29msniyfhazxcZ+Doufy1axW0w6dI3RYu8tbYtLi9wt9uw9
-	yWIxf9lTdovu6zvYLJYf/8dkse71exYHQY/LV7w9zt/byOIxbdIpNo/LZ0s9Nq3qZPPYvKTe
-	Y/eCz0weu282sHl8fHqLxePMgiPsHp83yQVwR+nZFOWXlqQqZOQXl9gqRRtaGOkZWlroGZlY
-	6hkam8daGZkq6dvZpKTmZJalFunbJehlPF3ygbHgh3BF670WpgbGM/xdjJwcEgImEqfOT2Dq
-	YuTiEBJYyigx4cY0doiEjMTGL1dZIWxhiT/Xutggij4ySryfdI0FwtnCKPF2/lqgKg4OFgFV
-	iSe7s0Ea2ATsJS4tu8UMYosIqEt0TD8HtoFZ4DezxO7pa1lAEsIClhKHzr4F28ArYCsxfcIG
-	ZoihvYwSq4/3s0EkBCVOznwC1sAsYCExc/55RpBlzALSEsv/cYCEOQWsJP5/eA91tZLE4xdv
-	GSHsWonPf58xTmAUnoVk0iwkk2YhTFrAyLyKUSS1tDg3PbfYUK84Mbe4NC9dLzk/dxMjMBFs
-	O/Zz8w7Gea8+6h1iZOJgPMQowcGsJMJ74vjZNCHelMTKqtSi/Pii0pzU4kOMpsCgmMgsJZqc
-	D0xFeSXxhmYGpoYmZpYGppZmxkrivG6Xz6cJCaQnlqRmp6YWpBbB9DFxcEo1MB1ab56TYjb3
-	p9L1OboiyyKulM9afpV97sojyRqSmy8HbrEyfy1pHK/5+Itk7enID9uaWgr8VZdf3KT703S6
-	snSV6Zk7Bw/UzZwhIzDP9uc85vXXvm/Xy1z2+k/axeXd/32VV1zkO6/P+tltbmLK0VMt21IL
-	FFjk/SJOV0hUclknNC7u/mGmsGCS+RuO3s0+rAt0hHnXX2WzyZl/f7dc56oND3dPUK6Q+jpx
-	rvKlNxEqx63ys9a9Kjjnv2OSYK+OVpOWW18QV3UIU4ELb4eDiubMafu+JoofXtHtqLLuaoKZ
-	hqWSRf2v/qatHY1iz+cLPH33uHD25/LDyyr1fxVvZ6+r2rx+65l/P3Pm+HxcFqTEUpyRaKjF
-	XFScCAAvKmsHjQMAAA==
-X-CMS-MailID: 20240830115915eucas1p122027e15f14938de31489f75c174b1fd
-X-Msg-Generator: CA
-X-RootMTR: 20240826171409epcas5p306ba210a9815e202556778a4c105b440
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20240826171409epcas5p306ba210a9815e202556778a4c105b440
-References: <CGME20240826171409epcas5p306ba210a9815e202556778a4c105b440@epcas5p3.samsung.com>
-	<20240826170606.255718-1-joshi.k@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/5] fs, block: refactor enum rw_hint
+To: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
+ James.Bottomley@HansenPartnership.com, brauner@kernel.org, jack@suse.cz,
+ jaegeuk@kernel.org, jlayton@kernel.org, chuck.lever@oracle.com
+Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, gost.dev@samsung.com, vishak.g@samsung.com,
+ javier.gonz@samsung.com
+References: <20240826170606.255718-1-joshi.k@samsung.com>
+ <CGME20240826171413epcas5p3f62c2cc57b50d6df8fa66af5fe5996c5@epcas5p3.samsung.com>
+ <20240826170606.255718-2-joshi.k@samsung.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240826170606.255718-2-joshi.k@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240830_045917_720506_AF9E191F 
-X-CRM114-Status: GOOD (  15.67  )
+X-CRM114-CacheID: sfid-20240830_051731_472640_E775C42F 
+X-CRM114-Status: UNSURE (   7.11  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,77 +91,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 26.08.2024 22:36, Kanchan Joshi wrote:
->Current write-hint infrastructure supports 6 temperature-based data life
->hints.
->The series extends the infrastructure with a new temperature-agnostic
->placement-type hint. New fcntl codes F_{SET/GET}_RW_HINT_EX allow to
->send the hint type/value on file. See patch #3 commit description for
->the details.
->
->Overall this creates 128 placement hint values [*] that users can pass.
->Patch #5 adds the ability to map these new hint values to nvme-specific
->placement-identifiers.
->Patch #4 restricts SCSI to use only life hint values.
->Patch #1 and #2 are simple prep patches.
->
->[*] While the user-interface can support more, this limit is due to the
->in-kernel plumbing consideration of the inode size. Pahole showed 32-bit
->hole in the inode, but the code had this comment too:
->
->/* 32-bit hole reserved for expanding i_fsnotify_mask */
->
->Not must, but it will be good to know if a byte (or two) can be used
->here.
->
->Changes since v3:
->- 4 new patches to introduce write-placement hints
->- Make nvme patch use the placement hints rather than write-life hints
->
->Changes since v2:
->- Base it on nvme-6.11 and resolve a merge conflict
->
->Changes since v1:
->- Reduce the fetched plids from 128 to 6 (Keith)
->- Use struct_size for a calculation (Keith)
->- Handle robot/sparse warning
->
->Kanchan Joshi (4):
->  fs, block: refactor enum rw_hint
->  fcntl: rename rw_hint_* to rw_life_hint_*
->  fcntl: add F_{SET/GET}_RW_HINT_EX
->  nvme: enable FDP support
->
->Nitesh Shetty (1):
->  sd: limit to use write life hints
->
-> drivers/nvme/host/core.c   | 81 ++++++++++++++++++++++++++++++++++++++
-> drivers/nvme/host/nvme.h   |  4 ++
-> drivers/scsi/sd.c          |  7 ++--
-> fs/buffer.c                |  4 +-
-> fs/f2fs/f2fs.h             |  4 +-
-> fs/f2fs/segment.c          |  4 +-
-> fs/fcntl.c                 | 79 ++++++++++++++++++++++++++++++++++---
-> include/linux/blk-mq.h     |  2 +-
-> include/linux/blk_types.h  |  2 +-
-> include/linux/fs.h         |  2 +-
-> include/linux/nvme.h       | 19 +++++++++
-> include/linux/rw_hint.h    | 20 +++++++---
-> include/uapi/linux/fcntl.h | 14 +++++++
-> 13 files changed, 218 insertions(+), 24 deletions(-)
->
->-- 
->2.25.1
->
+On 8/26/24 1:06 PM, Kanchan Joshi wrote:
+>   /* Block storage write lifetime hint values. */
+> -enum rw_hint {
+> +enum rw_life_hint {
 
-Keith, Christoph, Martin
-
-Does this approach align with the offline conversation we had arund FMS?
-Comments on the list would help us move forward with this series.
-
-We would like to move the folks that are using off-tree patches for FDP
-to mainline support.
+The name "rw_life_hint" seems confusing to me. I think that the
+name "rw_lifetime_hint" would be a better name.
 
 Thanks,
-Javier
+
+Bart.
+
 
