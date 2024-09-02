@@ -4,181 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 084CBCD13CF
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 10:54:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 211B7CA0ED3
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 10:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+9pO4YXrRqXPkh8JmUR+LxBnxp398frzYnCryMR6wzI=; b=X6o08yCBmZ6LbQbF9uLQix5lqd
-	q1HOgpVdn6fT67sCCwWgPrd3J0OI8aDfukkNs+cIvn/IRiSC6+WLIqttbG1IAKeoiKESnnPvNkmf/
-	rqdRrxS5yK1FGSEdZfq0Ry1/W6QbvCrxVmZOpCxCN4ZQ3MTOw/mZYA+g1cIjhGtnYKhyiN8eb4rvw
-	DmSi9UvZOSjLk9H7aDtNBEg4yVzv96JunBTIeFuDrWpPj8jy0ygcP6RD45lgefdcZy3OI1mBq66YI
-	ZUGO8BTiRmoqC9i5D6R7cYQvZpZwM3qX8v7r5Tfmd1Kacx39Q/Myh9EHxWalT/CJfFoDQQoS7Pdrx
-	T2qgJqbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LoSlXJHF6Q4V8Becaw6dU3ss7kD6Fg4HZcRLSN0Pfuc=; b=WDPennrx4Gxbe6SOYfvO2yBMAS
+	/pqi1IbwYDDNeh8JefxJRV5mw3mFBvsVijBZG3NUxYKMvR4T8h8ysR7k6anYrEr75FwZh8I1GTFHT
+	iFLIp2r7znSeqJvDsxMdBJ0e30ns/J84yIoT0RZKticOkHxd7ulsE4b9DfBYHnrwwDheZR02ZroaG
+	4t/zSeCn7JBHeSskai5fuvN8tixvrkBfUJb77lLkkcc0s73vQmdOFKiZ4ppPbNGkOJxFQSNOPdp3f
+	uzu2Qo40pabrglHnHbKKgdAjJu6qM/PbGb8O5tbV4RNge/M9FPJycn4CENKYAhA6fdMSqEim0pg1o
+	98M339TQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl4hJ-0000000E0Ak-1vDU;
-	Mon, 02 Sep 2024 10:54:13 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1sl4i5-0000000E0MI-2BPy;
+	Mon, 02 Sep 2024 10:55:01 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl4hF-0000000E0A1-1Qd6
+	id 1sl4i2-0000000E0KD-0xsu
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Sep 2024 10:54:11 +0000
+	Mon, 02 Sep 2024 10:54:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1725274449; x=1756810449;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=TrNdW1nrdmTYw5bHFrsNT1xQIzB6fuz0iCKxEPdBnik=;
-  b=V8JvFRCBaITBqQLgL+6iKSDunQLER/8nvOsSnYGLWIsVzIveTGTO/F7R
-   IRcNUhkq5q+eU7Z7JsTq70wn9IaEaepQ80XqYbp+/gOh92ZBbQ+jqtvx7
-   z+4OMizEcBtBNRAoggyOTC42LbKvHXpHDCALPc+NPaGcN0JQzEtgTDxXT
-   Xm3RcmRwiew4PvW3Hpc94Ioa2MJhTR9Dqoqy3BAmO2z/oZMpI6wJnSsIM
-   UO3nmY0riL3aHsfq7gLDjksmLDiNFaIK2OOyN4zJR/Gra/9Pk7fq+rfP0
-   yoMvz/3Wn5NLWwOPRA5IMxl82az1UL2UgkQl214PkxDwowBmz3V5FkGQQ
+  t=1725274498; x=1756810498;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JyPcls83KWw9SuUDl/7+enyapQXtuGJ/1njd0TwRkzY=;
+  b=rjHBf4s5bm8O+e2PlQ7V0GVzDDEM5vuL0rg+GCf5LhEi6kuB9zGR+MZg
+   SZ2dqBd7S4d53x15VYOIvmvBNmTdk9zc285Q/enje5ct72G97IrCd/jgy
+   ct5bSWCAUR7I3MUljZaq9LaQADeUFcc2UzvLionGtoJb5wgcXKFA692Lv
+   3WGxDoZibdhLwPcwslK/ddnjF6e91NsZJZ7RoKYlgMAYY1NX7dVLmvYN7
+   HSTsXxmZSxhvuy4JQDrOsehw4gENepG453CAjCUCgmZWuVz6emYlyNXKQ
+   x3UICndoP4Gjkdo54tdYIoflc7WBWFtq3eWKU+BfkO/v7K2DKibLHjwI2
    g==;
-X-CSE-ConnectionGUID: ut1tMlkBSF+D9WBX7bkz+w==
-X-CSE-MsgGUID: TdomP2y0SSykkpeVguGvpg==
+X-CSE-ConnectionGUID: GEH/e7V5TDiNB4m4W+c/Rw==
+X-CSE-MsgGUID: OHxn3rx/QNWBbQw8s2A1IA==
 X-IronPort-AV: E=Sophos;i="6.10,195,1719849600"; 
-   d="scan'208";a="25103740"
-Received: from mail-eastus2azlp17010007.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([40.93.12.7])
-  by ob1.hgst.iphmx.com with ESMTP; 02 Sep 2024 18:54:05 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I0DlEUkGFBKjqLqlbzigIWVzekHnp03LgQeBGz88NgnvmDohhVaev9aYSyaZYelIjMgnPM9YWHs0Tm2anrUMAw/DsNj4xcLIEbJnDx1ic7XuTSjCr6oquvIq2Z4/mTFi8Bm229zDuD6ZQ0ePToqjqZjPMa6+NJMKQzwzsPt0jWV6p999mDBl1eUwwRhK3xGUwlSXZGCXmXX7cWiOLWyFUUskZBjK7QgR4xyaVcbG97YBVvRnTaiGYieK/gyZgbOdGxMDzbpBe4sHfyfhptLVIlbNnIQQgMc2ytMGU9KnYcjkgFk9M0oROe9DtdfD8G2BL0WrJ+i3QrgvTRlfDGkrYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+9pO4YXrRqXPkh8JmUR+LxBnxp398frzYnCryMR6wzI=;
- b=p7w2lAApgdT+c2vwmdF2rzuhk1Ap3JP4bma+ItQRHFZmYEOK1+b6OQGBCxbv6spE43W2PCqKbV6QdEjWv5yTcLNac2ktI0GI/LB326VIg+d7MRvzfkY1oQQLyhW8pkQ1IGwz6uPQWbWX1jDSSfMqET2dIwq0aZXJowK2kkmwznAudjdljQhw3chi0VT21b8Ms9a+Y4g5bd5fIKY+8gS5/HRfw26vd29sdHO0hSf2PYp0wrLPmf+HYGIBplRqkXX02ZyGSIM0+T0tE9AmYow1flC7+ht/WIiclxPTFpMwjCtn4YQFFd6UCWyFdDqk2WjosA2cjw6lBtnlDVvYkojP0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+9pO4YXrRqXPkh8JmUR+LxBnxp398frzYnCryMR6wzI=;
- b=OjJEZ5YlRj0YmRP/SKdevH5OObTsQwi4h6CzaruZEP9mu9G6alcnBqa4BGNNOnKObuNQ8iF7Nrz+hZ3bwqsvPm8O25NdZQGS3oJPTfDGt/XV5K6k0QgRRHXPI4W44BJR+sVAio/7fCad2xY+NsaDE0Bjr9MstoZeMRx/Kl1SBTo=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- SA6PR04MB9119.namprd04.prod.outlook.com (2603:10b6:806:410::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7918.25; Mon, 2 Sep 2024 10:54:04 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.7918.024; Mon, 2 Sep 2024
- 10:54:03 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-CC: Daniel Wagner <dwagner@suse.de>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH blktests] nvme/052: wait for namespace removal before
- recreating namespace
-Thread-Topic: [PATCH blktests] nvme/052: wait for namespace removal before
- recreating namespace
-Thread-Index: AQHa8uqR0Nq3uU3VMkila6SfAwK3vLIwXbgAgADx2QCAACN+AIABgyqAgAAtNACAAAw+gIAAL3UAgAAPHICAEPjGAA==
-Date: Mon, 2 Sep 2024 10:54:03 +0000
-Message-ID: <6ujdxaiie7wsztwmlhrxcr5vnmntj3f7yz5mmhn2i2suf4dncq@jlbtb4syfjvg>
-References: <20240820102013.781794-1-shinichiro.kawasaki@wdc.com>
- <d22e0c6f-0451-4299-970f-602458b6556d@linux.ibm.com>
- <zzodkioqxp6dcskfv6p5grncnvjdmakof3wemjemnralqhes4e@edr2n343oy62>
- <0750187c-24ad-4073-9ba1-d47b0ee95062@linux.ibm.com>
- <wf32ec6ug34nxuqjxrls5uaxkvhtsdi4yp2obf5rbxfviwlqzt@7joov5mngfed>
- <12fa9b5b-8a8b-42a6-9430-94661bfbdd21@linux.ibm.com>
- <wpapwfrmpkwxdqahiwvp5y6l53z2xuidc2qyloolzfundec3p6@vsuen2jtxot2>
- <a9a79fc9-6c0b-4a35-afea-85f34e9889bf@flourine.local>
- <20a3f01c-0992-45e8-8970-30a2747ed8bf@linux.ibm.com>
-In-Reply-To: <20a3f01c-0992-45e8-8970-30a2747ed8bf@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SA6PR04MB9119:EE_
-x-ms-office365-filtering-correlation-id: f4a327e1-ceca-427f-ecbc-08dccb3d8f1e
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?6H+KXyyoD9eLr/UVFODO/jMobPQbP4vcCc2XGWoxYyw6InxX8Sa0AsqNJzRu?=
- =?us-ascii?Q?d1ZCDzH52WL60qG+pBX5UXsretnreNiLjBgf+HCHMHuHHhYfCZUw4GnFIy74?=
- =?us-ascii?Q?OnspnI4CYL9wlCV2SEBeI290pas8/FssGqUCIH9lICYgpm8jE89hDkgaAyMw?=
- =?us-ascii?Q?SjCcIUiSNxp/rXeo+3fvhmA/359+Ogo2i18bgZLff3l4Pb8jkNhXkd4ZJ62v?=
- =?us-ascii?Q?VYv1zX/txQzdr4365KleLDXFWNYPYNNYbacXXfZRuW4OkmVBejITqah5UWse?=
- =?us-ascii?Q?25ppYoPxVEnIK9sCoc/jNW5yYYOXm4oy3TH2ptyWsJTJA0CkxJDrnOxhSBt7?=
- =?us-ascii?Q?3aSXfiqltw76uCuUX5kVJCwRbtNhaXCXSLwPTBq7feMlGSIHAN6xlUvYM7ne?=
- =?us-ascii?Q?L5b8hkvHgEZACajW4LivlcFw7W+937w5OoqDyiKHY8d3bDEsbZntD1fspCjb?=
- =?us-ascii?Q?S81jiQrQuMFcVFXtQOJPCG9SSIZdfKnC0LdCJOvpiatiYHtVCsjjjM7yITMZ?=
- =?us-ascii?Q?PM7reAzbRUC5N/91UaujMPbnNRiNwl4Y6WEPztO5UChnpJB5IP1IkYTHTIxF?=
- =?us-ascii?Q?C4B1GQflQgVbiBhBMIh2cDpys84eIk2Li3niSn7GyZ8SeI152UClXaGJUewK?=
- =?us-ascii?Q?GLDmBCXIRs5IljdLk2FyxAwqpj7VUIf1pVjWQAc03i/6/ldb19fPJ3TtBqfB?=
- =?us-ascii?Q?9QSEgCthPdzhH4UdOO+xBzfFbsB85DZT1iZM3JEWXzbwB4Vo4i5QCtNSVZTG?=
- =?us-ascii?Q?t4NWLOcRBhXIwDw1fpf8qDrIRC8DfUrRgNl/6mEqa/7+hoe42yrMM+bifXsS?=
- =?us-ascii?Q?fhzTMy81HF0q7OnGpE71SKWPfceVVL54EI8yEx0RsDyKPyrBjHVOwaHlLT+s?=
- =?us-ascii?Q?SYUGenkCdCFZvLUFhwWY6fg0zNo81pbxoQHGN4zSfVfytxagFtJmV3HBTu6Q?=
- =?us-ascii?Q?qwJgtt9SN/o4RuD4mfaqpjT+Z5Knt8bXr+YJsLX00VLLra61G3kgFiqwTi4K?=
- =?us-ascii?Q?j1+1Xw9XGBcIyjZgqciune0wcnMaE/VG15modSlxEj502vN/u6h+yFf0ek8O?=
- =?us-ascii?Q?+Wnz4mmkUeK69tDSfTaR7MM+LIOIPOXH8BOB2WHlLl9OUJbI9g/Ok/QsMBJO?=
- =?us-ascii?Q?ZUYOzNF2uoX/PZrbhuc+ntTDnbfhTlGPAKHipFYME1h79PXi1+GecKxkXG8v?=
- =?us-ascii?Q?upqHRslsYT2uzgGUTOwkb1MYQ7CEa9HF8HIhi+mPWtK+zo+DJvwb/m8Y9FYJ?=
- =?us-ascii?Q?8M2r+XX5GNzEXavw3HCPKTl0XAm40uM4/7meMOTOxUMPemChbVVvqCFJdbos?=
- =?us-ascii?Q?prR8l9twJwZSXC/hR0r8G1aSwNprWJJM17m+hwg9sd+crSEUeC4yQcybtTCw?=
- =?us-ascii?Q?tmLvSlDyNMYvkvNpHXoFVVDimiVBNa2CiL7iup6ZYIt2qa20rA=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?OOHEXkfALD0rG/c/4MhRYFGV9KMuRbZD0s5P54etRlk+sb0qA7WfNp8p5+Kf?=
- =?us-ascii?Q?c55lyqtEqxXjtPNXt6ZVng/zMADTD1KkZvnlIS4lNziUVfee38L0j0L/uiuK?=
- =?us-ascii?Q?JZTFDUcUB8oD2XLbnOwS8PnMTVdVe4e1USNkE6kQnTgR/1dB41esLWIFi9AE?=
- =?us-ascii?Q?d7jW4OS/DzwcAdzTiHKJ8ssA5B0hi+89e/tHnSEGrLHkN+QFBG5Bn8efh5Fy?=
- =?us-ascii?Q?AADPbiI9hO/qLTR/ywr420XqX0Jpkx3+6YRSV4fG9Z7Pt0w6w24C21h5XZ13?=
- =?us-ascii?Q?H8nKW3ZyGTHn5V7qoGQoRVbplNqJWu9nDigmnyMoUgLpBTlQP7wl2ike/p3U?=
- =?us-ascii?Q?cs46MG/ypN8swPI6ub3GaLHJGoDv/L6gtw/37ClbKTtBwfH9qlZ9pEz4VoI3?=
- =?us-ascii?Q?C0ZH3nbW+6mLQpJ5mHFr2v4FGto0i8y7Bk0b7UYzMhEt37k8ZmFVISMaT1lP?=
- =?us-ascii?Q?ZCs+brXaxFEPuarlTGRgZ89RfXDQwe3OZuJeIjDTtdByYCAV67T7+2vc6k3O?=
- =?us-ascii?Q?q3gnnYMXJiY25bdKCrgSwnE1iKkJ3lMGkvLBQcB6I+/oDto/VRVM108qSYEb?=
- =?us-ascii?Q?K8VbxcNhlxfA45XIj7UmYN2jNC/UTCOKvPW/ZzHKupiUZ2zvX1Wl0KnQlcQ2?=
- =?us-ascii?Q?lwViOeQtXCOC99Zw9Lful2Zai3VcZVcZ8PVxj3dsa5WWu0WwMjzhmIaA3CWK?=
- =?us-ascii?Q?T7ArcTo+hzOCBIka3pTPNJmlQzxin36hoh5fLgu/6on0vi8RZH0f+F8t8EPm?=
- =?us-ascii?Q?eN7LtMsMcIfZxfHmWQkn8olFlwvq/OG8tGUWpkphEFh/GgoiWEotKigt55PC?=
- =?us-ascii?Q?OfEvd/xwyG4AR1tKgwVCTvHqO5kYzZ6dyf7f65RWELyv5den58DbyRcwzxCg?=
- =?us-ascii?Q?8Skf7hlbrvIvVVlB8dNmGnKigRrX/XBj2y5EtoBdKfflJZyPJsJ35tC3BHEl?=
- =?us-ascii?Q?cVFG08Z7otN5rwd5grqNPgqennW50ogXE/lU6V2Df37ZDaKrZX4AdGjfB7zD?=
- =?us-ascii?Q?yyEIT73tYE5WRpJThgn+wiJVVQBgXZ7JbdwYR4lHCxB/B3g6asWopFrZNMq5?=
- =?us-ascii?Q?k2OFpQeRNL6ufJGiSYuN9TEv1gakwIfQOCflHl6ALPdJegXreF3rqnpMTdfM?=
- =?us-ascii?Q?E2/6+MCre95AO91INdwdctZDwXqkAwt+pfvv/tycClTPKeb7WB3sG58XAJrG?=
- =?us-ascii?Q?Rplf+C9aTNrSbJoBKPe30TB0d5N/0kPjhZoHkWRZXwZAiaAFTUbLU1lfRuIo?=
- =?us-ascii?Q?IU1SLiJEdaw+r2X+LxxMmXQlXH8PZGDE4/jfCc2fJJPFh7CJ0rbGKb1wn+p1?=
- =?us-ascii?Q?1adXFZtCEeABHw6Iv/w4lSqzn/on5NmQNkbNtDw1VL23jECPzxW7bM3LBLUA?=
- =?us-ascii?Q?RQi1HyhsPmCOBs0qObeitP3feAHgCTZTJlQKX7eYi2eSaXrW1GG+bJ6rvpHs?=
- =?us-ascii?Q?WXIwI0huCZWjzG8z+V/+8QYKmGEqjiRsbqQII1OvkfYc9dDnzii7kj0ceKR5?=
- =?us-ascii?Q?z8V+EtuZcki+fSBRWyEFiTiDxF4SuFPuvgVWweFgmuxvta3Ta9e0zG0EAMzm?=
- =?us-ascii?Q?gx9CaZ2PHu88PHvWIrVh3pUsZnlrUnFLRCyoI+xwUEzKDcfw9qevrxR3u08G?=
- =?us-ascii?Q?8d9GVdwvm3s6DDZN5LahyD0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <770C1C73089E3142B2796B862F56EDA1@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="25743028"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 02 Sep 2024 18:54:56 +0800
+IronPort-SDR: 66d58b65_qvEZABUcGVUsu4RJ1tJg0Ze/aJS0xYLA8uaYCP8kEvdVhce
+ rS8n+Tn55pLqkG6AvVPZIQHRTTueZ9W/FvgvNrA==
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Sep 2024 02:54:46 -0700
+WDCIronportException: Internal
+Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.66.30])
+  by uls-op-cesaip01.wdc.com with ESMTP; 02 Sep 2024 03:54:55 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: Nilay Shroff <nilay@linux.ibm.com>,
+	Yi Zhang <yi.zhang@redhat.com>,
+	Daniel Wagner <dwagner@suse.de>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests v3] nvme/052: wait for namespace removal before recreating namespace
+Date: Mon,  2 Sep 2024 19:54:54 +0900
+Message-ID: <20240902105454.1244406-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: hBFjMrUwenpnNnD3PgKAgOetN4MBgAJ/PL4AiPu0zQs6jO5uVtKG/UzoRKQokKdt3e7Cqhfq3dtzMzXUJZp8F3zS+bXjge+RB2o/nlhmGX9t3fpA1zZd4Oe/6XTfcesk5JZJk8KnS9lTFZDGY0rGa3CXlWi2oBzo4v+/LpOozIFJVaAVgtYkH/iEdZMAK7leOLPHstvCR7s2FG1UvhsotAQhJ9uqrnZ6y/sPtLO/5xrCZuBQ9hZMcJEd+FLqAt5z92w+3dLzgEfxmnOmAuDfP//YuD2Ab432uN/l/KKYyFCrCJf4drRzOHKX7nb53XaqNBBepfUyopqh17xzkABGAoNATGq7Ri8srv7BMqvEx9ibq63Sy2b8QqH1koIXwu0NUX1xWGQ7BXXom5VIim63MjEJpTZg4WQ1p3vUX5cwIqdlI7pPanNHfTQgGFvAvdo98VWolXMxMbP1KJfysJZkCo+iIxusIp7x5tFbG8l4KUDyN8qiKV03kgZELO8Xl7jypfOiODC/GwowaeRDVKHj+RK78saRO0VVa8LspT0JDnXR1iZ5QfCj0sWyiYhjtizDYB6n/JfWWkb8c6fxdkfxxcLz3HO5TxA98TVlapq6V2vbr5HpWsBzXu5+Mvk5rQZD
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4a327e1-ceca-427f-ecbc-08dccb3d8f1e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2024 10:54:03.3793
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1bW+ngEKsbmCuo7GpKqm6LcLep7TE6au0aOZYSfJLtLikfd05iqZdq0P76chlTAvhUsQwiNCnkHrHNbBqvbMYbyBlnC3NtNI+W4s2rYDPfc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR04MB9119
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240902_035409_490133_5276B343 
-X-CRM114-Status: GOOD (  24.11  )
+X-CRM114-CacheID: sfid-20240902_035458_352237_E982629C 
+X-CRM114-Status: GOOD (  18.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -193,51 +83,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Aug 22, 2024 / 21:13, Nilay Shroff wrote:
->=20
->=20
-> On 8/22/24 20:19, Daniel Wagner wrote:
-> > On Thu, Aug 22, 2024 at 11:59:35AM GMT, Shinichiro Kawasaki wrote:
-> >> I can agree with this point: it is odd to suppress errors only for the=
- namespace
-> >> removal case. I did so to catch other potential errors that _find_nvme=
-_ns() may
-> >> return in the future for the namespace creation case. But still this w=
-ay misses
-> >> other potential errors for the namespace removal case. Maybe I was ove=
-rthinking.
-> >> Let's simplify the test with just doing
-> >>
-> >>    ns=3D$(_find_nvme_ns "${uuid}" 2>/dev/null)
+The CKI project reported that the test case nvme/052 fails occasionally
+with the errors below:
 
-While I was preparing for v3, I noticed that it would be the better to redi=
-rect
-the stderr to $FULL than /dev/null, since it will leave some clue on failur=
-e.
-Will reflect this idea to v3.
+  nvme/052 (tr=loop) (Test file-ns creation/deletion under one subsystem) [failed]
+      runtime    ...  22.209s
+      --- tests/nvme/052.out    2024-07-30 18:38:29.041716566 -0400
+      +++
++/mnt/tests/gitlab.com/redhat/centos-stream/tests/kernel/kernel-tests/-/archive/production/kernel-t\
+ests-production.zip/storage/blktests/nvme/nvme-loop/blktests
++/results/nodev_tr_loop/nvme/052.out.bad        2024-07-30 18:45:35.438067452 -0400
+      @@ -1,2 +1,4 @@
+       Running nvme/052
+      +cat: /sys/block/nvme1n2/uuid: No such file or directory
+      +cat: /sys/block/nvme1n2/uuid: No such file or directory
+       Test complete
 
-> >>
-> >> as you suggest. Still the test case can detect the kernel regression, =
-and I
-> >> think it's good enough. Will reflect this to v2.
-> >=20
-> > Not sure if this is relevant, but I'd like to see that we return error
-> > codes so that the caller can actually decide to ignore the failure or
-> > not.
-> The _find_nvme_ns(), when fails to find the relevant namespace, it return=
-s=20
-> "empty string" and if it could find namespace then it returns the namespa=
-ce=20
-> value to the caller. And then caller (in this case nvmf_wait_for_ns()) wo=
-uld=20
-> take action depending on the return value from _find_nvme_ns().
+The test case repeats creating and removing namespaces. When the test
+case removes the namespace by echoing 0 to the sysfs enable file, this
+echo write does not wait for the completion of the namespace removal.
+Before the removal completes, the test case recreates the namespace.
+At this point, the sysfs uuid file for the old namespace still exists.
+The test case misunderstands that the the sysfs uuid file would be for
+the recreated namespace, and tries to read it. However, the removal
+process for the old namespace deletes the sysfs uuid file at this point.
+Then the read attempt fails and results in the errors.
 
-Even if _find_nvme_ns() returns a different error code for the "cat:
-/sys/block/nvmeXnY/uuid: No such file or directory" error, it does not deci=
-de
-the condition to ignore the error or not. So I think the "empty string" che=
-ck
-for the _find_nvme_ns() is enough.
+To avoid the failure, wait for the namespace removal before recreating
+the namespace. Modify nvmf_wait_for_ns() so that it can wait for
+namespace creation and removal. Call nvmf_wait_for_ns() for removal
+after _remove_nvmet_ns() call. While at it, reduce the wait time unit
+from 1 second to 0.1 second to shorten test time.
 
-Anyway, will send out v3 soon.=
+The test case intends to catch the regression fixed by the kernel commit
+ff0ffe5b7c3c ("nvme: fix namespace removal list"). I reverted the commit
+from the kernel v6.11-rc4, then confirmed that the test case still can
+catch the regression with this change.
+
+Link: https://lore.kernel.org/linux-block/tczctp5tkr34o3k3f4dlyhuutgp2ycex6gdbjuqx4trn6ewm2i@qbkza3yr5wdd/
+Fixes: 077211a0e9ff ("nvme: add test for creating/deleting file-ns")
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
+Changes from v2:
+* Avoided conditional stderr redirect of _find_nvme_ns
+
+Changes from v1:
+* Reused nvmf_wait_for_ns() instead of introuducing nvmf_wait_for_ns_removal()
+* Added check of nvme_wait_for_ns() return value
+
+ tests/nvme/052 | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
+
+diff --git a/tests/nvme/052 b/tests/nvme/052
+index cf6061a..401f043 100755
+--- a/tests/nvme/052
++++ b/tests/nvme/052
+@@ -20,23 +20,27 @@ set_conditions() {
+ 	_set_nvme_trtype "$@"
+ }
+ 
++# Wait for the namespace with specified uuid to fulfill the specified condtion,
++# "created" or "removed".
+ nvmf_wait_for_ns() {
+ 	local ns
+ 	local timeout="5"
+ 	local uuid="$1"
++	local condition="$2"
+ 
+-	ns=$(_find_nvme_ns "${uuid}")
++	ns=$(_find_nvme_ns "${uuid}" 2>> "$FULL")
+ 
+ 	start_time=$(date +%s)
+-	while [[ -z "$ns" ]]; do
+-		sleep 1
++	while [[ -z "$ns" && "$condition" == created ]] ||
++		      [[ -n "$ns" && "$condition" == removed ]]; do
++		sleep .1
+ 		end_time=$(date +%s)
+ 		if (( end_time - start_time > timeout )); then
+ 			echo "namespace with uuid \"${uuid}\" not " \
+-				"found within ${timeout} seconds"
++				"${condition} within ${timeout} seconds"
+ 			return 1
+ 		fi
+-		ns=$(_find_nvme_ns "${uuid}")
++		ns=$(_find_nvme_ns "${uuid}" 2>> "$FULL")
+ 	done
+ 
+ 	return 0
+@@ -63,14 +67,21 @@ test() {
+ 		_create_nvmet_ns "${def_subsysnqn}" "${i}" "$(_nvme_def_file_path).$i" "${uuid}"
+ 
+ 		# wait until async request is processed and ns is created
+-		nvmf_wait_for_ns "${uuid}"
+-		if [ $? -eq 1 ]; then
++		if ! nvmf_wait_for_ns "${uuid}" created; then
+ 			echo "FAIL"
+ 			rm "$(_nvme_def_file_path).$i"
+ 			break
+ 		fi
+ 
+ 		_remove_nvmet_ns "${def_subsysnqn}" "${i}"
++
++		# wait until async request is processed and ns is removed
++		if ! nvmf_wait_for_ns "${uuid}" removed; then
++			echo "FAIL"
++			rm "$(_nvme_def_file_path).$i"
++			break
++		fi
++
+ 		rm "$(_nvme_def_file_path).$i"
+ 	}
+ 	done
+-- 
+2.45.2
+
 
