@@ -4,65 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09AB2CA0ED3
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 14:28:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0155CD13CF
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 14:28:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oQ9LsPTxm+VbQGotIboa4weytFmVBj0/VPIq2l60SY0=; b=xXbxfXar9Fpa1ZzyNnfz6iBL2e
-	wWxEEU/lzC83VfNu8PF0BS5gsqKL+j2tTeLGyZ6g2nULpqjU9xWy5OqMdKiz504Eq0L6X1Gkxms3r
-	LPodQdGQOs9EKh4yHvdKp5IzLghGN5tP1mKq4GqwRvmK9ehQtVhYexgoryLFpLfNx+YZOF+gwGSaT
-	GEkYr01LiDmqSad4/qq5STYNOu+7ZnxEa9LbypHUG/f9tmk0F4A+MCT4FVzuR6AyCBpHnjHSQC/xK
-	LOgdlxcn8nwc00lxdG7UjhSkyiWlvInxnIJII7/q7+wPfWxahU979vz9AFGSG98OUsq09pplCVHId
-	mjTKmtVQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UQqPVXsmN3ETPXhJs4cjYSNwhZKHftRjyjECFeKlbuo=; b=Vr9ZRDIDvs3+1bNfdL+7fWj1ce
+	yw5zyyhcDb13PAmkYJTFJWszgnidinQW+spiZGQiSwnUiUxmLte1go4kX2tZW8NKPEVw0ohGk71kI
+	pMhpaxbFpI3B7xbqn8WIgjSSnZC5nqJUBW1UKvqOWan3SawBefrSd7s/v2l4mYS3wunIvpxYDtr6D
+	oBd4D6UDbffb3C65fUdmpfji+e/axqD0zn5vsM7z9etsW3WWjPCYPetLvC53a/V0slwxn0VKHBtL+
+	IgJ9ZtjNlTq0mtrpGCezNmFJeSvZcu5ByOGz8SbQ9hQj5KswM2jTp1tEkpuwq4bRwDuDiHMh8bMEi
+	3LlrPuSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl82J-0000000Ef3H-2qTm;
-	Mon, 02 Sep 2024 14:28:07 +0000
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl82E-0000000Eezz-3aVj
-	for linux-nvme@lists.infradead.org;
+	id 1sl82H-0000000Ef2e-1kvI;
 	Mon, 02 Sep 2024 14:28:05 +0000
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a86984e035aso527512466b.2
-        for <linux-nvme@lists.infradead.org>; Mon, 02 Sep 2024 07:28:02 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sl82D-0000000Eezh-3i5B
+	for linux-nvme@lists.infradead.org;
+	Mon, 02 Sep 2024 14:28:03 +0000
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a868d7f92feso480722166b.2
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Sep 2024 07:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1725287281; x=1725892081; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oQ9LsPTxm+VbQGotIboa4weytFmVBj0/VPIq2l60SY0=;
-        b=L3tps9GURjzpAAipZB2jSuv09a5ZmZJAWRKQbk/qN06ir0wYhR0UNXFI9Ipzy6uIB3
-         E2BXBprlGfvHARuI5EsQsOBigpfIL3Lk+7Nfl3WClAkkrpjpAXOq34/EtGnQiG+2lxTI
-         8KqWkTFiqlZbbd5pYXyiTbrpEORb24yS/iZYhxDYXVOT1Cqfuc6lKzkazbwE6SZiTbj+
-         q/fSLD6fi0BzTi8fyOEqX7QpZ+p05ink5KP+39WGpj1DbfInjYxIdlsPYytYNj88UEAC
-         c5NascoshQ+p8BY472ZJNYi4JGyiIemwWng3Tf4H6qmOka9P2N80ebkXXoklLc9lNw34
-         QLuQ==
+        d=suse.com; s=google; t=1725287279; x=1725892079; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UQqPVXsmN3ETPXhJs4cjYSNwhZKHftRjyjECFeKlbuo=;
+        b=IMWvVsWZjVL30EZffdf9x4cfnRjjzXCJMMtrA0gBfTJk/Wq6TCYzLrZJgL3btD8HpL
+         Zpg2OKOy+ynW9PVQ7q+XQ11OGgFDxZDFGi6mBQdXdcyGD+TL/sIZvb3uNQzuWG+VHDrU
+         cdwyEKYEGhbVKu/mo5Y8hg0p7Mwhz0xW3le0xp+y+cBfDE6DFSyoBHKezEvkIvFWbyhm
+         1ZSa2vNXVDfTI5P+wDvAwUghYNM1C7MU06pvqOjgzcuYurmBChIl9Gs2jdci0OQj6+u7
+         RsiIgXaMw8lrkSLAN/Sz9tpFKuNg2fCeyDZ2MLaGR8HDYhdKMf8igMupA/iizSoz5ygi
+         sgvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725287281; x=1725892081;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oQ9LsPTxm+VbQGotIboa4weytFmVBj0/VPIq2l60SY0=;
-        b=HH9IfCT90i0QLIW1tN85YgXZh/PH2Fu8C/qKcfHzV+CAiyvRHApR4kg9WlCIAyZOcC
-         lix0mr7OMWOtVuDPrySA0PHNkI1Jbxl3ls+8tfoe6fxELuRcv8Ou+MbxarbHwPB8bZmf
-         WKS1Punm373Hqu8OHdEOZfqOcZGQN5Siu2gryGz1hvL02LtJNzO+0DEqVqfSYbdiFaZ5
-         U+YJI0UEBbEv2HUiJ7cg1BW4BlRJmPGV430c8KbB55QEWdxSqzCeYB/t0o4yLwK+jzLU
-         HudGgj6C1/pQm9p5UMR4SrssHECWySmXLplQv8H3TIez0+QvWM/KdXZH1QmaGklXAyI7
-         x2hQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9T9Uk5caC1RFhEdrDq6UVHgnQA6yYq57QCjIkJjn3cEdzoTujw+fA/knawR5jE8IamoZk9N2aNSp2@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywhk9HixNvxWLwXAJzUz9UE6ziu9+jlhsFVxhPmaqqKOoWFAJNl
-	Dx2ITz1AWRCHdn+fYiI+AGfB3EA7AIwtncnV8WSJOSIdRLS0NncDi7nZDIXV4xY=
-X-Google-Smtp-Source: AGHT+IFNo+U6H0njqtK5FYf7X4oDFyjmGEpzlRSMX+ycejfBh12MlSOr41SNUtIdm7WPwSAjc412zg==
-X-Received: by 2002:a17:907:d8f:b0:a7a:b781:60ed with SMTP id a640c23a62f3a-a89a35a1159mr655497466b.17.1725287280917;
-        Mon, 02 Sep 2024 07:28:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725287279; x=1725892079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UQqPVXsmN3ETPXhJs4cjYSNwhZKHftRjyjECFeKlbuo=;
+        b=nXlGnC92nxD/FFFPIXxWnQUkJMfoxaGPs/4kvm+n1wEvTZ6ljw3JGeJaljqAzrO4SP
+         PAhp0LGxOeMOhAvSOvQeLctuFuOAyrMp8n4cU1E+xWW+1ue3M4SOGFcFPFvCxweJ9Zo0
+         N6Bi4IqsKafD7PJdHtmlm5Q8Deq+l8gcZMx3aQxUw4YD2iGcpI6HC1aSFjnF4Aglr4Y4
+         m371NdUpecG5tJ4dpk6uLJZc4AqJ11SEpDR9Rvhk0JHYDi1xOMhKH5xBhaYPOA6WYr3A
+         5HCGFAvJjYV7zpAR8XVoBKgg4pkTKXNlHvGb+FWn4PlMwONf2mOb3EjIka7MyX1xOJYr
+         9kPg==
+X-Forwarded-Encrypted: i=1; AJvYcCWLLgPWyUfyAPP9moZHvqjPVze/y43fTOY9/91dvBKQUsAUhytgGPEgnsi3pNrNQIxaMXw0us4erkte@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyui+qqArXPq5ccwPLHHe7QwwM2O5tHH/ngS7XcQkPMatX+XVm2
+	r0UXFEGAqNRvB277mQehSwgZ9v9GUwvqKmnGeWcKHyRaJCPgdsb7XU2mXNoC9w8=
+X-Google-Smtp-Source: AGHT+IFwU1bw/XpVW9MjXzWxGVdxxDsb7XOeZDUlCoaSOFEdDqvAv7ft1RhGTlzuaVlVoB1lmeR00A==
+X-Received: by 2002:a17:907:da2:b0:a7d:e857:1490 with SMTP id a640c23a62f3a-a897f8d51dcmr1054688466b.37.1725287278630;
+        Mon, 02 Sep 2024 07:27:58 -0700 (PDT)
 Received: from localhost (p200300de37360a00d7e56139e90929dd.dip0.t-ipconnect.de. [2003:de:3736:a00:d7e5:6139:e909:29dd])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-a8989222fa8sm565950366b.213.2024.09.02.07.28.00
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-a8989022a69sm562225966b.87.2024.09.02.07.27.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 07:28:00 -0700 (PDT)
+        Mon, 02 Sep 2024 07:27:58 -0700 (PDT)
 From: Martin Wilck <martin.wilck@suse.com>
 X-Google-Original-From: Martin Wilck <mwilck@suse.com>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
@@ -73,17 +72,15 @@ Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Martin Wilck <mwilck@suse.com>
-Subject: [PATCH v3 3/3] nvme: add test for controller rescan under I/O load
-Date: Mon,  2 Sep 2024 16:27:47 +0200
-Message-ID: <20240902142748.65779-3-mwilck@suse.com>
+Subject: [PATCH v3 1/3] blktests: nvme/{033-037,039}: skip passthru tests on multipath devices
+Date: Mon,  2 Sep 2024 16:27:45 +0200
+Message-ID: <20240902142748.65779-1-mwilck@suse.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240902142748.65779-1-mwilck@suse.com>
-References: <20240902142748.65779-1-mwilck@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240902_072802_917086_2F42FC13 
-X-CRM114-Status: GOOD (  18.34  )
+X-CRM114-CacheID: sfid-20240902_072801_945792_F4E3F5D2 
+X-CRM114-Status: GOOD (  13.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,152 +95,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a test that repeatedly rescans nvme controllers while doing IO
-on an nvme namespace connected to these controllers. The purpose
-of the test is to make sure that no I/O errors or data corruption
-occurs because of the rescan operations. The test uses sub-second
-sleeps, which can't be easily accomplished in bash because of
-missing floating-point arithmetic (and because usleep(1) isn't
-portable). Therefore an awk program is used to trigger the
-device rescans.
+NVMe multipath devices have no associated character device that
+can be used for NVMe passtrhu. Skip them.
 
-Link: https://lore.kernel.org/linux-nvme/20240822201413.112268-1-mwilck@suse.com/
 Signed-off-by: Martin Wilck <mwilck@suse.com>
-Reviewed-by: Nilay Shroff (nilay@linux.ibm.com)
 ---
-v3: (all changes suggested by Shinichiro Kawasaki)
-    - add "Link:" tag
-    - add comment with patch description
-    - declare variable "st" local
-    - use "mapfile -t" for array assignment
-v2: - don't use usleep (Nilay Shroff). Use an awk program to do floating
-      point arithmetic and achieve more accurate sub-second sleep times.
-    - add 053.out (Nilay Shroff).
+v3: improve patch subject (Shinichiro Kawasaki)
+v2: used more expressive function name for non-multipath test (Daniel Wagner)
 ---
- tests/nvme/053     | 74 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/053.out |  2 ++
- tests/nvme/rc      | 18 +++++++++++
- 3 files changed, 94 insertions(+)
- create mode 100755 tests/nvme/053
- create mode 100644 tests/nvme/053.out
+ tests/nvme/033 | 4 ++++
+ tests/nvme/034 | 4 ++++
+ tests/nvme/035 | 1 +
+ tests/nvme/036 | 4 ++++
+ tests/nvme/037 | 4 ++++
+ tests/nvme/039 | 4 ++++
+ tests/nvme/rc  | 8 ++++++++
+ 7 files changed, 29 insertions(+)
 
-diff --git a/tests/nvme/053 b/tests/nvme/053
-new file mode 100755
-index 0000000..df643ec
---- /dev/null
-+++ b/tests/nvme/053
-@@ -0,0 +1,74 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2024 Martin Wilck, SUSE LLC
-+#
-+# Repeatedly rescans nvme controllers while doing IO on an nvme namespace
-+# connected to these controllers, and make sure that no I/O errors or data
-+# corruption occurs.
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="test controller rescan under I/O load"
-+TIMED=1
-+: "${TIMEOUT:=60}"
-+
-+rescan_controller() {
-+	local path
-+	path="$1/rescan_controller"
-+
-+	[[ -f "$path" ]] || {
-+		echo "cannot rescan $1"
-+		return 1
-+	}
-+
-+	awk -f "$TMPDIR/rescan.awk" \
-+	    -v path="$path" -v timeout="$TIMEOUT" -v seed="$2" &
-+}
-+
-+create_rescan_script() {
-+	cat >"$TMPDIR/rescan.awk" <<EOF
-+@load "time"
-+
-+BEGIN {
-+    srand(seed);
-+    finish = gettimeofday() + strtonum(timeout);
-+    while (gettimeofday() < finish) {
-+	sleep(0.1 + 5 * rand());
-+	printf("1\n") > path;
-+	close(path);
-+    }
-+}
-+EOF
-+}
-+
-+test_device() {
-+	local -a ctrls
-+	local i st
-+
-+	echo "Running ${TEST_NAME}"
-+	create_rescan_script
-+
-+	mapfile -t ctrls < <(_nvme_get_ctrl_list)
-+	_run_fio_verify_io --filename="$TEST_DEV" --time_based &> "$FULL" &
-+
-+	for i in "${!ctrls[@]}"; do
-+		rescan_controller "${ctrls[$i]}" "$i"
-+	done
-+
-+	while true; do
-+		wait -n &>/dev/null
-+		st=$?
-+		case $st in
-+			127)
-+				break
-+				;;
-+			0)
-+				;;
-+			*)
-+				echo "child process exited with $st!"
-+				;;
-+		esac
-+	done
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/053.out b/tests/nvme/053.out
-new file mode 100644
-index 0000000..e8086ce
---- /dev/null
-+++ b/tests/nvme/053.out
-@@ -0,0 +1,2 @@
-+Running nvme/053
-+Test complete
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index b702a57..a877de3 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -192,6 +192,24 @@ _test_dev_nvme_nsid() {
- 	cat "${TEST_DEV_SYSFS}/nsid"
+diff --git a/tests/nvme/033 b/tests/nvme/033
+index 7a69b94..5e05175 100755
+--- a/tests/nvme/033
++++ b/tests/nvme/033
+@@ -13,6 +13,10 @@ requires() {
+ 	_have_kernel_option NVME_TARGET_PASSTHRU
  }
  
-+_nvme_get_ctrl_list() {
-+	local subsys
-+	local c
-+
-+	subsys=$(readlink  "${TEST_DEV_SYSFS}/device/subsystem")
-+	case $subsys in
-+		*/nvme)
-+			readlink -f "${TEST_DEV_SYSFS}/device"
-+			;;
-+		*/nvme-subsystem)
-+			for c in "${TEST_DEV_SYSFS}"/device/nvme*; do
-+				[[ -L "$c" ]] || continue
-+				[[ -f "$c/dev" ]] && readlink -f "$c"
-+			done
-+			;;
-+	esac
++device_requires() {
++	_require_test_dev_is_not_nvme_multipath
 +}
 +
- _nvme_calc_rand_io_size() {
- 	local img_size_mb
- 	local io_size_kb
+ set_conditions() {
+ 	_set_nvme_trtype "$@"
+ }
+diff --git a/tests/nvme/034 b/tests/nvme/034
+index 239757c..154fc91 100755
+--- a/tests/nvme/034
++++ b/tests/nvme/034
+@@ -14,6 +14,10 @@ requires() {
+ 	_have_fio
+ }
+ 
++device_requires() {
++	_require_test_dev_is_not_nvme_multipath
++}
++
+ set_conditions() {
+ 	_set_nvme_trtype "$@"
+ }
+diff --git a/tests/nvme/035 b/tests/nvme/035
+index 8286178..ff217d6 100755
+--- a/tests/nvme/035
++++ b/tests/nvme/035
+@@ -17,6 +17,7 @@ requires() {
+ }
+ 
+ device_requires() {
++	_require_test_dev_is_not_nvme_multipath
+ 	_require_test_dev_size "${NVME_IMG_SIZE}"
+ }
+ 
+diff --git a/tests/nvme/036 b/tests/nvme/036
+index ef6c29d..442ffe7 100755
+--- a/tests/nvme/036
++++ b/tests/nvme/036
+@@ -13,6 +13,10 @@ requires() {
+ 	_have_kernel_option NVME_TARGET_PASSTHRU
+ }
+ 
++device_requires() {
++	_require_test_dev_is_not_nvme_multipath
++}
++
+ set_conditions() {
+ 	_set_nvme_trtype "$@"
+ }
+diff --git a/tests/nvme/037 b/tests/nvme/037
+index ef7ac59..f7ddc2d 100755
+--- a/tests/nvme/037
++++ b/tests/nvme/037
+@@ -12,6 +12,10 @@ requires() {
+ 	_have_kernel_option NVME_TARGET_PASSTHRU
+ }
+ 
++device_requires() {
++	_require_test_dev_is_not_nvme_multipath
++}
++
+ set_conditions() {
+ 	_set_nvme_trtype "$@"
+ }
+diff --git a/tests/nvme/039 b/tests/nvme/039
+index a0f135c..e8020a7 100755
+--- a/tests/nvme/039
++++ b/tests/nvme/039
+@@ -18,6 +18,10 @@ requires() {
+ 	    _have_kernel_option FAULT_INJECTION_DEBUG_FS
+ }
+ 
++device_requires() {
++	_require_test_dev_is_not_nvme_multipath
++}
++
+ # Get the last dmesg lines as many as specified. Exclude the lines to indicate
+ # suppression by rate limit.
+ last_dmesg()
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index dedc412..5c554b6 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -130,6 +130,14 @@ _require_test_dev_is_nvme() {
+ 	return 0
+ }
+ 
++_require_test_dev_is_not_nvme_multipath() {
++	if [[ "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ /nvme-subsystem/ ]]; then
++		SKIP_REASONS+=("$TEST_DEV is a NVMe multipath device")
++		return 1
++	fi
++	return 0
++}
++
+ _require_nvme_test_img_size() {
+ 	local require_sz_mb
+ 	local nvme_img_size_mb
 -- 
 2.46.0
 
