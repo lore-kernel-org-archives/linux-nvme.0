@@ -4,59 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E89C9CD13CF
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 11:15:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48761CA0ED3
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 11:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=EbG3/uDuvktVoi6GV7RU57cyrggN/hLVsPLLl6oe8Fg=; b=3GnAHlV16af2r3aZ34fV5DZsJa
-	81rZAxTq5bBwJl1mRMuvcXsshRDvAm9acgXzUQ8/2QDCOvQ9cbs/rV80dnuZQ2XAOFIpZGr+9R1Xz
-	IzLlJQKCbsF6AkCVOtxeAk0rCBwkyvW7HKwdUMtdFjS3MH0t9xc0TgqBD0YEJ0MetdesxULWTjGbY
-	uhKfWHEaqOSGtPzh4KENxHvZqBDBvDETu97Olt2foYKMrV4JzsvgekjzXqtoZf3iZQeau9qI0YldG
-	/A31sdQdXNW4IGRCGpn74401ZvPR720iNmQtBX3eY+F2oQK7vXjf6pBJZSgKaQpZ6+lfdumZyAEp3
-	s+9FDe4Q==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ME7UYn/7XQCSZlQd4iqv+MYwFM38mmnNTLxgCKd7Cfk=; b=uGuWoZtKf8nTcHTvXwLPHL8l3y
+	m3BXejlMiOqzl+bNJszVjXInkcNJ4qVGytcoVZ33w398sM+yEkLUzh01pVczr5wiaSQGA5m55qDGt
+	AXkkUGKYEzCqVUMBw/1NSPpnGSjCpGA7GVhRBWO/2yU16JeehYEKzvi5g9yDR9FF1tf1d1BsJpRwn
+	/bhp3yvlvoNmRApKIJR1mSmmd+Z8q4uYSl8WaIWBHEDHIyhbykY9Uf4Jt21lGCHAl7hc7pFKJ1HFZ
+	sXj6x/eATPwQE60cPkGIXb+tBTNd8gvy7JHvioNmZEhnSwzcddBK/U51wN1BVzQwsvME/EX/Uqwpa
+	O1J7/oVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl52M-0000000E56S-12GP;
-	Mon, 02 Sep 2024 11:15:58 +0000
+	id 1sl52N-0000000E57S-3L5D;
+	Mon, 02 Sep 2024 11:15:59 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl52I-0000000E53i-2Yxs
+	id 1sl52J-0000000E54o-3rNq
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Sep 2024 11:15:55 +0000
+	Mon, 02 Sep 2024 11:15:57 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1347A5C57D9;
-	Mon,  2 Sep 2024 11:15:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F43C4CEC2;
+	by dfw.source.kernel.org (Postfix) with ESMTP id BB6D65C4B0B;
 	Mon,  2 Sep 2024 11:15:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93DEAC4CEC6;
+	Mon,  2 Sep 2024 11:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725275753;
-	bh=TZh4IeOGtz0bQ3n6eik4tkyWzFZtb7Hb+Vl97/C6sMI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=J7RIa7r2958IKQctyltfZXrPfqPbQxMsQWV95Llnsps4PJxYHc4AI94y4UVZCShJW
-	 a64bHgBsBDl3vWsezzoX582B18xBH78U9TGTQsU4fg5gFZ1/9V15qfit3GC2Ee4r5b
-	 WQysNApYVfUo8dc+UmxW7ZP9aKFFEA8NVw+mr7NSZt8FH6tuMQht9muhF/MOoMQd7k
-	 LX6OGVVLeD2wCF8dgvSUmIVE/YuSUCluP9RME1ghGj89SdWPb3hHrDBqrf5opH/OOF
-	 oT7ET7+Z4SWHZTwKqJiHUHxB5EIOF/6313x84EB67I1vZJLfNF+F4V1yfuQG/9gQvR
-	 qqAQmOhiaRtow==
+	s=k20201202; t=1725275754;
+	bh=zNtKtrM314CAiptOnQPF+QW3taJ/oZP/TwjsE2evHg4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oIDOvndn63gCqttkW4AJGRR5UGuP0r/Sd18ZxU2S1xJOy0a6ZHt9sJRGI2kR9SiyX
+	 zosYLz1nzDJIrgGoy6DbnxDrL+8kIItbRNuv86hQ6nhjt+lYMg0+QpisES8Wm588s7
+	 0dDBP1ikwnsWg29MS6EBtihHH1OR99eHLA0yitF+bSCd/hs1QpKDa9y5ZsxiMfCFGT
+	 6uNgkYed//y3kAPiL+4FQS60ZVxzBIspstCHUa/PmRe97boHGtwjxaq6tPjq9wWxUL
+	 WDr8oJrUJKvTypF5CZ76s0JX++zJw6HnB9UFzc1kCR04mu+SvKbvowhX+AbOOTtKqz
+	 EFAaEuWjo5GuQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 0/4] nvme: NSHEAD_DISK_LIVE fixes
-Date: Mon,  2 Sep 2024 13:15:44 +0200
-Message-Id: <20240902111548.41430-1-hare@kernel.org>
+Subject: [PATCH 1/4] nvme-multipath: fixup typo when clearing DISK_LIVE
+Date: Mon,  2 Sep 2024 13:15:45 +0200
+Message-Id: <20240902111548.41430-2-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240902111548.41430-1-hare@kernel.org>
+References: <20240902111548.41430-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240902_041554_734709_D5D0A2B6 
-X-CRM114-Status: GOOD (  12.02  )
+X-CRM114-CacheID: sfid-20240902_041556_124590_19B4DC4E 
+X-CRM114-Status: GOOD (  11.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,31 +73,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+NVME_NSHEAD_DISK_LIVE is a flag for 'struct nvme_ns_head', not
+'struct nvme_ns'.
 
-I'm have a testcase which does a repeated map/unmap of namespaces and
-changing the UUID for each namespace after unmapping.
-This leads to an unrecoverable system where the scanning processes
-are stuck in 'device_add_disk()' waiting for I/O which will never come
-as the I/O is doing ping-pong between the namespace (which cannot
-do I/O as the path is inaccessible) and the ns_head (which is not
-live and hence can't do I/O, either).
-With this patchset (and the queue freeze patchset from hch) the problem
-is resolved and the testcase runs without issues.
-I see to get the testcase added to blktests.
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/host/multipath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (4):
-  nvme-multipath: fixup typo when clearing DISK_LIVE
-  nvme-multipath: clear 'NVME_NSHEAD_DISK_LIVE' bit on shutdown
-  nvme-multipath: check for NVME_NSHEAD_DISK_LIVE when selecting paths
-  nvme: remove existing namespace on ID mismatch
-
- drivers/nvme/host/core.c      |  4 +++-
- drivers/nvme/host/multipath.c | 10 ++++++++--
- 2 files changed, 11 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 91d9eb3c22ef..c9d23b1b8efc 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -646,7 +646,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 		rc = device_add_disk(&head->subsys->dev, head->disk,
+ 				     nvme_ns_attr_groups);
+ 		if (rc) {
+-			clear_bit(NVME_NSHEAD_DISK_LIVE, &ns->flags);
++			clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags);
+ 			return;
+ 		}
+ 		nvme_add_ns_head_cdev(head);
 -- 
 2.35.3
 
