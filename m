@@ -4,70 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7252CA0ED3
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 17:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EAA1CD13CF
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 17:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lznb3xTQoicrAXo6yOHWF4t2TnQtzTvR2XB7PT38rrY=; b=sHCvrZzrPofeLKxgszFIFcBWMY
-	nq5NWVJ5RCMy6bOQAaurPKuCzrUbEdQc7HY9TpSOF1DcRQZDI/icDQd/QRortPO2SUlgWgtBySa1m
-	OnN9wGOJS+XHQgq/ozGdfb+ddSUjvjnmyCIFOpFeP+yFMPqwood6LtGqO3WJiZ70EPe5qMnWV6ayq
-	Kr7l15+5Zn+l9fUQw2o4rL1nyhs5098qL67Z03/N9ugI9CKj7RSk6tsP3V1KloXs8jtO8uSgYEN7L
-	FCuNMwlXa4sCuaZ8krli5sLDK5y/4AIuPwp7FZEtpI71+7iQEs5lXIUPb+uCGguz73oAh55nxDQs0
-	SikS73bQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Zi4WNyojJlupZtpSMihsyhwIywBkvt0sNSVa5lyIR2Q=; b=0PIKUidsez4OnR3x6UIfSs733m
+	wFcQPdgT0hjH+TIIFMv45E5r8BVFlM+9vQ+eq5pI0uoqFpDFxCo22wr6McMfD9CxvipD68aajyJZh
+	5c51Xui+KsJ0dp+4rmqLB15YnlpFxnsGzYPt3m16ME8B3j9XvEFVLA31IOZaNdn/4btojR2IdC6qy
+	nQKyc7zQcj20jgl5drUoZVw1unsxhfCzWmC/4IxE1BLN64603tq3OcRVspZf6S9g95ut6p6p09HD+
+	cgzRBoiWDFXI5w0owdFnX/QvoqrEiz5tIphbJIfxRM5v85007oXtucBvstDgGgncNIr5JOU40mgof
+	/642b2dg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slATR-0000000F7VQ-2BAD;
-	Mon, 02 Sep 2024 17:04:17 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1slAeZ-0000000F8ZP-2bqe;
+	Mon, 02 Sep 2024 17:15:47 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slATO-0000000F7Sv-3rZ5
+	id 1slAeV-0000000F8Yk-26wX
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Sep 2024 17:04:16 +0000
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42c5347b2f7so21710525e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 02 Sep 2024 10:04:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725296653; x=1725901453;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lznb3xTQoicrAXo6yOHWF4t2TnQtzTvR2XB7PT38rrY=;
-        b=MyKCOvV8Hc8ymfWOXwwhvsyPuffqY3NGfU0APTwWaQeBqBx0ZbeauVBK+/F0+FkBYK
-         0kGy1uzo1eGSdfbiNrd+4Nr+CjkAzIGn8iBm3ldlqbW0m4zAiQPJRsUBs5RytPIXfcCS
-         pz0O3M1bzggo9yscX8LgOjTx8skdw+oYoshWO3UwJncMXbV5osJ5DZQx93C70IvtJJoJ
-         ofKlpsryLFFdip2UWO6acVuLHB6X16RpWZzYJj2N2MiBH8DdTnc+H1NQHuc8m+1mWvr6
-         A9I8+J9d+uv66CXDgI3aWcIWu50FLFhkwQt9xSlkBqz5ENnPZJnzjQ/ZCaQMKjIlUeXh
-         1n4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU3a2Y5WdDsY1LGamss+5RXBQWJxwbp0P/cAs/havNodbaopCWctSPPo7gHSQSRgB0PtTQBy1opAFfR@lists.infradead.org
-X-Gm-Message-State: AOJu0Yys1dKTvahiSFGkgd2LKeLdOJtd+mYjhXr4ZR0M6wq4OM5MtW9g
-	BSq4c7LB4qyj4ebu4P3FQnZOtXIR+HVTDXF+3mWgpdCHTG5ifqmV3aNOwg==
-X-Google-Smtp-Source: AGHT+IEPGdlVFKLRRqIbRnoK73pnVjKZ8IRTz6q58p2U91A6kEn7IGtQX/mXElFthJ8gBj97W45+LA==
-X-Received: by 2002:a05:600c:a06:b0:42a:a6d2:3270 with SMTP id 5b1f17b1804b1-42bb01c0f9fmr114166295e9.21.1725296652677;
-        Mon, 02 Sep 2024 10:04:12 -0700 (PDT)
-Received: from [10.100.102.74] (89-138-71-253.bb.netvision.net.il. [89.138.71.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6e273eesm143637955e9.32.2024.09.02.10.04.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 10:04:12 -0700 (PDT)
-Message-ID: <d916ae67-fd43-403d-8053-4a5c0a472738@grimberg.me>
-Date: Mon, 2 Sep 2024 20:04:11 +0300
-MIME-Version: 1.0
+	Mon, 02 Sep 2024 17:15:45 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 482BIljk010282;
+	Mon, 2 Sep 2024 17:15:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
+	Zi4WNyojJlupZtpSMihsyhwIywBkvt0sNSVa5lyIR2Q=; b=hCG8FSkFe/J0242O
+	eZOLUH9ZThaZehZFOX0BKFAjgcBXBHh+iGeyYy0AOqvLxcuux+5tOifgGhDevCec
+	f/BWaJSU74eS3SQwC0dWkxhQZXpSiDj5UJ9k8SFEbfIZcObF+BjMxSzqNbDtRC41
+	Sux9bB4OZ2BfiuVP7E5IGXR0G127AW/e+wjaRFrTnntupeZ71xDyCb9Kt3R2H777
+	APsa4TiBmEIwCz/h/9GO9dXxitAnJXjiFGz1goVABXqInI3EX61VEt05jvdfAfxH
+	LWO+58PxC2eRgftXfRJrwd8IS+Aj3pwY3hbHdUpLs45DWpwlxpCwWItEo/BHYu6L
+	pawFaA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41btp99ye3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Sep 2024 17:15:41 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 482HFeP3019225;
+	Mon, 2 Sep 2024 17:15:40 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41btp99ydy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Sep 2024 17:15:40 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 482D1QYa000930;
+	Mon, 2 Sep 2024 17:15:39 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41cf0mpyst-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Sep 2024 17:15:39 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 482HFckt25231982
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 2 Sep 2024 17:15:39 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A78B158058;
+	Mon,  2 Sep 2024 17:15:38 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1A32858057;
+	Mon,  2 Sep 2024 17:15:37 +0000 (GMT)
+Received: from [9.171.86.213] (unknown [9.171.86.213])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  2 Sep 2024 17:15:36 +0000 (GMT)
+Message-ID: <b9005d25-5fc0-49e0-b196-5d504d58d8c5@linux.ibm.com>
+Date: Mon, 2 Sep 2024 22:45:35 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-pci: check for valid request when polling for
- completions
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240902130728.1999-1-hare@kernel.org>
+Subject: Re: [PATCH blktests v3] nvme/052: wait for namespace removal before
+ recreating namespace
+To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>,
+        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: Yi Zhang <yi.zhang@redhat.com>, Daniel Wagner <dwagner@suse.de>
+References: <20240902105454.1244406-1-shinichiro.kawasaki@wdc.com>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240902130728.1999-1-hare@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240902105454.1244406-1-shinichiro.kawasaki@wdc.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: aeQ5Y8mdy2u2URkSp52NJQ_OXIDlD1fn
+X-Proofpoint-ORIG-GUID: PCKWWkjkIvnMogODghWgqiAUy5a4CQFr
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-02_04,2024-09-02_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409020136
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240902_100414_992119_D14487E4 
-X-CRM114-Status: GOOD (  11.61  )
+X-CRM114-CacheID: sfid-20240902_101543_816333_C0B12A34 
+X-CRM114-Status: GOOD (  31.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,19 +117,120 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
+On 9/2/24 16:24, Shin'ichiro Kawasaki wrote:
+> The CKI project reported that the test case nvme/052 fails occasionally
+> with the errors below:
+> 
+>   nvme/052 (tr=loop) (Test file-ns creation/deletion under one subsystem) [failed]
+>       runtime    ...  22.209s
+>       --- tests/nvme/052.out    2024-07-30 18:38:29.041716566 -0400
+>       +++
+> +/mnt/tests/gitlab.com/redhat/centos-stream/tests/kernel/kernel-tests/-/archive/production/kernel-t\
+> ests-production.zip/storage/blktests/nvme/nvme-loop/blktests
+> +/results/nodev_tr_loop/nvme/052.out.bad        2024-07-30 18:45:35.438067452 -0400
+>       @@ -1,2 +1,4 @@
+>        Running nvme/052
+>       +cat: /sys/block/nvme1n2/uuid: No such file or directory
+>       +cat: /sys/block/nvme1n2/uuid: No such file or directory
+>        Test complete
+> 
+> The test case repeats creating and removing namespaces. When the test
+> case removes the namespace by echoing 0 to the sysfs enable file, this
+> echo write does not wait for the completion of the namespace removal.
+> Before the removal completes, the test case recreates the namespace.
+> At this point, the sysfs uuid file for the old namespace still exists.
+> The test case misunderstands that the the sysfs uuid file would be for
+> the recreated namespace, and tries to read it. However, the removal
+> process for the old namespace deletes the sysfs uuid file at this point.
+> Then the read attempt fails and results in the errors.
+> 
+> To avoid the failure, wait for the namespace removal before recreating
+> the namespace. Modify nvmf_wait_for_ns() so that it can wait for
+> namespace creation and removal. Call nvmf_wait_for_ns() for removal
+> after _remove_nvmet_ns() call. While at it, reduce the wait time unit
+> from 1 second to 0.1 second to shorten test time.
+> 
+> The test case intends to catch the regression fixed by the kernel commit
+> ff0ffe5b7c3c ("nvme: fix namespace removal list"). I reverted the commit
+> from the kernel v6.11-rc4, then confirmed that the test case still can
+> catch the regression with this change.
+> 
+> Link: https://lore.kernel.org/linux-block/tczctp5tkr34o3k3f4dlyhuutgp2ycex6gdbjuqx4trn6ewm2i@qbkza3yr5wdd/
+> Fixes: 077211a0e9ff ("nvme: add test for creating/deleting file-ns")
+> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> ---
+> Changes from v2:
+> * Avoided conditional stderr redirect of _find_nvme_ns
+> 
+> Changes from v1:
+> * Reused nvmf_wait_for_ns() instead of introuducing nvmf_wait_for_ns_removal()
+> * Added check of nvme_wait_for_ns() return value
+> 
+>  tests/nvme/052 | 25 ++++++++++++++++++-------
+>  1 file changed, 18 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tests/nvme/052 b/tests/nvme/052
+> index cf6061a..401f043 100755
+> --- a/tests/nvme/052
+> +++ b/tests/nvme/052
+> @@ -20,23 +20,27 @@ set_conditions() {
+>  	_set_nvme_trtype "$@"
+>  }
+>  
+> +# Wait for the namespace with specified uuid to fulfill the specified condtion,
+> +# "created" or "removed".
+>  nvmf_wait_for_ns() {
+>  	local ns
+>  	local timeout="5"
+>  	local uuid="$1"
+> +	local condition="$2"
+>  
+> -	ns=$(_find_nvme_ns "${uuid}")
+> +	ns=$(_find_nvme_ns "${uuid}" 2>> "$FULL")
+>  
+>  	start_time=$(date +%s)
+> -	while [[ -z "$ns" ]]; do
+> -		sleep 1
+> +	while [[ -z "$ns" && "$condition" == created ]] ||
+> +		      [[ -n "$ns" && "$condition" == removed ]]; do
+> +		sleep .1
+>  		end_time=$(date +%s)
+>  		if (( end_time - start_time > timeout )); then
+>  			echo "namespace with uuid \"${uuid}\" not " \
+> -				"found within ${timeout} seconds"
+> +				"${condition} within ${timeout} seconds"
+>  			return 1
+>  		fi
+> -		ns=$(_find_nvme_ns "${uuid}")
+> +		ns=$(_find_nvme_ns "${uuid}" 2>> "$FULL")
+>  	done
+>  
+>  	return 0
+> @@ -63,14 +67,21 @@ test() {
+>  		_create_nvmet_ns "${def_subsysnqn}" "${i}" "$(_nvme_def_file_path).$i" "${uuid}"
+>  
+>  		# wait until async request is processed and ns is created
+> -		nvmf_wait_for_ns "${uuid}"
+> -		if [ $? -eq 1 ]; then
+> +		if ! nvmf_wait_for_ns "${uuid}" created; then
+>  			echo "FAIL"
+>  			rm "$(_nvme_def_file_path).$i"
+>  			break
+>  		fi
+>  
+>  		_remove_nvmet_ns "${def_subsysnqn}" "${i}"
+> +
+> +		# wait until async request is processed and ns is removed
+> +		if ! nvmf_wait_for_ns "${uuid}" removed; then
+> +			echo "FAIL"
+> +			rm "$(_nvme_def_file_path).$i"
+> +			break
+> +		fi
+> +
+>  		rm "$(_nvme_def_file_path).$i"
+>  	}
+>  	done
 
-On 02/09/2024 16:07, Hannes Reinecke wrote:
-> When polling for completions from the timeout handler we traverse
-> over _all_ cqes, and the fetching the request via blk_mq_tag_to_rq().
-> Unfortunately that function will always return a request, even if
-> that request is already completed.
-> So we need to check if the command is still in flight before
-> attempting to complete it.
-
-Hannes, are you able to trigger a use-after-free here? That is the
-inevitable outcome of completing an already completed request.
-So, why are you not calling it as it is?
-
-Was this seen in practice? do you have a stack trace?
-I ask for this because it makes the review a lot clearer.
+Looks good.
+Reviewed-by: Nilay Shroff (nilay@linux.ibm.com)
 
