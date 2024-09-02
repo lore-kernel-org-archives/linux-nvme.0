@@ -4,83 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0155CD13CF
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 14:28:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 407C1CA0ED3
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 16:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UQqPVXsmN3ETPXhJs4cjYSNwhZKHftRjyjECFeKlbuo=; b=Vr9ZRDIDvs3+1bNfdL+7fWj1ce
-	yw5zyyhcDb13PAmkYJTFJWszgnidinQW+spiZGQiSwnUiUxmLte1go4kX2tZW8NKPEVw0ohGk71kI
-	pMhpaxbFpI3B7xbqn8WIgjSSnZC5nqJUBW1UKvqOWan3SawBefrSd7s/v2l4mYS3wunIvpxYDtr6D
-	oBd4D6UDbffb3C65fUdmpfji+e/axqD0zn5vsM7z9etsW3WWjPCYPetLvC53a/V0slwxn0VKHBtL+
-	IgJ9ZtjNlTq0mtrpGCezNmFJeSvZcu5ByOGz8SbQ9hQj5KswM2jTp1tEkpuwq4bRwDuDiHMh8bMEi
-	3LlrPuSA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KeSwfyvEoZrhGanqUvTmjyLcSlB5pmbr/ctUVatnsBs=; b=v6+fJE75unrwcFx4MYs96ZO1K/
+	acXpsgm2lIgiirjJW4oEEC2NojnLS0LDZm6YPy/E1ZXoHDT8oORbytr7Iwa3rmp2fn7rKYEs3h/ns
+	zmDP8WWO7aF+/iPO/Ws2WuixwwXztRqRY/76/mO8OuNntpT1nPITrRbOIiVkrZnvtIESNWA4o/qd9
+	qiRDBjaoM3O0W8MxPXgkmL2P0hfP4fEdNeKyNO8gQ9dhpngl+OJhn7e5Toe6XjU6cC+3wykdv2to6
+	b8fMzau+pjDhonKSV+7FrXLWV5wu9pOxXoR2HhEt9VFdl7OgCnSqc9i0ydPGwgwM5HFckiygw3cob
+	1eGigj2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl82H-0000000Ef2e-1kvI;
-	Mon, 02 Sep 2024 14:28:05 +0000
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+	id 1slAGA-0000000F5Kq-3OnN;
+	Mon, 02 Sep 2024 16:50:34 +0000
+Received: from mail-wm1-f42.google.com ([209.85.128.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl82D-0000000Eezh-3i5B
+	id 1slAEQ-0000000F55h-2wGY
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Sep 2024 14:28:03 +0000
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a868d7f92feso480722166b.2
-        for <linux-nvme@lists.infradead.org>; Mon, 02 Sep 2024 07:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1725287279; x=1725892079; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQqPVXsmN3ETPXhJs4cjYSNwhZKHftRjyjECFeKlbuo=;
-        b=IMWvVsWZjVL30EZffdf9x4cfnRjjzXCJMMtrA0gBfTJk/Wq6TCYzLrZJgL3btD8HpL
-         Zpg2OKOy+ynW9PVQ7q+XQ11OGgFDxZDFGi6mBQdXdcyGD+TL/sIZvb3uNQzuWG+VHDrU
-         cdwyEKYEGhbVKu/mo5Y8hg0p7Mwhz0xW3le0xp+y+cBfDE6DFSyoBHKezEvkIvFWbyhm
-         1ZSa2vNXVDfTI5P+wDvAwUghYNM1C7MU06pvqOjgzcuYurmBChIl9Gs2jdci0OQj6+u7
-         RsiIgXaMw8lrkSLAN/Sz9tpFKuNg2fCeyDZ2MLaGR8HDYhdKMf8igMupA/iizSoz5ygi
-         sgvQ==
+	Mon, 02 Sep 2024 16:48:47 +0000
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42c7856ed66so19155185e9.3
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Sep 2024 09:48:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725287279; x=1725892079;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UQqPVXsmN3ETPXhJs4cjYSNwhZKHftRjyjECFeKlbuo=;
-        b=nXlGnC92nxD/FFFPIXxWnQUkJMfoxaGPs/4kvm+n1wEvTZ6ljw3JGeJaljqAzrO4SP
-         PAhp0LGxOeMOhAvSOvQeLctuFuOAyrMp8n4cU1E+xWW+1ue3M4SOGFcFPFvCxweJ9Zo0
-         N6Bi4IqsKafD7PJdHtmlm5Q8Deq+l8gcZMx3aQxUw4YD2iGcpI6HC1aSFjnF4Aglr4Y4
-         m371NdUpecG5tJ4dpk6uLJZc4AqJ11SEpDR9Rvhk0JHYDi1xOMhKH5xBhaYPOA6WYr3A
-         5HCGFAvJjYV7zpAR8XVoBKgg4pkTKXNlHvGb+FWn4PlMwONf2mOb3EjIka7MyX1xOJYr
-         9kPg==
-X-Forwarded-Encrypted: i=1; AJvYcCWLLgPWyUfyAPP9moZHvqjPVze/y43fTOY9/91dvBKQUsAUhytgGPEgnsi3pNrNQIxaMXw0us4erkte@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyui+qqArXPq5ccwPLHHe7QwwM2O5tHH/ngS7XcQkPMatX+XVm2
-	r0UXFEGAqNRvB277mQehSwgZ9v9GUwvqKmnGeWcKHyRaJCPgdsb7XU2mXNoC9w8=
-X-Google-Smtp-Source: AGHT+IFwU1bw/XpVW9MjXzWxGVdxxDsb7XOeZDUlCoaSOFEdDqvAv7ft1RhGTlzuaVlVoB1lmeR00A==
-X-Received: by 2002:a17:907:da2:b0:a7d:e857:1490 with SMTP id a640c23a62f3a-a897f8d51dcmr1054688466b.37.1725287278630;
-        Mon, 02 Sep 2024 07:27:58 -0700 (PDT)
-Received: from localhost (p200300de37360a00d7e56139e90929dd.dip0.t-ipconnect.de. [2003:de:3736:a00:d7e5:6139:e909:29dd])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-a8989022a69sm562225966b.87.2024.09.02.07.27.57
+        d=1e100.net; s=20230601; t=1725295724; x=1725900524;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KeSwfyvEoZrhGanqUvTmjyLcSlB5pmbr/ctUVatnsBs=;
+        b=MNJfTvIKDvfUhmeAWyKARCjKaibMogDpvg+1PlQTN4sfmZbtwIvI/QfOrEae7mRINZ
+         JqrSB5pfMSGA/cosR15wwSzaQvu9eyghpaPgVRavGfIR33IK8WF56aJhfgvU4ySFk71j
+         nSuYqyVQ+cDAHudbFY4811eMECjUihhRaL1yYEcDW/oHfqpAgqfsVdJVqsSTrXH/TT1f
+         VD5L2WhG3mjzzQEnSP7gK/LroPstJBGVAe1eZxu9DBH9TwCWcRxYAGwY3iqTOBVWOTc8
+         ZpVqb8t0e6wLUQaOlG5uYnnohhCQ22R7X5Xa/vrPn0gAJ98T3Sb9Vl9M+VWEKlPu56Fn
+         XJGw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxM/ZRR9ASFtzYMF5R5d4sZ3lXXvGCJKvSfK0r5B06/p6ylBU9BQm25uBGJYRsDfHergBI6H6RlxfD@lists.infradead.org
+X-Gm-Message-State: AOJu0YyOd9Fzp+rksMic6fmtjTyHG5AElL8tkycVZrLIQF3TH7mFP6vm
+	904ta/Ub/MKYfyqDxHBq4Qil6j8wJ/5xtpsCuc8o4KT7rzOvwFjWqMICoA==
+X-Google-Smtp-Source: AGHT+IGZI62s3zOf+wBZ7fGZHKjNLq3KCQaswEBFy6vqmrb6OQYgyW0q/7mryAqORQA5v6qSbffmKQ==
+X-Received: by 2002:a05:600c:1c12:b0:42b:afa7:801f with SMTP id 5b1f17b1804b1-42bb27a9c91mr90879995e9.30.1725295723666;
+        Mon, 02 Sep 2024 09:48:43 -0700 (PDT)
+Received: from [10.100.102.74] (89-138-71-253.bb.netvision.net.il. [89.138.71.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3749ee9c692sm11908668f8f.53.2024.09.02.09.48.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 07:27:58 -0700 (PDT)
-From: Martin Wilck <martin.wilck@suse.com>
-X-Google-Original-From: Martin Wilck <mwilck@suse.com>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Daniel Wagner <dwagner@suse.de>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Martin Wilck <mwilck@suse.com>
-Subject: [PATCH v3 1/3] blktests: nvme/{033-037,039}: skip passthru tests on multipath devices
-Date: Mon,  2 Sep 2024 16:27:45 +0200
-Message-ID: <20240902142748.65779-1-mwilck@suse.com>
-X-Mailer: git-send-email 2.46.0
+        Mon, 02 Sep 2024 09:48:43 -0700 (PDT)
+Message-ID: <efe0dbc5-64d4-42b1-abcf-addc7be6ca69@grimberg.me>
+Date: Mon, 2 Sep 2024 19:48:41 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] nvme-multipath: fixup typo when clearing DISK_LIVE
+To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240902111548.41430-1-hare@kernel.org>
+ <20240902111548.41430-2-hare@kernel.org>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240902111548.41430-2-hare@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240902_072801_945792_F4E3F5D2 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20240902_094846_772479_D8E3581C 
+X-CRM114-Status: UNSURE (   6.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,130 +83,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe multipath devices have no associated character device that
-can be used for NVMe passtrhu. Skip them.
+This was already sent wasn't it?
 
-Signed-off-by: Martin Wilck <mwilck@suse.com>
----
-v3: improve patch subject (Shinichiro Kawasaki)
-v2: used more expressive function name for non-multipath test (Daniel Wagner)
----
- tests/nvme/033 | 4 ++++
- tests/nvme/034 | 4 ++++
- tests/nvme/035 | 1 +
- tests/nvme/036 | 4 ++++
- tests/nvme/037 | 4 ++++
- tests/nvme/039 | 4 ++++
- tests/nvme/rc  | 8 ++++++++
- 7 files changed, 29 insertions(+)
 
-diff --git a/tests/nvme/033 b/tests/nvme/033
-index 7a69b94..5e05175 100755
---- a/tests/nvme/033
-+++ b/tests/nvme/033
-@@ -13,6 +13,10 @@ requires() {
- 	_have_kernel_option NVME_TARGET_PASSTHRU
- }
- 
-+device_requires() {
-+	_require_test_dev_is_not_nvme_multipath
-+}
-+
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/034 b/tests/nvme/034
-index 239757c..154fc91 100755
---- a/tests/nvme/034
-+++ b/tests/nvme/034
-@@ -14,6 +14,10 @@ requires() {
- 	_have_fio
- }
- 
-+device_requires() {
-+	_require_test_dev_is_not_nvme_multipath
-+}
-+
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/035 b/tests/nvme/035
-index 8286178..ff217d6 100755
---- a/tests/nvme/035
-+++ b/tests/nvme/035
-@@ -17,6 +17,7 @@ requires() {
- }
- 
- device_requires() {
-+	_require_test_dev_is_not_nvme_multipath
- 	_require_test_dev_size "${NVME_IMG_SIZE}"
- }
- 
-diff --git a/tests/nvme/036 b/tests/nvme/036
-index ef6c29d..442ffe7 100755
---- a/tests/nvme/036
-+++ b/tests/nvme/036
-@@ -13,6 +13,10 @@ requires() {
- 	_have_kernel_option NVME_TARGET_PASSTHRU
- }
- 
-+device_requires() {
-+	_require_test_dev_is_not_nvme_multipath
-+}
-+
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/037 b/tests/nvme/037
-index ef7ac59..f7ddc2d 100755
---- a/tests/nvme/037
-+++ b/tests/nvme/037
-@@ -12,6 +12,10 @@ requires() {
- 	_have_kernel_option NVME_TARGET_PASSTHRU
- }
- 
-+device_requires() {
-+	_require_test_dev_is_not_nvme_multipath
-+}
-+
- set_conditions() {
- 	_set_nvme_trtype "$@"
- }
-diff --git a/tests/nvme/039 b/tests/nvme/039
-index a0f135c..e8020a7 100755
---- a/tests/nvme/039
-+++ b/tests/nvme/039
-@@ -18,6 +18,10 @@ requires() {
- 	    _have_kernel_option FAULT_INJECTION_DEBUG_FS
- }
- 
-+device_requires() {
-+	_require_test_dev_is_not_nvme_multipath
-+}
-+
- # Get the last dmesg lines as many as specified. Exclude the lines to indicate
- # suppression by rate limit.
- last_dmesg()
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index dedc412..5c554b6 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -130,6 +130,14 @@ _require_test_dev_is_nvme() {
- 	return 0
- }
- 
-+_require_test_dev_is_not_nvme_multipath() {
-+	if [[ "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ /nvme-subsystem/ ]]; then
-+		SKIP_REASONS+=("$TEST_DEV is a NVMe multipath device")
-+		return 1
-+	fi
-+	return 0
-+}
-+
- _require_nvme_test_img_size() {
- 	local require_sz_mb
- 	local nvme_img_size_mb
--- 
-2.46.0
+On 02/09/2024 14:15, Hannes Reinecke wrote:
+> NVME_NSHEAD_DISK_LIVE is a flag for 'struct nvme_ns_head', not
+> 'struct nvme_ns'.
+>
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
 
+And again,
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
