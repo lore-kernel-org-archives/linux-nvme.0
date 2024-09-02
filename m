@@ -4,114 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 896C5CD13CF
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 13:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B51AFCD13CF
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2024 14:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qCAWccdUbVFfRk9YDDEmksSbeL0vVojk58srJkBL0v4=; b=n4ukqIuR4NGxPTsKMh66ZjD261
-	rnc4DXI29yFXir+8qjbBh9BHKGCxLCUBgJJ+NPOH051g0TXTEd/ndL8ut+8vXertODMiYlMWoBLic
-	ZTw779jgE5/XqicgSOHtNNj+VxO6IBWf6Bv9ot0zd0pd3/OfM/MZaDV3uVB/9wc9lcVfTssA5Up47
-	yPDSGZfnOSOegE3J2lnsLANbWuoKETks8sCsVaZYTpujZ+GuAymBlkEAkGfADe8WAgHmpxIJ2AHBC
-	hHywbZVXfP+pCLSmuwGDX4x15rYjOuXOkgxzixcdGcM1zOanvi9Nglxr7ck556cDENjyF9lJNLddP
-	72z7q8ig==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qSE07mevysGs4hIlAiWiKLrTdVKJ6Yd2deEW2FZkz/M=; b=JgsdPmhNphx+eOnyFX0wuwdlJ/
+	x+JtCy3nfo+MLfmg7GIolzarLcU1rTInZlmJNNtEsL0EfuVG91g3CiNGIB+EPSCl+e8hRFeR4J4hw
+	7xk7B3JCZuF5tUtIEf8SEVjABvadVhpbCGPFrjzVD0h6gbnfFlSgcg4UFp1g/652oyHvKOa0jt+C3
+	0xuODf4tEPR+BCTt0AZNXlhq4jWl//vkI3fEbfUhW58XBZnMYifZB0zHKPuzfKCnE38HJaQ1MmPbI
+	C3oNlTEpZ9cel5IblmLpZ747DdSPyeD7qJtZIHaCf61sDZ08U6Xb+RgD8Wu4PqAgc0t+RibQ2SASD
+	bklN5MHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl7UR-0000000EYdh-2UwP;
-	Mon, 02 Sep 2024 13:53:07 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1sl82J-0000000Ef2o-0L0M;
+	Mon, 02 Sep 2024 14:28:07 +0000
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sl7UO-0000000EYck-2Mhx
+	id 1sl82D-0000000Eezl-49Li
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Sep 2024 13:53:06 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 35A82219A6;
-	Mon,  2 Sep 2024 13:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1725285181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qCAWccdUbVFfRk9YDDEmksSbeL0vVojk58srJkBL0v4=;
-	b=sdJRRD30ESfyOEaPKriII3WhIU+0NMRi3uINbmjfeYn3skKJJ8F3MaxzIEKGGdu5/dhMvg
-	PSxLBZh4JwRqwV+RYlSD1aYP9pur9FZhb7R+Nf0t/V89iN7uUEsAhR0CIY8na9nTBQ2wpX
-	EQpghivvcMb7FCkyOe7j8Xd/BZv4riM=
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=sdJRRD30
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1725285181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qCAWccdUbVFfRk9YDDEmksSbeL0vVojk58srJkBL0v4=;
-	b=sdJRRD30ESfyOEaPKriII3WhIU+0NMRi3uINbmjfeYn3skKJJ8F3MaxzIEKGGdu5/dhMvg
-	PSxLBZh4JwRqwV+RYlSD1aYP9pur9FZhb7R+Nf0t/V89iN7uUEsAhR0CIY8na9nTBQ2wpX
-	EQpghivvcMb7FCkyOe7j8Xd/BZv4riM=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E82B913A7C;
-	Mon,  2 Sep 2024 13:53:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hEqPNjzD1WZPKgAAD6G6ig
-	(envelope-from <mwilck@suse.com>); Mon, 02 Sep 2024 13:53:00 +0000
-Message-ID: <fa79e577a8883548d12a8932b7769af1db80c8b8.camel@suse.com>
-Subject: Re: [PATCH v2 3/3] nvme: add test for controller rescan under I/O
- load
-From: Martin Wilck <mwilck@suse.com>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>, 
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Hannes Reinecke
- <hare@suse.de>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Date: Mon, 02 Sep 2024 15:53:00 +0200
-In-Reply-To: <57yxf7o7zcp4j34cfgk3glhmfag4ukvedzqgtr7fbqdmy2gvsq@t573offeg3kg>
-References: <20240823200822.129867-1-mwilck@suse.com>
-	 <20240823200822.129867-3-mwilck@suse.com>
-	 <57yxf7o7zcp4j34cfgk3glhmfag4ukvedzqgtr7fbqdmy2gvsq@t573offeg3kg>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 
+	Mon, 02 Sep 2024 14:28:04 +0000
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a8679f534c3so445901966b.0
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Sep 2024 07:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1725287280; x=1725892080; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qSE07mevysGs4hIlAiWiKLrTdVKJ6Yd2deEW2FZkz/M=;
+        b=CNk+9wbutH8rxQhHi33Rra0+cU/qdcyoCjXsrSy6ZTUXv7ALiQq8MIDdnP1uMtV6mt
+         +ykcZBbaTaMNOi22FIOmkH4xPA2dVrI83KAQevZtwvvtIpx+wlJNAUbKxEKOpkvR9vA0
+         E+RtcczwgQHV7OJjMQzuFpd/f042i82r2L3hoIAr73fUOgiGTQ6KkzVpZSH3LQCIPA84
+         JgUxgH23f3Ci2zK+/weheJ7bADWPJ3Sy6FDby+NThnJoWHiT1qhMJa9QYwWVbO/8gvSL
+         OX/hp9WkpQBlE38Cd4mYWdGBHcKJ1wZFUTNJq7isOga3fvSVDM2SeBXGcz4JAbiTRykF
+         NLVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725287280; x=1725892080;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qSE07mevysGs4hIlAiWiKLrTdVKJ6Yd2deEW2FZkz/M=;
+        b=EXk5ZpH4YNuYTLgmD98RE50wcechjxZxxnuNLLM2I1SatddAXQho/e+XmNAyDiPv6P
+         Tk0B/3djKB4CV1pN2VpXc2NNibuylKUIqhYv3pCi3m7OVB2r9pXZI/Mpi2+vNbkHj+pN
+         loW1/6immkofhiBfOUa59fSXYKxLwzxoIDcBCE7wz7VY1sV26uteG4uzFhKdS9CnEIsb
+         wZiSaH2PTdqps1MOd7uac7ORWJ/gojL9Z2JA6zgz+tIWBrshtaWHI5fCBvfeK9ocM8qB
+         JInF/LDx1QKwrtkpcsbrHS/1b1XguXqiiaoY2U2638qoGPshgomFYULz66cBElWGSjnf
+         mxYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUK2uTzPJ21eSuMlqJ/JpC6u3FUKfPI3fHapC+guVc5dryfftm5lJ1pczxHTxJnhez482qIL3qjY53Z@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy4Gg1qpZ1BXxW9kw59cCD5pnfva1nlosZyZYidgJg33vb/LRyR
+	mjwp0WrBPO6IIbvst5c9xXqzgmp3Lfgh0u8RZrDy3J0Qxv2laRgggwWnuJuiUbk=
+X-Google-Smtp-Source: AGHT+IHzmM/02a8X0RvNaEpE3DTRzM83VRKSxFjouuZ9q9FeyTnRWM8bE3z6odD+9nYtgHRAaJIUnw==
+X-Received: by 2002:a17:907:26c2:b0:a86:92a5:247a with SMTP id a640c23a62f3a-a89d8781d07mr538729566b.17.1725287279800;
+        Mon, 02 Sep 2024 07:27:59 -0700 (PDT)
+Received: from localhost (p200300de37360a00d7e56139e90929dd.dip0.t-ipconnect.de. [2003:de:3736:a00:d7e5:6139:e909:29dd])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-a8989196bc4sm564753866b.125.2024.09.02.07.27.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Sep 2024 07:27:59 -0700 (PDT)
+From: Martin Wilck <martin.wilck@suse.com>
+X-Google-Original-From: Martin Wilck <mwilck@suse.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Daniel Wagner <dwagner@suse.de>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	Hannes Reinecke <hare@suse.de>,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Martin Wilck <mwilck@suse.com>
+Subject: [PATCH v3 2/3] blktests: nvme/032: skip on non-PCI devices
+Date: Mon,  2 Sep 2024 16:27:46 +0200
+Message-ID: <20240902142748.65779-2-mwilck@suse.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240902142748.65779-1-mwilck@suse.com>
+References: <20240902142748.65779-1-mwilck@suse.com>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 35A82219A6
-X-Spamd-Result: default: False [-6.51 / 50.00];
-	BAYES_HAM(-3.00)[99.98%];
-	DWL_DNSWL_MED(-2.00)[suse.com:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:mid];
-	DKIM_TRACE(0.00)[suse.com:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240902_065304_815286_2C243A82 
-X-CRM114-Status: GOOD (  10.17  )
+X-CRM114-CacheID: sfid-20240902_072802_047781_6539E503 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,23 +98,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2024-08-29 at 07:36 +0000, Shinichiro Kawasaki wrote:
+nvme/032 is a PCI-specific test.
 
+Signed-off-by: Martin Wilck <mwilck@suse.com>
+---
+ tests/nvme/032 | 2 +-
+ tests/nvme/rc  | 8 ++++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-> Shellcheck reports a warning here:
->=20
-> =C2=A0 tests/nvme/053:47:9: warning: Prefer mapfile or read -a to split
-> command output (or quote to avoid splitting). [SC2207]
->=20
-> It is a bit lengthy, but let's replace the line above with this:
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while read -r line ; do ctrls+=
-=3D("$line"); done <
-> <(_nvme_get_ctrl_list)
-
-Thanks for the review. If you don't mind, I'll just use "mapfile -t",
-as suggested by shellcheck.
-
-Martin
+diff --git a/tests/nvme/032 b/tests/nvme/032
+index 5353e96..512d7ea 100755
+--- a/tests/nvme/032
++++ b/tests/nvme/032
+@@ -24,7 +24,7 @@ requires() {
+ }
+ 
+ device_requires() {
+-	_require_test_dev_is_nvme
++	_require_test_dev_is_nvme_pci
+ }
+ 
+ test_device() {
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 5c554b6..b702a57 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -130,6 +130,14 @@ _require_test_dev_is_nvme() {
+ 	return 0
+ }
+ 
++_require_test_dev_is_nvme_pci() {
++	if [[ ! "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ devices/pci ]]; then
++		SKIP_REASONS+=("$TEST_DEV is not a PCI NVMe device")
++		return 1
++	fi
++	return 0
++}
++
+ _require_test_dev_is_not_nvme_multipath() {
+ 	if [[ "$(readlink -f "$TEST_DEV_SYSFS/device")" =~ /nvme-subsystem/ ]]; then
+ 		SKIP_REASONS+=("$TEST_DEV is a NVMe multipath device")
+-- 
+2.46.0
 
 
