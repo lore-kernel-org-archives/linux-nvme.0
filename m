@@ -4,91 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 691FDCD3436
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2024 13:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC700CD343A
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2024 14:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6juB5fvie7J7EBZQ11UI5cVoDkIqL1lSw74p5Lii1JA=; b=Ngvad5MSl68BBo4OMJgdL4Cwcs
-	uBhKT4o6/SO98AMfwfCynVy/AdiXKE06KIHHBwn5NNZY9ut7L2dE8MGduvl0+c9+Z9I3xYADi9XwL
-	O8VfGYqZrapBywfjUxll3npqhx0wfocHW97pNtrI/ScmQTI2nNSyjIOa5QqEFaQexHb7II5ByiCpN
-	rtyexKMC19j4OVSHZtNFC8EeGqdFjJPJ5dujGa8xARkilafZrNSx901LDtXO+l7ftnK7w2W5aNVSo
-	iEoqZ76tMnCnZblZV9sNoodlHpLA3vDAdHYEmOYx9oH4dM23/D1RiGyDl3ndOiojlBlAi48KroDaP
-	Cl/oiDiA==;
+	bh=ZyxS7Jgq+upway2nH7AdIfd0btQEY6emF32Emx9SW/8=; b=ggZk4AWehcaNY8mWYR3m6bsHw5
+	yHNjYPgOWAUfVgrbgAKhggbnHWWFZAVewZz4okZwX8E8Pd0PH59aLP7WpAhx9hgCHdrDIuqhyEIXo
+	tDhv2HT2+gfbTQK8meEY/Vf1BKPXf+uaK63uFXBVpEMoucxdiiIaKo3d3nMg4fGfi6AenSwW5pB8h
+	IpT5k5k3BdZoi/dxwJwLgkpP/OGenrJ5tVuFkB2/dtjDBxnIt6k7dIGKUWPOtjIaD5iBqWB5xP7jf
+	nlo3AHPnAjNHqNRpHoEGrmMD3XQ0Dei3T0cKqwKSKF7Fs8tiFBmsxZ7rM5CaYYH2P7B90EMxzWk6D
+	Gpc12/5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slTxp-00000000Qig-3ePc;
-	Tue, 03 Sep 2024 13:52:57 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1slUcN-00000000c32-17Hp;
+	Tue, 03 Sep 2024 14:34:51 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slTxm-00000000Qhn-3yE1
+	id 1slUWy-00000000a7I-1fUk
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Sep 2024 13:52:56 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483BmxLB032345;
-	Tue, 3 Sep 2024 13:52:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
-	:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=pp1; bh=6juB5fvie7J7E
-	BZQ11UI5cVoDkIqL1lSw74p5Lii1JA=; b=HuojRDm8rtGtJEvGMQbJfcEXjTnfw
-	CCF0m3QYxyCtUNdNVW3XlP9QGfmfjFnvjnsrjahmCLtq6iQDTYNKen8Fp21KgoWb
-	h2giYBxNKczGr48ka//6IlgOA/jzY9NaTpha/z7EiV8KkARl7ylOYjL6czS+tGvx
-	fRkXyWAUrFcMKvLH8II5fzkNJibMLsXgdN5xrkfSOpzJ31oIFB8GGd7TeanBLV7g
-	uXj036FStiAkgJT6w3MtL2VbQVwtNEW5kAjbwdbpHdrUfSuql2VESa1QxB+3hoB+
-	DA6RaFcCtMxhgtwoTdKfsyN2mchs7Nqr5gVrbU96Rlgu/KGEK9oJlXJeg==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41btuwx0rt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Sep 2024 13:52:42 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 483ATKY8000854;
-	Tue, 3 Sep 2024 13:52:41 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 41cdguk7sb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Sep 2024 13:52:41 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 483DqcKq50201002
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 3 Sep 2024 13:52:38 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0ED9E2004D;
-	Tue,  3 Sep 2024 13:52:38 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1AF4820040;
-	Tue,  3 Sep 2024 13:52:36 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.179.29.238])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  3 Sep 2024 13:52:35 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
-        axboe@fb.com, gjoyce@linux.ibm.com, Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv3 RFC 1/1] nvme-multipath: Add sysfs attributes for showing multipath info
-Date: Tue,  3 Sep 2024 19:22:19 +0530
-Message-ID: <20240903135228.283820-2-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240903135228.283820-1-nilay@linux.ibm.com>
-References: <20240903135228.283820-1-nilay@linux.ibm.com>
+	Tue, 03 Sep 2024 14:29:18 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240903142908epoutp0179914e01f03748ab3cd24cdcf2175959~xwkhqdzRC0253502535epoutp01N
+	for <linux-nvme@lists.infradead.org>; Tue,  3 Sep 2024 14:29:08 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240903142908epoutp0179914e01f03748ab3cd24cdcf2175959~xwkhqdzRC0253502535epoutp01N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1725373748;
+	bh=ZyxS7Jgq+upway2nH7AdIfd0btQEY6emF32Emx9SW/8=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=dXf5XGmS/hMnvgd21AcVokU6nw+790aFJyrkgM9/KTD1nEQrUnrpNumdVyeL05Lam
+	 PDBBhDOUDoRqr5mM1n8TeoRae+bWsFOuAV7zCiKzAeUfDKulUxI96gMb8tS4cLGdsQ
+	 3ilbhQrVlzgHMGviaan/ryKCNJmlBsTOcTSE/FbU=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240903142907epcas5p4a9f0f4aa7112c618f68d7d05ae1d1289~xwkg6I31I1473514735epcas5p4m;
+	Tue,  3 Sep 2024 14:29:07 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4Wyp0K6Qvmz4x9Pv; Tue,  3 Sep
+	2024 14:29:05 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	83.D9.09640.13D17D66; Tue,  3 Sep 2024 23:29:05 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20240903142905epcas5p291db855dce2f39166615e1fabe310cfc~xwkegJToW2054720547epcas5p2E;
+	Tue,  3 Sep 2024 14:29:05 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240903142905epsmtrp2fc57eb738fa5ff0ae8d83e58537abfc0~xwked9JON1474714747epsmtrp2g;
+	Tue,  3 Sep 2024 14:29:05 +0000 (GMT)
+X-AuditID: b6c32a49-aabb8700000025a8-bb-66d71d319416
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	74.54.08456.03D17D66; Tue,  3 Sep 2024 23:29:05 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240903142901epsmtip236b0a2311ddfd5a5f904d3d83a26f651~xwka47R8B0182501825epsmtip2a;
+	Tue,  3 Sep 2024 14:29:01 +0000 (GMT)
+Message-ID: <20a9df07-f49e-ee58-3d0b-b0209e29c6af@samsung.com>
+Date: Tue, 3 Sep 2024 19:58:46 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: crJV7YsDLJHyLFnKPYNyVSvK-UWhe3i6
-X-Proofpoint-ORIG-GUID: crJV7YsDLJHyLFnKPYNyVSvK-UWhe3i6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-03_01,2024-09-03_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- malwarescore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 priorityscore=1501 adultscore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2409030110
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v4 0/5] Write-placement hints and FDP
+Content-Language: en-US
+To: amir73il@gmail.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
+	brauner@kernel.org, jack@suse.cz, jaegeuk@kernel.org, jlayton@kernel.org,
+	chuck.lever@oracle.com, bvanassche@acm.org, "axboe@kernel.dk"
+	<axboe@kernel.dk>
+Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
+	linux-scsi@vger.kernel.org, gost.dev@samsung.com, vishak.g@samsung.com,
+	javier.gonz@samsung.com
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20240826170606.255718-1-joshi.k@samsung.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te1BUVRzu3L3c3cXZui0QRyrZbtgEBOwmbAdHiCmkS1jD5GgzTYobXHYR
+	2N32QVoy7kCylvIQCHQXkRREoDDAB/KwWozX4MBItkKurjxqxh0UXOOhBe0r47/v+873zXd+
+	5zeHw+J/yQ7gZMg1jEouyaIIb/xCT3BImOhFc7qwuVSERpqbAGqyFBPI1vMAoIrZJRZasfyJ
+	obGfLmGooekXDBkr8zE0ddbAQi3FHDR5085GS6cb2ajU9BtA3eOh6NrJd1BX9wCOTpyeZqND
+	5nYC1fctY6jZdh9Hw4YqdpwfPfprEn3JYGHTw7dacLqidJCgR69q6dbGrwi6rXY/3Vljx+jO
+	MR1Bz02P43TRuUZAD9VcYdP21nXJvI8yN8kYSRqjEjDyVEVahlwaQyVtTXk7JUosFIWJotEb
+	lEAuyWZiqPgtyWEJGVmOcSlBjiRL65CSJWo1FRG7SaXQahiBTKHWxFCMMi1LGakMV0uy1Vq5
+	NFzOaDaKhMLXoxzGXZmyM7PHvZTfcPc0DgwSOlDP/hpwOZCMhHOWEgf25vDJTgCrbY9xN3kA
+	4LWTfZibzAPYU/fdk4jx9nnCfdANYH/7oicyA6BuyoA7XTwyFhbOD7oSOBkEa0vqMLf+LBw4
+	NuXy+JGfwEfXq4AT+5DR0HR1xsuJWaQ/HJ864ar2Jb/HoG2ylOUkLGeDzVDjIBwOQQbDkTKt
+	M8AlN8KV2ftsdzgQXpypcvkhWc+FZ+b6PfeOh5frjxFu7APv9p3z6AHQfq/bo2dC64QVd+N9
+	sL2tyMuN34S6v294OXtZjt6zHRHurqdh4eMpzClDkgcPFvDd7pfgrdJpT9If3jla68E0HO98
+	6Grik4UAjhQklgCBYdWzGFaNb1g1jeH/4hqAN4K1jFKdLWXUUUqRnPnsycZTFdmtwPUdQhLb
+	gcU6G24CGAeYAOSwKF/ejpbr6XxemmTv54xKkaLSZjFqE4hy7OcIK8AvVeH4T3JNiigyWhgp
+	FosjozeIRZQ/z3bgeBqflEo0TCbDKBnVfzmMww3QYbFD+m/XviAQXR7wj+hcbk7pasut1TOB
+	+OHFPGlXgjG/6AtT73PaSSZuXrem/IPqbYkTuQ3m20P/xP11sfpjfUHOp+nE0rYDRytzoWzm
+	5tC7/IeVT1l2vna+f6ESiBT8Dp/aheULNaPBO95an3eqY8L6yoJxeHyEu2+5f7ZXJtRRgvln
+	+jG+0ZJEWevtOb7eK+J1QRWPzGVbm2331sdL+2y63lPDr4L3ln3357Tk7i0J0r8cv/2G5SAR
+	WFadUdB6x1CXX1VxJVSZYF80x+nfr8j4sHhD0GaNmfu7+efyhh/LrLt2H9Hn3UXR+jXEdlvL
+	WGjB7ueN5SE5vlt+2Lzz0J4/DBSulklEISyVWvIvoDE5FZcEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SfUyMcRzf73menue5dNvjCr+immNGuGQtPy87xuiRrWXW8rLk6Cnpyrmn
+	i8yoXWwduZwTXaik1N0OXUq5WrlYq6G8HqfkpZYtreOMvMZ1bP33/X4/r398aVz0hgigU9Iz
+	OGW6TC4mvYn6NnHwwrBAe9Kill6Auq+aADL1akk01PYJoELnNxyN9Q5i6EVrI4aqTXcxVHxW
+	jaH+awYc1Whp9K7HRaFvlUYK6WzPAGp2zEePLkWipuYOApVUDlDouL2BRFfaf2Po6tAIgboM
+	56lVU9jHTzawjYZeiu16VUOwhbpOkn18X8VajHkkW3v5CGstdWGs9UU2yX4ccBDsyRtGwN4r
+	vUOxLktQjHCr94pETp6SySlDpTu8d1c5L3gpzggOGDs6yWxwhdIAAQ2ZcFjcV0dqgDctYqwA
+	tujaCQ8wDaqfjf4j+cLq34OUhzQEYN7LW8ANCBkpzP/SOU4imNnwckEF5rlPhh1F/eNGU5id
+	sKkvZ/zuyyyFtvvDXu4Z/xvg6C/B3KZ+jBmDtv7rwL3gzDCAR1vvEJ64fABN7dq/BWmaZObB
+	7tMqt1rALINjzhHK4xQBNXUa4JmD4c3h83gBEBkmFDFMCDRMkBgmSEoBYQT+nIJPS07jwxSL
+	07n9El6WxqvSkyW79qZZwPgXhIQ0gCajU2IDGA1sANK42E8YX/M0SSRMlGUd5JR7E5QqOcfb
+	wHSaEE8TfhnKTxQxybIMLpXjFJzyP4rRgoBszBzn061f8v5HWYiudiZZFPV50mZ9/eiZrFq/
+	+LK18savPbj6ubVZnnFRn1JrP3Tsoanape2bGihSCcvVM5TlczMkUf56n6XSQal0JDP8l/YC
+	e/dezJ5ZmqAsc8nbmMzGXB0QBZTlFSTmhh/sWW587bq1WvUz6FIOH2h5qmmg49RVesHAqW0p
+	hc7vCR/OZVc54PoTizp8vYjIirAFxySxPYUtuKw+1PEz9ldDRVIRtmDqg2jzzdzlloiSTdaV
+	tKuatx+ODr7YtG7NdGnuxsr47RG++4Agx6duTgxa+PaTMvXw6xZRAPujPnVsftZcM1IYblek
+	ZgbFVdrbtpxKiOwSE/xuWVgIruRlfwANmZIHdAMAAA==
+X-CMS-MailID: 20240903142905epcas5p291db855dce2f39166615e1fabe310cfc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240826171409epcas5p306ba210a9815e202556778a4c105b440
+References: <CGME20240826171409epcas5p306ba210a9815e202556778a4c105b440@epcas5p3.samsung.com>
+	<20240826170606.255718-1-joshi.k@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240903_065255_021993_FA3F9906 
-X-CRM114-Status: GOOD (  25.10  )
+X-CRM114-CacheID: sfid-20240903_072917_146861_B5519D62 
+X-CRM114-Status: GOOD (  20.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,256 +145,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe native multipath supports different IO policies for selecting I/O
-path, however we don't have any visibility about which path is being
-selected by multipath code for forwarding I/O.
-This patch helps add that visibility by adding new sysfs attribute files
-named "numa_nodes" and "queue_depth" under each namespace block device
-path /sys/block/nvmeXcYnZ/. We also create a "multipath" sysfs directory
-under head disk node and then from this directory add a link to each
-namespace path device this head disk node points to.
+Hi Amir,
 
-For instance, /sys/block/nvmeXnY/multipath/ would create a soft link to
-each path the head disk node <nvmeXnY> points to:
 
-$ ls -1 /sys/block/nvme1n1/
-nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
-nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
+On 8/26/2024 10:36 PM, Kanchan Joshi wrote:
+> Current write-hint infrastructure supports 6 temperature-based data life
+> hints.
+> The series extends the infrastructure with a new temperature-agnostic
+> placement-type hint. New fcntl codes F_{SET/GET}_RW_HINT_EX allow to
+> send the hint type/value on file. See patch #3 commit description for
+> the details.
+> 
+> Overall this creates 128 placement hint values [*] that users can pass.
+> Patch #5 adds the ability to map these new hint values to nvme-specific
+> placement-identifiers.
+> Patch #4 restricts SCSI to use only life hint values.
+> Patch #1 and #2 are simple prep patches.
+> 
+> [*] While the user-interface can support more, this limit is due to the
+> in-kernel plumbing consideration of the inode size. Pahole showed 32-bit
+> hole in the inode, but the code had this comment too:
+> 
+> /* 32-bit hole reserved for expanding i_fsnotify_mask */
+> 
+> Not must, but it will be good to know if a byte (or two) can be used
+> here.
 
-For round-robin I/O policy, we could easily infer from the above output
-that I/O workload targeted to nvme3n1 would toggle across paths nvme1c1n1
-and nvme1c3n1.
-
-For numa I/O policy, the "numa_nodes" attribute file shows the numa nodes
-being preferred by the respective block device path. The numa nodes value
-is comma delimited list of nodes or A-B range of nodes.
-
-For queue-depth I/O policy, the "queue_depth" attribute file shows the
-number of active/in-flight I/O requests currently queued for each path.
-
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/core.c      |  3 ++
- drivers/nvme/host/multipath.c | 69 +++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h      | 20 ++++++++--
- drivers/nvme/host/sysfs.c     | 20 ++++++++++
- 4 files changed, 108 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0dc8bcc664f2..e48a317d70b6 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3951,6 +3951,9 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 
- 	if (!nvme_ns_head_multipath(ns->head))
- 		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
-+
-+	nvme_mpath_remove_sysfs_link(ns);
-+
- 	del_gendisk(ns->disk);
- 
- 	mutex_lock(&ns->ctrl->namespaces_lock);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 91d9eb3c22ef..00e30adbe382 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -652,6 +652,8 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 		nvme_add_ns_head_cdev(head);
- 	}
- 
-+	nvme_mpath_add_sysfs_link(ns);
-+
- 	mutex_lock(&head->lock);
- 	if (nvme_path_is_optimized(ns)) {
- 		int node, srcu_idx;
-@@ -920,6 +922,37 @@ static ssize_t ana_state_show(struct device *dev, struct device_attribute *attr,
- }
- DEVICE_ATTR_RO(ana_state);
- 
-+static ssize_t queue_depth_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-+
-+	return sysfs_emit(buf, "%d\n", atomic_read(&ns->ctrl->nr_active));
-+}
-+DEVICE_ATTR_RO(queue_depth);
-+
-+static ssize_t numa_nodes_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	int node;
-+	nodemask_t numa_nodes;
-+	struct nvme_ns *current_ns;
-+	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-+	struct nvme_ns_head *head = ns->head;
-+
-+	nodes_clear(numa_nodes);
-+
-+	for_each_node(node) {
-+		current_ns = srcu_dereference(head->current_path[node],
-+				&head->srcu);
-+		if (ns == current_ns)
-+			node_set(node, numa_nodes);
-+	}
-+
-+	return sysfs_emit(buf, "%*pbl\n", nodemask_pr_args(&numa_nodes));
-+}
-+DEVICE_ATTR_RO(numa_nodes);
-+
- static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
- 		struct nvme_ana_group_desc *desc, void *data)
- {
-@@ -932,6 +965,42 @@ static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
- 	return -ENXIO; /* just break out of the loop */
- }
- 
-+void nvme_mpath_add_sysfs_link(struct nvme_ns *ns)
-+{
-+	struct device *target;
-+	struct kobject *kobj;
-+	int rc;
-+
-+	if (test_bit(NVME_NS_SYSFS_ATTR_LINK, &ns->flags))
-+		return;
-+
-+	target = disk_to_dev(ns->disk);
-+	kobj = &disk_to_dev(ns->head->disk)->kobj;
-+	rc = sysfs_add_link_to_group(kobj, nvme_ns_mpath_attr_group.name,
-+			&target->kobj, dev_name(target));
-+	if (unlikely(rc)) {
-+		dev_err(disk_to_dev(ns->head->disk),
-+				"failed to create link to %s\n",
-+				dev_name(target));
-+	} else
-+		set_bit(NVME_NS_SYSFS_ATTR_LINK, &ns->flags);
-+}
-+
-+void nvme_mpath_remove_sysfs_link(struct nvme_ns *ns)
-+{
-+	struct device *target;
-+	struct kobject *kobj;
-+
-+	if (!test_bit(NVME_NS_SYSFS_ATTR_LINK, &ns->flags))
-+		return;
-+
-+	target = disk_to_dev(ns->disk);
-+	kobj = &disk_to_dev(ns->head->disk)->kobj;
-+	sysfs_remove_link_from_group(kobj, nvme_ns_mpath_attr_group.name,
-+			dev_name(target));
-+	clear_bit(NVME_NS_SYSFS_ATTR_LINK, &ns->flags);
-+}
-+
- void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
- {
- 	if (nvme_ctrl_use_ana(ns->ctrl)) {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index da57947130cc..dfd3b23bcc6f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -522,10 +522,11 @@ struct nvme_ns {
- 	struct nvme_ns_head *head;
- 
- 	unsigned long flags;
--#define NVME_NS_REMOVING	0
--#define NVME_NS_ANA_PENDING	2
--#define NVME_NS_FORCE_RO	3
--#define NVME_NS_READY		4
-+#define NVME_NS_REMOVING		0
-+#define NVME_NS_ANA_PENDING		2
-+#define NVME_NS_FORCE_RO		3
-+#define NVME_NS_READY			4
-+#define NVME_NS_SYSFS_ATTR_LINK	5
- 
- 	struct cdev		cdev;
- 	struct device		cdev_device;
-@@ -921,6 +922,7 @@ int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo);
- int nvme_dev_uring_cmd(struct io_uring_cmd *ioucmd, unsigned int issue_flags);
- 
- extern const struct attribute_group *nvme_ns_attr_groups[];
-+extern const struct attribute_group nvme_ns_mpath_attr_group;
- extern const struct pr_ops nvme_pr_ops;
- extern const struct block_device_operations nvme_ns_head_ops;
- extern const struct attribute_group nvme_dev_attrs_group;
-@@ -943,6 +945,8 @@ void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys);
- void nvme_failover_req(struct request *req);
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
- int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
-+void nvme_mpath_add_sysfs_link(struct nvme_ns *ns);
-+void nvme_mpath_remove_sysfs_link(struct nvme_ns *ns);
- void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid);
- void nvme_mpath_remove_disk(struct nvme_ns_head *head);
- int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
-@@ -968,6 +972,8 @@ static inline void nvme_trace_bio_complete(struct request *req)
- extern bool multipath;
- extern struct device_attribute dev_attr_ana_grpid;
- extern struct device_attribute dev_attr_ana_state;
-+extern struct device_attribute dev_attr_queue_depth;
-+extern struct device_attribute dev_attr_numa_nodes;
- extern struct device_attribute subsys_attr_iopolicy;
- 
- static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
-@@ -997,6 +1003,12 @@ static inline void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
- static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- }
-+static inline void nvme_mpath_add_sysfs_link(struct nvme_ns *ns)
-+{
-+}
-+static inline void nvme_mpath_remove_sysfs_link(struct nvme_ns *ns)
-+{
-+}
- static inline bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
- {
- 	return false;
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index ba05faaac562..92bcdd4f6072 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -258,6 +258,8 @@ static struct attribute *nvme_ns_attrs[] = {
- #ifdef CONFIG_NVME_MULTIPATH
- 	&dev_attr_ana_grpid.attr,
- 	&dev_attr_ana_state.attr,
-+	&dev_attr_queue_depth.attr,
-+	&dev_attr_numa_nodes.attr,
- #endif
- 	&dev_attr_io_passthru_err_log_enabled.attr,
- 	NULL,
-@@ -290,6 +292,10 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
- 			return 0;
- 	}
-+	if (a == &dev_attr_queue_depth.attr || a == &dev_attr_numa_nodes.attr) {
-+		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
-+			return 0;
-+	}
- #endif
- 	return a->mode;
- }
-@@ -299,8 +305,22 @@ static const struct attribute_group nvme_ns_attr_group = {
- 	.is_visible	= nvme_ns_attrs_are_visible,
- };
- 
-+#ifdef CONFIG_NVME_MULTIPATH
-+static struct attribute *nvme_ns_mpath_attrs[] = {
-+	NULL,
-+};
-+
-+const struct attribute_group nvme_ns_mpath_attr_group = {
-+	.name           = "multipath",
-+	.attrs		= nvme_ns_mpath_attrs,
-+};
-+#endif
-+
- const struct attribute_group *nvme_ns_attr_groups[] = {
- 	&nvme_ns_attr_group,
-+#ifdef CONFIG_NVME_MULTIPATH
-+	&nvme_ns_mpath_attr_group,
-+#endif
- 	NULL,
- };
- 
--- 
-2.45.2
-
+Since having one extra byte will simplify things, I can't help but ask - 
+do you still have the plans to use this space (in entirety) within inode?
 
