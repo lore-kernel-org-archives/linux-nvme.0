@@ -4,61 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5DCCCD3420
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2024 11:49:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2266FCD3420
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2024 12:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4ruBMBZn9qeCERyCNCnpSOoPMPMxWbm0ix0NRz6/dA4=; b=KD2t4FTLJa1wNfvJfejAFRde3D
-	Tl8RCyT6f2/T196Y3BenotOcnhtO9ErAPN2pkI7EJR8e4BVed3IO2ckJm2HZHHEDGCTTGFRpFc3o1
-	HNt9yX4P6yiRvg2JMyhcUDiBWdRii0KNF2adkkFntd8epZVmkscH7NJ2AAYNjhyr015AOL2p99ASv
-	kZAmUV8wb7DJo9qJDXlh4tL5g7Tosv8OEkeT005zrEa93c7z0HKu81UBkMl8DMq1/2EF78k0cQvpj
-	W5fFdQsZLd2euL2NMUIRYnork72M/kF+ZAxin/t4Gu4a7K09xC19FTw7sGI4KgqwUHRNEd3XOXTLf
-	LZmF6jgA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DqNZO5VR7+lLuHwxMNLilXwMysqxXswwKuL23irDzTU=; b=zkPt3tmfBnq8AO0RssA0eqAkMp
+	hLhI+IF28gZJA8brRQK+HJaSqU3yHafvhyXNCRCGNhV3ipI1344XQVdtomMmcMAdw0v+jcptlth96
+	lve2wWIFicrQTlKLJA4bsnh00zJm+ZS1JmLonA5ozFQpqOw462HqVZADTVZNEHbsPk0wMruXUhpDe
+	uenPs401dPQ+pFscePgBXtbegOWS0CHWBPqguB5PwESBjnf0p/ZaAu1tQjFJlkZzwJVZuo2Nu56J0
+	ff2HTl7zZsW2WmCHTUBDv2CttHdUWTUy3YdPeFyP0MUYh6NzPxLv26JhygGrwFs/6gySAVsDKh5ZD
+	KnkwGZOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slS2D-0000000016Q-11Yu;
-	Tue, 03 Sep 2024 11:49:21 +0000
-Received: from a7-46.smtp-out.eu-west-1.amazonses.com ([54.240.7.46])
+	id 1slSgD-00000000AY0-3STR;
+	Tue, 03 Sep 2024 12:30:41 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slS2A-0000000015X-0C0U
+	id 1slSg8-00000000AWn-0zdq
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Sep 2024 11:49:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=4232tfv5ebdrjdwkr5zzm7kytdkokgug; d=collabora.com; t=1725364154;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
-	bh=ObT60zcbCbi35EjoJKU5eE2w1p2W/0osNYaH1E6YL3g=;
-	b=Cs1iL06JJ8AVKJEAn7FtXcpy06VqD4M9iex8FAVjFsMgZH2XawvAkmK9ea0qRxcZ
-	V/YCzDssBJN8pAmZR/USHUOCshQpGBHkPivHX8JNrr0Omrvtsi8FvIfqVPCFR6k19Dg
-	ki+dbC0YTyUiLc3qpQ+3xyrvv9KPEIPpN5R3sBGN0fBVHOskkL2geN7xDDh5YuddtO8
-	stZiI7+4iSFg8hoBCItOy9MQcn1trtP9AyAvT8kVJaD90TA3EiXUqaKgFMIlYJqZwzz
-	JVNL9LLOgpEjz5Z7bDAzdArEuPIymN1iZ5kvNtQC6ekuHS5mn2N0jJpMJzeU32flkNA
-	4KhELCB9yg==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=uku4taia5b5tsbglxyj6zym32efj7xqv; d=amazonses.com; t=1725364153;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-	bh=ObT60zcbCbi35EjoJKU5eE2w1p2W/0osNYaH1E6YL3g=;
-	b=fR6X6WaDNaqrb/eC3ZaNPg+1+ZkkFeCZq95YiWsrrezI8ufsUoKaYm6+ITxxn7NP
-	zNat38Rg9+KX3hcCXaTy6fMColjxO5G/32S4x8psCveXY6/ENm+1y89ECuACjZJw2bq
-	INtloZw7ckGpEUI3NvuZwadBh5rECGruVVjeBO9A=
-From: Eugen Hristev <eugen.hristev@collabora.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, sagi@grimberg.me, hch@lst.de, 
-	Eugen Hristev <eugen.hristev@collabora.com>
-Subject: [PATCH] nvme-pci: refresh visible attrs after being checked
-Date: Tue, 3 Sep 2024 11:49:13 +0000
-Message-ID: <01020191b7b7adc0-bca16d06-b051-4ce2-bfee-c8038a62462f-000000@eu-west-1.amazonses.com>
-X-Mailer: git-send-email 2.34.1
+	Tue, 03 Sep 2024 12:30:39 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2305C1FD01;
+	Tue,  3 Sep 2024 12:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725366633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DqNZO5VR7+lLuHwxMNLilXwMysqxXswwKuL23irDzTU=;
+	b=XaEChFp5NOyOTxVZ2qREtXojgNb5PT/Px8ZIHOkzIHJN2xBPCWJjQAKF2NS9ETxR+6ZMfm
+	na2TcwE1Y+p/FqXL0nKbeZ0RqII35EwQxa1+1fr7Vay7x1OrZgNOSJx5dV0ycnrEXV3O+K
+	Ns/IWaqBaJgmfnuYjLQpGwAoMkr5v0I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725366633;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DqNZO5VR7+lLuHwxMNLilXwMysqxXswwKuL23irDzTU=;
+	b=jkgE276WXAKa/o03dtoNz0ZrYdr6+iuwXKg2s31d3AsLGnVjPhQ+VVRRgEMk0RTIua37Vx
+	Onstc+4RvCvrd8AQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1725366632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DqNZO5VR7+lLuHwxMNLilXwMysqxXswwKuL23irDzTU=;
+	b=xZeXH4bo8h5/2F+IyWvbHcHgOELFOfhDrTfpGDPhXmlgaPKexRTIsE8gI5Q3MFRg1kh4rx
+	XaeJSiWmHAuEkgsuU7RIKfKM7xQVxTjs/KwQQ9D/SGkbeBNlFZJ2vzxN+GBX4rYIvZq1tK
+	KwL2KniF0EMKFgUBErk5YOgDprkU8C8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1725366632;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DqNZO5VR7+lLuHwxMNLilXwMysqxXswwKuL23irDzTU=;
+	b=EDVpLCItabcFW9RTgUIo+0JPM55nMF0HFc90XyEiOYARdLDVfKAjA8/Y9KUnTyosoQavwc
+	ntVXpfhWhdVh3SDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1168413A80;
+	Tue,  3 Sep 2024 12:30:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 42CVA2gB12bZNQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 03 Sep 2024 12:30:32 +0000
+Message-ID: <0c0bdfce-4ec7-4d65-8640-6e1277c7fd36@suse.de>
+Date: Tue, 3 Sep 2024 14:30:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] nvme: remove existing namespace on ID mismatch
+To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240902111548.41430-1-hare@kernel.org>
+ <20240902111548.41430-5-hare@kernel.org>
+ <807a6a3d-7da4-4c1c-9299-111172d63cd2@grimberg.me>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <807a6a3d-7da4-4c1c-9299-111172d63cd2@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2024.09.03-54.240.7.46
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240903_044918_457440_6621EFCB 
-X-CRM114-Status: GOOD (  11.87  )
+X-CRM114-CacheID: sfid-20240903_053036_594354_6F77B908 
+X-CRM114-Status: GOOD (  19.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,55 +133,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The sysfs attributes are registered early, but the driver does not
-know whether they are needed or not at that moment.
-For the cmb attributes, commit
-e917a849c3fc ("nvme-pci: refresh visible attrs for cmb attributes")
-solved this problem by calling `nvme_update_attrs` after mapping the cmb.
-However the issue persists for the hmb attributes.
-To solve the problem, moved the call to `nvme_update_attrs` after
-`nvme_setup_host_mem` is called, the one that sets up the hmb, in probe
-and in reset_work functions.
+On 9/2/24 19:01, Sagi Grimberg wrote:
+> Again, patch title should describe what it is fixing.
+> 
+> 
+> On 02/09/2024 14:15, Hannes Reinecke wrote:
+>> When the namespace IDs mismatch during rescan we clearly ran out of
+>> sync with the target,
+> 
+> Not clear at all. When can this happen and how?
+> 
+>>   but we really can't know whether our local copy
+>> of the NSID is correct, and that one found by scanning is not.
+>> But clearly something is wrong with the namespaces, so we should remove
+>> the existing one, too, to avoid accidental data corruption.
+> 
+> Umm. So you see a bogus ns and conflicting with another ns which is
+> seemingly fine and you remove it?
+> 
+> I feel like you are describing something "generically useful/correct" 
+> while you address
+> a very specific problem but you don't describe it to us...
+> 
+Turns out that this patch was actually pointless, as the code in 
+question can only be reached from the 'nvme_alloc_ns()' flow, which
+means that no namespace for this nsid on that controller is present
+(and hence nothing to remove).
 
-Fixes: e917a849c3fc ("nvme-pci: refresh visible attrs for cmb attributes")
-Fixes: 86adbf0cdb9e ("nvme: simplify transport specific device attribute handling")
-Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
----
- drivers/nvme/host/pci.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+But I seem to have found the root cause now (I/O stall as we don't
+kick the requeue list in all cases), will be sending a new patchset.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e6267a6aa380..9455c4d53d7d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1878,8 +1878,6 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 	if ((dev->cmbsz & (NVME_CMBSZ_WDS | NVME_CMBSZ_RDS)) ==
- 			(NVME_CMBSZ_WDS | NVME_CMBSZ_RDS))
- 		pci_p2pmem_publish(pdev, true);
--
--	nvme_update_attrs(dev);
- }
- 
- static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
-@@ -2736,6 +2734,8 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result < 0)
- 		goto out;
- 
-+	nvme_update_attrs(dev);
-+
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
- 		goto out;
-@@ -3046,6 +3046,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (result < 0)
- 		goto out_disable;
- 
-+	nvme_update_attrs(dev);
-+
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
- 		goto out_disable;
+Cheers,
+
+Hannes
 -- 
-2.34.1
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
