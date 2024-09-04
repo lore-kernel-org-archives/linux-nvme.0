@@ -4,96 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C807ECD484F
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2024 14:54:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23785CD4851
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2024 14:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w2kuZTYEDV6HXIhhaJPMXSY/Q2prhHcDJ5j2xzyUZ38=; b=KZmXbAtQOacePCZDTXSS0+0i7i
-	Z8PjOZ8inuWecXf62JkDULEJFpir3H68xZrWODpjLBKr4GqnV814NUbNNtl/XL9cMTi3tOBJBJ6jW
-	3BirHoaNLeaPYv5ZNBIRZnVK2yn3O/in6tYT9Ag2tC3OEDl9KelbiOxxZTKUJ2YwPnFzRNV4JGCVi
-	BNF9o1k97EBpg7wsQKEAaH6UJvr8k6ZLsWYcoAlV9vaRCqG9S8KmBc6MhYlxwX+KDokkA6eiib6Sz
-	13cn7d6Dn4shaDqCeL9gqHEwSW/iAZF9aRUI4P0nbmCcspm0LZWTj8c9Fg9JoPBVKTfvx8DmVGLaL
-	GCMI1HnQ==;
+	bh=/XD9MSPm2ieh7tYbx02NG5OSwwR0Rs4WQ1DiKKxiIlc=; b=ckLzhjzC/E/y1d8Q82cbwV+BJ3
+	ZMO1pXikLOFLtRXuvWYF+bc8L1HJbyRY1GL3A7wQSJo9OSgB+9aVGGM+UtvU3ivhw40+yYDYFYiZQ
+	RNHbplY2RppfvFV0Ebist7w1x7yQePo8ls5sBjY/p/7SoufIk9RP5tu/pn4+df5byBTtSBxiYRjVG
+	Fr6ydNgP9UW61gavtV9d4aJOymSjTWdCw8dySu7xpw2e64DGcvgky6gKRuMEaCx0NDRdrcChJSDta
+	pgLv8PsI1G0iICNp8E7JJ/tPvuse05qinutFR1UofiZHBd7x5glFlzUQoCYRNXqAkJHoSZtotPXDK
+	sYyUtKXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slrOb-00000004sXG-1tC9;
-	Wed, 04 Sep 2024 14:54:09 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1slrTH-00000004tvA-3ESF;
+	Wed, 04 Sep 2024 14:58:59 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slrNI-00000004sF9-29H8
+	id 1slrRh-00000004tTx-2axh
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Sep 2024 14:52:50 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484DlALu015112;
-	Wed, 4 Sep 2024 14:52:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=w
-	2kuZTYEDV6HXIhhaJPMXSY/Q2prhHcDJ5j2xzyUZ38=; b=YYXjLoW0ZcbdXFnjY
-	RmX94E93gzYKvIQg3XOPrTdRTOq9rP7WOTrmwQfItnRLQj/vJv9zv3eu3mBONKRR
-	lajZnmyWhHBUdwG/ktVjF6E68TyAIvnOjySOE9GPxoLSFr0eylzDYSSeIbSwdkzd
-	Q85QZzzC8YYV5X3J/7BBwUXp6K2DB8bL8UJgguSLT1hPJKh+llmwFcOITUnvcnSU
-	ZpGiOCcoZDHhXIZMSuvcs6gT5AzBVhnZEoeTRjQasWO9eHIWJkKZ09ehBzR0ZeDF
-	UQsM0anzDX2JQcvg7XqlZMljHOW4rTH0nEozhIf4slH+HArwKjfRBsTBoox3wK6F
-	aSxzg==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41btp9kq0x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 14:52:34 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 484CSL5V018602;
-	Wed, 4 Sep 2024 14:52:33 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41cdw18am6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Sep 2024 14:52:33 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 484EqWSo53018998
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 4 Sep 2024 14:52:32 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6A08858060;
-	Wed,  4 Sep 2024 14:52:32 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B5F865805D;
-	Wed,  4 Sep 2024 14:52:30 +0000 (GMT)
-Received: from [9.171.2.34] (unknown [9.171.2.34])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  4 Sep 2024 14:52:30 +0000 (GMT)
-Message-ID: <d3762e8e-dcae-46fd-b222-92b552d3449f@linux.ibm.com>
-Date: Wed, 4 Sep 2024 20:22:29 +0530
+	Wed, 04 Sep 2024 14:57:25 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240904145712epoutp02238893c1721166a97331aad4a60e8522~yEmUjgl1S2603726037epoutp02W
+	for <linux-nvme@lists.infradead.org>; Wed,  4 Sep 2024 14:57:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240904145712epoutp02238893c1721166a97331aad4a60e8522~yEmUjgl1S2603726037epoutp02W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1725461832;
+	bh=/XD9MSPm2ieh7tYbx02NG5OSwwR0Rs4WQ1DiKKxiIlc=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=tq7EDconfAAxtqzrR0A2EYizCmpDG4aADIRh7WMATDaYhe7mBUC+hV/f4w95OCHbG
+	 N3tropibV5reJDG9mXkx7U1E0Meop0P+bWBeP7knpW19vZ9Z1UWdqtvZvyvmbm4eh4
+	 8vbbQ0LhF4GRsWACIy5UaJFd4WRbZq3W/VNGW+ck=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240904145712epcas5p16b1e59b36b65364e750ad6186f3c40c0~yEmT86gsc0537605376epcas5p1a;
+	Wed,  4 Sep 2024 14:57:12 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.179]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4WzQZG2H28z4x9Pt; Wed,  4 Sep
+	2024 14:57:10 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	02.09.09743.64578D66; Wed,  4 Sep 2024 23:57:10 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240904145709epcas5p1500f0810833c70c779c5b5d911fa7842~yEmRhvbRj0635006350epcas5p1x;
+	Wed,  4 Sep 2024 14:57:09 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240904145709epsmtrp2579123e002487ee76c7e08d31d1d3da9~yEmRfmIxb0123901239epsmtrp25;
+	Wed,  4 Sep 2024 14:57:09 +0000 (GMT)
+X-AuditID: b6c32a4a-14fff7000000260f-69-66d875463bee
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	8A.1B.08964.54578D66; Wed,  4 Sep 2024 23:57:09 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240904145705epsmtip23467e1ecdd38069c57e5f46971b556e1~yEmN4AJW22167321673epsmtip2W;
+	Wed,  4 Sep 2024 14:57:05 +0000 (GMT)
+Message-ID: <cd7fa0b4-9f85-a73c-3f28-baa234a2ae7c@samsung.com>
+Date: Wed, 4 Sep 2024 20:27:04 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvme-multipath: fix I/O stall when remapping
- namespaces
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-        linux-nvme@lists.infradead.org
-References: <20240903180345.35253-1-hare@kernel.org>
- <20240903180345.35253-3-hare@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v4 0/5] Write-placement hints and FDP
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20240903180345.35253-3-hare@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To: Christian Brauner <brauner@kernel.org>
+Cc: amir73il@gmail.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, James.Bottomley@hansenpartnership.com,
+	jack@suse.cz, jaegeuk@kernel.org, jlayton@kernel.org,
+	chuck.lever@oracle.com, bvanassche@acm.org, "axboe@kernel.dk"
+	<axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20240903-erfassen-bandmitglieder-32dfaeee66b2@brauner>
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Bdu05M7a_F8NT3imIO2TodeBVthePcur
-X-Proofpoint-ORIG-GUID: Bdu05M7a_F8NT3imIO2TodeBVthePcur
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-04_12,2024-09-04_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 spamscore=0
- malwarescore=0 mlxlogscore=897 adultscore=0 mlxscore=0 suspectscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2409040110
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxbZRTOe3t7e8HUXAvIa1VgjSyOCaN8eVkATSRwwyASly3zI0IHF1pb
+	2q63ZRshSmCbfGyjsIXOgqFWBAfKhCLjYxhSRLYJgiKDEj5dEUcFxrqgSHW2tFP+Pe85z3Oe
+	95yTg7N4xRw+LpGraZVcJBNg3mjnwL4XQ5M0UznhzZtPkGOtLYBsma3ESNvAA0DW3N9ikY9m
+	lxHS0t+NkFdbBhGyVleCkNZrehbZVomTd2fsHHKrsZlDVpvvALJvej/5kzGZvNF3CyXrG5c4
+	ZMVkF0Y2Df2DkK22dZQc1ddxXvWjxn8+RHXrZznU6FwbStVU38ao8REN1d5chlGmhg+oXoMd
+	oXotRRi1sTSNUhc7mgE1bPiWQ9nbA9K5b0njxLQom1YF0fIsRbZEnhsvOHQ447WM6JhwYagw
+	lnxZECQX5dHxgsTU9NAkiczZriAoXyTTOEPpIoYRHEiIUyk0ajpIrGDU8QJamS1TRinDGFEe
+	o5Hnhslp9UFheHhEtJOYKRU3XOhnK+9wT63rv+cUgS3vcuCFQyIKNn1twMqBN84jegFcrqpl
+	ux8PABzsn/VkNgEc0J5FH0t05j/ZLswj+gC0lu5xk1YBvFSxDlwJLpEAtyoaEBdGiRfgRslV
+	zB1/Ct76yLpTyI84Dv+aqNvh+xCx0DyyulOURfjDaWv9jtaXCIHFxg3EZcAizqBwcGnQKcZx
+	jNgHxy5pXBwvIhFum2qBWxsIr6/WsdwfbfGCcyMenAgbOwc82AeuDHVw3JgP7Wt9mBtL4cIv
+	C54mC2GX6SLbjV+BRY4ptsuW5bS91nPAbfUkvLBtRVxhSHBh6Tmem70HzlUveZT+cPFKgwdT
+	cLr3oWeeDgA7iu2YFgTpd01Fv6t7/a5u9P87GwDaDJ6hlUxeLs1EKyPk9Mn/9p2lyGsHO8cQ
+	ktIFFhfuh5kBggMzgDhL4Mu1+U7l8LjZotMFtEqRodLIaMYMop3rqWLx/bIUzmuSqzOEUbHh
+	UTExMVGxkTFCgT/XdvbjbB6RK1LTUppW0qrHOgT34hchpWud22cqr0Re/+Z3m3g+2Jb54f76
+	ma5yn758B2bybtWl/j3En3y/pyAt2cGSls3mrCSuWy3lPZZPPv2uKha3J6T98NXEwFYE9D4f
+	vfcLo3Av89x4sOmuJjOsxP6bXOvz9POfl1UP30OffVsrLnovdLgqYDMwLuKNxgWLNrf04GGk
+	Lcl4cuadJot48VFAaq3jS/m9eYZjHGXePZ0amaK1JktsOq3pMuEjeZN/vubEPHX7ZuCNieCM
+	14/4F56SGT+bV9q7jdMpSYWyo8cHj92sEOjW08YWj76UuiwzGDIfsn/0uzxH/SopXJtcmbKd
+	qP7jXE1nfzKhc9gix6X5aIH0yDEByohFwhCWihH9CwmGeIWVBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUhTYRTGe++9u/c6Wt2my9eKglVURqtByJvZB1R6Q4miKChKV7up6Nba
+	dX2IpLagmpRl6GpqmpjiBopOs1qWrSxsibOFTmuWH2FlpmZRyz7nCvzvx3me5zznj0Pj4tfE
+	LDpRncJp1YpkKSkkbjyQzlu2Sec+uML4LAQ5Ky0AWTzZJBp88AmgvBEvjn57BjDU2XgLQxWW
+	JgzlG/UY6q8y4ag6m0Z9L8co5C0zUyjH3g5QQ9dS9KwkCt1paCZQUdkbCmV13CRR+eNfGKoc
+	HCZQq6mAWi9hXc+j2VsmD8W2dlcTbF7OE5J1tejYGvNZkrWWprO24jGMtXVmkOzomy6CPV9r
+	BuzT4ocUO1Yzd6totzBCySUnHuG0y9fGCRNKzzUKNO2iY8MmB5UBvEIDCKAhsxIa7d8EBiCk
+	xYwNwAbLEPALwVDf/o3ycyCs+DVA+U2DAL7/XkL4BBGzFnqzSjEfE8wCOKqvIP3zGbD5Sv+E
+	R8Lsh3deZU54AplV0N4yJPAx/regq79oYh7EhMKTJaOYrwBnThEwx/0B+Nt+AHjdmocbAE2T
+	zBLovKTzBQKYjXDcmg/8i8Kgoc7wj+fB+qEC/AIQmybdYZrUZ5oUMU2KFAPCDEI4Da+KV/Fy
+	jVzNHZXxChWvU8fLDhxS1YCJJwhdchPUm0dkdoDRwA4gjUuDRINB7oNikVJxPJXTHorV6pI5
+	3g5m04Q0WBT89pxSzMQrUrgkjtNw2v8qRgfMysCqe2tdsUXpIRG32zq2P9m7hVg4jM/cU5f/
+	YqSAbw3sHs09XaHMSx2XGLqd5Wme9A5bHAqumytI3loVkdiWVt4bHv6ZkU8p5GXrbs+Rvj9l
+	bUtyhCo2riiINTocmS/LUmZ2ZjkCjx/uK3Qr+/L3/6RrW5oGUmOqOu/NftrWWuy0hGfre6bm
+	bvsJG5qiKunp042wzpzpuh81vu/utU3yMG/KvmnubEnMaiqs0XC954dG4tx2JGDDu2jiBHkt
+	4Wjkh8j1MfMvZ3icqp5HH/HwpLfrdgltO3ecWdT7pVym33zP+jVy+buuV2sWH96hXnqsPlJg
+	i84dm9bc7Sq9mhYH0i5SUoJPUMhDcS2v+AN9Se0qcwMAAA==
+X-CMS-MailID: 20240904145709epcas5p1500f0810833c70c779c5b5d911fa7842
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240826171409epcas5p306ba210a9815e202556778a4c105b440
+References: <CGME20240826171409epcas5p306ba210a9815e202556778a4c105b440@epcas5p3.samsung.com>
+	<20240826170606.255718-1-joshi.k@samsung.com>
+	<20a9df07-f49e-ee58-3d0b-b0209e29c6af@samsung.com>
+	<20240903-erfassen-bandmitglieder-32dfaeee66b2@brauner>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240904_075248_819406_EA250D01 
-X-CRM114-Status: GOOD (  27.52  )
+X-CRM114-CacheID: sfid-20240904_075722_091453_718ACF25 
+X-CRM114-Status: GOOD (  19.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,89 +147,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 9/3/2024 8:05 PM, Christian Brauner wrote:
+> On Tue, Sep 03, 2024 at 07:58:46PM GMT, Kanchan Joshi wrote:
+>> Hi Amir,
+>>
+>>
+>> On 8/26/2024 10:36 PM, Kanchan Joshi wrote:
+>>> Current write-hint infrastructure supports 6 temperature-based data life
+>>> hints.
+>>> The series extends the infrastructure with a new temperature-agnostic
+>>> placement-type hint. New fcntl codes F_{SET/GET}_RW_HINT_EX allow to
+>>> send the hint type/value on file. See patch #3 commit description for
+>>> the details.
+>>>
+>>> Overall this creates 128 placement hint values [*] that users can pass.
+>>> Patch #5 adds the ability to map these new hint values to nvme-specific
+>>> placement-identifiers.
+>>> Patch #4 restricts SCSI to use only life hint values.
+>>> Patch #1 and #2 are simple prep patches.
+>>>
+>>> [*] While the user-interface can support more, this limit is due to the
+>>> in-kernel plumbing consideration of the inode size. Pahole showed 32-bit
+>>> hole in the inode, but the code had this comment too:
+>>>
+>>> /* 32-bit hole reserved for expanding i_fsnotify_mask */
+>>>
+>>> Not must, but it will be good to know if a byte (or two) can be used
+>>> here.
+>>
+>> Since having one extra byte will simplify things, I can't help but ask -
+>> do you still have the plans to use this space (in entirety) within inode?
+> 
+> I just freed up 8 bytes in struct inode with what's currently in -next.
+> There will be no using up those 8 bytes unless it's for a good reason
+> and something that is very widely useful.
 
-
-On 9/3/24 23:33, Hannes Reinecke wrote:
-> During repetitive namespace remapping operations (ie removing a namespace and
-> provision a different namespace with the same NSID) on the target the
-> namespace might have changed between the time the initial scan
-> was performed, and partition scan was invoked by device_add_disk()
-> in nvme_mpath_set_live(). We then end up with a stuck scanning process:
-> 
-> [<0>] folio_wait_bit_common+0x12a/0x310
-> [<0>] filemap_read_folio+0x97/0xd0
-> [<0>] do_read_cache_folio+0x108/0x390
-> [<0>] read_part_sector+0x31/0xa0
-> [<0>] read_lba+0xc5/0x160
-> [<0>] efi_partition+0xd9/0x8f0
-> [<0>] bdev_disk_changed+0x23d/0x6d0
-> [<0>] blkdev_get_whole+0x78/0xc0
-> [<0>] bdev_open+0x2c6/0x3b0
-> [<0>] bdev_file_open_by_dev+0xcb/0x120
-> [<0>] disk_scan_partitions+0x5d/0x100
-> [<0>] device_add_disk+0x402/0x420
-> [<0>] nvme_mpath_set_live+0x4f/0x1f0 [nvme_core]
-> [<0>] nvme_mpath_add_disk+0x107/0x120 [nvme_core]
-> [<0>] nvme_alloc_ns+0xac6/0xe60 [nvme_core]
-> [<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
-> [<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
-> 
-> This happens when we have several paths, some of which are inaccessible,
-> and the active paths are removed first. Then nvme_find_path() will requeue
-> I/O in the ns_head (as paths are present), but the requeue list is never
-> triggered as all remaining paths are inactive.
-> This patch checks for NVME_NSHEAD_DISK_LIVE when selecting a path,
-> and requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared once
-> the last path has been removed to properly terminate pending I/O.
-> 
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->  drivers/nvme/host/multipath.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index c9d23b1b8efc..1b1deb0450ab 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -407,6 +407,9 @@ static struct nvme_ns *nvme_numa_path(struct nvme_ns_head *head)
->  
->  inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
->  {
-> +	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-> +		return NULL;
-> +
->  	switch (READ_ONCE(head->subsys->iopolicy)) {
->  	case NVME_IOPOLICY_QD:
->  		return nvme_queue_depth_path(head);
-> @@ -421,6 +424,9 @@ static bool nvme_available_path(struct nvme_ns_head *head)
->  {
->  	struct nvme_ns *ns;
->  
-> +	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-> +		return NULL;
-> +
->  	list_for_each_entry_rcu(ns, &head->list, siblings) {
->  		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
->  			continue;
-> @@ -967,11 +973,15 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
->  {
->  	if (!head->disk)
->  		return;
-> -	kblockd_schedule_work(&head->requeue_work);
-> -	if (test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-> +	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
->  		nvme_cdev_del(&head->cdev, &head->cdev_device);
->  		del_gendisk(head->disk);
->  	}
-> +	/*
-> +	 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
-> +	 * to allow multipath to fail all I/O.
-> +	 */
-> +	kblockd_schedule_work(&head->requeue_work);
->  }
-Not sure, in your case, whether nvme_mpath_remove_disk() is called or not? 
-The nvme_mpath_remove_disk() shall trigger the ns_head reqiest list. 
-
->  
->  void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+I see, so now there are two holes. Seems the plan is to co-locate these 
+and reduce the size by 8 bytes. Thanks for the pointer. Primary reason 
+is a bit cleaner plumbing, but I'll manage without extra space.
 
