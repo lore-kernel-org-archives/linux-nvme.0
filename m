@@ -4,134 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23785CD4851
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2024 14:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6B10CD4853
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2024 15:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/XD9MSPm2ieh7tYbx02NG5OSwwR0Rs4WQ1DiKKxiIlc=; b=ckLzhjzC/E/y1d8Q82cbwV+BJ3
-	ZMO1pXikLOFLtRXuvWYF+bc8L1HJbyRY1GL3A7wQSJo9OSgB+9aVGGM+UtvU3ivhw40+yYDYFYiZQ
-	RNHbplY2RppfvFV0Ebist7w1x7yQePo8ls5sBjY/p/7SoufIk9RP5tu/pn4+df5byBTtSBxiYRjVG
-	Fr6ydNgP9UW61gavtV9d4aJOymSjTWdCw8dySu7xpw2e64DGcvgky6gKRuMEaCx0NDRdrcChJSDta
-	pgLv8PsI1G0iICNp8E7JJ/tPvuse05qinutFR1UofiZHBd7x5glFlzUQoCYRNXqAkJHoSZtotPXDK
-	sYyUtKXg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8IiuHQRCaZR7o373aeUuzwOjyC9BU/GsRuBkofUZTkA=; b=zWoHM7jg52yTMf8JhqjepzqSUy
+	qwpFJd1Y7ClI/h9ayHHOez7gcLrynIFsYYt0Euf0sBDuqR+tuNcvZqdEQl1lmOBB2s4/bpLpxFi7Y
+	rSJZj5ml0XXFsesFJvoyxWBWRnouH33i09Hw9/+XIeJZ4Le4reh1/JUAaIBwWFKVX4jYd5eLQ5Sog
+	lDxt3HWjXWdij+DCeBXh5zblBQqFmpxR9iv57vUCsxTz7SN0dclz7tK61yRku4/728N9ij2Reea91
+	yU7VTP1XUG4iaY3Sb/GWPvHJ4g2dEmc4OHq1ClwSFo6OAKPhzhDnI2/2bIEr2GyMNCGvw8qwzOZtY
+	6l4IcONQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slrTH-00000004tvA-3ESF;
-	Wed, 04 Sep 2024 14:58:59 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1slrZO-00000004vaI-2pAy;
+	Wed, 04 Sep 2024 15:05:18 +0000
+Received: from mgamail.intel.com ([192.198.163.11])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1slrRh-00000004tTx-2axh
+	id 1slrZL-00000004vZG-2yAK
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Sep 2024 14:57:25 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240904145712epoutp02238893c1721166a97331aad4a60e8522~yEmUjgl1S2603726037epoutp02W
-	for <linux-nvme@lists.infradead.org>; Wed,  4 Sep 2024 14:57:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240904145712epoutp02238893c1721166a97331aad4a60e8522~yEmUjgl1S2603726037epoutp02W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1725461832;
-	bh=/XD9MSPm2ieh7tYbx02NG5OSwwR0Rs4WQ1DiKKxiIlc=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=tq7EDconfAAxtqzrR0A2EYizCmpDG4aADIRh7WMATDaYhe7mBUC+hV/f4w95OCHbG
-	 N3tropibV5reJDG9mXkx7U1E0Meop0P+bWBeP7knpW19vZ9Z1UWdqtvZvyvmbm4eh4
-	 8vbbQ0LhF4GRsWACIy5UaJFd4WRbZq3W/VNGW+ck=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240904145712epcas5p16b1e59b36b65364e750ad6186f3c40c0~yEmT86gsc0537605376epcas5p1a;
-	Wed,  4 Sep 2024 14:57:12 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.179]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4WzQZG2H28z4x9Pt; Wed,  4 Sep
-	2024 14:57:10 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	02.09.09743.64578D66; Wed,  4 Sep 2024 23:57:10 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240904145709epcas5p1500f0810833c70c779c5b5d911fa7842~yEmRhvbRj0635006350epcas5p1x;
-	Wed,  4 Sep 2024 14:57:09 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240904145709epsmtrp2579123e002487ee76c7e08d31d1d3da9~yEmRfmIxb0123901239epsmtrp25;
-	Wed,  4 Sep 2024 14:57:09 +0000 (GMT)
-X-AuditID: b6c32a4a-14fff7000000260f-69-66d875463bee
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	8A.1B.08964.54578D66; Wed,  4 Sep 2024 23:57:09 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240904145705epsmtip23467e1ecdd38069c57e5f46971b556e1~yEmN4AJW22167321673epsmtip2W;
-	Wed,  4 Sep 2024 14:57:05 +0000 (GMT)
-Message-ID: <cd7fa0b4-9f85-a73c-3f28-baa234a2ae7c@samsung.com>
-Date: Wed, 4 Sep 2024 20:27:04 +0530
+	Wed, 04 Sep 2024 15:05:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725462316; x=1756998316;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Qz82WMMHJhgtm208/hRpQDVXvQckCENoit6Mf3U+4Os=;
+  b=MyEGd3TzAMzj4CBC5m98QmDpLz+kxSdDwn5Z4LhvUVvBICZdHluI7Six
+   WUCp3Egd6s/EPJrLnPSQS42DtBWpu7FSfsM+Y2YB4stdyygYqloFunyYo
+   CL9tJIhYOHa2483HhxSX1KkCTml3Bwo0L4mEdcxWiAO77sfD2NkZbOOAA
+   QD+yH7hgzG/aDqKp+vSnq+onKOjF+OOevSPkcPUNys0tSkJj5ZWT2cH+f
+   mGhQobb4n4OR1nNrByLELrqQQvXApA/A+G5fjluIgIpIiH6k/1ZnG16za
+   qwmlLWIsJPgcRlPuuZLC9IVXyQ8t6U54BmX+y0DrBRKskwRz3EpUcn7DC
+   Q==;
+X-CSE-ConnectionGUID: NwxFxIpjQBWVO9x6XYnghw==
+X-CSE-MsgGUID: kVcD/mcURvulbcWVqz6QCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="34731267"
+X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
+   d="scan'208";a="34731267"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 08:05:14 -0700
+X-CSE-ConnectionGUID: fhNpQt96RN2LV2zHokamow==
+X-CSE-MsgGUID: tdRsXmv7S7qyfLk3zY0moQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
+   d="scan'208";a="64963930"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO tkristo-desk.intel.com) ([10.245.246.254])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 08:05:12 -0700
+From: Tero Kristo <tero.kristo@linux.intel.com>
+To: 
+Cc: kbusch@kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	sagi@grimberg.me,
+	hch@lst.de,
+	axboe@kernel.dk
+Subject: [RFC PATCH] nvme-pci: Add CPU latency pm-qos handling
+Date: Wed,  4 Sep 2024 18:04:47 +0300
+Message-ID: <20240904150509.1830278-1-tero.kristo@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v4 0/5] Write-placement hints and FDP
-Content-Language: en-US
-To: Christian Brauner <brauner@kernel.org>
-Cc: amir73il@gmail.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	martin.petersen@oracle.com, James.Bottomley@hansenpartnership.com,
-	jack@suse.cz, jaegeuk@kernel.org, jlayton@kernel.org,
-	chuck.lever@oracle.com, bvanassche@acm.org, "axboe@kernel.dk"
-	<axboe@kernel.dk>, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20240903-erfassen-bandmitglieder-32dfaeee66b2@brauner>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxbZRTOe3t7e8HUXAvIa1VgjSyOCaN8eVkATSRwwyASly3zI0IHF1pb
-	2q63ZRshSmCbfGyjsIXOgqFWBAfKhCLjYxhSRLYJgiKDEj5dEUcFxrqgSHW2tFP+Pe85z3Oe
-	95yTg7N4xRw+LpGraZVcJBNg3mjnwL4XQ5M0UznhzZtPkGOtLYBsma3ESNvAA0DW3N9ikY9m
-	lxHS0t+NkFdbBhGyVleCkNZrehbZVomTd2fsHHKrsZlDVpvvALJvej/5kzGZvNF3CyXrG5c4
-	ZMVkF0Y2Df2DkK22dZQc1ddxXvWjxn8+RHXrZznU6FwbStVU38ao8REN1d5chlGmhg+oXoMd
-	oXotRRi1sTSNUhc7mgE1bPiWQ9nbA9K5b0njxLQom1YF0fIsRbZEnhsvOHQ447WM6JhwYagw
-	lnxZECQX5dHxgsTU9NAkiczZriAoXyTTOEPpIoYRHEiIUyk0ajpIrGDU8QJamS1TRinDGFEe
-	o5Hnhslp9UFheHhEtJOYKRU3XOhnK+9wT63rv+cUgS3vcuCFQyIKNn1twMqBN84jegFcrqpl
-	ux8PABzsn/VkNgEc0J5FH0t05j/ZLswj+gC0lu5xk1YBvFSxDlwJLpEAtyoaEBdGiRfgRslV
-	zB1/Ct76yLpTyI84Dv+aqNvh+xCx0DyyulOURfjDaWv9jtaXCIHFxg3EZcAizqBwcGnQKcZx
-	jNgHxy5pXBwvIhFum2qBWxsIr6/WsdwfbfGCcyMenAgbOwc82AeuDHVw3JgP7Wt9mBtL4cIv
-	C54mC2GX6SLbjV+BRY4ptsuW5bS91nPAbfUkvLBtRVxhSHBh6Tmem70HzlUveZT+cPFKgwdT
-	cLr3oWeeDgA7iu2YFgTpd01Fv6t7/a5u9P87GwDaDJ6hlUxeLs1EKyPk9Mn/9p2lyGsHO8cQ
-	ktIFFhfuh5kBggMzgDhL4Mu1+U7l8LjZotMFtEqRodLIaMYMop3rqWLx/bIUzmuSqzOEUbHh
-	UTExMVGxkTFCgT/XdvbjbB6RK1LTUppW0qrHOgT34hchpWud22cqr0Re/+Z3m3g+2Jb54f76
-	ma5yn758B2bybtWl/j3En3y/pyAt2cGSls3mrCSuWy3lPZZPPv2uKha3J6T98NXEwFYE9D4f
-	vfcLo3Av89x4sOmuJjOsxP6bXOvz9POfl1UP30OffVsrLnovdLgqYDMwLuKNxgWLNrf04GGk
-	Lcl4cuadJot48VFAaq3jS/m9eYZjHGXePZ0amaK1JktsOq3pMuEjeZN/vubEPHX7ZuCNieCM
-	14/4F56SGT+bV9q7jdMpSYWyo8cHj92sEOjW08YWj76UuiwzGDIfsn/0uzxH/SopXJtcmbKd
-	qP7jXE1nfzKhc9gix6X5aIH0yDEByohFwhCWihH9CwmGeIWVBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUhTYRTGe++9u/c6Wt2my9eKglVURqtByJvZB1R6Q4miKChKV7up6Nba
-	dX2IpLagmpRl6GpqmpjiBopOs1qWrSxsibOFTmuWH2FlpmZRyz7nCvzvx3me5zznj0Pj4tfE
-	LDpRncJp1YpkKSkkbjyQzlu2Sec+uML4LAQ5Ky0AWTzZJBp88AmgvBEvjn57BjDU2XgLQxWW
-	JgzlG/UY6q8y4ag6m0Z9L8co5C0zUyjH3g5QQ9dS9KwkCt1paCZQUdkbCmV13CRR+eNfGKoc
-	HCZQq6mAWi9hXc+j2VsmD8W2dlcTbF7OE5J1tejYGvNZkrWWprO24jGMtXVmkOzomy6CPV9r
-	BuzT4ocUO1Yzd6totzBCySUnHuG0y9fGCRNKzzUKNO2iY8MmB5UBvEIDCKAhsxIa7d8EBiCk
-	xYwNwAbLEPALwVDf/o3ycyCs+DVA+U2DAL7/XkL4BBGzFnqzSjEfE8wCOKqvIP3zGbD5Sv+E
-	R8Lsh3deZU54AplV0N4yJPAx/regq79oYh7EhMKTJaOYrwBnThEwx/0B+Nt+AHjdmocbAE2T
-	zBLovKTzBQKYjXDcmg/8i8Kgoc7wj+fB+qEC/AIQmybdYZrUZ5oUMU2KFAPCDEI4Da+KV/Fy
-	jVzNHZXxChWvU8fLDhxS1YCJJwhdchPUm0dkdoDRwA4gjUuDRINB7oNikVJxPJXTHorV6pI5
-	3g5m04Q0WBT89pxSzMQrUrgkjtNw2v8qRgfMysCqe2tdsUXpIRG32zq2P9m7hVg4jM/cU5f/
-	YqSAbw3sHs09XaHMSx2XGLqd5Wme9A5bHAqumytI3loVkdiWVt4bHv6ZkU8p5GXrbs+Rvj9l
-	bUtyhCo2riiINTocmS/LUmZ2ZjkCjx/uK3Qr+/L3/6RrW5oGUmOqOu/NftrWWuy0hGfre6bm
-	bvsJG5qiKunp042wzpzpuh81vu/utU3yMG/KvmnubEnMaiqs0XC954dG4tx2JGDDu2jiBHkt
-	4Wjkh8j1MfMvZ3icqp5HH/HwpLfrdgltO3ecWdT7pVym33zP+jVy+buuV2sWH96hXnqsPlJg
-	i84dm9bc7Sq9mhYH0i5SUoJPUMhDcS2v+AN9Se0qcwMAAA==
-X-CMS-MailID: 20240904145709epcas5p1500f0810833c70c779c5b5d911fa7842
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240826171409epcas5p306ba210a9815e202556778a4c105b440
-References: <CGME20240826171409epcas5p306ba210a9815e202556778a4c105b440@epcas5p3.samsung.com>
-	<20240826170606.255718-1-joshi.k@samsung.com>
-	<20a9df07-f49e-ee58-3d0b-b0209e29c6af@samsung.com>
-	<20240903-erfassen-bandmitglieder-32dfaeee66b2@brauner>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240904_075722_091453_718ACF25 
+X-CRM114-CacheID: sfid-20240904_080515_821060_5E2CAD17 
 X-CRM114-Status: GOOD (  19.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -147,42 +85,231 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/3/2024 8:05 PM, Christian Brauner wrote:
-> On Tue, Sep 03, 2024 at 07:58:46PM GMT, Kanchan Joshi wrote:
->> Hi Amir,
->>
->>
->> On 8/26/2024 10:36 PM, Kanchan Joshi wrote:
->>> Current write-hint infrastructure supports 6 temperature-based data life
->>> hints.
->>> The series extends the infrastructure with a new temperature-agnostic
->>> placement-type hint. New fcntl codes F_{SET/GET}_RW_HINT_EX allow to
->>> send the hint type/value on file. See patch #3 commit description for
->>> the details.
->>>
->>> Overall this creates 128 placement hint values [*] that users can pass.
->>> Patch #5 adds the ability to map these new hint values to nvme-specific
->>> placement-identifiers.
->>> Patch #4 restricts SCSI to use only life hint values.
->>> Patch #1 and #2 are simple prep patches.
->>>
->>> [*] While the user-interface can support more, this limit is due to the
->>> in-kernel plumbing consideration of the inode size. Pahole showed 32-bit
->>> hole in the inode, but the code had this comment too:
->>>
->>> /* 32-bit hole reserved for expanding i_fsnotify_mask */
->>>
->>> Not must, but it will be good to know if a byte (or two) can be used
->>> here.
->>
->> Since having one extra byte will simplify things, I can't help but ask -
->> do you still have the plans to use this space (in entirety) within inode?
-> 
-> I just freed up 8 bytes in struct inode with what's currently in -next.
-> There will be no using up those 8 bytes unless it's for a good reason
-> and something that is very widely useful.
+Add support for limiting CPU latency while NVME IO is running. When a
+NVME IO is started, it will add a user configurable CPU latency limit
+in place (if any.) The limit is removed after 3ms of inactivity.
 
-I see, so now there are two holes. Seems the plan is to co-locate these 
-and reduce the size by 8 bytes. Thanks for the pointer. Primary reason 
-is a bit cleaner plumbing, but I'll manage without extra space.
+The CPU latency limit is configurable via a sysfs parameter;
+cpu_latency_us under the NVME device.
+
+Signed-off-by: Tero Kristo <tero.kristo@linux.intel.com>
+---
+See [1] for the initial series posted to block mailing list as an RFC.
+It was proposed to move this to a lower layer, i.e. NVMe driver.
+
+[1] https://lore.kernel.org/all/20240829075423.1345042-1-tero.kristo@linux.intel.com/
+
+ drivers/nvme/host/pci.c | 95 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 90 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 710043086dff..ab9db4b02735 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -21,6 +21,7 @@
+ #include <linux/mutex.h>
+ #include <linux/once.h>
+ #include <linux/pci.h>
++#include <linux/pm_qos.h>
+ #include <linux/suspend.h>
+ #include <linux/t10-pi.h>
+ #include <linux/types.h>
+@@ -112,6 +113,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ static void nvme_delete_io_queues(struct nvme_dev *dev);
+ static void nvme_update_attrs(struct nvme_dev *dev);
+ 
++#define NVME_CPU_LATENCY_TIMEOUT_MS	3
++
++struct nvme_cpu_latency_qos {
++	struct dev_pm_qos_request	req;
++	struct delayed_work		work;
++	unsigned long			active;
++};
++
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+  */
+@@ -141,6 +150,8 @@ struct nvme_dev {
+ 	struct nvme_ctrl ctrl;
+ 	u32 last_ps;
+ 	bool hmb;
++	int cpu_latency;
++	struct nvme_cpu_latency_qos __percpu *cpu_latency_qos;
+ 
+ 	mempool_t *iod_mempool;
+ 
+@@ -213,6 +224,7 @@ struct nvme_queue {
+ 	__le32 *dbbuf_cq_db;
+ 	__le32 *dbbuf_sq_ei;
+ 	__le32 *dbbuf_cq_ei;
++	const struct cpumask *irq_aff_mask;
+ 	struct completion delete_done;
+ };
+ 
+@@ -470,6 +482,9 @@ static void nvme_pci_map_queues(struct blk_mq_tag_set *set)
+  */
+ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
+ {
++	struct nvme_dev *dev;
++	int cpu;
++
+ 	if (!write_sq) {
+ 		u16 next_tail = nvmeq->sq_tail + 1;
+ 
+@@ -483,6 +498,27 @@ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
+ 			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
+ 		writel(nvmeq->sq_tail, nvmeq->q_db);
+ 	nvmeq->last_sq_tail = nvmeq->sq_tail;
++
++	/* Kick CPU latency while updating queue. */
++	dev = nvmeq->dev;
++	if (!dev || dev->cpu_latency < 0)
++		return;
++
++	for_each_cpu(cpu, nvmeq->irq_aff_mask) {
++		struct nvme_cpu_latency_qos *qos;
++
++		qos = per_cpu_ptr(dev->cpu_latency_qos, cpu);
++
++		qos->active = jiffies + msecs_to_jiffies(NVME_CPU_LATENCY_TIMEOUT_MS);
++
++		if (dev_pm_qos_request_active(&qos->req))
++			continue;
++
++		dev_pm_qos_add_request(get_cpu_device(cpu), &qos->req,
++				       DEV_PM_QOS_RESUME_LATENCY,
++				       dev->cpu_latency);
++		schedule_delayed_work(&qos->work, msecs_to_jiffies(NVME_CPU_LATENCY_TIMEOUT_MS));
++	}
+ }
+ 
+ static inline void nvme_sq_copy_cmd(struct nvme_queue *nvmeq,
+@@ -1563,14 +1599,19 @@ static int queue_request_irq(struct nvme_queue *nvmeq)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
+ 	int nr = nvmeq->dev->ctrl.instance;
++	int ret;
+ 
+ 	if (use_threaded_interrupts) {
+-		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
+-				nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
++		ret = pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
++				      nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+ 	} else {
+-		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
+-				NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
++		ret = pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
++				      NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+ 	}
++
++	nvmeq->irq_aff_mask = pci_irq_get_affinity(pdev, nvmeq->cq_vector);
++
++	return ret;
+ }
+ 
+ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+@@ -2134,6 +2175,26 @@ static ssize_t hmb_store(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RW(hmb);
+ 
++static ssize_t cpu_latency_us_show(struct device *dev, struct device_attribute *attr,
++				   char *buf)
++{
++	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
++
++	return sysfs_emit(buf, "%d\n", ndev->cpu_latency);
++}
++
++static ssize_t cpu_latency_us_store(struct device *dev, struct device_attribute *attr,
++				    const char *buf, size_t count)
++{
++	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
++
++	if (kstrtoint(buf, 10, &ndev->cpu_latency) < 0)
++		return -EINVAL;
++
++	return count;
++}
++static DEVICE_ATTR_RW(cpu_latency_us);
++
+ static umode_t nvme_pci_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
+ {
+@@ -2158,6 +2219,7 @@ static struct attribute *nvme_pci_attrs[] = {
+ 	&dev_attr_cmbloc.attr,
+ 	&dev_attr_cmbsz.attr,
+ 	&dev_attr_hmb.attr,
++	&dev_attr_cpu_latency_us.attr,
+ 	NULL,
+ };
+ 
+@@ -2695,6 +2757,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ 	nvme_free_tagset(dev);
+ 	put_device(dev->dev);
+ 	kfree(dev->queues);
++	free_percpu(dev->cpu_latency_qos);
+ 	kfree(dev);
+ }
+ 
+@@ -2934,6 +2997,17 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 	return 0;
+ }
+ 
++static void nvme_cpu_latency_work(struct work_struct *work)
++{
++	struct nvme_cpu_latency_qos *qos =
++		container_of(work, struct nvme_cpu_latency_qos, work.work);
++	if (time_after(jiffies, qos->active)) {
++		dev_pm_qos_remove_request(&qos->req);
++	} else {
++		schedule_delayed_work(&qos->work, msecs_to_jiffies(NVME_CPU_LATENCY_TIMEOUT_MS));
++	}
++}
++
+ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 		const struct pci_device_id *id)
+ {
+@@ -2941,6 +3015,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	int node = dev_to_node(&pdev->dev);
+ 	struct nvme_dev *dev;
+ 	int ret = -ENOMEM;
++	int cpu;
+ 
+ 	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
+ 	if (!dev)
+@@ -2948,13 +3023,21 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
+ 	mutex_init(&dev->shutdown_lock);
+ 
++	dev->cpu_latency_qos = alloc_percpu(struct nvme_cpu_latency_qos);
++	if (!dev->cpu_latency_qos)
++		goto out_free_dev;
++	for_each_possible_cpu(cpu)
++		INIT_DELAYED_WORK(per_cpu_ptr(&dev->cpu_latency_qos->work, cpu),
++				  nvme_cpu_latency_work);
++	dev->cpu_latency = -1;
++
+ 	dev->nr_write_queues = write_queues;
+ 	dev->nr_poll_queues = poll_queues;
+ 	dev->nr_allocated_queues = nvme_max_io_queues(dev) + 1;
+ 	dev->queues = kcalloc_node(dev->nr_allocated_queues,
+ 			sizeof(struct nvme_queue), GFP_KERNEL, node);
+ 	if (!dev->queues)
+-		goto out_free_dev;
++		goto out_free_pm_qos;
+ 
+ 	dev->dev = get_device(&pdev->dev);
+ 
+@@ -3000,6 +3083,8 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ out_put_device:
+ 	put_device(dev->dev);
+ 	kfree(dev->queues);
++out_free_pm_qos:
++	free_percpu(dev->cpu_latency_qos);
+ out_free_dev:
+ 	kfree(dev);
+ 	return ERR_PTR(ret);
+-- 
+2.43.1
+
 
