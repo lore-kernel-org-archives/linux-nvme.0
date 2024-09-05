@@ -4,81 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FCF0CD5BC9
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2024 14:47:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EDE2CE7AA1
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2024 22:13:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=G5oxysNoWruEsSAXCh2tyAPkzw9jiZAlZ/alPTEVDu4=; b=08/K6h1MIQ+YkTw3ICIF6CoyRR
-	EiZv1MQyDajRhhpnka94oCXYXFDzzlEj3uK2epptL5nROt83OQokUAeIHd6cy61TmivhFAO8dOW27
-	EClG9dYPfwErwIW5QJI2il2Wo533dDm6kDNoW+VtbPr4B7LiSAlwg0aP1nLE1uIb6BQn46INUgglB
-	zhTj7aQOPDsBKPjaFRDXaqR1i/+2hxZU8I4CuPY0uJMNRb7y9QQDT+i//lyvt6XH+oey3gttb9iLw
-	jHweZHbcFrOC1zacFLfyeGCGKWteBH5+6BSVgOtHnmy0k1CnImUqv5gjcUPy2CYo/RWTy0pQdTq3d
-	Mh5FGd0w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/Ol9s08BMyod1imyUaFYnG0naL/4NEYz49Sti39u3ac=; b=Elwdp65A5SnS1JKE07kt68Yolt
+	HSl0I2NlYPpqaqaR8JJduQqsPMHX/ApN4id8gFOwhmeG+1m2Nvm7bEy9h47LbU3PLmyMCvT35csth
+	IC+Nfi/mmzb3XBTSKnmnxla7Uv6Rt8Iw7+yMx4xujfiS5lRCdUlwIg0Mdu4JiIPHaVNAq299thyss
+	jRllIL8EoOlGAqgC2RzKh8rKXvNM5qoIc7EB8CcH8xDnXKR7XvdQcwyw72lApoJm2EjicbO8ZH8xu
+	XaqrCeWDuyuhcbnE+IvlzCRbbqXa7Q+q53aiKc0jrApdj2grvTIy2qFUJ8B5IdOj9L41zz4gIAvI8
+	DRtyCPAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smDlm-00000008ml7-1nN5;
-	Thu, 05 Sep 2024 14:47:34 +0000
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
+	id 1smKjb-00000009zTa-1rJd;
+	Thu, 05 Sep 2024 22:13:47 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smDkw-00000008mXX-0T1g
+	id 1smKjY-00000009zSr-2pV3
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Sep 2024 14:46:43 +0000
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-82a8f3e7a10so19438039f.2
-        for <linux-nvme@lists.infradead.org>; Thu, 05 Sep 2024 07:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1725547601; x=1726152401; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G5oxysNoWruEsSAXCh2tyAPkzw9jiZAlZ/alPTEVDu4=;
-        b=wQbiOlinThrHftwt5BWVqgRAIxcMhQsebN/JMCKwLaXI2THMmEEhUQN3902SBIFbCy
-         2KDzCfkiRffQk6DGtYotKIMn2Af3mBMkIovXe+h7wMwfLEywd6/Fi9YcxwuLczvmlm7Q
-         /z0GaYAjv6INLRn4xN/3Oqv1cJzqP2RIPFyFo6WHnQlmuX6zP3N/l9tgHMpo+t6rZn0g
-         Up90+M/sp62bmLNpC/QknJnxjMzwWBbLRl/wOfUF9UR+pquDCeMJ5tiKp+IVQvNUUYn4
-         CoYvNAjBEFb1bnL7kUCspC4eImr9H5bTYh0oBWnjz+Vq1BOy8f7tWqv7dPRwiXxsRtmL
-         OCeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725547601; x=1726152401;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G5oxysNoWruEsSAXCh2tyAPkzw9jiZAlZ/alPTEVDu4=;
-        b=g9gAU3XQmO4UWKhi+XoMMRKyeksT8VSz3zKwIij9QNTi/MNykIbxW12UwrrYx1eH3w
-         RL3bfWvkdjoBAYmXm1FW2JfgXvKMysk8YHstQUL0WSxmk6wUpWKXrvAsisK+U0gCq/NY
-         gyDNOIV054WDHagc9mkC04LDkXxRgT/CjhLznIVcJeynvZVpZBz+mKfVQbDZSIwoDwwS
-         OaQ5OwXjG7J/JiCUr1GlqsceohUumlAuT9ULJ207PFwGBMWBhQom4qPVroAXq8Yf9scn
-         ehUUA+MzcCMZFMgbCUoCnmD/++6ZlEiCX0mh7qz+QWXNg36Q+64/RCvH1787WSIH8lA/
-         tn8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWKBmVcwv11K3nPxoMTNDyjkEOR3Z+7l4BzD3xkTskUnAJtBLWRFK2QTJC10W/GcoEeAQZclajTOrlZ@lists.infradead.org
-X-Gm-Message-State: AOJu0YzFZnptOA5pKlI9E/wkGlhNDV9pMlJks9V4N/7oXRP4gpIoyyur
-	jDujaSfy9Wq+fJNeVkc5b7lq+hQ7irMmxsZE5ED2+qkVUDeF/lMULHcpDZ7/m0Y=
-X-Google-Smtp-Source: AGHT+IFmzxneSzwlpagWFxEo3SzsxloppAuoMBeIIvxI7zF83eNlgnM8ySVSCIrfD0FLnNubViYPgg==
-X-Received: by 2002:a05:6602:2ccc:b0:829:e6c5:cb0b with SMTP id ca18e2360f4ac-82a5ed0d2ffmr1355519039f.13.1725547600723;
-        Thu, 05 Sep 2024 07:46:40 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-82a1a43c09asm414440639f.28.2024.09.05.07.46.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Sep 2024 07:46:40 -0700 (PDT)
-Message-ID: <d3c72088-e0da-4582-978a-5230c32af9e9@kernel.dk>
-Date: Thu, 5 Sep 2024 08:46:39 -0600
+	Thu, 05 Sep 2024 22:13:46 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A25645C0065;
+	Thu,  5 Sep 2024 22:13:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E278FC4CEC3;
+	Thu,  5 Sep 2024 22:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725574422;
+	bh=wlGcOqVw1zlmE3nrLDDnTcljzhPleYJaO2RahZ5tAVw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nTHOBgwvX/OW7+eOlFseiwvNfCCwaJqB1OrsCRO4crdB+0Ne1bqu390hqvoC7tBAa
+	 Y4jcqGAzlI4DQgYH5iHLXp5q03dzn09b+CHDbQyinpyt9b5YRs4Ro9oHX5KfhUWiW2
+	 kIDM0n3atyJcz6vtUNA/+Gtypw512xcna0hs2+drno6fLa0KSiw8UgSQBxRKayyHbS
+	 tEqMB6cPSDwNLm8RL5G7OjZ92u8fuhqKSYDWQrCO5wF9sgnFQIvlPaSwarLH4VPmXn
+	 gW8BGTxhOmvRUoJpeNV2829IxT5oIf2oCF3685OYuKzhVfQhiTs35jDCKkRVTomjoN
+	 219Ie8k9PTsOA==
+Date: Thu, 5 Sep 2024 15:13:40 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Stuart Hayes <stuart.w.hayes@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Martin Belanger <Martin.Belanger@dell.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, David Jeffery <djeffery@redhat.com>,
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v8 3/4] driver core: shut down devices asynchronously
+Message-ID: <20240905221340.GA2732347@thelio-3990X>
+References: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
+ <20240822202805.6379-4-stuart.w.hayes@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.11
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-References: <ZtnC_xT5S0X2ZuZB@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZtnC_xT5S0X2ZuZB@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240822202805.6379-4-stuart.w.hayes@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240905_074642_287747_A14F0FC3 
-X-CRM114-Status: GOOD (  10.71  )
+X-CRM114-CacheID: sfid-20240905_151344_874318_7E795CF3 
+X-CRM114-Status: GOOD (  16.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,34 +80,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/5/24 8:41 AM, Keith Busch wrote:
-> The following changes since commit e6b09a173870720e4d4c6fd755803970015ac043:
-> 
->   Merge tag 'nvme-6.11-2024-08-22' of git://git.infradead.org/nvme into block-6.11 (2024-08-22 16:20:24 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.11-2024-09-05
-> 
-> for you to fetch changes up to 899d2e5a4e3d36689e8938e152f4b69a4bcc6b4d:
-> 
->   nvmet: Identify-Active Namespace ID List command should reject invalid nsid (2024-09-03 10:05:40 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.11
-> 
->  - Sparse fix on static symbol (Jinjie)
->  - Misleading warning message fix (Keith)
->  - TCP command allocation handling fix (Maurizio)
->  - PCI tagset allocation handling fix (Keith)
->  - Low-power quirk for Samsung (Georg)
->  - Queue limits fix for zone devices (Christoph)
->  - Target protocol behavior fix (Maurizio)
+Hi Stuart,
 
-Pulled, thanks.
+On Thu, Aug 22, 2024 at 03:28:04PM -0500, Stuart Hayes wrote:
+> Add code to allow asynchronous shutdown of devices, ensuring that each
+> device is shut down before its parents & suppliers.
+> 
+> Only devices with drivers that have async_shutdown_enable enabled will be
+> shut down asynchronously.
+> 
+> This can dramatically reduce system shutdown/reboot time on systems that
+> have multiple devices that take many seconds to shut down (like certain
+> NVMe drives). On one system tested, the shutdown time went from 11 minutes
+> without this patch to 55 seconds with the patch.
+> 
+> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+> Signed-off-by: David Jeffery <djeffery@redhat.com>
 
--- 
-Jens Axboe
+I am noticing several QEMU machines hang while shutting down after this
+change as commit 8064952c6504 ("driver core: shut down devices
+asynchronously") in -next. An easy test case due to the size of the
+configuration:
 
+  $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- mrproper virtconfig Image.gz
 
+  $ curl -LSs https://github.com/ClangBuiltLinux/boot-utils/releases/download/20230707-182910/arm64-rootfs.cpio.zst | zstd -d >rootfs.cpio
+
+  $ timeout --foreground 3m \
+    qemu-system-aarch64 \
+      -display none \
+      -nodefaults \
+      -cpu max,pauth-impdef=true \
+      -machine virt,gic-version=max,virtualization=true \
+      -append 'console=ttyAMA0 earlycon' \
+      -kernel arch/arm64/boot/Image.gz \
+      -initrd rootfs.cpio \
+      -m 512m \
+      -serial mon:stdio
+  [    0.000000] Linux version 6.11.0-rc4-00022-g8064952c6504 (nathan@thelio-3990X) (aarch64-linux-gcc (GCC) 14.2.0, GNU ld (GNU Binutils) 2.42) #1 SMP PREEMPT Thu Sep  5 15:02:42 MST 2024
+  ...
+  The system is going down NOW!
+  Sent SIGTERM to all processes
+  Sent SIGKILL to all processes
+  Requesting system poweroff
+  qemu-system-aarch64: terminating on signal 15 from pid 2753792 (timeout)
+
+At the parent commit, there are the following two prints after
+"Requesting system poweroff" then the machine properly shuts down:
+
+  [    3.411387] kvm: exiting hardware virtualization
+  [    3.411741] reboot: Power down
+
+If there is any other information I can provide or patches that I can
+test, I am more than happy to do so.
+
+Cheers,
+Nathan
 
