@@ -4,134 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33B6ACE7AEB
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Sep 2024 08:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B816CE7AFB
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Sep 2024 10:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CQ3NZAebxsbDuoB9UZXppNfpQjJtliPm/UHYRTVskkQ=; b=et6KQk5XnkBxJp5PKs7voncgP9
-	Rm7xst0gibKlSl7Eij/l0ytvphj6qNKhGWdEs5XO3PD/1xTF0hrreyiT/utxytWghp50CYGPyGipT
-	4JLPEks5sMvj7nziCYplPvkamgOXfDmuT2SE64jc3DoMLbBfTJKhVVat/3cDTI7UmYvnmOrgW+Jug
-	P9fhfnpOmjFGvLrNtpQhxSNzuDwb5rmwB+M4XGecKgVy0zpEBZsucvTSr/GPKVIsYm93ZiF/Oz3GU
-	tENXxhtm2jN7qIEtqOsxbPWoDL70DP7MRlgU/HAeJbLnBM5bxhnbm4ScmYJEisZIYPBYt0dNa4eaM
-	PTAn+NfQ==;
+	bh=St3lqpws4n+J/cxgWexEC6u8XoLT1SYFSYRWBQRC7KA=; b=IqGaau9jeeedMoeEcUUm6i2ckz
+	tUixFOGOGDHjWZmXT97wGZvL/Sajwm+m2BRjjKG69CT8OTQRJILrIVRadvOBWVdr7Axudf01I0wLz
+	11DHsv7vDjbrC1xJ/HYCEaL5XWvdFIFU19kYHTMm0ZIIwZv/tdhYkfiucvaAtQH2zcNsRoluWP5+T
+	tPnA1lmbWToEBaUay8Olg1qUVQhpPjO7DNzDsRyN4C8X/Ui1f+JM3rYahHhQVAeKw1M/GGt7otFuQ
+	u/neu1yZnZoJXcnbPskEteDAamiJ83D+H4kWCxxdw9QsZ8kBbC5NLXw+t4ECOuNzsL5IQwPu/l+Zw
+	mGXPIK4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smUYp-0000000BO1K-2Gqr;
-	Fri, 06 Sep 2024 08:43:19 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1smWAo-0000000BkZZ-0NP7;
+	Fri, 06 Sep 2024 10:26:38 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smUOa-0000000BL6F-3B6g
+	id 1smW1W-0000000BiG5-13VD
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Sep 2024 08:32:48 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1FC621F8A4;
-	Fri,  6 Sep 2024 08:32:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725611563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CQ3NZAebxsbDuoB9UZXppNfpQjJtliPm/UHYRTVskkQ=;
-	b=F5zeNiH8yM/r5r5SBOjj7cmkgLYDzkhXqwgNqxZ1TaOUCHBnX7xX6S1XSCFwlXA+cGiA3j
-	yodjFk8hPjFgHRgO8d63tcJUIjG1SJ08es1FHL/aFcymX4p/MXM4f+pOUJIs1C52mTarNN
-	AHae5T0+T3es10cvbA8V0qwB+3qTrDY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725611563;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CQ3NZAebxsbDuoB9UZXppNfpQjJtliPm/UHYRTVskkQ=;
-	b=4+iv1sa7d9lMPy7qc1Jmg/PyBm0RpVFCs1gS+yX6V0yt81cexzYbk1FbNxEFcUymIgvWxN
-	4unCzyO4+zQFfoCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=F5zeNiH8;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4+iv1sa7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1725611563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CQ3NZAebxsbDuoB9UZXppNfpQjJtliPm/UHYRTVskkQ=;
-	b=F5zeNiH8yM/r5r5SBOjj7cmkgLYDzkhXqwgNqxZ1TaOUCHBnX7xX6S1XSCFwlXA+cGiA3j
-	yodjFk8hPjFgHRgO8d63tcJUIjG1SJ08es1FHL/aFcymX4p/MXM4f+pOUJIs1C52mTarNN
-	AHae5T0+T3es10cvbA8V0qwB+3qTrDY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1725611563;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CQ3NZAebxsbDuoB9UZXppNfpQjJtliPm/UHYRTVskkQ=;
-	b=4+iv1sa7d9lMPy7qc1Jmg/PyBm0RpVFCs1gS+yX6V0yt81cexzYbk1FbNxEFcUymIgvWxN
-	4unCzyO4+zQFfoCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 039EF136A8;
-	Fri,  6 Sep 2024 08:32:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uGpyACu+2mZDSAAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 06 Sep 2024 08:32:43 +0000
-Message-ID: <c40aceda-f64b-4df2-8030-0a6eb2a2ebdc@suse.de>
-Date: Fri, 6 Sep 2024 10:32:42 +0200
+	Fri, 06 Sep 2024 10:17:03 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id CD7535C570C;
+	Fri,  6 Sep 2024 10:16:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5817C4CEC5;
+	Fri,  6 Sep 2024 10:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725617821;
+	bh=7ejXV/2IK+jfRXQD09XudYPHwwGuB+xIXiT2/L3BssA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DMXtfwzGU7LzjBfQGxls/QfVP4HaGlMk63BMprmnqPyYObs9PC+3GgFa3lbSx6qPx
+	 5nMBfgLO+8bZRWvlPHw/0mtob8JdH38CmP+E/OghCIX7CSH+b+YhmKvWzouQB96e8I
+	 kKh6/dnJBebVnxA+OuNh5+49jwrUgDEjo7uDVnjNZvMEj2ay37y4qcEKlcfMhKnNzy
+	 TrUweqLpClhJX03UJxP+jZCEi0u2CxFprooQl5L0kbgYSsYNENsAJKTcj0zfhutKFg
+	 x5wiuVJ0EQaNcsf5q4xBjP2NcebuXYPavgVeonF+x4Cxw3rfpS2zUqQoXO9JSsmfLH
+	 mhVnU/SGGVUMQ==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH 1/3] nvme-multipath: fixup typo when clearing DISK_LIVE
+Date: Fri,  6 Sep 2024 12:16:38 +0200
+Message-Id: <20240906101640.44417-2-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240906101640.44417-1-hare@kernel.org>
+References: <20240906101640.44417-1-hare@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] nvme: set 'failfast_expired' in
- nvme_remove_namespaces()
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240906071828.125614-1-hare@kernel.org>
- <20240906071828.125614-5-hare@kernel.org>
- <bb65b34d-9f30-4799-b34e-9665367b8aa0@grimberg.me>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <bb65b34d-9f30-4799-b34e-9665367b8aa0@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1FC621F8A4
-X-Spamd-Result: default: False [-6.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240906_013244_988646_FBD3877E 
-X-CRM114-Status: GOOD (  23.06  )
+X-CRM114-CacheID: sfid-20240906_031702_376426_631C1298 
+X-CRM114-Status: GOOD (  10.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,93 +73,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/6/24 09:38, Sagi Grimberg wrote:
-> Please describe what the patch fixes in the title, not what it does.
-> 
-> 
-Yeah, will do.
+NVME_NSHEAD_DISK_LIVE is a flag for 'struct nvme_ns_head', not
+'struct nvme_ns'.
 
-> On 06/09/2024 10:18, Hannes Reinecke wrote:
->> nvme_remove_namespaces() is only called when the controller is
->> being removed. If there is a scan process still pending and
->> the I/O from that process cannot make progress (eg if all paths
->> are in ANA state 'inaccessible') we cannot disconnect the
->> controller as the 'nvme disconnect' process will hang in
->> flush_work(&ctrl->scan_work).
-> 
-> Please include the hang process stack.
-> 
-Ok.
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/multipath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->>
->> This patch sets the 'failfast_expired' bit for the controller
->> to cause all pending I/O to be failed, and the disconnect process
->> to complete.
-> 
-> How did you reproduce it? trigger namespace scanning and disconnect-all
-> in a loop? Can we get a blktest for it?
-> 
-The script is quite easy:
-
-for i in $(seq 0 8); do
-         for j in $(seq 1 6 | shuf); do
-                 ns="${CONFIGFS}/subsystems/${NQN}/namespaces/${j}"
-                 grpid=$(( ((($j / 3) + $i) % 3) + 1 ))
-                 echo "$i: enable $j (grpid $grpid)"
-                 echo $grpid > $ns/ana_grpid
-                 uuidgen > $ns/device_uuid
-                 echo 1 > $ns/enable
-         done
-         ls /sys/block | grep -v ram
-         for j in $(seq 1 6 | shuf); do
-                 echo "$i: disable $j"
-                 ns="${CONFIGFS}/subsystems/${NQN}/namespaces/${j}"
-                 echo 0 > $ns/enable
-         done
-         ls /sys/block | grep -v ram
-done
-
-but in order to recreate that you'd need several paths, each with its
-own ANA group id, and at least one in 'inaccessible'.
-On my testing I've been using 6 paths, four 'inaccessible', one 
-'optimized', and one 'non-optimized'.
-And having one namespace for each ANA group ID.
-
-I'm planning to do a blktest for it, but that requires to first 
-implement ANA support there.
-
->>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
->>   drivers/nvme/host/core.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 651073280f6f..b968b672dcf8 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -4222,6 +4222,13 @@ void nvme_remove_namespaces(struct nvme_ctrl 
->> *ctrl)
->>        */
->>       nvme_mpath_clear_ctrl_paths(ctrl);
->> +    /*
->> +     * Mark the controller as 'failfast' to ensure all pending I/O
->> +     * is killed.
->> +     */
->> +    set_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-> 
-> What about nvme_stop_failfast_work() ?
-> 
-That is already done; nvme_remove_namespaces() is called after 
-nvme_stop_ctrl() which already called nvme_stop_failfast_work().
-
-Cheers,
-
-Hannes
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 91d9eb3c22ef..c9d23b1b8efc 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -646,7 +646,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 		rc = device_add_disk(&head->subsys->dev, head->disk,
+ 				     nvme_ns_attr_groups);
+ 		if (rc) {
+-			clear_bit(NVME_NSHEAD_DISK_LIVE, &ns->flags);
++			clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags);
+ 			return;
+ 		}
+ 		nvme_add_ns_head_cdev(head);
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.35.3
 
 
