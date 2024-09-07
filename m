@@ -4,88 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAA7CE6FE4D
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Sep 2024 06:38:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6455EECE569
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 Sep 2024 20:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rjQU1QeLt59MiSHO48W4SSULpumhuxHPIcuQGZ8Goe0=; b=MF2f5eH41DB7sRidepZjYW1vJc
-	lxtof48GaJrhUzGGC+5w78oVG06tJnjpNdAR7yixSWjYulnL3vTp98bT23F2iLGgoUcd16OEXxJZA
-	UPipaA8j/IdrShWLocLIY/kjAs3u7GNBRlcFOYYM6T/sFK+eCTJCU7cc1UtyWxW8WEyy5x13oZ4bg
-	KA0eMbjMpePPFMqEEl1YI9hbl50KKHudKehVIFprSMoO7TaXrTLjnl2WxNhjdOI2E4LFbjFDNqcvD
-	en1H5Qtf+GBZihojjtEhHv+Y89VFeWXeV5d/PdiPaW69q/pihGJYbbI/7LSmx26t0xyHa0kRrf8u+
-	SFh9pDIA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=300JO+7eqG6hq/DD8vMZQ2ZmYs2HncbuSj3GL0sPXvU=; b=AdJTCpWbdzdO1g1/KJ9Zhx0VmN
+	XShN11FGzAzkHv3CHhcazQjviEDWx4tk0L/LfQIA5kJvWRjALGqy1inhTU9izTobE/ai3E9OxHLJ7
+	nh002sUu0cgOckZ5QAXDjPAFS/BQuxZPm7vs4fqJtDyCMfmK7F8FN9G7AglTDzeBRVVsyDydi3ujW
+	wQH0x9nlsemTC0leTaGyW2H1RkuiomJ8dhQhConk/UtzljQRZ8kcVsME6+5pVhUZbtitEy2Ygb88U
+	GuMQxTuP6oYGw6nTq6Knog1Do1mBNmG9AQkMDZ/WTvZw9tk9ETf7btvIG1jVkvYBIfAkrTOos17If
+	1ZwmQ3vA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smp55-0000000EV2J-41z0;
-	Sat, 07 Sep 2024 06:37:59 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1sn1xB-0000000Fbhe-0DxR;
+	Sat, 07 Sep 2024 20:22:41 +0000
+Received: from mgamail.intel.com ([192.198.163.13])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1smp52-0000000EV1k-342X
+	id 1sn1x5-0000000FbhD-2oV5
 	for linux-nvme@lists.infradead.org;
-	Sat, 07 Sep 2024 06:37:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725691073;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rjQU1QeLt59MiSHO48W4SSULpumhuxHPIcuQGZ8Goe0=;
-	b=PPunyF4/QmCS2ObzDknNX/dbD7shUeLlL+Y91vtDqNviXFNOkOoQf/sYoY5MsWGFkkdmOb
-	3yMFMPvgcf9S/2AYGhj6OGXa7ulc2xL/+UGiz6s+hlUQhKW6FgHdePDD9k9ZAGVhV4kDgg
-	8y6YngQPFmqUTaPiN6QF9V56DeXh3Jw=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-132-rNDL1isBOR27IcSihXmTuw-1; Sat, 07 Sep 2024 02:37:52 -0400
-X-MC-Unique: rNDL1isBOR27IcSihXmTuw-1
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-20556f1cfebso39689525ad.1
-        for <linux-nvme@lists.infradead.org>; Fri, 06 Sep 2024 23:37:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725691070; x=1726295870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rjQU1QeLt59MiSHO48W4SSULpumhuxHPIcuQGZ8Goe0=;
-        b=RUfRn6BMPJbCoM5Q03ySHsg4Bsi012Rz+1szt9WPqVTf1Qybht+1NSJj3wyBqhuyQl
-         MFdRuTgm14BCIc2nIbVJYzSDPfQh8hm1lojMxd9eq8CT4tyJjmLXV+EhOrwrBK/HWoHF
-         zNdMy6n4tVTddbMtoK4qtqKu95GcIoTjlOHfn3XKy2ySvNYCYyFE8nOErl5iYJSULJ7f
-         KrDVA4eBhB8Q97uI9qSCmF8vYdnMU3+Kr/MObzRNDvx/5nX6pDH2gYPt8MTFbz4zsRb/
-         QlHAvR6/sCcX4J7T7e1wMvrENizJwzzUCG4r6LvfN1YP5ukJUQhlQ0dKcZ0/sCsvxzeX
-         Vtjg==
-X-Forwarded-Encrypted: i=1; AJvYcCXCnHgz87WJg3joohoBxdyaKyQHHYasVr94Zh5zyAavpfV8TYrhrC4Qdbsv/XmISUDP2rbvS41WsgZN@lists.infradead.org
-X-Gm-Message-State: AOJu0YyU51cmfx39Zjs3uyM2Dyh7o8PwVijHWKDeW5j6tgmXGtf8wTim
-	7D2sh0wdOMJYnzoU2+vrzRjjn2f4Sqp28Ifm5P87VKALiMVzoqeMvvAoON/BfC+MqNTm/kHAgIe
-	+ENPR/qnDFs/8uf5oK/tQI8Ldc8mPgIbDs185FOSw6oO1eb8GpRZOcB5FJ+TvpA5N6FKJmyMcz+
-	lIyBoqcfy0Q2fmFW9qYUiBOcwYZ/W0VC8GIMyIiuIHybDJ5MJnb94q
-X-Received: by 2002:a17:903:41cf:b0:1fa:9c04:946a with SMTP id d9443c01a7336-206f04c9dd2mr64553195ad.1.1725691070532;
-        Fri, 06 Sep 2024 23:37:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGZ29SdijpTBv7ZRgvH/AH/T9uuUK+QtzHvNpWO62vl0wkkG72JzN2WeUlkoOFIKoSGEVJrk+pqrx/8+MDbUhQ=
-X-Received: by 2002:a17:903:41cf:b0:1fa:9c04:946a with SMTP id
- d9443c01a7336-206f04c9dd2mr64553105ad.1.1725691070238; Fri, 06 Sep 2024
- 23:37:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240902105454.1244406-1-shinichiro.kawasaki@wdc.com> <x5e7cl6iupvspx6eadustxbzt442cprye77dh7u2rjl32xajg7@egnrpr5b73so>
-In-Reply-To: <x5e7cl6iupvspx6eadustxbzt442cprye77dh7u2rjl32xajg7@egnrpr5b73so>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Sat, 7 Sep 2024 14:37:37 +0800
-Message-ID: <CAHj4cs-hhV0S+BmLyn++LSE=V-hgE7JTqQDJYtxRjAExfRwuMw@mail.gmail.com>
-Subject: Re: [PATCH blktests v3] nvme/052: wait for namespace removal before
- recreating namespace
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Nilay Shroff <nilay@linux.ibm.com>, 
-	Daniel Wagner <dwagner@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	Sat, 07 Sep 2024 20:22:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725740555; x=1757276555;
+  h=date:from:to:cc:subject:message-id;
+  bh=th+5wfMkjlyoOhQe0ZapM3Rc1nWdeFZ8tPKNRStgdck=;
+  b=hGq2O8zoxHpLdvv8x4jYj3sTj8HJ3Rzc0r+cSCvhyPOcPnlBO1ZbMhgF
+   LFWMIrVT3K+AFN/ZGpBetZzKhs/9PnAxcdBBGT6niEOIMkbWMG90NcHcI
+   0owX+ZW/JMBzuKR+C/Fli7+IEY7g6n+qVVp5nPaG8Y0WL72ZTuXSSjRkb
+   AIIoCiGL4FdbnEIDGRmcd2VgJzdocnz+Clxeg4ZwKqEQiRmoUQww+T/pS
+   6GSeUNiBF7r29HO1l7pNN0VjfjV3unMmN/CYEUinSYWDuyAJmJrNq7lDm
+   cvimW3TDuF8XsG6+y4p0mU3dqzyqE7OB5MUD4dCtw8Rk/NGHCAN6IUft0
+   Q==;
+X-CSE-ConnectionGUID: jLq/+YJtTy69/yMdtfne9A==
+X-CSE-MsgGUID: kHmWs1nrQBab1aZNzbS0VA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="27396007"
+X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
+   d="scan'208";a="27396007"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 13:22:35 -0700
+X-CSE-ConnectionGUID: qPLT1sXDRXGvRArqH40X9g==
+X-CSE-MsgGUID: XrEM47e9T+i7Fjr0Cuum6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
+   d="scan'208";a="67002473"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 07 Sep 2024 13:22:34 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sn1x1-000CyF-38;
+	Sat, 07 Sep 2024 20:22:31 +0000
+Date: Sun, 08 Sep 2024 04:21:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.12] BUILD SUCCESS
+ 389e72c5d1efcfd3962d29624c1b78cfa002911e
+Message-ID: <202409080430.Trx55Spg-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240906_233756_865349_8E9C7594 
-X-CRM114-Status: GOOD (  15.36  )
+X-CRM114-CacheID: sfid-20240907_132235_746574_3E1AB15A 
+X-CRM114-Status: UNSURE (   4.84  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,46 +83,151 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 6, 2024 at 4:22=E2=80=AFPM Shinichiro Kawasaki
-<shinichiro.kawasaki@wdc.com> wrote:
->
-> On Sep 02, 2024 / 19:54, Shin'ichiro Kawasaki wrote:
-> > The CKI project reported that the test case nvme/052 fails occasionally
-> > with the errors below:
-> [...]
-> > To avoid the failure, wait for the namespace removal before recreating
-> > the namespace. Modify nvmf_wait_for_ns() so that it can wait for
-> > namespace creation and removal. Call nvmf_wait_for_ns() for removal
-> > after _remove_nvmet_ns() call. While at it, reduce the wait time unit
-> > from 1 second to 0.1 second to shorten test time.
-> >
-> > The test case intends to catch the regression fixed by the kernel commi=
-t
-> > ff0ffe5b7c3c ("nvme: fix namespace removal list"). I reverted the commi=
-t
-> > from the kernel v6.11-rc4, then confirmed that the test case still can
-> > catch the regression with this change.
-> >
-> > Link: https://lore.kernel.org/linux-block/tczctp5tkr34o3k3f4dlyhuutgp2y=
-cex6gdbjuqx4trn6ewm2i@qbkza3yr5wdd/
-> > Fixes: 077211a0e9ff ("nvme: add test for creating/deleting file-ns")
-> > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->
-> I applied the patch. Nilay, thanks for your help!
->
+tree/branch: git://git.infradead.org/nvme.git nvme-6.12
+branch HEAD: 389e72c5d1efcfd3962d29624c1b78cfa002911e  nvme: Convert comma to semicolon
 
-Thanks for the fix, I've verified the fix on the reproduced server.
-BTW, after the change, the executing time also reduced to 7s from 22s
+elapsed time: 1324m
 
+configs tested: 131
+configs skipped: 4
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D294
-nvme/052 (tr=3Dloop) (Test file-ns creation/deletion under one subsystem) [=
-passed]
-    runtime  7.759s  ...  7.673s
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
---=20
-Best Regards,
-  Yi Zhang
+tested configs:
+alpha                             allnoconfig   gcc-14.1.0
+alpha                            allyesconfig   clang-20
+alpha                               defconfig   gcc-14.1.0
+arc                              allmodconfig   clang-20
+arc                               allnoconfig   gcc-14.1.0
+arc                              allyesconfig   clang-20
+arc                                 defconfig   gcc-14.1.0
+arm                              allmodconfig   clang-20
+arm                               allnoconfig   gcc-14.1.0
+arm                              allyesconfig   clang-20
+arm                                 defconfig   gcc-14.1.0
+arm                        neponset_defconfig   clang-15
+arm64                            allmodconfig   clang-20
+arm64                             allnoconfig   gcc-14.1.0
+arm64                               defconfig   gcc-14.1.0
+csky                              allnoconfig   gcc-14.1.0
+csky                                defconfig   gcc-14.1.0
+hexagon                          allmodconfig   clang-20
+hexagon                           allnoconfig   gcc-14.1.0
+hexagon                          allyesconfig   clang-20
+hexagon                             defconfig   gcc-14.1.0
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386         buildonly-randconfig-001-20240907   gcc-12
+i386         buildonly-randconfig-002-20240907   gcc-12
+i386         buildonly-randconfig-003-20240907   gcc-12
+i386         buildonly-randconfig-004-20240907   gcc-12
+i386         buildonly-randconfig-005-20240907   gcc-12
+i386         buildonly-randconfig-006-20240907   gcc-12
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240907   gcc-12
+i386                  randconfig-002-20240907   gcc-12
+i386                  randconfig-003-20240907   gcc-12
+i386                  randconfig-004-20240907   gcc-12
+i386                  randconfig-005-20240907   gcc-12
+i386                  randconfig-006-20240907   gcc-12
+i386                  randconfig-011-20240907   gcc-12
+i386                  randconfig-012-20240907   gcc-12
+i386                  randconfig-013-20240907   gcc-12
+i386                  randconfig-014-20240907   gcc-12
+i386                  randconfig-015-20240907   gcc-12
+i386                  randconfig-016-20240907   gcc-12
+loongarch                        alldefconfig   clang-15
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-14.1.0
+loongarch                           defconfig   gcc-14.1.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-14.1.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                          atari_defconfig   clang-15
+m68k                                defconfig   gcc-14.1.0
+m68k                        m5407c3_defconfig   clang-15
+m68k                       m5475evb_defconfig   clang-15
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-14.1.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-14.1.0
+mips                              allnoconfig   gcc-14.1.0
+mips                        vocore2_defconfig   clang-15
+nios2                             allnoconfig   gcc-14.1.0
+nios2                               defconfig   gcc-14.1.0
+openrisc                          allnoconfig   clang-20
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-12
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   clang-20
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-12
+parisc64                            defconfig   gcc-14.1.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   clang-20
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                      cm5200_defconfig   clang-15
+powerpc                       eiger_defconfig   clang-15
+powerpc                  iss476-smp_defconfig   clang-15
+powerpc                         ps3_defconfig   clang-15
+powerpc                     tqm8555_defconfig   clang-15
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   clang-20
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-12
+riscv             nommu_k210_sdcard_defconfig   clang-15
+s390                             allmodconfig   gcc-14.1.0
+s390                              allnoconfig   clang-20
+s390                             allyesconfig   gcc-14.1.0
+s390                                defconfig   gcc-12
+sh                               allmodconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-14.1.0
+sh                               allyesconfig   gcc-14.1.0
+sh                                  defconfig   gcc-12
+sh                               j2_defconfig   clang-15
+sh                           se7750_defconfig   clang-15
+sparc                            allmodconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-12
+um                               allmodconfig   clang-20
+um                                allnoconfig   clang-20
+um                               allyesconfig   clang-20
+um                                  defconfig   gcc-12
+um                             i386_defconfig   clang-15
+um                             i386_defconfig   gcc-12
+um                           x86_64_defconfig   gcc-12
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240907   gcc-12
+x86_64       buildonly-randconfig-002-20240907   gcc-12
+x86_64       buildonly-randconfig-003-20240907   gcc-12
+x86_64       buildonly-randconfig-004-20240907   gcc-12
+x86_64       buildonly-randconfig-005-20240907   gcc-12
+x86_64       buildonly-randconfig-006-20240907   gcc-12
+x86_64                              defconfig   clang-18
+x86_64                randconfig-001-20240907   gcc-12
+x86_64                randconfig-002-20240907   gcc-12
+x86_64                randconfig-003-20240907   gcc-12
+x86_64                randconfig-004-20240907   gcc-12
+x86_64                randconfig-005-20240907   gcc-12
+x86_64                randconfig-006-20240907   gcc-12
+x86_64                randconfig-011-20240907   gcc-12
+x86_64                randconfig-012-20240907   gcc-12
+x86_64                randconfig-013-20240907   gcc-12
+x86_64                randconfig-014-20240907   gcc-12
+x86_64                randconfig-015-20240907   gcc-12
+x86_64                randconfig-016-20240907   gcc-12
+x86_64                randconfig-071-20240907   gcc-12
+x86_64                randconfig-072-20240907   gcc-12
+x86_64                randconfig-073-20240907   gcc-12
+x86_64                randconfig-074-20240907   gcc-12
+x86_64                randconfig-075-20240907   gcc-12
+x86_64                randconfig-076-20240907   gcc-12
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-14.1.0
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
