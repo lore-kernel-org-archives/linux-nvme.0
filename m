@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DD5BE6FE49
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Sep 2024 20:34:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F95FE6FE49
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Sep 2024 21:04:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=g74d3gLE0alBfg/PW7fSwjhSxysDpLiBB/zaTw1g+c4=; b=AsPiDntBHVusxEDbTaKh3xTAjm
-	yNPsJ8mVJrwx/mLBzpRT1bOd6/EDvHwYikV0dn7gFeMpyLph98A/hgbSmnd4XG7RkHfu5xjkx6Gdm
-	SqAEMaMHmKbep+8jPlFZaV4uR1zvkThlEyLRYuArV+v41kf0ehkm1iovejSgBFj4j+rrHpxjse3XB
-	0eHdaWSJnoasPnBwClnjeI71Als1Vtm5TJ3tN5FICdvLSPdJH2LP+6SAmXGVcHTFfV/MIeuSdoQ8h
-	DSbTDIq4iu++3RKU1oCkkIx+l9A/k7hLEmzXmZ1HbDxSmohFdwtxBhTbZnDT8F4zyf351oAEqyBy2
-	uoD9vcdw==;
+	bh=yfAHYUYsKW1RCXntxUq/SXAZPg6Z4wX5vF/cROMkTSU=; b=PMsAoeFQT+RZA2D/h6+Ig7zLe7
+	xJodU3vRqklxXZSvKfB854r+9oLAYtxX09PDB9vhcpqVUspwNmlAWZtSGU6mclkN9zk5hOb7ng3Y3
+	KkiFxuU5R0lTfhjAhZ5wVtDCQsjY1hQ71YSCqqngE3CYGP713xEy/9cEToOcr7uTkJa5mbDBNUEEM
+	XnDjH6bp55LhtZY6ZzcRnW5q1UkLaIeobIeuWJlyUWDKtwQin8cTAITmXKl0OXWmhh8RXoSOaI8WN
+	16+SudAJKdxABDO6eBWDXX4TXzwXg3XO+hZsNZf++L5AydOPGpuzxITG+30dzF1hJkq4sIImvV/co
+	QJIBwI5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1snObi-0000000HQZX-1n6D;
-	Sun, 08 Sep 2024 20:34:02 +0000
+	id 1snP51-0000000HSab-2XiS;
+	Sun, 08 Sep 2024 21:04:19 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1snObe-0000000HQYf-11vU
+	id 1snP4z-0000000HSaF-1iJa
 	for linux-nvme@bombadil.infradead.org;
-	Sun, 08 Sep 2024 20:33:58 +0000
+	Sun, 08 Sep 2024 21:04:17 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
 	:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
 	Content-Description:In-Reply-To:References;
-	bh=g74d3gLE0alBfg/PW7fSwjhSxysDpLiBB/zaTw1g+c4=; b=pdHFo9rprrSttTTGd2EcowmBoY
-	r1n0B8vvyaKp/eJK7Ag3lucYslxevT2aJ3MCqhA2mb1CkmXNK5LKEttUaIJPn8oEC2kr8NKbo0MnJ
-	yDg+/zuxFIoMNtTyyUHjaiKJOJzGIzYkPycwES8+a9TaPA+kdFaZgv6FUPFWJ4UM2I9Lo/BAjNfF3
-	CJamt27lZt6TpLQMbVY/gWhJ/ALVYEpvYeNqp/pg957Yb3j1UGPK6gyNj0Iokdn0n33kQGXpmAqre
-	9ooDKmHpgVaXL++cv7q2dJSTKQCHVNr/39qdBWypYY++U9WvRehb/udkdQXFdFeWpHdxmp0qYOf3a
-	BhvE1wOw==;
+	bh=yfAHYUYsKW1RCXntxUq/SXAZPg6Z4wX5vF/cROMkTSU=; b=W47mzVeVmta8hXTeK+liY3tkI5
+	JiySyQPYGPIZCkLiCF9mX/odkBKbcmhTSXFeqQD1OYBpMb4AuTNc+jeWQbkHymNK48gqh4cdtnknN
+	adT33tWec2QeiXhKJ61x+BYmBiE/SjEgKiKjnKkpvLQAit7ELC0GjlQilYUSKsKfV1dzwl4DS7t9v
+	eeH/q1k0s7MC9TJrrL+0c1UKmsebUd1gDwyX6lxFCB0r99mJQWznjtaevHPj2YLZAKLUR6XCILTkV
+	dh9UCtJf8hAvFtk35iwvdiEDyAs2ljodLj+LBXVtARRjYNkHfOxmw3VtjacY2xUnxINRNN84PJCxt
+	EpSwdu8Q==;
 Received: from 89-138-71-253.bb.netvision.net.il ([89.138.71.253] helo=[10.100.102.67])
 	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1snObb-00000000Gwp-2cyo;
-	Sun, 08 Sep 2024 20:33:56 +0000
-Message-ID: <7af8f591-f0a7-4c2d-8040-2c904cb9a298@grimberg.me>
-Date: Sun, 8 Sep 2024 23:33:54 +0300
+	id 1snP4w-00000000H4h-3u0w;
+	Sun, 08 Sep 2024 21:04:15 +0000
+Message-ID: <467e5b44-c2da-4483-9739-6fe58cb4c71b@grimberg.me>
+Date: Mon, 9 Sep 2024 00:04:13 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US
@@ -65,5 +65,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-please ignore... (sorry for the spam)...
+please ignore...
 
