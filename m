@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34EADE6FE49
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDCDEECE57B
 	for <linux-nvme@archiver.kernel.org>; Mon,  9 Sep 2024 07:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,53 +12,53 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OjuSu1E6xXfuK8zU0Ollu5H8OFw7kcfOo8dkeQNxeHI=; b=F+298mmAjKpYff/J4XDqp6csa0
-	3kScQf+6ewynwF9oT9GMMZQ0vGNNBWdwGU5Z/JcphlIqr5pEfbf/lHIJYK++v1FcDLjw+WlG8T0eI
-	WYwjC378mwwjmUo8U8m1tz05W1cpoSrcE8gHlyGcqG3yf9TyXIZIG+sGTerRn94uVXUTEQoFGpxXg
-	3TaTHEz40r8wZUAAsF01blEkOYEFGpki4MiJ5vzVzu/uNutsZWMsQxKkaui8nvZgC5ARAccMCEp0+
-	I+Pnp8bGbaSji7zMe5TA34AvieE+rd0459J8jTRZxjB6K/vbt8jX/LjOkA4SO3qJBrbvMK3X7Cdih
-	Zx1Wz3Eg==;
+	bh=qO3NafvL5Ux/f5pMqOBws++tI1ltO7n0pDeck1Yzj/Y=; b=syI5e7oT71b1U7jJXYnhvPCxi1
+	JA/YUMq5WMRsD89Mm8ABLzt8eRbESrq1Hr1NQxE7D2BgGZwCsHM2vFHi+FeZHaNAq/oTSQDyuFnUQ
+	Kelv9IwNLYoD9RgTz2PayM50Iis8fV2dZn3HcoEpS6GTJQG0ahzCFskuLwEYNARkJe3F/nMhg9M/7
+	VyqmK9KMAE/24oVTtYhijIe5ERhpOfVNFNm2qqG/ubCc8sFuh/R5D9m41Ehl3i0S1oogFcmQLQwG6
+	HOVGQB4wX+ZIQFr66EJJZQDRFV/MvpFnDyYYCmGVBaG2qu+xaEjhJCWtvW4EeW7ZfCZxeiZpeHTO8
+	GhdqV8oA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1snYge-00000000mg3-3ibO;
-	Mon, 09 Sep 2024 07:19:48 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1snYgf-00000000mgT-2Pjf;
+	Mon, 09 Sep 2024 07:19:49 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1snYgb-00000000meN-0xHH
+	id 1snYgc-00000000mem-1riP
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Sep 2024 07:19:46 +0000
+	Mon, 09 Sep 2024 07:19:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DA2245C5589;
-	Mon,  9 Sep 2024 07:19:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E90C4CEC8;
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4EECA5C557F;
 	Mon,  9 Sep 2024 07:19:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5E3C4CEC5;
+	Mon,  9 Sep 2024 07:19:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725866383;
-	bh=gnPC3bVfXHSb9goE/TiVvsgFbiONVLXJEv25LgXBWZw=;
+	s=k20201202; t=1725866385;
+	bh=pipz0yg3utGsI6nRjgxI/x3QhI9vSAJDwaBgGyMpOwA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=REy49YEKS6i2Q/C9fgvYsCcUC22tOF3SACxkN0ZJVmMXgLEkiuAAv/+hEbbybERCj
-	 Nk764i2xE2lzMlmEWdZE6v5voZ34EVKlBhMNLgC7PmzuzsteDRaX8hDCS/QPCDYKft
-	 x4/Axu1Er3ZFgQAtWeSk6Sk4y3GCBJs7Ku3Xq2MMHKzXF6RbosQuiyjRALogeEo/WD
-	 3dEYQ7wBbJMtHKtZPIQn/6hFgld8AYYqg3CdgOmGNSMTsLaiFnpoYuRA6eNPEc65VG
-	 KGONy10MQh9/y68yP/DzFn3LxSErjeTPchIQcRhRXhH7T5nWwV9spGt/gFOEYQNLpN
-	 k6mDu2hzMfMsA==
+	b=GJhWoj3NSngYg1LLQNv7uho2LMK1uMrzA2U+TvV2EGvi2fhCn8w0iPqNmYKdJyH1X
+	 N4mzxgPKCffPHSHj3qKlqZVMspyD75/qh4FM6vf9qQ3+9wmHPPeXMCjGgoGziFRqJf
+	 TnZdAshE+B2R7N+P5xm3joRtY1atRi9MF600BGE9WoQwLCMDhgl0/nRdZRAm3UD4sy
+	 v58jU1qAt44xqMiBDQ1eddJI30A7aN71yrzzZYcVHW5JqECJafUHnxMNZVxJdcAVdg
+	 SPH1KVwvmYDQkDWqYvg1v9t1N0ILnIF6GEBBKZfB3mDULre3uMhoKjCN23uemnzgVY
+	 6kYLsi29gsUkw==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 2/3] nvme-multipath: avoid hang on inaccessible namespaces
-Date: Mon,  9 Sep 2024 09:19:29 +0200
-Message-Id: <20240909071930.146343-3-hare@kernel.org>
+Subject: [PATCH 3/3] nvme: 'nvme disconnect' hangs after remapping namespaces
+Date: Mon,  9 Sep 2024 09:19:30 +0200
+Message-Id: <20240909071930.146343-4-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240909071930.146343-1-hare@kernel.org>
 References: <20240909071930.146343-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240909_001945_418456_E9881D5C 
-X-CRM114-Status: GOOD (  15.59  )
+X-CRM114-CacheID: sfid-20240909_001946_834434_3667E36F 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,10 +73,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-During repetitive namespace remapping operations on the target the
-namespace might have changed between the time the initial scan
-was performed, and partition scan was invoked by device_add_disk()
-in nvme_mpath_set_live(). We then end up with a stuck scanning process:
+During repetitive namespace map and unmap operations on the target
+(disabling the namespace, changing the UUID, enabling it again)
+the initial scan will hang as the target will be returning
+PATH_ERROR and the I/O is constantly retried:
 
 [<0>] folio_wait_bit_common+0x12a/0x310
 [<0>] filemap_read_folio+0x97/0xd0
@@ -96,54 +96,64 @@ in nvme_mpath_set_live(). We then end up with a stuck scanning process:
 [<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
 [<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
 
-This happens when we have several paths, some of which are inaccessible,
-and the active paths are removed first. Then nvme_find_path() will requeue
-I/O in the ns_head (as paths are present), but the requeue list is never
-triggered as all remaining paths are inactive.
+Calling 'nvme disconnect' on controllers with these namespaces
+will hang as the disconnect operation tries to flush scan_work:
 
-This patch checks for NVME_NSHEAD_DISK_LIVE in nvme_available_path(),
-and requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared once
-the last path has been removed to properly terminate pending I/O.
+[<0>] __flush_work+0x389/0x4b0
+[<0>] nvme_remove_namespaces+0x4b/0x130 [nvme_core]
+[<0>] nvme_do_delete_ctrl+0x72/0x90 [nvme_core]
+[<0>] nvme_delete_ctrl_sync+0x2e/0x40 [nvme_core]
+[<0>] nvme_sysfs_delete+0x35/0x40 [nvme_core]
+[<0>] kernfs_fop_write_iter+0x13d/0x1b0
+[<0>] vfs_write+0x404/0x510
+
+before the namespaces are removed, and the controller state
+DELETING_NOIO (which would abort any pending I/O) is set only
+afterwards.
+
+This patch calls 'nvme_kick_requeue_lists()' when entering
+DELETING state for a controller to ensure all pending I/O
+is flushed, and also disables failover for any commands which
+are completed with an error afterwards, breaking the infinite
+retry loop.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/multipath.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index c9d23b1b8efc..f72c5a6a2d8e 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -421,6 +421,9 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- {
- 	struct nvme_ns *ns;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 651073280f6f..142babce1963 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -381,6 +381,8 @@ enum nvme_disposition {
  
-+	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-+		return NULL;
+ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+ {
++	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
 +
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
- 			continue;
-@@ -967,11 +970,16 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
--	kblockd_schedule_work(&head->requeue_work);
--	if (test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-+	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
- 		nvme_cdev_del(&head->cdev, &head->cdev_device);
- 		del_gendisk(head->disk);
- 	}
-+	/*
-+	 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
-+	 * to allow multipath to fail all I/O.
-+	 */
-+	synchronize_srcu(&head->srcu);
-+	kblockd_schedule_work(&head->requeue_work);
- }
+ 	if (likely(nvme_req(req)->status == 0))
+ 		return COMPLETE;
  
- void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+@@ -393,6 +395,8 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+ 		return AUTHENTICATE;
+ 
+ 	if (req->cmd_flags & REQ_NVME_MPATH) {
++		if (nvme_ctrl_state(ctrl) == NVME_CTRL_DELETING)
++			return COMPLETE;
+ 		if (nvme_is_path_error(nvme_req(req)->status) ||
+ 		    blk_queue_dying(req->q))
+ 			return FAILOVER;
+@@ -629,7 +633,8 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 	} else if (new_state == NVME_CTRL_CONNECTING &&
+ 		old_state == NVME_CTRL_RESETTING) {
+ 		nvme_start_failfast_work(ctrl);
+-	}
++	} else if (new_state == NVME_CTRL_DELETING)
++		nvme_kick_requeue_lists(ctrl);
+ 	return changed;
+ }
+ EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
 -- 
 2.35.3
 
