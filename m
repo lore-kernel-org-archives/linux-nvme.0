@@ -4,62 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A4E6EE01EB
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Sep 2024 21:45:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03AB9EE01F0
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Sep 2024 23:02:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F9JRazt1XcPxIBi4ezj1dV5LBjiEeHbt/v/TTg13crs=; b=GOOC6fPo+orIcYYRI5NBYJBoWg
-	JVHlLxEvd8SfpAavvwUg/CnZY0ZYbOXRi3PsNx32cBrkpAGR6mF1TmI9OqnLXcmkR2a/m3hWjbeMN
-	o+WCmeK13ZZldwx0F6s2nlK8xvZqL/xkleihNN+l3EJnsGXsaFR73KJm8KLpmTN4OHdghlFcO58BD
-	4z8NX46m8xn+GwSvx53i0vW9tXCKrDpKLrjldr1526z6mgQrx5GiJSjh/zYxc9IMFxc+OYux31qdF
-	q4+HxS3OnMjGcgoHlPsltoP9pu+Fip/XV1UQ/9ul1SCs8EMA1FhpYyhT5UA9gGRfAO8mJSnqz2wiP
-	DQq+tLIA==;
+	bh=TV+CcAziPH35Tnx6moAkUp2s4yquxmqd8Fl0J+5RNqg=; b=wmSfHjaQDS+M5c7s6FbXvmYd8Q
+	jbAtN3gmTnIke6CYMIOuQ7GQztsfhEs40F/35sNPS66zG1MWnY6uMituoOc9CERZYs4dfy6f1nUTt
+	z8Ya2BJ3tf7TxUvIJBOGuTW32Gf05gl5vy4QgRUUZunypfrjwOujg6HPJ0I4FXLykYrMvOZuN5tI4
+	MDBsen+GtqKJ+UlVbIwI8+9zhpRWs+aIH4lcypU0Kzt2S+8Cf/h7LNgwGFdUT55Ng+wj+YlR8uVHL
+	mCx7FBg+MCANW0gmSmZFhFd4lTOhPCxwGlhBPeMLgZXGe83pXXYZgv54aoeOROhOR5Qzc4crhRV7Q
+	cXA1lafw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1so8gA-00000007EMS-0vEM;
-	Tue, 10 Sep 2024 21:45:42 +0000
-Received: from ms.lwn.net ([45.79.88.28])
+	id 1so9sR-00000007OIM-0xWl;
+	Tue, 10 Sep 2024 23:02:27 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1so8g6-00000007EM0-3nw2
+	id 1so9sO-00000007OHr-1mfg
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Sep 2024 21:45:40 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9BA554188E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1726004735; bh=F9JRazt1XcPxIBi4ezj1dV5LBjiEeHbt/v/TTg13crs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=SLjTh1qf1DQ1TSqjPe4hXo7/rORNZ8+0s+ilj2cAifj3n6GtQh/+i+mZuu3cDWSXn
-	 gi91mMWq3A2eQQsB4FmtW2hciDc5FhuQPmuLEpyaEfV8o8Knh4JlSXNV2iMEQNLaAv
-	 nnOF0N5aBcpyMPGXlKA9EYW9LI5QSTHaJD+C2pounFtsSRaYlpKrvgSBSEEBb1s+Xb
-	 5dy3CyqTAg1zWu1245UzH+ZeUA/JOh0PfWUIyBNAgy/0wagHW68YYRxObDLe5rQV3X
-	 yMf/4NPXkxQpXcG5kEONXzi5KsmztLWeQx9VhfukytwjJbgZNho7zNv9D6lT8V6Myj
-	 WvZm506Pwr1sA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9BA554188E;
-	Tue, 10 Sep 2024 21:45:35 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Shivam Chaudhary <cvam0000@gmail.com>, kbusch@kernel.org, axboe@kernel.dk
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cvam
- <cvam0000@gmail.com>
-Subject: Re: [PATCH v2] Remove duplicate "and" in 'Linux NVMe docs.
-In-Reply-To: <20240910052737.30579-1-cvam0000@gmail.com>
-References: <8734m8h9ce.fsf@trenco.lwn.net>
- <20240910052737.30579-1-cvam0000@gmail.com>
-Date: Tue, 10 Sep 2024 15:45:34 -0600
-Message-ID: <87o74v5gjl.fsf@trenco.lwn.net>
+	Tue, 10 Sep 2024 23:02:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id A4B77A40501;
+	Tue, 10 Sep 2024 23:02:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56154C4CEC3;
+	Tue, 10 Sep 2024 23:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726009342;
+	bh=BIYdIemb/WL/BM+LvvVr/a4fGnsrxpvabZqZ7muh97o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DX0nTJjcLQFoXRQ0sReddB4B0hoFkxGA4wbIIn9u+TWdHKL2nKnY9oYYRTChJH8qY
+	 N6JKuOW1RetNDdqyL4b4EX0uDmQ25oNnwEJqHqWLVjvp8G+pfS74DRo8xBSf2LamDn
+	 67q/IZY6iIZSE3HV3xLKrWn12oZfgo7nrFVrEPUZX1mRacsYNj4H87JqPXwINUEX2X
+	 ftr89Q38wJDrLfRt4jRPwN0a7Hqt1nHj3sklVYaUJdbrvDJ6xLLjIWwg+UqW4Dlo/w
+	 VnXSWmJNubandBv3GNIaof1o87Et3P0B4bqpU3sarI+X56OmLW+N1uHPYwv6bS8Qxc
+	 CliaGl3vN9cUg==
+Date: Tue, 10 Sep 2024 17:02:18 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, axboe@kernel.dk,
+	martin.petersen@oracle.com, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	sagi@grimberg.me
+Subject: Re: [PATCHv3 03/10] scsi: use request helper to get integrity
+ segments
+Message-ID: <ZuDP-ncB0EXrS9Xg@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240904152605.4055570-1-kbusch@meta.com>
+ <20240904152605.4055570-4-kbusch@meta.com>
+ <20240910153217.GC23805@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240910153217.GC23805@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240910_144538_967221_7F008668 
-X-CRM114-Status: UNSURE (   8.71  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240910_160224_547517_D288BC72 
+X-CRM114-Status: GOOD (  11.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,26 +76,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Shivam Chaudhary <cvam0000@gmail.com> writes:
+On Tue, Sep 10, 2024 at 05:32:17PM +0200, Christoph Hellwig wrote:
+> 
+> although I'd be tempted to just remove the BUG_ON below (or move
+> it into blk_rq_map_integrity_sg) and the ivecs variable entirely.
 
-> From: cvam <cvam0000@gmail.com>
->
-> Remove duplicate occurrence of 'and' in
-> 'Linux NVMe Feature and Quirk Policy' title heading.
->
-> tested: Not breaking anything.
->
-> Signed-off-by: Shivam Chaudhary <cvam0000@gmail.com>
-> ---
->  Documentation/nvme/feature-and-quirk-policy.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-I have applied this, thanks.
-
-For future reference, a remark like "tested: not breaking anything" is
-not helpful.  If you have done testing, reviewers will want to know
-*how* you have tested it.  For a patch like this, of course, that
-doesn't matter.
-
-jon
+Right, I actually have more follow up's doing that. We just need to
+change blk_rq_map_integrity_sg() first to take a request instead of a
+request_queue + bio. I thought I might be getting carried away with the
+"cleanups" though, so was saving that for later. I can definitely add
+that into the series now though.
 
