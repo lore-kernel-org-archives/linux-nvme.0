@@ -4,63 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5434BEDE99F
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Sep 2024 15:47:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B23B7EDE99F
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Sep 2024 15:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vnMWXcPpD8c0ia9PzaJ5yxm7KkZ9ez/09qplgGr6oFI=; b=qI+Oljhq5DfCNw1g5M67vQyZVS
-	naQl2UKy+BZYA+ZB4MQ5iwehyChr41F/qeZPkMwnNy2b5EVkDwbuavDrCydFvLJ876nSl3PXhybWX
-	MNiXtTdWjiA9LEEWEygbCaNuRbCtcB3fdXMKWhapj6nuAX/L0uiQ5lLQXyPvd9q6GmhS5PC6fldGj
-	Ez8hAETgvIc/nkA4/efS6WLbUXLlyUnu/JzG9urDZg2sHc+kq+ArM4vtlIQI5/ay1pE3hDmVjMP4+
-	cGfk3taNbC7J0CJOMNpikL67Lr38kHVnyR+Aef29kOEL3uAARtZL2mlJ0nHglJbcUoM3KQdqbI8eE
-	a2C2pt4g==;
+	bh=5Zeq2PesrtbzjTC7JRrfk79PaBINzV2aiypmkWARdXU=; b=1NTAjUc92ITE6hywYXTJyXpBN+
+	ytN1YuL/wTjK8P5zNJj4iUFDT0CCXztjw46twUtLWnJOnmmifEu6yo/HDJBOMSkxN26y42K3+0fxB
+	9VIcHFCUjANRiQJQ4U+pka54BXTjNO15nfgPH0To64fPe1jQD9jSO0GdTDq9/KgDFBPnW2PCt/wNf
+	9q61Vv484QhuzvJOZbY8sP2ktx3UDvRkEoVrqvRGn7RRhfdyb3C0E7sIGZtCpO8KY3dFJ9aRXfJGr
+	EiF0fIU2jRXmQpGvnUtZcf7aglgisdpCZrbSRYjQhMlyqbw95hr550xTOiQMfD1odKPkDu4MrR1zy
+	hvBv6R8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1so35X-00000006DGP-2yuE;
-	Tue, 10 Sep 2024 15:47:31 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1so36b-00000006DeM-1yTF;
+	Tue, 10 Sep 2024 15:48:37 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1so2xd-000000069mR-2wpM
+	id 1so2zP-00000006AbQ-08Xa
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Sep 2024 15:39:23 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5D6E5A43E03;
-	Tue, 10 Sep 2024 15:39:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105ACC4CEC3;
-	Tue, 10 Sep 2024 15:39:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725982760;
-	bh=gqnIRsyOZvYlumv1w6sgCwEqmA0ykjp1xDrMLzjEcds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RclTTXgXiw4c5CLvhhyoHhy6AUUEynnX3GLJz8QF0UdBJFFoFyG2HUoz9A2KsPn2W
-	 LDmwh1H+GfWpORCqdCI0noZSxTbgUK48CkxNA/2E2z6GrFbx4+h7g9WKFixR+X535J
-	 tBN3lroSVZSznQ7LLpgY3z5jbvviTqXzTiXBPO9kxglw/uHRP9anmAkucQo/kC6KwD
-	 dzzEIIdok/x3w7L+m22VdEr8O3/GvRWv+35nUDYIC5bxY497mTtjtwpS4d8P6BlKnx
-	 wU+hdMYABkNvrNTl3NGkCelTbbtI9eytjhu2mp4xVL+HzY0rr377QYI/BsHGI5WPqa
-	 5+JGOGcjDPCng==
-Date: Tue, 10 Sep 2024 09:39:17 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, axboe@kernel.dk,
-	martin.petersen@oracle.com, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	sagi@grimberg.me
-Subject: Re: [PATCHv3 02/10] block: provide helper for nr_integrity_segments
-Message-ID: <ZuBoJYw5Ke9cdTXK@kbusch-mbp>
-References: <20240904152605.4055570-1-kbusch@meta.com>
- <20240904152605.4055570-3-kbusch@meta.com>
- <20240910153046.GB23805@lst.de>
+	Tue, 10 Sep 2024 15:41:12 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3E429227AAE; Tue, 10 Sep 2024 17:41:06 +0200 (CEST)
+Date: Tue, 10 Sep 2024 17:41:05 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv3 06/10] blk-integrity: simplify counting segments
+Message-ID: <20240910154105.GF23805@lst.de>
+References: <20240904152605.4055570-1-kbusch@meta.com> <20240904152605.4055570-7-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910153046.GB23805@lst.de>
+In-Reply-To: <20240904152605.4055570-7-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240910_083921_832540_330B0431 
-X-CRM114-Status: GOOD (  15.29  )
+X-CRM114-CacheID: sfid-20240910_084111_245375_D392514B 
+X-CRM114-Status: GOOD (  23.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,25 +61,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 10, 2024 at 05:30:46PM +0200, Christoph Hellwig wrote:
-> On Wed, Sep 04, 2024 at 08:25:57AM -0700, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > 
-> > This way drivers that want this value don't need to concern themselves
-> > with the CONFIG_BLK_DEV_INTEGRITY setting.
+On Wed, Sep 04, 2024 at 08:26:01AM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> Looks ok:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> Although I wonder if we should simply define the field unconditionally
-> given that it is only 2 bytes wide and packs nicely.
+> The segments are already packed to the queue limits when adding them to
+> the bio,
 
-Good idea, I didn't consider that. Various parts become cleaner if it's
-unconditionally part of the request. I'll try it out.
+I can't really parse this.  I guess this talks about
+bio_integrity_add_page trying to append the payload to the last
+vector when possible?
 
-BTW, just want to mention the the return value here is unreliable until
-patch 10. I've reworked the series so that appears first to avoid a
-bisect hazard. The end result is the same though, so I didn't want to
-spam the mailing list with a v2 just yet.
+> -int blk_rq_count_integrity_sg(struct request_queue *q, struct bio *bio)
+> +int blk_rq_count_integrity_segs(struct bio *bio)
+>  {
+> -	struct bio_vec iv, ivprv = { NULL };
+>  	unsigned int segments = 0;
+> -	unsigned int seg_size = 0;
+> -	struct bvec_iter iter;
+> -	int prev = 0;
+> -
+> -	bio_for_each_integrity_vec(iv, bio, iter) {
+>  
+> -		if (prev) {
+> -			if (!biovec_phys_mergeable(q, &ivprv, &iv))
+> -				goto new_segment;
+> -			if (seg_size + iv.bv_len > queue_max_segment_size(q))
+> -				goto new_segment;
+> -
+> -			seg_size += iv.bv_len;
+> -		} else {
+> -new_segment:
+> -			segments++;
+> -			seg_size = iv.bv_len;
+
+Q: for the data path the caller submitted bio_vecs can be larger
+than the max segment size, and given that the metadata API tries
+to follow that in general, I'd assume we could also get metadata
+segments larger than the segment size in theory, in which case
+we'd need to split a bvec into multiple segments, similar to what
+bvec_split_segs does.  Do we need similar handling for metadata?
+Or are we going to say that metadata must e.g. always be smaller
+than PAGE_SIZE as max_segment_sizse must be >= PAGE_SIZE?
+
+> +	for_each_bio(bio)
+> +		segments += bio->bi_integrity->bip_vcnt;
+
+If a bio was cloned bip_vcnt isn't the correct value here,
+we'll need to use the iter to count the segments.
+
+>  	bio->bi_next = NULL;
+> -	nr_integrity_segs = blk_rq_count_integrity_sg(q, bio);
+> +	nr_integrity_segs = blk_rq_count_integrity_segs(bio);
+>  	bio->bi_next = next;
+
+And instead of playing the magic with the bio chain here, I'd have
+a low-level helper to count the bio segments here.
+
+>  
+>  	if (req->nr_integrity_segments + nr_integrity_segs >
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 3ed5181c75610..79cc66275f1cd 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -2548,7 +2548,7 @@ static void blk_mq_bio_to_request(struct request *rq, struct bio *bio,
+>  	blk_rq_bio_prep(rq, bio, nr_segs);
+>  #if defined(CONFIG_BLK_DEV_INTEGRITY)
+>  	if (bio->bi_opf & REQ_INTEGRITY)
+> -		rq->nr_integrity_segments = blk_rq_count_integrity_sg(rq->q, bio);
+> +		rq->nr_integrity_segments = blk_rq_count_integrity_segs(bio);
+
+And here I'm actually pretty sure this is always a single bio and not
+a chain either.
+
 
