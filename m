@@ -4,133 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E6AEEE57C1
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 16:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70CA1EE0206
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 16:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Subject:References:In-Reply-To:Message-ID:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3ggxLIxtiGb89Ns0fkkL1FNu2YkmXqfQccQvka+YtrA=; b=VabZ0n29lxROY/DxWz1lh8qhsu
-	61HLNnAxwcDl5FyznPpV9oFE/x5YRCQMzN/Cwk/H03SYjjHsjM0OHwWJ6s3L9mKHStxZohfoHULKK
-	XDBKNMgRPrS0VXr3EOpW3jAr+Suak9AokFyS9kF2LLB8/lG6K+rsJkRaF+u6yhkuN3F/BoP98/E7D
-	SK3ANDD12VP1kgjawIiG+4tjYR1kgRUXZViW8HdS6IVUFhNKjDp50duReBL3ojKZvoiran0JKmVoc
-	Rngp7b0LdY/w1p1+gXmvEgkf7VUUsmIYHskU4d3mrztl5z66Jbb0JhFuDvWi1yLy4wbqFS22lJF5E
-	J+U0WiFA==;
+	bh=4JqNaJXldq8FIMnfaqDaw0f3mjGTip+MzSYQvZ1NAg4=; b=xSGYPe4Q3i2fYKUh0DBNkS/BmZ
+	UHdN6GaffYY6ViHxJtRV9LFL7ND6BBnLzn4uipLcDc0m+oHQK8UA0YaFC6RPRGKc08VjHmh5M0pop
+	pOVACPJwm2K+Fc/jBBfdR3UWXNDKKoq3fcwGtbey8uytz9Xf8LE/Li5GJDvavncYP7PndnkgY8Lgk
+	/XwaVVn1g+GArUipwsMfkeWXyy7iq1houand95+Gm6Ba2Fj4l1A4XjV0RRNung7eEUJiBQur8c54O
+	Pq+VOH4WTo53GI2vs2gdj2Km8mx02zl3bzKpwI0l7XVM1/rY87pjx/GwBYqgF07LA8E9IE14TeaFB
+	bFe7r5Eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soPxw-0000000AJzj-1Luk;
-	Wed, 11 Sep 2024 16:13:12 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1soQed-0000000AQ3p-45vo;
+	Wed, 11 Sep 2024 16:57:19 +0000
+Received: from sender4-op-o12.zoho.com ([136.143.188.12])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soPvJ-0000000AJgd-3Pmf
+	id 1soQea-0000000AQ38-2BQq
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 16:10:33 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7B91D219FF;
-	Wed, 11 Sep 2024 16:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726071027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ggxLIxtiGb89Ns0fkkL1FNu2YkmXqfQccQvka+YtrA=;
-	b=kZdyvP3zXgbo/B1bMFrvgWbZYKJA1GPG4pRSa4INX45DUcOKycJ+8/FiMl6JrXIA6n5tyM
-	rO2p0+2YizB1OuduT2tQEB2jBFoKdpFz9t/7xYtd7LlWfJWAoNFWK/wr2za7pGZnoEc4Nt
-	jvFP/YwCFX+7+ScnLL6njpEZcsyNqNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726071027;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ggxLIxtiGb89Ns0fkkL1FNu2YkmXqfQccQvka+YtrA=;
-	b=vp0K1OnuS3NlI4qwFPR840quSrEGT7G5fYgP3HJRKsaY2VrZhIoxCa2gUYZy5gMHvdJNfJ
-	cZo+na3RFelabUBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kZdyvP3z;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vp0K1Onu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726071027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ggxLIxtiGb89Ns0fkkL1FNu2YkmXqfQccQvka+YtrA=;
-	b=kZdyvP3zXgbo/B1bMFrvgWbZYKJA1GPG4pRSa4INX45DUcOKycJ+8/FiMl6JrXIA6n5tyM
-	rO2p0+2YizB1OuduT2tQEB2jBFoKdpFz9t/7xYtd7LlWfJWAoNFWK/wr2za7pGZnoEc4Nt
-	jvFP/YwCFX+7+ScnLL6njpEZcsyNqNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726071027;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ggxLIxtiGb89Ns0fkkL1FNu2YkmXqfQccQvka+YtrA=;
-	b=vp0K1OnuS3NlI4qwFPR840quSrEGT7G5fYgP3HJRKsaY2VrZhIoxCa2gUYZy5gMHvdJNfJ
-	cZo+na3RFelabUBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4345313A7C;
-	Wed, 11 Sep 2024 16:10:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /ljKDPPA4Wa1ewAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 11 Sep 2024 16:10:27 +0000
-Message-ID: <0acc13ea-50d9-4975-8859-dded066527e3@suse.de>
-Date: Wed, 11 Sep 2024 18:10:26 +0200
+	Wed, 11 Sep 2024 16:57:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; t=1726073830; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ZxEQr7sfE3hnAlGVxNnCSRD3qhUOe9vFrxHqJu/d7gDrUAA0C0kOzjh+QvtK3PGEiL1ughI4g8LwfJYtOXmCb1HIN7yGv6ydhJBC7dWaPqlJA4GTCKA2JIKcjC4afwk8EJabc7zVQ4qoAxAC4xyFNBbYuvt+6l1wGnxUbKzthw8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726073830; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4JqNaJXldq8FIMnfaqDaw0f3mjGTip+MzSYQvZ1NAg4=; 
+	b=RDFHhx4oZBaxaDr6F3I999QUMX9G+5/oFCCUrevGbwZKY+vYSEAf3Pqo2PXSGx+pGzINxFJBssIetMQr7U8STcmnJTgxpJh1PUtfRg+T4iCoX0N2Z15xuXyDsl+w64lfpph8AbKSiSVZCXWLLjuPRachsCPRDYBdxW6BPheFivg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=bob.beckett@collabora.com;
+	dmarc=pass header.from=<bob.beckett@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726073830;
+	s=zohomail; d=collabora.com; i=bob.beckett@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=4JqNaJXldq8FIMnfaqDaw0f3mjGTip+MzSYQvZ1NAg4=;
+	b=lQOhV7+Txpb/9vXYKQI/vuiM9YfKVsbvBS3gJJofQu1meWj9gsgAEMEeAzJdzfUg
+	b69HtPTjXTzimyy2ikwfEJSxTya9YcpAPEsMKqE0fEId9XHrA/y9yWt2ps7wjOJVn24
+	gJlm2Vdev7o64Xu7egQYNh7aqiZmsV/7yoE6am5A=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1726073797935336.22030053810806; Wed, 11 Sep 2024 09:56:37 -0700 (PDT)
+Date: Wed, 11 Sep 2024 17:56:37 +0100
+From: Robert Beckett <bob.beckett@collabora.com>
+To: "Keith Busch" <kbusch@kernel.org>
+Cc: "linux-nvme" <linux-nvme@lists.infradead.org>,
+	"Jens Axboe" <axboe@fb.com>, "Christoph Hellwig" <hch@lst.de>,
+	"Sagi Grimberg" <sagi@grimberg.me>,
+	"Andrew Morton" <akpm@linux-foundation.org>,
+	"linux-mm" <linux-mm@kvack.org>
+Message-ID: <191e203fd17.118394e2d1606957.7379866259983341167@collabora.com>
+In-Reply-To: <ZuCHk6hDxF65v8T2@kbusch-mbp>
+References: <191d810a4e3.fcc6066c765804.973611676137075390@collabora.com>
+ <Zt9amhUGs9FT5i-O@kbusch-mbp>
+ <Zt9bLa4TJT6L75aG@kbusch-mbp>
+ <191db450152.e0b28690987786.6989198174827147639@collabora.com>
+ <191dcfa4846.bb18f3291189856.1624418308692137124@collabora.com> <ZuCHk6hDxF65v8T2@kbusch-mbp>
+Subject: Re: possible regression fs corruption on 64GB nvme
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-multipath: stuck partition scan on inaccessible
- paths
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240911124610.81615-1-hare@kernel.org>
- <20240911124610.81615-4-hare@kernel.org>
- <2193b894-2999-4450-a221-19045c2b3e53@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <2193b894-2999-4450-a221-19045c2b3e53@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7B91D219FF
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_091030_027299_76B210EC 
-X-CRM114-Status: GOOD (  20.72  )
+X-CRM114-CacheID: sfid-20240911_095716_649135_8673EBF6 
+X-CRM114-Status: GOOD (  33.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,92 +86,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/11/24 17:20, Sagi Grimberg wrote:
-> 
-> 
-> 
-> On 11/09/2024 15:46, Hannes Reinecke wrote:
->> When a path is switched to 'inaccessible' during partition scan
->> triggered via device_add_disk() and we only have one path the
->> system will be stuck as nvme_available_path() will always return
->> 'true'. So I/O will never be completed and the system is stuck
->> in device_add_disk():
->>
->>      [<0>] folio_wait_bit_common+0x12a/0x310
->>      [<0>] filemap_read_folio+0x97/0xd0
->>      [<0>] do_read_cache_folio+0x108/0x390
->>      [<0>] read_part_sector+0x31/0xa0
->>      [<0>] read_lba+0xc5/0x160
->>      [<0>] efi_partition+0xd9/0x8f0
->>      [<0>] bdev_disk_changed+0x23d/0x6d0
->>      [<0>] blkdev_get_whole+0x78/0xc0
->>      [<0>] bdev_open+0x2c6/0x3b0
->>      [<0>] bdev_file_open_by_dev+0xcb/0x120
->>      [<0>] disk_scan_partitions+0x5d/0x100
->>      [<0>] device_add_disk+0x402/0x420
->>      [<0>] nvme_mpath_set_live+0x4f/0x1f0 [nvme_core]
->>      [<0>] nvme_mpath_add_disk+0x107/0x120 [nvme_core]
->>      [<0>] nvme_alloc_ns+0xac6/0xe60 [nvme_core]
->>      [<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
->>      [<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
->>
->> This patch introduces a flag NVME_NSHEAD_FAIL_ON_LAST_PATH to
->> cause nvme_available_path() to always return NULL, and with
->> that I/O to be failed if the last path is unavailable. But
->> we also need to requeue all pending I/Os whenever we have
->> changed the ANA state as now even inaccessible ANA states
->> influence I/O behaviour.
->>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
->>   drivers/nvme/host/multipath.c | 15 +++++++++++++++
->>   drivers/nvme/host/nvme.h      |  1 +
->>   2 files changed, 16 insertions(+)
->>
->> diff --git a/drivers/nvme/host/multipath.c 
->> b/drivers/nvme/host/multipath.c
->> index f72c5a6a2d8e..0373b4043eea 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -422,6 +422,10 @@ static bool nvme_available_path(struct 
->> nvme_ns_head *head)
->>       struct nvme_ns *ns;
->>       if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
->> +        return NULL;
->> +
->> +    if (test_bit(NVME_NSHEAD_FAIL_ON_LAST_PATH, &head->flags) &&
->> +        list_is_singular(&head->list))
->>           return NULL;
-> 
-> This is wrong too Hannes.
-> 
-> If you added a live path, and when partition scan triggers your path 
-> becomes
-> inaccessible, but then after anatt it becomes optimized again. You just 
-> ended up without discovering partitions...
+ ---- On Tue, 10 Sep 2024 18:53:23 +0100  Keith Busch  wrote --- 
+ > On Tue, Sep 10, 2024 at 06:27:55PM +0100, Robert Beckett wrote:
+ > > nvme.io_queue_depth=2 appears to fix it. Could you explain the implications of this?
+ > > I assume it is limiting to 2 outstanding requests concurrently.
+ > 
+ > You'd think so, but not quite. NVMe queues need to leave one entry
+ > empty, so a submission queue with depth "2" means you can have at most 1
+ > command outstanding.
+ > 
+ > > Does it suggest an issue with the specific device's FW?
+ > 
+ > I think that sounds probable. Especially considering the dmapool code
+ > has had considerable run time in real life, and no other such issue has
+ > been reported.
+ > 
+ > > I assume this would suggest that it is not actually anything wrong with the dmapool, it was just exposing the issue of the device/fw?
+ > 
+ > That's what I'm thinking, though, if you have a single queue with depth
+ > 2, we're not stressing the dmapool implementation either. It's always
+ > going to return the same dma block for each command.
+ > 
+ > > Any advice for handling this and/or investigating further?
+ > 
+ > If you have the resources for it, get protocol analyzer trace and show
+ > it to your nvme vendor.
 
-But we will be getting an ANA state change AEN in that case, seeing that 
-we have enabled ANA state change events and the spec states that we 
-should be getting them (NVMe 1.3, section 8.21.4 Host ANA Transition 
-Operation explicitly has an 'or' between point a) and b) ...).
-Which is what we rely upon anyway, otherwise we would have had to check 
-for INACCESSIBLE in nvme_update_ana_state, and not just for CHANGE as we 
-do now.
-Plus the situation will be exactly the same if one uses 'persistent 
-loss' instead of 'inaccessible'...
+Unfortunately this is infeasible for us.
 
-And incidentally, the same issue happens when you disable the namespace 
-in nvmet just after the namespace got scanned, but before 
-device_add_disk() is called. So really it's not about ANA, but rather 
-about any path-related error here.
+ >  
+ > > My initial speculation was that maybe the disk fw is signalling completion of an access before it has actually finished making it's way to ram. I checked the code and saw that the dmapool appears to be used for storing the buffer page addresses, so I imagine that is not updated by the disk at all, which would rule out my assumption.
+ > 
+ > Right, it's used to make the prp/sgl list. Once we get a completion,
+ > that dma block becomes immediately available for the very next command.
+ > If you have a higher queue depth, it's possible that dma block is reused
+ > immediately while the driver is still notifying the block layer of the
+ > completion.
+ > 
+ > If we're thinking that the device is completing the command before it's
+ > really done with the list (which could explain your observation), that
+ > would be a problem. Going to single queue-depth might introduce a delay
+ > or work around some firmware issue when dealing with concurrent
+ > commands.
+ > 
+ > Prior to the "new" dmapool allocation, it was much less likely (though I
+ > think still possible) for your next command to reuse the same dma block
+ > of the command currently being completed.
+ > 
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
-
+given this ~9 year old temporary fix is still in the kernel for the Apple device, could we just add another device specific override? I could maybe convert it to a quirk that is set for them both (and any future devices)
 
