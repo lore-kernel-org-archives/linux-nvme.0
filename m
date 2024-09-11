@@ -4,61 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47717EE498B
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 09:51:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ECFBEE4995
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 11:28:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OjuSu1E6xXfuK8zU0Ollu5H8OFw7kcfOo8dkeQNxeHI=; b=hL20jei9VxHLJPWYSicedLtipS
-	g2qVujUFuLYZIaiVXJpNNOAXDLDC+z8NqsozpaqXt8KV3+Kodc2O/3lHN9u9FztPcOHYl5sXxxxTR
-	peKv+u2KOxJw7iUEQw4Q/SUI92t+WAINNg6ULRLmQYh9sHiabBR9pdJHoDpFMbqblNKjdXGByRhKD
-	KM3ztZNbEuRhrdrtEJ5O9slXSkaWgLwYqT4k8XNfWZkfQn8Z5pqb/l3VMUeW0GGuYr8tVdTanzjsv
-	tuG68bZuVDujH29DNKdskeZ3IPS93pgpci/VZqOnjyBcpy1pX/9bhuGWE4MMtf1HzXjLExn2wmY9P
-	5kQUbbiw==;
+	bh=EVHMJxX7bIJ1gFg2WEvfMYI4EW1ys1yqjwgKzj2K/yw=; b=2d8WsUWLyaPAKnupALat7scX26
+	EZu01dZtRL/lYDP9JLDYWthZ7NzpvFjRqULA4sNbT7viJekGpb7f48wS2VnJmxqvRU6nyML+tgCC/
+	mZN3cYEczbQ+ZU8qBO8E3q+XWfHdpwMeXkRGLtwXdSyY+sbevXMPhGphukQtzJNF+vYaalr/0UZ7Z
+	W3SdsaA2HEMJf+tuWSu8gRIFNbjQ2/Gadu6YQO6P2TEWQxWz5xX+t7MR6c254sQr24tRONcemoSvi
+	avlJM/sNhlQ4Ce5TPspF5nzA2oLC8FISzmmtCkAiVEMz3/cuEP731SPcV1O75iGJzc70bG4z70Ijy
+	9wu/RYaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soK0h-00000008zUS-2sAz;
-	Wed, 11 Sep 2024 09:51:39 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1soLWS-00000009ICm-3FK1;
+	Wed, 11 Sep 2024 11:28:32 +0000
+Received: from mail-wr1-f50.google.com ([209.85.221.50])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soK0N-00000008zNR-3EGP
+	id 1soLSX-00000009HQB-3xn7
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 09:51:36 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9E0BB5C06A5;
-	Wed, 11 Sep 2024 09:51:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1D23C4CED1;
-	Wed, 11 Sep 2024 09:51:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726048278;
-	bh=gnPC3bVfXHSb9goE/TiVvsgFbiONVLXJEv25LgXBWZw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bBo3/Tgf7/3wb/xm1u7hYFCUJXSOU+3sjAXbwn6iminB11X58mO/0GlAiIXMHJOJg
-	 zRSuFpWV+B/vierNs2dnbUqQxboSAINI5fr9a3OT/ePH3eX60Yzygu51IM7pCW70gq
-	 Nzt8odSO3i7LIJkzMCa9iP3J2zd4R5cudhKdPlMD62gmvlihpgfNPLKmBpk0JYMaFE
-	 aeu1/AF3oj8PUTE/jQ7MWgzquxi68HcMOeszYEnTAENNJShrFNJP8pzb7/HWGfWq1d
-	 ab4tLXUbpaMMTX/Ql/ePpobm3pBDymM5JtEPMLcfQAJoc+8prmq7fVU3rsyIeUoPtv
-	 ghUnaVuEytOfQ==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 2/3] nvme-multipath: avoid hang on inaccessible namespaces
-Date: Wed, 11 Sep 2024 11:51:06 +0200
-Message-Id: <20240911095107.121688-3-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240911095107.121688-1-hare@kernel.org>
-References: <20240911095107.121688-1-hare@kernel.org>
+	Wed, 11 Sep 2024 11:24:31 +0000
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-374c1120a32so1323855f8f.1
+        for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 04:24:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726053868; x=1726658668;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EVHMJxX7bIJ1gFg2WEvfMYI4EW1ys1yqjwgKzj2K/yw=;
+        b=jFoaDmihC4wl8A96CxXatlFDygVNgNQyE4rzxHipBWw5aC5x9nEYvUfgs47ovAnGYq
+         breQVixHcrrzr/paFWwqt+3RjMOB8Hk+J0eAOBcd5bcPfVCeZDyIDvxp111UUaFDsMd1
+         pfQ8Wp3BLKoyOhCvHuhZKS/fImW8HYOpUBNKoYeIsmg9k5cxXLxZFE2ymgX4FD7/Wsa6
+         RGYRuOcViqAhZVkLR6Cxj3J4nEwk3HFkiLhf51a295EjKIzYJ/NzIg/D/bBOTNPDOpqJ
+         BipGm5/IRfaxFYCIsoHBFoEAEJrKTIqu0sTM29f16LUavTNRQrea3w32d4k1DsTXSHwd
+         LJRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNMulU9oByo8MGY23AHQ3oUN+2qRv6MdGXgMbbWfz3Kulo87/nxkp54kTVC5xSG9mewkN753IvA9jk@lists.infradead.org
+X-Gm-Message-State: AOJu0YyVoAV9bfj70MOxndSHGMI9cNSaZdz/FwaIWZwcYwnpZxH+APAH
+	KuvUmZujBP7FrN6yotGqMeuo8zev9nv9QbRhVvMZ5TD2yq7e4CJd
+X-Google-Smtp-Source: AGHT+IHCx4FL+6FX1yvGYqERxy/P74eKSOTP2PVMCzKQQZXcqa3cMiGRVHVQM778uV2Ve5x6am2zGw==
+X-Received: by 2002:a5d:4907:0:b0:377:284d:9946 with SMTP id ffacd0b85a97d-378b07c8664mr1855115f8f.30.1726053866692;
+        Wed, 11 Sep 2024 04:24:26 -0700 (PDT)
+Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d372dsm11309194f8f.73.2024.09.11.04.24.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Sep 2024 04:24:26 -0700 (PDT)
+Message-ID: <9b8b7d54-8716-4449-8497-149dcc62ae77@grimberg.me>
+Date: Wed, 11 Sep 2024 14:24:25 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] nvme-multipath: skip inaccessible paths during
+ partition scan
+To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240911095107.121688-1-hare@kernel.org>
+ <20240911095107.121688-4-hare@kernel.org>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240911095107.121688-4-hare@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_025119_900394_1C190A5E 
-X-CRM114-Status: GOOD (  15.43  )
+X-CRM114-CacheID: sfid-20240911_042430_018650_16ECC70B 
+X-CRM114-Status: GOOD (  16.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,78 +83,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-During repetitive namespace remapping operations on the target the
-namespace might have changed between the time the initial scan
-was performed, and partition scan was invoked by device_add_disk()
-in nvme_mpath_set_live(). We then end up with a stuck scanning process:
+Hannes, if this patch fixes a bug, please phrase the title to reflect that.
 
-[<0>] folio_wait_bit_common+0x12a/0x310
-[<0>] filemap_read_folio+0x97/0xd0
-[<0>] do_read_cache_folio+0x108/0x390
-[<0>] read_part_sector+0x31/0xa0
-[<0>] read_lba+0xc5/0x160
-[<0>] efi_partition+0xd9/0x8f0
-[<0>] bdev_disk_changed+0x23d/0x6d0
-[<0>] blkdev_get_whole+0x78/0xc0
-[<0>] bdev_open+0x2c6/0x3b0
-[<0>] bdev_file_open_by_dev+0xcb/0x120
-[<0>] disk_scan_partitions+0x5d/0x100
-[<0>] device_add_disk+0x402/0x420
-[<0>] nvme_mpath_set_live+0x4f/0x1f0 [nvme_core]
-[<0>] nvme_mpath_add_disk+0x107/0x120 [nvme_core]
-[<0>] nvme_alloc_ns+0xac6/0xe60 [nvme_core]
-[<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
-[<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
 
-This happens when we have several paths, some of which are inaccessible,
-and the active paths are removed first. Then nvme_find_path() will requeue
-I/O in the ns_head (as paths are present), but the requeue list is never
-triggered as all remaining paths are inactive.
+On 11/09/2024 12:51, Hannes Reinecke wrote:
+> When a path is switched to 'inaccessible' during partition scan
+> triggered via device_add_disk() and we only have one path the
+> system will be stuck as nvme_available_path() will always return
+> 'true'. So I/O will never be completed and the system is stuck
+> in device_add_disk().
+> This patch introduces a flag NVME_NSHEAD_DISABLE_QUEUEING to
+> cause nvme_available_path() to always return NULL, and with
+> that I/O to be failed if all paths are unavailable.
 
-This patch checks for NVME_NSHEAD_DISK_LIVE in nvme_available_path(),
-and requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared once
-the last path has been removed to properly terminate pending I/O.
+So what will happen if a new device comes along, and the first
+path it connects to is 'inaccessible'? What will scan partitions?
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/multipath.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+I don't think that this approach is the right one.
+Effectively, there is a semantic decision here, is 'inaccessible' a
+temporary state or not, if it is we should queue IO knowing that
+it may change in the future, and if not, we should fail it.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index c9d23b1b8efc..f72c5a6a2d8e 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -421,6 +421,9 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- {
- 	struct nvme_ns *ns;
- 
-+	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-+		return NULL;
-+
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
- 			continue;
-@@ -967,11 +970,16 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
--	kblockd_schedule_work(&head->requeue_work);
--	if (test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-+	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
- 		nvme_cdev_del(&head->cdev, &head->cdev_device);
- 		del_gendisk(head->disk);
- 	}
-+	/*
-+	 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
-+	 * to allow multipath to fail all I/O.
-+	 */
-+	synchronize_srcu(&head->srcu);
-+	kblockd_schedule_work(&head->requeue_work);
- }
- 
- void nvme_mpath_remove_disk(struct nvme_ns_head *head)
--- 
-2.35.3
+ANA inaccessible is semantically temporary. Its just that your test
+treats it as permanent. For this case you have fast_io_fail_tmo, which is
+designed to give up also in cases where there is hope that any path will
+become online in the future.
 
+I do agree that if the user disconnects the last path, should it be 
+inaccessible
+or not, it should succeed, and cause the queued IO to fail immediately.
 
