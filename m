@@ -4,76 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7270DEE0206
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 17:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AF7EEE0206
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 17:46:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:References:In-Reply-To:Message-ID:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kHt9rOniL8UPmfa6CZvU4/AXUR0LYrsD4geKIuDucB4=; b=Hz9CpEk4AgAGXtOS7adJ+lZfIZ
-	w9p5G8u1Bo+8XUXYiV4LT7coSialM9iiHSazVCR0LS/1UqkotBY/T1GV24ah6gwhf2KC9G8ByMHPf
-	m1c5fX54Lki+HHef2WATidNN54JkVDo//gZOU8mQZdsEHDBbN9PyJ9JeHJ6MskdGYLlVrEtvnsxD7
-	17zIgTJVeE04T4XD5JIJHIFBDpEE9JWsXDqKWMQGihcf8nG5SqZT0ommC/WKmQUF+S8gKXl7S0KDo
-	Qt+vg/Rq5r6foTUZYrcA6FptzmmA0o1yozuVhkUR8SWwoG0F/CDHOZ/DU0ONqpv1gyfYtsanlVrgb
-	8POGn1kQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=l9a+PXHeC0Ttem0yHba9vzG3nzemDL0nrzKINWIQ64M=; b=z6icYmacC2+4YvR7Q9R8PqSwL+
+	QMzIEbM/KBU1bHaws0YQXLHqGS4dde5fIS2wnQqfjOtD2v2bIxQBrMFiialIWx6LkHcE//p654+SP
+	WDDmlWtt3FW3noIjgaZPgNFurpgdCXmu9pN3TZ9O3Iryphm1VHC0Z+zSGWzLDr0AqWR/bGHe/BLxw
+	8HpselH9x28Ds9jYWUprZDz8wEH3unebpWKQgm3tkeIgRNsUNhWbjcrRlCgV93m+P+ecXgLxib7R5
+	eZbzhmsueGWrnSWqNsSiP+NJsxvTuO5R6aKVfoHRJMvd0mSYIsIc1birDmFDTIsJVPu33FQWC9hZi
+	9varFXVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soQyp-0000000ATZr-3qNV;
-	Wed, 11 Sep 2024 17:18:11 +0000
-Received: from sender4-op-o12.zoho.com ([136.143.188.12])
+	id 1soRQb-0000000AYYQ-45h9;
+	Wed, 11 Sep 2024 17:46:53 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soQyn-0000000ATZN-28r1
+	id 1soRQY-0000000AYWg-2bnJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 17:18:10 +0000
-ARC-Seal: i=1; a=rsa-sha256; t=1726075085; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ICd5B7KHj1s4gGVMpQOg9SQo0qmPzP++hoalDDuLpuOnBr72UYwJY4+pPuaqUTUz+ZH5mUkdAFYHSwqNfympZNWXthHMoUm0NA3hYrp7bIUuS8j/nEaDFe601c0WMmFqb39Uyo6TajpxDlmy5XTG2Fy6OZcdSBggoJo5SKSOCCk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1726075085; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=kHt9rOniL8UPmfa6CZvU4/AXUR0LYrsD4geKIuDucB4=; 
-	b=PrVmqMtkooY35kx266pwDM8LCADNVRA0Uacec4n2Iq3HEp0LxT1nVsAwv6Z8JgyHOL3Y3ssyQB3FgkK8+guaDkJ++wPSYy0L+wsvlMPmcsfc1eGpihbaXFInsWeJyzpGzhOSDhQGAkesMw8yPIxJFwiDdUc/H2dA1N0E9R6QeKI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=bob.beckett@collabora.com;
-	dmarc=pass header.from=<bob.beckett@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726075085;
-	s=zohomail; d=collabora.com; i=bob.beckett@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=kHt9rOniL8UPmfa6CZvU4/AXUR0LYrsD4geKIuDucB4=;
-	b=b7Wgo39K0AAFXXnZmnur0x8RCPKrQ6+93Sd40tWzTShl1cBFtkTDeOojY4T9sUjQ
-	ue7T2bLq4zKcUgjJa9+NCSmiVMye+3KF3C0Ru8Cwiz7E1MPyRiCirSszyOqpvG1ssGS
-	BH5PYCnUBlFmZe2p063WwD/R8Zw7/O3xGDZ4XxzQ=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1726075054333294.76086684496613; Wed, 11 Sep 2024 10:17:34 -0700 (PDT)
-Date: Wed, 11 Sep 2024 18:17:34 +0100
-From: Robert Beckett <bob.beckett@collabora.com>
-To: "Keith Busch" <kbusch@kernel.org>
-Cc: "linux-nvme" <linux-nvme@lists.infradead.org>,
-	"Jens Axboe" <axboe@fb.com>, "Christoph Hellwig" <hch@lst.de>,
-	"Sagi Grimberg" <sagi@grimberg.me>,
-	"Andrew Morton" <akpm@linux-foundation.org>,
-	"linux-mm" <linux-mm@kvack.org>
-Message-ID: <191e21728e2.db9e9ba41614298.5814843736445682725@collabora.com>
-In-Reply-To: <ZuHOoua40N7id0aL@kbusch-mbp.dhcp.thefacebook.com>
-References: <191d810a4e3.fcc6066c765804.973611676137075390@collabora.com>
- <Zt9amhUGs9FT5i-O@kbusch-mbp>
- <Zt9bLa4TJT6L75aG@kbusch-mbp>
- <191db450152.e0b28690987786.6989198174827147639@collabora.com>
- <191dcfa4846.bb18f3291189856.1624418308692137124@collabora.com>
- <ZuCHk6hDxF65v8T2@kbusch-mbp>
- <191e203fd17.118394e2d1606957.7379866259983341167@collabora.com> <ZuHOoua40N7id0aL@kbusch-mbp.dhcp.thefacebook.com>
-Subject: Re: possible regression fs corruption on 64GB nvme
+	Wed, 11 Sep 2024 17:46:52 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48BHjoG8029757
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 10:46:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from
+	:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=s2048-2021-q4; bh=l9a
+	+PXHeC0Ttem0yHba9vzG3nzemDL0nrzKINWIQ64M=; b=DbLUW+y66WnqFbpJiSM
+	d1Xhgn8C+S8IwPxtkOugwb2bpDsxqRYMe5vG8QaMRtfB42FmICaVitrWVkbcWzO+
+	AwXLBSaMmcRZpx3yx2KMwWkAaaxnvgCOP4WrlhpY6QiPx+EowjngPqFyIPnonn8y
+	mYyGlaBC94DVPm/b106mso1gyc4A9qja/PS0UqXdGpFcDrnfhJRShcyXULy7aQIK
+	cdxHJUxdLpf36Xfppzky6+xdBY/KRsQHyFkN6QgN+Ll33QEi95LYa4BS/rFM0ZV+
+	5vyJGpQXaXK+yrYb1tIUMLCtWv+lmvetObos02cOV+9auX6+qNapaxBrMh3zgi/L
+	A2w==
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41jhyyb80e-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 10:46:47 -0700 (PDT)
+Received: from twshared2068.05.ash9.facebook.com (2620:10d:c0a8:1c::1b) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Wed, 11 Sep 2024 17:46:45 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id 3D6E712E4EC8A; Wed, 11 Sep 2024 10:46:32 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
+CC: Keith Busch <kbusch@kernel.org>,
+        Robert Beckett
+	<bob.beckett@collabora.com>
+Subject: [PATCH] nvme-pci: qdepth 1 quirk
+Date: Wed, 11 Sep 2024 10:46:31 -0700
+Message-ID: <20240911174631.3484553-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 8ng0SiiZefev9QQwTNsWlL7J8Mz5dcv-
+X-Proofpoint-GUID: 8ng0SiiZefev9QQwTNsWlL7J8Mz5dcv-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-10_12,2024-09-09_02,2024-09-02_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_101809_634678_AB09E952 
-X-CRM114-Status: GOOD (  21.56  )
+X-CRM114-CacheID: sfid-20240911_104650_817497_55FBAF77 
+X-CRM114-Status: GOOD (  17.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,44 +85,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Keith Busch <kbusch@kernel.org>
 
+Another device has been reported to be unreliable if we have more than
+one outstanding command. In this new case, data corruption may occur.
+Since we have two devices now needing this quirky behavior, make a
+generic quirk flag.
 
+The same Apple quirk is clearly not "temporary", so update the comment
+while moving it.
 
+Link: https://lore.kernel.org/linux-nvme/191d810a4e3.fcc6066c765804.97361=
+1676137075390@collabora.com/
+Reported-by: Robert Beckett <bob.beckett@collabora.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/nvme.h |  5 +++++
+ drivers/nvme/host/pci.c  | 18 +++++++++---------
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index af22368800e77..69a3fb6de1e9c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -90,6 +90,11 @@ enum nvme_quirks {
+ 	 */
+ 	NVME_QUIRK_NO_DEEPEST_PS		=3D (1 << 5),
+=20
++	/*
++	 *  Problems seen with concurrent commands
++	 */
++	NVME_QUIRK_QDEPTH_ONE			=3D (1 << 6),
++
+ 	/*
+ 	 * Set MEDIUM priority on SQ creation
+ 	 */
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6cd9395ba9ec3..2c245c3f693a7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2557,15 +2557,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	else
+ 		dev->io_sqes =3D NVME_NVM_IOSQES;
+=20
+-	/*
+-	 * Temporary fix for the Apple controller found in the MacBook8,1 and
+-	 * some MacBook7,1 to avoid controller resets and data loss.
+-	 */
+-	if (pdev->vendor =3D=3D PCI_VENDOR_ID_APPLE && pdev->device =3D=3D 0x20=
+01) {
++	if (dev->ctrl.quirks & NVME_QUIRK_QDEPTH_ONE) {
+ 		dev->q_depth =3D 2;
+-		dev_warn(dev->ctrl.device, "detected Apple NVMe controller, "
+-			"set queue depth=3D%u to work around controller resets\n",
+-			dev->q_depth);
+ 	} else if (pdev->vendor =3D=3D PCI_VENDOR_ID_SAMSUNG &&
+ 		   (pdev->device =3D=3D 0xa821 || pdev->device =3D=3D 0xa822) &&
+ 		   NVME_CAP_MQES(dev->ctrl.cap) =3D=3D 0) {
+@@ -3425,6 +3418,8 @@ static const struct pci_device_id nvme_id_table[] =3D=
+ {
+ 				NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
+ 		.driver_data =3D NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1217, 0x8760),
++		.driver_data =3D NVME_QUIRK_QDEPTH_ONE },
+ 	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
+ 		.driver_data =3D NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_BOGUS_NID, },
+@@ -3559,7 +3554,12 @@ static const struct pci_device_id nvme_id_table[] =
+=3D {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0xcd02),
+ 		.driver_data =3D NVME_QUIRK_DMA_ADDRESS_BITS_48, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
+-		.driver_data =3D NVME_QUIRK_SINGLE_VECTOR },
++		/*
++		 * Fix for the Apple controller found in the MacBook8,1 and
++		 * some MacBook7,1 to avoid controller resets and data loss.
++		 */
++		.driver_data =3D NVME_QUIRK_SINGLE_VECTOR |
++				NVME_QUIRK_QDEPTH_ONE },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
+ 		.driver_data =3D NVME_QUIRK_SINGLE_VECTOR |
+--=20
+2.43.5
 
- ---- On Wed, 11 Sep 2024 18:08:50 +0100  Keith Busch  wrote --- 
- > On Wed, Sep 11, 2024 at 05:56:37PM +0100, Robert Beckett wrote:
- > > 
- > > given this ~9 year old temporary fix is still in the kernel for the
- > > Apple device, could we just add another device specific override? I
- > > could maybe convert it to a quirk that is set for them both (and any
- > > future devices)
- > 
- > Sure, that's an option. Do you want to send a patch? Alternatively you
- > can reply with the PCI VID:DID of your problematic device and I'll write
- > one for testing and consideration.
-
-looks like it's 1217:8760
-
-01:00.0 Non-Volatile memory controller [0108]: O2 Micro, Inc. Device [1217:8760] (rev 01) (prog-if 02 [NVM Express])
-        Subsystem: O2 Micro, Inc. Device [1217:0002]
-        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
-        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 0, Cache Line Size: 64 bytes
-        Interrupt: pin A routed to IRQ 41
-        Region 0: Memory at 80600000 (64-bit, non-prefetchable) [size=16K]
-        Capabilities: <access denied>
-        Kernel driver in use: nvme
-        Kernel modules: nvme
-
- > 
- > And just fyi, there are potential performance implications for doing
- > this. It's less noticable on higher latency devices, which sounds like
- > what you have anyway, so may not matter much for you. Just getting that
- > out there to avoid any surprises.
-
-Understood. I'll do some benchmarking with and without it to check difference.
-I think for now it is safer to get it in the code as it can cause corruption. We can always revert it if we figure out a fix with less performance degredation.
-
-Cheers muchly!
 
