@@ -4,73 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07724EE57CF
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 20:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72DDEEE57D0
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 20:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LvDNngJGsWnatCyWW6vNi4OaEo2CnYyawxAlUHXUK4s=; b=I368wcldvwqAheqBISM0tMZHXf
-	vn0wWY3UtaIsVOwamSWxJXG83kQzX1LQ8RikeP7uHtSN2T90hrLnequAZpvnMJWwdpJeaXyXQ5kBN
-	p7WaS+mP41Dl1lM0t1GT0tRmge7vPJ1xSa1x3Yu7vt00LGJzIPIltpx/pXT92T81OjjDU9r+C6HG6
-	8jG5z6gIUE8LkoAHKm9kvJDL7YJcnxOF72yKfaftcLXfI9QNZ8TcSUm01sa8ab8JD4N/96KrB97Ht
-	JvpYbYoiEmXifDKWm17Fo9q7ApXjQmTP4icBzvpKocuJWb7fr5qPwoDJq+VnLCcXkBq2TuArzRb+a
-	is/gyOzA==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5n0At+8tCXW+reOy0jr/4TaG/eg7u6AwzViidtavUks=; b=3q4G1QT+xw4Mugc7KBNl0s7v53
+	fpbH7xnqnghHqdNq/pFjBcvs6b/VEIohvBNUuCQEgEMTirw2AGsGsIjCsrH3g8DdxesFw5KVUSq8R
+	j5INJ1DciK/3yOzvzB3QAJ5O/8dujeSipBpmC7V0XJNASIlzIM1e88seZW94jDshYNygmq6CUIz+E
+	7uyP0pbAwtkFQtRcZ/Kzgpge6ZImUW/deQF06iitel+WYLEZ7k7Nr+Wsmktv+pvjrIdJTQLZc4xKM
+	fN84jkiv9Hwtml36coITCO/nFnBFWyhJmdX6GtPGEQZfesPXqSFfc52K4EfMigsz2j8nkkLl9Bi0u
+	pChfddPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soTiG-0000000Ar4X-0m5I;
-	Wed, 11 Sep 2024 20:13:16 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1soTiK-0000000Ar8s-0J2X;
+	Wed, 11 Sep 2024 20:13:20 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soThz-0000000Aqny-1Nxo
+	id 1soTi1-0000000Aqpj-2627
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 20:13:01 +0000
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48BHjdxi019460
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 13:12:58 -0700
+	Wed, 11 Sep 2024 20:13:03 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48BJM4Lb001527
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 13:13:00 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from
-	:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=s2048-2021-q4; bh=LvD
-	NngJGsWnatCyWW6vNi4OaEo2CnYyawxAlUHXUK4s=; b=dwO5eQPMAfqEQrJAdFF
-	BQlrSXYCdox1DnS1KkpEbEQBR5EeLwwUDKkMnddw9N4Zof64jlTMsxaCUKbZIoj1
-	grEUaZLsN49oyz+5IaKqcD6NOPmGFcCsKlS2RiGCoivMqHrd6D3pOx9H6QHfI5ut
-	IQA+lHImKmoIkzO1fp6edRzx/nZ1thLlo6rYmT+yRcwAij5SNE/O0vwsSESc3uPl
-	7PsrJSs9Y3JvK+nYZDFGfTe39USN9P4DsN6r3If6ouRGCVTjLl7MvWmf4wVICXDq
-	swKzFfjiKw0stqYtRQ9F2ZHKC0Pf3dSQgg9Q7yRzVHgEf87GgwjRotdWh9Q5/CYL
-	NOQ==
+	:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	s2048-2021-q4; bh=5n0At+8tCXW+reOy0jr/4TaG/eg7u6AwzViidtavUks=; b=
+	k17NauQxxl8y7vD3mV5XJfokHvdYrDijzNQDIGGBsP9et9Xm3RgT8Vo4ieQf454D
+	Qi0QTRkuF3vRT1uzVOZOwUzVTr8NYLH3oKyUa3Vxqk0WsZmIiSbV6lBidHieZ4nc
+	V4kcIYAHG78+11NpAeKaxtQ12CAerlK8W/E9ArN2Z0nwjAgOXJadwaqXUHef7B92
+	Lohpkfqy6fPye/o+xRhfhMDbHxg5TY8Q512+kdiQlol4BixAF7P+5Jtskhv/c1uU
+	E3K6Wr92hfjxPZUTTylVZSoxC7ChnSSNwEQ22Ay+uEYPw2j7xnzT/S0FZj9zO7Q4
+	gkUgWYjWVSZcXEC0JRYQow==
 Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41kbpe38qg-20
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41kha48ajv-17
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 13:12:58 -0700 (PDT)
-Received: from twshared18321.17.frc2.facebook.com (2620:10d:c0a8:fe::f072) by
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 13:13:00 -0700 (PDT)
+Received: from twshared10900.35.frc1.facebook.com (2620:10d:c0a8:1b::30) by
  mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Wed, 11 Sep 2024 20:12:55 +0000
+ 15.2.1544.11; Wed, 11 Sep 2024 20:12:57 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id B204112E5EDA2; Wed, 11 Sep 2024 13:12:41 -0700 (PDT)
+	id DFB9712E5EDAA; Wed, 11 Sep 2024 13:12:41 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <martin.petersen@oracle.com>,
         <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
         <linux-scsi@vger.kernel.org>, <sagi@grimberg.me>
 CC: Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv4 00/10] block integrity merging and counting
-Date: Wed, 11 Sep 2024 13:12:30 -0700
-Message-ID: <20240911201240.3982856-1-kbusch@meta.com>
+Subject: [PATCHv4 03/10] blk-integrity: properly account for segments
+Date: Wed, 11 Sep 2024 13:12:33 -0700
+Message-ID: <20240911201240.3982856-4-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20240911201240.3982856-1-kbusch@meta.com>
+References: <20240911201240.3982856-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: eWKnrVMji9ceub4UUenwb5vbn2MBTjnY
-X-Proofpoint-GUID: eWKnrVMji9ceub4UUenwb5vbn2MBTjnY
+X-Proofpoint-GUID: E5ez4D8MddjbBHzzp9qJaE2iAzwTOssE
+X-Proofpoint-ORIG-GUID: E5ez4D8MddjbBHzzp9qJaE2iAzwTOssE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-11_01,2024-09-09_02,2024-09-02_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_131259_566575_8D05C756 
-X-CRM114-Status: GOOD (  10.52  )
+X-CRM114-CacheID: sfid-20240911_131301_999204_609C466D 
+X-CRM114-Status: GOOD (  14.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,48 +89,62 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Some fixes and cleanups to counting integrity segments when metadata is
-used. This addresses merging issues when integrity data is present.
+Both types of merging when integrity data is used are miscounting the
+segments:
 
-Changes from v3:
+Merging two requests wasn't accounting for the new segment count, so add
+the "next" segment count to the first on a successful merge to ensure
+this value is accurate.
 
-  Unconditionally define nr_integrity_segments. (Christoph)
+Merging a bio into an existing request was double counting the bio's
+segments, even if the merge failed later on. Move the segment accounting
+to the end when the merge is successful.
 
-  Dropped the "simplify" patches and the queue limits checks; they are
-  not correct under some conditions. (Christoph)
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ block/blk-integrity.c | 2 --
+ block/blk-merge.c     | 4 ++++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-  Fix a commit message typo. (Anuj)
-
-  Reordered the driver patches to appear after the integrity segment
-  count is accurate.
-
-  Added a patch (5/9) that accounts for user mapped integrity segments.
-
-  Added reviews.
-
-Keith Busch (10):
-  blk-mq: unconditional nr_integrity_segments
-  blk-mq: set the nr_integrity_segments from bio
-  blk-integrity: properly account for segments
-  blk-integrity: consider entire bio list for merging
-  block: provide a request helper for user integrity segments
-  block: provide helper for nr_integrity_segments
-  scsi: use request helper to get integrity segments
-  nvme-rdma: use request helper to get integrity segments
-  block: unexport blk_rq_count_integrity_sg
-  blk-integrity: improved sg segment mapping
-
- block/bio-integrity.c         |  1 -
- block/blk-integrity.c         | 36 ++++++++++++++++++++++++-----------
- block/blk-merge.c             |  4 ++++
- block/blk-mq.c                |  5 +++--
- drivers/nvme/host/ioctl.c     |  6 ++----
- drivers/nvme/host/rdma.c      |  6 +++---
- drivers/scsi/scsi_lib.c       | 12 +++---------
- include/linux/blk-integrity.h | 13 +++++++++----
- include/linux/blk-mq.h        |  8 +++++---
- 9 files changed, 54 insertions(+), 37 deletions(-)
-
+diff --git a/block/blk-integrity.c b/block/blk-integrity.c
+index 010decc892eaa..afd101555d3cb 100644
+--- a/block/blk-integrity.c
++++ b/block/blk-integrity.c
+@@ -153,8 +153,6 @@ bool blk_integrity_merge_bio(struct request_queue *q,=
+ struct request *req,
+ 	    q->limits.max_integrity_segments)
+ 		return false;
+=20
+-	req->nr_integrity_segments +=3D nr_integrity_segs;
+-
+ 	return true;
+ }
+=20
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 56769c4bcd799..ad763ec313b6a 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -639,6 +639,9 @@ static inline int ll_new_hw_segment(struct request *r=
+eq, struct bio *bio,
+ 	 * counters.
+ 	 */
+ 	req->nr_phys_segments +=3D nr_phys_segs;
++	if (bio_integrity(bio))
++		req->nr_integrity_segments +=3D blk_rq_count_integrity_sg(req->q,
++									bio);
+ 	return 1;
+=20
+ no_merge:
+@@ -731,6 +734,7 @@ static int ll_merge_requests_fn(struct request_queue =
+*q, struct request *req,
+=20
+ 	/* Merge is OK... */
+ 	req->nr_phys_segments =3D total_phys_segments;
++	req->nr_integrity_segments +=3D next->nr_integrity_segments;
+ 	return 1;
+ }
+=20
 --=20
 2.43.5
 
