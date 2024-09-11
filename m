@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85253EE4987
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 09:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47717EE498B
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ly8QYVuqgr/ChfAJ1ymsP+7I2zikb0R/vnhWU7Ch2v4=; b=Ej/vkSmd832T7lPpNyG8ULe6Yh
-	nB3/vJ49HI5v5ys4Aw1S8p8DQuZtKNioBuUr5pOt7iS9J4/sUL3iNpbBJmoyfwYkxW1+fAMjrs8TT
-	a37ncCE8QEmk8L8fzOmK5JFmxgrfsdNXsOhNnyb2RY8cBE0LCwUvOfnuw5G0okcXfwAfTcKg2UYpJ
-	Vj+qM0/DDglUq3Dyn2lgwJe5H96fNSZPR5a9IQUTJ4Ogyj7UinrDb5t9YGn9EOrHHD2sJ3RG4KG2C
-	mNsISzF9i9FVTbAOmphJT1IqoOXKRrN0oLZWDgBb0f8/AZgzr4A2CvLxqRw8TUfFcltUOc8qb7oje
-	UXNZ91Qw==;
+	bh=OjuSu1E6xXfuK8zU0Ollu5H8OFw7kcfOo8dkeQNxeHI=; b=hL20jei9VxHLJPWYSicedLtipS
+	g2qVujUFuLYZIaiVXJpNNOAXDLDC+z8NqsozpaqXt8KV3+Kodc2O/3lHN9u9FztPcOHYl5sXxxxTR
+	peKv+u2KOxJw7iUEQw4Q/SUI92t+WAINNg6ULRLmQYh9sHiabBR9pdJHoDpFMbqblNKjdXGByRhKD
+	KM3ztZNbEuRhrdrtEJ5O9slXSkaWgLwYqT4k8XNfWZkfQn8Z5pqb/l3VMUeW0GGuYr8tVdTanzjsv
+	tuG68bZuVDujH29DNKdskeZ3IPS93pgpci/VZqOnjyBcpy1pX/9bhuGWE4MMtf1HzXjLExn2wmY9P
+	5kQUbbiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soK0f-00000008zTK-3uXQ;
-	Wed, 11 Sep 2024 09:51:37 +0000
+	id 1soK0h-00000008zUS-2sAz;
+	Wed, 11 Sep 2024 09:51:39 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soK0P-00000008zNm-1Nno
+	id 1soK0N-00000008zNR-3EGP
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 09:51:35 +0000
+	Wed, 11 Sep 2024 09:51:36 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 526DB5C0318;
+	by dfw.source.kernel.org (Postfix) with ESMTP id 9E0BB5C06A5;
+	Wed, 11 Sep 2024 09:51:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1D23C4CED1;
 	Wed, 11 Sep 2024 09:51:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57792C4CEC5;
-	Wed, 11 Sep 2024 09:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726048280;
-	bh=vbJsC4YOvHredfadB0MPSv92Z8Cddd8yBUytLfj2u8w=;
+	s=k20201202; t=1726048278;
+	bh=gnPC3bVfXHSb9goE/TiVvsgFbiONVLXJEv25LgXBWZw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rqYwfrkaTBI6sDLmur8LVdBCqY04FGe3ai6k4/HjDEjaJiB75BtV4kGo82IED+OIl
-	 OBjIbBREgD7xFMay+e2qtqGtbvwRcLis3qb+aPknOGxdIrHmEV3a97k9YISphr/6dp
-	 AfUx/eM0MWpRRmQCwuLxZ0v1NPCQ5Vkrth/zYCAXeS8n94OWGj1C6CqD7ONddHy3yS
-	 Os3pkMJZ5SweH6ZExLUUAzw/VOepQb22/G8BNx3rbTcn75U74tzDcniGMY3AUidb4G
-	 j8/a0zVphy1seFMZwgJjv2kJwvTKmlds0pz8YLdC8ow0DVEOtN99WrD9gEs/ZBYCbU
-	 Yt4cKR30PQ7LQ==
+	b=bBo3/Tgf7/3wb/xm1u7hYFCUJXSOU+3sjAXbwn6iminB11X58mO/0GlAiIXMHJOJg
+	 zRSuFpWV+B/vierNs2dnbUqQxboSAINI5fr9a3OT/ePH3eX60Yzygu51IM7pCW70gq
+	 Nzt8odSO3i7LIJkzMCa9iP3J2zd4R5cudhKdPlMD62gmvlihpgfNPLKmBpk0JYMaFE
+	 aeu1/AF3oj8PUTE/jQ7MWgzquxi68HcMOeszYEnTAENNJShrFNJP8pzb7/HWGfWq1d
+	 ab4tLXUbpaMMTX/Ql/ePpobm3pBDymM5JtEPMLcfQAJoc+8prmq7fVU3rsyIeUoPtv
+	 ghUnaVuEytOfQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 3/3] nvme-multipath: skip inaccessible paths during partition scan
-Date: Wed, 11 Sep 2024 11:51:07 +0200
-Message-Id: <20240911095107.121688-4-hare@kernel.org>
+Subject: [PATCH 2/3] nvme-multipath: avoid hang on inaccessible namespaces
+Date: Wed, 11 Sep 2024 11:51:06 +0200
+Message-Id: <20240911095107.121688-3-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240911095107.121688-1-hare@kernel.org>
 References: <20240911095107.121688-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_025121_432044_BD483E2B 
-X-CRM114-Status: GOOD (  15.42  )
+X-CRM114-CacheID: sfid-20240911_025119_900394_1C190A5E 
+X-CRM114-Status: GOOD (  15.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,63 +73,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a path is switched to 'inaccessible' during partition scan
-triggered via device_add_disk() and we only have one path the
-system will be stuck as nvme_available_path() will always return
-'true'. So I/O will never be completed and the system is stuck
-in device_add_disk().
-This patch introduces a flag NVME_NSHEAD_DISABLE_QUEUEING to
-cause nvme_available_path() to always return NULL, and with
-that I/O to be failed if all paths are unavailable.
+During repetitive namespace remapping operations on the target the
+namespace might have changed between the time the initial scan
+was performed, and partition scan was invoked by device_add_disk()
+in nvme_mpath_set_live(). We then end up with a stuck scanning process:
+
+[<0>] folio_wait_bit_common+0x12a/0x310
+[<0>] filemap_read_folio+0x97/0xd0
+[<0>] do_read_cache_folio+0x108/0x390
+[<0>] read_part_sector+0x31/0xa0
+[<0>] read_lba+0xc5/0x160
+[<0>] efi_partition+0xd9/0x8f0
+[<0>] bdev_disk_changed+0x23d/0x6d0
+[<0>] blkdev_get_whole+0x78/0xc0
+[<0>] bdev_open+0x2c6/0x3b0
+[<0>] bdev_file_open_by_dev+0xcb/0x120
+[<0>] disk_scan_partitions+0x5d/0x100
+[<0>] device_add_disk+0x402/0x420
+[<0>] nvme_mpath_set_live+0x4f/0x1f0 [nvme_core]
+[<0>] nvme_mpath_add_disk+0x107/0x120 [nvme_core]
+[<0>] nvme_alloc_ns+0xac6/0xe60 [nvme_core]
+[<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
+[<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
+
+This happens when we have several paths, some of which are inaccessible,
+and the active paths are removed first. Then nvme_find_path() will requeue
+I/O in the ns_head (as paths are present), but the requeue list is never
+triggered as all remaining paths are inactive.
+
+This patch checks for NVME_NSHEAD_DISK_LIVE in nvme_available_path(),
+and requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared once
+the last path has been removed to properly terminate pending I/O.
 
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/multipath.c | 10 +++++++++-
- drivers/nvme/host/nvme.h      |  1 +
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ drivers/nvme/host/multipath.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index f72c5a6a2d8e..bcd70755c663 100644
+index c9d23b1b8efc..f72c5a6a2d8e 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -421,7 +421,8 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+@@ -421,6 +421,9 @@ static bool nvme_available_path(struct nvme_ns_head *head)
  {
  	struct nvme_ns *ns;
  
--	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-+	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags) ||
-+	    test_bit(NVME_NSHEAD_DISABLE_QUEUEING, &head->flags))
- 		return NULL;
- 
++	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
++		return NULL;
++
  	list_for_each_entry_rcu(ns, &head->list, siblings) {
-@@ -646,8 +647,15 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 	 * head.
- 	 */
- 	if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-+		/*
-+		 * Disable queueing to ensure I/O is not retried on unusable
-+		 * paths, which would cause the system to be stuck during
-+		 * partition scan.
-+		 */
-+		set_bit(NVME_NSHEAD_DISABLE_QUEUEING, &head->flags);
- 		rc = device_add_disk(&head->subsys->dev, head->disk,
- 				     nvme_ns_attr_groups);
-+		clear_bit(NVME_NSHEAD_DISABLE_QUEUEING, &head->flags);
- 		if (rc) {
- 			clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags);
- 			return;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 50515ad0f9d6..f45ca7c45fd2 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -493,6 +493,7 @@ struct nvme_ns_head {
- 	struct mutex		lock;
- 	unsigned long		flags;
- #define NVME_NSHEAD_DISK_LIVE	0
-+#define NVME_NSHEAD_DISABLE_QUEUEING	1
- 	struct nvme_ns __rcu	*current_path[];
- #endif
- };
+ 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
+ 			continue;
+@@ -967,11 +970,16 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
+ {
+ 	if (!head->disk)
+ 		return;
+-	kblockd_schedule_work(&head->requeue_work);
+-	if (test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
++	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+ 		nvme_cdev_del(&head->cdev, &head->cdev_device);
+ 		del_gendisk(head->disk);
+ 	}
++	/*
++	 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
++	 * to allow multipath to fail all I/O.
++	 */
++	synchronize_srcu(&head->srcu);
++	kblockd_schedule_work(&head->requeue_work);
+ }
+ 
+ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
 -- 
 2.35.3
 
