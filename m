@@ -4,73 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AF7EEE0206
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 17:46:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 905ABEE57CF
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 20:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=l9a+PXHeC0Ttem0yHba9vzG3nzemDL0nrzKINWIQ64M=; b=z6icYmacC2+4YvR7Q9R8PqSwL+
-	QMzIEbM/KBU1bHaws0YQXLHqGS4dde5fIS2wnQqfjOtD2v2bIxQBrMFiialIWx6LkHcE//p654+SP
-	WDDmlWtt3FW3noIjgaZPgNFurpgdCXmu9pN3TZ9O3Iryphm1VHC0Z+zSGWzLDr0AqWR/bGHe/BLxw
-	8HpselH9x28Ds9jYWUprZDz8wEH3unebpWKQgm3tkeIgRNsUNhWbjcrRlCgV93m+P+ecXgLxib7R5
-	eZbzhmsueGWrnSWqNsSiP+NJsxvTuO5R6aKVfoHRJMvd0mSYIsIc1birDmFDTIsJVPu33FQWC9hZi
-	9varFXVQ==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cI4PGri7hMTRHjnyM/50PhrK4S2rzpkniDkZMLEWhLw=; b=PUNaO53UyE1SQnGR/I7samyL63
+	egjmsrbMVc5Ub1GmjJsAXQF+IWEVAxYFff9xjCvrIbKg7YFqeePvbCJYCzhbp1BPHly5vdgkMynwz
+	u4x6izPdsC85KryOIIbnnoCtZ9t7FZ5pPAPNMuAHHkYk7G1frDuWdZDJI/45sf8dDZGFk36FoHBwZ
+	kzokckjNlntpYNmoKulb4uhqEkijRoLcX+K/zKUadpnQHc293ePEop6N4i7pU9Ku8zrFJ/NcJrWU9
+	0VcojOCNW2Z3IH4knxy9FSM9UX937EzxurUtEQCUD8NGGLvX0cYGbsaq8YvLVDSeaHl5buuVphS+3
+	FJcBF6Iw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soRQb-0000000AYYQ-45h9;
-	Wed, 11 Sep 2024 17:46:53 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1soThw-0000000Aqlc-282o;
+	Wed, 11 Sep 2024 20:12:56 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soRQY-0000000AYWg-2bnJ
+	id 1soThq-0000000Aqia-2ljF
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 17:46:52 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48BHjoG8029757
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 10:46:47 -0700
+	Wed, 11 Sep 2024 20:12:53 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48BHjdxX019460
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 13:12:50 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from
-	:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=s2048-2021-q4; bh=l9a
-	+PXHeC0Ttem0yHba9vzG3nzemDL0nrzKINWIQ64M=; b=DbLUW+y66WnqFbpJiSM
-	d1Xhgn8C+S8IwPxtkOugwb2bpDsxqRYMe5vG8QaMRtfB42FmICaVitrWVkbcWzO+
-	AwXLBSaMmcRZpx3yx2KMwWkAaaxnvgCOP4WrlhpY6QiPx+EowjngPqFyIPnonn8y
-	mYyGlaBC94DVPm/b106mso1gyc4A9qja/PS0UqXdGpFcDrnfhJRShcyXULy7aQIK
-	cdxHJUxdLpf36Xfppzky6+xdBY/KRsQHyFkN6QgN+Ll33QEi95LYa4BS/rFM0ZV+
-	5vyJGpQXaXK+yrYb1tIUMLCtWv+lmvetObos02cOV+9auX6+qNapaxBrMh3zgi/L
-	A2w==
+	:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	s2048-2021-q4; bh=cI4PGri7hMTRHjnyM/50PhrK4S2rzpkniDkZMLEWhLw=; b=
+	mzkEnVpg/vvg9ATgCufbsPPrfXMilhSs05IQdQeBTHIUrTHGYBR1p7TpPUE+raul
+	aHjO64VLrCV7JS7whVbYN2RqQLkSaY+k2y8Actp7FdxItBXa1QSAy1lc4m67PWoq
+	IKtUWJWsNdl/UcxQo13L5pBwRolyEuI4gUF1fVsgRs/OqWncEzSMtdCwWJfyXZus
+	eYcyU2G3Abj2nqCzTVGdOz31xDeYaCHRXvSIA9rZWfailSRGRPd9EllbIS5uuOEA
+	neIob9EKHTkPxeeVAfR4uL14kvo0WkScKF9/kstrAGGP6LWaPIy8Fel4aUzC3l41
+	i/nnzX1EFz+QuUrw/15WWA==
 Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41jhyyb80e-3
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41kbpe38qg-10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 10:46:47 -0700 (PDT)
-Received: from twshared2068.05.ash9.facebook.com (2620:10d:c0a8:1c::1b) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 13:12:49 -0700 (PDT)
+Received: from twshared25838.31.frc3.facebook.com (2620:10d:c0a8:fe::f072) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Wed, 11 Sep 2024 17:46:45 +0000
+ 15.2.1544.11; Wed, 11 Sep 2024 20:12:47 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 3D6E712E4EC8A; Wed, 11 Sep 2024 10:46:32 -0700 (PDT)
+	id 037CB12E5EDAE; Wed, 11 Sep 2024 13:12:41 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>,
-        Robert Beckett
-	<bob.beckett@collabora.com>
-Subject: [PATCH] nvme-pci: qdepth 1 quirk
-Date: Wed, 11 Sep 2024 10:46:31 -0700
-Message-ID: <20240911174631.3484553-1-kbusch@meta.com>
+To: <axboe@kernel.dk>, <hch@lst.de>, <martin.petersen@oracle.com>,
+        <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+        <linux-scsi@vger.kernel.org>, <sagi@grimberg.me>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv4 05/10] block: provide a request helper for user integrity segments
+Date: Wed, 11 Sep 2024 13:12:35 -0700
+Message-ID: <20240911201240.3982856-6-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20240911201240.3982856-1-kbusch@meta.com>
+References: <20240911201240.3982856-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 8ng0SiiZefev9QQwTNsWlL7J8Mz5dcv-
-X-Proofpoint-GUID: 8ng0SiiZefev9QQwTNsWlL7J8Mz5dcv-
+X-Proofpoint-ORIG-GUID: hIz3Whc-3SnuSJ9lVYieWV_0ogVX78b0
+X-Proofpoint-GUID: hIz3Whc-3SnuSJ9lVYieWV_0ogVX78b0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-10_12,2024-09-09_02,2024-09-02_01
+ definitions=2024-09-11_01,2024-09-09_02,2024-09-02_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_104650_817497_55FBAF77 
-X-CRM114-Status: GOOD (  17.15  )
+X-CRM114-CacheID: sfid-20240911_131250_814361_26096574 
+X-CRM114-Status: GOOD (  14.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,86 +89,116 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Another device has been reported to be unreliable if we have more than
-one outstanding command. In this new case, data corruption may occur.
-Since we have two devices now needing this quirky behavior, make a
-generic quirk flag.
+Provide a helper keep the request flags and nr_integrity_segments in
+sync with the bio's integrity payload. This is an integrity equivalent
+to the normal data helper function, 'blk_rq_map_user()'.
 
-The same Apple quirk is clearly not "temporary", so update the comment
-while moving it.
-
-Link: https://lore.kernel.org/linux-nvme/191d810a4e3.fcc6066c765804.97361=
-1676137075390@collabora.com/
-Reported-by: Robert Beckett <bob.beckett@collabora.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 18 +++++++++---------
- 2 files changed, 14 insertions(+), 9 deletions(-)
+ block/bio-integrity.c         |  1 -
+ block/blk-integrity.c         | 14 ++++++++++++++
+ drivers/nvme/host/ioctl.c     |  6 ++----
+ include/linux/blk-integrity.h |  7 +++++++
+ 4 files changed, 23 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index af22368800e77..69a3fb6de1e9c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -90,6 +90,11 @@ enum nvme_quirks {
- 	 */
- 	NVME_QUIRK_NO_DEEPEST_PS		=3D (1 << 5),
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 8d1fb38f745f9..357a022eed411 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -371,7 +371,6 @@ int bio_integrity_map_user(struct bio *bio, void __us=
+er *ubuf, ssize_t bytes,
+ 		kfree(bvec);
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(bio_integrity_map_user);
 =20
-+	/*
-+	 *  Problems seen with concurrent commands
-+	 */
-+	NVME_QUIRK_QDEPTH_ONE			=3D (1 << 6),
+ /**
+  * bio_integrity_prep - Prepare bio for integrity I/O
+diff --git a/block/blk-integrity.c b/block/blk-integrity.c
+index 84065691aaed0..ddc742d58330b 100644
+--- a/block/blk-integrity.c
++++ b/block/blk-integrity.c
+@@ -107,6 +107,20 @@ int blk_rq_map_integrity_sg(struct request_queue *q,=
+ struct bio *bio,
+ }
+ EXPORT_SYMBOL(blk_rq_map_integrity_sg);
+=20
++int blk_rq_integrity_map_user(struct request *rq, void __user *ubuf,
++			      ssize_t bytes, u32 seed)
++{
++	int ret =3D bio_integrity_map_user(rq->bio, ubuf, bytes, seed);
 +
- 	/*
- 	 * Set MEDIUM priority on SQ creation
- 	 */
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6cd9395ba9ec3..2c245c3f693a7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2557,15 +2557,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	else
- 		dev->io_sqes =3D NVME_NVM_IOSQES;
-=20
--	/*
--	 * Temporary fix for the Apple controller found in the MacBook8,1 and
--	 * some MacBook7,1 to avoid controller resets and data loss.
--	 */
--	if (pdev->vendor =3D=3D PCI_VENDOR_ID_APPLE && pdev->device =3D=3D 0x20=
-01) {
-+	if (dev->ctrl.quirks & NVME_QUIRK_QDEPTH_ONE) {
- 		dev->q_depth =3D 2;
--		dev_warn(dev->ctrl.device, "detected Apple NVMe controller, "
--			"set queue depth=3D%u to work around controller resets\n",
--			dev->q_depth);
- 	} else if (pdev->vendor =3D=3D PCI_VENDOR_ID_SAMSUNG &&
- 		   (pdev->device =3D=3D 0xa821 || pdev->device =3D=3D 0xa822) &&
- 		   NVME_CAP_MQES(dev->ctrl.cap) =3D=3D 0) {
-@@ -3425,6 +3418,8 @@ static const struct pci_device_id nvme_id_table[] =3D=
++	if (ret)
++		return ret;
++
++	rq->nr_integrity_segments =3D blk_rq_count_integrity_sg(rq->q, rq->bio)=
+;
++	rq->cmd_flags |=3D REQ_INTEGRITY;
++	return 0;
++}
++EXPORT_SYMBOL_GPL(blk_rq_integrity_map_user);
++
+ bool blk_integrity_merge_rq(struct request_queue *q, struct request *req=
+,
+ 			    struct request *next)
  {
- 				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
- 		.driver_data =3D NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x1217, 0x8760),
-+		.driver_data =3D NVME_QUIRK_QDEPTH_ONE },
- 	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
- 		.driver_data =3D NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_BOGUS_NID, },
-@@ -3559,7 +3554,12 @@ static const struct pci_device_id nvme_id_table[] =
-=3D {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0xcd02),
- 		.driver_data =3D NVME_QUIRK_DMA_ADDRESS_BITS_48, },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
--		.driver_data =3D NVME_QUIRK_SINGLE_VECTOR },
-+		/*
-+		 * Fix for the Apple controller found in the MacBook8,1 and
-+		 * some MacBook7,1 to avoid controller resets and data loss.
-+		 */
-+		.driver_data =3D NVME_QUIRK_SINGLE_VECTOR |
-+				NVME_QUIRK_QDEPTH_ONE },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
- 		.driver_data =3D NVME_QUIRK_SINGLE_VECTOR |
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 1d769c842fbf5..b9b79ccfabf8a 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -3,7 +3,6 @@
+  * Copyright (c) 2011-2014, Intel Corporation.
+  * Copyright (c) 2017-2021 Christoph Hellwig.
+  */
+-#include <linux/bio-integrity.h>
+ #include <linux/blk-integrity.h>
+ #include <linux/ptrace.h>	/* for force_successful_syscall_return */
+ #include <linux/nvme_ioctl.h>
+@@ -153,11 +152,10 @@ static int nvme_map_user_request(struct request *re=
+q, u64 ubuffer,
+ 		bio_set_dev(bio, bdev);
+=20
+ 	if (has_metadata) {
+-		ret =3D bio_integrity_map_user(bio, meta_buffer, meta_len,
+-					     meta_seed);
++		ret =3D blk_rq_integrity_map_user(req, meta_buffer, meta_len,
++						meta_seed);
+ 		if (ret)
+ 			goto out_unmap;
+-		req->cmd_flags |=3D REQ_INTEGRITY;
+ 	}
+=20
+ 	return ret;
+diff --git a/include/linux/blk-integrity.h b/include/linux/blk-integrity.=
+h
+index de98049b7ded9..9c7029aa9c22a 100644
+--- a/include/linux/blk-integrity.h
++++ b/include/linux/blk-integrity.h
+@@ -28,6 +28,8 @@ static inline bool queue_limits_stack_integrity_bdev(st=
+ruct queue_limits *t,
+ int blk_rq_map_integrity_sg(struct request_queue *, struct bio *,
+ 				   struct scatterlist *);
+ int blk_rq_count_integrity_sg(struct request_queue *, struct bio *);
++int blk_rq_integrity_map_user(struct request *rq, void __user *ubuf,
++			      ssize_t bytes, u32 seed);
+=20
+ static inline bool
+ blk_integrity_queue_supports_integrity(struct request_queue *q)
+@@ -102,6 +104,11 @@ static inline int blk_rq_map_integrity_sg(struct req=
+uest_queue *q,
+ {
+ 	return 0;
+ }
++static inline int blk_rq_integrity_map_user(struct request *rq, void __u=
+ser *ubuf,
++			      ssize_t bytes, u32 seed)
++{
++	return -EINVAL;
++}
+ static inline struct blk_integrity *bdev_get_integrity(struct block_devi=
+ce *b)
+ {
+ 	return NULL;
 --=20
 2.43.5
 
