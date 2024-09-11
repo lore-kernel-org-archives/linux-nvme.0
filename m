@@ -4,55 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81066EE0214
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 08:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F8A0EE0215
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 08:06:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=oq44AviJtmOMZFlkH3w+IQ0DOuq60Snkx4IkmtTHaoU=; b=TojX/2aRJsdgL/lz+X+vyDiCxM
-	Moy2j943McAGfXg8GRuq/2uJlSflR9lAxAWnrbAI9eVwV6VXsAqzLZ0p/jV+HxQwv3pKTdPTnP0eB
-	5Tew/bRyGQt9rKV4HouK1X36dOGlBkPR8kpoAvcwS4jVyZIPRt18FbqBPx2BXZz1Hzyg2EoLJXBRF
-	35YjPjDsX3yemks15xHThl5EWrNjFEMOBxkbiA6uNEZ9dfin4MpkYyOwGQK5bOWoDL8438OuEJ+jy
-	i/V7dyJXFOOmvccs2g1JME7U5Y9IumvPUnU1Nt5mRBLsrAmyS7kKKBFF8tNEGq8xvd/l8rjL8Jz0X
-	t6RODeRA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zVpFzYnPiRvKOCePHg4PPR19a0o9+bDk4MfRlNYN0pY=; b=galVWE6fk19+OXkTYzL/6qYSPi
+	muwGTSKzampJMQw8DLydcxAqX/9/MPtOwwjRa2bu22rZIcYeXXDdDeWzNNWYN+WzisIzyI2Tb3bR+
+	IU6ZFKiJVFncrYQ6D89TDc9TXlh93Bea5mHBSKdi7AOiQDocgrJyjg5Z5PWlyXNYhGC9osI8bI2TW
+	rbxFsBDpIGG4XBkLPymzzreRnzy9t2tEQ+CINUHWCZnRj3eHxtOwPRpz75UW00NaRawLERbNfp3N4
+	Ve7HNraaVP7wAT3wDjy5l50Ho5VcvhQ4glXZuzfd5mOwaiUa1vFWNguGeFAOwq5qoAcy9jK7QehCD
+	c1KoZojA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soIHL-00000008Y63-0Din;
-	Wed, 11 Sep 2024 08:00:43 +0000
-Received: from mail.bizluminar.com ([51.254.102.79])
+	id 1soINK-00000008ZSR-06iM;
+	Wed, 11 Sep 2024 08:06:54 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soIHI-00000008Y3v-0KPt
+	id 1soING-00000008ZQC-04jg
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 08:00:42 +0000
-Received: by mail.bizluminar.com (Postfix, from userid 1002)
-	id 24A6F48198; Wed, 11 Sep 2024 10:00:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizluminar.com;
-	s=mail; t=1726041635;
-	bh=oq44AviJtmOMZFlkH3w+IQ0DOuq60Snkx4IkmtTHaoU=;
-	h=Date:From:To:Subject:From;
-	b=ebORpIcmaRBrzVHeFfVr1fWATVz5Jmon4ET4c8JoO7eyjJFA0ikLVLk9ByhD6ehW0
-	 kxhW9IRnQ6FuF6M+1nwF1YfSL/3e1gS9p7vbdIEL9YPJSnFrhe47i8pl+3sqZCa6m8
-	 Et56c0Dj1gX8rvNrt2EGh8Y/XlhjtHluH9cYxbvAjGXwRcl6p6fcym4L7cFZLoSQUW
-	 5mnJUH2AubUOwm4j4uIBjuXn2v7wRcgWLQCdPhxwIOZ7u63C6SX6oeOQiKqaThVRPq
-	 vtNEIymfTQhY/qTfbfJ8+7tqEgsrCGK8roSdcVv7sXBdlcqK44DyfSl9JEIof64WV2
-	 0lk9ZVypGdNzQ==
-Received: by mail.bizluminar.com for <linux-nvme@lists.infradead.org>; Wed, 11 Sep 2024 08:00:30 GMT
-Message-ID: <20240911084500-0.1.am.qo8y.0.ne6k2g0lpx@bizluminar.com>
-Date: Wed, 11 Sep 2024 08:00:30 GMT
-From: "Petr Kadlec" <petr.kadlec@bizluminar.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: Steel Structures
-X-Mailer: mail.bizluminar.com
+	Wed, 11 Sep 2024 08:06:52 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3EAAF227AB6; Wed, 11 Sep 2024 10:06:38 +0200 (CEST)
+Date: Wed, 11 Sep 2024 10:06:38 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	axboe@kernel.dk, martin.petersen@oracle.com,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, sagi@grimberg.me
+Subject: Re: [PATCHv3 03/10] scsi: use request helper to get integrity
+ segments
+Message-ID: <20240911080638.GA7245@lst.de>
+References: <20240904152605.4055570-1-kbusch@meta.com> <20240904152605.4055570-4-kbusch@meta.com> <20240910153217.GC23805@lst.de> <ZuDP-ncB0EXrS9Xg@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZuDP-ncB0EXrS9Xg@kbusch-mbp.dhcp.thefacebook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240911_010040_807729_9FDA257F 
-X-CRM114-Status: UNSURE (   0.83  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240911_010650_218816_69EACEB9 
+X-CRM114-Status: GOOD (  14.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,25 +62,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Good day,
+On Tue, Sep 10, 2024 at 05:02:18PM -0600, Keith Busch wrote:
+> Right, I actually have more follow up's doing that. We just need to
+> change blk_rq_map_integrity_sg() first to take a request instead of a
+> request_queue + bio. I thought I might be getting carried away with the
+> "cleanups" though, so was saving that for later. I can definitely add
+> that into the series now though.
 
-I represent a leading manufacturer of advanced steel structures with vary=
-ing degrees of complexity and technical requirements.
+Well, it seems like the metadata code really needs a lot more attention
+:(
 
-We undertake orders for containerized (module) technology stations, scree=
-ners, separators, centrifuges, cyclones, tanks, silos, high-power transfo=
-rmers, and many other solutions. We also offer comprehensive execution of=
- industrial installation hardware.
-
-By working with us, you gain access to comprehensive and personalized sup=
-port, from design and material procurement to access to spare parts, thro=
-ugh stages such as the application of protective layers, thermal and mech=
-anical processing, as well as galvanizing.
-
-Would you like to learn more about the possibilities of producing customi=
-zed structures tailored to your needs?
-
-
-Best regards
-Petr Kadlec
+And it seems like we really need the io_uring passthrough support to
+be able to fully exercise it.
 
