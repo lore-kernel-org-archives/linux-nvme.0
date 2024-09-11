@@ -4,216 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00A85EE01F3
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 05:51:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DDCAEE01F3
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2024 06:27:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xWMuQ73ytd2okeszXVJKPD6mKFkyJwZpLTdxDr1pbEw=; b=Ngbw9lwOtScxHGdcGeXsKOBytT
-	87QXJDstnxvJm5iQyao+gGKLFGZYn+doYyhd16lwt5sOt15TxULC46j2F0kkFqcP9pt8uATZ0W4kr
-	kn/kvIRKgSBygxULITyGqtdew5UA37PLjkg5hR70pg7jK1vuGPFsCUKUzuyWK6bZXAypqLakcjgDl
-	l4ciMQycsEwzL9HhyGhuMDX0+zp/qM6W0spWL1Y7rXvEF01wZfHvND6aLzpk33X1fFHYPMEVdr9vl
-	Fkij423L4yqzFkLqiLNip273ryojtHpi6v9ZVh4HQs1wfKEBju0+9mXQHJt3hS0XomAKajQ0pp1Hk
-	/QgW8DQw==;
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=U3Q3rBVp5j1JfZFYn2GYcn/vdM6NkcOoz60vwU1V5ko=; b=0U4KI2pd01TlPGpOY3JSlRm90N
+	rzkC3s9+Db4fOdtt3MTGEeBUTBmexp+zpC7Y0eEOPDWDdPSFNbDt3ghs6R8BsU9EjpDSteSu7jZ50
+	KKIvr0PA3L64iJ37W8pmojkjkOgiIgUfUwfqy7KLYNPhNdR8I0fb0b8P/QHghVZW/1LJKE7UOx7ia
+	xdQcveaJAXCd5uGPPVQPw4u0o6io0Zd/zxC3nYz8WTYw4PbVnDGDsipLWjyG4b6/D4qXyPxrKikoV
+	RDnnJq2qqk4Fqs4YppM8TCg0SZLtMvfs3qfC/n4Os3qbE0GeLB7IEF8tmR8k561JN7gxeCqGQfsT8
+	9wQC7Gng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soGGe-00000008CCE-2XbR;
-	Wed, 11 Sep 2024 05:51:52 +0000
-Received: from mail-db8eur05on2060b.outbound.protection.outlook.com ([2a01:111:f400:7e1a::60b] helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+	id 1soGow-00000008GoS-2QEV;
+	Wed, 11 Sep 2024 06:27:18 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soGGY-00000008CBS-2ntC
+	id 1soGot-00000008Gmf-38Y1
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Sep 2024 05:51:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vAcUSIO6Bv9SqRZ3M7DnoK/2aiIk7G8U9rky2i/1lkllCga01VnjdcKuE1cqLHIw0lni9o6ckNDDwwYczV1y/IuLB2cMNBlE2D0MHdEL29/sIJrwdMncmrhXxNG9yv7H1FVeLNZ3N0uYrrMc3BTsnR0qc+UsTmCL9fDlE2fpAYsGw1vuJRvhn/5UIcioA5rAESo9w1RVI8MqsYWxGExMrTj1lSioAyh3Il7C/MVR1swLCjw1TY1DGTCyhE8EJ2cDoMHjB1DHpEX7zM4RS4OyEfPwzG6W5y9jZum6u/EYFfudQVwBFpGNh0odgZy6wfy8HR65F+mxlxGyLrHnATZjbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xWMuQ73ytd2okeszXVJKPD6mKFkyJwZpLTdxDr1pbEw=;
- b=UlCJ5tMSEezp9BYoHZDAe0KOQ4CG834mDYVyWzLzMhZxL3hY9meid6KDS7ViEvLaNKM99x+3le1aPqbIYj5nJ5jKtw/TcyJq/Oie6sd1UdH2Sjq+2lx4m7bb8bn3AL3nNcYJhKTe6DsgsewuFcL1PVg1aC/kqZ8EKrZZpBE+JJSh2qHVKv6mLuJGHI8MmXHVOnIyZzJAshMDasZE8wyP1MiQ30XGMPGmGGiXUh7p5DroCOxT/W6w23qH2ws8bpHlsXZXFn2/ph4BkX9xPUHR9F7H/OQp1dWYRwrPbJLM/OtVoURFXSNkUuMYSTksLw659HbQze+jm4BJXylgmbBsPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xWMuQ73ytd2okeszXVJKPD6mKFkyJwZpLTdxDr1pbEw=;
- b=ypAgqDj8zwEesUo+ckq5x143eUi98TDyqIr/8NSiGDVO1TPXxgk5jfGAc+E5UIWLzHAp2/jlg9qLNSV9kdARWgLuKd8JPeluyWTVa0UIPG4VC25F4qYk5DbbtwC7grWOfDYWYUUO6r9bd0uLnr6RHGCGC2myx5PpDQkWUXEbH4IZmbnMpppC9tOygHyG6Pg0IkJnDMdODRjqXZCnFSUagfHEDOyIcTcI+CGJbhtYpcjdLAjtF5t/mu/Vc3nD/XkEIf7ZrD1EJzzz7qYC+2fI0AvcdE7WoN7NJbstQq6eSnBBCuMagnslOagG6PorNQeHebpPC8BKXfNbiZSeMC2B/A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:588::19)
- by AS1PR10MB5365.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4af::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Wed, 11 Sep
- 2024 05:51:34 +0000
-Received: from AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8fe1:7e71:cf4a:7408]) by AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8fe1:7e71:cf4a:7408%3]) with mapi id 15.20.7962.016; Wed, 11 Sep 2024
- 05:51:34 +0000
-Message-ID: <c1f065ec-c544-4191-85b5-e1bb01808183@siemens.com>
-Date: Wed, 11 Sep 2024 07:51:31 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/4] driver core: shut down devices asynchronously
-To: stuart hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Martin Belanger <Martin.Belanger@dell.com>,
- Oliver O'Halloran <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>,
- Keith Busch <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>,
- David Jeffery <djeffery@redhat.com>, Jeremy Allison <jallison@ciq.com>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Cc: Nathan Chancellor <nathan@kernel.org>
-References: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
- <20240822202805.6379-4-stuart.w.hayes@gmail.com>
- <83f39f2d-7237-4880-83e3-1c3afc62087d@siemens.com>
- <448875be-59e1-48a5-8a3c-cc45fff196ca@gmail.com>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Content-Language: en-US
-Autocrypt: addr=jan.kiszka@siemens.com; keydata=
- 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
-In-Reply-To: <448875be-59e1-48a5-8a3c-cc45fff196ca@gmail.com>
+	Wed, 11 Sep 2024 06:27:17 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48AIuD2p019671;
+	Wed, 11 Sep 2024 06:27:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+	:to:cc:subject:date:message-id:content-type
+	:content-transfer-encoding:mime-version; s=pp1; bh=U3Q3rBVp5j1Jf
+	ZFYn2GYcn/vdM6NkcOoz60vwU1V5ko=; b=CEnTCNZZLWQKUKiTb1iYkNnL/UBqT
+	wlucDUJ7KAKYDBlK+6dJjBImBdxckNCmpRl9iZMPIFZ48RKbfVLV/lL5051ptjFh
+	D9gT1QoPzIXFKFXvbyAKM3UtF7McMLJ6TaGEXIFoHfvDO9RvWzQlZsKQ1/Wteujb
+	7J9GAfoLxFBxl+EUOJDOKyPDDmWoPECyTQtDbI1Wjfv1PW3ombunkwq1/F+PJSzV
+	iRZS5w03gglJtofq/CrS2FTyjY6nPNHAtU6OnXfOmyBBgvML10t2hyDM9Z8umAID
+	w+YPVzV0emMDzOqPPnqZdA0VL3CTu3m71Ef2AEa8SSM/P2vLyM4FFRCuQ==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41gebabw1v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Sep 2024 06:27:03 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48B2YM1g003134;
+	Wed, 11 Sep 2024 06:27:02 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 41h15tytcr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Sep 2024 06:27:02 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48B6QwU756754504
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Sep 2024 06:26:58 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C521520040;
+	Wed, 11 Sep 2024 06:26:58 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B93D220043;
+	Wed, 11 Sep 2024 06:26:56 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.0.89])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 11 Sep 2024 06:26:56 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+        axboe@fb.com, gjoyce@linux.ibm.com, Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCHv4 RFC 0/1] Add visibility for native NVMe multipath using sysfs
+Date: Wed, 11 Sep 2024 11:56:40 +0530
+Message-ID: <20240911062653.1060056-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
 Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: gIqjF8pD3cyCIWIo-yW9HthDi17mODrs
+X-Proofpoint-GUID: gIqjF8pD3cyCIWIo-yW9HthDi17mODrs
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0012.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f2::9) To AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:588::19)
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR10MB6181:EE_|AS1PR10MB5365:EE_
-X-MS-Office365-Filtering-Correlation-Id: 079e5f5a-239a-40e2-89f8-08dcd225cae5
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NWtXR215Ry9qZVMvK25KQ3VSQTdCKzF4WTZhbC84SlN6Nm5Lem9TYnQxdUJI?=
- =?utf-8?B?N2V1L1RSQlZOb0svRTUyM1dnS1FUMXRVN3A1bmM2cVdxbmxkb1ZRWnYwSVNn?=
- =?utf-8?B?WXlQVWpua3B0dmhYb1dxeDBQRlQyWm5TTUkzRW5XcWxDYlAycEVSVVQ1RUt4?=
- =?utf-8?B?UG92UGFQYkc0WDRwYW1NNkFtV2pKV0psRTBjZm5xcVkzYkdBYUVxbnZmeE16?=
- =?utf-8?B?Y3c0WTJSbkQwaVI1NndzVlBFdkducGpsMkI3c05kSzYrV2dYeThMczdNdVdV?=
- =?utf-8?B?bkU3RmJGc1pRWHVzTzFLWmRGOTN3V1h1NVRESkFhZWsxTUFFeDc5WFVDcmtx?=
- =?utf-8?B?MC8vZVdNOHppOVMxWXJXWEx6eVdBODNibDRqbnZsUlFxcFNVbFhMZUE5ZXha?=
- =?utf-8?B?NzZTQVU2OHpNZkNGNWEzeW5nT3hjRXBzb2hmb2Q2M3E3YkUrVXlDWWc1ZkUr?=
- =?utf-8?B?OFZlb1J5Z3lKVnI4UDFBaXFWRldtNHY3SmVQSnppRCtycDV0MjVJd1ZLTS85?=
- =?utf-8?B?SEhUeU03U3M5SkNwV0VBQXNLYWdKNTlqWFZhdTlsNnNOSUxsSDhtRHFpSGtr?=
- =?utf-8?B?enhhMTNseUErZWZNbzFIZ0xNWkVxVHVVcXJvWXZhZEFTZEVNU1FObmhBYVY1?=
- =?utf-8?B?Zkd6L2QxSno1S3phSmhIY0hKUDhWbVNmczRrcDJNeDU0NlRINWFNVDlIN2cr?=
- =?utf-8?B?S3A3eXcyMzB3c1JMZmtiV2luOW9acXVJQTZxS2tPWGp2c0pzem1QT2dJYkgw?=
- =?utf-8?B?L0dsNTI1bCtoRDBPUGxpVTVpQldQMDUrM01JVXpyeG9kSUtKY3VydS9HUXQr?=
- =?utf-8?B?Q0RaUzArMHM2QitDWGszSVpQK3I2VlNvZ3BUd0pPaC9ST2k1Nyt4NWtDd0px?=
- =?utf-8?B?R0VjM3ROUURweWxIQS9HRXZnbnFYdjJKQi9PMm93ejYxNjU3SXN2bnZiamxn?=
- =?utf-8?B?KzhpM0lyNXhmdnl2NFNNN0hMWC9Lc1lPQTUxa1doUWtOVVB0bklqZC90MGlJ?=
- =?utf-8?B?RmNoR2lNWXhWYWF5V294ZjFmMHdXRkVlY2tzUlFBMUowN1NnaEM1MmZ2QmdZ?=
- =?utf-8?B?ay92QzVUUFZ4SFZPa2E2YnJWYkEzWnZiSVZwODVJOWw1WUNBOTBLZE9qYW9J?=
- =?utf-8?B?bC93bUFCOHZ2cXdKa1cxeXpwTUdhclV3L1pDWmx3b0VtR3FtRCt5RndZYkpi?=
- =?utf-8?B?Q3ErTzBLRkc3S25EWTR6dk41eDZRNzJOay9YS25pVkJKN0ZmbURaSFR2dEZz?=
- =?utf-8?B?UFFXN0tsOVZETXprTUhKTS85TnFPK29JbDdRRkZoWXVUTDhqZlFDL01udEZq?=
- =?utf-8?B?NjVwWTRlRUZxbjhiU2JMWURrRVZQODZ2SFVVZjFYcFN3Z2JRTWxybVNFVTZH?=
- =?utf-8?B?bzl5RHo1Qng2ZGFQQmhJOEg5UHZQL1ppS3VmMEZZRHVhK2pGbk56alJqTkxm?=
- =?utf-8?B?ZkpDV0syUG1LWEVWOHNEbjZDakNSUVhsTDlvbE54TkJINjNESEI0RHo0ZVhP?=
- =?utf-8?B?eVhIY2dQT1NaMmZBTk1UdENJNVVqdHRSbUZLR3NaR3RWbHByY0MzYW8wR1NH?=
- =?utf-8?B?QzFRTVQxaFJjTjloSFJBMzdUMGF1MFBoUnh4b0cxNEZvSnpEMXo0S1RwVE05?=
- =?utf-8?B?UnhTdzFNdGdSWFhmS3lMbU8yek9YQzlvNy81eVM3ci9wOFVqN2hybzdiYmxo?=
- =?utf-8?B?WVNxanBrMG5vMVdpSkljWGhReGVhODBYNzBjKzdRU3k3UnJMOVJjOHVOenJS?=
- =?utf-8?B?U2lMc1QwVWp4RWF1QTBLTVd6OHhZakxIQTVXU1oyS0Q4SDdJcDhZVk5yZlBW?=
- =?utf-8?B?ZUJhOW5RMEUvelRrTUZ3WU9jeTBVdVRJaEczNGwyUmlicjl1cW8ydTdIVU1T?=
- =?utf-8?Q?//BYh1z1ky401?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXJZd3UvVDZNRzkvOHV3MmtCK0l4L0x1cFNCOVNDZUlvbm1XS0gwdlA3L202?=
- =?utf-8?B?c2FNanJ2b1VEUVluSGorektLYmpqVVRIcmRrZWxWNE44WHNmczhCckd5TkZv?=
- =?utf-8?B?QWZES3dYcG5ieG9RdXV1VEJMRUw5b1VrRGg3b1ByTVZqOSttUHdxa2NQWTlW?=
- =?utf-8?B?MmRLVFJmeTgxWTFqMWNGSWZQNk8wQkdNcEo0bVk1czJyem5YNE1Fdm52bjVT?=
- =?utf-8?B?ckR6VXZUY0pQTjZhaW5yMFpndEM2TUdtdEpqM3R6Q0hTRFdCQXZGQXQzMnBq?=
- =?utf-8?B?SWp5NXFtRXJ0VXVOcmlqWnFLRXlKdi9rR1BtRnUxQXlNSHpjUEZ5WVZhUDdQ?=
- =?utf-8?B?SGI1RmZ5clkyVjhrU0VlWVhHWXNESUd5ODZldWVDZTRKZHl4cFJib05EeFNH?=
- =?utf-8?B?WjB6NzBYM0VMamJXLzZzTEI1OXdoOGNsWTFIWERHMXhVRFRBZHVSTFA3OVNw?=
- =?utf-8?B?TmdXeDJiUjRKS0FRQkpaRU8wSTR2OG9lUzVBNHRJaksyd0RiWU10ZG51NWhK?=
- =?utf-8?B?dmdOYVJkUGp6T1o2QVo3RE56YklnZHVpNUt0Y2g3MXF0Q3VjVHh0d0dWdVlw?=
- =?utf-8?B?b21wamxDNFc2MVQ3NmwrNlN5SG9TYmJKL2tzMEZuUURheVR0U1ovWFE5TEND?=
- =?utf-8?B?QnZocnJwMUlQMEdLcUhLZmxZaXVXeHdkYmhGMnRlZVRxMW5PSmFYQmJORXY1?=
- =?utf-8?B?SXY2Rk5kU2xlWHptbDJ3UnlVeGwreTZGK2lVaDJGd1o1elE3OXB2ZU8zbmZE?=
- =?utf-8?B?WjE5K05ZSWIrOE8zK3I5ZGpsRDNjZ3dKSkMrZ1owNHpUZ3FvVlNUREJ4NERJ?=
- =?utf-8?B?N0dIaDBXQ2p1dE9yN09JMHNQaE5wZFU3YW53SjR6ZnBGMWJqaG4ybTJPUnEv?=
- =?utf-8?B?bmxCWUlpdUxPUUhlV1p6Q04vMzJnUE56TTF0T2Nsand6R0NrMkpleEhkcGp5?=
- =?utf-8?B?OFZSUEtaMW5DNUtwSVBSNTU3M3I0MDRMUFNvYW5XYVlZVFNYWVpLcisyUzFn?=
- =?utf-8?B?ZjA4TXBlSTRiRncraWxHclZPQjl4OTdqanpvb1luRTN3NGpwbTBQaHA4RmVk?=
- =?utf-8?B?Q3RLcVExT21pcjhjbmd5VjNKczJkaktrRkJHeXFEc3JPSGI0Ry9YazJVcUND?=
- =?utf-8?B?aFdtV25FdU85Q3YxY1RUb214c3hCWmdXeExKQXZpT2xkQ1ZPSWJ6MHB3V2V0?=
- =?utf-8?B?M2k3SGJkMm5veDlvUEtmOVdNNnVtR2VhOWVUaVNzcHJ2dW52K0FIRG5rMUdt?=
- =?utf-8?B?dlhjQ0N0N3ZPUyt5OSsrNmdYV3pkS09OVW1haE8zWTdDdS9lZ1Y2Qjh1d1l5?=
- =?utf-8?B?N2lwOUV0TnkzN3lCRXFZQ3NOS24xOFhJTDJsazFSQWNISWxQei8zc21TU29m?=
- =?utf-8?B?L0Y0alhmdkY1RVR0S0oxekc3VElCK21oQThtUXBaOVo3amEvQXZpMUFZd2Jk?=
- =?utf-8?B?b3NlV2pRNXQwQ3VkaUp2YUNzZlhrblFPeENZLzJBYUJsRjEvYkdYVlpNZzVF?=
- =?utf-8?B?ZEQzdXN6MGtCdGJBakpseDBERzdwejc4eUV1ZGQrUU1NbElqUjdTS0ZSMDRY?=
- =?utf-8?B?SGkxL1dNcmpWbmVrZ2hNNW5kdzlZZjVHM01VRjZBaVNoY1o3Z2NYcTNmNE5L?=
- =?utf-8?B?bmJRTngrT2EzcXZUSzBVVmJtVnB2VGNZOHFJU2phVVVISHRMRml1bTAzd25Y?=
- =?utf-8?B?dkFvVUtEZ3U4OEpCTXZLU0NBcmhCSVNpanVwKzZqQy9hS3ZaaTFEV3RtREN1?=
- =?utf-8?B?dFB5YU9SblprZEk5VlVmcUJUN0VWbDIvcmlJRmgzdm5IQm9ZT01SNWptczA2?=
- =?utf-8?B?OFJhdml6a2pOVFFZWnd0Y1FoRVZ4VHlEYXNMMFVJbDRDOXRaT1ZRSVVnYnNT?=
- =?utf-8?B?clVxY0hIZzRuNER5MHNFRlJoS0NJQlgrOUtvYnJ6TG1MYnJiODZSelNVemlN?=
- =?utf-8?B?cHlpeFRiR3BFZnNLNWY1SFJBVFRBQW96TE9FcmtReUk2Z1RObklpS3N3Qjh6?=
- =?utf-8?B?ZGErbG5tMUE3azRMTHJ2SGk5RFlrS3k2SzNLMjdoWEZSUC9aSjJqWWhSM3BO?=
- =?utf-8?B?M0hjRjRuZEsxbkRjaEI0UEtPdGlPa2kwSUtoL3dZTys0dmZ3RWtUTU9uRnFC?=
- =?utf-8?Q?94G0DnxgwCI0M8PwuyXglGQdK?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 079e5f5a-239a-40e2-89f8-08dcd225cae5
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR10MB6181.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 05:51:34.0723
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WSjvOQR3eh4M75wvsaWrtcrwZ24t0jsT7CLjSR9j/SqWvyFuRlDKkzjeaMw4AhwdTUUtsTvzW5Ur2v8JlZgQ+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5365
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-10_12,2024-09-09_02,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
+ definitions=main-2409110044
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240910_225146_943675_C25A339D 
-X-CRM114-Status: GOOD (  16.41  )
+X-CRM114-CacheID: sfid-20240910_232716_067905_7A7B9133 
+X-CRM114-Status: GOOD (  23.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -228,296 +103,192 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11.09.24 02:14, stuart hayes wrote:
-> 
-> 
-> On 9/8/2024 8:36 AM, Jan Kiszka wrote:
->> On 22.08.24 22:28, Stuart Hayes wrote:
->>> Add code to allow asynchronous shutdown of devices, ensuring that each
->>> device is shut down before its parents & suppliers.
->>>
->>> Only devices with drivers that have async_shutdown_enable enabled
->>> will be
->>> shut down asynchronously.
->>>
->>> This can dramatically reduce system shutdown/reboot time on systems that
->>> have multiple devices that take many seconds to shut down (like certain
->>> NVMe drives). On one system tested, the shutdown time went from 11
->>> minutes
->>> without this patch to 55 seconds with the patch.
->>>
->>> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
->>> Signed-off-by: David Jeffery <djeffery@redhat.com>
->>> ---
->>>   drivers/base/base.h           |  4 +++
->>>   drivers/base/core.c           | 54 ++++++++++++++++++++++++++++++++++-
->>>   include/linux/device/driver.h |  2 ++
->>>   3 files changed, 59 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/base/base.h b/drivers/base/base.h
->>> index 0b53593372d7..aa5a2bd3f2b8 100644
->>> --- a/drivers/base/base.h
->>> +++ b/drivers/base/base.h
->>> @@ -10,6 +10,7 @@
->>>    * shared outside of the drivers/base/ directory.
->>>    *
->>>    */
->>> +#include <linux/async.h>
->>>   #include <linux/notifier.h>
->>>     /**
->>> @@ -97,6 +98,8 @@ struct driver_private {
->>>    *    the device; typically because it depends on another driver
->>> getting
->>>    *    probed first.
->>>    * @async_driver - pointer to device driver awaiting probe via
->>> async_probe
->>> + * @shutdown_after - used during device shutdown to ensure correct
->>> shutdown
->>> + *    ordering.
->>>    * @device - pointer back to the struct device that this structure is
->>>    * associated with.
->>>    * @dead - This device is currently either in the process of or has
->>> been
->>> @@ -114,6 +117,7 @@ struct device_private {
->>>       struct list_head deferred_probe;
->>>       const struct device_driver *async_driver;
->>>       char *deferred_probe_reason;
->>> +    async_cookie_t shutdown_after;
->>>       struct device *device;
->>>       u8 dead:1;
->>>   };
->>> diff --git a/drivers/base/core.c b/drivers/base/core.c
->>> index 7e50daa65ca0..dd3652ea56fe 100644
->>> --- a/drivers/base/core.c
->>> +++ b/drivers/base/core.c
->>> @@ -9,6 +9,7 @@
->>>    */
->>>     #include <linux/acpi.h>
->>> +#include <linux/async.h>
->>>   #include <linux/cpufreq.h>
->>>   #include <linux/device.h>
->>>   #include <linux/err.h>
->>> @@ -3531,6 +3532,7 @@ static int device_private_init(struct device *dev)
->>>       klist_init(&dev->p->klist_children, klist_children_get,
->>>              klist_children_put);
->>>       INIT_LIST_HEAD(&dev->p->deferred_probe);
->>> +    dev->p->shutdown_after = 0;
->>>       return 0;
->>>   }
->>>   @@ -4781,6 +4783,8 @@ int device_change_owner(struct device *dev,
->>> kuid_t kuid, kgid_t kgid)
->>>   }
->>>   EXPORT_SYMBOL_GPL(device_change_owner);
->>>   +static ASYNC_DOMAIN(sd_domain);
->>> +
->>>   static void shutdown_one_device(struct device *dev)
->>>   {
->>>       /* hold lock to avoid race with probe/release */
->>> @@ -4816,12 +4820,34 @@ static void shutdown_one_device(struct device
->>> *dev)
->>>           put_device(dev->parent);
->>>   }
->>>   +/**
->>> + * shutdown_one_device_async
->>> + * @data: the pointer to the struct device to be shutdown
->>> + * @cookie: not used
->>> + *
->>> + * Shuts down one device, after waiting for shutdown_after to complete.
->>> + * shutdown_after should be set to the cookie of the last child or
->>> consumer
->>> + * of this device to be shutdown (if any), or to the cookie of the
->>> previous
->>> + * device to be shut down for devices that don't enable asynchronous
->>> shutdown.
->>> + */
->>> +static void shutdown_one_device_async(void *data, async_cookie_t
->>> cookie)
->>> +{
->>> +    struct device *dev = data;
->>> +
->>> +    async_synchronize_cookie_domain(dev->p->shutdown_after + 1,
->>> &sd_domain);
->>> +
->>> +    shutdown_one_device(dev);
->>> +}
->>> +
->>>   /**
->>>    * device_shutdown - call ->shutdown() on each device to shutdown.
->>>    */
->>>   void device_shutdown(void)
->>>   {
->>>       struct device *dev, *parent;
->>> +    async_cookie_t cookie = 0;
->>> +    struct device_link *link;
->>> +    int idx;
->>>         wait_for_device_probe();
->>>       device_block_probing();
->>> @@ -4852,11 +4878,37 @@ void device_shutdown(void)
->>>           list_del_init(&dev->kobj.entry);
->>>           spin_unlock(&devices_kset->list_lock);
->>>   -        shutdown_one_device(dev);
->>> +
->>> +        /*
->>> +         * Set cookie for devices that will be shut down synchronously
->>> +         */
->>> +        if (!dev->driver || !dev->driver->async_shutdown_enable)
->>> +            dev->p->shutdown_after = cookie;
->>> +
->>> +        get_device(dev);
->>> +        get_device(parent);
->>> +
->>> +        cookie = async_schedule_domain(shutdown_one_device_async,
->>> +                           dev, &sd_domain);
->>> +        /*
->>> +         * Ensure parent & suppliers wait for this device to shut down
->>> +         */
->>> +        if (parent) {
->>> +            parent->p->shutdown_after = cookie;
->>> +            put_device(parent);
->>> +        }
->>> +
->>> +        idx = device_links_read_lock();
->>> +        list_for_each_entry_rcu(link, &dev->links.suppliers, c_node,
->>> +                device_links_read_lock_held())
->>> +            link->supplier->p->shutdown_after = cookie;
->>
->> This will not fly if a supplier registered after its consumer. As we are
->> walking the list backward, the supplier will now wait for something that
->> is coming later during shutdown if the affected devices are still doing
->> this synchronously (as almost all at this stage). This creates a
->> circular dependency.
->>
->> Seems to explain the reboot hang that I'm seeing on an embedded target
->> with a mailbox dev waiting for a remoteproc dev while the mailbox being
->> after the remoteproc in the list (thus first on shutting down).
->>
->> This resolves the issue for me so far, but I don't think we are done yet:
->>
->> list_for_each_entry_rcu(link, &dev->links.suppliers, c_node,
->>         device_links_read_lock_held()) {
->>     if (link->supplier->driver &&
->>         link->supplier->driver->async_shutdown_enable)
->>         link->supplier->p->shutdown_after = cookie;
->> }
->>
->> I wonder if overwriting the supplier's shutdown_after unconditionally is
->> a good idea. A supplier may have multiple consumers - will we overwrite
->> in the right order then? And why do we now need this ordering when we
->> were so far shutting down suppliers while consumers were still up?
->>
-> 
-> The devices_kset list should already be in the right order for shutting
-> stuff down--i.e., parents and suppliers should be shutdown later as the
-> device_shutdown loop goes through the devices.
-> 
-> With async shutdown this loop still goes the devices_kset list in the same
-> order it did before the patch, so my expectation was that any
-> parents/suppliers
-> would come later in the loop than any children/siblings, and it would
-> update
-> shutdown_after as it went to ensure that each device ended up with the
-> cookie
-> of the last child/consumer that it needed to wait for.
-> 
-> However, I missed that the devices_kset list isn't always reordered when a
-> devlink is added and a consumer isn't dependent on the supplier (see
-> device_is_dependent()).  I have a patch would address that, and add a
-> sanity
-> check in case any devices get in the list in the wrong order somehow:
-> 
-> 
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index b69b82da8837..52d64b419c01 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -4832,6 +4832,13 @@ static void shutdown_one_device_async(void *data,
-> async_cookie_t cookie)
->  {
->      struct device *dev = data;
->  
-> +    /*
-> +     * Sanity check to prevent shutdown hang in case a parent or supplier
-> +     * is in devices_kset list in the wrong order
-> +     */
-> +    if (dev->p->shutdown_after > cookie)
-> +        dev->p->shutdown_after = cookie - 1;
-> +
->      async_synchronize_cookie_domain(dev->p->shutdown_after + 1,
-> &sd_domain);
->  
->      shutdown_one_device(dev);
-> @@ -4898,8 +4905,11 @@ void device_shutdown(void)
->  
->          idx = device_links_read_lock();
->          list_for_each_entry_rcu(link, &dev->links.suppliers, c_node,
-> -                device_links_read_lock_held())
-> +                device_links_read_lock_held()) {
-> +            if (device_link_flag_is_sync_state_only(link->flags))
-> +                continue;
->              link->supplier->p->shutdown_after = cookie;
-> +        }
->          device_links_read_unlock(idx);
->          put_device(dev);
->  
-> 
-> I'll submit this shortly if nobody responds with any issues with this.
-> 
-> Thank you!
-> 
+Hi,
 
-This sounds widely reasonable to me, and a quick check confirmed that it
-apparently resolves the issue I was seeing.
+This patch propose adding new sysfs attributes for adding visibility of
+native multipath I/O. 
 
-I'm still wondering, though, if overwriting the parent's shutdown_after
-and only checking later on in shutdown_one_device_async is sufficient or
-if it wouldn't be safer to have a check when we write. The fact that
-there could be multiple children for a parent is worrying me.
+The first version of this RFC[1] proposed using debugfs for visibility 
+however the general feedback was to instead export the multipath I/O 
+information using sysfs attributes and then latter parse and format those 
+sysfs attributes using libnvme/nvme-cli. 
 
-Jan
+The second version of this RFC[2] uses sysfs however the sysfs attribute 
+file contains multiple lines of output and the feedback was to instead
+follow the principal of one value per one attribute. 
 
-> 
->> Same overwrite question applies to setting shutdown_after in parents.
->> Don't we rather need a list for shutdown_after, at least once everything
->> is async?
->>
->> This needs to be thought through once more, I guess.
->>
->> Jan
->>
->>> +        device_links_read_unlock(idx);
->>> +        put_device(dev);
->>>             spin_lock(&devices_kset->list_lock);
->>>       }
->>>       spin_unlock(&devices_kset->list_lock);
->>> +    async_synchronize_full_domain(&sd_domain);
->>>   }
->>>     /*
->>> diff --git a/include/linux/device/driver.h
->>> b/include/linux/device/driver.h
->>> index 1fc8b68786de..2b6127faaa25 100644
->>> --- a/include/linux/device/driver.h
->>> +++ b/include/linux/device/driver.h
->>> @@ -56,6 +56,7 @@ enum probe_type {
->>>    * @mod_name:    Used for built-in modules.
->>>    * @suppress_bind_attrs: Disables bind/unbind via sysfs.
->>>    * @probe_type:    Type of the probe (synchronous or asynchronous)
->>> to use.
->>> + * @async_shutdown_enable: Enables devices to be shutdown
->>> asynchronously.
->>>    * @of_match_table: The open firmware table.
->>>    * @acpi_match_table: The ACPI match table.
->>>    * @probe:    Called to query the existence of a specific device,
->>> @@ -102,6 +103,7 @@ struct device_driver {
->>>         bool suppress_bind_attrs;    /* disables bind/unbind via
->>> sysfs */
->>>       enum probe_type probe_type;
->>> +    bool async_shutdown_enable;
->>>         const struct of_device_id    *of_match_table;
->>>       const struct acpi_device_id    *acpi_match_table;
->>
+The third version of this RFC[3] follows the one value per one attrbiute
+principal. There was a review comment about using srcu read lock while
+dereferencing the namespace for each node which is protected by the srcu
+lock.
+
+So now the fourth version of this RFC ensures that we protect the 
+namespace dereference code with the srcu read lock.
+
+As we know, NVMe native multipath supports three different io policies 
+(numa, round-robin and queue-depth) for selecting I/O path, however, we  
+don't have any visibility about which path is being selected by multipath
+code for forwarding I/O. This RFC helps add that visibility by adding new 
+sysfs attribute files named "numa_nodes" and "queue_depth" under each 
+namespace block device path /sys/block/nvmeXcYnZ/. We also create a 
+"multipath" sysfs directory under head disk node and then from this 
+directory add a link to each namespace path device this head disk node 
+points to.
+
+Please find below output generated with this proposed RFC patch applied on  
+a system with two multi-controller PCIe NVMe disks attached to it. This 
+system is also an NVMf-TCP host which is connected to an NVMf-TCP target 
+over two NIC cards. This system has four numa nodes online when the below 
+output was captured:
+
+# cat /sys/devices/system/node/online 
+0-3
+
+# lscpu
+<snip>
+NUMA:
+  NUMA node(s):           4
+  NUMA node0 CPU(s):
+  NUMA node1 CPU(s):      0-7
+  NUMA node2 CPU(s):      8-31
+  NUMA node3 CPU(s):      32-63
+<snip>
+
+Please note that numa node 0 though online, doesn't have any CPU 
+currently assigned to it.
+
+# nvme list -v 
+Subsystem        Subsystem-NQN                                                                                    Controllers
+---------------- ------------------------------------------------------------------------------------------------ ----------------
+nvme-subsys1     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme0, nvme1
+nvme-subsys3     nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1                                                 nvme2, nvme3
+nvme-subsys4     nvmet_subsystem                                                                                  nvme4, nvme5
+
+Device           Cntlid SN                   MN                                       FR       TxPort Address        Slot   Subsystem    Namespaces
+---------------- ------ -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+nvme0    66     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0   U50EE.001.WZS000E-P3-C14-R1 nvme-subsys1 nvme1n1
+nvme1    65     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0   U50EE.001.WZS000E-P3-C14-R2 nvme-subsys1 nvme1n1
+nvme2    2      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0524:28:00.0   U50EE.001.WZS000E-P3-C4-R1 nvme-subsys3 nvme3n1
+nvme3    1      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0584:28:00.0   U50EE.001.WZS000E-P3-C4-R2 nvme-subsys3 nvme3n1
+nvme4    1      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100        nvme-subsys4 nvme4n1
+nvme5    2      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100        nvme-subsys4 nvme4n1
+
+Device            Generic           NSID       Usage                      Format           Controllers
+----------------- ----------------- ---------- -------------------------- ---------------- ----------------
+/dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0, nvme1
+/dev/nvme3n1 /dev/ng3n1   0x2          0.00   B /   5.75  GB      4 KiB +  0 B   nvme2, nvme3
+/dev/nvme4n1 /dev/ng4n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme4, nvme5
+
+
+# nvme show-topology
+nvme-subsys1 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=numa
+\
+ +- ns 1
+ \
+  +- nvme0 pcie 052e:78:00.0 live optimized
+  +- nvme1 pcie 058e:78:00.0 live optimized
+
+nvme-subsys3 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=round-robin
+\
+ +- ns 2
+ \
+  +- nvme2 pcie 0524:28:00.0 live optimized
+  +- nvme3 pcie 0584:28:00.0 live optimized
+
+nvme-subsys4 - NQN=nvmet_subsystem
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=queue-depth
+\
+ +- ns 1
+ \
+  +- nvme4 tcp traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100 live optimized
+  +- nvme5 tcp traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100 live optimized
+
+As we could see above, we've three shared namespaces created. In terms of 
+iopolicy, we have "numa" configured for nvme-subsys1, "round-robin" 
+configured for nvme-subsys3 and "queue-depth" configured for nvme-subsys4.
+
+Now, under each namespace "head disk node", we create a sysfs group
+attribute named "multipath". The "multipath" group then points to the 
+each path this head disk node points to:
+
+# tree /sys/block/nvme1n1/multipath/
+/sys/block/nvme1n1/multipath/
+├── nvme1c0n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme0/nvme1c0n1
+└── nvme1c1n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme1/nvme1c1n1
+
+# tree /sys/block/nvme3n1/multipath/
+/sys/block/nvme3n1/multipath/
+├── nvme3c2n1 -> ../../../../../pci0524:28/0524:28:00.0/nvme/nvme2/nvme3c2n1
+└── nvme3c3n1 -> ../../../../../pci0584:28/0584:28:00.0/nvme/nvme3/nvme3c3n1
+
+# tree /sys/block/nvme4n1/multipath/
+/sys/block/nvme4n1/multipath/
+├── nvme4c4n1 -> ../../../../nvme-fabrics/ctl/nvme4/nvme4c4n1
+└── nvme4c5n1 -> ../../../../nvme-fabrics/ctl/nvme5/nvme4c5n1
+
+One can easily infer from the above output that for the "round-robin"
+I/O policy, configured under nvme-subsys3, the I/O workload targeted at 
+nvme3n1 would toggle across nvme3c2n1 and nvme3c3n1 assuming the ana state 
+of each path is optimized (as can be seen in the output of show-topology).
+
+For numa I/O policy, configured under nvme-subsys1, the "numa_nodes" 
+attribute file shows the numa nodes being preferred by the respective 
+namespace path. The numa nodes value is comma delimited list of nodes or 
+A-B range of nodes.
+
+# cat  /sys/block/nvme1n1/multipath/nvme1c0n1/numa_nodes 
+0-1
+
+# cat  /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
+2-3
+
+From the above output, one can easily infer that I/O workload targeted at
+nvme1n1 and running on numa nodes 0 and 1 would use path nvme1c0n1. 
+Similarly, I/O workload running on numa nodes 2 and 3 would use path 
+nvme1c1n1.
+
+For queue-depth I/O policy, configured under nvme-subsys4, the "queue_depth" 
+attribute file shows the number of active/in-flight I/O requests currently 
+queued for each path.
+
+# cat  /sys/block/nvme4n1/multipath/nvme4c4n1/queue_depth 
+518
+
+# cat  /sys/block/nvme4n1/multipath/nvme4c5n1/queue_depth
+504
+
+From the above output, one can easily infer that I/O workload targeted at
+nvme4n1 uses two paths nvme4c4n1 and nvme4c5n1 and the current queue depth 
+of each path is 518 and 504 respectively.
+
+[1] https://lore.kernel.org/all/20240722093124.42581-1-nilay@linux.ibm.com/
+[2] https://lore.kernel.org/all/20240809173030.2281021-2-nilay@linux.ibm.com/
+[3] https://lore.kernel.org/all/20240903135228.283820-1-nilay@linux.ibm.com/
+
+Changes since v3:
+    - Protect the namespace dereference code with srcu read lock (Daniel Wagner)
+
+Changes since v2:
+    - Use one value per one sysfs attribute (Keith Busch)
+
+Changes since v1:
+    - Use sysfs to export multipath I/O information instead of debugfs
+
+Nilay Shroff (1):
+  nvme-multipath: Add sysfs attributes for showing multipath info
+
+ drivers/nvme/host/core.c      |  3 ++
+ drivers/nvme/host/multipath.c | 69 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      | 20 ++++++++--
+ drivers/nvme/host/sysfs.c     | 20 ++++++++++
+ 4 files changed, 108 insertions(+), 4 deletions(-)
 
 -- 
-Siemens AG, Technology
-Linux Expert Center
+2.45.2
 
 
