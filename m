@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74467EED601
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 13:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A8FBEED603
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 13:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=92E95GgMB5Tc32uKx/B5XehC2VJBVYHrSJ2+MqfgsMc=; b=G+pOEwIT/ZpJsPakfI5XNKgPqR
-	LvGnCUkc+cEqNfpQnAKg9HyIegwRID7r+qFFmrCBq+wtIQzKVWvzyYoP+jNikTFPnsac8lR3ObVvk
-	xcXhneotE062nLvOUzuQiOM2MV+1xgCtxYqW7W/crnecXm2OnWg+C4n+tbYkVfW8R3TAF3yMxoAwX
-	JDmsVdKm78HGV41y3eF9Q68hUJx+CAQUmY27OjG7y7zAHnJe28DyhWH0QNNsp/BjLkStzWeGioX/P
-	kVLboTgybe7k2Cq4ZZKoRsihw07SXJilfblXYMLiDvsbHXJQynaFs5IM7eH3yfK3IP9AOjPaAetgW
-	AWvnb7uQ==;
+	bh=wtgi72iuYtGZ9IDF1f6CCII4BRCc85UODAgzqjvcCpg=; b=sRxkLt348E5jd+NN+QaWvptGuM
+	jFLDz5RN3BZKT0rmNejBqo3p/VXrCsa48BR9mD0VOSnc7c8txm46mxle4LqoEETCFCkonsP31RfP9
+	GfNPVuR13L4/dkmoYW1J+lNi1I6lP9SPR/OXhAxbX4cAgRO1bZTVBPmE3vr25vsfKpgd9f7O9BclZ
+	W9rOg/B1T06sOZVG0HdigZ2JAUU1w67mzNfCidb8oGNy2+X1HCd4LoXX251BUJkKox5lWxRVrbyeE
+	oVJQCwIyhDOks9sNRWqAfkyx+zSYd+YNnjXh1dshf5rpPUbNOx0xdbVekde5mkysAUiGMs2hqbmm0
+	EVEzszkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sojgz-0000000DAca-2Ai3;
-	Thu, 12 Sep 2024 13:17:01 +0000
+	id 1soji6-0000000DAyo-1hKz;
+	Thu, 12 Sep 2024 13:18:10 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sojgw-0000000DAbn-3KA5
+	id 1soji2-0000000DAxG-0ZTp
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 13:17:00 +0000
+	Thu, 12 Sep 2024 13:18:08 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 43F69227AAF; Thu, 12 Sep 2024 15:16:56 +0200 (CEST)
-Date: Thu, 12 Sep 2024 15:16:56 +0200
+	id 88577227AB5; Thu, 12 Sep 2024 15:18:03 +0200 (CEST)
+Date: Thu, 12 Sep 2024 15:18:03 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: John Garry <john.g.garry@oracle.com>
 Cc: axboe@kernel.dk, song@kernel.org, yukuai3@huawei.com, kbusch@kernel.org,
@@ -37,18 +37,17 @@ Cc: axboe@kernel.dk, song@kernel.org, yukuai3@huawei.com, kbusch@kernel.org,
 	martin.petersen@oracle.com, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
 	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
-Subject: Re: [PATCH RFC 3/4] block: Support atomic writes limits for
- stacked devices
-Message-ID: <20240912131656.GC29641@lst.de>
-References: <20240903150748.2179966-1-john.g.garry@oracle.com> <20240903150748.2179966-4-john.g.garry@oracle.com>
+Subject: Re: [PATCH RFC 4/4] md/raid0: Atomic write support
+Message-ID: <20240912131803.GD29641@lst.de>
+References: <20240903150748.2179966-1-john.g.garry@oracle.com> <20240903150748.2179966-5-john.g.garry@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903150748.2179966-4-john.g.garry@oracle.com>
+In-Reply-To: <20240903150748.2179966-5-john.g.garry@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_061658_993880_125B5FAC 
-X-CRM114-Status: GOOD (  12.08  )
+X-CRM114-CacheID: sfid-20240912_061806_339705_1EFE7341 
+X-CRM114-Status: GOOD (  13.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,20 +62,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 03, 2024 at 03:07:47PM +0000, John Garry wrote:
-> +	} else if (t->features & BLK_FEAT_ATOMIC_WRITES) {
-> +		t->atomic_write_hw_max = min_not_zero(t->atomic_write_hw_max,
-> +						b->atomic_write_hw_max);
-> +		t->atomic_write_boundary_sectors =
-> +					min_not_zero(t->atomic_write_boundary_sectors,
-> +						b->atomic_write_boundary_sectors);
-> +		t->atomic_write_hw_unit_min = max(t->atomic_write_hw_unit_min,
-> +						b->atomic_write_hw_unit_min);
-> +		t->atomic_write_hw_unit_max =
-> +					min_not_zero(t->atomic_write_hw_unit_max,
-> +						b->atomic_write_hw_unit_max);
+On Tue, Sep 03, 2024 at 03:07:48PM +0000, John Garry wrote:
+>  	if (sectors < bio_sectors(bio)) {
+> -		struct bio *split = bio_split(bio, sectors, GFP_NOIO,
+> +		struct bio *split;
+> +
+> +		if (bio->bi_opf & REQ_ATOMIC)
+> +			return false;
 
-Maybe split this into a helper to make the code more readable?
+I guess this is the erroring out when attempting to split the request.
+Can you add a comment to explain that and why it can't happen for the
+normal I/O patterns?
 
-Otherwise this looks good to me.
 
