@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBD76EEB593
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 11:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 489CAEEB591
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 11:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GPZuS5wvsAjn9FDbEhcpirCEsYojcDK3lhW1ODMTRzw=; b=bXUd9oNXW8yxN7PirwG6HVu/+k
-	97d9dRYrZbQPlQ0EX6GyLen+CZDbYMFbM/SKa6TmHnorofqWtM+OTtHErMNvmvfwj8ZjO2eVUKbcC
-	utTYga/NTDc73kFedcVjC2LkD1oU2irkPAXNqe97eWC7OWkcHvfvsqRfWkXJUFAlMYi8HCeN70LqP
-	yMDlaOnAVWQPNy9sTsZg2/u5BYpbVjHFXn3R/h/x0uMvPnKYzg285zM1Q5LrTvOAPjnMIQhQ9yZTx
-	rDCou31F8PLKTnRwAXp1071lcpVqb0ecl+Z9/9YEf7j0w4zHe+DJ9KUa7TjK+YJGvya6IelXwU3QD
-	4o0Hn5DA==;
+	bh=2JnuJBl7580UzNRE/N3KmM4LmreoZWhWzDO4jU/MMb0=; b=t3162WKG6b05N0trGPBs0u1PQl
+	SxoUEJJpWkB9RRlVcMi2YSVVrGRHbbxt9scA/Qt38h+cwSOiVimbF11hN0L6oaP/YWRcsXw7WUj0x
+	GSLy1oc8c5Y8pOWxxK/oL1nbx9yoHVnMWgHVpqQbfaoPfWnlu1ZyX40kEgawXmsExWkEVIFWGdPvO
+	kJHPe0rhqU2Fwrv6zJu+Ob0pSjNtjDa50EYnT9p0pnHhNw11/smQ03r4RSq8+GOwlwf12dZX9hai8
+	m/7ckBHMlo6zcha9r5BIOA6sd8HLPddLNLy8T6RrUxTLC1SlIT5q2+cRoa0lPmsljic0sgzObfJj6
+	48FCPnMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sohoG-0000000CnPP-3R1I;
-	Thu, 12 Sep 2024 11:16:24 +0000
+	id 1sohoL-0000000CnTQ-1OPV;
+	Thu, 12 Sep 2024 11:16:29 +0000
 Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sohoD-0000000CnMM-2Q8j
+	id 1sohoI-0000000CnQH-1Gk8
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 11:16:23 +0000
+	Thu, 12 Sep 2024 11:16:28 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 351C3A451EC;
-	Thu, 12 Sep 2024 11:16:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF5FC4CED2;
-	Thu, 12 Sep 2024 11:16:19 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id C5354A45257;
+	Thu, 12 Sep 2024 11:16:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 499D0C4CECF;
+	Thu, 12 Sep 2024 11:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726139780;
-	bh=li4T+ci0miq/Ck6TZvJSh35TTfQLVZ3ez/sogkVEAqg=;
+	s=k20201202; t=1726139785;
+	bh=VvpomHjn0PXFDu7e/jW7/gfUbs21DN2RjkYJAyY9I0w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DW0EiOBLWTdXdcYL7iQeO1KEagJUzhnYtnawH9XAOccSvNYhDqCr0kKYfQM7BvY7U
-	 Z/wF8BB04Og3VC/8rARWoLu32FUWjBo1rIeCC7O48BCmC1v7BqOLzPGtwScbzU+jh5
-	 yM16QVL6oJS9fqiYwrvdfeNXuOWuirfNAINa2A9ynEvi8yQyOZcl7Q5AiJF1Psq1wq
-	 BlV0gczTOznpsch1Z/NwAxSedcftaMBui/NE1/LqZ1tIhEFQpGA/yfhVm5TfMyPZyn
-	 iwopoujIQGMD6QhZFyOHnnS0zH8X4MT/j6CzTSHEFKa//fWWK8/8tzQhXDftpbBb7j
-	 3hFBAtVG640fQ==
+	b=aLB45VxSAnSX1Omnd4tNbgxYwGvlO0vlHzxS5XRXs3Jf+H6Sv4g2apXm3/BjzYZcU
+	 jJat8T1BsFMxKIbvmMGDI3d2Wav68reJ0E3LN7sVO+ms1PwvbS5VCjz/Zp+6dn0u38
+	 Hjyfj6EN+qrGYfmm8UXj6bzSoYbXvDIEBCuKATHLVp+eKVznmpDYlgEn6mEfIV25ac
+	 CluAye/X57cQXU1+3AFoTAvO2BnVfHu3mTsIsvPd7Y8II6FIRfLqDJj5jqYb3qQCuB
+	 HoFkBLlicit7oilmLRe8VOlKBnHex2vD837rA3akUkz25QskU2jzMySkDTK/0QW30m
+	 CBd4EkuZoW2Aw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -71,17 +71,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [RFC v2 05/21] dma-mapping: provide an interface to allocate IOVA
-Date: Thu, 12 Sep 2024 14:15:40 +0300
-Message-ID: <dd5ac6c0fdf89ee0e0eb4580309253dcb225e726.1726138681.git.leon@kernel.org>
+Subject: [RFC v2 06/21] dma-mapping: set and query DMA IOVA state
+Date: Thu, 12 Sep 2024 14:15:41 +0300
+Message-ID: <818f2fbdb80f07297ca2abe5d04443d3b665f445.1726138681.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <cover.1726138681.git.leon@kernel.org>
 References: <cover.1726138681.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_041621_780422_B2F90B6B 
-X-CRM114-Status: GOOD (  14.46  )
+X-CRM114-CacheID: sfid-20240912_041626_648801_54216BB1 
+X-CRM114-Status: GOOD (  16.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,117 +98,113 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Existing .map_page() callback provides two things at the same time:
-allocates IOVA and links DMA pages. That combination works great for
-most of the callers who use it in control paths, but less effective
-in fast paths.
-
-These advanced callers already manage their data in some sort of
-database and can perform IOVA allocation in advance, leaving range
-linkage operation to be in fast path.
-
-Provide an interface to allocate/deallocate IOVA and next patch
-link/unlink DMA ranges to that specific IOVA.
+Provide an option to query and set if IOMMU path can be taken.
+Callers who supply range of pages can perform it only once as
+the whole range is supposed to have same memory type.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/dma-mapping.h | 18 ++++++++++++++++++
- kernel/dma/mapping.c        | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+)
+ include/linux/dma-mapping.h | 12 ++++++++++++
+ kernel/dma/mapping.c        | 38 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
 
 diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 285075873077..6a51d8e96a9d 100644
+index 6a51d8e96a9d..2c74e68b0567 100644
 --- a/include/linux/dma-mapping.h
 +++ b/include/linux/dma-mapping.h
-@@ -78,6 +78,8 @@
- 
- struct dma_iova_state {
- 	struct device *dev;
-+	dma_addr_t addr;
-+	size_t size;
+@@ -81,6 +81,7 @@ struct dma_iova_state {
+ 	dma_addr_t addr;
+ 	size_t size;
  	enum dma_data_direction dir;
++	u8 use_iova : 1;
  };
  
-@@ -115,6 +117,10 @@ static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
- 	return 0;
- }
- 
-+int dma_alloc_iova_unaligned(struct dma_iova_state *state, phys_addr_t phys,
-+			     size_t size);
-+void dma_free_iova(struct dma_iova_state *state);
-+
- dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
- 		size_t offset, size_t size, enum dma_data_direction dir,
- 		unsigned long attrs);
-@@ -164,6 +170,14 @@ void dma_vunmap_noncontiguous(struct device *dev, void *vaddr);
+ static inline void dma_init_iova_state(struct dma_iova_state *state,
+@@ -169,6 +170,9 @@ void *dma_vmap_noncontiguous(struct device *dev, size_t size,
+ void dma_vunmap_noncontiguous(struct device *dev, void *vaddr);
  int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
  		size_t size, struct sg_table *sgt);
++void dma_set_iova_state(struct dma_iova_state *state, struct page *page,
++			size_t size);
++bool dma_can_use_iova(struct dma_iova_state *state);
  #else /* CONFIG_HAS_DMA */
-+static inline int dma_alloc_iova_unaligned(struct dma_iova_state *state,
-+					   phys_addr_t phys, size_t size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+static inline void dma_free_iova(struct dma_iova_state *state)
-+{
-+}
- static inline dma_addr_t dma_map_page_attrs(struct device *dev,
- 		struct page *page, size_t offset, size_t size,
- 		enum dma_data_direction dir, unsigned long attrs)
-@@ -370,6 +384,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- 	return false;
+ static inline int dma_alloc_iova_unaligned(struct dma_iova_state *state,
+ 					   phys_addr_t phys, size_t size)
+@@ -307,6 +311,14 @@ static inline int dma_mmap_noncontiguous(struct device *dev,
+ {
+ 	return -EINVAL;
  }
- #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
-+static inline int dma_alloc_iova(struct dma_iova_state *state, size_t size)
++static inline void dma_set_iova_state(struct dma_iova_state *state,
++				      struct page *page, size_t size)
 +{
-+	return dma_alloc_iova_unaligned(state, 0, size);
 +}
++static inline bool dma_can_use_iova(struct dma_iova_state *state)
++{
++	return false;
++}
+ #endif /* CONFIG_HAS_DMA */
  
- struct page *dma_alloc_pages(struct device *dev, size_t size,
- 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+ #if defined(CONFIG_HAS_DMA) && defined(CONFIG_DMA_NEED_SYNC)
 diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index fd9ecff8beee..4cd910f27dee 100644
+index 4cd910f27dee..16cb03d5d87d 100644
 --- a/kernel/dma/mapping.c
 +++ b/kernel/dma/mapping.c
-@@ -951,3 +951,38 @@ unsigned long dma_get_merge_boundary(struct device *dev)
- 	return ops->get_merge_boundary(dev);
+@@ -6,6 +6,7 @@
+  * Copyright (c) 2006  Tejun Heo <teheo@suse.de>
+  */
+ #include <linux/memblock.h> /* for max_pfn */
++#include <linux/memremap.h>
+ #include <linux/acpi.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/iommu-dma.h>
+@@ -15,6 +16,7 @@
+ #include <linux/of_device.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
++#include <linux/cc_platform.h>
+ #include "debug.h"
+ #include "direct.h"
+ 
+@@ -986,3 +988,39 @@ void dma_free_iova(struct dma_iova_state *state)
+ 	iommu_dma_free_iova(state);
  }
- EXPORT_SYMBOL_GPL(dma_get_merge_boundary);
+ EXPORT_SYMBOL_GPL(dma_free_iova);
 +
 +/**
-+ * dma_alloc_iova_unaligned - Allocate an IOVA space
++ * dma_set_iova_state - Set the IOVA state for the given page and size
 + * @state: IOVA state
-+ * @phys: physical address
-+ * @size: IOVA size
++ * @page: page to check
++ * @size: size of the page
 + *
-+ * Allocate an IOVA space for the given IOVA state and size. The IOVA space
-+ * is allocated to the worst case when whole range is going to be used.
++ * Set the IOVA state for the given page and size. The IOVA state is set
++ * based on the device and the page.
 + */
-+int dma_alloc_iova_unaligned(struct dma_iova_state *state, phys_addr_t phys,
-+			     size_t size)
-+{
-+	if (!use_dma_iommu(state->dev))
-+		return 0;
-+
-+	WARN_ON_ONCE(!size);
-+	return iommu_dma_alloc_iova(state, phys, size);
-+}
-+EXPORT_SYMBOL_GPL(dma_alloc_iova_unaligned);
-+
-+/**
-+ * dma_free_iova - Free an IOVA space
-+ * @state: IOVA state
-+ *
-+ * Free an IOVA space for the given IOVA attributes.
-+ */
-+void dma_free_iova(struct dma_iova_state *state)
++void dma_set_iova_state(struct dma_iova_state *state, struct page *page,
++			size_t size)
 +{
 +	if (!use_dma_iommu(state->dev))
 +		return;
 +
-+	iommu_dma_free_iova(state);
++	state->use_iova = iommu_can_use_iova(state->dev, page, size, state->dir);
 +}
-+EXPORT_SYMBOL_GPL(dma_free_iova);
++EXPORT_SYMBOL_GPL(dma_set_iova_state);
++
++/**
++ * dma_can_use_iova - check if the device type is valid
++ *                    and won't take SWIOTLB path
++ * @state: IOVA state
++ *
++ * Return %true if the device should use swiotlb for the given buffer, else
++ * %false.
++ */
++bool dma_can_use_iova(struct dma_iova_state *state)
++{
++	if (!use_dma_iommu(state->dev))
++		return false;
++
++	return state->use_iova;
++}
++EXPORT_SYMBOL_GPL(dma_can_use_iova);
 -- 
 2.46.0
 
