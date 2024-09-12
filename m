@@ -4,135 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEE43EED61E
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 16:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C7CDEED617
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 16:37:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vy7lCYSbdz26N4UI7fqWr6sAhZElmMyKMCnXT+wW9js=; b=Hx+bgJ6COYC/PlyF3j8s2lH5Jo
-	ONp8//Xt5gQmuP5AfSLaQO2eryadpkQn/oEIsBYBh56ZTqH5ohhtNM/ggH0CpYX0qs+udNsQdNL4P
-	PifARudTGVHqgKVTNOv8rxU1XHYJMtNrGyWviQYf2svFzgNGG0GBNIy+3S2rNwgoldanIMG5Kw3Cj
-	3laNhE1ffnXVB/9keFFF0vEZhnTLsDBB6qN9KqB/45POYhGzJSeqf/pnZwx/kOqtI1UzR5h09tQSG
-	ci5XJLl+TLtsqagOYHM+DLYbjZjXTwDhDEMVN+jMEXKnPWoryZmrgTBY+AcYylHCAM3sCcm1DcycO
-	lEVfuldw==;
+	bh=O6q4+5B1dzDElrwSCoqQMrwi9Y4XTNRw+aY9OmVLZZc=; b=o3kWVPJ5CnzkUyX0W0qK+9ohwT
+	MBjumA125+A4ijLBuqpPmjzn1ZELKzhZo5zn9zgbPHPZZnCPrPNOiH4SLq4enKEbbwxDFeUqJCLfc
+	Pf7eZs6vZ8V60UvvVYdGpYh7NZg8yFsLw2D8FCKoVAcW6h+U21g1kunKxiBpR/dyhhFTnbppnOW0Y
+	Odswaid9irNuPmwoDNVKKRB/BeGueLlz2zZN4VNKJjLC+JFwVg//upzrGFyMtrnvCVeVGLQI6VZ9C
+	z/32okzTZHRg6yM/KJyZE9lZq/zjkh9yLtCf87az7o+fk46/2hOX4XyaXR0sABGgttHNtsq/NkWWb
+	X2gGP1qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1somj2-0000000DhxS-3aoK;
-	Thu, 12 Sep 2024 16:31:20 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1somoT-0000000Dio8-3hOd;
+	Thu, 12 Sep 2024 16:36:57 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1somiz-0000000DhwC-0d6W
+	id 1somoQ-0000000DimQ-0WaL
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 16:31:19 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240912163113epoutp024f539628c24b33c27957630a9936b4b8~0jCsJaCW81232212322epoutp02d
-	for <linux-nvme@lists.infradead.org>; Thu, 12 Sep 2024 16:31:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240912163113epoutp024f539628c24b33c27957630a9936b4b8~0jCsJaCW81232212322epoutp02d
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1726158673;
-	bh=vy7lCYSbdz26N4UI7fqWr6sAhZElmMyKMCnXT+wW9js=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=jLgvOokAe+FhuM9YNK3Hy86Su/KXSz86Q+mc3gEvkdWV+q6u/Tnaqp+rXymB/BFjw
-	 bmP85s6EXygQ5WqsP0m0CSc/cqRqwH8fMvxwM1aldaQbm+i6CssiiGaBCHSD49lS/S
-	 oLz+a0/D/pOsZb9VfD7bIOjddotg/tpy0oJhI/Bc=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20240912163113epcas5p36c0a7ab9eec20e8b209022fda8ea0c0d~0jCrpc_cZ2285522855epcas5p3S;
-	Thu, 12 Sep 2024 16:31:13 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4X4NH338G0z4x9Pp; Thu, 12 Sep
-	2024 16:31:11 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5D.1E.09640.F4713E66; Fri, 13 Sep 2024 01:31:11 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240912163110epcas5p400bbdbc9b6fbfcd8fc2cb06119bf1515~0jCpBPquT0871108711epcas5p4d;
-	Thu, 12 Sep 2024 16:31:10 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240912163110epsmtrp2e4b05be92f9a9935b208ffd318ba7ec4~0jCpARmGE2388023880epsmtrp2H;
-	Thu, 12 Sep 2024 16:31:10 +0000 (GMT)
-X-AuditID: b6c32a49-a57ff700000025a8-f4-66e3174ffa9a
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	37.90.08964.E4713E66; Fri, 13 Sep 2024 01:31:10 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240912163103epsmtip12a8aad761a334eca507fe293432399a7~0jCigBZNm1719617196epsmtip1M;
-	Thu, 12 Sep 2024 16:31:02 +0000 (GMT)
-Message-ID: <e6ae5391-ae84-bae4-78ea-4983d04af69f@samsung.com>
-Date: Thu, 12 Sep 2024 22:01:00 +0530
+	Thu, 12 Sep 2024 16:36:55 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-2054fea6f26so827335ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 12 Sep 2024 09:36:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1726159012; x=1726763812; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O6q4+5B1dzDElrwSCoqQMrwi9Y4XTNRw+aY9OmVLZZc=;
+        b=QeLq8Dhnpu+QuaZtFx3VU9hTuAXTAVtsSJjeDxkfPxZS5xR+bBiNF8bp+kv+wQsIud
+         zySNov9WAo8/cs4VTpAkdwLyOrWsz6kn8wAY6kKG9ZVZkTv8i9DTB0PfOpHJXv7yeEvU
+         eQjUglF0TW7P6korvnfDSJGHy+9RGqqGfpFAdGugHtGGzIcmdJKavx7yXDrV2hqcgSDU
+         qnBLFGQS7fNpOT8T1iDR5BzcavWfJp7dRB8vp611nZIPqBF/CMEm+zcZH3BsQj1n0ARz
+         zbrdicN4m+Lk7kRwYr9nbNoh9qVyWBrxmctKsBNipRv5ICQTmH+lH64vqGt2mt1QasaN
+         /sxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726159012; x=1726763812;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O6q4+5B1dzDElrwSCoqQMrwi9Y4XTNRw+aY9OmVLZZc=;
+        b=mHHcZyYg0orp/aAiCKNHyJQcoiu2dq61vR1p6ZL1sN6Ac+eebOh4noVNcUIMjTfFGj
+         WQWoKhZMho5mRMm6HkT/d0uc2q+DfSkT1bVYVMSSKTU0tXhiF1O1nMlwMBCaWhY61N95
+         eCZgL82EFO4FCiC9GPJCUh3uj2LKTRQkOmhKO6XaYHvDlMx/gtYL6UtEZt9IlrDttplA
+         eZRAdjYhPGHXQeBo5eP94XbvCDSxVPW3tzf0/8lDCmynngVF7MjSHcT/spkjdgwxeTm6
+         RFGCsAGUEtrOOppEkKlDyMKUcwkfk4zF61owXN7h0lJDCsf3S6lIijLxKEUN74/Cs9PW
+         82CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/tWfATIPB4k31iDAcbbAenisMy6faPht2IQUo7ez/lVvVAXGOr48Nr4G6DvAO+MammDSHRoFC/N7Y@lists.infradead.org
+X-Gm-Message-State: AOJu0YzFeVf0erOvbkdiMB7Qs/7G6cZtim+HosXwL1y13nqEUxH3JxXc
+	yCSrz3fntLOAfjjX70s6FmH7WelfaAunDP+OvSXpALte0Eh+uRskxqFlqNAs5RmRecIqfta5EOi
+	YfKYOjATif93oZKmO4/6csJsA017+OK2Cl+BKJw==
+X-Google-Smtp-Source: AGHT+IEvuK2/C9SKR9LDljnhJ6Xha1j/3+G4D1jNUklth3QzOk+XtBkpfo/0udmvLjLT/3UQjcmXO62DLyEN6F9Ohks=
+X-Received: by 2002:a17:903:190:b0:207:14d2:ddeb with SMTP id
+ d9443c01a7336-2076e4249a8mr20956535ad.13.1726159012392; Thu, 12 Sep 2024
+ 09:36:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v5 4/5] sd: limit to use write life hints
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
-	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	jaegeuk@kernel.org, jlayton@kernel.org, chuck.lever@oracle.com,
-	bvanassche@acm.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Nitesh
-	Shetty <nj.shetty@samsung.com>
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20240912130235.GB28535@lst.de>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xbVRzeubcvZjqvhdlDjROauTlmC8XSXdhgM9vkMkAbh2bTLNDRyyOU
-	tukDkSzyENksDhQMmx2kMLCdJY7wHAhNlhbGmDIWGHawMXGULQF5FKIEELXtReW/7/zO953v
-	fL9ffiyUU8zksTKVOlKjlCn4jO20Dse+EME73Km0sAEzB2+cKGfgs44lgFctrqL43xPPEHzs
-	ZheCf9fYh+BXLn2K4K4mI4o3l7PwqUfLTHzVbGXiFfafAW4b348PX43Fe2wDNNxknmbipc5O
-	Bm7p/wvBO9ZNKH59doGGD2300/EhYzXzyIvEyP14YuhxM42oqrjDIEYG9USL9XMG0dqQT3TX
-	LiNE91gBg3BPj9OIsjYrIH6q7WUSyy27iBbXHCJlf5B1KIOUyUlNEKlMVckzlenR/PiTyUeT
-	IyRhIoEoEj/AD1LKsslo/rEEqeCtTIUnMz8oR6bQe0pSmVbLD405pFHpdWRQhkqri+aTarlC
-	LVYLtbJsrV6ZLlSSuihRWFh4hIeYkpXR535IU/+G5T6zcwuAi20AfiyIiaFldI5pANtZHKwb
-	wJXaFab3goMtAVhqO0zhPwCcN540AJZP0P00keLbALS0twPqMAdg3fUVxCtgYzHwduld4MU0
-	7FXYPvIFnaq/AAe+cdG8eCd2Fq6NVvs4/lg0LL3o9NVRjAvHXSbfOwEYH07PDPoMUMxMg9+6
-	hxjeXzCwffBepd7L8cNeh13uIgalfQXemKtGvXyINfnBujU3nYp5DI5P9DAo7A9n+tuYFObB
-	5XnbZj0LTj6ZpFH4HOxsLdvUHoYFfz6ge31Rj2/TD6GU1w54cd2FUE1hwwslHIodDB9XTG8q
-	ufDXyw10ikLAvsJAqlVjAF5ZNaNfgiDjlq4Yt6Q3bklj/N+4FtCsIJBUa7PTSW2EWqQkP/pv
-	2Kmq7BbgW4eQuE4wMbkotAOEBewAslB+ALuC8SSNw5bLPs4jNapkjV5Bau0gwjOer1DezlSV
-	Z5+UumSRODJMLJFIxJFvSER8Lnv2sxo5B0uX6cgsklSTmn91CMuPV4CE5xws3DFbfJybtJZ/
-	YiDx3rXexurG3DHLc8XStsqzwrkG6Ymo2JRQSZ0Os4uSMIVN0DFzs23ox/O/HOg6lc5JMuSn
-	VPaLTV8Hn7Fc2nbKsG1l6ulu2bUbR9+uCeY6FzgXTKO7BJFcU3hRcg2RNzD17l2d47WXl1p0
-	VwP3+sc3v8nTx+J505XCT5y7f5+0Xh4W1T9qM1dZWRtCi9q8UOa41a56MPiwJl4KqubPJe5B
-	vi9YHI5D69Oel79/vP5MSUKAYOzDjQV2THdEb1mOJuu2Ni7UUMS7ELXep3wvr8RJlzrZCeGI
-	o7mx9f6dQkfJwSPFp3P3us+/VF6VtCfl9P6eW3yaNkMmCkE1Wtk/HCMLyJcEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7bCSnK6f+OM0g3n/mS1W3+1ns3h9+BOj
-	xbQPP5kt/t99zmRx88BOJouVq48yWcye3sxk8WT9LGaLjf0cFo/vfGa3+LlsFbvFpEPXGC32
-	3tK2uLTI3WLP3pMsFvOXPWW36L6+g81i+fF/TBbbfs9ntlj3+j2Lxfm/x1ktzs+aw+4g5nH5
-	irfH+XsbWTymTTrF5nH5bKnHplWdbB6bl9R77F7wmclj980GNo+PT2+xePRtWcXocWbBEXaP
-	z5vkPDY9ecsUwBvFZZOSmpNZllqkb5fAlXH0422WgjcCFc8PiTcwPuHtYuTgkBAwkdj9zLeL
-	kYtDSGA3o8TdQ2fYuhg5geLiEs3XfrBD2MISK/89Z4coes0o0XNsDitIglfATuJE9zlGEJtF
-	QFVi6+UeqLigxMmZT1hAbFGBJIk99xuZQGxhAVuJ7t7rYHFmoAW3nswHi4sIKEk8fXWWEWQB
-	s8AyFomDU94yQWy7ySjxpKedEeRUNgFNiQuTS0EaOAV0JHZ+bGKDGGQm0bW1ixHClpfY/nYO
-	8wRGoVlI7piFZN8sJC2zkLQsYGRZxSiZWlCcm55bbFhgmJdarlecmFtcmpeul5yfu4kRnA60
-	NHcwbl/1Qe8QIxMH4yFGCQ5mJRHeSWyP0oR4UxIrq1KL8uOLSnNSiw8xSnOwKInzir/oTRES
-	SE8sSc1OTS1ILYLJMnFwSjUwebOyBb/JDznTLcPvbDuvR9roMVdyubRI5AMJzbW39v343S/4
-	deec34V/mVZ79rgHsoeFswUed0h4k7lQR+3BgSO5lZw7ZCaYCmYYV6tfZl10sF7X1CCm2X/q
-	o1uS958c/CKhtvDwhQXT5v9w9LtUePnp1TRbZgWrRUm//E32PbGV4vMLq3N+KyfYdL//wiuP
-	qUbVGU6ZLhxKvKo/X1x8+5D/GktEY780c0546GauZ4qntOUNFzxbutDq3y6GyzIy3K+bG1kZ
-	e0XuXphTw3B0s+qcjROUNMNzPp7KZDoacOvjpJ8LdrNzv5ntvGnmjuiQycnPOBmUC65F+1RU
-	srLe/yfVLrtp8ymTTgvJoDVKLMUZiYZazEXFiQB3nG6idgMAAA==
-X-CMS-MailID: 20240912163110epcas5p400bbdbc9b6fbfcd8fc2cb06119bf1515
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c
-References: <20240910150200.6589-1-joshi.k@samsung.com>
-	<CGME20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c@epcas5p3.samsung.com>
-	<20240910150200.6589-5-joshi.k@samsung.com> <20240912130235.GB28535@lst.de>
+References: <20240912064259.5228-1-d.bogdanov@yadro.com> <20240912064259.5228-8-d.bogdanov@yadro.com>
+In-Reply-To: <20240912064259.5228-8-d.bogdanov@yadro.com>
+From: Caleb Sander <csander@purestorage.com>
+Date: Thu, 12 Sep 2024 09:36:41 -0700
+Message-ID: <CADUfDZpUJEhowQRis0u==4cKkQPbm7mJJvg6TsaZ-myfFSATJg@mail.gmail.com>
+Subject: Re: [PATCH 7/7] nvme: allow send fused commands
+To: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org, linux@yadro.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_093117_689311_41A6FE8F 
-X-CRM114-Status: GOOD (  20.17  )
+X-CRM114-CacheID: sfid-20240912_093654_320831_7B1A2A30 
+X-CRM114-Status: GOOD (  24.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,63 +90,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/12/2024 6:32 PM, Christoph Hellwig wrote:
-> On Tue, Sep 10, 2024 at 08:31:59PM +0530, Kanchan Joshi wrote:
->> From: Nitesh Shetty <nj.shetty@samsung.com>
->>
->> The incoming hint value maybe either lifetime hint or placement hint.
-> 
-> .. may either be .. ?
+There is prior discussion about exactly this change at
+https://github.com/linux-nvme/nvme-cli/issues/318. The concerns raised
+there still appear valid 6 years later. The main issue is that this
+interface requires 2 separate ioctls/io_uring operations to submit a
+Fused Compare and Write. That means the 2 commands could be submitted
+to different I/O queues, which wouldn't work. Not to mention that 2
+threads are required in order to submit the commands concurrently if
+the blocking ioctls are used. Additionally, another application using
+the NVMe controller concurrently could submit a command in between the
+fused commands, which would also break the Fused Compare and Write.
 
-Sure.
+FYI there was a set of patches sent to the mailing list
+https://lore.kernel.org/linux-nvme/20210105224939.1336-1-clay.mayers@kioxia=
+.com/T/#u
+that attempted to implement a new passthru ioctl for submitting fused
+commands. But it adds memory overhead to each NVMe request and there
+are a lot of corner cases to consider around error handling.
 
->> Make SCSI interpret only temperature-based write lifetime hints.
->>
->> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
->> ---
->>   drivers/scsi/sd.c | 7 ++++---
->>   1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
->> index dad3991397cf..82bd4b07314e 100644
->> --- a/drivers/scsi/sd.c
->> +++ b/drivers/scsi/sd.c
->> @@ -1191,8 +1191,8 @@ static u8 sd_group_number(struct scsi_cmnd *cmd)
->>   	if (!sdkp->rscs)
->>   		return 0;
->>   
->> -	return min3((u32)rq->write_hint, (u32)sdkp->permanent_stream_count,
->> -		    0x3fu);
->> +	return min3((u32)WRITE_LIFETIME_HINT(rq->write_hint),
-> 
-> No fan of the screaming WRITE_LIFETIME_HINT. 
+As an implementer of Fused Compare and Write on the target side, I can
+say the concept of "fused commands" is pretty horrible to work with.
+It breaks the model where each NVMe command is an independent
+operation and requires a ton of additional error propagation logic.
+Not to mention that the NSID, SLBA, and NLB parameters are now
+duplicated between the 2 commands... As far as I can tell, the only
+reason to make the operation 2 commands is to allow a separate PRP/SGL
+for each command. I guess this avoids the memcpy that would be
+required if a single concatenated data buffer was used? But at what
+cost???
 
-Macros tend to. Once it becomes lowercase (inline function), it will 
-stop screaming.
-
-    Or the fact that multiple
-> things are multiplexed into the single rq->write_hint field to
-> start with.
-
-Please see the response in patch #1. My worries were:
-(a) adding a new field and propagating it across the stack will cause 
-code duplication.
-(b) to add a new field we need to carve space within inode, bio and 
-request.
-We had a hole in request, but it is set to vanish after ongoing 
-integrity refactoring patch of Keith [1]. For inode also, there is no 
-liberty at this point [2].
-
-I think current multiplexing approach is similar to ioprio where 
-multiple io priority classes/values are expressed within an int type. 
-And few kernel components choose to interpret certain ioprio values at will.
-
-And all this is still in-kernel details. Which can be changed if/when 
-other factors start helping.
-
-[1] 
-https://lore.kernel.org/linux-nvme/20240911201240.3982856-2-kbusch@meta.com/
-[2] 
-https://lore.kernel.org/linux-nvme/20240903-erfassen-bandmitglieder-32dfaeee66b2@brauner/
+On Wed, Sep 11, 2024 at 11:45=E2=80=AFPM Dmitry Bogdanov <d.bogdanov@yadro.=
+com> wrote:
+>
+> Allow a user to pass fused flags for the commands.
+>
+> Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
+> ---
+>  drivers/nvme/host/ioctl.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+> index 1d769c842fbf..affedac90f04 100644
+> --- a/drivers/nvme/host/ioctl.c
+> +++ b/drivers/nvme/host/ioctl.c
+> @@ -220,7 +220,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct =
+nvme_user_io __user *uio)
+>
+>         if (copy_from_user(&io, uio, sizeof(io)))
+>                 return -EFAULT;
+> -       if (io.flags)
+> +       if (io.flags & 0xFC)
+>                 return -EINVAL;
+>
+>         switch (io.opcode) {
+> @@ -299,7 +299,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, stru=
+ct nvme_ns *ns,
+>
+>         if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+>                 return -EFAULT;
+> -       if (cmd.flags)
+> +       if (cmd.flags & 0xFC)
+>                 return -EINVAL;
+>         if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
+>                 return -EINVAL;
+> @@ -346,7 +346,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, st=
+ruct nvme_ns *ns,
+>
+>         if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+>                 return -EFAULT;
+> -       if (cmd.flags)
+> +       if (cmd.flags & 0xFC)
+>                 return -EINVAL;
+>         if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
+>                 return -EINVAL;
+> --
+> 2.25.1
+>
+>
 
