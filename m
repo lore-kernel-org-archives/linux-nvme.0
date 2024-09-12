@@ -4,135 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A00DCEED60A
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 14:32:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59EBBEED60A
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 14:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ACR6rrLUWphR7t1B63Yh3MfzSYDxZJ0oLg9pI0Q1pZY=; b=aZYxbrLaH6ibWEM6dme/8IcHX4
-	M+Q4m89Y/myOReMiNGecXqNQWmMFqDu1HKCtzeySHDyD7aRRrQJn8k8YZqFFeDygzHo2joWlKWzYB
-	TM1qhu0YezNS+cSXoi/nifyPBZ57auzqZgL7jxy/6TFtVMQq6CtH1Z1nOhq2hJumdj7TcDiUY6KPv
-	8NpqQlVcNU4uu1Z35PmeClm6dkQoLpyxmwFp+/0ooEkWWqvefkAern/JcVW/DqZcb1MrL3rTODuTz
-	Tk9xQ6kyUKFRCTKeKr0oSRwHqc4Q8W+2NXm153fR1qhpFrgsRJFyIE3wViYStYT9qbygM2Fghy4y/
-	PVghAQXw==;
+	bh=FYwbxEfzgjP484q7GbXtyYhGMfu3fb71XeJefeAuTQU=; b=twG6rMGnqugICdFb8iKHWeCfVp
+	bHIp+z8uUdl6dw5lO3LahXiOs+qOB2bGOHBBs1Um92F3rK0Pd+sg7hOZe0qw6xiMoXY3iIfIhIcJm
+	cEhA30tmnM/atMjT6HXazUdnvimlyYwRSdu23JHbNKqu95VTA7GT3YQOi85MZUQTYDHFVPdQX4Br3
+	oreQd0wMn8Y3BdVIoAOoigY0CGsecl2earPjmKvkNQCbXFYvVV+i/aqPJARd+iKmVxTjiTVkyEYCu
+	3dPIKsOG+9Gs9Zg43kggWqyj42qoajhVqhXVmb9pdVZJLFCqs56/NzyE9MlVlZ1nGYwqtsfFYfGW4
+	hK0dxkmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soks9-0000000DMZ6-1Ehg;
-	Thu, 12 Sep 2024 14:32:37 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1sokuN-0000000DNB0-1Wjw;
+	Thu, 12 Sep 2024 14:34:55 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sokpj-0000000DM36-2et6
+	id 1sokrm-0000000DMRt-3b1u
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 14:30:10 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A5AC521B09;
-	Thu, 12 Sep 2024 14:30:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726151403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	Thu, 12 Sep 2024 14:32:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1726151532;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ACR6rrLUWphR7t1B63Yh3MfzSYDxZJ0oLg9pI0Q1pZY=;
-	b=1mhtAXFsvaEj9g2jk7KJxSRrrwTfsmhv6q9IoQvQMyQDNdfM3hYWbTdVxQ/tHeBI/D/Zlb
-	BIRaeVj6APB9+psBFWMtgjc3KkOvxYhuWFSWo2jJY0HsSECURPXSktEGU2/UBn6/nDUnzD
-	pvCrt7men5B4HNesRilMufQWlSf4vSk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726151403;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ACR6rrLUWphR7t1B63Yh3MfzSYDxZJ0oLg9pI0Q1pZY=;
-	b=FmNVRJLT5hsVI0cRwm5iytHv6W/RnbqO1lXDc1UCdbfzcY6hEhHvLv/ZxHQ4rk264ZROue
-	sbm+UiPtJP4j5TCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1mhtAXFs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FmNVRJLT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726151403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ACR6rrLUWphR7t1B63Yh3MfzSYDxZJ0oLg9pI0Q1pZY=;
-	b=1mhtAXFsvaEj9g2jk7KJxSRrrwTfsmhv6q9IoQvQMyQDNdfM3hYWbTdVxQ/tHeBI/D/Zlb
-	BIRaeVj6APB9+psBFWMtgjc3KkOvxYhuWFSWo2jJY0HsSECURPXSktEGU2/UBn6/nDUnzD
-	pvCrt7men5B4HNesRilMufQWlSf4vSk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726151403;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ACR6rrLUWphR7t1B63Yh3MfzSYDxZJ0oLg9pI0Q1pZY=;
-	b=FmNVRJLT5hsVI0cRwm5iytHv6W/RnbqO1lXDc1UCdbfzcY6hEhHvLv/ZxHQ4rk264ZROue
-	sbm+UiPtJP4j5TCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9330B13AD8;
-	Thu, 12 Sep 2024 14:30:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id djFBI+v64mZmBQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 12 Sep 2024 14:30:03 +0000
-Message-ID: <9ac5f07d-4b43-4a62-a117-a02392e92a19@suse.de>
-Date: Thu, 12 Sep 2024 16:30:03 +0200
+	bh=FYwbxEfzgjP484q7GbXtyYhGMfu3fb71XeJefeAuTQU=;
+	b=OftcWMxF5XI8yVKKRGarKcoQ926N//jbIyoVHQNKWALZUiDnj2Y7uZ2ujuKD0JKE0xldWq
+	OounHpXt+4WqHXFbVu/uDrLY0E2R4iHHRfpbLlvc94diawCnXaiWtZmUoplUt8Zy3RXGoX
+	20raZ/JOgiXrbx64IBN6Igyeh0hHUEw=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-646-HECC94mTMG2KCq3aWk8irg-1; Thu, 12 Sep 2024 10:30:39 -0400
+X-MC-Unique: HECC94mTMG2KCq3aWk8irg-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2f75c8181c0so11054951fa.0
+        for <linux-nvme@lists.infradead.org>; Thu, 12 Sep 2024 07:30:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726151437; x=1726756237;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FYwbxEfzgjP484q7GbXtyYhGMfu3fb71XeJefeAuTQU=;
+        b=GvU66G3nd2ikmmT6RQYK/vY5QE+8CAdHrP6dQKsG037V7NuuZxlfoBvfWnihyMcRLs
+         ELpsrc7RFjlttq4rUfiaA/U/iyBvKg2cw3fJy+0ZdeRVEdOeBub1d6dN3vfzb3kAw1bH
+         xoyiYjnl4hQxKOhxNl9xZaFIBqdD+HFT8ilFm6KPODEKCtFoO9CenryLrY9cH//fpNM8
+         hOjG0SZoew9V160X5G9x3gbZl51lg8QMdkY/aT6a8wHCehwEc3ZJi/VH2wzVx32p4A9f
+         pijCID+5mfu670JGmMRbz2ZZA19rDazYt4/ZKwdt5zSrElMoL7K5OQJPleLdO0FcP10B
+         lsAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUb9tJnvr6qGKB/bbX+sjoBXWpLQhZYpHO8IVUTJJnWB5w2dS3I2WEEV4Pri/BizPUVnssqcvvQyouV@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz6XXEA9NW+1knQM/os6FAbzl58CUgQy4tSHuv6haBnNEzpDp2h
+	+B7FAy7pn3jfL0CIBK/OeZ9sYp6K8uJlNX4kjbSphEZAH+jCVcTJb3geuYIoclgooVr2pzed8y8
+	Ef0h/tkGr38k9slGb+x2rSo7Dly0JDwfI75D7yV2mNbDfa8rM5PaMHnODezhgxfaM1s9IMQ6KwG
+	B4JDBNEjP0TeqaEWcSSoTqenSv5UVNT/PCPq3819c=
+X-Received: by 2002:a2e:b889:0:b0:2f7:8d3f:11fc with SMTP id 38308e7fff4ca-2f78d3f12efmr10488951fa.31.1726151436932;
+        Thu, 12 Sep 2024 07:30:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHbg6QnIMTU4ODqKcSnlXW0968zPimhFSBfAuTm7uncIIqVoFMKCU+SvrhTex8/e0gr3QExhr8Cf7ntxBLUD8Q=
+X-Received: by 2002:a2e:b889:0:b0:2f7:8d3f:11fc with SMTP id
+ 38308e7fff4ca-2f78d3f12efmr10488301fa.31.1726151435583; Thu, 12 Sep 2024
+ 07:30:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-multipath: stuck partition scan on inaccessible
- paths
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240911124610.81615-1-hare@kernel.org>
- <20240911124610.81615-4-hare@kernel.org>
- <2193b894-2999-4450-a221-19045c2b3e53@grimberg.me>
- <0acc13ea-50d9-4975-8859-dded066527e3@suse.de>
- <40050af2-f056-4e4e-b1ea-d3bf6c7bc13a@grimberg.me>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <40050af2-f056-4e4e-b1ea-d3bf6c7bc13a@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A5AC521B09
-X-Spamd-Result: default: False [-6.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+References: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
+ <20240822202805.6379-4-stuart.w.hayes@gmail.com> <83f39f2d-7237-4880-83e3-1c3afc62087d@siemens.com>
+ <448875be-59e1-48a5-8a3c-cc45fff196ca@gmail.com>
+In-Reply-To: <448875be-59e1-48a5-8a3c-cc45fff196ca@gmail.com>
+From: David Jeffery <djeffery@redhat.com>
+Date: Thu, 12 Sep 2024 10:30:23 -0400
+Message-ID: <CA+-xHTEMM09PXgWyKX4h48diUxxGnSSrDowh5Gt=Y+EVhHL-_Q@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] driver core: shut down devices asynchronously
+To: stuart hayes <stuart.w.hayes@gmail.com>
+Cc: Jan Kiszka <jan.kiszka@siemens.com>, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Martin Belanger <Martin.Belanger@dell.com>, "Oliver O'Halloran" <oohall@gmail.com>, 
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>, 
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+	Nathan Chancellor <nathan@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_073007_858237_268E49F9 
-X-CRM114-Status: GOOD (  26.85  )
+X-CRM114-CacheID: sfid-20240912_073214_979263_D200F3FE 
+X-CRM114-Status: GOOD (  20.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,128 +105,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/12/24 12:29, Sagi Grimberg wrote:
-> 
-> 
-> 
-> On 11/09/2024 19:10, Hannes Reinecke wrote:
->> On 9/11/24 17:20, Sagi Grimberg wrote:
->>>
->>>
->>>
->>> On 11/09/2024 15:46, Hannes Reinecke wrote:
->>>> When a path is switched to 'inaccessible' during partition scan
->>>> triggered via device_add_disk() and we only have one path the
->>>> system will be stuck as nvme_available_path() will always return
->>>> 'true'. So I/O will never be completed and the system is stuck
->>>> in device_add_disk():
->>>>
->>>>      [<0>] folio_wait_bit_common+0x12a/0x310
->>>>      [<0>] filemap_read_folio+0x97/0xd0
->>>>      [<0>] do_read_cache_folio+0x108/0x390
->>>>      [<0>] read_part_sector+0x31/0xa0
->>>>      [<0>] read_lba+0xc5/0x160
->>>>      [<0>] efi_partition+0xd9/0x8f0
->>>>      [<0>] bdev_disk_changed+0x23d/0x6d0
->>>>      [<0>] blkdev_get_whole+0x78/0xc0
->>>>      [<0>] bdev_open+0x2c6/0x3b0
->>>>      [<0>] bdev_file_open_by_dev+0xcb/0x120
->>>>      [<0>] disk_scan_partitions+0x5d/0x100
->>>>      [<0>] device_add_disk+0x402/0x420
->>>>      [<0>] nvme_mpath_set_live+0x4f/0x1f0 [nvme_core]
->>>>      [<0>] nvme_mpath_add_disk+0x107/0x120 [nvme_core]
->>>>      [<0>] nvme_alloc_ns+0xac6/0xe60 [nvme_core]
->>>>      [<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
->>>>      [<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
->>>>
->>>> This patch introduces a flag NVME_NSHEAD_FAIL_ON_LAST_PATH to
->>>> cause nvme_available_path() to always return NULL, and with
->>>> that I/O to be failed if the last path is unavailable. But
->>>> we also need to requeue all pending I/Os whenever we have
->>>> changed the ANA state as now even inaccessible ANA states
->>>> influence I/O behaviour.
->>>>
->>>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->>>> ---
->>>>   drivers/nvme/host/multipath.c | 15 +++++++++++++++
->>>>   drivers/nvme/host/nvme.h      |  1 +
->>>>   2 files changed, 16 insertions(+)
->>>>
->>>> diff --git a/drivers/nvme/host/multipath.c 
->>>> b/drivers/nvme/host/multipath.c
->>>> index f72c5a6a2d8e..0373b4043eea 100644
->>>> --- a/drivers/nvme/host/multipath.c
->>>> +++ b/drivers/nvme/host/multipath.c
->>>> @@ -422,6 +422,10 @@ static bool nvme_available_path(struct 
->>>> nvme_ns_head *head)
->>>>       struct nvme_ns *ns;
->>>>       if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
->>>> +        return NULL;
->>>> +
->>>> +    if (test_bit(NVME_NSHEAD_FAIL_ON_LAST_PATH, &head->flags) &&
->>>> +        list_is_singular(&head->list))
->>>>           return NULL;
->>>
->>> This is wrong too Hannes.
->>>
->>> If you added a live path, and when partition scan triggers your path 
->>> becomes
->>> inaccessible, but then after anatt it becomes optimized again. You 
->>> just ended up without discovering partitions...
->>
->> But we will be getting an ANA state change AEN in that case, seeing 
->> that we have enabled ANA state change events and the spec states that 
->> we should be getting them (NVMe 1.3, section 8.21.4 Host ANA 
->> Transition Operation explicitly has an 'or' between point a) and b) ...).
-> 
-> That is too late, you already failed the IO...
-> 
-Which wouldn't matter if we were able to properly rescan the namespace
-once we get an ANA event. But device_add_disk() completely ignores I/O
-errors, so no chance there ...
+On Tue, Sep 10, 2024 at 8:14=E2=80=AFPM stuart hayes <stuart.w.hayes@gmail.=
+com> wrote:
+>
+...
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index b69b82da8837..52d64b419c01 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -4832,6 +4832,13 @@ static void shutdown_one_device_async(void *data, =
+async_cookie_t cookie)
+>   {
+>         struct device *dev =3D data;
+>
+> +       /*
+> +        * Sanity check to prevent shutdown hang in case a parent or supp=
+lier
+> +        * is in devices_kset list in the wrong order
+> +        */
+> +       if (dev->p->shutdown_after > cookie)
+> +               dev->p->shutdown_after =3D cookie - 1;
+> +
+>         async_synchronize_cookie_domain(dev->p->shutdown_after + 1, &sd_d=
+omain);
+>
+>         shutdown_one_device(dev);
 
->> Which is what we rely upon anyway, otherwise we would have had to 
->> check for INACCESSIBLE in nvme_update_ana_state, and not just for 
->> CHANGE as we do now.
-> 
-> I am referring to the fact that you fail the io and not simply queueing 
-> it for future requeue.
-> 
-Yes.
+While the race window is really small, there is a potential race with
+this fixup. It's possible for the shutdown operation to write a new
+value to shutdown_after in the time between the if check and
+shutdown_after being re-read and used in the
+async_synchronize_cookie_domain call. Such a race would allow a too
+high value to be used.
 
->> Plus the situation will be exactly the same if one uses 'persistent 
->> loss' instead of 'inaccessible'...
-> 
-> That is a side point, that needs to be addressed separately.
-> 
-Not sure if I agree, but anyway...
+Instead, could do something like:
 
->>
->> And incidentally, the same issue happens when you disable the 
->> namespace in nvmet just after the namespace got scanned, but before 
->> device_add_disk() is called. So really it's not about ANA, but rather 
->> about any path-related error here.
-> 
-> Right, which is transient semantically. You are making a decision here 
-> to FAIL the IO, and it needs a strong justification. We can
-> just sporadically fail IO...
-> 
-> The way that I see it, for as long as there is a possibility for an IO 
-> to be executed in the future (i.e. a path exists) we queue up
-> the IO. IMO if you want to fail it before, fast_io_fail_tmo is designed 
-> to address it.
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -4833,8 +4833,12 @@ static void shutdown_one_device(struct device *dev)
+ static void shutdown_one_device_async(void *data, async_cookie_t cookie)
+ {
+        struct device *dev =3D data;
++       async_cookie_t wait =3D dev->p->shutdown_after + 1;
 
-So we'd need a timer (or modifying to ANATT timer) to terminate all 
-pending I/O on inaccessible paths, and requeue/keep it until then.
-Okay, let's see how this pans out.
+-       async_synchronize_cookie_domain(dev->p->shutdown_after + 1, &sd_dom=
+ain);
++       if (wait > cookie)
++               wait =3D cookie;
++
++       async_synchronize_cookie_domain(wait, &sd_domain);
 
-Cheers,
+        shutdown_one_device(dev);
+ }
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+This reads the shutdown_after value once and avoids the race window
+where its value being changed on another CPU could still cause a
+potential deadlock.
 
 
