@@ -4,74 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96250EEB587
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 10:29:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 009E2EEB591
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 11:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v2RoqrV2owKMzFndq0dkWctxLbax1mnYbQcG0j4blwM=; b=osnvRocNezbSz0j2S5NR0s4fNK
-	/wUv7RrYSxNHjtEfx2QmkxfGwsF7ph/RqHqY6HGZu0ZzSVdUZ8b1gBFudCaR9um2Gkxlz7LkplsQu
-	Saz7149SHCaz1AUyCkIHr9kKdHqDOCkrlDTu8YDCs/cfesJwJuglHqMktxuu7rmwZI9raGme+/zhw
-	SqA6h8AgwuXZd+r9aeoIZjn0xpCUte6Cb1r/FDyngKwDc6npKi1REMVwTuqhJTEONaftLA9Fh+WpH
-	NUEw200ldrs2uBaz6PcCP/q4v3p0bRTAJehxd//gC9EZdRNYNB21bQpim9p7cJ6f1Z87rCTUy89lB
-	HPJK+Jlg==;
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2DBCbfeL/jE2jfZvszJijVINvgiceTkfL13b/c+h6dQ=; b=Gr+5XOYHvyMc0nWU+AOivAhEss
+	dkTrtlZKZhdsw6J8XxzfbWYqTvViQKRdYxpWSMHbnTG1oMD6hyQaPVjuvJAscQ/ie/CqqT7wZH+ve
+	LD1EZoosVgyCsOsBwhYGBotiHnux1OdlKk+2A7KtEriLl9SVbQqhwqY4HvNHjjv5t3TLFnRmI2NlF
+	80WCkTvw3MSehYXKQF5uaoFvQnlzFPBgHOOuR1NVylvAh5S+z/CNn+RH/i31zHdnL96z4OlcRPMwR
+	bkz6awFgeo3QD739IVjqn7yQ6j9rsrU8UPspn+vI10GW3DUwvme+i27TKgz7igUWPcmr99FYR/9tp
+	1BD7It6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soh4W-0000000ChhI-0iy3;
-	Thu, 12 Sep 2024 10:29:08 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1soho1-0000000CnCq-3Z0R;
+	Thu, 12 Sep 2024 11:16:09 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soh4T-0000000Chgo-21vo
+	id 1sohnx-0000000CnBR-2gau
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 10:29:06 +0000
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-374c7e64b60so540393f8f.2
-        for <linux-nvme@lists.infradead.org>; Thu, 12 Sep 2024 03:29:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726136944; x=1726741744;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v2RoqrV2owKMzFndq0dkWctxLbax1mnYbQcG0j4blwM=;
-        b=XXinZ3qJ9GOO08+LpHiW/4t5q22ook9afRJXU6R3ipNZca70VHH7czFf61Z8A3/Wcr
-         0RwwfFYVgrpSlIjEJaEmtl2wXG8sHbPGtgNQ5Drir5Bf+x63L7wlC2rsU7/zB0HcFo5q
-         3Qf2LNgCmU/gyoVIZ2AJrNH1Cm7FQcsJqcIYKqpP5O1hSvauSSHDHB0spPnGC8cj4Gwe
-         7ESpaqFKJHvzw0XBhn4BGu8TV9R95QEyE6oZfJo3kfyeYfvZ9lc+5N0y1Qr4QJStZx/b
-         g00WeDjJqQdDMh0fgKJ2bQmjkXLy3qX+YRKnPjVqalg2EdUXeWj5hkJhvVCg9fyzbeDd
-         pUWA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGqQjOfVWAH86yar54uv/774ATn8jUfXNtMZFdd9Tiyvj4Gtsl0TkETKLrn9acPRioaW4nWFbnqH7W@lists.infradead.org
-X-Gm-Message-State: AOJu0YwhFxEST7svlgDIKkHeWTRguIyFUW5Md+Dm6re+bSZtsQl5zMBz
-	QLaxSLw497R+6eCxWNGtQvMZjK8Ym652UDqJeUh60IuAVV0n5blCaNnwbU5m
-X-Google-Smtp-Source: AGHT+IGFC0Xc4RP5JfRlFoN5IndsV/E/Nz1N20wp2zLd06xsRKqC3E2hQP0Z06CPjN//SFVQZseYPA==
-X-Received: by 2002:a05:6000:1f09:b0:371:8ca4:1b76 with SMTP id ffacd0b85a97d-378c2d12989mr1257149f8f.32.1726136942756;
-        Thu, 12 Sep 2024 03:29:02 -0700 (PDT)
-Received: from [10.100.102.74] (89-138-71-253.bb.netvision.net.il. [89.138.71.253])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956de3aesm13923167f8f.110.2024.09.12.03.29.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2024 03:29:02 -0700 (PDT)
-Message-ID: <40050af2-f056-4e4e-b1ea-d3bf6c7bc13a@grimberg.me>
-Date: Thu, 12 Sep 2024 13:29:01 +0300
+	Thu, 12 Sep 2024 11:16:08 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 40588A451F7;
+	Thu, 12 Sep 2024 11:15:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE95BC4CECC;
+	Thu, 12 Sep 2024 11:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726139763;
+	bh=xHiv+64ufjlfaZB+1birEmDSAEqJIKZbsr4qpKOqPrE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HnlDHW0aJOlZ/mQyNxg12Vfl1QyQgA+4ialoezfo+MkiMtzpo37W3A7XFZzNSS2gV
+	 nCy6S4qzhyg3yiWGrpjkJ7XXOwsjJGLduW17gDQ2j01fra/JxTwTC8bIEzsO37Jy3O
+	 tWtJI3x5KEzkYDPDEvpo4btQfTc/iM6jDN4b9cWi2x7dl8qZl6FekY1wFay7lNo6Ii
+	 IJZ7rjlAzG15afy2OtWqIvnGmh3J6ojSrsIxH92HPrMct8haQWjgPUjLGLnJK+FdOA
+	 egzwYBUFcoq09uv/i0x7cvVS0WkLeIYtdOhFJpeYR+kGOqMRlQvQJEwypNBVn2bnZB
+	 jTk09N6hrZ0Fw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	"Zeng, Oak" <oak.zeng@intel.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC v2 00/21] Provide a new two step DMA API mapping API
+Date: Thu, 12 Sep 2024 14:15:35 +0300
+Message-ID: <cover.1726138681.git.leon@kernel.org>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-multipath: stuck partition scan on inaccessible
- paths
-To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240911124610.81615-1-hare@kernel.org>
- <20240911124610.81615-4-hare@kernel.org>
- <2193b894-2999-4450-a221-19045c2b3e53@grimberg.me>
- <0acc13ea-50d9-4975-8859-dded066527e3@suse.de>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <0acc13ea-50d9-4975-8859-dded066527e3@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_032905_557584_CC393290 
-X-CRM114-Status: GOOD (  25.40  )
+X-CRM114-CacheID: sfid-20240912_041605_849388_6C6BE1C2 
+X-CRM114-Status: GOOD (  20.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,105 +94,136 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Instead of waiting and waiting when I finally fix NVMe patch which
+doesn't work correctly in DMA direct mode (it causes to failures in
+module reload), I decided to send the series as is to at least get
+a feedback about API and the overall direction.
 
+Thanks
 
+-------------------------------------------------------------------------
+Changelog:
+v2:
+ * Remove attr field from dma_iova_attrs
+ * Added attr parameter to every new API call except alloc_iova
+ * Embed use_iova boolean into struct dma_iova_state
+ * Embed struct dma_memory_type into struct dma_iova_state
+ * Changed function signatures and added new function to initialize state
+ * Combined dma_set_memory_type() and dma_can_use_iova() to one function, they were used together anyway
+ * Made dma_start_range/dma_end_range to be NOP for non-iommu case
+ * Restructured the code to avoid inclusion of linux/pci.h in global header
+ * Based on DMA static calls series
+ * Changed iommu/dma functions to get parameters instead of dma_iova_state
+ * Removed iommu domain pointer from dma_iova_state
+ * dma_link_range now returns DMA address
+ * Rewrote NVMe patch
+v1: https://lore.kernel.org/all/cover.1719909395.git.leon@kernel.org
+ * Rewrote cover letter
+ * Changed to API as proposed
+   https://lore.kernel.org/linux-rdma/20240322184330.GL66976@ziepe.ca/
+ * Removed IB DMA wrappers and use DMA API directly
+v0: https://lore.kernel.org/all/cover.1709635535.git.leon@kernel.org
+-------------------------------------------------------------------------
 
-On 11/09/2024 19:10, Hannes Reinecke wrote:
-> On 9/11/24 17:20, Sagi Grimberg wrote:
->>
->>
->>
->> On 11/09/2024 15:46, Hannes Reinecke wrote:
->>> When a path is switched to 'inaccessible' during partition scan
->>> triggered via device_add_disk() and we only have one path the
->>> system will be stuck as nvme_available_path() will always return
->>> 'true'. So I/O will never be completed and the system is stuck
->>> in device_add_disk():
->>>
->>>      [<0>] folio_wait_bit_common+0x12a/0x310
->>>      [<0>] filemap_read_folio+0x97/0xd0
->>>      [<0>] do_read_cache_folio+0x108/0x390
->>>      [<0>] read_part_sector+0x31/0xa0
->>>      [<0>] read_lba+0xc5/0x160
->>>      [<0>] efi_partition+0xd9/0x8f0
->>>      [<0>] bdev_disk_changed+0x23d/0x6d0
->>>      [<0>] blkdev_get_whole+0x78/0xc0
->>>      [<0>] bdev_open+0x2c6/0x3b0
->>>      [<0>] bdev_file_open_by_dev+0xcb/0x120
->>>      [<0>] disk_scan_partitions+0x5d/0x100
->>>      [<0>] device_add_disk+0x402/0x420
->>>      [<0>] nvme_mpath_set_live+0x4f/0x1f0 [nvme_core]
->>>      [<0>] nvme_mpath_add_disk+0x107/0x120 [nvme_core]
->>>      [<0>] nvme_alloc_ns+0xac6/0xe60 [nvme_core]
->>>      [<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
->>>      [<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
->>>
->>> This patch introduces a flag NVME_NSHEAD_FAIL_ON_LAST_PATH to
->>> cause nvme_available_path() to always return NULL, and with
->>> that I/O to be failed if the last path is unavailable. But
->>> we also need to requeue all pending I/Os whenever we have
->>> changed the ANA state as now even inaccessible ANA states
->>> influence I/O behaviour.
->>>
->>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->>> ---
->>>   drivers/nvme/host/multipath.c | 15 +++++++++++++++
->>>   drivers/nvme/host/nvme.h      |  1 +
->>>   2 files changed, 16 insertions(+)
->>>
->>> diff --git a/drivers/nvme/host/multipath.c 
->>> b/drivers/nvme/host/multipath.c
->>> index f72c5a6a2d8e..0373b4043eea 100644
->>> --- a/drivers/nvme/host/multipath.c
->>> +++ b/drivers/nvme/host/multipath.c
->>> @@ -422,6 +422,10 @@ static bool nvme_available_path(struct 
->>> nvme_ns_head *head)
->>>       struct nvme_ns *ns;
->>>       if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
->>> +        return NULL;
->>> +
->>> +    if (test_bit(NVME_NSHEAD_FAIL_ON_LAST_PATH, &head->flags) &&
->>> +        list_is_singular(&head->list))
->>>           return NULL;
->>
->> This is wrong too Hannes.
->>
->> If you added a live path, and when partition scan triggers your path 
->> becomes
->> inaccessible, but then after anatt it becomes optimized again. You 
->> just ended up without discovering partitions...
->
-> But we will be getting an ANA state change AEN in that case, seeing 
-> that we have enabled ANA state change events and the spec states that 
-> we should be getting them (NVMe 1.3, section 8.21.4 Host ANA 
-> Transition Operation explicitly has an 'or' between point a) and b) ...).
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
 
-That is too late, you already failed the IO...
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the
+impossibility of improving the scatterlist.
 
-> Which is what we rely upon anyway, otherwise we would have had to 
-> check for INACCESSIBLE in nvme_update_ana_state, and not just for 
-> CHANGE as we do now.
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO[1], rlist[2]), instead split up the DMAAPI
+to allow callers to bring their own data structure.
 
-I am referring to the fact that you fail the io and not simply queueing 
-it for future requeue.
+The API is split up into parts:
+ - dma_alloc_iova() / dma_free_iova()
+   To do any pre-allocation required. This is done based on the caller
+   supplying some details about how much IOMMU address space it would need
+   in worst case.
+ - dma_link_range() / dma_unlink_range()
+   Perform the actual mapping into the pre-allocated IOVA. This is very
+   similar to dma_map_page().
 
-> Plus the situation will be exactly the same if one uses 'persistent 
-> loss' instead of 'inaccessible'...
+A driver will extent its mapping size using its own data structure, such as
+BIO, to request the required IOVA. Then it will iterate directly over it's
+data structure to DMA map each range. The result can then be stored directly
+into the HW specific DMA list. No intermediate scatterlist is required.
 
-That is a side point, that needs to be addressed separately.
+In this series, examples of three users are converted to the new API to show
+the benefits. Each user has a unique flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
 
->
-> And incidentally, the same issue happens when you disable the 
-> namespace in nvmet just after the namespace got scanned, but before 
-> device_add_disk() is called. So really it's not about ANA, but rather 
-> about any path-related error here.
+This step is first along a path to provide alternatives to scatterlist
+and solve some of the abuses and design mistakes, for instance in DMABUF's
+P2P support.
 
-Right, which is transient semantically. You are making a decision here 
-to FAIL the IO, and it needs a strong justification. We can
-just sporadically fail IO...
+The ODP and VFIO versions are complete and fully tested, they can be the
+users of the new API to merge it. The NVMe requires more work.
 
-The way that I see it, for as long as there is a possibility for an IO 
-to be executed in the future (i.e. a path exists) we queue up
-the IO. IMO if you want to fail it before, fast_io_fail_tmo is designed 
-to address it.
+[1] https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@klimt.1015granger.net/
+[2] https://lore.kernel.org/all/ZD2lMvprVxu23BXZ@ziepe.ca/
+
+Thanks
+
+Leon Romanovsky (21):
+  iommu/dma: Provide an interface to allow preallocate IOVA
+  iommu/dma: Implement link/unlink ranges callbacks
+  iommu/dma: Add check if IOVA can be used
+  dma-mapping: initialize IOVA state struct
+  dma-mapping: provide an interface to allocate IOVA
+  dma-mapping: set and query DMA IOVA state
+  dma-mapping: implement link range API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  dma-mapping: provide callbacks to link/unlink HMM PFNs to specific
+    IOVA
+  RDMA/umem: Preallocate and cache IOVA for UMEM ODP
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Separate DMA mapping to caching IOVA and page linkage
+  RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Explicitly store page list
+  vfio/mlx5: Convert vfio to use DMA link API
+  nvme-pci: remove optimizations for single DMA entry
+  nvme-pci: precalculate number of DMA entries for each command
+  nvme-pci: use new dma API
+  nvme-pci: don't allow mapping of bvecs with offset
+
+ drivers/infiniband/core/umem_odp.c   | 216 +++++---------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |   1 +
+ drivers/infiniband/hw/mlx5/odp.c     |  44 +--
+ drivers/iommu/dma-iommu.c            | 165 ++++++++++-
+ drivers/nvme/host/pci.c              | 428 ++++++++++++++-------------
+ drivers/pci/p2pdma.c                 |   4 +-
+ drivers/vfio/pci/mlx5/cmd.c          | 312 ++++++++++---------
+ drivers/vfio/pci/mlx5/cmd.h          |  23 +-
+ drivers/vfio/pci/mlx5/main.c         |  89 +++---
+ include/linux/dma-map-ops.h          |   7 +
+ include/linux/dma-mapping.h          |  85 ++++++
+ include/linux/hmm.h                  |   4 +
+ include/linux/iommu-dma.h            |  43 +++
+ include/rdma/ib_umem_odp.h           |  23 +-
+ kernel/dma/mapping.c                 | 232 +++++++++++++++
+ mm/hmm.c                             |  34 ++-
+ 16 files changed, 1096 insertions(+), 614 deletions(-)
+
+-- 
+2.46.0
+
 
