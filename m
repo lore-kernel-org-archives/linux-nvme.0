@@ -4,75 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27434EE645D
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 08:17:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31D4CEEB571
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 09:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YL2K6TWV1eJi+XrksEL+5w1GyG0I2O5LfHSXq9U28f0=; b=NK8y0+Fq0rftsUCyeHDvwOiiW/
-	Qk7anmR3ToxJGhGk73jyeCF26aAO0RheWvwuq9IAn1qYLuNe/lpca+jJuAALmNHNMvpYVIOKiQX5w
-	IOR0D0RJ+W7pvFkbhF9wmKoN7yfPxIXJO/M4eHOZWhD2XdORKe4UL3nUsJFzPoMmFwO9FZD7GHWip
-	5+eqlr57y9IfduXletbyqy3L+q5yu+XS8TMmz3kL0d/gTbAKrKIqotSHDoAJXbdF38MhPbg3hNze8
-	/0wzbXBiEi0pkZd1PB0hr1G3ELBQEsAhRYE7h+eP1NbrNL7sibA5z9x4o025NTH9Y7fxth50sFi8Y
-	J//DB+Cw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wEeu6e3NvP/T3vCE5Dk56g2h5ZwRWbi/VzkM1DwCOaU=; b=Fu8khRxTPfX0/cN2ljeSW7rL5Y
+	lyNfCB8p4n8dSLBJiE9vMSpFMou6Ou1WWPotVOIFFOLKL2CJukNigjlZMDZ09t9qKO1iD+cWoVwn+
+	tuVQ3NNcRuIdmt6bgija/V66/C+XF1BfKMF1dWSX8A7bSYGlg9JjiDcPeLMogpNT1HirSjQCSEzBF
+	+jSsACu3j5qorTfy7KAEIPpXpdgqPEFcMA9FU1MgEZj0xDHzLb1zhdpzRuK74pjrsp7HsfV8xMM3p
+	HfNn5IHyLICOam8B5OSTQ1rJ6FuDX0JQksW19mc8Vpb385zrr5ppU5WS+vHVqhaBz/+ZCXbk3GwIs
+	qFH/UbtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sof1S-0000000CKwy-1uei;
-	Thu, 12 Sep 2024 08:17:50 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1sofvv-0000000CUld-0VoK;
+	Thu, 12 Sep 2024 09:16:11 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sof0g-0000000CKlh-215g
+	id 1sofvo-0000000CUiW-3uz4
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 08:17:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726129021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Thu, 12 Sep 2024 09:16:08 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B06C1F76C;
+	Thu, 12 Sep 2024 09:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726132563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YL2K6TWV1eJi+XrksEL+5w1GyG0I2O5LfHSXq9U28f0=;
-	b=bHwkvelHw/1lL2drPOHk5RLXGFKJginyEO0p3ekt5tCCy2OmrRYS2OmFp2YU2Hfkh1M2fC
-	cSwkuSC3CYbP4jSd/O4STupYpiIF/QVKtQro1n7155hYuy4YHKikQLBCaVn2bahm3D8VHn
-	+q68zQZn/RvUG7fpvdm2KqnYOsyrS74=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-504-wRh7C0Z8NZ-_BxGBRpALZQ-1; Thu,
- 12 Sep 2024 04:15:18 -0400
-X-MC-Unique: wRh7C0Z8NZ-_BxGBRpALZQ-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	bh=wEeu6e3NvP/T3vCE5Dk56g2h5ZwRWbi/VzkM1DwCOaU=;
+	b=Syk7BZBZ4oiMGtKWJE7XVsErW0B2n1RmUA/6suQf7Z8/zl82bivLGAAJCV+E5C8u2bcF38
+	HZIhjVG811mAlnqXdV4faD5G8fCKjbN4W1E8HtKLwVn1rgk6ey2aASiqkyG0sqGP969KCB
+	9s8r2zEZe2HUxJYddY+t25rXM/aIy+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726132563;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wEeu6e3NvP/T3vCE5Dk56g2h5ZwRWbi/VzkM1DwCOaU=;
+	b=SavL4cUYxs5rKqiSupDB9/lx+VZ5SgUYz7zTs/DeE78vkoBSE38Scp46QbBi/yMKfmc71r
+	UNrImOHrB6JUIBCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Syk7BZBZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SavL4cUY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726132563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wEeu6e3NvP/T3vCE5Dk56g2h5ZwRWbi/VzkM1DwCOaU=;
+	b=Syk7BZBZ4oiMGtKWJE7XVsErW0B2n1RmUA/6suQf7Z8/zl82bivLGAAJCV+E5C8u2bcF38
+	HZIhjVG811mAlnqXdV4faD5G8fCKjbN4W1E8HtKLwVn1rgk6ey2aASiqkyG0sqGP969KCB
+	9s8r2zEZe2HUxJYddY+t25rXM/aIy+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726132563;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wEeu6e3NvP/T3vCE5Dk56g2h5ZwRWbi/VzkM1DwCOaU=;
+	b=SavL4cUYxs5rKqiSupDB9/lx+VZ5SgUYz7zTs/DeE78vkoBSE38Scp46QbBi/yMKfmc71r
+	UNrImOHrB6JUIBCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3F92E1954B1B;
-	Thu, 12 Sep 2024 08:15:17 +0000 (UTC)
-Received: from rocky.redhat.com (unknown [10.45.224.231])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CFF0319560AA;
-	Thu, 12 Sep 2024 08:15:14 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@meta.com
-Cc: hare@kernel.org,
-	sagi@grimberg.me,
-	emilne@redhat.com,
-	jmeneghi@redhat.com,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH RFC V2 1/7] nvme: add definitions for cancel command
-Date: Thu, 12 Sep 2024 10:15:04 +0200
-Message-ID: <20240912081510.171857-2-mlombard@redhat.com>
-In-Reply-To: <20240912081510.171857-1-mlombard@redhat.com>
-References: <20240912081510.171857-1-mlombard@redhat.com>
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0108A13A73;
+	Thu, 12 Sep 2024 09:16:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jhRnO1Kx4mY/HgAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 12 Sep 2024 09:16:02 +0000
+Message-ID: <0a699cf1-66a1-4793-874d-05902149f727@suse.de>
+Date: Thu, 12 Sep 2024 11:16:02 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: tcp: avoid race between lock and destroy of
+ queue_lock
+To: Sagi Grimberg <sagi@grimberg.me>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
+Cc: Akinobu Mita <akinobu.mita@gmail.com>,
+ Martin Belanger <martin.belanger@dell.com>,
+ Christoph Hellwig <hch@infradead.org>
+References: <20240912062707.1759715-1-shinichiro.kawasaki@wdc.com>
+ <f32b1c7f-4c63-4333-9f43-f777115de9ce@grimberg.me>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <f32b1c7f-4c63-4333-9f43-f777115de9ce@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-Rspamd-Queue-Id: 1B06C1F76C
+X-Spamd-Result: default: False [-5.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,dell.com,infradead.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_011702_619155_C13A6991 
-X-CRM114-Status: GOOD (  12.74  )
+X-CRM114-CacheID: sfid-20240912_021605_302058_DA82CD39 
+X-CRM114-Status: GOOD (  28.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,104 +148,236 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: John Meneghini <jmeneghi@redhat.com>
+On 9/12/24 08:59, Sagi Grimberg wrote:
+> 
+> 
+> 
+> On 12/09/2024 9:27, Shin'ichiro Kawasaki wrote:
+>> Commit 76d54bf20cdc ("nvme-tcp: don't access released socket during
+>> error recovery") added a mutex_lock() call for the queue->queue_lock
+>> in nvme_tcp_get_address(). However, the mutex_lock() races with
+>> mutex_destroy() in nvme_tcp_free_queue(), and causes the WARN below.
+>>
+>> DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+>> WARNING: CPU: 3 PID: 34077 at kernel/locking/mutex.c:587 
+>> __mutex_lock+0xcf0/0x1220
+>> Modules linked in: nvmet_tcp nvmet nvme_tcp nvme_fabrics iw_cm ib_cm 
+>> ib_core pktcdvd nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib 
+>> nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct 
+>> nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set 
+>> nf_tables qrtr sunrpc ppdev 9pnet_virtio 9pnet pcspkr netfs parport_pc 
+>> parport e1000 i2c_piix4 i2c_smbus loop fuse nfnetlink zram bochs 
+>> drm_vram_helper drm_ttm_helper ttm drm_kms_helper xfs drm sym53c8xx 
+>> floppy nvme scsi_transport_spi nvme_core nvme_auth serio_raw 
+>> ata_generic pata_acpi dm_multipath qemu_fw_cfg [last unloaded: ib_uverbs]
+>> CPU: 3 UID: 0 PID: 34077 Comm: udisksd Not tainted 6.11.0-rc7 #319
+>> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 
+>> 1.16.3-2.fc40 04/01/2014
+>> RIP: 0010:__mutex_lock+0xcf0/0x1220
+>> Code: 08 84 d2 0f 85 c8 04 00 00 8b 15 ef b6 c8 01 85 d2 0f 85 78 f4 
+>> ff ff 48 c7 c6 20 93 ee af 48 c7 c7 60 91 ee af e8 f0 a7 6d fd <0f> 0b 
+>> e9 5e f4 ff ff 48 b8 00 00 00 00 00 fc ff df 4c 89 f2 48 c1
+>> RSP: 0018:ffff88811305f760 EFLAGS: 00010286
+>> RAX: 0000000000000000 RBX: ffff88812c652058 RCX: 0000000000000000
+>> RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000001
+>> RBP: ffff88811305f8b0 R08: 0000000000000001 R09: ffffed1075c36341
+>> R10: ffff8883ae1b1a0b R11: 0000000000010498 R12: 0000000000000000
+>> R13: 0000000000000000 R14: dffffc0000000000 R15: ffff88812c652058
+>> FS:  00007f9713ae4980(0000) GS:ffff8883ae180000(0000) 
+>> knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 00007fcd78483c7c CR3: 0000000122c38000 CR4: 00000000000006f0
+>> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>> Call Trace:
+>>   <TASK>
+>>   ? __warn.cold+0x5b/0x1af
+>>   ? __mutex_lock+0xcf0/0x1220
+>>   ? report_bug+0x1ec/0x390
+>>   ? handle_bug+0x3c/0x80
+>>   ? exc_invalid_op+0x13/0x40
+>>   ? asm_exc_invalid_op+0x16/0x20
+>>   ? __mutex_lock+0xcf0/0x1220
+>>   ? nvme_tcp_get_address+0xc2/0x1e0 [nvme_tcp]
+>>   ? __pfx___mutex_lock+0x10/0x10
+>>   ? __lock_acquire+0xd6a/0x59e0
+>>   ? nvme_tcp_get_address+0xc2/0x1e0 [nvme_tcp]
+>>   nvme_tcp_get_address+0xc2/0x1e0 [nvme_tcp]
+>>   ? __pfx_nvme_tcp_get_address+0x10/0x10 [nvme_tcp]
+>>   nvme_sysfs_show_address+0x81/0xc0 [nvme_core]
+>>   dev_attr_show+0x42/0x80
+>>   ? __asan_memset+0x1f/0x40
+>>   sysfs_kf_seq_show+0x1f0/0x370
+>>   seq_read_iter+0x2cb/0x1130
+>>   ? rw_verify_area+0x3b1/0x590
+>>   ? __mutex_lock+0x433/0x1220
+>>   vfs_read+0x6a6/0xa20
+>>   ? lockdep_hardirqs_on+0x78/0x100
+>>   ? __pfx_vfs_read+0x10/0x10
+>>   ksys_read+0xf7/0x1d0
+>>   ? __pfx_ksys_read+0x10/0x10
+>>   ? __x64_sys_openat+0x105/0x1d0
+>>   do_syscall_64+0x93/0x180
+>>   ? lockdep_hardirqs_on_prepare+0x16d/0x400
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on+0x78/0x100
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? __pfx_ksys_read+0x10/0x10
+>>   ? lockdep_hardirqs_on_prepare+0x16d/0x400
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on+0x78/0x100
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on_prepare+0x16d/0x400
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on+0x78/0x100
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on_prepare+0x16d/0x400
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on+0x78/0x100
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on_prepare+0x16d/0x400
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? lockdep_hardirqs_on+0x78/0x100
+>>   ? do_syscall_64+0x9f/0x180
+>>   ? do_syscall_64+0x9f/0x180
+>>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>> RIP: 0033:0x7f9713f55cfa
+>> Code: 55 48 89 e5 48 83 ec 20 48 89 55 e8 48 89 75 f0 89 7d f8 e8 e8 
+>> 74 f8 ff 48 8b 55 e8 48 8b 75 f0 41 89 c0 8b 7d f8 31 c0 0f 05 <48> 3d 
+>> 00 f0 ff ff 77 2e 44 89 c7 48 89 45 f8 e8 42 75 f8 ff 48 8b
+>> RSP: 002b:00007ffd7f512e70 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+>> RAX: ffffffffffffffda RBX: 000055c38f316859 RCX: 00007f9713f55cfa
+>> RDX: 0000000000000fff RSI: 00007ffd7f512eb0 RDI: 0000000000000011
+>> RBP: 00007ffd7f512e90 R08: 0000000000000000 R09: 00000000ffffffff
+>> R10: 0000000000000000 R11: 0000000000000246 R12: 000055c38f317148
+>> R13: 0000000000000000 R14: 00007f96f4004f30 R15: 000055c3b6b623c0
+>>   </TASK>
+>>
+>> The WARN is observed when the blktests test case nvme/014 is repeated
+>> with tcp transport. It is rare, and 200 times repeat is required to
+>> recreate in my test environment.
+>>
+>> To avoid the WARN, serialize the two functions nvme_tcp_get_address()
+>> and nvme_tcp_free_queue(). Add the flag NVME_TCP_Q_REFERRED and set it
+>> when nvme_tcp_get_address() starts. Have nvme_tcp_free_queue() wait the
+>> flag cleared so that it does not run until nvme_tcp_get_address() ends.
+>> Also check the NVME_TCP_Q_ALLOCATED flag when nvme_tcp_get_address()
+>> starts. This flag is cleared at the nvme_tcp_free_queue() start, then it
+>> ensures that nvme_tcp_get_address() is not executed while
+>> nvme_tcp_free_queue() runs.
+>>
+>> Of note is that nvme_tcp_stop_queue() locks the queue->queue_lock in
+>> same manner as nvme_tcp_get_address(). However, nvme_tcp_stop_queue() is
+>> called in sequence before nvme_tcp_free_queue(), then it is safe to
+>> assume that the queue->queue_lock is not yet destroyed at
+>> nvme_tcp_stop_queue() call. Therefore this fix does not touch
+>> nvme_tcp_stop_queue().
+>>
+>> Fixes: 76d54bf20cdc ("nvme-tcp: don't access released socket during 
+>> error recovery")
+>> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+>> ---
+>>   drivers/nvme/host/tcp.c | 16 +++++++++++++++-
+>>   1 file changed, 15 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index a2a47d3ab99f..1457ffda207b 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -127,6 +127,7 @@ enum nvme_tcp_queue_flags {
+>>       NVME_TCP_Q_ALLOCATED    = 0,
+>>       NVME_TCP_Q_LIVE        = 1,
+>>       NVME_TCP_Q_POLLING    = 2,
+>> +    NVME_TCP_Q_REFERRED    = 3,
+>>   };
+>>   enum nvme_tcp_recv_state {
+>> @@ -1365,6 +1366,9 @@ static void nvme_tcp_free_queue(struct nvme_ctrl 
+>> *nctrl, int qid)
+>>       if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+>>           return;
+>> +    wait_on_bit_io(&queue->flags, NVME_TCP_Q_REFERRED,
+>> +               TASK_UNINTERRUPTIBLE);
+>> +
+>>       if (queue->hdr_digest || queue->data_digest)
+>>           nvme_tcp_free_crypto(queue);
+>> @@ -2613,7 +2617,14 @@ static int nvme_tcp_get_address(struct 
+>> nvme_ctrl *ctrl, char *buf, int size)
+>>   {
+>>       struct nvme_tcp_queue *queue = &to_tcp_ctrl(ctrl)->queues[0];
+>>       struct sockaddr_storage src_addr;
+>> -    int ret, len;
+>> +    int ret, len = 0;
+>> +
+>> +    /* Serialize this function and nvme_tcp_free_queue() */
+>> +    if (test_and_set_bit(NVME_TCP_Q_REFERRED, &queue->flags))
+>> +        return 0;
+>> +
+>> +    if (!test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+>> +        goto out;
+>>       len = nvmf_get_address(ctrl, buf, size);
+>> @@ -2631,6 +2642,9 @@ static int nvme_tcp_get_address(struct nvme_ctrl 
+>> *ctrl, char *buf, int size)
+>>   done:
+>>       mutex_unlock(&queue->queue_lock);
+>> +out:
+>> +    clear_and_wake_up_bit(NVME_TCP_Q_REFERRED, &queue->flags);
+>> +
+>>       return len;
+>>   }
+> 
+> This is really not needed.. You can already serialize with:
+> -- 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index a2a47d3ab99f..91c19d06cae9 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -1365,6 +1365,10 @@ static void nvme_tcp_free_queue(struct nvme_ctrl 
+> *nctrl, int qid)
+>          if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+>                  return;
+> 
+> +       /* make sure any concurrent .get_address completes */
+> +       mutex_lock(&queue->queue_lock);
+> +       mutex_unlock(&queue->queue_lock);
+> +
+>          if (queue->hdr_digest || queue->data_digest)
+>                  nvme_tcp_free_crypto(queue);
 
-Add new definitions needed to support TP4097a.
+Wouldn't it be sufficient to check for NVME_TCP_Q_LIVE outside of the 
+mutex?
 
-Signed-off-by: John Meneghini <jmeneghi@redhat.com>
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/constants.c |  1 +
- drivers/nvme/host/core.c      |  1 +
- include/linux/nvme.h          | 22 ++++++++++++++++++++++
- 3 files changed, 24 insertions(+)
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 76c8e01d8f08..0db3dde3a478 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2688,10 +2688,11 @@ static int nvme_tcp_get_address(struct nvme_ctrl 
+*ctrl, char *buf, int size)
 
-diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
-index 2b9e6cfaf2a8..ff6e965b372d 100644
---- a/drivers/nvme/host/constants.c
-+++ b/drivers/nvme/host/constants.c
-@@ -19,6 +19,7 @@ static const char * const nvme_ops[] = {
- 	[nvme_cmd_resv_report] = "Reservation Report",
- 	[nvme_cmd_resv_acquire] = "Reservation Acquire",
- 	[nvme_cmd_resv_release] = "Reservation Release",
-+	[nvme_cmd_cancel] = "Cancel",
- 	[nvme_cmd_zone_mgmt_send] = "Zone Management Send",
- 	[nvme_cmd_zone_mgmt_recv] = "Zone Management Receive",
- 	[nvme_cmd_zone_append] = "Zone Append",
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 983909a600ad..3768b1d778fb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4964,6 +4964,7 @@ static inline void _nvme_check_size(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_dsm_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_write_zeroes_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_abort_cmd) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_cancel_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_get_log_page_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != NVME_IDENTIFY_DATA_SIZE);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 7b2ae2e43544..439f2abb6542 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -28,6 +28,9 @@
- /* Special NSSR value, 'NVMe' */
- #define NVME_SUBSYS_RESET	0x4E564D65
- 
-+/* Maximum number of reserved commands for Cancel */
-+#define NVME_RSV_CANCEL_MAX     2
+         len = nvmf_get_address(ctrl, buf, size);
+
++       if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
++               return len;
 +
- enum nvme_subsys_type {
- 	/* Referral to another discovery type target subsystem */
- 	NVME_NQN_DISC	= 1,
-@@ -844,6 +847,7 @@ enum nvme_opcode {
- 	nvme_cmd_resv_report	= 0x0e,
- 	nvme_cmd_resv_acquire	= 0x11,
- 	nvme_cmd_resv_release	= 0x15,
-+	nvme_cmd_cancel		= 0x18,
- 	nvme_cmd_zone_mgmt_send	= 0x79,
- 	nvme_cmd_zone_mgmt_recv	= 0x7a,
- 	nvme_cmd_zone_append	= 0x7d,
-@@ -1357,6 +1361,22 @@ struct nvme_abort_cmd {
- 	__u32			rsvd11[5];
- };
- 
-+struct nvme_cancel_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u32                   rsvd1[8];
-+	__le16			sqid;
-+	__u16			cid;
-+	__u8			action;
-+	__u8			rsvd11[3];
-+	__u32			rsvd12[4];
-+};
-+
-+#define NVME_CANCEL_ACTION_MUL_CMD	1
-+#define NVME_CANCEL_ACTION_SINGLE_CMD	0
-+
- struct nvme_download_firmware {
- 	__u8			opcode;
- 	__u8			flags;
-@@ -1812,6 +1832,7 @@ struct nvme_command {
- 		struct nvme_zone_mgmt_send_cmd zms;
- 		struct nvme_zone_mgmt_recv_cmd zmr;
- 		struct nvme_abort_cmd abort;
-+		struct nvme_cancel_cmd cancel;
- 		struct nvme_get_log_page_command get_log_page;
- 		struct nvmf_common_command fabrics;
- 		struct nvmf_connect_command connect;
-@@ -1954,6 +1975,7 @@ enum {
- 	NVME_SC_INVALID_PI		= 0x181,
- 	NVME_SC_READ_ONLY		= 0x182,
- 	NVME_SC_ONCS_NOT_SUPPORTED	= 0x183,
-+	NVME_SC_INVALID_CID		= 0x184,
- 
- 	/*
- 	 * I/O Command Set Specific - Fabrics commands:
+         mutex_lock(&queue->queue_lock);
+
+-       if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
+-               goto done;
+         ret = kernel_getsockname(queue->sock, (struct sockaddr 
+*)&src_addr);
+         if (ret > 0) {
+                 if (len > 0)
+
+
+Q_LIVE is cleared _way_ earlier than the queue_mutex, so by the time 
+nvme_tcp_free_queue() is called the bit is already cleared.
+
+Cheers,
+
+Hannes
 -- 
-2.43.5
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
