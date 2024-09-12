@@ -4,99 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7FC8EEB59D
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 12:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 253C3EE57F8
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 12:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gGLs6QzmJOO36oeXATzigzPKHaISuQ3mIDTi96IgMDE=; b=CXy4/nc12inSNefdkht7uvr5hC
-	SqMozupFycKQgCzUFp+lqzgCCB8DtWL2TTKlo0HQx3yIqn9HTyn9HyejeFMIw6q3OX1xvAaXIMClo
-	QnJi8cWJBYSUd6RNpD7QjLMiWvRfa0ahg0oCs0z+6cXhDwaIOb1aEkxTw56nLuPLrB6BW0Az8c+pU
-	QbzZMXK5iVaLR1uz9H2a/RqLfYlN+kLDNTV9SBq7IdVRdKgPlgdeof9r7gZOY7OrlbV4HTDNaJ31l
-	i8jZ4Q9Bsm5OyU2iYFmYPU8yTgRu+txD6Mwc0B0imgeKob3C0sqVRmgyPkALQmEs8NEl9Svbt4sJl
-	4mM3d5IQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9CZEcnfXeiHaa8hx6aC4eZB57Bt+d4PHyUZ8rQP6OAA=; b=OHjFphAM3qYAWwHArrltyY0sS6
+	YjG8DCp6tCWgkJkHK9RYpaH1OsKy8cV2KMu+ASF93iwU+2VEgChkjSCydP7CPCfR+XGATEutHEJYB
+	fIXNdzfsHnbxjoj9t7msaHbQs6aG/GHE7NbXPYSCw6MvSwohBpnhnPX5ZXEpLo8qh7Wa9b6tn4jJ6
+	/Cx1RrXVxk1PC355JTAwS7Apq1HBkde4MquxdMaSIGM3GITv/HUKRt/9SxQ74yPF2r13pg3ArNqY3
+	RTC6VSJjm8VvGnONWWm2Ir8xa0M1eifHRmJONdikyavlX7lxYw9IU3zOsTMN99Kmkj4/FR1lHyrDy
+	FzxQ/tyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soiyP-0000000D2ID-3s4a;
-	Thu, 12 Sep 2024 12:30:57 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1sojJq-0000000D6Ta-0ClF;
+	Thu, 12 Sep 2024 12:53:06 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sohol-0000000CnqA-2CHU
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 12 Sep 2024 11:16:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=gGLs6QzmJOO36oeXATzigzPKHaISuQ3mIDTi96IgMDE=; b=E+ffIZTEr4mXSeMYZiDwVhzo1T
-	z7Oj/nLEz4ddPmpOtZ9pvwDQKsoYNiNsO6DRgHqvtqLxefsDg2936bTh/8b9sd8f55pdQXrfES/k6
-	+4sNP7uVf7gecZWJY0WD9r5SyvKYSdtZqe457ox4nr5ma6z4uAZbSuZNfuLYC5YHFPbYoRpSgpwDA
-	Qg6eq9Z6jWHatRY79OTlV4IQTNh2qID6LFgYkqhH0/coLLvmxxHwKRSadsa/pCkfRgFxXQfJXGLkY
-	9FzmrYcZISs6HN7QAnnD8a/kbRXKyGaw1u3leKUMZ+9XgBpck28HV4WIDT/mvvduURbZiZQGLc6kt
-	a2zSH37A==;
-Received: from nyc.source.kernel.org ([147.75.193.91])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sohoh-00000000RPP-1Y9S
+	id 1sojHJ-0000000D5qq-0Rj1
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 11:16:54 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 3B862A45276;
-	Thu, 12 Sep 2024 11:16:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3784C4CEC3;
-	Thu, 12 Sep 2024 11:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726139809;
-	bh=spVFy3m3YsiOCt+eM/7kAiwbky1QV6tGttipLIv2zOw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gxIRjDv2xSAwxfC7Pzv93fwrrIfQ9PwEmdy9PQY9kxiAaKE9zksC7l6BVJARsx/Su
-	 1STWOMET2EijMQV/ogv3irEMdmIuZj3nnGt4KBmBcT6BEGtZX8cjNM1Pr20esfKwTf
-	 J4gCuwNEqcuVTf4mIf24b0bSOAFHULKIEK1sxUpdhCWhDJud3jPtiwwQRwp14hntAr
-	 VSglEmDWqgoCBkDlNN7vrfcRvvwdFx4IRR1eaFLfLtGEBfPB8gWc/Xet5lmJKcD4NA
-	 zjaak/j/qqJF6x0ng9Y22CZ07xQLxhebgIlmpr7AwEEvH/7NVecTBsfEfiaTHT8btF
-	 KIbgGEdSyuStA==
-From: Leon Romanovsky <leon@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	"Zeng, Oak" <oak.zeng@intel.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC v2 12/21] RDMA/core: Separate DMA mapping to caching IOVA and page linkage
-Date: Thu, 12 Sep 2024 14:15:47 +0300
-Message-ID: <32e9e95b05e49d95079dc7cbfd458b00b47b1c81.1726138681.git.leon@kernel.org>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <cover.1726138681.git.leon@kernel.org>
-References: <cover.1726138681.git.leon@kernel.org>
+	Thu, 12 Sep 2024 12:50:31 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240912125025epoutp029d5f5a01f28215a83d2fba295a598534~0gB5zrG8B2625926259epoutp02d
+	for <linux-nvme@lists.infradead.org>; Thu, 12 Sep 2024 12:50:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240912125025epoutp029d5f5a01f28215a83d2fba295a598534~0gB5zrG8B2625926259epoutp02d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1726145425;
+	bh=9CZEcnfXeiHaa8hx6aC4eZB57Bt+d4PHyUZ8rQP6OAA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZDpATQumntOwu2d1gOaCuPxY+Usa3/eb606Kc7EAATULpdihE0elcoNTyil/PokZV
+	 0Ev3x6mFR/oQssz0545JttgkwLR3VA/Pdry+dRlxnvfunJ6CNYE7S3ptcy151uGbIS
+	 NuLpKTofnPxoYJ37zbxFDxU1RDAbGkaXFxaJruy0=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20240912125025epcas5p2c83b488bcb08e71fb16b73ad9da5ee67~0gB5cNu721633716337epcas5p2h;
+	Thu, 12 Sep 2024 12:50:25 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4X4HNH2b3bz4x9Pt; Thu, 12 Sep
+	2024 12:50:23 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	D8.DD.08855.F83E2E66; Thu, 12 Sep 2024 21:50:23 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240912124747epcas5p334d82f711967922d4ed4402589849a15~0f-mQzX7m2649726497epcas5p37;
+	Thu, 12 Sep 2024 12:47:47 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240912124747epsmtrp2e133501257290eef4637cc2061a97fb8~0f-mQCBPU2092520925epsmtrp2X;
+	Thu, 12 Sep 2024 12:47:47 +0000 (GMT)
+X-AuditID: b6c32a44-107ff70000002297-c1-66e2e38fbc6e
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2E.49.08456.2F2E2E66; Thu, 12 Sep 2024 21:47:46 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240912124744epsmtip29ff54c9d43495a0aa2cd652e320ef056~0f-kWoZNy1934919349epsmtip2R;
+	Thu, 12 Sep 2024 12:47:44 +0000 (GMT)
+Date: Thu, 12 Sep 2024 18:10:11 +0530
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: Anuj gupta <anuj1072538@gmail.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>, axboe@kernel.dk,
+	kbusch@kernel.org, asml.silence@gmail.com, krisman@suse.de,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v3 07/10] block: introduce BIP_CHECK_GUARD/REFTAG/APPTAG
+ bip_flags
+Message-ID: <20240912124011.oa6zs7bbnnn4zzcm@green245>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACzX3AuX9FkxPoBRLmy_HEmu6Ex63jHLyz9Z8fhUd_Y5_MdJyw@mail.gmail.com>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA03TfUwbZRwHcJ+763GQtJ5sDY9sOrzETYaUdpZ6DHDT4VJkAmPZ1MmsN3pQ
+	oLRNXyZsf4AuTOlgBZItvE3QCQSIjLUbFJE5Ol4UZjMl8pZUI9DNsElWGBPFgG2vM/vvc9/7
+	/X7PPffcEWjoL3g4kasxsnoNo6bwEKz7ZuRL0Za52Wzx6l0B7VlZw+iG9m5Ad7gsOD19oxeh
+	2zqGEHqx1InRQxt/4nS1YwLQPbeaUbp/JopubHEH0Wcn7TjdOrKO7OXLe+tcQfLxH01ya3sZ
+	Lrd9VSzvmy7B5R73DCY/d7UdyG1jp+TL1ufTg4/mJ6hYRsnqI1hNllaZq8lJpFIOKfYpYmVi
+	SbQkjn6VitAwBWwilXQgPXp/rtr70FTECUZt8kbpjMFAxbyWoNeajGyESmswJlKsTqnWSXUi
+	A1NgMGlyRBrWuFsiFu+K9RZ+mK/qrfDwdBshhbW2a2gJqAw2g2ACklJ4+Z9Bns+hZB+Aa56X
+	zSDE6yUAPRV1OHfxCEBb1RVgBoS/Y8j1Opf3Azh7vTRQdAdAu8PlH4WRL8LJ/mrEZ5zcAQfv
+	lgKfN5Pbobu7x9+AkjMI/H3+vv/GJvJd+PdEOc+3Ap+UwfYHH/hiPvkM/KF2HvM5mDwI5x7O
+	oT4Lya2wpnkF9c2B5BQBL9U7UW4/SXCt5QLCeRNcGLkaxDkcLi/245xz4Oq4O1Cjg6eHrwPO
+	e2DpqMU/ByVVsPWONTDzOXh+tBPhcgGsWJsP9PKh/fPHpuCnbQ0BQ9jvLAlYDs2j94O4N7SB
+	QNfwEloJttU9sbm6J9bjvBuWPfiEx3kbPH2t3psTXm+BresEx0h4+ZuYJoC3g2dZnaEgh82K
+	1Uk07Ef/H36WtsAK/N/3ziQ7mGpcFzkAQgAHgARKbeZX47PZoXwlU3SS1WsVepOaNThArPfg
+	qtBwYZbW+4NojAqJNE4slclk0rhXZBIqjH+v9KIylMxhjGw+y+pY/eM+hAgOL0G+X7yBH9Gl
+	tBResF00p8bX32oYrEm896Yg7o+RbnsJOZFRjiRk7tvTaC7sVLYgKU+7K5+KWHZUq4uYF/7K
+	E+scemdS1OJ7LkuzR9G343D8WwR2Llm7EhYWRKr6EitiTqmL8o6Vf2k7lIfVRE2k/QoKW/Ye
+	Cxnoaj6z4fntjaYB4RaPecIuKn7blobBrs86NZlViiE08sTRk8cVD/d/Z7TOTut7yq640x59
+	bBnvsvIORxkG309toLKFo1sHdt1caEp1CmY6ht2Z70iKx3jo7fJwi3AqQy1QVH2dnBIXX5t8
+	6Vv89sa/WNaZn77oStWf/3ns+MGBlIyF6bYjyGTRkmiVwgwqRrIT1RuY/wDXA3PaaAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRmVeSWpSXmKPExsWy7bCSvO6nR4/SDNYfN7f4+PU3i8WcVdsY
+	LVbf7WezuHlgJ5PFytVHmSzetZ5jsTj6/y2bxaRD1xgttp9Zymyx95a2xfxlT9ktuq/vYLNY
+	fvwfkwOvx85Zd9k9Lp8t9di0qpPNY/OSeo/dNxvYPD4+vcXi0bdlFaPH5tPVHp83yQVwRnHZ
+	pKTmZJalFunbJXBlzLm5i61gAkfF/V3vWRsY97F1MXJwSAiYSBy969jFyMUhJLCbUeLqmmlA
+	cU6guITEqZfLGCFsYYmV/56zQxQ9YZToWbuKBSTBIqAqcX3vJCYQm01AXeLI81awBhEBNYmn
+	27azgTQwC9xikni1+DdYkbBAhMTPaz2sIJt5BcwkVn2IgxjayCzR83gx2FBeAUGJkzOfgNnM
+	QDXzNj9kBqlnFpCWWP6PAyIsL9G8dTYziM0pECjx+MtjMFtUQEZixtKvzBMYhWYhmTQLyaRZ
+	CJNmIZm0gJFlFaNkakFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZGcDxqae1g3LPqg94hRiYO
+	xkOMEhzMSiK8k9gepQnxpiRWVqUW5ccXleakFh9ilOZgURLn/fa6N0VIID2xJDU7NbUgtQgm
+	y8TBKdXAVH9k1kOjOJm4TY1XkluqLjXu2yY3o4rDouMN8+fX9+IYSpW1D9xLZtV9c2jaDZEN
+	t9/IuT8Pqtka5+Mp5BPmcVTpxSyFtB8TGu8d0nWouBx3lfHl/CffTKYsn1R6MOPba6Fpv649
+	Wj4/o6wpz/rB288lWdK7zk+v2TGn8PD2dSHnHBLWc0W9mnA/+lLkQr0+t91nLkpvZhbtDZf9
+	p5o0oTvyQ9esXU2JwScKmK+3H0p+ljdH7Wnu6bgDlrM5RUXWbNFfu9N8RfPSKwuqJLZWTj/B
+	vaXmv9Hfox0/mMVO8R1KDL0ht7D4h8z2F7FJKx3feUg/raqxmTDdVZdj4s4/H2W2lSy5eDYn
+	q5OB490fEyElluKMREMt5qLiRADkCJZHNgMAAA==
+X-CMS-MailID: 20240912124747epcas5p334d82f711967922d4ed4402589849a15
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240823104629epcas5p3fea0cb7e66b0446ddacf7648c08c3ba8
+References: <20240823103811.2421-1-anuj20.g@samsung.com>
+	<CGME20240823104629epcas5p3fea0cb7e66b0446ddacf7648c08c3ba8@epcas5p3.samsung.com>
+	<20240823103811.2421-8-anuj20.g@samsung.com> <20240824083553.GF8805@lst.de>
+	<fe85a641-c974-3fa7-43f1-eacbb7834210@samsung.com>
+	<yq1plpsauu5.fsf@ca-mkp.ca.oracle.com>
+	<CACzX3AuX9FkxPoBRLmy_HEmu6Ex63jHLyz9Z8fhUd_Y5_MdJyw@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_121651_729283_5229F2F9 
-X-CRM114-Status: GOOD (  21.01  )
+X-CRM114-CacheID: sfid-20240912_055029_841382_4CF6A716 
+X-CRM114-Status: GOOD (  17.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,237 +145,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+------luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
 
-Reuse newly added DMA API to cache IOVA and only link/unlink pages
-in fast path.
+Martin, Christoph
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/infiniband/core/umem_odp.c | 61 +++---------------------------
- drivers/infiniband/hw/mlx5/odp.c   |  7 +++-
- include/rdma/ib_umem_odp.h         |  8 +---
- kernel/dma/mapping.c               |  7 +---
- 4 files changed, 14 insertions(+), 69 deletions(-)
+On 29/08/24 06:59PM, Anuj gupta wrote:
+>On Thu, Aug 29, 2024 at 8:47 AM Martin K. Petersen
+><martin.petersen@oracle.com> wrote:
+>>
+>>
+>> Kanchan,
+>>
+>> > With Guard/Reftag/Apptag, we get 6 combinations. For NVMe, all can be
+>> > valid. For SCSI, maximum 4 can be valid. And we factor the pi-type in
+>> > while listing what all is valid. For example: 010 or 001 is not valid
+>> > for SCSI and should not be shown by this.
+>>
+>> I thought we had tentatively agreed to let the block layer integrity
+>> flags only describe what the controller should do? And then let sd.c
+>> decide what to do about RDPROTECT/WRPROTECT (since host-to-target is a
+>> different protection envelope anyway). That is kind of how it works
+>> already.
+>>
+>Do you see that this patch (and this set of flags) are fine?
+>If not, which specific flags do you suggest should be introduced?
 
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 72885eca4181..7bfa1e54454c 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -81,19 +81,12 @@ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
- 		if (!umem_odp->pfn_list)
- 			return -ENOMEM;
- 
--		umem_odp->dma_list = kvcalloc(
--			ndmas, sizeof(*umem_odp->dma_list), GFP_KERNEL);
--		if (!umem_odp->dma_list) {
--			ret = -ENOMEM;
--			goto out_pfn_list;
--		}
- 
- 		dma_init_iova_state(&umem_odp->state, dev->dma_device,
- 				    DMA_BIDIRECTIONAL);
- 		ret = dma_alloc_iova(&umem_odp->state, end - start);
- 		if (ret)
--			goto out_dma_list;
--
-+			goto out_pfn_list;
- 
- 		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
- 						   umem_odp->umem.owning_mm,
-@@ -106,8 +99,6 @@ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
- 
- out_free_iova:
- 	dma_free_iova(&umem_odp->state);
--out_dma_list:
--	kvfree(umem_odp->dma_list);
- out_pfn_list:
- 	kvfree(umem_odp->pfn_list);
- 	return ret;
-@@ -285,7 +276,6 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
- 		mutex_unlock(&umem_odp->umem_mutex);
- 		mmu_interval_notifier_remove(&umem_odp->notifier);
- 		dma_free_iova(&umem_odp->state);
--		kvfree(umem_odp->dma_list);
- 		kvfree(umem_odp->pfn_list);
- 	}
- 	put_pid(umem_odp->tgid);
-@@ -293,40 +283,10 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
- }
- EXPORT_SYMBOL(ib_umem_odp_release);
- 
--/*
-- * Map for DMA and insert a single page into the on-demand paging page tables.
-- *
-- * @umem: the umem to insert the page to.
-- * @dma_index: index in the umem to add the dma to.
-- * @page: the page struct to map and add.
-- * @access_mask: access permissions needed for this page.
-- *
-- * The function returns -EFAULT if the DMA mapping operation fails.
-- *
-- */
--static int ib_umem_odp_map_dma_single_page(
--		struct ib_umem_odp *umem_odp,
--		unsigned int dma_index,
--		struct page *page)
--{
--	struct ib_device *dev = umem_odp->umem.ibdev;
--	dma_addr_t *dma_addr = &umem_odp->dma_list[dma_index];
--
--	*dma_addr = ib_dma_map_page(dev, page, 0, 1 << umem_odp->page_shift,
--				    DMA_BIDIRECTIONAL);
--	if (ib_dma_mapping_error(dev, *dma_addr)) {
--		*dma_addr = 0;
--		return -EFAULT;
--	}
--	umem_odp->npages++;
--	return 0;
--}
--
- /**
-  * ib_umem_odp_map_dma_and_lock - DMA map userspace memory in an ODP MR and lock it.
-  *
-  * Maps the range passed in the argument to DMA addresses.
-- * The DMA addresses of the mapped pages is updated in umem_odp->dma_list.
-  * Upon success the ODP MR will be locked to let caller complete its device
-  * page table update.
-  *
-@@ -434,15 +394,6 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
- 				  __func__, hmm_order, page_shift);
- 			break;
- 		}
--
--		ret = ib_umem_odp_map_dma_single_page(
--				umem_odp, dma_index, hmm_pfn_to_page(range.hmm_pfns[pfn_index]));
--		if (ret < 0) {
--			ibdev_dbg(umem_odp->umem.ibdev,
--				  "ib_umem_odp_map_dma_single_page failed with error %d\n", ret);
--			break;
--		}
--		range.hmm_pfns[pfn_index] |= HMM_PFN_DMA_MAPPED;
- 	}
- 	/* upon success lock should stay on hold for the callee */
- 	if (!ret)
-@@ -462,10 +413,8 @@ EXPORT_SYMBOL(ib_umem_odp_map_dma_and_lock);
- void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
- 				 u64 bound)
- {
--	dma_addr_t dma;
- 	int idx;
- 	u64 addr;
--	struct ib_device *dev = umem_odp->umem.ibdev;
- 
- 	lockdep_assert_held(&umem_odp->umem_mutex);
- 
-@@ -473,19 +422,19 @@ void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
- 	bound = min_t(u64, bound, ib_umem_end(umem_odp));
- 	for (addr = virt; addr < bound; addr += BIT(umem_odp->page_shift)) {
- 		unsigned long pfn_idx = (addr - ib_umem_start(umem_odp)) >> PAGE_SHIFT;
--		struct page *page = hmm_pfn_to_page(umem_odp->pfn_list[pfn_idx]);
- 
- 		idx = (addr - ib_umem_start(umem_odp)) >> umem_odp->page_shift;
--		dma = umem_odp->dma_list[idx];
- 
- 		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_VALID))
- 			continue;
- 		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_DMA_MAPPED))
- 			continue;
- 
--		ib_dma_unmap_page(dev, dma, BIT(umem_odp->page_shift),
--				  DMA_BIDIRECTIONAL);
-+		dma_hmm_unlink_page(&umem_odp->state,
-+				    &umem_odp->pfn_list[pfn_idx],
-+				    idx * (1 << umem_odp->page_shift));
- 		if (umem_odp->pfn_list[pfn_idx] & HMM_PFN_WRITE) {
-+			struct page *page = hmm_pfn_to_page(umem_odp->pfn_list[pfn_idx]);
- 			struct page *head_page = compound_head(page);
- 			/*
- 			 * set_page_dirty prefers being called with
-diff --git a/drivers/infiniband/hw/mlx5/odp.c b/drivers/infiniband/hw/mlx5/odp.c
-index 4bf691fb266f..f1fe2b941bb4 100644
---- a/drivers/infiniband/hw/mlx5/odp.c
-+++ b/drivers/infiniband/hw/mlx5/odp.c
-@@ -149,6 +149,7 @@ static void populate_mtt(__be64 *pas, size_t idx, size_t nentries,
- {
- 	struct ib_umem_odp *odp = to_ib_umem_odp(mr->umem);
- 	bool downgrade = flags & MLX5_IB_UPD_XLT_DOWNGRADE;
-+	struct ib_device *dev = odp->umem.ibdev;
- 	unsigned long pfn;
- 	dma_addr_t pa;
- 	size_t i;
-@@ -162,12 +163,16 @@ static void populate_mtt(__be64 *pas, size_t idx, size_t nentries,
- 			/* Initial ODP init */
- 			continue;
- 
--		pa = odp->dma_list[idx + i];
-+		pa = dma_hmm_link_page(&odp->state, &odp->pfn_list[idx + i],
-+				       (idx + i) * (1 << odp->page_shift));
-+		WARN_ON_ONCE(ib_dma_mapping_error(dev, pa));
-+
- 		pa |= MLX5_IB_MTT_READ;
- 		if ((pfn & HMM_PFN_WRITE) && !downgrade)
- 			pa |= MLX5_IB_MTT_WRITE;
- 
- 		pas[i] = cpu_to_be64(pa);
-+		odp->npages++;
- 	}
- }
- 
-diff --git a/include/rdma/ib_umem_odp.h b/include/rdma/ib_umem_odp.h
-index f99911b478c4..cb081c69fd1a 100644
---- a/include/rdma/ib_umem_odp.h
-+++ b/include/rdma/ib_umem_odp.h
-@@ -18,15 +18,9 @@ struct ib_umem_odp {
- 	/* An array of the pfns included in the on-demand paging umem. */
- 	unsigned long *pfn_list;
- 
--	/*
--	 * An array with DMA addresses mapped for pfns in pfn_list.
--	 * The lower two bits designate access permissions.
--	 * See ODP_READ_ALLOWED_BIT and ODP_WRITE_ALLOWED_BIT.
--	 */
--	dma_addr_t		*dma_list;
- 	struct dma_iova_state state;
- 	/*
--	 * The umem_mutex protects the page_list and dma_list fields of an ODP
-+	 * The umem_mutex protects the page_list field of an ODP
- 	 * umem, allowing only a single thread to map/unmap pages. The mutex
- 	 * also protects access to the mmu notifier counters.
- 	 */
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 5354ddc3ac03..38d7b3239dbb 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -1108,7 +1108,7 @@ dma_addr_t dma_hmm_link_page(struct dma_iova_state *state, unsigned long *pfn,
- 	struct page *page = hmm_pfn_to_page(*pfn);
- 	phys_addr_t phys = page_to_phys(page);
- 	bool coherent = dev_is_dma_coherent(dev);
--	dma_addr_t addr;
-+	dma_addr_t addr = phys_to_dma(dev, phys);
- 	int ret;
- 
- 	if (*pfn & HMM_PFN_DMA_MAPPED)
-@@ -1123,8 +1123,7 @@ dma_addr_t dma_hmm_link_page(struct dma_iova_state *state, unsigned long *pfn,
- 		 * The DMA address calculation below is based on the fact that
- 		 * HMM doesn't work with swiotlb.
- 		 */
--		return (state->addr) ? state->addr + dma_offset :
--				       phys_to_dma(dev, phys);
-+		return (state->addr) ? state->addr + dma_offset : addr;
- 
- 	state->range_size = dma_offset;
- 
-@@ -1136,8 +1135,6 @@ dma_addr_t dma_hmm_link_page(struct dma_iova_state *state, unsigned long *pfn,
- 	if (!use_dma_iommu(dev)) {
- 		if (!coherent)
- 			arch_sync_dma_for_device(phys, PAGE_SIZE, state->dir);
--
--		addr = phys_to_dma(dev, phys);
- 		goto done;
- 	}
- 
--- 
-2.46.0
+While other things are sorted for next iteration, it's not fully clear
+what are we missing for this part. Can you comment on the above?
 
+------luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_
+Content-Type: text/plain; charset="utf-8"
+
+
+------luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_--
 
