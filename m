@@ -4,133 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 253C3EE57F8
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 12:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CF43EE57F8
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2024 13:03:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9CZEcnfXeiHaa8hx6aC4eZB57Bt+d4PHyUZ8rQP6OAA=; b=OHjFphAM3qYAWwHArrltyY0sS6
-	YjG8DCp6tCWgkJkHK9RYpaH1OsKy8cV2KMu+ASF93iwU+2VEgChkjSCydP7CPCfR+XGATEutHEJYB
-	fIXNdzfsHnbxjoj9t7msaHbQs6aG/GHE7NbXPYSCw6MvSwohBpnhnPX5ZXEpLo8qh7Wa9b6tn4jJ6
-	/Cx1RrXVxk1PC355JTAwS7Apq1HBkde4MquxdMaSIGM3GITv/HUKRt/9SxQ74yPF2r13pg3ArNqY3
-	RTC6VSJjm8VvGnONWWm2Ir8xa0M1eifHRmJONdikyavlX7lxYw9IU3zOsTMN99Kmkj4/FR1lHyrDy
-	FzxQ/tyw==;
+	bh=5EXSZtRkQCw4Qi3kR+Uic0HAaSvYUloQ1763G4sdtoQ=; b=dzP0M4ib0QN6JyCRvn6lNegwNP
+	edaTFX4jgaVqxkpmjlqbfyUlUT8n8/QTftDTAcB+Vvzf7tMLAmrSgtztmGWcGWfo9ITopcLe01iUV
+	QBRZYsN3BjHsciadQiBe7SSDUDmtclllqZRw+uAji5Q7tElxwnDeUYiD9jo2bsUsxnc1ZyDaPWhHo
+	lKbCJoIPq1XivUG+3Qq92MaoV13JV8UJfLFAGTHNlb4Y3mBCvIn2VIzccamc3KI3mPbgwFrreNBAW
+	MiYAIXizMnpat+ehYmIxNyohj3wEzsUK5nZr1xtLLHqyulzVz9/8CKpGFudMneqP03pIANvelg0zO
+	ZnfRoMnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sojJq-0000000D6Ta-0ClF;
-	Thu, 12 Sep 2024 12:53:06 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1sojUI-0000000D8PV-43vh;
+	Thu, 12 Sep 2024 13:03:54 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sojHJ-0000000D5qq-0Rj1
+	id 1sojT5-0000000D890-3WYv
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Sep 2024 12:50:31 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240912125025epoutp029d5f5a01f28215a83d2fba295a598534~0gB5zrG8B2625926259epoutp02d
-	for <linux-nvme@lists.infradead.org>; Thu, 12 Sep 2024 12:50:25 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240912125025epoutp029d5f5a01f28215a83d2fba295a598534~0gB5zrG8B2625926259epoutp02d
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1726145425;
-	bh=9CZEcnfXeiHaa8hx6aC4eZB57Bt+d4PHyUZ8rQP6OAA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZDpATQumntOwu2d1gOaCuPxY+Usa3/eb606Kc7EAATULpdihE0elcoNTyil/PokZV
-	 0Ev3x6mFR/oQssz0545JttgkwLR3VA/Pdry+dRlxnvfunJ6CNYE7S3ptcy151uGbIS
-	 NuLpKTofnPxoYJ37zbxFDxU1RDAbGkaXFxaJruy0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240912125025epcas5p2c83b488bcb08e71fb16b73ad9da5ee67~0gB5cNu721633716337epcas5p2h;
-	Thu, 12 Sep 2024 12:50:25 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.182]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4X4HNH2b3bz4x9Pt; Thu, 12 Sep
-	2024 12:50:23 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D8.DD.08855.F83E2E66; Thu, 12 Sep 2024 21:50:23 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240912124747epcas5p334d82f711967922d4ed4402589849a15~0f-mQzX7m2649726497epcas5p37;
-	Thu, 12 Sep 2024 12:47:47 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240912124747epsmtrp2e133501257290eef4637cc2061a97fb8~0f-mQCBPU2092520925epsmtrp2X;
-	Thu, 12 Sep 2024 12:47:47 +0000 (GMT)
-X-AuditID: b6c32a44-107ff70000002297-c1-66e2e38fbc6e
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2E.49.08456.2F2E2E66; Thu, 12 Sep 2024 21:47:46 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20240912124744epsmtip29ff54c9d43495a0aa2cd652e320ef056~0f-kWoZNy1934919349epsmtip2R;
-	Thu, 12 Sep 2024 12:47:44 +0000 (GMT)
-Date: Thu, 12 Sep 2024 18:10:11 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: Anuj gupta <anuj1072538@gmail.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, Kanchan Joshi
-	<joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>, axboe@kernel.dk,
-	kbusch@kernel.org, asml.silence@gmail.com, krisman@suse.de,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v3 07/10] block: introduce BIP_CHECK_GUARD/REFTAG/APPTAG
- bip_flags
-Message-ID: <20240912124011.oa6zs7bbnnn4zzcm@green245>
+	Thu, 12 Sep 2024 13:03:39 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 61F9A227AB7; Thu, 12 Sep 2024 15:02:36 +0200 (CEST)
+Date: Thu, 12 Sep 2024 15:02:35 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	jaegeuk@kernel.org, jlayton@kernel.org, chuck.lever@oracle.com,
+	bvanassche@acm.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
+	linux-scsi@vger.kernel.org, gost.dev@samsung.com,
+	vishak.g@samsung.com, javier.gonz@samsung.com,
+	Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v5 4/5] sd: limit to use write life hints
+Message-ID: <20240912130235.GB28535@lst.de>
+References: <20240910150200.6589-1-joshi.k@samsung.com> <CGME20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c@epcas5p3.samsung.com> <20240910150200.6589-5-joshi.k@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <CACzX3AuX9FkxPoBRLmy_HEmu6Ex63jHLyz9Z8fhUd_Y5_MdJyw@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA03TfUwbZRwHcJ+763GQtJ5sDY9sOrzETYaUdpZ6DHDT4VJkAmPZ1MmsN3pQ
-	oLRNXyZsf4AuTOlgBZItvE3QCQSIjLUbFJE5Ol4UZjMl8pZUI9DNsElWGBPFgG2vM/vvc9/7
-	/X7PPffcEWjoL3g4kasxsnoNo6bwEKz7ZuRL0Za52Wzx6l0B7VlZw+iG9m5Ad7gsOD19oxeh
-	2zqGEHqx1InRQxt/4nS1YwLQPbeaUbp/JopubHEH0Wcn7TjdOrKO7OXLe+tcQfLxH01ya3sZ
-	Lrd9VSzvmy7B5R73DCY/d7UdyG1jp+TL1ufTg4/mJ6hYRsnqI1hNllaZq8lJpFIOKfYpYmVi
-	SbQkjn6VitAwBWwilXQgPXp/rtr70FTECUZt8kbpjMFAxbyWoNeajGyESmswJlKsTqnWSXUi
-	A1NgMGlyRBrWuFsiFu+K9RZ+mK/qrfDwdBshhbW2a2gJqAw2g2ACklJ4+Z9Bns+hZB+Aa56X
-	zSDE6yUAPRV1OHfxCEBb1RVgBoS/Y8j1Opf3Azh7vTRQdAdAu8PlH4WRL8LJ/mrEZ5zcAQfv
-	lgKfN5Pbobu7x9+AkjMI/H3+vv/GJvJd+PdEOc+3Ap+UwfYHH/hiPvkM/KF2HvM5mDwI5x7O
-	oT4Lya2wpnkF9c2B5BQBL9U7UW4/SXCt5QLCeRNcGLkaxDkcLi/245xz4Oq4O1Cjg6eHrwPO
-	e2DpqMU/ByVVsPWONTDzOXh+tBPhcgGsWJsP9PKh/fPHpuCnbQ0BQ9jvLAlYDs2j94O4N7SB
-	QNfwEloJttU9sbm6J9bjvBuWPfiEx3kbPH2t3psTXm+BresEx0h4+ZuYJoC3g2dZnaEgh82K
-	1Uk07Ef/H36WtsAK/N/3ziQ7mGpcFzkAQgAHgARKbeZX47PZoXwlU3SS1WsVepOaNThArPfg
-	qtBwYZbW+4NojAqJNE4slclk0rhXZBIqjH+v9KIylMxhjGw+y+pY/eM+hAgOL0G+X7yBH9Gl
-	tBResF00p8bX32oYrEm896Yg7o+RbnsJOZFRjiRk7tvTaC7sVLYgKU+7K5+KWHZUq4uYF/7K
-	E+scemdS1OJ7LkuzR9G343D8WwR2Llm7EhYWRKr6EitiTqmL8o6Vf2k7lIfVRE2k/QoKW/Ye
-	Cxnoaj6z4fntjaYB4RaPecIuKn7blobBrs86NZlViiE08sTRk8cVD/d/Z7TOTut7yq640x59
-	bBnvsvIORxkG309toLKFo1sHdt1caEp1CmY6ht2Z70iKx3jo7fJwi3AqQy1QVH2dnBIXX5t8
-	6Vv89sa/WNaZn77oStWf/3ns+MGBlIyF6bYjyGTRkmiVwgwqRrIT1RuY/wDXA3PaaAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRmVeSWpSXmKPExsWy7bCSvO6nR4/SDNYfN7f4+PU3i8WcVdsY
-	LVbf7WezuHlgJ5PFytVHmSzetZ5jsTj6/y2bxaRD1xgttp9Zymyx95a2xfxlT9ktuq/vYLNY
-	fvwfkwOvx85Zd9k9Lp8t9di0qpPNY/OSeo/dNxvYPD4+vcXi0bdlFaPH5tPVHp83yQVwRnHZ
-	pKTmZJalFunbJXBlzLm5i61gAkfF/V3vWRsY97F1MXJwSAiYSBy969jFyMUhJLCbUeLqmmlA
-	cU6guITEqZfLGCFsYYmV/56zQxQ9YZToWbuKBSTBIqAqcX3vJCYQm01AXeLI81awBhEBNYmn
-	27azgTQwC9xikni1+DdYkbBAhMTPaz2sIJt5BcwkVn2IgxjayCzR83gx2FBeAUGJkzOfgNnM
-	QDXzNj9kBqlnFpCWWP6PAyIsL9G8dTYziM0pECjx+MtjMFtUQEZixtKvzBMYhWYhmTQLyaRZ
-	CJNmIZm0gJFlFaNkakFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZGcDxqae1g3LPqg94hRiYO
-	xkOMEhzMSiK8k9gepQnxpiRWVqUW5ccXleakFh9ilOZgURLn/fa6N0VIID2xJDU7NbUgtQgm
-	y8TBKdXAVH9k1kOjOJm4TY1XkluqLjXu2yY3o4rDouMN8+fX9+IYSpW1D9xLZtV9c2jaDZEN
-	t9/IuT8Pqtka5+Mp5BPmcVTpxSyFtB8TGu8d0nWouBx3lfHl/CffTKYsn1R6MOPba6Fpv649
-	Wj4/o6wpz/rB288lWdK7zk+v2TGn8PD2dSHnHBLWc0W9mnA/+lLkQr0+t91nLkpvZhbtDZf9
-	p5o0oTvyQ9esXU2JwScKmK+3H0p+ljdH7Wnu6bgDlrM5RUXWbNFfu9N8RfPSKwuqJLZWTj/B
-	vaXmv9Hfox0/mMVO8R1KDL0ht7D4h8z2F7FJKx3feUg/raqxmTDdVZdj4s4/H2W2lSy5eDYn
-	q5OB490fEyElluKMREMt5qLiRADkCJZHNgMAAA==
-X-CMS-MailID: 20240912124747epcas5p334d82f711967922d4ed4402589849a15
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240823104629epcas5p3fea0cb7e66b0446ddacf7648c08c3ba8
-References: <20240823103811.2421-1-anuj20.g@samsung.com>
-	<CGME20240823104629epcas5p3fea0cb7e66b0446ddacf7648c08c3ba8@epcas5p3.samsung.com>
-	<20240823103811.2421-8-anuj20.g@samsung.com> <20240824083553.GF8805@lst.de>
-	<fe85a641-c974-3fa7-43f1-eacbb7834210@samsung.com>
-	<yq1plpsauu5.fsf@ca-mkp.ca.oracle.com>
-	<CACzX3AuX9FkxPoBRLmy_HEmu6Ex63jHLyz9Z8fhUd_Y5_MdJyw@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240910150200.6589-5-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_055029_841382_4CF6A716 
-X-CRM114-Status: GOOD (  17.66  )
+X-CRM114-CacheID: sfid-20240912_060240_209947_709852D4 
+X-CRM114-Status: GOOD (  17.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,40 +67,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+On Tue, Sep 10, 2024 at 08:31:59PM +0530, Kanchan Joshi wrote:
+> From: Nitesh Shetty <nj.shetty@samsung.com>
+> 
+> The incoming hint value maybe either lifetime hint or placement hint.
 
-Martin, Christoph
+.. may either be .. ?
 
-On 29/08/24 06:59PM, Anuj gupta wrote:
->On Thu, Aug 29, 2024 at 8:47 AM Martin K. Petersen
-><martin.petersen@oracle.com> wrote:
->>
->>
->> Kanchan,
->>
->> > With Guard/Reftag/Apptag, we get 6 combinations. For NVMe, all can be
->> > valid. For SCSI, maximum 4 can be valid. And we factor the pi-type in
->> > while listing what all is valid. For example: 010 or 001 is not valid
->> > for SCSI and should not be shown by this.
->>
->> I thought we had tentatively agreed to let the block layer integrity
->> flags only describe what the controller should do? And then let sd.c
->> decide what to do about RDPROTECT/WRPROTECT (since host-to-target is a
->> different protection envelope anyway). That is kind of how it works
->> already.
->>
->Do you see that this patch (and this set of flags) are fine?
->If not, which specific flags do you suggest should be introduced?
+> Make SCSI interpret only temperature-based write lifetime hints.
+> 
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> ---
+>  drivers/scsi/sd.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+> index dad3991397cf..82bd4b07314e 100644
+> --- a/drivers/scsi/sd.c
+> +++ b/drivers/scsi/sd.c
+> @@ -1191,8 +1191,8 @@ static u8 sd_group_number(struct scsi_cmnd *cmd)
+>  	if (!sdkp->rscs)
+>  		return 0;
+>  
+> -	return min3((u32)rq->write_hint, (u32)sdkp->permanent_stream_count,
+> -		    0x3fu);
+> +	return min3((u32)WRITE_LIFETIME_HINT(rq->write_hint),
 
-While other things are sorted for next iteration, it's not fully clear
-what are we missing for this part. Can you comment on the above?
+No fan of the screaming WRITE_LIFETIME_HINT.    Or the fact that multiple
+things are multiplexed into the single rq->write_hint field to
+start with.
 
-------luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_
-Content-Type: text/plain; charset="utf-8"
+This code could also use a bit of documentation already in the existing
+version, but even more so now.
 
-
-------luG4lI1MrmVRcozwbZt.i8.9tT3-_3NlzspW7tFyRzm0-Xz8=_20fba_--
 
