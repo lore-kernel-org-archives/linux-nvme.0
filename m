@@ -4,136 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15277EEEC39
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 07:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 637C7EEE245
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 07:42:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DfqqqIPcXuC33v4cLL0ODxpxiUkP1Rjz2JlXnKLXgh8=; b=i7a1WO3FECr9vIlyqyTy9KjGtj
-	GYvD8Bo79gNHcDCLH2w2eLFTOhjiwlFZYN24nqYjy2dafjb4PC+xd46vcvpeFaAT/p6SGGGGDql1l
-	1U0v3cGM5g8JHkw2RoMldeqG1/uL9Xj4PRz5e1qsD7jVMDEP37feayMJsJU/SB5EBhd7YlNTvY16b
-	OO4xv1sIPQGAVOOkVJD6oVjPsdAnV3EKF4l7FBjO+ktXl8lxo5dOkJYbr3ivYuI/0a/X849KCPv6E
-	N159Y+SS+bOm6j0vK4gwkxJfosU5hT/m1B1/Sp9SVP29MXqkkIpQTUc0VrPvoIV+8lUVe0eih0GP6
-	WHjbnvvA==;
+	bh=9V9G9cxrOOEkGUdXRgOzaYirsOTG9LGiI/ZiAMHLcsg=; b=WcMEG5wboQVHvRkjzZztQXzc1H
+	sJqTxJHy9OpipEo9VGHOhYcRBGNyd9gaswZiizVsnQw+Sni5Jn9cvg65RaTtGW7WWfKh8wawosCN2
+	blXQX1QO5/MxygSNxlgt02/nrJLJOJmrmu+dwOAxGL0IFXBRufSKSfvlxcTkigu8nU2t494PlgmG6
+	9GsrSiSCQajvOFculyy1S7ysWimt3yKfUmvCM5JuQqdeHwbaUQIFty5Oy66O+O2dPmMok3P5FBir8
+	sJ0WQDnI1dM6AkC4WT4AtNO+wuagMPBQE60rmqx6EO0dlkov4N42IsEwK/n1/nF1w6mxUhbnl96Ob
+	nanS4CVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sp0f4-0000000F8z1-2qnO;
-	Fri, 13 Sep 2024 07:24:10 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1sp0wv-0000000FBX7-1Y4f;
+	Fri, 13 Sep 2024 07:42:37 +0000
+Received: from mail.nearlyone.de ([49.12.199.46])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sp0e0-0000000F8jG-3G9Z
+	id 1sp0ws-0000000FBVP-0Svz
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Sep 2024 07:23:06 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240913072258epoutp024dba5b66796ad055ce6dd199af7007da~0vNSm7M0J0191401914epoutp020
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 07:22:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240913072258epoutp024dba5b66796ad055ce6dd199af7007da~0vNSm7M0J0191401914epoutp020
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1726212178;
-	bh=DfqqqIPcXuC33v4cLL0ODxpxiUkP1Rjz2JlXnKLXgh8=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=oaUy9sBVP9dFId5l+KtVJaraEGn+CBmsqZSLSKhaCVPPx5yvvQX4XJSw7hVNzvwDC
-	 QgfRJ3PeRCHyi04mV0JpO9sUjDd5vXQg1ZuD1R28FC/hozRbnb2GHfRswdL84+Q2pC
-	 dZqepg0ezTPCzCQO6/6U6HD7356SIMccjvdIdBAY=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20240913072258epcas5p397659184e19ff6cb4130a0130e08b500~0vNSDHDvv1522615226epcas5p3i;
-	Fri, 13 Sep 2024 07:22:58 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4X4m401fQQz4x9Pt; Fri, 13 Sep
-	2024 07:22:56 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	F9.2C.09640.F48E3E66; Fri, 13 Sep 2024 16:22:56 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240913072255epcas5p4ffa874219e563fd562003ce2c7ff0d3b~0vNPmRHie1203712037epcas5p4L;
-	Fri, 13 Sep 2024 07:22:55 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240913072255epsmtrp23d9b77e732158615fd765343f8ffae55~0vNPlSX6H2729727297epsmtrp2B;
-	Fri, 13 Sep 2024 07:22:55 +0000 (GMT)
-X-AuditID: b6c32a49-a57ff700000025a8-ac-66e3e84f6c4b
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A5.F5.19367.F48E3E66; Fri, 13 Sep 2024 16:22:55 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240913072252epsmtip2556522eb0be364036be534a4f076b144~0vNMvbd2G1221912219epsmtip2y;
-	Fri, 13 Sep 2024 07:22:52 +0000 (GMT)
-Message-ID: <ea71bdfd-f0f8-eb61-255d-68ea1e4421f1@samsung.com>
-Date: Fri, 13 Sep 2024 12:52:51 +0530
+	Fri, 13 Sep 2024 07:42:35 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1671CDAD3B;
+	Fri, 13 Sep 2024 09:42:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+	t=1726213349; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=9V9G9cxrOOEkGUdXRgOzaYirsOTG9LGiI/ZiAMHLcsg=;
+	b=GtNmrCT3JVxTm5uisu6PWrFFuC5S9xH3VL7t1a66IoOTconyAy9A9cMAZSMC4nG1w66Q4X
+	JBkeJ20XSr94kIpQGZn6vKbefzjUsqqXQF7Vm/VDfpSqy5WPPtmDeMFSCjrM2fI6Er+k1Y
+	I5CNE8KHSpSBmFesuQMFEebyqR4MCSVHAlByrBc6ih7jIykW//fFInoge/Hm2awP4ld8pZ
+	LlZAOK9Z+ygNknB1qyo2Qli463KIOQmIm7i0QS6e1uJyUtCEP6kG2jGtDZEbx4QM19sXp7
+	zLJYPY8tdC1mvPVyxAahlU+yb59qplxVYTtSvffEzHaOR0YsVcFokyxAp0odXQ==
+From: Daniel Wagner <wagi@kernel.org>
+Date: Fri, 13 Sep 2024 09:42:01 +0200
+Subject: [PATCH 3/6] scsi: hisi_sas: replace blk_mq_pci_map_queues with
+ blk_mq_hctx_map_queues
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v5 1/5] fs, block: refactor enum rw_hint
-Content-Language: en-US
-To: Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
-	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	jaegeuk@kernel.org, jlayton@kernel.org, chuck.lever@oracle.com,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org, gost.dev@samsung.com, vishak.g@samsung.com,
-	javier.gonz@samsung.com
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <fe2ae1b7-7c77-49e1-ace0-50e937f2c32c@acm.org>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfVDTdRzH+z1s+2HN+4US36hwruQEj4fVGF+SBzu9/JloXFJeHrF+sB8D
-	B9tuD0KIMdJKtCaRqSyeMo5iEJxAAQLx7FrSAeKIB5koD1EICrs6EaI2RsR/r8/7Ps+f+xCY
-	q47jQSTKNYxKTifx2RvwH9q9vX0jp8biA3K+wmDZyDk2nG6fR+CFBwsY/GfkNxQOttSjsLSs
-	E4VfXjyJwvFKAwavnCPg2C0bBy6UGDkwp60fgU1DO+CNy3thY5MZh4UlExx49tc6NvzGtIzC
-	iun7OOz+28SC3YY8zi43qu/mfqrbegWnLuT8zKb6ftFSVcYsNlVdnEE1FNlQqmFQx6bmJoZw
-	Sl9jRKiuog4OZavypKrGZ9BI7hFZSAJDSxgVj5HHKSSJcmkof/8h8W5xoChA4CsIhkF8npxO
-	ZkL5eyIifV9NTLKPy+cdo5O0dimSVqv5/mEhKoVWw/ASFGpNKJ9RSpKUQqWfmk5Wa+VSPzmj
-	eVkQEPBioN3xXVlCZcEirizFUnXGDlyHmNEzCEEAUgha5u24gXAlGxDwSWc122nMI+CL+UZ0
-	zfiu+PxaxP0BX6dej4DMPiPmNGYQMPZ9GecM4kJwyTDw541MzME4uQ30Wkswp/4kMOeO4w52
-	I2PBI0se4uBNZAiob51d0THSHQyNF64U20xSYOjeQUd+jPwdAxcHpzgOnU16g57PtQ53F3In
-	eLh8m+UM3QJqZ/JW+gHk1y7g0nDratN7wMlbfg4fQG4Cf5hqOE72ALbZJraTZWD07iju5HRQ
-	V61nOTkc6JYGWI40mL1s5VV/Z6mN4NPF8dXsXHD6I1en91ZgzZlYjXQHdy4VrzIFes+bVnfb
-	jILZ3stINsIzrFuKYd3whnXTGP6vXITgRuRpRqlOljLqQKVAzqSsXTtOkVyFrLyCz746ZGT0
-	gV8bghJIGwIIjL+Zm8O+G+/KldDvpTEqhVilTWLUbUig/TqfYR5ucQr7L8k1YoEwOEAoEomE
-	wS+JBHx37vSH+RJXUkprGBnDKBnVf3Eo4eKhQ2P+ahTNtaiieqLSk2NMjx8J/EkzkGcJr42e
-	DI+OuxZVKpo1gyVz9PLDbT+Gpd5pfS1GX3P9xOnXT2x8x52FTQ4svLW9YK4gKP9Q5shxH4sy
-	W6acTXuEHx47WpGyNyLCs7OVc6D55vNzp2K7dr6puP1GBjx7veDUrqv++/KtvWJLrde30vDh
-	HeVia7rs404N1V/G2pKhbxnKLjfPpxUe3D53tC3og9yWw1621P7h56b0tJek+AW58Nn0V2zN
-	FFHaEysKeltkgegTErfGXE6dbBBuja1KbMfwAc9yWbYp8dgzMzz92IGsx64pJqqZrnvyRSJ+
-	8n3tU1lWaYfFerxiSZbCx9UJtMAHU6npfwE7LGK5kwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA01ReUxScRzv997zvSdFvlDzl11GtZWVndpvZa7VqjdpdqyV3ZE8tIXKIJvd
-	NmsVtTTaTJ+tzJIGNim1zJQO1JmU2SUViXZg2Ki0zM0OqYC1+d9nn+/n2r40LrIRofS2lB2c
-	KkWqEJMC4kaNePSUZR3v5dNedwagYnsWiVw13wDK6fqBoz92J4Ze3a3EkL64DkP5ZzIx5DDy
-	OLqWRaP3Ld0U+qEzUEhrtgJksk1CTwuXoGpTA4HO69opdPzFTRJdrndjqMTVSaCmvno/1MSf
-	peYHs8+eS9im1msEm6O1kOyzxjS21HCMZMsuHWCrCroxtupVBsl+bbcR7MlyA2AfFtRSbHfp
-	KLbU8RlbLlwniJZxim07OdXUmC2CJOO5X4RSj6dnGGqJDNCAaQBNQ2YW7Hw5RQMEtIipAFBv
-	+Qk0wP8fHwIzrb2UDwdCvdtJ+UQuAE2NdZjnIGRiYM/Tg7gHE8x4+KRVh/v4IbAhz0F4cDCz
-	FVa3HfTqA5loWHnvi5fH/xXYHOe9I4IYFto+xXnyceYjDvPcPO4ru4PB4o4jXhHJTISPT6d5
-	vP7MXNjrbvPz5URBzXUN8OHRsOLzWTwbiPh+M/h+dXw/C9/PUgAIAwjmlOrkxOQE5fQItTRZ
-	nZaSGJGQmlwKvO8PX3kT6Ix9EWaA0cAMII2Lg4Ra8p1cJJRJd+3mVKmbVWkKTm0Gw2lCHCIc
-	qzgmEzGJ0h3cdo5Tcqr/V4z2D83AYnUj67c2tw6VPs9ds31pdqBrTmaXVrVl6aGeqLC4ztlF
-	k39Zot4E7S0olI0Y5GweLGk9vLOyh4isuK341DdgdebCB4fipFeenCsJNxN8e85DAT/o7SIR
-	sbYhZEKoY5+1pSz+5b3uo+4LRfnxF76Pepve1NGclDsxzCga4S+xXx7YFuk3Yea46LvfVjgW
-	SuJjQIA29mdVpWv4kLLC8nVjalZoTTNUq5vl9quLx8nFa7J/0wtkWKzphIWs+WA9RdmH7XnU
-	ksAOlSt0DHu4x5q3iS4zVos2dK0qcpbfH7AxVXnS2Z5+cU/S/sR5kYso6/qS3kt7iyR+YyKC
-	0LtbdnljiW2jmFAnSaeH4yq19C9zlmoQbQMAAA==
-X-CMS-MailID: 20240913072255epcas5p4ffa874219e563fd562003ce2c7ff0d3b
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240910151044epcas5p37f61bb85ccf8b3eb875e77c3fc260c51
-References: <20240910150200.6589-1-joshi.k@samsung.com>
-	<CGME20240910151044epcas5p37f61bb85ccf8b3eb875e77c3fc260c51@epcas5p3.samsung.com>
-	<20240910150200.6589-2-joshi.k@samsung.com> <20240912125347.GA28068@lst.de>
-	<0baddb91-b292-db90-8110-37fa5a19af01@samsung.com>
-	<fe2ae1b7-7c77-49e1-ace0-50e937f2c32c@acm.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240913-refactor-blk-affinity-helpers-v1-3-8e058f77af12@suse.de>
+References: <20240913-refactor-blk-affinity-helpers-v1-0-8e058f77af12@suse.de>
+In-Reply-To: <20240913-refactor-blk-affinity-helpers-v1-0-8e058f77af12@suse.de>
+To: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, virtualization@lists.linux.dev, 
+ linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, 
+ mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, 
+ storagedev@microchip.com, linux-nvme@lists.infradead.org, 
+ Daniel Wagner <dwagner@suse.de>, 
+ 20240912-do-not-overwrite-pci-mapping-v1-1-85724b6cec49@suse.de
+X-Mailer: b4 0.14.0
+X-Last-TLS-Session-Version: TLSv1.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240913_002305_318732_CCB5086A 
-X-CRM114-Status: GOOD (  12.25  )
+X-CRM114-CacheID: sfid-20240913_004234_414285_B3FFE807 
+X-CRM114-Status: GOOD (  14.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,14 +79,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/13/2024 2:00 AM, Bart Van Assche wrote:
-> On 9/12/24 8:50 AM, Kanchan Joshi wrote:
->> Wherever hint is being used in generic way, u8 data type is being used.
-> 
-> Has it been considered to introduce a new union and to use that as the
-> type of 'hint' instead of 'u8'?
-> 
+From: Daniel Wagner <dwagner@suse.de>
 
-Is it same as your other question in patch 3?. I commented there.
-If not, can you expand on what you prefer (maybe with a code fragment).
+Replace all users of blk_mq_pci_map_queues with the more generic
+blk_mq_hctx_map_queues. This in preparation to retire
+blk_mq_pci_map_queues.
+
+For his_sas_v2_hw.c we have to provide its own callback for retrieving
+the affinity because pci_get_blk_mq_affinity is using
+pci_irq_get_affinity and not irq_data_get_affinity_mask.
+
+But at least we can replace the open code loop with
+blk_mq_hctx_map_queues.
+
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/scsi/hisi_sas/hisi_sas.h       |  1 -
+ drivers/scsi/hisi_sas/hisi_sas_v2_hw.c | 20 ++++++++++----------
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c |  5 +++--
+ 3 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/scsi/hisi_sas/hisi_sas.h b/drivers/scsi/hisi_sas/hisi_sas.h
+index d223f482488f..010479a354ee 100644
+--- a/drivers/scsi/hisi_sas/hisi_sas.h
++++ b/drivers/scsi/hisi_sas/hisi_sas.h
+@@ -9,7 +9,6 @@
+ 
+ #include <linux/acpi.h>
+ #include <linux/blk-mq.h>
+-#include <linux/blk-mq-pci.h>
+ #include <linux/clk.h>
+ #include <linux/debugfs.h>
+ #include <linux/dmapool.h>
+diff --git a/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
+index 342d75f12051..31be34f23164 100644
+--- a/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
++++ b/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
+@@ -3549,21 +3549,21 @@ static const struct attribute_group *sdev_groups_v2_hw[] = {
+ 	NULL
+ };
+ 
++static const struct cpumask *hisi_hba_get_queue_affinity(void *dev_data,
++							 int offset, int queue)
++{
++	struct hisi_hba *hba = dev_data;
++
++	return irq_get_affinity_mask(hba->irq_map[offset + queue]);
++}
++
+ static void map_queues_v2_hw(struct Scsi_Host *shost)
+ {
+ 	struct hisi_hba *hisi_hba = shost_priv(shost);
+ 	struct blk_mq_queue_map *qmap = &shost->tag_set.map[HCTX_TYPE_DEFAULT];
+-	const struct cpumask *mask;
+-	unsigned int queue, cpu;
+ 
+-	for (queue = 0; queue < qmap->nr_queues; queue++) {
+-		mask = irq_get_affinity_mask(hisi_hba->irq_map[96 + queue]);
+-		if (!mask)
+-			continue;
+-
+-		for_each_cpu(cpu, mask)
+-			qmap->mq_map[cpu] = qmap->queue_offset + queue;
+-	}
++	blk_mq_hctx_map_queues(qmap, hisi_hba, CQ0_IRQ_INDEX,
++			       hisi_hba_get_queue_affinity);
+ }
+ 
+ static const struct scsi_host_template sht_v2_hw = {
+diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+index feda9b54b443..1576eee943ba 100644
+--- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
++++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+@@ -3322,8 +3322,9 @@ static void hisi_sas_map_queues(struct Scsi_Host *shost)
+ 		if (i == HCTX_TYPE_POLL)
+ 			blk_mq_map_queues(qmap);
+ 		else
+-			blk_mq_pci_map_queues(qmap, hisi_hba->pci_dev,
+-					      BASE_VECTORS_V3_HW);
++			blk_mq_hctx_map_queues(qmap, hisi_hba->pci_dev,
++					       BASE_VECTORS_V3_HW,
++					       pci_get_blk_mq_affinity);
+ 		qoff += qmap->nr_queues;
+ 	}
+ }
+
+-- 
+2.46.0
+
 
