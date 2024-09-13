@@ -4,77 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4196DEEE27A
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 03:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18657FA3722
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 07:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=waU45+S2Wch4nExpoIDtLDhOBBOnVceB+6kiUZSjBhg=; b=vYhkmL+kmlsYFHabTdLaDDXubS
-	K5JTaAVbQ3E6JqAQQt4JtFlpSDc0NOZ8Xx7wMM7+3qhbgGpPhOBn4GjWRMe59ny29/xeOaZKqtWYm
-	hk57NGhmXzcgwyKLCfjGZnhgR7C65DRaGxa2IlECAdgB6VUt8T5j/3oIUwo5ywAOWZiyb7ZgAFVuh
-	Bn/HgwhlJnouq2aP/KWVpgaeKKLnHw4SUxwvAGXS7nv7FpiDvwkMpZ8xgCMQJZQQSrTQsIbh5WXq5
-	oZBcMNX94FbNGyCdHL7kQUvE4SRkXLG0MzdcCT2e5Uo20uuvBWZiMYR3RNgmwNgzSw7ATRqzqTB38
-	UExOy0PQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3zqtpJE/mdk5d0QMfgH8EkNrmbkSOpNb4bGq/RkfojY=; b=3DT1FIH6DfmQsahBFuZDM+NyJn
+	0qmWGoKS77im6jzVPkDkmHXfUwXeqcykPLX37TV4ycfKyeImHbKZbsprTMNswM2xqUw3zAbGAlLkt
+	lgnj9DxkSuzWNnz/p9Ap269WVhfTf0J8MPMHaYLVc9G6yZ+6rA/fRC3JnhQQHd+3tEA0/e5lZB5R4
+	2YhVn+34/Hp4rUcWkIy92Ps6xR1Ba2TgvybVTDo2yIa2pZ0ekXThIKEinWrPuUwpBEORjG/ZGjSXp
+	EOA3EexF+NHWeg5lbrPVxQoHE5DdS3/tdUfd9z3yC0g8D2Ic0NFlx4fdeS+wuA1D1rx2QI0ZmC3z1
+	O0K9p12A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soxFl-0000000EqMg-1Yrz;
-	Fri, 13 Sep 2024 03:45:49 +0000
-Received: from mgamail.intel.com ([192.198.163.8])
+	id 1sp0XK-0000000F84r-2Lzj;
+	Fri, 13 Sep 2024 07:16:10 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1soxFX-0000000EqJL-44MF
+	id 1sp0XB-0000000F82w-1J4J
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Sep 2024 03:45:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726199136; x=1757735136;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KRpuwJWBbYAlvGr9Q5A7BLOrcVJLsEoahnJiQ1lGqKc=;
-  b=DKBz7JLxRVvKSXg6xYbYMe4x7D+Hek8Nhyp9TWZ9N2BVmqHSRXCuOHfy
-   8PerOqBkSx8otOacXZeWSsBgIeRwJWyJ7btXmnPffcuUu8oszsYDrV0go
-   GmK8nfl73u7M4V47O4uTLwzTBHbCgQL4iW2fDZjJTMP5ymNBOzZ+mf35/
-   6DNZH7CLeDrQX2nPaKWKjcUyQc4R0GGza40e7XiTwI31W4fmwZ96cBcA1
-   5WQqk2LVZJlJe+4AznMVUqWgcZT2qXcjhlxWzX64htt5Uve1HzmK9Ef7u
-   KGd0u0z2EEhc82sqMo1RQPwFhLzLwxHsfwZeVN5mWMD5ovaCtKvvpR2dG
-   Q==;
-X-CSE-ConnectionGUID: xErRPzIAQTCoodipQ2kXiQ==
-X-CSE-MsgGUID: Cy1Bt5xtQf2IAa970j/m7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42597872"
-X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="42597872"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 20:45:35 -0700
-X-CSE-ConnectionGUID: XSPlTp1kTQqoy4tLSbvaTw==
-X-CSE-MsgGUID: uiLyvUX0SS69Dhz9afnofQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="72521873"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Sep 2024 20:45:32 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1soxFS-0005yM-0r;
-	Fri, 13 Sep 2024 03:45:30 +0000
-Date: Fri, 13 Sep 2024 11:45:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
-	martin.petersen@oracle.com, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	sagi@grimberg.me
-Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv4 10/10] blk-integrity: improved sg segment mapping
-Message-ID: <202409131138.fuzBKPCG-lkp@intel.com>
-References: <20240911201240.3982856-11-kbusch@meta.com>
+	Fri, 13 Sep 2024 07:16:06 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240913071552epoutp049e32b842778cf00d6a4be9cc7dfbaae3~0vHF7DEKd1103911039epoutp04Q
+	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 07:15:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240913071552epoutp049e32b842778cf00d6a4be9cc7dfbaae3~0vHF7DEKd1103911039epoutp04Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1726211752;
+	bh=3zqtpJE/mdk5d0QMfgH8EkNrmbkSOpNb4bGq/RkfojY=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=ORtlmQjVsW2YhXgfkmG/5bxOhjsKBtoesB9TnM9kkrMggSgzuuk5thhsWSXwKcY35
+	 VzH/pen3oMAEEogfXtS5X2UUN69eHuG3IQfaBtO6okL9E4pPUYr1qKo9Bm1S9llSP/
+	 6NqsaFlQ/cTCVDZ3qDh//ErbKg3CYy3BWygw7ZUs=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240913071552epcas5p407bc7471dba9c401717e052479b00d1a~0vHFg4og41690216902epcas5p41;
+	Fri, 13 Sep 2024 07:15:52 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.180]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4X4lvq1M23z4x9Ps; Fri, 13 Sep
+	2024 07:15:51 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	62.03.19863.7A6E3E66; Fri, 13 Sep 2024 16:15:51 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240913071550epcas5p105ccc2bbc82283e49e07d5dff05020b0~0vHEENaJk1486314863epcas5p1j;
+	Fri, 13 Sep 2024 07:15:50 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240913071550epsmtrp1178989a849662704336e4812401c84a6~0vHEDG6WC1969919699epsmtrp1W;
+	Fri, 13 Sep 2024 07:15:50 +0000 (GMT)
+X-AuditID: b6c32a50-ef5fe70000004d97-dd-66e3e6a77a65
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	49.15.19367.6A6E3E66; Fri, 13 Sep 2024 16:15:50 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240913071547epsmtip1be43924e78b5b0a33230ca2b73f0bf33~0vHBFfCZz3168031680epsmtip1q;
+	Fri, 13 Sep 2024 07:15:47 +0000 (GMT)
+Message-ID: <19f3205e-ba37-0541-f8ac-4e0fc8fcee87@samsung.com>
+Date: Fri, 13 Sep 2024 12:45:46 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240911201240.3982856-11-kbusch@meta.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v5 3/5] fcntl: add F_{SET/GET}_RW_HINT_EX
+Content-Language: en-US
+To: Bart Van Assche <bvanassche@acm.org>, axboe@kernel.dk,
+	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
+	James.Bottomley@HansenPartnership.com, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org,
+	jlayton@kernel.org, chuck.lever@oracle.com
+Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
+	linux-scsi@vger.kernel.org, gost.dev@samsung.com, vishak.g@samsung.com,
+	javier.gonz@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <53043e99-be5f-4fc6-be87-4ebcb8ce99b6@acm.org>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xbVRTHfe+V1wdSfStj3HQG6jObDAa0E+qF8WPJ2HwRTJjoHxInPumD
+	kpa26Y+xmRIJBJSp4CoO7BgwJEAh4UdBws+IZYZNIF1gbkIANyglo5AJmExEmC1lk/8+59zz
+	vd9z7sklMH4JV0BkK3WsRskoKNyH0z18LCSs0bGQKRpa8YIts2U4dA6vI/Dqn5sYfDq7hMKp
+	oV4Umlt+QeG1ikIU2ttMGOwoI+DCzAYXbjY0c6HReg+Bg9OhcKLuLTgweJsDaxoWufDL+z04
+	bBzZQWH3Vg0GW52POdC2PeIFbaYq7qlD9OTdJNo218Ghrxp/xenJcT1taS7B6c76z+j+2g2U
+	7p/Kx+m1xWkOXdrVjNBjtTe59IYlkLbYV9EUXpo8VsYyUlYjZJUZKmm2MiuOSkpNP50eJRGJ
+	w8TR8E1KqGRy2DgqMTkl7Gy2wjUzJbzAKPSuVAqj1VIR8bEalV7HCmUqrS6OYtVShTpSHa5l
+	crR6ZVa4ktXFiEWiE1Guwo/lss2qakxtOXCxoXvAKx9p4l1GvAlARoKaQSNyGfEh+OQAAlpn
+	nnI9wToCClds2PNgsWAYeSb57ucV1HPQi4D6sbo9/SoCRueWMHcVj4wHtpkq1M0c8ggYnzfj
+	nvwBcPt7O8fN/uQn4J/fqnZv9SPjwI3tJq6bMTIATNtrdrUHyXYUTBT5uA0wshwFf1daXQYE
+	gZPHwJ1v9e4ab/Ik+MnRgXu0QaDwx2u7bQOy0RsMdK2jnrYTQXHfENfDfmB5pGuPBeBRWfEe
+	y8GD+QccDxtAT2epl4cTQP6/v3u5fTGXb1tfhMfrJfD1lh11pwHJA18U8z3Vr4I54+KeMgA8
+	rKzfYxpMl9/dbZNPLiOg+dHRbxChad+rmPZNb9o3jel/41qE04wIWLU2J4vNiFKLw5Rs7vON
+	Z6hyLMjunwhJ6UFa2rfDrQhKIFYEEBh1kGfE5zP5PClz6VNWo0rX6BWs1opEufZzBRP4Z6hc
+	n0qpSxdHRosiJRJJZPQbEjEVwHMWXZfyySxGx8pZVs1qnulQwluQjwp1RUV3Lt5iE6IHE62K
+	98+Mhppnix76+/W+LNOwwYZzH2EZt1KPRztr8/A+Y+6Rw7phUUROtSPoftIVH19DY+YfT8aO
+	RggFjC6NsoTcKxdICj+/cMY+er7aqmiSZYev2sYzidHYQEfYYY5E65TnfTVxKfOGfPL4277v
+	GCqkQsNW6an+usQfkoNK+z5QhMhLXlxjix1M8qaS2xaDC6D5vcfXJWvtAXmnO1UNxFmnrZ8x
+	fDgaPDSWMPVC4F+doa9Ta+fOR7WmVqIV1nfHJyfKIibMhwqSHB2vccxbg/xK37TTJ+KXCm4+
+	GRqWru5sJZ98JSZ4LCg7d2ehdhl2mcZrKI5WxohDMI2W+Q+MMFVlnAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjuO+fs7GgMjjPz6x4TIxM1JeyjUqKiDhUV3a/Y1OMy51xbywqi
+	lRW5Loqa1tGcpcym5GW5qamUlxJHsrykKWqoU0MtKymV0NVcgf+e931u74+XwoW9xGIqUnae
+	VcjEUhHpTJhqRct9dIP9EWvNJR4ovzuBRCO1PwBK/TaFI1v3EIY6XpdjSJ//BkPpaXEYshZy
+	OCpOoFB/1zgfTeny+Cippg2gqk5v1Px0B6qsaiCQVjfAR3fay0iUWz+DIdNvLY4KRsYIZJmu
+	5yELl8HfvJBpad3FWHqKCSY1yUwyLY0qxpAXTzIvcq4yFVnjGFPRoSaZ7wOdBHO/JA8w77Lq
+	+My4YTljsH7B9gmOO28KZ6WRF1iFX/Bp5zNTGZm43OByUWeq5KnBM4EGOFGQXgcfVI9iGuBM
+	CelSAHNmynEH4Q7j2ib5DuwK9TNDfIdoBMDkni7STgjoYGjpysDsmKA9YWOf/t/eBTY8shJ2
+	7EaHwspP12Y1rnQQfDL9bDYU/1vQadXO7hfQRRicbF5pL8DpFAyO3Bj71zYMYLo58e9AUSTt
+	Bd8nq+wGJ3ojfDVYTDqCAqHGqAEOvALGGdPxRCDk5tzBzenj5li4OZYsQOQBN1aujJZEh8n9
+	fZXiaKVKJvENi4k2gNkvWLO/DOgKp31rAEaBGgApXLRAkET2RQgF4eJLl1lFTIhCJWWVNWAJ
+	RYjcBR7S+HAhLRGfZ6NYVs4q/rMY5bRYjXlfv+4nVdUZj028m/5q+rx9p+Q37eLzy/OQzZLc
+	5ttwGNcdPHry6t269QMfOz9fkfO0H/X9r0cFyzCbrEp7bnPznu+8oMl7sLepaT4vzctb/rOL
+	G7zSvWXD1+bYwFhzQW2f9UGtWh864cUTWRM8Yqc+7VXdydrIe9su+5BqdC048jiqY3dfC3O5
+	qPdWSV117s3qbQGaipbKH8EB8yX97W/ygzJPrPZ8OFBifhySOJHNXfSf57HM1KReui1txyLz
+	vvZfN75k25rGYlaNP/WxoSXD7n5jpYk7h1uvZdbnjBaJzSk9k/TEgSdFxSZj/K3bZ5/fOyUH
+	5WnVloiXdzls61BhiohQnhH7r8EVSvEffHF713QDAAA=
+X-CMS-MailID: 20240913071550epcas5p105ccc2bbc82283e49e07d5dff05020b0
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240910151052epcas5p48b20962753b1e3171daf98f050d0b5af
+References: <20240910150200.6589-1-joshi.k@samsung.com>
+	<CGME20240910151052epcas5p48b20962753b1e3171daf98f050d0b5af@epcas5p4.samsung.com>
+	<20240910150200.6589-4-joshi.k@samsung.com>
+	<53043e99-be5f-4fc6-be87-4ebcb8ce99b6@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_204536_094186_2FC8B2DD 
-X-CRM114-Status: GOOD (  13.16  )
+X-CRM114-CacheID: sfid-20240913_001602_042192_B8E14E5E 
+X-CRM114-Status: GOOD (  14.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,101 +147,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+On 9/13/2024 2:06 AM, Bart Van Assche wrote:
+> On 9/10/24 8:01 AM, Kanchan Joshi wrote:
+>> diff --git a/include/linux/rw_hint.h b/include/linux/rw_hint.h
+>> index b9942f5f13d3..ff708a75e2f6 100644
+>> --- a/include/linux/rw_hint.h
+>> +++ b/include/linux/rw_hint.h
+>> @@ -21,4 +21,17 @@ enum rw_lifetime_hint {
+>>   static_assert(sizeof(enum rw_lifetime_hint) == 1);
+>>   #endif
+>> +#define WRITE_HINT_TYPE_BIT    BIT(7)
+>> +#define WRITE_HINT_VAL_MASK    (WRITE_HINT_TYPE_BIT - 1)
+>> +#define WRITE_HINT_TYPE(h)    (((h) & WRITE_HINT_TYPE_BIT) ? \
+>> +                TYPE_RW_PLACEMENT_HINT : TYPE_RW_LIFETIME_HINT)
+>> +#define WRITE_HINT_VAL(h)    ((h) & WRITE_HINT_VAL_MASK)
+>> +
+>> +#define WRITE_PLACEMENT_HINT(h)    (((h) & WRITE_HINT_TYPE_BIT) ? \
+>> +                 WRITE_HINT_VAL(h) : 0)
+>> +#define WRITE_LIFETIME_HINT(h)    (((h) & WRITE_HINT_TYPE_BIT) ? \
+>> +                 0 : WRITE_HINT_VAL(h))
+>> +
+>> +#define PLACEMENT_HINT_TYPE    WRITE_HINT_TYPE_BIT
+>> +#define MAX_PLACEMENT_HINT_VAL    (WRITE_HINT_VAL_MASK - 1)
+>>   #endif /* _LINUX_RW_HINT_H */
+> 
+> The above macros implement a union of two 7-bit types in an 8-bit field.
+> Wouldn't we be better of by using two separate 8-bit values such that we
+> don't need the above macros?
 
-kernel test robot noticed the following build warnings:
+I had considered that, but it requires two bytes of space. In inode, 
+bio, and request.
+For example this change in inode:
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20240912]
-[cannot apply to mkp-scsi/for-next jejb-scsi/for-next linus/master v6.11-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+@@ -674,7 +674,13 @@ struct inode {
+         spinlock_t              i_lock; /* i_blocks, i_bytes, maybe 
+i_size */
+         unsigned short          i_bytes;
+         u8                      i_blkbits;
+-       u8                      i_write_hint;
++       union {
++               struct {
++                       enum rw_liftime_hint lifetime_hint;
++                       u8 placement_hint;
++               };
++               u16 i_write_hint;
++       };
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/blk-mq-unconditional-nr_integrity_segments/20240912-041504
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20240911201240.3982856-11-kbusch%40meta.com
-patch subject: [PATCHv4 10/10] blk-integrity: improved sg segment mapping
-config: openrisc-randconfig-r072-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131138.fuzBKPCG-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131138.fuzBKPCG-lkp@intel.com/reproduce)
+With this, generic propagation code will continue to use 
+inode->i_write_hint. And specific places (that care) can use either 
+lifetime_hint or placement_hint.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409131138.fuzBKPCG-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> block/blk-integrity.c:69: warning: Function parameter or struct member 'rq' not described in 'blk_rq_map_integrity_sg'
->> block/blk-integrity.c:69: warning: Excess function parameter 'q' description in 'blk_rq_map_integrity_sg'
->> block/blk-integrity.c:69: warning: Excess function parameter 'bio' description in 'blk_rq_map_integrity_sg'
-
-
-vim +69 block/blk-integrity.c
-
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   56  
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   57  /**
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   58   * blk_rq_map_integrity_sg - Map integrity metadata into a scatterlist
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   59   * @q:		request queue
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   60   * @bio:	bio with integrity metadata attached
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   61   * @sglist:	target scatterlist
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   62   *
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   63   * Description: Map the integrity vectors in request into a
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   64   * scatterlist.  The scatterlist must be big enough to hold all
-19f67fc3c069b6 Keith Busch        2024-09-11   65   * elements.  I.e. sized using blk_rq_count_integrity_sg() or
-19f67fc3c069b6 Keith Busch        2024-09-11   66   * rq->nr_integrity_segments.
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   67   */
-19f67fc3c069b6 Keith Busch        2024-09-11   68  int blk_rq_map_integrity_sg(struct request *rq, struct scatterlist *sglist)
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  @69  {
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   70  	struct bio_vec iv, ivprv = { NULL };
-19f67fc3c069b6 Keith Busch        2024-09-11   71  	struct request_queue *q = rq->q;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   72  	struct scatterlist *sg = NULL;
-19f67fc3c069b6 Keith Busch        2024-09-11   73  	struct bio *bio = rq->bio;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   74  	unsigned int segments = 0;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   75  	struct bvec_iter iter;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   76  	int prev = 0;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   77  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   78  	bio_for_each_integrity_vec(iv, bio, iter) {
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   79  		if (prev) {
-3dccdae54fe836 Christoph Hellwig  2018-09-24   80  			if (!biovec_phys_mergeable(q, &ivprv, &iv))
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   81  				goto new_segment;
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   82  			if (sg->length + iv.bv_len > queue_max_segment_size(q))
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   83  				goto new_segment;
-13f05c8d8e98bb Martin K. Petersen 2010-09-10   84  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   85  			sg->length += iv.bv_len;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   86  		} else {
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   87  new_segment:
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   88  			if (!sg)
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   89  				sg = sglist;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   90  			else {
-c8164d8931fdee Paolo Bonzini      2013-03-20   91  				sg_unmark_end(sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   92  				sg = sg_next(sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   93  			}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   94  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   95  			sg_set_page(sg, iv.bv_page, iv.bv_len, iv.bv_offset);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   96  			segments++;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   97  		}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30   98  
-d57a5f7c6605f1 Kent Overstreet    2013-11-23   99  		prev = 1;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  100  		ivprv = iv;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  101  	}
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  102  
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  103  	if (sg)
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  104  		sg_mark_end(sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  105  
-19f67fc3c069b6 Keith Busch        2024-09-11  106  	/*
-19f67fc3c069b6 Keith Busch        2024-09-11  107  	 * Something must have been wrong if the figured number of segment
-19f67fc3c069b6 Keith Busch        2024-09-11  108  	 * is bigger than number of req's physical integrity segments
-19f67fc3c069b6 Keith Busch        2024-09-11  109  	 */
-19f67fc3c069b6 Keith Busch        2024-09-11  110  	BUG_ON(segments > blk_rq_nr_phys_segments(rq));
-19f67fc3c069b6 Keith Busch        2024-09-11  111  	BUG_ON(segments > queue_max_integrity_segments(q));
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  112  	return segments;
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  113  }
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  114  EXPORT_SYMBOL(blk_rq_map_integrity_sg);
-7ba1ba12eeef0a Martin K. Petersen 2008-06-30  115  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That kills the need of type-bit and above macros, but we don't have the 
+two bytes of space currently.
 
