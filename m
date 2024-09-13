@@ -4,75 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83935FC6171
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 18:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20E3EFC616C
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 18:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EK7qRVh7IubhEF75usjllDVX8wTrwNSbwEX2ZPVAxZ4=; b=pmUwHqW0Ze7xSSnQG9y5LWRxlN
-	NQL2pLXqrWLVeMABMOFCO8WVpD/V9Z/9xIkS3u4OBQbzUWXUAKMFdGSKgc8V2MzWUTQRw03aMeSlP
-	99kNgC/rV8mJKPTqSg11/QTWYKWaQXiZcbgHZpTYxOu74+bF+fUNGNdAcLC3ZOE1ASyYUPwn34l+p
-	ABY3UYQIHOa0ZSobiO/lytVytwiHHUzKawnQWTWKrxponc1ChX1/2dyZyKfk8Cwj+E5+VeDOq3mXr
-	931/4s7tRExBF1GGAYCQ4MLd5DlioknItKAiyeatqKHflCE4a7S5qmZVH13uTLBbiWL/BJphyTcc5
-	9hcklR6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BQlndyxNz0y8p4ktDTL7mO25tUCvrQgrqDCIL+ty3SI=; b=HTbtwpGhS8VlGJjNazFgClzPUD
+	KpOhbDCW5SQ5sab+yc86cqU1CTVzpkf0pHf++eENgNEmLEp4LKR/KuuHaFqjH/SdO36KP5IMhaAZe
+	qv0T19M/NHNeP/uiw3ZVCuOMpo014CNnZp2iTEQnpGwt9rgfIZ5UBcO53yFNWa6Fb+h9NfHHFmFgG
+	wfgZc2Byo28EDVJLHcfhG5rk2L4UANX93+UCKxULA7XWIwktmNxJfXJJ2pf4HtuIUQn9bOKOkOg4d
+	o0yyhUtALLXkASzhJFrrsSA6Ubd9jYRkKKIdY/i9M4UylreXzrGdZXIavQe+1XwYzP3/CIbGC3OfU
+	f8AFZIIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1spB3A-0000000GoaZ-3CaB;
-	Fri, 13 Sep 2024 18:29:44 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1spBB7-0000000GpgC-21Fd;
+	Fri, 13 Sep 2024 18:37:57 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1spB2m-0000000GoNP-0Qs1
+	id 1spBAF-0000000GpZ7-23YI
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Sep 2024 18:29:43 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48DI2Llc003051
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 11:29:19 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from
-	:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	s2048-2021-q4; bh=EK7qRVh7IubhEF75usjllDVX8wTrwNSbwEX2ZPVAxZ4=; b=
-	TjYEE7q+wgX0XEKkcNJRs2RGesVbDegYUp+HLCdvhP7zrqHfohg3ek3iTeoo+meG
-	BBVc4rVWbwZy0hXGn5+DVQMO7hYf+vAvmbM5kFupk7hFbth4FP800IBqxZeiooGN
-	6qAhyDt1zKE1G53ikDLp23fUuw9jreMlAznSwFwxT7fKBUG0Rv7FkK69ERmN/kGI
-	8bgUQMbI2FxmbCcQYZpZb1LO80kHTzakPAyHodDud3CxCp8Yskwq5OASjWgcJGCL
-	FghDqLZNkxvsMQU9g2MBdOSvaAPGYoleevYzCcb5r+ZVOyZHOpxrEdN4a8R29JhX
-	cJAtHF8JxJcwvGUMP7aFWw==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41kha4qjc4-19
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 11:29:19 -0700 (PDT)
-Received: from twshared32638.07.ash9.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Fri, 13 Sep 2024 18:29:10 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 691FB12F91047; Fri, 13 Sep 2024 11:29:03 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <axboe@kernel.dk>, <hch@lst.de>, <martin.petersen@oracle.com>,
-        <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-        <linux-scsi@vger.kernel.org>
-CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv5 3/9] blk-integrity: properly account for segments
-Date: Fri, 13 Sep 2024 11:28:48 -0700
-Message-ID: <20240913182854.2445457-4-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20240913182854.2445457-1-kbusch@meta.com>
-References: <20240913182854.2445457-1-kbusch@meta.com>
+	Fri, 13 Sep 2024 18:37:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1726252621;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BQlndyxNz0y8p4ktDTL7mO25tUCvrQgrqDCIL+ty3SI=;
+	b=iBytsmr7yqpGd/xBsJFhD+zCt8i2s38YC6wuh6wLZQTLWd7YBl/75kHRXmkU+rjnHa7c3h
+	O3hAK7GbPq3doQJGdYUdVyCzUkgakIar7dovgX7VpZxZEmVXhw4RkYj1qPgnVidNoYmaUw
+	XKCNCAsdVr6tpQBPy6X1LMgKDawycTA=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-16-egxBN4JaNr2NYwEAEupFvg-1; Fri, 13 Sep 2024 14:37:00 -0400
+X-MC-Unique: egxBN4JaNr2NYwEAEupFvg-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2f756c272ffso16549681fa.0
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 11:36:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726252619; x=1726857419;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BQlndyxNz0y8p4ktDTL7mO25tUCvrQgrqDCIL+ty3SI=;
+        b=HMswXBPPKVBIFJzA0p0s2DztQG3njIMVqj5Ubc1xYgw/waws6WqLP/VpH/Znf7vxfF
+         oQe7p63Vi7AT+fu3RsFmWB4OrOLyYc4SHEm4W3u8W0YCCembZhkkDG3w5W2Viztip2sN
+         6au841TUr9nRbo6Id3cSFB3wPuCGUm1U0g/lqmzndCIuxNg1Clwp8F9ObMk/RLLDJUZI
+         Qul7HOafTvQV14y3f2Jnvvlsn8if9WDqgXVXk/O/MitNdsM1c2bpnBGE2cRQfJ5JZhF+
+         QDgN7SMQPxYS4mrfTMdKBxVYYIjx1ZwvRvjGcj4GDeAvCpUnLnn1TnDVQex3NtvoIibu
+         CXlw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpaWRx5TBVV81LVGlrblain6VOdWFFEt31pNZtl7CM2R8h5s5Qa9FZk06xZgu2KXA9lTeqsTQUxgUH@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw+6k294Mtm+DFq3lQV95QXD+tMUmT3/BbwhcasaF3fVtBC34cM
+	b5/zgrW1aNYZK0r+8R1lu4Ljd0qmVGzMqFp7Bp/DDZhCLrGeXEBk56vpiTw5ACPd2PCIp7YmnaQ
+	o4c2yKvOUkJw4LD2tL56f8W7EmJ725LcWd/fU6wbiYmmM+1+S898va7rt7kAtAMeJJS/iq5szT5
+	ANGikiCev/tyA2o/OHhwZc/OMXhHl+hDmMcVGLFpg=
+X-Received: by 2002:a2e:8813:0:b0:2f3:f690:17f3 with SMTP id 38308e7fff4ca-2f787f39bd5mr36982831fa.31.1726252618515;
+        Fri, 13 Sep 2024 11:36:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFWOXk6BISYleH+3FWtU0zJ9i5h07oRhVxBWwk0/i1El0Ro4NeQShu2og3yppqgjxyDBqxli+6neIh9KqGgisE=
+X-Received: by 2002:a2e:8813:0:b0:2f3:f690:17f3 with SMTP id
+ 38308e7fff4ca-2f787f39bd5mr36982491fa.31.1726252617304; Fri, 13 Sep 2024
+ 11:36:57 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240913134430.5416-1-djeffery@redhat.com> <20240913134430.5416-5-djeffery@redhat.com>
+ <ZuRXc8uj7J2CBDE-@kbusch-mbp>
+In-Reply-To: <ZuRXc8uj7J2CBDE-@kbusch-mbp>
+From: David Jeffery <djeffery@redhat.com>
+Date: Fri, 13 Sep 2024 14:36:45 -0400
+Message-ID: <CA+-xHTG8_T8hXzF5uC4wFCHxZSrg18t0dzwNeh+RdDEjORh_1w@mail.gmail.com>
+Subject: Re: [PATCH 4/4] nvme: use per device timeout waits over depending on
+ global default value
+To: Keith Busch <kbusch@kernel.org>
+Cc: ens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 3ax1XI1J7kMoE_N1TrQNYMtd5Bspl62a
-X-Proofpoint-ORIG-GUID: 3ax1XI1J7kMoE_N1TrQNYMtd5Bspl62a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-13_11,2024-09-13_02,2024-09-02_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240913_112920_413399_11475E49 
-X-CRM114-Status: GOOD (  14.42  )
+X-CRM114-CacheID: sfid-20240913_113703_841642_F1DF8DA9 
+X-CRM114-Status: GOOD (  15.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,66 +100,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Fri, Sep 13, 2024 at 11:17=E2=80=AFAM Keith Busch <kbusch@kernel.org> wr=
+ote:
+>
+> On Fri, Sep 13, 2024 at 09:44:30AM -0400, David Jeffery wrote:
+> > Instead of passing NVME_IO_TIMEOUT as a parameter with every call to
+> > nvme_wait_freeze_timeout, use the largest timeout value from all the
+> > namespaces for the nvme controller. This will match the wait to the
+> > configuration of the devices instead of assuming a single value can
+> > fulfill the needs of all devices on the system.
+>
+> The module parameter is obviously too coarse, but does IO timeout really
+> need to be per-namespace? I'd think setting the preferred timeout at the
+> controller level is sufficient.
+>
 
-Both types of merging when integrity data is used are miscounting the
-segments:
-
-Merging two requests wasn't accounting for the new segment count, so add
-the "next" segment count to the first on a successful merge to ensure
-this value is accurate.
-
-Merging a bio into an existing request was double counting the bio's
-segments, even if the merge failed later on. Move the segment accounting
-to the end when the merge is successful.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/blk-integrity.c | 2 --
- block/blk-merge.c     | 4 ++++
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 010decc892eaa..afd101555d3cb 100644
---- a/block/blk-integrity.c
-+++ b/block/blk-integrity.c
-@@ -153,8 +153,6 @@ bool blk_integrity_merge_bio(struct request_queue *q,=
- struct request *req,
- 	    q->limits.max_integrity_segments)
- 		return false;
-=20
--	req->nr_integrity_segments +=3D nr_integrity_segs;
--
- 	return true;
- }
-=20
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 56769c4bcd799..ad763ec313b6a 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -639,6 +639,9 @@ static inline int ll_new_hw_segment(struct request *r=
-eq, struct bio *bio,
- 	 * counters.
- 	 */
- 	req->nr_phys_segments +=3D nr_phys_segs;
-+	if (bio_integrity(bio))
-+		req->nr_integrity_segments +=3D blk_rq_count_integrity_sg(req->q,
-+									bio);
- 	return 1;
-=20
- no_merge:
-@@ -731,6 +734,7 @@ static int ll_merge_requests_fn(struct request_queue =
-*q, struct request *req,
-=20
- 	/* Merge is OK... */
- 	req->nr_phys_segments =3D total_phys_segments;
-+	req->nr_integrity_segments +=3D next->nr_integrity_segments;
- 	return 1;
- }
-=20
---=20
-2.43.5
+The expansion of nvme to be a remote storage interface means different
+namespaces provided by the same controller can have very different
+characteristics. Take someone making an nvme-tcp target where one
+namespace is backed by local, high speed SSDs while another namespace
+is storage backed by a slower or more finicky data solution like nfs
+or various clustered storage products. I would expect such cases to be
+rare, but they are still cases where independent timeout values may be
+needed to better handle different namespaces through the same
+controller.
 
 
