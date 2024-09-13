@@ -4,181 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DBC2EEEC02
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 03:01:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4196DEEE27A
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 03:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j6XypMlI1Pd4zJYQ+ez9D2Cd+BLTkoMO6/JIXlzf1O0=; b=4bPLks3eZzBWcoQU5a2kmNkSWQ
-	AkpCEoD5Stihf39eq47o58epeAHgt5MzqpmwpIAiA6TFIWNDSpr3oTq0g931N1di/3wf1VHkn1zAP
-	I/5pPid95rZ88uKHN1bcpkNv9RwV3rus3yWE7MPFUK615xFpyn/tVBitLrzf35qq2CE7wVOfwMdc1
-	QQBhiIwolwXq7ISP+b7NwK5Eexj4R7IkEoMaylAQp9vSWOLAkpPLY9G0zANKi+Ynw6Du0p/kjGr7s
-	DrW4z/PdyIA0HeH1h0gZypXJucxE6qvdNBTvZXW4mAsJ7KoZRws2EH3mKfz96LOTyUJylKRCzWbfJ
-	ArjkJ2ng==;
+	bh=waU45+S2Wch4nExpoIDtLDhOBBOnVceB+6kiUZSjBhg=; b=vYhkmL+kmlsYFHabTdLaDDXubS
+	K5JTaAVbQ3E6JqAQQt4JtFlpSDc0NOZ8Xx7wMM7+3qhbgGpPhOBn4GjWRMe59ny29/xeOaZKqtWYm
+	hk57NGhmXzcgwyKLCfjGZnhgR7C65DRaGxa2IlECAdgB6VUt8T5j/3oIUwo5ywAOWZiyb7ZgAFVuh
+	Bn/HgwhlJnouq2aP/KWVpgaeKKLnHw4SUxwvAGXS7nv7FpiDvwkMpZ8xgCMQJZQQSrTQsIbh5WXq5
+	oZBcMNX94FbNGyCdHL7kQUvE4SRkXLG0MzdcCT2e5Uo20uuvBWZiMYR3RNgmwNgzSw7ATRqzqTB38
+	UExOy0PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sowYT-0000000EmoX-106a;
-	Fri, 13 Sep 2024 03:01:05 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1soxFl-0000000EqMg-1Yrz;
+	Fri, 13 Sep 2024 03:45:49 +0000
+Received: from mgamail.intel.com ([192.198.163.8])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sovVR-0000000EghH-0aoW
+	id 1soxFX-0000000EqJL-44MF
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Sep 2024 01:53:54 +0000
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48CMBZJ1023309;
-	Fri, 13 Sep 2024 01:53:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to
-	:cc:subject:from:in-reply-to:message-id:references:date
-	:content-type:mime-version; s=corp-2023-11-20; bh=j6XypMlI1Pd4zJ
-	YQ+ez9D2Cd+BLTkoMO6/JIXlzf1O0=; b=j2kFPo3NnH6ZEyp+tr1Nnm1lDJ5/zk
-	13UINg9oVfoqJIDQn8w5wxlXDhx9n7QaDECa+ItbnjOgaWteKdveuuYmnhnfP7OA
-	ymg1gK6icmYQ2SUwyGXDqXRCHthWLdiQKxloxOE2YvBbATvph5sebr1Wu97vF7h1
-	Jtu0w78Jb15A05gV6i8377HF+X++RhHtqnkVfnTFBhxAuxPgw9L+DcqnYG1qb8rz
-	AWKsR2sGakhmJnP4qpq/rxybBTgOxqNn0HMdASgsZsOkxmyEHCtgQxxFkIAa/n6L
-	Pmxj8MW0z5FF2lLVn/r/6dzXIoIGqb03fRfC3SYWAPQjcSFxAd/Fke6g==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41gd8d452g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 13 Sep 2024 01:53:46 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48D10ULE033533;
-	Fri, 13 Sep 2024 01:53:45 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2041.outbound.protection.outlook.com [104.47.70.41])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41gd9c267x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 13 Sep 2024 01:53:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I3Kw92jyjJ7rLsri+ZSl+ncNj9rXQW+SrrQ4MifgpoqgU/2M2Hir3qK7GS1oPcPQR0dvF2xELdjbvhnBM5V0Ww1fasPqRW6qxT8G4182EZUienRBNzNQsGdQUcFQ1oCUeT0vRjoZHXt7a0lnZn+s5YOuLQMDUNnW4qKuoP7erG0pw1uVRfQtdovOphvHfl4uikSFx6mpLWvvWvx+RIhzHOZWywaIpQLaiwAwSoX5WfyEVRo2MD62rvIfTGmvQ0lNyEw3khJq2YE4FWhl1403zH0W4A05NsT9f15xIsE+dapGMB22B9SH7HL4+R8retuF0Rh/HxSniix/PpmMNnMvQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j6XypMlI1Pd4zJYQ+ez9D2Cd+BLTkoMO6/JIXlzf1O0=;
- b=D2DXqtn0Lv9UyBkKeb+b+iwH8wGZQhY4iHYqbmqwZ6cWyU8/J9RoJkp9e6pkLsj4gPtIVcO82Ygsv42tJeTMhAua2B7i0dve0TVLNK551zSUISVDEcmx+Ff3VlkCTR9rQ+0pwlfiEJU+pLP8F6BYCYhdUv4TLsIo8j0wJD6a62EsXz8/xP5gFrQId9zW4KObpXdJnHRff2HwKoHORkbe2SkINmL4sMhMbG/lK13gHSztbCd/NM9/kkveU6NK53CbS/SI1u1d0fm+vz8eKa6UkxXSp7nOqj0GThuZ7oJPK1oushSkd6D25EX1KJFURD1hwSmjObukuLCd9fPgbkd5xQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j6XypMlI1Pd4zJYQ+ez9D2Cd+BLTkoMO6/JIXlzf1O0=;
- b=sfdBcGtQn+vQSU+nk3pgqnTwbPIBXMJSVGO8CpTIjuEYIfUp+LoAbeADUXuAPopqTtQtxtHvwGTclCVqjpHiWMfY8r0op7jrBCAKeHz9tl/IxA2spj4iYthZ++OO8kqMeMILAtxckwEN6Nr2fhoYRcaCTO3vmBaGZHrVqkxTo94=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by DS0PR10MB7361.namprd10.prod.outlook.com (2603:10b6:8:f8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.14; Fri, 13 Sep
- 2024 01:53:43 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7%3]) with mapi id 15.20.7962.016; Fri, 13 Sep 2024
- 01:53:42 +0000
-To: Keith Busch <kbusch@meta.com>
-Cc: <axboe@kernel.dk>, <hch@lst.de>, <martin.petersen@oracle.com>,
-        <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-        <linux-scsi@vger.kernel.org>, <sagi@grimberg.me>,
-        Keith Busch
- <kbusch@kernel.org>
-Subject: Re: [PATCHv4 07/10] scsi: use request helper to get integrity segments
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20240911201240.3982856-8-kbusch@meta.com> (Keith Busch's message
-	of "Wed, 11 Sep 2024 13:12:37 -0700")
-Organization: Oracle Corporation
-Message-ID: <yq1wmjgtj58.fsf@ca-mkp.ca.oracle.com>
-References: <20240911201240.3982856-1-kbusch@meta.com>
-	<20240911201240.3982856-8-kbusch@meta.com>
-Date: Thu, 12 Sep 2024 21:53:39 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR08CA0015.namprd08.prod.outlook.com
- (2603:10b6:208:239::20) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	Fri, 13 Sep 2024 03:45:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726199136; x=1757735136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KRpuwJWBbYAlvGr9Q5A7BLOrcVJLsEoahnJiQ1lGqKc=;
+  b=DKBz7JLxRVvKSXg6xYbYMe4x7D+Hek8Nhyp9TWZ9N2BVmqHSRXCuOHfy
+   8PerOqBkSx8otOacXZeWSsBgIeRwJWyJ7btXmnPffcuUu8oszsYDrV0go
+   GmK8nfl73u7M4V47O4uTLwzTBHbCgQL4iW2fDZjJTMP5ymNBOzZ+mf35/
+   6DNZH7CLeDrQX2nPaKWKjcUyQc4R0GGza40e7XiTwI31W4fmwZ96cBcA1
+   5WQqk2LVZJlJe+4AznMVUqWgcZT2qXcjhlxWzX64htt5Uve1HzmK9Ef7u
+   KGd0u0z2EEhc82sqMo1RQPwFhLzLwxHsfwZeVN5mWMD5ovaCtKvvpR2dG
+   Q==;
+X-CSE-ConnectionGUID: xErRPzIAQTCoodipQ2kXiQ==
+X-CSE-MsgGUID: Cy1Bt5xtQf2IAa970j/m7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42597872"
+X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
+   d="scan'208";a="42597872"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 20:45:35 -0700
+X-CSE-ConnectionGUID: XSPlTp1kTQqoy4tLSbvaTw==
+X-CSE-MsgGUID: uiLyvUX0SS69Dhz9afnofQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
+   d="scan'208";a="72521873"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Sep 2024 20:45:32 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1soxFS-0005yM-0r;
+	Fri, 13 Sep 2024 03:45:30 +0000
+Date: Fri, 13 Sep 2024 11:45:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, axboe@kernel.dk, hch@lst.de,
+	martin.petersen@oracle.com, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	sagi@grimberg.me
+Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv4 10/10] blk-integrity: improved sg segment mapping
+Message-ID: <202409131138.fuzBKPCG-lkp@intel.com>
+References: <20240911201240.3982856-11-kbusch@meta.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|DS0PR10MB7361:EE_
-X-MS-Office365-Filtering-Correlation-Id: 869e98cc-31c5-4142-ee5a-08dcd396e526
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?kY9TJx5QJdBx3Ek93begQ+vwzN8FWqk3y3xyplTh36c7EmcaRAnK26mN5pZz?=
- =?us-ascii?Q?K9hcWSccEeeCqfGFeinwz6fKcOO2eY4EKjlymq8MVZNI1n8MA5Eqq1qjIJc+?=
- =?us-ascii?Q?rouE4NBTBW3dS5vWwfw4MEzptfwwJmQxK3fL4kk580S4Ea2KSleyOfXttRbk?=
- =?us-ascii?Q?QWqNJ25CLxKqeZAUqR8lyyqMy5h9e30TsWiFetuWSu7MMrFT/4Q+zzswXaei?=
- =?us-ascii?Q?Nc2ZMifxbZAgIcOaBSZde5ovxFYUhibYl/Dx/iSLsgYEjFZ/BwsTSZEBlGjl?=
- =?us-ascii?Q?yAVMcSo+JdARD/UtEH5B3KZgH7b9BjOxzf3JLb+eyPs+7y2Ry58yde1E4bP+?=
- =?us-ascii?Q?yOAW8m7fiyDFsO1GOTmIf6hfdJoSDsWBG5ilw+urwi7yHMhL3/EG5Vk3alkx?=
- =?us-ascii?Q?yzdj++989Rewbp2jaaC+04CYLo+iGD3gMEAQkHPnq8mhU+4e3Z9WckX2Uwus?=
- =?us-ascii?Q?s4fFuZso/+VHRaWQur+KVi5q1F2ow2ofTUUmTXQFrdSnzIDlNRrCDHgSen+m?=
- =?us-ascii?Q?FUA1FE5bsyRremwAZqylfHEY4LA2PX++icssyGcHzvZ4J4DXul3mrq3ZfFe5?=
- =?us-ascii?Q?iaQZkVit0pBGDMrx5lINXMiudhM59rfURHZpVOz3NEKWUvOnALsgtbc217my?=
- =?us-ascii?Q?RR1XtT8BtPY5RRWmrgAX30fJFphmasWBgYNYjCubPufZCNbo3V4H+eaqCFtj?=
- =?us-ascii?Q?G3m3RRlXCTI226zKDpqOMsX3UKCHzO5ygWFHxKa4VmU9iTL8yjtTc3fT0r38?=
- =?us-ascii?Q?tVpy/B9yArZwNv8aKoxLQaZdtK2YnbUeEFZff7lxfmOgD3enbThF0v3y3iPy?=
- =?us-ascii?Q?t0rgaECICVlAtDpOen1sd/b1M/jbvsCdQRr5vaD+G6+a8VxQ5nsCRdsy7Fjk?=
- =?us-ascii?Q?fT8+M7SaO1en7iFPS523aSvdEleg7r4PuseQT1THhVL2clM5Ed0TTd7mGxxo?=
- =?us-ascii?Q?g/H0c6AXNcWsX/X/7WYHobQbx8mAEE/PRUprRPAeOAdAo24JtLIxaesCbNCy?=
- =?us-ascii?Q?K99D5XHLyu0h1n6CtYoRoL/eik6FMZsC3SFQYdPvYBGEWZufpVC3rfaROPKu?=
- =?us-ascii?Q?Mf6lMTrT0gK1/i1560CeEiK5Nk+6c7bnMHqd5qk3dSZNchxuh7ziQpntGI+B?=
- =?us-ascii?Q?iHrF8DOHD0eNGdYNHDnoYU1Li41SMvevyJEQo2OfWkAjTliLA/LAvgJGj8SQ?=
- =?us-ascii?Q?f4b0G+fo25Ix8u+5DJk81vySfFLH5wh2rOMXnTmevSvIHU/Ar3RSvaEpK1K+?=
- =?us-ascii?Q?uvXnkHNCtu25aAwnKN97uHD/fQpCHo5c1BH2XmT49wCuC1cIUkNRnHsd8QZF?=
- =?us-ascii?Q?A7HlzxDsABc997x5P+4psIG96UW3phytndC57W219tsv1g=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3mNGIIM08cm/Vdhmzp4kVGFTcNPxsJjpzKnlCqMoI3HYeuVCvkE3TGpp+jK+?=
- =?us-ascii?Q?Iyjgu5JGEIvpMwVy8UN5A75XJjbfpVQEL2Mfz5xap875uUOTZc7gEnwwJ+vA?=
- =?us-ascii?Q?6d404g5yVcIxmdohLLetHN0N63Ww5T5LAhtT2LiSCOqQJj0uQ6TmBQfIKUA7?=
- =?us-ascii?Q?Dnna/ORllnNhzB+M0AUKut3mS9ZITHjzG0Ww6PlviDD/JG6RfSkmvZJjOmk1?=
- =?us-ascii?Q?dJRyfQAWIj/5CQhMgAgbli9JnuSj/kUtWOQbciLi0vTv87IhVW0zi6KKhS8v?=
- =?us-ascii?Q?VTs8ljqAJx6c2XQF95sdU4oQ5NN24xxj5ZE2m5GKz/fEsxV6OiaxxMHUHakT?=
- =?us-ascii?Q?1Mt7gfqz0k2nB42Pbph5GuWsalXxg+/Sip8cnxENfaYyiapmILoLot1KTYVN?=
- =?us-ascii?Q?9N1h/l1LzYpJjQE4ukw5SrdSMwHraQSgV7KJoLV3RN5+LFCdR8rDRyatRBnS?=
- =?us-ascii?Q?jMAn1CXf1eQY5J2ter8XNVd93CXwgKfIzLcaQnRV0gSCjTLAusGIVt2vRKuW?=
- =?us-ascii?Q?mY8qmCIoogxIUaWa+ozpBqTD7z4yYXi46fPw4ZzniQHuMNG5VLYRfn1pzp8w?=
- =?us-ascii?Q?tO1Xp5I2nwE6OFl2J9ri7bLlCW6Oni9HHdBGDmeRTwGXnV7VCVLQffMjnTaE?=
- =?us-ascii?Q?8fVZZLdKUH5plmDvUunuCkylr896twtBLNblzXDiqWUeJFcyggrdQUp+GyPB?=
- =?us-ascii?Q?ZK6m2+IxUJeH7pOCxFGX2NwMYucmOyzExdWjQ9yimhPG+pZ9kDhKDIkygmy/?=
- =?us-ascii?Q?oJsPl3s5c+25O3AQ0/MgVVRcWR4VDNZEwjN2IGWbbtZr9N87ybmEOW7S+/pO?=
- =?us-ascii?Q?HVlpA4/H27It5jf1l2snmZmK+ee3Mg/rJeVqoHdi7XIKjqY47Q7y9/zwNvEc?=
- =?us-ascii?Q?9MlS2ekhKg51rbVXFVccVpA9jQS7QlL3EaoDf7u4NN5Nb11UMAv+fXhDekgT?=
- =?us-ascii?Q?GqhuOu3c0u1W6W3T/YX2ghn7WvwxKoEFgl5c9hKyGsyXskTWdKa//lcewpY7?=
- =?us-ascii?Q?rQqQREiMScw+DMlnJfIGJ66GsZMUANUa3nrUEealBnqWpZUlLJVKHPfIIt+O?=
- =?us-ascii?Q?3+2GhQhE+zdTmYNS6azb4NWgTfc012YDLkAHxJyN7AnO87Z35nwBeKH7rscL?=
- =?us-ascii?Q?Rvfq4wd8UPymzdCisBlCvGpgUluryf8I+L7eAMr37tTX3F71CsJozw9cE3ud?=
- =?us-ascii?Q?cbWuty7YMI1p5XQtE2dfaUDS5jFig8+adWTnhzbmLeVX5rfdFcTBlaR/pgoW?=
- =?us-ascii?Q?AOb33BwByLSO52Ikl2TgzNLff8ouoows8039Z26DRK+tDvIbpVEP5LKih0d7?=
- =?us-ascii?Q?38T35sQLA+HRuwynHhKkNCwiG+inhBuIaP3gSlowOU4YPpLtSs/YH0CDuYt7?=
- =?us-ascii?Q?berEpIdnsLOAwOhQxjA2aTTFBEpZmB7GUlUp5dll8yd9qg+o+bshMyOBBcV8?=
- =?us-ascii?Q?kMgT6r/asQSWNdPWaiow/gr/VcqVqP3RD/JYuWP7vKXZ39VZ+KMnLdkirQMU?=
- =?us-ascii?Q?aEO5s069SZrPl/i5o7y477pLYvKcl8Pd9Cl2I/4FdcwyAdxGVjIOeBM9+eIm?=
- =?us-ascii?Q?qhuzKUa0ykyDu6T6FmLT1DmVH+5k6KJ1TPKytwOACc+/N6OO+aTVSLnGWvxa?=
- =?us-ascii?Q?iA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 0hgNNpmbjn2fza2frFh2PdRuc4Ne4oTV79O1+s8f03nVT2o8n/SzXQOodETz3xkUzTZGad/qfaNEdVRTzt+T/S4dyx4A2y1hAIPZ+g0noHMo+7/aer9MvHiFwQDgN1HE3phsruH2Q6kdvJqFU8xIjQ38OsXicGqcpbV+15CeW/EbPTDG22psTnYoTQbnX8IEE79McD5E2iZBvQRR8uKZ15awkTLjpXxexCqB1EpiSlrS0Afcga+WDg82vkodZTse9p33wqThL/130ieyA4iANasCHmiHQP+Qg2BeVwXKXeVfKbCkbS94iz18bZXQ7K4lfNifMR02t9SkRFKp6dbnb7WkvbcgSM/CItOqf0iCaAut/n4eOSmw9aZyxq4M8DKIdl52kU9heqwu1p9T0xp/PUl25HfyidR0u41wSF+6uuA/0EqyFd91iF3AeUzxFaHXa5auAr2ZaJcHTAi+epHkAuk4UspZacXZFYCRQXpTBtSDhtmYLBvcvXwZt06DjY15FZlwNn2/cXpQ+gqHOwiLJ9Bdd+1r+zm94AHyz/eYkbnBrMJiJyj7JIM3Obb2ot1sT9PNCbfi0dBNhkf5k4097lz62qe/SYdRZ9B1SKxq9s0=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 869e98cc-31c5-4142-ee5a-08dcd396e526
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2024 01:53:42.4026
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yCbc4mtKfEkQC/OSu2haytPbbuYGTkKo6DsXDZa8L7VB03cqwsnRnq9T3HDZMyo8nyQQc7aFoXXSQT1WLnQK3JTw6SBNQzgJwIcBMFPYN0U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7361
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-12_11,2024-09-12_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 phishscore=0
- spamscore=0 malwarescore=0 adultscore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2408220000
- definitions=main-2409130013
-X-Proofpoint-ORIG-GUID: shqOD0fZz6d5AZRvhrgwfteWMToStIOl
-X-Proofpoint-GUID: shqOD0fZz6d5AZRvhrgwfteWMToStIOl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240911201240.3982856-11-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240912_185353_316203_ECFDA496 
-X-CRM114-Status: UNSURE (   8.30  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240912_204536_094186_2FC8B2DD 
+X-CRM114-Status: GOOD (  13.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -193,19 +89,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Keith,
 
-Keith,
+kernel test robot noticed the following build warnings:
 
-> The request tracks the integrity segments already, so no need to recount
-> the segements again.
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20240912]
+[cannot apply to mkp-scsi/for-next jejb-scsi/for-next linus/master v6.11-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-s/segements/segments/
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/blk-mq-unconditional-nr_integrity_segments/20240912-041504
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20240911201240.3982856-11-kbusch%40meta.com
+patch subject: [PATCHv4 10/10] blk-integrity: improved sg segment mapping
+config: openrisc-randconfig-r072-20240913 (https://download.01.org/0day-ci/archive/20240913/202409131138.fuzBKPCG-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409131138.fuzBKPCG-lkp@intel.com/reproduce)
 
-I'm fine with accessing nr_integrity_segments directly or through the
-wrapper.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409131138.fuzBKPCG-lkp@intel.com/
 
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+All warnings (new ones prefixed by >>):
+
+>> block/blk-integrity.c:69: warning: Function parameter or struct member 'rq' not described in 'blk_rq_map_integrity_sg'
+>> block/blk-integrity.c:69: warning: Excess function parameter 'q' description in 'blk_rq_map_integrity_sg'
+>> block/blk-integrity.c:69: warning: Excess function parameter 'bio' description in 'blk_rq_map_integrity_sg'
+
+
+vim +69 block/blk-integrity.c
+
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   56  
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   57  /**
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   58   * blk_rq_map_integrity_sg - Map integrity metadata into a scatterlist
+13f05c8d8e98bb Martin K. Petersen 2010-09-10   59   * @q:		request queue
+13f05c8d8e98bb Martin K. Petersen 2010-09-10   60   * @bio:	bio with integrity metadata attached
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   61   * @sglist:	target scatterlist
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   62   *
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   63   * Description: Map the integrity vectors in request into a
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   64   * scatterlist.  The scatterlist must be big enough to hold all
+19f67fc3c069b6 Keith Busch        2024-09-11   65   * elements.  I.e. sized using blk_rq_count_integrity_sg() or
+19f67fc3c069b6 Keith Busch        2024-09-11   66   * rq->nr_integrity_segments.
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   67   */
+19f67fc3c069b6 Keith Busch        2024-09-11   68  int blk_rq_map_integrity_sg(struct request *rq, struct scatterlist *sglist)
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  @69  {
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   70  	struct bio_vec iv, ivprv = { NULL };
+19f67fc3c069b6 Keith Busch        2024-09-11   71  	struct request_queue *q = rq->q;
+13f05c8d8e98bb Martin K. Petersen 2010-09-10   72  	struct scatterlist *sg = NULL;
+19f67fc3c069b6 Keith Busch        2024-09-11   73  	struct bio *bio = rq->bio;
+13f05c8d8e98bb Martin K. Petersen 2010-09-10   74  	unsigned int segments = 0;
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   75  	struct bvec_iter iter;
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   76  	int prev = 0;
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   77  
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   78  	bio_for_each_integrity_vec(iv, bio, iter) {
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   79  		if (prev) {
+3dccdae54fe836 Christoph Hellwig  2018-09-24   80  			if (!biovec_phys_mergeable(q, &ivprv, &iv))
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   81  				goto new_segment;
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   82  			if (sg->length + iv.bv_len > queue_max_segment_size(q))
+13f05c8d8e98bb Martin K. Petersen 2010-09-10   83  				goto new_segment;
+13f05c8d8e98bb Martin K. Petersen 2010-09-10   84  
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   85  			sg->length += iv.bv_len;
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   86  		} else {
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   87  new_segment:
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   88  			if (!sg)
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   89  				sg = sglist;
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   90  			else {
+c8164d8931fdee Paolo Bonzini      2013-03-20   91  				sg_unmark_end(sg);
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   92  				sg = sg_next(sg);
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   93  			}
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   94  
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   95  			sg_set_page(sg, iv.bv_page, iv.bv_len, iv.bv_offset);
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   96  			segments++;
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   97  		}
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30   98  
+d57a5f7c6605f1 Kent Overstreet    2013-11-23   99  		prev = 1;
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  100  		ivprv = iv;
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  101  	}
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  102  
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  103  	if (sg)
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  104  		sg_mark_end(sg);
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  105  
+19f67fc3c069b6 Keith Busch        2024-09-11  106  	/*
+19f67fc3c069b6 Keith Busch        2024-09-11  107  	 * Something must have been wrong if the figured number of segment
+19f67fc3c069b6 Keith Busch        2024-09-11  108  	 * is bigger than number of req's physical integrity segments
+19f67fc3c069b6 Keith Busch        2024-09-11  109  	 */
+19f67fc3c069b6 Keith Busch        2024-09-11  110  	BUG_ON(segments > blk_rq_nr_phys_segments(rq));
+19f67fc3c069b6 Keith Busch        2024-09-11  111  	BUG_ON(segments > queue_max_integrity_segments(q));
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  112  	return segments;
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  113  }
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  114  EXPORT_SYMBOL(blk_rq_map_integrity_sg);
+7ba1ba12eeef0a Martin K. Petersen 2008-06-30  115  
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
