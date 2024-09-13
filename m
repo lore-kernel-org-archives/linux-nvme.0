@@ -4,62 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1448BFC616C
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 18:29:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34F93FC616C
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2024 18:29:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YjRDVhh75SMTGa/Nn/K3IvSmdcIyNqHJBBkm4InR34M=; b=cePnD9EQVDl3z3e3yeazIu4Y9z
-	UiLbpgjAtGAxM54DHFmeFNylC6686zx9nhEX6XXW3CCzjGBDq93D0EMmDOwkOi2y5Mv8KNSV4Z+Jv
-	dMMON6hxp9c2W6OQXSLAoHK9Ol6rFJ5WS9Y2ZIbeB3KT1PM57Glp/u5sFNoQgjid55DJiEQTMNU7q
-	ATCwBUcbOXkY94jngNNbYryOezPhFqVosn8pFl0cv5ZDZkJrLLdwyMsJeU4QFAjP2E8BNsxs7RRHV
-	ScWu7/KCrGk7x5is4HLTENuVFjEJ4ysfHKhIPPmSiZrp3VDvmJ7g8yGH84u55YuzQNC2PqaeTju2Y
-	0ix/NlWg==;
+	bh=oUfSROr0FhSCtvL6UbszCRKrsV9riysj4gJgGG+83JA=; b=mQ9/hrOe6EXqje/uQ9xG4uDw47
+	eSwPKNxqmCQdYRoIYFv6BEmFv8xvGhUOEh12RHo/tFNtcR9wdLmvVbQVWce5qDxyssp3zQpPtAKPy
+	ay3QuTAdRPT64jgV4INMAMcHRYyGQhxxJLb9aB67QOhw6ypm2EiQeyiADqtvfmUQqdv3q6/iY7aa2
+	I4qwEcf1ByarBFybHG9xY+Ll5Tq3zjls44CJz0WlWWFGHE/oai6JK8bu+cZ07MPhmTh+DY6BRkLCD
+	xOEri5HzfZR1SrnTcEgiIWFaCedBoUh129xKOUdkCibSZQZDXmMEKWMToVIQdzSMM5GTfMweBhQY5
+	LERZBkiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1spB2o-0000000GoOh-0ekJ;
-	Fri, 13 Sep 2024 18:29:22 +0000
+	id 1spB2x-0000000GoRR-44Vx;
+	Fri, 13 Sep 2024 18:29:31 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1spB2b-0000000GoKi-0tyR
+	id 1spB2g-0000000GoLa-1vzV
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Sep 2024 18:29:19 +0000
+	Fri, 13 Sep 2024 18:29:30 +0000
 Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48DI9uOb016519
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 11:29:07 -0700
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48DI9uOo016519
+	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 11:29:14 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from
 	:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	s2048-2021-q4; bh=YjRDVhh75SMTGa/Nn/K3IvSmdcIyNqHJBBkm4InR34M=; b=
-	fHF+1n/8IqkkxClSZzL2/Xn6LCL7Uw93tAn9SkLLlcFFctTvPF3/5/9dBlnOSqLh
-	1cv14+n7lTZVWXdOUQbwgqHqDQz13PrJllwLh2huzG96i/xuBAcMrNvuOB0mMLNT
-	BLut+nGeGD0sGeajx+2l7NHfHkFRjIYpagWwCqZnriQ772SvdCLXzcHL1j7+rF3f
-	0aK7bhEgvu9yQ8e2QhityVK80eMFUbRw9nUQ8mLNCSmC7B2x1VLsDP1wuNcon6Y3
-	TvTwIwcd9G/sOUqoNuqyK+OvTSO6i60jNjVJr5ez6cBtVoF9k4lm/+LUQG0lozgy
-	ACZhy2Dg0AbiOyRc7eiUWw==
+	s2048-2021-q4; bh=oUfSROr0FhSCtvL6UbszCRKrsV9riysj4gJgGG+83JA=; b=
+	bVysg4A6Z0dHj0+PmhLV8Fv/24JJKgX75zpqBCm4rw1XGrIsmNbHbP899aGx3k/p
+	FiR6gcC19dPSqqe2R1E9VSiuYFZrzcfmwKtfZQA4TFKt7oi9PXtq0/tik3rolCri
+	boS/0Vnnj0XCkqcL1iFPM0zVPObyQxeTSy+W5yOhUEBJzRldGLGJkEEWpibMPSaC
+	+tpN+Wy24Dd3bXtAuRu7mRrgRk0Dm0PsT+zQz8LpqDlSemrRatH3rei457+o0Ytf
+	aFC3KgiMMG2IOMwyDIzIJsZ0wmINfxF04AOMrnoXMRtOLynAtkBbVqYB1MLWi2vf
+	woLE+om6VClxVlKH2/aChg==
 Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41mte705n8-1
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 41mte705n8-13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 11:29:07 -0700 (PDT)
-Received: from twshared57535.03.ash8.facebook.com (2620:10d:c0a8:1b::30) by
+	for <linux-nvme@lists.infradead.org>; Fri, 13 Sep 2024 11:29:14 -0700 (PDT)
+Received: from twshared13976.17.frc2.facebook.com (2620:10d:c0a8:1c::1b) by
  mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Fri, 13 Sep 2024 18:29:05 +0000
+ 15.2.1544.11; Fri, 13 Sep 2024 18:29:06 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 7966312F9104B; Fri, 13 Sep 2024 11:29:03 -0700 (PDT)
+	id 6F30E12F91049; Fri, 13 Sep 2024 11:29:03 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <axboe@kernel.dk>, <hch@lst.de>, <martin.petersen@oracle.com>,
         <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
         <linux-scsi@vger.kernel.org>
-CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-        Kanchan Joshi
-	<joshi.k@samsung.com>
-Subject: [PATCHv5 5/9] block: provide a request helper for user integrity segments
-Date: Fri, 13 Sep 2024 11:28:50 -0700
-Message-ID: <20240913182854.2445457-6-kbusch@meta.com>
+CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv5 4/9] blk-integrity: consider entire bio list for merging
+Date: Fri, 13 Sep 2024 11:28:49 -0700
+Message-ID: <20240913182854.2445457-5-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20240913182854.2445457-1-kbusch@meta.com>
 References: <20240913182854.2445457-1-kbusch@meta.com>
@@ -67,14 +65,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: k9GjV6wj4Xzcu-m-0FMY01QTQ5WTBM-3
-X-Proofpoint-GUID: k9GjV6wj4Xzcu-m-0FMY01QTQ5WTBM-3
+X-Proofpoint-ORIG-GUID: fMySb1YmcbkNuQV9D4RMZZKoNZtr7_tQ
+X-Proofpoint-GUID: fMySb1YmcbkNuQV9D4RMZZKoNZtr7_tQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-13_11,2024-09-13_02,2024-09-02_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240913_112909_290412_ADCD6AA2 
-X-CRM114-Status: GOOD (  14.93  )
+X-CRM114-CacheID: sfid-20240913_112914_530603_4A71D449 
+X-CRM114-Status: GOOD (  13.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,120 +89,45 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Provide a helper to keep the request flags and nr_integrity_segments in
-sync with the bio's integrity payload. This is an integrity equivalent
-to the normal data helper function, 'blk_rq_map_user()'.
+If a bio is merged to a request, the entire bio list is merged, so don't
+temporarily detach it from its list when counting segments. In most
+cases, bi_next will already be NULL, so detaching is usually a no-op.
+But if the bio does have a list, the current code is miscounting the
+segments for the resulting merge.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/bio-integrity.c         |  1 -
- block/blk-integrity.c         | 14 ++++++++++++++
- drivers/nvme/host/ioctl.c     |  6 ++----
- include/linux/blk-integrity.h |  9 +++++++++
- 4 files changed, 25 insertions(+), 5 deletions(-)
+ block/blk-integrity.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 8d1fb38f745f9..357a022eed411 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -371,7 +371,6 @@ int bio_integrity_map_user(struct bio *bio, void __us=
-er *ubuf, ssize_t bytes,
- 		kfree(bvec);
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(bio_integrity_map_user);
-=20
- /**
-  * bio_integrity_prep - Prepare bio for integrity I/O
 diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 84065691aaed0..ddc742d58330b 100644
+index afd101555d3cb..84065691aaed0 100644
 --- a/block/blk-integrity.c
 +++ b/block/blk-integrity.c
-@@ -107,6 +107,20 @@ int blk_rq_map_integrity_sg(struct request_queue *q,=
- struct bio *bio,
- }
- EXPORT_SYMBOL(blk_rq_map_integrity_sg);
-=20
-+int blk_rq_integrity_map_user(struct request *rq, void __user *ubuf,
-+			      ssize_t bytes, u32 seed)
-+{
-+	int ret =3D bio_integrity_map_user(rq->bio, ubuf, bytes, seed);
-+
-+	if (ret)
-+		return ret;
-+
-+	rq->nr_integrity_segments =3D blk_rq_count_integrity_sg(rq->q, rq->bio)=
-;
-+	rq->cmd_flags |=3D REQ_INTEGRITY;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(blk_rq_integrity_map_user);
-+
- bool blk_integrity_merge_rq(struct request_queue *q, struct request *req=
-,
- 			    struct request *next)
+@@ -134,7 +134,6 @@ bool blk_integrity_merge_bio(struct request_queue *q,=
+ struct request *req,
+ 			     struct bio *bio)
  {
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 1d769c842fbf5..b9b79ccfabf8a 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -3,7 +3,6 @@
-  * Copyright (c) 2011-2014, Intel Corporation.
-  * Copyright (c) 2017-2021 Christoph Hellwig.
-  */
--#include <linux/bio-integrity.h>
- #include <linux/blk-integrity.h>
- #include <linux/ptrace.h>	/* for force_successful_syscall_return */
- #include <linux/nvme_ioctl.h>
-@@ -153,11 +152,10 @@ static int nvme_map_user_request(struct request *re=
-q, u64 ubuffer,
- 		bio_set_dev(bio, bdev);
+ 	int nr_integrity_segs;
+-	struct bio *next =3D bio->bi_next;
 =20
- 	if (has_metadata) {
--		ret =3D bio_integrity_map_user(bio, meta_buffer, meta_len,
--					     meta_seed);
-+		ret =3D blk_rq_integrity_map_user(req, meta_buffer, meta_len,
-+						meta_seed);
- 		if (ret)
- 			goto out_unmap;
--		req->cmd_flags |=3D REQ_INTEGRITY;
- 	}
+ 	if (blk_integrity_rq(req) =3D=3D 0 && bio_integrity(bio) =3D=3D NULL)
+ 		return true;
+@@ -145,10 +144,7 @@ bool blk_integrity_merge_bio(struct request_queue *q=
+, struct request *req,
+ 	if (bio_integrity(req->bio)->bip_flags !=3D bio_integrity(bio)->bip_fla=
+gs)
+ 		return false;
 =20
- 	return ret;
-diff --git a/include/linux/blk-integrity.h b/include/linux/blk-integrity.=
-h
-index de98049b7ded9..793dbb1e0672d 100644
---- a/include/linux/blk-integrity.h
-+++ b/include/linux/blk-integrity.h
-@@ -28,6 +28,8 @@ static inline bool queue_limits_stack_integrity_bdev(st=
-ruct queue_limits *t,
- int blk_rq_map_integrity_sg(struct request_queue *, struct bio *,
- 				   struct scatterlist *);
- int blk_rq_count_integrity_sg(struct request_queue *, struct bio *);
-+int blk_rq_integrity_map_user(struct request *rq, void __user *ubuf,
-+			      ssize_t bytes, u32 seed);
-=20
- static inline bool
- blk_integrity_queue_supports_integrity(struct request_queue *q)
-@@ -102,6 +104,13 @@ static inline int blk_rq_map_integrity_sg(struct req=
-uest_queue *q,
- {
- 	return 0;
- }
-+static inline int blk_rq_integrity_map_user(struct request *rq,
-+					    void __user *ubuf,
-+					    ssize_t bytes,
-+					    u32 seed)
-+{
-+	return -EINVAL;
-+}
- static inline struct blk_integrity *bdev_get_integrity(struct block_devi=
-ce *b)
- {
- 	return NULL;
+-	bio->bi_next =3D NULL;
+ 	nr_integrity_segs =3D blk_rq_count_integrity_sg(q, bio);
+-	bio->bi_next =3D next;
+-
+ 	if (req->nr_integrity_segments + nr_integrity_segs >
+ 	    q->limits.max_integrity_segments)
+ 		return false;
 --=20
 2.43.5
 
