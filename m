@@ -4,61 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76A13C02194
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Sep 2024 12:01:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E3FDC02194
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Sep 2024 12:01:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OjuSu1E6xXfuK8zU0Ollu5H8OFw7kcfOo8dkeQNxeHI=; b=WQvH6yCAFHe/o/LpOOaKnHfVXo
-	tJIc5tmHqhJ7WRoKDOvaHxp5qtqq90NvLmdbP6QG4j/NxZouGtplNVzbwF54LcoIaWR7fOx//BMZP
-	ZeWXVi1GPjxnxcKJHkePbOSR4gwcJuZIau/pDli252eDZLgO7ZoR3lM3NbyI0t2HdbhJSqfT/FkTL
-	aGjMWaDVTxgNhMyUQ7YxPr9xiBZQGZ9f0W1Tffn8DR/cjC/i26RVYkygVGA6OTtWXrQ+qayD3CBhH
-	cq3tL+LBVV8TczHGBtN2RkeekElFLjnE/bOWVlev0XCCDkLH9K87NfJQjVrJrkNSC4s2eN2Tl4qJF
-	DMOlWkog==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=EWY6vj8Fj9nAoR4T1Ij6RnuwdWuvQBQWXyDmKordOos=; b=kLCAEGbGNX55Wn2ufj1bAQ23DT
+	pS7Rq0kWmUGqxPtgLuKvCM+dAs/+g5m8Vj4DKSq/T1h7NBQJPLARHqw6G7pxmywPs7N0yU3SntgZ/
+	CCwbckM5ATRHmfjBmzhUQMkLUhH4bQjnx0TZtGyva8d9vQPtxFYblQr8J/oqiTllz1GMEBHBXu8uL
+	+sGx2aBaDKSik54GMAtqaJ6upaIXkrICQl/Pdjsl4c3q+3H8Q9qple/RngxK9O5Pyu/tAWGS8LtB7
+	HUORW+4r0BNOLglPYczmdd+MzyTODhtDiFXN2A7sOjxWqI7PwX6AM0bplLVTyJUrSTIraYJT9zLTm
+	reywNFDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1spRTA-00000000e3u-2yRD;
-	Sat, 14 Sep 2024 12:01:40 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1spRT7-00000000e2w-0dnJ;
+	Sat, 14 Sep 2024 12:01:37 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1spRT7-00000000e2v-1bJS
+	id 1spRT4-00000000e28-1Zq5
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Sep 2024 12:01:38 +0000
+	Sat, 14 Sep 2024 12:01:35 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 94671A40117;
-	Sat, 14 Sep 2024 12:01:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61DA0C4CEC4;
-	Sat, 14 Sep 2024 12:01:34 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 10FD35C0015;
+	Sat, 14 Sep 2024 12:01:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12BB1C4CEC0;
+	Sat, 14 Sep 2024 12:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726315295;
-	bh=gnPC3bVfXHSb9goE/TiVvsgFbiONVLXJEv25LgXBWZw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ePTrUWRx6WsWiAY6i3/2A1eGIni4BYaybS7WPGHLisDXp/WLhM0tf1vpqTeHG7PdL
-	 mA43He0LHUQJeIaCJQui83865wBUOxlkiCfFtDMS3zxl5T+pPUdfyRDI28uPcOybfz
-	 aUNDm3TcVwTfz+eFeUM3hX6gQn4umowTuSucbgmvjvkVvfQEARQILG3LEf6ckz/Gvy
-	 xt/Ju0qaUo8mTD89OsHkLrkkP/DkAHQWSmOc8YkGNpWLEUx7fd/p8v1xWRi8f/9Fy4
-	 ypjXecoZssp+z2IJLfi/KybZ1cdt4fqxEhhY/TeUQ/GOkEainz2wOuHoaQYF5wTDpu
-	 UIQ+P75ev9SMg==
+	s=k20201202; t=1726315292;
+	bh=k+7sdjfZCQ7wTgatkgGu77zUGxuZTj2pz4I5lsIDUJs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pQdP1nRt2BmPZjbOJ2bLqtE+Plq5x/226izGVhg3ImUbIxouyaLk6x1P13MenJVCw
+	 QHBmhX9oIO5M2tz8WWhqgF8ii/bsDHji+dUzAmKZ3bDbAb505rWAJmO7XC6F6NfR3k
+	 Wg1VjIJDUhhnxSEcrLT5Bd3VtYtBxcROeL4VP2BSSz+uhdlm7XUVkb4O2Ojnvl9dQf
+	 33puNDRgWAEiPuzQPrsWxJHDKtsrmRAPiuzgU4FAgCN6e4QrZQIX9W0tjewXrwMcQ9
+	 WH13OwlCs8RSI2SG7U5pDziFNKDcK5KV3Mo32dag2vwMh/wTq8nSbsLP8Q6qz5GY3y
+	 Z9knEZ+3W8kMQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 2/2] nvme-multipath: avoid hang on inaccessible namespaces
-Date: Sat, 14 Sep 2024 14:01:23 +0200
-Message-Id: <20240914120123.125967-3-hare@kernel.org>
+Subject: [PATCHv8 0/2] nvme: NSHEAD_DISK_LIVE fixes
+Date: Sat, 14 Sep 2024 14:01:21 +0200
+Message-Id: <20240914120123.125967-1-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240914120123.125967-1-hare@kernel.org>
-References: <20240914120123.125967-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240914_050137_571765_5899CF9A 
-X-CRM114-Status: GOOD (  15.09  )
+X-CRM114-CacheID: sfid-20240914_050134_510224_E7E7F750 
+X-CRM114-Status: GOOD (  16.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,77 +71,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-During repetitive namespace remapping operations on the target the
-namespace might have changed between the time the initial scan
-was performed, and partition scan was invoked by device_add_disk()
-in nvme_mpath_set_live(). We then end up with a stuck scanning process:
+Hi all,
 
-[<0>] folio_wait_bit_common+0x12a/0x310
-[<0>] filemap_read_folio+0x97/0xd0
-[<0>] do_read_cache_folio+0x108/0x390
-[<0>] read_part_sector+0x31/0xa0
-[<0>] read_lba+0xc5/0x160
-[<0>] efi_partition+0xd9/0x8f0
-[<0>] bdev_disk_changed+0x23d/0x6d0
-[<0>] blkdev_get_whole+0x78/0xc0
-[<0>] bdev_open+0x2c6/0x3b0
-[<0>] bdev_file_open_by_dev+0xcb/0x120
-[<0>] disk_scan_partitions+0x5d/0x100
-[<0>] device_add_disk+0x402/0x420
-[<0>] nvme_mpath_set_live+0x4f/0x1f0 [nvme_core]
-[<0>] nvme_mpath_add_disk+0x107/0x120 [nvme_core]
-[<0>] nvme_alloc_ns+0xac6/0xe60 [nvme_core]
-[<0>] nvme_scan_ns+0x2dd/0x3e0 [nvme_core]
-[<0>] nvme_scan_work+0x1a3/0x490 [nvme_core]
+I'm having a testcase which repeatedly deletes namespaces on the target
+and creates new namespaces, and aggressively re-using NSIDs for the
+new namespaces.
+To throw in more fun these namespaces are created on different nodes
+in the cluster, where only the paths local to the cluster node are
+active, and all other paths are inaccessible.
 
-This happens when we have several paths, some of which are inaccessible,
-and the active paths are removed first. Then nvme_find_path() will requeue
-I/O in the ns_head (as paths are present), but the requeue list is never
-triggered as all remaining paths are inactive.
+Essentially it's doing something like:
 
-This patch checks for NVME_NSHEAD_DISK_LIVE in nvme_available_path(),
-and requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared once
-the last path has been removed to properly terminate pending I/O.
+echo 0 > ${ns}/enable
+rm ${ns}
+<random delay>
+mkdir ${ns}
+echo "<dev>" > ${ns}/device_path
+echo "<grpid>" > ${ns}/ana_grpid
+uuidgen > ${ns}/device_uuid
+echo 1 > ${ns}/enable
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/multipath.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+repeatedly with several namespaces and several ANA groups.
+This leads to an unrecoverable system where the scanning processes
+are stuck in the partition scanning code triggered via
+'device_add_disk()' waiting for I/O which will never
+come.
+There are two parts to fixing this:
+We need to ensure the NSHEAD_DISK_LIVE is properly set when the
+ns_head is live, and unset when the last path is gone.
+And we need to trigger the requeue list after NSHEAD_DISK_LIVE
+has been cleared to flush all outstanding I/O.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index c9d23b1b8efc..f72c5a6a2d8e 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -421,6 +421,9 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- {
- 	struct nvme_ns *ns;
- 
-+	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
-+		return NULL;
-+
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
- 			continue;
-@@ -967,11 +970,16 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
--	kblockd_schedule_work(&head->requeue_work);
--	if (test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-+	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
- 		nvme_cdev_del(&head->cdev, &head->cdev_device);
- 		del_gendisk(head->disk);
- 	}
-+	/*
-+	 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
-+	 * to allow multipath to fail all I/O.
-+	 */
-+	synchronize_srcu(&head->srcu);
-+	kblockd_schedule_work(&head->requeue_work);
- }
- 
- void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+With these patches (and the queue freeze patchset from hch) the problem
+is resolved and the testcase runs without issues.
+I see to get the testcase added to blktests.
+
+As usual, comments and reviews are welcome.
+
+Changes to v7:
+- Drop last path
+- Update patch description
+
+Changes to v6:
+- Rename flag to NVME_NSHEAD_FAIL_ON_LAST_PATH and fail I/O only
+  on the last path (Suggested by Sagi)
+- Retrigger pending I/O on every ANA state change
+
+Changes to v5:
+- Introduce NVME_NSHEAD_DISABLE_QUEUEING flag instead of disabling
+  command retries
+
+Changes to v4:
+- Disabled command retries when the controller is removed instead of
+  (ab-)using the failfast flag
+
+Changes to v3:
+- Update patch description as suggested by Sagi
+- Drop patch to requeue I/O after ANA state changes
+
+Changes to v2:
+- Include reviews from Sagi
+- Drop the check for NSHEAD_DISK_LIVE in nvme_available_path()
+- Add a patch to requeue I/O if the ANA state changed
+- Set the 'failfast' flag when removing controllers
+
+Changes to the original submission:
+- Drop patch to remove existing namespaces on ID mismatch
+- Combine patches updating NSHEAD_DISK_LIVE handling
+- requeue I/O after NSHEAD_DISK_LIVE has been cleared
+
+Hannes Reinecke (2):
+  nvme-multipath: system fails to create generic nvme device
+  nvme-multipath: avoid hang on inaccessible namespaces
+
+ drivers/nvme/host/multipath.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
 -- 
 2.35.3
 
