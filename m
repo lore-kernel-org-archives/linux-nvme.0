@@ -4,121 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B75EBC3ABCB
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2024 20:44:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCBDCC3ABB2
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2024 21:24:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jYB1BzjBJYR3QZfgkjjXkNSuaJnu7Ab3AL2Hwq3V4cs=; b=1MtDWx7ABRPDHUrO2XYg0sIWsf
-	DHA+QzrcFVboSmJE0RKkBJAUS1OUAY3XeNisMu/5Muk2SK8letbvjCijo98XpR/1qiL/ICwCl7+Vp
-	OO4UEUW26zXn7avGhCpfCx73cpF0n13j6juouqEWWkqOhFsQGAuNtg7tawBh88wuDJZUtuzdpDEYn
-	LOgENoc+CF9axs/ZRSuztTBKRaVjPjT0HitU0aGjyVw3PdD1b9wHQ9UsIs4cyYSTWP/igDzQs/zsn
-	SbrS7IKiHmYIgF5IdFyWHzR6zdzV1Xl9kxtF8tQ8MH9MOABSm18xgMvFxe9ZZ1/UDBEN0gW6NAacd
-	d360bpFQ==;
+	bh=Ho6Q23pkuFpyTSVtDWNL6V7OsfkIY1fIInxQgfCro+k=; b=HhLKzRBflBsB1frZTu9pYMoUoz
+	HFG6Sg/YbHv0xnO4qbuMdb0cyUchbKhj9jH/xkmNM86ndDavJIij8DVcbldEhJXpcFR9lEOGiFFo+
+	ltDYqFaWDci6YrShsgOEhpVpwYV/Z9frHH4fpDhUcr4abGxcb7cO4BfCbSC6l7nMCdxmVOSVfwMmS
+	VzakWqZbjTxUyk236Oe5saLyMFlyCfyWpL9+Hycc9RoUsfqa7fhmep6X4zM67Q7gLXYjUMAGWO3bb
+	xq8n2RSoqw1uJFZfng/x0byHXTvrwqyJ0MGzFV9Icd1WbTgK7faVscyx4S/fgDKjLycCeagyyzbQx
+	xMoHnDDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqIaM-00000004sEg-1B1i;
-	Mon, 16 Sep 2024 20:44:38 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sqJDI-00000004vUd-1DNi;
+	Mon, 16 Sep 2024 21:24:52 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqIaD-00000004sBy-0kup
+	id 1sqJDE-00000004vUH-4091
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Sep 2024 20:44:32 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ECF9D21C4B;
-	Mon, 16 Sep 2024 20:44:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726519466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYB1BzjBJYR3QZfgkjjXkNSuaJnu7Ab3AL2Hwq3V4cs=;
-	b=gd7eFRP4GtCb49kCy0vzhDXTmyE2zY8BOHejcxnJ4XrT3AEnTMjU0mFbrOSpmSEsPExZck
-	wwrY8MMbsM3sEb8C1nZE1J2oDv/dZtK5BZ5H17GHLQj2R1z78siFziSR8TbvPmNMKcriub
-	j0TV+7UFsAHDU2V0FOo1DBvp6N6PsJ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726519466;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYB1BzjBJYR3QZfgkjjXkNSuaJnu7Ab3AL2Hwq3V4cs=;
-	b=Kc79pJ0ZvUypSyJi/tU/v3I/idf4V3BMkcHtBnMjzE/b03b3WdF5xKNvwHgXcFvkvJd6Qs
-	mXcd0XYvz6tDEhBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1726519464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYB1BzjBJYR3QZfgkjjXkNSuaJnu7Ab3AL2Hwq3V4cs=;
-	b=ONyxBSDCXP8qFh9Rx9BBeaE0T4YYXiVHuWtW+eCV0DYE8Z/kHSq9JXeJAzv88PVE2aYsbU
-	8ReYEGSbt324nbeUU7N40KJF/QO+vhFxh8gUMY/6hDxmbfUoUR+hVsbbZ8CCNAQqkOIA4N
-	fFpSfZxb43oqU6Gg7As/qRPl3gsst50=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1726519464;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYB1BzjBJYR3QZfgkjjXkNSuaJnu7Ab3AL2Hwq3V4cs=;
-	b=MowPGmCpp9QLZNtpmYQBvQ1WeFmGy3WMQJ/dAZYaBAiSFynNa3yCsTxJUBI+Q1/xWR2P0l
-	TG8QDZXyWz5//6Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9D03139CE;
-	Mon, 16 Sep 2024 20:44:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XPqRLKiY6GYOIAAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 16 Sep 2024 20:44:24 +0000
-Message-ID: <721f6543-1bf7-4b6f-8656-b5d84248e56f@suse.de>
-Date: Mon, 16 Sep 2024 22:44:23 +0200
+	Mon, 16 Sep 2024 21:24:50 +0000
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-205659dc63aso48331675ad.1
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Sep 2024 14:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726521888; x=1727126688; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ho6Q23pkuFpyTSVtDWNL6V7OsfkIY1fIInxQgfCro+k=;
+        b=hWCZm6ocrqcoKbcRTZvJukb44Z0aA+CtMbKqrqEKUAqZ6+UkcwLvNMZnw1QdcLlSt2
+         F9Bk53OzAKSMMpUi7rUY1IfcU1xISQ1dQGf8lEYc1wgbd7vAJg7R/DbdqYmu0Ffzb/9t
+         P1PeCwpY6NdZxiG3pwg0viSbNAhpb1+/xexXir/SZUV1esw0cvSQn+B1TG4nObY8MsD+
+         zIVUXa9DX73Cf78F4C8slJlnZPMWaN0vszpnrIUmDT/0eZPcbpHgLta64Mju2i4kAgFd
+         +ppGuGKhEfg6tefq521xjied8woHDucKwIKj8O+VwiluRsXIY/dhZ1KQjaPPE5DH/lar
+         eYbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726521888; x=1727126688;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ho6Q23pkuFpyTSVtDWNL6V7OsfkIY1fIInxQgfCro+k=;
+        b=Vv336cjBUr8g9iX6gdV9Z+xthr0NKeEujlzEJv50jceU8GfI+A0mi/I/MWQZUgk0U7
+         cyRGlqxuTDn/K/g7D45pwrH0zj999nQZ3oSQQYE8xzYnx1GFFy75A48KbWXk1+1F8zsF
+         2iD+hTpIicpSvH9Sr9cRnth8sUsBGQcIZX7jJfNZnMg/D7RF9bPDoLA9u/p24Yoz7Ian
+         hBfK0pkbZTtcc6F8IeZFflHRR9NTOyy+JOU5bj1eNePthHf/SOr48+jXi5FaGjSG8dGF
+         xs+WjMY7bSERXZSwulzYBvjwYCEsjF2frlj3weU8+8TWLacbxQoRKTHXol7lUIZ3SxfL
+         hDFA==
+X-Gm-Message-State: AOJu0YxsXQoRvQQYrmeQjIjqPaPrzxlH93Vn4hplIphula7d3LzwIlNF
+	rB2xa8y2ocHtIaTHSsNNwEiZRsfdqSu+JveEiZA0wvRMHq3XZNJA3lQHRw==
+X-Google-Smtp-Source: AGHT+IE7YYx6oV+Rj8qUU8CaBV4A9CBoTAq5tCMJ+EiOjJ49GufRYnUHzUjIhiJKWCVWXJHC833grw==
+X-Received: by 2002:a17:903:986:b0:1fb:6294:2e35 with SMTP id d9443c01a7336-2076e4854f3mr240671185ad.50.1726521887629;
+        Mon, 16 Sep 2024 14:24:47 -0700 (PDT)
+Received: from ?IPV6:240b:10:2720:5500:70e1:967f:afde:e27c? ([240b:10:2720:5500:70e1:967f:afde:e27c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-207946d63c8sm40174845ad.156.2024.09.16.14.24.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Sep 2024 14:24:47 -0700 (PDT)
+Message-ID: <e75fdfbf-e503-40fe-9252-28e905bafb53@gmail.com>
+Date: Tue, 17 Sep 2024 06:24:45 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-auth: assign dh_key to NULL after kfree_sensitive
-To: Vitaliy Shevtsov <v.shevtsov@maxima.ru>, stable@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240916174139.1182-1-v.shevtsov@maxima.ru>
+Subject: Re: [PATCH] nvme: convert little endian NVME definitions to native
+ format
+To: Caleb Sander <csander@purestorage.com>
+Cc: linux-nvme@lists.infradead.org
+References: <20240916154422.356691-1-ikegami.t@gmail.com>
+ <CADUfDZrqAgp49K2Ak-b230ERY8P66aXA4iAoCyyYr45PAbq+1Q@mail.gmail.com>
+ <1bcdab96-f2cb-4116-9f04-4016b01bad36@gmail.com>
+ <CADUfDZo=WwCTWwmY+UcUA7zpXb9CMpOsNC0icat7opwwFpJh=A@mail.gmail.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240916174139.1182-1-v.shevtsov@maxima.ru>
+From: Tokunori Ikegami <ikegami.t@gmail.com>
+In-Reply-To: <CADUfDZo=WwCTWwmY+UcUA7zpXb9CMpOsNC0icat7opwwFpJh=A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtesting.org:url,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,maxima.ru:email]
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240916_134429_397730_1B271124 
-X-CRM114-Status: GOOD (  11.78  )
+X-CRM114-CacheID: sfid-20240916_142449_029359_17FB73D4 
+X-CRM114-Status: UNSURE (   8.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,31 +97,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/16/24 19:41, Vitaliy Shevtsov wrote:
-> ctrl->dh_key might be used across multiple calls to nvmet_setup_dhgroup()
-> for the same controller. So it's better to nullify it after release on
-> error path in order to avoid double free later in nvmet_destroy_auth().
-> 
-> Found by Linux Verification Center (linuxtesting.org) with Svace.
-> 
-> Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
-> ---
->   drivers/nvme/target/auth.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-Now that is obviously correct.
+Okay I will do check the actual behavior again. (Since I thought the 
+definition value works as little endian byte order on the big endian 
+environment.) Thank you.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
-
+On 2024/09/17 3:12, Caleb Sander wrote:
+> Why not? CPUs assume native byte order for all arithmetic operations.
+> The fact that you could print this value implies it must be
+> represented in native byte order. Non-native endianness is only
+> relevant when interacting with byte-addressable data external to the
+> CPU (storage, network, etc.).
 
