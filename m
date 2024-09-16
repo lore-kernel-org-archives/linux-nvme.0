@@ -4,137 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40CFCC3ABB2
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2024 13:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21362C3ABB2
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2024 14:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BFqkL5mVC2rMqwvnxCQzzd01AUlbkq9ItY512dFJKEU=; b=OjyOjKiB0xmY4gYnQGhHmdvgTO
-	Do4XwcoEN8SbbxqwYyzoVRXbnmn/aSz6bdshNldmLPMsL8adaXjJGqSkx3+ksW6wnzYR7lzbSaUef
-	r3wCZaW9Fqxk7YKTx3v+zgPF2hw2WB1j50KfM/f2WCIDgNsLvia+QJthM54qpV9gpjRhSvqX+Mg43
-	2dzeRuSAwzNiYOnyi3V0glOnp87bTm+VbfgnLQvuiYf9y47Bh7uEVTVMQdmBB4O8YuJm/oMjgCKJ6
-	Ba+1c2bycv/6e++DP+UkYVB7FxKLB2eaHAFdjSHKh8s03myg2EBTJHl/WGr85iKG7adflp2OASwm+
-	ArdI1l8A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Subject:From:To:Date:Message-ID:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=m1kgZBIOu0oFX/eMmqYxDasoDDfIirLicba86uIqqFU=; b=noxnbxIe8t4jSX
+	5pmZeEG1eF6PQY7Pxph0EwuSr9Olvl+ox/BCIvPf+AJhYpI46qoPnN5axU1v96iAHflSjaFo5Vt/z
+	0XuARnG6aW3+1UTp1tsEpuPf+TE8oCgqMGWS4xfub9Fo34J61ovfJk5q7vIOl9INLKXrZcJr5dnc+
+	O6GA64/uEsQnJnP0RqUUICS7eoCvYvo+d/Cwxi+R2TbSndHjBzjtDXnviSIqwYlKvZjMWB8zyjCzP
+	x+Ky75aXDCVNZa1HRsV0YnG4qQkCX+1wDWkXpUV3os9LMIddnq3xe8fjQhlRmzmESaIGmWlrCrO+D
+	lJCUW1giuG6Hc54GRhtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqC6m-0000000468b-1DrJ;
-	Mon, 16 Sep 2024 13:49:40 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1sqCq2-00000004EMw-1NQr;
+	Mon, 16 Sep 2024 14:36:26 +0000
+Received: from mail-am6eur05olkn20815.outbound.protection.outlook.com ([2a01:111:f403:2e12::815] helo=EUR05-AM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqC6h-0000000467e-2W22
+	id 1sqCpK-00000004EJe-3irT
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Sep 2024 13:49:38 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240916134929epoutp039d9a0f3b3f1b4f702ccbaad27c8d020b~1vant94B82170221702epoutp03A
-	for <linux-nvme@lists.infradead.org>; Mon, 16 Sep 2024 13:49:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240916134929epoutp039d9a0f3b3f1b4f702ccbaad27c8d020b~1vant94B82170221702epoutp03A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1726494569;
-	bh=BFqkL5mVC2rMqwvnxCQzzd01AUlbkq9ItY512dFJKEU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=qd+4bIdJ5q+l6jSQ5QaQB2B32T7O+8lGcAi85+xiuHx/55y70FSUDNRQBiO+3tS8K
-	 3Y2URf6yxbnA8zbFAicMRuWuztpI5y9bujEku0fFoKPTfbUNXKqaciOsVKU/D7YQTF
-	 ENrWrWEa4/vRtkarxuN1MmGKdtamyUML4+TtQNKs=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240916134927epcas5p26a35ee17ef7995c6f226ca8d18e05809~1vamGwbwN0311103111epcas5p2h;
-	Mon, 16 Sep 2024 13:49:27 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4X6mVZ2M2Dz4x9Pv; Mon, 16 Sep
-	2024 13:49:26 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	6C.32.09640.66738E66; Mon, 16 Sep 2024 22:49:26 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240916134925epcas5p3771dd61e689dd5669b51c1183e382f4b~1vajzurKW0738707387epcas5p3V;
-	Mon, 16 Sep 2024 13:49:25 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240916134925epsmtrp237639dd21ae5f1aede967bd1a37e60ad~1vajyzvUl1077710777epsmtrp2D;
-	Mon, 16 Sep 2024 13:49:25 +0000 (GMT)
-X-AuditID: b6c32a49-a57ff700000025a8-7f-66e8376665a5
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	16.1F.08964.56738E66; Mon, 16 Sep 2024 22:49:25 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240916134922epsmtip21edf3a4cb3ab814ba4bb88bd4261e273~1vag57usc2461424614epsmtip22;
-	Mon, 16 Sep 2024 13:49:22 +0000 (GMT)
-Message-ID: <4a39215a-1b0e-3832-93bd-61e422705f8b@samsung.com>
-Date: Mon, 16 Sep 2024 19:19:21 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v5 4/5] sd: limit to use write life hints
+	Mon, 16 Sep 2024 14:35:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N0oe8oHJi95VQk9UqSgxQi3B1ZYjNFuKRZi8kuNbG5WVO5N0s0GD6k/KREGg6IuXSiQNRL6YkGA8lhCjoBLPrqiJqr477LMNcgAO0h7LM34DjmOXVqSPHAA8I3zdy9aMeFnCdjKZw4hmiM159E4eJfW9CxP83A3VAEIrBljgQ+jWU+/Nk+xgxjhbbPjLcLqJ7ZJZ2z+A2Mvu+6QRqTZMqV57IngaobhocxAY1mt5SrVwdKnPUX0OcAj00Rgtg1dXDfdMR/w7QRdxefFUI5L3QOy7WSmRC/5rOB4j8dexs2SElhs0sYJVFr3O0az+vE+COJLFaFgA9UPm46KxtU/6rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m1kgZBIOu0oFX/eMmqYxDasoDDfIirLicba86uIqqFU=;
+ b=XKhcVeCEqzQtGee8uIwcPz2LSry8qnH4A4qjVFyQX+rVsOxfRhtKU0+D469EOQ5Ak9VrsM1/llpX5QSkQmsgddDvkTpv0ds5hMKdX0o9BbVAlEM8kAEiPmhBaqpKLB8n/w+jF1QVutga3GXjRMDSJg+NKgyo4jAInCrD3ZLsJPTDSB9khg27JnovDHzjdqYs0ALyCf3RjCYKD5tuv73/8Mu8xNdHoYbGendZSqIhmJ6Ir7wpENESd4vygXTPnrbo2KjxXZQEIFlxDOvEZVrQof3r49I6MCmkgusg87/0dJ9ygZZZWKPQSS591Gc9hmcORCF69Qaz7twMWMj1BF1EGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m1kgZBIOu0oFX/eMmqYxDasoDDfIirLicba86uIqqFU=;
+ b=Q5qMWMmmKNUKlookG2nO70doGyrsaZJBLBFFXb2+mGv3KSG/oPLx9KsdIaIaK5rnPmulg6waxzjn4EcaS2RWPvCNGa5rMvPfjv/5SETQBrjK6Hc96eIxhMBU5Ti+fyk4PxpK5w/XNismPuvRG8GQVY2CRCnjunViayTsZ7bRhb0V8OZtcAlIbRCJIt8Q9g7jdGo1b2IzXEPGBbeEsO2xwKY2TnTR002jUcuiruWddbHpqeOY/qW/th3Nj4xRLaWqn3BJ+nFfEYuDdf8dijSknxNM8nEKJcsyAgWZmnS2xg1O/5wEvhivikrbV/DzMhLEJqiIClCvhLVh26TuYp+7Mw==
+Received: from GV1P195MB2055.EURP195.PROD.OUTLOOK.COM (2603:10a6:150:a1::5) by
+ DB8P195MB0472.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:15b::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7939.25; Mon, 16 Sep 2024 14:35:37 +0000
+Received: from GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
+ ([fe80::d7e4:bae0:94b0:378f]) by GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
+ ([fe80::d7e4:bae0:94b0:378f%2]) with mapi id 15.20.7962.022; Mon, 16 Sep 2024
+ 14:35:37 +0000
+Message-ID: <GV1P195MB2055D4A0347DFA6537512A9BEE602@GV1P195MB2055.EURP195.PROD.OUTLOOK.COM>
+Date: Mon, 16 Sep 2024 16:35:31 +0200
+User-Agent: Mozilla Thunderbird
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
-	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	jaegeuk@kernel.org, jlayton@kernel.org, chuck.lever@oracle.com,
-	bvanassche@acm.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Nitesh
-	Shetty <nj.shetty@samsung.com>
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20240913080659.GA30525@lst.de>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xTZxjed07pRQY7Fjo+ybjYyYIwLh2lfDhgSzR6XF1Csi1MjEKFw2WU
-	tukFdY5Y5jYEBAYycRUGKKDUxSo4BQq4cQnRcIuoVQSG2CrIGNdoGDLW9rCNf8/7fs/zPe8l
-	LxvnZrPc2akyNaWUSaR85gbG9Y6tvgFJYRNJwZ3zzujSSCETTXXMA3R6dglHqyPPMPTw1yYM
-	1V3qwtDZ0uMYMht0OLpayEZPhhdYaKlWz0LF7fcBah3yR3fO7UItrbcYqKLWwkJ5pkYmutD9
-	N4auL1fg6PLUDAP1r3Q7oH5dGevDN8nBu2Kyf/QqgzxdfJtJDvZqyHp9DpNsqD5GGisXMNL4
-	UMsk5yxDDLLgmh6QPZWdLHKh3pOsN09j0U6xaREplCSRUnpTsgR5YqosOZIv/iRue1yoKFgQ
-	IAhHYXxvmSSdiuTv2BMdsDNVau2Z750hkWqsqWiJSsUPiopQyjVqyjtFrlJH8ilFolQhVASq
-	JOkqjSw5UEaptwmCg98LtRLj01Ke/VLCVHzjc/jc5BKuBdUeuYDNhoQQZvdtygUb2FzCCOCD
-	CQOLDuYBHCxbwOjgBYCLRQ0gF3Dsiqbh8wz6oRXAE8snAR1MA1jR0MawsZyIKFhvNDrYMIPw
-	gfcLh1l0fiO89aPZzuERB+Ff98rsv7oQkTAv32TP44QbHDJXYDbsSvCh5Xmv3QAnahmwZq6f
-	aSucSWyFA6c0Ng6HeBcuPbntQGu94I3pMtzGh4SBA7tNE0y67B3QVPQ7i8Yu8Hn3tTXsDhf+
-	bF3jpMGx8TEGjb+CjQ0FDjT+AGpfPXCw+eJWX0NzEO3lDPOXzRg9Ryd44jsuzd4MR4sta0o3
-	+PhMtQNNIWFX1tqor2Bwpmmc9T3w1q2bim5d97p13ej+N64EDD3YRClU6cmUKlQhkFGH/tt3
-	gjy9Htgvwm93IxgZmw1sBxgbtAPIxvmuTpHLliSuU6LkyJeUUh6n1EgpVTsIta6nCHfnJcit
-	JyVTxwmE4cFCkUgkDA8RCfhuTlPflidyiWSJmkqjKAWl/FeHsTnuWizwaLemvXa+jCuFrvLJ
-	lbZDztv9oxxvGGuqXGJCs4ZnnuZP6OfffuuMWmoQ64VH8Xz/3b5hLZ+bPh196mgxdpUEfXzq
-	ck6vN3dvdukfdarVmPDNkx4os1TPyTWEvJitPz+n4+3p9d02ffi39J6vP3L8ovxm7MtXPgMx
-	eMe+ldWbLQNnVzKzXs8IFw8diQ3r8VkM+WH/1E/z4i1e71z5LHf8kdfPBbhnrXuV4QIrotnT
-	a7HczzNm71LORu2jClG8b7F0X+PFqaoSt6S2ZnjcIy7nIqsS8UbMWyaXa5h3D2qVuzJfHovo
-	yz+ws+HeNE/cnoeZOftfKzDV9T2OB+/zMjoP3HmDz1ClSAR+uFIl+QfgcR/PmgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsWy7bCSvG6q+Ys0g+9vRCxW3+1ns3h9+BOj
-	xbQPP5kt/t99zmRx88BOJouVq48yWcye3sxk8WT9LGaLjf0cFo/vfGa3+LlsFbvFpEPXGC32
-	3tK2uLTI3WLP3pMsFvOXPWW36L6+g81i+fF/TBbbfs9ntlj3+j2Lxfm/x1ktzs+aw+4g5nH5
-	irfH+XsbWTymTTrF5nH5bKnHplWdbB6bl9R77F7wmclj980GNo+PT2+xePRtWcXocWbBEXaP
-	z5vkPDY9ecsUwBvFZZOSmpNZllqkb5fAlfF86xS2ghbVikUvfzI3MC6R7WLk5JAQMJHYeWcx
-	SxcjF4eQwG5GifVHn7NAJMQlmq/9YIewhSVW/nvODlH0mlHi5t5mNpAEr4CdxKbdu1lBbBYB
-	VYlr/XfYIeKCEidnPgEbJCqQJLHnfiMTiC0sYCvR3XsdLM4MtODWk/lgcREBJYmnr84ygixg
-	FljGInFwylsmiG0bmCT+H94NNJWDg01AU+LC5FKQBk4BHYmfj0+xQgwyk+ja2sUIYctLbH87
-	h3kCo9AsJHfMQrJvFpKWWUhaFjCyrGKUTC0ozk3PLTYsMMxLLdcrTswtLs1L10vOz93ECE4J
-	Wpo7GLev+qB3iJGJg/EQowQHs5IIr+3vp2lCvCmJlVWpRfnxRaU5qcWHGKU5WJTEecVf9KYI
-	CaQnlqRmp6YWpBbBZJk4OKUamK4l+DNkGAsZRG8ubjnim8D7Rp7vkYI+f8jxkouH2a/mPT1z
-	55laSfmznO+LJ3T7rLydb2Q4Q4U9Zt0/xtkzP66L++S19Hu5v1Tsqiij5FtG+vL7IxX/ivlE
-	ynRdjDH6vYRzylExAYYT+humPaiYwpw4eXa7dGbvrDhXIfPrx5Uv+ffL1y4Peq16ZIb8P/uu
-	xza13xmeKtmn8m9Lajw5dUrWtokukbXL2b9OK79T9V5GUqzRquOS4at/Um/1rVnv5Csv37jz
-	aeajaEHhwxL67jrTO7sf8KokpvAXtt3V+nlIke2dwfHorMKDOqJ/lDf/lLA/cWp7ZmLsBaci
-	mct5Tu72LtLsqm/FfjV8UalTYinOSDTUYi4qTgQArd2N5XgDAAA=
-X-CMS-MailID: 20240916134925epcas5p3771dd61e689dd5669b51c1183e382f4b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c
-References: <20240910150200.6589-1-joshi.k@samsung.com>
-	<CGME20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c@epcas5p3.samsung.com>
-	<20240910150200.6589-5-joshi.k@samsung.com> <20240912130235.GB28535@lst.de>
-	<e6ae5391-ae84-bae4-78ea-4983d04af69f@samsung.com>
-	<20240913080659.GA30525@lst.de>
+To: linux-nvme@lists.infradead.org
+From: Jigao Luo <jigao.luo@outlook.com>
+Subject: [nvme(t)-rdma Question] Understanding nvmet_port's max_queue_size
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0165.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::7) To GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:150:a1::5)
+X-Microsoft-Original-Message-ID: <a7449c58-9889-42d6-94e4-6ba4ee35e495@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1P195MB2055:EE_|DB8P195MB0472:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25818c53-c2f2-4f65-b174-08dcd65cd448
+X-Microsoft-Antispam: BCL:0;ARA:14566002|5072599009|8060799006|15080799006|19110799003|7092599003|6090799003|461199028|440099028|3412199025|4302099013|1602099012;
+X-Microsoft-Antispam-Message-Info: DqjrzBSkbSZX4xnPxM6RQrg5cl4ZO2vJv3oittvcENFDChjFu7dCXCECE1amf01VT0qbKsDB4sooOuUO/nOLbZvleq/wtEE/X6BU3I+KjyN1/l7dKp6NlVjRI5bfyb2aX6+arkuCLHSyAONiK+PGBXxfg80viI/6pAPj5dvNJcYY3SOzI9TJl/pHdpy8UdaXE8/iDTp4WWRIZEEivHz1pRDVzXs5ytouGjGN0LeBbRPWuu+pKM7lgi9uSzgkNpan01vuxfTTVlboL07i3PTgQL+1oX+SUGYc28sU5eDMTgUs8/M8Glx/RqWBJw6nvPQ7vLfP7gR22SBbjc6m8vpEoboxw3RvaGd5lXFRZQnpfKcZz5KXlLECTOkJj+yW/DlRUcHNdoD1WeTRyYtEYs+zTytrtqe9xoEIe8H/xDsZ+ardsjQ1r9e7OXBNzJDzINfFcS8W9z3X1hNO+vztkBTepaC0ECcgu3MxOtANPk+Cig+MxnS55zBtOkAk29a5H5rkaNry/MQiDl51V7KqTJD/fdXwDzXSOmdg7TDiWcpTKQvb+L+RzOpIR1myZHhe03O4AhrZl4KUGRYSQShL4jm77JoRtS+FEIj2ak7MEMq3kvLSyi+dMWgH7bkZ171cGAguxDth3bEbt8tqn8k6jQrFqS78VGk8kVfSM7WcEwiqVazhOESCAeDLZ9NxNJCwFtQPJnA0Qr2G01Z9hRrM5Qbd7PkwRRYEH5IldQnTV0Qnlp+sNtAIU3tIs6/AlS3gQ3nrBjtZGKwzby7oOLpzBCC0yqByyGxuCvc88uum0mSLJdyOQA9fBzv8kS79cEDvJvGAZ50dW5Pn0ZLdPJPtPKQyvW7fQSe4j1NzTGuzUhFO8LUbieCpZc76xSFWDECj8nUJ/ZQPQARTc1cjXgQUvmy7xV4z+qG9iG8eUJyB0sjdgq8=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VTVRSWJpdUVmdjRvWFFkMWpKYm1PK3IxeG84dzc2ZTRyNWwxa0ZyMllWWmVp?=
+ =?utf-8?B?R0JCRXE1UXRzbXVYeWZDMW9ueldjOXUyaFBhSDd5VFdvUjh6QU13TVdja1Fh?=
+ =?utf-8?B?SW0zOTdJbXRsZUlZcVVnNTNZU05XalBpS2YxZThIaDlYMTBtbGwrVjk0UGMx?=
+ =?utf-8?B?MXFxeEJLb000NndnZzg5b0hKallsYXdZYTJadjhOb1BrdTgrNGc4YUdraUta?=
+ =?utf-8?B?NHNlWE9UL1Q0cUlvS0VuQmZMQ2ZMUjEyVWZrQ0NGaU9LM2lyYm1QR1JiUDla?=
+ =?utf-8?B?SnFQc2IvVjZSVlNwbG40RzlSeHc1V2FlV2tBS1M3YkRKMEtqWHNJZFVlZStS?=
+ =?utf-8?B?ZUNTZjc1WWh6NEVEUWNUalJ4QUFrVkFoc21WcGJkRjVvTXhqUVJMc0NPRm0w?=
+ =?utf-8?B?OUtkZ0dxelFyMHc1aDY3V24yc2JvVUVXOVU5bDg2bjc0bUF0YkVST05wemxi?=
+ =?utf-8?B?RDg2Zmt5VFA3cFNvaUdic3BUeE8waU9XYXF4SEMxM0tFTHhDSHRiRDQ1cS9H?=
+ =?utf-8?B?YS8xQXUvdkFjYnNEVG9oSHBSV2V6MWtwTUdHWmNQdHQ2Unh5TmM3NEhveHZM?=
+ =?utf-8?B?SmUzTWFyQTFpSVI1Ulo3dkdaVUEzRk5lMlhZTFkra3dBWkZWTE14cER4QVpI?=
+ =?utf-8?B?aUJWeFhlR3RXUnBudm9zUEY4WkxvZnZWdjBYbzB3cHpXSE9MeWJBZXJGUWZW?=
+ =?utf-8?B?VWVlQ01ob3ZWS1NWejc1TURud1A3WXFqVnVCZ3kvR1lGRTNQKzVRYzF5S0kr?=
+ =?utf-8?B?US9PeVE2WFNVT0VxWWJvTTluOGJwZUVocGpobEF5TkpkbktQRW1QYUw0TmdI?=
+ =?utf-8?B?Ui9HVUV5S3Y4T3lGVFlqQ015cGhvQ0JWK1hrRFR4c243V3Zva1FEZStGNUJh?=
+ =?utf-8?B?ZkdKd2EwMmF0SnkvZFViU3ZVRDcxWWRlczRqSmJWejhmNCtHU3FQR0Q1Y0hB?=
+ =?utf-8?B?aHRhWFFGbkczclY4Qml4cXlVS3JkVldVTmZjV3orVWNJbnlqMWlTZ3ZmN2xp?=
+ =?utf-8?B?NXFaSmhQUmQ3dTJncmhxaFR4Q1NicmlLQkxsR1NIRUFJcUdkTHRmbUd5OTQy?=
+ =?utf-8?B?dnJNaHJKZmthTTZqNnhEeXpDdEFHb25WMUU3YkdIb2QxMzhORG9EcHF5d25J?=
+ =?utf-8?B?aXFEZko1RXlPRVo2dXoxcU1YZTY1Q25TblFvQ0pFbVozdmZ5dFhQamROL0M4?=
+ =?utf-8?B?RjN5L2tZYVQ0QTRaQW8xUi85cTBQZkdyc1MveWRmeERuTnVCOWVpZ3IyazN3?=
+ =?utf-8?B?MDdCbXlUSUdJRXoyc3FrbFNLbzNVY3F1bTBqMDBaMndUWGUxUjBsMlE2SFcx?=
+ =?utf-8?B?ODUvSmNxWFpkZFMxemVoMks5V3AxaGlJZzVGdVlrN3NRSU45NVlRMkdCNWlt?=
+ =?utf-8?B?NmkxclVjVDlJOERQMkpMTWtrWFNQT0ErNHFwamIvYUhkbTRkWmRmcHJYckda?=
+ =?utf-8?B?Z1c2djRDcGQ2MnYzUW9WRDNFay96aktiaEV3M2dWa05pQk5IMjdPYm0rcGxB?=
+ =?utf-8?B?dGZzeGFoa3lUbTNuemNramhiRW4zcmdULytFSUpIeEQ3UVhqMkxkVjdPVzJw?=
+ =?utf-8?B?Q3BKcGtid2JSeVU0S2xCaFdyeC85cmdTTStxeEdMTGhCMHVJeVpkM3ZvZ3VC?=
+ =?utf-8?Q?RqX3sf5OgWGb+nnoc8DQ3TQqkNu8x0TZUqOMSr4dptao=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25818c53-c2f2-4f65-b174-08dcd65cd448
+X-MS-Exchange-CrossTenant-AuthSource: GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2024 14:35:36.9349
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P195MB0472
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240916_064936_318763_842A9633 
-X-CRM114-Status: GOOD (  46.73  )
+X-CRM114-CacheID: sfid-20240916_073542_965246_877E3BBE 
+X-CRM114-Status: UNSURE (   8.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,98 +126,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/13/2024 1:36 PM, Christoph Hellwig wrote:
-> On Thu, Sep 12, 2024 at 10:01:00PM +0530, Kanchan Joshi wrote:
->> Please see the response in patch #1. My worries were:
->> (a) adding a new field and propagating it across the stack will cause
->> code duplication.
->> (b) to add a new field we need to carve space within inode, bio and
->> request.
->> We had a hole in request, but it is set to vanish after ongoing
->> integrity refactoring patch of Keith [1]. For inode also, there is no
->> liberty at this point [2].
->>
->> I think current multiplexing approach is similar to ioprio where
->> multiple io priority classes/values are expressed within an int type.
->> And few kernel components choose to interpret certain ioprio values at will.
->>
->> And all this is still in-kernel details. Which can be changed if/when
->> other factors start helping.
-> 
-> Maybe part of the problem is that the API is very confusing.  A smal
-> part of that is of course that the existing temperature hints already
-> have some issues, but this seems to be taking them make it significantly
-> worse.
+Hi nvme-rdma experts,
 
-Can you explain what part is confusing. This is a simple API that takes 
-type/value pair. Two types (and respective values) are clearly defined 
-currently, and more can be added in future.
+I’m trying to understand the queue size (max_queue_size) for NVMe-oF 
+over RDMA. I came across the max_queue_size field in the struct 
+nvmet_port, which appears to be capped at the max value: 
+NVME_RDMA_MAX_QUEUE_SIZE.
 
-> Note: this tries to include highlevel comments from the discussion of
-> the previous patches instead of splitting them over multiple threads.
-> 
-> F_{S,G}ET_RW_HINT works on arbitrary file descriptors with absolutely no
-> check for support by the device or file system and not check for the
-> file type.  That's not exactly good API design, but not really a major
-> because they are clearly designed as hints with a fixed number of
-> values, allowing the implementation to map them if not enough are
-> supported.
-> 
-> But if we increase this to a variable number of hints that don't have
-> any meaning (and even if that is just the rough order of the temperature
-> hints assigned to them), that doesn't really work.  We'll need an API
-> to check if these stream hints are supported and how many of them,
-> otherwise the applications can't make any sensible use of them.
+First Question:
+I would like to confirm my understanding of this setting: The 
+max_queue_size is configured on the NVMe-oF target when setting up ports 
+for NVMe subsystems. Once set, if an NVMe-oF host connects and runs FIO 
+on the nvmeof device, my assumption is that an iodepth specified in FIO 
+that is larger than the target’s max_queue_size will not be fully 
+utilized. Is this assumption correct? Alternatively, could having an FIO 
+iodepth larger than the target’s max_queue_size negatively impact 
+performance due to this mismatch in queue depths?
 
-- Since writes are backward compatible, nothing bad happens if the 
-passed placement-hint value is not supported. Maybe desired outcome (in 
-terms of WAF reduction) may not come but that's not a kernel problem 
-anyway. It's rather about how well application is segregating and how 
-well device is doing its job.
+Second Question:
+I noticed that this patch set enables max_queue_size in the 
+configuration entry and increases the max value from 128 to 256: 
+https://lists.infradead.org/pipermail/linux-nvme/2024-January/044145.html
+My current kernel and driver versions are earlier than this patch (mine 
+is Linux 6.6.1). Is there any way for old kernel to view the current 
+max_queue_size value? I’ve checked via dmesg and 
+/sys/kernel/config/nvmet/ports/, but I don’t see any reference to 
+max_queue_size.
 
-- Device is perfectly happy to work with numbers (0 to 256 in current 
-spec) to produce some value (i.e., WAF reduction). Any extra 
-semantics/abstraction on these numbers only adds to the work without 
-increasing that value. If any application needs that, it's free to 
-attach any meaning/semantics to these numbers.
 
-Extra abstraction has already been done with temperature-hint (over 
-multi-stream numbers). If that's useful somehow, we should consider 
-going back to using those (v3)? But if we are doing a new placement 
-hint, it's better to use plain numbers without any semantics. That will 
-be (a) more scalable, (b) be closer to what device can readily accept, 
-(c) justify why placement should be a different hint-type, and (d) help 
-Kernel because it has to do less (no intermediate mapping/transformation 
-etc).
+Thank you for your assistance and insights!
 
-IMHO sticking to the existing hint model and doing less (in terms of 
-abstraction, reporting and stuff) in kernel maybe a better path.
+Best regards,
+Jigao
 
-> If these aren't just stream hints of the file system but you actually
-> want them as an abstract API for FDP you'll also need to actually
-> expose even more information like the reclaim unit size, but let's
-> ignore that for this part of the discssion.
-> 
-> Back the the API: the existing lifetime hints have basically three
-> layers:
-> 
->   1) syscall ABI
->   2) the hint stored in the inode
->   3) the hint passed in the bio
-> 
-> 1) is very much fixed for the temperature API, we just need to think if
->     we want to support it at the same time as a more general hints API.
->     Or if we can map one into another.  Or if we can't support them at
->     the same time how that is communicated.
-> 
-> For 2) and 3) we can use an actual union if we decide to not support
-> both at the same time, keyed off a flag outside the field, but if not
-> we simply need space for both.
-> 
 
-Right, if there were space, we probably would have kept both.
-But particularly for these two types (temperature and placement) it's 
-probably fine if one overwrites the another. This is not automatic and 
-will happen only at the behest of user. And that's something we can 
-clearly document in the man page of the new fcntl. Hope that sounds fine?
 
