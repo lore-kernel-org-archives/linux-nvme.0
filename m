@@ -4,73 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96C50CAC58D
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2024 16:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B160BCAC58F
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2024 17:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Content-Transfer-Encoding:In-Reply-To:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mAml1X6HT3e7FU7pesdwYAX9xeoU1P3zVE+HFV3zmWs=; b=zDiBvzKz/JcGw25BwOE2EvN62J
-	p16jK/1G/2EHcQR0of55f/B06vMDJJKy11SkGoAaGnIgXdGu3V+FT6IHFIIJxL/bIA5eRepie8flG
-	Jxp/pjE1BVUDUYHzchP/m3yAuiPICYgfBLf9mEOxBzKb6L5yjO0ZzfaJPH6yiJD/9/YCTRNzZ8wK+
-	96t7+PehII4p0bewuPaUz+NlaSw9TgKIxbWiaqKCfps5aeci+gGBrBw1hDxy+WYZZ1PgdC9hfhZs9
-	RgsHfqqxnZbN/q8LmAViwTgV3FR9DY4iGzFHMYXGxrpKCAMN7HZ8PfZS7gE4uvR2qAOrAacr+SJYA
-	8MXr33Qg==;
+	bh=YmVCRhOac+MYDmIPzTgKY46t/QHaf9fEWdAUffOQcgk=; b=P+Aqu8X78rIPAWkK21OhfHEh4L
+	svFN5d6EQCjc1P+lfjo8h57E+fYqg5QcbAaaRWiIN6KjOTQ/E+SnekKzRgoj+yqdJPkais83rOLof
+	sFCWBS46TwsTOOlLxpoEQDAmka5S5WiM7H0yR5KcN2vLUdS7a9qmgsSRJNrhRstyxwIWG1up0ZIyC
+	hTUHjzuWMey9rLc0ro6SqDmdo55dIJcR6xej8q0veX7Jmzvynd0vxGnK2dt9Qt9cQY6q1urCW0nN1
+	zDsKUQw82seu/tf+qqbhyvue8oKnxdCwf6uO75jNpGNlRkRbvwftsX7MBJVj1EziHIZ6xPyaDOYqs
+	vRbsBTnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqagM-00000006Scu-0Mjk;
-	Tue, 17 Sep 2024 16:04:02 +0000
+	id 1sqbZO-00000006YaG-10hg;
+	Tue, 17 Sep 2024 17:00:54 +0000
 Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqagI-00000006Sc0-02rS
+	id 1sqbZJ-00000006YYi-03JK
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Sep 2024 16:04:00 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240917160351epoutp0296aa90d53b2db018a866216af6908eb8~2E5OAlz112739327393epoutp02u
-	for <linux-nvme@lists.infradead.org>; Tue, 17 Sep 2024 16:03:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240917160351epoutp0296aa90d53b2db018a866216af6908eb8~2E5OAlz112739327393epoutp02u
+	Tue, 17 Sep 2024 17:00:52 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240917170046epoutp02de2f8d9b00fac65fc18d9d086740184a~2Fq6UZRTT0594705947epoutp02U
+	for <linux-nvme@lists.infradead.org>; Tue, 17 Sep 2024 17:00:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240917170046epoutp02de2f8d9b00fac65fc18d9d086740184a~2Fq6UZRTT0594705947epoutp02U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1726589031;
-	bh=mAml1X6HT3e7FU7pesdwYAX9xeoU1P3zVE+HFV3zmWs=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=F+b4OMp9Hbld3gjdBIuOOOOlX2KqXkYvYovgCGAVUfjStAk++iAbnmZ9TG53rh9rw
-	 Bzv6T9wtZxi57h+0TXKInqCptGOBSBrdp5FDt/Tk5qLBFOlKveyNa18c01fGj8SV0r
-	 o6CKA2Dp4JWOxC/0YYzUNYxmawOGX1OupgdYTuv4=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240917160350epcas5p19ac5b03318f61a18f1e437688e861e24~2E5NZ5Amg1870218702epcas5p1C;
-	Tue, 17 Sep 2024 16:03:50 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4X7RR86TvRz4x9Pv; Tue, 17 Sep
-	2024 16:03:48 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	s=mail20170921; t=1726592446;
+	bh=YmVCRhOac+MYDmIPzTgKY46t/QHaf9fEWdAUffOQcgk=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
+	b=RF9zbai+v6LoTnajWp8Rj5JJfFuc4BaeLkHhWVy6sonQg6cqWndBV9PWC+7rcAb42
+	 7hITZYMq53feMAeWyfn+kELWu0JTGJ/C4Y+B53Oc3ZTcQrIMTXtW13+9lj5IeX8HM0
+	 NTULC8eu5gyJrsHH8//N/TP8fDOWYyOgh2zEqWJM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240917170045epcas5p46d074371c06dae0929b985e3af37b8f4~2Fq5c7pw43173431734epcas5p4H;
+	Tue, 17 Sep 2024 17:00:45 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.179]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4X7Shq3k39z4x9Pp; Tue, 17 Sep
+	2024 17:00:43 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
 	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BE.3C.09640.468A9E66; Wed, 18 Sep 2024 01:03:48 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240917160348epcas5p275248c54b014ee3ef6a8c8b88d573b60~2E5LOQS310635606356epcas5p2I;
-	Tue, 17 Sep 2024 16:03:48 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240917160348epsmtrp17d9cff39847ab607f04770e729b0d9a8~2E5LNSXYq2050620506epsmtrp1P;
-	Tue, 17 Sep 2024 16:03:48 +0000 (GMT)
-X-AuditID: b6c32a49-aabb8700000025a8-92-66e9a864de87
+	41.DE.09640.BB5B9E66; Wed, 18 Sep 2024 02:00:43 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240917170042epcas5p35e7cf09a0058a59c555598d334a81fa0~2Fq3IhSBg1471614716epcas5p31;
+	Tue, 17 Sep 2024 17:00:42 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240917170042epsmtrp2e823983f04747879bb98e3cad40c3a11~2Fq3HqBOW2449624496epsmtrp2j;
+	Tue, 17 Sep 2024 17:00:42 +0000 (GMT)
+X-AuditID: b6c32a49-aabb8700000025a8-d0-66e9b5bbf51c
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	5B.51.08456.468A9E66; Wed, 18 Sep 2024 01:03:48 +0900 (KST)
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	D0.C8.19367.AB5B9E66; Wed, 18 Sep 2024 02:00:42 +0900 (KST)
 Received: from [107.122.11.51] (unknown [107.122.11.51]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240917160345epsmtip2b30f62e2429ded43a6fccfb44a28f882~2E5IQERBm0267602676epsmtip2U;
-	Tue, 17 Sep 2024 16:03:45 +0000 (GMT)
-Message-ID: <b438dddd-f940-dd2b-2a6c-a2dbbc4ee67f@samsung.com>
-Date: Tue, 17 Sep 2024 21:33:44 +0530
+	20240917170039epsmtip2b32eef702379390531969e70e3dfb72a~2Fq0Avebe0319803198epsmtip2S;
+	Tue, 17 Sep 2024 17:00:39 +0000 (GMT)
+Message-ID: <315f8f38-2cfd-1ef9-3304-d16b9b0b56e6@samsung.com>
+Date: Tue, 17 Sep 2024 22:30:38 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
 	Gecko/20100101 Thunderbird/91.8.1
 Subject: Re: [PATCH v5 4/5] sd: limit to use write life hints
 Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
 	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
@@ -81,46 +82,45 @@ Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
 	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
 	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Nitesh
 	Shetty <nj.shetty@samsung.com>
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20240917062007.GA4170@lst.de>
+In-Reply-To: <b438dddd-f940-dd2b-2a6c-a2dbbc4ee67f@samsung.com>
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxz23NsXbl2uBceBua27yTKQ8aij5cAANZBxF3yQuQW3wFilV6iF
-	tutthzLNqguoEGACES3IwyBgiRAeQ5CRGB6rEBgOBaUMhqOdCEN5KIyB21qKG/99v+98X77f
-	I4eHC9K57jy5UktrlNIkkrOZ1dTh6eEtq3p02K+tcQeqHs3hoOmOeYDOzy7j6J/RhxgavtmC
-	oavVXRgqLPgWQ5ZaA47qcnho4pcFLlquMHJRbvsQQG1mLzRwOQL90NbNQiUVVi7KvNfMQZWm
-	vzHUtFKCo5rpJyzU/9zERv2GIu6uV6k7dyOp/rE6FnU+t4dD3enTUfXGsxyqofwbqrV0AaNa
-	h/Ucas5qZlHZjUZA9ZZ2cqmF+jeoessMFsX/TBGcSEtltEZIK+NVMrkyIYSMPBAXFieW+Im8
-	RYEogBQqpcl0CBm+J8r7A3mSbWZS+JU0SWejoqQMQ/qGBmtUOi0tTFQx2hCSVsuS1P5qH0aa
-	zOiUCT5KWhsk8vPbIbYJv1AkztydAeqTLkfPLcXoQTaRAZx4kPCHE+UZHDsWEK0ADvTsyQCb
-	bXgewKXZEbajWATQ0JGNvXDkD3WuP7QBOKqv5DqKGQCLW0qAXcUnQuHVkdo1zCLehrcbhnEH
-	vwV2X7Sw7HgrcQj+NVi0pnEmQmBm1r01HidcodlSspbmQpDQOtUH7AE4UcGCV+b6bc3yeBzC
-	E97O09k1ToQX7NcPcx3eN+H1mSLcrodEtRNcznrAdrQdDmsKq1gO7AynTI1cB3aHj3LS17EC
-	jv82vq45Dpsbste9O6F+9T7bnovbcmtv+DqyXoFZKxbMTkOCD8+kCxzqt+BYrnXd6QofXChn
-	OyQU7Drp5lhVOg5vGc+A74DQsGErhg3TGzZMY/g/uBSwjMCNVjPJCTQjVouUdMp/545XJdeD
-	tQ+x/cNmMDo+69MOMB5oB5CHky78kBXrYQFfJj2WSmtUcRpdEs20A7HtPOdw963xKtuPUmrj
-	RP6Bfv4SicQ/8D2JiHTlT6ddkgmIBKmWVtC0mta88GE8J3c9VnDLHLH6Z3eEJ3csaGJQ3jf7
-	U9HHB/a634+4GXVMXdksTPPa5DV40fh7tN8uZh842nOhOPZlcKLg0sGv+z/J0A89Fndu2xKj
-	avv+ISF/zO6u2t9rqetKLvP9o8ENku2v8fJ7Q50n3/c5m/vSwOfJaHd4i8nqSjs/FUxdHveK
-	OVRR2j1RUTPX/GPZjSNo/sjO04zpSup+D+figNCyE4vij3KjgxU/TwVlTGYuFU3uS3lamG+d
-	DBugsONeT55tctlmeV0mjq7VjsSG4SXPpogvD6auhkY6tZ1ul7jnOPFjze/sNiuuy58H7O3r
-	Gz1lCqp890TYqXS9T57HtbzFaylpn7I9mn4lWUyiVLQd1zDSfwEbiVe8mQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7bCSvG7KipdpBru28VmsvtvPZvH68CdG
-	i2kffjJb/L/7nMni5oGdTBYrVx9lspg9vZnJ4sn6WcwWG/s5LB7f+cxu8XPZKnaLSYeuMVrs
-	vaVtcWmRu8WevSdZLOYve8pu0X19B5vF8uP/mCy2/Z7PbLHu9XsWi/N/j7NanJ81h91BzOPy
-	FW+P8/c2snhMm3SKzePy2VKPTas62Tw2L6n32L3gM5PH7psNbB4fn95i8ejbsorR48yCI+we
-	nzfJeWx68pYpgDeKyyYlNSezLLVI3y6BK+PtlbeMBY0iFRO/xzQw9gl0MXJySAiYSEy5doQV
-	xBYS2M0ocf9MAURcXKL52g92CFtYYuW/50A2F1DNa0aJ/rnXWEASvAJ2Eitvr2cEsVkEVCUu
-	bL7JDBEXlDg58wlYjahAksSe+41MILawgK1Ed+91sDgz0IJbT+aDxUUElCSevjrLCLKAWWAZ
-	i8TBKW+ZILa1MUvM2tYINJWDg01AU+LC5FKQBk4BbYnzDTfZIQaZSXRt7WKEsOUltr+dwzyB
-	UWgWkjtmIdk3C0nLLCQtCxhZVjFKphYU56bnFhsWGOWllusVJ+YWl+al6yXn525iBKcDLa0d
-	jHtWfdA7xMjEwXiIUYKDWUmE1/b30zQh3pTEyqrUovz4otKc1OJDjNIcLErivN9e96YICaQn
-	lqRmp6YWpBbBZJk4OKUamNQ/fJmRnNS56GBQ4NHNN2RONCrprmQ6k6fsH/bf4d1cjlvr2fnS
-	vNIvhL//sW52Hos+B9+q//xtB7zUzd5yq296PvN21/Q77+aukpta/Huv/5Oua71+LUI9m/e9
-	WhE4Qy6zYa1r4ryXu2uqD8RYvL9wT8GxZcaTb3weT+u0WiW2V7LO8bB8NKf99uKOFcaJZTvX
-	FhUz+YpF267z32jIVdG252U1R/K+1J1BRyWu376jzV5lnONxz+eEzUSrvtbFd/VawqeWrzaa
-	bhj6qG2NZ/O+W6bvXuTY5t2u8PGTMU9vOXfY7Fjf3YueC0rtrI+L6t9ef7053nKPs8UURq5p
-	Z+wnSqxZfWpK0qGHNpkML5RYijMSDbWYi4oTAeJ4hJd2AwAA
-X-CMS-MailID: 20240917160348epcas5p275248c54b014ee3ef6a8c8b88d573b60
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TfUxTVxz1vvf6AaTLo4JcMWP1bYygo7RaysWBskHcExhjM1myoYEKT2CU
+	tulrx7pgwCHgRFDLxK3rhDnBDIJAEeVDEq0yJkqQuakgIIwyM7AOKW4R1K2lOPnv/M49J+f3
+	kcvHhSU8f36WSsdoVQolxfUkzl4KDgrpbP1zt2S2GKL6kUNcNH1pFqDKmcc4+nfkHoYGL7Rj
+	6Mf6bgx9e6wQQ7ZGE46aD/HRxLCDhx7X1vGQ0XoToK6h9eiXE++g811XCFRVO8lDpbfauOhU
+	zzMMnV2owtHp6b8I1P+0h4P6TWZe9Cr6xq/xdP9oM0FXGnu59I0+PW2p+5JLt5zMpzurHRjd
+	OVjApR9ODhF0+Zk6QF+rvsyjHZYA2mKzY0mCj7MjMxlFOqMVMao0dXqWKiOKit+eEpMSJpdI
+	Q6QRKJwSqRQ5TBQVm5AUsjVL6ZyZEn2qUOqdVJKCZanQzZFatV7HiDLVrC6KYjTpSo1MI2YV
+	OaxelSFWMbpNUolkQ5hTmJqd2VTYyNGMCj6rudsFCkCR1wHgwYekDA78dJU4ADz5QrITwKM2
+	E89dzALoOG99Ucz+0Yk9twxX2bnuh3YATx80LhV2AHuu9nJdKgG5GU4/KsJdmCAD4ZC5EXPz
+	3vDKNzbChX3JXXD+NzNw4ZVkFCwtu7XI46QfHLJVOfV8PpcMhtcr9C7ah6Tg5FQfcGXhZC0B
+	ax72c10aD3ILHBj3dltfgefsZtylgeQpD2if6eW5u46F8xfKOG68Ek71nFni/aHjQRfXjbPh
+	2O9jhBvnwbaW8iX9Fljw5DbHlYU7+2nsCHVnvQTLFmyLbUJSAPcXC93qtXDUOLnk9IPjX5/k
+	uCU07N67emnTOLx8sBgcBiLTsqWYlg1vWjaN6UVwNSDqwGpGw+ZkMGyYRqpicv+/d5o6xwIW
+	f8S6bW1gZGxGbAUYH1gB5OOUjyBqYXK3UJCuMHzOaNUpWr2SYa0gzHmdI7i/b5ra+aVUuhSp
+	LEIik8vlsoiNcinlJ5gu+i5dSGYodEw2w2gY7XMfxvfwL8DEHWnbiEdP3gwQ/1wy9FS9B7/J
+	tBt070/E3plp9spbYwwNuDMsjT0a9Em7d+BM0465Fa9n3Y8TV87LIm4PoKZr7K7EkuTS1uGE
+	d+cszWWitwzy0rW24wsN5UVpzV+1jKXsTQ4dlGxYNdegNGRVVuzsbp1K9NYd/mG+dFP+Fws1
+	udIGz6SLXvnxscK22sTo3geJHJE5wtobfoKK9w9++2KY2li83suAA2EAL+Y14/Xku2KJI+5v
+	3wo/2ZHpyB0xfccU5z4w+PyTHLfH2xx9f/y4oT4uZOJDfjQRnsoEbX85YY048NlYR+q9ncUr
+	vvfaP9CSs7EwZF/ue+Y37KrovI9e3dfgRxFspkK6Dteyiv8A5S0NupoEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHIsWRmVeSWpSXmKPExsWy7bCSvO6urS/TDL7NU7VYfbefzeL14U+M
+	FtM+/GS2+H/3OZPFzQM7mSxWrj7KZDF7ejOTxZP1s5gtNvZzWDy+85nd4ueyVewWkw5dY7TY
+	e0vb4tIid4s9e0+yWMxf9pTdovv6DjaL5cf/MVls+z2f2WLd6/csFuf/Hme1OD9rDruDmMfl
+	K94e5+9tZPGYNukUm8fls6Uem1Z1snlsXlLvsXvBZyaP3Tcb2Dw+Pr3F4tG3ZRWjx5kFR9g9
+	Pm+S89j05C1TAG8Ul01Kak5mWWqRvl0CV8aG5vWsBfd4K5be38vYwNjK3cXIySEhYCJxZ/5b
+	ti5GLg4hge2MEof2NzNBJMQlmq/9YIewhSVW/nvODlH0mlHi+KM9zCAJXgE7iddfW8FsFgFV
+	iVtz1jNBxAUlTs58wgJiiwokSey53wgWFxawlejuvQ4WZwZacOvJfKA4BwebgKbEhcmlIGER
+	ASWJp6/OMoLsYhZYxiJxcMpbsBohgd3MEl3mICangL3ExYeCEFPMJLq2djFC2PIS29/OYZ7A
+	KDQLyRGzkCybhaRlFpKWBYwsqxhFUwuKc9NzkwsM9YoTc4tL89L1kvNzNzGCk4BW0A7GZev/
+	6h1iZOJgPMQowcGsJMJr+/tpmhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe5ZzOFCGB9MSS1OzU
+	1ILUIpgsEwenVANT7t3tr45fbZL7ord+Z2aZ2n7XJ3vfnzZbf/XLHOboq6EJETsCxaQ8uvfm
+	l1ws+zFtn0tVUmDSzmMHllyV/vnkjITi9NMxej3af64HTNTkTnBx2Khl5/b24z4zydv9ZU5a
+	X/bIzf/7g1Xe4NpG1x2yN11MT58MeWtn9P3g7cI1NnMOHapp/Wn8My6u3f1HglpFzwfNh+9U
+	1JzsF5xYUMd8ddqa709msDBJPwuYl7P1jv3iqT+Kz6t7R827XMf2vufRiogJXu1bD58/xBmz
+	7VLphlMbDgQuZKp9fUBjlXTB2Rshd2sPTaqVC2Y6Nnl9vr1FkNWakPIw4WNSC/1Uri5btZZd
+	Q4pBzaI7KDLXRX+1qRJLcUaioRZzUXEiAEVaYZBxAwAA
+X-CMS-MailID: 20240917170042epcas5p35e7cf09a0058a59c555598d334a81fa0
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
@@ -134,9 +134,10 @@ References: <20240910150200.6589-1-joshi.k@samsung.com>
 	<20240913080659.GA30525@lst.de>
 	<4a39215a-1b0e-3832-93bd-61e422705f8b@samsung.com>
 	<20240917062007.GA4170@lst.de>
+	<b438dddd-f940-dd2b-2a6c-a2dbbc4ee67f@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240917_090358_853182_5186220D 
-X-CRM114-Status: GOOD (  23.03  )
+X-CRM114-CacheID: sfid-20240917_100050_557168_E0AF12C6 
+X-CRM114-Status: GOOD (  21.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,55 +152,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/17/2024 11:50 AM, Christoph Hellwig wrote:
->>> But if we increase this to a variable number of hints that don't have
->>> any meaning (and even if that is just the rough order of the temperature
->>> hints assigned to them), that doesn't really work.  We'll need an API
->>> to check if these stream hints are supported and how many of them,
->>> otherwise the applications can't make any sensible use of them.
->> - Since writes are backward compatible, nothing bad happens if the
->> passed placement-hint value is not supported. Maybe desired outcome (in
->> terms of WAF reduction) may not come but that's not a kernel problem
->> anyway. It's rather about how well application is segregating and how
->> well device is doing its job.
-> What do you mean with "writes are backward compatible" ?
+On 9/17/2024 9:33 PM, Kanchan Joshi wrote:
+> On 9/17/2024 11:50 AM, Christoph Hellwig wrote:
+>>>> But if we increase this to a variable number of hints that don't have
+>>>> any meaning (and even if that is just the rough order of the temperature
+>>>> hints assigned to them), that doesn't really work.  We'll need an API
+>>>> to check if these stream hints are supported and how many of them,
+>>>> otherwise the applications can't make any sensible use of them.
+>>> - Since writes are backward compatible, nothing bad happens if the
+>>> passed placement-hint value is not supported. Maybe desired outcome (in
+>>> terms of WAF reduction) may not come but that's not a kernel problem
+>>> anyway. It's rather about how well application is segregating and how
+>>> well device is doing its job.
+>> What do you mean with "writes are backward compatible" ?
+>>
+> Writes are not going to fail even if you don't pass the placement-id or
+> pass a placement-id that is not valid. FDP-enabled SSD will not shout
+> and complete writes fine even with FDP-unaware software.
+> 
+> I think that part is same as how Linux write hints behave ATM. Writes
+> don't have to carry the lifetime hint always. And when they do, the hint
+> value never becomes the reason of failure (e.g. life hints on NVMe
+> vanish in the thin air rather than causing any failure).
 > 
 
-Writes are not going to fail even if you don't pass the placement-id or 
-pass a placement-id that is not valid. FDP-enabled SSD will not shout 
-and complete writes fine even with FDP-unaware software.
-
-I think that part is same as how Linux write hints behave ATM. Writes 
-don't have to carry the lifetime hint always. And when they do, the hint 
-value never becomes the reason of failure (e.g. life hints on NVMe 
-vanish in the thin air rather than causing any failure).
-
->> - Device is perfectly happy to work with numbers (0 to 256 in current
->> spec) to produce some value (i.e., WAF reduction). Any extra
->> semantics/abstraction on these numbers only adds to the work without
->> increasing that value. If any application needs that, it's free to
->> attach any meaning/semantics to these numbers.
-> If the device (or file system, which really needs to be in control
-> for actual files vs just block devices) does not support all 256
-> we need to reduce them to less than that.  The kernel can help with
-> that a bit if the streams have meanings (collapsing temperature levels
-> that are close), but not at all if they don't have meanings. 
-
-Current patch (nvme) does what you mentioned above.
-Pasting the fragment that maps potentially large placement-hints to the 
-last valid placement-id.
-
-+static inline void nvme_assign_placement_id(struct nvme_ns *ns,
-+					struct request *req,
-+					struct nvme_command *cmd)
-+{
-+	u8 h = umin(ns->head->nr_plids - 1,
-+				WRITE_PLACEMENT_HINT(req->write_hint));
-+
-+	cmd->rw.control |= cpu_to_le16(NVME_RW_DTYPE_DPLCMT);
-+	cmd->rw.dsmgmt |= cpu_to_le32(ns->head->plids[h] << 16);
-+}
-
-But this was just an implementation choice (and not a failure avoidance 
-fallback).
+FWIW, I am not sure about current SCSI streams but NVMe multi-stream did 
+not tolerate invalid values. Write command with invalid stream was 
+aborted. So in that scheme of things, it was important to be pedantic 
+about what values are being passed.
+But in FDP, things are closer to Linux hints that don't cause failures. 
+With the plain-numbers interface, the similarities will increase.
 
