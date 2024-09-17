@@ -4,99 +4,139 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF239EE6426
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2024 14:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96C50CAC58D
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2024 16:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GqF5tk5CCdE7I2Omn73wUtjDR/tONDpWlzVBUQnMAq8=; b=1l9NUomEbmoOPT3OgaAcX3L7IM
-	Ze6TVjwnhwHXILswZNrP40u53gIXBfiHFUns3XFCtKB51BrC5PERpEJMEH5gHOBgBw/Lp5293bpNB
-	vBI+lRikeBW1Dt/eEK0q9ffZqGf4/Rv76DHPddQFnZ1BbKStDMoWRimFCxyNU0LB098fA/bmnv2Z3
-	ioNPj7o+eJGdX1lHFAW7PHsE6LNxGNYHKPOFT78lFWfoq8svz+TpuqAI8jpRBouxJxeVZLycT3vbe
-	EmJMCASbOwWKFbkWAWCb3/swZcDEqn15ORQPQojtRq4KskH1eBlYNyQP7LJdyHX+QeS0KtUJRqKTa
-	8BnNDgbA==;
+	bh=mAml1X6HT3e7FU7pesdwYAX9xeoU1P3zVE+HFV3zmWs=; b=zDiBvzKz/JcGw25BwOE2EvN62J
+	p16jK/1G/2EHcQR0of55f/B06vMDJJKy11SkGoAaGnIgXdGu3V+FT6IHFIIJxL/bIA5eRepie8flG
+	Jxp/pjE1BVUDUYHzchP/m3yAuiPICYgfBLf9mEOxBzKb6L5yjO0ZzfaJPH6yiJD/9/YCTRNzZ8wK+
+	96t7+PehII4p0bewuPaUz+NlaSw9TgKIxbWiaqKCfps5aeci+gGBrBw1hDxy+WYZZ1PgdC9hfhZs9
+	RgsHfqqxnZbN/q8LmAViwTgV3FR9DY4iGzFHMYXGxrpKCAMN7HZ8PfZS7gE4uvR2qAOrAacr+SJYA
+	8MXr33Qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqZFI-00000006Jeh-1DBo;
-	Tue, 17 Sep 2024 14:32:00 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1sqagM-00000006Scu-0Mjk;
+	Tue, 17 Sep 2024 16:04:02 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqZFG-00000006JeS-3QIh
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 17 Sep 2024 14:31:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=GqF5tk5CCdE7I2Omn73wUtjDR/tONDpWlzVBUQnMAq8=; b=LhzdGgYiztEqnPQ4ifsGxsPbUJ
-	hPd3tirI4nZ8LjGiDdF52NGntfC1M97XhVutfCJaiLTt4lzw6S2npf5Hpx9bPlfo88tllIwt7/Yla
-	L1HLmbWhYfq9XJOI/In3MlbeVMLtKUqfITP4agYvmPkwbC+nflArwNtH43jH3lleLck9HH4uzseB6
-	X9tDAzB4v/0q0Ywsqu8GtdPi5uzTkkTOGdinlfPByD2kEP/HxEeqJLxO9fhA0Qh6MsqiwrJuqNJ3l
-	sb7lZ/AuYfHuEE/aWRg/uIONjH9LmSotipcSLAbg7jr0tS6fF1fh8bOABuZhMQ+LKE6rIu5Xnlizf
-	5E1cc6/w==;
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqZFD-00000000cBM-0D1P
+	id 1sqagI-00000006Sc0-02rS
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Sep 2024 14:31:57 +0000
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-7191df6b5f5so4011584b3a.0
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Sep 2024 07:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726583512; x=1727188312; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GqF5tk5CCdE7I2Omn73wUtjDR/tONDpWlzVBUQnMAq8=;
-        b=iGwAAcnBCUgD3hCc04wUIuA3lQ2IjIM/VpjiHCvKizYtX2wteMqeA628t1xKn4v04v
-         BXajR6xsREkG8/iojPzIDAIWbqPQU1Lz3iffFiRig2TauC3QdQIRtqoHXLLFnFxOpBJO
-         fhljyjmgjUunmTwAsqfv+KSAuORyQXgtZJS5NkPRIauzkFkTUPb/t+7RECk4y8bVomvc
-         4IHqs4tQhJy4Am2yIWg797G2oJD8UKjqB6tPHtElK2zURUFkgn5HTf7wdYFi0KuGOyN/
-         cmmbkDMDKoyBO0OQ+L9D41pEqYnYr1OQjAiZ3R5SNfFedUk9HMXDIwdcW/Nj5u6OzFrE
-         XmgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726583512; x=1727188312;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GqF5tk5CCdE7I2Omn73wUtjDR/tONDpWlzVBUQnMAq8=;
-        b=fzJZAnS/+aLLV9vy8vUy1b2Zx/QtquBpQBr1NgDMRyu4SrWlmOhxWGsUXh0q6YEN7p
-         hub/8SKjTVgCYptEPcuHHjHlexSu+pzuXjq0ZA4JGjupMLTVMIIvPU0Zgt2ewFQhYMrZ
-         N2wJ8p0tYLE84Rg9AxoBN/YoFfVkpDTuBJI/jlGLut4e8lZW9WFbAGVBqmrxGl1Zxsjq
-         648w0SKc/cAX0HIVv3qgGYI/EHWC5MpJKR+UrvkduzPWj47Cvm41ST/uZMISpuXO2/kP
-         nw6nMo/SVGynQO7oDnTC07ZVvaqZ1bA1S6Z5oXlgXDp8DMwpCiZIe/3Vmn1STJ2Itsf6
-         qnYQ==
-X-Gm-Message-State: AOJu0YzAsQgzljcZT+5S1OevvSAo5401UDrdwYZsz87k4SVXc6feJaQs
-	Yb0jJx7baTNg7sA4iajnf+632da/88f+UM+1vGH0AzPwEUxD8NX7
-X-Google-Smtp-Source: AGHT+IFXFOzHhLRXtJrvG/MAhtzAkDKl8MZmZpqHV5TqUYsjc0nnfGBlAeqW7ImB5z/CBMmZGabMMg==
-X-Received: by 2002:a05:6a00:21d4:b0:717:93d7:166b with SMTP id d2e1a72fcca58-719262065c5mr26988591b3a.25.1726583511504;
-        Tue, 17 Sep 2024 07:31:51 -0700 (PDT)
-Received: from ?IPV6:240b:10:2720:5500:eda1:ca50:32d0:a13c? ([240b:10:2720:5500:eda1:ca50:32d0:a13c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db4990ca1esm5954927a12.35.2024.09.17.07.31.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Sep 2024 07:31:51 -0700 (PDT)
-Message-ID: <788632b1-66c6-45b4-b8a9-c0556d53ab80@gmail.com>
-Date: Tue, 17 Sep 2024 23:31:48 +0900
+	Tue, 17 Sep 2024 16:04:00 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240917160351epoutp0296aa90d53b2db018a866216af6908eb8~2E5OAlz112739327393epoutp02u
+	for <linux-nvme@lists.infradead.org>; Tue, 17 Sep 2024 16:03:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240917160351epoutp0296aa90d53b2db018a866216af6908eb8~2E5OAlz112739327393epoutp02u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1726589031;
+	bh=mAml1X6HT3e7FU7pesdwYAX9xeoU1P3zVE+HFV3zmWs=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=F+b4OMp9Hbld3gjdBIuOOOOlX2KqXkYvYovgCGAVUfjStAk++iAbnmZ9TG53rh9rw
+	 Bzv6T9wtZxi57h+0TXKInqCptGOBSBrdp5FDt/Tk5qLBFOlKveyNa18c01fGj8SV0r
+	 o6CKA2Dp4JWOxC/0YYzUNYxmawOGX1OupgdYTuv4=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240917160350epcas5p19ac5b03318f61a18f1e437688e861e24~2E5NZ5Amg1870218702epcas5p1C;
+	Tue, 17 Sep 2024 16:03:50 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4X7RR86TvRz4x9Pv; Tue, 17 Sep
+	2024 16:03:48 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BE.3C.09640.468A9E66; Wed, 18 Sep 2024 01:03:48 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20240917160348epcas5p275248c54b014ee3ef6a8c8b88d573b60~2E5LOQS310635606356epcas5p2I;
+	Tue, 17 Sep 2024 16:03:48 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240917160348epsmtrp17d9cff39847ab607f04770e729b0d9a8~2E5LNSXYq2050620506epsmtrp1P;
+	Tue, 17 Sep 2024 16:03:48 +0000 (GMT)
+X-AuditID: b6c32a49-aabb8700000025a8-92-66e9a864de87
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	5B.51.08456.468A9E66; Wed, 18 Sep 2024 01:03:48 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240917160345epsmtip2b30f62e2429ded43a6fccfb44a28f882~2E5IQERBm0267602676epsmtip2U;
+	Tue, 17 Sep 2024 16:03:45 +0000 (GMT)
+Message-ID: <b438dddd-f940-dd2b-2a6c-a2dbbc4ee67f@samsung.com>
+Date: Tue, 17 Sep 2024 21:33:44 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: convert little endian NVME definitions to native
- format
-To: Caleb Sander <csander@purestorage.com>
-Cc: linux-nvme@lists.infradead.org
-References: <20240916154422.356691-1-ikegami.t@gmail.com>
- <CADUfDZrqAgp49K2Ak-b230ERY8P66aXA4iAoCyyYr45PAbq+1Q@mail.gmail.com>
- <1bcdab96-f2cb-4116-9f04-4016b01bad36@gmail.com>
- <CADUfDZo=WwCTWwmY+UcUA7zpXb9CMpOsNC0icat7opwwFpJh=A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v5 4/5] sd: limit to use write life hints
 Content-Language: en-US
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-In-Reply-To: <CADUfDZo=WwCTWwmY+UcUA7zpXb9CMpOsNC0icat7opwwFpJh=A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
+	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	jaegeuk@kernel.org, jlayton@kernel.org, chuck.lever@oracle.com,
+	bvanassche@acm.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Nitesh
+	Shetty <nj.shetty@samsung.com>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20240917062007.GA4170@lst.de>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxz23NsXbl2uBceBua27yTKQ8aij5cAANZBxF3yQuQW3wFilV6iF
+	tutthzLNqguoEGACES3IwyBgiRAeQ5CRGB6rEBgOBaUMhqOdCEN5KIyB21qKG/99v+98X77f
+	I4eHC9K57jy5UktrlNIkkrOZ1dTh6eEtq3p02K+tcQeqHs3hoOmOeYDOzy7j6J/RhxgavtmC
+	oavVXRgqLPgWQ5ZaA47qcnho4pcFLlquMHJRbvsQQG1mLzRwOQL90NbNQiUVVi7KvNfMQZWm
+	vzHUtFKCo5rpJyzU/9zERv2GIu6uV6k7dyOp/rE6FnU+t4dD3enTUfXGsxyqofwbqrV0AaNa
+	h/Ucas5qZlHZjUZA9ZZ2cqmF+jeoessMFsX/TBGcSEtltEZIK+NVMrkyIYSMPBAXFieW+Im8
+	RYEogBQqpcl0CBm+J8r7A3mSbWZS+JU0SWejoqQMQ/qGBmtUOi0tTFQx2hCSVsuS1P5qH0aa
+	zOiUCT5KWhsk8vPbIbYJv1AkztydAeqTLkfPLcXoQTaRAZx4kPCHE+UZHDsWEK0ADvTsyQCb
+	bXgewKXZEbajWATQ0JGNvXDkD3WuP7QBOKqv5DqKGQCLW0qAXcUnQuHVkdo1zCLehrcbhnEH
+	vwV2X7Sw7HgrcQj+NVi0pnEmQmBm1r01HidcodlSspbmQpDQOtUH7AE4UcGCV+b6bc3yeBzC
+	E97O09k1ToQX7NcPcx3eN+H1mSLcrodEtRNcznrAdrQdDmsKq1gO7AynTI1cB3aHj3LS17EC
+	jv82vq45Dpsbste9O6F+9T7bnovbcmtv+DqyXoFZKxbMTkOCD8+kCxzqt+BYrnXd6QofXChn
+	OyQU7Drp5lhVOg5vGc+A74DQsGErhg3TGzZMY/g/uBSwjMCNVjPJCTQjVouUdMp/545XJdeD
+	tQ+x/cNmMDo+69MOMB5oB5CHky78kBXrYQFfJj2WSmtUcRpdEs20A7HtPOdw963xKtuPUmrj
+	RP6Bfv4SicQ/8D2JiHTlT6ddkgmIBKmWVtC0mta88GE8J3c9VnDLHLH6Z3eEJ3csaGJQ3jf7
+	U9HHB/a634+4GXVMXdksTPPa5DV40fh7tN8uZh842nOhOPZlcKLg0sGv+z/J0A89Fndu2xKj
+	avv+ISF/zO6u2t9rqetKLvP9o8ENku2v8fJ7Q50n3/c5m/vSwOfJaHd4i8nqSjs/FUxdHveK
+	OVRR2j1RUTPX/GPZjSNo/sjO04zpSup+D+figNCyE4vij3KjgxU/TwVlTGYuFU3uS3lamG+d
+	DBugsONeT55tctlmeV0mjq7VjsSG4SXPpogvD6auhkY6tZ1ul7jnOPFjze/sNiuuy58H7O3r
+	Gz1lCqp890TYqXS9T57HtbzFaylpn7I9mn4lWUyiVLQd1zDSfwEbiVe8mQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7bCSvG7KipdpBru28VmsvtvPZvH68CdG
+	i2kffjJb/L/7nMni5oGdTBYrVx9lspg9vZnJ4sn6WcwWG/s5LB7f+cxu8XPZKnaLSYeuMVrs
+	vaVtcWmRu8WevSdZLOYve8pu0X19B5vF8uP/mCy2/Z7PbLHu9XsWi/N/j7NanJ81h91BzOPy
+	FW+P8/c2snhMm3SKzePy2VKPTas62Tw2L6n32L3gM5PH7psNbB4fn95i8ejbsorR48yCI+we
+	nzfJeWx68pYpgDeKyyYlNSezLLVI3y6BK+PtlbeMBY0iFRO/xzQw9gl0MXJySAiYSEy5doQV
+	xBYS2M0ocf9MAURcXKL52g92CFtYYuW/50A2F1DNa0aJ/rnXWEASvAJ2Eitvr2cEsVkEVCUu
+	bL7JDBEXlDg58wlYjahAksSe+41MILawgK1Ed+91sDgz0IJbT+aDxUUElCSevjrLCLKAWWAZ
+	i8TBKW+ZILa1MUvM2tYINJWDg01AU+LC5FKQBk4BbYnzDTfZIQaZSXRt7WKEsOUltr+dwzyB
+	UWgWkjtmIdk3C0nLLCQtCxhZVjFKphYU56bnFhsWGOWllusVJ+YWl+al6yXn525iBKcDLa0d
+	jHtWfdA7xMjEwXiIUYKDWUmE1/b30zQh3pTEyqrUovz4otKc1OJDjNIcLErivN9e96YICaQn
+	lqRmp6YWpBbBZJk4OKUamNQ/fJmRnNS56GBQ4NHNN2RONCrprmQ6k6fsH/bf4d1cjlvr2fnS
+	vNIvhL//sW52Hos+B9+q//xtB7zUzd5yq296PvN21/Q77+aukpta/Huv/5Oua71+LUI9m/e9
+	WhE4Qy6zYa1r4ryXu2uqD8RYvL9wT8GxZcaTb3weT+u0WiW2V7LO8bB8NKf99uKOFcaJZTvX
+	FhUz+YpF267z32jIVdG252U1R/K+1J1BRyWu376jzV5lnONxz+eEzUSrvtbFd/VawqeWrzaa
+	bhj6qG2NZ/O+W6bvXuTY5t2u8PGTMU9vOXfY7Fjf3YueC0rtrI+L6t9ef7053nKPs8UURq5p
+	Z+wnSqxZfWpK0qGHNpkML5RYijMSDbWYi4oTAeJ4hJd2AwAA
+X-CMS-MailID: 20240917160348epcas5p275248c54b014ee3ef6a8c8b88d573b60
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c
+References: <20240910150200.6589-1-joshi.k@samsung.com>
+	<CGME20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c@epcas5p3.samsung.com>
+	<20240910150200.6589-5-joshi.k@samsung.com> <20240912130235.GB28535@lst.de>
+	<e6ae5391-ae84-bae4-78ea-4983d04af69f@samsung.com>
+	<20240913080659.GA30525@lst.de>
+	<4a39215a-1b0e-3832-93bd-61e422705f8b@samsung.com>
+	<20240917062007.GA4170@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240917_153155_507236_EDB4F1CD 
-X-CRM114-Status: GOOD (  19.99  )
+X-CRM114-CacheID: sfid-20240917_090358_853182_5186220D 
+X-CRM114-Status: GOOD (  23.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,171 +151,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Yes just confirmed as the definition value is actually native byte order 
-on the big endian environment as you mentioned.
-Very sorry my first checking was incorrect. So let me drop the patch.
+On 9/17/2024 11:50 AM, Christoph Hellwig wrote:
+>>> But if we increase this to a variable number of hints that don't have
+>>> any meaning (and even if that is just the rough order of the temperature
+>>> hints assigned to them), that doesn't really work.  We'll need an API
+>>> to check if these stream hints are supported and how many of them,
+>>> otherwise the applications can't make any sensible use of them.
+>> - Since writes are backward compatible, nothing bad happens if the
+>> passed placement-hint value is not supported. Maybe desired outcome (in
+>> terms of WAF reduction) may not come but that's not a kernel problem
+>> anyway. It's rather about how well application is segregating and how
+>> well device is doing its job.
+> What do you mean with "writes are backward compatible" ?
+> 
 
-Regards,
-Ikegami
+Writes are not going to fail even if you don't pass the placement-id or 
+pass a placement-id that is not valid. FDP-enabled SSD will not shout 
+and complete writes fine even with FDP-unaware software.
 
-On 2024/09/17 3:12, Caleb Sander wrote:
-> On Mon, Sep 16, 2024 at 9:41 AM Tokunori Ikegami <ikegami.t@gmail.com> wrote:
->> For example the definition below is not native byte order I think.
->>       NVME_CTRL_ONCS_TIMESTAMP        = 1 << 6,
-> Why not? CPUs assume native byte order for all arithmetic operations.
-> The fact that you could print this value implies it must be
-> represented in native byte order. Non-native endianness is only
-> relevant when interacting with byte-addressable data external to the
-> CPU (storage, network, etc.).
->
->> On 2024/09/17 1:12, Caleb Sander wrote:
->>> Why is this necessary? All these values obtained from the Identify
->>> Controller data structure are already stored in the CPU's native byte
->>> order. So testing them against native byte order constants looks
->>> correct.
->>>
->>> ctrl->oacs = le16_to_cpu(id->oacs);
->>> ctrl->oncs = le16_to_cpu(id->oncs);
->>> ctrl->mtfa = le16_to_cpu(id->mtfa);
->>> ctrl->oaes = le32_to_cpu(id->oaes);
->>> // ...
->>> ctrl->ctratt = le32_to_cpu(id->ctratt);
->>>
->>> On Mon, Sep 16, 2024 at 8:46 AM Tokunori Ikegami <ikegami.t@gmail.com> wrote:
->>>> This is to compare the definitions correctly with the converted values.
->>>>
->>>> Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
->>>> ---
->>>>    drivers/nvme/host/core.c | 20 ++++++++++----------
->>>>    drivers/nvme/host/nvme.h |  4 ++--
->>>>    drivers/nvme/host/pci.c  |  2 +-
->>>>    3 files changed, 13 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>> index ca9959a8fb9e..5e26546e811a 100644
->>>> --- a/drivers/nvme/host/core.c
->>>> +++ b/drivers/nvme/host/core.c
->>>> @@ -1273,7 +1273,7 @@ static unsigned long nvme_keep_alive_work_period(struct nvme_ctrl *ctrl)
->>>>            * command completion can postpone sending a keep alive command
->>>>            * by up to twice the delay between runs.
->>>>            */
->>>> -       if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
->>>> +       if (ctrl->ctratt & le32_to_cpu(NVME_CTRL_ATTR_TBKAS))
->>>>                   delay /= 2;
->>>>           return delay;
->>>>    }
->>>> @@ -1343,7 +1343,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
->>>>
->>>>           ctrl->ka_last_check_time = jiffies;
->>>>
->>>> -       if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
->>>> +       if ((ctrl->ctratt & le32_to_cpu(NVME_CTRL_ATTR_TBKAS)) && comp_seen) {
->>>>                   dev_dbg(ctrl->device,
->>>>                           "reschedule traffic based keep-alive timer\n");
->>>>                   ctrl->comp_seen = false;
->>>> @@ -1699,7 +1699,7 @@ EXPORT_SYMBOL_GPL(nvme_set_queue_count);
->>>>
->>>>    static void nvme_enable_aen(struct nvme_ctrl *ctrl)
->>>>    {
->>>> -       u32 result, supported_aens = ctrl->oaes & NVME_AEN_SUPPORTED;
->>>> +       u32 result, supported_aens = ctrl->oaes & le32_to_cpu(NVME_AEN_SUPPORTED);
->>>>           int status;
->>>>
->>>>           if (!supported_aens)
->>>> @@ -1829,7 +1829,7 @@ static void nvme_config_discard(struct nvme_ns *ns, struct queue_limits *lim)
->>>>           if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns->head, UINT_MAX))
->>>>                   lim->max_hw_discard_sectors =
->>>>                           nvme_lba_to_sect(ns->head, ctrl->dmrsl);
->>>> -       else if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
->>>> +       else if (ctrl->oncs & le16_to_cpu(NVME_CTRL_ONCS_DSM))
->>>>                   lim->max_hw_discard_sectors = UINT_MAX;
->>>>           else
->>>>                   lim->max_hw_discard_sectors = 0;
->>>> @@ -1913,7 +1913,7 @@ static void nvme_configure_metadata(struct nvme_ctrl *ctrl,
->>>>           if (!head->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
->>>>                   return;
->>>>
->>>> -       if (nvm && (ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)) {
->>>> +       if (nvm && (ctrl->ctratt & le32_to_cpu(NVME_CTRL_ATTR_ELBAS))) {
->>>>                   nvme_configure_pi_elbas(head, id, nvm);
->>>>           } else {
->>>>                   head->pi_size = sizeof(struct t10_pi_tuple);
->>>> @@ -2137,7 +2137,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
->>>>           }
->>>>           lbaf = nvme_lbaf_index(id->flbas);
->>>>
->>>> -       if (ns->ctrl->ctratt & NVME_CTRL_ATTR_ELBAS) {
->>>> +       if (ns->ctrl->ctratt & le32_to_cpu(NVME_CTRL_ATTR_ELBAS)) {
->>>>                   ret = nvme_identify_ns_nvm(ns->ctrl, info->nsid, &nvm);
->>>>                   if (ret < 0)
->>>>                           goto out;
->>>> @@ -2341,7 +2341,7 @@ static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t l
->>>>
->>>>    static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
->>>>    {
->>>> -       if (ctrl->oacs & NVME_CTRL_OACS_SEC_SUPP) {
->>>> +       if (ctrl->oacs & le16_to_cpu(NVME_CTRL_OACS_SEC_SUPP)) {
->>>>                   if (!ctrl->opal_dev)
->>>>                           ctrl->opal_dev = init_opal_dev(ctrl, &nvme_sec_submit);
->>>>                   else if (was_suspended)
->>>> @@ -2520,7 +2520,7 @@ static int nvme_configure_timestamp(struct nvme_ctrl *ctrl)
->>>>           __le64 ts;
->>>>           int ret;
->>>>
->>>> -       if (!(ctrl->oncs & NVME_CTRL_ONCS_TIMESTAMP))
->>>> +       if (!(ctrl->oncs & le16_to_cpu(NVME_CTRL_ONCS_TIMESTAMP)))
->>>>                   return 0;
->>>>
->>>>           ts = cpu_to_le64(ktime_to_ms(ktime_get_real()));
->>>> @@ -2541,7 +2541,7 @@ static int nvme_configure_host_options(struct nvme_ctrl *ctrl)
->>>>           /* Don't bother enabling the feature if retry delay is not reported */
->>>>           if (ctrl->crdt[0])
->>>>                   acre = NVME_ENABLE_ACRE;
->>>> -       if (ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)
->>>> +       if (ctrl->ctratt & le32_to_cpu(NVME_CTRL_ATTR_ELBAS))
->>>>                   lbafee = NVME_ENABLE_LBAFEE;
->>>>
->>>>           if (!acre && !lbafee)
->>>> @@ -3109,7 +3109,7 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
->>>>            * controllers max_hw_sectors value, which is based on the MDTS field
->>>>            * and possibly other limiting factors.
->>>>            */
->>>> -       if ((ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) &&
->>>> +       if ((ctrl->oncs & le16_to_cpu(NVME_CTRL_ONCS_WRITE_ZEROES)) &&
->>>>               !(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
->>>>                   ctrl->max_zeroes_sectors = ctrl->max_hw_sectors;
->>>>           else
->>>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
->>>> index 313a4f978a2c..25886b9d2796 100644
->>>> --- a/drivers/nvme/host/nvme.h
->>>> +++ b/drivers/nvme/host/nvme.h
->>>> @@ -860,9 +860,9 @@ static inline bool nvme_is_unique_nsid(struct nvme_ctrl *ctrl,
->>>>                   struct nvme_ns_head *head)
->>>>    {
->>>>           return head->shared ||
->>>> -               (ctrl->oacs & NVME_CTRL_OACS_NS_MNGT_SUPP) ||
->>>> +               (ctrl->oacs & le16_to_cpu(NVME_CTRL_OACS_NS_MNGT_SUPP)) ||
->>>>                   (ctrl->subsys->cmic & NVME_CTRL_CMIC_ANA) ||
->>>> -               (ctrl->ctratt & NVME_CTRL_CTRATT_NVM_SETS);
->>>> +               (ctrl->ctratt & le32_to_cpu(NVME_CTRL_CTRATT_NVM_SETS));
->>>>    }
->>>>
->>>>    /*
->>>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->>>> index 7990c3f22ecf..f8fa424fa952 100644
->>>> --- a/drivers/nvme/host/pci.c
->>>> +++ b/drivers/nvme/host/pci.c
->>>> @@ -249,7 +249,7 @@ static void nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
->>>>    {
->>>>           unsigned int mem_size = nvme_dbbuf_size(dev);
->>>>
->>>> -       if (!(dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP))
->>>> +       if (!(dev->ctrl.oacs & le16_to_cpu(NVME_CTRL_OACS_DBBUF_SUPP)))
->>>>                   return;
->>>>
->>>>           if (dev->dbbuf_dbs) {
->>>> --
->>>> 2.43.0
->>>>
->>>>
+I think that part is same as how Linux write hints behave ATM. Writes 
+don't have to carry the lifetime hint always. And when they do, the hint 
+value never becomes the reason of failure (e.g. life hints on NVMe 
+vanish in the thin air rather than causing any failure).
+
+>> - Device is perfectly happy to work with numbers (0 to 256 in current
+>> spec) to produce some value (i.e., WAF reduction). Any extra
+>> semantics/abstraction on these numbers only adds to the work without
+>> increasing that value. If any application needs that, it's free to
+>> attach any meaning/semantics to these numbers.
+> If the device (or file system, which really needs to be in control
+> for actual files vs just block devices) does not support all 256
+> we need to reduce them to less than that.  The kernel can help with
+> that a bit if the streams have meanings (collapsing temperature levels
+> that are close), but not at all if they don't have meanings. 
+
+Current patch (nvme) does what you mentioned above.
+Pasting the fragment that maps potentially large placement-hints to the 
+last valid placement-id.
+
++static inline void nvme_assign_placement_id(struct nvme_ns *ns,
++					struct request *req,
++					struct nvme_command *cmd)
++{
++	u8 h = umin(ns->head->nr_plids - 1,
++				WRITE_PLACEMENT_HINT(req->write_hint));
++
++	cmd->rw.control |= cpu_to_le16(NVME_RW_DTYPE_DPLCMT);
++	cmd->rw.dsmgmt |= cpu_to_le32(ns->head->plids[h] << 16);
++}
+
+But this was just an implementation choice (and not a failure avoidance 
+fallback).
 
