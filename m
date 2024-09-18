@@ -4,115 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29E67CDD552
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2024 19:48:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDED4CDD556
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2024 21:08:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:To:From:Subject
-	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nyYqS5PphBo+shsKyOfqsNJLzDRLfQQ90aDZyVPCy/I=; b=4SvisczUIciOk8lhk84PVaHCBK
-	Rp1BtLsbLRpSm7of/TLkbuqudV537DjgsYO9Mw10S6ZggtRNXXWMQSfHMQ8nohYni7cMDVyRbbPkh
-	sx0y6sFLXG4R+OsRSb26r2kcJU52++DFaUX74hfFdkqLBgGQpGQ4e3oBB3JzH+GeaNsjYh4a6lU+L
-	HM9KrcdqV17dwSqpPhiiaA5qvHr1LDdgHVCukOEs7iTtcFR6u9zv4eLivuxnpD50HMF0EkRi7uEJC
-	dIyRF6FKEz+xC/+HmsipVW5h1WQQYXEKS8rKzZ4H8WqJ57uzVT2nSQkzvRr1+QW7N6yXa/5X1dbcX
-	6RhUIPYQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wBM1ofSGNndQ096F+gd6jV81rsbzNDDn5M19SAETclk=; b=4PIoHyThS9Y1jV6q6tRePBQAsr
+	XXom4u0C1DI6fX3eeuFrnnRUW7CDT+N7RXd9XgeEXNjtRflCBWENPi8fX0XMZFEczfpqsAjACbOXE
+	FUnjfvenxDDT+RnKCp99zSXyw4uYKesIZMFRd7Wb4os5TXygWXiP89TgrIfywFyx9NY0hUzAcPGF4
+	yI/VAtQWBYbuo7POjwNOFndUm8IofrUiKS8SY9AdokMCSmj4/0usqfQcQsCvnAqGsnQOR5lzWMUwc
+	RQK+hCSWqa+w8tE158hJlKWpwmQeh47cg2/r5rcZPCs+Gj9ebjdcfeWxeuWJaObyUfk3gaVLTZAs+
+	fgEINchQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sr0er-00000008uRF-0Qi6;
-	Wed, 18 Sep 2024 19:48:13 +0000
-Received: from mail-am0eur02olkn20831.outbound.protection.outlook.com ([2a01:111:f403:2e06::831] helo=EUR02-AM0-obe.outbound.protection.outlook.com)
+	id 1sr1uD-00000008zpJ-3YSY;
+	Wed, 18 Sep 2024 21:08:09 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sr0eo-00000008uQW-03ja
+	id 1sr1uA-00000008zoc-472j
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Sep 2024 19:48:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B3yMRpqLhYy0D8IKtSMZrS1hv1/aLFSSlq2ltJoI20+ZABezjsXuPBr64WeICeYyOq9xfriZQJpQN2Hg3CQQ7wApN+hCtBz03BtNNPlmvuDBZSAAXKUT20NKcilfN9QYOK6kXP9r+Z0MeM5RnVCQQCnPkGwfD8Q3LAIGacn0xr9Ctr6WfdRaONrEnjMCA6htVNFjT7btu8CfOpxuoepttcIQ6o5KcqMONlFfTu8RqB/SKTDqIZWYg8wNpfwMYoprQ6cyvlw2Rq5KI+ugsV5gdM+8uQNpofWaRqLt089lNxBRKcMKeDoWeefT+/xbUbyHdO7E8J+KS4QcJdGP/3wuoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nyYqS5PphBo+shsKyOfqsNJLzDRLfQQ90aDZyVPCy/I=;
- b=Yz5hNudL9whtz1pc/Hgb1pGTNF+UdiNHjyyo3OpdrbPA2xH1kvnFt8L7x+vCC39Dp6hcgw2P+Fwhd438A34vACgdSKn+IMTGH9LHLu0vr3lx2DFQWHyGbIpBirlVqfvhxMBcPyxmG2Opnj3tJ3r9SEU8/Lk7/nflV7k9CiYLoxjQYV3F7uQj0Wb6RGOvDcL6y6KIWUClMM347Fw45uAjxpydmooS2wnwxaxWzOCW6v0q7sAAGIIR7wMceWNmpK0nXuqkIlTx3XnL52BzbV7zGs9jLQxABW2ZtJHZcR7wRg4eoVsYZV1QpeqGKiLUizfIh8aCpl1CAXYIHljG+axI9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nyYqS5PphBo+shsKyOfqsNJLzDRLfQQ90aDZyVPCy/I=;
- b=s81Cx4aAvoFoBQQdKSo8FJ6TlF1qyLNuVtVfQKIkI792guo3MYnDyz0AGNUjkhRdxpUJhxlqRoU19zXVe0U45W0XUsPu6Sya1CldKWhpHB97z1UAGDtHbMqQ57gz22KNw7T/6G6bMKaUz54osBOm4qDJ/ToVuAm3DauwwsQDZ3lvt1DSYZkhdnW6IVkq4yC3u+3bgOPJOb0r7YPmYmC66iWjGnM1Ew+oV2Fqks212Y9fSwsXAaWid4+cUqc8wgU/WNV5LjdcfARocxpd8TH3fei/xjqjTuQ+2KC8VUzjMpD0G/eUgkxN5XSfgXTb8BdgEMtf/akSzomqwnXkj7jmNg==
-Received: from GV1P195MB2055.EURP195.PROD.OUTLOOK.COM (2603:10a6:150:a1::5) by
- AS4P195MB1693.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:511::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7962.23; Wed, 18 Sep 2024 19:48:03 +0000
-Received: from GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
- ([fe80::d7e4:bae0:94b0:378f]) by GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
- ([fe80::d7e4:bae0:94b0:378f%2]) with mapi id 15.20.7962.022; Wed, 18 Sep 2024
- 19:48:03 +0000
-Message-ID: <GV1P195MB2055B60E95C5ED0FB1B3910AEE622@GV1P195MB2055.EURP195.PROD.OUTLOOK.COM>
-Date: Wed, 18 Sep 2024 21:47:58 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [nvme(t)-rdma Question] Understanding nvmet_port's max_queue_size
-From: Jigao Luo <jigao.luo@outlook.com>
-To: linux-nvme@lists.infradead.org
-References: <a7449c58-9889-42d6-94e4-6ba4ee35e495@outlook.com>
-Content-Language: en-US
-In-Reply-To: <a7449c58-9889-42d6-94e4-6ba4ee35e495@outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0098.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::8) To GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:150:a1::5)
-X-Microsoft-Original-Message-ID: <fffd1ff8-ef60-48fd-b128-e0740114cd26@outlook.com>
+	Wed, 18 Sep 2024 21:08:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1726693684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wBM1ofSGNndQ096F+gd6jV81rsbzNDDn5M19SAETclk=;
+	b=UiHp7lZGbS7fpziVOHLL5zV9N0NqFsf3bff65229knDwA3Rz6xPF1YG5sEtBbGKpClIlkJ
+	iBHDezbdffHeTT/X8GwAq8F3OEP6FTcGq0uQqg5hXD/A73ggQoW89CaBxfksrTXm/w4fBW
+	+BeYcdJ0R4HH4WadFfuV3C7M0AMUXp4=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-146-_g292xMdNNmboO4RsDmPcA-1; Wed, 18 Sep 2024 17:08:03 -0400
+X-MC-Unique: _g292xMdNNmboO4RsDmPcA-1
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-82aa4678394so43246539f.3
+        for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2024 14:08:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726693682; x=1727298482;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wBM1ofSGNndQ096F+gd6jV81rsbzNDDn5M19SAETclk=;
+        b=kdNH6JFgNiH3kKX0/bGECXkuD32nZvAxo9VSXk6lvLwt6VLVs7fzjuYHfE3bpQMBcZ
+         ezyICgHMBUV0iq5GINzWUfqHbT9h5XIsvaovpCg5fQOd9fumhSvZ7ABiki8KGZF9tTyB
+         O1wY+MTY34zSMWMF2CigcGYrw6jQILAKKgmRwcpUFvWEXOR1a6mLgYoNGciL+TylMolh
+         EWIuKlj9+PqUATcSHq6xS22g42UGKw2ZUkR242Hd4IJAqVjxkp2FgZtNIx1E+bfdFmD2
+         EvS9bNQIqzjWNou+QrNFk+jyaS9LlHL6EybuuHHR3kFIASe3JPE9dcEa4bWASWKcT00b
+         w8eg==
+X-Forwarded-Encrypted: i=1; AJvYcCVSJ8CfDak+v7VZsdmS0+3dzVIquwA0U4cg3Rf8NgyW8m3UnXlldg3XTdBc3WxEf+ioFTuSmE3Pp3iZ@lists.infradead.org
+X-Gm-Message-State: AOJu0YztD1cAlXg3WrMSavzdcYNRxkzMbvC0Fzj+ScQo9bcVXLZObTAW
+	K/0kvd2qitGS5MAh3EUL2ofqlWS+mme+BIKyAxxO0QCp3mpG6Y1tcQo5d3Lk64p2XvdC8dz5I0E
+	Gx3Qm+rRI9PejWg13WdWF9BG7skmkIj7WWkntX0xywHM/ReMTz1EKSkvXRSArKITs
+X-Received: by 2002:a05:6602:6413:b0:82a:1f14:997f with SMTP id ca18e2360f4ac-82d1f8bbde6mr2516109639f.4.1726693682476;
+        Wed, 18 Sep 2024 14:08:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkUVfTAp5Wr13Jqwkm/X1NBX5DOzVnNokAqP7pwBgUyqOhY9E7PXC6BFmhUymoXthcPBuzwg==
+X-Received: by 2002:a05:6602:6413:b0:82a:1f14:997f with SMTP id ca18e2360f4ac-82d1f8bbde6mr2516106839f.4.1726693682141;
+        Wed, 18 Sep 2024 14:08:02 -0700 (PDT)
+Received: from ?IPv6:2600:6c64:4e7f:603b:2613:173:a68a:fce8? ([2600:6c64:4e7f:603b:2613:173:a68a:fce8])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-82d4926954asm281046539f.9.2024.09.18.14.07.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Sep 2024 14:07:59 -0700 (PDT)
+Message-ID: <1b5cc9421cfd8dced181335b426646aef2f7309a.camel@redhat.com>
+Subject: Re: [PATCH] driver core: fix async device shutdown hang
+From: Laurence Oberman <loberman@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stuart hayes
+	 <stuart.w.hayes@gmail.com>
+Cc: linux-kernel@vger.kernel.org, "Rafael J . Wysocki" <rafael@kernel.org>, 
+ Martin Belanger <Martin.Belanger@dell.com>, Oliver O'Halloran
+ <oohall@gmail.com>, Daniel Wagner <dwagner@suse.de>,  Keith Busch
+ <kbusch@kernel.org>, Lukas Wunner <lukas@wunner.de>, David Jeffery
+ <djeffery@redhat.com>,  Jeremy Allison <jallison@ciq.com>, Jens Axboe
+ <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+ <sagi@grimberg.me>, linux-nvme@lists.infradead.org, Nathan Chancellor
+ <nathan@kernel.org>, Jan Kiszka <jan.kiszka@seimens.com>
+Date: Wed, 18 Sep 2024 17:07:57 -0400
+In-Reply-To: <2024091838-keenly-scrabble-8cce@gregkh>
+References: <20240917201517.1145331-1-stuart.w.hayes@gmail.com>
+	 <2024091753-estate-legroom-5d62@gregkh>
+	 <751d4ba8-1e35-47a5-9a94-9873ff2619ae@gmail.com>
+	 <2024091838-keenly-scrabble-8cce@gregkh>
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1P195MB2055:EE_|AS4P195MB1693:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01f2cf4a-abd8-476d-3d2d-08dcd81ace8d
-X-Microsoft-Antispam: BCL:0;ARA:14566002|8060799006|461199028|5072599009|6090799003|15080799006|7092599003|19110799003|440099028|3412199025|4302099013|1602099012;
-X-Microsoft-Antispam-Message-Info: 1OrSAiXYXwIfK1eclopeM6jAivrRLrpfgQApQEIBZZz4t+t82GNk0AobWV8Z719OdytfowjzH0iNfH9QiR7xKQcl0tNMsshUeLRA3025mRKZjxYq7+fdbCKzRK6EazCWP2rVx1OqOWCQuIBjXh8EDBgCKotXh8QvUOv2Ct6J43689gS6XPfKQ0wx3SH8DRKrNjvHaPS3BeeiKK5uoDN1jeI3QzWpsbYmJwyxmgpG9wwPulS1mp40SOeSSdjyl/WvI8orRdq0lZnQ6rsMeTf9HFY/tOPlejSQFYpSHuoNPQ/R36xJuNwOBCJvVgWzMjAp2SRr7rLdKtEbj8OrRu/wR/A+Yph4G1eIoMAVbodih11h7+mYURLOxFLFrQikMUAOZKHCcrNmOGvW59+ep0UNrEV1/jtcVju5tmT5fSILCo3zbU73zH5+epOj32DMCTTFxkEvibUgyXzrIJJr9/5G+QD2B1xy8+w39VO1yviyswpT+FnaeOO92nNPFVbTecZVKmDecKZ4m9CI4uwUxqA9GlaR+WGtvTLris29OAjSlZkKpIRp1FNR4eAcJ/I0WuBne4azR0SfBMJrIWh0uxg1GizQSMZcQQ3APx/VeoWU7JiympxLz3thKXNrIssZi2PxUEMLJRT9i+qvgiO3TGNebHSOzjSeIzBeuwrNNqND+F7UQPtOiTInLV3ZzT+rAzfu7qQIAAdMF+DyOjS9YpjGn3UwAqZI1Hv3Gys7tN2vI+JO9NazlGYSCsTewyg5u+AkVgkP+EeSYi+FNzNtYbT+r3Xgohp2yqzhP3KdGDtd6C10Udl4y505Nw59uN9XQmEJcLlzgGD3lf4UwSgi5E6KSwhCAiqTI9vOdi8O3T6seSfmCl3bR10k+L2XOxb0Hwik7bTRezJKbYSOkYh9dIKgGnmnkuJWUh9BBcImMWPonfw=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?US82MjdadlNkSEVHU1ZKMWJ4NEZ4Wlcra0tKa2lMbkVXZDRXU3FBU3g4ZDUz?=
- =?utf-8?B?cy9CMjE5YVFaV01KeTdIS01wcnZmYWdHTWluUit6a1NYaFU3WDZxakhMYXNK?=
- =?utf-8?B?Qlg4SGxMN09xa3hOMnM1b0dWQ3BXcndhcmpxdjdGVUVFbWw3MHFHRU9SQzdo?=
- =?utf-8?B?di9Gc1RveisxL0pnOGRueWZQczJqWkdGNVFNTmVjUUNNSHJNc3lPSXhscWV2?=
- =?utf-8?B?d0YzelhYQmNtK0F0dXRTdW9zWkhsdlNsYU1TaHd5bFV3YlgrZHVRVEhvZk9W?=
- =?utf-8?B?VXpSblF6Q3FSU1lQc2lkWXg4RVVwcjEwSUsrWE9FR0JxSmNFU0VCZ0VlQ2V4?=
- =?utf-8?B?aktwZ2NpUDN3cCtkdjhxaDl5NXdvVXR6anlLejBRWjhBejIzNmdPN1VXRHVl?=
- =?utf-8?B?SkdGT01pTHlXUFFzcjJRUlFSVi9GemZ3d2l3blNGY040aEsrM1A3T3VXTWc4?=
- =?utf-8?B?WjFDQUoxbHd2NXkvUDM5cUVZV0VJeGpXS09ENTg1SUVpRFFsa0NxV0tsY0Fr?=
- =?utf-8?B?NlRXV2lSS2F4ZDdnQy9EWWZRTVF1R2hvV25LNHA1a2t2am1YUk1icXRRbm5z?=
- =?utf-8?B?ci9OWDQxTVkyWkdXU09FZ3BOc0VjKzczVysyNzhPYjgrZCt3cXhjbjhEQnEy?=
- =?utf-8?B?enptY1hPWWp1QUp2RGNKZGk1M3F6YmtZQ0FNbGRQRU0zVmdBODNKeDN4d05S?=
- =?utf-8?B?ekZtQm5RMkJuQ0VPUG9pVHZsZEtrcTcvZHMwUk1COWxJZU5LMnMrMTZzWFhr?=
- =?utf-8?B?MEFYbnRDS0dmaC90Nm5HYUptQjZZc2pZczNkZVdoWnZxbVVZcUgyellsUFhG?=
- =?utf-8?B?L0xHTEQrUVRicW1FS0hJdVdmK0VGOFk4Z0JOVHh5LzlTQmdJU3ZlRTh1akFX?=
- =?utf-8?B?OFFHL1BTRE1PZjJmbUQ0aEk0U21xVHdwZjQ5UXl5SmlTL2xLdlFTbWZlVDhD?=
- =?utf-8?B?NXRoUDBWVjlUVFgyUVNXT1VMbVVoNkFtbGc1SlI1S25uNVVkQ3B4eFhSRXl2?=
- =?utf-8?B?Ym1lbFRPamp3ek9zNWVub1g3RUVPeXVJOVpaZC9kSDU3azk0WHJ1OGlyOHhw?=
- =?utf-8?B?TjVWSDBNblZ4aUYxdmNqS1k3TzYrKzFTUFdlUVl4NXliNU5sTnp4YjhtZXNw?=
- =?utf-8?B?V2Q3dTJzTG1FOG8xOFdxMDEvSkxwMGd6QVFPMkM3ZnVQL1lKVldlRTZVSUJo?=
- =?utf-8?B?TGsrenBiMDJ2Qm5Qb2JYTE9lUFQ1ZDJ1T2c0U2cyWGVnRjNtUGw4SU4zemh3?=
- =?utf-8?B?WStnUnViSmdnTGpsTW8wV2h4VFhhbXNNaGkraVlzT2RkZnVoZTBjYXhPb2Vk?=
- =?utf-8?B?VXJCeWpXSHJ4UHNINTZJU0ZHem5mVGJhSWxlVFRVOUFSOGNXc2dENTROL0Ri?=
- =?utf-8?B?bFJxUG9qRGlaRXBIYXlYL2dnZFpSc3o3SFFqSHdRb2J2b1RYNnoyUW1pQWFw?=
- =?utf-8?B?T1A4Zjg2ZnJ2c0hNVU5zeXplWTV4U1dyLzM5Sjgrd1ZiYlRMZUVIcFRBTldR?=
- =?utf-8?B?WFQwanJQRmM2Vk9IL1dNMFliQ2lraHpuczdzNUtJR0VYR3FXTDcxVitZQXBk?=
- =?utf-8?B?dFh0UUFJZ245ZzBGWFRLaitSVEVjOVpNV3BrQ0J5dHZ4ZjdsbER0RVhpd2M4?=
- =?utf-8?Q?BNXBn83Ehh4B8nJK2A03mwWzWAbs0vyUoVAjo1/BjgXg=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01f2cf4a-abd8-476d-3d2d-08dcd81ace8d
-X-MS-Exchange-CrossTenant-AuthSource: GV1P195MB2055.EURP195.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 19:48:02.9836
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P195MB1693
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240918_124810_080711_73D3BEC1 
-X-CRM114-Status: GOOD (  18.39  )
+X-CRM114-CacheID: sfid-20240918_140807_253526_8CB0E61E 
+X-CRM114-Status: GOOD (  30.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,52 +111,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dear all,
+On Wed, 2024-09-18 at 08:12 +0200, Greg Kroah-Hartman wrote:
+> On Tue, Sep 17, 2024 at 07:20:41PM -0500, stuart hayes wrote:
+> >=20
+> >=20
+> > On 9/17/2024 3:42 PM, Greg Kroah-Hartman wrote:
+> > > On Tue, Sep 17, 2024 at 03:15:17PM -0500, Stuart Hayes wrote:
+> > > > Modify device_shutdown() so that supplier devices do not wait
+> > > > for
+> > > > consumer devices to be shut down first when the devlink is sync
+> > > > state
+> > > > only, since the consumer is not dependent on the supplier in
+> > > > this case.
+> > > >=20
+> > > > Without this change, a circular dependency could hang the
+> > > > system.
+> > > >=20
+> > > > Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+> > >=20
+> > > What commit id does this fix?=C2=A0 Should it go to stable?
+> > >=20
+> > > And what driver is causing this problem, is this a regression or
+> > > for
+> > > something new that just got added to the tree?
+> > >=20
+> > > thanks,
+> > >=20
+> > > greg k-h
+> >=20
+> > This fixes commit 8064952c65045f05ee2671fe437770e50c151776, in
+> > driver-core-next & linux-next... it's problem with code that was
+> > just
+> > added to the tree (in drivers/base/core.c).=C2=A0 It is not in stable.
+>=20
+> Ah, that wasn't obvious, sorry.
+>=20
+> > Apologies, I should have mentioned that from the start.
+>=20
+> Can you resend this with a "Fixes:" tag in it so I can just take it
+> that
+> way and not have to edit it by hand?
+>=20
+> thanks,
+>=20
+> greg k-h
+>=20
 
-I am writing to kindly follow up on a question I sent, which I realize 
-may have been overlooked given the busy nature of the mailing list. I 
-would greatly appreciate any insights or suggestions regarding if nvme 
-over rdma has a limited queue size set at the target side.
+FYI=C2=A0
+This patch plus the rest of the original Bundle has been tested=20
+at Red Hat on a system with 24 nvme devices.=20
+Improvement was almost 8 times faster to shutdown.
 
-Thank you in advance for your time and expertise. I look forward to any 
-ideas.
+Tested-by: Laurence Oberman <loberman@redhat.com>
 
-Best regards,
-Jigao
-
-On 9/16/24 4:35 PM, Jigao Luo wrote:
-> Hi nvme-rdma experts,
->
-> I’m trying to understand the queue size (max_queue_size) for NVMe-oF 
-> over RDMA. I came across the max_queue_size field in the struct 
-> nvmet_port, which appears to be capped at the max value: 
-> NVME_RDMA_MAX_QUEUE_SIZE.
->
-> First Question:
-> I would like to confirm my understanding of this setting: The 
-> max_queue_size is configured on the NVMe-oF target when setting up 
-> ports for NVMe subsystems. Once set, if an NVMe-oF host connects and 
-> runs FIO on the nvmeof device, my assumption is that an iodepth 
-> specified in FIO that is larger than the target’s max_queue_size will 
-> not be fully utilized. Is this assumption correct? Alternatively, 
-> could having an FIO iodepth larger than the target’s max_queue_size 
-> negatively impact performance due to this mismatch in queue depths?
->
-> Second Question:
-> I noticed that this patch set enables max_queue_size in the 
-> configuration entry and increases the max value from 128 to 256: 
-> https://lists.infradead.org/pipermail/linux-nvme/2024-January/044145.html
-> My current kernel and driver versions are earlier than this patch 
-> (mine is Linux 6.6.1). Is there any way for old kernel to view the 
-> current max_queue_size value? I’ve checked via dmesg and 
-> /sys/kernel/config/nvmet/ports/, but I don’t see any reference to 
-> max_queue_size.
->
->
-> Thank you for your assistance and insights!
->
-> Best regards,
-> Jigao
->
->
 
