@@ -4,141 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BB48CCD18E
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2024 08:13:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EBF6CCD18E
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2024 08:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FoClbYiaISSy4tE9A/eMkUtSrOUByd+2+OMRpBKthhQ=; b=QdKDDBrG0ynQKeZkny1yEFyCWp
-	X6uNqE+ZV5tsCqP8dhvXysCizSvBNf/S/FVf9WzuL0SXAL6apePndGCCrpydJi3q741yIpExXXju/
-	HGdToY60j8cOOhaaj256O+Kc70Dep++5tK2nCuvEPdQn1hCipLdpg4VhRAdYG3i5LjrD/5n2LtG7j
-	lo4lZUUbzrhs/k2rtZDcfOAjYfFERiXZFyvstozbNrN6NUb4nmuIg3JSQfU1xo2yD2W1yy+a3tdbI
-	E414LIv3UHwVxmFQuzGJljfCR5ftwyPbOP7J40GlFzlZmIavvu8U9lqQeL9SuYMwEfMHJkHZlBfR2
-	ya1CQn1w==;
+	bh=0W/4IvX3Cuh5OSDt2uNccLjVpnRlZAdu6F2UiBJT7qM=; b=1A0hBfBKt9FjE078r5rOu8eaXe
+	sParxUbk3XPhi1JFxkBzxRLHJaiKvz2ORpx+Xyi2NXS14pggjPH4mkwVHRyi01hqEp3wDLB9cbpNQ
+	oUXjH9171+cxTcVK0Jzsnyi4hXERrfUDv/o+usqsrByRFa9pdHHxhRWECUyYIxEvGD1jmnuXk1Did
+	Ll64HOj83VdwDrw/OTYBRTanvS+22YR95szvjDuf80z8xsSaDKwIjf4NMu62mzvenZdhxjZhFYWZP
+	Hkz4+j8uQrGE077vJSiRUzSdlhG0gL2Bb0MDNbHXIvjF5jG8GJUGTTHQljDxE7kxFsLyrQwuldaSo
+	Cx1eJWTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqpoF-00000007l16-0hSh;
-	Wed, 18 Sep 2024 08:13:11 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1sqq12-00000007o31-1DrB;
+	Wed, 18 Sep 2024 08:26:24 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqpo6-00000007kyg-1QYb
+	id 1sqq0y-00000007o2G-0w60
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Sep 2024 08:13:04 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240918081259epoutp0344a60ca2ee5aa223a4e65eecd76b6a73~2SHYNBHto0204902049epoutp03O
-	for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2024 08:12:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240918081259epoutp0344a60ca2ee5aa223a4e65eecd76b6a73~2SHYNBHto0204902049epoutp03O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1726647179;
-	bh=FoClbYiaISSy4tE9A/eMkUtSrOUByd+2+OMRpBKthhQ=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=W3aO/XXY8kdv50riW7NNgh22FeVNbrsdEJK5EOR2GxPimr+vhWpzIvGHoMljFTNUo
-	 aDvSqSeyn8++P4WKaSD2qPPbxI/CZepf5fnBXeRHL+1l0e1Z0l7AGxOmvg9bUd91A3
-	 JbwUZfi5chpTViM/uhMO0dTai/T/Jut9Fx12IO9o=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240918081258epcas5p1823dac2b9a9e6de8274eb13f917c7f68~2SHXsXn9c2910929109epcas5p1C;
-	Wed, 18 Sep 2024 08:12:58 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4X7rxN46Jdz4x9Pw; Wed, 18 Sep
-	2024 08:12:56 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	17.5C.09642.88B8AE66; Wed, 18 Sep 2024 17:12:56 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240918081255epcas5p274303a976333fd9a6c74ae0ff2147342~2SHUxomyX0868808688epcas5p21;
-	Wed, 18 Sep 2024 08:12:55 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240918081255epsmtrp26af4e1a22d02d7d933be6f1d3f42a37c~2SHUwqAVe0537805378epsmtrp29;
-	Wed, 18 Sep 2024 08:12:55 +0000 (GMT)
-X-AuditID: b6c32a4b-879fa700000025aa-94-66ea8b886ab7
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	71.6F.19367.78B8AE66; Wed, 18 Sep 2024 17:12:55 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240918081252epsmtip18dd83ba1309566b2e110c9a05d3ffe5d~2SHR36ysF1791217912epsmtip1_;
-	Wed, 18 Sep 2024 08:12:52 +0000 (GMT)
-Message-ID: <197b2c1a-66d2-5f5a-c258-7e2f35eff8e4@samsung.com>
-Date: Wed, 18 Sep 2024 13:42:51 +0530
+	Wed, 18 Sep 2024 08:26:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1726647976; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=0W/4IvX3Cuh5OSDt2uNccLjVpnRlZAdu6F2UiBJT7qM=;
+	b=DyL+BgRXSeSFWVM7YoiRLukySPTc6toAD7C0hJBkUoQA0G94py1DdR5Y+RYyoggp9xiCkmA/XgRHND3cG8m8g07KWxXXqgpH2ak2i3o4m/eB1rIGMeYL4cZgQh5HcS/+fRHjB9PJU1Hdej6MyZfIOxGoOEVCc7WNvrqsO/T/Leo=
+Received: from 30.178.81.111(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFDb.wM_1726647971)
+          by smtp.aliyun-inc.com;
+          Wed, 18 Sep 2024 16:26:12 +0800
+Message-ID: <ac49575c-006b-4244-8114-c992ba9948cc@linux.alibaba.com>
+Date: Wed, 18 Sep 2024 16:26:10 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v5 4/5] sd: limit to use write life hints
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
-	martin.petersen@oracle.com, James.Bottomley@HansenPartnership.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	jaegeuk@kernel.org, jlayton@kernel.org, chuck.lever@oracle.com,
-	bvanassche@acm.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Nitesh
-	Shetty <nj.shetty@samsung.com>
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20240918064258.GA32627@lst.de>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te1BUdRSe3713X4wLlxXiByNCl8oweawu9MMBskHzjlSD08OJmYINLo8W
-	dnf2QUaOgQ6o0IJiAa0UZAjDQhKPlOeUEBIKw2NBZAWGxzICOxiPqMzCdvei8d93znzfOd85
-	Zw4fF2XxPPjJcg2jkktTKK4Dca3Td5ff2dzFhMB7tyGqnsjnIkvnKkCFyw9x9HjiPobGfm7G
-	UFV1F4YuFZ3GkLlWj6O6fD6aHV/joYcVBh4q6LgDULvpJTR0+TBqa+8hUGnFHA/ljjZxUWX3
-	BoauPSrF0VXLbwTq/7ebg/r1JbwDz9DG4Ui6f7KOoAsLbnFpY5+Wrjec49IN5Z/RrWVrGN06
-	lsGlV+ZMBJ3XaAB0b9kvPHqtfiddb17CooTRstAkRhrPqLwZeZwiPlmeGEZFvhUTERMUHCj2
-	E4eglylvuTSVCaMOvh7l91pyinVmyjtNmqK1pqKkajUVEB6qUmg1jHeSQq0JoxhlfIpSovRX
-	S1PVWnmiv5zR7BcHBu4NshJjZUmfDw5wlNcdjj+utYAM0MDPAQI+JCVwuLgXzwEOfBHZCmDj
-	jSYuG6wCOJRVjT8NFn7P5D2RfDNfRdiwiGwG8NSQgsVLAFb1ptqwkAyHv07m2PkE+TxcqPmO
-	x+adYc9XZrvWlfwQ/j1SAmx4OxkGc3Wj9jxOukGTuRSzYReSgnOLfcBmAicrCHhlpd9qj8/n
-	kr5w4KLWxhGQe2Cd7jKP1XrB60sldtOQrBTAm/Umjo0PyYOwrS+C9b8dLnY3bs7iAdcetHNZ
-	LINTM1MEi0/ApoY8DotfgRn/3LWXwa1ta1sC2FaOUPfIjLHVhfBstohlPwsnC+Y2lW5wurh8
-	0wANuzLd2W1O4NBiMPLOA2/9lqXotwyv3zKM/v/GZYAwAHdGqU5NZNRByn1y5uOn145TpNYD
-	+z/sjmwCM1PL/h0A44MOAPk45SJ0W15IEAnjpZ+kMypFjEqbwqg7QJD1OhdwD9c4hfWh5JoY
-	sSQkUBIcHCwJ2RcsptyElqyv40VkolTDyBhGyaie6DC+wCMDa+vb8ULV6R/y704fvXXMvfe9
-	FaVO5i6oLs/D4978oDLHs0szfiTnfcvoqFC/d6yiPFOOe01/75jsEuN8ONx5ZjXgAPBZ93Eu
-	bPG4GXvIOO7+9kbRydmWvFNpsaGjdETBxfOHRiTvOKzmmiLGa350ZH7aP1PXqJB9aijNPhYN
-	3cadPjqhKPpSt61wCKu8Gu6aftSpMyFWULto7DPtrLnhy9lBLomcj6Q7tFfNEsPpJx+sc0e+
-	9do10a1xjV7OOXNpz/35jXc3BoSv3uEgT6QxXwh/UWI8LhyUXfmi47n5cz1U7BtTqvV7s91n
-	PNuW/mgu99ElVBQPDv/lhJtuT61mj6Rt+5Mi1ElS8W5cpZb+B0mzXdSYBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xSYRzGe885co401pE032WzIq1RaNnF3nX/0NZZrVZtWatlUp7IKegO
-	YYq5rFwlFF1nkywdGYW2DKywhV0085KmaVNy0WVBF5kVUZmVmcDa/Pbb8+x5/s+HP4ULXxPj
-	qRTFbpZTSNNEPD5xq04UGXNY27tzlsE2GlU4jvOQu+4rQIVfBnA05HiPoef3b2PIVFGPoXNn
-	D2LIWanHkfk4hd6+8JJowFhOolO1XQDV9MxAHYYVyFbTRKASo4tE2u5qHrrc8BdDt36X4Oia
-	+zOB2gYbglCbvphcNo7pfLaKaXtpJpjCU808prNVxVjKC3hMVdk+5k6pF2PuPM/jMR5XD8Ho
-	bpQDpqX0Icl4LZGMxdmHrRVs5i9KZtNSMllu5pIk/q6jT9uDMqz8rKFKN8gDVZQGBFOQngsv
-	fDARGsCnhLQVwP5ObVDACIcHu36SAR4LTX/f+1lIuwG0GeN8LKCXwMaXGr9O0NHw49WLZEAP
-	gU1FTsLHYfR2aHu1H/PxWHox1B7r9uv4cH+Ps8Svh9Ii6OptBb4ROG0k4IMzfVhgkQOH7/44
-	hxdRFI8Ww/bTKl8gmJZA8zEDGSiKh5qbGhDgidDaV4yfAEL9iB36Eff0IyL6EZFSQJSDMDZD
-	KZfJd2TExSqlcqVKIYvdkS63AP8TTF9fDYyVg7G1AKNALYAULgoVhH/5uFMoSJZmq1kufRun
-	SmOVtSCCIkThgilpBclCWibdzaaybAbL/XcxKnh8HlaRvdQiGVKIPwzUGa5MjioLCsmLmOC5
-	aq1yL9R52iOrtZ9WRqoULR6r6lJLIp4Yn33v5ALdr4Jp0ed/mFB0uupNroT6OmrO4/6obml+
-	yJ4962aoc3TXWsMatZy2CJZcT/085ltWgiL3gHrl5B+DOtMRA9cFKvd6vQydk7P8Ebaow47P
-	T1xQH5WUVUyKtq45i3lWV9dH1HfaJ9ibWvuLUprncfn7xF0bzKXBktDmu9pMdVRFzbtDWzY5
-	XDaz2iWWm97EfLe0NxZvrbkbo39gP8/MnirWC2+Eo8aGTLFsf+8TicPUcs4qm7vxSrw9blnf
-	7/SkwwlrxuUy2KQV150iQrlLGjcd55TSfwfhi8FzAwAA
-X-CMS-MailID: 20240918081255epcas5p274303a976333fd9a6c74ae0ff2147342
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c
-References: <20240910150200.6589-1-joshi.k@samsung.com>
-	<CGME20240910151057epcas5p3369c6257a6f169b4caa6dd59548b538c@epcas5p3.samsung.com>
-	<20240910150200.6589-5-joshi.k@samsung.com> <20240912130235.GB28535@lst.de>
-	<e6ae5391-ae84-bae4-78ea-4983d04af69f@samsung.com>
-	<20240913080659.GA30525@lst.de>
-	<4a39215a-1b0e-3832-93bd-61e422705f8b@samsung.com>
-	<20240917062007.GA4170@lst.de>
-	<b438dddd-f940-dd2b-2a6c-a2dbbc4ee67f@samsung.com>
-	<20240918064258.GA32627@lst.de>
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH v8 1/1] nvmet: support reservation feature
+To: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org
+References: <20240229031241.8692-1-kanie@linux.alibaba.com>
+ <20240229031241.8692-2-kanie@linux.alibaba.com>
+ <20240917084352.GB22571@yadro.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20240917084352.GB22571@yadro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240918_011302_891460_9BF75BE4 
-X-CRM114-Status: GOOD (  16.26  )
+X-CRM114-CacheID: sfid-20240918_012620_972566_906F5B22 
+X-CRM114-Status: GOOD (  35.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,33 +67,286 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/18/2024 12:12 PM, Christoph Hellwig wrote:
->>> If the device (or file system, which really needs to be in control
->>> for actual files vs just block devices) does not support all 256
->>> we need to reduce them to less than that.  The kernel can help with
->>> that a bit if the streams have meanings (collapsing temperature levels
->>> that are close), but not at all if they don't have meanings.
->> Current patch (nvme) does what you mentioned above.
->> Pasting the fragment that maps potentially large placement-hints to the
->> last valid placement-id.
->>
->> +static inline void nvme_assign_placement_id(struct nvme_ns *ns,
->> +					struct request *req,
->> +					struct nvme_command *cmd)
->> +{
->> +	u8 h = umin(ns->head->nr_plids - 1,
->> +				WRITE_PLACEMENT_HINT(req->write_hint));
->> +
->> +	cmd->rw.control |= cpu_to_le16(NVME_RW_DTYPE_DPLCMT);
->> +	cmd->rw.dsmgmt |= cpu_to_le32(ns->head->plids[h] << 16);
->> +}
->>
->> But this was just an implementation choice (and not a failure avoidance
->> fallback).
-> And it completely fucks thing up as I said.  If I have an application
-> that wants to separate streams I need to know how many stream I
-> have available, and not fold all higher numbers into the last one
-> available.
+Hi Dmitry,
 
-Would you prefer a new queue attribute (say nr_streams) that tells that?
+     My thanks for your advice, I will work on this back recently.
+
+
+在 2024/9/17 16:43, Dmitry Bogdanov 写道:
+> Hi,
+>
+> Waiting for the final solution half an year we taken this patch as is.
+> Here is my comments on it. Hope, this will bring the life to the patch.
+>
+> On Thu, Feb 29, 2024 at 11:12:41AM +0800, Guixin Liu wrote:
+>> This patch implements the reservation feature, includes:
+>> 1. reservation register(register, unregister and replace).
+>> 2. reservation acquire(acquire, preempt, preempt and abort).
+>> 3. reservation release(release and clear).
+>> 4. reservation report.
+>>
+>> And also make reservation configurable, one can set ns to support
+>> reservation before enable ns. The default of resv_enable is false.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>> @@ -550,7 +556,13 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+>>           */
+>>          id->nmic = NVME_NS_NMIC_SHARED;
+>>          id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+>> -
+>> +       id->rescap = NVME_PR_SUPPORT_WRITE_EXCLUSIVE |
+>> +                    NVME_PR_SUPPORT_EXCLUSIVE_ACCESS |
+>> +                    NVME_PR_SUPPORT_WRITE_EXCLUSIVE_REG_ONLY |
+>> +                    NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_REG_ONLY |
+>> +                    NVME_PR_SUPPORT_WRITE_EXCLUSIVE_ALL_REGS |
+>> +                    NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_ALL_REGS |
+>> +                    NVME_PR_SUPPORT_IEKEY_VER_1_3_DEF;
+> You have a flag enabling PR on a namespace, so report rescap only if it
+> is enabled.
+Sure, I will add a "if" statement.
+>
+> Also I didnot find ONCS, is it not necessarily?
+Oh, I missed this, thanks, I will change oncs.
+>> +void nvmet_execute_get_log_page_resv(struct nvmet_req *req)
+>> +{
+>> +       struct nvmet_pr_log_mgr *log_mgr = &req->sq->ctrl->pr_log_mgr;
+>> +       struct nvme_pr_log next_log = {0};
+>> +       struct nvme_pr_log log = {0};
+>> +       u16 status = NVME_SC_SUCCESS;
+>> +       u64 lost_count;
+>> +       u64 cur_count;
+>> +       u64 next_count;
+>> +
+>> +       mutex_lock(&log_mgr->lock);
+>> +       if (!kfifo_get(&log_mgr->log_queue, &log))
+>> +               goto out;
+>> +
+>> +       /*
+>> +        * We can't get the last in kfifo.
+>> +        * Utilize the current count and the count from the next log to
+>> +        * calculate the number of lost logs, while also addressing cases
+>> +        * of overflow. If there is no subsequent log, the number of lost
+>> +        * logs is equal to the lost_count within the nvmet_pr_log_mgr.
+>> +        */
+>> +       cur_count = le64_to_cpu(log.count);
+>> +       if (kfifo_peek(&log_mgr->log_queue, &next_log)) {
+>> +               next_count = le64_to_cpu(next_log.count);
+>> +               if (next_count > cur_count)
+>> +                       lost_count = next_count - cur_count - 1;
+>> +               else
+>> +                       lost_count = U64_MAX - cur_count + next_count - 1;
+>> +       } else {
+>> +               lost_count = log_mgr->lost_count;
+>> +       }
+>> +
+>> +       log.count = cpu_to_le64(cur_count + lost_count);
+> This value should be wrapped by U64_MAX too but in reverse direction
+> (count is next_count-1). If == 0 then = -1.
+>
+The next_count will never be 0, you can see in nvmet_pr_add_resv_log, when
+
+the log_mgr->counter == 0, I set the log_mgr->counter to 1.
+
+>> +static void nvmet_pr_add_resv_log(struct nvmet_ctrl *ctrl, u8 log_type, u32 nsid)
+>> +{
+>> +       struct nvmet_pr_log_mgr *log_mgr = &ctrl->pr_log_mgr;
+>> +       struct nvme_pr_log log = {0};
+>> +
+>> +       mutex_lock(&log_mgr->lock);
+>> +       log_mgr->counter++;
+>> +       if (log_mgr->counter == 0)
+>> +               log_mgr->counter = 1;
+>> +
+>> +       log.count = cpu_to_le64(log_mgr->counter);
+>> +       log.type = log_type;
+>> +       log.nsid = cpu_to_le32(nsid);
+>> +
+>> +       if (!kfifo_put(&log_mgr->log_queue, log)) {
+>> +               pr_warn("a reservation log lost, cntlid:%d, log_type:%d, nsid:%d\n",
+>> +                       ctrl->cntlid, log_type, nsid);
+> I think this log should be Info level, because it is not an error
+> situation. Size of this queue is fixed and it is obvious that it can be
+> overflowed.
+Agree.
+>> +static u16 nvmet_pr_create_new_reservation(struct nvmet_pr *pr, u8 new_rtype,
+>> +                                          struct nvmet_pr_registrant *reg)
+>> +{
+>> +       u16 status;
+>> +
+>> +       status = nvmet_pr_validate_rtype(new_rtype);
+> You shall check the validity of the command in the very beginning of
+> command handling, not at the very end.
+
+In some situations, we dont care the value of rtype, for example
+
+using preempt to unregister other host.
+
+So I only check it if needed.
+
+>> +       if (!status) {
+>> +               reg->rtype = new_rtype;
+>> +               rcu_assign_pointer(pr->holder, reg);
+>> +       }
+>> +       return status;
+>> +}
+>> +
+> ...
+>
+>> +static u16 nvmet_pr_unreg_by_prkey(struct nvmet_pr *pr, u64 prkey,
+>> +                                  uuid_t *send_hostid)
+>> +{
+>> +       u16 status = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>> +       struct nvmet_pr_registrant *reg, *tmp;
+>> +       uuid_t hostid;
+>> +
+>> +       lockdep_assert_held(&pr->pr_lock);
+>> +
+>> +       list_for_each_entry_safe(reg, tmp, &pr->registrant_list, entry) {
+>> +               if (reg->rkey == prkey) {
+>> +                       status = NVME_SC_SUCCESS;
+>> +                       uuid_copy(&hostid, &reg->hostid);
+>> +                       nvmet_pr_unregister_one(pr, reg);
+>> +                       if (!uuid_equal(&reg->hostid, send_hostid))
+> reg is free already, use just hostid as line below:
+Yeah sure, thanks a lot.
+>> +                               nvmet_pr_registration_preempted(pr, &hostid);
+>> +               }
+>> +       }
+>> +       return status;
+>> +}
+>> +
+> ...
+>
+>> +static u16 nvmet_pr_preempt(struct nvmet_req *req,
+>> +                           struct nvmet_pr_registrant *reg,
+>> +                           u8 rtype,
+>> +                           struct nvmet_pr_acquire_data *d)
+>> +{
+>> +       struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>> +       struct nvmet_pr *pr = &req->ns->pr;
+>> +       struct nvmet_pr_registrant *holder;
+>> +       enum nvme_pr_type original_rtype;
+>> +       u16 status;
+>> +
+>> +       lockdep_assert_held(&pr->pr_lock);
+>> +       holder = rcu_dereference_protected(pr->holder,
+>> +                       lockdep_is_held(&pr->pr_lock));
+>> +       if (!holder)
+>> +               return nvmet_pr_unreg_by_prkey(pr, le64_to_cpu(d->prkey),
+>> +                               &ctrl->hostid);
+>> +
+>> +       original_rtype = holder->rtype;
+>> +       if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+>> +           original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
+>> +               if (!le64_to_cpu(d->prkey)) {
+>> +                       nvmet_pr_unreg_except_hostid(pr, &ctrl->hostid);
+>> +                       return nvmet_pr_create_new_reservation(pr,
+>> +                                       rtype, reg);
+> There is not an atomic change of the reservation here. Probably if you swap
+> these lines with each other, it will fix that.
+>
+You are right, we need create new reservation first.
+>> +               }
+>> +               return nvmet_pr_unreg_by_prkey(pr, le64_to_cpu(d->prkey),
+>> +                               &ctrl->hostid);
+>> +       }
+>> +
+>> +       if (holder == reg) {
+>> +               status = nvmet_pr_update_reg_attr(pr, holder,
+>> +                               nvmet_pr_update_holder_rtype, &rtype);
+>> +               if (!status && original_rtype != rtype)
+>> +                       nvmet_pr_resv_released(pr, &reg->hostid);
+>> +               return status;
+>> +       }
+>> +
+>> +       if (le64_to_cpu(d->prkey) == holder->rkey) {
+>> +               status = nvmet_pr_unreg_by_prkey_except_hostid(pr,
+>> +                               le64_to_cpu(d->prkey), &ctrl->hostid);
+>> +               if (status)
+>> +                       return status;
+>> +               status = nvmet_pr_create_new_reservation(pr, rtype, reg);
+> Here that time gap too.
+Changed too.
+>
+>> +               if (!status && original_rtype != rtype)
+>> +                       nvmet_pr_resv_released(pr, &reg->hostid);
+>> +               return status;
+>> +       }
+>> +
+>> +       if (le64_to_cpu(d->prkey))
+>> +               return nvmet_pr_unreg_by_prkey(pr, le64_to_cpu(d->prkey),
+>> +                               &ctrl->hostid);
+>> +       return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>> +}
+>> +
+> ...
+>
+>> +void nvmet_ctrl_destroy_pr(struct nvmet_ctrl *ctrl)
+>> +{
+>> +       struct nvmet_pr_registrant *reg;
+>> +       struct nvmet_ns *ns;
+>> +       unsigned long idx;
+>> +
+>> +       kfifo_free(&ctrl->pr_log_mgr.log_queue);
+>> +       mutex_destroy(&ctrl->pr_log_mgr.lock);
+>> +
+>  From here and until the end of the function it is against the standard.
+>
+>> +       if (nvmet_is_host_connected(&ctrl->hostid, ctrl->subsys))
+>> +               return;
+>> +
+>> +       xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
+>> +               mutex_lock(&ns->pr.pr_lock);
+>> +               list_for_each_entry_rcu(reg, &ns->pr.registrant_list, entry,
+>> +                                       lockdep_is_held(&ns->pr.pr_lock)) {
+>> +                       if (uuid_equal(&reg->hostid, &ctrl->hostid)) {
+>> +                               nvmet_pr_unregister_one(&ns->pr, reg);
+>> +                               break;
+>> +                       }
+>> +               }
+>> +               mutex_unlock(&ns->pr.pr_lock);
+>> +       }
+> You shall not modify Reservation due to host connectivity.
+
+You are right, we should not unregister the host when disconnect, we
+
+should keep it.
+
+>
+>> +}
+>> +
+>> +void nvmet_pr_exit_ns(struct nvmet_ns *ns)
+>> +{
+>> +       struct nvmet_pr_registrant *reg, *tmp;
+>> +       struct nvmet_pr *pr = &ns->pr;
+>> +       LIST_HEAD(free_list);
+>> +
+>> +       mutex_lock(&pr->pr_lock);
+>> +       rcu_assign_pointer(pr->holder, NULL);
+>> +       list_for_each_entry_safe(reg, tmp, &pr->registrant_list, entry) {
+>> +               list_del_rcu(&reg->entry);
+>> +               list_add(&reg->entry, &free_list);
+>> +       }
+>> +       mutex_unlock(&pr->pr_lock);
+>> +       synchronize_rcu();
+> IMHO, there is no need in two lists and synchronize_rcu here. At this
+> moment there shall be no other users of ns.
+Yeah, we can just free all regs simply here.
+>
+>> +       list_for_each_entry_safe(reg, tmp, &free_list, entry) {
+>> +               kfree(reg);
+>> +       }
+>> +
+>> +       mutex_destroy(&pr->pr_lock);
+>> +}
+>
+> BR,
+>   Dmitry
+>   
+
+Best Regards,
+
+Guixin Liu
+
 
