@@ -4,124 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 074BFFA3758
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2024 06:47:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74E09CCD18D
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2024 07:55:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jYdDIM61rLfK0sbYeOdIoHCyY98urG+92WC1lv7H3EU=; b=JTPIfyOmDfLXUTGgACJTWAagm/
-	Pe0v6Qg8DztAjA2N6PByrLNoDx+NVusT0oREsni7PbikaZ+Vzb+seumyIG27krDvsm3gf2ImucePp
-	4FKJX7KmtVUTbt/Zx8RMqPnyLPiX+86H4XEXy8tT9a3vfYMakOrUVFKfYjjGB6Jxdk53YCAY3jYqn
-	d8pCjVCXPxNHr9+lIkTB3oaeM5TAbbg4qG0Eh/+7S73ooePGj0pZZQEvmUQpkeUjyq4SyJsnTgJ5n
-	va97hwqAwkO+KNJZ8Ww4FkYPgsp9PUfCfr/6ianYF49RPXrUqzQ77olKrAeaNUA/MsxwOcKcGrm7/
-	Gv9nklOg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=93McTgIQfTdSfO9feyKIvRLM2A/6YG9TYDLrl6hqRlg=; b=DsEJO3S5lDRcVjmFrjvTirWcxM
+	jiSi6eryhiUtRg/03EpiLK7nlw/5XDHLOgp7qvdIbMqHRF9q03TTUuzsZEF7+LDyFjO28H6YhDLyZ
+	CsngiV3BtQr1SSUU0w2sgg9nirnFWX5Ur/7oMsuEKv/XCvRVcBlBn+0iRzVrg3s8PgycXukNtrIur
+	eN/0Q2O/vzQyUwso22g0st2eW3d+nm/P39kfLMZOpo46caVhOhTKGbleU/EKNMCAKrVu4USv5cRzL
+	O1OhZh1YVXzUBdMR9Pwul4Rh1Mz+plzHRqDRBCjldGFM3yX3H3pSyWkCcrHvn7xmfE8DXg+vFj6Fz
+	zjG5dtRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqoTd-00000007aEb-3Iof;
-	Wed, 18 Sep 2024 06:47:49 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1sqpWg-00000007iQz-1Bld;
+	Wed, 18 Sep 2024 07:55:02 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sqoTa-00000007aC7-2NaH
+	id 1sqpVa-00000007iEf-2puI
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Sep 2024 06:47:48 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240918064743epoutp0300e1af2f642efb1670bb82e595b16e89~2Q87oFCZI2447924479epoutp030
-	for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2024 06:47:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240918064743epoutp0300e1af2f642efb1670bb82e595b16e89~2Q87oFCZI2447924479epoutp030
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1726642063;
-	bh=jYdDIM61rLfK0sbYeOdIoHCyY98urG+92WC1lv7H3EU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dDixTifcRRe6g2ROPHyiZYoVjIznfnp0EC5mwPr48OgXxmkNFLsKprdjYG7tAnphk
-	 5HlWRkY/a7zhcf4q6BIslmbOg4PabM6rrS1vYJ1apGSTmC83XK2edIr1QWi8Mqp9xu
-	 lLBRgLOPtUvGMrGKB3xUNvCgEqjCkV6NYuXBe1qY=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240918064742epcas5p2969ab58dbc7631e2d59ca245d304c660~2Q87QF7Ot0584005840epcas5p2Q;
-	Wed, 18 Sep 2024 06:47:42 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4X7q3147Dqz4x9Pv; Wed, 18 Sep
-	2024 06:47:41 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C1.8E.09640.D877AE66; Wed, 18 Sep 2024 15:47:41 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240918064651epcas5p418d61389752da25e5fc50e6a50a111b8~2Q8LznB2w2037020370epcas5p4E;
-	Wed, 18 Sep 2024 06:46:51 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240918064651epsmtrp23995a57e9cdd729b9bae2631404646d5~2Q8LvwawO1973319733epsmtrp2k;
-	Wed, 18 Sep 2024 06:46:51 +0000 (GMT)
-X-AuditID: b6c32a49-a57ff700000025a8-25-66ea778d5c70
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	6A.D3.08456.B577AE66; Wed, 18 Sep 2024 15:46:51 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20240918064650epsmtip2f1a3a529f7506fa5be05a6349e84272e~2Q8KrfkBj1101711017epsmtip2B;
-	Wed, 18 Sep 2024 06:46:50 +0000 (GMT)
-Date: Wed, 18 Sep 2024 12:09:10 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: fine-grained PI control
-Message-ID: <20240918063910.hqntgm5jy2jisys2@green245>
+	Wed, 18 Sep 2024 07:53:57 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48HIM8qV007614;
+	Wed, 18 Sep 2024 07:53:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=9
+	3McTgIQfTdSfO9feyKIvRLM2A/6YG9TYDLrl6hqRlg=; b=teaXfDweD0ET9muqr
+	BL1rCoc1QxEp4fe7BHVD04YFY/YFNsh6rKOkFqH2Ufzxo8Lt1vlAomU2COBSh6hD
+	mSrMphKd903hjDTq8lyjoie87b8FYjqXNiQ4jB6P+c35gttIFiupS+hh0G9+0DtL
+	cmTn6RQHofKkTqXWuqj4c6uU2gEDfB3jQnnMe98XoV5DQiEhwHj+cJId20qQNijw
+	B5P2mJVmyGAyvhc/xSvffeqVTZG0XCPu/OwkpInD9dxY/sXFIEz4io51c3fiiUjB
+	SIfZazgbDRXPLUlJW+32JtzafSqXiSD49Q3uZXOiRoGjNh2/Ck/7ghAQaZ6s2ovv
+	ktG+A==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41n3vdmncr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Sep 2024 07:53:00 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48I6UDAo000628;
+	Wed, 18 Sep 2024 07:52:58 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41nn719y01-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Sep 2024 07:52:58 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48I7qvhm30081466
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Sep 2024 07:52:58 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B76455805D;
+	Wed, 18 Sep 2024 07:52:57 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4A88A58058;
+	Wed, 18 Sep 2024 07:52:54 +0000 (GMT)
+Received: from [9.171.71.185] (unknown [9.171.71.185])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 18 Sep 2024 07:52:53 +0000 (GMT)
+Message-ID: <8b17203f-ea4b-403b-a204-4fbc00c261ca@linux.ibm.com>
+Date: Wed, 18 Sep 2024 13:22:52 +0530
 MIME-Version: 1.0
-In-Reply-To: <yq1ttgz5l6d.fsf@ca-mkp.ca.oracle.com>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKJsWRmVeSWpSXmKPExsWy7bCmpm5v+as0g73zpS1Wrj7KZHH0/1s2
-	i723tC3mL3vKbtF9fQebxfLj/5gc2Dw2L6n32H2zgc3j49NbLB59W1YxenzeJBfAGpVtk5Ga
-	mJJapJCal5yfkpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQO0X0mhLDGnFCgU
-	kFhcrKRvZ1OUX1qSqpCRX1xiq5RakJJTYFKgV5yYW1yal66Xl1piZWhgYGQKVJiQnbH9gHXB
-	NI6K03sesjcwPmPrYuTkkBAwkdi9+z9LFyMXh5DAbkaJq1ueQjmfGCWef3rNDuF8Y5SYenYa
-	I0xLx65NbBCJvYwSs44egWp5xijxsn85M0gVi4CqxP/pXUwgNpuAusSR561g3SICphKTP20F
-	62YWWMIo8ePPTbBLhAVUJLbPuAVm8wqYSRycfooZwhaUODnzCQuIzSlgLHHmz1l2EFtUQEZi
-	xtKvzBAnfWSX2LI1FMJ2kXjWPocFwhaWeHV8CzuELSXx+d1eqK/TJX5cfsoEYRdINB/bB/Wa
-	vUTrqX6wmcwCGRLnjrRC1ctKTD21jgkizifR+/sJVC+vxI55MLaSRPvKOVC2hMTecw1QtofE
-	zl3NrJAQWscoMXfaNrYJjPKzkPw2C8k+CNtKovNDE+ssRg4gW1pi+T8OCFNTYv0u/QWMrKsY
-	JVMLinPTU4tNCwzzUsvhMZ6cn7uJEZw+tTx3MN598EHvECMTB+MhRgkOZiURXvEPL9OEeFMS
-	K6tSi/Lji0pzUosPMZoCI2sis5Rocj4wgeeVxBuaWBqYmJmZmVgamxkqifO+bp2bIiSQnliS
-	mp2aWpBaBNPHxMEp1cAk98RwafCByYZbP8qWXJzw/OjZpqI1J0SF7NefOnN1odENg9yfk47G
-	HMzoeHUvJr+Lt40ldtLJepbv3o21njcm/Wlz64ro5zYpELvrXPk0QsrL2zm+xfmh8EIOPt6Z
-	58rNryeedb9rd07ed+aVDdGmoVdTFvjvqnjmspA1d7HLZWGft8X3s6Q919a2aKbtsWS+u3Wd
-	q9zVM3/FZY4GphpviYlJCcr4XXZ8okf3XNbdse+XpVn8ttF738156vHzS2eWx1c/WPUiTd5v
-	vcx5hZm7bxdN3RUdslhmudWmI0u39r3glvrVpJG/6WHTY8nH8rFBnFvs3ygJFLtcMZzRrGp4
-	pq6pYv/HbYprdrXeCV2mxFKckWioxVxUnAgACajEfCgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGLMWRmVeSWpSXmKPExsWy7bCSvG50+as0gw3LVSxWrj7KZHH0/1s2
-	i723tC3mL3vKbtF9fQebxfLj/5gc2Dw2L6n32H2zgc3j49NbLB59W1YxenzeJBfAGsVlk5Ka
-	k1mWWqRvl8CV0dYzn7ngBGvFocVbmRoYN7F0MXJySAiYSHTs2sQGYgsJ7GaUOHg2BiIuIXHq
-	5TJGCFtYYuW/5+xdjFxANU8YJU692cAKkmARUJX4P72LCcRmE1CXOPK8FaxBRMBUYvKnrWwg
-	DcwCSxglfvy5CbZBWEBFYvuMW2A2r4CZxMHpp5ghNkdJ9JzrgIoLSpyc+QTsOmagmnmbHwLV
-	cADZ0hLL/3GAhDkFjCXO/DnLDmKLCshIzFj6lXkCo+AsJN2zkHTPQuhewMi8ilEytaA4Nz23
-	2LDAKC+1XK84Mbe4NC9dLzk/dxMjOOi1tHYw7ln1Qe8QIxMH4yFGCQ5mJRFe8Q8v04R4UxIr
-	q1KL8uOLSnNSiw8xSnOwKInzfnvdmyIkkJ5YkpqdmlqQWgSTZeLglGpgMvH+ZsH/ouT1cdZ7
-	/s2Oqi7n2b5cvbyHzWyhJ7c92wmHnX/UNy3Y5fZ56gohlzNfzgYo/Hu/cG7wFx2PjTdW/Mk3
-	LVR7KRd116zbevd0R4Ewf95XsU8ePd+l8GdF1vrW8/cU9INMr6nZ+p+wmBTQkXm6J9r43Dv/
-	G2eStvmerbsjXCVu2mTcF/BJ6smKk57TT6yQ3/goL1ev29hxbrBkkbIEmztzllaQTbBLRQWf
-	30qhDX7KHzTaXOY9r9I681PIrW9K/+q/nNdVFL4tuL/yQ7Py5B+JX94suWixfeni8lWKbb+l
-	Qp2s1jzV8Y+af/9ZdZy9b/vyi3xPrv2elOo422WStken8vnHElkHW0KnKbEUZyQaajEXFScC
-	AGBOgtTpAgAA
-X-CMS-MailID: 20240918064651epcas5p418d61389752da25e5fc50e6a50a111b8
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----BXry2NbAWZo9yJTNih6DAV11S-FgciuNcVifFwRAucM.VCOc=_34c99_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240918064651epcas5p418d61389752da25e5fc50e6a50a111b8
-References: <20240705083205.2111277-1-hch@lst.de>
-	<yq1ttgz5l6d.fsf@ca-mkp.ca.oracle.com>
-	<CGME20240918064651epcas5p418d61389752da25e5fc50e6a50a111b8@epcas5p4.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet-passthru: allow nvme ns-id descriptor list to clear
+ EUID/NGUID/UUID
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, kbusch@kernel.org,
+        axboe@fb.com, gjoyce@linux.ibm.com,
+        "shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>,
+        Daniel Wagner <dwagner@suse.de>, Martin Wilck <martin.wilck@suse.com>
+References: <20240917085112.155173-1-nilay@linux.ibm.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240917085112.155173-1-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: B_yvr4IkDAa94cPhp44gHoevK8FAILzH
+X-Proofpoint-GUID: B_yvr4IkDAa94cPhp44gHoevK8FAILzH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-18_06,2024-09-16_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 clxscore=1015 mlxscore=0
+ malwarescore=0 mlxlogscore=999 priorityscore=1501 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409180045
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240917_234746_993163_99C47D83 
-X-CRM114-Status: GOOD (  12.13  )
+X-CRM114-CacheID: sfid-20240918_005354_979989_F0F9F1C3 
+X-CRM114-Status: GOOD (  31.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,34 +109,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------BXry2NbAWZo9yJTNih6DAV11S-FgciuNcVifFwRAucM.VCOc=_34c99_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On 9/17/24 14:21, Nilay Shroff wrote:
+> When nvme passthru is configured using loop target, the clear_ids
+> attribute is, by default, set to true. This attribute would ensure that
+> EUID/NGUID/UUID is cleared for the loop passthru target.
+> 
+> The newer NVMe disk supporting the NVMe spec 1.3 or higher, typically,
+> implements the support for "Namespace Identification Descriptor list"
+> command. This command when issued from host returns EUID/NGUID/UUID
+> assigned to the inquired namespace. Not clearing these values, while
+> using nvme passthru using loop target, would result in NVMe host driver
+> rejecting the namespace. This check was implemented in the commit
+> 2079f41ec6ff ("nvme: check that EUI/GUID/UUID are globally unique").
+> 
+> The fix implemented in this commit ensure that when host issues ns-id
+> descriptor list command, the EUID/NGUID/UUID are cleared by passthru
+> target. In fact, the function nvmet_passthru_override_id_descs() which
+> clears those unique ids already exits, so we just need to ensure that
+> ns-id descriptor list command falls through the corretc code path. And
+> while we're at it, we also combines the three passthru admin command
+> cases together which shares the same code.
+> 
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+> ---
+>  drivers/nvme/target/passthru.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+> index 24d0e2418d2e..d786d8dee131 100644
+> --- a/drivers/nvme/target/passthru.c
+> +++ b/drivers/nvme/target/passthru.c
+> @@ -535,10 +535,6 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
+>  		break;
+>  	case nvme_admin_identify:
+>  		switch (req->cmd->identify.cns) {
+> -		case NVME_ID_CNS_CTRL:
+> -			req->execute = nvmet_passthru_execute_cmd;
+> -			req->p.use_workqueue = true;
+> -			return NVME_SC_SUCCESS;
+>  		case NVME_ID_CNS_CS_CTRL:
+>  			switch (req->cmd->identify.csi) {
+>  			case NVME_CSI_ZNS:
+> @@ -547,7 +543,11 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
+>  				return NVME_SC_SUCCESS;
+>  			}
+>  			return NVME_SC_INVALID_OPCODE | NVME_STATUS_DNR;
+> +		case NVME_ID_CNS_CTRL:
+> +			fallthrough;
+>  		case NVME_ID_CNS_NS:
+> +			fallthrough;
+> +		case NVME_ID_CNS_NS_DESC_LIST:
+>  			req->execute = nvmet_passthru_execute_cmd;
+>  			req->p.use_workqueue = true;
+>  			return NVME_SC_SUCCESS;
 
->
->Another wrinkle is that SCSI does not have a way to directly specify
->which tags to check. You can check guard only, check app+ref only, or
->all three. But you can't just check the ref tag if that's what you want
->to do.
+On a sidenote: This issue could be reproduced (where we find passthru target namespeace being 
+ignored on the host due to duplicate IDs) using blktest nvme/033. I have a system with NVMe disk
+which supports NVMe spec 1.3. On this system, when I run this blktest I can always reproduce 
+this issue:
 
-Hi Martin,
+# nvme list -v 
+Subsystem        Subsystem-NQN                                                                                    Controllers
+---------------- ------------------------------------------------------------------------------------------------ ----------------
+nvme-subsys0     nqn.1994-11.com.samsung:nvme:PM1735:2.5-inch:S6EUNA0R500358                                      nvme0
 
-When the drive is formatted with type1 integrity and dix is supported,
-the block layer would generate/verify the guard and reftag. For scsi,
-apptag would also need to be generated/verified as reftag-check can't
-be specified alone. But I am not not able to find (in SCSI code) where
-exactly: 
-1. this apptag is being generated
-2. and getting added to the PI buffer and scsi command.
+Device   SN                   MN                                       FR       TxPort Asdress        Slot   Subsystem    Namespaces      
+-------- -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+nvme0    S6EUNA0R500358       1.6TB NVMe Gen4 U.2 SSD                  REV.SN49 pcie   0018:01:00.0          nvme-subsys0 nvme0n1
 
-Can you please point to where/how it is handled.
+Device       Generic      NSID       Usage                      Format           Controllers     
+------------ ------------ ---------- -------------------------- ---------------- ----------------
+/dev/nvme0n1 /dev/ng0n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0
 
-Thank you,
-Anuj Gupta
+# nvme show-regs /dev/nvme0 -H 
+<snip>
+version : 10300
+	NVMe specification 1.3
+<snip>
 
-------BXry2NbAWZo9yJTNih6DAV11S-FgciuNcVifFwRAucM.VCOc=_34c99_
-Content-Type: text/plain; charset="utf-8"
+# ./check tests/nvme/033 
+nvme/033 => nvme0n1 (tr=loop) (create and connect to an NVMeOF target with a passthru controller)
 
+Here, the above blktest hangs indefinitely. 
 
-------BXry2NbAWZo9yJTNih6DAV11S-FgciuNcVifFwRAucM.VCOc=_34c99_--
+And the relevant kernel logs:
+# dmesg
+nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+nvme nvme1: D3 entry latency set to 10 seconds
+nvme nvme1: creating 32 I/O queues.
+nvme nvme1: new ctrl: "blktests-subsystem-1"
+nvme nvme1: Failed to configure AEN (cfg 300)
+nvme nvme1: VID:144d model:1.6TB NVMe Gen4 U.2 SSD firmware:REV.SN49
+nvme nvme1: ignoring nsid 1 because of duplicate IDs
+
+I have another system using an NVMe disk supporting NVMe spec 1.2 and on this system, running 
+the above test would PASS.
+
+Moreover, I think we should fix the blktest nvme/033 so that it would bail out 
+after some time instead of hanging indefinitely. Also we don't have an nvme-cli 
+command which supports ns-id descriptor list command. We may also want to add 
+support of this new command in nvme-cli? 
+
+Thanks,
+--Nilay
 
