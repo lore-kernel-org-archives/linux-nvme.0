@@ -4,134 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 075C2CF9C5B
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Sep 2024 06:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54F62CF9C5B
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Sep 2024 08:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BTyjzRLqT6ZbaWunnClfylzQNdAVF2Mg5wFTiBIIHrs=; b=Bm/ARIEYlU0RKmoyn2ROgOrMWd
-	SgLD/HyCL+eWoz/vyuM7Hc9xi+lPz6TX+TGcRRYY9LB7CvMBj7lEBNSL/UDut9YQZsAaZjsWw0lNz
-	7wVVGNF7yw1GdDD+xG3dfRSgRDssicCm952utcszxl/zSR8geTqnZikqtuUaF852/+zMZnu4kp3jh
-	XlK5ytkQipjamxp3adVbbPu3X8P7ijD3U/lOeL/sVTbUIHPzd80NF/Rg/49WcKgks3zZho+6/UKfI
-	iH1k2eucHMkHQwkFRdgcwl1Wm5rzCeHwHtIdck9cTsyC6MARkuZeJTbSU9jCREUgVHErn8n3RPvA0
-	B13E0Edg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=D2G5Vqbevp/yIaIag+9lhops/RRlP8LJZvM/JNysPg4=; b=qzrmUWTZc+gFnxHWKAt7Sg2GLu
+	GPGlrEVLlm3JGdYBj+lR8V0pml1e3ghkTJIZUlowOQvY7a/QeBvuvBrGgkbwAa3/h9NZ6ExpfRZ+q
+	RlAAiIpxwZR+VyQM2yDzSDPdRy2pt5/Arksxv1CBYR0nJTq1Wu9Z3lq2RRWdWjtNoIUp8nkjPBNRd
+	N/pJ89yEu3O9HU0inrPnAHU4PJq0/lJA0LYnCVEmd97JTSl7D1zEdGMN/lZRi9RGPBg3hwnyhn3Yl
+	QXgwRTBNFNYZR1CBl/0wDXcijUR6vIOdqOnqhHdrcMBIV9GSy237cCqf085xuUumc5dk4y+t9MHfg
+	8rFnYPXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sscbX-0000000GQJz-2inw;
-	Mon, 23 Sep 2024 06:31:27 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1sse2o-0000000Gc0T-2Upk;
+	Mon, 23 Sep 2024 08:03:42 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sscbT-0000000GQIv-2uIw
+	id 1sse2k-0000000Gby5-04MX
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Sep 2024 06:31:26 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DC02C1FB50;
-	Mon, 23 Sep 2024 06:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727073080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BTyjzRLqT6ZbaWunnClfylzQNdAVF2Mg5wFTiBIIHrs=;
-	b=0rzrLt75LcQYr/WzoBQ0Bev39qRtqePH7yQK5lcT4//KcUyXshkIuJQbsyxicQgw3t+mJp
-	mhxsORUKNK0haGPSprJ3XlP2NXapzW+Vm2E+/wbAVldx2HAVTU+73HoulqL0C4HzNx3exx
-	m+SXfnk2ARmS8F1srnQleaiSGejRzoM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727073080;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BTyjzRLqT6ZbaWunnClfylzQNdAVF2Mg5wFTiBIIHrs=;
-	b=jgLB6hTtgkem/NUPRpOp3lV69DN4gq4WXbBvU9X+ZXsOu5ifDuSyGGpHsm2hvcDDEj+T3k
-	0w/CdmrN3VmYLTDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QN0BAD33;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mv4qvUXl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727073079; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BTyjzRLqT6ZbaWunnClfylzQNdAVF2Mg5wFTiBIIHrs=;
-	b=QN0BAD33Iyg/bOxzkoNWDV4I3Ft2bL3grKX0msKHDNUlLEXnhnOIvTu244cD22vh4wd5uj
-	MP0+wgnC8MJaIFAyN6F2dBvmTAkRe3EupnbRnNoF4DdVMQNRD0rGQi1s+cAe9czEJQ0/Po
-	n+79qR+EBQL3AmXrRyVuX0D3n8ftvcw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727073079;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BTyjzRLqT6ZbaWunnClfylzQNdAVF2Mg5wFTiBIIHrs=;
-	b=mv4qvUXlnym0h+B3P1DuvZmBKnGXsAKnoT0TRm6uVEZPqP+laQW10x0EzO14qQIitrgvb7
-	aCUHTPs5wNHJktBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A45513A64;
-	Mon, 23 Sep 2024 06:31:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zvU9IzcL8WZCTgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 23 Sep 2024 06:31:19 +0000
-Message-ID: <5ce3b803-275d-4be3-a9bc-87d06a8f5033@suse.de>
-Date: Mon, 23 Sep 2024 08:31:19 +0200
+	Mon, 23 Sep 2024 08:03:40 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id EDB54A4176B;
+	Mon, 23 Sep 2024 08:03:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E13BC4CEC5;
+	Mon, 23 Sep 2024 08:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727078616;
+	bh=q1YvSPbr3ZpWVyD76V31MKAxVlGjLN4FW1uQ88cLsCM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X2AXpuzvAt6zolj50NuXZcTF782bCFtcCRK+feY5kicmhu6+VCsueeqzYwe/mCskN
+	 AVB5mach1rAfcntoDgDsVQ704keLaRKN8UbKMfn2McZ1ibd3PvfFhnQwfbpkbK9rnb
+	 lMua3uvohScz+FlSAUEGOB5OSIXlhsTX9SwXJSj8LVKG1PxRn3+Nezte3h525U3NBR
+	 kX1Uj1ikpGYTrhuxU/cmqq5WlLfep966e7oC1iUb6b9N6/hVS5QEh35MVUb37B2YW8
+	 9Zn4zvOi5RvSn20rzLhgHqIhLrTcTQbzJd1T6zwfGk2Rslu9NRtgOO+nCi2TnG20V2
+	 2iuvSJaUnYtCQ==
+Date: Mon, 23 Sep 2024 10:03:32 +0200
+From: Keith Busch <kbusch@kernel.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: Re: [PATCH] nvme: remove CC register read-back during enabling
+Message-ID: <ZvEg1Fq6wy7eQ5VV@kbusch-mbp>
+References: <20240904215405.1980512-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug report][regression][bisected] most of blktests nvme/tcp
- failed with the last linux code
-To: Yi Zhang <yi.zhang@redhat.com>, linux-block
- <linux-block@vger.kernel.org>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <CAHj4cs90xV1t2NbV6P3_z1oYwD0BcvMhC5V2mGgekRq8iae=NA@mail.gmail.com>
- <CAHj4cs8YGgmemMZDXmt7yHa+Xq3EiEvRWOJGEQTDjqGB2rAogw@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CAHj4cs8YGgmemMZDXmt7yHa+Xq3EiEvRWOJGEQTDjqGB2rAogw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: DC02C1FB50
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	TO_DN_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240904215405.1980512-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240922_233123_908771_EF6E0839 
-X-CRM114-Status: GOOD (  15.77  )
+X-CRM114-CacheID: sfid-20240923_010338_232645_B9BCE7E5 
+X-CRM114-Status: GOOD (  16.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,104 +70,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/20/24 16:20, Yi Zhang wrote:
-> + Hannes
-> I did bisect and it seems was introduced with the below commit:
+On Wed, Sep 04, 2024 at 02:54:05PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> commit 1e48b34c9bc79aa36700fccbfdf87e61e4431d2b
-> Author: Hannes Reinecke <hare@suse.de>
-> Date:   Mon Jul 22 14:02:22 2024 +0200
-> 
->      nvme: split off TLS sysfs attributes into a separate group
-> 
-> 
-> On Thu, Sep 19, 2024 at 12:09 AM Yi Zhang <yi.zhang@redhat.com> wrote:
->>
->> Hello
->>
->> CKI reported most of the blktests nvme/tcp tests failed on the linux
->> tree[1], here is the reproducer and dmesg log, the issue cannot be
->> reproduced with 6.11.0, seems
->> it was introduced with the latest block code merge, please help check
->> it and let me know if you need any info/testing about it, thanks.
->>
->>
->> [1]
->> https://datawarehouse.cki-project.org/kcidb/tests/14394423
->>
->> [2]
->> # nvme_trtype=tcp ./check nvme/003
->> nvme/003 (tr=tcp) (test if we're sending keep-alives to a discovery
->> controller) [failed]
->>      runtime  11.280s  ...  11.188s
->>      --- tests/nvme/003.out 2024-09-18 11:30:11.243366401 -0400
->>      +++ /root/blktests/results/nodev_tr_tcp/nvme/003.out.bad
->> 2024-09-18 11:52:32.977112834 -0400
->>      @@ -1,3 +1,3 @@
->>       Running nvme/003
->>      -disconnected 1 controller(s)
->>      +disconnected 0 controller(s)
->>       Test complete
->> # dmesg
->> [  447.213539] run blktests nvme/003 at 2024-09-18 11:52:21
->> [  447.229285] loop0: detected capacity change from 0 to 2097152
->> [  447.233104] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
->> [  447.242398] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
->> [  447.251089] sysfs: cannot create duplicate filename
->> '/devices/virtual/nvme-fabrics/ctl/nvme0/reset_controller'
->> [  447.251810] CPU: 2 UID: 0 PID: 5241 Comm: nvme Kdump: loaded Not
->> tainted 6.12.0-0.rc0.adfc3ded5c33.2.test.el10.aarch64 #1
->> [  447.252540] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
->> [  447.253006] Call trace:
->> [  447.253171]  dump_backtrace+0xd8/0x130
->> [  447.253432]  show_stack+0x20/0x38
->> [  447.253657]  dump_stack_lvl+0x80/0xa8
->> [  447.253925]  dump_stack+0x18/0x30
->> [  447.254152]  sysfs_warn_dup+0x6c/0x90
->> [  447.254406]  sysfs_add_file_mode_ns+0x12c/0x138
->> [  447.254713]  create_files+0xa8/0x1f8
->> [  447.254973]  internal_create_group+0x18c/0x358
->> [  447.255274]  internal_create_groups+0x58/0xe0
->> [  447.255558]  sysfs_create_groups+0x20/0x40
->> [  447.255826]  device_add_attrs+0x19c/0x218
->> [  447.256093]  device_add+0x310/0x6d0
->> [  447.256327]  cdev_device_add+0x58/0xc0
->> [  447.256579]  nvme_add_ctrl+0x78/0xd0 [nvme_core]
->> [  447.256895]  nvme_tcp_create_ctrl+0x3c/0x178 [nvme_tcp]
->> [  447.257248]  nvmf_create_ctrl+0x150/0x288 [nvme_fabrics]
->> [  447.257614]  nvmf_dev_write+0x98/0xf8 [nvme_fabrics]
->> [  447.257948]  vfs_write+0xdc/0x380
->> [  447.258174]  ksys_write+0x7c/0x120
->> [  447.258408]  __arm64_sys_write+0x24/0x40
->> [  447.258673]  invoke_syscall.constprop.0+0x74/0xd0
->> [  447.258994]  do_el0_svc+0xb0/0xe8
->> [  447.259225]  el0_svc+0x44/0x1a0
->> [  447.259449]  el0t_64_sync_handler+0x120/0x130
->> [  447.259745]  el0t_64_sync+0x1a4/0x1a8
->>
->> --
->> Best Regards,
->>    Yi Zhang
-> 
-> 
-> 
-How utterly curious.
-This mentioned patch moves some sysfs attributes to a different location 
-in the code. The stacktrace you've posted indicates that we're creating 
-a controller while the previous one is still present in sysfs, ie that 
-the lifetime of the controller has changed.
-I find it difficult to understand how the cited path could have changed
-the lifetime of the controller object, but will continue to check.
+> Any non-posted read should flush the previous write, so we don't
+> necessarily need to read back the value we just wrote. I've found at
+> least some controllers that respond with 0 for short moments after
+> writing the CC register with EN (enable) cleared, so the read-back is
+> overwriting our valid ctrl_config value and ends up breaking on the
+> subsequent enabling.
 
-Does the error disappear if you just revert the cited patch?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
-
+Ping on this one. Looks okay?
+ 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 983909a600adb..3172d7dab43bb 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2467,11 +2467,6 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Flush write to device (required if transport is PCI) */
+> -	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CC, &ctrl->ctrl_config);
+> -	if (ret)
+> -		return ret;
+> -
+>  	/* CAP value may change after initial CC write */
+>  	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+>  	if (ret)
+> -- 
+> 2.43.5
+> 
 
