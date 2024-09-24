@@ -4,182 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11E7ACF9C5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 01:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83664CF9C5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 02:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IJIXPk0Umdo+oTIJnZjBrvNmke/Feg80wu6yBDi3fq4=; b=fTA659hzYyuCWj3RiDlYNlXLK2
-	F9cXNtDDqymHfTkrS/NXtBZVHf3O7DSu/FECZITPo+44yZTui7x3D+4DNI6ZOFV6R+/5yjGj5Lbuu
-	yIA4NviKANNkcuHEtXiUisS2Dqb3uHtkphx8L61vCpCiybWBk7C9uJfGjne0CjEAOlRzM6IQ1QQBK
-	AuJCiFGQtGffXTGN06uO/X1OCF6p+ZJgiRaNLEulg1F7zsSOxO6kHWXNQNxDd77xPY8HWG3/Snn6B
-	06pAZvrBtwc45xt38vtkS/S7+KDIwcqAmHBsRE3DBZ03vxrWR0B9ZX7A+eY4mU8bOoZTFgST+k9qe
-	BFk5+dHA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=s8jtEhjla4zGgMqrcoXbIG3PeBG54I0VUnvuWBCltvM=; b=r/ejRY4EIoDUOkYgbrZMcQm5ST
+	Tvt1/lUZC62QVYojIdDh5IpPK1nADT8k2TI9XEn5yGj1abX821u+XsTBTf6c77EOUSprTfnZegLxG
+	KSb1OpB/tsgSxHtmeFzsRLbgkP39K0h788QOFI+Kr3EKEWTnMl7If380SDRLtIMIXBYVrjBRSAujJ
+	VGNdqvYHt1O285GKRrq+4J2QBa255/Bida1TWbMrpqXplJ3BE1XQ8UgRVZPrjL4RSNdWKev4V/Xmb
+	LlbWFBg7N7qfLEGdDMLhYqrhkyMRoTpEJWH0l6gP3iZbUKtVx5/gD4qjNWWs/El73moP2LBYRUaMD
+	PaRpcYIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1ssupu-00000000qfU-3OwU;
-	Tue, 24 Sep 2024 01:59:30 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1ssvcs-00000000vIf-3dch;
+	Tue, 24 Sep 2024 02:50:06 +0000
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1ssupr-00000000qf4-0Tu1
+	id 1ssvcq-00000000vHv-1BZj
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Sep 2024 01:59:29 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48O1MWAI012616;
-	Tue, 24 Sep 2024 01:59:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to
-	:cc:subject:from:in-reply-to:message-id:references:date
-	:content-type:mime-version; s=corp-2023-11-20; bh=IJIXPk0Umdo+oT
-	IJnZjBrvNmke/Feg80wu6yBDi3fq4=; b=emrXUlbU5GEY8fo3IQFiAoGP6Nl7Vi
-	OyFEJuuRx4YqzFiI4WnCtaWrhd9e3yaUp0PlRkgt0Ul0pVQBkI4X8MQ2atZEGoGh
-	B9LhCZmlKbLH9Yo/BQScPbvmAjpgOt+lW2dZivdpZzt9C5Ll9Tm0DgGxWnyNV2+u
-	0a36V3CzC2/VBXSVBHIE59QIdu4dkXYus6y90PZVFsvjkbZKeKmv5x4LvhG3X+tO
-	ZKbFMdsT11uo+2leY1b7+93vEDUwocV/aCZVHpp4we+VUhg8ThUIsAk7HNV80tVO
-	k2q+q7cJ4il73k2IK7RrbaTlARlW8RKsPAW5I/UtlUPpnBRiOE1qcgug==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41smx33s1n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Sep 2024 01:59:23 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48NNDEC1029755;
-	Tue, 24 Sep 2024 01:59:15 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41smk8jj23-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Sep 2024 01:59:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TfklCBZkJukuBZscaU1O8TufQ0oAWA8EFUtaUkSTgFc4UU32FsLpbruNccUj8mGjkg3+uUfpYKO4o2svYcFvFWAqzLqVMr8pwDgqpT60UtH1U0Ost7YRvkYfMPQwBjp2OnTHdfjPLTvqkHbfx4oMzSitTh8X8CXn9hca/vVfjbYL/9BpNNxMWTqq6xP1+TLforS49T8NbWFrzywZqpf53Osh0oLwYn1ApkfBq3SKFpWZThm/Oe7hatbbieCeyxa+EfcKXy7F15YuYxCnBGXD4maI+sZEIj7x5py4hhWoDRO7PzrGkSvUMGQfsK0WtbY7KAYTzts06o+IUun0dmR2RQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IJIXPk0Umdo+oTIJnZjBrvNmke/Feg80wu6yBDi3fq4=;
- b=GZB5i2C1k6Sl1y/Hbngbo8TyzaCkWiziWwaA4/KIb4t3M4oBKHr4oqRk1rYIaLuDMiaHRywLYQefx+ZMibPMYak6joLGHKHBEfB8PFMMT4MoD49ObfoJ9dEvLoyBuO+sdrdsRyTaCx3qMI8ygKSxj5S/h+o1emG0B8G1kQ+l9AZ0ZFk1xMfjGb1+L8Mj7NsE5lLLQbVfJeVY9alN7PvNONNJrDwNlelfoLGFWfsCzYdSvjZ6fatq51DeW/FuwYR9wQ1zL6k5w4I6wm/6hDOI4pDPIq5Ht3utSMYl/7HLQcb+XwCizkP8YFdAnmOjgvMcHbRm2ZktCrXHRZMHtZ2g/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Tue, 24 Sep 2024 02:50:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IJIXPk0Umdo+oTIJnZjBrvNmke/Feg80wu6yBDi3fq4=;
- b=X6ZoybTFmWku1EujZ30rATjVvbtmnL7fEOKwk2eZP3eiaT9HDHz3EmGRhgyYFMRxgUgpL5TDiDC0xoygAVw8VsE7hoYIaBfWP8PCthB9GuoRmL3mJZ4tpru2uaRGl0VyzT/lBslBA9yGi1IheChkEeb1WJ+3QksNvNXkW0Cl9cE=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by SJ0PR10MB4799.namprd10.prod.outlook.com (2603:10b6:a03:2ac::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.14; Tue, 24 Sep
- 2024 01:59:12 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7%3]) with mapi id 15.20.8005.010; Tue, 24 Sep 2024
- 01:59:12 +0000
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Christoph Hellwig
- <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
-        linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-nvme@lists.infradead.org
-Subject: Re: fine-grained PI control
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20240918063910.hqntgm5jy2jisys2@green245> (Anuj Gupta's message
-	of "Wed, 18 Sep 2024 12:09:10 +0530")
-Organization: Oracle Corporation
-Message-ID: <yq1bk0dhlko.fsf@ca-mkp.ca.oracle.com>
-References: <20240705083205.2111277-1-hch@lst.de>
-	<yq1ttgz5l6d.fsf@ca-mkp.ca.oracle.com>
-	<CGME20240918064651epcas5p418d61389752da25e5fc50e6a50a111b8@epcas5p4.samsung.com>
-	<20240918063910.hqntgm5jy2jisys2@green245>
-Date: Mon, 23 Sep 2024 21:59:10 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR20CA0061.namprd20.prod.outlook.com
- (2603:10b6:208:235::30) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	d=linux.alibaba.com; s=default;
+	t=1727146202; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=s8jtEhjla4zGgMqrcoXbIG3PeBG54I0VUnvuWBCltvM=;
+	b=KQt++YaBBx01l4+GaekHY2Q39Y5b1p+CRFUQR9djokM53bT79HSWpgHCIIm6xchyZmFmqLDXU01+M0lBTw3Nzyyu7NJd/ZyWa+rhJpm5I5hRrg43BNZU8CgvVkA7n1h8DPpYOlqgehxMSvvN1GWOMK+uDw6E93A6fim/RJLwGuM=
+Received: from 30.178.83.97(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFeKN0A_1727146200)
+          by smtp.aliyun-inc.com;
+          Tue, 24 Sep 2024 10:50:01 +0800
+Message-ID: <114ce6b1-13e7-418e-bd23-8ab32a7b4c8f@linux.alibaba.com>
+Date: Tue, 24 Sep 2024 10:49:58 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|SJ0PR10MB4799:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5a94a4cd-3839-48ea-eb1a-08dcdc3c7c84
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?z9tWTeEZczr12gJc9X0XBprODeS7ryVWPyt1Str6NYAm454K9oufNt97YfbG?=
- =?us-ascii?Q?NBzRdT12O9GT/k+DxoQAeZXYpFJp4XDQp6NVCPTsnOmPMv3iCpvFmwBPJyMq?=
- =?us-ascii?Q?kt3yp0KIYS3RQLxorXUiI3rrYJuO9MOSvuH3pReuT27OoCuuiXIkCqGyrrNN?=
- =?us-ascii?Q?GaPUuEBVTCJkmMzhPEWsQafjF1mlnZdx4G8OPnoMEfTeOljV6g0+PORLvJN5?=
- =?us-ascii?Q?4SLOjnx8L5Tow3JfYEyqw16DwkhAL2GFCwMe7RQqNCc7VriCqE6qeHFHffzW?=
- =?us-ascii?Q?t0vUfuITxhXlyqMXw7ixEgGc77SNVRBniFT71zuDtJ+vDzKGOJPIRB5ARg7U?=
- =?us-ascii?Q?aYmr/zRm+4UgACTzDlE9oA5Hy6xv7Dc7JU6Uh7TkJE7RsVUG1l+wXK4C7HgP?=
- =?us-ascii?Q?m2JcRuqPLY+T0OpcDDEUDliqy39AG3nhE4soenx3OuIWs0RMiy+YjttROaFA?=
- =?us-ascii?Q?ctIt75LANE+419JIlydr7cA2KHv8/oxGHAoyw66wtsnTxtVP3lCbsv1N5mEU?=
- =?us-ascii?Q?fFT076bpWYBGsMFrL6dh5ll+DCmYEr+ylvB9sK3SP8YPfYCwyCzrJJYffsjd?=
- =?us-ascii?Q?5qHABu9c1aFtql5k29RafTspLe/Rb2wryYFF2NopBSvU+Jpef2e+XOHRzrQB?=
- =?us-ascii?Q?gC4g+VY1wzf26rweqNv3EyA/pPann2m/PCKzCbkkz3FlGEJvWOLAkOAPREyO?=
- =?us-ascii?Q?E3ENAQkcgZc7hxfIllb4MsYmz4zhee1u2kG0YGitqdLX2NhlU5kR1JT/g3+2?=
- =?us-ascii?Q?ENFN+3gKpBb/0Tb4P4QNAANsOPv8C42RW42TqNpSb0vFy7BTaKMUQKiGOXIA?=
- =?us-ascii?Q?XNYZ8DHG+mmasrkA2FpUdPZCR2lPSxhoabatbLxyT1AFLOtCFi/0O/DBniEZ?=
- =?us-ascii?Q?0yLWajt0DJX2x+jSuYRjJVNPcTf1iXVr5cBsBhvAF0YqfurqjDqmcEpeWYXq?=
- =?us-ascii?Q?z/uImE7/FTkCoNiLppKc4pxyg8aR7TN5Vk+/yL4WI/87HYXAKScTHjS1ZlAc?=
- =?us-ascii?Q?xO3696RuRcsrCdXn2RShY3i0shUU3Kw49XGEdH3Dw5tXd30c7CR8bk/pJnii?=
- =?us-ascii?Q?L0K6EVHiFeZ1WqMgdSIkKrsDergaiAf+ji79hKnHs36vOz+ZhpS7mJJKOatS?=
- =?us-ascii?Q?IPxJaD1hCyfb069vVHEOUlXcC/cJ6AtXF1Mu/YDVcIFHV3M86O7xaR99fphd?=
- =?us-ascii?Q?S15UhIChDF/JMR9NXzuRgobbyh19RrNALUsaxYtD3VIwp9pnKsL8RP0zbm2B?=
- =?us-ascii?Q?Wnft1itl3KGWfDmqTNxfWxhED4AvrEszfaD/C+JCxBFj0EQC+6rtpuCjhSVL?=
- =?us-ascii?Q?eUhcUj3tcl9Wc5HHxCSeo49IN7TXACjHsUZeaufxsbOOZA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oxUyp2/DPhi5cbzNBlRIEwNsPnQ2Iz1l5ZsVlzaXCgpuuaktll+JRT/yLRfD?=
- =?us-ascii?Q?v+dvtPsTE0aCikAE1zT8LH4rBMclpdZNUx2K5S8cy0JfYJzCFS8Hef3klT6l?=
- =?us-ascii?Q?LXZvXfbg86kVCo1+HMdQp8sgUIajOTJktqLKfOEEnzM140EM8jSk4qryv1bG?=
- =?us-ascii?Q?FQOnw5B4cwjI/NGwfPw/Zraf48zKt8rKlqqzqvHmsFAqDCvarFYz8MOXV/Va?=
- =?us-ascii?Q?Eu3Dl/CQSfwKbjdq6SCFridjvEo02Geu9Xs0BYLFhIN2W0upV42/sRJtWLUk?=
- =?us-ascii?Q?DhZ3KADs47W4Ch8UtjVl/IDgHbXDJIORV7Xvz6TdSdYdARwLd9HvGZKAnTbK?=
- =?us-ascii?Q?ppacKQcKcBgmqdhkKG1pNUmXCzlrZCmcl9xUCOb/cGCP8g12k8wEuLRRswnJ?=
- =?us-ascii?Q?hOgcI0l3zNVj51DFPRclAZrP47d9eYdJ/T5A2H3kUPXh2SudaLJm8kFn636C?=
- =?us-ascii?Q?pP/vU8HxMEHhBpCT5X2iaVwJaPITbU6W6NO3A0yvX4w2Z4PJqb2UKq40luGE?=
- =?us-ascii?Q?GuaSBiMIKkfxxUdQ8Bx7pP0vsXdjggwjAOIQrCwpCN8pMZ30INibOb+G2nCU?=
- =?us-ascii?Q?yxVmjLRm7Y1VsLzdI3ejVogbbCWlxp6FLNydxHKsXwH5QH4lKaGEhJwPhOUt?=
- =?us-ascii?Q?LZPjHIGygRavTfHHlfo92PuuhdIYDLOb+ny2D/zpzDjviht1blL20bus9zvO?=
- =?us-ascii?Q?FOmhfpG3ZXB1DpPQ9Mj+R/ty9QCad+YnOELQ6obNAeCeL7UwOZFmtjtl0aKz?=
- =?us-ascii?Q?e5XEDH6GxGHJqhbkhZx5UEVue9xae0boyLNrQr8vD5aO0G99SUu2mMACwWFo?=
- =?us-ascii?Q?WwQ4mhQh7dLvNJiIpWk74xkrxh9y+AUB1LSnoDcSPFOjTpTC13VMvBLRb1VI?=
- =?us-ascii?Q?oR2G4jUUVKGDV8V7WokQIxhzmO0TLag4lQWOOzT9qHTNm4G04IdvlXy23FX3?=
- =?us-ascii?Q?24Rj4VcRwl0K3eLfRv0CShWFKgE02Az6FBmcf2cmI2Jx5qnc7BHw68dTPTKP?=
- =?us-ascii?Q?FXa8SNKDTk7xsWg03TljxXRc3Qto93sSl1dk9eb2zDCWJogCeBNmvV9Y3HnP?=
- =?us-ascii?Q?D18xPyAj0xugHrfxvcleluoBHRMiOga/96ECf3DVO46LyVGoZRCGTbk2GT7g?=
- =?us-ascii?Q?6ni76RkulswUew3MEv5FMT2wOcrf4rWO1EiF7SuJnUPwVMOcsJGpQSOptpQX?=
- =?us-ascii?Q?hYw2u+Xe9Due/YD4VEDi/q0ETB7qYN1Ad+9QhP7Gbi4HUkzV9m+gytyGTG4M?=
- =?us-ascii?Q?x2V+MxTHJDZVpkaI+F/+pkKA1yeq55bissx7D4ZW0pXbZuk2Adz6CVWCIxgF?=
- =?us-ascii?Q?nQO3tDr9rdHs8mUJRUv9tCENce2vwaUNU81Em8YkPrqlykW+dRvIYNSNd3CZ?=
- =?us-ascii?Q?1DpPhHRJ6pPFE1/neCJIGZsKkhqr0xQ16suKYMPpumYgsfWuKTiH/NMORdhv?=
- =?us-ascii?Q?U/hAwEYQRjdQWfnNgsw1UPJtMYgmi2/rLrhXIBVQ/ICCrbdgn2k/JVeYV9I5?=
- =?us-ascii?Q?IHz06gxQYdSM+YKYkYZoUw0Z0T+nplUxwtwp79DxA6sMvvDzUN5/yqPliwbb?=
- =?us-ascii?Q?x+8ZlxqKTuUG/xSqoXHwZa9ToPFqiyoycs0zsR5fWMYZps/7tiRgo3N8w7fB?=
- =?us-ascii?Q?cQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: V/ezirBnkL+3sM5BgyiUsk9e4YejRwQLocRX/N6sMDdIU69TNhrtyL9P4yONk4ZtTMgpGnt9aSEG2vzotZwjm5vJe5PmSHUOBlMulyoPpujiyzTrYnMFxcXqkZSFuwM8XZhUb5yHFdoI/kND+Ql9z6L0OiMWz6UGmdWt/bSnea+Qdha1opOV0dT5D3nelnjRx0X+e+xQ5KZmA0FmZ5H4YqY/eUPzdQ8yjOZATk1M4DJVc24t9N4T0+8JRsc1gyNU6wpOhv3Vf13zkKE0nPkFzl+xzqjvq7hQL/FmTslDbrE4pt8hc+pCQKY+pAg7L2U2KqCwTPOKb3qlw4gtN1RsXZ9Lxoa2CPOiPhIWBTctRmAVxEkTKbEZ1dDNwOOc8bBDvJjt8OYzS5jefQNJMQUFN9kkDkYLOw+8TQYHmWe17H8W9QRT0geRdqBwAoJ4jMDAY/4zsHAnsYKtLkSAqvMb/ohKwI+dmAhU1iBrao/g58HQPibjCLxBbc3xD+ZNSlQRJTurTexK4H3i+5tFIN1JkwluA8DRPr+iwRRRez3EovquyZkOi/hPoGZGJgJoYPURhjIXhTKV87I+1l894s6nuuZThKbo1PuHLqb/N1Nw5HQ=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a94a4cd-3839-48ea-eb1a-08dcdc3c7c84
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 01:59:12.6456
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P4gWeppAHrBIbHIdV1RFJ5SRA1Zu4CB02eW57Zg0xN7+PE+88FnvEm1HnRwlWH8Eo2M1i/pDrt2dQ3+N9guhge3s62OeI7TBLa1Chy1BO4g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4799
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-23_19,2024-09-23_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=889
- phishscore=0 mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2408220000 definitions=main-2409240011
-X-Proofpoint-ORIG-GUID: o1OUHJxX3StnwDAf1w61oTPAEkEBmw0B
-X-Proofpoint-GUID: o1OUHJxX3StnwDAf1w61oTPAEkEBmw0B
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH v9 1/1] nvmet: support reservation feature
+To: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org
+References: <20240923094708.42445-1-kanie@linux.alibaba.com>
+ <20240923094708.42445-2-kanie@linux.alibaba.com>
+ <20240923163228.GD22571@yadro.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20240923163228.GD22571@yadro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240923_185927_696434_E49D7E8D 
-X-CRM114-Status: GOOD (  14.20  )
+X-CRM114-CacheID: sfid-20240923_195004_669118_5493D2C8 
+X-CRM114-Status: GOOD (  24.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -195,28 +68,240 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-Hi Anuj!
+在 2024/9/24 00:32, Dmitry Bogdanov 写道:
+>> This patch implements the reservation feature, includes:
+>> 1. reservation register(register, unregister and replace).
+>> 2. reservation acquire(acquire, preempt, preempt and abort).
+>> 3. reservation release(release and clear).
+>> 4. reservation report.
+>> 5. set feature and get feature of reservation notify mask.
+>> 6. get log page of reservation event.
+>>
+>> And also make reservation configurable, one can set ns to support
+>> reservation before enable ns. The default of resv_enable is false.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>>   drivers/nvme/target/Makefile    |    2 +-
+>>   drivers/nvme/target/admin-cmd.c |   24 +-
+>>   drivers/nvme/target/configfs.c  |   27 +
+>>   drivers/nvme/target/core.c      |   58 +-
+>>   drivers/nvme/target/nvmet.h     |   49 ++
+>>   drivers/nvme/target/pr.c        | 1214 +++++++++++++++++++++++++++++++
+>>   include/linux/nvme.h            |   54 ++
+>>   7 files changed, 1419 insertions(+), 9 deletions(-)
+>>   create mode 100644 drivers/nvme/target/pr.c
+> ...
+>> +
+>> +static void nvmet_pr_unregister_one(struct nvmet_pr *pr,
+>> +                                   struct nvmet_pr_registrant *reg)
+>> +{
+>> +       struct nvmet_pr_registrant *first_reg;
+>> +       struct nvmet_pr_registrant *holder;
+>> +       u8 original_rtype;
+>> +
+>> +       lockdep_assert_held(&pr->pr_lock);
+>> +       list_del_rcu(&reg->entry);
+>> +
+>> +       holder = rcu_dereference_protected(pr->holder,
+>> +                       lockdep_is_held(&pr->pr_lock));
+>> +       if (reg != holder)
+>> +               goto out;
+>> +
+>> +       original_rtype = holder->rtype;
+>> +       if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+>> +           original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
+>> +               first_reg = list_first_or_null_rcu(&pr->registrant_list,
+>> +                               struct nvmet_pr_registrant, entry);
+>> +               if (first_reg)
+>> +                       first_reg->rtype = original_rtype;
+>> +               rcu_assign_pointer(pr->holder, first_reg);
+>> +       } else {
+>> +               rcu_assign_pointer(pr->holder, NULL);
+>> +
+>> +               if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_REG_ONLY ||
+>> +                   original_rtype == NVME_PR_WRITE_EXCLUSIVE_REG_ONLY)
+> copy&past error?
+> The second check should be against NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY?
+Indeed, my mistake, it will be fixed in v10.
+>> +                       nvmet_pr_resv_released(pr, &reg->hostid);
+>> +       }
+>> +out:
+>> +       synchronize_rcu();
+>> +       kfree(reg);
+>> +}
+>> +
+>> ......
+>> +
+>> +static u16 nvmet_pr_preempt(struct nvmet_req *req,
+>> +                           struct nvmet_pr_registrant *reg,
+>> +                           u8 rtype,
+>> +                           struct nvmet_pr_acquire_data *d,
+>> +                           bool abort)
+>> +{
+>> +       struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>> +       struct nvmet_pr *pr = &req->ns->pr;
+>> +       struct nvmet_pr_registrant *holder;
+>> +       enum nvme_pr_type original_rtype;
+>> +       u64 prkey = le64_to_cpu(d->prkey);
+>> +       u16 status;
+>> +
+>> +       lockdep_assert_held(&pr->pr_lock);
+>> +       holder = rcu_dereference_protected(pr->holder,
+>> +                       lockdep_is_held(&pr->pr_lock));
+>> +       if (!holder)
+>> +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
+>> +                                       &ctrl->hostid, abort);
+>> +
+>> +       original_rtype = holder->rtype;
+>> +       if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+>> +           original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
+>> +               if (!prkey) {
+>> +                       nvmet_pr_unreg_all_others(req, &ctrl->hostid, abort);
+>> +                       nvmet_pr_set_new_holder(pr, rtype, reg);
+> You didnot address the reservation atomicity here. You still remove an
+> old holder and then after a some time you set the new holder.
+> In this time gap an incomming WRITE command from a non holder will write
+> to the media.
+Right, I will change it in v10.
+>> +                       return NVME_SC_SUCCESS;
+>> +               }
+>> +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
+>> +                               &ctrl->hostid, abort);
+>> +       }
+>> +
+>> +       if (holder == reg) {
+>> +               status = nvmet_pr_update_reg_attr(pr, holder,
+>> +                               nvmet_pr_update_holder_rtype, &rtype);
+>> +               if (!status && original_rtype != rtype)
+>> +                       nvmet_pr_resv_released(pr, &reg->hostid);
+>> +               return status;
+>> +       }
+>> +
+>> +       if (prkey == holder->rkey) {
+>> +               status = nvmet_pr_unreg_all_others_by_prkey(req, prkey,
+>> +                                       &ctrl->hostid, abort);
+> And here too that timegap with released reservation.
+I will fix this too, and also the
 
-> When the drive is formatted with type1 integrity and dix is supported,
-> the block layer would generate/verify the guard and reftag. For scsi,
-> apptag would also need to be generated/verified as reftag-check can't
-> be specified alone. But I am not not able to find (in SCSI code) where
-> exactly: 1. this apptag is being generated
-> 2. and getting added to the PI buffer and scsi command.
+nvmet_pr_unreg_all_others_by_prkey() does not need a return value,
 
-The block layer on its own doesn't have a way to fill out the app tag in
-any meaningful way. But if the PI comes from userland, the application
-can set the app tag to whatever it pleases.
+I remove it.
 
-Originally we had code in Linux allowing filesystems to attach
-additional metadata to bios which would then be stored in the app tag
-space. This was intended for backpointers but never really took off.
-However, if we move the burden of PI generation to filesystems as
-Christoph suggested, then we can revisit using the app tag space.
+>> +               if (status)
+>> +                       return status;
+>> +
+>> +               nvmet_pr_set_new_holder(pr, rtype, reg);
+>> +               if (original_rtype != rtype)
+>> +                       nvmet_pr_resv_released(pr, &reg->hostid);
+> This function is(may be) already invoked in nvmet_pr_unregister_one.
+>
+Not, here the original_rtype is not NVME_PR_WRITE_EXCLUSIVE_REG_ONLY or
 
-No matter what, though, for target we need to be able to store whichever
-app tag the initiator sends.
+NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS, so the nvmet_pr_unregister_one will
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+not call nvmet_pr_resv_released.
+
+>> +               return status;
+>> +       }
+>> +
+>> +       if (prkey)
+>> +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
+>> +                                       &ctrl->hostid, abort);
+>> +       return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>> +}
+>> +
+>> +static void nvmet_pr_confirm_ns_pc_ref(struct percpu_ref *ref)
+>> +{
+>> +       struct nvmet_pr_per_ctrl_ref *pc_ref =
+>> +               container_of(ref, struct nvmet_pr_per_ctrl_ref, ref);
+>> +
+>> +       complete(&pc_ref->confirm_done);
+>> +}
+>> +
+>> +static void nvmet_pr_do_abort(struct nvmet_req *req)
+>> +{
+>> +       struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+>> +       struct nvmet_pr_per_ctrl_ref *pc_ref;
+>> +       struct nvmet_ctrl *ctrl = NULL;
+>> +
+>> +find_next:
+>> +       mutex_lock(&subsys->lock);
+>> +       list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>> +               if (ctrl->pr_abort)
+>> +                       goto do_abort;
+>> +       }
+>> +       mutex_unlock(&subsys->lock);
+>> +       return;
+>> +
+>> +do_abort:
+>> +       mutex_unlock(&subsys->lock);
+>> +       /*
+>> +        * The target dose not support abort, just wait ref to 0.
+> typo "dose"->"does"
+>
+Sure.
+>> +        */
+>> +       pc_ref = xa_load(&req->ns->pr_per_ctrl_refs, ctrl->cntlid);
+>> +       percpu_ref_kill_and_confirm(&pc_ref->ref, nvmet_pr_confirm_ns_pc_ref);
+>> +       wait_for_completion(&pc_ref->confirm_done);
+>> +       wait_for_completion(&pc_ref->free_done);
+>> +       reinit_completion(&pc_ref->confirm_done);
+>> +       reinit_completion(&pc_ref->free_done);
+>> +       percpu_ref_resurrect(&pc_ref->ref);
+>> +
+>> +       ctrl->pr_abort = false;
+> pr_abort flag is per controller, but this function is per namespace.
+> The use case of preempt_and_abort is to preempt reservation of a "zomby" host
+> for the all namespaces. It means that preempt_and_abort command will be sent
+> for the each namespace and there will be several parallel abort processes for
+> the same controllers. And you should not mix them.
+>
+> May be doing ref_kill instead of setting ctlr->pr_abort=true will more
+> accuratelly set the barier for incoming IO. You may use Mark feature in
+> XArrays to mark pc_ref to wait the completion for and use xa_for_each_marked
+> for going through such pc_refs.
+
+Good idea, thanks very much, will changed in v10.
+
+Best Regards,
+
+Guixin Liu
+
+>> +       nvmet_ctrl_put(ctrl);
+>> +       goto find_next;
+>> +}
+>> +
+>> +static u16 __nvmet_execute_pr_acquire(struct nvmet_req *req,
+>> +                                     struct nvmet_pr_registrant *reg,
+>> +                                     u8 acquire_act,
+>> +                                     u8 rtype,
+>> +                                     struct nvmet_pr_acquire_data *d)
+>> +{
+>> +       u16 status;
+>> +
+>> +       switch (acquire_act) {
+>> +       case NVME_PR_ACQUIRE_ACT_ACQUIRE:
+>> +               status = nvmet_pr_acquire(req, reg, rtype);
+>> +               goto out;
+>> +       case NVME_PR_ACQUIRE_ACT_PREEMPT:
+>> +               status = nvmet_pr_preempt(req, reg, rtype, d, false);
+>> +               goto inc_gen;
+>> +       case NVME_PR_ACQUIRE_ACT_PREEMPT_AND_ABORT:
+>> +               status = nvmet_pr_preempt(req, reg, rtype, d, true);
+>> +               if (!status)
+>> +                       nvmet_pr_do_abort(req);
+>> +               goto inc_gen;
+>> +       default:
+>> +               req->error_loc = offsetof(struct nvme_common_command, cdw10);
+>> +               status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+>> +               goto out;
+>> +       }
+>> +inc_gen:
+>> +       if (!status)
+>> +               atomic_inc(&req->ns->pr.generation);
+>> +out:
+>> +       return status;
+>> +}
+>> +
 
