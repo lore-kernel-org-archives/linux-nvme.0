@@ -4,55 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3DEBCF9C71
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 09:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5417CF9C71
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 09:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5m4RQ4VNBFMhAoRV2E/TBCUs2t7JhJdQ63Itw1dMMK4=; b=dInKs1g6IAtQl7smk2lCgfLdIJ
-	+HiVR35yBH9H+Av4saJ7dJoyfe2oIy9+hlS146+UD1QVcq6eb3wvME2EMnO6AVfPEpSAHYPQZZjar
-	xBG0ptH8oM+9W+2dk+7/3CZs5NmWFmM08rd6MkSErLsCMxOyWnPSq/Ns0ZPOF2tmMkfepmp1cMUcl
-	EUongGBPni4DTNpE/Oywu+T99yNCK4fOSHnP5TLz3ewpZmtDoOm4ZbBT59Zha+4Tqpnk7zJ9za/Uh
-	W0yBR6teG1nARyWjAXRyUj7nFgAc/PgXM3xwa7QqYgMI2pvQ19/Z6NZ83cKW37+s2oaMPdFb4koOk
-	fxXAQNoA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=O/zo7RhP61a9O8LhrGF/ZtU+oupMYRBaBJMbkLt8RWE=; b=4i0TpIEdggSbZsVbs/VHw+e3MF
+	rWmV1LdI86R9GHU2eWVr6oSTsmBIirbPoY/wrN4GYvDQSoOL3krgBP5Sq6P0SnGMUdi+vPxgvXHh2
+	juSOjVVJsbadAjPoET42+Et1zDx+L7yuoQ/1gjP2OL1ih84MsvSGyzpgK9f28FNO6Ry/VvIQ3elHD
+	/IkN70HZlR/q4ZKuCLU225jYkDRTVh75AXnNS69NO7BBwUukqc1+FiGZ40Lx8rtTiR0Zwln7f6nGb
+	onCCvSsc66KKfJYDO9YmI5xWyxJEZsc3TejH0uBc1mD8vwmaqF8suOQAlocQhDV27Icj89rzEI8yA
+	oYOFJAPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1st1uN-00000001oeN-2fgf;
-	Tue, 24 Sep 2024 09:32:35 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1st228-00000001qVv-1NAn;
+	Tue, 24 Sep 2024 09:40:36 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1st1qa-00000001nbN-142m
+	id 1st1uh-00000001osE-2QZw
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Sep 2024 09:28:41 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EE8A1227A8E; Tue, 24 Sep 2024 11:28:32 +0200 (CEST)
-Date: Tue, 24 Sep 2024 11:28:32 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
-	sagi@grimberg.me, martin.petersen@oracle.com,
-	James.Bottomley@HansenPartnership.com, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org,
-	jlayton@kernel.org, chuck.lever@oracle.com, bvanassche@acm.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org, gost.dev@samsung.com,
-	vishak.g@samsung.com, javier.gonz@samsung.com,
-	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCH v5 4/5] sd: limit to use write life hints
-Message-ID: <20240924092832.GA26208@lst.de>
-References: <20240912130235.GB28535@lst.de> <e6ae5391-ae84-bae4-78ea-4983d04af69f@samsung.com> <20240913080659.GA30525@lst.de> <4a39215a-1b0e-3832-93bd-61e422705f8b@samsung.com> <20240917062007.GA4170@lst.de> <b438dddd-f940-dd2b-2a6c-a2dbbc4ee67f@samsung.com> <20240918064258.GA32627@lst.de> <197b2c1a-66d2-5f5a-c258-7e2f35eff8e4@samsung.com> <20240918120159.GA20658@lst.de> <edcbf69e-9ae9-06df-60c0-47393371fcd8@samsung.com>
+	Tue, 24 Sep 2024 09:32:58 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240924093250epoutp01eef9912c1715e258045e40324454420d~4JE0FEu3M0390703907epoutp01I
+	for <linux-nvme@lists.infradead.org>; Tue, 24 Sep 2024 09:32:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240924093250epoutp01eef9912c1715e258045e40324454420d~4JE0FEu3M0390703907epoutp01I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1727170370;
+	bh=O/zo7RhP61a9O8LhrGF/ZtU+oupMYRBaBJMbkLt8RWE=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=J8EjFUUfgBjp+HMXv7klApRcsEB61VDto7YGUaMRPQJsmLh/H9UAIOEgPeZxVkg/j
+	 ybNYkLU8oxuhJ7vSCRt21OgGkl+aCAkHzmEeWzXUDOJ6mJ5ngvF9YuW3/GkM4qsnzY
+	 OEtEcMds5gJjd7j9KpHN+DQu3WczJ5RsAUsy5+90=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240924093249epcas5p3fcbf7bcc0b66c56c798faa982378d7a9~4JEzWd1nY1076610766epcas5p3H;
+	Tue, 24 Sep 2024 09:32:49 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4XCZQl5qNKz4x9Q8; Tue, 24 Sep
+	2024 09:32:47 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	11.BD.09640.F3782F66; Tue, 24 Sep 2024 18:32:47 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240924093247epcas5p4807fe5e531a2b7b2d6961d23bc989c80~4JExIvixO2460424604epcas5p4W;
+	Tue, 24 Sep 2024 09:32:47 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240924093247epsmtrp12b64f86c2a37fd7b3e74534f718926df~4JExGlRU50907509075epsmtrp1Q;
+	Tue, 24 Sep 2024 09:32:47 +0000 (GMT)
+X-AuditID: b6c32a49-a57ff700000025a8-04-66f2873fcd23
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	36.C1.08964.E3782F66; Tue, 24 Sep 2024 18:32:46 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240924093243epsmtip2ac324fa66b8c50096f40fb2d889aea28~4JEuIOfcM0088900889epsmtip2D;
+	Tue, 24 Sep 2024 09:32:43 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, brauner@kernel.org, viro@zeniv.linux.org.uk,
+	jack@suse.cz, jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com,
+	bvanassche@acm.org, asml.silence@gmail.com
+Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
+	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Kanchan
+	Joshi <joshi.k@samsung.com>
+Subject: [PATCH v6 0/3] per-io hints and FDP
+Date: Tue, 24 Sep 2024 14:54:54 +0530
+Message-Id: <20240924092457.7846-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <edcbf69e-9ae9-06df-60c0-47393371fcd8@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1BUVRzHO/de9i7U6m1BPTIBy1YY4CIbCxwKhCm0WzKFMVk5GmxwYYl9
+	uQ8ixkmGl4my5GKIi04SD3EZYkIkCNFYwI2m2lJwhAEiXChFAWHUCBfaZdfyv8/5nd/3fM/3
+	PNg49ybLm50p1zAquVjKZ3kQbT2BQYLYg/PpodVzweiksQ2gxtEyFipZbiXQdM88QBVzizia
+	yV8i0ND3HRg629iHoZmiXwhUdbwAQ9ZmA45ujCyQqG/lDgvpTdcAOlaRD1DXcDC60NVPoC/r
+	J0l0xryMoa+nZwlksZndkMVwkoxbT18d2EF3GEZJ2jL2DUFf/VlLtxgPseiWeT1Jn6s9QHcO
+	5bHou5PDBD17cZBF61qNgP7pdC9JL7T40i3WO1jimt1Z0RJGnMaoeIw8VZGWKc+I4e9ISn41
+	OTwiVCgQRqFIPk8uljEx/PiERMH2TKk9Op+XLZZq7aVEsVrN37I1WqXQahieRKHWxPAZZZpU
+	KVKGqMUytVaeESJnNC8JQ0NfDLc3pmRJKs/ewJSX1ubM9pa55YGeJ0uAOxtSIthkaSAdzKU6
+	Aew9klsCPOw8D+DtqctuzsF9ANtNi+QjxZStFXdOdAH42w/drsECgNWmfruEzWZRgfDXcq2j
+	7kUVY7BwvAJ3qHHKBqBpKMHBntRmaB0ZxRxMUM/DyzOdhIM5VCS0LFaxnG5+8MSVB6Sz/jTs
+	P2ElnOv4wYLzVavGkCpwh2O9h1yCeGhbsLi26glvmVtd7A1vlhW7OAuOT4wTTt4P28/p3Jwc
+	C/MeXl8NgNsDNH+3xem1BpYuWTFHGVIc+Fkx19ntD8f0ky7lBvhHZa2LaThY3wgc7VxqLxyt
+	++hz4Gt4LIDhsQCG/71OA9wINjJKtSyDUYcrhXLm4/+uMlUhawGrbz7o9XYwOj4XYgIYG5gA
+	ZON8L45+6G46l5Mm/iSXUSmSVVopozaBcPupHsW916Uq7J9GrkkWiqJCRREREaKosAghfwNn
+	uuhUGpfKEGuYLIZRMqpHOozt7p2HHfxne+mft+KkmUWvPJEY9mCgir8IvYNjbg/f8yJ94pt1
+	xsmm/d0ywVfdPjWnVkYG69ikQeeuwdqu5QerQjbnHDZy/HJ952ideenexTnetnXPfDo4MVEf
+	0zDQAC9lj9e8tZJUvmnXBZvuvXfisIdRr3X7ek5ZX57Zd13tEXflBYlnwvsp5/O2HsD2fJiv
+	7/BP8rp/ZiPGy0pP0Oa8cYy2Ba0176vvOpJd5yuKLRdIyADetsrS6P6j1o7DnqKCshpZ4abd
+	DR/sHBs+vutZ/Rf+AY3LP2YQBKnZ+3dKWOD0U8XfCgqr8fXm35tYPu/2xUbPwIE3AyR7xirf
+	zpfujKz8a6D2OQWfUEvEwiBcpRb/C8tarjh8BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCIsWRmVeSWpSXmKPExsWy7bCSvK5d+6c0g80rbCzmrNrGaLH6bj+b
+	Rde/LSwWrw9/YrSY9uEns8W7pt8sFjcP7GSyWLn6KJPFu9ZzLBazpzczWTxZP4vZ4vGdz+wW
+	R/+/ZbOYdOgao8WUaU2MFntvaVvs2XuSxWL+sqfsFsuP/2OyWPf6PYvF+b/HWS3Oz5rD7iDm
+	cfmKt8fOWXfZPc7f28jicflsqcemVZ1sHps+TWL32Lyk3mP3zQY2j49Pb7F4vN93lc2jb8sq
+	Ro8zC46we3zeJOex6clbpgC+KC6blNSczLLUIn27BK6MGSsfMxXs5694f6SftYHxMHcXIyeH
+	hICJxLO/W5i7GLk4hAR2M0r0HZjECpEQl2i+9oMdwhaWWPnvOTtE0UdGiZmPZzN2MXJwsAlo
+	SlyYXAoSFxGYwSRxasVBNhCHWaCdSeLaxLvMIN3CAjoST+7cZQKxWQRUJY69280CYvMKmEuc
+	/zmbDWKDvMTMS9/ZIeKCEidnPgGrYQaKN2+dzTyBkW8WktQsJKkFjEyrGCVTC4pz03OLDQsM
+	81LL9YoTc4tL89L1kvNzNzGCI1JLcwfj9lUf9A4xMnEwHmKU4GBWEuGddPNjmhBvSmJlVWpR
+	fnxRaU5q8SFGaQ4WJXFe8Re9KUIC6YklqdmpqQWpRTBZJg5OqQampKcL7P5O6GfV3sRXb6A6
+	4/cC46sSGzlPeIbcmp2a05Tz7LJrXnPtafZ5kw4kLTaN/Pr+2pTnOfPvPjq/vl7BcULntY3T
+	TwT17Sy48a2Sz3fRWt9b1e2et4IOs6zu2Bq8Mas6325hiRjzcq7NU67Vi17Ylf13KetpeXbG
+	ksXBYUfk2P9scP93PFTFMnFb0ouJ32+ySc2LmWQv3KqTuWWpI1v8gePH5p26122v3cGckbT7
+	R4LARsWXErbW3RsUjwZflZ1twrW/mWHjhqqY2Jo0+6u7ok75l70N7nnb57ljg0/LMrZcqScL
+	VdId3I7psTNrHF+lGDdhkt6d1fNyzGyS9ex8/SS+3enKKvu3191CiaU4I9FQi7moOBEA0UbF
+	+zcDAAA=
+X-CMS-MailID: 20240924093247epcas5p4807fe5e531a2b7b2d6961d23bc989c80
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240924093247epcas5p4807fe5e531a2b7b2d6961d23bc989c80
+References: <CGME20240924093247epcas5p4807fe5e531a2b7b2d6961d23bc989c80@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240924_022840_452786_5AEFBA9F 
-X-CRM114-Status: GOOD (  16.37  )
+X-CRM114-CacheID: sfid-20240924_023256_017148_2C1C4E53 
+X-CRM114-Status: GOOD (  17.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,24 +140,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 24, 2024 at 02:54:51PM +0530, Kanchan Joshi wrote:
-> FS managed/created hints is a different topic altogether,
-> and honestly 
-> that is not the scope of this series. That needs to be thought at per-FS 
-> level due to different data/meta layouts.
+Another spin to incorporate the feedback from LPC and previous
+iteration. The series adds two capabilities:
+- FDP support at NVMe level (patch #1)
+- Per-io hinting via io_uring (patch #3)
+Patch #2 is needed to do per-io hints.
 
-No, it is not.  If you design an API where hints bypass the file
-system you fundamentally do the wrong thing when there is a file
-system.  No one is asking to actually implement file system
-support in this series, but we need to consider the fundamental
-problem in the API design.
+The motivation and interface details are present in the commit
+descriptions.
 
-And yes, the actual implementation will be highly dependent on the
-file system.
+Testing:
+Done with fcntl and liburing based custom applications.
+On raw block device, ext4, xfs, btrfs and F2FS.
+Checked that no regression occurs for application that use per-inode
+hints.
+Checked that per-io hints, when passed, take the precedence over per-inode
+hints.
 
-> This scope of this series is to enable application-managed hints passing 
-> through the file system. FS only needs to pass what it receives.
+Changes since v5:
+- Drop placement hints
+- Add per-io hint interface
 
-Which fundamentally can't work for even a semi-intelligent file system.
+Changes since v4:
+- Retain the size/type checking on the enum (Bart)
+- Use the name "*_lifetime_hint" rather than "*_life_hint" (Bart)
+
+Changes since v3:
+- 4 new patches to introduce placement hints
+- Make nvme patch use the placement hints rather than lifetime hints
+
+Changes since v2:
+- Base it on nvme-6.11 and resolve a merge conflict
+
+Changes since v1:
+- Reduce the fetched plids from 128 to 6 (Keith)
+- Use struct_size for a calculation (Keith)
+- Handle robot/sparse warning
+
+Kanchan Joshi (3):
+  nvme: enable FDP support
+  block, fs: restore kiocb based write hint processing
+  io_uring: enable per-io hinting capability
+
+ block/fops.c                  |  6 +--
+ drivers/nvme/host/core.c      | 70 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  4 ++
+ fs/aio.c                      |  1 +
+ fs/cachefiles/io.c            |  1 +
+ fs/direct-io.c                |  2 +-
+ fs/fcntl.c                    | 22 -----------
+ fs/iomap/direct-io.c          |  2 +-
+ include/linux/fs.h            |  8 ++++
+ include/linux/nvme.h          | 19 ++++++++++
+ include/linux/rw_hint.h       | 24 ++++++++++++
+ include/uapi/linux/io_uring.h | 10 +++++
+ io_uring/rw.c                 | 20 ++++++++++
+ 13 files changed, 162 insertions(+), 27 deletions(-)
+
+-- 
+2.25.1
 
 
