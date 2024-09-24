@@ -4,72 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32982CF9C71
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 08:25:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B2F0CF9C71
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 08:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2MZ13KSpovK/1f8WvC0ydyUi4gsaDwi7dW4OXPTlUI0=; b=Fpj0XuWY0L80Uifa7DDi5kq3BW
-	Zs8ohKWstyf2MT/qsr4uT1tah1TNzEkxNHewCEOwq2Y/E8K14Q1qWhUhxX4q+9LM/p4QgjkfMcKkl
-	IXiVgeG/knEA7pYmBx8OYVj9fDT1jb4zAD3bPqYZljJDl9Jgyo82N1kAyj62uebJZdU/Q1qvwKE0e
-	UqqyHHfrUTCvuANVc2WG0jJsZD9L2tpt8Mo5/YcLfDaF9BLJFuzuHbICeAQZIezelyf1OxA7Mnnk8
-	OirKog+EOIx0oYAG6UwxIuImB4EvVwiTpYvN1KBT1tNMcyvt7DplFBofSZirooeING8lby8A+HdLF
-	gN/yghGw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=OFSXQdbU4eGt5D3bPR1JWE10TDEbBJ2tSqvS8uoxnp0=; b=Ibg7vL2ZCXVpxW
+	5NqUIUIllGMTrf6ZApvMvt2o/dcfVyQkJ3LGQgZXEc6IdnOCggKhxqejji7THLjhUSmyPRzVPFJhS
+	SHVPK3Epj9wn77HcxpmqN4SwUvo1wnJvSid17wZpiEG08YhMjxn0b2VuqVLG+reiXGo+RiWlgMy5A
+	fyBklzW3GU3/MzGZlfJDJpmg1LrJSLMUoZcpEb0KT++B0rgd3uotikf3XB4f/0Sf2zFyS0NPaPtKl
+	osLV+Ogu+SvhBPjcpjB9t7OoEQEj1UgVJLPKURUPjbiHSuMrLXdroRgsHklCj6temJmcVzRbOXOTT
+	Zze6/e08jbV5GN9qs72A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1st0rL-00000001aR5-1VyW;
-	Tue, 24 Sep 2024 08:25:23 +0000
-Received: from mta-04.yadro.com ([89.207.88.248])
+	id 1st1F9-00000001fOU-2lCM;
+	Tue, 24 Sep 2024 08:49:59 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1st0rH-00000001aPf-2m1e
+	id 1st1ER-00000001fIA-2RlI
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Sep 2024 08:25:22 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-04.yadro.com 69C6EC0007
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
-	t=1727166316; bh=2MZ13KSpovK/1f8WvC0ydyUi4gsaDwi7dW4OXPTlUI0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=CM1P94bGqRhe2RueT9cyUFomIjgdIgiUSuGRN2RX9WGntkaiLIqa0wNrXmCst3fdT
-	 Ro7aquHeBbj0v2OPOHeiX0yx+an+ebmHK/pzB/jEhd0+f2hzKvRNv2oX+fezUrgxGO
-	 az2WQ0SHagepjZOT74aP5Dr1eN7D/ULX5B2MEagDVwrqfBGsRgwI3PmWRZ5Q7VyLbX
-	 Cx1tYfvAHc8y/1lyeUo53Ie8KuKawj/ozRiQFxdeqUODi3bd/dbk+hyx7A71mrvWX6
-	 3qncaq9M7NPgKi17ogJ3wkJmDc1/eUYPYzu96YSbe5k+hX7K64ZAvKY4K7JL5Elzw1
-	 SyxtaAtTqXNGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1727166316; bh=2MZ13KSpovK/1f8WvC0ydyUi4gsaDwi7dW4OXPTlUI0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=nsolFsnW1f5TyaDm0D6j3N2nsYwEkkxFMGsXrETdFfqu0z3xhpiMC4s4auEaTjCPv
-	 qV3TdWSA07L8LO7GlAbzSdk8Mjfmcrqxr34CkKgMVohxKH011zuCRHr3zGhW+l0PMy
-	 EwI6Tt8WQpJi4V9pMYqwcaA0HmfrfK8qgbsGTsPVjNGK2Oztab0rwbzgiNKwXTbEQd
-	 2uyqlhQw04FrlL/3e6aup81C+mccPZcMXHXr5P4g4Z4+ClAHy8+zdYSNoedtp3usBP
-	 p8gsRDr3ZO063PZYnQhjYZCTfE3fK6CCMgpj1noM+wHcAC7JCVD7wDlwYhhjdPtEK9
-	 dSXTRyoeycZ2w==
-Date: Tue, 24 Sep 2024 11:24:25 +0300
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
-To: Guixin Liu <kanie@linux.alibaba.com>
-CC: <hch@lst.de>, <sagi@grimberg.me>, <kch@nvidia.com>,
-	<linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH v9 1/1] nvmet: support reservation feature
-Message-ID: <20240924082425.GF22571@yadro.com>
-References: <20240923094708.42445-1-kanie@linux.alibaba.com>
- <20240923094708.42445-2-kanie@linux.alibaba.com>
- <20240923163228.GD22571@yadro.com>
- <114ce6b1-13e7-418e-bd23-8ab32a7b4c8f@linux.alibaba.com>
- <20240924055433.GE22571@yadro.com>
- <3b315daf-76a6-4360-aeac-65def22aa196@linux.alibaba.com>
- <0cddf902-9e60-43ca-b138-630c5485efa0@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+	Tue, 24 Sep 2024 08:49:17 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48O0YH6c001659;
+	Tue, 24 Sep 2024 08:49:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+	:to:cc:subject:date:message-id:content-transfer-encoding
+	:mime-version; s=pp1; bh=OFSXQdbU4eGt5D3bPR1JWE10TDEbBJ2tSqvS8uo
+	xnp0=; b=Nuwkp8NDGqmoS7YUpd/PWRhkXN313sqoroj+AyvoBbfztvED4CVrjJf
+	Bm6/BaC4T9LWKS8EfVvpQfvuLow1pk7ea6kXnZjFbEVg4OKR35hidjjyvq8rSdr+
+	2J+G8fTTy1x+gSqlkPJJPpLHbhSAdxKixJg7Q+w7acO4i4Hi8RRlrmZXTuu+9+JY
+	HnLPHWDx+kw4zxCQQfpMMHg8Dh3IJlnO+HvBtMeKJ7ay6p/nXg93UEdIk7nGgnss
+	vV37YZyS9Q0HC+IqvOz8i4YLvlGQCJEHI9GvhvBtrYn/xJ1J1I8Bu/6a5+qTnAs4
+	dCaKbfwa/UEBsWjpxLungNARllV1e2w==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41snvb0pbq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 08:49:14 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48O8HJfB005810;
+	Tue, 24 Sep 2024 08:49:14 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 41tapmaqnq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 08:49:13 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48O8nAQl53084584
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Sep 2024 08:49:10 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5FA6520040;
+	Tue, 24 Sep 2024 08:49:10 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0975C20043;
+	Tue, 24 Sep 2024 08:49:09 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.42.77])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 24 Sep 2024 08:49:08 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
+Cc: shinichiro.kawasaki@wdc.com, martin.wilck@suse.com, gjoyce@linux.ibm.com,
+        Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCH blktests] nvme/{033-037}: timeout while waiting for nvme passthru namespace device
+Date: Tue, 24 Sep 2024 14:18:45 +0530
+Message-ID: <20240924084907.143999-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: usYr5aIqkuBN2luRweNOciY43CHZP7MY
+X-Proofpoint-GUID: usYr5aIqkuBN2luRweNOciY43CHZP7MY
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0cddf902-9e60-43ca-b138-630c5485efa0@linux.alibaba.com>
-X-ClientProxiedBy: T-EXCH-10.corp.yadro.com (172.17.11.60) To
- T-EXCH-09.corp.yadro.com (172.17.11.59)
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-24_02,2024-09-23_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 clxscore=1011 spamscore=0 mlxscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409240061
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240924_012520_759888_78A9A17E 
-X-CRM114-Status: GOOD (  33.51  )
+X-CRM114-CacheID: sfid-20240924_014915_759921_073DBB72 
+X-CRM114-Status: GOOD (  19.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,185 +102,178 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 24, 2024 at 02:38:40PM +0800, Guixin Liu wrote:
-> 
-> 在 2024/9/24 14:18, Guixin Liu 写道:
-> > 
-> > 在 2024/9/24 13:54, Dmitry Bogdanov 写道:
-> > > On Tue, Sep 24, 2024 at 10:49:58AM +0800, Guixin Liu wrote:
-> > > > 在 2024/9/24 00:32, Dmitry Bogdanov 写道:
-> > > > > > This patch implements the reservation feature, includes:
-> > > > > > 1. reservation register(register, unregister and replace).
-> > > > > > 2. reservation acquire(acquire, preempt, preempt and abort).
-> > > > > > 3. reservation release(release and clear).
-> > > > > > 4. reservation report.
-> > > > > > 5. set feature and get feature of reservation notify mask.
-> > > > > > 6. get log page of reservation event.
-> > > > > > 
-> > > > > > And also make reservation configurable, one can set ns to support
-> > > > > > reservation before enable ns. The default of resv_enable is false.
-> > > > > > 
-> > > > > > Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> > > > > > ---
-> > > > > >    drivers/nvme/target/Makefile    |    2 +-
-> > > > > >    drivers/nvme/target/admin-cmd.c |   24 +-
-> > > > > >    drivers/nvme/target/configfs.c  |   27 +
-> > > > > >    drivers/nvme/target/core.c      |   58 +-
-> > > > > >    drivers/nvme/target/nvmet.h     |   49 ++
-> > > > > >    drivers/nvme/target/pr.c        | 1214
-> > > > > > +++++++++++++++++++++++++++++++
-> > > > > >    include/linux/nvme.h            |   54 ++
-> > > > > >    7 files changed, 1419 insertions(+), 9 deletions(-)
-> > > > > >    create mode 100644 drivers/nvme/target/pr.c
-> > > > > ...
-> > > > > > +
-> > > > > > +static void nvmet_pr_unregister_one(struct nvmet_pr *pr,
-> > > > > > +                                   struct nvmet_pr_registrant *reg)
-> > > > > > +{
-> > > > > > +       struct nvmet_pr_registrant *first_reg;
-> > > > > > +       struct nvmet_pr_registrant *holder;
-> > > > > > +       u8 original_rtype;
-> > > > > > +
-> > > > > > +       lockdep_assert_held(&pr->pr_lock);
-> > > > > > +       list_del_rcu(&reg->entry);
-> > > > > > +
-> > > > > > +       holder = rcu_dereference_protected(pr->holder,
-> > > > > > + lockdep_is_held(&pr->pr_lock));
-> > > > > > +       if (reg != holder)
-> > > > > > +               goto out;
-> > > > > > +
-> > > > > > +       original_rtype = holder->rtype;
-> > > > > > +       if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
-> > > > > > +           original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
-> > > > > > +               first_reg =
-> > > > > > list_first_or_null_rcu(&pr->registrant_list,
-> > > > > > +                               struct nvmet_pr_registrant, entry);
-> > > > > > +               if (first_reg)
-> > > > > > +                       first_reg->rtype = original_rtype;
-> > > > > > +               rcu_assign_pointer(pr->holder, first_reg);
-> > > > > > +       } else {
-> > > > > > +               rcu_assign_pointer(pr->holder, NULL);
-> > > > > > +
-> > > > > > +               if (original_rtype ==
-> > > > > > NVME_PR_WRITE_EXCLUSIVE_REG_ONLY ||
-> > > > > > +                   original_rtype ==
-> > > > > > NVME_PR_WRITE_EXCLUSIVE_REG_ONLY)
-> > > > > copy&past error?
-> > > > > The second check should be against NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY?
-> > > > Indeed, my mistake, it will be fixed in v10.
-> > > > > > + nvmet_pr_resv_released(pr, &reg->hostid);
-> > > > > > +       }
-> > > > > > +out:
-> > > > > > +       synchronize_rcu();
-> > > > > > +       kfree(reg);
-> > > > > > +}
-> > > > > > +
-> > > > > > ......
-> > > > > > +
-> > > > > > +static u16 nvmet_pr_preempt(struct nvmet_req *req,
-> > > > > > +                           struct nvmet_pr_registrant *reg,
-> > > > > > +                           u8 rtype,
-> > > > > > +                           struct nvmet_pr_acquire_data *d,
-> > > > > > +                           bool abort)
-> > > > > > +{
-> > > > > > +       struct nvmet_ctrl *ctrl = req->sq->ctrl;
-> > > > > > +       struct nvmet_pr *pr = &req->ns->pr;
-> > > > > > +       struct nvmet_pr_registrant *holder;
-> > > > > > +       enum nvme_pr_type original_rtype;
-> > > > > > +       u64 prkey = le64_to_cpu(d->prkey);
-> > > > > > +       u16 status;
-> > > > > > +
-> > > > > > +       lockdep_assert_held(&pr->pr_lock);
-> > > > > > +       holder = rcu_dereference_protected(pr->holder,
-> > > > > > + lockdep_is_held(&pr->pr_lock));
-> > > > > > +       if (!holder)
-> > > > > > +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
-> > > > > > + &ctrl->hostid, abort);
-> > > > > > +
-> > > > > > +       original_rtype = holder->rtype;
-> > > > > > +       if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
-> > > > > > +           original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
-> > > > > > +               if (!prkey) {
-> > > > > > +                       nvmet_pr_unreg_all_others(req,
-> > > > > > &ctrl->hostid, abort);
-> > > > > > +                       nvmet_pr_set_new_holder(pr, rtype, reg);
-> > > > > You didnot address the reservation atomicity here. You still remove an
-> > > > > old holder and then after a some time you set the new holder.
-> > > > > In this time gap an incomming WRITE command from a non holder will
-> > > > > write
-> > > > > to the media.
-> > > > Right, I will change it in v10.
-> > > > > > +                       return NVME_SC_SUCCESS;
-> > > > > > +               }
-> > > > > > +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
-> > > > > > +                               &ctrl->hostid, abort);
-> > > > > > +       }
-> > > > > > +
-> > > > > > +       if (holder == reg) {
-> > > > > > +               status = nvmet_pr_update_reg_attr(pr, holder,
-> > > > > > + nvmet_pr_update_holder_rtype, &rtype);
-> > > > > > +               if (!status && original_rtype != rtype)
-> > > > > > +                       nvmet_pr_resv_released(pr, &reg->hostid);
-> > > > > > +               return status;
-> > > > > > +       }
-> > > > > > +
-> > > > > > +       if (prkey == holder->rkey) {
-> > > > > > +               status = nvmet_pr_unreg_all_others_by_prkey(req,
-> > > > > > prkey,
-> > > > > > + &ctrl->hostid, abort);
-> > > > > And here too that timegap with released reservation.
-> > > > I will fix this too, and also the
-> > > > 
-> > > > nvmet_pr_unreg_all_others_by_prkey() does not need a return value,
-> > > > 
-> > > > I remove it.
-> > > > 
-> > > > > > +               if (status)
-> > > > > > +                       return status;
-> > > > > > +
-> > > > > > +               nvmet_pr_set_new_holder(pr, rtype, reg);
-> > > > > > +               if (original_rtype != rtype)
-> > > > > > +                       nvmet_pr_resv_released(pr, &reg->hostid);
-> > > > > This function is(may be) already invoked in nvmet_pr_unregister_one.
-> > > > > 
-> > > > Not, here the original_rtype is not NVME_PR_WRITE_EXCLUSIVE_REG_ONLY or
-> > > > NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS, so the nvmet_pr_unregister_one will
-> > > > not call nvmet_pr_resv_released.
-> > > nvmet_pr_unregister_one sends an event for original_rtype == *_REG_ONLY
-> > > Here you have only original_rtype != ALL_REGS, so _REG_ONLY is possible.
-> > My mistake, it will be removed in v10, thanks.
-> 
-> I take a look again, if we set self new holder before call
-> nvmet_pr_unreg_all_others_by_prkey(), the
-> nvmet_pr_unreg_all_others_by_prkey() will
-> 
-> not unregister self, so this will not goto nvmet_pr_unregister_one()'s
-> calling nvmet_pr_resv_released().
+Avoid waiting indefinitely for nvme passthru namespace block device
+to appear. Wait for up to 5 seconds and during this time if namespace
+block device doesn't appear then bail out and FAIL the test.
 
-Yes, and this is a reason not to try to fix non-atomicity (anothter my
-comment) by setting new holder before unregistering.
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+Hi,
 
-Regarding this place, here nvmet_pr_resv_released should be called for
-original_rtype !=*_REG_ONLY with a note that _REG_ONLY handled in nvmet_pr_unregister_one.
+You may find more details about this issue here[1]. 
 
-Please, do not take my suggestions "how to fix" as a direct order, it's
-just suggestion.
+I found that blktest nvme/033-037 hangs indefinitely when 
+kernel rejects the passthru target namespace due to the 
+duplicate IDs. This patch helps address this issue by  
+ensuring that we bail out and fail the test if for any 
+reason passthru target namspace is not created on the 
+host. The relevant kernel patchv2 to fix the issue with 
+duplicate IDs while using passthru loop target can be
+found here[2].
 
-> > > > > > +               return status;
-> > > > > > +       }
-> > > > > > +
-> > > > > > +       if (prkey)
-> > > > > > +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
-> > > > > > + &ctrl->hostid, abort);
-> > > > > > +       return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-> > > > > > +}
-> > > > > > +
-> > > > > > +static void nvmet_pr_confirm_ns_pc_ref(struct percpu_ref *ref)
-> > > > > > +{
-> > > > > > +       struct nvmet_pr_per_ctrl_ref *pc_ref =
-> > > > > > +               container_of(ref, struct nvmet_pr_per_ctrl_ref, ref);
-> > > > > > +
-> > > > > > +       complete(&pc_ref->confirm_done);
-> > > > > > +}
-> > > > > > +
+[1]: https://lore.kernel.org/all/8b17203f-ea4b-403b-a204-4fbc00c261ca@linux.ibm.com/
+[2]: https://lore.kernel.org/all/20240921070547.531991-1-nilay@linux.ibm.com/
+
+Thanks!
+---
+ tests/nvme/033 |  7 +++++--
+ tests/nvme/034 |  7 +++++--
+ tests/nvme/035 |  6 +++---
+ tests/nvme/036 | 14 ++++++++------
+ tests/nvme/037 |  6 +++++-
+ tests/nvme/rc  | 12 +++++++++++-
+ 6 files changed, 37 insertions(+), 15 deletions(-)
+
+diff --git a/tests/nvme/033 b/tests/nvme/033
+index 5e05175..171974e 100755
+--- a/tests/nvme/033
++++ b/tests/nvme/033
+@@ -62,8 +62,11 @@ test_device() {
+ 	_nvmet_passthru_target_setup
+ 
+ 	nsdev=$(_nvmet_passthru_target_connect)
+-
+-	compare_dev_info "${nsdev}"
++	if [[ -z "$nsdev" ]]; then
++		echo "FAIL"
++	else
++		compare_dev_info "${nsdev}"
++	fi
+ 
+ 	_nvme_disconnect_subsys
+ 	_nvmet_passthru_target_cleanup
+diff --git a/tests/nvme/034 b/tests/nvme/034
+index 154fc91..7625204 100755
+--- a/tests/nvme/034
++++ b/tests/nvme/034
+@@ -32,8 +32,11 @@ test_device() {
+ 
+ 	_nvmet_passthru_target_setup
+ 	nsdev=$(_nvmet_passthru_target_connect)
+-
+-	_run_fio_verify_io --size="${NVME_IMG_SIZE}" --filename="${nsdev}"
++	if [[ -z "$nsdev" ]]; then
++		echo "FAIL"
++	else
++		_run_fio_verify_io --size="${NVME_IMG_SIZE}" --filename="${nsdev}"
++	fi
+ 
+ 	_nvme_disconnect_subsys
+ 	_nvmet_passthru_target_cleanup
+diff --git a/tests/nvme/035 b/tests/nvme/035
+index ff217d6..6ad9c56 100755
+--- a/tests/nvme/035
++++ b/tests/nvme/035
+@@ -30,13 +30,13 @@ test_device() {
+ 
+ 	_setup_nvmet
+ 
+-	local ctrldev
+ 	local nsdev
+ 
+ 	_nvmet_passthru_target_setup
+ 	nsdev=$(_nvmet_passthru_target_connect)
+-
+-	if ! _xfs_run_fio_verify_io "${nsdev}" "${NVME_IMG_SIZE}"; then
++	if [[ -z "$nsdev" ]]; then
++		echo "FAIL"
++	elif ! _xfs_run_fio_verify_io "${nsdev}" "${NVME_IMG_SIZE}"; then
+ 		echo "FAIL: fio verify failed"
+ 	fi
+ 
+diff --git a/tests/nvme/036 b/tests/nvme/036
+index 442ffe7..a67ca12 100755
+--- a/tests/nvme/036
++++ b/tests/nvme/036
+@@ -30,13 +30,15 @@ test_device() {
+ 
+ 	_nvmet_passthru_target_setup
+ 	nsdev=$(_nvmet_passthru_target_connect)
+-
+-	ctrldev=$(_find_nvme_dev "${def_subsysnqn}")
+-
+-	if ! nvme reset "/dev/${ctrldev}" >> "$FULL" 2>&1; then
+-		echo "ERROR: reset failed"
++	if [[ -z "$nsdev" ]]; then
++		echo "FAIL"
++	else
++		ctrldev=$(_find_nvme_dev "${def_subsysnqn}")
++
++		if ! nvme reset "/dev/${ctrldev}" >> "$FULL" 2>&1; then
++			echo "ERROR: reset failed"
++		fi
+ 	fi
+-
+ 	_nvme_disconnect_subsys
+ 	_nvmet_passthru_target_cleanup
+ 
+diff --git a/tests/nvme/037 b/tests/nvme/037
+index f7ddc2d..f0c8a77 100755
+--- a/tests/nvme/037
++++ b/tests/nvme/037
+@@ -27,7 +27,6 @@ test_device() {
+ 
+ 	local subsys="blktests-subsystem-"
+ 	local iterations=10
+-	local ctrldev
+ 
+ 	for ((i = 0; i < iterations; i++)); do
+ 		_nvmet_passthru_target_setup --subsysnqn "${subsys}${i}"
+@@ -37,6 +36,11 @@ test_device() {
+ 		_nvme_disconnect_subsys \
+ 			--subsysnqn "${subsys}${i}" >>"${FULL}" 2>&1
+ 		_nvmet_passthru_target_cleanup --subsysnqn "${subsys}${i}"
++
++		if [[ -z "$nsdev" ]]; then
++			echo "FAIL"
++			break
++		fi
+ 	done
+ 
+ 	echo "Test complete"
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index a877de3..3def0d0 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -394,6 +394,7 @@ _nvmet_passthru_target_setup() {
+ 
+ _nvmet_passthru_target_connect() {
+ 	local subsysnqn="$def_subsysnqn"
++	local timeout="5"
+ 
+ 	while [[ $# -gt 0 ]]; do
+ 		case $1 in
+@@ -414,9 +415,18 @@ _nvmet_passthru_target_connect() {
+ 	# The following tests can race with the creation
+ 	# of the device so ensure the block device exists
+ 	# before continuing
+-	while [ ! -b "${nsdev}" ]; do sleep 1; done
++	start_time=$(date +%s)
++	while [ ! -b "${nsdev}" ]; do
++		sleep .1
++		end_time=$(date +%s)
++		if ((end_time - start_time > timeout)); then
++			echo ""
++			return 1
++		fi
++	done
+ 
+ 	echo "${nsdev}"
++	return 0
+ }
+ 
+ _nvmet_passthru_target_cleanup() {
+-- 
+2.45.2
+
 
