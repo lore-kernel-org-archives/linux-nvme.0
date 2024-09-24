@@ -4,58 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45706CF9C72
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 06:38:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81B08CF9C71
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 06:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EvGTGjJSWJclu4eLEDzFU9FIDGDCYQNcXw5pUd3mJoY=; b=toIcW9bZUHjQ491uxnK2UHUXTl
-	S390xuRi0CC44Omrx98F3A3VkF7Uz7sVpDYPSLiKQT3gdef8p9RtOK5jO5HuHcUQooaAkxyJqNWT4
-	95lUpO06Om0/yvHfK3+RT8pbgqPx5kNxQdMZeWt8hT2A0vzaMCJGTinwNwFEw18rlHWz6f8K44WGH
-	yHohcxe93yLVSX7sONFtytfp0nrUH8TuHLUVaQh8XnqghBZReod/fngdfFjuZKf0RAbm6WO//MuZa
-	YbHK9BobClfEN7PP9Oqjq3GPNc7sII5hVrKcX8dKk3womSlwnMFGGwr5cPfxvJwaQztvV87pZJxfS
-	HltTlf2g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/nN7dQXcmynVj5CqBOqjCkdKVytiElCjGINB6Grl+rI=; b=XD/wknuJz//EdaxtrtcUYTG8Da
+	TbkFo6M2679V7Hsyl8jIZCGk6WelxIWBReTPpcF9UCeL6Nw+qHDT1RVDiCoiBK5+koAJrxKtFUPnT
+	GxinFfUk1BSjF8TRFr3iN4Ye1uRKvk0VSX3K1UMNXRTAak5zo8LwGponmMNyjbdH99jfsqg3UuI8d
+	U07YNT53a4VpFLaZyGmZWAjfxOU2evNI0W/qikAN8Ijht3VNvvAfc86sR+XHIRoH40bcyJlbcatES
+	fvc4bPaSt0uauT/sfKr3I4Epbg8zM3p/P+Tc2NIanMTdQp08wmqCFTdZNr+TYpn5lkrqOfjAadyKq
+	ZDPzMSTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sszCF-00000001HAL-29Np;
-	Tue, 24 Sep 2024 06:38:51 +0000
-Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
+	id 1sszHE-00000001IfB-3oPh;
+	Tue, 24 Sep 2024 06:44:00 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sszCC-00000001H93-0diA
+	id 1sszFj-00000001IKa-0Wch
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Sep 2024 06:38:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1727159924; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-	bh=EvGTGjJSWJclu4eLEDzFU9FIDGDCYQNcXw5pUd3mJoY=;
-	b=VLWml6jd/1Z0bfG3fB1H2WkuERRSTEnLij3oID71zqcKcVefMWpY7jx1iXzL6R2g+Z0GZQ0OjPxfqIsi0YRJ3ux+Vlt6IVA5FPZoFCUrrEEBn3P3ouWaDvHYK5eQzWuE71vL/Urglf+5d+S5Y5nBu9aFLz/b1queC7MAVWNCkwU=
-Received: from 30.178.83.97(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFf1vOo_1727159922)
-          by smtp.aliyun-inc.com;
-          Tue, 24 Sep 2024 14:38:43 +0800
-Message-ID: <0cddf902-9e60-43ca-b138-630c5485efa0@linux.alibaba.com>
-Date: Tue, 24 Sep 2024 14:38:40 +0800
-MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v9 1/1] nvmet: support reservation feature
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Dmitry Bogdanov <d.bogdanov@yadro.com>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-References: <20240923094708.42445-1-kanie@linux.alibaba.com>
- <20240923094708.42445-2-kanie@linux.alibaba.com>
- <20240923163228.GD22571@yadro.com>
- <114ce6b1-13e7-418e-bd23-8ab32a7b4c8f@linux.alibaba.com>
- <20240924055433.GE22571@yadro.com>
- <3b315daf-76a6-4360-aeac-65def22aa196@linux.alibaba.com>
-In-Reply-To: <3b315daf-76a6-4360-aeac-65def22aa196@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+	Tue, 24 Sep 2024 06:42:29 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48O6CdF2006140;
+	Tue, 24 Sep 2024 06:41:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
+	/nN7dQXcmynVj5CqBOqjCkdKVytiElCjGINB6Grl+rI=; b=Gz8PYCaSjXEpP/cT
+	q8H2E+5Oq9t3vxpDXSQ6/eMiiu736ICkWXx43rBHwxk/fxEf2W45JEPy1r74PSF3
+	b8wXhmTBUG9fgiRUAEhkiz4EN94zL2+yM1kmO7x0Bg1DTG20XXQmrZE4LTl3UpuU
+	k+kUzT6io0hq0S8HCwTmfq62ri7nK2L4cm/tx+NysQOh1F8F0DjDSQizJ1Nho6jO
+	Hus8WTXhs8NstfNtYzFGBu/V/cxiBRCv8fda3wwEajISbgN2JAcH3K58xGRaWa8W
+	PAkMM0J5f/9dBEOQYRjV3+ANsi/QDIVtzdV/6mm+BTL9/+hqXP6OVVpE+AAPSgVH
+	3U+cug==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41snvb0128-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 06:41:57 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48O2eolt012489;
+	Tue, 24 Sep 2024 06:41:56 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41t9fptc33-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Sep 2024 06:41:56 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48O6ftXF28967218
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Sep 2024 06:41:55 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5038358056;
+	Tue, 24 Sep 2024 06:41:55 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 137A75805D;
+	Tue, 24 Sep 2024 06:41:53 +0000 (GMT)
+Received: from [9.171.25.68] (unknown [9.171.25.68])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 24 Sep 2024 06:41:52 +0000 (GMT)
+Message-ID: <37866374-26a0-485b-82ac-bfc2c23def0b@linux.ibm.com>
+Date: Tue, 24 Sep 2024 12:11:51 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv4 RFC 0/1] Add visibility for native NVMe multipath using
+ sysfs
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+        axboe@fb.com, gjoyce@linux.ibm.com
+References: <20240911062653.1060056-1-nilay@linux.ibm.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20240911062653.1060056-1-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: RY5iGwiD_dL1PPH231tXZoJ9qkmtwNJD
+X-Proofpoint-GUID: RY5iGwiD_dL1PPH231tXZoJ9qkmtwNJD
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-24_01,2024-09-23_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 clxscore=1011 spamscore=0 mlxscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409240043
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240923_233848_704700_7B7A3601 
-X-CRM114-Status: GOOD (  18.50  )
+X-CRM114-CacheID: sfid-20240923_234227_420965_D2C29D2B 
+X-CRM114-Status: GOOD (  38.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,268 +108,195 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+A gentle ping about this RFC. Does it look okay or if there are any further comments? 
 
-在 2024/9/24 14:18, Guixin Liu 写道:
->
-> 在 2024/9/24 13:54, Dmitry Bogdanov 写道:
->> On Tue, Sep 24, 2024 at 10:49:58AM +0800, Guixin Liu wrote:
->>> 在 2024/9/24 00:32, Dmitry Bogdanov 写道:
->>>>> This patch implements the reservation feature, includes:
->>>>> 1. reservation register(register, unregister and replace).
->>>>> 2. reservation acquire(acquire, preempt, preempt and abort).
->>>>> 3. reservation release(release and clear).
->>>>> 4. reservation report.
->>>>> 5. set feature and get feature of reservation notify mask.
->>>>> 6. get log page of reservation event.
->>>>>
->>>>> And also make reservation configurable, one can set ns to support
->>>>> reservation before enable ns. The default of resv_enable is false.
->>>>>
->>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
->>>>> ---
->>>>>    drivers/nvme/target/Makefile    |    2 +-
->>>>>    drivers/nvme/target/admin-cmd.c |   24 +-
->>>>>    drivers/nvme/target/configfs.c  |   27 +
->>>>>    drivers/nvme/target/core.c      |   58 +-
->>>>>    drivers/nvme/target/nvmet.h     |   49 ++
->>>>>    drivers/nvme/target/pr.c        | 1214 
->>>>> +++++++++++++++++++++++++++++++
->>>>>    include/linux/nvme.h            |   54 ++
->>>>>    7 files changed, 1419 insertions(+), 9 deletions(-)
->>>>>    create mode 100644 drivers/nvme/target/pr.c
->>>> ...
->>>>> +
->>>>> +static void nvmet_pr_unregister_one(struct nvmet_pr *pr,
->>>>> +                                   struct nvmet_pr_registrant *reg)
->>>>> +{
->>>>> +       struct nvmet_pr_registrant *first_reg;
->>>>> +       struct nvmet_pr_registrant *holder;
->>>>> +       u8 original_rtype;
->>>>> +
->>>>> +       lockdep_assert_held(&pr->pr_lock);
->>>>> +       list_del_rcu(&reg->entry);
->>>>> +
->>>>> +       holder = rcu_dereference_protected(pr->holder,
->>>>> + lockdep_is_held(&pr->pr_lock));
->>>>> +       if (reg != holder)
->>>>> +               goto out;
->>>>> +
->>>>> +       original_rtype = holder->rtype;
->>>>> +       if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
->>>>> +           original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
->>>>> +               first_reg = 
->>>>> list_first_or_null_rcu(&pr->registrant_list,
->>>>> +                               struct nvmet_pr_registrant, entry);
->>>>> +               if (first_reg)
->>>>> +                       first_reg->rtype = original_rtype;
->>>>> +               rcu_assign_pointer(pr->holder, first_reg);
->>>>> +       } else {
->>>>> +               rcu_assign_pointer(pr->holder, NULL);
->>>>> +
->>>>> +               if (original_rtype == 
->>>>> NVME_PR_WRITE_EXCLUSIVE_REG_ONLY ||
->>>>> +                   original_rtype == 
->>>>> NVME_PR_WRITE_EXCLUSIVE_REG_ONLY)
->>>> copy&past error?
->>>> The second check should be against NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY?
->>> Indeed, my mistake, it will be fixed in v10.
->>>>> + nvmet_pr_resv_released(pr, &reg->hostid);
->>>>> +       }
->>>>> +out:
->>>>> +       synchronize_rcu();
->>>>> +       kfree(reg);
->>>>> +}
->>>>> +
->>>>> ......
->>>>> +
->>>>> +static u16 nvmet_pr_preempt(struct nvmet_req *req,
->>>>> +                           struct nvmet_pr_registrant *reg,
->>>>> +                           u8 rtype,
->>>>> +                           struct nvmet_pr_acquire_data *d,
->>>>> +                           bool abort)
->>>>> +{
->>>>> +       struct nvmet_ctrl *ctrl = req->sq->ctrl;
->>>>> +       struct nvmet_pr *pr = &req->ns->pr;
->>>>> +       struct nvmet_pr_registrant *holder;
->>>>> +       enum nvme_pr_type original_rtype;
->>>>> +       u64 prkey = le64_to_cpu(d->prkey);
->>>>> +       u16 status;
->>>>> +
->>>>> +       lockdep_assert_held(&pr->pr_lock);
->>>>> +       holder = rcu_dereference_protected(pr->holder,
->>>>> + lockdep_is_held(&pr->pr_lock));
->>>>> +       if (!holder)
->>>>> +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
->>>>> + &ctrl->hostid, abort);
->>>>> +
->>>>> +       original_rtype = holder->rtype;
->>>>> +       if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
->>>>> +           original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
->>>>> +               if (!prkey) {
->>>>> +                       nvmet_pr_unreg_all_others(req, 
->>>>> &ctrl->hostid, abort);
->>>>> +                       nvmet_pr_set_new_holder(pr, rtype, reg);
->>>> You didnot address the reservation atomicity here. You still remove an
->>>> old holder and then after a some time you set the new holder.
->>>> In this time gap an incomming WRITE command from a non holder will 
->>>> write
->>>> to the media.
->>> Right, I will change it in v10.
->>>>> +                       return NVME_SC_SUCCESS;
->>>>> +               }
->>>>> +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
->>>>> +                               &ctrl->hostid, abort);
->>>>> +       }
->>>>> +
->>>>> +       if (holder == reg) {
->>>>> +               status = nvmet_pr_update_reg_attr(pr, holder,
->>>>> + nvmet_pr_update_holder_rtype, &rtype);
->>>>> +               if (!status && original_rtype != rtype)
->>>>> +                       nvmet_pr_resv_released(pr, &reg->hostid);
->>>>> +               return status;
->>>>> +       }
->>>>> +
->>>>> +       if (prkey == holder->rkey) {
->>>>> +               status = nvmet_pr_unreg_all_others_by_prkey(req, 
->>>>> prkey,
->>>>> + &ctrl->hostid, abort);
->>>> And here too that timegap with released reservation.
->>> I will fix this too, and also the
->>>
->>> nvmet_pr_unreg_all_others_by_prkey() does not need a return value,
->>>
->>> I remove it.
->>>
->>>>> +               if (status)
->>>>> +                       return status;
->>>>> +
->>>>> +               nvmet_pr_set_new_holder(pr, rtype, reg);
->>>>> +               if (original_rtype != rtype)
->>>>> +                       nvmet_pr_resv_released(pr, &reg->hostid);
->>>> This function is(may be) already invoked in nvmet_pr_unregister_one.
->>>>
->>> Not, here the original_rtype is not NVME_PR_WRITE_EXCLUSIVE_REG_ONLY or
->>> NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS, so the nvmet_pr_unregister_one will
->>> not call nvmet_pr_resv_released.
->> nvmet_pr_unregister_one sends an event for original_rtype == *_REG_ONLY
->> Here you have only original_rtype != ALL_REGS, so _REG_ONLY is possible.
-> My mistake, it will be removed in v10, thanks.
+Thanks,
+--Nilay
 
-I take a look again, if we set self new holder before call 
-nvmet_pr_unreg_all_others_by_prkey(), the 
-nvmet_pr_unreg_all_others_by_prkey() will
-
-not unregister self, so this will not goto nvmet_pr_unregister_one()'s 
-calling nvmet_pr_resv_released().
-
->>>>> +               return status;
->>>>> +       }
->>>>> +
->>>>> +       if (prkey)
->>>>> +               return nvmet_pr_unreg_all_host_by_prkey(req, prkey,
->>>>> + &ctrl->hostid, abort);
->>>>> +       return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
->>>>> +}
->>>>> +
->>>>> +static void nvmet_pr_confirm_ns_pc_ref(struct percpu_ref *ref)
->>>>> +{
->>>>> +       struct nvmet_pr_per_ctrl_ref *pc_ref =
->>>>> +               container_of(ref, struct nvmet_pr_per_ctrl_ref, ref);
->>>>> +
->>>>> +       complete(&pc_ref->confirm_done);
->>>>> +}
->>>>> +
->>>>> +static void nvmet_pr_do_abort(struct nvmet_req *req)
->>>>> +{
->>>>> +       struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
->>>>> +       struct nvmet_pr_per_ctrl_ref *pc_ref;
->>>>> +       struct nvmet_ctrl *ctrl = NULL;
->>>>> +
->>>>> +find_next:
->>>>> +       mutex_lock(&subsys->lock);
->>>>> +       list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
->>>>> +               if (ctrl->pr_abort)
->>>>> +                       goto do_abort;
->>>>> +       }
->>>>> +       mutex_unlock(&subsys->lock);
->>>>> +       return;
->>>>> +
->>>>> +do_abort:
->>>>> +       mutex_unlock(&subsys->lock);
->>>>> +       /*
->>>>> +        * The target dose not support abort, just wait ref to 0.
->>>> typo "dose"->"does"
->>>>
->>> Sure.
->>>>> +        */
->>>>> +       pc_ref = xa_load(&req->ns->pr_per_ctrl_refs, ctrl->cntlid);
->>>>> +       percpu_ref_kill_and_confirm(&pc_ref->ref, 
->>>>> nvmet_pr_confirm_ns_pc_ref);
->>>>> +       wait_for_completion(&pc_ref->confirm_done);
->>>>> +       wait_for_completion(&pc_ref->free_done);
->>>>> +       reinit_completion(&pc_ref->confirm_done);
->>>>> +       reinit_completion(&pc_ref->free_done);
->>>>> +       percpu_ref_resurrect(&pc_ref->ref);
->>>>> +
->>>>> +       ctrl->pr_abort = false;
->>>> pr_abort flag is per controller, but this function is per namespace.
->>>> The use case of preempt_and_abort is to preempt reservation of a 
->>>> "zomby" host
->>>> for the all namespaces. It means that preempt_and_abort command 
->>>> will be sent
->>>> for the each namespace and there will be several parallel abort 
->>>> processes for
->>>> the same controllers. And you should not mix them.
->>>>
->>>> May be doing ref_kill instead of setting ctlr->pr_abort=true will more
->>>> accuratelly set the barier for incoming IO. You may use Mark 
->>>> feature in
->>>> XArrays to mark pc_ref to wait the completion for and use 
->>>> xa_for_each_marked
->>>> for going through such pc_refs.
->>> Good idea, thanks very much, will changed in v10.
->>>
->>> Best Regards,
->>>
->>> Guixin Liu
->>>
->>>>> +       nvmet_ctrl_put(ctrl);
->>>>> +       goto find_next;
->>>>> +}
->>>>> +
->>>>> +static u16 __nvmet_execute_pr_acquire(struct nvmet_req *req,
->>>>> +                                     struct nvmet_pr_registrant 
->>>>> *reg,
->>>>> +                                     u8 acquire_act,
->>>>> +                                     u8 rtype,
->>>>> +                                     struct nvmet_pr_acquire_data 
->>>>> *d)
->>>>> +{
->>>>> +       u16 status;
->>>>> +
->>>>> +       switch (acquire_act) {
->>>>> +       case NVME_PR_ACQUIRE_ACT_ACQUIRE:
->>>>> +               status = nvmet_pr_acquire(req, reg, rtype);
->>>>> +               goto out;
->>>>> +       case NVME_PR_ACQUIRE_ACT_PREEMPT:
->>>>> +               status = nvmet_pr_preempt(req, reg, rtype, d, false);
->>>>> +               goto inc_gen;
->>>>> +       case NVME_PR_ACQUIRE_ACT_PREEMPT_AND_ABORT:
->>>>> +               status = nvmet_pr_preempt(req, reg, rtype, d, true);
->>>>> +               if (!status)
->>>>> +                       nvmet_pr_do_abort(req);
->>>>> +               goto inc_gen;
->>>>> +       default:
->>>>> +               req->error_loc = offsetof(struct 
->>>>> nvme_common_command, cdw10);
->>>>> +               status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
->>>>> +               goto out;
->>>>> +       }
->>>>> +inc_gen:
->>>>> +       if (!status)
->>>>> + atomic_inc(&req->ns->pr.generation);
->>>>> +out:
->>>>> +       return status;
->>>>> +}
->>>>> +
+On 9/11/24 11:56, Nilay Shroff wrote:
+> Hi,
+> 
+> This patch propose adding new sysfs attributes for adding visibility of
+> native multipath I/O. 
+> 
+> The first version of this RFC[1] proposed using debugfs for visibility 
+> however the general feedback was to instead export the multipath I/O 
+> information using sysfs attributes and then latter parse and format those 
+> sysfs attributes using libnvme/nvme-cli. 
+> 
+> The second version of this RFC[2] uses sysfs however the sysfs attribute 
+> file contains multiple lines of output and the feedback was to instead
+> follow the principal of one value per one attribute. 
+> 
+> The third version of this RFC[3] follows the one value per one attrbiute
+> principal. There was a review comment about using srcu read lock while
+> dereferencing the namespace for each node which is protected by the srcu
+> lock.
+> 
+> So now the fourth version of this RFC ensures that we protect the 
+> namespace dereference code with the srcu read lock.
+> 
+> As we know, NVMe native multipath supports three different io policies 
+> (numa, round-robin and queue-depth) for selecting I/O path, however, we  
+> don't have any visibility about which path is being selected by multipath
+> code for forwarding I/O. This RFC helps add that visibility by adding new 
+> sysfs attribute files named "numa_nodes" and "queue_depth" under each 
+> namespace block device path /sys/block/nvmeXcYnZ/. We also create a 
+> "multipath" sysfs directory under head disk node and then from this 
+> directory add a link to each namespace path device this head disk node 
+> points to.
+> 
+> Please find below output generated with this proposed RFC patch applied on  
+> a system with two multi-controller PCIe NVMe disks attached to it. This 
+> system is also an NVMf-TCP host which is connected to an NVMf-TCP target 
+> over two NIC cards. This system has four numa nodes online when the below 
+> output was captured:
+> 
+> # cat /sys/devices/system/node/online 
+> 0-3
+> 
+> # lscpu
+> <snip>
+> NUMA:
+>   NUMA node(s):           4
+>   NUMA node0 CPU(s):
+>   NUMA node1 CPU(s):      0-7
+>   NUMA node2 CPU(s):      8-31
+>   NUMA node3 CPU(s):      32-63
+> <snip>
+> 
+> Please note that numa node 0 though online, doesn't have any CPU 
+> currently assigned to it.
+> 
+> # nvme list -v 
+> Subsystem        Subsystem-NQN                                                                                    Controllers
+> ---------------- ------------------------------------------------------------------------------------------------ ----------------
+> nvme-subsys1     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme0, nvme1
+> nvme-subsys3     nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1                                                 nvme2, nvme3
+> nvme-subsys4     nvmet_subsystem                                                                                  nvme4, nvme5
+> 
+> Device           Cntlid SN                   MN                                       FR       TxPort Address        Slot   Subsystem    Namespaces
+> ---------------- ------ -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+> nvme0    66     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0   U50EE.001.WZS000E-P3-C14-R1 nvme-subsys1 nvme1n1
+> nvme1    65     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0   U50EE.001.WZS000E-P3-C14-R2 nvme-subsys1 nvme1n1
+> nvme2    2      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0524:28:00.0   U50EE.001.WZS000E-P3-C4-R1 nvme-subsys3 nvme3n1
+> nvme3    1      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0584:28:00.0   U50EE.001.WZS000E-P3-C4-R2 nvme-subsys3 nvme3n1
+> nvme4    1      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100        nvme-subsys4 nvme4n1
+> nvme5    2      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100        nvme-subsys4 nvme4n1
+> 
+> Device            Generic           NSID       Usage                      Format           Controllers
+> ----------------- ----------------- ---------- -------------------------- ---------------- ----------------
+> /dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0, nvme1
+> /dev/nvme3n1 /dev/ng3n1   0x2          0.00   B /   5.75  GB      4 KiB +  0 B   nvme2, nvme3
+> /dev/nvme4n1 /dev/ng4n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme4, nvme5
+> 
+> 
+> # nvme show-topology
+> nvme-subsys1 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057
+>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+>                iopolicy=numa
+> \
+>  +- ns 1
+>  \
+>   +- nvme0 pcie 052e:78:00.0 live optimized
+>   +- nvme1 pcie 058e:78:00.0 live optimized
+> 
+> nvme-subsys3 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1
+>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+>                iopolicy=round-robin
+> \
+>  +- ns 2
+>  \
+>   +- nvme2 pcie 0524:28:00.0 live optimized
+>   +- nvme3 pcie 0584:28:00.0 live optimized
+> 
+> nvme-subsys4 - NQN=nvmet_subsystem
+>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+>                iopolicy=queue-depth
+> \
+>  +- ns 1
+>  \
+>   +- nvme4 tcp traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100 live optimized
+>   +- nvme5 tcp traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100 live optimized
+> 
+> As we could see above, we've three shared namespaces created. In terms of 
+> iopolicy, we have "numa" configured for nvme-subsys1, "round-robin" 
+> configured for nvme-subsys3 and "queue-depth" configured for nvme-subsys4.
+> 
+> Now, under each namespace "head disk node", we create a sysfs group
+> attribute named "multipath". The "multipath" group then points to the 
+> each path this head disk node points to:
+> 
+> # tree /sys/block/nvme1n1/multipath/
+> /sys/block/nvme1n1/multipath/
+> ├── nvme1c0n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme0/nvme1c0n1
+> └── nvme1c1n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme1/nvme1c1n1
+> 
+> # tree /sys/block/nvme3n1/multipath/
+> /sys/block/nvme3n1/multipath/
+> ├── nvme3c2n1 -> ../../../../../pci0524:28/0524:28:00.0/nvme/nvme2/nvme3c2n1
+> └── nvme3c3n1 -> ../../../../../pci0584:28/0584:28:00.0/nvme/nvme3/nvme3c3n1
+> 
+> # tree /sys/block/nvme4n1/multipath/
+> /sys/block/nvme4n1/multipath/
+> ├── nvme4c4n1 -> ../../../../nvme-fabrics/ctl/nvme4/nvme4c4n1
+> └── nvme4c5n1 -> ../../../../nvme-fabrics/ctl/nvme5/nvme4c5n1
+> 
+> One can easily infer from the above output that for the "round-robin"
+> I/O policy, configured under nvme-subsys3, the I/O workload targeted at 
+> nvme3n1 would toggle across nvme3c2n1 and nvme3c3n1 assuming the ana state 
+> of each path is optimized (as can be seen in the output of show-topology).
+> 
+> For numa I/O policy, configured under nvme-subsys1, the "numa_nodes" 
+> attribute file shows the numa nodes being preferred by the respective 
+> namespace path. The numa nodes value is comma delimited list of nodes or 
+> A-B range of nodes.
+> 
+> # cat  /sys/block/nvme1n1/multipath/nvme1c0n1/numa_nodes 
+> 0-1
+> 
+> # cat  /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
+> 2-3
+> 
+> From the above output, one can easily infer that I/O workload targeted at
+> nvme1n1 and running on numa nodes 0 and 1 would use path nvme1c0n1. 
+> Similarly, I/O workload running on numa nodes 2 and 3 would use path 
+> nvme1c1n1.
+> 
+> For queue-depth I/O policy, configured under nvme-subsys4, the "queue_depth" 
+> attribute file shows the number of active/in-flight I/O requests currently 
+> queued for each path.
+> 
+> # cat  /sys/block/nvme4n1/multipath/nvme4c4n1/queue_depth 
+> 518
+> 
+> # cat  /sys/block/nvme4n1/multipath/nvme4c5n1/queue_depth
+> 504
+> 
+> From the above output, one can easily infer that I/O workload targeted at
+> nvme4n1 uses two paths nvme4c4n1 and nvme4c5n1 and the current queue depth 
+> of each path is 518 and 504 respectively.
+> 
+> [1] https://lore.kernel.org/all/20240722093124.42581-1-nilay@linux.ibm.com/
+> [2] https://lore.kernel.org/all/20240809173030.2281021-2-nilay@linux.ibm.com/
+> [3] https://lore.kernel.org/all/20240903135228.283820-1-nilay@linux.ibm.com/
+> 
+> Changes since v3:
+>     - Protect the namespace dereference code with srcu read lock (Daniel Wagner)
+> 
+> Changes since v2:
+>     - Use one value per one sysfs attribute (Keith Busch)
+> 
+> Changes since v1:
+>     - Use sysfs to export multipath I/O information instead of debugfs
+> 
+> Nilay Shroff (1):
+>   nvme-multipath: Add sysfs attributes for showing multipath info
+> 
+>  drivers/nvme/host/core.c      |  3 ++
+>  drivers/nvme/host/multipath.c | 69 +++++++++++++++++++++++++++++++++++
+>  drivers/nvme/host/nvme.h      | 20 ++++++++--
+>  drivers/nvme/host/sysfs.c     | 20 ++++++++++
+>  4 files changed, 108 insertions(+), 4 deletions(-)
+> 
 
