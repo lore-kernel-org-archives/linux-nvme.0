@@ -4,60 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B97E5CF9C71
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 09:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79D96CF9C71
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 10:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=izcbLUCQQc+CYZ8kxktU8Dg7ydeYF50eFbT9wQtw5vw=; b=V1kztVxQ5ZwTxWGHMnMJgvkc+4
-	ZuM643HkQMheN1EgQCvsF9FPpM3NZ7hWZfPK/UMDCadlrMsbAToZZDk8il9a68iIj2yxrDCUdbyu5
-	LikgkZOwbWG1HBskKRIeMzwU4xsnqn1mWxZR2D8aePMQRFlVjmGh6H4rShIoklm0/x5w3gelnO9B1
-	hBXz23zM3nHfP4suR8EVEjEJLLiQGXijA8RCF6/heQEQdXFEjC9vN18mPJPtaaoG9lf9goUoa2No4
-	bLC0e8N1IyOZIOoMJj0Uo/ic1rUm46i120x1IlsJT4X942OJpt1Or3rD7Wr07nwKsRCxJ5rUMoZmC
-	dJbYDi1w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Xy+pnPfQ/fhfJR+VgmfMDTLtUy97yynqQ22gOZGMIlE=; b=19ua+mmvgxsMi3S6ylmxf2Wzv/
+	IMd/ICqltS9fXpXY0t27WNeofgg/6prwpIr2pqJjMeWGabnyMbLph31jV2UQtB3DSwQDQRreK2M2l
+	sNL0VAtHQrk7U7jORzsGRRZuOZzXjLBw4ZZxGiWjbHu6H6gtgSvGPkz+ioH41JZj8HtcBG7ujJuhi
+	vpKAYcBtx05EHc85ucqajMKzQgEeJNpJeUAgafKyKJQno7st5LIQKgcBvnqnc4JeVnuRvOsXIkCOb
+	aOy6HBkMF6kNfvNKFkDNAFFSJ/xXZeg64UlSIibwZtuvSlifwob7BTCKFeqhkehMMOWKiFi1D/oJ3
+	yi3ub0UA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1st2Eu-00000001tVU-144o;
-	Tue, 24 Sep 2024 09:53:48 +0000
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+	id 1st32w-000000022zu-0z9x;
+	Tue, 24 Sep 2024 10:45:30 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1st26h-00000001rty-0ruk
+	id 1st219-00000001qKi-3iAM
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Sep 2024 09:45:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1727171116; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=izcbLUCQQc+CYZ8kxktU8Dg7ydeYF50eFbT9wQtw5vw=;
-	b=Mx5kjJ1Ax/6qcTow9kuqVhj/LjHd2CilSmGR60h2owo/k0EBZuFZ3R3DjkScHe6CQyYB+S/gFKMN1TE3kykkrqX9h7fXReGqixAAamjt4XxfgKWtZF/+fJQn8ObdBCUgznKgKGXkdL+gF1jwakihd1zDiORSKDExvthJh0UgK0Y=
-Received: from 30.178.83.97(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFfnKjI_1727171113)
-          by smtp.aliyun-inc.com;
-          Tue, 24 Sep 2024 17:45:14 +0800
-Message-ID: <68e3d62e-0f35-4b1b-9d46-b8e7ff0110b5@linux.alibaba.com>
-Date: Tue, 24 Sep 2024 17:45:12 +0800
+	Tue, 24 Sep 2024 09:39:37 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 083ED227AB4; Tue, 24 Sep 2024 11:39:31 +0200 (CEST)
+Date: Tue, 24 Sep 2024 11:39:30 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org,
+	bcrl@kvack.org, dhowells@redhat.com, bvanassche@acm.org,
+	asml.silence@gmail.com, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-aio@kvack.org,
+	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com,
+	Hui Qi <hui81.qi@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>
+Subject: Re: [PATCH v6 1/3] nvme: enable FDP support
+Message-ID: <20240924093930.GA27855@lst.de>
+References: <20240924092457.7846-1-joshi.k@samsung.com> <CGME20240924093250epcas5p39259624b9ebabdef15081ea9bd663d41@epcas5p3.samsung.com> <20240924092457.7846-2-joshi.k@samsung.com>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v9 1/1] nvmet: support reservation feature
-To: Dmitry Bogdanov <d.bogdanov@yadro.com>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-References: <20240923094708.42445-1-kanie@linux.alibaba.com>
- <20240923094708.42445-2-kanie@linux.alibaba.com>
- <20240923163228.GD22571@yadro.com>
- <114ce6b1-13e7-418e-bd23-8ab32a7b4c8f@linux.alibaba.com>
- <20240924055433.GE22571@yadro.com>
- <3b315daf-76a6-4360-aeac-65def22aa196@linux.alibaba.com>
- <0cddf902-9e60-43ca-b138-630c5485efa0@linux.alibaba.com>
- <20240924082425.GF22571@yadro.com>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20240924082425.GF22571@yadro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240924092457.7846-2-joshi.k@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240924_024519_770162_67D8A366 
-X-CRM114-Status: UNSURE (   8.54  )
+X-CRM114-CacheID: sfid-20240924_023936_098065_2DF8CD7B 
+X-CRM114-Status: UNSURE (   8.81  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,34 +69,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+As far as I can tell this regresseѕ back to before when you tried
+to actually make forward progress and is the same as the old version
+again :(
 
-在 2024/9/24 16:24, Dmitry Bogdanov 写道:
->> I take a look again, if we set self new holder before call
->> nvmet_pr_unreg_all_others_by_prkey(), the
->> nvmet_pr_unreg_all_others_by_prkey() will
->>
->> not unregister self, so this will not goto nvmet_pr_unregister_one()'s
->> calling nvmet_pr_resv_released().
-> Yes, and this is a reason not to try to fix non-atomicity (anothter my
-> comment) by setting new holder before unregistering.
->
-> Regarding this place, here nvmet_pr_resv_released should be called for
-> original_rtype !=*_REG_ONLY with a note that _REG_ONLY handled in nvmet_pr_unregister_one.
->
-> Please, do not take my suggestions "how to fix" as a direct order, it's
-> just suggestion.
->
-I'm a little confused, if we dont set new holder before unregistering,
+For that:
 
-how do we fix the non-atomicity problem?
-
-My opinion is that setting current host to holder first can not only
-
-make sure that during unregistering other host can not access, but also
-
-ensure that nvmet_pr_unregister_one will not unregiter the new holder(In 
-nvmet_pr_unreg_all_others_by_prkey, I exclude current host),
-
-so that we dont need to worry about doule call nvmet_pr_resv_released.
+Nacked-by: Christoph Hellwig <hch@lst.de>
 
 
