@@ -4,74 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F212FCF9C6B
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 12:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56CF5CF9C7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2024 20:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RIVzmuwJodWKk96hP3oag6BPz1zEXGS42tyhYgozQwk=; b=sOz9LjCBxaU4jzFponiYw/ktBI
-	JHnz+vtjctUz4D9CX9N0MFE9euS5lpbmXXhMqBtjyOQ+HIf0s+CtZOl4UwY39hC3EukR/VXRXSeVD
-	8xJ/EreQPUGSoCmzsIVoc2iDJcn2YtLfo5EiEyZdIBCpGrrpE0M7XO1uqq/qD3z7EuT4grJ5fR+8f
-	l6FaZYCCE4Tot0FJ0h7i5pOD3c/CQP9/13zk4cO4eXJ+XNVZIJDvLrO4zmAagt4qcEVdeBJ9+mHqd
-	0UMTjEF0KjPHW4ug2RkAjWLtU5rwGMt1g0E5VHN8TIVsmXRGuu+oGyB2iMqPl6EwPySI4pmTIri+G
-	/xKjHnoQ==;
+	bh=2faGZGNjV/Ol4dCxT3b6jGEV1WM/yda0rsC63QluSdQ=; b=Ti7RfBoEbvoPomM0wmZEWcn0dV
+	VCnbxkxgzfcBO2Smaa6mG/6KAr5XN1QksUfuAPyqTBxOChsjihFj4RDUwI9caZ78swI8ZLLhC/uWl
+	CjFGpCHZEqEdOtgXr/AzCfdKqGdV43k9gxQTPax0T2PNQcS5Nab9t9ZsvPRo9MKkAa70LdHoVIMfv
+	ZkvQ0PYp322vwRlpmABTBjCphwW01yZe1oCnWNdNipGCTYBQoQL9c55KTPhCX1tII7ooe2268aywC
+	iBrzDpyC1uMJK5dzJXs6T9FpjH2H5n7ZiKit9XxC2BOjD1hZ5lVCVKtMzMXhYfUKPtPehrMXJYe2x
+	w29wx7YQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1st58n-00000002NWj-32jX;
-	Tue, 24 Sep 2024 12:59:41 +0000
-Received: from mta-04.yadro.com ([89.207.88.248])
+	id 1stCOI-00000003HFX-2qYw;
+	Tue, 24 Sep 2024 20:44:10 +0000
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1st57u-00000002NRB-2r6E
+	id 1stCOF-00000003HEh-22rm
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Sep 2024 12:58:48 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-04.yadro.com B037EC0010
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
-	t=1727182721; bh=RIVzmuwJodWKk96hP3oag6BPz1zEXGS42tyhYgozQwk=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=ToJTW2BDDMz/0frGBb2UuhnHWHYtJrxiMlP1axFFeSFbGR4/8afkbT9ONE2WOx1Ym
-	 gLlSeMA2E+oHEaoXlKi8w/3XVz7ZYfnh7jdbFYfFUcur7lxym+7AlUGuED0VHVKWlE
-	 5bXlk5U0poJ6a/YCqgHhTmft7ktpMGsv6Ff+M7oTWVcREtIE2KAhHxFo6jn7S+H3IK
-	 mXi8DnaEazd8dbs+vpewSC3Ub+31HWBQUMvLH7+mGvQ1NqFKWyUdQaLa4OrXGt5PHG
-	 v2f78YQAn9wqDq6ST/UMsqyFfUTt2bW6w6wmMmQLdZvIgT8Wi4pg0qL5Vg8ze6yKJ6
-	 rI/H5E5rH93kA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1727182721; bh=RIVzmuwJodWKk96hP3oag6BPz1zEXGS42tyhYgozQwk=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=h8hQP1Ixto8rGACFbbDyKqEhh+gmGEk31kwI36Kz3zeN696xrtV9oMSL6ASWCZLbU
-	 TaPeYL21uCPt/6ByqtE/79lmj0xz6XW0p15QlYhMJPZIJb86z9B4j7qK66XuPC7NT8
-	 yWk9ox8vgFHmgnLazhxf3to0UH/mA2BKel0ArddRW0tGRmnGHHNXOtM5+N1xuEAN9y
-	 bX9TJGQ46VPnUOxH0fXV8IbNaeZ8tjILSOga+mAR5Nx6WzNkpJfkJaqC88+K+MjnXh
-	 tXtaoS0eZ8CaOjjjC96GL0QKAKTSUVAITl0qHmwkvptPPci768F1SlVOHIrzEvWdrP
-	 nrk56Il4y7asw==
-Date: Tue, 24 Sep 2024 15:57:50 +0300
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
-To: Guixin Liu <kanie@linux.alibaba.com>
-CC: <hch@lst.de>, <sagi@grimberg.me>, <kch@nvidia.com>,
-	<linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH v9 1/1] nvmet: support reservation feature
-Message-ID: <20240924125750.GG22571@yadro.com>
-References: <20240923094708.42445-1-kanie@linux.alibaba.com>
- <20240923094708.42445-2-kanie@linux.alibaba.com>
- <20240923163228.GD22571@yadro.com>
- <114ce6b1-13e7-418e-bd23-8ab32a7b4c8f@linux.alibaba.com>
- <20240924055433.GE22571@yadro.com>
- <3b315daf-76a6-4360-aeac-65def22aa196@linux.alibaba.com>
- <0cddf902-9e60-43ca-b138-630c5485efa0@linux.alibaba.com>
- <20240924082425.GF22571@yadro.com>
- <68e3d62e-0f35-4b1b-9d46-b8e7ff0110b5@linux.alibaba.com>
+	Tue, 24 Sep 2024 20:44:08 +0000
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-5365b71a6bdso6982789e87.2
+        for <linux-nvme@lists.infradead.org>; Tue, 24 Sep 2024 13:44:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727210645; x=1727815445; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2faGZGNjV/Ol4dCxT3b6jGEV1WM/yda0rsC63QluSdQ=;
+        b=it5dCQ3h4vHUFaywbfYY97GSBBKPSczVBNfn1iyf56Fnpl+wQl6tGU1JnjW5wrjsbi
+         29muEpIAU7VGfDfqW4uY9RIAFLwYWuH1Q3vydTZmav1Pcu7SE+LAkbAaqH0FkcBikkVH
+         4/t/GBd+oQmVy5MWq0sc8cKSwDiMRemimI8fjfb7NnhdgxfMGv8WSMF08gRalDic+Jmg
+         NFbCipSSJdNhHGnc4EcR2C5OMx2houRFZysPGjHziwc8CdQ6s9Ipj5pqT5UsR+J2kLEx
+         T1oRA5D2VKSCCQ8NQ2shpjPLDxi3XTXQSnBtTA0atJi61NY+Y4/VYwbYlgqnjH7Xd97f
+         qMEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727210645; x=1727815445;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2faGZGNjV/Ol4dCxT3b6jGEV1WM/yda0rsC63QluSdQ=;
+        b=NLJV9LNAvBzt5CWfOp/3OnWYF5URfuaDBKapHdXEwk9OypD2EG6UdvZzpG2uyp5bw4
+         CxtJqB4WSB6gI73dQhhsTCqS0JEPCHwQf0YLK/A3ks4N/qU8szlmToLawZ9S7vIF4jjl
+         F3oYOmDJ4K9gf3mJ+MtwVRJW0c4emXyzZUERR1j73FflKWZAZAJeoH/BMCSNDufCaMuZ
+         YAvGJVG/LaUfJ0SG5o9oYGg0bFuXE2ABfP1DyChhtY7FxIfxOn/WPKTwMGpjuQWCAJbo
+         45NOnUjXsbgk0R9can9vLnaVkYlCgVxoUVp+CZx2Vn0kD6FmzCXqZvm1AtI2Cd+zgoZU
+         vxiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXGxMrEiIjxCHtL/A8lTljAi6mwhjRwYLGbc5JKUes2XhjYiMKttu2/7v4gmZzl7nUfa5F9ecf8Yf8@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz1dzCJkWd+yUtR6gbjJs+eQvBRWazRAO7+aZu4vscjywhUgZe3
+	8IFeLdt9GJLlOj8H0TdhP1FDLgPY7C5lyZS/Y/7hfcq0Wc31m4jX
+X-Google-Smtp-Source: AGHT+IE66lH2TWaoR0Wn1kL/JkKwaihDSp/X6Fc9tJ9Phu/UUJM1E1L/IMzsW1415EulINyviGdhPQ==
+X-Received: by 2002:a05:6512:6cf:b0:52e:f77b:bb58 with SMTP id 2adb3069b0e04-53877538ce4mr178528e87.36.1727210644749;
+        Tue, 24 Sep 2024 13:44:04 -0700 (PDT)
+Received: from localhost ([94.19.228.143])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-537a864da87sm327296e87.268.2024.09.24.13.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Sep 2024 13:44:04 -0700 (PDT)
+Date: Tue, 24 Sep 2024 23:44:02 +0300
+From: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Stuart Hayes <stuart.w.hayes@gmail.com>, linux-kernel@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Martin Belanger <Martin.Belanger@dell.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, David Jeffery <djeffery@redhat.com>,
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v8 3/4] driver core: shut down devices asynchronously
+Message-ID: <ZvMkkhyJrohaajuk@skv.local>
+Mail-Followup-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Martin Belanger <Martin.Belanger@dell.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, David Jeffery <djeffery@redhat.com>,
+	Jeremy Allison <jallison@ciq.com>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+References: <20240822202805.6379-1-stuart.w.hayes@gmail.com>
+ <20240822202805.6379-4-stuart.w.hayes@gmail.com>
+ <ZvHUn1Q2R8FumZ20@skv.local>
+ <2024092440-embattled-magical-64bc@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <68e3d62e-0f35-4b1b-9d46-b8e7ff0110b5@linux.alibaba.com>
-X-ClientProxiedBy: T-EXCH-06.corp.yadro.com (172.17.10.110) To
- T-EXCH-09.corp.yadro.com (172.17.11.59)
+In-Reply-To: <2024092440-embattled-magical-64bc@gregkh>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240924_055847_443605_AF126606 
-X-CRM114-Status: GOOD (  17.06  )
+X-CRM114-CacheID: sfid-20240924_134407_565842_11E9154F 
+X-CRM114-Status: GOOD (  35.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,40 +114,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 24, 2024 at 05:45:12PM +0800, Guixin Liu wrote:
-> 在 2024/9/24 16:24, Dmitry Bogdanov 写道:
-> > > I take a look again, if we set self new holder before call
-> > > nvmet_pr_unreg_all_others_by_prkey(), the
-> > > nvmet_pr_unreg_all_others_by_prkey() will
+Hi,
+
+On 24-09-24 11:23, Greg Kroah-Hartman wrote:
+> On Mon, Sep 23, 2024 at 11:50:39PM +0300, Andrey Skvortsov wrote:
+> > Hi Stuart,
+> > 
+> > On 24-08-22 15:28, Stuart Hayes wrote:
+> > > Add code to allow asynchronous shutdown of devices, ensuring that each
+> > > device is shut down before its parents & suppliers.
 > > > 
-> > > not unregister self, so this will not goto nvmet_pr_unregister_one()'s
-> > > calling nvmet_pr_resv_released().
-> > Yes, and this is a reason not to try to fix non-atomicity (anothter my
-> > comment) by setting new holder before unregistering.
+> > > Only devices with drivers that have async_shutdown_enable enabled will be
+> > > shut down asynchronously.
+> > > 
+> > > This can dramatically reduce system shutdown/reboot time on systems that
+> > > have multiple devices that take many seconds to shut down (like certain
+> > > NVMe drives). On one system tested, the shutdown time went from 11 minutes
+> > > without this patch to 55 seconds with the patch.
+> > > 
+> > > Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+> > > Signed-off-by: David Jeffery <djeffery@redhat.com>
+> > > ---
+> > >  drivers/base/base.h           |  4 +++
+> > >  drivers/base/core.c           | 54 ++++++++++++++++++++++++++++++++++-
+> > >  include/linux/device/driver.h |  2 ++
+> > >  3 files changed, 59 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/base/base.h b/drivers/base/base.h
+> > > index 0b53593372d7..aa5a2bd3f2b8 100644
+> > > --- a/drivers/base/base.h
+> > > +++ b/drivers/base/base.h
+> > > @@ -10,6 +10,7 @@
+> > >   * shared outside of the drivers/base/ directory.
 > > 
-> > Regarding this place, here nvmet_pr_resv_released should be called for
-> > original_rtype !=*_REG_ONLY with a note that _REG_ONLY handled in nvmet_pr_unregister_one.
+> > This change landed in linux-next and I have problem with shutdown on
+> > ARM Allwinner A64 device. Device usually hangs at shutdown.
+> > git bisect pointed to "driver core: shut down devices asynchronously"
+> > as a first bad commit.
 > > 
-> > Please, do not take my suggestions "how to fix" as a direct order, it's
-> > just suggestion.
+> > I've tried to debug the problem and this is what I see:
 > > 
-> I'm a little confused, if we dont set new holder before unregistering,
-> how do we fix the non-atomicity problem?
+> > 1) device 'mmc_host mmc0' processed in device_shutdown. For this device
+> > async_schedule_domain is called (cookie 264, for example).
+> > 
+> > 2) after that 'mmcblk mmc0:aaaa' is processed. For this device
+> > async_schedule_domain is called (cookie 296, for example).
+> > 
+> > 3) 'mmc_host mmc0' is parent of 'mmcblk mmc0:aaaa' and
+> > parent->p->shutdown_after is updated from 263 to 296.
+> > 
+> > 4) After sometime shutdown_one_device_async is called for 264
+> > (mmc_host mmc0), but dev->p->shutdown_after was updated to 296 and the
+> > code calls first async_synchronize_cookie_domain for 297.
+> > 
+> > 264 can't finish, because it waits for 297. shutdown process can't continue.
+> > 
+> > The problem is always with a MMC host controller.
 > 
-> My opinion is that setting current host to holder first can not only
-> make sure that during unregistering other host can not access, but also
-> ensure that nvmet_pr_unregister_one will not unregiter the new holder(In
-> nvmet_pr_unreg_all_others_by_prkey, I exclude current host),
-> so that we dont need to worry about doule call nvmet_pr_resv_released.
+> If you take the patch here:
+> 	https://lore.kernel.org/r/20240919043143.1194950-1-stuart.w.hayes@gmail.com
+> does it solve the problem?
 
-I didnot mean that that will not fix the non-atomicity.
-I was worrying that in that case you will miss the existing logic for the
-changing the reservation - that reservation released notification in nvmet_pr_unregister_one.
+Unfortunately not. I've applied the patch to next-20240920 and tested
+latest next-20240924 with patch integrated already. In both cases
+shutdown hangs.
 
-But, looking into that now I see that keeping nvmet_pr_resv_released()
-here and setting the holder before unregistring others will actualy
-solve both my comments.
-
-BR,
- Dmitry
+-- 
+Best regards,
+Andrey Skvortsov
 
