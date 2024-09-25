@@ -4,81 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24012C369B1
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 09:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29B32C369C7
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 10:51:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mVzPB9vrZln1C1cIggOtEXcmoRO8Od8qHNyK3KNRB0U=; b=iFTwaeB/3CzfNuq02aa74Md9dT
-	on/xcONIaG3+AZkC8fsl0DN8/zJJrtL+9GXqILG5ljYyCjLYNTYMDjeNksHRgxo0Qif3UHTMWOHk/
-	uoMkFTaL0vt1g7u99XXAcbl0K1nTlFd7q5HOzBw8ucK+1NsHZ7OaRkEaQupJzbyoJkU6WJRY2aaTs
-	r/U8ZCei02Ft7s8oumEU1NWQ0a8w4Zl+fmcL4GS8+MnffRdqAKnQ+iyr120VnvDakt2x0zxLfymxE
-	tsMgL4AbnLCPVz/dtnFHimZEPX0NPXnWvqVnsHC0AJBbGJxcjFbA8dr+RFtqj+68W/z4I4Po3K/rG
-	nc6+aVAQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=jW8Rdp3OEqJEORfLeYzsAHFK/D9fF3u3IeSRNTXceUA=; b=r3G17AMmt4WdtnW9OX7qlybvxJ
+	iPwHflyKrG7q/znRpG+raeY0EUzaJUaomV6TDl1+5wz17Q3p9MKyPuDuRRC/ZD9wBvxl/3iPTtV7P
+	9c0ZargPZ9vWBeqP43tToMstrwvDfA+T0/LAubihc185iMsB4quQS/SXTPRuQoleFsYMXxtR4uy78
+	yE/FL1ya0/U+BL5TOQZxhGJrl+AU70KkOkFkvB/GwB/9Qvg1QNUQBvSyHNP8IVvr5fuXwanHqMz/I
+	gabyIdRkS1jA7tCI+n/SpxPXDykIHl6G+ZleYlcmWmQKahTCaVaCXvJlUAvb8HykECmuP2QuyCrsj
+	4AMiCvSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1stOLW-00000004cJq-070K;
-	Wed, 25 Sep 2024 09:30:06 +0000
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731])
+	id 1stPc4-00000004mxr-13ri;
+	Wed, 25 Sep 2024 10:51:16 +0000
+Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1stOLR-00000004cJD-26XU
+	id 1stPbz-00000004mvJ-2lm6
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Sep 2024 09:30:03 +0000
-Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-7acb0499ffeso613624685a.1
-        for <linux-nvme@lists.infradead.org>; Wed, 25 Sep 2024 02:30:00 -0700 (PDT)
+	Wed, 25 Sep 2024 10:51:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1727256600; x=1727861400; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mVzPB9vrZln1C1cIggOtEXcmoRO8Od8qHNyK3KNRB0U=;
-        b=MBgfhQAB7TRyKPRP7xeXcJ/DKs79eJQ1Me6HaQKVgKsqgMtmNZpukOdHLpiw+3GpFh
-         rPbiju9umPw3oyGi7EjipSwyOJYegs8h6Fi4fc/jPAjxyZ2tCTuhcSZfw6X+vGXJMorJ
-         nHqeAw5zr9N5jk2xoKqD81iGTtUm7oXa2S2honnyqnzP1lTv5rEkxaROXyh9rhXkejIU
-         G8jtVAxPK5EChFfEvBHSf1MWbybhefnG4nw4UzBBi/AtkwAO05AChZRC18PSFnDut1Af
-         ArA70BATge4DAxiDYank4/OHmcjBaTa8+w8vgh9usp/Zs3r7hwUulvhPzhiD98SWS0PZ
-         YehA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727256600; x=1727861400;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mVzPB9vrZln1C1cIggOtEXcmoRO8Od8qHNyK3KNRB0U=;
-        b=hgRhwuGjx0Zu0eXJJHi0DbxJQu5Op6wrM95TX8PQx+75CPuiDDu8vDFYRGTkeGmwCP
-         9LC/eO1+9C/xtBLlznQgPlHnLWHKNdpZqr6IhKI7lI99mBTHoYZCHP5Q3isUJ1lwys3m
-         PRVWRbIx/Be7Hk7/1u2C26udG7SnlzEhhHAOduPvQcyplhWOWtJvULbozWr1Zt/ngJBX
-         FwH2382ioO6wdo4xBcIgsW/lNHhVE7nA5NPjy1Fy2Xjb36DvigILBY9H/toczxvinKBu
-         fZ1QXCt1ULcypU0BtnDa3o7B7u4d0VpdSBv3d9SCffhLLQyyN4xuv5mn92G57nQq/oa8
-         Xa+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVIGMFNZ9b4y+YwFpAlft9pjGA8l7Z3MpUj/Ou8V7ik50N/K4VOcooM28D5cgkScwvzjJ4V9aTtrPJj@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx3ueKimTC8oItg36dtN92/fu2pGdMBstysDhEm8Ks6Iuv2fYzI
-	AG57MRIUN6m1GJ0OjItfagm8cTyvqjJt0/1LBUtc2iyEthByQXQoR/2aJND9Gps=
-X-Google-Smtp-Source: AGHT+IGXEeDb4WlE6a99Ih56i5Jsu5iuKLY3XbfOpfyyDR64i+yB6VUIohPhAQ+ULRKAFZJwgH5Gsg==
-X-Received: by 2002:a05:620a:424d:b0:7a9:c3da:a806 with SMTP id af79cd13be357-7ace74665b7mr252129485a.54.1727256599784;
-        Wed, 25 Sep 2024 02:29:59 -0700 (PDT)
-Received: from ?IPV6:2600:381:5a05:3d4c:39e:105b:6ca1:9d6a? ([2600:381:5a05:3d4c:39e:105b:6ca1:9d6a])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7acde62b3a8sm153789285a.135.2024.09.25.02.29.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2024 02:29:58 -0700 (PDT)
-Message-ID: <89e62f07-ad7a-4468-a519-b4f416a966fa@kernel.dk>
-Date: Wed, 25 Sep 2024 03:29:55 -0600
+	d=linux.alibaba.com; s=default;
+	t=1727261467; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=jW8Rdp3OEqJEORfLeYzsAHFK/D9fF3u3IeSRNTXceUA=;
+	b=o4At5JXFlnPpYGY70RSWA/L6s98LIreMr9R0PLAt71bzDw/wTVpa4f4jNXYKAl+/oJbE8X39TKb8KFQfodjYq+W3tUU1AkAuuBONn/b58uKnR+CKJH09vN2eYe7YeowZd+xUdW9zwDtMNj9nki/WM+eQ+qp5vJ2oLlFpSUCtxGs=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFjTpAn_1727261460)
+          by smtp.aliyun-inc.com;
+          Wed, 25 Sep 2024 18:51:05 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet-rdma: use sbitmap to replace rsp free list
+Date: Wed, 25 Sep 2024 18:51:00 +0800
+Message-ID: <20240925105100.88797-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.12
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-References: <ZvOwViViFuQSeyVk@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZvOwViViFuQSeyVk@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240925_023001_842235_B7B816D3 
-X-CRM114-Status: GOOD (  10.68  )
+X-CRM114-CacheID: sfid-20240925_035112_481448_3F26353A 
+X-CRM114-Status: GOOD (  15.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,29 +63,177 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/25/24 12:40 AM, Keith Busch wrote:
-> The following changes since commit 65f666c6203600053478ce8e34a1db269a8701c9:
-> 
->   lib/sbitmap: define swap_lock as raw_spinlock_t (2024-09-20 00:20:06 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.12-2024-09-25
-> 
-> for you to fetch changes up to 9064610348b16356d43e59e286aedfec31825541:
-> 
->   nvme: remove CC register read-back during enabling (2024-09-24 23:35:10 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.12
-> 
->  - Multipath fixes (Hannes)
->  - Sysfs attribute list NULL terminate fix (Shin'ichiro)
->  - Remove problematic read-back (Keith)
+We can use sbitmap to manage all the nvmet_rdma_rsp instead of using
+free lists and spinlock, and we can use an additional tag to
+determine whether the nvmet_rdma_rsp is extra allocated.
 
-Pulled, thanks.
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ drivers/nvme/target/rdma.c | 53 +++++++++++++++++---------------------
+ 1 file changed, 24 insertions(+), 29 deletions(-)
 
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 689bb5d3cfdc..4fa1aa0f46a7 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -75,7 +75,7 @@ struct nvmet_rdma_rsp {
+ 	u32			invalidate_rkey;
+ 
+ 	struct list_head	wait_list;
+-	struct list_head	free_list;
++	int			tag;
+ };
+ 
+ enum nvmet_rdma_queue_state {
+@@ -98,8 +98,7 @@ struct nvmet_rdma_queue {
+ 	struct nvmet_sq		nvme_sq;
+ 
+ 	struct nvmet_rdma_rsp	*rsps;
+-	struct list_head	free_rsps;
+-	spinlock_t		rsps_lock;
++	struct sbitmap		rsp_tags;
+ 	struct nvmet_rdma_cmd	*cmds;
+ 
+ 	struct work_struct	release_work;
+@@ -172,7 +171,8 @@ static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
+ static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
+ 				struct nvmet_rdma_rsp *r);
+ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+-				struct nvmet_rdma_rsp *r);
++				struct nvmet_rdma_rsp *r,
++				int tag);
+ 
+ static const struct nvmet_fabrics_ops nvmet_rdma_ops;
+ 
+@@ -210,15 +210,12 @@ static inline bool nvmet_rdma_need_data_out(struct nvmet_rdma_rsp *rsp)
+ static inline struct nvmet_rdma_rsp *
+ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
+ {
+-	struct nvmet_rdma_rsp *rsp;
+-	unsigned long flags;
++	struct nvmet_rdma_rsp *rsp = NULL;
++	int tag;
+ 
+-	spin_lock_irqsave(&queue->rsps_lock, flags);
+-	rsp = list_first_entry_or_null(&queue->free_rsps,
+-				struct nvmet_rdma_rsp, free_list);
+-	if (likely(rsp))
+-		list_del(&rsp->free_list);
+-	spin_unlock_irqrestore(&queue->rsps_lock, flags);
++	tag = sbitmap_get(&queue->rsp_tags);
++	if (tag >= 0)
++		rsp = &queue->rsps[tag];
+ 
+ 	if (unlikely(!rsp)) {
+ 		int ret;
+@@ -226,13 +223,11 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
+ 		rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+ 		if (unlikely(!rsp))
+ 			return NULL;
+-		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp);
++		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp, -1);
+ 		if (unlikely(ret)) {
+ 			kfree(rsp);
+ 			return NULL;
+ 		}
+-
+-		rsp->allocated = true;
+ 	}
+ 
+ 	return rsp;
+@@ -241,17 +236,13 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
+ static inline void
+ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
+ {
+-	unsigned long flags;
+-
+-	if (unlikely(rsp->allocated)) {
++	if (unlikely(rsp->tag < 0)) {
+ 		nvmet_rdma_free_rsp(rsp->queue->dev, rsp);
+ 		kfree(rsp);
+ 		return;
+ 	}
+ 
+-	spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
+-	list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
+-	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
++	sbitmap_clear_bit(&rsp->queue->rsp_tags, rsp->tag);
+ }
+ 
+ static void nvmet_rdma_free_inline_pages(struct nvmet_rdma_device *ndev,
+@@ -404,7 +395,7 @@ static void nvmet_rdma_free_cmds(struct nvmet_rdma_device *ndev,
+ }
+ 
+ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+-		struct nvmet_rdma_rsp *r)
++		struct nvmet_rdma_rsp *r, int tag)
+ {
+ 	/* NVMe CQE / RDMA SEND */
+ 	r->req.cqe = kmalloc(sizeof(*r->req.cqe), GFP_KERNEL);
+@@ -432,6 +423,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+ 	r->read_cqe.done = nvmet_rdma_read_data_done;
+ 	/* Data Out / RDMA WRITE */
+ 	r->write_cqe.done = nvmet_rdma_write_data_done;
++	r->tag = tag;
+ 
+ 	return 0;
+ 
+@@ -454,21 +446,23 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
+ {
+ 	struct nvmet_rdma_device *ndev = queue->dev;
+ 	int nr_rsps = queue->recv_queue_size * 2;
+-	int ret = -EINVAL, i;
++	int ret = -ENOMEM, i;
++
++	if (sbitmap_init_node(&queue->rsp_tags, nr_rsps, -1, GFP_KERNEL,
++			NUMA_NO_NODE, false, true))
++		goto out;
+ 
+ 	queue->rsps = kcalloc(nr_rsps, sizeof(struct nvmet_rdma_rsp),
+ 			GFP_KERNEL);
+ 	if (!queue->rsps)
+-		goto out;
++		goto out_free_sbitmap;
+ 
+ 	for (i = 0; i < nr_rsps; i++) {
+ 		struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
+ 
+-		ret = nvmet_rdma_alloc_rsp(ndev, rsp);
++		ret = nvmet_rdma_alloc_rsp(ndev, rsp, i);
+ 		if (ret)
+ 			goto out_free;
+-
+-		list_add_tail(&rsp->free_list, &queue->free_rsps);
+ 	}
+ 
+ 	return 0;
+@@ -477,6 +471,8 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
+ 	while (--i >= 0)
+ 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
+ 	kfree(queue->rsps);
++out_free_sbitmap:
++	sbitmap_free(&queue->rsp_tags);
+ out:
+ 	return ret;
+ }
+@@ -489,6 +485,7 @@ static void nvmet_rdma_free_rsps(struct nvmet_rdma_queue *queue)
+ 	for (i = 0; i < nr_rsps; i++)
+ 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
+ 	kfree(queue->rsps);
++	sbitmap_free(&queue->rsp_tags);
+ }
+ 
+ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+@@ -1447,8 +1444,6 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
+ 	INIT_LIST_HEAD(&queue->rsp_wait_list);
+ 	INIT_LIST_HEAD(&queue->rsp_wr_wait_list);
+ 	spin_lock_init(&queue->rsp_wr_wait_lock);
+-	INIT_LIST_HEAD(&queue->free_rsps);
+-	spin_lock_init(&queue->rsps_lock);
+ 	INIT_LIST_HEAD(&queue->queue_list);
+ 
+ 	queue->idx = ida_alloc(&nvmet_rdma_queue_ida, GFP_KERNEL);
 -- 
-Jens Axboe
+2.43.0
 
 
