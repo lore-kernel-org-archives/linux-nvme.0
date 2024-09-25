@@ -4,130 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 029AECF9C6C
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 05:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73170CF9C6C
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 05:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AUbByObmcrUL6qVlAaUurjeuTafVISQ6sL8yGzr1Ddw=; b=URntenMBXwHASSi9hAJUPvjNpy
-	TlCIWiBDrYYjAipjBidnIYYTB2xQasePQXChwFcb2KKmDD0XBcddL4g9ZCUG5/ByYSzLUtbGsYGN6
-	bcIqSeoyPpEaAxAajtzy5IbmUxnAohSzGl01wWImz+VgLESsg1s7xLHYOUb4W4UVbr7hfQSgbNtrn
-	n9BC8J04MVo5Ykm8x16yha7Y5blFeTlR6EBNuJGAq/5PIeYJjZNTq8xPcGi70SrRCFQqSQA/KPU8P
-	Y+y6fujHiizYdyHiSzObVAJ+nyIixF4OSu8p+vR4RWNuqtVJWTV2BfNYwcMtN8v1vIz3GO52a6ulW
-	+VSniO9A==;
+	bh=WC5lMWPOQJyCMDITxuBay9ED03WWOnQxMVAZM6detzs=; b=hpnsi690LsKS5ZNRFTLZyGKfwG
+	GMHKibxfMKNOnDbTe80hguupV9XdOfbmXlvqSop3zC7wa3Im1BK1vzT8x/aP+yqIWRuAtI8owjmWC
+	sP5yvwweiPuAEjvUTFpYvCvRoG5GLwIile3wB+IcZev583SuX3qJ2+jjlA0GwZ+4JAoGCkOCf4EfT
+	ccSs9cCaTIa91/t+WvcO9duP8A7XzLSDgVDU5qa/0ALn7DQRHs0B4BOsy0EHzKqsxbcEtgGtx3Sr8
+	n14gE85JYj+5MNpZYvRI1pe8XfyovGj/PKEen5KrcUlvwKVUmfcpe/Y5xty4wxIC7DH75upppXlUD
+	u32Dqfhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1stKoC-000000045ww-1BAU;
-	Wed, 25 Sep 2024 05:43:28 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1stKtF-000000046M3-3hL7;
+	Wed, 25 Sep 2024 05:48:41 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1stKo6-000000045vV-1EBX
+	id 1stKtB-000000046Ky-03XE
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Sep 2024 05:43:25 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Wed, 25 Sep 2024 05:48:40 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6B16B1FD32;
-	Wed, 25 Sep 2024 05:43:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B33D211E5;
+	Wed, 25 Sep 2024 05:48:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727243000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1727243315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AUbByObmcrUL6qVlAaUurjeuTafVISQ6sL8yGzr1Ddw=;
-	b=2TI+7MxCpSMcBUt115BPg6KgoNI2XvawgdqXAVP69CupyNTMaPXH9AoCOlEjN/PqtwYq+2
-	TNXUpaM0g+fw36jnkYMp6D58w541kbeQ2POqYc0yrv8eIiaM694ZKVVM/O2HMXa+qv00ym
-	Sih5u1YxgPGl+YEwbDACWsdq1d8yplc=
+	bh=WC5lMWPOQJyCMDITxuBay9ED03WWOnQxMVAZM6detzs=;
+	b=atHRudHw4gBD0qUXsdWoWwdoyXfPXvIBS2A+KbXSHk0CrsNiA3a6OGFUWRhIc6mk3ysasV
+	3HdjxlflV638ltA9o2Ktg5WNy7Qeh4tLixH+xX+4gzdSIGUF/bljn3N8bm3IN6lBiI3lYh
+	iYdqnQISjqEK75rTtpMPrRxWJB6LlKk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727243000;
+	s=susede2_ed25519; t=1727243315;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AUbByObmcrUL6qVlAaUurjeuTafVISQ6sL8yGzr1Ddw=;
-	b=evovYc8IaV1mF+ygEOMXrziVtwsZbptVV5/dFZ7QA+TeDbAeQILEyc/KwUfq79gM8pbCJX
-	SJ1I1QuxIa4xS2Dg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wN3LGORm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Tesn02wO
+	bh=WC5lMWPOQJyCMDITxuBay9ED03WWOnQxMVAZM6detzs=;
+	b=F4UfQTWzbznrvneSEC8Lv/HkKkdGj9H5jaap5pNTs6fMQhal/zdNlNranqs4t29fM8m756
+	rTNQDg/00eX0LsBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727242998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1727243315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AUbByObmcrUL6qVlAaUurjeuTafVISQ6sL8yGzr1Ddw=;
-	b=wN3LGORmA1cW+pfD3fLTIveveaUTI0fti51/eMfMDlIm8S25tnPYMmwKeukYeaRcedlIm4
-	71uQLg+Z049pH4m7j0dG3I4EzAtwNNQdC9XnMVtkI16AM7Qw1HmTX91aB08uTq1I2VSux/
-	tbn161SqaSvV5aRe9d+g8ogJX7MVPKw=
+	bh=WC5lMWPOQJyCMDITxuBay9ED03WWOnQxMVAZM6detzs=;
+	b=atHRudHw4gBD0qUXsdWoWwdoyXfPXvIBS2A+KbXSHk0CrsNiA3a6OGFUWRhIc6mk3ysasV
+	3HdjxlflV638ltA9o2Ktg5WNy7Qeh4tLixH+xX+4gzdSIGUF/bljn3N8bm3IN6lBiI3lYh
+	iYdqnQISjqEK75rTtpMPrRxWJB6LlKk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727242998;
+	s=susede2_ed25519; t=1727243315;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AUbByObmcrUL6qVlAaUurjeuTafVISQ6sL8yGzr1Ddw=;
-	b=Tesn02wOnRlUEnzXKr+Pkuur0umhfXOdCelZn0alz9dZKq8eAiAFBhdD1wXP8xu+/odOe8
-	dk7UiBGMw0Pw6YCw==
+	bh=WC5lMWPOQJyCMDITxuBay9ED03WWOnQxMVAZM6detzs=;
+	b=F4UfQTWzbznrvneSEC8Lv/HkKkdGj9H5jaap5pNTs6fMQhal/zdNlNranqs4t29fM8m756
+	rTNQDg/00eX0LsBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F2B113A66;
-	Wed, 25 Sep 2024 05:43:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 604D913A66;
+	Wed, 25 Sep 2024 05:48:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id upVlAPai82ZRUwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 25 Sep 2024 05:43:18 +0000
-Message-ID: <b147b7ed-0760-472f-8ee5-3623d3bc16d0@suse.de>
-Date: Wed, 25 Sep 2024 07:43:18 +0200
+	id LABIDTCk82azVAAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 25 Sep 2024 05:48:32 +0000
+Message-ID: <da049cc8-8f36-460e-b7fa-efcde5b19dbb@suse.de>
+Date: Wed, 25 Sep 2024 07:48:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: null terminate nvme_tls_attrs
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-Cc: Yi Zhang <yi.zhang@redhat.com>, Christoph Hellwig <hch@infradead.org>,
- Sagi Grimberg <sagi@grimberg.me>
-References: <20240924090134.1884012-1-shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH v6 1/3] nvme: enable FDP support
+To: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
+ brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+ jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com, bvanassche@acm.org,
+ asml.silence@gmail.com
+Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
+ gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com,
+ Hui Qi <hui81.qi@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>
+References: <20240924092457.7846-1-joshi.k@samsung.com>
+ <CGME20240924093250epcas5p39259624b9ebabdef15081ea9bd663d41@epcas5p3.samsung.com>
+ <20240924092457.7846-2-joshi.k@samsung.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240924090134.1884012-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20240924092457.7846-2-joshi.k@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6B16B1FD32
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[samsung.com,kernel.dk,kernel.org,lst.de,grimberg.me,oracle.com,zeniv.linux.org.uk,suse.cz,kvack.org,redhat.com,acm.org,gmail.com];
+	TAGGED_RCPT(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,wdc.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240924_224322_508933_EA9E5F39 
-X-CRM114-Status: GOOD (  13.61  )
+X-CRM114-CacheID: sfid-20240924_224837_233695_5CF50639 
+X-CRM114-Status: GOOD (  13.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,33 +143,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/24/24 11:01, Shin'ichiro Kawasaki wrote:
-> Commit 1e48b34c9bc7 ("nvme: split off TLS sysfs attributes into a
-> separate group") introduced the struct attribute array nvme_tls_attrs.
-> However, the array was not null terminated and caused BUG KASAN global-
-> out-of-bounds. To avoid the BUG, null terminate the array.
+On 9/24/24 11:24, Kanchan Joshi wrote:
+> Flexible Data Placement (FDP), as ratified in TP 4146a, allows the host
+> to control the placement of logical blocks so as to reduce the SSD WAF.
 > 
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Closes: https://lore.kernel.org/linux-nvme/jhllwfxcedrcxcnbajwl4x2l2ujcqowqcd4ps574zrafrqhjna@f4icvecutekm/
-> Fixes: 1e48b34c9bc7 ("nvme: split off TLS sysfs attributes into a separate group")
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> Userspace can send the data lifetime information using the write hints.
+> The SCSI driver (sd) can already pass this information to the SCSI
+> devices. This patch does the same for NVMe.
+> 
+> Fetch the placement-identifiers if the device supports FDP.
+> The incoming write-hint is mapped to a placement-identifier, which in
+> turn is set in the DSPEC field of the write command.
+> 
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Hui Qi <hui81.qi@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
 > ---
->   drivers/nvme/host/sysfs.c | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/nvme/host/core.c | 70 ++++++++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/nvme.h |  4 +++
+>   include/linux/nvme.h     | 19 +++++++++++
+>   3 files changed, 93 insertions(+)
 > 
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index eb345551d6fe..b68a9e5f1ea3 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
-> @@ -767,6 +767,7 @@ static struct attribute *nvme_tls_attrs[] = {
->   	&dev_attr_tls_key.attr,
->   	&dev_attr_tls_configured_key.attr,
->   	&dev_attr_tls_keyring.attr,
-> +	NULL,
->   };
->   
->   static umode_t nvme_tls_attrs_are_visible(struct kobject *kobj,
-
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
