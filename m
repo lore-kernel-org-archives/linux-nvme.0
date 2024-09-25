@@ -4,66 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82B75C369D9
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 12:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3720C369D7
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 12:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a4uzZe02HYVlMfrZx+wZ6dlvT9iU3CAq5dOSBt3J0tA=; b=zUYgjRG7PsO9KJIykUQJW8Fthx
-	uxzpOvFbfTmvAl04Uu4bz57s7R5A5eytigx3hi1F3ObKaX5n6KSa7lbA1JbrX8AKJiqWKx7+60+S/
-	jExDhbZuiPo2b06gzeXeEc7hpVByTTrqyfFOalVUIO39ItihQRLkmaP9epFCjk+YZYiJhr1Gx5mb+
-	A9DU/CoPsX+85WeYJkz9SSAh/DGN14olOnXcAqP1QGxd2R6++TVOzS4IVF+hgJVz05kfQ5JGvkAEO
-	y2WLER4irBHdlDFulWfja28nhNT78Xh8eCK0UKhbp3DUVV72CSwvqIi/p5vZLRA2FooNDUuj+nhaf
-	6bHu0bKA==;
+	bh=e1vsdKX31ZQMJQnYW8l7+O8odVCjbHrQhd7IsOPE+00=; b=oYL5JmNFeTKmwWppsNlArgKqhO
+	L7o16xYIX+BXGJ+9YkYW9+H8RhRLhi3PX6aRh9tJKXxwuyf6kHWOeAgqifbB+jQ790Y4rTcXPhgNe
+	BdS0BxnXde4Gp36KfAvXbLWXrrnPImvOneftglM8TB6rnkzktaaG1IlUcKTqcBYh6ZZDg54IEEnlz
+	I2wZ1Dh3U9oBcBRzwGpSjVXCptU2l2FswgIj/CnlJ/qzm4bsKvBIrbHV9OiW/FLvsYQ9W2Sv1O7h3
+	r9TI0SFPW1vMrhyWk/FdC+ukOaJrf+cUaeVCySEWhniN+kwG7yFup6uCXXgFtSKVgPV5b37Pgk1Z0
+	1olwmZ1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1stR0M-000000056ap-06Ku;
-	Wed, 25 Sep 2024 12:20:26 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1stRBm-000000059uS-19Fg;
+	Wed, 25 Sep 2024 12:32:14 +0000
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1stQsn-0000000544E-3Clz
+	id 1stR2U-000000057Jn-1v9q
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Sep 2024 12:12:39 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id DC0A4A4418E;
-	Wed, 25 Sep 2024 12:12:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1136C4CEC7;
-	Wed, 25 Sep 2024 12:12:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727266356;
-	bh=IOt0KpXM+BgIW8s8YSZwbjD13vxR1ee/uXfc0ko2cAE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m+M4KGScVjRpqeSCnqKxLtYksWL3qMYwYr2+NITi7XgCFqS4Xt1IKbEYhvzymtZDD
-	 /WnQzJZ4ruCsiDRB+KtIcnZZqspki1NfvK3Fg9qCZoQj788cY7BFNpffAbX20R2HPl
-	 KPqMwKSIfwAc5wHJCypE3SUbIzxUHbKpPo3xkTnkheCD0IQimgLKoify6neNtEpupw
-	 5liBOKGNj1UE3PYxgUlFopN+0ZSbUcRZACr3OK08a4mJXbohpUhuwN1hwVJHbFpp4m
-	 9U34UvIdjFZa+22p/qUe/rt/JU3xntaH4f3XB2LOBfJ4S+BCjEntAEiMSPelAAPaJF
-	 xP5COqBT32g9g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Robert Beckett <bob.beckett@collabora.com>,
-	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 026/139] nvme-pci: qdepth 1 quirk
-Date: Wed, 25 Sep 2024 08:07:26 -0400
-Message-ID: <20240925121137.1307574-26-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240925121137.1307574-1-sashal@kernel.org>
-References: <20240925121137.1307574-1-sashal@kernel.org>
+	Wed, 25 Sep 2024 12:22:39 +0000
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5c40942358eso1609847a12.1
+        for <linux-nvme@lists.infradead.org>; Wed, 25 Sep 2024 05:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727266956; x=1727871756; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e1vsdKX31ZQMJQnYW8l7+O8odVCjbHrQhd7IsOPE+00=;
+        b=gVWNvtIX5+/LozkPKKN43MvPdUZpAY2XJM0Vohv4f82dG821c2yzwOibWsmUN3xFFK
+         NJre3ie3VWHOMMQnyXRzpUCI1Zam8HMhltGmvP0xsqYVPCYCZpH50+goqo9QiTAxPVKC
+         zQQGb8hk+jFPZazlFkcyPWg5dkkDBlkvttBmI4r4CWyfICH9yzRDwDSiriQI/7HYzKRy
+         FATrCJgY0Wrrw0vGzxS0QSYE3IC/cv0mQihwJjmP7u0/WpeR9weGmjHFgguTHHtAVXSb
+         2mkXWRzmqqrQ3fsCaGLQaN7YZliByJC6Y6aQ3Ze7RCLRykBpcWzvDwPEo5TE/Io7Pi4r
+         /aFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727266956; x=1727871756;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e1vsdKX31ZQMJQnYW8l7+O8odVCjbHrQhd7IsOPE+00=;
+        b=JPEvtFGEdzvlHG6QlE/3moFPcrNofOfppwDEtvqHpGWEDVp8b2X6P2bjwXpQTVI06H
+         RvBRljkrREwR0bHqwAX9HNAGyB5Tf0LgOzAczEcMSbG1peDJl/vKo3leH+zhX5jqDOVD
+         aw5CYUEFxgHv22uTMMbtBoDWGaocNLA1EHFqhxwFX0LK3fQp98ZmKH8az/GPlfhxtVQk
+         mBS+kaSB8gVsYdtVaPqmTeQhln4tEe/xWbogSgXI01+PChGNKLS3B7dU1RFJdk3nuNeQ
+         EA/ooCp/6BdDiCTT9qNncKGxAsXySNYzG7TofMz7wPyVcEa3+fOdJXqx5oKn40KYbUBo
+         CgOw==
+X-Gm-Message-State: AOJu0YyWeG4oCpkHHv5Byh/Pd58t+orQ1z0fm3DWBuQ5yfLo9Mnp6SUJ
+	ecIQG57uOu6vCc7vkb17r7az3Z7a4yCb6IB/sKuKHrFkRLCnkvot
+X-Google-Smtp-Source: AGHT+IHy8FnDpRRZ0xuHx941u/L73CdgNsgVKXSABy4Wq1uMlQmuwdBzBKZV8xBOb4xFnl0sRAAXbg==
+X-Received: by 2002:a05:6402:13d2:b0:5c4:1c0c:cc6d with SMTP id 4fb4d7f45d1cf-5c5cdf051d2mr7695812a12.0.1727266955977;
+        Wed, 25 Sep 2024 05:22:35 -0700 (PDT)
+Received: from [192.168.92.221] ([85.255.235.163])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c5cf49dbbdsm1802486a12.57.2024.09.25.05.22.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Sep 2024 05:22:35 -0700 (PDT)
+Message-ID: <cb3302c0-56dd-4173-9866-c8e40659becb@gmail.com>
+Date: Wed, 25 Sep 2024 13:23:14 +0100
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.52
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] io_uring: enable per-io hinting capability
+To: Kanchan Joshi <joshi.k@samsung.com>, Hannes Reinecke <hare@suse.de>,
+ axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+ martin.petersen@oracle.com, brauner@kernel.org, viro@zeniv.linux.org.uk,
+ jack@suse.cz, jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com,
+ bvanassche@acm.org
+Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
+ gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com,
+ Nitesh Shetty <nj.shetty@samsung.com>
+References: <20240924092457.7846-1-joshi.k@samsung.com>
+ <CGME20240924093257epcas5p174955ae79ae2d08a886eeb45a6976d53@epcas5p1.samsung.com>
+ <20240924092457.7846-4-joshi.k@samsung.com>
+ <28419703-681c-4d8c-9450-bdc2aff19d56@suse.de>
+ <678921a8-584c-f95e-49c8-4d9ce9db94ab@samsung.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <678921a8-584c-f95e-49c8-4d9ce9db94ab@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240925_051237_973335_9B526C05 
-X-CRM114-Status: GOOD (  16.31  )
+X-CRM114-CacheID: sfid-20240925_052238_517520_2A3F4B5A 
+X-CRM114-Status: GOOD (  13.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,89 +103,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On 9/25/24 12:09, Kanchan Joshi wrote:
+> On 9/25/2024 11:27 AM, Hannes Reinecke wrote:
+...
+> As it stands the new struct will introduce
+>> a hole of 24 bytes after 'hint_type'.
+> 
+> This gets implicitly padded at this point [1][2], and overall size is
+> still capped by largest struct (which is of 16 bytes, placed just above
+> this).
 
-[ Upstream commit 83bdfcbdbe5d901c5fa432decf12e1725a840a56 ]
+For me it's about having hardly usable in the future by anyone else
+7 bytes of space or how much that will be. Try to add another field
+using those bytes and endianess will start messing with you. And 7
+bytes is not that convenient.
 
-Another device has been reported to be unreliable if we have more than
-one outstanding command. In this new case, data corruption may occur.
-Since we have two devices now needing this quirky behavior, make a
-generic quirk flag.
+I have same problem with how commands were merged while I was not
+looking. There was no explicit padding, and it split u64 into u32
+and implicit padding, so no apps can use the space to put a pointer
+anymore while there was a much better option of using one of existing
+4B fields.
 
-The same Apple quirk is clearly not "temporary", so update the comment
-while moving it.
 
-Link: https://lore.kernel.org/linux-nvme/191d810a4e3.fcc6066c765804.973611676137075390@collabora.com/
-Reported-by: Robert Beckett <bob.beckett@collabora.com>
-Reviewed-by: Christoph Hellwig hch@lst.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 18 +++++++++---------
- 2 files changed, 14 insertions(+), 9 deletions(-)
+> [1] On 64bit
+> »       union {
+> »       »       struct {
+> »       »       »       __u64      addr3;                /*    48     8 */
+> »       »       »       __u64      __pad2[1];            /*    56     8 */
+> »       »       };                                       /*    48    16 */
+> »       »       struct {
+> »       »       »       __u64      hint_val;             /*    48     8 */
+> »       »       »       __u8       hint_type;            /*    56     1 */
+> »       »       };                                       /*    48    16 */
+> »       »       __u64              optval;               /*    48     8 */
+> »       »       __u8               cmd[0];               /*    48     0 */
+> »       };                                               /*    48    16 */
+> 
+> »       /* size: 64, cachelines: 1, members: 13 */
+> 
+> [2] On 32bit
+> 
+> »       union {
+> »       »       struct {
+> »       »       »       __u64      addr3;                /*    48     8 */
+> »       »       »       __u64      __pad2[1];            /*    56     8 */
+> »       »       };                                       /*    48    16 */
+> »       »       struct {
+> »       »       »       __u64      hint_val;             /*    48     8 */
+> »       »       »       __u8       hint_type;            /*    56     1 */
+> »       »       };                                       /*    48    12 */
+> »       »       __u64              optval;               /*    48     8 */
+> »       »       __u8               cmd[0];               /*    48     0 */
+> »       };                                               /*    48    16 */
+> 
+> »       /* size: 64, cachelines: 1, members: 13 */
+> };
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d2b6975e71fbc..799f8a2bb0b4f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -88,6 +88,11 @@ enum nvme_quirks {
- 	 */
- 	NVME_QUIRK_NO_DEEPEST_PS		= (1 << 5),
- 
-+	/*
-+	 *  Problems seen with concurrent commands
-+	 */
-+	NVME_QUIRK_QDEPTH_ONE			= (1 << 6),
-+
- 	/*
- 	 * Set MEDIUM priority on SQ creation
- 	 */
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7fc1ab4d9e7d8..32b5cc76a0223 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2526,15 +2526,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	else
- 		dev->io_sqes = NVME_NVM_IOSQES;
- 
--	/*
--	 * Temporary fix for the Apple controller found in the MacBook8,1 and
--	 * some MacBook7,1 to avoid controller resets and data loss.
--	 */
--	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001) {
-+	if (dev->ctrl.quirks & NVME_QUIRK_QDEPTH_ONE) {
- 		dev->q_depth = 2;
--		dev_warn(dev->ctrl.device, "detected Apple NVMe controller, "
--			"set queue depth=%u to work around controller resets\n",
--			dev->q_depth);
- 	} else if (pdev->vendor == PCI_VENDOR_ID_SAMSUNG &&
- 		   (pdev->device == 0xa821 || pdev->device == 0xa822) &&
- 		   NVME_CAP_MQES(dev->ctrl.cap) == 0) {
-@@ -3399,6 +3392,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x1217, 0x8760), /* O2 Micro 64GB Steam Deck */
-+		.driver_data = NVME_QUIRK_QDEPTH_ONE },
- 	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_BOGUS_NID, },
-@@ -3531,7 +3526,12 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0xcd02),
- 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
--		.driver_data = NVME_QUIRK_SINGLE_VECTOR },
-+		/*
-+		 * Fix for the Apple controller found in the MacBook8,1 and
-+		 * some MacBook7,1 to avoid controller resets and data loss.
-+		 */
-+		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
-+				NVME_QUIRK_QDEPTH_ONE },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
- 		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
 -- 
-2.43.0
-
+Pavel Begunkov
 
