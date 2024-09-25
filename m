@@ -4,51 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29B32C369C7
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 10:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C256C369CF
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 11:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jW8Rdp3OEqJEORfLeYzsAHFK/D9fF3u3IeSRNTXceUA=; b=r3G17AMmt4WdtnW9OX7qlybvxJ
-	iPwHflyKrG7q/znRpG+raeY0EUzaJUaomV6TDl1+5wz17Q3p9MKyPuDuRRC/ZD9wBvxl/3iPTtV7P
-	9c0ZargPZ9vWBeqP43tToMstrwvDfA+T0/LAubihc185iMsB4quQS/SXTPRuQoleFsYMXxtR4uy78
-	yE/FL1ya0/U+BL5TOQZxhGJrl+AU70KkOkFkvB/GwB/9Qvg1QNUQBvSyHNP8IVvr5fuXwanHqMz/I
-	gabyIdRkS1jA7tCI+n/SpxPXDykIHl6G+ZleYlcmWmQKahTCaVaCXvJlUAvb8HykECmuP2QuyCrsj
-	4AMiCvSQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=N+h3PsTPTQHDyIY9DQ7puLUE1ePpWavL+lGTJUupizU=; b=pe1KSdMi2ZqCeuwZp5rH36NaQ8
+	ZUE+xkF+fP4D3D4jpS6plHl0SPwErVDkuRojnWYkbEWQNdYAmQQ4JbBKNZKgFCuRCKhbdcn6/xaLi
+	lqawsSlLy5uMNdLvEvGD+7WA5ug97Zi0CsrvvdKIdx44bdUQCsRXhAn/DrRd9QxTVl/01Lb4HYcXt
+	Cln5H2RlcxRfJ+UsE1Ys3PLXPiA0o0VfA9bu+VgGql1GfLIoItfb3P9DJ1ui3pBayLViX6g4e+HkG
+	8lJi05W2vPg0NfjmAbQEnfgq4UkUN24cRiZ4KjbVMTOwLtFxRzzloyTBvT7HQbUmWn6NCh3kfP4aE
+	4/C4O7HA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1stPc4-00000004mxr-13ri;
-	Wed, 25 Sep 2024 10:51:16 +0000
-Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
+	id 1stPv0-00000004qMR-3MO5;
+	Wed, 25 Sep 2024 11:10:50 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1stPbz-00000004mvJ-2lm6
+	id 1stPuD-00000004q6T-3aYT
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Sep 2024 10:51:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1727261467; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=jW8Rdp3OEqJEORfLeYzsAHFK/D9fF3u3IeSRNTXceUA=;
-	b=o4At5JXFlnPpYGY70RSWA/L6s98LIreMr9R0PLAt71bzDw/wTVpa4f4jNXYKAl+/oJbE8X39TKb8KFQfodjYq+W3tUU1AkAuuBONn/b58uKnR+CKJH09vN2eYe7YeowZd+xUdW9zwDtMNj9nki/WM+eQ+qp5vJ2oLlFpSUCtxGs=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFjTpAn_1727261460)
-          by smtp.aliyun-inc.com;
-          Wed, 25 Sep 2024 18:51:05 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet-rdma: use sbitmap to replace rsp free list
-Date: Wed, 25 Sep 2024 18:51:00 +0800
-Message-ID: <20240925105100.88797-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+	Wed, 25 Sep 2024 11:10:05 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240925110947epoutp04b9ee6b1a6c01d40144e6577ea8ccd915~4eCv2j6vG0751107511epoutp04B
+	for <linux-nvme@lists.infradead.org>; Wed, 25 Sep 2024 11:09:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240925110947epoutp04b9ee6b1a6c01d40144e6577ea8ccd915~4eCv2j6vG0751107511epoutp04B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1727262587;
+	bh=N+h3PsTPTQHDyIY9DQ7puLUE1ePpWavL+lGTJUupizU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=O6k+H8mm6iKRX5Zc+FhV3dBREcuw/+zRNC7A/CY2jdg9EZVZo7REij+jWss6liQ4V
+	 6ktt0okuWPFEHJR7LX6s70bek43R1tcphY0z5RHIOZyvbUD1AL05SxR90rbaDvknge
+	 vwRSoXxbyIZrhrmpDv3cQeQxnnLDbIok4cGkJKcE=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20240925110946epcas5p2d3caa556f7252ff32ef4283ce4becb0f~4eCvTn7cf1791117911epcas5p2F;
+	Wed, 25 Sep 2024 11:09:46 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4XDDX94bcYz4x9Pw; Wed, 25 Sep
+	2024 11:09:45 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BE.48.08855.97FE3F66; Wed, 25 Sep 2024 20:09:45 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240925110945epcas5p33419ecc893436e250dc77fe629d86c4d~4eCtxtCtn2184821848epcas5p3u;
+	Wed, 25 Sep 2024 11:09:45 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240925110945epsmtrp26fd009b541f5c043f80be1ddfacbbe1a~4eCtwuvnp0643906439epsmtrp2L;
+	Wed, 25 Sep 2024 11:09:45 +0000 (GMT)
+X-AuditID: b6c32a44-107ff70000002297-b2-66f3ef7983c6
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	7C.57.07567.87FE3F66; Wed, 25 Sep 2024 20:09:44 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240925110941epsmtip2688610a145f992978c8e49e754c94e0b~4eCqpQ_lf2519425194epsmtip2f;
+	Wed, 25 Sep 2024 11:09:41 +0000 (GMT)
+Message-ID: <678921a8-584c-f95e-49c8-4d9ce9db94ab@samsung.com>
+Date: Wed, 25 Sep 2024 16:39:40 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v6 3/3] io_uring: enable per-io hinting capability
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, axboe@kernel.dk, kbusch@kernel.org,
+	hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com, bvanassche@acm.org,
+	asml.silence@gmail.com
+Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
+	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Nitesh
+	Shetty <nj.shetty@samsung.com>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <28419703-681c-4d8c-9450-bdc2aff19d56@suse.de>
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TaVBTVxid+/KygEVfo5RLRjFNx6GoQFKWXqyo0yK+Dm0Hl4FuSiN5EAok
+	mSyltowyWECRTbCAYQlVKhBblLUghNKgoEGlI6BCK6IEtVD2wrQi2CQPW/6d891z7rnf983l
+	MLj5bB4nSqamlDJxjIBlj9e3ubm6H5qYiRCm1PBRob4eoPP3MlkodbEWR6Nt0wDlTv7DQOOJ
+	8zjqa23EUPOZbAxVnL+CofGkmzgqyDuKIfMFLQMN/T7DRtnG2wCdyk0EyNC/CTUbruFId26Y
+	jco6FjFUP69joMrRCRx1LXQwUZe2kL3DiezuCSIbtffYZNdAFU5239CQ1frjLLJ6OptN1pQe
+	IZv6Eljk1HA/Tk609LLIjFo9IK+XXLYcdn5NzlS7kNXmMSx41cfRW6WUWEIp+ZQsXC6JkkX6
+	C4L2hr0T5uMrFLmL/NCbAr5MHEv5CwLeC3YPjIqxzEDA/0Ico7GUgsUqlcBz21alXKOm+FK5
+	Su0voBSSGIW3wkMljlVpZJEeMkq9RSQUvuFjEX4WLU278R2m+NvpywJTGzsBjLyUCuw4kPCG
+	beVVjFRgz+ESTQDO9uQDmkwD2JVWitNkDsAT9WfBC8vtq7+wrJhLGACsShTRojEAy4f+sokc
+	iG1wOPGBTYQTG6DpuhGn6y/Da6fNNuxIHIRPewtt+tVEIKwp6GJaMYNwgv1mHWa9dA1RjsFH
+	zbNMK2EQzwH8tkJvIRwOi3CDv+ZorAY74i34R0oRmzavh0frCmwNQcJkB/uTF5j0swNg162U
+	pRZWw5GOWjaNeXBm3MCicTQcfDiI0zgeNtRkLHm3w4Rnd225DEvuhUuedNZKmD5vxqxlSDjA
+	Y8lcWv0qHMgeXnI6wQf5pUxaQsLUhQ/oWY0AWNf+EGQBvnbZWLTL2tcu60b7f3AJwPXAmVKo
+	YiOpcB+FSEbF/bfwcHlsNbB9kY0BDeCubtHDCDAOMALIYQjWOGT3TUVwHSTiQ19RSnmYUhND
+	qYzAx7KfkwyeY7jc8sdk6jCRt5/Q29fX19vPy1ckcHIYTSqScIlIsZqKpigFpXzhwzh2vAQs
+	S+Q8znQUxg+nZ9bl2BXvd9sUFKR8LI3LOxx+80xTbtmU+U+X9AMJOc8M9iF3sjs/fT/g0mLl
+	47W60/MRJcbDXgMtO19fV5HWYrpStW/z8xCxsfXILDd4Vl6+R9ga9Vvefg31g/zgWEXN58mj
+	g7vb2s0b3D9al+syN9fiq3McYP+4O8vZJNnV3hh63416+0Rb0/acfT3MnzrRWtYofyHjwCrD
+	+tDu+1uewJRJ5x3x0j2zr0TpL37z2rHvjwdndjisCBxy9QyNLcrYbLy8q9L+5+LJEMmHT++s
+	VKhdHlG8uOKTYhPvVO+qi2d3NvQoxgy39vLfrRovk5cVftKfdM7L9eoK45NpTwGukopFGxlK
+	lfhfs/a3TKsEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGIsWRmVeSWpSXmKPExsWy7bCSvG7F+89pBpe+m1vMWbWN0WL13X42
+	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLG4e2MlksWfRJCaLlauPMlm8az3HYjF7ejOTxZP1s5gt
+	Ht/5zG4x6dA1Rosp05oYLfbe0rbYs/cki8X8ZU/ZLZYf/8dkse33fGaLda/fs1ic/3uc1eL8
+	rDnsDuIel694e+ycdZfd4/y9jSwel8+Wemxa1cnmsenTJHaPzUvqPXbfbGDz+Pj0FovH+31X
+	2Tz6tqxi9Diz4AhQ8nS1x+dNch6bnrxlCuCP4rJJSc3JLEst0rdL4MroObuQqeCHeMXsU4fZ
+	Gxhf8XQxcnJICJhIXDtxkK2LkYtDSGA3o8TXq/vZIBLiEs3XfrBD2MISK/89Z4coes0oMbN/
+	JjNIglfATuJp00OwBhYBVYlTZw6xQMQFJU7OfAJmiwokSey538gEYgsLuElsnn2eFcRmBlpw
+	68l8JpChIgIrmCQu/ZkH5jAL/GeU6Di2jAli3StGiR0XJgCN4uBgE9CUuDC5FKSbU8Ba4mX7
+	XHaISWYSXVu7GCFseYnmrbOZJzAKzUJyyCwkC2chaZmFpGUBI8sqRsnUguLc9NxkwwLDvNRy
+	veLE3OLSvHS95PzcTYzgpKGlsYPx3vx/eocYmTgYDzFKcDArifBOuvkxTYg3JbGyKrUoP76o
+	NCe1+BCjNAeLkjiv4YzZKUIC6YklqdmpqQWpRTBZJg5OqQam7U9unX674FfNqRuL2M5d3PrW
+	Q35DVbfaIWV7NaW1KyXLQycb6fLL7GXc72Bruna73+8nZof/T/BReiv1doqdbOPFw7vCkqYI
+	XJX7pv/8lgjTm2mRs3y+CNgHFK39+4TpqEi9y8trcZu6YngZfvycMm9pzFPbJ/q7LwTnTtue
+	8Wy5Yb4Ne73HwWrNrb4L2JtL0ksmMEw4vW1LzJrO7bv7Xdf1RS0rV/XLS/JweXtyUfSDG179
+	i/eU747Y/dIhqas5I8ScI4Tp7Z3Ji2d2XreZsjH0jnaI193gMw6OEXGXzT5fmeY8da/gKv/y
+	UO0bnn+OOl1MEe29zucV48nEc+FODceuiZIJ7oXtr1Y0rDTUUWIpzkg01GIuKk4EACcrUB6J
+	AwAA
+X-CMS-MailID: 20240925110945epcas5p33419ecc893436e250dc77fe629d86c4d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240924093257epcas5p174955ae79ae2d08a886eeb45a6976d53
+References: <20240924092457.7846-1-joshi.k@samsung.com>
+	<CGME20240924093257epcas5p174955ae79ae2d08a886eeb45a6976d53@epcas5p1.samsung.com>
+	<20240924092457.7846-4-joshi.k@samsung.com>
+	<28419703-681c-4d8c-9450-bdc2aff19d56@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240925_035112_481448_3F26353A 
-X-CRM114-Status: GOOD (  15.71  )
+X-CRM114-CacheID: sfid-20240925_041002_354483_165B3E5F 
+X-CRM114-Status: GOOD (  15.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,177 +149,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We can use sbitmap to manage all the nvmet_rdma_rsp instead of using
-free lists and spinlock, and we can use an additional tag to
-determine whether the nvmet_rdma_rsp is extra allocated.
+On 9/25/2024 11:27 AM, Hannes Reinecke wrote:
+>> @@ -98,6 +98,11 @@ struct io_uring_sqe {
+>>               __u64    addr3;
+>>               __u64    __pad2[1];
+>>           };
+>> +        struct {
+>> +            /* To send per-io hint type/value with write command */
+>> +            __u64    hint_val;
+>> +            __u8    hint_type;
+>> +        };
+> Why is 'hint_val' 64 bits? Everything else is 8 bytes, so wouldn't it
+> be better to shorten that? 
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
- drivers/nvme/target/rdma.c | 53 +++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 29 deletions(-)
+Right, within kernel hint is stored as 8bits value.
+But I chose not because how kernel stores hint internally (which may 
+change at any time) but how the existing F_SET_RW_HINT interface exposed 
+this to user space. It expects u64.
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 689bb5d3cfdc..4fa1aa0f46a7 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -75,7 +75,7 @@ struct nvmet_rdma_rsp {
- 	u32			invalidate_rkey;
- 
- 	struct list_head	wait_list;
--	struct list_head	free_list;
-+	int			tag;
- };
- 
- enum nvmet_rdma_queue_state {
-@@ -98,8 +98,7 @@ struct nvmet_rdma_queue {
- 	struct nvmet_sq		nvme_sq;
- 
- 	struct nvmet_rdma_rsp	*rsps;
--	struct list_head	free_rsps;
--	spinlock_t		rsps_lock;
-+	struct sbitmap		rsp_tags;
- 	struct nvmet_rdma_cmd	*cmds;
- 
- 	struct work_struct	release_work;
-@@ -172,7 +171,8 @@ static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
- static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
- 				struct nvmet_rdma_rsp *r);
- static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
--				struct nvmet_rdma_rsp *r);
-+				struct nvmet_rdma_rsp *r,
-+				int tag);
- 
- static const struct nvmet_fabrics_ops nvmet_rdma_ops;
- 
-@@ -210,15 +210,12 @@ static inline bool nvmet_rdma_need_data_out(struct nvmet_rdma_rsp *rsp)
- static inline struct nvmet_rdma_rsp *
- nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- {
--	struct nvmet_rdma_rsp *rsp;
--	unsigned long flags;
-+	struct nvmet_rdma_rsp *rsp = NULL;
-+	int tag;
- 
--	spin_lock_irqsave(&queue->rsps_lock, flags);
--	rsp = list_first_entry_or_null(&queue->free_rsps,
--				struct nvmet_rdma_rsp, free_list);
--	if (likely(rsp))
--		list_del(&rsp->free_list);
--	spin_unlock_irqrestore(&queue->rsps_lock, flags);
-+	tag = sbitmap_get(&queue->rsp_tags);
-+	if (tag >= 0)
-+		rsp = &queue->rsps[tag];
- 
- 	if (unlikely(!rsp)) {
- 		int ret;
-@@ -226,13 +223,11 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- 		rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
- 		if (unlikely(!rsp))
- 			return NULL;
--		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp);
-+		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp, -1);
- 		if (unlikely(ret)) {
- 			kfree(rsp);
- 			return NULL;
- 		}
--
--		rsp->allocated = true;
- 	}
- 
- 	return rsp;
-@@ -241,17 +236,13 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- static inline void
- nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
- {
--	unsigned long flags;
--
--	if (unlikely(rsp->allocated)) {
-+	if (unlikely(rsp->tag < 0)) {
- 		nvmet_rdma_free_rsp(rsp->queue->dev, rsp);
- 		kfree(rsp);
- 		return;
- 	}
- 
--	spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
--	list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
--	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
-+	sbitmap_clear_bit(&rsp->queue->rsp_tags, rsp->tag);
- }
- 
- static void nvmet_rdma_free_inline_pages(struct nvmet_rdma_device *ndev,
-@@ -404,7 +395,7 @@ static void nvmet_rdma_free_cmds(struct nvmet_rdma_device *ndev,
- }
- 
- static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
--		struct nvmet_rdma_rsp *r)
-+		struct nvmet_rdma_rsp *r, int tag)
- {
- 	/* NVMe CQE / RDMA SEND */
- 	r->req.cqe = kmalloc(sizeof(*r->req.cqe), GFP_KERNEL);
-@@ -432,6 +423,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
- 	r->read_cqe.done = nvmet_rdma_read_data_done;
- 	/* Data Out / RDMA WRITE */
- 	r->write_cqe.done = nvmet_rdma_write_data_done;
-+	r->tag = tag;
- 
- 	return 0;
- 
-@@ -454,21 +446,23 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
- {
- 	struct nvmet_rdma_device *ndev = queue->dev;
- 	int nr_rsps = queue->recv_queue_size * 2;
--	int ret = -EINVAL, i;
-+	int ret = -ENOMEM, i;
-+
-+	if (sbitmap_init_node(&queue->rsp_tags, nr_rsps, -1, GFP_KERNEL,
-+			NUMA_NO_NODE, false, true))
-+		goto out;
- 
- 	queue->rsps = kcalloc(nr_rsps, sizeof(struct nvmet_rdma_rsp),
- 			GFP_KERNEL);
- 	if (!queue->rsps)
--		goto out;
-+		goto out_free_sbitmap;
- 
- 	for (i = 0; i < nr_rsps; i++) {
- 		struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
- 
--		ret = nvmet_rdma_alloc_rsp(ndev, rsp);
-+		ret = nvmet_rdma_alloc_rsp(ndev, rsp, i);
- 		if (ret)
- 			goto out_free;
--
--		list_add_tail(&rsp->free_list, &queue->free_rsps);
- 	}
- 
- 	return 0;
-@@ -477,6 +471,8 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
- 	while (--i >= 0)
- 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
- 	kfree(queue->rsps);
-+out_free_sbitmap:
-+	sbitmap_free(&queue->rsp_tags);
- out:
- 	return ret;
- }
-@@ -489,6 +485,7 @@ static void nvmet_rdma_free_rsps(struct nvmet_rdma_queue *queue)
- 	for (i = 0; i < nr_rsps; i++)
- 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
- 	kfree(queue->rsps);
-+	sbitmap_free(&queue->rsp_tags);
- }
- 
- static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
-@@ -1447,8 +1444,6 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
- 	INIT_LIST_HEAD(&queue->rsp_wait_list);
- 	INIT_LIST_HEAD(&queue->rsp_wr_wait_list);
- 	spin_lock_init(&queue->rsp_wr_wait_lock);
--	INIT_LIST_HEAD(&queue->free_rsps);
--	spin_lock_init(&queue->rsps_lock);
- 	INIT_LIST_HEAD(&queue->queue_list);
- 
- 	queue->idx = ida_alloc(&nvmet_rdma_queue_ida, GFP_KERNEL);
--- 
-2.43.0
+If we do 8bits interface here, application needs to learn that for the 
+same lifetime hint it needs u64 for fcntl interface, but u8 for io_uring 
+interface. That seems a bit confusing.
 
+Also, in future if we do support another hint type, we may be able to 
+pass hint_val beyond what can be supported by u8.
+
+As it stands the new struct will introduce
+> a hole of 24 bytes after 'hint_type'.
+
+This gets implicitly padded at this point [1][2], and overall size is 
+still capped by largest struct (which is of 16 bytes, placed just above 
+this).
+
+[1] On 64bit
+»       union {
+»       »       struct {
+»       »       »       __u64      addr3;                /*    48     8 */
+»       »       »       __u64      __pad2[1];            /*    56     8 */
+»       »       };                                       /*    48    16 */
+»       »       struct {
+»       »       »       __u64      hint_val;             /*    48     8 */
+»       »       »       __u8       hint_type;            /*    56     1 */
+»       »       };                                       /*    48    16 */
+»       »       __u64              optval;               /*    48     8 */
+»       »       __u8               cmd[0];               /*    48     0 */
+»       };                                               /*    48    16 */
+
+»       /* size: 64, cachelines: 1, members: 13 */
+
+[2] On 32bit
+
+»       union {
+»       »       struct {
+»       »       »       __u64      addr3;                /*    48     8 */
+»       »       »       __u64      __pad2[1];            /*    56     8 */
+»       »       };                                       /*    48    16 */
+»       »       struct {
+»       »       »       __u64      hint_val;             /*    48     8 */
+»       »       »       __u8       hint_type;            /*    56     1 */
+»       »       };                                       /*    48    12 */
+»       »       __u64              optval;               /*    48     8 */
+»       »       __u8               cmd[0];               /*    48     0 */
+»       };                                               /*    48    16 */
+
+»       /* size: 64, cachelines: 1, members: 13 */
+};
 
