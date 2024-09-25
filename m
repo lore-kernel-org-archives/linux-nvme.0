@@ -4,55 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97DF6C369D2
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 11:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 709CBC369D5
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Sep 2024 11:38:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v6UyEcrHR8+ayrZTrgeIjLmUJScT03pUOdrOFAIgbhc=; b=nZN1VM6+lk/nAUFpF+e18X1rR9
-	2G6Q0R7H3xLt9pEDGZjLgAmARMMBPxvZ70qW5LAiArxNVmQSMjakZI7OG+BaDYCR25UowI8uZqo0u
-	+swH6Tnggs3Wkj0/f/VKTqQoDNoAyU5Ryg5/v+aQnpge+Vo7V/W6UnVMt89C/0Yw9ZZyseTIan7LL
-	eS9Dmg+9tMwqH/dad/69ZRZ6h9Zf9lhZ1rBNcrCmljgG8gUfMdxOV9wnHeFobneM5+0xQqfuSK129
-	t61MwuVwNHolBCiJvqnImZWYRRLpSFP/pyyNlkOTqxHkaMELpCQt96QoaCuzLEo5KJ0l+d7P/6Uam
-	xaC3dPGg==;
+	bh=Y7JNDqljSzFotChE0L+/d4kWgnLa1mo5fK2irgGfgVE=; b=2c9Y2zoC5hODPRmgUtr9zVXNMU
+	oajFlKotSlBiaBwcHvVXEwOC+fu9DIoIqcQsxlHfzaE56kjjNyf4rCspxbNj34tqnr/e9T8D9Eukm
+	/YW51a1/sxxiViV+BujdcRpJt24HH/6G5ZTO4C42kffB7hU4JHNK+lZUfbMJ8lqtAp2SI1WhAktpv
+	Jkt9c7xLzxqv1q4ucij3RJ9+UTE8zwzSpdr89hBpydXB+BjQ8YDmcCr+xKK0hJxIPvTIlWz8Rxvwy
+	EuVLZ2NWSnOii4KzDIi725ipILX8FZ60jvVVXCcoJehzBxWfXBPGbMMVXjx2TUwscCSAAkITfuhmb
+	esycdIVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1stQMA-00000004u05-3rJX;
-	Wed, 25 Sep 2024 11:38:54 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1stQMD-00000004u2E-1iSL;
+	Wed, 25 Sep 2024 11:38:57 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1stQLA-00000004tk2-3Ymf
+	id 1stQLl-00000004tsc-05cd
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Sep 2024 11:37:54 +0000
+	Wed, 25 Sep 2024 11:38:30 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 658D75C583D;
-	Wed, 25 Sep 2024 11:37:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E9D9C4CEC7;
-	Wed, 25 Sep 2024 11:37:50 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8A7C05C5B4C;
+	Wed, 25 Sep 2024 11:38:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6A6C4CEC3;
+	Wed, 25 Sep 2024 11:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727264271;
-	bh=cgn0r00PKWEeKlYM+WR6s7wEg1vyfeCWB4iYqina8sI=;
+	s=k20201202; t=1727264308;
+	bh=UVIPIC4hx7NiFCz9RvWE5LNSwYAU9jw1FoBRJHiPWT4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=apnRrKfc3LyON/yYQPcHIVbld2WzPLtYU4sv7uVp7BVPNTGIDvvU0bvHEWyOZmk5b
-	 EGtHivV2KcyGMI7ghl006ybmUt4cD0eX8NBqy5a5Wnqf9sgyPRnISLVe2Hd17hr79Z
-	 OXWjHaS9WOLVHubcrDwt/pbQIATj/tJiahJSbQHQ6VfVQr5PLwa5ItMKUcTSJk+6zj
-	 B6ethzw7eVRUaVDEoGUlHLdfS0mbZMWB5E4mGkWFNSndfSFoK/hCkr0KFsFldo223z
-	 02azvsrudjCM/eQw/GSXLZUb7ZekfUuwMlAbxDV5WaiR7gb9OcWtnXAg0xi61Jmj0V
-	 D41Df7V0NNqAw==
+	b=udpaj2t+FoCVsuD5I3Uy/sSy11BGjOZS1gmSjq8GI5aN8JtjIsds5bjYPfh0GvegU
+	 RlwpdJTnWSxUO5uhs7mw3JaOoZKJ9q3swoCYWw2T4d/wIenhMXn0bc4sUwaw3GVSGV
+	 gsV4LiRgC3SvcpLNWuiK/1VuRlk8Du2h9Fr/LxwbKQ0T5YRFe1ie9heEcygWvzu8Rv
+	 set5P+wRFmM4+P+psxRIYyBqjkkErPtykTfMLQbEGuOEXb9es5Dvpi3zCDBDl0amiP
+	 zVkXSnXdlNJa4Sr2VgRL20T8gs8UjStGUJnm5vu7SYrjO9ZpA6vUnGc6xq0sh8MZu5
+	 N++6A/WBWi0wQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Robert Beckett <bob.beckett@collabora.com>,
+Cc: Hannes Reinecke <hare@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.11 032/244] nvme-pci: qdepth 1 quirk
-Date: Wed, 25 Sep 2024 07:24:13 -0400
-Message-ID: <20240925113641.1297102-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 051/244] nvme-keyring: restrict match length for version '1' identifiers
+Date: Wed, 25 Sep 2024 07:24:32 -0400
+Message-ID: <20240925113641.1297102-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240925113641.1297102-1-sashal@kernel.org>
 References: <20240925113641.1297102-1-sashal@kernel.org>
@@ -62,8 +63,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240925_043753_124193_DD26F8AB 
-X-CRM114-Status: GOOD (  16.20  )
+X-CRM114-CacheID: sfid-20240925_043829_175669_7CA156E6 
+X-CRM114-Status: GOOD (  16.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,88 +79,131 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+From: Hannes Reinecke <hare@kernel.org>
 
-[ Upstream commit 83bdfcbdbe5d901c5fa432decf12e1725a840a56 ]
+[ Upstream commit 79559c75332458985ab8a21f11b08bf7c9b833b0 ]
 
-Another device has been reported to be unreliable if we have more than
-one outstanding command. In this new case, data corruption may occur.
-Since we have two devices now needing this quirky behavior, make a
-generic quirk flag.
+TP8018 introduced a new TLS PSK identifier version (version 1), which appended
+a PSK hash value to the existing identifier (cf NVMe TCP specification v1.1,
+section 3.6.1.3 'TLS PSK and PSK Identity Derivation').
+An original (version 0) identifier has the form:
 
-The same Apple quirk is clearly not "temporary", so update the comment
-while moving it.
+NVMe0<type><hmac> <hostnqn> <subsysnqn>
 
-Link: https://lore.kernel.org/linux-nvme/191d810a4e3.fcc6066c765804.973611676137075390@collabora.com/
-Reported-by: Robert Beckett <bob.beckett@collabora.com>
-Reviewed-by: Christoph Hellwig hch@lst.de>
+and a version 1 identifier has the form:
+
+NVMe1<type><hmac> <hostnqn> <subsysnqn> <hash>
+
+This patch modifies the lookup algorthm to compare only the first part
+of the identifier (excluding the hash value) to handle both version 0 and
+version 1 identifiers.
+And the spec declares 'version 0' identifiers obsolete, so the lookup
+algorithm is modified to prever v1 identifiers.
+
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 18 +++++++++---------
- 2 files changed, 14 insertions(+), 9 deletions(-)
+ drivers/nvme/common/keyring.c | 36 +++++++++++++++++++++++++----------
+ 1 file changed, 26 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index da57947130cc7..e01b1332d245a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -90,6 +90,11 @@ enum nvme_quirks {
- 	 */
- 	NVME_QUIRK_NO_DEEPEST_PS		= (1 << 5),
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 6f7e7a8fa5ae4..05e89307c8aa3 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -36,14 +36,12 @@ static bool nvme_tls_psk_match(const struct key *key,
+ 		pr_debug("%s: no key description\n", __func__);
+ 		return false;
+ 	}
+-	match_len = strlen(key->description);
+-	pr_debug("%s: id %s len %zd\n", __func__, key->description, match_len);
+-
+ 	if (!match_data->raw_data) {
+ 		pr_debug("%s: no match data\n", __func__);
+ 		return false;
+ 	}
+ 	match_id = match_data->raw_data;
++	match_len = strlen(match_id);
+ 	pr_debug("%s: match '%s' '%s' len %zd\n",
+ 		 __func__, match_id, key->description, match_len);
+ 	return !memcmp(key->description, match_id, match_len);
+@@ -71,7 +69,7 @@ static struct key_type nvme_tls_psk_key_type = {
  
-+	/*
-+	 *  Problems seen with concurrent commands
-+	 */
-+	NVME_QUIRK_QDEPTH_ONE			= (1 << 6),
-+
- 	/*
- 	 * Set MEDIUM priority on SQ creation
- 	 */
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c0533f3f64cba..7990c3f22ecf6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2563,15 +2563,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	else
- 		dev->io_sqes = NVME_NVM_IOSQES;
+ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn,
+-		int hmac, bool generated)
++		u8 hmac, u8 psk_ver, bool generated)
+ {
+ 	char *identity;
+ 	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
+@@ -82,8 +80,8 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 	if (!identity)
+ 		return ERR_PTR(-ENOMEM);
  
--	/*
--	 * Temporary fix for the Apple controller found in the MacBook8,1 and
--	 * some MacBook7,1 to avoid controller resets and data loss.
--	 */
--	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001) {
-+	if (dev->ctrl.quirks & NVME_QUIRK_QDEPTH_ONE) {
- 		dev->q_depth = 2;
--		dev_warn(dev->ctrl.device, "detected Apple NVMe controller, "
--			"set queue depth=%u to work around controller resets\n",
--			dev->q_depth);
- 	} else if (pdev->vendor == PCI_VENDOR_ID_SAMSUNG &&
- 		   (pdev->device == 0xa821 || pdev->device == 0xa822) &&
- 		   NVME_CAP_MQES(dev->ctrl.cap) == 0) {
-@@ -3442,6 +3435,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x1217, 0x8760), /* O2 Micro 64GB Steam Deck */
-+		.driver_data = NVME_QUIRK_QDEPTH_ONE },
- 	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_BOGUS_NID, },
-@@ -3576,7 +3571,12 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0xcd02),
- 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001),
--		.driver_data = NVME_QUIRK_SINGLE_VECTOR },
-+		/*
-+		 * Fix for the Apple controller found in the MacBook8,1 and
-+		 * some MacBook7,1 to avoid controller resets and data loss.
-+		 */
-+		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
-+				NVME_QUIRK_QDEPTH_ONE },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
- 		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
+-	snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
+-		 generated ? 'G' : 'R', hmac, hostnqn, subnqn);
++	snprintf(identity, identity_len, "NVMe%u%c%02u %s %s",
++		 psk_ver, generated ? 'G' : 'R', hmac, hostnqn, subnqn);
+ 
+ 	if (!keyring)
+ 		keyring = nvme_keyring;
+@@ -107,21 +105,38 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ /*
+  * NVMe PSK priority list
+  *
+- * 'Retained' PSKs (ie 'generated == false')
+- * should be preferred to 'generated' PSKs,
+- * and SHA-384 should be preferred to SHA-256.
++ * 'Retained' PSKs (ie 'generated == false') should be preferred to 'generated'
++ * PSKs, PSKs with hash (psk_ver 1) should be preferred to PSKs without hash
++ * (psk_ver 0), and SHA-384 should be preferred to SHA-256.
+  */
+ static struct nvme_tls_psk_priority_list {
+ 	bool generated;
++	u8 psk_ver;
+ 	enum nvme_tcp_tls_cipher cipher;
+ } nvme_tls_psk_prio[] = {
+ 	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = false,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = false,
++	  .psk_ver = 0,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = true,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = true,
++	  .psk_ver = 1,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ };
+ 
+@@ -137,10 +152,11 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 
+ 	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
+ 		bool generated = nvme_tls_psk_prio[prio].generated;
++		u8 ver = nvme_tls_psk_prio[prio].psk_ver;
+ 		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
+ 
+ 		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
+-					      cipher, generated);
++					      cipher, ver, generated);
+ 		if (!IS_ERR(tls_key)) {
+ 			tls_key_id = tls_key->serial;
+ 			key_put(tls_key);
 -- 
 2.43.0
 
