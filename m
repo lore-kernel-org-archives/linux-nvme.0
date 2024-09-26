@@ -4,173 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D593CCFA10
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Sep 2024 01:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40973CCFA15
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Sep 2024 04:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b9FCNfzGQU2F0M1dzope5m5cpgQ0nGEbGFCxtPM+gwA=; b=vPcBUXpzjJmt0SziBFe3BcGx3j
-	SiGuyYqeBetVD8kseaiZBIBZB4sBkSlr9BFHY0+jJ2t36/N7qtnvFtTdQpInfN/cz5kqwvhdhhmvg
-	6QkD7u0TZsa7oHNp0EFV+HdTJjEGuLuZtHXppHNNDEWvmZYV1TVoy0wexERJ1P0ML9KdzlQ+tAaRT
-	T88hX4diUUDiFbw2KfeH58xkPvyWf17Xs3/blxGqs/FfQDl0Qsq5kyhHflgg2t77LLPatp/m7h7iF
-	BB1zA6S+rpQRi1c9G+IQzwTvERAgYYWWiGE7kISoNRwUL/JmFP5es2hGXLCGLHK9mWAaMSgScNPMo
-	PjU/60eQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lH3nN9lLBwMsec6oUBfGPDsHTyUuc/wP+ceeftMMDdo=; b=VVfo9WfKFpq6/B8DXkc8BGt8e1
+	rmtumqLpeZtSoa2/1aGusRzdbUymY0F0erEevNot6e81voCcV9hYdjPO91XGZ+TIWf9NMLyoma3yr
+	+/iv0Oh0wZt17pnN8XoxICnWhoe4cWlqYXqO/tqYmDtWjEV7nOzUHVkQC5Gec/rPmZXHq0ZURwRKU
+	Yuos6FbJRw66T5X+FepXdPfv2FvspFwpceqNblwLfsOvmKgx8nv0Vq14/ETON6EZe5l8QSeFBBOmX
+	ZcooZdqdNqFfisY2ZHVtEv+fExakc6deow248GD/jEPjOar7TKzfVGylXabKSgUQsO2utUg1Zn8Tn
+	lqYja4pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1stdhK-00000006xSc-45IT;
-	Thu, 26 Sep 2024 01:53:38 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1stgAb-00000007AYw-43XI;
+	Thu, 26 Sep 2024 04:32:01 +0000
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1stdhH-00000006xRm-0pEh
+	id 1stgAU-00000007AYL-0Jsu
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Sep 2024 01:53:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1727315615; x=1758851615;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=JzbFNd4LKyWIQ0RFFMvdhXweuj24Ly6N8fZ0qNZCGUc=;
-  b=FpJ5hlp9l6cMSudQ9ZF/SX5W5VtYDAangJjTirqFOsQvIJlbVC+KtX1d
-   wyOI6vPRFbPb3LisAfgWnOphLyGcypI3pvLa/oqDQp4HXslOlpEbuWhrY
-   nLj5WNZvGuoR6ZBx72tES489P7NfJPCQ8N4ouAFCEr2u5UpFE+LBHonsO
-   2l7YhxjNUhKw4cRyVo5PWIpWf9r0N5l67wPcBK9UnAZKnCZ8GzVG8qFZo
-   IDxLNN5kemSoRBZ8VNx2uCNFtxiXqSkatN3fAOsB81PlLTYiZsaQuHLGy
-   np0EmRxcwUTlBkXcD2BzPCAA3b78NOSaLM3lUCg8UlRV725h7KqvHjo7j
-   Q==;
-X-CSE-ConnectionGUID: PCfKXbGqSBaOOkX76Pbijw==
-X-CSE-MsgGUID: g+p57T/ZTsm951MT9Rt+tw==
-X-IronPort-AV: E=Sophos;i="6.10,259,1719849600"; 
-   d="scan'208";a="28465808"
-Received: from mail-bn8nam04lp2042.outbound.protection.outlook.com (HELO NAM04-BN8-obe.outbound.protection.outlook.com) ([104.47.74.42])
-  by ob1.hgst.iphmx.com with ESMTP; 26 Sep 2024 09:53:33 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T89k4qDTprcNrqlPXp/reLr0fz91+d701c+K88g9yjf7qa3NzFOteo20tjWRfuc9kr7gyMtmOvkPqhxmI2BPcYKHFPgp/8h4yf2xQPFv1s3YTk/lSYbGVN2Et/hNaCb4HIt46WBEaXPQ3I5SoPhMm+3vUsgAvYD7jfWgDPgd3bsL/r62PA5J8W7R89VyAQkUm+Hv0HqSoNJy28BsYPfuzbXkiyN2y2CYyTuL5sGDOr10kdZv127LRNUqG5oHptLCtHP41BAWdzlhx+PI9Y0rA/fnb2Q3dxOb9pJYObpY/doj9LGc/IkdyXOV7OwuIjHQlKeYcmul1etMcUrDOtdqdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b9FCNfzGQU2F0M1dzope5m5cpgQ0nGEbGFCxtPM+gwA=;
- b=Q+0Yrl1p7ohfzwZ0yzkGM1Nyiqq+dliLToN5XCHh4otJsKgN8IcaGAoVRoawCE75z3UZv2F9zBE77JWuF3ON480yPcEOgbjOnMweC5EF90SdYW2aOMZTh3sN9O5OQ1M+QX+xt1byTXga28keefQe2PV00KfOlJ/4qtUfbRCcOZ3gQtaawXFXXgR2EsuQvuLsPDG0SJfHBvAXrdAMNwIXwqWdIcRrqCSFSC38To32um7IwwezkTNIZPjthpULW2DB+Y6877C/QzJsl+xZqrGPhjJIGL9tpGbnATpmBXaVmQNTgGPoEPrDFpAAWa0QvDYxyhXn7cgQQygurT2zIe9VVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	Thu, 26 Sep 2024 04:31:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b9FCNfzGQU2F0M1dzope5m5cpgQ0nGEbGFCxtPM+gwA=;
- b=IqV8lr7tNSSw37PPVFYZW2xKB+IYOichKJNY51iqIKqbrBEzqZ0f96pRaem6nX68ZPo4A/Qx55PHQL2g8Wt9ytVKIpU2BzA113KQjnbO9It5cphG4H/UNuKxub36eYgkrujtMOZQMLM3lcmzj5SbX7QpzIfKNCvkbx4srKDzbjg=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- BL0PR04MB6612.namprd04.prod.outlook.com (2603:10b6:208:17d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Thu, 26 Sep
- 2024 01:53:30 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.7982.022; Thu, 26 Sep 2024
- 01:53:24 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: John Garry <john.g.garry@oracle.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith
- Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, Yi Zhang
-	<yi.zhang@redhat.com>, "hch@infradead.org" <hch@infradead.org>, Sagi Grimberg
-	<sagi@grimberg.me>
-Subject: Re: [PATCH] nvme: null terminate nvme_tls_attrs
-Thread-Topic: [PATCH] nvme: null terminate nvme_tls_attrs
-Thread-Index: AQHbDmBizJ4mR8qLK0eSbyj5QTyhqrJm0M8AgAKALAA=
-Date: Thu, 26 Sep 2024 01:53:23 +0000
-Message-ID: <kqtckvgwsbblijg5sgh4wlnfitbhr2ikxaj2npwr6tjuihhc6d@gpe5f5ya6idp>
-References: <20240924090134.1884012-1-shinichiro.kawasaki@wdc.com>
- <27712543-4f5e-4b17-9092-b0ea6ff58a47@oracle.com>
-In-Reply-To: <27712543-4f5e-4b17-9092-b0ea6ff58a47@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BL0PR04MB6612:EE_
-x-ms-office365-filtering-correlation-id: ef406cf2-c3e5-4991-d115-08dcddce0197
-x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?7KWAgUlZ8aKlQeurJlhvzLBp4X7yc+ZyOgPkixNf80AaShwJiyXblF+ypcUo?=
- =?us-ascii?Q?KTvBtonrz3uMkT2p0+soR/B95p0nqKT8GWxbQJCEM58V5cLQxicBA/pfvmnN?=
- =?us-ascii?Q?7mVRi/NwOu5No8rNiUeBokynSba4U7SIhRbTp8Ym7Pm8wv6JJZVOUi9CrnyB?=
- =?us-ascii?Q?ccYXpVj4FAdh/2YV/QpeoQm6M2/zU+0/6TsTg+I7qdf/BCuolFDzEO2D1yj4?=
- =?us-ascii?Q?MzyqpvInkVJqU2bguvK/iKm9PEBiptW/rK2qjX+Cqn4yVtq43k+kRIKVhWc3?=
- =?us-ascii?Q?7wVznzEjDqhL5QFPkL9EFI9V2j0jXNdZpmqlM3ugfPeoTUCeOo9kP2fzFAte?=
- =?us-ascii?Q?V4HVjIgdDGF336Bq4PBP83mNa5FbW3PVMh7PCqBCBB1lK5+JrLg9yTH2nEfD?=
- =?us-ascii?Q?azTP6h3Ok0higsfHJNt1nGlyvkvKGICyz0cE9hbFmC5pfVBw5k/SnNqoZnvh?=
- =?us-ascii?Q?Gs3MLW22WYtnOICbCKme/fpxp+NLqmbIKVDHlexa4KVNBFvx3KakIP/LbeIn?=
- =?us-ascii?Q?4cDRkTF0xy4dvDsv/JTobXR6YYDL+L4IojPQokSGRQo8mQXwx/dwQfqlj9pE?=
- =?us-ascii?Q?YS7e0pYh9V9Bvhf3apOe9hIArBfGEyF9RBkUh7CX5QW34WilzGLEv8jhljI6?=
- =?us-ascii?Q?/I+aLDM48Q1xA4FQWo3iJhCGoKmnOb+xf5YLVeYCleOLRjk0MGq01GsKKymC?=
- =?us-ascii?Q?wf2EfE9ZBbqoOhU5YPa06W/5MUlY1FAmobxIQOkoGFrvzG4XZNeIDGG0guo8?=
- =?us-ascii?Q?qGaPI+VNK3Wn4+4ELbTYgPGN0nzQV/7+SKJNhZ5QmaJCyEWnKitvKQFOkzFx?=
- =?us-ascii?Q?zxPT+9TwEyDQY5Jub4SQpN+SzxzhaRqmSmeeI5VJXIMkReSwpcnKF8fatjZi?=
- =?us-ascii?Q?A0O7wNCNN3PRDBf+GYCTrDiePdZQpp0VPNuBVRuIvgCxXcbte0MoW4kTSqIv?=
- =?us-ascii?Q?xEISN1ayqXq+v4+M/iTIRjiqh7HX+Gd/0mkFxq9qpgz4ViKVGch4e9A6L6FV?=
- =?us-ascii?Q?iHZJi3+FqxNeFsWkv4m2WUw2AjuhMZHHjOX50uUpNqWd0oZd4lQPlt9uY6Dx?=
- =?us-ascii?Q?C2iyZTkvZI/yOh7RVKFiXwOFO0dGjmbQV1iH+YdAg0CIH9PS7g3r/LB5HvlX?=
- =?us-ascii?Q?Zhmr0xAzq8+Bay91U9nBW8Nubli4NydfzwIzoFmit3sf+rU58KvkG1rPjLqs?=
- =?us-ascii?Q?WbbLuNOkqbS2U1AinGrm3kQh9K2lFlVR8wY30fL0iWvvoBa5Rh/mKU468h2T?=
- =?us-ascii?Q?UpJ11g35nvDInWeAkpzUVG+tP1RGpgi4Ay1Cq4ldVA=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JjF6o6QayF8RMCw2QUtSHZnFjTnwvi5jE9Zv4nIOEhlAlI+KO+YsX57cxZIi?=
- =?us-ascii?Q?V/u3MZ3RDkrOne3YYwhCA9IQLkfOCEm9m/I9Fv854eQp89ur9TkYa5E56hPf?=
- =?us-ascii?Q?JGqvEV0/CSAJCqMOfeY2VC2QmLe0zHWMhuEn8rM9TEYIEwHoqHfiKY7LiZue?=
- =?us-ascii?Q?yCiBmXnaEr6NTSRySE4AUIyGcdBciNBTdkwfCd1ic4EWi/+GXli7PMseywnF?=
- =?us-ascii?Q?7MnzIVsLsxFDqbT1jIC8DjEXhbHL207LSeBHD42WYAn5TWjBzcCwv6JLmHuY?=
- =?us-ascii?Q?/bHH7EX2ezA8tSOtV6dRzRVFSJQh1LcnUi8RF4NvcvDU5wLc74+sfZ9Myxwd?=
- =?us-ascii?Q?LmyFa9FeL6Y634JVUcPHiivy7g+fkte1GtN6iXlmiEBICdU50JH/cR4eATnJ?=
- =?us-ascii?Q?JFjm6uMMQLMdqZs5bYdqTD0Nog3vpkc//NKWkypam3qzbCF2uk9FjeneHjLp?=
- =?us-ascii?Q?9//vHNf/LHnhotwLRWCClQpL7Eok27yWKLOdWiSEJesDl5f7EWhUfxSH3cFO?=
- =?us-ascii?Q?Ket9zuqAkGlKfx2Lt2L0/nPcQ8gRnMhJxUt0+iJap713F6XNxLHk+tAglbYb?=
- =?us-ascii?Q?zVkGOdl7GLxq9COjm4mpj9h9INAm7fkMIBm6SyHo0lmQQOcRZLsq2wgxF0pq?=
- =?us-ascii?Q?iVXem54OGrXsIGFHm0Hc4F4m55xqOYg2DOucpHIxciywme3TjgRvoe9TJNOM?=
- =?us-ascii?Q?KF5yFqZ624FygpfHAzDmmEIvquDBSoE2xYJcMveYjwTmQlo6a2WWSv1kB+8i?=
- =?us-ascii?Q?f/yR2PPtXT/RUPnH/gYPbLcUr+3f6YbTh90LLkL2W8gTMMqifC2LoVp+Xli3?=
- =?us-ascii?Q?KkJ6Z9rW8YW0l2OuIQpO/rmOEJQDQZZZOnKcP3wpJEOdGYBRLPr9Mso6WWA6?=
- =?us-ascii?Q?3DbkH2fkFW7OdtnnyUbtObK2jfvq+LE5LdwkUObuZFE8JtePskYzQ5TyXB9e?=
- =?us-ascii?Q?ifmPckOC40UKH2x0IhvR30ozHkuFEJuQ6NGcnA/9JRfR6jiqxDuuh2T36MFS?=
- =?us-ascii?Q?HQ1rIUPfyCF1yDK3I93vV8HdLq+b+LMLljQqmYt21/9CCApV3H+GF5Rslrb9?=
- =?us-ascii?Q?3L+NN2yKtrwj1Fqnnuy8hl6vLRLskDWkLD24Urx9hV4G8H7xDApW8e4dvEqK?=
- =?us-ascii?Q?4WU0HCRXrhuBpAuertSLs4gzTBAeIUBiMr3Cg6yJe7q5Ayv3CPdS1Z6rQ4NZ?=
- =?us-ascii?Q?epKur2LE9jEWXR0daCQNuc/+zLOk2x7F2CiBElIKIthiEABScfM2VXIuvss1?=
- =?us-ascii?Q?AQQVwNiHdSn9IPCbQGhWbF861FuGK4eNX1D/DX2oq0AWLNEfNu5pq3MY82qg?=
- =?us-ascii?Q?IBwnLeOYID2A3zwMqKDl4vI8STN5ceKGZFIy2uyTxnZklnHsV32iHAJegzRt?=
- =?us-ascii?Q?ehFkvVgIYbIC0w9UbyWTy30v//EqfVM56S+Uz1MY/Dw5GpsQfFDiCSJ969Mz?=
- =?us-ascii?Q?EsQsI+H+nPdCoO2YVDsMZvuJ2BnnWS/dawrvJ/AdAp1LEt6ZBXqrKcm7rOJG?=
- =?us-ascii?Q?0QeT0uGoYTYDkxpxdbx5QS8n0F7W+OuWYnXyXRIBgn5uMaHNueNd8P913R/T?=
- =?us-ascii?Q?3Ee0tPN5WqnKe+qmFLbQBKT2Mzd4fPu324ZhylLawEPI8RE4NyFCHF7Xk0ow?=
- =?us-ascii?Q?YR0to1FSjFEGfn79ydTjqow=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <6EC397BDD91C3C4E9E1B2768E3241120@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	d=linux.alibaba.com; s=default;
+	t=1727325109; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=lH3nN9lLBwMsec6oUBfGPDsHTyUuc/wP+ceeftMMDdo=;
+	b=k7SaWJ1qyMDBLADa5hBLqHGFHodwb+GCF33inpO4ibrSiMm5yFduAoGB2+chgAA7dYBVZc7EjQXwRjBgLWwnT3epsAyTow1dpdVEgibR+Q4Mx3vJrkCeklNXjVJ1mdftIPGFaHrnrk7bGB/ow9swFzVGUpBu+uBzqRzDy+s5J7I=
+Received: from 30.178.81.200(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFlwbb4_1727325106)
+          by smtp.aliyun-inc.com;
+          Thu, 26 Sep 2024 12:31:47 +0800
+Message-ID: <e16ccce9-f6c2-4074-a8ef-987336d73891@linux.alibaba.com>
+Date: Thu, 26 Sep 2024 12:31:45 +0800
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 3KDKawLRPqRH46cRJ039x3a+fPdpwWPP4+lc6B3PHfXVpNFYvGA5Gi2QztK4Xf4N/ayz4WXGC+q+sSvXrRa3OFHbcfeu8tS3C4Ov70VFz9WWK7oKuXGaFR+w2T2oVvd9Qi1tLIh0C04/H8PQQnU59tI45RCPMd9ZtyWgseVB8od6dQTYfx3V8PPyWf6822ld6FaSc0XhmkdPxNZ54rUx/DbDzVQiRq4QNc+VIb/z9J3VPsoS7v7/bQNFcddWVgsOH8thKB+Y5taUIYbWu0J7vTsgd292m8f4vNDxZ/T91C6+dH8Nmw5Q0Lj4Eh1Bgi7ip2v1In2PyKv/YLEmQwNt++NnHki7vD8rTLfGykGI76Bl8FKqi/bKNiuG5Yo7nYNxsJk/fPChv5ehEepC1dXK2DHSLXwFLMtziWI8ZabY8JvgGpqXQ4q7W1zU7a4HKHDZRc/9QXuGnWCFuB8xNdQ6ph4iGGBqqN1Woi6eUILDIj9TRw1FGk+2OAf4pvN16fIbRUq8hrwhdkF8ukcM4zwd0O49YcDBNhMxIQApzvkwsHlP8jGqAGSNXtgGPrWQHpod7xVdk/QZ47gE3CkqjYzQo84Mvl9ftmoULyxlNCBRa421FwYyI+EFOySG4SPo45Y4
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef406cf2-c3e5-4991-d115-08dcddce0197
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2024 01:53:23.9236
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mUMPvxmgf9yW6Rh4TWPqrvmrYmVIvBG4SfyMryyuIA7hjXt0mIbEdz3HSIiehnpCvJogxAar3CNVH1UBkIFn9s2L4/UrrXCkok0DTuoWVX4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR04MB6612
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH v10 1/1] nvmet: support reservation feature
+To: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <20240925021110.26121-1-kanie@linux.alibaba.com>
+ <20240925021110.26121-2-kanie@linux.alibaba.com>
+ <20240925142157.GH22571@yadro.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20240925142157.GH22571@yadro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240925_185335_637237_7B2AEB96 
-X-CRM114-Status: GOOD (  18.53  )
+X-CRM114-CacheID: sfid-20240925_213154_597918_32313A1A 
+X-CRM114-Status: GOOD (  25.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,39 +66,158 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sep 24, 2024 / 12:42, John Garry wrote:
-> On 24/09/2024 10:01, Shin'ichiro Kawasaki wrote:
-> > Commit 1e48b34c9bc7 ("nvme: split off TLS sysfs attributes into a
-> > separate group") introduced the struct attribute array nvme_tls_attrs.
-> > However, the array was not null terminated and caused BUG KASAN global-
-> > out-of-bounds. To avoid the BUG, null terminate the array.
-> >=20
-> > Reported-by: Yi Zhang<yi.zhang@redhat.com>
-> > Closes:https://urldefense.com/v3/__https://lore.kernel.org/linux-nvme/
-> > jhllwfxcedrcxcnbajwl4x2l2ujcqowqcd4ps574zrafrqhjna@f4icvecutekm/__;!!
-> > ACWV5N9M2RV99hQ! O7ofbvpkFcN1G5ZtEfcoa89swFeTDXZf8d8VLdkl9BCbv1ofMOt5Qc=
-sWBZHT2cfK6Tzf5bWPI80AFNaRRJ6UMEA4Eiv3$
-> > Fixes: 1e48b34c9bc7 ("nvme: split off TLS sysfs attributes into a
-> > separate group")
-> > Signed-off-by: Shin'ichiro Kawasaki<shinichiro.kawasaki@wdc.com>
-> > ---
-> >   drivers/nvme/host/sysfs.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> > index eb345551d6fe..b68a9e5f1ea3 100644
-> > --- a/drivers/nvme/host/sysfs.c
-> > +++ b/drivers/nvme/host/sysfs.c
-> > @@ -767,6 +767,7 @@ static struct attribute *nvme_tls_attrs[] =3D {
-> >   	&dev_attr_tls_key.attr,
-> >   	&dev_attr_tls_configured_key.attr,
-> >   	&dev_attr_tls_keyring.attr,
-> > +	NULL,
->=20
-> nit: no ',' is required for a NULL terminate
 
-Ah, right, it is not reasonable to put ',' to NULL terminates.
+在 2024/9/25 22:21, Dmitry Bogdanov 写道:
+> On Wed, Sep 25, 2024 at 10:11:10AM +0800, Guixin Liu wrote:
+>> This patch implements the reservation feature, includes:
+>> 1. reservation register(register, unregister and replace).
+>> 2. reservation acquire(acquire, preempt, preempt and abort).
+>> 3. reservation release(release and clear).
+>> 4. reservation report.
+>> 5. set feature and get feature of reservation notify mask.
+>> 6. get log page of reservation event.
+>>
+>> And also make reservation configurable, one can set ns to support
+>> reservation before enable ns. The default of resv_enable is false.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>>   drivers/nvme/target/Makefile    |    2 +-
+>>   drivers/nvme/target/admin-cmd.c |   24 +-
+>>   drivers/nvme/target/configfs.c  |   27 +
+>>   drivers/nvme/target/core.c      |   58 +-
+>>   drivers/nvme/target/nvmet.h     |   48 ++
+>>   drivers/nvme/target/pr.c        | 1197 +++++++++++++++++++++++++++++++
+>>   include/linux/nvme.h            |   54 ++
+>>   7 files changed, 1401 insertions(+), 9 deletions(-)
+>>   create mode 100644 drivers/nvme/target/pr.c
+>>
+>> +static void nvmet_execute_pr_report(struct nvmet_req *req)
+>> +{
+>> +       u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
+>> +       u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+>> +       u32 num_bytes = 4 * (cdw10 + 1); /* cdw10 is number of dwords */
+>> +       u8 eds = cdw11 & 1; /* Extended data structure, bit 00 */
+>> +       struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+>> +       struct nvme_registered_ctrl_ext *ctrl_eds;
+>> +       struct nvme_reservation_status_ext *data;
+>> +       struct nvmet_pr *pr = &req->ns->pr;
+>> +       struct nvmet_pr_registrant *holder;
+>> +       struct nvmet_pr_registrant *reg;
+>> +       struct nvmet_ctrl *ctrl;
+>> +       u16 num_ctrls = 0;
+>> +       u16 status;
+>> +       u8 rtype;
+>> +
+>> +       /* nvmet hostid(uuid_t) is 128 bit. */
+>> +       if (!eds) {
+>> +               req->error_loc = offsetof(struct nvme_common_command, cdw11);
+>> +               status = NVME_SC_HOST_ID_INCONSIST | NVME_SC_DNR;
+>> +               goto out;
+>> +       }
+>> +
+>> +       if (num_bytes < sizeof(struct nvme_reservation_status_ext)) {
+>> +               req->error_loc = offsetof(struct nvme_common_command, cdw10);
+>> +               status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>> +               goto out;
+>> +       }
+>> +
+>> +       mutex_lock(&subsys->lock);
+>> +       num_ctrls = list_count_nodes(&subsys->ctrls);
+>> +       mutex_unlock(&subsys->lock);
+>> +
+>> +       num_bytes = min(num_bytes,
+>> +                       sizeof(struct nvme_reservation_status_ext) +
+>> +                       sizeof(struct nvme_registered_ctrl_ext) * num_ctrls);
+>> +
+>> +       data = kmalloc(num_bytes, GFP_KERNEL);
+>> +       if (!data) {
+>> +               status = NVME_SC_INTERNAL;
+>> +               goto out;
+>> +       }
+>> +       memset(data, 0, num_bytes);
+>> +       data->gen = cpu_to_le32(atomic_read(&pr->generation));
+>> +       data->ptpls = 0;
+>> +       ctrl_eds = data->regctl_eds;
+>> +
+>> +       mutex_lock(&subsys->lock);
+>> +       rcu_read_lock();
+>> +       holder = rcu_dereference(pr->holder);
+>> +       rtype = holder ? holder->rtype : 0;
+>> +       data->rtype = rtype;
+>> +       num_ctrls = 0;
+>> +       list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>> +               if ((void *)ctrl_eds >= (void *)(data + num_bytes))
+>> +                       break;
+>> +               reg = nvmet_pr_find_registrant(pr, &ctrl->hostid);
+>> +               if (!reg)
+>> +                       continue;
+>> +               ctrl_eds->cntlid = cpu_to_le16(ctrl->cntlid);
+>> +               if (rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+>> +                   rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS)
+>> +                       ctrl_eds->rcsts = 1;
+>> +               if (holder && uuid_equal(&ctrl->hostid, &holder->hostid))
+>> +                       ctrl_eds->rcsts = 1;
+>> +               uuid_copy((uuid_t *)&ctrl_eds->hostid, &ctrl->hostid);
+>> +               ctrl_eds->rkey = cpu_to_le64(reg->rkey);
+>> +               ctrl_eds++;
+>> +               num_ctrls++;
+>> +       }
+>> +       rcu_read_unlock();
+>> +       mutex_unlock(&subsys->lock);
+> That code fully confroms NVMe Base Spec 2.0c but it is completely wrong
+> from the logic point of view.
+> ControllerId is a dynamic thing - it's allocated for the each
+> fabric session(Connect command). It has no meaning for an initiator.
+> The association between Registrant (uniq key HostId) and Controller
+> (uniq key CtrlId) is not 1..1, it is 1..N.
+>
+> NVMe Base Spec 2.1 addressed this issue and it states, that here target
+> shall report just list if the registrants:
+>
+> 	Number of Registrants (REGSTRNT): This field indicates the number of registrants of the
+> 	namespace. This indicates the number of Registrant data structures or Registrant Extended data
+> 	structures contained in this data structure.
+> 	Note: This field was formerly named Number of Registered Controllers (REGCTL).
+>
+>
+> Though, v2.1 still does not clearly states what exact CNTLID is to be
+> reported from 1..N association.
+>
+> I suggest you to update your patch to conform the Spec v2.1 - remove cntlid
+> from nvmet_pr_registrant and report here just ns->pr.registrant_list.
+> And not to track the connectivity of registrants - report always CNTLID=0xFFFF
+> as a some compromise value that is allowed by the Spec.
+>
+I dont notice that another host can connect with already exist same hostid,
 
-I thought to send out v2, but I found that this patch is already pulled to
-linux-block/for-6.12/block, so I leave it as it is.=
+I remove the cntlid in nvmet_pr_registrant and add hostid to 
+nvmet_pr_per_ctrl_ref to
+
+find unregisted controller to kill the per-controlelr percpu ref.
+
+And also report cntlid to 0xffff.
+
+>> +
+>> +       put_unaligned_le16(num_ctrls, data->regctl);
+>> +       num_bytes = sizeof(struct nvme_reservation_status_ext) +
+>> +                       sizeof(struct nvme_registered_ctrl_ext) * num_ctrls;
+> num_bytes was a size of requested buffer (cdw10), you even allocate that
+> size. You shall not extend it here. Instead you should allocate maximum
+> possible size and copy here only cdw10 dwords from your buffer to sgl.
+
+OK, I will adjust code here.
+
+Best Regards,
+
+Guixin Liu
+
+>> +       status = nvmet_copy_to_sgl(req, 0, data, num_bytes);
+>> +       kfree(data);
+>> +out:
+>> +       nvmet_req_complete(req, status);
+>> +}
+>> +
+> BR,
+>   Dmitry
 
