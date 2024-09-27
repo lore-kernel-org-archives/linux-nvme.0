@@ -4,85 +4,182 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60D53CDE03A
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Sep 2024 21:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19221CEBF66
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2024 02:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:To:From:Subject:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zfVFni+zbo0xTkO15JOE7i7ADZXDzmqRSLm4MYurP4Q=; b=NQVBfTkVlaPYV8oZiMMXQ5KIAR
-	BoY3bZrRvGz3Mzu0ny8RI8FyTakFBqx4P3k8g0yZYuL+EQp4V1hS3ET0EQDRMZDFAn4BJ1xLeFFY8
-	F4XHSWouyOdVUio5dd5AqgsBqOpbJqf5UuMOVhcFtpZl4GDgyoBBUoG7oProh9WuT9YfFBRE5HhAY
-	3lOhZRVdJQ7Cuom1b09TrG6gkFoqOftkhi4mOlGHldAq4pI4Lxg7zJJ5OVcTAAM0CfjBbK7O/Sim/
-	4EZ60RchQ3QkoVydDWtt7lDbTXa1+lEbhs+/BRBCpr5FAi4Q0g5uXboTv2WODKettWIKQYG8xpN2j
-	66jPoZ6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+tozmucOLqR1H2kVSwsj59pO6dB23pXX8s1UefLhDdg=; b=KxIuX68686LIo9Ez4cZtYZBZLa
+	ubOHj8vbDVYym6wmCUwgGXje4gi7mszkp/bDfReGPAPEA+47p0iT28PFg61FAFAfy4AsrMG5cweI1
+	jX66Sva/LpAVzl09qZCdpaMePlD/Ua75cyoeJj7Eg3h795GMOSvlgVeU27qffVPxLQLn1iJcha1mG
+	r6LODidEelPwT0tceLID/ESYsPYJmHRbgT5jLEQ5VgIJiAYtiUtA5qPu5mmJRzqP1t+bKkFxesoS/
+	7zlepiMRYKrr67vuToSZI+3m8g248fvg+jSpScXzFGV6yv4/lv1vFN3G2kMFS+/hoY5GwF2BiJfnS
+	xkEHSiLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1stvlc-00000009MSa-1OwF;
-	Thu, 26 Sep 2024 21:11:16 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1su0Iq-00000009mND-0p5X;
+	Fri, 27 Sep 2024 02:01:52 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1stvlY-00000009MS3-19oE
+	id 1su0Im-00000009mMd-12H1
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Sep 2024 21:11:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1727385070;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=zfVFni+zbo0xTkO15JOE7i7ADZXDzmqRSLm4MYurP4Q=;
-	b=VnPg38daQwuyGJEY4+xb1oVv3WCKUhrJC/2WeXXAyy1m00syOp2MHVBcV/FczgkkNaEJTf
-	+zrKJ69pyGfYc14ozsufaC92Nw9o+FKwOmBaFP8T5HPAZvCuS82gdy9HrAJOvyGRBkWKzR
-	BFEJOeNZNZYuBNiDbkjSAD9Ax0XfIf4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-457-mxHBb61rOWSN3PMNW63rRA-1; Thu, 26 Sep 2024 17:11:08 -0400
-X-MC-Unique: mxHBb61rOWSN3PMNW63rRA-1
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7acb19747a8so248388485a.0
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Sep 2024 14:11:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727385068; x=1727989868;
-        h=content-transfer-encoding:mime-version:user-agent:date:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zfVFni+zbo0xTkO15JOE7i7ADZXDzmqRSLm4MYurP4Q=;
-        b=fSWTI9txJdGCXhdeBG86rYoiG1h14dpMgerptWpky/HQGiQu5fTGZUoULYs7h9BCjG
-         C/7I75ElYRJTYfDcbGUk1Z/qNvd1tNeRsB8S56wYNbZclvykNTpcoBcLHrxtxiQYdrFh
-         GNu5v6ZNsYsIvo3GA5j0INF/Ymw9f3zKuikKqfCamsr29FXPA6VEzQ8ACQX+WHIKmLUN
-         llDMTIYFc0VS8O+8Nck5iQXF5MgPAtCz3MUCppm84VejyC/poCADBFjYjnDWm4YgH6Gj
-         zyWICSAFa+Ntf82f+kowm0mhTElgJOQxItyy0zb2ccbCGSBrjuOVjy9Okgnt9L/0s4SN
-         IltQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnhOt1hWgpzGNh6wlCvXb8A/KkBzZRikb39v/FsdC1JMVYTefHvEnLInXFXbn8Po+3WOqYoXLcAC3l@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy47abBEywvsVSsyp0J5V0OJ0IueoRwAyXJFZCpl4SnO8zozIOy
-	8xrHyzl7ePLWN646v4vcDlRSrEB+75hpUfPWF1X2HPqdMNq1lWxgOsGQtjkb9EpJ4uz7ttbDbs9
-	Q8CTzdMh4m4ZIFheEOPTzR+bCh+tGQCIZ+2kxqbg5c87+GcXg5zX31FsODsma5Ekq
-X-Received: by 2002:a05:620a:440d:b0:7ac:b1fb:27d3 with SMTP id af79cd13be357-7ae378bc118mr125190685a.40.1727385068229;
-        Thu, 26 Sep 2024 14:11:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGmYckYwHAx20R3CtRQKZiTkLfzOfXPiOmHGVaaQmrnLipSrtYcZ829ZG7C/KRA2WZjixENKg==
-X-Received: by 2002:a05:620a:440d:b0:7ac:b1fb:27d3 with SMTP id af79cd13be357-7ae378bc118mr125186785a.40.1727385067730;
-        Thu, 26 Sep 2024 14:11:07 -0700 (PDT)
-Received: from syn-2600-6c64-4e7f-603b-9b92-b2ac-3267-27e9.biz6.spectrum.com ([2600:6c64:4e7f:603b:9b92:b2ac:3267:27e9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae37858436sm24985885a.134.2024.09.26.14.11.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 14:11:06 -0700 (PDT)
-Message-ID: <b73005ac327784e740bb6b362870c15d0c7788fa.camel@redhat.com>
-Subject: nvme: machine check when running nvme subsystem-reset /dev/nvme0
- against direct attach via PCIE slot
-From: Laurence Oberman <loberman@redhat.com>
-To: "busch, keith" <keith.busch@intel.com>, linux-nvme@lists.infradead.org
-Date: Thu, 26 Sep 2024 17:11:05 -0400
-User-Agent: Evolution 3.40.4 (3.40.4-10.el9)
+	Fri, 27 Sep 2024 02:01:50 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48R1ti4t004512;
+	Fri, 27 Sep 2024 02:01:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to
+	:cc:subject:from:in-reply-to:message-id:references:date
+	:content-type:mime-version; s=corp-2023-11-20; bh=+tozmucOLqR1H2
+	kVSwsj59pO6dB23pXX8s1UefLhDdg=; b=KF9+FT2A1OZ1hR0ZCc3nC/O+5TljJb
+	o8/TyMd6SIt09Syen1NjHTbEi5ePoZkEEB6loC8f/7XDPyzAF6YxhH3hXKNuoihU
+	s20pgikP63MRurxwP5qos7f9BrGdG1nC9lttFlO+JcYnzIui5itbH4KU1wCDk6Dp
+	ta8l23e2opH8KjfIrlKVCaAd8Gt63642WEHox8tQexNsEn618l5IhhTWJ7IeKPba
+	KcGrjvY5PTwDvBzZnG/CXLEfkS2+xSecGG+wJK622UMMoCVp1eYQwWD/jay+7iHQ
+	2PO2w/qZYQXZdfUTiZpIoAD/N2btS/Wxe5iORVB0cHpjL6tZ3bERXpXg==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41smr1eqsy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Sep 2024 02:01:41 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 48R1iCxF030497;
+	Fri, 27 Sep 2024 02:01:40 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2047.outbound.protection.outlook.com [104.47.55.47])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 41smkd1400-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Sep 2024 02:01:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wy7NHBth27Q+vdAaS9C3jaBqR2m65XuwhSJcqlRFBSUea6ccQxaUXiZK/DNThVFMeQPnpMcsAcPLEN9zkx53VQX24YFHUXwoReOl0BvOwtlx75JuF/8Hh47NptosW6wsGN8JtfvmgItfKJS9nwF9tIOJqOeFqwWLUO1IvkFVpPpj5Mr45KMIkrvrFqstFlmo+rQktmfhAydUR49Q2W44qpezwQ/SygnjHdza8vB38kuF2hBSEipP06d+eQIlsrnTtiOElt64GDu6LGIeon6WLfGAWJ7yV7weQIXMo0hzDodKIDML0kDhL4y0aUnAKjkGMe80JTQMK1qujDPWgiU1qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+tozmucOLqR1H2kVSwsj59pO6dB23pXX8s1UefLhDdg=;
+ b=cwd8Fmrd+7acY1uY0tGCbBiCLQ1YusFWPHK5NNiF0Kj6FPvPRqe8EH66JEalSwT5DZxf/M4f4zcKyn+WjqMWxqPXnK2nDFxFkbpcGnH7wlbsfeBDkXsjoPCY4uGXJqo0hxe3xkJ9LtYsvU8ugZZec3odL7OnW66WHqYh29rUy3WFVfxdPTt076Qse+iOMBwT29Tkgpz37E09q8AM4AL9o1hNg6hhWY+GfaX/kbvLDkU8spXScfh+DNBtQYFmGxWhglZ2UVcNKoMsCFTCEBS4vVUuyu/LfTc9OoaQbN9354ShdJ4a/kQV8+aQVwe1yPy+tDvCCFLEEfItG8vRubXJjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+tozmucOLqR1H2kVSwsj59pO6dB23pXX8s1UefLhDdg=;
+ b=GNNHTqDhaVGCOepNzqlg3ktiTYW0KIklWonN97dDAWBgm2u6hiVLL2Cbot6kJ+5iXKXdPITtAP28rx79rGUJ2zXc4+lpvc7NPfWShX3xlk98GFTCfJ1N23qVFrFD9Z3bhadN56a1I6JntF8xdtEV1/EY2Yd7qhtycaR+7yRWcQs=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by SJ0PR10MB5694.namprd10.prod.outlook.com (2603:10b6:a03:3ed::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.8; Fri, 27 Sep
+ 2024 02:01:37 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::5c74:6a24:843e:e8f7]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::5c74:6a24:843e:e8f7%3]) with mapi id 15.20.8026.005; Fri, 27 Sep 2024
+ 02:01:37 +0000
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Anuj Gupta
+ <anuj20.g@samsung.com>,
+        Kanchan Joshi <joshi.k@samsung.com>, linux-block@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: fine-grained PI control
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20240924053644.GA10569@lst.de> (Christoph Hellwig's message of
+	"Tue, 24 Sep 2024 07:36:44 +0200")
+Organization: Oracle Corporation
+Message-ID: <yq1frpldfer.fsf@ca-mkp.ca.oracle.com>
+References: <20240705083205.2111277-1-hch@lst.de>
+	<yq1ttgz5l6d.fsf@ca-mkp.ca.oracle.com>
+	<CGME20240918064651epcas5p418d61389752da25e5fc50e6a50a111b8@epcas5p4.samsung.com>
+	<20240918063910.hqntgm5jy2jisys2@green245>
+	<yq1bk0dhlko.fsf@ca-mkp.ca.oracle.com> <20240924053644.GA10569@lst.de>
+Date: Thu, 26 Sep 2024 22:01:35 -0400
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0157.namprd13.prod.outlook.com
+ (2603:10b6:208:2bd::12) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|SJ0PR10MB5694:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4cdcdb58-68c9-4e7d-f897-08dcde985219
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?kMN/kV+zYj5yaY+5x4DkknoyUXLmcLX2VwXZL3A30SUB+Nr/OlXpBqHYRo+I?=
+ =?us-ascii?Q?fmqrvvYr+PqBPhmesYOOkGTBStrKy9hvMZ2xMmBIKXjouwCFeVPsJfL93Sm0?=
+ =?us-ascii?Q?kP/E2pvcBHZbqZLBCwNxpHrJMaF1IPAQ7krJqwzpwJVuNB/dQ88SzXawq2vq?=
+ =?us-ascii?Q?S4KfnETvVXKHDWWMvNlt81pScD8Y8pgpAg8HSjYSsaOKicZRRlqAWx+AFngy?=
+ =?us-ascii?Q?Vv+HJ5zBK7zLMYCqu1SBX11hofAIiOBvD952B6NtjT6EeopxKMhYUyItVZdU?=
+ =?us-ascii?Q?yAid4KVkfPFpeSaD7GgrKTQdXAqXZTwYJrllcWm6YyZtBj5EFVBHW552P5mV?=
+ =?us-ascii?Q?34ctGbbIIJq8yttvO/ID1d4jeP+BJ2mZZgC0vpHHqw6iW/R33q+Y78OydCXk?=
+ =?us-ascii?Q?CDkxjy0vH5Z5JVkjzsXDJbismj748WKZrMlm29edC1G/VsjdRKHIby7jR5HA?=
+ =?us-ascii?Q?ldNjG50zi+Ox3sMFIDpQi9E42jneW/Rjn6MQORZxmon1g/mRZQq3azOsP3qH?=
+ =?us-ascii?Q?OChLo/otqFEGH+wRWq3ZActLZDUenU/HyxOcTn4K6urNT0+hEv0KAaWVPKVR?=
+ =?us-ascii?Q?Ftunl5ofZoKwL6lWBBD+cWT/H3CfFe32nNlZJY84/H80QrAg0bgFQBkUS7SL?=
+ =?us-ascii?Q?3FFIVRZ5GwNhtbUkxvlvrUxOOnLVNWMni2aj7rC1Fvhq7XDzvITjivKBU4cr?=
+ =?us-ascii?Q?fDKkYX4GQZomNe+6LdfvUQoTrubjbLLMr6DVQ5iYpVap+XCAHjEwCK5v30Xs?=
+ =?us-ascii?Q?n6kabayoJWZ2IwyYz8UiErBKCbTwGk5K1LJe+aLyH5anJm0GY0aUmpLH5LnA?=
+ =?us-ascii?Q?EoQ8nIjSatF0opfCR7GRLi5QC3olgd/ccRIHRwHvwm7ZJTaQG5nWPQSh9CSf?=
+ =?us-ascii?Q?q+348gSSlm9mQ64DCzw0GAa6/EdYcGRFs9dn+6vxRqZYMYd4M3QxED4/AEc6?=
+ =?us-ascii?Q?soYofT71YAxOc/2pSs1tpbwPvDXS0nSr+yc5BNBlGQ4wd8kq6HaJrysA9Nvg?=
+ =?us-ascii?Q?Zv0LE4QEBYyc7qRMXx0PE/UWrn5LagHkyOpWfqGxlta2lN3bCH/IVPTcZ+0J?=
+ =?us-ascii?Q?d/GQCMD4qYNNouxJ0wKfrcgbSOCFzKeQjqN+tDh2euGVl80TZ+qVFP3lx+ez?=
+ =?us-ascii?Q?pDGTP83YUt2EKMNNky9b/ZOcfDOCQQ7iksobb72rKPyk9VKeiBijRoVdqfKn?=
+ =?us-ascii?Q?5CuQllNN76v7orbVHFW8fneHBdrgE/5kokgUhF0RLM9/nGlwnbscYmQvvlHP?=
+ =?us-ascii?Q?9qJ/vGO0XnKYSmxrIZFN4t/AiBJPce/55lrg6bhzkQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7F71WiUDG6nP42yws+SxiHm2kBWg84hMG1BA0e7I/5ELuCc/9Gn+t2IEcryu?=
+ =?us-ascii?Q?zSPRPFVZwjl261u5YZx0rFjOxvYNjkWBvljFPKFEZ1EAjN1qlbCseMypltyi?=
+ =?us-ascii?Q?mYGb5vxs5bnpr0wrz10Jc6vyjV85P0LiAiAWF2K/57N+JxfzGg7LCvdb29tP?=
+ =?us-ascii?Q?A9yX8bygR/rqZRH2JxQtE74QXHeth6fMBqhAlL+d9H/wVRhDliqro1tS4X1O?=
+ =?us-ascii?Q?lhrRnrYJlel78MQYD5jYiapN2mQAYZmwdch3s50S5MOkNEsV5dLyFLS292iC?=
+ =?us-ascii?Q?fu6OKaSV/bHIqvMoEoOXtUkXBNkft4o73uY/W9z9FwJJ9gHzs1GUTEVj+LTw?=
+ =?us-ascii?Q?XPFD4dI/hs4IgJcwMf8QMTwfT7R1wkBqCn8u1FfBcsLDFa8ukHVxFC8GChZy?=
+ =?us-ascii?Q?xsysayCeSkk3FmSOM4GsUpntvGpYXFlcEAZYnt8tFHUCHw3zPdrMgHKQ0ZE1?=
+ =?us-ascii?Q?wbINIDNwNNwBZdw1xuEmE42IpKCeBslwHLx91oFlbRWfg/KE/wG4M3Y9/Hgh?=
+ =?us-ascii?Q?yiJF8Neps4MNr+HcCd38k+0q3nXnxVijhSAbS7lHlYmwZphrqxNUqXBjIb6V?=
+ =?us-ascii?Q?QMqzBeMaSPPXKC1WWWHl/pdQKTuBTkNQKdcsU0Qymj2+Hm7kkro6CUCzQdXJ?=
+ =?us-ascii?Q?KZBzzbfZjCU0aSTUjE2f1ur7VnHTLceD+QDgsDOwRIMNqiJuADUWm1cGGeOF?=
+ =?us-ascii?Q?vpXoBNxSIVnZSmn67gkVBMjeNccrVRUjZpbVuPiT12He4aeGrZMIFj6q73iB?=
+ =?us-ascii?Q?8rz3dg2IVtGnHlO4tR6xmSeacieBjTJnp0GQf6+399Ure/FCNcqoFGiZNVe+?=
+ =?us-ascii?Q?oduntq7uvwVydJKpqR8xAf/Y6NlOtjvE4mInK7PX0U1kjmNByVE+pR2fx6Pg?=
+ =?us-ascii?Q?as71VsRWtHzkCQZYjr5JoNbhjI2pWEw4Vm+Ltz47lbIfAkVpNmUpVWHZzScV?=
+ =?us-ascii?Q?uC6xNZ/1Yb6mud92TVfHOQn7FfIDRrLmseLRQw5TquUdN3O4p1JiRaSf/l+2?=
+ =?us-ascii?Q?u7i2qcUAbNliixFhUqBQ+k95Ybsw2Mc/3iy2i7V72w89ZLjIR0Z5rEV7Tuu8?=
+ =?us-ascii?Q?vqBLUufDR9x6I+YqKHuEoGog++SWrvRWUhcYsQRC1mKpscC1NycXGZ/sG+67?=
+ =?us-ascii?Q?n6Z3u2YmXRbwlkY8t0rKFUtKRSsAqaPXH8Oxcvn8Yg7Np4prYEbxOMlGTSUQ?=
+ =?us-ascii?Q?pW+WPQDOhmSaMtJKADd8xuw6fHCuxDoWucpLWFK+98XmpkqyUr2ljbZFTHrp?=
+ =?us-ascii?Q?FsbyfyuhBt25T4JEgslhypGTd4WONynHaRMvVNIkqegZ68TQbCsckce0ZcNb?=
+ =?us-ascii?Q?kfabDQvEt2NdRXhgPUIeAtKH4hPPRYPiX7ysC2fJLt0RWAnxNKeNsgl5Olz9?=
+ =?us-ascii?Q?Smg2fDKCgn5mcuqOxKYICENDDwsKi/kBMYUJ1fI4fgVfjqgeXAAOED7XIWkg?=
+ =?us-ascii?Q?/m2O98ehlD/4mvL8j9kVfUoxZyVpNGAMfXrenOttPPsTi+GGFCwfYeeB6vzQ?=
+ =?us-ascii?Q?S6oD3BJotqzIOvAKNXvT1ozulb6YD6w9RYmQBKaDP6BiAeduLn/XjIsDYxfK?=
+ =?us-ascii?Q?51rkvYHfdjhWj8twtCTmUPalMPgS1aA33SurGdYlQtskfqTOY2oeJAqEnebB?=
+ =?us-ascii?Q?sw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: myHKTAJjjhLWq87FAthiWP4vQ7MuySO69DE+ACAAGnZDpSta8JS5+WOYWvYtEznTfxLFCtn12XNYpBDF3k+QBpcrznGuqDF1CN3Pa4+4S3fEzBfanKrQf5ePaAErSBTW1yku8mFZmE+canFa1kjOrbggnBaCCBpTM/9i0eY6qwQkvj5YwEWmXo7Ba6JIPiPrpeDvNdZfsax6WXJagw5hLP6r8o1JbeVFaPywTGap6rQvSkKzRgxlCDduMIKZw5HpWhK5PaPCHm+mFpqokBDEgmBtukGS4INnv6ZtMJr514yxNNg/PsYsHC8R5Y6028D9psRVjjlUMSwI3nsgoQaKTt1ZPtg0JiDXGMayn4wtg6IhxZPxCMWMTnCdu1yBHTTK8m8n0qiYcqtvy0vThXXdw1O+tQg/0XvWlWqv5DOQln3cRiXChm9rOVIigCMKj2ax7GcWwj0qX4hGlEmUECYFhx+ikxR8FljsaHVXLl7IhElDB/Ewi1HC18bDYbQCXCUYhSrd+NgYyfvQ4dpOTyZ35ZKhqRkwPNjQCSCERC+N6pF92Y2DDQ9aWHz46F0h8XZvXJXlkdDaw0l2kLFE7wK9UPDkNVF4NLJTOW1uEjZUTWg=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cdcdb58-68c9-4e7d-f897-08dcde985219
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2024 02:01:37.4552
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2KPhpA9D3wtN0e7/CgA6/2/IBb1hinGS/cNSYmjtHuk6XXubaQt+nFnB/56MmfHn5iicmnICB2TgZIgCMhlFxdKi0a06KZjw20GXK7MCdl0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5694
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-26_06,2024-09-26_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 mlxscore=0 mlxlogscore=602
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2408220000
+ definitions=main-2409270012
+X-Proofpoint-ORIG-GUID: pA-NS3XrRQU-qYMsvoRyVAAAFpHrsweM
+X-Proofpoint-GUID: pA-NS3XrRQU-qYMsvoRyVAAAFpHrsweM
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240926_141112_412168_36DCB717 
-X-CRM114-Status: UNSURE (   9.12  )
+X-CRM114-CacheID: sfid-20240926_190148_319051_6B2F2048 
+X-CRM114-Status: UNSURE (   9.17  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -98,149 +195,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith
-Hope all is well
 
-Quick question (expected or not)
+Christoph,
 
-It was reported to Red Hat, seeing issues with using a
-"nvme subsystem-reset /dev/nvme0" command to test resets.
+> Just to make clear I want file systems to be able to opt into
+> generating PI, not get rid of the auto generation. That is actually
+> kinda possible already, I just want to make it nicer.
 
-On multiple servers I tested on two types of nvme attached devices
-These are not the rootfs devices
+Yep.
 
-1. The front slot (hotplug) devices in a 2.5in format 
-reset and after some time recover (what is expected)
-
-Example of one working
-
-Does not trap and land up as a machine-check
-
-[ 2215.440468] pcieport 0000:10:01.1: AER: Multiple Uncorrected (Non-
-Fatal) error received: 0000:12:13.0
-[ 2215.440532] pcieport 0000:12:13.0: PCIe Bus Error:
-severity=Uncorrected (Non-Fatal), type=Transaction Layer, (Requester
-ID)
-[ 2215.440536] pcieport 0000:12:13.0:   device [10b5:8748] error
-status/mask=00100000/00000000
-[ 2215.440540] pcieport 0000:12:13.0:    [20] UnsupReq              
-(First)
-[ 2215.440544] pcieport 0000:12:13.0: AER:   TLP Header: 40009001
-1000000f e9211000 12000000
-[ 2215.441813] systemd-journald[2173]: Sent WATCHDOG=1 notification.
-[ 2216.937498] {1}[Hardware Error]: Hardware error from APEI Generic
-Hardware Error Source: 4
-[ 2216.937505] {1}[Hardware Error]: event severity: info
-[ 2216.937508] {1}[Hardware Error]:  Error 0, type: fatal
-[ 2216.937511] {1}[Hardware Error]:  fru_text: PcieError
-[ 2216.937514] {1}[Hardware Error]:   section_type: PCIe error
-[ 2216.937515] {1}[Hardware Error]:   port_type: 4, root port
-[ 2216.937517] {1}[Hardware Error]:   version: 0.2
-[ 2216.937519] {1}[Hardware Error]:   command: 0x0407, status: 0x0010
-[ 2216.937522] {1}[Hardware Error]:   device_id: 0000:10:01.1
-[ 2216.937524] {1}[Hardware Error]:   slot: 3
-[ 2216.937525] {1}[Hardware Error]:   secondary_bus: 0x11
-[ 2216.937526] {1}[Hardware Error]:   vendor_id: 0x1022, device_id:
-0x1453
-[ 2216.937528] {1}[Hardware Error]:   class_code: 060400
-[ 2216.937529] {1}[Hardware Error]:   bridge: secondary_status: 0x2000,
-control: 0x0012
-[ 2216.937530] {1}[Hardware Error]:   aer_uncor_status: 0x00000000,
-aer_uncor_mask: 0x04500000
-[ 2216.937532] {1}[Hardware Error]:   aer_uncor_severity: 0x004e2030
-[ 2216.937532] {1}[Hardware Error]:   TLP Header: 00000000 00000000
-00000000 00000000
-[ 2216.937629] pcieport 0000:10:01.1: AER: aer_status: 0x00000000,
-aer_mask: 0x04500000
-[ 2216.937634] pcieport 0000:10:01.1: AER: aer_layer=Transaction Layer,
-aer_agent=Receiver ID
-[ 2216.937638] pcieport 0000:10:01.1: AER: aer_uncor_severity:
-0x004e2030
-[ 2216.937645] nvme nvme4: frozen state error detected, reset
-controller
-[ 2217.071095] nvme nvme10: frozen state error detected, reset
-controller
-[ 2217.096928] nvme nvme0: frozen state error detected, reset
-controller
-[ 2217.118947] nvme nvme18: frozen state error detected, reset
-controller
-[ 2217.138945] nvme nvme6: frozen state error detected, reset
-controller
-[ 2217.164918] nvme nvme14: frozen state error detected, reset
-controller
-[ 2217.186902] nvme nvme20: frozen state error detected, reset
-controller
-[ 2279.420266] nvme 0000:1a:00.0: Unable to change power state from
-D3cold to D0, device inaccessible
-[ 2279.420329] nvme nvme22: Disabling device after reset failure: -19
-[ 2279.464727] pcieport 0000:12:13.0: AER: device recovery failed
-[ 2279.464823] pcieport 0000:12:13.0: pciehp: pcie_do_write_cmd: no
-response from device
-
-Port resets and recovers
-
-[ 2279.593196] pcieport 0000:10:01.1: AER: Root Port link has been
-reset (0)
-[ 2279.593699] nvme nvme4: restart after slot reset
-[ 2279.593949] nvme nvme10: restart after slot reset
-[ 2279.594222] nvme nvme0: restart after slot reset
-[ 2279.594453] nvme nvme18: restart after slot reset
-[ 2279.594728] nvme nvme6: restart after slot reset
-[ 2279.594984] nvme nvme14: restart after slot reset
-[ 2279.595226] nvme nvme20: restart after slot reset
-[ 2279.595435] pcieport 0000:12:13.0: pciehp: Slot(19): Card present
-[ 2279.595441] pcieport 0000:12:13.0: pciehp: Slot(19): Link Up
-[ 2279.609081] nvme nvme4: Shutdown timeout set to 8 seconds
-[ 2279.617532] nvme nvme0: Shutdown timeout set to 8 seconds
-[ 2279.617533] nvme nvme14: Shutdown timeout set to 8 seconds
-[ 2279.618028] nvme nvme6: Shutdown timeout set to 8 seconds
-[ 2279.618207] nvme nvme18: Shutdown timeout set to 8 seconds
-[ 2279.618290] nvme nvme10: Shutdown timeout set to 8 seconds
-[ 2279.618308] nvme nvme20: Shutdown timeout set to 8 seconds
-[ 2279.631961] nvme nvme4: 32/0/0 default/read/poll queues
-[ 2279.643293] nvme nvme14: 32/0/0 default/read/poll queues
-[ 2279.643372] nvme nvme0: 32/0/0 default/read/poll queues
-[ 2279.644881] nvme nvme6: 32/0/0 default/read/poll queues
-[ 2279.644966] nvme nvme10: 32/0/0 default/read/poll queues
-[ 2279.645030] nvme nvme18: 32/0/0 default/read/poll queues
-[ 2279.645132] nvme nvme20: 32/0/0 default/read/poll queues
-[ 2279.645202] pcieport 0000:10:01.1: AER: device recovery successful
-
-2. Any kernel upstream latest 6.11, RHEL8 or RHEL9 causes 
-a machine check and panics the box when its against a nvme in a 
-PCIE slot
-
-  263.862919] mce: [Hardware Error]: CPU 12: Machine Check Exception: 5
-Bank 6: ba00000000000e0b
-[  263.862924] mce: [Hardware Error]: RIP !INEXACT!
-10:<ffffffff8571dce4> {intel_idle+0x54/0x90}
-[  263.862931] mce: [Hardware Error]: TSC 7a47d8d62ba6dd MISC 83100000 
-[  263.862933] mce: [Hardware Error]: PROCESSOR 0:606a6 TIME 1727384194
-SOCKET 1 APIC 40 microcode d0003a5
-[  263.862936] mce: [Hardware Error]: Run the above through 'mcelog --
-ascii'
-[  263.885254] mce: [Hardware Error]: Machine check: Processor context
-corrupt
-[  263.885259] Kernel panic - not syncing: Fatal machine check
-
-Hardware event. This is not a software error.
-CPU 0 BANK 0 TSC 7a47d8d62ba6dd 
-RIP !INEXACT! 10:ffffffff8571dce4
-TIME 1727384194 Thu Sep 26 16:56:34 2024
-MCG status:
-MCi status:
-Machine check not valid
-Corrected error
-MCA: No Error
-STATUS 0 MCGSTATUS 0
-CPUID Vendor Intel Family 6 Model 106 Step 6
-RIP: intel_idle+0x54/0x90}
-SOCKET 1 APIC 40 microcode d0003a5
-Run the above through 'mcelog --ascii'
-Machine check: Processor context corrupt
-
-Regards
-Laurence
-
-
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
