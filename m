@@ -4,175 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29116CEBF6B
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2024 02:12:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07242CEBF78
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2024 06:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3+peJQIfSC5yrcrLKFms3Lk9aD1mTLzTSBjJIZ0Vh74=; b=PBYjl6mPe+v4S2JkEaxysJ0f67
-	BI8dpkHpDfyRms6Mam860wxijmTtF15q6rjyf+PN1ZzcPmyCBa2AjDVdkWsLV/ngCbkNt0d9fBING
-	ETDMsPWGjhrJ7FRm8AC4KHGK1DLvM1xwtLBHpW6f5a/7KaW9av66hUff7XzgVQodPyrdNOMfQihP/
-	ZK163V8Su5ycZhgrFZoznnK3oIHzCM1sI90ntb6dXh8b/MlJt6gpTdxzo/1dMkPrPuqHPJSXDTlsj
-	xeOQXBate3D1/wVR2sRSgxlHgJXS1Xu8tLLs0Hy44dfxUvImT23JKl2i3jUeOUzrbuwPxAjmV0uMN
-	n8yJ0MOg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=H6W1LyfESXJb9xi845y6DXyVhfkTRoCo/BVMje4AuyI=; b=J5nNljwI5z6Hh+UBIDdwqGMBHR
+	kdNIioptnxzmouqQP6WVCjSU0Vds305fw0pJ3Usrm6ps/aETkAQy9JtdkLZQgxiiRQS2+4L/DMBEf
+	kmm8DoCLnIUbxv96Iv+fECZqUHYW0Y5UXEPX/OXUK1DS6OrcSFTPKMOpi7lhNY/PpEG5VqquTYpvR
+	0WgfgyWizORTojB+UfP0qNKIkBPsUOlr45wsQrCZJx8+ru3jfx07BlpqESbOs2wvsUa5gPmyK8P2t
+	OoN3A1XMGuAhi/ny6UpmB1BYjRsmwzQVWL29TvlKRO02tS0rIzBy8IMpm6q596qe2XtjVDiE0i+1T
+	SbLnON0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1su0TO-00000009nyR-0mgw;
-	Fri, 27 Sep 2024 02:12:46 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1su4BM-0000000A9E4-1rk2;
+	Fri, 27 Sep 2024 06:10:24 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1su0SV-00000009npe-1ab2
+	id 1su4BF-0000000A9DV-0gRz
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Sep 2024 02:11:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1727403111; x=1758939111;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=e+Cz1uYlh2uBdc6tws/GWM7sugSHjs/wrBxX5pVCMHY=;
-  b=dt2Qhl1AC/m0sykZUnx3wMsMlsozuBNgXRRAS40loxijZTXzwVi5wvfD
-   7lw7vk0N+pryybXhSLF+UJFSOpTgKQAFTuy63yf/F7gUN8xIjaXSHBqS5
-   R3IgQjiiUrMaHF2nELCSFBS2PLg/FkCvkCwWhU481QYxIfQMlsxldbN3r
-   sGMs2J5FuXuosPRy1MCBZGcq2caKKlaLcTONGBliy3D4sjxu/cBdez5I5
-   KGZ/pWiKcS4d7GJpgE94Cu94eRlorwLABgt/T8oWoEIEYYWaCop+9TdSr
-   ZUw2D0u7ZAeKtwWSxb4fkPFupwr5am7L7KZjPfGSiilTaJaeEeBSeuQ1o
-   g==;
-X-CSE-ConnectionGUID: lPYE4FZ4Ruyzabym+u0PCQ==
-X-CSE-MsgGUID: P7/v14MMTAG4dqpiKecXlg==
-X-IronPort-AV: E=Sophos;i="6.11,157,1725292800"; 
-   d="scan'208";a="28732096"
-Received: from mail-centralusazlp17011027.outbound.protection.outlook.com (HELO DM5PR21CU001.outbound.protection.outlook.com) ([40.93.13.27])
-  by ob1.hgst.iphmx.com with ESMTP; 27 Sep 2024 10:11:47 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ej4gyUzn/YcVaVLSoOd68C9nfTPLmvgyL2jPaqOWhQyKuMBjxdq5mRY/wznhdZFa8EZcD/McwhtKNd7aymRbjsmFxKzsPBekOerA75u4W0ChDLHPaWpFBf96g5FD4fARj1NpyBS2B233XSFsyd+mXQqCDyYJxsiTn9P67zZ6J5T1hrFxtRCBbAcw2d+eLjggfNt3ouTWGEr9a66aYBMeSRV+j1NRmANIeUXG6qW1nL1igTcTCdjfxUWYYj1ghJgV8TvNprAP/uCTfRkSG2b9drradNvprfYysX0PJvhsO/anEnj2yYfBTRz3H5UNJo8cV4CyNoI6qbDJ+3xR+NTmVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3+peJQIfSC5yrcrLKFms3Lk9aD1mTLzTSBjJIZ0Vh74=;
- b=FFFkQqczg/vVcOjjrhZ+Iww6dQuRpkpM5UrG75Kv0SMkettxLwVfF3/Mo9No2mtzCYpvDFPEmt3lru6RFheO9cThBqyyOaTEGNENRiCvagnLGWaNzXXd3SzClS1/RBpP6YLFkea9yIbOytCRMKxdfcD25dv7mWk+8bD406tRCVyoXFIM7dfJRzUpN9zfWbFx/XH9SQndy+zeaWwBARpZeuHJgs/r0v0hido+gqrCp3fE941L7BIdiAPUGWF0UsLT15Pyi2rV76gPAt6YH9xsiD+VkZnG5NfsrN1hPusypaqXjd7zm1UNzhI6LfxkXxsuyma6Hd0z2HQxHKeGI9AVTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3+peJQIfSC5yrcrLKFms3Lk9aD1mTLzTSBjJIZ0Vh74=;
- b=aAsF1tQDsGkI/2UefNW2mIllVTrZdbT/ZCHskpnNDnxV6hUlRHosqYyKwyEkoL+f+TX2BDBVDrnOfGCNsq78EdiRhHwzc/3ugg+oMT4zhvqEqj5hPUj1LvuJKihaed/9Ec17aREvNODAoUHUw34X3S3SjurOYVIgisHmvAqIusU=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- IA3PR04MB9308.namprd04.prod.outlook.com (2603:10b6:208:505::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.27; Fri, 27 Sep
- 2024 02:11:46 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%3]) with mapi id 15.20.8005.020; Fri, 27 Sep 2024
- 02:11:45 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"martin.wilck@suse.com" <martin.wilck@suse.com>, "gjoyce@linux.ibm.com"
-	<gjoyce@linux.ibm.com>
-Subject: Re: [PATCHv2 blktests] nvme/{033-037}: timeout while waiting for nvme
- passthru namespace device
-Thread-Topic: [PATCHv2 blktests] nvme/{033-037}: timeout while waiting for
- nvme passthru namespace device
-Thread-Index: AQHbDx019PBt7jbYMkuJ5nQ6pP/QzbJq5vmA
-Date: Fri, 27 Sep 2024 02:11:45 +0000
-Message-ID: <uptdu2g3x6jwlsdew6eu3uwkmketx4z3xehzeq56gsw7eofimg@h2lnekqsbdmf>
-References: <20240925073245.241234-1-nilay@linux.ibm.com>
-In-Reply-To: <20240925073245.241234-1-nilay@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|IA3PR04MB9308:EE_
-x-ms-office365-filtering-correlation-id: f93f10b5-e358-4db5-6275-08dcde99bcbc
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?F2lAeGr8U4xHuCBzSvwGrdWIxG6TwXkyfYOjFReFiSRj8AiZJmp9xWSrGf+4?=
- =?us-ascii?Q?OvOXlapytSjXkf+5yH0CZc0A5twgjeWIg0FoVo1zPUXx/bbdXN1sDSklN/VX?=
- =?us-ascii?Q?YmI2b5/lq50vL5NV3fHIKevbnyYd0ZyCURkSEPgbs9uwJ+6yRm2lT98TDJoj?=
- =?us-ascii?Q?rfTdYTUO6w0YjBDORQGDH9eErKVQnIcDIp/IqWP6KiNhCzHTJdwnvdocO0rX?=
- =?us-ascii?Q?gUreYlE5X/zsFrHxysqOobQQmZoogoF86PVlz0uQuDygknAzZnxTy+7IySDZ?=
- =?us-ascii?Q?31JDuRaQVtojnNS1fUmM0vIdEtAjYVOsGxAvViIshdja94KTMaotOpVJPxZt?=
- =?us-ascii?Q?vfFy5B4kt+GvDXZq7mVDXS6Sx4TR3jmg7sSNOQTC007WosimT49/i32/41z5?=
- =?us-ascii?Q?c/AehJqwMsSn48q/SaADqoByX2IM5+x7I08vP8vusoYbRaLLfXjU/TlZOctX?=
- =?us-ascii?Q?tJ3TGs3v6XpOA8OR8j10gJVcmyclhlmbxisMtxkaCRe9SYP80JV8Bfh+XJ/N?=
- =?us-ascii?Q?vIzg68TYuBnH3qewobhvdVk0RNCYuAvibTBPuwUPyMw9WD0bVXVDUqV7D3OW?=
- =?us-ascii?Q?vX3rWCnFcORGz65YRKZqlY1TsF27/9zt4otMUUALN1MpexTDDeqnniwy41GU?=
- =?us-ascii?Q?Kgz5i6H5JlqaD2mueAzPs6c5u/z+kM2lULQxjkgI/r+l2W0Nbwyc2oX6w6lZ?=
- =?us-ascii?Q?3+0W7ZLkKuFKpkJOixsk541+q7gIubgWHG2fxaqlHW44XMkrTgmv3s8R5Zfk?=
- =?us-ascii?Q?er888BqkpC+lJggRxDXhynmEHGrAgpSpk2l2NEBaNKVOHNzDe/zPjYwCKJvl?=
- =?us-ascii?Q?C/6y2Hyr9rptH6GYLho1AEEZZGRg5+3dfjlBA5eJ+kjdcuT7ITjd84MkuJyd?=
- =?us-ascii?Q?/IQiFl7F9x3O6m1FjhOfJvGdji3r9wGChd426duAABHoa20YvvNnInSgnyyf?=
- =?us-ascii?Q?WaHwP9b1c+52Eu4SM7n4J6yKB99bcJWP1CT6HbCQnPImWkeRTsKvB523tPxo?=
- =?us-ascii?Q?eWVKB/X9o3RQ0h9sCn1ORUIUxJsvOddA6y4jvdtd7zuJGfayqEz/WEKWDYVK?=
- =?us-ascii?Q?SWapZbz0DwCqOtDi3HcdZjnWeBROrAdEIukyf6EXN4O7vdYiqaa/deDL0I8x?=
- =?us-ascii?Q?4aUjbhvNB4LCa6PBgd2O6jOVkHHuE6J7/MyrsrA9oSQJSDgD9IqV/nW7yrOw?=
- =?us-ascii?Q?t9R2BM/UUnNBlSpyQCnc/Rw+iiLW5i+Qyh4Rqdo2wCbTLLDr7+54tcum361/?=
- =?us-ascii?Q?KEBLAEoJlyoSE3TwlRH+3YXdgPTTfp4TEX4fsdpwHC/cNPiV+rb0aLkvQnsb?=
- =?us-ascii?Q?oUHk0PHSCVByVW91DqUvT+CAbsVI/yw3aVoO0QzfJNk+42RE4iAzaWH5CFGm?=
- =?us-ascii?Q?kPXMb2SKyf/NNoy3u+gRVYYBxm5NGLbxm0g2+p8nKZFWCKKewA=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?MPxcilBOnWjQ2L9YChtuVF1SFWUe+VnKKWnrcuR0sy+RLRICoOTUVevsa+At?=
- =?us-ascii?Q?2XSU0eAvPdD/WhNw32GMnt4OXXEb99oJPNg85X8i1SZCwY7qGZrXBs7jthxr?=
- =?us-ascii?Q?CWz+Mz1FiRdrQZHLhpnAPyHktJ5tqD//B9YocSnfBNfaXSfpyQM2+KvOT8pN?=
- =?us-ascii?Q?O3GudD5eyQbwFa8351WtJ2Eda/BBxQTSJyLJiz1Xq2cxHhz1XjFHqiRta5lm?=
- =?us-ascii?Q?xxaSq6+ZxUw66Hq6MxuVfYUJjrVXBwIOGwHPWteUNdwaUdiydN97LdCyJZSu?=
- =?us-ascii?Q?UYBWic9HkYBke6o+QsMxxN4rMCh2LlOKv4vj+CdOe9e8mUxtPw+CqAmGmXkm?=
- =?us-ascii?Q?4Ghf+JY6xniaubO5ZFxgx4SVijLQQIlE3dz3tj72Jo4Gti5BbpdKnAyYt27N?=
- =?us-ascii?Q?+fl3Y5mSDeD4LKOQhHfZULeOgnwUtf6YQHb4ExNIxRpVnjC6m1HdwqJD4YJM?=
- =?us-ascii?Q?Ywk1aO3bab3Jw/ZwfuQmOtXjuriFOhRG6A7gl40OT2h4zpKvRG8Z1m+/C4Xm?=
- =?us-ascii?Q?oU35m4axX2i0fyAtHcHujroYVnkl1P2m7HbGbcaVzTNHZ0EtcJS7ljLLmK8m?=
- =?us-ascii?Q?9f0SKPIzyGtLd3WQME4xhIhJcl+NBHZAeeVZ3zBDptNGPCr74D9A2lQRXdre?=
- =?us-ascii?Q?6LrzJKsf9JAAUF18ysyqDIUo3HBs/o8+R5dGdCnG8ccEqS9g7FC4zJw4PqnO?=
- =?us-ascii?Q?zaL2O5x5IKjwoFf6qqWz6ByybzbDQ4p/P4FKbidMMmldauGsAKlUsQcm5Hnv?=
- =?us-ascii?Q?XlB1Eh2i4nGjN55jOFb+Ko0yyVP3BDLuf+0ZH89XXV05BaJ3Vk7cyM6fis8M?=
- =?us-ascii?Q?O3+JG5W/uetBKGEeLjCK/phkW/GS/exusgiv76jN1Oo3y6nRjayZa2piD+8k?=
- =?us-ascii?Q?dgzWVYKIJzatHXwvWsIx6iqwmQxsuR17TWJW3WrWtDr3sV3ytrOM1vPohYrh?=
- =?us-ascii?Q?rh0n4/QkYA2sPkG6lU+TNBrJ6wyv1eH3FHSb/AY1eNoIxMucigEZVyqbLa07?=
- =?us-ascii?Q?t0X5yr/oekaArvywGeBaZO1Vaet3UIJWmmodcEt1kBolL5GUFhGcH2uMi99d?=
- =?us-ascii?Q?DfiRX+N3ElUJMTRm123s6GiKS6IO0oxUi7JzRnB7G9EM9if62y88+kbuOmS1?=
- =?us-ascii?Q?muR5jOdMJnvbwfWO0bH6LORMvgn6JNhurDpuiGwdUoDFdONappWryC5wXZN1?=
- =?us-ascii?Q?fjxK9Xyg8sUohKNbFRA4vynPnUu3vXJQ207kFRO25SGcOFhtudekpqei3HGQ?=
- =?us-ascii?Q?EH/tjcfK1oL1Btkjx1WIxSwE2pp5yxw3ijO+27STh5igCgJhR1bgtw8YynD6?=
- =?us-ascii?Q?y75BSfAHCDiYmNljbvM7xpvIh3r2eExbM0oMY2xdpeHV5ASGKXTxobY+UnfK?=
- =?us-ascii?Q?sz77qIob3MK/ZPc0ovh7R6fdRftRXUrGGdTKshuvIujpbqGa5EFKnHEsOOlB?=
- =?us-ascii?Q?IQbyreIrcdtXLG7CrQbNq+AA/4MVJNkR38ILCAt+eFb36WTz0V4wymsUA0Tk?=
- =?us-ascii?Q?kRADQEzrRSudmdfsGQY1/DiDLZ2YSkKhGrA/rDmg/OB/8uebchegSLfAuIK/?=
- =?us-ascii?Q?k5rTb+SSGuU/UPNYN8xvDL3/AmUAhGJJdVaTtkBYBh614zvcHbr+jkzvB9px?=
- =?us-ascii?Q?taylYCE+t+88oyO0Wc8ekdo=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B7B913FDE21B9D408A1A9B5C7618AEF1@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Fri, 27 Sep 2024 06:10:19 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48R2pPfC021634;
+	Fri, 27 Sep 2024 06:10:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=H
+	6W1LyfESXJb9xi845y6DXyVhfkTRoCo/BVMje4AuyI=; b=tt77vcdSRvnnjE7aY
+	8sJkEJw6CTM73erUvOkO5d8y204dPN5HLxYF7Bd9GZ0Rok0jeCvqXyWlS1eXu8dJ
+	Sk0+KWbiR/YYI6D22bp9/8mFcaJDp/PTtRgGRlrPpnesF7z8+oFuQCOdvooUZrge
+	yVUCjwHer0csuINvaeArl3fxhA8vrhwk5IvaBOuVT2NIKHjqhPTlnM1fuRhciurA
+	B5xdJdYXNzc9io94i7/7cMX/EVQaeyR8U+HvF2hhYRAOQr4FNy2vMVjwjF+/U4lR
+	uopfR3UhqJx2p9Uh6HSyFfOtFLm0ntSombTUqVXmShJWs+l+dUeNJcl44svO9ezq
+	opMkQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41snvbjgup-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Sep 2024 06:10:12 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 48R6ABgo013514;
+	Fri, 27 Sep 2024 06:10:11 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41snvbjguj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Sep 2024 06:10:11 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48R4ZKsS020814;
+	Fri, 27 Sep 2024 06:10:10 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 41tb63jtgq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Sep 2024 06:10:10 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48R6A9rg43778366
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Sep 2024 06:10:09 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5E1C258062;
+	Fri, 27 Sep 2024 06:10:09 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BA7DD5805F;
+	Fri, 27 Sep 2024 06:10:07 +0000 (GMT)
+Received: from [9.171.27.86] (unknown [9.171.27.86])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 27 Sep 2024 06:10:07 +0000 (GMT)
+Message-ID: <7ef2300b-adb2-40d8-95b0-995aaf8d7436@linux.ibm.com>
+Date: Fri, 27 Sep 2024 11:40:05 +0530
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: yIJqgbn9rvp+anpYK8bgu59kRg8GZEWDMnNylOPaJu6+AlJuDbvW0AuSHT/vi3+s7jF+LHwweGTAmyJqcOy0hORPFYtsXGIRj61AmiiytmwP6/Wv0VDk4zBVGYDOG0TBkP16FDUswGDkilw57d58FUa+YRA6/gJKnONJ6oPUN/mxX+Atlq7o/SXsNyeWpNIxDxcjj6jscg94QCuBRoFpytIASE7eyiITltKdVKi4qmlgxFQ0Is0/c56Tcgl/EOalOGH3r1orIvaYB0N5sBsBAWaIp8ciUDGBjgWtpzhARAi0zLzsGx2GDAEUWIlllvC8UbkJ34XB7lhWkIy0iuf90uXnTHLbPc66hlX/3nzeIVCLAerl33ElHrbsRj6xH794KmaDa2YVipBgVeNlue/YctE5TnFkF6BG7FF3VpPFj1/wr8zUPM09DzdnWSIyiSeF+Pyd+EhGVamcOcmEvIOGNfMYsW05SdzkgdIZGModfRQ9UkqoxjeuYHx6ABnT/4Yfr3H8Rpr9RRqOeTBnvNuJoj+W/6ggG5H+qYOBq7IXamJOYUo1BGufYJjhCGRHQP4HcOC6W9HXpj1cV0gSRAF3r+Nm5eaIqFKPEu0Ne0mil7bVlIlqJl++oAWa/3u0Ru02
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f93f10b5-e358-4db5-6275-08dcde99bcbc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2024 02:11:45.7358
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +GF7lA9ArIP2ZTzwigV4geAxF5xKPoZODJyrRrppoPMRBHX1s4m6rHdVUIML64QK3wi769AR6FgwZfjU5LCDGp9thcasIfSVBytTZ48wM+U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR04MB9308
+User-Agent: Mozilla Thunderbird
+Subject: Re: nvme: machine check when running nvme subsystem-reset /dev/nvme0
+ against direct attach via PCIE slot
+To: Laurence Oberman <loberman@redhat.com>,
+        "busch, keith" <keith.busch@intel.com>, linux-nvme@lists.infradead.org,
+        Keith Busch <kbusch@kernel.org>
+References: <b73005ac327784e740bb6b362870c15d0c7788fa.camel@redhat.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <b73005ac327784e740bb6b362870c15d0c7788fa.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: bny2InZLhkJexO2ebewvlS0tV5mrwRlC
+X-Proofpoint-GUID: uBjmZ3xxOF0tyNGZBV49biQ8ZgEhaHOB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-27_02,2024-09-26_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 clxscore=1011 spamscore=0 mlxscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409270039
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240926_191151_843031_4EAF6A87 
-X-CRM114-Status: GOOD (  18.78  )
+X-CRM114-CacheID: sfid-20240926_231017_450809_2DB82309 
+X-CRM114-Status: GOOD (  25.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -187,50 +114,171 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sep 25, 2024 / 13:01, Nilay Shroff wrote:
-> Avoid waiting indefinitely for nvme passthru namespace block device
-> to appear. Wait for up to 5 seconds and during this time if namespace
-> device doesn't appear then bail out and FAIL the test.
->=20
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
-> ---
->     Changes from v1:
->         - Add a meaningful error message if test fails (Shnichiro
->           Kawasaki)
->         - Use sleep "1" instead of ".1" while waiting for nsdev to be
->           created as we don't see much gain in test runtime with short=20
->           duration of sleep. This would also help further optimize
->           the sleep logic (Shnichiro Kawasaki)
->         - Few other trivial cleanups (Shnichiro Kawasaki)
 
-Thanks for this v2 patch.
 
-[...]
+On 9/27/24 02:41, Laurence Oberman wrote:
+> Hi Keith
+> Hope all is well
+> 
+> Quick question (expected or not)
+> 
+> It was reported to Red Hat, seeing issues with using a
+> "nvme subsystem-reset /dev/nvme0" command to test resets.
+> 
+> On multiple servers I tested on two types of nvme attached devices
+> These are not the rootfs devices
+> 
+> 1. The front slot (hotplug) devices in a 2.5in format 
+> reset and after some time recover (what is expected)
+> 
+> Example of one working
+> 
+> Does not trap and land up as a machine-check
+> 
+> [ 2215.440468] pcieport 0000:10:01.1: AER: Multiple Uncorrected (Non-
+> Fatal) error received: 0000:12:13.0
+> [ 2215.440532] pcieport 0000:12:13.0: PCIe Bus Error:
+> severity=Uncorrected (Non-Fatal), type=Transaction Layer, (Requester
+> ID)
+> [ 2215.440536] pcieport 0000:12:13.0:   device [10b5:8748] error
+> status/mask=00100000/00000000
+> [ 2215.440540] pcieport 0000:12:13.0:    [20] UnsupReq              
+> (First)
+> [ 2215.440544] pcieport 0000:12:13.0: AER:   TLP Header: 40009001
+> 1000000f e9211000 12000000
+> [ 2215.441813] systemd-journald[2173]: Sent WATCHDOG=1 notification.
+> [ 2216.937498] {1}[Hardware Error]: Hardware error from APEI Generic
+> Hardware Error Source: 4
+> [ 2216.937505] {1}[Hardware Error]: event severity: info
+> [ 2216.937508] {1}[Hardware Error]:  Error 0, type: fatal
+> [ 2216.937511] {1}[Hardware Error]:  fru_text: PcieError
+> [ 2216.937514] {1}[Hardware Error]:   section_type: PCIe error
+> [ 2216.937515] {1}[Hardware Error]:   port_type: 4, root port
+> [ 2216.937517] {1}[Hardware Error]:   version: 0.2
+> [ 2216.937519] {1}[Hardware Error]:   command: 0x0407, status: 0x0010
+> [ 2216.937522] {1}[Hardware Error]:   device_id: 0000:10:01.1
+> [ 2216.937524] {1}[Hardware Error]:   slot: 3
+> [ 2216.937525] {1}[Hardware Error]:   secondary_bus: 0x11
+> [ 2216.937526] {1}[Hardware Error]:   vendor_id: 0x1022, device_id:
+> 0x1453
+> [ 2216.937528] {1}[Hardware Error]:   class_code: 060400
+> [ 2216.937529] {1}[Hardware Error]:   bridge: secondary_status: 0x2000,
+> control: 0x0012
+> [ 2216.937530] {1}[Hardware Error]:   aer_uncor_status: 0x00000000,
+> aer_uncor_mask: 0x04500000
+> [ 2216.937532] {1}[Hardware Error]:   aer_uncor_severity: 0x004e2030
+> [ 2216.937532] {1}[Hardware Error]:   TLP Header: 00000000 00000000
+> 00000000 00000000
+> [ 2216.937629] pcieport 0000:10:01.1: AER: aer_status: 0x00000000,
+> aer_mask: 0x04500000
+> [ 2216.937634] pcieport 0000:10:01.1: AER: aer_layer=Transaction Layer,
+> aer_agent=Receiver ID
+> [ 2216.937638] pcieport 0000:10:01.1: AER: aer_uncor_severity:
+> 0x004e2030
+> [ 2216.937645] nvme nvme4: frozen state error detected, reset
+> controller
+> [ 2217.071095] nvme nvme10: frozen state error detected, reset
+> controller
+> [ 2217.096928] nvme nvme0: frozen state error detected, reset
+> controller
+> [ 2217.118947] nvme nvme18: frozen state error detected, reset
+> controller
+> [ 2217.138945] nvme nvme6: frozen state error detected, reset
+> controller
+> [ 2217.164918] nvme nvme14: frozen state error detected, reset
+> controller
+> [ 2217.186902] nvme nvme20: frozen state error detected, reset
+> controller
+> [ 2279.420266] nvme 0000:1a:00.0: Unable to change power state from
+> D3cold to D0, device inaccessible
+> [ 2279.420329] nvme nvme22: Disabling device after reset failure: -19
+> [ 2279.464727] pcieport 0000:12:13.0: AER: device recovery failed
+> [ 2279.464823] pcieport 0000:12:13.0: pciehp: pcie_do_write_cmd: no
+> response from device
+> 
+> Port resets and recovers
+> 
+> [ 2279.593196] pcieport 0000:10:01.1: AER: Root Port link has been
+> reset (0)
+> [ 2279.593699] nvme nvme4: restart after slot reset
+> [ 2279.593949] nvme nvme10: restart after slot reset
+> [ 2279.594222] nvme nvme0: restart after slot reset
+> [ 2279.594453] nvme nvme18: restart after slot reset
+> [ 2279.594728] nvme nvme6: restart after slot reset
+> [ 2279.594984] nvme nvme14: restart after slot reset
+> [ 2279.595226] nvme nvme20: restart after slot reset
+> [ 2279.595435] pcieport 0000:12:13.0: pciehp: Slot(19): Card present
+> [ 2279.595441] pcieport 0000:12:13.0: pciehp: Slot(19): Link Up
+> [ 2279.609081] nvme nvme4: Shutdown timeout set to 8 seconds
+> [ 2279.617532] nvme nvme0: Shutdown timeout set to 8 seconds
+> [ 2279.617533] nvme nvme14: Shutdown timeout set to 8 seconds
+> [ 2279.618028] nvme nvme6: Shutdown timeout set to 8 seconds
+> [ 2279.618207] nvme nvme18: Shutdown timeout set to 8 seconds
+> [ 2279.618290] nvme nvme10: Shutdown timeout set to 8 seconds
+> [ 2279.618308] nvme nvme20: Shutdown timeout set to 8 seconds
+> [ 2279.631961] nvme nvme4: 32/0/0 default/read/poll queues
+> [ 2279.643293] nvme nvme14: 32/0/0 default/read/poll queues
+> [ 2279.643372] nvme nvme0: 32/0/0 default/read/poll queues
+> [ 2279.644881] nvme nvme6: 32/0/0 default/read/poll queues
+> [ 2279.644966] nvme nvme10: 32/0/0 default/read/poll queues
+> [ 2279.645030] nvme nvme18: 32/0/0 default/read/poll queues
+> [ 2279.645132] nvme nvme20: 32/0/0 default/read/poll queues
+> [ 2279.645202] pcieport 0000:10:01.1: AER: device recovery successful
+> 
+> 2. Any kernel upstream latest 6.11, RHEL8 or RHEL9 causes 
+> a machine check and panics the box when its against a nvme in a 
+> PCIE slot
+> 
+>   263.862919] mce: [Hardware Error]: CPU 12: Machine Check Exception: 5
+> Bank 6: ba00000000000e0b
+> [  263.862924] mce: [Hardware Error]: RIP !INEXACT!
+> 10:<ffffffff8571dce4> {intel_idle+0x54/0x90}
+> [  263.862931] mce: [Hardware Error]: TSC 7a47d8d62ba6dd MISC 83100000 
+> [  263.862933] mce: [Hardware Error]: PROCESSOR 0:606a6 TIME 1727384194
+> SOCKET 1 APIC 40 microcode d0003a5
+> [  263.862936] mce: [Hardware Error]: Run the above through 'mcelog --
+> ascii'
+> [  263.885254] mce: [Hardware Error]: Machine check: Processor context
+> corrupt
+> [  263.885259] Kernel panic - not syncing: Fatal machine check
+> 
+> Hardware event. This is not a software error.
+> CPU 0 BANK 0 TSC 7a47d8d62ba6dd 
+> RIP !INEXACT! 10:ffffffff8571dce4
+> TIME 1727384194 Thu Sep 26 16:56:34 2024
+> MCG status:
+> MCi status:
+> Machine check not valid
+> Corrected error
+> MCA: No Error
+> STATUS 0 MCGSTATUS 0
+> CPUID Vendor Intel Family 6 Model 106 Step 6
+> RIP: intel_idle+0x54/0x90}
+> SOCKET 1 APIC 40 microcode d0003a5
+> Run the above through 'mcelog --ascii'
+> Machine check: Processor context corrupt
+> 
+> Regards
+> Laurence
+> 
+> 
+> 
+I think the Keith's email address is not correct. Adding the correct email address of Keith here.
 
-> diff --git a/tests/nvme/036 b/tests/nvme/036
-> index 442ffe7..a114a7c 100755
-> --- a/tests/nvme/036
-> +++ b/tests/nvme/036
-> @@ -27,6 +27,7 @@ test_device() {
->  	_setup_nvmet
-> =20
->  	local ctrldev
-> +	local nsdev
-> =20
->  	_nvmet_passthru_target_setup
->  	nsdev=3D$(_nvmet_passthru_target_connect)
+BTW, Keith recently help fixed an issue in kernel v6.11 with nvme subsystem-reset command to ensure 
+that we recover the nvme disk on PPC. On PPC architecture, we use EEH to recover the disk post 
+subsystem-reset but yours is Intel and that uses AER for recovery. So I'm not sure if that same 
+commit 210b1f6576e8("nvme-pci: do not directly handle subsys reset fallout") which was merged in 
+kernel v6.11 causing a side effect on the Intel machine. 
 
-I commented for v1 that "unnecsseary change" was made for nmve/036. With th=
-at
-comment, I meant that one empty line removal was unnecessary. However, you
-removed the nsdev check in nvme/036 for v2. I guess you might have misunder=
-stood
-my comment then removed the check. I suggest to put back the nsdev check in
-nvme/036. If you agree, could you send out v3? Or I can do it when I apply =
-this
-patch.
+Would you please revert the above commit and see if that help fix the observed symptom on your
+Intel machine? 
 
-Other than that, this patch looks good to me. Let's wait and see if anyone =
-has
-other comments.=
+Thanks,
+--Nilay
+
+
+
+
+
 
