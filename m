@@ -4,130 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6FA6CDD1C4
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2024 16:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4309CF6493
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Sep 2024 03:14:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NhotiqO599QBLdqtH3hSuTecQdZLiaYIXQLaEMyc5a4=; b=CDf6BGILZbPSb0/K11hSvjpDEn
-	C5glHBw2xAWhIV8ZeOh2tSi34cm0pBO9mBJAMxrEpacuV/VQiETjQCmnBZ40BEBGixkh28J0011Ua
-	/txN2U0gYnYWLJNFTdZ7RhTead+uZOUjLHHQXxP3bSySGRRqwORV8tucR5ndQ+Yrb9W7ZQkzcs3IE
-	ZZs4v1YLxxLsemJUO1H95yc3k8SkKn+YmodzhYizjaoipfhV80e6ZaLKK2TNIc+ZtqwfbzkkWJMuh
-	2rPsXFw2/Oopm6cwVkp9MzsfgkKPoiWCNSKPUEjLvVruylLWjuO54unSflP/k293NvPVv4NvQRlix
-	cUDt4d5Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hs5s6l+GdnRLdr/oXJmUrZebXZNHOnAtT/pEOAIOwVQ=; b=Ykbv4tbwfPDD56sWAnvNglgvBH
+	6g2HRCV7cbMTBKq1Csq4fWelbanYZdil4+oSmdKQ9INCZrN2P1oywE5CNvauOcWqSsVnwpv9uDn35
+	Xib3tz8NTmBk1NGd/BD6gLbafSQQqrCVbhZbCc12HT5/il3dstp7d2DcaSW2r3+qSV+u9Yv4rzq/I
+	3RjSTkwCm2N3dIhXU97QOcvI1m8YQZtq8ApQcOXOn3aIA+keNSclo3aCfflQEKkMxeM5m+Mt1spog
+	IgWsBGtJpfee8FnRYLV/sUbTAzdvtXpSB5msT5VpZucSTh2T3+yyEpPINtPB4xEofQ44RMM9NUR5L
+	N1aab8PA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1suDVw-0000000Bexk-2UUB;
-	Fri, 27 Sep 2024 16:08:16 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1sukOF-0000000E1is-3Kv7;
+	Sun, 29 Sep 2024 03:14:31 +0000
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1suDVq-0000000Bews-2qgL
+	id 1sukO6-0000000E1hZ-1WiL
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Sep 2024 16:08:14 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240927160803epoutp02652a853c2a61e99b7ea6f1ade3953941~5JZv3gPLs2089120891epoutp02a
-	for <linux-nvme@lists.infradead.org>; Fri, 27 Sep 2024 16:08:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240927160803epoutp02652a853c2a61e99b7ea6f1ade3953941~5JZv3gPLs2089120891epoutp02a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1727453283;
-	bh=NhotiqO599QBLdqtH3hSuTecQdZLiaYIXQLaEMyc5a4=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=SwObf3Z3JilU9DGvXX0+3pyjrF29I57+FbkDLk/WBpwiyq2i7/6fDP6UpoFvG6nWc
-	 Zm9YMEyaX1YeTtJ1IQTqn+AOt0cwu6A4z70hi7IC4Y7//2oM5DvIoAdk+907FqVAkj
-	 FkMnqh1lRa+exau6DMvAB609e9V4h8yaOESyI/o4=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20240927160803epcas5p3a86b8e58bf502e8c58d13e59d1404927~5JZvejtgZ1465114651epcas5p3B;
-	Fri, 27 Sep 2024 16:08:03 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4XFb3P5dNHz4x9Pr; Fri, 27 Sep
-	2024 16:08:01 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	46.EF.08855.168D6F66; Sat, 28 Sep 2024 01:08:01 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240927160801epcas5p260ef9a24693c5c34489e559a84243a23~5JZtbv32Z0512305123epcas5p2o;
-	Fri, 27 Sep 2024 16:08:01 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240927160801epsmtrp163d00664a4b0bc0f407ab801a1f27bb0~5JZtY_A1G2294722947epsmtrp1v;
-	Fri, 27 Sep 2024 16:08:01 +0000 (GMT)
-X-AuditID: b6c32a44-107ff70000002297-2e-66f6d861a75b
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	69.51.08964.168D6F66; Sat, 28 Sep 2024 01:08:01 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240927160759epsmtip2b8b8d5574cb1d800bd0254b42d7111bf~5JZsFK8yQ0994609946epsmtip2h;
-	Fri, 27 Sep 2024 16:07:59 +0000 (GMT)
-Message-ID: <165deefb-a8b3-594e-9bfb-b3bcd588d23f@samsung.com>
-Date: Fri, 27 Sep 2024 21:37:54 +0530
+	Sun, 29 Sep 2024 03:14:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1727579657; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=hs5s6l+GdnRLdr/oXJmUrZebXZNHOnAtT/pEOAIOwVQ=;
+	b=MhbcWlbewUjJQsedxg57mu4yADGWX2rFvQVGt+j8RM3dLRFw5OLbQYD7gbklWRK3OA9lC+K+pYxJkk5EreJwlxdZkRIQxJCpo77zN5aPP80oUewl0EGB4MS8tVWasJz3VmXtvXpcyIJ/GVsasev+debp4KS9lvJ+518ATU6Bvcg=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WFula-V_1727579650)
+          by smtp.aliyun-inc.com;
+          Sun, 29 Sep 2024 11:14:15 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	d.bogdanov@yadro.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v11 0/1] Implement the NVMe reservation feature
+Date: Sun, 29 Sep 2024 11:14:09 +0800
+Message-ID: <20240929031410.31281-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v2 2/3] block: support PI at non-zero offset within
- metadata
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com, Chinmay Gameti
-	<c.gameti@samsung.com>
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <ZvWSFvI-OJ2NP_m0@kbusch-mbp>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIJsWRmVeSWpSXmKPExsWy7bCmlm7ijW9pBs/6tC1W3+1ns/i+vY/F
-	4uaBnUwWK1cfZbKYdOgao8XeW9oW85c9ZbdYfvwfk8W61+9ZHDg9zt/byOJx+Wypx6ZVnWwe
-	m5fUe+y+2cDm8fHpLRaPvi2rGD0+b5IL4IjKtslITUxJLVJIzUvOT8nMS7dV8g6Od443NTMw
-	1DW0tDBXUshLzE21VXLxCdB1y8wBOk5JoSwxpxQoFJBYXKykb2dTlF9akqqQkV9cYquUWpCS
-	U2BSoFecmFtcmpeul5daYmVoYGBkClSYkJ3R9uklY8ELzor7i1YxNTB+Z+9i5OSQEDCRuPzp
-	BZDNxSEksJtR4vTGuUwQzidGiVmvVzGDVAkJfGOUmHLeAqZje9s5ZoiivYwS1z82QnW8ZZR4
-	9/si2FxeATuJFw9OgXWzCKhKnJq0lw0iLihxcuYTFhBbVCBJ4tfVOYwgtrBAkMSWxz1MIDaz
-	gLjErSfzwWwRAWWJu/NnsoIsYBY4yyjxcdY2oAYODjYBTYkLk0tBajgFtCT2Pj7ECNErL7H9
-	7Ryw6yQEVnJIfNvWwghxtovEzaetbBC2sMSr41ugASAl8bK/DcrOlnjw6AELhF0jsWNzHyuE
-	bS/R8OcGK8heZqC963fpQ+zik+j9/YQJJCwhwCvR0SYEUa0ocW/SU6hOcYmHM5ZA2R4SDz+2
-	s0HCagOTxJ+Jm9gnMCrMQgqWWUjen4XknVkImxcwsqxilEwtKM5NT002LTDMSy2HR3hyfu4m
-	RnDa1XLZwXhj/j+9Q4xMHIyHGCU4mJVEeK3OfU0T4k1JrKxKLcqPLyrNSS0+xGgKjJ+JzFKi
-	yfnAxJ9XEm9oYmlgYmZmZmJpbGaoJM77unVuipBAemJJanZqakFqEUwfEwenVAPTA2XxNKWp
-	n25M7Vy9eoFXRvnt0H/75r83UP20P0zDsu276fNs9ZUnCno2VeZKHRTgZ9r0JlDoGYOg+dGP
-	NdePnl+2ceU11sp9t3/JrbpsxjjLNOpEArur2j37zadUj3e+faHw97/enhaOpcYMyff+i/Sm
-	PQ1165zqly7tWeIrky3kf39q0ItwtzY7Vb25JRxn+PzXBa7TvNu3/330xStm2yfy7GRnqVyx
-	/VWa6h2m751bLr17InVPzeDMZCFeTrNXH42un9Bt60jnE2bNnO4Qwf/k8t1O4f1sYX/2edn/
-	6X2Tt85285d9/OL8vH2q8x/oHnG5sSV52bkHc+wsxC+FJr6u63vr9vDaue5lNlOOK7EUZyQa
-	ajEXFScCAN2EHhJEBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjkeLIzCtJLcpLzFFi42LZdlhJXjfxxrc0g8drOCxW3+1ns/i+vY/F
-	4uaBnUwWK1cfZbKYdOgao8XeW9oW85c9ZbdYfvwfk8W61+9ZHDg9zt/byOJx+Wypx6ZVnWwe
-	m5fUe+y+2cDm8fHpLRaPvi2rGD0+b5IL4IjisklJzcksSy3St0vgymj79JKx4AVnxf1Fq5ga
-	GL+zdzFyckgImEhsbzvH3MXIxSEksJtRYv67e1AJcYnmaz+gbGGJlf+es0MUvWaU2HXzAQtI
-	glfATuLFg1PMIDaLgKrEqUl72SDighInZz4BqxEVSJLYc7+RCcQWFgiS2PK4B8xmBlpw68l8
-	MFtEQFni7vyZrCALmAXOMkpM6pzBBLFtA5PEm8NbgTIcHGwCmhIXJpeCNHAKaEnsfXyIEWKQ
-	mUTX1i4oW15i+9s5zBMYhWYhuWMWkn2zkLTMQtKygJFlFaNkakFxbnpusWGBYV5quV5xYm5x
-	aV66XnJ+7iZGcJRpae5g3L7qg94hRiYOxkOMEhzMSiK8Vue+pgnxpiRWVqUW5ccXleakFh9i
-	lOZgURLnFX/RmyIkkJ5YkpqdmlqQWgSTZeLglGpg0nLeuen17dXSf1x2+Iub7gzVc0oIy972
-	pPN/hNVKbfabi+NX+5oE5s2+rRg9aWPO7EkWWzrNEn68fryY3fBqVdimy66xdhndjPH2BqKC
-	UTZMYoEuky/tjXbXsdvX/PifQemCW99Ofv395ELSSXMf9ZNG0qdKN57m+lMX8l9oldGqiJxu
-	1qLva6osHgRFSE+z/3q2yveY95s1c2bYfXFbvSdMsyOFL+SYxb3k2uS42YXiloUWzaYXsn8t
-	8fRKOB1uHvIv/tLvXYd+/fjNUbRwncSLt0bNMbWv0y6FCzUt8yk03fXwZ7CtpbWCuFTLwf8u
-	bDtX8T9hMm2qmaR50uzkF4FtL3Ui95SfsZxtXxauxFKckWioxVxUnAgAAL5/+SEDAAA=
-X-CMS-MailID: 20240927160801epcas5p260ef9a24693c5c34489e559a84243a23
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d
-References: <20240201130126.211402-1-joshi.k@samsung.com>
-	<CGME20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d@epcas5p1.samsung.com>
-	<20240201130126.211402-3-joshi.k@samsung.com> <ZvV4uCUXp9_4x5ct@kbusch-mbp>
-	<8ed2637b-559e-3f27-3d1f-84a4718475fb@samsung.com>
-	<ZvWSFvI-OJ2NP_m0@kbusch-mbp>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240927_090812_124652_3715B62B 
-X-CRM114-Status: GOOD (  16.80  )
+X-CRM114-CacheID: sfid-20240928_201422_932977_AB3C8213 
+X-CRM114-Status: GOOD (  23.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,29 +64,211 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/26/2024 10:25 PM, Keith Busch wrote:
-> On Thu, Sep 26, 2024 at 10:08:09PM +0530, Kanchan Joshi wrote:
->> But there are kernel knobs too. Hope you are able to get to the same
->> state (as nop profile) by clearing write_generate and read_verify:
->> echo 0 > /sys/block/nvme0n1/integrity/read_verify
-> 
-> It's not the kernel's verify causing the failure; it's the end device.
-> For nvme, it'll return status 0x282, End-to-end Guard Check Error, so
-> the kernel doesn't have a chance to check the data. We'd need to turn
-> off the command's NVME_RW_PRINFO_PRCHK_GUARD flag, but there's currently
-> no knob to toggle that.
+Hi guys,
+    I've implemented the NVMe reservation feature. Please review it, all 
+comments are welcome as usual.
 
-Indeed.
-I spent a good deal of time on this today. I was thinking to connect 
-block read_verify/write_generate knobs to influence things at nvme level 
-(those PRCHK flags). But that will not be enough. Because with those 
-knobs block-layer will not attach meta-buffer, which is still needed.
+Changes from v10 to v11:
+- Remove the cntlid from struct nvmet_pr_registrant. And add hostid to
+  nvmet_pr_per_ctrl_ref to set the correct ctrl to do abort.
+- Report all registrants, and report cntlid 0xffff.
+- Change nvmet_req's flags to pc_ref.
 
-The data was written under the condition when nvme driver set the 
-pi_type to 0 (even though at device level it was non-zero) during 
-integrity registration.
+Changes from v9 to v10:
+- Fix the misjudgement in nvmet_pr_unregister_one.
+- Fix the non-atomicity problem in nvmet_pr_preempt, now we set the new
+  holder first before unregistering, this can not only make sure that during
+  unregistering other host can not access, but also ensure that
+  nvmet_pr_unregister_one will not unregiter the new holder(In
+  nvmet_pr_unreg_all_others_by_prkey, I exclude current host).
+- Remove the pr_abort in nvmet_ctrl, instead kill the per-controller percpu ref
+  first and then wait to zero at the end of preempt_and_abort.
+- Fix some spelling mistakes.
 
-Thinking whether it will make sense to have a knob at the block-layer 
-level to do something like that i.e., override the set integrity-profile 
-with nop.
+Changes from v8 to v9:
+- Remove the maintianer request.
+
+- Support "preemt and abort" by adding a per-controller percpu ref to ns,
+  doing wait per-controller percpu ref to zero when a controller's reservation
+  or registration is preempt and the racqa == "preempt and abort".
+  Currently add per-controller percpu ref only when nvmet_pr_check_cmd_access
+  success, others are not cared.
+
+- Report ns support reservation when resv is enabled.
+
+- Report ctrl support reservation.
+
+- Change the log level to info when log lost.
+
+- Fix the UAF issue in nvmet_pr_unreg_by_prkey, and change nvmet_pr_unreg_by_prkey
+  to nvmet_pr_unreg_all_host_by_prkey.
+
+- Dont unregister the host when ctrl is destroyed for keep the reservation info
+  when reconnect.
+
+- Remove the rcu lock and mutex lock when free ns's pr info.
+
+- Fix the situation of log.count is zero.
+
+- Move the rtype check to the start of preemtion, Dmitry suggests that:
+    1.4.1.6 reserved
+    Receipt of reserved coded values in defined fields in
+    commands shall be reported as an error. 
+  Look forward the suggestions.
+  And also, this avoid the non-atomic change of unregister and set new holder.
+
+- Fix the compile error when close CONFIG_LOCKDEP.
+
+- Change nvmet_pr_send_event_by_hostid to nvmet_pr_send_event_to_host.
+
+- Change nvmet_pr_unreg_by_prkey_except_hostid to nvmet_pr_unreg_all_others_by_prkey.
+
+- Change nvmet_pr_unreg_by_prkey to nvmet_pr_unreg_all_host_by_prkey.
+
+Changes from v7 to v8:
+- Add me as the new file pr.c's maintainer.
+
+Changes from v6 to v7:
+- Handle "reservation notification mask" feature command to mask reservation
+log.
+
+- Add all the registrants that need to be freed to a temporary list fist,
+and then after calling synchronize_rcu(), release all the registrants on the
+temporary list.
+
+- Fix the resv log page is random when there is no resv log page.
+
+- Change nvmet_is_host_still_connected() to nvmet_is_host_connected().
+
+- Remove nvmet_pr_set_rtype_and_holder() and change nvmet_pr_create_new_resv()
+to nvmet_pr_create_new_reservation().
+
+- Change nvmet_pr_find_registrant_by_hostid() to nvmet_pr_find_registrant().
+
+- Change nvmet_pr_send_resv_released() to nvmet_pr_resv_released().
+
+- Change __nvmet_pr_unregister_one() to nvmet_pr_unregister_one().
+
+- In nvmet_pr_unreg_by_prkey(), nvmet_pr_unreg_by_prkey_except_hostid() and
+nvmet_pr_unreg_except_hostid(), first do unregistering and then do event sending.
+
+
+Changes from v5 to v6:
+- Use synchronize_rcu() and kfree() to free registrant instead of kfree_rcu().
+
+- Remove nvmet_pr_register_check_rkey(), put the check into pr_lock warp.
+And refactor the nvmet_pr_register().
+
+- Add the print fmt to the head.
+
+- Add lockdep_is_held(&pr->pr_lock) condition to list_for_each_entry_rcu.
+
+- Fix the bug in nvmet_pr_update_reg_attr(), when the change_attr hook
+return fail, we should not replace the holder. 
+
+Changes from v4 to v5:
+
+- Use rculist macros to handle registration_list instead of list macros
+regardless of in mutex lock or not.
+
+- Use goto statement instead of return in nvmet_is_host_still_connected 
+and __nvmet_pr_unregister_one.
+
+- Add lockdep_assert_held and rcu_read_lock_held assert to many functions,
+if it's necessary.
+
+- Add a comment to nvmet_execute_get_log_page_resv to explain how lost_count
+works.
+
+- In nvmet_pr_clear, we should set holder to NULL first, I fixed this.
+
+- Unify nvmet_pr_update_holder_rtype and __nvmet_pr_do_replace to 
+nvmet_pr_update_reg_attr.
+
+- Fix wrong nr_pages in nvmet_execute_get_log_page_resv.
+
+- Fix the deadlock issue of nvmet_pr_exit_ns, put it out of the subsys lock.
+
+
+Changes from v3 to v4:
+- Use kfifo to handle resv log page instead of list, and also limit the
+resv log queue to 64.
+
+- Change the function calling alignment style to:
+    nvmet_pr_send_event_by_hostid(pr, hostid,
+            NVME_PR_LOG_RESERVATOPM_PREEMPTED); 
+
+- Put kmalloc out of rcu_read_lock in nvmet_execute_pr_report().
+
+- Remove the goto in __nvmet_pr_unregister_one().
+
+- Change generation to atomic_t, and remove nvmet_pr_inc_generation().
+
+- In addtion, the number2 patch "nvmet: unify aer type enum" is not
+relate with this patch, so I will send it separately.
+
+
+Changes from v2 to v3:
+- Use rcu instead of rwlock to make IO path run faster, and put the rtype
+into the struct nvmet_pr_registrant.
+
+- Limit the resv_log_list to 128.
+
+- Change generation to atomic64.
+
+- Put register rkey check to a warpper.
+
+- Change nr_avl_pages to nr_pages.
+
+- Use NVME_SC_SUCCESS instead of 0.
+
+- Change kmalloc param to let it not sleep in mutex lock.
+
+
+Changes from v1 to v2:
+- Implement the reservation notification report, includes registration
+preempted, reservation released and reservation preempted.
+  And also handle the reservation log page available event and send get
+reservation log page command to clear log page at host.
+
+- Put the reservation check access after validate opcode. And remove
+opcodes which nvmet not implement yet check.
+  Now there is no admin opcode nvmet implemented needs reservation check,
+so I dont add reservation check to admin command path.
+  Next we need to do reservation check includes the situation of nsid is
+0xffffffff at each admin command path, if it is needed.
+
+- Add reservation commands support in nvmet_get_cmd_effects_nvm().
+
+- From Chaitanya, change the local variable tree style to make it cleaner,
+and add some comments about NVMe spec.
+  And also change others advice from chaitanya.
+
+- Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
+enable check warp.
+
+- Remove kmem_cache instead to use kmalloc and kfree.
+
+- Change others advice from Sagi.
+
+- Add a blktest test case, this patch will be sent before these series of
+patches.
+
+Guixin Liu (1):
+  nvmet: support reservation feature
+
+ drivers/nvme/target/Makefile      |    2 +-
+ drivers/nvme/target/admin-cmd.c   |   24 +-
+ drivers/nvme/target/configfs.c    |   27 +
+ drivers/nvme/target/core.c        |   56 +-
+ drivers/nvme/target/fabrics-cmd.c |    4 +-
+ drivers/nvme/target/nvmet.h       |   50 +-
+ drivers/nvme/target/pr.c          | 1177 +++++++++++++++++++++++++++++
+ include/linux/nvme.h              |   54 ++
+ 8 files changed, 1382 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/nvme/target/pr.c
+
+-- 
+2.43.0
+
 
