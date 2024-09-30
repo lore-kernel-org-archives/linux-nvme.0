@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D0B4CE837D
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Sep 2024 18:21:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E619CE837F
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Sep 2024 18:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=4LBDHSJVU1H97AxnvlyhnVRQZzY6KCoCAgte1h6Y9Ng=; b=4ibMjKjFoRhy7HVtXh23nm3dZZ
-	kXdotLdUVQoK1wyVOZOYqZ+zdbVyIEHi79m8IyPFrsViTUYHrB86b/xx9qsYDfWzNJlOzzbJQ6Z8b
-	aEYkDEP3X31LvICCMPrup08lMjeiBQCGp6yNXe/IcBuWevsQIvQbXkjh5OVU/qQ9Dn2lfI+G5Dmep
-	GABqQk7IOyVTGfHD22LKjnXlev4MiVouXxV3p+Xz02U2SVcYf652NsspnvrjuRWdQMiJYpHwbJKTB
-	MNy5cCEHDwlhUv4B+CCyuwRna63gKmttzk67+w28eO5vR5OCUp6/YVk9bEOU74u/AtUmGdJwNdfcI
-	qIJKrjJw==;
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hyooDSKS7SUXPMRtV3IrWwIut5VpyE7/Ysl0cxIi+DA=; b=gOBgeU+R4YjviSbesFjEE8ucvD
+	9ffhQ47OqCWUUub2SdSIXdzDbfZpj9wlHj/mIUw++Bg/nJfMzo7bp281sW8tWLAzg+/h3kWyd84tb
+	P9PKT2fybrn2cqp+fC84zT29h2S4KUxiWjYS0bkiuoigCV+7KsgXVyu5yDTnsRftbAWJOeiymtNm9
+	ksJVYmd04nBJDoqzeX4AkU7sGzp4IrpznSfIvI24RXuxTWehv0FZL/gZbqNRg7y5g2g29qO71swQA
+	YFo2UIpFP0VwJPCwvKnRCkFoUXXmwyZw9SbVQDvx8dZATP0raHz4c1fdcgZ2RopiIqyC7CFXzWtuA
+	xQ5iLsjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1svL19-00000000Udf-05ED;
-	Mon, 30 Sep 2024 18:21:07 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1svL1C-00000000Ufu-07HA;
+	Mon, 30 Sep 2024 18:21:10 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1svL13-00000000Uae-2G7W
+	id 1svL17-00000000Uc5-1r5k
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Sep 2024 18:21:05 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240930182056epoutp021f6915dcdaf1a48cedb8931911be05bf~6GJnYNcjM0776207762epoutp02l
-	for <linux-nvme@lists.infradead.org>; Mon, 30 Sep 2024 18:20:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240930182056epoutp021f6915dcdaf1a48cedb8931911be05bf~6GJnYNcjM0776207762epoutp02l
+	Mon, 30 Sep 2024 18:21:08 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240930182102epoutp01c4dc028dd66b7fc2f1bb3815fe3a1973~6GJtotAs41699216992epoutp01j
+	for <linux-nvme@lists.infradead.org>; Mon, 30 Sep 2024 18:21:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240930182102epoutp01c4dc028dd66b7fc2f1bb3815fe3a1973~6GJtotAs41699216992epoutp01j
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1727720456;
-	bh=4LBDHSJVU1H97AxnvlyhnVRQZzY6KCoCAgte1h6Y9Ng=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=PDIWA60HsX66Yl+6XwMQcuV3CMKnrJla0HRWBvwhf4xdjjAzMLLAFTTHV6HAVDsES
-	 XM5grzbVxVObCatYW2KVmn13bfWdUaorWL0HmOWQL0yOf2CUo+AZCR01BpCZlxNQrm
-	 4xo9hvZh9WIKE2rdr83ydHlDnyL9g5XLv10wS1cU=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240930182055epcas5p1846d3252efb056c9fe61062565594212~6GJmjkRcY1760617606epcas5p17;
-	Mon, 30 Sep 2024 18:20:55 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4XHTsK3WZsz4x9Pp; Mon, 30 Sep
-	2024 18:20:53 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BB.C9.09420.50CEAF66; Tue,  1 Oct 2024 03:20:53 +0900 (KST)
+	s=mail20170921; t=1727720462;
+	bh=hyooDSKS7SUXPMRtV3IrWwIut5VpyE7/Ysl0cxIi+DA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Ew3s4BtbXf8v0ezKEctp91YN2XePSsT123lKrEr78iFn9hTGJNle4FwSHkh6V2J6z
+	 h6jRodhABerI3mbQ72JzG3bp40/6nR5Q9/HXI1zijQ7pEmyKIcYUYSAd5Xyg3pJs9t
+	 YJznOp5WLFn0tK7Z3aOvG12sjjvPtbPGLD4fu+ac=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240930182102epcas5p4995ee0bade62c149e74e02e48a74482a~6GJtHQqZa0453304533epcas5p4O;
+	Mon, 30 Sep 2024 18:21:02 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4XHTsS3ckHz4x9Pq; Mon, 30 Sep
+	2024 18:21:00 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BF.88.08574.C0CEAF66; Tue,  1 Oct 2024 03:21:00 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
 	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240930182052epcas5p37edefa7556b87c3fbb543275756ac736~6GJkcXrLq2353623536epcas5p3t;
-	Mon, 30 Sep 2024 18:20:52 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	20240930182100epcas5p31a010c225f3c76aa4dc54fced32abd2a~6GJrC6v632158621586epcas5p3E;
+	Mon, 30 Sep 2024 18:21:00 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
 	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240930182052epsmtrp2c5610fcd20805f353e1d082217316a9e~6GJkbaWbv2734327343epsmtrp2g;
-	Mon, 30 Sep 2024 18:20:52 +0000 (GMT)
-X-AuditID: b6c32a49-0d5ff700000024cc-38-66faec05defa
+	20240930182100epsmtrp2930bb9ae674a89b937077c890d8a79de~6GJrCAAv52734427344epsmtrp2c;
+	Mon, 30 Sep 2024 18:21:00 +0000 (GMT)
+X-AuditID: b6c32a44-6dbff7000000217e-e3-66faec0cf793
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	4C.79.18937.40CEAF66; Tue,  1 Oct 2024 03:20:52 +0900 (KST)
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	61.19.08229.B0CEAF66; Tue,  1 Oct 2024 03:20:59 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240930182049epsmtip23462ac72f0fbc210f05d50b83d060b98~6GJhYF2Fl2298222982epsmtip23;
-	Mon, 30 Sep 2024 18:20:49 +0000 (GMT)
+	20240930182056epsmtip225762a12393553a4f7235980b0e9161b~6GJn1QD4f2505325053epsmtip2M;
+	Mon, 30 Sep 2024 18:20:56 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
 To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, hare@suse.de,
 	sagi@grimberg.me, martin.petersen@oracle.com, brauner@kernel.org,
@@ -72,60 +72,62 @@ To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, hare@suse.de,
 Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
 	io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
 	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Kanchan
-	Joshi <joshi.k@samsung.com>
-Subject: [PATCH v7 0/3] FDP and per-io hints
-Date: Mon, 30 Sep 2024 23:43:02 +0530
-Message-Id: <20240930181305.17286-1-joshi.k@samsung.com>
+	Joshi <joshi.k@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>
+Subject: [PATCH v7 2/3] block, fs: restore kiocb based write hint processing
+Date: Mon, 30 Sep 2024 23:43:04 +0530
+Message-Id: <20240930181305.17286-3-joshi.k@samsung.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240930181305.17286-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TfVDTZRy/57ffXkAHPxncnqgQdyedKLDVwIdOIgm7H7k/uMzs6jxc7Mfb
-	2It7KUE7CA+JgUiECIMQiaC2O4iJAgHJjQgtA0qxxgmSDCUYzFhiyFsbm+V/n+/n+Xy/n/t8
-	n+dh0fwcjEBWulxDqeTiTB7DG7/ctyM0jG57nMJvucBBNYbLABnHzjCQbq0NR7N9CwBVPFii
-	ofm8ZRxZejsx1F1fhqGvjf0Yms8fxFH1uZMYsrboaWjytoOJ+tfnGKjMfAug8oo8gHpGd6Lu
-	nms4Ot84xURNA2sYap6142hodYCOhvQ1zFe55I2b+8lO/RiTHBpvxckbP2tJk6GQQZoWypjk
-	xYYcssuSyyD/mhrFSft3IwyypM0AyOt13zsPfzpOOkxBpMk6hyX6vivdk0aJJZQqmJInKyTp
-	8tQY3v4DSa8lRUbxBWGCaLSbFywXy6gYXrwoMez19EznDnjBH4gztU4qUaxW8yJe2aNSaDVU
-	cJpCrYnhUUpJplKoDFeLZWqtPDVcTmleFvD5L0Y6hUekacVdwwzllS3HVswjIBeUsnXAiwUJ
-	IVw6dQfTAW+WH9EFoO3+bbq7WADwK9sM7lJtFPqiuCcdZ6w/ekSdANb3XmW6CweAhrpahg6w
-	WAxiBxz+TOvi/YlyDFqMho1JNGIVQLNF5MIcYhc0Dp3f4HFiO6zuu0p3YTaBYH/+LeB22wqr
-	fn3EdPNb4LUqq2fOVnjyUjXNZQCJAi+4OD/laYiHQ6uzuBtz4MxAG9ONA6FjvofhxlI4cXfC
-	ozkBOy6W0N04Fuau/E53BaA5A7R8G+H28oGnl62Yi4YEG35yys+t3gbHy6Y8nVz4R2WDB5NQ
-	33mT4V7cYVhkrqWVgiD9Uwn0TyXQ/29WB2gG8AylVMtSKXWkUiCnPvzvLpMVMhPYeP2hCR1g
-	bOJBuBlgLGAGkEXj+bPHzUspfmyJOCubUimSVNpMSm0Gkc61fkoLDEhWOL+PXJMkEEbzhVFR
-	UcLol6IEPC57Nv9ziR+RKtZQUopSUqonfRjLKzAXi20UvGk/F33XKH//BBZQlxEXNtMwqC+c
-	1LF2cw9Z3iqS+RpGC/78hXz0Rbdc11oynf1DsndTZU5nCtF6JAmwL8w5Qu+L38jale3T/GXt
-	3NGFON/nSr8pZB4os+ZfetYnbO8hk4jzMGRtb1XteM2VzVPLi8PHr4s6KFmAbdOxpZHRj4jf
-	emcLirkhvW+fPZ2Sau8pWdw0EnsvtGsga/vm9cOadjPe/reXZGfGw9Z60VF7wjaWbaBdOENN
-	Nt1p/PifSW55x0p85XTC4LSwRK2q8M944Xmj7/jB9bwgHfMsflBqu5dvj4gVzb1HcnqbHyta
-	LenKd3IDihO79mnHpBx+TgjOw9VpYkEoTaUW/wv9VadwhgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsWy7bCSvC7Lm19pBnfu6FnMWbWN0WL13X42
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta1AbVRT27m6yAUtZoAwXHAuuUQSHkFjAixZ1ptSuA7U46Iz4o7gmC2ES
+	QiYJD8UBSmmHZoDSgFCgCArCJChYSpFXmPIq7fgAwT6gwNAWflAotESsiFATFrX/vnPOd853
+	v3PniHD3PNJHlKQxcDoNq6aFzkT7QMBLQbuW/kqQTvVAdM7SDlDT9GkhMm61EWhxYBWgsgfr
+	OFrO3SDQxKVODPV8bcKQuWkIQ8snfiFQVflxDM21VOLo7pSNREOP7wuRqf86QKVluQBZJ19G
+	PdarBKppmCdR4/AWhto3anDUvLhCoJHNYQEaqTxHvgWZ8d+imM7KaZIZmTlPMOM/pzKtllNC
+	pnXVRDIX6rOZ7okcIfNwfpJgVnqvCZmiNgtgfqodtBd/zGRsrXuZ1rn7WIzrR6r9So5VcDo/
+	TiNPUSRpEiPoqNj4A/GhYVJZkCwcvUr7adhkLoKOjI4JejtJbV8E7ZfGqlPtqRhWr6eD39iv
+	S0k1cH7KFL0hgua0CrU2RCvRs8n6VE2iRMMZXpNJpa+E2okfq5RlpgpSe0OScbK8XJgDRl80
+	ApEIUiHwwQ96I3AWuVPdAE6UrmN8sArgmjmX5IM/ALx3rQc3AqftjrsrdwBfsAJY1ndmJ7AB
+	uP59L+GYK6QC4GhJqiO/hyrF4ESThXB041Q9Bm/MujqwBxUNRx+2CByYoF6At/LrSQd2oRCc
+	KqgmeTVfWDH2aBs7UeGwZDwf5zlu8GrF3M5MX3j8YhXuEINUoxPsnijYeWokNI5/C3jsAe8N
+	t+0M9YG2ZauQxyo4e2eW4PHnsONCkYDHb8Kcv28KHGZwu5mWrmBeazcs3JjD+N25wPyT7jz7
+	OThjmt/p9IK3z9YLeAoDm45l8espANB8eRIvBr6VTziofMJB5f9itQC3AG9Oq09O5OShWpmG
+	S//vX+Upya1g+xwCIzvAzZotST/ARKAfQBFO73GZ6V9PcHdRsJ9+xulS4nWpak7fD0LtKz6D
+	+3jKU+z3pDHEy0LCpSFhYWEh4fvCZLSXy+KJaoU7lcgaOBXHaTndv32YyMknB1NcKvH6rjha
+	8CGnEnc65+0Tu/qPpIcb8MddAx+0ez8vNsfNZHjCwW9YrTmuV6I6tiXxlOunI4KefS/K+crk
+	wS/nD/1+pAEyi17ery/uWrhsanmXGyqK9vhq4UBPeuEn1xefEV+EHDWW/r5SfcUQf0uwElDY
+	IY/ae3gwOM0ca14alpyua2ASqpTWP+liJ+NyWNapp6yb3c2/5kX2TUVuJov9AhuzJx+x/s05
+	Av8yNZHWlb90aKHd3+N2/oHshky6aSz0qPIwOZRxdvDp8iXa2+YjLrYIXedK8qozRJmxtjVy
+	1ig9snbU953d54GSq8sKTo7ZMsy4uvXX9sV94TZTRxN6JSsLxHV69h/5BX4vlwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsWy7bCSvC73m19pBl82GlnMWbWN0WL13X42
 	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLG4e2MlksWfRJCaLlauPMlm8az3HYjF7ejOTxZP1s5gt
-	Ht/5zG5x9P9bNotJh64xWkyZ1sRosfeWtsWevSdZLOYve8pusfz4PyaLda/fs1ic/3uc1eL8
-	rDnsDuIel694e+ycdZfd4/y9jSwel8+Wemxa1cnmsenTJHaPzUvqPXbfbGDz+Pj0FovH+31X
-	2Tz6tqxi9Diz4AhQ8nS1x+dNch6bnrxlCuCP4rJJSc3JLEst0rdL4Mro2X2BrWC/YMWfQ1cZ
-	Gxgn8HYxcnJICJhI9D85xdrFyMUhJLCdUeLgjKlMEAlxieZrP9ghbGGJlf+es0MUfWSU6D/w
-	CKiIg4NNQFPiwuRSkLiIwAomiW1P/rKAOMwC7UwS1ybeZQbpFhbQkVh9fj4LiM0ioCox+/AJ
-	VhCbV8BC4mjrNUaIDfISMy99Z4eIC0qcnPkErJ4ZKN68dTbzBEa+WUhSs5CkFjAyrWIUTS0o
-	zk3PTS4w1CtOzC0uzUvXS87P3cQIjk2toB2My9b/1TvEyMTBeIhRgoNZSYT33qGfaUK8KYmV
-	ValF+fFFpTmpxYcYpTlYlMR5lXM6U4QE0hNLUrNTUwtSi2CyTBycUg1M5ebHPAwbpMTKpmy7
-	2xZzIeH/kuBT+u/+X7N4IBPm4XM3stP6gvzpO/cOXP273NTS4NeEU6WzX5yKaAq5bZ29P6Wp
-	p/+8wbmQkr7UxZ+bn7Mpvf9c91eofuILF8uVyYtnH2p5zOs2tceJLXOmgFu8+waJf00N5kt3
-	bfr92sX88QIGHpco+X3SrOw+2snrU1bs4C6I2PPqOv+D2uRrqb9+NYe+NF6XIvTXbPaDkvOa
-	/SXsRj4LuEXTJ9/8mHBc+0JKU+U23nN/7HbMY5Hd789xMKJ534VXtu8vXl6f08Roybqn/MuW
-	AztarOxXBkesm1C45e8G19nrl7QKFBu4mt6TWnsosOOX60y9lh6Z3ysMlViKMxINtZiLihMB
-	v38qDjwDAAA=
-X-CMS-MailID: 20240930182052epcas5p37edefa7556b87c3fbb543275756ac736
+	Ht/5zG5x9P9bNotJh64xWkyZ1sRosfeWtsWevSdZLOYve8pusfz4PyaLbb/nM1use/2exeL8
+	3+OsFudnzWF3kPC4fMXbY+esu+we5+9tZPG4fLbUY9OqTjaPTZ8msXtsXlLvsftmA5vHx6e3
+	WDze77vK5tG3ZRWjx5kFR4CSp6s9Pm+S89j05C1TAH8Ul01Kak5mWWqRvl0CV8a0STPZC67r
+	VbRNn87WwHhBrYuRk0NCwETi8ftHjF2MXBxCArsZJSa1PWKCSIhLNF/7wQ5hC0us/PcczBYS
+	+Mgo8Xu7XBcjBwebgKbEhcmlIL0iAiuYJLY9+csC4jALbGCSaFmyB6xBWMBH4sLH9awgNouA
+	qsTtjiVgcV4BC4k7PXOhFshLzLz0HczmFLCUmHy5gxliGVDNj3ZmiHpBiZMzn7CA2MxA9c1b
+	ZzNPYBSYhSQ1C0lqASPTKkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4NjW0tzBuH3V
+	B71DjEwcjIcYJTiYlUR47x36mSbEm5JYWZValB9fVJqTWnyIUZqDRUmcV/xFb4qQQHpiSWp2
+	ampBahFMlomDU6qBKW+jUabEh4xw7p9fnPfs1d30w2e7RyHX8+oosWDti/Gr126e/X/Dmjce
+	hj9vCDvX3Xmn57fLSfncGmvvo+wXkw5V/IxbmvWU7/neT7vjd91Nd/BkWXzye35Vx5y60Om7
+	a7VPWK/k1eiul17j2KexZkt5s6lsvbBgvOrlku/tPIWBCUwbljz0vrx5e3zbLtUN/w80zA1m
+	3NGmY+F9KjY5b9bekgk/jF+Eu27b+yP/LNf3iIp/gu1J9XnXjW0USqp3b58sW5S1dfP30tNW
+	X0OELBQvns6uqf3Tajl9mZWi5raDnazen5f3mJypyLnAc61OWkEv5IFIBNNUFu/b09UWHg7M
+	zJc5UnLGR7ggJnutEktxRqKhFnNRcSIAH9aBE1wDAAA=
+X-CMS-MailID: 20240930182100epcas5p31a010c225f3c76aa4dc54fced32abd2a
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240930182052epcas5p37edefa7556b87c3fbb543275756ac736
-References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com>
+X-CMS-RootMailID: 20240930182100epcas5p31a010c225f3c76aa4dc54fced32abd2a
+References: <20240930181305.17286-1-joshi.k@samsung.com>
+	<CGME20240930182100epcas5p31a010c225f3c76aa4dc54fced32abd2a@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240930_112102_063332_FA3FE4CD 
-X-CRM114-Status: GOOD (  14.86  )
+X-CRM114-CacheID: sfid-20240930_112105_842264_CEAAD7D5 
+X-CRM114-Status: GOOD (  24.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,71 +142,164 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Another spin to incorporate the feedback from LPC and previous
-iterations. The series adds two capabilities:
-- FDP support at NVMe level (patch #1)
-- Per-io hinting via io_uring (patch #3)
-Patch #2 is needed to do per-io hints.
+struct kiocb has a 2 bytes hole that developed post commit 41d36a9f3e53
+("fs: remove kiocb.ki_hint").
+But write hint has made a comeback with commit 449813515d3e ("block, fs:
+Restore the per-bio/request data lifetime fields").
 
-The motivation and interface details are present in the commit
-descriptions.
+This patch uses the leftover space in kiocb to carve 1 byte field
+ki_write_hint.
+Restore the code that operates on kiocb to use ki_write_hint instead of
+inode hint value.
 
-Testing:
-Done with fcntl and liburing based custom applications.
-On raw block device, ext4, xfs, btrfs and F2FS.
-Checked that no regression occurs for application that use per-inode
-hints.
-Checked that per-io hints, when passed, take the precedence over per-inode
-hints.
+This does not bring any behavior change, but needed to enable per-io
+hints (by another patch).
 
-Changes since v6:
-- Change io_uring interface to pass hints as SQE metadata (Pavel, Hannes)
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ block/fops.c         | 6 +++---
+ fs/aio.c             | 1 +
+ fs/cachefiles/io.c   | 1 +
+ fs/direct-io.c       | 2 +-
+ fs/iomap/direct-io.c | 2 +-
+ include/linux/fs.h   | 8 ++++++++
+ io_uring/rw.c        | 1 +
+ 7 files changed, 16 insertions(+), 5 deletions(-)
 
-Changes since v5:
-- Drop placement hints
-- Add per-io hint interface
-
-Changes since v4:
-- Retain the size/type checking on the enum (Bart)
-- Use the name "*_lifetime_hint" rather than "*_life_hint" (Bart)
-
-Changes since v3:
-- 4 new patches to introduce placement hints
-- Make nvme patch use the placement hints rather than lifetime hints
-
-Changes since v2:
-- Base it on nvme-6.11 and resolve a merge conflict
-
-Changes since v1:
-- Reduce the fetched plids from 128 to 6 (Keith)
-- Use struct_size for a calculation (Keith)
-- Handle robot/sparse warning
-
-Kanchan Joshi (3):
-  nvme: enable FDP support
-  block, fs: restore kiocb based write hint processing
-  io_uring: enable per-io hinting capability
-
-Kanchan Joshi (3):
-  nvme: enable FDP support
-  block, fs: restore kiocb based write hint processing
-  io_uring: enable per-io hinting capability
-
- block/fops.c                  |  6 +--
- drivers/nvme/host/core.c      | 70 +++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h      |  4 ++
- fs/aio.c                      |  1 +
- fs/cachefiles/io.c            |  1 +
- fs/direct-io.c                |  2 +-
- fs/fcntl.c                    | 22 -----------
- fs/iomap/direct-io.c          |  2 +-
- include/linux/fs.h            |  8 ++++
- include/linux/nvme.h          | 19 ++++++++++
- include/linux/rw_hint.h       | 24 ++++++++++++
- include/uapi/linux/io_uring.h | 19 ++++++++++
- io_uring/rw.c                 | 24 ++++++++++++
- 13 files changed, 175 insertions(+), 27 deletions(-)
-
+diff --git a/block/fops.c b/block/fops.c
+index e696ae53bf1e..85b9b97d372c 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -74,7 +74,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *iocb,
+ 		bio_init(&bio, bdev, vecs, nr_pages, dio_bio_write_op(iocb));
+ 	}
+ 	bio.bi_iter.bi_sector = pos >> SECTOR_SHIFT;
+-	bio.bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
++	bio.bi_write_hint = iocb->ki_write_hint;
+ 	bio.bi_ioprio = iocb->ki_ioprio;
+ 	if (iocb->ki_flags & IOCB_ATOMIC)
+ 		bio.bi_opf |= REQ_ATOMIC;
+@@ -203,7 +203,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
+ 
+ 	for (;;) {
+ 		bio->bi_iter.bi_sector = pos >> SECTOR_SHIFT;
+-		bio->bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
++		bio->bi_write_hint = iocb->ki_write_hint;
+ 		bio->bi_private = dio;
+ 		bio->bi_end_io = blkdev_bio_end_io;
+ 		bio->bi_ioprio = iocb->ki_ioprio;
+@@ -319,7 +319,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
+ 	dio->flags = 0;
+ 	dio->iocb = iocb;
+ 	bio->bi_iter.bi_sector = pos >> SECTOR_SHIFT;
+-	bio->bi_write_hint = file_inode(iocb->ki_filp)->i_write_hint;
++	bio->bi_write_hint = iocb->ki_write_hint;
+ 	bio->bi_end_io = blkdev_bio_end_io_async;
+ 	bio->bi_ioprio = iocb->ki_ioprio;
+ 
+diff --git a/fs/aio.c b/fs/aio.c
+index e8920178b50f..db618817e670 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -1517,6 +1517,7 @@ static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb, int rw_type)
+ 	req->ki_flags = req->ki_filp->f_iocb_flags | IOCB_AIO_RW;
+ 	if (iocb->aio_flags & IOCB_FLAG_RESFD)
+ 		req->ki_flags |= IOCB_EVENTFD;
++	req->ki_write_hint = file_write_hint(req->ki_filp);
+ 	if (iocb->aio_flags & IOCB_FLAG_IOPRIO) {
+ 		/*
+ 		 * If the IOCB_FLAG_IOPRIO flag of aio_flags is set, then
+diff --git a/fs/cachefiles/io.c b/fs/cachefiles/io.c
+index 6a821a959b59..c3db102ae64e 100644
+--- a/fs/cachefiles/io.c
++++ b/fs/cachefiles/io.c
+@@ -309,6 +309,7 @@ int __cachefiles_write(struct cachefiles_object *object,
+ 	ki->iocb.ki_pos		= start_pos;
+ 	ki->iocb.ki_flags	= IOCB_DIRECT | IOCB_WRITE;
+ 	ki->iocb.ki_ioprio	= get_current_ioprio();
++	ki->iocb.ki_write_hint  = file_write_hint(file);
+ 	ki->object		= object;
+ 	ki->start		= start_pos;
+ 	ki->len			= len;
+diff --git a/fs/direct-io.c b/fs/direct-io.c
+index bbd05f1a2145..73629e26becb 100644
+--- a/fs/direct-io.c
++++ b/fs/direct-io.c
+@@ -409,7 +409,7 @@ dio_bio_alloc(struct dio *dio, struct dio_submit *sdio,
+ 		bio->bi_end_io = dio_bio_end_io;
+ 	if (dio->is_pinned)
+ 		bio_set_flag(bio, BIO_PAGE_PINNED);
+-	bio->bi_write_hint = file_inode(dio->iocb->ki_filp)->i_write_hint;
++	bio->bi_write_hint = dio->iocb->ki_write_hint;
+ 
+ 	sdio->bio = bio;
+ 	sdio->logical_offset_in_bio = sdio->cur_page_fs_offset;
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index f637aa0706a3..fff43f121ee6 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -397,7 +397,7 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
+ 		fscrypt_set_bio_crypt_ctx(bio, inode, pos >> inode->i_blkbits,
+ 					  GFP_KERNEL);
+ 		bio->bi_iter.bi_sector = iomap_sector(iomap, pos);
+-		bio->bi_write_hint = inode->i_write_hint;
++		bio->bi_write_hint = dio->iocb->ki_write_hint;
+ 		bio->bi_ioprio = dio->iocb->ki_ioprio;
+ 		bio->bi_private = dio;
+ 		bio->bi_end_io = iomap_dio_bio_end_io;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index e3c603d01337..3dfe6de7b611 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -370,6 +370,7 @@ struct kiocb {
+ 	void			*private;
+ 	int			ki_flags;
+ 	u16			ki_ioprio; /* See linux/ioprio.h */
++	enum rw_hint		ki_write_hint;
+ 	union {
+ 		/*
+ 		 * Only used for async buffered reads, where it denotes the
+@@ -2337,12 +2338,18 @@ static inline bool HAS_UNMAPPED_ID(struct mnt_idmap *idmap,
+ 	       !vfsgid_valid(i_gid_into_vfsgid(idmap, inode));
+ }
+ 
++static inline enum rw_hint file_write_hint(struct file *filp)
++{
++	return file_inode(filp)->i_write_hint;
++}
++
+ static inline void init_sync_kiocb(struct kiocb *kiocb, struct file *filp)
+ {
+ 	*kiocb = (struct kiocb) {
+ 		.ki_filp = filp,
+ 		.ki_flags = filp->f_iocb_flags,
+ 		.ki_ioprio = get_current_ioprio(),
++		.ki_write_hint = file_write_hint(filp),
+ 	};
+ }
+ 
+@@ -2353,6 +2360,7 @@ static inline void kiocb_clone(struct kiocb *kiocb, struct kiocb *kiocb_src,
+ 		.ki_filp = filp,
+ 		.ki_flags = kiocb_src->ki_flags,
+ 		.ki_ioprio = kiocb_src->ki_ioprio,
++		.ki_write_hint = kiocb_src->ki_write_hint,
+ 		.ki_pos = kiocb_src->ki_pos,
+ 	};
+ }
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index f023ff49c688..510123d3d837 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -1023,6 +1023,7 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
+ 	if (unlikely(ret))
+ 		return ret;
+ 	req->cqe.res = iov_iter_count(&io->iter);
++	rw->kiocb.ki_write_hint = file_write_hint(rw->kiocb.ki_filp);
+ 
+ 	if (force_nonblock) {
+ 		/* If the file doesn't support async, just async punt */
 -- 
 2.25.1
 
