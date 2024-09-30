@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30724CE837E
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Sep 2024 18:21:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E252CCE837D
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Sep 2024 18:21:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ugKqO1XFUpHgwZ5i6JKfBEHH4QrChnfUh9oyqrxgCrM=; b=VfKT+W8gSqCmgiKGvwTv4VwNLf
-	Zlx2HM3yf8T5YAJkmCWoCKVl8gFHuSal099LoZWgmHhUHFMfp4M6Mir29pUMxmKCHHbR1Zjgsc9vD
-	aLGxV9QNuc0BjIRsYHuz670F86Ia2UOxY2SggR08aTZU69J6bBFnKTWpTx4W6VuXKN2rCsNxyo1Js
-	gCAF/+WGCLhHWXE0ZGDt87930kpwuO0YKJkcTaaz9Bj7I/0eZceXZaYRlBc/6VmSlYO60j+qo/3xF
-	dlrsxmBFXJhXOVc4guOvLEJlVRgYBKnzqoLJfitDD6qBAC+Nf0ywDrA4n+EmO9sql/xLZ7C3qfL2V
-	FKSg7wIw==;
+	bh=i2W31PSDLoXfDAIGVqVKpmMhkKotr8fjX0j5n03WZq8=; b=Y5unmTm2GZz2liIwKUpHwfI005
+	lGgH6Fg8Og2h1nk/wSsuguImS9w78RyBMhb6tK9l78mKnmI2Et8XZUy2wh0/PXDh6x+vraI2Uc4UW
+	wcJY0bTBPRMHQtgVVC4AY91JFHCbuXLT0MIRJkJdu+jfQcQ9rx/K+K0sCefkjgoN1GF9+XEX97TSH
+	VOGrklyvFLzxxUII3l3eO9i4zA9wlGBuqobmEVX5K7ptLQniDpGTQkYBftTBzpIRoxpc9jMk4T50V
+	sp9eIQSqb8Gj0X3LL62UMzTAVDk7VZySXbIuE7vRIHcAHnO4+SMdBMKkSXuX2nMrUx/3qr3kv/uWE
+	vHNZqFJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1svL1A-00000000Uef-3szz;
-	Mon, 30 Sep 2024 18:21:08 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1svL1D-00000000UhI-47g2;
+	Mon, 30 Sep 2024 18:21:11 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1svL15-00000000Ubl-43ls
+	id 1svL1A-00000000Ue0-1Q1A
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Sep 2024 18:21:06 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240930182059epoutp0417b01fb06910443b37301b1bbfe07011~6GJqkIFnf2734927349epoutp04j
-	for <linux-nvme@lists.infradead.org>; Mon, 30 Sep 2024 18:20:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240930182059epoutp0417b01fb06910443b37301b1bbfe07011~6GJqkIFnf2734927349epoutp04j
+	Mon, 30 Sep 2024 18:21:10 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240930182106epoutp01ac34f8a3b445116f139bedd88327163b~6GJw2-e5A1696916969epoutp01a
+	for <linux-nvme@lists.infradead.org>; Mon, 30 Sep 2024 18:21:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240930182106epoutp01ac34f8a3b445116f139bedd88327163b~6GJw2-e5A1696916969epoutp01a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1727720459;
-	bh=ugKqO1XFUpHgwZ5i6JKfBEHH4QrChnfUh9oyqrxgCrM=;
+	s=mail20170921; t=1727720466;
+	bh=i2W31PSDLoXfDAIGVqVKpmMhkKotr8fjX0j5n03WZq8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gb8O/I13LoswAsGyFwezFrs0QmXfhr+RhEjfaBXhgieY6/5Q5SmndXjA4hsmy9FMt
-	 YDbGux7mxBJ8b39NGeG4zBYdg+auFVI4Nq8R9L5ocnTH/EZRTfluWtrZ2oTr1+UbpG
-	 G27vibpAvcIaBQXcuaR5hY2jPwSPD5k06rfbB960=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240930182058epcas5p21a572a75fb889e9dfd9f1f6e7bca40e6~6GJp_rk232779327793epcas5p2c;
-	Mon, 30 Sep 2024 18:20:58 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4XHTsP1RKlz4x9Pt; Mon, 30 Sep
-	2024 18:20:57 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CD.88.08574.90CEAF66; Tue,  1 Oct 2024 03:20:57 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240930182056epcas5p33f823c00caadf9388b509bafcad86f3d~6GJnznHct2353623536epcas5p33;
-	Mon, 30 Sep 2024 18:20:56 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240930182056epsmtrp1b5da6756e02254e023ec676f183c2fbc~6GJnyjqDR1255412554epsmtrp1T;
-	Mon, 30 Sep 2024 18:20:56 +0000 (GMT)
-X-AuditID: b6c32a44-93ffa7000000217e-dc-66faec098f95
+	b=QsHPA+I/QTBw7l8n7nxWCl2wIhOubxu9YLtUz9UhKWuRiF9vhY2n5mZlXz4zXXnSx
+	 XXqCt6hLjX6mmjoEJ9MvdNZp60FNPVJ6/fnkHxixASo4rQO2RIADuexzqVJu7feC7W
+	 x58eX3Vftk7OorkD2vBE0GaVD4dLG2+dH9YF5Kmo=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240930182105epcas5p1fb18814d8840786678374931f0f92e5d~6GJwXLI273030330303epcas5p1P;
+	Mon, 30 Sep 2024 18:21:05 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4XHTsX0Pwjz4x9Pp; Mon, 30 Sep
+	2024 18:21:04 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	81.F6.18935.F0CEAF66; Tue,  1 Oct 2024 03:21:03 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d~6GJuPNzpG2069720697epcas5p4T;
+	Mon, 30 Sep 2024 18:21:03 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240930182103epsmtrp225c56587c62c66cc2420497c3a7c41b0~6GJuNAoh_2734327343epsmtrp2p;
+	Mon, 30 Sep 2024 18:21:03 +0000 (GMT)
+X-AuditID: b6c32a50-a99ff700000049f7-74-66faec0f0586
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2E.F8.08227.80CEAF66; Tue,  1 Oct 2024 03:20:56 +0900 (KST)
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B4.29.07371.F0CEAF66; Tue,  1 Oct 2024 03:21:03 +0900 (KST)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240930182052epsmtip24ca5d5c423d8b7db912adba64a332aac~6GJkeXXT42505325053epsmtip2L;
-	Mon, 30 Sep 2024 18:20:52 +0000 (GMT)
+	20240930182100epsmtip2e761add8ecf8f9113294676db34a2524~6GJrCcr9X2505325053epsmtip2N;
+	Mon, 30 Sep 2024 18:20:59 +0000 (GMT)
 From: Kanchan Joshi <joshi.k@samsung.com>
 To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, hare@suse.de,
 	sagi@grimberg.me, martin.petersen@oracle.com, brauner@kernel.org,
@@ -72,64 +72,62 @@ To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, hare@suse.de,
 Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
 	io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
 	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Kanchan
-	Joshi <joshi.k@samsung.com>, Hui Qi <hui81.qi@samsung.com>, Nitesh Shetty
-	<nj.shetty@samsung.com>
-Subject: [PATCH v7 1/3] nvme: enable FDP support
-Date: Mon, 30 Sep 2024 23:43:03 +0530
-Message-Id: <20240930181305.17286-2-joshi.k@samsung.com>
+	Joshi <joshi.k@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>
+Subject: [PATCH v7 3/3] io_uring: enable per-io hinting capability
+Date: Mon, 30 Sep 2024 23:43:05 +0530
+Message-Id: <20240930181305.17286-4-joshi.k@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240930181305.17286-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xTZxjOd85pTwvB1QLjg0RljYyAA+mA8mEER2R6IouQ8GMbc2MdHAsC
-	bdcW3NySMTvuA5UijALhMoRRcLCKCCJzlpHiHJdwRy5BuQxEkMumMgas5eDmv+f53ud5b19e
-	Ds5PJx040VIVrZCKYwVsC6Kh1cXZjfv479MeMz+wUKGuAaDqsQtslL5ZT6D51hWAcpfWcLR4
-	fp1Aw780YehWWTaGqqrbMNRUcZVEi0mdBCrIU2NoqlaLo8nRVRK1bS2wUbZhAKCc3PMAtdw/
-	gG613CVQccU0iSqNmxhqWC/G0Y/zTwjUtWFkoS5tIfmWPdXbF0Q1acdIqmv8J4Lq7Yin9Lo0
-	NqVfySapa+VfUc3DiWxqefo+QT35uZ9NZdXrAPV7ya+m4L0vqFX9Xko/tYCFvBIWcziKFkfS
-	CkdaGiGLjJZK/ARBoeFHw71FHkI3oS/yEThKxXG0nyDwnRC3Y9Gxpm0IHBPEsfGmpxCxUik4
-	6H9YIYtX0Y5RMqXKT0DLI2PlXnJ3pThOGS+VuEtp1SGhh8eb3ibhxzFRFe01mFzj+VlR4Sgr
-	ETS7pAMuB/K8oEG/hKUDCw6f1wxge30DmyErAI6WLu+QpwCW/3ab/cJSVH4ZZwItAOY/XmYx
-	ZNVkSSsE6YDDYfNcYLcm3vxuw8vB4HC1jjATnNeGwdTnQ9uprHke0FDwNTBjgucES+6M4mZs
-	xUMwryIDY8rtg/k9z0gz5vJ8oaY3dUezG97NnyLMGDdp1NcLtluCvFou7KvrIc1dQF4grPwm
-	mMljDR8Z60kGO8C5C8k7OAZOPJwgGPwlbLyWxWLwEZj4zxDLnAY3DVN78yBTahfMXJ/CmOxW
-	MDWZz6hfg+PZ0ztOO/jgu3IWI6HgvaehzHq+BfDKXy3gItinfWkA7UsDaP8vVgJwHbCn5co4
-	CR3hLRdK6bP/fWyELE4Pto/CNbARDBVvuhsAxgEGADm4wMZq3LB2mm8VKf78HK2QhSviY2ml
-	AXibNnwJd7CNkJmuSqoKF3r5eniJRCIvX0+RUGBnNZ9UFMnnScQqOoam5bTihQ/jcB0SMcEN
-	dWm3Wk9qZD1+/hLSribJKePTgY/K47bu2Mx65or8LSz7Nm68bVmZ1L88k8dHCR1Hgrw/qJi8
-	7DS5/CBgLWfemLa2mvLMIsH+krH1uv8ui5GUT2KpTPexjvaeTO1KvqR//HtUdcL4qImbtN/V
-	2GG9+EZplSz4UPdVdcCHk6c2RkQz1a8uL+13NmaFj2hm58oG/9QdfX2gOfR4XxZQGzIb0yer
-	TpbNlWpn93YX3Q6uf9d7wadm0OEP32LN7JmCAM6xZAF368SE7bnOPWmnOlLszzSiwYvzdSd9
-	+i0vhO7pLK2Ls3sv7ID/wzFYeWX9rNdN1CAN65973kJmOO9WvG8bJCCUUWKhK65Qiv8FFU3g
-	fJ0EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02RfyyUcRzH932ex/M8bjOPk/meUuu2fgnpl3016ZfqWfVHf5XVmi4eunLu
-	duekQiLDtVSUcs7cDNWV1OFk1HIlSXES0Y4tTs0uPy79cJVTTm399/7s9f7xx4fG+e2EDy2O
-	T+Dk8aI4IckjDE+EiwLoTz9igoY7vZBGZwDodv9FEqkcNQSyPvkMUMGEHUdj6T8J1Pe4HkON
-	pXkYunW7GUP1FZUUGstsJ1DRtQwMWarUOBoyT1KoeWaURHnGHoCuFKQD9PDdStT4sJVAJRXD
-	FLrR4sCQ4WcJju5axwnUMd3igjrUGmqzgO16s5utV/dTbMfAfYLteqVk9bocktV/zqPY6rIz
-	bENfGsnaht8R7PijbpLNrdEB9qX26R/Ydpqd1C9k9ZZRbK/7AV5oNBcnTuTkq8IO845WPL+D
-	yfLXJhVrzC5poGGFCrjSkFkHi8uu4irAo/lMA4CmystgDnjDjJ4pak57wluOj07NZ2wA3rQI
-	VICmSWYFNOUrZ7PzmJsYNFimidkDZzoxOJPzhZgNeDJB0Fh01llKMEugtsmMz2o3BsFrFeex
-	uYFFsPD1d+eAKxMC87uy8bkxBM1TWX/9HrC10OLsxP/4M2qL8EuAUf+H1P8hLcB0QMDJFJJY
-	iWK1bE08dyJQIZIolPGxgVFSiR44X+7n9wA06iYCjQCjgRFAGhfOcxsw2mP4btGik6c4uTRS
-	rozjFEYwnyaE3m7frBei+UysKIE7znEyTv6PYrSrTxq20edMqriXKxdm7herA2JGpqis3Kxd
-	Xh5bOnPFe5I6wuxILti7CW/LaKmRTha4hy53X5/Ns2p7l5S6LO9rX3ck5eBQuWH718Ha95kn
-	wyZfNAUN1y0zSMnCc4XBd3oSiweGjh0UrG+v+qH+cAH3/TBtWpqki4ycHnl72VdpspJDdpTs
-	+FW6Mz88yFdaO2pO2RbcHbHU9H1BaP9i3ZcDqVesO7pKYiZWpWyty3XZ5xHy2P9Zr6altlp1
-	XSeNNNrnO+7FVb4WN01s6N5CWZIvRQV7RKT02gRJAebicLkmxPbW/1VVk8wmiX7p6XMo29rc
-	kKYtSkgI+LYxMD19sHQmOYIvJBRHRav9cLlC9BvzoyWIYQMAAA==
-X-CMS-MailID: 20240930182056epcas5p33f823c00caadf9388b509bafcad86f3d
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te1BUVRzm3Hv3AblyW1BOS7HbCjbALOwm4FkHspCBO0oT5tSM1Qzt7F4e
+	7bK77SOpDAiElEnkFcpi4QPbhDHkIaKyZkvE4Gs1sFgIXF4zJgIKiCFC7bJY/vf9fuf7zne+
+	35kfG+fms3jsdLWB1qllKiHTi2hpDw4Red97nCLuL9iEDte2AFQ3cICJCpeaCTTePg1Qxf15
+	HE3mLhDIfukchtqOlWLoZF0HhibzrxOo6mAehkbrTTga+XOGhTr+mWCiUuvvAJVX5AJk6QtF
+	bZYuAlV/P8ZC5s4lDLUsVOPox/EpAtkWOxnIZjrMeh1S3T3bqHOmARZlG2wgqO5rRqqxdh+T
+	apwuZVFNNdnUBXsOk3ow1kdQUxdvMami5lpAXT3yi/PwyufUTGMA1Tg6gSV5v6eMTqNlClon
+	oNVyjSJdnRoj3LYjeUtyZJRYIpJI0UahQC3LoGOEcYlJovh0lXMQQsEnMpXR2UqS6fXC8Nei
+	dRqjgRakafSGGCGtVai0EdowvSxDb1SnhqlpwyaJWPxqpJP4oTLtyb2PtafDM090LTJzwOX1
+	hcCTDckIOPuggVkIvNhcsg3A8f2dwF1MA3jcVMxysbjkHIC3H+9+qrDkDeJukgXAG5X3CXcx
+	A6C97LZTwWYzyWB4o8zo6vuS5Ri019USLjVO1mDwD4e3C/uQsbDjqg1zYYIMgnWnFpbdOCSC
+	JUfrcbcbH1b+9mi570lKYVn3XtzNeR52VY6u3MmHeWeqll8ESbMn7DebMbc4Dn5Tf5Dlxj7w
+	bmfzCubBmUkL042V0DHsINx4N2xtKmK48WaY86SX4QqDO8PUnw93e62G+xdGMVcbkhy4t4Dr
+	Zr8MB0vHVpR+cOhQzQqmYPGsY2W8XwM4VPEloxjwTc9EMD0TwfS/2xGA1wIerdVnpNLySK1E
+	pKZ3/fexck1GI1jeh5CkVlB3ejHMCjA2sALIxoW+nEHrfAqXo5B9+hmt0yTrjCpabwWRziGX
+	4Lw1co1zodSGZEmEVBwRFRUVId0QJRH6ccbzv1VwyVSZgVbStJbWPdVhbE9eDqbXHg/c0OYf
+	vNYn9Modxg+/iqKD3j/z8GgBaX83uTvkQiv5zslrWbuyY9uLGE3PLUkT9+30LBMFQo/hljSP
+	7zpVsylMzNwuyZWNTeVSZoHQfvdhDF9e8ub1vlibI6B/8+SMb9XPQLn4182sj7ZkBr0gGMZ6
+	eAGJnKGeNfRX8VsvqQIj/7af2GjWM1+ZPJuN+z/if8DNVu7U+f20NvqlbK+BhNyzIsdND48S
+	fP35LOUXccSLq7ZXFc3P3dlzaGuvsvoANhITcGpCujohNFwzGhK9Q/52r8+If5JPucUahvdl
+	im+Velz0uyxoS1i3PZReN9eulxwrfit+1RuKYL6tpSEsf4+Q0KfJJCG4Ti/7FxVwYteYBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsWy7bCSvC7/m19pBucf8VvMWbWN0WL13X42
+	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLG4e2MlksWfRJCaLlauPMlm8az3HYjF7ejOTxZP1s5gt
+	Ht/5zG5x9P9bNotJh64xWkyZ1sRosfeWtsWevSdZLOYve8pusfz4PyaLbb/nM1use/2exeL8
+	3+OsFudnzWF3kPC4fMXbY+esu+we5+9tZPG4fLbUY9OqTjaPTZ8msXtsXlLvsftmA5vHx6e3
+	WDze77vK5tG3ZRWjx5kFR4CSp6s9Pm+S89j05C1TAH8Ul01Kak5mWWqRvl0CV8afN4UFG/Qr
+	lp78y9bAeEqti5GTQ0LARGJv8z3mLkYuDiGB3YwSD+/3sUMkxCWar/2AsoUlVv57zg5R9JFR
+	ovntK7YuRg4ONgFNiQuTS0HiIgIrmCS2PfnLAuIwC2xgkmhZsgesW1jASeLomfNMIDaLgKrE
+	6rW/weK8AhYSExeuZ4bYIC8x89J3sDingKXE5MsdYHEhoJo7P9qZIeoFJU7OfMICYjMD1Tdv
+	nc08gVFgFpLULCSpBYxMqxglUwuKc9Nzkw0LDPNSy/WKE3OLS/PS9ZLzczcxgmNbS2MH4735
+	//QOMTJxMB5ilOBgVhLhvXfoZ5oQb0piZVVqUX58UWlOavEhRmkOFiVxXsMZs1OEBNITS1Kz
+	U1MLUotgskwcnFINTAnPbkYUf3l+5euLU7GPDSI5wqM5mYsV3xnUvui4HJ0SPG/SG7vlXeUu
+	wYuuX33zbvPi+uo306bZ6EgtSRSrrvdkUXBQvTyb33uPoXLyhN3drfK93I8FT6RFsaXN/PN0
+	/YI0mZZAVyGra38PyL/tm1zsre1QcXe30Y7X7cG80wMPvcuMFvYU2Bt5Z1ukt4+JZUrIppUb
+	l1ryCnc73DNw9ysrElgwt5zJ9/KeixaPZ35jjF2Z8KV1YZD5zSu/n+89qa0xxS/5mmyAS/wt
+	pUfHjtSoztBJOnIwwlbHuUxSPj2BJTPPxjWU4fmT9tWJpRfK+3QqH50psEwuWdMmaB4xqyj/
+	yYtMpioO/wgup2IlluKMREMt5qLiRAALEIshXAMAAA==
+X-CMS-MailID: 20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240930182056epcas5p33f823c00caadf9388b509bafcad86f3d
+X-CMS-RootMailID: 20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d
 References: <20240930181305.17286-1-joshi.k@samsung.com>
-	<CGME20240930182056epcas5p33f823c00caadf9388b509bafcad86f3d@epcas5p3.samsung.com>
+	<CGME20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240930_112104_368866_728C5651 
-X-CRM114-Status: GOOD (  24.58  )
+X-CRM114-CacheID: sfid-20240930_112108_738466_DC5579E5 
+X-CRM114-Status: GOOD (  28.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,224 +142,195 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Flexible Data Placement (FDP), as ratified in TP 4146a, allows the host
-to control the placement of logical blocks so as to reduce the SSD WAF.
+With F_SET_RW_HINT fcntl, user can set a hint on the file inode, and
+all the subsequent writes on the file pass that hint value down.
+This can be limiting for large files (and for block device) as all the
+writes can be tagged with only one lifetime hint value.
+Concurrent writes (with different hint values) are hard to manage.
+Per-IO hinting solves that problem.
 
-Userspace can send the data lifetime information using the write hints.
-The SCSI driver (sd) can already pass this information to the SCSI
-devices. This patch does the same for NVMe.
+Allow userspace to pass additional metadata in the SQE.
+The type of passed metadata is expressed by a new field
 
-Fetch the placement-identifiers if the device supports FDP.
-The incoming write-hint is mapped to a placement-identifier, which in
-turn is set in the DSPEC field of the write command.
+	__u16 meta_type;
+
+At this point one type META_TYPE_LIFETIME_HINT is supported.
+With this type, user can pass lifetime hint values in the new field
+
+	__u64 lifetime_val;
+
+This accepts all lifetime hint values that are possible with
+F_SET_RW_HINT fcntl.
+
+The write handlers (io_prep_rw, io_write) send the hint value to
+lower-layer using kiocb. This is good for upporting direct IO,
+but not when kiocb is not available (e.g., buffered IO).
+
+When per-io hints are not passed, the per-inode hint values are set in
+the kiocb (as before). Otherwise, these take the precedence on per-inode
+hints.
 
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Hui Qi <hui81.qi@samsung.com>
 Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-Nacked-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/core.c | 70 ++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  4 +++
- include/linux/nvme.h     | 19 +++++++++++
- 3 files changed, 93 insertions(+)
+ fs/fcntl.c                    | 22 ----------------------
+ include/linux/rw_hint.h       | 24 ++++++++++++++++++++++++
+ include/uapi/linux/io_uring.h | 19 +++++++++++++++++++
+ io_uring/rw.c                 | 25 ++++++++++++++++++++++++-
+ 4 files changed, 67 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ba6508455e18..ad5cc1ec8c4f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -44,6 +44,20 @@ struct nvme_ns_info {
- 	bool is_removed;
- };
- 
-+struct nvme_fdp_ruh_status_desc {
-+	u16 pid;
-+	u16 ruhid;
-+	u32 earutr;
-+	u64 ruamw;
-+	u8  rsvd16[16];
-+};
-+
-+struct nvme_fdp_ruh_status {
-+	u8  rsvd0[14];
-+	__le16 nruhsd;
-+	struct nvme_fdp_ruh_status_desc ruhsd[];
-+};
-+
- unsigned int admin_timeout = 60;
- module_param(admin_timeout, uint, 0644);
- MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
-@@ -959,6 +973,19 @@ static bool nvme_valid_atomic_write(struct request *req)
- 	return true;
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 22dd9dcce7ec..a390a05f4ef8 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -334,28 +334,6 @@ static int f_getowner_uids(struct file *filp, unsigned long arg)
  }
+ #endif
  
-+static inline void nvme_assign_placement_id(struct nvme_ns *ns,
-+					struct request *req,
-+					struct nvme_command *cmd)
-+{
-+	enum rw_hint h = req->write_hint;
-+
-+	if (h >= ns->head->nr_plids)
-+		return;
-+
-+	cmd->rw.control |= cpu_to_le16(NVME_RW_DTYPE_DPLCMT);
-+	cmd->rw.dsmgmt |= cpu_to_le32(ns->head->plids[h] << 16);
-+}
-+
- static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 		struct request *req, struct nvme_command *cmnd,
- 		enum nvme_opcode op)
-@@ -1078,6 +1105,8 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req)
- 		break;
- 	case REQ_OP_WRITE:
- 		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
-+		if (!ret && ns->head->nr_plids)
-+			nvme_assign_placement_id(ns, req, cmd);
- 		break;
- 	case REQ_OP_ZONE_APPEND:
- 		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
-@@ -2114,6 +2143,40 @@ static int nvme_update_ns_info_generic(struct nvme_ns *ns,
- 	return ret;
- }
- 
-+static int nvme_fetch_fdp_plids(struct nvme_ns *ns, u32 nsid)
-+{
-+	struct nvme_command c = {};
-+	struct nvme_fdp_ruh_status *ruhs;
-+	struct nvme_fdp_ruh_status_desc *ruhsd;
-+	int size, ret, i;
-+
-+	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
-+	ruhs = kzalloc(size, GFP_KERNEL);
-+	if (!ruhs)
-+		return -ENOMEM;
-+
-+	c.imr.opcode = nvme_cmd_io_mgmt_recv;
-+	c.imr.nsid = cpu_to_le32(nsid);
-+	c.imr.mo = 0x1;
-+	c.imr.numd =  cpu_to_le32((size >> 2) - 1);
-+
-+	ret = nvme_submit_sync_cmd(ns->queue, &c, ruhs, size);
-+	if (ret)
-+		goto out;
-+
-+	ns->head->nr_plids = le16_to_cpu(ruhs->nruhsd);
-+	ns->head->nr_plids =
-+		min_t(u16, ns->head->nr_plids, NVME_MAX_PLIDS);
-+
-+	for (i = 0; i < ns->head->nr_plids; i++) {
-+		ruhsd = &ruhs->ruhsd[i];
-+		ns->head->plids[i] = le16_to_cpu(ruhsd->pid);
-+	}
-+out:
-+	kfree(ruhs);
-+	return ret;
-+}
-+
- static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 		struct nvme_ns_info *info)
+-static bool rw_hint_valid(u64 hint)
+-{
+-	BUILD_BUG_ON(WRITE_LIFE_NOT_SET != RWH_WRITE_LIFE_NOT_SET);
+-	BUILD_BUG_ON(WRITE_LIFE_NONE != RWH_WRITE_LIFE_NONE);
+-	BUILD_BUG_ON(WRITE_LIFE_SHORT != RWH_WRITE_LIFE_SHORT);
+-	BUILD_BUG_ON(WRITE_LIFE_MEDIUM != RWH_WRITE_LIFE_MEDIUM);
+-	BUILD_BUG_ON(WRITE_LIFE_LONG != RWH_WRITE_LIFE_LONG);
+-	BUILD_BUG_ON(WRITE_LIFE_EXTREME != RWH_WRITE_LIFE_EXTREME);
+-
+-	switch (hint) {
+-	case RWH_WRITE_LIFE_NOT_SET:
+-	case RWH_WRITE_LIFE_NONE:
+-	case RWH_WRITE_LIFE_SHORT:
+-	case RWH_WRITE_LIFE_MEDIUM:
+-	case RWH_WRITE_LIFE_LONG:
+-	case RWH_WRITE_LIFE_EXTREME:
+-		return true;
+-	default:
+-		return false;
+-	}
+-}
+-
+ static long fcntl_get_rw_hint(struct file *file, unsigned int cmd,
+ 			      unsigned long arg)
  {
-@@ -2205,6 +2268,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 		if (ret && !nvme_first_scan(ns->disk))
- 			goto out;
- 	}
-+	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_FDPS) {
-+		ret = nvme_fetch_fdp_plids(ns, info->nsid);
-+		if (ret)
-+			dev_warn(ns->ctrl->device,
-+				"FDP failure status:0x%x\n", ret);
+diff --git a/include/linux/rw_hint.h b/include/linux/rw_hint.h
+index 309ca72f2dfb..f4373a71ffed 100644
+--- a/include/linux/rw_hint.h
++++ b/include/linux/rw_hint.h
+@@ -21,4 +21,28 @@ enum rw_hint {
+ static_assert(sizeof(enum rw_hint) == 1);
+ #endif
+ 
++#define	WRITE_LIFE_INVALID	(RWH_WRITE_LIFE_EXTREME + 1)
++
++static inline bool rw_hint_valid(u64 hint)
++{
++	BUILD_BUG_ON(WRITE_LIFE_NOT_SET != RWH_WRITE_LIFE_NOT_SET);
++	BUILD_BUG_ON(WRITE_LIFE_NONE != RWH_WRITE_LIFE_NONE);
++	BUILD_BUG_ON(WRITE_LIFE_SHORT != RWH_WRITE_LIFE_SHORT);
++	BUILD_BUG_ON(WRITE_LIFE_MEDIUM != RWH_WRITE_LIFE_MEDIUM);
++	BUILD_BUG_ON(WRITE_LIFE_LONG != RWH_WRITE_LIFE_LONG);
++	BUILD_BUG_ON(WRITE_LIFE_EXTREME != RWH_WRITE_LIFE_EXTREME);
++
++	switch (hint) {
++	case RWH_WRITE_LIFE_NOT_SET:
++	case RWH_WRITE_LIFE_NONE:
++	case RWH_WRITE_LIFE_SHORT:
++	case RWH_WRITE_LIFE_MEDIUM:
++	case RWH_WRITE_LIFE_LONG:
++	case RWH_WRITE_LIFE_EXTREME:
++		return true;
++	default:
++		return false;
 +	}
++}
 +
- 
- 	ret = 0;
- out:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 313a4f978a2c..a959a9859e8b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -454,6 +454,8 @@ struct nvme_ns_ids {
- 	u8	csi;
- };
- 
-+#define NVME_MAX_PLIDS   (WRITE_LIFE_EXTREME + 1)
-+
- /*
-  * Anchor structure for namespaces.  There is one for each namespace in a
-  * NVMe subsystem that any of our controllers can see, and the namespace
-@@ -490,6 +492,8 @@ struct nvme_ns_head {
- 	struct device		cdev_device;
- 
- 	struct gendisk		*disk;
-+	u16			nr_plids;
-+	u16			plids[NVME_MAX_PLIDS];
- #ifdef CONFIG_NVME_MULTIPATH
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index b58d9405d65e..a954eaee5b0f 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -275,6 +275,7 @@ enum nvme_ctrl_attr {
- 	NVME_CTRL_ATTR_HID_128_BIT	= (1 << 0),
- 	NVME_CTRL_ATTR_TBKAS		= (1 << 6),
- 	NVME_CTRL_ATTR_ELBAS		= (1 << 15),
-+	NVME_CTRL_ATTR_FDPS		= (1 << 19),
- };
- 
- struct nvme_id_ctrl {
-@@ -843,6 +844,7 @@ enum nvme_opcode {
- 	nvme_cmd_resv_register	= 0x0d,
- 	nvme_cmd_resv_report	= 0x0e,
- 	nvme_cmd_resv_acquire	= 0x11,
-+	nvme_cmd_io_mgmt_recv	= 0x12,
- 	nvme_cmd_resv_release	= 0x15,
- 	nvme_cmd_zone_mgmt_send	= 0x79,
- 	nvme_cmd_zone_mgmt_recv	= 0x7a,
-@@ -864,6 +866,7 @@ enum nvme_opcode {
- 		nvme_opcode_name(nvme_cmd_resv_register),	\
- 		nvme_opcode_name(nvme_cmd_resv_report),		\
- 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
-+		nvme_opcode_name(nvme_cmd_io_mgmt_recv),	\
- 		nvme_opcode_name(nvme_cmd_resv_release),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
- 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
-@@ -1015,6 +1018,7 @@ enum {
- 	NVME_RW_PRINFO_PRCHK_GUARD	= 1 << 12,
- 	NVME_RW_PRINFO_PRACT		= 1 << 13,
- 	NVME_RW_DTYPE_STREAMS		= 1 << 4,
-+	NVME_RW_DTYPE_DPLCMT		= 2 << 4,
- 	NVME_WZ_DEAC			= 1 << 9,
- };
- 
-@@ -1102,6 +1106,20 @@ struct nvme_zone_mgmt_recv_cmd {
- 	__le32			cdw14[2];
- };
- 
-+struct nvme_io_mgmt_recv_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__le64			rsvd2[2];
-+	union nvme_data_ptr	dptr;
-+	__u8			mo;
-+	__u8			rsvd11;
-+	__u16			mos;
-+	__le32			numd;
-+	__le32			cdw12[4];
-+};
-+
- enum {
- 	NVME_ZRA_ZONE_REPORT		= 0,
- 	NVME_ZRASF_ZONE_REPORT_ALL	= 0,
-@@ -1822,6 +1840,7 @@ struct nvme_command {
- 		struct nvmf_auth_receive_command auth_receive;
- 		struct nvme_dbbuf dbbuf;
- 		struct nvme_directive_cmd directive;
-+		struct nvme_io_mgmt_recv_cmd imr;
+ #endif /* _LINUX_RW_HINT_H */
+diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+index 86cb385fe0b5..951e35226229 100644
+--- a/include/uapi/linux/io_uring.h
++++ b/include/uapi/linux/io_uring.h
+@@ -92,12 +92,23 @@ struct io_uring_sqe {
+ 			__u16	addr_len;
+ 			__u16	__pad3[1];
+ 		};
++		struct {
++			/* Bit field to express 16 meta types */
++			__u16	meta_type;
++			__u16	__pad4[1];
++		};
+ 	};
+ 	union {
+ 		struct {
+ 			__u64	addr3;
+ 			__u64	__pad2[1];
+ 		};
++		struct {
++			/* First meta type specific fields */
++			__u64	lifetime_val;
++			/* For future use */
++			__u64	__pad5[1];
++		};
+ 		__u64	optval;
+ 		/*
+ 		 * If the ring is initialized with IORING_SETUP_SQE128, then
+@@ -107,6 +118,14 @@ struct io_uring_sqe {
  	};
  };
  
++enum io_uring_sqe_meta_type_bits {
++	META_TYPE_LIFETIME_HINT_BIT
++};
++
++/* this meta type covers write hint values supported by F_SET_RW_HINT fcntl */
++#define META_TYPE_LIFETIME_HINT	(1U << META_TYPE_LIFETIME_HINT_BIT)
++
++
+ /*
+  * If sqe->file_index is set to this for opcodes that instantiate a new
+  * direct descriptor (like openat/openat2/accept), then io_uring will allocate
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index 510123d3d837..bf45ee8904a4 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -269,6 +269,24 @@ static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe,
+ 		rw->kiocb.ki_ioprio = get_current_ioprio();
+ 	}
+ 	rw->kiocb.dio_complete = NULL;
++	if (ddir == ITER_SOURCE) {
++		u16 mtype = READ_ONCE(sqe->meta_type);
++
++		rw->kiocb.ki_write_hint = WRITE_LIFE_INVALID;
++		if (mtype) {
++			u64 lhint = READ_ONCE(sqe->lifetime_val);
++
++			if (READ_ONCE(sqe->__pad4[0]) ||
++			    READ_ONCE(sqe->__pad5[0]))
++				return -EINVAL;
++
++			if (mtype != META_TYPE_LIFETIME_HINT ||
++			    !rw_hint_valid(lhint))
++				return -EINVAL;
++
++			rw->kiocb.ki_write_hint = lhint;
++		}
++	}
+ 
+ 	rw->addr = READ_ONCE(sqe->addr);
+ 	rw->len = READ_ONCE(sqe->len);
+@@ -1023,7 +1041,12 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
+ 	if (unlikely(ret))
+ 		return ret;
+ 	req->cqe.res = iov_iter_count(&io->iter);
+-	rw->kiocb.ki_write_hint = file_write_hint(rw->kiocb.ki_filp);
++	/*
++	 * Use per-file hint only if per-io hint is not set.
++	 * We need per-io hint to get precedence.
++	 */
++	if (rw->kiocb.ki_write_hint == WRITE_LIFE_INVALID)
++		rw->kiocb.ki_write_hint = file_write_hint(rw->kiocb.ki_filp);
+ 
+ 	if (force_nonblock) {
+ 		/* If the file doesn't support async, just async punt */
 -- 
 2.25.1
 
