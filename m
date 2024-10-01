@@ -4,72 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0910CEACDD
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Oct 2024 15:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C82ACEACD5
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Oct 2024 15:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ASFzS7ZYkxeige83SFjEiH5Pw6zk75UY0VTIdQW1bg0=; b=B0xFQD7LYPTruNKUJolzLhQyYI
-	RuagDqoWDjAb42ovd7uEwFXqaviPYxYGBlwm1TqLj2BurVYt8aPmyIoXVPAJnGcSoSawPR8OV+4Ru
-	8W7WDFf36ulgt/riv+BObs2CRyuwerGlbKkR4H0AN+qZFNVeFytb2SwFREMt4S+iBcIcSdiKT1O6U
-	CNzQ67hD+pxNLsJBbsE+qu+rG+3h/7ZcoPD6yD/7q/C14HP2VEbhGg3nHhXpajHh57/oxAGDPxQXZ
-	HpJAJG5wbp2cIu8CE0QRC5UO6XJDul/XGnds1+52tj0afoRCW8PrhAs7mP20U+VCq9NnlTZZDojzz
-	z/wM+brA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:In-Reply-To:References:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uhLOfNttXcEYAtBMsLB9Grso7BqU3vS1REd6YW7plOU=; b=vwtkMK4kZUPqat1T0sDFJlGprs
+	KZedDNtZhW//HOe5yNeSs4hmqd2KZy7MwqypuqIk0fT5d0+P/J838tUPSR933Ue9wbGiZesSbC8/g
+	tBHRWrBV9lYpyIUxT3/FGc1MoNoKDQbdGjQtUtEGmuDoHNj1trYmyaKVsOMg3tKTEXGidwIM/qvyo
+	UXKB1vW4SoHfAv5PIxdeKUoEAYwkMHv1/+WgV4ymZ30q1V4vwGKdBYDoewTdjKcoOhdy9op8l8p5m
+	ArK8szPZMlLZ2QXxvRqDq8bIKx44gVTMMIu4op9otOB9eygXqgd42ktq/wrwc9/UWOkiOhhw2jk+f
+	0irpa9qQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1svewv-00000003La7-1o5Y;
-	Tue, 01 Oct 2024 15:38:05 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1svfH7-00000003PEJ-2wSF;
+	Tue, 01 Oct 2024 15:58:57 +0000
+Received: from mout.perfora.net ([74.208.4.196])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1svewN-00000003LPR-1GUD
+	id 1svfH5-00000003PDm-23HK
 	for linux-nvme@lists.infradead.org;
-	Tue, 01 Oct 2024 15:37:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 3E26E5C0F7B;
-	Tue,  1 Oct 2024 15:37:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82091C4CEC6;
-	Tue,  1 Oct 2024 15:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727797050;
-	bh=XBFt+lN55keQTEfhyTVFuCqjDhRK8NSUj6BMZjb+tK0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UK/fIkxoSH6VW5Ach0U0AessLuQMkVM+e4T0r06/srnyrFf18bGE/J462pJGtZ1oI
-	 zxVR3bGCh0ni06pQJGGd6hX3QFXC78YNLlEWnxvVm9soyrVJKToLrbKEb7uZbUAHDh
-	 scSrTd72Nr3z/FuQIwG1AoHOomzqyrUN9krPGnVUq6j0LLaB8ZQo5NCxAQQPaqotx3
-	 2Sx9fo3meBhyKj6PkYBfZcjF2vESQS3+i339YNhUtJBMTZw8fNJ3cZUgvoMfHUaeqG
-	 hN34RQeJpQ4SKurejJL/zhcToGJswA4YP8eBfPUI9/YzXPgmykpOFC2d4zEl4R5zjG
-	 3QAzf1SrSwOew==
-Date: Tue, 1 Oct 2024 09:37:27 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
-	Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	Chinmay Gameti <c.gameti@samsung.com>
-Subject: Re: [PATCH v2 2/3] block: support PI at non-zero offset within
- metadata
-Message-ID: <ZvwXN5n1XyqRoH9H@kbusch-mbp.mynextlight.net>
-References: <20240201130126.211402-1-joshi.k@samsung.com>
- <CGME20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d@epcas5p1.samsung.com>
- <20240201130126.211402-3-joshi.k@samsung.com>
- <ZvV4uCUXp9_4x5ct@kbusch-mbp>
- <8ed2637b-559e-3f27-3d1f-84a4718475fb@samsung.com>
- <ZvWSFvI-OJ2NP_m0@kbusch-mbp>
- <165deefb-a8b3-594e-9bfb-b3bcd588d23f@samsung.com>
- <yq1ttdx81ub.fsf@ca-mkp.ca.oracle.com>
- <20241001072708.tgdmbi56vofjkluc@ArmHalley.local>
+	Tue, 01 Oct 2024 15:58:56 +0000
+Received: from jimw8 ([98.97.139.223]) by mrelay.perfora.net (mreueus002
+ [74.208.5.2]) with ESMTPSA (Nemesis) id 0Lbtbu-1sCjf30cXE-00evug; Tue, 01 Oct
+ 2024 17:58:25 +0200
+From: "James R. Bergsten" <jim@thebergstens.com>
+To: "'Christoph Hellwig'" <hch@lst.de>,
+	"'Kanchan Joshi'" <joshi.k@samsung.com>
+Cc: <axboe@kernel.dk>,
+	<kbusch@kernel.org>,
+	<hare@suse.de>,
+	<sagi@grimberg.me>,
+	<martin.petersen@oracle.com>,
+	<brauner@kernel.org>,
+	<viro@zeniv.linux.org.uk>,
+	<jack@suse.cz>,
+	<jaegeuk@kernel.org>,
+	<bcrl@kvack.org>,
+	<dhowells@redhat.com>,
+	<bvanassche@acm.org>,
+	<asml.silence@gmail.com>,
+	<linux-nvme@lists.infradead.org>,
+	<linux-fsdevel@vger.kernel.org>,
+	<io-uring@vger.kernel.org>,
+	<linux-block@vger.kernel.org>,
+	<linux-aio@kvack.org>,
+	<gost.dev@samsung.com>,
+	<vishak.g@samsung.com>,
+	<javier.gonz@samsung.com>
+References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com> <20240930181305.17286-1-joshi.k@samsung.com> <20241001092047.GA23730@lst.de>
+In-Reply-To: <20241001092047.GA23730@lst.de>
+Subject: RE: [PATCH v7 0/3] FDP and per-io hints
+Date: Tue, 1 Oct 2024 08:58:17 -0700
+Message-ID: <006901db141a$bf9aa590$3ecff0b0$@thebergstens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241001072708.tgdmbi56vofjkluc@ArmHalley.local>
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQEtLMzQU9Mj3GK9LglaQbGW3QSfFAJ3IhvwAcJpBdOzrA9SwA==
+Content-Language: en-us
+X-Provags-ID: V03:K1:lv/Ipl00MnBrV8wUg8fbNZhL45WxX047MlZz8sQSg7lOnpxDafj
+ sctE9uJCJBO181V3JR/KCGtQEG8rMmYDC0NJNzoVB9jQz7Pdno0U7uAK3m6Z9vsAs9GYJSf
+ lyWMXG6tQg/J7lLe6hTY+ToIsKv+7SKuWoeo8WwyRTZ6fewLcGBa3tg8+tzdHOx2mqRYey9
+ WRH9M3x+SzUUDzPMPNgcA==
+UI-OutboundReport: notjunk:1;M01:P0:pQSu+TW5dFY=;ylEdpCoKiDT8/Slfhz/Sd90pVEp
+ m+8gKULh/QRyvaZX26q9Q1CCwc3B9RWrVwd94iKI3r9YJKLbiWBDZ9QNce1kwY0l4FlYg7CtG
+ LcWPHOh5iKvPvGvb+DFxEkSHYlAWGTZD5unUrQaOZoRh8ddF7h04l0iy3BPtlRdFsSSsj7VIo
+ Nj1MBasULB57ZcWOPTNYZPsoS46BNJh/dUeivc81D4C4IWri4kaewOJHzr0zs3b9UYide02fb
+ EigfqMv3hegVOYmJG5VSaJ7h40NlSIK4EB64TdFj5GHfQxzwkT62zV2L+69RArFR4x63mGOJc
+ m04hWeXdpFv1CJ0Xn2om62m5n+fShUJCb0J+UjO9zE6wZJqifQfUXRxCVjUoWNCb3rWHd5ITZ
+ I/1R+38/FzZApsTTTjDlZa7fQ44EKwbuOAZLlLfz7edXmNl2Qys1O9GtSy03wAEpDtp0kM9rL
+ NXER9Od+ED20n4tbPp2svmcimtYI2x0Ynic4cSYF11DqJHZgSf5qRhxnDD4XAIElq9Mqhv1N4
+ i5lyIv8YBWD6LBy0W4ycKl5HrdqQzYhC1lmIfnK1It0VE79zkquFvJijCAMwYGUjwZS5NIY+4
+ zNZGIPjgWMbRfy/tDoC5dlvCliQAdhkMCPJwn/H8b9AuFPtvEG7OZkvMXon8Ig5nWKovn/d1b
+ xqp/dcxcBfgL/fi6gYe3CCKIMqe/q3X9ll1/W1l+pebHzGeLIVG8WcmV/r7KE6DWJgP+vEBUt
+ uW2K0kguFR12aTRqdc2kaXP+yZaq6uI8A==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241001_083731_405106_3025290F 
-X-CRM114-Status: GOOD (  25.23  )
+X-CRM114-CacheID: sfid-20241001_085855_619414_E40162FF 
+X-CRM114-Status: UNSURE (   5.56  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,45 +100,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 01, 2024 at 09:27:08AM +0200, Javier González wrote:
-> On 30.09.2024 13:57, Martin K. Petersen wrote:
-> > 
-> > Kanchan,
-> > 
-> > > I spent a good deal of time on this today. I was thinking to connect
-> > > block read_verify/write_generate knobs to influence things at nvme level
-> > > (those PRCHK flags). But that will not be enough. Because with those
-> > > knobs block-layer will not attach meta-buffer, which is still needed.
-> > > 
-> > > The data was written under the condition when nvme driver set the
-> > > pi_type to 0 (even though at device level it was non-zero) during
-> > > integrity registration.
-> > > 
-> > > Thinking whether it will make sense to have a knob at the block-layer
-> > > level to do something like that i.e., override the set
-> > > integrity-profile with nop.
-> > 
-> > SCSI went to great lengths to ensure that invalid protection information
-> > would never be written during normal operation, regardless of whether
-> > the host sent PI or not. And thus the only time one would anticipate a
-> > PI error was if the data had actually been corrupted.
-> > 
-> 
-> Is this something we should work on bringin to the NVMe TWG?
+Now THIS Is the NVMe I came to know and love.  =F0=9F=98=8A
 
-Maybe. It looks like they did the spec this way one purpose with the
-ability to toggle guard tags per IO.
+-----Original Message-----
+From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> On Behalf Of =
+Christoph Hellwig
+Sent: Tuesday, October 1, 2024 2:21 AM
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: axboe@kernel.dk; kbusch@kernel.org; hch@lst.de; hare@suse.de; =
+sagi@grimberg.me; martin.petersen@oracle.com; brauner@kernel.org; =
+viro@zeniv.linux.org.uk; jack@suse.cz; jaegeuk@kernel.org; =
+bcrl@kvack.org; dhowells@redhat.com; bvanassche@acm.org; =
+asml.silence@gmail.com; linux-nvme@lists.infradead.org; =
+linux-fsdevel@vger.kernel.org; io-uring@vger.kernel.org; =
+linux-block@vger.kernel.org; linux-aio@kvack.org; gost.dev@samsung.com; =
+vishak.g@samsung.com; javier.gonz@samsung.com
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
 
-Just some more background on this because it may sound odd to use a data
-protection namespace format that the kernel didn't support:
+Any reason you completely ignored my feedback on the last version and =
+did not even answer?
 
-In this use case, writes to the device primarily come from the
-passthrough interface, which could always use the guard tags for
-end-to-end protection. The kernel block IO was the only path that had
-the limitation.
+That's not a very productive way to work.
 
-Besides the passthrough interface, though, the setup uses kernel block
-layer to write the partition tables. Upgrading from 6.8 -> 6.9 won't be
-able to read the partition table on these devices. I'm still not sure
-the best way to handle this, though.
+
+
 
