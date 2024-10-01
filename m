@@ -4,130 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E252CCE837D
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Sep 2024 18:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBC03CE7CE1
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Oct 2024 07:27:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i2W31PSDLoXfDAIGVqVKpmMhkKotr8fjX0j5n03WZq8=; b=Y5unmTm2GZz2liIwKUpHwfI005
-	lGgH6Fg8Og2h1nk/wSsuguImS9w78RyBMhb6tK9l78mKnmI2Et8XZUy2wh0/PXDh6x+vraI2Uc4UW
-	wcJY0bTBPRMHQtgVVC4AY91JFHCbuXLT0MIRJkJdu+jfQcQ9rx/K+K0sCefkjgoN1GF9+XEX97TSH
-	VOGrklyvFLzxxUII3l3eO9i4zA9wlGBuqobmEVX5K7ptLQniDpGTQkYBftTBzpIRoxpc9jMk4T50V
-	sp9eIQSqb8Gj0X3LL62UMzTAVDk7VZySXbIuE7vRIHcAHnO4+SMdBMKkSXuX2nMrUx/3qr3kv/uWE
-	vHNZqFJQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=huOa6NuruS0bLWEdZlZXh7cUUuwkMz2dpcR/TeJ2o9g=; b=S7Hta99NkjMsowQaUa/iRR8RxW
+	8mAEpDwnifnzkM5cXibjJsuvuszF+24Z+HxwOVFqS8AE/trPtIPiKCeyOfNbYUKO2W12xrXyyeOVo
+	YHlntjcafxs9iv8kTkIrcx7F7mIOtOMscVZJfyYMyTGPPVwbfVyIsFX8G1FkXdt68QbOjTGybxWaY
+	V4KJkRqSWc1iZbWd8/0dyYIkT/UFk13IgiRYe3QxlfDBZTiEx/6TlmPwcUTZb7V5j5OUd1KdyBH37
+	aPpiVRACxJUGb9zx1+qEMh87gqBIYy0xDZGW0N1MDdmEJzdCmaeOjeKvyxm7WCq/eGIUfUPz5yp8A
+	y6z0jcvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1svL1D-00000000UhI-47g2;
-	Mon, 30 Sep 2024 18:21:11 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1svXHy-00000001tUK-3oRU;
+	Tue, 01 Oct 2024 07:27:18 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1svL1A-00000000Ue0-1Q1A
+	id 1svXHv-00000001tTO-3CQp
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Sep 2024 18:21:10 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240930182106epoutp01ac34f8a3b445116f139bedd88327163b~6GJw2-e5A1696916969epoutp01a
-	for <linux-nvme@lists.infradead.org>; Mon, 30 Sep 2024 18:21:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240930182106epoutp01ac34f8a3b445116f139bedd88327163b~6GJw2-e5A1696916969epoutp01a
+	Tue, 01 Oct 2024 07:27:17 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20241001072710euoutp02c05129b56440be56cdd8b43595ab7928~6Q4GWhLqR2964329643euoutp023
+	for <linux-nvme@lists.infradead.org>; Tue,  1 Oct 2024 07:27:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20241001072710euoutp02c05129b56440be56cdd8b43595ab7928~6Q4GWhLqR2964329643euoutp023
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1727720466;
-	bh=i2W31PSDLoXfDAIGVqVKpmMhkKotr8fjX0j5n03WZq8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QsHPA+I/QTBw7l8n7nxWCl2wIhOubxu9YLtUz9UhKWuRiF9vhY2n5mZlXz4zXXnSx
-	 XXqCt6hLjX6mmjoEJ9MvdNZp60FNPVJ6/fnkHxixASo4rQO2RIADuexzqVJu7feC7W
-	 x58eX3Vftk7OorkD2vBE0GaVD4dLG2+dH9YF5Kmo=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240930182105epcas5p1fb18814d8840786678374931f0f92e5d~6GJwXLI273030330303epcas5p1P;
-	Mon, 30 Sep 2024 18:21:05 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4XHTsX0Pwjz4x9Pp; Mon, 30 Sep
-	2024 18:21:04 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	81.F6.18935.F0CEAF66; Tue,  1 Oct 2024 03:21:03 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d~6GJuPNzpG2069720697epcas5p4T;
-	Mon, 30 Sep 2024 18:21:03 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240930182103epsmtrp225c56587c62c66cc2420497c3a7c41b0~6GJuNAoh_2734327343epsmtrp2p;
-	Mon, 30 Sep 2024 18:21:03 +0000 (GMT)
-X-AuditID: b6c32a50-a99ff700000049f7-74-66faec0f0586
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B4.29.07371.F0CEAF66; Tue,  1 Oct 2024 03:21:03 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240930182100epsmtip2e761add8ecf8f9113294676db34a2524~6GJrCcr9X2505325053epsmtip2N;
-	Mon, 30 Sep 2024 18:20:59 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, hare@suse.de,
-	sagi@grimberg.me, martin.petersen@oracle.com, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org, bcrl@kvack.org,
-	dhowells@redhat.com, bvanassche@acm.org, asml.silence@gmail.com
-Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
-	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com, Kanchan
-	Joshi <joshi.k@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>
-Subject: [PATCH v7 3/3] io_uring: enable per-io hinting capability
-Date: Mon, 30 Sep 2024 23:43:05 +0530
-Message-Id: <20240930181305.17286-4-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240930181305.17286-1-joshi.k@samsung.com>
+	s=mail20170921; t=1727767630;
+	bh=huOa6NuruS0bLWEdZlZXh7cUUuwkMz2dpcR/TeJ2o9g=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=h/DNvQZRJgN4jVD94+jJlgImWYNOMmm3pnI/ncDhQnpaIzYpIaBBRn9cdcV8goWBa
+	 VKA6ikEEZx1c4KrLfIn452GBKKIRPKK2UzDeksmue67ur4zIYi4jbKetzlm+eL7CJf
+	 uKCel51sRxn44BH4PTQyXwzP9uA9kxGIo7Xpg6HU=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20241001072710eucas1p20b496d1bed6fdf8cb33ebd16fa0313c4~6Q4F9SpCL2239722397eucas1p2d;
+	Tue,  1 Oct 2024 07:27:10 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 0C.D7.09624.E44ABF66; Tue,  1
+	Oct 2024 08:27:10 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20241001072710eucas1p1f2372e94fefcd3da33e2f4c65f97e0e6~6Q4FhC3Jl3189131891eucas1p11;
+	Tue,  1 Oct 2024 07:27:10 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20241001072709eusmtrp19ec853e71631de93b69a3e841b79548f~6Q4Ffu6Nh1359313593eusmtrp1B;
+	Tue,  1 Oct 2024 07:27:09 +0000 (GMT)
+X-AuditID: cbfec7f2-bfbff70000002598-32-66fba44e688e
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 95.18.14621.D44ABF66; Tue,  1
+	Oct 2024 08:27:09 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241001072709eusmtip2f84c243bf2788663b53806aa66cf34e3~6Q4FQsxIg2445324453eusmtip2d;
+	Tue,  1 Oct 2024 07:27:09 +0000 (GMT)
+Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Tue, 1 Oct 2024 08:27:08 +0100
+Date: Tue, 1 Oct 2024 09:27:08 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>,
+	<axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
+	<linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
+	<gost.dev@samsung.com>, Chinmay Gameti <c.gameti@samsung.com>
+Subject: Re: [PATCH v2 2/3] block: support PI at non-zero offset within
+ metadata
+Message-ID: <20241001072708.tgdmbi56vofjkluc@ArmHalley.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te1BUVRzm3Hv3AblyW1BOS7HbCjbALOwm4FkHspCBO0oT5tSM1Qzt7F4e
-	7bK77SOpDAiElEnkFcpi4QPbhDHkIaKyZkvE4Gs1sFgIXF4zJgIKiCFC7bJY/vf9fuf7zne+
-	35kfG+fms3jsdLWB1qllKiHTi2hpDw4Red97nCLuL9iEDte2AFQ3cICJCpeaCTTePg1Qxf15
-	HE3mLhDIfukchtqOlWLoZF0HhibzrxOo6mAehkbrTTga+XOGhTr+mWCiUuvvAJVX5AJk6QtF
-	bZYuAlV/P8ZC5s4lDLUsVOPox/EpAtkWOxnIZjrMeh1S3T3bqHOmARZlG2wgqO5rRqqxdh+T
-	apwuZVFNNdnUBXsOk3ow1kdQUxdvMami5lpAXT3yi/PwyufUTGMA1Tg6gSV5v6eMTqNlClon
-	oNVyjSJdnRoj3LYjeUtyZJRYIpJI0UahQC3LoGOEcYlJovh0lXMQQsEnMpXR2UqS6fXC8Nei
-	dRqjgRakafSGGCGtVai0EdowvSxDb1SnhqlpwyaJWPxqpJP4oTLtyb2PtafDM090LTJzwOX1
-	hcCTDckIOPuggVkIvNhcsg3A8f2dwF1MA3jcVMxysbjkHIC3H+9+qrDkDeJukgXAG5X3CXcx
-	A6C97LZTwWYzyWB4o8zo6vuS5Ri019USLjVO1mDwD4e3C/uQsbDjqg1zYYIMgnWnFpbdOCSC
-	JUfrcbcbH1b+9mi570lKYVn3XtzNeR52VY6u3MmHeWeqll8ESbMn7DebMbc4Dn5Tf5Dlxj7w
-	bmfzCubBmUkL042V0DHsINx4N2xtKmK48WaY86SX4QqDO8PUnw93e62G+xdGMVcbkhy4t4Dr
-	Zr8MB0vHVpR+cOhQzQqmYPGsY2W8XwM4VPEloxjwTc9EMD0TwfS/2xGA1wIerdVnpNLySK1E
-	pKZ3/fexck1GI1jeh5CkVlB3ejHMCjA2sALIxoW+nEHrfAqXo5B9+hmt0yTrjCpabwWRziGX
-	4Lw1co1zodSGZEmEVBwRFRUVId0QJRH6ccbzv1VwyVSZgVbStJbWPdVhbE9eDqbXHg/c0OYf
-	vNYn9Modxg+/iqKD3j/z8GgBaX83uTvkQiv5zslrWbuyY9uLGE3PLUkT9+30LBMFQo/hljSP
-	7zpVsylMzNwuyZWNTeVSZoHQfvdhDF9e8ub1vlibI6B/8+SMb9XPQLn4182sj7ZkBr0gGMZ6
-	eAGJnKGeNfRX8VsvqQIj/7af2GjWM1+ZPJuN+z/if8DNVu7U+f20NvqlbK+BhNyzIsdND48S
-	fP35LOUXccSLq7ZXFc3P3dlzaGuvsvoANhITcGpCujohNFwzGhK9Q/52r8+If5JPucUahvdl
-	im+Velz0uyxoS1i3PZReN9eulxwrfit+1RuKYL6tpSEsf4+Q0KfJJCG4Ti/7FxVwYteYBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsWy7bCSvC7/m19pBucf8VvMWbWN0WL13X42
-	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLG4e2MlksWfRJCaLlauPMlm8az3HYjF7ejOTxZP1s5gt
-	Ht/5zG5x9P9bNotJh64xWkyZ1sRosfeWtsWevSdZLOYve8pusfz4PyaLbb/nM1use/2exeL8
-	3+OsFudnzWF3kPC4fMXbY+esu+we5+9tZPG4fLbUY9OqTjaPTZ8msXtsXlLvsftmA5vHx6e3
-	WDze77vK5tG3ZRWjx5kFR4CSp6s9Pm+S89j05C1TAH8Ul01Kak5mWWqRvl0CV8afN4UFG/Qr
-	lp78y9bAeEqti5GTQ0LARGJv8z3mLkYuDiGB3YwSD+/3sUMkxCWar/2AsoUlVv57zg5R9JFR
-	ovntK7YuRg4ONgFNiQuTS0HiIgIrmCS2PfnLAuIwC2xgkmhZsgesW1jASeLomfNMIDaLgKrE
-	6rW/weK8AhYSExeuZ4bYIC8x89J3sDingKXE5MsdYHEhoJo7P9qZIeoFJU7OfMICYjMD1Tdv
-	nc08gVFgFpLULCSpBYxMqxglUwuKc9Nzkw0LDPNSy/WKE3OLS/PS9ZLzczcxgmNbS2MH4735
-	//QOMTJxMB5ilOBgVhLhvXfoZ5oQb0piZVVqUX58UWlOavEhRmkOFiVxXsMZs1OEBNITS1Kz
-	U1MLUotgskwcnFINTAnPbkYUf3l+5euLU7GPDSI5wqM5mYsV3xnUvui4HJ0SPG/SG7vlXeUu
-	wYuuX33zbvPi+uo306bZ6EgtSRSrrvdkUXBQvTyb33uPoXLyhN3drfK93I8FT6RFsaXN/PN0
-	/YI0mZZAVyGra38PyL/tm1zsre1QcXe30Y7X7cG80wMPvcuMFvYU2Bt5Z1ukt4+JZUrIppUb
-	l1ryCnc73DNw9ysrElgwt5zJ9/KeixaPZ35jjF2Z8KV1YZD5zSu/n+89qa0xxS/5mmyAS/wt
-	pUfHjtSoztBJOnIwwlbHuUxSPj2BJTPPxjWU4fmT9tWJpRfK+3QqH50psEwuWdMmaB4xqyj/
-	yYtMpioO/wgup2IlluKMREMt5qLiRAALEIshXAMAAA==
-X-CMS-MailID: 20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
+In-Reply-To: <yq1ttdx81ub.fsf@ca-mkp.ca.oracle.com>
+X-Originating-IP: [106.110.32.122]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFKsWRmVeSWpSXmKPExsWy7djP87p+S36nGTxcLWqx+m4/m8XK1UeZ
+	LCYdusZosfeWtsX8ZU/ZLZYf/8dkse71exYHdo/z9zayeFw+W+qxaVUnm8fmJfUeu282sHl8
+	fHqLxePzJrkA9igum5TUnMyy1CJ9uwSujP9XXzAWLOaoWP2lia2B8RJbFyMnh4SAicTCi1tZ
+	uxi5OIQEVjBKnGv6B+V8YZSYPu8nI4TzmVHiy6lpzDAtk27egKpazijxZMFXNriqIwsvskA4
+	mxklur88ZQVpYRFQkXj/4yQjiM0mYC9xadktsFEiAqYSkz9tBetmFmhmkpi3YRkLSEJYIEhi
+	y+MeJhCbV8BWovXxTTYIW1Di5MwnYDXMAlYSnR+agBZwANnSEsv/cYCEOQWMJRZ+3csOcaqS
+	xOMXbxkh7FqJU1tuMYHskhD4wCExu7cBKuEi8WruZiYIW1ji1fEtUM0yEqcn97BA2NUSDSdP
+	QDW3MEq0dmwFWywhYC3RdyYHosZRYnbfJkaIMJ/EjbeCEGfySUzaNp0ZIswr0dEmBFGtJrH6
+	3huWCYzKs5A8NgvJY7MQHlvAyLyKUTy1tDg3PbXYMC+1XK84Mbe4NC9dLzk/dxMjMPmc/nf8
+	0w7Gua8+6h1iZOJgPMQowcGsJMJ779DPNCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8qinyqUIC
+	6YklqdmpqQWpRTBZJg5OqQYmY95m2bkZF74+f7PeXEt5bVTm/SW+Hbd1Ph9KbrZWy6jquxh9
+	OnK9yceMQ+wTvpc9uF+4nOmOQtqck221f625U6+/+na+4/HvcxOnOHJEZV/N7C1iWjbN/fmc
+	g2c1fz0SU3sf+7H/WO4VoaS1a6P+9gjrT991SYCh5txcn1VtJ19a/Ohfv8fk0Q4VgWWBns+S
+	BDd+neP40aY64xX7zHtdN0XKP7PeSP8oGxvdILnSonjVn1bxPodTab1NK38xtRWa1bd1Xdl9
+	Rr8nTtVt+qoaE2meFWv8w27NE0o7UJJqNm/aJfbCv9nW0d9f9S9+UjllzbwlU/4U3wq1cm7/
+	9u56m3/J1oUfJopGBe1ULHY7oMRSnJFoqMVcVJwIAIAiBjGtAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRmVeSWpSXmKPExsVy+t/xe7q+S36nGWzeb2yx+m4/m8XK1UeZ
+	LCYdusZosfeWtsX8ZU/ZLZYf/8dkse71exYHdo/z9zayeFw+W+qxaVUnm8fmJfUeu282sHl8
+	fHqLxePzJrkA9ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy
+	1CJ9uwS9jP9XXzAWLOaoWP2lia2B8RJbFyMnh4SAicSkmzdYuxi5OIQEljJK/FnTywiRkJHY
+	+OUqK4QtLPHnWhdYg5DAR0aJH4sVIBo2M0o8PnqWGSTBIqAi8f7HSbBmNgF7iUvLboHFRQRM
+	JSZ/2soG0sAs0MwkMW/DMhaQhLBAkMSWxz1MIDavgK1E6+ObUBsmMEv8WeEFEReUODnzCVg9
+	s4CFxMz554EWcADZ0hLL/3GAhDkFjCUWft3LDnGoksTjF2+hHqiV+Pz3GeMERuFZSCbNQjJp
+	FsKkBYzMqxhFUkuLc9Nziw31ihNzi0vz0vWS83M3MQIjcNuxn5t3MM579VHvECMTB+MhRgkO
+	ZiUR3nuHfqYJ8aYkVlalFuXHF5XmpBYfYjQFBsVEZinR5HxgCsgriTc0MzA1NDGzNDC1NDNW
+	Eud1u3w+TUggPbEkNTs1tSC1CKaPiYNTqoFJbcPTudZyAmvXNrBOT9gboraca1HO8a6HMra/
+	zt7kea0r9d//kPwtX57GJc8NONuqnz9rtrVoUVg/8+aDUNvaq2Z1sx7FnjytWCyqLSBsdTjI
+	/sa2pT//KMjz/1PZquGd/sW+I1TlF18uQ7CAX/LHaS9ihVh+zolL1mk0Enea/tizeZ7Ti++t
+	zS3npBuWLVovsknNdvnVaoe24zWWEpctnjFrp4i2mYTXXzg1KbFpVuqXC3xuTKZnW4+LrTj9
+	kL9iS5Ou5OWNaVJKayJeihQb+ZY6LDa/n8lp/yGN+fHWgC6HF+f3s31R/+S4xCD9xIsXXed7
+	sxmvBvLc3T+zyPRlKcecmXKf+Pced+7xtVJiKc5INNRiLipOBACCluacSQMAAA==
+X-CMS-MailID: 20241001072710eucas1p1f2372e94fefcd3da33e2f4c65f97e0e6
 X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d
-References: <20240930181305.17286-1-joshi.k@samsung.com>
-	<CGME20240930182103epcas5p4c9e91ca3cdf20e900b1425ae45fef81d@epcas5p4.samsung.com>
+X-RootMTR: 20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d
+References: <20240201130126.211402-1-joshi.k@samsung.com>
+	<CGME20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d@epcas5p1.samsung.com>
+	<20240201130126.211402-3-joshi.k@samsung.com> <ZvV4uCUXp9_4x5ct@kbusch-mbp>
+	<8ed2637b-559e-3f27-3d1f-84a4718475fb@samsung.com>
+	<ZvWSFvI-OJ2NP_m0@kbusch-mbp>
+	<165deefb-a8b3-594e-9bfb-b3bcd588d23f@samsung.com>
+	<yq1ttdx81ub.fsf@ca-mkp.ca.oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240930_112108_738466_DC5579E5 
-X-CRM114-Status: GOOD (  28.56  )
+X-CRM114-CacheID: sfid-20241001_002716_323481_1F320383 
+X-CRM114-Status: GOOD (  16.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,196 +142,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With F_SET_RW_HINT fcntl, user can set a hint on the file inode, and
-all the subsequent writes on the file pass that hint value down.
-This can be limiting for large files (and for block device) as all the
-writes can be tagged with only one lifetime hint value.
-Concurrent writes (with different hint values) are hard to manage.
-Per-IO hinting solves that problem.
+On 30.09.2024 13:57, Martin K. Petersen wrote:
+>
+>Kanchan,
+>
+>> I spent a good deal of time on this today. I was thinking to connect
+>> block read_verify/write_generate knobs to influence things at nvme level
+>> (those PRCHK flags). But that will not be enough. Because with those
+>> knobs block-layer will not attach meta-buffer, which is still needed.
+>>
+>> The data was written under the condition when nvme driver set the
+>> pi_type to 0 (even though at device level it was non-zero) during
+>> integrity registration.
+>>
+>> Thinking whether it will make sense to have a knob at the block-layer
+>> level to do something like that i.e., override the set
+>> integrity-profile with nop.
+>
+>SCSI went to great lengths to ensure that invalid protection information
+>would never be written during normal operation, regardless of whether
+>the host sent PI or not. And thus the only time one would anticipate a
+>PI error was if the data had actually been corrupted.
+>
 
-Allow userspace to pass additional metadata in the SQE.
-The type of passed metadata is expressed by a new field
+Is this something we should work on bringin to the NVMe TWG?
 
-	__u16 meta_type;
-
-At this point one type META_TYPE_LIFETIME_HINT is supported.
-With this type, user can pass lifetime hint values in the new field
-
-	__u64 lifetime_val;
-
-This accepts all lifetime hint values that are possible with
-F_SET_RW_HINT fcntl.
-
-The write handlers (io_prep_rw, io_write) send the hint value to
-lower-layer using kiocb. This is good for upporting direct IO,
-but not when kiocb is not available (e.g., buffered IO).
-
-When per-io hints are not passed, the per-inode hint values are set in
-the kiocb (as before). Otherwise, these take the precedence on per-inode
-hints.
-
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
----
- fs/fcntl.c                    | 22 ----------------------
- include/linux/rw_hint.h       | 24 ++++++++++++++++++++++++
- include/uapi/linux/io_uring.h | 19 +++++++++++++++++++
- io_uring/rw.c                 | 25 ++++++++++++++++++++++++-
- 4 files changed, 67 insertions(+), 23 deletions(-)
-
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index 22dd9dcce7ec..a390a05f4ef8 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -334,28 +334,6 @@ static int f_getowner_uids(struct file *filp, unsigned long arg)
- }
- #endif
- 
--static bool rw_hint_valid(u64 hint)
--{
--	BUILD_BUG_ON(WRITE_LIFE_NOT_SET != RWH_WRITE_LIFE_NOT_SET);
--	BUILD_BUG_ON(WRITE_LIFE_NONE != RWH_WRITE_LIFE_NONE);
--	BUILD_BUG_ON(WRITE_LIFE_SHORT != RWH_WRITE_LIFE_SHORT);
--	BUILD_BUG_ON(WRITE_LIFE_MEDIUM != RWH_WRITE_LIFE_MEDIUM);
--	BUILD_BUG_ON(WRITE_LIFE_LONG != RWH_WRITE_LIFE_LONG);
--	BUILD_BUG_ON(WRITE_LIFE_EXTREME != RWH_WRITE_LIFE_EXTREME);
--
--	switch (hint) {
--	case RWH_WRITE_LIFE_NOT_SET:
--	case RWH_WRITE_LIFE_NONE:
--	case RWH_WRITE_LIFE_SHORT:
--	case RWH_WRITE_LIFE_MEDIUM:
--	case RWH_WRITE_LIFE_LONG:
--	case RWH_WRITE_LIFE_EXTREME:
--		return true;
--	default:
--		return false;
--	}
--}
--
- static long fcntl_get_rw_hint(struct file *file, unsigned int cmd,
- 			      unsigned long arg)
- {
-diff --git a/include/linux/rw_hint.h b/include/linux/rw_hint.h
-index 309ca72f2dfb..f4373a71ffed 100644
---- a/include/linux/rw_hint.h
-+++ b/include/linux/rw_hint.h
-@@ -21,4 +21,28 @@ enum rw_hint {
- static_assert(sizeof(enum rw_hint) == 1);
- #endif
- 
-+#define	WRITE_LIFE_INVALID	(RWH_WRITE_LIFE_EXTREME + 1)
-+
-+static inline bool rw_hint_valid(u64 hint)
-+{
-+	BUILD_BUG_ON(WRITE_LIFE_NOT_SET != RWH_WRITE_LIFE_NOT_SET);
-+	BUILD_BUG_ON(WRITE_LIFE_NONE != RWH_WRITE_LIFE_NONE);
-+	BUILD_BUG_ON(WRITE_LIFE_SHORT != RWH_WRITE_LIFE_SHORT);
-+	BUILD_BUG_ON(WRITE_LIFE_MEDIUM != RWH_WRITE_LIFE_MEDIUM);
-+	BUILD_BUG_ON(WRITE_LIFE_LONG != RWH_WRITE_LIFE_LONG);
-+	BUILD_BUG_ON(WRITE_LIFE_EXTREME != RWH_WRITE_LIFE_EXTREME);
-+
-+	switch (hint) {
-+	case RWH_WRITE_LIFE_NOT_SET:
-+	case RWH_WRITE_LIFE_NONE:
-+	case RWH_WRITE_LIFE_SHORT:
-+	case RWH_WRITE_LIFE_MEDIUM:
-+	case RWH_WRITE_LIFE_LONG:
-+	case RWH_WRITE_LIFE_EXTREME:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- #endif /* _LINUX_RW_HINT_H */
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-index 86cb385fe0b5..951e35226229 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -92,12 +92,23 @@ struct io_uring_sqe {
- 			__u16	addr_len;
- 			__u16	__pad3[1];
- 		};
-+		struct {
-+			/* Bit field to express 16 meta types */
-+			__u16	meta_type;
-+			__u16	__pad4[1];
-+		};
- 	};
- 	union {
- 		struct {
- 			__u64	addr3;
- 			__u64	__pad2[1];
- 		};
-+		struct {
-+			/* First meta type specific fields */
-+			__u64	lifetime_val;
-+			/* For future use */
-+			__u64	__pad5[1];
-+		};
- 		__u64	optval;
- 		/*
- 		 * If the ring is initialized with IORING_SETUP_SQE128, then
-@@ -107,6 +118,14 @@ struct io_uring_sqe {
- 	};
- };
- 
-+enum io_uring_sqe_meta_type_bits {
-+	META_TYPE_LIFETIME_HINT_BIT
-+};
-+
-+/* this meta type covers write hint values supported by F_SET_RW_HINT fcntl */
-+#define META_TYPE_LIFETIME_HINT	(1U << META_TYPE_LIFETIME_HINT_BIT)
-+
-+
- /*
-  * If sqe->file_index is set to this for opcodes that instantiate a new
-  * direct descriptor (like openat/openat2/accept), then io_uring will allocate
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 510123d3d837..bf45ee8904a4 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -269,6 +269,24 @@ static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe,
- 		rw->kiocb.ki_ioprio = get_current_ioprio();
- 	}
- 	rw->kiocb.dio_complete = NULL;
-+	if (ddir == ITER_SOURCE) {
-+		u16 mtype = READ_ONCE(sqe->meta_type);
-+
-+		rw->kiocb.ki_write_hint = WRITE_LIFE_INVALID;
-+		if (mtype) {
-+			u64 lhint = READ_ONCE(sqe->lifetime_val);
-+
-+			if (READ_ONCE(sqe->__pad4[0]) ||
-+			    READ_ONCE(sqe->__pad5[0]))
-+				return -EINVAL;
-+
-+			if (mtype != META_TYPE_LIFETIME_HINT ||
-+			    !rw_hint_valid(lhint))
-+				return -EINVAL;
-+
-+			rw->kiocb.ki_write_hint = lhint;
-+		}
-+	}
- 
- 	rw->addr = READ_ONCE(sqe->addr);
- 	rw->len = READ_ONCE(sqe->len);
-@@ -1023,7 +1041,12 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
- 	if (unlikely(ret))
- 		return ret;
- 	req->cqe.res = iov_iter_count(&io->iter);
--	rw->kiocb.ki_write_hint = file_write_hint(rw->kiocb.ki_filp);
-+	/*
-+	 * Use per-file hint only if per-io hint is not set.
-+	 * We need per-io hint to get precedence.
-+	 */
-+	if (rw->kiocb.ki_write_hint == WRITE_LIFE_INVALID)
-+		rw->kiocb.ki_write_hint = file_write_hint(rw->kiocb.ki_filp);
- 
- 	if (force_nonblock) {
- 		/* If the file doesn't support async, just async punt */
--- 
-2.25.1
-
+Javier
 
