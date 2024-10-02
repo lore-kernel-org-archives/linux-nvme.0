@@ -4,49 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AF4ECF31A0
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2024 08:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 803EFCF31AF
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2024 10:31:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=blqLzWAqx+DmM8bXnRQDhQMhHti5vXZL3evTOTh6Jq4=; b=SM9KkKutzEpFOaKcP4xUR+GmVR
-	o44ZBWTKuV1Tpc/uNt70pIwRZ30y1ePUz8C3+XkgrSDEoOPZeSHyBa9hLA0Ef8pSF8ZP4zgd/yLng
-	BZjFJM3IlIotzARSJF9ZinLtxge9+q1Wy725eNSp2xmU+VoyKnGdLWnIezArKVlS/B95citB4Int1
-	mIl04B00VNZCyV1EN+VlF6/KCWlyEoyyT2+GVslBRsyAagaJehrb6EdW4NiKzRL6XNoLItgZw5gIK
-	EF7F1TsI7VTWMRVUOLxj+ZiIcG4OKibUuczVHOvLs0Z+1R2BKYWhi8jWRsM4mN9RQXaQm4wY5OOt/
-	UcDWVK4w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=B7pqOXXsM4Y87OzYSQIv8cWnQpJASDOO+OelvX9tBTs=; b=Zl7K+7CIalCZl/9DN0KTCS3+3a
+	VNQJXot9gKi43t1loD5fQ5BmgAZLY5Vg4aJ+LJtxcoTlth8yEBCoKySdoOxEISdn+2vU4/rqcvndb
+	6JxyvvPZuv1n5SxfR7SdySRHGaOck3OuSuWmQt1mRa/OtZWzO7ZbAOk0Rh7vbaIsl8oRVlSjSVUSs
+	FZ+V4SQEjT35aDWJ0Yld8ZH7Bhn0Xr96sA2eDvuxhY2TbjvntwpW2Tbdy5JzYQDoF7bcL8olVL6wA
+	QGFJX+N1goOoSjGjrJqb0BKxd6KkmPchH9oEcMAO7VhYrJy8Fj3+RTuQU8YTwG6eD/V22idlxyaKX
+	j9lRZXhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1svuXI-000000058iq-2bmT;
-	Wed, 02 Oct 2024 08:16:40 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1svwde-00000005Uvq-3H5P;
+	Wed, 02 Oct 2024 10:31:22 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1svuXF-000000058hn-3dNk
+	id 1svwcH-00000005UbS-1VVG
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Oct 2024 08:16:39 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 024AB227A8E; Wed,  2 Oct 2024 10:16:34 +0200 (CEST)
-Date: Wed, 2 Oct 2024 10:16:33 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: gjoyce@linux.ibm.com
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com,
-	hch@lst.de, sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
-	msuchanek@suse.de, jonathan.derrick@linux.dev, okozina@redhat.com,
-	nilay@linux.ibm.com
-Subject: Re: [PATCH 1/1] nvme: retry security commands if media not ready
-Message-ID: <20241002081633.GA22436@lst.de>
-References: <20240930164845.8406-1-gjoyce@linux.ibm.com> <20240930164845.8406-2-gjoyce@linux.ibm.com>
+	Wed, 02 Oct 2024 10:29:59 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20241002102952euoutp028de7ad68649729bb8ada358806c64a7a~6nA5HNmLT2047420474euoutp02e
+	for <linux-nvme@lists.infradead.org>; Wed,  2 Oct 2024 10:29:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20241002102952euoutp028de7ad68649729bb8ada358806c64a7a~6nA5HNmLT2047420474euoutp02e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1727864992;
+	bh=B7pqOXXsM4Y87OzYSQIv8cWnQpJASDOO+OelvX9tBTs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=FdKqEZeVcduiCxjNyO1FjwA10duqW1kr9fANYEePAhoaRCV92/CdtIUsQbXnPWFKc
+	 hMU5xNf+eHv3g7iG9R3k237Vf75iNyodR+DFeA+/4C7SY0scRZnTT74k1tCReduF1e
+	 C1zaDTYOLw1B9+x+HqeHhEnqJAWSVoBivv2KWn0c=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20241002102951eucas1p2a0fdbebc26c60c32df61e59d65b2613b~6nA46Rvm20706107061eucas1p2f;
+	Wed,  2 Oct 2024 10:29:51 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 2D.0A.09620.F902DF66; Wed,  2
+	Oct 2024 11:29:51 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241002102951eucas1p2d81570a43d6e75c85f443a333a0e8b6a~6nA4hpTY32003520035eucas1p2l;
+	Wed,  2 Oct 2024 10:29:51 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241002102951eusmtrp2972f2b67761158907056603808cd1d63~6nA4hF7G70948109481eusmtrp2S;
+	Wed,  2 Oct 2024 10:29:51 +0000 (GMT)
+X-AuditID: cbfec7f5-d1bff70000002594-f5-66fd209f8b8c
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 32.23.19096.F902DF66; Wed,  2
+	Oct 2024 11:29:51 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20241002102951eusmtip11d992995ccbcdf598a4a3c6705fa05aa~6nA4X1WuW1301313013eusmtip1g;
+	Wed,  2 Oct 2024 10:29:51 +0000 (GMT)
+Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Wed, 2 Oct 2024 11:29:50 +0100
+Date: Wed, 2 Oct 2024 12:29:50 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Keith Busch <kbusch@kernel.org>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>,
+	<linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
+	<gost.dev@samsung.com>, Chinmay Gameti <c.gameti@samsung.com>
+Subject: Re: [PATCH v2 2/3] block: support PI at non-zero offset within
+ metadata
+Message-ID: <20241002102950.g4dure7kobtaixgf@ArmHalley.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Disposition: inline
-In-Reply-To: <20240930164845.8406-2-gjoyce@linux.ibm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZvwXN5n1XyqRoH9H@kbusch-mbp.mynextlight.net>
+X-Originating-IP: [106.110.32.122]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKKsWRmVeSWpSXmKPExsWy7djPc7rzFf6mGdw6bG6x+m4/m8XK1UeZ
+	LCYdusZosfeWtsX8ZU/ZLZYf/8dkse71exYHdo/z9zayeFw+W+qxaVUnm8fmJfUeu282sHl8
+	fHqLxePzJrkA9igum5TUnMyy1CJ9uwSujGs7epkKXgtU3HnwjrWBcQ1vFyMnh4SAicSFRQdZ
+	uhi5OIQEVjBKLDzTzQbhfGGUOHrsJCOE85lR4smLGUAZDrCW+Y+sIeLLGSV6Go8xwxVdvXQT
+	ytnMKLHrxCtGkCUsAioSXUfOsIDYbAL2EpeW3WIGsUUElCXuzp/JCtLALDCVSeLes3tgDcIC
+	QRJbHvcwgdi8ArYSDd+2sELYghInZz4BG8QsYCXR+aGJFeQkZgFpieX/OCDC8hLNW2eDzecE
+	KlnWeZ0R4lEliccv3kLZtRKnttxiAtkrIdDOKXFr22F2iISLxIvVC5khbGGJV8e3QMVlJP7v
+	nM8EYVdLNJw8AdXcwijR2rGVFRIu1hJ9Z3IgahwlZvdtYoQI80nceCsIcRufxKRt05khwrwS
+	HW1CExhVZiF5bBaSx2YhPDYLyWMLGFlWMYqnlhbnpqcWG+ellusVJ+YWl+al6yXn525iBKak
+	0/+Of93BuOLVR71DjEwcjIcYJTiYlUR47x36mSbEm5JYWZValB9fVJqTWnyIUZqDRUmcVzVF
+	PlVIID2xJDU7NbUgtQgmy8TBKdXANN98Z+8r5vmce3LjHK40h/sv6HP48y6ySoaL8WnjktbF
+	eUbRz52efPUTrEiTrMz5yikoqzel6de5R1+in/DKhWo2Mdz40TK/6Wdy6dMrn1em/Pw651ha
+	0tL3fQelpepkmGSthWY0Tp31jEPZ8bWws4V/1qT132/rNyfb+eq8XTT3gaH/7uamLeweBvFr
+	rukmLuadrfzRWtBxdsS7VX8bst/m6kevm84g+bvw1huRaS8uNRU1nHEu7RHaWLd8ksZthpA2
+	wa40rbNnX4WlBjydnXKEi3OayUWpmTeuRlrvm1H8taJzRgi/6Z6LUtFb31u6nBHZ27tpq6TO
+	DZsPd44usuc+L7G8fV5KBn/bkdOtSizFGYmGWsxFxYkA7JuxE7gDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsVy+t/xu7rzFf6mGRzcLWex+m4/m8XK1UeZ
+	LCYdusZosfeWtsX8ZU/ZLZYf/8dkse71exYHdo/z9zayeFw+W+qxaVUnm8fmJfUeu282sHl8
+	fHqLxePzJrkA9ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy
+	1CJ9uwS9jGs7epkKXgtU3HnwjrWBcQ1vFyMHh4SAicT8R9ZdjFwcQgJLGSVmtt9j6WLkBIrL
+	SGz8cpUVwhaW+HOtiw2i6COjxPtvFxkhnM2MEje3fQXrYBFQkeg6cgbMZhOwl7i07BYziC0i
+	oCxxd/5MVpAGZoGpTBL3nt1jBEkICwRJbHncwwRi8wrYSjR828IKMfULs8Tka/uZIRKCEidn
+	PgGbyixgITFz/nlGkLuZBaQllv/jgAjLSzRvnQ1WzilgJbGs8zojxNlKEo9fvIWyayU+/33G
+	OIFRZBaSqbOQTJ2FMHUWkqkLGFlWMYqklhbnpucWG+kVJ+YWl+al6yXn525iBMbstmM/t+xg
+	XPnqo94hRiYOxkOMEhzMSiK89w79TBPiTUmsrEotyo8vKs1JLT7EaAoMo4nMUqLJ+cCkkVcS
+	b2hmYGpoYmZpYGppZqwkzst25XyakEB6YklqdmpqQWoRTB8TB6dUA1OPxpkZU8M/zK0wk5n3
+	zOx5B4ez7YGNp9POvzQIUOlPOue9dIPpYcu0X4J3czlf50x8tz3vzrvgwJdal7tm9k5s+e6V
+	81pp5ZeTJS1S2n83cJtt3Bzv289238v7q/q//ubu0K9zZthmfFHk/vqOOTnt/r0d8/naquq/
+	fDr8J4V1BeefBtmGVVdCZKZoNk3bWSXcVKR8KeZ4v/CD+TtKF4l9S1upn5b9QcMuYOLxb3kb
+	+UzTX1xJVAxauGzPX5GSHM8j0+o/cW6tVAtk+39xjfPNKze1r5u7LX8zN/qxdt9WY4XM5c3F
+	hz9f+5R1bp3jabb3U078PcduWcr54d8Uk4XNvzY1LN+V8rjzB8Oeqk4/JZbijERDLeai4kQA
+	X14TTmIDAAA=
+X-CMS-MailID: 20241002102951eucas1p2d81570a43d6e75c85f443a333a0e8b6a
+X-Msg-Generator: CA
+X-RootMTR: 20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d
+References: <20240201130126.211402-1-joshi.k@samsung.com>
+	<CGME20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d@epcas5p1.samsung.com>
+	<20240201130126.211402-3-joshi.k@samsung.com> <ZvV4uCUXp9_4x5ct@kbusch-mbp>
+	<8ed2637b-559e-3f27-3d1f-84a4718475fb@samsung.com>
+	<ZvWSFvI-OJ2NP_m0@kbusch-mbp>
+	<165deefb-a8b3-594e-9bfb-b3bcd588d23f@samsung.com>
+	<yq1ttdx81ub.fsf@ca-mkp.ca.oracle.com>
+	<20241001072708.tgdmbi56vofjkluc@ArmHalley.local>
+	<ZvwXN5n1XyqRoH9H@kbusch-mbp.mynextlight.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241002_011638_076395_668D67B9 
-X-CRM114-Status: GOOD (  18.81  )
+X-CRM114-CacheID: sfid-20241002_032957_947560_E398A6FE 
+X-CRM114-Status: GOOD (  27.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,59 +146,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 30, 2024 at 11:48:43AM -0500, gjoyce@linux.ibm.com wrote:
-> +static u32 nvme_get_timeout(struct nvme_ctrl *ctrl)
+On 01.10.2024 09:37, Keith Busch wrote:
+>On Tue, Oct 01, 2024 at 09:27:08AM +0200, Javier González wrote:
+>> On 30.09.2024 13:57, Martin K. Petersen wrote:
+>> >
+>> > Kanchan,
+>> >
+>> > > I spent a good deal of time on this today. I was thinking to connect
+>> > > block read_verify/write_generate knobs to influence things at nvme level
+>> > > (those PRCHK flags). But that will not be enough. Because with those
+>> > > knobs block-layer will not attach meta-buffer, which is still needed.
+>> > >
+>> > > The data was written under the condition when nvme driver set the
+>> > > pi_type to 0 (even though at device level it was non-zero) during
+>> > > integrity registration.
+>> > >
+>> > > Thinking whether it will make sense to have a knob at the block-layer
+>> > > level to do something like that i.e., override the set
+>> > > integrity-profile with nop.
+>> >
+>> > SCSI went to great lengths to ensure that invalid protection information
+>> > would never be written during normal operation, regardless of whether
+>> > the host sent PI or not. And thus the only time one would anticipate a
+>> > PI error was if the data had actually been corrupted.
+>> >
+>>
+>> Is this something we should work on bringin to the NVMe TWG?
+>
+>Maybe. It looks like they did the spec this way one purpose with the
+>ability to toggle guard tags per IO.
+>
+>Just some more background on this because it may sound odd to use a data
+>protection namespace format that the kernel didn't support:
+>
+>In this use case, writes to the device primarily come from the
+>passthrough interface, which could always use the guard tags for
+>end-to-end protection. The kernel block IO was the only path that had
+>the limitation.
+>
+>Besides the passthrough interface, though, the setup uses kernel block
+>layer to write the partition tables. Upgrading from 6.8 -> 6.9 won't be
+>able to read the partition table on these devices. I'm still not sure
+>the best way to handle this, though.
 
-get_timeout feels a bit too generic for this specific controller/media
-ready  timeout.
+Mmmm. Need to think more about this.
 
-> +	timeout = NVME_CAP_TIMEOUT(ctrl->cap);
-> +	if (ctrl->cap & NVME_CAP_CRMS_CRWMS) {
-> +		u32 crto, ready_timeout;
-> +
-> +		ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CRTO, &crto);
-> +		if (ret) {
-> +			dev_err(ctrl->device, "Reading CRTO failed (%d)\n",
-> +				ret);
-> +			return ret;
-> +		}
-
-And we really should be caching these values instead of reading the
-register for every security command.
-
-> +	u32 timeout;
-> +	unsigned long timeout_jiffies;
-> +	int ret;
-> +
-> +	timeout = nvme_get_timeout(ctrl);
-> +	timeout_jiffies = jiffies + timeout * HZ;
->  
->  	if (send)
->  		cmd.common.opcode = nvme_admin_security_send;
-> @@ -2335,8 +2376,19 @@ static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t l
->  	cmd.common.cdw10 = cpu_to_le32(((u32)secp) << 24 | ((u32)spsp) << 8);
->  	cmd.common.cdw11 = cpu_to_le32(len);
->  
-> -	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
-> +	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
->  			NVME_QID_ANY, NVME_SUBMIT_AT_HEAD);
-> +	while (ret == NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY) {
-> +		if (time_after(jiffies, timeout_jiffies)) {
-> +			dev_err(ctrl->device,
-> +				"Device media not ready; aborting\n");
-> +			return -ENODEV;
-> +		}
-> +		ssleep(1);
-> +		ret =  __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer,
-> +				len, NVME_QID_ANY, NVME_SUBMIT_AT_HEAD);
-> +	}
-
-And this also feels a bit odd in that it doesn't catch
-NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY when it should be ready.
-I think just marking when the controller is past the timeout and
-only doing the retry until then might be the better approach.  And
-maybe we should have it in the __nvme_submit_sync_cmd helper for
-admin command as Security Send/Receive aren't the only commands with
-this issue.
-
+Seems this is by design in NVMe.  Will try to come back to Mike and Judy
+to understand the background for this at the time...
 
