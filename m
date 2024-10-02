@@ -4,191 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52092CF6D3C
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2024 16:19:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 556D4CF6D3D
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2024 16:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QZjB2it5703iP39JqTr3/yeeukt/+8TecXlmd0R8JuQ=; b=zhjXMl84+8j14q52+1s00R+wbD
-	npZeRr5S/F0T5DTjRdfU8R6s1PJSYwFt7Qcl9pDagiuUfrN7qpNzS/O9BHbmoJ+BMjSqL+r6+GcCm
-	O8j5LsaphWIDEVOdCY9/Hg7Lk6VMHmi9BEpKigZbec0EnozUHgDTm/59rHJnIu7ISBi8zaIkrDifS
-	tuR7d2BZShN3EzIypuaZsmi+6yf9H37GNDbZWtTXhXR5bfp4ItA2VleGobcAtL+18HY8m6sCg8CDE
-	AlCLjjjOBBiRSG8xrFc2o42SC2j8N73gtvHfv/XTcsmVlYiJktLwk5i4aXEdL1tk9GElGLL26wI3w
-	FHueVXsw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EDwrtAKjNyiAQ7gtBpzerMG9RgaK6oOXXdksyiOAh1U=; b=VWomQpx15PoB9R2wJEULwvs4//
+	ptC+NwIuLJK3BSV6Ibs9QCsp8URmy41hxpOQZ5IcS4AmZ8UYg9NRguxmO9wL5GoZpAXouDhrSiwh8
+	DMtYk1th5r9w1Z2XAzSJJTK+2hGh6wJehQGvDYYrePCmcijonLbIV3za2aV57grN9Q+t5QUS54aQ4
+	ooIRxNlqpnX+XRsV0Cw+hn6hc893ZkHhBxFXFxwkUU7pmrmzkPQD0+7RK1eVGiOOTVYBS9Qpoi/1s
+	KTh4f6jeF9X2VqTKXsE2WYGtHGfb3Uz4bNyKDzp6bZ0jJyPvTfcDNEOOh+/BMSuNvx028KiwBwu0Y
+	9CfRQ5wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sw245-00000006uK1-1wa2;
-	Wed, 02 Oct 2024 16:19:01 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1sw2aR-00000006yQ8-2cWt;
+	Wed, 02 Oct 2024 16:52:27 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sw241-00000006uJQ-3SnP
+	id 1sw2aP-00000006yPT-2IFI
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Oct 2024 16:18:59 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 492GFn1X017453;
-	Wed, 2 Oct 2024 16:18:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to
-	:cc:subject:from:in-reply-to:message-id:references:date
-	:content-type:mime-version; s=corp-2023-11-20; bh=QZjB2it5703iP3
-	9JqTr3/yeeukt/+8TecXlmd0R8JuQ=; b=aSbLdkKGuRfHI4GtE6geVP4aF+iqOT
-	QTD6/ToqObRygi96TT/nklG2AKnucDS5heYkiI38jH1DqQBBW4T/9Q9tHP4JxtDN
-	DGg6pN3VduDQ7m3BoBHf0bftsK0qnsFujwauSrb/pa2FmXhwDMWJusXSy6GId8Yb
-	73ntjjZ4APkKGVrcvyMt4I+Bg7/h9UvSWBTeI0klJuWW6i1vzkdwjuYIpsqgJbFe
-	heF4JpCPS/lN1kx3uiaE8IbIcGejZelj/cEs7rdjw68brq+daWo30LiDDvJ3po2Z
-	f7BbsCKdrxRfstly7zfez+AF1GrueQxw0ZJ7skP/dr2fgWSuRsktzkOg==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41x9p9sqfv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 02 Oct 2024 16:18:42 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 492FO0ma040534;
-	Wed, 2 Oct 2024 16:18:42 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2047.outbound.protection.outlook.com [104.47.73.47])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 41x88924mr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 02 Oct 2024 16:18:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Zd0EDyrUKIbcGF3uCfwVJZS/eFmlqVhg8BU7NtHMVAFfkjclBklX3WL7sFtdSYD1yU17cdUqg0vuGp8YIJCp0GVFmGXcvR5WJCCd0aWnauohYl/glKBgD9BaDxW7bD3lea3SFrsGul8LSTcVL3EyM2j/UslCs9mP32RCGv5tcYULKGWhzHJ6wpaETaE/YW2jZ4AttDm08NXfZyCrFKm8aFG0WUM1/zRO5rz5VkOZ4/WAKic55ssEiRpgZuwRskJgNKgWV7j1SA+Xc4MGgW4/80T8lG9jIpxvkT0or8Z3b9tT1Sa5YEZMl+juXXXcBnFX9Q5LtxqLzHjx8JRVvCFvNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QZjB2it5703iP39JqTr3/yeeukt/+8TecXlmd0R8JuQ=;
- b=SogYzY/t/BGQYFHp+wZ31tACn/HGx0sWAumh9nK4jI996uwaCcDeUsPdEvax07yBszOeWIOs8G3z37H77lTE9U9likv22weLeQxGBmX2Z7uLfNnMegw3na/SMGaU8K3w4gV4eVLJU8ZAw5KLaIgVoExpNdDyN9AxeERKwTA+2Xa/5lEMKCpmt81ULE8MZzOHIYGJUWp3bTmwiwsGSPXH4ugZUstTRhn6R+TQ0YnArss65lIIP7f9Q/hBBjrU7h+i/uSmscZDTwPXJ0Ls0FCfkwnvbDbjYr6OTGwYO7bRn5CyHewyeQlrtYHgc8mvXYrRCwiHCvYpV+51yxUUCizm0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QZjB2it5703iP39JqTr3/yeeukt/+8TecXlmd0R8JuQ=;
- b=yu3vpbBQhICmURGtELfACSwbGHJKCmBiIhdK2euwy1cP6hJy6TjyU3TQBn/1Ikcu7mPdVr4ftBMdsvRmaCLN0Bgpa4u3f+ZbmSRRpZaSxKGxifQZ6DzWrbbk6M9tirZRTmP6mNUEoiHFllvGD7dzfzpc0tSpYpjUIEqtZgY9S5A=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by BN0PR10MB4837.namprd10.prod.outlook.com (2603:10b6:408:116::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Wed, 2 Oct
- 2024 16:18:39 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7%3]) with mapi id 15.20.8026.016; Wed, 2 Oct 2024
- 16:18:39 +0000
-To: Keith Busch <kbusch@kernel.org>
-Cc: Javier =?utf-8?Q?Gonz=C3=A1lez?= <javier.gonz@samsung.com>,
-        "Martin K.
- Petersen"
- <martin.petersen@oracle.com>,
-        Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hch@lst.de,
-        sagi@grimberg.me, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org, gost.dev@samsung.com,
-        Chinmay Gameti <c.gameti@samsung.com>
-Subject: Re: [PATCH v2 2/3] block: support PI at non-zero offset within
- metadata
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <ZvwXN5n1XyqRoH9H@kbusch-mbp.mynextlight.net> (Keith Busch's
-	message of "Tue, 1 Oct 2024 09:37:27 -0600")
-Organization: Oracle Corporation
-Message-ID: <yq1v7ya4hgc.fsf@ca-mkp.ca.oracle.com>
-References: <20240201130126.211402-1-joshi.k@samsung.com>
-	<CGME20240201130843epcas5p1b1840bd14ced64a1effb6fd8c93c926d@epcas5p1.samsung.com>
-	<20240201130126.211402-3-joshi.k@samsung.com>
-	<ZvV4uCUXp9_4x5ct@kbusch-mbp>
-	<8ed2637b-559e-3f27-3d1f-84a4718475fb@samsung.com>
-	<ZvWSFvI-OJ2NP_m0@kbusch-mbp>
-	<165deefb-a8b3-594e-9bfb-b3bcd588d23f@samsung.com>
-	<yq1ttdx81ub.fsf@ca-mkp.ca.oracle.com>
-	<20241001072708.tgdmbi56vofjkluc@ArmHalley.local>
-	<ZvwXN5n1XyqRoH9H@kbusch-mbp.mynextlight.net>
-Date: Wed, 02 Oct 2024 12:18:37 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR05CA0033.namprd05.prod.outlook.com
- (2603:10b6:a03:c0::46) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	Wed, 02 Oct 2024 16:52:26 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 492GlqjP009011;
+	Wed, 2 Oct 2024 16:51:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:subject:from:reply-to:to:cc:date:in-reply-to
+	:references:content-type:content-transfer-encoding:mime-version;
+	 s=pp1; bh=EDwrtAKjNyiAQ7gtBpzerMG9RgaK6oOXXdksyiOAh1U=; b=Ln/Zk
+	6YcCxwEnFchQCIs92DzIBKxQgPz9yHTsvzsVhakj2qu0rZQjz8pSYcjRIe1+VEoL
+	u22cG/CiOI1jxmINOUSpjOpDaRtpShnFlGxy8uP+RboOkQMj4e2SX2SEREGnpvvZ
+	oTtjobBnKWYKmvKShhgXWtt0NfBb1yy53sebu91WbQWDVdXAxL3ZJ5WsPwdl7PZK
+	hU6xYxDbarESaoQFu+hNLiXuIwASCtMHYPwFNQ684xguccHMr7LhiBuscYq33+w4
+	6Hdr4rkU02cYM9kFkOz5A2DEiIZRtk5wQk7Jog89JgmBjK5x5DOhSPxY+9+9d8JJ
+	eHucrJTrNhkAqyj1Q==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 421a0u80en-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Oct 2024 16:51:59 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 492GpwXl017475;
+	Wed, 2 Oct 2024 16:51:58 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 421a0u80eh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Oct 2024 16:51:58 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 492EQB8P002346;
+	Wed, 2 Oct 2024 16:51:57 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 41xxu1b22n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Oct 2024 16:51:57 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 492GpvjM38601024
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 2 Oct 2024 16:51:57 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2B1E15805C;
+	Wed,  2 Oct 2024 16:51:57 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0138758051;
+	Wed,  2 Oct 2024 16:51:57 +0000 (GMT)
+Received: from rhel-laptop.ibm.com (unknown [9.61.147.165])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  2 Oct 2024 16:51:56 +0000 (GMT)
+Message-ID: <dbfd87e4900bea3a28ac46f5abcfb39ef2c13fc1.camel@linux.ibm.com>
+Subject: Re: [PATCH 1/1] nvme: retry security commands if media not ready
+From: Greg Joyce <gjoyce@linux.ibm.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@fb.com,
+        sagi@grimberg.me, hare@suse.de, dwagner@suse.de, msuchanek@suse.de,
+        jonathan.derrick@linux.dev, okozina@redhat.com, nilay@linux.ibm.com
+Date: Wed, 02 Oct 2024 11:51:56 -0500
+In-Reply-To: <20241002081633.GA22436@lst.de>
+References: <20240930164845.8406-1-gjoyce@linux.ibm.com>
+	 <20240930164845.8406-2-gjoyce@linux.ibm.com>
+	 <20241002081633.GA22436@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3 (3.52.3-1.fc40app2) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|BN0PR10MB4837:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10d0a751-8e7b-4fcd-8e71-08dce2fddff4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bcVcX6/w2Fw0mAPQrTSm11SdurX3AODfcJQP7OQncUd/fw1xFUtZFsBopzzF?=
- =?us-ascii?Q?AV2vnghgBQzzwfMvR/peBaJK/bexX5FUUXF1uVLtGjlMeBL7aKuL1cGM48EC?=
- =?us-ascii?Q?jcK1DS3BWE2VG4pL+q9eWtI1rdwWq2GOQDiOnGQzQdpmg1/GAnorlIDpG8mz?=
- =?us-ascii?Q?DlCsvQt67DUXjYe9NsmD9YPIrF/bEhKiv7A30DJaeeRTiyfyndR1iZgr4EfE?=
- =?us-ascii?Q?5z/WW4k5DC7x81YRReEeEdR2C5ftGO9Ai+rHSJEk1s07cK24sQ7KUm7m6NY1?=
- =?us-ascii?Q?nAvzOkavnMcNzbITSCkhY2lOHsqzOM3VfNQglpOFy2lkB0it2eHMrq2WpHui?=
- =?us-ascii?Q?2Lqqds3XSCVcgL8m79TZBX47upFB7JpFJP22OSo5cisYhEE/mu6wnyD6lR7P?=
- =?us-ascii?Q?IXPAN3tdm67hzOcPGxtgBSR/N8tZhKyC9Y/HH3sbxn1QDisOByNHw5hR3iXW?=
- =?us-ascii?Q?yDSu9L7JMiIQiyaEdGg/WbyqncudkfVCBZj5H9ntRk7bitBAMhnEF1X8dcuL?=
- =?us-ascii?Q?Fo81kH2mSmjnItbqShyoiAPWye6/3uu1uzJWU9bHE8H87oYcbW4ZFGnrYUyw?=
- =?us-ascii?Q?DQ/gQXu0Mk0TLgxDD+LvKNItwtT9X7693T0E+GWkFezX1NRSiRMcq/VjZSu/?=
- =?us-ascii?Q?QuSIv/7Var5o8sAAwrwRCYYQMBwLRVn2i9cREa4JH0cPAg+2DgWCClj2dgc2?=
- =?us-ascii?Q?uOMEnKFXfECMr+um0cKnHrCZlNdMgVR8DHzNNI7wbqw1C1I5k/vDY6O0q16i?=
- =?us-ascii?Q?JAWJZboaWrj7/YEZN6ux5gnxDeItKo5CnFCQ50x7p7KlsSxm9aHKdE5cxH6M?=
- =?us-ascii?Q?Y0LgHlKCI5QgJ2iVgkoNqUzlsN3MvEGLik1j48zurgK4dG9uglK3a9LZkqws?=
- =?us-ascii?Q?a3FOVnajlgZQmV5XoOlJhINY6bqJu7HK6NRyU5MIKiuGIT0AAfzAETTRgCPP?=
- =?us-ascii?Q?Y2LvybeFgNkuoLtb7691T7dvJCO84dLEbEL0+ILg/6+l37XWT1bjsWT0Hl3C?=
- =?us-ascii?Q?TowLyPco6mcVbSdp+PH3VtCn+w9EfLLQ/2HIVKx05LsmNn3O6y1+//L0siPD?=
- =?us-ascii?Q?NQLEhZCABZXdAHdkLZsJ0Eumakz4i8Qp2krkdM80qq5ZRJeMZixvGiDpCC/4?=
- =?us-ascii?Q?gQnPkpIZ+wvO+wcGDY1EgYPDEdVhrJplShF4yRoMbvfDXokb++mUmpXIo22w?=
- =?us-ascii?Q?P9GGKW+/6JkvumbMiX3Bo+CXS+fa7EJPCsjsHbEvxbojn5XIlHCUz2e9l83N?=
- =?us-ascii?Q?iFRE7Q1d7X9LThvjaKiEoI4VM7Fh5l9wScjCHOMzGg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8+Qt/iZbXyAsFYCKJI3GaOqE2+2oqykFgJYtvsyquNwiJcVAihoyA0+CVxyH?=
- =?us-ascii?Q?uCtRLnRyd7QhJT/YvWeprbF/78zukPLYOO6THr7o7Eey1SYcg00yqkvFt0yC?=
- =?us-ascii?Q?rZIrABwV9l8d6rjQA7DTsOrkf1x7LUEkaKsBkInqI5nXN72mh6JBqEIIYdZj?=
- =?us-ascii?Q?iyvW6eM3osSdE+UstAxSkAd+Q2nbT9vPJgz+Cc/4jIfMTxBdXgqWZPD5bMzH?=
- =?us-ascii?Q?EIuWj3If/A3sAR5RqkWSGI9WtvEOIlbvg2Y3ZLL8VsK6enoepr6OspxfPgKi?=
- =?us-ascii?Q?9wjUx2DKxWpnCNaPm2GlQPPJNeZasKLLhTCJfPlPrPHXbTNStA0SoIQGUaxP?=
- =?us-ascii?Q?FJABaLrOgZc+Zs7u74t8JZeJ7QgA7yK5NF4BMqyC/hnpEgxk/eO8yCtg+UcN?=
- =?us-ascii?Q?EYEnvYc91lBFXFBkfY0DJZBni4Q8TuqRsMpwufjZYrhWzs4uDYAMmAscvJ06?=
- =?us-ascii?Q?mMMHfNBqYhvIxCjaxmjI44QprLy6KgsjJ5xyRdCETLJohJ7QNu9EtKI2sUYI?=
- =?us-ascii?Q?Io9rJ0WG8AkQJJh5p4JY2HawmCjvplYT4uWxbYGEquyI6nmYOk2TJbq1LCCZ?=
- =?us-ascii?Q?nK8xrLq8bt/U2KiRThGZnMtQVGn0V7zTuY01PBR/M3V6JMJav21erzvE5ByR?=
- =?us-ascii?Q?iYCfNbhi4SSnNXZPhQE9Wwh102ialXwl8tiVwxOsJk+Pi6zGkp7Rio9dsH4B?=
- =?us-ascii?Q?de9kssr5zk0E8YuZXtWxGAtX8JdMfSfnfPSM3kafYWq3PU9+IVOnBJC5Kepr?=
- =?us-ascii?Q?VNmBhhqGLWjGziav2F70Tgj0xSX58+Hfto+G/vN5eyj5tjDEPG7ZCYBgiLXO?=
- =?us-ascii?Q?XZ3MBlPdX/Hsnpu5vnuMrjoVV9645eS5C5lq2gnKiGOao8TAacPgOlDl+iZb?=
- =?us-ascii?Q?XBCm/WHYSkhc0NXUW62l3LGPzgfSAmOAjjPC3HNLZf/x59t9EP67QONcxZfY?=
- =?us-ascii?Q?XFhgl2FrmwukLoQdNwGWVsryOzPSYoIzVLqtPt/HNuYicIZG91/c3owT7KRT?=
- =?us-ascii?Q?HH5vQSAjwVouXLWGkMRPPEnbCAnzLj+ZvOm4+s8U1p9YA7AMDTTdtkWEhQGa?=
- =?us-ascii?Q?fDfJx1qp5wOIU9Zaoge1C7Rqk60HV0kEf818DHmG9ire8MsbBsU/56sZN5IN?=
- =?us-ascii?Q?GYCRCXvJzqCgll2wmdMZ/sSe1ee5XM486F8KznCARepCkW/+6aJfaIoDEDh8?=
- =?us-ascii?Q?fJ0iy/0dkaJw5Zh0XyyqaXJy9/0wlT1hn/FwPyDz3xjay1XzOHepq1r+j4nM?=
- =?us-ascii?Q?9jO0R9j2xk1nyuk+AeTHOI61aS8aabzqLtkM5yF4j2h+4JOAZ4nuT4Haf68E?=
- =?us-ascii?Q?0u20bfEG3Th5Mb0P8add9IP7TxHykvtW0MBEBhkjQ+/O3qIYcjEOquHVoSBS?=
- =?us-ascii?Q?/5cCG3cnzSmkBbSl1lWHFeyH+bCycComnjVnORwfegEosIsp+IA08RPHTrf0?=
- =?us-ascii?Q?KOc7F1j4cYT0xHKRt5VdQClEjSOExup/M6PnFiXy1eQ1wHiEmGct2DtloOsr?=
- =?us-ascii?Q?DLtEANOENFuJBuyuGIsOLyFZXQ6CWkU5ZhbXmrs6TIPg9j7BIUp9G3vw2qSG?=
- =?us-ascii?Q?9lRfaEB9qu2cRY/7dFZbzj10ZijUK9VTIhcWJRyFKjcT946VdSta8YMuhylK?=
- =?us-ascii?Q?lg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: FSSc0b23twFmRTmBfv1Rr2njvvA91VcQ6RcjUeDFptwa7Cov5faMxjbStGRWM1S/YQ8rVIIOPO9m0fSHUmTKTJCXWGxPTor3mtsN6Xu5E+MXx7PUtExmeYwyBGkQPPN21Y/AdnYJwjN4BoSSYPAi5N0l2XW58mawQNqQllFoAPFucMScxMQHlIq8xhyqI11pM3JuKKjLIyA4B6eJfpcSiVFv4tQb3dbdB2kjfUEaDQNbZ6ZldwS2bUflJ9MARYUYEDPIeE2ExoFz+Xg24B5WSs+wTypZSxMT+MW67xLWsHWzdeQQ/+y6LRIWTnRvHKnoDwzDw3IKmEfEncYIwX11/SX1JQReHL9xjeMBL46GI01piBcG1DK8FMbNnNt4q+wTIyqh/s5zivWmFRKXbq9JLN+Cc9kIDH9BDrJHJMKwlMpnbrn/K7oAjDlf9p9oAP8jkkn6X9UT+8FzUyD7GSvyAsuGMFUCQloDk3/MWvwAp7lGP0VChBN1TeilG5JgD7VdQHJa5abBg9YTfY3Uw84XxjdDIULYH7WT34fTgTYbhB0a74HnKvu2MSRPX/r/uIMqs9kdmuEwrJ+w+uKwf33wP7MZGRSXqeaewadsKuIWRZg=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10d0a751-8e7b-4fcd-8e71-08dce2fddff4
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2024 16:18:39.3813
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0AvaxtfpU0jZyjpAysmhDgcrpq9cj27sbiUpTujVkNkuWSA3jc4oCAtmAklnlKrm7vTTv2d8l8ltY6jMdlHNVkgnwt7k/Vwm7tLuNr5xkVQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4837
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 4hbwdT-EQKr5UpubOjFRhyLQpQVwifgS
+X-Proofpoint-ORIG-GUID: nycLxBV0YFD3hPiDfyL4Em4FLkHNKi-K
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-02_16,2024-09-30_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
- malwarescore=0 adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=701
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2408220000 definitions=main-2410020117
-X-Proofpoint-ORIG-GUID: zOE9B0QqpIta5T28LwmOnAfWOQ3moQoa
-X-Proofpoint-GUID: zOE9B0QqpIta5T28LwmOnAfWOQ3moQoa
+ definitions=2024-10-02_17,2024-09-30_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 spamscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ lowpriorityscore=0 adultscore=0 impostorscore=0 clxscore=1015 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2410020120
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241002_091858_332919_D6BAA047 
-X-CRM114-Status: GOOD (  16.26  )
+X-CRM114-CacheID: sfid-20241002_095225_618007_867DF73A 
+X-CRM114-Status: GOOD (  32.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -200,39 +112,105 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: gjoyce@linux.ibm.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, 2024-10-02 at 10:16 +0200, Christoph Hellwig wrote:
+> On Mon, Sep 30, 2024 at 11:48:43AM -0500, gjoyce@linux.ibm.com=C2=A0wrote=
+:
+> > +static u32 nvme_get_timeout(struct nvme_ctrl *ctrl)
+>=20
+> get_timeout feels a bit too generic for this specific
+> controller/media
+> ready=C2=A0 timeout.
 
-Keith,
+Agreed. I'll change the name to something more specific.
 
-> Besides the passthrough interface, though, the setup uses kernel block
-> layer to write the partition tables. Upgrading from 6.8 -> 6.9 won't
-> be able to read the partition table on these devices. I'm still not
-> sure the best way to handle this, though.
+>=20
+> > +	timeout =3D NVME_CAP_TIMEOUT(ctrl->cap);
+> > +	if (ctrl->cap & NVME_CAP_CRMS_CRWMS) {
+> > +		u32 crto, ready_timeout;
+> > +
+> > +		ret =3D ctrl->ops->reg_read32(ctrl, NVME_REG_CRTO,
+> > &crto);
+> > +		if (ret) {
+> > +			dev_err(ctrl->device, "Reading CRTO failed
+> > (%d)\n",
+> > +				ret);
+> > +			return ret;
+> > +		}
+>=20
+> And we really should be caching these values instead of reading the
+> register for every security command.
 
-That's why, despite Type 2 supporting offset ref tags, the kernel always
-uses the LBA. This is to ensure that any application which doesn't have
-prior knowledge of the contents of each block's PI can perform a read
-without failing. Including the kernel itself when reading the partition
-table. But it's not just a kernel problem, the BIOS also needs to be
-able to read arbitrary blocks, at least at the beginning and end of the
-device.
+If we cache the timeout value(s) in nvme_ctrl then it may be possible
+to just eliminate nvme_get_timeout() entirely. Is this the approach
+that you were thinking?
 
-Many of the features of the original DIF spec were squarely aimed at use
-inside storage arrays where there was a single entity, the array
-firmware, performing all reads and writes.
+>=20
+> > +	u32 timeout;
+> > +	unsigned long timeout_jiffies;
+> > +	int ret;
+> > +
+> > +	timeout =3D nvme_get_timeout(ctrl);
+> > +	timeout_jiffies =3D jiffies + timeout * HZ;
+> > =C2=A0
+> > =C2=A0	if (send)
+> > =C2=A0		cmd.common.opcode =3D nvme_admin_security_send;
+> > @@ -2335,8 +2376,19 @@ static int nvme_sec_submit(void *data, u16
+> > spsp, u8 secp, void *buffer, size_t l
+> > =C2=A0	cmd.common.cdw10 =3D cpu_to_le32(((u32)secp) << 24 |
+> > ((u32)spsp) << 8);
+> > =C2=A0	cmd.common.cdw11 =3D cpu_to_le32(len);
+> > =C2=A0
+> > -	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL,
+> > buffer, len,
+> > +	ret =3D __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL,
+> > buffer, len,
+> > =C2=A0			NVME_QID_ANY, NVME_SUBMIT_AT_HEAD);
+> > +	while (ret =3D=3D NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY) {
+> > +		if (time_after(jiffies, timeout_jiffies)) {
+> > +			dev_err(ctrl->device,
+> > +				"Device media not ready;
+> > aborting\n");
+> > +			return -ENODEV;
+> > +		}
+> > +		ssleep(1);
+> > +		ret =3D=C2=A0 __nvme_submit_sync_cmd(ctrl->admin_q, &cmd,
+> > NULL, buffer,
+> > +				len, NVME_QID_ANY,
+> > NVME_SUBMIT_AT_HEAD);
+> > +	}
+>=20
+> And this also feels a bit odd in that it doesn't catch
+> NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY when it should be ready.
+> I think just marking when the controller is past the timeout and
+> only doing the retry until then might be the better approach.=C2=A0 And
+> maybe we should have it in the __nvme_submit_sync_cmd helper for
+> admin command as Security Send/Receive aren't the only commands with
+> this issue.
+>=20
 
-With DIX, since the interface needed to be used by array firmware and
-general purpose operating systems alike, we needed to add the all
-required features to the interface to accommodate every use case. And
-NVMe inherited this. But NVMe did not really capture which things are
-suitable only in the "single application" scenario.
+I'll look at the spec some more but you're probably correct that when
+the status code transitions from NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY
+to success, then NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY should not be
+returned again.
 
-I'm not sure there's a good fix. Other than as a passthrough user, the
-burden is on you to ensure that things can be read by somebody else.
-Could be backup applications, virus scanners, system firmware, etc.
+I'm a little confused about what you're saying about the timeout.
+nvme_enable_ctrl() does determine the correct timeout value and passes
+it to nvme_wait_ready() but NVME_CSTS_RDY is set well before the media
+is ready (if CC.CRIME is set). Unfortunately there doesn't seem to be
+any controller status that indicates when the media is ready. I thought
+about having nvme_wait_ready() wait the whole timeout if CC.CRIME is
+set, but I think that is contrary to intent of CC.CRIME. And on the SSD
+that I'm looking at the timeout is 15 seconds which would be a pretty
+big hit to boot time.
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+I was looking to solve the specific case of the security commands but
+certainly any of the commands in Figure 103 could have the same issue.
+The heart of the problem is that CC.CRIME support is not complete. I'll
+see if I can address that in a more comprehensive manner.
+
+-Greg
 
