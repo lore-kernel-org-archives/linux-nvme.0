@@ -4,98 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1917ECF34CA
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2024 22:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0398ACF34CA
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2024 22:15:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UARFeoyZ3rHdhvutpLeLbLmTRofuJ6iiIPq0QcY6Mv0=; b=eWfpwTpcUb0JGaOG8YMbeUgZ1N
-	rlfSU8w9W9Au6Fzn14FLH0QZPqoOMdJrvaFMSf/q7IxKvODFCE1mjPNIfH3tl8POUoY9qwMaW0z2l
-	z/TeNcGW5SP3VUSCu/j4lFnWXlRaR6DtjQRLJpm1Sj8tK+6/Id6p6CUfm7m7zbCU+4T65pVYeL5ze
-	piqVL/WZKAT2Nk47l4Li7gHlskr1jp0/4G4uJzbO6vbRS8bpAlL4jI9evZozBUVT8fdfCUn2rnycI
-	vSV8QdGhYSNXCHXTTNHCPdwGIa+5lU6VOJHSL+yWsPNeSfZ1HZVqj71SWRyD2AdwNg0cBpxhAd3h9
-	WlA0IQfQ==;
+	bh=aKcx4mSd/6y//cnPDUFf8gQTgd9+fKKEcuxJUXsGmAw=; b=VQdEvwo0HkXBawQbP9PpsglJX1
+	zNvdOmYxVsKInFurXxQ+Vtrq/4+83cE3UELXBCWBqHaYHQlmxr5uU+lSCSxUvkpaM4ckf1fJlB7ZD
+	joiuiI+SN9m14mMA4YK7v04JFc8p0ifxhYvbcS5aWv3037xFnHSgsZYmLXF4oZ8hui1CAheXoPfhe
+	NQmmU5F7nCtLkHU37axjrgDAEk6ymxDOij1YZHpUwtkIOXbqIVja5ncRXeYPgi8LZXviHvjE0OPwB
+	J1wb3UTqV7H5yXz5xzlxr2N2rJ5xrDJDvkzOl88YPCyZjhZrtGrMbeAmbKLZ0BLNtRze8sq81vCp6
+	vXyEk/yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1swU4c-0000000AUOt-2wMC;
-	Thu, 03 Oct 2024 22:13:26 +0000
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+	id 1swU6C-0000000AUhO-3RO0;
+	Thu, 03 Oct 2024 22:15:04 +0000
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1swU3Z-0000000AUGU-3slb
+	id 1swU69-0000000AUgI-1OUd
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Oct 2024 22:12:23 +0000
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-2e192a2fe6cso1159564a91.3
-        for <linux-nvme@lists.infradead.org>; Thu, 03 Oct 2024 15:12:20 -0700 (PDT)
+	Thu, 03 Oct 2024 22:15:02 +0000
+Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-2e07d91f78aso1176277a91.1
+        for <linux-nvme@lists.infradead.org>; Thu, 03 Oct 2024 15:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1727993540; x=1728598340; darn=lists.infradead.org;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1727993700; x=1728598500; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UARFeoyZ3rHdhvutpLeLbLmTRofuJ6iiIPq0QcY6Mv0=;
-        b=uH93NWMObANi7kT6UlO2AB2V1kdguFAZLvArYN2cb3MZHB3y9rD/p1iGDUYjpPdgHq
-         3q3HxTle9zKNIuppy1ybc1l/WSrglLDvDeG2nWVc0nFqgbMmRUKuvyQ2yXEZ8UBn3CVu
-         uwGIjKY/91KooSnO7e3YszWmH5NW3/oWUMILS92ZWB6brdXY6MQ/NGMKe70Vpp5L14mM
-         MLnBQdwCYiuSD7Kyvg36ag3ZqoZi9I4EzsitDnHnbwWJpHk782dCnqziBJHOyZpAyzp9
-         e+hksubydteotCkU/DGSQgy+ZHMOgJFSCP0P5LuIkc3a4x3bgpucZn2IxntPimwKoA8e
-         kWAw==
+        bh=aKcx4mSd/6y//cnPDUFf8gQTgd9+fKKEcuxJUXsGmAw=;
+        b=01VcmyadwsE0ZOC62nvzLlpjI4Z89R8STvu9CSIIrKSLTukwlSVDkjF933upbanPv0
+         MtVD+lqC3uS9kNQXstOMr+uox5iWmWlFc7qi6nTOdh5cREq/f1XDMu227KSnUCEIJSiQ
+         Id9/A5Zfl9ptVXYLeMnl/JPef86ZuLxzxuZcOAtwMUKVGlVYN7km1Hxztekj0sKxR10c
+         Wym6AHAsRi+SguNZgoBAuyozU9viQ1SNyWkNz3Id999e2/9HvblCbYNyJWqed4jsE4lU
+         P86vaIUQioEJ98fSy2O3pEaMSa+JYcwulvxdUkE3ii9E0Wnvc/WmoynizcD14a9megpp
+         pcZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727993540; x=1728598340;
+        d=1e100.net; s=20230601; t=1727993700; x=1728598500;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UARFeoyZ3rHdhvutpLeLbLmTRofuJ6iiIPq0QcY6Mv0=;
-        b=pNDWSKdpaBhv7vZ4GUiaeClE3+FOdbT8xaRDldLX9RnPVl+sHyh0ZEHQvTka6nHOAj
-         SE+ewBPqzlM3MR5hYUa4rT068dHLlT0+Tn/lZifwySb5pJWC7R/UMMa7k4wCnIyLAQqW
-         P6Xa6srDyKwKixB43yajeJJeAlIVXAGxlH6c5OzL5AX3IPunl3t0Yev5QIps2mjeH9H+
-         ZAZYEaxyqrfb/vNpLUZ2ZlO6PxV8ADH+Trf+1DuS0mzhZyPsdf11bbH3jQqSfH7SqnzK
-         zr+L73X1MXViu5K+gghJcZlNXLQyzqwrGnBn8G/bbliluhjylB+LsJtpijICWstRrw1k
-         UiIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrlbuyEMXpI077+yZuwgC0SU45e67LPAVy5OFSLquCHWN07V56c3bbWRRdtinxE2nYGG3YvD4VCy4S@lists.infradead.org
-X-Gm-Message-State: AOJu0YzFev8VxmDJidoOrFgfle9jj95tttpde/BtIzWZHPmAnJ2xrhAO
-	T9ytzsMiwaucrzdPZiBZFpXLSe+2FzapkS9HkMpFfGkz+g4UXU5JxitH7yOvgvY=
-X-Google-Smtp-Source: AGHT+IHM56HG+I+buxx/PP0Ki+OL0sze0gS4TyHVsLh+P56KL+AQukx5RNv5DEf6lEpdxcaFxOgK0g==
-X-Received: by 2002:a17:90b:3796:b0:2e0:8bf4:f298 with SMTP id 98e67ed59e1d1-2e1e5dcf9b1mr686996a91.0.1727993540193;
-        Thu, 03 Oct 2024 15:12:20 -0700 (PDT)
+        bh=aKcx4mSd/6y//cnPDUFf8gQTgd9+fKKEcuxJUXsGmAw=;
+        b=HhkQECB+awvjYA94K1dpieg0oHmgDUPnIBlOgWG5GpB5e90TyEYyLbyjHDUh84IJRL
+         1lf4A9zYdjMMVVAUydX16DA6QVnPru53+7BT0LMALkZwS8bJ6ZFHJJpCay/cpmUsApEm
+         cgiAwNZZSfrB2wtUi/FJTuSMrbuOeFz9dyc8hWU7EbLraYpdAMiVUseQxMwwlNMrhHs3
+         cHZCpoLDxB+y0QpsJU6IjDsCgR8JBkcMDZWzHKMnTxp75diBEgNPq6HD+SDxqoWJE83Q
+         fpErZQDwJmidiEayDKQiogxTFqwONXnz+LofOfvSsZWHZRGkK/87s+WeULazEbiVy8Xb
+         QM7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUr/eegqbKU0AspEr1VIuZiT1F9TMvPAY/lwFbc0mwVGjplKXx5tUaBUBW+BiIci5HjdrZgUZfRUNIv@lists.infradead.org
+X-Gm-Message-State: AOJu0YwVnu0dlc1X37s66cg13nnIrCWwCF74VcxVBXPqsYzgSf/ZPU8p
+	/8wuNKUBM98GBlsJa111G6G+rOP0J03WlwXqYO7u9NmEUlnKNYtxWqEYaXhdZ5U=
+X-Google-Smtp-Source: AGHT+IEa8OibXU8u5AU9dURn3INaVlJRzRZ2R5VooIMzXfRbVR8kevOP6FlKzcqQxHqYef2QRhpO7w==
+X-Received: by 2002:a17:90b:224e:b0:2e0:8719:5f00 with SMTP id 98e67ed59e1d1-2e1e62a93f6mr663348a91.22.1727993700011;
+        Thu, 03 Oct 2024 15:15:00 -0700 (PDT)
 Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e86abbc6sm4335a91.50.2024.10.03.15.12.17
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e8643534sm8913a91.50.2024.10.03.15.14.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2024 15:12:19 -0700 (PDT)
-Message-ID: <09db3e2a-8f39-4ac3-ab7b-a2c8addabc77@kernel.dk>
-Date: Thu, 3 Oct 2024 16:12:16 -0600
+        Thu, 03 Oct 2024 15:14:59 -0700 (PDT)
+Message-ID: <c68fef87-288a-42c7-9185-8ac173962838@kernel.dk>
+Date: Thu, 3 Oct 2024 16:14:57 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-To: Bart Van Assche <bvanassche@acm.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
- Kanchan Joshi <joshi.k@samsung.com>, hare@suse.de, sagi@grimberg.me,
- brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
- jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com,
- asml.silence@gmail.com, linux-nvme@lists.infradead.org,
+To: Christoph Hellwig <hch@lst.de>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Keith Busch <kbusch@kernel.org>, Kanchan Joshi <joshi.k@samsung.com>,
+ hare@suse.de, sagi@grimberg.me, brauner@kernel.org, viro@zeniv.linux.org.uk,
+ jack@suse.cz, jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com,
+ bvanassche@acm.org, asml.silence@gmail.com, linux-nvme@lists.infradead.org,
  linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
  linux-block@vger.kernel.org, linux-aio@kvack.org, gost.dev@samsung.com,
  vishak.g@samsung.com, javier.gonz@samsung.com
-References: <20241001092047.GA23730@lst.de>
+References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com>
+ <20240930181305.17286-1-joshi.k@samsung.com> <20241001092047.GA23730@lst.de>
  <99c95f26-d6fb-4354-822d-eac94fdba765@kernel.dk>
  <20241002075140.GB20819@lst.de>
  <f14a246b-10bf-40c1-bf8f-19101194a6dc@kernel.dk>
  <20241002151344.GA20364@lst.de>
  <Zv1kD8iLeu0xd7eP@kbusch-mbp.dhcp.thefacebook.com>
  <20241002151949.GA20877@lst.de> <yq17caq5xvg.fsf@ca-mkp.ca.oracle.com>
- <a8b6c57f-88fa-4af0-8a1a-d6a2f2ca8493@acm.org>
- <20241003125516.GC17031@lst.de> <Zv8RQLES1LJtDsKC@kbusch-mbp>
- <abd54d3a-3a5e-4ddc-9716-f6899512a3a4@acm.org>
+ <20241003125400.GB17031@lst.de>
 Content-Language: en-US
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <abd54d3a-3a5e-4ddc-9716-f6899512a3a4@acm.org>
+In-Reply-To: <20241003125400.GB17031@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241003_151222_025592_9285E240 
-X-CRM114-Status: GOOD (  21.98  )
+X-CRM114-CacheID: sfid-20241003_151501_430665_FCA41916 
+X-CRM114-Status: GOOD (  13.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,40 +108,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/3/24 4:00 PM, Bart Van Assche wrote:
-> On 10/3/24 2:48 PM, Keith Busch wrote:
->> The only "bonus" I have is not repeatedly explaining why people can't
->> use h/w features the way they want.
+On 10/3/24 6:54 AM, Christoph Hellwig wrote:
+> For file: yes.  The problem is when you have more files than buckets on
+> the device or file systems.  Typical enterprise SSDs support somewhere
+> between 8 and 16 write streams, and there typically is more data than
+> that.  So trying to group it somehow is good idea as not all files can
+> have their own bucket.
 > 
-> Hi Keith,
-> 
-> Although that's a fair argument, what are the use cases for this patch
-> series? Filesystems in the kernel? Filesystems implemented in user
-> space? Perhaps something else?
-> 
-> This patch series adds new a new user space interface for passing hints
-> to storage devices (in io_uring). As we all know such interfaces are
-> hard to remove once these have been added.
+> Allowing this inside a file like done in this patch set on the other
+> hand is pretty crazy.
 
-It's a _hint_, I'm not sure how many times that has to be stated. The
-kernel is free to ignore it, and in the future, it may very well do
-that. We already had fcntl interfaces for streams, in the same vein, and
-we yanked those in the sense that they ended up doing _nothing_. Did
-things break because of that? Of course not. This is no different.
-
-> We don't need new user space interfaces to support FDP for filesystems
-> in the kernel.
-> 
-> For filesystems implemented in user space, would using NVMe pass-through
-> be a viable approach? With this approach, no new user space interfaces
-> have to be added.
-> 
-> I'm wondering how to unblock FDP users without adding a new
-> controversial mechanism in the kernel.
-
-pass-through already works, obviously - this is more about adding a
-viable real interface for it. If it's a feature that is in devices AND
-customers want to use, then pointing them at pass-through is a cop-out.
+I do agree that per-file hints are not ideal. In the spirit of making
+some progress, how about we just retain per-io hints initially? We can
+certainly make that work over dio. Yes buffered IO won't work initially,
+but at least we're getting somewhere.
 
 -- 
 Jens Axboe
