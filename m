@@ -4,77 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AC2ACF8549
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2024 00:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D8A0CF8568
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2024 07:59:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Oh0VWAuDQnXtvqrOgW+mdNBpO1eMzfyHq16DUHZnGIc=; b=m0z4H3yeMYPCnVAOZSqLne0xMT
-	cVkIV05hMrrMA9VZ2ADqO45K+X/h/ArLunm2tWtDXaKKs4Nw/ahZRRw6QXEGi8tw4eWz40h6YcKGF
-	2rI678KJ+4Mw0SN7M9eaL/XAb4Nd25FPxQwX+YC5OcHZ2AyCKdpAzvemrZd949v3NXyJbYfAhnsxT
-	qbaxxYOKkDy3EZpjVzsrNGzHeNkHvM0KCXoueQlf0gvRWGc4i443WTIIDWBXqF+WMyJUhH5yybcrR
-	LO/WJu2QRd5exBP8bO5ms+UsgYyD39SS1kl5ZEzHNiHKUxQ3AREHtFTQrwQU72bXsSdk9ii7ASJfp
-	JWa9KcpA==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+C2rkp7jlJkARupnIKj+20eLg26RHbLCuvTdEBiXbNU=; b=eVs7FSZFUt7+fTko2Mg3J5KfNe
+	HPRUovCO1BDr24mOlk9WnO61/YdUrjKvm9zUYgXFQTZqy+8jtrzfDO/TelyxOEsbWwkyigUMiELtl
+	2gpvQq4AkbYBmy6zFnJKRGPPAVEW4wirevbtppHiHU1tU/SFcUYQgkyZFnSr1ecnnMuZuP2eS7uJ3
+	vLm2nteVkWT2+gaqgV6nClMacO58N/rJViYWrXQGyOPUrULhx8+oe6Iac0kiMBJoL/Os+hi75IjW+
+	mWZeeu175j2LIsO8yuTvFxox2itIFGs9KRdnneHjpFIh7UEE0KyTJJ4BBr2D5woG3nudHay3G9G5f
+	XbCRYd2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sw9aJ-00000007r1P-42ie;
-	Thu, 03 Oct 2024 00:20:47 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1swGjy-00000008TGp-1UtE;
+	Thu, 03 Oct 2024 07:59:14 +0000
+Received: from mail.bytebrigadebuilders.com ([80.211.239.163])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sw9aH-00000007r0b-28il
+	id 1swGgb-00000008Sh6-04ZS
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Oct 2024 00:20:46 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4XJslc5hknzlgMW9;
-	Thu,  3 Oct 2024 00:20:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1727914839; x=1730506840; bh=Oh0VWAuDQnXtvqrOgW+mdNBp
-	O1eMzfyHq16DUHZnGIc=; b=q4Q10RP3cvtsde0sb2ibCa9e909lRJus9XrjroPK
-	B+Vo8AEO2LHR4T59I2Vw8U7LuErXXaOZ3yQsZP4gHblTnU6tXSqsVRiXydJ7yCe0
-	sGYpf69OhfMjsorv6slK6lRQXdgOKgUVgPoAHHWdk1O3+QW8Ogp8ku5bFmOnthYC
-	oR2lvZRouL6esIoM3OM/Wr1bdJ+1nH5ZUYqTpkoKZLFYRN7Df7JUld7g2e/yiYag
-	TQFHmM8W3jpPk/XHPMOnDjN52iYxzDWmChJP+gDGwkwrjCM2EufkemQO4zPUG+Ap
-	pZK6LSrTtVI7ZPgT54P0IEFiPSWQH6iz6f8JUn2Om1hmmg==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id LlQiNrpWlL36; Thu,  3 Oct 2024 00:20:39 +0000 (UTC)
-Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4XJslN5L2NzlgVnY;
-	Thu,  3 Oct 2024 00:20:32 +0000 (UTC)
-Message-ID: <052e0503-eb3f-4345-b366-1c0a2c4604a5@acm.org>
-Date: Wed, 2 Oct 2024 17:20:25 -0700
+	Thu, 03 Oct 2024 07:55:46 +0000
+Received: by mail.ByteBrigadeBuilders.com (Postfix, from userid 1002)
+	id 5EB04845A4; Thu,  3 Oct 2024 09:55:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=ByteBrigadeBuilders.com; s=mail; t=1727942140;
+	bh=+C2rkp7jlJkARupnIKj+20eLg26RHbLCuvTdEBiXbNU=;
+	h=Date:From:To:Subject:From;
+	b=WWCuNf55px2xG/83zRkepFclqXuxIJ0IqYWicSYbY2VlZfboV9fgcuZ76LuSh+uEh
+	 S6J+diYg7wLSZtMMYWyBzAkPJfqRJ7KVGnIMaW3PvYXJ8qyzDVMNdsKHsDQpFNqig/
+	 y52n5xc0f/M6ZVSyGswFZY7iktOdPaFXHbrMmJkGGW2hKE/3h2LWmUT3mCVCJkIbgB
+	 +5+eV3Qfym4YLKJyD3NO8mtgw66kWVp9mxfprTpG3F4XqB6tAo7EIbROiVUDsmG4+I
+	 UTTAjf+yBYlYQhxEgQFjHM1FdvJ9EDN5zQFv8E27Zb03OaLUUkH/BK+6//zY3x0WGH
+	 tYbfea5Cn9fkA==
+Received: by mail.ByteBrigadeBuilders.com for <linux-nvme@lists.infradead.org>; Thu,  3 Oct 2024 07:55:24 GMT
+Message-ID: <20241003084500-0.1.ac.vb5i.0.kzsjb9d09i@ByteBrigadeBuilders.com>
+Date: Thu,  3 Oct 2024 07:55:24 GMT
+From: "Jan Polasek" <jan.polasek@bytebrigadebuilders.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: Quick Question About Collaboration
+X-Mailer: mail.ByteBrigadeBuilders.com
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-To: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, hare@suse.de, sagi@grimberg.me, martin.petersen@oracle.com,
- brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
- jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com,
- asml.silence@gmail.com
-Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org,
- gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com
-References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com>
- <20240930181305.17286-1-joshi.k@samsung.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240930181305.17286-1-joshi.k@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241002_172045_600383_10FD28EB 
-X-CRM114-Status: GOOD (  12.06  )
+X-CRM114-CacheID: sfid-20241003_005545_218515_3DBA73F6 
+X-CRM114-Status: UNSURE (   3.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,24 +67,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/30/24 11:13 AM, Kanchan Joshi wrote:
-> Another spin to incorporate the feedback from LPC and previous
-> iterations. The series adds two capabilities:
-> - FDP support at NVMe level (patch #1)
-> - Per-io hinting via io_uring (patch #3)
-> Patch #2 is needed to do per-io hints.
-> 
-> The motivation and interface details are present in the commit
-> descriptions.
+Hello!
 
-Something is missing from the patch descriptions. What is the goal
-of this patch series? Is the goal to support FDP in filesystems in
-the kernel, is the goal to support filesystems implemented in user
-space or perhaps something else? I think this should be mentioned in
-the cover letter.
+I am very impressed with the products and services you offer.
 
-Thanks,
+I thought we could help you reach a larger audience with your offerings. =
+Would you be interested in collaborating with us in an affiliate marketin=
+g campaign?
 
-Bart.
+For example, our program for a company in the e-commerce sector resulted =
+in an increase in revenue from 8% to an impressive 19% (on average per qu=
+arter).
 
+We achieve up to 13% turnover in GA4, while standard affiliate networks g=
+enerate only 3-6%.
+
+Would you have time for a short conversation in the next few days?
+
+
+Best regards
+Jan Polasek
 
