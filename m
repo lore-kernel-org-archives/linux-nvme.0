@@ -4,60 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BC2ECF34AD
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2024 21:04:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FAB7CF34CA
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2024 21:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q+rwCEY81oQ4sjtoyBBhHoecmyoZiPylOeaC6XfifYc=; b=ijOK9OC3G8+GpZB2TOHUHxxEsl
-	jWU+d0guJlsQJ34TyYX+X9lVwFZpZfOcgoT44CJDBGBJYK14Z8nBQxIcynJe89j17hoZp/iaWDF1t
-	EuOiTl7WhpeVz7XIAH+gpBIGqJQ0FxBKO+CqPsoOzcfyvyJJkjeB9zS9tQG+sXn8qQfMk9QmiFlS/
-	NkSK5Bs59UuU5c2634r5gFV/YS/itwas1shrCAu6d83m4EqhuvvYQ4O18GBrQmjZvq7c3w8UDtrug
-	ELFvROpoQ98AjEpERiVb2vWU8V47ii4Erz87fk82bEPPcr2EcYDfueZKG8SuGUZinDOD9Htlu5XUn
-	Kp3oT5dg==;
+	bh=TMC7yBvfVOcbOk7yxx8betDSeVItQf7ualX1r+D7Z/o=; b=AMS8HlB9sCKifvEndf96R1pp7h
+	aq3agSlyy7QM8Yh/K6vmsgJzcr0q83pSkErwFknk1OlRAxnnzWClNja3Rki9iH66nZeHHmqffL3rT
+	x4U0ST6zjypgVSZ1LThXL8nETqM+9QkEZR8eQFAMHENtRRRsCf9XzM6uh+omNLIJiKmEPPsYrJun7
+	MaM+qmrgi+Qrw1+/ZAFU0Fx8COD8PP3ek1QErWjv91Kpo2YgAJX9uNeHQdoHSAbpzbxPmPFr6mDU4
+	nNa0Wu/HqOpEdFtlclDnQ254gh06loazjuHlTyhEutl/b1mDYao1b3yg5kqrkug5MJfYVDW9g2X90
+	1G5ylR+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1swT0K-0000000ALSP-0K4w;
-	Thu, 03 Oct 2024 21:04:56 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1swTgt-0000000AQWO-3UOg;
+	Thu, 03 Oct 2024 21:48:55 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1swT0I-0000000ALRx-0AdH
+	id 1swTgr-0000000AQVy-0mrG
 	for linux-nvme@lists.infradead.org;
-	Thu, 03 Oct 2024 21:04:55 +0000
+	Thu, 03 Oct 2024 21:48:54 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id E58A5A4196F;
-	Thu,  3 Oct 2024 21:04:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B371EC4CEC5;
-	Thu,  3 Oct 2024 21:04:52 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 75C975C570F;
+	Thu,  3 Oct 2024 21:48:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE120C4CEC5;
+	Thu,  3 Oct 2024 21:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727989493;
-	bh=Q9k3k/m5fSxJzcDEz1vohdGeGNvVWjyNN8523HjrykU=;
+	s=k20201202; t=1727992132;
+	bh=4AzBG75BomVJ/TJ9cdnRW/C1hFEjYKKZnSLWMe4SVh4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mpF2JjSuvnFLJ1Yg/yxg/9N854l98M7J8g1k4PXcaJmsMO3jGT7sduUH/pf4SXzO7
-	 qzWR5BUxX5n84/tA9hOgXTJqRAJRWcxTDtI+nMPZOIGIUeqyOqFZGGC2FcR+zEAIyt
-	 CWDdK9zcV5Q4GXftyIE32YmHCdA8phm4VjNxHfvcXINP77UgFHnHz3oN5sxFAK3BTa
-	 qC3swWvzU5dNYaxpcRfq0k8HnWbBJQoSjsUgAr/CvIUjrO1pXlB/Cv4uNT4Er2sofZ
-	 JAxuVtlxqI3ts6N3pGC9zWNniQDWxIqI3Q5Sjg4cmjkoq2A0db/mr8sfMRIvX4Rv0t
-	 Q3cXcVtNLPhPA==
-Date: Thu, 3 Oct 2024 15:04:50 -0600
+	b=uMjPkqbMwo6KWPI/vjV7wXJVcjwZU9LhSDuHlFJrl85NLpOnFN+mcoCL/a5A3Divj
+	 z5qDWLrJ6MU/QyLV0Fuz2n1HOo03ima2F4T83y0nI6Fh5zPIyhsNCWSmFhB30vtOe4
+	 3YPqLCzzxVHxYqHpqPa0hpTwTUzTJ9PM1AzSfnUMNATDYf3c2ZC6wsfyWZinLRZGe+
+	 yQKSCwPkVxyhdwmkwz0NEQRcP0D4kibaGXmB7FbKPIF9yaCBxy9sDH6KEcMNvNMKAQ
+	 /VdwNv6PEykXhqeNS5TogetQApSvcMFGBGRtQL7rDPNdm8sXMYnqH8nq0H7Aw4nqVq
+	 DFXq83HxwBV1g==
+Date: Thu, 3 Oct 2024 15:48:48 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Laurence Oberman <loberman@redhat.com>
-Cc: "busch, keith" <keith.busch@intel.com>, linux-nvme@lists.infradead.org
-Subject: Re: nvme: machine check when running nvme subsystem-reset /dev/nvme0
- against direct attach via PCIE slot
-Message-ID: <Zv8G8l5cyzDRwLJA@kbusch-mbp>
-References: <b73005ac327784e740bb6b362870c15d0c7788fa.camel@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Bart Van Assche <bvanassche@acm.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Jens Axboe <axboe@kernel.dk>, Kanchan Joshi <joshi.k@samsung.com>,
+	hare@suse.de, sagi@grimberg.me, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org,
+	bcrl@kvack.org, dhowells@redhat.com, asml.silence@gmail.com,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-aio@kvack.org, gost.dev@samsung.com, vishak.g@samsung.com,
+	javier.gonz@samsung.com
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+Message-ID: <Zv8RQLES1LJtDsKC@kbusch-mbp>
+References: <20241001092047.GA23730@lst.de>
+ <99c95f26-d6fb-4354-822d-eac94fdba765@kernel.dk>
+ <20241002075140.GB20819@lst.de>
+ <f14a246b-10bf-40c1-bf8f-19101194a6dc@kernel.dk>
+ <20241002151344.GA20364@lst.de>
+ <Zv1kD8iLeu0xd7eP@kbusch-mbp.dhcp.thefacebook.com>
+ <20241002151949.GA20877@lst.de>
+ <yq17caq5xvg.fsf@ca-mkp.ca.oracle.com>
+ <a8b6c57f-88fa-4af0-8a1a-d6a2f2ca8493@acm.org>
+ <20241003125516.GC17031@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b73005ac327784e740bb6b362870c15d0c7788fa.camel@redhat.com>
+In-Reply-To: <20241003125516.GC17031@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241003_140454_163309_0ED8F27B 
-X-CRM114-Status: GOOD (  16.30  )
+X-CRM114-CacheID: sfid-20241003_144853_291797_AC69D76E 
+X-CRM114-Status: GOOD (  17.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,38 +88,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 26, 2024 at 05:11:05PM -0400, Laurence Oberman wrote:
-> It was reported to Red Hat, seeing issues with using a
-> "nvme subsystem-reset /dev/nvme0" command to test resets.
-
-I really dislike that command. The side effects are overkill for the pci
-transport...
- 
-> On multiple servers I tested on two types of nvme attached devices
-> These are not the rootfs devices
->
-> 1. The front slot (hotplug) devices in a 2.5in format 
-> reset and after some time recover (what is expected)
+On Thu, Oct 03, 2024 at 02:55:16PM +0200, Christoph Hellwig wrote:
+> On Wed, Oct 02, 2024 at 11:34:47AM -0700, Bart Van Assche wrote:
+> > Isn't FDP about communicating much more than only this information to
+> > the block device, e.g. information about reclaim units? Although I'm
+> > personally not interested in FDP, my colleagues were involved in the
+> > standardization of FDP.
 > 
-> Example of one working
-> 
-> Does not trap and land up as a machine-check
+> Yes, it is.  And when I explained how to properly export this kind of
+> information can be implemented on top of the version Kanchan sent everyone
+> suddenly stopped diskussion technical points and went either silent or
+> all political.
 
-<snip>
+The nominals can mean whatever you want. If you want it to mean
+"temperature", then that's what it means. If you want it to mean
+something else, then don't use this.
 
-> 2. Any kernel upstream latest 6.11, RHEL8 or RHEL9 causes 
-> a machine check and panics the box when its against a nvme in a 
-> PCIE slot
-> 
-> [  263.862919] mce: [Hardware Error]: CPU 12: Machine Check Exception: 5 Bank 6: ba00000000000e0b
-> [  263.862924] mce: [Hardware Error]: RIP !INEXACT! 10:<ffffffff8571dce4> {intel_idle+0x54/0x90}
+These are hints at the end of the day. Nothing locks the kernel into
+this if a better solution develops. As you know, it was ripped out
+before.
 
-So this wasn't failing before 6.11? As Nilay mentioned, there are some
-changes on how nvme subsystem reset is handled. The main thing being
-this ioctl doesn't automatically trigger an nvme reset. I expected
-delayed recovery might happen, but machine checks are not expected. If
-this was working before, I can only guess right now that the previous
-behavior was accessing MMIO and config quicker and triggered a different
-error path. If you're successful with the PPC patch reverted, I would be
-interested to hear about it.
+> So I think some peoples bonuses depend on not understanding the problem
+> I fear :(
+
+The only "bonus" I have is not repeatedly explaining why people can't
+use h/w features the way they want.
 
