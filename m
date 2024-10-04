@@ -4,56 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 904D7CFA774
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Oct 2024 12:32:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F0FECFA773
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Oct 2024 12:40:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q+5RUw4uNcQZxC2dy3F7b1o9dSlwukmucy/P+gjiWWM=; b=r2aeaSuz22JM4RmBXOwr613qzW
-	/d65zBQPWEIocaX3Lk1veZm1X+Yzmlj4+0ZkRHwZ0LoYOEyEp4m97hEHIUtSWjJTCzqX+RZWErann
-	vMBbvBbs7Bqcndy4mwaD/yxoGul47j9upVb8mhT8I5FzV7XkD8flduEqgC6IsA/guSDc0n1fmtA2O
-	eeSVCHP3cI+5AghWLFhsBpXEkrC8fmnE3wLXXezwywFQnA6ahoUtHuArahnKjZMieaGyjrasav/DR
-	xCltxKLTokKi31TO8Zow4fMcNFsxgro5ZW0Q0VhJbmcB6AOrPD3qM18vIiNydtsgN2oPX09nhR19R
-	Pg35C3lA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ljNGHTx1Vey+gMA+7+An5He7ufB1Ct6PjDSNRWnhftU=; b=EQflRkQbtdEUYQ0DDMHUrhhSJq
+	+St/MZ3zi9X9e6oGSLFmXeTuqLxCj45OsYVzVhZikuI3It5+2etCQXvrJ5sNTeVZ6ez+9q32ZBlyn
+	aZqSDE3/gxCZ0e2QytKfVnNcIeBJswBbu3+diAWIhWvNWItzTAmoVqlvcmHc7K26eQ0C3GKY9bkfs
+	uMeLHSqIithAzZbuEQAyRw3ssJvWpWutqtMU843gD8fb6DJaoM0vx42lK1o+a6VTu17NfWuc6YWwD
+	8taB3AD7yHxzPVJ7cmBtnuQaqlGy1clma0vrLqjjf1Nor6OyGhfjRjtjSja4MkZFNRrU6iZfk2Fde
+	sBPgU6pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1swhTf-0000000CJdP-3dBl;
-	Fri, 04 Oct 2024 12:32:11 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1swhc1-0000000CLdD-1xny;
+	Fri, 04 Oct 2024 12:40:49 +0000
+Received: from out-189.mta1.migadu.com ([2001:41d0:203:375::bd])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1swhTd-0000000CJcg-0kk1
+	id 1swhby-0000000CLbs-29zM
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Oct 2024 12:32:10 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 87712227A87; Fri,  4 Oct 2024 14:32:06 +0200 (CEST)
-Date: Fri, 4 Oct 2024 14:32:06 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Bart Van Assche <bvanassche@acm.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Kanchan Joshi <joshi.k@samsung.com>, hare@suse.de, sagi@grimberg.me,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com,
-	asml.silence@gmail.com, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-aio@kvack.org,
-	gost.dev@samsung.com, vishak.g@samsung.com
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <20241004123206.GA19275@lst.de>
-References: <20241002151344.GA20364@lst.de> <Zv1kD8iLeu0xd7eP@kbusch-mbp.dhcp.thefacebook.com> <20241002151949.GA20877@lst.de> <yq17caq5xvg.fsf@ca-mkp.ca.oracle.com> <a8b6c57f-88fa-4af0-8a1a-d6a2f2ca8493@acm.org> <CGME20241003125523eucas1p272ad9afc8decfd941104a5c137662307@eucas1p2.samsung.com> <20241003125516.GC17031@lst.de> <20241004062129.z4n6xi4i2ck4nuqh@ArmHalley.local> <20241004062415.GA14876@lst.de> <20241004065923.zddb4fsyevfw2n24@ArmHalley.local>
+	Fri, 04 Oct 2024 12:40:48 +0000
+Message-ID: <5cff6598-21f3-4e85-9a06-f3a28380585b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1728045642;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ljNGHTx1Vey+gMA+7+An5He7ufB1Ct6PjDSNRWnhftU=;
+	b=l4bA74dJQey/YADueu/OvaMdIKugW18fx9yIVRQ7hn8PnaLQJuJfgYpB0SXYuEgxU8GO/v
+	H7UHNbEg8uSNFuRrFaMrtKULLwH6lH0glDJsodhz5spiqS3upYzCmgJ+QR8efkbvV8IPFf
+	iqQSgl2IUVllcAmSIa14Yh8ZUmWwLzE=
+Date: Fri, 4 Oct 2024 20:40:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: Re: blktests failures with v6.12-rc1 kernel
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "nbd@other.debian.org" <nbd@other.debian.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+References: <xpe6bea7rakpyoyfvspvin2dsozjmjtjktpph7rep3h25tv7fb@ooz4cu5z6bq6>
+ <e6e6f77b-f5c6-4b1e-8ab2-b492755857f0@acm.org>
+ <dvpmtffxeydtpid3gigfmmc2jtp2dws6tx4bc27hqo4dp2adhv@x4oqoa2qzl2l>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <dvpmtffxeydtpid3gigfmmc2jtp2dws6tx4bc27hqo4dp2adhv@x4oqoa2qzl2l>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241004065923.zddb4fsyevfw2n24@ArmHalley.local>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241004_053209_385524_8B8E738F 
-X-CRM114-Status: GOOD (  13.54  )
+X-CRM114-CacheID: sfid-20241004_054047_157501_429E56F3 
+X-CRM114-Status: GOOD (  18.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,17 +74,147 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 04, 2024 at 08:59:23AM +0200, Javier González wrote:
-> FDP has authors from Meta, Google, Kioxia, Micron, Hynix, Solidigm,
-> Microship, Marvell, FADU, WDC, and Samsung.
->
-> The fact that 2 of these companies are the ones starting to build the
-> Linux ecosystem should not surprise you, as it is the way things work
-> normally.
+在 2024/10/4 10:40, Shinichiro Kawasaki 写道:
+> On Oct 03, 2024 / 13:56, Bart Van Assche wrote:
+>> On 10/3/24 1:02 AM, Shinichiro Kawasaki wrote:
+>>> #3: srp/001,002,011,012,013,014,016
+>>>
+>>>      The seven test cases in srp test group failed due to the WARN
+>>>      "kmem_cache of name 'srpt-rsp-buf' already exists" [4]. The failures are
+>>>      recreated in stable manner. They need further debug effort.
+>>
+>> Does the patch below help?
+> 
+> Thanks Bart, but unfortunately, still the test cases fail with the message
+> below. I also noticed that similar WARN for 'srpt-req-buf' is observed. This
+> problem apply to both 'srpt-rsp-buf' and 'srpt-req-buf', probably.
+> 
 
-That's not the point.  There is one company that drivers entirely pointless
-marketing BS, and that one is pretty central here.  The same company
-that said FDP has absolutely no іntent to work on Linux and fought my
-initial attempt to make the protocol not totally unusable ony layer system.
-And no, that's not Samsung.
+Hi, Bart
+
+I read the following commit in the link:
+
+https://patchwork.kernel.org/project/linux-rdma/patch/20240920181129.37156-1-sebott@redhat.com/#:~:text=Add%20the%20device%20name%20to%20the%20per%20device
+
+Maybe the root cause of this problem is the same with the above link.
+So I add a jiffies (u64) value into the name.
+
+Hope this can solve this problem.
+
+Hi, Shinichiro
+
+The following is the same with Bart's patch except that a jiffies value 
+is added to make the name unique. I am not sure if you can make tests to 
+verify this patch or not.
+
+Thanks a lot.
+
+diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.c 
+b/drivers/infiniband/ulp/srpt/ib_srpt.c
+index 9632afbd727b..ea1f8e6072ac 100644
+--- a/drivers/infiniband/ulp/srpt/ib_srpt.c
++++ b/drivers/infiniband/ulp/srpt/ib_srpt.c
+@@ -2164,6 +2164,7 @@ static int srpt_cm_req_recv(struct srpt_device 
+*const sdev,
+         u32 it_iu_len;
+         int i, tag_num, tag_size, ret;
+         struct srpt_tpg *stpg;
++    char *cache_name;
+
+         WARN_ON_ONCE(irqs_disabled());
+
+@@ -2245,8 +2246,13 @@ static int srpt_cm_req_recv(struct srpt_device 
+*const sdev,
+         INIT_LIST_HEAD(&ch->cmd_wait_list);
+         ch->max_rsp_size = ch->sport->port_attrib.srp_max_rsp_size;
+
+-       ch->rsp_buf_cache = kmem_cache_create("srpt-rsp-buf", 
+ch->max_rsp_size,
++    cache_name = kasprintf(GFP_KERNEL, "srpt-rsp-buf-%s-%s-%d-%llu", 
+src_addr,
++                   dev_name(&sport->sdev->device->dev), port_num, 
+get_jiffies_64());
++    if (!cache_name)
++        goto free_ch;
++    ch->rsp_buf_cache = kmem_cache_create(cache_name, ch->max_rsp_size,
+                                               512, 0, NULL);
++    kfree(cache_name);
+         if (!ch->rsp_buf_cache)
+                 goto free_ch;
+
+Zhu Yanjun
+
+> ------------[ cut here ]------------
+> kmem_cache of name 'srpt-rsp-buf-fec0:0000:0000:0000:5054:00ff:fe12:3456-ens3_siw-1' already exists
+> WARNING: CPU: 0 PID: 47 at mm/slab_common.c:107 __kmem_cache_create_args+0xa3/0x300
+> Modules linked in: ib_srp scsi_transport_srp target_core_user target_core_pscsi target_core_file ib_srpt target_core_iblock target_core_mod rdma_cm iw_cm ib_cm ib_umad scsi_debug dm_service_time siw ib_uverbs null_blk ib_core nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables qrtr sunrpc 9pnet_virtio ppdev 9pnet netfs e1000 i2c_piix4 parport_pc pcspkr parport i2c_smbus fuse loop nfnetlink zram bochs drm_vram_helper drm_ttm_helper ttm drm_kms_helper xfs nvme drm floppy nvme_core sym53c8xx scsi_transport_spi nvme_auth serio_raw ata_generic pata_acpi dm_multipath qemu_fw_cfg
+> CPU: 0 UID: 0 PID: 47 Comm: kworker/u16:2 Not tainted 6.12.0-rc1+ #335
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-2.fc40 04/01/2014
+> Workqueue: iw_cm_wq cm_work_handler [iw_cm]
+> RIP: 0010:__kmem_cache_create_args+0xa3/0x300
+> Code: 8d 58 98 48 3d d0 a7 25 b2 74 21 48 8b 7b 60 48 89 ee e8 30 cd 06 02 85 c0 75 e0 48 89 ee 48 c7 c7 d0 db b0 b1 e8 dd 92 82 ff <0f> 0b be 20 00 00 00 48 89 ef e8 8e cd 06 02 48 85 c0 0f 85 02 02
+> RSP: 0018:ffff88810135f508 EFLAGS: 00010292
+> RAX: 0000000000000000 RBX: ffff888100289400 RCX: 0000000000000000
+> RDX: 0000000000000000 RSI: ffffffffb11bea60 RDI: 0000000000000001
+> RBP: ffff8881144bbb00 R08: 0000000000000001 R09: ffffed102026be4b
+> R10: ffff88810135f25f R11: 0000000000000001 R12: 0000000000000100
+> R13: ffff88810135f6c8 R14: 0000000000000000 R15: 0000000000000000
+> FS:  0000000000000000(0000) GS:ffff8883ae000000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f4f8d878c58 CR3: 00000001376da000 CR4: 00000000000006f0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>   <TASK>
+>   ? __warn.cold+0x5f/0x1f8
+>   ? __kmem_cache_create_args+0xa3/0x300
+>   ? report_bug+0x1ec/0x390
+>   ? handle_bug+0x58/0x90
+>   ? exc_invalid_op+0x13/0x40
+>   ? asm_exc_invalid_op+0x16/0x20
+>   ? __kmem_cache_create_args+0xa3/0x300
+>   ? __kmem_cache_create_args+0xa3/0x300
+>   srpt_cm_req_recv.cold+0x12e0/0x46a4 [ib_srpt]
+>   ? vsnprintf+0x38b/0x18f0
+>   ? __pfx_vsnprintf+0x10/0x10
+>   ? __pfx_srpt_cm_req_recv+0x10/0x10 [ib_srpt]
+>   ? snprintf+0xa5/0xe0
+>   ? __pfx_snprintf+0x10/0x10
+>   ? lock_release+0x460/0x7a0
+>   srpt_rdma_cm_req_recv+0x35d/0x460 [ib_srpt]
+>   ? __pfx_srpt_rdma_cm_req_recv+0x10/0x10 [ib_srpt]
+>   ? rcu_is_watching+0x11/0xb0
+>   ? trace_cm_event_handler+0xf5/0x140 [rdma_cm]
+>   cma_cm_event_handler+0x88/0x210 [rdma_cm]
+>   iw_conn_req_handler+0x7a8/0xf10 [rdma_cm]
+>   ? __pfx_iw_conn_req_handler+0x10/0x10 [rdma_cm]
+>   ? alloc_work_entries+0x12f/0x260 [iw_cm]
+>   cm_work_handler+0x143f/0x1ba0 [iw_cm]
+>   ? __pfx_cm_work_handler+0x10/0x10 [iw_cm]
+>   ? process_one_work+0x7de/0x1460
+>   ? lock_acquire+0x2d/0xc0
+>   ? process_one_work+0x7de/0x1460
+>   process_one_work+0x85a/0x1460
+>   ? __pfx_lock_acquire.part.0+0x10/0x10
+>   ? __pfx_process_one_work+0x10/0x10
+>   ? assign_work+0x16c/0x240
+>   ? lock_is_held_type+0xd5/0x130
+>   worker_thread+0x5e2/0xfc0
+>   ? __pfx_worker_thread+0x10/0x10
+>   kthread+0x2d1/0x3a0
+>   ? _raw_spin_unlock_irq+0x24/0x50
+>   ? __pfx_kthread+0x10/0x10
+>   ret_from_fork+0x30/0x70
+>   ? __pfx_kthread+0x10/0x10
+>   ret_from_fork_asm+0x1a/0x30
+>   </TASK>
+> irq event stamp: 53809
+> hardirqs last  enabled at (53823): [<ffffffffae3d59ce>] __up_console_sem+0x5e/0x70
+> hardirqs last disabled at (53834): [<ffffffffae3d59b3>] __up_console_sem+0x43/0x70
+> softirqs last  enabled at (53864): [<ffffffffae2277ab>] __irq_exit_rcu+0xbb/0x1c0
+> softirqs last disabled at (53843): [<ffffffffae2277ab>] __irq_exit_rcu+0xbb/0x1c0
+> ---[ end trace 0000000000000000 ]---
+> ib_srpt:srpt_cm_req_recv: ib_srpt imm_data_offset = 68
+> ------------[ cut here ]------------
+
 
