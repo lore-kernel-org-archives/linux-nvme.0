@@ -4,174 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85C8ACFA752
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Oct 2024 09:03:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B615DCFA755
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Oct 2024 10:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=d7CM9o9I0oiaz2e52uTjCs/osWU6YsGq5hbxkcVZl1c=; b=1JpVVJi5upRLV+gvqPCIQOkjqv
-	hGK+bRvbKMhHAdm2ohUrA2aZ1CynRwPAnkBMQckmnrUhGCXb4gVLnpRujc3tV1A3IpOjCl8wVMh7j
-	dn1nI3457JluteYETl1MElkQcRByqOpCbYS7V2PXiRh4lpkJFvUDrMYvWpbMCFBwBKmKP4MWncDw0
-	A+tu4Mgr0dTAtEWBquSCQtCUEf8bLUVAE2I/72OZjVFIaet1Of+WI9s2H4Ijo6VBLnS7Xc1kyjeKG
-	bPWkN5zDshwMk/1uaRFHY94/C3GBXyCGjZ7wUZvJvPorNEAOAQfccVyy41yFgJNoel4qxHNnEk9lk
-	RSYOi5eg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fPncAOhSeoQRR+qidRsIJgyq/reHvHCe62rJEltWk3c=; b=CFCNRnjxrHM09DBhcZ5jOoAdUG
+	nj42q8DHWGBK1Y6E4LoWlxbj1zmAML2Vi9/SlvkARgWjs9FtyiUAN2ymc/0Ch3GLRiy5fNqpWA2//
+	nIHemrinH8Zf2WLXRoz1orHVgn6QaTW6FUxtN79wBQEFe/wQlr6UwcVxdIIfAdeW0PBw0CURlOBvh
+	DF5YITsFp5zdzPKwWXMWVzZbyGA80eyZY/gGhByb3Y04VCn1pKhuWoJ5G7MPjhZtuIveyIG0z8EtY
+	NQFRweLuK0+qJojj/hhiRv1pgPNiz8zlSJb8z2acPjC9G6gZK1W8x2KZEBmsYgSJFifegFCxORzGq
+	F1X8T4lA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sweDw-0000000BWuA-2FfW;
-	Fri, 04 Oct 2024 09:03:44 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1swfGb-0000000BmOP-0FXP;
+	Fri, 04 Oct 2024 10:10:33 +0000
+Received: from mgamail.intel.com ([192.198.163.8])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sweDt-0000000BWsf-0Z08
+	id 1swfGY-0000000BmNV-19fw
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Oct 2024 09:03:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1728032621; x=1759568621;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=d7CM9o9I0oiaz2e52uTjCs/osWU6YsGq5hbxkcVZl1c=;
-  b=kZ7/pISH6SFFINeU5GrTMyXZtEuxZ36ex5RFa5TCfKRJdE3ceBPYUxTM
-   ZJ4g0FH+Qh7wtmPQ2SchaFonpVzspTJjeDMgegZhbXde62WXqE/Cj5da1
-   DthOk1lqOLOl2g02UjuvzO6s/qTUHQopSe+V47QtabXu3LnV/4TdFogWL
-   RlDKLTdOJQ7z07E++U0uOSciM4MohymH1loa9BD7F9Wqfv72ibxBlGN/3
-   qJEqEh3n/9u7zr8sufdKbTk9a1oO+VmY16gPHSCBMy4ZMMeNMD4FgYCHS
-   05GJGND1XiCFbkPZNDA3NtIAg0nbUZUBekl1Q71ORYUCMuXd6tDNEv0m6
+	Fri, 04 Oct 2024 10:10:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728036630; x=1759572630;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=cbPszOCbBhjcg6DhE8k/CQH5gCsEbG59fQMrmoBU6Yo=;
+  b=gHo35eFxlKRFJfSPX5nLzmfcWEETw/0ZBMrMos9g6w3BYpGYeTJYjCSx
+   kv998Xwy9Fmm5DUMcwAKskEhb77YSzYEMNZqvkNQY+sV/LTyBW3f7Yp6M
+   KSWONEL/pF/cDTsABxKe3fnQeiTee/K4w02MKLzEXdVYzQr2qVlvkPCZb
+   CWFhi0gnUaBqhUr5fiE6LNmU9rCxS5m3RK7ZkSx3wbIlBrT8y3UttYNqb
+   MNlrIgDoTwlK15rsdlVl30H700rRSKGBvsOTmG+lplqeelp0dFmrhQ/Qx
+   JnnXcuN7T+VIsCjzYaAkr7TtouI+rNVIMKiXnv1PFNrf/2FITWUApaEDt
    g==;
-X-CSE-ConnectionGUID: 2zgVGQjqSVmWdWHLlTHiSA==
-X-CSE-MsgGUID: WOWpU0c/QhCmQ09pbpJmYA==
-X-IronPort-AV: E=Sophos;i="6.11,177,1725292800"; 
-   d="scan'208";a="28305847"
-Received: from mail-southcentralusazlp17012050.outbound.protection.outlook.com (HELO SN4PR2101CU001.outbound.protection.outlook.com) ([40.93.14.50])
-  by ob1.hgst.iphmx.com with ESMTP; 04 Oct 2024 17:03:37 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M5wC96wjFDTKcvs75j78zyXxbU6f9FI4Cg1vZFwYmOXUWAUpQjCrhZatIVgXycOiiKQ6pqOGnK12o/A2YWG8/Mz+ISDrgvMHNBZtX8qSCEBWaGjBGUVvwEA48b9Yt/4KZP7aW2RiT/5F2wqgJZjdgqJpcqSXXFkpxiqg5kOpJdJFPnSaudm9NF0IaHsfbDxVlGhkJy/KU8tdBaDUD3CVccAO7CZ45WmWdl3JoOnWxXBlm/O9GzPHIAuWdNL9WDmYULf0D1SJrxDXcw4/lahReEy9EutgL63ZgZ7UKcwHuw0D8yNa+MMJh9No5Qjanf/CRBBCfQy9lIkEpGUNaBS3OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d7CM9o9I0oiaz2e52uTjCs/osWU6YsGq5hbxkcVZl1c=;
- b=WhVgxoXTVmeipNrozDq5eF8RjR+0rRjiB+z32FmHmgLxQNXZgDv7XLdCGUGMdemXawSamjGGkm1vGB5TzzLVz/Wp5f9K1iVJGUGaYQF3UKilkbLNFUapwwO3Klhc3ibS8RwEUdOsqgMT7ZioIzBDVdi9tDMBAOos3wvvryjIC/6hiNxLtn1jECR6rg8UXgwWJKJ0L++cyKjw2bzUc5aZY5uZZgQY09dSi7Gb9EdF4AI5ifQ3wSLv0LSVVsRRTvY6n8rPHgaNzmuIARZokttQQ6G+cQToiTQeoLTutT82FmFfuA2HldpS9ESUMlGeLGvhGvxp02U7OvXgBkZXxEoKaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d7CM9o9I0oiaz2e52uTjCs/osWU6YsGq5hbxkcVZl1c=;
- b=tyNW0kfkwFlYIc5R9+dpU8vcuPuHBuOGGz8fT/u8qZt24MZL8gsLkSJcJ/XI0zWKifPVVp5yYVhi5KaEM5aZ5lqc/wm3yzt7DVFBuHC6pXW46T95YbBXayX87Kk7iH4SOmd9VXbVSslLv1lcuzk8UIm4HY0SG3axWzAiX40eVNc=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CH0PR04MB8050.namprd04.prod.outlook.com (2603:10b6:610:f9::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8026.18; Fri, 4 Oct 2024 09:03:35 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8026.017; Fri, 4 Oct 2024
- 09:03:35 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"martin.wilck@suse.com" <martin.wilck@suse.com>, "gjoyce@linux.ibm.com"
-	<gjoyce@linux.ibm.com>
-Subject: Re: [PATCHv3 blktests] nvme/{033-037}: timeout while waiting for nvme
- passthru namespace device
-Thread-Topic: [PATCHv3 blktests] nvme/{033-037}: timeout while waiting for
- nvme passthru namespace device
-Thread-Index: AQHbELLeYh/w+LiMq0eQuEXrF24oxLJ2Vy8A
-Date: Fri, 4 Oct 2024 09:03:35 +0000
-Message-ID: <af7hhahk7apwujuuly2jccke7v7nmj3nlluvisgi66drr4p2su@cntajmwbp7kp>
-References: <20240927075616.343850-1-nilay@linux.ibm.com>
-In-Reply-To: <20240927075616.343850-1-nilay@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH0PR04MB8050:EE_
-x-ms-office365-filtering-correlation-id: 6da6cd71-eecb-4225-1569-08dce4536d9c
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?WteFarfhsB9NKn6tZjLATSX8HGVKhff0z8L7U2fjevkyKmZwb1YqXNktJ2sP?=
- =?us-ascii?Q?pRGrmdvZnJKxJVWc65bZxT7jTL9sG7sCWo3erWW3QPsD76Z2gzZGx/8UkR36?=
- =?us-ascii?Q?HlaucC7ODxKyXi5I74I034jnNx5OySW+i9+WosICd742J41t0egxBr8/P3v+?=
- =?us-ascii?Q?AfBr2NL8H4V57uZIZuyqBr7aAIgWaRADQX2sp5z9YGiq8kLrUUAGZc2O3sok?=
- =?us-ascii?Q?C+npFkFCCXu34yIg+rfR9HsAo9iCu4sFkay1CpMe2xm3RYvOJqgBHt2H4VQ2?=
- =?us-ascii?Q?iJxgKx8u2PyvDu0XUrGbMB5cXKtOX3uLOF8Yg8sEFxjq2KMZwjLNf52qleA6?=
- =?us-ascii?Q?FpbKsqXry/RX//TVVPq/VXqI+KZ55Fk5OlG3SddYCFQz560YUnDwogEw51rr?=
- =?us-ascii?Q?RRVg/ZpYauZ3hSQyuX/BwPxUkgxR+cn2atHi3o3tXXzhHV97WVGsy+By8k1Q?=
- =?us-ascii?Q?ACvQzMkshoiXhZVhxEUuOPdazQ6IDg2bJexW2xYD4rRPEozMUQ2BARI7L/7A?=
- =?us-ascii?Q?i5aZnqAIYydSwkkxVtTOgv8ahniTPwVHPW7hwLlVhhIkP645b9wuCjycq10z?=
- =?us-ascii?Q?/SwW5FG5zeznVvTqGTP8u4kCT0f8QuFy6tqBAmycicu3IorFJVEtf9ezHvFW?=
- =?us-ascii?Q?l1zZJxmuS5CFgOR9tIA/OgJTYnjI8GUvsFNw488G2o8C06T+a2tuJxN/gvZh?=
- =?us-ascii?Q?b81ArFKq9CDN9GdZn9lFidnUY7IWX6RUxSu8ZmDWU0yso5HNf4ODbssSrp+O?=
- =?us-ascii?Q?IwPxO054RV+gD8U9SFqd5vSdHyn2SAHrLIruLQ65R8rRv9K/cOKeenZdHG3Z?=
- =?us-ascii?Q?JHMcq0D4BUQ7NtzV46uFMssaDSgpYZBgDuV1X2w2VPX3TQ0wDI++I8uKgkoY?=
- =?us-ascii?Q?NsKDpZvTYn/4hOM6Jr5rLyBxdGOfjw+nFzguO1JPWPwpsjawpRiKF7n2SS/M?=
- =?us-ascii?Q?TcyWGA+Sa1C6tnMz+7xQzReMf9fp72qHXWsqUzAtyOWgrTQhGkeVxVfkMhzK?=
- =?us-ascii?Q?DZzYLztwCXfwIFqvwPNY/bMjtUYklwBkRZteLZIsqRroihy0xKz93b1M6tXO?=
- =?us-ascii?Q?RD1x5VkCp2rdoS90bm/5VhaTLKICL4oGfyHcjH9AMmInjJNfid0d42WB7x3/?=
- =?us-ascii?Q?dE9pqoOH+Q0fvcb5prW1bkKX18ipGbOFu9g6Y/I5PpLQAWlEX3AckQ9wmDUW?=
- =?us-ascii?Q?w8trIjZ5OyutVSpRLXftSKJcYbW6s1bLoWQnRfxqQUigu4HZMOylnUJS1RcL?=
- =?us-ascii?Q?4SftKdltObwb/CT03hAeSO807PLS6vBDoDcYTHs7Zt4TSQDtszzinmUgK71G?=
- =?us-ascii?Q?D3oKPBkJNmtEVDzndNlAtgLnpINONs/R9T8kNrohOHy3qw=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NLXMUXi4zEFuzdRejZjpPHDjfb9k4cbVojMw2iBCAGVl4Xv/5fIQeKkEJ7GP?=
- =?us-ascii?Q?kkpHyqbZUM9NT2TwjxpxAwXvyJaxKf3e35T7Gs7djHXj5sZQk0n8yYcTDSKa?=
- =?us-ascii?Q?cldPFy0bb/BRRD+0nTZnuBfNkAGsa327R54xfky138G3s5gZOdEv+gZxGd/o?=
- =?us-ascii?Q?qtfqy9iZX8kfbeWNlJYdPKod0UG/L0KXr8K9rkzSoMLllfHn4SfmpxL7L4Md?=
- =?us-ascii?Q?cPLnaTJLUfvHKeODR19cc04gofkuBCeUhiC4g0k/oY29HqFKhtozYgi/dEBu?=
- =?us-ascii?Q?rxXNfoSKU53i5Dqi3GLtDxDBN7OqFUTv3Mttd8IDs+b6dpfqm32v9EWYYKwH?=
- =?us-ascii?Q?liRCutFTfRAk/X5ALmsidAq+ldS6/WIy1fdkOuFHvomvSbs8uI3xn/WXUwW4?=
- =?us-ascii?Q?YPLLRJ9hNhv8Vcy/ip4geFq4rIWav0FGA35jAexJ9FauJrYZyMhF2K0h+Jsn?=
- =?us-ascii?Q?JbEAX+4o0l11QepHgS738wyEXk33sy4d/vEC1YFnaAykMym3JtRdM+h/eL3u?=
- =?us-ascii?Q?UvpnnrNHE/AkigxppoD45f+xdvfpwKZMItbDDFXdijMgYQSZ5PDBFRz0wMQm?=
- =?us-ascii?Q?68BOVIPUWGZ85b3N0bAzsmvwftBl5PugQ/2YAf3I8UtQXagkGEax8VEXjDFl?=
- =?us-ascii?Q?72xZ0hBTDKPs6GP3BbnlRvTJS26ey5fnKG8wKSoU380Q9Hx5GhbwzoXzHHkt?=
- =?us-ascii?Q?wmW4o3m46UNGmk7KwXEaQM3sKLQiCWoZdIgG6dnPIwmM7ZtUPQJlfXVds4ht?=
- =?us-ascii?Q?5SWmdr+X5EYKl7CgOcQuZzVgUJWl0ukI8X43wsuwqRkIkPrgIaYBXfmD7XKq?=
- =?us-ascii?Q?TCHFR6V9LjS1nOTw9po74j/EXA4kti3/Kru2PZ9Lce63Q8Z9D1owvdibpOeg?=
- =?us-ascii?Q?rflI5PdLkEutVaCPtASwJg/tzdAD/GlxGLFTFlX16W2sWYY+l8abOu/oXIk6?=
- =?us-ascii?Q?XOLxFErKW7LZPvGbw04pUisvzivqeFL/g3PhTeatXjBMsovB+WD/QkPsN9Ug?=
- =?us-ascii?Q?XYrGIFKdSUN+UYDwUloHSSrlkHkB7kGF8+V9cJtY8G+VnY0mlsHjJ0c0KMdt?=
- =?us-ascii?Q?G0PXfdNLYTuUa8yoFztPO4Ek+QgEV3q7erUFASQZMgImeqSjXvFa83E+7eL0?=
- =?us-ascii?Q?o82UyreS4/x3jgWiMsZGq4JpUE92Wevosby4k8MLcJfg2JGVKZnNVb8quYgd?=
- =?us-ascii?Q?1LZKQT2czSa5O+/uQLFw3AM7l2Z5oBHffka8y2W94feagG5a64K3wyOHJ6TK?=
- =?us-ascii?Q?xlgNUcv05Qcc1Q9OzKfn6h+cQC+/fjvdZo+Dvjx+Z7JtocSRJqfkl9HROtfQ?=
- =?us-ascii?Q?KcewEeE9pL39gb+gdirYKdNjO6U5OTXoIgpNGbbqXqbRN5gb3QUs73X/1BgY?=
- =?us-ascii?Q?z0ecQQEFY/qaFVgED6949x5lHZZO2azt3cRjQrZNLVv4Mx4Czti3rt5UPNAj?=
- =?us-ascii?Q?/YjOn0U06xkiDKosNpbL2+hceHLT0RnTMBZQW68cRrlLiGJHCzlsVyvBLBTj?=
- =?us-ascii?Q?/ZWF328Qs/Wk2aE8kmmlHgAdZ+wKorMOpDnJPuP7IrTil6dzkXscVuTrPfC6?=
- =?us-ascii?Q?BJq/TMbSmdq2z91NAu5vpwKhaVnQJlZ+mW/yyPaWjpyyhxZfytWdwDi3KOWB?=
- =?us-ascii?Q?bmGb3jTIPfURvhmnQmqgbWc=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <278CA7DF4990A241849E939B983E82C7@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+X-CSE-ConnectionGUID: 4GrlHSOJQ/CXGnZ88NKAYA==
+X-CSE-MsgGUID: d0HHXFUVRwCjRDYS9KRZCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="44784896"
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
+   d="scan'208";a="44784896"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 03:10:30 -0700
+X-CSE-ConnectionGUID: oXfu1ehtSBCJqK2UHrEfkg==
+X-CSE-MsgGUID: 1cI0wbkfQsGC4/DcQC62vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,177,1725346800"; 
+   d="scan'208";a="74658823"
+Received: from olympicsflex1.amr.corp.intel.com (HELO tkristo-desk.intel.com) ([10.245.245.54])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 03:10:28 -0700
+From: Tero Kristo <tero.kristo@linux.intel.com>
+To: 
+Cc: linux-kernel@vger.kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	kbusch@kernel.org
+Subject: [PATCH 1/1] nvme-pci: Add CPU latency pm-qos handling
+Date: Fri,  4 Oct 2024 13:09:28 +0300
+Message-ID: <20241004101014.3716006-2-tero.kristo@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241004101014.3716006-1-tero.kristo@linux.intel.com>
+References: <20241004101014.3716006-1-tero.kristo@linux.intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: viGjPtg+Vw/Rct037ii4Cse1HLpGPGSGi3IkZsVyJ+G5OMx0nnFyJsubrWCKNbTAJ+B0esPH8YZivStpxfSf81EFNQNIncn/Zow8yGo4GTKmsg5eo0r77zxf8UMiDqM62QX7lxr8KzNTruFnc7rmzed4BVskz/0Q1uTA2+p6YfziR1k5nIo7fr0r7/71LUwfvJnd4E7D36k3497M+ZmYWbc2+06iTGsIIEbVT9O7/S4T+zc+30BkNreIFDulNUI9CGeD/JafCRkx+Ba+TtaEtPpVzcWTcEmsWqXE69wVLsG0M43WfUnfTDL32DFBNiBd1HaxbxRhJCsNCSeB6cRz7heGoHxgt1nkAMdD77Yl9eOL4DO453dfL2y+FuySia/P+Q3YzzTqHUgq5NrA3WQ+KGHKunbAofg4tDqKwkD7iJ6Ve+PPwBuNkJLF/m8o5BZp3uficRRST8ubL3Fw8Y9wN+pjyPc5DzRYtgFEHN+ZSekgZd8EJ5sfYAx9/UbsUrf/xiz5gnG66FsZCQprYG047IKgBRdBXQGSKRp5+0S/8BtvMDywC4HsLrUagAdInV9ArcBCekZK55I+Z5rHkn4tYpwlGfahGwBXKpHBIBpbzGvZhRz7929UqFgt41ZpTzzC
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6da6cd71-eecb-4225-1569-08dce4536d9c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2024 09:03:35.2095
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: guNge/a0SjB51zxdOa5KwsIh5mqtNJ1bze+Gyd2pSsMHYomJSZllC/rquxVAuLYkQik40nEEVb2RIKbD1dc4bgCnceh0e74RPUrb1YOKs48=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR04MB8050
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241004_020341_203804_C5926441 
-X-CRM114-Status: UNSURE (   8.98  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241004_031030_355482_4C8857D8 
+X-CRM114-Status: GOOD (  18.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -186,12 +87,226 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sep 27, 2024 / 13:25, Nilay Shroff wrote:
-> Avoid waiting indefinitely for nvme passthru namespace block device
-> to appear. Wait for up to 5 seconds and during this time if namespace
-> device doesn't appear then bail out and FAIL the test.
->=20
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+Add support for limiting CPU latency while NVME IO is running. When a
+NVME IO is started, it will add a user configurable CPU latency limit
+in place (if any.) The limit is removed after 3ms of inactivity.
 
-I applied it, thanks!=
+The CPU latency limit is configurable via a sysfs parameter;
+cpu_latency_us under the NVME device.
+
+Signed-off-by: Tero Kristo <tero.kristo@linux.intel.com>
+---
+ drivers/nvme/host/pci.c | 95 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 90 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7990c3f22ecf..de8ddc9b36de 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -21,6 +21,7 @@
+ #include <linux/mutex.h>
+ #include <linux/once.h>
+ #include <linux/pci.h>
++#include <linux/pm_qos.h>
+ #include <linux/suspend.h>
+ #include <linux/t10-pi.h>
+ #include <linux/types.h>
+@@ -112,6 +113,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ static void nvme_delete_io_queues(struct nvme_dev *dev);
+ static void nvme_update_attrs(struct nvme_dev *dev);
+ 
++#define NVME_CPU_LATENCY_TIMEOUT_MS	3
++
++struct nvme_cpu_latency_qos {
++	struct dev_pm_qos_request	req;
++	struct delayed_work		work;
++	unsigned long			active;
++};
++
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+  */
+@@ -141,6 +150,8 @@ struct nvme_dev {
+ 	struct nvme_ctrl ctrl;
+ 	u32 last_ps;
+ 	bool hmb;
++	int cpu_latency;
++	struct nvme_cpu_latency_qos __percpu *cpu_latency_qos;
+ 
+ 	mempool_t *iod_mempool;
+ 
+@@ -213,6 +224,7 @@ struct nvme_queue {
+ 	__le32 *dbbuf_cq_db;
+ 	__le32 *dbbuf_sq_ei;
+ 	__le32 *dbbuf_cq_ei;
++	const struct cpumask *irq_aff_mask;
+ 	struct completion delete_done;
+ };
+ 
+@@ -470,6 +482,9 @@ static void nvme_pci_map_queues(struct blk_mq_tag_set *set)
+  */
+ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
+ {
++	struct nvme_dev *dev;
++	int cpu;
++
+ 	if (!write_sq) {
+ 		u16 next_tail = nvmeq->sq_tail + 1;
+ 
+@@ -483,6 +498,27 @@ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
+ 			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
+ 		writel(nvmeq->sq_tail, nvmeq->q_db);
+ 	nvmeq->last_sq_tail = nvmeq->sq_tail;
++
++	/* Kick CPU latency while updating queue. */
++	dev = nvmeq->dev;
++	if (!dev || dev->cpu_latency < 0)
++		return;
++
++	for_each_cpu(cpu, nvmeq->irq_aff_mask) {
++		struct nvme_cpu_latency_qos *qos;
++
++		qos = per_cpu_ptr(dev->cpu_latency_qos, cpu);
++
++		qos->active = jiffies + msecs_to_jiffies(NVME_CPU_LATENCY_TIMEOUT_MS);
++
++		if (dev_pm_qos_request_active(&qos->req))
++			continue;
++
++		dev_pm_qos_add_request(get_cpu_device(cpu), &qos->req,
++				       DEV_PM_QOS_RESUME_LATENCY,
++				       dev->cpu_latency);
++		schedule_delayed_work(&qos->work, msecs_to_jiffies(NVME_CPU_LATENCY_TIMEOUT_MS));
++	}
+ }
+ 
+ static inline void nvme_sq_copy_cmd(struct nvme_queue *nvmeq,
+@@ -1600,14 +1636,19 @@ static int queue_request_irq(struct nvme_queue *nvmeq)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
+ 	int nr = nvmeq->dev->ctrl.instance;
++	int ret;
+ 
+ 	if (use_threaded_interrupts) {
+-		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
+-				nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
++		ret = pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
++				      nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+ 	} else {
+-		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
+-				NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
++		ret = pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
++				      NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+ 	}
++
++	nvmeq->irq_aff_mask = pci_irq_get_affinity(pdev, nvmeq->cq_vector);
++
++	return ret;
+ }
+ 
+ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+@@ -2171,6 +2212,26 @@ static ssize_t hmb_store(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RW(hmb);
+ 
++static ssize_t cpu_latency_us_show(struct device *dev, struct device_attribute *attr,
++				   char *buf)
++{
++	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
++
++	return sysfs_emit(buf, "%d\n", ndev->cpu_latency);
++}
++
++static ssize_t cpu_latency_us_store(struct device *dev, struct device_attribute *attr,
++				    const char *buf, size_t count)
++{
++	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
++
++	if (kstrtoint(buf, 10, &ndev->cpu_latency) < 0)
++		return -EINVAL;
++
++	return count;
++}
++static DEVICE_ATTR_RW(cpu_latency_us);
++
+ static umode_t nvme_pci_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
+ {
+@@ -2195,6 +2256,7 @@ static struct attribute *nvme_pci_attrs[] = {
+ 	&dev_attr_cmbloc.attr,
+ 	&dev_attr_cmbsz.attr,
+ 	&dev_attr_hmb.attr,
++	&dev_attr_cpu_latency_us.attr,
+ 	NULL,
+ };
+ 
+@@ -2731,6 +2793,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ 	nvme_free_tagset(dev);
+ 	put_device(dev->dev);
+ 	kfree(dev->queues);
++	free_percpu(dev->cpu_latency_qos);
+ 	kfree(dev);
+ }
+ 
+@@ -2989,6 +3052,17 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 	return 0;
+ }
+ 
++static void nvme_cpu_latency_work(struct work_struct *work)
++{
++	struct nvme_cpu_latency_qos *qos =
++		container_of(work, struct nvme_cpu_latency_qos, work.work);
++	if (time_after(jiffies, qos->active)) {
++		dev_pm_qos_remove_request(&qos->req);
++	} else {
++		schedule_delayed_work(&qos->work, msecs_to_jiffies(NVME_CPU_LATENCY_TIMEOUT_MS));
++	}
++}
++
+ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 		const struct pci_device_id *id)
+ {
+@@ -2996,6 +3070,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	int node = dev_to_node(&pdev->dev);
+ 	struct nvme_dev *dev;
+ 	int ret = -ENOMEM;
++	int cpu;
+ 
+ 	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
+ 	if (!dev)
+@@ -3003,13 +3078,21 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
+ 	mutex_init(&dev->shutdown_lock);
+ 
++	dev->cpu_latency_qos = alloc_percpu(struct nvme_cpu_latency_qos);
++	if (!dev->cpu_latency_qos)
++		goto out_free_dev;
++	for_each_possible_cpu(cpu)
++		INIT_DELAYED_WORK(per_cpu_ptr(&dev->cpu_latency_qos->work, cpu),
++				  nvme_cpu_latency_work);
++	dev->cpu_latency = -1;
++
+ 	dev->nr_write_queues = write_queues;
+ 	dev->nr_poll_queues = poll_queues;
+ 	dev->nr_allocated_queues = nvme_max_io_queues(dev) + 1;
+ 	dev->queues = kcalloc_node(dev->nr_allocated_queues,
+ 			sizeof(struct nvme_queue), GFP_KERNEL, node);
+ 	if (!dev->queues)
+-		goto out_free_dev;
++		goto out_free_pm_qos;
+ 
+ 	dev->dev = get_device(&pdev->dev);
+ 
+@@ -3055,6 +3138,8 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ out_put_device:
+ 	put_device(dev->dev);
+ 	kfree(dev->queues);
++out_free_pm_qos:
++	free_percpu(dev->cpu_latency_qos);
+ out_free_dev:
+ 	kfree(dev);
+ 	return ERR_PTR(ret);
+-- 
+2.43.1
+
 
