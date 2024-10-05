@@ -4,55 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2446ACF887E
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Oct 2024 15:09:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D740ECFB43F
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Oct 2024 21:46:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C8I7mmv54y6JvknsZlXmakN7LmWd4QLACuWeWjDe8c0=; b=T59pEIQUJV9atvWfH39sCrVFNB
-	/wICGuRgQGyeeHijGtqfAUCP498b2McKom7n7wjyAqPEqStXNJh2tXon1Bq9UwSfxoAMZf+Q8ifkZ
-	f3iGxjF7ugXxGrG1aoojFPpU35zTlYWHPXG3mwebnLinBz3Q8UHhT/LLhEVrtkOoGIIBhD2+0NAPY
-	CqO55nPrrq5Lix5Yym8b/vgCZWGwDYYxgP1Bm5OS+tSu+3fkMQIWLPRqPTTqyTOcSiS+usLfnuIzl
-	FOR8AlNnzd3roV4cSt6T1n7bPjARQitvJqCF/M5pbPlVBHuIclkrODPZoNTzPvtZKezoj0RlxXjji
-	5A6FNydA==;
+	bh=UmK9Xs58S08yxjMtYHm+HrNkToU7fdzXxnd+5Lv0Xns=; b=F57ORUaaOVYAaLIIq0EwpsVi8K
+	0tnJVHCcAImTR9u0r09GlyXFoof/s+ESE42OFnIThw9HmMHNDyDWG8YSTJqCPDiKTupMTvch/AJjt
+	NnhuDezjy6dTIbia5rvPi51d755BMLN/bSL1npmRLE1Eo2VbHl9xlcGGVvsYGineO5mTUv0x7vLwQ
+	SPm6y/r+pQFpFhypWrGGF62jQOCy/tVqxaUwK6GNyQT/DHQeta8y7aIvu0m/nlwGT7zmZv79hFaWy
+	xWznMA8SoeLXHiDXsOJSA2woXj8neYKqevw/hF4TpTny2GIElnwfQSiLn00ehz1CACvtcOSA/P7Rh
+	7tgrOU3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sx6PV-0000000FVjA-2Vaf;
-	Sat, 05 Oct 2024 15:09:33 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1sxCb8-0000000G0rA-09ec;
+	Sat, 05 Oct 2024 21:45:58 +0000
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sx6PQ-0000000FVhj-3D4R
+	id 1sxCaz-0000000G0qn-2A6w
 	for linux-nvme@lists.infradead.org;
-	Sat, 05 Oct 2024 15:09:32 +0000
+	Sat, 05 Oct 2024 21:45:51 +0000
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-7db238d07b3so2666554a12.2
+        for <linux-nvme@lists.infradead.org>; Sat, 05 Oct 2024 14:45:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1728140964; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=C8I7mmv54y6JvknsZlXmakN7LmWd4QLACuWeWjDe8c0=;
-	b=FHLGkWT/1mJYldiDvAbwg1BAjKidxKAj4pBnGa8/GJIWDqONk6Ncp6JGWzU5rnAelzFCXKMPls6a/1DaXZDR//sTBol6IOPwVLSQ9yNMo/GTpaKGIndPk0hxsn4ZvaDNGNaYnLllSBrdCDCYUqAKxtBY+bFaN3bHL+dqX5Mx55M=
-Received: from 30.13.166.245(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGHjmy2_1728140960)
-          by smtp.aliyun-inc.com;
-          Sat, 05 Oct 2024 23:09:21 +0800
-Message-ID: <3fedef45-0714-4d5e-b256-60c5b7a65914@linux.alibaba.com>
-Date: Sat, 5 Oct 2024 23:09:20 +0800
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1728164748; x=1728769548; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UmK9Xs58S08yxjMtYHm+HrNkToU7fdzXxnd+5Lv0Xns=;
+        b=p+0hAhAlKqVcMLi4QBNiH4R/UiE7+JTRpnAHdfokqB9HxetSe0toG7ny8gbkuHZHQ1
+         Y8WB10LtXV8FTswnSf11aX5LOae19aP5D75gifeCXlF9pPnB4gptTPFNU3DzTo6EQcP1
+         rWmzm6MEZ4YbiBdsIBiPg3IbCKNcifhccAv9ui/cW3Skw2U8+fh2dvkEQr5s8lPerYJu
+         LRXjmVEg+6sCNhTGl6/eTitbhVZPpBK/r6vgEthoN/LfDDDGtri2Jb8v7iOASXrv3OAE
+         qZlytXaFjRa93m84ntGxvsCl+T/Ohz5r6+I8Ig0wpNlq95FgGmIrK5oRkGD/3kEf1Vvn
+         9Phg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728164748; x=1728769548;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UmK9Xs58S08yxjMtYHm+HrNkToU7fdzXxnd+5Lv0Xns=;
+        b=Rjp1Cpo/MoO4xjihmd6VsTzCzPO/IOe/ndbElbw/eHRZV0U5QvUm01Sq7XvXQ1yCaa
+         jOUUXEWaVSSpKoVVXrAyEz6tMd1XeXpayAzqfZ6nEUdjpMAh02jTgJtWq84V2s8llPej
+         4tguB4RXiqMmDKPtnrqRc3CVTZMwoUvGM+NlYSHUpXRrZn00mTYf4w600hb3ApIf+fLw
+         ja7eqpJXiTEZUrc0BjZnIaK6rH9WfjhUajznBHtNswyreWy82etYHdpYTpJ0bZfhMHu3
+         4OJ5vYNiCuGgJGjfSGGalgabMTGMBKc2eEjCCxKIx3grtISu2Dtdc9QNy/UwaO4NSFKf
+         jiZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVb116ZqKKevrU1UOeCo4QOtMXzidXNyM60gSuwvkfkMIHqmmp9/KAf7FLNVyxhOSUrEvLrLETTiIFQ@lists.infradead.org
+X-Gm-Message-State: AOJu0YwtmvmK/jilV87N438/pItHJwjsiuk1QktaVWaZoSRslO+Rge91
+	ZAi1hsAb1Ts5KnkzxU9p1A3T5AQ1zCF986V+SxCUMWGGXsubFIjmX2KlxN814GI=
+X-Google-Smtp-Source: AGHT+IF2CIeoWIaR7M9L7MG4cg5BH98dJB3GOpxAS+7PQNC9MiHoMI9+gMzk9ipUOljcrFRhvDz1NQ==
+X-Received: by 2002:a05:6a20:2d22:b0:1d2:e504:52ba with SMTP id adf61e73a8af0-1d6dfabb7ebmr11814308637.38.1728164748471;
+        Sat, 05 Oct 2024 14:45:48 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71df0d69246sm1882056b3a.182.2024.10.05.14.45.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Oct 2024 14:45:47 -0700 (PDT)
+Message-ID: <dd003ffd-c63a-496a-8585-52fbb08c2189@kernel.dk>
+Date: Sat, 5 Oct 2024 15:45:46 -0600
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v11 1/1] nvmet: support reservation feature
-To: Christoph Hellwig <hch@lst.de>
-Cc: sagi@grimberg.me, kch@nvidia.com, d.bogdanov@yadro.com,
- linux-nvme@lists.infradead.org
-References: <20240929031410.31281-1-kanie@linux.alibaba.com>
- <20240929031410.31281-2-kanie@linux.alibaba.com>
- <20241002080943.GA21262@lst.de>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241002080943.GA21262@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: blktests failures with v6.12-rc1 kernel
+To: Bart Van Assche <bvanassche@acm.org>, Zhu Yanjun <yanjun.zhu@linux.dev>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "nbd@other.debian.org" <nbd@other.debian.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+References: <xpe6bea7rakpyoyfvspvin2dsozjmjtjktpph7rep3h25tv7fb@ooz4cu5z6bq6>
+ <e6e6f77b-f5c6-4b1e-8ab2-b492755857f0@acm.org>
+ <dvpmtffxeydtpid3gigfmmc2jtp2dws6tx4bc27hqo4dp2adhv@x4oqoa2qzl2l>
+ <5cff6598-21f3-4e85-9a06-f3a28380585b@linux.dev>
+ <9fe72efb-46b8-4a72-b29c-c60a8c64f88c@acm.org>
+ <b60fa0ab-591b-41e8-9fca-399b6a25b6d9@linux.dev>
+ <c5c3c7d7-2db9-44fe-a316-b0b5bab30f1e@kernel.dk>
+ <d5fe08b6-68df-4d67-8870-dd7ae391973e@acm.org>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <d5fe08b6-68df-4d67-8870-dd7ae391973e@acm.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241005_080930_298089_B15F8212 
-X-CRM114-Status: GOOD (  26.25  )
+X-CRM114-CacheID: sfid-20241005_144549_858617_9B0C09B7 
+X-CRM114-Status: GOOD (  10.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,134 +105,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-在 2024/10/2 16:09, Christoph Hellwig 写道:
-> On Sun, Sep 29, 2024 at 11:14:10AM +0800, Guixin Liu wrote:
->> This patch implements the reservation feature, includes:
->> 1. reservation register(register, unregister and replace).
->> 2. reservation acquire(acquire, preempt, preempt and abort).
->> 3. reservation release(release and clear).
->> 4. reservation report.
->> 5. set feature and get feature of reservation notify mask.
->> 6. get log page of reservation event.
+On 10/5/24 3:36 PM, Bart Van Assche wrote:
+> On 10/4/24 6:41 PM, Jens Axboe wrote:
+>> That seems over-engineered. Seems to me that either these things should
+>> share a slab cache (why do they need one each, if they are the same
+>> sized object?!).
+> 
+> The size of two of the three slab caches is variable.
+> 
+>> And if they really do need one, surely something ala:
 >>
->> And also make reservation configurable, one can set ns to support
->> reservation before enable ns. The default of resv_enable is false.
-> The explanation feels a bit sparse.  It could also mentioned that
-> no support for persistent reservation exists, and how this code
-> was tested.
-I will add more detail in commit in v12.
->
-> Also, do you have a corresponding nvmetcli patch?
-Sure, I think so.
->> +struct nvmet_pr_register_data {
->> +	__le64	crkey;
->> +	__le64	nrkey;
->> +};
->> +
->> +struct nvmet_pr_acquire_data {
->> +	__le64	crkey;
->> +	__le64	prkey;
->> +};
->> +
->> +struct nvmet_pr_release_data {
->> +	__le64	crkey;
->> +};
-> Using little endian fields for purely in-memory data feels strange.
-> Is there a good reason for this?
->
-I use nvmet_copy_from_sgl to obtain the command's detail, just like
+>> static atomic_long_t slab_index;
+>>
+>> sprintf(slab_name, "foo-%ld", atomic_inc_return(&slab_index));
+>>
+>> would be all you need.
+> 
+> A 32-bit counter wraps around after about 4 billion iterations, isn't
+> it?
 
-nvme_dsm_range, maybe I can put them in to include/linux/nvme.h.
+I did use an atomic_long_t, just forgot to use that for the pseudo
+code inc and return. Though I highly doubt it matters in practice...
 
->> +static u16 nvmet_pr_update_reg_attr(struct nvmet_pr *pr,
->> +				    struct nvmet_pr_registrant *reg,
->> +				    void (*change_attr)(struct nvmet_pr_registrant *reg,
->> +					void *attr),
->> +				    void *attr)
-> Please avoid the overly long line here.  That's easiest done by
-> following the style used elsewhere in the nvme code using two
-> tab continuations:
->
-> static u16 nvmet_pr_update_reg_attr(struct nvmet_pr *pr,
-> 		struct nvmet_pr_registrant *reg,
-> 		void (*change_attr)(struct nvmet_pr_registrant *reg,
-> 				void *attr),
-> 		void *attr)
-OK.
->> +	change_attr(new, attr);
->> +	list_replace_rcu(&holder->entry, &new->entry);
->> +	rcu_assign_pointer(pr->holder, new);
->> +	synchronize_rcu();
->> +	kfree(holder);
-> Does this really need a full blown expensive synchronize_rcu vs just a
-> cheaper kfree_rcu_mightsleep or kfree_rcu?
-Yes, I will use kfree_rcu instead.
->> +	bool ignore_key = (bool)((cdw10 >> 3) & 1); /* Ignore existing key, bit 03 */
-> Overly long line.  This might also benefit from adding symbolic constants
-> and/or extraction helpers.
-OK.
->
-> The explicit cast to bool should also not be needed.
->
-OK.
->> +	struct nvmet_pr_registrant *reg, *tmp;
->> +	struct nvmet_pr *pr = &req->ns->pr;
->> +	LIST_HEAD(free_list);
->> +
->> +	lockdep_assert_held(&pr->pr_lock);
->> +
->> +	rcu_assign_pointer(pr->holder, NULL);
->> +
->> +	list_for_each_entry_safe(reg, tmp, &pr->registrant_list, entry) {
->> +		list_del_rcu(&reg->entry);
->> +		if (!uuid_equal(&req->sq->ctrl->hostid, &reg->hostid))
->> +			nvmet_pr_resv_preempted(pr, &reg->hostid);
->> +		list_add(&reg->entry, &free_list);
->> +	}
->> +	synchronize_rcu();
->> +	list_for_each_entry_safe(reg, tmp, &free_list, entry) {
->> +		kfree(reg);
->> +	}
-> No nee for the outer braces here.  But why do we we need the expensive
-> synchronize_rcu and two-step operation here anyway vs just using
-> kfree_rcu?
-Sure.
->> +		/*
->> +		 * Dynamic controller, set cntlid to 0xffff.
->> +		 */
->> +		ctrl_eds->cntlid = 0xffff;
-> NVME_CNTLID_DYNAMIC
->
-OK, will be changed in v12.
->> +	req->pc_ref = xa_load(&req->ns->pr_per_ctrl_refs, req->sq->ctrl->cntlid);
-> Overly long line.
-Changed.
->
->> +	if (unlikely(!percpu_ref_tryget_live(&req->pc_ref->ref)))
->> +		return NVME_SC_INTERNAL;
->> +	return NVME_SC_SUCCESS;
->> +}
->> +
->> +void nvmet_pr_put_ns_pc_ref(struct nvmet_req *req)
->> +{
->> +	if (req->pc_ref)
->> +		percpu_ref_put(&req->pc_ref->ref);
->> +}
-> It would be niceto have the NULL check inline to avoid the call for
-> for namespaces without reservation support.
-Understood, I will change nvmet_pr_put_ns_pc_ref to inline.
->> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
->> index 425573202295..b1be3d313bee 100644
->> --- a/include/linux/nvme.h
->> +++ b/include/linux/nvme.h
-> Please split out adding the new code points to nvme.h to a separate
-> prep patch.
-
-OK, I will split it in v12.
-
-Best regards,
-
-Guixin Liu
+-- 
+Jens Axboe
 
 
