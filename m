@@ -4,99 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52A63CFB446
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 15:34:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5940CFB44A
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 15:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rkcqepu/0/oYWByLSW2pgC78jx77fctSIxifHFxRa98=; b=rkbLgkC8Ko52DNxYl51VeyLpVB
-	g/70lcwWk+UnF9aKcn8xdrSAObNg1e9bNq7+WZumumTB9Of7s9JEPM6t3q8aDWU3gNuyrChFgGDYT
-	x6EOUT+aaSS8AfhFojF4Hs4ZnmEB50FI/x93FPrIMkinZV1LiXF/P8Ia4Qh/ml4BW+f2GzAMgV8kw
-	N8kreG6Oiet+OJhOfBzLxVAjAI1Q8onU3GXXwMUvhTvmJtnns8ntmBuc3m9OBoLAv9at1t4wpdXt6
-	JgIZocnu13uGkwmCut1nKug5ctrw55eQdyENo0URWAJiDcSSQ6ieHGKKOjfpKRlc7U3YulBOQ7a6R
-	5iFablBg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BpVa/ud99QHp3/znkcwtRES0gVTEds1rre66sQ/jdeA=; b=wjXn7tNdOPyJUNGuMp6CPrdaGl
+	9iqJKO9a8siKed9/RuxXLv6D4WlBtFb3F7P6CetJoZxe/Tp9Pe9E7J0fVvcWNr7kQBWngRy71NhSY
+	sZj50toLK3ZU5wL1akOgXR2T4kWqB//RN7mqlpfTxeEsJVfFvo5oVwY01FQCULUYPwlI1XVTsiyLh
+	JRIyDI/c81scfcYgjvyjV+QtUICC4+g6c/bvatu7tB7WtO1w6EobjV0SYVY/+UejDJ9e52FS1uNCI
+	efrBRKYGwhSdbK1yu6mxNjTytUrzPlemE25vRPBVCF1NzIkdCq5hL8zyqL77ponTw+Y2oZrIKZkly
+	njnNeujg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxpkU-00000002y4n-1Jcj;
-	Mon, 07 Oct 2024 15:34:14 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1sxpwG-000000030qo-1XAT;
+	Mon, 07 Oct 2024 15:46:24 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxpkR-00000002y3I-0CPt
+	id 1sxpwC-000000030oh-3ezY
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Oct 2024 15:34:12 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 497CP7sL005749;
-	Mon, 7 Oct 2024 15:34:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=r
-	kcqepu/0/oYWByLSW2pgC78jx77fctSIxifHFxRa98=; b=CiWmALe6lJmxw3Pf/
-	hmiJHXXteMPC2fLzXR3NfZ5bFV/WMHMhzxKgq0u9YAuIVeiMQ2c/SF8prITqFvdM
-	WpVHspBtTSkkEpm0eVD464tBvV16NCK85o+dTXtuJQqdAdyZYZT0/6Fx3YiwJjR2
-	k+Dr1g0xu/77wja77fLWXwK6y2Uss2H7ZnKPxOMnnDvwUJEM0+kf9Vr1boMS3FjG
-	iqDfGqW3BTZYiNI72rVI+Ray7oX7nHxeVR8H4tDGRsPqaeDybjpc3cSCJkyfQ90S
-	yO7sQAcE+tC00yZLPIUdAG8aH6TAqYP81MQqBnCZQ2IVNCb7GjMK/v/e+hwOugt6
-	vJg0Q==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 424fmph1km-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Oct 2024 15:34:00 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 497E01fq011512;
-	Mon, 7 Oct 2024 15:33:58 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 423g5xfhkp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Oct 2024 15:33:58 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 497FXwlK49086844
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 7 Oct 2024 15:33:58 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F2E7358069;
-	Mon,  7 Oct 2024 15:33:57 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8DBD958065;
-	Mon,  7 Oct 2024 15:33:55 +0000 (GMT)
-Received: from [9.179.23.72] (unknown [9.179.23.72])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  7 Oct 2024 15:33:55 +0000 (GMT)
-Message-ID: <48bf8a1d-3a47-4c94-8cd0-7d8c4ea5d3ab@linux.ibm.com>
-Date: Mon, 7 Oct 2024 21:03:54 +0530
+	Mon, 07 Oct 2024 15:46:22 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 46EDEA418B5;
+	Mon,  7 Oct 2024 15:46:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 320AAC4CEC7;
+	Mon,  7 Oct 2024 15:46:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728315979;
+	bh=BpVa/ud99QHp3/znkcwtRES0gVTEds1rre66sQ/jdeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EuIh3qaYodR6ZLQE8XO1RZvFLVS/LuXQdsc0N8kd5W6oAq2NTyaOmZdXH8xGILmC0
+	 17Wv240nJPlohcmXltN2YgM87j3QCzDQa1fK2VeV6+aHJL8m07wWuzoXB5jB+b4PGi
+	 hJwd0Z8qRq/rwKVJcdJSv2ttTMGQYPQanfyvcyTP6MZ/vy5ZC1JlkOxzRIZXDbrpZv
+	 cpc8dDgJxOKc1nM8oymUcItxIWU6Um23DyDqajt/kdGdj3jWgQWcHkxAGYOQWK9StM
+	 541ZwWYhnL2BB58qEGCFLEOwAklSDTQv8W+54HHWL28tR7rfdJysQlAhhOFluwO5ot
+	 zUqCJLYW+/mDw==
+Date: Mon, 7 Oct 2024 09:46:16 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/3] nvme-multipath: simplify loop in
+ nvme_update_ana_state()
+Message-ID: <ZwQCSHIuoXgF9su3@kbusch-mbp>
+References: <20241007100134.21104-1-hare@kernel.org>
+ <20241007100134.21104-2-hare@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv4 RFC 1/1] nvme-multipath: Add sysfs attributes for
- showing multipath info
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
-        axboe@fb.com, gjoyce@linux.ibm.com
-References: <20240911062653.1060056-1-nilay@linux.ibm.com>
- <20240911062653.1060056-4-nilay@linux.ibm.com>
- <5050777a-2812-4fcf-bed9-00f0cb5706fc@suse.de>
- <93af0dc5-c988-423c-9788-e93ca8703fd5@linux.ibm.com>
- <0f4528f0-8ef3-449f-bb15-47878d93a002@suse.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <0f4528f0-8ef3-449f-bb15-47878d93a002@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Egq50nOImDOCnOCIbdlCn8ts6aFVLwlF
-X-Proofpoint-ORIG-GUID: Egq50nOImDOCnOCIbdlCn8ts6aFVLwlF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-07_08,2024-10-07_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 mlxscore=0 clxscore=1015 bulkscore=0 malwarescore=0
- phishscore=0 impostorscore=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410070108
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007100134.21104-2-hare@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241007_083411_226548_FD08B505 
-X-CRM114-Status: GOOD (  27.62  )
+X-CRM114-CacheID: sfid-20241007_084621_013064_A0E4E694 
+X-CRM114-Status: GOOD (  14.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,124 +73,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Oct 07, 2024 at 12:01:32PM +0200, Hannes Reinecke wrote:
+> Currently nvme_update_ana_state() iterates over all namespaces
+> with the srcu lock held, and calls the 'cb' function if a
+> match on the list of namespaces from the ANA log is found.
+> This assumes that the iteration itself is relatively quick,
+> and the namespace state itself doesn't change during iteration.
+> For more complex functions (eg if the 'cb' function triggers
+> mpath_set_live() which then kicks off a partition scan) the
+> namespace state might change while iterating, and the rcu-protected
+> area becomes really long.
+> So change the loop to iterated over the entries in the ANA log,
+> and call nvme_find_get_ns() on each entry.
+> With that the 'cb' function is executed outside of the RCU
+> protected area, and normal reference counting rules apply.
 
+This patch looks good to me.
 
-On 10/7/24 19:34, Hannes Reinecke wrote:
-> On 10/7/24 15:47, Nilay Shroff wrote:
->>
->>
->> On 10/7/24 15:44, Hannes Reinecke wrote:
->>> On 9/11/24 08:26, Nilay Shroff wrote:
->>>> NVMe native multipath supports different IO policies for selecting I/O
->>>> path, however we don't have any visibility about which path is being
->>>> selected by multipath code for forwarding I/O.
->>>> This patch helps add that visibility by adding new sysfs attribute files
->>>> named "numa_nodes" and "queue_depth" under each namespace block device
->>>> path /sys/block/nvmeXcYnZ/. We also create a "multipath" sysfs directory
->>>> under head disk node and then from this directory add a link to each
->>>> namespace path device this head disk node points to.
->>>>
->>>> For instance, /sys/block/nvmeXnY/multipath/ would create a soft link to
->>>> each path the head disk node <nvmeXnY> points to:
->>>>
->>>> $ ls -1 /sys/block/nvme1n1/
->>>> nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
->>>> nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
->>>>
->>>> For round-robin I/O policy, we could easily infer from the above output
->>>> that I/O workload targeted to nvme3n1 would toggle across paths nvme1c1n1
->>>> and nvme1c3n1.
->>>>
->>>> For numa I/O policy, the "numa_nodes" attribute file shows the numa nodes
->>>> being preferred by the respective block device path. The numa nodes value
->>>> is comma delimited list of nodes or A-B range of nodes.
->>>>
->>>> For queue-depth I/O policy, the "queue_depth" attribute file shows the
->>>> number of active/in-flight I/O requests currently queued for each path.
->>>>
->>>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->>>> ---
->>>>    drivers/nvme/host/core.c      |  3 ++
->>>>    drivers/nvme/host/multipath.c | 71 +++++++++++++++++++++++++++++++++++
->>>>    drivers/nvme/host/nvme.h      | 20 ++++++++--
->>>>    drivers/nvme/host/sysfs.c     | 20 ++++++++++
->>>>    4 files changed, 110 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>> index 983909a600ad..6be29fd64236 100644
->>>> --- a/drivers/nvme/host/core.c
->>>> +++ b/drivers/nvme/host/core.c
->>>> @@ -3951,6 +3951,9 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->>>>          if (!nvme_ns_head_multipath(ns->head))
->>>>            nvme_cdev_del(&ns->cdev, &ns->cdev_device);
->>>> +
->>>> +    nvme_mpath_remove_sysfs_link(ns);
->>>> +
->>>>        del_gendisk(ns->disk);
->>>>          mutex_lock(&ns->ctrl->namespaces_lock);
->>>> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
->>>> index 518e22dd4f9b..7d9c36a7a261 100644
->>>> --- a/drivers/nvme/host/multipath.c
->>>> +++ b/drivers/nvme/host/multipath.c
->>>> @@ -654,6 +654,8 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
->>>>            nvme_add_ns_head_cdev(head);
->>>>        }
->>>>    +    nvme_mpath_add_sysfs_link(ns);
->>>> +
->>>>        mutex_lock(&head->lock);
->>>>        if (nvme_path_is_optimized(ns)) {
->>>>            int node, srcu_idx;
->>> Nearly there.
->> Thank you for your review comments!
->>
->>>
->>> You can only call 'nvme_mpath_add_sysfs_link()' if the gendisk on the head had been created.
->>>
->>> And there is one branch in nvme_mpath_add_disk():
->>>
->>>                  if (desc.state) {
->>>                          /* found the group desc: update */
->>>                          nvme_update_ns_ana_state(&desc, ns);
->>>
->>> which does not go via nvme_mpath_set_live(), yet a device link would need to be create here, too.
->>> But you can't call nvme_mpath_add_sysfs_link() from nvme_mpath_add_disk(), as the actual gendisk
->>> might only be created later on during ANA log parsing.>>
->>> It is a tangle, and I haven't found a good way out of this.
->>> But I am _very much_ in favour of having these links, so please
->>> update your patch.
->>> In case disk supports ANA group then yes it would go through nvme_mpath_add_disk()->nvme_update_ns_ana_state();
->>> and later nvme_update_ns_ana_state() would also fall through function nvme_mpath_set_live where we call
->>> nvme_mpath_add_sysfs_link().
->>
->> So I think that in any case while multipath namespace is being created it has to go through
->> nvme_mpath_set_live function. And as we see in nvme_mpath_set_live function, we only create
->> sysfs link after the gendisk on the head is created. Do you agree with this? Or please let
->> me know if you have any further question.
->>
-> But it doesn't:
-> 
->         if (nvme_state_is_live(ns->ana_state) &&
->             nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE)
->                 nvme_mpath_set_live(ns);
-> 
-> so if a namespace is being created for which nvme_state_is_live() returns 'false' nvme_mpath_set_live() is not called, and no links are being created.
-> This can happen eg. if the first namespace to be encountered is in any other state than 'optimized' or 'non-optimized'.
-> 
-
-OK I got what you're suggesting here. So in this particular case when ANA state of a shared namespace 
-is neither "optimized" nor "non-optimized", we would have gendisk for shared namepspace (i.e. 
-nvmeXcYnZ) created but we don't have yet gendisk for corresponding head node (i.e. nvmeXnY) created. 
-So without the gendisk for head node created, how could we create a link from it to the namespace node? 
-
-The link from gendisk head node would be eventually created when the ANA state of the namespace transition 
-to "optimized" or "non-optimized" state. I think, it's not anyways possible to have multipathing function 
-enabled until the gendisk for the head node created, isn't it? So I don't yet understand why do we really 
-need device link created if we don't have gendisk for head not ready? Am I missing anything here?
-
-> Cheers,
-> 
-> Hannes
-
-Thanks,
---Nilay
+Your commit log is word wrapping a bit short, though. We standardize on
+72 characters.
 
