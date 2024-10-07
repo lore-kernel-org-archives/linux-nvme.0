@@ -4,97 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFB82CFB43F
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Oct 2024 22:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43A15CFB443
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 04:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mmSl7eqWiha0nfA3hTlH5zkdKkX4dm03HscfrHTMGhI=; b=V/YwDDLotnzZY37SJbVqY4KnJN
-	evJyZP+7rBux/ufWbaJG+UDqtYDJPQMIa/Lph0cEfL0/iFbtUVuFI5x694N+L38tTpG9mfzCA+AaS
-	P4LLfWKDPeukrRaKISnTjuw/SOPPRgRuR9KNVEDgsH7a7mVqrDTSiNUXxaknziYiCclKxop0/gMEP
-	Pf2/KjXKWV3yX2vgOwJBtrudq8+1D/NIePD3/HEBr22Q25wKI6pVYtqgcpa/StHPtw8/IKh8vqA3n
-	fK5EO2xyxtyA2GoUg3jx3aluHd6T3W8Z5EgRimpeq8oJajeddhqldP8bX8JlC9CoeHKSShUXmx1XS
-	NFvMhjXA==;
+	bh=KWjNcIWCBu8C47Mg9Wb2HNl0cw9w705U3nfiKtmOPGM=; b=J1YmgrmihTixunHIcuBvBgnXXH
+	P+Dz9lBdIWhWpYJ5ZZZAd2aj0p+WwjotX9C4pw+6buOyVOO7whvw4NNh7dmyki/gU5kwTT+gVQeq2
+	ICqvatVTDlPtWWLhEcTwioIb1d7rgsWiw0KNOR22RvsFd7WdNc7ozEw0aeq618no0Bu/flWXwzTmj
+	sYWhNA5ocK6Q2apL2sJfkpZHMx+H+xclVWtXUBIxcUCYSd4tN3QqykI3Vl/xgK2stVFj/m56YhzYy
+	BWSzTkZOJcSwfbk5ADle7ETpnDzz6pkyf8qqUPC3Q24cu9AsU0ACkagkMj4fmjxCsiOvjsk2k4fc0
+	i+PVtvfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxDYR-0000000G46S-3s6c;
-	Sat, 05 Oct 2024 22:47:15 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1sxfbG-00000001Fkw-28zl;
+	Mon, 07 Oct 2024 04:44:02 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxCSK-0000000G028-3UcV
-	for linux-nvme@bombadil.infradead.org;
-	Sat, 05 Oct 2024 21:36:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=mmSl7eqWiha0nfA3hTlH5zkdKkX4dm03HscfrHTMGhI=; b=V1kngOKWrD4Fm5dXtVgtsrfhK+
-	MoKpfo1Ciccl64n3ldRCOYVkTPkx4SifUGYS+pBSzL0lw8HvlJZPWxCUlLbcFQoDa2G+HvsEya0CP
-	sC4JDMnCgJNY2PxfxkH9niSMOZxJ7p+CVZ4w6VV8FncewOCr71H/hmApGRjy52WqXLluvwE/0PY1t
-	zUWoVIu9BHFxDatrIbjyycL9tne2mbvi5oJE59TMjmszWnBbZZpv8LBRyiSohrrKG0MArpRCnR7lr
-	tZPQsB3UwykbV05YNk4BWMZhI1g/nMZgkAPE8VUTYx3DLONHaq24AZ9vEjn4WhTOud1Snvi5zlqPK
-	deG27GSQ==;
-Received: from 009.lax.mailroute.net ([199.89.1.12])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxCSH-0000000485C-091k
+	id 1sxfbB-00000001FjF-0UXu
 	for linux-nvme@lists.infradead.org;
-	Sat, 05 Oct 2024 21:36:51 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4XLdym6QG9zlgT1M;
-	Sat,  5 Oct 2024 21:36:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1728164190; x=1730756191; bh=mmSl7eqWiha0nfA3hTlH5zkd
-	KkX4dm03HscfrHTMGhI=; b=HojL8L1qLnNowfZUVh7eJ8b0Fgy9LFPPki3RMiiq
-	5PeiLvy74j0A6qnTPUvVxeTjBNt6xSIP9ezBNwGrp3uoMgQHIQVwPmkctw0RCkOa
-	AAHIOoR+l9Daj2VOm+b7tSWzHJFpZQzbQpI5Lu1SHUDqYNAOj4xqFBuf2Z2yBiwQ
-	wOWH92oz9UDJEhI7K7RnuSvA+Vx5j2hUNGdi0XyAOOP8O4lmfKsrmPADwV8XcKJL
-	gOnIYZgNrYS/M7BjbZXobIcNmf8gV9TTFDwYy3UzEoXFyNgeRYfjh2ZV2vprNlb5
-	MJ0n3nHuV6dUsoYQ299TDpgLD5AjiVNknOgJoLRSjIVLJQ==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 8jru5-91P3G7; Sat,  5 Oct 2024 21:36:30 +0000 (UTC)
-Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4XLdyh70ZyzlgTWQ;
-	Sat,  5 Oct 2024 21:36:28 +0000 (UTC)
-Message-ID: <d5fe08b6-68df-4d67-8870-dd7ae391973e@acm.org>
-Date: Sat, 5 Oct 2024 14:36:22 -0700
+	Mon, 07 Oct 2024 04:43:58 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 8F426A414F6;
+	Mon,  7 Oct 2024 04:43:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 448ACC4CED0;
+	Mon,  7 Oct 2024 04:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728276235;
+	bh=vfUOd45XU/XxutZyW6nJEnB0x4D/3FMkZDnFt4MKos8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NSNNkHhCzpQBZtqIoBqgdOZYO2asdfp+8w7pJB4t/Z172qFdLAKMgcZk+fwq6HI+M
+	 hMpNxrZIr4f/bLTXI3ezRKpmNdSM7LfLzAY8IxS4FhaTiwp1A2wmSuBtM3KMrmrWC6
+	 dtPCgf043bqSbstafIDWEBCVig8LC7wlb+Vz/NiHTgYEDuDYIYx2oT4CD54utsTLP3
+	 q2+wNYCjio1fZFW7Jm3FaZogkufnpgl6h3Xa5O9NhgIy0tYaNNvt/1q7oNMr/NnMDo
+	 1Z6xwVxJRUVNfzLpNXfpBcDYFxv8XPqLc0iRsrvYlJP5B2DFWJn5f4+o6I9lWnZy7Z
+	 mEZNaCgTOJLIg==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	linux-pci@vger.kernel.org
+Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: [PATCH v1 1/5] nvmet: rename and move nvmet_get_log_page_len()
+Date: Mon,  7 Oct 2024 13:43:47 +0900
+Message-ID: <20241007044351.157912-2-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241007044351.157912-1-dlemoal@kernel.org>
+References: <20241007044351.157912-1-dlemoal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: blktests failures with v6.12-rc1 kernel
-To: Jens Axboe <axboe@kernel.dk>, Zhu Yanjun <yanjun.zhu@linux.dev>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "nbd@other.debian.org" <nbd@other.debian.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-References: <xpe6bea7rakpyoyfvspvin2dsozjmjtjktpph7rep3h25tv7fb@ooz4cu5z6bq6>
- <e6e6f77b-f5c6-4b1e-8ab2-b492755857f0@acm.org>
- <dvpmtffxeydtpid3gigfmmc2jtp2dws6tx4bc27hqo4dp2adhv@x4oqoa2qzl2l>
- <5cff6598-21f3-4e85-9a06-f3a28380585b@linux.dev>
- <9fe72efb-46b8-4a72-b29c-c60a8c64f88c@acm.org>
- <b60fa0ab-591b-41e8-9fca-399b6a25b6d9@linux.dev>
- <c5c3c7d7-2db9-44fe-a316-b0b5bab30f1e@kernel.dk>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <c5c3c7d7-2db9-44fe-a316-b0b5bab30f1e@kernel.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241005_223649_540671_F1048D58 
-X-CRM114-Status: UNSURE (   6.97  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241006_214357_305172_0A83C4FC 
+X-CRM114-Status: GOOD (  14.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,27 +80,132 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/4/24 6:41 PM, Jens Axboe wrote:
-> That seems over-engineered. Seems to me that either these things should
-> share a slab cache (why do they need one each, if they are the same
-> sized object?!).
+The code for nvmet_get_log_page_len() has no pedendency on nvme target
+code and only depends on struct nvme_command. Move this helper function
+out of drivers/nvme/target/admin-cmd.c and inline it as part of the
+generic definitions in include/linux/nvme.h. Apply the same modification
+to nvmet_get_log_page_offset().
 
-The size of two of the three slab caches is variable.
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+---
+ drivers/nvme/target/admin-cmd.c | 20 +-------------------
+ drivers/nvme/target/discovery.c |  4 ++--
+ drivers/nvme/target/nvmet.h     |  3 ---
+ include/linux/nvme.h            | 19 +++++++++++++++++++
+ 4 files changed, 22 insertions(+), 24 deletions(-)
 
-> And if they really do need one, surely something ala:
-> 
-> static atomic_long_t slab_index;
-> 
-> sprintf(slab_name, "foo-%ld", atomic_inc_return(&slab_index));
-> 
-> would be all you need.
-
-A 32-bit counter wraps around after about 4 billion iterations, isn't
-it?
-
-Thanks,
-
-Bart.
-
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 954d4c074770..b20cd1dba207 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -12,19 +12,6 @@
+ #include <asm/unaligned.h>
+ #include "nvmet.h"
+ 
+-u32 nvmet_get_log_page_len(struct nvme_command *cmd)
+-{
+-	u32 len = le16_to_cpu(cmd->get_log_page.numdu);
+-
+-	len <<= 16;
+-	len += le16_to_cpu(cmd->get_log_page.numdl);
+-	/* NUMD is a 0's based value */
+-	len += 1;
+-	len *= sizeof(u32);
+-
+-	return len;
+-}
+-
+ static u32 nvmet_feat_data_len(struct nvmet_req *req, u32 cdw10)
+ {
+ 	switch (cdw10 & 0xff) {
+@@ -35,11 +22,6 @@ static u32 nvmet_feat_data_len(struct nvmet_req *req, u32 cdw10)
+ 	}
+ }
+ 
+-u64 nvmet_get_log_page_offset(struct nvme_command *cmd)
+-{
+-	return le64_to_cpu(cmd->get_log_page.lpo);
+-}
+-
+ static void nvmet_execute_get_log_page_noop(struct nvmet_req *req)
+ {
+ 	nvmet_req_complete(req, nvmet_zero_sgl(req, 0, req->transfer_len));
+@@ -319,7 +301,7 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
+ 
+ static void nvmet_execute_get_log_page(struct nvmet_req *req)
+ {
+-	if (!nvmet_check_transfer_len(req, nvmet_get_log_page_len(req->cmd)))
++	if (!nvmet_check_transfer_len(req, nvme_get_log_page_len(req->cmd)))
+ 		return;
+ 
+ 	switch (req->cmd->get_log_page.lid) {
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 28843df5fa7c..71c94a54bcd8 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -163,8 +163,8 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
+ 	const int entry_size = sizeof(struct nvmf_disc_rsp_page_entry);
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvmf_disc_rsp_page_hdr *hdr;
+-	u64 offset = nvmet_get_log_page_offset(req->cmd);
+-	size_t data_len = nvmet_get_log_page_len(req->cmd);
++	u64 offset = nvme_get_log_page_offset(req->cmd);
++	size_t data_len = nvme_get_log_page_len(req->cmd);
+ 	size_t alloc_len;
+ 	struct nvmet_subsys_link *p;
+ 	struct nvmet_port *r;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 190f55e6d753..6e9499268c28 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -541,9 +541,6 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ 		size_t len);
+ u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len);
+ 
+-u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+-u64 nvmet_get_log_page_offset(struct nvme_command *cmd);
+-
+ extern struct list_head *nvmet_ports;
+ void nvmet_port_disc_changed(struct nvmet_port *port,
+ 		struct nvmet_subsys *subsys);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b58d9405d65e..1f6d8cd0389a 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -10,6 +10,7 @@
+ #include <linux/bits.h>
+ #include <linux/types.h>
+ #include <linux/uuid.h>
++#include <asm/byteorder.h>
+ 
+ /* NQN names in commands fields specified one size */
+ #define NVMF_NQN_FIELD_LEN	256
+@@ -1856,6 +1857,24 @@ static inline bool nvme_is_write(const struct nvme_command *cmd)
+ 	return cmd->common.opcode & 1;
+ }
+ 
++static inline __u32 nvme_get_log_page_len(struct nvme_command *cmd)
++{
++	__u32 len = le16_to_cpu(cmd->get_log_page.numdu);
++
++	len <<= 16;
++	len += le16_to_cpu(cmd->get_log_page.numdl);
++	/* NUMD is a 0's based value */
++	len += 1;
++	len *= sizeof(__u32);
++
++	return len;
++}
++
++static inline __u64 nvme_get_log_page_offset(struct nvme_command *cmd)
++{
++	return le64_to_cpu(cmd->get_log_page.lpo);
++}
++
+ enum {
+ 	/*
+ 	 * Generic Command Status:
+-- 
+2.46.2
 
 
