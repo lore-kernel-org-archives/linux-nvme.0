@@ -4,47 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACB7DCFB440
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 06:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CE96CFB443
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 06:41:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ua3/wY6aF/S/Wy4L6Vuz40z8tdhD13d/9Dt9DqE1SNM=; b=bofiheMidqgv3XcGoRk/Ar4h2N
-	TdGkSnoVXNnneTJpM7t0p3X4GSBsu8GSU4UGYhnPTOo+s4RN7TZm7PN5z5kPrb1QIqDXpHfEivIoW
-	LUyMmA20FNRQMP9AW1XDRGAQOwzptSK0fzeZXvCgCKqi58MFC3YeL7u70AFAlny41mkOiKAmoN3hC
-	4JVGQDhk6L94onTpjRySuVf1jbRaTO24vaDONVO2pOGtDM769XbWGZVdh9/haDRO7KUQeMVPTjpic
-	kGRXAKQI0YTthc90m4UKCcGxIZCaV65XUqgRBCwtiFyHtrMDeIGX3gKuYYii6jfeqfX+sy2kI887W
-	xI/btUTQ==;
+	bh=QQernF8bsktnXckcY/8C7dkqTBVch8ft0pWEMh6TmRU=; b=fkQ6lpH0Vrl/djDGyO8dcXQxwI
+	acobNdqbKV87cJzzB42geJgZt6hVy1xoSePl1dYJWHTiWvteeMtOBGXGleHaBDHKJJ6MvTVPdVozp
+	/zgGkmouQxEasPwqGa4Qa0a30EWEq68vGGXgN3kN8vJs0QjTtSEHHY705/15Ui4lVnQmed+1EcPjf
+	MGK46k8vkXZHev8XrAV9qppACAlYM+lzA/kDVelan+ke/hKS5+PfxAYJ+1DAw4Dnd8o8rvb5WcB0e
+	zfkAHD+g9Ue1sqWG1WdH4NkB5pdIfLGxQVTxsmODhMGSufX5iFEsdf8URdDphzp7RJ0heeGDrfesA
+	+9BP5A+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxhIP-00000001RU9-35uW;
-	Mon, 07 Oct 2024 06:32:41 +0000
+	id 1sxhRC-00000001TLy-3dwL;
+	Mon, 07 Oct 2024 06:41:46 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxh5l-00000001P2G-2WvQ
+	id 1sxhMe-00000001SrY-39ma
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Oct 2024 06:19:39 +0000
+	Mon, 07 Oct 2024 06:37:06 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 854F8227A8E; Mon,  7 Oct 2024 08:19:26 +0200 (CEST)
-Date: Mon, 7 Oct 2024 08:19:26 +0200
+	id 8E059227A8E; Mon,  7 Oct 2024 08:36:59 +0200 (CEST)
+Date: Mon, 7 Oct 2024 08:36:59 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Tero Kristo <tero.kristo@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, kbusch@kernel.org
-Subject: Re: [PATCH 1/1] nvme-pci: Add CPU latency pm-qos handling
-Message-ID: <20241007061926.GA800@lst.de>
-References: <20241004101014.3716006-1-tero.kristo@linux.intel.com> <20241004101014.3716006-2-tero.kristo@linux.intel.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, kch@nvidia.com,
+	d.bogdanov@yadro.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v11 1/1] nvmet: support reservation feature
+Message-ID: <20241007063659.GA1112@lst.de>
+References: <20240929031410.31281-1-kanie@linux.alibaba.com> <20240929031410.31281-2-kanie@linux.alibaba.com> <20241002080943.GA21262@lst.de> <3fedef45-0714-4d5e-b256-60c5b7a65914@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241004101014.3716006-2-tero.kristo@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3fedef45-0714-4d5e-b256-60c5b7a65914@linux.alibaba.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241006_231937_807378_FDA46ECC 
-X-CRM114-Status: GOOD (  11.14  )
+X-CRM114-CacheID: sfid-20241006_233705_077677_CE6F3515 
+X-CRM114-Status: GOOD (  11.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,25 +60,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> @@ -483,6 +498,27 @@ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
->  			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
->  		writel(nvmeq->sq_tail, nvmeq->q_db);
->  	nvmeq->last_sq_tail = nvmeq->sq_tail;
-> +
-> +	/* Kick CPU latency while updating queue. */
-> +	dev = nvmeq->dev;
-> +	if (!dev || dev->cpu_latency < 0)
-> +		return;
-> +
-> +	for_each_cpu(cpu, nvmeq->irq_aff_mask) {
+On Sat, Oct 05, 2024 at 11:09:20PM +0800, Guixin Liu wrote:
+>>> +struct nvmet_pr_register_data {
+>>> +	__le64	crkey;
+>>> +	__le64	nrkey;
+>>> +};
+>>> +
+>>> +struct nvmet_pr_acquire_data {
+>>> +	__le64	crkey;
+>>> +	__le64	prkey;
+>>> +};
+>>> +
+>>> +struct nvmet_pr_release_data {
+>>> +	__le64	crkey;
+>>> +};
+>> Using little endian fields for purely in-memory data feels strange.
+>> Is there a good reason for this?
+>>
+> I use nvmet_copy_from_sgl to obtain the command's detail, just like
+>
+> nvme_dsm_range, maybe I can put them in to include/linux/nvme.h.
 
-Doing something as complex as this for every doorbell write is not
-going to fly.
+Ah right, you just store the on the wire format locally.  Yes,
+pleaﬂe ad them to nvme.h.
 
-Even if it was I see nothing nvme-specific in the interface.
-
-So please figure out a way to make things cheap in the I/O path
-and move code to the right layers.
-
-Also please avoid all these overly long lines.
 
