@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 414EECFB440
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C22C5CFB444
 	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 04:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XWXAmHvXn4vCpATTyiYW6ts8HAnNGwtjMWKq5UIzamQ=; b=f9wcw6xVQbmoZB3Dz/AsdeQ2p6
-	DPZWr2JkdjURGvT9UQmsyj9b7QXLF4VlXBW1HS75HTualPkejyykX+3AcF8QJPcbYNDOPLBHEHoaN
-	gPDikMymFdgrynGUfcmUUjZkhISmIq/9QcHLJPLY7DVRrpadQsrjhcniiKXLYfOoVafS1/cOg0TwM
-	0f06N7czE6d6+jrrjePkXAPLK9GWEZypc+3rLo6QTbBPvOMuUzbx1udRr1AMBq+o5KoZmOvqoIQcM
-	c8X84HA2w8Z3WLl8Xi2O4HU0PFFM4tUDPaydjfPuUbKwkyeaF0paKy5of+s6HASIDC4F3hY84wXAc
-	b4l8kVqw==;
+	bh=66iKB7HoThhYXr92OnfTjBX2ryhoM0Ln+VDimx0F/Qg=; b=UkJA4u/6O6gTKLxpzzWQ6ZdBJl
+	8cTbs/sxKN6BastRbms9vWwu/yJgBpEgGruXdLhK1c41pRQCd0wiIl0NFVYKFfRGn41WPwwsb94Ci
+	RYv/boe2SusIiYUKDG9BkZZ5wTkPy98E+kRb4zXtlRC+9l/S5OqGQCNV0Xizl5/u67+wGz0X9hhFB
+	saM4tnZS7Jbc89Xci0qEKjlTY66g6XA7AgHusX+/lzJWPlRP/OZsPr9piEh3yjUVLke7S2RaSpv3L
+	8E4hw5Dx+L1GOA/yWBoHYkLx1D49U64hgmoYXohsFm3SYXyaDDjN1+KFsIa1pPnICFmUMLDdOyG6E
+	ShfmgFeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxfbI-00000001FmB-0iLH;
-	Mon, 07 Oct 2024 04:44:04 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1sxfbJ-00000001Fnu-2trI;
+	Mon, 07 Oct 2024 04:44:05 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxfbC-00000001Fjd-22oa
+	id 1sxfbE-00000001FkC-1kiS
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Oct 2024 04:43:59 +0000
+	Mon, 07 Oct 2024 04:44:01 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A0C3C5C5B8F;
-	Mon,  7 Oct 2024 04:43:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A49BC4CECF;
-	Mon,  7 Oct 2024 04:43:55 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 32500A414F3;
+	Mon,  7 Oct 2024 04:43:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27E8C4CED0;
+	Mon,  7 Oct 2024 04:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728276237;
-	bh=ksVCnorPjWn7+AyFB7R0NeXDZPsR2eZvsmvQ/R3OnJE=;
+	s=k20201202; t=1728276239;
+	bh=dnDNUE6zdmzn3HjRvxUKwPog/N4iHYyhVE47uHqaT/E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fI3mIYwaOgSApf8p5+di9x584jUdgCpNG/mpOyYjW5/o379m7Kt4/yxGUG4pTXyLv
-	 X34LeUK67xZFsdFgtTiXS8XagLNUba5vRr3Q5sN8a513B8YyzXLxYepuS55uHWhgf7
-	 Ascrknql9LYK2ew1Im+gatjFsp3zBCnbSGmvkhqrmAuIsOybuU8O+FuEJpfBkDGpzz
-	 Gq1xd+qCyQLoznx1YTqeGmrBaOTLqDZ0UEg1JABH8LJtViL7xZKmC/JGB0At4IuWrq
-	 sjyi26kl99KZtPLVFzJW/03yRLNvRs+vPXvMBFBH7EOZq2zmMCF0qq77L4Nj+eOHPl
-	 aNwlcROvIC9vQ==
+	b=UEFU6WruypIZWIv6hkktGYhHs6rTC8JeiCCZ0U1pKty1Z5IvLOAiO+gcJcNzp7Okj
+	 64+rbvj3o1gtqgmVLlJML6k81nZxqDTs5A9OjOGiykYhIjqYDpkDv2Z7Y8HGmM2aDq
+	 Foeccl7Q27A01qEfbjbQQb2qcQ9QD42TYFSNUo7heHX+Z+VYvW8W7eS0K40pq5wdwW
+	 mLhd89WHVmrT6hgWN12Dv0AUDTikyhezpL/0ArLafI8bZLRLloAMwxedNm2AvZHjNK
+	 XlNaxpQaDAtWbzAK97doVuER9ZM+bYWQsIvCf/jlSSB9nYRqv/F/prYxVFcJt0Et8c
+	 gDKO5GAyaGh2g==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Keith Busch <kbusch@kernel.org>,
@@ -55,17 +55,17 @@ To: linux-nvme@lists.infradead.org,
 	linux-pci@vger.kernel.org
 Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
 	Niklas Cassel <cassel@kernel.org>
-Subject: [PATCH v1 2/5] nvmef: export nvmef_create_ctrl()
-Date: Mon,  7 Oct 2024 13:43:48 +0900
-Message-ID: <20241007044351.157912-3-dlemoal@kernel.org>
+Subject: [PATCH v1 3/5] nvmef: Introduce the NVME_OPT_HIDDEN_NS option
+Date: Mon,  7 Oct 2024 13:43:49 +0900
+Message-ID: <20241007044351.157912-4-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241007044351.157912-1-dlemoal@kernel.org>
 References: <20241007044351.157912-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241006_214358_596505_89EB65E6 
-X-CRM114-Status: GOOD (  12.64  )
+X-CRM114-CacheID: sfid-20241006_214400_604793_DFF4E08B 
+X-CRM114-Status: GOOD (  15.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,51 +80,137 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Export nvmef_create_ctrl() to allow drivers to directly call this
-function instead of forcing the creation of a fabrics host controller
-with a write to /dev/nvmef. The export is restricted to the NVME_FABRICS
-namespace.
+Introduce the NVME fabrics option NVME_OPT_HIDDEN_NS to allow a host
+controller to be created without any user visible or internally usable
+namespace devices. That is, if set, this option will result in the
+controller having no character device and no block device for any of its
+namespaces.
+
+This option should be used only when the nvme controller will be
+managed using passthrough commands using the controller character
+device, either by the user or by another device driver.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- drivers/nvme/host/fabrics.c | 4 ++--
- drivers/nvme/host/fabrics.h | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c    | 17 ++++++++++++++---
+ drivers/nvme/host/fabrics.c |  7 ++++++-
+ drivers/nvme/host/fabrics.h |  4 ++++
+ 3 files changed, 24 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ba6508455e18..c7f0be39a30a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1714,11 +1714,17 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+ 	queue_work(nvme_wq, &ctrl->async_event_work);
+ }
+ 
++static inline bool nvme_hidden_ns(struct nvme_ctrl *ctrl)
++{
++	return ctrl->opts && ctrl->opts->hidden_ns;
++}
++
+ static int nvme_ns_open(struct nvme_ns *ns)
+ {
+ 
+ 	/* should never be called due to GENHD_FL_HIDDEN */
+-	if (WARN_ON_ONCE(nvme_ns_head_multipath(ns->head)))
++	if (WARN_ON_ONCE(nvme_ns_head_multipath(ns->head) ||
++			 nvme_hidden_ns(ns->ctrl)))
+ 		goto fail;
+ 	if (!nvme_get_ns(ns))
+ 		goto fail;
+@@ -3828,6 +3834,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	disk->fops = &nvme_bdev_ops;
+ 	disk->private_data = ns;
+ 
++	if (nvme_hidden_ns(ctrl))
++		disk->flags |= GENHD_FL_HIDDEN;
++
+ 	ns->disk = disk;
+ 	ns->queue = disk->queue;
+ 	ns->ctrl = ctrl;
+@@ -3879,7 +3888,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	if (device_add_disk(ctrl->device, ns->disk, nvme_ns_attr_groups))
+ 		goto out_cleanup_ns_from_list;
+ 
+-	if (!nvme_ns_head_multipath(ns->head))
++	if (!nvme_ns_head_multipath(ns->head) &&
++	    !nvme_hidden_ns(ctrl))
+ 		nvme_add_ns_cdev(ns);
+ 
+ 	nvme_mpath_add_disk(ns, info->anagrpid);
+@@ -3945,7 +3955,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	/* guarantee not available in head->list */
+ 	synchronize_srcu(&ns->head->srcu);
+ 
+-	if (!nvme_ns_head_multipath(ns->head))
++	if (!nvme_ns_head_multipath(ns->head) &&
++	    !nvme_hidden_ns(ns->ctrl))
+ 		nvme_cdev_del(&ns->cdev, &ns->cdev_device);
+ 	del_gendisk(ns->disk);
+ 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 432efcbf9e2f..e3c990d50704 100644
+index e3c990d50704..64e95727ae2a 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -1276,8 +1276,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+@@ -707,6 +707,7 @@ static const match_table_t opt_tokens = {
+ #ifdef CONFIG_NVME_TCP_TLS
+ 	{ NVMF_OPT_TLS,			"tls"			},
+ #endif
++	{ NVMF_OPT_HIDDEN_NS,		"hidden_ns"		},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -1053,6 +1054,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->tls = true;
+ 			break;
++		case NVMF_OPT_HIDDEN_NS:
++			opts->hidden_ns = true;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -1274,7 +1278,8 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+ 				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
  				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_DHCHAP_SECRET |\
- 				 NVMF_OPT_DHCHAP_CTRL_SECRET)
+-				 NVMF_OPT_DHCHAP_CTRL_SECRET)
++				 NVMF_OPT_DHCHAP_CTRL_SECRET | \
++				 NVMF_OPT_HIDDEN_NS)
  
--static struct nvme_ctrl *
--nvmf_create_ctrl(struct device *dev, const char *buf)
-+struct nvme_ctrl *nvmf_create_ctrl(struct device *dev, const char *buf)
+ struct nvme_ctrl *nvmf_create_ctrl(struct device *dev, const char *buf)
  {
- 	struct nvmf_ctrl_options *opts;
- 	struct nvmf_transport_ops *ops;
-@@ -1346,6 +1345,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf)
- 	nvmf_free_options(opts);
- 	return ERR_PTR(ret);
- }
-+EXPORT_SYMBOL_NS_GPL(nvmf_create_ctrl, NVME_FABRICS);
- 
- static const struct class nvmf_class = {
- 	.name = "nvme-fabrics",
 diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 21d75dc4a3a0..2dd3aeb8c53a 100644
+index 2dd3aeb8c53a..5388610e475d 100644
 --- a/drivers/nvme/host/fabrics.h
 +++ b/drivers/nvme/host/fabrics.h
-@@ -214,6 +214,7 @@ static inline unsigned int nvmf_nr_io_queues(struct nvmf_ctrl_options *opts)
- 		min(opts->nr_poll_queues, num_online_cpus());
- }
+@@ -66,6 +66,7 @@ enum {
+ 	NVMF_OPT_TLS		= 1 << 25,
+ 	NVMF_OPT_KEYRING	= 1 << 26,
+ 	NVMF_OPT_TLS_KEY	= 1 << 27,
++	NVMF_OPT_HIDDEN_NS	= 1 << 28,
+ };
  
-+struct nvme_ctrl *nvmf_create_ctrl(struct device *dev, const char *buf);
- int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
- int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ /**
+@@ -108,6 +109,8 @@ enum {
+  * @nr_poll_queues: number of queues for polling I/O
+  * @tos: type of service
+  * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
++ * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
++ * @hide_dev: Hide block devices for the namesapces of the controller
+  */
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
+@@ -133,6 +136,7 @@ struct nvmf_ctrl_options {
+ 	bool			disable_sqflow;
+ 	bool			hdr_digest;
+ 	bool			data_digest;
++	bool			hidden_ns;
+ 	unsigned int		nr_write_queues;
+ 	unsigned int		nr_poll_queues;
+ 	int			tos;
 -- 
 2.46.2
 
