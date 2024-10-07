@@ -4,141 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFBA6CFB43F
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 11:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0123CFB441
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2024 13:50:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D/cuLsTSJS5cack4J6ZJQb3O2sQ62YL1/KuYcxob1CI=; b=JCYSU1zZTZK7xOoQtNJwSACwaU
-	mXPGCfdpg2vxHQ5JpiytSnfgBXvp5BSx3GvJmsV6MdCBwTdqMQMdS0tqggyFHdQuePe3t2jSDKs5P
-	t2G3036Cyk/M3NMqCGIgIFC0QwK10IF1+QYydpqmbH8v2X5zO1XKCvl00Dc28Atv014IoY++sYaQg
-	1zswrmGn+7OjNLMg9MIiTNQD5oUxZC8ZnE4XwUWjIKgraiaPiYFpV7rby9cRX4RoCYnexXupJbLwW
-	t23ONhkpcl9FwIzWRoeNt5WpeU29Q+v8PRKNa+bjsFeNU8QHW3i9H7I+M0xpeIuVjbXkIR+Zb22S9
-	B5HOiMqg==;
+	bh=f02Fi//D4zY8JouLJRFP7PC79QWYIZ1f9/KyyJWJ9/M=; b=Egat3NRkQmL/wCaEb7wmoTCPps
+	8NmNgMOCMkbax7kIYzQ83/Py8SZ3Uc0S0tJ/ETcTToRWraM+VrzaMoeKAGmkhhjNk5+CX0ZwpHAvK
+	fzjhIUuCwvtxmVkg21JOJeL6JpKEvV1QhJfHmHmm4bnqhaHSZULZbmiJAZMr9be9q99QhA9SQy6YB
+	53IEL4zOI/0pS4aw0WAgxTjTPtyKp9RxFLGkzkMjUYz026ocgOHOC3l7jm7u5Z4dPHbz1M1f7bX2O
+	RyvSt/xnhlnTPo26oTuoV/XALIaI7aXG8GDwrrWi6k+cigpSpRGX/t8u3iC9+Ewhzb2dCOe1FZ/Fp
+	tDwc07+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxlvr-00000002BGU-2sAJ;
-	Mon, 07 Oct 2024 11:29:43 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1sxo8Q-00000002a0V-26c0;
+	Mon, 07 Oct 2024 13:50:50 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sxlvn-00000002BFb-1kfC
+	id 1sxo5Z-00000002ZRC-232F
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Oct 2024 11:29:41 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20241007112934euoutp02efef8698b4dbac1f13e9305aeedfe293~8KDdEC-US1580515805euoutp02K
-	for <linux-nvme@lists.infradead.org>; Mon,  7 Oct 2024 11:29:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20241007112934euoutp02efef8698b4dbac1f13e9305aeedfe293~8KDdEC-US1580515805euoutp02K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1728300574;
-	bh=D/cuLsTSJS5cack4J6ZJQb3O2sQ62YL1/KuYcxob1CI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=bp6IlodqnpS25yUh16tBS8+5IiRO9/3PiFguOGLrOMXxDK3pafnaJkDcLb97iqIwH
-	 XbgiTrFbd/NFeOwoP35R3szrorS9xbhCL8i2ljlAJEiBDApP8tThpAwWi4a8BRarpg
-	 slkSpDbupy49z1IddFLjbrVNoJ26AJ1+iA8MvAtA=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20241007112934eucas1p28349c6841e27b99b605a19151b23ae7e~8KDcsWnrL2195821958eucas1p2K;
-	Mon,  7 Oct 2024 11:29:34 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 82.F8.09624.E16C3076; Mon,  7
-	Oct 2024 12:29:34 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20241007112933eucas1p1fc9646cc40eba2fcb35128a1ece134c0~8KDcOACi62079720797eucas1p1H;
-	Mon,  7 Oct 2024 11:29:33 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20241007112933eusmtrp11c8f7c6913c9d0f70d680b969b084a8a~8KDcNTlOA2645626456eusmtrp1j;
-	Mon,  7 Oct 2024 11:29:33 +0000 (GMT)
-X-AuditID: cbfec7f2-bfbff70000002598-57-6703c61e9e64
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 4F.33.19096.D16C3076; Mon,  7
-	Oct 2024 12:29:33 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20241007112933eusmtip2f8765f614b14aa0d9aee8984cfa1627c~8KDb_eDaL1811718117eusmtip2Z;
-	Mon,  7 Oct 2024 11:29:33 +0000 (GMT)
-Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Mon, 7 Oct 2024 12:29:32 +0100
-Date: Mon, 7 Oct 2024 13:29:31 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: Bart Van Assche <bvanassche@acm.org>, "Martin K. Petersen"
-	<martin.petersen@oracle.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe
-	<axboe@kernel.dk>, Kanchan Joshi <joshi.k@samsung.com>, <hare@suse.de>,
-	<sagi@grimberg.me>, <brauner@kernel.org>, <viro@zeniv.linux.org.uk>,
-	<jack@suse.cz>, <jaegeuk@kernel.org>, <bcrl@kvack.org>,
-	<dhowells@redhat.com>, <asml.silence@gmail.com>,
-	<linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
-	<io-uring@vger.kernel.org>, <linux-block@vger.kernel.org>,
-	<linux-aio@kvack.org>, <gost.dev@samsung.com>, <vishak.g@samsung.com>
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <20241007112931.afva6zzmipzdewm4@ArmHalley.local>
+	Mon, 07 Oct 2024 13:47:55 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 497BnVle006233;
+	Mon, 7 Oct 2024 13:47:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=f
+	02Fi//D4zY8JouLJRFP7PC79QWYIZ1f9/KyyJWJ9/M=; b=bXRctAaQfxmiucZuV
+	jTDatdEGkG6iKFWz9Af4VU3uGQ2cNH2l3B6oDMBLXo2Vsl2tCBz2CVY7E523PmVi
+	PmmKC9pxfb1xq3lh7VByN1Vb9jQD6M7mGu6kjsbWnxfEFZnpse/BeZ86ETVvoujD
+	+xqWcPHgyqmE8k+O2FSs+TK+sDOMZ9DrgcJDWH64NeLmWhHwu+vcDbYVsnfFjwpr
+	7R9krDrWswlpc6ckSa6RtYI2Vvyf5WDzCTQ7JwAl7sI7IW/+n9pSxRKog9fQkyOY
+	P7WvfVc0Eu9rU8TXZDGAf7VDQXQUtDoNsYTUm7luc2mxw+5zGafmGG4dUB2/NdgQ
+	dfE7Q==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 424f40gntn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 13:47:36 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 497BntHn010728;
+	Mon, 7 Oct 2024 13:47:35 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 423j0j6mus-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 13:47:35 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 497DlYx924052410
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 7 Oct 2024 13:47:35 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 97A9458056;
+	Mon,  7 Oct 2024 13:47:34 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EC9AD58052;
+	Mon,  7 Oct 2024 13:47:31 +0000 (GMT)
+Received: from [9.179.23.72] (unknown [9.179.23.72])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  7 Oct 2024 13:47:31 +0000 (GMT)
+Message-ID: <93af0dc5-c988-423c-9788-e93ca8703fd5@linux.ibm.com>
+Date: Mon, 7 Oct 2024 19:17:30 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv4 RFC 1/1] nvme-multipath: Add sysfs attributes for
+ showing multipath info
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+        axboe@fb.com, gjoyce@linux.ibm.com
+References: <20240911062653.1060056-1-nilay@linux.ibm.com>
+ <20240911062653.1060056-4-nilay@linux.ibm.com>
+ <5050777a-2812-4fcf-bed9-00f0cb5706fc@suse.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <5050777a-2812-4fcf-bed9-00f0cb5706fc@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241004123206.GA19275@lst.de>
-X-Originating-IP: [106.110.32.122]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xTdxjld+/t7aWm5NKy8JtOlK6SRaHDSZZf3ByQYLhjM+geuJk9bMZN
-	MbxMK5uOLXblkZbwrAqjdLOBjTpQcAWqZGJCQVkthawIal018ohdeQkuc4TZjPbWjf/Od75z
-	vpyTfBQu0pAbqSMFx1hlgTxPQgoI6/WVkYSY67gi0fwkEhnbrAC1e2pIVOHvJtDswDJA9Y9W
-	cLSgWSXQlWY9hn5qv4ahhbIRAjU1lGBoutOAI71tAqDT9RqA+tw70JU+O4HOts7wkXnIj6GO
-	2UUCjT4d4qWImbGbbzG9Bg+fGb33M8GMOYsYS5uOZCzLej7T9cNJ5pc7apJZmnETzOLVcZIZ
-	Ng2u8Y5i5rElhrFMz2P7Iw4JXs9m8458zipffuOwIKfU5CGPXuQf1/Y1k2qwyqsA4RSkk+Dg
-	ZA9ZAQSUiD4HoPWel88NfwJocTYS3PAYwPPjOvDM0nGzN6QyA/jQ28D7TzWlq8e4oQvA0r+N
-	RMBC0FLoczwM2kk6Gbpa3XgAR9ESOONzgoABp10EdP82TAYWYjoRLj6pWsMUJaT3QHOzKkAL
-	6Uhob5wO3sTp3VD3SMMLSHB6EzT7KY7eAkt6moLnw+l4ODpu5HOpJXDKOx9q8DW80e0O5oR0
-	tQC2unpDizT4e+01nMNi6BvqDplfgI5TlQSHi6Ha/mvIXApgmbYnGALSr8Hq4TxOkwr7fas4
-	R0fA2/ORXLYIqLc2hGgh1JaLaoHUsK6YYV0xw//FDOuKmQDRBqLZIlW+glXtLGC/kKnk+aqi
-	AoXss8J8C1h7U4d/aPky+M63JLMBjAI2AClcEiX84DxQiITZ8hNfssrCT5VFeazKBjZRhCRa
-	uC17CyuiFfJjbC7LHmWVz7YYFb5RjUVnXCg31pk6wkx3JnO+YmuiNZkPXFs7709tqD21+a5N
-	nCXobMk829gvw1C658yrlYrDVfGSv5JfSgcHtd5/wog9ilzP3kvEDUmi75u5/DR7ctaEesI/
-	8FxG2eX3qkpOVjelqgbenow590B2fGLtYXfow/S7F+aso3Wx+xNWwMF3M611S59knb51QOpO
-	zi18/sNbmP3jnvdbxO6a+DFXavrVC4ZdKVEbnF0/viOu2dci686I894e0IHKtHLpH94Tm6OK
-	K/dJS3jaS1tb+ttHZrYteGa9B+ZelO+qTUjaHuuMS30aZix0fHtXklIlYAf31peXJRn5b77y
-	ERMX+/3F++GHWAmhypHv3I4rVfJ/AT7C+T0VBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDKsWRmVeSWpSXmKPExsVy+t/xe7qyx5jTDWZc1beYs2obo8Xqu/1s
-	Fl3/trBYvD78idFi2oefzBbvmn6zWOxZNInJYuXqo0wW71rPsVjMnt7MZPFk/Sxmi0mHrjFa
-	TJnWxGix95a2xZ69J1ks5i97ym6x/Pg/Jot1r9+zWJz/e5zVQdjj8hVvj52z7rJ7nL+3kcXj
-	8tlSj02rOtk8Nn2axO6xeUm9x+6bDWweH5/eYvF4v+8qm8eZBUeA4qerPT5vkvPY9OQtUwBf
-	lJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl5Gy4K7
-	bAUb2Cs69i5ia2D8zdrFyMkhIWAise7KTvYuRi4OIYGljBLrv0yGSshIbPxyFcoWlvhzrYsN
-	ougjo8TUazehOjYzSjxZ0ghWxSKgIvHq9HNGEJtNwF7i0rJbzCC2iICSxNNXZxlBGpgFLrFI
-	3Lp4hg0kISxgIPH+ey+QzcHBK2ArsXxRMcTQO8wSa5u2s4DU8AoISpyc+QTMZhawkJg5/zwj
-	SD2zgLTE8n8cEGF5ieats8F2cQroSJy/Oocd4moliccv3jJC2LUSn/8+Y5zAKDILydRZSKbO
-	Qpg6C8nUBYwsqxhFUkuLc9Nzi430ihNzi0vz0vWS83M3MQKTzbZjP7fsYFz56qPeIUYmDsZD
-	jBIczEoivBFrGNOFeFMSK6tSi/Lji0pzUosPMZoCg2gis5Rocj4w3eWVxBuaGZgamphZGpha
-	mhkrifOyXTmfJiSQnliSmp2aWpBaBNPHxMEp1cAkUO4d0j85YLbBg0TVxHcmYud2sEl83aw2
-	/1Fbm99Ek+txO5OqH77QL/EwKu6eVxy4utgzKed2gcr81cdWLG16f1O7bH6AQ+ysncvNZ/bP
-	r0p9aeEusnev7p8IC/52dgZpHRWHmOdak463Xti6b5/z3Ig995y4dicFHau5I/h1+eaNQhM2
-	nzumXpucHfF8zd6TS04zb17r8tXn9a2XfO94wvoOP3/tXXnj0NP3EalqJ6f//ar2T2/GvmPf
-	1lVe2DslQbvW2/nzCbPGez0Cl17lVkwVkZ1cGD/n7SGlQzbqWcKnZJ1/Wb2a//rptHX7sxZs
-	fXn+rOg6sZbU1ZLrToWyfHiy+vDxd8s/5i5TYIqTuKHEUpyRaKjFXFScCADVFv28vwMAAA==
-X-CMS-MailID: 20241007112933eucas1p1fc9646cc40eba2fcb35128a1ece134c0
-X-Msg-Generator: CA
-X-RootMTR: 20241003125523eucas1p272ad9afc8decfd941104a5c137662307
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241003125523eucas1p272ad9afc8decfd941104a5c137662307
-References: <Zv1kD8iLeu0xd7eP@kbusch-mbp.dhcp.thefacebook.com>
-	<20241002151949.GA20877@lst.de> <yq17caq5xvg.fsf@ca-mkp.ca.oracle.com>
-	<a8b6c57f-88fa-4af0-8a1a-d6a2f2ca8493@acm.org>
-	<CGME20241003125523eucas1p272ad9afc8decfd941104a5c137662307@eucas1p2.samsung.com>
-	<20241003125516.GC17031@lst.de>
-	<20241004062129.z4n6xi4i2ck4nuqh@ArmHalley.local>
-	<20241004062415.GA14876@lst.de>
-	<20241004065923.zddb4fsyevfw2n24@ArmHalley.local>
-	<20241004123206.GA19275@lst.de>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: pRib--w8Rt-nZguHa9KDNinj8K3FCpBw
+X-Proofpoint-ORIG-GUID: pRib--w8Rt-nZguHa9KDNinj8K3FCpBw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-07_05,2024-10-07_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410070095
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241007_042939_976316_1D3C1883 
-X-CRM114-Status: GOOD (  13.61  )
+X-CRM114-CacheID: sfid-20241007_064753_786272_5535DE4A 
+X-CRM114-Status: GOOD (  27.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,22 +109,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 04.10.2024 14:32, Christoph Hellwig wrote:
->On Fri, Oct 04, 2024 at 08:59:23AM +0200, Javier González wrote:
->> FDP has authors from Meta, Google, Kioxia, Micron, Hynix, Solidigm,
->> Microship, Marvell, FADU, WDC, and Samsung.
->>
->> The fact that 2 of these companies are the ones starting to build the
->> Linux ecosystem should not surprise you, as it is the way things work
->> normally.
->
->That's not the point.  There is one company that drivers entirely pointless
->marketing BS, and that one is pretty central here.  The same company
->that said FDP has absolutely no іntent to work on Linux and fought my
->initial attempt to make the protocol not totally unusable ony layer system.
->And no, that's not Samsung.
 
-So you had an interaction in the working group, your feedback was not
-taking into consideration by the authors, and the result is that FDP
-cannot be supported in Linux as a consequence of that? Come on...
+
+On 10/7/24 15:44, Hannes Reinecke wrote:
+> On 9/11/24 08:26, Nilay Shroff wrote:
+>> NVMe native multipath supports different IO policies for selecting I/O
+>> path, however we don't have any visibility about which path is being
+>> selected by multipath code for forwarding I/O.
+>> This patch helps add that visibility by adding new sysfs attribute files
+>> named "numa_nodes" and "queue_depth" under each namespace block device
+>> path /sys/block/nvmeXcYnZ/. We also create a "multipath" sysfs directory
+>> under head disk node and then from this directory add a link to each
+>> namespace path device this head disk node points to.
+>>
+>> For instance, /sys/block/nvmeXnY/multipath/ would create a soft link to
+>> each path the head disk node <nvmeXnY> points to:
+>>
+>> $ ls -1 /sys/block/nvme1n1/
+>> nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
+>> nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
+>>
+>> For round-robin I/O policy, we could easily infer from the above output
+>> that I/O workload targeted to nvme3n1 would toggle across paths nvme1c1n1
+>> and nvme1c3n1.
+>>
+>> For numa I/O policy, the "numa_nodes" attribute file shows the numa nodes
+>> being preferred by the respective block device path. The numa nodes value
+>> is comma delimited list of nodes or A-B range of nodes.
+>>
+>> For queue-depth I/O policy, the "queue_depth" attribute file shows the
+>> number of active/in-flight I/O requests currently queued for each path.
+>>
+>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+>> ---
+>>   drivers/nvme/host/core.c      |  3 ++
+>>   drivers/nvme/host/multipath.c | 71 +++++++++++++++++++++++++++++++++++
+>>   drivers/nvme/host/nvme.h      | 20 ++++++++--
+>>   drivers/nvme/host/sysfs.c     | 20 ++++++++++
+>>   4 files changed, 110 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 983909a600ad..6be29fd64236 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -3951,6 +3951,9 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>>         if (!nvme_ns_head_multipath(ns->head))
+>>           nvme_cdev_del(&ns->cdev, &ns->cdev_device);
+>> +
+>> +    nvme_mpath_remove_sysfs_link(ns);
+>> +
+>>       del_gendisk(ns->disk);
+>>         mutex_lock(&ns->ctrl->namespaces_lock);
+>> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+>> index 518e22dd4f9b..7d9c36a7a261 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -654,6 +654,8 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+>>           nvme_add_ns_head_cdev(head);
+>>       }
+>>   +    nvme_mpath_add_sysfs_link(ns);
+>> +
+>>       mutex_lock(&head->lock);
+>>       if (nvme_path_is_optimized(ns)) {
+>>           int node, srcu_idx;
+> Nearly there.
+Thank you for your review comments!
+
+> 
+> You can only call 'nvme_mpath_add_sysfs_link()' if the gendisk on the head had been created.
+> 
+> And there is one branch in nvme_mpath_add_disk():
+> 
+>                 if (desc.state) {
+>                         /* found the group desc: update */
+>                         nvme_update_ns_ana_state(&desc, ns);
+> 
+> which does not go via nvme_mpath_set_live(), yet a device link would need to be create here, too.
+> But you can't call nvme_mpath_add_sysfs_link() from nvme_mpath_add_disk(), as the actual gendisk might only be created
+> later on during ANA log parsing.
+> 
+> It is a tangle, and I haven't found a good way out of this.
+> But I am _very much_ in favour of having these links, so please
+> update your patch.
+> In case disk supports ANA group then yes it would go through nvme_mpath_add_disk()->nvme_update_ns_ana_state(); 
+and later nvme_update_ns_ana_state() would also fall through function nvme_mpath_set_live where we call 
+nvme_mpath_add_sysfs_link(). 
+
+So I think that in any case while multipath namespace is being created it has to go through 
+nvme_mpath_set_live function. And as we see in nvme_mpath_set_live function, we only create 
+sysfs link after the gendisk on the head is created. Do you agree with this? Or please let 
+me know if you have any further question.
+
+> Cheers,
+> 
+> Hannes
+
+Thanks,
+--Nilay
 
