@@ -4,57 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE9E1CED275
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 07:30:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9B2DCED252
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 08:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BC2j2uygBg7UrBaBZj0s9DbS4c9yKJmRxubdbJYj6tg=; b=dsiirFGnktM+PJ5MS1qJDIy1j7
-	aKN9B06mFBG+uFviH31CTFbbb7u4RndTZEt8O88nxxGf9Bu4DK2hc4N1jHZvuAwParPvuVRw2DWbO
-	zKE3F/pMEfERtu4SN6jtMqU9N9QYtYyfjTnNeZtB5Y+hFsphpRahyBee4qVyil0NOdluzejYXCbrl
-	Pr38TiD3g8btnwTSLKEfA5aW0kFC1bIRANbdGZ+zk/FQR8VeNVUvshn7opQoiRFrKIulQjFai4wcz
-	+A1s+BhQBFfgkLRhIXhwH3JQT5X8hmnNopR7PR+dxbe27eOmY/I6gJBU5Pc5vgiwjVkPjoEOpkZH/
-	LoRhPOOg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0CpMMhI4aui2x0wrPTAnUG1jFRbgTaAN3Be3FmFORPU=; b=VvMBX/MvX923dp4+gsHchlzdeB
+	XB3kriScBMe/+6G8IsvdSgszsB+p4HUq9Ue4nNRuNbEhSo2CLVeikwCYgWmPHG3GAVLFQUNgqvkC5
+	dy6Jjj8dfllSvbPp5cA8qsC9nkL6sfXtn2t19pLaGcoQKIgueyNMDoMxCGa5ZJIvEUxvF0aHkXkCw
+	yP8/fdVC/NcD6qrKqEMfLGz6dx+3HGUAJhHIXGM0NXX8ysQmrDhnp/lOho5C57554HNQWEPFhM6Jm
+	c37WFFWAfVLK+0a9HA55FbCQxebS3Srq687mNwzQ5aYLJVyagoUhzloPYZk2xf8NTSBUyCKX7cRB6
+	2z8iBMug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy4g8-00000004nKw-41Z7;
-	Tue, 08 Oct 2024 07:30:44 +0000
-Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
+	id 1sy5BF-00000004vgx-2QNT;
+	Tue, 08 Oct 2024 08:02:53 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy4dP-00000004n2f-0D48
+	id 1sy5BD-00000004vg1-3gxw
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 08 Oct 2024 08:02:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=0CpMMhI4aui2x0wrPTAnUG1jFRbgTaAN3Be3FmFORPU=; b=eDzSvaO5kljCuwEc9yt2D5TPOJ
+	niuDs4+LIU7vHgmN4cDiY+VNLBUiZ3opJVtD51K7pOo6OhiYnVASIotjbs5c0H85ezh8+K4WLtcKF
+	8Pnwk8muSAIMqgt0qEXWdLVxjLBFBwQOR3GPpY+mRB9L28N8vkt2dCsScK5KT0szRzLiVB4g8s4oT
+	RmEhQ7hOuI8eZ5zbh/hZGVTu7XU0ZjIfdgxFKg3GkPcPlsXvsV9ZlHGB5FbKWSJhm5gPg26LjOsKG
+	DsVvAo5kubnsWFjurAq0QwTEHRnSa2Wxkaa/pv8Kc6cb2G02alm6XQymU1uzqN2x8huriQiZHwPAO
+	kFDv0jQA==;
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1sy5B6-00000004Zgy-3mxn
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 07:27:56 +0000
+	Tue, 08 Oct 2024 08:02:50 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1728372469; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=BC2j2uygBg7UrBaBZj0s9DbS4c9yKJmRxubdbJYj6tg=;
-	b=yfqgVSyGHLTJCPu+C9EzYw5fJHY1756JeaNjM+iBpzUDuvN3N3q6QE9Ldmqa6PH6hrTqQQVysVTEFYxO4PkUC6v4Jy5rhK2usNDp3D7PCFWL4XCnkH8zjbQu7T/dtHX/5KuIWlo6agayQqs9SDtBQEmqgAh/I/TpQ8DvkGBgPYU=
-Received: from 30.178.82.99(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGb6Vd2_1728372466)
+	t=1728374551; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=0CpMMhI4aui2x0wrPTAnUG1jFRbgTaAN3Be3FmFORPU=;
+	b=vWHcMRJi6TULc7QHWKcPUCBFuIICyQCG/zTYHwH7XaQtcX2xLhk0D1sU6jQpmqRQggIbZYtRU96WGuSzTt8cCwDf15QVF15hWVDjmqTx7tdKCDArA777z+8FNoTds4S/2zW/TJbOAoOXmPMivFpqSIV/J+IRm7xOp6zL5lhMDkQ=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGcIVzc_1728374544)
           by smtp.aliyun-inc.com;
-          Tue, 08 Oct 2024 15:27:48 +0800
-Message-ID: <fea312d9-5b53-48b9-9002-2b68053a22a0@linux.alibaba.com>
-Date: Tue, 8 Oct 2024 15:27:46 +0800
-MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v11 1/1] nvmet: support reservation feature
-To: Dmitry Bogdanov <d.bogdanov@yadro.com>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-References: <20240929031410.31281-1-kanie@linux.alibaba.com>
- <20240929031410.31281-2-kanie@linux.alibaba.com>
- <20240930125329.GI22571@yadro.com>
- <b5059469-d908-41e2-811d-8e4565d0b1dd@linux.alibaba.com>
- <20241007080853.GJ22571@yadro.com>
+          Tue, 08 Oct 2024 16:02:29 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241007080853.GJ22571@yadro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	d.bogdanov@yadro.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v12 0/2] Implement the NVMe reservation feature
+Date: Tue,  8 Oct 2024 16:02:22 +0800
+Message-ID: <20241008080224.1439-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_002755_731068_092609EE 
-X-CRM114-Status: GOOD (  16.90  )
+X-CRM114-CacheID: sfid-20241008_090245_515929_C3802DAB 
+X-CRM114-Status: GOOD (  25.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,127 +79,224 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi guys,
+    I've implemented the NVMe reservation feature. Please review it, all 
+comments are welcome as usual.
 
-在 2024/10/7 16:08, Dmitry Bogdanov 写道:
-> On Sat, Oct 05, 2024 at 10:26:58PM +0800, Guixin Liu wrote:
->> 在 2024/9/30 20:53, Dmitry Bogdanov 写道:
->>> On Sun, Sep 29, 2024 at 11:14:10AM +0800, Guixin Liu wrote:
->>>> This patch implements the reservation feature, includes:
->>>> 1. reservation register(register, unregister and replace).
->>>> 2. reservation acquire(acquire, preempt, preempt and abort).
->>>> 3. reservation release(release and clear).
->>>> 4. reservation report.
->>>> 5. set feature and get feature of reservation notify mask.
->>>> 6. get log page of reservation event.
->>>>
->>>> And also make reservation configurable, one can set ns to support
->>>> reservation before enable ns. The default of resv_enable is false.
->>>>
->>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
->>>> ---
->>>> +
->>>> +static void nvmet_execute_pr_report(struct nvmet_req *req)
->>>> +{
->>>> +       u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
->>>> +       u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
->>>> +       u32 num_bytes = 4 * (cdw10 + 1); /* cdw10 is number of dwords */
->>>> +       u8 eds = cdw11 & 1; /* Extended data structure, bit 00 */
->>>> +       struct nvme_registered_ctrl_ext *ctrl_eds;
->>>> +       struct nvme_reservation_status_ext *data;
->>>> +       struct nvmet_pr *pr = &req->ns->pr;
->>>> +       struct nvmet_pr_registrant *holder;
->>>> +       struct nvmet_pr_registrant *reg;
->>>> +       u16 num_ctrls = 0;
->>>> +       u16 status;
->>>> +       u8 rtype;
->>>> +
->>>> +       /* nvmet hostid(uuid_t) is 128 bit. */
->>>> +       if (!eds) {
->>>> +               req->error_loc = offsetof(struct nvme_common_command, cdw11);
->>>> +               status = NVME_SC_HOST_ID_INCONSIST | NVME_SC_DNR;
->>>> +               goto out;
->>>> +       }
->>>> +
->>>> +       if (num_bytes < sizeof(struct nvme_reservation_status_ext)) {
->>>> +               req->error_loc = offsetof(struct nvme_common_command, cdw10);
->>>> +               status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
->>>> +               goto out;
->>>> +       }
->>>> +
->>>> +       data = kmalloc(num_bytes, GFP_KERNEL);
->>>> +       if (!data) {
->>>> +               status = NVME_SC_INTERNAL;
->>>> +               goto out;
->>>> +       }
->>>> +       memset(data, 0, num_bytes);
->>>> +       data->gen = cpu_to_le32(atomic_read(&pr->generation));
->>>> +       data->ptpls = 0;
->>>> +       ctrl_eds = data->regctl_eds;
->>>> +
->>>> +       rcu_read_lock();
->>>> +       holder = rcu_dereference(pr->holder);
->>>> +       rtype = holder ? holder->rtype : 0;
->>>> +       data->rtype = rtype;
->>>> +
->>>> +       list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
->>>> +               if ((void *)ctrl_eds >= (void *)(data + num_bytes))
->>>> +                       break;
->>>> +               /*
->>>> +                * Dynamic controller, set cntlid to 0xffff.
->>>> +                */
->>>> +               ctrl_eds->cntlid = 0xffff;
->>>> +               if (rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
->>>> +                   rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS)
->>>> +                       ctrl_eds->rcsts = 1;
->>>> +               if (holder && uuid_equal(&reg->hostid, &holder->hostid))
->>> is just (reg == holder) not enough here?
->> Yes.
->>>> +                       ctrl_eds->rcsts = 1;
->>>> +               uuid_copy((uuid_t *)&ctrl_eds->hostid, &reg->hostid);
->>>> +               ctrl_eds->rkey = cpu_to_le64(reg->rkey);
->>>> +               ctrl_eds++;
->>>> +               num_ctrls++;
->>>> +       }
->>>> +       rcu_read_unlock();
->>>> +
->>>> +       put_unaligned_le16(num_ctrls, data->regctl);
->>> Here you should report the number of all registered registrants in ns,
->>> not the only reported. It is used by the host to understand that it got
->>> not a full response.
->>> NUMD field (cdw11) is about transfering the response. But the structure itsef in
->>> the reposnse has to be complete.
->> The NVMe spec says that:
->>
->>      "This indicates the number of Registered Controller data structures
->> and/or Registered Controller extended data structures contained in this
->> data structure."
-> You read not the latest Spec again. Spec v2.1 has another statement:
->    Number of Registrants (REGSTRNT): This field indicates the number of registrants of the
->    namespace. This indicates the number of Registrant data structures or Registrant Extended data
->    structures contained in this data structure.
+Changes from v11 to v12:
+- Change patch to fit newest 6.12-rc2.
+- Fix possible out-of-bounds access in nvmet_execute_pr_report.
+- Use sysfs_emit instead of printf in nvmet_ns_resv_enable_show.
+- Add struct rcu_head to nvmet_pr_registrant to free.
+- Introduce a helper nvmet_pr_parse_ignore_key.
+- Use NVME_CNTLID_DYNAMIC when report cntlid.
+- Fix some over long line.
+- Add more details to commit body.
+- Separate out the include/linux/nvme.h changes to a single patch.
+- Add a nvmetcli patch to support resv_enable configuration.
 
-Well, still, "contained in this data structure" means that we should 
-report how many
+Changes from v10 to v11:
+- Remove the cntlid from struct nvmet_pr_registrant. And add hostid to
+  nvmet_pr_per_ctrl_ref to set the correct ctrl to do abort.
+- Report all registrants, and report cntlid 0xffff.
+- Change nvmet_req's flags to pc_ref.
 
-registrants we reported.
+Changes from v9 to v10:
+- Fix the misjudgement in nvmet_pr_unregister_one.
+- Fix the non-atomicity problem in nvmet_pr_preempt, now we set the new
+  holder first before unregistering, this can not only make sure that during
+  unregistering other host can not access, but also ensure that
+  nvmet_pr_unregister_one will not unregiter the new holder(In
+  nvmet_pr_unreg_all_others_by_prkey, I exclude current host).
+- Remove the pr_abort in nvmet_ctrl, instead kill the per-controller percpu ref
+  first and then wait to zero at the end of preempt_and_abort.
+- Fix some spelling mistakes.
 
-I do a research on nvme-cli and SPDK:
+Changes from v8 to v9:
+- Remove the maintianer request.
 
-1. nvme-cli: In json_nvme_resv_report, use reported regctls to traverse 
-reported registrants.
+- Support "preemt and abort" by adding a per-controller percpu ref to ns,
+  doing wait per-controller percpu ref to zero when a controller's reservation
+  or registration is preempt and the racqa == "preempt and abort".
+  Currently add per-controller percpu ref only when nvmet_pr_check_cmd_access
+  success, others are not cared.
 
-2. SPDK: In nvmf_ns_reservation_report, set regctl to the number of 
-reported registrants.
+- Report ns support reservation when resv is enabled.
 
-Best Regards,
+- Report ctrl support reservation.
 
-Guixin Liu
+- Change the log level to info when log lost.
 
->> It means that host use this filed to obtain the reported registrants number.
->>
-> Think from the host point of view - how are you going to understand
-> how much registrants are there in the namespace?
->
-> BR,
->   Dmitry
+- Fix the UAF issue in nvmet_pr_unreg_by_prkey, and change nvmet_pr_unreg_by_prkey
+  to nvmet_pr_unreg_all_host_by_prkey.
+
+- Dont unregister the host when ctrl is destroyed for keep the reservation info
+  when reconnect.
+
+- Remove the rcu lock and mutex lock when free ns's pr info.
+
+- Fix the situation of log.count is zero.
+
+- Move the rtype check to the start of preemtion, Dmitry suggests that:
+    1.4.1.6 reserved
+    Receipt of reserved coded values in defined fields in
+    commands shall be reported as an error. 
+  Look forward the suggestions.
+  And also, this avoid the non-atomic change of unregister and set new holder.
+
+- Fix the compile error when close CONFIG_LOCKDEP.
+
+- Change nvmet_pr_send_event_by_hostid to nvmet_pr_send_event_to_host.
+
+- Change nvmet_pr_unreg_by_prkey_except_hostid to nvmet_pr_unreg_all_others_by_prkey.
+
+- Change nvmet_pr_unreg_by_prkey to nvmet_pr_unreg_all_host_by_prkey.
+
+Changes from v7 to v8:
+- Add me as the new file pr.c's maintainer.
+
+Changes from v6 to v7:
+- Handle "reservation notification mask" feature command to mask reservation
+log.
+
+- Add all the registrants that need to be freed to a temporary list fist,
+and then after calling synchronize_rcu(), release all the registrants on the
+temporary list.
+
+- Fix the resv log page is random when there is no resv log page.
+
+- Change nvmet_is_host_still_connected() to nvmet_is_host_connected().
+
+- Remove nvmet_pr_set_rtype_and_holder() and change nvmet_pr_create_new_resv()
+to nvmet_pr_create_new_reservation().
+
+- Change nvmet_pr_find_registrant_by_hostid() to nvmet_pr_find_registrant().
+
+- Change nvmet_pr_send_resv_released() to nvmet_pr_resv_released().
+
+- Change __nvmet_pr_unregister_one() to nvmet_pr_unregister_one().
+
+- In nvmet_pr_unreg_by_prkey(), nvmet_pr_unreg_by_prkey_except_hostid() and
+nvmet_pr_unreg_except_hostid(), first do unregistering and then do event sending.
+
+
+Changes from v5 to v6:
+- Use synchronize_rcu() and kfree() to free registrant instead of kfree_rcu().
+
+- Remove nvmet_pr_register_check_rkey(), put the check into pr_lock warp.
+And refactor the nvmet_pr_register().
+
+- Add the print fmt to the head.
+
+- Add lockdep_is_held(&pr->pr_lock) condition to list_for_each_entry_rcu.
+
+- Fix the bug in nvmet_pr_update_reg_attr(), when the change_attr hook
+return fail, we should not replace the holder. 
+
+Changes from v4 to v5:
+
+- Use rculist macros to handle registration_list instead of list macros
+regardless of in mutex lock or not.
+
+- Use goto statement instead of return in nvmet_is_host_still_connected 
+and __nvmet_pr_unregister_one.
+
+- Add lockdep_assert_held and rcu_read_lock_held assert to many functions,
+if it's necessary.
+
+- Add a comment to nvmet_execute_get_log_page_resv to explain how lost_count
+works.
+
+- In nvmet_pr_clear, we should set holder to NULL first, I fixed this.
+
+- Unify nvmet_pr_update_holder_rtype and __nvmet_pr_do_replace to 
+nvmet_pr_update_reg_attr.
+
+- Fix wrong nr_pages in nvmet_execute_get_log_page_resv.
+
+- Fix the deadlock issue of nvmet_pr_exit_ns, put it out of the subsys lock.
+
+
+Changes from v3 to v4:
+- Use kfifo to handle resv log page instead of list, and also limit the
+resv log queue to 64.
+
+- Change the function calling alignment style to:
+    nvmet_pr_send_event_by_hostid(pr, hostid,
+            NVME_PR_LOG_RESERVATOPM_PREEMPTED); 
+
+- Put kmalloc out of rcu_read_lock in nvmet_execute_pr_report().
+
+- Remove the goto in __nvmet_pr_unregister_one().
+
+- Change generation to atomic_t, and remove nvmet_pr_inc_generation().
+
+- In addtion, the number2 patch "nvmet: unify aer type enum" is not
+relate with this patch, so I will send it separately.
+
+
+Changes from v2 to v3:
+- Use rcu instead of rwlock to make IO path run faster, and put the rtype
+into the struct nvmet_pr_registrant.
+
+- Limit the resv_log_list to 128.
+
+- Change generation to atomic64.
+
+- Put register rkey check to a warpper.
+
+- Change nr_avl_pages to nr_pages.
+
+- Use NVME_SC_SUCCESS instead of 0.
+
+- Change kmalloc param to let it not sleep in mutex lock.
+
+
+Changes from v1 to v2:
+- Implement the reservation notification report, includes registration
+preempted, reservation released and reservation preempted.
+  And also handle the reservation log page available event and send get
+reservation log page command to clear log page at host.
+
+- Put the reservation check access after validate opcode. And remove
+opcodes which nvmet not implement yet check.
+  Now there is no admin opcode nvmet implemented needs reservation check,
+so I dont add reservation check to admin command path.
+  Next we need to do reservation check includes the situation of nsid is
+0xffffffff at each admin command path, if it is needed.
+
+- Add reservation commands support in nvmet_get_cmd_effects_nvm().
+
+- From Chaitanya, change the local variable tree style to make it cleaner,
+and add some comments about NVMe spec.
+  And also change others advice from chaitanya.
+
+- Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
+enable check warp.
+
+- Remove kmem_cache instead to use kmalloc and kfree.
+
+- Change others advice from Sagi.
+
+- Add a blktest test case, this patch will be sent before these series of
+patches.
+
+Guixin Liu (2):
+  nvme: add reservation command's defines
+  nvmet: support reservation feature
+
+ drivers/nvme/target/Makefile      |    2 +-
+ drivers/nvme/target/admin-cmd.c   |   24 +-
+ drivers/nvme/target/configfs.c    |   27 +
+ drivers/nvme/target/core.c        |   56 +-
+ drivers/nvme/target/fabrics-cmd.c |    4 +-
+ drivers/nvme/target/nvmet.h       |   55 +-
+ drivers/nvme/target/pr.c          | 1159 +++++++++++++++++++++++++++++
+ include/linux/nvme.h              |   68 ++
+ 8 files changed, 1383 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/nvme/target/pr.c
+
+-- 
+2.43.0
+
 
