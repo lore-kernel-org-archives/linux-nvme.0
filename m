@@ -4,121 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59826CED273
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 07:19:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE9E1CED275
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 07:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CW52of97r1ZcTwMFy3/h64c5QUUKV2zQb5wTR6od/zs=; b=poWFWQSAzNpCUf4LM1wtU6xKMX
-	Uc8frmvNHRV5c+LceLPOmGwZsFNpH1V8xwIqBxYbBdF8XGOjiQVYS9N9/HKviUaa8+a71Sbfsbp6B
-	XZE9nfHcqjrtt0z7HOqFCf0nAncNzcw2hqZP9ib5KXHJrX88dejuUM3AOLEBbf5/CBAqREOWuoqj/
-	EqlDDEHMT/5MHphIwF63RYiMJnYemO8luxpbwYJ0rvTz/3poYAwfqbrCr9mI+5SsPZoNUELZOAL6D
-	QDTYr7l/r90uES+PtpQNs4GpfUvxM3P7WJVk76dhPTj5WPWArYFl0U76C9eI0l3/QPdvTVnSTWRSW
-	JjYIZCgw==;
+	bh=BC2j2uygBg7UrBaBZj0s9DbS4c9yKJmRxubdbJYj6tg=; b=dsiirFGnktM+PJ5MS1qJDIy1j7
+	aKN9B06mFBG+uFviH31CTFbbb7u4RndTZEt8O88nxxGf9Bu4DK2hc4N1jHZvuAwParPvuVRw2DWbO
+	zKE3F/pMEfERtu4SN6jtMqU9N9QYtYyfjTnNeZtB5Y+hFsphpRahyBee4qVyil0NOdluzejYXCbrl
+	Pr38TiD3g8btnwTSLKEfA5aW0kFC1bIRANbdGZ+zk/FQR8VeNVUvshn7opQoiRFrKIulQjFai4wcz
+	+A1s+BhQBFfgkLRhIXhwH3JQT5X8hmnNopR7PR+dxbe27eOmY/I6gJBU5Pc5vgiwjVkPjoEOpkZH/
+	LoRhPOOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy4VY-00000004lkO-2e8b;
-	Tue, 08 Oct 2024 07:19:48 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1sy4g8-00000004nKw-41Z7;
+	Tue, 08 Oct 2024 07:30:44 +0000
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy4Td-00000004lYE-2E0d
+	id 1sy4dP-00000004n2f-0D48
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 07:17:53 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E9ECA21CC9;
-	Tue,  8 Oct 2024 07:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728371868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CW52of97r1ZcTwMFy3/h64c5QUUKV2zQb5wTR6od/zs=;
-	b=mwvIyZRRZutibHZsXudV6Q/tZyDUrKI7t9oqS/DjsnR/1ImDiJZFPJn7CYb23rl0+5HFr0
-	o8KpYdpcsdzGXY/f1eEUQu1tG8UGrRn+zsxEi3fWfLTux2W+QMWY5cP0muF5a8myNguydX
-	8EHyvh3d2M6DowmKwSD8AhitwiR8kaY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728371868;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CW52of97r1ZcTwMFy3/h64c5QUUKV2zQb5wTR6od/zs=;
-	b=VlA9L5Jv0wPpdIO7T+kN+5BlQ735kkdpYCsEJGYn8YzA0ZizWXhpzO3tx62oOo9pzF8upZ
-	JOGhQ0Prma+nd7Bg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728371867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CW52of97r1ZcTwMFy3/h64c5QUUKV2zQb5wTR6od/zs=;
-	b=kWijM6BvIAWEnal/744Tt0AMqsT/6BrXlyLHQurbXbKfSBxzhKQx730m8LmXN6hR8qmuKI
-	rlQxpi3qhxYl7wEIrOtMuCRbExHGvFOw+ecUopcYpLntwbu46Y3dX2d7btFLOjgGtmDDeq
-	wKCqBIHGbZZ6Vy53DTlrr7LQPU5UujA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728371867;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CW52of97r1ZcTwMFy3/h64c5QUUKV2zQb5wTR6od/zs=;
-	b=f9PmU9sFWiBiEQXZS3tDQYZod5Iwo5HP8zEMjKa9QwS1LVvTS6sVTRJc5Ayi2s4+Uj9F1a
-	L8iVlxkwkIpO5mAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B94F91340C;
-	Tue,  8 Oct 2024 07:17:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xc6zKpvcBGcTCwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 08 Oct 2024 07:17:47 +0000
-Message-ID: <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de>
-Date: Tue, 8 Oct 2024 09:17:47 +0200
+	Tue, 08 Oct 2024 07:27:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1728372469; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=BC2j2uygBg7UrBaBZj0s9DbS4c9yKJmRxubdbJYj6tg=;
+	b=yfqgVSyGHLTJCPu+C9EzYw5fJHY1756JeaNjM+iBpzUDuvN3N3q6QE9Ldmqa6PH6hrTqQQVysVTEFYxO4PkUC6v4Jy5rhK2usNDp3D7PCFWL4XCnkH8zjbQu7T/dtHX/5KuIWlo6agayQqs9SDtBQEmqgAh/I/TpQ8DvkGBgPYU=
+Received: from 30.178.82.99(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGb6Vd2_1728372466)
+          by smtp.aliyun-inc.com;
+          Tue, 08 Oct 2024 15:27:48 +0800
+Message-ID: <fea312d9-5b53-48b9-9002-2b68053a22a0@linux.alibaba.com>
+Date: Tue, 8 Oct 2024 15:27:46 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on stuck
- partition scan
-To: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH v11 1/1] nvmet: support reservation feature
+To: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
  linux-nvme@lists.infradead.org
-References: <20241007100134.21104-1-hare@kernel.org>
- <20241007100134.21104-3-hare@kernel.org> <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
+References: <20240929031410.31281-1-kanie@linux.alibaba.com>
+ <20240929031410.31281-2-kanie@linux.alibaba.com>
+ <20240930125329.GI22571@yadro.com>
+ <b5059469-d908-41e2-811d-8e4565d0b1dd@linux.alibaba.com>
+ <20241007080853.GJ22571@yadro.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20241007080853.GJ22571@yadro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_001749_890979_B033D754 
-X-CRM114-Status: GOOD (  18.37  )
+X-CRM114-CacheID: sfid-20241008_002755_731068_092609EE 
+X-CRM114-Status: GOOD (  16.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,64 +69,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/7/24 20:19, Keith Busch wrote:
-> On Mon, Oct 07, 2024 at 12:01:33PM +0200, Hannes Reinecke wrote:
->> @@ -239,6 +239,13 @@ static bool nvme_path_is_disabled(struct nvme_ns *ns)
->>   {
->>   	enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
->>   
->> +	/*
->> +	 * Skip deleted controllers for I/O from partition scan
->> +	 */
->> +	if (state == NVME_CTRL_DELETING &&
->> +	    mutex_is_locked(&ns->ctrl->scan_lock))
->> +		return true;
-> 
-> This feels off to me, using these seemingly unrelated dependencies to
-> make these kinds of decisions.
-> 
-> We talked a couple weeks ago about suppressing the parition scanning
-> during nvme scan_work. I know you said there was some reason it wouldn't
-> work, but could you check the below? It seems okay to me.
-> 
-> ---
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 48e7a8906d012..82cb1eb3a773b 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -586,6 +586,12 @@ static void nvme_requeue_work(struct work_struct *work)
->   		container_of(work, struct nvme_ns_head, requeue_work);
->   	struct bio *bio, *next;
->   
-> +	if (test_and_clear_bit(GD_SUPPRESS_PART_SCAN, &head->disk->state)) {
-> +		mutex_lock(&head->disk->open_mutex);
-> +		bdev_disk_changed(head->disk, false);
-> +		mutex_unlock(&head->disk->open_mutex);
-> +	}
-> +
->   	spin_lock_irq(&head->requeue_lock);
->   	next = bio_list_get(&head->requeue_list);
->   	spin_unlock_irq(&head->requeue_lock);
-> @@ -629,6 +635,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
->   		return PTR_ERR(head->disk);
->   	head->disk->fops = &nvme_ns_head_ops;
->   	head->disk->private_data = head;
-> +	set_bit(GD_SUPPRESS_PART_SCAN, &head->disk->state);
->   	sprintf(head->disk->disk_name, "nvme%dn%d",
->   			ctrl->subsys->instance, head->instance);
->   	return 0;
-> --
-Hmm. Sadly, not really. Still stuck in partition scanning.
-Guess we'll need to check if we have paths available before triggering 
-partition scan; let me check ...
 
-Cheers,
+在 2024/10/7 16:08, Dmitry Bogdanov 写道:
+> On Sat, Oct 05, 2024 at 10:26:58PM +0800, Guixin Liu wrote:
+>> 在 2024/9/30 20:53, Dmitry Bogdanov 写道:
+>>> On Sun, Sep 29, 2024 at 11:14:10AM +0800, Guixin Liu wrote:
+>>>> This patch implements the reservation feature, includes:
+>>>> 1. reservation register(register, unregister and replace).
+>>>> 2. reservation acquire(acquire, preempt, preempt and abort).
+>>>> 3. reservation release(release and clear).
+>>>> 4. reservation report.
+>>>> 5. set feature and get feature of reservation notify mask.
+>>>> 6. get log page of reservation event.
+>>>>
+>>>> And also make reservation configurable, one can set ns to support
+>>>> reservation before enable ns. The default of resv_enable is false.
+>>>>
+>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>>>> ---
+>>>> +
+>>>> +static void nvmet_execute_pr_report(struct nvmet_req *req)
+>>>> +{
+>>>> +       u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
+>>>> +       u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+>>>> +       u32 num_bytes = 4 * (cdw10 + 1); /* cdw10 is number of dwords */
+>>>> +       u8 eds = cdw11 & 1; /* Extended data structure, bit 00 */
+>>>> +       struct nvme_registered_ctrl_ext *ctrl_eds;
+>>>> +       struct nvme_reservation_status_ext *data;
+>>>> +       struct nvmet_pr *pr = &req->ns->pr;
+>>>> +       struct nvmet_pr_registrant *holder;
+>>>> +       struct nvmet_pr_registrant *reg;
+>>>> +       u16 num_ctrls = 0;
+>>>> +       u16 status;
+>>>> +       u8 rtype;
+>>>> +
+>>>> +       /* nvmet hostid(uuid_t) is 128 bit. */
+>>>> +       if (!eds) {
+>>>> +               req->error_loc = offsetof(struct nvme_common_command, cdw11);
+>>>> +               status = NVME_SC_HOST_ID_INCONSIST | NVME_SC_DNR;
+>>>> +               goto out;
+>>>> +       }
+>>>> +
+>>>> +       if (num_bytes < sizeof(struct nvme_reservation_status_ext)) {
+>>>> +               req->error_loc = offsetof(struct nvme_common_command, cdw10);
+>>>> +               status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>>>> +               goto out;
+>>>> +       }
+>>>> +
+>>>> +       data = kmalloc(num_bytes, GFP_KERNEL);
+>>>> +       if (!data) {
+>>>> +               status = NVME_SC_INTERNAL;
+>>>> +               goto out;
+>>>> +       }
+>>>> +       memset(data, 0, num_bytes);
+>>>> +       data->gen = cpu_to_le32(atomic_read(&pr->generation));
+>>>> +       data->ptpls = 0;
+>>>> +       ctrl_eds = data->regctl_eds;
+>>>> +
+>>>> +       rcu_read_lock();
+>>>> +       holder = rcu_dereference(pr->holder);
+>>>> +       rtype = holder ? holder->rtype : 0;
+>>>> +       data->rtype = rtype;
+>>>> +
+>>>> +       list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
+>>>> +               if ((void *)ctrl_eds >= (void *)(data + num_bytes))
+>>>> +                       break;
+>>>> +               /*
+>>>> +                * Dynamic controller, set cntlid to 0xffff.
+>>>> +                */
+>>>> +               ctrl_eds->cntlid = 0xffff;
+>>>> +               if (rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+>>>> +                   rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS)
+>>>> +                       ctrl_eds->rcsts = 1;
+>>>> +               if (holder && uuid_equal(&reg->hostid, &holder->hostid))
+>>> is just (reg == holder) not enough here?
+>> Yes.
+>>>> +                       ctrl_eds->rcsts = 1;
+>>>> +               uuid_copy((uuid_t *)&ctrl_eds->hostid, &reg->hostid);
+>>>> +               ctrl_eds->rkey = cpu_to_le64(reg->rkey);
+>>>> +               ctrl_eds++;
+>>>> +               num_ctrls++;
+>>>> +       }
+>>>> +       rcu_read_unlock();
+>>>> +
+>>>> +       put_unaligned_le16(num_ctrls, data->regctl);
+>>> Here you should report the number of all registered registrants in ns,
+>>> not the only reported. It is used by the host to understand that it got
+>>> not a full response.
+>>> NUMD field (cdw11) is about transfering the response. But the structure itsef in
+>>> the reposnse has to be complete.
+>> The NVMe spec says that:
+>>
+>>      "This indicates the number of Registered Controller data structures
+>> and/or Registered Controller extended data structures contained in this
+>> data structure."
+> You read not the latest Spec again. Spec v2.1 has another statement:
+>    Number of Registrants (REGSTRNT): This field indicates the number of registrants of the
+>    namespace. This indicates the number of Registrant data structures or Registrant Extended data
+>    structures contained in this data structure.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Well, still, "contained in this data structure" means that we should 
+report how many
 
+registrants we reported.
+
+I do a research on nvme-cli and SPDK:
+
+1. nvme-cli: In json_nvme_resv_report, use reported regctls to traverse 
+reported registrants.
+
+2. SPDK: In nvmf_ns_reservation_report, set regctl to the number of 
+reported registrants.
+
+Best Regards,
+
+Guixin Liu
+
+>> It means that host use this filed to obtain the reported registrants number.
+>>
+> Think from the host point of view - how are you going to understand
+> how much registrants are there in the namespace?
+>
+> BR,
+>   Dmitry
 
