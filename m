@@ -4,84 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 645B0CED278
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 14:59:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95C53CFB45C
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 14:59:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=s/lymXYoCV742fut5rNz1QdRGMwe+LLRB8FhDplNi34=; b=C4XOdWhu9LA7IFfhhlttsn6pp7
-	8MrFvdMGRKdTaL2LYMCMvzueDRvNzWV+pe6zpJ2yjsAZc8bGjsSZNRtwuNsvEeJn5PJIi1PwGTyQf
-	bE/w/m39LTU/tap8VO5ii9pe4Kldub7z4NjdcAM128Gvp3kkH3uabQ9nutrPpSDlFgMBao22DhtGL
-	WZib8ak+W9n0LVXWcmZ459yV5dfzmH+MK7qdcK0+TG1McaUHsXtCBes3tn7ayUXGotnD48PucSP9O
-	KERHQNHDiIw6dwzMYdy91w3zhLA2iwQBhz4aXIMfB4fBDUBLq7MQii1ZdjsWi8l8YoWCWBCmAG6vw
-	B6pcPNtQ==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=js32dkdye8YTfXqTgEmAVBWITQHNETUK2Lpip3icE50=; b=o7yLYQAi6oH/KU6/swWh+T1CTR
+	lbVzYNLJ4WmJ9e6sS7VUVuJ2zdTCdeEL27D3K/WnZmoi2YhtY/86CfiLYqZ3YcXODKrN3/vbHXBw6
+	8DXQ3U1kUS2xvlnnookSuFBwMM3vUGW77IVaek1cGkuvHYfuajgUAiVFO9d7gesp2XMlMa5yUV41i
+	StBOq5GXir1XId3aAMbbXVrobF3szbl6gGCnVizPI2yzTQcLguvmuM8LV2uz/+vkj9ayjEANQOMs1
+	2eqZPfFJzrXKXGYzDxpLg5JOv1BO40zC+3Wj65tZc0I/2IkvM6wdC5IDyPtkwRPGzYr9LlkQEwq0Y
+	Uofgeofw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syBgG-00000006HHo-23I6;
-	Tue, 08 Oct 2024 14:59:20 +0000
-Received: from fout-a4-smtp.messagingengine.com ([103.168.172.147])
+	id 1syBgI-00000006HJ3-0fJ4;
+	Tue, 08 Oct 2024 14:59:22 +0000
+Received: from fhigh-a1-smtp.messagingengine.com ([103.168.172.152])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syBcT-00000006GR3-3wa0
+	id 1syBcV-00000006GRc-0u7i
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 14:55:28 +0000
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 02024138039A;
-	Tue,  8 Oct 2024 10:55:22 -0400 (EDT)
+	Tue, 08 Oct 2024 14:55:29 +0000
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DF83C114022E;
+	Tue,  8 Oct 2024 10:55:24 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Tue, 08 Oct 2024 10:55:22 -0400
+  by phl-compute-03.internal (MEProxy); Tue, 08 Oct 2024 10:55:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bjorling.me; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1728399321; x=1728485721; bh=s/
-	lymXYoCV742fut5rNz1QdRGMwe+LLRB8FhDplNi34=; b=JVU5R0lkKv4f13g/Sz
-	RGl3h9EkgbQk1nfZ155I1Sgv1x5HpD9msMhkOjubfYf0/gZG/tW40L7Dzl8oVUQH
-	/SnzhZbvE9PAoVRWyI0Q7dryZsNLzKSBKPbdx8ek0fWI75DwcDAEH2YbmOiqHQRb
-	Euq1evAttlT/2Bo6ZIbLVbkGgvT4ct5IhktsP5t0xPKkoNLliLh1elUFE2OBtCiT
-	6E/qW/fHeIhbMny2OVXiU6LotTACtnQ5R2I6gCyjgDl69Nmsu8AF1Pv4qjTP3LHT
-	N7C2R+kZ/ZjJl06yl4l8EzchvPkhhgyAk4zv2qWM86mcfqnTa+uVxWGH1eO5Tqn9
-	SblQ==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1728399324;
+	 x=1728485724; bh=js32dkdye8YTfXqTgEmAVBWITQHNETUK2Lpip3icE50=; b=
+	U/vQRSjy+i77DB0y59gXsJjy04HUktwLx1/zz/Uy3qdatQ2pVrIoo6h3lFeVyd21
+	VJthMFWmKCdURq4rvawwAWj+10p+9W4xgYIymldvbyjxWgXjp9MjcbuHuKCVIGFZ
+	mmNBoi8iaOI0IJ8Xe14InMdkwKwQ26BCBV6YavZG4jhf6mFiudNQQAjafQb4B995
+	7WS7qXu2bHJ6jOIZEAQ8wqGQnqVye8LyahU9/Zx3YZpIp+uUxkBwNuFlL9qOnA7p
+	KBaS9eoqpW8wfwNghej8kXljtxv4shJ81HFdNpd8u1koWELVPrtGhFM7q7Q7acyn
+	UtRQmn2ZI7lJ9gatOHC6OQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1728399321; x=1728485721; bh=s/lymXYoCV742
-	fut5rNz1QdRGMwe+LLRB8FhDplNi34=; b=mKRnuW+uEpbNkYDIK23CLu9PItby3
-	1vWzvpIBtygGsZSOTReMScbdI8hZCtGVKfa11QndljNUqxRThUg+TQDpNdmz+85S
-	mC3LDpP24dahey9N3pGNForHobzK+BP0zD3xDDapTNSW1rnCx/e/8yc50dOhzpkB
-	xgOqqWQiNRKBdCuUglLt2JsSITF+lxAYxXDB+ePGziWx66UKjeOrYRo0/pXPqOHC
-	9TsT0jg6NuCpHhfAmLCp4UQGfMbwbGciMjV6oVZatckfjFPBigOhhW877duQWlrv
-	yyodiaHvRFJUpnQRIFLdfwCk57CbsFvkWaZuVCT2ji8ydh7nB+qLH1s1g==
-X-ME-Sender: <xms:2UcFZzQo14R-qk98LZwhAe_IC_XEYSDmAcZ11LyY9UDZr_EN4_CoQQ>
-    <xme:2UcFZ0zyoE3cyaxwVKcnib_HuAFsf5naV_RjH9yXmr12HPPDo4fUWR03CNytKFeC3
-    kGKO7zk1DdtSVz0D_s>
-X-ME-Received: <xmr:2UcFZ43Kp-Q3TXNSZFmqp71nz-F0arODMYbjS5vpprBEfxVVzphwlLafgv78X9g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefuddgkeefucetufdoteggodetrfdotf
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728399324; x=
+	1728485724; bh=js32dkdye8YTfXqTgEmAVBWITQHNETUK2Lpip3icE50=; b=j
+	l2f0yGv7QaJeZIMh0Wxb2CDHkn801m9dbgtu93nMIGmDk0RJcfXvbjm3vRktepTp
+	PoaHBwb6Ny2tJJju4TVZ7TKb7yiFtIxiugJTOwjol4UiFJCrN9th5/Nnt/gZsSIp
+	q3m0yIFNdEgNgB0WUkzJ8IKIEzAhgGDP/YRzsyP//gTqg7cOGJe9ykNb9fLCVH7k
+	BvbKUPmEOjks/8vhQ1zVySI/9/OI3wNm/smdLCPAU4xAvxheUWmemtYtZU5ndHg4
+	rJFLZlqvpXZvMyV45uHqbw8SAHIcm8rEJxb5CLjI6NWZFfgyhhfxalttTdNRsikw
+	yjhskx3q2oeGib+lK2cqw==
+X-ME-Sender: <xms:3EcFZ1jUxECZGujcz_LRrWC6Z9qe2DZF6sPbN3-0r1PmFh993CkwGQ>
+    <xme:3EcFZ6CVq8Mjx0nDJKGx4U21CW_DewbDbbL-7JykEV6WgDRPXj-Ih1FXtvbSODbBJ
+    Hnumn3shC27OeiYe3g>
+X-ME-Received: <xmr:3EcFZ1HNXB8YzVR1oeku7IwgJy5PDShNQc94WSI9N2wGe1cofcpL-gAf8LZpmBA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefuddgkedvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
-    ffkffogggtgfesthekredtredtjeenucfhrhhomhepofgrthhirghsuceujhpprhhlihhn
-    ghcuoehmsegsjhhorhhlihhnghdrmhgvqeenucggtffrrghtthgvrhhnpedugeffkeehge
-    ehvdfgfeelvddugeffgeeuudelfeekvedtfeejgfduhfdtveefudenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmsegsjhhorhhlihhnghdrmh
-    gvpdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehk
-    sghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhgthheslhhsthdruggvpd
-    hrtghpthhtohepughlvghmohgrlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptggr
-    shhsvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhnvhhmvgeslh
-    hishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdgslhho
-    tghksehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrh
-    hnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrthhirghsrdgs
-    jhhorhhlihhnghesfigutgdrtghomh
-X-ME-Proxy: <xmx:2UcFZzBYS2DP7xV_zRjZ9-Q1XvdbCb6jBRorYfVE1H_l7FlYvx0ftA>
-    <xmx:2UcFZ8hw09kA2A4Aua9-mwgSFD55KD1mdNQ0vEahy4N7IoTL1JT0uw>
-    <xmx:2UcFZ3pRoZ-mHlX8K6Xbp_2IApF_Kf1ixjLlYb9UX6UGzv0Dn79Okw>
-    <xmx:2UcFZ3je-EGBIFCB6804HHLQjJGrMLxf4lNEey0rTsbOypzj7rAGNA>
-    <xmx:2UcFZ1Vwwj086ME2qaOkAcynZJ_7gCpDd8ZGPgO6TKdHPu21TqLXDd2x>
+    ffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrthhirghsuceujhpprhhl
+    ihhnghcuoehmsegsjhhorhhlihhnghdrmhgvqeenucggtffrrghtthgvrhhnpeffkeegvd
+    fggeefgfffteeghfetteetudeiteejgfevudeifeelffeuiedvueelheenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmsegsjhhorhhlihhngh
+    drmhgvpdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehksghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhgthheslhhsthdrug
+    gvpdhrtghpthhtohepughlvghmohgrlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    tggrshhsvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhnvhhmvg
+    eslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdgs
+    lhhotghksehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkh
+    gvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrthhirghs
+    rdgsjhhorhhlihhnghesfigutgdrtghomh
+X-ME-Proxy: <xmx:3EcFZ6SdiYQSvbNRzBIjwZ_59iz2r8quBIwOIFFYHTLW3jklb2AYkg>
+    <xmx:3EcFZyw7rdmq9A23ed60GBkG3yPL4wYIDyKpUC9VoE7XpKOGaf4qTQ>
+    <xmx:3EcFZw5WYocDuBFBoXWXU_A1GzLPe3L8BlyUoCX4ykCVBC1ar9E2PQ>
+    <xmx:3EcFZ3zJtOk2tv7ETt7hEbFbu2yK6-_tHyVHeTtY93uDHlhpdZ_eSA>
+    <xmx:3EcFZxmsjVBuOMVcIWPzxCaOQqtxDI2cdpieks5W2IZA7lit0MY-rLk7>
 Feedback-ID: if4314918:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Oct 2024 10:55:20 -0400 (EDT)
+ 8 Oct 2024 10:55:23 -0400 (EDT)
 From: =?UTF-8?q?Matias=20Bj=C3=B8rling?= <m@bjorling.me>
 To: kbusch@kernel.org,
 	hch@lst.de,
@@ -91,17 +92,18 @@ To: kbusch@kernel.org,
 	linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Matias=20Bj=C3=B8rling?= <matias.bjorling@wdc.com>
-Subject: [PATCH 0/2] nvme: add rotational support
-Date: Tue,  8 Oct 2024 16:55:01 +0200
-Message-ID: <20241008145503.987195-1-m@bjorling.me>
+Subject: [PATCH 2/2] nvme: add rotational support
+Date: Tue,  8 Oct 2024 16:55:03 +0200
+Message-ID: <20241008145503.987195-3-m@bjorling.me>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20241008145503.987195-1-m@bjorling.me>
+References: <20241008145503.987195-1-m@bjorling.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_075526_828466_530BDC67 
-X-CRM114-Status: UNSURE (   6.39  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241008_075527_373573_21F58B3E 
+X-CRM114-Status: GOOD (  12.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,18 +120,63 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Matias Bjørling <matias.bjorling@wdc.com>
 
-Enable support for NVMe devices that identifies as rotational.
+Rotational devices, such as hard-drives, can be detected using
+the rotational bit in the namespace independent identify namespace
+data structure. Make the bit visible to the block layer through the
+rotational queue setting.
 
-Thanks to Keith, Damien, and Niklas for their feedback on the patchset.
+Note that rotational devices typically can be used to generate random
+entropy, the device is therefore also added as a block device that adds
+entropy.
 
-Matias Bjørling (2):
-  nvme: make independent ns identify default
-  nvme: add rotational support
+Signed-off-by: Matias Bjørling <matias.bjorling@wdc.com>
+---
+ drivers/nvme/host/core.c | 5 +++++
+ include/linux/nvme.h     | 1 +
+ 2 files changed, 6 insertions(+)
 
- drivers/nvme/host/core.c | 12 ++++++++----
- include/linux/nvme.h     |  1 +
- 2 files changed, 9 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9cbef6342c39..a445f13f5a28 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -41,6 +41,7 @@ struct nvme_ns_info {
+ 	bool is_readonly;
+ 	bool is_ready;
+ 	bool is_removed;
++	bool is_rotational;
+ };
+ 
+ unsigned int admin_timeout = 60;
+@@ -1623,6 +1624,7 @@ static int nvme_ns_info_from_id_cs_indep(struct nvme_ctrl *ctrl,
+ 		info->is_shared = id->nmic & NVME_NS_NMIC_SHARED;
+ 		info->is_readonly = id->nsattr & NVME_NS_ATTR_RO;
+ 		info->is_ready = id->nstat & NVME_NSTAT_NRDY;
++		info->is_rotational = id->nsfeat & NVME_NS_ROTATIONAL;
+ 	}
+ 	kfree(id);
+ 	return ret;
+@@ -2170,6 +2172,9 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	else
+ 		lim.features &= ~(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA);
+ 
++	if (info->is_rotational)
++		lim.features |= BLK_FEAT_ROTATIONAL | BLK_FEAT_ADD_RANDOM;
++
+ 	/*
+ 	 * Register a metadata profile for PI, or the plain non-integrity NVMe
+ 	 * metadata masquerading as Type 0 if supported, otherwise reject block
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 7b2ae2e43544..6d0eebb57544 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -560,6 +560,7 @@ enum {
+ 	NVME_NS_FLBAS_LBA_SHIFT	= 1,
+ 	NVME_NS_FLBAS_META_EXT	= 0x10,
+ 	NVME_NS_NMIC_SHARED	= 1 << 0,
++	NVME_NS_ROTATIONAL	= 1 << 4,
+ 	NVME_LBAF_RP_BEST	= 0,
+ 	NVME_LBAF_RP_BETTER	= 1,
+ 	NVME_LBAF_RP_GOOD	= 2,
 -- 
 2.46.0
 
