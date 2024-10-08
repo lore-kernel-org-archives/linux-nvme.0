@@ -4,51 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE435CEF148
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 09:43:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B645CEF148
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 10:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DkfX5nlC9Vf1PJBXPcfHMEN8X7b8kdaqhx69Nv9sxY4=; b=0S7h1LYQtwFArxZV2GUpyrLDZ/
-	hCVHpTxa20TdjX9MutXfkiGyfi080VUq7rx+gvecOu2H2/NxT+rQ1ufQ04ee0FdlJeYolSrQUMHQ3
-	ULIgVG1X+9fPNyQeg4o3KqsWY2T8Hdf5ls7FEwAu/ZkmLORu5dPImrBL6G4ecu3bRX8Q7/WR8tCJG
-	EA/1hzm6LyWZmMt8unJj1M3T0Pgws3lz5g76n4LnImojqVQMSWVxE/7XF8HjVjHpkBDLwMvSTIDzI
-	eq4w1yPXkwMInO50ffAFgULZRqe+t0/5Rd2UTk3EnMcDhaaRats+0cNDXviV64va9z53eT7KsiGBv
-	qWuZixLw==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=F14OcwqLVp3hHp+0VqT30x2kelDO/WiLYxpL7cfOOhI=; b=ZUniFq2ynYPTj4Hq7+r7LBVHdr
+	73nGoziPshpHnrb1Qx++vGYi1Jcae+Cjgks3L6bwlSMXPwjY1CnA596OnLVKnQY36KyeZ6BgZbklE
+	c9Ngd3FcrtsbGVcWoFDBWD/u+5uQOlGov4Oh4GbYYhZ2P9eYw1L3ZD0IoEQuJ9AwVypsxtJpwKgHN
+	qV4Z1AxopPFPayqgh1cyytTSyW0oDeesAPAZiTT0rGdXiTBKf7+4HGDs7UdJNo4ISwD1jNT0TCc4Q
+	rOWP9ycXnTwe6mRL7fRyTZAJk2bzcS7oFRM6vNOPNQrKOfL2T+L7wh4AW4bPlEJP1ZK5sciX8g5et
+	7z4UEygQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy6kF-00000005LVb-2LMk;
-	Tue, 08 Oct 2024 09:43:07 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1sy78Y-00000005PoN-13Du;
+	Tue, 08 Oct 2024 10:08:14 +0000
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy6eb-00000005Kkf-0HNy
+	id 1sy77T-00000005PcU-0izE
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 09:37:19 +0000
+	Tue, 08 Oct 2024 10:07:08 +0000
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-53993564cb1so6024517e87.2
+        for <linux-nvme@lists.infradead.org>; Tue, 08 Oct 2024 03:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1728380233; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=DkfX5nlC9Vf1PJBXPcfHMEN8X7b8kdaqhx69Nv9sxY4=;
-	b=rnvzNY6/cYBUDOBQHzS1XE1613vXUrX0EWvk/XSkYeHZzsqOsVC7rErDQNh+Wp/FFSP9IWzdGjXWXZcwMgNbiBDn/fdkyEOPP49I8dC4L0q+wbdZJ3uJ7VCeXyNCq7eDZFCXYnrms2jbnPWFdSKnZtdlWbpJ+ZL47fOm9sywoKU=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGd3ZeC_1728380228)
-          by smtp.aliyun-inc.com;
-          Tue, 08 Oct 2024 17:37:13 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvmet-rdma: use sbitmap to replace rsp free list
-Date: Tue,  8 Oct 2024 17:37:08 +0800
-Message-ID: <20241008093708.107392-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+        d=owltronix-com.20230601.gappssmtp.com; s=20230601; t=1728382024; x=1728986824; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F14OcwqLVp3hHp+0VqT30x2kelDO/WiLYxpL7cfOOhI=;
+        b=gcOd1BfhyFxLayGUDm1kNPt3Wc/jEmeNfMSQh8GjxkuIOedAoPdWOD/tZ3G5wEYp8+
+         EP8KdbDb78tgKVoQsCYckuKnK9z7uS64WDDJiXeJaEja1/Hl6NTQEHvC04O6wITK9fw/
+         euh4hXRmXWIVzP3eBgIiNQFXMsdXy3P9t4MlmvRAaHel8wodQWZwfxShVYxTATp/YiI4
+         /ar+77SYqL0A+W7GoQ48qnCAqnIZ54uoVWCU2Abr3LI4z12xp8dU+fz9YCOFRewTSaf8
+         HUT6uDXEKOqUaR0RU5KLEd32ZEiNkURRPkvixGJmMfA4ltP8BEakX+ZLMwA6Plzk+TvS
+         wPxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728382024; x=1728986824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F14OcwqLVp3hHp+0VqT30x2kelDO/WiLYxpL7cfOOhI=;
+        b=hA/pIQdzxjlmiZgocvTjPZV7IdYWMWlu8lVgZbfD63B8ye3Bkl5HTvuwoVLd0dTQh+
+         LBzCtVe/gQKbXQV1UUPfgIuarvJO0ZtmCfM2unq0ICWchOmahP6zbr3JVxA52jMH3dNU
+         3m2towTV7n10q9ADsOg9kfBRrYSQfAAQppIaX/dUVolwIZlci25b4gw9e5xUEmXIrCRK
+         C+euP4ZoW5cn+YHIM7mRS2pfu38rOHxRr8qDp5w2G7ZRBgRH0kvwCbm7K8ap3qzAWa5P
+         URE1yPBfWGEc00k/OuwwY2+P0o2eguvdBoXOXeN4W2aFGPZxb6UOK+6Zd7Yp1h23xhtE
+         bmZA==
+X-Forwarded-Encrypted: i=1; AJvYcCU1q57BI7VKjBnN8jh87voUcRuXVanvyiJxCDZQvjDEF//x9f9nnqXi5zcEn6WSV6QRDyBnpQc1iq8G@lists.infradead.org
+X-Gm-Message-State: AOJu0YwBElQ3TNhmo7B9AccDvXuZEzrMp33y2E/A7AfboF9TKfaklccR
+	AjimrUOTTyN4srBaQFrwhN2LGChHYg9hIzs/ustn7bBPNICMEofbrPedkxI3JdMm5wfMg00rW7H
+	JgXe6IazhSCGXkiOjO1jGa9VNYnhxaeTMjzEG4A==
+X-Google-Smtp-Source: AGHT+IHEOz/KdzlVozdD6OTXUfqUHVvxbJDxNr/5ySZvwaMHkV92VlsUI1hujJ58x1Kd6zWF/HBp1CPSJYsPE68+4OU=
+X-Received: by 2002:a05:6512:3088:b0:539:9746:2d77 with SMTP id
+ 2adb3069b0e04-539ab9c704fmr6383065e87.61.1728382024131; Tue, 08 Oct 2024
+ 03:07:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241002151949.GA20877@lst.de> <yq17caq5xvg.fsf@ca-mkp.ca.oracle.com>
+ <20241003125400.GB17031@lst.de> <c68fef87-288a-42c7-9185-8ac173962838@kernel.dk>
+ <CGME20241004053129eucas1p2aa4888a11a20a1a6287e7a32bbf3316b@eucas1p2.samsung.com>
+ <20241004053121.GB14265@lst.de> <20241004061811.hxhzj4n2juqaws7d@ArmHalley.local>
+ <20241004062733.GB14876@lst.de> <20241004065233.oc5gqcq3lyaxzjhz@ArmHalley.local>
+ <20241004123027.GA19168@lst.de> <20241007101011.boufh3tipewgvuao@ArmHalley.local>
+In-Reply-To: <20241007101011.boufh3tipewgvuao@ArmHalley.local>
+From: Hans Holmberg <hans@owltronix.com>
+Date: Tue, 8 Oct 2024 12:06:53 +0200
+Message-ID: <CANr-nt3TA75MSvTNWP3SwBh60dBwJYztHJL5LZvROa-j9Lov7g@mail.gmail.com>
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+To: =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier.gonz@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Keith Busch <kbusch@kernel.org>, 
+	Kanchan Joshi <joshi.k@samsung.com>, hare@suse.de, sagi@grimberg.me, brauner@kernel.org, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org, bcrl@kvack.org, 
+	dhowells@redhat.com, bvanassche@acm.org, asml.silence@gmail.com, 
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	io-uring@vger.kernel.org, linux-block@vger.kernel.org, linux-aio@kvack.org, 
+	gost.dev@samsung.com, vishak.g@samsung.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_023717_749487_1BBD3868 
-X-CRM114-Status: GOOD (  17.89  )
+X-CRM114-CacheID: sfid-20241008_030707_490509_EDEC0C37 
+X-CRM114-Status: GOOD (  45.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,199 +101,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We can use sbitmap to manage all the nvmet_rdma_rsp instead of using
-free lists and spinlock, and we can use an additional tag to
-determine whether the nvmet_rdma_rsp is extra allocated.
+On Mon, Oct 7, 2024 at 12:10=E2=80=AFPM Javier Gonz=C3=A1lez <javier.gonz@s=
+amsung.com> wrote:
+>
+> On 04.10.2024 14:30, Christoph Hellwig wrote:
+> >On Fri, Oct 04, 2024 at 08:52:33AM +0200, Javier Gonz=C3=A1lez wrote:
+> >> So, considerign that file system _are_ able to use temperature hints a=
+nd
+> >> actually make them work, why don't we support FDP the same way we are
+> >> supporting zones so that people can use it in production?
+> >
+> >Because apparently no one has tried it.  It should be possible in theory=
+,
+> >but for example unless you have power of 2 reclaim unit size size it
+> >won't work very well with XFS where the AGs/RTGs must be power of two
+> >aligned in the LBA space, except by overprovisioning the LBA space vs
+> >the capacity actually used.
+>
+> This is good. I think we should have at least a FS POC with data
+> placement support to be able to drive conclusions on how the interface
+> and requirements should be. Until we have that, we can support the
+> use-cases that we know customers are asking for, i.e., block-level hints
+> through the existing temperature API.
+>
+> >
+> >> I agree that down the road, an interface that allows hints (many more
+> >> than 5!) is needed. And in my opinion, this interface should not have
+> >> semintics attached to it, just a hint ID, #hints, and enough space to
+> >> put 100s of them to support storage node deployments. But this needs t=
+o
+> >> come from the users of the hints / zones / streams / etc,  not from
+> >> us vendors. We do not have neither details on how they deploy these
+> >> features at scale, nor the workloads to validate the results. Anything
+> >> else will probably just continue polluting the storage stack with more
+> >> interfaces that are not used and add to the problem of data placement
+> >> fragmentation.
+> >
+> >Please always mentioned what layer you are talking about.  At the syscal=
+l
+> >level the temperatur hints are doing quite ok.  A full stream separation
+> >would obviously be a lot better, as would be communicating the zone /
+> >reclaim unit / etc size.
+>
+> I mean at the syscall level. But as mentioned above, we need to be very
+> sure that we have a clear use-case for that. If we continue seeing hints
+> being use in NVMe or other protocols, and the number increase
+> significantly, we can deal with it later on.
+>
+> >
+> >As an interface to a driver that doesn't natively speak temperature
+> >hint on the other hand it doesn't work at all.
+> >
+> >> The issue is that the first series of this patch, which is as simple a=
+s
+> >> it gets, hit the list in May. Since then we are down paths that lead
+> >> nowhere. So the line between real technical feedback that leads to
+> >> a feature being merged, and technical misleading to make people be a
+> >> busy bee becomes very thin. In the whole data placement effort, we hav=
+e
+> >> been down this path many times, unfortunately...
+> >
+> >Well, the previous round was the first one actually trying to address th=
+e
+> >fundamental issue after 4 month.  And then after a first round of feedba=
+ck
+> >it gets shutdown somehow out of nowhere.  As a maintainer and review tha=
+t
+> >is the kinda of contributors I have a hard time taking serious.
+>
+> I am not sure I understand what you mean in the last sentece, so I will
+> not respond filling blanks with a bad interpretation.
+>
+> In summary, what we are asking for is to take the patches that cover the
+> current use-case, and work together on what might be needed for better
+> FS support. For this, it seems you and Hans have a good idea of what you
+> want to have based on XFS. We can help review or do part of the work,
+> but trying to guess our way will only delay existing customers using
+> existing HW.
 
-In addition, performance has improved:
-1. testing environment is local rxe rdma devie and mem-based
-backstore device.
-2. fio command, test the average 5 times:
-fio -filename=/dev/nvme0n1 --ioengine=libaio -direct=1
--size=1G -name=1 -thread -runtime=60 -time_based -rw=read -numjobs=16
--iodepth=128 -bs=4k -group_reporting
-3. Before: 241k IOPS, After: 256k IOPS, an increase of about 5%.
+After reading the whole thread, I end up wondering why we need to rush the
+support for a single use case through instead of putting the architecture
+in place for properly supporting this new type of hardware from the start
+throughout the stack.
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-Changes from v1 to v2:
-- Add performance improvement expain.
-- Add NVMET_RDMA_DISCRETE_RSP_TAG macro for -1 tag.
- drivers/nvme/target/rdma.c | 56 ++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 29 deletions(-)
+Even for user space consumers of raw block devices, is the last version
+of the patch set good enough?
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 689bb5d3cfdc..34132520ebce 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -39,6 +39,8 @@
- 
- #define NVMET_RDMA_BACKLOG 128
- 
-+#define NVMET_RDMA_DISCRETE_RSP_TAG		-1
-+
- struct nvmet_rdma_srq;
- 
- struct nvmet_rdma_cmd {
-@@ -75,7 +77,7 @@ struct nvmet_rdma_rsp {
- 	u32			invalidate_rkey;
- 
- 	struct list_head	wait_list;
--	struct list_head	free_list;
-+	int			tag;
- };
- 
- enum nvmet_rdma_queue_state {
-@@ -98,8 +100,7 @@ struct nvmet_rdma_queue {
- 	struct nvmet_sq		nvme_sq;
- 
- 	struct nvmet_rdma_rsp	*rsps;
--	struct list_head	free_rsps;
--	spinlock_t		rsps_lock;
-+	struct sbitmap		rsp_tags;
- 	struct nvmet_rdma_cmd	*cmds;
- 
- 	struct work_struct	release_work;
-@@ -172,7 +173,8 @@ static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
- static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
- 				struct nvmet_rdma_rsp *r);
- static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
--				struct nvmet_rdma_rsp *r);
-+				struct nvmet_rdma_rsp *r,
-+				int tag);
- 
- static const struct nvmet_fabrics_ops nvmet_rdma_ops;
- 
-@@ -210,15 +212,12 @@ static inline bool nvmet_rdma_need_data_out(struct nvmet_rdma_rsp *rsp)
- static inline struct nvmet_rdma_rsp *
- nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- {
--	struct nvmet_rdma_rsp *rsp;
--	unsigned long flags;
-+	struct nvmet_rdma_rsp *rsp = NULL;
-+	int tag;
- 
--	spin_lock_irqsave(&queue->rsps_lock, flags);
--	rsp = list_first_entry_or_null(&queue->free_rsps,
--				struct nvmet_rdma_rsp, free_list);
--	if (likely(rsp))
--		list_del(&rsp->free_list);
--	spin_unlock_irqrestore(&queue->rsps_lock, flags);
-+	tag = sbitmap_get(&queue->rsp_tags);
-+	if (tag >= 0)
-+		rsp = &queue->rsps[tag];
- 
- 	if (unlikely(!rsp)) {
- 		int ret;
-@@ -226,13 +225,12 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- 		rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
- 		if (unlikely(!rsp))
- 			return NULL;
--		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp);
-+		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp,
-+				NVMET_RDMA_DISCRETE_RSP_TAG);
- 		if (unlikely(ret)) {
- 			kfree(rsp);
- 			return NULL;
- 		}
--
--		rsp->allocated = true;
- 	}
- 
- 	return rsp;
-@@ -241,17 +239,13 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- static inline void
- nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
- {
--	unsigned long flags;
--
--	if (unlikely(rsp->allocated)) {
-+	if (unlikely(rsp->tag == NVMET_RDMA_DISCRETE_RSP_TAG)) {
- 		nvmet_rdma_free_rsp(rsp->queue->dev, rsp);
- 		kfree(rsp);
- 		return;
- 	}
- 
--	spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
--	list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
--	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
-+	sbitmap_clear_bit(&rsp->queue->rsp_tags, rsp->tag);
- }
- 
- static void nvmet_rdma_free_inline_pages(struct nvmet_rdma_device *ndev,
-@@ -404,7 +398,7 @@ static void nvmet_rdma_free_cmds(struct nvmet_rdma_device *ndev,
- }
- 
- static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
--		struct nvmet_rdma_rsp *r)
-+		struct nvmet_rdma_rsp *r, int tag)
- {
- 	/* NVMe CQE / RDMA SEND */
- 	r->req.cqe = kmalloc(sizeof(*r->req.cqe), GFP_KERNEL);
-@@ -432,6 +426,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
- 	r->read_cqe.done = nvmet_rdma_read_data_done;
- 	/* Data Out / RDMA WRITE */
- 	r->write_cqe.done = nvmet_rdma_write_data_done;
-+	r->tag = tag;
- 
- 	return 0;
- 
-@@ -454,21 +449,23 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
- {
- 	struct nvmet_rdma_device *ndev = queue->dev;
- 	int nr_rsps = queue->recv_queue_size * 2;
--	int ret = -EINVAL, i;
-+	int ret = -ENOMEM, i;
-+
-+	if (sbitmap_init_node(&queue->rsp_tags, nr_rsps, -1, GFP_KERNEL,
-+			NUMA_NO_NODE, false, true))
-+		goto out;
- 
- 	queue->rsps = kcalloc(nr_rsps, sizeof(struct nvmet_rdma_rsp),
- 			GFP_KERNEL);
- 	if (!queue->rsps)
--		goto out;
-+		goto out_free_sbitmap;
- 
- 	for (i = 0; i < nr_rsps; i++) {
- 		struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
- 
--		ret = nvmet_rdma_alloc_rsp(ndev, rsp);
-+		ret = nvmet_rdma_alloc_rsp(ndev, rsp, i);
- 		if (ret)
- 			goto out_free;
--
--		list_add_tail(&rsp->free_list, &queue->free_rsps);
- 	}
- 
- 	return 0;
-@@ -477,6 +474,8 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
- 	while (--i >= 0)
- 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
- 	kfree(queue->rsps);
-+out_free_sbitmap:
-+	sbitmap_free(&queue->rsp_tags);
- out:
- 	return ret;
- }
-@@ -489,6 +488,7 @@ static void nvmet_rdma_free_rsps(struct nvmet_rdma_queue *queue)
- 	for (i = 0; i < nr_rsps; i++)
- 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
- 	kfree(queue->rsps);
-+	sbitmap_free(&queue->rsp_tags);
- }
- 
- static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
-@@ -1447,8 +1447,6 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
- 	INIT_LIST_HEAD(&queue->rsp_wait_list);
- 	INIT_LIST_HEAD(&queue->rsp_wr_wait_list);
- 	spin_lock_init(&queue->rsp_wr_wait_lock);
--	INIT_LIST_HEAD(&queue->free_rsps);
--	spin_lock_init(&queue->rsps_lock);
- 	INIT_LIST_HEAD(&queue->queue_list);
- 
- 	queue->idx = ida_alloc(&nvmet_rdma_queue_ida, GFP_KERNEL);
--- 
-2.43.0
+* It severely cripples the data separation capabilities as only a handful o=
+f
+  data placement buckets are supported
 
+* It just won't work if there is more than one user application per storage
+  device as different applications data streams will be mixed at the nvme
+  driver level..
+
+While Christoph has already outlined what would be desirable from a
+file system point of view, I don't have the answer to what would be the ove=
+rall
+best design for FDP. I would like to say that it looks to me like we need t=
+o
+consider more than more than the early adoption use cases and make sure we
+make the most of the hardware capabilities via logical abstractions that
+would be compatible with a wider range of storage devices.
+
+Figuring the right way forward is tricky, but why not just let it take the =
+time
+that is needed to sort this out while early users explore how to use FDP
+drives and share the results?
 
