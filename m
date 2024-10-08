@@ -4,82 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CFAACEF175
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 13:41:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1FC3CEF173
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 13:57:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qRTokM3nYWAoerMO1TwNyg7SO+XosKIFo67YOO6VTZE=; b=O6XPNyiA9CvZLYcLpp/eI0ZDit
-	3Y9j6QRLmShlwbyGxTbAHcY+TJx7tzMbdshIUbL9ylGwgl4gAZPRICWSevx6CKK8hPScuEq761DUJ
-	i7+iJjSavGR5uKfrsJMK+560XrmNZ1XIMZx1/abapSM8WvlQa7OYzF3wrnMz8jyRspRet1ByCigU2
-	o2tRfjDEdluKPe0jTyl5k5e0BVEO2vzIn8O6BUpxqkYP17P0z0QottYARFf48muxlfh7eXnh+lrIS
-	szMpyy9xniJzkB680QGog3W3Hb7jpXlrvTaCvrJ4lAqIRGxM92FrIzpF0QJM8/QfGjp/nnTQWJ+OB
-	62FOR/xw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Vy8KnHWRMQKQurdN2A1OY9r3gCTmAtOt29GKsB9/4G4=; b=ikImHM/Q28p1ChTrXEn3Oio70F
+	lCYzMu+KyUwUbfPH19K46jbEeA2j7WbyoqWaADDzDK3IY/qNn24SVnrIeIjrmOu5kxpFAfKpXA+t0
+	zDkKvMPZtzhcXnlytK3MFjaD++0CEU2uKRRCPNtvwjwDAiZ9rvuDe1PJ3AZnLpUBCAp0Tiq9aAWH6
+	5dljHNhfDLY5Jh9xhh4SMiBnIy0ufckQpeCpYtCBsxArQtcouUFA0NuBmcsC8QhlqCaKVbRf5GBmU
+	yt29Xl8jAd3avzPAvyUkxzUVeEBggqZHiP0nCG09jOKZK1D6Ue/GZKxq0wZl2oCpvAyWi9AFjkMYK
+	VBvqgwEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syASX-0000000623J-45DE;
-	Tue, 08 Oct 2024 13:41:05 +0000
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
+	id 1syAic-000000065It-2t9R;
+	Tue, 08 Oct 2024 13:57:42 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syAJX-00000005zyC-3683
+	id 1syAia-000000065IB-0SFb
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 13:31:48 +0000
-Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-834d3363a10so211097639f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Oct 2024 06:31:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1728394306; x=1728999106; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qRTokM3nYWAoerMO1TwNyg7SO+XosKIFo67YOO6VTZE=;
-        b=v3g3REtdbyaWzvWGCpJe0pQWLhZItjbl/8pcU82sYSBKIHrzxYUwWyb9oCMhCARGNl
-         sAJyGaVuCUgju2Qq3nlkEG+QHFMbRJ/fqrG3qhtmOh7Jl0imkDbcETUbfS4VXLjz6gsl
-         KF4K8I7o/Wy2b9iMxJCvuENdLNGrKPB8gei3tVqHi5m/2xqc09yDari3Oj6RgTtqjuAz
-         pby0jw3b/p6Hlp/U4url4vOEOV3BALtswmxRtHsSsu8oX1Kr4iyNcVe01PlMASy2BiWR
-         mXC3lxGCL6qhzL3kABJlx0+jfdkhvuH7BfWR6CoLgesy3CPCnnZgL6OI7KDs4dSPPzPE
-         e4BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728394306; x=1728999106;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qRTokM3nYWAoerMO1TwNyg7SO+XosKIFo67YOO6VTZE=;
-        b=lP4QVfmruD4Ka1wSapnUDnAGj+iE73nwqpYzt7UtXe2wOBRbFDofneidq8A4tln9rc
-         hH9Mo8W7yV7eg7E0DANLiARrJ7rk0rGud92mK9JyhwUTKtBgZCAQ3OHdJVmX2/nw+gz3
-         IU8tvpRKva1maXODPFOjvq438/20CDw9WPK6rtrktkTVQyOdDmKChe5MisbC++NUQp0P
-         KEl7imJlTygkgy+g2FXxfo3ecS6d3zQR4fPfrmvvqpNnO7wKKUf+0XyV1w14NgUtdnr7
-         Fu6WQF7hfWldQWZKxWLEY1wqZQVzxgLClM10eC7i1t5+QSCurxWRx0jvpOT/zygFEW6U
-         MEQw==
-X-Gm-Message-State: AOJu0Yw91DFidBPoD6x+QgDHYGql4dQCkjPWH1kF4g6MQqlfr1SEqeSR
-	x7XQfyH5kTUNsDWiQPVEwhi76WyptdG6H06k6192A5ziyrSGQg4vNZtcmoaa/tE=
-X-Google-Smtp-Source: AGHT+IHAfJ0jxOtuKn1vypxia+LF169XpnfSi35lI6RoN59oXX5OXLkPNeFLXl1hgvWOtBnsSXRtUA==
-X-Received: by 2002:a05:6602:2c0a:b0:82d:9b0:ecb7 with SMTP id ca18e2360f4ac-834f7c73cb6mr1770506139f.3.1728394306115;
-        Tue, 08 Oct 2024 06:31:46 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-83503b305easm172781239f.47.2024.10.08.06.31.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 06:31:45 -0700 (PDT)
-Message-ID: <7ba769cd-6707-44cb-afe6-eebb5e75f445@kernel.dk>
-Date: Tue, 8 Oct 2024 07:31:44 -0600
+	Tue, 08 Oct 2024 13:57:41 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 26C96A41D85;
+	Tue,  8 Oct 2024 13:57:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C3DC4CEC7;
+	Tue,  8 Oct 2024 13:57:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728395858;
+	bh=comiIbawU19gnzycBBNXXDTiRojA63LgEu9tbclDGNI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gBznnYXGGirClfFV0U5TSM877MM4W2ho45KrZrKEY2I+u64iPmtC900PglzYoE+Ky
+	 2VODEI2tKMfAPdcC28AimEggk9VKXhDeFZSnUEDXmUolL/EzI2Ym1rlZxLId2N7L7y
+	 llhlkKEiMaMQydZ3NiQh5P5VuHUL1i+6S/73kW3jSHZkXer8kyap+prifNxJPbZssG
+	 Wke6O/iwhjC0NJ3X+7wJEf/TdbDYF2601ph4sIoIRRbiTbuFTQM1qcOErU2uFlLXaH
+	 HY0Yexx0H5F4Tl1/4zxa70gmtp4blYEmHeIDBXhri+ILX7q1Fb4rSKpOicJgx0KDAU
+	 8OXseKiEiIHDA==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCHv2 0/2] nvme-multipath: fix deadlock in device_add_disk()
+Date: Tue,  8 Oct 2024 15:57:27 +0200
+Message-Id: <20241008135729.68810-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvmet-rdma: use sbitmap to replace rsp free list
-To: Guixin Liu <kanie@linux.alibaba.com>, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
-References: <20241008093708.107392-1-kanie@linux.alibaba.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20241008093708.107392-1-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_063147_813427_C7D6ED0D 
-X-CRM114-Status: UNSURE (   9.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241008_065740_239684_B9A6F480 
+X-CRM114-Status: GOOD (  11.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,23 +71,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/8/24 3:37 AM, Guixin Liu wrote:
-> We can use sbitmap to manage all the nvmet_rdma_rsp instead of using
-> free lists and spinlock, and we can use an additional tag to
-> determine whether the nvmet_rdma_rsp is extra allocated.
-> 
-> In addition, performance has improved:
-> 1. testing environment is local rxe rdma devie and mem-based
-> backstore device.
-> 2. fio command, test the average 5 times:
-> fio -filename=/dev/nvme0n1 --ioengine=libaio -direct=1
-> -size=1G -name=1 -thread -runtime=60 -time_based -rw=read -numjobs=16
-> -iodepth=128 -bs=4k -group_reporting
-> 3. Before: 241k IOPS, After: 256k IOPS, an increase of about 5%.
+From: Hannes Reinecke <hare@suse.de>
 
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
+Hi all,
+
+I'm having a testcase which repeatedly disables namespaces on the target
+assigning new UUID (to simulate namespace remapping) and enable that
+namespace again.
+To throw in more fun these namespaces have their ANA group ID changes
+to simulate namespace moving around in a cluster, where only the paths
+local to the cluster node are active, and all other paths are inaccessible.
+
+Essentially it's doing something like:
+
+echo 0 > ${ns}/enable
+<random delay>
+echo "<dev>" > ${ns}/device_path
+echo "<grpid>" > ${ns}/ana_grpid
+uuidgen > ${ns}/device_uuid
+echo 1 > ${ns}/enable
+
+ie a similar testcase than the previous patchset, only this time I'm
+just doing an 'enable/disable' bit without removing the namespace from
+the target.
+This is causing lockups in device_add_disk(), as the partition scan is
+constantly retrying I/O and never completes.
+
+With this patchset I/O errors during partition scan will never be
+retried but will cause nvme_mpath_set_live() to fail.
+This allows us to retry nvme_mpath_set_live() on the next rescan
+to fixup the situation.
+
+As usual, comments and reviews are welcome.
+
+Changes to the original submission:
+- Drop patch to simplify the loop in nvme_update_ana_state()
+- Rework patches to return I/O errors during partition scan
+
+Hannes Reinecke (2):
+  nvme: propagate I/O errors during partition scan
+  nvme-multipath: retry partition scan on errors
+
+ drivers/nvme/host/core.c      | 26 ++++++++++++++++++------
+ drivers/nvme/host/multipath.c | 38 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  2 ++
+ 3 files changed, 60 insertions(+), 6 deletions(-)
 
 -- 
-Jens Axboe
+2.35.3
 
 
