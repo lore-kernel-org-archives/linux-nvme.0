@@ -4,66 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81203CEF14D
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 10:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64520CEF15B
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 11:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lz3eknZqwmeibseg1a2QiGlIWkTzRQ82hsCslpxgkGE=; b=oKY+SQx29X/Z28tPsfVawrPCu5
-	OeOO7f8/MbqIoGfIjAIWVp0E18tUwlte75yuBZEiIu+aRYyuXo5LmroJSYT0riX1kqe3ePuJueo4+
-	bRe2VAgEFOJaFwSHiyJcdMv00JOp2sZmMXnoFOWBpB9acsNt4rBpRPDdhXzwC2fL3+mmYsCVEh8LQ
-	II1AjTFpPbPmPp16LdM3fE/zhNGRRksbEcT/puao0ysI3L9ZgtEHPZfC8X3S9NNDWt7RWjObnq7gJ
-	x0t8AdUUmj0CfBuaQbsyHjJgx34E1FMXwetexU/tObrVkN/07ulKeo5QvBB1rzSvST7cMyaW8Ji7w
-	yiJWybCg==;
+	bh=OdwlxzeGhkCEHL52PNGpSB9t0Q+ESkxcv7YoMNWWIhk=; b=EOazhszrXbXFXRIcX3kDqbUa73
+	EDfmM4OhPFLGMYy9YhltYC6rsFFm0AUljqobccZS7EXvuGEKnbNL94Cw7Kx2U/axwlXjqX+uFKsMH
+	37VuTu+FLZ6Rt1ROJZe19FULuOZL3YJQQcjeoM6JL/ucDnPxo63M3XKEZvPWCXRqnSr3CPRpZw8Y1
+	nl+6Z5onHchxx1RzlTeiMKni2Lz/63j9n3gWafZ1ZBG8nKUX217is+28E4IrYh7sCGPxgwVGAcdFJ
+	pjPlNbUCNSSPa0K2WBRSjkpHkPKzlh0qHNN3HMiKm2Q0iQzcYOtIKCk9I20yEI+QpCXjspphfxgWy
+	X+mMVIqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy7cA-00000005Tr2-3tI3;
-	Tue, 08 Oct 2024 10:38:50 +0000
-Received: from mta-03.yadro.com ([89.207.88.253])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy7az-00000005Tl8-1mQq
-	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 10:37:39 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-03.yadro.com EE069E000C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
-	t=1728383851; bh=lz3eknZqwmeibseg1a2QiGlIWkTzRQ82hsCslpxgkGE=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=tXbUrEcwhI2tHYaGDN5jsgkAnBEnTqHvLyA1cRV34XhEKOURk3vwQR/toMJapmaCv
-	 u6fmtsUAPBI2vmvstozTlWANpTX6REMpU7uW7YrLXif6YZHHjCJ5WbOagqjblIL6et
-	 Tg+EZpIq0gtUUtLQmZRiQIZlxOjRtKiwVDB5HoJBeXrCAO5F6GL+maHGCqLZZ/+boo
-	 nH22apvwxKMlve6ZKjGjXolSWjJSggyh5KDpb1gHclkZwmcQfONvWdovbEQ7w1WkUp
-	 K1XBXGpJZglV0oW0ZSO6ZxnG226RR9izUv9yYmoWS0anWN4xSwLwlpKa3C8y62itYw
-	 CWSCp7iw5dPGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1728383851; bh=lz3eknZqwmeibseg1a2QiGlIWkTzRQ82hsCslpxgkGE=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=lSKMrnWclnbrR0fXdtdfqW7uOUTbp+D5WcZQw7+xLQoOJ6sMFyKDiWK8g3jPE4fkk
-	 Vy4MaWVLXR268EypVYmkythZNggWLN+SWiLiasFU2HmGPX6NRdRhNxoNX3GQ9yuO4f
-	 iM+U2FFre3fKySAKPcw0k+JdFS1wMHD0cc5GbpquUXXYtGIOsRKMgMxn+l0zAC6otg
-	 nOo/t7K58Xe+JywXcNdsdt2kJ0NxZkwXPn/wJyTY34gTQXp6Ti8PzSmkr3iDOmHEqe
-	 id2IgyF3eJv1P9Upb/04/2QohaLzVQObWZpHb2eGzu3kCVV+l6Ygtpv8GPdIhvI9wD
-	 /JffUBUzMWC7Q==
-Date: Tue, 8 Oct 2024 13:37:25 +0300
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
-To: Guixin Liu <kanie@linux.alibaba.com>
-CC: <hch@lst.de>, <sagi@grimberg.me>, <kch@nvidia.com>,
-	<linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH v13 2/2] nvmet: support reservation feature
-Message-ID: <20241008103725.GL22571@yadro.com>
-References: <20241008102114.26199-1-kanie@linux.alibaba.com>
- <20241008102114.26199-3-kanie@linux.alibaba.com>
+	id 1sy8fe-00000005ga8-00Z2;
+	Tue, 08 Oct 2024 11:46:30 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1sy8T1-00000005djB-1kIp;
+	Tue, 08 Oct 2024 11:33:27 +0000
+Date: Tue, 8 Oct 2024 04:33:27 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Ming Lei <ming.lei@redhat.com>,
+	linux-block@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: Re: [Report] requests are submitted to hardware in reverse order
+ from nvme/virtio-blk queue_rqs()
+Message-ID: <ZwUYh9uJgETHAXl2@infradead.org>
+References: <ZbD7ups50ryrlJ/G@fedora>
+ <ZbO9T_R4lN_7WkwQ@infradead.org>
+ <1e0ad5fd-2d90-4a0a-bb5c-0b270dd8ddd8@acm.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008102114.26199-3-kanie@linux.alibaba.com>
-X-ClientProxiedBy: T-EXCH-10.corp.yadro.com (172.17.11.60) To
- T-EXCH-09.corp.yadro.com (172.17.11.59)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_033738_155039_E06D06C4 
-X-CRM114-Status: GOOD (  11.24  )
+In-Reply-To: <1e0ad5fd-2d90-4a0a-bb5c-0b270dd8ddd8@acm.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,38 +55,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 08, 2024 at 06:21:14PM +0800, Guixin Liu wrote:
-> This patch implements the reservation feature, includes:
-> 1. reservation register(register, unregister and replace).
-> 2. reservation acquire(acquire, preempt, preempt and abort).
-> 3. reservation release(release and clear).
-> 4. reservation report.
-> 5. set feature and get feature of reservation notify mask.
-> 6. get log page of reservation event.
+On Mon, Oct 07, 2024 at 03:39:42PM -0700, Bart Van Assche wrote:
+> For my patch series that supports pipelining for zoned writes, I need
+> the submission order to be preserved. Jens mentioned two possible
+> solutions:
+> - Either keep the approach that requests on plug->mq_list are in reverse
+>   order and reverse the request order just before submitting requests.
+> - Or change plug->mq_list into a doubly linked list.
 > 
-> Not supported:
-> 1. persistent reservation through power loss.
-> 
-> Test:
-> Use nvme-cli and fio to test all implemented sub features:
-> 1. use nvme resv-register to register host a registrant or
-> unregister or replace a new key.
-> 2. use nvme resv-acquire to set host to the holder, and use fio
-> to send read and write io in all reservation type. And also test
-> preempt and "preempt and abort".
-> 3. use nvme resv-report to show all registrants and reservation
-> status.
-> 4. use nvme resv-release to release all registrants.
-> 5. use nvme get-log to get events generated by the preceding
-> operations.
-> 
-> In addition, make reservation configurable, one can set ns to
-> support reservation before enable ns. The default of resv_enable
-> is false.
-> 
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+> The second approach seems the most interesting to me. I'm concerned that
+> with the first approach it will be difficult to preserve the request
+> order if a subset of the requests on plug->mq_list are submitted, e.g.
+> because a queue full condition is encountered by
+> blk_mq_dispatch_plug_list().
 
-Thanks!
+Note that you don't really need a full doubly linked, you just need a
+tail pointer in the plug, i.g. the same scheme as struct bio_list.
 
-Reviewed-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
 
