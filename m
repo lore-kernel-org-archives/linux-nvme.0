@@ -4,59 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2A2BCEF142
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 09:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE435CEF148
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 09:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wtp/4jlNl3GvCJQFywIGbHjv4GHS1wakdte/09m7HMQ=; b=agk+bMKZDnETU4AAAaHWa2xyKO
-	UUauYmTXyIKSOLfIOkFmsU4+GDLl2ymKrdvJNc1BKVkpPwRGxGVsitAwOZY4QsBBoZ1BXeC0utwUk
-	TA7+VeXG6UZeNkfzPDcOf9lZDvyBjMJmB/S8pWgzaXP1NDx1o2wVXydW9jvyDtfwdgAiHR3wijAPv
-	7hMld1vCYeDXUTsQY5azS5L7aUlmzewHpuCqfwshY0GqhWhISTil0esXZOo9X0G3gbMBV+q1By/ht
-	rOG/F2cKVQQG6UFTTnq1BMuDK/HP207nq1PQQaoWxxuxIwSfqd5u+6FEdySh4Ffzi69ukmJRsTH/b
-	1TaulnBA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DkfX5nlC9Vf1PJBXPcfHMEN8X7b8kdaqhx69Nv9sxY4=; b=0S7h1LYQtwFArxZV2GUpyrLDZ/
+	hCVHpTxa20TdjX9MutXfkiGyfi080VUq7rx+gvecOu2H2/NxT+rQ1ufQ04ee0FdlJeYolSrQUMHQ3
+	ULIgVG1X+9fPNyQeg4o3KqsWY2T8Hdf5ls7FEwAu/ZkmLORu5dPImrBL6G4ecu3bRX8Q7/WR8tCJG
+	EA/1hzm6LyWZmMt8unJj1M3T0Pgws3lz5g76n4LnImojqVQMSWVxE/7XF8HjVjHpkBDLwMvSTIDzI
+	eq4w1yPXkwMInO50ffAFgULZRqe+t0/5Rd2UTk3EnMcDhaaRats+0cNDXviV64va9z53eT7KsiGBv
+	qWuZixLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy6Vm-00000005Iu9-0sBJ;
-	Tue, 08 Oct 2024 09:28:10 +0000
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+	id 1sy6kF-00000005LVb-2LMk;
+	Tue, 08 Oct 2024 09:43:07 +0000
+Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy6Tk-00000005Ic3-0E7E
+	id 1sy6eb-00000005Kkf-0HNy
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 09:26:05 +0000
+	Tue, 08 Oct 2024 09:37:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1728379561; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=Wtp/4jlNl3GvCJQFywIGbHjv4GHS1wakdte/09m7HMQ=;
-	b=rnDbKNnrny9SxFKOUjzQ5gWiXY4P5M1kTqR8Qlj6XNEOBNcpPlWwEYkiz8yog8rk88QLZoHyWoEIVp/1jMnr/z9qNnMTxjLoKQmoYX2LbgFU5VSzYxhQ9zCtpVIYx/1P2CBPizL2mD1sPB57bnSe3D9QPd+7eLMeMHKg7m3p8Eo=
-Received: from 30.178.82.99(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGdYz3E_1728379559)
+	t=1728380233; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=DkfX5nlC9Vf1PJBXPcfHMEN8X7b8kdaqhx69Nv9sxY4=;
+	b=rnvzNY6/cYBUDOBQHzS1XE1613vXUrX0EWvk/XSkYeHZzsqOsVC7rErDQNh+Wp/FFSP9IWzdGjXWXZcwMgNbiBDn/fdkyEOPP49I8dC4L0q+wbdZJ3uJ7VCeXyNCq7eDZFCXYnrms2jbnPWFdSKnZtdlWbpJ+ZL47fOm9sywoKU=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGd3ZeC_1728380228)
           by smtp.aliyun-inc.com;
-          Tue, 08 Oct 2024 17:26:00 +0800
-Message-ID: <8f971633-55a6-4a66-b24f-4e13d977856f@linux.alibaba.com>
-Date: Tue, 8 Oct 2024 17:25:57 +0800
-MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v11 1/1] nvmet: support reservation feature
-To: Dmitry Bogdanov <d.bogdanov@yadro.com>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-References: <20240929031410.31281-1-kanie@linux.alibaba.com>
- <20240929031410.31281-2-kanie@linux.alibaba.com>
- <20240930125329.GI22571@yadro.com>
- <b5059469-d908-41e2-811d-8e4565d0b1dd@linux.alibaba.com>
- <20241007080853.GJ22571@yadro.com>
- <fea312d9-5b53-48b9-9002-2b68053a22a0@linux.alibaba.com>
- <20241008084537.GK22571@yadro.com>
+          Tue, 08 Oct 2024 17:37:13 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241008084537.GK22571@yadro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvmet-rdma: use sbitmap to replace rsp free list
+Date: Tue,  8 Oct 2024 17:37:08 +0800
+Message-ID: <20241008093708.107392-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_022604_307295_10E760CA 
-X-CRM114-Status: GOOD (  21.81  )
+X-CRM114-CacheID: sfid-20241008_023717_749487_1BBD3868 
+X-CRM114-Status: GOOD (  17.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,152 +63,199 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+We can use sbitmap to manage all the nvmet_rdma_rsp instead of using
+free lists and spinlock, and we can use an additional tag to
+determine whether the nvmet_rdma_rsp is extra allocated.
 
-在 2024/10/8 16:45, Dmitry Bogdanov 写道:
-> On Tue, Oct 08, 2024 at 03:27:46PM +0800, Guixin Liu wrote:
->> 在 2024/10/7 16:08, Dmitry Bogdanov 写道:
->>> On Sat, Oct 05, 2024 at 10:26:58PM +0800, Guixin Liu wrote:
->>>> 在 2024/9/30 20:53, Dmitry Bogdanov 写道:
->>>>> On Sun, Sep 29, 2024 at 11:14:10AM +0800, Guixin Liu wrote:
->>>>>> This patch implements the reservation feature, includes:
->>>>>> 1. reservation register(register, unregister and replace).
->>>>>> 2. reservation acquire(acquire, preempt, preempt and abort).
->>>>>> 3. reservation release(release and clear).
->>>>>> 4. reservation report.
->>>>>> 5. set feature and get feature of reservation notify mask.
->>>>>> 6. get log page of reservation event.
->>>>>>
->>>>>> And also make reservation configurable, one can set ns to support
->>>>>> reservation before enable ns. The default of resv_enable is false.
->>>>>>
->>>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
->>>>>> ---
->>>>>> +
->>>>>> +static void nvmet_execute_pr_report(struct nvmet_req *req)
->>>>>> +{
->>>>>> +       u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
->>>>>> +       u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
->>>>>> +       u32 num_bytes = 4 * (cdw10 + 1); /* cdw10 is number of dwords */
->>>>>> +       u8 eds = cdw11 & 1; /* Extended data structure, bit 00 */
->>>>>> +       struct nvme_registered_ctrl_ext *ctrl_eds;
->>>>>> +       struct nvme_reservation_status_ext *data;
->>>>>> +       struct nvmet_pr *pr = &req->ns->pr;
->>>>>> +       struct nvmet_pr_registrant *holder;
->>>>>> +       struct nvmet_pr_registrant *reg;
->>>>>> +       u16 num_ctrls = 0;
->>>>>> +       u16 status;
->>>>>> +       u8 rtype;
->>>>>> +
->>>>>> +       /* nvmet hostid(uuid_t) is 128 bit. */
->>>>>> +       if (!eds) {
->>>>>> +               req->error_loc = offsetof(struct nvme_common_command, cdw11);
->>>>>> +               status = NVME_SC_HOST_ID_INCONSIST | NVME_SC_DNR;
->>>>>> +               goto out;
->>>>>> +       }
->>>>>> +
->>>>>> +       if (num_bytes < sizeof(struct nvme_reservation_status_ext)) {
->>>>>> +               req->error_loc = offsetof(struct nvme_common_command, cdw10);
->>>>>> +               status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
->>>>>> +               goto out;
->>>>>> +       }
->>>>>> +
->>>>>> +       data = kmalloc(num_bytes, GFP_KERNEL);
->>>>>> +       if (!data) {
->>>>>> +               status = NVME_SC_INTERNAL;
->>>>>> +               goto out;
->>>>>> +       }
->>>>>> +       memset(data, 0, num_bytes);
->>>>>> +       data->gen = cpu_to_le32(atomic_read(&pr->generation));
->>>>>> +       data->ptpls = 0;
->>>>>> +       ctrl_eds = data->regctl_eds;
->>>>>> +
->>>>>> +       rcu_read_lock();
->>>>>> +       holder = rcu_dereference(pr->holder);
->>>>>> +       rtype = holder ? holder->rtype : 0;
->>>>>> +       data->rtype = rtype;
->>>>>> +
->>>>>> +       list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
->>>>>> +               if ((void *)ctrl_eds >= (void *)(data + num_bytes))
->>>>>> +                       break;
->>>>>> +               /*
->>>>>> +                * Dynamic controller, set cntlid to 0xffff.
->>>>>> +                */
->>>>>> +               ctrl_eds->cntlid = 0xffff;
->>>>>> +               if (rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
->>>>>> +                   rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS)
->>>>>> +                       ctrl_eds->rcsts = 1;
->>>>>> +               if (holder && uuid_equal(&reg->hostid, &holder->hostid))
->>>>> is just (reg == holder) not enough here?
->>>> Yes.
->>>>>> +                       ctrl_eds->rcsts = 1;
->>>>>> +               uuid_copy((uuid_t *)&ctrl_eds->hostid, &reg->hostid);
->>>>>> +               ctrl_eds->rkey = cpu_to_le64(reg->rkey);
->>>>>> +               ctrl_eds++;
->>>>>> +               num_ctrls++;
->>>>>> +       }
->>>>>> +       rcu_read_unlock();
->>>>>> +
->>>>>> +       put_unaligned_le16(num_ctrls, data->regctl);
->>>>> Here you should report the number of all registered registrants in ns,
->>>>> not the only reported. It is used by the host to understand that it got
->>>>> not a full response.
->>>>> NUMD field (cdw11) is about transfering the response. But the structure itsef in
->>>>> the reposnse has to be complete.
->>>> The NVMe spec says that:
->>>>
->>>>       "This indicates the number of Registered Controller data structures
->>>> and/or Registered Controller extended data structures contained in this
->>>> data structure."
->>> You read not the latest Spec again. Spec v2.1 has another statement:
->>>     Number of Registrants (REGSTRNT): This field indicates the number of registrants of the
->>>     namespace. This indicates the number of Registrant data structures or Registrant Extended data
->>>     structures contained in this data structure.
->> Well, still, "contained in this data structure" means that we should
->> report how many registrants we reported.
-> No, vice-versa :), that means that "this data structure" shall contain "the number
-> of registrants of the namespace".
->
->> I do a research on nvme-cli and SPDK:
->>
->> 1. nvme-cli: In json_nvme_resv_report, use reported regctls to traverse
->> reported registrants.
-> I saw, and that is a security violation - to trust a data from a network.
-> Try to set a small NUMD and ask ReservationRepost from SPDK nvme target -
-> you will get a coredump of nvme-cli due to aouut-of-bound access of its
-> buffer (NUMD sized).
->
-> Instead, it shall send ReservationReport twice - the first with small
-> buffer to get just REGSTRNT, and the second with a full buffer to get
-> the whole list. That is a common handling of a variable length response
-> in SCSI, and NVME too.
+In addition, performance has improved:
+1. testing environment is local rxe rdma devie and mem-based
+backstore device.
+2. fio command, test the average 5 times:
+fio -filename=/dev/nvme0n1 --ioengine=libaio -direct=1
+-size=1G -name=1 -thread -runtime=60 -time_based -rw=read -numjobs=16
+-iodepth=128 -bs=4k -group_reporting
+3. Before: 241k IOPS, After: 256k IOPS, an increase of about 5%.
 
-My mistake, I miss that before traverse, nvme-cli cut down the regctl by
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+Changes from v1 to v2:
+- Add performance improvement expain.
+- Add NVMET_RDMA_DISCRETE_RSP_TAG macro for -1 tag.
+ drivers/nvme/target/rdma.c | 56 ++++++++++++++++++--------------------
+ 1 file changed, 27 insertions(+), 29 deletions(-)
 
-request bytes(numd).
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 689bb5d3cfdc..34132520ebce 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -39,6 +39,8 @@
+ 
+ #define NVMET_RDMA_BACKLOG 128
+ 
++#define NVMET_RDMA_DISCRETE_RSP_TAG		-1
++
+ struct nvmet_rdma_srq;
+ 
+ struct nvmet_rdma_cmd {
+@@ -75,7 +77,7 @@ struct nvmet_rdma_rsp {
+ 	u32			invalidate_rkey;
+ 
+ 	struct list_head	wait_list;
+-	struct list_head	free_list;
++	int			tag;
+ };
+ 
+ enum nvmet_rdma_queue_state {
+@@ -98,8 +100,7 @@ struct nvmet_rdma_queue {
+ 	struct nvmet_sq		nvme_sq;
+ 
+ 	struct nvmet_rdma_rsp	*rsps;
+-	struct list_head	free_rsps;
+-	spinlock_t		rsps_lock;
++	struct sbitmap		rsp_tags;
+ 	struct nvmet_rdma_cmd	*cmds;
+ 
+ 	struct work_struct	release_work;
+@@ -172,7 +173,8 @@ static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
+ static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
+ 				struct nvmet_rdma_rsp *r);
+ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+-				struct nvmet_rdma_rsp *r);
++				struct nvmet_rdma_rsp *r,
++				int tag);
+ 
+ static const struct nvmet_fabrics_ops nvmet_rdma_ops;
+ 
+@@ -210,15 +212,12 @@ static inline bool nvmet_rdma_need_data_out(struct nvmet_rdma_rsp *rsp)
+ static inline struct nvmet_rdma_rsp *
+ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
+ {
+-	struct nvmet_rdma_rsp *rsp;
+-	unsigned long flags;
++	struct nvmet_rdma_rsp *rsp = NULL;
++	int tag;
+ 
+-	spin_lock_irqsave(&queue->rsps_lock, flags);
+-	rsp = list_first_entry_or_null(&queue->free_rsps,
+-				struct nvmet_rdma_rsp, free_list);
+-	if (likely(rsp))
+-		list_del(&rsp->free_list);
+-	spin_unlock_irqrestore(&queue->rsps_lock, flags);
++	tag = sbitmap_get(&queue->rsp_tags);
++	if (tag >= 0)
++		rsp = &queue->rsps[tag];
+ 
+ 	if (unlikely(!rsp)) {
+ 		int ret;
+@@ -226,13 +225,12 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
+ 		rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
+ 		if (unlikely(!rsp))
+ 			return NULL;
+-		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp);
++		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp,
++				NVMET_RDMA_DISCRETE_RSP_TAG);
+ 		if (unlikely(ret)) {
+ 			kfree(rsp);
+ 			return NULL;
+ 		}
+-
+-		rsp->allocated = true;
+ 	}
+ 
+ 	return rsp;
+@@ -241,17 +239,13 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
+ static inline void
+ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
+ {
+-	unsigned long flags;
+-
+-	if (unlikely(rsp->allocated)) {
++	if (unlikely(rsp->tag == NVMET_RDMA_DISCRETE_RSP_TAG)) {
+ 		nvmet_rdma_free_rsp(rsp->queue->dev, rsp);
+ 		kfree(rsp);
+ 		return;
+ 	}
+ 
+-	spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
+-	list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
+-	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
++	sbitmap_clear_bit(&rsp->queue->rsp_tags, rsp->tag);
+ }
+ 
+ static void nvmet_rdma_free_inline_pages(struct nvmet_rdma_device *ndev,
+@@ -404,7 +398,7 @@ static void nvmet_rdma_free_cmds(struct nvmet_rdma_device *ndev,
+ }
+ 
+ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+-		struct nvmet_rdma_rsp *r)
++		struct nvmet_rdma_rsp *r, int tag)
+ {
+ 	/* NVMe CQE / RDMA SEND */
+ 	r->req.cqe = kmalloc(sizeof(*r->req.cqe), GFP_KERNEL);
+@@ -432,6 +426,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+ 	r->read_cqe.done = nvmet_rdma_read_data_done;
+ 	/* Data Out / RDMA WRITE */
+ 	r->write_cqe.done = nvmet_rdma_write_data_done;
++	r->tag = tag;
+ 
+ 	return 0;
+ 
+@@ -454,21 +449,23 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
+ {
+ 	struct nvmet_rdma_device *ndev = queue->dev;
+ 	int nr_rsps = queue->recv_queue_size * 2;
+-	int ret = -EINVAL, i;
++	int ret = -ENOMEM, i;
++
++	if (sbitmap_init_node(&queue->rsp_tags, nr_rsps, -1, GFP_KERNEL,
++			NUMA_NO_NODE, false, true))
++		goto out;
+ 
+ 	queue->rsps = kcalloc(nr_rsps, sizeof(struct nvmet_rdma_rsp),
+ 			GFP_KERNEL);
+ 	if (!queue->rsps)
+-		goto out;
++		goto out_free_sbitmap;
+ 
+ 	for (i = 0; i < nr_rsps; i++) {
+ 		struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
+ 
+-		ret = nvmet_rdma_alloc_rsp(ndev, rsp);
++		ret = nvmet_rdma_alloc_rsp(ndev, rsp, i);
+ 		if (ret)
+ 			goto out_free;
+-
+-		list_add_tail(&rsp->free_list, &queue->free_rsps);
+ 	}
+ 
+ 	return 0;
+@@ -477,6 +474,8 @@ nvmet_rdma_alloc_rsps(struct nvmet_rdma_queue *queue)
+ 	while (--i >= 0)
+ 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
+ 	kfree(queue->rsps);
++out_free_sbitmap:
++	sbitmap_free(&queue->rsp_tags);
+ out:
+ 	return ret;
+ }
+@@ -489,6 +488,7 @@ static void nvmet_rdma_free_rsps(struct nvmet_rdma_queue *queue)
+ 	for (i = 0; i < nr_rsps; i++)
+ 		nvmet_rdma_free_rsp(ndev, &queue->rsps[i]);
+ 	kfree(queue->rsps);
++	sbitmap_free(&queue->rsp_tags);
+ }
+ 
+ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+@@ -1447,8 +1447,6 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
+ 	INIT_LIST_HEAD(&queue->rsp_wait_list);
+ 	INIT_LIST_HEAD(&queue->rsp_wr_wait_list);
+ 	spin_lock_init(&queue->rsp_wr_wait_lock);
+-	INIT_LIST_HEAD(&queue->free_rsps);
+-	spin_lock_init(&queue->rsps_lock);
+ 	INIT_LIST_HEAD(&queue->queue_list);
+ 
+ 	queue->idx = ida_alloc(&nvmet_rdma_queue_ida, GFP_KERNEL);
+-- 
+2.43.0
 
->> 2. SPDK: In nvmf_ns_reservation_report, set regctl to the number of
->> reported registrants.
-> Looks like you see again not the last version of the reference.
-> The latest SPDK has a correct implementation - It reports a whole
-> registrants list since Feb 13, 2023.
-> Please, follow it.
->
-Yeah, I see, SPDK changed to all registrants number.
-
-I will change this in v13, thanks.
-
-Best Regards,
-
-Guixin Liu
-
->> Best Regards,
->>
->> Guixin Liu
->>
->>>> It means that host use this filed to obtain the reported registrants number.
->>>>
->>> Think from the host point of view - how are you going to understand
->>> how much registrants are there in the namespace?
-> BR,
->   Dmitry
 
