@@ -4,59 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1FC3CEF173
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 13:57:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3649CEF177
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 13:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Vy8KnHWRMQKQurdN2A1OY9r3gCTmAtOt29GKsB9/4G4=; b=ikImHM/Q28p1ChTrXEn3Oio70F
-	lCYzMu+KyUwUbfPH19K46jbEeA2j7WbyoqWaADDzDK3IY/qNn24SVnrIeIjrmOu5kxpFAfKpXA+t0
-	zDkKvMPZtzhcXnlytK3MFjaD++0CEU2uKRRCPNtvwjwDAiZ9rvuDe1PJ3AZnLpUBCAp0Tiq9aAWH6
-	5dljHNhfDLY5Jh9xhh4SMiBnIy0ufckQpeCpYtCBsxArQtcouUFA0NuBmcsC8QhlqCaKVbRf5GBmU
-	yt29Xl8jAd3avzPAvyUkxzUVeEBggqZHiP0nCG09jOKZK1D6Ue/GZKxq0wZl2oCpvAyWi9AFjkMYK
-	VBvqgwEA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9WsNEK3SzrgBNgbl3Pp0UqAn16HQlFPdCzP2CrKTwxQ=; b=cVjVxDTtJEJI9P1HH1G57KrTbN
+	PmNkIqm1Q+T0M9t4BbUTZ6XZSe5uGOndJ0bjIY/rYXxNPcdxGGJpIyoRxTShEQGf+SQHV4mIS917I
+	zBE78buvdsvkjrWphjMv5zj5uihIsvNXU6meuOAhrU2xTP79D+ygmFWxyMQ59rS2ybRivIFiuqoqg
+	mPZ/9n8cS4Uupj4l5U5JIQRv32V9K5tbgGYTYeW9JWXJdA6dvTJqthxRMPYkSKsx1m5Q/gYb3HQqS
+	k+KfH/EH22s8gVLiRWDdaOrnxt0zEnd75s36zXVQfD8BGD3PQmkbTH2/atJvwPVxZ3bnQw/IU+7ug
+	oFRoqQAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syAic-000000065It-2t9R;
-	Tue, 08 Oct 2024 13:57:42 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1syAig-000000065Jv-0Zpk;
+	Tue, 08 Oct 2024 13:57:46 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syAia-000000065IB-0SFb
+	id 1syAib-000000065IU-1f38
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 13:57:41 +0000
+	Tue, 08 Oct 2024 13:57:42 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 26C96A41D85;
-	Tue,  8 Oct 2024 13:57:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C3DC4CEC7;
-	Tue,  8 Oct 2024 13:57:37 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id C1A25A41D9E;
+	Tue,  8 Oct 2024 13:57:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B92C4CECE;
+	Tue,  8 Oct 2024 13:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728395858;
-	bh=comiIbawU19gnzycBBNXXDTiRojA63LgEu9tbclDGNI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=gBznnYXGGirClfFV0U5TSM877MM4W2ho45KrZrKEY2I+u64iPmtC900PglzYoE+Ky
-	 2VODEI2tKMfAPdcC28AimEggk9VKXhDeFZSnUEDXmUolL/EzI2Ym1rlZxLId2N7L7y
-	 llhlkKEiMaMQydZ3NiQh5P5VuHUL1i+6S/73kW3jSHZkXer8kyap+prifNxJPbZssG
-	 Wke6O/iwhjC0NJ3X+7wJEf/TdbDYF2601ph4sIoIRRbiTbuFTQM1qcOErU2uFlLXaH
-	 HY0Yexx0H5F4Tl1/4zxa70gmtp4blYEmHeIDBXhri+ILX7q1Fb4rSKpOicJgx0KDAU
-	 8OXseKiEiIHDA==
+	s=k20201202; t=1728395860;
+	bh=lrv1F10F9Lc+dt5ageIRPEr/KZWGfeWIU4QNpTYC3gQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UPVPMMaXCfK3MFItCuN55F1tRg0SXJ+wXndnV0MA7h/red/upwN/NyUnFxDNVnjcu
+	 sksMd9ZloBi0lXrQEE6TV7f1Olp4HutOSeFj3VdkUSQXB3bmhUe/oFVVJb3Sy0M1ow
+	 SRnzKDPdQYMsEKBy+qHjDb1uZTFN096jwuGV2lSD9gRlSBCd0ZNQvJui8Nt0GPGnDZ
+	 D30gNo2IZmF1Sb1sPZaa1+xbwtE9wpPO2UyjPjMvT4L90fLMoXNduplJWvVkXzJHA/
+	 vO2QbyoJBlzuh6ONRyhf+KzDQxqYHtmqYsORz8pc4RbnYiH/oEQ/qgNeaDb2F+urLU
+	 lxLVSG1Fm1NhA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv2 0/2] nvme-multipath: fix deadlock in device_add_disk()
-Date: Tue,  8 Oct 2024 15:57:27 +0200
-Message-Id: <20241008135729.68810-1-hare@kernel.org>
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH 1/2] nvme: propagate I/O errors during partition scan
+Date: Tue,  8 Oct 2024 15:57:28 +0200
+Message-Id: <20241008135729.68810-2-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20241008135729.68810-1-hare@kernel.org>
+References: <20241008135729.68810-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_065740_239684_B9A6F480 
-X-CRM114-Status: GOOD (  11.92  )
+X-CRM114-CacheID: sfid-20241008_065741_587652_F42BCC71 
+X-CRM114-Status: GOOD (  21.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,52 +73,162 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+Partition scan is triggered from device_add_disk(), and is needs to
+terminate such the namespace scanning can continue.
+This patch adds two new flags NVME_NSHEAD_DISK_SCAN to signal that
+the 'head' device is currently in partition scan, and NVME_NS_SCAN_FAILED
+to signal that I/O errors had been encountered on the namespace during
+partition scan.
+With these flags we can modify the failover mechanism to count any namespace
+with NVME_NS_SCAN_FAILED as a disabled path, and to not queue commands when
+all paths are disabled and NVME_NSHEAD_DISK_SCAN is set.
 
-Hi all,
-
-I'm having a testcase which repeatedly disables namespaces on the target
-assigning new UUID (to simulate namespace remapping) and enable that
-namespace again.
-To throw in more fun these namespaces have their ANA group ID changes
-to simulate namespace moving around in a cluster, where only the paths
-local to the cluster node are active, and all other paths are inaccessible.
-
-Essentially it's doing something like:
-
-echo 0 > ${ns}/enable
-<random delay>
-echo "<dev>" > ${ns}/device_path
-echo "<grpid>" > ${ns}/ana_grpid
-uuidgen > ${ns}/device_uuid
-echo 1 > ${ns}/enable
-
-ie a similar testcase than the previous patchset, only this time I'm
-just doing an 'enable/disable' bit without removing the namespace from
-the target.
-This is causing lockups in device_add_disk(), as the partition scan is
-constantly retrying I/O and never completes.
-
-With this patchset I/O errors during partition scan will never be
-retried but will cause nvme_mpath_set_live() to fail.
-This allows us to retry nvme_mpath_set_live() on the next rescan
-to fixup the situation.
-
-As usual, comments and reviews are welcome.
-
-Changes to the original submission:
-- Drop patch to simplify the loop in nvme_update_ana_state()
-- Rework patches to return I/O errors during partition scan
-
-Hannes Reinecke (2):
-  nvme: propagate I/O errors during partition scan
-  nvme-multipath: retry partition scan on errors
-
- drivers/nvme/host/core.c      | 26 ++++++++++++++++++------
- drivers/nvme/host/multipath.c | 38 +++++++++++++++++++++++++++++++++++
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/host/core.c      | 26 ++++++++++++++++++++------
+ drivers/nvme/host/multipath.c | 18 ++++++++++++++++++
  drivers/nvme/host/nvme.h      |  2 ++
- 3 files changed, 60 insertions(+), 6 deletions(-)
+ 3 files changed, 40 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 651073280f6f..d8581ddd9a2e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4007,8 +4007,10 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 	 *
+ 	 * TODO: we should probably schedule a delayed retry here.
+ 	 */
+-	if (ret > 0 && (ret & NVME_STATUS_DNR))
++	if (ret > 0 && (ret & NVME_STATUS_DNR)) {
++		set_bit(NVME_NS_SCAN_FAILED, &ns->flags);
+ 		nvme_ns_remove(ns);
++	}
+ }
+ 
+ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+@@ -4017,8 +4019,14 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	struct nvme_ns *ns;
+ 	int ret;
+ 
+-	if (nvme_identify_ns_descs(ctrl, &info))
++	ns = nvme_find_get_ns(ctrl, nsid);
++	if (nvme_identify_ns_descs(ctrl, &info)) {
++		if (ns) {
++			set_bit(NVME_NS_SCAN_FAILED, &ns->flags);
++			nvme_put_ns(ns);
++		}
+ 		return;
++	}
+ 
+ 	if (info.ids.csi != NVME_CSI_NVM && !nvme_multi_css(ctrl)) {
+ 		dev_warn(ctrl->device,
+@@ -4037,17 +4045,23 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	else
+ 		ret = nvme_ns_info_from_identify(ctrl, &info);
+ 
+-	if (info.is_removed)
+-		nvme_ns_remove_by_nsid(ctrl, nsid);
++	if (info.is_removed && ns) {
++		nvme_ns_remove(ns);
++		nvme_put_ns(ns);
++	}
+ 
+ 	/*
+ 	 * Ignore the namespace if it is not ready. We will get an AEN once it
+ 	 * becomes ready and restart the scan.
+ 	 */
+-	if (ret || !info.is_ready)
++	if (ret || !info.is_ready) {
++		if (ret > 0 && ns) {
++			set_bit(NVME_NS_SCAN_FAILED, &ns->flags);
++			nvme_put_ns(ns);
++		}
+ 		return;
++	}
+ 
+-	ns = nvme_find_get_ns(ctrl, nsid);
+ 	if (ns) {
+ 		nvme_validate_ns(ns, &info);
+ 		nvme_put_ns(ns);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f72c5a6a2d8e..68eb1df98419 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -92,6 +92,13 @@ void nvme_failover_req(struct request *req)
+ 
+ 	nvme_mpath_clear_current_path(ns);
+ 
++	/*
++	 * Mark the namespace with NS_SCAN_FAILED to ensure
++	 * I/O can be aborted during partition scan.
++	 */
++	if (test_bit(NVME_NSHEAD_DISK_SCAN, &ns->head->flags))
++		set_bit(NVME_NS_SCAN_FAILED, &ns->flags);
++
+ 	/*
+ 	 * If we got back an ANA error, we know the controller is alive but not
+ 	 * ready to serve this namespace.  Kick of a re-read of the ANA
+@@ -227,6 +234,7 @@ void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+ 		if (capacity != get_capacity(ns->disk))
+ 			clear_bit(NVME_NS_READY, &ns->flags);
++		clear_bit(NVME_NS_SCAN_FAILED, &ns->flags);
+ 	}
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+ 
+@@ -239,6 +247,12 @@ static bool nvme_path_is_disabled(struct nvme_ns *ns)
+ {
+ 	enum nvme_ctrl_state state = nvme_ctrl_state(ns->ctrl);
+ 
++	if (test_bit(NVME_NSHEAD_DISK_SCAN, &ns->head->flags)) {
++		if (state == NVME_CTRL_DELETING ||
++		    test_bit(NVME_NS_SCAN_FAILED, &ns->flags))
++			return true;
++	}
++
+ 	/*
+ 	 * We don't treat NVME_CTRL_DELETING as a disabled path as I/O should
+ 	 * still be able to complete assuming that the controller is connected.
+@@ -423,6 +437,8 @@ static bool nvme_available_path(struct nvme_ns_head *head)
+ 
+ 	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags))
+ 		return NULL;
++	if (test_bit(NVME_NSHEAD_DISK_SCAN, &head->flags))
++		return NULL;
+ 
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+ 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
+@@ -646,8 +662,10 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 	 * head.
+ 	 */
+ 	if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
++		set_bit(NVME_NSHEAD_DISK_SCAN, &head->flags);
+ 		rc = device_add_disk(&head->subsys->dev, head->disk,
+ 				     nvme_ns_attr_groups);
++		clear_bit(NVME_NSHEAD_DISK_SCAN, &head->flags);
+ 		if (rc) {
+ 			clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags);
+ 			return;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 50515ad0f9d6..6089528d5eb8 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -493,6 +493,7 @@ struct nvme_ns_head {
+ 	struct mutex		lock;
+ 	unsigned long		flags;
+ #define NVME_NSHEAD_DISK_LIVE	0
++#define NVME_NSHEAD_DISK_SCAN	1
+ 	struct nvme_ns __rcu	*current_path[];
+ #endif
+ };
+@@ -527,6 +528,7 @@ struct nvme_ns {
+ #define NVME_NS_ANA_PENDING	2
+ #define NVME_NS_FORCE_RO	3
+ #define NVME_NS_READY		4
++#define NVME_NS_SCAN_FAILED	5
+ 
+ 	struct cdev		cdev;
+ 	struct device		cdev_device;
 -- 
 2.35.3
 
