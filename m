@@ -4,60 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3165DCF0427
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 21:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD203CF0429
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 22:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YDc6whnZAEVcNfoO/qtDUfaWpbABhtdYNjnJaJBpA8w=; b=L0iZKE48ZEDg/EsTLIp7q+r/OM
-	ixrSnNOX4tDw5PkH943AeR95uy0TrRZhnnXuW81B+cwRyTztXs5ZkTN+JEK8uRYloLAWyldChbtUa
-	Wrh/aXCn3Hq4+fJ0qUNriM3uUX7aG7bZqPOIRLltX4Rs6CSbPMQIi9CDxnITQps90p+ViHFZToubX
-	QJn5smqIcPir8S8r9nO9kk8A/Yjf0SR+7umh/YIMlvreMd+HfwZU3QPPCZJaGHgvfPWS3Vr4F9Jsq
-	MYExtjdGL74AStu/eSUX6kxGpWJTtkRhJZ1E0olhEdphldzzIx572/fpCH79s2gPP5ZWISdjuNG1I
-	yAi7o85A==;
+	bh=ZY+W+3G1uNtkfanpiR93dlahys69f8eDzfOkTcdzUm0=; b=ehDan07/98wHNSCvXl5VGqhTtP
+	gm4fL1XhlQU2mLxxvU6VBXKerv35loSG1ug6cvVtffIgIuMexyqwf9VgpVeKkgjX4/qO+QUpOyAU+
+	Da17Mv2VLogeu3h7HFYXWxw1soYfzeI84bUnISxJX4wPqvtKrBMmPYZpcz9q3sUELBJ+bKjz88R7n
+	nT0YTB1ZcV2zI/9rkiTC0eNWv3XfbKZfBUWiQAdarsQ4EUbzug7hrNXHr5IA6fDQ/AlOWn2JhR+rj
+	J/RtA0VMjNZVyYTu/T8Tqs9FXDyXoMdi7RS8qaE73sUwQUGHSrzWwaaZtgvbCWNwt5m/HDCndIVur
+	jHR7uq6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syHbe-000000079q5-1lu0;
-	Tue, 08 Oct 2024 21:18:58 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1syIJh-00000007EbK-3eor;
+	Tue, 08 Oct 2024 22:04:29 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syHaS-000000079dD-2PPa
+	id 1syIJe-00000007Eab-04pT
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 21:17:45 +0000
+	Tue, 08 Oct 2024 22:04:28 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 832445C5753;
-	Tue,  8 Oct 2024 21:17:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 129ACC4CEC7;
-	Tue,  8 Oct 2024 21:17:43 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2DF665C01D5;
+	Tue,  8 Oct 2024 22:04:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EED1C4CEC7;
+	Tue,  8 Oct 2024 22:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728422263;
-	bh=A73k37M+WrMmDWoydNcIM34AaOWu0Cs9OtC7KLKWnLE=;
+	s=k20201202; t=1728425065;
+	bh=iow1JAe/82UMDIUstBevpkrdK9xWZnfdRJ6+IethTys=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M/RfyPe1Z6l5bGPyCScFXKhnU6XkOz2aqUu9jBJasck6CEHD59ztFNQZsW0r9i/gL
-	 MVOAw4T/Fc3y6b2KQ9byvU6Ufz2hpV4ciYBp+WKOPak8FjOEfc7vT0mcu7yDGXNwbN
-	 L3wjkLXi1fTwM5hJ4/TVc7L7Dcvz9AHgvtO3WTJxR5eE+NNMa+diVHbqFzfJLs8s8A
-	 r9S3WUCNtGimZDFU5GMK9ElGTKc+EeM8aXZfmERxa+0lqhjdxTQLH0m9zhKj6o9/RN
-	 /v4EsKgDxGqsH1GJlPkeQrepbZEbj20K38qPzVeyZRideJuXz193L6DXD2O9nmruEf
-	 LFlJkxRDSrOPA==
-Date: Tue, 8 Oct 2024 15:17:41 -0600
+	b=e0wnRx5rjoLNrS4vpGE4v5saqkSKNgOSvij8i+fdhoyS+pQVFuAg+jmBVOicGvjYA
+	 ynzvMGBQsfTh6kM+SehJvK38H4isiV/wqpCdpq4L1fWWyJhzFyTOfdaMEiBcyKzC3M
+	 zLkBuR/nSuDfkZia0pepICsYBMO7fsUJDklOA/2vxIUI9mGzcR1f5DF4Xsp4SbO/ge
+	 q4+CZWSRD2qw2UJy/FHJl4FgCWR5XyQB5r2vrYkj3mRVFe32O6AYlxhAexyKtM5six
+	 mBdTgP2alF9lfIdvk8GzrZrRFsJu1XgmOJzsjaH8/jgBcB5kaLTu/M4ZOsX5i7A7L8
+	 FcKaZz9Y24E9w==
+Date: Tue, 8 Oct 2024 16:04:22 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvmet-rdma: use sbitmap to replace rsp free list
-Message-ID: <ZwWhda4vq3TwJE0g@kbusch-mbp>
-References: <20241008093708.107392-1-kanie@linux.alibaba.com>
+To: Matias =?iso-8859-1?Q?Bj=F8rling?= <m@bjorling.me>
+Cc: hch@lst.de, dlemoal@kernel.org, cassel@kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matias =?iso-8859-1?Q?Bj=F8rling?= <matias.bjorling@wdc.com>
+Subject: Re: [PATCH 0/2] nvme: add rotational support
+Message-ID: <ZwWsZvOrQGQ2UR2P@kbusch-mbp>
+References: <20241008145503.987195-1-m@bjorling.me>
+ <ZwVMLIt4iFX9MUjV@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241008093708.107392-1-kanie@linux.alibaba.com>
+In-Reply-To: <ZwVMLIt4iFX9MUjV@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241008_141744_678417_D8F62AFB 
-X-CRM114-Status: UNSURE (   9.21  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241008_150427_239734_38351589 
+X-CRM114-Status: GOOD (  11.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,19 +74,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 08, 2024 at 05:37:08PM +0800, Guixin Liu wrote:
-> We can use sbitmap to manage all the nvmet_rdma_rsp instead of using
-> free lists and spinlock, and we can use an additional tag to
-> determine whether the nvmet_rdma_rsp is extra allocated.
-> 
-> In addition, performance has improved:
-> 1. testing environment is local rxe rdma devie and mem-based
-> backstore device.
-> 2. fio command, test the average 5 times:
-> fio -filename=/dev/nvme0n1 --ioengine=libaio -direct=1
-> -size=1G -name=1 -thread -runtime=60 -time_based -rw=read -numjobs=16
-> -iodepth=128 -bs=4k -group_reporting
-> 3. Before: 241k IOPS, After: 256k IOPS, an increase of about 5%.
+On Tue, Oct 08, 2024 at 09:13:48AM -0600, Keith Busch wrote:
+> I still hope to see nvmet report this. It would be great to test this
+> with HDD backed nvme-loop target.
 
-Applied, thanks.
+I took the liberty to write one up. Looks like everything is reporting
+as expected.
+
+---
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 954d4c0747704..e167c9a2ff995 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -685,6 +685,35 @@ static void nvmet_execute_identify_ctrl_nvm(struct nvmet_req *req)
+ 		   nvmet_zero_sgl(req, 0, sizeof(struct nvme_id_ctrl_nvm)));
+ }
+ 
++static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
++{
++	struct nvme_id_ns_cs_indep *id;
++	u16 status;
++
++	status = nvmet_req_find_ns(req);
++	if (status)
++		goto out;
++
++	id = kzalloc(sizeof(*id), GFP_KERNEL);
++	if (!id) {
++		status = NVME_SC_INTERNAL;
++		goto out;
++	}
++
++	id->nstat = NVME_NSTAT_NRDY;
++	id->anagrpid = req->ns->anagrpid;
++	id->nmic = NVME_NS_NMIC_SHARED;
++	if (req->ns->readonly)
++		id->nsattr |= NVME_NS_ATTR_RO;
++	if (req->ns->bdev && !bdev_nonrot(req->ns->bdev))
++		id->nsfeat |= NVME_NS_ROTATIONAL;
++
++	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
++	kfree(id);
++out:
++	nvmet_req_complete(req, status);
++}
++
+ static void nvmet_execute_identify(struct nvmet_req *req)
+ {
+ 	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
+@@ -729,6 +758,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+ 			break;
+ 		}
+ 		break;
++	case NVME_ID_CNS_NS_CS_INDEP:
++		nvmet_execute_id_cs_indep(req);
++		return;
+ 	}
+ 
+ 	pr_debug("unhandled identify cns %d on qid %d\n",
+--
 
