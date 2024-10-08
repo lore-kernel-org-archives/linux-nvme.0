@@ -4,92 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D4C8CED271
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 06:23:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF801CED26E
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2024 06:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=X9e41XAu4gVnf3ePdeAJL9cFfEO/ICG2xVW+k0vG8Q0=; b=Xj6lqUMS7BT4JZq7Re2lnPylLJ
-	AF68c1uyANLiUX6WA6UFQdzhjNJcN+GeGSVmTjcfg8uykjahECkg6B7dSdhZOJGHPmMYYYPEn+7GU
-	JyUUVe+KTHE7YWD1AsnAwnw9beSYwRWPFlmtMpTNdaLTkLfw8yxfYl/9vi6UIVkz4FTX7yhlCHELf
-	0tiLyHm1pYjz+U29pUFRP+i/psCIYwIPzr9W3rEiWxvfzWc2YITsbIBlqNqRAGJNzw0qjOMyP2Ypx
-	ROe7UYHyVDU0mM2E981YrmXAlbEKO0AfQ9R0ARlTBi3yuWI7m6JaKE/DFghGPqpoksIgjN84wyTlv
-	XA1HatzQ==;
+	bh=nf8G1zFHRlgofvzb1+iUCP+QxYElvr+E/GLPLv3veaM=; b=U/cq/JWD1+5XbaggckZsXniH20
+	FG+Hk24do7Eeg8lP1CUeNPmOV1ETAKeN+f+mVBJhgECEUfTArUyxkOFbM/1RxegrgnkmU4DalnOQH
+	u2RP/2u22hNDmBN6CzIQUtSXvjTA6AJ47rv6WCIS428fdWSKvOeKdEXYYdrYcmKN93mRenyzNUgOc
+	hkO5+OSAwFNHq7b5+9knpgx08kssgup3TxFROwx5iGlFO3jTyhA27obZmAixhjsgNRmJF8j476FFh
+	smz2hGsQB1LbWa66hzY7zOqwuHGfX0Ia2hk3zT8i+EO/D/IbuiMHwJXH4GqzWSjVyphKLouG8FDnR
+	89n11Q2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy3d7-00000004dfy-16L3;
-	Tue, 08 Oct 2024 06:23:33 +0000
+	id 1sy3d9-00000004dgr-0CYB;
+	Tue, 08 Oct 2024 06:23:35 +0000
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy3c7-00000004dS5-0bgz
+	id 1sy3c9-00000004dTE-3Bjs
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Oct 2024 06:22:32 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4986J2vA020153;
-	Tue, 8 Oct 2024 06:22:24 GMT
+	Tue, 08 Oct 2024 06:22:35 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4984mITB017973;
+	Tue, 8 Oct 2024 06:22:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
 	:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=pp1; bh=X9e41XAu4gVnf
-	3ePdeAJL9cFfEO/ICG2xVW+k0vG8Q0=; b=DjImUN+sW2JlIOTzEKVHywuwI/5Y+
-	azhLIJ8Ix6e/x5hXjbzo/9iB6YmBmz4jLhqZAURb+fq7L7QYB45G8lLUXELs9Kj+
-	lNv9jt9nN36qyRwGuUK1UZLqnqjBQDq4NKqO0Ov9KwcZszZCoS5KQL+Vl5a4BCFs
-	kLcTn/MgtyggZWn9Unu0L/zj1HAGT4/fMJl0joz8Ubg7egih71AC7HRhV+TJQQsf
-	yauAZ6VAno1vAG2iv4ZXy8YuqHuUlOUD3aFLK43LCQ8U1ag9Qyx3zPWw6gvzXCi+
-	f+++I5P03tqjkC3HCaducghTB7T2WOS5chjmTGDKfEzHxjtRTRZZA8oqw==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 424ybug0g8-1
+	:mime-version:content-transfer-encoding; s=pp1; bh=nf8G1zFHRlgof
+	vzb1+iUCP+QxYElvr+E/GLPLv3veaM=; b=XKcO8OzBLTgSk27G9kbKbUSbgR6io
+	FxGbvUXGZqEXpNuc7sCqLJ+DpxKhcjIxmn4rXCRy8Rpu1E6E1ELn6AhtzAylOdiM
+	B4zVhR5ORvb0lZfEFbGZj2yLec3fEjlFcuJTdkhHGEDZSSRW8YqvwC7CsH6YHDZ3
+	bluczRNq2zbbsZFKwMhzrhWQsay9hcLAYoG6OGPMujG9AUuy38oJstX5iTh2n2aL
+	0GDhX3U2sdGg3JjS/i8aXQ7tptXuFMP1usL7F0RPFowtrFk4A+ufLtleX9iwGRfV
+	RUS+KAM8sLOKWs2CiyoBRcpbCrOQTrX9CrzLXuPo4CF7s8lptP/DBW9rA==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 424x168ak9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Oct 2024 06:22:24 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4985RIdN011535;
-	Tue, 8 Oct 2024 06:22:23 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 423g5xjp08-1
+	Tue, 08 Oct 2024 06:22:21 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 498270js022847;
+	Tue, 8 Oct 2024 06:22:20 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 423h9jteuj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Oct 2024 06:22:23 +0000
+	Tue, 08 Oct 2024 06:22:20 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4986MJgi48300526
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4986MHGR39387590
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 8 Oct 2024 06:22:19 GMT
+	Tue, 8 Oct 2024 06:22:17 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A344D20043;
-	Tue,  8 Oct 2024 06:22:19 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5C4FC20040;
+	by IMSVA (Postfix) with ESMTP id 00C5F20043;
 	Tue,  8 Oct 2024 06:22:17 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C82F420040;
+	Tue,  8 Oct 2024 06:22:14 +0000 (GMT)
 Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.23.125])
 	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  8 Oct 2024 06:22:17 +0000 (GMT)
+	Tue,  8 Oct 2024 06:22:14 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@fb.com,
         chaitanyak@nvidia.com, dlemoal@kernel.org, gjoyce@linux.ibm.com,
         Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH v3 2/3] nvme: make keep-alive synchronous operation
-Date: Tue,  8 Oct 2024 11:51:51 +0530
-Message-ID: <20241008062210.1094083-3-nilay@linux.ibm.com>
+Subject: [PATCH v3 1/3] nvme-loop: flush off pending I/O while shutting down loop controller
+Date: Tue,  8 Oct 2024 11:51:50 +0530
+Message-ID: <20241008062210.1094083-2-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241008062210.1094083-1-nilay@linux.ibm.com>
 References: <20241008062210.1094083-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4YI-hLXZU9DfFHIEpOM_F88ogO0sHAMP
-X-Proofpoint-GUID: 4YI-hLXZU9DfFHIEpOM_F88ogO0sHAMP
+X-Proofpoint-ORIG-GUID: 8_cTutZrr6eS7M8LhDe5x0dCqPntJvvz
+X-Proofpoint-GUID: 8_cTutZrr6eS7M8LhDe5x0dCqPntJvvz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-08_04,2024-10-08_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 spamscore=0 impostorscore=0
- clxscore=1015 suspectscore=0 mlxlogscore=999 priorityscore=1501
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=855 impostorscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 phishscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2409260000 definitions=main-2410080039
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241007_232231_419218_6D7EAB50 
-X-CRM114-Status: GOOD (  14.66  )
+X-CRM114-CacheID: sfid-20241007_232233_942168_7E0195C6 
+X-CRM114-Status: GOOD (  16.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,86 +104,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme keep-alive operation, which executes at a periodic interval,
-could potentially sneak in while shutting down a fabric controller.
-This may lead to a race between the fabric controller admin queue
-destroy code path (while shutting down controller) and the blk-mq
-hw/hctx queuing from the keep-alive thread.
+While shutting down loop controller, we first quiesce the admin/IO queue,
+delete the admin/IO tag-set and then at last destroy the admin/IO queue.
+However it's quite possible that during the window between quiescing and
+destroying of the admin/IO queue, some admin/IO request might sneak in
+and if that happens then we could potentially encounter a hung task
+because shutdown operation can't forward progress until any pending I/O
+is flushed off.
 
-This fix helps avoid race by implementing keep-alive as a synchronous
-operation so that admin queue-usage ref counter is decremented only
-after keep-alive command finish execution and returns its status. This
-would ensure that we don't inadvertently destroy the fabric admin queue
-until we finish processing of nvme keep-alive request and its status and
-hence it's safe to delete the queue.
+This commit helps ensure that before destroying the admin/IO queue, we
+unquiesce the admin/IO queue so that any outstanding requests, which are
+added after the admin/IO queue is quiesced, are now flushed to its
+completion.
 
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/host/core.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ drivers/nvme/target/loop.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 02897f0564a3..736adbf65ef5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1292,10 +1292,10 @@ static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
- 	queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
- }
- 
--static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
--						 blk_status_t status)
-+static void nvme_keep_alive_finish(struct request *rq,
-+				blk_status_t status,
-+				struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index e32790d8fc26..a9d112d34d4f 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -265,6 +265,13 @@ static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl)
  {
--	struct nvme_ctrl *ctrl = rq->end_io_data;
- 	unsigned long flags;
- 	bool startka = false;
- 	unsigned long rtt = jiffies - (rq->deadline - rq->timeout);
-@@ -1313,13 +1313,11 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 		delay = 0;
+ 	if (!test_and_clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags))
+ 		return;
++	/*
++	 * It's possible that some requests might have been added
++	 * after admin queue is stopped/quiesced. So now start the
++	 * queue to flush these requests to the completion.
++	 */
++	nvme_unquiesce_admin_queue(&ctrl->ctrl);
++
+ 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
+ 	nvme_remove_admin_tag_set(&ctrl->ctrl);
+ }
+@@ -297,6 +304,12 @@ static void nvme_loop_destroy_io_queues(struct nvme_loop_ctrl *ctrl)
+ 		nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
  	}
- 
--	blk_mq_free_request(rq);
--
- 	if (status) {
- 		dev_err(ctrl->device,
- 			"failed nvme_keep_alive_end_io error=%d\n",
- 				status);
--		return RQ_END_IO_NONE;
-+		return;
- 	}
- 
- 	ctrl->ka_last_check_time = jiffies;
-@@ -1331,7 +1329,6 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (startka)
- 		queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
--	return RQ_END_IO_NONE;
+ 	ctrl->ctrl.queue_count = 1;
++	/*
++	 * It's possible that some requests might have been added
++	 * after io queue is stopped/quiesced. So now start the
++	 * queue to flush these requests to the completion.
++	 */
++	nvme_unquiesce_io_queues(&ctrl->ctrl);
  }
  
- static void nvme_keep_alive_work(struct work_struct *work)
-@@ -1340,6 +1337,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 			struct nvme_ctrl, ka_work);
- 	bool comp_seen = ctrl->comp_seen;
- 	struct request *rq;
-+	blk_status_t status;
- 
- 	ctrl->ka_last_check_time = jiffies;
- 
-@@ -1362,9 +1360,9 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	nvme_init_request(rq, &ctrl->ka_cmd);
- 
- 	rq->timeout = ctrl->kato * HZ;
--	rq->end_io = nvme_keep_alive_end_io;
--	rq->end_io_data = ctrl;
--	blk_execute_rq_nowait(rq, false);
-+	status = blk_execute_rq(rq, false);
-+	nvme_keep_alive_finish(rq, status, ctrl);
-+	blk_mq_free_request(rq);
- }
- 
- static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ static int nvme_loop_init_io_queues(struct nvme_loop_ctrl *ctrl)
 -- 
 2.45.2
 
