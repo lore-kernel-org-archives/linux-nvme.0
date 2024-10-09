@@ -4,71 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FDCDCED62B
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 08:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D813CED62B
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 08:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oHsCkNL5A1OZWWXNfJcEmE7ewGesAuJ0ZYvKYw7TW2U=; b=0QR41AAdS2C0kus+Op5T29xOX7
-	USI2sC8aoUBZuK4BzeMHAe9ZpbMBE7AmQBIyPiUob78u93dFNqJVDfqMfIgw0LdAlDGXdSEsHte9N
-	tCizif7XE7hWxSRTTU/g2yAOWr8SruozoKGEvaDhovMiKa+pI/uUvO5nLpU/piQylU3/bcieaFSx/
-	K2Ot0exf48PbV0ZpBArBj6rjCxh8O43xGQ/egwJqeeMPPnKb0SAAlp9fkgs3vrFT60qV5yPm39v+n
-	swBKkooPrP/ilOjmr1sHIyC+IOOfZSpHcwZ6WpiliAOO2KW9ac8v77Tw3Yyv0Y4RgkXsu08De5Pnz
-	3NijmaBg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AMqeygrDRnZkLZfYdb04EQ9i5yeRMyIrwByGC8Glue8=; b=kOrFL+x0ZgSNXo1SJp9NMhRTxl
+	Zo47MOSWf42g9J1S4yT5l394PPZuCKeUPmrH47GN+bmPuMDpQhd1hJtQHwi5dejhUjL2vj+kAyZvR
+	dpAZ0dP4wO56KnJLPmmQrrVHOGTqZyLe1EwUuAuh4WbDX4l3l1h8bSuCKvFHAo89X3iHdnezhT5uI
+	hsXbctBDg6NlrWGapey4TFrc2m2+TJ+ICMrjDAAGy6HBZ5M/uKNHJZKhfzUIM9jF1XgPPQttWh7AZ
+	Vjx+w0ei7uh+fiMwbEEnbyCwWGMq8xZClYUd9Psfi/EECo88yIkMq5s8NYPjrqjc9qVkx4w2SRN34
+	QYImVsVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syRu7-00000008PZx-2aUa;
-	Wed, 09 Oct 2024 08:18:43 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1syS09-00000008RWq-1Chu;
+	Wed, 09 Oct 2024 08:24:57 +0000
+Received: from mgamail.intel.com ([192.198.163.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syRsU-00000008P4O-18K2
+	id 1syS05-00000008RVz-47bl
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Oct 2024 08:17:03 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B4AA85C4357;
-	Wed,  9 Oct 2024 08:16:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F2A1C4CEC5;
-	Wed,  9 Oct 2024 08:16:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728461820;
-	bh=B+SM6erZaNO4b0mIjZjP2ripiTOGmpQnP56439FrrtU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qGGTSzQKbjdvvQRPCido3DFwGRhbSp4ecf1GA7J0SEHAGRcMj73eK0/TWSarf5R5h
-	 LAh3y2ZkHy/EP0HeqIu0URrMmHyHcZyhP//5niHn3eGOJ8/UwLcopWMhrkX+mmr0Yr
-	 ZpEBi5mx5Ayx2m6tcSYOAhc9morzlvPkz2/kom0t50sTmqdagJVOn56g8+zfK3h0sc
-	 VIvWS7EzqsQjQ1gl67UHYi5ybXYJM6JPHAmt8I0MxXdz+FJ9cjWnKIVJd9h4OC4KIz
-	 LoQa+ZVLh04JkB1uIGvaEytDRQfKT2jhhvRJW2/ketniWc9ifh1dXy0nRcckP88kXV
-	 nVxYiudn+MgGg==
-Message-ID: <3c017172-c8ba-450d-902a-e937a76d11ad@kernel.org>
-Date: Wed, 9 Oct 2024 17:16:57 +0900
+	Wed, 09 Oct 2024 08:24:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728462294; x=1759998294;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=AMqeygrDRnZkLZfYdb04EQ9i5yeRMyIrwByGC8Glue8=;
+  b=Nt4mRQlY6uFmpmsbJTkNSaGsPo0kC+O5tmGBBZwedjmpcfdATxyrwY9o
+   uB2mWn0z+0Fsl+V99BRAnS6ibYMvsZwxeodPVrkHM5b2yrCqFWLpphalZ
+   1VHBq8P0RWMCWnNIz08G5QFcG+4OFhPHQCkPhtmUuPfUBmxCpepeDJUFh
+   rSwXOs1PuiO8lz28b1gxc/P4aoVUGjERTU/3T4p+H6ohuS4e7yjHv1Oke
+   ty0JEPo3oLLm4YGaebVfA4T1uc/4CEBXUohAS/RyRA3F4zoZHpMdsEv8H
+   WmQfuuQykF9zYyPKQYhI4HxSgynpbn4dnC6BrNdmOZAJdmlZHUQtv04Ss
+   w==;
+X-CSE-ConnectionGUID: q3wykekUSYulOwR2+4/V8g==
+X-CSE-MsgGUID: RJNe1CtrSlumZvKMFOPvVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38334122"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
+   d="scan'208";a="38334122"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 01:24:50 -0700
+X-CSE-ConnectionGUID: LfoKvX/CRRGMoOyFu8Vr6w==
+X-CSE-MsgGUID: Mfs71pT1T/6Al5E1oGikIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
+   d="scan'208";a="106932801"
+Received: from mklonows-mobl1.ger.corp.intel.com ([10.245.246.66])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 01:24:49 -0700
+Message-ID: <accb9ceb501197b71259d8d3996c461dcef1e7d6.camel@linux.intel.com>
+Subject: Re: [PATCH 1/1] nvme-pci: Add CPU latency pm-qos handling
+From: Tero Kristo <tero.kristo@linux.intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-kernel@vger.kernel.org, axboe@kernel.dk, 
+	linux-nvme@lists.infradead.org, sagi@grimberg.me, kbusch@kernel.org
+Date: Wed, 09 Oct 2024 11:24:45 +0300
+In-Reply-To: <20241009080052.GA16711@lst.de>
+References: <20241004101014.3716006-1-tero.kristo@linux.intel.com>
+	 <20241004101014.3716006-2-tero.kristo@linux.intel.com>
+	 <20241007061926.GA800@lst.de>
+	 <913b063d0638614bc95d92969879d2096ffc0722.camel@linux.intel.com>
+	 <20241009080052.GA16711@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/5] PCI: endpoint: Add NVMe endpoint function driver
-To: Rick Wertenbroek <rick.wertenbroek@gmail.com>
-Cc: Niklas Cassel <cassel@kernel.org>, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-pci@vger.kernel.org
-References: <20241007044351.157912-1-dlemoal@kernel.org>
- <20241007044351.157912-5-dlemoal@kernel.org> <ZwO0H0WCnORq9EzQ@ryzen>
- <8b1c846d-6c86-43ea-bc73-aef619094267@kernel.org>
- <CAAEEuhqpthLsNX70WWCn6+udPaNhks41d=oCZRKpPSHKnRc-AQ@mail.gmail.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <CAAEEuhqpthLsNX70WWCn6+udPaNhks41d=oCZRKpPSHKnRc-AQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241009_011702_453782_F7FC3379 
-X-CRM114-Status: GOOD (  19.05  )
+X-CRM114-CacheID: sfid-20241009_012454_102557_C0E92661 
+X-CRM114-Status: GOOD (  17.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,78 +88,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/9/24 16:28, Rick Wertenbroek wrote:
-> On Mon, Oct 7, 2024 at 12:26 PM Damien Le Moal <dlemoal@kernel.org> wrote:
->>
->> On 10/7/24 19:12, Niklas Cassel wrote:
->>> On Mon, Oct 07, 2024 at 01:43:50PM +0900, Damien Le Moal wrote:
->>>> From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
->>>
->>> (snip)
->>>
->>>> Early versions of this driver code were based on an RFC submission by
->>>> Alan Mikhak <alan.mikhak@sifive.com> (https://lwn.net/Articles/804369/).
->>>> The code however has since been completely rewritten.
->>>
->>> Here you state that the code has been completely rewritten...
->>>
->>>
->>>>
->>>> Co-developed-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
->>>> Signed-off-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
->>>> Signed-off-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
->>>> ---
->>>>  MAINTAINERS                                   |    7 +
->>>>  drivers/pci/endpoint/functions/Kconfig        |    9 +
->>>>  drivers/pci/endpoint/functions/Makefile       |    1 +
->>>>  drivers/pci/endpoint/functions/pci-epf-nvme.c | 2489 +++++++++++++++++
->>>>  4 files changed, 2506 insertions(+)
->>>>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-nvme.c
->>>
->>> (snip)
->>>
->>>> --- /dev/null
->>>> +++ b/drivers/pci/endpoint/functions/pci-epf-nvme.c
->>>> @@ -0,0 +1,2489 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +/*
->>>> + * NVMe function driver for PCI Endpoint Framework
->>>> + *
->>>> + * Copyright (C) 2019 SiFive
->>>
->>> ...yet here you claim Copyright (C) SiFive.
->>>
->>> *If* the code has been completely rewritten, then you probably should
->>> put yourself and/or your current employeer as the copyright holder.
->>
->> Oops. One thing I forgot to rewrite :)
->> Will change the copyright in v2.
-> 
-> Hello Damien.
-> Thank you for acknowledging my contributions in the commit message. I
-> would appreciate it if you could add both our names in the copyright
-> for the v2, I don't mind not being in the MODULE_AUTHOR() but I would
-> appreciate a mention in the header comment of the file, thank you.
+On Wed, 2024-10-09 at 10:00 +0200, Christoph Hellwig wrote:
+> On Wed, Oct 09, 2024 at 09:45:07AM +0300, Tero Kristo wrote:
+> > Initially, I posted the patch against block layer, but there the
+> > recommendation was to move this closer to the HW; i.e. NVMe driver
+> > level.
+>=20
+> Even if it is called from NVMe, at lot of the code is not nvme
+> specific.
+> Some of it appears block specific and other pats are entirely
+> generic.
+>=20
+> But I still don't see how walking cpumasks and updating paramters in
+> far away (in terms of cache lines and pointer dereferences) for every
+> single I/O could work without having a huge performance impact.
+>=20
 
-Sure, no problem. Would a copyright with your name only (no affiliation) be OK ?
+Generally, the cpumask only has a couple of CPUs on it; yes its true on
+certain setups every CPU of the system may end up on it, but then the
+user has the option to not enable this feature at all. In my testing
+system, there is a separate NVME irq for each CPU, so the affinity mask
+only contains one bit.
 
-> 
-> Best regards,
-> Rick
-> 
->>
->>>
->>>
->>> Kind regards,
->>> Niklas
->>
->>
->> --
->> Damien Le Moal
->> Western Digital Research
+Also, the code tries to avoid calling the heavy PM QoS stuff, by
+checking if the request is already active, and updating the values in a
+workqueue later on. Generally the heavy-ish parameter update only
+happens on the first activity of a burst of NVMe accesses.
 
+-Tero
 
--- 
-Damien Le Moal
-Western Digital Research
 
