@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10811CED61D
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 07:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7DFCCED61E
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 08:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VYCHOIKiTxR89g5JXOertAQ0i/chhdKphmWsN7pL8cY=; b=ToziTxqn9bhzPEa588StaOO4Py
-	3dvGlnw7Rin+bBdH5XNwSSk8iy8R1u2SUOcyLSsZWwTKcJviafRaQp79Tp5lwC22/+gR6AeppdPHw
-	jWbDpl9V0jiQEM6OIFkpr/pGJ4Izl4BkeuuEz4A4b51cNVZ6HLiesjMUeNuUOygZPlsbpZX7dQggM
-	vadv/GHPgkjpS+vE5+IYdZieYGqqy44xkRJu6A9MKLTgLMx1sMXdC3disHKRa1dZiVYultxLyyvN7
-	Vl5p2htQvZaKqttON7H5zlutc6XLTZ2geOFpBdmcI6h7WdISZlX5xnH5Il+YjUun2K4WkYxYxmSqd
-	gUEsdJCg==;
+	bh=axFQRrF2Y8HkeQ4+fO7T8+Nt4YU1FpmE7EWBJtnvsvg=; b=FNYxOgz7V5YHE9ntvU9OhxguqY
+	0DuGTynfHaTsaGmr6RJLJKgCfQ1TVtpduAQ49zAKulHMAxxmsZFAVthmG5QTMtnKjIGAQ8Y6b5V9j
+	YHeDXrTDwnjTjCqccG2UP25Qm6CD2aWXQojtSK5oQb5um8JUqk09U4dBtpsMC238ZjiC/BSea+ac3
+	FncfTaXPj0/dCobgFzHW837XEvrF8xAeFzxQb8TIvir/+ssF4IWVBiWyUzoaqjlnXo61SgqeBmxr5
+	VLbXDeHEeTTKCwUeO1kugQsWb9j6R/PpfS51wzvM9yHZ4Sj3x1Z9peD915cXYYoA4MeEHKNDjYtOJ
+	EccYz7Kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syRaC-00000008L8Q-0tSg;
-	Wed, 09 Oct 2024 07:58:08 +0000
+	id 1syRfi-00000008MY2-1Eil;
+	Wed, 09 Oct 2024 08:03:50 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syRUD-00000008Jg0-2wPH
+	id 1syRct-00000008Lzo-3SGh
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Oct 2024 07:51:59 +0000
+	Wed, 09 Oct 2024 08:00:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 07147227AAA; Wed,  9 Oct 2024 09:51:53 +0200 (CEST)
-Date: Wed, 9 Oct 2024 09:51:52 +0200
+	id 2FF24227A8E; Wed,  9 Oct 2024 10:00:52 +0200 (CEST)
+Date: Wed, 9 Oct 2024 10:00:52 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: gjoyce@linux.ibm.com, linux-nvme@lists.infradead.org, axboe@fb.com,
-	hch@lst.de, sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
-	msuchanek@suse.de, jonathan.derrick@linux.dev, okozina@redhat.com,
-	nilay@linux.ibm.com
-Subject: Re: [PATCH v2 1/1] nvme: disable CC.CRIME (NVME_CC_CRIME)
-Message-ID: <20241009075152.GA16494@lst.de>
-References: <20241007193324.5846-1-gjoyce@linux.ibm.com> <20241007193324.5846-2-gjoyce@linux.ibm.com> <ZwVtf52gL1Zg_YYQ@kbusch-mbp>
+To: Tero Kristo <tero.kristo@linux.intel.com>
+Cc: Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+	axboe@kernel.dk, linux-nvme@lists.infradead.org, sagi@grimberg.me,
+	kbusch@kernel.org
+Subject: Re: [PATCH 1/1] nvme-pci: Add CPU latency pm-qos handling
+Message-ID: <20241009080052.GA16711@lst.de>
+References: <20241004101014.3716006-1-tero.kristo@linux.intel.com> <20241004101014.3716006-2-tero.kristo@linux.intel.com> <20241007061926.GA800@lst.de> <913b063d0638614bc95d92969879d2096ffc0722.camel@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZwVtf52gL1Zg_YYQ@kbusch-mbp>
+In-Reply-To: <913b063d0638614bc95d92969879d2096ffc0722.camel@linux.intel.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241009_005157_902572_94380542 
-X-CRM114-Status: GOOD (  14.91  )
+X-CRM114-CacheID: sfid-20241009_010056_028029_FA196501 
+X-CRM114-Status: GOOD (  13.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,16 +60,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 08, 2024 at 11:35:59AM -0600, Keith Busch wrote:
-> > Disable NVME_CC_CRIME so that CSTS.RDY indicates that the media
-> > is ready and able to handle commands without returning
-> > NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY.
-> 
-> I'm okay with this. We just need to see if Christoph wants to chime in
-> since he added the without media ready support. I never saw the value in
-> having Linux use it, but maybe there's a good reason to do it.
+On Wed, Oct 09, 2024 at 09:45:07AM +0300, Tero Kristo wrote:
+> Initially, I posted the patch against block layer, but there the
+> recommendation was to move this closer to the HW; i.e. NVMe driver
+> level.
 
-It think it is useful not to block bringing the admin queue up on
-the media timeout.  But given how fucked up implementations are we
-might as well remove the support for now.
+Even if it is called from NVMe, at lot of the code is not nvme specific.
+Some of it appears block specific and other pats are entirely generic.
+
+But I still don't see how walking cpumasks and updating paramters in
+far away (in terms of cache lines and pointer dereferences) for every
+single I/O could work without having a huge performance impact.
+
 
