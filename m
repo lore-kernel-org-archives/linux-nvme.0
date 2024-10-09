@@ -4,95 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7F47CEE339
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 17:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2EACCEE33B
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 18:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RjdY2kbsntsJxkIY+YoEwppZ+eHyqiNWOeFPHP9zjwU=; b=XAFxzoEqHuqW3Icl/hvdM68EQb
-	ihaoIXTVohuQdzGbrF/++Cb7FA0YBhG+YymU8RmjKyODu1s4d6CvUKCqX2+bQd2PLHTBfhEJ0g2jd
-	w5LMwMj3etilFwvBVkqkE9bv0gxHH5fXVXRlU/CjNLpP8Yn3JRzemFGQpFZ99ahMlxwtr1643MPjk
-	5HEmC0kJykGfXbTx59gzGgRTcY/u3bVvymyp8WkD7GVUcAks9OegbnrLSBCQ9K/nIvbc2ft8go/57
-	XYYd7Isq9OjwkqOTWY1/YhFk1t2Vouc6LttvA0bzpaCLJ67oe7sNevEzMDaGtKQ2xG8qSxkzADvBY
-	5DgTRGQw==;
+	bh=vht2RCtldo/N+YmYbXQHbMDhqc0PeROYXC3Tc/mu2ss=; b=mX7+LWKdmCZr72vlrXPTRFjyxV
+	HzDzlqXj8kPdKkkcQqvr1DpKVMlk8X1EzolIFyFWxBHy3FIGqdRzQkUzgmuLS4Z5VqpV5calYSOKw
+	MLkbsXhQ/aMEfSQeTZHWe8uP6Ik68UBGgnjVdKfB1Q6tyZIak7YKG5nyx/SGxT0oXDyf2OFIrNq4m
+	LikgwQIfRWMPiN1AHIo6rbE5Kl8iGwMEYFDdkCqLCMvn4iu3BRdlqlJQajz1kzk3q4IqZJjuSKa+j
+	BCiMdcFctTHQ2LJvOAR/J7aQD2GEW/YtroJm5UoyJl6u0EA2jtKghILrwhMmzoMMxLY0d0xSid8C5
+	WyZzpPAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syaxd-0000000AIUB-46SP;
-	Wed, 09 Oct 2024 17:58:57 +0000
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+	id 1syb3h-0000000AK7d-284W;
+	Wed, 09 Oct 2024 18:05:13 +0000
+Received: from fhigh-a2-smtp.messagingengine.com ([103.168.172.153])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syawj-0000000AIDS-0kvM
+	id 1syb3e-0000000AK68-0p45
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Oct 2024 17:58:02 +0000
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3e3e7dcf7b3so57745b6e.0
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Oct 2024 10:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728496680; x=1729101480; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RjdY2kbsntsJxkIY+YoEwppZ+eHyqiNWOeFPHP9zjwU=;
-        b=JZ4QjbB7syFGDkLdTSWo8IOAqJ5IZKRIebi9mxk/1dNNWziHNgqpO29OIgAwnrkAUc
-         FIeaGJ+l9Yvp2hY4Jr2p1C6K2kjcaWa847ICdSjHS656kA23GY24Pl3c0cnq5ImJvC37
-         fmizUSawQD+AqzLXTfpw2t48eZV01O7X5SR1hSJPrhnHl9Rge/xHeaqmvPBfYeapSjwh
-         WCoEIuvtrS1x7JTbmTOkSWeMb0BGJg16hD0me5mEXKBaKqZrA3q01OkHTZOYCm3hx1UG
-         GKNTkNExfpc2C4aZUjIpz3rsG6tNdd7Cz2ICO7PQPZURlrn61dxWrMg7rgnt96vbF78U
-         V7Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728496680; x=1729101480;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RjdY2kbsntsJxkIY+YoEwppZ+eHyqiNWOeFPHP9zjwU=;
-        b=AEFtYqVKZ3ctQVRe1RKFYU+V+xidSwEn9xwh5vnaq5+h3+jpyUIyILeaSJcRIYNy4V
-         YP5WMr/5RtC6mdKZ8WivYYxwZ8tAWkIrKwwXciPDAM6VyWASf8PasoB9mtzCDmSh36Mb
-         JW9t0gHv8J24b2d/rwnQEcm86VOYgGOgjLYZReXEKcl6zzv+3/bge4iNXM6N8qOfMadi
-         C3G2i+dsuWVCgNaCvqNkJJdwUKmvnBYnY5NcSHkpR87Nq2+mKo4xIfN8tZnowjHe/4cn
-         37U8HJ8mFPkQ9HS0BlolO2vsQOHLd/eWxIkICNAkgoMY6FrXliABdPWmeyLqBg3vLqKv
-         HQvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUxp8L+tu5olDnPQsRmk0GPF16CeyxyiQVtcboOT4Yi1HSdUx8srFSZ55ZKJ8pxRFWH9dQ1gkE82xX5@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx4ES11n6VKVvUIDloEVgX9PfJ/6gvVjYXQ8w9Wu1mxkt9a8q49
-	sEoZPmHJjfdXlFx9sXqYfIEeXdq28qwXQU0cfDBQOpMjdJKMpW0x
-X-Google-Smtp-Source: AGHT+IE2oGK/MSVHYCoJinOlidq5VY3r6qCb0/MqDXQTbVF1E62v1vJwCGEoMCNIzqsr8vGUNFmhFg==
-X-Received: by 2002:a05:6808:219e:b0:3e0:3b50:6fcd with SMTP id 5614622812f47-3e4d7526e1dmr367763b6e.5.1728496679791;
-        Wed, 09 Oct 2024 10:57:59 -0700 (PDT)
-Received: from localhost.localdomain ([143.166.81.254])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5e7d711f219sm2442489eaf.9.2024.10.09.10.57.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 10:57:59 -0700 (PDT)
-From: Stuart Hayes <stuart.w.hayes@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>,
-	David Jeffery <djeffery@redhat.com>,
-	Jeremy Allison <jallison@ciq.com>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jan Kiszka <jan.kiszka@seimens.com>,
-	Bert Karwatzki <spasswolf@web.de>
-Cc: Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: [PATCH v9 4/4] nvme-pci: Make driver prefer asynchronous shutdown
-Date: Wed,  9 Oct 2024 12:57:46 -0500
-Message-Id: <20241009175746.46758-5-stuart.w.hayes@gmail.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20241009175746.46758-1-stuart.w.hayes@gmail.com>
-References: <20241009175746.46758-1-stuart.w.hayes@gmail.com>
+	Wed, 09 Oct 2024 18:05:12 +0000
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2866F11400C3;
+	Wed,  9 Oct 2024 14:05:06 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Wed, 09 Oct 2024 14:05:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bjorling.me; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1728497106;
+	 x=1728583506; bh=vht2RCtldo/N+YmYbXQHbMDhqc0PeROYXC3Tc/mu2ss=; b=
+	gmZM5BQMZbUu6XVymNw+GVEP3tZ4ttJJEOOB0GRdvO/6fca+tpNhFwExqPozPHfu
+	LyaLrp0hVEsY8G1oeGRsZQSKcOga9+S2bR0XSNy+AGLItU4OouvHHR6uIDheUT+l
+	0MOO7J0r21voZnQMka2t0cwlXm36S/apMQxyitYGhkLMRLteH+fzm4KNTMTO7mSC
+	cuPrWf/ixCzDha0nzxMjTcw/1IpUMSQQqmTfmAmc+ftk+qjTT2jYRvwNxx0Y9Z9F
+	ZVP1JBpdGv4Qjg3DKbaL3eBUTVy3kMLwcZtMYm0ysI8YUXzgxATOKXNm0n6rmqJe
+	K87HU7GDvtew3Xn9xZi0hg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728497106; x=
+	1728583506; bh=vht2RCtldo/N+YmYbXQHbMDhqc0PeROYXC3Tc/mu2ss=; b=m
+	RnslZt8ZiNQ6Ye6HB92LzI+9y3b9p5smQ6q0O9Y/TGlKNgNOYSbBYSdLMhjRaSdH
+	Trrnf234lODGMCSEf2Ai2KBNrnuKC1HMvN6nH5njbNm6e2EvX4heJXW9AdlQ7/Bt
+	IwWKJd/srP42R1nDNDvzoyvFFkJwgaXxffhVk9VhQm6+PHbqkueAOPkEBUwyCLfh
+	YopMeQ2jSRm3CdyklONgvVh/lQxFeOxFTQZ/G1k0M49MG8NN3b+kCh1cbsLbD9ee
+	8gosnvjhVNophIaVMehHKDW13L2zT9VcFznqN00+bqZEobRTvr/HxzvmZ1D5FJmj
+	TtupipBssuRQ295bz1lHA==
+X-ME-Sender: <xms:0cUGZwKnKrmy1kSLjuK2FuTo1nwc7LcdNDp4zStPc44YJymARe3BTA>
+    <xme:0cUGZwIEAyMxX3IeyQyb_IWayszvIowTFjlUHf8wBGM2gdq_xacwr43IAhMw9l3e0
+    usfIXTFUZPyy0HABG4>
+X-ME-Received: <xmr:0cUGZwvZGgMKRBITnrtVjr_B-xJJ0gMsRsjoxDnK4Lpl2oak7pewpYY0foprhSYUBsaACkzgt7CKNcg8Yz9eK6YNHpPVFw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeffedguddvvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddv
+    jeenucfhrhhomhepofgrthhirghsuceujhpprhhlihhnghcuoehmsegsjhhorhhlihhngh
+    drmhgvqeenucggtffrrghtthgvrhhnpeekfeeiuedtvdetgeeutdehvddugffgveegveek
+    geegfeekueffffefleelveeggfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehmsegsjhhorhhlihhnghdrmhgvpdhnsggprhgtphhtthhopeel
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehksghushgthheskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtohephhgthheslhhsthdruggvpdhrtghpthhtohepfigrnhhghihu
+    ghhuihesvgduiedqthgvtghhrdgtohhmpdhrtghpthhtohepughlvghmohgrlheskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtoheptggrshhsvghlsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehlihhnuhigqdhnvhhmvgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+    dprhgtphhtthhopehlihhnuhigqdgslhhotghksehvghgvrhdrkhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepmhgrthhirghsrdgsjhhorhhlihhnghesfigutgdrtghomh
+X-ME-Proxy: <xmx:0cUGZ9a3dVYooglZuYfmU9Kj2hR_zWL3t0f2h_5qDdxnw3BLde_1Yg>
+    <xmx:0cUGZ3ZO1dy4ik5nRJ7CKxTej3QwAfurNycbnbWZYblsljaE3F6lbw>
+    <xmx:0cUGZ5AI_9RkowdtJX4Yn_a0KFTDJMC5tAxEcfcNpdqfc3YSkdwXHA>
+    <xmx:0cUGZ9aWpQkMNWTgH4ixg5gxYXjE_WTZAf6HG5nCYtguS-Lh00iVaw>
+    <xmx:0sUGZxl6YIl9OZYMlgmceaW9WczSnPqK9pkM3Dk5UIVC-5rWLXHqpODG>
+Feedback-ID: if4314918:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Oct 2024 14:04:49 -0400 (EDT)
+Message-ID: <3d817578-41ef-45e9-ac65-a9ba45e2e637@bjorling.me>
+Date: Wed, 9 Oct 2024 20:04:36 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] nvme: add rotational support
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Wang Yugui <wangyugui@e16-tech.com>
+Cc: dlemoal@kernel.org, cassel@kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Matias_Bj=C3=B8rling?= <matias.bjorling@wdc.com>
+References: <20241008145503.987195-1-m@bjorling.me>
+ <20241009074355.GA16181@lst.de> <ZwajykF81QLOkObY@kbusch-mbp>
+Content-Language: en-US
+From: =?UTF-8?Q?Matias_Bj=C3=B8rling?= <m@bjorling.me>
+In-Reply-To: <ZwajykF81QLOkObY@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241009_105801_255687_5ABAD4C6 
-X-CRM114-Status: GOOD (  11.29  )
+X-CRM114-CacheID: sfid-20241009_110511_169475_F9D0B929 
+X-CRM114-Status: GOOD (  12.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,27 +118,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Set the driver default to enable asynchronous shutdown.
+On 09-10-2024 17:39, Keith Busch wrote:
+> On Wed, Oct 09, 2024 at 09:43:55AM +0200, Christoph Hellwig wrote:
+>> On Tue, Oct 08, 2024 at 04:55:01PM +0200, Matias Bjørling wrote:
+>>> From: Matias Bjørling <matias.bjorling@wdc.com>
+>>>
+>>> Enable support for NVMe devices that identifies as rotational.
+>>>
+>>> Thanks to Keith, Damien, and Niklas for their feedback on the patchset.
+>>
+>> Hmm, the only previous version I've seen was the the RFCs from
+>> Wang Yugui, last seen in August.
+> 
+> Oops, that slipped by me as well. I think the right thing to do is bring
+> that one forward and retain the original credit. I agree with Matias
+> that we ought to be able to query the independent identification without
+> relying on CRWMS, though.
 
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Signed-off-by: David Jeffery <djeffery@redhat.com>
----
- drivers/nvme/host/pci.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7990c3f22ecf..1cbff7537788 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3597,6 +3597,7 @@ static struct pci_driver nvme_driver = {
- 	.shutdown	= nvme_shutdown,
- 	.driver		= {
- 		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
-+		.async_shutdown_enable	= true,
- #ifdef CONFIG_PM_SLEEP
- 		.pm		= &nvme_dev_pm_ops,
- #endif
--- 
-2.39.3
-
+Works for me. Yugui, are you okay with me posting the updated patch 
+serie with your patch?
 
