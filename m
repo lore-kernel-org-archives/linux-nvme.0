@@ -4,65 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EC0BCEE33B
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 17:58:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1334DCEE33D
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 17:58:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yuL/8aIw/afMIlL0zgRWmNHbdROCz4p8+8UOkY7QcKo=; b=NjF0LVl/fJ2mPjDb9Zr17y6cG9
-	d4oN1ihrnPf7tyM5JLOdTSfXQxkUzWMfiah4eC1PrvazAe1gLlYM7wWwJdHcummahQ3ykxe7WCTvC
-	jk10TtVH+f/DWT1hvh2KKrolOcHfvQ2SIUJwMOJke60rERlDdyGDK0KLSZZjP4cJraY0eZF1KTm8I
-	HoHprgrkz0CbrNEXlU3VJz27+oS9y5Ajry2ZABLEMyIpfwC1Pn3h8kDRD6Aec8gX93/MWSHEwe0SA
-	povm7cBHWTnf3BiOC0b5pDZo9oxgv1d+4vVqqUxwyibjFPYm6waT5wPChxJ1c+skGm4IsUiKgjc+N
-	3QuMn4jg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=F8vdUqTwAeQy+DBjPCY8gBIxE4oT4FIOu6arJHu9ptk=; b=DlS1rrtzK1cGkqcCKx5bsJxYhS
+	zKzxSkIoWR3nhaXoYm6kWGhIcB27oFe6gNdj0HWDbmXopDB9Ilk9goYfM6UpAPRUggpC9L3ozl+S4
+	m27Ja6pcnb/hSp9cuuPcNPdvWNmiYHWrT0lDx8igJsGXXQPy9iZOX3v+3V+g29U7Xb2FKzIWmH1Np
+	C7KJGCjkNrTTijx10Xv6N3RPIe0x5haZ5rSPNfh3DjaWoV7kRj53D6n1IV6W/NqX6JQgIHQOndmur
+	q90ZPwp7W/61WDSjTs3mS6gtBT9hjh0ot8ggJSNCvqYojt8QerSrL8MoHsPZ8xdikMPqhE4S1lgTX
+	H0z4oy7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syaxb-0000000AISC-0OkX;
-	Wed, 09 Oct 2024 17:58:55 +0000
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35])
+	id 1syaxc-0000000AISs-0ahE;
+	Wed, 09 Oct 2024 17:58:56 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syawg-0000000AICI-22VK
-	for linux-nvme@lists.infradead.org;
+	id 1syawi-0000000AID7-2xIY
+	for linux-nvme@bombadil.infradead.org;
 	Wed, 09 Oct 2024 17:58:00 +0000
-Received: by mail-oo1-xc35.google.com with SMTP id 006d021491bc7-5d5eec95a74so29120eaf.1
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Oct 2024 10:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=F8vdUqTwAeQy+DBjPCY8gBIxE4oT4FIOu6arJHu9ptk=; b=ZM0+calzhopjroaOdvbcnm8UQE
+	il0cX5KZXC1Xx7KL1t88fnRwEoMzZ8Wb53WOVei3Z1g5bsyiUsQnYlyXjg08Aa35NKA9CgyQh2z7y
+	XeMoZqlbt5YaRy0fJ9K7XYOT2QG6bBETNiQ1W0xs40OGqSrdywYw7Ah4AlGpPumjtSA4iAqhktGYS
+	91yJERX4uV/jYwNVxIK0/eG1ouPw0r/Uk5W1D13g7JUfvTKPOvU2zxYABxj6Vv4IEgfexFSKSX/UD
+	N5H1Lp8zZg2onRdIBMdqy9u+lFZ/P26S9pxlDroUmqBaO0kiWHV5vWHwYyuzlzvu4AWl/aUUJsmit
+	GgOtMNhw==;
+Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1syawf-000000054LR-2xAm
+	for linux-nvme@lists.infradead.org;
+	Wed, 09 Oct 2024 17:57:59 +0000
+Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-5e804f043b6so26872eaf.2
+        for <linux-nvme@lists.infradead.org>; Wed, 09 Oct 2024 10:57:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728496677; x=1729101477; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yuL/8aIw/afMIlL0zgRWmNHbdROCz4p8+8UOkY7QcKo=;
-        b=SWxqvaK/GbTl4yvN4r+1x4eLqWaUIckOBfLp9XtahBxb/PrPEqbCXT++aViVT2sxj7
-         wvT1U9OMN23u7/G+rTnNqZCq1HuMET2cP7zDq5ZIMXYBp4GpvaFnbET8YZgGN1KnBIQS
-         3NYlP+SqWqETnyHsJWqAW85PZtly2zRjrP/YTnROiXU2YiBGt6yAwnLn5Z7tM2qjsZFY
-         3jgVQQxvgKoWySoljkHEBZyLJdg9F7qoCMv9bKvwntytepC9GJiPbueXWoNUTqRo77Ft
-         3mYQGCh51Ya39XxEMR9RzIQD4H4clI6HaYqff3WnRXP0GUSzefMZouk3DCnCzAKyfc1i
-         dzDQ==
+        d=gmail.com; s=20230601; t=1728496674; x=1729101474; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F8vdUqTwAeQy+DBjPCY8gBIxE4oT4FIOu6arJHu9ptk=;
+        b=IfyTAKJiPWUbuuxUtz9oUxVXv1FabeYhhrL7Ndb2ehezuJGwsjunUkXQv2/pr4ebUJ
+         AyG3dycwd1wGhvtXBXEa2eneeBc66ABuJqXjqcVTynrbhOtZVjCieYrOV3UkEKtJ0oGo
+         h0uPu7f09YngU4FUJTHOZWJVzrmcSCl3oSWwW1W9/qkIG1NFdc5CT6J60SQu66fn+9fB
+         tpckUI1DI7w5UKh8zClEh+EgaGMdB50fmb0n/mtyXNOnzqEY1K4yF6WXC80i75kXGrOY
+         cMZxGsVa03SqD/hX0JiW/mACuI2SVGpoa+cC+IUas/oZQKQPFcbpDuH7jD2N+GfH7/t1
+         Fx6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728496677; x=1729101477;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yuL/8aIw/afMIlL0zgRWmNHbdROCz4p8+8UOkY7QcKo=;
-        b=eCDL4WaVw8Ga6qzkCfa+OPHXpw45GsMtlJQqE+UTsKvoAo+no6hEv+8P7bQXxQZz90
-         71nSoo31PNGdEQqREad4xNiKGKTcA5GPD5uYIcaSAjnKoUiquAEdgjmUnJN9Sm9XB6Z3
-         tcXwy/DXJhQPb/lLYNQnaeEH+Ly0zVBXx+H3iNBJF6G0hhmwVMRGuJXAb+gI2Dt6+l9F
-         nCXJQL9nCH527N8gZUDxuVtV8QiPwqwDeVtej9rG2q7N7FyH4oVUTvlfyMT/MVi/Uzp1
-         76hk+tk2pn80mI1EN3BXxHQNyqdCorF/dMIV/kG65N87y25I2hiB/U4lPCe1kXTsxf3t
-         Vr2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWBaz+jQp6ZEsi7A+LLkCN7saYfSZHXdOcF/GNSVLLBkQ+u51E9ajVt9P+D15eJ2PzTs0MErEn0JTZ2@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx9lPzTC58M2DtuoMCKF0jaRI93+txWbj7+m47Ocm4vZo1kphda
-	nbZ/YKRhQlvNts3Go0djaAqIGmFAA/3nrmqdl53eOeMmqyJiA39x
-X-Google-Smtp-Source: AGHT+IE/e+vGPUrJ26IlI7cLrBAxrlVYHJ5MhFchi6chEvdYi6UN+vPbB7ACvmCE2pKN5Yd2RD2hpQ==
-X-Received: by 2002:a05:6820:1992:b0:5e5:c49a:b53 with SMTP id 006d021491bc7-5e987c3014amr2857685eaf.7.1728496677079;
-        Wed, 09 Oct 2024 10:57:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728496674; x=1729101474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F8vdUqTwAeQy+DBjPCY8gBIxE4oT4FIOu6arJHu9ptk=;
+        b=CuBzvklhJTa+2DR6maUinRQNMsZARDA+CAV6U10DMq5IuZ80PR/Fx60kgOQ6DuPy6v
+         IoOWGzgSsxhAqdXbMi/QywDWXP6e/kxIT46XK4QBapPl/NLAtbGkdR8f1jw8g565YRVk
+         Ort8e1Rl1NLxKCLxsFO7PQyMD+fkGmpkxjWnSTtrb0x7/obS55MqQU8KZ1U4DYEN3Vvb
+         /4FgZUj8ve72jSH9c8sAh9HdK3PjFxFeS00IsWpW/NESGq4roVImwORB3LGqcwUSiFEq
+         9Yls1WFaL0WxlAadUpuYzNYiOwu+UoOsN9vebefwJ2Okc0nU4uEaH1Wr/wO6UxJcPOpR
+         GrFw==
+X-Forwarded-Encrypted: i=1; AJvYcCVtSFjcQ6I0TgRLe0rFt09xs1P3zFBBS6UDhAmZTszP/YNpdXnDRWbA/u1gAPYvMzWpa9/FBS2vXn4o@lists.infradead.org
+X-Gm-Message-State: AOJu0YwTa9/6IG2lSvbElqQPkGQQvSTLDzYXcfC/JqcJBJqA11/IJxUm
+	o+KTZfsksuP6JBM2/lzK3cjPXT++hK6hj6/kX6qwugztsaQrJxny
+X-Google-Smtp-Source: AGHT+IE84LUL0LOcNOeXvoKlVeV0GFii2lBodn4kkLieI5aprfMaZbaKqPhVzXLAGZl2YkmHz7QHsg==
+X-Received: by 2002:a05:6820:16a5:b0:5e7:c504:1fba with SMTP id 006d021491bc7-5e98794421fmr2401442eaf.0.1728496673825;
+        Wed, 09 Oct 2024 10:57:53 -0700 (PDT)
 Received: from localhost.localdomain ([143.166.81.254])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5e7d711f219sm2442489eaf.9.2024.10.09.10.57.56
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5e7d711f219sm2442489eaf.9.2024.10.09.10.57.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 10:57:56 -0700 (PDT)
+        Wed, 09 Oct 2024 10:57:53 -0700 (PDT)
 From: Stuart Hayes <stuart.w.hayes@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -82,17 +96,15 @@ To: linux-kernel@vger.kernel.org,
 	Jan Kiszka <jan.kiszka@seimens.com>,
 	Bert Karwatzki <spasswolf@web.de>
 Cc: Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: [PATCH v9 2/4] driver core: separate function to shutdown one device
-Date: Wed,  9 Oct 2024 12:57:44 -0500
-Message-Id: <20241009175746.46758-3-stuart.w.hayes@gmail.com>
+Subject: [PATCH v9 0/4] shut down devices asynchronously
+Date: Wed,  9 Oct 2024 12:57:42 -0500
+Message-Id: <20241009175746.46758-1-stuart.w.hayes@gmail.com>
 X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20241009175746.46758-1-stuart.w.hayes@gmail.com>
-References: <20241009175746.46758-1-stuart.w.hayes@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241009_105758_573863_EF3FEBF0 
-X-CRM114-Status: GOOD (  16.35  )
+X-CRM114-CacheID: sfid-20241009_185757_817502_B3E77D14 
+X-CRM114-Status: GOOD (  16.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,100 +119,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Make a separate function for the part of device_shutdown() that does the
-shutown for a single device.  This is in preparation for making device
-shutdown asynchronous.
+This adds the ability for the kernel to shutdown devices asynchronously.
 
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Signed-off-by: David Jeffery <djeffery@redhat.com>
----
- drivers/base/core.c | 66 ++++++++++++++++++++++++---------------------
- 1 file changed, 36 insertions(+), 30 deletions(-)
+Only devices with drivers that enable it are shut down asynchronously.
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 2bf9730db056..4482382fb947 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -4779,6 +4779,41 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
- }
- EXPORT_SYMBOL_GPL(device_change_owner);
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
  
-+static void shutdown_one_device(struct device *dev)
-+{
-+	/* hold lock to avoid race with probe/release */
-+	if (dev->parent && dev->bus && dev->bus->need_parent_lock)
-+		device_lock(dev->parent);
-+	device_lock(dev);
-+
-+	/* Don't allow any more runtime suspends */
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_barrier(dev);
-+
-+	if (dev->class && dev->class->shutdown_pre) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown_pre\n");
-+		dev->class->shutdown_pre(dev);
-+	}
-+	if (dev->bus && dev->bus->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->bus->shutdown(dev);
-+	} else if (dev->driver && dev->driver->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->driver->shutdown(dev);
-+	}
-+
-+	device_unlock(dev);
-+	if (dev->parent && dev->bus && dev->bus->need_parent_lock)
-+		device_unlock(dev->parent);
-+
-+	put_device(dev);
-+	if (dev->parent)
-+		put_device(dev->parent);
-+}
-+
- /**
-  * device_shutdown - call ->shutdown() on each device to shutdown.
-  */
-@@ -4815,36 +4850,7 @@ void device_shutdown(void)
- 		list_del_init(&dev->kobj.entry);
- 		spin_unlock(&devices_kset->list_lock);
- 
--		/* hold lock to avoid race with probe/release */
--		if (parent && dev->bus && dev->bus->need_parent_lock)
--			device_lock(parent);
--		device_lock(dev);
--
--		/* Don't allow any more runtime suspends */
--		pm_runtime_get_noresume(dev);
--		pm_runtime_barrier(dev);
--
--		if (dev->class && dev->class->shutdown_pre) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown_pre\n");
--			dev->class->shutdown_pre(dev);
--		}
--		if (dev->bus && dev->bus->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->bus->shutdown(dev);
--		} else if (dev->driver && dev->driver->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->driver->shutdown(dev);
--		}
--
--		device_unlock(dev);
--		if (parent && dev->bus && dev->bus->need_parent_lock)
--			device_unlock(parent);
--
--		put_device(dev);
--		put_device(parent);
-+		shutdown_one_device(dev);
- 
- 		spin_lock(&devices_kset->list_lock);
- 	}
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
+
+Changes from V2:
+
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+
+Stuart Hayes (4):
+  driver core: don't always lock parent in shutdown
+  driver core: separate function to shutdown one device
+  driver core: shut down devices asynchronously
+  nvme-pci: Make driver prefer asynchronous shutdown
+
+ drivers/base/base.h           |   4 +
+ drivers/base/core.c           | 137 +++++++++++++++++++++++++++-------
+ drivers/nvme/host/pci.c       |   1 +
+ include/linux/device/driver.h |   2 +
+ 4 files changed, 118 insertions(+), 26 deletions(-)
+
 -- 
 2.39.3
 
