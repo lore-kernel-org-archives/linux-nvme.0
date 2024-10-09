@@ -4,106 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2EACCEE33B
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 18:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94C23CEE354
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2024 21:16:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vht2RCtldo/N+YmYbXQHbMDhqc0PeROYXC3Tc/mu2ss=; b=mX7+LWKdmCZr72vlrXPTRFjyxV
-	HzDzlqXj8kPdKkkcQqvr1DpKVMlk8X1EzolIFyFWxBHy3FIGqdRzQkUzgmuLS4Z5VqpV5calYSOKw
-	MLkbsXhQ/aMEfSQeTZHWe8uP6Ik68UBGgnjVdKfB1Q6tyZIak7YKG5nyx/SGxT0oXDyf2OFIrNq4m
-	LikgwQIfRWMPiN1AHIo6rbE5Kl8iGwMEYFDdkCqLCMvn4iu3BRdlqlJQajz1kzk3q4IqZJjuSKa+j
-	BCiMdcFctTHQ2LJvOAR/J7aQD2GEW/YtroJm5UoyJl6u0EA2jtKghILrwhMmzoMMxLY0d0xSid8C5
-	WyZzpPAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/aMd/ZkrC4glpwfd56CQ1YfX76E5mP68VqmFcjOdrvs=; b=cyENwvXaUbHNiEBOWUJAlIAQtS
+	EW71W0uYDvuf76kRGoVQM8bRUryBFYFXqbfgIuYmn5Qik4MLFN3ZOA7fbAt0st8u8LA+yz7fCjLIP
+	ieguxvox7P0vtJdLek1DbaOQV376h3yw5ijhTQkIOv4ccXkRBbYTSkY/cFoG08HPlJ0d9loqZg1cN
+	6SHpGVpaqocK+1vWe2R1WhOPGXrdPyTnPiwqIJSkkbGFCRwLnHW2zaObGuSfi8GuUtsQvJpH0dM8/
+	WPTehTUX7/NGOxTiaSz9HwpKlTu2X0P01PWRT3n8FMC9O8OqRZuvDGnZTCrC+Wbz8unYMW55FU7Ne
+	ueEV8a1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syb3h-0000000AK7d-284W;
-	Wed, 09 Oct 2024 18:05:13 +0000
-Received: from fhigh-a2-smtp.messagingengine.com ([103.168.172.153])
+	id 1sye2O-0000000AkPM-1CKw;
+	Wed, 09 Oct 2024 21:16:04 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syb3e-0000000AK68-0p45
+	id 1sycf7-0000000AX9W-1iug
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Oct 2024 18:05:12 +0000
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 2866F11400C3;
-	Wed,  9 Oct 2024 14:05:06 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Wed, 09 Oct 2024 14:05:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bjorling.me; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1728497106;
-	 x=1728583506; bh=vht2RCtldo/N+YmYbXQHbMDhqc0PeROYXC3Tc/mu2ss=; b=
-	gmZM5BQMZbUu6XVymNw+GVEP3tZ4ttJJEOOB0GRdvO/6fca+tpNhFwExqPozPHfu
-	LyaLrp0hVEsY8G1oeGRsZQSKcOga9+S2bR0XSNy+AGLItU4OouvHHR6uIDheUT+l
-	0MOO7J0r21voZnQMka2t0cwlXm36S/apMQxyitYGhkLMRLteH+fzm4KNTMTO7mSC
-	cuPrWf/ixCzDha0nzxMjTcw/1IpUMSQQqmTfmAmc+ftk+qjTT2jYRvwNxx0Y9Z9F
-	ZVP1JBpdGv4Qjg3DKbaL3eBUTVy3kMLwcZtMYm0ysI8YUXzgxATOKXNm0n6rmqJe
-	K87HU7GDvtew3Xn9xZi0hg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728497106; x=
-	1728583506; bh=vht2RCtldo/N+YmYbXQHbMDhqc0PeROYXC3Tc/mu2ss=; b=m
-	RnslZt8ZiNQ6Ye6HB92LzI+9y3b9p5smQ6q0O9Y/TGlKNgNOYSbBYSdLMhjRaSdH
-	Trrnf234lODGMCSEf2Ai2KBNrnuKC1HMvN6nH5njbNm6e2EvX4heJXW9AdlQ7/Bt
-	IwWKJd/srP42R1nDNDvzoyvFFkJwgaXxffhVk9VhQm6+PHbqkueAOPkEBUwyCLfh
-	YopMeQ2jSRm3CdyklONgvVh/lQxFeOxFTQZ/G1k0M49MG8NN3b+kCh1cbsLbD9ee
-	8gosnvjhVNophIaVMehHKDW13L2zT9VcFznqN00+bqZEobRTvr/HxzvmZ1D5FJmj
-	TtupipBssuRQ295bz1lHA==
-X-ME-Sender: <xms:0cUGZwKnKrmy1kSLjuK2FuTo1nwc7LcdNDp4zStPc44YJymARe3BTA>
-    <xme:0cUGZwIEAyMxX3IeyQyb_IWayszvIowTFjlUHf8wBGM2gdq_xacwr43IAhMw9l3e0
-    usfIXTFUZPyy0HABG4>
-X-ME-Received: <xmr:0cUGZwvZGgMKRBITnrtVjr_B-xJJ0gMsRsjoxDnK4Lpl2oak7pewpYY0foprhSYUBsaACkzgt7CKNcg8Yz9eK6YNHpPVFw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeffedguddvvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddv
-    jeenucfhrhhomhepofgrthhirghsuceujhpprhhlihhnghcuoehmsegsjhhorhhlihhngh
-    drmhgvqeenucggtffrrghtthgvrhhnpeekfeeiuedtvdetgeeutdehvddugffgveegveek
-    geegfeekueffffefleelveeggfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehmsegsjhhorhhlihhnghdrmhgvpdhnsggprhgtphhtthhopeel
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehksghushgthheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohephhgthheslhhsthdruggvpdhrtghpthhtohepfigrnhhghihu
-    ghhuihesvgduiedqthgvtghhrdgtohhmpdhrtghpthhtohepughlvghmohgrlheskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtoheptggrshhsvghlsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhnvhhmvgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
-    dprhgtphhtthhopehlihhnuhigqdgslhhotghksehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepmhgrthhirghsrdgsjhhorhhlihhnghesfigutgdrtghomh
-X-ME-Proxy: <xmx:0cUGZ9a3dVYooglZuYfmU9Kj2hR_zWL3t0f2h_5qDdxnw3BLde_1Yg>
-    <xmx:0cUGZ3ZO1dy4ik5nRJ7CKxTej3QwAfurNycbnbWZYblsljaE3F6lbw>
-    <xmx:0cUGZ5AI_9RkowdtJX4Yn_a0KFTDJMC5tAxEcfcNpdqfc3YSkdwXHA>
-    <xmx:0cUGZ9aWpQkMNWTgH4ixg5gxYXjE_WTZAf6HG5nCYtguS-Lh00iVaw>
-    <xmx:0sUGZxl6YIl9OZYMlgmceaW9WczSnPqK9pkM3Dk5UIVC-5rWLXHqpODG>
-Feedback-ID: if4314918:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Oct 2024 14:04:49 -0400 (EDT)
-Message-ID: <3d817578-41ef-45e9-ac65-a9ba45e2e637@bjorling.me>
-Date: Wed, 9 Oct 2024 20:04:36 +0200
+	Wed, 09 Oct 2024 19:47:58 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 9F504A4295F;
+	Wed,  9 Oct 2024 19:47:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3482AC4CEC3;
+	Wed,  9 Oct 2024 19:47:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728503275;
+	bh=Y7xFUQsKfe5QDI0mkx9tawFK6NuFfCSDGCwpnyEunhs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SKwHpvcGew4r/XuFm6fHVR/9lz3rnzVEOEc0Rhd68RGXGrBtz5uueyti+BBF8QFhP
+	 K++85rBW59Ucnx/K59teK5PFUjcnl94n0LLvJ730LEmaA4oA215FEFvvq8ASOv9JTd
+	 ug0EkNmdJeAHecVY4G/xFYUAzhVStZy3m9lR/Hc9nFMu5/3hu+aY2b80wtrMdBK0iy
+	 YEd0nt1QYh8y68/LgKWQr1cI4+uJ7vwHEwBblNoI73qgbmuXNOFduf4busKi7Wvxsu
+	 GysIBpc2Eb379Vi1WnQQ8Kp9vE5SpsCtLBDMbZ2ejKmuI2Y9t6luRrwoP6T9rlJS4g
+	 RVF3QqUkM8SRQ==
+Date: Wed, 9 Oct 2024 13:47:53 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: gjoyce@linux.ibm.com
+Cc: linux-nvme@lists.infradead.org, axboe@fb.com, hch@lst.de,
+	sagi@grimberg.me, hare@suse.de, dwagner@suse.de, msuchanek@suse.de,
+	jonathan.derrick@linux.dev, okozina@redhat.com, nilay@linux.ibm.com
+Subject: Re: [PATCH v2 1/1] nvme: disable CC.CRIME (NVME_CC_CRIME)
+Message-ID: <Zwbd6buiALj4qK2a@kbusch-mbp>
+References: <20241007193324.5846-1-gjoyce@linux.ibm.com>
+ <20241007193324.5846-2-gjoyce@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] nvme: add rotational support
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Wang Yugui <wangyugui@e16-tech.com>
-Cc: dlemoal@kernel.org, cassel@kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Matias_Bj=C3=B8rling?= <matias.bjorling@wdc.com>
-References: <20241008145503.987195-1-m@bjorling.me>
- <20241009074355.GA16181@lst.de> <ZwajykF81QLOkObY@kbusch-mbp>
-Content-Language: en-US
-From: =?UTF-8?Q?Matias_Bj=C3=B8rling?= <m@bjorling.me>
-In-Reply-To: <ZwajykF81QLOkObY@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007193324.5846-2-gjoyce@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241009_110511_169475_F9D0B929 
-X-CRM114-Status: GOOD (  12.62  )
+X-CRM114-CacheID: sfid-20241009_124757_534212_37FE4375 
+X-CRM114-Status: UNSURE (   8.10  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,23 +74,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 09-10-2024 17:39, Keith Busch wrote:
-> On Wed, Oct 09, 2024 at 09:43:55AM +0200, Christoph Hellwig wrote:
->> On Tue, Oct 08, 2024 at 04:55:01PM +0200, Matias Bjørling wrote:
->>> From: Matias Bjørling <matias.bjorling@wdc.com>
->>>
->>> Enable support for NVMe devices that identifies as rotational.
->>>
->>> Thanks to Keith, Damien, and Niklas for their feedback on the patchset.
->>
->> Hmm, the only previous version I've seen was the the RFCs from
->> Wang Yugui, last seen in August.
+On Mon, Oct 07, 2024 at 02:33:24PM -0500, gjoyce@linux.ibm.com wrote:
+> From: Greg Joyce <gjoyce@linux.ibm.com>
 > 
-> Oops, that slipped by me as well. I think the right thing to do is bring
-> that one forward and retain the original credit. I agree with Matias
-> that we ought to be able to query the independent identification without
-> relying on CRWMS, though.
+> Disable NVME_CC_CRIME so that CSTS.RDY indicates that the media
+> is ready and able to handle commands without returning
+> NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY.
 
-Works for me. Yugui, are you okay with me posting the updated patch 
-serie with your patch?
+Thanks, applied to nvme-6.12.
 
