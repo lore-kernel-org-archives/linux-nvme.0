@@ -4,140 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85404CF11C6
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 10:04:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52047CF11C6
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 10:04:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=StVMKmOJcIwxuQzbeuZ+cLCKqlEiL352deXD6ZMYmC8=; b=yDZvCcxIjy4CbGSfftysgVNL12
-	h6LDRS76LqYM04HZdN75cEf0JgzkXPSBELjg2DnczHl5a127aGRP3IiKj4pSSMketBXHq42CjMYON
-	Z3S8nIGFVaot+bQue0tXXTF2ob8BgB+9N6Qjw3y84c6ifx7WbQmwQojPJ7yXF1oSzBHDSHkd3nMzA
-	x0SOPtTucCexLG6aXquyf7grCQTzVjc0obRWFBqKIHnKhZxxev68l9ZKRWqGbGVjgIKXGxBlYkiAR
-	Q30jAkDhVD+IrB7xG8FscZh2H4XsYTKMfA31K9PfkJWDCF/CqfXXEiTXjeAdjwXIhv6GLTEgnR/KJ
-	evtDY+cA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AhTKom9wHhPRaOBZZbIydUEGV0qwu92o8nF7C16MSFE=; b=XsXRdaectTpMKYRfK57QdeimAx
+	PzHhKveOmAvp4Z1ENK2oFcuftmGekAWnzv8VMADrOSvToLvJMQu4iK/CsOMAPtJxHxXGNWzOm0mwA
+	Sq9RcGkedye/PH+DWx+3HLKt7A98F23mmD7Weff4AB0NGYTLeSZbprVuRGcAJ+pVUT46iYTsR0Dtu
+	rQsDMnotbz98KMAQTaTVPyQ9nRITi7JwfJ0BOXIRea+uCmyjc/ETE7zhB4uMVMIauCJo1oOvLGUWu
+	gurYsG5+LnURmno0DJTFKJure9Sqdyskvb0LmBPD8fNmqSGZXFemuflTqij88oPVyrlbuaDNlHfFb
+	9GbvHBDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syq1X-0000000CKKs-20vl;
-	Thu, 10 Oct 2024 10:03:59 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1syq1p-0000000CKXy-0VIq;
+	Thu, 10 Oct 2024 10:04:17 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1synGv-0000000Bngh-3IUb
+	id 1syoz7-0000000C7ne-1haL
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Oct 2024 07:07:43 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20241010070739euoutp01a75bd9074bc383f89f712ae8af1ea6e5~9BaniQ61O0510005100euoutp01g
-	for <linux-nvme@lists.infradead.org>; Thu, 10 Oct 2024 07:07:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20241010070739euoutp01a75bd9074bc383f89f712ae8af1ea6e5~9BaniQ61O0510005100euoutp01g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1728544059;
-	bh=StVMKmOJcIwxuQzbeuZ+cLCKqlEiL352deXD6ZMYmC8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=J7kTWwcKr4TApqrK8MffgNIk1f993fg/q2h7cCsknjCaGAeQaKSKEEDQmz7WjgTvl
-	 iK3kKnz+Z7vttNIPK1ZZqXiiru2CSAIDKq6VK20Z6+TOhu+ghP00Hcwd/W9I90JG59
-	 m+DeFaWNFtdetMUfELkUBn1/lKKct6IaOnmldB+M=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20241010070738eucas1p291db7fda9d14fa7dbbeeefeafffcfd87~9BanO7Pds2688826888eucas1p2q;
-	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 0E.59.09620.A3D77076; Thu, 10
-	Oct 2024 08:07:38 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed~9Bam3XpnY1998919989eucas1p2F;
-	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20241010070738eusmtrp16abc92c224e3a7d798813adfea8d2849~9Bam2IjWN0501605016eusmtrp1c;
-	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
-X-AuditID: cbfec7f5-d1bff70000002594-21-67077d3a2cd5
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 34.D4.14621.A3D77076; Thu, 10
-	Oct 2024 08:07:38 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20241010070738eusmtip2a1fc76e3f2596c182319347692f89b5d~9BamrDguh0964709647eusmtip22;
-	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
-Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Thu, 10 Oct 2024 08:07:37 +0100
-Date: Thu, 10 Oct 2024 09:07:36 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Keith Busch <kbusch@kernel.org>
-CC: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, "Martin K.
- Petersen" <martin.petersen@oracle.com>, Kanchan Joshi <joshi.k@samsung.com>,
-	<hare@suse.de>, <sagi@grimberg.me>, <brauner@kernel.org>,
-	<viro@zeniv.linux.org.uk>, <jack@suse.cz>, <jaegeuk@kernel.org>,
-	<bcrl@kvack.org>, <dhowells@redhat.com>, <bvanassche@acm.org>,
-	<asml.silence@gmail.com>, <linux-nvme@lists.infradead.org>,
-	<linux-fsdevel@vger.kernel.org>, <io-uring@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <linux-aio@kvack.org>,
-	<gost.dev@samsung.com>, <vishak.g@samsung.com>
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <20241010070736.de32zgad4qmfohhe@ArmHalley.local>
+	Thu, 10 Oct 2024 08:57:30 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B9C31FE35;
+	Thu, 10 Oct 2024 08:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728550643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AhTKom9wHhPRaOBZZbIydUEGV0qwu92o8nF7C16MSFE=;
+	b=HmrHdx80uISrArFEz9EQYtOiV4HmrPLmwgO+FyTicNoqkzyeYDW6SfvEfeunC7dbTi02tI
+	Nlk+t8jlgRQbz56p5n+hq/3DcxYlPuCGSiHjK+z4OvTk6mVHxDUn6rmuJG/setUVuaMNUe
+	iw6+H+l8/AGR/RlbXppng1zUjwFULqA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728550643;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AhTKom9wHhPRaOBZZbIydUEGV0qwu92o8nF7C16MSFE=;
+	b=pBANCkxW+5MlJKwFs7PRNiY0dZ7hLRtG/wgqqRbd/M2Oxkm/usDRT3bDjExNnDH4g4+H6D
+	MkMrInBT1LMzecCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728550643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AhTKom9wHhPRaOBZZbIydUEGV0qwu92o8nF7C16MSFE=;
+	b=HmrHdx80uISrArFEz9EQYtOiV4HmrPLmwgO+FyTicNoqkzyeYDW6SfvEfeunC7dbTi02tI
+	Nlk+t8jlgRQbz56p5n+hq/3DcxYlPuCGSiHjK+z4OvTk6mVHxDUn6rmuJG/setUVuaMNUe
+	iw6+H+l8/AGR/RlbXppng1zUjwFULqA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728550643;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AhTKom9wHhPRaOBZZbIydUEGV0qwu92o8nF7C16MSFE=;
+	b=pBANCkxW+5MlJKwFs7PRNiY0dZ7hLRtG/wgqqRbd/M2Oxkm/usDRT3bDjExNnDH4g4+H6D
+	MkMrInBT1LMzecCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6998D1370C;
+	Thu, 10 Oct 2024 08:57:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pdIdGfOWB2fceAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 10 Oct 2024 08:57:23 +0000
+Message-ID: <b7ffdbbb-0b4e-4215-bf2b-b5c2f9a2dc08@suse.de>
+Date: Thu, 10 Oct 2024 10:57:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-In-Reply-To: <Zwab8WDgdqwhadlE@kbusch-mbp>
-X-Originating-IP: [106.110.32.122]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGKsWRmVeSWpSXmKPExsWy7djPc7pWtezpBk9P6FvMWbWN0WL13X42
-	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLPYsmsRksXL1USaLd63nWCxmT29msniyfhazxaRD1xgt
-	pkxrYrTYe0vbYs/ekywW85c9ZbdYfvwfk8W61+9ZLM7/Pc7qIOxx+Yq3x85Zd9k9zt/byOJx
-	+Wypx6ZVnWwemz5NYvfYvKTeY/fNBjaPj09vsXi833eVzePMgiNA8dPVHp83yXlsevKWKYAv
-	issmJTUnsyy1SN8ugStj2+VnLAXdIhXr515mamBsE+hi5OSQEDCR+HBsG3sXIxeHkMAKRok5
-	ky6xQThfGCWWfzgO5XxmlLh34QtTFyMHWMu7tSIQ8eWMErPmzmaHK9q06ggjhLOFUWL+s5Ps
-	IEtYBFQlzm2ewQpiswnYS1xadosZxBYRUJa4O38mK0gDs8BBFokDP5aygCSEBQwk3n/vZQOx
-	eQVsJdbM6GOEsAUlTs58AlbDLGAl0fmhiRXkJGYBaYnl/zhAwpwCWhLL2n8xQjynJPH4xVso
-	u1bi1JZbTCC7JAR+cUocmzWFFSLhInFi5iEWCFtY4tXxLewQtozE6ck9UPFqiYaTJ6CaWxgl
-	Wju2skLCwlqi70wORI2jROO8uWwQYT6JG28FIc7kk5i0bTozRJhXoqNNCKJaTWL1vTcsExiV
-	ZyF5bBaSx2YhPLaAkXkVo3hqaXFuemqxcV5quV5xYm5xaV66XnJ+7iZGYNI8/e/41x2MK159
-	1DvEyMTBeIhRgoNZSYRXdyFruhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe1RT5VCGB9MSS1OzU
-	1ILUIpgsEwenVAOTiaVV1sHXb+s+5+lpbjV7FffTPsj7U5H6V4UV3uWxt5uEPPvn8+3yEj65
-	c6+dUtOLTRbJ4e+5eyfz/pzg+Es3i110h07rJQ35Kj6dRUd+W3o5T4lx61jgqC3Z8ycjpdXf
-	sO/3qc+rJpsWawad55mp77mz0M/y1Jnw+MM+D6Y+qXrl59lgWel/TWTRCeViLSbzzx/Cblzj
-	4EhiaCrvVvTIYxX69kS3lf1b6L2ofJW9m7vat5Qln5csmtL5/pXzM4MZz1gE3XbMf3RbZVNI
-	dVmY/O8TbX/73vmYh1XcXyCct+uh8Grp7xW1/05aNOYKnHqx8JbojAVdLeKbMw6+PVd4+pjb
-	yusdFyep3Nt0zkaJpTgj0VCLuag4EQB+kvMICQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsVy+t/xe7pWtezpBvvviFnMWbWN0WL13X42
-	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLPYsmsRksXL1USaLd63nWCxmT29msniyfhazxaRD1xgt
-	pkxrYrTYe0vbYs/ekywW85c9ZbdYfvwfk8W61+9ZLM7/Pc7qIOxx+Yq3x85Zd9k9zt/byOJx
-	+Wypx6ZVnWwemz5NYvfYvKTeY/fNBjaPj09vsXi833eVzePMgiNA8dPVHp83yXlsevKWKYAv
-	Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS9j2+Vn
-	LAXdIhXr515mamBsE+hi5OCQEDCReLdWpIuRi0NIYCmjxOun21i7GDmB4jISG79chbKFJf5c
-	62KDKPrIKLH/5nxmCGcLo8SGYxcZQapYBFQlzm2eAdbBJmAvcWnZLWYQW0RAWeLu/JmsIA3M
-	AgdZJKZtP8sGkhAWMJB4/70XzOYVsJVYM6OPEWJqP7PE7HXLWCESghInZz5hAbGZBSwkZs4/
-	zwhyN7OAtMTyfxwgYU4BLYll7b8YIU5Vknj84i2UXSvx+e8zxgmMwrOQTJqFZNIshEkLGJlX
-	MYqklhbnpucWG+oVJ+YWl+al6yXn525iBCaPbcd+bt7BOO/VR71DjEwcjIcYJTiYlUR4dRey
-	pgvxpiRWVqUW5ccXleakFh9iNAWGxURmKdHkfGD6yiuJNzQzMDU0MbM0MLU0M1YS53W7fD5N
-	SCA9sSQ1OzW1ILUIpo+Jg1OqgWk+c2uQ+evkWxOE3SYdcd77cdH273urez9NmV0auO64m2HV
-	7FM39e4sZ00+2rzj4Em2Dbs6o2S4+lcUxtrcvHIm8P+OGOMTT/N2zVc63LEzRXAP52LvOU95
-	xGebSW3qcZ928MjnxtXNuz9+kS0/9Kq5bKVRy/lHu5NsGCc9b4vpXlYxQW3LtUaGREEBg4NL
-	DpyV49BJD21/pPf1cEnQ1ffsM3++DKsqDlW9sUiys89527F05+92Bgut7B8nve82dbhy53Xk
-	BQ21lhxBoIm7DZM23t5y18CvId2D6QbX9JZ+I4NlESc+e/efeX4yJj1K6n3tffXGRvfV396J
-	2hnNWJumWFjCpXy8W3+PfVv6RiWW4oxEQy3mouJEAHG/Lt2nAwAA
-X-CMS-MailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
-X-Msg-Generator: CA
-X-RootMTR: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
-References: <20241004053121.GB14265@lst.de>
-	<20241004061811.hxhzj4n2juqaws7d@ArmHalley.local>
-	<20241004062733.GB14876@lst.de>
-	<20241004065233.oc5gqcq3lyaxzjhz@ArmHalley.local>
-	<20241004123027.GA19168@lst.de>
-	<20241007101011.boufh3tipewgvuao@ArmHalley.local>
-	<20241008122535.GA29639@lst.de> <ZwVFTHMjrI4MaPtj@kbusch-mbp>
-	<20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp>
-	<CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on stuck
+ partition scan
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20241007100134.21104-1-hare@kernel.org>
+ <20241007100134.21104-3-hare@kernel.org> <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
+ <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de> <ZwWY8d3vOLUaYaJ6@kbusch-mbp>
+ <3b8ff898-9529-4506-8c5d-0fcf3423730f@suse.de> <Zwa-MBS6wn_dGxge@kbusch-mbp>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <Zwa-MBS6wn_dGxge@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.993];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_000742_244469_AF1260AD 
-X-CRM114-Status: GOOD (  23.34  )
+X-CRM114-CacheID: sfid-20241010_015725_619582_195A0122 
+X-CRM114-Status: GOOD (  22.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,56 +135,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 09.10.2024 09:06, Keith Busch wrote:
->On Wed, Oct 09, 2024 at 11:28:28AM +0200, Christoph Hellwig wrote:
->> On Tue, Oct 08, 2024 at 08:44:28AM -0600, Keith Busch wrote:
->> > Then let's just continue with patches 1 and 2. They introduce no new
->> > user or kernel APIs, and people have already reported improvements using
->> > it.
->>
->> They are still not any way actually exposing the FDP functionality
->> in the standard though.  How is your application going to align
->> anything to the reclaim unit?  Or is this another of the cases where
->> as a hyperscaler you just "know" from the data sheet?
->
->As far as I know, this is an inconsequential spec detail that is not
->being considered by any applications testing this. And yet, the expected
->imrpovements are still there, so I don't see a point holding this up for
->that reason.
+On 10/9/24 19:32, Keith Busch wrote:
+> On Wed, Oct 09, 2024 at 08:23:45AM +0200, Hannes Reinecke wrote:
+>> With my testcase _all_ paths return NS_NOT_READY during partition scan, so
+>> I/O is constantly bounced between paths, and partition scan never returns.
+>> Doesn't matter where you call it, it's stuck.
+> 
+> Assuming you mean a differet status, like NVME_SC_INTERNAL_PATH_ERROR, I
+> can recreate a stuck scan. Let me get one more shot at fixing this by
+> suppressing the scan to another context. This one is successful in my
+> tests:
+> 
+> ---
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 48e7a8906d012..e1fd53ff2c0ca 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -580,6 +580,20 @@ static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+>   	return ret;
+>   }
+>   
+> +static void nvme_scan_work(struct work_struct *work)
+> +{
+> +	struct nvme_ns_head *head =
+> +		container_of(work, struct nvme_ns_head, scan_work);
+> +
+> +	if (WARN_ON_ONCE(!test_and_clear_bit(GD_SUPPRESS_PART_SCAN,
+> +					     &head->disk->state)))
+> +		return;
+> +
+> +	mutex_lock(&head->disk->open_mutex);
+> +	bdev_disk_changed(head->disk, false);
+> +	mutex_unlock(&head->disk->open_mutex);
+> +}
+> +
+>   static void nvme_requeue_work(struct work_struct *work)
+>   {
+>   	struct nvme_ns_head *head =
+> @@ -606,6 +620,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+>   	bio_list_init(&head->requeue_list);
+>   	spin_lock_init(&head->requeue_lock);
+>   	INIT_WORK(&head->requeue_work, nvme_requeue_work);
+> +	INIT_WORK(&head->scan_work, nvme_scan_work);
+>   
+>   	/*
+>   	 * Add a multipath node if the subsystems supports multiple controllers.
+> @@ -629,6 +644,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+>   		return PTR_ERR(head->disk);
+>   	head->disk->fops = &nvme_ns_head_ops;
+>   	head->disk->private_data = head;
+> +	set_bit(GD_SUPPRESS_PART_SCAN, &head->disk->state);
+>   	sprintf(head->disk->disk_name, "nvme%dn%d",
+>   			ctrl->subsys->instance, head->instance);
+>   	return 0;
+> @@ -655,6 +671,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+>   			return;
+>   		}
+>   		nvme_add_ns_head_cdev(head);
+> +		kblockd_schedule_work(&head->scan_work);
+>   	}
+>   
+>   	mutex_lock(&head->lock);
+> @@ -974,14 +991,14 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
+>   		return;
+>   	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+>   		nvme_cdev_del(&head->cdev, &head->cdev_device);
+> +		/*
+> +		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
+> +		 * to allow multipath to fail all I/O.
+> +		 */
+> +		synchronize_srcu(&head->srcu);
+> +		kblockd_schedule_work(&head->requeue_work);
+>   		del_gendisk(head->disk);
+>   	}
 
-I am re-reading the thread to find a common ground. I realize that my
-last email came sharper than I intended. I apologize for that Christoph.
+I guess we need to split 'test_and_clear_bit()' into a 'test_bit()' when 
+testing for the condition and a 'clear_bit()' after del_gendisk().
 
-Let me summarize and propose something constructive so that we can move
-forward.
+Otherwise we're having a race condition with nvme_mpath_set_live:
 
-It is clear that you have a lot of insight on how a FS API should look
-like to unify the different data placement alternatives across
-protocols. I have not seen code for it, but based on the technical
-feedback you are providing, it seems to be fairly clear in your mind.
+         if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+                 rc = device_add_disk(&head->subsys->dev, head->disk,
+                                      nvme_ns_attr_groups);
 
-I think we should attempt to pursue that with an example in mind. Seems
-XFS is the clear candidate. You have done work already in enable SMR
-HDDs; it seems we can get FDP under that umbrella. This will however
-take time to get right. We can help with development, testing, and
-experimental evaluation on the WAF benefits for such an interface.
+which could sneak in from another controller just after we cleared the
+NVME_NSHEAD_DISK_LIVE flag, causing device_add_disk() to fail as the
+same name is already registered.
+Or nvme_cdev_del() to display nice kernel warnings as the cdev was
+not registered.
 
-However, this work should not block existing hardware enabling an
-existing use-case. The current patches are not intrusive. They do not
-make changse to the API and merely wire up what is there to the driver.
-Anyone using temperaturs will be able to use FDP - this is a win without
-a maintainance burden attached to it. The change to the FS / application
-API will not require major changes either; I believe we all agree that
-we cannot remove the temperatures, so all existing temperature users
-will be able to continue using them; we will just add an alternative for
-power users on the side.
+Cheers,
 
-So the proposal is to merge the patches as they are and commit to work
-together on a new, better API for in-kernel users (FS), and for
-applications (syscall, uring).
-
-Christoph, would this be a viable way to move forward for you?
-
-Thanks,
-Javier
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
