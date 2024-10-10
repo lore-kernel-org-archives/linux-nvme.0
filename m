@@ -4,149 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A71BACF07C6
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 08:47:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C75ABCF07C8
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 08:47:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QfASOiGL/sHMm1sLI+jdF0Ss/rT4MNpLg87AmhGdOX4=; b=tD0Pl6q0pZ5ZnIUqgzOzvYYpVr
-	bDNWRg+SowMPAQLI6FthE1z/iLgGNIKDzogPcThtiZp0hFsOigY0TkN5Zl4GQvoPYrLv3KYmhliBZ
-	arxUWF8q6gVqyU2S3XHF55128ZB2fBbAmsox0ON1dvv2gpNc5vVHmX05AgK17sfyBvQHTKyN/OT4U
-	s6OWdnGgjwlZmYg6mvlpTQxkm6Qiy6LFayEUUYnTNEBb5QeCY76sZAlQDnlv9OvRCqHqKJ2nKY6oS
-	0mlX8QJX0qoeH5n0BOUapkwTYztVMsTs6ZnQ8M/vsaomKfmWWaI1vO9RKTE98/w/Qsx7NKMSw6N4m
-	Pod/McPQ==;
+	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=; b=1lEMrLLmsHStodDvls69L9U5X1
+	m4qSrooyjj7jZBqd97GXCYejfdM7eY+OiuxGM4fhujRi8BkJ1Ab1rGcU+Zm/Hea9wXDTT8HDWZH4l
+	YxaM+saTU8hzYyShNeYjmribqbNaweHyzwyh/GD5DberGh/weFWRvK92KpuB5uWU8n6xmWQ7h+ybG
+	/EFjXw1t6R+RmA933DU5gwkAMWoRQyKVoOceoqm+1LFg8xGKttI6wy6TCgw4d84GRgcwJ68sSOb/K
+	ego7VcNzD5lqz4Uc8eCjlUwGAynTsUYqImpRKSGaInsn2RcP9CaGvODJhI8MVelX7yg+RRcP2RjDH
+	MesM+bdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syop1-0000000C4tk-1QXV;
-	Thu, 10 Oct 2024 08:46:59 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1syop7-0000000C50R-2Oeb;
+	Thu, 10 Oct 2024 08:47:05 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1synMc-0000000BoCK-3rM8
+	id 1synRV-0000000Bp5R-3d1I
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Oct 2024 07:13:37 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20241010071330euoutp02667e92e7cc207e3202097991c86d4aa9~9BfuW7-0H2504225042euoutp02b
-	for <linux-nvme@lists.infradead.org>; Thu, 10 Oct 2024 07:13:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20241010071330euoutp02667e92e7cc207e3202097991c86d4aa9~9BfuW7-0H2504225042euoutp02b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1728544410;
-	bh=QfASOiGL/sHMm1sLI+jdF0Ss/rT4MNpLg87AmhGdOX4=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=SZVU7Wud6PC3d8Tyf8TWebAHKO1HsFHMyhlb0RB79RswJq/e7EbiOBFOMs5x5U4dU
-	 OBFGrXuz5DyJ8gcVO9zMuudWIT5BaLhiJI7uTb/XSaY21bLXzCzbLGxPzhL4n4IppG
-	 WC3f/6b127a+kL+AqzreRmqEpwNdhrlITtFX1UVE=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20241010071329eucas1p2e723d8c64be11a8ea805aa0779cd3bcb~9BfuCO4h71136111361eucas1p2M;
-	Thu, 10 Oct 2024 07:13:29 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 2F.26.09875.99E77076; Thu, 10
-	Oct 2024 08:13:29 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20241010071329eucas1p1245dd945659d177d4d3468b883460a37~9Bftm00fs2751927519eucas1p1p;
-	Thu, 10 Oct 2024 07:13:29 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241010071329eusmtrp22b9e1a9fc574d891cc9755196159a054~9BftmD3gb2381623816eusmtrp2H;
-	Thu, 10 Oct 2024 07:13:29 +0000 (GMT)
-X-AuditID: cbfec7f4-131ff70000002693-a1-67077e9949af
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id 8D.C5.14621.99E77076; Thu, 10
-	Oct 2024 08:13:29 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20241010071329eusmtip239a13a265502c01e2dfc7156bbccee24~9BftXXQf-1553315533eusmtip2x;
-	Thu, 10 Oct 2024 07:13:29 +0000 (GMT)
-Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Thu, 10 Oct 2024 08:13:28 +0100
-Date: Thu, 10 Oct 2024 09:13:27 +0200
-From: Javier Gonzalez <javier.gonz@samsung.com>
-To: Hans Holmberg <hans@owltronix.com>
-CC: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, "Martin K.
- Petersen" <martin.petersen@oracle.com>, Keith Busch <kbusch@kernel.org>,
-	Kanchan Joshi <joshi.k@samsung.com>, "hare@suse.de" <hare@suse.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>, "brauner@kernel.org"
-	<brauner@kernel.org>, "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"jack@suse.cz" <jack@suse.cz>, "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-	"bcrl@kvack.org" <bcrl@kvack.org>, "dhowells@redhat.com"
-	<dhowells@redhat.com>, "bvanassche@acm.org" <bvanassche@acm.org>,
-	"asml.silence@gmail.com" <asml.silence@gmail.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-aio@kvack.org" <linux-aio@kvack.org>, "gost.dev@samsung.com"
-	<gost.dev@samsung.com>, "vishak.g@samsung.com" <vishak.g@samsung.com>
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <20241010071327.rnh2wsuqdvcu2tx4@ArmHalley.local>
+	Thu, 10 Oct 2024 07:18:42 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F16521DF8;
+	Thu, 10 Oct 2024 07:18:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728544714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
+	b=1kpNqdViNa8fOw3NrxAyYXtIGyVCCAm6UGxdOQ1MT3Bf4tMa2KGn8j+LOTFgREfpOLQLNv
+	POa1BIKbicXVv16LhA8RlmUFfomFdckEEloDmYTHQMtY4r2SSTq+ZvUmZQpchbX91z238a
+	4bD7sjiaXbPOdB2ijbEDDug71J5pNSg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728544714;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
+	b=CI3Mk/IgP+SNZTzJ+evSu3QtefKBE+9WjNOOsvcPjFN8YPgpj9FpGHZpVOVoa7AR7QKnuS
+	8VIxoQG1kBS25CDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728544713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
+	b=tH5C2YX+vQp0qvEvlrEH0N0IfZhZlXPXIhzvOk7imI7MN3w1gmTneRJu6lOjFbp/8ZP30D
+	sWBlE5DCiOFOaDFzXRriScvrTxFsbXSiDx7Pvf3joe8Dy8BMd9G5dSHqx3j/i5B2CF3YVe
+	xZSF/qWARihz7jAylMbImvuoJokuElM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728544713;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
+	b=SI/Id51hJEs+Q2RWyAMvn+j4qxZORR5WzUsfhEcf1rlRqabm0LVXKfM9bekprudRdSphBj
+	qPhjViO8SNVoo7CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F3F3313A6E;
+	Thu, 10 Oct 2024 07:18:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WAbQOch/B2c0WAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 10 Oct 2024 07:18:32 +0000
+Message-ID: <fce5e424-bc0e-402d-9ec4-41b6afc47055@suse.de>
+Date: Thu, 10 Oct 2024 09:18:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on stuck
+ partition scan
+From: Hannes Reinecke <hare@suse.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20241007100134.21104-1-hare@kernel.org>
+ <20241007100134.21104-3-hare@kernel.org> <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
+ <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de> <ZwWY8d3vOLUaYaJ6@kbusch-mbp>
+ <3b8ff898-9529-4506-8c5d-0fcf3423730f@suse.de> <Zwa-MBS6wn_dGxge@kbusch-mbp>
+ <879de5db-8f09-4c03-9bca-56e17536e211@suse.de>
+Content-Language: en-US
+In-Reply-To: <879de5db-8f09-4c03-9bca-56e17536e211@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANr-nt11OJfLRFr=rzH0LyRUzVD9ZFLKsgree=Xqv__nWerVkg@mail.gmail.com>
-X-Originating-IP: [106.110.32.122]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphk+LIzCtJLcpLzFFi42LZduznOd2ZdezpBgvvqFvMWbWN0WL13X42
-	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLOZOXc1qsWfRJCaLlauPMlm8az3HYjF7ejOTxZP1s5gt
-	Jh26xmgxZVoTo8XeW9oWe/aeZLGYv+wpu8Xy4/+YLNa9fs9icf7vcVYHEY/LV7w9ds66y+5x
-	/t5GFo/LZ0s9Nq3qZPPY9GkSu8fmJfUeu282sHl8fHqLxePwpkWsHu/3XWXzOLPgCFDydLXH
-	501yHpuevGUK4I/isklJzcksSy3St0vgyuj7s4el4LlfxYeVqQ2M6+26GDk5JARMJGZfOMnc
-	xcjFISSwglFi88tWRgjnC6PE3RuT2CGcz4wSJ67dZIJpeXPhEwtEYjmjxMz5e9jgqjbvWsQK
-	4WxhlGjed4sZpIVFQFWibctbsHY2AX2JVdtPMYLYIgJqEmdfdDCBNDALfGOXaF/QAZYQFjCQ
-	eP+9lw3E5hWwlZg67xcThC0ocXLmExYQm1nASqLzQxPQNg4gW1pi+T8OiLC8RPPW2WB7OQUC
-	Ja69Xs0McbaSxOMXbxkh7FqJU1tuge2VEJjLJbH782KohIvE9FkfWCFsYYlXx7ewQ9gyEv93
-	zof6v1qi4eQJqOYWRonWjq1gR0gIWEv0ncmBqHGUeDX9JztEmE/ixltBiNv4JCZtm84MEeaV
-	6GgTmsCoMgvJY7OQPDYL4bFZSB5bwMiyilE8tbQ4Nz212CgvtVyvODG3uDQvXS85P3cTIzDB
-	nv53/MsOxuWvPuodYmTiYDzEKMHBrCTCq7uQNV2INyWxsiq1KD++qDQntfgQozQHi5I4r2qK
-	fKqQQHpiSWp2ampBahFMlomDU6qBSUP1dOZXR8cJnFfFZ1u5RO7YrLDHYctT69fWCYtDQnNy
-	p7gnWk99IsXQ0tvXZNyyvShKdmpIM3dizD1NV7G+6bvTmYxOpJ480jQlVDt9n3NwX/oik4yr
-	T3zuzfmjvkbh/Yqe+8tKrq385PfgmrnsnfrIc1sdfO8Ep9geDd9edkhq+amJWTz8vwNurF0x
-	YanpUv+TuoLW+nsll66NZC825jrw9qEq24v44ms98YtDuL0OeMwS1aycecMvu1firp3S2d9e
-	Z/f8jslojhFY/cxxh5PW32VBB1O49k94aWHq8t7k28YL9u3m7kH+FQdPriz+XH/s6mKjDZ23
-	rp1+cfby/Fd7sv/ySTN/dImI+f20VomlOCPRUIu5qDgRAJQONu8fBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKKsWRmVeSWpSXmKPExsVy+t/xe7oz69jTDf7O4rKYs2obo8Xqu/1s
-	Fl3/trBYvD78idFi2oefzBbvmn6zWMyduprVYs+iSUwWK1cfZbJ413qOxWL29GYmiyfrZzFb
-	TDp0jdFiyrQmRou9t7Qt9uw9yWIxf9lTdovlx/8xWax7/Z7F4vzf46wOIh6Xr3h77Jx1l93j
-	/L2NLB6Xz5Z6bFrVyeax6dMkdo/NS+o9dt9sYPP4+PQWi8fhTYtYPd7vu8rmcWbBEaDk6WqP
-	z5vkPDY9ecsUwB+lZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZ
-	llqkb5egl9H3Zw9LwXO/ig8rUxsY19t1MXJySAiYSLy58Imli5GLQ0hgKaPErtvzWSASMhIb
-	v1xlhbCFJf5c62KDKPrIKLG86w87SEJIYAujxI3JJSA2i4CqRNuWt0wgNpuAvsSq7acYQWwR
-	ATWJsy86mECamQW+sUu0L+gASwgLGEi8/97LBmLzCthKTJ33iwliw0oWib8/f7FCJAQlTs58
-	AnYSs4CFxMz554GaOYBsaYnl/zggwvISzVtnM4PYnAKBEtder2aGuFpJ4vGLt4wQdq3E57/P
-	GCcwisxCMnUWkqmzEKbOQjJ1ASPLKkaR1NLi3PTcYkO94sTc4tK8dL3k/NxNjMD0s+3Yz807
-	GOe9+qh3iJGJg/EQowQHs5IIr+5C1nQh3pTEyqrUovz4otKc1OJDjKbAMJrILCWanA9MgHkl
-	8YZmBqaGJmaWBqaWZsZK4rxul8+nCQmkJ5akZqemFqQWwfQxcXBKNTD1vol8HsRy/kX2nmaZ
-	bzJrj/eUOTpM39YpwNgq++eBSEazq/21V1GLi+zCeibuXdwRrTzzv+uuOqX4o21HTFfeFFg3
-	n7tdZ4Lh5zWv1cS3crbuNIzf+Hdt15mE4sMZnw41zBPxC+qPjXsgtFDIIezMd57N6/z+C3Re
-	UDi9f8V5k+akbf8D12aGvV2VMrGKge0Yd0LnsugJCVe2fxZ+de/pYzXlV2cnn23Sbkx1bIye
-	WbDS6IyIoPJrI7+y8sSPNzr6bh3qcX7mo2NkKDopTu7IBpHqc4lPD7Wm9KnOn+5w9nfiokN8
-	fjsYO279ULuqymDac5bt5dU1ReW1ov8kTLVWfW9n//Eo+U7k1yvyJxyUWIozEg21mIuKEwGq
-	22/SyAMAAA==
-X-CMS-MailID: 20241010071329eucas1p1245dd945659d177d4d3468b883460a37
-X-Msg-Generator: CA
-X-RootMTR: 20241004053129eucas1p2aa4888a11a20a1a6287e7a32bbf3316b
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241004053129eucas1p2aa4888a11a20a1a6287e7a32bbf3316b
-References: <CGME20241004053129eucas1p2aa4888a11a20a1a6287e7a32bbf3316b@eucas1p2.samsung.com>
-	<20241004053121.GB14265@lst.de>
-	<20241004061811.hxhzj4n2juqaws7d@ArmHalley.local>
-	<20241004062733.GB14876@lst.de>
-	<20241004065233.oc5gqcq3lyaxzjhz@ArmHalley.local>
-	<20241004123027.GA19168@lst.de>
-	<20241007101011.boufh3tipewgvuao@ArmHalley.local>
-	<CANr-nt3TA75MSvTNWP3SwBh60dBwJYztHJL5LZvROa-j9Lov7g@mail.gmail.com>
-	<97bd78a896b748b18e21e14511e8e0f4@CAMSVWEXC02.scsc.local>
-	<CANr-nt11OJfLRFr=rzH0LyRUzVD9ZFLKsgree=Xqv__nWerVkg@mail.gmail.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_001335_540147_52A54075 
-X-CRM114-Status: GOOD (  62.51  )
+X-CRM114-CacheID: sfid-20241010_001838_108791_DCFAD20E 
+X-CRM114-Status: GOOD (  12.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,188 +136,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10.10.2024 08:40, Hans Holmberg wrote:
->On Wed, Oct 9, 2024 at 4:36 PM Javier Gonzalez <javier.gonz@samsung.com> wrote:
+On 10/10/24 08:16, Hannes Reinecke wrote:
+> On 10/9/24 19:32, Keith Busch wrote:
+>> On Wed, Oct 09, 2024 at 08:23:45AM +0200, Hannes Reinecke wrote:
+>>> With my testcase _all_ paths return NS_NOT_READY during partition 
+>>> scan, so
+>>> I/O is constantly bounced between paths, and partition scan never 
+>>> returns.
+>>> Doesn't matter where you call it, it's stuck.
 >>
+>> Assuming you mean a differet status, like NVME_SC_INTERNAL_PATH_ERROR, I
+>> can recreate a stuck scan. Let me get one more shot at fixing this by
+>> suppressing the scan to another context. This one is successful in my
+>> tests:
 >>
->>
->> > -----Original Message-----
->> > From: Hans Holmberg <hans@owltronix.com>
->> > Sent: Tuesday, October 8, 2024 12:07 PM
->> > To: Javier Gonzalez <javier.gonz@samsung.com>
->> > Cc: Christoph Hellwig <hch@lst.de>; Jens Axboe <axboe@kernel.dk>; Martin K.
->> > Petersen <martin.petersen@oracle.com>; Keith Busch <kbusch@kernel.org>;
->> > Kanchan Joshi <joshi.k@samsung.com>; hare@suse.de; sagi@grimberg.me;
->> > brauner@kernel.org; viro@zeniv.linux.org.uk; jack@suse.cz; jaegeuk@kernel.org;
->> > bcrl@kvack.org; dhowells@redhat.com; bvanassche@acm.org;
->> > asml.silence@gmail.com; linux-nvme@lists.infradead.org; linux-
->> > fsdevel@vger.kernel.org; io-uring@vger.kernel.org; linux-block@vger.kernel.org;
->> > linux-aio@kvack.org; gost.dev@samsung.com; vishak.g@samsung.com
->> > Subject: Re: [PATCH v7 0/3] FDP and per-io hints
->> >
->> > On Mon, Oct 7, 2024 at 12:10 PM Javier González <javier.gonz@samsung.com>
->> > wrote:
->> > >
->> > > On 04.10.2024 14:30, Christoph Hellwig wrote:
->> > > >On Fri, Oct 04, 2024 at 08:52:33AM +0200, Javier González wrote:
->> > > >> So, considerign that file system _are_ able to use temperature hints and
->> > > >> actually make them work, why don't we support FDP the same way we are
->> > > >> supporting zones so that people can use it in production?
->> > > >
->> > > >Because apparently no one has tried it.  It should be possible in theory,
->> > > >but for example unless you have power of 2 reclaim unit size size it
->> > > >won't work very well with XFS where the AGs/RTGs must be power of two
->> > > >aligned in the LBA space, except by overprovisioning the LBA space vs
->> > > >the capacity actually used.
->> > >
->> > > This is good. I think we should have at least a FS POC with data
->> > > placement support to be able to drive conclusions on how the interface
->> > > and requirements should be. Until we have that, we can support the
->> > > use-cases that we know customers are asking for, i.e., block-level hints
->> > > through the existing temperature API.
->> > >
->> > > >
->> > > >> I agree that down the road, an interface that allows hints (many more
->> > > >> than 5!) is needed. And in my opinion, this interface should not have
->> > > >> semintics attached to it, just a hint ID, #hints, and enough space to
->> > > >> put 100s of them to support storage node deployments. But this needs to
->> > > >> come from the users of the hints / zones / streams / etc,  not from
->> > > >> us vendors. We do not have neither details on how they deploy these
->> > > >> features at scale, nor the workloads to validate the results. Anything
->> > > >> else will probably just continue polluting the storage stack with more
->> > > >> interfaces that are not used and add to the problem of data placement
->> > > >> fragmentation.
->> > > >
->> > > >Please always mentioned what layer you are talking about.  At the syscall
->> > > >level the temperatur hints are doing quite ok.  A full stream separation
->> > > >would obviously be a lot better, as would be communicating the zone /
->> > > >reclaim unit / etc size.
->> > >
->> > > I mean at the syscall level. But as mentioned above, we need to be very
->> > > sure that we have a clear use-case for that. If we continue seeing hints
->> > > being use in NVMe or other protocols, and the number increase
->> > > significantly, we can deal with it later on.
->> > >
->> > > >
->> > > >As an interface to a driver that doesn't natively speak temperature
->> > > >hint on the other hand it doesn't work at all.
->> > > >
->> > > >> The issue is that the first series of this patch, which is as simple as
->> > > >> it gets, hit the list in May. Since then we are down paths that lead
->> > > >> nowhere. So the line between real technical feedback that leads to
->> > > >> a feature being merged, and technical misleading to make people be a
->> > > >> busy bee becomes very thin. In the whole data placement effort, we have
->> > > >> been down this path many times, unfortunately...
->> > > >
->> > > >Well, the previous round was the first one actually trying to address the
->> > > >fundamental issue after 4 month.  And then after a first round of feedback
->> > > >it gets shutdown somehow out of nowhere.  As a maintainer and review that
->> > > >is the kinda of contributors I have a hard time taking serious.
->> > >
->> > > I am not sure I understand what you mean in the last sentece, so I will
->> > > not respond filling blanks with a bad interpretation.
->> > >
->> > > In summary, what we are asking for is to take the patches that cover the
->> > > current use-case, and work together on what might be needed for better
->> > > FS support. For this, it seems you and Hans have a good idea of what you
->> > > want to have based on XFS. We can help review or do part of the work,
->> > > but trying to guess our way will only delay existing customers using
->> > > existing HW.
->> >
->> > After reading the whole thread, I end up wondering why we need to rush the
->> > support for a single use case through instead of putting the architecture
->> > in place for properly supporting this new type of hardware from the start
->> > throughout the stack.
->>
->> This is not a rush. We have been supporting this use case through passthru for
->> over 1/2 year with code already upstream in Cachelib. This is mature enough as
->> to move into the block layer, which is what the end user wants to do either way.
->>
->> This is though a very good point. This is why we upstreamed passthru at the
->> time; so people can experiment, validate, and upstream only when there is a
->> clear path.
->>
->> >
->> > Even for user space consumers of raw block devices, is the last version
->> > of the patch set good enough?
->> >
->> > * It severely cripples the data separation capabilities as only a handful of
->> >   data placement buckets are supported
->>
->> I could understand from your presentation at LPC, and late looking at the code that
->> is available that you have been successful at getting good results with the existing
->> interface in XFS. The mapping form the temperature semantics to zones (no semantics)
->> is the exact same as we are doing with FDP. Not having to change neither in-kernel  nor user-space
->> structures is great.
->
->No, we don't map data directly to zones using lifetime hints. In fact,
->lifetime hints contribute only a
->relatively small part  (~10% extra write amp reduction, see the
->rocksdb benchmark results).
->Segregating data by file is the most important part of the data
->placement heuristic, at least
->for this type of workload.
+>> ---
+>> diff --git a/drivers/nvme/host/multipath.c 
+>> b/drivers/nvme/host/multipath.c
+>> index 48e7a8906d012..e1fd53ff2c0ca 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -580,6 +580,20 @@ static int nvme_add_ns_head_cdev(struct 
+>> nvme_ns_head *head)
+>>       return ret;
+> [ .. ]
+> 
+> Piling workqueues on workqueues ... but anyway, I'll give it a spin.
+> 
+And it even works. Care to send a proper patch?
+You can add my 'Tested-by:' to it, too.
+Thanks for doing this.
 
-Is this because RocksDB already does seggregation per file itself? Are
-you doing something specific on XFS or using your knoledge on RocksDB to
-map files with an "unwritten" protocol in the midde?
+Cheers,
 
-    In this context, we have collected data both using FDP natively in
-    RocksDB and using the temperatures. Both look very good, because both
-    are initiated by RocksDB, and the FS just passes the hints directly
-    to the driver.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
-I ask this to understand if this is the FS responsibility or the
-application's one. Our work points more to letting applications use the
-hints (as the use-cases are power users, like RocksDB). I agree with you
-that a FS could potentially make an improvement for legacy applications
-- we have not focused much on these though, so I trust you insights on
-it.
-
->>
->> >
->> > * It just won't work if there is more than one user application per storage
->> >   device as different applications data streams will be mixed at the nvme
->> >   driver level..
->>
->> For now this use-case is not clear. Folks working on it are using passthru. When we
->> have a more clear understanding of what is needed, we might need changes in the kernel.
->>
->> If you see a need for this on the work that you are doing, by all means, please send patches.
->> As I said at LPC, we can work together on this.
->>
->> >
->> > While Christoph has already outlined what would be desirable from a
->> > file system point of view, I don't have the answer to what would be the overall
->> > best design for FDP. I would like to say that it looks to me like we need to
->> > consider more than more than the early adoption use cases and make sure we
->> > make the most of the hardware capabilities via logical abstractions that
->> > would be compatible with a wider range of storage devices.
->> >
->> > Figuring the right way forward is tricky, but why not just let it take the time
->> > that is needed to sort this out while early users explore how to use FDP
->> > drives and share the results?
->>
->> I agree that we might need a new interface to support more hints, beyond the temperatures.
->> Or maybe not. We would not know until someone comes with a use case. We have made the
->> mistake in the past of treating internal research as upstreamable work. I know can see that
->> this simply complicates the in-kernel and user-space APIs.
->>
->> The existing API is usable and requires no changes. There is hardware. There are customers.
->> There are applications with upstream support which have been tested with passthru (the
->> early results you mention). And the wiring to NVMe is _very_ simple. There is no reason
->> not to take this in, and then we will see what new interfaces we might need in the future.
->>
->> I would much rather spend time in discussing ideas with you and others on a potential
->> future API than arguing about the validity of an _existing_ one.
->>
->
->Yes, but while FDP support could be improved later on(happy to help if
->that'll be the case),
->I'm just afraid that less work now defining the way data placement is
->exposed is going to
->result in a bigger mess later when more use cases will be considered.
-
-Please, see the message I responded on the other thread. I hope it is a
-way to move forward and actually work together on this.
 
