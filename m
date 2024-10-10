@@ -4,66 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E101CF07DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 09:21:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31146CF07DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 09:27:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w4qUkarkuKvi0WLE2i6Nv2IgqPuStkdPhT7vNbl5i8s=; b=qcvsK1er+Lgf77P8fb4hkHUlFF
-	Hi82vv9AV5Bkj4t70dgvDwGSGfWuNxXineNb2/lM5zG9chXu0FGkmTy1Nrc49ysjNp1bJJeWzZW+z
-	I7WgK9Bh0XHdQmigapqk/JY4YTaXTsIh3zbtLw51KmcJEAU7Cz0A66M1GnCjq0OuFT3LGQz+hbAcn
-	v0iI4C7x1iQ9ExgKVWzuj6api6nZhX0/2QQBBCPKyQ+xg2KM6q19hSYv/ZeAfz0D1/03cSwB8cEjh
-	4vDFBzdJanw9qnV3zFG+z7NWDlBbs62jEoUwcP9yU8clUJZAZhHrUnAJFOj2adcYuDU4m7mEDDQ4F
-	qJ3a6XUw==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=PZ/CuKDZGL+WXJ1f7X8tq5Th8K
+	tA85cz9GjqVwimFMFP5kOh0oZJKHmRouZKO0i4GqzD1wId3r2tFtG3S/Img+P50PuveaIbx/wpqC1
+	niYL86Df7/876d71BIEp0Imxnr4S44tUumLPDk8lXpkBxOysH1g0JwRVUFden4xVIPgiHsVgpDsb4
+	LS3KtYtc2Z8fDimUbt39thh7Gy1+ZZsqc7uus1urKB5gv3TbzobvZd7Hkv4eiFROKZLaeliZrx2uP
+	n3I4YPWBpC5TNWzcp6rzqbDxDi5cv8R/bEySrQmfxiNFQpocLUkpZOCdfNTaxmyC4cN/yHoT/DQbl
+	vpWjvKZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sypMI-0000000CCpV-3KFv;
-	Thu, 10 Oct 2024 09:21:22 +0000
+	id 1sypSJ-0000000CE5Z-3SZY;
+	Thu, 10 Oct 2024 09:27:35 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sypLF-0000000CCe9-0M0P
+	id 1sypSH-0000000CE4K-0NnI
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Oct 2024 09:20:18 +0000
+	Thu, 10 Oct 2024 09:27:34 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 14AAD227A8E; Thu, 10 Oct 2024 11:20:11 +0200 (CEST)
-Date: Thu, 10 Oct 2024 11:20:10 +0200
+	id EB82A227AAF; Thu, 10 Oct 2024 11:27:28 +0200 (CEST)
+Date: Thu, 10 Oct 2024 11:27:28 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Javier Gonzalez <javier.gonz@samsung.com>
-Cc: Hans Holmberg <hans@owltronix.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Kanchan Joshi <joshi.k@samsung.com>, "hare@suse.de" <hare@suse.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"jack@suse.cz" <jack@suse.cz>,
-	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-	"bcrl@kvack.org" <bcrl@kvack.org>,
-	"dhowells@redhat.com" <dhowells@redhat.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>,
-	"asml.silence@gmail.com" <asml.silence@gmail.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-aio@kvack.org" <linux-aio@kvack.org>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>,
-	"vishak.g@samsung.com" <vishak.g@samsung.com>
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <20241010092010.GC9287@lst.de>
-References: <20241004053121.GB14265@lst.de> <20241004061811.hxhzj4n2juqaws7d@ArmHalley.local> <20241004062733.GB14876@lst.de> <20241004065233.oc5gqcq3lyaxzjhz@ArmHalley.local> <20241004123027.GA19168@lst.de> <20241007101011.boufh3tipewgvuao@ArmHalley.local> <CANr-nt3TA75MSvTNWP3SwBh60dBwJYztHJL5LZvROa-j9Lov7g@mail.gmail.com> <97bd78a896b748b18e21e14511e8e0f4@CAMSVWEXC02.scsc.local> <CANr-nt11OJfLRFr=rzH0LyRUzVD9ZFLKsgree=Xqv__nWerVkg@mail.gmail.com> <20241010071327.rnh2wsuqdvcu2tx4@ArmHalley.local>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, d.bogdanov@yadro.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v13 1/2] nvme: add reservation command's defines
+Message-ID: <20241010092728.GA9749@lst.de>
+References: <20241008102114.26199-1-kanie@linux.alibaba.com> <20241008102114.26199-2-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241010071327.rnh2wsuqdvcu2tx4@ArmHalley.local>
+In-Reply-To: <20241008102114.26199-2-kanie@linux.alibaba.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_022017_438581_19693C5B 
-X-CRM114-Status: GOOD (  24.21  )
+X-CRM114-CacheID: sfid-20241010_022733_280259_E93FF446 
+X-CRM114-Status: UNSURE (   8.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,42 +60,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 10, 2024 at 09:13:27AM +0200, Javier Gonzalez wrote:
-> Is this because RocksDB already does seggregation per file itself? Are
-> you doing something specific on XFS or using your knoledge on RocksDB to
-> map files with an "unwritten" protocol in the midde?
+Looks good:
 
-XFS doesn't really do anything smart at all except for grouping files
-with similar temperatures, but Hans can probably explain it in more
-detail.  So yes, this relies on the application doing the data separation
-and using the most logical vehicle for it: files.
-
->
->    In this context, we have collected data both using FDP natively in
->    RocksDB and using the temperatures. Both look very good, because both
->    are initiated by RocksDB, and the FS just passes the hints directly
->    to the driver.
->
-> I ask this to understand if this is the FS responsibility or the
-> application's one. Our work points more to letting applications use the
-> hints (as the use-cases are power users, like RocksDB). I agree with you
-> that a FS could potentially make an improvement for legacy applications
-> - we have not focused much on these though, so I trust you insights on
-> it.
-
-As mentioned multiple times before in this thread this absolutely
-depends on the abstraction level of the application.  If the application
-works on a raw device without a file system it obviously needs very
-low-level control.  And in my opinion passthrough is by far the best
-interface for that level of control.  If the application is using a
-file system there is no better basic level abstraction than a file,
-which can then be enhanced with relatively small amount of additional
-information going both ways: the file system telling the application
-what good file sizes and write patterns are, and the application telling
-the file system what files are good candidates to merge into the same
-write stream if the file system has to merge multiple actively written
-to files into a write stream.  Trying to do low-level per I/O hints
-on top of a file system is a recipe for trouble because you now have
-to entities fighting over placement control.
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
