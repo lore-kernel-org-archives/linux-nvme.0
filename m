@@ -4,84 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55827CEDDB8
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 03:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F039CF07AA
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 06:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U6WU4UmRZ7x/Nv7M+v0aiQJwaxfFDy++Cy/Xp6Jrpfw=; b=WXhrHBC1ergcYXmq1giPpUZfck
-	AYhwSty7STQzxTehhFQrI7mYDYt+olT5v/m02REZOBRUvLfBzYBGaxyWHfBoFG9vpASaZAgYRmLdz
-	a3N6eQ3t2mL+U0yQdV6aY3nxiVFw5csPFik/5pK3tUcFC+xcShtZOq2Y/odzDh1ENS+uRYhfCUnZ/
-	NSmNeryX4bRxvb5txHOK7zugEvoQxHXmPMA3n0Mn3iZHOhyHskbBewMOV4IheXlLTJTvAFIxBo87m
-	OMfFLZFXIDCHIb7C+bimmgidtLd0TnA8hfRZrp0BqJqoA6PwgQN8nIZFRnX8Xihq7k5oxrQRHC1lz
-	1Clr/pPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KfjBchlkRwGMofrxGcYQNuhhVYDNWQUmm1VFBDMcesM=; b=ETuIBVd3FCsBBxQOSuqw6rW74w
+	EO5f+sFJ0NvmTUyVGmMFoocnAqZ71He+KM/wWwMPfIx+2FNrhUlhXpOQ8GDewUFhVbaNZOcIj3PSm
+	kK8ekaEYvzWh2L2Um8qJYudZuCHVAC1FXQQMD9R6ZR4l6Ghq/GZnFCMtVpLVTyzJLsQoAZmNE9kNR
+	AmSgU07wY1wZsWM+p11KA+Q8a9xaRrcCysJosaUhn2hvE9JySkbz8KtkcxIvi+Wm7UFCcTvk25uFH
+	Uejwu35JVNE7rHgXkyjUjf+3qx8LPhQ70ExgsHgaDsyTga9cSGK3Owz8z12fApyzWPvpJQtOiaEWt
+	69h6hcqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syjwz-0000000BPDu-00Vx;
-	Thu, 10 Oct 2024 03:34:53 +0000
-Received: from mgamail.intel.com ([192.198.163.16])
+	id 1symTF-0000000Bdz2-42y9;
+	Thu, 10 Oct 2024 06:16:21 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1syjwv-0000000BPDR-2g58
+	id 1symTA-0000000BdxF-0tzG
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Oct 2024 03:34:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728531289; x=1760067289;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1EQymhFoo7PHNAi1pb9KlKlTNVRwRgpT1OKIX53OvQM=;
-  b=hBlPVv1TFR5lZSZW2H6Ab/U+EQvOeVg8ncNt/AbY7dmvzpKAStOIhaRh
-   mG/7hZdEqCHSS8qaXp4VpelqEDQJRYIBORkdaaX5Srfj+1o/2JQeYiS8B
-   siKFbEGMmSrVLYpG3t8ZWWM1Xiq1tYmb9m99kQfAzH+zbN8+VJVV9oh/I
-   UpCdIE3Y7/kI4DbIxy8G0X5GCpTq34p7HLtN6SRjNUN57RpKckKxZ5bki
-   l79H0AVaQgCtHg8GO1RXPkrZ1jhA0fJq7zYkI5WzVa7kEIwvsMjGy466Z
-   qbvaQeH949KCV47CHSPgtEk9yNUsv6Ds23mKMjfu+AXj4n1T/+xuFw61d
-   g==;
-X-CSE-ConnectionGUID: sqLw58H1QZOx0AYaunE3fg==
-X-CSE-MsgGUID: fTRcBnXiSkOyAJ2aNYUW5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="15489273"
-X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="15489273"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 20:34:46 -0700
-X-CSE-ConnectionGUID: DB5MoxZZSQyKXrxo/VzL2w==
-X-CSE-MsgGUID: 1Tc8r3y4SYGxU3b9GPge2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="76451659"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2024 20:34:42 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1syjwm-000A7B-1L;
-	Thu, 10 Oct 2024 03:34:40 +0000
-Date: Thu, 10 Oct 2024 11:33:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	linux-pci@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
-	Niklas Cassel <cassel@kernel.org>
-Subject: Re: [PATCH v1 4/5] PCI: endpoint: Add NVMe endpoint function driver
-Message-ID: <202410101139.m5gNkCfL-lkp@intel.com>
-References: <20241007044351.157912-5-dlemoal@kernel.org>
+	Thu, 10 Oct 2024 06:16:19 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F1D751FE26;
+	Thu, 10 Oct 2024 06:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728540974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KfjBchlkRwGMofrxGcYQNuhhVYDNWQUmm1VFBDMcesM=;
+	b=CQqZ9T5tNYlYZcrj55Nly8qfmnakZyAzBcjU2Yh0AFI8BN3RXLiDuDvK/04s4Iia2FvD6K
+	fAVbZc1CXPnMlfw/xEEGK4An2UnKkzoZT0zFN9oWwUB8cl4Y0eOuEY0cQIbN8WdQbSCtUs
+	qfXsUG5LpjmvMdOroIeqD0qb60CtzM4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728540974;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KfjBchlkRwGMofrxGcYQNuhhVYDNWQUmm1VFBDMcesM=;
+	b=Zom+5GX59vvvjLzuO/dLpbokGpEVBFnVfcjrci3lNDNN3gYwBTkHSoVVfkhy6hNR+4KRv1
+	wiqMOwqzGG2ujtAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728540972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KfjBchlkRwGMofrxGcYQNuhhVYDNWQUmm1VFBDMcesM=;
+	b=sfouOfC7hcO3Y8MBH1tg1Inc1QM2L3tCQ8WYkKRnvdpXuqZY+klNd55jsU+sLBpa0MbQoB
+	n+hwdtYbHn2DxWBdKHmkIEGX4cpk/b03nPlx055ZcOcWW2e3DlLV+Cwz2lIOIqPEscqn6t
+	/Fl7coITPTEkfra1eG9UAgQE1hniRsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728540972;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KfjBchlkRwGMofrxGcYQNuhhVYDNWQUmm1VFBDMcesM=;
+	b=bOWW4GqT6lJUqeEcgBJsmwrYvbcFk+a0EhEYod9RHdfpfLn47t/eVq4645uflMafeLqGzV
+	o8k0XZ7+HJJjyiBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDBE21370C;
+	Thu, 10 Oct 2024 06:16:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id liCpLCxxB2ebRQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 10 Oct 2024 06:16:12 +0000
+Message-ID: <879de5db-8f09-4c03-9bca-56e17536e211@suse.de>
+Date: Thu, 10 Oct 2024 08:16:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007044351.157912-5-dlemoal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on stuck
+ partition scan
+To: Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+References: <20241007100134.21104-1-hare@kernel.org>
+ <20241007100134.21104-3-hare@kernel.org> <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
+ <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de> <ZwWY8d3vOLUaYaJ6@kbusch-mbp>
+ <3b8ff898-9529-4506-8c5d-0fcf3423730f@suse.de> <Zwa-MBS6wn_dGxge@kbusch-mbp>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <Zwa-MBS6wn_dGxge@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241009_203449_749092_87660713 
-X-CRM114-Status: GOOD (  13.01  )
+X-CRM114-CacheID: sfid-20241009_231616_426079_CB849E5B 
+X-CRM114-Status: GOOD (  14.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,104 +135,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Damien,
+On 10/9/24 19:32, Keith Busch wrote:
+> On Wed, Oct 09, 2024 at 08:23:45AM +0200, Hannes Reinecke wrote:
+>> With my testcase _all_ paths return NS_NOT_READY during partition scan, so
+>> I/O is constantly bounced between paths, and partition scan never returns.
+>> Doesn't matter where you call it, it's stuck.
+> 
+> Assuming you mean a differet status, like NVME_SC_INTERNAL_PATH_ERROR, I
+> can recreate a stuck scan. Let me get one more shot at fixing this by
+> suppressing the scan to another context. This one is successful in my
+> tests:
+> 
+> ---
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 48e7a8906d012..e1fd53ff2c0ca 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -580,6 +580,20 @@ static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+>   	return ret;
+[ .. ]
 
-kernel test robot noticed the following build errors:
+Piling workqueues on workqueues ... but anyway, I'll give it a spin.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.12-rc2 next-20241009]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Cheers,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/nvmet-rename-and-move-nvmet_get_log_page_len/20241007-124428
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20241007044351.157912-5-dlemoal%40kernel.org
-patch subject: [PATCH v1 4/5] PCI: endpoint: Add NVMe endpoint function driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241010/202410101139.m5gNkCfL-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241010/202410101139.m5gNkCfL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410101139.m5gNkCfL-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/pci/endpoint/functions/pci-epf-nvme.c:81:21: error: field has incomplete type 'struct pci_epc_map'
-      81 |         struct pci_epc_map      pci_map;
-         |                                 ^
-   drivers/pci/endpoint/functions/pci-epf-nvme.c:81:9: note: forward declaration of 'struct pci_epc_map'
-      81 |         struct pci_epc_map      pci_map;
-         |                ^
->> drivers/pci/endpoint/functions/pci-epf-nvme.c:415:21: error: variable has incomplete type 'struct pci_epc_map'
-     415 |         struct pci_epc_map map;
-         |                            ^
-   drivers/pci/endpoint/functions/pci-epf-nvme.c:81:9: note: forward declaration of 'struct pci_epc_map'
-      81 |         struct pci_epc_map      pci_map;
-         |                ^
->> drivers/pci/endpoint/functions/pci-epf-nvme.c:419:8: error: call to undeclared function 'pci_epc_mem_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     419 |         ret = pci_epc_mem_map(epf->epc, epf->func_no, epf->vfunc_no,
-         |               ^
->> drivers/pci/endpoint/functions/pci-epf-nvme.c:438:2: error: call to undeclared function 'pci_epc_mem_unmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     438 |         pci_epc_mem_unmap(epf->epc, epf->func_no, epf->vfunc_no, &map);
-         |         ^
-   drivers/pci/endpoint/functions/pci-epf-nvme.c:1021:8: error: call to undeclared function 'pci_epc_mem_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1021 |         ret = pci_epc_mem_map(epf->epc, epf->func_no, epf->vfunc_no,
-         |               ^
-   drivers/pci/endpoint/functions/pci-epf-nvme.c:1034:3: error: call to undeclared function 'pci_epc_mem_unmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1034 |                 pci_epc_mem_unmap(epf->epc, epf->func_no, epf->vfunc_no,
-         |                 ^
-   drivers/pci/endpoint/functions/pci-epf-nvme.c:1047:2: error: call to undeclared function 'pci_epc_mem_unmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1047 |         pci_epc_mem_unmap(epf->epc, epf->func_no, epf->vfunc_no,
-         |         ^
-   7 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +81 drivers/pci/endpoint/functions/pci-epf-nvme.c
-
-    69	
-    70	/*
-    71	 * Queue definition and mapping for the local PCI controller.
-    72	 */
-    73	struct pci_epf_nvme_queue {
-    74		struct pci_epf_nvme	*epf_nvme;
-    75	
-    76		unsigned int		qflags;
-    77		int			ref;
-    78	
-    79		phys_addr_t		pci_addr;
-    80		size_t			pci_size;
-  > 81		struct pci_epc_map	pci_map;
-    82	
-    83		u16			qid;
-    84		u16			cqid;
-    85		u16			size;
-    86		u16			depth;
-    87		u16			flags;
-    88		u16			vector;
-    89		u16			head;
-    90		u16			tail;
-    91		u16			phase;
-    92		u32			db;
-    93	
-    94		size_t			qes;
-    95	
-    96		struct workqueue_struct	*cmd_wq;
-    97		struct delayed_work	work;
-    98		spinlock_t		lock;
-    99		struct list_head	list;
-   100	};
-   101	
-
+Hannes
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
 
