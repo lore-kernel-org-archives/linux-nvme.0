@@ -4,124 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C75ABCF07C8
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 08:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6B02CF07DC
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 09:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=; b=1lEMrLLmsHStodDvls69L9U5X1
-	m4qSrooyjj7jZBqd97GXCYejfdM7eY+OiuxGM4fhujRi8BkJ1Ab1rGcU+Zm/Hea9wXDTT8HDWZH4l
-	YxaM+saTU8hzYyShNeYjmribqbNaweHyzwyh/GD5DberGh/weFWRvK92KpuB5uWU8n6xmWQ7h+ybG
-	/EFjXw1t6R+RmA933DU5gwkAMWoRQyKVoOceoqm+1LFg8xGKttI6wy6TCgw4d84GRgcwJ68sSOb/K
-	ego7VcNzD5lqz4Uc8eCjlUwGAynTsUYqImpRKSGaInsn2RcP9CaGvODJhI8MVelX7yg+RRcP2RjDH
-	MesM+bdA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DHQiwFgGItIG0Gpp+j/jC0RJrfCa6rdYjrq6zUjNKmk=; b=zwYkoGvBkuBIWJEDv1DCURZdeH
+	lx32HxO4yPUMqIrXlyvMGP14XgcjdBbpzUyoRHUJLfiJjTsK0QfGWr1Gf3NX5jocsLFDZNv4hMT9Z
+	akiBxKpdQFqJaaZ9LTZAigdmUFsF9bwF8FI6LQpMLbH2wzMZ/2v31xf65hdWLscUeW+std0g2xjli
+	SdCHAcHRVjG4sqySeU6AQwj8fJWb9rJwH2ELB2hbkpLV39svT/C0bSgY7XjARMnWnx5eoPBxYgv9x
+	XQ79JxZDkyjF6I2mam/168gTGho2FUz1F3H/GIR4ESbSn7zbUBwcBzUOPi4gxJhyEbCS54t0ofJdB
+	Z12zN+xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syop7-0000000C50R-2Oeb;
-	Thu, 10 Oct 2024 08:47:05 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1sypCv-0000000CAsF-2gUO;
+	Thu, 10 Oct 2024 09:11:41 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1synRV-0000000Bp5R-3d1I
+	id 1sypBh-0000000CAej-3v6q
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Oct 2024 07:18:42 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F16521DF8;
-	Thu, 10 Oct 2024 07:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728544714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
-	b=1kpNqdViNa8fOw3NrxAyYXtIGyVCCAm6UGxdOQ1MT3Bf4tMa2KGn8j+LOTFgREfpOLQLNv
-	POa1BIKbicXVv16LhA8RlmUFfomFdckEEloDmYTHQMtY4r2SSTq+ZvUmZQpchbX91z238a
-	4bD7sjiaXbPOdB2ijbEDDug71J5pNSg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728544714;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
-	b=CI3Mk/IgP+SNZTzJ+evSu3QtefKBE+9WjNOOsvcPjFN8YPgpj9FpGHZpVOVoa7AR7QKnuS
-	8VIxoQG1kBS25CDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728544713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
-	b=tH5C2YX+vQp0qvEvlrEH0N0IfZhZlXPXIhzvOk7imI7MN3w1gmTneRJu6lOjFbp/8ZP30D
-	sWBlE5DCiOFOaDFzXRriScvrTxFsbXSiDx7Pvf3joe8Dy8BMd9G5dSHqx3j/i5B2CF3YVe
-	xZSF/qWARihz7jAylMbImvuoJokuElM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728544713;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F8fzJkNOT91MUJd/DbG7lg4h209EesbAExagqumbauU=;
-	b=SI/Id51hJEs+Q2RWyAMvn+j4qxZORR5WzUsfhEcf1rlRqabm0LVXKfM9bekprudRdSphBj
-	qPhjViO8SNVoo7CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F3F3313A6E;
-	Thu, 10 Oct 2024 07:18:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WAbQOch/B2c0WAAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 10 Oct 2024 07:18:32 +0000
-Message-ID: <fce5e424-bc0e-402d-9ec4-41b6afc47055@suse.de>
-Date: Thu, 10 Oct 2024 09:18:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on stuck
- partition scan
-From: Hannes Reinecke <hare@suse.de>
+	Thu, 10 Oct 2024 09:10:27 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id E3E20227A8E; Thu, 10 Oct 2024 11:10:21 +0200 (CEST)
+Date: Thu, 10 Oct 2024 11:10:21 +0200
+From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <20241007100134.21104-1-hare@kernel.org>
- <20241007100134.21104-3-hare@kernel.org> <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
- <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de> <ZwWY8d3vOLUaYaJ6@kbusch-mbp>
- <3b8ff898-9529-4506-8c5d-0fcf3423730f@suse.de> <Zwa-MBS6wn_dGxge@kbusch-mbp>
- <879de5db-8f09-4c03-9bca-56e17536e211@suse.de>
-Content-Language: en-US
-In-Reply-To: <879de5db-8f09-4c03-9bca-56e17536e211@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+Cc: Christoph Hellwig <hch@lst.de>,
+	Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Kanchan Joshi <joshi.k@samsung.com>, hare@suse.de, sagi@grimberg.me,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+	jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com,
+	bvanassche@acm.org, asml.silence@gmail.com,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-aio@kvack.org, gost.dev@samsung.com, vishak.g@samsung.com
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+Message-ID: <20241010091021.GA9287@lst.de>
+References: <20241004053121.GB14265@lst.de> <20241004061811.hxhzj4n2juqaws7d@ArmHalley.local> <20241004062733.GB14876@lst.de> <20241004065233.oc5gqcq3lyaxzjhz@ArmHalley.local> <20241004123027.GA19168@lst.de> <20241007101011.boufh3tipewgvuao@ArmHalley.local> <20241008122535.GA29639@lst.de> <ZwVFTHMjrI4MaPtj@kbusch-mbp> <20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zwab8WDgdqwhadlE@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_001838_108791_DCFAD20E 
-X-CRM114-Status: GOOD (  12.39  )
+X-CRM114-CacheID: sfid-20241010_021026_144741_4D5AB0AB 
+X-CRM114-Status: GOOD (  18.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,44 +68,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/10/24 08:16, Hannes Reinecke wrote:
-> On 10/9/24 19:32, Keith Busch wrote:
->> On Wed, Oct 09, 2024 at 08:23:45AM +0200, Hannes Reinecke wrote:
->>> With my testcase _all_ paths return NS_NOT_READY during partition 
->>> scan, so
->>> I/O is constantly bounced between paths, and partition scan never 
->>> returns.
->>> Doesn't matter where you call it, it's stuck.
->>
->> Assuming you mean a differet status, like NVME_SC_INTERNAL_PATH_ERROR, I
->> can recreate a stuck scan. Let me get one more shot at fixing this by
->> suppressing the scan to another context. This one is successful in my
->> tests:
->>
->> ---
->> diff --git a/drivers/nvme/host/multipath.c 
->> b/drivers/nvme/host/multipath.c
->> index 48e7a8906d012..e1fd53ff2c0ca 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -580,6 +580,20 @@ static int nvme_add_ns_head_cdev(struct 
->> nvme_ns_head *head)
->>       return ret;
-> [ .. ]
+On Wed, Oct 09, 2024 at 09:06:25AM -0600, Keith Busch wrote:
+> > anything to the reclaim unit?  Or is this another of the cases where
+> > as a hyperscaler you just "know" from the data sheet?
 > 
-> Piling workqueues on workqueues ... but anyway, I'll give it a spin.
-> 
-And it even works. Care to send a proper patch?
-You can add my 'Tested-by:' to it, too.
-Thanks for doing this.
+> As far as I know, this is an inconsequential spec detail that is not
+> being considered by any applications testing this. And yet, the expected
+> imrpovements are still there, so I don't see a point holding this up for
+> that reason.
 
-Cheers,
+It was the whole point of the thing, and a major source of complexity.
+Although not quite for this use case Hans has numbers that aligning
+application data tables / objects / etc to the underlying "erase unit"
+absolutely matters.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+And just to make it clear the objection here is not that we have an
+an interface that doesn't take that into respect at the syscall
+level.  We already have that interface and might as well make use
+of that.  The problem is that the series tries to directly expose
+that to the driver, freezing us into this incomplet interface forever
+(assuming we have users actually picking it up).
 
+That's why I keep insisting like a broken record that we need to get
+this lower interface right first.
 
