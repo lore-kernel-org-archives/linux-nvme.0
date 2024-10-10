@@ -4,47 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75832CF07DE
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 09:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85404CF11C6
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 10:04:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OWD0yKiVcYBS1voEauZfnYYadb+/BqktjmDuqPOsWvY=; b=QCtHNBV5zjMWi0AJKASbDBPT+o
-	6A+VrSrV0b+6cH+X0rRdOVgjhXGiXU4jxLII+8xMkBpY+iDFplxTyh4H39F5Hwc0qDcdc8QyMrvvu
-	cLV2gd582HrOo26n8Zw5xRxHpBC1r+tXlo3Eir0NcKsWTJg36Ks1EFOr748iJg1Z/1fEKwC3q7tWG
-	eMdzSVnz4oKB0eHcPqfYKam5NjdSYyJJ4rHgGdwhaYQw64uq1MRatnrJ+PHgUojKEzOjLM09gQnji
-	SKAPh6rq8PXcVBomAf1B3cWKZZ1XsnaC2PqSRQigLr1k58hn4Goy1ciim2+Q5U87kwFLzUSyK3s9K
-	agTINA5A==;
+	bh=StVMKmOJcIwxuQzbeuZ+cLCKqlEiL352deXD6ZMYmC8=; b=yDZvCcxIjy4CbGSfftysgVNL12
+	h6LDRS76LqYM04HZdN75cEf0JgzkXPSBELjg2DnczHl5a127aGRP3IiKj4pSSMketBXHq42CjMYON
+	Z3S8nIGFVaot+bQue0tXXTF2ob8BgB+9N6Qjw3y84c6ifx7WbQmwQojPJ7yXF1oSzBHDSHkd3nMzA
+	x0SOPtTucCexLG6aXquyf7grCQTzVjc0obRWFBqKIHnKhZxxev68l9ZKRWqGbGVjgIKXGxBlYkiAR
+	Q30jAkDhVD+IrB7xG8FscZh2H4XsYTKMfA31K9PfkJWDCF/CqfXXEiTXjeAdjwXIhv6GLTEgnR/KJ
+	evtDY+cA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1sypVu-0000000CF8q-3vXP;
-	Thu, 10 Oct 2024 09:31:18 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1syq1X-0000000CKKs-20vl;
+	Thu, 10 Oct 2024 10:03:59 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sypVN-0000000CF2h-0tq1
+	id 1synGv-0000000Bngh-3IUb
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Oct 2024 09:30:46 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id DEFCF227A8E; Thu, 10 Oct 2024 11:30:41 +0200 (CEST)
-Date: Thu, 10 Oct 2024 11:30:41 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, d.bogdanov@yadro.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v13 2/2] nvmet: support reservation feature
-Message-ID: <20241010093041.GB9749@lst.de>
-References: <20241008102114.26199-1-kanie@linux.alibaba.com> <20241008102114.26199-3-kanie@linux.alibaba.com>
+	Thu, 10 Oct 2024 07:07:43 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20241010070739euoutp01a75bd9074bc383f89f712ae8af1ea6e5~9BaniQ61O0510005100euoutp01g
+	for <linux-nvme@lists.infradead.org>; Thu, 10 Oct 2024 07:07:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20241010070739euoutp01a75bd9074bc383f89f712ae8af1ea6e5~9BaniQ61O0510005100euoutp01g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1728544059;
+	bh=StVMKmOJcIwxuQzbeuZ+cLCKqlEiL352deXD6ZMYmC8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=J7kTWwcKr4TApqrK8MffgNIk1f993fg/q2h7cCsknjCaGAeQaKSKEEDQmz7WjgTvl
+	 iK3kKnz+Z7vttNIPK1ZZqXiiru2CSAIDKq6VK20Z6+TOhu+ghP00Hcwd/W9I90JG59
+	 m+DeFaWNFtdetMUfELkUBn1/lKKct6IaOnmldB+M=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20241010070738eucas1p291db7fda9d14fa7dbbeeefeafffcfd87~9BanO7Pds2688826888eucas1p2q;
+	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 0E.59.09620.A3D77076; Thu, 10
+	Oct 2024 08:07:38 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed~9Bam3XpnY1998919989eucas1p2F;
+	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20241010070738eusmtrp16abc92c224e3a7d798813adfea8d2849~9Bam2IjWN0501605016eusmtrp1c;
+	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
+X-AuditID: cbfec7f5-d1bff70000002594-21-67077d3a2cd5
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 34.D4.14621.A3D77076; Thu, 10
+	Oct 2024 08:07:38 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241010070738eusmtip2a1fc76e3f2596c182319347692f89b5d~9BamrDguh0964709647eusmtip22;
+	Thu, 10 Oct 2024 07:07:38 +0000 (GMT)
+Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Thu, 10 Oct 2024 08:07:37 +0100
+Date: Thu, 10 Oct 2024 09:07:36 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Keith Busch <kbusch@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>, Kanchan Joshi <joshi.k@samsung.com>,
+	<hare@suse.de>, <sagi@grimberg.me>, <brauner@kernel.org>,
+	<viro@zeniv.linux.org.uk>, <jack@suse.cz>, <jaegeuk@kernel.org>,
+	<bcrl@kvack.org>, <dhowells@redhat.com>, <bvanassche@acm.org>,
+	<asml.silence@gmail.com>, <linux-nvme@lists.infradead.org>,
+	<linux-fsdevel@vger.kernel.org>, <io-uring@vger.kernel.org>,
+	<linux-block@vger.kernel.org>, <linux-aio@kvack.org>,
+	<gost.dev@samsung.com>, <vishak.g@samsung.com>
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+Message-ID: <20241010070736.de32zgad4qmfohhe@ArmHalley.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Disposition: inline
-In-Reply-To: <20241008102114.26199-3-kanie@linux.alibaba.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <Zwab8WDgdqwhadlE@kbusch-mbp>
+X-Originating-IP: [106.110.32.122]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGKsWRmVeSWpSXmKPExsWy7djPc7pWtezpBk9P6FvMWbWN0WL13X42
+	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLPYsmsRksXL1USaLd63nWCxmT29msniyfhazxaRD1xgt
+	pkxrYrTYe0vbYs/ekywW85c9ZbdYfvwfk8W61+9ZLM7/Pc7qIOxx+Yq3x85Zd9k9zt/byOJx
+	+Wypx6ZVnWwemz5NYvfYvKTeY/fNBjaPj09vsXi833eVzePMgiNA8dPVHp83yXlsevKWKYAv
+	issmJTUnsyy1SN8ugStj2+VnLAXdIhXr515mamBsE+hi5OSQEDCR+HBsG3sXIxeHkMAKRok5
+	ky6xQThfGCWWfzgO5XxmlLh34QtTFyMHWMu7tSIQ8eWMErPmzmaHK9q06ggjhLOFUWL+s5Ps
+	IEtYBFQlzm2ewQpiswnYS1xadosZxBYRUJa4O38mK0gDs8BBFokDP5aygCSEBQwk3n/vZQOx
+	eQVsJdbM6GOEsAUlTs58AlbDLGAl0fmhiRXkJGYBaYnl/zhAwpwCWhLL2n8xQjynJPH4xVso
+	u1bi1JZbTCC7JAR+cUocmzWFFSLhInFi5iEWCFtY4tXxLewQtozE6ck9UPFqiYaTJ6CaWxgl
+	Wju2skLCwlqi70wORI2jROO8uWwQYT6JG28FIc7kk5i0bTozRJhXoqNNCKJaTWL1vTcsExiV
+	ZyF5bBaSx2YhPLaAkXkVo3hqaXFuemqxcV5quV5xYm5xaV66XnJ+7iZGYNI8/e/41x2MK159
+	1DvEyMTBeIhRgoNZSYRXdyFruhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe1RT5VCGB9MSS1OzU
+	1ILUIpgsEwenVAOTiaVV1sHXb+s+5+lpbjV7FffTPsj7U5H6V4UV3uWxt5uEPPvn8+3yEj65
+	c6+dUtOLTRbJ4e+5eyfz/pzg+Es3i110h07rJQ35Kj6dRUd+W3o5T4lx61jgqC3Z8ycjpdXf
+	sO/3qc+rJpsWawad55mp77mz0M/y1Jnw+MM+D6Y+qXrl59lgWel/TWTRCeViLSbzzx/Cblzj
+	4EhiaCrvVvTIYxX69kS3lf1b6L2ofJW9m7vat5Qln5csmtL5/pXzM4MZz1gE3XbMf3RbZVNI
+	dVmY/O8TbX/73vmYh1XcXyCct+uh8Grp7xW1/05aNOYKnHqx8JbojAVdLeKbMw6+PVd4+pjb
+	yusdFyep3Nt0zkaJpTgj0VCLuag4EQB+kvMICQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsVy+t/xe7pWtezpBvvviFnMWbWN0WL13X42
+	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLPYsmsRksXL1USaLd63nWCxmT29msniyfhazxaRD1xgt
+	pkxrYrTYe0vbYs/ekywW85c9ZbdYfvwfk8W61+9ZLM7/Pc7qIOxx+Yq3x85Zd9k9zt/byOJx
+	+Wypx6ZVnWwemz5NYvfYvKTeY/fNBjaPj09vsXi833eVzePMgiNA8dPVHp83yXlsevKWKYAv
+	Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS9j2+Vn
+	LAXdIhXr515mamBsE+hi5OCQEDCReLdWpIuRi0NIYCmjxOun21i7GDmB4jISG79chbKFJf5c
+	62KDKPrIKLH/5nxmCGcLo8SGYxcZQapYBFQlzm2eAdbBJmAvcWnZLWYQW0RAWeLu/JmsIA3M
+	AgdZJKZtP8sGkhAWMJB4/70XzOYVsJVYM6OPEWJqP7PE7HXLWCESghInZz5hAbGZBSwkZs4/
+	zwhyN7OAtMTyfxwgYU4BLYll7b8YIU5Vknj84i2UXSvx+e8zxgmMwrOQTJqFZNIshEkLGJlX
+	MYqklhbnpucWG+oVJ+YWl+al6yXn525iBCaPbcd+bt7BOO/VR71DjEwcjIcYJTiYlUR4dRey
+	pgvxpiRWVqUW5ccXleakFh9iNAWGxURmKdHkfGD6yiuJNzQzMDU0MbM0MLU0M1YS53W7fD5N
+	SCA9sSQ1OzW1ILUIpo+Jg1OqgWk+c2uQ+evkWxOE3SYdcd77cdH273urez9NmV0auO64m2HV
+	7FM39e4sZ00+2rzj4Em2Dbs6o2S4+lcUxtrcvHIm8P+OGOMTT/N2zVc63LEzRXAP52LvOU95
+	xGebSW3qcZ928MjnxtXNuz9+kS0/9Kq5bKVRy/lHu5NsGCc9b4vpXlYxQW3LtUaGREEBg4NL
+	DpyV49BJD21/pPf1cEnQ1ffsM3++DKsqDlW9sUiys89527F05+92Bgut7B8nve82dbhy53Xk
+	BQ21lhxBoIm7DZM23t5y18CvId2D6QbX9JZ+I4NlESc+e/efeX4yJj1K6n3tffXGRvfV396J
+	2hnNWJumWFjCpXy8W3+PfVv6RiWW4oxEQy3mouJEAHG/Lt2nAwAA
+X-CMS-MailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+X-Msg-Generator: CA
+X-RootMTR: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+References: <20241004053121.GB14265@lst.de>
+	<20241004061811.hxhzj4n2juqaws7d@ArmHalley.local>
+	<20241004062733.GB14876@lst.de>
+	<20241004065233.oc5gqcq3lyaxzjhz@ArmHalley.local>
+	<20241004123027.GA19168@lst.de>
+	<20241007101011.boufh3tipewgvuao@ArmHalley.local>
+	<20241008122535.GA29639@lst.de> <ZwVFTHMjrI4MaPtj@kbusch-mbp>
+	<20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp>
+	<CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_023045_419234_43306DC3 
-X-CRM114-Status: GOOD (  17.49  )
+X-CRM114-CacheID: sfid-20241010_000742_244469_AF1260AD 
+X-CRM114-Status: GOOD (  23.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,60 +152,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 08, 2024 at 06:21:14PM +0800, Guixin Liu wrote:
-> This patch implements the reservation feature, includes:
+On 09.10.2024 09:06, Keith Busch wrote:
+>On Wed, Oct 09, 2024 at 11:28:28AM +0200, Christoph Hellwig wrote:
+>> On Tue, Oct 08, 2024 at 08:44:28AM -0600, Keith Busch wrote:
+>> > Then let's just continue with patches 1 and 2. They introduce no new
+>> > user or kernel APIs, and people have already reported improvements using
+>> > it.
+>>
+>> They are still not any way actually exposing the FDP functionality
+>> in the standard though.  How is your application going to align
+>> anything to the reclaim unit?  Or is this another of the cases where
+>> as a hyperscaler you just "know" from the data sheet?
+>
+>As far as I know, this is an inconsequential spec detail that is not
+>being considered by any applications testing this. And yet, the expected
+>imrpovements are still there, so I don't see a point holding this up for
+>that reason.
 
-s/includes/including/
+I am re-reading the thread to find a common ground. I realize that my
+last email came sharper than I intended. I apologize for that Christoph.
 
-> 1. reservation register(register, unregister and replace).
-> 2. reservation acquire(acquire, preempt, preempt and abort).
-> 3. reservation release(release and clear).
-> 4. reservation report.
-> 5. set feature and get feature of reservation notify mask.
-> 6. get log page of reservation event.
+Let me summarize and propose something constructive so that we can move
+forward.
 
-Maybe indent this bulleted list (and the other ones) by two characters
-to make it more readable?
+It is clear that you have a lot of insight on how a FS API should look
+like to unify the different data placement alternatives across
+protocols. I have not seen code for it, but based on the technical
+feedback you are providing, it seems to be fairly clear in your mind.
 
-> Not supported:
-> 1. persistent reservation through power loss.
-> 
-> Test:
+I think we should attempt to pursue that with an example in mind. Seems
+XFS is the clear candidate. You have done work already in enable SMR
+HDDs; it seems we can get FDP under that umbrella. This will however
+take time to get right. We can help with development, testing, and
+experimental evaluation on the WAF benefits for such an interface.
 
-Tested-by:
+However, this work should not block existing hardware enabling an
+existing use-case. The current patches are not intrusive. They do not
+make changse to the API and merely wire up what is there to the driver.
+Anyone using temperaturs will be able to use FDP - this is a win without
+a maintainance burden attached to it. The change to the FS / application
+API will not require major changes either; I believe we all agree that
+we cannot remove the temperatures, so all existing temperature users
+will be able to continue using them; we will just add an alternative for
+power users on the side.
 
-> Use nvme-cli and fio to test all implemented sub features:
-> 1. use nvme resv-register to register host a registrant or
-> unregister or replace a new key.
-> 2. use nvme resv-acquire to set host to the holder, and use fio
-> to send read and write io in all reservation type. And also test
-> preempt and "preempt and abort".
-> 3. use nvme resv-report to show all registrants and reservation
-> status.
-> 4. use nvme resv-release to release all registrants.
-> 5. use nvme get-log to get events generated by the preceding
-> operations.
+So the proposal is to merge the patches as they are and commit to work
+together on a new, better API for in-kernel users (FS), and for
+applications (syscall, uring).
 
-That's still very basic testing, but I have no really good answer
-what good test suite would be.
+Christoph, would this be a viable way to move forward for you?
 
-> +static ssize_t nvmet_ns_resv_enable_store(struct config_item *item,
-> +					const char *page, size_t count)
-
-The indentation used in most nvme code is two tabs for prototype
-continuations, can you change to that? I.e.:
-
-static ssize_t nvmet_ns_resv_enable_store(struct config_item *item,
-		const char *page, size_t count)
-
-> +#define NVMET_PR_NOTIFI_MASK_ALL \
-> +		(1 << NVME_PR_NOTIFY_BIT_REG_PREEMPTED | \
-> +		 1 << NVME_PR_NOTIFY_BIT_RESV_RELEASED | \
-> +		 1 << NVME_PR_NOTIFY_BIT_RESV_PREEMPTED)
-
-And here I'd expect a single tab indent.
-
-Except for these nitpicks the code looks good to me:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Thanks,
+Javier
 
