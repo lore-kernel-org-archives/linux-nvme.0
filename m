@@ -4,107 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D6D7CF11F1
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 12:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2368CF11F5
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2024 13:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NpQ83Cm6m9Kae+D/sw7o70rVWHM4GZz758JqV0xhvig=; b=vHbwnAMRxLI2A/hQWzhN8BACBo
-	dYkjURIFvliAlIr+tLHFBbA8RwDJK5YuyabSqjTj1S0Xt4re/qFVAF/ZAskhme7SUxHrraW0RltvQ
-	f9vDwSaAcE9PKFAd1/xD294r0yeibEudyJ7YKsYFrM036GGWHbPe5ZBMDKs9eS5UiI2fur5uuKtl6
-	cJiNjk/7Kz0nxahvUZqHW6029+f+osZye3xSerK13QA8sFcn3zhZplEnG1oFis2WbYefLDypHzhuz
-	nrdv7xEm97/cziQSE0C5Tm+Vt9oZz733xynZo/l7HzVhyb4GjFYK87/CkoBXw4/XK4CuaRFqLZcWX
-	Bg+o53ZA==;
+	bh=JFEhzwh6TFy7gvh/V/VQmA/6x9Ll3Q64Srgane2R0MQ=; b=euClcASFwdmrrqBExDEO1WB0Ur
+	edMiUe9wyF2a/fxQBHYRn35znNx5A0ZL1Uqjk1M8BOJA7IWdmslRrMqtfouHmaHNomvCRJdeMCALu
+	G0TPv4Jpsz78YDe9/NnMO3kQNjysWAlV0N9pu6ktOj3BkyfRdhRYWFwnnMDFymyR6020DERuOcIHA
+	H9DnNBz17qU5kXr7N9uh8v4QPqMdQP12s7Epmu2CmEPjuaeDU+q1iqkEFfFPJNBuRruftRPvXSTXP
+	Pm/7YnSejtsPe/2PfybBeWIhLT63ZJA9x7rcI3x33i+1awixK0DcbQ1PlZ5aif6JGNkkUyNm0Z8u6
+	hsBGRPkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1syse1-0000000CnNM-14aZ;
-	Thu, 10 Oct 2024 12:51:53 +0000
-Received: from fout-a8-smtp.messagingengine.com ([103.168.172.151])
+	id 1sytG5-0000000Cv7e-0mP7;
+	Thu, 10 Oct 2024 13:31:13 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1sysSk-0000000CkH9-0zlg
+	id 1syrpC-0000000Ccyi-22Sk
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Oct 2024 12:40:15 +0000
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 51730138051E;
-	Thu, 10 Oct 2024 08:40:13 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 10 Oct 2024 08:40:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bjorling.me; h=
-	cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1728564013; x=
-	1728650413; bh=NpQ83Cm6m9Kae+D/sw7o70rVWHM4GZz758JqV0xhvig=; b=W
-	hyxmuK1UDlXLvuIxcbCwx14OLUzPvvxk/6s71X1Oha3Lml0/mvMgeiP1R2q3D4Wr
-	LFb9QQ5xjedM5SK1JjRRwFJWNZTggOCYG0TkbT2zCgAGAj5cF5uhOCnJt6H4ZaVc
-	S0IcWrDOuqNpnVNMeYSdwLaQTxx4Inkw+q/rTgQugzHLoexPls236y3XNT6wuYGh
-	eUhc7BHLR40WqeLH5jouOP4N4Tl2cTHQ3IC+EoLrSlU0Ju6WYqWDB8QHQx+7PDU+
-	6Xzax0eRy0Pds4KiKH5Fc/cY86az13H0oy/rqsfZCusPiOgvLoq6PytDO1RILn0g
-	B6V834m8/kmCTXqhcnJ9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:date:feedback-id:feedback-id:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1728564013; x=1728650413; bh=NpQ83Cm6m9Kae
-	+D/sw7o70rVWHM4GZz758JqV0xhvig=; b=E7T/+dHVxI4wqmRSSvzsCYDvv/pem
-	kt/8j7/urklRqSiblgY+Eq9/YrCIOxj0tUVLHDyG1GlFUXsmEX66gJ0crV0q3OSp
-	Qo9E0YCPbQpbehWiZpT97wZmIYAi+y62LdT3YqA1mLa0cQ5jE5XuQdjJU0hH2rE9
-	6Y0OSdKfY6bfZEE334i/aNbKdsVL8CRM2Pgf7D7A+xalHdpQShsG7409XVx9pXQM
-	JujD920cdJTrsDFPpat4UNC+lO2WMldIsKqGjBPpH/Mkmv9vCscGE2AfzgEsE04X
-	0MdvLIrIRJ2a6jU/qWBKVXGD2EGGdbWVEBAboKA0eD2gxhta0De6jqeKA==
-X-ME-Sender: <xms:LcsHZ6gsJC0Uec_IJg_gHgHAefdRWfkHLhJVLmwCPV3LEOkDPZcvxA>
-    <xme:LcsHZ7APXNuArHpX0JwrzPyDDskNA11qzQr5DblNtMMJF-zi3ZmWwUJpqqsTy_dKh
-    8hhtXJS2paGxjyLf8c>
-X-ME-Received: <xmr:LcsHZyEm6ykYLlMGAzSUP3613KXGelnmQTR2VnxIPIrFiwendPs2zV1YXw5C_DA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefhedgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvffuff
-    fkofgjfhgggfestdekredtredtjeenucfhrhhomhepofgrthhirghsuceujhpprhhlihhn
-    ghcuoehmsegsjhhorhhlihhnghdrmhgvqeenucggtffrrghtthgvrhhnpeegtefhheelge
-    duleetteeffefhledtudduudfggfevudejudfgiefftdfghedtfeenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmsegsjhhorhhlihhnghdrmh
-    gvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    khgsuhhstghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhtghhsehlshhtrdguvg
-    dprhgtphhtthhopegulhgvmhhorghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegt
-    rghsshgvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqnhhvmhgvse
-    hlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqsghl
-    ohgtkhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvg
-    hrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeifrghnghihuhhg
-    uhhisegvudeiqdhtvggthhdrtghomhdprhgtphhtthhopehmrghrthhinhdrphgvthgvrh
-    hsvghnsehorhgrtghlvgdrtghomh
-X-ME-Proxy: <xmx:LcsHZzROsCaw9bEGf31HOOXnQPdLFvXw5VvWBkddpgFsiFFqmMD9pg>
-    <xmx:LcsHZ3zIh0viHEupLXuvsPaTOM-2-Ms7ICeRIP6QMQ4e4jVznFb4CA>
-    <xmx:LcsHZx5hJgJcQ_UpCTPHd5D-vd4xNBtJ3NKfsKPYDW2EHNt2PB7RdA>
-    <xmx:LcsHZ0zf3WM3TV-lJysSUZrH9CjgUU46Lnqa7YaxlX2Pn-bdWcbSEg>
-    <xmx:LcsHZ8pxoSVA3ACS9j4uJCyz_3aZta_cVSIoQSRuvR8Vvd8Y8qX8rFJj>
-Feedback-ID: if4314918:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Oct 2024 08:40:11 -0400 (EDT)
-From: =?UTF-8?q?Matias=20Bj=C3=B8rling?= <m@bjorling.me>
-To: kbusch@kernel.org,
-	hch@lst.de,
-	dlemoal@kernel.org,
-	cassel@kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangyugui@e16-tech.com,
-	martin.petersen@oracle.com,
-	hare@suse.de
-Subject: [PATCH 3/3 v2] nvmet: add rotational support
-Date: Thu, 10 Oct 2024 14:39:51 +0200
-Message-ID: <20241010123951.1226105-4-m@bjorling.me>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241010123951.1226105-1-m@bjorling.me>
-References: <20241010123951.1226105-1-m@bjorling.me>
+	Thu, 10 Oct 2024 11:59:25 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20241010115917euoutp029c937194ef433d9394814a92eb19a50f~9FZP7IxS01812318123euoutp02b
+	for <linux-nvme@lists.infradead.org>; Thu, 10 Oct 2024 11:59:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20241010115917euoutp029c937194ef433d9394814a92eb19a50f~9FZP7IxS01812318123euoutp02b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1728561557;
+	bh=JFEhzwh6TFy7gvh/V/VQmA/6x9Ll3Q64Srgane2R0MQ=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=XL1pnZkXbNczuaKGwxP91VvRZ7FOW4inqyck6JzuRK9JuKVTYAP9UT2xKwrKQkak9
+	 rFP3WD9/N6+ia8kM3GeGClGlkty7Iy4QdKJpV46Xb3LFzj5qBN0WBHNr4WZ+Qnh5Lk
+	 9kkWMrSNhDDcs4KxS35NAI+RMDesuD4W/cXNUgDY=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20241010115917eucas1p2757edd597fadf0f760e3f85610ca750c~9FZPqgj941778717787eucas1p2L;
+	Thu, 10 Oct 2024 11:59:17 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id F0.F2.09624.491C7076; Thu, 10
+	Oct 2024 12:59:16 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241010115916eucas1p2272fa345ed2f4067a87015053a4c6c62~9FZPKNGKH0910509105eucas1p2p;
+	Thu, 10 Oct 2024 11:59:16 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241010115916eusmtrp2af96e45c8f6377270b9d9ac331b31951~9FZPJa4On2762327623eusmtrp2h;
+	Thu, 10 Oct 2024 11:59:16 +0000 (GMT)
+X-AuditID: cbfec7f2-bfbff70000002598-a3-6707c1944c7c
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id E3.69.14621.491C7076; Thu, 10
+	Oct 2024 12:59:16 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20241010115916eusmtip1fde37d975993fb9831462fd30399f3f8~9FZO8D_3y2016220162eusmtip1e;
+	Thu, 10 Oct 2024 11:59:16 +0000 (GMT)
+Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Thu, 10 Oct 2024 12:59:15 +0100
+Date: Thu, 10 Oct 2024 13:59:14 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, "Martin
+ K. Petersen" <martin.petersen@oracle.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, <hare@suse.de>, <sagi@grimberg.me>,
+	<brauner@kernel.org>, <viro@zeniv.linux.org.uk>, <jack@suse.cz>,
+	<jaegeuk@kernel.org>, <bcrl@kvack.org>, <dhowells@redhat.com>,
+	<bvanassche@acm.org>, <asml.silence@gmail.com>,
+	<linux-nvme@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+	<io-uring@vger.kernel.org>, <linux-block@vger.kernel.org>,
+	<linux-aio@kvack.org>, <gost.dev@samsung.com>, <vishak.g@samsung.com>
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+Message-ID: <20241010115914.eokdnq2cmcvwoeis@ArmHalley.local>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241010091333.GB9287@lst.de>
+X-Originating-IP: [106.110.32.122]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPKsWRmVeSWpSXmKPExsWy7djP87pTDrKnGxz7aWExZ9U2RovVd/vZ
+	LLr+bWGxeH34E6PFtA8/mS3eNf1msdizaBKTxcrVR5ks3rWeY7GYPb2ZyeLJ+lnMFpMOXWO0
+	mDKtidFi7y1tiz17T7JYzF/2lN1i+fF/TBbrXr9nsTj/9zirg7DH5SveHjtn3WX3OH9vI4vH
+	5bOlHptWdbJ5bPo0id1j85J6j903G9g8Pj69xeLxft9VNo8zC44AxU9Xe3zeJOex6clbpgC+
+	KC6blNSczLLUIn27BK6MYzM/sRe8Eq448T+rgfEJfxcjJ4eEgInE1KYWxi5GLg4hgRWMEgv7
+	b7JAOF8YJV7s+skK4XxmlFizbDIzTMudjj1MEInljBKz9kIkwKpW7SmHSGxhlPh/ZQVQFQcH
+	i4CqxI93siA1bAL2EpeW3QKrFxFQknj66izYbmaBQywSh1btZwNJCAsYSLz/3gtm8wrYSuxe
+	/5gRwhaUODnzCQuIzSxgJdH5oYkVZD6zgLTE8n8cEGF5ieats8HmcwpoS5yZOpMR4mgliccv
+	3kLZtRKnttxigrC7uCT+dwVB2C4Svd9/QT0pLPHq+BZ2CFtG4v/O+VD11RINJ0+APS8h0MIo
+	0dqxFewGCQFrib4zORA1jhKN8+ayQYT5JG68FYQ4jU9i0rbpzBBhXomONqEJjCqzkPw1C8lf
+	sxD+moXkrwWMLKsYxVNLi3PTU4sN81LL9YoTc4tL89L1kvNzNzEC0+jpf8c/7WCc++qj3iFG
+	Jg7GQ4wSHMxKIry6C1nThXhTEiurUovy44tKc1KLDzFKc7AoifOqpsinCgmkJ5akZqemFqQW
+	wWSZODilGpga/f0vBlmEVHI2J3x7GFo+65bB5NvsKuq+SeGfpp7a5Wq8+kTPyqrPkz/+ttCe
+	f9cgOyrocKrJ2mpfsdc2nIbnC5bnPq07sVhjVW/AhydrJC9WsKsEPvjGvarGJTKr+8+i44KL
+	46wqe8zU+0O9w3qTj+Q33/yt1Oj05bbrnQ3TVJU7e8v7/2WJrX/AdMZy9fs54vXbWgQ/TEkP
+	87rsWJZ61OVRQd3L/f5/TD+LqGiocx2bdSwp60nVg6xVa2dMs9/4fmWxfEypLOeey5pvWWe9
+	ci298Oi3Vsj0G1M/WX0ouRa4x2Lb7rOHW5smLvF2t17OFdFZNfdlrOEnroisC+t3R0WwaLbE
+	6kvVPtTJZFRiKc5INNRiLipOBAB7Epm1EgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNKsWRmVeSWpSXmKPExsVy+t/xu7pTDrKnG/w4IGYxZ9U2RovVd/vZ
+	LLr+bWGxeH34E6PFtA8/mS3eNf1msdizaBKTxcrVR5ks3rWeY7GYPb2ZyeLJ+lnMFpMOXWO0
+	mDKtidFi7y1tiz17T7JYzF/2lN1i+fF/TBbrXr9nsTj/9zirg7DH5SveHjtn3WX3OH9vI4vH
+	5bOlHptWdbJ5bPo0id1j85J6j903G9g8Pj69xeLxft9VNo8zC44AxU9Xe3zeJOex6clbpgC+
+	KD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTublNSczLLUIn27BL2MYzM/
+	sRe8Eq448T+rgfEJfxcjJ4eEgInEnY49TF2MXBxCAksZJV6cf8cCkZCR2PjlKiuELSzx51oX
+	G0TRR0aJVXPeQ3VsYZToWbcQqIqDg0VAVeLHO1mQBjYBe4lLy24xg9giAkoST1+dZQSpZxY4
+	xCKxpHcXE0hCWMBA4v33XjYQm1fAVmL3+seMEEMPMEtMbJnDApEQlDg58wmYzSxgITFz/nlG
+	kGXMAtISy/9xQITlJZq3zgZbximgLXFm6kxGiKuVJB6/eAtl10p8/vuMcQKjyCwkU2chmToL
+	YeosJFMXMLKsYhRJLS3OTc8tNtQrTswtLs1L10vOz93ECEw124793LyDcd6rj3qHGJk4GA8x
+	SnAwK4nw6i5kTRfiTUmsrEotyo8vKs1JLT7EaAoMoonMUqLJ+cBkl1cSb2hmYGpoYmZpYGpp
+	Zqwkzut2+XyakEB6YklqdmpqQWoRTB8TB6dUA1PNXMlfm9PXWdY4Je351q2g/2NpzdlAPpZN
+	MVd//bn+erLLLJ1Uw3blyG6LrgtufdPaAw518/y9/GpX6G7LykXLzN8zsnmsXqTy2WCdwswT
+	NgXpUhu/GrjLmsju1Cp8di47JTQkfrNlcInq64+6x1deVn72ZUWC8b6cy7bSjiskxNU2Z136
+	dKNkd5y0RdrTnEMrRIvLVPdP57zdO7PlvN8M+ZqU6T8qzr274cozaamF+DPGfVcM2DZ0ajU/
+	z82TfXjjDHuX6eatWU0Of9d9T8hM2Po59Xqr26p3/NLH0mTy0gpVVeZ8WiVn5hbR4qXzRlx6
+	k314aJTOwdelH0/MOxf1r/dMiHTTnh3rN/Iu8FJiKc5INNRiLipOBACcPTZuvgMAAA==
+X-CMS-MailID: 20241010115916eucas1p2272fa345ed2f4067a87015053a4c6c62
+X-Msg-Generator: CA
+X-RootMTR: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+References: <20241004065233.oc5gqcq3lyaxzjhz@ArmHalley.local>
+	<20241004123027.GA19168@lst.de>
+	<20241007101011.boufh3tipewgvuao@ArmHalley.local>
+	<20241008122535.GA29639@lst.de> <ZwVFTHMjrI4MaPtj@kbusch-mbp>
+	<20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp>
+	<CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com>
+	<20241010070736.de32zgad4qmfohhe@ArmHalley.local>
+	<20241010091333.GB9287@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241010_054014_682316_8F69F2E3 
-X-CRM114-Status: GOOD (  10.03  )
+X-CRM114-CacheID: sfid-20241010_045923_745435_50571FE0 
+X-CRM114-Status: GOOD (  26.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,70 +152,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On 10.10.2024 11:13, Christoph Hellwig wrote:
+>On Thu, Oct 10, 2024 at 09:07:36AM +0200, Javier González wrote:
+>> I think we should attempt to pursue that with an example in mind. Seems
+>> XFS is the clear candidate. You have done work already in enable SMR
+>> HDDs; it seems we can get FDP under that umbrella. This will however
+>> take time to get right. We can help with development, testing, and
+>> experimental evaluation on the WAF benefits for such an interface.
+>
+>Or ZNS SSDs for that matter.
 
-Rotational block devices can be detected in NVMe through the rotational
-attribute in the independent namespace identify data structure.
+Maybe. I do not see much movement on this.
 
-Extend nvmet with support for the independent namespace identify data
-structure and expose the rotational support of the backend device.
+>
+>> However, this work should not block existing hardware enabling an
+>> existing use-case. The current patches are not intrusive. They do not
+>> make changse to the API and merely wire up what is there to the driver.
+>> Anyone using temperaturs will be able to use FDP - this is a win without
+>> a maintainance burden attached to it. The change to the FS / application
+>> API will not require major changes either; I believe we all agree that
+>> we cannot remove the temperatures, so all existing temperature users
+>> will be able to continue using them; we will just add an alternative for
+>> power users on the side.
+>
+>As mentioned probably close to a dozen times over this thread and it's
+>predecessors:  Keeping the per-file I/O hint API and mapping that to
+>FDP is fine.  Exposing the overly-simplistic hints to the NVMe driver
+>through the entire I/O stack and locking us into that is not.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/target/admin-cmd.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+I don't understand the "locking us into that" part.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index f7e1156ac7ec..f08f1226c897 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -675,6 +675,35 @@ static void nvmet_execute_identify_ctrl_nvm(struct nvmet_req *req)
- 		   nvmet_zero_sgl(req, 0, sizeof(struct nvme_id_ctrl_nvm)));
- }
- 
-+static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
-+{
-+	struct nvme_id_ns_cs_indep *id;
-+	u16 status;
-+
-+	status = nvmet_req_find_ns(req);
-+	if (status)
-+		goto out;
-+
-+	id = kzalloc(sizeof(*id), GFP_KERNEL);
-+	if (!id) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+
-+	id->nstat = NVME_NSTAT_NRDY;
-+	id->anagrpid = req->ns->anagrpid;
-+	id->nmic = NVME_NS_NMIC_SHARED;
-+	if (req->ns->readonly)
-+		id->nsattr |= NVME_NS_ATTR_RO;
-+	if (req->ns->bdev && !bdev_nonrot(req->ns->bdev))
-+		id->nsfeat |= NVME_NS_ROTATIONAL;
-+
-+	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
-+	kfree(id);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
- static void nvmet_execute_identify(struct nvmet_req *req)
- {
- 	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
-@@ -719,6 +748,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
- 			break;
- 		}
- 		break;
-+	case NVME_ID_CNS_NS_CS_INDEP:
-+		nvmet_execute_id_cs_indep(req);
-+		return;
- 	}
- 
- 	pr_debug("unhandled identify cns %d on qid %d\n",
--- 
-2.46.0
+>> So the proposal is to merge the patches as they are and commit to work
+>> together on a new, better API for in-kernel users (FS), and for
+>> applications (syscall, uring).
+>
+>And because of that the whole merge it now and fix it later unfortunately
+>doesn't work, as a proper implementation will regress behavior for at
+>least some users that only have the I/O hints API but try to emulate
+>real stream separation with it.  With the per-I/O hints in io_uring that
+>is in fact almost guaranteed.
 
+I do not thing this argument is valid. These patches are not a merge now,
+fix later. It is ma: use the current interface, work together on a new
+one, if needed.
+
+The new interface you are talking about is not clear to me, at all. If
+you could share some patches on how that would look like, then it would
+give a much clearer idea of what you have in mind. The whole idea of
+let's not cover an existing use-case because we might be able to do
+something in the future is not very tangible.
 
