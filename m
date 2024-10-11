@@ -4,86 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2A09D0EE19
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Oct 2024 17:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E712DD24470
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Oct 2024 17:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P29iERuQpUeoTayABlxJ+KU7oVmdKDyk3kHYYoum+3w=; b=x7cy3LKYDBhQaFPIESdzSN0HFU
-	8e8kCGwffERa1g3mKPpaEHmqYtMo1OV+FE59Kh8J3x5Pv81wLOAcC1PwxV6U2RE+4RmE3D1FyWaOP
-	d7/W8Q2cYeBSqAAXXQW1j2W1RcWGtA/9Ug42hmhtudVN1IOdXJnExHUNck99Fn/zAyakmUoIUHGoe
-	C5cWwv4p8O3+baNKYZv6OvvDz4Xn21xEakj6UzXdDcSCbxBY791+j+jyGTH6dP47wocdKgrmuDsjd
-	l/H5ukmDdWGE4PSU7fW9D1qA/shg4i7f6z32WZL2EliaC5s+ILSzzDZpGPqyooSGG7UmtBEkp1eJp
-	XcmLce7g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zWsbC5zYwFjIQpjAKyMSFH5NvTQw8vDDAjcLz2511K4=; b=Gl5J8Px0Z7qr+2XSKLXGlfcJl2
+	2+QyU6qGxM0zJc/HkmHFTtaEqM8bY/V75a/lreM4GX/H7WBIUgb+g8gPXW4lrxa+xpJXfwj8Nf2aX
+	kLIFnBbrENkFP6Z/Ikx703YdFIwpTErwaisIlPJTch+GmHTv1F8gM5vLHSeBBL8+Fzg2aAw7OcDgf
+	opP9FyHZ5dr278T7I637vm4FpNAAyvfDxVM3tcjeFxkfLQfe4AHggpnEemHq9k5S7brBqjhxUX+LB
+	B/Y7+OhmP6F4rk706De3Ljrv9hUQIT2q/o4CKkL7jUA/saP5kE3ZB6rx4/0RzwSs0C1Ke+nA4BFkj
+	GyMtunGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1szJ0l-0000000H2PK-42IB;
-	Fri, 11 Oct 2024 17:01:07 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1szJ8R-0000000H3bu-1cmS;
+	Fri, 11 Oct 2024 17:09:03 +0000
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1szIyr-0000000H1z3-3RS7
+	id 1szJ7u-0000000H3SN-08US
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Oct 2024 16:59:11 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id F203AA44B97;
-	Fri, 11 Oct 2024 16:58:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087ADC4CEC3;
-	Fri, 11 Oct 2024 16:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728665948;
-	bh=mkYGbk6JIVdaR+ngMKVGQQpONnRKTN08+o+35jtWhaw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XthzRxwlyTwMBL7/dqVToKwmwWz/tmxBQIW9AGGTzEbGctR95F+R+YjqQugDgkuM8
-	 ZSdTLWGDrN9cpZ51C0wJxyeMztsF7Xnui24tVXpK4IRnur7/ZP3iqO0Tus+pEeEM0c
-	 LHUarhCe+CYGrvy0yQHbNyjm5pR7UezxR/EfqQ33483z9FLJNAT2s5iNercKVORDh0
-	 p1o9EahbR95h7eZ55BqhKXKbcRHrTuCkVs15ZBP9MtomhvKSdktlzZ2jSNLmLui8Ph
-	 v30Z70FuMrkmRWIBObje29CAG014E7yhsJ30Qs6x/3H70RPamvzNp6T1FVHsUr2yVw
-	 RDAOSf9awHmUA==
-Date: Fri, 11 Oct 2024 10:59:05 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Javier Gonzalez <javier.gonz@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Hans Holmberg <hans@owltronix.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Kanchan Joshi <joshi.k@samsung.com>, "hare@suse.de" <hare@suse.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"jack@suse.cz" <jack@suse.cz>,
-	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-	"bcrl@kvack.org" <bcrl@kvack.org>,
-	"dhowells@redhat.com" <dhowells@redhat.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>,
-	"asml.silence@gmail.com" <asml.silence@gmail.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-aio@kvack.org" <linux-aio@kvack.org>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>,
-	"vishak.g@samsung.com" <vishak.g@samsung.com>
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <ZwlZWWiPXT4NGErp@kbusch-mbp.mynextlight.net>
-References: <20241007101011.boufh3tipewgvuao@ArmHalley.local>
- <CANr-nt3TA75MSvTNWP3SwBh60dBwJYztHJL5LZvROa-j9Lov7g@mail.gmail.com>
- <97bd78a896b748b18e21e14511e8e0f4@CAMSVWEXC02.scsc.local>
- <CANr-nt11OJfLRFr=rzH0LyRUzVD9ZFLKsgree=Xqv__nWerVkg@mail.gmail.com>
- <20241010071327.rnh2wsuqdvcu2tx4@ArmHalley.local>
- <CGME20241010092019eucas1p157b87b63e91cd2294df4a8f8e2de4cdf@eucas1p1.samsung.com>
- <20241010092010.GC9287@lst.de>
- <20241010122232.r2omntepzkmtmx7p@ArmHalley.local>
- <20241011085631.GA4039@lst.de>
- <20241011122102.znguf6kpmbbsa42t@ArmHalley.local>
+	Fri, 11 Oct 2024 17:08:31 +0000
+Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-835393376e1so124313339f.1
+        for <linux-nvme@lists.infradead.org>; Fri, 11 Oct 2024 10:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1728666508; x=1729271308; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zWsbC5zYwFjIQpjAKyMSFH5NvTQw8vDDAjcLz2511K4=;
+        b=1KNmzKiyOskPalr7IBSHecox6zJBXXP2gNKEx0L2pbRB3J7W9krEFQXO3WHzPerrMd
+         gvObOa7lwUhVSuyv4oRzB9uGADZWr8NV2g+yZqOj6Io6ip3l4C4UlfXF6YnEktQblE98
+         jWPvFCZSGrSjQ9uBN40c4nmWBVgAvh2auqlheAkW3Wt1ExY5yOrQu42V2G7bQzvfcclo
+         ByQWoyX6uJB6hUEnnwoU50MR76Fpv1dD+pZxvwGLIi1PJU2K1pUNHKQ/YYDIKESwzmQ3
+         aIT6WeL6RhmVJVQYf1BuNm/NSnNnc54Y/juOVLeHaZjl51+atP4YT3xiC6Ct+e9cUHw+
+         rHtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728666508; x=1729271308;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zWsbC5zYwFjIQpjAKyMSFH5NvTQw8vDDAjcLz2511K4=;
+        b=S4HStJjBzw5cYtBkQqEB2O0ZP8ScItcvSMSBEpTFfyxmfEdhz4PI1LcibxYTYYmsIC
+         SMOzqfBvjYBbowfHxBQKVUFcSQAIFeiBke+tZRElNU1P5McvB4zoRGzGJ2EjyumubnVb
+         LwJq0C2PuFC7vpDBLNb1x64lffisuxaWe/PqRBA548tmS1JyH8CnAO7qLTf37iuL4Ft1
+         ESoAa4ek8led32HR0vyMgkbDXZgrzcjPAkWsaupNzCs3cZ9B25jPLxhPal2HrDatvmjT
+         2bKuCiQ5xTgIKanCaoEjYWjLh27+jeCXJg8z8QNMSd+A2u9QAfCEo3ykGv1O5p+w5xsA
+         zJxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXg7tuhDzH6OUJSSBtj4WuqTFiSrQ1tVxHqc2N7ilAX3NNhQ8O282pquODVIHrbZ5qxjBD//MWMACZO@lists.infradead.org
+X-Gm-Message-State: AOJu0YyyisUvmRRvlOrT+H4AfPWcJUD4Fk9Cmf+QjgQOTPx7jyctKumQ
+	C0ynlhpxJ1+F2kL0mji2XOCynC3H5H6xVrmoIRgkSl2I4BwwzTMe7wTsrxQTR6k=
+X-Google-Smtp-Source: AGHT+IHFPvgcQvxvJOZSrVRCZbyxjluKSsk/HoPp/vuJuEff6o04MxOCGz5P4UynejEHp6ALDdoREw==
+X-Received: by 2002:a05:6602:640b:b0:82c:e233:15bf with SMTP id ca18e2360f4ac-83a64ce3d46mr24956339f.6.1728666508526;
+        Fri, 11 Oct 2024 10:08:28 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8354b9932absm77655639f.31.2024.10.11.10.08.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2024 10:08:27 -0700 (PDT)
+Message-ID: <5e9f7f1c-48fd-477f-b4ba-c94e6b50b56f@kernel.dk>
+Date: Fri, 11 Oct 2024 11:08:26 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241011122102.znguf6kpmbbsa42t@ArmHalley.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+To: Christoph Hellwig <hch@lst.de>, =?UTF-8?Q?Javier_Gonz=C3=A1lez?=
+ <javier.gonz@samsung.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Kanchan Joshi <joshi.k@samsung.com>, hare@suse.de, sagi@grimberg.me,
+ brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+ jaegeuk@kernel.org, bcrl@kvack.org, dhowells@redhat.com, bvanassche@acm.org,
+ asml.silence@gmail.com, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-aio@kvack.org, gost.dev@samsung.com,
+ vishak.g@samsung.com
+References: <20241004123027.GA19168@lst.de>
+ <20241007101011.boufh3tipewgvuao@ArmHalley.local>
+ <20241008122535.GA29639@lst.de> <ZwVFTHMjrI4MaPtj@kbusch-mbp>
+ <20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp>
+ <CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com>
+ <20241010070736.de32zgad4qmfohhe@ArmHalley.local>
+ <20241010091333.GB9287@lst.de>
+ <20241010115914.eokdnq2cmcvwoeis@ArmHalley.local>
+ <20241011090224.GC4039@lst.de>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20241011090224.GC4039@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241011_095909_946812_D7CAD520 
-X-CRM114-Status: GOOD (  11.93  )
+X-CRM114-CacheID: sfid-20241011_100830_310988_E511A134 
+X-CRM114-Status: GOOD (  20.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,30 +110,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 11, 2024 at 02:21:02PM +0200, Javier Gonzalez wrote:
-> > That's a lot of marketing babble :)    What exact thing is missing
-> > from the passthrough interface when using say spdx over io_uring?
+On 10/11/24 3:02 AM, Christoph Hellwig wrote:
+>>> As mentioned probably close to a dozen times over this thread and it's
+>>> predecessors:  Keeping the per-file I/O hint API and mapping that to
+>>> FDP is fine.  Exposing the overly-simplistic hints to the NVMe driver
+>>> through the entire I/O stack and locking us into that is not.
+>>
+>> I don't understand the "locking us into that" part.
 > 
-> The block layer provides a lot of functionality that passthru cannot
-> provide. A simple example would be splits. You know this :)
+> The patches as submitted do the two following two things:
 > 
-> I am sure Jens and Keith can give you more specifics on their particular
-> reasons.
+>  1) interpret the simple temperature hints to map to FDP reclaim handles
+>  2) add a new interface to set the temperature hints per I/O
+> 
+> and also rely on an annoying existing implementation detail where the I/O
+> hints set on random files get automatically propagated to the block
+> device without file system involvement.
+> 
+> This means we can't easily make the nvme driver actually use smarter
+> hints that expose the actual FDP capabilities without breaking users
+> that relied on the existing behavior, especially the per-I/O hints that
+> counteract any kind of file system based data placement.
+> 
 
-Splitting, merging, cgroups, iostats, error retries, failover.
+I think that last argument is a straw man - for any kind of interface
+like this, we've ALWAYS just had the rule that any per-whatever
+overrides the generic setting. Per IO hints would do the same thing. Is
+this a mess if a user has assigned a file hint and uses other per IO
+hints on that very same file and they differ? Certainly, but that's
+really just the user/app being dumb. Or maybe being smart, as this
+particular one block is always hot in the file (yeah contrived case).
 
-We have a recent change staged in 6.13 to try to count iostats on
-passthrough, but it doesn't do discards.
+The point is, if you mix and match per-io hints and per-file hints, then
+you're probably being pretty silly and nobody should do that. I don't
+think this is a practical concern at all.
 
-Passthrough to partitions requires root access and the slow CAP_SYSADMIN
-check on every IO.
-
-Page cache. Though that may not readily work with this io_uring proposal
-as-is either.
-
-The generic IO path is safe to changing formats; passthrough isn't.
-
-And it's just generally more work to port existing applications to use
-the passthrough interface. It causes duplicating solutions to scenarios
-the kernel already handles.
+-- 
+Jens Axboe
 
