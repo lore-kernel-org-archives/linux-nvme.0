@@ -4,52 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16CDECFD341
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Oct 2024 10:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 032D9D0D783
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Oct 2024 12:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iVdwdXLcGb2q0rf5SRvZU0OjGnAMTbfIf2u+EEETFNM=; b=tjniUEQpb88ExlVP3WnYNZxbSA
-	SwQPrFWf1dLNcQqf58swulEVG1nNhEN0jalnwKZVdtfcfSY1uV1wkmQAapbuAwHbNUkRKPjZZIJcZ
-	gBKIykWSIZZ3xusSWSlnR7j8Ln+Xi7IqiRqLcsEZ8BTvxrrxaN5L4XeupiWqYePi/La8ZopcmBbzw
-	hR+r0tqYAMIuOeAiF01dEaeziES43DKWR7VYBhZ7ovI7KtbWWQi4js6fm8ZnUQbdxZhZRXOzFP9TF
-	om9FDinL41TJFKd86Tzf636wtxj6w2LYjZWDgABwBb2/PGctB1PCjrgATenvjWVgfQUp8WInijmZB
-	YGM/+Xxg==;
+	bh=83Y6RA6yg/zU1Om4dLEePJWINdMemQKFg2LTQ+2u33E=; b=oxqqSV4/0+AC4OXNq96/AU8Eyi
+	VFnBv/xO5ITaC++YGyiPW4W6ZrbILlsOB0emhKsSxYjpcW6KwkKeQrDgNohFlByUXOI5aCo/NybaD
+	gYvTKZSfHD8xH7Q7S8UZ94h0csE5EVVncsKU4yyR2UkIdgfd4aiWrHIvX5cYsOD+NrkFHoI2X5Q4j
+	kXYER+2IR0nakihmZ29byVMmHFipvt8meCXwY1MqUNNwFYn+Jss6K3ONJckklN6Es2WBrKZMmb4OU
+	uyV1EhFDrg2eAe6H4+rmZ2xS+xZJ6RL3J73TEaDOlTQZjhv4D8Ccplb2YdnadAFKsc9LJmI/BblAw
+	SINrfXSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1szDMU-0000000G4mC-0BUc;
-	Fri, 11 Oct 2024 10:59:10 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1szEnT-0000000GIs1-2aNy;
+	Fri, 11 Oct 2024 12:31:07 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1szDII-0000000G41b-0vgW
+	id 1szEch-0000000GHDQ-3XO3
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Oct 2024 10:54:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1728644086; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-	bh=iVdwdXLcGb2q0rf5SRvZU0OjGnAMTbfIf2u+EEETFNM=;
-	b=xsZguTZJCTijGI1KarQziwdlcMeyxQl8RHBph6N10NDWsTJysJfyeWPsddgyZ0Xrzps9DHOVc03x6z0xFBihGUC/QopOFUIaRMe1Uptuc9sUAQpY8ExxAz6nxQqVYiGLo4+b4lJDI5py5Mw8u40qXXJsprwYxad3tT7TG66a5Zs=
-Received: from 30.178.81.214(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WGq9emE_1728644083 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 11 Oct 2024 18:54:44 +0800
-Message-ID: <18ee6bc5-7025-44af-9fce-59e4fcc407cf@linux.alibaba.com>
-Date: Fri, 11 Oct 2024 18:54:43 +0800
+	Fri, 11 Oct 2024 12:20:01 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id DDEB35C504C;
+	Fri, 11 Oct 2024 12:19:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F006C4CECF;
+	Fri, 11 Oct 2024 12:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728649198;
+	bh=USrx1eSbx00KxGW5SNsqKGkCfe9T8LfwHwehSbOrR1g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XcGXmSZ5EBdyza640mDUbyYFCHJvq6TMDw8IAWU758p7dl/BSOWqNRNZyd9UGI3lJ
+	 nC/Ukp2LR8pFOUI6a0J8ZF0o236l0qyZjtGMBguHNp7uhQ5YXSsDKotCD+yXK8WyMg
+	 LvXrSFHlR1IPfdb02QSUKinQVmICK2jKXjI4+nVqqjOz82xPOfcQAXMgTa0ZOkdGEW
+	 0c4UpPQyH4cp6xjG68G4yIBiu5zDJMhfvUEmnENbKugPuxKzvKyaP+2AASFX4C4M5x
+	 TH+cv63Gq91FtIgeRIByVI8bxYNGQZzYHq7omHm9BTteTWlbZo1+xAEmW1PgWRmpjm
+	 dBq0nWJIyrGGg==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	linux-pci@vger.kernel.org
+Cc: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: [PATCH v2 2/5] nvmef: export nvmef_create_ctrl()
+Date: Fri, 11 Oct 2024 21:19:48 +0900
+Message-ID: <20241011121951.90019-3-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241011121951.90019-1-dlemoal@kernel.org>
+References: <20241011121951.90019-1-dlemoal@kernel.org>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH] nvmetcli: reservation configuration support
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: hch@lst.de, sagi@grimberg.me, kch@nvidia.com, d.bogdanov@yadro.com
-Cc: linux-nvme@lists.infradead.org
-References: <20241008080800.7712-1-kanie@linux.alibaba.com>
-In-Reply-To: <20241008080800.7712-1-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241011_035450_960258_AB8B5681 
-X-CRM114-Status: GOOD (  11.24  )
+X-CRM114-CacheID: sfid-20241011_051959_944860_0F4709F5 
+X-CRM114-Status: GOOD (  12.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,45 +80,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-gentel ping..
+Export nvmef_create_ctrl() to allow drivers to directly call this
+function instead of forcing the creation of a fabrics host controller
+with a write to /dev/nvmef. The export is restricted to the NVME_FABRICS
+namespace.
 
-Best Regards,
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+---
+ drivers/nvme/host/fabrics.c | 4 ++--
+ drivers/nvme/host/fabrics.h | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-Guixin Liu
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 432efcbf9e2f..e3c990d50704 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -1276,8 +1276,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ 				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_DHCHAP_SECRET |\
+ 				 NVMF_OPT_DHCHAP_CTRL_SECRET)
+ 
+-static struct nvme_ctrl *
+-nvmf_create_ctrl(struct device *dev, const char *buf)
++struct nvme_ctrl *nvmf_create_ctrl(struct device *dev, const char *buf)
+ {
+ 	struct nvmf_ctrl_options *opts;
+ 	struct nvmf_transport_ops *ops;
+@@ -1346,6 +1345,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf)
+ 	nvmf_free_options(opts);
+ 	return ERR_PTR(ret);
+ }
++EXPORT_SYMBOL_NS_GPL(nvmf_create_ctrl, NVME_FABRICS);
+ 
+ static const struct class nvmf_class = {
+ 	.name = "nvme-fabrics",
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 21d75dc4a3a0..2dd3aeb8c53a 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -214,6 +214,7 @@ static inline unsigned int nvmf_nr_io_queues(struct nvmf_ctrl_options *opts)
+ 		min(opts->nr_poll_queues, num_online_cpus());
+ }
+ 
++struct nvme_ctrl *nvmf_create_ctrl(struct device *dev, const char *buf);
+ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
+-- 
+2.47.0
 
-在 2024/10/8 16:08, Guixin Liu 写道:
-> Add support for reservation configuration.
->
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> ---
->   nvmet/nvme.py | 2 +-
->   nvmetcli      | 2 ++
->   2 files changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-> index 59efdb5..20b3cca 100644
-> --- a/nvmet/nvme.py
-> +++ b/nvmet/nvme.py
-> @@ -567,7 +567,7 @@ class Namespace(CFSNode):
->               if nsid < 1 or nsid > self.MAX_NSID:
->                   raise CFSError("NSID must be 1 to %d" % self.MAX_NSID)
->   
-> -        self.attr_groups = ['device', 'ana']
-> +        self.attr_groups = ['device', 'ana', 'resv']
->           self._subsystem = subsystem
->           self._nsid = nsid
->           self._path = "%s/namespaces/%d" % (self.subsystem.path, self.nsid)
-> diff --git a/nvmetcli b/nvmetcli
-> index d949891..6e5348f 100755
-> --- a/nvmetcli
-> +++ b/nvmetcli
-> @@ -283,6 +283,8 @@ class UINamespaceNode(UINode):
->               info.append("nguid=" + ns_nguid)
->           if self.cfnode.grpid != 0:
->               info.append("grpid=" + str(self.cfnode.grpid))
-> +        resv_enable = self.cfnode.get_attr("resv", "enable")
-> +        info.append("resv_enable=" + str(resv_enable))
->           info.append("enabled" if self.cfnode.get_enable() else "disabled")
->           ns_enabled = self.cfnode.get_enable()
->           return (", ".join(info), True if ns_enabled == 1 else ns_enabled)
 
