@@ -4,155 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A799BCFC501
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 07:03:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0CF5CFC504
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 07:18:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sunEOuEjHhNMgJphtcwxnab8BPFnOqcscTv1UUEzpCQ=; b=iLQxaJJmMGB18jhhbp0W30ML0G
-	KhQxvBOztcjW/FDWqOcIoDmOsr3bU6AmoNdUJLw3LFxV2zm8kyHmU803AWV8NS1PLbAyClnczZYg0
-	BtVDtgui8jFjYusaI77CN/Mm9731IqtoMPWE0xLnmH3DWTepSwk8AvgXwUaN+GPPHoBs0zvFfMBcQ
-	yVxeSKN8cme/POg1+caKIJp3NLZhPokFVz89xsuR9ecUWVXHanuxdAchpZ5ha7RSWFcepmd4dmIwb
-	zI0QyeXfFWJ46oxM9KR0Vcd/1BQgChcyOhG6i4XIqQnPVP4cDH2uW7vwuK6r9AUsXqSvDR2tVXuGO
-	4+sM62FQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+E2RVLbJyII14eUTvlx/TQP9GCrs4WW55jghEq18SDI=; b=jWn+EvtpPBREL7y3IZBi0wwHJB
+	fg+kIMrPKchDxQXYudNBt1W/hV6PC0IdXn6DNxkX0SjM+gDXp89i5k4FRuRk4aUjiny5cieI163SA
+	PEyYUhSLC+WM5F97YFyy0dOdMNydxGD3dwS5uh6LJC1Q2GMmYZRe2SoXyrveGyos6gheYGQpKbhvS
+	7TWX0yJCYhfGUZmfQnLXC1a8yFhqwOxocGFicMQXJBK8Fj1249/nd9yhtXHAXTeRB/c3rgRiYLAaU
+	venAoKJAZ/Y/HamL+OmuU+3W7Q+FVgxpBr0XIzHKVTUn3MV+fwmGRkfvMLuBEGXF/0nI6tZ0gsibw
+	WT7HrtBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0F6Z-00000003z1b-14WB;
-	Mon, 14 Oct 2024 07:02:59 +0000
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+	id 1t0FL5-000000041fR-029b;
+	Mon, 14 Oct 2024 07:17:59 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0F5v-00000003yrD-2Mk5
+	id 1t0FKR-000000041Sk-0tSv
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Oct 2024 07:02:22 +0000
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20241014070214euoutp01d4a88b7b633cdf36aaa5501a87d2f712~_P7CkP4ou1258512585euoutp01w
-	for <linux-nvme@lists.infradead.org>; Mon, 14 Oct 2024 07:02:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20241014070214euoutp01d4a88b7b633cdf36aaa5501a87d2f712~_P7CkP4ou1258512585euoutp01w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1728889334;
-	bh=sunEOuEjHhNMgJphtcwxnab8BPFnOqcscTv1UUEzpCQ=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-	b=bKCSGLr76FD3op7lWFartWC6IY9mAa58Si5Dk9gjdCW1YEi7rjMaHUCROKZLCAHVB
-	 antImKuID8OJa5k2eI83606yWl+9qBv626CXrA1KiNGMis0yaVLCIxfyPeKtbdsoVB
-	 0dVYoJkoTCXEjgSxHneN9xOS+OTUQWQxysLMzh6A=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20241014070214eucas1p2e260aee82bbc2fe7c63b492d41d59f0c~_P7CMDN832659426594eucas1p2Y;
-	Mon, 14 Oct 2024 07:02:14 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 4F.C1.09875.6F1CC076; Mon, 14
-	Oct 2024 08:02:14 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20241014070214eucas1p190fe5b4e645abd0198787349ba61f845~_P7BxlZ-92283422834eucas1p1Z;
-	Mon, 14 Oct 2024 07:02:14 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241014070213eusmtrp201aecd3d92d4fe6034c8f2b5c42be2a3~_P7Bwzivu2164021640eusmtrp2W;
-	Mon, 14 Oct 2024 07:02:13 +0000 (GMT)
-X-AuditID: cbfec7f4-131ff70000002693-cb-670cc1f69da7
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 89.92.19096.5F1CC076; Mon, 14
-	Oct 2024 08:02:13 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20241014070213eusmtip1c2a05b35489ff0f9da38e9ac1c867b72~_P7BjkM-Z2718327183eusmtip1h;
-	Mon, 14 Oct 2024 07:02:13 +0000 (GMT)
-Received: from CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) by
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) with Microsoft SMTP
-	Server (TLS) id 15.0.1497.2; Mon, 14 Oct 2024 08:02:12 +0100
-Received: from CAMSVWEXC02.scsc.local ([::1]) by CAMSVWEXC02.scsc.local
-	([fe80::3c08:6c51:fa0a:6384%13]) with mapi id 15.00.1497.012; Mon, 14 Oct
-	2024 08:02:12 +0100
-From: Javier Gonzalez <javier.gonz@samsung.com>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-CC: Keith Busch <kbusch@kernel.org>, "Martin K. Petersen"
-	<martin.petersen@oracle.com>, Kanchan Joshi <joshi.k@samsung.com>,
-	"hare@suse.de" <hare@suse.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"brauner@kernel.org" <brauner@kernel.org>, "viro@zeniv.linux.org.uk"
-	<viro@zeniv.linux.org.uk>, "jack@suse.cz" <jack@suse.cz>,
-	"jaegeuk@kernel.org" <jaegeuk@kernel.org>, "bcrl@kvack.org"
-	<bcrl@kvack.org>, "dhowells@redhat.com" <dhowells@redhat.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>, "asml.silence@gmail.com"
-	<asml.silence@gmail.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "io-uring@vger.kernel.org"
-	<io-uring@vger.kernel.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-aio@kvack.org" <linux-aio@kvack.org>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>, "vishak.g@samsung.com"
-	<vishak.g@samsung.com>
-Subject: RE: [PATCH v7 0/3] FDP and per-io hints
-Thread-Topic: [PATCH v7 0/3] FDP and per-io hints
-Thread-Index: AQHbG7xJFahlOOmkRUWBz3B/P2gFpLKBuCIAgAQCOYCAABtsUA==
-Date: Mon, 14 Oct 2024 07:02:11 +0000
-Message-ID: <34d3ad68068f4f87bf0a61ea8fb8f217@CAMSVWEXC02.scsc.local>
-In-Reply-To: <20241014062125.GA21033@lst.de>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [106.110.32.22]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	Mon, 14 Oct 2024 07:17:22 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A95961FE70;
+	Mon, 14 Oct 2024 07:17:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728890235; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+E2RVLbJyII14eUTvlx/TQP9GCrs4WW55jghEq18SDI=;
+	b=wjgH7MnVvT67UWcN/GtBg43sRN1yCkbEKnqA7xCFTvrV3kWGNcCBSoNdqV5+3QaZ6kA9rw
+	vhcqrQu95YPXyGyB1Y0dkFs2ezISkItZW0dTD2kvSu0QPbFJt/YcVHhnAmeiB89p7MnQ5f
+	VwAxckHWyOSr1FKUNVcyzKkNgyDTKSM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728890235;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+E2RVLbJyII14eUTvlx/TQP9GCrs4WW55jghEq18SDI=;
+	b=lS5c24f3EFA1nSLdg/EDEn9SNBdM8c1Gr+Azm4zFN0FEw0ASAPFA28/Tuw/pOSQ+bPygcY
+	54e41h96UQ5prxDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728890235; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+E2RVLbJyII14eUTvlx/TQP9GCrs4WW55jghEq18SDI=;
+	b=wjgH7MnVvT67UWcN/GtBg43sRN1yCkbEKnqA7xCFTvrV3kWGNcCBSoNdqV5+3QaZ6kA9rw
+	vhcqrQu95YPXyGyB1Y0dkFs2ezISkItZW0dTD2kvSu0QPbFJt/YcVHhnAmeiB89p7MnQ5f
+	VwAxckHWyOSr1FKUNVcyzKkNgyDTKSM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728890235;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+E2RVLbJyII14eUTvlx/TQP9GCrs4WW55jghEq18SDI=;
+	b=lS5c24f3EFA1nSLdg/EDEn9SNBdM8c1Gr+Azm4zFN0FEw0ASAPFA28/Tuw/pOSQ+bPygcY
+	54e41h96UQ5prxDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BDD213A42;
+	Mon, 14 Oct 2024 07:17:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VbPLH3vFDGd6WgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 14 Oct 2024 07:17:15 +0000
+Date: Mon, 14 Oct 2024 09:17:14 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: shinichiro.kawasaki@wdc.com, chaitanyak@nvidia.com, 
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH blktests v3 1/2] nvme/{md/001,rc,002,016,017,030,052}:
+ introduce --resv_enable argument
+Message-ID: <2c78529c-2893-4891-9768-715e316caddc@flourine.local>
+References: <20241012111157.44368-1-kanie@linux.alibaba.com>
+ <20241012111157.44368-2-kanie@linux.alibaba.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjk+LIzCtJLcpLzFFi42LZduznOd1vB3nSDW6cE7OYs2obo8Xqu/1s
-	Fl3/trBYvD78idFi2oefzBbvmn6zWOxZNInJYuXqo0wW71rPsVjMnt7MZPFk/Sxmi0mHrjFa
-	TJnWxGix95a2xZ69J1ks5i97ym6x/Pg/Jot1r9+zWJz/e5zVQdjj8hVvj52z7rJ7nL+3kcXj
-	8tlSj02rOtk8Nn2axO6xeUm9x+6bDWweH5/eYvF4v+8qm8eZBUeA4qerPT5vkvPY9OQtUwBf
-	FJdNSmpOZllqkb5dAlfGvzcT2AsaeCt2zV/K1sD4jKuLkZNDQsBE4t+X76xdjFwcQgIrGCV2
-	/rzHAuF8YZS4+LAbKvOZUaJj+UZGmJb3q98xQSSWM0o8eX8DoWrRxn6ozBlGid0nFrKAtAgJ
-	rGSU+HTFF8RmE9CXWLX9FNgoEQEHidkblrKBNDAL7GCX6DnTxw6SEBYwkGhesg+qyFDi3bKF
-	ULaTxL7+N6wgNouAqsTL6yuA6jk4eAVcJdZ1G4KEOQV0JD7PewA2hlFAVuLRyl9gNrOAuMSt
-	J/OZIF4QlFg0ew8zhC0m8W/XQzYI20Bi69J9LBC2okTf/PcsEL06Egt2f2KDsLUlli18DdbL
-	CzTn5Mwn4ACTEDjLJTHv+AeoBS4SG8/0QcNLWOLV8S3sELaMxP+dMEdUSzScPME0gVFrFpL7
-	ZiHZNwvJvllI9i1gZFnFKJ5aWpybnlpslJdarlecmFtcmpeul5yfu4kRmFRP/zv+ZQfj8lcf
-	9Q4xMnEwHmKU4GBWEuF9P5UzXYg3JbGyKrUoP76oNCe1+BCjNAeLkjivaop8qpBAemJJanZq
-	akFqEUyWiYNTqoEpo+/Kbpa34VpFG6SXB80P2rLapOtFz/6/0rGpxpbzxBcG6u9LMbQwlXV+
-	2dB0pzxj/rvi1Fbe6BvBy7oLNaKyXxndm7KLiePDg4kh1rPNZp/r5Wbbw7k4zS5uaTtvV0vj
-	kRsJK9//P6zNHax+6JnTOuVDr5tOvW1omyDa8WyF9qZyxTfyMnbKMlMsq42+W3y952XlpT/n
-	aMUkjaSn7+9c5k2o/H28dVPsdO1s/8i+Fd6XvOoOS3/pWKhamfCqR6nu7CrZOibFY/+3vbHo
-	Oy4R9O+4lnb1/0VtVxu/Lr80p0pCueW46a6dvLnxzTFOVzjkV6V9sKpuXPJmg2ekrfOqZ225
-	X1YXHJT+8NvB7YcSS3FGoqEWc1FxIgC8zrr0GQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxbZRSH9957ub3FdblrmXslarSTmFC8tIXWl212xLjlZrhpon8oTmYz
-	LgXlY/aDOc2wwky2buFrCNoRaJUPgYijw26z0IUO6ZBthLExx1YlWAwb2K6MacpGJ/Riwn/P
-	ec958st5cyhc/G9MPJVXaOT0hdp8KRlLDEW8vpce9K3Vyc9MqVF9uxOgDl8FiSyRbgLNXJgD
-	qPZeGEeB0ocE6vm2GkNtHb9gKPDlFQKdrCvDkP9HK46qPWMA1dSWAtQ7LkM9vYMEamyZEqBW
-	bwRDnTNBAg0vemPSJezotQz2nNUnYId/7yLY0csm1tF+lGQdc9UC9nTT56zrpplkQ1PjBBt0
-	XyfZS7b+pfehz9j7jmdZh/9v7M11mcxWfZHJyD2XW2QwviJ9T4GUjCINMcrUNEaR8vL7m5Uq
-	abJmazaXn1fM6ZM1HzC5kdlKwX6z6JOfG5tJM/gr1gKEFKRTYbAjgFlALCWmmwGMWKpIvvE0
-	7Jq/HsOzBD4as5D8UAjA0JEKwBeXAPTUHSf4og1A29wFbFkh6WTYfuZXsMxxdDo8eao5quO0
-	UwDPPezHlxsSWg7LmtwrQwoYaLGv8KvQXTEbzSboBHjnxvcCC6AoEb0ddh5T8GG3cXjq2I1o
-	mJBOgvcbJgTLDOhn4GTbQpRxeiMc9zdi/A40bOoZxnneAO/8GVnZTQ5/anYTPD8PyxuDBO8m
-	QZtrjuRZBlvsM1FXRK+Hg9/4iUoQb10VYV2lWFcp1lWKDRDtII4zGQp0BQYlY9AWGEyFOmZf
-	UYEDLF2gcyDcfRa03Q0xHoBRwAMghUvjRMGvhDqxKFt78FNOX7RXb8rnDB6gWvqXKjx+w76i
-	pRMuNO5VqOUqRao6Ta5KU6dIN4rIa8M5YlqnNXIfcdx+Tv+/h1HCeDPmFC/c3NmP1fR2Hqp9
-	/EPOeXdpuiZlh2x2zbbdhrreVs2OI4tZb+mwzp3Zki31551XWrftqaghLnY37JYNPqVZHCh5
-	bd5boyzdXDzt87rWqS3Gw70zfZuq8v1fh7JCvrGJQ3ZYcvnuLfHg/ERZpnO6WM1lvejMrEQJ
-	73z37mR4/IDthfLHXkrfZf6tT0AUJ/qnmSb3vdOyg7jNXh4rORtwJO4iwwsNa9d/nPFIbcp4
-	g2h9u3n0ySz70ETHouR1/KpmYI9K4vJ/iBXnza+5qDu65Z+r2w8E60fEqhNPlHRpLHXhL04I
-	byclCEfInMqGySEXg4iRasAcRvbjf8hvPZAShlytIhHXG7T/AfIBTv4KBAAA
-X-CMS-MailID: 20241014070214eucas1p190fe5b4e645abd0198787349ba61f845
-X-Msg-Generator: CA
-X-RootMTR: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
-References: <20241008122535.GA29639@lst.de> <ZwVFTHMjrI4MaPtj@kbusch-mbp>
-	<20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp>
-	<CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com>
-	<20241010070736.de32zgad4qmfohhe@ArmHalley.local>
-	<20241010091333.GB9287@lst.de>
-	<20241010115914.eokdnq2cmcvwoeis@ArmHalley.local>
-	<20241011090224.GC4039@lst.de>
-	<5e9f7f1c-48fd-477f-b4ba-c94e6b50b56f@kernel.dk>
-	<20241014062125.GA21033@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241012111157.44368-2-kanie@linux.alibaba.com>
+X-Spamd-Result: default: False [-4.29 / 50.00];
+	BAYES_HAM(-3.00)[99.97%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241014_000219_894247_40044C4A 
-X-CRM114-Status: GOOD (  20.75  )
+X-CRM114-CacheID: sfid-20241014_001719_420061_73106419 
+X-CRM114-Status: UNSURE (   8.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -167,41 +128,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> -----Original Message-----
-> From: Christoph Hellwig <hch@lst.de>
-> Sent: Monday, October 14, 2024 8:21 AM
-> To: Jens Axboe <axboe@kernel.dk>
-> Cc: Christoph Hellwig <hch@lst.de>; Javier Gonzalez <javier.gonz@samsung.=
-com>;
-> Keith Busch <kbusch@kernel.org>; Martin K. Petersen
-> <martin.petersen@oracle.com>; Kanchan Joshi <joshi.k@samsung.com>;
-> hare@suse.de; sagi@grimberg.me; brauner@kernel.org; viro@zeniv.linux.org.=
-uk;
-> jack@suse.cz; jaegeuk@kernel.org; bcrl@kvack.org; dhowells@redhat.com;
-> bvanassche@acm.org; asml.silence@gmail.com; linux-nvme@lists.infradead.or=
-g;
-> linux-fsdevel@vger.kernel.org; io-uring@vger.kernel.org; linux-
-> block@vger.kernel.org; linux-aio@kvack.org; gost.dev@samsung.com;
-> vishak.g@samsung.com
-> Subject: Re: [PATCH v7 0/3] FDP and per-io hints
->=20
-> On Fri, Oct 11, 2024 at 11:08:26AM -0600, Jens Axboe wrote:
-> >
-> > I think that last argument is a straw man - for any kind of interface
-> > like this, we've ALWAYS just had the rule that any per-whatever
-> > overrides the generic setting.
->=20
-> And exactly that is the problem.  For file systems we can't support
-> that sanely.  So IFF you absolutely want the per-I/O hints we need
-> an opt in by the file operations.  I've said that at least twice
-> in this discussion before, but as everyone likes to have political
-> discussions instead of technical ones no one replied to that.
+On Sat, Oct 12, 2024 at 07:11:56PM GMT, Guixin Liu wrote:
+> Add an optional argument --resv_enable to _nvmet_target_setup() and
+> propagate it to _create_nvmet_subsystem() and _create_nvmet_ns().
+> 
+> One can call functions with --resv_enable to enable reservation
+> feature on a specific namespace.
+> 
+> And also make _create_nvmet_ns and _create_nvmet_subsystem to parse
+> for arguments, this makes these functions more flexible to use.
+> 
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 
-Is it a way forward to add this in a new spin of the series - keeping the=20
-temperature mapping on the NVMe side?
-
-If not, what would be acceptable for a first version, before getting into a=
-dding
-a new interface to expose agnostic hints?
-
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
