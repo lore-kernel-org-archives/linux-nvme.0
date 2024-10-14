@@ -4,65 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F367CFC501
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 07:58:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB07BCFC503
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 08:50:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mHsDS60Rm1dSdUgdHqMu/DcQZGrwEio7XUYkvQmC2tw=; b=H/TNj2vOvvdA/z12/Qkp3h+kLj
-	A3OJx5N4hYgsJgonss2R8LlVH5UY/r9VaW/pL/A3+ua2ejeRbREZZsHuFnOu24yBOkVwnr+F/Y/D+
-	HpsTzwi8iSJ9yKoHWaFs9/wWXV2YXWJfRpzlhPXaFWg4fZBJ7mARN4mky9F8OWfXS07Nt0ZPk+uWJ
-	WEmFao5JaXUz/oMvwvGznBU1geNNycD3wPXjB4PG+3Ik0NcxWvCYFjvftoIMHH2EOM2EeZz1UzghM
-	qaiFc5KYmWIkCqnzkjEDacOq5KtwomqQb6TqlT/grlDDe0OvXcIkST31oXh0UovgNh3HVgfZ+Mqu5
-	ZGIAwKKw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nU/qU2kG8hi5utisxU99hecTxyvs2URAxnwqBBRt48M=; b=AsICgXObV6vsdBNvh4Os19h/d5
+	ld1Ar+F6yykwJ5r2w75WLEyfNOVurK+6SqVOJXHpvuGHMJgTEINS/DyIZ7Y34I2805V9B+2orK2QZ
+	GCwD1RsghwU0GRUawMbQ3g8WDuOI45EKTxlNTZfWbLuW282WZCFEeM5o7E3iHF7ZS/mBeg2DKDWrV
+	WBSNZ4s/DT68RWoTCED05fRSHQnXLtBtxWUKd4qM3Xzleg0grrIqtg65dmAyzQbrYtdCNZLcijzZU
+	jKiPwG0cVk09q7Rl2y3PdBD9EpQpjk9dJsahgVgbSXeofBqjP4IKBQ2iez5LqP/wLXhUZYCqQ6yjt
+	+Yu+5/RQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0FyT-00000004ArD-2JcB;
-	Mon, 14 Oct 2024 07:58:41 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1t0Gmd-00000004MBe-3naN;
+	Mon, 14 Oct 2024 08:50:31 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0FnP-0000000480f-0Y1o
+	id 1t0GXA-00000004IUB-2aKq
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 14 Oct 2024 08:34:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=nU/qU2kG8hi5utisxU99hecTxyvs2URAxnwqBBRt48M=; b=fRlJnLDUv99JOxgq7jjvxEw+vL
+	7WKwx7K0a1iDKK0DYJIdm9F1rAEarRLJR4oOrpqJwUBI/JfKfP4AxFDYk7WkZqo7Re2iiLj0PK6ws
+	GJmXd3RGG7Y0aka5mOxTiOSeGwhxDfha/F1CRiAj6yv2/GBTwtaUIBZfV+Wl7bBMxYeBoqPR3jlt8
+	K9aJM1H74tbeORLugcRCUwkRfqfDJXbs+JAyuam8NOD5GGaQy1m10CWvBu2aHcsCdOqVJG2pcaEGs
+	jNXVRuoOai13MfWaqdZJgsmgwMOccpS15/rvmVYIE1+k3+LBhQ82KBxqjZmHVsXu4fX68flOH7FcX
+	U49dxkTw==;
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1t0GX3-00000006I0P-2kcG
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Oct 2024 07:47:16 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 14511227AAC; Mon, 14 Oct 2024 09:47:09 +0200 (CEST)
-Date: Mon, 14 Oct 2024 09:47:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Javier Gonzalez <javier.gonz@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Kanchan Joshi <joshi.k@samsung.com>, "hare@suse.de" <hare@suse.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"jack@suse.cz" <jack@suse.cz>,
-	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-	"bcrl@kvack.org" <bcrl@kvack.org>,
-	"dhowells@redhat.com" <dhowells@redhat.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>,
-	"asml.silence@gmail.com" <asml.silence@gmail.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-aio@kvack.org" <linux-aio@kvack.org>,
-	"gost.dev@samsung.com" <gost.dev@samsung.com>,
-	"vishak.g@samsung.com" <vishak.g@samsung.com>
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <20241014074708.GA22575@lst.de>
-References: <20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp> <CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com> <20241010070736.de32zgad4qmfohhe@ArmHalley.local> <20241010091333.GB9287@lst.de> <20241010115914.eokdnq2cmcvwoeis@ArmHalley.local> <20241011090224.GC4039@lst.de> <5e9f7f1c-48fd-477f-b4ba-c94e6b50b56f@kernel.dk> <20241014062125.GA21033@lst.de> <34d3ad68068f4f87bf0a61ea8fb8f217@CAMSVWEXC02.scsc.local>
+	Mon, 14 Oct 2024 08:34:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1728894852; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=nU/qU2kG8hi5utisxU99hecTxyvs2URAxnwqBBRt48M=;
+	b=VuulApzRzrSTVJL+BDyOq7XosUfqA+pDqLIhw5EStq4Cs1QKo18fQETErCUVBGavWt3k3FZ6CiI0GMVs12UmaDc/mlva0zzEN9MPNQoaYMFz/RSFVZwkNVU/gQd4fvv81t34vAaKKoN10NNkiC/TLCDPrLAQGbt1XcoBLI2AfQA=
+Received: from 30.178.81.252(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WH3msgf_1728894848 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 14 Oct 2024 16:34:09 +0800
+Message-ID: <2091bf64-12d7-480f-acc7-55bca77fbf3e@linux.alibaba.com>
+Date: Mon, 14 Oct 2024 16:34:08 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <34d3ad68068f4f87bf0a61ea8fb8f217@CAMSVWEXC02.scsc.local>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH blktests v3 2/2] nvme: test the nvme reservation feature
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>,
+ "dwagner@suse.de" <dwagner@suse.de>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20241012111157.44368-1-kanie@linux.alibaba.com>
+ <20241012111157.44368-3-kanie@linux.alibaba.com>
+ <6e1e4df5-ccee-4a92-80ac-64976a526003@nvidia.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <6e1e4df5-ccee-4a92-80ac-64976a526003@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241014_004715_369562_CC9E7867 
-X-CRM114-Status: GOOD (  21.89  )
+X-CRM114-CacheID: sfid-20241014_093426_931224_497D3C58 
+X-CRM114-Status: GOOD (  11.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,23 +84,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 14, 2024 at 07:02:11AM +0000, Javier Gonzalez wrote:
-> > And exactly that is the problem.  For file systems we can't support
-> > that sanely.  So IFF you absolutely want the per-I/O hints we need
-> > an opt in by the file operations.  I've said that at least twice
-> > in this discussion before, but as everyone likes to have political
-> > discussions instead of technical ones no one replied to that.
-> 
-> Is it a way forward to add this in a new spin of the series - keeping the 
-> temperature mapping on the NVMe side?
 
-What do you gain from that?  NVMe does not understand data temperatures,
-so why make up that claim?  Especially as it directly undermindes any
-file system work to actually make use of it.
+在 2024/10/14 14:43, Chaitanya Kulkarni 写道:
+> On 10/12/24 04:11, Guixin Liu wrote:
+>> Test the NVMe reservation feature, including register, acquire,
+>> release and report.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>>    tests/nvme/054     |  99 +++++++++++++++++++++++++++++++++++++++++
+>>    tests/nvme/054.out | 108 +++++++++++++++++++++++++++++++++++++++++++++
+>>    2 files changed, 207 insertions(+)
+>>    create mode 100644 tests/nvme/054
+>>    create mode 100644 tests/nvme/054.out
+>>
+>> diff --git a/tests/nvme/054 b/tests/nvme/054
+>> new file mode 100644
+>> index 0000000..f352c73
+>> --- /dev/null
+>> +++ b/tests/nvme/054
+>> @@ -0,0 +1,99 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: GPL-3.0+
+>> +# Copyright (C) 2024 Guixin Liu
+>> +# Copyright (C) 2024 Alibaba Group.
+>> +#
+>> +# Test the NVMe reservation feature
+>> +#
+>> +. tests/nvme/rc
+>> +
+>> +DESCRIPTION="Test the NVMe reservation feature"
+>> +QUICK=1
+>> +nvme_trtype="loop"
+>> +
+>> +requires() {
+>> +	_nvme_requires
+>> +}
+>> +
+>> +resv_report() {
+>> +	local nvmedev=$1
+>> +	local report_arg=$2
+>> +
+>> +	nvme resv-report "/dev/${nvmedev}n1" "${report_arg}" | grep -v "hostid"
+>> +}
+>> +
+>> +test_resv() {
+>> +	local nvmedev=$1
+>> +	local report_arg="--cdw11=1"
+>> +
+>> +	if nvme resv-report --help 2>&1 | grep -- '--eds' > /dev/null; then
+>> +		report_arg="--eds"
+>> +	fi
+>> +
+>> +	echo "Register"
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +
+>> +	echo "Replace"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --crkey=4 --nrkey=5 --rrega=2
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +
+>> +	echo "Unregister"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --crkey=5 --rrega=1
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +
+>> +	echo "Acquire"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
+>> +	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=1 --racqa=0
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +
+>> +	echo "Preempt"
+>> +	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=2 --racqa=1
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +
+>> +	echo "Release"
+>> +	nvme resv-release "/dev/${nvmedev}n1" --crkey=4 --rtype=2 --rrela=0
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +
+>> +	echo "Clear"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
+>> +	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=1 --racqa=0
+>> +	resv_report "${nvmedev}" "${report_arg}"
+>> +	nvme resv-release "/dev/${nvmedev}n1" --crkey=4 --rrela=1
+>> +}
+>> +
+>> +
+> make it easier to debug totally untested :-
+>
+> test_resv() {
+>           local nvmedev=$1
+>           local report_arg="--cdw11=1"
+>           test_dev="/dev/${nvmedev}n1"
+>
+>           if nvme resv-report --help 2>&1 | grep -- '--eds' > /dev/null; then
+>                   report_arg="--eds"
+>           fi
+>
+>           echo "Register"
+>           resv_report "${nvmedev}" "${report_arg}"
+>           nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
+>           resv_report "${nvmedev}" "${report_arg}"
+>
+>           echo "Replace"
+>           nvme resv-register "${test_dev}" --crkey=4 --nrkey=5 --rrega=2
+>           resv_report "${nvmedev}" "${report_arg}"
+>
+>           echo "Unregister"
+>           nvme resv-register "${test_dev}" --crkey=5 --rrega=1
+>           resv_report "${nvmedev}" "${report_arg}"
+>
+>           echo "Acquire"
+>           nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
+>           nvme resv-acquire "${test_dev}" --crkey=4 --rtype=1 --racqa=0
+>           resv_report "${nvmedev}" "${report_arg}"
+>
+>           echo "Preempt"
+>           nvme resv-acquire "${test_dev}" --crkey=4 --rtype=2 --racqa=1
+>           resv_report "${nvmedev}" "${report_arg}"
+>
+>           echo "Release"
+>           nvme resv-release "${test_dev}" --crkey=4 --rtype=2 --rrela=0
+>           resv_report "${nvmedev}" "${report_arg}"
+>
+>           echo "Clear"
+>           nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
+>           nvme resv-acquire "${test_dev}" --crkey=4 --rtype=1 --racqa=0
+>           resv_report "${nvmedev}" "${report_arg}"
+>           nvme resv-release "${test_dev}" --crkey=4 --rrela=1
+> }
+>
+Thanks, changed in v4, and also change resv_report()'s firt param to
 
-> If not, what would be acceptable for a first version, before getting into adding
-> a new interface to expose agnostic hints?
+test_dev instead of nvmedev.
 
-Just iterate on Kanchan's series for a block layer (and possible user level,
-but that's less urgent) interface for stream separation?
+Best Regards,
+
+Guixin Liu
+
+> irrespective of that looks good :-
+>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+>
+> -ck
+>
+>
 
