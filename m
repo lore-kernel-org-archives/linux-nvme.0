@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADAAECFC50A
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C704ACFC52A
 	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 09:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,46 +12,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LuoGDYsPXj8p8f4XfuUqpXhQFNhBY0HBX7WSPxJ6GZA=; b=jeMUXL2jyqqJ0HnwNv6cpcM86B
-	gdRYYqAPLfcWMkoF2np95bqAUOdoUywm+mm4TBTzzjwRdXO1O0sH9sT/xAaTlO8FOp/yvyztAO5Oo
-	kz9AP7pwAkOKIzG9g5/jAwJ4MlMbgKqtoaVWBqX2i8FX6SfSBy2rIj6COIHyS4usE5Ap7ExsuPedg
-	Bv4OZ2Ao/SF2FEvu5e/aIAA/I3mU2jNIiAmZCTwCJL8m5xl/k9E9YD1/Z6A7lr70J7Mv2hEraL1B8
-	3jxm6MsnMzwQMWO8J/hfTu6DogcsKLvkdlc9ZkL6ioWeLC68432d8UlfP8IpFq/lyOlmKNYAwF/hd
-	4U5wO+nA==;
+	bh=udq7pcCctGr3Sx5CeKGqMrVTo2htOSu7TSWvRa2n8Yk=; b=q7GLDR0QBC/pL+S+T8K7SqAbzO
+	GgpAjgBG6VWdWkHcRdtNL6mRAQEElCyypHsnunwdlq2DQmlY/mvOUgc6sB+O30H015CjQjqQG6pUN
+	WEVcg4tyA2Yy/wczr96QFSNRT7dt6WYmBdBQ+q01IwEiioxhArHb7grTqHYBR2YcUBOxqOOKRwkC5
+	KdY+eFKzZpl53CEs9Nwo7xpeWn/dzXTsb5uLBpKvkQX3n7FgjR9q9vnVeXI6qdM6X4RlPHZFW4hQ4
+	QEPZQJbnqToluC+1PKuzmmuIIZWH7qrbG7TxvYPfrxH0gd2pI3ieFbe6w3/oVsP8XnYMz8Omfv6P2
+	ExreFYmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0HDy-00000004Tm3-1xL3;
-	Mon, 14 Oct 2024 09:18:46 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1t0HDz-00000004TmR-1BIj;
+	Mon, 14 Oct 2024 09:18:47 +0000
+Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0GxF-00000004PPe-3mbC
+	id 1t0GxK-00000004PRV-2gxb
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Oct 2024 09:01:31 +0000
+	Mon, 14 Oct 2024 09:01:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1728896487; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=LuoGDYsPXj8p8f4XfuUqpXhQFNhBY0HBX7WSPxJ6GZA=;
-	b=iWITWRbsRU/LGNh9MKlO1z57vgQTSkxQWiow5zq+j+Rg8zcmHdoZfuBbJX0B7OShBI6fY4uAk70oZ675VaRZW8oJTK28LvAz7vIWMebHuZBDicBmAVkNHG7+Bk9I0+2YEc2q0h6KygRoo9YKBKSpnXxiIjyPcAc+Ue6Z42NtJsI=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WH3l89b_1728896481 cluster:ay36)
+	t=1728896492; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=udq7pcCctGr3Sx5CeKGqMrVTo2htOSu7TSWvRa2n8Yk=;
+	b=KtwHSOVw1U7FKOzd4G1/pNe2X10bZ4sLUFD45BdYIWp8gldvtG8t/xzNrxNs5ZsboHjjzUNupcid7/KapCmw0ZJokKEpiYg9/2F5pvXTt0+3v0qtdlz/IgJI8PlrufQg7stpvZlYgWieSadYKvH3YIGRwe7LKgOiAz4Ww6YkGug=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WH3Sv3x_1728896486 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 14 Oct 2024 17:01:26 +0800
+          Mon, 14 Oct 2024 17:01:31 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: shinichiro.kawasaki@wdc.com,
 	dwagner@suse.de,
 	chaitanyak@nvidia.com
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH blktests v4 1/2] nvme/{md/001,rc,002,016,017,030,052}: introduce --resv_enable argument
-Date: Mon, 14 Oct 2024 17:01:15 +0800
-Message-ID: <20241014090116.125500-2-kanie@linux.alibaba.com>
+Subject: [PATCH blktests v4 2/2] nvme: test the nvme reservation feature
+Date: Mon, 14 Oct 2024 17:01:16 +0800
+Message-ID: <20241014090116.125500-3-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241014090116.125500-1-kanie@linux.alibaba.com>
 References: <20241014090116.125500-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241014_020130_122198_7A5CEFB4 
-X-CRM114-Status: GOOD (  10.10  )
+X-CRM114-CacheID: sfid-20241014_020134_849728_47FDD7C5 
+X-CRM114-Status: GOOD (  11.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,288 +66,199 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add an optional argument --resv_enable to _nvmet_target_setup() and
-propagate it to _create_nvmet_subsystem() and _create_nvmet_ns().
-
-One can call functions with --resv_enable to enable reservation
-feature on a specific namespace.
-
-And also make _create_nvmet_ns and _create_nvmet_subsystem to parse
-for arguments, this makes these functions more flexible to use.
+Test the NVMe reservation feature, including register, acquire,
+release and report.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
 ---
- common/nvme    | 89 ++++++++++++++++++++++++++++++++++++++++++--------
- tests/md/001   |  4 ++-
- tests/nvme/002 |  3 +-
- tests/nvme/016 |  7 ++--
- tests/nvme/017 | 10 +++---
- tests/nvme/030 |  6 ++--
- tests/nvme/052 |  5 ++-
- tests/nvme/rc  | 11 +++++--
- 8 files changed, 109 insertions(+), 26 deletions(-)
+ tests/nvme/054     | 101 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/054.out |  68 ++++++++++++++++++++++++++++++
+ 2 files changed, 169 insertions(+)
+ create mode 100644 tests/nvme/054
+ create mode 100644 tests/nvme/054.out
 
-diff --git a/common/nvme b/common/nvme
-index 9e78f3e..c1aa8d6 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -452,32 +452,95 @@ _remove_nvmet_port() {
- }
- 
- _create_nvmet_ns() {
--	local nvmet_subsystem="$1"
--	local nsid="$2"
--	local blkdev="$3"
-+	local nvmet_subsystem=""
-+	local nsid=""
-+	local blkdev=""
- 	local uuid="00000000-0000-0000-0000-000000000000"
--	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
--	local ns_path="${subsys_path}/namespaces/${nsid}"
+diff --git a/tests/nvme/054 b/tests/nvme/054
+new file mode 100644
+index 0000000..dc674a7
+--- /dev/null
++++ b/tests/nvme/054
+@@ -0,0 +1,101 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2024 Guixin Liu
++# Copyright (C) 2024 Alibaba Group.
++#
++# Test the NVMe reservation feature
++#
++. tests/nvme/rc
++
++DESCRIPTION="Test the NVMe reservation feature"
++QUICK=1
++nvme_trtype="loop"
++
++requires() {
++	_nvme_requires
++}
++
++resv_report() {
++	local test_dev=$1
++	local report_arg=$2
++
++	nvme resv-report "${test_dev}" "${report_arg}" | grep -v "hostid" | \
++		grep -E "gen|rtype|regctl|regctlext|cntlid|rcsts|rkey"
++}
++
++test_resv() {
++	local nvmedev=$1
++	local report_arg="--cdw11=1"
++	test_dev="/dev/${nvmedev}n1"
++
++	if nvme resv-report --help 2>&1 | grep -- '--eds' > /dev/null; then
++		report_arg="--eds"
++	fi
++
++	echo "Register"
++	resv_report "${test_dev}" "${report_arg}"
++	nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
++	resv_report "${test_dev}" "${report_arg}"
++
++	echo "Replace"
++	nvme resv-register "${test_dev}" --crkey=4 --nrkey=5 --rrega=2
++	resv_report "${test_dev}" "${report_arg}"
++
++	echo "Unregister"
++	nvme resv-register "${test_dev}" --crkey=5 --rrega=1
++	resv_report "${test_dev}" "${report_arg}"
++
++	echo "Acquire"
++	nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
++	nvme resv-acquire "${test_dev}" --crkey=4 --rtype=1 --racqa=0
++	resv_report "${test_dev}" "${report_arg}"
++
++	echo "Preempt"
++	nvme resv-acquire "${test_dev}" --crkey=4 --rtype=2 --racqa=1
++	resv_report "${test_dev}" "${report_arg}"
++
++	echo "Release"
++	nvme resv-release "${test_dev}" --crkey=4 --rtype=2 --rrela=0
++	resv_report "${test_dev}" "${report_arg}"
++
++	echo "Clear"
++	nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
++	nvme resv-acquire "${test_dev}" --crkey=4 --rtype=1 --racqa=0
++	resv_report "${test_dev}" "${report_arg}"
++	nvme resv-release "${test_dev}" --crkey=4 --rrela=1
++}
++
++test() {
++	echo "Running ${TEST_NAME}"
++
++	_setup_nvmet
++
++	local nvmedev
++	local skipped=false
 +	local subsys_path=""
 +	local ns_path=""
-+	local resv_enable=false
- 
--	if [[ $# -eq 4 ]]; then
--		uuid="$4"
--	fi
-+	while [[ $# -gt 0 ]]; do
-+		case $1 in
-+			--subsysnqn)
-+				nvmet_subsystem="$2"
-+				shift 2
-+				;;
-+			--nsid)
-+				nsid="$2"
-+				shift 2
-+				;;
-+			--blkdev)
-+				blkdev="$2"
-+				shift 2
-+				;;
-+			--uuid)
-+				uuid="$2"
-+				shift 2
-+				;;
-+			--resv_enable)
-+				resv_enable=true
-+				shift 1
-+				;;
-+			*)
-+				echo "WARNING: unknown argument: $1"
-+				shift
-+				;;
-+		esac
-+	done
 +
-+	subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-+	ns_path="${subsys_path}/namespaces/${nsid}"
- 
- 	mkdir "${ns_path}"
- 	printf "%s" "${blkdev}" > "${ns_path}/device_path"
- 	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
-+	if [[ -f "${ns_path}/resv_enable" && "${resv_enable}" = true ]] ; then
-+		printf 1 > "${ns_path}/resv_enable"
++	_nvmet_target_setup --blkdev file --resv_enable
++	subsys_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
++	ns_path="${subsys_path}/namespaces/1"
++
++	if [[ -f "${ns_path}/resv_enable" ]] ; then
++		_nvme_connect_subsys
++
++		nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
++
++		test_resv "${nvmedev}"
++		_nvme_disconnect_subsys
++	else
++		SKIP_REASONS+=("missing reservation feature")
++		skipped=true
 +	fi
- 	printf 1 > "${ns_path}/enable"
- }
- 
- _create_nvmet_subsystem() {
--	local nvmet_subsystem="$1"
--	local blkdev="$2"
--	local uuid=$3
--	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-+	local nvmet_subsystem=""
-+	local blkdev=""
-+	local uuid="00000000-0000-0000-0000-000000000000"
-+	local resv_enable=""
-+	local cfs_path=""
 +
-+	while [[ $# -gt 0 ]]; do
-+		case $1 in
-+			--subsysnqn)
-+				nvmet_subsystem="$2"
-+				shift 2
-+				;;
-+			--blkdev)
-+				blkdev="$2"
-+				shift 2
-+				;;
-+			--uuid)
-+				uuid="$2"
-+				shift 2
-+				;;
-+			--resv_enable)
-+				resv_enable="--resv_enable";
-+				shift 1
-+				;;
-+			*)
-+				echo "WARNING: unknown argument: $1"
-+				shift
-+				;;
-+		esac
-+	done
- 
-+	cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
- 	mkdir -p "${cfs_path}"
- 	echo 0 > "${cfs_path}/attr_allow_any_host"
--	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
-+	_create_nvmet_ns --subsysnqn "${nvmet_subsystem}" \
-+			 --nsid "1" \
-+			 --blkdev "${blkdev}" \
-+			 --uuid "${uuid}" \
-+			 ${resv_enable}
- }
- 
- _add_nvmet_allow_hosts() {
-diff --git a/tests/md/001 b/tests/md/001
-index 27df7b3..98da51d 100755
---- a/tests/md/001
-+++ b/tests/md/001
-@@ -52,7 +52,9 @@ setup_nvme_over_tcp() {
- 	local port
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "/dev/mapper/ram0_big_optio" "${def_subsys_uuid}"
-+	_create_nvmet_subsystem --subsysnqn "${def_subsysnqn}" \
-+				--blkdev "/dev/mapper/ram0_big_optio" \
-+				--uuid "${def_subsys_uuid}"
- 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
- 
- 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-diff --git a/tests/nvme/002 b/tests/nvme/002
-index f613c78..043ab1c 100755
---- a/tests/nvme/002
-+++ b/tests/nvme/002
-@@ -34,7 +34,8 @@ test() {
- 	local genctr=1
- 
- 	for ((i = 0; i < iterations; i++)); do
--		_create_nvmet_subsystem "blktests-subsystem-$i" "${loop_dev}"
-+		_create_nvmet_subsystem --subsysnqn "blktests-subsystem-$i" \
-+					--blkdev "${loop_dev}"
- 		_add_nvmet_subsys_to_port "${port}" "blktests-subsystem-$i"
- 	done
- 
-diff --git a/tests/nvme/016 b/tests/nvme/016
-index d1fdb35..1143cab 100755
---- a/tests/nvme/016
-+++ b/tests/nvme/016
-@@ -29,10 +29,13 @@ test() {
- 	loop_dev="$(losetup -f)"
- 	local genctr=1
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}"
-+	_create_nvmet_subsystem --subsysnqn "${def_subsysnqn}" \
-+				--blkdev "${loop_dev}"
- 
- 	for ((i = 2; i <= iterations; i++)); do
--		_create_nvmet_ns "${def_subsysnqn}" "${i}" "${loop_dev}"
-+		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
-+				 --nsid "${i}" \
-+				 --blkdev "${loop_dev}"
- 	done
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
-diff --git a/tests/nvme/017 b/tests/nvme/017
-index 114be60..5721000 100755
---- a/tests/nvme/017
-+++ b/tests/nvme/017
-@@ -29,12 +29,14 @@ test() {
- 
- 	local genctr=1
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "$(_nvme_def_file_path)" \
--		"${def_subsys_uuid}"
-+	_create_nvmet_subsystem --subsysnqn "${def_subsysnqn}" \
-+				--blkdev "$(_nvme_def_file_path)" \
-+				--uuid "${def_subsys_uuid}"
- 
- 	for ((i = 2; i <= iterations; i++)); do
--		_create_nvmet_ns "${def_subsysnqn}" "${i}" \
--				 "$(_nvme_def_file_path)"
-+		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
-+				 --nsid "${i}" \
-+				 --blkdev "$(_nvme_def_file_path)"
- 	done
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
-diff --git a/tests/nvme/030 b/tests/nvme/030
-index b1ed8bc..5db20c0 100755
---- a/tests/nvme/030
-+++ b/tests/nvme/030
-@@ -30,13 +30,15 @@ test() {
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
--	_create_nvmet_subsystem "${subsys}1" "$(losetup -f)"
-+	_create_nvmet_subsystem --subsysnqn "${subsys}1" \
-+				--blkdev "$(losetup -f)"
- 	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
- 	_create_nvmet_host "${subsys}1" "${def_hostnqn}"
- 
- 	genctr=$(_discovery_genctr)
- 
--	_create_nvmet_subsystem "${subsys}2" "$(losetup -f)"
-+	_create_nvmet_subsystem --subsysnqn "${subsys}2" \
-+				--blkdev "$(losetup -f)"
- 	_add_nvmet_subsys_to_port "${port}" "${subsys}2"
- 
- 	genctr=$(_check_genctr "${genctr}" "adding a subsystem to a port")
-diff --git a/tests/nvme/052 b/tests/nvme/052
-index 401f043..1dcda23 100755
---- a/tests/nvme/052
-+++ b/tests/nvme/052
-@@ -64,7 +64,10 @@ test() {
- 		truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).$i"
- 		uuid="$(uuidgen -r)"
- 
--		_create_nvmet_ns "${def_subsysnqn}" "${i}" "$(_nvme_def_file_path).$i" "${uuid}"
-+		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
-+				--nsid "${i}" \
-+				--blkdev "$(_nvme_def_file_path).$i" \
-+				--uuid "${uuid}"
- 
- 		# wait until async request is processed and ns is created
- 		if ! nvmf_wait_for_ns "${uuid}" created; then
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 671012e..357cab9 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -324,6 +324,7 @@ _nvmet_target_setup() {
- 	local subsysnqn="${def_subsysnqn}"
- 	local subsys_uuid="${def_subsys_uuid}"
- 	local port
-+	local resv_enable=""
- 
- 	while [[ $# -gt 0 ]]; do
- 		case $1 in
-@@ -347,6 +348,10 @@ _nvmet_target_setup() {
- 				subsys_uuid="$2"
- 				shift 2
- 				;;
-+			--resv_enable)
-+				resv_enable="--resv_enable"
-+				shift 1
-+				;;
- 			*)
- 				echo "WARNING: unknown argument: $1"
- 				shift
-@@ -361,8 +366,10 @@ _nvmet_target_setup() {
- 		blkdev="$(_nvme_def_file_path)"
- 	fi
- 
--	_create_nvmet_subsystem "${subsysnqn}" "${blkdev}" \
--				"${subsys_uuid}"
-+	_create_nvmet_subsystem --subsysnqn "${subsysnqn}" \
-+				--blkdev "${blkdev}" \
-+				--uuid "${subsys_uuid}" \
-+				${resv_enable}
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${subsysnqn}"
- 	_create_nvmet_host "${subsysnqn}" "${def_hostnqn}" \
++	_nvmet_target_cleanup
++
++	if [[ "${skipped}" = true ]] ; then
++		return 1
++	fi
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/054.out b/tests/nvme/054.out
+new file mode 100644
+index 0000000..5adb30d
+--- /dev/null
++++ b/tests/nvme/054.out
+@@ -0,0 +1,68 @@
++Running nvme/054
++Register
++gen       : 0
++rtype     : 0
++regctl    : 0
++NVME Reservation  success
++gen       : 1
++rtype     : 0
++regctl    : 1
++regctlext[0] :
++  cntlid     : ffff
++  rcsts      : 0
++  rkey       : 4
++Replace
++NVME Reservation  success
++gen       : 2
++rtype     : 0
++regctl    : 1
++regctlext[0] :
++  cntlid     : ffff
++  rcsts      : 0
++  rkey       : 5
++Unregister
++NVME Reservation  success
++gen       : 3
++rtype     : 0
++regctl    : 0
++Acquire
++NVME Reservation  success
++NVME Reservation Acquire success
++gen       : 4
++rtype     : 1
++regctl    : 1
++regctlext[0] :
++  cntlid     : ffff
++  rcsts      : 1
++  rkey       : 4
++Preempt
++NVME Reservation Acquire success
++gen       : 5
++rtype     : 2
++regctl    : 1
++regctlext[0] :
++  cntlid     : ffff
++  rcsts      : 1
++  rkey       : 4
++Release
++NVME Reservation Release success
++gen       : 5
++rtype     : 0
++regctl    : 1
++regctlext[0] :
++  cntlid     : ffff
++  rcsts      : 0
++  rkey       : 4
++Clear
++NVME Reservation  success
++NVME Reservation Acquire success
++gen       : 6
++rtype     : 1
++regctl    : 1
++regctlext[0] :
++  cntlid     : ffff
++  rcsts      : 1
++  rkey       : 4
++NVME Reservation Release success
++disconnected 1 controller(s)
++Test complete
 -- 
 2.43.0
 
