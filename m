@@ -4,71 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62221D16271
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 14:00:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2D20D16268
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 14:24:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=e4Ps0LTNWtpOzvACDoK7yZclpZ1vctpZNJbAJ5EHjQQ=; b=Z5rsOjL/tqE7j5C4NZhfmPowI0
-	Jrl4deRnCIrwlDJ7rOSLoqfhIyqJaDQR62RcLE18gXvXBAOOsCWiwscDoZV88XQPRrhomkq4Ev23E
-	rBCufFUPCz2HkKrkwuNVuO5lJIMrk7Z8vjnT9+IJSMKSMv7QfJoucVlnTFfXEO9XW9PPrrbfVjIvh
-	c9cO+O6OuRRWzwvBado6mIAabCUb8IdRoDlfzKZClwFie0qOih2/mKemY8xnCI53NTNb9609P8YBf
-	R3oB4Tq9do/ZTQnjwNrxMIppP+SMQCBxGl5Qjp3pH6/+IsM0MLS5jmKo1dG4J2ZhySNhBp/mIc0Yu
-	CtMzm6yA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+Z44hsG0Xj/Sw9eVHXYKqhxFTCGG9B1HptzHkVirK2w=; b=pIgviMWZXEjjtbyXpNwvQkLmVI
+	B8oxtKfQSEC4GOX6GUf3coQBpzv/S0PRsW7c8vRN/22yK704Fo3wIR3oXMvXRivTUP+bY+uctGFob
+	lUan/54h7xNTOV3/UDb8+f8qYG8aLimE5jPRM+oPxODr1WL50WDN6i96ujtw7KpKRMEsSfzox6LdA
+	wwk9L3edyiIKvp/Qy0KrM5FjlxC+D1duXSvFf6bH2f2xUrx6lbMgF/Z7s8flRZIwxjElaxZmqZzcE
+	8A63IK/mrxxbQy1lLupxSshTzUK6LEWhvkzfx2q1Png3X2eG8Pcp3JggwyoshVEuXjfxFmMC1zBiE
+	Yx9E3+mA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0Lcj-00000005P3i-2n7M;
-	Mon, 14 Oct 2024 14:00:37 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1t0M00-00000005SUv-06VK;
+	Mon, 14 Oct 2024 14:24:40 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0L1P-00000005EpL-1EJT
+	id 1t0LY7-00000005NIe-27iR
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Oct 2024 13:22:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728912121;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=e4Ps0LTNWtpOzvACDoK7yZclpZ1vctpZNJbAJ5EHjQQ=;
-	b=eaUrgKMCAsm0pll+n6x5QO5l5MayfTJ16B5hrP8jdVOoXa2f907LTyxnq0lVI2Pt2olj/X
-	DRzBXnK+uWYSg1aqT6RSUt+IZ4uRyBnzXduPuFsYJ0P/qQUtM1klT28zt/0BEmwj44sD8N
-	Zy4FVSlfLD/ZLZ+dI/fxVLbg3Uml4tg=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-541-sMN7R9TJPKK2x2-5yYVx3Q-1; Mon,
- 14 Oct 2024 09:20:19 -0400
-X-MC-Unique: sMN7R9TJPKK2x2-5yYVx3Q-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	Mon, 14 Oct 2024 13:55:55 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C113219560A5;
-	Mon, 14 Oct 2024 13:20:17 +0000 (UTC)
-Received: from rocky.redhat.com (unknown [10.45.224.143])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 580D43000198;
-	Mon, 14 Oct 2024 13:20:15 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-pci: fix race condition between reset and nvme_dev_disable()
-Date: Mon, 14 Oct 2024 15:20:13 +0200
-Message-ID: <20241014132013.786770-1-mlombard@redhat.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5C28F21CA9;
+	Mon, 14 Oct 2024 13:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728914149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Z44hsG0Xj/Sw9eVHXYKqhxFTCGG9B1HptzHkVirK2w=;
+	b=GEO3SYXDGo06Bf/VBFTLQ4cx3Cxwx9AITTmvlbCXgtE7sD7hzGv2gty4YDe1qGB89zuyWF
+	YwnD3jgDTsVLGNW88G1RI3sG9dAy6L/rKJ6gEtk0m5LRZzR4ytcMfglRWSIjBFS3hsQQyE
+	iMcN7mtKKw/DF4IwhJcMRHnQPQJUk1Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728914149;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Z44hsG0Xj/Sw9eVHXYKqhxFTCGG9B1HptzHkVirK2w=;
+	b=QP8sVXpwwmLJDpbJbH6FMD+D0JpwPn1hpeRA1xUhiSOJ+wOBgHz+FKq1oUZkmKjVWZfL8y
+	fkm5Yts3BalFZICQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728914148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Z44hsG0Xj/Sw9eVHXYKqhxFTCGG9B1HptzHkVirK2w=;
+	b=f4uRPA0wVU547rAYHqX2N5CpABBqCFII4NV7WcQqgHVlmSMYq9G3FfiMhg52G9BhWG+UIN
+	1AFQ81bGcVCuq8zzCIWAzcR4apjSCIuVpPSY+VoDoOevtuYXR7KbDroy6Zbs5aEEojZyV8
+	1lEweTz/tDOSWn+NDU7EK2sJ/yr/Nek=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728914148;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Z44hsG0Xj/Sw9eVHXYKqhxFTCGG9B1HptzHkVirK2w=;
+	b=sW5FgnA6cbp+ttu6gwTW7hjy/gIeI5HNMRs6+Ey/zsLI3KGOH5PRc1Qb/wm7I2zPqGfQqj
+	ZD/WemtQfKgBzbBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42B5B13A51;
+	Mon, 14 Oct 2024 13:55:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bIf3DeQiDWdJXgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 14 Oct 2024 13:55:48 +0000
+Date: Mon, 14 Oct 2024 15:55:47 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: nvme-tcp uaf when tls setup fails
+Message-ID: <a5ec9717-ebb0-4cdf-aaad-17f8a247a2c3@flourine.local>
+References: <8bb28305-01b3-4d68-bc74-bdbd9352b1c1@flourine.local>
+ <5b68b804-337f-4cec-9d90-6f727baaabbd@flourine.local>
+ <77f84f3b-86ff-4d26-ab25-a0355bcb0e40@flourine.local>
+ <eb2298da-1d64-4424-a462-9056f722b5d7@suse.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb2298da-1d64-4424-a462-9056f722b5d7@suse.de>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241014_062204_130203_5E73565F 
-X-CRM114-Status: GOOD (  13.88  )
+X-CRM114-CacheID: sfid-20241014_065552_080892_5D9FC7B7 
+X-CRM114-Status: GOOD (  17.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,81 +128,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_dev_disable() modifies the dev->online_queues field, therefore
-nvme_pci_update_nr_queues() should avoid racing against it, otherwise
-we could end up passing invalid values to blk_mq_update_nr_hw_queues().
+On Mon, Oct 14, 2024 at 03:18:27PM GMT, Hannes Reinecke wrote:
+> On 10/14/24 15:14, Daniel Wagner wrote:
+> > > The logs say that the connect to queue 3 fails, but it seems this
+> > > command never got send out (ftrace):
+> > > 
+> > >      kworker/4:0H-759     [004] .....  8771.165686: nvme_setup_cmd: nvme1: qid=0, cmdid=0, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_fabrics_type_connect recfmt=0, qid=1, sqsize=127, cattr=0, kato=0)
+> > >            <idle>-0       [004] ..s1.  8771.172062: nvme_complete_rq: nvme1: qid=0, cmdid=0, res=0x1, retries=0, flags=0x0, status=0x0
+> > >      kworker/5:0H-796     [005] .....  8771.172422: nvme_setup_cmd: nvme1: qid=0, cmdid=0, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_fabrics_type_connect recfmt=0, qid=2, sqsize=127, cattr=0, kato=0)
+> > >            <idle>-0       [005] ..s1.  8771.178292: nvme_complete_rq: nvme1: qid=0, cmdid=0, res=0x1, retries=0, flags=0x0, status=0x0
+> > > 
+> > > And it is very reliable to reproduce it.
+> > 
+> > It is also reproducible without TLS.
+> 
+> Does this help?
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 04f0ac57855e..12f8a97150af 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2163,8 +2163,8 @@ static int nvme_tcp_configure_admin_queue(struct
+> nvme_ctrl *ctrl, bool new)
+>         blk_sync_queue(ctrl->admin_q);
+>  out_stop_queue:
+>         nvme_tcp_stop_queue(ctrl, 0);
+> -       nvme_cancel_admin_tagset(ctrl);
+>  out_cleanup_tagset:
+> +       nvme_cancel_admin_tagset(ctrl);
+>         if (new)
+>                 nvme_remove_admin_tag_set(ctrl);
+>  out_free_queue:
 
- WARNING: CPU: 39 PID: 61303 at drivers/pci/msi/api.c:347
-          pci_irq_get_affinity+0x187/0x210
- Workqueue: nvme-reset-wq nvme_reset_work [nvme]
- RIP: 0010:pci_irq_get_affinity+0x187/0x210
- Call Trace:
-  <TASK>
-  ? blk_mq_pci_map_queues+0x87/0x3c0
-  ? pci_irq_get_affinity+0x187/0x210
-  blk_mq_pci_map_queues+0x87/0x3c0
-  nvme_pci_map_queues+0x189/0x460 [nvme]
-  blk_mq_update_nr_hw_queues+0x2a/0x40
-  nvme_reset_work+0x1be/0x2a0 [nvme]
-
-Fix the bug by locking the shutdown_lock mutex before using
-dev->online_queues. Give up if nvme_dev_disable() is running or if
-it has been executed already.
-
-Fixes: 949928c1c731 ("NVMe: Fix possible queue use after freed")
-Tested-by: Yi Zhang <yizhan@redhat.com>
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/pci.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7990c3f22ecf..7e3a2844891b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2506,17 +2506,29 @@ static unsigned int nvme_pci_nr_maps(struct nvme_dev *dev)
- 	return 1;
- }
- 
--static void nvme_pci_update_nr_queues(struct nvme_dev *dev)
-+static int nvme_pci_update_nr_queues(struct nvme_dev *dev)
- {
- 	if (!dev->ctrl.tagset) {
- 		nvme_alloc_io_tag_set(&dev->ctrl, &dev->tagset, &nvme_mq_ops,
- 				nvme_pci_nr_maps(dev), sizeof(struct nvme_iod));
--		return;
-+		return 0;
-+	}
-+
-+	/* Give up if we are racing with nvme_dev_disable() */
-+	if (!mutex_trylock(&dev->shutdown_lock))
-+		return -ENODEV;
-+
-+	/* Check if nvme_dev_disable() has been executed already */
-+	if (!dev->online_queues) {
-+		mutex_unlock(&dev->shutdown_lock);
-+		return -ENODEV;
- 	}
- 
- 	blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
- 	/* free previously allocated queues that are no longer usable */
- 	nvme_free_queues(dev, dev->online_queues);
-+	mutex_unlock(&dev->shutdown_lock);
-+	return 0;
- }
- 
- static int nvme_pci_enable(struct nvme_dev *dev)
-@@ -2797,7 +2809,8 @@ static void nvme_reset_work(struct work_struct *work)
- 		nvme_dbbuf_set(dev);
- 		nvme_unquiesce_io_queues(&dev->ctrl);
- 		nvme_wait_freeze(&dev->ctrl);
--		nvme_pci_update_nr_queues(dev);
-+		if (nvme_pci_update_nr_queues(dev))
-+			goto out;
- 		nvme_unfreeze(&dev->ctrl);
- 	} else {
- 		dev_warn(dev->ctrl.device, "IO queues lost\n");
--- 
-2.43.5
-
+No, nvme_tcp_configure_io_queue fails and not
+nvme_tcp_configure_admin_queue. I wonder if the queue flag
+NVME_TCP_Q_ALLOCATED is preventing a proper cleanup. The flag will set
+only if the complete allocation went thru.
 
