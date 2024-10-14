@@ -4,70 +4,156 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 708CACFC52C
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BE90CFC52A
 	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 09:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wX/xkyhUn/z9eOO/fWD/0e1hMVuSpK+bD0sVy4lkZuQ=; b=LldExqby43ix/RnDfKiwnJt7DQ
-	D5UgtlE75/sh6T4bCEXqhE5XDwBvyq6A/3o93mfaWg48CBA0maXuC2EFwmoojWFAIsczpvbKm/PQN
-	LOu8v9j12V+FTAJX1rrNDVybRowAb9oN0tnF3f5RLu6MDiJhTiiEudShPCIk8jSsEp2G3MylDlt0o
-	J4OwY29UFjjl2N5qQpi9SysuzeOwzj8o5zSQ8gir8d+0EmZi3td1sRqO0eCDfeXOfrqdgRY646UjD
-	ps8mG/yWq2jVYkVR6synYfKE3cswpAH0/4jngjjip9LlE4Dh5K1NlRS3XZSCGTHPj4xGUagPIrDJU
-	lq1bexaA==;
+	bh=z3B/ennZQ25BkssBjHXIYaI5QeMwto4rU9yLnRu2n6E=; b=yXwm+Y5hPVYdWo44OFND7TBZb1
+	WTUcb63aorhoCkrjW/ZJIV1OtXxIrh3Af7XccIzRjsrAVFlQirpyugw5tXI5bC9v7EsoNjop85AEz
+	kr2uorqKLSDRmOHOZ5iMymqBPCl+xgdFdnfGTyD1rxXJh7sdhiwrBbRD9qM1qUa50osscXRsrOR0a
+	6o+CF1lvjel7ldV/rk7TQ9Qc8jVukQ4wKxZ+ikH9karjNnoOqfRyxwH0DIFKD6S9Ui3nkuF+v4KNg
+	35ur2t8Fg+kkLHtZ22FjYkJW2Bg7HNfJ6aC+jb7ST9MtTQFIjt3J2TtctAWmBFAOM+yCx7oVR7YMW
+	GNskQZzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0HRb-00000004XQO-1M3z;
-	Mon, 14 Oct 2024 09:32:51 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1t0HRZ-00000004XPA-1fPt;
+	Mon, 14 Oct 2024 09:32:49 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0H7a-00000004SNK-04UC
+	id 1t0H41-00000004RYC-2FQX
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Oct 2024 09:12:11 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id EBB455C59A1;
-	Mon, 14 Oct 2024 09:12:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46244C4CEC3;
-	Mon, 14 Oct 2024 09:12:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728897129;
-	bh=opZczmtnmAC46lzsiMq5o6DHbppnV5C1bXWNocZ2GT4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cYw2BJcV5MYv0VOc4XtiMyTpD06KJORp1C0uGNyEpo495rD3VwUtSfZ7mQ/sASKfL
-	 7qtgJQLT4BkTHush3lmtKhq29iKTQ+9lyVH671GG3g9Jwtp23a+Ftebo7K/ufD/LiN
-	 uJeyPBiyLZUq1XBd6dYDwy5AjtcdVcfPI7B3zuolf46xx6Qt5EU3Ja9+fT1SoEvZyb
-	 0KA3WJT7mzus2QBolm2mdY+rQXWObVzPNj+VoeeRwnybWURjc5pZBE0pFRlJTTb4wh
-	 SfSoEg+t9RD3swROV2Ih3OjS9WTDkbOqTta2KZv9x9pMib1JrasbG9dCvZnV6FhfpF
-	 gbMhSp3tUDe2Q==
-Message-ID: <afabc1b5-e1c8-4b45-ba9a-57e0481d6d87@kernel.org>
-Date: Mon, 14 Oct 2024 18:12:06 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] nvmef: Introduce the NVME_OPT_HIDDEN_NS option
+	Mon, 14 Oct 2024 09:08:32 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20241014090827euoutp01b554b71420c1065ed677c70fc03e8c3b~_RpOu3vo52964329643euoutp01C
+	for <linux-nvme@lists.infradead.org>; Mon, 14 Oct 2024 09:08:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20241014090827euoutp01b554b71420c1065ed677c70fc03e8c3b~_RpOu3vo52964329643euoutp01C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1728896907;
+	bh=z3B/ennZQ25BkssBjHXIYaI5QeMwto4rU9yLnRu2n6E=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=qOdKVBJCKFK4ROrAIb9NjIlAtiBWfL/MZNnLD1URm00M9GCbx97/qxcpBXhg3gt1q
+	 qfKVRjEuPAYb1wQdWEsWn6aMB2HsabfeULcYlHDVYdGTn/m1xt0Q2srA5lQOY4FVmt
+	 3fL0BzvFIg1mdB4AzHmD6fVJqsVVQbaYmTutiTBg=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20241014090826eucas1p1122e756848ed71ce9e01d7e4de9033a7~_RpOPwIyc0836108361eucas1p1m;
+	Mon, 14 Oct 2024 09:08:26 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 70.B8.09620.A8FDC076; Mon, 14
+	Oct 2024 10:08:26 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241014090826eucas1p20a1b983ba65066f2970d11ae6e5518c5~_RpNzgGIy1059610596eucas1p2Z;
+	Mon, 14 Oct 2024 09:08:26 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20241014090826eusmtrp1637a132b47c5a85d29f95a5a6d9140c0~_RpNyq1AR1839218392eusmtrp1J;
+	Mon, 14 Oct 2024 09:08:26 +0000 (GMT)
+X-AuditID: cbfec7f5-d1bff70000002594-8f-670cdf8a7777
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 19.1D.19096.98FDC076; Mon, 14
+	Oct 2024 10:08:25 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20241014090825eusmtip1835d4a520fbab01b407256736ee0de53~_RpNm0_zd1645016450eusmtip1X;
+	Mon, 14 Oct 2024 09:08:25 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) by
+	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
+	Server (TLS) id 15.0.1497.2; Mon, 14 Oct 2024 10:08:25 +0100
+Received: from CAMSVWEXC02.scsc.local ([::1]) by CAMSVWEXC02.scsc.local
+	([fe80::3c08:6c51:fa0a:6384%13]) with mapi id 15.00.1497.012; Mon, 14 Oct
+	2024 10:08:24 +0100
+From: Javier Gonzalez <javier.gonz@samsung.com>
 To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-pci@vger.kernel.org,
- Rick Wertenbroek <rick.wertenbroek@gmail.com>,
- Niklas Cassel <cassel@kernel.org>
-References: <20241011121951.90019-1-dlemoal@kernel.org>
- <20241011121951.90019-4-dlemoal@kernel.org> <20241014084258.GB23780@lst.de>
-From: Damien Le Moal <dlemoal@kernel.org>
+CC: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, "Martin
+ K. Petersen" <martin.petersen@oracle.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, "hare@suse.de" <hare@suse.de>, "sagi@grimberg.me"
+	<sagi@grimberg.me>, "brauner@kernel.org" <brauner@kernel.org>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jack@suse.cz"
+	<jack@suse.cz>, "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "bcrl@kvack.org"
+	<bcrl@kvack.org>, "dhowells@redhat.com" <dhowells@redhat.com>,
+	"bvanassche@acm.org" <bvanassche@acm.org>, "asml.silence@gmail.com"
+	<asml.silence@gmail.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "io-uring@vger.kernel.org"
+	<io-uring@vger.kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-aio@kvack.org" <linux-aio@kvack.org>,
+	"gost.dev@samsung.com" <gost.dev@samsung.com>, "vishak.g@samsung.com"
+	<vishak.g@samsung.com>
+Subject: RE: [PATCH v7 0/3] FDP and per-io hints
+Thread-Topic: [PATCH v7 0/3] FDP and per-io hints
+Thread-Index: AQHbG7xJFahlOOmkRUWBz3B/P2gFpLKBuCIAgAQCOYCAABtsUP///IcAgAAiAcA=
+Date: Mon, 14 Oct 2024 09:08:24 +0000
+Message-ID: <9e3792eebf7f427db7c466374972fb99@CAMSVWEXC02.scsc.local>
+In-Reply-To: <20241014074708.GA22575@lst.de>
+Accept-Language: en-US, en-GB
 Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20241014084258.GB23780@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [106.110.32.22]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgk+LIzCtJLcpLzFFi42LZduzned2u+zzpBp++SFvMWbWN0WL13X42
+	i65/W1gsXh/+xGgx7cNPZot3Tb9ZLPYsmsRksXL1USaLd63nWCxmT29msniyfhazxaRD1xgt
+	pkxrYrTYe0vbYs/ekywW85c9ZbdYfvwfk8W61+9ZLM7/Pc7qIOxx+Yq3x85Zd9k9zt/byOJx
+	+Wypx6ZVnWwemz5NYvfYvKTeY/fNBjaPj09vsXi833eVzePMgiNA8dPVHp83yXlsevKWKYAv
+	issmJTUnsyy1SN8ugStj4dKPLAUPVCp2rPnG3sC4SLaLkZNDQsBE4sfDJcxdjFwcQgIrGCXe
+	TZnGBuF8YZSY/+YiVOYzo8S8NwtYYFqWnnnCCJFYDlR1ZwoLXNXiSb1QmTOMEgtWnYHqX8ko
+	8elrFxtIP5uAvsSq7acYQWwRASWJp6/OgnUwC1xjlzjYc4YJJCEsYCDRvGQfVJGhxLtlC6Fs
+	P4mf336BHcIioCrxZu4UdhCbV8BVouXMN7A4p4COxLIFJ8HmMArISjxa+QushllAXOLWk/lM
+	EE8ISiyavYcZwhaT+LfrIRuEbSCxdek+qEcVJfrmv2eB6NWRWLD7ExuErS2xbOFrZoi9ghIn
+	Zz4B+19C4CSXxJf5j9ghml0kZv67DmULS7w6vgXKlpE4PbkHakG1RMPJE0wTGLVmIblvFpJ9
+	s5Dsm4Vk3wJGllWM4qmlxbnpqcXGeanlesWJucWleel6yfm5mxiBifX0v+NfdzCuePVR7xAj
+	EwfjIUYJDmYlEd73UznThXhTEiurUovy44tKc1KLDzFKc7AoifOqpsinCgmkJ5akZqemFqQW
+	wWSZODilGphqQ1Q+LPbgq+m7KHbI4Vv3+YR17W6Mp6z3rhQJPP7Haf+kk5rHHsYtkQpdoJiQ
+	PlP48VbzqmX6666tbXpZ0P/kYfujDdE7Ugtmhv/co/KJudt3q/PZuhet5e9Zbe63vIzW1frM
+	fcbW23DNHolDe6ayMMpdFZTRnKvRxz8l80+597aecuVlUmXRB90V+RwOsx0/Lp57VqJedu9L
+	NrWr6fqbfTbN1+GXvCPJUXjZnvtrTw5vbmCX0M1tfSovNs1+xDj3s4bD1a7fafaHecrn77ao
+	kf92c1XVgyVLT6woe72hTonf6J5v0oXHifF8844lHVCsNRM8pcrW+3T6X4Ui9h6O1HCjnAL7
+	S3w3dl09kaXEUpyRaKjFXFScCACFqAVQGwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOKsWRmVeSWpSXmKPExsVy+t/xu7qd93nSDR5Os7GYs2obo8Xqu/1s
+	Fl3/trBYvD78idFi2oefzBbvmn6zWOxZNInJYuXqo0wW71rPsVjMnt7MZPFk/Sxmi0mHrjFa
+	TJnWxGix95a2xZ69J1ks5i97ym6x/Pg/Jot1r9+zWJz/e5zVQdjj8hVvj52z7rJ7nL+3kcXj
+	8tlSj02rOtk8Nn2axO6xeUm9x+6bDWweH5/eYvF4v+8qm8eZBUeA4qerPT5vkvPY9OQtUwBf
+	lJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7GwqUf
+	WQoeqFTsWPONvYFxkWwXIyeHhICJxNIzTxi7GLk4hASWMkr8+drCBJGQkdj45SorhC0s8eda
+	FxtE0UdGidPHLzKCJIQEzjBKbL0TApFYySix+McDNpAEm4C+xKrtp8CKRASUJJ6+Ogu2glng
+	CrtE86LnYAlhAQOJ5iX7oIoMJd4tWwhl+0n8/PaLBcRmEVCVeDN3CjuIzSvgKtFy5hsLxLZf
+	zBIb1lwGa+AU0JFYtuAk2N2MArISj1b+AmtgFhCXuPVkPtQ/AhJL9pxnhrBFJV4+/gf1m4HE
+	1qX7WCBsRYm++e9ZIHp1JBbs/sQGYWtLLFv4mhniCEGJkzOfsExglJqFZMUsJC2zkLTMQtKy
+	gJFlFaNIamlxbnpusZFecWJucWleul5yfu4mRmAK3Hbs55YdjCtffdQ7xMjEwXiIUYKDWUmE
+	9/1UznQh3pTEyqrUovz4otKc1OJDjKbAgJnILCWanA9Mwnkl8YZmBqaGJmaWBqaWZsZK4rxs
+	V86nCQmkJ5akZqemFqQWwfQxcXBKNTD5HcjP5Z8t3Ten+GZ9vAWD98qcjtdRaYGJJttEDxx9
+	cvL0lfnMhe4Bv4JCG4sK46wOXuaaHtqisUp3w0vBKof5Ze28K9LmH2T70CbaN1PYq7tLvHZn
+	xtXsp1Fx1dv8ZcWdlV5eWtIo9ma9/aRPzhmtKuvDuJ9NOThb72J1x/a7Ow0D0v98X/0gxd2o
+	c/+PYtuHC1j3RRRMT96b/9rjyW7HHUKnlniGumuz3vp2PimpI3/25ORq6QfNB+SOLJvVt2qD
+	jmPJn8ZIP4PksnMcMdtvGjr8UfnPsrb5cLPUWTch7VZuNhlTf/WJ4fWs2foSYosu80pIztn+
+	RXLTrdmXchet7V7qo5LJ/kBp907d9UosxRmJhlrMRcWJAMKylzUKBAAA
+X-CMS-MailID: 20241014090826eucas1p20a1b983ba65066f2970d11ae6e5518c5
+X-Msg-Generator: CA
+X-RootMTR: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+References: <20241009092828.GA18118@lst.de> <Zwab8WDgdqwhadlE@kbusch-mbp>
+	<CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com>
+	<20241010070736.de32zgad4qmfohhe@ArmHalley.local>
+	<20241010091333.GB9287@lst.de>
+	<20241010115914.eokdnq2cmcvwoeis@ArmHalley.local>
+	<20241011090224.GC4039@lst.de>
+	<5e9f7f1c-48fd-477f-b4ba-c94e6b50b56f@kernel.dk>
+	<20241014062125.GA21033@lst.de>
+	<34d3ad68068f4f87bf0a61ea8fb8f217@CAMSVWEXC02.scsc.local>
+	<20241014074708.GA22575@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241014_021210_132997_E4E08508 
-X-CRM114-Status: GOOD (  13.12  )
+X-CRM114-CacheID: sfid-20241014_020830_018508_8441026C 
+X-CRM114-Status: GOOD (  42.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,27 +168,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/14/24 17:42, Christoph Hellwig wrote:
-> On Fri, Oct 11, 2024 at 09:19:49PM +0900, Damien Le Moal wrote:
->> Introduce the NVME fabrics option NVME_OPT_HIDDEN_NS to allow a host
->> controller to be created without any user visible or internally usable
->> namespace devices. That is, if set, this option will result in the
->> controller having no character device and no block device for any of its
->> namespaces.
->>
->> This option should be used only when the nvme controller will be
->> managed using passthrough commands using the controller character
->> device, either by the user or by another device driver.
-> 
-> That doesn't make any sense whatsover.  Why would you create a
-> passthrough controller to support PCIe?
+> -----Original Message-----
+> From: Christoph Hellwig <hch@lst.de>
+> Sent: Monday, October 14, 2024 9:47 AM
+> To: Javier Gonzalez <javier.gonz@samsung.com>
+> Cc: Christoph Hellwig <hch@lst.de>; Jens Axboe <axboe@kernel.dk>; Keith B=
+usch
+> <kbusch@kernel.org>; Martin K. Petersen <martin.petersen@oracle.com>; Kan=
+chan
+> Joshi <joshi.k@samsung.com>; hare@suse.de; sagi@grimberg.me;
+> brauner@kernel.org; viro@zeniv.linux.org.uk; jack@suse.cz; jaegeuk@kernel=
+.org;
+> bcrl@kvack.org; dhowells@redhat.com; bvanassche@acm.org;
+> asml.silence@gmail.com; linux-nvme@lists.infradead.org; linux-
+> fsdevel@vger.kernel.org; io-uring@vger.kernel.org; linux-block@vger.kerne=
+l.org;
+> linux-aio@kvack.org; gost.dev@samsung.com; vishak.g@samsung.com
+> Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+>=20
+> On Mon, Oct 14, 2024 at 07:02:11AM +0000, Javier Gonzalez wrote:
+> > > And exactly that is the problem.  For file systems we can't support
+> > > that sanely.  So IFF you absolutely want the per-I/O hints we need
+> > > an opt in by the file operations.  I've said that at least twice
+> > > in this discussion before, but as everyone likes to have political
+> > > discussions instead of technical ones no one replied to that.
+> >
+> > Is it a way forward to add this in a new spin of the series - keeping t=
+he
+> > temperature mapping on the NVMe side?
+>=20
+> What do you gain from that?  NVMe does not understand data temperatures,
+> so why make up that claim? =20
 
-PCIe is handled by the PCI endpoint driver and that driver only passes the nvme
-commands it gets to the local fabrics controller that is being used (which can
-be a loopback or tcp or whatever nvmf supports).
+I expressed this a couple of times in this thread. It is no problem to map =
+temperatures
+to a protocol that does not understand the semantics. It is not perfect, an=
+d in time
+I agree that we would benefit from exposing the raw hints without semantics=
+ from
+Block layer upwards.
+
+But the temperatures are already there. We are not adding anything new. And=
+ thanks
+to this, we can enable existing users with _minimal_ changes to user-space.=
+ As pointed
+on the XFS zoned discussions, this is very similar to what you guys are doi=
+ng (exactly to
+re-use what it is already there), and it works. On top of this,  applicatio=
+ns that already
+understand temperatures (e.g., RocksDB) will be able to leverage FDP SSDs w=
+ithout changes.
+
+> Especially as it directly undermindes any file system work to actually ma=
+ke use of it.
+
+I do not think it does. If a FS wants to use the temperatures, then they wo=
+uld be able to leverage
+FDP besides SCSI. And if we come up with a better interface later on, we ca=
+n make the changes then.
+I really do not see the issue. If we were adding a temperature abstraction =
+now, I would agree with
+You that we would need to cover the use-case you mention for FSs from the b=
+eginning, but this
+Is already here. Seems like a fair compromise to support current users.
 
 
--- 
-Damien Le Moal
-Western Digital Research
+>=20
+> > If not, what would be acceptable for a first version, before getting in=
+to adding
+> > a new interface to expose agnostic hints?
+>=20
+> Just iterate on Kanchan's series for a block layer (and possible user lev=
+el,
+> but that's less urgent) interface for stream separation?
+
+We can work on this later, but it is not that easy. Look at the mail I forw=
+arded=20
+Form Christian. We now can store hints in the same structure as the tempera=
+tures.=20
+I believe that we would be able to support 128 hints. If we are serious abo=
+ut supporting=20
+hints as a general interface, 128 hints is not nearly enough. Moreover:
+
+  - How do we convince VFS folks to give us more space for hints at this po=
+int?
+  - How do we make agnostic hints and temperature co-exist? Do we use a bit=
+ to select=20
+     and create a protocol? This seems over-complicated
+  - When we are exposing general hints to the block layer, how do we suppor=
+t N:N=20
+     FS:Block_Devices? and DMs? This is not obvious, and it goes well beyon=
+d what we
+     need today, but we probably need to think about it.
+=20
+And these are just questions that we know. You see that this is a big lift =
+(which we=20
+can work together on!), but will delay current users by months. And honestl=
+y, I do
+not feel comfortable doing this alone; we need application and  FS folks li=
+ke you to=20
+help guide this so that it is really usable.
+
+I say it again: Your idea about properly supporting hints in FS is good, an=
+d I think we should
+work on it. But I do not believe that the current patches (with added thing=
+s like opt in file ops)=20
+get in the way of this.  So if the disagreement is if these patches are har=
+mful, let's talk about=20
+this explicitly and try to agree; we do not need to go over the need for a =
+new hint interface.=20
+We already agree on this.
+
 
