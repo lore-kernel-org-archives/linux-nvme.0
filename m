@@ -4,54 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C704ACFC52A
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 09:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 708CACFC52C
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Oct 2024 09:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=udq7pcCctGr3Sx5CeKGqMrVTo2htOSu7TSWvRa2n8Yk=; b=q7GLDR0QBC/pL+S+T8K7SqAbzO
-	GgpAjgBG6VWdWkHcRdtNL6mRAQEElCyypHsnunwdlq2DQmlY/mvOUgc6sB+O30H015CjQjqQG6pUN
-	WEVcg4tyA2Yy/wczr96QFSNRT7dt6WYmBdBQ+q01IwEiioxhArHb7grTqHYBR2YcUBOxqOOKRwkC5
-	KdY+eFKzZpl53CEs9Nwo7xpeWn/dzXTsb5uLBpKvkQX3n7FgjR9q9vnVeXI6qdM6X4RlPHZFW4hQ4
-	QEPZQJbnqToluC+1PKuzmmuIIZWH7qrbG7TxvYPfrxH0gd2pI3ieFbe6w3/oVsP8XnYMz8Omfv6P2
-	ExreFYmw==;
+	bh=wX/xkyhUn/z9eOO/fWD/0e1hMVuSpK+bD0sVy4lkZuQ=; b=LldExqby43ix/RnDfKiwnJt7DQ
+	D5UgtlE75/sh6T4bCEXqhE5XDwBvyq6A/3o93mfaWg48CBA0maXuC2EFwmoojWFAIsczpvbKm/PQN
+	LOu8v9j12V+FTAJX1rrNDVybRowAb9oN0tnF3f5RLu6MDiJhTiiEudShPCIk8jSsEp2G3MylDlt0o
+	J4OwY29UFjjl2N5qQpi9SysuzeOwzj8o5zSQ8gir8d+0EmZi3td1sRqO0eCDfeXOfrqdgRY646UjD
+	ps8mG/yWq2jVYkVR6synYfKE3cswpAH0/4jngjjip9LlE4Dh5K1NlRS3XZSCGTHPj4xGUagPIrDJU
+	lq1bexaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0HDz-00000004TmR-1BIj;
-	Mon, 14 Oct 2024 09:18:47 +0000
-Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
+	id 1t0HRb-00000004XQO-1M3z;
+	Mon, 14 Oct 2024 09:32:51 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0GxK-00000004PRV-2gxb
+	id 1t0H7a-00000004SNK-04UC
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Oct 2024 09:01:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1728896492; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=udq7pcCctGr3Sx5CeKGqMrVTo2htOSu7TSWvRa2n8Yk=;
-	b=KtwHSOVw1U7FKOzd4G1/pNe2X10bZ4sLUFD45BdYIWp8gldvtG8t/xzNrxNs5ZsboHjjzUNupcid7/KapCmw0ZJokKEpiYg9/2F5pvXTt0+3v0qtdlz/IgJI8PlrufQg7stpvZlYgWieSadYKvH3YIGRwe7LKgOiAz4Ww6YkGug=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WH3Sv3x_1728896486 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 14 Oct 2024 17:01:31 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: shinichiro.kawasaki@wdc.com,
-	dwagner@suse.de,
-	chaitanyak@nvidia.com
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH blktests v4 2/2] nvme: test the nvme reservation feature
-Date: Mon, 14 Oct 2024 17:01:16 +0800
-Message-ID: <20241014090116.125500-3-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241014090116.125500-1-kanie@linux.alibaba.com>
-References: <20241014090116.125500-1-kanie@linux.alibaba.com>
+	Mon, 14 Oct 2024 09:12:11 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id EBB455C59A1;
+	Mon, 14 Oct 2024 09:12:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46244C4CEC3;
+	Mon, 14 Oct 2024 09:12:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728897129;
+	bh=opZczmtnmAC46lzsiMq5o6DHbppnV5C1bXWNocZ2GT4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cYw2BJcV5MYv0VOc4XtiMyTpD06KJORp1C0uGNyEpo495rD3VwUtSfZ7mQ/sASKfL
+	 7qtgJQLT4BkTHush3lmtKhq29iKTQ+9lyVH671GG3g9Jwtp23a+Ftebo7K/ufD/LiN
+	 uJeyPBiyLZUq1XBd6dYDwy5AjtcdVcfPI7B3zuolf46xx6Qt5EU3Ja9+fT1SoEvZyb
+	 0KA3WJT7mzus2QBolm2mdY+rQXWObVzPNj+VoeeRwnybWURjc5pZBE0pFRlJTTb4wh
+	 SfSoEg+t9RD3swROV2Ih3OjS9WTDkbOqTta2KZv9x9pMib1JrasbG9dCvZnV6FhfpF
+	 gbMhSp3tUDe2Q==
+Message-ID: <afabc1b5-e1c8-4b45-ba9a-57e0481d6d87@kernel.org>
+Date: Mon, 14 Oct 2024 18:12:06 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] nvmef: Introduce the NVME_OPT_HIDDEN_NS option
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-pci@vger.kernel.org,
+ Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+ Niklas Cassel <cassel@kernel.org>
+References: <20241011121951.90019-1-dlemoal@kernel.org>
+ <20241011121951.90019-4-dlemoal@kernel.org> <20241014084258.GB23780@lst.de>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20241014084258.GB23780@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241014_020134_849728_47FDD7C5 
-X-CRM114-Status: GOOD (  11.51  )
+X-CRM114-CacheID: sfid-20241014_021210_132997_E4E08508 
+X-CRM114-Status: GOOD (  13.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,200 +82,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Test the NVMe reservation feature, including register, acquire,
-release and report.
+On 10/14/24 17:42, Christoph Hellwig wrote:
+> On Fri, Oct 11, 2024 at 09:19:49PM +0900, Damien Le Moal wrote:
+>> Introduce the NVME fabrics option NVME_OPT_HIDDEN_NS to allow a host
+>> controller to be created without any user visible or internally usable
+>> namespace devices. That is, if set, this option will result in the
+>> controller having no character device and no block device for any of its
+>> namespaces.
+>>
+>> This option should be used only when the nvme controller will be
+>> managed using passthrough commands using the controller character
+>> device, either by the user or by another device driver.
+> 
+> That doesn't make any sense whatsover.  Why would you create a
+> passthrough controller to support PCIe?
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
----
- tests/nvme/054     | 101 +++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/054.out |  68 ++++++++++++++++++++++++++++++
- 2 files changed, 169 insertions(+)
- create mode 100644 tests/nvme/054
- create mode 100644 tests/nvme/054.out
+PCIe is handled by the PCI endpoint driver and that driver only passes the nvme
+commands it gets to the local fabrics controller that is being used (which can
+be a loopback or tcp or whatever nvmf supports).
 
-diff --git a/tests/nvme/054 b/tests/nvme/054
-new file mode 100644
-index 0000000..dc674a7
---- /dev/null
-+++ b/tests/nvme/054
-@@ -0,0 +1,101 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2024 Guixin Liu
-+# Copyright (C) 2024 Alibaba Group.
-+#
-+# Test the NVMe reservation feature
-+#
-+. tests/nvme/rc
-+
-+DESCRIPTION="Test the NVMe reservation feature"
-+QUICK=1
-+nvme_trtype="loop"
-+
-+requires() {
-+	_nvme_requires
-+}
-+
-+resv_report() {
-+	local test_dev=$1
-+	local report_arg=$2
-+
-+	nvme resv-report "${test_dev}" "${report_arg}" | grep -v "hostid" | \
-+		grep -E "gen|rtype|regctl|regctlext|cntlid|rcsts|rkey"
-+}
-+
-+test_resv() {
-+	local nvmedev=$1
-+	local report_arg="--cdw11=1"
-+	test_dev="/dev/${nvmedev}n1"
-+
-+	if nvme resv-report --help 2>&1 | grep -- '--eds' > /dev/null; then
-+		report_arg="--eds"
-+	fi
-+
-+	echo "Register"
-+	resv_report "${test_dev}" "${report_arg}"
-+	nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
-+	resv_report "${test_dev}" "${report_arg}"
-+
-+	echo "Replace"
-+	nvme resv-register "${test_dev}" --crkey=4 --nrkey=5 --rrega=2
-+	resv_report "${test_dev}" "${report_arg}"
-+
-+	echo "Unregister"
-+	nvme resv-register "${test_dev}" --crkey=5 --rrega=1
-+	resv_report "${test_dev}" "${report_arg}"
-+
-+	echo "Acquire"
-+	nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
-+	nvme resv-acquire "${test_dev}" --crkey=4 --rtype=1 --racqa=0
-+	resv_report "${test_dev}" "${report_arg}"
-+
-+	echo "Preempt"
-+	nvme resv-acquire "${test_dev}" --crkey=4 --rtype=2 --racqa=1
-+	resv_report "${test_dev}" "${report_arg}"
-+
-+	echo "Release"
-+	nvme resv-release "${test_dev}" --crkey=4 --rtype=2 --rrela=0
-+	resv_report "${test_dev}" "${report_arg}"
-+
-+	echo "Clear"
-+	nvme resv-register "${test_dev}" --nrkey=4 --rrega=0
-+	nvme resv-acquire "${test_dev}" --crkey=4 --rtype=1 --racqa=0
-+	resv_report "${test_dev}" "${report_arg}"
-+	nvme resv-release "${test_dev}" --crkey=4 --rrela=1
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+
-+	local nvmedev
-+	local skipped=false
-+	local subsys_path=""
-+	local ns_path=""
-+
-+	_nvmet_target_setup --blkdev file --resv_enable
-+	subsys_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
-+	ns_path="${subsys_path}/namespaces/1"
-+
-+	if [[ -f "${ns_path}/resv_enable" ]] ; then
-+		_nvme_connect_subsys
-+
-+		nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-+
-+		test_resv "${nvmedev}"
-+		_nvme_disconnect_subsys
-+	else
-+		SKIP_REASONS+=("missing reservation feature")
-+		skipped=true
-+	fi
-+
-+	_nvmet_target_cleanup
-+
-+	if [[ "${skipped}" = true ]] ; then
-+		return 1
-+	fi
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/054.out b/tests/nvme/054.out
-new file mode 100644
-index 0000000..5adb30d
---- /dev/null
-+++ b/tests/nvme/054.out
-@@ -0,0 +1,68 @@
-+Running nvme/054
-+Register
-+gen       : 0
-+rtype     : 0
-+regctl    : 0
-+NVME Reservation  success
-+gen       : 1
-+rtype     : 0
-+regctl    : 1
-+regctlext[0] :
-+  cntlid     : ffff
-+  rcsts      : 0
-+  rkey       : 4
-+Replace
-+NVME Reservation  success
-+gen       : 2
-+rtype     : 0
-+regctl    : 1
-+regctlext[0] :
-+  cntlid     : ffff
-+  rcsts      : 0
-+  rkey       : 5
-+Unregister
-+NVME Reservation  success
-+gen       : 3
-+rtype     : 0
-+regctl    : 0
-+Acquire
-+NVME Reservation  success
-+NVME Reservation Acquire success
-+gen       : 4
-+rtype     : 1
-+regctl    : 1
-+regctlext[0] :
-+  cntlid     : ffff
-+  rcsts      : 1
-+  rkey       : 4
-+Preempt
-+NVME Reservation Acquire success
-+gen       : 5
-+rtype     : 2
-+regctl    : 1
-+regctlext[0] :
-+  cntlid     : ffff
-+  rcsts      : 1
-+  rkey       : 4
-+Release
-+NVME Reservation Release success
-+gen       : 5
-+rtype     : 0
-+regctl    : 1
-+regctlext[0] :
-+  cntlid     : ffff
-+  rcsts      : 0
-+  rkey       : 4
-+Clear
-+NVME Reservation  success
-+NVME Reservation Acquire success
-+gen       : 6
-+rtype     : 1
-+regctl    : 1
-+regctlext[0] :
-+  cntlid     : ffff
-+  rcsts      : 1
-+  rkey       : 4
-+NVME Reservation Release success
-+disconnected 1 controller(s)
-+Test complete
+
 -- 
-2.43.0
-
+Damien Le Moal
+Western Digital Research
 
