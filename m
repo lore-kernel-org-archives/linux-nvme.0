@@ -4,77 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A504CFC276
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 09:39:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28D1ACFC28B
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 11:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LBwRXkAIdv1AimxyczECxXGj9by0IZ10c25ZcV9tBtE=; b=1QZe/iZR8DqNXI6RzA1mc6n408
-	e7mJvmizwCTRJWcZ4AzAGm1h8z8egdugWXPtTZ413jN90E2Zy9wKvRyFp0ck5NIsOO/9giqr6Quu1
-	/3Q/ZcrFIcAFt1YEPudfS9fuu9q9+Rb1NkNkRkVEiaWX2FwOi4zIuRhfacVRmqsD2jfkHgjsCsWF6
-	VlKNFx8t5OpIbkeMSRwd/IEAkRDflYlRQWVM20Yd8kBT4plpSigKZ3UwmE3zfn1Y7VCGfl3bxAVT3
-	HHJepCm38J9315HG5yKSx4U3ZtTsXIg/vYDMA0u+3AzqrmDKD2YQ6ljmELSa0VG/fMktbWJWcTO+B
-	+PUszxZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=cYMh5spqxBzFwVt4eOER8kYg02j3hG421gfzxexCzwc=; b=QO/Lrgb5kSbC7Moaj1Ma5E37j0
+	wvglevbq6ts3UAZ/Tai/KNrL+mvZQRoDros7JfQs+het/tZ5SDYTfA888MecBYqPT09nMAOnxEsv7
+	eLPY2Qm3B/jkH4VJPDhO//HKfAb0rjfSs48wfKffr1cpwyNrK2B0GCEJYV0SX1dmaU/dNO1Lwh4s2
+	T2Pc1EMXfB4RYzvNSkUAo7u27eVWpBtNy24rJZD6y/rCkahiJqVZjLwmBI0hcWarY+pjMNA8G6vaD
+	WEQMpL9WRgcAjlWtDpjYEGEiBL/Q7CZpzhmoCMQ3NeUAzCLk0GIN9cv+jNAyId7szfoQrpbpFy6+F
+	P2mI7Ujg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0e1A-00000007iYk-3k8q;
-	Tue, 15 Oct 2024 09:39:04 +0000
-Received: from mgamail.intel.com ([192.198.163.9])
+	id 1t0fea-000000080eT-315T;
+	Tue, 15 Oct 2024 11:23:52 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0doG-00000007h48-41wt
+	id 1t0fby-00000007zze-20PX
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Oct 2024 09:25:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728984345; x=1760520345;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=LBwRXkAIdv1AimxyczECxXGj9by0IZ10c25ZcV9tBtE=;
-  b=lz6kpYyLFH16iBCIxeTBTJArpO7FpIp/CYG3zY4VgoQ+9gf5Ox53NgWH
-   T85Rs7OSTsT6RPyKtzjCB7Q9cP3fkLtxN3vfUmMiLVDgdXVuvgUcSzqFI
-   7tdH0ANZLuSB6dq3G6xRO+uTJohhpu+X5nMjToP0e1/KK1OWDgS4NcW0R
-   LhcooTyfLuqdsZu01ATHlMB2PblXUlPVvE1SgwyDR9LVQKebvp/nQgrQL
-   w1pOiltSu0qNw9ck2a+GS0KRkk7juKF4Lsb8t2NOOphK/bBy5ryAqGsBA
-   AoiAgDY2sb/InQIoCjKODbB2jHtfUe3P27OHqWKaegVXS2nL1EC0dBmrv
-   A==;
-X-CSE-ConnectionGUID: 07R53sHvS/+okB9YDqKVHg==
-X-CSE-MsgGUID: wuLI9CWATOCFmeYWkMcMuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="38997770"
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="38997770"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 02:25:42 -0700
-X-CSE-ConnectionGUID: 9X81IRDMTxOE0jJ7zKZwJw==
-X-CSE-MsgGUID: qHE+LER4R2m09qKI09dR3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77850866"
-Received: from lfiedoro-mobl.ger.corp.intel.com ([10.245.246.32])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 02:25:40 -0700
-Message-ID: <0feb16b0bc3515b0a77f33a3e18568f62236b691.camel@linux.intel.com>
-Subject: Re: [PATCH 1/1] nvme-pci: Add CPU latency pm-qos handling
-From: Tero Kristo <tero.kristo@linux.intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-kernel@vger.kernel.org, axboe@kernel.dk, 
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, kbusch@kernel.org
-Date: Tue, 15 Oct 2024 12:25:37 +0300
-In-Reply-To: <accb9ceb501197b71259d8d3996c461dcef1e7d6.camel@linux.intel.com>
-References: <20241004101014.3716006-1-tero.kristo@linux.intel.com>
-	 <20241004101014.3716006-2-tero.kristo@linux.intel.com>
-	 <20241007061926.GA800@lst.de>
-	 <913b063d0638614bc95d92969879d2096ffc0722.camel@linux.intel.com>
-	 <20241009080052.GA16711@lst.de>
-	 <accb9ceb501197b71259d8d3996c461dcef1e7d6.camel@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	Tue, 15 Oct 2024 11:21:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728991269;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cYMh5spqxBzFwVt4eOER8kYg02j3hG421gfzxexCzwc=;
+	b=b8ZPD29CS5xoMyfDm1YARkzIZXM6vNhVxnb/LiuMVSXvjwPGe/L1a/YcFQsCEZE3FKuJpV
+	obvE8DedhzHrXFCz1icxZqHOueugj/mgfnX2JtZCqZx6dlEg4jOBGXJtzgk1/p0GWoydds
+	p5ur4/Qyve6ammluyiuZMpjnf+KPHhE=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-635-IllXHmKJMKiuJA3Da6WZWA-1; Tue,
+ 15 Oct 2024 07:21:06 -0400
+X-MC-Unique: IllXHmKJMKiuJA3Da6WZWA-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5F17119560AD;
+	Tue, 15 Oct 2024 11:21:04 +0000 (UTC)
+Received: from rocky.redhat.com (unknown [10.45.224.143])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1CBAB1956056;
+	Tue, 15 Oct 2024 11:21:01 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH V2] nvme-pci: fix race condition between reset and nvme_dev_disable()
+Date: Tue, 15 Oct 2024 13:21:00 +0200
+Message-ID: <20241015112100.824193-1-mlombard@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241015_022545_031942_7303A603 
-X-CRM114-Status: GOOD (  27.09  )
+X-CRM114-CacheID: sfid-20241015_042110_672665_C6871EAF 
+X-CRM114-Status: GOOD (  14.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,51 +83,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2024-10-09 at 11:24 +0300, Tero Kristo wrote:
-> On Wed, 2024-10-09 at 10:00 +0200, Christoph Hellwig wrote:
-> > On Wed, Oct 09, 2024 at 09:45:07AM +0300, Tero Kristo wrote:
-> > > Initially, I posted the patch against block layer, but there the
-> > > recommendation was to move this closer to the HW; i.e. NVMe
-> > > driver
-> > > level.
-> >=20
-> > Even if it is called from NVMe, at lot of the code is not nvme
-> > specific.
-> > Some of it appears block specific and other pats are entirely
-> > generic.
-> >=20
-> > But I still don't see how walking cpumasks and updating paramters
-> > in
-> > far away (in terms of cache lines and pointer dereferences) for
-> > every
-> > single I/O could work without having a huge performance impact.
-> >=20
->=20
-> Generally, the cpumask only has a couple of CPUs on it; yes its true
-> on
-> certain setups every CPU of the system may end up on it, but then the
-> user has the option to not enable this feature at all. In my testing
-> system, there is a separate NVME irq for each CPU, so the affinity
-> mask
-> only contains one bit.
->=20
-> Also, the code tries to avoid calling the heavy PM QoS stuff, by
-> checking if the request is already active, and updating the values in
-> a
-> workqueue later on. Generally the heavy-ish parameter update only
-> happens on the first activity of a burst of NVMe accesses.
+nvme_dev_disable() modifies the dev->online_queues field, therefore
+nvme_pci_update_nr_queues() should avoid racing against it, otherwise
+we could end up passing invalid values to blk_mq_update_nr_hw_queues().
 
-I've been giving this some thought offline, but can't really think of
-how this could be done in the generic layers; the code needs to figure
-out the interrupt that gets fired by the activity, to prevent the CPU
-that is going to handle that interrupt to go into deep idle,
-potentially ruining the latency and throughput of the request. The
-knowledge of this interrupt mapping only resides in the driver level,
-in this case NVMe.
+ WARNING: CPU: 39 PID: 61303 at drivers/pci/msi/api.c:347
+          pci_irq_get_affinity+0x187/0x210
+ Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+ RIP: 0010:pci_irq_get_affinity+0x187/0x210
+ Call Trace:
+  <TASK>
+  ? blk_mq_pci_map_queues+0x87/0x3c0
+  ? pci_irq_get_affinity+0x187/0x210
+  blk_mq_pci_map_queues+0x87/0x3c0
+  nvme_pci_map_queues+0x189/0x460 [nvme]
+  blk_mq_update_nr_hw_queues+0x2a/0x40
+  nvme_reset_work+0x1be/0x2a0 [nvme]
 
-One thing that could be done is to prevent the whole feature to be used
-on setups where the number of cpus per irq is above some threshold;
-lets say 4 as an example.
+Fix the bug by locking the shutdown_lock mutex before using
+dev->online_queues. Give up if nvme_dev_disable() is running or if
+it has been executed already.
 
--Tero
+Fixes: 949928c1c731 ("NVMe: Fix possible queue use after freed")
+Tested-by: Yi Zhang <yi.zhang@redhat.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+
+v2: return true in case of success, false in case of failure
+
+ drivers/nvme/host/pci.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7990c3f22ecf..4b9fda0b1d9a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2506,17 +2506,29 @@ static unsigned int nvme_pci_nr_maps(struct nvme_dev *dev)
+ 	return 1;
+ }
+ 
+-static void nvme_pci_update_nr_queues(struct nvme_dev *dev)
++static bool nvme_pci_update_nr_queues(struct nvme_dev *dev)
+ {
+ 	if (!dev->ctrl.tagset) {
+ 		nvme_alloc_io_tag_set(&dev->ctrl, &dev->tagset, &nvme_mq_ops,
+ 				nvme_pci_nr_maps(dev), sizeof(struct nvme_iod));
+-		return;
++		return true;
++	}
++
++	/* Give up if we are racing with nvme_dev_disable() */
++	if (!mutex_trylock(&dev->shutdown_lock))
++		return false;
++
++	/* Check if nvme_dev_disable() has been executed already */
++	if (!dev->online_queues) {
++		mutex_unlock(&dev->shutdown_lock);
++		return false;
+ 	}
+ 
+ 	blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
+ 	/* free previously allocated queues that are no longer usable */
+ 	nvme_free_queues(dev, dev->online_queues);
++	mutex_unlock(&dev->shutdown_lock);
++	return true;
+ }
+ 
+ static int nvme_pci_enable(struct nvme_dev *dev)
+@@ -2797,7 +2809,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_dbbuf_set(dev);
+ 		nvme_unquiesce_io_queues(&dev->ctrl);
+ 		nvme_wait_freeze(&dev->ctrl);
+-		nvme_pci_update_nr_queues(dev);
++		if (!nvme_pci_update_nr_queues(dev))
++			goto out;
+ 		nvme_unfreeze(&dev->ctrl);
+ 	} else {
+ 		dev_warn(dev->ctrl.device, "IO queues lost\n");
+-- 
+2.43.5
+
 
