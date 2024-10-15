@@ -4,63 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3AE3CFC277
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 15:22:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6651CFC277
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 15:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VFJVYSX+QMrcdwIRxiKLj++JTIvvQIbM+zUoRL6Wn0g=; b=xeda31Gy00jPtvf5JmgWytewGz
-	+F/tWWtAIaPMcs3+BbTDR7+HCKTEk43UGOFRn9G/8pXzf6YMpGpfnSyz8uoDIpX3gk56JBNCygjAW
-	k6GfTmxM0IC5AcyC/QFHJFfefyuY0lpLagfPKyaNNjmuDMvLGqQIKKaes0Xz2zGWAvUev2F1O1Pse
-	nBPlXTwhcrcI/9Z3fNwdlN+nPXG/un/l+nwewW8Vs5mNMwKbIX/p08p7GeGceZiUJ4TmGYuYySn+a
-	bvFa2toQ/xbNn3qXvpLSwhe1vv/f2jmvK1g/4gEc2RaP2X7FGOIQsAfhtNMaLo/MzZJfddSI48FZ6
-	H0pqHSaA==;
+	bh=EOK9/UnCdU8avNRn1xq3SsbFfmJsuGMQM1ypFjGu1CI=; b=3x7/dV48P0bj8Deqmlygx9R0j1
+	QSYr+uoWZXLx+NDnktOV8jlirlX2kY6FwDqjPZyCoyCt44Plygwu2KnglH1wRwd+vuhOXn4YqckK7
+	V5cHNQ7nI5QAnXAoW1/JuUkLjBH/NbppokFRCDHH5bh2EoS5mwycPRs2honUumfx6zyRZv7x+zTIN
+	YhIKBtIDIAGDtnXLHR+b/mvuqqLebTEgaI32oXKtCaKmKxPJoQ6gD8aQzk47k9zE6/4BoKOCyS0JZ
+	F4NHjhhpoFBtcXUrYfI7byLXDRmc9OuktZ6OVl7UIGZW2m6bW9uo3XQxyEiGl8Cz6W+AVX3jOuGNu
+	uvEXjOVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0jNY-00000008gR1-1Cso;
-	Tue, 15 Oct 2024 15:22:32 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t0jO5-00000008gbi-1qMn;
+	Tue, 15 Oct 2024 15:23:05 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0jLs-00000008gD8-3yDc
+	id 1t0jO2-00000008gaJ-0iof
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Oct 2024 15:20:50 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 31354A43249;
-	Tue, 15 Oct 2024 15:20:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CC93C4CEC6;
-	Tue, 15 Oct 2024 15:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729005647;
-	bh=zRvb1polYVKwntKvWolch0TCa+/KTziUqbokBUk0ieg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lsgarw8lWY1f1R9Fn+HHELkPIK5InyuOO5EQbjpFLSQ3oqxnJ7QVlLksmF6GwNt2C
-	 yVXPyHIhWFqAPgq+NLEecu5ODuaPAe3NiizBLtTTJXlUAUPrQrv8C48mBx5jjzFl6l
-	 /TI4EpwYIBLAvm6pHZf1gFB4Oo9RFSn9eelfriWb+Rsn1zfXdu1u0+vGwttIjCcWn8
-	 4mzrACAAFZXGw5yzAaznYlAKZudhNI9yCwpHTxEogDX2Szww6IpxoM6J38uOcWqjnW
-	 nVcl3R40OsRioKOAZ+R/W5iFsBppsWYC2eyi8rIdCi3AC6pHAynl/YzxvBfQbax3PD
-	 xhkKstAkUDM7g==
-Date: Tue, 15 Oct 2024 09:20:45 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: fix cns check
-Message-ID: <Zw6ITWUcED_Heb6W@kbusch-mbp>
-References: <20241009214035.3851406-1-kbusch@meta.com>
- <20241010075633.GB7525@lst.de>
- <Zwfuqf_PAP06GG1-@kbusch-mbp>
- <20241011080925.GE2749@lst.de>
- <Zw5930diGlfHACzF@kbusch-mbp>
- <20241015151652.GA12532@lst.de>
+	Tue, 15 Oct 2024 15:23:03 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1AA12227A8E; Tue, 15 Oct 2024 17:22:58 +0200 (CEST)
+Date: Tue, 15 Oct 2024 17:22:57 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	axboe@kernel.dk, hare@suse.de, sagi@grimberg.me,
+	martin.petersen@oracle.com, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org,
+	bcrl@kvack.org, dhowells@redhat.com, bvanassche@acm.org,
+	asml.silence@gmail.com, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-aio@kvack.org,
+	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+Message-ID: <20241015152257.GA12898@lst.de>
+References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com> <20240930181305.17286-1-joshi.k@samsung.com> <20241015055006.GA18759@lst.de> <Zw6FoPCEJ0-rARGT@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015151652.GA12532@lst.de>
+In-Reply-To: <Zw6FoPCEJ0-rARGT@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241015_082049_074328_6E9BEBA4 
-X-CRM114-Status: GOOD (  13.35  )
+X-CRM114-CacheID: sfid-20241015_082302_533523_14BD296D 
+X-CRM114-Status: GOOD (  39.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,14 +66,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 15, 2024 at 05:16:52PM +0200, Christoph Hellwig wrote:
-> On Tue, Oct 15, 2024 at 08:36:15AM -0600, Keith Busch wrote:
-> > I like this idea, and the spec makes it seem safe enough to assume the
-> > tertiary version number is always 0 for 1.0 and 1.1 controllers. So
-> > yeah, this looks good to me.
+On Tue, Oct 15, 2024 at 09:09:20AM -0600, Keith Busch wrote:
+> On Tue, Oct 15, 2024 at 07:50:06AM +0200, Christoph Hellwig wrote:
+> > 1) While the current per-file temperature hints interface is not perfect
+> > it is okay and make sense to reuse until we need something more fancy.
+> > We make good use of it in f2fs and the upcoming zoned xfs code to help
+> > with data placement and have numbers to show that it helps.
 > 
-> Do you want to pick this up, or do you want me to send a patch?
+> So we're okay to proceed with patch 1?
 
-I'll respin a patch with this idea. I'm just catching up from a short
-vacation, so might need one more day to get a v2 out.
+No, see point 3 and 4 below for why.  We'll need something like the
+interface you suggested by me in point 4 and by you in reply to point 3
+in the block layer, and then block/fops.c can implement the mapping on
+top of that for drivers supporting it.
+
+>  
+> > 2) A per-I/O interface to set these temperature hint conflicts badly
+> > with how placement works in file systems.  If we have an urgent need
+> > for it on the block device it needs to be opt-in by the file operations
+> > so it can be enabled on block device, but not on file systems by
+> > default.  This way you can implement it for block device, but not
+> > provide it on file systems by default.  If a given file system finds
+> > a way to implement it it can still opt into implementing it of course.
+> 
+> If we add a new fop_flag that only block fops enables, then it's okay?
+
+The flag is just one part of it.  Of course it need to be discoverable
+from userspace in one way or another, and the marshalling of the flag
+needs to be controller by the file system / fops instance.
+
+> > 3) Mapping from temperature hints to separate write streams needs to
+> > happen above the block layer, because file systems need to be in
+> > control of it to do intelligent placement.  That means if you want to
+> > map from temperature hints to stream separation it needs to be
+> > implemented at the file operation layer, not in the device driver.
+> > The mapping implemented in this series is probably only useful for
+> > block devices.  Maybe if dumb file systems want to adopt it, it could
+> > be split into library code for reuse, but as usual that's probably
+> > best done only when actually needed.
+> 
+> IMO, I don't even think the io_uring per-io hint needs to be limited to
+> the fcntl lifetime values. It could just be a u16 value opaque to the
+> block layer that just gets forwarded to the device.
+
+Well, that's what I've been arguing for all the time, and what Kanchan's
+previous series was working towards.  It's not quite as trivial as
+we need a bit more than just the stream, e.g. a way to discover how many
+of them exist.
+
+> > 4) To support this the block layer, that is bios and requests need
+> > to support a notion of stream separation.   Kanchan's previous series
+> > had most of the bits for that, it just needs to be iterated on.
+> > 
+> > All of this could have probably be easily done in the time spent on
+> > this discussion.
+---end quoted text---
 
