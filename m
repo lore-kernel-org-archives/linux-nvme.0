@@ -4,70 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FA95D216B7
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 14:31:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3048AD216B7
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 14:34:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=kGvO1Kawr3MTYf6nAwN4jW34SokY4Uzp4aiZ/Do55t0=; b=kB9cYRsfUBiSyYUHagLXDGIZpe
-	9oNNosJn0Ca93CMIxSwuSTP/XiffWziIPmiCP9gpJP9pC8Owe3DPfQmplneBG0Ow5n1tu440yO8NB
-	A5vKQKtA2gbNHDoO3Gw0g2a1p8NzTgxhEnPSTqrVYOh9rgIL2m53pK3Mu9HsJUTd06BSkpza8/maP
-	mR7an/2/b3NGDRg2W+t8Sw5kxe0dt0RRsiYsbeJtaN2hcIayUxcyBxFk14DeJoItEDdH9kETqosip
-	psNTTfCN4EwdUkzFqLfhqrGvHX1Uc0ENO15yfB5jPAtLJDJMda9+SXW4RuTyKesdue/4dxjRISqtO
-	u7jTTGZQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Bvv1APNe064tYyi6n0dE5n0nQNkAAEm4fvFFi4BNWso=; b=0/y+DAtPGmDOdDPR9VYIaMgAb2
+	K1x7AbFRAs4p+Kg2pQB1Bd1DPDsd3DAhmtnD4vPxvumkEo1enLapGew/8QcLV+9w6CqJUngWuHqDd
+	+X8qllLZMt67xwijUNsRtL1mVmuPTSk4gVJQIqHu7OHleqnuPb5D6Mgdz/ra78NVjrNk1ri296azG
+	f6RLan2UCmEckP38dF0bk3LcgP6dEdMgti7KbOmkGZ9t2ODF2CkGF3Rc5C2yrT8eikLgPoN//xqRB
+	iMFXipBf5yJ0GCaqr82s1/zJ6Fwsa/FLN8ZrPCyculRIJCqBURIFeEi2Xb6rkYS9s/mdhWeHg9hk0
+	yPeKf5Uw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0iaU-00000008WW3-1I1y;
-	Tue, 15 Oct 2024 14:31:50 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1t0id4-00000008WuZ-24Wt;
+	Tue, 15 Oct 2024 14:34:30 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0iaR-00000008WVX-1tNZ
+	id 1t0ibz-00000008Wj3-0rqo
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Oct 2024 14:31:48 +0000
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49F6Q9SB007980
-	for <linux-nvme@lists.infradead.org>; Tue, 15 Oct 2024 07:31:46 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=kGvO1Kawr3MTYf6nAw
-	N4jW34SokY4Uzp4aiZ/Do55t0=; b=UoNTZv1wSterSvRzUJPv3xPha7ABuqT4jf
-	jdRx/5vji/tPSL23l/2b0m0tiOQgtHgwy4Dy1uYXR5btD688LKU+sw5aiqT1eP86
-	38lPrDLLNrVQ/fFIrrJmpkh5YMxQ7n9j1cPrQGx2K5cPDoqKdOSANsdAfAnOV23W
-	dHFfu651AsHJOxRseswwQtJZWLP6qhfFj50loPwI1jN5wmG0vusGWvj+Qn1jufXp
-	oNgamGire9XZs0LybEp5ks8Y8kVRlFvZW5zRck/iY3+fzH/vQPGrvv4Ow+rq9i6T
-	ecbpCjTcX58vEO9bMGmzLWGt7HpWyJEdeQ8QEOPgDoU4vDO6bNrw==
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4291rjh75t-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 15 Oct 2024 07:31:45 -0700 (PDT)
-Received: from twshared4085.05.ash9.facebook.com (2620:10d:c0a8:1c::11) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Tue, 15 Oct 2024 14:31:43 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id A1633142A52B2; Tue, 15 Oct 2024 07:31:37 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <hch@lst.de>, <linux-nvme@lists.infradead.org>
-CC: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvme-multipath: defer partition scanning
-Date: Tue, 15 Oct 2024 07:31:36 -0700
-Message-ID: <20241015143136.810779-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
+	Tue, 15 Oct 2024 14:33:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id C0F7B5C5BA1;
+	Tue, 15 Oct 2024 14:33:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C3BEC4CEC6;
+	Tue, 15 Oct 2024 14:33:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729002801;
+	bh=2DW2EiRLsxDugl1EofZUq16oOJb9O6b+hc80UuokMbw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rKT5U4uLfZzMMqRzJ/FB7eknScgdIrEmm2W5M44L/16F6v/LDtE9+bbwbB0i793FI
+	 4F7SgyMy0/GlIFUS1XN+N20joo4yJ1zYOw3H5eeVclMAOIibtYhDYAYrldh18UUIgX
+	 SQUzhkMnhelqaO5T/GC7i0ReVj818gzIpdG9Ai3JowrV2RZ0XJ2hmOWYmTAccHjl5p
+	 U5oPXpnrHcfPp7dTp+vG7kaz8EtjtceSXaa9U0OHOP729p0Z31DauOZlB38rZsXXNQ
+	 VJFUAxhubcXUIxuK1TLLlcY3bCnEdViJz7iD+X11SGT0pB0HqAOPl7++0B7wNVsxFQ
+	 18nvKy3nSaRPg==
+Date: Tue, 15 Oct 2024 08:33:19 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on
+ stuck partition scan
+Message-ID: <Zw59LxZ3cngO17_f@kbusch-mbp>
+References: <20241007100134.21104-1-hare@kernel.org>
+ <20241007100134.21104-3-hare@kernel.org>
+ <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
+ <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de>
+ <ZwWY8d3vOLUaYaJ6@kbusch-mbp>
+ <3b8ff898-9529-4506-8c5d-0fcf3423730f@suse.de>
+ <Zwa-MBS6wn_dGxge@kbusch-mbp>
+ <b7ffdbbb-0b4e-4215-bf2b-b5c2f9a2dc08@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 41X_C8jwKR1EuvsUBzOq61sCL_RFjsN9
-X-Proofpoint-ORIG-GUID: 41X_C8jwKR1EuvsUBzOq61sCL_RFjsN9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7ffdbbb-0b4e-4215-bf2b-b5c2f9a2dc08@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241015_073147_526149_0ACF4C42 
-X-CRM114-Status: GOOD (  17.84  )
+X-CRM114-CacheID: sfid-20241015_073323_309127_F3D6C5A7 
+X-CRM114-Status: GOOD (  16.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,132 +79,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Oct 10, 2024 at 10:57:23AM +0200, Hannes Reinecke wrote:
+> On 10/9/24 19:32, Keith Busch wrote:
+> > @@ -974,14 +991,14 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
+> >   		return;
+> >   	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+> >   		nvme_cdev_del(&head->cdev, &head->cdev_device);
+> > +		/*
+> > +		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
+> > +		 * to allow multipath to fail all I/O.
+> > +		 */
+> > +		synchronize_srcu(&head->srcu);
+> > +		kblockd_schedule_work(&head->requeue_work);
+> >   		del_gendisk(head->disk);
+> >   	}
+> 
+> I guess we need to split 'test_and_clear_bit()' into a 'test_bit()' when
+> testing for the condition and a 'clear_bit()' after del_gendisk().
+> 
+> Otherwise we're having a race condition with nvme_mpath_set_live:
+> 
+>         if (!test_and_set_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+>                 rc = device_add_disk(&head->subsys->dev, head->disk,
+>                                      nvme_ns_attr_groups);
+> 
+> which could sneak in from another controller just after we cleared the
+> NVME_NSHEAD_DISK_LIVE flag, causing device_add_disk() to fail as the
+> same name is already registered.
+> Or nvme_cdev_del() to display nice kernel warnings as the cdev was
+> not registered.
 
-We need to suppress the partition scan from occuring within the controlle=
-r's
-scan_work context. If a path error occurs here, the submission will wait =
-until
-a path becomes available or all paths are torn down, but that action also
-occurs within scan_work, so it would deadlock. Defer the partion scan a
-different one that does not block scan_work.
-
-Reported-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-
-will be ignored, and an empty message aborts the commit.
----
- drivers/nvme/host/multipath.c | 39 +++++++++++++++++++++++++++++------
- drivers/nvme/host/nvme.h      |  1 +
- 2 files changed, 34 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.=
-c
-index bad1620fbbfc1..d371aa03f9851 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -579,6 +579,20 @@ static int nvme_add_ns_head_cdev(struct nvme_ns_head=
- *head)
- 	return ret;
- }
-=20
-+static void nvme_partition_scan_work(struct work_struct *work)
-+{
-+	struct nvme_ns_head *head =3D
-+		container_of(work, struct nvme_ns_head, partition_scan_work);
-+
-+	if (WARN_ON_ONCE(!test_and_clear_bit(GD_SUPPRESS_PART_SCAN,
-+					     &head->disk->state)))
-+		return;
-+
-+	mutex_lock(&head->disk->open_mutex);
-+	bdev_disk_changed(head->disk, false);
-+	mutex_unlock(&head->disk->open_mutex);
-+}
-+
- static void nvme_requeue_work(struct work_struct *work)
- {
- 	struct nvme_ns_head *head =3D
-@@ -605,6 +619,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, str=
-uct nvme_ns_head *head)
- 	bio_list_init(&head->requeue_list);
- 	spin_lock_init(&head->requeue_lock);
- 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
-+	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
-=20
- 	/*
- 	 * Add a multipath node if the subsystems supports multiple controllers=
-.
-@@ -628,6 +643,16 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, st=
-ruct nvme_ns_head *head)
- 		return PTR_ERR(head->disk);
- 	head->disk->fops =3D &nvme_ns_head_ops;
- 	head->disk->private_data =3D head;
-+
-+	/*
-+	 * We need to suppress the partition scan from occuring within the
-+	 * controller's scan_work context. If a path error occurs here, the
-+	 * submission will wait until a path becomes available or all paths are
-+	 * torn down, but that action also occurs within scan_work, so it would
-+	 * deadlock. Defer the partion scan a different one that does not block
-+	 * scan_work.
-+	 */
-+	set_bit(GD_SUPPRESS_PART_SCAN, &head->disk->state);
- 	sprintf(head->disk->disk_name, "nvme%dn%d",
- 			ctrl->subsys->instance, head->instance);
- 	return 0;
-@@ -654,6 +679,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 			return;
- 		}
- 		nvme_add_ns_head_cdev(head);
-+		kblockd_schedule_work(&head->partition_scan_work);
- 	}
-=20
- 	mutex_lock(&head->lock);
-@@ -973,14 +999,14 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *=
-head)
- 		return;
- 	if (test_and_clear_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
- 		nvme_cdev_del(&head->cdev, &head->cdev_device);
-+		/*
-+		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
-+		 * to allow multipath to fail all I/O.
-+		 */
-+		synchronize_srcu(&head->srcu);
-+		kblockd_schedule_work(&head->requeue_work);
- 		del_gendisk(head->disk);
- 	}
--	/*
--	 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
--	 * to allow multipath to fail all I/O.
--	 */
--	synchronize_srcu(&head->srcu);
--	kblockd_schedule_work(&head->requeue_work);
- }
-=20
- void nvme_mpath_remove_disk(struct nvme_ns_head *head)
-@@ -990,6 +1016,7 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *hea=
-d)
- 	/* make sure all pending bios are cleaned up */
- 	kblockd_schedule_work(&head->requeue_work);
- 	flush_work(&head->requeue_work);
-+	flush_work(&head->partition_scan_work);
- 	put_disk(head->disk);
- }
-=20
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 313a4f978a2cf..093cb423f536b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -494,6 +494,7 @@ struct nvme_ns_head {
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
- 	struct work_struct	requeue_work;
-+	struct work_struct	partition_scan_work;
- 	struct mutex		lock;
- 	unsigned long		flags;
- #define NVME_NSHEAD_DISK_LIVE	0
---=20
-2.43.5
-
+Is that actually happening for you? I don't think it's supposed to
+happen because mpath_shutdwon_disk only happens if the head is detached
+from the subsystem, so no other thread should be able to possibly
+attempt to access that head's disk for a different controller path. That
+new controller should have to allocate an entirely new head.
 
