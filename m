@@ -4,55 +4,157 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE8D9CFC501
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 02:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A4BDD16272
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 03:10:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LuoGDYsPXj8p8f4XfuUqpXhQFNhBY0HBX7WSPxJ6GZA=; b=ceOZD6RKKu9Q0YBPP8n0CKTKrD
-	aEormQlnMN/qA/FBwoX7RNaKYBIx720ukhDfGm3iBdhupNBqTDOB0wDjee82ykL/6izu1hJHjDP5A
-	+7rEJluOXZZXXyQQ3Y4YJtUMs4Az2CEvX1E4NX3TyGaSkh+mGX39C3qKdo1hcInclZoLR1NtAFywh
-	HL/oIsNwiJc1Ji83+isI96NW8k9pD2lPq4Z5kvF/RZBZRQ+/N27XEoMr8K3h8+IERaE9mWxOMZ+F/
-	lp4AW+LZH2EFpMgLTsCtJC9gInL/sPXZmnt2tO5GGMoyRu92Y3E8mJRrVVDDLeRuUurEMVEUi7ZTQ
-	h+IxGSqQ==;
+	bh=V6MxMARZ/fd8PmMdfu49JsoNqWc/GHuLb3BoVceTtYU=; b=0rbyLJSOhqm4vzPouboLIT7IFv
+	+1OYRCLGiCTfry+I9QtJJKDYsIMYkTO3StrbEPuqmoKSmRA40MZmStZkqlRDgNA6L4itSvxZOvRlJ
+	dj+5I9Z9s4rsRQEChSJIV1Acxv1zdpWKxN+cFLQ/F1rz2BlJLwx97C6Vi601F7ll3lbRD3+Iqge4b
+	vjwvbrK6RaKR+ncLDBas0e0UzqiuhvTZwGS/eyd60dckvSKioAIHW8UQwpZlZDdIO26z3i0Ph94xS
+	NKGHcGcz6doaeAs7sB0uQmnX7rjAU28HeyM0ZqyTyCKpzI0XLH72nskPobHeqUc5f4sB8JB/y0NMD
+	pOvZa4Pw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0XXa-00000006ut1-3mHq;
-	Tue, 15 Oct 2024 02:44:06 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1t0Xx6-00000006xWh-3gY3;
+	Tue, 15 Oct 2024 03:10:28 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0XXX-00000006uqV-2LYd
+	id 1t0Xun-00000006xIL-20CP
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Oct 2024 02:44:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1728960241; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=LuoGDYsPXj8p8f4XfuUqpXhQFNhBY0HBX7WSPxJ6GZA=;
-	b=eT5KuX+kl0p4dlVOiZw/Jkmqy8iptz9npnd94HHp9wkPlrIrYX7X9i3IR1qxFQ4+CNh9Jcaa3OhDHIMgFQEXvJHmICaIhTN24OM/xqymdd3Vs+Int9PvpHSU+r9FgAlb2OQrKJ/Mg1O++UP+52ULCy6z04Or6Gkmi5S/nCw5TVg=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHBZdsX_1728960235 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 15 Oct 2024 10:44:00 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: shinichiro.kawasaki@wdc.com,
-	dwagner@suse.de,
-	chaitanyak@nvidia.com
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH blktests v5 1/2] nvme/{md/001,rc,002,016,017,030,052}: introduce --resv_enable argument
-Date: Tue, 15 Oct 2024 10:43:49 +0800
-Message-ID: <20241015024350.16271-2-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241015024350.16271-1-kanie@linux.alibaba.com>
-References: <20241015024350.16271-1-kanie@linux.alibaba.com>
+	Tue, 15 Oct 2024 03:08:07 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20241015030801euoutp01e8e343c6443857f884065de1123e66ba~_gX0_Nb5n1556015560euoutp01z
+	for <linux-nvme@lists.infradead.org>; Tue, 15 Oct 2024 03:08:01 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20241015030801euoutp01e8e343c6443857f884065de1123e66ba~_gX0_Nb5n1556015560euoutp01z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1728961681;
+	bh=V6MxMARZ/fd8PmMdfu49JsoNqWc/GHuLb3BoVceTtYU=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=to4hCVDnsyq8MM9lV5L4fZFP9lxtzcRin50XfZGnREdRShZbaGJMp9p7xN3jBk4C/
+	 59u5nCDiKRJv0UatL0XiJg1oX9YI8G88QsrnnQuOuDbQeYDOkUMMAGcRtb8tt9sEte
+	 nVcaYwHQ7mg7qJDY8dbnXticWuN9FUkxeAARXbzg=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20241015030801eucas1p27c948a33fa3c21d627da897266683415~_gX0dt1TQ2989529895eucas1p2d;
+	Tue, 15 Oct 2024 03:08:01 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 3C.3E.09624.19CDD076; Tue, 15
+	Oct 2024 04:08:01 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20241015030800eucas1p1e2584459613eaa885539d58f9c8ec4b8~_gXzXS0mL1042710427eucas1p1k;
+	Tue, 15 Oct 2024 03:08:00 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241015030800eusmtrp25976737c3a3da77806b8aaf3ab1decfb~_gXzWjKpz0951909519eusmtrp2t;
+	Tue, 15 Oct 2024 03:08:00 +0000 (GMT)
+X-AuditID: cbfec7f2-c11ff70000002598-95-670ddc91e98a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 24.6F.14621.F8CDD076; Tue, 15
+	Oct 2024 04:08:00 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241015030759eusmtip2b042992190a2a3ca6745c77ee402d385~_gXzK2Mrz3239132391eusmtip2j;
+	Tue, 15 Oct 2024 03:07:59 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) by
+	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
+	Server (TLS) id 15.0.1497.2; Tue, 15 Oct 2024 04:07:59 +0100
+Received: from CAMSVWEXC02.scsc.local ([::1]) by CAMSVWEXC02.scsc.local
+	([fe80::3c08:6c51:fa0a:6384%13]) with mapi id 15.00.1497.012; Tue, 15 Oct
+	2024 04:07:58 +0100
+From: Javier Gonzalez <javier.gonz@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, "Martin
+ K. Petersen" <martin.petersen@oracle.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, "hare@suse.de" <hare@suse.de>, "sagi@grimberg.me"
+	<sagi@grimberg.me>, "brauner@kernel.org" <brauner@kernel.org>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jack@suse.cz"
+	<jack@suse.cz>, "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "bcrl@kvack.org"
+	<bcrl@kvack.org>, "dhowells@redhat.com" <dhowells@redhat.com>,
+	"bvanassche@acm.org" <bvanassche@acm.org>, "asml.silence@gmail.com"
+	<asml.silence@gmail.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "io-uring@vger.kernel.org"
+	<io-uring@vger.kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-aio@kvack.org" <linux-aio@kvack.org>,
+	"gost.dev@samsung.com" <gost.dev@samsung.com>, "vishak.g@samsung.com"
+	<vishak.g@samsung.com>
+Subject: RE: [PATCH v7 0/3] FDP and per-io hints
+Thread-Topic: [PATCH v7 0/3] FDP and per-io hints
+Thread-Index: AQHbG7xJFahlOOmkRUWBz3B/P2gFpLKBuCIAgAQCOYCAABtsUP///IcAgAAiAcCAACIYAIABC7FQ
+Date: Tue, 15 Oct 2024 03:07:57 +0000
+Message-ID: <c0675721048d4b0a9a654e2e1669ad60@CAMSVWEXC02.scsc.local>
+In-Reply-To: <20241014115052.GA32302@lst.de>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [106.110.32.22]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxjGOfdebi8dxUtReoLbiE3IEmEFDI7jImxZxN1FZSbbJCMqNnJT
+	iKWQFizzY3QwFAFlq4KzMKFOi4WArjL5xlCGDEUNqeKKVmSUyYqDQl0WLcIotyz893s/nvO8
+	75tD4cJjZAiVrshmlQqpXEzyies3X9599/vHAlnUObc/qqq7DlC9rYxExfNNBJrsmQWowvkS
+	R1P5bgJ1XNBiyFjfi6GpwrsEqjxbgCH7FR2OtOYhgM5U5APUORyOOjr7CVRtGOeh2r55DDVO
+	ThPo3us+3w+DGMv9bUyrzsZj7j35mWAsd3IYU90JkjHNannMtYt5TLtVQzIz48MEM931gGQG
+	an5dzN8+zLhMbzMm+9/YzoBk/uZUVp5+kFVGxu/jpw06Ps9yr8otbCnjaUC9fzHwoyAdA38f
+	7eUVAz4lpC8DmN/Z4MsFLwAsnzCRXOAC0Nr1kLcscdlmcK5QC+DVljnf/7smDBpvMACg02on
+	PBIhbQTw35lcD5N0JKxrvgU8vJoWw3HHHeAR4PQQD3aXDmCeQhAdBQsudnmbouGUQe/lZKgx
+	ji8xQYfBVlMp6WEBnQAbftLiHvajI+B5W+MSA/ot+Ifx1dLcOC2Cw/ZqjNshEF6o7MA5Dobz
+	baMkx1Hwl0tdBMfr4KnqaYLTRsCa9lmS43Bo0E/inG8g7D/nWZK/2N/Ph9dKGrxH2gLPzp33
+	PhoEHX1N3vybcKF1eYjDUNP/G/YdWK9bMZ9uhZ9uhZ9uhV8NIOqAiM1RZchYVbSCVUtU0gxV
+	jkIm2Z+ZYQKLX/X2fN9sC/jRMSMxA4wCZgApXLxaoC0WyISCVOlXh1hlZooyR86qzGAtRYhF
+	grDUUFZIy6TZ7AGWzWKVy1WM8gvRYDGDceWyFskRufrF14+cuZu/tMZuGwkP7zaQlrkbRT9Q
+	TEy3a7f7TPYjdV6Y4Z245nb8yPE/ZfGKocyC2FfPUxKjsQT/wWP6rZ9Onf4scDRhQ8le88ba
+	piLLITygNGRUXBl8ac1HVek7ch8bB65m/LXjRlJFXtLJHkf2lpDETfh97Z735SdHfAxtC5iP
+	69Q3jt6x7RL18zcCdn4c5/RTuj94DWxJESlrpcEHiaInX2Bbs8qePbPjw43J5SXv8dsSHnbG
+	X0kTHQ0NFVkcRxv5iTrdJy61uXmsZ2Pygl5/wmq82e6jaf628OnuDf+YV3XzMPtTZ1S1duT4
+	xGRV5K5NTbHsmJhQpUmj1+NKlfQ/z41RExkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOKsWRmVeSWpSXmKPExsVy+t/xe7oT7vCmGyzewGwxZ9U2RovVd/vZ
+	LLr+bWGxeH34E6PFtA8/mS3eNf1msdizaBKTxcrVR5ks3rWeY7GYPb2ZyeLJ+lnMFpMOXWO0
+	mDKtidFi7y1tiz17T7JYzF/2lN1i+fF/TBbrXr9nsTj/9zirg7DH5SveHjtn3WX3OH9vI4vH
+	5bOlHptWdbJ5bPo0id1j85J6j903G9g8Pj69xeLxft9VNo8zC44AxU9Xe3zeJOex6clbpgC+
+	KD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTublNSczLLUIn27BL2Mi69C
+	Cn7zV7Tu6GdvYFzN08XIySEhYCLx+e5H5i5GLg4hgaWMEse/XWaHSMhIbPxylRXCFpb4c62L
+	DaLoI6PExCl/WSCcM4wSbT/WMkE4Kxklfp2dxAzSwiagL7Fq+ylGEFtEQEni6auzjCBFzAJX
+	2CWaFz0HSwgLGEg0L9kHVWQo8W7ZQig7SqJh5VMwm0VAVWLnph42EJtXwFVi7eJJUMfOYJF4
+	sHAuWIJTQEdi3t11YJsZBWQlHq38BfYEs4C4xK0n85kgnhCQWLLnPDOELSrx8vE/qOcMJLYu
+	3ccCYStK9M1/zwLRqyOxYPcnNghbW2LZwtfMEEcISpyc+YRlAqPULCQrZiFpmYWkZRaSlgWM
+	LKsYRVJLi3PTc4sN9YoTc4tL89L1kvNzNzECU+C2Yz8372Cc9+qj3iFGJg7GQ4wSHMxKIryT
+	unjThXhTEiurUovy44tKc1KLDzGaAgNmIrOUaHI+MAnnlcQbmhmYGpqYWRqYWpoZK4nzul0+
+	nyYkkJ5YkpqdmlqQWgTTx8TBKdXAlJEa8n/TTDN3ztr3+n8Yb2+Y7r362rfklBuuHl/57TNv
+	Gh4yOvx9Rgnz0uKTtqLGC+rzcs+ezXm4XU6F78L0hklBxZOn35jVzGnzu7KCxXix2PX5ORsS
+	uHM7b2w69fywczqXiqr2Md7N9yWEKo6FPEpqVGrhYSrsjsi6q1TiG/DTO0dq/U3m+HcJp5Y5
+	7oy6GaPxzF9zdezHRbMvzn3Q2ct7VP0/X7TfQ6vqeXP2+/MkM12qqTj082HWBmOXuJNXnq3u
+	W3g47G9MqhK3+3oW8b9bm7zsTZYdWjLravfdp/Ylnrdz4nc9ujLX32QOn4iuneLKnVtP/fMv
+	2Xz34OVJqY/6mLtUa8QvLM780/rMS4mlOCPRUIu5qDgRABIoUg4KBAAA
+X-CMS-MailID: 20241015030800eucas1p1e2584459613eaa885539d58f9c8ec4b8
+X-Msg-Generator: CA
+X-RootMTR: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed
+References: <CGME20241010070738eucas1p2057209e5f669f37ca586ad4a619289ed@eucas1p2.samsung.com>
+	<20241010070736.de32zgad4qmfohhe@ArmHalley.local>
+	<20241010091333.GB9287@lst.de>
+	<20241010115914.eokdnq2cmcvwoeis@ArmHalley.local>
+	<20241011090224.GC4039@lst.de>
+	<5e9f7f1c-48fd-477f-b4ba-c94e6b50b56f@kernel.dk>
+	<20241014062125.GA21033@lst.de>
+	<34d3ad68068f4f87bf0a61ea8fb8f217@CAMSVWEXC02.scsc.local>
+	<20241014074708.GA22575@lst.de>
+	<9e3792eebf7f427db7c466374972fb99@CAMSVWEXC02.scsc.local>
+	<20241014115052.GA32302@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241014_194403_755600_6D2CE59B 
-X-CRM114-Status: UNSURE (   9.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241014_200805_941620_6E69E77F 
+X-CRM114-Status: GOOD (  30.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,289 +169,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add an optional argument --resv_enable to _nvmet_target_setup() and
-propagate it to _create_nvmet_subsystem() and _create_nvmet_ns().
+> On Mon, Oct 14, 2024 at 09:08:24AM +0000, Javier Gonzalez wrote:
+> > > Especially as it directly undermindes any file system work to actuall=
+y make use
+> of it.
+> >
+> > I do not think it does. If a FS wants to use the temperatures, then the=
+y
+> > would be able to leverage FDP besides SCSI.
+>=20
+> What do you mean with that?  This is a bit too much whitepaper vocabularl=
+y.
+>=20
+> We have code in XFS that can make use of the temperature hint.  But to
+> make them work it actually needs to do real stream separation on the
+> device.  I.e. the file system consumes the temperature hints.
 
-One can call functions with --resv_enable to enable reservation
-feature on a specific namespace.
+The device can guarantee the stream separation without knowing the temperat=
+ure.
 
-And also make _create_nvmet_ns and _create_nvmet_subsystem to parse
-for arguments, this makes these functions more flexible to use.
+> > And if we come up with a better interface later on, we can make the cha=
+nges
+> then.
+> > I really do not see the issue. If we were adding a temperature abstract=
+ion now, I
+> would agree with
+> > You that we would need to cover the use-case you mention for FSs from t=
+he
+> beginning, but this
+> > Is already here. Seems like a fair compromise to support current users.
+>=20
+> Again, I think the temperature hints at the syscall level aren't all
+> bad.  There's definitively a few things I'd like to do better in hindsigh=
+t,
+> but that's not the point.  The problem is trying to turn them into
+> stream separation all the way down in the driver, which is fundamentally
+> broken.
+>=20
+> >   - How do we convince VFS folks to give us more space for hints at thi=
+s point?
+>=20
+> What space from VFS folks do you need for hints?  And why does it
+> matter?
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
----
- common/nvme    | 89 ++++++++++++++++++++++++++++++++++++++++++--------
- tests/md/001   |  4 ++-
- tests/nvme/002 |  3 +-
- tests/nvme/016 |  7 ++--
- tests/nvme/017 | 10 +++---
- tests/nvme/030 |  6 ++--
- tests/nvme/052 |  5 ++-
- tests/nvme/rc  | 11 +++++--
- 8 files changed, 109 insertions(+), 26 deletions(-)
+We need space in the inode to store the hint ID.
 
-diff --git a/common/nvme b/common/nvme
-index 9e78f3e..c1aa8d6 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -452,32 +452,95 @@ _remove_nvmet_port() {
- }
- 
- _create_nvmet_ns() {
--	local nvmet_subsystem="$1"
--	local nsid="$2"
--	local blkdev="$3"
-+	local nvmet_subsystem=""
-+	local nsid=""
-+	local blkdev=""
- 	local uuid="00000000-0000-0000-0000-000000000000"
--	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
--	local ns_path="${subsys_path}/namespaces/${nsid}"
-+	local subsys_path=""
-+	local ns_path=""
-+	local resv_enable=false
- 
--	if [[ $# -eq 4 ]]; then
--		uuid="$4"
--	fi
-+	while [[ $# -gt 0 ]]; do
-+		case $1 in
-+			--subsysnqn)
-+				nvmet_subsystem="$2"
-+				shift 2
-+				;;
-+			--nsid)
-+				nsid="$2"
-+				shift 2
-+				;;
-+			--blkdev)
-+				blkdev="$2"
-+				shift 2
-+				;;
-+			--uuid)
-+				uuid="$2"
-+				shift 2
-+				;;
-+			--resv_enable)
-+				resv_enable=true
-+				shift 1
-+				;;
-+			*)
-+				echo "WARNING: unknown argument: $1"
-+				shift
-+				;;
-+		esac
-+	done
-+
-+	subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-+	ns_path="${subsys_path}/namespaces/${nsid}"
- 
- 	mkdir "${ns_path}"
- 	printf "%s" "${blkdev}" > "${ns_path}/device_path"
- 	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
-+	if [[ -f "${ns_path}/resv_enable" && "${resv_enable}" = true ]] ; then
-+		printf 1 > "${ns_path}/resv_enable"
-+	fi
- 	printf 1 > "${ns_path}/enable"
- }
- 
- _create_nvmet_subsystem() {
--	local nvmet_subsystem="$1"
--	local blkdev="$2"
--	local uuid=$3
--	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-+	local nvmet_subsystem=""
-+	local blkdev=""
-+	local uuid="00000000-0000-0000-0000-000000000000"
-+	local resv_enable=""
-+	local cfs_path=""
-+
-+	while [[ $# -gt 0 ]]; do
-+		case $1 in
-+			--subsysnqn)
-+				nvmet_subsystem="$2"
-+				shift 2
-+				;;
-+			--blkdev)
-+				blkdev="$2"
-+				shift 2
-+				;;
-+			--uuid)
-+				uuid="$2"
-+				shift 2
-+				;;
-+			--resv_enable)
-+				resv_enable="--resv_enable";
-+				shift 1
-+				;;
-+			*)
-+				echo "WARNING: unknown argument: $1"
-+				shift
-+				;;
-+		esac
-+	done
- 
-+	cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
- 	mkdir -p "${cfs_path}"
- 	echo 0 > "${cfs_path}/attr_allow_any_host"
--	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
-+	_create_nvmet_ns --subsysnqn "${nvmet_subsystem}" \
-+			 --nsid "1" \
-+			 --blkdev "${blkdev}" \
-+			 --uuid "${uuid}" \
-+			 ${resv_enable}
- }
- 
- _add_nvmet_allow_hosts() {
-diff --git a/tests/md/001 b/tests/md/001
-index 27df7b3..98da51d 100755
---- a/tests/md/001
-+++ b/tests/md/001
-@@ -52,7 +52,9 @@ setup_nvme_over_tcp() {
- 	local port
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "/dev/mapper/ram0_big_optio" "${def_subsys_uuid}"
-+	_create_nvmet_subsystem --subsysnqn "${def_subsysnqn}" \
-+				--blkdev "/dev/mapper/ram0_big_optio" \
-+				--uuid "${def_subsys_uuid}"
- 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
- 
- 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-diff --git a/tests/nvme/002 b/tests/nvme/002
-index f613c78..043ab1c 100755
---- a/tests/nvme/002
-+++ b/tests/nvme/002
-@@ -34,7 +34,8 @@ test() {
- 	local genctr=1
- 
- 	for ((i = 0; i < iterations; i++)); do
--		_create_nvmet_subsystem "blktests-subsystem-$i" "${loop_dev}"
-+		_create_nvmet_subsystem --subsysnqn "blktests-subsystem-$i" \
-+					--blkdev "${loop_dev}"
- 		_add_nvmet_subsys_to_port "${port}" "blktests-subsystem-$i"
- 	done
- 
-diff --git a/tests/nvme/016 b/tests/nvme/016
-index d1fdb35..1143cab 100755
---- a/tests/nvme/016
-+++ b/tests/nvme/016
-@@ -29,10 +29,13 @@ test() {
- 	loop_dev="$(losetup -f)"
- 	local genctr=1
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}"
-+	_create_nvmet_subsystem --subsysnqn "${def_subsysnqn}" \
-+				--blkdev "${loop_dev}"
- 
- 	for ((i = 2; i <= iterations; i++)); do
--		_create_nvmet_ns "${def_subsysnqn}" "${i}" "${loop_dev}"
-+		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
-+				 --nsid "${i}" \
-+				 --blkdev "${loop_dev}"
- 	done
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
-diff --git a/tests/nvme/017 b/tests/nvme/017
-index 114be60..5721000 100755
---- a/tests/nvme/017
-+++ b/tests/nvme/017
-@@ -29,12 +29,14 @@ test() {
- 
- 	local genctr=1
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "$(_nvme_def_file_path)" \
--		"${def_subsys_uuid}"
-+	_create_nvmet_subsystem --subsysnqn "${def_subsysnqn}" \
-+				--blkdev "$(_nvme_def_file_path)" \
-+				--uuid "${def_subsys_uuid}"
- 
- 	for ((i = 2; i <= iterations; i++)); do
--		_create_nvmet_ns "${def_subsysnqn}" "${i}" \
--				 "$(_nvme_def_file_path)"
-+		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
-+				 --nsid "${i}" \
-+				 --blkdev "$(_nvme_def_file_path)"
- 	done
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
-diff --git a/tests/nvme/030 b/tests/nvme/030
-index b1ed8bc..5db20c0 100755
---- a/tests/nvme/030
-+++ b/tests/nvme/030
-@@ -30,13 +30,15 @@ test() {
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
--	_create_nvmet_subsystem "${subsys}1" "$(losetup -f)"
-+	_create_nvmet_subsystem --subsysnqn "${subsys}1" \
-+				--blkdev "$(losetup -f)"
- 	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
- 	_create_nvmet_host "${subsys}1" "${def_hostnqn}"
- 
- 	genctr=$(_discovery_genctr)
- 
--	_create_nvmet_subsystem "${subsys}2" "$(losetup -f)"
-+	_create_nvmet_subsystem --subsysnqn "${subsys}2" \
-+				--blkdev "$(losetup -f)"
- 	_add_nvmet_subsys_to_port "${port}" "${subsys}2"
- 
- 	genctr=$(_check_genctr "${genctr}" "adding a subsystem to a port")
-diff --git a/tests/nvme/052 b/tests/nvme/052
-index 401f043..1dcda23 100755
---- a/tests/nvme/052
-+++ b/tests/nvme/052
-@@ -64,7 +64,10 @@ test() {
- 		truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).$i"
- 		uuid="$(uuidgen -r)"
- 
--		_create_nvmet_ns "${def_subsysnqn}" "${i}" "$(_nvme_def_file_path).$i" "${uuid}"
-+		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
-+				--nsid "${i}" \
-+				--blkdev "$(_nvme_def_file_path).$i" \
-+				--uuid "${uuid}"
- 
- 		# wait until async request is processed and ns is created
- 		if ! nvmf_wait_for_ns "${uuid}" created; then
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 671012e..357cab9 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -324,6 +324,7 @@ _nvmet_target_setup() {
- 	local subsysnqn="${def_subsysnqn}"
- 	local subsys_uuid="${def_subsys_uuid}"
- 	local port
-+	local resv_enable=""
- 
- 	while [[ $# -gt 0 ]]; do
- 		case $1 in
-@@ -347,6 +348,10 @@ _nvmet_target_setup() {
- 				subsys_uuid="$2"
- 				shift 2
- 				;;
-+			--resv_enable)
-+				resv_enable="--resv_enable"
-+				shift 1
-+				;;
- 			*)
- 				echo "WARNING: unknown argument: $1"
- 				shift
-@@ -361,8 +366,10 @@ _nvmet_target_setup() {
- 		blkdev="$(_nvme_def_file_path)"
- 	fi
- 
--	_create_nvmet_subsystem "${subsysnqn}" "${blkdev}" \
--				"${subsys_uuid}"
-+	_create_nvmet_subsystem --subsysnqn "${subsysnqn}" \
-+				--blkdev "${blkdev}" \
-+				--uuid "${subsys_uuid}" \
-+				${resv_enable}
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${subsysnqn}"
- 	_create_nvmet_host "${subsysnqn}" "${def_hostnqn}" \
--- 
-2.43.0
+Look, this feels like going in circles. All this gaslighting is what makes =
+it difficult to=20
+push patches when you just do not like the feature. It is the 3rd time I pr=
+opose you=20
+a way forward and you simply cannot provide any specific technical feedback=
+ - in the=20
+past email I posted several questions about the interface you seem to be ta=
+lking=20
+about and you explicitly omit that.
+
 
 
