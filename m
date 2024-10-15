@@ -4,69 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C0C6CFC277
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 15:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECC38CFC277
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 15:10:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JE7jUSYpAl5eJW2cBAXYHdKgWUa734x8JbXgQmFl80Y=; b=YPORUUI3YvRUyKA3I3R0L5/vL4
-	uLSUYFCUyJvlJvlTzQsZeLWAYvqJ8h3nqd3ejxo6FKRIiWRS3/0x8OPUAk11UwedaPDet+ijQ5tIg
-	+b9JCr8gGitCSzkF2SujrhNGvcPSbTb1cIMOAjxvAzBybs0i0zYH2/k4kaEaOtsJop7jO3D4upBbV
-	f66pIrFHQIj1vnw0s7Sxfa+b8BRPk8yKy+AGbt6iKLvRu9oSAy2YpPJGe6HxR+tfax5cQICb55KZx
-	rHVN2nQ3IUUSx9HLpGhP5Cp6maQ8645o8YLNEOnJjGn83pFVpSP/Rq5UIGjhCrMEipowcLV5oA1Ig
-	1TEcXxLg==;
+	bh=EBdZXvbX8SX3h54zTZqIpjewi0BEiPjySKXOtQmGfXM=; b=3jbvGcgbQOKhj/J/1nJsD4rULc
+	8fEh0T4sRs2Ja2LTTYtDhRsth1wFaenOUd7PkKTqt96yLruBRRElCfvN9P5suEKK+wTnr6b/ZyacK
+	XOAY+rLpY6ry9BN0R6+yt7eJse5ivEvVVR5oiG0igO1WdZeL+zqDEYz8P7J3PFjdAH0kCj7eTOqyy
+	PQ1dQDZ3rj+ssHO6QV6GwOgQooCcLO5SnLQct3TS+fCMl3ZIbGeWQIO6Ml2Hs5dWjplOvPDg53RJY
+	R6+1Zyfv+7K/LsFc2cVvc6hlnftTDAlUvD8+DWLc1+dUF2ZAPX0Ip9zQG9C5UErXLtooso4NOVv82
+	0Vf5peew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0jC3-00000008eUB-1Xm1;
-	Tue, 15 Oct 2024 15:10:39 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1t0jC2-00000008eTy-2hja;
+	Tue, 15 Oct 2024 15:10:38 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0jBw-00000008eTF-1QR7
+	id 1t0jAr-00000008eHe-2ytG
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Oct 2024 15:10:33 +0000
+	Tue, 15 Oct 2024 15:09:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 15D325C5B8A;
-	Tue, 15 Oct 2024 15:10:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0903C4CEC6;
-	Tue, 15 Oct 2024 15:10:30 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id BFC09A42971;
+	Tue, 15 Oct 2024 15:09:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE876C4CEC6;
+	Tue, 15 Oct 2024 15:09:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729005031;
-	bh=MNeF9PMSZDi/pHIc/9DZVWvRHqtREzdib05DtkyKXlU=;
+	s=k20201202; t=1729004964;
+	bh=HrjQM8lcvtnIvBc0KLhp1g8XVVe9kH8v4PrPbcSFfpk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EIcGDzUpQApcmNjRII+9ppHFY9I1VvtuFBUOHAU+oa0r+MAn0eZ+VKBDMtehczUGV
-	 inEpCdh7Eln2U2SBq50iuJV/IPnXd9HyuAHqt8rOjKVNE4VSdJyBPqh+7VJQvPpRlS
-	 hbrLiI+hmGgInbG+gydsDoNaLA+BCxdCXaJGM7hdWzDqjJd8GxnPoKU3E5jMmjCCWn
-	 q+RtVPH8MkTL8kFXrGG0Co6SKE8+FmPJHohj/f0rNdbhyTY8cgrEPP9WC8VQ8uE/l0
-	 vSdW8DZIbPrljlFbF6yUPxnyMEhRpfhod7zgyxJug+QYB1E+tAejeUJfy7LVmcCi2z
-	 5h47DBBQ3XGOA==
-Date: Tue, 15 Oct 2024 09:10:28 -0600
+	b=h3yRHmo00PbZ4Kkgix4TfSGcO+OO60xnq1qVIUelpWP11a8ggBa/65HbcXOBES0qv
+	 ZP1arbfvD4UB70U1Qtao5PovoVng8ecBS8pBbyaCjJbUnEIJxwieDm2nYKEfyQbGLd
+	 mqX6NlyaiiO3I/PfaRBapeaGHwNKZyBU7aKdRUBFYgF+3gsKQ1TGOoJa8hjHu5gjZE
+	 VP4Gr+Ekk0rLz14GIbB2bre2RyPVvClC8ewDCmUIDLecbdTEhIvetGhyugIZes1r4N
+	 MBMJC2VH7Qh69mguw3TTayT/byRUyvLhK+CVpgfTSD6wwzkAUvEcu84HlEE3JZfXSE
+	 bw2w/CDIH0G6A==
+Date: Tue, 15 Oct 2024 09:09:20 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on
- stuck partition scan
-Message-ID: <Zw6F5LN6YuVVqFux@kbusch-mbp>
-References: <20241007100134.21104-1-hare@kernel.org>
- <20241007100134.21104-3-hare@kernel.org>
- <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
- <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de>
- <ZwWY8d3vOLUaYaJ6@kbusch-mbp>
- <3b8ff898-9529-4506-8c5d-0fcf3423730f@suse.de>
- <Zwa-MBS6wn_dGxge@kbusch-mbp>
- <b7ffdbbb-0b4e-4215-bf2b-b5c2f9a2dc08@suse.de>
- <Zw59LxZ3cngO17_f@kbusch-mbp>
- <4478f837-b504-44dd-8f5b-facab6aa8161@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hare@suse.de,
+	sagi@grimberg.me, martin.petersen@oracle.com, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org,
+	bcrl@kvack.org, dhowells@redhat.com, bvanassche@acm.org,
+	asml.silence@gmail.com, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-aio@kvack.org,
+	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+Message-ID: <Zw6FoPCEJ0-rARGT@kbusch-mbp>
+References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com>
+ <20240930181305.17286-1-joshi.k@samsung.com>
+ <20241015055006.GA18759@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4478f837-b504-44dd-8f5b-facab6aa8161@suse.de>
+In-Reply-To: <20241015055006.GA18759@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241015_081032_440998_856E81E7 
-X-CRM114-Status: GOOD (  14.32  )
+X-CRM114-CacheID: sfid-20241015_080925_842172_A483E7FF 
+X-CRM114-Status: GOOD (  26.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,23 +79,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 15, 2024 at 04:56:08PM +0200, Hannes Reinecke wrote:
-> On 10/15/24 16:33, Keith Busch wrote:
-> > Is that actually happening for you? I don't think it's supposed to
-> > happen because mpath_shutdwon_disk only happens if the head is detached
-> > from the subsystem, so no other thread should be able to possibly
-> > attempt to access that head's disk for a different controller path. That
-> > new controller should have to allocate an entirely new head.
-> 
-> Na, forget it. Not only doesn't it happen, but we need the
-> 'test_and_set_bit()' at the start otherwise we can't abort I/O.
-> So all's fine with your patch, and it even survives my testcase.
-> 
-> (The first to do so even after several runs, I might add :-)
-> 
-> Care to send an official patch?
+On Tue, Oct 15, 2024 at 07:50:06AM +0200, Christoph Hellwig wrote:
+> 1) While the current per-file temperature hints interface is not perfect
+> it is okay and make sense to reuse until we need something more fancy.
+> We make good use of it in f2fs and the upcoming zoned xfs code to help
+> with data placement and have numbers to show that it helps.
 
-Should be in your mailbox. Here's the link:
+So we're okay to proceed with patch 1?
+ 
+> 2) A per-I/O interface to set these temperature hint conflicts badly
+> with how placement works in file systems.  If we have an urgent need
+> for it on the block device it needs to be opt-in by the file operations
+> so it can be enabled on block device, but not on file systems by
+> default.  This way you can implement it for block device, but not
+> provide it on file systems by default.  If a given file system finds
+> a way to implement it it can still opt into implementing it of course.
 
-  https://lore.kernel.org/linux-nvme/20241015143136.810779-1-kbusch@meta.com/T/#u
+If we add a new fop_flag that only block fops enables, then it's okay?
+
+> 3) Mapping from temperature hints to separate write streams needs to
+> happen above the block layer, because file systems need to be in
+> control of it to do intelligent placement.  That means if you want to
+> map from temperature hints to stream separation it needs to be
+> implemented at the file operation layer, not in the device driver.
+> The mapping implemented in this series is probably only useful for
+> block devices.  Maybe if dumb file systems want to adopt it, it could
+> be split into library code for reuse, but as usual that's probably
+> best done only when actually needed.
+
+IMO, I don't even think the io_uring per-io hint needs to be limited to
+the fcntl lifetime values. It could just be a u16 value opaque to the
+block layer that just gets forwarded to the device.
+
+> 4) To support this the block layer, that is bios and requests need
+> to support a notion of stream separation.   Kanchan's previous series
+> had most of the bits for that, it just needs to be iterated on.
+> 
+> All of this could have probably be easily done in the time spent on
+> this discussion.
 
