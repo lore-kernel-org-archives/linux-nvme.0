@@ -4,54 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6651CFC277
-	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 15:23:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF5E0D1D879
+	for <linux-nvme@archiver.kernel.org>; Tue, 15 Oct 2024 15:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EOK9/UnCdU8avNRn1xq3SsbFfmJsuGMQM1ypFjGu1CI=; b=3x7/dV48P0bj8Deqmlygx9R0j1
-	QSYr+uoWZXLx+NDnktOV8jlirlX2kY6FwDqjPZyCoyCt44Plygwu2KnglH1wRwd+vuhOXn4YqckK7
-	V5cHNQ7nI5QAnXAoW1/JuUkLjBH/NbppokFRCDHH5bh2EoS5mwycPRs2honUumfx6zyRZv7x+zTIN
-	YhIKBtIDIAGDtnXLHR+b/mvuqqLebTEgaI32oXKtCaKmKxPJoQ6gD8aQzk47k9zE6/4BoKOCyS0JZ
-	F4NHjhhpoFBtcXUrYfI7byLXDRmc9OuktZ6OVl7UIGZW2m6bW9uo3XQxyEiGl8Cz6W+AVX3jOuGNu
-	uvEXjOVg==;
+	bh=X83rdtstGPcdV4Kbzkniy/WTJmIV3GVhKBoV5akrZeE=; b=xi2uN/c6XGAf0aJ+8sPoutt19Z
+	rpANEE5EtukRwzdhf4EIq1K0I7Hq58SShPpR9BBMrqlRyAZvr6RlQ7rAUQAUZJngTnUKt/4iA2CDV
+	jjsoRhFoU2YbcQaMpobPKQ6ybuShKjC8NXqxbMpi6P8T4pr7fy8MhhowDZXCpp72aq0PpRo83MFgC
+	e2PCIGVqAIc8PZYW3NTbM79cxcW/vLgJR70jf5sS4jZLcXzAMFhmeFeWcE1NnooQtB9WvzHnhO5Du
+	lWspEVkJOR5I5s1z0m3iSY7MQJpSX2vMKGXIEv7Mrmb6JwQJLg5SA8KmGXyv9Rm8x1QDP6nbDzD66
+	uqE1NItg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0jO5-00000008gbi-1qMn;
-	Tue, 15 Oct 2024 15:23:05 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1t0jfr-00000008lR4-0IpD;
+	Tue, 15 Oct 2024 15:41:27 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t0jO2-00000008gaJ-0iof
+	id 1t0jfd-00000008lMp-3UA8
 	for linux-nvme@lists.infradead.org;
-	Tue, 15 Oct 2024 15:23:03 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1AA12227A8E; Tue, 15 Oct 2024 17:22:58 +0200 (CEST)
-Date: Tue, 15 Oct 2024 17:22:57 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
-	axboe@kernel.dk, hare@suse.de, sagi@grimberg.me,
-	martin.petersen@oracle.com, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org,
-	bcrl@kvack.org, dhowells@redhat.com, bvanassche@acm.org,
-	asml.silence@gmail.com, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-aio@kvack.org,
-	gost.dev@samsung.com, vishak.g@samsung.com, javier.gonz@samsung.com
-Subject: Re: [PATCH v7 0/3] FDP and per-io hints
-Message-ID: <20241015152257.GA12898@lst.de>
-References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com> <20240930181305.17286-1-joshi.k@samsung.com> <20241015055006.GA18759@lst.de> <Zw6FoPCEJ0-rARGT@kbusch-mbp>
+	Tue, 15 Oct 2024 15:41:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 937BBA41349;
+	Tue, 15 Oct 2024 15:41:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 176C4C4CEC6;
+	Tue, 15 Oct 2024 15:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729006872;
+	bh=+jKJ64SK4ZGAg+8G5e2+KkhtdAvZb4xHyEmmlb7iVZM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lOB7/oHmaVwN0NAVVEIsObSvux2XZ7DCnlQpe6JaIQ5rq23iqNJf1WA6zDgljn1zL
+	 g9X/JVq8X5vC9AB0KG+N4VFb9cP5AqmqF4Ti13FLsQV8FWvTiz6IOHTrJiZ/97y4r/
+	 lnp7oh/bWXyIVNtTfv/x6jmEVL4f0yM5rzdteYwpSSrn8oM/mkcmQqAsPyC2E6PK2s
+	 ESS7NVodOvX95UX7AonBNSRefIaJAY7DYkt99uJe57dLZp1293okq4sQ4lFrdQGvIB
+	 J6DaDsc/v0Bo/fBdITPFgtkoOfTeg8tiDZ7p3o2Mb2rP36bwnMweVs9m7WWt1YcRTK
+	 d40zgG5i9eBAQ==
+Date: Tue, 15 Oct 2024 15:41:10 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 1/9] crypto,fs: Separate out hkdf_extract() and
+ hkdf_expand()
+Message-ID: <20241015154110.GA2444622@google.com>
+References: <20241011155430.43450-1-hare@kernel.org>
+ <20241011155430.43450-2-hare@kernel.org>
+ <20241014193814.GB1137@sol.localdomain>
+ <e9ea2690-b3ac-47f0-a148-9e355841b6d0@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zw6FoPCEJ0-rARGT@kbusch-mbp>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <e9ea2690-b3ac-47f0-a148-9e355841b6d0@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241015_082302_533523_14BD296D 
-X-CRM114-Status: GOOD (  39.76  )
+X-CRM114-CacheID: sfid-20241015_084113_961206_9E5BFDEC 
+X-CRM114-Status: GOOD (  17.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,59 +76,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 15, 2024 at 09:09:20AM -0600, Keith Busch wrote:
-> On Tue, Oct 15, 2024 at 07:50:06AM +0200, Christoph Hellwig wrote:
-> > 1) While the current per-file temperature hints interface is not perfect
-> > it is okay and make sense to reuse until we need something more fancy.
-> > We make good use of it in f2fs and the upcoming zoned xfs code to help
-> > with data placement and have numbers to show that it helps.
-> 
-> So we're okay to proceed with patch 1?
-
-No, see point 3 and 4 below for why.  We'll need something like the
-interface you suggested by me in point 4 and by you in reply to point 3
-in the block layer, and then block/fops.c can implement the mapping on
-top of that for drivers supporting it.
-
->  
-> > 2) A per-I/O interface to set these temperature hint conflicts badly
-> > with how placement works in file systems.  If we have an urgent need
-> > for it on the block device it needs to be opt-in by the file operations
-> > so it can be enabled on block device, but not on file systems by
-> > default.  This way you can implement it for block device, but not
-> > provide it on file systems by default.  If a given file system finds
-> > a way to implement it it can still opt into implementing it of course.
-> 
-> If we add a new fop_flag that only block fops enables, then it's okay?
-
-The flag is just one part of it.  Of course it need to be discoverable
-from userspace in one way or another, and the marshalling of the flag
-needs to be controller by the file system / fops instance.
-
-> > 3) Mapping from temperature hints to separate write streams needs to
-> > happen above the block layer, because file systems need to be in
-> > control of it to do intelligent placement.  That means if you want to
-> > map from temperature hints to stream separation it needs to be
-> > implemented at the file operation layer, not in the device driver.
-> > The mapping implemented in this series is probably only useful for
-> > block devices.  Maybe if dumb file systems want to adopt it, it could
-> > be split into library code for reuse, but as usual that's probably
-> > best done only when actually needed.
-> 
-> IMO, I don't even think the io_uring per-io hint needs to be limited to
-> the fcntl lifetime values. It could just be a u16 value opaque to the
-> block layer that just gets forwarded to the device.
-
-Well, that's what I've been arguing for all the time, and what Kanchan's
-previous series was working towards.  It's not quite as trivial as
-we need a bit more than just the stream, e.g. a way to discover how many
-of them exist.
-
-> > 4) To support this the block layer, that is bios and requests need
-> > to support a notion of stream separation.   Kanchan's previous series
-> > had most of the bits for that, it just needs to be iterated on.
+On Tue, Oct 15, 2024 at 05:05:40PM +0200, Hannes Reinecke wrote:
+> On 10/14/24 21:38, Eric Biggers wrote:
+> > On Fri, Oct 11, 2024 at 05:54:22PM +0200, Hannes Reinecke wrote:
+> > > Separate out the HKDF functions into a separate module to
+> > > to make them available to other callers.
+> > > And add a testsuite to the module with test vectors
+> > > from RFC 5869 to ensure the integrity of the algorithm.
 > > 
-> > All of this could have probably be easily done in the time spent on
-> > this discussion.
----end quoted text---
+> > integrity => correctness
+> > 
+> Okay.
+> 
+> > > +config CRYPTO_HKDF
+> > > +	tristate
+> > > +	select CRYPTO_SHA1 if !CONFIG_CRYPTO_MANAGER_DISABLE_TESTS
+> > > +	select CRYPTO_SHA256 if !CONFIG_CRYPTO_MANAGER_DISABLE_TESTS
+> > > +	select CRYPTO_HASH2
+> > 
+> > Any thoughts on including SHA512 tests instead of SHA1, given that SHA1 is
+> > obsolete and should not be used?
+> > 
+> Hmm. The original implementation did use SHA1, so I used that.
+> But sure I can look into changing that.
+
+If you're talking about fs/crypto/hkdf.c which is where you're borrowing the
+code from, that uses SHA512.
+
+- Eric
 
