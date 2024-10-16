@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9D06D2A52F
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 16:33:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4531D2A53C
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 18:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WpkMyCi/ii7FO2tFC5KmzGTRyi8ikNF0jOg81bHt2Hg=; b=AAbv7FGGiq6gJw8ArwfJlsBgPH
-	Pg00Yvgbc7rV8FW53+yTASOeiNYnVp60pyruXfVFH/IH5FIhkl2U9E3OzhPgihyX8idzUWqMhJ0qg
-	rEOnvihBgxfZ+gTaSiVvi2jFh9wM1QoRKnBa085XloYcf5qDEPWuSW4ec1/cH8dUjrfxeAN/zjU5y
-	JSdSWhDbTKpzxWfBiWMBT9yigZjmc90cBBQfvrs/CVl/HEseE9tVx3EBsZhfa3werC6tJlzCko4o6
-	pay/+NH+t5VvJuyAxtbOFiZ1MXYLcL67nsdjNnxaGytoKqfYF8xo5l5MhumxT6DT7/ETH3HmCPx+e
-	GFDYFVqw==;
+	bh=FfW6BMSQjS9cLZjwGvsIbkEwyd+h+0W9gybsj/7xrRM=; b=EWK1qL4TkxASwNs9mKiZ/Oy8nE
+	fui8D7iHrlCCEbcpZWcnBFNUatnF7vgf/MgfWaj0+mJenUfOpMpEKoseoEkgJapU497NJA/2Q+c5W
+	M+0qNfcbzaJD+x5ixv/P8A/JfNdvHqWZxJy3bQm4Fq04d6mw02/dcePzntvuDcW67pVHv9NNaTV/P
+	HvcdZtdRaXhK9iHXqOlNWCGo1vZvBhpFENAcp+YzrxbcxioKOERDJ4zoXVT9TrLNtFrCXgZ+wB4l2
+	J667csY6aCI2ilehro0Gb2xT5+hGEpxtfr5juUadW7KewuJfA0SvUp3gx/ldp/PY+DqAcX1i0/TzL
+	uhIJjTAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t16y0-0000000CR72-15oG;
-	Wed, 16 Oct 2024 16:33:44 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1t18NM-0000000Ccsr-2jCv;
+	Wed, 16 Oct 2024 18:04:00 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t16rw-0000000CPzS-1QXE
+	id 1t18NK-0000000CcsM-3DUt
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Oct 2024 16:27:29 +0000
+	Wed, 16 Oct 2024 18:04:00 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 31D4E5C5EB0;
-	Wed, 16 Oct 2024 16:27:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C08C4CEC5;
-	Wed, 16 Oct 2024 16:27:27 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 9BECEA419C1;
+	Wed, 16 Oct 2024 18:03:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6429EC4CEC5;
+	Wed, 16 Oct 2024 18:03:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729096047;
-	bh=Sj4hHfajy07xXHZDC3iAWKW0T1zkzy/GdmxY5XAzHYc=;
+	s=k20201202; t=1729101837;
+	bh=FfW6BMSQjS9cLZjwGvsIbkEwyd+h+0W9gybsj/7xrRM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kcKtRxtCXa501eMxIPR/9mPZSc4GwjCE+oKxZR/c6WhgB3+Urvf06JSqrmuP33iXg
-	 dQ3RTyrB/U7AGc+wo/qGIatq2EGyWZ2QsjnmuMvFC8qmQetVqVbVU8jBiuaRp7Eru0
-	 YPQ+9nsZHzSQ9EB4k9TH+tb3pIpd3FHJwopOfo2v7SE7GUD0d8uoHAS1nvsx6WQ7fb
-	 gZv4Zt/cEkZLZnGdpD6fODB82i/onUwrew3m0zRxPfv4ccWhaGle871mvGIFy7wjrp
-	 YKuqXznqV1/Yy0SCLRas6uoVxZQdyjSBmhpXm3MyKj8G+/JMokGGRgBSIP0aQPLLr0
-	 XOCYR0YmR4azQ==
-Date: Wed, 16 Oct 2024 16:27:25 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org
-Subject: Re: [PATCH 1/9] crypto,fs: Separate out hkdf_extract() and
- hkdf_expand()
-Message-ID: <20241016162725.GB3228925@google.com>
-References: <20241011155430.43450-1-hare@kernel.org>
- <20241011155430.43450-2-hare@kernel.org>
- <20241014193814.GB1137@sol.localdomain>
- <e9ea2690-b3ac-47f0-a148-9e355841b6d0@suse.de>
- <20241015154110.GA2444622@google.com>
- <83934544-0e4e-42eb-a15b-8189a46273c7@suse.de>
+	b=TuDATJsAFovwyNvQ34eIJZzZWrXhNLf5X8JgZkQZhoyEhqkvlKS/9kIjGba9VPe2O
+	 xBaXyAEB1gFN5Cpk2MuP6oFCFn8hHnc9LJeFqtxs5jyGYwtXPfe9tK1SmwMpeVraBp
+	 gL7irO9NPe8khmUsIIxsn/33iByg12ERL5Uf8pAA1y+luXUyiygjTLBlbrpf/H/kCT
+	 UpMUUmc4EJci4gEunUebQN8pg/qbleR3xVwIwPvRE+3UPu9o4bbSNnSrkGV9a4u8vs
+	 w3MbjTGEcL+2wZI9gBL10kyEScW7gG6EpwazzDaYcD02i52hQSNfgiMmTj+m8Dz1c+
+	 ZUsd3R4FS03Tw==
+Date: Wed, 16 Oct 2024 12:03:53 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
+	asml.silence@gmail.com, anuj1072538@gmail.com, krisman@suse.de,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	linux-scsi@vger.kernel.org, vishak.g@samsung.com
+Subject: Re: [PATCH v4 01/11] block: define set of integrity flags to be
+ inherited by cloned bip
+Message-ID: <ZxAACWqEh99pPhz_@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241016112912.63542-1-anuj20.g@samsung.com>
+ <CGME20241016113724epcas5p191ccce0f473274fc95934956662fc769@epcas5p1.samsung.com>
+ <20241016112912.63542-2-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <83934544-0e4e-42eb-a15b-8189a46273c7@suse.de>
+In-Reply-To: <20241016112912.63542-2-anuj20.g@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241016_092728_444710_E34E7CF8 
-X-CRM114-Status: GOOD (  24.92  )
+X-CRM114-CacheID: sfid-20241016_110358_887831_4D693C95 
+X-CRM114-Status: UNSURE (   6.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,45 +78,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 16, 2024 at 08:40:54AM +0200, Hannes Reinecke wrote:
-> On 10/15/24 17:41, Eric Biggers wrote:
-> > On Tue, Oct 15, 2024 at 05:05:40PM +0200, Hannes Reinecke wrote:
-> > > On 10/14/24 21:38, Eric Biggers wrote:
-> > > > On Fri, Oct 11, 2024 at 05:54:22PM +0200, Hannes Reinecke wrote:
-> > > > > Separate out the HKDF functions into a separate module to
-> > > > > to make them available to other callers.
-> > > > > And add a testsuite to the module with test vectors
-> > > > > from RFC 5869 to ensure the integrity of the algorithm.
-> > > > 
-> > > > integrity => correctness
-> > > > 
-> > > Okay.
-> > > 
-> > > > > +config CRYPTO_HKDF
-> > > > > +	tristate
-> > > > > +	select CRYPTO_SHA1 if !CONFIG_CRYPTO_MANAGER_DISABLE_TESTS
-> > > > > +	select CRYPTO_SHA256 if !CONFIG_CRYPTO_MANAGER_DISABLE_TESTS
-> > > > > +	select CRYPTO_HASH2
-> > > > 
-> > > > Any thoughts on including SHA512 tests instead of SHA1, given that SHA1 is
-> > > > obsolete and should not be used?
-> > > > 
-> > > Hmm. The original implementation did use SHA1, so I used that.
-> > > But sure I can look into changing that.
-> > 
-> > If you're talking about fs/crypto/hkdf.c which is where you're borrowing the
-> > code from, that uses SHA512.
-> > 
-> Actually, I was talking about the test vectors themselves. RFC 5869 only
-> gives test vectors for SHA1 and SHA256, so that's what I've used.
-> I've found additional test vectors for the other functions at
-> https://github.com/brycx/Test-Vector-Generation/blob/master/HKDF/hkdf-hmac-sha2-test-vectors.md
-> so I'll be using them for adding tests for SHA384 and SHA512 (TLS on
-> NVMe-over-TCP is using SHA384, too) and delete the SHA1 ones.
+On Wed, Oct 16, 2024 at 04:59:02PM +0530, Anuj Gupta wrote:
+> Introduce BIP_CLONE_FLAGS describing integrity flags that should be
+> inherited in the cloned bip from the parent.
 
-Right, it's an old spec, so that's why it has SHA1.  Using SHA512 test vectors
-from elsewhere, or generating your own test vectors using a known-good
-implementation, would be fine though.
+Looks good.
 
-- Eric
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
