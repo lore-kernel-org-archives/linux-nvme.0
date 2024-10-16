@@ -4,76 +4,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B0F6D1AD30
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 09:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86710D1AD50
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 12:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=UcTHLD6sRCmV7ayE8d9IppwXDwkVLKNLEKqgv4jGmMo=; b=dBqEAJiDRdcC4X
-	+IYsLVbhpddiiz3JiAD1npkElEe+rM5TNehheMh0ux867F0bIGRbsZABX5BcIa70SY/naxz4YWW4r
-	9EmZ4lMq+vmcy0Ikc19fduNWiNhy6nx/fUZFWUeRICYnNR+84VmtlXwHqhO7xJDwGe+2iotEr4ih0
-	z35meUj8wL7qVlar7+wnNXhChzbp6prdVT4hrUWBQjXX+Vr2D4rXsV4gHXFT7ATvkvOiYAEA0HBiY
-	x4JgTBD2ZSMw52TIOlQY/MeEt5SFKV3KFH0BdKmYAS1y6roUqqoAeXvrLGE8aHx23qCag5V00G5aE
-	pJ2mwpxXlHEs068xXfdA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wzmB/TWoyocJzmZU34Ksi+Owp+0Flh6pJN0TsToBSPo=; b=1h/ritPQaWJqEljQojVOLDyRAA
+	pLHsdT736VAQNUBHPXm98b8AHqhPf2WrKU5/wfZYHA3xVU2Dq5S7mHqGxAzavRROMZnBMqXMbjByh
+	Xv7X0D/nFPetUyj9qVGaj0Ce0rwRJoXizTUbaUoQDo7T+uGZcVYrezPlyEQx46Pf50Hhk5F/zhJJl
+	LZFtHrX4baB7fXIuqQpn0+/tnFt1yahg57X7tyEzMUbgC8zqbS1TkD1+vb9RJnnmckck3Z2AM1aP6
+	VYOIrVE3J32xeMf5Q3CpEs1iVAXnOZrorChu6lnfyWSvdxQf9UJEVJG0lJNa8A2m39ozLcRJ31RFv
+	jrc+t4mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t101O-0000000BAhD-0xUu;
-	Wed, 16 Oct 2024 09:08:46 +0000
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29])
+	id 1t13HE-0000000BlMZ-07Sw;
+	Wed, 16 Oct 2024 12:37:20 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t100W-0000000BAZq-2MZV
+	id 1t13HC-0000000BlLE-0JlG
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 16 Oct 2024 12:37:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Sender:Reply-To:Content-ID:Content-Description;
+	bh=wzmB/TWoyocJzmZU34Ksi+Owp+0Flh6pJN0TsToBSPo=; b=DU7mlWFHQ0CrOqpR0C2mIzZIw9
+	q/fx4l3LOJiQqf0REQenSmFJXXkaUg7tpY3BB+4N9+zTCTUFmPiFDKKpU77poGBvNRmCP9rjwiPCt
+	1X7hfr9gezzEBEKtH+oFPgAaCmMc8qcQYt5f9CrI8DXFCH1IINpbx0ji4GrxfNuhxrT7jM2wbvHwV
+	acNp0ss0mFblHrbgMc/d9OiVDkLPm1M2xegarfDgJDAWvZcaU/12GScmvd9/ifu3LjBFs0znPw8oF
+	OaqVffzruGgX0/CXw8A/7HAqmM2tt9I0abnq4DhYyeVUWAVc3NapcrjHHqfw8yzKDhBsTelQ42urZ
+	YrmVP9wg==;
+Received: from mailout2.samsung.com ([203.254.224.25])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1t13H8-00000006na9-1xl2
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Oct 2024 09:07:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1729069672; x=1760605672;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UcTHLD6sRCmV7ayE8d9IppwXDwkVLKNLEKqgv4jGmMo=;
-  b=E4GfSZ0jEvLgaQ59jf0JvohNumvkjRq3HW5M9YzrgYNqpyn2SIG1xXfl
-   gv8xJk89NnuceMFEgThWFjFT0i6ogvys9trU/jVsX/+W0QsAJcT1HkvRV
-   nUtGxgHmCpCSceDAFv3cty4I5JcEE4rSJXsz+7koEtPavrl89jgCQ7R9N
-   8=;
-X-IronPort-AV: E=Sophos;i="6.11,207,1725321600"; 
-   d="scan'208";a="461213309"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 09:07:43 +0000
-Received: from EX19MTAUEB002.ant.amazon.com [10.0.0.204:24357]
- by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.8.207:2525] with esmtp (Farcaster)
- id 2d14e9d2-f0ff-44c7-8c9b-a494451bfecb; Wed, 16 Oct 2024 09:07:42 +0000 (UTC)
-X-Farcaster-Flow-ID: 2d14e9d2-f0ff-44c7-8c9b-a494451bfecb
-Received: from EX19MTAUEA001.ant.amazon.com (10.252.134.203) by
- EX19MTAUEB002.ant.amazon.com (10.252.135.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 16 Oct 2024 09:07:42 +0000
-Received: from email-imr-corp-prod-iad-all-1b-1323ce6b.us-east-1.amazon.com
- (10.43.8.2) by mail-relay.amazon.com (10.252.134.102) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Wed, 16 Oct 2024 09:07:42 +0000
-Received: from dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com [10.15.97.110])
-	by email-imr-corp-prod-iad-all-1b-1323ce6b.us-east-1.amazon.com (Postfix) with ESMTP id 44F154034D;
-	Wed, 16 Oct 2024 09:07:42 +0000 (UTC)
-Received: by dev-dsk-pjy-1a-76bc80b3.eu-west-1.amazon.com (Postfix, from userid 22993570)
-	id 02C4B20849; Wed, 16 Oct 2024 09:07:41 +0000 (UTC)
-From: Puranjay Mohan <pjy@amazon.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, "Christoph
- Hellwig" <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, <stable@vger.kernel.org>,
-	<puranjay12@gmail.com>, <amazon-linux-kernel@amazon.com>
-Subject: [PATCH 6.1.y] nvme: fix metadata handling in nvme-passthrough
-Date: Wed, 16 Oct 2024 09:07:39 +0000
-Message-ID: <20241016090739.43470-1-pjy@amazon.com>
-X-Mailer: git-send-email 2.40.1
+	Wed, 16 Oct 2024 12:37:16 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241016123711epoutp02d6fc11ca5ffb98e7adb463b87e825a62~_7yDWCE4q1877718777epoutp02G
+	for <linux-nvme@lists.infradead.org>; Wed, 16 Oct 2024 12:37:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241016123711epoutp02d6fc11ca5ffb98e7adb463b87e825a62~_7yDWCE4q1877718777epoutp02G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1729082231;
+	bh=wzmB/TWoyocJzmZU34Ksi+Owp+0Flh6pJN0TsToBSPo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=u72UPhapnGgMZin9WRB+O9eyo0lUo5IUvyumME4bHyjazDHx/1zLI/hEgdkR4YzcJ
+	 Dk0kndTTrE5IHJf2pv5+i7luWSaU21YutNGC/C0QHaeOP3pBlpnJzYUWHtmdWk2pA6
+	 ngJe6+ZPKvHdcmaRP9zIt1HpK1GPhStFxyKQfaXI=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20241016123710epcas5p4c8c3f8e11d0940ef04e5bae573107331~_7yCasbmB1722117221epcas5p4i;
+	Wed, 16 Oct 2024 12:37:10 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4XT9TJ490Mz4x9Pv; Wed, 16 Oct
+	2024 12:37:08 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	91.47.08574.473BF076; Wed, 16 Oct 2024 21:37:08 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241016113750epcas5p2089e395ca764de023be64519da9b0982~_6_PBvkgZ3038630386epcas5p2I;
+	Wed, 16 Oct 2024 11:37:50 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241016113750epsmtrp22c814f9026baaea6d5e51cb50909d6ca~_6_O-nlbU1554615546epsmtrp2x;
+	Wed, 16 Oct 2024 11:37:50 +0000 (GMT)
+X-AuditID: b6c32a44-6dbff7000000217e-56-670fb3747bd0
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	31.CA.08229.E85AF076; Wed, 16 Oct 2024 20:37:50 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20241016113748epsmtip183e9a7ec82ba541b29d1130741cc0b4d~_6_M1iVTA2875928759epsmtip1J;
+	Wed, 16 Oct 2024 11:37:47 +0000 (GMT)
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+	martin.petersen@oracle.com, asml.silence@gmail.com, anuj1072538@gmail.com,
+	krisman@suse.de
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	linux-scsi@vger.kernel.org, vishak.g@samsung.com, Anuj Gupta
+	<anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH v4 08/11] block: introduce BIP_CHECK_GUARD/REFTAG/APPTAG
+ bip_flags
+Date: Wed, 16 Oct 2024 16:59:09 +0530
+Message-Id: <20241016112912.63542-9-anuj20.g@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241016112912.63542-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFJsWRmVeSWpSXmKPExsWy7bCmhm7JZv50g63/ZCw+fv3NYtE04S+z
+	xZxV2xgtVt/tZ7O4eWAnk8XK1UeZLN61nmOxOPr/LZvFpEPXGC22n1nKbLH3lrbF/GVP2S26
+	r+9gs1h+/B+TxflZc9gd+D12zrrL7nH5bKnHplWdbB6bl9R77L7ZwObx8ektFo++LasYPTaf
+	rvb4vEkugDMq2yYjNTEltUghNS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DX
+	LTMH6HwlhbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFKToFJgV5xYm5xaV66Xl5qiZWh
+	gYGRKVBhQnZG+69u5oJZEhWdR8+zNDB+Eu5i5OSQEDCRuLKjhbmLkYtDSGA3o8T5032sEM4n
+	RokVz28wQjjfGCXmrWtkhWn5tesAE0RiL6NEw6yFUP2fGSUWr7kKVsUmoC5x5HkrI4gtIjCJ
+	UeL55VCQImaB94wS7/cvBysSFgiRmP/9NRuIzSKgKrHiZhs7iM0rYCnR/PYs1Dp5iZmXvoPF
+	OQWsJE6dOwhVIyhxcuYTFhCbGaimeetssCskBPZwSKzc0MIO0ewi8bhzMiOELSzx6vgWqLiU
+	xOd3e9kg7HSJH5efMkHYBRLNx/ZB1dtLtJ7qBxrKAbRAU2L9Ln2IsKzE1FPrmCD28kn0/n4C
+	1corsWMejK0k0b5yDpQtIbH3XAOU7SHxe9oMNkho9TJKvJ3azjqBUWEWkn9mIflnFsLqBYzM
+	qxglUwuKc9NTk00LDPNSy+HxnJyfu4kRnKi1XHYw3pj/T+8QIxMH4yFGCQ5mJRHeSV286UK8
+	KYmVValF+fFFpTmpxYcYTYEBPpFZSjQ5H5gr8kriDU0sDUzMzMxMLI3NDJXEeV+3zk0REkhP
+	LEnNTk0tSC2C6WPi4JRqYArwaLH5Wjgt/k87x5dzTZOET3dOu32kInf6zv9HZd8/3dTdefrj
+	4uUPkk/vzVDenf0q+IZF1J3AIt45/i8n/drRKndt0ZH7Djlyz//t298gPWWRwOs7F0T1lCPf
+	yn6ckjg9w4UrzHySx8PQhunvbzc93Wj/7nVnyiyfzpdFv897OAjckY2bzLTs5IF5z1Z8WqrH
+	uD372+XD/vOSNju/XZxQtEZBtvK3lKbQwjncweeYCu7qSVbK22oIKmx7fNdk1f8nYZwd7it4
+	ir4bp1+WOd/+dVfnnouFUq9c7+ya/bdga9mXZw7Mp3Pjdc1eWIb/5d9+sb/b5OJhhx9vz37t
+	/jDT5tvEFVeu7j5xTyn1nf+5GUosxRmJhlrMRcWJAFR7iohdBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkkeLIzCtJLcpLzFFi42LZdlhJTrdvKX+6wc57/BYfv/5msWia8JfZ
+	Ys6qbYwWq+/2s1ncPLCTyWLl6qNMFu9az7FYHP3/ls1i0qFrjBbbzyxltth7S9ti/rKn7Bbd
+	13ewWSw//o/J4vysOewO/B47Z91l97h8ttRj06pONo/NS+o9dt9sYPP4+PQWi0ffllWMHptP
+	V3t83iQXwBnFZZOSmpNZllqkb5fAldH+q5u5YJZERefR8ywNjJ+Euxg5OSQETCR+7TrA1MXI
+	xSEksJtRYuLGG+wQCQmJUy+XMULYwhIr/z1nhyj6yChx6s5nNpAEm4C6xJHnrYwgCRGBWYwS
+	h2fNBxvFLPCdUWLa8mssIFXCAkEST26/YwWxWQRUJVbcbANbwStgKdH89iwrxAp5iZmXvoPF
+	OQWsJE6dOwhmCwHV/Jv8gRGiXlDi5MwnYDOZgeqbt85mnsAItBYhNQtJagEj0ypGydSC4tz0
+	3GLDAsO81HK94sTc4tK8dL3k/NxNjOBY0tLcwbh91Qe9Q4xMHIyHGCU4mJVEeCd18aYL8aYk
+	VlalFuXHF5XmpBYfYpTmYFES5xV/0ZsiJJCeWJKanZpakFoEk2Xi4JRqYAr4NtNUjM+TwyrI
+	fNm0jfLstz3O6nT77S3NT/7VJbC/8NHeu0d6pLQfFLNcS3vQeVqu8jB7uckcyTfLigw4r66N
+	OBcddf/DhPStxioy3WejbfuNJdKVfbfs+dr7akZW8t41Tdv4v7/Y8vC1bvmimvIT9ov/lc+2
+	3lww5yYzt4ilyYlL80+H79nU6OPKYMSy4HqmW5jRseuz9y+d6P01darv17SNic51V2eHcnYs
+	96jgfHtJ9G7APK2PCp1zZR+wacobrNzV63QpkPeSPbfL69uH6nvq2M4Km3MbTz913GKZ9vb2
+	JXf4+iLDrn+apHbEmenmjJYkprmsWpJXFCP+ujobTTHLqvm+i3HPcmWvD0osxRmJhlrMRcWJ
+	AFXA9EwUAwAA
+X-CMS-MailID: 20241016113750epcas5p2089e395ca764de023be64519da9b0982
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241016113750epcas5p2089e395ca764de023be64519da9b0982
+References: <20241016112912.63542-1-anuj20.g@samsung.com>
+	<CGME20241016113750epcas5p2089e395ca764de023be64519da9b0982@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241016_020752_803263_63503F20 
-X-CRM114-Status: GOOD (  15.98  )
+X-CRM114-CacheID: sfid-20241016_133715_253953_5FE48A95 
+X-CRM114-Status: GOOD (  18.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,70 +156,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[ Upstream commit 7c2fd76048e95dd267055b5f5e0a48e6e7c81fd9 ]
+This patch introduces BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags which
+indicate how the hardware should check the integrity payload. The
+driver can now just rely on block layer flags, and doesn't need to
+know the integrity source. Submitter of PI decides which tags to check.
+This would also give us a unified interface for user and kernel
+generated integrity.
 
-On an NVMe namespace that does not support metadata, it is possible to
-send an IO command with metadata through io-passthru. This allows issues
-like [1] to trigger in the completion code path.
-nvme_map_user_request() doesn't check if the namespace supports metadata
-before sending it forward. It also allows admin commands with metadata to
-be processed as it ignores metadata when bdev == NULL and may report
-success.
-
-Reject an IO command with metadata when the NVMe namespace doesn't
-support it and reject an admin command if it has metadata.
-
-[1] https://lore.kernel.org/all/mb61pcylvnym8.fsf@amazon.com/
-
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-[ Minor changes to make it work on 6.1 ]
-Signed-off-by: Puranjay Mohan <pjy@amazon.com>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- drivers/nvme/host/ioctl.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ block/bio-integrity.c         |  5 +++++
+ drivers/nvme/host/core.c      | 11 +++--------
+ include/linux/bio-integrity.h |  6 +++++-
+ 3 files changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index b3e322e4ade38..a02873792890e 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -3,6 +3,7 @@
-  * Copyright (c) 2011-2014, Intel Corporation.
-  * Copyright (c) 2017-2021 Christoph Hellwig.
-  */
-+#include <linux/blk-integrity.h>
- #include <linux/ptrace.h>	/* for force_successful_syscall_return */
- #include <linux/nvme_ioctl.h>
- #include <linux/io_uring.h>
-@@ -95,10 +96,15 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 	struct request_queue *q = req->q;
- 	struct nvme_ns *ns = q->queuedata;
- 	struct block_device *bdev = ns ? ns->disk->part0 : NULL;
-+	bool supports_metadata = bdev && blk_get_integrity(bdev->bd_disk);
-+	bool has_metadata = meta_buffer && meta_len;
- 	struct bio *bio = NULL;
- 	void *meta = NULL;
- 	int ret;
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 341a0382befd..d3c8b56d3fe6 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -436,6 +436,11 @@ bool bio_integrity_prep(struct bio *bio)
+ 	if (bi->csum_type == BLK_INTEGRITY_CSUM_IP)
+ 		bip->bip_flags |= BIP_IP_CHECKSUM;
  
-+	if (has_metadata && !supports_metadata)
-+		return -EINVAL;
-+
- 	if (ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED)) {
- 		struct iov_iter iter;
++	/* describe what tags to check in payload */
++	if (bi->csum_type)
++		bip->bip_flags |= BIP_CHECK_GUARD;
++	if (bi->flags & BLK_INTEGRITY_REF_TAG)
++		bip->bip_flags |= BIP_CHECK_REFTAG;
+ 	if (bio_integrity_add_page(bio, virt_to_page(buf), len,
+ 			offset_in_page(buf)) < len) {
+ 		printk(KERN_ERR "could not attach integrity payload\n");
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 43d73d31c66f..211f44cc02a3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1004,18 +1004,13 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 			control |= NVME_RW_PRINFO_PRACT;
+ 		}
  
-@@ -122,7 +128,7 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 	if (bdev)
- 		bio_set_dev(bio, bdev);
+-		switch (ns->head->pi_type) {
+-		case NVME_NS_DPS_PI_TYPE3:
++		if (bio_integrity_flagged(req->bio, BIP_CHECK_GUARD))
+ 			control |= NVME_RW_PRINFO_PRCHK_GUARD;
+-			break;
+-		case NVME_NS_DPS_PI_TYPE1:
+-		case NVME_NS_DPS_PI_TYPE2:
+-			control |= NVME_RW_PRINFO_PRCHK_GUARD |
+-					NVME_RW_PRINFO_PRCHK_REF;
++		if (bio_integrity_flagged(req->bio, BIP_CHECK_REFTAG)) {
++			control |= NVME_RW_PRINFO_PRCHK_REF;
+ 			if (op == nvme_cmd_zone_append)
+ 				control |= NVME_RW_APPEND_PIREMAP;
+ 			nvme_set_ref_tag(ns, cmnd, req);
+-			break;
+ 		}
+ 	}
  
--	if (bdev && meta_buffer && meta_len) {
-+	if (has_metadata) {
- 		meta = nvme_add_user_metadata(req, meta_buffer, meta_len,
- 				meta_seed);
- 		if (IS_ERR(meta)) {
+diff --git a/include/linux/bio-integrity.h b/include/linux/bio-integrity.h
+index 529ec7a8df20..a9dd0594dfc8 100644
+--- a/include/linux/bio-integrity.h
++++ b/include/linux/bio-integrity.h
+@@ -11,6 +11,9 @@ enum bip_flags {
+ 	BIP_DISK_NOCHECK	= 1 << 3, /* disable disk integrity checking */
+ 	BIP_IP_CHECKSUM		= 1 << 4, /* IP checksum */
+ 	BIP_COPY_USER		= 1 << 5, /* Kernel bounce buffer in use */
++	BIP_CHECK_GUARD		= 1 << 6, /* guard check */
++	BIP_CHECK_REFTAG	= 1 << 7, /* reftag check */
++	BIP_CHECK_APPTAG	= 1 << 8, /* apptag check */
+ };
+ 
+ struct bio_integrity_payload {
+@@ -41,7 +44,8 @@ struct uio_meta {
+ };
+ 
+ #define BIP_CLONE_FLAGS (BIP_MAPPED_INTEGRITY | BIP_CTRL_NOCHECK | \
+-			 BIP_DISK_NOCHECK | BIP_IP_CHECKSUM)
++			 BIP_DISK_NOCHECK | BIP_IP_CHECKSUM | \
++			 BIP_CHECK_GUARD | BIP_CHECK_REFTAG | BIP_CHECK_APPTAG)
+ 
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 
 -- 
-2.40.1
+2.25.1
 
 
