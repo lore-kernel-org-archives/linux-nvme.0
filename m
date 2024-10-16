@@ -4,65 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3225D2A538
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 18:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA0D8D2A538
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 18:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HzzmijPoH2mtXPKps8Y0il4uE+cACVfKq2wS0Ezsuf0=; b=z8K7xQb4BDkD3n+gNbOo3rH98r
-	OfOqYf/KC2eWy/01ColN2Sa3P98U6E+x5+iK4CGTzulPSPg/DDNfz9/+db6dCUVlSH8Zno+SUdVtn
-	sF9k5mPZRlLhjBGd6zsgzItj6vWxOiLmcxa8kRMVRYjoUbZo+BWLCIRJBB22uvilI+0DLSZoZF6Gf
-	8pr39lPJ+yEcFeX7vOf8TQxylwUUVmBc7KitJwiKKfoXlx8cWxVyUzuYhPkvlouNrcYvwixll/tdo
-	80zXnTgqvPRBhCxE6lLLqXYnjYdfe98IKDRTsXOSpUqBl5xn3r3x0/v94uSL2DuTOooKKgeLctvxD
-	kA5H3iFA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Lo/qMs7rCft2pTQPHUaKau9sV0XoD/CmmKIQOrQb7Aw=; b=xDafKIKuHl/BicMaDIWkg+2RcA
+	JIkoljMpbncdM0C6LEh6HHuOLU9YHcLOv/KsPpXAJEieaAoCzR0KWRJmSrD0Vsyz7fjBG8v265b96
+	SFI+X8NWshdU5ownTJQZpt3pQodrx93ncheHt3JK9nYNLtzyhoUyyOGn5PRo6DSvRCop5Xn4vlqii
+	2Wz+a9JKrqqHXUTCbqHDRY6ozbF25T+z0lgVNO/FODi4CSpiBBQ5J8jxZjNFA3Z+8inq6px1kMRmX
+	Oj3TttMKvWqENUfzRfd58I6Z6MQdlGEHky/gLhOJig6W2IWO9EgKfseTZ/Go1Z6aefwvbiIHF9dqm
+	gqkbRPrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t18NY-0000000CcxS-3c4M;
-	Wed, 16 Oct 2024 18:04:12 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1t18as-0000000Cf7E-0cPg;
+	Wed, 16 Oct 2024 18:17:58 +0000
+Received: from mgamail.intel.com ([192.198.163.15])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t18NW-0000000Ccwt-0qO1
+	id 1t18Za-0000000Cets-01dq
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Oct 2024 18:04:11 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 3C82F5C0578;
-	Wed, 16 Oct 2024 18:04:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77E3AC4CEC5;
-	Wed, 16 Oct 2024 18:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729101849;
-	bh=HzzmijPoH2mtXPKps8Y0il4uE+cACVfKq2wS0Ezsuf0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kZ1dy0JgHxNeobOvzLSy5ftVhhY1QSE3SF3ksFod3MtCVn2w3jJzGNtgWDjYWUP5L
-	 LvZBXl7bnuTnvtj7JgjPfD2ftk1YDHfC4QINDHlz+TLaC4tFJEBWbTIVvbWtDQz1jK
-	 7bxdu4l9KFVnMpNVOVhSHW6M7tTWmdVCq0G0kKhNiCGdu/3ZElIS38qMslcr0extm8
-	 hP/tHOAO5HoFPYYE+anpFHY79BTyBqQCcUle5fVGiJKHsG5bxMvRzrKsOhMEg+ltgx
-	 QT6ZFR6nzZgEkfh0Qvz95GV6x7+0iooI3XkebrslYZAgVrEvFppGgCIlF/g2XWnMG5
-	 QYOdwszwvc0WA==
-Date: Wed, 16 Oct 2024 12:04:06 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
-	asml.silence@gmail.com, anuj1072538@gmail.com, krisman@suse.de,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org, vishak.g@samsung.com
-Subject: Re: [PATCH v4 02/11] block: copy back bounce buffer to user-space
- correctly in case of split
-Message-ID: <ZxAAFnC_Y6qpU-UK@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241016112912.63542-1-anuj20.g@samsung.com>
- <CGME20241016113736epcas5p3a03665bf0674e68a8f95bbd5f3607357@epcas5p3.samsung.com>
- <20241016112912.63542-3-anuj20.g@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241016112912.63542-3-anuj20.g@samsung.com>
+	Wed, 16 Oct 2024 18:16:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729102598; x=1760638598;
+  h=date:from:to:cc:subject:message-id;
+  bh=sWdGG0ravqhaogz7EmjKbJs1jNUo8+gx/5KGyJbOOSY=;
+  b=kkG/0gg7m9NiSFZxqqpYmRIVRkeZb5y1r0Z+KUo2lqrK7eFwIg5fgQ4q
+   0maARZLbGwvLL7j9pH2SfaOp3qjoMhuldWdi8J+ziq4EkZR47HKZ8uJ8g
+   CfN9oZr/iPd6Q8YZo9JoleGg2oI1fevwIO58rFs1MUZayoYfEM04PB09p
+   INDkssOe5bDZbAczx50rgrREye8VmgoHo7bZ+/3B5h+mLb46Xewsx3e9c
+   pOxNfBvODykGZ44h7Pz91PIBfqZS2dycmGtfK4jy8m3lrATNJVMMFt0Vl
+   R8B2ETuyKK1b4r14HV5vS7qVt5nSYvsSClfO1uggnusYcyGqcl7TigU40
+   g==;
+X-CSE-ConnectionGUID: +YMekFVxTda5qXfmjDt3lA==
+X-CSE-MsgGUID: aY7uRd0lQ12MC+E8BYaraw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28694631"
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="28694631"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 11:16:37 -0700
+X-CSE-ConnectionGUID: Dt27AqsUT82BrDMRRDqJ4A==
+X-CSE-MsgGUID: tUS1Q0QfQfOu2mfQAjKQcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,208,1725346800"; 
+   d="scan'208";a="101627400"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Oct 2024 11:16:36 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t18ZW-000LEd-0P;
+	Wed, 16 Oct 2024 18:16:34 +0000
+Date: Thu, 17 Oct 2024 02:16:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.12] BUILD SUCCESS
+ 1f021341eef41e77a633186e9be5223de2ce5d48
+Message-ID: <202410170201.Wwn6sIpQ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241016_110410_303346_F1F3BD05 
-X-CRM114-Status: UNSURE (   6.68  )
+X-CRM114-CacheID: sfid-20241016_111638_085158_D5775D91 
+X-CRM114-Status: UNSURE (   4.99  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -78,11 +83,117 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 16, 2024 at 04:59:03PM +0530, Anuj Gupta wrote:
-> Copy back the bounce buffer to user-space in entirety when the parent
-> bio completes.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.12
+branch HEAD: 1f021341eef41e77a633186e9be5223de2ce5d48  nvme-multipath: defer partition scanning
 
-Looks good.
+elapsed time: 1484m
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+configs tested: 97
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-14.1.0
+alpha                            allyesconfig    clang-20
+alpha                               defconfig    gcc-14.1.0
+arc                              allmodconfig    clang-20
+arc                               allnoconfig    gcc-14.1.0
+arc                              allyesconfig    clang-20
+arc                                 defconfig    gcc-14.1.0
+arm                              allmodconfig    clang-20
+arm                               allnoconfig    gcc-14.1.0
+arm                              allyesconfig    clang-20
+arm                                 defconfig    gcc-14.1.0
+arm64                            allmodconfig    clang-20
+arm64                             allnoconfig    gcc-14.1.0
+arm64                               defconfig    gcc-14.1.0
+csky                              allnoconfig    gcc-14.1.0
+csky                                defconfig    gcc-14.1.0
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    gcc-14.1.0
+hexagon                          allyesconfig    clang-20
+hexagon                             defconfig    gcc-14.1.0
+i386                             allmodconfig    clang-18
+i386                              allnoconfig    clang-18
+i386                             allyesconfig    clang-18
+i386        buildonly-randconfig-001-20241016    gcc-11
+i386        buildonly-randconfig-002-20241016    gcc-11
+i386        buildonly-randconfig-003-20241016    gcc-11
+i386        buildonly-randconfig-004-20241016    gcc-11
+i386        buildonly-randconfig-005-20241016    gcc-11
+i386        buildonly-randconfig-006-20241016    gcc-11
+i386                                defconfig    clang-18
+i386                  randconfig-001-20241016    gcc-11
+i386                  randconfig-002-20241016    gcc-11
+i386                  randconfig-003-20241016    gcc-11
+i386                  randconfig-004-20241016    gcc-11
+i386                  randconfig-005-20241016    gcc-11
+i386                  randconfig-006-20241016    gcc-11
+i386                  randconfig-011-20241016    gcc-11
+i386                  randconfig-012-20241016    gcc-11
+i386                  randconfig-013-20241016    gcc-11
+i386                  randconfig-014-20241016    gcc-11
+i386                  randconfig-015-20241016    gcc-11
+i386                  randconfig-016-20241016    gcc-11
+loongarch                        allmodconfig    gcc-14.1.0
+loongarch                         allnoconfig    gcc-14.1.0
+loongarch                           defconfig    gcc-14.1.0
+m68k                             allmodconfig    gcc-14.1.0
+m68k                              allnoconfig    gcc-14.1.0
+m68k                             allyesconfig    gcc-14.1.0
+m68k                                defconfig    gcc-14.1.0
+microblaze                       allmodconfig    gcc-14.1.0
+microblaze                        allnoconfig    gcc-14.1.0
+microblaze                       allyesconfig    gcc-14.1.0
+microblaze                          defconfig    gcc-14.1.0
+mips                              allnoconfig    gcc-14.1.0
+nios2                             allnoconfig    gcc-14.1.0
+nios2                               defconfig    gcc-14.1.0
+openrisc                          allnoconfig    clang-20
+openrisc                         allyesconfig    gcc-14.1.0
+openrisc                            defconfig    gcc-12
+parisc                           allmodconfig    gcc-14.1.0
+parisc                            allnoconfig    clang-20
+parisc                           allyesconfig    gcc-14.1.0
+parisc                              defconfig    gcc-12
+parisc64                            defconfig    gcc-14.1.0
+powerpc                          allmodconfig    gcc-14.1.0
+powerpc                           allnoconfig    clang-20
+powerpc                          allyesconfig    gcc-14.1.0
+riscv                            allmodconfig    gcc-14.1.0
+riscv                             allnoconfig    clang-20
+riscv                            allyesconfig    gcc-14.1.0
+riscv                               defconfig    gcc-12
+s390                             allmodconfig    gcc-14.1.0
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.1.0
+s390                                defconfig    gcc-12
+sh                               allmodconfig    gcc-14.1.0
+sh                                allnoconfig    gcc-14.1.0
+sh                               allyesconfig    gcc-14.1.0
+sh                                  defconfig    gcc-12
+sparc                            allmodconfig    gcc-14.1.0
+sparc64                             defconfig    gcc-12
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-20
+um                               allyesconfig    clang-20
+um                                  defconfig    gcc-12
+um                             i386_defconfig    gcc-12
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-18
+x86_64                           allyesconfig    clang-18
+x86_64                              defconfig    clang-18
+x86_64                                  kexec    gcc-12
+x86_64                               rhel-8.3    gcc-12
+x86_64                           rhel-8.3-bpf    clang-18
+x86_64                         rhel-8.3-kunit    clang-18
+x86_64                           rhel-8.3-ltp    clang-18
+x86_64                          rhel-8.3-rust    clang-18
+xtensa                            allnoconfig    gcc-14.1.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
