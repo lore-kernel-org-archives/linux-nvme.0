@@ -4,144 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93579D1AD5E
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 13:46:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9D06D2A52F
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Oct 2024 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mT4K+F2A/kIqOZdL/ZLie0ICYJwUxyCwdVtyep16tb0=; b=MELjkPSv2RkvvCdQQiYJOBc4ZO
-	L0q5wWiHfjiNDGvYnRtK8FGJuTNQuWKNbKVyIW2i3guW/ePSblYJNOMrpGyxBn9640yvuz7L1P3tR
-	CibSOEKhP6+Z46JNIXtI0EsX700EgGeGJc43FXZSw3dytgmvngkirUM1GA9TL/+Ff5CBHmzD+/WX8
-	vhbQ0OLF3H4FhAQrLrsMLuQ3ex5ouDrPbDmynpPJTFeBi1O7rTdDrscMP4h3KKzZVmt9hbvxFdAeM
-	dTgKsBWGjIyzBKvkGKw/yMUjP3qIafXby7cfj0Z5t8vXG+dKLa91uGm4pwVkDEWaeKy5SP6wr0ac7
-	v+A0pzGg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WpkMyCi/ii7FO2tFC5KmzGTRyi8ikNF0jOg81bHt2Hg=; b=AAbv7FGGiq6gJw8ArwfJlsBgPH
+	Pg00Yvgbc7rV8FW53+yTASOeiNYnVp60pyruXfVFH/IH5FIhkl2U9E3OzhPgihyX8idzUWqMhJ0qg
+	rEOnvihBgxfZ+gTaSiVvi2jFh9wM1QoRKnBa085XloYcf5qDEPWuSW4ec1/cH8dUjrfxeAN/zjU5y
+	JSdSWhDbTKpzxWfBiWMBT9yigZjmc90cBBQfvrs/CVl/HEseE9tVx3EBsZhfa3werC6tJlzCko4o6
+	pay/+NH+t5VvJuyAxtbOFiZ1MXYLcL67nsdjNnxaGytoKqfYF8xo5l5MhumxT6DT7/ETH3HmCPx+e
+	GFDYFVqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t14LT-0000000Bxv6-17nc;
-	Wed, 16 Oct 2024 13:45:47 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1t16y0-0000000CR72-15oG;
+	Wed, 16 Oct 2024 16:33:44 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t13GL-0000000Bl7A-0cjC
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 16 Oct 2024 12:36:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=mT4K+F2A/kIqOZdL/ZLie0ICYJwUxyCwdVtyep16tb0=; b=D+qzzQzmMLlw+jPD2mtdCMLiRz
-	d7n9p19IMdMZ4S8Ys/QXrs7skBDAXCdauzKN29gVBPAeM6Ojlf1+d/uI7qvhxqu5mXGF+7yvXb18A
-	lvQjzJOBn1oyWqykLrHxp7241qQuvITDspHJ4vH7WO9iLV9mQpjsTC3ng/94CWu8WfSdYk5TJ0NtZ
-	WZhS6swRXg+JhApipi0cLlNT5coKdT6/mFkgWAcEzqeUfp7IDMVlKrw+A/jbwFftV8WRyM9CQxc4b
-	vKdh64dnZWuMfZoAo184sF3mKpFlC7uasW4fkD8kk8jOD8eG+dfwbFSfuwqVDa+vfcUHi5viQfv+t
-	ITVFC88Q==;
-Received: from mailout2.samsung.com ([203.254.224.25])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t13GG-00000006nTN-3kMI
+	id 1t16rw-0000000CPzS-1QXE
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Oct 2024 12:36:24 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241016123607epoutp02c9001db27be11c4d87484283089d8b0a~_7xIYkQea1590215902epoutp022
-	for <linux-nvme@lists.infradead.org>; Wed, 16 Oct 2024 12:36:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241016123607epoutp02c9001db27be11c4d87484283089d8b0a~_7xIYkQea1590215902epoutp022
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1729082167;
-	bh=mT4K+F2A/kIqOZdL/ZLie0ICYJwUxyCwdVtyep16tb0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ht2Br2qQE1/xjML/XgUa4yqRwI8Qaw0/v/uubUH/cRExyq8AxMAgDR8O9t9rDUdNQ
-	 CObhJb4xUfutGTZX9d3vq/x7pjuCpc5cZ2GVvuMGLn983Fbm3erz12D8xmsBoOxs0s
-	 9C6u4bUyCQE7uO+P0A6h+LzKabQY+TW2FMdRwCwo=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20241016123607epcas5p162635bbc7397511c995cc07acfa59885~_7xHsMBzi2383423834epcas5p1A;
-	Wed, 16 Oct 2024 12:36:07 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4XT9S43ZR7z4x9Ps; Wed, 16 Oct
-	2024 12:36:04 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	88.F7.09420.433BF076; Wed, 16 Oct 2024 21:36:04 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20241016113724epcas5p191ccce0f473274fc95934956662fc769~_692-Rjvd0520505205epcas5p1c;
-	Wed, 16 Oct 2024 11:37:24 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20241016113724epsmtrp14aee8d06e2ce78c541c7ba97a7ba58b8~_692_Xuqb0254402544epsmtrp1W;
-	Wed, 16 Oct 2024 11:37:24 +0000 (GMT)
-X-AuditID: b6c32a49-0d5ff700000024cc-8c-670fb334c4bf
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	F9.9A.07371.475AF076; Wed, 16 Oct 2024 20:37:24 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20241016113722epsmtip137a8c8fd22cb33714a53dfc2f84ee787~_691Clh-33048330483epsmtip1f;
-	Wed, 16 Oct 2024 11:37:22 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, asml.silence@gmail.com, anuj1072538@gmail.com,
-	krisman@suse.de
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org, vishak.g@samsung.com, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: [PATCH v4 01/11] block: define set of integrity flags to be
- inherited by cloned bip
-Date: Wed, 16 Oct 2024 16:59:02 +0530
-Message-Id: <20241016112912.63542-2-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241016112912.63542-1-anuj20.g@samsung.com>
+	Wed, 16 Oct 2024 16:27:29 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 31D4E5C5EB0;
+	Wed, 16 Oct 2024 16:27:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C08C4CEC5;
+	Wed, 16 Oct 2024 16:27:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729096047;
+	bh=Sj4hHfajy07xXHZDC3iAWKW0T1zkzy/GdmxY5XAzHYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kcKtRxtCXa501eMxIPR/9mPZSc4GwjCE+oKxZR/c6WhgB3+Urvf06JSqrmuP33iXg
+	 dQ3RTyrB/U7AGc+wo/qGIatq2EGyWZ2QsjnmuMvFC8qmQetVqVbVU8jBiuaRp7Eru0
+	 YPQ+9nsZHzSQ9EB4k9TH+tb3pIpd3FHJwopOfo2v7SE7GUD0d8uoHAS1nvsx6WQ7fb
+	 gZv4Zt/cEkZLZnGdpD6fODB82i/onUwrew3m0zRxPfv4ccWhaGle871mvGIFy7wjrp
+	 YKuqXznqV1/Yy0SCLRas6uoVxZQdyjSBmhpXm3MyKj8G+/JMokGGRgBSIP0aQPLLr0
+	 XOCYR0YmR4azQ==
+Date: Wed, 16 Oct 2024 16:27:25 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 1/9] crypto,fs: Separate out hkdf_extract() and
+ hkdf_expand()
+Message-ID: <20241016162725.GB3228925@google.com>
+References: <20241011155430.43450-1-hare@kernel.org>
+ <20241011155430.43450-2-hare@kernel.org>
+ <20241014193814.GB1137@sol.localdomain>
+ <e9ea2690-b3ac-47f0-a148-9e355841b6d0@suse.de>
+ <20241015154110.GA2444622@google.com>
+ <83934544-0e4e-42eb-a15b-8189a46273c7@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPJsWRmVeSWpSXmKPExsWy7bCmhq7JZv50g7efxC0+fv3NYtE04S+z
-	xZxV2xgtVt/tZ7O4eWAnk8XK1UeZLN61nmOxmHToGqPF9jNLmS323tK2mL/sKbtF9/UdbBbL
-	j/9jsjg/aw67A5/Hzll32T0uny312LSqk81j85J6j903G9g8Pj69xeLRt2UVo8fm09UenzfJ
-	BXBGZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAF2u
-	pFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1IySkwKdArTswtLs1L18tLLbEyNDAwMgUq
-	TMjOeDLVrmAJd8W8Vr0GxqOcXYycHBICJhJ/n+9k62Lk4hAS2M0osff+WSYI5xOjRMvtf1CZ
-	b4wSZ5b0s8O0HHzcxQyR2Mso0dxxkgkkISTwmVFie7s6iM0moC5x5HkrI4gtIjCJUeL55VAQ
-	m1ngFKPE2l8KXYwcHMICcRLNL9lATBYBVYmvV+1AKngFLCWalu5jglglLzHz0newtZwCVhKn
-	zh1kh6gRlDg58wkLxER5ieats8HOkRDYwSFxeuFLqDtdJJbOfMcKYQtLvDq+BSouJfGyvw3K
-	Tpf4cfkp1LICieZj+xghbHuJ1lP9zCC3MQtoSqzfpQ8RlpWYemodE8RePone30+gWnkldsyD
-	sZUk2lfOgbIlJPaea4CyPSQ2fv4NDdxeRoldzaeYJjAqzELyzywk/8xCWL2AkXkVo2RqQXFu
-	emqxaYFhXmo5PIaT83M3MYJTspbnDsa7Dz7oHWJk4mA8xCjBwawkwjupizddiDclsbIqtSg/
-	vqg0J7X4EKMpMLwnMkuJJucDs0JeSbyhiaWBiZmZmYmlsZmhkjjv69a5KUIC6YklqdmpqQWp
-	RTB9TBycUg1MS1QXv6r6qvM671X9sflFC2ZenH90roDMRq2t1zTLQlUOiu422pN/ie18dvOn
-	iYrJkvV/X9zS9vl7VsbmZcbLCWd7pmkc6Xoho7qhtikhMi1S9qw/D0vNjGNrvDkVjjLlTa+o
-	eb1lyuLt8/dZOhSs+Pg1aGHAkrk1jdeMzp8rPbaf4br25r/zL05fMWlhxtfGbctWr9i09sHn
-	qUkv63Wcjos0z2L73HY+5tN3gR+Wgrs2/+gwjE8Rz1i7sdvU7vCPm6ZvP5rGCsYFXbx9/jtL
-	3aOyJX0JM/JO71ru8MVKUmLjnDPcwjyzbZ9JRPlOEF5/ZYd6+vK7Oo1XNk5O52N44JHA4bE9
-	0eOWhKCRX8G9KHclluKMREMt5qLiRABo0A6/UgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJLMWRmVeSWpSXmKPExsWy7bCSnG7JUv50g7730hYfv/5msWia8JfZ
-	Ys6qbYwWq+/2s1ncPLCTyWLl6qNMFu9az7FYTDp0jdFi+5mlzBZ7b2lbzF/2lN2i+/oONovl
-	x/8xWZyfNYfdgc9j56y77B6Xz5Z6bFrVyeaxeUm9x+6bDWweH5/eYvHo27KK0WPz6WqPz5vk
-	AjijuGxSUnMyy1KL9O0SuDKeTLUrWMJdMa9Vr4HxKGcXIyeHhICJxMHHXcxdjFwcQgK7GSUO
-	3PvECJGQkDj1chmULSyx8t9zdoiij4wSa7fsZwdJsAmoSxx53soIkhARmMUocXjWfCYQh1ng
-	AqPE1X3PwKqEBWIkzj2fxNLFyMHBIqAq8fWqHUiYV8BSomnpPiaIDfISMy99ByvnFLCSOHXu
-	IJgtBFTzb/IHRoh6QYmTM5+wgNjMQPXNW2czT2AE2oqQmoUktYCRaRWjZGpBcW56brJhgWFe
-	arlecWJucWleul5yfu4mRnDsaGnsYLw3/5/eIUYmDsZDjBIczEoivJO6eNOFeFMSK6tSi/Lj
-	i0pzUosPMUpzsCiJ8xrOmJ0iJJCeWJKanZpakFoEk2Xi4JRqYDJ2FJoTeIf//llDlqVnljlO
-	vXsk//QVhnPPTxbME9hjpH/8/sL98VZv1pa92r5EqflgufM+Zlbd7EfG//mNDc89XrJ9cuM9
-	HamrG9ZeO7d6dmL67o6uKVt+/H/xJGvXFJkUlnj/stlP0t++6Wc7/pipRmiG3vJLmdN7V/Pc
-	Czl087/ei7Ly6eLn5H2fn71sfV7nb/Z55v5JbsXZW/kKjjXKXapIY1we7qIvptn3Z9IbZQaN
-	ddXX9e1vPxeaqt9xls/eNK94m0F094Fngg55E6X/WX1xCDS3WuhXpjZxQ0bX/cf8q46f7fxc
-	p9xpzbhkZsmPrOb1T0209+qG749q6J/VmR7fv//TD81m729NyxuUWIozEg21mIuKEwFe/GhU
-	DAMAAA==
-X-CMS-MailID: 20241016113724epcas5p191ccce0f473274fc95934956662fc769
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241016113724epcas5p191ccce0f473274fc95934956662fc769
-References: <20241016112912.63542-1-anuj20.g@samsung.com>
-	<CGME20241016113724epcas5p191ccce0f473274fc95934956662fc769@epcas5p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83934544-0e4e-42eb-a15b-8189a46273c7@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241016_133621_617116_1DAD0107 
-X-CRM114-Status: GOOD (  17.16  )
+X-CRM114-CacheID: sfid-20241016_092728_444710_E34E7CF8 
+X-CRM114-Status: GOOD (  24.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,46 +78,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce BIP_CLONE_FLAGS describing integrity flags that should be
-inherited in the cloned bip from the parent.
+On Wed, Oct 16, 2024 at 08:40:54AM +0200, Hannes Reinecke wrote:
+> On 10/15/24 17:41, Eric Biggers wrote:
+> > On Tue, Oct 15, 2024 at 05:05:40PM +0200, Hannes Reinecke wrote:
+> > > On 10/14/24 21:38, Eric Biggers wrote:
+> > > > On Fri, Oct 11, 2024 at 05:54:22PM +0200, Hannes Reinecke wrote:
+> > > > > Separate out the HKDF functions into a separate module to
+> > > > > to make them available to other callers.
+> > > > > And add a testsuite to the module with test vectors
+> > > > > from RFC 5869 to ensure the integrity of the algorithm.
+> > > > 
+> > > > integrity => correctness
+> > > > 
+> > > Okay.
+> > > 
+> > > > > +config CRYPTO_HKDF
+> > > > > +	tristate
+> > > > > +	select CRYPTO_SHA1 if !CONFIG_CRYPTO_MANAGER_DISABLE_TESTS
+> > > > > +	select CRYPTO_SHA256 if !CONFIG_CRYPTO_MANAGER_DISABLE_TESTS
+> > > > > +	select CRYPTO_HASH2
+> > > > 
+> > > > Any thoughts on including SHA512 tests instead of SHA1, given that SHA1 is
+> > > > obsolete and should not be used?
+> > > > 
+> > > Hmm. The original implementation did use SHA1, so I used that.
+> > > But sure I can look into changing that.
+> > 
+> > If you're talking about fs/crypto/hkdf.c which is where you're borrowing the
+> > code from, that uses SHA512.
+> > 
+> Actually, I was talking about the test vectors themselves. RFC 5869 only
+> gives test vectors for SHA1 and SHA256, so that's what I've used.
+> I've found additional test vectors for the other functions at
+> https://github.com/brycx/Test-Vector-Generation/blob/master/HKDF/hkdf-hmac-sha2-test-vectors.md
+> so I'll be using them for adding tests for SHA384 and SHA512 (TLS on
+> NVMe-over-TCP is using SHA384, too) and delete the SHA1 ones.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
----
- block/bio-integrity.c         | 2 +-
- include/linux/bio-integrity.h | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+Right, it's an old spec, so that's why it has SHA1.  Using SHA512 test vectors
+from elsewhere, or generating your own test vectors using a known-good
+implementation, would be fine though.
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 88e3ad73c385..8c41a380f2bd 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -562,7 +562,7 @@ int bio_integrity_clone(struct bio *bio, struct bio *bio_src,
- 
- 	bip->bip_vec = bip_src->bip_vec;
- 	bip->bip_iter = bip_src->bip_iter;
--	bip->bip_flags = bip_src->bip_flags & ~BIP_BLOCK_INTEGRITY;
-+	bip->bip_flags = bip_src->bip_flags & BIP_CLONE_FLAGS;
- 
- 	return 0;
- }
-diff --git a/include/linux/bio-integrity.h b/include/linux/bio-integrity.h
-index dd831c269e99..485d8a43017a 100644
---- a/include/linux/bio-integrity.h
-+++ b/include/linux/bio-integrity.h
-@@ -30,6 +30,9 @@ struct bio_integrity_payload {
- 	struct bio_vec		bip_inline_vecs[];/* embedded bvec array */
- };
- 
-+#define BIP_CLONE_FLAGS (BIP_MAPPED_INTEGRITY | BIP_CTRL_NOCHECK | \
-+			 BIP_DISK_NOCHECK | BIP_IP_CHECKSUM)
-+
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- 
- #define bip_for_each_vec(bvl, bip, iter)				\
--- 
-2.25.1
-
+- Eric
 
