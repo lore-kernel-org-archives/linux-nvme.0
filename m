@@ -4,51 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E46A5D1AD36
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 08:25:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61A59D21272
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 11:01:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HpQwYu6pvnexC4JbqbWhaiC9BUl8z4UgrL56wNne8Ko=; b=wNmQ1qtPLYzD6S0BEln+1/JUG9
-	hLQJkDHx3+mEuwjMiSmujqJDuFrgRTvH+i83PWGd2jvN1gJabfR8sC/xlQAcx9VZGUerAzzg/9sRo
-	t5sJW5BQh0Yyqx/Uqi8V4PGOVFCH3YQhr1KtB6rTewLqyFTq307iyk/5sOORbw4e22HK1QnTRE9Sx
-	zY1jIVrFfDVLSY5kHZ2v21jGxRS/6WYh+MLKc5jIwcpJk33Ewc4akSC4r1Lwk3SVEklqAOS43TODJ
-	ELLoRDZj9M6QBllBZ0U9yLOGqMqpkhT4MBnUuBDGunOJkpGo8B5cs9ANBb7uH5JpVdw4GTCnmSXqG
-	ShoUWPlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=; b=3bDxbfrIYWQrMnK26GZRKy1CEJ
+	W/zAeIsrW4Z61I4MK+fQCkDKXW4k8H7c5rEaL0fx247K166/uf3O8CA5Ck9Vv4u8f7dgxhHdA+BXs
+	szFT70u10eP8YbfhuCA6OFxfefdUHRV8eg8jBVgSzFAWGWucR0RSHsALVo9yRVVd9lFkX49ksBrOH
+	JidzzxfS+WPTkDHh+Ca+F935is1u65jmqIQkF5bFlFndlo6sDaGg9Bz/vKUMPW9Ueuferj8AVzJTZ
+	Aw/52OiznoqSLGEze8ubjSpr0JcBxmiDVKf/XTo2+BSEiqRaXXxpJr9SJi9adv25ufPAloTiPp4r6
+	6jjA3npg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1Lol-0000000EAnv-14oV;
-	Thu, 17 Oct 2024 08:25:11 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1t1OGI-0000000EZpf-2noo;
+	Thu, 17 Oct 2024 11:01:46 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1Lo2-0000000EAhw-1OYn
+	id 1t1O9I-0000000EYUs-3pSO
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 08:24:27 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A0E75227A8E; Thu, 17 Oct 2024 10:24:22 +0200 (CEST)
-Date: Thu, 17 Oct 2024 10:24:22 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, asml.silence@gmail.com,
-	anuj1072538@gmail.com, krisman@suse.de, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org,
-	vishak.g@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v4 09/11] block: add support to pass user meta buffer
-Message-ID: <20241017082422.GB28355@lst.de>
-References: <20241016112912.63542-1-anuj20.g@samsung.com> <CGME20241016113752epcas5p4c365819fce1e5d498fd781ae2b309341@epcas5p4.samsung.com> <20241016112912.63542-10-anuj20.g@samsung.com>
+	Thu, 17 Oct 2024 10:54:41 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D957821E6A;
+	Thu, 17 Oct 2024 10:54:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729162469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
+	b=dGwDVJlM8cpTvBHyfc/pEP3FqxkWQ2GGNOUy+LBqGTh15Sy5Q9G/gcXk0RHILpvHSaJJ0W
+	h2qbmef05H3AfIL5E9w2ucThy/SfilGkOhJH1mprDIDuBGHB+N0WryABSZ93+KyL2ljSX+
+	J7OKmzPg714EgTVYT57fK+XLXyGxRBM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729162469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
+	b=1jz+Y4rNyA+vR5tYSkg5AQjSpf9AE3RyHQRrkl8+V4BbegJHdu3LBK9hs5aQh3u1Ku9cRK
+	6W5QwfsS/2yETLDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729162469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
+	b=dGwDVJlM8cpTvBHyfc/pEP3FqxkWQ2GGNOUy+LBqGTh15Sy5Q9G/gcXk0RHILpvHSaJJ0W
+	h2qbmef05H3AfIL5E9w2ucThy/SfilGkOhJH1mprDIDuBGHB+N0WryABSZ93+KyL2ljSX+
+	J7OKmzPg714EgTVYT57fK+XLXyGxRBM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729162469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
+	b=1jz+Y4rNyA+vR5tYSkg5AQjSpf9AE3RyHQRrkl8+V4BbegJHdu3LBK9hs5aQh3u1Ku9cRK
+	6W5QwfsS/2yETLDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B532C13A42;
+	Thu, 17 Oct 2024 10:54:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CGDXKeXsEGezYwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 17 Oct 2024 10:54:29 +0000
+Date: Thu, 17 Oct 2024 12:54:29 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, 
+	Keith Busch <kbusch@kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: sysfs tls_configured_key naming?
+Message-ID: <d3466e4f-23dc-4a07-a2c3-98bcbf6c7960@flourine.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241016112912.63542-10-anuj20.g@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_012426_576063_C11F4DFC 
-X-CRM114-Status: GOOD (  19.88  )
+X-CRM114-CacheID: sfid-20241017_035433_162836_8BB30D63 
+X-CRM114-Status: GOOD (  10.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,55 +122,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 16, 2024 at 04:59:10PM +0530, Anuj Gupta wrote:
-> From: Kanchan Joshi <joshi.k@samsung.com>
-> 
-> If an iocb contains metadata, extract that and prepare the bip.
-> Based on flags specified by the user, set corresponding guard/app/ref
-> tags to be checked in bip.
-> 
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> ---
->  block/bio-integrity.c         | 51 +++++++++++++++++++++++++++++++++++
->  block/fops.c                  | 44 +++++++++++++++++++++++-------
->  include/linux/bio-integrity.h |  7 +++++
->  3 files changed, 93 insertions(+), 9 deletions(-)
-> 
-> diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-> index d3c8b56d3fe6..24fad9b6f3ec 100644
-> --- a/block/bio-integrity.c
-> +++ b/block/bio-integrity.c
-> @@ -12,6 +12,7 @@
->  #include <linux/bio.h>
->  #include <linux/workqueue.h>
->  #include <linux/slab.h>
-> +#include <uapi/linux/blkdev.h>
->  #include "blk.h"
->  
->  static struct kmem_cache *bip_slab;
-> @@ -303,6 +304,55 @@ static unsigned int bvec_from_pages(struct bio_vec *bvec, struct page **pages,
->  	return nr_bvecs;
->  }
->  
-> +static void bio_uio_meta_to_bip(struct bio *bio, struct uio_meta *meta)
-> +{
-> +	struct bio_integrity_payload *bip = bio_integrity(bio);
-> +
-> +	if (meta->flags & BLK_INTEGRITY_CHK_GUARD)
-> +		bip->bip_flags |= BIP_CHECK_GUARD;
-> +	if (meta->flags & BLK_INTEGRITY_CHK_APPTAG)
-> +		bip->bip_flags |= BIP_CHECK_APPTAG;
-> +	if (meta->flags & BLK_INTEGRITY_CHK_REFTAG)
-> +		bip->bip_flags |= BIP_CHECK_REFTAG;
-> +
-> +	bip->app_tag = meta->app_tag;
-> +}
-> +
-> +int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
+f5eb7397471b ("nvme-sysfs: add 'tls_configured_key' sysfs attribute")
+claims that the --tls_key is expecting a 'Configured PSK'. That is not
+correct. It expects a 'Derive TLS PSK'. That means user space has to do
+the whole key transormation as described in Figure 21: {TLS PSK, TLS
+Identity, Hash} Tuple Derivation in TCP Transport Specification,
+Revision 1.1.
 
-Just noticed this when looking at the seed situation:  Can you please
-move bio_integrity_map_iter below bio_integrity_map_user as it is
-a relatively thing wrapper for it? 
+From a quick look at the concantiantion patches and based on the spec,
+tls_configured_key will never hold the 'Configured PSK'. I think we
+should use a better name for this sysfs attribute. I suppose it should
+be named 'tls_generated_psk'?
 
+BTW, that means also for the second tuple derivation flow (where we
+start with the 'Configured PSK'), the keystore doesn't contain a
+'Retained PSK'. I think I need to do some more reviewing and cleanups in
+libnvme to get it matching with the naming sceme of the spec in line.
 
