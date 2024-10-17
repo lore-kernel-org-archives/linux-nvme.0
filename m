@@ -4,57 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56A81D2F7DA
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 02:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4342D2F7ED
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 04:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3Tf28K5E4lgzSS0A4NL9imRolfl4JXdC2fdNdBxBJiE=; b=m3JQuebxG3cOACJ2PBgsBedO7k
-	xJGCFXDOV4deT1/uDgqvssSzGgtWgBIcwrOOK4ZjeaAecfPSQPmph5SwoXLthjUXl0wNc7Qq19B6r
-	Fx0LXCDmfdJb3wN3ZkyV1sHPoNnUlHb3emtFmDc2d5BYDE1R8uFjsJUaGgJgay3E77SjwfbmyE0/D
-	WZTLbVtw+BPXhmK0gDOv09kUkNXZzEt4MuD3VpF4BjiaAUI4kyp6MTmuxVdeLFbmZRnSwb7b5HZ9z
-	8Zd85NWty7yyrh34zuaYZlwYMGMZFcFiGFrj8I/DooXAIrFr2HTxjXaaZ8U+wthzpwadZI71RsZRm
-	LIpyFR5w==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UDsQFvoFLYe1xvuIuumWqTRFi/IPPrHa+z6ziOZmZ6o=; b=ZX4/esx60dQgAqKALuZUhw3i4g
+	cHpb1y4YNe+8ercPNVPaQ5PXrUynB7Eq5D9lffuRBCEZskj+8tE7Sxz/Mm7GngsfrphMxk2x05++H
+	kKJW15usiTogA2l3dmEvXuOCErxe7JvEXuX0+Is2jEsqBtEwvj1zD00vBvW2LtePo0ecj3kl3seu3
+	u/y6/2krwQI/uizXqj5+Jn+6Z6p918F9G2ldx4UlXfCJzoz2u4wKDhHmvsb+iEGmyutV7xWHvYjpe
+	HIWsyYGZVoMNRRRBMfwLLXBUMWIojThaTgRgfBeAFAE3odzOv3HhFofGOu/GYjMsu3Wtv6JMEdi4u
+	wBM6jCZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1Fxx-0000000DWSz-2NWJ;
-	Thu, 17 Oct 2024 02:10:17 +0000
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
+	id 1t1IR3-0000000DkHG-2Kj6;
+	Thu, 17 Oct 2024 04:48:29 +0000
+Received: from out199-11.us.a.mail.aliyun.com ([47.90.199.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1Fxt-0000000DWSQ-09Yp
+	id 1t1IQw-0000000DkDi-3d9W
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 02:10:16 +0000
+	Thu, 17 Oct 2024 04:48:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1729131006; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=3Tf28K5E4lgzSS0A4NL9imRolfl4JXdC2fdNdBxBJiE=;
-	b=eneEzsklnbFIdd+HTJNBQoIu7pFmmyxBpQaGiG6kEu0knZ8B3LMaJLdWQ6pEUFtc4tkec2WKfM8MCi/DcwfNIv8BV+b2+4K1gn4/XCKvYXwHG5f5AzDiLX04WW5LbVGp6UzWvlPwGbAQM7hASpikUTI3Jn3YFINTPwGRIjOBUe8=
-Received: from 30.178.81.188(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHJ4bHj_1729131003 cluster:ay36)
+	t=1729140496; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=UDsQFvoFLYe1xvuIuumWqTRFi/IPPrHa+z6ziOZmZ6o=;
+	b=jkvfErnlRaNn08MdYH6GM08lkPWt7+PsUcwAvGGs+xwK+vsCD9JAs/WkpRGBiSZaJgdVCeYkzIsycPxAcDa7OB39opOrZCWXPsZ+96uPlqhC70jk+5otHLP2XVGjDpOKBk3qmjineToMLF45wkKAp0MrbhpWhX3+uRkzFsIih2I=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHJfUzW_1729140489 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 17 Oct 2024 10:10:04 +0800
-Message-ID: <be9350cf-e713-4b2f-928c-099952ca884e@linux.alibaba.com>
-Date: Thu, 17 Oct 2024 10:10:02 +0800
-MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v15 2/2] nvmet: support reservation feature
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: hch <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "kch@nvidia.com" <kch@nvidia.com>,
- "d.bogdanov@yadro.com" <d.bogdanov@yadro.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20241014061045.62436-1-kanie@linux.alibaba.com>
- <20241014061045.62436-3-kanie@linux.alibaba.com>
- <4l5bcjto47t7zb7ztnhyw2p4l6ygo3rcefgthgnformc6dofkw@j6j7w5vwazve>
+          Thu, 17 Oct 2024 12:48:14 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <4l5bcjto47t7zb7ztnhyw2p4l6ygo3rcefgthgnformc6dofkw@j6j7w5vwazve>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	shinichiro.kawasaki@wdc.com,
+	d.bogdanov@yadro.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v16 0/2] Implement the NVMe reservation feature
+Date: Thu, 17 Oct 2024 12:48:07 +0800
+Message-ID: <20241017044809.122021-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241016_191013_569585_60046C70 
-X-CRM114-Status: GOOD (  20.21  )
+X-CRM114-CacheID: sfid-20241016_214823_511269_81EBB954 
+X-CRM114-Status: GOOD (  26.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,149 +65,246 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi guys,
+    I've implemented the NVMe reservation feature. Please review it, all 
+comments are welcome as usual.
 
-在 2024/10/16 14:59, Shinichiro Kawasaki 写道:
-> On Oct 14, 2024 / 14:10, Guixin Liu wrote:
->> This patch implements the reservation feature, including:
->>    1. reservation register(register, unregister and replace).
->>    2. reservation acquire(acquire, preempt, preempt and abort).
->>    3. reservation release(release and clear).
->>    4. reservation report.
->>    5. set feature and get feature of reservation notify mask.
->>    6. get log page of reservation event.
->>
->> Not supported:
->>    1. persistent reservation through power loss.
->>
->> Test cases:
->>    Use nvme-cli and fio to test all implemented sub features:
->>    1. use nvme resv-register to register host a registrant or
->>       unregister or replace a new key.
->>    2. use nvme resv-acquire to set host to the holder, and use fio
->>       to send read and write io in all reservation type. And also
->>       test preempt and "preempt and abort".
->>    3. use nvme resv-report to show all registrants and reservation
->>       status.
->>    4. use nvme resv-release to release all registrants.
->>    5. use nvme get-log to get events generated by the preceding
->>       operations.
->>
->> In addition, make reservation configurable, one can set ns to
->> support reservation before enable ns. The default of resv_enable
->> is false.
-> Hello Guixin. To test the blktests patches for the reservation feature, I
-> applied this patch series on top of v6.1-rc3 kernel with lockdep enabled. When I
-> ran the blktests test case nvme/004, I observed the kernel message "INFO: trying
-> to register non-static key" [1]. I think the call trace indicates that the
-> nvmet_ctrl_destroy_pr() calls xa_erase() for uninitialized ns->pr_per_ctrl_refs.
->
-> [...]
->
->> +void nvmet_ctrl_destroy_pr(struct nvmet_ctrl *ctrl)
->> +{
->> +	struct nvmet_pr_per_ctrl_ref *pc_ref;
->> +	struct nvmet_ns *ns;
->> +	unsigned long idx;
->> +
->> +	kfifo_free(&ctrl->pr_log_mgr.log_queue);
->> +	mutex_destroy(&ctrl->pr_log_mgr.lock);
->> +
->> +	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
->                 if (!ns->pr.enable)
->                         continue;
->
-> I added the two lines above here, and the INFO message disappeared. Please
-> check if this change makes sense.
+Changes from v15 to v16:
+- Fix kerenl message print "INFO: trying to register non-static key",
+when the namespace is not enable reservation.
+- Fix the race condition between nvmet_ctrl_init_pr() and nvmet_ns_enable()
+by putting nvmet_ctrl_init_pr() and nvmet_ctrl_destroy_pr() into the brace
+of mutex_lock(&subsys->lock). Avoid the double init of per-controller percpu
+ref.
 
-Yeah, I miss pr is not enable here, I will fix this and send a v16.
+Changes from v14 to v15:
+- Change first patch commit message.
 
-Thanks very much.
+Changes from v13 to v14:
+- Fix some grammatical mistake in commit message.
+- Add two characters to bulleted lists in commit message to make it
+more readble.
+- Adjust some tab indent.
 
-Best Regards,
+Changes from v12 to v13:
+- Set regctl to the number of all registrants instead of reported when
+reporting.
 
-Guixin Liu
+Changes from v11 to v12:
+- Change patch to fit newest 6.12-rc2.
+- Fix possible out-of-bounds access in nvmet_execute_pr_report.
+- Use sysfs_emit instead of printf in nvmet_ns_resv_enable_show.
+- Add struct rcu_head to nvmet_pr_registrant to free.
+- Introduce a helper nvmet_pr_parse_ignore_key.
+- Use NVME_CNTLID_DYNAMIC when report cntlid.
+- Fix some over long line.
+- Add more details to commit body.
+- Separate out the include/linux/nvme.h changes to a single patch.
+- Add a nvmetcli patch to support resv_enable configuration.
 
->> +		pc_ref = xa_erase(&ns->pr_per_ctrl_refs, ctrl->cntlid);
->> +		if (pc_ref)
->> +			percpu_ref_exit(&pc_ref->ref);
->> +		kfree(pc_ref);
->> +	}
->> +}
->
-> [1]
->
-> [   39.842700] [   T1002] run blktests nvme/004 at 2024-10-16 15:24:52
-> [   39.901831] [   T1046] loop0: detected capacity change from 0 to 2097152
-> [   39.920817] [   T1049] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [   40.001028] [    T107] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-> [   40.005448] [   T1056] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
-> [   40.007399] [   T1056] nvme nvme1: creating 4 I/O queues.
-> [   40.009800] [   T1056] nvme nvme1: new ctrl: "blktests-subsystem-1"
-> [   40.178428] [   T1078] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-> [   40.286197] [   T1078] INFO: trying to register non-static key.
-> [   40.287630] [   T1078] The code is fine but needs lockdep annotation, or maybe
-> [   40.288482] [   T1078] you didn't initialize this object before use?
-> [   40.288930] [   T1078] turning off the locking correctness validator.
-> [   40.289382] [   T1078] CPU: 3 UID: 0 PID: 1078 Comm: nvme Not tainted 6.12.0-rc3+ #338
-> [   40.289942] [   T1078] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-2.fc40 04/01/2014
-> [   40.290624] [   T1078] Call Trace:
-> [   40.290866] [   T1078]  <TASK>
-> [   40.291078] [   T1078]  dump_stack_lvl+0x6a/0x90
-> [   40.291414] [   T1078]  register_lock_class+0xe2a/0x10a0
-> [   40.291790] [   T1078]  ? __lock_acquire+0xd1b/0x5f20
-> [   40.292212] [   T1078]  ? __pfx_register_lock_class+0x10/0x10
-> [   40.292619] [   T1078]  __lock_acquire+0x81e/0x5f20
-> [   40.292970] [   T1078]  ? lock_is_held_type+0xd5/0x130
-> [   40.293331] [   T1078]  ? find_held_lock+0x2d/0x110
-> [   40.293679] [   T1078]  ? __pfx___lock_acquire+0x10/0x10
-> [   40.294053] [   T1078]  ? lock_release+0x460/0x7a0
-> [   40.294389] [   T1078]  ? __pfx_lock_release+0x10/0x10
-> [   40.294752] [   T1078]  lock_acquire.part.0+0x12d/0x360
-> [   40.295118] [   T1078]  ? xa_erase+0xd/0x30
-> [   40.295412] [   T1078]  ? __pfx_lock_acquire.part.0+0x10/0x10
-> [   40.295818] [   T1078]  ? rcu_is_watching+0x11/0xb0
-> [   40.296161] [   T1078]  ? trace_lock_acquire+0x12f/0x1a0
-> [   40.296531] [   T1078]  ? __pfx___flush_work+0x10/0x10
-> [   40.296895] [   T1078]  ? xa_erase+0xd/0x30
-> [   40.297187] [   T1078]  ? lock_acquire+0x2d/0xc0
-> [   40.297509] [   T1078]  ? xa_erase+0xd/0x30
-> [   40.297805] [   T1078]  _raw_spin_lock+0x2f/0x40
-> [   40.298130] [   T1078]  ? xa_erase+0xd/0x30
-> [   40.298421] [   T1078]  xa_erase+0xd/0x30
-> [   40.298705] [   T1078]  nvmet_ctrl_destroy_pr+0x10e/0x1c0 [nvmet]
-> [   40.299148] [   T1078]  ? rcu_is_watching+0x11/0xb0
-> [   40.299492] [   T1078]  ? __pfx_nvmet_ctrl_destroy_pr+0x10/0x10 [nvmet]
-> [   40.300676] [   T1078]  ? __pfx___might_resched+0x10/0x10
-> [   40.301908] [   T1078]  nvmet_ctrl_free+0x2f0/0x830 [nvmet]
-> [   40.303178] [   T1078]  ? lockdep_hardirqs_on+0x78/0x100
-> [   40.304462] [   T1078]  ? __pfx_nvmet_ctrl_free+0x10/0x10 [nvmet]
-> [   40.305771] [   T1078]  ? __pfx___cancel_work+0x10/0x10
-> [   40.306974] [   T1078]  ? kfree+0x13e/0x4a0
-> [   40.308051] [   T1078]  nvmet_sq_destroy+0x1f2/0x3a0 [nvmet]
-> [   40.309248] [   T1078]  ? __pfx_sysfs_kf_write+0x10/0x10
-> [   40.310396] [   T1078]  nvme_loop_destroy_admin_queue+0x6b/0x90 [nvme_loop]
-> [   40.311701] [   T1078]  nvme_do_delete_ctrl+0x149/0x160 [nvme_core]
-> [   40.312949] [   T1078]  nvme_delete_ctrl_sync.cold+0x8/0xd [nvme_core]
-> [   40.314194] [   T1078]  nvme_sysfs_delete+0x92/0xb0 [nvme_core]
-> [   40.315355] [   T1078]  kernfs_fop_write_iter+0x39e/0x5a0
-> [   40.316466] [   T1078]  vfs_write+0x5e1/0xe70
-> [   40.317475] [   T1078]  ? __pfx_vfs_write+0x10/0x10
-> [   40.318497] [   T1078]  ? lockdep_hardirqs_on+0x78/0x100
-> [   40.319550] [   T1078]  ? __call_rcu_common.constprop.0+0x345/0xed0
-> [   40.320697] [   T1078]  ? __pfx___call_rcu_common.constprop.0+0x10/0x10
-> [   40.321870] [   T1078]  ksys_write+0xf7/0x1d0
-> [   40.322828] [   T1078]  ? __pfx_ksys_write+0x10/0x10
-> [   40.323842] [   T1078]  do_syscall_64+0x93/0x180
-> [   40.324814] [   T1078]  ? do_syscall_64+0x9f/0x180
-> [   40.325788] [   T1078]  ? lockdep_hardirqs_on_prepare+0x16d/0x400
-> [   40.326875] [   T1078]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [   40.327958] [   T1078] RIP: 0033:0x7fdf35a1d984
-> [   40.328906] [   T1078] Code: c7 00 16 00 00 00 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 80 3d c5 06 0e 00 00 74 13 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 55 48 89 e5 48 83 ec 20 48 89
-> [   40.331891] [   T1078] RSP: 002b:00007ffce23c3ed8 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-> [   40.333291] [   T1078] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fdf35a1d984
-> [   40.334651] [   T1078] RDX: 0000000000000001 RSI: 00007fdf35b40ed1 RDI: 0000000000000003
-> [   40.336058] [   T1078] RBP: 00007fdf35b40ed1 R08: 0000000000000200 R09: 00000000ffffffff
-> [   40.337426] [   T1078] R10: 0000000000000000 R11: 0000000000000202 R12: 0000000037510610
-> [   40.338802] [   T1078] R13: 00007ffce23c56c5 R14: 0000000037510610 R15: 0000000037510eb0
-> [   40.340178] [   T1078]  </TASK>
+Changes from v10 to v11:
+- Remove the cntlid from struct nvmet_pr_registrant. And add hostid to
+  nvmet_pr_per_ctrl_ref to set the correct ctrl to do abort.
+- Report all registrants, and report cntlid 0xffff.
+- Change nvmet_req's flags to pc_ref.
+
+Changes from v9 to v10:
+- Fix the misjudgement in nvmet_pr_unregister_one.
+- Fix the non-atomicity problem in nvmet_pr_preempt, now we set the new
+  holder first before unregistering, this can not only make sure that during
+  unregistering other host can not access, but also ensure that
+  nvmet_pr_unregister_one will not unregiter the new holder(In
+  nvmet_pr_unreg_all_others_by_prkey, I exclude current host).
+- Remove the pr_abort in nvmet_ctrl, instead kill the per-controller percpu ref
+  first and then wait to zero at the end of preempt_and_abort.
+- Fix some spelling mistakes.
+
+Changes from v8 to v9:
+- Remove the maintianer request.
+
+- Support "preemt and abort" by adding a per-controller percpu ref to ns,
+  doing wait per-controller percpu ref to zero when a controller's reservation
+  or registration is preempt and the racqa == "preempt and abort".
+  Currently add per-controller percpu ref only when nvmet_pr_check_cmd_access
+  success, others are not cared.
+
+- Report ns support reservation when resv is enabled.
+
+- Report ctrl support reservation.
+
+- Change the log level to info when log lost.
+
+- Fix the UAF issue in nvmet_pr_unreg_by_prkey, and change nvmet_pr_unreg_by_prkey
+  to nvmet_pr_unreg_all_host_by_prkey.
+
+- Dont unregister the host when ctrl is destroyed for keep the reservation info
+  when reconnect.
+
+- Remove the rcu lock and mutex lock when free ns's pr info.
+
+- Fix the situation of log.count is zero.
+
+- Move the rtype check to the start of preemtion, Dmitry suggests that:
+    1.4.1.6 reserved
+    Receipt of reserved coded values in defined fields in
+    commands shall be reported as an error. 
+  Look forward the suggestions.
+  And also, this avoid the non-atomic change of unregister and set new holder.
+
+- Fix the compile error when close CONFIG_LOCKDEP.
+
+- Change nvmet_pr_send_event_by_hostid to nvmet_pr_send_event_to_host.
+
+- Change nvmet_pr_unreg_by_prkey_except_hostid to nvmet_pr_unreg_all_others_by_prkey.
+
+- Change nvmet_pr_unreg_by_prkey to nvmet_pr_unreg_all_host_by_prkey.
+
+Changes from v7 to v8:
+- Add me as the new file pr.c's maintainer.
+
+Changes from v6 to v7:
+- Handle "reservation notification mask" feature command to mask reservation
+log.
+
+- Add all the registrants that need to be freed to a temporary list fist,
+and then after calling synchronize_rcu(), release all the registrants on the
+temporary list.
+
+- Fix the resv log page is random when there is no resv log page.
+
+- Change nvmet_is_host_still_connected() to nvmet_is_host_connected().
+
+- Remove nvmet_pr_set_rtype_and_holder() and change nvmet_pr_create_new_resv()
+to nvmet_pr_create_new_reservation().
+
+- Change nvmet_pr_find_registrant_by_hostid() to nvmet_pr_find_registrant().
+
+- Change nvmet_pr_send_resv_released() to nvmet_pr_resv_released().
+
+- Change __nvmet_pr_unregister_one() to nvmet_pr_unregister_one().
+
+- In nvmet_pr_unreg_by_prkey(), nvmet_pr_unreg_by_prkey_except_hostid() and
+nvmet_pr_unreg_except_hostid(), first do unregistering and then do event sending.
+
+
+Changes from v5 to v6:
+- Use synchronize_rcu() and kfree() to free registrant instead of kfree_rcu().
+
+- Remove nvmet_pr_register_check_rkey(), put the check into pr_lock warp.
+And refactor the nvmet_pr_register().
+
+- Add the print fmt to the head.
+
+- Add lockdep_is_held(&pr->pr_lock) condition to list_for_each_entry_rcu.
+
+- Fix the bug in nvmet_pr_update_reg_attr(), when the change_attr hook
+return fail, we should not replace the holder. 
+
+Changes from v4 to v5:
+
+- Use rculist macros to handle registration_list instead of list macros
+regardless of in mutex lock or not.
+
+- Use goto statement instead of return in nvmet_is_host_still_connected 
+and __nvmet_pr_unregister_one.
+
+- Add lockdep_assert_held and rcu_read_lock_held assert to many functions,
+if it's necessary.
+
+- Add a comment to nvmet_execute_get_log_page_resv to explain how lost_count
+works.
+
+- In nvmet_pr_clear, we should set holder to NULL first, I fixed this.
+
+- Unify nvmet_pr_update_holder_rtype and __nvmet_pr_do_replace to 
+nvmet_pr_update_reg_attr.
+
+- Fix wrong nr_pages in nvmet_execute_get_log_page_resv.
+
+- Fix the deadlock issue of nvmet_pr_exit_ns, put it out of the subsys lock.
+
+
+Changes from v3 to v4:
+- Use kfifo to handle resv log page instead of list, and also limit the
+resv log queue to 64.
+
+- Change the function calling alignment style to:
+    nvmet_pr_send_event_by_hostid(pr, hostid,
+            NVME_PR_LOG_RESERVATOPM_PREEMPTED); 
+
+- Put kmalloc out of rcu_read_lock in nvmet_execute_pr_report().
+
+- Remove the goto in __nvmet_pr_unregister_one().
+
+- Change generation to atomic_t, and remove nvmet_pr_inc_generation().
+
+- In addtion, the number2 patch "nvmet: unify aer type enum" is not
+relate with this patch, so I will send it separately.
+
+
+Changes from v2 to v3:
+- Use rcu instead of rwlock to make IO path run faster, and put the rtype
+into the struct nvmet_pr_registrant.
+
+- Limit the resv_log_list to 128.
+
+- Change generation to atomic64.
+
+- Put register rkey check to a warpper.
+
+- Change nr_avl_pages to nr_pages.
+
+- Use NVME_SC_SUCCESS instead of 0.
+
+- Change kmalloc param to let it not sleep in mutex lock.
+
+
+Changes from v1 to v2:
+- Implement the reservation notification report, includes registration
+preempted, reservation released and reservation preempted.
+  And also handle the reservation log page available event and send get
+reservation log page command to clear log page at host.
+
+- Put the reservation check access after validate opcode. And remove
+opcodes which nvmet not implement yet check.
+  Now there is no admin opcode nvmet implemented needs reservation check,
+so I dont add reservation check to admin command path.
+  Next we need to do reservation check includes the situation of nsid is
+0xffffffff at each admin command path, if it is needed.
+
+- Add reservation commands support in nvmet_get_cmd_effects_nvm().
+
+- From Chaitanya, change the local variable tree style to make it cleaner,
+and add some comments about NVMe spec.
+  And also change others advice from chaitanya.
+
+- Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
+enable check warp.
+
+- Remove kmem_cache instead to use kmalloc and kfree.
+
+- Change others advice from Sagi.
+
+- Add a blktest test case, this patch will be sent before these series of
+patches.
+
+
+Guixin Liu (2):
+  nvme: add reservation command's defines
+  nvmet: support reservation feature
+
+ drivers/nvme/target/Makefile      |    2 +-
+ drivers/nvme/target/admin-cmd.c   |   24 +-
+ drivers/nvme/target/configfs.c    |   27 +
+ drivers/nvme/target/core.c        |   58 +-
+ drivers/nvme/target/fabrics-cmd.c |    4 +-
+ drivers/nvme/target/nvmet.h       |   55 +-
+ drivers/nvme/target/pr.c          | 1172 +++++++++++++++++++++++++++++
+ include/linux/nvme.h              |   68 ++
+ 8 files changed, 1398 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/nvme/target/pr.c
+
+-- 
+2.43.0
+
 
