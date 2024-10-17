@@ -4,123 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E4CED37483
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 12:15:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39013D37487
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 13:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qVn8z7/ToR7rOOuTwWcYN8melQ1MwHnseulk5wk4p3w=; b=B2dNNghNG0SZ4tIEjsnQHIR5Zd
-	GIR2KOvd4LYLD0JSRbB6hhIo0H4TBFabpqoP/NrFqhAQ88xExq2zZhubKsajn+RHSciwAOJQNEk0k
-	kennxczE2RzkcGaqB7V1AXHlJLRrabUdp47LoWitgcFw4qf1WXFZOZCtZnrLYqXaFU90lFK1WhbSj
-	4qVzr1B/Ug951GGVemdz2+QKUTiQ+sAFRINM2sWwG6lIvwEJ6NWUMkqM+WmBpv12Jg9mWCv2PDADN
-	Zblg2QPYpsTvHf9e7T+OwhQMzGXEUiNbLqvv11aG8+SzZmU8uxxCZOdnuYiw0l0Y1XUhrQz3Y8Cvm
-	W0BA58bg==;
+	bh=M/sNAOttTRehTqH0GNrvZWX70JRS2nI++C9n6sUsvlg=; b=tAWp8CzC+0Pg+DDooYni/ZXFd7
+	EC/aGe2x8wNjC4KLC65tB7FYgsOj8Kde6S1mj0/QwYf7TIMDVjoBeb+2HrYGeryaDooYnlTfvnRlp
+	NiYwK/6pfyeKDwpKePzY991FAIdQw2djPWW3hU9+RZMLQKWduvtRMe1FqnNcqXRsKlDRUzRs2G6rd
+	OUJwSI15d3GSEoAm+cNtJCqPNV7S7hNKQFNIBU0by9gCmWlDRqy3KKeQXAJvlau9tz5G18nShLrLV
+	IC7vlahox3C0dJ4vNFLmj3qyuvyi1YtLEW1+omdBR/QE0jeC8meblRIX88H8g9X7R0CDuCf1Wp3d7
+	DCQQxkbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1PPs-0000000Ek9H-1nmN;
-	Thu, 17 Oct 2024 12:15:44 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1t1QEo-0000000Es9r-48yg;
+	Thu, 17 Oct 2024 13:08:22 +0000
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1PNr-0000000Ejoy-45jW
+	id 1t1Q6u-0000000Eqw9-0dwV
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 12:13:49 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E8B31FCD6;
-	Thu, 17 Oct 2024 12:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729167216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qVn8z7/ToR7rOOuTwWcYN8melQ1MwHnseulk5wk4p3w=;
-	b=JD9wmF7G43mTfmqb1AhBHCjO+28bM5jMWzYSOjRpazb46+EQHQqbYn6vJYJUiinAs/ySLs
-	o4OYM7WbS1lRZa5JCcFsfJeLPBDlU9J9jTACJEqZYL0MFFcIYkiA55szxvA3YveUP00LJG
-	g4FvAinf2QnT7JmOiWf0Uo6c75MEcy8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729167216;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qVn8z7/ToR7rOOuTwWcYN8melQ1MwHnseulk5wk4p3w=;
-	b=vchpUsqU55t/gdCxshgYDRbGU+ZSJt7KWgZZJzzNnTUuEIjM21mZJ/S/KcLop1B04tXH2z
-	rxPTOPeimK69l8CQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729167216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qVn8z7/ToR7rOOuTwWcYN8melQ1MwHnseulk5wk4p3w=;
-	b=JD9wmF7G43mTfmqb1AhBHCjO+28bM5jMWzYSOjRpazb46+EQHQqbYn6vJYJUiinAs/ySLs
-	o4OYM7WbS1lRZa5JCcFsfJeLPBDlU9J9jTACJEqZYL0MFFcIYkiA55szxvA3YveUP00LJG
-	g4FvAinf2QnT7JmOiWf0Uo6c75MEcy8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729167216;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qVn8z7/ToR7rOOuTwWcYN8melQ1MwHnseulk5wk4p3w=;
-	b=vchpUsqU55t/gdCxshgYDRbGU+ZSJt7KWgZZJzzNnTUuEIjM21mZJ/S/KcLop1B04tXH2z
-	rxPTOPeimK69l8CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6797413A53;
-	Thu, 17 Oct 2024 12:13:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jrBLGHD/EGcwfQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 17 Oct 2024 12:13:36 +0000
-Message-ID: <f56b5973-81c0-4e1d-8552-ee87066029bf@suse.de>
-Date: Thu, 17 Oct 2024 14:13:36 +0200
+	Thu, 17 Oct 2024 13:00:13 +0000
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-5c9fd6dae47so902211a12.2
+        for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 06:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729170010; x=1729774810; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M/sNAOttTRehTqH0GNrvZWX70JRS2nI++C9n6sUsvlg=;
+        b=Jyy0jy6MAbXXftrAwV5+4XPaLRv8w5XCdiEp3sQeRuhAghhz5BLKYTy9dUzQbgKj4t
+         7x9aoyI9FFYdocJ7Gf7x7WC2u1KJIBt6qQorHvCwJoLLbXNl7XGvdtaCDVIiA3lZz5J4
+         92NXhcue2Gf4rHCO/koyNccbUTdP9EvYL1v9nYJ/zMHNuj6tzUf+cnbtdEMZFr/BUncV
+         6Xcma/RQwDRIx7cbmOkZyvejWXcNQ2nDslQLMtS7c9I6ykJHMId5FXPGY6ub3pGT/4NA
+         1rztBkA8JzAtV/mSn8UGe0GMLBskNkD/6alRRj+Eae0iAIk+oBOGHuOXzVauvSJpCykb
+         bYGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729170010; x=1729774810;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M/sNAOttTRehTqH0GNrvZWX70JRS2nI++C9n6sUsvlg=;
+        b=gHYJefLxBlaC9GqRy/B8zD8h4aRJQs6YaZeUSaKLgR+aNbGI/oh9zvxlbioxcAl7Ot
+         WFi9yjsi3DdUBpd1qfj+zuGaf0jk+FpceWqCkQSeLp8vUtNp+eLvjzCDw23EQxfKpYhL
+         UaR4EFQ4NVaTQz9gUGOAZXqWXkyPNkjEWhP0b7hK+HiGbkaK8jPXjzYRDI+goYDbqpiP
+         fioOevRfZbWT6oam1V5T05Ttle8OzN3AxHQHDpE5vwIu04znRSlQN7AOg2F2XDQoCCCk
+         VHVih34FuTj09Ak2/xsrsGonaX8EB62zBNMA1MuYuLAWOe0h7sLofGH2d6mLNLlzyEcM
+         Bsow==
+X-Forwarded-Encrypted: i=1; AJvYcCUKOVZHn0eNW3MyrSC+exQW2HUSJhdU74xk9AbW0L9cn2JVTgnVXOBfmZnu5OG53/D4BxBWNYOAKSWV@lists.infradead.org
+X-Gm-Message-State: AOJu0YxgegOqbSs9U573a3Ct0qMLhMSLFq+b54aBcr+opg8tRg3WxMeQ
+	zLYunzYt0xKhzDOlG5HxMkapa3O3x6IA0SUXLSwBtpwOUs5RmrNgn0fyWWgobHPidJwT61mLSEv
+	n8avxLmHp+Xypr401fzVprugGqQ==
+X-Google-Smtp-Source: AGHT+IGamr6o9HLDmizk/nvlvLBMhG6G/RCi0w9Y4JF1DiWP92T0nkk2YMw0YxLct0p0RxUNoQIKIat0oNYuXcfKwF0=
+X-Received: by 2002:a50:cac7:0:b0:5c8:a01d:314f with SMTP id
+ 4fb4d7f45d1cf-5c95ac0d47amr10642342a12.12.1729170009425; Thu, 17 Oct 2024
+ 06:00:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: sysfs tls_configured_key naming?
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <d3466e4f-23dc-4a07-a2c3-98bcbf6c7960@flourine.local>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <d3466e4f-23dc-4a07-a2c3-98bcbf6c7960@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-7.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+References: <20241016112912.63542-1-anuj20.g@samsung.com> <CGME20241016113745epcas5p1723d91b979fd0e597495fef377ad0f62@epcas5p1.samsung.com>
+ <20241016112912.63542-7-anuj20.g@samsung.com> <20241017080015.GD25343@lst.de>
+ <20241017104502.GA1885@green245> <20241017120102.GA10883@lst.de>
+In-Reply-To: <20241017120102.GA10883@lst.de>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Thu, 17 Oct 2024 18:29:32 +0530
+Message-ID: <CACzX3AtdmWgEggmQsfqHU-GjdbQHTq9DwCzW07VG9zaoXaWfgA@mail.gmail.com>
+Subject: Re: [PATCH v4 06/11] block: add flags for integrity meta
+To: Christoph Hellwig <hch@lst.de>
+Cc: Anuj Gupta <anuj20.g@samsung.com>, axboe@kernel.dk, kbusch@kernel.org, 
+	martin.petersen@oracle.com, asml.silence@gmail.com, krisman@suse.de, 
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-block@vger.kernel.org, gost.dev@samsung.com, linux-scsi@vger.kernel.org, 
+	vishak.g@samsung.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_051340_228003_9899E6A7 
-X-CRM114-Status: GOOD (  18.29  )
+X-CRM114-CacheID: sfid-20241017_060012_217469_C430E1E0 
+X-CRM114-Status: GOOD (  16.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,53 +95,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/17/24 12:54, Daniel Wagner wrote:
-> f5eb7397471b ("nvme-sysfs: add 'tls_configured_key' sysfs attribute")
-> claims that the --tls_key is expecting a 'Configured PSK'. That is not
-> correct. It expects a 'Derived TLS PSK'. That means user space has to do
-> the whole key transformation as described in Figure 21: {TLS PSK, TLS
-> Identity, Hash} Tuple Derivation in TCP Transport Specification,
-> Revision 1.1.
-> 
-Not necessarily. The spec indicates two methods:
+On Thu, Oct 17, 2024 at 5:31=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> On Thu, Oct 17, 2024 at 04:15:02PM +0530, Anuj Gupta wrote:
+> > On Thu, Oct 17, 2024 at 10:00:15AM +0200, Christoph Hellwig wrote:
+> > > On Wed, Oct 16, 2024 at 04:59:07PM +0530, Anuj Gupta wrote:
+> > > > Add flags to describe checks for integrity meta buffer. These flags=
+ are
+> > > > specified by application as io_uring meta_flags, added in the next =
+patch.
+> > >
+> > > These are now blkdev uapis, but io_uring ones even if currently only
+> > > the block file operations implement them.  I do plan to support these
+> > > through file systems eventually.
+> >
+> > Are these flags placed correctly here or you see that they should be
+> > moved somewhere else?
+>
+> They are not as they aren't blkdev apis.  They are generic for io_uring,
+> or maybe even VFS-wide.
+>
+The last iteration of this series added these flags as io-uring flags [1].
+Based on feedback received [2], I moved it here in this version.
+Should I move them back to io-uring?
 
- > Each NVMe/TCP entity shall support:
- > * transforming the configured PSK into a retained PSK before it is
- >   stored by the NVMe/TCP entity for repeated use with another
- >   NVMe/TCP entity; and
- > * using the configured PSK as a retained PSK.
-
->  From a quick look at the concatenation patches and based on the spec,
-> tls_configured_key will never hold the 'Configured PSK'. I think we
-> should use a better name for this sysfs attribute. I suppose it should
-> be named 'tls_generated_psk'?
-> 
-No. The 'generated' PSK (in the current wording of the TLS concatenation
-patches) is the PSK generated internally during TLS concatenation.
-And, curiously, the only one which will _never_ be presented in the
-'tls_configured_key' attribute.
-
-> BTW, that means also for the second tuple derivation flow (where we
-> start with the 'Configured PSK'), the keystore doesn't contain a
-> 'Retained PSK'. I think I need to do some more reviewing and cleanups in
-> libnvme to get it matching with the naming scheme of the spec in line.
-
-There actually is an easy way out of it; the TLS interchange format is
-NVMeTLSkey-1:xx:<Base64 encoded string>:
-where 'xx' can be either '00' (indicating no transformation should be
-done, ie the second bulled point above), or '01'/'02' (indicating which
-hash function to use for the key derivation).
-
-So in our internal parlance, the key data in 'tls_configured_key' can 
-only be used as 'NVMeTLSKey-1:00:<base64 encoded string>' format, to
-avoid any addtional transformation.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+[1] https://lore.kernel.org/linux-block/20240823103811.2421-7-anuj20.g@sams=
+ung.com/
+[2] https://lore.kernel.org/linux-block/20240824083358.GE8805@lst.de/
 
