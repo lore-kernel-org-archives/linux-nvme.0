@@ -4,60 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 167D6D3C52B
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 18:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30DC6D3C526
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 18:49:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H8ISfHARy/Ugggq5dYxbtC7mO8HKBsdW3mPmFUjhtJw=; b=P9syD/ruPQ5S7HHa1ZQyoj6HlE
-	Lafi7fhvOwo7lL6iEV5pPx3YG0L4zCU/rtBeEmaY10PVJ2BhGcIb4R9mrSwPTtYPZ505PXWCPTKeP
-	wk7nifoMMpxhR2ta6B16mMNDG9CxtD1xBAfzbDB19F3QEJLRm3RyU0Jtr8kLEi5H6k6fSzEQ+Hi64
-	uDB0qguYWXhEo3F/LkUjPpiZeoFhBvwAzVJGoHYGcdL3cqPWaa1M3+j9OWavCZZgG5bXyvnLq2Fy5
-	A1q4XFo+v6xL5pnwXkgI/GLGYiaMXfzMRKHY8IkO6wIc9NIuwChCZlK+x8mU/Mnk2oOU2C3HITdJJ
-	L0ykhF8A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/2qMORloTUaqYTP7c72PPYF0Oq5y5G3xD1W0V2ashGs=; b=rQtOreO+xLGf1aEz9OfcGipYsb
+	i/7PAZ5sy8v0BT1JLrwz7B8YU67av/vSW0tmA4Yiw4d2PTvtbnd4w2HthGzhOAsuoMzL4Iyu6SDIc
+	0PFpPM2i4qJtpZAyA+tYwh5xJBP31ujcy9jK2QZKCF58RWht3pt7IBt6gDE169pNIqmNQqAVn7zZ2
+	zrcKzGfUPvQZmyG7QC8Ds7hJNzdwqbD5JvdxTz85yIQJ/F9+3WKT8DLY6NzMAtSiSan5EAGhJXggM
+	FM2+Qfl0f4TK8js5q5fpSBenK6KmmBrtmM3zMf1qmzpwo8dyWDBlt5e/43joakVjJa05gg3ELdVlu
+	Jeer1qgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1V2a-0000000Fqfr-1W4F;
-	Thu, 17 Oct 2024 18:16:04 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t1VYp-0000000FvIR-12RR;
+	Thu, 17 Oct 2024 18:49:23 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1Tug-0000000Fddc-2ElM
+	id 1t1VXl-0000000Fv4B-3eyc
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 17:03:51 +0000
+	Thu, 17 Oct 2024 18:48:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5F4445C54C6;
-	Thu, 17 Oct 2024 17:03:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD4EC4CEC3;
-	Thu, 17 Oct 2024 17:03:49 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 2480FA443CF;
+	Thu, 17 Oct 2024 18:48:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826BAC4CECD;
+	Thu, 17 Oct 2024 18:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729184629;
-	bh=gPe+kEmANhuFuYUQ5sUvsmclaYtt9S2JNZXyBvm8r08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bUqLwRgsHUcgq1bL31MPRFh0f8fbHTeLTjmFxP2HIovVXxXlmyzeTG/YrVC7bbtSR
-	 1wRwnTrCO+Il91dMRxeFU6BnsEg9mr/R/lPdN6fTnUdHPcgTF4c0TCgLaJHg6Fd8Uy
-	 E691HIPpFSfnKDWHO/Vg4a4GhSF0hPabBxUJupKJRs026RlBXvqso531gqc9Hbw4TY
-	 2w0e5pGuxBEzpWHBqdE2TaV/60zqAy7tuPNaYPsKLAuldkMZU0kpy0EvaylYqMxZfh
-	 DZN1uzhEr3KLgW1KsSMuZCT0tE0BvTy6GIVOliO8zWAZnsn3rUWdoyTd3OP2yayjV2
-	 zpZHTEM01qINw==
-Date: Thu, 17 Oct 2024 11:03:46 -0600
+	s=k20201202; t=1729190896;
+	bh=GMFKJuafiTqgN/rXiGzKMHGc7HzglDHAyYOP9hydiec=;
+	h=Date:From:To:Cc:Subject:From;
+	b=RbKI+HRMxRqJVb+Bvokbih8RxM/MXV0+3MJxWYMLckJXkv63entnivpW7gGdTIy8p
+	 Q/eyt5fXUEgkcwjQYqKIGycx4Z93D05Pk3dWiaQibRyRszTC41g5lsk/MZ+w4At9wi
+	 H8FVTK4fEgvv5N5uUPvGS0TWUDnt46tqmQeWDpYPbOTdh8b+f0sca6vDn3d1ik4NXv
+	 YNk1XhDmuKCqZgpaLp0XoBc1ndap/SfOKFaOf93nByIBJoIuYdmIzh7ieuQk2QvCf0
+	 +E7XbHHzdxfwWEpkAUhyZgeSr13LNnlNiUi6hlpyl6aSAnl0VxBvFHgTiYSvgG+sGF
+	 VKcKRAO45wktg==
+Date: Thu, 17 Oct 2024 12:48:12 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: Re: [bug report] "BUG: Invalid wait context" at blktests nvme/052
-Message-ID: <ZxFDcveKyk-7-4O7@kbusch-mbp.dhcp.thefacebook.com>
-References: <tqcy3sveity7p56v7ywp7ssyviwcb3w4623cnxj3knoobfcanq@yxgt2mjkbkam>
+To: axboe@kernel.dk
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
+Subject: [GIT PULL] nvme fixes for Linux 6.12
+Message-ID: <ZxFb7BMydvpLbDuh@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tqcy3sveity7p56v7ywp7ssyviwcb3w4623cnxj3knoobfcanq@yxgt2mjkbkam>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_100350_639735_2A983941 
-X-CRM114-Status: GOOD (  19.92  )
+X-CRM114-CacheID: sfid-20241017_114817_993097_BB355ACC 
+X-CRM114-Status: UNSURE (   6.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,55 +69,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 17, 2024 at 07:49:33AM +0000, Shinichiro Kawasaki wrote:
-> I observed the failure of blktests test case nvme/052 with the kernel v6.12-rc3.
-> The failure cause was the "BUG: Invalid wait context" [1]. I have no idea how to
-> fix this. Help for fix will be appreciated.
-> 
-> Here I share my observations. The test case repeats namespace creation and
-> removal for a nvme loop target. The BUG was reported for a udev-worker process.
-> I guess udev is trying to read a namespace in the removal process. The BUG
-> message notes that "RCU nest depth: 1, expected: 0". From the call trace, I
-> think the "Invalid wait" in the RCU reader was in the function call chain for
-> the read operation by udev as follows:
-> 
-> blk_mq_flush_plug_list
->  blk_mq_run_dispatch_ops
->   __blk_mq_run_dispatch_ops
->    rcu_read_lock                               ... RCU reader starts
->    blk_mq_plug_issue_direct
->     blk_mq_request_issue_directly
->      __blk_mq_request_issue_directly
->       q->mq_ops->queue_rq = nvme_loop_queue_rq
->        nvmet_req_init
->         nvmet_req_find_ns
->          nvmet_subsys_nsid_exists
-> 	  mutex_lock                           ... waits in the RCU reader
-> 
-> I found the mutex_lock was added by the commit 505363957fad ("nvmet: fix nvme
-> status code when namespace is disabled") for the kernel v6.9. So, this commit
-> might be related to the cause.
-> 
-> The failure is 100% reproducible on my test node at this moment. I bisected and
-> found that the trigger commit is 4e893ca81170 ("nvme_core: scan namespaces
-> asynchronously"), which was merged to the kernel v6.12-rc1.
+The following changes since commit 8be007c8e0911d0450b402ca8cbb1a8cbd00e8f2:
 
-Oof, good fine. I think the easiest thing to do is add the
-NVME_F_BLOCKING flag to the loop controller ops.
+  block: fix blk_rq_map_integrity_sg kernel-doc (2024-09-27 04:19:53 -0600)
 
----
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index e32790d8fc260..77dd809fe4507 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -479,7 +479,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- static const struct nvme_ctrl_ops nvme_loop_ctrl_ops = {
-        .name                   = "loop",
-        .module                 = THIS_MODULE,
--       .flags                  = NVME_F_FABRICS,
-+       .flags                  = NVME_F_FABRICS | NVME_F_BLOCKING,
-        .reg_read32             = nvmf_reg_read32,
-        .reg_read64             = nvmf_reg_read64,
-        .reg_write32            = nvmf_reg_write32,
---
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git tags/nvme-6.12-2024-10-18
+
+for you to fetch changes up to 599d9f3a10eec69ef28a90161763e4bd7c9c02bf:
+
+  nvme: use helper nvme_ctrl_state in nvme_keep_alive_finish function (2024-10-17 11:07:37 -0700)
+
+----------------------------------------------------------------
+nvme fixes for Linux 6.12
+
+ - Fix target passthrough identifier (Nilay)
+ - Fix tcp locking (Hannes)
+ - Replace list with sbitmap for tracking RDMA rsp tags (Guixen)
+ - Remove unnecessary fallthrough statements (Tokunori)
+ - Remove ready-without-media support (Greg)
+ - Fix multipath partition scan deadlock (Keith)
+ - Fix concurrent PCI reset and remove queue mapping (Maurizio)
+ - Fabrics shutdown fixes (Nilay)
+
+----------------------------------------------------------------
+Greg Joyce (1):
+      nvme: disable CC.CRIME (NVME_CC_CRIME)
+
+Guixin Liu (1):
+      nvmet-rdma: use sbitmap to replace rsp free list
+
+Hannes Reinecke (1):
+      nvme: tcp: avoid race between queue_lock lock and destroy
+
+Keith Busch (1):
+      nvme-multipath: defer partition scanning
+
+Maurizio Lombardi (1):
+      nvme-pci: fix race condition between reset and nvme_dev_disable()
+
+Nilay Shroff (4):
+      nvmet-passthru: clear EUID/NGUID/UUID while using loop target
+      nvme-loop: flush off pending I/O while shutting down loop controller
+      nvme: make keep-alive synchronous operation
+      nvme: use helper nvme_ctrl_state in nvme_keep_alive_finish function
+
+Tokunori Ikegami (1):
+      nvme: delete unnecessary fallthru comment
+
+ drivers/nvme/host/core.c       | 41 +++++++++++++++++------------------------
+ drivers/nvme/host/multipath.c  | 40 +++++++++++++++++++++++++++++++++-------
+ drivers/nvme/host/nvme.h       |  1 +
+ drivers/nvme/host/pci.c        | 19 ++++++++++++++++---
+ drivers/nvme/host/tcp.c        |  7 ++++---
+ drivers/nvme/target/loop.c     | 13 +++++++++++++
+ drivers/nvme/target/passthru.c |  6 ++----
+ drivers/nvme/target/rdma.c     | 56 +++++++++++++++++++++++++++-----------------------------
+ 8 files changed, 113 insertions(+), 70 deletions(-)
 
