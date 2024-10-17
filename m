@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A10CD374BA
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 16:11:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56C65D374B8
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 16:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OwIAJzKtghZAIEiijCWk0Jg1lUOZ2HiT8OKL2/Nxeyw=; b=AhEXjU9kkQiy3g/6ri21icLELP
-	Y3MSy/992Sd+4JUtRj09E0IHSfNW3Je4ek6pe8OugobhHcb/e8/xlZrQUatkbaa3y26e1J7LubZUB
-	phA8EtwGsT68W2dJCQinwSaRMk7c8DwsrpTPlPoCW4pu1fb0czgWg9CbOXqEByHvKjyim8PHsl5Fz
-	3wA3rsNN5jM/vO3lK4go1e1P5Xzvh1j3z6eTvYMJ94Jb6R7DNCh8qf1wDEAVZPUqU8egpPDsHPSy4
-	tFJ5KQBL45uFzQ7TWlSD4gUkfbqnBiJpsox28O9WWBVfgOFTgQALgxLkGmCBOE4whNsT1267WHSHN
-	wQis5y2Q==;
+	bh=iWtes4q52ch0yD+cMaKAQwN0cKm8w/0t0MM6PKPQXDs=; b=w/KAEGCvkTGayg4byHXqZjqNen
+	MJXR5isGDw3J0rm6AGG7B76/qat+XFfM5MhkvodCLZQscFjR9vYAD1HDt8j7v2c2Y4p10zCdytfkb
+	QbAESC6xa1lLVDU7JAEkBHg1IqtjTdXfelKF4+cVig4VaBI+7hh4wLWUbbzmDxfIi1zg1etGW/fZ3
+	Yd8gZWZMN2qE4T3SSW+8l6gvvu11VCuetZG7V2Ck4Ybr9/DzXWUJadYcmLkneLX8MC9NIO5jwwa44
+	MgmPNuOJjixnWVSrVjfCL4uqA1uQ7UiU+L12QduEb88AdhG3oGzQY2tInCo2bLWtQFsFsUjBIsodI
+	9O7uTlPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1T5m-0000000FQlg-1sfh;
-	Thu, 17 Oct 2024 16:11:14 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1t1T8e-0000000FRoS-0kUc;
+	Thu, 17 Oct 2024 16:14:12 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1T50-0000000FQTI-0Z2M
+	id 1t1T7V-0000000FRe8-3mH3
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 16:10:30 +0000
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HCh1EQ006877
-	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 09:10:25 -0700
+	Thu, 17 Oct 2024 16:13:06 +0000
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 49HChDX9024703
+	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 09:13:01 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=OwIAJzKtghZAIEiijCWk0Jg1lUOZ2HiT8OKL2/Nxeyw=; b=FGgxopGSbfeG
-	cR3367fdrM3pzFWzkCm0xyt1u49tMM6qW0Z7/6+5SCc461cyI2xXVGqi3uJM6fsG
-	lMXxrZPwCdyde3JV5anhVfd8PMiy/R3VOcda2oPgpa1kO4zSYpXHBuCH8gjbhgU2
-	FAvPafjsRyA/5Pd7GnVDojQJ5URdTvIaeZNhMzHoNfqffP3jAT/LX9EVNiP85was
-	F4At58YRz8fjPmIfKdA4DyLWdq/8jvM8i329lYonUhjQRZW7kgAAuRoxxlRbZl/N
-	XXZdNx9mYdOOFHcLBGChQW1PEjDvrwsXEHqqmmGKSfJeGWF36M+NxzKc9I8AxEib
-	J4dHLplH2w==
+	 bh=iWtes4q52ch0yD+cMaKAQwN0cKm8w/0t0MM6PKPQXDs=; b=R3hoP7VRBd3E
+	szLhqAtpjscsyJaGsll4Wyj6CbEk4HtJnWtZ1dUcp4TQ0wh12uL0xq7gO372ZOnk
+	P5QzD70MtVn7feHhSYVF3SzjB6ddQIyi/fT+y2VGhuAqHzZdi8BWFhOYMFFcn0nP
+	qYr48pzwYguZrTCabgV51PhnRxTBHjVSzkrwNG7MdxfIbd+q+jNNnkidyuErSXR5
+	zOxRqpMvwypR3VU2fSq4l0sPqww6+99rDPDAq00+SWYhCng1QLZGWe983sWXgIpW
+	RVo7kajYIOBwlxT5vEim3ZkMVHd6iZSQevoz3EfMazJZw2nADudlkenuDccN9Ulr
+	EiGsGGAqMg==
 Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42ar0mn3pw-9
+	by m0001303.ppops.net (PPS) with ESMTPS id 42a8wmb2by-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 09:10:25 -0700 (PDT)
-Received: from twshared29849.08.ash9.facebook.com (2620:10d:c0a8:1b::8e35) by
+	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 09:13:00 -0700 (PDT)
+Received: from twshared4354.35.frc1.facebook.com (2620:10d:c0a8:1b::8e35) by
  mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Thu, 17 Oct 2024 16:10:20 +0000
+ 15.2.1544.11; Thu, 17 Oct 2024 16:12:59 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id F0491143A4B14; Thu, 17 Oct 2024 09:10:18 -0700 (PDT)
+	id 16DCD143A4AA1; Thu, 17 Oct 2024 09:09:57 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
         <axboe@kernel.dk>, <hch@lst.de>, <io-uring@vger.kernel.org>
 CC: <linux-fsdevel@vger.kernel.org>, <joshi.k@samsung.com>,
         <javier.gonz@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCHv8 5/6] io_uring: enable per-io hinting capability
-Date: Thu, 17 Oct 2024 09:09:36 -0700
-Message-ID: <20241017160937.2283225-6-kbusch@meta.com>
+        Hannes
+ Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv8 1/6] block, fs: restore kiocb based write hint processing
+Date: Thu, 17 Oct 2024 09:09:32 -0700
+Message-ID: <20241017160937.2283225-2-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241017160937.2283225-1-kbusch@meta.com>
 References: <20241017160937.2283225-1-kbusch@meta.com>
@@ -67,14 +67,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: -0Eri_3zV4q2AE3IsytVYt85pGJjsgt7
-X-Proofpoint-GUID: -0Eri_3zV4q2AE3IsytVYt85pGJjsgt7
+X-Proofpoint-GUID: 1IZnIVtiMiPCy7vl0hCBNK9aBLuosoMZ
+X-Proofpoint-ORIG-GUID: 1IZnIVtiMiPCy7vl0hCBNK9aBLuosoMZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_091026_211188_ED403F1D 
-X-CRM114-Status: GOOD (  16.84  )
+X-CRM114-CacheID: sfid-20241017_091302_097713_ECAE649F 
+X-CRM114-Status: GOOD (  17.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,78 +91,171 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Kanchan Joshi <joshi.k@samsung.com>
 
-With F_SET_RW_HINT fcntl, user can set a hint on the file inode, and
-all the subsequent writes on the file pass that hint value down. This
-can be limiting for block device as all the writes can be tagged with
-only one lifetime hint value. Concurrent writes (with different hint
-values) are hard to manage. Per-IO hinting solves that problem.
+struct kiocb has a 2 bytes hole that developed post commit 41d36a9f3e53
+("fs: remove kiocb.ki_hint"). But write hint returned with commit
+449813515d3e ("block, fs: Restore the per-bio/request data lifetime
+fields").
 
-Allow userspace to pass additional metadata in the SQE.
+This patch uses the leftover space in kiocb to carve 2 byte field
+ki_write_hint. Restore the code that operates on kiocb to use
+ki_write_hint instead of inode hint value.
 
-	__u16 write_hint;
-
-This accepts all hint values that the file allows.
-
-The write handlers (io_prep_rw, io_write) send the hint value to
-lower-layer using kiocb. This is good for upporting direct IO, but not
-when kiocb is not available (e.g., buffered IO).
-
-When per-io hints are not passed, the per-inode hint values are set in
-the kiocb (as before). Otherwise, per-io hints  take the precedence over
-per-inode hints.
+This does not change any behavior, but needed to enable per-io hints.
 
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/uapi/linux/io_uring.h |  4 ++++
- io_uring/rw.c                 | 11 +++++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ block/fops.c         | 6 +++---
+ fs/aio.c             | 1 +
+ fs/cachefiles/io.c   | 1 +
+ fs/direct-io.c       | 2 +-
+ fs/iomap/direct-io.c | 2 +-
+ include/linux/fs.h   | 8 ++++++++
+ io_uring/rw.c        | 1 +
+ 7 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.=
-h
-index 86cb385fe0b53..bd9acc0053318 100644
---- a/include/uapi/linux/io_uring.h
-+++ b/include/uapi/linux/io_uring.h
-@@ -92,6 +92,10 @@ struct io_uring_sqe {
- 			__u16	addr_len;
- 			__u16	__pad3[1];
- 		};
-+		struct {
-+			__u16	write_hint;
-+			__u16	__pad4[1];
-+		};
- 	};
+diff --git a/block/fops.c b/block/fops.c
+index e696ae53bf1e0..85b9b97d372c8 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -74,7 +74,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *=
+iocb,
+ 		bio_init(&bio, bdev, vecs, nr_pages, dio_bio_write_op(iocb));
+ 	}
+ 	bio.bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+-	bio.bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++	bio.bi_write_hint =3D iocb->ki_write_hint;
+ 	bio.bi_ioprio =3D iocb->ki_ioprio;
+ 	if (iocb->ki_flags & IOCB_ATOMIC)
+ 		bio.bi_opf |=3D REQ_ATOMIC;
+@@ -203,7 +203,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
+ struct iov_iter *iter,
+=20
+ 	for (;;) {
+ 		bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+-		bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++		bio->bi_write_hint =3D iocb->ki_write_hint;
+ 		bio->bi_private =3D dio;
+ 		bio->bi_end_io =3D blkdev_bio_end_io;
+ 		bio->bi_ioprio =3D iocb->ki_ioprio;
+@@ -319,7 +319,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb =
+*iocb,
+ 	dio->flags =3D 0;
+ 	dio->iocb =3D iocb;
+ 	bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
+-	bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
++	bio->bi_write_hint =3D iocb->ki_write_hint;
+ 	bio->bi_end_io =3D blkdev_bio_end_io_async;
+ 	bio->bi_ioprio =3D iocb->ki_ioprio;
+=20
+diff --git a/fs/aio.c b/fs/aio.c
+index e8920178b50f7..db618817e670d 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -1517,6 +1517,7 @@ static int aio_prep_rw(struct kiocb *req, const str=
+uct iocb *iocb, int rw_type)
+ 	req->ki_flags =3D req->ki_filp->f_iocb_flags | IOCB_AIO_RW;
+ 	if (iocb->aio_flags & IOCB_FLAG_RESFD)
+ 		req->ki_flags |=3D IOCB_EVENTFD;
++	req->ki_write_hint =3D file_write_hint(req->ki_filp);
+ 	if (iocb->aio_flags & IOCB_FLAG_IOPRIO) {
+ 		/*
+ 		 * If the IOCB_FLAG_IOPRIO flag of aio_flags is set, then
+diff --git a/fs/cachefiles/io.c b/fs/cachefiles/io.c
+index 6a821a959b59e..c3db102ae64e2 100644
+--- a/fs/cachefiles/io.c
++++ b/fs/cachefiles/io.c
+@@ -309,6 +309,7 @@ int __cachefiles_write(struct cachefiles_object *obje=
+ct,
+ 	ki->iocb.ki_pos		=3D start_pos;
+ 	ki->iocb.ki_flags	=3D IOCB_DIRECT | IOCB_WRITE;
+ 	ki->iocb.ki_ioprio	=3D get_current_ioprio();
++	ki->iocb.ki_write_hint  =3D file_write_hint(file);
+ 	ki->object		=3D object;
+ 	ki->start		=3D start_pos;
+ 	ki->len			=3D len;
+diff --git a/fs/direct-io.c b/fs/direct-io.c
+index bbd05f1a21453..73629e26becbe 100644
+--- a/fs/direct-io.c
++++ b/fs/direct-io.c
+@@ -409,7 +409,7 @@ dio_bio_alloc(struct dio *dio, struct dio_submit *sdi=
+o,
+ 		bio->bi_end_io =3D dio_bio_end_io;
+ 	if (dio->is_pinned)
+ 		bio_set_flag(bio, BIO_PAGE_PINNED);
+-	bio->bi_write_hint =3D file_inode(dio->iocb->ki_filp)->i_write_hint;
++	bio->bi_write_hint =3D dio->iocb->ki_write_hint;
+=20
+ 	sdio->bio =3D bio;
+ 	sdio->logical_offset_in_bio =3D sdio->cur_page_fs_offset;
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index f637aa0706a31..fff43f121ee65 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -397,7 +397,7 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
+ter *iter,
+ 		fscrypt_set_bio_crypt_ctx(bio, inode, pos >> inode->i_blkbits,
+ 					  GFP_KERNEL);
+ 		bio->bi_iter.bi_sector =3D iomap_sector(iomap, pos);
+-		bio->bi_write_hint =3D inode->i_write_hint;
++		bio->bi_write_hint =3D dio->iocb->ki_write_hint;
+ 		bio->bi_ioprio =3D dio->iocb->ki_ioprio;
+ 		bio->bi_private =3D dio;
+ 		bio->bi_end_io =3D iomap_dio_bio_end_io;
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 3559446279c15..04e875a37f604 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -370,6 +370,7 @@ struct kiocb {
+ 	void			*private;
+ 	int			ki_flags;
+ 	u16			ki_ioprio; /* See linux/ioprio.h */
++	u16			ki_write_hint;
  	union {
- 		struct {
+ 		/*
+ 		 * Only used for async buffered reads, where it denotes the
+@@ -2337,12 +2338,18 @@ static inline bool HAS_UNMAPPED_ID(struct mnt_idm=
+ap *idmap,
+ 	       !vfsgid_valid(i_gid_into_vfsgid(idmap, inode));
+ }
+=20
++static inline enum rw_hint file_write_hint(struct file *filp)
++{
++	return file_inode(filp)->i_write_hint;
++}
++
+ static inline void init_sync_kiocb(struct kiocb *kiocb, struct file *fil=
+p)
+ {
+ 	*kiocb =3D (struct kiocb) {
+ 		.ki_filp =3D filp,
+ 		.ki_flags =3D filp->f_iocb_flags,
+ 		.ki_ioprio =3D get_current_ioprio(),
++		.ki_write_hint =3D file_write_hint(filp),
+ 	};
+ }
+=20
+@@ -2353,6 +2360,7 @@ static inline void kiocb_clone(struct kiocb *kiocb,=
+ struct kiocb *kiocb_src,
+ 		.ki_filp =3D filp,
+ 		.ki_flags =3D kiocb_src->ki_flags,
+ 		.ki_ioprio =3D kiocb_src->ki_ioprio,
++		.ki_write_hint =3D kiocb_src->ki_write_hint,
+ 		.ki_pos =3D kiocb_src->ki_pos,
+ 	};
+ }
 diff --git a/io_uring/rw.c b/io_uring/rw.c
-index ffd637ca0bd17..9a6d3ba76af4f 100644
+index 80ae3c2ebb70c..ffd637ca0bd17 100644
 --- a/io_uring/rw.c
 +++ b/io_uring/rw.c
-@@ -279,7 +279,11 @@ static int io_prep_rw(struct io_kiocb *req, const st=
-ruct io_uring_sqe *sqe,
- 		rw->kiocb.ki_ioprio =3D get_current_ioprio();
- 	}
- 	rw->kiocb.dio_complete =3D NULL;
--
-+	if (ddir =3D=3D ITER_SOURCE &&
-+	    req->file->f_op->fop_flags & FOP_PER_IO_HINTS)
-+		rw->kiocb.ki_write_hint =3D READ_ONCE(sqe->write_hint);
-+	else
-+		rw->kiocb.ki_write_hint =3D WRITE_LIFE_NOT_SET;
- 	rw->addr =3D READ_ONCE(sqe->addr);
- 	rw->len =3D READ_ONCE(sqe->len);
- 	rw->flags =3D READ_ONCE(sqe->rw_flags);
-@@ -1027,7 +1031,10 @@ int io_write(struct io_kiocb *req, unsigned int is=
-sue_flags)
+@@ -1027,6 +1027,7 @@ int io_write(struct io_kiocb *req, unsigned int iss=
+ue_flags)
  	if (unlikely(ret))
  		return ret;
  	req->cqe.res =3D iov_iter_count(&io->iter);
--	rw->kiocb.ki_write_hint =3D file_write_hint(rw->kiocb.ki_filp);
-+
-+	/* Use per-file hint only if per-io hint is not set. */
-+	if (rw->kiocb.ki_write_hint =3D=3D WRITE_LIFE_NOT_SET)
-+		rw->kiocb.ki_write_hint =3D file_write_hint(rw->kiocb.ki_filp);
++	rw->kiocb.ki_write_hint =3D file_write_hint(rw->kiocb.ki_filp);
 =20
  	if (force_nonblock) {
  		/* If the file doesn't support async, just async punt */
