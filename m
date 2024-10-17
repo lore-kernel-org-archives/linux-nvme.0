@@ -4,62 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1FB5D3C522
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 16:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AA44D3C526
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 17:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OYYzYlSasJsG6wtrJup7nVCmcPO43Q/w+8Jc5iMvz8E=; b=XixnPwwg/V42m97Wsv5ds7PqOI
-	YqKY9U+d4coC9ZNE99Bl6jcMmKlifiQAG85+7Kjvnlunufpmf/0Lobk86OpHCSkYeNmSlNPP8CTUF
-	yxbRnem2WqxF960lGplBpZz/FOI6r5nrGCQ1pZDXGbxgywjnTL3iWsu6gXQcKL6GZn/INorqg8ieq
-	HtvRLae8T9WyoslvFIqTCcEnnLBhO9CCcDrzM/PusECedR5dOrKwlQGns3JLaZMf7FZthmqFs8fAg
-	73tyB23RcHwdh5g1U5Ir7JsO3DMg07uzOTyfZjm/CfCczhJbDO0H2JXTLuGyKlpRDbELXQZZjh1NB
-	3NGWmsyw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=t/K7on7HVR/lzmjEFd6MOAaEw5KKhkkVzQn0pwpQ1JA=; b=jzLUUK0RQuHcXoauhCPdU8QR1i
+	kMVhAQssTavyoApQvpP79LQe7/a2X1uiUVj4NhSP2iQFlWSmujSViLH67T2jPkDaIcwhkj/S11z9y
+	o3t+G+5UiW/CaOL2vz6+257DNXfaKi1Upfl040Qft4Qm6a+Kaj+IdH4pTD4f06JAWaHWsGS3CTvpw
+	hnrQHKuFUjor9CIF9d6dyo6nuVeO0/zKiHIH9JRHnX5tXG3eBMddP7RYGNnh72eqCIN3LtZZ9qpvE
+	1QrCh1XC7aGZx0OhB8PK5rCowFke1lMm9zYFOCk1hm92vnXOVdWWAJ+MgMZjEcx7PJuBFwc6lNZHb
+	Ws5EzPPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1TcC-0000000FYYu-2BY4;
-	Thu, 17 Oct 2024 16:44:44 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1t1UF2-0000000Fhs1-0ccG;
+	Thu, 17 Oct 2024 17:24:52 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1TYG-0000000FXSk-3aJC
+	id 1t1UBR-0000000FhOV-3RYd
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 16:40:42 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 21D10A441DF;
-	Thu, 17 Oct 2024 16:40:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54798C4CEC3;
-	Thu, 17 Oct 2024 16:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729183239;
-	bh=6eOYogsD0a3OKM1weP7TQicoaifRnyoiDZo73obPdmY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e5rmp3w08F/HfPsrqpYjiMQjPQ6IMkiosR7ZoJVI48ooEJMumCKcpOwhHExA0WYEe
-	 hHBVtwHzs9ItTfcRDYXq5U75vKDFi2FUu2JiIcRJNvbyj0uIy189ZiquAQ8vNZWj7t
-	 LkuZp4AoptEThaPY4ObBlDsXR0/LQ/H8GTm9J6b9zyNRS10PxfaJyS6DNOpaEkp5YK
-	 UQUe+qKKlICYQaL8W7biAXjcH6ptiTINpcMVcg94RL5hejrPj0WsD4MrXEJcRGv7+j
-	 rgT6kHMeVFgmbmm0K9E7q68zc/PmeGpe+Ijm8Njhn9CgZKKBDuzC+NoWL9SDIk0fXb
-	 uf9sT7Oz3SW/Q==
-Date: Thu, 17 Oct 2024 10:40:36 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Prashant Malani <pmalani@google.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-sysfs: display max_hw_sectors_kb without requiring
- namespaces
-Message-ID: <ZxE-BE4hLVRR2Zcp@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241016213108.549000-1-abhishekbapat@google.com>
+	Thu, 17 Oct 2024 17:21:13 +0000
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HCgxRc005972
+	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 10:21:08 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2021-q4; bh=t/K7on7HVR/lzmjEFd
+	6MOAaEw5KKhkkVzQn0pwpQ1JA=; b=KgsNoHlJSo9Q1y5DA0xGsG30def3UWN4on
+	NfzPWOuzyoGeiAfWhzB+5QfKcU+dfCixGbZnKYLj/QUm5UJTvePOhl4+JTkDOMmU
+	SwTFGgJQn81DtRfhVdifpkpxprN2q04YgBBXXtXaF0GHlbPcWdPcTHqCZa15n2vy
+	N9UBG47sZOb9bd2nkc4TzEQ2hFEURJcjqHUkeM2VwKLicqpU+XJadArlGBy3wXWq
+	eZhzAHNj8O6/D4ObY9hZxCNUyLpRgi767D6SKRKmld1lMM9HemexBng94VrqN/Wc
+	O8UHNq8qu9D8kIgjHOVvKRJ7HNWdcDnj+CcQX5Z6xKbX7xpU71zw==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42ar0mnqx3-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 10:21:08 -0700 (PDT)
+Received: from twshared18321.17.frc2.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Thu, 17 Oct 2024 17:21:07 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id AD27F143ABC3F; Thu, 17 Oct 2024 10:20:57 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <sagi@grimberg.me>, <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+        Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH] nvme-loop: set blocking flag
+Date: Thu, 17 Oct 2024 10:20:52 -0700
+Message-ID: <20241017172052.2603389-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241016213108.549000-1-abhishekbapat@google.com>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: PAOLR8e-E96ugArCO6V6HXDUw-CvLoqp
+X-Proofpoint-GUID: PAOLR8e-E96ugArCO6V6HXDUw-CvLoqp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_094040_977767_A5E9FA33 
-X-CRM114-Status: GOOD (  11.56  )
+X-CRM114-CacheID: sfid-20241017_102109_890070_47BAA4A2 
+X-CRM114-Status: GOOD (  12.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,21 +83,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 16, 2024 at 09:31:08PM +0000, Abhishek Bapat wrote:
-> max_hw_sectors based on DMA optimized limitation") introduced a
-> limitation on the value of max_hw_sectors_kb, restricting it to 128KiB
-> (MDTS = 5). This restricion was implemented to mitigate lockups
-> encountered in high-core count AMD servers.
+From: Keith Busch <kbusch@kernel.org>
 
-There are other limits that can constrain transfer sizes below the
-device's MDTS. For example, the driver can only preallocate so much
-space for DMA and SGL descriptors, so 8MB is the current max transfer
-sizes the driver can support, and a device's MDTS can be much bigger
-than that.
+Commit 505363957fad ("nvmet: fix nvme status code when namespace is
+disabled") introduced a mutex lock in the io path for target. The loop
+target connects this to the blk-mq submission side, so it requires the
+blocking flag set so that queue_rq doesn't happen inside an rcu context.
 
-Anyway, yeah, I guess having a controller generic way to export this
-sounds like a good idea, but I wonder if the nvme driver is the right
-place to do it. The request_queue has all the limits you need to know
-about, but these are only exported if a gendisk is attached to it.
-Maybe we can create a queue subdirectory to the char dev too. 
+Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/target/loop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index e32790d8fc260..77dd809fe4507 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -479,7 +479,7 @@ static void nvme_loop_reset_ctrl_work(struct work_str=
+uct *work)
+ static const struct nvme_ctrl_ops nvme_loop_ctrl_ops =3D {
+ 	.name			=3D "loop",
+ 	.module			=3D THIS_MODULE,
+-	.flags			=3D NVME_F_FABRICS,
++	.flags			=3D NVME_F_FABRICS | NVME_F_BLOCKING,
+ 	.reg_read32		=3D nvmf_reg_read32,
+ 	.reg_read64		=3D nvmf_reg_read64,
+ 	.reg_write32		=3D nvmf_reg_write32,
+--=20
+2.43.5
+
 
