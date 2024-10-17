@@ -4,110 +4,174 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61A59D21272
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 11:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61F42D2A53A
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 11:55:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=; b=3bDxbfrIYWQrMnK26GZRKy1CEJ
-	W/zAeIsrW4Z61I4MK+fQCkDKXW4k8H7c5rEaL0fx247K166/uf3O8CA5Ck9Vv4u8f7dgxhHdA+BXs
-	szFT70u10eP8YbfhuCA6OFxfefdUHRV8eg8jBVgSzFAWGWucR0RSHsALVo9yRVVd9lFkX49ksBrOH
-	JidzzxfS+WPTkDHh+Ca+F935is1u65jmqIQkF5bFlFndlo6sDaGg9Bz/vKUMPW9Ueuferj8AVzJTZ
-	Aw/52OiznoqSLGEze8ubjSpr0JcBxmiDVKf/XTo2+BSEiqRaXXxpJr9SJi9adv25ufPAloTiPp4r6
-	6jjA3npg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lrPjvCE3fKKBsHntDg9im2JeQyHTx2frUooGFBkwfKs=; b=5DqtDXg0OEg7uSUxG59CDbW1xR
+	xSugdChcXckDjyDqnKQ8ycw53ghk4uFyTS/MH6akJOxbKPPZL83kCBnR+bLjbskJOzmEZUmWqlN8Q
+	cRvVN7YgEhgwuh0RwdgC2FilKVP2rH9dsTR7AVtmLXCANdZZeygt/G/34ddyB93KEp7TVSsvFVWsZ
+	sz33z/U3H47ONsHtyMdUVo9DW0d0n9cmqVU+vuEeTyFa6d66cJwcbtxQzNRrOt9ruwtmcAKG8S0FY
+	2W2+vqn/Uh0uBCuIyrKEIyVfQ+HGrrnAQk4a55tKti9ORUwz6BtbobptvG/D4ewXACAjRcA1j9URe
+	pzLaUomw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1OGI-0000000EZpf-2noo;
-	Thu, 17 Oct 2024 11:01:46 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1t1P6b-0000000Eguf-3hKg;
+	Thu, 17 Oct 2024 11:55:49 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1O9I-0000000EYUs-3pSO
+	id 1t1P62-0000000EgoR-4BLY
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 10:54:41 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D957821E6A;
-	Thu, 17 Oct 2024 10:54:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729162469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
-	b=dGwDVJlM8cpTvBHyfc/pEP3FqxkWQ2GGNOUy+LBqGTh15Sy5Q9G/gcXk0RHILpvHSaJJ0W
-	h2qbmef05H3AfIL5E9w2ucThy/SfilGkOhJH1mprDIDuBGHB+N0WryABSZ93+KyL2ljSX+
-	J7OKmzPg714EgTVYT57fK+XLXyGxRBM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729162469;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
-	b=1jz+Y4rNyA+vR5tYSkg5AQjSpf9AE3RyHQRrkl8+V4BbegJHdu3LBK9hs5aQh3u1Ku9cRK
-	6W5QwfsS/2yETLDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729162469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
-	b=dGwDVJlM8cpTvBHyfc/pEP3FqxkWQ2GGNOUy+LBqGTh15Sy5Q9G/gcXk0RHILpvHSaJJ0W
-	h2qbmef05H3AfIL5E9w2ucThy/SfilGkOhJH1mprDIDuBGHB+N0WryABSZ93+KyL2ljSX+
-	J7OKmzPg714EgTVYT57fK+XLXyGxRBM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729162469;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=g97o32b/FNwCn9FQ9B2l+F/O2zeH1MIe4G9hnAUFPus=;
-	b=1jz+Y4rNyA+vR5tYSkg5AQjSpf9AE3RyHQRrkl8+V4BbegJHdu3LBK9hs5aQh3u1Ku9cRK
-	6W5QwfsS/2yETLDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B532C13A42;
-	Thu, 17 Oct 2024 10:54:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CGDXKeXsEGezYwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 17 Oct 2024 10:54:29 +0000
-Date: Thu, 17 Oct 2024 12:54:29 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, 
-	Keith Busch <kbusch@kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: sysfs tls_configured_key naming?
-Message-ID: <d3466e4f-23dc-4a07-a2c3-98bcbf6c7960@flourine.local>
+	Thu, 17 Oct 2024 11:55:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1729166114; x=1760702114;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=lrPjvCE3fKKBsHntDg9im2JeQyHTx2frUooGFBkwfKs=;
+  b=NIGgCoeYN5arLldcfGO+2l96okqtEGJzpI/sBgSVJpzjsaQr3pvfLN2n
+   OUaFjrvywBQsp6IU+faBMHMlpo/CSwNQJyBWhb8JLV4MNLGp609GwOKEa
+   gqMSJ2m5TlfMlUPOHiTuzUt8Tp7Fg0hrl/73eiwBT11xkVlJCbGb1tHio
+   GBYuPoePl4ezqSthm8jd/Cvj3jHkciMgII7Tnc3rGZIiPZvcy64TehJBo
+   RCWehhXw4w8MhnemqaXoy6XwysDUYvqSYv2O76NyTQRsPsIqA3N/uDQA+
+   DY5E3/PHIr95yfSVj7dbFqYn6K4eZ4/MA09VAgPtfxBbVyo7rp/n0NYt0
+   A==;
+X-CSE-ConnectionGUID: 7ikz5E2QQuK3ptEPvFZzCA==
+X-CSE-MsgGUID: R8ieGcrGTnSqy+iw4fYExA==
+X-IronPort-AV: E=Sophos;i="6.11,210,1725292800"; 
+   d="scan'208";a="29179050"
+Received: from mail-eastusazlp17010005.outbound.protection.outlook.com (HELO BL2PR02CU003.outbound.protection.outlook.com) ([40.93.11.5])
+  by ob1.hgst.iphmx.com with ESMTP; 17 Oct 2024 19:55:12 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zDS9L9DKpeM4z3DYrk52zDlWw1spUDHzPd80pR+AjDOOUts+MNHOlxuoAAiOfAxVYGivkZt1IzGsrG4/s4YRa5NFA9uD2MKttwYJGJPjIoylUaLEx/Aj0D3W9qwxgUwL0qJjp1Evqt0BHzo/V3hX7a+ThNSFG0+y+d1lMDiodl4zehER5G7+6oXp4Yx3MxwPc+34IoGKgcfgryi77+qp/dBAVR3ukPowjlJXT1KUL0oCIFmk4fsEKDIgRSTFmwtGquO/zvei1OEcpvwrn9piGjcU4A8Sc/X3brwhm5yPvvlCFMTzeBxbbJSZYGt5CZ5gQWprDTp4Xt3iydaXTlrICQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lrPjvCE3fKKBsHntDg9im2JeQyHTx2frUooGFBkwfKs=;
+ b=ajlkreDSjW7r9caRQq1Z4QHeWPtQMTh2cHYtOYlKV/jHLGgFWqmffQEoOLHWISKV56Z3vMIfQnkShMo2MzzwW+JDxoPwKG8nw5TsYcu1zU2eZ0SilScrbGrGoyaGmhKmsBOVwXD/5A/V3uTAUTWXyAzFVyZ3fL2X8xBF9C3YRoVBEhq/oIOWM3ofiOO30nyRXcT9vNAQIyxiaNNjnPLLzmwy6wUL6Y54aZ8ifhzUIcerBbWnz7ACw2xUmCHsFAAbpsPKj96XJNpfGSzCtCFqInDe2SmYOtwLuhMQWfof/ApXBxvDsRyNYiDH3Q3I5jxDfIM7y65vWFOEaIYasNAe6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lrPjvCE3fKKBsHntDg9im2JeQyHTx2frUooGFBkwfKs=;
+ b=LigmycVQAHx+EjigxrnYiVQlt6KPhlkWaED9M7Hm8QSdjx5tLGvKkAQkRt45ErTFKOQM8apegkhaYFsM8zptmP+/vrH5QGMr/tU4AXfCWn5ms1MtDISXlBG6s3FO1x9q+oHzTkZwJZiNIIHgJrmA7ncbwkQ3nake5unGGKpNkkQ=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ LV3PR04MB9150.namprd04.prod.outlook.com (2603:10b6:408:26b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.19; Thu, 17 Oct
+ 2024 11:55:09 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8069.016; Thu, 17 Oct 2024
+ 11:55:09 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+CC: "dwagner@suse.de" <dwagner@suse.de>, "chaitanyak@nvidia.com"
+	<chaitanyak@nvidia.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH blktests v5 0/2] Test the NVMe reservation feature
+Thread-Topic: [PATCH blktests v5 0/2] Test the NVMe reservation feature
+Thread-Index: AQHbHqw8kdFBgxClOki2PnZ9z5ezYLKK2XoA
+Date: Thu, 17 Oct 2024 11:55:08 +0000
+Message-ID: <jltf2li27zc7l4cg75sqh626igfrz23izgy5iokarxj7pmzsqi@xworf4nva7ll>
+References: <20241015024350.16271-1-kanie@linux.alibaba.com>
+In-Reply-To: <20241015024350.16271-1-kanie@linux.alibaba.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|LV3PR04MB9150:EE_
+x-ms-office365-filtering-correlation-id: 4551b99b-9208-4776-b2d0-08dceea28c8c
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?fxFQu4jyyjIn/oX2zZejAZxPzKUNudNWog4VZ4KhyMqnK9PB2XUODM/8Wrk1?=
+ =?us-ascii?Q?E8WrzP8thKnbu1lhZHzWRUsj08ojwoT4zpB4iXMUIeRMXYz6DIMKNHJl4389?=
+ =?us-ascii?Q?BdCCt7JfVz6qqssxvFRqz6rUGjd5NfmMRiinQMmubojEM8BXdyngXFCwG220?=
+ =?us-ascii?Q?jya9BYRbqkRtYpZdVWR792uw7nBFwZ+rsV7dh7Elqgw+Adr2q+6u1DWsqfg5?=
+ =?us-ascii?Q?+W+Bjh5dFZzgZlcP8M4ZPB4yPgWNzUC2t8A5Zk6DxoUbBmpD7WuIah8BTGui?=
+ =?us-ascii?Q?jkjOIRqIbDhEMf/SNxkejK8cwGIDS5zqxs1rYm1YYVrzSlUB6CmMJMoutu7V?=
+ =?us-ascii?Q?L6ePHQWCjCmYutMJWXL+qtmBt8r2Jc3EPcIpR9egfcWoGDi/xdVojyY+KfG5?=
+ =?us-ascii?Q?SSNKGaxUidqJlup0Hr5ceMBNEXO0YlPoe1qz+Zi6x5+7VWpoPXSfxl/D3sP/?=
+ =?us-ascii?Q?zNIGxvrzqmfvY5tyiulr0XoyTjGZRUzKwT+OuKeWNpP3OhXJaeoC/e28GQyF?=
+ =?us-ascii?Q?ikbZ1MXrN1dsqheQ5978IxjCeRh0KNPLiUjGX3Uw7SNQJeDQLmuEmaV4zQkR?=
+ =?us-ascii?Q?yVWQ904LFmbp1QpqPi5y5edNGQJYGRQD+BNEMlRmU0PkkDKoxnaEjSVs5bwD?=
+ =?us-ascii?Q?oIKvsbgdQorQsB/ir/ajHbmLQ7X7NS4gBrKg3+6lK3/niarqZetIoObm6zcE?=
+ =?us-ascii?Q?06kwDmN9VCvyeHukjSt/6Hq+Q3EnSXAAhOuD2FI2ANbVAiOqHFGylitgzhYx?=
+ =?us-ascii?Q?3lkMnrJfxHYzsB7YRHqPdtvxOcuMU9pS1gBe4QASH8jtiw05D47yJkffYsNh?=
+ =?us-ascii?Q?5k9hjLnjaOQ8xP9xRXalr70QMNF/8HgLX5ikzicu+9MQS2jfUTdov0h2/ojO?=
+ =?us-ascii?Q?0zEQxjwGVbxruZFtSnUSudPQCQvO7kq+4OBvuX0hUZJGo7VFt1tnWRPyiBp5?=
+ =?us-ascii?Q?GVg2aqni4R8PKo+5Bl3sRaPEkjzwT6evJWGG+R26MtK71WdnncJSr4k6mmqI?=
+ =?us-ascii?Q?sSpGoN3IS1tFwbKceUYP5omnnsv60IkeamN6xieTGRsDyTrbOUU3gIDZoftP?=
+ =?us-ascii?Q?YBCeOlq5+FfTG7lqk8QTgQEHP8thlBvsQsxP+HCzb+UrcRPWcHCY7wvYY2wJ?=
+ =?us-ascii?Q?g+oDpybgB6iHcLXjHfwYRRKonmVMicPB1sgVdN7lnnD7UDJWMcCeQZgTTBVe?=
+ =?us-ascii?Q?4ZIGQi8PYBZWneBbRNJ/ew2AiyHEecqYC0tBYWwG815pw4DSEnOvgO/x463U?=
+ =?us-ascii?Q?HeWpmJGsxGEA5qBH4wxfo4oVQkqO3e3ZVpZyqigfNafd6k4g0DDLfZXqy2cM?=
+ =?us-ascii?Q?gPacg9jx178Pax8ap5cqz/iK0kJo38cGxtP3RH6zsjQtCWhFommqOpXJgr48?=
+ =?us-ascii?Q?oauAoBU=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WDl+vlAl6eFPQWONWdO3z1Il6CJKLh9pTB1+wi0Hx6zGyBllLc/LIr61Kpqt?=
+ =?us-ascii?Q?TnpvGldFeQzkD61+zOZ9C48KAVx6RBOgsMWpTkxVAoreq+ZOH69CtRumqtVI?=
+ =?us-ascii?Q?UQDcR5KC7xEhkbtzQCAAFUcdlmUmULkyjbSo6oFWFm9CafA5T/J5qOcqST6i?=
+ =?us-ascii?Q?1CBtgDPMhG1RlY4p50Q3ipqgaXXYH282jJeTv2s9nkGaUuM+4Crp+JAs7GlF?=
+ =?us-ascii?Q?BOMk4FNFpr3f3iSAYPy31TvugVheO2fqlWcjaWSVXkC7YnZm3yF/Rvu5aKYp?=
+ =?us-ascii?Q?he+dalrRYuMaYqaBR0K7MBVm4viCC09Gsqxl+oUBaV5PV2IxCtViL2ahenuC?=
+ =?us-ascii?Q?i0J747ZnLU46jrUWJcq+05nMjN7LOEckMe9rKAgd23UkIqHS59/3Tm2N37b1?=
+ =?us-ascii?Q?wdbqorlQrL0ZOULZHQxLYgLipLGBk4hGJAA5rctpi/qVPGdpyYtPAw/jZbs3?=
+ =?us-ascii?Q?y7lu6B/SQzuS2j5eWtvH/3AybtBzXNwrYkZJOBjkwVND6cd1ThA3g1vEV8if?=
+ =?us-ascii?Q?quFFtZknrXzLZsxyu99kmsKWuOT+ozpg2nUvh3MQ2hVyJzW836OT70PlYUSF?=
+ =?us-ascii?Q?acMRMJIH8b4t5+i11CD9F+6Ky2DF5KZfqu2AIaLD7/q4/am19wIwYrnvVeVX?=
+ =?us-ascii?Q?cHK4hi4fryFcXkYEwRd9Apcl66WIM+PCTcTqWYT3A2HHb4tQupwiPAFN4Oln?=
+ =?us-ascii?Q?VHsED4yR6xPGJRWuKIsuYn7aDnQIvbqM2tMAkh9InP8BSzVm9deMIwIKoO1z?=
+ =?us-ascii?Q?KpXdDGryxzcc7u+GvTKgZnaL0cbP4fxdZIAs2L78MCWXVCnOJ0zV9+6WGLCn?=
+ =?us-ascii?Q?TOHKZ2oQUyiPVRiLNZ3JXqxg9uGIfN46YIBWfIA1atV4A9r3gtTcohtTTs1/?=
+ =?us-ascii?Q?yceyR4yc7E+lW8vHtrsEWaWXVioBaWQthFCCfjM6uWC5J5BA+Zn+k7t3mf+/?=
+ =?us-ascii?Q?oyEP+JtudkwuzedXaesXqTE6v9orhlwgNy50pHGMJ6PGbWL1vZxnsZAWgrxf?=
+ =?us-ascii?Q?ofF9VNDBuq8ksHYt8LzTaoKv8O5KX44Cl8FoCVQisEzF5CqgO/AvmrjUPHur?=
+ =?us-ascii?Q?6wtDeCmtJr4/C/g+73oKo1PodTDer4kSbFxuoLwtww0A0gVncAH9hMoS+Y5p?=
+ =?us-ascii?Q?YlCbNiyObP44lqtsb8iHFzpefncKjkCkDFhWoRCfC743zqG1Q768OtZrHr1y?=
+ =?us-ascii?Q?n1222ZIWuH6ymtHaALdvnzc+gvQKzp90BLUxecrxb3gUv1yo8WCl0mWjrwZe?=
+ =?us-ascii?Q?NtVoUuSUMkj2hMLgx31dW1ctuIoQsYrMeVJ7UkSR62CW5xCz9d2ZkdfsxqlR?=
+ =?us-ascii?Q?SUrfyEDRhB0JnmBFkmTCp1IeOVQRY6pK1qwJ8+k3G952pA5A/fdcoV6LhzCS?=
+ =?us-ascii?Q?xUJ7rD4CvV0gqGUFJEGKep3fGGMLXAMSEpRY/UPWPQWlocI4MKJPVoFjKDMZ?=
+ =?us-ascii?Q?yqXQCqpuIKbvY1Yky7fY9HyzkgSM1ToESlvpaxxipa+hRtoaC6w/pE5BFyb/?=
+ =?us-ascii?Q?VpCBpTex4JOd2SEIbj6Hgx01tsdk9/WOccqn54qaRsFpSM/S6uCTxqNYzwZ8?=
+ =?us-ascii?Q?dTYr4JH02IOHONn0AOOEEtIzIZ2uaKkFwz0+gVkn3UVfqgBQvSroP8DJF6Fs?=
+ =?us-ascii?Q?K46KRh3E0L1upoUY7cM0vKY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <F508C1EEDB461B479941B4F693A267EC@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: BUjGYWHDpcBD1I6CscLVsNRAM7cR2fZpB4/QUEB08CfQtkVroqzS1CBVzUtziS8vcJBykLjSDWAB3FX4urQ+cBhmwXIxjKwALKRIpV2u7a/McUjR7kFXzT4+mMj0Xlk2LTdPIz+gIsmQZ2Z6Z1O9JfMw4sz2V3rwxivayTRIJWa3+LSc8KfVoWMInmN0dyhEUV+fCwFVwzbXqAYdY8li5fvXBGWB/kN2vP+WtaS1ARj9RELOHP/rrbDNXgS38xWBOccT6A6FXoOj53WD5SoJMjnk11Q9OPSwwiHHtJYHw8V1qMakBGcwI7UtvXa0Bh3k/qpdV5abAR/D3lfcasuidhBKd+Vj3iCDzaeNcA1cQcBnt9ntUHjSrbKPm6y3HpMsgAn3/6JlGjkpubzjGewOgzUD6bJx8waHFNSrt2EFEifCxbDrTyn4ajxxvEtG6IZiw0AwVjghAP82LQ7UMYaPlidxCcZZBpwDqLWHyAdmOp2+zlx83FBl8QFNkYwIeBAR2aAmvQ6qXPXRiZQIhmD9j4OTVkkA/Bhh07H3nlrfP9QWvRKqgkgyVKJO54u5qLlNk6a4bJrQ6ta8sMdAbanrpdm175mXHR2/XNOROKsdkS7xxeiHzMpHRmmPeFCUeOuX
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4551b99b-9208-4776-b2d0-08dceea28c8c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2024 11:55:08.9619
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hROqkx5z+50Kau6GUuFFHTetTg6Mp6hF5ZTQ7yjXTyidH3tj9/6T2NlCfN4QbRMJtDrJFXh4ocnOdIesaSLpvQBAgATl9tIE4KuQHXSQI1A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR04MB9150
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_035433_162836_8BB30D63 
-X-CRM114-Status: GOOD (  10.87  )
+X-CRM114-CacheID: sfid-20241017_045515_170096_98D7F868 
+X-CRM114-Status: UNSURE (   9.09  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,20 +186,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-f5eb7397471b ("nvme-sysfs: add 'tls_configured_key' sysfs attribute")
-claims that the --tls_key is expecting a 'Configured PSK'. That is not
-correct. It expects a 'Derive TLS PSK'. That means user space has to do
-the whole key transormation as described in Figure 21: {TLS PSK, TLS
-Identity, Hash} Tuple Derivation in TCP Transport Specification,
-Revision 1.1.
+I applied the patches. Of note is that I folded in a couple of nit changes =
+to
+the second patch:
 
-From a quick look at the concantiantion patches and based on the spec,
-tls_configured_key will never hold the 'Configured PSK'. I think we
-should use a better name for this sysfs attribute. I suppose it should
-be named 'tls_generated_psk'?
+- set executable flag to nvme/054
+- added 'local' to test_dev
 
-BTW, that means also for the second tuple derivation flow (where we
-start with the 'Configured PSK'), the keystore doesn't contain a
-'Retained PSK'. I think I need to do some more reviewing and cleanups in
-libnvme to get it matching with the naming sceme of the spec in line.
+Thanks!=
 
