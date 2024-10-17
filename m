@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21847D3C52B
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 18:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10127D3C52B
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 18:08:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hmRI9TIj3khlOzr2A6Ivgigos07ruIK63A/3I+bhZf0=; b=A22b3Rjov/JUlAeZmGEE3zsUeK
-	hU6iAdjdPnVeBHWdiEps3IhbT6HzhyfZtTDLQA5LtO5ErQn0nVo+eMT6400dTevdJmSVB7D5jrXjA
-	wt9FoBi43ehO5YdRuTjnu+igTkNgBPDMWeSBBxfVzrEXsCAYPGQCPvFLljXeab3cjs5jAT+44zXsc
-	YOK1JW4lmOVonKq9yo51y5rHp3QVH/L0Y/3YEDOol0F7sMB0QTKf1vBBGHrAZa1XFEaKhuhhQnfzV
-	/DEuKxMFKl7W89sOxqINiXxuEWCqAsism1wmwAX5/+9e7oykmCpSbFb6PQPGtTaD6Edn3B1huV9td
-	N56J0WCg==;
+	bh=X7BMDOchh3wJGSkCRQYLwbhivp998pspaWX+TukjpGg=; b=Ig+q/D1Pa1IKy0RFnlbBZo05WX
+	bKqK3GF9y+lfDUQLtja70IzokZDhfMrMiTXyKi+hvDsvm2wDm/5NpDOoABjJgSjQZPcdZUdMqmnu/
+	xnefwhAUIeuq7q0BefuA7kHhfIELCcV0K0/lUQx1q+cgAuRarxocZvhP1myfBpvkCMQo9ADhkUgXN
+	pWF+gzu6WOB2yXXO0nnvbXFYu9MfHX+zdqCLDPDQjTNkCRxWSasVXsJYh922v7M5Vg8Ay5vGaQ78I
+	BxYOaR6L+g1ZUueUM2b5Yo8iO1mFoKSODBcZc9Xzkaa96086aKd8XmIryM/MwWi4O7hgs0qxAoWZQ
+	97lH5yeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1UrM-0000000FoXp-3cG0;
-	Thu, 17 Oct 2024 18:04:28 +0000
+	id 1t1Uv9-0000000Fp6a-0ACS;
+	Thu, 17 Oct 2024 18:08:23 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1UrJ-0000000FoX7-38xD
+	id 1t1Uv6-0000000Fp5q-007f
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 18:04:27 +0000
+	Thu, 17 Oct 2024 18:08:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5ABBF5C10EA;
-	Thu, 17 Oct 2024 18:04:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 103EAC4CEC3;
-	Thu, 17 Oct 2024 18:04:24 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E28B95C5BF5;
+	Thu, 17 Oct 2024 18:08:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CC4AC4CEC3;
+	Thu, 17 Oct 2024 18:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729188264;
-	bh=TFJHgUwRLWGurUOcgrhRTbFijfWX0DW1MA2R39PJRdk=;
+	s=k20201202; t=1729188499;
+	bh=Kymg/bTJlENKjTKas2a8NSMhY3dKdr4hdEiZRaLSZJ8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j1GfJSXoHa8kkQHvN7xjvG5k6SJRagWZZF9rUWHGWLADV/LRWcHMrNuo1Jc/K87eh
-	 JzUg+MPJzYx7v3UxySKdBOYatloqUBp5m9qywkjplZ0QSRYll0YNJbrzoTq3d3iW4U
-	 A9q1zIR/KOKKSNnh8qBmHnWd1UjaFUnOzKvlR1SccvEYhFvU//AKJwYjBAIGjouoSB
-	 3ih6X5XIbflVu9Fip9M343CaMuvb+NiKLEeqbUo72Qz+pLZLGrN4MVvtEvaKtQ+1Jf
-	 crnCw91uGc6OQISRdHt2/HQEM7IAL4o69LR7RP/sqhrdquz3NIgYyJWpOpe/pVVTrI
-	 uNqlCYBEmosHQ==
-Date: Thu, 17 Oct 2024 12:04:21 -0600
+	b=qLtz1HUSOqZYzRlOkV/RXjVGTDX3MyES9oruTIFweZKvTwBrgLVpwW6CvSsHbIJD+
+	 WtzYNwk9V8s8L5X6xzY//jyHTPgzNizjU4hRNoc+0t6kt8cyCop9+1t2ylHLTFTNeU
+	 PVmnim3VfNePTa1DnO/9HNS6hwrtkh4chnMTyXLg38Rh3f1+xWcHzYdmGx3Ubahb1F
+	 +/+GIzqx0LtN4aayBE2ppEoso2WQ2ElcjAHdWTlBdbGyVcMQzkTKSC9mhuADYYSBQd
+	 uUuwCRluhnfqeKG6xn8f5//TpUwS2dHyifYbC0jS94fColh+3+SOWt8o9PU6sy4uf7
+	 gnvt9NCYo3kzQ==
+Date: Thu, 17 Oct 2024 12:08:16 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me, hch@lst.de,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [PATCH] nvme-loop: set blocking flag
-Message-ID: <ZxFRpdU-GI76uetA@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241017172052.2603389-1-kbusch@meta.com>
- <7846e57b-fb03-42ed-af8e-0df88cc566a4@kernel.dk>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	axboe@fb.com, chaitanyak@nvidia.com, dlemoal@kernel.org,
+	gjoyce@linux.ibm.com
+Subject: Re: [PATCH v4 0/3] nvme: system fault while shutting down fabric
+ controller
+Message-ID: <ZxFSkNI2p65ucTB5@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241016030339.54029-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7846e57b-fb03-42ed-af8e-0df88cc566a4@kernel.dk>
+In-Reply-To: <20241016030339.54029-1-nilay@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_110425_858280_7BF54399 
-X-CRM114-Status: GOOD (  12.19  )
+X-CRM114-CacheID: sfid-20241017_110820_111043_CCC224EC 
+X-CRM114-Status: GOOD (  10.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,22 +73,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 17, 2024 at 11:39:24AM -0600, Jens Axboe wrote:
-> On 10/17/24 11:20 AM, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > 
-> > Commit 505363957fad ("nvmet: fix nvme status code when namespace is
-> > disabled") introduced a mutex lock in the io path for target. The loop
-> > target connects this to the blk-mq submission side, so it requires the
-> > blocking flag set so that queue_rq doesn't happen inside an rcu context.
+On Wed, Oct 16, 2024 at 08:33:13AM +0530, Nilay Shroff wrote:
+> We observed a kernel task hang up and a kernel crash while shutting down
+> NVMe fabric controller. These issues were observed while running blktest
+> nvme/037. The first two patches in this series address issues encountered
+> while running this test. The third patch in the series is an attempt to
+> use helper nvme_ctrl_state for accessing NVMe controller state.
 > 
-> Looks fine to me, but might be worth looking at doing that a bit
-> differently so that the target loop driver can remain non-blocking
-> as it should be considerably more efficient.
+> We intermittently observe the blow kernel task hang while running the
+> blktest nvme/037. This test setup NVMeOF passthru controller using loop
+> target, connect to it and then immediately terminate/cleanup the
+> connection.
 
-That's what I first looked at, but it's too hard. Maybe if we can make a
-lookup that doesn't rely on searching the configfs group, but it's
-definitely not this nice one-liner patch. :)
-
-No rush on this today. I'll think more on it.
+Thanks, applied to nvme-6.12.
 
