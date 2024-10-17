@@ -4,77 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56C65D374B8
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 16:14:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3672D374B8
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Oct 2024 16:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iWtes4q52ch0yD+cMaKAQwN0cKm8w/0t0MM6PKPQXDs=; b=w/KAEGCvkTGayg4byHXqZjqNen
-	MJXR5isGDw3J0rm6AGG7B76/qat+XFfM5MhkvodCLZQscFjR9vYAD1HDt8j7v2c2Y4p10zCdytfkb
-	QbAESC6xa1lLVDU7JAEkBHg1IqtjTdXfelKF4+cVig4VaBI+7hh4wLWUbbzmDxfIi1zg1etGW/fZ3
-	Yd8gZWZMN2qE4T3SSW+8l6gvvu11VCuetZG7V2Ck4Ybr9/DzXWUJadYcmLkneLX8MC9NIO5jwwa44
-	MgmPNuOJjixnWVSrVjfCL4uqA1uQ7UiU+L12QduEb88AdhG3oGzQY2tInCo2bLWtQFsFsUjBIsodI
-	9O7uTlPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eOvuzv/ivWqYohoOrZsk5GZxXsPGRis/218uLdUYAGI=; b=RJGjwVo+rovKPsOgZUSSKPAYIb
+	a0np0SFBbZuduk+dy6WsqEaMN2vTklCJx/0vSCahXQvF4Rc2X3RsDR1d4Qu3oWFxofTyIl6b96nd6
+	83UJX3wiLdbG58ThjkTeWY6hqYNJnw6FUAnZHP0StlqWZACNYyEBziQ+VpV3Cub+mBpo7cKFiMUf9
+	eYbEtOGV8J8LpgzCOe9PXGTDZCk/II4PZ7OBAEE4CaUzdtpMacFf/VtugQGkSS9FrsH1DqyfNSPF7
+	asL1gk3suIjVJz73ScD16uFCkLGyBs3abitTD2LvVZueK5ohpUPb9iVWm7f3OEWbVhDaFVfzLSuNG
+	5u4SA3fQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1T8e-0000000FRoS-0kUc;
-	Thu, 17 Oct 2024 16:14:12 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1t1TAD-0000000FS7o-36h4;
+	Thu, 17 Oct 2024 16:15:49 +0000
+Received: from 008.lax.mailroute.net ([199.89.1.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1T7V-0000000FRe8-3mH3
+	id 1t1TA8-0000000FS6h-1n2x
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Oct 2024 16:13:06 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 49HChDX9024703
-	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 09:13:01 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=iWtes4q52ch0yD+cMaKAQwN0cKm8w/0t0MM6PKPQXDs=; b=R3hoP7VRBd3E
-	szLhqAtpjscsyJaGsll4Wyj6CbEk4HtJnWtZ1dUcp4TQ0wh12uL0xq7gO372ZOnk
-	P5QzD70MtVn7feHhSYVF3SzjB6ddQIyi/fT+y2VGhuAqHzZdi8BWFhOYMFFcn0nP
-	qYr48pzwYguZrTCabgV51PhnRxTBHjVSzkrwNG7MdxfIbd+q+jNNnkidyuErSXR5
-	zOxRqpMvwypR3VU2fSq4l0sPqww6+99rDPDAq00+SWYhCng1QLZGWe983sWXgIpW
-	RVo7kajYIOBwlxT5vEim3ZkMVHd6iZSQevoz3EfMazJZw2nADudlkenuDccN9Ulr
-	EiGsGGAqMg==
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 42a8wmb2by-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 17 Oct 2024 09:13:00 -0700 (PDT)
-Received: from twshared4354.35.frc1.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Thu, 17 Oct 2024 16:12:59 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 16DCD143A4AA1; Thu, 17 Oct 2024 09:09:57 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-        <axboe@kernel.dk>, <hch@lst.de>, <io-uring@vger.kernel.org>
-CC: <linux-fsdevel@vger.kernel.org>, <joshi.k@samsung.com>,
-        <javier.gonz@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>,
-        Hannes
- Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv8 1/6] block, fs: restore kiocb based write hint processing
-Date: Thu, 17 Oct 2024 09:09:32 -0700
-Message-ID: <20241017160937.2283225-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20241017160937.2283225-1-kbusch@meta.com>
-References: <20241017160937.2283225-1-kbusch@meta.com>
+	Thu, 17 Oct 2024 16:15:48 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4XTtH262R8z6ClY9q;
+	Thu, 17 Oct 2024 16:15:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1729181730; x=1731773731; bh=eOvuzv/ivWqYohoOrZsk5GZx
+	XsPGRis/218uLdUYAGI=; b=Wchb2Z5XYlvD9yLHrkWMJ6WZ18gP6EzjpoiMon7w
+	/ioP2BWSDakTfnlY9OKkoEjRyzCE2NOOA18+7w41OSCq0uXcSnxahdlv9J0aiPEW
+	QgakT5aZFbr0akzCcs2YLtQ65bxWjFRd42Uw4sow2fAxYDW7xum2vunzfqAbpOdN
+	wAvlVAszWgYMPxmJkBivBK0AyykLmVV2k+9Znv/0hwxsQlvsKVePSBGAyJBX01e+
+	QZS1/pTpqYT9bJvAKIITbijxh8ut7514vlLSZeturgZkOCEfwQroFlQvQC8d1wSb
+	gsv59uKMu29HvZspqvF5XwKGHg8pluu4iD6ys3S5/VrpBA==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id tuKOjPfACqLi; Thu, 17 Oct 2024 16:15:30 +0000 (UTC)
+Received: from [IPV6:2a00:79e0:2e14:8:c8b0:b4d2:d689:c93d] (unknown [104.135.204.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4XTtGj6bSlz6ClSqH;
+	Thu, 17 Oct 2024 16:15:25 +0000 (UTC)
+Message-ID: <37af5088-6f09-4e75-b5d0-559e92d625bb@acm.org>
+Date: Thu, 17 Oct 2024 09:15:21 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 1IZnIVtiMiPCy7vl0hCBNK9aBLuosoMZ
-X-Proofpoint-ORIG-GUID: 1IZnIVtiMiPCy7vl0hCBNK9aBLuosoMZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/3] FDP and per-io hints
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, hare@suse.de,
+ sagi@grimberg.me, martin.petersen@oracle.com, brauner@kernel.org,
+ viro@zeniv.linux.org.uk, jack@suse.cz, jaegeuk@kernel.org, bcrl@kvack.org,
+ dhowells@redhat.com, asml.silence@gmail.com, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-aio@kvack.org, gost.dev@samsung.com,
+ vishak.g@samsung.com, javier.gonz@samsung.com
+References: <CGME20240930182052epcas5p37edefa7556b87c3fbb543275756ac736@epcas5p3.samsung.com>
+ <20240930181305.17286-1-joshi.k@samsung.com> <20241015055006.GA18759@lst.de>
+ <8be869a7-c858-459a-a34b-063bc81ce358@samsung.com>
+ <20241017152336.GA25327@lst.de>
+ <ZxEw5-l6DtlXCQRO@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ZxEw5-l6DtlXCQRO@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_091302_097713_ECAE649F 
-X-CRM114-Status: GOOD (  17.11  )
+X-CRM114-CacheID: sfid-20241017_091544_556613_413059A0 
+X-CRM114-Status: GOOD (  16.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,177 +92,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Kanchan Joshi <joshi.k@samsung.com>
+On 10/17/24 8:44 AM, Keith Busch wrote:
+> On Thu, Oct 17, 2024 at 05:23:37PM +0200, Christoph Hellwig wrote:
+>> If you want to do useful stream separation you need to write data
+>> sequentially into the stream.  Now with streams or FDP that does not
+>> actually imply sequentially in LBA space, but if you want the file
+>> system to not actually deal with fragmentation from hell, and be
+>> easily track what is grouped together you really want it sequentially
+>> in the LBA space as well.  In other words, any kind of write placement
+>> needs to be intimately tied to the file system block allocator.
+> 
+> I'm replying just to make sure I understand what you're saying:
+> 
+> If we send per IO hints on a file, we could have interleaved hot and
+> cold pages at various offsets of that file, so the filesystem needs an
+> efficient way to allocate extents and track these so that it doesn't
+> interleave these in LBA space. I think that makes sense.
+> 
+> We can add a fop_flags and block/fops.c can be the first one to turn it
+> on since that LBA access is entirely user driven.
 
-struct kiocb has a 2 bytes hole that developed post commit 41d36a9f3e53
-("fs: remove kiocb.ki_hint"). But write hint returned with commit
-449813515d3e ("block, fs: Restore the per-bio/request data lifetime
-fields").
+Does anyone care about buffered I/O to block devices? When using
+buffered I/O, the write_hint information from the inode is used and the 
+per I/O write_hint information is ignored.
 
-This patch uses the leftover space in kiocb to carve 2 byte field
-ki_write_hint. Restore the code that operates on kiocb to use
-ki_write_hint instead of inode hint value.
+Thanks,
 
-This does not change any behavior, but needed to enable per-io hints.
-
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/fops.c         | 6 +++---
- fs/aio.c             | 1 +
- fs/cachefiles/io.c   | 1 +
- fs/direct-io.c       | 2 +-
- fs/iomap/direct-io.c | 2 +-
- include/linux/fs.h   | 8 ++++++++
- io_uring/rw.c        | 1 +
- 7 files changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/block/fops.c b/block/fops.c
-index e696ae53bf1e0..85b9b97d372c8 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -74,7 +74,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *=
-iocb,
- 		bio_init(&bio, bdev, vecs, nr_pages, dio_bio_write_op(iocb));
- 	}
- 	bio.bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
--	bio.bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
-+	bio.bi_write_hint =3D iocb->ki_write_hint;
- 	bio.bi_ioprio =3D iocb->ki_ioprio;
- 	if (iocb->ki_flags & IOCB_ATOMIC)
- 		bio.bi_opf |=3D REQ_ATOMIC;
-@@ -203,7 +203,7 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb,=
- struct iov_iter *iter,
-=20
- 	for (;;) {
- 		bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
--		bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
-+		bio->bi_write_hint =3D iocb->ki_write_hint;
- 		bio->bi_private =3D dio;
- 		bio->bi_end_io =3D blkdev_bio_end_io;
- 		bio->bi_ioprio =3D iocb->ki_ioprio;
-@@ -319,7 +319,7 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb =
-*iocb,
- 	dio->flags =3D 0;
- 	dio->iocb =3D iocb;
- 	bio->bi_iter.bi_sector =3D pos >> SECTOR_SHIFT;
--	bio->bi_write_hint =3D file_inode(iocb->ki_filp)->i_write_hint;
-+	bio->bi_write_hint =3D iocb->ki_write_hint;
- 	bio->bi_end_io =3D blkdev_bio_end_io_async;
- 	bio->bi_ioprio =3D iocb->ki_ioprio;
-=20
-diff --git a/fs/aio.c b/fs/aio.c
-index e8920178b50f7..db618817e670d 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -1517,6 +1517,7 @@ static int aio_prep_rw(struct kiocb *req, const str=
-uct iocb *iocb, int rw_type)
- 	req->ki_flags =3D req->ki_filp->f_iocb_flags | IOCB_AIO_RW;
- 	if (iocb->aio_flags & IOCB_FLAG_RESFD)
- 		req->ki_flags |=3D IOCB_EVENTFD;
-+	req->ki_write_hint =3D file_write_hint(req->ki_filp);
- 	if (iocb->aio_flags & IOCB_FLAG_IOPRIO) {
- 		/*
- 		 * If the IOCB_FLAG_IOPRIO flag of aio_flags is set, then
-diff --git a/fs/cachefiles/io.c b/fs/cachefiles/io.c
-index 6a821a959b59e..c3db102ae64e2 100644
---- a/fs/cachefiles/io.c
-+++ b/fs/cachefiles/io.c
-@@ -309,6 +309,7 @@ int __cachefiles_write(struct cachefiles_object *obje=
-ct,
- 	ki->iocb.ki_pos		=3D start_pos;
- 	ki->iocb.ki_flags	=3D IOCB_DIRECT | IOCB_WRITE;
- 	ki->iocb.ki_ioprio	=3D get_current_ioprio();
-+	ki->iocb.ki_write_hint  =3D file_write_hint(file);
- 	ki->object		=3D object;
- 	ki->start		=3D start_pos;
- 	ki->len			=3D len;
-diff --git a/fs/direct-io.c b/fs/direct-io.c
-index bbd05f1a21453..73629e26becbe 100644
---- a/fs/direct-io.c
-+++ b/fs/direct-io.c
-@@ -409,7 +409,7 @@ dio_bio_alloc(struct dio *dio, struct dio_submit *sdi=
-o,
- 		bio->bi_end_io =3D dio_bio_end_io;
- 	if (dio->is_pinned)
- 		bio_set_flag(bio, BIO_PAGE_PINNED);
--	bio->bi_write_hint =3D file_inode(dio->iocb->ki_filp)->i_write_hint;
-+	bio->bi_write_hint =3D dio->iocb->ki_write_hint;
-=20
- 	sdio->bio =3D bio;
- 	sdio->logical_offset_in_bio =3D sdio->cur_page_fs_offset;
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index f637aa0706a31..fff43f121ee65 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -397,7 +397,7 @@ static loff_t iomap_dio_bio_iter(const struct iomap_i=
-ter *iter,
- 		fscrypt_set_bio_crypt_ctx(bio, inode, pos >> inode->i_blkbits,
- 					  GFP_KERNEL);
- 		bio->bi_iter.bi_sector =3D iomap_sector(iomap, pos);
--		bio->bi_write_hint =3D inode->i_write_hint;
-+		bio->bi_write_hint =3D dio->iocb->ki_write_hint;
- 		bio->bi_ioprio =3D dio->iocb->ki_ioprio;
- 		bio->bi_private =3D dio;
- 		bio->bi_end_io =3D iomap_dio_bio_end_io;
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 3559446279c15..04e875a37f604 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -370,6 +370,7 @@ struct kiocb {
- 	void			*private;
- 	int			ki_flags;
- 	u16			ki_ioprio; /* See linux/ioprio.h */
-+	u16			ki_write_hint;
- 	union {
- 		/*
- 		 * Only used for async buffered reads, where it denotes the
-@@ -2337,12 +2338,18 @@ static inline bool HAS_UNMAPPED_ID(struct mnt_idm=
-ap *idmap,
- 	       !vfsgid_valid(i_gid_into_vfsgid(idmap, inode));
- }
-=20
-+static inline enum rw_hint file_write_hint(struct file *filp)
-+{
-+	return file_inode(filp)->i_write_hint;
-+}
-+
- static inline void init_sync_kiocb(struct kiocb *kiocb, struct file *fil=
-p)
- {
- 	*kiocb =3D (struct kiocb) {
- 		.ki_filp =3D filp,
- 		.ki_flags =3D filp->f_iocb_flags,
- 		.ki_ioprio =3D get_current_ioprio(),
-+		.ki_write_hint =3D file_write_hint(filp),
- 	};
- }
-=20
-@@ -2353,6 +2360,7 @@ static inline void kiocb_clone(struct kiocb *kiocb,=
- struct kiocb *kiocb_src,
- 		.ki_filp =3D filp,
- 		.ki_flags =3D kiocb_src->ki_flags,
- 		.ki_ioprio =3D kiocb_src->ki_ioprio,
-+		.ki_write_hint =3D kiocb_src->ki_write_hint,
- 		.ki_pos =3D kiocb_src->ki_pos,
- 	};
- }
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 80ae3c2ebb70c..ffd637ca0bd17 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -1027,6 +1027,7 @@ int io_write(struct io_kiocb *req, unsigned int iss=
-ue_flags)
- 	if (unlikely(ret))
- 		return ret;
- 	req->cqe.res =3D iov_iter_count(&io->iter);
-+	rw->kiocb.ki_write_hint =3D file_write_hint(rw->kiocb.ki_filp);
-=20
- 	if (force_nonblock) {
- 		/* If the file doesn't support async, just async punt */
---=20
-2.43.5
-
+Bart.
 
