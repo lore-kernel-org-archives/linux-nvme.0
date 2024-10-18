@@ -4,133 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE769D3C550
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Oct 2024 06:04:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACFDFD3C550
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Oct 2024 06:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qXzwlPFkcgwlpkHju4Sd2T8xIwl3ThYFl+oOkaTK9oA=; b=IfC2cFpjKQdZPMOsIoBvI61t3l
-	icRRLNwCwvAzBRWMtp6kWpm3q6AtUPH9aHxP2lhk0qXUNIM3DibNi5DGLkqwxerBVSspFVSIZWy7C
-	gZ8xhe/lHnryvWIipmoLGQQtIbH7W0/e+hBFBTRxck5wegLhXAKP+5nvLU1cPusH2Twq1jV5y50zU
-	wSqFVNCXidjHyL1WjSwxIAqnb4JJlKpXY1NUfFYkTbuT57Le0VSwINv5V/y52Cqe7OK4VIj4KvOHd
-	UhDZPaWZls+by96WQobQxLx29S9rm0CCPG04Jn8bkWvrXgvElPNalqaggkR0dY+C1WHXM7hPT4W3R
-	nFPVKKVQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UC977OHvnOs5hUTbmJx7iK5SHS1/JkJdvMQ5wlr+/mQ=; b=JfqK/s5c3C5XYfrCIIytW4ea7z
+	iX+xJcDO/tig6rlaGYYip5juVN6eqdBwP/BSTKrj0rcW5pwzPoxsgHBUmVT8TG4v9VuQMQDLsiAUz
+	GklTj/1ZafRiMH81Jec+CzVevFNGffvcV7KohfMp1rUTAR12nty6ypqUNd+6HUxDVydrzVRNDXd3J
+	uGt4O7oC97EZ/lozYNzHqPoZfGmmj1KaWhgO6NXUqmyssDGnvbrgaIljj9p4pxFYVUiZMFayg/lk0
+	AegWr9jNdNBkvc4sqC9PuQPBEvIGJTI+AlIN3SbK+ynlrAI7o832yWbs49R7QSYqQT4M7rHSXjS1Y
+	Yqyu+gBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1g6W-0000000H5XB-0qEH;
-	Fri, 18 Oct 2024 06:04:52 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1t1gZH-0000000H953-3KqE;
+	Fri, 18 Oct 2024 06:34:35 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1g5R-0000000H5JG-32BI
+	id 1t1gYg-0000000H8wd-1sxy
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Oct 2024 06:03:48 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 22F321FD95;
-	Fri, 18 Oct 2024 06:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729231424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qXzwlPFkcgwlpkHju4Sd2T8xIwl3ThYFl+oOkaTK9oA=;
-	b=WmG5hHju+D85BM0oQGeSxZsh/RrU4wW3evRG7YJNAhupjwDY0/3+dFkBAbS6a1Ws7hQeNb
-	mmG3Yy/iBU61bBDgnSUw+Hlpvo7MNUlObvfp6C295KuelPtU+mmGBZEaoqQJZQ7X6PO7Eq
-	1yJI+raN5ZhSyfbN7ICf/4gMbuml47c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729231424;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qXzwlPFkcgwlpkHju4Sd2T8xIwl3ThYFl+oOkaTK9oA=;
-	b=DZvkMGtLGOWIhpFDZEUwf8Vv8GLPmIT3fZL3UnW+ZzOx+L9TCI/3IICOQbnCwK+emH8l9C
-	r5eZZWBz+FfU5VBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WmG5hHju;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DZvkMGtL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729231424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qXzwlPFkcgwlpkHju4Sd2T8xIwl3ThYFl+oOkaTK9oA=;
-	b=WmG5hHju+D85BM0oQGeSxZsh/RrU4wW3evRG7YJNAhupjwDY0/3+dFkBAbS6a1Ws7hQeNb
-	mmG3Yy/iBU61bBDgnSUw+Hlpvo7MNUlObvfp6C295KuelPtU+mmGBZEaoqQJZQ7X6PO7Eq
-	1yJI+raN5ZhSyfbN7ICf/4gMbuml47c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729231424;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qXzwlPFkcgwlpkHju4Sd2T8xIwl3ThYFl+oOkaTK9oA=;
-	b=DZvkMGtLGOWIhpFDZEUwf8Vv8GLPmIT3fZL3UnW+ZzOx+L9TCI/3IICOQbnCwK+emH8l9C
-	r5eZZWBz+FfU5VBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ACD6413680;
-	Fri, 18 Oct 2024 06:03:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id o95aKD/6EWcIHQAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 18 Oct 2024 06:03:43 +0000
-Message-ID: <3a4c8e27-9d45-4f73-9440-252547a3fadf@suse.de>
-Date: Fri, 18 Oct 2024 08:03:43 +0200
+	Fri, 18 Oct 2024 06:34:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 4F87EA4412A;
+	Fri, 18 Oct 2024 06:33:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6266EC4CEC3;
+	Fri, 18 Oct 2024 06:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729233237;
+	bh=yWTqKc0bphAi9csONg41m8dvP/jLwdRyQd/BjPvGmZ4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FLsBlQBaHsHc5f5hK1iTAQXXx47LFLMkxPF5OTg+SVeYYV4Y0bps5dh9jVy2jtLOB
+	 vhnCxZ1VJxjIJHLOimTdryVSZwZsaBavLDX89oPHyuB0F1Ug9itcMzVrcIWGPXhgEo
+	 vIJNTFTiVuBkSq8z0L564I8cHu/Qs7iTDYyduFSTA6JoW+2ONlu/Vk2IxfmtbjbqNB
+	 zKW8j7xyxTxkwpgkSlGoqTw2mzV+CprBra+h7t/Y6rv6Eutomd7dsZwE0ErnGwfarC
+	 KaQ2hZodOIMDBv2rjUqyWnbzdEgSvjXRTOA+jWzxG5p7SDs/QeliohuV1fS5cE//HW
+	 OE7BqW5zykN8A==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Eric Biggers <ebiggers@kernel.org>,
+	linux-crypto@vger.kernel.org,
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCHv11 0/9] nvme: implement secure concatenaion
+Date: Fri, 18 Oct 2024 08:33:34 +0200
+Message-Id: <20241018063343.39798-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv8 5/6] io_uring: enable per-io hinting capability
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
- io-uring@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, joshi.k@samsung.com,
- javier.gonz@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
- Keith Busch <kbusch@kernel.org>
-References: <20241017160937.2283225-1-kbusch@meta.com>
- <20241017160937.2283225-6-kbusch@meta.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20241017160937.2283225-6-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 22F321FD95
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,samsung.com:email,suse.de:dkim,suse.de:mid,suse.de:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241017_230345_940060_22E54839 
-X-CRM114-Status: GOOD (  14.51  )
+X-CRM114-CacheID: sfid-20241017_233358_645383_D8F3058C 
+X-CRM114-Status: GOOD (  20.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,45 +73,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/17/24 18:09, Keith Busch wrote:
-> From: Kanchan Joshi <joshi.k@samsung.com>
-> 
-> With F_SET_RW_HINT fcntl, user can set a hint on the file inode, and
-> all the subsequent writes on the file pass that hint value down. This
-> can be limiting for block device as all the writes can be tagged with
-> only one lifetime hint value. Concurrent writes (with different hint
-> values) are hard to manage. Per-IO hinting solves that problem.
-> 
-> Allow userspace to pass additional metadata in the SQE.
-> 
-> 	__u16 write_hint;
-> 
-> This accepts all hint values that the file allows.
-> 
-> The write handlers (io_prep_rw, io_write) send the hint value to
-> lower-layer using kiocb. This is good for upporting direct IO, but not
-> when kiocb is not available (e.g., buffered IO).
-> 
-> When per-io hints are not passed, the per-inode hint values are set in
-> the kiocb (as before). Otherwise, per-io hints  take the precedence over
-> per-inode hints.
-> 
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->   include/uapi/linux/io_uring.h |  4 ++++
->   io_uring/rw.c                 | 11 +++++++++--
->   2 files changed, 13 insertions(+), 2 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Hi all,
 
-Cheers,
+here's my attempt to implement secure concatenation for NVMe-of TCP
+as outlined in TP8018.
+The original (v5) patchset had been split in two, the first part of
+which has already been merged with nvme-6.11, and this is the second part
+which actually implements secure concatenation.
 
-Hannes
+Secure concatenation means that a TLS PSK is generated from the key
+material negotiated by the DH-HMAC-CHAP protocol, and the TLS PSK
+is then used for a subsequent TLS connection.
+The difference between the original definition of secure concatenation
+and the method outlined in TP8018 is that with TP8018 the connection
+is reset after DH-HMAC-CHAP negotiation, and a new connection is setup
+with the generated TLS PSK.
+
+To implement that Sagi came up with the idea to directly reset the
+admin queue once the DH-CHAP negotiation has completed; that way
+it will be transparent to the upper layers and we don't have to
+worry about exposing queues which should not be used.
+
+A blktest submission is in
+https://github.com/osandov/blktests/pull/147
+in case anyone want to run their own tests.
+
+As usual, comments and reviews are welcome.
+
+Patchset can be found at
+git.kernel.org:/pub/scm/linux/kernel/git/hare/nvme.git
+branch secure-concat.v11
+
+Changes to v10:
+- Include reviews from Eric Biggers
+- Drop test vectors for SHA1
+- Add test vectors for SHA384 and SHA512
+- Include reviews from Mark O'Donovan
+
+Changes to v9:
+- Include reviews from Eric Biggers
+- Fixup secure concatenation after reset
+- Rebased to nvme-6.12
+
+Changes to v8:
+- Include reviews from Eric Biggers
+- Make hkdf a proper module
+- Add testcases for hkdf
+
+Changes to v7:
+- Add patch to display nvme target TLS status in debugfs
+- Include reviews from Sagi
+
+Changes to v6:
+- Rebase to nvme-6.11
+
+Changes to v5:
+- Include reviews from Sagi
+- Split patchset in two parts
+
+Changes to v4:
+- Rework reset admin queue functionality based on an idea
+  from Sagi (thanks!)
+- kbuild robot fixes
+- Fixup dhchap negotiation with non-empty C2 value
+
+Changes to v3:
+- Include reviews from Sagi
+- Do not start I/O queues after DH-HMAC-CHAP negotiation
+- Use bool to indicate TLS has been enabled on a queue
+- Add 'tls_keyring' sysfs attribute
+- Add 'tls_configured_key' sysfs attribute
+
+Changes to v2:
+- Fixup reset after dhchap negotiation
+- Disable namespace scanning on I/O queues after
+  dhchap negotiation
+- Reworked TLS key handling (again)
+
+Changes to the original submission:
+- Sanitize TLS key handling
+- Fixup modconfig compilation
+
+Hannes Reinecke (9):
+  crypto,fs: Separate out hkdf_extract() and hkdf_expand()
+  nvme: add nvme_auth_generate_psk()
+  nvme: add nvme_auth_generate_digest()
+  nvme: add nvme_auth_derive_tls_psk()
+  nvme-keyring: add nvme_tls_psk_refresh()
+  nvme-tcp: request secure channel concatenation
+  nvme-fabrics: reset admin connection for secure concatenation
+  nvmet-tcp: support secure channel concatenation
+  nvmet: add tls_concat and tls_key debugfs entries
+
+ crypto/Kconfig                         |   6 +
+ crypto/Makefile                        |   1 +
+ crypto/hkdf.c                          | 573 +++++++++++++++++++++++++
+ drivers/nvme/common/Kconfig            |   1 +
+ drivers/nvme/common/auth.c             | 346 +++++++++++++++
+ drivers/nvme/common/keyring.c          |  64 +++
+ drivers/nvme/host/auth.c               | 108 ++++-
+ drivers/nvme/host/fabrics.c            |  34 +-
+ drivers/nvme/host/fabrics.h            |   3 +
+ drivers/nvme/host/nvme.h               |   2 +
+ drivers/nvme/host/sysfs.c              |   4 +-
+ drivers/nvme/host/tcp.c                |  56 ++-
+ drivers/nvme/target/auth.c             |  72 +++-
+ drivers/nvme/target/debugfs.c          |  27 ++
+ drivers/nvme/target/fabrics-cmd-auth.c |  49 ++-
+ drivers/nvme/target/fabrics-cmd.c      |  33 +-
+ drivers/nvme/target/nvmet.h            |  38 +-
+ drivers/nvme/target/tcp.c              |  23 +-
+ fs/crypto/Kconfig                      |   1 +
+ fs/crypto/hkdf.c                       |  85 +---
+ include/crypto/hkdf.h                  |  20 +
+ include/linux/nvme-auth.h              |   7 +
+ include/linux/nvme-keyring.h           |   9 +
+ include/linux/nvme.h                   |   7 +
+ 24 files changed, 1462 insertions(+), 107 deletions(-)
+ create mode 100644 crypto/hkdf.c
+ create mode 100644 include/crypto/hkdf.h
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.35.3
+
 
