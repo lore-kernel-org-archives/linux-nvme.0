@@ -4,74 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 675A7D30019
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Oct 2024 16:18:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E3C5D3E195
+	for <linux-nvme@archiver.kernel.org>; Sat, 19 Oct 2024 00:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UZOvWd9Qdr/ICcHkPTjBkXNpReqYfNANXbD13j3yPbA=; b=zM3kE1KBxS8KCN04FnH+QQT7cL
-	jzSCPLGL+Mehfkl/xAzzw/Jpz5wgN7zk4Hsuc9aan9lKIKEkeuGmAXd5rArrawxSGJkiz/r0KIEIl
-	X3EwkSEFUOmASan66CAmKoHhGIrmdgUHQrXlRRn5n9dvq6MJHQeEc4Qgf/IUc8x/uZClkCMZLOf86
-	zMLAxchhLxUj970AMFK4ckTsmBfKGIJhXqE1Y6oYgC0BOxPq2gRxvSQJHOcEEONAfAKcvUWmQiCQZ
-	VHzjNWR4Y7AMz2rRsIMe4jQNkLEb4WuLlCd0fyYL21VDgiGG3dk5RwEXC3UsbJ9PhAnudugY9o/Yv
-	Ew9sk2rQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=JYSCtjCKEI7H84Yyy8QJYgF/Iuqo7NQib81kWhM1wRI=; b=Ju1WDIHOvhGydtagQZKP90wD3O
+	+PHROvcTmZ+2uXWOTb1fqtPi8UOt7dLlF7i9VeWFmfK5JoQDfoxYMUK53cbyMHpbNT/GLPPUjcfnl
+	f7g6nLbCLXmVwjGdiAVHymgoetysoJmwkRbJ2Rb2YHllpXb93V8jzk9uM+NW1K8u1539HYnwihArB
+	SNkMygTKMG9fhoBicQxDmLxWP8v3X9vLHlJ9yM/y0dAcwvSctSltloY/JeIpHzilBs2Xp4ncfSO5L
+	t1X5QQPd5dHTSwowtQgsdzApk3B5ZDBz03JB63iI2naO/48yCF77TPgYOojGXXQbIi9UBFOscEbZZ
+	3STVl0qQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1pgm-00000001KSY-31P7;
-	Fri, 18 Oct 2024 16:18:56 +0000
-Received: from 008.lax.mailroute.net ([199.89.1.11])
+	id 1t1xGY-00000002Kc0-2rgy;
+	Sat, 19 Oct 2024 00:24:22 +0000
+Received: from mgamail.intel.com ([198.175.65.19])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t1pgj-00000001KQG-07Vj
+	id 1t1xGV-00000002KbW-0ery
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Oct 2024 16:18:54 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4XVVJB6FQMz6ClSq5;
-	Fri, 18 Oct 2024 16:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1729268319; x=1731860320; bh=UZOvWd9Qdr/ICcHkPTjBkXNp
-	ReqYfNANXbD13j3yPbA=; b=VzlrEF+sa5/JCGuO0NnR/jFuALhH083kv+ExB8vk
-	5YNp7M0ui1R2CJHzoDdhkiwyPJioERh7UIggGaYtodtkPsePh42DqJ8bXKa6QHXJ
-	bPAKMy7Yb++Sjr4kgfPzq7g8mHdasUPcjNa8cTpPn9SQMsLla68j6NIN9vzDDTQ/
-	iW9EO1yXUQ5F+YPnWDpx2p5MPmR1G7m8mnMq5iBEdkRx2o+QZCfoU4sdzbXACY42
-	YwXNDesRJocfgmOMvI3FXCbJyxhoic7n6n7HLclz4pORGJE+/l7m30wzJz8szNpL
-	2cBBs6Df6+FvNo/mhvljvqsiwF5Lb/CkbWFIMoKhySHXRw==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id izSwHc7fHMsE; Fri, 18 Oct 2024 16:18:39 +0000 (UTC)
-Received: from [100.66.154.22] (unknown [104.135.204.82])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4XVVHx1z0Zz6ClV8W;
-	Fri, 18 Oct 2024 16:18:36 +0000 (UTC)
-Message-ID: <57798ab7-fc67-4606-900e-d221e028bd8f@acm.org>
-Date: Fri, 18 Oct 2024 09:18:34 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv8 3/6] block: introduce max_write_hints queue limit
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
- io-uring@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, joshi.k@samsung.com,
- javier.gonz@samsung.com, Keith Busch <kbusch@kernel.org>
-References: <20241017160937.2283225-1-kbusch@meta.com>
- <20241017160937.2283225-4-kbusch@meta.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20241017160937.2283225-4-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	Sat, 19 Oct 2024 00:24:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729297459; x=1760833459;
+  h=date:from:to:cc:subject:message-id;
+  bh=F/QM4yFqHzhGHVMNRtuhg6XL29LOpUeumKp7+072wrs=;
+  b=Nfzm5JA+d2QYUa5YVFEslSBWe8cTa6k+JMUWcSkCvi82rucD130H6y3v
+   x94fba29TQHi3jiNjXoeSWQm+yZMSeBz8whMOIyYAC+Noddu0Wf4daQDL
+   qkhzVBC2nQGbAbPpMAdnIuykEEasjIWGPnoo09AH6FafU+JolvXkaSzOZ
+   XZi4Ytx7e/Jn8COUcPBdQUmB9haC5SWak5J/asWyoirI5HwKBYiuNqR3i
+   6S8j45eMAOvHH1DCBkE33CKRRUb8ZEdquBFi/gwPamY4j3upZ0rFaah6K
+   nGKe3wcTkUySyB9kgSED1GkvveAW8C5sFT23LVsVvn7nzOPLHpQU8W38c
+   g==;
+X-CSE-ConnectionGUID: B/za8JgdRme0hLgaEZs9PA==
+X-CSE-MsgGUID: UWfIrge5QhKe4ehkQsVlcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28727505"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28727505"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:24:12 -0700
+X-CSE-ConnectionGUID: wQBz92ejRv+/i8XbH5i90Q==
+X-CSE-MsgGUID: WE3tk9LiSouiCjwSiQWPXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="102317304"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 18 Oct 2024 17:24:11 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1xGL-000OSP-1C;
+	Sat, 19 Oct 2024 00:24:09 +0000
+Date: Sat, 19 Oct 2024 08:23:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.12] BUILD SUCCESS
+ 599d9f3a10eec69ef28a90161763e4bd7c9c02bf
+Message-ID: <202410190839.qZXFOxBk-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241018_091853_234985_EB8FC554 
-X-CRM114-Status: GOOD (  14.41  )
+X-CRM114-CacheID: sfid-20241018_172419_434976_440700CA 
+X-CRM114-Status: UNSURE (   5.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,51 +83,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/17/24 9:09 AM, Keith Busch wrote:
-> Drivers with hardware that support write hints need a way to export how
-> many are available so applications can generically query this.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.12
+branch HEAD: 599d9f3a10eec69ef28a90161763e4bd7c9c02bf  nvme: use helper nvme_ctrl_state in nvme_keep_alive_finish function
 
-Something is missing from this patch, namely a change for the SCSI disk
-(sd) driver that sets max_write_hints to sdkp->permanent_stream_count.
+elapsed time: 1781m
 
-> +What:		/sys/block/<disk>/queue/max_write_hints
-> +Date:		October 2024
-> +Contact:	linux-block@vger.kernel.org
-> +Description:
-> +		[RO] Maximum number of write hints supported, 0 if not
-> +		supported. If supported, valid values are 1 through
-> +		max_write_hints, inclusive.
+configs tested: 126
+configs skipped: 5
 
-That's a bit short. I think it would help to add a reference to the
-aspects of the standards related to this attribute: permanent streams
-for SCSI and FDP for NVMe.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> diff --git a/block/blk-settings.c b/block/blk-settings.c
-> index a446654ddee5e..921fb4d334fa4 100644
-> --- a/block/blk-settings.c
-> +++ b/block/blk-settings.c
-> @@ -43,6 +43,7 @@ void blk_set_stacking_limits(struct queue_limits *lim)
->   	lim->seg_boundary_mask = BLK_SEG_BOUNDARY_MASK;
->   
->   	/* Inherit limits from component devices */
-> +	lim->max_write_hints = USHRT_MAX;
->   	lim->max_segments = USHRT_MAX;
->   	lim->max_discard_segments = USHRT_MAX;
->   	lim->max_hw_sectors = UINT_MAX;
-> @@ -544,6 +545,8 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
->   	t->max_segment_size = min_not_zero(t->max_segment_size,
->   					   b->max_segment_size);
->   
-> +	t->max_write_hints = min(t->max_write_hints, b->max_write_hints);
-> +
->   	alignment = queue_limit_alignment_offset(b, start);
->   
+tested configs:
+alpha                             allnoconfig    gcc-14.1.0
+alpha                            allyesconfig    clang-20
+alpha                               defconfig    gcc-14.1.0
+arc                              allmodconfig    clang-20
+arc                               allnoconfig    gcc-14.1.0
+arc                              allyesconfig    clang-20
+arc                                 defconfig    gcc-14.1.0
+arc                        vdk_hs38_defconfig    clang-20
+arm                              allmodconfig    clang-20
+arm                               allnoconfig    gcc-14.1.0
+arm                              allyesconfig    clang-20
+arm                                 defconfig    gcc-14.1.0
+arm                         nhk8815_defconfig    clang-20
+arm                       omap2plus_defconfig    clang-20
+arm64                            allmodconfig    clang-20
+arm64                             allnoconfig    gcc-14.1.0
+arm64                               defconfig    gcc-14.1.0
+csky                              allnoconfig    gcc-14.1.0
+csky                                defconfig    gcc-14.1.0
+hexagon                          alldefconfig    clang-20
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    gcc-14.1.0
+hexagon                          allyesconfig    clang-20
+hexagon                             defconfig    gcc-14.1.0
+i386                             allmodconfig    clang-18
+i386                              allnoconfig    clang-18
+i386                             allyesconfig    clang-18
+i386        buildonly-randconfig-001-20241019    clang-18
+i386        buildonly-randconfig-002-20241019    clang-18
+i386        buildonly-randconfig-003-20241019    clang-18
+i386        buildonly-randconfig-004-20241019    clang-18
+i386        buildonly-randconfig-005-20241019    clang-18
+i386        buildonly-randconfig-006-20241019    clang-18
+i386                                defconfig    clang-18
+i386                  randconfig-001-20241019    clang-18
+i386                  randconfig-002-20241019    clang-18
+i386                  randconfig-003-20241019    clang-18
+i386                  randconfig-004-20241019    clang-18
+i386                  randconfig-005-20241019    clang-18
+i386                  randconfig-006-20241019    clang-18
+i386                  randconfig-011-20241019    clang-18
+i386                  randconfig-012-20241019    clang-18
+i386                  randconfig-013-20241019    clang-18
+i386                  randconfig-014-20241019    clang-18
+i386                  randconfig-015-20241019    clang-18
+i386                  randconfig-016-20241019    clang-18
+loongarch                        allmodconfig    gcc-14.1.0
+loongarch                         allnoconfig    gcc-14.1.0
+loongarch                           defconfig    gcc-14.1.0
+m68k                             allmodconfig    gcc-14.1.0
+m68k                              allnoconfig    gcc-14.1.0
+m68k                             allyesconfig    gcc-14.1.0
+m68k                                defconfig    gcc-14.1.0
+m68k                        m5307c3_defconfig    clang-20
+m68k                          sun3x_defconfig    clang-20
+microblaze                       allmodconfig    gcc-14.1.0
+microblaze                        allnoconfig    gcc-14.1.0
+microblaze                       allyesconfig    gcc-14.1.0
+microblaze                          defconfig    gcc-14.1.0
+mips                              allnoconfig    gcc-14.1.0
+mips                          eyeq5_defconfig    clang-20
+mips                         rt305x_defconfig    clang-20
+nios2                             allnoconfig    gcc-14.1.0
+nios2                               defconfig    gcc-14.1.0
+openrisc                          allnoconfig    clang-20
+openrisc                            defconfig    gcc-12
+parisc                            allnoconfig    clang-20
+parisc                              defconfig    gcc-12
+parisc                generic-32bit_defconfig    clang-20
+parisc64                            defconfig    gcc-14.1.0
+powerpc                           allnoconfig    clang-20
+powerpc                   currituck_defconfig    clang-20
+powerpc                       holly_defconfig    clang-20
+powerpc                    mvme5100_defconfig    clang-20
+powerpc                     tqm8541_defconfig    clang-20
+riscv                             allnoconfig    clang-20
+riscv                               defconfig    gcc-12
+s390                             allmodconfig    gcc-14.1.0
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.1.0
+s390                                defconfig    gcc-12
+sh                               allmodconfig    gcc-14.1.0
+sh                                allnoconfig    gcc-14.1.0
+sh                               allyesconfig    gcc-14.1.0
+sh                                  defconfig    gcc-12
+sh                      rts7751r2d1_defconfig    clang-20
+sparc                            allmodconfig    gcc-14.1.0
+sparc64                             defconfig    gcc-12
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-20
+um                               allyesconfig    clang-20
+um                                  defconfig    gcc-12
+um                             i386_defconfig    gcc-12
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-18
+x86_64                           allyesconfig    clang-18
+x86_64      buildonly-randconfig-001-20241019    clang-18
+x86_64      buildonly-randconfig-002-20241019    clang-18
+x86_64      buildonly-randconfig-003-20241019    clang-18
+x86_64      buildonly-randconfig-004-20241019    clang-18
+x86_64      buildonly-randconfig-005-20241019    clang-18
+x86_64      buildonly-randconfig-006-20241019    clang-18
+x86_64                              defconfig    clang-18
+x86_64                                  kexec    clang-18
+x86_64                                  kexec    gcc-12
+x86_64                randconfig-001-20241019    clang-18
+x86_64                randconfig-002-20241019    clang-18
+x86_64                randconfig-003-20241019    clang-18
+x86_64                randconfig-004-20241019    clang-18
+x86_64                randconfig-005-20241019    clang-18
+x86_64                randconfig-006-20241019    clang-18
+x86_64                randconfig-011-20241019    clang-18
+x86_64                randconfig-012-20241019    clang-18
+x86_64                randconfig-013-20241019    clang-18
+x86_64                randconfig-014-20241019    clang-18
+x86_64                randconfig-015-20241019    clang-18
+x86_64                randconfig-016-20241019    clang-18
+x86_64                randconfig-071-20241019    clang-18
+x86_64                randconfig-072-20241019    clang-18
+x86_64                randconfig-073-20241019    clang-18
+x86_64                randconfig-074-20241019    clang-18
+x86_64                randconfig-075-20241019    clang-18
+x86_64                randconfig-076-20241019    clang-18
+x86_64                               rhel-8.3    gcc-12
+xtensa                            allnoconfig    gcc-14.1.0
+xtensa                  cadence_csp_defconfig    clang-20
 
-I prefer that lim->max_write_hints is initialized to zero in
-blk_set_stacking_limits() and that blk_stack_limits() uses
-min_not_zero().
-
-Thanks,
-
-Bart.
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
