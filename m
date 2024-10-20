@@ -4,71 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4DECD3C92D
-	for <linux-nvme@archiver.kernel.org>; Sun, 20 Oct 2024 23:33:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DAE4D3C92D
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Oct 2024 23:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ra51PlWUFtaQLGUy/r55AA8Ya2cUP4neXV/My1wliA4=; b=lj1/5G7dI69Rbd+1T3j0qCDjVe
-	n1NdnD4X+m28BZORzLvPYyyN+6lw/3x/EiyUaXFGVzCC/A2sOf5LzBYXs88KLerfOMNzhxZZhrT6Z
-	Wxc/UxzTI5q/zSOBE46XWlGb5MWvHLIy65DUJCw3PLnhT8YBE9jryQGpugnDbNj8YrqyCTbJvX9tQ
-	zwZfeNP9LA8LOLleKYyspj3EGp7nFMnfd+q9qTEbXKblb77xn8DD8uxAqgQH/16Z+U+WNKUtDyHFU
-	hVTgdE0LH6SmcJq/SEnp8BbMLjJu1fXlwJexTXw5A05J3FI2b78o61NzUkcVOefi5L4CQ2GTFXiUU
-	HJpAEY7A==;
+	bh=2FtgMoDRWubDYCabrPCOBe7ElnYbRzuGB0FImXpXzcI=; b=kf1sRSjHkH6Mv6mz1kF2YtVS9S
+	5NiSiQMX/tlc+K1NircmtOZDLEt1vyl79FN4e9DwL1hd3DhQcoq4MkSiL7ZR2FUVcAWeCxEwGYxzu
+	dwyx1FArk/5O3FI9z4DfHLNAiE/csJ5qDe6GUb/zwzQcJIqCGsJnIueQ6tnMKzs7vo5dkHvHClyAv
+	1P63yS8sW6xg9goMyiPGjmxQn30WuiEzubucHW5qdzMjkC7whKEv/j/FXNrPUmdIBjHEOtywrx6uQ
+	buOu9BSw6vLTUtz6UVS04OC4c9kc/SluOG3FkoABexuuuBLwSfiOX12lITGk8G/hhhjvatLZXt3wJ
+	n4P2R66w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2fQa-00000005cxO-3IM5;
-	Sun, 20 Oct 2024 23:33:40 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1t2fUA-00000005dES-0AK4;
+	Sun, 20 Oct 2024 23:37:22 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2fQY-00000005cx0-2U0v
+	id 1t2fU8-00000005dE0-0Cm5
 	for linux-nvme@lists.infradead.org;
-	Sun, 20 Oct 2024 23:33:40 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43161c0068bso24325815e9.1
-        for <linux-nvme@lists.infradead.org>; Sun, 20 Oct 2024 16:33:38 -0700 (PDT)
+	Sun, 20 Oct 2024 23:37:21 +0000
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43162cf1eaaso32787085e9.0
+        for <linux-nvme@lists.infradead.org>; Sun, 20 Oct 2024 16:37:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729467217; x=1730072017;
+        d=1e100.net; s=20230601; t=1729467438; x=1730072238;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ra51PlWUFtaQLGUy/r55AA8Ya2cUP4neXV/My1wliA4=;
-        b=XsL+qj6ivGTEQmy1Ffdp90mE9bivrQ7FyevNRybdg/m3ulXuCYuuLbg8mKVCFYpcfd
-         yUCRc9k0dKNwdAn/hKSpuRKbaSRUbqWWWLzqhC+7Esr3g0ICjYz7klICY61Q+oulK4bX
-         tpit3MXrp+ENOSbAbT+ktcxrVmlB7K/RShj/M3eokR2b8sn1lOWf4YA2rAXgPikyEwps
-         4Dr4px0M0X6XBPQiTGMjF01eXRKQ5jHJavYJMbE3qdB307BsTEHiocHOyGSoreUz8yOM
-         UvuZa0DH4UtgNs/hPnla1tGHa1e4sPbc5Avfl6f3KnHoRGh1zB8Uq40wNT22qrdF/6vV
-         FTSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTAF7TOzQ4gqWcgAs6qzNDERHoD780ncjhAg4OFLy4tpjGXZGgSqb5MFwLob9Zlcuw4Sdkmrygtm23@lists.infradead.org
-X-Gm-Message-State: AOJu0YwEdH8pjUcNDOY10ee1NO3k2jx0XypMmAXG8AzB6m4QfUMsxM0r
-	ULk/RbxsNFOHTl0XTppLxwWC2E1HJw3efYv8Nuyl6tRegETWqtYm846PTQ==
-X-Google-Smtp-Source: AGHT+IFkTk8xRLypyhaYImFfcBVO5rLrEFkAvOiA4H2Fg5ycMnBsD/Ij/Y6QzpuuF5XyxHNN1oWhog==
-X-Received: by 2002:a5d:5e10:0:b0:37e:d2b7:acd5 with SMTP id ffacd0b85a97d-37ed2b7afc9mr4838362f8f.8.1729467216820;
-        Sun, 20 Oct 2024 16:33:36 -0700 (PDT)
+        bh=2FtgMoDRWubDYCabrPCOBe7ElnYbRzuGB0FImXpXzcI=;
+        b=c/xGCL6lsDFD/Ed+P0h7pJsL8ETL3Mf2j5OPYGx3D6h0M+mj+O4MYGsffGeHm+DI9a
+         F5uvz3a5haXo2T7qcugFUA1a5/sz3qP1SPgqO85JLPtmEwVJolcKNx3nPt9xW/EXv4zb
+         GdZlIQZUcSBeXG/iQO652CdF9pvbHCAm8sG729oSTv2mOyBI68oJnGCoi6oeimvoedtS
+         wW8punB1CbStir7ZDf5xk2Gnw3jon8irHjR+Pe70/WVriZfmxLhAbQvn9vgU2u648gMv
+         hbs+ISVGet+RA0/EeDo3Rd1gQohNAYgOI+kTBzJfKyMfbZ395tZ17qhqeCxm/CU9MYu6
+         qJAw==
+X-Forwarded-Encrypted: i=1; AJvYcCUt09cNhcEDZlCm3v7WWbQPzkEWjlYUum/3hP+qfKqnGUTHkPw5nCE8A2BQdwPZeWwxXDNR25C0pih5@lists.infradead.org
+X-Gm-Message-State: AOJu0YykGU1FgG9bU7q/TInCnkEnpbwCz6b6vx2V2UjPqwWAczuKoA0M
+	xTWlfFmstLDZgnyXQlMR9Zt6uJu1FginIQtWNGlvTSFjix85KNIFNOx2bw==
+X-Google-Smtp-Source: AGHT+IGKOM8eA/p466mqcgfWTIKu+bSG4+C/XU5rJTfrr3LlEitOS5D29jSAdThPEem6uu0u0PJDJw==
+X-Received: by 2002:a05:600c:1c03:b0:431:542d:2599 with SMTP id 5b1f17b1804b1-43161686943mr92703695e9.22.1729467437985;
+        Sun, 20 Oct 2024 16:37:17 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-78-158.bb.netvision.net.il. [89.138.78.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b9b8b9sm2799208f8f.92.2024.10.20.16.33.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f5cc53fsm37595535e9.47.2024.10.20.16.37.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Oct 2024 16:33:36 -0700 (PDT)
-Message-ID: <888e247e-32c0-425a-9bb8-df4a498d5f5d@grimberg.me>
-Date: Mon, 21 Oct 2024 02:33:34 +0300
+        Sun, 20 Oct 2024 16:37:17 -0700 (PDT)
+Message-ID: <593c5efb-b433-4b2d-ac00-193aaf19d244@grimberg.me>
+Date: Mon, 21 Oct 2024 02:37:16 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] nvme-multipath: simplify loop in
- nvme_update_ana_state()
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/3] nvme-multipath: cannot disconnect controller on stuck
+ partition scan
+To: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
+Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
 References: <20241007100134.21104-1-hare@kernel.org>
- <20241007100134.21104-2-hare@kernel.org>
+ <20241007100134.21104-3-hare@kernel.org> <ZwQmK6dZ_goSQ4Cg@kbusch-mbp>
+ <47968bf9-2b98-4e5e-9040-2db6f15d86a6@suse.de> <ZwWY8d3vOLUaYaJ6@kbusch-mbp>
+ <3b8ff898-9529-4506-8c5d-0fcf3423730f@suse.de> <Zwa-MBS6wn_dGxge@kbusch-mbp>
+ <b7ffdbbb-0b4e-4215-bf2b-b5c2f9a2dc08@suse.de> <Zw59LxZ3cngO17_f@kbusch-mbp>
+ <4478f837-b504-44dd-8f5b-facab6aa8161@suse.de> <Zw6F5LN6YuVVqFux@kbusch-mbp>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20241007100134.21104-2-hare@kernel.org>
+In-Reply-To: <Zw6F5LN6YuVVqFux@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241020_163338_670033_E0276103 
-X-CRM114-Status: GOOD (  22.50  )
+X-CRM114-CacheID: sfid-20241020_163720_123467_4535FF79 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,67 +91,24 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 07/10/2024 13:01, Hannes Reinecke wrote:
-> Currently nvme_update_ana_state() iterates over all namespaces
-> with the srcu lock held, and calls the 'cb' function if a
-> match on the list of namespaces from the ANA log is found.
-> This assumes that the iteration itself is relatively quick,
-> and the namespace state itself doesn't change during iteration.
-> For more complex functions (eg if the 'cb' function triggers
-> mpath_set_live() which then kicks off a partition scan) the
-> namespace state might change while iterating, and the rcu-protected
-> area becomes really long.
-> So change the loop to iterated over the entries in the ANA log,
-> and call nvme_find_get_ns() on each entry.
-> With that the 'cb' function is executed outside of the RCU
-> protected area, and normal reference counting rules apply.
+On 15/10/2024 18:10, Keith Busch wrote:
+> On Tue, Oct 15, 2024 at 04:56:08PM +0200, Hannes Reinecke wrote:
+>> On 10/15/24 16:33, Keith Busch wrote:
+>>> Is that actually happening for you? I don't think it's supposed to
+>>> happen because mpath_shutdwon_disk only happens if the head is detached
+>>> from the subsystem, so no other thread should be able to possibly
+>>> attempt to access that head's disk for a different controller path. That
+>>> new controller should have to allocate an entirely new head.
+>> Na, forget it. Not only doesn't it happen, but we need the
+>> 'test_and_set_bit()' at the start otherwise we can't abort I/O.
+>> So all's fine with your patch, and it even survives my testcase.
+>>
+>> (The first to do so even after several runs, I might add :-)
+>>
+>> Care to send an official patch?
+> Should be in your mailbox. Here's the link:
 >
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->   drivers/nvme/host/multipath.c | 18 ++++++------------
->   1 file changed, 6 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index f72c5a6a2d8e..61f8ae199288 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -745,7 +745,6 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
->   	u32 nr_nsids = le32_to_cpu(desc->nnsids), n = 0;
->   	unsigned *nr_change_groups = data;
->   	struct nvme_ns *ns;
-> -	int srcu_idx;
->   
->   	dev_dbg(ctrl->device, "ANA group %d: %s.\n",
->   			le32_to_cpu(desc->grpid),
-> @@ -757,21 +756,16 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
->   	if (!nr_nsids)
->   		return 0;
->   
-> -	srcu_idx = srcu_read_lock(&ctrl->srcu);
-> -	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
-> +	for(n = 0; n < nr_nsids; n++) {
->   		unsigned nsid;
-> -again:
-> +
->   		nsid = le32_to_cpu(desc->nsids[n]);
-> -		if (ns->head->ns_id < nsid)
-> -			continue;
-> -		if (ns->head->ns_id == nsid)
-> +		ns = nvme_find_get_ns(ctrl, nsid);
-> +		if (ns) {
->   			nvme_update_ns_ana_state(desc, ns);
-> -		if (++n == nr_nsids)
-> -			break;
-> -		if (ns->head->ns_id > nsid)
-> -			goto again;
-> +			nvme_put_ns(ns);
-> +		}
->   	}
-> -	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+>    https://lore.kernel.org/linux-nvme/20241015143136.810779-1-kbusch@meta.com/T/#u
 
-You also made the loop now n^2... which *may* be an issue for an 
-environment with
-a lot of namespaces. It is simpler though...
-
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+I'm glad we didn't take the original version of this patch :)
 
