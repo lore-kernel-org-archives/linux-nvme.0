@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C3CED3C92D
-	for <linux-nvme@archiver.kernel.org>; Sun, 20 Oct 2024 21:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A47FD3C92D
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Oct 2024 22:36:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/g9u9r+Oc3PrzXWPXDpTiinuWcr6pRGL0B1NNC3P9YU=; b=ZiKgd4g5XTdK1cdGeFB4WvTXEc
-	1/uTs9R8EcTtG60Zn4aLUqpLYRF79+zI1PZC5RnKQqdiEeFeCK57XMvpBpMinuXmbrNjhf+Kx7+z4
-	HojN6mQGPAwy0mKhh9XjS0/wkNJbDz0Sv6KJpliEUE6Aa8qb+isNIU6fg+95nQXKK7Uo9rYwmn67y
-	YVerUHPvsOcuPOa1VaFJ2ZMA3DThoGI3JZ06NJSstfQweCLkpf2DEV5JFFw5bc35QI7XyOYd7T6VF
-	ncMpp9Z6ODsrW+ovbD/nHbJgExnovEgwVJ0T82m25RExpR5YbO/wwv6JyjpoSJiUgT6RbXbopHpDc
-	EQRdDaxw==;
+	bh=8gvunzOD153CTbwKYwn2c7/rU7pSguFyzL0oEONlkeI=; b=NVIU8TMmK6wWNXzisoxiW/rpTM
+	H6i034vA2iQc1MtWlcOYCm5P4yCV+10W0W9siGuRyeOj8OcAoRwfKQoyD3HtcbabJ1EMtF43Pqgmt
+	GOms2Nr/k4vqkmq1SwOprmoP+Vf+ZIlrXF3PYhHyL7cz4FfSJviyyavkixAir3J/UsG/zZY62udnI
+	qYuu9qH6VQO891TrGXHdSUVVQKnbnpkEDA8K7I7DxLwsUPIAHzjTGtzOJdGnTmgd5S/Nf/iLYmCNy
+	dQaahUtGM8gaUgA7lRR53ChpkfaEJvtvifqowSPaa9JF+i2gvsxn3AT0SMv8eXD976y8MIqXpiUjH
+	qZuOjOHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2dpx-00000005VuL-2lYg;
-	Sun, 20 Oct 2024 21:51:45 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1t2eXM-00000005Yze-0S1Q;
+	Sun, 20 Oct 2024 22:36:36 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2dpu-00000005Vtv-4AZJ
+	id 1t2eXJ-00000005Yz9-1DCb
 	for linux-nvme@lists.infradead.org;
-	Sun, 20 Oct 2024 21:51:44 +0000
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37d4ac91d97so3799805f8f.2
-        for <linux-nvme@lists.infradead.org>; Sun, 20 Oct 2024 14:51:42 -0700 (PDT)
+	Sun, 20 Oct 2024 22:36:34 +0000
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4315f24a6bbso29386885e9.1
+        for <linux-nvme@lists.infradead.org>; Sun, 20 Oct 2024 15:36:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729461101; x=1730065901;
+        d=1e100.net; s=20230601; t=1729463791; x=1730068591;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/g9u9r+Oc3PrzXWPXDpTiinuWcr6pRGL0B1NNC3P9YU=;
-        b=m8CvTKdD5vAKIjG2TPITprwEWhDTlanrwPwOWN8c0dOjksX4jydGwkpKRk16pe/1uY
-         TBjXqJrLGnh4Lre5wdwd798LoVgd3xuwoX4yiRhoN0KHrOMSKIdwpW++NKBMMVMyrKJk
-         /2hLOpQ45lCbC/wpsc1DAqjjm8vs9ve6AG1Hhq+EjdZrv2hdmEt/z0h8TzL0PAsnQsmL
-         3K5Y5lQ0kqif2B/npVTV5ArxjTluNUNnfBUrZDFVZillBTXMK97ysAEpUPr/5fa7s28l
-         lSDZcKNc/77f40N0kfBlLdp+6tJtANU5MjORXb5tBBLh947n4MKR/d6bCRTSi4VN+KfG
-         q0Rw==
-X-Gm-Message-State: AOJu0YzmNBJ3Hc54ijsP4BKOxhTAf6Tz1PD7XZs3GH2GOsAp7O20mg9L
-	X+eLbSmifiqfOpZd8oXHvCtQx6muUNT755FogO+ZSUHHTOBwYFb4
-X-Google-Smtp-Source: AGHT+IF4qHh/xeL+l9Kt+/VddCUf0iB0gSLRbeE2xhTaGZIokeXrb5iPpl1HTqFD0N+O41mDin08Yw==
-X-Received: by 2002:a5d:468d:0:b0:37d:4cf9:e08b with SMTP id ffacd0b85a97d-37eab4d1253mr8833230f8f.31.1729461101035;
-        Sun, 20 Oct 2024 14:51:41 -0700 (PDT)
+        bh=8gvunzOD153CTbwKYwn2c7/rU7pSguFyzL0oEONlkeI=;
+        b=wv2pisMMSBe3+S11vATHkx2vCoEP92qxWUXcSO4R5oIW7gCao8VFKhxMOs9fzS7cKv
+         fWb8beSICO6lInCSHhjNyqECnTVAEWiblLl4EI66TA0xifqWerd42aNFImKjS+5wrXHz
+         SN0PVzmT/ooeqtnrQBcvvXlzKXkmZEZTOYQNOy2qGC7tWLjpUorEqfTeU33CvV22M0PH
+         5UJRSxBWZ5mn7LZmkjxrjyKTRO2dnvSRZYQ/LjgC9tassH1ZTyjAPTglW2ituv0VreDY
+         3QglcON2WJYbzNlu2rt7c99M/CaQbdeAhDPWkOcM9Soi3OYdFlzgVQpHH84v2Otyb1M9
+         DASA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9WgtYqAEgwlRpVLhzdzK4Qk8OuZNkhhZ2lTAj5uHPTld+9XZzW2i9yiEiteQfoQuZO27R5/1ENHid@lists.infradead.org
+X-Gm-Message-State: AOJu0YwXMxI9dmnmWGFUKORbArGAdfuxubRc9xoDbaSBu2i3+qk3vBd8
+	o/XIjVrdYyIXTIlaCNgeux3x/42kNzS6fIjiI6KGIcWRnRhWzgy/iKhGkw==
+X-Google-Smtp-Source: AGHT+IHheMV3Sdg7BIEzxN22nLJOGCXXAVtkyk5VALxK+nrqLHQ/THwlDudeaF9cDI4GfbMj8XcCtA==
+X-Received: by 2002:a05:600c:1e04:b0:42f:4f6:f8f3 with SMTP id 5b1f17b1804b1-4316162297emr67583875e9.7.1729463791118;
+        Sun, 20 Oct 2024 15:36:31 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-78-158.bb.netvision.net.il. [89.138.78.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a37b71sm2653909f8f.14.2024.10.20.14.51.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43160682759sm100858975e9.1.2024.10.20.15.36.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Oct 2024 14:51:40 -0700 (PDT)
-Message-ID: <14a85dd6-87ac-454d-9429-4142cd0ce9ff@grimberg.me>
-Date: Mon, 21 Oct 2024 00:51:39 +0300
+        Sun, 20 Oct 2024 15:36:30 -0700 (PDT)
+Message-ID: <74828866-cc4e-4598-8e7d-779f771955ae@grimberg.me>
+Date: Mon, 21 Oct 2024 01:36:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/3] nvme: system fault while shutting down fabric
- controller
-To: Keith Busch <kbusch@kernel.org>, Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, axboe@fb.com,
- chaitanyak@nvidia.com, dlemoal@kernel.org, gjoyce@linux.ibm.com
-References: <20241016030339.54029-1-nilay@linux.ibm.com>
- <ZxFSkNI2p65ucTB5@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: sysfs tls_configured_key naming?
+To: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <d3466e4f-23dc-4a07-a2c3-98bcbf6c7960@flourine.local>
+ <f56b5973-81c0-4e1d-8552-ee87066029bf@suse.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZxFSkNI2p65ucTB5@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <f56b5973-81c0-4e1d-8552-ee87066029bf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241020_145143_141639_37A2FEF0 
-X-CRM114-Status: GOOD (  11.16  )
+X-CRM114-CacheID: sfid-20241020_153633_354871_6B956777 
+X-CRM114-Status: GOOD (  16.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,22 +86,33 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 17/10/2024 21:08, Keith Busch wrote:
-> On Wed, Oct 16, 2024 at 08:33:13AM +0530, Nilay Shroff wrote:
->> We observed a kernel task hang up and a kernel crash while shutting down
->> NVMe fabric controller. These issues were observed while running blktest
->> nvme/037. The first two patches in this series address issues encountered
->> while running this test. The third patch in the series is an attempt to
->> use helper nvme_ctrl_state for accessing NVMe controller state.
+On 17/10/2024 15:13, Hannes Reinecke wrote:
+> On 10/17/24 12:54, Daniel Wagner wrote:
+>> f5eb7397471b ("nvme-sysfs: add 'tls_configured_key' sysfs attribute")
+>> claims that the --tls_key is expecting a 'Configured PSK'. That is not
+>> correct. It expects a 'Derived TLS PSK'. That means user space has to do
+>> the whole key transformation as described in Figure 21: {TLS PSK, TLS
+>> Identity, Hash} Tuple Derivation in TCP Transport Specification,
+>> Revision 1.1.
 >>
->> We intermittently observe the blow kernel task hang while running the
->> blktest nvme/037. This test setup NVMeOF passthru controller using loop
->> target, connect to it and then immediately terminate/cleanup the
->> connection.
-> Thanks, applied to nvme-6.12.
+> Not necessarily. The spec indicates two methods:
+>
+> > Each NVMe/TCP entity shall support:
+> > * transforming the configured PSK into a retained PSK before it is
+> >   stored by the NVMe/TCP entity for repeated use with another
+> >   NVMe/TCP entity; and
+> > * using the configured PSK as a retained PSK.
+>
+>>  From a quick look at the concatenation patches and based on the spec,
+>> tls_configured_key will never hold the 'Configured PSK'. I think we
+>> should use a better name for this sysfs attribute. I suppose it should
+>> be named 'tls_generated_psk'?
+>>
+> No. The 'generated' PSK (in the current wording of the TLS concatenation
+> patches) is the PSK generated internally during TLS concatenation.
+> And, curiously, the only one which will _never_ be presented in the
+> 'tls_configured_key' attribute.
 
-ugh.. looks like I'm late (after a too long of a delay... I know)
-
-I think we want to sort this out, it is not clear to me that the approach
-taken is the correct one.
+FWIW, I don't like the tls_configured_key notation either. But I don't have
+a better name.
 
