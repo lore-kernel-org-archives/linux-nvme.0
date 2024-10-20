@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63D1BD3C92A
-	for <linux-nvme@archiver.kernel.org>; Sun, 20 Oct 2024 21:49:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C3CED3C92D
+	for <linux-nvme@archiver.kernel.org>; Sun, 20 Oct 2024 21:51:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zes+46wNSr+tLWY9lI2lTde1Td77BdawD/wLWBbHFNY=; b=m/SAd/yDA26NPuYfF9FTLm4EcW
-	huoqQ1R9+nJYjoDrulipRBtdwtmQsQsBTZFKNz+Z84Za72qWpkS9R2DL+nOTUMESRbBChzCfUIeGX
-	WoqjvZvTb4N8n55POBna/1/JZZGC1JTWRldQdZKCMSEb7w9AgS8N1xSsqjzI3oBD5qbHLKlsMHBfy
-	LeamPwCNTN4OhY8H6E30UPnxQt3ymBE2tcHZx92/4WU/rwhfLLkUrnscxV7z7bhjAx2WKxAYFCoo6
-	oJUJfL2qZHil+hnXeJCS/3cwUvjhIF7A497PWWUkEhGkFzB12reLkT9UHoLERjqG3adNf4d/zSUWu
-	6e8gcgaA==;
+	bh=/g9u9r+Oc3PrzXWPXDpTiinuWcr6pRGL0B1NNC3P9YU=; b=ZiKgd4g5XTdK1cdGeFB4WvTXEc
+	1/uTs9R8EcTtG60Zn4aLUqpLYRF79+zI1PZC5RnKQqdiEeFeCK57XMvpBpMinuXmbrNjhf+Kx7+z4
+	HojN6mQGPAwy0mKhh9XjS0/wkNJbDz0Sv6KJpliEUE6Aa8qb+isNIU6fg+95nQXKK7Uo9rYwmn67y
+	YVerUHPvsOcuPOa1VaFJ2ZMA3DThoGI3JZ06NJSstfQweCLkpf2DEV5JFFw5bc35QI7XyOYd7T6VF
+	ncMpp9Z6ODsrW+ovbD/nHbJgExnovEgwVJ0T82m25RExpR5YbO/wwv6JyjpoSJiUgT6RbXbopHpDc
+	EQRdDaxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2dnn-00000005Vfe-0nsG;
-	Sun, 20 Oct 2024 21:49:31 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1t2dpx-00000005VuL-2lYg;
+	Sun, 20 Oct 2024 21:51:45 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2dnk-00000005VfD-3eww
+	id 1t2dpu-00000005Vtv-4AZJ
 	for linux-nvme@lists.infradead.org;
-	Sun, 20 Oct 2024 21:49:30 +0000
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4314b316495so36237705e9.2
-        for <linux-nvme@lists.infradead.org>; Sun, 20 Oct 2024 14:49:28 -0700 (PDT)
+	Sun, 20 Oct 2024 21:51:44 +0000
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37d4ac91d97so3799805f8f.2
+        for <linux-nvme@lists.infradead.org>; Sun, 20 Oct 2024 14:51:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729460967; x=1730065767;
+        d=1e100.net; s=20230601; t=1729461101; x=1730065901;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zes+46wNSr+tLWY9lI2lTde1Td77BdawD/wLWBbHFNY=;
-        b=kwMUhLrp3HKutRvmVTjMDwjGH9ATuw5qZ5JixCn8fzljIIpFhIM2Soys1D+qPDbcoo
-         HLd+fYkf9mwiakf3BlydJS8s5dKCRCNHbNSmX1OeQLiPConxVPivTwC5TIwr+8HgT3jk
-         NxCbDVELfka16v3Ra98TsUMUTbhWbujqTrgSiXZh7N/7qIxQjpEncAqb261PMWcmb63K
-         R3k0PKZYhjwbwK3vteCu+jyUCM/g53L7dRqD5BHhU5mn4HHKubv012v9fwQ9YW76AkUI
-         MlfaVVGdbhW1cfqCCAo7c4IhALCB+V38TgiaF4w38uyHlEI3C5ZoJVZjUGUi3UV04D/O
-         nD8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVVSwhJ6zCyJMt+5zTO41xL1cKEa3mpjLDoGSrN0ChyTRWi6MiBDODK7eb4Hd+uZCAqaB3wDt+1OXOF@lists.infradead.org
-X-Gm-Message-State: AOJu0YzimfddvGZqYPKodaVhrBwcEet+X8/bE8rnM866Z+a8f5tepbs8
-	32ANTd7G5bnxMs5IpgVKRzmD8IbUnfjRMbBGwyi9l61tfqNCo90A
-X-Google-Smtp-Source: AGHT+IEo4Ns/zlbNgaCjxm7uN3uX3gwB2ZkKJdYHjxNKaziSIhsTLtrHZRihrqOX0aCNuYoBKOgeTA==
-X-Received: by 2002:adf:ed02:0:b0:37c:c5c4:627 with SMTP id ffacd0b85a97d-37ea2151b4fmr5805183f8f.5.1729460967050;
-        Sun, 20 Oct 2024 14:49:27 -0700 (PDT)
+        bh=/g9u9r+Oc3PrzXWPXDpTiinuWcr6pRGL0B1NNC3P9YU=;
+        b=m8CvTKdD5vAKIjG2TPITprwEWhDTlanrwPwOWN8c0dOjksX4jydGwkpKRk16pe/1uY
+         TBjXqJrLGnh4Lre5wdwd798LoVgd3xuwoX4yiRhoN0KHrOMSKIdwpW++NKBMMVMyrKJk
+         /2hLOpQ45lCbC/wpsc1DAqjjm8vs9ve6AG1Hhq+EjdZrv2hdmEt/z0h8TzL0PAsnQsmL
+         3K5Y5lQ0kqif2B/npVTV5ArxjTluNUNnfBUrZDFVZillBTXMK97ysAEpUPr/5fa7s28l
+         lSDZcKNc/77f40N0kfBlLdp+6tJtANU5MjORXb5tBBLh947n4MKR/d6bCRTSi4VN+KfG
+         q0Rw==
+X-Gm-Message-State: AOJu0YzmNBJ3Hc54ijsP4BKOxhTAf6Tz1PD7XZs3GH2GOsAp7O20mg9L
+	X+eLbSmifiqfOpZd8oXHvCtQx6muUNT755FogO+ZSUHHTOBwYFb4
+X-Google-Smtp-Source: AGHT+IF4qHh/xeL+l9Kt+/VddCUf0iB0gSLRbeE2xhTaGZIokeXrb5iPpl1HTqFD0N+O41mDin08Yw==
+X-Received: by 2002:a5d:468d:0:b0:37d:4cf9:e08b with SMTP id ffacd0b85a97d-37eab4d1253mr8833230f8f.31.1729461101035;
+        Sun, 20 Oct 2024 14:51:41 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-78-158.bb.netvision.net.il. [89.138.78.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b9bf8esm2622267f8f.110.2024.10.20.14.49.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a37b71sm2653909f8f.14.2024.10.20.14.51.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Oct 2024 14:49:26 -0700 (PDT)
-Message-ID: <a5908bbc-4230-460d-b814-a0b41d16a15d@grimberg.me>
-Date: Mon, 21 Oct 2024 00:49:25 +0300
+        Sun, 20 Oct 2024 14:51:40 -0700 (PDT)
+Message-ID: <14a85dd6-87ac-454d-9429-4142cd0ce9ff@grimberg.me>
+Date: Mon, 21 Oct 2024 00:51:39 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] nvme: make keep-alive synchronous operation
-To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, axboe@fb.com, chaitanyak@nvidia.com,
- dlemoal@kernel.org, gjoyce@linux.ibm.com
+Subject: Re: [PATCH v4 0/3] nvme: system fault while shutting down fabric
+ controller
+To: Keith Busch <kbusch@kernel.org>, Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, axboe@fb.com,
+ chaitanyak@nvidia.com, dlemoal@kernel.org, gjoyce@linux.ibm.com
 References: <20241016030339.54029-1-nilay@linux.ibm.com>
- <20241016030339.54029-3-nilay@linux.ibm.com>
+ <ZxFSkNI2p65ucTB5@kbusch-mbp.dhcp.thefacebook.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20241016030339.54029-3-nilay@linux.ibm.com>
+In-Reply-To: <ZxFSkNI2p65ucTB5@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241020_144928_953361_BD62C8E6 
-X-CRM114-Status: GOOD (  23.51  )
+X-CRM114-CacheID: sfid-20241020_145143_141639_37A2FEF0 
+X-CRM114-Status: GOOD (  11.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,78 +83,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Nilay,
-
-First, can you please phrase the patch title to describe what it
-is addressing, not what it is changing, that can come (as it does)
-in the body.
-
-Second, I don't think we want to spend a thread waiting for
-synchronous IO for the purpose of keep alive. Is this the only
-way that this can be done?
-
-Third, was this observed with non-loop transports?
 
 
-On 16/10/2024 6:03, Nilay Shroff wrote:
-> The nvme keep-alive operation, which executes at a periodic interval,
-> could potentially sneak in while shutting down a fabric controller.
-> This may lead to a race between the fabric controller admin queue
-> destroy code path (invoked while shutting down controller) and hw/hctx
-> queue dispatcher called from the nvme keep-alive async request queuing
-> operation. This race could lead to the kernel crash shown below:
 
-What is different about keep-alive than any other command?
+On 17/10/2024 21:08, Keith Busch wrote:
+> On Wed, Oct 16, 2024 at 08:33:13AM +0530, Nilay Shroff wrote:
+>> We observed a kernel task hang up and a kernel crash while shutting down
+>> NVMe fabric controller. These issues were observed while running blktest
+>> nvme/037. The first two patches in this series address issues encountered
+>> while running this test. The third patch in the series is an attempt to
+>> use helper nvme_ctrl_state for accessing NVMe controller state.
+>>
+>> We intermittently observe the blow kernel task hang while running the
+>> blktest nvme/037. This test setup NVMeOF passthru controller using loop
+>> target, connect to it and then immediately terminate/cleanup the
+>> connection.
+> Thanks, applied to nvme-6.12.
 
->
-> Call Trace:
->      autoremove_wake_function+0x0/0xbc (unreliable)
->      __blk_mq_sched_dispatch_requests+0x114/0x24c
->      blk_mq_sched_dispatch_requests+0x44/0x84
->      blk_mq_run_hw_queue+0x140/0x220
->      nvme_keep_alive_work+0xc8/0x19c [nvme_core]
->      process_one_work+0x200/0x4e0
->      worker_thread+0x340/0x504
->      kthread+0x138/0x140
->      start_kernel_thread+0x14/0x18
+ugh.. looks like I'm late (after a too long of a delay... I know)
 
-What is the "crash" here? use-after-free?
-
->
-> While shutting down fabric controller, if nvme keep-alive request sneaks
-> in then it would be flushed off. The nvme_keep_alive_end_io function is
-> then invoked to handle the end of the keep-alive operation which
-> decrements the admin->q_usage_counter and assuming this is the last/only
-> request in the admin queue then the admin->q_usage_counter becomes zero.
-> If that happens then blk-mq destroy queue operation (blk_mq_destroy_
-> queue()) which could be potentially running simultaneously on another
-> cpu (as this is the controller shutdown code path) would forward
-> progress and deletes the admin queue. So, now from this point onward
-> we are not supposed to access the admin queue resources. However the
-> issue here's that the nvme keep-alive thread running hw/hctx queue
-> dispatch operation hasn't yet finished its work and so it could still
-> potentially access the admin queue resource while the admin queue had
-> been already deleted and that causes the above crash.
-
-Again, it is unclear to me what justifies the cure here. Every command can
-race with the shutdown, and it can be sync or async.
-
->
-> This fix helps avoid the observed crash by implementing keep-alive as a
-> synchronous operation so that we decrement admin->q_usage_counter only
-> after keep-alive command finished its execution and returns the command
-> status back up to its caller (blk_execute_rq()). This would ensure that
-> fabric shutdown code path doesn't destroy the fabric admin queue until
-> keep-alive request finished execution and also keep-alive thread is not
-> running hw/hctx queue dispatch operation.
-
-I'd want to see exactly what is causing this race because we already flush
-the keep alive work when starting the shutdown... so it only means it is
-incorrectly firing again?
-
-What I think we should do instead, is given that we already cancel_sync 
-the keep
-alive work before making progress with the teardown, we should just make 
-sure
-that it doesn't triggered afterwards again if it does.
+I think we want to sort this out, it is not clear to me that the approach
+taken is the correct one.
 
