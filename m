@@ -4,86 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C753ED15DB7
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 16:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED375D0E6C5
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 17:18:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z4G33DRMtPm23BbC189biiKlGJhxd9tSyy0FqMwL+Fc=; b=GyaNMSN/8LaaGVfeYCkEY2l5YV
-	aMcirrvCdGe/aM/2ut6Oxuv7TqAUeCn5ZXtfO3LUedDy2ggnV6kCLy5yMaug4yrsiX2sEPIHBcL09
-	lrhcpq/qaEgfuMkGpSvZM+lK3Zw9pOqhlY4Tzw4j0NgUsevbmTQUoW4+rwy+m9/o4K3M4k5rRtAUQ
-	eFyXP9S8YQQ9OBazoS6DKIDXmb8DXIljR7mnmT1pcJROy59rh0BYt2T1tjlvhPhg3qTBKLScn+tsB
-	k142Z8Ka0VX0XhK0WQsmM90pNs7AftNKRGwzprdlGYEDPECBJN9NWJIiu8HCnomIY3+p3FqHzvnkn
-	OfzS20Fw==;
+	bh=11C38koXyZw+O5RI9Un69eSq783zFusoRbV176crTNM=; b=Q5J2atxEu8hh3iGaTD2bir3yjU
+	swFnWvjJ4Nknk6ZS2o9FD0AyInldh+MMr2g/f7iGR3H1ID5fpjSA64ptIA05TCf5wZRTH2/ft8Kxr
+	6nGF1apLYRTCJJ4QXpSkuYG158GQRdBzmv3bNXoHh5ukbj/x2Yu19t8sF/Z7pVxwsq7lEgpG0NQwx
+	Y7AzneURh6XRLriXfXQVB90RXEVe4a18U9bFeFQ25gTkkKlRd4MznKitE6+hMCyLdFf0TPKepCG8F
+	uYomAqPeZAcHn4LlQqIzebZy+RQPHumiROLrm6+tFnSAOkJ108zBGgn0x7p7IdrWx3jZQNSX2CgIO
+	JFv9CNSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2uxK-00000007ubU-2MKj;
-	Mon, 21 Oct 2024 16:08:30 +0000
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b])
+	id 1t2w35-00000008664-47Yg;
+	Mon, 21 Oct 2024 17:18:31 +0000
+Received: from 008.lax.mailroute.net ([199.89.1.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2usI-00000007ttH-2jLn
+	id 1t2vvF-000000084fS-1MHv
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Oct 2024 16:03:19 +0000
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-539f1292a9bso5608234e87.2
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Oct 2024 09:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729526596; x=1730131396; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z4G33DRMtPm23BbC189biiKlGJhxd9tSyy0FqMwL+Fc=;
-        b=UuTRUjS0Xxzc0jCqfiAQd7F+Js/4X4fjiDzUAa/W2xJgAsuLTUDI4zfTJu206E9sUu
-         MH4H4Gt+z63Mp21DPbLdvmejeAIN5OsGHkyuTKmFu7uW4C6QV2V2okQcPQpbNTonIXpL
-         sjsBi77vN3p7xNZ7QWK1RDrFBsofE1hYj+yf9ibzxoDlx+LQL/jpD519StBb9FHc72qK
-         TTOBSEHRR6ZPg38iJ+t8pSYciPgSDoZ76Ekea8JY7vHyXbfKQFQ6fJAseyFOpKmRIuOL
-         K2PrzHPfxQZYVgvt6/KulhyrZlSxSoxKaHvlp8Y98QiT+HyrqS39U/q3gtT1ju17A7BS
-         xSrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729526596; x=1730131396;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z4G33DRMtPm23BbC189biiKlGJhxd9tSyy0FqMwL+Fc=;
-        b=BIt/uKM1owqiRqx/WQBZwBoKvvpvl6UeQT/FLT1gCZoocKg/9ST1AZUh8ce/yLSb+C
-         mIfodJYNpgcdZMgeNER8RVM0Yikfc8cdQ7Zk8drdnAcv2KgLOWynp1Qg7uKANvW8yQJy
-         4Cx1M3Usd8DWsKLMIUbfve9qTVIOdkCb7vD5gGzKmI6Wa2AJ5eqoCaRGwhJQ8Y98jvvc
-         43xSZeo4teVFU7YJ8C3I7PZHsCRsdWxbDu4BNFRzssuq5r2uDSPxjw1CQsShawWFvgtP
-         Enq6JClxqNTcDaof2JzP0Yain1ztpJ5QOfZCLABuDawfhga/56aXBxYoTqIS65rQ1E+B
-         3rJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXchBDWqyj7LkHGNgND1FeoRNhfANJQ/K+sjMo1cXKLFPRDZt/Ix2qLgeoGxia+UBg797Ec1cb/k4r+@lists.infradead.org
-X-Gm-Message-State: AOJu0YwuTNV44v4Sotji3sMqKciqjYOkK0PK8FPwrqNAZhe97tNsoRNS
-	i1FkTjdlQgk7oNcKXDWjfSeUDY22sRrqpOQysodTLqmpwxD8hUUldhjpNg==
-X-Google-Smtp-Source: AGHT+IFoQoQoEaud+eLTStEY9OPyvLF0VdXmN7ecMR/CgXdkr/3qTpxTs+6uQ/4yCk25IMLxxyA4QA==
-X-Received: by 2002:a05:6512:2813:b0:533:44e7:1b2a with SMTP id 2adb3069b0e04-53a154b2d95mr5538344e87.40.1729526595551;
-        Mon, 21 Oct 2024 09:03:15 -0700 (PDT)
-Received: from [192.168.42.158] ([185.69.144.55])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f580069sm61177885e9.14.2024.10.21.09.03.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 09:03:14 -0700 (PDT)
-Message-ID: <106bc650-a79f-4408-b096-76d49a495195@gmail.com>
-Date: Mon, 21 Oct 2024 17:04:00 +0100
+	Mon, 21 Oct 2024 17:10:27 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4XXMJ41wrsz6ClY9J;
+	Mon, 21 Oct 2024 17:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1729530603; x=1732122604; bh=11C38koXyZw+O5RI9Un69eSq
+	783zFusoRbV176crTNM=; b=RhAveDcGf9i/kd6r+Qf6jBAL2nhRkd1q38TQRAZL
+	sLyROvHW+CHEEorq3Owj3v3QQ2Ljj/5a0mY7sVHh4UWQ7/105yv9CmUJrVxenPwg
+	zcsFe/W28Hdalgkdns3wXK4Bk2mc25WlPB/1UtGIzg8v/0EZaTezWmdUtpKeMMHS
+	wlk6Vmk9SsFbVCeYTXY+CpUEr4sSoVMaRmTD0xgMivlu+TribTi8jAlGAnZGeYvF
+	doM2jJeh8clM8zY6ZpGy7C4QyR+AXIKue1g0kYa355LsmFu9LsbMMraSw8TSVejg
+	AK47DVWvnEndp861BXF8oRpOQ4SGGfs04R+oi2Gmb7POzw==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id R0H-YYTLMGMS; Mon, 21 Oct 2024 17:10:03 +0000 (UTC)
+Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4XXMHr68rSz6ClY9G;
+	Mon, 21 Oct 2024 17:10:00 +0000 (UTC)
+Message-ID: <a87c67aa-b1fe-48dc-9b5a-bc6732931298@acm.org>
+Date: Mon, 21 Oct 2024 10:09:57 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next] nvme: use helpers to access io_uring cmd space
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Kanchan Joshi <joshi.k@samsung.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <c274d35f441c649f0b725c70f681ec63774fce3b.1729265044.git.asml.silence@gmail.com>
- <b82b36c3-5ab5-4e99-941b-b099020d1b36@nvidia.com>
+Subject: Re: [PATCHv8 1/6] block, fs: restore kiocb based write hint
+ processing
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, axboe@kernel.dk, io-uring@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, joshi.k@samsung.com, javier.gonz@samsung.com,
+ Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke <hare@suse.de>
+References: <20241017160937.2283225-1-kbusch@meta.com>
+ <20241017160937.2283225-2-kbusch@meta.com> <20241018055032.GB20262@lst.de>
+ <ZxZ3o_HzN8HN6QPK@kbusch-mbp>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <b82b36c3-5ab5-4e99-941b-b099020d1b36@nvidia.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ZxZ3o_HzN8HN6QPK@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241021_090318_724225_F04C5774 
-X-CRM114-Status: UNSURE (   7.33  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241021_101025_419788_CB514F60 
+X-CRM114-Status: GOOD (  17.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,19 +88,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/19/24 01:44, Chaitanya Kulkarni wrote:
-> + (linux-nvme)
-
-My bad, lost CC nvme. Thanks for review
-
-
-> On 10/18/24 09:16, Pavel Begunkov wrote:
->> Command implementations shouldn't be directly looking into io_uring_cmd
->> to carve free space. Use an io_uring helper, which will also do build
->> time size sanitisation.
+On 10/21/24 8:47 AM, Keith Busch wrote:
+> On Fri, Oct 18, 2024 at 07:50:32AM +0200, Christoph Hellwig wrote:
+>> On Thu, Oct 17, 2024 at 09:09:32AM -0700, Keith Busch wrote:
+>>>   {
+>>>   	*kiocb = (struct kiocb) {
+>>>   		.ki_filp = filp,
+>>>   		.ki_flags = filp->f_iocb_flags,
+>>>   		.ki_ioprio = get_current_ioprio(),
+>>> +		.ki_write_hint = file_write_hint(filp),
 >>
->> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+>> And we'll need to distinguish between the per-inode and per file
+>> hint.  I.e. don't blindly initialize ki_write_hint to the per-inode
+>> one here, but make that conditional in the file operation.
+> 
+> Maybe someone wants to do direct-io with partions where each partition
+> has a different default "hint" when not provided a per-io hint? I don't
+> know of such a case, but it doesn't sound terrible. In any case, I feel
+> if you're directing writes through these interfaces, you get to keep all
+> the pieces: user space controls policy, kernel just provides the
+> mechanisms to do it.
 
--- 
-Pavel Begunkov
+Is it important to support partitions on top of FDP namespaces? We could
+follow the example of zoned block devices and not support partitions on
+top of FDP devices. From block/core.c, function add_partition():
+
+	/*
+	 * Partitions are not supported on zoned block devices that are used as
+	 * such.
+	 */
+	if (bdev_is_zoned(disk->part0)) {
+		pr_warn("%s: partitions not supported on host managed zoned block 
+device\n",
+			disk->disk_name);
+		return ERR_PTR(-ENXIO);
+	}
+
+Thanks,
+
+Bart.
 
