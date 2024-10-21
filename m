@@ -4,74 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DDD4D0E6CC
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 08:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCB15D0E6E1
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 10:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZcSc+4L9y38uraoqMApZCtt9pe8JnUSoYfln1jlvOsY=; b=f8bIkkKgIpMxXh7oYcRO4OmOIQ
-	+rZ3tMIRXGsiDQmcAJPdQphoI2yzMEW7E2Jx7g790H7P4tcgU+0wsxrgUarL6CjwITbqLSiZ3gfCZ
-	kPfKE/DrMXCF++hcxcutkfOOC32xlvesN7R4G420X4YbQElPU40q6aIv/OhzAUxedfvDm3dScfpci
-	oNe35uh+6GlW2d+aLMOk+ux/B8mABoI4Kzryoqp13siL15ilcL+TTGxlKEj2P66gGTVaeZtjFCi7H
-	MF63m0p20YUSaNNuQDhDX9SBggyF92Kf0MvJu787z41KdWfn+Yc2I1pFdPTAWS/3IdMPB9mmvB8yx
-	K3kz7V9g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8FtLlTjPQAQg7HRUtUwoTVXA27J2UGZv9Oyyy6k+i6M=; b=E1o9fcMaDvwPiQvcO4+Af2gr43
+	NiV0CcUe3lu31QKv5lazG4XFViaqwmW1AdAO2PoHyE8dP8RBQdn2S0XEeEJUiTGD+IaK/bUAYj8Va
+	ESgrv6A3es/20p/C7uJJ631e9HmS4gNIJFWTpD3bjfMcK8aQhmv+gKoXwucXCf9sBDVeKcGtvJLTj
+	bcO6JAEI2LCBB6TWQj0GfxPXk/46oE4hZZc9LjHtGyFa/con6mGBSOTqsR2/9z4dfMNT467rQAjj1
+	qJmiCUF3l0/zn4AiV0cckjE1sRHUA216SxPn/nnfZKly3u9ZsxTniN+YtbAx5+GAqomWjqfqnlaUw
+	qICOJ3Tg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2npy-00000006ZSk-0Thn;
-	Mon, 21 Oct 2024 08:32:26 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1t2pZY-00000006sC3-2U9c;
+	Mon, 21 Oct 2024 10:23:36 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2npJ-00000006ZG1-03Rn
+	id 1t2pZU-00000006sB9-07XG
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Oct 2024 08:31:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729499503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZcSc+4L9y38uraoqMApZCtt9pe8JnUSoYfln1jlvOsY=;
-	b=SJvfjADD2URLODkgPq1RboDzyyFB5zRMeRbE8Pa1yQ7/jGiWqam6XpJcWjBm+Nb6wrIYQY
-	F/rXnQhzMZM4gODkMxnXaeehjYuDkOJ9sfCJUxNZhwA4SqbvZaTcSOIAc7K2Q4dm7X99P9
-	CBO/Aaa5HHOkbcnnMrssblY5E3IiNR0=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-625-36Rx2BnCNDeuD8EftrT9VQ-1; Mon,
- 21 Oct 2024 04:31:40 -0400
-X-MC-Unique: 36Rx2BnCNDeuD8EftrT9VQ-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	Mon, 21 Oct 2024 10:23:34 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BEEAE1955D80;
-	Mon, 21 Oct 2024 08:31:37 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.104])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D147B1956056;
-	Mon, 21 Oct 2024 08:31:31 +0000 (UTC)
-Date: Mon, 21 Oct 2024 16:31:26 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: zhuxiaohui <zhuxiaohui400@gmail.com>, axboe@kernel.dk,
-	kbusch@kernel.org, hch@lst.de, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Zhu Xiaohui <zhuxiaohui.400@bytedance.com>
-Subject: Re: [PATCH v1] blk-mq: add one blk_mq_req_flags_t type to support mq
- ctx fallback
-Message-ID: <ZxYRXvyxzlFP_NPl@fedora>
-References: <20241020144041.15953-1-zhuxiaohui.400@bytedance.com>
- <ZxWwvF0Er-Aj-rtX@fedora>
- <064a6fb0-0cdb-4634-863d-a06574fcc0fa@grimberg.me>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 23F401F811;
+	Mon, 21 Oct 2024 10:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729506210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FtLlTjPQAQg7HRUtUwoTVXA27J2UGZv9Oyyy6k+i6M=;
+	b=yxUnvTmRYh0jSoYjjdVTRptwX7XUUGAsVEwV02cv0M5Z1J7yz4AJUJUHBDDjjaP5qd3mfo
+	n4iH1IfKsLzVc+WW0WaBiF/yFhaYCsj77xPG2D0/qRbOSWv7qZ4hhst/DNLRj+JBbofHf5
+	QUvrs/7lJ8gRCaCnSbnf3ic0ZCxyua8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729506210;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FtLlTjPQAQg7HRUtUwoTVXA27J2UGZv9Oyyy6k+i6M=;
+	b=0E3yRcazDPUnbwahoPjK8M7cklQomrTLwV812rnnMdMor0lBX86/gc9IZmm83tVHRN6G5K
+	XOfGl9mEW+UdLeDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yxUnvTmR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0E3yRcaz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729506210; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FtLlTjPQAQg7HRUtUwoTVXA27J2UGZv9Oyyy6k+i6M=;
+	b=yxUnvTmRYh0jSoYjjdVTRptwX7XUUGAsVEwV02cv0M5Z1J7yz4AJUJUHBDDjjaP5qd3mfo
+	n4iH1IfKsLzVc+WW0WaBiF/yFhaYCsj77xPG2D0/qRbOSWv7qZ4hhst/DNLRj+JBbofHf5
+	QUvrs/7lJ8gRCaCnSbnf3ic0ZCxyua8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729506210;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FtLlTjPQAQg7HRUtUwoTVXA27J2UGZv9Oyyy6k+i6M=;
+	b=0E3yRcazDPUnbwahoPjK8M7cklQomrTLwV812rnnMdMor0lBX86/gc9IZmm83tVHRN6G5K
+	XOfGl9mEW+UdLeDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A42E139E0;
+	Mon, 21 Oct 2024 10:23:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Q8gLAqIrFmeQCAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Oct 2024 10:23:30 +0000
+Message-ID: <9761610c-b60e-4e88-a235-6120d80a0b25@suse.de>
+Date: Mon, 21 Oct 2024 12:23:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <064a6fb0-0cdb-4634-863d-a06574fcc0fa@grimberg.me>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-multipath: defer partition scanning
+To: Keith Busch <kbusch@meta.com>, hch@lst.de, linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20241015143136.810779-1-kbusch@meta.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20241015143136.810779-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 23F401F811
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241021_013145_380613_F0833050 
-X-CRM114-Status: GOOD (  24.81  )
+X-CRM114-CacheID: sfid-20241021_032332_238442_DBE2B310 
+X-CRM114-Status: GOOD (  12.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,62 +136,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 21, 2024 at 10:05:34AM +0300, Sagi Grimberg wrote:
+On 10/15/24 16:31, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
+> We need to suppress the partition scan from occuring within the controller's
+> scan_work context. If a path error occurs here, the submission will wait until
+> a path becomes available or all paths are torn down, but that action also
+> occurs within scan_work, so it would deadlock. Defer the partion scan a
+> different one that does not block scan_work.
 > 
+> Reported-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
 > 
-> On 21/10/2024 4:39, Ming Lei wrote:
-> > On Sun, Oct 20, 2024 at 10:40:41PM +0800, zhuxiaohui wrote:
-> > > From: Zhu Xiaohui <zhuxiaohui.400@bytedance.com>
-> > > 
-> > > It is observed that nvme connect to a nvme over fabric target will
-> > > always fail when 'nohz_full' is set.
-> > > 
-> > > In commit a46c27026da1 ("blk-mq: don't schedule block kworker on
-> > > isolated CPUs"), it clears hctx->cpumask for all isolate CPUs,
-> > > and when nvme connect to a remote target, it may fails on this stack:
-> > > 
-> > >          blk_mq_alloc_request_hctx+1
-> > >          __nvme_submit_sync_cmd+106
-> > >          nvmf_connect_io_queue+181
-> > >          nvme_tcp_start_queue+293
-> > >          nvme_tcp_setup_ctrl+948
-> > >          nvme_tcp_create_ctrl+735
-> > >          nvmf_dev_write+532
-> > >          vfs_write+237
-> > >          ksys_write+107
-> > >          do_syscall_64+128
-> > >          entry_SYSCALL_64_after_hwframe+118
-> > > 
-> > > due to that the given blk_mq_hw_ctx->cpumask is cleared with no available
-> > > blk_mq_ctx on the hw queue.
-> > > 
-> > > This patch introduce a new blk_mq_req_flags_t flag 'BLK_MQ_REQ_ARB_MQ'
-> > > as well as a nvme_submit_flags_t 'NVME_SUBMIT_ARB_MQ' which are used to
-> > > indicate that block layer can fallback to a  blk_mq_ctx whose cpu
-> > > is not isolated.
-> > blk_mq_alloc_request_hctx()
-> > 	...
-> > 	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
-> > 	...
-> > 
-> > It can happen in case of non-cpu-isolation too, such as when this hctx hasn't
-> > online CPUs, both are same actually from this viewpoint.
-> > 
-> > It is one long-time problem for nvme fc.
+> will be ignored, and an empty message aborts the commit.
+> ---
+>   drivers/nvme/host/multipath.c | 39 +++++++++++++++++++++++++++++------
+>   drivers/nvme/host/nvme.h      |  1 +
+>   2 files changed, 34 insertions(+), 6 deletions(-)
 > 
-> For what nvmf is using blk_mq_alloc_request_hctx() is not important. It just
-> needs a tag from that hctx. the request execution is running where
-> blk_mq_alloc_request_hctx() is running.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Tested-by: Hannes Reinecke <hare@suse.de>
 
-I am afraid that just one tag from the specified hw queue isn't enough.
+Cheers,
 
-The connection request needs to be issued to the hw queue & completed.
-Without any online CPU for this hw queue, the request can't be completed
-in case of managed-irq.
-
-
-thanks,
-Ming
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
