@@ -4,73 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 902EAD3C937
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 07:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A665D3E18D
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 07:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UuyasMgkP9ACihQpzbrksqcPeP7uWQUhYgegjJyc8I8=; b=Aay/akUkyLA8h+ED+T5yi+Qym/
-	ZQP7JIadlP/o3uyyiIu7A7vxLLNpzMM7zrVtBQX1yESxD+FLjLTTGgOPhnanOggU6QGxBCgSL068d
-	jOs/Fxw9XGtEc6h7kwtj3hx2cH+95cM6DaGbXidpoUbtPl+uJMLoy/IylKgoT0aCrvtU3AVatR6oD
-	2kFaQjw+exIvNMHX1aYccvg6vIe5Qgbm6DS2ljnRlAlMvTe41AKMJwMNubyLngsE1E0vlPlYFjnaC
-	KoTFjJ39w0VFfhFmhu/U0naPHBItLSoV9I03biVDF4YQ8EcSfJa//eD7w0p4cyow+6lsi2HxwnOZW
-	TTJds7LA==;
+	bh=63x7T2WZS3a9tOGqGmMFT1vXx38GaIhE8XuB2nmdJ5o=; b=H4PHXmiB0Gn0/Dg0OauJNMlFH8
+	MpW4TjtK2RDDQ/XsaA3Ynuh6PIW2ENK7q+tGE1RDIZ41D6FPjDd4U2/Jw0oKfytP41Jyy2keHhOp1
+	K2cVM5whQ9JJqnFBVYq1UUf67UUi6FWfZEN0ATYJTDRBWB05o5jDvLNvlrLquA4odSbLQ716JWd/6
+	3UNtH9GG0pA5VE519CF+pmbWxTC4B4cfdPZNfS+1D5WKjZLII2AZULWzhTqW2VdlSb/EB7So6Wd7Y
+	fXjVfEhBMgtSX/wUdRv74+EdfwK0qbmEili3pMw0MmvA1xRJNtOapuOLV3sEPcN8rtmBOtsuppN94
+	kI7c9G0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2mgE-00000006L5t-0Rn2;
-	Mon, 21 Oct 2024 07:18:18 +0000
-Received: from mail-wm1-f52.google.com ([209.85.128.52])
+	id 1t2mnk-00000006Msn-0y4e;
+	Mon, 21 Oct 2024 07:26:04 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2mTz-00000006J7o-0S0p
+	id 1t2mkV-00000006MA7-3HLY
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Oct 2024 07:05:40 +0000
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43152b79d25so39345645e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Oct 2024 00:05:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729494337; x=1730099137;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UuyasMgkP9ACihQpzbrksqcPeP7uWQUhYgegjJyc8I8=;
-        b=O7rATrh2qMn2XlHnQrDcPW/4WqkXBMwlXecQJZY72xka2ras4uNA4c6peaKuXJQ0eU
-         6oo6bl5Hxx4bvXdYqe21BFa/ci7j0k84ZS5c/3OUrlruP0ExmFUfhXasbPklOYhJFAfM
-         S+ptuEmBGatqDio1ntK81oz5NWxfsOaB2/kPHZt23SJ26gagWBcncM0Z/E/Tt+zf/eE5
-         18JWNzREblbj10ku6FvNBuVnVLOK6fk/UCkTiRnO0hIz4ARGCDB/2CCfQPiCejhIwkFu
-         sVYK8fkmZlBaGoU7tWm++S2vgtiHeqcGCm3/ovknz5QnF2mvZ9YcDUBlRszacSbnwqbK
-         cSAA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrlmS+4ijgQVrXeYofx9pIBOcrZKDpU6IJzA39K9UBWo1klwwyeQYdyVx66yDoECZkeWToohJ46Avh@lists.infradead.org
-X-Gm-Message-State: AOJu0YxoNZV4YZYedqdsH4zZJmUVXR87A6OcC53l0q1MWfhsFDxR62qI
-	m7I/+uuQOWBhdbM55NqtSIoNi4lcmeXVZvH69536WwiZ8MGLudEZ
-X-Google-Smtp-Source: AGHT+IG8O0M5kVa+Y0zMRDEF4giA3frmfFmV6DY0Rv6ItTOkBc3uE4a++W6C/asLcaygteal3Y9uQA==
-X-Received: by 2002:a05:600c:1d09:b0:430:57f2:bae5 with SMTP id 5b1f17b1804b1-4316169a968mr69435105e9.27.1729494337054;
-        Mon, 21 Oct 2024 00:05:37 -0700 (PDT)
-Received: from [10.50.4.202] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f570c79sm46756225e9.3.2024.10.21.00.05.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 00:05:36 -0700 (PDT)
-Message-ID: <064a6fb0-0cdb-4634-863d-a06574fcc0fa@grimberg.me>
-Date: Mon, 21 Oct 2024 10:05:34 +0300
+	Mon, 21 Oct 2024 07:22:47 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A13D21FD8;
+	Mon, 21 Oct 2024 07:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729495360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=63x7T2WZS3a9tOGqGmMFT1vXx38GaIhE8XuB2nmdJ5o=;
+	b=RFz7lUwgu8UCsJKyzF3SHlzXLhK/FLzb11YxDudGBVlVtspp8WNc7MT7+v4aMyZC8JMFEF
+	lTUb9/mFV9H2cd6Go3/LB7uaR2zAobgxRn3lzRRQlaWmMOtWF6RTDYXqdpXfbPCYo4ki5v
+	NA5g0wbNmFis/F/qBZuKLDkDLEv5ULE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729495360;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=63x7T2WZS3a9tOGqGmMFT1vXx38GaIhE8XuB2nmdJ5o=;
+	b=ikOik0zIb1iFnD98NZbcBfkFkYvg/O/w+wHUHwQvHvHdvkik1FUkqFnA6jMC1Ej4z+NPc6
+	oGU3uvWlykRaE9Bg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729495360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=63x7T2WZS3a9tOGqGmMFT1vXx38GaIhE8XuB2nmdJ5o=;
+	b=RFz7lUwgu8UCsJKyzF3SHlzXLhK/FLzb11YxDudGBVlVtspp8WNc7MT7+v4aMyZC8JMFEF
+	lTUb9/mFV9H2cd6Go3/LB7uaR2zAobgxRn3lzRRQlaWmMOtWF6RTDYXqdpXfbPCYo4ki5v
+	NA5g0wbNmFis/F/qBZuKLDkDLEv5ULE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729495360;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=63x7T2WZS3a9tOGqGmMFT1vXx38GaIhE8XuB2nmdJ5o=;
+	b=ikOik0zIb1iFnD98NZbcBfkFkYvg/O/w+wHUHwQvHvHdvkik1FUkqFnA6jMC1Ej4z+NPc6
+	oGU3uvWlykRaE9Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EAB9136DC;
+	Mon, 21 Oct 2024 07:22:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DyE4CkABFmceTgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 21 Oct 2024 07:22:40 +0000
+Message-ID: <71faf1a3-6550-4246-be67-46fc12cc6e75@suse.de>
+Date: Mon, 21 Oct 2024 09:22:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] blk-mq: add one blk_mq_req_flags_t type to support mq
- ctx fallback
-To: Ming Lei <ming.lei@redhat.com>, zhuxiaohui <zhuxiaohui400@gmail.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Zhu Xiaohui <zhuxiaohui.400@bytedance.com>
-References: <20241020144041.15953-1-zhuxiaohui.400@bytedance.com>
- <ZxWwvF0Er-Aj-rtX@fedora>
+Subject: Re: [PATCH 6/9] nvme-tcp: request secure channel concatenation
+To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org
+References: <20241018063343.39798-1-hare@kernel.org>
+ <20241018063343.39798-7-hare@kernel.org>
+ <a188adf5-55be-4524-b8eb-63f7470a4b15@grimberg.me>
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZxWwvF0Er-Aj-rtX@fedora>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <a188adf5-55be-4524-b8eb-63f7470a4b15@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241021_000539_180457_23BA86D3 
-X-CRM114-Status: GOOD (  15.86  )
+X-CRM114-CacheID: sfid-20241021_002244_147134_42E40681 
+X-CRM114-Status: GOOD (  25.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,50 +134,313 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 10/20/24 23:04, Sagi Grimberg wrote:
+> 
+> 
+> 
+> On 18/10/2024 9:33, Hannes Reinecke wrote:
+>> Add a fabrics option 'concat' to request secure channel concatenation.
+>> When secure channel concatenation is enabled a 'generated PSK' is 
+>> inserted
+>> into the keyring such that it's available after reset.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+>> ---
+>>   drivers/nvme/host/auth.c    | 108 +++++++++++++++++++++++++++++++++++-
+>>   drivers/nvme/host/fabrics.c |  34 +++++++++++-
+>>   drivers/nvme/host/fabrics.h |   3 +
+>>   drivers/nvme/host/nvme.h    |   2 +
+>>   drivers/nvme/host/sysfs.c   |   4 +-
+>>   drivers/nvme/host/tcp.c     |  47 ++++++++++++++--
+>>   include/linux/nvme.h        |   7 +++
+>>   7 files changed, 191 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+>> index 371e14f0a203..902c8ba59562 100644
+>> --- a/drivers/nvme/host/auth.c
+>> +++ b/drivers/nvme/host/auth.c
+[ .. ]
+>> @@ -833,6 +921,14 @@ static void nvme_queue_auth_work(struct 
+>> work_struct *work)
+>>       }
+>>       if (!ret) {
+>>           chap->error = 0;
+>> +        /* Secure concatenation can only be enabled on the admin 
+>> queue */
+> 
+> I'd add a warning if that is not the case here.
+> 
+Okay.
 
+>> +        if (!chap->qid && ctrl->opts->concat &&
+>> +            (ret = nvme_auth_secure_concat(ctrl, chap))) {
+>> +            dev_warn(ctrl->device,
+>> +                 "%s: qid %d failed to enable secure concatenation\n",
+>> +                 __func__, chap->qid);
+>> +            chap->error = ret;
+>> +        }
+>>           return;
+>>       }
+>> @@ -912,6 +1008,12 @@ static void nvme_ctrl_auth_work(struct 
+>> work_struct *work)
+>>                "qid 0: authentication failed\n");
+>>           return;
+>>       }
+>> +    /*
+>> +     * Only run authentication on the admin queue for
+>> +     * secure concatenation
+>> +     */
+>> +    if (ctrl->opts->concat)
+>> +        return;
+>>       for (q = 1; q < ctrl->queue_count; q++) {
+>>           ret = nvme_auth_negotiate(ctrl, q);
+>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>> index 432efcbf9e2f..93e9041b9657 100644
+>> --- a/drivers/nvme/host/fabrics.c
+>> +++ b/drivers/nvme/host/fabrics.c
+>> @@ -472,8 +472,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+>>       result = le32_to_cpu(res.u32);
+>>       ctrl->cntlid = result & 0xFFFF;
+>>       if (result & (NVME_CONNECT_AUTHREQ_ATR | 
+>> NVME_CONNECT_AUTHREQ_ASCR)) {
+>> -        /* Secure concatenation is not implemented */
+>> -        if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+>> +        /* Check for secure concatenation */
+>> +        if ((result & NVME_CONNECT_AUTHREQ_ASCR) &&
+>> +            !ctrl->opts->concat) {
+>>               dev_warn(ctrl->device,
+>>                    "qid 0: secure concatenation is not supported\n");
+>>               ret = -EOPNOTSUPP;
+>> @@ -550,7 +551,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, 
+>> u16 qid)
+>>           /* Secure concatenation is not implemented */
+>>           if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+>>               dev_warn(ctrl->device,
+>> -                 "qid 0: secure concatenation is not supported\n");
+>> +                 "qid %d: secure concatenation is not supported\n", 
+>> qid);
+>>               ret = -EOPNOTSUPP;
+>>               goto out_free_data;
+>>           }
+>> @@ -706,6 +707,7 @@ static const match_table_t opt_tokens = {
+>>   #endif
+>>   #ifdef CONFIG_NVME_TCP_TLS
+>>       { NVMF_OPT_TLS,            "tls"            },
+>> +    { NVMF_OPT_CONCAT,        "concat"        },
+>>   #endif
+>>       { NVMF_OPT_ERR,            NULL            }
+>>   };
+>> @@ -735,6 +737,7 @@ static int nvmf_parse_options(struct 
+>> nvmf_ctrl_options *opts,
+>>       opts->tls = false;
+>>       opts->tls_key = NULL;
+>>       opts->keyring = NULL;
+>> +    opts->concat = false;
+>>       options = o = kstrdup(buf, GFP_KERNEL);
+>>       if (!options)
+>> @@ -1053,6 +1056,14 @@ static int nvmf_parse_options(struct 
+>> nvmf_ctrl_options *opts,
+>>               }
+>>               opts->tls = true;
+>>               break;
+>> +        case NVMF_OPT_CONCAT:
+>> +            if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
+>> +                pr_err("TLS is not supported\n");
+>> +                ret = -EINVAL;
+>> +                goto out;
+>> +            }
+>> +            opts->concat = true;
+>> +            break;
+>>           default:
+>>               pr_warn("unknown parameter or missing value '%s' in ctrl 
+>> creation request\n",
+>>                   p);
+>> @@ -1079,6 +1090,23 @@ static int nvmf_parse_options(struct 
+>> nvmf_ctrl_options *opts,
+>>               pr_warn("failfast tmo (%d) larger than controller loss 
+>> tmo (%d)\n",
+>>                   opts->fast_io_fail_tmo, ctrl_loss_tmo);
+>>       }
+>> +    if (opts->concat) {
+>> +        if (opts->tls) {
+>> +            pr_err("Secure concatenation over TLS is not supported\n");
+>> +            ret = -EINVAL;
+>> +            goto out;
+>> +        }
+>> +        if (opts->tls_key) {
+>> +            pr_err("Cannot specify a TLS key for secure 
+>> concatenation\n");
+>> +            ret = -EINVAL;
+>> +            goto out;
+>> +        }
+>> +        if (!opts->dhchap_secret) {
+>> +            pr_err("Need to enable DH-CHAP for secure concatenation\n");
+>> +            ret = -EINVAL;
+>> +            goto out;
+>> +        }
+>> +    }
+>>       opts->host = nvmf_host_add(hostnqn, &hostid);
+>>       if (IS_ERR(opts->host)) {
+>> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+>> index 21d75dc4a3a0..9cf5b020adba 100644
+>> --- a/drivers/nvme/host/fabrics.h
+>> +++ b/drivers/nvme/host/fabrics.h
+>> @@ -66,6 +66,7 @@ enum {
+>>       NVMF_OPT_TLS        = 1 << 25,
+>>       NVMF_OPT_KEYRING    = 1 << 26,
+>>       NVMF_OPT_TLS_KEY    = 1 << 27,
+>> +    NVMF_OPT_CONCAT        = 1 << 28,
+>>   };
+>>   /**
+>> @@ -101,6 +102,7 @@ enum {
+>>    * @keyring:    Keyring to use for key lookups
+>>    * @tls_key:    TLS key for encrypted connections (TCP)
+>>    * @tls:        Start TLS encrypted connections (TCP)
+>> + * @concat:     Enabled Secure channel concatenation (TCP)
+>>    * @disable_sqflow: disable controller sq flow control
+>>    * @hdr_digest: generate/verify header digest (TCP)
+>>    * @data_digest: generate/verify data digest (TCP)
+>> @@ -130,6 +132,7 @@ struct nvmf_ctrl_options {
+>>       struct key        *keyring;
+>>       struct key        *tls_key;
+>>       bool            tls;
+>> +    bool            concat;
+>>       bool            disable_sqflow;
+>>       bool            hdr_digest;
+>>       bool            data_digest;
+>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>> index 313a4f978a2c..4c735b88b434 100644
+>> --- a/drivers/nvme/host/nvme.h
+>> +++ b/drivers/nvme/host/nvme.h
+>> @@ -1132,6 +1132,7 @@ void nvme_auth_stop(struct nvme_ctrl *ctrl);
+>>   int nvme_auth_negotiate(struct nvme_ctrl *ctrl, int qid);
+>>   int nvme_auth_wait(struct nvme_ctrl *ctrl, int qid);
+>>   void nvme_auth_free(struct nvme_ctrl *ctrl);
+>> +void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl);
+>>   #else
+>>   static inline int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
+>>   {
+>> @@ -1154,6 +1155,7 @@ static inline int nvme_auth_wait(struct 
+>> nvme_ctrl *ctrl, int qid)
+>>       return -EPROTONOSUPPORT;
+>>   }
+>>   static inline void nvme_auth_free(struct nvme_ctrl *ctrl) {};
+>> +static void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl) {};
+>>   #endif
+>>   u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+>> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+>> index b68a9e5f1ea3..efb35eef1915 100644
+>> --- a/drivers/nvme/host/sysfs.c
+>> +++ b/drivers/nvme/host/sysfs.c
+>> @@ -780,10 +780,10 @@ static umode_t nvme_tls_attrs_are_visible(struct 
+>> kobject *kobj,
+>>           return 0;
+>>       if (a == &dev_attr_tls_key.attr &&
+>> -        !ctrl->opts->tls)
+>> +        !ctrl->opts->tls && !ctrl->opts->concat)
+>>           return 0;
+>>       if (a == &dev_attr_tls_configured_key.attr &&
+>> -        !ctrl->opts->tls_key)
+>> +        (!ctrl->opts->tls_key || ctrl->opts->concat))
+>>           return 0;
+>>       if (a == &dev_attr_tls_keyring.attr &&
+>>           !ctrl->opts->keyring)
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 3e416af2659f..b8a3461b617c 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -233,7 +233,7 @@ static inline bool nvme_tcp_tls_configured(struct 
+>> nvme_ctrl *ctrl)
+>>       if (!IS_ENABLED(CONFIG_NVME_TCP_TLS))
+>>           return 0;
+>> -    return ctrl->opts->tls;
+>> +    return ctrl->opts->tls || ctrl->opts->concat;
+>>   }
+>>   static inline struct blk_mq_tags *nvme_tcp_tagset(struct 
+>> nvme_tcp_queue *queue)
+>> @@ -1948,7 +1948,7 @@ static int nvme_tcp_alloc_admin_queue(struct 
+>> nvme_ctrl *ctrl)
+>>       if (nvme_tcp_tls_configured(ctrl)) {
+>>           if (ctrl->opts->tls_key)
+>>               pskid = key_serial(ctrl->opts->tls_key);
+>> -        else {
+>> +        else if (ctrl->opts->tls) {
+>>               pskid = nvme_tls_psk_default(ctrl->opts->keyring,
+>>                                 ctrl->opts->host->nqn,
+>>                                 ctrl->opts->subsysnqn);
+>> @@ -1978,9 +1978,25 @@ static int __nvme_tcp_alloc_io_queues(struct 
+>> nvme_ctrl *ctrl)
+>>   {
+>>       int i, ret;
+>> -    if (nvme_tcp_tls_configured(ctrl) && !ctrl->tls_pskid) {
+>> -        dev_err(ctrl->device, "no PSK negotiated\n");
+>> -        return -ENOKEY;
+>> +    if (nvme_tcp_tls_configured(ctrl)) {
+>> +        if (ctrl->opts->concat) {
+>> +            /*
+>> +             * The generated PSK is stored in the
+>> +             * fabric options
+>> +             */
+>> +            if (!ctrl->opts->tls_key) {
+>> +                dev_err(ctrl->device, "no PSK generated\n");
+>> +                return -ENOKEY;
+>> +            }
+>> +            if (ctrl->tls_pskid &&
+>> +                ctrl->tls_pskid != key_serial(ctrl->opts->tls_key)) {
+>> +                dev_err(ctrl->device, "Stale PSK id %08x\n", ctrl- 
+>> >tls_pskid);
+>> +                ctrl->tls_pskid = 0;
+>> +            }
+>> +        } else if (!ctrl->tls_pskid) {
+>> +            dev_err(ctrl->device, "no PSK negotiated\n");
+>> +            return -ENOKEY;
+>> +        }
+>>       }
+>>       for (i = 1; i < ctrl->queue_count; i++) {
+>> @@ -2211,6 +2227,21 @@ static void nvme_tcp_reconnect_or_remove(struct 
+>> nvme_ctrl *ctrl,
+>>       }
+>>   }
+>> +/*
+>> + * The TLS key needs to be revoked when:
+>> + * - concatenation is enabled and
+>> + *   -> This is a generated key and only valid for this session
+>> + * - the generated key is present in ctrl->tls_key and
+>> + *   -> authentication has completed and the key has been generated
+>> + * - tls has been enabled
+>> + *   -> otherwise we are about to reset the admin queue after 
+>> authentication
+>> + *      to enable TLS with the generated key
+>> + */
+>> +static bool nvme_tcp_key_revoke_needed(struct nvme_ctrl *ctrl)
+>> +{
+>> +    return ctrl->opts->concat && ctrl->opts->tls_key && ctrl->tls_pskid;
+>> +}
+>> +
+>>   static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+>>   {
+>>       struct nvmf_ctrl_options *opts = ctrl->opts;
+>> @@ -2314,6 +2345,8 @@ static void nvme_tcp_error_recovery_work(struct 
+>> work_struct *work)
+>>                   struct nvme_tcp_ctrl, err_work);
+>>       struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+>> +    if (nvme_tcp_key_revoke_needed(ctrl))
+>> +        nvme_auth_revoke_tls_key(ctrl);
+> 
+> Having this sprayed in various places in the code is really confusing.
+> 
+> Can you please add a small comment on each call-site? just for our 
+> future selves
+> reading this code?
+> 
+Sure.
 
+Cheers,
 
-On 21/10/2024 4:39, Ming Lei wrote:
-> On Sun, Oct 20, 2024 at 10:40:41PM +0800, zhuxiaohui wrote:
->> From: Zhu Xiaohui <zhuxiaohui.400@bytedance.com>
->>
->> It is observed that nvme connect to a nvme over fabric target will
->> always fail when 'nohz_full' is set.
->>
->> In commit a46c27026da1 ("blk-mq: don't schedule block kworker on
->> isolated CPUs"), it clears hctx->cpumask for all isolate CPUs,
->> and when nvme connect to a remote target, it may fails on this stack:
->>
->>          blk_mq_alloc_request_hctx+1
->>          __nvme_submit_sync_cmd+106
->>          nvmf_connect_io_queue+181
->>          nvme_tcp_start_queue+293
->>          nvme_tcp_setup_ctrl+948
->>          nvme_tcp_create_ctrl+735
->>          nvmf_dev_write+532
->>          vfs_write+237
->>          ksys_write+107
->>          do_syscall_64+128
->>          entry_SYSCALL_64_after_hwframe+118
->>
->> due to that the given blk_mq_hw_ctx->cpumask is cleared with no available
->> blk_mq_ctx on the hw queue.
->>
->> This patch introduce a new blk_mq_req_flags_t flag 'BLK_MQ_REQ_ARB_MQ'
->> as well as a nvme_submit_flags_t 'NVME_SUBMIT_ARB_MQ' which are used to
->> indicate that block layer can fallback to a  blk_mq_ctx whose cpu
->> is not isolated.
-> blk_mq_alloc_request_hctx()
-> 	...
-> 	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
-> 	...
->
-> It can happen in case of non-cpu-isolation too, such as when this hctx hasn't
-> online CPUs, both are same actually from this viewpoint.
->
-> It is one long-time problem for nvme fc.
-
-For what nvmf is using blk_mq_alloc_request_hctx() is not important. It 
-just needs a tag from that hctx. the request execution is running where 
-blk_mq_alloc_request_hctx() is running.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
