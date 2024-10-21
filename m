@@ -4,72 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 098BBD3C927
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 01:39:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34014D3C93F
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 05:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GQA277wjiIsEsX13SC3EOBQ9MmBhGxtmhKvxedw4Rlk=; b=dl26rIR1FJiP9/5mGAm1weZl/T
-	wpDt4nuji6pA3OdCLema0+/lSvJQQaHdxnJnhVuG+G3sgVE1FS95I9S2KV8CSM8cqSsBkD9YAW0V8
-	PSaDZsSgdXp6OUC1vRHvnzPsA7wyK4+o83FZaulnT4HWZXpYiMK/wDI0Nsi+b3L/LoSY3UYVbzL+j
-	pFG4srZ0NWY1ZANsNqY38a+O2ZUkGw5SEXYuzdyNDWZmUVAULlQtzWCg8BHOKHoictcZS563GbHdR
-	TEj41zbwwiiyqlg79nLoXYfO28Lm3LXFpkzqbDyUkXv735vmM7WGE5eJS9JkeNpVg8K8OqbmzKaq4
-	u8wWBD0g==;
+	bh=Ulf1ksMYUE48Lu6prNlTGdKuI66NQr+PY9q1T25et7A=; b=m5Jl7vY/8Er4cfF9g+JsffahTo
+	Hnlc5ktza2wFS+Vh0VduU/kpIyKjIorrqUHxVL2q/cA08n7b0TcDN4DTVZJAwVF9iDZH1xqI52/Rm
+	+adwYlO4ZUUAUCKE0fddpNjPIBCHY6diSvn+hKtQVQ8U4U9lrhdN/hNcXBz/X+804Lm3aYuFNCmxb
+	VYyzKE+/xFRMMa1W1a7BXd7nOlFLxtFg89FLUij9i8PSb/Oll0nBCQR8EK28VQsaECKQH6bRbyp6X
+	U2HvwnoGtgW0pFkFj40qNyo1EiNds0GIeZMBOPEiR+7crPdQYSY3KvY22wh67wNhBqO9XNdx5lU9X
+	nATY1Lzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2hOU-00000005oHy-42Ul;
-	Mon, 21 Oct 2024 01:39:38 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1t2lFH-000000067AD-1rqz;
+	Mon, 21 Oct 2024 05:46:23 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2hOK-00000005oHV-1cug
+	id 1t2lFC-0000000675d-3x7S
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Oct 2024 01:39:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729474765;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GQA277wjiIsEsX13SC3EOBQ9MmBhGxtmhKvxedw4Rlk=;
-	b=AZeQqg/Xmcc6nimbyHORQTzSExfIcaUc8WfNYlg2yd7VTKcbmsBsCcWinVam44JESJid8n
-	jjCAn+nhE2tjm7GxYooOj2jvz322XrQXAgHFYGRnY8yKOuEcSKcZGf/Y/UPaiFbov/4zmC
-	NM/rQG/wfa4Yk2X7hvWsSV3P2XxFNmk=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-550-wQlEZ6TvMaiCF-M6LJjQ4Q-1; Sun,
- 20 Oct 2024 21:39:24 -0400
-X-MC-Unique: wQlEZ6TvMaiCF-M6LJjQ4Q-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 63B2719560A2;
-	Mon, 21 Oct 2024 01:39:21 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.25])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 87D5519560A2;
-	Mon, 21 Oct 2024 01:39:14 +0000 (UTC)
-Date: Mon, 21 Oct 2024 09:39:08 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: zhuxiaohui <zhuxiaohui400@gmail.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Zhu Xiaohui <zhuxiaohui.400@bytedance.com>
-Subject: Re: [PATCH v1] blk-mq: add one blk_mq_req_flags_t type to support mq
- ctx fallback
-Message-ID: <ZxWwvF0Er-Aj-rtX@fedora>
-References: <20241020144041.15953-1-zhuxiaohui.400@bytedance.com>
+	Mon, 21 Oct 2024 05:46:20 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241021054614epoutp03b1d89ffe3d00be7c427af739d1f9ad52~AYZrd9gvk1850518505epoutp03d
+	for <linux-nvme@lists.infradead.org>; Mon, 21 Oct 2024 05:46:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241021054614epoutp03b1d89ffe3d00be7c427af739d1f9ad52~AYZrd9gvk1850518505epoutp03d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1729489574;
+	bh=Ulf1ksMYUE48Lu6prNlTGdKuI66NQr+PY9q1T25et7A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YQp+am13l49BWM9zrOhUQjf4CeeUczK3XUhEluSRV8gbIbOeRqHa5Ap1SKKL9ITtG
+	 owkWmZ2KfG65fts3vCmpmF3SD8Zvru0uqEzExuZjNweVEoWpP/zoYfFYjMw5DwjAMQ
+	 TJ1bDutIEulUFoBPyNU3l/rvF1WzuDAlHs6tvolo=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20241021054614epcas5p49b1b700178b50cab66292a5f758b4a99~AYZrGrJFc1969619696epcas5p4s;
+	Mon, 21 Oct 2024 05:46:14 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4XX46q2lLmz4x9QB; Mon, 21 Oct
+	2024 05:46:11 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	31.3B.18935.3AAE5176; Mon, 21 Oct 2024 14:46:11 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241021053853epcas5p28278ac9cd4f6791bca8d676cf06d99c5~AYTQNEp_O2430924309epcas5p20;
+	Mon, 21 Oct 2024 05:38:53 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241021053853epsmtrp2824203125cc849df811967e71284722f~AYTQLzLCz2056520565epsmtrp2i;
+	Mon, 21 Oct 2024 05:38:53 +0000 (GMT)
+X-AuditID: b6c32a50-cb1f8700000049f7-14-6715eaa32d47
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	40.A0.08227.CE8E5176; Mon, 21 Oct 2024 14:38:52 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20241021053850epsmtip27568a368b48baf3fd3e276f32d38fe4a~AYTOKAtMD1344313443epsmtip2c;
+	Mon, 21 Oct 2024 05:38:50 +0000 (GMT)
+Date: Mon, 21 Oct 2024 11:01:10 +0530
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, martin.petersen@oracle.com,
+	asml.silence@gmail.com, anuj1072538@gmail.com, krisman@suse.de,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	linux-scsi@vger.kernel.org, vishak.g@samsung.com, Kanchan Joshi
+	<joshi.k@samsung.com>
+Subject: Re: [PATCH v4 07/11] io_uring/rw: add support to send meta along
+ with read/write
+Message-ID: <20241021053110.GA2720@green245>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241020144041.15953-1-zhuxiaohui.400@bytedance.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+In-Reply-To: <20241017081057.GA27241@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrEJsWRmVeSWpSXmKPExsWy7bCmlu7iV6LpBjOv8Fl8/PqbxWLOqm2M
+	Fqvv9rNZ3Dywk8li5eqjTBbvWs+xWBz9/5bNYtKha4wW288sZbbYe0vbYv6yp+wW3dd3sFks
+	P/6PyeL8rDnsDnweO2fdZfe4fLbUY9OqTjaPzUvqPXbfbGDz+Pj0FotH35ZVjB6bT1d7fN4k
+	F8AZlW2TkZqYklqkkJqXnJ+SmZduq+QdHO8cb2pmYKhraGlhrqSQl5ibaqvk4hOg65aZA3S5
+	kkJZYk4pUCggsbhYSd/Opii/tCRVISO/uMRWKbUgJafApECvODG3uDQvXS8vtcTK0MDAyBSo
+	MCE74+GLf8wFX/kr7i6+x9jA+IWni5GTQ0LAROLdnU3sXYxcHEICexglDp1ZzAbhfGKU2Ppj
+	BlTmG6PEwaOX2WBa7p5oYoVI7GWUmLDyGSOE84xR4teU+ewgVSwCqhLP/j8Hs9kE1CWOPG9l
+	BLFFBJQknr46C9bALHCBSeLQ5b9gY4UFoiVmvv8BVsQroCPxfNlPKFtQ4uTMJywgNidQ/Oif
+	16wgtqiAssSBbceZQAZJCJzhkJh1egIzxH0uEu9nnmCFsIUlXh3fwg5hS0l8frcX6od0iR+X
+	nzJB2AUSzcf2MULY9hKtp/rB5jALZEgcPnUIqldWYuqpdUwQcT6J3t9PoHp5JXbMg7GVJNpX
+	zoGyJST2nmuAsj0kFn/dCw2v+4wSX/bNZJvAKD8LyXOzkOyDsHUkFuz+xDaLkQPIlpZY/o8D
+	wtSUWL9LfwEj6ypGqdSC4tz01GTTAkPdvNRyeKQn5+duYgQnbq2AHYyrN/zVO8TIxMF4iFGC
+	g1lJhFepRDRdiDclsbIqtSg/vqg0J7X4EKMpMLomMkuJJucDc0deSbyhiaWBiZmZmYmlsZmh
+	kjjv69a5KUIC6YklqdmpqQWpRTB9TBycUg1MuczGB0Ojty6PLb8hb7jDbcVH4QYHs5XhCkv3
+	T72o/3TRO4P6XSoJju/b+NtaTeR1X0zdFhTfZ3RccktmCP/n/5slP+yq4ppY7ZNZ22NVdfu9
+	6ZUrdbIMPinxdYq177+u23Ey7+ekO18e/JPcp3vso/hqvi8ic5mDbbZ/fpLvsIpderlMa522
+	zbZ5z9Z9Fpc9IByuUBYTvvbFy9baE2Y2J/2X7N9c6sWiOffWo6v5BzW/bIkWPvNkW4AWk+p0
+	n8ylBya0cl5548TUf0LpjfnXV2eTzVkjfRx4Nn/+ppo0Obv4w5pHLQbH6/J2N883euM4/cJV
+	40me5jyZcQusnin9PPPzkn2B36YuKd6rFi2LlViKMxINtZiLihMBZMA/GGUEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEIsWRmVeSWpSXmKPExsWy7bCSvO6bF6LpBs83mVt8/PqbxWLOqm2M
+	Fqvv9rNZ3Dywk8li5eqjTBbvWs+xWBz9/5bNYtKha4wW288sZbbYe0vbYv6yp+wW3dd3sFks
+	P/6PyeL8rDnsDnweO2fdZfe4fLbUY9OqTjaPzUvqPXbfbGDz+Pj0FotH35ZVjB6bT1d7fN4k
+	F8AZxWWTkpqTWZZapG+XwJXRvfQbS8FW3orP2xazNjCe5epi5OSQEDCRuHuiibWLkYtDSGA3
+	o8TxmV+ZIBISEqdeLmOEsIUlVv57zg5R9IRRov/qd7AiFgFViWf/QRKcHGwC6hJHnreCNYgI
+	KEk8fXWWEaSBWeACk8S2JW+YQRLCAtESM9//ACviFdCReL7sJyPE1PuMEqfPtDBDJAQlTs58
+	wgJiMwtoSdz49xJoGweQLS2x/B8HSJgTqPfon9esILaogLLEgW3HmSYwCs5C0j0LSfcshO4F
+	jMyrGCVTC4pz03OLDQuM8lLL9YoTc4tL89L1kvNzNzGCo01LawfjnlUf9A4xMnEwHmKU4GBW
+	EuFVKhFNF+JNSaysSi3Kjy8qzUktPsQozcGiJM777XVvipBAemJJanZqakFqEUyWiYNTqoFJ
+	sO3yqnksO3Zm9R3OaOfgWBI263OCYGjVsbkru33uy90NPNifJdS5nVm+ueHz05zDJ5/bf9W7
+	+XdyKL/WN+4VNglbeyY95zvEl/B69doq0aOF+94uyVY/r7vYMkM50sdW5c7kebJzIvsnVOhv
+	ZErhc3hw5KqwUBXvhN9PBXIOcvn9Pru4U3qJTH7ATK8Ug03vD5/K7pNpej33v/mrB2wnw/rt
+	HFsvGnfrnPrFNelKhXSCjcusnyde+tpIu+nmVK/MKFOTqv2zXCpZISxuQl3rj/21ix6fOW8c
+	Jcbm/idJymlxOJdNhtyDFQ8eLHX/vjb/pt5Cdu7rbx0zNrzfyv1A3c7lQZzmPdeMMr3/ty2U
+	WIozEg21mIuKEwEHf0/iJQMAAA==
+X-CMS-MailID: 20241021053853epcas5p28278ac9cd4f6791bca8d676cf06d99c5
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_5d1e1_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241016113747epcas5p4e276eb0da2695ba032ce1d2a3b83fff4
+References: <20241016112912.63542-1-anuj20.g@samsung.com>
+	<CGME20241016113747epcas5p4e276eb0da2695ba032ce1d2a3b83fff4@epcas5p4.samsung.com>
+	<20241016112912.63542-8-anuj20.g@samsung.com>
+	<20241017081057.GA27241@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241020_183928_526571_A3D7A6C5 
-X-CRM114-Status: GOOD (  15.44  )
+X-CRM114-CacheID: sfid-20241020_224619_338144_50BFC809 
+X-CRM114-Status: GOOD (  23.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,48 +143,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Oct 20, 2024 at 10:40:41PM +0800, zhuxiaohui wrote:
-> From: Zhu Xiaohui <zhuxiaohui.400@bytedance.com>
+------Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_5d1e1_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+
+> What is the meta_type for?  To distintinguish PI from non-PI metadata?
+
+meta_type field is kept so that meta_types beyond integrity can also
+be supported in future. Pavel suggested this to Kanchan when this was
+discussed in LSF/MM.
+
+> Why doesn't this support non-PI metadata?
+
+It supports that. We have tested that (pi_type = 0 case).
+
+> Also PI or TO_PI might be
+> a better name than the rather generic integrity.  (but I'll defer to
+> Martin if he has any good arguments for naming here).
+
+Open to a different/better name.
+
 > 
-> It is observed that nvme connect to a nvme over fabric target will
-> always fail when 'nohz_full' is set.
+> >  static bool need_complete_io(struct io_kiocb *req)
+> >  {
+> > +	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
+> > +
+> > +	/* Exclude meta IO as we don't support partial completion for that */
+> >  	return req->flags & REQ_F_ISREG ||
+> > -		S_ISBLK(file_inode(req->file)->i_mode);
+> > +		S_ISBLK(file_inode(req->file)->i_mode) ||
+> > +		!(rw->kiocb.ki_flags & IOCB_HAS_METADATA);
+> >  }
 > 
-> In commit a46c27026da1 ("blk-mq: don't schedule block kworker on
-> isolated CPUs"), it clears hctx->cpumask for all isolate CPUs,
-> and when nvme connect to a remote target, it may fails on this stack:
+> What partial ocmpletions aren't supported?  Note that this would
+> trigger easily as right now metadata is only added for block devices
+> anyway.
+
+It seems that this scenario is less likely to happen. The plumbing
+seemed a bit non trivial. I have the plan to look at it, once the
+initial version of this series goes in.
+
 > 
->         blk_mq_alloc_request_hctx+1
->         __nvme_submit_sync_cmd+106
->         nvmf_connect_io_queue+181
->         nvme_tcp_start_queue+293
->         nvme_tcp_setup_ctrl+948
->         nvme_tcp_create_ctrl+735
->         nvmf_dev_write+532
->         vfs_write+237
->         ksys_write+107
->         do_syscall_64+128
->         entry_SYSCALL_64_after_hwframe+118
+> > +	if (unlikely(kiocb->ki_flags & IOCB_HAS_METADATA)) {
 > 
-> due to that the given blk_mq_hw_ctx->cpumask is cleared with no available
-> blk_mq_ctx on the hw queue.
-> 
-> This patch introduce a new blk_mq_req_flags_t flag 'BLK_MQ_REQ_ARB_MQ'
-> as well as a nvme_submit_flags_t 'NVME_SUBMIT_ARB_MQ' which are used to
-> indicate that block layer can fallback to a  blk_mq_ctx whose cpu
-> is not isolated.
+> For a workload using metadata this is everything but unlikely.  Is
+> there a specific reason you're trying to override the existing
+> branch predictor here (although on at least x86_64 gcc these kinds
+> of unlikely calls tend to be no-ops anyway).
 
-blk_mq_alloc_request_hctx()
-	...
-	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
-	...
-
-It can happen in case of non-cpu-isolation too, such as when this hctx hasn't
-online CPUs, both are same actually from this viewpoint.
-
-It is one long-time problem for nvme fc.
+The branch predictions were added to make it a bit friendly for
+non-metadata read/write case. 
 
 
-Thanks,
-Ming
+------Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_5d1e1_
+Content-Type: text/plain; charset="utf-8"
 
+
+------Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_5d1e1_--
 
