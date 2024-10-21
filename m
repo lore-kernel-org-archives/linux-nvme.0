@@ -4,133 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B31DDD0E6EE
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 11:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44887D0E6F1
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Oct 2024 11:05:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CgK36wjlxbJdTiiaCUnolUOrYVh9ODBCeSqkr9s1y6I=; b=3e5kfxKx2/NegCSJYCHI/UgQ/y
-	fIiISwlsSHsRL/7Ev9n5/fmROUeVBJYm0Js5OPgVFZzmoIyfaJ6IvXB+Rh19fkenY1hj2rC3n/z9N
-	8tiZ6BVhg3RSZ+lJqjLPZB1yL9jL/cg1hYcz6tfuE2+BPunr3vQ+i5Lvqq8tKVrWUHj+JxkaSVG+G
-	L0tBFn2inJfk+xkBfglBgZLGJqtTIqRVJbA3WijPd11iJOobKpv4knfYaXxS7DsDWUrqRBiJDmq/Z
-	tpc/DMIUUfJT7oa80xfd1CXlgIkr7PtfSf1mD1tyXtTfr9a9xhoK/iEKIgs5IGtz4FJdgH7gKdHAI
-	VofzKP4w==;
+	bh=H3twq65KwbkC14NyrNVydA8TIPcZBKQ37w3XAo2kteE=; b=2r2K7Glr1e7UJCdJYGWG0acaTF
+	frXLpUAAhnIzSWyopQprJ808zS4zZME703mwycmH4tW7eGWpKGzuY5/QVGFX2NJxpVKpN7pixISBz
+	4jHMTLuakSbgFF1ZrBmbh8jKpHcGE2+73L9Ry9iXVgDHopxTqyWRBLr2iQhUrNN5VbRb0+c+KdZyH
+	xyi5JNJkahQyhBfxEhWG3/aCTprMMdVbKof3RUwR7gYK8KbesM4xHk7S8r80WRXX03CGrRFyb2IeJ
+	9rGLDEnTQatob7mfwEqSrS5f/i7LI4iiCO8vBmrfFwwCOmJuVOZsBOwjYHtN/nFXLRIwtzoysg8fx
+	Jbxjz/+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2q8v-00000006yvs-2vtb;
-	Mon, 21 Oct 2024 11:00:09 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1t2qDn-00000006zr2-3Blj;
+	Mon, 21 Oct 2024 11:05:11 +0000
+Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t2q8q-00000006yuw-4622
+	id 1t2qCP-00000006zbm-1vOQ
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Oct 2024 11:00:08 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8350621DFC;
-	Mon, 21 Oct 2024 11:00:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729508402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CgK36wjlxbJdTiiaCUnolUOrYVh9ODBCeSqkr9s1y6I=;
-	b=Rsm6B9DQi4C4XN8BF3ZNWaLosM9doy3I0PeazOeCZplscIro2EFjACG3BgNxMweMBT5GMq
-	a31g5N18k+gu5ZsQexKz3ZGDKEsvktiM7uGNwUL/Tfb+95aFp0TOPdB1vjvrKSZV1pwIiN
-	tageIAx97tZ4bVog2lsiN5H065DZ1f4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729508402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CgK36wjlxbJdTiiaCUnolUOrYVh9ODBCeSqkr9s1y6I=;
-	b=HgTKdWlnS+4CkHxhVgejR2ufIUbKWLL0poB439oBL81rdHk1TB4nVoi2Pvqk2uU4STtGWC
-	2lK+kYKYiy8wnRDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Rsm6B9DQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HgTKdWln
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729508402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CgK36wjlxbJdTiiaCUnolUOrYVh9ODBCeSqkr9s1y6I=;
-	b=Rsm6B9DQi4C4XN8BF3ZNWaLosM9doy3I0PeazOeCZplscIro2EFjACG3BgNxMweMBT5GMq
-	a31g5N18k+gu5ZsQexKz3ZGDKEsvktiM7uGNwUL/Tfb+95aFp0TOPdB1vjvrKSZV1pwIiN
-	tageIAx97tZ4bVog2lsiN5H065DZ1f4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729508402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CgK36wjlxbJdTiiaCUnolUOrYVh9ODBCeSqkr9s1y6I=;
-	b=HgTKdWlnS+4CkHxhVgejR2ufIUbKWLL0poB439oBL81rdHk1TB4nVoi2Pvqk2uU4STtGWC
-	2lK+kYKYiy8wnRDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 658FF136DC;
-	Mon, 21 Oct 2024 11:00:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id I/ROGDI0FmeREwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 21 Oct 2024 11:00:02 +0000
-Message-ID: <56fde9ae-8e27-4ade-bdc4-99bf3f53a299@suse.de>
-Date: Mon, 21 Oct 2024 13:00:02 +0200
+	Mon, 21 Oct 2024 11:03:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1729508623; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=H3twq65KwbkC14NyrNVydA8TIPcZBKQ37w3XAo2kteE=;
+	b=aahDcDlb0NcuCIZjazPKkqLy51f4q88Rb+TlG3kw/jEE3F/ESSAbbYgNoQtxMjuIQa9kocly1df1zy4ozA8CmOizH0l94TRsDrM9WbEPwWEKgmkUiY2AreEZOIxJ+cg0SugvLYBiSKsLX4CKEg3UAEB+h0LY9xzBVkKs6rxXLm8=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHbFa9g_1729508617 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 21 Oct 2024 19:03:41 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	shinichiro.kawasaki@wdc.com,
+	d.bogdanov@yadro.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v17 1/2] nvme: add reservation command's defines
+Date: Mon, 21 Oct 2024 19:03:30 +0800
+Message-ID: <20241021110331.125962-2-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241021110331.125962-1-kanie@linux.alibaba.com>
+References: <20241021110331.125962-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/9] nvme-tcp: request secure channel concatenation
-To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org
-References: <20241018063343.39798-1-hare@kernel.org>
- <20241018063343.39798-7-hare@kernel.org>
- <a188adf5-55be-4524-b8eb-63f7470a4b15@grimberg.me>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <a188adf5-55be-4524-b8eb-63f7470a4b15@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 8350621DFC
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241021_040005_334537_788176E1 
-X-CRM114-Status: GOOD (  18.57  )
+X-CRM114-CacheID: sfid-20241021_040345_647671_1CDC3455 
+X-CRM114-Status: UNSURE (   8.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,70 +68,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/20/24 23:04, Sagi Grimberg wrote:
-> 
-> 
-> 
-> On 18/10/2024 9:33, Hannes Reinecke wrote:
->> Add a fabrics option 'concat' to request secure channel concatenation.
->> When secure channel concatenation is enabled a 'generated PSK' is 
->> inserted
->> into the keyring such that it's available after reset.
->>
->> Signed-off-by: Hannes Reinecke <hare@kernel.org>
->> ---
->>   drivers/nvme/host/auth.c    | 108 +++++++++++++++++++++++++++++++++++-
->>   drivers/nvme/host/fabrics.c |  34 +++++++++++-
->>   drivers/nvme/host/fabrics.h |   3 +
->>   drivers/nvme/host/nvme.h    |   2 +
->>   drivers/nvme/host/sysfs.c   |   4 +-
->>   drivers/nvme/host/tcp.c     |  47 ++++++++++++++--
->>   include/linux/nvme.h        |   7 +++
->>   7 files changed, 191 insertions(+), 14 deletions(-)
->>
-[ .. ]
->> @@ -2314,6 +2345,8 @@ static void nvme_tcp_error_recovery_work(struct 
->> work_struct *work)
->>                   struct nvme_tcp_ctrl, err_work);
->>       struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
->> +    if (nvme_tcp_key_revoke_needed(ctrl))
->> +        nvme_auth_revoke_tls_key(ctrl);
-> 
-> Having this sprayed in various places in the code is really confusing.
-> 
-> Can you please add a small comment on each call-site? just for our 
-> future selves
-> reading this code?
-> 
-> Outside of that, patch looks good.
-> 
-Weelll ...
-We need to reset the negotiated PSK exactly in three places:
-- reset
-- error recovery
-- teardown
-Much like we need to do for every other queue-related resource.
+This is a preparation patch for NVMeOF target reservation
+commands implantation.
+Add the defines of reservation command, such as reservation log
+and sub operations.
 
-And in one of your previous reviews you stated that you do _not_
-want to have 'nvme_auth_revoke_tls_key()' checking if the key
-needs to be revoked, but rather have a check function.
-Otherwise I could just move the check into nvme_auth_revoke_tls_key()'
-and drop the 'revoke needed' call.
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+Tested-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ include/linux/nvme.h | 68 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
-Furthermore we don't need to check if the key needs to be revoked
-during teardown (answer will always be 'yes').
-
-So I'm quite unsure what to do now ... document that we need
-to release the key when doing a reset or error recovery?
-Move the check back into nvme_auth_tls_revoke_key()?
-Hmm?
-
-Cheers,
-
-Hannes
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b58d9405d65e..44d048d68503 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -2037,4 +2037,72 @@ struct nvme_completion {
+ #define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
+ #define NVME_TERTIARY(ver)	((ver) & 0xff)
+ 
++enum {
++	NVME_AEN_RESV_LOG_PAGE_AVALIABLE	= 0x00,
++};
++
++enum {
++	NVME_PR_LOG_EMPTY_LOG_PAGE			= 0x00,
++	NVME_PR_LOG_REGISTRATION_PREEMPTED		= 0x01,
++	NVME_PR_LOG_RESERVATION_RELEASED		= 0x02,
++	NVME_PR_LOG_RESERVATOPM_PREEMPTED		= 0x03,
++};
++
++enum {
++	NVME_PR_NOTIFY_BIT_REG_PREEMPTED		= 1,
++	NVME_PR_NOTIFY_BIT_RESV_RELEASED		= 2,
++	NVME_PR_NOTIFY_BIT_RESV_PREEMPTED		= 3,
++};
++
++struct nvme_pr_log {
++	__le64			count;
++	__u8			type;
++	__u8			nr_pages;
++	__u8			rsvd1[2];
++	__le32			nsid;
++	__u8			rsvd2[48];
++};
++
++struct nvmet_pr_register_data {
++	__le64	crkey;
++	__le64	nrkey;
++};
++
++struct nvmet_pr_acquire_data {
++	__le64	crkey;
++	__le64	prkey;
++};
++
++struct nvmet_pr_release_data {
++	__le64	crkey;
++};
++
++enum nvme_pr_capabilities {
++	NVME_PR_SUPPORT_PTPL				= 1,
++	NVME_PR_SUPPORT_WRITE_EXCLUSIVE			= 1 << 1,
++	NVME_PR_SUPPORT_EXCLUSIVE_ACCESS		= 1 << 2,
++	NVME_PR_SUPPORT_WRITE_EXCLUSIVE_REG_ONLY	= 1 << 3,
++	NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_REG_ONLY	= 1 << 4,
++	NVME_PR_SUPPORT_WRITE_EXCLUSIVE_ALL_REGS	= 1 << 5,
++	NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_ALL_REGS	= 1 << 6,
++	NVME_PR_SUPPORT_IEKEY_VER_1_3_DEF		= 1 << 7,
++};
++
++enum nvme_pr_register_action {
++	NVME_PR_REGISTER_ACT_REG		= 0,
++	NVME_PR_REGISTER_ACT_UNREG		= 1,
++	NVME_PR_REGISTER_ACT_REPLACE		= 1 << 1,
++};
++
++enum nvme_pr_acquire_action {
++	NVME_PR_ACQUIRE_ACT_ACQUIRE		= 0,
++	NVME_PR_ACQUIRE_ACT_PREEMPT		= 1,
++	NVME_PR_ACQUIRE_ACT_PREEMPT_AND_ABORT	= 1 << 1,
++};
++
++enum nvme_pr_release_action {
++	NVME_PR_RELEASE_ACT_RELEASE		= 0,
++	NVME_PR_RELEASE_ACT_CLEAR		= 1,
++};
++
+ #endif /* _LINUX_NVME_H */
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.43.0
+
 
