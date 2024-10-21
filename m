@@ -4,49 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D5F0D1CDA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 07:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B4ACD1CDA1
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 07:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l6TVX7d4tIJYvy7TegVVtN6Z6JSO2dQYPZsi91HgRII=; b=2vgPN7R0+J13RpK8CGFvjz+YcR
-	N+pGQVmeKUHZ9If05v7Lr2+AHzn2OnmAztEkJADmePat6HsfgtcGFSW3z6dfu33aOOEel0Lu8PFDi
-	vzUQ1zGjLT6IbE/a6KimjwaaXQ49RNb8h6EX5A+xNGIbLD6nCOoyA9zaMVqHH6HhXDkTLPCux+cxA
-	g9yxELEvgFo/q64Z/Ew8RszXqF5VM1L4z1Qo3fUZSxWXY9vNtZaUKXQYw8qyzwESd9ypcUi8NDNhL
-	pvYHQqaDQtrf7fAzCfIAT0FMISCiK6kToGU0g7IhhT88kcZS1IRC7LDnaPCK65aXGy+JnrDKLtboT
-	dIylxfxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=geISZYnqC8zF6hE8Gf9cCNpibOdSVkrYZJHYKT5c4kA=; b=FsJLf48a1iMATvD16w1IIl6RaQ
+	JgoGqLTe9YzpD3ct55HJLF1h0SN5DabVEifq8XVbyXfJ/UrpDbqUJLHzE7Zi+U2Vp5/e6OlK+MH2F
+	cunlzZkXV1RdNPcnBJojgWFhRQNqDFxqpkNcerPrYm/ztHxHMIe8kZSOo0a7dR8I/eEwZaW/r1v0A
+	drHzXt4JqR3Buphk5YITSuJoW85O6TqiyCYXhUoMymPv/R5y9o5t9EGzeT63/8q9FnoYuu3JP/xTo
+	4+9YN1XBNtSzmlc2vA3TMql6/Jiq37jrdBnyUU5LlX0StmfLFbINtM/hDFNc3swEv7cqn7tCNrMYy
+	tIzD2jqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t38uz-00000009uK1-0WP9;
-	Tue, 22 Oct 2024 07:03:01 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t38ux-00000009uJZ-15bZ
+	id 1t39Be-00000009xDG-2WHe;
+	Tue, 22 Oct 2024 07:20:14 +0000
+Received: from cmccmta2.chinamobile.com ([111.22.67.135] helo=cmccmta1.chinamobile.com)
+	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
+	id 1t39B9-00000009x6N-2l9h
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Oct 2024 07:03:00 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 072C4227AA8; Tue, 22 Oct 2024 09:02:53 +0200 (CEST)
-Date: Tue, 22 Oct 2024 09:02:52 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@meta.com>,
+	Tue, 22 Oct 2024 07:19:46 +0000
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee367175206930-2c14b;
+	Tue, 22 Oct 2024 15:19:34 +0800 (CST)
+X-RM-TRANSID: 2ee367175206930-2c14b
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from localhost.localdomain.localdomain (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee867175205938-7bce6;
+	Tue, 22 Oct 2024 15:19:34 +0800 (CST)
+X-RM-TRANSID: 2ee867175205938-7bce6
+From: Liu Jing <liujing@cmss.chinamobile.com>
+To: kbusch@kernel.org
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [PATCH] nvme-loop: set blocking flag
-Message-ID: <20241022070252.GA11389@lst.de>
-References: <20241017172052.2603389-1-kbusch@meta.com> <7846e57b-fb03-42ed-af8e-0df88cc566a4@kernel.dk> <ZxFRpdU-GI76uetA@kbusch-mbp.dhcp.thefacebook.com> <20241018051056.GC19831@lst.de> <64f4d599-3261-4544-90c2-4cb3e1ad96fb@grimberg.me> <20241022062810.GC10573@lst.de>
+	linux-kernel@vger.kernel.org,
+	Liu Jing <liujing@cmss.chinamobile.com>
+Subject: [PATCH] nvme-pci: After the memory is released, the corresponding pointer needs to point to empty
+Date: Tue, 22 Oct 2024 03:01:50 +0800
+Message-Id: <20241021190150.5974-1-liujing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241022062810.GC10573@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241022_000259_460068_BE1BC28A 
-X-CRM114-Status: GOOD (  17.63  )
+X-CRM114-CacheID: sfid-20241022_001944_238634_81F1196C 
+X-CRM114-Status: UNSURE (   8.34  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,22 +71,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 22, 2024 at 08:28:10AM +0200, Christoph Hellwig wrote:
-> On Mon, Oct 21, 2024 at 12:35:17AM +0300, Sagi Grimberg wrote:
-> >> Let me see what I can do.
-> >
-> > Note, the search is ONLY in the error case, i.e. when nsid is not found in
-> > subsys->namespaces.
-> 
-> Which kinda makes it worse as we use an unusual context just from
-> that rare error path.
+The code frees memory pointed to by dev->queues. After freeing memory,
+dev->queues should be set to NULL to avoid dangling Pointers.
 
-I just took a very quick look, and inserting the namespace into the
-xarray when created and only removing it when it is deleted, and
-instead checking an enabled flag during lookup should do the work.
+Signed-off-by: Liu Jing <liujing@cmss.chinamobile.com>
+---
+ drivers/nvme/host/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Do we have a good test case for commit 505363957fad ?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 1cbff7537788..c1500c00f571 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2731,7 +2731,9 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ 	nvme_free_tagset(dev);
+ 	put_device(dev->dev);
+ 	kfree(dev->queues);
++	dev->queues = NULL;
+ 	kfree(dev);
++	dev = NULL;
+ }
+ 
+ static void nvme_reset_work(struct work_struct *work)
+@@ -3055,8 +3057,10 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ out_put_device:
+ 	put_device(dev->dev);
+ 	kfree(dev->queues);
++	dev->queues = NULL;
+ out_free_dev:
+ 	kfree(dev);
++	dev = NULL;
+ 	return ERR_PTR(ret);
+ }
+ 
+-- 
+2.27.0
 
-> 
----end quoted text---
+
+
 
