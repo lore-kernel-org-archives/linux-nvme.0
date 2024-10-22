@@ -4,98 +4,177 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6F1ED1CDAC
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 08:00:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF643D1CDAB
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 08:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V+VAjwc5KAbA8QfGBsQvF3iNwu8+fE/+RDH99nl8cgg=; b=jzkXn/jS4dkeDMu2aKBUKKaVa4
-	1lMszEvhLcQw15sFgWE6urB2va/IBCOP5+mQQzoZJ92kJIbq5EKkQ5UiBUeMUYGRQ8bHZJdFsouOy
-	eQqvQHQFVbSkgg1VGyLBzqsNjJlJQHKVdjMYXeITkOOl3MJ5DGKvEbAnXVR95lUsMMEhnuRoZ1rUY
-	de0o2mHfCDN2Z2Zrs7T+Mzn4TnQolC194lhcR7Fm10XZOnLriqBbpdLCoNA4l2EeuFxWCRMTgPD0M
-	uUYpA5L0+MXh5ZkW5P7o9A+h2MciaWsK6NfmLiyU/nLbk0G3++ItsN8jvJipc6EvY5Rala58b6TDL
-	w0KleZCg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=I5elE9GeTReW/sCM2PjsgR+Mh1jXd7HjZOrbDMN3jgg=; b=lYNvjzt4V0jh7FH6NGw0XfVPTW
+	Yy3leicRu5fvKqkUE45TWPOj6OOR/VF2ZSlTARqBB74OP/h5Mkt6pEUKBRr6J08CuZgsnBHFfAPSE
+	TjXSR8p0N3/SxWJsjnayznumJX4yxz5F6ShT/klMn+YmqL2g2ijm6Tzur/QOqBRYVFTJ5joasNs0B
+	p7LqdyiYQCrAXR0S+o1XSsHhTl1pvgnSms+A4eDdkG8R/Z1MoxSQq+2Q53qcH1lCUCpuyGl2+MWWd
+	R37fszBE130wLkoRJqRHkvekm7h/F+6+SEeLFSgR7qUBSXJ4Z6pvBCKzS5Xs8Cf4HHQflYJ+K6QS0
+	wYy9HhAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t39oj-0000000A5YX-0nkw;
-	Tue, 22 Oct 2024 08:00:37 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1t3A15-0000000A7pT-2azy;
+	Tue, 22 Oct 2024 08:13:23 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t38nS-00000009tHk-02X2
+	id 1t39wS-0000000A6um-0wVT
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Oct 2024 06:55:15 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49M2HAfK009252;
-	Tue, 22 Oct 2024 06:55:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=V+VAjw
-	c5KAbA8QfGBsQvF3iNwu8+fE/+RDH99nl8cgg=; b=YkxDLv6eD1hnGeraqmA+Vr
-	2YPtktdcNuMJOy28bZzC6PtyFaR18lFakb5YL4qXM0IfdIHjoKKAUufRnsW0g41/
-	EZZSHQc9c+Ot0OKFJIPho+wwP2BpLlOu5pM+p4fF2HcX2V6cDlXgzFYZwpMo99CM
-	mmkoMg9pewknshhV7ve87y3W2CuxAld642n+NfL3yfF1fjVLqNaWGw2BwOeEoh3j
-	qoHTn8IdZIA4k2F8cQKlq2faM+VwdUCS7HILEdldk1R0/aa5EgimiXPAtTwcC3N+
-	IoUtYEEE5F5h4irzNRXu4sBqSbZA/ylk1jhjQ9Kh/ofyyKWYiE0TQ34bFXoOmXQQ
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42c5hmd8d9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Oct 2024 06:55:05 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49M5KR5a029439;
-	Tue, 22 Oct 2024 06:55:03 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42crkk1wtv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Oct 2024 06:55:03 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49M6t2p845809980
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Oct 2024 06:55:03 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BF29C5805A;
-	Tue, 22 Oct 2024 06:55:02 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C237E58054;
-	Tue, 22 Oct 2024 06:54:59 +0000 (GMT)
-Received: from [9.109.198.143] (unknown [9.109.198.143])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 22 Oct 2024 06:54:59 +0000 (GMT)
-Message-ID: <b03863b2-8816-48cd-aa18-436f1c49ec8c@linux.ibm.com>
-Date: Tue, 22 Oct 2024 12:24:57 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] nvme: make keep-alive synchronous operation
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, axboe@fb.com, chaitanyak@nvidia.com,
-        dlemoal@kernel.org, gjoyce@linux.ibm.com
-References: <20241016030339.54029-1-nilay@linux.ibm.com>
- <20241016030339.54029-3-nilay@linux.ibm.com>
- <a5908bbc-4230-460d-b814-a0b41d16a15d@grimberg.me>
- <bd0bfd18-b5bf-485a-9891-20974557d740@linux.ibm.com>
- <f8b03260-9792-4612-aebd-52db4458b949@grimberg.me>
+	Tue, 22 Oct 2024 08:08:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1729584516; x=1761120516;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=I5elE9GeTReW/sCM2PjsgR+Mh1jXd7HjZOrbDMN3jgg=;
+  b=KHBfW9l83r9ck6FYgLil6+036xCIVy9CVQBA7pReY5H6nOCjX3XdhBNz
+   W2WtR/EO1kygilJIFMXxg7tFzvKVB3HX0o+NxM62Z2gQ5jPqDsMOBVCN5
+   pbZilZJarJ4pqIT6bcDn6BUoAakfwzsBDJvqZwEUreQl8C8Ix2u8FQyuW
+   UovTBSjUzH9U5gSeIUfmo4rpCrGJT4hWDFgEIBCDsZ2w/9ANlcQA1pjUr
+   hEzsxFYC5E/YmZ/Fuew+kK1s82IDMzo8hI8gggR+19LboiNfwIKQ4zqsN
+   vpBMhdxFZMsWZOLZ+LBhh9Kfi/pboPEuAU29OusP71vfIvogkbRxjK3+B
+   g==;
+X-CSE-ConnectionGUID: TUVLPZQoQUi9VlMbptABTg==
+X-CSE-MsgGUID: pewSMblURxWWKBU8mzEBzg==
+X-IronPort-AV: E=Sophos;i="6.11,222,1725292800"; 
+   d="scan'208";a="30535655"
+Received: from mail-westcentralusazlp17012038.outbound.protection.outlook.com (HELO CY7PR03CU001.outbound.protection.outlook.com) ([40.93.6.38])
+  by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2024 16:08:34 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L5JxoN6UxERgf7I/9QpNLYlicpw5tTtp19yrmUweHQFg8Uk0y3TWP0IZ6xKefxB1/HCJtu0KH4T1AJENuNNurIO6n8tamn5kJhs0uHyUZa/Cpk6CZ9aF4yA08RAPrsn0+r0aNvwRrMKEO57nMHiQ4gya0+W3dlMLeIcaFeMl4s5xOWyP0OyH685b0xBj/XsMiQd1oSDQSuhYXn0Cd0sO842DvZdKpz8UffSQyt6MTXtO9ySivNT0wAsbapfc2uoH+bie2V2orwJD5BdCx1VE46GFfFSG8ApT94IcXRUgCjnlGusxY6BdBOOwfdIfAPIBGYmJW1Zwjagte9DokEZXCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I5elE9GeTReW/sCM2PjsgR+Mh1jXd7HjZOrbDMN3jgg=;
+ b=Zm0sjh8VI7lmPI6tLWEhxurOmLKVWCPluRT4lBpIHU3ZOZP2tG5/2wBojZvBIhrHarAoLwSeZzJFjEUbDwn0jB3Aer1GKEu2mjDLnJiPx+U22+NUJ3kKp0Th2eu/Dvw1sAyMUvHL7bWKgjfNKxkha+hIJeQ0UHKBP7itMS0jtq2cdlvn3GyhyU88ZqubAzcHEb1j4phDO2NBf2Ednq+4eyCJ6X0R+2q8VF/9DI0vLxAXwdNcYLxjEP3UXdjWS93ADLiYyC1zwWbjxKvDrDqcHO7Laz3TZYtZ/j5Qxzrg203/cVlOvWD6qsM+AatRHIn+tfWrb9bMy7NYXH+Yul62+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I5elE9GeTReW/sCM2PjsgR+Mh1jXd7HjZOrbDMN3jgg=;
+ b=wD3JfIC4tPe0pdV6xvkWHlnxfPE1gNtZTP5YGMg1qgJhbYyEdepO5LTPGr7lgn8dtShTyedQB+eOGA0TUwZSSqv0AcR7pR+G6XlxJx3k+VTztdCAj6eRx+bGIYMU1Apksa89R+07BEIsElpsHGCC3HjLFkjn6Wec9nPISU1j+0A=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ MW4PR04MB7218.namprd04.prod.outlook.com (2603:10b6:303:76::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8069.29; Tue, 22 Oct 2024 08:08:32 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8093.014; Tue, 22 Oct 2024
+ 08:08:32 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: hch <hch@lst.de>
+CC: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, Jens
+ Axboe <axboe@kernel.dk>, Keith Busch <kbusch@meta.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvme-loop: set blocking flag
+Thread-Topic: [PATCH] nvme-loop: set blocking flag
+Thread-Index: AQHbILj4WY5++aniNkmiSCycU7ANMbKLNZAAgAAG+YCAALo+AIAEN7CAgAInNwCAAAmyAIAAEliA
+Date: Tue, 22 Oct 2024 08:08:31 +0000
+Message-ID: <ygq2tospvgesry2uuhh2fh5gzdm3vbkatdm42v2fjqlddzj43d@sdoplqu4vg62>
+References: <20241017172052.2603389-1-kbusch@meta.com>
+ <7846e57b-fb03-42ed-af8e-0df88cc566a4@kernel.dk>
+ <ZxFRpdU-GI76uetA@kbusch-mbp.dhcp.thefacebook.com>
+ <20241018051056.GC19831@lst.de>
+ <64f4d599-3261-4544-90c2-4cb3e1ad96fb@grimberg.me>
+ <20241022062810.GC10573@lst.de> <20241022070252.GA11389@lst.de>
+In-Reply-To: <20241022070252.GA11389@lst.de>
+Accept-Language: en-US
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <f8b03260-9792-4612-aebd-52db4458b949@grimberg.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bCl8bxpOdS6zYaK0oqCrxP7Wp76eBIyT
-X-Proofpoint-GUID: bCl8bxpOdS6zYaK0oqCrxP7Wp76eBIyT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- phishscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
- bulkscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410220043
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|MW4PR04MB7218:EE_
+x-ms-office365-filtering-correlation-id: 4b88cc07-d67e-4bf3-a467-08dcf270b832
+x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?UDnmnWNOHOc6+nZCneEwh/MX1dr145pmJGIBgXCb2/gSaVveuJ5Q1ENREQPV?=
+ =?us-ascii?Q?qv9DJqJwMOVzW3/OxuWKPRnrkQ30J1Z0e+H2fDtIsS50WHjpdu/+FbJ/PdHU?=
+ =?us-ascii?Q?efm9spTjpgqRmHnDqRrrADsHrKVVizIETVzK8gyDJ4QrLDF4q5/+vN4ygEXj?=
+ =?us-ascii?Q?Y4L+1rSBODa9XSWxV3u1YmFbvDk5c5ir/sGiSERLDk4DEq48LvqLyFASMigH?=
+ =?us-ascii?Q?RVIYigYf+IQkMJyasJKwy3DdYnYfLOLBlbgTaxe1PAq9RD02a9+65/6ljhLF?=
+ =?us-ascii?Q?yLnl4GtkOHU4Xp124IOfPESBw9QR3JTyG4YxyYCMeeQP/quJ3WkZnUZVHDxA?=
+ =?us-ascii?Q?N3f/iTdcdL3gScI/TggWP716C8dQxl0I1X5wxPCKP3zMrj67YmAHLOCzA2gQ?=
+ =?us-ascii?Q?3RpfeYBnWuk9BwBi9jyiXaF75OcpzfoDJTy8z3PwFrXKHfY5bHPNuQ9pMj4K?=
+ =?us-ascii?Q?f6WGMACmySlpV7KeejovNZQGDmREqB8Z/fjo9ZdM1+h5/XmZzOlgwpbDa1ES?=
+ =?us-ascii?Q?IHRSm/ilBAcFAzzLihyckBx67ygovJ/c+0HKeZ1411HNiq1fyKcnJdQ9xpH0?=
+ =?us-ascii?Q?HL1dvQf2a0N+uoZSOeFGyLQpwCpM9PuH8MlFQpeHNHP59URCD9XStKF/+Z2/?=
+ =?us-ascii?Q?bS064m3iJO6J/U3IMvhdzwfmxIzKruoBg2qrBMOyyhyUPsqP9OONPIAOkHqL?=
+ =?us-ascii?Q?LHRD9T1my+YR5wLpWUTFP5IV+ixoL5fZnFUvDmYAyIpIfdz3cvsHhknb/pO0?=
+ =?us-ascii?Q?enxhJCtHAH94djLzYmiFHSCHFCOoFJouGbSyhWw0lYq2mSh4P5JveRel81M0?=
+ =?us-ascii?Q?hcJ+Yv/wzgCMWBrrSZIyhXREuJcnYLy363gdpjr0O8ArK1afOiFhVeobXeVF?=
+ =?us-ascii?Q?Unv6iLSBEkpciPS7pIuxGWDzrI69e81Fg4/82qSKXO0uNMvnIMKzuhywiTDS?=
+ =?us-ascii?Q?a0YN2YuVc8JclpUyBxvykdYUgEeceYM9srClh764FNPSexzBrmcHXR1mszdQ?=
+ =?us-ascii?Q?p9npo4Z8P7aXzDRp5ZCg+E6a3fswHxu0UlaMTWLcYDUAYGaLREfT/MNTZhaV?=
+ =?us-ascii?Q?OrxArcUKV4ZTBd684jkX07Obv1ImjJWmXFTgBY5ydG8/xAft19Rv/is4Kqpu?=
+ =?us-ascii?Q?ppP2+SHCLaZfC3fGr6AQiCprf2FbgBiQV3lAvZ55b3Qfj9MXg/kWzXkdyS9Q?=
+ =?us-ascii?Q?Y93OKPgrxlul0RF62UY7i2E43u1qPZTFa3Ndalxmgd2NN1lTekDLZzERt8bX?=
+ =?us-ascii?Q?PRZ7FcuFkhVS3tknHXb/pv9QeC57HKoVVN4xSWoEg2r/9k/u0GUoaxp0/ytv?=
+ =?us-ascii?Q?yFvGJD9OXrDK+YtmcpGLBCPd34GsK0QRH5gxiD81/7FTXhI5Oh7hjPKmsGcm?=
+ =?us-ascii?Q?zj2YM/QA7b2yEGXuvLpu2JkXH/3O?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NtT4bc0FsBZJjgJpu4nYAn/JjEOKPUTVu9EpFU2iNqvQCs9CCOI4vmHC+7I8?=
+ =?us-ascii?Q?7UYz5BU2hBwGAjJq8ZPdXl0hDlQcBa9+1oWfCOQEsmEP7XZ+oZe9hiFnKGnX?=
+ =?us-ascii?Q?SJTR1NjpUtpo4eLnYFgwMhetqPaR7xbd4kyc6+DBCXPT9B9Nplxn5ODnE7ao?=
+ =?us-ascii?Q?pMDIn/TUlw27Sfn82o2z6uU3/Re6ARxwXHnACbzUDH1Jq3nAKUYiKWUA3MKW?=
+ =?us-ascii?Q?qWrsvZWZ7Exlq5a2/1BvwrpkV1DgXexTh1fnuBLZWpuHiAbFMevZqevjMdqP?=
+ =?us-ascii?Q?uoFfiO06jTuxJ+/t+LZyi1oQS/HIbHzUqKXtDDPcTECsUq+KQ9GoWAadI7oa?=
+ =?us-ascii?Q?GqGo/NrjJTvusk6dF+vykCsnmv0/cerh0+1R9V6xaDq1bsLQASHFwQAM4aGF?=
+ =?us-ascii?Q?EkAuyHv67wpwp70mm8fTo6UxWwiqGuwj63UcGzwNpGUif8L3Ub3RIU+z4lCy?=
+ =?us-ascii?Q?wsAgCmQZ1kAFnQo5T4scP9jp4ShQaHtE43wO6z7+UtICKbdadGlgH+S9hedb?=
+ =?us-ascii?Q?k991VFco/GqrLx4sX7H/MpjQ+Pwg1MwYkbwtpSYNACwwV0o6Ihx2TcyRXuEg?=
+ =?us-ascii?Q?e7QqASSvo2Navwu5FG/lPOIOC83mJmKsCEp1KRbc0nolaECKLtf/9mPuWoNf?=
+ =?us-ascii?Q?BSNgUbm3omBZCMc4WmnvAIw07B10/8VSL8WnH0yuJu3SmodW4uAiaUJV5iNP?=
+ =?us-ascii?Q?+rMso3iLemuExmcyJGhsVEVJqIg2W3szP0sZefMM8s9hMO6b89pcCQt2DtX2?=
+ =?us-ascii?Q?WBrvat6UfYdgtoA27OpXfvxFTIY1ORN4QLHgkiBPlLQtWQJvH905g5KjWF3K?=
+ =?us-ascii?Q?wr550OmmYVCs5kaR3AL0xShN24n7NWbctXoNVA1UyswLHZvTAdLdLdB9/udv?=
+ =?us-ascii?Q?QyuQ88njwAaM53tvcvIh4Le35M7m7oeIEswdC/W+RtbSNcXc1PV5xT+KCiNV?=
+ =?us-ascii?Q?vJLvfyPq0rnckAY9lCZxznsb3WB/wcKJav7CKrz9lfzflPv9KII9yZSUuUFJ?=
+ =?us-ascii?Q?yxOLaLaI0RoSVLcJ61TOOXoxeQ1bvOr45wfp8sfPrujxAGbBRHwSaL2KczF5?=
+ =?us-ascii?Q?G8C5QS88RJJLaMdkcV8PTX5EW9J7Kc6TRsMz590RAXLct75O1A85edpB88gV?=
+ =?us-ascii?Q?YvTu55cfljXm4spFBog5dPgQVKliIOWBrbR/drJqeeyADGMtbNIhQWjLQvOO?=
+ =?us-ascii?Q?fsikqkq2i3YFyzQxgKgEMmDxdJBe+WodRCCQPNnh6lf31ykw2n+rhKWPALqr?=
+ =?us-ascii?Q?YyS5P5dddpdiaYDaDjvX+19a2LHKRFHaLUaUJacj1jPdzzaVl+LNdESGCU7W?=
+ =?us-ascii?Q?K6dLeJythA2l7YxbV0Q2tKh94KlVWemGAy1aQG6iiCwDxwWhUQwvfY3L+CT1?=
+ =?us-ascii?Q?cYk1z/yL/a9WQxjLcBE/RQJXCaScDdHZc7G5sHEnmsUrSW6l0YSpfDBkR8HJ?=
+ =?us-ascii?Q?TVrXGRGb2mwBd7QHqZTClmVu7pwV/TWg+tR1WWnyn8VeKNmyIHKJqR5CFfnc?=
+ =?us-ascii?Q?CR5iTIkkjMsk8c9JS2no5RugYvBrClZp6wQJod+tKg4YlaGaiZ645bz60QR4?=
+ =?us-ascii?Q?Dx9iAPgS1c0rcEuPEaByy2UqrQnMzCHmVxNhAzybPthHsGwI8EpKAs+IU9Sn?=
+ =?us-ascii?Q?VrBMSCmYBP4O2k3HHgs+6pA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <132F2B1A831FF84EBA371A90CDF60DF0@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 2ZXel8OxVrQt4Zr7u5VY1+NjRVjDz+Qk7j0xvOU5Xd6LZJyI64ibj3vul7GVnLdZXbVOgXqm4aeN2McbXxLb/dm0XLiLdvS1K7GGs3hCaiwQSUN7/5EAjTp9rCu003/Yi4gqDoe2TycPFvcln7Hn+LHzrXHPkdVaeej6GylyWtsKEL2uZJuvLoGg3rtZUzbAD9OrzMS2rYW3MowfiMQI+jVGzIwGWkXLD8wS8QPPwjzENwFfTgTpt3a5n1YM99hKiY+eblJIBtXyR8dc3qFrUONMgjG+DrAokYafOHbLevMYWCPrM0Zr0z5lv6ChkInvtw8SbsRpuJlMkqAZkN27nQCLVg8xir6O399vQ8i9Kc1V6Pws33qbNtPRfGfzeDYjoMopxfK21chfZyyFG8eTLKeVblFYKzIrDzSDeo+gqeNlS/KBsKHXbnX3Nsze8HCmlYbFKTF8iwr6Im9D4xsyWXUE+kiW0AprqjG7dEgIpDBfjhgr6Sz+qFwn5D5CbpkQ+0dRUD6Kak8oVtvngS3IjUEKw7cZG50AoDFDGR8FmLZfTmmw49bKpUKLXkeQ/7f4Zzdub9Ri4s03ClKiB/9qN776CJ/S3RRAhEEsvFlRCHyf7a9ug8hNqxlG5iBQ4naE
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b88cc07-d67e-4bf3-a467-08dcf270b832
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2024 08:08:31.9875
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: llayl4QKmP5+eWfcSe0VUoYiBe8ah9K7GsDPZmj774JuuEcHWMf5sMDaXYFS6JfH3Du15IjLK/luTCAqu2WLJlIm6oL1yUEGXU07W1hccU4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR04MB7218
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241021_235514_305232_C82F06BA 
-X-CRM114-Status: GOOD (  38.98  )
+X-CRM114-CacheID: sfid-20241022_010836_301522_20609268 
+X-CRM114-Status: GOOD (  21.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,147 +189,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Oct 22, 2024 / 09:02, Christoph Hellwig wrote:
+> On Tue, Oct 22, 2024 at 08:28:10AM +0200, Christoph Hellwig wrote:
+> > On Mon, Oct 21, 2024 at 12:35:17AM +0300, Sagi Grimberg wrote:
+> > >> Let me see what I can do.
+> > >
+> > > Note, the search is ONLY in the error case, i.e. when nsid is not fou=
+nd in
+> > > subsys->namespaces.
+> >=20
+> > Which kinda makes it worse as we use an unusual context just from
+> > that rare error path.
+>=20
+> I just took a very quick look, and inserting the namespace into the
+> xarray when created and only removing it when it is deleted, and
+> instead checking an enabled flag during lookup should do the work.
+>=20
+> Do we have a good test case for commit 505363957fad ?
 
+As for the BUG caused by the commit 505363957fad, the blktests test case
+nvme/052 can confirm if any patch fixes the BUG or not. It is recreate in
+stable manner on my test node [1], so I'm happy to help testing.
 
-On 10/21/24 20:44, Sagi Grimberg wrote:
-> 
-> 
-> 
-> On 21/10/2024 14:58, Nilay Shroff wrote:
->>
->> On 10/21/24 03:19, Sagi Grimberg wrote:
->>> Hey Nilay,
->>>
->>> First, can you please phrase the patch title to describe what it
->>> is addressing, not what it is changing, that can come (as it does)
->>> in the body.
->>>
->> sure, how about naming it as "nvme-fabrics: fix kernel crash while shutting down controller" ?
->>
->>> Second, I don't think we want to spend a thread waiting for
->>> synchronous IO for the purpose of keep alive. Is this the only
->>> way that this can be done?
->>>
->>> Third, was this observed with non-loop transports?
->>>
->> Yes it could happen even with non-loop fabric transports.
->>
->>> On 16/10/2024 6:03, Nilay Shroff wrote:
->>>> The nvme keep-alive operation, which executes at a periodic interval,
->>>> could potentially sneak in while shutting down a fabric controller.
->>>> This may lead to a race between the fabric controller admin queue
->>>> destroy code path (invoked while shutting down controller) and hw/hctx
->>>> queue dispatcher called from the nvme keep-alive async request queuing
->>>> operation. This race could lead to the kernel crash shown below:
->>> What is different about keep-alive than any other command?
->> The one difference is, of course, keep-alive is async but we may have
->> other async requests running while shutting down the controller. I found
->> that, when compared the keep-alive with other commands, the keep-alive
->> runs in the worker thread context but other commands (for instance async
->> read/write) runs in the user context and that uses the blk plugging. When we
->> use plugging, the call path for issuing request to driver is quite different
->> from that of issuing request using blk_execute_rq_nowait(). This subtle
->> difference is probably the reason not causing the kernel crash issuing
->> read/write command while shutting down the fabric controller.
->>
->> The call path for blk plugging for issuing the request to driver:
->> __blk_flush_plug()
->>    -> blk_mq_flush_plug_list()
->>      ->blk_mq_dispatch_plug_list()
->>
->> The blk_mq_dispatch_plug_list() first increments ->q_usage_counter before
->> dispatching requests. Basically here the queue dispatcher (blk_mq_run_hw_queue
->> function) is protected from the queue being destroyed on other cpu thread.
->> So that means that even after a request (assuming the only request in queue)
->> is cancelled or flushed off due to fabric controller is shutting down, the
->> blk-mq destroy code path would not be able to forward progress until the
->> ->q_usage_counter is decremented and becomes zero. And we can see in
->> blk_mq_dispatch_plug_list() that it decrements ->q_usage_counter only after
->> the blk_mq_run_hw_queue function returns.
-> 
-> Sounds like an issue that is not related to keep-alive at all.
-> 
->>>> Call Trace:
->>>>       autoremove_wake_function+0x0/0xbc (unreliable)
->>>>       __blk_mq_sched_dispatch_requests+0x114/0x24c
->>>>       blk_mq_sched_dispatch_requests+0x44/0x84
->>>>       blk_mq_run_hw_queue+0x140/0x220
->>>>       nvme_keep_alive_work+0xc8/0x19c [nvme_core]
->>>>       process_one_work+0x200/0x4e0
->>>>       worker_thread+0x340/0x504
->>>>       kthread+0x138/0x140
->>>>       start_kernel_thread+0x14/0x18
->>> What is the "crash" here? use-after-free?
->> yes it's use-after-free kernel crash.
->>>> While shutting down fabric controller, if nvme keep-alive request sneaks
->>>> in then it would be flushed off. The nvme_keep_alive_end_io function is
->>>> then invoked to handle the end of the keep-alive operation which
->>>> decrements the admin->q_usage_counter and assuming this is the last/only
->>>> request in the admin queue then the admin->q_usage_counter becomes zero.
->>>> If that happens then blk-mq destroy queue operation (blk_mq_destroy_
->>>> queue()) which could be potentially running simultaneously on another
->>>> cpu (as this is the controller shutdown code path) would forward
->>>> progress and deletes the admin queue. So, now from this point onward
->>>> we are not supposed to access the admin queue resources. However the
->>>> issue here's that the nvme keep-alive thread running hw/hctx queue
->>>> dispatch operation hasn't yet finished its work and so it could still
->>>> potentially access the admin queue resource while the admin queue had
->>>> been already deleted and that causes the above crash.
->>> Again, it is unclear to me what justifies the cure here. Every command can
->>> race with the shutdown, and it can be sync or async.
->>>
->> While I was researching on this issue, I figured that the nvme keep-alive is
->> probably the only async request running in worker thread context and not well
->> synchronized with the fabric controller shutdown code path. Yes we may have other
->> async request (for instance async read/write) which might get-in the way of the
->> fabric controller shutdown code path but those mostly run in the user context and
->> hence have a different code path than keep-alive command for submitting/queuing
->> the request.
-> 
-> This sounds like we papered around the problem. is it not allowed to call blk_execute_rq_nowait
-> from a kthread?
-I didn't meant calling blk_execute_rq_nowait is not allowed from kthread. It's allowed 
-but the side effect it causes is what I just wanted to highlight. 
-> 
->>
->>>> This fix helps avoid the observed crash by implementing keep-alive as a
->>>> synchronous operation so that we decrement admin->q_usage_counter only
->>>> after keep-alive command finished its execution and returns the command
->>>> status back up to its caller (blk_execute_rq()). This would ensure that
->>>> fabric shutdown code path doesn't destroy the fabric admin queue until
->>>> keep-alive request finished execution and also keep-alive thread is not
->>>> running hw/hctx queue dispatch operation.
->>> I'd want to see exactly what is causing this race because we already flush
->>> the keep alive work when starting the shutdown... so it only means it is
->>> incorrectly firing again?
->>>
->>> What I think we should do instead, is given that we already cancel_sync the keep
->>> alive work before making progress with the teardown, we should just make sure
->>> that it doesn't triggered afterwards again if it does.
->> No, keep-alive doesn't incorrectly fired, however once a keep-alive request is
->> allocated but before it's queued,
-> 
-> The queue teardown quiesce the admin queue first, which should prevent the dispatch.
-> You probably mean that it runs a little later, after the dispatch passes the quiesced test...
-> 
-> The question is, why did blk_mq_quiesce_queue did not wait for rcu grace? which should
-> have ensured that there is no dispatch going on? at least that is what it's supposed to do...
-> something doesn't add up
-> 
-This issue manifests when the keep-alive command sneaks in after the admin queue is 
-unquiesced but before its freezed.
+If you mean a test case to confirm that the commit 505363957fad achieves it=
+s
+purpose, I'm not sure about it. According to its commit log, I guess Jirong
+might have a test environment.
 
-nvme_unquiesce_admin_queue() <<< we unquiesce admin queue   
-
-<<< here keep-alive sneaks in and it starts running dispatcher
-
-nvme_remove_admin_tag_set()  <<< we freeze queue and wait for ->q_usage_counter to become zero 
-
-So as mentioned above, we have time window between queue unquiesce and freeze 
-operations where async keep-alive could potentially sneaks in and causing the 
-observed symptom.
-
-Thanks,
---Nilay
-  
+[1] https://lore.kernel.org/linux-nvme/tqcy3sveity7p56v7ywp7ssyviwcb3w4623c=
+nxj3knoobfcanq@yxgt2mjkbkam/=
 
