@@ -4,54 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1B6DCDD0FF
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 23:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40B65CDD0FF
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 23:12:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Subject:From:To:Date:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=w/lTpzuSprxlCOOf3gYwuEUMMWZYwHaPg86FiRB2ai8=; b=WJvKTSGboFvAThd6nFpQK2nu9i
-	fuGKV3jWFApy2CboYFLWW05mN3TL24OD1CoeXJSkgrjKDjriMOL/H0Hr2Alb9/h/Z0pY2lt3uDFQ8
-	9oxZ0V6D2W/W2eLTzsHWakHlLm1PCFXjq4hW+9ZyaF4AgnBLGU1D/XkAPrXDYK3AXZc8n/iwzcYo5
-	UTujyZRGC9nYHBNB3wGRgOUOJyaMiXr63kafBbmGqh1/ahpYs263CDo9kA2RZZr9YNnVZKIpuxiTw
-	GiTRzfqUABoj6Fkx/0dJWFQyetryqiToC4dNOP647W5O7Oulu2/2sMV1wosUGmuBYqPCvCDqWUfWm
-	cMqKp/Uw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uk/euQiSfMOS4mByAaTp457YCIIfi42DurYEaELQS1E=; b=VEIrrH3Xw6pyXnQ4ObOOj4Szmy
+	PXQ4ENSqXsz+R91sh+alTzgpLoYVK1OCTBtFuzzuQ1HxCsX4uZd05D7/W35jWXKJuJnzd2SE0OSUL
+	/+Tw1kT2oWYrCRDM+hlGS7LJezeRpNnSh07tLTMynkG49ZbO/8wkwv2kC/sRs2pK1ANy0HD986nB8
+	rst9qI1AnJZDd9GiOMERQjDElIO7XvRxhCZE7Ab3JefdL9QQwoS9G9ZD8GPhU8qE4vM7NiqAOwjhS
+	Bd3khkvQ/RM45ZhEolJ18D0W/GOUr0edtJj/FNqiQFmidxckmxi5L37VRNhoviHcBaHm0weclelW0
+	Qr8Iz68g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3NuU-0000000COlM-3Xro;
-	Tue, 22 Oct 2024 23:03:30 +0000
-Received: from mail-40132.protonmail.ch ([185.70.40.132])
+	id 1t3O2z-0000000CPaa-3iWM;
+	Tue, 22 Oct 2024 23:12:17 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3NuR-0000000COkg-0tHh
+	id 1t3O2x-0000000CPaB-1bPC
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Oct 2024 23:03:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1729638202; x=1729897402;
-	bh=w/lTpzuSprxlCOOf3gYwuEUMMWZYwHaPg86FiRB2ai8=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=KkbetsHGsZZkXhFbyCY+ucfSjHh8s/uznaQpz9SOc+IsRdXljn3Gkfb6DOEzXWBy9
-	 gOZpJ/m6VBxEUiiQNPSDOFhUdpTtSt7EVfgVwCLi6D9/HlCOAZZut09y0jzK6A/E+T
-	 idTDq3JFa0cEcKOX4U8Y8cGqZB+pzusdHFmMKUKItQcdJgVfzY8u22N2sW1LE3sohD
-	 RTsRmlbFj5Acx3ZhnXQER5OAWTL+N/Lohk8rqMOeNXcN6Bq/mj3VfuYA+24tkNEguw
-	 stIEmpoUWZF7PKTqSeRKGqXR+DdZGAyx+ybLfw2iy3Y/aMqgePYrCMcmNy2RFtCrFA
-	 /f4zyh/PhyWlA==
-Date: Tue, 22 Oct 2024 23:03:18 +0000
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-From: pallas wept <pallaswept@proton.me>
-Subject: x2002 Errors from Corsair P3 Plus
-Message-ID: <jvHjYW6DhvfuRsFL46GsoefGgOwF5IWcmq0u1UPhMbrALDMj6935K31Zyl_dHKz3WIuO4Fb5NSkTLJT01xD3TA3Rh9XsHPuPaNrVxC2AiIQ=@proton.me>
-Feedback-ID: 45493025:user:proton
-X-Pm-Message-ID: 3c05aae24d2e0476344246a2ceace784f57c18d4
+	Tue, 22 Oct 2024 23:12:16 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3E66E5C5CF3;
+	Tue, 22 Oct 2024 23:12:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44BEFC4CEC3;
+	Tue, 22 Oct 2024 23:12:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729638734;
+	bh=gq2WQl2AUVFCzvlksQy7SFSC3bLekLTRFPZjvgGCA4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dDWlD5romleOFrg4ZUoUeUrtXIqTrwJ6kGiMjFqsxWDN48fztBX9SYE+l4XQxHZB7
+	 aM4c17KS1MikIBpVq4y2F8OFc+q50K0d8fGCtVkw8cFYhnfJf9YiyfKJLIPSceHhZE
+	 HF28E+KjNKC8RlKy4y1acqvvzmFxeSJz+lZOmm1jjoD5XQbatbxYm5F2arHICSco2J
+	 /C1yGf7g4LWpqtelVMHHiDzC/z19936QEtThzRAZPNqhCHeSjZjISRJruY1ZWcSeex
+	 3fX3ZH6INg/6lntyWvh7lSJ80nq2yg348chFFU2APlcxXmDTf/d0WMaU/jOnAwPwTd
+	 pAj2fzLbKLDyQ==
+Date: Tue, 22 Oct 2024 17:12:12 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: pallas wept <pallaswept@proton.me>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: x2002 Errors from Corsair P3 Plus
+Message-ID: <ZxgxTKTtebOyZq0j@kbusch-mbp>
+References: <jvHjYW6DhvfuRsFL46GsoefGgOwF5IWcmq0u1UPhMbrALDMj6935K31Zyl_dHKz3WIuO4Fb5NSkTLJT01xD3TA3Rh9XsHPuPaNrVxC2AiIQ=@proton.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <jvHjYW6DhvfuRsFL46GsoefGgOwF5IWcmq0u1UPhMbrALDMj6935K31Zyl_dHKz3WIuO4Fb5NSkTLJT01xD3TA3Rh9XsHPuPaNrVxC2AiIQ=@proton.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241022_160328_032303_CC196746 
-X-CRM114-Status: UNSURE (   6.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241022_161215_485544_63B351BD 
+X-CRM114-Status: GOOD (  16.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,96 +70,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi list,=20
-I hope you can help.
+On Tue, Oct 22, 2024 at 11:03:18PM +0000, pallas wept wrote:
+> 
+> I've searched about this and I understand that these errors are
+> nothing to worry about directly, but I also gather that for some
+> devices, there was a means to avoid these errors being logged. I saw
+> some discussion of a 'quirks' database? I'm wondering if maybe the
+> same could be done for these devices also? They're quite popular,
+> being Amazon's recommended NVMe drive, so maybe it's worth it.
+> 
+> Advice from github https://github.com/linux-nvme/nvme-cli/issues/2540#issuecomment-2430454238
+> suggested that I provide PCI IDs, would this help?:
+> 
+> 08:00.0 Non-Volatile memory controller [0108]: Micron/Crucial Technology P3 Plus NVMe PCIe SSD (DRAM-less) [c0a9:5421] (rev 01)
+> 
+> 
+> Presuming that I have correctly interpreted the issues here and
+> nothing is really wrong, my goal here is to get a clean log when
+> nothing is wrong, so that genuine errors would not be hidden behind
+> the 'noise' of spurious errors.
 
-I was quite concerned to see SMART errors from my brand new SSD this mornin=
-g:
-
-    > sudo nvme error-log /dev/nvme1
-    Error Log Entries for device:nvme1 entries:16
-    .................
-    =C2=A0Entry[ 0]
-    .................
-    error_count =C2=A0 =C2=A0 : 13
-    sqid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    cmdid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0xa005
-    status_field =C2=A0 =C2=A0: 0x2002(Invalid Field in Command: A reserved=
- coded value or an unsupported value in a defined field)
-    phase_tag =C2=A0 =C2=A0 =C2=A0 : 0x1
-    parm_err_loc =C2=A0 =C2=A0: 0x4
-    lba =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0
-    nsid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0x1
-    vs =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    trtype =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: The transport type is not in=
-dicated or the error is not transport related.
-    csi =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0
-    opcode =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    cs =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    trtype_spec_info: 0
-    log_page_version: 0
-    .................
-    =C2=A0Entry[ 1]
-    .................
-    error_count =C2=A0 =C2=A0 : 12
-    sqid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    cmdid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0xa004
-    status_field =C2=A0 =C2=A0: 0x2002(Invalid Field in Command: A reserved=
- coded value or an unsupported value in a defined field)
-    phase_tag =C2=A0 =C2=A0 =C2=A0 : 0x1
-    parm_err_loc =C2=A0 =C2=A0: 0x4
-    lba =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0
-    nsid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0x1
-    vs =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    trtype =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: The transport type is not in=
-dicated or the error is not transport related.
-    csi =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0
-    opcode =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    cs =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    trtype_spec_info: 0
-    log_page_version: 0
-    .................
-    =C2=A0Entry[ 2]
-    .................
-    error_count =C2=A0 =C2=A0 : 11
-    sqid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    cmdid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0x18
-    status_field =C2=A0 =C2=A0: 0x2002(Invalid Field in Command: A reserved=
- coded value or an unsupported value in a defined field)
-    phase_tag =C2=A0 =C2=A0 =C2=A0 : 0x1
-    parm_err_loc =C2=A0 =C2=A0: 0x28
-    lba =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0
-    nsid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    vs =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    trtype =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: The transport type is not in=
-dicated or the error is not transport related.
-    csi =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 0
-    opcode =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    cs =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 0
-    trtype_spec_info: 0
-    log_page_version: 0
-    .................
-   =20
-
-I've searched about this and I understand that these errors are nothing to =
-worry about directly, but I also gather that for some devices, there was a =
-means to avoid these errors being logged. I saw some discussion of a 'quirk=
-s' database? I'm wondering if maybe the same could be done for these device=
-s also? They're quite popular, being Amazon's recommended NVMe drive, so ma=
-ybe it's worth it.
-
-Advice from github https://github.com/linux-nvme/nvme-cli/issues/2540#issue=
-comment-2430454238
-suggested that I provide PCI IDs, would this help?:
-
-08:00.0 Non-Volatile memory controller [0108]: Micron/Crucial Technology P3=
- Plus NVMe PCIe SSD (DRAM-less) [c0a9:5421] (rev 01)
-
-
-Presuming that I have correctly interpreted the issues here and nothing is =
-really wrong, my goal here is to get a clean log when nothing is wrong, so =
-that genuine errors would not be hidden behind the 'noise' of spurious erro=
-rs.
-
-Thanks for any advice you could offer.
+I think you've interpreted correctly. It's most likely Identify
+Controller NVM Command Set command, like everyone else. We have a flag
+to make sure we don't repeatedly do it, but there's nothing that turns
+it off by default. I'm pretty sure there's no way to tell if a
+controller supports it or not without trying it, but since this is a
+common reported problem, maybe we just quirk it off so we never try it
+ever for some devices, or come up with a different criteria and
+potentially skip devices that might support it.
 
