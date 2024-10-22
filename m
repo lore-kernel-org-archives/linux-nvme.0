@@ -4,181 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8D74D1715D
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74173D1715C
 	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 03:15:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RKMM1C1ShQ/yWRXlZnIG2TebHWeo7Adu2juMA8CgEUs=; b=HK8uBctGRVzOaQLEEjL/3M+yqL
-	DkTdjq/UGkgZw0xp3xzaAPT6l6ngCegJxHXx5y4s1fbd7TM14l6CHfab8stTr8KEkN15ZkwA24Rf+
-	1q+UbskkQz88UCldYHgKkqQS41ys3sqBNvSTC+TopAgsiBAb8F1vF291egeOaGBEx1W4VHjlcfajb
-	hVCdB8kt9rpXo9MeKHJjlqHGV2ADFKXUxLrcIbfplpBFnKxhaw4THlgCS+wY4lL1IjcAGa1j+UMoj
-	Jk9QjoYA6tRFnnxiifunBSeo4jYJff8nGB8sih5w9VUt1yTMiXv8fyUxZwRq5SFjL1wexbHXD0/Id
-	Wl1NED+g==;
+	bh=1wnkwLCM3TBlG97SLJcn9tNUhJLvVWqxGx4qZDf0GEw=; b=1/+I0EpaG03RLPutkqtfUSTVm+
+	sJ2k3ACfMekzlFJ2d5V9RCbx+Gfqrl4kuwBH1NqDnjh53h/sUxpbnKYnIx60Nb2kK/Yco+dPs58HM
+	YrC3Lf08aEjJKPeKyFAaXhzzJsm4RcX/PIB4Msuzo7XMq/kJYuYNBkme0ul//YOuVsKLYXYrK4m0s
+	++l8DY9F9HqvQ0g8WKWNh39f6IiFc8mKVxXHEzkNsNsnmH70FGh0dLhMQK7lTwXRkmkU700TjMeBg
+	IuetKUAGTYxG5Sd/EZPBL7KS683VB3HzXFZHkXBNcE7zjh+Ov0Jxo4pzwzIPaX2YBUW21ypCBp3DV
+	TnM5JAJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t35Mx-00000009P27-2Ee4;
-	Tue, 22 Oct 2024 03:15:39 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1t35My-00000009P2N-1O40;
+	Tue, 22 Oct 2024 03:15:40 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t34Gc-00000009HNI-0UlY
+	id 1t34Ic-00000009HqX-0vwG
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Oct 2024 02:05:04 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49LKffWY007647;
-	Tue, 22 Oct 2024 02:04:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=RKMM1C1ShQ/yWRXlZn
-	IG2TebHWeo7Adu2juMA8CgEUs=; b=G0YMf1+5HtmUOUunmw+NFQ9Jw9xeaCtowB
-	MWUEBvYx01mP/mOYpsJC1IxN8LAIyy9SvjCEEopsL9mr7Cb8xOmBT5v9n+Ledv0k
-	OLluLVgIi91sYFRrUVHscde7H0sheu5O0LTNVNp/0R9uMwhJ5gCVnUUZa+8QGlEl
-	k8Hb3Kj4NXMJwUzTNOOS8mFRt0EByfnfeB2sDsim1VjJgL00kfGahszsL2kSz839
-	urVh5ztr4PWQTiJvFWAUnt7IHb7m3thM9p3oEW6/41shF+Y/9zSHwrPRdis8/Gas
-	wQ+TE2uAAxJVk097A2HUSLZSCDZ6HCzP1b3hcjvFmKl1//o6sidg==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42c53umfxm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Oct 2024 02:04:56 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49M0Ffgf007617;
-	Tue, 22 Oct 2024 02:04:56 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2170.outbound.protection.outlook.com [104.47.56.170])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42c3772vux-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Oct 2024 02:04:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tH1WSYJEIpbGK84MRt2PPdndYrBK9xuS3Dtb6A7MDLg4E1+gmSPoJaaZgj7mraoR7SJSKVBbWbgLNLu9lWPNEcNb6INYWo3vXDWcgojDDhPUHUpbfwFqDqOlUPHiaeEVb9EZ7JUsJ/qmI/L8RBV4yt2vtM7s4aJGZGvcAO/Vk8tSI2/L4EEz4xtHnNymLfKxSPs/9oB6FHyndNuGQ2N+77XNaOb0EmIPSEP7t1fIWAdLfXSNL5EejG4ODoSwELO3amDonPcS+HQ8oxGZLzZUSXhD+T6GJ3lkm1OLuQe2NMTtUlmr+Ln72y5F+s0Kbz6L8i9HJ4JZQ5ZZGUvZCu+HUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RKMM1C1ShQ/yWRXlZnIG2TebHWeo7Adu2juMA8CgEUs=;
- b=YttXjx5r3lIjuXZ2oTsxH/bvfMzcQpciHq9Mz8qdXpK0wupqdYjlp2VolFw1oKcSppW9kSA58ZmUaSZlwwVp9rHpr2S7CqnKmopXdtvzCSK3u6QDFDaqZF9pWiwXoV6sLK7lINbjWamO9FrN4qRum+1eaDkDJKsYhziNxFoqtACl0JUk0SBVpr99zZ0QhAaBzmnm/opbWMAVY+nuST1YGxIufU/YQPnlSQWoZPgL9tnZ7YjJXc+7VXyl7klvbBotWeC1FsUANSe35szg+LVyesgZ9sy0uyN0G6zksazoWuUuS7JsZwiTAqFKWj6aIEDhodOwhZPJtN/a2oZGKaDuuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RKMM1C1ShQ/yWRXlZnIG2TebHWeo7Adu2juMA8CgEUs=;
- b=q6x4ZhUwhHjZXdoXgW9ei9zoe1V8HBF61aM/qf9A6nRMc4QX4MxtJ/wxCj1Oj5mm8ria1mXPqjNBJrbB65Or/pVriORGJQ30Fc+USKmRCPmGsILP4ftWLmnCJ5c1FFMA0A4VBgJtO9orhjE4/BWSo+pnjMoYnoPIlBrL5joiSMc=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by SA6PR10MB8061.namprd10.prod.outlook.com (2603:10b6:806:43a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Tue, 22 Oct
- 2024 02:04:54 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::5c74:6a24:843e:e8f7%5]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
- 02:04:54 +0000
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, martin.petersen@oracle.com,
-        asml.silence@gmail.com, anuj1072538@gmail.com, krisman@suse.de,
-        io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org, gost.dev@samsung.com,
-        linux-scsi@vger.kernel.org, vishak.g@samsung.com
-Subject: Re: [PATCH v4 00/11] Read/Write with meta/integrity
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20241016112912.63542-1-anuj20.g@samsung.com> (Anuj Gupta's
-	message of "Wed, 16 Oct 2024 16:59:01 +0530")
-Organization: Oracle Corporation
-Message-ID: <yq1msiwlwy5.fsf@ca-mkp.ca.oracle.com>
-References: <CGME20241016113705epcas5p1edc284b347de99bc34802b0b0c5e1b27@epcas5p1.samsung.com>
-	<20241016112912.63542-1-anuj20.g@samsung.com>
-Date: Mon, 21 Oct 2024 22:04:52 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0354.namprd13.prod.outlook.com
- (2603:10b6:208:2c6::29) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	Tue, 22 Oct 2024 02:07:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0D2725C4963;
+	Tue, 22 Oct 2024 02:07:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE4DEC4CEC3;
+	Tue, 22 Oct 2024 02:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729562825;
+	bh=vK7BuUmQSfhY5BYyxBJktKZo2vYB27zhwicGS79m0G4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b+f2w2Gr6/bc5mZ3ZiKNtBXS3Q0acbSn9NV09to14aPYdBYEcuoY376iNVR+BX2B3
+	 xalJmQK8X+W5BjfygL3F7GE58jsEf4+hYw8U63gcrupOkrhCiGYD6He+YFmJk9dPOv
+	 60vNsXeIPqd8ipadD+cwAIieAj1UXppS1dyPJ7zkJ66zvQ/8FVudymFEP68BT1Yre8
+	 UrQmQIKUo4NqhA2/mFr5eQoLako6VgGPTRIeCHYx4S0CutvZxdbnpyFTjxubfWmiyN
+	 OpLPLX8jH5pIEKULl0f3GTjG9Uz0m4rVTBkkaXxAy5njCm6QY1HEQeY17WoSqc9J+S
+	 oE1VRB77aE6hQ==
+Date: Mon, 21 Oct 2024 20:07:02 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	shinichiro.kawasaki@wdc.com, d.bogdanov@yadro.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v17 2/2] nvmet: support reservation feature
+Message-ID: <ZxcIxhQMYt2fsPiY@kbusch-mbp>
+References: <20241021110331.125962-1-kanie@linux.alibaba.com>
+ <20241021110331.125962-3-kanie@linux.alibaba.com>
+ <ZxbWxuzH3u6hAezr@kbusch-mbp>
+ <b4bde72c-7123-4594-a064-a39aef7fa7ec@linux.alibaba.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|SA6PR10MB8061:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1eeada20-378f-4383-c43d-08dcf23deb89
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dXa+gVmFQI1T9hXVwKSikhYxYRA62hbQ+rDdxLQwkaCSnpediT9thliaa85i?=
- =?us-ascii?Q?o8zv8cCPtD0EUxkQgFlXisTJSwZ3lpbkz6UbshbLFxe2xMV8HBotNyIC8WmL?=
- =?us-ascii?Q?RzgDcynDa99rvqgy90eDx3A15MEyJBLmRGrFEG5xZy6bDHdeOpITPgMyUKzC?=
- =?us-ascii?Q?W/yc2VA3FcECdK/9zqMXG3/92VFBjGuZ6v42gyyK3MOEJACPv60W5EjyBz81?=
- =?us-ascii?Q?OBvwzBjQJE27ovb53w/JVd7SRT94OqT4A/h1pYh9buzet7/k5KLKcV9klnAB?=
- =?us-ascii?Q?nIklbT/AnQ1JnUCTpSCV6K/aWgBh9BSTvt2SKYyYXm5bKQJ1uTcIFhXztIQ+?=
- =?us-ascii?Q?VeRYZK4tkSyEHaFc9xBB/Td23xFeHaBN76etVoWwi5mc+0nHmJevEJGDrmQA?=
- =?us-ascii?Q?dJh7KOq09XO8QJPL23+DXJP9A5mc1F6h9Hn+Fzr3RV2tjklcw6hnTXg736dM?=
- =?us-ascii?Q?Iho9r2LcmY3jvo9vGamFr8+tBLQeU5ihZ3piI2FJen1KgN1F3Jo1TKLuNZir?=
- =?us-ascii?Q?mBLT13pXAYrl+Za9aYXgJaDOHLhEK7YwW8x6sJQgDaSotswSllK2YmgFjXBg?=
- =?us-ascii?Q?TvcMF3ad1gaPSfoVjJxvnHkgaUAFY+SJUDO0ECf6QaTqXCrRrhwOzC0R2Z+g?=
- =?us-ascii?Q?IlNe6Xq1conIhM1shOHIJmxfPwJ/srZX8aoIybJ/OX3UTplHTl5Ze3L05kr8?=
- =?us-ascii?Q?s6wGddXcfYKDfsTjCE3kh/FyoO9D4KqgGLtxU6i7P5/5240jcLE5PnNcc83w?=
- =?us-ascii?Q?XtyUJpgquzPNmv1Ovhb/ES+4sIrxW1Zo2wjGeRLcnBLfCtSlFOtE2Qn6C0m/?=
- =?us-ascii?Q?yYQeYfkA4k8UyzQ/bPbUyb6je+xMc37nvmisNG3rqp7hlcBkUOQA5yM7eg4q?=
- =?us-ascii?Q?XkJNkGng3Cw7Uop/uX3Vw8h5BGzHn5pFt0PgD7Tblk45wtOlISPw2BoXQaIK?=
- =?us-ascii?Q?6x708jkvk/PZ2+Hph1LXJNDwruukzlISM7dtMztTwVgSpduJ/8eRAFl1ngY3?=
- =?us-ascii?Q?TiW3yGEe5Vh5Y/laZIR69p+/jFh5R6Ytfw1d7TWgunBGcwRsfAHvfr3qYA31?=
- =?us-ascii?Q?K3gOnSn9HzpEVi+Ki7LU6tzebAE+Ugdqm6bjuLAQEKIOg67QO6b3siw0OHgq?=
- =?us-ascii?Q?JAxGW0j0JyspdrX6DD7MxSfq/IVkgePlnZVr+e+K6BCLQ4GaEVOVue6Lu9oU?=
- =?us-ascii?Q?c1PQw9v5QsNkWCuR3cn7q2QuunQU/TzInnnbkudgTEPMuG31FB0XC788UGWx?=
- =?us-ascii?Q?gtDooeQl6rhBheM/zOoaNrJG1OpqSWGb30kWQV/VXA6oKOdPnoaPquHouMNk?=
- =?us-ascii?Q?QvA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LYWOzrfdiRqEAkdouNuq0FS6P1HOI12zkB19rH4G6dNcN+nu7GxCpNRgh2wp?=
- =?us-ascii?Q?irc0/49gCciZPhSbT4+1mieLFvzz59ATcCwfPlnDWkyZ2eSc7FX/rt7DnD8o?=
- =?us-ascii?Q?5Sy7h/v3Vl0LjcjBI8I82M3Am8Mo16g08iJFOBiBKwU6ithWf3MAexvPdQn7?=
- =?us-ascii?Q?o0uxWHRp87Zb3YNPfXqwWcFJYc3LskUPTNsOQXVKWpw5pAt2blrMS3rXOjr/?=
- =?us-ascii?Q?3R2I9l6a4RBev5nW6iFdEuQXBujgL2DbfD4FZUS9RKtVd99v5vMfI/daMsrx?=
- =?us-ascii?Q?apbueq9w7teBoCvChTA6WNjJxDX6FozQy1ncNjSEldU/ep/Czo5ocqxuNBH2?=
- =?us-ascii?Q?OuGMOSAboUDOmk7Jlsevql7qX3UGvxu1+F//EJI1vJ1Z9c3PUg1tWi85yj4X?=
- =?us-ascii?Q?3wVB2zv0rfVsCFXFmUTQI7n5wWRk5k84yi1f5Vjv0FbFO41J7oqaXy41Gok/?=
- =?us-ascii?Q?RewLvAkQfbGpUDA5GODYr/3kSTRcfYbu5DrU1B4ZrsxmhGQrMhtLKU6kNzjF?=
- =?us-ascii?Q?i4pzYRWzc57dkA00if5N+1+sv2rHQkIPaaQkfxknxkBInAppxYn92e1rAjV9?=
- =?us-ascii?Q?LC1Nu4ZMX24MXv9mgGzCY4CBLzA24djjDVCvn7MCcI3GwlonWL/QXwEkcqMt?=
- =?us-ascii?Q?c4Tu3pCe3XV+a5JKTqbvsSVbnI1ndLmr3PLv1TBSwkquuP/pcq5/ukPiuEUF?=
- =?us-ascii?Q?hdTwIBppwFJ67DeHllwAlmJ1eSNJ7VXWnAvlqSBOZjHj6sAL0KljlnGd+SfG?=
- =?us-ascii?Q?7lqf6MjUFpTQfv+sPKmrbUfqkCndS2xTKSQ+x0Jeb14SoAIM8XDEXut3GhST?=
- =?us-ascii?Q?xoTQZ1lbrlHdEOKAI1mbTssjoK2ecONZOWtWDdRcE4I0FIL7EsebQaH0Oidk?=
- =?us-ascii?Q?m7/aQMFUG/gdmbW/ypRI6rjj2jL/Dclw1bnx3pmq+x52BZECkss/qW49xc0R?=
- =?us-ascii?Q?X7CpcG5VlF289LZgM3qGmVeOXyKSi72KO5m7TQfmJdqrt2VswQJLcW7FC7ds?=
- =?us-ascii?Q?i53JWTCSksBaq8nt+VDWkC2FjvuNNnUWNvB2jJ40sYgut0BSQ0fzjsYxWVRM?=
- =?us-ascii?Q?nS2cfMVhhBO+gq9vRT11tXkH6cOp7aIDfxeReFAP14etl0+AjjsmAFksCLdQ?=
- =?us-ascii?Q?0VyP9HM2FZs/KWna7SMq5lgurStHUnMfmS7l6oAHhUWNlyCWLShzbHDY86Th?=
- =?us-ascii?Q?F6kdG1BSDbAKL6p2RuNGln/pm8wGJQthVjVhMGyzMSHVpj+xcrTvHIfRPp0T?=
- =?us-ascii?Q?K9Mqg+TbomwanfjGe7ZfZiQDEQ2eV/lmXiVrmQboDmoe7hTgar+oxyheHZFV?=
- =?us-ascii?Q?8KkQ2qS+sOMGNq/7YAgRwXVDMStoAxw8PgxK+3tp55frRfYoTrp24HUhjK0Y?=
- =?us-ascii?Q?rJ7f4Q2URwGID5MS9ycZ2S3FkUTQ1lyh2C6d9+uGuDGqCFL8ve8pWQrR/frj?=
- =?us-ascii?Q?WRcaWmCSDN39UreaVYUOMkEnaeKV07nVv0x+Aiunijzoxs/HySInJd9AFMda?=
- =?us-ascii?Q?cUVk2hGXbCeZn0IyVbZ2X33OdPC14Xra2DEg1NqBlk1fnfwITr8jr+WqL8Ad?=
- =?us-ascii?Q?P4WTl+V8X56baZwjtgvBsGYCAY3PY+cEXzxQLqQ5Bt1cY/eygoN+s//UANBP?=
- =?us-ascii?Q?3w=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: RNsVz2BSmZVIe6ITiwdTe/h08elUkhmfy6peUKEs7H2nEjhv/hvLzt4dD3l4uIyojxF5quX9S3hM4ZDLzEXUKT70y2Q2zGI7WfNhpMxT+SsimCyl7cfHDGy+nCJlCTGCF+TkEexIBWvs1cIZZnOnWYCkFbaKM01p3kvDBssQvanCoYhQk5RQgjKDD35XXq5rSInXTDn+fHq5M7ycnvgW1xoX2MMFSmXxooVQgonAHSd2SCnr2qluWc0UXC7b77qTCDJsPXQSAOBjF6eHoMAJ/VaZ0ErZ0CEttbQMHFxQfPRTrhXSydeR6VgvCTI3eu96eNtM0rhNhvZnqktLgJik8lg8J4Tx/9QDtpJCsAJYjGZ6DLGX71RHlMymuj3p4drvpyjMaqezgl/y60BUqd51XqJPDPeYeTAR8m1zHM3aqq7+9eZtz1TuZnfADViWH26U7soN1TXmiQBU1GKghoKF6Ik7yl47RthvwHYdZ79hpWNe+ItTpe5aEG3ES1tPD+3w3bAY+uXxUVeT0bAg3izgqlkTT7WpMzMlxCnp3F/EQ5/g60lFplwLVwuN/tzAHIhj5UMAYNWe4C1wMi0n94VVgQbIchLtqJPi395EYZ5Aw00=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1eeada20-378f-4383-c43d-08dcf23deb89
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 02:04:53.9399
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3qsyTpM8f3vv+t71H+yii4rg49hFYbo8E8DgPjH7rK7wMsGgD9yNQq2z/F0hgjXXH2qvcw/62Ji8ihC2HhmgaTr1L/yNTxI2CARKOuQsf+w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR10MB8061
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-21_25,2024-10-21_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 bulkscore=0
- malwarescore=0 spamscore=0 mlxlogscore=663 phishscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2410220013
-X-Proofpoint-GUID: 35U2VWRap6gEOxxCR-QZtid3iCK8avph
-X-Proofpoint-ORIG-GUID: 35U2VWRap6gEOxxCR-QZtid3iCK8avph
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b4bde72c-7123-4594-a064-a39aef7fa7ec@linux.alibaba.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241021_190502_526288_3F7A7599 
-X-CRM114-Status: UNSURE (   9.08  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241021_190706_330369_7EEFCEAA 
+X-CRM114-Status: GOOD (  19.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -193,19 +76,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Oct 22, 2024 at 09:43:01AM +0800, Guixin Liu wrote:
+> 
+> 在 2024/10/22 06:33, Keith Busch 写道:
+> > On Mon, Oct 21, 2024 at 07:03:31PM +0800, Guixin Liu wrote:
+> > > new file mode 100644
+> > > index 000000000000..aa69656a0ac5
+> > > --- /dev/null
+> > > +++ b/drivers/nvme/target/pr.c
+> > > @@ -0,0 +1,1186 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * NVMe over Fabrics Persist Reservation.
+> > > + * Copyright (c) 2024 Guixin Liu, Alibaba Group.
+> > > + * All rights reserved.
+> > > + */
+> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > +#include <linux/unaligned.h>
+> > I don't find any such file. Should this must have said <asm/unaligned.h>
+> > instead? Curious to know if the target side was actually tested.
+> 
+> New 6.12-rc2 add a commit 5f60d5f6bbc12e782fac78110b0ee62698f3b576("move
+> asm/unaligned.h to linux/unaligned.h"), I change my code to fit this.
+> 
+> You can find the discission in v14.
 
-Anuj,
+I see, thank you for the clarification. I hadn't been paying close
+enough attention at that discussion.
 
-> * meta_flags: these are meta-type specific flags. Three flags are
-> exposed for integrity type, namely
-> BLK_INTEGRITY_CHK_GUARD/APPTAG/REFTAG.
+So, minor problem here. This new feature is 6.13 material, but our
+upstream block branch has forked before that commit. IMO, I feel
+introducing that header movement after the merge window is poorly
+timed...
 
-It's a bit weird that these are BLK_INTEGRITY_FLAGS since they are
-exposed via io_uring.
+Anyway, I don't think I can get away with something this large in 6.12,
+so it's going to have to be in our second 6.13 nvme pull request after
+the next rebase. I've set myself a reminder to merge this when that
+happens.
 
-I have reads limping along in my test tool on top of this series (with
-the sd_prot_flags_valid check back out). Will work on writes tomorrow.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Thanks!
 
