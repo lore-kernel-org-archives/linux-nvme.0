@@ -4,66 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92DD7D2CDE6
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 15:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C451D2CDFF
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 16:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yhP2sszgMEBk6Neb5zsQpUIK0pad7unGhUO3vhvS848=; b=VacrEgL0qEkhfhya7GJ9ph+Drv
-	LAywsIlciabpBu1bOebWprUmRuTtVfuzVfpsxZOvnw9HJPxi53rjuW/rMKrIwiZQwXZD9aeDMqYr7
-	nUIa9XFLf0xpZrY6bk8GCZE+PitZq6JGDayvLvUUTbI5rxNjeqfmQ67O2xu/77uVBtN/mddUfWFP7
-	rlFY24I7Haho8u8YAtG8DeQEKnZaa8oCvqhdtTQ1jWx7W6uzbvnK5txAg9KB9qPndYf9eBg3vmn6g
-	qqqHFexbH5VlbB8eo2r67lZtS7HJyosga2PSwlRprXkNfSRMmEZKlQRnbztFd84LtCT6V1Qd1Cpm+
-	rMUtdypg==;
+	bh=eyjlMckV6D2vhGN++ftFlIP2fK0697M4bKOKH0oZ7Vg=; b=1So8aEqjZmlFc0U7FlC06qEXhe
+	qnSAhexX6Y+xoP5FwWRV29v6oN/hKMIHhNoewae6T0sY0QNz5NSwS3cxswCVEwV7DQX5+0iMMj+P9
+	5VnYochi2A3jpHlyNNWSB2kdGkpAZuNajmnfGFKX8e/KgUXN4PjARZ33xi+ld+m2JylKhVZcYQ4bY
+	kcrgbdCYRgoF+Ieqrm84ZMerhprdLAf4tCihqkPtXvcoQQR4LfsptYXw4iNnwTL9kMeZ+jeo+JuGR
+	OrX0ZteKILOrU4ZH5vFNRlwI9u6rKVQENsoT1PNW/+8wN73RHyI4i30y0FEfgyMuiFVXWiktAbw43
+	DSC6xAVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3HAS-0000000BJTx-43V3;
-	Tue, 22 Oct 2024 15:51:32 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t3I3H-0000000BWxS-1bUd;
+	Tue, 22 Oct 2024 16:48:11 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3HAQ-0000000BJTA-1hG0
+	id 1t3HbR-0000000BQZd-1c77
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Oct 2024 15:51:31 +0000
+	Tue, 22 Oct 2024 16:19:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 951595C5C9B;
-	Tue, 22 Oct 2024 15:51:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58066C4CEC3;
-	Tue, 22 Oct 2024 15:51:28 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 7FBB1A43A4D;
+	Tue, 22 Oct 2024 16:19:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE1A2C4CEC3;
+	Tue, 22 Oct 2024 16:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729612288;
-	bh=TGHjo7ux9zVk06eBs97w3tERf69Lss5aal67kmZ/qvM=;
+	s=k20201202; t=1729613964;
+	bh=Y/3P49OEbSOH3mTkIP/+Nmcz1EphORRLCT1ekxEZXmo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bAKEv18aNEbvsQBh5hFl8/aXagEFU4NGr4xRcRvMjxC/B1Oj5Sy3wjcH/0HeIuw8L
-	 ixG6CcMItIKGkns2J5BUxItEJng76RDtNpgrXEK3rs/apDEOIpmJr7oDjVjr1oCORi
-	 m+Dxqfn3X+pcNqvVmfhPoCVfPfK7+LLGUVRPBo1Lt6qSDNRi3SAabZ+xfQXHlya8Yb
-	 mt0bImaaQL3RmQbQ2OMjDhNe1jtm8RsiSTZvsYca/S5CaIvWoETwu5w2oZ1sjpIp5h
-	 9lT8KeDAgWjy2gnjnL/JIqE8UwUxxLcO9TTlZlxhZhY3kfDTCNuiqp7a1RxFt13Tjr
-	 MYIKmhxrGtC4w==
-Date: Tue, 22 Oct 2024 09:51:25 -0600
+	b=a0Toa4PZx7tWx+ATJKIjfDIG74gWERlPmE39AlBMGg2x678UHioZzezOOebLPjHab
+	 HSfRbxO3KO1gEEHfQZbkBSD6VQmqeVIeHPYBh2MrwRxSlkpIbwmniB28Se1IZx2LXd
+	 9i4N2K/D2UFObMyo6bvF34MRyjJK9BQ6JVbEsq3b+PSiGjHxgqyy4CNrXRLKt+POt2
+	 cZZEsPvGwmQJ8Z9S16FDof8WSKMjQ+lqonCJrUXm6A1IrZG3Dn8405+bNncWZD6Fgx
+	 MAObV2UNhO5Axc6aiZjDwrcHoBLuFgLtYBauzU9/p8MX2nk04COCG21ee8IeaWzl9Q
+	 fZ6AYIYiiudtw==
+Date: Tue, 22 Oct 2024 10:19:21 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Abhishek Bapat <abhishekbapat@google.com>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Prashant Malani <pmalani@google.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-sysfs: display max_hw_sectors_kb without requiring
- namespaces
-Message-ID: <ZxfJ_TfT7MMGWs4X@kbusch-mbp>
-References: <20241016213108.549000-1-abhishekbapat@google.com>
- <ZxE-BE4hLVRR2Zcp@kbusch-mbp.dhcp.thefacebook.com>
- <CAL41Mv4_UjsD1ycpNU1xuQJdGWMf2L-SQYs=LupoM9BKurNXCg@mail.gmail.com>
- <Zxe8e2zS5dA61Jou@kbusch-mbp>
- <6b00d25e-fe6a-4552-9945-d6181af83137@grimberg.me>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCHv2] nvme: enhance cns version checking
+Message-ID: <ZxfQiYKvH3i2XwLz@kbusch-mbp>
+References: <20241017181231.2937468-1-kbusch@meta.com>
+ <20241018051201.GD19831@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6b00d25e-fe6a-4552-9945-d6181af83137@grimberg.me>
+In-Reply-To: <20241018051201.GD19831@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241022_085130_506687_62DCA489 
-X-CRM114-Status: GOOD (  18.49  )
+X-CRM114-CacheID: sfid-20241022_091925_505386_55463BD1 
+X-CRM114-Status: GOOD (  12.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,24 +71,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 22, 2024 at 06:35:11PM +0300, Sagi Grimberg wrote:
-> On 22/10/2024 17:53, Keith Busch wrote:
-> > On Thu, Oct 17, 2024 at 02:32:18PM -0700, Abhishek Bapat wrote:
-> > 
-> > The request_queue is owned by the block layer, so that seems like an
-> > okay place to export it, but attached to some other device's sysfs
-> > directory instead of a gendisk.
-> > 
-> > I'm just suggesting this because it doesn't sound like this is an nvme
-> > specific problem.
+On Fri, Oct 18, 2024 at 07:12:01AM +0200, Christoph Hellwig wrote:
+> On Thu, Oct 17, 2024 at 11:12:31AM -0700, Keith Busch wrote:
+> > +	if (ctrl->vs >= NVME_VS(1, 1, 0) &&
+> > +	    (!(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)))
 > 
-> Won't it be confusing to find queue/ directory in controller nvmeX sysfs
-> entry?
+> No need for the braces around the ngation here.
+> 
+> > +		return cns <= 3;
+> > +
+> > +	/*
+> > +	 * NVMe 1.0 used a single bit for the CNS value.
+> > +         */
+> > +	return cns <= 1;
+> 
+> Slightly messed up indentation.
 
-It's the attributes of the request queue associated with that
-controller, so I think a queue/ directory under it makes sense. That's
-how it looks for gendisks, so why not for disk-less queues?
-
-Many queue attributes only make sense for gendisks, though, so maybe
-need to tweak visibility if we decide to do it like this.
+Fixed up, and applied to nvme-6.12.
 
