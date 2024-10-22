@@ -4,48 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AE4CD2C55D
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 14:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F163AD2C55E
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 14:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9JWvtorGO4818oZ6n+v9kZT5rSMF5oxZ3REq5ECBUfM=; b=jTZ2RvSyeY5hkGTPmGUZbovo0D
-	v36ypsgkltlYNa0kzNeR443TDtNpH9FAI4YGg592fP55bltKVP8pcG9L2o+tDm3vKK5jPXhyCsqev
-	KIjdH362RKm2t2uNR8pyq2MyaFA+EgqyGexJ+ZzzN7q7JebKXDgLFueznaRsmwzHxYs1Gw6xLyd52
-	YmJqa5C4XBaDCe/5Y6lAXc7sVvwMI32QdJ2FlFn0DE6WT5OBVar4PmKH/oMZs8oVTdV/Q7jQ66v5D
-	opoIemA0Y4+fki8PL4W38eo9iMatExhEKfrETxd9yHvMFTe8waXRmuNpZ+0t+T0Cm/JCbxsPgrCX7
-	8LOQlfhA==;
+	bh=f51YX11LruCHfbP9XR5DZpek7V0Sb2TEwW/Ei84OqnY=; b=h0ga06bf992uegVmadKSmuSnt+
+	XSUDtHDMUzBQ2HhrvVe+F3Uicke7HgAJecvfIYjoX6KAvl9H4uuLMm3E2G4X9QxFOlJvt+i7lJuBZ
+	ygunBqs5MorBZ/VmQ5Okyi5GqkJ95WzpEmcMHxXunVj7hAuSL2VamwTS6fQWSzpWR0RXZ01YAFx4j
+	1upEBtgXtvBL25GYKI8mnXVUA6VIcu4NHjqbziJ9xfw4OAb3fDc4XEtpblL1i8KeT2pNu3mJbm6oD
+	19KTv8itkBzSsbaM/t7DOUC0Fs/PsV0K1sp/PXBh07vUkL4/9d6WpDGjWjpX+fq6ihURcD6NZjebr
+	utP8ZV+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3Fkb-0000000B5PT-2T90;
-	Tue, 22 Oct 2024 14:20:45 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1t3FyM-0000000B7S4-27iq;
+	Tue, 22 Oct 2024 14:34:58 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3FkZ-0000000B5Op-1Vc2
+	id 1t3FyJ-0000000B7Rc-0SwZ
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Oct 2024 14:20:44 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EA02F227AA8; Tue, 22 Oct 2024 16:20:39 +0200 (CEST)
-Date: Tue, 22 Oct 2024 16:20:39 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Guixin Liu <kanie@linux.alibaba.com>, hch@lst.de, kch@nvidia.com,
-	shinichiro.kawasaki@wdc.com, d.bogdanov@yadro.com,
-	linux-nvme@lists.infradead.org
+	Tue, 22 Oct 2024 14:34:56 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 06E3A5C5C75;
+	Tue, 22 Oct 2024 14:34:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C174C4CEC7;
+	Tue, 22 Oct 2024 14:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729607694;
+	bh=f51YX11LruCHfbP9XR5DZpek7V0Sb2TEwW/Ei84OqnY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d8hLWl6+mtfCba5AR/9ltdAfYXimJ7g86bSdF/0UTJ2W6ilRwChg8qBpE0hD3c53d
+	 nvE6gTvRlqKstGJPJi0+h9rdDAOmWmxth21AUQPv1rtWVfMT2K5NfSqmiWVHfI9uAp
+	 1fhWNePSSEmiGCauNOhP1P2zB9ZfH+0+gFLGSqbz9cbvWIdNW9huDT/F6azWRyJ618
+	 1wS7tye6nHwgwGRboOhyV0sR7uT1P55Q4PHjy/C8j1A7m91NkFU3XT2vcrAETC7o/K
+	 6J1LrIqQh0nihWWXXiAQzPF+KdDX0JQfKrGgs0UTl7b+QtG8Ol4BVOPySLYUcmY7IX
+	 lh4F6sg1DHnAg==
+Date: Tue, 22 Oct 2024 08:34:51 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Christoph Hellwig <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>,
+	sagi@grimberg.me, kch@nvidia.com, shinichiro.kawasaki@wdc.com,
+	d.bogdanov@yadro.com, linux-nvme@lists.infradead.org
 Subject: Re: [PATCH v17 2/2] nvmet: support reservation feature
-Message-ID: <20241022142039.GB17410@lst.de>
-References: <20241021110331.125962-1-kanie@linux.alibaba.com> <20241021110331.125962-3-kanie@linux.alibaba.com> <8dccff09-2eab-40a1-abd3-b3759ecdc1ed@grimberg.me>
+Message-ID: <Zxe4C-CwlhDnJvS3@kbusch-mbp>
+References: <20241021110331.125962-1-kanie@linux.alibaba.com>
+ <20241021110331.125962-3-kanie@linux.alibaba.com>
+ <ZxbWxuzH3u6hAezr@kbusch-mbp>
+ <b4bde72c-7123-4594-a064-a39aef7fa7ec@linux.alibaba.com>
+ <ZxcIxhQMYt2fsPiY@kbusch-mbp>
+ <20241022060639.GA10510@lst.de>
+ <7e573e58-39b3-45c3-afde-0cfec3911326@kernel.dk>
+ <9f42c09f-4082-4578-812f-62ba006c1c05@kernel.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8dccff09-2eab-40a1-abd3-b3759ecdc1ed@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <9f42c09f-4082-4578-812f-62ba006c1c05@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241022_072043_579766_0FA5BFE5 
-X-CRM114-Status: GOOD (  18.91  )
+X-CRM114-CacheID: sfid-20241022_073455_213831_3D25B9CB 
+X-CRM114-Status: UNSURE (   6.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,70 +80,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 22, 2024 at 04:18:52PM +0300, Sagi Grimberg wrote:
->> +static void nvmet_execute_pr_acquire(struct nvmet_req *req)
->> +{
->> +	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
->> +	bool ignore_key = nvmet_pr_parse_ignore_key(cdw10);
->> +	/* Reservation type, bit 15:08 */
->> +	u8 rtype = (u8)((cdw10 >> 8) & 0xff);
->> +	/* Reservation acquire action, bit 02:00 */
->> +	u8 acquire_act = cdw10 & 0x07;
->> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
->> +	struct nvmet_pr_acquire_data *d = NULL;
->> +	struct nvmet_pr *pr = &req->ns->pr;
->> +	struct nvmet_pr_registrant *reg;
->> +	u16 status = NVME_SC_SUCCESS;
->> +
->> +	if (ignore_key ||
->> +	    rtype < NVME_PR_WRITE_EXCLUSIVE ||
->> +	    rtype > NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
->> +		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
->> +		goto out;
->> +	}
->> +
->> +	d = kmalloc(sizeof(*d), GFP_KERNEL);
->> +	if (!d) {
->> +		status = NVME_SC_INTERNAL;
->> +		goto out;
->> +	}
->> +
->> +	status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
->> +	if (status)
->> +		goto free_data;
->> +
->> +	status = NVME_SC_RESERVATION_CONFLICT | NVME_STATUS_DNR;
->> +	mutex_lock(&pr->pr_lock);
->> +	list_for_each_entry_rcu(reg, &pr->registrant_list, entry,
->> +				lockdep_is_held(&pr->pr_lock)) {
->> +		if (uuid_equal(&reg->hostid, &ctrl->hostid) &&
->> +		    reg->rkey == le64_to_cpu(d->crkey)) {
->> +			status = __nvmet_execute_pr_acquire(req, reg,
->> +					acquire_act, rtype, d);
->> +			break;
->> +		}
->> +	}
->> +
->> +	if (!status && acquire_act == NVME_PR_ACQUIRE_ACT_PREEMPT_AND_ABORT) {
->> +		kfree(d);
->> +		INIT_WORK(&req->r.abort_work, nvmet_pr_do_abort);
->> +		queue_work(nvmet_wq, &req->r.abort_work);
->> +		return;
->> +	}
->
-> Is there a reason why you queue this here and not inside 
-> __nvmet_execute_pr_acquire
-> like before?
->
->> +
->> +	mutex_unlock(&pr->pr_lock);
->
-> Hmm... you keep this mutex taken and release it from the work element 
-> async... Not a
-> great practice...
+On Tue, Oct 22, 2024 at 08:18:10AM -0600, Jens Axboe wrote:
+> It's on 6.12-rc4 now.
 
-It's actually invalid for a mutex.  You'd need a semaphore for that.
-
-Guixin, can you test the code with lockdep enabled and see if there
-is other fallout as well?  Thanks!
+And nvme-6.13 is now rebased to that as well.
 
