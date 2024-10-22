@@ -4,68 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F163AD2C55E
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 14:35:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7429ED2C55E
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2024 14:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f51YX11LruCHfbP9XR5DZpek7V0Sb2TEwW/Ei84OqnY=; b=h0ga06bf992uegVmadKSmuSnt+
-	XSUDtHDMUzBQ2HhrvVe+F3Uicke7HgAJecvfIYjoX6KAvl9H4uuLMm3E2G4X9QxFOlJvt+i7lJuBZ
-	ygunBqs5MorBZ/VmQ5Okyi5GqkJ95WzpEmcMHxXunVj7hAuSL2VamwTS6fQWSzpWR0RXZ01YAFx4j
-	1upEBtgXtvBL25GYKI8mnXVUA6VIcu4NHjqbziJ9xfw4OAb3fDc4XEtpblL1i8KeT2pNu3mJbm6oD
-	19KTv8itkBzSsbaM/t7DOUC0Fs/PsV0K1sp/PXBh07vUkL4/9d6WpDGjWjpX+fq6ihURcD6NZjebr
-	utP8ZV+Q==;
+	bh=JX11Bsu21jkOYmdnRpDhL5PLbaQjS+Ys3mcGtOeVI+w=; b=Si6edC1hfLx2SmTGSk/Oiaspnu
+	ZISpHemmRwYfNM4t5f7UXxzffbTS68iWvB6e/Gl8ol1+awS8gebW4xST8ZO3DYC7pc/ooilCwsoCu
+	FCPDDN+RBzUmj5kSnMY0WhGNdPHl78t42hiRbj0rBEk06MyF2xul4L9zNJk3nyL7dzloZ86tgMNWz
+	RpGz7c4VjeJUWx/glVQaeTyl7UuXsfplmbAyqPK9ZsLj8Wd3Vk/w2PguBdefXYlEwOyuevDr80da9
+	n5Ss4QyFsqJRNw30NEqGgW/8ILQ3rfT7XLUy5zl4TCz8Psw9wr5hpueNrE/BdenQFk246/kQzYDgm
+	v6z6gctQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3FyM-0000000B7S4-27iq;
-	Tue, 22 Oct 2024 14:34:58 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t3G1L-0000000B7uD-3LAo;
+	Tue, 22 Oct 2024 14:38:03 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3FyJ-0000000B7Rc-0SwZ
+	id 1t3G1I-0000000B7tZ-1sM6
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Oct 2024 14:34:56 +0000
+	Tue, 22 Oct 2024 14:38:01 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 06E3A5C5C75;
-	Tue, 22 Oct 2024 14:34:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C174C4CEC7;
-	Tue, 22 Oct 2024 14:34:53 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 6D6C6A43A51;
+	Tue, 22 Oct 2024 14:37:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C45C4CEC3;
+	Tue, 22 Oct 2024 14:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729607694;
-	bh=f51YX11LruCHfbP9XR5DZpek7V0Sb2TEwW/Ei84OqnY=;
+	s=k20201202; t=1729607879;
+	bh=p8jy6tdnkz723LntVeZITPLHFVxOn5i0CPMPqySErvQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d8hLWl6+mtfCba5AR/9ltdAfYXimJ7g86bSdF/0UTJ2W6ilRwChg8qBpE0hD3c53d
-	 nvE6gTvRlqKstGJPJi0+h9rdDAOmWmxth21AUQPv1rtWVfMT2K5NfSqmiWVHfI9uAp
-	 1fhWNePSSEmiGCauNOhP1P2zB9ZfH+0+gFLGSqbz9cbvWIdNW9huDT/F6azWRyJ618
-	 1wS7tye6nHwgwGRboOhyV0sR7uT1P55Q4PHjy/C8j1A7m91NkFU3XT2vcrAETC7o/K
-	 6J1LrIqQh0nihWWXXiAQzPF+KdDX0JQfKrGgs0UTl7b+QtG8Ol4BVOPySLYUcmY7IX
-	 lh4F6sg1DHnAg==
-Date: Tue, 22 Oct 2024 08:34:51 -0600
+	b=ivL/y0fEKyi7iD+u35NDeLqW0E6Lrz5NIplvCGuMqxND+xRNwNHrHvm6/y+WuMlkx
+	 VlG+GuWFHDiF2y72ckcH0ZXfDuNlDq6UMIJAd7MLrvAJ7sz1phEoDVb86lucGIIKDT
+	 GD9xXU1iY64Ii3YGGnjPVD0DPkCzB14WDYWiRk/Txoiue72azE001DVvlypP194JsV
+	 ljFpCcmD7FR8y9YS/tf8z4pafahLex+fwjf0ptffHUyDwmet/dxxYqxjQRMircXORN
+	 LTrYgh3r1ciNs7Nfu5iB8q3QTzyhvK0t4uePDYiL7ojlVgI2sn3XqZzvruY5B3GP4B
+	 sO58BjR2qPI7A==
+Date: Tue, 22 Oct 2024 08:37:56 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>,
-	sagi@grimberg.me, kch@nvidia.com, shinichiro.kawasaki@wdc.com,
-	d.bogdanov@yadro.com, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v17 2/2] nvmet: support reservation feature
-Message-ID: <Zxe4C-CwlhDnJvS3@kbusch-mbp>
-References: <20241021110331.125962-1-kanie@linux.alibaba.com>
- <20241021110331.125962-3-kanie@linux.alibaba.com>
- <ZxbWxuzH3u6hAezr@kbusch-mbp>
- <b4bde72c-7123-4594-a064-a39aef7fa7ec@linux.alibaba.com>
- <ZxcIxhQMYt2fsPiY@kbusch-mbp>
- <20241022060639.GA10510@lst.de>
- <7e573e58-39b3-45c3-afde-0cfec3911326@kernel.dk>
- <9f42c09f-4082-4578-812f-62ba006c1c05@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, axboe@kernel.dk,
+	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	joshi.k@samsung.com, javier.gonz@samsung.com,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCHv8 1/6] block, fs: restore kiocb based write hint
+ processing
+Message-ID: <Zxe4xL-sM5yF2isM@kbusch-mbp>
+References: <20241017160937.2283225-1-kbusch@meta.com>
+ <20241017160937.2283225-2-kbusch@meta.com>
+ <20241018055032.GB20262@lst.de>
+ <ZxZ3o_HzN8HN6QPK@kbusch-mbp>
+ <20241022064309.GA11161@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f42c09f-4082-4578-812f-62ba006c1c05@kernel.dk>
+In-Reply-To: <20241022064309.GA11161@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241022_073455_213831_3D25B9CB 
-X-CRM114-Status: UNSURE (   6.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241022_073800_573908_F1726275 
+X-CRM114-Status: GOOD (  26.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,8 +80,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 22, 2024 at 08:18:10AM -0600, Jens Axboe wrote:
-> It's on 6.12-rc4 now.
+On Tue, Oct 22, 2024 at 08:43:09AM +0200, Christoph Hellwig wrote:
+> On Mon, Oct 21, 2024 at 09:47:47AM -0600, Keith Busch wrote:
+> > On Fri, Oct 18, 2024 at 07:50:32AM +0200, Christoph Hellwig wrote:
+> > > On Thu, Oct 17, 2024 at 09:09:32AM -0700, Keith Busch wrote:
+> > > >  {
+> > > >  	*kiocb = (struct kiocb) {
+> > > >  		.ki_filp = filp,
+> > > >  		.ki_flags = filp->f_iocb_flags,
+> > > >  		.ki_ioprio = get_current_ioprio(),
+> > > > +		.ki_write_hint = file_write_hint(filp),
+> > > 
+> > > And we'll need to distinguish between the per-inode and per file
+> > > hint.  I.e. don't blindly initialize ki_write_hint to the per-inode
+> > > one here, but make that conditional in the file operation.
+> > 
+> > Maybe someone wants to do direct-io with partions where each partition
+> > has a different default "hint" when not provided a per-io hint? I don't
+> > know of such a case, but it doesn't sound terrible. In any case, I feel
+> > if you're directing writes through these interfaces, you get to keep all
+> > the pieces: user space controls policy, kernel just provides the
+> > mechanisms to do it.
+> 
+> Eww.  You actually pointed out a real problem here: if a device
+> has multiple partitions the write streams as of this series are
+> shared by them, which breaks their use case as the applications or
+> file systems in different partitions will get other users of the
+> write stream randomly overlayed onto theirs.
+> 
+> So either the available streams need to be split into smaller pools
+> by partitions, or we just assigned them to the first partition to
+> make these scheme work for partitioned devices.
+> 
+> Either way mixing up the per-inode hint and the dynamic one remains
+> a bad idea.
 
-And nvme-6.13 is now rebased to that as well.
+No doubt it's almost certainly not a good idea to mix different stream
+usages, but that's not the kernels problem. It's user space policy. I
+don't think the kernel needs to perform any heroic efforts to split
+anything here. Just keep it simple.
 
