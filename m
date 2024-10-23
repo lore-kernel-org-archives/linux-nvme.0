@@ -4,67 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35D8DCF5395
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:37:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10764CF5398
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=++826wDm+W3aeFSg1LKVYei1dn15yWBCqCHAEEvWTHU=; b=E/+JR8QwA5kQChSeyggOrLfTSI
-	pBJLBA2a61pckPR26EYS8RQQpfFpOjaO3pgQwqurtZfVa16pbbNjJnnka9QRVLoO99z7cwpfHjs2/
-	1b4IKk3h7EFD8qWTPAWrPe/1G/hLOAXCwCoWkB3EZrf/3C8Rs76HZEn/GW1L8pBUVxvCLEMcvO1+c
-	3iMeMY5VZ+GC7ka7/6hzcZBm0KyENB/dDvbhOhDoP1ykr5nGav5qy9OzOGbLtPlOTMOEQxzDH/9EU
-	nxMyFzvH2NdUEDOjTGcrk2QkFNwFsOW/ER+XckxKdV1E6hfGcwlCha/Nsq3MKx5eqhq1v54hMc9m8
-	SJuZtR6A==;
+	bh=IZ6c/mCNP/LLZQwjvBNqvY1NBGX2IteH2XgCWyPLqk8=; b=4EzwoW3NTOQT/tZXGg9etHvD+W
+	MAnuTkUTpdzFXBK7gbjhgII00YaxF3tF3wwgHMDqm6w+pEFAL5aZ4yDmwaQ30vMcf6kNgSbWYT6+E
+	ClUc9QsjGZ6q49VP2UnbeRv9501gwrfOPGSaS+d57v0LLjMjNYb1+q3+XRnifSHG7oK1Vo5tYfI7J
+	12Sww+kjLJ8wB72b9rcfXRU0U+j1acsknm45NEixXcmRrONKys1il1mYKNEAGB1M7h8xWcW1mQu0b
+	Fne6LbOU8Jq2+WttpE0g7e5uJo2ulKvJyxkZaZXZB01lIQnUa8Wyh/95DNn5lmH7aSmIMo95sQPi2
+	7vt9sJ/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cU7-0000000EkaU-1nxJ;
-	Wed, 23 Oct 2024 14:37:15 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t3cgK-0000000Eo8V-0IFq;
+	Wed, 23 Oct 2024 14:49:52 +0000
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cPX-0000000EiTb-2gdE
+	id 1t3cav-0000000EmhD-1RbT
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Oct 2024 14:32:35 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5BAF05C0505;
-	Wed, 23 Oct 2024 14:32:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C779BC4CEE5;
-	Wed, 23 Oct 2024 14:32:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729693950;
-	bh=tOOD41nVgXP8XBFfFqbGOJwRj41r+Yqj/FNVwYtzep8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hyTH+7EPMeuGrmT6PBQlaUKM6HNMKLVJRYU6SPITqlQalUQPDLj4P2spLJj/+M4bB
-	 bmI8GIeVl7EYkVizpg4hgqE36imeby4BN7y/Nymz0CVKPWNlG9yLq/ytkO0lzQeZkk
-	 lnCs23eTQ5Z5ATXyQxnQpfobB9wMuqVca37ORbtGl4MYmVaKM/ROqkQeqZ/fL96qjy
-	 ikUbxxFHYrId65cGmimmpst5f1QNo6thMyFk88Rf0rpfn6gME526jjWEDxMoTpjoS0
-	 wzN0ZEnZqkXT5lCadsheIiJUA3mex0LvTJF3ervB+lMfSQK3N+JhrOtMZXnrejPmX4
-	 XRMva0iVWgMfA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Nilay Shroff <nilay@linux.ibm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 17/17] nvme: make keep-alive synchronous operation
-Date: Wed, 23 Oct 2024 10:31:56 -0400
-Message-ID: <20241023143202.2981992-17-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241023143202.2981992-1-sashal@kernel.org>
-References: <20241023143202.2981992-1-sashal@kernel.org>
+	Wed, 23 Oct 2024 14:44:19 +0000
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-71e52582cf8so4903378b3a.2
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Oct 2024 07:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729694656; x=1730299456; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IZ6c/mCNP/LLZQwjvBNqvY1NBGX2IteH2XgCWyPLqk8=;
+        b=jNqvLU1IrbGNPxpXrw6KTJS9oH9L1Nebi9/7lQnDhZm1ekrBQoVqY3QtPf9kmGK2Fh
+         vDZdqPUMs6mt28JvUKOjMNrWlnyeApYemKhg5f5vA0KLbntoVrJ6EuaswkN0DbqlXK/f
+         QxKLI1Pb51pVZUAVKUAU9zso8d7/JXlQiyAe2WLnaeaflqma82VVVDXSN6lhWLLxLpId
+         /gdFvyxSU5/ZgtrsjdMSDMJXqwRyWMGEjUhJ4xp5q6UXL6VhXGMpo2cePbM6accKeSzA
+         gHSg/uhghiERMMnfQHJE5kojKcpbDNTHtyg/qF74ShdMtbexfYIX4DHfRvh5NCSUZ9Xa
+         L/Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729694656; x=1730299456;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IZ6c/mCNP/LLZQwjvBNqvY1NBGX2IteH2XgCWyPLqk8=;
+        b=kwdM+1uKOy6efMX+Gr6UgUE2v40NRE/OpprB/24dkkxVjqPivXt6ufNkxea8X9MmHN
+         64VsNK9x0SlLMTDYmkqkul67dCp6sGGo4UnNmGW7Va1qicA9dTlywWE+mz18OZjdES+M
+         1vMzgLENdyf4oNL8TAPOcRd27dUSYSURbPF7QLHHX/nHIWvJIZTlqhRZEsdh8bgFnowh
+         vm8OtQg/M/EewF35VMjFoyMS/6CGxDZaKMxIGCWhN4nu2ouDrwCFJXq5H+a88nPNC7La
+         OjQjzskKzTLr6xQO8XFXgyAwu9tyL+N7Vhx2hUS/ImQKBk8Bw32i9BVy51AK4ieQDz22
+         kG5g==
+X-Gm-Message-State: AOJu0YykRvfaOzCzTfU5FHvA2u95VRE3tRWgaju05f19hhy1S6OEI/w+
+	RRLQ2M4H86cUCk73Hcv28lXGc1Jg49FgkJNPcZtlXSlWW7xPAP0Q
+X-Google-Smtp-Source: AGHT+IF7Oz5xKsUQXfvLxYOioJPzxTx4UrydIp+ogOzL4D1Zhe5XVd5qV7QUbT+XbbC0BKFnEU9IQg==
+X-Received: by 2002:a05:6a00:856:b0:71e:cb:e7bf with SMTP id d2e1a72fcca58-72030cbcd70mr3548862b3a.18.1729694656004;
+        Wed, 23 Oct 2024 07:44:16 -0700 (PDT)
+Received: from ?IPV6:240b:10:2720:5500:2599:5aa5:a0f:e0fd? ([240b:10:2720:5500:2599:5aa5:a0f:e0fd])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec1415066sm6432258b3a.198.2024.10.23.07.44.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2024 07:44:15 -0700 (PDT)
+Message-ID: <a41a55be-dd3d-477b-8eac-27f80da63ed0@gmail.com>
+Date: Wed, 23 Oct 2024 23:44:13 +0900
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.114
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] nvme: change nvme_ns_has_pi() to
+ nvme_ns_supports_pract()
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@infradead.org>
+Cc: linux-nvme@lists.infradead.org
+References: <20241023100915.11263-1-ikegami.t@gmail.com>
+ <ZxjwAsny4yOUHvUD@infradead.org> <Zxj2rPzTGILnrUup@kbusch-mbp>
+ <Zxj3xwDyP1j8Y1Ms@infradead.org> <Zxj4SDRxSJfca_Wa@kbusch-mbp>
+Content-Language: en-US
+From: Tokunori Ikegami <ikegami.t@gmail.com>
+In-Reply-To: <Zxj4SDRxSJfca_Wa@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241023_073232_077109_16CF49D7 
-X-CRM114-Status: GOOD (  17.01  )
+X-CRM114-CacheID: sfid-20241023_074417_436789_8EB9F742 
+X-CRM114-Status: GOOD (  17.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,121 +95,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Nilay Shroff <nilay@linux.ibm.com>
 
-[ Upstream commit d06923670b5a5f609603d4a9fee4dec02d38de9c ]
-
-The nvme keep-alive operation, which executes at a periodic interval,
-could potentially sneak in while shutting down a fabric controller.
-This may lead to a race between the fabric controller admin queue
-destroy code path (invoked while shutting down controller) and hw/hctx
-queue dispatcher called from the nvme keep-alive async request queuing
-operation. This race could lead to the kernel crash shown below:
-
-Call Trace:
-    autoremove_wake_function+0x0/0xbc (unreliable)
-    __blk_mq_sched_dispatch_requests+0x114/0x24c
-    blk_mq_sched_dispatch_requests+0x44/0x84
-    blk_mq_run_hw_queue+0x140/0x220
-    nvme_keep_alive_work+0xc8/0x19c [nvme_core]
-    process_one_work+0x200/0x4e0
-    worker_thread+0x340/0x504
-    kthread+0x138/0x140
-    start_kernel_thread+0x14/0x18
-
-While shutting down fabric controller, if nvme keep-alive request sneaks
-in then it would be flushed off. The nvme_keep_alive_end_io function is
-then invoked to handle the end of the keep-alive operation which
-decrements the admin->q_usage_counter and assuming this is the last/only
-request in the admin queue then the admin->q_usage_counter becomes zero.
-If that happens then blk-mq destroy queue operation (blk_mq_destroy_
-queue()) which could be potentially running simultaneously on another
-cpu (as this is the controller shutdown code path) would forward
-progress and deletes the admin queue. So, now from this point onward
-we are not supposed to access the admin queue resources. However the
-issue here's that the nvme keep-alive thread running hw/hctx queue
-dispatch operation hasn't yet finished its work and so it could still
-potentially access the admin queue resource while the admin queue had
-been already deleted and that causes the above crash.
-
-This fix helps avoid the observed crash by implementing keep-alive as a
-synchronous operation so that we decrement admin->q_usage_counter only
-after keep-alive command finished its execution and returns the command
-status back up to its caller (blk_execute_rq()). This would ensure that
-fabric shutdown code path doesn't destroy the fabric admin queue until
-keep-alive request finished execution and also keep-alive thread is not
-running hw/hctx queue dispatch operation.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/core.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dc25d91891327..92ffeb6605618 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1231,10 +1231,9 @@ static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
- 			   nvme_keep_alive_work_period(ctrl));
- }
- 
--static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
--						 blk_status_t status)
-+static void nvme_keep_alive_finish(struct request *rq,
-+		blk_status_t status, struct nvme_ctrl *ctrl)
- {
--	struct nvme_ctrl *ctrl = rq->end_io_data;
- 	unsigned long flags;
- 	bool startka = false;
- 	unsigned long rtt = jiffies - (rq->deadline - rq->timeout);
-@@ -1252,13 +1251,11 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 		delay = 0;
- 	}
- 
--	blk_mq_free_request(rq);
--
- 	if (status) {
- 		dev_err(ctrl->device,
- 			"failed nvme_keep_alive_end_io error=%d\n",
- 				status);
--		return RQ_END_IO_NONE;
-+		return;
- 	}
- 
- 	ctrl->ka_last_check_time = jiffies;
-@@ -1270,7 +1267,6 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (startka)
- 		queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
--	return RQ_END_IO_NONE;
- }
- 
- static void nvme_keep_alive_work(struct work_struct *work)
-@@ -1279,6 +1275,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 			struct nvme_ctrl, ka_work);
- 	bool comp_seen = ctrl->comp_seen;
- 	struct request *rq;
-+	blk_status_t status;
- 
- 	ctrl->ka_last_check_time = jiffies;
- 
-@@ -1301,9 +1298,9 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	nvme_init_request(rq, &ctrl->ka_cmd);
- 
- 	rq->timeout = ctrl->kato * HZ;
--	rq->end_io = nvme_keep_alive_end_io;
--	rq->end_io_data = ctrl;
--	blk_execute_rq_nowait(rq, false);
-+	status = blk_execute_rq(rq, false);
-+	nvme_keep_alive_finish(rq, status, ctrl);
-+	blk_mq_free_request(rq);
- }
- 
- static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
--- 
-2.43.0
-
+On 2024/10/23 22:21, Keith Busch wrote:
+> On Wed, Oct 23, 2024 at 06:19:03AM -0700, Christoph Hellwig wrote:
+>> On Wed, Oct 23, 2024 at 07:14:20AM -0600, Keith Busch wrote:
+>>> You can't just have a patch declare that PRACT works this way. The spec
+>>> says it only works if ms == PI tuple size, otherwise it doesn't do
+>>> anything.
+>> Well, that means the patch as-is is broken, isn't it?
+> That's what I've been saying since v1. For some reason that feedback
+> isn't getting through...
+Sorry for wasting your time and confusing but if you have a time please 
+let me confirm again below. (It is okay when you have a time case.)
+About the mention "The spec says it only works if ms == PI tuple size, 
+otherwise it doesn't do anything." do you mention for example the 
+specification description below?
+--------------------------------------------------------------------------------
+(NVM-Express-NVM-Command-Set-Specification-Revision-1.1-2024.08.05-Ratified)
+5.3.2.1 Protection Information and Write Commands
+Figure 166 provides some examples of the protection information 
+processing that may occur as a side effect
+of a Write command.
+...
+If the namespace is formatted with protection information and the PRACT 
+bit is set to ‘1’, then:
+...
+2. If the namespace is formatted with Metadata Size greater than 
+protection information size, then the
+logical block data and the metadata are transferred from the host buffer 
+to the controller. As the
+metadata passes through the controller, the controller overwrites the 
+protection information portion
+of the metadata without checking the protection information portion 
+regardless of PRCHK settings.
+The logical block data and metadata are written to the NVM (i.e., the 
+metadata field remains the
+same size in the NVM and the host buffer). The location of the 
+protection information within the
+metadata is configured when the namespace is formatted (refer to the DPS 
+field in Figure 114).
+Figure 166: Write Command 16b Guard Protection Information Processing
+...
+[figure b]
+b) MD>8 (e.g., 16), PI, PRACT=0: Metadata remains same size in NVM and 
+host buffer
+...
+[figure d]
+d) MD>8 (e.g., 16), PI, PRACT=1: Metadata remains same size in NVM and 
+host buffer
+--------------------------------------------------------------------------------
+In the example case b) and d) the 16B MD data should be sent by the host 
+application but the driver does not set or handle any 8MD and 8PI. Is 
+this understanding correct?
+By the way actually does the kernel nvme driver support the ms >= PI 
+LBAF case as correct by the current implementation? (Seems only 
+supported for the ms == PI LBAF case only.)
+   Note: Only the function nvme_configure_metadata() checks the ms >= PI 
+case to set PI type.
 
