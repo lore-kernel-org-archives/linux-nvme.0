@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31E47D2E014
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 05:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C413D2E010
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 05:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yTydEBNToFgbZazQC634v6DHQrH9ektGC3j3oX0bLFQ=; b=ftJxibd47xjGM60SWwOfD3HBaq
-	SbdRDr7XyDBBRiQxfJkPSQNvYOctqKQ6Ry86q2axbs5tpuBO6qBxb8JiXogERSybJHym+fF46LdUp
-	N1OMpDhKYw7aXZo+TAQqIW73RX7+RPGLFhVPpM75zNMQMBiXUVD7JX5zAn/UF8IkJtnXKbSanpTW7
-	0KagxNyADqOSdvcRUfQ/NZ9UR9lYuV8V4WD5g7KZWXuRaIoZGLCXny36ZNENzZudZFTwoO/XCBHVV
-	D3np+ZYTfJEAzxz8NzCS273g1TNIdj3p6HJj89eBUrVJ9S7Bkg3UruxZS/NDegq6MfcCxX5X6OOuS
-	gE4/ZJeA==;
+	bh=3gPqoV5Dvb1Z2tcotWQMt8v+gnnzAwMIpCQYKpfSu8Q=; b=F03H+SYp5byNW9vh6C6QaiXPRC
+	+GAwZALJrdz78HEcu939kmEWsgb5eb3t0bq3+Ghf4kPQ9z0aO8z0m40Yi68BXIZmSZwCF7Z5+oa31
+	Ov51KsaywBYckGwQbv7J7lCD7X8PwlQX/b5NJs9KAiY5AEDtLsJCMxkKQbhIxMCssEjCQMFgovIev
+	pFy/aqBXoisoEnb9QksHAQr+KVYr4nn1hHUsvTnn8WLKGZF0I/HoBcUqwrp976IiOsSXZklEqAfoe
+	lx3y89aA7pMVnm9FxP4xDjSfrvTZ4OawDVMPhjHst5Unvyrdoe8pScbeaapCTT5jEH2kP2nqNbIEm
+	aD8pcCRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3Tne-0000000D23m-2TZi;
-	Wed, 23 Oct 2024 05:20:50 +0000
+	id 1t3Tqs-0000000D2RV-1nnP;
+	Wed, 23 Oct 2024 05:24:10 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3Tnb-0000000D235-3bpK
+	id 1t3Tqp-0000000D2R2-3Ht7
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Oct 2024 05:20:49 +0000
+	Wed, 23 Oct 2024 05:24:09 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B2446227A87; Wed, 23 Oct 2024 07:20:43 +0200 (CEST)
-Date: Wed, 23 Oct 2024 07:20:42 +0200
-From: hch <hch@lst.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: hch <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@meta.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Jirong Feng <jirong.feng@easystack.cn>
-Subject: Re: [PATCH] nvme-loop: set blocking flag
-Message-ID: <20241023052042.GB1341@lst.de>
-References: <20241017172052.2603389-1-kbusch@meta.com> <7846e57b-fb03-42ed-af8e-0df88cc566a4@kernel.dk> <ZxFRpdU-GI76uetA@kbusch-mbp.dhcp.thefacebook.com> <20241018051056.GC19831@lst.de> <64f4d599-3261-4544-90c2-4cb3e1ad96fb@grimberg.me> <20241022062810.GC10573@lst.de> <20241022070252.GA11389@lst.de> <ygq2tospvgesry2uuhh2fh5gzdm3vbkatdm42v2fjqlddzj43d@sdoplqu4vg62>
+	id CFAC8227A87; Wed, 23 Oct 2024 07:24:03 +0200 (CEST)
+Date: Wed, 23 Oct 2024 07:24:03 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Abhishek Bapat <abhishekbapat@google.com>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Prashant Malani <pmalani@google.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-sysfs: display max_hw_sectors_kb without
+ requiring namespaces
+Message-ID: <20241023052403.GC1341@lst.de>
+References: <20241016213108.549000-1-abhishekbapat@google.com> <ZxE-BE4hLVRR2Zcp@kbusch-mbp.dhcp.thefacebook.com> <CAL41Mv4_UjsD1ycpNU1xuQJdGWMf2L-SQYs=LupoM9BKurNXCg@mail.gmail.com> <Zxe8e2zS5dA61Jou@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ygq2tospvgesry2uuhh2fh5gzdm3vbkatdm42v2fjqlddzj43d@sdoplqu4vg62>
+In-Reply-To: <Zxe8e2zS5dA61Jou@kbusch-mbp>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241022_222048_068854_8496A394 
-X-CRM114-Status: GOOD (  13.21  )
+X-CRM114-CacheID: sfid-20241022_222407_986098_442BDE31 
+X-CRM114-Status: GOOD (  18.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,15 +62,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 22, 2024 at 08:08:31AM +0000, Shinichiro Kawasaki wrote:
-> As for the BUG caused by the commit 505363957fad, the blktests test case
-> nvme/052 can confirm if any patch fixes the BUG or not. It is recreate in
-> stable manner on my test node [1], so I'm happy to help testing.
+On Tue, Oct 22, 2024 at 08:53:47AM -0600, Keith Busch wrote:
+> You'd may want to know max_sectors_kb, dma_alignment, nr_requests,
+> virt_boundary_mask. Maybe some others.
 > 
-> If you mean a test case to confirm that the commit 505363957fad achieves its
-> purpose, I'm not sure about it. According to its commit log, I guess Jirong
-> might have a test environment.
+> The request_queue is owned by the block layer, so that seems like an
+> okay place to export it, but attached to some other device's sysfs
+> directory instead of a gendisk.
+> 
+> I'm just suggesting this because it doesn't sound like this is an nvme
+> specific problem.
 
-Yes, that's the main thing I want to be able to test.
+Well, it's a problem specific to passthrough without a gendisk, which is
+the NVMe admin queue and the /dev/sg device.  So it's common-ish :)
 
+
+Note that for the programs using passthrough sysfs isn't actually a very
+good interface, as finding the right directory is pain, as is opening,
+reading and parsing one ASCIII file per limit.
+
+One thing I've been wanting to do also for mkfs tools and similar is a
+generic extensible ioctl to dump all the queue limits.  That's a lot
+easier and faster for the tools and would work very well here.
+
+Note that we could still be adding new limits at any point of time
+(although I have a hard time thinking what limit we don't have yet),
+so we still can't guarantee that non-trivial I/O will always work.
 
