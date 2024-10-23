@@ -4,72 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88D78CFA450
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 16:22:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09CD5CFA452
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 17:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=aZpoqSywv8Y9migEf4XunN/74Y7OmlwA7xu+s9yo2v0=; b=DS/9Ml8AlbRA1JQRPH+BSaRMPF
-	zz9Hr1UZuc1N+UJTN/PgXbSbHamo4eLs2VrY6EA1Q6DhC3L9tErn6y7KJBjJBD+2n7Yr2tX9DLbQ/
-	bXbHQvD0jeFmTB0kdtdkzAQaQEFlNi2/wGpoQ0iqEpt2lUuGtS3KGUGHZkRw3BUevcjts6q9Vh/XO
-	f65EuMaDEgQ/shWN+tj0KqtmyDBAmG5KVnkBk/xcfaPKBjhYVnXitoYdEtt/6+LjoOBFWV8/gpVy6
-	FHdNJjkSgcdaWLOamhgHowAZhSMqDryYWxmgTcSEuOeqJATthb2z0Baz50v0/W5l+b9kBskyHkOHP
-	UvplqPhA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IhU9icz1vShdMAvU1NJ1i2U5k9ZE15DFpA53Ai20dlU=; b=Cirvv7omRMhQJPMZPe3r2T3gq0
+	cFMY3OF/MicCtFm+EtqZFhdKpR01jKGZBtMOHGAnPqhMj80gy7q/j4gzsn3ddDpq/TIVXU+RqDPmn
+	S6g53WUSBIV+ITDxNTGzVup+BXIJEvAM7wSJ+rnjf5rNvkOH9G/PQsnIFtm/WjxBTTyWEdamca3Z5
+	qKmqIJldUZ8wf51fJETwSiFJ0um8eqvC2Fi5U4CtOn55LW4Vkrma5NUsIDI1U132cjOgjS9LxDzk2
+	k0DCeTNeiIOnMvKo8gISOuLtrMMY1oz2F2W1N3ujA26FcVHi09lZXPiqSGy+ERSt4XzSj/HAi6DDy
+	9rBsAD8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3e7b-0000000F7q5-3KKA;
-	Wed, 23 Oct 2024 16:22:07 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1t3etm-0000000FK0g-1as7;
+	Wed, 23 Oct 2024 17:11:54 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3ddw-0000000F2Pr-08cc
+	id 1t3eIw-0000000FBRR-18jt
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 23 Oct 2024 16:33:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=IhU9icz1vShdMAvU1NJ1i2U5k9ZE15DFpA53Ai20dlU=; b=EfRebBzj0wzjZpYEJ9u0qiYFYw
+	KZA0OZmc8pZxHcHPlyln/7usgTlHQ/sRVEYyxlcsP1tQ0f54u/DQB/p3F5sbVQ86W/jvocHpPywJu
+	/t/MlxpmUmbuZllchzGGtNF2qZxlb0ROtpNOLu5PjDOB2fm0u1Tqad6J5u0lNrmA92P8P3mwfQnoo
+	6donctRpDNBFpGA2tW6tblXTWGveCuJDcbLpKJpooDfLPc72iQXLQbdmNSnPjz6EL4YJ76H5+jo8f
+	iZ7e8awvoXEQyMOwpbyigJSeG8w+1ogaKzNEAt755IOFTxtf41UnomEWsRAcp4II85EZTb5EMoFEN
+	k2/puh6Q==;
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1t3eIt-00000008SYa-0iJx
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Oct 2024 15:51:31 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49NCo6XT022598
-	for <linux-nvme@lists.infradead.org>; Wed, 23 Oct 2024 08:51:26 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=aZpoqSywv8Y9migEf4
-	XunN/74Y7OmlwA7xu+s9yo2v0=; b=c6IlPp458d8L+d14JkaslqGZq8oJgGq832
-	4RrsA4NbnvXzT6258nlh4dM++fcBxyVaZOMvxQ/uYC0QWN2MhWbrg2ATXozGXoRC
-	U31/y2ohe5WhzB0mXn3vE+XO5YVJBTV6uu1mbNXeZdLGKyVXlUI1oRrYaNTvOWUg
-	Iadmd7YUIJmtZQ/B5mFNPQkDOTWsZsW9oVjHhM65hZQzUNNHZaZe5aZTBHd4+kVA
-	Oif6tQHOi0E/IXu12JipoGnb/L/kwH0AE2aYCFYiDgaskJkj//FeS7TbObwHPcJ1
-	qPp5R6NoaZVEDJRH405LAP5TuleMMcQn144jSRDJ+C3X6F21bVDA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42exswabw6-18
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 23 Oct 2024 08:51:25 -0700 (PDT)
-Received: from twshared3293.08.ash8.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Wed, 23 Oct 2024 15:50:58 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 07A0C14662878; Wed, 23 Oct 2024 08:50:56 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: <martin.petersen@oracle.com>, <joshi.k@samsung.com>,
-        Keith Busch
-	<kbusch@kernel.org>, David Wei <dw@davidwei.uk>
-Subject: [PATCH] nvme: module parameter to disable pi checks
-Date: Wed, 23 Oct 2024 08:50:48 -0700
-Message-ID: <20241023155048.634988-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
+	Wed, 23 Oct 2024 16:33:49 +0000
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-71e61b47c6cso8656b3a.2
+        for <linux-nvme@lists.infradead.org>; Wed, 23 Oct 2024 09:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729701224; x=1730306024; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IhU9icz1vShdMAvU1NJ1i2U5k9ZE15DFpA53Ai20dlU=;
+        b=KQJ0fWDok5mrrUytohO08lA5gk/nHNHTfp+A418uuHdmSU42/2oDAYa0ph04IAtWKM
+         UmgGfvEATgv7bR4fLMjyG+whO2mHa25sykQKlljkGRYQFXJkyojRvdJ1ngoQJ3Y9A3QW
+         JyBpUnvszrsTYIjsk0hqORrN8FF36cLOlUgFLt/Opgzt6kAQTIADpgUjgFtkgVqfuhyl
+         F+5GHjkCWFj5le6m6LbiaIwFtrbILaYW1JgSFCWIgNQnl3Dh8omP4N6cLDmbg4nYQ9g2
+         APvBqRCkEXRxk1nLBpO4GW6Tr4gC9JlWdwKh18T9EQ2IKv4kFeJc7EJrWDccPAJSTwht
+         O8Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729701224; x=1730306024;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IhU9icz1vShdMAvU1NJ1i2U5k9ZE15DFpA53Ai20dlU=;
+        b=IPX5y531ySTdoxZ87g+/dUExcK2SYutNXTdu6tpT7S6EGJoz2pvlW1w8lcdnhIXbiJ
+         ksAECKBPjqMHZmdzlllIjwLgemqUHxEYeWEyMx3STWcjRkIO0ScHWd6yqQJT5Ggs3GJN
+         Bp1VkfiVJbpuE9twxg81htoN77P4YGD44h4+0gwazNYfd2CkbMw3yp9TTYy3L3CFW+i9
+         v70/bylu2bDhnu35uCyNy5IOmOiypJwTPv63VsCJpjbC8TygZ8a55XzQNNHaJls3Rhte
+         rmI2eaJPzD7IA3jQ10r55QtHpcPf37vHobfn2LgkIojJJ4VnlQA+cnD4oDOFI335698B
+         arBw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+jsIRK/oUkzUNS9EWu5yISG8L6HeXPSDfJA95FZNGWlYQ176wtHKimmUgMKQtYT3BQdCZXRs1kPrq@lists.infradead.org
+X-Gm-Message-State: AOJu0YzS2jSPq2MZHl4/8wPNtSnEVLctw0h02UUJGZjIvn24+dh6X+9U
+	0/aFUmy6EHQhTLywOrcCl2YSidb0rYvqWUobKw/hZgrH0nMp+aCK
+X-Google-Smtp-Source: AGHT+IEdKz5ZE1B36TZsbYoCKf9Qfpbgv7X3n0DpX7f8QXNcrrFgvsZy8w4YnrhkKES8dIJf7BGxww==
+X-Received: by 2002:aa7:88cb:0:b0:71e:1722:d02c with SMTP id d2e1a72fcca58-72030a79c21mr4571214b3a.3.1729701223634;
+        Wed, 23 Oct 2024 09:33:43 -0700 (PDT)
+Received: from ?IPV6:240b:10:2720:5500:2599:5aa5:a0f:e0fd? ([240b:10:2720:5500:2599:5aa5:a0f:e0fd])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec13d75a2sm6490028b3a.135.2024.10.23.09.33.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2024 09:33:43 -0700 (PDT)
+Message-ID: <a4d2bbb3-2718-4fda-b225-a2ba66f451cb@gmail.com>
+Date: Thu, 24 Oct 2024 01:33:40 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: FSxHW0VfmnJfY2zOo5DsoCIx1tfo_9mh
-X-Proofpoint-ORIG-GUID: FSxHW0VfmnJfY2zOo5DsoCIx1tfo_9mh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] nvme: change nvme_ns_has_pi() to
+ nvme_ns_supports_pract()
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-nvme@lists.infradead.org
+References: <20241023100915.11263-1-ikegami.t@gmail.com>
+ <ZxjwAsny4yOUHvUD@infradead.org> <Zxj2rPzTGILnrUup@kbusch-mbp>
+ <Zxj3xwDyP1j8Y1Ms@infradead.org> <Zxj4SDRxSJfca_Wa@kbusch-mbp>
+ <a41a55be-dd3d-477b-8eac-27f80da63ed0@gmail.com>
+ <ZxkSJJm54Gs9exWw@kbusch-mbp>
+Content-Language: en-US
+From: Tokunori Ikegami <ikegami.t@gmail.com>
+In-Reply-To: <ZxkSJJm54Gs9exWw@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241023_085128_230846_8AA61E37 
-X-CRM114-Status: GOOD (  14.27  )
+X-CRM114-CacheID: sfid-20241023_173347_357906_7157DD45 
+X-CRM114-Status: GOOD (  14.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,64 +113,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-A recent commit enables integrity checks for formats the previous kernel
-versions registered with the "nop" integrity profile. This means
-namespaces using that format become unreadable when upgrading the kernel
-past that commit.
-
-Introduce a module parameter to restore the "nop" integrity profile so
-that storage can be readable once again. This could be a boot device, so
-the setting needs to happen at module load time.
-
-Fixes: 921e81db524d17 ("nvme: allow integrity when PI is not in first byt=
-es")
-Reported-by: David Wei <dw@davidwei.uk>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ba6508455e185..67f8125df96a9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -91,6 +91,10 @@ module_param(apst_secondary_latency_tol_us, ulong, 064=
-4);
- MODULE_PARM_DESC(apst_secondary_latency_tol_us,
- 	"secondary APST latency tolerance in us");
-=20
-+static bool disable_pi =3D false;
-+module_param(disable_pi, bool, 0444);
-+MODULE_PARM_DESC(disable_pi, "disable protection-information if used");
-+
- /*
-  * nvme_wq - hosts nvme related works that are not reset or delete
-  * nvme_reset_wq - hosts nvme reset works
-@@ -1763,6 +1767,7 @@ static bool nvme_init_integrity(struct nvme_ns_head=
- *head,
- 		struct queue_limits *lim, struct nvme_ns_info *info)
- {
- 	struct blk_integrity *bi =3D &lim->integrity;
-+	int pi_type =3D head->pi_type;
-=20
- 	memset(bi, 0, sizeof(*bi));
-=20
-@@ -1777,7 +1782,10 @@ static bool nvme_init_integrity(struct nvme_ns_hea=
-d *head,
- 	    !(head->features & NVME_NS_METADATA_SUPPORTED))
- 		return nvme_ns_has_pi(head);
-=20
--	switch (head->pi_type) {
-+	if (disable_pi)
-+		pi_type =3D 0;
-+
-+	switch (pi_type) {
- 	case NVME_NS_DPS_PI_TYPE3:
- 		switch (head->guard_type) {
- 		case NVME_NVM_NS_16B_GUARD:
---=20
-2.43.5
-
+On 2024/10/24 0:11, Keith Busch wrote:
+> The important point for those MS>8 formats is the host *must* provide a
+> buffer for the transfer, otherwise you'll get corruption. This means
+> those formats are not usable if your kernel didn't set
+> CONFIG_BLK_DEV_INTEGRTY, or you have a fabrics transport that doesn't
+> support these.
+>
+> The format where MS == PI size can still work without
+> CONFIG_BLK_DEV_INTEGRTY or fabrics support because the the pr-action
+> disables the host<->device transfers.
+Okay I will do study more later about the block device integrity feature.
+> The function, nvme_ns_has_pi(), is specifically looking for the formats
+> that don't require the host to provide a metadata buffer. The comment
+> above the function says exactly this:
+>
+>    "NVMe ns supports metadata actions by the controller (generate/strip)"
+>
+> The only time that happens with PRACT is if metadata size equals the PI
+> size. Section 2.1.5, Figure 9 says this more succiently.
+Now I could understand fully with your advice including the driver 
+implementation and the section 5.3.2 also checked again.
+> It should work fine with any MS>PI size as long as the disk can
+> successfully register with blk_integrity, which again, depends on your
+> kernel config and transport type. That block layer can handle protection
+> information with extra metadata in the same buffer.
+Noted this also. Thank you so much for your explanation.
 
