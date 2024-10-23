@@ -4,56 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7481D2E01E
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 07:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 828EDD2E02C
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 09:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HxXWHBQSOd6lJycdHz2a7fp0ilJC/0rjEYUa2hzXXYg=; b=pmeHLBT9hvrsMvcCn/+kCc0y9Z
-	Gx4vDDrPbRItaPs2F+hsZLDop3L51mFp7JwD6tsjratNrukjRaR65s3SjM+rX3mmp1PBtXfQTMUG2
-	uje7agjyCyWlC/w1W9IbaEAqZzDZ5dHBHI14oxGJOXhmk1n7vTsxMJ6tbLLVUhqA0xVleEzhxzmKR
-	j6RJKx+I8xRV0/0VqxoRWWrrDnzmmzKWKtJGIketq993N1zu5Zv/t0h6PtyQJgiy47uay0xpuIJpr
-	sbh04JVM5AXoJT6UBMoaKz064nKB8XRSykBhe9FynD6/c4f0F+9yqpkozVQNFmSCo82FyVhaMJD25
-	NFAwT7Lg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+YHM6gsLWYBRwRS20FZAQ2sdsu4j39PWVURo5uv1nRk=; b=KUEfhgZ5P/mfBMfFaansUi5vxg
+	lPckJUlrrwq2y5XhnuXwBfD8BbPpEuVxN7xqvWhv+4KCtt0zQc9fTA2ZILVvhrbc4nVTMzneQLiGw
+	TmaMYD8UCXpbQU45dnfpN374INiZ3sWmefHLtlBsZzl96ww/hQKnHnrabW/fYzHeR4BlCHAVVFNY+
+	tAue8dKRQSE3CWypSuDmyGxDIXEx1SM8t/KO6bAr6s+K1LOPp3GViN/naJg7SbiOiLsaBiLThg21v
+	uiZwhyAnz7CAgK4YY79cGuF//+mk9Wh9Lu/vDGmpH1zaVSRUxyFbjvTNIZrf1HMUNM+TrWJ5nycqr
+	xwo24YSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3W4Q-0000000DRWT-0s91;
-	Wed, 23 Oct 2024 07:46:18 +0000
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
+	id 1t3XOi-0000000DjEh-2A7R;
+	Wed, 23 Oct 2024 09:11:20 +0000
+Received: from mgamail.intel.com ([192.198.163.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3Vtd-0000000DPIW-2WMD
+	id 1t3XBV-0000000DfQc-44LT
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Oct 2024 07:35:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1729668907; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=HxXWHBQSOd6lJycdHz2a7fp0ilJC/0rjEYUa2hzXXYg=;
-	b=MQT/s2vHThsZsXVSHmUkPlaGwek6IfsdxVesZesbUQaM3QuOq3+8QLrnYpCOi3L2A5cW420pKQhVcnzQzIZZVBqeUXC4P4LadPTyujyuehOF0cxOgVHB31oaOOzqpKUsAhHdT0wX4+ALzZpjASmgEXaH0dOoDhWsqX+vTjnDERg=
-Received: from 30.178.82.71(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHkWpN0_1729668904 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 23 Oct 2024 15:35:05 +0800
-Message-ID: <75748d86-5ed2-4310-b02c-500984e6feda@linux.alibaba.com>
-Date: Wed, 23 Oct 2024 15:35:03 +0800
-MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v17 2/2] nvmet: support reservation feature
-To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: kch@nvidia.com, shinichiro.kawasaki@wdc.com, d.bogdanov@yadro.com,
- linux-nvme@lists.infradead.org
-References: <20241021110331.125962-1-kanie@linux.alibaba.com>
- <20241021110331.125962-3-kanie@linux.alibaba.com>
- <8dccff09-2eab-40a1-abd3-b3759ecdc1ed@grimberg.me>
- <20241022142039.GB17410@lst.de>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241022142039.GB17410@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+	Wed, 23 Oct 2024 08:57:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729673862; x=1761209862;
+  h=date:from:to:cc:subject:message-id;
+  bh=Seg6yVAbaR0y9NFRK8/myxlxJ68ftwl/HROPWLAb7zU=;
+  b=D0mdYY9xAQEhal9SoMnoC0YSiFPhW1qA7/8pCu7y+WROyY3Z6HWl4Bus
+   MR6WGJmAUwRNkUvdCixTthBwD6iYIhRzxnYgteO5JKykPakexq6BmaPaG
+   taXoA0FWHS/+AmL/gKVZJmoeTv3eYjL4UixiB8XvalAeiwQPj5isaCbqK
+   kyyhda9EoASYkcHWlwDNWZcpO2pR8426Lx5zmRI/8tnXKDC8JtfGk+SdZ
+   GbQVP1elplXi+++Yp4nd8fyEn9mUZKsGPMdn0y/iNrovCAYjWUaMkNy52
+   W9gb5ii1HtmsZYl2YpcIAlrPghAbuOtBCCVPHmVHoflROaFictG0700su
+   Q==;
+X-CSE-ConnectionGUID: kNx4rTO+RziM0PwWesGlBA==
+X-CSE-MsgGUID: jm4mOZVqT/StbWA+xq0q3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="16869338"
+X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
+   d="scan'208";a="16869338"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 01:57:41 -0700
+X-CSE-ConnectionGUID: stSSNZ+xQYueNoxadEHKjw==
+X-CSE-MsgGUID: A2N9mlQKRNSeLYwn3j9TnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
+   d="scan'208";a="84940932"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 23 Oct 2024 01:57:40 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t3XBR-000Ugs-2m;
+	Wed, 23 Oct 2024 08:57:37 +0000
+Date: Wed, 23 Oct 2024 16:57:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.12] BUILD SUCCESS
+ f54f0d0e2b1f74de85ff02013fa4886e4154aca5
+Message-ID: <202410231604.JiCS2EBv-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241023_003509_822780_BF08CCEB 
-X-CRM114-Status: GOOD (  12.54  )
+X-CRM114-CacheID: sfid-20241023_015742_048320_38570BA0 
+X-CRM114-Status: UNSURE (   4.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,78 +83,161 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree/branch: git://git.infradead.org/nvme.git nvme-6.12
+branch HEAD: f54f0d0e2b1f74de85ff02013fa4886e4154aca5  nvme: enhance cns version checking
 
-在 2024/10/22 22:20, Christoph Hellwig 写道:
-> On Tue, Oct 22, 2024 at 04:18:52PM +0300, Sagi Grimberg wrote:
->>> +static void nvmet_execute_pr_acquire(struct nvmet_req *req)
->>> +{
->>> +	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
->>> +	bool ignore_key = nvmet_pr_parse_ignore_key(cdw10);
->>> +	/* Reservation type, bit 15:08 */
->>> +	u8 rtype = (u8)((cdw10 >> 8) & 0xff);
->>> +	/* Reservation acquire action, bit 02:00 */
->>> +	u8 acquire_act = cdw10 & 0x07;
->>> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
->>> +	struct nvmet_pr_acquire_data *d = NULL;
->>> +	struct nvmet_pr *pr = &req->ns->pr;
->>> +	struct nvmet_pr_registrant *reg;
->>> +	u16 status = NVME_SC_SUCCESS;
->>> +
->>> +	if (ignore_key ||
->>> +	    rtype < NVME_PR_WRITE_EXCLUSIVE ||
->>> +	    rtype > NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
->>> +		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
->>> +		goto out;
->>> +	}
->>> +
->>> +	d = kmalloc(sizeof(*d), GFP_KERNEL);
->>> +	if (!d) {
->>> +		status = NVME_SC_INTERNAL;
->>> +		goto out;
->>> +	}
->>> +
->>> +	status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
->>> +	if (status)
->>> +		goto free_data;
->>> +
->>> +	status = NVME_SC_RESERVATION_CONFLICT | NVME_STATUS_DNR;
->>> +	mutex_lock(&pr->pr_lock);
->>> +	list_for_each_entry_rcu(reg, &pr->registrant_list, entry,
->>> +				lockdep_is_held(&pr->pr_lock)) {
->>> +		if (uuid_equal(&reg->hostid, &ctrl->hostid) &&
->>> +		    reg->rkey == le64_to_cpu(d->crkey)) {
->>> +			status = __nvmet_execute_pr_acquire(req, reg,
->>> +					acquire_act, rtype, d);
->>> +			break;
->>> +		}
->>> +	}
->>> +
->>> +	if (!status && acquire_act == NVME_PR_ACQUIRE_ACT_PREEMPT_AND_ABORT) {
->>> +		kfree(d);
->>> +		INIT_WORK(&req->r.abort_work, nvmet_pr_do_abort);
->>> +		queue_work(nvmet_wq, &req->r.abort_work);
->>> +		return;
->>> +	}
->> Is there a reason why you queue this here and not inside
->> __nvmet_execute_pr_acquire
->> like before?
->>
->>> +
->>> +	mutex_unlock(&pr->pr_lock);
->> Hmm... you keep this mutex taken and release it from the work element
->> async... Not a
->> great practice...
-> It's actually invalid for a mutex.  You'd need a semaphore for that.
->
-> Guixin, can you test the code with lockdep enabled and see if there
-> is other fallout as well?  Thanks!
+elapsed time: 895m
 
-You mean use semaphore to replace mutex pr_lock? If this works, I
+configs tested: 141
+configs skipped: 2
 
-can send a v18.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Best Regards,
+tested configs:
+alpha                             allnoconfig    gcc-14.1.0
+alpha                            allyesconfig    clang-20
+arc                              alldefconfig    clang-20
+arc                              allmodconfig    clang-20
+arc                               allnoconfig    gcc-14.1.0
+arc                              allyesconfig    clang-20
+arc                          axs103_defconfig    clang-20
+arm                              allmodconfig    clang-20
+arm                               allnoconfig    gcc-14.1.0
+arm                              allyesconfig    clang-20
+arm                      footbridge_defconfig    clang-20
+arm                       imx_v4_v5_defconfig    clang-20
+arm                      jornada720_defconfig    clang-20
+arm                       multi_v4t_defconfig    clang-20
+arm                         mv78xx0_defconfig    clang-20
+arm                        shmobile_defconfig    clang-20
+arm                           sunxi_defconfig    clang-20
+arm                    vt8500_v6_v7_defconfig    clang-20
+arm64                            allmodconfig    clang-20
+arm64                             allnoconfig    gcc-14.1.0
+csky                              allnoconfig    gcc-14.1.0
+hexagon                          allmodconfig    clang-20
+hexagon                           allnoconfig    gcc-14.1.0
+hexagon                          allyesconfig    clang-20
+i386                             allmodconfig    clang-18
+i386                              allnoconfig    clang-18
+i386                             allyesconfig    clang-18
+i386        buildonly-randconfig-001-20241023    clang-18
+i386        buildonly-randconfig-002-20241023    clang-18
+i386        buildonly-randconfig-003-20241023    clang-18
+i386        buildonly-randconfig-004-20241023    clang-18
+i386        buildonly-randconfig-005-20241023    clang-18
+i386        buildonly-randconfig-006-20241023    clang-18
+i386                                defconfig    clang-18
+i386                  randconfig-001-20241023    clang-18
+i386                  randconfig-002-20241023    clang-18
+i386                  randconfig-003-20241023    clang-18
+i386                  randconfig-004-20241023    clang-18
+i386                  randconfig-005-20241023    clang-18
+i386                  randconfig-006-20241023    clang-18
+i386                  randconfig-011-20241023    clang-18
+i386                  randconfig-012-20241023    clang-18
+i386                  randconfig-013-20241023    clang-18
+i386                  randconfig-014-20241023    clang-18
+i386                  randconfig-015-20241023    clang-18
+i386                  randconfig-016-20241023    clang-18
+loongarch                        allmodconfig    gcc-14.1.0
+loongarch                         allnoconfig    gcc-14.1.0
+m68k                             alldefconfig    clang-20
+m68k                             allmodconfig    gcc-14.1.0
+m68k                              allnoconfig    gcc-14.1.0
+m68k                             allyesconfig    gcc-14.1.0
+m68k                         apollo_defconfig    clang-20
+m68k                           sun3_defconfig    clang-20
+microblaze                       allmodconfig    gcc-14.1.0
+microblaze                        allnoconfig    gcc-14.1.0
+microblaze                       allyesconfig    gcc-14.1.0
+mips                              allnoconfig    gcc-14.1.0
+mips                  cavium_octeon_defconfig    clang-20
+mips                            gpr_defconfig    clang-20
+mips                           ip28_defconfig    clang-20
+mips                           ip30_defconfig    clang-20
+mips                           jazz_defconfig    clang-20
+nios2                         3c120_defconfig    clang-20
+nios2                             allnoconfig    gcc-14.1.0
+openrisc                          allnoconfig    clang-20
+openrisc                         allyesconfig    gcc-14.1.0
+openrisc                            defconfig    gcc-12
+parisc                           allmodconfig    gcc-14.1.0
+parisc                            allnoconfig    clang-20
+parisc                           allyesconfig    gcc-14.1.0
+parisc                              defconfig    gcc-12
+powerpc                    adder875_defconfig    clang-20
+powerpc                          allmodconfig    gcc-14.1.0
+powerpc                           allnoconfig    clang-20
+powerpc                          allyesconfig    gcc-14.1.0
+powerpc                    gamecube_defconfig    clang-20
+powerpc                       holly_defconfig    clang-20
+powerpc                      ppc44x_defconfig    clang-20
+powerpc                     redwood_defconfig    clang-20
+riscv                            allmodconfig    gcc-14.1.0
+riscv                             allnoconfig    clang-20
+riscv                            allyesconfig    gcc-14.1.0
+riscv                               defconfig    gcc-12
+s390                             allmodconfig    gcc-14.1.0
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.1.0
+s390                                defconfig    gcc-12
+sh                               allmodconfig    gcc-14.1.0
+sh                                allnoconfig    gcc-14.1.0
+sh                               allyesconfig    gcc-14.1.0
+sh                                  defconfig    gcc-12
+sh                             espt_defconfig    clang-20
+sh                          kfr2r09_defconfig    clang-20
+sh                           se7722_defconfig    clang-20
+sh                           se7724_defconfig    clang-20
+sh                        sh7785lcr_defconfig    clang-20
+sparc                            allmodconfig    gcc-14.1.0
+sparc64                             defconfig    gcc-12
+um                               allmodconfig    clang-20
+um                                allnoconfig    clang-20
+um                               allyesconfig    clang-20
+um                                  defconfig    gcc-12
+um                             i386_defconfig    gcc-12
+um                           x86_64_defconfig    clang-20
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-18
+x86_64                           allyesconfig    clang-18
+x86_64      buildonly-randconfig-001-20241023    gcc-12
+x86_64      buildonly-randconfig-002-20241023    gcc-12
+x86_64      buildonly-randconfig-003-20241023    gcc-12
+x86_64      buildonly-randconfig-004-20241023    gcc-12
+x86_64      buildonly-randconfig-005-20241023    gcc-12
+x86_64      buildonly-randconfig-006-20241023    gcc-12
+x86_64                              defconfig    clang-18
+x86_64                                  kexec    clang-18
+x86_64                                  kexec    gcc-12
+x86_64                randconfig-001-20241023    gcc-12
+x86_64                randconfig-002-20241023    gcc-12
+x86_64                randconfig-003-20241023    gcc-12
+x86_64                randconfig-004-20241023    gcc-12
+x86_64                randconfig-005-20241023    gcc-12
+x86_64                randconfig-006-20241023    gcc-12
+x86_64                randconfig-011-20241023    gcc-12
+x86_64                randconfig-012-20241023    gcc-12
+x86_64                randconfig-013-20241023    gcc-12
+x86_64                randconfig-014-20241023    gcc-12
+x86_64                randconfig-015-20241023    gcc-12
+x86_64                randconfig-016-20241023    gcc-12
+x86_64                randconfig-071-20241023    gcc-12
+x86_64                randconfig-072-20241023    gcc-12
+x86_64                randconfig-073-20241023    gcc-12
+x86_64                randconfig-074-20241023    gcc-12
+x86_64                randconfig-075-20241023    gcc-12
+x86_64                randconfig-076-20241023    gcc-12
+x86_64                               rhel-8.3    gcc-12
+x86_64                           rhel-8.3-bpf    clang-18
+x86_64                         rhel-8.3-kunit    clang-18
+x86_64                           rhel-8.3-ltp    clang-18
+x86_64                          rhel-8.3-rust    clang-18
+xtensa                            allnoconfig    gcc-14.1.0
 
-Guixin Liu
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
