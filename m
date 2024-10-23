@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53A13CF5396
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76930CF5395
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:32:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kfAovUD2pi9mkDSIvOOPYdZEKNe0TkIRIQVvdrqsmL4=; b=BsCPbqicrEL9Fk2D+sbe2TyCTK
-	wBZr+YQknudEMb/ZoHNEA9mV3aXV0LC7dpqMN3zCIgWfoI5Cl4vY9o6fqaf7TeTyTD1rOb5kTfMVU
-	SxsH8xeqa2SS9A3+S/4+xfV6W0diXlCjnmJp9AooGsxdvsfrdip8OrYzlXzG1mV64HqYA9fUJn1MB
-	maGI/7MdPM2+1uDOdz3gaInLirmjs9VW0EuZFPJh37MN0SyLEApoBewnjxuatTHvSS/s/NcnpXWqw
-	VCjQ36OdkUw48iWdj7v1FUWdd4072/7uvhkt9y/Qbpu5AxkyAM5F0ZpYQNlBzYjQmoVGa1+BWUI9O
-	AzsK+3Pw==;
+	bh=FMtJo2vw9R8y5qTucg0NC5g+O5MCLfyCamYe6eBqKYY=; b=YWwvakTtG8/6Cn9O2fzJUhxKVe
+	GCZQI5hNoTPqyfmq8UXmRrVQU6VwUVHvC/vncbx3PF6sWi/FcRhAbclw5XWCCYTd57XGwZ3CssmPk
+	HMGTm7LbtJgAKx3G6aG+cIXeJnq4I+eairgTV+P8T2NZMz915ZJ6AKPezi9/eKe1SupZqC44iWfAb
+	48rNaEpxUcuGeOaysHKP67u8lhWdXG/VVFevFbxpn7LyKZXvrWocVKLJ7RwIy5O2EQIkmQKr1lKmn
+	vELnBsXnZSuw9zbp2rl7Pr/u7dTCnljC+KAv9wUa5/GwRkAMeFrgyA6VxdskC4J3J7aqwSQbWa7vO
+	4hVKsDeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cPa-0000000EiWE-2xJt;
-	Wed, 23 Oct 2024 14:32:34 +0000
+	id 1t3cPd-0000000EiYv-3JIV;
+	Wed, 23 Oct 2024 14:32:37 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cOc-0000000Ei77-275N
+	id 1t3cOp-0000000EiBz-1cUb
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Oct 2024 14:31:39 +0000
+	Wed, 23 Oct 2024 14:31:49 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 66051A44F45;
-	Wed, 23 Oct 2024 14:31:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174A8C4CEE4;
-	Wed, 23 Oct 2024 14:31:31 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 57A30A44F5C;
+	Wed, 23 Oct 2024 14:31:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 199C7C4CEEE;
+	Wed, 23 Oct 2024 14:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729693893;
-	bh=q1OZjb80glGL02e2p03kI221IdO0Idodp+8LAuZylP8=;
+	s=k20201202; t=1729693906;
+	bh=M95oN5BJW2ED7DYuRHRVyRxqpANuvn7SqeCMgOM4kyQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ehrnwjOrjdJMywo3g66O6qTY1POYpqq5E8q60X4Fhbvg294rBsjOCPLl9KRUtRv1z
-	 PhIuFXBOFXz7HfvHKErDYTHfNI/p67c45MN48kzDzF7FmJw4jPXDeACaCWl/jkPIMy
-	 +O08RuQq33XUEkvVQpa4P1zfhnCQLWtblmqnfI7PZR8ekHItg3c+xI7/XWQ27qhcs8
-	 XS+UQf0VLUCmTSlvk+gFTA6KV6b8fnb2Bc470q4tKh+m6Z8vgDeKKjRQgvpBLD82TD
-	 HDf71cKDKpXdWkE0hmjqDJhM4iHpspIVKqtV5RggQVPD1qZOcNAQg0zdmxfTBaNwnp
-	 0bRjHXOtH74qQ==
+	b=Ue9atXbpmUgJdILdqypU1R+Ep6n8bSfDc2ivKrtp9WHVCYG2KhqA2z7QzgsHLW+0z
+	 XQyuMCHbkPat6dkar73ummzMa3VgICSMJYUCFLAZgpYehYh3OIQeZ+Wld03hWi9n0Z
+	 IYI9CmdjuHPYPNFPtFQ4fjROg98J+s6tlHNW8HM8J7x0+RdfvkfwwCeyDu8VpHik3l
+	 aj0OZG/RI2BsOtzy4zXXFPxfNOPsCFYNh0HPhdk89cr/yAEREzJ2lRJw9DYlv4sW9v
+	 VJ5k4SMgYHsEJmtD1ESK3GwVZnmyxus21KPPRsmMtRCwLkIfEY7GBytzhsYCqq5oxa
+	 hb0FluwIfZ9JA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Greg Joyce <gjoyce@linux.ibm.com>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Keith Busch <kbusch@kernel.org>,
+Cc: Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 10/23] nvme: disable CC.CRIME (NVME_CC_CRIME)
-Date: Wed, 23 Oct 2024 10:30:54 -0400
-Message-ID: <20241023143116.2981369-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 18/23] nvme-multipath: defer partition scanning
+Date: Wed, 23 Oct 2024 10:31:02 -0400
+Message-ID: <20241023143116.2981369-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241023143116.2981369-1-sashal@kernel.org>
 References: <20241023143116.2981369-1-sashal@kernel.org>
@@ -63,8 +63,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.58
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241023_073134_726326_4408D35C 
-X-CRM114-Status: GOOD (  12.21  )
+X-CRM114-CacheID: sfid-20241023_073147_598684_9FD37BB0 
+X-CRM114-Status: GOOD (  16.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,55 +79,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Greg Joyce <gjoyce@linux.ibm.com>
+From: Keith Busch <kbusch@kernel.org>
 
-[ Upstream commit 0ce96a6708f34280a536263ee5c67e20c433dcce ]
+[ Upstream commit 1f021341eef41e77a633186e9be5223de2ce5d48 ]
 
-Disable NVME_CC_CRIME so that CSTS.RDY indicates that the media
-is ready and able to handle commands without returning
-NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY.
+We need to suppress the partition scan from occuring within the
+controller's scan_work context. If a path error occurs here, the IO will
+wait until a path becomes available or all paths are torn down, but that
+action also occurs within scan_work, so it would deadlock. Defer the
+partion scan to a different context that does not block scan_work.
 
-Signed-off-by: Greg Joyce <gjoyce@linux.ibm.com>
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
-Tested-by: Nilay Shroff <nilay@linux.ibm.com>
+Reported-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/nvme/host/multipath.c | 33 +++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  1 +
+ 2 files changed, 34 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 82509f3679373..e25206c7de80c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2250,8 +2250,13 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
- 	else
- 		ctrl->ctrl_config = NVME_CC_CSS_NVM;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 37ea0fa421da8..ede2a14dad8be 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -499,6 +499,20 @@ static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
+ 	return ret;
+ }
  
--	if (ctrl->cap & NVME_CAP_CRMS_CRWMS && ctrl->cap & NVME_CAP_CRMS_CRIMS)
--		ctrl->ctrl_config |= NVME_CC_CRIME;
++static void nvme_partition_scan_work(struct work_struct *work)
++{
++	struct nvme_ns_head *head =
++		container_of(work, struct nvme_ns_head, partition_scan_work);
++
++	if (WARN_ON_ONCE(!test_and_clear_bit(GD_SUPPRESS_PART_SCAN,
++					     &head->disk->state)))
++		return;
++
++	mutex_lock(&head->disk->open_mutex);
++	bdev_disk_changed(head->disk, false);
++	mutex_unlock(&head->disk->open_mutex);
++}
++
+ static void nvme_requeue_work(struct work_struct *work)
+ {
+ 	struct nvme_ns_head *head =
+@@ -525,6 +539,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	bio_list_init(&head->requeue_list);
+ 	spin_lock_init(&head->requeue_lock);
+ 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
++	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
+ 
+ 	/*
+ 	 * Add a multipath node if the subsystems supports multiple controllers.
+@@ -540,6 +555,16 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 		return -ENOMEM;
+ 	head->disk->fops = &nvme_ns_head_ops;
+ 	head->disk->private_data = head;
++
 +	/*
-+	 * Setting CRIME results in CSTS.RDY before the media is ready. This
-+	 * makes it possible for media related commands to return the error
-+	 * NVME_SC_ADMIN_COMMAND_MEDIA_NOT_READY. Until the driver is
-+	 * restructured to handle retries, disable CC.CRIME.
++	 * We need to suppress the partition scan from occuring within the
++	 * controller's scan_work context. If a path error occurs here, the IO
++	 * will wait until a path becomes available or all paths are torn down,
++	 * but that action also occurs within scan_work, so it would deadlock.
++	 * Defer the partion scan to a different context that does not block
++	 * scan_work.
 +	 */
-+	ctrl->ctrl_config &= ~NVME_CC_CRIME;
++	set_bit(GD_SUPPRESS_PART_SCAN, &head->disk->state);
+ 	sprintf(head->disk->disk_name, "nvme%dn%d",
+ 			ctrl->subsys->instance, head->instance);
  
- 	ctrl->ctrl_config |= (NVME_CTRL_PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
- 	ctrl->ctrl_config |= NVME_CC_AMS_RR | NVME_CC_SHN_NONE;
-@@ -2286,10 +2291,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
- 		 * devices are known to get this wrong. Use the larger of the
- 		 * two values.
- 		 */
--		if (ctrl->ctrl_config & NVME_CC_CRIME)
--			ready_timeout = NVME_CRTO_CRIMT(crto);
--		else
--			ready_timeout = NVME_CRTO_CRWMT(crto);
-+		ready_timeout = NVME_CRTO_CRWMT(crto);
+@@ -589,6 +614,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 			return;
+ 		}
+ 		nvme_add_ns_head_cdev(head);
++		kblockd_schedule_work(&head->partition_scan_work);
+ 	}
  
- 		if (ready_timeout < timeout)
- 			dev_warn_once(ctrl->device, "bad crto:%x cap:%llx\n",
+ 	mutex_lock(&head->lock);
+@@ -889,6 +915,12 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
+ 	kblockd_schedule_work(&head->requeue_work);
+ 	if (test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
+ 		nvme_cdev_del(&head->cdev, &head->cdev_device);
++		/*
++		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
++		 * to allow multipath to fail all I/O.
++		 */
++		synchronize_srcu(&head->srcu);
++		kblockd_schedule_work(&head->requeue_work);
+ 		del_gendisk(head->disk);
+ 	}
+ }
+@@ -900,6 +932,7 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ 	/* make sure all pending bios are cleaned up */
+ 	kblockd_schedule_work(&head->requeue_work);
+ 	flush_work(&head->requeue_work);
++	flush_work(&head->partition_scan_work);
+ 	put_disk(head->disk);
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 799f8a2bb0b4f..14a867245c29f 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -476,6 +476,7 @@ struct nvme_ns_head {
+ 	struct bio_list		requeue_list;
+ 	spinlock_t		requeue_lock;
+ 	struct work_struct	requeue_work;
++	struct work_struct	partition_scan_work;
+ 	struct mutex		lock;
+ 	unsigned long		flags;
+ #define NVME_NSHEAD_DISK_LIVE	0
 -- 
 2.43.0
 
