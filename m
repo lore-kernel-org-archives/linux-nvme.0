@@ -4,56 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D702CF5397
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:32:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF82BCF5396
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:32:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3b5eUR4alUlntt3KD8aK/HIc7LsAX0wZPWMrfEpk03s=; b=oK78NKjp92b2rcSatU6+OKXua1
-	hLE1vyvroKB9KzERqr4gPuqpAhRXDZAJL7BC6Jo8QjLpy2MJnjtQB+ZhN4mk3/iYmLDVH+t66dbDD
-	+cVAI0CKjIvYPB8B1pn5tFB5f/wMhFIDrpQIHxZ3uovLw7qfXG4qSSF9U30FK8YFoNf+pXN82+rXJ
-	iZYI7BYnSAg2atXjgyQVbEmVyRpfBqy+3V6eRXUXrdpmWMdO6khnTSI3KlwWx4YH95h/SW7n7kki8
-	bYOFLoOWxkxLSPX3UTyeEtL5dED4nuoPKGcdUw4fi3Xj3PMpehn7SPHWhmUveLxWpx8x5YR3rXt0X
-	Sf9ahCmg==;
+	bh=3Bwg3RwmnGrWF3oy8OX9NDLyp/753tQVV+kOiMa29FU=; b=O45XXyTbUSRE3A+t4JdCflst6t
+	35AymVpvM86PRK4a23T+0Qblky+zHQfXtXPphoibS9jpKVlfCXRfWI2tVsr6ydan+BvAM12OVGblC
+	4uZstG3cI7qQWciHed48BAF72vSA9En7o+pKLc5Jmn9R178V2JvVv5oSSfnVmu8QiC43uCaouVOab
+	r1iMPT9B0tA1XbMRodEJqsFXzTx58pZtlmeNxn+QwbwE+Qr4vhr/DMnuAP8VxWs/wXwhbkRQIlg5V
+	GjiKlaQHLxG3d/bLgAeVlx2YF1bz4CGvqQcGXX9d8UR9IQx0BkL7XgUAQTEzgt3uJuEGu9GktsQJZ
+	CVfT8aPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cPQ-0000000EiNB-2ug9;
-	Wed, 23 Oct 2024 14:32:24 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t3cPR-0000000EiOI-2jt9;
+	Wed, 23 Oct 2024 14:32:25 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cO0-0000000Ehnf-0yHs
+	id 1t3cOA-0000000Ehse-0vhE
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Oct 2024 14:30:58 +0000
+	Wed, 23 Oct 2024 14:31:08 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 20B745C5F4C;
-	Wed, 23 Oct 2024 14:30:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 645B1C4CEE6;
-	Wed, 23 Oct 2024 14:30:54 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 14D29A44F50;
+	Wed, 23 Oct 2024 14:30:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8963C4CEE5;
+	Wed, 23 Oct 2024 14:31:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729693855;
-	bh=WFW1bBMko88gm8YZ3JhiMEmcINN0u+lNkVeHc3/y6NI=;
+	s=k20201202; t=1729693864;
+	bh=g43AfRYMdMX1ToPOcP7uPAFGnLXV5Stu3IUoyJcnHVg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A3JyZ0Ohi9S4bKhtCtkv/YOucDljl3+aHS/fJjDIYUl+lCbgosG7sIIxum3B0nhTr
-	 5Ed1H2y/vvlFIzAb4DxxYbf4sMR8jDCLaADvu+4ZuUyNTb5MxBSa5NPaZ1qyJoeUcU
-	 wHRwWmUJo97dbFEPRfcRoyAN2GgweevvqI3tmBgIaWNM/n3RRTDzAxRPsViF5UIkz+
-	 UDdFFzhQF9thWe9mb2sGoGoIQrJXl85RVaU+F3obbfasYoon6X0w46Q+1Z40Aju/UH
-	 DIzoZlNSjKrbQm+j4OH9yx7fAaFHlOz/msbyJ0uWIunMVyQnJP0n4xcYUCOrtDsXec
-	 SutVcNtMeXayg==
+	b=nC3kD5bZH8bLo7fsT8IwOvcuXn065j7rZeW/1BS7sV6Vtew2R2ShtfEutJEd9inR+
+	 grXRnwsWRG3cIrghqperDzGEOVl5mrTS+8938sRzpiEPDRgizvcMwsakm2GshoWFyi
+	 biAp7/AWDtBiY9E2jmuFs2OfALgHLzEKfqNdm1mj4Llghtv/cZcwxpe2/NJ3AbX8Z8
+	 fvEnb3Skzy8ZqDMBCStXqS7jbADVdyCmJA5EZzaxSDWTgfErf5cSD/s6T5bYswR8Uv
+	 1hY17hAsG2NlxHReQATtuG/FF1SKEIqldYRufo2HtIvO14pTGa4EhrJshQy63Y2kUr
+	 6u9OtcZ+NQdtA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
+Cc: Nilay Shroff <nilay@linux.ibm.com>,
 	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.11 24/30] nvme-multipath: defer partition scanning
-Date: Wed, 23 Oct 2024 10:29:49 -0400
-Message-ID: <20241023143012.2980728-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 29/30] nvme-loop: flush off pending I/O while shutting down loop controller
+Date: Wed, 23 Oct 2024 10:29:54 -0400
+Message-ID: <20241023143012.2980728-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241023143012.2980728-1-sashal@kernel.org>
 References: <20241023143012.2980728-1-sashal@kernel.org>
@@ -63,8 +64,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11.5
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241023_073056_510093_329D48F5 
-X-CRM114-Status: GOOD (  15.93  )
+X-CRM114-CacheID: sfid-20241023_073106_375678_B6CA1DC0 
+X-CRM114-Status: GOOD (  12.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,116 +80,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+From: Nilay Shroff <nilay@linux.ibm.com>
 
-[ Upstream commit 1f021341eef41e77a633186e9be5223de2ce5d48 ]
+[ Upstream commit c199fac88fe7c749f88a0653e9f621b9f5a71cf1 ]
 
-We need to suppress the partition scan from occuring within the
-controller's scan_work context. If a path error occurs here, the IO will
-wait until a path becomes available or all paths are torn down, but that
-action also occurs within scan_work, so it would deadlock. Defer the
-partion scan to a different context that does not block scan_work.
+While shutting down loop controller, we first quiesce the admin/IO queue,
+delete the admin/IO tag-set and then at last destroy the admin/IO queue.
+However it's quite possible that during the window between quiescing and
+destroying of the admin/IO queue, some admin/IO request might sneak in
+and if that happens then we could potentially encounter a hung task
+because shutdown operation can't forward progress until any pending I/O
+is flushed off.
 
-Reported-by: Hannes Reinecke <hare@suse.de>
+This commit helps ensure that before destroying the admin/IO queue, we
+unquiesce the admin/IO queue so that any outstanding requests, which are
+added after the admin/IO queue is quiesced, are now flushed to its
+completion.
+
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/multipath.c | 33 +++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h      |  1 +
- 2 files changed, 34 insertions(+)
+ drivers/nvme/target/loop.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 6d97058cde7a1..a43982aaa40d7 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -577,6 +577,20 @@ static int nvme_add_ns_head_cdev(struct nvme_ns_head *head)
- 	return ret;
- }
- 
-+static void nvme_partition_scan_work(struct work_struct *work)
-+{
-+	struct nvme_ns_head *head =
-+		container_of(work, struct nvme_ns_head, partition_scan_work);
-+
-+	if (WARN_ON_ONCE(!test_and_clear_bit(GD_SUPPRESS_PART_SCAN,
-+					     &head->disk->state)))
-+		return;
-+
-+	mutex_lock(&head->disk->open_mutex);
-+	bdev_disk_changed(head->disk, false);
-+	mutex_unlock(&head->disk->open_mutex);
-+}
-+
- static void nvme_requeue_work(struct work_struct *work)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index e32790d8fc260..a9d112d34d4f4 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -265,6 +265,13 @@ static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl)
  {
- 	struct nvme_ns_head *head =
-@@ -603,6 +617,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	bio_list_init(&head->requeue_list);
- 	spin_lock_init(&head->requeue_lock);
- 	INIT_WORK(&head->requeue_work, nvme_requeue_work);
-+	INIT_WORK(&head->partition_scan_work, nvme_partition_scan_work);
- 
- 	/*
- 	 * Add a multipath node if the subsystems supports multiple controllers.
-@@ -626,6 +641,16 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 		return PTR_ERR(head->disk);
- 	head->disk->fops = &nvme_ns_head_ops;
- 	head->disk->private_data = head;
-+
+ 	if (!test_and_clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags))
+ 		return;
 +	/*
-+	 * We need to suppress the partition scan from occuring within the
-+	 * controller's scan_work context. If a path error occurs here, the IO
-+	 * will wait until a path becomes available or all paths are torn down,
-+	 * but that action also occurs within scan_work, so it would deadlock.
-+	 * Defer the partion scan to a different context that does not block
-+	 * scan_work.
++	 * It's possible that some requests might have been added
++	 * after admin queue is stopped/quiesced. So now start the
++	 * queue to flush these requests to the completion.
 +	 */
-+	set_bit(GD_SUPPRESS_PART_SCAN, &head->disk->state);
- 	sprintf(head->disk->disk_name, "nvme%dn%d",
- 			ctrl->subsys->instance, head->instance);
- 	return 0;
-@@ -652,6 +677,7 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 			return;
- 		}
- 		nvme_add_ns_head_cdev(head);
-+		kblockd_schedule_work(&head->partition_scan_work);
- 	}
- 
- 	mutex_lock(&head->lock);
-@@ -972,6 +998,12 @@ void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
- 	kblockd_schedule_work(&head->requeue_work);
- 	if (test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
- 		nvme_cdev_del(&head->cdev, &head->cdev_device);
-+		/*
-+		 * requeue I/O after NVME_NSHEAD_DISK_LIVE has been cleared
-+		 * to allow multipath to fail all I/O.
-+		 */
-+		synchronize_srcu(&head->srcu);
-+		kblockd_schedule_work(&head->requeue_work);
- 		del_gendisk(head->disk);
- 	}
++	nvme_unquiesce_admin_queue(&ctrl->ctrl);
++
+ 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
+ 	nvme_remove_admin_tag_set(&ctrl->ctrl);
  }
-@@ -983,6 +1015,7 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- 	/* make sure all pending bios are cleaned up */
- 	kblockd_schedule_work(&head->requeue_work);
- 	flush_work(&head->requeue_work);
-+	flush_work(&head->partition_scan_work);
- 	put_disk(head->disk);
+@@ -297,6 +304,12 @@ static void nvme_loop_destroy_io_queues(struct nvme_loop_ctrl *ctrl)
+ 		nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
+ 	}
+ 	ctrl->ctrl.queue_count = 1;
++	/*
++	 * It's possible that some requests might have been added
++	 * after io queue is stopped/quiesced. So now start the
++	 * queue to flush these requests to the completion.
++	 */
++	nvme_unquiesce_io_queues(&ctrl->ctrl);
  }
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 313a4f978a2cf..093cb423f536b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -494,6 +494,7 @@ struct nvme_ns_head {
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
- 	struct work_struct	requeue_work;
-+	struct work_struct	partition_scan_work;
- 	struct mutex		lock;
- 	unsigned long		flags;
- #define NVME_NSHEAD_DISK_LIVE	0
+ static int nvme_loop_init_io_queues(struct nvme_loop_ctrl *ctrl)
 -- 
 2.43.0
 
