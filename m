@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F3AECF5397
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:32:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 792E0CF5396
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2024 14:32:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n9of5mAQ4qGCzKW4D0p8ejz7ha7EK+aJ9F/Vwpb569g=; b=ajUqJ55n9BOpZ8Y1Sh/73rL0hP
-	1gbDIXAEHG5zzYeBxkIfZjwz5dGLgBD/ycKRo78H5hCqHUxzScxWIavjGand+HO1lw2rs2Wn5ZVrb
-	NnknGyflkdJ6x0uhyE7CA6UUV3raGIozjBJDX8LnzajBOa2q1fyQd6nqimKPqaP/rqewXgYfPwUXe
-	NVNRJ2nNsvw8VoM4fg0LFah34hjI9NDXp7O4Ar9JpaFRFjdQ7/W6i5S9SYiLWfS3v+KELQ+SX7ljE
-	uyiqW/Cm+OHRzLehu/XTcMlcW0p2PE8L6c2kh1f1yR0tIoXYINKYFyQeNTUFV45KO7oDW+uUmNOX3
-	aiAO6vgQ==;
+	bh=2eETYh89xoPORluOn20/vszisWeHiwJm4O/vcZQ9Pg0=; b=NcbJiM0a7+MXR9W9L1HyKusivw
+	0B/8eERUCgXqB96gdBMsuf+7kN66buDZPrm82b95yjE4PUjldkH/DxRRB8R1aX3BS0lHUL9wvUNt2
+	dw3r7zrvm+plt3/LsgfsANTuR2K5e9HAXEXy9cwmukdwnWCQHMFs3fztrYIZiC0BZ9oKKAGTvYtDa
+	29HXzu3hShhy4ekgUuVSpou8aiUxsCTzmQho2e1+X0eGYC0D8d7Ud/l8NgmZYjK6ogazdcibt2i3Q
+	PkpdMitccVs5DrdGX+we9AJxJ3Pr1t5Qi8ldSA4r5hlDRMgJTBAECJ5B0EbnMH0dZ2rQbiRZlcu11
+	OznIjjyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cPT-0000000EiPg-2trU;
-	Wed, 23 Oct 2024 14:32:27 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1t3cPX-0000000EiTS-11We;
+	Wed, 23 Oct 2024 14:32:31 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3cOB-0000000EhtE-3vCW
+	id 1t3cOU-0000000Ei2p-0MWe
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Oct 2024 14:31:09 +0000
+	Wed, 23 Oct 2024 14:31:27 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 6E5F1A44F4E;
-	Wed, 23 Oct 2024 14:30:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 656D3C4CEC6;
-	Wed, 23 Oct 2024 14:31:05 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C8FAB5C5F5E;
+	Wed, 23 Oct 2024 14:31:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26BE6C4CECD;
+	Wed, 23 Oct 2024 14:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729693866;
-	bh=OsEJq0X5q8ENZkWP26epanqBhCzwejfFg5wXuKc2B48=;
+	s=k20201202; t=1729693885;
+	bh=NBYhHi7krbdO5DjUwy8u0OfXIRFbUbuevzzrKU1Tlgc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KAaSOWnAT7D0uFmqxZd0zVxgX0U2YJ6Zh4pQyoY344oLXvm78zaA8iHGl/FLU/OwV
-	 3Emp3wmltY6Ef/Wdu9gnyTrM/0cEuS8CJZIcdHJrxjr8FIkoH60fDazbJsLRFmnyhU
-	 ihskBIqFceyk34rKS4uQlhHqRYnHwrTjgT/HR2GqN0lwi8vt7u4XbPE8U2oFuqjs1/
-	 ukFZ5NR/dBKefmAWKMfF51ObC+VQQ4z33Zu2dv39Zko/U9rO7AgzlOE1dXGYeGcibb
-	 2x/xHWW2u46BdU7CMuuvF12kTeXVWl+22EwhFipQKwrUqIeYFcpE2MDZE4f8BhNN8n
-	 buRZ96pgcft+g==
+	b=KxjxRUCTp/UKQr/DR0N3heAC6A4ycw9bI2qlsLaSu7dosmdOIcYQrC52Fj6UtUNnS
+	 XMzUDY0xyDRSd3X3O7xddbFbIuSK1XFXU5f1tttHGhg2sNbirAYNOJx3bOZ/8sv3/I
+	 vaHcQqSJ7HoMJDkqTp3BHEN1tup/I2ReXPTaumtmBddUVUFtY4THOY86HH7u0umh9i
+	 cDbKV8y+9QNwuIKNR0X1l2aSv1gGaWkBgQtbZv+Miq35d2vd6v0D1rAkbSxIphcH50
+	 FEQDa47c8ERqIQ31iFthavovmh1u26VjdMk4kDvrsBGYM5nKKgwp9sYjE+Sbo2jP7E
+	 HvvYLZ+hl+Qhw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nilay Shroff <nilay@linux.ibm.com>,
-	Christoph Hellwig <hch@lst.de>,
+Cc: Hannes Reinecke <hare@suse.de>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.11 30/30] nvme: make keep-alive synchronous operation
-Date: Wed, 23 Oct 2024 10:29:55 -0400
-Message-ID: <20241023143012.2980728-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 05/23] nvme: tcp: avoid race between queue_lock lock and destroy
+Date: Wed, 23 Oct 2024 10:30:49 -0400
+Message-ID: <20241023143116.2981369-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241023143012.2980728-1-sashal@kernel.org>
-References: <20241023143012.2980728-1-sashal@kernel.org>
+In-Reply-To: <20241023143116.2981369-1-sashal@kernel.org>
+References: <20241023143116.2981369-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.5
+X-stable-base: Linux 6.6.58
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241023_073108_254900_6C657EF7 
-X-CRM114-Status: GOOD (  16.94  )
+X-CRM114-CacheID: sfid-20241023_073126_273084_75A31378 
+X-CRM114-Status: GOOD (  14.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,120 +79,138 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Nilay Shroff <nilay@linux.ibm.com>
+From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit d06923670b5a5f609603d4a9fee4dec02d38de9c ]
+[ Upstream commit 782373ba27660ba7d330208cf5509ece6feb4545 ]
 
-The nvme keep-alive operation, which executes at a periodic interval,
-could potentially sneak in while shutting down a fabric controller.
-This may lead to a race between the fabric controller admin queue
-destroy code path (invoked while shutting down controller) and hw/hctx
-queue dispatcher called from the nvme keep-alive async request queuing
-operation. This race could lead to the kernel crash shown below:
+Commit 76d54bf20cdc ("nvme-tcp: don't access released socket during
+error recovery") added a mutex_lock() call for the queue->queue_lock
+in nvme_tcp_get_address(). However, the mutex_lock() races with
+mutex_destroy() in nvme_tcp_free_queue(), and causes the WARN below.
 
+DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+WARNING: CPU: 3 PID: 34077 at kernel/locking/mutex.c:587 __mutex_lock+0xcf0/0x1220
+Modules linked in: nvmet_tcp nvmet nvme_tcp nvme_fabrics iw_cm ib_cm ib_core pktcdvd nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip_set nf_tables qrtr sunrpc ppdev 9pnet_virtio 9pnet pcspkr netfs parport_pc parport e1000 i2c_piix4 i2c_smbus loop fuse nfnetlink zram bochs drm_vram_helper drm_ttm_helper ttm drm_kms_helper xfs drm sym53c8xx floppy nvme scsi_transport_spi nvme_core nvme_auth serio_raw ata_generic pata_acpi dm_multipath qemu_fw_cfg [last unloaded: ib_uverbs]
+CPU: 3 UID: 0 PID: 34077 Comm: udisksd Not tainted 6.11.0-rc7 #319
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-2.fc40 04/01/2014
+RIP: 0010:__mutex_lock+0xcf0/0x1220
+Code: 08 84 d2 0f 85 c8 04 00 00 8b 15 ef b6 c8 01 85 d2 0f 85 78 f4 ff ff 48 c7 c6 20 93 ee af 48 c7 c7 60 91 ee af e8 f0 a7 6d fd <0f> 0b e9 5e f4 ff ff 48 b8 00 00 00 00 00 fc ff df 4c 89 f2 48 c1
+RSP: 0018:ffff88811305f760 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff88812c652058 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000001
+RBP: ffff88811305f8b0 R08: 0000000000000001 R09: ffffed1075c36341
+R10: ffff8883ae1b1a0b R11: 0000000000010498 R12: 0000000000000000
+R13: 0000000000000000 R14: dffffc0000000000 R15: ffff88812c652058
+FS:  00007f9713ae4980(0000) GS:ffff8883ae180000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcd78483c7c CR3: 0000000122c38000 CR4: 00000000000006f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
-    autoremove_wake_function+0x0/0xbc (unreliable)
-    __blk_mq_sched_dispatch_requests+0x114/0x24c
-    blk_mq_sched_dispatch_requests+0x44/0x84
-    blk_mq_run_hw_queue+0x140/0x220
-    nvme_keep_alive_work+0xc8/0x19c [nvme_core]
-    process_one_work+0x200/0x4e0
-    worker_thread+0x340/0x504
-    kthread+0x138/0x140
-    start_kernel_thread+0x14/0x18
+ <TASK>
+ ? __warn.cold+0x5b/0x1af
+ ? __mutex_lock+0xcf0/0x1220
+ ? report_bug+0x1ec/0x390
+ ? handle_bug+0x3c/0x80
+ ? exc_invalid_op+0x13/0x40
+ ? asm_exc_invalid_op+0x16/0x20
+ ? __mutex_lock+0xcf0/0x1220
+ ? nvme_tcp_get_address+0xc2/0x1e0 [nvme_tcp]
+ ? __pfx___mutex_lock+0x10/0x10
+ ? __lock_acquire+0xd6a/0x59e0
+ ? nvme_tcp_get_address+0xc2/0x1e0 [nvme_tcp]
+ nvme_tcp_get_address+0xc2/0x1e0 [nvme_tcp]
+ ? __pfx_nvme_tcp_get_address+0x10/0x10 [nvme_tcp]
+ nvme_sysfs_show_address+0x81/0xc0 [nvme_core]
+ dev_attr_show+0x42/0x80
+ ? __asan_memset+0x1f/0x40
+ sysfs_kf_seq_show+0x1f0/0x370
+ seq_read_iter+0x2cb/0x1130
+ ? rw_verify_area+0x3b1/0x590
+ ? __mutex_lock+0x433/0x1220
+ vfs_read+0x6a6/0xa20
+ ? lockdep_hardirqs_on+0x78/0x100
+ ? __pfx_vfs_read+0x10/0x10
+ ksys_read+0xf7/0x1d0
+ ? __pfx_ksys_read+0x10/0x10
+ ? __x64_sys_openat+0x105/0x1d0
+ do_syscall_64+0x93/0x180
+ ? lockdep_hardirqs_on_prepare+0x16d/0x400
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on+0x78/0x100
+ ? do_syscall_64+0x9f/0x180
+ ? __pfx_ksys_read+0x10/0x10
+ ? lockdep_hardirqs_on_prepare+0x16d/0x400
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on+0x78/0x100
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on_prepare+0x16d/0x400
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on+0x78/0x100
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on_prepare+0x16d/0x400
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on+0x78/0x100
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on_prepare+0x16d/0x400
+ ? do_syscall_64+0x9f/0x180
+ ? lockdep_hardirqs_on+0x78/0x100
+ ? do_syscall_64+0x9f/0x180
+ ? do_syscall_64+0x9f/0x180
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+RIP: 0033:0x7f9713f55cfa
+Code: 55 48 89 e5 48 83 ec 20 48 89 55 e8 48 89 75 f0 89 7d f8 e8 e8 74 f8 ff 48 8b 55 e8 48 8b 75 f0 41 89 c0 8b 7d f8 31 c0 0f 05 <48> 3d 00 f0 ff ff 77 2e 44 89 c7 48 89 45 f8 e8 42 75 f8 ff 48 8b
+RSP: 002b:00007ffd7f512e70 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 000055c38f316859 RCX: 00007f9713f55cfa
+RDX: 0000000000000fff RSI: 00007ffd7f512eb0 RDI: 0000000000000011
+RBP: 00007ffd7f512e90 R08: 0000000000000000 R09: 00000000ffffffff
+R10: 0000000000000000 R11: 0000000000000246 R12: 000055c38f317148
+R13: 0000000000000000 R14: 00007f96f4004f30 R15: 000055c3b6b623c0
+ </TASK>
 
-While shutting down fabric controller, if nvme keep-alive request sneaks
-in then it would be flushed off. The nvme_keep_alive_end_io function is
-then invoked to handle the end of the keep-alive operation which
-decrements the admin->q_usage_counter and assuming this is the last/only
-request in the admin queue then the admin->q_usage_counter becomes zero.
-If that happens then blk-mq destroy queue operation (blk_mq_destroy_
-queue()) which could be potentially running simultaneously on another
-cpu (as this is the controller shutdown code path) would forward
-progress and deletes the admin queue. So, now from this point onward
-we are not supposed to access the admin queue resources. However the
-issue here's that the nvme keep-alive thread running hw/hctx queue
-dispatch operation hasn't yet finished its work and so it could still
-potentially access the admin queue resource while the admin queue had
-been already deleted and that causes the above crash.
+The WARN is observed when the blktests test case nvme/014 is repeated
+with tcp transport. It is rare, and 200 times repeat is required to
+recreate in some test environments.
 
-This fix helps avoid the observed crash by implementing keep-alive as a
-synchronous operation so that we decrement admin->q_usage_counter only
-after keep-alive command finished its execution and returns the command
-status back up to its caller (blk_execute_rq()). This would ensure that
-fabric shutdown code path doesn't destroy the fabric admin queue until
-keep-alive request finished execution and also keep-alive thread is not
-running hw/hctx queue dispatch operation.
+To avoid the WARN, check the NVME_TCP_Q_LIVE flag before locking
+queue->queue_lock. The flag is cleared long time before the lock gets
+destroyed.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/nvme/host/tcp.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cc2fabe598d85..a00bebdddee8c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1291,10 +1291,9 @@ static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
- 	queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
- }
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index f1d62d74426f0..be04c5f3856d2 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2444,10 +2444,11 @@ static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
  
--static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
--						 blk_status_t status)
-+static void nvme_keep_alive_finish(struct request *rq,
-+		blk_status_t status, struct nvme_ctrl *ctrl)
- {
--	struct nvme_ctrl *ctrl = rq->end_io_data;
- 	unsigned long flags;
- 	bool startka = false;
- 	unsigned long rtt = jiffies - (rq->deadline - rq->timeout);
-@@ -1312,13 +1311,11 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 		delay = 0;
+ 	len = nvmf_get_address(ctrl, buf, size);
+ 
++	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
++		return len;
++
+ 	mutex_lock(&queue->queue_lock);
+ 
+-	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
+-		goto done;
+ 	ret = kernel_getsockname(queue->sock, (struct sockaddr *)&src_addr);
+ 	if (ret > 0) {
+ 		if (len > 0)
+@@ -2455,7 +2456,7 @@ static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+ 		len += scnprintf(buf + len, size - len, "%ssrc_addr=%pISc\n",
+ 				(len) ? "," : "", &src_addr);
  	}
+-done:
++
+ 	mutex_unlock(&queue->queue_lock);
  
--	blk_mq_free_request(rq);
--
- 	if (status) {
- 		dev_err(ctrl->device,
- 			"failed nvme_keep_alive_end_io error=%d\n",
- 				status);
--		return RQ_END_IO_NONE;
-+		return;
- 	}
- 
- 	ctrl->ka_last_check_time = jiffies;
-@@ -1330,7 +1327,6 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (startka)
- 		queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
--	return RQ_END_IO_NONE;
- }
- 
- static void nvme_keep_alive_work(struct work_struct *work)
-@@ -1339,6 +1335,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 			struct nvme_ctrl, ka_work);
- 	bool comp_seen = ctrl->comp_seen;
- 	struct request *rq;
-+	blk_status_t status;
- 
- 	ctrl->ka_last_check_time = jiffies;
- 
-@@ -1361,9 +1358,9 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	nvme_init_request(rq, &ctrl->ka_cmd);
- 
- 	rq->timeout = ctrl->kato * HZ;
--	rq->end_io = nvme_keep_alive_end_io;
--	rq->end_io_data = ctrl;
--	blk_execute_rq_nowait(rq, false);
-+	status = blk_execute_rq(rq, false);
-+	nvme_keep_alive_finish(rq, status, ctrl);
-+	blk_mq_free_request(rq);
- }
- 
- static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	return len;
 -- 
 2.43.0
 
