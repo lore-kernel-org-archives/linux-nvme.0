@@ -4,70 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 758CED0BB4B
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2024 01:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D5DBD0BB4A
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2024 01:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TRRoxQFmi7HvxgkOlMSEyIcHcHjvnRHTYTKLtnENaI4=; b=vuhV03QT9JEJ2szHcNMR3PPhUR
-	Q/c72VUzKMDEyGC5GxmbLAYZJMgg62SZq2rQbvNjjp1CBqYxy9eqk2zOJ1vgSTuZ84x/W5GiGP517
-	dGYxH9hQMED8+XLDVS4S6XrpkNV8TRAQ1FwmDUmRccnk8Xw4oBKWvAlnvpET3ax1viugFwCE68Moe
-	9X1KW4wVPLYXLVV8pZYPTYyXBRHmqtxCase3XT4fSj8WQwdvb3R2JFjTRieRTJeeWiudSHDmKuX/8
-	eRus9N5NBuQ0GJfwnxEtqrbOeCKSh8Y0Pi7Ddayrs2cbmDaEWbviKtNXDQZ1PWg6A+WSPl0whiLIS
-	4G6owDzw==;
+	bh=8DXH4CWUeaiRSiyHNB2ROfD6B4gJPBs0ygaqh3TJaAo=; b=tYxAb2Kd7bXKu5i5UQMQc9ki7p
+	ZpVetDWtGeGeuGcsjPhD9jAcsQeEfSLrwFrSJB6PFi3YHnxgEv3gw8pabUMoz/Q/kWjdR8FfPlKya
+	Qu8GWvOlbePaDOrzA7gWl5GsAHt+uGG+QLOKDWch5l4/uKqMqsh+U7Lk4HKHB3RzI59/BtYuWAkwt
+	bLgvUcItaAUZYb8pXSGrQjkYCUvsRuxNVaQQ+VlJgiLiFJq2uKT1eHU/rmhXuLIvr0gtCUwts9STa
+	CtU5RfQItIhFtG8CAuN6YGZb9De0uOAuRaLnTUYUjvq+lugn6hCaWB8NWMzNXxFjw2YZgafzusnrg
+	/0Biw5qA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3mDr-0000000GMzf-1znc;
-	Thu, 24 Oct 2024 01:01:07 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1t3mmd-0000000GR4z-3TBm;
+	Thu, 24 Oct 2024 01:37:03 +0000
+Received: from omggw0016-vm0.mail.otm.yahoo.co.jp ([182.22.18.249])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t3mDP-0000000GMXt-3VMu
+	id 1t3mjR-0000000GQiR-1Fcx
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Oct 2024 01:00:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1729731639; x=1761267639;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hVzbnP4FiT+1XGzKwAw7lBs70ektQXY73rBvvTJ9vW8=;
-  b=NHO6TYaf6Ue/rU/WI4B3pBvPmrEAJavjJSgD93epF3ZWMnADkpxLlVLA
-   Lmaya4/HYCXHRggYvbZysYkkplXqGCgcn+SLDREQZK7Gy9n728heEMn5K
-   AUX4r8A8fzdhTHKDQCJ4ga+z3E10ETCA42Ymq3XlaaC4uqKsypdBCuGr8
-   c4Q0s7c1DDUYXFihEsKvtcHNUKHaGeJGdE7F7bz3bK0bpOu+51vOGA382
-   SXuGOpRFz5SuYSGsb86JJbGzWwAq0HIQoFXyeO76PWgGifprDvDVNcSoW
-   MRqcVaqvhR5vRXHfE5n9t1cAVYTcvCzsmYRaL0vJQXGdtF7aJD1dPq53y
-   Q==;
-X-CSE-ConnectionGUID: +LX/kv/qRQKeAvAbSXy6aw==
-X-CSE-MsgGUID: HfH1NhkVTda37pXeWJb6Qg==
-X-IronPort-AV: E=Sophos;i="6.11,227,1725292800"; 
-   d="scan'208";a="30211161"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 24 Oct 2024 09:00:38 +0800
-IronPort-SDR: 67198f1e_eA7HQRT4niHEMb75y54af6tpwDvRIPhRTeirGNcnWVGu1kc
- hS9uFX8mY+3bQ8Az0oRX/JRe4D5zW/VMOcsPXfw==
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Oct 2024 17:04:46 -0700
-WDCIronportException: Internal
-Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.66.30])
-  by uls-op-cesaip01.wdc.com with ESMTP; 23 Oct 2024 18:00:38 -0700
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-nvme@lists.infradead.org
-Cc: Hannes Reinecke <hare@suse.de>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests 14/15] common/nvme, nvme/{016,017,052}: improve _create_nvmet_ns()
-Date: Thu, 24 Oct 2024 10:00:24 +0900
-Message-ID: <20241024010025.2216242-15-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241024010025.2216242-1-shinichiro.kawasaki@wdc.com>
-References: <20241024010025.2216242-1-shinichiro.kawasaki@wdc.com>
+	Thu, 24 Oct 2024 01:33:47 +0000
+X-YMail-OSG: ROoMa18VM1mKlGjLtWd.aQredS3.TKfO9VCP42jAHoGxI62uyTyo6WCnrlny3.e
+ sAWdUy6LS_ZkTFQ9gHQQuIidMaduMvyvXKc_e_ze8Ut_dMj8MsxA_Q6zxCLi.7vYWLbd_I4KuPjD
+ lzObXRCzlRQeV817PAQIQ0yiUXTGAg74odASf0g4nH4bzmAI9cK2mgm2WpK2W6Clclv1d7GsNdvt
+ vNFpqvPe2LpyQ4fPPChkGNA5ZQBmP7jQ030OlImbGtExZYCKo5_ocTsMyf_xl4KvZMM0rJwEFnII
+ Y19XNbDqpSI5UdxUgntUk9nErt5S6SlPap_5RgY8QowaZLT_jSMBjjYrz3LrsQ9UCd.aTmtFgKYm
+ o7piNcjZ.xspaJdShWUKmLth8Bws1ubvrn3NlBmuwi0CVBz7BqXa5Kwslypy28H4wvrJH5BMFteI
+ RMJyROk0oIHUuoRtczNMyj2AE1A01Zu5KAf86TE98Z9NVXniCasiqhwGuz8v9oII8mg_8Wr0cIFv
+ YSmv3DVJtaL35yDzda_iDwgpamLdDK_tV3ycU3qgjqUGlRuhc9MiKdLq3ZGpkF6aML.mKisPfuta
+ CBF1NkQ1oGp.yU480acw3FFQ_8SIueq_Cpjl0X5Ewf61uhkOAtvyFtu8FDs382hyf6UajfQpiRn4
+ K_b9ijY3aiv4u3yJfiqAFl_PJJcFcmOx8hMfyMyAJ_UU_PM26W1BFD6.FQ09DIv9URniQe4vSnR4
+ l1PcdchX_46IMDbuX.TgGU4F6TjOErnnORt1DR9T84DiJEVt33exoWlRjSRWOCRcLIwN.xn9Wdxl
+ MgvwUzBgMlFNLwj.mUiPBjgHAyBXAoWF2te_Pr8BLsu7HX78EgrYFPa6H84.KtXNm4SNHXmOewqr
+ YcCuEn_6S64mc5fKJ4h17aYooh2KPdZYtR7aPK16v_vYADDsNt13ddwflbRtb8jYIpNQ36pv.j2M
+ TglKdv_bEKZPCQ5MCppNjP572md8mA2bXDIyNrtuUk3uxzmLwNgbnsibMeeEsI94lWfA89OBOU.j
+ VxL7i4FHeQXT_RvO6B.a1LbCLcyYtvROOggdYBOKbdhtBKr3XP8mccHNwksjCFLoX_EnqsGNaD4V
+ lURKZKPXYndqt2xqms.fHogXVToPBQRI2O3LzMNx4WApveoKB5cn8ZwRzQ3qClMENB.LGIbVT4tl
+ HySpM.n1eYt.4zi0LbMmSaus7VJx8KJ540f73yYKQvUzBvqyd7XzU09ueAiM4WulUUAlS
+Received: from sonicgw.mail.yahoo.co.jp by sonicconh6001.mail.ssk.yahoo.co.jp with HTTP; Thu, 24 Oct 2024 01:33:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729733613;
+	s=yj20110701; d=yahoo.co.jp;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID;
+	bh=8DXH4CWUeaiRSiyHNB2ROfD6B4gJPBs0ygaqh3TJaAo=;
+	b=YPdXPW2G8W8ZT8XAKzknrE/Xcxc5ZfRNvnmsbVzhhnBFffYRKchkeN+beHhLzDSx
+	Kg1TxgBLXRgdwsW8Kw9oBkhjpTtA4CtUmTKy+cM/Xeuw45mmGDjuJzRB3EIfWIHSCun
+	ckWjhkiALuqBSkG6N1p89UHVZe73AccT4yzaoxtY=
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=yj20110701; d=yahoo.co.jp;
+	h=Message-ID:Date:MIME-Version:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	b=E+3TN1Q8DrhB5cVq7AykKhy+qXbRg8TlvQUx9B0bptN4zAJOUmRS5CVFZcFqJuy2
+	L8mSFPu0IhjxSqB0Pc3lVcndOzzPfHUg2nXt8EzqJRPzFdeL9DTgUQpdRkRuXZQov2J
+	u1FH3sGy5caI/zhNQppH17XeREzGnAl/2GEuIDdA=;
+Received: by smtphe6009.mail.ssk.ynwp.yahoo.co.jp (YJ Hermes SMTP Server) with ESMTPA ID bcb02ba28bc029ec29d816d0e1a08156;
+          Thu, 24 Oct 2024 10:33:34 +0900 (JST)
+Message-ID: <47f4825c-9f9a-4fc4-9951-6548783e8149@yahoo.co.jp>
+Date: Thu, 24 Oct 2024 10:33:33 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: module parameter to disable pi checks
+To: David Wei <dw@davidwei.uk>, Keith Busch <kbusch@kernel.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Keith Busch <kbusch@meta.com>, "martin.petersen@oracle.com" <martin.petersen@oracle.com>, "joshi.k@samsung.com" <joshi.k@samsung.com>, "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "hch@lst.de" <hch@lst.de>
+References: <20241023155048.634988-1-kbusch@meta.com>
+ <cb19f610-b6b3-4dde-9d1a-88446dc0615f@nvidia.com>
+ <Zxla500xnmoKVrpB@kbusch-mbp>
+ <3e97f4e9-e657-42f4-aaa0-a7200bedfe03@davidwei.uk>
+Content-Language: en-US
+From: Tokunori Ikegami <ikegami_to@yahoo.co.jp>
+In-Reply-To: <3e97f4e9-e657-42f4-aaa0-a7200bedfe03@davidwei.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241023_180040_203946_0C5B8B1B 
-X-CRM114-Status: GOOD (  13.51  )
+X-CRM114-CacheID: sfid-20241023_183345_681931_4CC5CA28 
+X-CRM114-Status: UNSURE (   9.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,181 +93,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+Seems can be changed as below also.
 
-Add --grpid option to pass ANA group id. If no UUID is passed the kernel
-will generate a UUID, so return the UUID to allow the caller to identify
-the generated namespace. Allow to call _create_nvmet_ns() without
---subsysnqn option by using def_subsysnqn as its default value.
+tokunori@tokunori-desktop:~/linux$ git diff
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5a7f7ce2bc49..59bb656a1d5e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1768,6 +1768,12 @@ static bool nvme_init_integrity(struct 
+nvme_ns_head *head,
+             !(head->features & NVME_NS_METADATA_SUPPORTED))
+                 return nvme_ns_supports_pract(head);
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-[Shin'ichiro: rebased on the commit e3fe06e and resolved conflicts]
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
----
- common/nvme    | 47 ++++++++++++++++++++++++++++++++---------------
- tests/nvme/016 |  5 ++---
- tests/nvme/017 |  5 ++---
- tests/nvme/052 |  8 +++-----
- 4 files changed, 39 insertions(+), 26 deletions(-)
++       bi->tuple_size = head->ms;
++       bi->pi_offset = info->pi_offset;
++
++       if (disable_pi)
++               return true;
++
+         switch (head->pi_type) {
+         case NVME_NS_DPS_PI_TYPE3:
+                 switch (head->guard_type) {
+@@ -1808,8 +1814,6 @@ static bool nvme_init_integrity(struct 
+nvme_ns_head *head,
+                 break;
+         }
 
-diff --git a/common/nvme b/common/nvme
-index 6cdff13..ae37350 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -518,18 +518,19 @@ _remove_nvmet_port() {
- }
- 
- _create_nvmet_ns() {
--	local nvmet_subsystem=""
--	local nsid=""
--	local blkdev=""
--	local uuid="00000000-0000-0000-0000-000000000000"
--	local subsys_path=""
--	local ns_path=""
-+	local subsysnqn="${def_subsysnqn}"
-+	local nsid="1"
-+	local grpid="1"
-+	local blkdev
-+	local uuid
-+	local subsys_path
-+	local ns_path
- 	local resv_enable=false
- 
- 	while [[ $# -gt 0 ]]; do
- 		case $1 in
- 			--subsysnqn)
--				nvmet_subsystem="$2"
-+				subsysnqn="$2"
- 				shift 2
- 				;;
- 			--nsid)
-@@ -548,6 +549,10 @@ _create_nvmet_ns() {
- 				resv_enable=true
- 				shift 1
- 				;;
-+			--grpid)
-+				grpid="$2"
-+				shift 2
-+				;;
- 			*)
- 				echo "WARNING: unknown argument: $1"
- 				shift
-@@ -555,16 +560,23 @@ _create_nvmet_ns() {
- 		esac
- 	done
- 
--	subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-+	subsys_path="${NVMET_CFS}/subsystems/${subsysnqn}"
- 	ns_path="${subsys_path}/namespaces/${nsid}"
--
- 	mkdir "${ns_path}"
- 	printf "%s" "${blkdev}" > "${ns_path}/device_path"
--	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
- 	if [[ -f "${ns_path}/resv_enable" && "${resv_enable}" = true ]] ; then
- 		printf 1 > "${ns_path}/resv_enable"
- 	fi
-+	if [[ -n "${uuid}" ]]; then
-+		printf "%s" "${uuid}" > "${ns_path}/device_uuid"
-+	else
-+		uuid=$(cat "${ns_path}/device_uuid")
-+	fi
-+	if (( grpid != 1 )); then
-+		printf "%d" "${grpid}" > "${ns_path}/ana_grpid"
-+	fi
- 	printf 1 > "${ns_path}/enable"
-+	echo "${uuid}"
- }
- 
- _create_nvmet_subsystem() {
-@@ -573,6 +585,7 @@ _create_nvmet_subsystem() {
- 	local uuid="00000000-0000-0000-0000-000000000000"
- 	local resv_enable=""
- 	local cfs_path=""
-+	local -a ARGS
- 
- 	while [[ $# -gt 0 ]]; do
- 		case $1 in
-@@ -602,11 +615,15 @@ _create_nvmet_subsystem() {
- 	cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
- 	mkdir -p "${cfs_path}"
- 	echo 0 > "${cfs_path}/attr_allow_any_host"
--	_create_nvmet_ns --subsysnqn "${nvmet_subsystem}" \
--			 --nsid "1" \
--			 --blkdev "${blkdev}" \
--			 --uuid "${uuid}" \
--			 ${resv_enable}
-+	ARGS+=(--subsysnqn "${nvmet_subsystem}")
-+	ARGS+=(--blkdev "${blkdev}")
-+	if [[ -n "$uuid" ]]; then
-+		ARGS+=(--uuid "${uuid}")
-+	fi
-+	if [[ -n "$resv_enable" ]]; then
-+		ARGS+=("${resv_enable}")
-+	fi
-+	_create_nvmet_ns "${ARGS[@]}" > /dev/null
- }
- 
- _add_nvmet_allow_hosts() {
-diff --git a/tests/nvme/016 b/tests/nvme/016
-index 4b01c0a..53e3f2e 100755
---- a/tests/nvme/016
-+++ b/tests/nvme/016
-@@ -33,9 +33,8 @@ test() {
- 				--blkdev "${loop_dev}"
- 
- 	for ((i = 2; i <= iterations; i++)); do
--		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
--				 --nsid "${i}" \
--				 --blkdev "${loop_dev}"
-+		_create_nvmet_ns --nsid "${i}" \
-+				 --blkdev "${loop_dev}" > /dev/null
- 	done
- 
- 	port="$(_create_nvmet_port)"
-diff --git a/tests/nvme/017 b/tests/nvme/017
-index 8f57579..d4fca2f 100755
---- a/tests/nvme/017
-+++ b/tests/nvme/017
-@@ -34,9 +34,8 @@ test() {
- 				--uuid "${def_subsys_uuid}"
- 
- 	for ((i = 2; i <= iterations; i++)); do
--		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
--				 --nsid "${i}" \
--				 --blkdev "$(_nvme_def_file_path)"
-+		_create_nvmet_ns --nsid "${i}" \
-+				 --blkdev "$(_nvme_def_file_path)" > /dev/null
- 	done
- 
- 	port="$(_create_nvmet_port)"
-diff --git a/tests/nvme/052 b/tests/nvme/052
-index 1dcda23..5cdabb1 100755
---- a/tests/nvme/052
-+++ b/tests/nvme/052
-@@ -52,6 +52,7 @@ test() {
- 	_setup_nvmet
- 
- 	local iterations=20
-+	local uuid
- 
- 	_nvmet_target_setup
- 
-@@ -62,12 +63,9 @@ test() {
- 	# deleted when nvme target is cleaned up.
- 	for ((i = 2; i <= iterations; i++)); do {
- 		truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).$i"
--		uuid="$(uuidgen -r)"
- 
--		_create_nvmet_ns --subsysnqn "${def_subsysnqn}" \
--				--nsid "${i}" \
--				--blkdev "$(_nvme_def_file_path).$i" \
--				--uuid "${uuid}"
-+		uuid=$(_create_nvmet_ns --blkdev "$(_nvme_def_file_path).$i" \
-+					--nsid "${i}")
- 
- 		# wait until async request is processed and ns is created
- 		if ! nvmf_wait_for_ns "${uuid}" created; then
--- 
-2.45.2
+-       bi->tuple_size = head->ms;
+-       bi->pi_offset = info->pi_offset;
+         return true;
+  }
 
+On 2024/10/24 6:21, David Wei wrote:
+> On 2024-10-23 13:21, Keith Busch wrote:
+>> On Wed, Oct 23, 2024 at 08:01:43PM +0000, Chaitanya Kulkarni wrote:
+>>> @@ -1774,9 +1773,9 @@ static bool nvme_init_integrity(struct
+>>> nvme_ns_head *head,
+>>>                   return nvme_ns_has_pi(head);
+>>>
+>>>           if (disable_pi)
+>>> -               pi_type = 0;
+>>> +               goto out;
+>> I'm not against 'goto' in principle, but I try to restrict it to
+>> unwinding an error, and this isn't an error. I know, personal preference
+>> and all...
+> Agreed. This is more unreadable and a modern compiler will most likely
+> do the right thing anyway.
+>
+>
 
