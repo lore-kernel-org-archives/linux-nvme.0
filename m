@@ -4,124 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDEFCD1039A
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Oct 2024 15:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DE42D149C0
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Oct 2024 16:14:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8WZvTDx7v4/rD0qDDUqXOgr/o9cMvYL1RJfXmMPAIoo=; b=HWznIJRkZUdsH/gnmKJH540Lgg
-	Hwhf5ssxFMU1sOuOfXTV6Bk9F+rM1cIhthbkcCkd/RQAQMOUNi5IBlIewJ0dwHfelqB0KI8Fh8yjz
-	wibLVO1kzf/wFHqMVNtvJFR2Vje3AC4Cdn43jQsUTSMkF6kcetMczgaQItidgwz48OTGAxZq40vLY
-	spbKfUf7NiZBwlpA1ansIFl4ICbklKpNZPVRVcYJ1oYUXgAZnzaxVFw9hXNyTO+PalthItec210M3
-	T+pZ/wupgSRUshAWIweu7dKP4zCHcedTcctB8hJNTLIGTnmVrbbcMAhbL3ea0T+VIeOCW3ceQDju6
-	ipotxZTA==;
+	bh=R5MyqvYjT6t/6UYw2e4q6Ie0iJ1gCk/dDcKleTIYbK4=; b=fyuv2lbXWGGgTrYawXxRKeoo/+
+	oeLSSpBHe+7TPbatmZdRGCg9qk4PozUcZM4n9RI/1sOLp/7eaUZSnb9dKixWTdiIiVnPFKzsKhvlG
+	p2isdxmKgf40eMVtyCglS1t5VVmKlmPIdmVLwtYDU3CUfEAUh7FTpKGZCmh5KawN00aF7g6O1VLtY
+	VegKzdIZ3NT4ZMLFbxXAVu0SfvRaIYn37FZZs0Afd9qzjNEQqz6RJb8K0NUWLPZG4Zwp+Jfno40Fq
+	swxUxa2uQQYsJGOQ/8x+Y4WSgHeidaSi/diWzu4Mhl5QsrKzis5meQjGF7LZNBIJX1RocEjflXz/j
+	M5twM/lQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4Mfk-00000004KbG-3Rr0;
-	Fri, 25 Oct 2024 15:56:20 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1t4MxD-00000004NHN-33Qa;
+	Fri, 25 Oct 2024 16:14:23 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4MfM-00000004KXb-1xhD
+	id 1t4MvJ-00000004Mw0-0mB5
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Oct 2024 15:56:19 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CECB51FB87;
-	Fri, 25 Oct 2024 15:55:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729871755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8WZvTDx7v4/rD0qDDUqXOgr/o9cMvYL1RJfXmMPAIoo=;
-	b=vnYyc7IRp8Qc5sZ85VXRjpAIVtxDmo5PgxeJVmD/akLr7hyZ/Y0SxBxRW3GgwD+43e5JbZ
-	f44Ck/ArseX3yMbuohqfbb+D1dSJPBjGpqkgoeVMaeezwumDuorsfn31qE4rKystNUAa24
-	imO1oDy2m8nypb9GI7+PG+M/Hkv0cXU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729871755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8WZvTDx7v4/rD0qDDUqXOgr/o9cMvYL1RJfXmMPAIoo=;
-	b=227gvN94S2RGihVcTIgbbxac9IqPrxjmYkIUsseOSNomKqu7O4lTm1B1qG5IOAVT2OXh8/
-	Le8owXxAG3HvxsDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ziq+NUa7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bWpVUXEX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729871754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8WZvTDx7v4/rD0qDDUqXOgr/o9cMvYL1RJfXmMPAIoo=;
-	b=ziq+NUa74kVUj70tYI+tiAOXNceO/jL5ThW7hFkDpwbNQV/QXdIpVnROidPFqB4axL5maq
-	y6Ke2CemLPIXAJ2bobyTxSYTB781R5xpUhyT8Jpv9JSo2jZTbkDmZyv0wrTDWv9uQhG6Ae
-	pHaBq9+zc6eiWzSHokjz3fBxe0pwVmk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729871754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8WZvTDx7v4/rD0qDDUqXOgr/o9cMvYL1RJfXmMPAIoo=;
-	b=bWpVUXEX90spnIEgVFi1P8XeqKXYNGrkyt9LEBLS+Uvu6tnw2Mg6E1GTG33dFIa2h7ix4D
-	G+7T785g8nRcFaDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B1D78132D3;
-	Fri, 25 Oct 2024 15:55:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Kg7vKIq/G2fodgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 25 Oct 2024 15:55:54 +0000
-Date: Fri, 25 Oct 2024 17:55:53 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests 15/15] nvme, md/001: support only long options
- for _create_nvmet_subsystem()
-Message-ID: <5bc766ae-a659-4d3d-85fa-5ce7843c0d2c@flourine.local>
-References: <20241024010025.2216242-1-shinichiro.kawasaki@wdc.com>
- <20241024010025.2216242-16-shinichiro.kawasaki@wdc.com>
+	Fri, 25 Oct 2024 16:12:26 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 5FD655C5CB9;
+	Fri, 25 Oct 2024 16:11:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8C5C4CEC3;
+	Fri, 25 Oct 2024 16:12:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729872744;
+	bh=MbYu/8B6N5thTChedfbAC/pUmjngI2T0nNWhkoENNLs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=asN56JR+FfzlsRyeT6tL4SS8+KS4tVoKiGnLM+K5BvmO77+/aTNcMaiT60miDak4t
+	 bx8AOqshbszSdRVXahXQILtBLdj7qArL7iUDOpOnuCXqYaNoaKFtkgQ3SBmvGOd9/E
+	 VqBcogseFDol1SbqsdFxgDQSFStRdlaZ2VLFaQw6+F1UhccivAtCeQ9sqaFzGV2Lx7
+	 WeQRun543ZOkUbhkFDTgULpHO/pGwOKPsK20uJeHKZ0/MWBhl/tBewSEt+aCmPtqxx
+	 QpE7O8t4NXf92dgYM4FkwUYlbxLm4HL9/UiEtyyK+yFI+JpJUCdGBXzgxFEO5d32kY
+	 eVRDRh0+8X9Lg==
+Date: Fri, 25 Oct 2024 10:12:21 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH] nvme-pci: Force NVME_QUIRK_SIMPLE_SUSPEND on Qualcomm
+ hosts
+Message-ID: <ZxvDZVKtM9qGYBP_@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241024-topic-nvmequirk-v1-1-51249999d409@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241024010025.2216242-16-shinichiro.kawasaki@wdc.com>
-X-Rspamd-Queue-Id: CECB51FB87
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <20241024-topic-nvmequirk-v1-1-51249999d409@oss.qualcomm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241025_085556_685208_45C95F08 
-X-CRM114-Status: UNSURE (   8.12  )
+X-CRM114-CacheID: sfid-20241025_091225_520137_19615A62 
+X-CRM114-Status: UNSURE (   9.88  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -137,15 +77,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 24, 2024 at 10:00:25AM GMT, Shin'ichiro Kawasaki wrote:
-> From: Hannes Reinecke <hare@suse.de>
+On Thu, Oct 24, 2024 at 07:33:07PM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > 
-> Most callers use the default settings anyway, so simplify them
-> by using long options for _create_nvmet_subsystem().
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> [Shin'ichiro: rebased on the commit e3fe06e and resolved conflicts]
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> The Qualcomm SC8280XP SoC requires that all PCIe hosts are powered down
+> before the platform can reach S3-like sleep states. This is very much
+> similar in nature to the issue described in [1].
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+The "SIMPLE" quirk is only supposed to affect kernel managed runtime
+suspend states, s2idle or s0ix. Shouldn't s3 already be using the simple
+suspend?
 
