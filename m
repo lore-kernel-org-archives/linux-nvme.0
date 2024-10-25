@@ -4,92 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47772D0C61D
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Oct 2024 14:47:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDF72D0C61F
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Oct 2024 15:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/D2GsFgz0TkqsDU7uFpbMB/wnPEzuLLkfZ55LUWxXF0=; b=obHE7bP+pb3P+n0PvqGzbaJpZ0
-	UJSxGi5GfJL6OkHeN9A2qtCukoDNLW5b3QH3/1gKlbAaR5mkPadLfmcgcwm+k+pkoCzR6lcvy9JVY
-	bpNmoF8hSj+4XRe3Pw6od4nUvJydq/ex28GHmg68LrMKlfXjbApX+NckLHNNjDcHg47nfQHjSfd8K
-	Iaa8cViBDzhJaIMp612bX1ER+ASnu7bbdskyyHF7EviWbw0B26coObYMONJQFcftr1rSsd7YnNt5t
-	WD0eYYdR3SM5sbRlLnm1jg1Pfr+hhJRnbgTnPPQEaEya33rDWxet/53Ct/4hEEWCNmNzT1CFOl9kn
-	C/aPXmFA==;
+	bh=KQic03WAciGo48jyxgjtrEj23aLfVegD8khLSAAfjSM=; b=Z+aXEBiG/Xo2xKZ63QcvouZY8C
+	hmVRvwoxk5Ok+m3e2opHH9S54CBF8d5o4/W2Sk0TOQfjW7XoaFN4d8uHjgNtOqb/QYH7TLQvu4MtQ
+	WCKoazG4Z+JBTC1/uHEY3QyaSSroCNsuMrFkG+4TXMpZZPTc4U6VcgTpeGAdeBs4WMesKhFkIkx0o
+	niNxp83qjPLcH7O17ZpTpGvVZzL9zPNAi8pApEnxFEktrajbpFWIn8QR+bvBH9tx6mSWXYdP0H3+a
+	azkXEONqRYn/CRpEZiuUXNNR7/IAwDsyjg31p8nFWvNWZWYFvnMSueLQZPH8s9Rttbkrl5xInXuok
+	PDOJoYag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4Lah-000000044kB-3HlH;
-	Fri, 25 Oct 2024 14:47:03 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1t4Lx6-00000004A3U-3Obr;
+	Fri, 25 Oct 2024 15:10:12 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4LXm-000000043qh-2fAj
+	id 1t4Lbb-0000000451T-0JX9
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Oct 2024 14:44:06 +0000
+	Fri, 25 Oct 2024 14:48:03 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 281EA21D23;
-	Fri, 25 Oct 2024 14:44:01 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0D6421F7F8;
+	Fri, 25 Oct 2024 14:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729867441; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1729867677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/D2GsFgz0TkqsDU7uFpbMB/wnPEzuLLkfZ55LUWxXF0=;
-	b=IQch38OmIhOcDazmv5nAENlZAlitFoj5xcq0INtFWZR9Fgux8lW/QbBWl3ac+q91InvP1Q
-	jljHCTF4js302IFu4UXCrTBo6XF0lACV9rX6iR4q3AqTJgLWsAJhE+wdSL9XRSYlYacO6q
-	huGZ6v4V0oo1OnAjl0ZlT2CAei9Xu7M=
+	bh=KQic03WAciGo48jyxgjtrEj23aLfVegD8khLSAAfjSM=;
+	b=wDZF/gZ5/HPz73szN4mxj1FKzARvCjIGThvfXYkL5fAkTLetqEL6JHKA0fVAr81bcpMHIc
+	VytvyPsWhWTiA8MTXJ8G0qtZyxjQ7Yn/9EwI0SPbFiWWrOyV84gHlLC1eLV5YAnZNu1+1D
+	cyCgw5blC9d73RqrCGLPiQbJP4nEa68=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729867441;
+	s=susede2_ed25519; t=1729867677;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/D2GsFgz0TkqsDU7uFpbMB/wnPEzuLLkfZ55LUWxXF0=;
-	b=WW9Z6bcMgIFxg3glZ+9wOa07jsnSxd4It5LIlwn9D4C1ksbaxqyKiZG1LtosFhHlTMAC36
-	nw+caomm99AbitBg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=KQic03WAciGo48jyxgjtrEj23aLfVegD8khLSAAfjSM=;
+	b=o4O8Ym7WRjgLsdkOCo25s7iFLyfA2zKka3aUk5XG923PsnEwsPtosBQwotCZUGAXUJtJNl
+	h+VCrb/vFilhmjBA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729867441; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1729867677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/D2GsFgz0TkqsDU7uFpbMB/wnPEzuLLkfZ55LUWxXF0=;
-	b=IQch38OmIhOcDazmv5nAENlZAlitFoj5xcq0INtFWZR9Fgux8lW/QbBWl3ac+q91InvP1Q
-	jljHCTF4js302IFu4UXCrTBo6XF0lACV9rX6iR4q3AqTJgLWsAJhE+wdSL9XRSYlYacO6q
-	huGZ6v4V0oo1OnAjl0ZlT2CAei9Xu7M=
+	bh=KQic03WAciGo48jyxgjtrEj23aLfVegD8khLSAAfjSM=;
+	b=wDZF/gZ5/HPz73szN4mxj1FKzARvCjIGThvfXYkL5fAkTLetqEL6JHKA0fVAr81bcpMHIc
+	VytvyPsWhWTiA8MTXJ8G0qtZyxjQ7Yn/9EwI0SPbFiWWrOyV84gHlLC1eLV5YAnZNu1+1D
+	cyCgw5blC9d73RqrCGLPiQbJP4nEa68=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729867441;
+	s=susede2_ed25519; t=1729867677;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/D2GsFgz0TkqsDU7uFpbMB/wnPEzuLLkfZ55LUWxXF0=;
-	b=WW9Z6bcMgIFxg3glZ+9wOa07jsnSxd4It5LIlwn9D4C1ksbaxqyKiZG1LtosFhHlTMAC36
-	nw+caomm99AbitBg==
+	bh=KQic03WAciGo48jyxgjtrEj23aLfVegD8khLSAAfjSM=;
+	b=o4O8Ym7WRjgLsdkOCo25s7iFLyfA2zKka3aUk5XG923PsnEwsPtosBQwotCZUGAXUJtJNl
+	h+VCrb/vFilhmjBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04E53136F5;
-	Fri, 25 Oct 2024 14:44:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8794136F5;
+	Fri, 25 Oct 2024 14:47:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SYBkOrCuG2frYAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 25 Oct 2024 14:44:00 +0000
-Date: Fri, 25 Oct 2024 16:44:00 +0200
+	id nFhfNpyvG2cyYgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 25 Oct 2024 14:47:56 +0000
+Date: Fri, 25 Oct 2024 16:47:56 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests 04/15] nvme: introduce wwnn/wwpn helper functions
-Message-ID: <51d4d585-3276-4621-9df1-e5b4342bc874@flourine.local>
+Subject: Re: [PATCH blktests 10/15] nvme: pass in port parameter to
+ _nvme_connect_subsys()
+Message-ID: <76a76173-b35d-4d04-9014-2a9f90a11bbc@flourine.local>
 References: <20241024010025.2216242-1-shinichiro.kawasaki@wdc.com>
- <20241024010025.2216242-5-shinichiro.kawasaki@wdc.com>
- <f151f9dc-730d-4e69-ae3f-8884a1bf4de5@flourine.local>
+ <20241024010025.2216242-11-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f151f9dc-730d-4e69-ae3f-8884a1bf4de5@flourine.local>
+In-Reply-To: <20241024010025.2216242-11-shinichiro.kawasaki@wdc.com>
 X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -108,11 +108,10 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,wdc.com:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241025_074402_844469_6273E099 
-X-CRM114-Status: UNSURE (   9.07  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241025_074759_343895_F5D31C5F 
+X-CRM114-Status: GOOD (  10.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,11 +126,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 25, 2024 at 04:22:14PM GMT, Daniel Wagner wrote
-> > +			echo only one port is supported at this moment...
+On Thu, Oct 24, 2024 at 10:00:20AM GMT, Shin'ichiro Kawasaki wrote:
+> From: Hannes Reinecke <hare@suse.de>
 > 
-> Maybe prefix the error message with 'FAIL', so that it pops up in the
-> logs a bit more.
+> A subsystem might have more than one port, and that port might be
+> configured differently from the default settings. So rather than
+> to rely on the default settings we should extract the parameters
+> from the passed in ports on that subsystem and issue 'nvme connect'
+> with the extracted parameters.
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> [Shin'ichiro: fixed conflicts for fc transport]
+> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
-Ah I see later this gets address later in the series. So forget my comment.
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
