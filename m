@@ -4,44 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F10DD1356C
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88931D1356D
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NI4+esa6fCVcBQC++yJUbQGT81QwVH0x4mwOIGIz0fE=; b=XVR66uSLmmhGVSgyeTs+KtezYJ
-	y4ZjGuObuI/AUbPH6aR8Fjy2w/iBg/IGJ7E/N+FotwocKHtniJBFl603HbvrITIxxCNSCkgkrjWKV
-	wgj3TC3ed45OPTlNij9BljKixTlUg2QEKc9z+1WCZt3Bqu4k8v8EgC8TNtsYGJp9BoERcDlDvIhYV
-	Vo8DSkrbkpg62kp6hwh38GWRpletM6WoJuAViC4MK9slVdtjbSTPKDGVkXYhDekwlQMZFiCdjK2Dd
-	x5Dfa7x0HhSdLHXqhvF3dCDjl7hBBidyx6fNmNNyDGZJZUPUOomWHzjq/HPR40ZFLkciV2oEUA94n
-	SiqfHbPQ==;
+	bh=DwhhRHXOs/NzUCpd1QbXTeegPlkywkyQe+nKJxEfOkU=; b=WvzyDB2epT+PxoslMd1BfrmasB
+	U8/IiNOh00bQPi8oTFY1CBmFpOF/c0hGCvI+L3uNrY4PROovVZQfIV8P35Ryb5bjnUgBoR6qKOsQ+
+	jLpZ6Nye/zEtGV+tDrirlLZh70frl2OxOoixiu2zpWK5t8Fq8ku0eSKZOyGiOjVKbQ0xa9dReURsy
+	FoEYchQd8jzDyA+yVkoYjhU7H32FCtpzRdYwpznKSS2tLHkN8JXVNhWqLv0FGryjNpBIxsBzCHVOm
+	ltQ8S1NIMpVz4rl+46g6D5CLzUkQYvE2rmH9WOawKwQH+OB7q/cxZ6p8mxbI0rT3j+Q/+oDoXOH1s
+	QCc2brOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t55Da-00000008TPm-1rMQ;
-	Sun, 27 Oct 2024 15:30:14 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1t55Dk-00000008TWz-2JgQ;
+	Sun, 27 Oct 2024 15:30:24 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t549t-00000008KPT-2Y40
+	id 1t54Av-00000008LGg-0aVj
+	for linux-nvme@bombadil.infradead.org;
+	Sun, 27 Oct 2024 14:23:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=DwhhRHXOs/NzUCpd1QbXTeegPlkywkyQe+nKJxEfOkU=; b=TNgND3d5ezIUj+cs0HGCbPJP09
+	+pENHfotQ/CDczDqvT/Qp/aqaQr4gW05HB//d3FhxtFBanIAE/EI7B9RNe6LDfEn79XY+Ypke/+Bj
+	oNgv57hs/aK461+Mcqmy5ahgh7AaC/QS4MLIWj5SUnXx/Zm26qt89EMQ2TWVWqrqcU6Y4gK4iWd6g
+	5OeswMj3I5FcgMBWt1wVDelsq2zbwvhbLkkNy3obGni58FPbAvFGzDKQ3RwAFNA4wHMVGy1d3iY3z
+	DRVmL1dSU5qBOTANU2k1+zvzSzewt3le9+hRzBGR8hUJ2SDlrEo1Sbl9s1tgfTAccC4ayk6rQ/6Ev
+	2jc2KXdw==;
+Received: from dfw.source.kernel.org ([139.178.84.217])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1t54Ap-00000009Qdq-3j2B
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Oct 2024 14:22:36 +0000
+	Sun, 27 Oct 2024 14:23:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id CB3EE5C581F;
-	Sun, 27 Oct 2024 14:21:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA8CCC4CEC3;
-	Sun, 27 Oct 2024 14:22:19 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3B6F35C5833;
+	Sun, 27 Oct 2024 14:22:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38793C4CEC3;
+	Sun, 27 Oct 2024 14:23:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730038940;
-	bh=ufIIJTJY/y6wCplhr9nPwK7JHAPS3UUfFuT2KoVZ//k=;
+	s=k20201202; t=1730038997;
+	bh=ZAkEvCDpOQpT4FqrkcEPmIofeDg0rb/b5+lEupSm25s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fOZHmxpcqkJmbQaKEC3Db5mURkJ2CSvGR9y1sM4c09/cyDn55R5+9tsnoPQFpeVdr
-	 utXoa2pz7BSlRuVZpoWyCjic+ZRKWtFbLpgtJcSrJwXkeE6RQN4Dq8z0TNJ2tR4bXZ
-	 olsZZFmhb0d+vSDqfiwmtGPh9eemWUC/gsW7Q0yvexTvDwXaWXi1bf7zHmp6DlEpLo
-	 ppmd90uVvoo80+kdtFqhayrKQNKFPA6RE5ZgjNkH304e4R4u9aqBcX/cVFm86/+x4W
-	 eyQh/jxd2rXoIM9BqLAwdaEprIotSvpUOPSOwvMP7auswWVbeMwV/TI9CNnjIh6/Tq
-	 T8YCpqBScneNw==
+	b=GU2WiE85QkyrGZabT77HMzH4RzcXBtUoK7DX8razab6E7GlTeZ2LQTeNI7ZRCEXcF
+	 +9yMHm9zDo08nuNcPNZNSsuaYkBUL9ipGLwLInfLmk0HejWEa8WPu1R8UqdKOsPV74
+	 Z5wpY7UYyju99OwvD8w7GPbHNbCOK/zLgPk0s2GMr97M3wN8lKofvcDQjgjNlAIopH
+	 eIYUU6O634Ehr1WlX/W3GKJbeoFI2GpQCheDt+O+VjGAz5sar3RgcEymVxHQmnOdc4
+	 uO+VYU+gZUk1F3VsP3juUi2vi+UCZ40ddUDVpK0TRukr1wrJIDD2IoyIOcFlFa0aTT
+	 I1l2OPb8MTV4g==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -50,8 +65,7 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Will Deacon <will@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
+Cc: Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -71,17 +85,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 13/18] RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page linkage
-Date: Sun, 27 Oct 2024 16:21:13 +0200
-Message-ID: <5b825e07dd9b61d3d543664e3c833ed1aaa12eae.1730037276.git.leon@kernel.org>
+Subject: [RFC PATCH 3/7] blk-mq: add a dma mapping iterator
+Date: Sun, 27 Oct 2024 16:21:56 +0200
+Message-ID: <9b7c6203fbbae90821f2220dba1bd600e3bd23ba.1730037261.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <cover.1730037276.git.leon@kernel.org>
-References: <cover.1730037276.git.leon@kernel.org>
+In-Reply-To: <cover.1730037261.git.leon@kernel.org>
+References: <cover.1730037261.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241027_072222_048378_B7B1A921 
-X-CRM114-Status: GOOD (  28.74  )
+X-CRM114-CacheID: sfid-20241027_142320_331365_EA187C6C 
+X-CRM114-Status: GOOD (  27.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,394 +110,246 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+From: Christoph Hellwig <hch@lst.de>
 
-Reuse newly added DMA API to cache IOVA and only link/unlink pages
-in fast path for UMEM ODP flow.
+blk_rq_map_sg is maze of nested loops.  Untangle it by creating an
+iterator that returns [paddr,len] tuples for DMA mapping, and then
+implement the DMA logic on top of this.  This not only removes code
+at the source level, but also generates nicer binary code:
 
+$ size block/blk-merge.o.*
+   text	   data	    bss	    dec	    hex	filename
+  10001	    432	      0	  10433	   28c1	block/blk-merge.o.new
+  10317	    468	      0	  10785	   2a21	block/blk-merge.o.old
+
+Last but not least it will be used as a building block for a new
+DMA mapping helper that doesn't rely on struct scatterlist.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/infiniband/core/umem_odp.c   | 101 ++++++---------------------
- drivers/infiniband/hw/mlx5/mlx5_ib.h |  11 +--
- drivers/infiniband/hw/mlx5/odp.c     |  40 +++++++----
- drivers/infiniband/hw/mlx5/umr.c     |  12 +++-
- include/rdma/ib_umem_odp.h           |  13 +---
- 5 files changed, 69 insertions(+), 108 deletions(-)
+ block/blk-merge.c | 182 ++++++++++++++++++++--------------------------
+ 1 file changed, 77 insertions(+), 105 deletions(-)
 
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 9dba369365af..30cd8f353476 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -41,6 +41,7 @@
- #include <linux/hugetlb.h>
- #include <linux/interval_tree.h>
- #include <linux/hmm.h>
-+#include <linux/hmm-dma.h>
- #include <linux/pagemap.h>
- 
- #include <rdma/ib_umem_odp.h>
-@@ -50,6 +51,7 @@
- static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
- 				   const struct mmu_interval_notifier_ops *ops)
- {
-+	struct ib_device *dev = umem_odp->umem.ibdev;
- 	int ret;
- 
- 	umem_odp->umem.is_odp = 1;
-@@ -59,7 +61,6 @@ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
- 		size_t page_size = 1UL << umem_odp->page_shift;
- 		unsigned long start;
- 		unsigned long end;
--		size_t ndmas, npfns;
- 
- 		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
- 		if (check_add_overflow(umem_odp->umem.address,
-@@ -70,36 +71,23 @@ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
- 		if (unlikely(end < page_size))
- 			return -EOVERFLOW;
- 
--		ndmas = (end - start) >> umem_odp->page_shift;
--		if (!ndmas)
--			return -EINVAL;
--
--		npfns = (end - start) >> PAGE_SHIFT;
--		umem_odp->pfn_list = kvcalloc(
--			npfns, sizeof(*umem_odp->pfn_list), GFP_KERNEL);
--		if (!umem_odp->pfn_list)
--			return -ENOMEM;
--
--		umem_odp->dma_list = kvcalloc(
--			ndmas, sizeof(*umem_odp->dma_list), GFP_KERNEL);
--		if (!umem_odp->dma_list) {
--			ret = -ENOMEM;
--			goto out_pfn_list;
--		}
-+		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
-+					(end - start) >> PAGE_SHIFT,
-+					1 << umem_odp->page_shift);
-+		if (ret)
-+			return ret;
- 
- 		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
- 						   umem_odp->umem.owning_mm,
- 						   start, end - start, ops);
- 		if (ret)
--			goto out_dma_list;
-+			goto out_free_map;
- 	}
- 
- 	return 0;
- 
--out_dma_list:
--	kvfree(umem_odp->dma_list);
--out_pfn_list:
--	kvfree(umem_odp->pfn_list);
-+out_free_map:
-+	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
- 	return ret;
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index ad763ec313b6..b63fd754a5de 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -451,137 +451,109 @@ unsigned int blk_recalc_rq_segments(struct request *rq)
+ 	return nr_phys_segs;
  }
  
-@@ -262,6 +250,8 @@ EXPORT_SYMBOL(ib_umem_odp_get);
- 
- void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
- {
-+	struct ib_device *dev = umem_odp->umem.ibdev;
+-static inline struct scatterlist *blk_next_sg(struct scatterlist **sg,
+-		struct scatterlist *sglist)
++struct phys_vec {
++	phys_addr_t	paddr;
++	u32		len;
++};
 +
- 	/*
- 	 * Ensure that no more pages are mapped in the umem.
- 	 *
-@@ -274,48 +264,17 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
- 					    ib_umem_end(umem_odp));
- 		mutex_unlock(&umem_odp->umem_mutex);
- 		mmu_interval_notifier_remove(&umem_odp->notifier);
--		kvfree(umem_odp->dma_list);
--		kvfree(umem_odp->pfn_list);
-+		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
- 	}
- 	put_pid(umem_odp->tgid);
- 	kfree(umem_odp);
- }
- EXPORT_SYMBOL(ib_umem_odp_release);
++static bool blk_map_iter_next(struct request *req,
++		struct req_iterator *iter, struct phys_vec *vec)
+ {
+-	if (!*sg)
+-		return sglist;
++	unsigned int max_size;
++	struct bio_vec bv;
  
--/*
-- * Map for DMA and insert a single page into the on-demand paging page tables.
-- *
-- * @umem: the umem to insert the page to.
-- * @dma_index: index in the umem to add the dma to.
-- * @page: the page struct to map and add.
-- * @access_mask: access permissions needed for this page.
-- *
-- * The function returns -EFAULT if the DMA mapping operation fails.
-- *
-- */
--static int ib_umem_odp_map_dma_single_page(
--		struct ib_umem_odp *umem_odp,
--		unsigned int dma_index,
--		struct page *page)
+ 	/*
+-	 * If the driver previously mapped a shorter list, we could see a
+-	 * termination bit prematurely unless it fully inits the sg table
+-	 * on each mapping. We KNOW that there must be more entries here
+-	 * or the driver would be buggy, so force clear the termination bit
+-	 * to avoid doing a full sg_init_table() in drivers for each command.
++	 * For special payload requests there only is a single segment.  Return
++	 * it now and make sure blk_phys_iter_next stop iterating.
+ 	 */
+-	sg_unmark_end(*sg);
+-	return sg_next(*sg);
+-}
++	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
++		if (!iter->bio)
++			return false;
++		vec->paddr = bvec_phys(&req->special_vec);
++		vec->len = req->special_vec.bv_len;
++		iter->bio = NULL;
++		return true;
++	}
+ 
+-static unsigned blk_bvec_map_sg(struct request_queue *q,
+-		struct bio_vec *bvec, struct scatterlist *sglist,
+-		struct scatterlist **sg)
 -{
--	struct ib_device *dev = umem_odp->umem.ibdev;
--	dma_addr_t *dma_addr = &umem_odp->dma_list[dma_index];
+-	unsigned nbytes = bvec->bv_len;
+-	unsigned nsegs = 0, total = 0;
++	if (!iter->iter.bi_size)
++		return false;
+ 
+-	while (nbytes > 0) {
+-		unsigned offset = bvec->bv_offset + total;
+-		unsigned len = get_max_segment_size(&q->limits,
+-				bvec_phys(bvec) + total, nbytes);
+-		struct page *page = bvec->bv_page;
++	bv = mp_bvec_iter_bvec(iter->bio->bi_io_vec, iter->iter);
++	vec->paddr = bvec_phys(&bv);
++	max_size = get_max_segment_size(&req->q->limits, vec->paddr, UINT_MAX);
++	bv.bv_len = min(bv.bv_len, max_size);
++	bio_advance_iter_single(iter->bio, &iter->iter, bv.bv_len);
+ 
+-		/*
+-		 * Unfortunately a fair number of drivers barf on scatterlists
+-		 * that have an offset larger than PAGE_SIZE, despite other
+-		 * subsystems dealing with that invariant just fine.  For now
+-		 * stick to the legacy format where we never present those from
+-		 * the block layer, but the code below should be removed once
+-		 * these offenders (mostly MMC/SD drivers) are fixed.
+-		 */
+-		page += (offset >> PAGE_SHIFT);
+-		offset &= ~PAGE_MASK;
++	/*
++	 * If we are entirely done with this bi_io_vec entry, check if the next
++	 * one could be merged into it.  This typically happens when moving to
++	 * the next bio, but some callers also don't pack bvecs tight.
++	 */
++	while (!iter->iter.bi_size || !iter->iter.bi_bvec_done) {
++		struct bio_vec next;
++
++		if (!iter->iter.bi_size) {
++			if (!iter->bio->bi_next)
++				break;
++			iter->bio = iter->bio->bi_next;
++			iter->iter = iter->bio->bi_iter;
++		}
+ 
+-		*sg = blk_next_sg(sg, sglist);
+-		sg_set_page(*sg, page, len, offset);
++		next = mp_bvec_iter_bvec(iter->bio->bi_io_vec, iter->iter);
++		if (bv.bv_len + next.bv_len > max_size ||
++		    !biovec_phys_mergeable(req->q, &bv, &next))
++			break;
+ 
+-		total += len;
+-		nbytes -= len;
+-		nsegs++;
++		bv.bv_len += next.bv_len;
++		bio_advance_iter_single(iter->bio, &iter->iter, next.bv_len);
+ 	}
+ 
+-	return nsegs;
++	vec->len = bv.bv_len;
++	return true;
+ }
+ 
+-static inline int __blk_bvec_map_sg(struct bio_vec bv,
+-		struct scatterlist *sglist, struct scatterlist **sg)
+-{
+-	*sg = blk_next_sg(sg, sglist);
+-	sg_set_page(*sg, bv.bv_page, bv.bv_len, bv.bv_offset);
+-	return 1;
+-}
++#define blk_phys_to_page(_paddr) \
++	(pfn_to_page(__phys_to_pfn(_paddr)))
+ 
+-/* only try to merge bvecs into one sg if they are from two bios */
+-static inline bool
+-__blk_segment_map_sg_merge(struct request_queue *q, struct bio_vec *bvec,
+-			   struct bio_vec *bvprv, struct scatterlist **sg)
++static inline struct scatterlist *blk_next_sg(struct scatterlist **sg,
++		struct scatterlist *sglist)
+ {
 -
--	*dma_addr = ib_dma_map_page(dev, page, 0, 1 << umem_odp->page_shift,
--				    DMA_BIDIRECTIONAL);
--	if (ib_dma_mapping_error(dev, *dma_addr)) {
--		*dma_addr = 0;
--		return -EFAULT;
--	}
--	umem_odp->npages++;
--	return 0;
+-	int nbytes = bvec->bv_len;
+-
+ 	if (!*sg)
+-		return false;
+-
+-	if ((*sg)->length + nbytes > queue_max_segment_size(q))
+-		return false;
+-
+-	if (!biovec_phys_mergeable(q, bvprv, bvec))
+-		return false;
+-
+-	(*sg)->length += nbytes;
+-
+-	return true;
 -}
 -
- /**
-  * ib_umem_odp_map_dma_and_lock - DMA map userspace memory in an ODP MR and lock it.
-  *
-  * Maps the range passed in the argument to DMA addresses.
-- * The DMA addresses of the mapped pages is updated in umem_odp->dma_list.
-  * Upon success the ODP MR will be locked to let caller complete its device
-  * page table update.
-  *
-@@ -372,7 +331,7 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
- 			range.default_flags |= HMM_PFN_REQ_WRITE;
- 	}
- 
--	range.hmm_pfns = &(umem_odp->pfn_list[pfn_start_idx]);
-+	range.hmm_pfns = &(umem_odp->map.pfn_list[pfn_start_idx]);
- 	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
- 
- retry:
-@@ -423,15 +382,6 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
- 				  __func__, hmm_order, page_shift);
- 			break;
- 		}
+-static int __blk_bios_map_sg(struct request_queue *q, struct bio *bio,
+-			     struct scatterlist *sglist,
+-			     struct scatterlist **sg)
+-{
+-	struct bio_vec bvec, bvprv = { NULL };
+-	struct bvec_iter iter;
+-	int nsegs = 0;
+-	bool new_bio = false;
 -
--		ret = ib_umem_odp_map_dma_single_page(
--				umem_odp, dma_index, hmm_pfn_to_page(range.hmm_pfns[pfn_index]));
--		if (ret < 0) {
--			ibdev_dbg(umem_odp->umem.ibdev,
--				  "ib_umem_odp_map_dma_single_page failed with error %d\n", ret);
--			break;
+-	for_each_bio(bio) {
+-		bio_for_each_bvec(bvec, bio, iter) {
+-			/*
+-			 * Only try to merge bvecs from two bios given we
+-			 * have done bio internal merge when adding pages
+-			 * to bio
+-			 */
+-			if (new_bio &&
+-			    __blk_segment_map_sg_merge(q, &bvec, &bvprv, sg))
+-				goto next_bvec;
+-
+-			if (bvec.bv_offset + bvec.bv_len <= PAGE_SIZE)
+-				nsegs += __blk_bvec_map_sg(bvec, sglist, sg);
+-			else
+-				nsegs += blk_bvec_map_sg(q, &bvec, sglist, sg);
+- next_bvec:
+-			new_bio = false;
 -		}
--		range.hmm_pfns[pfn_index] |= HMM_PFN_DMA_MAPPED;
- 	}
- 	/* upon success lock should stay on hold for the callee */
- 	if (!ret)
-@@ -451,30 +401,23 @@ EXPORT_SYMBOL(ib_umem_odp_map_dma_and_lock);
- void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
- 				 u64 bound)
- {
--	dma_addr_t dma;
--	int idx;
--	u64 addr;
- 	struct ib_device *dev = umem_odp->umem.ibdev;
-+	u64 addr;
+-		if (likely(bio->bi_iter.bi_size)) {
+-			bvprv = bvec;
+-			new_bio = true;
+-		}
+-	}
++		return sglist;
  
- 	lockdep_assert_held(&umem_odp->umem_mutex);
- 
- 	virt = max_t(u64, virt, ib_umem_start(umem_odp));
- 	bound = min_t(u64, bound, ib_umem_end(umem_odp));
- 	for (addr = virt; addr < bound; addr += BIT(umem_odp->page_shift)) {
--		unsigned long pfn_idx = (addr - ib_umem_start(umem_odp)) >> PAGE_SHIFT;
--		struct page *page = hmm_pfn_to_page(umem_odp->pfn_list[pfn_idx]);
--
--		idx = (addr - ib_umem_start(umem_odp)) >> umem_odp->page_shift;
--		dma = umem_odp->dma_list[idx];
-+		u64 offset = addr - ib_umem_start(umem_odp);
-+		size_t idx = offset >> umem_odp->page_shift;
-+		unsigned long pfn = umem_odp->map.pfn_list[idx];
- 
--		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_VALID))
--			goto clear;
--		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_DMA_MAPPED))
-+		if (!hmm_dma_unmap_pfn(dev->dma_device, &umem_odp->map, idx))
- 			goto clear;
- 
--		ib_dma_unmap_page(dev, dma, BIT(umem_odp->page_shift),
--				  DMA_BIDIRECTIONAL);
--		if (umem_odp->pfn_list[pfn_idx] & HMM_PFN_WRITE) {
-+		if (pfn & HMM_PFN_WRITE) {
-+			struct page *page = hmm_pfn_to_page(pfn);
- 			struct page *head_page = compound_head(page);
- 			/*
- 			 * set_page_dirty prefers being called with
-@@ -489,7 +432,7 @@ void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
- 		}
- 		umem_odp->npages--;
- clear:
--		umem_odp->pfn_list[pfn_idx] &= ~HMM_PFN_FLAGS;
-+		umem_odp->map.pfn_list[idx] &= ~HMM_PFN_FLAGS;
- 	}
- }
- EXPORT_SYMBOL(ib_umem_odp_unmap_dma_pages);
-diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-index 3e4aaa6319db..1bae5595c729 100644
---- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-+++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-@@ -1444,8 +1444,8 @@ void mlx5_ib_odp_cleanup_one(struct mlx5_ib_dev *ibdev);
- int __init mlx5_ib_odp_init(void);
- void mlx5_ib_odp_cleanup(void);
- int mlx5_odp_init_mkey_cache(struct mlx5_ib_dev *dev);
--void mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
--			   struct mlx5_ib_mr *mr, int flags);
-+int mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
-+			  struct mlx5_ib_mr *mr, int flags);
- 
- int mlx5_ib_advise_mr_prefetch(struct ib_pd *pd,
- 			       enum ib_uverbs_advise_mr_advice advice,
-@@ -1466,8 +1466,11 @@ static inline int mlx5_odp_init_mkey_cache(struct mlx5_ib_dev *dev)
- {
- 	return 0;
- }
--static inline void mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
--					 struct mlx5_ib_mr *mr, int flags) {}
-+static inline int mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
-+					struct mlx5_ib_mr *mr, int flags)
-+{
-+	return -EOPNOTSUPP;
-+}
- 
- static inline int
- mlx5_ib_advise_mr_prefetch(struct ib_pd *pd,
-diff --git a/drivers/infiniband/hw/mlx5/odp.c b/drivers/infiniband/hw/mlx5/odp.c
-index 78887500ce15..fbb2a5670c32 100644
---- a/drivers/infiniband/hw/mlx5/odp.c
-+++ b/drivers/infiniband/hw/mlx5/odp.c
-@@ -35,6 +35,8 @@
- #include <linux/dma-buf.h>
- #include <linux/dma-resv.h>
- #include <linux/hmm.h>
-+#include <linux/hmm-dma.h>
-+#include <linux/pci-p2pdma.h>
- 
- #include "mlx5_ib.h"
- #include "cmd.h"
-@@ -159,40 +161,50 @@ static void populate_klm(struct mlx5_klm *pklm, size_t idx, size_t nentries,
- 	}
+-	return nsegs;
++	/*
++	 * If the driver previously mapped a shorter list, we could see a
++	 * termination bit prematurely unless it fully inits the sg table
++	 * on each mapping. We KNOW that there must be more entries here
++	 * or the driver would be buggy, so force clear the termination bit
++	 * to avoid doing a full sg_init_table() in drivers for each command.
++	 */
++	sg_unmark_end(*sg);
++	return sg_next(*sg);
  }
  
--static void populate_mtt(__be64 *pas, size_t idx, size_t nentries,
--			 struct mlx5_ib_mr *mr, int flags)
-+static int populate_mtt(__be64 *pas, size_t start, size_t nentries,
-+			struct mlx5_ib_mr *mr, int flags)
+ /*
+- * map a request to scatterlist, return number of sg entries setup. Caller
+- * must make sure sg can hold rq->nr_phys_segments entries
++ * Map a request to scatterlist, return number of sg entries setup. Caller
++ * must make sure sg can hold rq->nr_phys_segments entries.
+  */
+ int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
+ 		struct scatterlist *sglist, struct scatterlist **last_sg)
  {
- 	struct ib_umem_odp *odp = to_ib_umem_odp(mr->umem);
- 	bool downgrade = flags & MLX5_IB_UPD_XLT_DOWNGRADE;
--	unsigned long pfn;
--	dma_addr_t pa;
-+	struct pci_p2pdma_map_state p2pdma_state = {};
-+	struct ib_device *dev = odp->umem.ibdev;
- 	size_t i;
++	struct req_iterator iter = {
++		.bio	= rq->bio,
++		.iter	= rq->bio->bi_iter,
++	};
++	struct phys_vec vec;
+ 	int nsegs = 0;
  
- 	if (flags & MLX5_IB_UPD_XLT_ZAP)
--		return;
-+		return 0;
- 
- 	for (i = 0; i < nentries; i++) {
--		pfn = odp->pfn_list[idx + i];
-+		unsigned long pfn = odp->map.pfn_list[start + i];
-+		dma_addr_t dma_addr;
+-	if (rq->rq_flags & RQF_SPECIAL_PAYLOAD)
+-		nsegs = __blk_bvec_map_sg(rq->special_vec, sglist, last_sg);
+-	else if (rq->bio)
+-		nsegs = __blk_bios_map_sg(q, rq->bio, sglist, last_sg);
++	while (blk_map_iter_next(rq, &iter, &vec)) {
++		struct page *page = blk_phys_to_page(vec.paddr);
++		unsigned int offset = offset_in_page(vec.paddr);
 +
-+		pfn = odp->map.pfn_list[start + i];
- 		if (!(pfn & HMM_PFN_VALID))
- 			/* ODP initialization */
- 			continue;
++		*last_sg = blk_next_sg(last_sg, sglist);
++		sg_set_page(*last_sg, page, vec.len, offset);
++		nsegs++;
++	}
  
--		pa = odp->dma_list[idx + i];
--		pa |= MLX5_IB_MTT_READ;
-+		dma_addr = hmm_dma_map_pfn(dev->dma_device, &odp->map,
-+					   start + i, &p2pdma_state);
-+		if (ib_dma_mapping_error(dev, dma_addr))
-+			return -EFAULT;
-+
-+		dma_addr |= MLX5_IB_MTT_READ;
- 		if ((pfn & HMM_PFN_WRITE) && !downgrade)
--			pa |= MLX5_IB_MTT_WRITE;
-+			dma_addr |= MLX5_IB_MTT_WRITE;
- 
--		pas[i] = cpu_to_be64(pa);
-+		pas[i] = cpu_to_be64(dma_addr);
-+		odp->npages++;
- 	}
-+	return 0;
- }
- 
--void mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
--			   struct mlx5_ib_mr *mr, int flags)
-+int mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
-+			  struct mlx5_ib_mr *mr, int flags)
- {
- 	if (flags & MLX5_IB_UPD_XLT_INDIRECT) {
- 		populate_klm(xlt, idx, nentries, mr, flags);
-+		return 0;
- 	} else {
--		populate_mtt(xlt, idx, nentries, mr, flags);
-+		return populate_mtt(xlt, idx, nentries, mr, flags);
- 	}
- }
- 
-@@ -286,7 +298,7 @@ static bool mlx5_ib_invalidate_range(struct mmu_interval_notifier *mni,
- 		 * estimate the cost of another UMR vs. the cost of bigger
- 		 * UMR.
- 		 */
--		if (umem_odp->pfn_list[idx] & HMM_PFN_VALID) {
-+		if (umem_odp->map.pfn_list[idx] & HMM_PFN_VALID) {
- 			if (!in_block) {
- 				blk_start_idx = idx;
- 				in_block = 1;
-diff --git a/drivers/infiniband/hw/mlx5/umr.c b/drivers/infiniband/hw/mlx5/umr.c
-index 887fd6fa3ba9..d7fa94ab23cf 100644
---- a/drivers/infiniband/hw/mlx5/umr.c
-+++ b/drivers/infiniband/hw/mlx5/umr.c
-@@ -811,7 +811,17 @@ int mlx5r_umr_update_xlt(struct mlx5_ib_mr *mr, u64 idx, int npages,
- 		size_to_map = npages * desc_size;
- 		dma_sync_single_for_cpu(ddev, sg.addr, sg.length,
- 					DMA_TO_DEVICE);
--		mlx5_odp_populate_xlt(xlt, idx, npages, mr, flags);
-+		/*
-+		 * npages is the maximum number of pages to map, but we
-+		 * can't guarantee that all pages are actually mapped.
-+		 *
-+		 * For example, if page is p2p of type which is not supported
-+		 * for mapping, the number of pages mapped will be less than
-+		 * requested.
-+		 */
-+		err = mlx5_odp_populate_xlt(xlt, idx, npages, mr, flags);
-+		if (err)
-+			return err;
- 		dma_sync_single_for_device(ddev, sg.addr, sg.length,
- 					   DMA_TO_DEVICE);
- 		sg.length = ALIGN(size_to_map, MLX5_UMR_FLEX_ALIGNMENT);
-diff --git a/include/rdma/ib_umem_odp.h b/include/rdma/ib_umem_odp.h
-index a345c26a745d..2a24bf791c10 100644
---- a/include/rdma/ib_umem_odp.h
-+++ b/include/rdma/ib_umem_odp.h
-@@ -8,24 +8,17 @@
- 
- #include <rdma/ib_umem.h>
- #include <rdma/ib_verbs.h>
--#include <linux/hmm.h>
-+#include <linux/hmm-dma.h>
- 
- struct ib_umem_odp {
- 	struct ib_umem umem;
- 	struct mmu_interval_notifier notifier;
- 	struct pid *tgid;
- 
--	/* An array of the pfns included in the on-demand paging umem. */
--	unsigned long *pfn_list;
-+	struct hmm_dma_map map;
- 
- 	/*
--	 * An array with DMA addresses mapped for pfns in pfn_list.
--	 * The lower two bits designate access permissions.
--	 * See ODP_READ_ALLOWED_BIT and ODP_WRITE_ALLOWED_BIT.
--	 */
--	dma_addr_t		*dma_list;
--	/*
--	 * The umem_mutex protects the page_list and dma_list fields of an ODP
-+	 * The umem_mutex protects the page_list field of an ODP
- 	 * umem, allowing only a single thread to map/unmap pages. The mutex
- 	 * also protects access to the mmu notifier counters.
- 	 */
+ 	if (*last_sg)
+ 		sg_mark_end(*last_sg);
 -- 
 2.46.2
 
