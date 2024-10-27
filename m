@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38D21D1356E
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1D83D1356D
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AIaNNcm3XUGBo9OgO3ovSINrRXEDBCyPOnC0y7/NQWs=; b=cJ1ON0wNMNlIRcVTcL5+qHRO7s
-	eVheixFXwXYjh3mrxsDfo+qG47CksVOoJGBMWbb3vu2TscIz+TbQ82LM47bDMatsG9IbaDnrE8G1L
-	ES+YkSoxYSGtdkqITZntEx+OD+HvkqvDiu8L+eKT7PckvNP3qvWYtWlYS9EFUl7oRmnbhxT/HE7VJ
-	UxznjpYhqr1876uPYN6VmIDt3vq9B/PqeiQBBxIJr0b4MeciIbqwnjDC0wforg0VRjWHfKrxeF6Ul
-	jAg/+AWGnOLcKSqgid2e4SQqvo9YCFnRamLRGL0vqbc2HMLlg+kI9IdTdfVi7zmQWUYW+4kPc3smU
-	bRYNJo7A==;
+	bh=zSWGIO8+eoNDo2boHntx+WY/7C1S7kHkrtB0FlbeWwg=; b=4xj8G93/A4v0huaNWd9TIvPY4y
+	UYy+qtHiDWtZ5gFm0WRrFEMHAMqOh/7+7iBh2stEbTwO3ZP+DUIVQPNmm3hm+gUm6yvA0sSQhS3kU
+	jr6WLlkklL+Ia/DTja5lTYHswTBiq3CN6iFopTNi37ZysorIuFjPNLK64I5mTVJsxipxAsaayUKOI
+	OTvLQZBIDxoh5VY8+iu7Uv0jmzbDfxOc/dIYM/gkAH2tHOzgKFMF6OV4v+VKyElg6kK8/cGaJBBrq
+	orYsxJ1X8dAZ16lKW2niWZX9MEZklLu1zxNlyQ+Hi0bmAJ9O+Cfa7yseCHelgsqTdE+cdnaXEEeSd
+	Xgdv9YdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t55Dc-00000008TR1-2Baf;
+	id 1t55Dc-00000008TQg-0uI5;
 	Sun, 27 Oct 2024 15:30:16 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54AI-00000008Kin-25Qe
+	id 1t54AC-00000008Kf3-22AD
 	for linux-nvme@bombadil.infradead.org;
-	Sun, 27 Oct 2024 14:22:46 +0000
+	Sun, 27 Oct 2024 14:22:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=AIaNNcm3XUGBo9OgO3ovSINrRXEDBCyPOnC0y7/NQWs=; b=U7iOldFz2k5d5Snx21IuGLufQ4
-	xlxkhwSqx154z5gBcIxKxedGJb2li8YGAbF/8lO/NBbWwVHtUMZkR/MDpV9Njpp6s7Rw/iuRPPjN1
-	yq3Of6zPJMOizqy+faP4nGhuRy+uuwUr0GlFfGGYmUbR6haVH88m7x3uFi8QUE9nGcPtR9+0FeA7v
-	ZjXWxxsd97X0p7FgZ3URT6a0zjzNdx1FnPK3pQAB+ElvWpJmlDmyNKcKRx8u7SPG+uYT9Kq2KkajR
-	RH6eXqBtWOz/Y8uNI56dI7Up9utN+/+6qiuTsb+Opo+N/HYTT15UFQBh6nBWEFqg67SJEenjy5lzy
-	ZqmsaZtQ==;
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	bh=zSWGIO8+eoNDo2boHntx+WY/7C1S7kHkrtB0FlbeWwg=; b=q9kXill5KThcynRntWhBzZ595r
+	vwDVfR3z6vZABPkgCxvlddG6BQPOeph1vXpj7IHGK/WWMmyX11idbgSW3JYKmwZfMDQpbYRGxFVRA
+	8dnn8cUazXFwItRKX9POkbarHlqp9UYIneEK9ATn9WDFO1A5QDNL8FMF1/KKanyiojLMY+A8TVAjm
+	yubB9tmRN/u0r4JCp+gSmBHOI8zPlcoJlfN0mDDg5w/8qhZJ+DD8Ofeh0mFQtdeZQJ3OxiWPvcm11
+	2g3tC4piRepYhl1CUrHoexOGf16pOxqebSTascKpaEiiqAPvW0WvBGr7mmJTTX/0VSxcgRs4p8KPw
+	EGf5TgzA==;
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54AA-00000009QOG-3Ovb
+	id 1t54A8-00000009QLG-06hQ
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Oct 2024 14:22:44 +0000
+	Sun, 27 Oct 2024 14:22:38 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id ECDFDA40FA9;
-	Sun, 27 Oct 2024 14:20:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0785CC4CEE5;
-	Sun, 27 Oct 2024 14:22:36 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C45245C26E1;
+	Sun, 27 Oct 2024 14:21:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C608AC4CEC3;
+	Sun, 27 Oct 2024 14:22:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730038956;
-	bh=0oAZb2A1AcGBYwYJqLqYoF06Rd3XR3a/YcihuL4Yd4c=;
+	s=k20201202; t=1730038944;
+	bh=OlIySM8DodN7dp6laXmryqK8XnG8NlruPsXd0qhOBbs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XnYNHf81XRJqGaj3hsxMDwA7dy6KsvsmA+yLe06qPkXYN2xa++1K94IKvJFVhF3WJ
-	 T4nkxQIbD+/taXB1cTkhu7YVDVMs52CwQsF6Amd9bdNSuoW6OOoIjgXvVDwmEvZguv
-	 8WlPW9lCV2ndSXcOd/O3Yle9aIqIcn5rb/jdxIv+xfewF90Snln3D0sQEOog6AYL9f
-	 sGWvMWAh24LWTaEyPcu71Fg+Q1qBrTCefvjH+3Eda+IVvo3/EjNd7zcWwc1s35Yx2V
-	 0GfmH2Gg2xDEgchvQ6+NhsCw8PELJVVU3eaVeCo4YhOOnUEW7QANXpX8NQDUgVH6hg
-	 Njugb3kh4Lfgg==
+	b=sztJgRnjCjy3T5rMJco14XeEyz8AWK1qLXhlZcsbCww3IJvK3OYpWQrq2z9gEDbiF
+	 FTJoGWbzMr8kWgmSADG6xXLjvVF8HtYovxY6UxlpVj7y7e/Tv2J36mDsf1ni0KXR2Z
+	 /L04eQr+tpgpAe7RiZLdHdK8VRnuV0oh3cNQNiTRxdfhWyD1lngcUvZ2nRU85HQwjw
+	 YjZnNpO3e2lTdKB5KlXnQ1bl3+jFcahVq0pQVLzDcFk027ZEe+D9GNlD7erxmrEzjW
+	 vG3Vcv0r7iIYoRUZpnqyp15h0b7btdwJAWusMpLm4ThTR/ZxmftAjX2BhtFgj6WMm/
+	 xmjbH9ceNw+FQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -86,17 +86,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 17/18] vfio/mlx5: Explicitly store page list
-Date: Sun, 27 Oct 2024 16:21:17 +0200
-Message-ID: <4c0a2f96d672d395caec3fe7dd6049a48b2582c6.1730037276.git.leon@kernel.org>
+Subject: [PATCH 14/18] RDMA/umem: Separate implicit ODP initialization from explicit ODP
+Date: Sun, 27 Oct 2024 16:21:14 +0200
+Message-ID: <90a17feec5781fb79f56c4ad56f8844878205fab.1730037276.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <cover.1730037276.git.leon@kernel.org>
 References: <cover.1730037276.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241027_142239_583972_2D028BCC 
-X-CRM114-Status: GOOD (  15.22  )
+X-CRM114-CacheID: sfid-20241027_142236_837567_F781588C 
+X-CRM114-Status: GOOD (  16.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,90 +113,154 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-As a preparation to removal scatter-gather table and unifying
-receive and send list, explicitly store page list.
+Create separate functions for the implicit ODP initialization
+which is different from the explicit ODP initialization.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/vfio/pci/mlx5/cmd.c | 29 ++++++++++++-----------------
- drivers/vfio/pci/mlx5/cmd.h |  1 +
- 2 files changed, 13 insertions(+), 17 deletions(-)
+ drivers/infiniband/core/umem_odp.c | 91 +++++++++++++++---------------
+ 1 file changed, 46 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
-index 1832a6c1f35d..34ae3e299a9e 100644
---- a/drivers/vfio/pci/mlx5/cmd.c
-+++ b/drivers/vfio/pci/mlx5/cmd.c
-@@ -422,6 +422,7 @@ void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	for_each_sgtable_page(&buf->table.sgt, &sg_iter, 0)
- 		__free_page(sg_page_iter_page(&sg_iter));
- 	sg_free_append_table(&buf->table);
-+	kvfree(buf->page_list);
- 	kfree(buf);
- }
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index 30cd8f353476..51d518989914 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -48,41 +48,44 @@
  
-@@ -434,39 +435,33 @@ static int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
- 	unsigned int to_fill;
+ #include "uverbs.h"
+ 
+-static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+-				   const struct mmu_interval_notifier_ops *ops)
++static void ib_init_umem_implicit_odp(struct ib_umem_odp *umem_odp)
++{
++	umem_odp->is_implicit_odp = 1;
++	umem_odp->umem.is_odp = 1;
++	mutex_init(&umem_odp->umem_mutex);
++}
++
++static int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
++			    const struct mmu_interval_notifier_ops *ops)
+ {
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
++	size_t page_size = 1UL << umem_odp->page_shift;
++	unsigned long start;
++	unsigned long end;
  	int ret;
  
--	to_fill = min_t(unsigned int, npages, PAGE_SIZE / sizeof(*page_list));
--	page_list = kvzalloc(to_fill * sizeof(*page_list), GFP_KERNEL_ACCOUNT);
-+	to_fill = min_t(unsigned int, npages, PAGE_SIZE / sizeof(*buf->page_list));
-+	page_list = kvzalloc(to_fill * sizeof(*buf->page_list), GFP_KERNEL_ACCOUNT);
- 	if (!page_list)
- 		return -ENOMEM;
+ 	umem_odp->umem.is_odp = 1;
+ 	mutex_init(&umem_odp->umem_mutex);
  
-+	buf->page_list = page_list;
-+
- 	do {
- 		filled = alloc_pages_bulk_array(GFP_KERNEL_ACCOUNT, to_fill,
--						page_list);
--		if (!filled) {
--			ret = -ENOMEM;
--			goto err;
--		}
-+				buf->page_list + buf->npages);
-+		if (!filled)
-+			return -ENOMEM;
-+
- 		to_alloc -= filled;
- 		ret = sg_alloc_append_table_from_pages(
--			&buf->table, page_list, filled, 0,
-+			&buf->table, buf->page_list + buf->npages, filled, 0,
- 			filled << PAGE_SHIFT, UINT_MAX, SG_MAX_SINGLE_ALLOC,
- 			GFP_KERNEL_ACCOUNT);
- 
- 		if (ret)
--			goto err;
-+			return ret;
- 		buf->npages += filled;
--		/* clean input for another bulk allocation */
--		memset(page_list, 0, filled * sizeof(*page_list));
- 		to_fill = min_t(unsigned int, to_alloc,
--				PAGE_SIZE / sizeof(*page_list));
-+				PAGE_SIZE / sizeof(*buf->page_list));
- 	} while (to_alloc > 0);
- 
--	kvfree(page_list);
- 	return 0;
+-	if (!umem_odp->is_implicit_odp) {
+-		size_t page_size = 1UL << umem_odp->page_shift;
+-		unsigned long start;
+-		unsigned long end;
 -
--err:
--	kvfree(page_list);
--	return ret;
+-		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
+-		if (check_add_overflow(umem_odp->umem.address,
+-				       (unsigned long)umem_odp->umem.length,
+-				       &end))
+-			return -EOVERFLOW;
+-		end = ALIGN(end, page_size);
+-		if (unlikely(end < page_size))
+-			return -EOVERFLOW;
+-
+-		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
+-					(end - start) >> PAGE_SHIFT,
+-					1 << umem_odp->page_shift);
+-		if (ret)
+-			return ret;
+-
+-		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
+-						   umem_odp->umem.owning_mm,
+-						   start, end - start, ops);
+-		if (ret)
+-			goto out_free_map;
+-	}
++	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
++	if (check_add_overflow(umem_odp->umem.address,
++			       (unsigned long)umem_odp->umem.length, &end))
++		return -EOVERFLOW;
++	end = ALIGN(end, page_size);
++	if (unlikely(end < page_size))
++		return -EOVERFLOW;
++
++	ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
++				(end - start) >> PAGE_SHIFT,
++				1 << umem_odp->page_shift);
++	if (ret)
++		return ret;
++
++	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
++					   umem_odp->umem.owning_mm, start,
++					   end - start, ops);
++	if (ret)
++		goto out_free_map;
+ 
+ 	return 0;
+ 
+@@ -106,7 +109,6 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
+ {
+ 	struct ib_umem *umem;
+ 	struct ib_umem_odp *umem_odp;
+-	int ret;
+ 
+ 	if (access & IB_ACCESS_HUGETLB)
+ 		return ERR_PTR(-EINVAL);
+@@ -118,16 +120,10 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
+ 	umem->ibdev = device;
+ 	umem->writable = ib_access_writable(access);
+ 	umem->owning_mm = current->mm;
+-	umem_odp->is_implicit_odp = 1;
+ 	umem_odp->page_shift = PAGE_SHIFT;
+ 
+ 	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
+-	ret = ib_init_umem_odp(umem_odp, NULL);
+-	if (ret) {
+-		put_pid(umem_odp->tgid);
+-		kfree(umem_odp);
+-		return ERR_PTR(ret);
+-	}
++	ib_init_umem_implicit_odp(umem_odp);
+ 	return umem_odp;
  }
+ EXPORT_SYMBOL(ib_umem_odp_alloc_implicit);
+@@ -248,7 +244,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
+ }
+ EXPORT_SYMBOL(ib_umem_odp_get);
  
- struct mlx5_vhca_data_buffer *
-diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
-index 25dd6ff54591..5b764199db53 100644
---- a/drivers/vfio/pci/mlx5/cmd.h
-+++ b/drivers/vfio/pci/mlx5/cmd.h
-@@ -53,6 +53,7 @@ struct mlx5_vf_migration_header {
- };
+-void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
++static void ib_umem_odp_free(struct ib_umem_odp *umem_odp)
+ {
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
  
- struct mlx5_vhca_data_buffer {
-+	struct page **page_list;
- 	struct sg_append_table table;
- 	loff_t start_pos;
- 	u64 length;
+@@ -258,14 +254,19 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
+ 	 * It is the driver's responsibility to ensure, before calling us,
+ 	 * that the hardware will not attempt to access the MR any more.
+ 	 */
+-	if (!umem_odp->is_implicit_odp) {
+-		mutex_lock(&umem_odp->umem_mutex);
+-		ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
+-					    ib_umem_end(umem_odp));
+-		mutex_unlock(&umem_odp->umem_mutex);
+-		mmu_interval_notifier_remove(&umem_odp->notifier);
+-		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
+-	}
++	mutex_lock(&umem_odp->umem_mutex);
++	ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
++				    ib_umem_end(umem_odp));
++	mutex_unlock(&umem_odp->umem_mutex);
++	mmu_interval_notifier_remove(&umem_odp->notifier);
++	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
++}
++
++void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
++{
++	if (!umem_odp->is_implicit_odp)
++		ib_umem_odp_free(umem_odp);
++
+ 	put_pid(umem_odp->tgid);
+ 	kfree(umem_odp);
+ }
 -- 
 2.46.2
 
