@@ -4,44 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6127D13562
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 14:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6486D13563
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 14:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NDTPA/jhN45f72ExSB7FDz7Zdbv+u1YzP4KVh20yN9Y=; b=QdfoYpqeMvtwFSgVjrqNF/dKB6
-	awUSkt2xlWnJcVtJrJT1PWKcBI9TMDjhpdp8wZfRwQIcoNp7+5Kl0dp71mNZR6dheXjndbKnF+seb
-	4lf8OIB5oiB5ZG2j8iJVF1kI0aJg03SRWZjJP+vTVsjCoF9H++JMRoup8hpSMt/d2ICc0IqK5ryGK
-	yUgnTPnhCnzJW7+Xu9QV4mz1N/OOMyf6kH7syCyo0jW2z9a9rvDquPO3b+qJ61bl+3OElZsIHWBeF
-	kDizaOOlzIn+1LnX0yZ4B4sE5te1g7QBGKfAz3vAEQcjAPKLqlF/TKEmCIbvPDOpOBmCkbxAEfXW0
-	JmKawZpg==;
+	bh=PhW4VjnvtzkDooyFGath+3T4tsAPk9cdglqFB5sUC1Q=; b=za7Uv25uWnL/qWI+9ruZCA8ZYM
+	6DLsadqsQacgq6StZa55Jc8DaVDc7DxrRKKLzqVHCfrqByPeNhT/KXfakVkTc62frdnsVaRuFV/66
+	GhLypasX8y8LKyVGR0l/AdgdgYSfvMup9xjuDF6dE+WRYF/zuPh3Y22Fl31vj+UDX4b7MW+9WBMYY
+	FrgLdlboixKeKihLWTxMhTdwKxZfPGTNup4Rgs8AFuluuTC1o4OfvWrOk3UbB6ywwFNGydOxC7l2z
+	KyB//5i31Z/3ITZ+CXbN5RVZuCh27EKAd86lwsYUDQsJQ8g/cUSb0FwrlTZwh5IlvVpwE9eNToiJK
+	1cG7sqAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t549u-00000008KQ9-0u5p;
-	Sun, 27 Oct 2024 14:22:22 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t54AM-00000008KnB-3wrI;
+	Sun, 27 Oct 2024 14:22:50 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t549i-00000008KGG-0bVp
+	id 1t54AC-00000008Kf8-2p1m
+	for linux-nvme@bombadil.infradead.org;
+	Sun, 27 Oct 2024 14:22:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=PhW4VjnvtzkDooyFGath+3T4tsAPk9cdglqFB5sUC1Q=; b=ePy/a3ptxdy4L7NrlU/ZQUXUur
+	ZKs6HC98S4W+Ztdzy+z+/2M4Xoa5rjKvF02+aLc0fdgZBJGw4CEIqeaaeDcBKW8r5oP7Qk7rE4dhd
+	AEWa965WTFasJuuvn0CNGdgWDP8NaBpeNRoWuwTZkj8/JPIibYPmJIR37M2jXlx43WArwLil8+cDV
+	8B4qmyPJ4YBMkaytBoiTSz+yiqZU4ucyeldKU5oubHVIjodEK970qMH2w7Qn3be/aNzYep2Vr5u34
+	K0oVsMEuc1ekch6rGXoc0twGXpbgBk6NIXPxagg6wq5iKAnJqoKMg7BIyf/VlTiGPm3/vFz/b8hWt
+	gKHJi7Qg==;
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1t54A8-00000009QMm-2LTm
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Oct 2024 14:22:17 +0000
+	Sun, 27 Oct 2024 14:22:39 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id D147AA403FF;
-	Sun, 27 Oct 2024 14:20:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D842BC4CEC3;
-	Sun, 27 Oct 2024 14:22:07 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 00CB0A40FA4;
+	Sun, 27 Oct 2024 14:20:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0792FC4CEC3;
+	Sun, 27 Oct 2024 14:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730038928;
-	bh=obFrC/8mEpgTohWqbSf2NYuferMlyIrijdEaJsyBjag=;
+	s=k20201202; t=1730038952;
+	bh=RCW7z84/26BITUxg8PndrrKsB8pTf34fxPy1qnPVTz8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vJ4SOP7gvCOmSakM9GmH61r5dlq/Vh89T+kjFaLLN13hmZfQf1jhZ7VnJUvpO8RS4
-	 Ot3h88WLGyBGodBhbgLFLO1oRjoH2dXt3/qea4ZIVujmyq7q3rs6aftzpdKbd7dkwe
-	 iOFz72QAKcFESW/zKQLGKVCBDj6ce/d2SSag7jvmvjfIppKDQf2PdUc3aVWYQaKjX9
-	 Ef5ORwF0V0m4xYd8ZkrUAFuAiBSVYhj9uTpCNLQOiwkzTg1y7CbjTrKVVGc/9UVgW5
-	 JRPQ3E00Lla8siHhJD3YV2HS3Up33U/zketrX8P/VXaRAoQEMFgZ6k1BDQvsGyfH2E
-	 tWdMh0n6h7Jkg==
+	b=p469KH+iYKJpE42ausBaBh8WvcfCIuLRW+/Ozj9WyaS1awuuaSGbTYgDOqftciJYn
+	 tYLopKnnfSl5vD/Zx8A/kVhx2smNtfxLcxnKp0YBwvo6isKlJPBvKOEANH8xHWPI3u
+	 BEwvOeSuvNFGcEAVRwCURH5KJVNClvtUfMssTSQ81yaWUw0XSyZEmG6HBxA3vb+VnI
+	 fYsuqFi8i9W/SUik2wC7KbpMDsjkC3EQKlW+wpTMkwZgDyky1gesPtr4uLlpQaqpES
+	 beis3VfX/oGZC3vRYVyuC3mPz868lFfuTz1MEcaVLULeCwdQXwWk74JMotfSEdoy7x
+	 etTNqb1MXlY7Q==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -71,17 +86,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 05/18] dma: Provide an interface to allow allocate IOVA
-Date: Sun, 27 Oct 2024 16:21:05 +0200
-Message-ID: <844f3dcf9c341b8178bfbc90909ef13d11dd2193.1730037276.git.leon@kernel.org>
+Subject: [PATCH 16/18] vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+Date: Sun, 27 Oct 2024 16:21:16 +0200
+Message-ID: <3b0710f67d75daecc15529307de11d01da45f52c.1730037276.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <cover.1730037276.git.leon@kernel.org>
 References: <cover.1730037276.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241027_072210_518955_B91FF0CB 
-X-CRM114-Status: GOOD (  19.84  )
+X-CRM114-CacheID: sfid-20241027_142237_267058_71C95949 
+X-CRM114-Status: GOOD (  22.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,165 +113,302 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-The existing .map_page() callback provides both allocating of IOVA
-and linking DMA pages. That combination works great for most of the
-callers who use it in control paths, but is less effective in fast
-paths where there may be multiple calls to map_page().
+Change the creation of mkey to be performed in multiple steps:
+data allocation, DMA setup and actual call to HW to create that mkey.
 
-These advanced callers already manage their data in some sort of
-database and can perform IOVA allocation in advance, leaving range
-linkage operation to be in fast path.
+In this new flow, the whole input to MKEY command is saved to eliminate
+the need to keep array of pointers for DMA addresses for receive list
+and in the future patches for send list too.
 
-Provide an interface to allocate/deallocate IOVA and next patch
-link/unlink DMA ranges to that specific IOVA.
-
-The API is exported from dma-iommu as it is the only implementation
-supported, the namespace is clearly different from iommu_* functions
-which are not allowed to be used. This code layout allows us to save
-function call per API call used in datapath as well as a lot of boilerplate
-code.
+In addition to memory size reduce and elimination of unnecessary data
+movements to set MKEY input, the code is prepared for future reuse.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/iommu/dma-iommu.c   | 79 +++++++++++++++++++++++++++++++++++++
- include/linux/dma-mapping.h | 15 +++++++
- 2 files changed, 94 insertions(+)
+ drivers/vfio/pci/mlx5/cmd.c | 156 ++++++++++++++++++++----------------
+ drivers/vfio/pci/mlx5/cmd.h |   4 +-
+ 2 files changed, 90 insertions(+), 70 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index c422e36c0d66..0644152c5aad 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1745,6 +1745,85 @@ size_t iommu_dma_max_mapping_size(struct device *dev)
- 	return SIZE_MAX;
+diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
+index fdc3e515741f..1832a6c1f35d 100644
+--- a/drivers/vfio/pci/mlx5/cmd.c
++++ b/drivers/vfio/pci/mlx5/cmd.c
+@@ -313,39 +313,21 @@ static int mlx5vf_cmd_get_vhca_id(struct mlx5_core_dev *mdev, u16 function_id,
+ 	return ret;
  }
  
-+static bool iommu_dma_iova_alloc(struct device *dev,
-+		struct dma_iova_state *state, phys_addr_t phys, size_t size)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	size_t iova_off = iova_offset(iovad, phys);
-+	dma_addr_t addr;
-+
-+	if (WARN_ON_ONCE(!size))
-+		return false;
-+	if (WARN_ON_ONCE(size & DMA_IOVA_USE_SWIOTLB))
-+		return false;
-+
-+	addr = iommu_dma_alloc_iova(domain,
-+			iova_align(iovad, size + iova_off),
-+			dma_get_mask(dev), dev);
-+	if (!addr)
-+		return false;
-+
-+	state->addr = addr + iova_off;
-+	state->__size = size;
-+	return true;
-+}
-+
-+/**
-+ * dma_iova_try_alloc - Try to allocate an IOVA space
-+ * @dev: Device to allocate the IOVA space for
-+ * @state: IOVA state
-+ * @phys: physical address
-+ * @size: IOVA size
-+ *
-+ * Check if @dev supports the IOVA-based DMA API, and if yes allocate IOVA space
-+ * for the given base address and size.
-+ *
-+ * Note: @phys is only used to calculate the IOVA alignment. Callers that always
-+ * do PAGE_SIZE aligned transfers can safely pass 0 here.
-+ *
-+ * Returns %true if the IOVA-based DMA API can be used and IOVA space has been
-+ * allocated, or %false if the regular DMA API should be used.
-+ */
-+bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-+		phys_addr_t phys, size_t size)
-+{
-+	memset(state, 0, sizeof(*state));
-+	if (!use_dma_iommu(dev))
-+		return false;
-+	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
-+	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
-+		return false;
-+	return iommu_dma_iova_alloc(dev, state, phys, size);
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_try_alloc);
-+
-+/**
-+ * dma_iova_free - Free an IOVA space
-+ * @dev: Device to free the IOVA space for
-+ * @state: IOVA state
-+ *
-+ * Undoes a successful dma_try_iova_alloc().
-+ *
-+ * Note that all dma_iova_link() calls need to be undone first.  For callers
-+ * that never call dma_iova_unlink(), dma_iova_destroy() can be used instead
-+ * which unlinks all ranges and frees the IOVA space in a single efficient
-+ * operation.
-+ */
-+void dma_iova_free(struct device *dev, struct dma_iova_state *state)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	size_t iova_start_pad = iova_offset(iovad, state->addr);
-+	size_t size = dma_iova_size(state);
-+
-+	iommu_dma_free_iova(cookie, state->addr - iova_start_pad,
-+			iova_align(iovad, size + iova_start_pad), NULL);
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_free);
-+
- void iommu_setup_dma_ops(struct device *dev)
+-static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
+-			struct mlx5_vhca_data_buffer *buf,
+-			struct mlx5_vhca_recv_buf *recv_buf,
+-			u32 *mkey)
++static u32 *alloc_mkey_in(u32 npages, u32 pdn)
  {
- 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 6075e0708deb..817f11bce7bc 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -11,6 +11,7 @@
- #include <linux/scatterlist.h>
- #include <linux/bug.h>
- #include <linux/mem_encrypt.h>
-+#include <linux/iommu.h>
+-	size_t npages = buf ? buf->npages : recv_buf->npages;
+-	int err = 0, inlen;
+-	__be64 *mtt;
++	int inlen;
+ 	void *mkc;
+ 	u32 *in;
  
- /**
-  * List of possible attributes associated with a DMA mapping. The semantics
-@@ -77,6 +78,7 @@
- #define DMA_BIT_MASK(n)	(((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+ 	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
+-		sizeof(*mtt) * round_up(npages, 2);
++		sizeof(__be64) * round_up(npages, 2);
  
- struct dma_iova_state {
+-	in = kvzalloc(inlen, GFP_KERNEL);
++	in = kvzalloc(inlen, GFP_KERNEL_ACCOUNT);
+ 	if (!in)
+-		return -ENOMEM;
++		return NULL;
+ 
+ 	MLX5_SET(create_mkey_in, in, translations_octword_actual_size,
+ 		 DIV_ROUND_UP(npages, 2));
+-	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, in, klm_pas_mtt);
+-
+-	if (buf) {
+-		struct sg_dma_page_iter dma_iter;
+-
+-		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
+-			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
+-	} else {
+-		int i;
+-
+-		for (i = 0; i < npages; i++)
+-			*mtt++ = cpu_to_be64(recv_buf->dma_addrs[i]);
+-	}
+ 
+ 	mkc = MLX5_ADDR_OF(create_mkey_in, in, memory_key_mkey_entry);
+ 	MLX5_SET(mkc, mkc, access_mode_1_0, MLX5_MKC_ACCESS_MODE_MTT);
+@@ -359,9 +341,29 @@ static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
+ 	MLX5_SET(mkc, mkc, log_page_size, PAGE_SHIFT);
+ 	MLX5_SET(mkc, mkc, translations_octword_size, DIV_ROUND_UP(npages, 2));
+ 	MLX5_SET64(mkc, mkc, len, npages * PAGE_SIZE);
+-	err = mlx5_core_create_mkey(mdev, mkey, in, inlen);
+-	kvfree(in);
+-	return err;
++
++	return in;
++}
++
++static int create_mkey(struct mlx5_core_dev *mdev, u32 npages,
++		       struct mlx5_vhca_data_buffer *buf, u32 *mkey_in,
++		       u32 *mkey)
++{
++	__be64 *mtt;
++	int inlen;
++
++	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
++	if (buf) {
++		struct sg_dma_page_iter dma_iter;
++
++		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
++			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
++	}
++
++	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
++		sizeof(__be64) * round_up(npages, 2);
++
++	return mlx5_core_create_mkey(mdev, mkey, mkey_in, inlen);
+ }
+ 
+ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
+@@ -374,20 +376,28 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
+ 	if (mvdev->mdev_detach)
+ 		return -ENOTCONN;
+ 
+-	if (buf->dmaed || !buf->npages)
++	if (buf->mkey_in || !buf->npages)
+ 		return -EINVAL;
+ 
+ 	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = _create_mkey(mdev, buf->migf->pdn, buf, NULL, &buf->mkey);
+-	if (ret)
++	buf->mkey_in = alloc_mkey_in(buf->npages, buf->migf->pdn);
++	if (!buf->mkey_in) {
++		ret = -ENOMEM;
+ 		goto err;
++	}
+ 
+-	buf->dmaed = true;
++	ret = create_mkey(mdev, buf->npages, buf, buf->mkey_in, &buf->mkey);
++	if (ret)
++		goto err_create_mkey;
+ 
+ 	return 0;
++
++err_create_mkey:
++	kvfree(buf->mkey_in);
++	buf->mkey_in = NULL;
+ err:
+ 	dma_unmap_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
+ 	return ret;
+@@ -401,8 +411,9 @@ void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf)
+ 	lockdep_assert_held(&migf->mvdev->state_mutex);
+ 	WARN_ON(migf->mvdev->mdev_detach);
+ 
+-	if (buf->dmaed) {
++	if (buf->mkey_in) {
+ 		mlx5_core_destroy_mkey(migf->mvdev->mdev, buf->mkey);
++		kvfree(buf->mkey_in);
+ 		dma_unmap_sgtable(migf->mvdev->mdev->device, &buf->table.sgt,
+ 				  buf->dma_dir, 0);
+ 	}
+@@ -779,7 +790,7 @@ int mlx5vf_cmd_load_vhca_state(struct mlx5vf_pci_core_device *mvdev,
+ 	if (mvdev->mdev_detach)
+ 		return -ENOTCONN;
+ 
+-	if (!buf->dmaed) {
++	if (!buf->mkey_in) {
+ 		err = mlx5vf_dma_data_buffer(buf);
+ 		if (err)
+ 			return err;
+@@ -1380,56 +1391,54 @@ static int alloc_recv_pages(struct mlx5_vhca_recv_buf *recv_buf,
+ 	kvfree(recv_buf->page_list);
+ 	return -ENOMEM;
+ }
++static void unregister_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
++				 u32 *mkey_in)
++{
 +	dma_addr_t addr;
- 	size_t __size;
++	__be64 *mtt;
++	int i;
++
++	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
++	for (i = npages - 1; i >= 0; i--) {
++		addr = be64_to_cpu(mtt[i]);
++		dma_unmap_single(mdev->device, addr, PAGE_SIZE,
++				DMA_FROM_DEVICE);
++	}
++}
+ 
+-static int register_dma_recv_pages(struct mlx5_core_dev *mdev,
+-				   struct mlx5_vhca_recv_buf *recv_buf)
++static int register_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
++			      struct page **page_list, u32 *mkey_in)
+ {
+-	int i, j;
++	dma_addr_t addr;
++	__be64 *mtt;
++	int i;
+ 
+-	recv_buf->dma_addrs = kvcalloc(recv_buf->npages,
+-				       sizeof(*recv_buf->dma_addrs),
+-				       GFP_KERNEL_ACCOUNT);
+-	if (!recv_buf->dma_addrs)
+-		return -ENOMEM;
++	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
+ 
+-	for (i = 0; i < recv_buf->npages; i++) {
+-		recv_buf->dma_addrs[i] = dma_map_page(mdev->device,
+-						      recv_buf->page_list[i],
+-						      0, PAGE_SIZE,
+-						      DMA_FROM_DEVICE);
+-		if (dma_mapping_error(mdev->device, recv_buf->dma_addrs[i]))
++	for (i = 0; i < npages; i++) {
++		addr = dma_map_page(mdev->device, page_list[i], 0, PAGE_SIZE,
++				    DMA_FROM_DEVICE);
++		if (dma_mapping_error(mdev->device, addr))
+ 			goto error;
++
++		*mtt++ = cpu_to_be64(addr);
+ 	}
++
+ 	return 0;
+ 
+ error:
+-	for (j = 0; j < i; j++)
+-		dma_unmap_single(mdev->device, recv_buf->dma_addrs[j],
+-				 PAGE_SIZE, DMA_FROM_DEVICE);
+-
+-	kvfree(recv_buf->dma_addrs);
++	unregister_dma_pages(mdev, i, mkey_in);
+ 	return -ENOMEM;
+ }
+ 
+-static void unregister_dma_recv_pages(struct mlx5_core_dev *mdev,
+-				      struct mlx5_vhca_recv_buf *recv_buf)
+-{
+-	int i;
+-
+-	for (i = 0; i < recv_buf->npages; i++)
+-		dma_unmap_single(mdev->device, recv_buf->dma_addrs[i],
+-				 PAGE_SIZE, DMA_FROM_DEVICE);
+-
+-	kvfree(recv_buf->dma_addrs);
+-}
+-
+ static void mlx5vf_free_qp_recv_resources(struct mlx5_core_dev *mdev,
+ 					  struct mlx5_vhca_qp *qp)
+ {
+ 	struct mlx5_vhca_recv_buf *recv_buf = &qp->recv_buf;
+ 
+ 	mlx5_core_destroy_mkey(mdev, recv_buf->mkey);
+-	unregister_dma_recv_pages(mdev, recv_buf);
++	unregister_dma_pages(mdev, recv_buf->npages, recv_buf->mkey_in);
++	kvfree(recv_buf->mkey_in);
+ 	free_recv_pages(&qp->recv_buf);
+ }
+ 
+@@ -1445,18 +1454,29 @@ static int mlx5vf_alloc_qp_recv_resources(struct mlx5_core_dev *mdev,
+ 	if (err < 0)
+ 		return err;
+ 
+-	err = register_dma_recv_pages(mdev, recv_buf);
+-	if (err)
++	recv_buf->mkey_in = alloc_mkey_in(npages, pdn);
++	if (!recv_buf->mkey_in) {
++		err = -ENOMEM;
+ 		goto end;
++	}
++
++	err = register_dma_pages(mdev, npages, recv_buf->page_list,
++				 recv_buf->mkey_in);
++	if (err)
++		goto err_register_dma;
+ 
+-	err = _create_mkey(mdev, pdn, NULL, recv_buf, &recv_buf->mkey);
++	err = create_mkey(mdev, npages, NULL, recv_buf->mkey_in,
++			  &recv_buf->mkey);
+ 	if (err)
+ 		goto err_create_mkey;
+ 
+ 	return 0;
+ 
+ err_create_mkey:
+-	unregister_dma_recv_pages(mdev, recv_buf);
++	unregister_dma_pages(mdev, npages, recv_buf->mkey_in);
++err_register_dma:
++	kvfree(recv_buf->mkey_in);
++	recv_buf->mkey_in = NULL;
+ end:
+ 	free_recv_pages(recv_buf);
+ 	return err;
+diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
+index 7d4a833b6900..25dd6ff54591 100644
+--- a/drivers/vfio/pci/mlx5/cmd.h
++++ b/drivers/vfio/pci/mlx5/cmd.h
+@@ -58,8 +58,8 @@ struct mlx5_vhca_data_buffer {
+ 	u64 length;
+ 	u32 npages;
+ 	u32 mkey;
++	u32 *mkey_in;
+ 	enum dma_data_direction dma_dir;
+-	u8 dmaed:1;
+ 	u8 stop_copy_chunk_num;
+ 	struct list_head buf_elm;
+ 	struct mlx5_vf_migration_file *migf;
+@@ -133,8 +133,8 @@ struct mlx5_vhca_cq {
+ struct mlx5_vhca_recv_buf {
+ 	u32 npages;
+ 	struct page **page_list;
+-	dma_addr_t *dma_addrs;
+ 	u32 next_rq_offset;
++	u32 *mkey_in;
+ 	u32 mkey;
  };
  
-@@ -307,11 +309,24 @@ static inline bool dma_use_iova(struct dma_iova_state *state)
- {
- 	return state->__size != 0;
- }
-+
-+bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-+		phys_addr_t phys, size_t size);
-+void dma_iova_free(struct device *dev, struct dma_iova_state *state);
- #else /* CONFIG_IOMMU_DMA */
- static inline bool dma_use_iova(struct dma_iova_state *state)
- {
- 	return false;
- }
-+static inline bool dma_iova_try_alloc(struct device *dev,
-+		struct dma_iova_state *state, phys_addr_t phys, size_t size)
-+{
-+	return false;
-+}
-+static inline void dma_iova_free(struct device *dev,
-+		struct dma_iova_state *state)
-+{
-+}
- #endif /* CONFIG_IOMMU_DMA */
- 
- #if defined(CONFIG_HAS_DMA) && defined(CONFIG_DMA_NEED_SYNC)
 -- 
 2.46.2
 
