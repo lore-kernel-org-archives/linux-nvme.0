@@ -4,71 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73AE6D10BE3
-	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2024 05:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8D75D13562
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 14:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ow1Dmm0yyKi6X/avr5qfLQG3zyVTc8j4BiGaVhG5i9w=; b=QnehWoeeINxa+I0yLYzhhkY21h
-	0Q/XTZDidIFo3f2mzO6dcgBZWLizQAdwlr52ERZ3WJRho4iXvzb8wtp/pyOF8MbN0+1o7WfAYZTJs
-	37MFXJIa4Ch+xAuyF8tZTbBMcZe2qDtGER/onXXXEEWf2hU7n6xlnz4d9i7E43mf+U5tXAGftYKXC
-	ef1JKRYNoT+Q+VxvHr/s/OwQLTY7WV1WwrfQjzP5NNqSdO8Gq0x5G246qaYArWvV7uKRoOiG4ULk+
-	fV17Jg7B4YXrM73SPgy1V+h5Eq3v5E/JN66UbOOIU7BAOE9q0eBhh4UfgMolkZHewXrkpboYWBPjj
-	KRrG4x6Q==;
+	bh=8QMN8oIbXWRme5fliVoE/X24sm1xxZ0f0rjPuVHN3wY=; b=pyh2f/hHfDdH5y0aBMqSoDRrJW
+	f9P9OCTGLUZPsZX9fobVxqwB9MtN2XgmKrrKnIp4/x/EdgqDf4BsYzbCCao3uL7pxTR0unCZLKBaG
+	TyUPyRYb2AdZkU4dipXulGm4UTEryiWBxWdHj1boXJJbpnmJRLPvgSUW8fmx1EIplN1GwsbQjIMtk
+	bhmnVX7DpaoWhpC2HER43l4qdxcX5U7lVRTJNA0G9QJczdA8tosMy+V6K5NP01Bzvy1eei5EFXJGY
+	m0uR4l7uk9t6ko3rBsiwSWt2Ckfo+D2zTwXeI7BBzCovKJsN+uHeeVwN7Sr9Toz7x2mSwPRqxaL3/
+	G6r48b/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4ZkM-00000006038-2rGJ;
-	Sat, 26 Oct 2024 05:53:58 +0000
-Received: from mgamail.intel.com ([192.198.163.13])
+	id 1t549D-00000008Jpg-4Bp3;
+	Sun, 27 Oct 2024 14:21:40 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t4ZkJ-0000000602k-1uEm
+	id 1t5496-00000008Jow-2ePT
 	for linux-nvme@lists.infradead.org;
-	Sat, 26 Oct 2024 05:53:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729922035; x=1761458035;
-  h=date:from:to:cc:subject:message-id;
-  bh=XSo0Ry9+T2pRnGaFOcvOzjisyiEbGhmwvVvaoqXjHUk=;
-  b=hW5PpyT083J738+r2TRUWTTEJFZyiaeedkLVV02d+FiYnID+VDKU6Moz
-   FcbIS+6ik+snlVUfCQ90dRDdwtWUA9Q2j8+ydXhvypGcRY0+G1aeI8Had
-   xtNAclrsyIydkIop5jff51vZ4Al1ddM5fEOjndQBtJRRek0+R7qVM9uoj
-   xpZDsiW3nP6oR5ENndEek46jk/HQKBbftijpSXvK1Kj7VPbOCXVavp6mP
-   WJqplZDWznPakHiCOU+0EVXYK3LzPNU3USuIBMT4qdW8UVQJQ+AGu1T4T
-   BfyJk5a9r/c8g17cvYKAU8BggVO+3B2l9Jgxm+TKchgqY7JmtnI9abQtP
-   w==;
-X-CSE-ConnectionGUID: AUSrMNMHQJq8LOOqllZ4xQ==
-X-CSE-MsgGUID: 3eKsSpWaRBSYJhbGO3S7Tw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="32456214"
-X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="32456214"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 22:53:49 -0700
-X-CSE-ConnectionGUID: /1nSvGk2Q/aPpWnvmT4qLw==
-X-CSE-MsgGUID: m3bYVuZSSsyZjQEwnB0NUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="85893485"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Oct 2024 22:53:48 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4Zk9-000ZK0-1N;
-	Sat, 26 Oct 2024 05:53:45 +0000
-Date: Sat, 26 Oct 2024 13:53:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.12] BUILD SUCCESS
- 81ea3e0bd1d46b626a946127c4f907340fdee615
-Message-ID: <202410261357.HfNGanro-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Sun, 27 Oct 2024 14:21:34 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 0E9F6A40072;
+	Sun, 27 Oct 2024 14:19:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F722C4CEC3;
+	Sun, 27 Oct 2024 14:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730038890;
+	bh=yiDPGTeRo6kkrCL424ml+10YMw3MQYm4nZaRw+o9Rl8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZJXLcikUOitybN0hao1J9Vd9spDMODBJQHEviT465Ah4u+MoxB1mFmOHyANGxw5ia
+	 30Bf6ThOTtlNMLBOOP2eKx/OtxsF4ACyy/E63V76kw9Srz48Q+zMmvzZyawo1/qkIF
+	 ddiJk3UvCTr8eaD8xPC0CphXPMhx/Whg8Z0IO0OafvVuzrewN0MLYdQN+RBLSAbr8z
+	 VMS/1jV+I/kno/tx99UhrFjJNGeo0dYa7Y+hdSQM6izl1RSW9fc5m7kTTZj0mvvo7r
+	 fzojmNtZXvaZxwQaqY0r08vfE+KjCx3P8dfFhVwisgJsul2XoWFiwIpfHubMYxtPPG
+	 kk7H9CbqENKHA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 00/18] Provide a new two step DMA mapping API
+Date: Sun, 27 Oct 2024 16:21:00 +0200
+Message-ID: <cover.1730037276.git.leon@kernel.org>
+X-Mailer: git-send-email 2.46.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241025_225355_558194_E4643AF7 
-X-CRM114-Status: UNSURE (   4.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241027_072132_935000_F73D6045 
+X-CRM114-Status: GOOD (  20.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,94 +93,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.12
-branch HEAD: 81ea3e0bd1d46b626a946127c4f907340fdee615  nvmet-auth: assign dh_key to NULL after kfree_sensitive
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
 
-elapsed time: 877m
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the impossibility
+of improving the scatterlist.
 
-configs tested: 74
-configs skipped: 2
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO[1], rlist[2]), instead split up the DMA API
+to allow callers to bring their own data structure.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The API is split up into parts:
+ - Allocate IOVA space:
+    To do any pre-allocation required. This is done based on the caller
+    supplying some details about how much IOMMU address space it would need
+    in worst case.
+ - Map and unmap relevant structures to pre-allocated IOVA space:
+    Perform the actual mapping into the pre-allocated IOVA. This is very
+    similar to dma_map_page().
 
-tested configs:
-alpha            allnoconfig    gcc-14.1.0
-alpha           allyesconfig    clang-20
-arc             allmodconfig    clang-20
-arc              allnoconfig    gcc-14.1.0
-arc             allyesconfig    clang-20
-arm             allmodconfig    clang-20
-arm              allnoconfig    gcc-14.1.0
-arm             allyesconfig    clang-20
-arm64           allmodconfig    clang-20
-arm64            allnoconfig    gcc-14.1.0
-csky             allnoconfig    gcc-14.1.0
-hexagon         allmodconfig    clang-20
-hexagon          allnoconfig    gcc-14.1.0
-hexagon         allyesconfig    clang-20
-i386            allmodconfig    clang-19
-i386             allnoconfig    clang-19
-i386            allyesconfig    clang-19
-i386               defconfig    clang-19
-loongarch       allmodconfig    gcc-14.1.0
-loongarch        allnoconfig    gcc-14.1.0
-m68k            allmodconfig    gcc-14.1.0
-m68k             allnoconfig    gcc-14.1.0
-m68k            allyesconfig    gcc-14.1.0
-microblaze      allmodconfig    gcc-14.1.0
-microblaze       allnoconfig    gcc-14.1.0
-microblaze      allyesconfig    gcc-14.1.0
-mips             allnoconfig    gcc-14.1.0
-nios2            allnoconfig    gcc-14.1.0
-openrisc         allnoconfig    clang-20
-openrisc         allnoconfig    gcc-14.1.0
-openrisc        allyesconfig    gcc-14.1.0
-openrisc           defconfig    gcc-12
-parisc          allmodconfig    gcc-14.1.0
-parisc           allnoconfig    clang-20
-parisc           allnoconfig    gcc-14.1.0
-parisc          allyesconfig    gcc-14.1.0
-parisc             defconfig    gcc-12
-powerpc         allmodconfig    gcc-14.1.0
-powerpc          allnoconfig    clang-20
-powerpc          allnoconfig    gcc-14.1.0
-powerpc         allyesconfig    gcc-14.1.0
-riscv           allmodconfig    gcc-14.1.0
-riscv            allnoconfig    clang-20
-riscv            allnoconfig    gcc-14.1.0
-riscv           allyesconfig    gcc-14.1.0
-riscv              defconfig    gcc-12
-s390            allmodconfig    gcc-14.1.0
-s390             allnoconfig    clang-20
-s390            allyesconfig    gcc-14.1.0
-s390               defconfig    gcc-12
-sh              allmodconfig    gcc-14.1.0
-sh               allnoconfig    gcc-14.1.0
-sh              allyesconfig    gcc-14.1.0
-sh                 defconfig    gcc-12
-sparc           allmodconfig    gcc-14.1.0
-sparc64            defconfig    gcc-12
-um              allmodconfig    clang-20
-um               allnoconfig    clang-17
-um               allnoconfig    clang-20
-um              allyesconfig    clang-20
-um                 defconfig    gcc-12
-um            i386_defconfig    gcc-12
-um          x86_64_defconfig    gcc-12
-x86_64           allnoconfig    clang-19
-x86_64          allyesconfig    clang-19
-x86_64             defconfig    clang-19
-x86_64                 kexec    clang-19
-x86_64                 kexec    gcc-12
-x86_64              rhel-8.3    gcc-12
-x86_64          rhel-8.3-bpf    clang-19
-x86_64        rhel-8.3-kunit    clang-19
-x86_64          rhel-8.3-ltp    clang-19
-x86_64         rhel-8.3-rust    clang-19
-xtensa           allnoconfig    gcc-14.1.0
+In this and the next series [1], examples of three different users are converted
+to the new API to show the benefits and its versatility. Each user has a unique
+flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+To make the use of the new API easier, HMM and block subsystems are extended
+to hide the optimization details from the caller. Among these optimizations:
+ * Memory reduction as in most real use cases there is no need to store mapped
+   DMA addresses and unmap them.
+ * Reducing the function call overhead by removing the need to call function
+   pointers and use direct calls instead.
+
+This step is first along a path to provide alternatives to scatterlist and
+solve some of the abuses and design mistakes, for instance in DMABUF's P2P
+support.
+
+Thanks
+
+[1] https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org
+
+Christoph Hellwig (6):
+  PCI/P2PDMA: refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
+
+Leon Romanovsky (12):
+  dma-mapping: Add check if IOVA can be used
+  dma: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  mm/hmm: provide generic DMA managing logic
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+    linkage
+  RDMA/umem: Separate implicit ODP initialization from explicit ODP
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Explicitly store page list
+  vfio/mlx5: Convert vfio to use DMA link API
+
+ Documentation/core-api/dma-api.rst   |  70 +++++
+ drivers/infiniband/core/umem_odp.c   | 250 +++++----------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+ drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+ drivers/iommu/dma-iommu.c            | 455 +++++++++++++++++++++++----
+ drivers/iommu/iommu.c                |  65 ++--
+ drivers/pci/p2pdma.c                 |  38 +--
+ drivers/vfio/pci/mlx5/cmd.c          | 312 +++++++++---------
+ drivers/vfio/pci/mlx5/cmd.h          |  24 +-
+ drivers/vfio/pci/mlx5/main.c         |  87 +++--
+ include/linux/dma-map-ops.h          |  54 ----
+ include/linux/dma-mapping.h          |  84 +++++
+ include/linux/hmm-dma.h              |  32 ++
+ include/linux/hmm.h                  |  16 +
+ include/linux/iommu.h                |   4 +
+ include/linux/pci-p2pdma.h           |  84 +++++
+ include/rdma/ib_umem_odp.h           |  25 +-
+ kernel/dma/direct.c                  |  43 ++-
+ kernel/dma/mapping.c                 |  20 ++
+ mm/hmm.c                             | 229 +++++++++++++-
+ 21 files changed, 1345 insertions(+), 636 deletions(-)
+ create mode 100644 include/linux/hmm-dma.h
+
+-- 
+2.46.2
+
 
