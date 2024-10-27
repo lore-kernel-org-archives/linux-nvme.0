@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6486D13563
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 14:22:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A12CD13561
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 14:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PhW4VjnvtzkDooyFGath+3T4tsAPk9cdglqFB5sUC1Q=; b=za7Uv25uWnL/qWI+9ruZCA8ZYM
-	6DLsadqsQacgq6StZa55Jc8DaVDc7DxrRKKLzqVHCfrqByPeNhT/KXfakVkTc62frdnsVaRuFV/66
-	GhLypasX8y8LKyVGR0l/AdgdgYSfvMup9xjuDF6dE+WRYF/zuPh3Y22Fl31vj+UDX4b7MW+9WBMYY
-	FrgLdlboixKeKihLWTxMhTdwKxZfPGTNup4Rgs8AFuluuTC1o4OfvWrOk3UbB6ywwFNGydOxC7l2z
-	KyB//5i31Z/3ITZ+CXbN5RVZuCh27EKAd86lwsYUDQsJQ8g/cUSb0FwrlTZwh5IlvVpwE9eNToiJK
-	1cG7sqAg==;
+	bh=tFfAVeRpTt9MOKvdbyKITP7haOM8Jd6d88FaRUe8ZOQ=; b=dj0wioF0FnGQ83yZn2s4ydLvsc
+	lu+lkI1LK5dZRwBJ9sIicJVSJ7YIy/FavD/eQm66588H8B1kRvYEwwNg6kcQrRDgzJlZRflRZFOhs
+	OI/GbakDffbvGgXpA9azceaKzOGJKLLAPaut6irnbxi3IX1WmlOePfZ58bVXpSQvZupKnplol8E7J
+	+e1vnQTdIia6+xGUyHrvwdaxG6tfCR/0pdmBejuI8twlV4rY6hMGkIxS++wLVxjr0sPdJCjVCw83v
+	8gD/0Feq9NR1LOlYyXrmFjpByGIIWCtbrT05fi2yGQVER1jP7v9z44jR4ZLz8MK/fX0Jc/UZQ97gA
+	FyEbyVEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54AM-00000008KnB-3wrI;
-	Sun, 27 Oct 2024 14:22:50 +0000
+	id 1t54AZ-00000008Kwv-0j14;
+	Sun, 27 Oct 2024 14:23:03 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54AC-00000008Kf8-2p1m
+	id 1t54AJ-00000008Kk0-3VQX
 	for linux-nvme@bombadil.infradead.org;
-	Sun, 27 Oct 2024 14:22:40 +0000
+	Sun, 27 Oct 2024 14:22:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=PhW4VjnvtzkDooyFGath+3T4tsAPk9cdglqFB5sUC1Q=; b=ePy/a3ptxdy4L7NrlU/ZQUXUur
-	ZKs6HC98S4W+Ztdzy+z+/2M4Xoa5rjKvF02+aLc0fdgZBJGw4CEIqeaaeDcBKW8r5oP7Qk7rE4dhd
-	AEWa965WTFasJuuvn0CNGdgWDP8NaBpeNRoWuwTZkj8/JPIibYPmJIR37M2jXlx43WArwLil8+cDV
-	8B4qmyPJ4YBMkaytBoiTSz+yiqZU4ucyeldKU5oubHVIjodEK970qMH2w7Qn3be/aNzYep2Vr5u34
-	K0oVsMEuc1ekch6rGXoc0twGXpbgBk6NIXPxagg6wq5iKAnJqoKMg7BIyf/VlTiGPm3/vFz/b8hWt
-	gKHJi7Qg==;
+	bh=tFfAVeRpTt9MOKvdbyKITP7haOM8Jd6d88FaRUe8ZOQ=; b=EsHkEmh4/Jowz+e2yKCYNUuUHs
+	A8r7cqLRPdpLhgYlxyi91m7JXankxl99ErcQJ/QYNDccOe2bS7ywyVpDyiSCHLeZT5kFYvL+cIswC
+	4ZNMkyedSaSBKpgWUwsMwV1OX6X9uC2VZpI6NuzPC4UQSaKHdU9t1yHRYMZ8JQ0+synCaILV7Zr2d
+	6iXbR7kscreNwfc8NYNwhcRO4J/q4Onnxm5SSXpx/chz59+9zVN+BAHcdGktbW5EtO5Nj0P+ZY89+
+	Lunbadezk1ZF+SZroUWkFu9yv4x23iM5e4a9C3dq6P06tiGb6LSP04b9/cmpSL66DYVp5VEvsqyKE
+	1SKdUKnA==;
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54A8-00000009QMm-2LTm
+	id 1t54AD-00000009QLt-477e
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Oct 2024 14:22:39 +0000
+	Sun, 27 Oct 2024 14:22:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 00CB0A40FA4;
-	Sun, 27 Oct 2024 14:20:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0792FC4CEC3;
-	Sun, 27 Oct 2024 14:22:32 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id C30C0A40F21;
+	Sun, 27 Oct 2024 14:20:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBBC4C4CEC3;
+	Sun, 27 Oct 2024 14:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730038952;
-	bh=RCW7z84/26BITUxg8PndrrKsB8pTf34fxPy1qnPVTz8=;
+	s=k20201202; t=1730038948;
+	bh=LyGbooKE736rWckmyvuR6Y2aUxxUKiIhQ25bI43LeHo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p469KH+iYKJpE42ausBaBh8WvcfCIuLRW+/Ozj9WyaS1awuuaSGbTYgDOqftciJYn
-	 tYLopKnnfSl5vD/Zx8A/kVhx2smNtfxLcxnKp0YBwvo6isKlJPBvKOEANH8xHWPI3u
-	 BEwvOeSuvNFGcEAVRwCURH5KJVNClvtUfMssTSQ81yaWUw0XSyZEmG6HBxA3vb+VnI
-	 fYsuqFi8i9W/SUik2wC7KbpMDsjkC3EQKlW+wpTMkwZgDyky1gesPtr4uLlpQaqpES
-	 beis3VfX/oGZC3vRYVyuC3mPz868lFfuTz1MEcaVLULeCwdQXwWk74JMotfSEdoy7x
-	 etTNqb1MXlY7Q==
+	b=iCkLbrpnlImhB9B2714xCMDVyAnzWG7MsfR2tObG6bSGDFDz4Bf4CI0mqKt+rhuYq
+	 oH9+qokY2xOMGvGOGy85p6vNn6z9dqDdwZ9MAzJ/Y7n8iQv0e0nn5FsdeSoMXGJcFj
+	 B+Zi8xW0UVh0uK/OidgiacDE2NCdMWAyryo2eQ61nfECpDk59aRsqWtCbWH4zdhzfH
+	 EE5mWIwZYs2U2XkGvGVAKEq7GkstM4Q+7cbJ824WG2VF+/8pl7vlytQS/XVuNbujES
+	 urNdKuuovQ1egFVlgv0jTDSmxVbzWG5blHyNDBWJJkFVst1jo9u8sMvdVfv9ThBNkJ
+	 kD4ta2u0CCROg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -86,17 +86,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 16/18] vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-Date: Sun, 27 Oct 2024 16:21:16 +0200
-Message-ID: <3b0710f67d75daecc15529307de11d01da45f52c.1730037276.git.leon@kernel.org>
+Subject: [PATCH 10/18] mm/hmm: let users to tag specific PFN with DMA mapped bit
+Date: Sun, 27 Oct 2024 16:21:10 +0200
+Message-ID: <6c79710ccc5d9fec36172fea13498e30132a0600.1730037276.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <cover.1730037276.git.leon@kernel.org>
 References: <cover.1730037276.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241027_142237_267058_71C95949 
-X-CRM114-Status: GOOD (  22.80  )
+X-CRM114-CacheID: sfid-20241027_142244_748042_6DDBA569 
+X-CRM114-Status: GOOD (  18.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,302 +113,151 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Change the creation of mkey to be performed in multiple steps:
-data allocation, DMA setup and actual call to HW to create that mkey.
-
-In this new flow, the whole input to MKEY command is saved to eliminate
-the need to keep array of pointers for DMA addresses for receive list
-and in the future patches for send list too.
-
-In addition to memory size reduce and elimination of unnecessary data
-movements to set MKEY input, the code is prepared for future reuse.
+Introduce new sticky flag (HMM_PFN_DMA_MAPPED), which isn't overwritten
+by HMM range fault. Such flag allows users to tag specific PFNs with information
+if this specific PFN was already DMA mapped.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/vfio/pci/mlx5/cmd.c | 156 ++++++++++++++++++++----------------
- drivers/vfio/pci/mlx5/cmd.h |   4 +-
- 2 files changed, 90 insertions(+), 70 deletions(-)
+ include/linux/hmm.h | 14 ++++++++++++++
+ mm/hmm.c            | 34 +++++++++++++++++++++-------------
+ 2 files changed, 35 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
-index fdc3e515741f..1832a6c1f35d 100644
---- a/drivers/vfio/pci/mlx5/cmd.c
-+++ b/drivers/vfio/pci/mlx5/cmd.c
-@@ -313,39 +313,21 @@ static int mlx5vf_cmd_get_vhca_id(struct mlx5_core_dev *mdev, u16 function_id,
- 	return ret;
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 126a36571667..5dd655f6766b 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -23,6 +23,8 @@ struct mmu_interval_notifier;
+  * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
+  * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
+  *                 fail. ie poisoned memory, special pages, no vma, etc
++ * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
++ *                      to mark that page is already DMA mapped
+  *
+  * On input:
+  * 0                 - Return the current state of the page, do not fault it.
+@@ -36,6 +38,10 @@ enum hmm_pfn_flags {
+ 	HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
+ 	HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
+ 	HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
++
++	/* Sticky flag, carried from Input to Output */
++	HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 7),
++
+ 	HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 8),
+ 
+ 	/* Input flags */
+@@ -57,6 +63,14 @@ static inline struct page *hmm_pfn_to_page(unsigned long hmm_pfn)
+ 	return pfn_to_page(hmm_pfn & ~HMM_PFN_FLAGS);
  }
  
--static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
--			struct mlx5_vhca_data_buffer *buf,
--			struct mlx5_vhca_recv_buf *recv_buf,
--			u32 *mkey)
-+static u32 *alloc_mkey_in(u32 npages, u32 pdn)
- {
--	size_t npages = buf ? buf->npages : recv_buf->npages;
--	int err = 0, inlen;
--	__be64 *mtt;
-+	int inlen;
- 	void *mkc;
- 	u32 *in;
- 
- 	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
--		sizeof(*mtt) * round_up(npages, 2);
-+		sizeof(__be64) * round_up(npages, 2);
- 
--	in = kvzalloc(inlen, GFP_KERNEL);
-+	in = kvzalloc(inlen, GFP_KERNEL_ACCOUNT);
- 	if (!in)
--		return -ENOMEM;
-+		return NULL;
- 
- 	MLX5_SET(create_mkey_in, in, translations_octword_actual_size,
- 		 DIV_ROUND_UP(npages, 2));
--	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, in, klm_pas_mtt);
--
--	if (buf) {
--		struct sg_dma_page_iter dma_iter;
--
--		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
--			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
--	} else {
--		int i;
--
--		for (i = 0; i < npages; i++)
--			*mtt++ = cpu_to_be64(recv_buf->dma_addrs[i]);
--	}
- 
- 	mkc = MLX5_ADDR_OF(create_mkey_in, in, memory_key_mkey_entry);
- 	MLX5_SET(mkc, mkc, access_mode_1_0, MLX5_MKC_ACCESS_MODE_MTT);
-@@ -359,9 +341,29 @@ static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
- 	MLX5_SET(mkc, mkc, log_page_size, PAGE_SHIFT);
- 	MLX5_SET(mkc, mkc, translations_octword_size, DIV_ROUND_UP(npages, 2));
- 	MLX5_SET64(mkc, mkc, len, npages * PAGE_SIZE);
--	err = mlx5_core_create_mkey(mdev, mkey, in, inlen);
--	kvfree(in);
--	return err;
-+
-+	return in;
++/*
++ * hmm_pfn_to_phys() - return physical address pointed to by a device entry
++ */
++static inline phys_addr_t hmm_pfn_to_phys(unsigned long hmm_pfn)
++{
++	return __pfn_to_phys(hmm_pfn & ~HMM_PFN_FLAGS);
 +}
 +
-+static int create_mkey(struct mlx5_core_dev *mdev, u32 npages,
-+		       struct mlx5_vhca_data_buffer *buf, u32 *mkey_in,
-+		       u32 *mkey)
-+{
-+	__be64 *mtt;
-+	int inlen;
-+
-+	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
-+	if (buf) {
-+		struct sg_dma_page_iter dma_iter;
-+
-+		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
-+			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
-+	}
-+
-+	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
-+		sizeof(__be64) * round_up(npages, 2);
-+
-+	return mlx5_core_create_mkey(mdev, mkey, mkey_in, inlen);
- }
- 
- static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
-@@ -374,20 +376,28 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	if (mvdev->mdev_detach)
- 		return -ENOTCONN;
- 
--	if (buf->dmaed || !buf->npages)
-+	if (buf->mkey_in || !buf->npages)
- 		return -EINVAL;
- 
- 	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
- 	if (ret)
- 		return ret;
- 
--	ret = _create_mkey(mdev, buf->migf->pdn, buf, NULL, &buf->mkey);
--	if (ret)
-+	buf->mkey_in = alloc_mkey_in(buf->npages, buf->migf->pdn);
-+	if (!buf->mkey_in) {
-+		ret = -ENOMEM;
- 		goto err;
-+	}
- 
--	buf->dmaed = true;
-+	ret = create_mkey(mdev, buf->npages, buf, buf->mkey_in, &buf->mkey);
-+	if (ret)
-+		goto err_create_mkey;
- 
- 	return 0;
-+
-+err_create_mkey:
-+	kvfree(buf->mkey_in);
-+	buf->mkey_in = NULL;
- err:
- 	dma_unmap_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
- 	return ret;
-@@ -401,8 +411,9 @@ void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	lockdep_assert_held(&migf->mvdev->state_mutex);
- 	WARN_ON(migf->mvdev->mdev_detach);
- 
--	if (buf->dmaed) {
-+	if (buf->mkey_in) {
- 		mlx5_core_destroy_mkey(migf->mvdev->mdev, buf->mkey);
-+		kvfree(buf->mkey_in);
- 		dma_unmap_sgtable(migf->mvdev->mdev->device, &buf->table.sgt,
- 				  buf->dma_dir, 0);
- 	}
-@@ -779,7 +790,7 @@ int mlx5vf_cmd_load_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 	if (mvdev->mdev_detach)
- 		return -ENOTCONN;
- 
--	if (!buf->dmaed) {
-+	if (!buf->mkey_in) {
- 		err = mlx5vf_dma_data_buffer(buf);
- 		if (err)
- 			return err;
-@@ -1380,56 +1391,54 @@ static int alloc_recv_pages(struct mlx5_vhca_recv_buf *recv_buf,
- 	kvfree(recv_buf->page_list);
- 	return -ENOMEM;
- }
-+static void unregister_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
-+				 u32 *mkey_in)
-+{
-+	dma_addr_t addr;
-+	__be64 *mtt;
-+	int i;
-+
-+	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
-+	for (i = npages - 1; i >= 0; i--) {
-+		addr = be64_to_cpu(mtt[i]);
-+		dma_unmap_single(mdev->device, addr, PAGE_SIZE,
-+				DMA_FROM_DEVICE);
-+	}
-+}
- 
--static int register_dma_recv_pages(struct mlx5_core_dev *mdev,
--				   struct mlx5_vhca_recv_buf *recv_buf)
-+static int register_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
-+			      struct page **page_list, u32 *mkey_in)
+ /*
+  * hmm_pfn_to_map_order() - return the CPU mapping size order
+  *
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 7e0229ae4a5a..2a0c34d7cb2b 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -44,8 +44,10 @@ static int hmm_pfns_fill(unsigned long addr, unsigned long end,
  {
--	int i, j;
-+	dma_addr_t addr;
-+	__be64 *mtt;
-+	int i;
+ 	unsigned long i = (addr - range->start) >> PAGE_SHIFT;
  
--	recv_buf->dma_addrs = kvcalloc(recv_buf->npages,
--				       sizeof(*recv_buf->dma_addrs),
--				       GFP_KERNEL_ACCOUNT);
--	if (!recv_buf->dma_addrs)
--		return -ENOMEM;
-+	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
- 
--	for (i = 0; i < recv_buf->npages; i++) {
--		recv_buf->dma_addrs[i] = dma_map_page(mdev->device,
--						      recv_buf->page_list[i],
--						      0, PAGE_SIZE,
--						      DMA_FROM_DEVICE);
--		if (dma_mapping_error(mdev->device, recv_buf->dma_addrs[i]))
-+	for (i = 0; i < npages; i++) {
-+		addr = dma_map_page(mdev->device, page_list[i], 0, PAGE_SIZE,
-+				    DMA_FROM_DEVICE);
-+		if (dma_mapping_error(mdev->device, addr))
- 			goto error;
-+
-+		*mtt++ = cpu_to_be64(addr);
- 	}
-+
- 	return 0;
- 
- error:
--	for (j = 0; j < i; j++)
--		dma_unmap_single(mdev->device, recv_buf->dma_addrs[j],
--				 PAGE_SIZE, DMA_FROM_DEVICE);
--
--	kvfree(recv_buf->dma_addrs);
-+	unregister_dma_pages(mdev, i, mkey_in);
- 	return -ENOMEM;
- }
- 
--static void unregister_dma_recv_pages(struct mlx5_core_dev *mdev,
--				      struct mlx5_vhca_recv_buf *recv_buf)
--{
--	int i;
--
--	for (i = 0; i < recv_buf->npages; i++)
--		dma_unmap_single(mdev->device, recv_buf->dma_addrs[i],
--				 PAGE_SIZE, DMA_FROM_DEVICE);
--
--	kvfree(recv_buf->dma_addrs);
--}
--
- static void mlx5vf_free_qp_recv_resources(struct mlx5_core_dev *mdev,
- 					  struct mlx5_vhca_qp *qp)
- {
- 	struct mlx5_vhca_recv_buf *recv_buf = &qp->recv_buf;
- 
- 	mlx5_core_destroy_mkey(mdev, recv_buf->mkey);
--	unregister_dma_recv_pages(mdev, recv_buf);
-+	unregister_dma_pages(mdev, recv_buf->npages, recv_buf->mkey_in);
-+	kvfree(recv_buf->mkey_in);
- 	free_recv_pages(&qp->recv_buf);
- }
- 
-@@ -1445,18 +1454,29 @@ static int mlx5vf_alloc_qp_recv_resources(struct mlx5_core_dev *mdev,
- 	if (err < 0)
- 		return err;
- 
--	err = register_dma_recv_pages(mdev, recv_buf);
--	if (err)
-+	recv_buf->mkey_in = alloc_mkey_in(npages, pdn);
-+	if (!recv_buf->mkey_in) {
-+		err = -ENOMEM;
- 		goto end;
+-	for (; addr < end; addr += PAGE_SIZE, i++)
+-		range->hmm_pfns[i] = cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++) {
++		range->hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		range->hmm_pfns[i] |= cpu_flags;
 +	}
-+
-+	err = register_dma_pages(mdev, npages, recv_buf->page_list,
-+				 recv_buf->mkey_in);
-+	if (err)
-+		goto err_register_dma;
+ 	return 0;
+ }
  
--	err = _create_mkey(mdev, pdn, NULL, recv_buf, &recv_buf->mkey);
-+	err = create_mkey(mdev, npages, NULL, recv_buf->mkey_in,
-+			  &recv_buf->mkey);
- 	if (err)
- 		goto err_create_mkey;
+@@ -202,8 +204,10 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
+ 		return hmm_vma_fault(addr, end, required_fault, walk);
  
+ 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+-	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		hmm_pfns[i] = pfn | cpu_flags;
++	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 	return 0;
+ }
+ #else /* CONFIG_TRANSPARENT_HUGEPAGE */
+@@ -236,7 +240,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (required_fault)
+ 			goto fault;
+-		*hmm_pfn = 0;
++		*hmm_pfn = *hmm_pfn & HMM_PFN_DMA_MAPPED;
+ 		return 0;
+ 	}
+ 
+@@ -253,14 +257,14 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			cpu_flags = HMM_PFN_VALID;
+ 			if (is_writable_device_private_entry(entry))
+ 				cpu_flags |= HMM_PFN_WRITE;
+-			*hmm_pfn = swp_offset_pfn(entry) | cpu_flags;
++			*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | swp_offset_pfn(entry) | cpu_flags;
+ 			return 0;
+ 		}
+ 
+ 		required_fault =
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (!required_fault) {
+-			*hmm_pfn = 0;
++			*hmm_pfn = *hmm_pfn & HMM_PFN_DMA_MAPPED;
+ 			return 0;
+ 		}
+ 
+@@ -304,11 +308,11 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			pte_unmap(ptep);
+ 			return -EFAULT;
+ 		}
+-		*hmm_pfn = HMM_PFN_ERROR;
++		*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | HMM_PFN_ERROR;
+ 		return 0;
+ 	}
+ 
+-	*hmm_pfn = pte_pfn(pte) | cpu_flags;
++	*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | pte_pfn(pte) | cpu_flags;
  	return 0;
  
- err_create_mkey:
--	unregister_dma_recv_pages(mdev, recv_buf);
-+	unregister_dma_pages(mdev, npages, recv_buf->mkey_in);
-+err_register_dma:
-+	kvfree(recv_buf->mkey_in);
-+	recv_buf->mkey_in = NULL;
- end:
- 	free_recv_pages(recv_buf);
- 	return err;
-diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
-index 7d4a833b6900..25dd6ff54591 100644
---- a/drivers/vfio/pci/mlx5/cmd.h
-+++ b/drivers/vfio/pci/mlx5/cmd.h
-@@ -58,8 +58,8 @@ struct mlx5_vhca_data_buffer {
- 	u64 length;
- 	u32 npages;
- 	u32 mkey;
-+	u32 *mkey_in;
- 	enum dma_data_direction dma_dir;
--	u8 dmaed:1;
- 	u8 stop_copy_chunk_num;
- 	struct list_head buf_elm;
- 	struct mlx5_vf_migration_file *migf;
-@@ -133,8 +133,8 @@ struct mlx5_vhca_cq {
- struct mlx5_vhca_recv_buf {
- 	u32 npages;
- 	struct page **page_list;
--	dma_addr_t *dma_addrs;
- 	u32 next_rq_offset;
-+	u32 *mkey_in;
- 	u32 mkey;
- };
+ fault:
+@@ -448,8 +452,10 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
+ 		}
  
+ 		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-		for (i = 0; i < npages; ++i, ++pfn)
+-			hmm_pfns[i] = pfn | cpu_flags;
++		for (i = 0; i < npages; ++i, ++pfn) {
++			hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++			hmm_pfns[i] |= pfn | cpu_flags;
++		}
+ 		goto out_unlock;
+ 	}
+ 
+@@ -507,8 +513,10 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
+ 	}
+ 
+ 	pfn = pte_pfn(entry) + ((start & ~hmask) >> PAGE_SHIFT);
+-	for (; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		range->hmm_pfns[i] = pfn | cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		range->hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		range->hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 
+ 	spin_unlock(ptl);
+ 	return 0;
 -- 
 2.46.2
 
