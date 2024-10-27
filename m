@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78732D1356F
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B4A2D13570
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zqvfSXA47GF7YeUS5geOGS1Di2D4vIEM/P6G8yafBlY=; b=B4LC4IYIawHD6loKtgqTPyjsOh
-	6LppcDKxuny7zpNts8k//S1G/XQGbZpk1AAwmogY7E4iqhS+eQ8T2AK3a/AXusXLBINztqac4ZNO/
-	QFsyfRRgN9tZpjKmKXnu+233mZJDgIZxq1AUtDUKxsIRCaooKD2xehoQ0+2WWagrgf/xTfmEoo6rI
-	BLuOd2G6UXk9h8YhN2GqOHuoR/m6JnIE0NHNO6EtYQN1aSUdfvH9M5TohEptLvOhYJmRx+ea0oH0l
-	jM/4YlAtlwZJlHBySsC+Z2TodyKcl7sumw/X7ufGrKfJUyy2tz4aQUDylyAWr96ZYnUtPtUY2Sk4t
-	JZseu2Og==;
+	bh=tALG9wpKBtQB3tqH+0SVvlMPUAnleSl370kVmfpw6cg=; b=iBNbB1r0mncgu75tW++iotaULc
+	g57H1UlieEdrRzIgxKQhI2JgI6Ic3s6JUAd9dfKmydywvpUY9z9TG7GJjP5VTxmbOh+tdz6LRhXRc
+	I6ed8QhnihJMsQKNowQP2pJsfQ454N13Qi3q6P8AW+V4M50d6m62rj5Y6ZD2s6GM13TvHO4YX1ly6
+	585vTcLnaz5edKb/3urE+lf2Gw/cDL8VyFnMouv0EMql/LQ4piXs7bDeguHdy1WfL1csk74C7Pbui
+	7OzE5pjyye3igb638tFo29yvjnD8MIF6vS1qyvdraXnF1g9FUwrDYD0llPqcVpnwhD1TJ5Kb/ANf8
+	PtNdMQuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t55Dc-00000008TRM-3Ps2;
-	Sun, 27 Oct 2024 15:30:16 +0000
+	id 1t55Dd-00000008TRt-2cnI;
+	Sun, 27 Oct 2024 15:30:17 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54AL-00000008KlN-1KHx
+	id 1t54AQ-00000008Kpj-10eO
 	for linux-nvme@bombadil.infradead.org;
-	Sun, 27 Oct 2024 14:22:49 +0000
+	Sun, 27 Oct 2024 14:22:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=zqvfSXA47GF7YeUS5geOGS1Di2D4vIEM/P6G8yafBlY=; b=Ci/8e1ckkv6aZNkkInFMSwpwEN
-	LjACTb5VUxWuQfOurmVPjzvCcowyjgQLx18YoSvxvGC+uU7I9OMUI/QbfiKTaUq/QdbdB36SSJdyF
-	M64gKhkgsZ/3EsCCzQqEWQuZJRq11/+CisdYvRdOf58uA4DkciyGLRbky/LmkeW+6cDOriDk/e8uX
-	mxpTSf85zHosJLy/qsLYq/fcrXNs+yodCfCWHmh/ecuPgLqjyecv+DFEkb6Kvo3axgHNOOS1vRVwQ
-	R3rX0z8ZZKnn1Kw2XDP5Nyjyqv+LfXEYoqZ/RC5BAlSgUUKTFFfltckxvZOEu9sq9w85t7Xx3D4U2
-	504sfjoQ==;
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	bh=tALG9wpKBtQB3tqH+0SVvlMPUAnleSl370kVmfpw6cg=; b=SfR3zMG3aLzfr/06yN887rLukh
+	5T7OSjAQju8WA295l0T/qTqCCcpqoG8vq6YIoTdxsSfhtuDNMRC33yXbzCx6tuE6jxZyJHZfWd23z
+	h7wvF6ds1TiReNdESwuQX1WfeXIEdUzg13LgQvzGMuSMpcoBOmLSFR5K/UuVwBvJTi1HXjnvxGQsr
+	o45dToJZxIRTtmS0LHoCtFfuWrXGshotHbdnW8vZxP40R4Xw275KBPCbCD/TdinrBRRA5wmpIbNlQ
+	VVALJ2QTa/tnjIU4juSItN8/yulwSb0NluuOBdYgQLPAG7eOI7OF24BnFyrN1aOxvtKeyXdnnNYa3
+	Qxbx1QrQ==;
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54AF-00000009QPR-3KLT
+	id 1t54AM-00000009QSr-2qFu
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Oct 2024 14:22:47 +0000
+	Sun, 27 Oct 2024 14:22:52 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 09BF0A40FA0;
-	Sun, 27 Oct 2024 14:20:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CCEAC4CEC3;
-	Sun, 27 Oct 2024 14:22:40 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 237F95C5830;
+	Sun, 27 Oct 2024 14:22:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 270F5C4CEC3;
+	Sun, 27 Oct 2024 14:22:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730038960;
-	bh=9Y8s1sn+jRVmq+XduWzJ+4BCR70epcg9p+8pEEFM2cI=;
+	s=k20201202; t=1730038968;
+	bh=Ig+DtUOzk0wRj0C/EWVGPiHozm6V2fkXLKm30AePHJc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D6nBNy7KRpHMQDBD/hIk8id0BwPrCi1QrX6RrVsB2mIixEfPurh4i3M7Q+NV8Pe+G
-	 O1UJBOKRQl1UIMFjxgpdFl264u3K378hbDGEWKGy0KIWwt5SdFzvoUsGeCbwF46Eb0
-	 sVEBYsZ2HVsm83TcrJXjk7/XZP96tbjWUizHwVcMnAmKJm6J5d29yR8sT2IhN4v+oo
-	 sYQo22P1Bkwsv65FV96jsyaj8FU7QvlpcUQ4UHHGclNVimMdEHYeG+cD3hoMzUy8IE
-	 zW/kkqQxodZssIgCBi7yBhnU8LumK9wCldrWqn+g3ObKUe3DGjGVKJMSMy9Z7Xmgc0
-	 C/UIHvlE0yU7g==
+	b=r+zfRmfgUjBdKG0sjFH7EFWB14iiJjvEXA1eTMDEC2NPGsxgK3GK1ozAFere43Kk3
+	 Olw8VnLKVDFHXG1xCYeSjKw7t2cyNGOGv1SB0qzIaO7Hjg9oYHlDJVIAPTr9/UTSPh
+	 iBN4VQUVqSBI7htWJrXD6Vj/LvGOfrORvquuGrGjQyhyT4sD/QndXQDzjQPGyamfu0
+	 9FwwvLYJyeH8muOh/ZbuS9SltR1FQiEn/M9pPcFgU0ARzo04FYi2f55G1NgIoF90fU
+	 gugpxORRZ1GMtHC/dWj350ZIJ+YXqS8sneoRix0wJR8tDnk8guw7Mz4U+sUsPYyPVa
+	 1pQyQWXPE7NcA==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -65,8 +65,7 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Will Deacon <will@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
+Cc: Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -86,17 +85,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 18/18] vfio/mlx5: Convert vfio to use DMA link API
-Date: Sun, 27 Oct 2024 16:21:18 +0200
-Message-ID: <0a517ddff099c14fac1ceb0e75f2f50ed183d09c.1730037276.git.leon@kernel.org>
+Subject: [RFC PATCH 1/7] block: share more code for bio addition helpers
+Date: Sun, 27 Oct 2024 16:21:54 +0200
+Message-ID: <e6be9d87a3ca1a2f9c27bce73fbab559c21c765f.1730037261.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.2
-In-Reply-To: <cover.1730037276.git.leon@kernel.org>
-References: <cover.1730037276.git.leon@kernel.org>
+In-Reply-To: <cover.1730037261.git.leon@kernel.org>
+References: <cover.1730037261.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241027_142245_109550_694FF733 
-X-CRM114-Status: GOOD (  23.22  )
+X-CRM114-CacheID: sfid-20241027_142251_158653_8F3C4C90 
+X-CRM114-Status: GOOD (  22.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,416 +110,203 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+From: Christoph Hellwig <hch@lst.de>
 
-Remove intermediate scatter-gather table as it is not needed
-if DMA link API is used. This conversion reduces drastically
-the memory used to manage that table.
+__bio_iov_iter_get_pages currently open codes adding pages to the bio,
+which duplicates a lot of code from bio_add_page and
+bio_add_zone_append_page.  Add bio_add_page_int and
+bio_add_zone_append_page_int helpers that pass down the same_page
+output argument so that __bio_iov_iter_get_pages can reuse the main
+add bio to page helpers.
 
+Note that I'd normally call these helpers __bio_add_page and
+__bio_add_zone_append_page, but the former is already taken for an
+exported API.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/vfio/pci/mlx5/cmd.c  | 211 ++++++++++++++++++-----------------
- drivers/vfio/pci/mlx5/cmd.h  |   9 +-
- drivers/vfio/pci/mlx5/main.c |  31 +----
- 3 files changed, 114 insertions(+), 137 deletions(-)
+ block/bio.c | 114 +++++++++++++++++++++++-----------------------------
+ 1 file changed, 51 insertions(+), 63 deletions(-)
 
-diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
-index 34ae3e299a9e..58c490222be7 100644
---- a/drivers/vfio/pci/mlx5/cmd.c
-+++ b/drivers/vfio/pci/mlx5/cmd.c
-@@ -345,25 +345,81 @@ static u32 *alloc_mkey_in(u32 npages, u32 pdn)
- 	return in;
+diff --git a/block/bio.c b/block/bio.c
+index ac4d77c88932..2d3bc8bfb071 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -1064,6 +1064,19 @@ int bio_add_pc_page(struct request_queue *q, struct bio *bio,
  }
+ EXPORT_SYMBOL(bio_add_pc_page);
  
--static int create_mkey(struct mlx5_core_dev *mdev, u32 npages,
--		       struct mlx5_vhca_data_buffer *buf, u32 *mkey_in,
-+static int create_mkey(struct mlx5_core_dev *mdev, u32 npages, u32 *mkey_in,
- 		       u32 *mkey)
- {
-+	int inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
-+		sizeof(__be64) * round_up(npages, 2);
++static int bio_add_zone_append_page_int(struct bio *bio, struct page *page,
++		unsigned int len, unsigned int offset, bool *same_page)
++{
++	struct block_device *bdev = bio->bi_bdev;
 +
-+	return mlx5_core_create_mkey(mdev, mkey, mkey_in, inlen);
++	if (WARN_ON_ONCE(bio_op(bio) != REQ_OP_ZONE_APPEND))
++		return 0;
++	if (WARN_ON_ONCE(!bdev_is_zoned(bdev)))
++		return 0;
++	return bio_add_hw_page(bdev_get_queue(bdev), bio, page, len, offset,
++			bdev_max_zone_append_sectors(bdev), same_page);
 +}
 +
-+static void unregister_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
-+				 u32 *mkey_in, struct dma_iova_state *state,
-+				 enum dma_data_direction dir)
-+{
-+	dma_addr_t addr;
- 	__be64 *mtt;
--	int inlen;
-+	int i;
+ /**
+  * bio_add_zone_append_page - attempt to add page to zone-append bio
+  * @bio: destination bio
+@@ -1083,17 +1096,9 @@ EXPORT_SYMBOL(bio_add_pc_page);
+ int bio_add_zone_append_page(struct bio *bio, struct page *page,
+ 			     unsigned int len, unsigned int offset)
+ {
+-	struct request_queue *q = bdev_get_queue(bio->bi_bdev);
+ 	bool same_page = false;
  
--	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
--	if (buf) {
--		struct sg_dma_page_iter dma_iter;
-+	WARN_ON_ONCE(dir == DMA_NONE);
+-	if (WARN_ON_ONCE(bio_op(bio) != REQ_OP_ZONE_APPEND))
+-		return 0;
+-
+-	if (WARN_ON_ONCE(!bdev_is_zoned(bio->bi_bdev)))
+-		return 0;
+-
+-	return bio_add_hw_page(q, bio, page, len, offset,
+-			       queue_max_zone_append_sectors(q), &same_page);
++	return bio_add_zone_append_page_int(bio, page, len, offset, &same_page);
+ }
+ EXPORT_SYMBOL_GPL(bio_add_zone_append_page);
  
--		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
--			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
-+	if (dma_use_iova(state)) {
-+		dma_iova_destroy(mdev->device, state, dir, 0);
-+	} else {
-+		mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in,
-+					     klm_pas_mtt);
-+		for (i = npages - 1; i >= 0; i--) {
-+			addr = be64_to_cpu(mtt[i]);
-+			dma_unmap_page(mdev->device, addr, PAGE_SIZE, dir);
-+		}
+@@ -1119,20 +1124,9 @@ void __bio_add_page(struct bio *bio, struct page *page,
+ }
+ EXPORT_SYMBOL_GPL(__bio_add_page);
+ 
+-/**
+- *	bio_add_page	-	attempt to add page(s) to bio
+- *	@bio: destination bio
+- *	@page: start page to add
+- *	@len: vec entry length, may cross pages
+- *	@offset: vec entry offset relative to @page, may cross pages
+- *
+- *	Attempt to add page(s) to the bio_vec maplist. This will only fail
+- *	if either bio->bi_vcnt == bio->bi_max_vecs or it's a cloned bio.
+- */
+-int bio_add_page(struct bio *bio, struct page *page,
+-		 unsigned int len, unsigned int offset)
++static int bio_add_page_int(struct bio *bio, struct page *page,
++		 unsigned int len, unsigned int offset, bool *same_page)
+ {
+-	bool same_page = false;
+ 
+ 	if (WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED)))
+ 		return 0;
+@@ -1141,7 +1135,7 @@ int bio_add_page(struct bio *bio, struct page *page,
+ 
+ 	if (bio->bi_vcnt > 0 &&
+ 	    bvec_try_merge_page(&bio->bi_io_vec[bio->bi_vcnt - 1],
+-				page, len, offset, &same_page)) {
++				page, len, offset, same_page)) {
+ 		bio->bi_iter.bi_size += len;
+ 		return len;
  	}
-+}
- 
--	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
--		sizeof(__be64) * round_up(npages, 2);
-+static int register_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
-+			      struct page **page_list, u32 *mkey_in,
-+			      struct dma_iova_state *state,
-+			      enum dma_data_direction dir)
+@@ -1151,6 +1145,24 @@ int bio_add_page(struct bio *bio, struct page *page,
+ 	__bio_add_page(bio, page, len, offset);
+ 	return len;
+ }
++
++/**
++ * bio_add_page	- attempt to add page(s) to bio
++ * @bio: destination bio
++ * @page: start page to add
++ * @len: vec entry length, may cross pages
++ * @offset: vec entry offset relative to @page, may cross pages
++ *
++ * Attempt to add page(s) to the bio_vec maplist.  Will only fail if the
++ * bio is full, or it is incorrectly used on a cloned bio.
++ */
++int bio_add_page(struct bio *bio, struct page *page,
++		 unsigned int len, unsigned int offset)
 +{
-+	dma_addr_t addr;
-+	size_t mapped = 0;
-+	__be64 *mtt;
-+	int i, err;
- 
--	return mlx5_core_create_mkey(mdev, mkey, mkey_in, inlen);
-+	WARN_ON_ONCE(dir == DMA_NONE);
++	bool same_page = false;
 +
-+	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
-+
-+	if (dma_iova_try_alloc(mdev->device, state, 0, npages * PAGE_SIZE)) {
-+		addr = state->addr;
-+		for (i = 0; i < npages; i++) {
-+			err = dma_iova_link(mdev->device, state,
-+					    page_to_phys(page_list[i]), mapped,
-+					    PAGE_SIZE, dir, 0);
-+			if (err)
-+				break;
-+			*mtt++ = cpu_to_be64(addr);
-+			addr += PAGE_SIZE;
-+			mapped += PAGE_SIZE;
-+		}
-+		err = dma_iova_sync(mdev->device, state, 0, mapped, err);
-+		if (err)
-+			goto error;
-+	} else {
-+		for (i = 0; i < npages; i++) {
-+			addr = dma_map_page(mdev->device, page_list[i], 0,
-+					    PAGE_SIZE, dir);
-+			err = dma_mapping_error(mdev->device, addr);
-+			if (err)
-+				goto error;
-+			*mtt++ = cpu_to_be64(addr);
-+		}
-+	}
-+	return 0;
-+
-+error:
-+	unregister_dma_pages(mdev, i, mkey_in, state, dir);
-+	return err;
- }
- 
- static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
-@@ -379,50 +435,57 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	if (buf->mkey_in || !buf->npages)
- 		return -EINVAL;
- 
--	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
--	if (ret)
--		return ret;
--
- 	buf->mkey_in = alloc_mkey_in(buf->npages, buf->migf->pdn);
--	if (!buf->mkey_in) {
--		ret = -ENOMEM;
--		goto err;
--	}
-+	if (!buf->mkey_in)
-+		return -ENOMEM;
-+
-+	ret = register_dma_pages(mdev, buf->npages, buf->page_list,
-+				 buf->mkey_in, &buf->state, buf->dma_dir);
-+	if (ret)
-+		goto err_register_dma;
- 
--	ret = create_mkey(mdev, buf->npages, buf, buf->mkey_in, &buf->mkey);
-+	ret = create_mkey(mdev, buf->npages, buf->mkey_in, &buf->mkey);
- 	if (ret)
- 		goto err_create_mkey;
- 
- 	return 0;
- 
- err_create_mkey:
-+	unregister_dma_pages(mdev, buf->npages, buf->mkey_in, &buf->state,
-+			     buf->dma_dir);
-+err_register_dma:
- 	kvfree(buf->mkey_in);
- 	buf->mkey_in = NULL;
--err:
--	dma_unmap_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
- 	return ret;
- }
- 
-+static void free_page_list(u32 npages, struct page **page_list)
-+{
-+	int i;
-+
-+	/* Undo alloc_pages_bulk_array() */
-+	for (i = npages - 1; i >= 0; i--)
-+		__free_page(page_list[i]);
-+
-+	kvfree(page_list);
++	return bio_add_page_int(bio, page, len, offset, &same_page);
 +}
-+
- void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf)
- {
--	struct mlx5_vf_migration_file *migf = buf->migf;
--	struct sg_page_iter sg_iter;
-+	struct mlx5vf_pci_core_device *mvdev = buf->migf->mvdev;
-+	struct mlx5_core_dev *mdev = mvdev->mdev;
+ EXPORT_SYMBOL(bio_add_page);
  
--	lockdep_assert_held(&migf->mvdev->state_mutex);
--	WARN_ON(migf->mvdev->mdev_detach);
-+	lockdep_assert_held(&mvdev->state_mutex);
-+	WARN_ON(mvdev->mdev_detach);
- 
- 	if (buf->mkey_in) {
--		mlx5_core_destroy_mkey(migf->mvdev->mdev, buf->mkey);
-+		mlx5_core_destroy_mkey(mdev, buf->mkey);
-+		unregister_dma_pages(mdev, buf->npages, buf->mkey_in,
-+				     &buf->state, buf->dma_dir);
- 		kvfree(buf->mkey_in);
--		dma_unmap_sgtable(migf->mvdev->mdev->device, &buf->table.sgt,
--				  buf->dma_dir, 0);
- 	}
- 
--	/* Undo alloc_pages_bulk_array() */
--	for_each_sgtable_page(&buf->table.sgt, &sg_iter, 0)
--		__free_page(sg_page_iter_page(&sg_iter));
--	sg_free_append_table(&buf->table);
--	kvfree(buf->page_list);
-+	free_page_list(buf->npages, buf->page_list);
- 	kfree(buf);
+ void bio_add_folio_nofail(struct bio *bio, struct folio *folio, size_t len,
+@@ -1224,41 +1236,6 @@ void bio_iov_bvec_set(struct bio *bio, struct iov_iter *iter)
+ 	bio_set_flag(bio, BIO_CLONED);
  }
  
-@@ -433,7 +496,6 @@ static int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
- 	struct page **page_list;
- 	unsigned long filled;
- 	unsigned int to_fill;
--	int ret;
- 
- 	to_fill = min_t(unsigned int, npages, PAGE_SIZE / sizeof(*buf->page_list));
- 	page_list = kvzalloc(to_fill * sizeof(*buf->page_list), GFP_KERNEL_ACCOUNT);
-@@ -443,22 +505,13 @@ static int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
- 	buf->page_list = page_list;
- 
- 	do {
--		filled = alloc_pages_bulk_array(GFP_KERNEL_ACCOUNT, to_fill,
--				buf->page_list + buf->npages);
-+		filled = alloc_pages_bulk_array(GFP_KERNEL_ACCOUNT, to_alloc,
-+						buf->page_list + buf->npages);
- 		if (!filled)
- 			return -ENOMEM;
- 
- 		to_alloc -= filled;
--		ret = sg_alloc_append_table_from_pages(
--			&buf->table, buf->page_list + buf->npages, filled, 0,
--			filled << PAGE_SHIFT, UINT_MAX, SG_MAX_SINGLE_ALLOC,
--			GFP_KERNEL_ACCOUNT);
--
--		if (ret)
--			return ret;
- 		buf->npages += filled;
--		to_fill = min_t(unsigned int, to_alloc,
--				PAGE_SIZE / sizeof(*buf->page_list));
- 	} while (to_alloc > 0);
- 
- 	return 0;
-@@ -1340,17 +1393,6 @@ static void mlx5vf_destroy_qp(struct mlx5_core_dev *mdev,
- 	kfree(qp);
- }
- 
--static void free_recv_pages(struct mlx5_vhca_recv_buf *recv_buf)
+-static int bio_iov_add_folio(struct bio *bio, struct folio *folio, size_t len,
+-			     size_t offset)
 -{
--	int i;
+-	bool same_page = false;
 -
--	/* Undo alloc_pages_bulk_array() */
--	for (i = 0; i < recv_buf->npages; i++)
--		__free_page(recv_buf->page_list[i]);
+-	if (WARN_ON_ONCE(bio->bi_iter.bi_size > UINT_MAX - len))
+-		return -EIO;
 -
--	kvfree(recv_buf->page_list);
--}
--
- static int alloc_recv_pages(struct mlx5_vhca_recv_buf *recv_buf,
- 			    unsigned int npages)
- {
-@@ -1386,45 +1428,6 @@ static int alloc_recv_pages(struct mlx5_vhca_recv_buf *recv_buf,
- 	kvfree(recv_buf->page_list);
- 	return -ENOMEM;
- }
--static void unregister_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
--				 u32 *mkey_in)
--{
--	dma_addr_t addr;
--	__be64 *mtt;
--	int i;
--
--	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
--	for (i = npages - 1; i >= 0; i--) {
--		addr = be64_to_cpu(mtt[i]);
--		dma_unmap_single(mdev->device, addr, PAGE_SIZE,
--				DMA_FROM_DEVICE);
+-	if (bio->bi_vcnt > 0 &&
+-	    bvec_try_merge_page(&bio->bi_io_vec[bio->bi_vcnt - 1],
+-				folio_page(folio, 0), len, offset,
+-				&same_page)) {
+-		bio->bi_iter.bi_size += len;
+-		if (same_page && bio_flagged(bio, BIO_PAGE_PINNED))
+-			unpin_user_folio(folio, 1);
+-		return 0;
 -	}
--}
--
--static int register_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
--			      struct page **page_list, u32 *mkey_in)
--{
--	dma_addr_t addr;
--	__be64 *mtt;
--	int i;
--
--	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
--
--	for (i = 0; i < npages; i++) {
--		addr = dma_map_page(mdev->device, page_list[i], 0, PAGE_SIZE,
--				    DMA_FROM_DEVICE);
--		if (dma_mapping_error(mdev->device, addr))
--			goto error;
--
--		*mtt++ = cpu_to_be64(addr);
--	}
--
+-	bio_add_folio_nofail(bio, folio, len, offset);
 -	return 0;
--
--error:
--	unregister_dma_pages(mdev, i, mkey_in);
--	return -ENOMEM;
 -}
+-
+-static int bio_iov_add_zone_append_folio(struct bio *bio, struct folio *folio,
+-					 size_t len, size_t offset)
+-{
+-	struct request_queue *q = bdev_get_queue(bio->bi_bdev);
+-	bool same_page = false;
+-
+-	if (bio_add_hw_folio(q, bio, folio, len, offset,
+-			queue_max_zone_append_sectors(q), &same_page) != len)
+-		return -EINVAL;
+-	if (same_page && bio_flagged(bio, BIO_PAGE_PINNED))
+-		unpin_user_folio(folio, 1);
+-	return 0;
+-}
+-
+ static unsigned int get_contig_folio_len(unsigned int *num_pages,
+ 					 struct page **pages, unsigned int i,
+ 					 struct folio *folio, size_t left,
+@@ -1353,6 +1330,8 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
+ 	for (left = size, i = 0; left > 0; left -= len, i += num_pages) {
+ 		struct page *page = pages[i];
+ 		struct folio *folio = page_folio(page);
++		struct page *first_page = folio_page(folio, 0);
++		bool same_page = false;
  
- static void mlx5vf_free_qp_recv_resources(struct mlx5_core_dev *mdev,
- 					  struct mlx5_vhca_qp *qp)
-@@ -1432,9 +1435,10 @@ static void mlx5vf_free_qp_recv_resources(struct mlx5_core_dev *mdev,
- 	struct mlx5_vhca_recv_buf *recv_buf = &qp->recv_buf;
+ 		folio_offset = ((size_t)folio_page_idx(folio, page) <<
+ 			       PAGE_SHIFT) + offset;
+@@ -1366,12 +1345,21 @@ static int __bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
+ 						   folio, left, offset);
  
- 	mlx5_core_destroy_mkey(mdev, recv_buf->mkey);
--	unregister_dma_pages(mdev, recv_buf->npages, recv_buf->mkey_in);
-+	unregister_dma_pages(mdev, recv_buf->npages, recv_buf->mkey_in,
-+			     &recv_buf->state, DMA_FROM_DEVICE);
- 	kvfree(recv_buf->mkey_in);
--	free_recv_pages(&qp->recv_buf);
-+	free_page_list(recv_buf->npages, recv_buf->page_list);
- }
+ 		if (bio_op(bio) == REQ_OP_ZONE_APPEND) {
+-			ret = bio_iov_add_zone_append_folio(bio, folio, len,
+-					folio_offset);
+-			if (ret)
++			if (bio_add_zone_append_page_int(bio, first_page, len,
++					folio_offset, &same_page) != len) {
++				ret = -EINVAL;
++				break;
++			}
++		} else {
++			if (bio_add_page_int(bio, folio_page(folio, 0), len,
++					folio_offset, &same_page) != len) {
++				ret = -EINVAL;
+ 				break;
+-		} else
+-			bio_iov_add_folio(bio, folio, len, folio_offset);
++			}
++		}
++
++		if (same_page && bio_flagged(bio, BIO_PAGE_PINNED))
++			unpin_user_folio(folio, 1);
  
- static int mlx5vf_alloc_qp_recv_resources(struct mlx5_core_dev *mdev,
-@@ -1456,24 +1460,25 @@ static int mlx5vf_alloc_qp_recv_resources(struct mlx5_core_dev *mdev,
+ 		offset = 0;
  	}
- 
- 	err = register_dma_pages(mdev, npages, recv_buf->page_list,
--				 recv_buf->mkey_in);
-+				 recv_buf->mkey_in, &recv_buf->state,
-+				 DMA_FROM_DEVICE);
- 	if (err)
- 		goto err_register_dma;
- 
--	err = create_mkey(mdev, npages, NULL, recv_buf->mkey_in,
--			  &recv_buf->mkey);
-+	err = create_mkey(mdev, npages, recv_buf->mkey_in, &recv_buf->mkey);
- 	if (err)
- 		goto err_create_mkey;
- 
- 	return 0;
- 
- err_create_mkey:
--	unregister_dma_pages(mdev, npages, recv_buf->mkey_in);
-+	unregister_dma_pages(mdev, npages, recv_buf->mkey_in, &recv_buf->state,
-+			     DMA_FROM_DEVICE);
- err_register_dma:
- 	kvfree(recv_buf->mkey_in);
- 	recv_buf->mkey_in = NULL;
- end:
--	free_recv_pages(recv_buf);
-+	free_page_list(npages, recv_buf->page_list);
- 	return err;
- }
- 
-diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
-index 5b764199db53..f9c7268272e7 100644
---- a/drivers/vfio/pci/mlx5/cmd.h
-+++ b/drivers/vfio/pci/mlx5/cmd.h
-@@ -54,20 +54,16 @@ struct mlx5_vf_migration_header {
- 
- struct mlx5_vhca_data_buffer {
- 	struct page **page_list;
--	struct sg_append_table table;
-+	struct dma_iova_state state;
-+	enum dma_data_direction dma_dir;
- 	loff_t start_pos;
- 	u64 length;
- 	u32 npages;
- 	u32 mkey;
- 	u32 *mkey_in;
--	enum dma_data_direction dma_dir;
- 	u8 stop_copy_chunk_num;
- 	struct list_head buf_elm;
- 	struct mlx5_vf_migration_file *migf;
--	/* Optimize mlx5vf_get_migration_page() for sequential access */
--	struct scatterlist *last_offset_sg;
--	unsigned int sg_last_entry;
--	unsigned long last_offset;
- };
- 
- struct mlx5vf_async_data {
-@@ -134,6 +130,7 @@ struct mlx5_vhca_cq {
- struct mlx5_vhca_recv_buf {
- 	u32 npages;
- 	struct page **page_list;
-+	struct dma_iova_state state;
- 	u32 next_rq_offset;
- 	u32 *mkey_in;
- 	u32 mkey;
-diff --git a/drivers/vfio/pci/mlx5/main.c b/drivers/vfio/pci/mlx5/main.c
-index a1dbee3be1e0..cac99e6b047d 100644
---- a/drivers/vfio/pci/mlx5/main.c
-+++ b/drivers/vfio/pci/mlx5/main.c
-@@ -34,35 +34,10 @@ static struct mlx5vf_pci_core_device *mlx5vf_drvdata(struct pci_dev *pdev)
- 			    core_device);
- }
- 
--struct page *
--mlx5vf_get_migration_page(struct mlx5_vhca_data_buffer *buf,
--			  unsigned long offset)
-+struct page *mlx5vf_get_migration_page(struct mlx5_vhca_data_buffer *buf,
-+				       unsigned long offset)
- {
--	unsigned long cur_offset = 0;
--	struct scatterlist *sg;
--	unsigned int i;
--
--	/* All accesses are sequential */
--	if (offset < buf->last_offset || !buf->last_offset_sg) {
--		buf->last_offset = 0;
--		buf->last_offset_sg = buf->table.sgt.sgl;
--		buf->sg_last_entry = 0;
--	}
--
--	cur_offset = buf->last_offset;
--
--	for_each_sg(buf->last_offset_sg, sg,
--			buf->table.sgt.orig_nents - buf->sg_last_entry, i) {
--		if (offset < sg->length + cur_offset) {
--			buf->last_offset_sg = sg;
--			buf->sg_last_entry += i;
--			buf->last_offset = cur_offset;
--			return nth_page(sg_page(sg),
--					(offset - cur_offset) / PAGE_SIZE);
--		}
--		cur_offset += sg->length;
--	}
--	return NULL;
-+	return buf->page_list[offset / PAGE_SIZE];
- }
- 
- static void mlx5vf_disable_fd(struct mlx5_vf_migration_file *migf)
 -- 
 2.46.2
 
