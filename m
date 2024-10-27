@@ -4,59 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88931D1356D
-	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99C0ED13564
+	for <linux-nvme@archiver.kernel.org>; Sun, 27 Oct 2024 15:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DwhhRHXOs/NzUCpd1QbXTeegPlkywkyQe+nKJxEfOkU=; b=WvzyDB2epT+PxoslMd1BfrmasB
-	U8/IiNOh00bQPi8oTFY1CBmFpOF/c0hGCvI+L3uNrY4PROovVZQfIV8P35Ryb5bjnUgBoR6qKOsQ+
-	jLpZ6Nye/zEtGV+tDrirlLZh70frl2OxOoixiu2zpWK5t8Fq8ku0eSKZOyGiOjVKbQ0xa9dReURsy
-	FoEYchQd8jzDyA+yVkoYjhU7H32FCtpzRdYwpznKSS2tLHkN8JXVNhWqLv0FGryjNpBIxsBzCHVOm
-	ltQ8S1NIMpVz4rl+46g6D5CLzUkQYvE2rmH9WOawKwQH+OB7q/cxZ6p8mxbI0rT3j+Q/+oDoXOH1s
-	QCc2brOg==;
+	bh=Mjq6zdSNSWlDPgvZBL8m4liCS82S9MHPHsVhY49Am9o=; b=yp20nUwy4QlsTCjOlX4Se++xgb
+	91gh6SvXknJzHUKR28dAJqaNpEvCpJvi6qrgRMvpKv0qRVljkZNBFwW4FZJgg51jLAZGzYHkEHdTy
+	aklZjbn0hi5aDqeKgLVGFPVOF8A2d8FtGl6y9VghhwzKdtnX+sOOcklHWPN2xnSj9uaKar4aymQiV
+	6eu1kiP0MuS6LnFi0RtQ/BFBbnzvqEHYJHUeeCanlCNYEPRqA3G9pZBISsbGFLu9gOQipzH15YZZb
+	s9k9sTzNIcCenYxiqyYnDKW0wtKmERaHUKz4BM1QTPE/ZmfK2ss/mDJLBx58Pnuuce8MoRA2CbbrZ
+	/B+T1GfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t55Dk-00000008TWz-2JgQ;
-	Sun, 27 Oct 2024 15:30:24 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1t55Dl-00000008TY4-3bKM;
+	Sun, 27 Oct 2024 15:30:25 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54Av-00000008LGg-0aVj
-	for linux-nvme@bombadil.infradead.org;
-	Sun, 27 Oct 2024 14:23:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=DwhhRHXOs/NzUCpd1QbXTeegPlkywkyQe+nKJxEfOkU=; b=TNgND3d5ezIUj+cs0HGCbPJP09
-	+pENHfotQ/CDczDqvT/Qp/aqaQr4gW05HB//d3FhxtFBanIAE/EI7B9RNe6LDfEn79XY+Ypke/+Bj
-	oNgv57hs/aK461+Mcqmy5ahgh7AaC/QS4MLIWj5SUnXx/Zm26qt89EMQ2TWVWqrqcU6Y4gK4iWd6g
-	5OeswMj3I5FcgMBWt1wVDelsq2zbwvhbLkkNy3obGni58FPbAvFGzDKQ3RwAFNA4wHMVGy1d3iY3z
-	DRVmL1dSU5qBOTANU2k1+zvzSzewt3le9+hRzBGR8hUJ2SDlrEo1Sbl9s1tgfTAccC4ayk6rQ/6Ev
-	2jc2KXdw==;
-Received: from dfw.source.kernel.org ([139.178.84.217])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t54Ap-00000009Qdq-3j2B
+	id 1t54Ac-00000008L00-29Px
 	for linux-nvme@lists.infradead.org;
-	Sun, 27 Oct 2024 14:23:23 +0000
+	Sun, 27 Oct 2024 14:23:35 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 3B6F35C5833;
-	Sun, 27 Oct 2024 14:22:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38793C4CEC3;
-	Sun, 27 Oct 2024 14:23:16 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 25857A40FAC;
+	Sun, 27 Oct 2024 14:21:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30CB6C4CEC3;
+	Sun, 27 Oct 2024 14:23:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730038997;
-	bh=ZAkEvCDpOQpT4FqrkcEPmIofeDg0rb/b5+lEupSm25s=;
+	s=k20201202; t=1730038985;
+	bh=tSv2Q/UIDmsmBR/B+0LlfVehWktc2fzMNx0dgOtrb5I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GU2WiE85QkyrGZabT77HMzH4RzcXBtUoK7DX8razab6E7GlTeZ2LQTeNI7ZRCEXcF
-	 +9yMHm9zDo08nuNcPNZNSsuaYkBUL9ipGLwLInfLmk0HejWEa8WPu1R8UqdKOsPV74
-	 Z5wpY7UYyju99OwvD8w7GPbHNbCOK/zLgPk0s2GMr97M3wN8lKofvcDQjgjNlAIopH
-	 eIYUU6O634Ehr1WlX/W3GKJbeoFI2GpQCheDt+O+VjGAz5sar3RgcEymVxHQmnOdc4
-	 uO+VYU+gZUk1F3VsP3juUi2vi+UCZ40ddUDVpK0TRukr1wrJIDD2IoyIOcFlFa0aTT
-	 I1l2OPb8MTV4g==
+	b=fcGU8E7nqAZ/TN3lckAgvc+gp+UfN38AiQA0fW96+skp6qRwatz6+Tp+Y9GZAXoZv
+	 32gYhCzvwkTALLTPnjKbgOaQPHt8sGsNEdt9KJbNhKApAh7jv24SRFA3hGiLfrQYgb
+	 G/Po80vNtP9F8BeE8e4uWTkMLLm5fivWyKQHJxEIt/mCjmNIb97v/FnvfgqfoT4TTh
+	 rz7W2/MVey+NJeDPA+D1i7fdC/b2byuhn0NKXfgpQS+wRQ6AryyTiMSut6bA7FGvnc
+	 bh/vGMOJ+JsUoHC7zVNhazkcjoWtkM0V5Idz20gkDCG7oEUw/cZU4OFtBrphpw8Tfp
+	 o+KYa1jtD4fhg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -85,17 +70,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [RFC PATCH 3/7] blk-mq: add a dma mapping iterator
-Date: Sun, 27 Oct 2024 16:21:56 +0200
-Message-ID: <9b7c6203fbbae90821f2220dba1bd600e3bd23ba.1730037261.git.leon@kernel.org>
+Subject: [RFC PATCH 5/7] nvme-pci: remove struct nvme_descriptor
+Date: Sun, 27 Oct 2024 16:21:58 +0200
+Message-ID: <31fe216877a270c00bc79cddace3a9f4b3ade50c.1730037261.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <cover.1730037261.git.leon@kernel.org>
 References: <cover.1730037261.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241027_142320_331365_EA187C6C 
-X-CRM114-Status: GOOD (  27.79  )
+X-CRM114-CacheID: sfid-20241027_072307_148965_A115FA78 
+X-CRM114-Status: GOOD (  21.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,244 +97,166 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-blk_rq_map_sg is maze of nested loops.  Untangle it by creating an
-iterator that returns [paddr,len] tuples for DMA mapping, and then
-implement the DMA logic on top of this.  This not only removes code
-at the source level, but also generates nicer binary code:
+There is no real point in having a union of two pointer types here, just
+use a void pointer as we mix and match types between the arms of the
+union between the allocation and freeing side already.
 
-$ size block/blk-merge.o.*
-   text	   data	    bss	    dec	    hex	filename
-  10001	    432	      0	  10433	   28c1	block/blk-merge.o.new
-  10317	    468	      0	  10785	   2a21	block/blk-merge.o.old
-
-Last but not least it will be used as a building block for a new
-DMA mapping helper that doesn't rely on struct scatterlist.
+Also rename the nr_allocations field to nr_descriptors to better describe
+what it does.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- block/blk-merge.c | 182 ++++++++++++++++++++--------------------------
- 1 file changed, 77 insertions(+), 105 deletions(-)
+ drivers/nvme/host/pci.c | 51 ++++++++++++++++++-----------------------
+ 1 file changed, 22 insertions(+), 29 deletions(-)
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index ad763ec313b6..b63fd754a5de 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -451,137 +451,109 @@ unsigned int blk_recalc_rq_segments(struct request *rq)
- 	return nr_phys_segs;
- }
- 
--static inline struct scatterlist *blk_next_sg(struct scatterlist **sg,
--		struct scatterlist *sglist)
-+struct phys_vec {
-+	phys_addr_t	paddr;
-+	u32		len;
-+};
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4b9fda0b1d9a..ba077a42cbba 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -43,7 +43,8 @@
+  */
+ #define NVME_MAX_KB_SZ	8192
+ #define NVME_MAX_SEGS	128
+-#define NVME_MAX_NR_ALLOCATIONS	5
 +
-+static bool blk_map_iter_next(struct request *req,
-+		struct req_iterator *iter, struct phys_vec *vec)
- {
--	if (!*sg)
--		return sglist;
-+	unsigned int max_size;
-+	struct bio_vec bv;
++#define NVME_MAX_NR_DESCRIPTORS		5
  
- 	/*
--	 * If the driver previously mapped a shorter list, we could see a
--	 * termination bit prematurely unless it fully inits the sg table
--	 * on each mapping. We KNOW that there must be more entries here
--	 * or the driver would be buggy, so force clear the termination bit
--	 * to avoid doing a full sg_init_table() in drivers for each command.
-+	 * For special payload requests there only is a single segment.  Return
-+	 * it now and make sure blk_phys_iter_next stop iterating.
- 	 */
--	sg_unmark_end(*sg);
--	return sg_next(*sg);
--}
-+	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
-+		if (!iter->bio)
-+			return false;
-+		vec->paddr = bvec_phys(&req->special_vec);
-+		vec->len = req->special_vec.bv_len;
-+		iter->bio = NULL;
-+		return true;
-+	}
+ static int use_threaded_interrupts;
+ module_param(use_threaded_interrupts, int, 0444);
+@@ -216,28 +217,20 @@ struct nvme_queue {
+ 	struct completion delete_done;
+ };
  
--static unsigned blk_bvec_map_sg(struct request_queue *q,
--		struct bio_vec *bvec, struct scatterlist *sglist,
--		struct scatterlist **sg)
--{
--	unsigned nbytes = bvec->bv_len;
--	unsigned nsegs = 0, total = 0;
-+	if (!iter->iter.bi_size)
-+		return false;
+-union nvme_descriptor {
+-	struct nvme_sgl_desc	*sg_list;
+-	__le64			*prp_list;
+-};
+-
+ /*
+  * The nvme_iod describes the data in an I/O.
+- *
+- * The sg pointer contains the list of PRP/SGL chunk allocations in addition
+- * to the actual struct scatterlist.
+  */
+ struct nvme_iod {
+ 	struct nvme_request req;
+ 	struct nvme_command cmd;
+ 	bool aborted;
+-	s8 nr_allocations;	/* PRP list pool allocations. 0 means small
+-				   pool in use */
++	/* # of PRP/SGL descriptors: (0 for small pool) */
++	s8 nr_descriptors;
+ 	unsigned int dma_len;	/* length of single DMA segment mapping */
+ 	dma_addr_t first_dma;
+ 	dma_addr_t meta_dma;
+ 	struct sg_table sgt;
+-	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
++	void *descriptors[NVME_MAX_NR_DESCRIPTORS];
+ };
  
--	while (nbytes > 0) {
--		unsigned offset = bvec->bv_offset + total;
--		unsigned len = get_max_segment_size(&q->limits,
--				bvec_phys(bvec) + total, nbytes);
--		struct page *page = bvec->bv_page;
-+	bv = mp_bvec_iter_bvec(iter->bio->bi_io_vec, iter->iter);
-+	vec->paddr = bvec_phys(&bv);
-+	max_size = get_max_segment_size(&req->q->limits, vec->paddr, UINT_MAX);
-+	bv.bv_len = min(bv.bv_len, max_size);
-+	bio_advance_iter_single(iter->bio, &iter->iter, bv.bv_len);
+ static inline unsigned int nvme_dbbuf_size(struct nvme_dev *dev)
+@@ -528,8 +521,8 @@ static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
+ 	dma_addr_t dma_addr = iod->first_dma;
+ 	int i;
  
--		/*
--		 * Unfortunately a fair number of drivers barf on scatterlists
--		 * that have an offset larger than PAGE_SIZE, despite other
--		 * subsystems dealing with that invariant just fine.  For now
--		 * stick to the legacy format where we never present those from
--		 * the block layer, but the code below should be removed once
--		 * these offenders (mostly MMC/SD drivers) are fixed.
--		 */
--		page += (offset >> PAGE_SHIFT);
--		offset &= ~PAGE_MASK;
-+	/*
-+	 * If we are entirely done with this bi_io_vec entry, check if the next
-+	 * one could be merged into it.  This typically happens when moving to
-+	 * the next bio, but some callers also don't pack bvecs tight.
-+	 */
-+	while (!iter->iter.bi_size || !iter->iter.bi_bvec_done) {
-+		struct bio_vec next;
-+
-+		if (!iter->iter.bi_size) {
-+			if (!iter->bio->bi_next)
-+				break;
-+			iter->bio = iter->bio->bi_next;
-+			iter->iter = iter->bio->bi_iter;
-+		}
+-	for (i = 0; i < iod->nr_allocations; i++) {
+-		__le64 *prp_list = iod->list[i].prp_list;
++	for (i = 0; i < iod->nr_descriptors; i++) {
++		__le64 *prp_list = iod->descriptors[i];
+ 		dma_addr_t next_dma_addr = le64_to_cpu(prp_list[last_prp]);
  
--		*sg = blk_next_sg(sg, sglist);
--		sg_set_page(*sg, page, len, offset);
-+		next = mp_bvec_iter_bvec(iter->bio->bi_io_vec, iter->iter);
-+		if (bv.bv_len + next.bv_len > max_size ||
-+		    !biovec_phys_mergeable(req->q, &bv, &next))
-+			break;
+ 		dma_pool_free(dev->prp_page_pool, prp_list, dma_addr);
+@@ -551,11 +544,11 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
  
--		total += len;
--		nbytes -= len;
--		nsegs++;
-+		bv.bv_len += next.bv_len;
-+		bio_advance_iter_single(iter->bio, &iter->iter, next.bv_len);
+ 	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
+ 
+-	if (iod->nr_allocations == 0)
+-		dma_pool_free(dev->prp_small_pool, iod->list[0].sg_list,
++	if (iod->nr_descriptors == 0)
++		dma_pool_free(dev->prp_small_pool, iod->descriptors[0],
+ 			      iod->first_dma);
+-	else if (iod->nr_allocations == 1)
+-		dma_pool_free(dev->prp_page_pool, iod->list[0].sg_list,
++	else if (iod->nr_descriptors == 1)
++		dma_pool_free(dev->prp_page_pool, iod->descriptors[0],
+ 			      iod->first_dma);
+ 	else
+ 		nvme_free_prps(dev, req);
+@@ -613,18 +606,18 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 	nprps = DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
+ 	if (nprps <= (256 / 8)) {
+ 		pool = dev->prp_small_pool;
+-		iod->nr_allocations = 0;
++		iod->nr_descriptors = 0;
+ 	} else {
+ 		pool = dev->prp_page_pool;
+-		iod->nr_allocations = 1;
++		iod->nr_descriptors = 1;
  	}
  
--	return nsegs;
-+	vec->len = bv.bv_len;
-+	return true;
+ 	prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+ 	if (!prp_list) {
+-		iod->nr_allocations = -1;
++		iod->nr_descriptors = -1;
+ 		return BLK_STS_RESOURCE;
+ 	}
+-	iod->list[0].prp_list = prp_list;
++	iod->descriptors[0] = prp_list;
+ 	iod->first_dma = prp_dma;
+ 	i = 0;
+ 	for (;;) {
+@@ -633,7 +626,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+ 			if (!prp_list)
+ 				goto free_prps;
+-			iod->list[iod->nr_allocations++].prp_list = prp_list;
++			iod->descriptors[iod->nr_descriptors++] = prp_list;
+ 			prp_list[0] = old_prp_list[i - 1];
+ 			old_prp_list[i - 1] = cpu_to_le64(prp_dma);
+ 			i = 1;
+@@ -703,19 +696,19 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+ 
+ 	if (entries <= (256 / sizeof(struct nvme_sgl_desc))) {
+ 		pool = dev->prp_small_pool;
+-		iod->nr_allocations = 0;
++		iod->nr_descriptors = 0;
+ 	} else {
+ 		pool = dev->prp_page_pool;
+-		iod->nr_allocations = 1;
++		iod->nr_descriptors = 1;
+ 	}
+ 
+ 	sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
+ 	if (!sg_list) {
+-		iod->nr_allocations = -1;
++		iod->nr_descriptors = -1;
+ 		return BLK_STS_RESOURCE;
+ 	}
+ 
+-	iod->list[0].sg_list = sg_list;
++	iod->descriptors[0] = sg_list;
+ 	iod->first_dma = sgl_dma;
+ 
+ 	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
+@@ -841,7 +834,7 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
+ 	blk_status_t ret;
+ 
+ 	iod->aborted = false;
+-	iod->nr_allocations = -1;
++	iod->nr_descriptors = -1;
+ 	iod->sgt.nents = 0;
+ 
+ 	ret = nvme_setup_cmd(req->q->queuedata, req);
+@@ -3626,7 +3619,7 @@ static int __init nvme_init(void)
+ 	BUILD_BUG_ON(IRQ_AFFINITY_MAX_SETS < 2);
+ 	BUILD_BUG_ON(NVME_MAX_SEGS > SGES_PER_PAGE);
+ 	BUILD_BUG_ON(sizeof(struct scatterlist) * NVME_MAX_SEGS > PAGE_SIZE);
+-	BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_ALLOCATIONS);
++	BUILD_BUG_ON(nvme_pci_npages_prp() > NVME_MAX_NR_DESCRIPTORS);
+ 
+ 	return pci_register_driver(&nvme_driver);
  }
- 
--static inline int __blk_bvec_map_sg(struct bio_vec bv,
--		struct scatterlist *sglist, struct scatterlist **sg)
--{
--	*sg = blk_next_sg(sg, sglist);
--	sg_set_page(*sg, bv.bv_page, bv.bv_len, bv.bv_offset);
--	return 1;
--}
-+#define blk_phys_to_page(_paddr) \
-+	(pfn_to_page(__phys_to_pfn(_paddr)))
- 
--/* only try to merge bvecs into one sg if they are from two bios */
--static inline bool
--__blk_segment_map_sg_merge(struct request_queue *q, struct bio_vec *bvec,
--			   struct bio_vec *bvprv, struct scatterlist **sg)
-+static inline struct scatterlist *blk_next_sg(struct scatterlist **sg,
-+		struct scatterlist *sglist)
- {
--
--	int nbytes = bvec->bv_len;
--
- 	if (!*sg)
--		return false;
--
--	if ((*sg)->length + nbytes > queue_max_segment_size(q))
--		return false;
--
--	if (!biovec_phys_mergeable(q, bvprv, bvec))
--		return false;
--
--	(*sg)->length += nbytes;
--
--	return true;
--}
--
--static int __blk_bios_map_sg(struct request_queue *q, struct bio *bio,
--			     struct scatterlist *sglist,
--			     struct scatterlist **sg)
--{
--	struct bio_vec bvec, bvprv = { NULL };
--	struct bvec_iter iter;
--	int nsegs = 0;
--	bool new_bio = false;
--
--	for_each_bio(bio) {
--		bio_for_each_bvec(bvec, bio, iter) {
--			/*
--			 * Only try to merge bvecs from two bios given we
--			 * have done bio internal merge when adding pages
--			 * to bio
--			 */
--			if (new_bio &&
--			    __blk_segment_map_sg_merge(q, &bvec, &bvprv, sg))
--				goto next_bvec;
--
--			if (bvec.bv_offset + bvec.bv_len <= PAGE_SIZE)
--				nsegs += __blk_bvec_map_sg(bvec, sglist, sg);
--			else
--				nsegs += blk_bvec_map_sg(q, &bvec, sglist, sg);
-- next_bvec:
--			new_bio = false;
--		}
--		if (likely(bio->bi_iter.bi_size)) {
--			bvprv = bvec;
--			new_bio = true;
--		}
--	}
-+		return sglist;
- 
--	return nsegs;
-+	/*
-+	 * If the driver previously mapped a shorter list, we could see a
-+	 * termination bit prematurely unless it fully inits the sg table
-+	 * on each mapping. We KNOW that there must be more entries here
-+	 * or the driver would be buggy, so force clear the termination bit
-+	 * to avoid doing a full sg_init_table() in drivers for each command.
-+	 */
-+	sg_unmark_end(*sg);
-+	return sg_next(*sg);
- }
- 
- /*
-- * map a request to scatterlist, return number of sg entries setup. Caller
-- * must make sure sg can hold rq->nr_phys_segments entries
-+ * Map a request to scatterlist, return number of sg entries setup. Caller
-+ * must make sure sg can hold rq->nr_phys_segments entries.
-  */
- int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
- 		struct scatterlist *sglist, struct scatterlist **last_sg)
- {
-+	struct req_iterator iter = {
-+		.bio	= rq->bio,
-+		.iter	= rq->bio->bi_iter,
-+	};
-+	struct phys_vec vec;
- 	int nsegs = 0;
- 
--	if (rq->rq_flags & RQF_SPECIAL_PAYLOAD)
--		nsegs = __blk_bvec_map_sg(rq->special_vec, sglist, last_sg);
--	else if (rq->bio)
--		nsegs = __blk_bios_map_sg(q, rq->bio, sglist, last_sg);
-+	while (blk_map_iter_next(rq, &iter, &vec)) {
-+		struct page *page = blk_phys_to_page(vec.paddr);
-+		unsigned int offset = offset_in_page(vec.paddr);
-+
-+		*last_sg = blk_next_sg(last_sg, sglist);
-+		sg_set_page(*last_sg, page, vec.len, offset);
-+		nsegs++;
-+	}
- 
- 	if (*last_sg)
- 		sg_mark_end(*last_sg);
 -- 
 2.46.2
 
