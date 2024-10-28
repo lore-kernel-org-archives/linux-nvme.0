@@ -4,129 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8FACD13570
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 11:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB735D13596
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 11:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Qtgc3m1K/ZzL0/0ZTiBF6D2yHug4fQrxZmvqfWJOzCk=; b=ZXDd07o/SDzorviTEt7ZRs1A9I
-	QE2eItXJiy4QasEX+JewTSsxUF1Ayh2f7DWf1LupiBCXe3xQDn1JxFStlBWV/N5WjouGlEYs2Tr1C
-	drvJEXHM+eCrIkNE+idE0IEycMLfHll0HYtv0/Yu8ELpGNu77LEq4mHHpH+qqhlpnyDmPHG7FeWaN
-	Ui+hVmeQZkWAqnrcGbbWnmElIrtztBTEwKJwV+uj99x12aiXf/6/jK0vmYkm9BgGVltLkg/dA6Q+J
-	dv93F9RY4ZUr8nSf3WybPzdaic66dISvq+33ZqBVjognbk3NMCyBrv/ihrAkcyCER/N3gvXX3jZJY
-	Tae73cpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:Cc:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Z4GVPapOiiK7dr/WrgAHl25aCxNyPqW9rPely3xvH6A=; b=jZiAxq5VzkBEJzEgv1unyClB95
+	l9vn+NOARVhwfvpZwvTYl3LJZO6VZcLwmOcTrzoO9NHNO+5Q7QVFjZK4QbdW3EJJ0bPFfJgDOE8//
+	7AydmcUcUercIOL+tOZ/PMQnG3DE+vgrBA3X5HrouKbqXMsr/qMBV7GHYcXqKvF44U+26UPBI+CMw
+	v0pyTUtm2RBuMduqKHI6IEDSggEZdtzlQ7hVXvbED1I3tDpgPm3wgo4ZvChhBjRdtszIlDHh882S4
+	M5g9BJGR9sXfEqDAGRJS82Cws3qkJ3LQxxFoUfYuZWbiN4jljGof3ivMepUk7DWJebbroxFdPkSSM
+	Wk0x/Rmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5NcU-0000000AWOx-2rB5;
-	Mon, 28 Oct 2024 11:09:10 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1t5OAE-0000000Abiz-1z34;
+	Mon, 28 Oct 2024 11:44:02 +0000
+Received: from mgamail.intel.com ([198.175.65.13])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5NcF-0000000AWKO-13xC
+	id 1t5EUY-00000009D5y-2ATN
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 11:08:59 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 372D521AF4;
-	Mon, 28 Oct 2024 11:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730113733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qtgc3m1K/ZzL0/0ZTiBF6D2yHug4fQrxZmvqfWJOzCk=;
-	b=0nBfkdAGHO715WES7RlIg1+zXK8KPWqAzNviC2xiEEgD2hdzQP+B6nXkHmkwnLGVPElhaU
-	4FwMOD4cQKYS2DpRfqRz6PM+bLKu3/r5QX+LpQg8I9wSFTnd/9/eJ/HdViyjd3vbtqVotY
-	dRN6zoI8dZRQDWbZm/F7WH6rCqj81nU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730113733;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qtgc3m1K/ZzL0/0ZTiBF6D2yHug4fQrxZmvqfWJOzCk=;
-	b=IeWWVeQJCVIarqE6Fa8YYr+J9zkDufaTU39svwEhDrJAajJ7QR0UandhWvTWbwVEm9w6bd
-	X7KFR+8MTzZgkfCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0nBfkdAG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IeWWVeQJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730113733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qtgc3m1K/ZzL0/0ZTiBF6D2yHug4fQrxZmvqfWJOzCk=;
-	b=0nBfkdAGHO715WES7RlIg1+zXK8KPWqAzNviC2xiEEgD2hdzQP+B6nXkHmkwnLGVPElhaU
-	4FwMOD4cQKYS2DpRfqRz6PM+bLKu3/r5QX+LpQg8I9wSFTnd/9/eJ/HdViyjd3vbtqVotY
-	dRN6zoI8dZRQDWbZm/F7WH6rCqj81nU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730113733;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qtgc3m1K/ZzL0/0ZTiBF6D2yHug4fQrxZmvqfWJOzCk=;
-	b=IeWWVeQJCVIarqE6Fa8YYr+J9zkDufaTU39svwEhDrJAajJ7QR0UandhWvTWbwVEm9w6bd
-	X7KFR+8MTzZgkfCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DAC2136DC;
-	Mon, 28 Oct 2024 11:08:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YM7gBMVwH2e2RAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 28 Oct 2024 11:08:53 +0000
-Date: Mon, 28 Oct 2024 12:08:52 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests 11/15] common/nvme, nvme/003: add --no_port
- option to _nvme_connect_subsys
-Message-ID: <0e57af1b-5eec-44ee-bba3-9ebecd317287@flourine.local>
-References: <20241024010025.2216242-1-shinichiro.kawasaki@wdc.com>
- <20241024010025.2216242-12-shinichiro.kawasaki@wdc.com>
- <80050767-185a-42b0-b4af-3f6e2c921b1d@flourine.local>
- <nfnhajw3njwoyitpsltx2p2blif4js5s7zwqmd22hxt4tx3ptm@6x6rz4pfqjlk>
+	Mon, 28 Oct 2024 01:24:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730078663; x=1761614663;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=bf/VeYucpNv6ZZcK2fwIQKDea5xGi/UZ5dimPkOuYKQ=;
+  b=EPbzz9I6tAUi46hkuJAKoJuM0IsnkYl31dX8i4xlTadETbcqn2PAqKWk
+   noWYF9SCWr1LAzARMDS7OzPxZylOFBpb4SodpBaiBhPNx5+5UtuelVdFO
+   wzyNS5AyO/7kC3yOxAKsznQ/4DSePvTvRVddyaDtxLmo/VGk2UUJ+vwE2
+   wi5PyqJwlqwVmUJHZVkqscI7NB4V6m9E2VZNmlQ6QY/8j/UM+LEHfvwfF
+   sKpjQmVHtMf6jiRlZUv53tLGh6gF7W0nCz/2Uhq7e42okwRtvFnHjlDFR
+   tF4sdt4KPbC4FuEj3NkJIQ6wsIhcs4InGHeFfE+2o1Wly31g3nVVQp5WU
+   w==;
+X-CSE-ConnectionGUID: oJZqrjqsQfO3lXJtdsScng==
+X-CSE-MsgGUID: 648odzGtSMynGzYxAF86ng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40769207"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40769207"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 18:24:17 -0700
+X-CSE-ConnectionGUID: 3XId+CpwRcup4hw+6LoFIA==
+X-CSE-MsgGUID: nYY7ZZ8XT8aQBqUAXsE3Xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="86065323"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.238.0.51]) ([10.238.0.51])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 18:24:10 -0700
+Message-ID: <25c32551-32e2-4a44-b0ae-30ad08e06799@linux.intel.com>
+Date: Mon, 28 Oct 2024 09:24:08 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nfnhajw3njwoyitpsltx2p2blif4js5s7zwqmd22hxt4tx3ptm@6x6rz4pfqjlk>
-X-Rspamd-Queue-Id: 372D521AF4
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCPT_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+User-Agent: Mozilla Thunderbird
+Cc: baolu.lu@linux.intel.com, Leon Romanovsky <leonro@nvidia.com>,
+ Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 05/18] dma: Provide an interface to allow allocate IOVA
+To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+References: <cover.1730037276.git.leon@kernel.org>
+ <844f3dcf9c341b8178bfbc90909ef13d11dd2193.1730037276.git.leon@kernel.org>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <844f3dcf9c341b8178bfbc90909ef13d11dd2193.1730037276.git.leon@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_040855_466234_4FBB47FC 
-X-CRM114-Status: GOOD (  24.65  )
+X-CRM114-CacheID: sfid-20241027_182426_012447_46DB5822 
+X-CRM114-Status: GOOD (  28.33  )
+X-Mailman-Approved-At: Mon, 28 Oct 2024 04:44:00 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,86 +101,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 28, 2024 at 07:07:15AM GMT, Shinichiro Kawasaki wrote:
-> > I am not so sure about the --no_port argument
-> > is a good idea. And if a test wants to use a specific port, we have the
-> > port option, no?
+On 2024/10/27 22:21, Leon Romanovsky wrote:
+> From: Leon Romanovsky<leonro@nvidia.com>
 > 
-> AFAIU, there will be three kinds of _nvme_connect_subsys() calls from port
-> parameter point of view:
+> The existing .map_page() callback provides both allocating of IOVA
+> and linking DMA pages. That combination works great for most of the
+> callers who use it in control paths, but is less effective in fast
+> paths where there may be multiple calls to map_page().
 > 
-> 1) Default port(s)
+> These advanced callers already manage their data in some sort of
+> database and can perform IOVA allocation in advance, leaving range
+> linkage operation to be in fast path.
 > 
->    No port related option is specified to _nvme_connect_subsys().
->    _nvme_connect_subsys() gets the ports prepared, and refer to them.
+> Provide an interface to allocate/deallocate IOVA and next patch
+> link/unlink DMA ranges to that specific IOVA.
 > 
-> 2) Specific multiple ports
+> The API is exported from dma-iommu as it is the only implementation
+> supported, the namespace is clearly different from iommu_* functions
+> which are not allowed to be used. This code layout allows us to save
+> function call per API call used in datapath as well as a lot of boilerplate
+> code.
 > 
->    --port option is specified to _nvme_connect_subsys().
->    Following series will add tests for them.
+> Signed-off-by: Leon Romanovsky<leonro@nvidia.com>
+> ---
+>   drivers/iommu/dma-iommu.c   | 79 +++++++++++++++++++++++++++++++++++++
+>   include/linux/dma-mapping.h | 15 +++++++
+>   2 files changed, 94 insertions(+)
 > 
-> 3) No port
-> 
->    nvme/003 creates a nvmet subsystem with default port. The test case
->    also connects to another subsys "nqn.2014-08.org.nvmexpress.discovery"
->    by calling _nvmet_connect_subsys(). In this case, port related parameters
->    should not be specified.
-> 
-> To clarify that the _nvmet_connect_subsys() call in nvme/003 is the 3) case, I
-> suggest to introduce --no_port option. It will explicitly show that
-> _nvmet_connect_subsys() does the exceptional parameter preparation.
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index c422e36c0d66..0644152c5aad 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -1745,6 +1745,85 @@ size_t iommu_dma_max_mapping_size(struct device *dev)
+>   	return SIZE_MAX;
+>   }
+>   
+> +static bool iommu_dma_iova_alloc(struct device *dev,
+> +		struct dma_iova_state *state, phys_addr_t phys, size_t size)
+> +{
+> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> +	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> +	struct iova_domain *iovad = &cookie->iovad;
+> +	size_t iova_off = iova_offset(iovad, phys);
+> +	dma_addr_t addr;
+> +
+> +	if (WARN_ON_ONCE(!size))
+> +		return false;
+> +	if (WARN_ON_ONCE(size & DMA_IOVA_USE_SWIOTLB))
+> +		return false;
+> +
+> +	addr = iommu_dma_alloc_iova(domain,
+> +			iova_align(iovad, size + iova_off),
+> +			dma_get_mask(dev), dev);
+> +	if (!addr)
+> +		return false;
+> +
+> +	state->addr = addr + iova_off;
+> +	state->__size = size;
+> +	return true;
+> +}
+> +
+> +/**
+> + * dma_iova_try_alloc - Try to allocate an IOVA space
+> + * @dev: Device to allocate the IOVA space for
+> + * @state: IOVA state
+> + * @phys: physical address
+I'm curious to know why a physical address is necessary for IOVA space
+allocation. Could you please elaborate?
 
-After looking this and previous patch, I think we should aim to make
-this a bit more readable. I would suggest to move the whole port
-handling code inside _get_nvmet_port_params(), this is
+> + * @size: IOVA size
+> + *
+> + * Check if @dev supports the IOVA-based DMA API, and if yes allocate IOVA space
+> + * for the given base address and size.
+> + *
+> + * Note: @phys is only used to calculate the IOVA alignment. Callers that always
+> + * do PAGE_SIZE aligned transfers can safely pass 0 here.
+> + *
+> + * Returns %true if the IOVA-based DMA API can be used and IOVA space has been
+> + * allocated, or %false if the regular DMA API should be used.
+> + */
+> +bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
+> +		phys_addr_t phys, size_t size)
+> +{
+> +	memset(state, 0, sizeof(*state));
+> +	if (!use_dma_iommu(dev))
+> +		return false;
+> +	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
+> +	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
+> +		return false;
+> +	return iommu_dma_iova_alloc(dev, state, phys, size);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_iova_try_alloc);
 
--       ARGS=(--transport "${nvme_trtype}" --nqn "${subsysnqn}")
--       if [[ "${nvme_trtype}" == "fc" ]] ; then
-+       if [[ -z "${port}" ]]; then
-                local ports
-+
-                _get_nvmet_ports "${subsysnqn}" ports
--               if ((${#ports[@]} != 1)); then
--                       echo only one port is supported at this moment...
--                       exit 1
-+               port="${ports[0]##*/}"
-+               if [[ -z "${port}" ]]; then
-+                       echo "WARNING: no port found"
-+                       return 1
-                fi
--               local port=${ports[0]}
--               ARGS+=(--traddr "$(_fc_traddr "$port")")
--               ARGS+=(--host-traddr "$(_fc_host_traddr "$port")")
--       elif [[ "${nvme_trtype}" != "loop" ]]; then
--               ARGS+=(--traddr "${def_traddr}" --trsvcid "${def_trsvcid}")
-        fi
-
-and just pass the --port argument to _get_nvmet_port_params().
-
-Instead adding a new --no_port, just allow '--port none', '--port
-discovery' or something similar. I would like to avoid to have a --port
-and --no_port argument, because this is very confusing IMO, e.g. I'd ask
-myself "If I don't use --port is that not the same as --no_port?"
-
-And also this next block should be splitted somehow:
-
-+       if [[ $port != none ]]; then
-+               [[ -d "${cfs_path}" ]] || exit 1
-+               trtype=$(cat "${cfs_path}/addr_trtype")
-+               traddr=$(cat "${cfs_path}/addr_traddr")
-+               args+=(--traddr "${traddr}")
-+               if [[ "${trtype}" == "tcp" ]] || [[ "${trtype}" == "rdma" ]]; then
-+                       trsvcid=$(cat "${cfs_path}/addr_trsvcid")
-+               fi
-+       elif [[ "${trtype}" != "loop" ]]; then
-+               args+=(--traddr "${traddr}")
-+       fi
-
-The first block is guarded by the port argument and the second with
-trtype. It's not obvious how these things belong together. Maybe make a
-big switch at the beginning of the function on the trtype and add the
-arguments accordingly. I think being explicit here and having some
-redundancy/repetition is better to maintain.
-
-What do you think?
+Thanks,
+baolu
 
