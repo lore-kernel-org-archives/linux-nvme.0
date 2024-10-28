@@ -4,80 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3100D339B2
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 18:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C6B7D339AF
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 18:19:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8p+XeF371FBdizlYdFFfI+9cvX4PxDYJkCjxcGvOnbA=; b=ko8xu3GzWITBi/
-	n9dmrYFvNpVId1AVGx4uEIW47Fw60CUUEZC4wL0PO1OdUZd9yzFqyqhqcgzCOK+tY+XmUptn+5AUw
-	+X6EKgztU8VPJyXY9PwsZOID/kbX/HEre3EnrWGjtMiQ7kKzmU0iQeSOLY+9O6TSQ9KeMCFfT+1uT
-	iA99CSlTP9j3onlbM3rVAEU3LSTQcWKO9kBYLgpM+NL5YAjnDkbVH7WHuS40m17Fki2uloPCWr54J
-	/ZLNKe4w2iYmUfjvUchQKRMkUhUIzYKq5MagCtR9mRtRqbfHwNgVGtAbDkrkYTuX52rUe+xw4EhO/
-	rCLiFfk/bLHM5lhdf9Gw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VtNXrQdHOOFnlzb2aIzwM2Na4zN1gnS0OqU181Pcf1I=; b=pdfqUYNnya3v+UzPl0OhSbmfa4
+	tIn0xwEmfAvspTziKFze1qKayuxrouBB/i776uonjuyzcwaGG10fkMjC7GuM3fbHXcogE3Wf6qX7N
+	SUQvOOWWXXcyIXPeaosNbCUUYIlMGOtIs+OQLMDZ4e97rqmv7aPcep3dBr/AOqi+jQj+Ba/QWUdPd
+	cRm8WM8wxVQBpE4QKkMwAAnoXG5f7KpabeqCOg7qAX43HY30LEmCKHVYtw74Uup9Z5rZ9e5JN+dYn
+	Javbf5yhxsom3T22fbkociwnCPCroOVqqS23yXdv/byxhBGB9I5BtqjDSCl3l/jh+P6uqyxY6P3lY
+	0FnS5aqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5UGL-0000000BmJC-3T4P;
-	Mon, 28 Oct 2024 18:14:45 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1t5UL9-0000000Bnfs-1tRj;
+	Mon, 28 Oct 2024 18:19:43 +0000
+Received: from 008.lax.mailroute.net ([199.89.1.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5UDH-0000000BlU5-3YeI
+	id 1t5UL6-0000000Bnet-3boG
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 18:11:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=8p+XeF371FBdizlYdFFfI+9cvX4PxDYJkCjxcGvOnbA=; b=ZgpvCfWocWsIQTbiuMoGgvu81j
-	S/fCHcyzInt5f0gPKd+LIK7OJ5mxEaoNwY3if96O+eQaCdejZ8p5V3sgl/v9nalWlDJO5DRXi/kIn
-	wvHhSbq4aAwqMIMsOMusADIniYrFBNpOPovhNcwteIj9k4BUkv8XY28rtPNRm9woscrRzWxlXqEZb
-	x/tnpblDzlq9tceUkjNsArDEQcZsmuRZZSVXzOBFycNxqU3EB7/U9E1zPZg62v7QNAB9eXmVwn9dD
-	fGPW5l7LzLYo6jMaIh+Joy5PZ/qKbf8+LukxoA/IHSVyQYhrFtbPf9diRx5yqeRINUUkSejoMIZIj
-	4p2sRADA==;
-Received: from d104-157-31-28.abhsia.telus.net ([104.157.31.28] helo=[192.168.1.250])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <logang@deltatee.com>)
-	id 1t5UCo-002ZVS-20;
-	Mon, 28 Oct 2024 12:11:07 -0600
-Message-ID: <31cae8da-74fa-4a45-a88f-ad76572246d4@deltatee.com>
-Date: Mon, 28 Oct 2024 12:10:38 -0600
+	Mon, 28 Oct 2024 18:19:42 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4XchVz68Mrz6Cnk9V;
+	Mon, 28 Oct 2024 18:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1730139576; x=1732731577; bh=VtNXrQdHOOFnlzb2aIzwM2Na
+	4zN1gnS0OqU181Pcf1I=; b=IhXhtoY/1SgDTi0QzhE9RjmiQfm+Z39jRZttIwOq
+	hT+Bcdq64+vgLi0whfU5lYW/CqJSTyMjL4PSRYIs0djO/62Iq/bjJqw//p3ovIFk
+	EIPeL8acP/UvH5zRvh435EKgg35raOWZNga1JRGJVNmTb58QjWA2tn9ntGHEjL4w
+	do/wBQ8bJvq9rOLb43avas9HxduqL6A0ZXTVbRoy5sn5keBc/ELUuOJXmFYTVGFi
+	J4r39+z0o00eSQBdtfyvo4gdccge/7sUWlC+/luVl1z58XEqOOGhBJY/UjA8Tjax
+	bEtqzx7H8uKroVIioVzX0IT/M1ehiYoLwWximNMBcitDtQ==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id S6r612HWI2P6; Mon, 28 Oct 2024 18:19:36 +0000 (UTC)
+Received: from [100.66.154.22] (unknown [104.135.204.82])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4XchVs5Q8yz6Cnk9N;
+	Mon, 28 Oct 2024 18:19:33 +0000 (UTC)
+Message-ID: <a86cfa72-426b-46f4-83b0-b60920286223@acm.org>
+Date: Mon, 28 Oct 2024 11:19:33 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-References: <cover.1730037276.git.leon@kernel.org>
- <a4d93ca45f7ad09105a1cf347e6b6d6b6fb7e303.1730037276.git.leon@kernel.org>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <a4d93ca45f7ad09105a1cf347e6b6d6b6fb7e303.1730037276.git.leon@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCHv9 1/7] block: use generic u16 for write hints
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ io-uring@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, hch@lst.de, joshi.k@samsung.com,
+ javier.gonz@samsung.com, Keith Busch <kbusch@kernel.org>,
+ Hannes Reinecke <hare@suse.de>
+References: <20241025213645.3464331-1-kbusch@meta.com>
+ <20241025213645.3464331-2-kbusch@meta.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20241025213645.3464331-2-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 104.157.31.28
-X-SA-Exim-Rcpt-To: leon@kernel.org, axboe@kernel.dk, jgg@ziepe.ca, robin.murphy@arm.com, joro@8bytes.org, will@kernel.org, hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, bhelgaas@google.com, yishaih@nvidia.com, shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com, alex.williamson@redhat.com, m.szyprowski@samsung.com, jglisse@redhat.com, akpm@linux-foundation.org, corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-rdma@vger.kernel.org, iommu@lists.linux.dev, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 01/18] PCI/P2PDMA: refactor the p2pdma mapping helpers
-X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_111135_972762_EA0E4351 
-X-CRM114-Status: GOOD (  16.34  )
+X-CRM114-CacheID: sfid-20241028_111940_952197_013BBF0B 
+X-CRM114-Status: UNSURE (   7.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,26 +88,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 10/25/24 2:36 PM, Keith Busch wrote:
+> This is still backwards compatible with lifetime hints. It just doesn't
+> constrain the hints to that definition.
 
+Since struct bio is modified, and since it is important not to increase
+the size of struct bio, some comments about whether or not the size of
+struct bio is affected would be welcome.
 
-On 2024-10-27 08:21, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
-> 
-> The current scheme with a single helper to determine the P2P status
-> and map a scatterlist segment force users to always use the map_sg
-> helper to DMA map, which we're trying to get away from because they
-> are very cache inefficient.
-> 
-> Refactor the code so that there is a single helper that checks the P2P
-> state for a page, including the result that it is not a P2P page to
-> simplify the callers, and a second one to perform the address translation
-> for a bus mapped P2P transfer that does not depend on the scatterlist
-> structure.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Thanks,
 
-Looks good to me. Thanks!
-
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Bart.
 
