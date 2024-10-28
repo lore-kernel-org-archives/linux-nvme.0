@@ -4,93 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B346D1039A
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 12:57:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AC21D1039A
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 13:15:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=og/Dy3fviAE6DnCeVkavNuuFNiaHWqntJTJuEG8zFL4=; b=a/BoE3btSh6RyaCGICGt3EE8xQ
-	O9umgstQhWuLaiM4O9JKtyNErAPgeeiFZ9b1l+QBlEIfZahw8ExGR7Ndz4gBBpFJrwfEdksCWCngs
-	0FROP9dzxX1ZIHZ9kCDVtaMo7J3sS8/gjFJ2nfOhqmb6xz/M24kinZjUAxoq7MudOeq89qMFe2Uwt
-	0ziFRUIzSFC/zXVmn/EFaJTwCTjgf3vOktOhBbHoJTZTtcIMMYSIxmu6SQOlJbeyhixPFDOYVnWIH
-	yjq4BLsgAL1ebNMZbkRPs+NM2axWuWRTUhdbihRQ0Z5yy+JkBtZy6n0ymFWN5oWOQd6CaVz3YMu5g
-	3yq6wMrw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ifb8zjw3v2iBatpJle5WTa1xRKVueOsAKKz6U+K/pxM=; b=V/Po6y0WhDjTj5o77EREZTpRJb
+	1zSwOFLz48ji6mMUhUdosCVRG/xMP+sZ3yvDque/Pn5vPlm66IWpnb9byG8TziYWuMTTd4VpMGeC4
+	s/5oWWdvi8+Gk3lqjn8yGQF5hYLAAcktzo0n4qlM/uTBHsw96lmOPFixuihhYn/WVkK9E5ltqOmoP
+	H010sWoWS4v367fHmtgCLgpdJ28pXalQurl/Rop2Quvdz7VNHA2aDzo5oBzlQignWMFw3Q6i3A3yi
+	dSfB3cqKuIZDuUDZvmBnbwFIxIOuhTGVh+5HnjqbMvhzVlje/tYZOYccT5fDCFE5j+D1Ds3Vm3K9p
+	eatlbUHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5PIu-0000000Aqm0-33wt;
-	Mon, 28 Oct 2024 12:57:04 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1t5Pal-0000000Au0M-13Y8;
+	Mon, 28 Oct 2024 13:15:31 +0000
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5PA8-0000000ApIV-35Px
+	id 1t5Pah-0000000Atzw-3fDt
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 12:48:02 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SBAKuK024484;
-	Mon, 28 Oct 2024 12:47:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=og/Dy3fviAE6DnCeV
-	kavNuuFNiaHWqntJTJuEG8zFL4=; b=IZjeprMYqYwCIlBJsLMe5C0KqifBdybBV
-	zR90CwKgTVq+YNFdTTWKOW/FeI12p/KqWV26AK+rbkEK0ePGEiw4/PO9lf2OsppV
-	kT7W26DKlZoHClqKHouD2TDrUzeiB7QxqAi0jNGvA4VvCaI4gunVyvkq2p0kQJFh
-	nQ9XY6I8Jx3UYBJ2IWM5CeFjZznqWMrQwkAS/87eCqMyQNlFpr3L95vUBL0gOdzO
-	B9EE33VDEwWdJNRYe0MieqWbJaUArss0OFk2tVY64rONR4G1q2izLgxOiekK+/mQ
-	GhEay2KLWdQSr7K7MdQVErz7iil1v09lzbRnX4aiLG6oQa7F11drQ==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43ftehg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 12:47:51 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49SBIbYm017362;
-	Mon, 28 Oct 2024 12:47:29 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 42hars6e41-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 12:47:29 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49SClQ5i54460878
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Oct 2024 12:47:26 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3CA3D20040;
-	Mon, 28 Oct 2024 12:47:26 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 17FA82004D;
-	Mon, 28 Oct 2024 12:47:24 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.1.253])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 28 Oct 2024 12:47:23 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@fb.com,
-        chaitanyak@nvidia.com, dlemoal@kernel.org, gjoyce@linux.ibm.com,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv2 2/3] nvme-fabrics: fix kernel crash while shutting down controller
-Date: Mon, 28 Oct 2024 18:17:10 +0530
-Message-ID: <20241028124717.517132-3-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241028124717.517132-1-nilay@linux.ibm.com>
-References: <20241028124717.517132-1-nilay@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: CiMilnJLY_ANCp7c7E9FJlkRsx0BL1og
-X-Proofpoint-ORIG-GUID: CiMilnJLY_ANCp7c7E9FJlkRsx0BL1og
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	Mon, 28 Oct 2024 13:15:29 +0000
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SBBSNc011999
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 13:15:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ifb8zjw3v2iBatpJle5WTa1xRKVueOsAKKz6U+K/pxM=; b=HVfRUUaAZtUyPMO8
+	SzlObd9QDGRiCSNY2fFnql7Fyr1JGIrg3jPWV+S/Nx/lPG7oZWwVX/KV8yz94UvR
+	U0/9g2BXiRkIK20UZlcG1TzTmSy8oCG5OPUeM9dBfZJZbZwbGFytvVZMxfSdByKV
+	2VUgezFZB/wOJtAkfbZsF8VSjNA1nV3uXpe2/pXThSFCBbbSHsTXEiVjMuZ9yXRq
+	YqJIMd6xxM8VdEyFNTHSWEB+tEvN4GqTto7b1CZvPM+Hgk2/FH2Q50AEbsCdxlO/
+	TniQdOc4wdn+YHtRJaXoyoNR9nsJxj6r/WEimklmD819146srIXBcqJUPMop/+qa
+	6BvhWA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gr0x4ydf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 13:15:25 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6cbf4770c18so15252296d6.2
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 06:15:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730121325; x=1730726125;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ifb8zjw3v2iBatpJle5WTa1xRKVueOsAKKz6U+K/pxM=;
+        b=n4Af15uSDCzKT5OyLrPX4+EyeRyYMU7FdRVx4M8mz5VcN/q8+CivZQwGhiVGT1ivr/
+         omt+qKuPIwX66aMJ+rjgb9/fBjtP0OP/zWUNEdowLZPSBOp1BSFxUDiWEgj4CDLD3PsZ
+         7Q05wVtkW60VhG6dsCCkwwXJZW0V65PvZEe0fmmep3uk3LHfn3msjntuXBVfltlMstIa
+         M9h/11ZQUlFK0n5zOtwIuDEyCoaa0xdTbQe7AVHLwZ1UKSK7dEpQGdAkID0Gsw0BGJD1
+         Qah34PJspwDpAubz+/BHrpYY/7v8rpC8urxUioq7/pfsH/A+m65BWauMCrOwqAumVHEO
+         YjSA==
+X-Forwarded-Encrypted: i=1; AJvYcCWjzI+PnXv1AcXJN2X1sLFzkymq6Bt3Hfge7y+fjpsiRwDDTOUAaEzPYsXGMk/py5NUFvbgF3JzPWbM@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy+O3hgu/kxUKuhP+9SH0bwiFBOGS+OpDlm8a9njq82+NvztoTL
+	0cZV0TvtSGeDEFFC4UnkedQz3jRplU/l5Te2C7i+c01obC8TjaxZDTA43cNgGN8iLgC661XtTG0
+	DGkRFopYwQa0HHo+6nuVMudWPrSi//LH4YhYWpZHkHjrLgbKLVSHGK3sDkQDy7AFOlA==
+X-Received: by 2002:a05:6214:234d:b0:6c5:3338:2503 with SMTP id 6a1803df08f44-6d1858886d8mr66301886d6.11.1730121324806;
+        Mon, 28 Oct 2024 06:15:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFPp3HhrkQM++wgb9tbT0Thc9Kg53phrLc+8j4bVo16zKwnqWsHZentYg3L81uv1ieo8RIaGA==
+X-Received: by 2002:a05:6214:234d:b0:6c5:3338:2503 with SMTP id 6a1803df08f44-6d1858886d8mr66301566d6.11.1730121324269;
+        Mon, 28 Oct 2024 06:15:24 -0700 (PDT)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1f296c66sm375804566b.109.2024.10.28.06.15.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Oct 2024 06:15:23 -0700 (PDT)
+Message-ID: <0b5d01b6-988c-4d3c-b4dd-ee0afc288166@oss.qualcomm.com>
+Date: Mon, 28 Oct 2024 14:15:22 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-pci: Force NVME_QUIRK_SIMPLE_SUSPEND on Qualcomm
+ hosts
+To: Christoph Hellwig <hch@lst.de>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20241024-topic-nvmequirk-v1-1-51249999d409@oss.qualcomm.com>
+ <20241025113520.GA19521@lst.de>
+ <0fac5de3-3f35-4fc2-bbdc-411dc1018a85@oss.qualcomm.com>
+ <20241028091941.GA29461@lst.de>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241028091941.GA29461@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: Nu7gv9kziXwiYaHCQJ1_AeqdBXuzjIub
+X-Proofpoint-GUID: Nu7gv9kziXwiYaHCQJ1_AeqdBXuzjIub
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
- adultscore=0 mlxscore=0 priorityscore=1501 spamscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410280103
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
+ clxscore=1015 bulkscore=0 adultscore=0 impostorscore=0 mlxscore=0
+ malwarescore=0 mlxlogscore=712 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410280107
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_054800_836449_6A346F39 
-X-CRM114-Status: GOOD (  21.35  )
+X-CRM114-CacheID: sfid-20241028_061528_105185_0E163CA3 
+X-CRM114-Status: GOOD (  18.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,79 +119,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme keep-alive operation, which executes at a periodic interval,
-could potentially sneak in while shutting down a fabric controller.
-This may lead to a race between the fabric controller admin queue
-destroy code path (invoked while shutting down controller) and hw/hctx
-queue dispatcher called from the nvme keep-alive async request queuing
-operation. This race could lead to the kernel crash shown below:
+On 28.10.2024 10:19 AM, Christoph Hellwig wrote:
+> On Fri, Oct 25, 2024 at 05:30:05PM +0200, Konrad Dybcio wrote:
+>> (Un?)fortunately, said platforms use FDT, so we can't fix that in ACPI.
+> 
+> Then generalize the acpi helper to a generic one checking ACPI and
+> DT and specify a proper DT binding.
+> 
+> If th requirement to put all devices into D3 is a plaform propery
+> a specific driver is always the wrong place for it.
+> 
+>> b) Adding such a property to the PCIe host node sounds a bit
+>>    saner, but the NVMe code isn't aware of the RC. We could add
+>>    something like:
+> 
+> Again, this all belongs into core code.  The nvme driver is just
+> a consumer of this information, just like for example the AHCI
+> driver.
 
-Call Trace:
-    autoremove_wake_function+0x0/0xbc (unreliable)
-    __blk_mq_sched_dispatch_requests+0x114/0x24c
-    blk_mq_sched_dispatch_requests+0x44/0x84
-    blk_mq_run_hw_queue+0x140/0x220
-    nvme_keep_alive_work+0xc8/0x19c [nvme_core]
-    process_one_work+0x200/0x4e0
-    worker_thread+0x340/0x504
-    kthread+0x138/0x140
-    start_kernel_thread+0x14/0x18
+Alright, I'll try to pursue that angle instead,
 
-While shutting down fabric controller, if nvme keep-alive request sneaks
-in then it would be flushed off. The nvme_keep_alive_end_io function is
-then invoked to handle the end of the keep-alive operation which
-decrements the admin->q_usage_counter and assuming this is the last/only
-request in the admin queue then the admin->q_usage_counter becomes zero.
-If that happens then blk-mq destroy queue operation (blk_mq_destroy_
-queue()) which could be potentially running simultaneously on another
-cpu (as this is the controller shutdown code path) would forward
-progress and deletes the admin queue. So, now from this point onward
-we are not supposed to access the admin queue resources. However the
-issue here's that the nvme keep-alive thread running hw/hctx queue
-dispatch operation hasn't yet finished its work and so it could still
-potentially access the admin queue resource while the admin queue had
-been already deleted and that causes the above crash.
-
-The above kernel crash is regression caused due to changes implemented
-in commit a54a93d0e359 ("nvme: move stopping keep-alive into
-nvme_uninit_ctrl()"). Ideally we should stop keep-alive at the very
-beggining of the controller shutdown code path so that it wouldn't
-sneak in during the shutdown operation. However we removed the keep
-alive stop operation from the beginning of the controller shutdown
-code path in commit a54a93d0e359 ("nvme: move stopping keep-alive into
-nvme_uninit_ctrl()") and that now created the possibility of keep-alive
-sneaking in and interfering with the shutdown operation and causing
-observed kernel crash. So to fix this crash, now we're adding back the
-keep-alive stop operation at very beginning of the fabric controller
-shutdown code path so that the actual controller shutdown opeation only
-begins after it's ensured that keep-alive operation is not in-flight and
-also it can't be scheduled in future.
-
-Fixes: a54a93d0e359 ("nvme: move stopping keep-alive into nvme_uninit_ctrl()")
-Link: https://lore.kernel.org/all/196f4013-3bbf-43ff-98b4-9cb2a96c20c2@grimberg.me/#t
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/core.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5016f69e9a15..865c00ea19e3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4648,6 +4648,11 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_mpath_stop(ctrl);
- 	nvme_auth_stop(ctrl);
-+	/*
-+	 * the transport driver may be terminating the admin tagset a little
-+	 * later on, so we cannot have the keep-alive work running
-+	 */
-+	nvme_stop_keep_alive(ctrl);
- 	nvme_stop_failfast_work(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
--- 
-2.45.2
-
+Konrad
 
