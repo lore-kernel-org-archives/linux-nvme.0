@@ -4,63 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2633D3E2BC
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 19:46:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0770D5B154
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 21:16:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WkAZFsfM1A1Gu8KWgawyNu0Srcl7qjDqjZ9OBg9Fves=; b=RcEpRRB1vqxM3NTHDAUSoLyr/1
-	w8+IvDNpqRo5vs8HYzxNUUg2x1LRQRxcejzBbk6FJsIjtmIviRKLib9XCS0t2ZhI5tLCbBRXFBgaj
-	ZtzAEieptb3ZuAIzjZ5K7CMLtATQMFa3u4CRpQqRwDnnOIqSj2Zu049hS3AlhnK25DJlXlHQelJdm
-	LTSbUgXh92tBhYsMKlnvb6DaOshb8jF0U9h9w2UOeWSSq76z6/iMIR2AOXbuOUbbo77KOPTD+vW9B
-	fD/AKiRvupq+CfVpgJY6sSk8vcdOXl8ESxlIIfrx5AB2mcY9AyYAGYu6m4xnx2gDrvxh895gc2nNs
-	Pps3Kt5g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Hspb9b5oN7Ssmgf3bt9g3A4hwZTQH2EOWPydzNz52qE=; b=KHgtO/4aPOMfb5GjRnBKPeduaS
+	ln8jnKoUAX1kzv2Rv67Yk9PIn6yEsuVS/3fLeJSeusoEMUNJ4fuZZ8BsQzMaBh/WdTO/eJLYVlSne
+	21Pq7BomfOD5BebFeuZ/Dax+rPUJlGY1kWMXQJWcmAwC2jIif10L54xb8oP6hdbt+dCfLkOaH+9U/
+	BpzQX689K08dxb8oFvyLzD4OjoIIUtvjh6I3h/1VSAfdW0FSgg4tcYDmzVjj57sTwlE8NCOWJzZZf
+	f6Ef29kysbztE3+bA5rUHs1MF+Rmkrtz/UvsDr3r5SXJfY40ifDQM/FZ3yvdQLTmh4SRv/cPNdsjn
+	vPlKrxpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5VhK-0000000C2lv-3aWg;
-	Mon, 28 Oct 2024 19:46:42 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1t5X65-0000000CJJc-46RS;
+	Mon, 28 Oct 2024 21:16:21 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5VhI-0000000C2lV-2vvV
+	id 1t5Wjj-0000000CG81-0q2Z
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 19:46:42 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id DA7D7A41B64;
-	Mon, 28 Oct 2024 19:44:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F33C4CEC3;
-	Mon, 28 Oct 2024 19:46:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730144799;
-	bh=qZt8mJEDRl+Yth1e6zFjf+4BIU5q5r0ncS6SezGz7b8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bx5NAOQS/qZimCwhu4Tm3bsAGYBRGjZwoqtP1zKvpbF3pT9s4gfzbc2zgrfenOZxM
-	 zdZx6V1GKJeeI3+fls+Mx6UJfo4cVmLb0T/WZETo/fTXodQMVaxzL4KpJJbIT5dKVG
-	 3svJm0EpMXZmnG8eoR6/0xvc8BLpglaWX9OTudu69TonjzK73RHXZimXm/5AEVQsVD
-	 yLbjvDq27Hnr1p/9R5hfXS1hrxbPWwjmulI+itn7PHPZc/qB8v6lT54MVddl9Umfzu
-	 nTuuhsKPauBDPxabGkrHj1EVc35BnyDJthVXBlOVp4WTHiSQNw6coamAekfchPx/fS
-	 QksMEwbvoRQaw==
-Date: Mon, 28 Oct 2024 13:46:36 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org, hch@lst.de,
-	joshi.k@samsung.com, javier.gonz@samsung.com
-Subject: Re: [PATCHv9 3/7] block: allow ability to limit partition write hints
-Message-ID: <Zx_qHAqoFpl7Ivj7@kbusch-mbp>
-References: <20241025213645.3464331-1-kbusch@meta.com>
- <20241025213645.3464331-4-kbusch@meta.com>
- <626bd35e-7216-4379-967d-5f6ebb4a5272@acm.org>
+	Mon, 28 Oct 2024 20:53:17 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SK79Wx012735
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 13:53:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2021-q4; bh=Hspb9b5oN7Ssmgf3bt
+	9g3A4hwZTQH2EOWPydzNz52qE=; b=GfjL2g7k8SyzgtZLv0pK0Ybg0uVvVfQe4s
+	JM2gV8mb3kItT848m3aqJaALk6B9953YkCSLVzflVwi9HlW9FJoda9E0kl9QOeLt
+	womsAXbkkXVoG+yCoDBnoUGA5DBsA7+8bVOC2mL47EWtA+dpw8TX5RA0A3tmgBGQ
+	lS31jHU/hoTHCuK08Q9v88tROTwjNczuWYVZHU9OKjtmHjygbQYjXlaWFmmZSSKX
+	QxvkdtQfMQX0YctNcDQjUDv8YSM6cwM5s1j+TRmmdDj4dRwuZAyOm7saiqcIIYFd
+	/V0/oo8MjD2RpKHTlYdVR6Sj3HKotQd0CG7HWD48tzU03Ak22bgQ==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42jbbckht7-7
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 13:53:13 -0700 (PDT)
+Received: from twshared22972.15.frc2.facebook.com (2620:10d:c0a8:fe::f072) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Mon, 28 Oct 2024 20:53:02 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id 91C73148C1306; Mon, 28 Oct 2024 13:52:53 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
+CC: <anuj20.g@samsung.com>, Keith Busch <kbusch@kernel.org>,
+        Jens Axboe
+	<axboe@kernel.dk>
+Subject: [PATCH] nvme: re-fix error-handling for io_uring nvme-passthrough
+Date: Mon, 28 Oct 2024 13:52:53 -0700
+Message-ID: <20241028205253.2054407-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <626bd35e-7216-4379-967d-5f6ebb4a5272@acm.org>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: BdKHOwwGn6_6NLfjXxuHE-sGvhAZORzN
+X-Proofpoint-ORIG-GUID: BdKHOwwGn6_6NLfjXxuHE-sGvhAZORzN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_124640_827958_4AE267A7 
-X-CRM114-Status: GOOD (  11.24  )
+X-CRM114-CacheID: sfid-20241028_135315_373737_3D41E5A3 
+X-CRM114-Status: GOOD (  11.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,22 +84,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 28, 2024 at 11:27:33AM -0700, Bart Van Assche wrote:
-> On 10/25/24 2:36 PM, Keith Busch wrote:
-> > When multiple partitions are used, you may want to enforce different
-> > subsets of the available write hints for each partition. Provide a
-> > bitmap attribute of the available write hints, and allow an admin to
-> > write a different mask to set the partition's allowed write hints.
-> 
-> After /proc/irq/*/smp_affinity was introduced (a bitmask),
-> /proc/irq/*/smp_affinity_list (set of ranges) was introduced as a more
-> user-friendly alternative. Is the same expected to happen with the
-> write_hint_mask? If so, shouldn't we skip the bitmask user space
-> interface and directly introduce the more user friendly interface (set
-> of ranges)?
+From: Keith Busch <kbusch@kernel.org>
 
-I don't much of have an opinion either way. One thing I like for the
-bitmask representation is you write 0 to turn it off vs. the list type
-writes a null string. Writing 0 to disable just feels more natural to
-me, but not a big deal.
+This was previously fixed with commit 1147dd0503564fa0e0348
+("nvme: fix error-handling for io_uring nvme-passthrough"), but the
+change was mistakenly undone in a later commit.
+
+Fixes: d6aacee9255e7f ("nvme: use bio_integrity_map_user"
+Reported-by: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/ioctl.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index b9b79ccfabf8a..6c531088043b7 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -422,9 +422,13 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(stru=
+ct request *req,
+ 	struct nvme_uring_cmd_pdu *pdu =3D nvme_uring_cmd_pdu(ioucmd);
+=20
+ 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
++	if (nvme_req(req)->flags & NVME_REQ_CANCELLED) {
+ 		pdu->status =3D -EINTR;
+-	else
++	} else {
+ 		pdu->status =3D nvme_req(req)->status;
++		if (!pdu->status)
++			pdu->status =3D blk_status_to_errno(err);
++	}
+ 	pdu->result =3D le64_to_cpu(nvme_req(req)->result.u64);
+=20
+ 	/*
+--=20
+2.43.5
+
 
