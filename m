@@ -4,72 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0770D5B154
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 21:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3FF2AD5B156
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 21:16:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Hspb9b5oN7Ssmgf3bt9g3A4hwZTQH2EOWPydzNz52qE=; b=KHgtO/4aPOMfb5GjRnBKPeduaS
-	ln8jnKoUAX1kzv2Rv67Yk9PIn6yEsuVS/3fLeJSeusoEMUNJ4fuZZ8BsQzMaBh/WdTO/eJLYVlSne
-	21Pq7BomfOD5BebFeuZ/Dax+rPUJlGY1kWMXQJWcmAwC2jIif10L54xb8oP6hdbt+dCfLkOaH+9U/
-	BpzQX689K08dxb8oFvyLzD4OjoIIUtvjh6I3h/1VSAfdW0FSgg4tcYDmzVjj57sTwlE8NCOWJzZZf
-	f6Ef29kysbztE3+bA5rUHs1MF+Rmkrtz/UvsDr3r5SXJfY40ifDQM/FZ3yvdQLTmh4SRv/cPNdsjn
-	vPlKrxpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yd1rJb4mWMaQjl27aMZhVEr4utlmzGlMM4YloIg83ak=; b=OhC19gWJdeoPhqz28t9Is/QU2v
+	M2MnFcnQRwMNrpuiScmSzJiRe8q83ak3crZLessh7aIMt+DldYvgAGuNyP8qmyIhweNORi885IoXK
+	sExktVWV2pJeR0KW8xlpgOAFPByNPDT8dZI5J+4kMU3Qkpkc3GA0bawl26Vvtt0itS+0Coiw1hcFu
+	dzmkxYRLkIOUHjcE4s/4jz2wXRQ2nU32R74u3I6rrLEd/r3rEwteNEDpmD5YheWnNtrkQXPw9D3+D
+	HG1p1GyiZPyrVWk0L43qNnD9NxFp2E/ZVYP+ngqGqVKLTsDBUs8ZCaliVWrw7gnn1bbEfi95uwur8
+	PvYH2PRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5X65-0000000CJJc-46RS;
-	Mon, 28 Oct 2024 21:16:21 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1t5X66-0000000CJJq-2si1;
+	Mon, 28 Oct 2024 21:16:22 +0000
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5Wjj-0000000CG81-0q2Z
+	id 1t5Wkf-0000000CGIa-0t9O
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 20:53:17 +0000
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49SK79Wx012735
-	for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 13:53:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2021-q4; bh=Hspb9b5oN7Ssmgf3bt
-	9g3A4hwZTQH2EOWPydzNz52qE=; b=GfjL2g7k8SyzgtZLv0pK0Ybg0uVvVfQe4s
-	JM2gV8mb3kItT848m3aqJaALk6B9953YkCSLVzflVwi9HlW9FJoda9E0kl9QOeLt
-	womsAXbkkXVoG+yCoDBnoUGA5DBsA7+8bVOC2mL47EWtA+dpw8TX5RA0A3tmgBGQ
-	lS31jHU/hoTHCuK08Q9v88tROTwjNczuWYVZHU9OKjtmHjygbQYjXlaWFmmZSSKX
-	QxvkdtQfMQX0YctNcDQjUDv8YSM6cwM5s1j+TRmmdDj4dRwuZAyOm7saiqcIIYFd
-	/V0/oo8MjD2RpKHTlYdVR6Sj3HKotQd0CG7HWD48tzU03Ak22bgQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42jbbckht7-7
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 13:53:13 -0700 (PDT)
-Received: from twshared22972.15.frc2.facebook.com (2620:10d:c0a8:fe::f072) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Mon, 28 Oct 2024 20:53:02 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 91C73148C1306; Mon, 28 Oct 2024 13:52:53 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: <anuj20.g@samsung.com>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe
-	<axboe@kernel.dk>
-Subject: [PATCH] nvme: re-fix error-handling for io_uring nvme-passthrough
-Date: Mon, 28 Oct 2024 13:52:53 -0700
-Message-ID: <20241028205253.2054407-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
+	Mon, 28 Oct 2024 20:54:15 +0000
+Received: by mail-il1-x12d.google.com with SMTP id e9e14a558f8ab-3a4e5e574b6so10447765ab.0
+        for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 13:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1730148852; x=1730753652; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yd1rJb4mWMaQjl27aMZhVEr4utlmzGlMM4YloIg83ak=;
+        b=Ny25++aBU3kmyQshE8GoiUdUd2xTya0T/iqZcaWTTVf4mnNmDOZzs/EQ2zGjzAOegb
+         kSMqNl3UcNFyyEibPyBkRGjvEyi1H3smTbZolGzIljWRYGQum1o7Tc0Ake39LXTGswQV
+         Ypd55gVjOiyEcP7EV0F84RnbJsVj+5JOQD4E8nW0AiY/JCPBbszcGocMSbbv9D/Hs5UI
+         vWPkhJNIeibKRcvhWuXPEBgieW+k7tvbGE/wrq9jqWi6/kk2EqtS1l5Xu+jLiFRAZD/X
+         pqP3Sgi24PbzFqIsmd4xquaQ7q6e5m5d8+R5B6qUWU02mtj5G2XTihKaZxeceIKI3PxP
+         gN/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730148852; x=1730753652;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yd1rJb4mWMaQjl27aMZhVEr4utlmzGlMM4YloIg83ak=;
+        b=Qca5xv8K4ng1h0leZM+BuzZmjzY7I4v04hej4w/9WcFfwstazYy5kzd7K40FegmDcM
+         Ggf4zPSsfQ++OhQsymDbIZxj9MINmPWEcWk9WIrSQSbRs6paJiD6y2gOyCgpO1gM+9A6
+         M4dyHBAF46z6qA/zzGCnAGYRdygga1eDB4HQLSGIooGJpWZyrUzbZ55B2HXyMUbNUFK+
+         ttFfmtlzpHgpxBtkfAdpAswgMP25PGMeXc9duEkZTcQaws63SZVMcKj8+zuhY3IZ1EgN
+         Nr4vaC9tp2P2rgrFW4rZq4qY9+HQuuz5LwKO78bTzGki/wnG3hvVn3ynHg5esOiaWi/X
+         bBOw==
+X-Forwarded-Encrypted: i=1; AJvYcCUuw/rH1/r4dRBkf+/YuiRxYJ+TcaH7jx7xj2jgIvJLxSTVHjUTdxn6OMMPezjJ1AVuB93U+eTCMj6u@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywv4dhgzJW28qZ7BMqjT7uo9L2qqyctsPNV420KkmuBj4dTp0SC
+	qdmqgUifyG9NOFjtSwECVFTaJXhBAbVpfSFg919oKLo69ynTsNv3i1Zw+nUA2Ow=
+X-Google-Smtp-Source: AGHT+IE5aoGs+VCZUBYTQ4LrimhjTlEwvsULyhVziwNVeHJpOsf1BDZy/Bzj1rx0XhsDJhyKdLu6Hw==
+X-Received: by 2002:a05:6e02:1c23:b0:39f:507a:6170 with SMTP id e9e14a558f8ab-3a508e01c68mr9289495ab.8.1730148851721;
+        Mon, 28 Oct 2024 13:54:11 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a4e6dfc9c2sm17957415ab.48.2024.10.28.13.54.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Oct 2024 13:54:11 -0700 (PDT)
+Message-ID: <e5685301-ff1d-44f4-a10c-8f9a2f84488b@kernel.dk>
+Date: Mon, 28 Oct 2024 14:54:09 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: BdKHOwwGn6_6NLfjXxuHE-sGvhAZORzN
-X-Proofpoint-ORIG-GUID: BdKHOwwGn6_6NLfjXxuHE-sGvhAZORzN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: re-fix error-handling for io_uring nvme-passthrough
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de
+Cc: anuj20.g@samsung.com, Keith Busch <kbusch@kernel.org>
+References: <20241028205253.2054407-1-kbusch@meta.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20241028205253.2054407-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_135315_373737_3D41E5A3 
-X-CRM114-Status: GOOD (  11.72  )
+X-CRM114-CacheID: sfid-20241028_135413_547796_9E950037 
+X-CRM114-Status: UNSURE (   8.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,40 +94,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On 10/28/24 2:52 PM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> This was previously fixed with commit 1147dd0503564fa0e0348
+> ("nvme: fix error-handling for io_uring nvme-passthrough"), but the
+> change was mistakenly undone in a later commit.
+> 
+> Fixes: d6aacee9255e7f ("nvme: use bio_integrity_map_user"
+> Reported-by: Jens Axboe <axboe@kernel.dk>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
 
-This was previously fixed with commit 1147dd0503564fa0e0348
-("nvme: fix error-handling for io_uring nvme-passthrough"), but the
-change was mistakenly undone in a later commit.
+Looks good to me, but needs a:
 
-Fixes: d6aacee9255e7f ("nvme: use bio_integrity_map_user"
-Reported-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/ioctl.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Cc: stable@vger.kernel.org
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index b9b79ccfabf8a..6c531088043b7 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -422,9 +422,13 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(stru=
-ct request *req,
- 	struct nvme_uring_cmd_pdu *pdu =3D nvme_uring_cmd_pdu(ioucmd);
-=20
- 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-+	if (nvme_req(req)->flags & NVME_REQ_CANCELLED) {
- 		pdu->status =3D -EINTR;
--	else
-+	} else {
- 		pdu->status =3D nvme_req(req)->status;
-+		if (!pdu->status)
-+			pdu->status =3D blk_status_to_errno(err);
-+	}
- 	pdu->result =3D le64_to_cpu(nvme_req(req)->result.u64);
-=20
- 	/*
---=20
-2.43.5
+to ensure it hits stable as well.
+
+-- 
+Jens Axboe
 
 
