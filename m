@@ -4,63 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E3EED33994
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 15:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E267AD33994
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 15:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bhShoql4Yz9MGIL2bJ3foyTv3oy24bHPYGhlCzqDzwI=; b=ja3sP03SgskWhWy+RXxcaxnZ8U
-	f3fpTM2oBmfGB3lVAtEL/kCUle+FKY+fJjqsqTAiKGdDlz84OPBBMT+U+ojmqjTeeqm2VRFHDaeMB
-	9RFtxTHVmhyO6Q3gf+u7s74cNbp//dxjj7//mOfJHQ1ZksYHVj4IGS79X7Xpj4JrCWosHZI1Tw8IM
-	7DzkJDVX2f3BYLvEaX83MIKOL00Oq2aw3p9/h9eVVV5jZCslQXp6eNVob3NVCmgnNdH6r3YQkgVPI
-	0HzdB0kdmPUJ9d5gicgMYW3M+SlkxPqZE0WX1gnzffKCWq+nY1vd1aNFMcYkY9I2Bk9OqN3dkt29X
-	8PO7/WbQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=T55b8XTY+UM6hmZKkI27A+z3EC7/CEwwqFInuUnPr7g=; b=mxbHUEAHoXHKerW2G5X4PmHDax
+	aJYozjgL/sriyksEAypKVpSKKDLPGDG+wb29pA6CMBTRViUqoU7wUW/ysW5yXmN61Z+gp0ScfNYcT
+	wjTqlKlnnNaU0BtiIbwLJa81MSHENNGEO7CEIeZH8GB27ql8z0CDZuQU9ia7QdD849gWmZzjZke2R
+	ZQgvODV/h41GJwnEbzKd1gul46cDuhwxM1uHBlLuaXuFgGCmtNEQ9daf+OfY5wij/QkvQJTv4X0Kf
+	5T6ns/L8v3lYlxhGifIy/31Trtij9Kue2gADvK2XnLRp0HsLu3b1/O5q/1ezETbwCVJCZiFvpvYbx
+	OsU0GEBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5RL1-0000000BFVt-05y8;
-	Mon, 28 Oct 2024 15:07:23 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t5RMZ-0000000BG2a-2TB4;
+	Mon, 28 Oct 2024 15:08:59 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5Qsj-0000000B9Hy-1FNk
+	id 1t5QvM-0000000BA0w-2gKW
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 14:38:11 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id DAD70A41CDF;
-	Mon, 28 Oct 2024 14:36:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA5FC4CEC3;
-	Mon, 28 Oct 2024 14:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730126287;
-	bh=WBihszhgpbdEbKDk5fhd5HVOlYkYO0uSU5+sDIILYF0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kidl4wY2iDvB2eVMqxFD1HjOWFIatEISx40q3eIVQmoJ60Ua9in6X6dMDgGM/WxZS
-	 8coUkV8wt04cObM2LFKTdywh2xaSXAbrEGMiQ2ue5yqx4gLWeaCRysN/YkR6Aq3u0C
-	 w5s1X/5Plpe8d/q0isevYMBzy+nsJfK4XVvrfXQ8++AJ8WkwWkgzt8F6FE3NPEhuV+
-	 B3ohC5T7rdS3p89s/r9xhSRxmR+Oq5/WEIFpr1A1EiX3DDm3iyLHwgdxY0Py1+MkA+
-	 l54v2oPnMsXsRZBWHAi+MGn3Yo8e/s/VyELqL+t8EWvkguEF99LJhg01Zm1YFzla0J
-	 UYqpZOnKUwZqA==
-Date: Mon, 28 Oct 2024 08:38:05 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	joshi.k@samsung.com, javier.gonz@samsung.com, bvanassche@acm.org
-Subject: Re: [PATCHv9 4/7] block, fs: add write hint to kiocb
-Message-ID: <Zx-hzSwkkUMeuA5C@kbusch-mbp>
-References: <20241025213645.3464331-1-kbusch@meta.com>
- <20241025213645.3464331-5-kbusch@meta.com>
- <20241028115932.GE8517@lst.de>
+	Mon, 28 Oct 2024 14:40:57 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241028144046epoutp0370d8357974a3f5795925b6424c76e4b8~CpNYiuK0y0312303123epoutp03S
+	for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 14:40:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241028144046epoutp0370d8357974a3f5795925b6424c76e4b8~CpNYiuK0y0312303123epoutp03S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1730126446;
+	bh=T55b8XTY+UM6hmZKkI27A+z3EC7/CEwwqFInuUnPr7g=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=BgBK/j43WVhlvhPip0OnT4RkQjVCmcwcoNZ7zNb7USBMAJCkdR68ON1EfY4C19WPd
+	 vo9DI0ZoYwavxvrjVxVlR4garnqXwCnUf9otlSOPUBX0o0AmSX9yvLLWaYe5Tac9Mt
+	 T8/jvt8EoVFC/o+BjTQgz9b4iqJiaPFTiV9HF4S4=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20241028144045epcas5p21d6bfc8a173149d569dea73fe637acf7~CpNYD9X-h1603716037epcas5p2z;
+	Mon, 28 Oct 2024 14:40:45 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4XcbfN21Kjz4x9Pp; Mon, 28 Oct
+	2024 14:40:44 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	D2.5A.09800.C62AF176; Mon, 28 Oct 2024 23:40:44 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20241028144043epcas5p1a1867fb53cbfc69dd78c95c2a3bbcd30~CpNWIiyY63010430104epcas5p1n;
+	Mon, 28 Oct 2024 14:40:43 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241028144043epsmtrp2080041b470ffdd7a33e3b7651fb8f653~CpNWH4Z8q1117611176epsmtrp2N;
+	Mon, 28 Oct 2024 14:40:43 +0000 (GMT)
+X-AuditID: b6c32a4b-4a7fa70000002648-49-671fa26c60f3
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	8B.F6.08229.B62AF176; Mon, 28 Oct 2024 23:40:43 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241028144042epsmtip29836bee4c94a08085db9de127166f9e2~CpNUoiBwO1063710637epsmtip2W;
+	Mon, 28 Oct 2024 14:40:42 +0000 (GMT)
+Message-ID: <45c046df-e940-47d0-bb29-f3aaeb28b458@samsung.com>
+Date: Mon, 28 Oct 2024 20:10:02 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241028115932.GE8517@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv9 3/7] block: allow ability to limit partition write
+ hints
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	io-uring@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, hch@lst.de, javier.gonz@samsung.com,
+	bvanassche@acm.org, Keith Busch <kbusch@kernel.org>
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20241025213645.3464331-4-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHJsWRmVeSWpSXmKPExsWy7bCmlm7OIvl0g32fuC2mffjJbLFy9VEm
+	i3et51gsHt/5zG4x6dA1RoszVxeyWOy9pW2xZ+9JFov5y56yW3Rf38HmwOVx+Yq3x6ZVnWwe
+	m5fUe+y+2cDmce5ihUffllWMHp83yQWwR2XbZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjq
+	GlpamCsp5CXmptoqufgE6Lpl5gDdpqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkp
+	MCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzmi7/JOp4AJrxdK5VxgbGI+zdDFyckgImEh86Z3A
+	1MXIxSEksJtRYkJ3CyNIQkjgE6PE042OEIlvjBI7dv1khOmY9fYeO0RiL6PEvyNP2CE63jJK
+	vP9SD2LzCthJnD6wlRnEZhFQldjz9DMzRFxQ4uTMJ2CrRQXkJe7fmgHWKywQILF7/QxmkKEi
+	AjMYJWbfngCWYBaoldi2aw0rhC0ucevJfKBbOTjYBDQlLkwuBQlzCphLLNvRzAhRIi+x/e0c
+	sDkSAis5JG7u+w9WLyHgIrFrigvEA8ISr45vYYewpSQ+v9vLBmFnSzx49AAaLDUSOzb3sULY
+	9hINf26wgoxhBlq7fpc+xCo+id7fT6Cm80p0tAlBVCtK3Jv0FKpTXOLhjCVQtofEi91rmSHB
+	tp1R4n/XfpYJjAqzkEJlFpInZyH5ZhbC5gWMLKsYJVMLinPTU4tNC4zzUsvh0Z2cn7uJEZxw
+	tbx3MD568EHvECMTB+MhRgkOZiUR3tWxsulCvCmJlVWpRfnxRaU5qcWHGE2B0TORWUo0OR+Y
+	8vNK4g1NLA1MzMzMTCyNzQyVxHlft85NERJITyxJzU5NLUgtgulj4uCUamC6uOzCTc1DQivD
+	Dhs93/3n5ZOfxkwBDZlrXy/kjC755JPf93++0r/GXL6etWvVvqRcSjNj/snrfmKSe1jmCcWD
+	D4znrlz8+oR0+AHlOClPrty1V85tVWuzSDviJR4m0fd86cGFJfGznjQukQs+9nT+tBn2Wbde
+	Fmn49a9ZPcHsadH7vW+enHZ32bNI6/DzjL1yO5++l0re7/lRKGDxpHoDw+oHQSdzQwKU9m02
+	rjFLlfi25PumeR1xChkG3ILi/kq3JzGc0DLQd+7Wb91zbsbixboLfGeeSjC5HvtG97N0iHH0
+	00BbF/Onu9h7N8ZoGO1+q5eu8Ojf6jzF99+TEs6+XLMn0KFjwi6D/qdn88+HK7EUZyQaajEX
+	FScCAIsoMEJBBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42LZdlhJXjd7kXy6wYL7uhbTPvxktli5+iiT
+	xbvWcywWj+98ZreYdOgao8WZqwtZLPbe0rbYs/cki8X8ZU/ZLbqv72Bz4PK4fMXbY9OqTjaP
+	zUvqPXbfbGDzOHexwqNvyypGj8+b5ALYo7hsUlJzMstSi/TtErgy2i7/ZCq4wFqxdO4VxgbG
+	4yxdjJwcEgImErPe3mPvYuTiEBLYzSixufMOI0RCXKL52g92CFtYYuW/51BFrxklmr5dZAVJ
+	8ArYSZw+sJUZxGYRUJXY8/QzM0RcUOLkzCdgG0QF5CXu35oBNkhYwE/i35RlTCCDRARmMEos
+	XPYEKMHBwSxQK9F9zQ5iwXZGiRNvr4INYga64taT+UwgNWwCmhIXJpeChDkFzCWW7WhmhCgx
+	k+ja2gVly0tsfzuHeQKj0CwkZ8xCMmkWkpZZSFoWMLKsYpRMLSjOTc8tNiwwzEst1ytOzC0u
+	zUvXS87P3cQIjjAtzR2M21d90DvEyMTBeIhRgoNZSYR3daxsuhBvSmJlVWpRfnxRaU5q8SFG
+	aQ4WJXFe8Re9KUIC6YklqdmpqQWpRTBZJg5OqQYmkfXxDpO97eewNs7et4dTWKg+vuLvLklT
+	ramHU39qPTx7MqhEtrIwJeXSlJsHbtvnRIv8athvek79q+Wep3vUmDbqzJCU83CydzA9N+vf
+	84BVe40v+iSGTw1c+b/i9KoK522yfkrNLT2PhKovzz/dnFJ0apfQ7rLH/rzs3OZJ2vem5Of9
+	3MJy7Uqk2nX+trKDXjIqk47VKgsYPH82oXv5H31l7wDpl1/vmDvf7YmY0tXEvXdpB//dm605
+	mjznD2bOWMulXME/uf6FU0XSgl+m+se5KkxFfm2duOFvkbO73JmNjh+zdHw+bTE3mXXH6fj2
+	KWeVOk7NcknqvPnw0btPW//mmJ3/kO7fZ2kYtOWKEktxRqKhFnNRcSIAiXcXux8DAAA=
+X-CMS-MailID: 20241028144043epcas5p1a1867fb53cbfc69dd78c95c2a3bbcd30
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241025213717epcas5p2d70619c312135cd1bb67dc78ca7d7b2b
+References: <20241025213645.3464331-1-kbusch@meta.com>
+	<CGME20241025213717epcas5p2d70619c312135cd1bb67dc78ca7d7b2b@epcas5p2.samsung.com>
+	<20241025213645.3464331-4-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_073809_464607_43F40575 
-X-CRM114-Status: GOOD (  11.70  )
+X-CRM114-CacheID: sfid-20241028_074053_345303_7EB542D7 
+X-CRM114-Status: GOOD (  11.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,24 +139,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 28, 2024 at 12:59:32PM +0100, Christoph Hellwig wrote:
-> On Fri, Oct 25, 2024 at 02:36:42PM -0700, Keith Busch wrote:
-> > +static u16 blkdev_write_hint(struct kiocb *iocb, struct block_device *bdev)
-> > +{
-> > +	u16 hint = iocb->ki_write_hint;
-> > +
-> > +	if (!hint)
-> > +		return file_inode(iocb->ki_filp)->i_write_hint;
-> > +
-> > +	if (hint > bdev_max_write_hints(bdev))
-> > +		return file_inode(iocb->ki_filp)->i_write_hint;
-> > +
-> > +	if (bdev_is_partition(bdev) &&
-> > +	    !test_bit(hint - 1, bdev->write_hint_mask))
-> > +		return file_inode(iocb->ki_filp)->i_write_hint;
-> 
-> I would have expected an error when using an invalid stream identifier.
+On 10/26/2024 3:06 AM, Keith Busch wrote:
+> +static ssize_t part_write_hint_mask_store(struct device *dev,
+> +					  struct device_attribute *attr,
+> +					  const char *buf, size_t count)
+> +{
+> +	struct block_device *bdev = dev_to_bdev(dev);
+> +	unsigned short max_write_hints = bdev_max_write_hints(bdev);
+> +	unsigned long *new_mask;
+> +	int size;
+> +
+> +	if (!max_write_hints)
+> +		return count;
+> +
+> +	size = BITS_TO_LONGS(max_write_hints) * sizeof(long);
+> +	new_mask = kzalloc(size, GFP_KERNEL);
+> +	if (!new_mask)
+> +		return -ENOMEM;
+> +
+> +	bitmap_parse(buf, count, new_mask, max_write_hints);
+> +	bitmap_copy(bdev->write_hint_mask, new_mask, max_write_hints);
 
-It's a hint. fcntl doesn't error if you give an unusable hint, so
-neither should this. You get sane default behavior.
+kfree(new_mask) here.
+
 
