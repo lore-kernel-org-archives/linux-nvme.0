@@ -4,48 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78454D13593
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 09:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33E27D13570
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 09:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fc/XDftvJ+7HBv6RjHGjnxsCLTztrnnL+kcGkzdrZOY=; b=VN/VQwtJ7K0m03yR0eA2GVbw4a
-	q53sCWWt3AxgWJAY13gklp4QtcxkHgx8AlDYDmPKN80Kv47K/FLFpInunSjJMVP4rBU7FO/R/+L4d
-	8zJ0esHPuH+QTwLl0i4iyg1uy5kaLCvJRqM6uHeJQ8JZlWdAKTdBFnGvILdXAXrIGUd1Wz5u+0Sm6
-	OZx2trBX4s3/VtL0oQ5QahNk9y0HSWapn37OsHdDaKvLXQCBSGeTT1WkhazD2B5vi2Egb32qeKFmP
-	U0gDV9jCc1007GVkzZCBbnUJ2xsmH2ImKLnuV2dsOxzYE+ISyOeZrndX6Oh9i76T6UqYRDepN3cgR
-	sorkqaqA==;
+	bh=r9gVJxpktJDVmfQQVRiSb1j0oVgQIbFAw9qNOB6Qfz8=; b=xWttyZ1NuIpMetse3pZDhPtRUX
+	P1X7qOyQdmJvcuZo4YGnJc+D/63cepU8VQZ3tjIDv/2W8Yp53Woh+LSEaiNitb7GFhcgdtq95AQsI
+	bXov1cl07luAN+8DCabUcMFj6f/sTPf1aihmjb5R/xm1PPMXiX4mQ/oFmkO6xKv666C+HJS2bQ2sw
+	YZ5IpnhTBHzq8GIFlx0PzyPo9arScfM03rJLW55Wrt2XCeEFTL/MPg5XYGR7eLU3wZamYFKSylsc0
+	lYdTgaBrLomuyfeLWjLSpavgGYkI7FohxnsG2J+1YGbQQuDn0AspCdnBsjQlYrX85uLilp1STJ+VD
+	MVG2X4GQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5Lrw-0000000ACUb-028c;
-	Mon, 28 Oct 2024 09:17:00 +0000
+	id 1t5Luf-0000000AD41-1FTD;
+	Mon, 28 Oct 2024 09:19:49 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5Lrc-0000000ACR7-1FsL
+	id 1t5Luc-0000000AD2y-2dvU
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 09:16:41 +0000
+	Mon, 28 Oct 2024 09:19:47 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8875568BEB; Mon, 28 Oct 2024 10:16:36 +0100 (CET)
-Date: Mon, 28 Oct 2024 10:16:36 +0100
+	id 039F268BFE; Mon, 28 Oct 2024 10:19:41 +0100 (CET)
+Date: Mon, 28 Oct 2024 10:19:41 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>,
-	kch@nvidia.com, shinichiro.kawasaki@wdc.com, d.bogdanov@yadro.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v19 0/2] Implement the NVMe reservation feature
-Message-ID: <20241028091636.GA28999@lst.de>
-References: <20241028015844.111210-1-kanie@linux.alibaba.com> <20241028085543.GB27771@lst.de> <3489ffea-05cc-40af-ad61-63750ecc7923@grimberg.me>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Christoph Hellwig <hch@lst.de>, Konrad Dybcio <konradybcio@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: Force NVME_QUIRK_SIMPLE_SUSPEND on Qualcomm
+ hosts
+Message-ID: <20241028091941.GA29461@lst.de>
+References: <20241024-topic-nvmequirk-v1-1-51249999d409@oss.qualcomm.com> <20241025113520.GA19521@lst.de> <0fac5de3-3f35-4fc2-bbdc-411dc1018a85@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3489ffea-05cc-40af-ad61-63750ecc7923@grimberg.me>
+In-Reply-To: <0fac5de3-3f35-4fc2-bbdc-411dc1018a85@oss.qualcomm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_021640_498467_C3C2989A 
-X-CRM114-Status: GOOD (  11.34  )
+X-CRM114-CacheID: sfid-20241028_021946_829246_3C7B2405 
+X-CRM114-Status: GOOD (  14.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,9 +64,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 28, 2024 at 11:14:03AM +0200, Sagi Grimberg wrote:
-> Did you try to use it with your recent pnfs-nvme support?
+On Fri, Oct 25, 2024 at 05:30:05PM +0200, Konrad Dybcio wrote:
+> (Un?)fortunately, said platforms use FDT, so we can't fix that in ACPI.
 
-Not recently, as I'm way too busy with all kinds of urgent projects.
+Then generalize the acpi helper to a generic one checking ACPI and
+DT and specify a proper DT binding.
+
+If th requirement to put all devices into D3 is a plaform propery
+a specific driver is always the wrong place for it.
+
+> b) Adding such a property to the PCIe host node sounds a bit
+>    saner, but the NVMe code isn't aware of the RC. We could add
+>    something like:
+
+Again, this all belongs into core code.  The nvme driver is just
+a consumer of this information, just like for example the AHCI
+driver.
 
 
