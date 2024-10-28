@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AE72D13596
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 11:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64169D1359B
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2024 11:59:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2dMhzZ889RDfsy8tcjpKFLN5w9Dkved6xghCCdHoINk=; b=pZtZcZxE1jrNQ3uxXLxwkfgAIb
-	vyy3CRLS4Ljt/Elt6HPyKMPnB+P8SlhAIQ9jru5rlEkm3/6MIcnj+4qVMCE5umSV48hCPh7FvN3rH
-	2SoKfw6wMyD9Xp5ISQ2jDOFBa1V3zPXqhlIMrjepueJrVm2IXGlc4eLdtK5kSsbeQveiwklaZk1Fa
-	8JI/ugJYYSiIFw97AVcaupvAfQlMmQt7hCEKu1lqUsDkb1RySCA1EmVwC38IZWX6r71ESdkO83olm
-	23lz3c3gvcXpe6QakaoGYZq2PGsR9yXMJsG9uFmoleoCtfi1NhKdEnBnhshK44ECH5j/eq65vxsVh
-	EkzIXXuA==;
+	bh=sPyQIjlJWsNzCGW62U9jCjeLv5i9MvYUW0O6ATeMb80=; b=MlmDj/PWmO36ROVHmtJ780gsoN
+	kP8zQ8G+Kk+Pf22nRN+oXUm9TjabNzqbEoThNPZ8yvaULTgSTDnkEZ5RWKdknvCxAjzf9SFnLHoNz
+	sY4fzIKsQCsYfrsDkNlUtWk95jMS5XlOJ9a9QvnmgBth/ZkeeyXjjsO2TCZNqZ9SuXoZT6QXH3RIh
+	GVROi30JfW90gqCQEfFOLnCOfITZpyn9pFKvMX4HjC1ORwZdQoZu69jcBOz5HqaZ4PYmdr7p6kzLn
+	UpUSMxzr6frMXPbXildzfSx5tqhzVsXaOvnY9i6x7vEL4DW9HYFQ7AXimW+4DJ/skcIe1NmfEggJ7
+	8OSz/5uw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5ONx-0000000Adv1-2akV;
-	Mon, 28 Oct 2024 11:58:13 +0000
+	id 1t5OPO-0000000Ae7V-1R1e;
+	Mon, 28 Oct 2024 11:59:42 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5ONu-0000000AduZ-3E1S
+	id 1t5OPJ-0000000Ae6h-3TCQ
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Oct 2024 11:58:12 +0000
+	Mon, 28 Oct 2024 11:59:40 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E2B2368BFE; Mon, 28 Oct 2024 12:58:05 +0100 (CET)
-Date: Mon, 28 Oct 2024 12:58:05 +0100
+	id 4C76468BFE; Mon, 28 Oct 2024 12:59:33 +0100 (CET)
+Date: Mon, 28 Oct 2024 12:59:32 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@meta.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -37,18 +37,17 @@ Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org, hch@lst.de, joshi.k@samsung.com,
 	javier.gonz@samsung.com, bvanassche@acm.org,
 	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv9 3/7] block: allow ability to limit partition write
- hints
-Message-ID: <20241028115805.GD8517@lst.de>
-References: <20241025213645.3464331-1-kbusch@meta.com> <20241025213645.3464331-4-kbusch@meta.com>
+Subject: Re: [PATCHv9 4/7] block, fs: add write hint to kiocb
+Message-ID: <20241028115932.GE8517@lst.de>
+References: <20241025213645.3464331-1-kbusch@meta.com> <20241025213645.3464331-5-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025213645.3464331-4-kbusch@meta.com>
+In-Reply-To: <20241025213645.3464331-5-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_045810_974672_9E1652F1 
-X-CRM114-Status: GOOD (  18.99  )
+X-CRM114-CacheID: sfid-20241028_045939_231283_D9F5A220 
+X-CRM114-Status: GOOD (  12.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,74 +62,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 25, 2024 at 02:36:41PM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> When multiple partitions are used, you may want to enforce different
-> subsets of the available write hints for each partition. Provide a
-> bitmap attribute of the available write hints, and allow an admin to
-> write a different mask to set the partition's allowed write hints.
-
-Trying my best Greg impersonator voice: This needs to be documented
-in Documentation/ABI/stable/sysfs-block.
-
-That would have also helped me understanding it.  AFAIK the split here
-is an opt-in, which means the use case I explained in the previous
-case would still not work out of the box, right?
-
-> +	max_write_hints = bdev_max_write_hints(bdev);
-> +	if (max_write_hints) {
-> +		int size = BITS_TO_LONGS(max_write_hints) * sizeof(long);
-> +
-> +		bdev->write_hint_mask = kmalloc(size, GFP_KERNEL);
-> +		if (!bdev->write_hint_mask) {
-> +			free_percpu(bdev->bd_stats);
-> +			iput(inode);
-> +			return NULL;
-> +		}
-> +		memset(bdev->write_hint_mask, 0xff, size);
-> +	}
-
-This could simply use bitmap_alloc().  Similarly the other uses
-would probably benefit from using the bitmap API.
-
-> +	struct block_device *bdev = dev_to_bdev(dev);
-> +	unsigned short max_write_hints = bdev_max_write_hints(bdev);
-> +
-> +	if (max_write_hints)
-> +		return sprintf(buf, "%*pb\n", max_write_hints, bdev->write_hint_mask);
-> +	else
-> +		return sprintf(buf, "0");
-
-No need for the else.  And if you write this as:
-
-	if (!max_write_hints)
-		return sprintf(buf, "0");
-	return sprintf(buf, "%*pb\n", max_write_hints, bdev->write_hint_mask);
-
-you'd also avoid the overly long line.
-
-> +
-> +static ssize_t part_write_hint_mask_store(struct device *dev,
-> +					  struct device_attribute *attr,
-> +					  const char *buf, size_t count)
+On Fri, Oct 25, 2024 at 02:36:42PM -0700, Keith Busch wrote:
+> +static u16 blkdev_write_hint(struct kiocb *iocb, struct block_device *bdev)
 > +{
-> +	struct block_device *bdev = dev_to_bdev(dev);
-> +	unsigned short max_write_hints = bdev_max_write_hints(bdev);
-> +	unsigned long *new_mask;
-> +	int size;
+> +	u16 hint = iocb->ki_write_hint;
 > +
-> +	if (!max_write_hints)
-> +		return count;
+> +	if (!hint)
+> +		return file_inode(iocb->ki_filp)->i_write_hint;
 > +
-> +	size = BITS_TO_LONGS(max_write_hints) * sizeof(long);
-> +	new_mask = kzalloc(size, GFP_KERNEL);
-> +	if (!new_mask)
-> +		return -ENOMEM;
+> +	if (hint > bdev_max_write_hints(bdev))
+> +		return file_inode(iocb->ki_filp)->i_write_hint;
 > +
-> +	bitmap_parse(buf, count, new_mask, max_write_hints);
-> +	bitmap_copy(bdev->write_hint_mask, new_mask, max_write_hints);
+> +	if (bdev_is_partition(bdev) &&
+> +	    !test_bit(hint - 1, bdev->write_hint_mask))
+> +		return file_inode(iocb->ki_filp)->i_write_hint;
 
-What protects access to bdev->write_hint_mask?
+I would have expected an error when using an invalid stream identifier.
+
+That of course requires telling the application how many are available
+through e.g. statx as requested last time.
 
 
