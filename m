@@ -4,74 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38EB3D3A678
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 17:54:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1463D3A67B
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 17:54:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Os+S4pHy7trxPWBaGt6FASH6K1G9Xgdn5eNIwNX8SiE=; b=SW7YXJ//VNl0UUS5jPZEnRXrKf
-	N2vLd6CrMSTzKUB8+irUY6mbjNeSK9QcvlGw/GgmeDYjnDSnPgUeFSrLvHfcsn3khAdfUJBEDDuL0
-	v0CtMacgVtCMUeI0yNq6SjNFAd3dn7DwI2XeM4Dzvo4qadK93pmMeNOxI7kKImgNAqnsvhwo0Jqqg
-	BfpEfyRKF0mvNSqhd6NF51hBwoYshLgBBBLTxv73ZUAsGOu6DF1Gm5dK60DX3CP53/CmFU7bxtA2d
-	Z5hrG/ionr4W1eQ/VzVNNoERr1lSFne0ONRMfC0msJpKUeA8jQMWZVaBQHTKVcWLvACxiSfEvo5Yd
-	g8TBymog==;
+	bh=n6LNHR2UxOEOGCqUSfrJ4D/dcAXYHqklNM5hsVN/lLY=; b=JLHQF5+/4AVxIaMJDULEu/tVHJ
+	pFyRxdb0RRVYAbJiAJRaV+aD1MDh/mP+N90G+v4wOZ1HKfR82B+FcAQ0QAC40KrgnIJECKRrBuIFN
+	oRTOhoRwotxm2RgcEW3qBbvWcnYXpv/DhDPAZECFaRLGATp9n2TRR6am03uRyLQb7DQIVKKubS80S
+	wcj+W6iv0GrFMSYcqGPr4QSP4wesxgYH5UlSZ47G4v8RgE2EJ/Qu+OUirAZT18mYKNJ7g0cgFpgYi
+	/gPJCp9cWjkk2R0nZRYfCg7Rbo2+YQ23IIV6L4uxL78tVz7B1ZOt5hGXE5QywTomqkqeQHjBw0iWT
+	emZLNyuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5qPn-0000000FOhi-0IBr;
-	Tue, 29 Oct 2024 17:53:59 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1t5qPq-0000000FOk7-44iV;
+	Tue, 29 Oct 2024 17:54:02 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5prn-0000000FE8T-43C4
+	id 1t5pwL-0000000FEmy-2dcY
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 17:18:54 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4XdH682yjwzlgMVd;
-	Tue, 29 Oct 2024 17:18:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1730222315; x=1732814316; bh=Os+S4pHy7trxPWBaGt6FASH6
-	K1G9Xgdn5eNIwNX8SiE=; b=Lxs/REA4wylfESXkATPL24Gb7eQfk4klgZJ/W5Zu
-	g+KzwFz9gVBXOtBtfqFAiZ+hZUAcRkkKrssAcminMzwVZ61rhk8fpZEDtyf4IToe
-	Wj7Uh+Qua9StMJ+JUx7I/A7lwfpQ7NkhDKIOtB22OgNR15iavT4EcLifRvXtR6ZP
-	Z+W5dtY20asvPZMxFuDTcs5+8L5r6LptxN6IX08H4j2L5r08jI2WImkyV2garTV/
-	4m+oKY6OzZQFfMulGQfKErmZrMJ+MW/lu28Yr10FOi8l2jqoeyKBtz2cTuFdwRUk
-	xsdn+hWJbpaZ1FOKEru9zO9fSrbZaJ/hgskRh11QpEg9qQ==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id sPa9noDahnIv; Tue, 29 Oct 2024 17:18:35 +0000 (UTC)
-Received: from [100.66.154.22] (unknown [104.135.204.82])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4XdH606Yv3zlgMVY;
-	Tue, 29 Oct 2024 17:18:32 +0000 (UTC)
-Message-ID: <343c29f2-59d6-48c5-937f-a02775b192ae@acm.org>
-Date: Tue, 29 Oct 2024 10:18:31 -0700
+	Tue, 29 Oct 2024 17:23:36 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241029172329epoutp034efe92de9a742e7af0a5affe6ab54e5b~C-Eu_8OWH3110031100epoutp03c
+	for <linux-nvme@lists.infradead.org>; Tue, 29 Oct 2024 17:23:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241029172329epoutp034efe92de9a742e7af0a5affe6ab54e5b~C-Eu_8OWH3110031100epoutp03c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1730222609;
+	bh=n6LNHR2UxOEOGCqUSfrJ4D/dcAXYHqklNM5hsVN/lLY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZGUJdLQzXfB+Jn+OV9uPft2c3Lw7ObN4HT8krFnTomAGD7B01CsLnOSt1qnlVUFEZ
+	 dN7CLo0Sz9gTPbp5ouT21yUFK0NXeONz13meHiBsGczGrzlZB/rMN4jaGVEAFChgDZ
+	 7nLdJIeJTmPDE6V4v7wU1gLkFNRW+fm42WSZIuGo=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20241029172327epcas5p15535030cdb0b11a5fccbccc2884959e1~C-EtQ8P8J0037900379epcas5p1R;
+	Tue, 29 Oct 2024 17:23:27 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4XdHCd4hSqz4x9Pp; Tue, 29 Oct
+	2024 17:23:25 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B1.D6.08574.D0A11276; Wed, 30 Oct 2024 02:23:25 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20241029163212epcas5p343cd56d66b58a9e7e8e1faa98067891d~C_X9UiqHl1013710137epcas5p3W;
+	Tue, 29 Oct 2024 16:32:12 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20241029163212epsmtrp1f4a60e084ee71d4f462f7b95f77989a7~C_X9TsX_o0723107231epsmtrp1g;
+	Tue, 29 Oct 2024 16:32:12 +0000 (GMT)
+X-AuditID: b6c32a44-6dbff7000000217e-f7-67211a0d8c6c
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	CB.09.18937.B0E01276; Wed, 30 Oct 2024 01:32:12 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241029163209epsmtip2d32c463467f446bfe0b00d6644ddd425~C_X7DJ2U50887408874epsmtip2h;
+	Tue, 29 Oct 2024 16:32:09 +0000 (GMT)
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+	martin.petersen@oracle.com, asml.silence@gmail.com, anuj1072538@gmail.com,
+	brauner@kernel.org, jack@suse.cz, viro@zeniv.linux.org.uk
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+	linux-fsdevel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>
+Subject: [PATCH v5 01/10] block: define set of integrity flags to be
+ inherited by cloned bip
+Date: Tue, 29 Oct 2024 21:53:53 +0530
+Message-Id: <20241029162402.21400-2-anuj20.g@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241029162402.21400-1-anuj20.g@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 9/9] scsi: set permanent stream count in block limits
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, io-uring@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, joshi.k@samsung.com, javier.gonz@samsung.com,
- Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
-References: <20241029151922.459139-1-kbusch@meta.com>
- <20241029151922.459139-10-kbusch@meta.com> <20241029152654.GC26431@lst.de>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20241029152654.GC26431@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrNJsWRmVeSWpSXmKPExsWy7bCmpi6vlGK6wdOPChYfv/5msWia8JfZ
+	Ys6qbYwWq+/2s1m8PvyJ0eLmgZ1MFitXH2WyeNd6jsVi9vRmJotJh64xWuy9pW2xZ+9JFov5
+	y56yW3Rf38Fmsfz4PyaL83+Ps1qcnzWH3UHQY+esu+wel8+Wemxa1cnmsXlJvcfumw1sHh+f
+	3mLx6NuyitHjzIIj7B6fN8l5bHrylimAKyrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ
+	19DSwlxJIS8xN9VWycUnQNctMwfoHSWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpO
+	gUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdkb/rWWMBZe4K471b2JsYHzH2cXIySEhYCLR/WUG
+	SxcjF4eQwG5GiaPH30E5nxglGk8uZIZzWq6/ZoVpeXjsBCtEYiejxJ//a9kgnM+MEpNfnWcC
+	qWITUJc48ryVESQhIrCHUaJ34WmwwcwCLxkllq5axAJSJSwQJ/H30A1GEJtFQFVi9fNrbCA2
+	r4ClxPemFjaIffISMy99ZwexOQWsJI4d3cMEUSMocXLmE7A5zEA1zVtngx0rIXCBQ2L7t6vM
+	EM0uEj2ft0MNEpZ4dXwLO4QtJfGyvw3KTpf4cfkpE4RdINF8bB8jhG0v0XqqH2gOB9ACTYn1
+	u/QhwrISU0+tY4LYyyfR+/sJVCuvxI55MLaSRPvKOVC2hMTecw1QtofEg0ezoYHayyhxrvEB
+	2wRGhVlI/pmF5J9ZCKsXMDKvYpRMLSjOTU9NNi0wzEsth0d0cn7uJkZwKtdy2cF4Y/4/vUOM
+	TByMhxglOJiVRHhXx8qmC/GmJFZWpRblxxeV5qQWH2I0BQb4RGYp0eR8YDbJK4k3NLE0MDEz
+	MzOxNDYzVBLnfd06N0VIID2xJDU7NbUgtQimj4mDU6qBqb2t65mawodwfePJB35YGOm+YIyb
+	/75gnYSXt+KXvQZvgzvZegQNOSeVmbOtnS2zef/2ttwz0TLJC/S7P2+x8fHZ3Ob/K/6t6jOu
+	B3+i2FkmnKmr09R+l3j476ydVfO/s76b9kLT+J/rdqlTh45eOz3VzlBE3lE7tz26aNE0lsPT
+	+Q7zKC+07594/aFZjNvt63o/t8w7WjGpki++KIR71hmzrwU75eeUFi2Y0medvq5XLKZwcp/m
+	tfvSGnu+T1B+rpl9qpnt0ZLM5A3Tvxpsln1eM7s/31veVJctnH33D42dK9LnvzvR9vD81nCJ
+	NrYXRxbPjPBuapKv+1/UHN3u/+6r1q3/B9mXB0xzs1dNUGIpzkg01GIuKk4EABG515JuBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42LZdlhJXpeHTzHd4Ot5JouPX3+zWDRN+Mts
+	MWfVNkaL1Xf72SxeH/7EaHHzwE4mi5WrjzJZvGs9x2Ixe3ozk8WkQ9cYLfbe0rbYs/cki8X8
+	ZU/ZLbqv72CzWH78H5PF+b/HWS3Oz5rD7iDosXPWXXaPy2dLPTat6mTz2Lyk3mP3zQY2j49P
+	b7F49G1ZxehxZsERdo/Pm+Q8Nj15yxTAFcVlk5Kak1mWWqRvl8CV0X9rGWPBJe6KY/2bGBsY
+	33F2MXJySAiYSDw8doK1i5GLQ0hgO6PE/il7mCASEhKnXi5jhLCFJVb+e84OUfSRUWLm/C52
+	kASbgLrEkeetYEUiAicYJeZPdAMpYgYpmvBlNksXIweHsECMxKk+D5AaFgFVidXPr7GB2LwC
+	lhLfm1rYIBbIS8y89B1sJqeAlcSxoyBHcAAts5Q4OckNolxQ4uTMJywgNjNQefPW2cwTGAVm
+	IUnNQpJawMi0ilE0taA4Nz03ucBQrzgxt7g0L10vOT93EyM4urSCdjAuW/9X7xAjEwfjIUYJ
+	DmYlEd7VsbLpQrwpiZVVqUX58UWlOanFhxilOViUxHmVczpThATSE0tSs1NTC1KLYLJMHJxS
+	DUyJOirBSccylpy9pf3vRTaf5R8XNdGnAjKX9ySxfsvc5JyXtm1vEFdgiNnvTQt37pzIKHl9
+	0WOBEy+Uw+buqsnTfMthm/j3ikPfq5ts01bxRa59cern/uK1p21jXtzI+2m0ftaH7kPK2xs9
+	mjd3+MVvbp8y57mI45VKlisrylyMXBqu+/FWip3svhacVbLgUP+0A49u7dNY+Pj2yuPpBd8s
+	j/Qsvb+m7O8t03c2Cu5fPzzN2rWKzX/3pLNptzdxrNDquf3u3vMwMfGFP85c+W/3ulvoo/uf
+	to/eyyZGruLNXFzW5MduorAzUCtgX/SJM/9i+uaYGO7+qBCqeSYoYCdvWO+tCObYd5JdG5nK
+	tnvmKLEUZyQaajEXFScCAHpm5E4dAwAA
+X-CMS-MailID: 20241029163212epcas5p343cd56d66b58a9e7e8e1faa98067891d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241029163212epcas5p343cd56d66b58a9e7e8e1faa98067891d
+References: <20241029162402.21400-1-anuj20.g@samsung.com>
+	<CGME20241029163212epcas5p343cd56d66b58a9e7e8e1faa98067891d@epcas5p3.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_101852_026916_2EFF2EBA 
-X-CRM114-Status: GOOD (  17.36  )
+X-CRM114-CacheID: sfid-20241029_102334_024205_592C19FC 
+X-CRM114-Status: GOOD (  17.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,85 +141,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/29/24 8:26 AM, Christoph Hellwig wrote:
-> Bart, btw: I think the current sd implementation is buggy as well, as
-> it assumes the permanent streams are ordered by their data temperature
-> in the IO Advise hints mode page, but I can't find anything in the
-> spec that requires a particular ordering.
+Introduce BIP_CLONE_FLAGS describing integrity flags that should be
+inherited in the cloned bip from the parent.
 
-How about modifying sd_read_io_hints() such that permanent stream
-information is ignored if the order of the RELATIVE LIFETIME information
-reported by the GET STREAM STATUS command does not match the permanent
-stream order?
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ block/bio-integrity.c         | 2 +-
+ include/linux/bio-integrity.h | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-Thanks,
-
-Bart.
-
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 41e2dfa2d67d..277035febd82 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3192,7 +3192,12 @@ sd_read_cache_type(struct scsi_disk *sdkp, 
-unsigned char *buffer)
-  	sdkp->DPOFUA = 0;
-  }
-
--static bool sd_is_perm_stream(struct scsi_disk *sdkp, unsigned int 
-stream_id)
-+/*
-+ * Returns the relative lifetime of a permanent stream. Returns -1 if the
-+ * GET STREAM STATUS command fails or if the stream is not a permanent 
-stream.
-+ */
-+static int sd_perm_stream_rel_lifetime(struct scsi_disk *sdkp,
-+				       unsigned int stream_id)
-  {
-  	u8 cdb[16] = { SERVICE_ACTION_IN_16, SAI_GET_STREAM_STATUS };
-  	struct {
-@@ -3212,14 +3217,16 @@ static bool sd_is_perm_stream(struct scsi_disk 
-*sdkp, unsigned int stream_id)
-  	res = scsi_execute_cmd(sdev, cdb, REQ_OP_DRV_IN, &buf, sizeof(buf),
-  			       SD_TIMEOUT, sdkp->max_retries, &exec_args);
-  	if (res < 0)
--		return false;
-+		return -1;
-  	if (scsi_status_is_check_condition(res) && scsi_sense_valid(&sshdr))
-  		sd_print_sense_hdr(sdkp, &sshdr);
-  	if (res)
--		return false;
-+		return -1;
-  	if (get_unaligned_be32(&buf.h.len) < sizeof(struct scsi_stream_status))
--		return false;
--	return buf.h.stream_status[0].perm;
-+		return -1;
-+	if (!buf.h.stream_status[0].perm)
-+		return -1;
-+	return buf.h.stream_status[0].rel_lifetime;
-  }
-
-  static void sd_read_io_hints(struct scsi_disk *sdkp, unsigned char 
-*buffer)
-@@ -3247,9 +3254,17 @@ static void sd_read_io_hints(struct scsi_disk 
-*sdkp, unsigned char *buffer)
-  	 * should assign the lowest numbered stream identifiers to permanent
-  	 * streams.
-  	 */
--	for (desc = start; desc < end; desc++)
--		if (!desc->st_enble || !sd_is_perm_stream(sdkp, desc - start))
-+	int prev_rel_lifetime = -1;
-+	for (desc = start; desc < end; desc++) {
-+		int rel_lifetime;
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 2a4bd6611692..a448a25d13de 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -559,7 +559,7 @@ int bio_integrity_clone(struct bio *bio, struct bio *bio_src,
+ 
+ 	bip->bip_vec = bip_src->bip_vec;
+ 	bip->bip_iter = bip_src->bip_iter;
+-	bip->bip_flags = bip_src->bip_flags & ~BIP_BLOCK_INTEGRITY;
++	bip->bip_flags = bip_src->bip_flags & BIP_CLONE_FLAGS;
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/bio-integrity.h b/include/linux/bio-integrity.h
+index dbf0f74c1529..0f0cf10222e8 100644
+--- a/include/linux/bio-integrity.h
++++ b/include/linux/bio-integrity.h
+@@ -30,6 +30,9 @@ struct bio_integrity_payload {
+ 	struct bio_vec		bip_inline_vecs[];/* embedded bvec array */
+ };
+ 
++#define BIP_CLONE_FLAGS (BIP_MAPPED_INTEGRITY | BIP_CTRL_NOCHECK | \
++			 BIP_DISK_NOCHECK | BIP_IP_CHECKSUM)
 +
-+		if (!desc->st_enble)
-  			break;
-+		rel_lifetime = sd_perm_stream_rel_lifetime(sdkp, desc - start);
-+		if (rel_lifetime < 0 || rel_lifetime < prev_rel_lifetime)
-+			break;
-+		prev_rel_lifetime = rel_lifetime;
-+	}
-  	permanent_stream_count_old = sdkp->permanent_stream_count;
-  	sdkp->permanent_stream_count = desc - start;
-  	if (sdkp->rscs && sdkp->permanent_stream_count < 2)
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 
+ #define bip_for_each_vec(bvl, bip, iter)				\
+-- 
+2.25.1
 
 
