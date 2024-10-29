@@ -4,98 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50053D2AB3C
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 13:16:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28A64D2AB3B
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 13:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M0uMgcVPTXq1WP7boja6PLKHW3vyqJdcnNIytbjo0xE=; b=m82RPoowfcwsNlmAGEMYvgQFnR
-	z2P493gTxyLSbYd7IkVkWmgWHz1MEoH/dva7bDsD8Nmmse0aqwpb7Xc5m2w8LtQQSi0a8LLk0qGWB
-	g2kLJ/66YH+SUDznLGWR28JCNv2D7g73nM6G39IFb5/2QZX2Z73fDDkIADSTidWeQkUv/HgabWBxG
-	eApNey85SXUbaD03EI+2l28Z1S0KHxNlDMxie8dP7psC09NFxu8OGuWh99IZEltHJ2LNJLs2rirFe
-	okabRz0ghZrB8E5gkmCIZBad7NhoxUsCrD2WKN4hH0tV7nSuc6l7W21+l8fDo0tjEQ1u5CiczriDc
-	hGZf27Mw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UXEU0K+HVbTbvp27dG/5AsENh9x1wq4XCrDbezUDB6I=; b=Hesk4UetczEzVF36h79fRjkWgM
+	yeFc/lWhIWOQjIplGr9HXBZfdjiDzIXR34Ks01oLHKxP9f6+AqW4H8tgfQV8/8ZU1LV0JL18tMMx3
+	lTxpjTX4Y8z3yVRcd7ezLDYkXwk4r+ssDgRFoPq1hkxBjYaWX0rjwb9EYrSJVA6X4fk6YsenBiYBX
+	09kayKSFWJs47nOFJ7PsjRypoiyE4wPyCHpdC4PJBmELNaNQTQA6zO1V2CzmvIAdetPhEHp5jN5Np
+	z9MMiDIm187+I4yD0pZYFbuRxcP54XP0bJyQWy3/ImG7uLVMTTBweladuvP2l1yAC2DX9K5YN0NXD
+	7ZhNpckA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5m57-0000000EXVW-2U72;
-	Tue, 29 Oct 2024 13:16:21 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1t5m58-0000000EXVq-1GuK;
+	Tue, 29 Oct 2024 13:16:22 +0000
+Received: from mail-ed1-f43.google.com ([209.85.208.43])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5lbw-0000000ESKC-3c6f
+	id 1t5lct-0000000ESYE-0Ios
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 12:46:50 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T25PjE023281;
-	Tue, 29 Oct 2024 12:46:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=M0uMgc
-	VPTXq1WP7boja6PLKHW3vyqJdcnNIytbjo0xE=; b=Yjq2KeT/2NOfBrG8WPGJAl
-	+yuasDgg60pzEP49pqco2/rW4+g3/8S0DT4Lu5elGJqNlFCTs7ARgzWOl/4mIrGV
-	ZB4mlG2UJFWiJLrBlil07qCxvpRFoyjVkdbH9pz7kijRtZz9kxkY5ujGD3Ih/hGh
-	OCKTsONTcHQNvjme8dExxUKT8mEd/GNUySMvMxyrVC8uEFKWQI2LTPLyA7Sw7tln
-	tiVod4Ols119E1lrWDABQuNrNS9VYkjTXv/V0Ln4dHme5bwHMWDhKquq1eHLCFr5
-	fCYx+QWDlBPYtHpvG2yHcW1ffLr5gcjR2YxpcE7BjVLOOe9LdP7A9NdEqsBleQKg
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43g0gss-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 12:46:07 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49TBohtZ024726;
-	Tue, 29 Oct 2024 12:46:06 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 42hcyjas6w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 12:46:06 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49TCk6MC44564866
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 29 Oct 2024 12:46:06 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 03C985805B;
-	Tue, 29 Oct 2024 12:46:06 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CCD2658058;
-	Tue, 29 Oct 2024 12:46:02 +0000 (GMT)
-Received: from [9.109.198.181] (unknown [9.109.198.181])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 29 Oct 2024 12:46:02 +0000 (GMT)
-Message-ID: <22ac5b67-9968-4c53-af90-dd83b0efbd76@linux.ibm.com>
-Date: Tue, 29 Oct 2024 18:16:01 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] Revert "nvme: make keep-alive synchronous operation"
-To: Ming Lei <ming.lei@redhat.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
-        sagi@grimberg.me, axboe@fb.com, chaitanyak@nvidia.com,
-        dlemoal@kernel.org, gjoyce@linux.ibm.com
-References: <20241027170209.440776-1-nilay@linux.ibm.com>
- <20241027170209.440776-2-nilay@linux.ibm.com>
- <CAFj5m9Ka-EL34DbDCm4kMYoWXfQ6GhMRPJykywE4RztbB3zXYg@mail.gmail.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <CAFj5m9Ka-EL34DbDCm4kMYoWXfQ6GhMRPJykywE4RztbB3zXYg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Yy56sXWXrgBQmsqidKuFA1kDXtsUytgR
-X-Proofpoint-ORIG-GUID: Yy56sXWXrgBQmsqidKuFA1kDXtsUytgR
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	Tue, 29 Oct 2024 12:47:44 +0000
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c957d8bce2so2618972a12.2
+        for <linux-nvme@lists.infradead.org>; Tue, 29 Oct 2024 05:47:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730206028; x=1730810828; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UXEU0K+HVbTbvp27dG/5AsENh9x1wq4XCrDbezUDB6I=;
+        b=dsEvOsxEAlzJGoNligUO30pf1LjXT0KAXZl7KqIxbwqWBn7tPNLblZt+ghUs3OMAeF
+         Vfwva4JG7ofCG9dTzM5vz2pGOuDFBQ7BF3VVCD/EmzFlhsjW9P9aCtjtwcqvfQuOkBfV
+         +xbT1MoTVAXEnhsVt/h+bsHtvcPTTXv0D8tFS40y2/KrrR6QS6xpFJEurcWFLtfe38MW
+         w6lajHOeYXw3zixOBA43I8t3h7tfXxvJn7MCyBsdli2kkTA3YqrEWSx5X52A0AYYE/vQ
+         ZVjm/NPWwa+tJhCQfU/WEz34WMYuLmq1WRiYdOy3qIi2VAEhGvzOdy2ojMsDz2QpAxUo
+         VuvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730206028; x=1730810828;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UXEU0K+HVbTbvp27dG/5AsENh9x1wq4XCrDbezUDB6I=;
+        b=c/2QiK6a3RXRNx+GY5u6TFpl2C9tc66dQIvJFqKZxgj/XrCldtALLxArbmi6Ak7zAx
+         +D8kbVslePxVBsbt4C/+fX2Jli9Nbe0owsoYK0gy42uQzDenzg3yh8AKS9LfBSAv6jqz
+         dpW7uXODijfPGB1Zb0phaoluSQujWTznEMh7NpjWAiY5wuZAD0078f/VxF3+qJXDcydX
+         OHjHfXlEg7ThAvJvMvMcaG9EtiaNki1V9G6qdHV7Fmh+wETb3a9O+ToCvpnlj+OKrZux
+         Y/p13WCsIUuLCGEkvazH8FnNmBjvUZ90B5j97VSDX58m5T+r0xJX1tBnUWN5d7v2x7Cr
+         DVaA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYHoVGNqARuqYuM2+6NDJwq7H5Z8VyXmqo/sNFVhyexXOX2JqNHH9WMWYd4NPGsR8Z3USCWc2abebn@lists.infradead.org
+X-Gm-Message-State: AOJu0YzjcOpajvymJjKDQNLP4HlHxfc3Oc4ku9l/yv33g8gM6G+hoL5x
+	eHySsK+r17Sg1a8+I6AXJUafBr9sa7hTzv0H78K9HNdC3oREI4OeDu2LrhgWcMiN2wjuehe/mPd
+	ZyuPKIeYsjuX7neVpXsuqGIhEfQ==
+X-Google-Smtp-Source: AGHT+IH24jDXrN1/rLUODZ7dXWnQNAXgArrAqn9CD/XkQZPaaSbgd3HS6kL07anh4QVcaAdjYqc8XepfsP8tIRg++xU=
+X-Received: by 2002:a05:6402:348f:b0:5c9:34b4:69a8 with SMTP id
+ 4fb4d7f45d1cf-5cbbf889850mr13754716a12.6.1730206028117; Tue, 29 Oct 2024
+ 05:47:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=874 clxscore=1015
- adultscore=0 mlxscore=0 priorityscore=1501 spamscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410290097
+References: <20241025213645.3464331-1-kbusch@meta.com> <20241025213645.3464331-6-kbusch@meta.com>
+In-Reply-To: <20241025213645.3464331-6-kbusch@meta.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Tue, 29 Oct 2024 18:16:29 +0530
+Message-ID: <CACzX3AvZ=+cBaoZ9oKW3osA1WiWm5H5b7+wWAouLryK4-ymYfA@mail.gmail.com>
+Subject: Re: [PATCHv9 5/7] io_uring: enable per-io hinting capability
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org, io-uring@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, hch@lst.de, joshi.k@samsung.com, 
+	javier.gonz@samsung.com, bvanassche@acm.org, Hannes Reinecke <hare@suse.de>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Keith Busch <kbusch@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_054613_009628_E628DD7E 
-X-CRM114-Status: GOOD (  19.21  )
+X-CRM114-CacheID: sfid-20241029_054711_143901_22D24009 
+X-CRM114-Status: GOOD (  25.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,44 +93,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sat, Oct 26, 2024 at 3:13=E2=80=AFAM Keith Busch <kbusch@meta.com> wrote=
+:
+>
+> From: Kanchan Joshi <joshi.k@samsung.com>
+>
+> With F_SET_RW_HINT fcntl, user can set a hint on the file inode, and
+> all the subsequent writes on the file pass that hint value down. This
+> can be limiting for block device as all the writes will be tagged with
+> only one lifetime hint value. Concurrent writes (with different hint
+> values) are hard to manage. Per-IO hinting solves that problem.
+>
+> Allow userspace to pass additional metadata in the SQE.
+>
+>         __u16 write_hint;
+>
+> If the hint is provided, filesystems may optionally use it. A filesytem
+> may ignore this field if it does not support per-io hints, or if the
+> value is invalid for its backing storage. Just like the inode hints,
+> requesting values that are not supported by the hardware are not an
+> error.
+>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  include/uapi/linux/io_uring.h | 4 ++++
+>  io_uring/rw.c                 | 3 ++-
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.=
+h
+> index 60b9c98595faf..8cdcc461d464c 100644
+> --- a/include/uapi/linux/io_uring.h
+> +++ b/include/uapi/linux/io_uring.h
+> @@ -92,6 +92,10 @@ struct io_uring_sqe {
+>                         __u16   addr_len;
+>                         __u16   __pad3[1];
+>                 };
+> +               struct {
+> +                       __u16   write_hint;
+> +                       __u16   __pad4[1];
+> +               };
+>         };
+>         union {
+>                 struct {
+> diff --git a/io_uring/rw.c b/io_uring/rw.c
+> index 8080ffd6d5712..5a1231bfecc3a 100644
+> --- a/io_uring/rw.c
+> +++ b/io_uring/rw.c
+> @@ -279,7 +279,8 @@ static int io_prep_rw(struct io_kiocb *req, const str=
+uct io_uring_sqe *sqe,
+>                 rw->kiocb.ki_ioprio =3D get_current_ioprio();
+>         }
+>         rw->kiocb.dio_complete =3D NULL;
+> -
+> +       if (ddir =3D=3D ITER_SOURCE)
+> +               rw->kiocb.ki_write_hint =3D READ_ONCE(sqe->write_hint);
+>         rw->addr =3D READ_ONCE(sqe->addr);
+>         rw->len =3D READ_ONCE(sqe->len);
+>         rw->flags =3D READ_ONCE(sqe->rw_flags);
+> --
+> 2.43.5
+>
 
-
-On 10/29/24 12:18, Ming Lei wrote:
-> On Mon, Oct 28, 2024 at 1:03 AM Nilay Shroff <nilay@linux.ibm.com> wrote:
->>
->> This reverts commit d06923670b5a5f609603d4a9fee4dec02d38de9c.
->> This reverts commit 599d9f3a10eec69ef28a90161763e4bd7c9c02bf.
->>
->> It was realized that the fix implemented to avoid the race
->> condition between keep alive task and the fabric shutdown code
->> path in the commit d06923670b5ia ("nvme: make keep-alive
->> synchronous operation") is not optimal.
-> 
-> I saw you have discussed it a while, but it is still better to describe
-> the reason in the commit log.
-> 
-Sure, I would enhance the commit message to clarify it further.
->>
->> We also found that the above race condition is regression caused
->> due to the changes implemented in commit a54a93d0e359 ("nvme: move
->> stopping keep-alive into nvme_uninit_ctrl()"). So we decided to
-> 
-> Can you explain a bit why commit a54a93d0e359 is a regression?
-> And what is the race condition?
-> 
-> Without providing the context info, it is hard to review the change.
-> 
-> Thanks,
-> 
-> 
-OK, the root cause of the race condition and how it could be triggered 
-has been already discussed here[1].
-
-In any case, if you still want me to clarify it further then please let
-me know.
-
-[1]https://lore.kernel.org/all/b03863b2-8816-48cd-aa18-436f1c49ec8c@linux.ibm.com
-
-Thanks,
---Nilay
+Since this patch adds a couple of new fields, it makes sense to add
+BUILD_BUG_ON() checks in io_uring_init for these fields to assert the
+layout of struct io_uring_sqe. And probably a zero check for pad4 in
+io_prep_rw.
+--
+Anuj Gupta
 
