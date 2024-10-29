@@ -4,123 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C934FD2AB3C
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 12:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14B29D2AB3C
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 13:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+N9xNxcRiyZbnIppftSwJNIxmvNHQi1WtyZiPy4I7wY=; b=SmxUV6OQOuknm8wWHP5fXcRCfw
-	i5/F9OS7lM2ltE+TCavR8+lsiVbxoDyIeJp70I6eEep/SdjTMvZE9OHwe/QYZztW1sC19ocEzGxTo
-	DmOuVp8V4S750KIXMUktotva5EL8HtsPKQHZCgUDi7JitX3/QY7qgxGJIy3sX90milJiZjc9d73Vn
-	1keUdg8eXiLyRIsg7PloCQZwYwKjPIxs78ArZUAg3d0Za7QYiI71MYRvOl4jqDgkCqy7YnmKzfy7v
-	qj3+Ow5gCqdQryR3XffdaTgZW2DEFoEOFWo8mQhtv0Bcg0EUwswDft1lMs2oWhkWo4UyGXKP4Rq16
-	6rE8l4Zw==;
+	bh=nBFaIjNbveE3UZkqK/iZE9a9kLi7hr/Y3QO/UvQv64w=; b=s2JCgLFDtnskEIFs0qT8bWulrH
+	/C0GmCgYOAK23uD5gjqEeMde7auIeZm4xmXoKjXl5ib5sOezeg05olmHIbqwRULuJ7EVAxswkJweC
+	VZi/f0FsMNV5XeYG1pGtj4UWL4YHz6R/1lqBJ4Aq1ZAhSV/X77ORiJmxCuWYHtPxc32eTS6M07zDD
+	0tbt5gGD5XYyP3fseFxDn0DkHSD+4wZMXHvrllLspxyvhAIRB4CTM3X7iLFOYQOKE1tC3B1hDWFbv
+	a9bvlHYicOJtDGK/7IqdSlTcG/gQIlXmHJRa+UM+xLjTkHH3l4GKuT5LPdpTLtwsDZgBBBobHEbkS
+	6jVVqS8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5lkE-0000000ETcy-0iTs;
-	Tue, 29 Oct 2024 12:54:46 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1t5m0Q-0000000EX0M-0stB;
+	Tue, 29 Oct 2024 13:11:30 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5kzy-0000000ELLD-3Tbd
+	id 1t5lWF-0000000EQsQ-1Z2I
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 12:07:01 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20241029120651epoutp0101048c5deceb921199c8cd8458b40a9d~C6wSU3-BA2872628726epoutp01U
-	for <linux-nvme@lists.infradead.org>; Tue, 29 Oct 2024 12:06:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20241029120651epoutp0101048c5deceb921199c8cd8458b40a9d~C6wSU3-BA2872628726epoutp01U
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1730203611;
-	bh=+N9xNxcRiyZbnIppftSwJNIxmvNHQi1WtyZiPy4I7wY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HKW8Qy5ir7b0hJreaIFRhpZrRrzRPwxSxtnrrsx6Qi4il4qOB+bRF5goueb9hCEjx
-	 dG+uMPy4qxV+bb3i27aDReX+3ZLq1rcZk9VFnfFiono54wRd8yUEYhI6HnqUS2RyRG
-	 XE2NasqYYz1Mck3cWbvkOm8R3zba4brjFaR2Pj4Q=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20241029120651epcas5p421e7f1f7a1e9140df1e86ed233c417fb~C6wR_pJh_0675006750epcas5p4V;
-	Tue, 29 Oct 2024 12:06:51 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4Xd8BL07VSz4x9Pv; Tue, 29 Oct
-	2024 12:06:50 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	31.5B.09800.9DFC0276; Tue, 29 Oct 2024 21:06:49 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20241029120623epcas5p1a6a1a190b252cd2be568a08e9ffd9457~C6v4TDX4R1417314173epcas5p1B;
-	Tue, 29 Oct 2024 12:06:23 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241029120623epsmtrp22e73a1d129cc45e5af406200e27bb3b9~C6v4JroUw2161321613epsmtrp22;
-	Tue, 29 Oct 2024 12:06:23 +0000 (GMT)
-X-AuditID: b6c32a4b-23fff70000002648-e8-6720cfd9bf80
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	DC.60.07371.FBFC0276; Tue, 29 Oct 2024 21:06:23 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20241029120622epsmtip1c38cdcf61c2e13292cf9d27070aa1044~C6v3Fqf_U2272722727epsmtip1T;
-	Tue, 29 Oct 2024 12:06:22 +0000 (GMT)
-Date: Tue, 29 Oct 2024 17:27:25 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: hch@lst.de, axboe@kernel.dk, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, martin.petersen@oracle.com, Keith Busch
-	<kbusch@kernel.org>
-Subject: Re: [PATCH] blk-integrity: remove seed for user mapped buffers
-Message-ID: <20241029115725.GA20732@green245>
+	Tue, 29 Oct 2024 12:40:20 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T260ab025143;
+	Tue, 29 Oct 2024 12:40:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=nBFaIj
+	NbveE3UZkqK/iZE9a9kLi7hr/Y3QO/UvQv64w=; b=tsrZcFaRe9MMtghFV7ho1A
+	QSTSEogkV7FQ5kSZN5P/Dr/Jo0hM0BpT1qCQ3BGelY9G/3PitGmppwXlh6PqidJ0
+	cBDrIl997TL7O+oObZ0zdZeWF2qlPmZCZeDGZeuUpU8bq5O5jXI8WQrx7LYrZBFm
+	ZiDPIj5aJU/rJJN4WfOv2MGORIyxuj8qiMrnShvPdOB65/tWI9AvS/8CoYxMzDPt
+	y0GLSLvv0oLWFIKOgpGmrDcvoFILzsaZ8QJ4l4r6LlFq1UqdQoCfLVkfjqV5xXkH
+	nZFZ5JQoRcfr7jf5s9znKWQs6pWtpEcI8ABP85e9J4brPX5wGq8SBWUj85WAvilw
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43g0fxa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Oct 2024 12:40:07 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49T9G6aI017410;
+	Tue, 29 Oct 2024 12:40:06 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 42harsb7ep-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Oct 2024 12:40:06 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49TCe5m116646824
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 29 Oct 2024 12:40:05 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BD4075805C;
+	Tue, 29 Oct 2024 12:40:05 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 915125805F;
+	Tue, 29 Oct 2024 12:40:02 +0000 (GMT)
+Received: from [9.109.198.181] (unknown [9.109.198.181])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 29 Oct 2024 12:40:02 +0000 (GMT)
+Message-ID: <ff8baedc-3aa9-4277-8753-282f3744ae2b@linux.ibm.com>
+Date: Tue, 29 Oct 2024 18:10:00 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] nvme-fabrics: fix kernel crash while shutting down
+ controller
+To: Ming Lei <ming.lei@redhat.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
+        sagi@grimberg.me, axboe@fb.com, chaitanyak@nvidia.com,
+        dlemoal@kernel.org, gjoyce@linux.ibm.com
+References: <20241027170209.440776-1-nilay@linux.ibm.com>
+ <20241027170209.440776-3-nilay@linux.ibm.com> <ZyCNiuYQw7_7IzJb@fedora>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <ZyCNiuYQw7_7IzJb@fedora>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: yGuFIdMK3qj226nP4TCv_MfJ2i0TmPpo
+X-Proofpoint-ORIG-GUID: yGuFIdMK3qj226nP4TCv_MfJ2i0TmPpo
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <20241016201309.1090320-1-kbusch@meta.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIJsWRmVeSWpSXmKPExsWy7bCmlu7N8wrpBo+3mVqsvtvPZrFy9VEm
-	i0mHrjFanLm6kMVi7y1ti/nLnrJbLD/+j8mB3ePy2VKPTas62Tw2L6n32H2zgc3j3MUKj49P
-	b7F4fN4kF8AelW2TkZqYklqkkJqXnJ+SmZduq+QdHO8cb2pmYKhraGlhrqSQl5ibaqvk4hOg
-	65aZA3SMkkJZYk4pUCggsbhYSd/Opii/tCRVISO/uMRWKbUgJafApECvODG3uDQvXS8vtcTK
-	0MDAyBSoMCE7Y/KV7YwF69gqzvyfy9LAuI61i5GTQ0LARGLj1J3MXYxcHEICuxklrr0CSYA4
-	nxglvq14ygRSJSTwjVHi/8sMmI5lS2ZDxfcySrSsqoFoeMYosevlTnaQBIuAqsSu5RMZQWw2
-	AXWJI89bwWwRAUWJ88CQAGlgFpjLKPFzwWMWkISwgLvE07UdbCA2r4CuxPHFrcwQtqDEyZlP
-	wGo4Bcwl5q/cDbZAVEBZ4sC240wQF7VySPQ/VISwXSTaP61ggbCFJV4d38IOYUtJfH63lw3C
-	Tpf4cfkpVG+BRPOxfYwQtr1E66l+sL3MAhkSs1+uhpojKzH11DomiDifRO/vJ1C9vBI75sHY
-	ShLtK+dA2RISe881QNkeEt/bTkCDtItR4vbCeWwTGOVnIfltFpJ9ELaOxILdn9hmMXIA2dIS
-	y/9xQJiaEut36S9gZF3FKJlaUJybnlpsWmCcl1oOj/Dk/NxNjOC0quW9g/HRgw96hxiZOBgP
-	MUpwMCuJ8K6OlU0X4k1JrKxKLcqPLyrNSS0+xGgKjKyJzFKiyfnAxJ5XEm9oYmlgYmZmZmJp
-	bGaoJM77unVuipBAemJJanZqakFqEUwfEwenVAOT7tpdRY8434aGdBk9v5yQ/Jn55alfl/L7
-	eaZdFpdwOH7wtvW7X2vv3eT68/PUz6l2R5ikA/ztOdR+61wKbOB7dCsv8w7fdD2/z7I1O/5k
-	169z1+9I9biXHvzmk8Gh0zcUFIrmXZtz/O+Fb0lLZv5buDhyF3dWxLN4jw2LkvJmeHzjN5V/
-	OkVmXb2DZvP2YPmtPVuzHqWqblvPq6f84cjFU4VWDMcFGpMvVOoKaQov3PrpcY7D2clZdfsj
-	T28+1JXQfGTt+VXmZpfOTJut7P2ZISwr4/dsIY/o7sn6zo9Din/l711zkCslxiNzad62KGND
-	M7bStCa+v3x7rYW/cB16sr1L6YRxicQ3xWyhQ8mXlViKMxINtZiLihMBr7typjQEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCLMWRmVeSWpSXmKPExsWy7bCSnO7+8wrpBlOeKlusvtvPZrFy9VEm
-	i0mHrjFanLm6kMVi7y1ti/nLnrJbLD/+j8mB3ePy2VKPTas62Tw2L6n32H2zgc3j3MUKj49P
-	b7F4fN4kF8AexWWTkpqTWZZapG+XwJUx82JRwTvmimfTDrE1MLYzdzFyckgImEgsWzKbqYuR
-	i0NIYDejRHNnEyNEQkLi1MtlULawxMp/z9khip4wSiz4Mp0JJMEioCqxa/lEsCI2AXWJI89b
-	wWwRAUWJ80DngDQwC8xllFhxZyFYg7CAu8TTtR1sIDavgK7E8cWtzBBTuxglphz8zAqREJQ4
-	OfMJC4jNLKAlcePfS6BmDiBbWmL5Pw6QMKeAucT8lbvZQWxRAWWJA9uOM01gFJyFpHsWku5Z
-	CN0LGJlXMUqmFhTnpucmGxYY5qWW6xUn5haX5qXrJefnbmIER4SWxg7Ge/P/6R1iZOJgPMQo
-	wcGsJMK7OlY2XYg3JbGyKrUoP76oNCe1+BCjNAeLkjiv4YzZKUIC6YklqdmpqQWpRTBZJg5O
-	qQamlxE3Cy9M7s5aUGnIe6hMcaFP8GQzHyaBiaL31QM3Klwyn7B6699aedWvypkHJ68ql0hJ
-	8t0YnbE1oStNd17UcbkZZqqn+Vb+lu0XEjwZYL3c/VvRErWqqnibw4dO/fX85HejOlryUZDT
-	vKCowI1G1eer/iSUHPa2nPuQ64KFsNrySKvWBie/Cge1zfqF7x7w3F296/hr/SM/q6/K5J4I
-	emEbds9N1nXFylmvq82PMS2YnOnfrrq9OfnNwq0nFgYtLOjhSvzXcEw8z1JXUzw0eWmHQpTp
-	m/k5rbI+4gtes9ZMO+bfusv26xfFGR2a1yInqb09oKnVcn1+y4ufsv9efS91vOrfV7Vi4YrX
-	+54qsRRnJBpqMRcVJwIAlrrnxfcCAAA=
-X-CMS-MailID: 20241029120623epcas5p1a6a1a190b252cd2be568a08e9ffd9457
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_86545_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241016201330epcas5p33226adcbff73f7df7cced504aea64a13
-References: <CGME20241016201330epcas5p33226adcbff73f7df7cced504aea64a13@epcas5p3.samsung.com>
-	<20241016201309.1090320-1-kbusch@meta.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1011
+ adultscore=0 mlxscore=0 priorityscore=1501 spamscore=0 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2410290094
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_050659_553231_8727DC2E 
-X-CRM114-Status: GOOD (  16.06  )
+X-CRM114-CacheID: sfid-20241029_054019_465339_A7BE38A5 
+X-CRM114-Status: GOOD (  32.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,31 +110,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_86545_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
 
-On Wed, Oct 16, 2024 at 01:13:09PM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+
+On 10/29/24 12:53, Ming Lei wrote:
+> On Sun, Oct 27, 2024 at 10:32:05PM +0530, Nilay Shroff wrote:
+>> The nvme keep-alive operation, which executes at a periodic interval,
+>> could potentially sneak in while shutting down a fabric controller.
+>> This may lead to a race between the fabric controller admin queue
+>> destroy code path (invoked while shutting down controller) and hw/hctx
+>> queue dispatcher called from the nvme keep-alive async request queuing
+>> operation. This race could lead to the kernel crash shown below:
+>>
+>> Call Trace:
+>>     autoremove_wake_function+0x0/0xbc (unreliable)
+>>     __blk_mq_sched_dispatch_requests+0x114/0x24c
+>>     blk_mq_sched_dispatch_requests+0x44/0x84
+>>     blk_mq_run_hw_queue+0x140/0x220
+>>     nvme_keep_alive_work+0xc8/0x19c [nvme_core]
+>>     process_one_work+0x200/0x4e0
+>>     worker_thread+0x340/0x504
+>>     kthread+0x138/0x140
+>>     start_kernel_thread+0x14/0x18
+>>
+>> While shutting down fabric controller, if nvme keep-alive request sneaks
+>> in then it would be flushed off. The nvme_keep_alive_end_io function is
+>> then invoked to handle the end of the keep-alive operation which
+>> decrements the admin->q_usage_counter and assuming this is the last/only
+>> request in the admin queue then the admin->q_usage_counter becomes zero.
+>> If that happens then blk-mq destroy queue operation (blk_mq_destroy_
+>> queue()) which could be potentially running simultaneously on another
+>> cpu (as this is the controller shutdown code path) would forward
+>> progress and deletes the admin queue. So, now from this point onward
+>> we are not supposed to access the admin queue resources. However the
+>> issue here's that the nvme keep-alive thread running hw/hctx queue
+>> dispatch operation hasn't yet finished its work and so it could still
+>> potentially access the admin queue resource while the admin queue had
+>> been already deleted and that causes the above crash.
+>>
+>> The above kernel crash is regression caused due to changes implemented
+>> in commit a54a93d0e359 ("nvme: move stopping keep-alive into
+>> nvme_uninit_ctrl()"). Ideally we should stop keep-alive at the very
+>> beggining of the controller shutdown code path so that it wouldn't
+>> sneak in during the shutdown operation. However we removed the keep
+>> alive stop operation from the beginning of the controller shutdown
+>> code path in commit a54a93d0e359 ("nvme: move stopping keep-alive into
+>> nvme_uninit_ctrl()") and that now created the possibility of keep-alive
+>> sneaking in and interfering with the shutdown operation and causing
+>> observed kernel crash. So to fix this crash, now we're adding back the
+>> keep-alive stop operation at very beginning of the fabric controller
+>> shutdown code path so that the actual controller shutdown opeation only
+>> begins after it's ensured that keep-alive operation is not in-flight and
+>> also it can't be scheduled in future.
+>>
+>> Fixes: a54a93d0e359 ("nvme: move stopping keep-alive into nvme_uninit_ctrl()")
+>> Link: https://lore.kernel.org/all/196f4013-3bbf-43ff-98b4-9cb2a96c20c2@grimberg.me/#t
+>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+>> ---
+>>  drivers/nvme/host/core.c | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 5016f69e9a15..865c00ea19e3 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -4648,6 +4648,11 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+>>  {
+>>  	nvme_mpath_stop(ctrl);
+>>  	nvme_auth_stop(ctrl);
+>> +	/*
+>> +	 * the transport driver may be terminating the admin tagset a little
+>> +	 * later on, so we cannot have the keep-alive work running
+>> +	 */
+>> +	nvme_stop_keep_alive(ctrl);
+>>  	nvme_stop_failfast_work(ctrl);
+>>  	flush_work(&ctrl->async_event_work);
+>>  	cancel_work_sync(&ctrl->fw_act_work);
 > 
-> The seed is only used for kernel generation and verification. That
-> doesn't happen for user buffers, so passing the seed around doesn't
-> accomplish anything.
+> The change looks fine.
+> 
+> IMO the `nvme_stop_keep_alive` in nvme_uninit_ctrl() may be moved to
+> entry of nvme_remove_admin_tag_set(), then this one in nvme_stop_ctrl()
+> can be saved?
+> 
+Yes that should work however IMO, stopping keep-alive at very beginning of
+shutdown operation would make sense because delaying the stopping of keep-alive 
+would not be useful anyways once we start the controller shutdown. It may
+sneak in unnecessarily while we shutdown controller and later we will have to 
+flush it off.
 
-Looks fine. I can do the seed handling for io_uring metadata series
-in the upper block layer functions, and hence won't rely on this
-infra.
+And yes, as you mentioned, in this case we would save one call site but 
+looking at the code we have few other call sites already present where we
+call nvme_stop_keep_alive().
 
-Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
-
-> -- 
-> 2.43.5
+> 
+> thanks,
+> Ming
 > 
 > 
 
-------Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_86545_
-Content-Type: text/plain; charset="utf-8"
+Thanks,
+--Nilay
 
-
-------Q5hryimWBrG20CTDo2Cycv07rC8cEZ5s1mVzGfufIajJO9l9=_86545_--
 
