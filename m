@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF97CD74941
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 21:52:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03596D7494C
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 23:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Uo/Grnf1xDkukUPN+lDT1TFP7oP3wm+fEsYVMRQ1ey4=; b=XPW5OtTOCPWgFXftt9QiNJvc0f
-	mtrKhIq4HeI8otlFJaUNmyOEcfszRR8qhbPEa+hUqQBBHXOaooXFVp/NhVM2B7R2Js/yTSxXE9DL1
-	l7+d4SPdwbUyo1BuhHODs25MAbZvjEyYUHZSPUtm+c5KvycbnCcsFxOVWAtrqJyGDaE++njW56gSj
-	SnVwRkmX9PG1fmOr5jAYIZ+1Unp+qROwFlVMehYu1RN7q2TsuwbfhzcAV7bgcjnYL//JUNQ3tk1rK
-	bsDruODNX6LDVEAYJVOoWqVVc0eVj+X58jt8OQI5dZs7MN2UGKqJPZlgk1hhX+Z/81cnWrtqxxqYa
-	fYEUG5eg==;
+	bh=VA06gp2Z0bt4O2No1NCXs7q16644gFfp3/mTAzsLKB8=; b=lrfvqmzANIHzLHKtiyp028lhmp
+	htwtudwOcLhDsNNUwyWHyYKKNCzrMLQJODt93oWGEbSy42F7Ni7wRMnRYcJJm5GUpYPLDIvwYjFGi
+	O9V0zxB/Y45gziRFo1JKq+tYbgpq3iRNsBfgABk1KD8EUC7ljG1fXunJGxIPJsESFyAbtc20SK02Q
+	YaLXvzmNTPWiUxc0cTttvBQLLZGrIPYBjmM9ZCZWspG1XF7D+ZhjB9OA3p48LH3os61ACsfTT8wad
+	ac5GPltx4fS7Z6tbT+Uu7lLjSWwlNJHIaCliicVISi4QHYy+SvWnYuaXFTuejv93hQbXBokxZrQw8
+	WWdCmkXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5u8v-0000000FzVV-3nVT;
-	Tue, 29 Oct 2024 21:52:49 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t5va9-0000000G9rz-2G0B;
+	Tue, 29 Oct 2024 23:25:01 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5u8t-0000000FzUH-1TOE
+	id 1t5va6-0000000G9qr-2dI5
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 21:52:48 +0000
+	Tue, 29 Oct 2024 23:25:00 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9267E5C1028;
-	Tue, 29 Oct 2024 21:52:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22FE7C4CECD;
-	Tue, 29 Oct 2024 21:52:45 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 17AB9A43544;
+	Tue, 29 Oct 2024 23:23:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FF91C4CEE3;
+	Tue, 29 Oct 2024 23:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730238766;
-	bh=aQ4snfpqU8/cP5h4360AM/aNhQUoNlVkuZ5R6R5m2QU=;
+	s=k20201202; t=1730244297;
+	bh=5ITHqbWzAxBN2O3CfNPZlYSbccUPmxNcsdv/k1wZngY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jd9mHMteIVmcMbTaE3uwEugAGddfJddGcYP16SY3RjAJbJTHVVyuEpJoA8haaDdeV
-	 MbpBDStbLtcbFjfL+MfXyB4/Wyb8YVufy6WdIfNab2QLmbU1tL3LJSOs2qc6rNkqVt
-	 3NnEe9/aLQ9mOc0zUcM6jmP3Yw+nLMsDtFELguWmSjqBZZhbCicBnV6i7tbgdZ3bMW
-	 uGbGq64Z02SpC76xDyfd8h36MIz7LoAinxHMf06p91m/K5FdUvuT9S27GwXg5rsHke
-	 L73fnEIM2MuntOef2uFX5WwjmlpJFgbIo8kfAtEf61LFPxGux4oAaCTkyGa9ty1zm0
-	 uYl6HV1LYpUiw==
-Date: Tue, 29 Oct 2024 15:52:42 -0600
+	b=PcEIzXp+tfvVvUNURdk2SUgAXMb9xMsyCuJw8u1I/7arTS9xFYlFasZEZy2LB+AaU
+	 cYy34kbm5DQ0q2D8xLdWEvHBgRtA5aDrv23CMY0dwpFYVPQ2x39rZ5l9zLR0360zEh
+	 hdUfh3aRzAtgu2YHzgJJdHOgn7Ga/Fkd9BhXDvKDAxtm1mGYIi8I/t4aMio4AsL2j+
+	 TS/wiKYUfmCGx44aN4IfJ3l3MFjFTzWwnMphpbUpZD94mz8MKh+YJ7ELGT3Gnb2gJe
+	 d/yMn58h3JsAiYfxTD7pRBe0Ig9ax163xsoAiFzXO/BGuZ3V/eqrrTzmGl5a8znzBR
+	 AoEXBnKGHIU1w==
+Date: Tue, 29 Oct 2024 17:24:53 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: Anuj Gupta <anuj20.g@samsung.com>
 Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
@@ -52,19 +52,19 @@ Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
 	gost.dev@samsung.com, linux-scsi@vger.kernel.org,
 	vishak.g@samsung.com, linux-fsdevel@vger.kernel.org,
 	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v5 10/10] block: add support to pass user meta buffer
-Message-ID: <ZyFZKmM5ALFaFGRd@kbusch-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH v5 06/10] io_uring/rw: add support to send metadata along
+ with read/write
+Message-ID: <ZyFuxfiRqH8YB-46@kbusch-mbp.dhcp.thefacebook.com>
 References: <20241029162402.21400-1-anuj20.g@samsung.com>
- <CGME20241029163235epcas5p340ce6d131cc7bf220db978a2d4dc24c2@epcas5p3.samsung.com>
- <20241029162402.21400-11-anuj20.g@samsung.com>
+ <CGME20241029163225epcas5p24ec51c7a9b6b115757ed99cadcc3690c@epcas5p2.samsung.com>
+ <20241029162402.21400-7-anuj20.g@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029162402.21400-11-anuj20.g@samsung.com>
+In-Reply-To: <20241029162402.21400-7-anuj20.g@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_145247_451900_7513D074 
-X-CRM114-Status: UNSURE (   7.60  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241029_162458_756769_5E96C6AB 
+X-CRM114-Status: GOOD (  14.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,14 +79,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 29, 2024 at 09:54:02PM +0530, Anuj Gupta wrote:
-> From: Kanchan Joshi <joshi.k@samsung.com>
+On Tue, Oct 29, 2024 at 09:53:58PM +0530, Anuj Gupta wrote:
+> This patch adds the capability of sending metadata along with read/write.
+> A new meta_type field is introduced in SQE which indicates the type of
+> metadata being passed. This meta is represented by a newly introduced
+> 'struct io_uring_meta_pi' which specifies information such as flags,buffer
+> length,seed and apptag. Application sets up a SQE128 ring, prepares
+> io_uring_meta_pi within the second SQE.
+> The patch processes the user-passed information to prepare uio_meta
+> descriptor and passes it down using kiocb->private.
 > 
-> If an iocb contains metadata, extract that and prepare the bip.
-> Based on flags specified by the user, set corresponding guard/app/ref
-> tags to be checked in bip.
+> Meta exchange is supported only for direct IO.
+> Also vectored read/write operations with meta are not supported
+> currently.
 
-Looks good.
+It looks like it is reasonable to add support for fixed buffers too.
+There would be implications for subsequent patches, mostly patch 10, but
+it looks like we can do that.
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Anyway, this patch mostly looks okay to me. I don't know about the whole
+"meta_type" thing. My understanding from Pavel was wanting a way to
+chain command specific extra options. For example, userspace metadata
+and write hints, and this doesn't look like it can be extended to do
+that.
 
