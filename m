@@ -4,98 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14B29D2AB3C
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 13:11:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50053D2AB3C
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 13:16:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nBFaIjNbveE3UZkqK/iZE9a9kLi7hr/Y3QO/UvQv64w=; b=s2JCgLFDtnskEIFs0qT8bWulrH
-	/C0GmCgYOAK23uD5gjqEeMde7auIeZm4xmXoKjXl5ib5sOezeg05olmHIbqwRULuJ7EVAxswkJweC
-	VZi/f0FsMNV5XeYG1pGtj4UWL4YHz6R/1lqBJ4Aq1ZAhSV/X77ORiJmxCuWYHtPxc32eTS6M07zDD
-	0tbt5gGD5XYyP3fseFxDn0DkHSD+4wZMXHvrllLspxyvhAIRB4CTM3X7iLFOYQOKE1tC3B1hDWFbv
-	a9bvlHYicOJtDGK/7IqdSlTcG/gQIlXmHJRa+UM+xLjTkHH3l4GKuT5LPdpTLtwsDZgBBBobHEbkS
-	6jVVqS8Q==;
+	bh=M0uMgcVPTXq1WP7boja6PLKHW3vyqJdcnNIytbjo0xE=; b=m82RPoowfcwsNlmAGEMYvgQFnR
+	z2P493gTxyLSbYd7IkVkWmgWHz1MEoH/dva7bDsD8Nmmse0aqwpb7Xc5m2w8LtQQSi0a8LLk0qGWB
+	g2kLJ/66YH+SUDznLGWR28JCNv2D7g73nM6G39IFb5/2QZX2Z73fDDkIADSTidWeQkUv/HgabWBxG
+	eApNey85SXUbaD03EI+2l28Z1S0KHxNlDMxie8dP7psC09NFxu8OGuWh99IZEltHJ2LNJLs2rirFe
+	okabRz0ghZrB8E5gkmCIZBad7NhoxUsCrD2WKN4hH0tV7nSuc6l7W21+l8fDo0tjEQ1u5CiczriDc
+	hGZf27Mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5m0Q-0000000EX0M-0stB;
-	Tue, 29 Oct 2024 13:11:30 +0000
+	id 1t5m57-0000000EXVW-2U72;
+	Tue, 29 Oct 2024 13:16:21 +0000
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5lWF-0000000EQsQ-1Z2I
+	id 1t5lbw-0000000ESKC-3c6f
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 12:40:20 +0000
+	Tue, 29 Oct 2024 12:46:50 +0000
 Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T260ab025143;
-	Tue, 29 Oct 2024 12:40:07 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T25PjE023281;
+	Tue, 29 Oct 2024 12:46:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=nBFaIj
-	NbveE3UZkqK/iZE9a9kLi7hr/Y3QO/UvQv64w=; b=tsrZcFaRe9MMtghFV7ho1A
-	QSTSEogkV7FQ5kSZN5P/Dr/Jo0hM0BpT1qCQ3BGelY9G/3PitGmppwXlh6PqidJ0
-	cBDrIl997TL7O+oObZ0zdZeWF2qlPmZCZeDGZeuUpU8bq5O5jXI8WQrx7LYrZBFm
-	ZiDPIj5aJU/rJJN4WfOv2MGORIyxuj8qiMrnShvPdOB65/tWI9AvS/8CoYxMzDPt
-	y0GLSLvv0oLWFIKOgpGmrDcvoFILzsaZ8QJ4l4r6LlFq1UqdQoCfLVkfjqV5xXkH
-	nZFZ5JQoRcfr7jf5s9znKWQs6pWtpEcI8ABP85e9J4brPX5wGq8SBWUj85WAvilw
+	:message-id:mime-version:references:subject:to; s=pp1; bh=M0uMgc
+	VPTXq1WP7boja6PLKHW3vyqJdcnNIytbjo0xE=; b=Yjq2KeT/2NOfBrG8WPGJAl
+	+yuasDgg60pzEP49pqco2/rW4+g3/8S0DT4Lu5elGJqNlFCTs7ARgzWOl/4mIrGV
+	ZB4mlG2UJFWiJLrBlil07qCxvpRFoyjVkdbH9pz7kijRtZz9kxkY5ujGD3Ih/hGh
+	OCKTsONTcHQNvjme8dExxUKT8mEd/GNUySMvMxyrVC8uEFKWQI2LTPLyA7Sw7tln
+	tiVod4Ols119E1lrWDABQuNrNS9VYkjTXv/V0Ln4dHme5bwHMWDhKquq1eHLCFr5
+	fCYx+QWDlBPYtHpvG2yHcW1ffLr5gcjR2YxpcE7BjVLOOe9LdP7A9NdEqsBleQKg
 	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43g0fxa-1
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43g0gss-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 12:40:07 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49T9G6aI017410;
-	Tue, 29 Oct 2024 12:40:06 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 42harsb7ep-1
+	Tue, 29 Oct 2024 12:46:07 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49TBohtZ024726;
+	Tue, 29 Oct 2024 12:46:06 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 42hcyjas6w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 12:40:06 +0000
+	Tue, 29 Oct 2024 12:46:06 +0000
 Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49TCe5m116646824
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49TCk6MC44564866
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 29 Oct 2024 12:40:05 GMT
+	Tue, 29 Oct 2024 12:46:06 GMT
 Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BD4075805C;
-	Tue, 29 Oct 2024 12:40:05 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 03C985805B;
+	Tue, 29 Oct 2024 12:46:06 +0000 (GMT)
 Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 915125805F;
-	Tue, 29 Oct 2024 12:40:02 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id CCD2658058;
+	Tue, 29 Oct 2024 12:46:02 +0000 (GMT)
 Received: from [9.109.198.181] (unknown [9.109.198.181])
 	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 29 Oct 2024 12:40:02 +0000 (GMT)
-Message-ID: <ff8baedc-3aa9-4277-8753-282f3744ae2b@linux.ibm.com>
-Date: Tue, 29 Oct 2024 18:10:00 +0530
+	Tue, 29 Oct 2024 12:46:02 +0000 (GMT)
+Message-ID: <22ac5b67-9968-4c53-af90-dd83b0efbd76@linux.ibm.com>
+Date: Tue, 29 Oct 2024 18:16:01 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvme-fabrics: fix kernel crash while shutting down
- controller
+Subject: Re: [PATCH 1/3] Revert "nvme: make keep-alive synchronous operation"
 To: Ming Lei <ming.lei@redhat.com>
 Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
         sagi@grimberg.me, axboe@fb.com, chaitanyak@nvidia.com,
         dlemoal@kernel.org, gjoyce@linux.ibm.com
 References: <20241027170209.440776-1-nilay@linux.ibm.com>
- <20241027170209.440776-3-nilay@linux.ibm.com> <ZyCNiuYQw7_7IzJb@fedora>
+ <20241027170209.440776-2-nilay@linux.ibm.com>
+ <CAFj5m9Ka-EL34DbDCm4kMYoWXfQ6GhMRPJykywE4RztbB3zXYg@mail.gmail.com>
 Content-Language: en-US
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ZyCNiuYQw7_7IzJb@fedora>
+In-Reply-To: <CAFj5m9Ka-EL34DbDCm4kMYoWXfQ6GhMRPJykywE4RztbB3zXYg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: yGuFIdMK3qj226nP4TCv_MfJ2i0TmPpo
-X-Proofpoint-ORIG-GUID: yGuFIdMK3qj226nP4TCv_MfJ2i0TmPpo
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: Yy56sXWXrgBQmsqidKuFA1kDXtsUytgR
+X-Proofpoint-ORIG-GUID: Yy56sXWXrgBQmsqidKuFA1kDXtsUytgR
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1011
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=874 clxscore=1015
  adultscore=0 mlxscore=0 priorityscore=1501 spamscore=0 malwarescore=0
  impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410290094
+ definitions=main-2410290097
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_054019_465339_A7BE38A5 
-X-CRM114-Status: GOOD (  32.36  )
+X-CRM114-CacheID: sfid-20241029_054613_009628_E628DD7E 
+X-CRM114-Status: GOOD (  19.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,103 +112,42 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 10/29/24 12:53, Ming Lei wrote:
-> On Sun, Oct 27, 2024 at 10:32:05PM +0530, Nilay Shroff wrote:
->> The nvme keep-alive operation, which executes at a periodic interval,
->> could potentially sneak in while shutting down a fabric controller.
->> This may lead to a race between the fabric controller admin queue
->> destroy code path (invoked while shutting down controller) and hw/hctx
->> queue dispatcher called from the nvme keep-alive async request queuing
->> operation. This race could lead to the kernel crash shown below:
+On 10/29/24 12:18, Ming Lei wrote:
+> On Mon, Oct 28, 2024 at 1:03 AM Nilay Shroff <nilay@linux.ibm.com> wrote:
 >>
->> Call Trace:
->>     autoremove_wake_function+0x0/0xbc (unreliable)
->>     __blk_mq_sched_dispatch_requests+0x114/0x24c
->>     blk_mq_sched_dispatch_requests+0x44/0x84
->>     blk_mq_run_hw_queue+0x140/0x220
->>     nvme_keep_alive_work+0xc8/0x19c [nvme_core]
->>     process_one_work+0x200/0x4e0
->>     worker_thread+0x340/0x504
->>     kthread+0x138/0x140
->>     start_kernel_thread+0x14/0x18
+>> This reverts commit d06923670b5a5f609603d4a9fee4dec02d38de9c.
+>> This reverts commit 599d9f3a10eec69ef28a90161763e4bd7c9c02bf.
 >>
->> While shutting down fabric controller, if nvme keep-alive request sneaks
->> in then it would be flushed off. The nvme_keep_alive_end_io function is
->> then invoked to handle the end of the keep-alive operation which
->> decrements the admin->q_usage_counter and assuming this is the last/only
->> request in the admin queue then the admin->q_usage_counter becomes zero.
->> If that happens then blk-mq destroy queue operation (blk_mq_destroy_
->> queue()) which could be potentially running simultaneously on another
->> cpu (as this is the controller shutdown code path) would forward
->> progress and deletes the admin queue. So, now from this point onward
->> we are not supposed to access the admin queue resources. However the
->> issue here's that the nvme keep-alive thread running hw/hctx queue
->> dispatch operation hasn't yet finished its work and so it could still
->> potentially access the admin queue resource while the admin queue had
->> been already deleted and that causes the above crash.
->>
->> The above kernel crash is regression caused due to changes implemented
->> in commit a54a93d0e359 ("nvme: move stopping keep-alive into
->> nvme_uninit_ctrl()"). Ideally we should stop keep-alive at the very
->> beggining of the controller shutdown code path so that it wouldn't
->> sneak in during the shutdown operation. However we removed the keep
->> alive stop operation from the beginning of the controller shutdown
->> code path in commit a54a93d0e359 ("nvme: move stopping keep-alive into
->> nvme_uninit_ctrl()") and that now created the possibility of keep-alive
->> sneaking in and interfering with the shutdown operation and causing
->> observed kernel crash. So to fix this crash, now we're adding back the
->> keep-alive stop operation at very beginning of the fabric controller
->> shutdown code path so that the actual controller shutdown opeation only
->> begins after it's ensured that keep-alive operation is not in-flight and
->> also it can't be scheduled in future.
->>
->> Fixes: a54a93d0e359 ("nvme: move stopping keep-alive into nvme_uninit_ctrl()")
->> Link: https://lore.kernel.org/all/196f4013-3bbf-43ff-98b4-9cb2a96c20c2@grimberg.me/#t
->> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->> ---
->>  drivers/nvme/host/core.c | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 5016f69e9a15..865c00ea19e3 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -4648,6 +4648,11 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
->>  {
->>  	nvme_mpath_stop(ctrl);
->>  	nvme_auth_stop(ctrl);
->> +	/*
->> +	 * the transport driver may be terminating the admin tagset a little
->> +	 * later on, so we cannot have the keep-alive work running
->> +	 */
->> +	nvme_stop_keep_alive(ctrl);
->>  	nvme_stop_failfast_work(ctrl);
->>  	flush_work(&ctrl->async_event_work);
->>  	cancel_work_sync(&ctrl->fw_act_work);
+>> It was realized that the fix implemented to avoid the race
+>> condition between keep alive task and the fabric shutdown code
+>> path in the commit d06923670b5ia ("nvme: make keep-alive
+>> synchronous operation") is not optimal.
 > 
-> The change looks fine.
+> I saw you have discussed it a while, but it is still better to describe
+> the reason in the commit log.
 > 
-> IMO the `nvme_stop_keep_alive` in nvme_uninit_ctrl() may be moved to
-> entry of nvme_remove_admin_tag_set(), then this one in nvme_stop_ctrl()
-> can be saved?
+Sure, I would enhance the commit message to clarify it further.
+>>
+>> We also found that the above race condition is regression caused
+>> due to the changes implemented in commit a54a93d0e359 ("nvme: move
+>> stopping keep-alive into nvme_uninit_ctrl()"). So we decided to
 > 
-Yes that should work however IMO, stopping keep-alive at very beginning of
-shutdown operation would make sense because delaying the stopping of keep-alive 
-would not be useful anyways once we start the controller shutdown. It may
-sneak in unnecessarily while we shutdown controller and later we will have to 
-flush it off.
+> Can you explain a bit why commit a54a93d0e359 is a regression?
+> And what is the race condition?
+> 
+> Without providing the context info, it is hard to review the change.
+> 
+> Thanks,
+> 
+> 
+OK, the root cause of the race condition and how it could be triggered 
+has been already discussed here[1].
 
-And yes, as you mentioned, in this case we would save one call site but 
-looking at the code we have few other call sites already present where we
-call nvme_stop_keep_alive().
+In any case, if you still want me to clarify it further then please let
+me know.
 
-> 
-> thanks,
-> Ming
-> 
-> 
+[1]https://lore.kernel.org/all/b03863b2-8816-48cd-aa18-436f1c49ec8c@linux.ibm.com
 
 Thanks,
 --Nilay
-
 
