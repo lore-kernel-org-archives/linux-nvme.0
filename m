@@ -4,75 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A82ABD3A66C
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 15:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84C89D3A661
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 15:22:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=q/ppnKPqjq1ZOWgFdXtmo78cQBjKVN58gXA7eOZBfs4=; b=GQFwtxj1sb5dNZ
-	znTcPAO/O7TqH64dQyzhHsA+EzGsbVYRyBegMExwBf34R8hiz720S2Dxz2glLkBvkAqctphuzErM+
-	ogKR6uuTiJYS9XBjAxZxqbw4E2tR0ODUFEZrJ3NoREWbpQXWVtj1aI3iUc+OgP81Z48cDNgcyyLdO
-	lhM/A/hKsyLu1zKWSDIjytouPnLVsaGGnKTbZah4AazR5WK/alXwm4hst+bTFh4xusi5rDSin/S4F
-	/RXjOQ5Y3YPY1kJryt4P8nDv1TWq9Jcv4DF0vaxlu8TuWFyPJvte23eCCDsHoyCBD3YaE8F0iGKqU
-	b0A30NgCi9L77c8d6eEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qA+NGz+6KM5521lpDTzCtjJ24sEMb14jQTfwKkFiwJc=; b=0LQfFbXZWgfJ1JriGBDelXibEo
+	vbN25lNeDjX+vZ0n7bnYFE39JAkU4Sc48Tb+4BY1pttAQgJ6HWzjmNrxtAa+u1mSXUH2CoRkAa/Q6
+	u2FeUUS53dBjlsSChIhdbRvqNU/xWxAo+0+GDGF3fmfY3o9GvWeD9W+7Ke5LSl0Qot3OKJiMKKpgs
+	oEBA30X5EHGLjx59wEq9SF1Ys0KZ+NTyLB1cEbyH4DydrdddEpT0Y3dsyiDg6KFsyxTsIuAaApvGS
+	CRHiJDVsVdCIrYEqLW2//iSS3Sd7QuwYwWedO4layWjPfk0UIFbbgpeEoI3XK3gA1B6QOzlTD1iYF
+	sFIkMiWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5nv8-0000000ErJy-43QS;
-	Tue, 29 Oct 2024 15:14:10 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t5o3R-0000000EtVJ-1mZr;
+	Tue, 29 Oct 2024 15:22:45 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5nsC-0000000EqVJ-03Ap
+	id 1t5o0c-0000000EsbK-0MNE
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 15:11:12 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id ED0DBA42F75;
-	Tue, 29 Oct 2024 15:09:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 518F5C4CEE5;
-	Tue, 29 Oct 2024 15:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730214665;
-	bh=SQQchx1vtsZlKAa985I87v+ow+U4p33UlUeg+FERc0I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=LyBQOUO2cEsu+Tni0G/a2shPNK+3v0pcWANBtQ3I2TpwqpZtXMDurKkmJNCB2oohh
-	 FDq6iFWCCGs1KozCEG39c2+UBJ4oZAul+Fh/hrzx93pik7koNtaiystZtJXr9nHeci
-	 OVwi2t8duMu/ih5zjJmkGrY1Z7RUHbWslWh8nCjnILiVUmGdP96opvDh6vYyZzJkDL
-	 iqTq3OInuyi1xereyTOtUDDWIjp64Dk1bkhfTokQgnE7hOvGaX6nT86WvQCFXPs9aA
-	 8JqhSVbH+n/fg2UKLL9y5lDCFyFvtph8fNrcQaCSJLpiFtY+LSFpMwaLG+EvyuCA64
-	 9EBM45hwMqjQg==
-Date: Tue, 29 Oct 2024 10:11:04 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 02/18] dma-mapping: move the PCI P2PDMA mapping helpers
- to pci-p2pdma.h
-Message-ID: <20241029151104.GA1156518@bhelgaas>
+	Tue, 29 Oct 2024 15:19:51 +0000
+Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49TEaXlc009750
+	for <linux-nvme@lists.infradead.org>; Tue, 29 Oct 2024 08:19:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
+	 bh=qA+NGz+6KM5521lpDTzCtjJ24sEMb14jQTfwKkFiwJc=; b=Iy4uN0QeAnJo
+	fblju/KuxVMSg2VrDQlMo4Lu9MTYEXkSULblzcwPZ6jk8IUqfa4I8imCJXuJNs4P
+	xhxPIT8k6ybNErCpUNyU+xus9yJPN3rxpm7rmGhdAghKzbEfYXq2HdP7hNkJLhlu
+	IzFCkZckw8M0izhlhDxtBmhokwvTkilNq6KrCkw7oI9JgEtcTcQWuXeS3R/iJH2w
+	jBxdLnJJCPlw9rfMQ/uHC/Uir4th1yiTqe0D9+leiYUzr+CF82znP0ds5E/DAdu7
+	cpJhbBUjIC7jmvyrGmzN3W9jNN+RqTVN8MZ84xfqy4htzm6x2ShT0roiyr6rOSqF
+	gu/1cH/cmA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42k1m9rd37-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 29 Oct 2024 08:19:47 -0700 (PDT)
+Received: from twshared22321.07.ash9.facebook.com (2620:10d:c0a8:1b::2d) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Tue, 29 Oct 2024 15:19:47 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id 1049714920EA3; Tue, 29 Oct 2024 08:19:44 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+        <linux-scsi@vger.kernel.org>, <io-uring@vger.kernel.org>
+CC: <linux-fsdevel@vger.kernel.org>, <hch@lst.de>, <joshi.k@samsung.com>,
+        <javier.gonz@samsung.com>, <bvanassche@acm.org>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCHv10 4/9] block: allow ability to limit partition write hints
+Date: Tue, 29 Oct 2024 08:19:17 -0700
+Message-ID: <20241029151922.459139-5-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20241029151922.459139-1-kbusch@meta.com>
+References: <20241029151922.459139-1-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27698e7cc55f6ca5371c3d86c50fd3afce9afddd.1730037276.git.leon@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: 0-eFXbsYyenC2In1HPDKOxQqeM-ZcYQA
+X-Proofpoint-ORIG-GUID: 0-eFXbsYyenC2In1HPDKOxQqeM-ZcYQA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_081108_299134_604C7049 
-X-CRM114-Status: GOOD (  37.00  )
+X-CRM114-CacheID: sfid-20241029_081950_357381_B46B9E9F 
+X-CRM114-Status: GOOD (  17.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,241 +89,165 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Oct 27, 2024 at 04:21:02PM +0200, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
-> 
-> To support the upcoming non-scatterlist mapping helpers, we need to go
-> back to have them called outside of the DMA API.  Thus move them out of
-> dma-map-ops.h, which is only for DMA API implementations to pci-p2pdma.h,
-> which is for driver use.
-> 
-> Note that the core helper is still not exported as the mapping is
-> expected to be done only by very highlevel subsystem code at least for
-> now.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+From: Keith Busch <kbusch@kernel.org>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+When multiple partitions are used, you may want to enforce different
+subsets of the available write hints for each partition. Provide a
+bitmap attribute of the available write hints, and allow an admin to
+write a different mask to set the partition's allowed write hints.
 
-> ---
->  drivers/iommu/dma-iommu.c   |  1 +
->  include/linux/dma-map-ops.h | 84 -------------------------------------
->  include/linux/pci-p2pdma.h  | 84 +++++++++++++++++++++++++++++++++++++
->  kernel/dma/direct.c         |  1 +
->  4 files changed, 86 insertions(+), 84 deletions(-)
-> 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 6e50023c8112..c422e36c0d66 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -26,6 +26,7 @@
->  #include <linux/mutex.h>
->  #include <linux/of_iommu.h>
->  #include <linux/pci.h>
-> +#include <linux/pci-p2pdma.h>
->  #include <linux/scatterlist.h>
->  #include <linux/spinlock.h>
->  #include <linux/swiotlb.h>
-> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-> index 49edcbda19d1..6ee626e50708 100644
-> --- a/include/linux/dma-map-ops.h
-> +++ b/include/linux/dma-map-ops.h
-> @@ -435,88 +435,4 @@ static inline void debug_dma_dump_mappings(struct device *dev)
->  
->  extern const struct dma_map_ops dma_dummy_ops;
->  
-> -enum pci_p2pdma_map_type {
-> -	/*
-> -	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally for indicating the mapping
-> -	 * type hasn't been calculated yet. Functions that return this enum
-> -	 * never return this value.
-> -	 */
-> -	PCI_P2PDMA_MAP_UNKNOWN = 0,
-> -
-> -	/*
-> -	 * Not a PCI P2PDMA transfer.
-> -	 */
-> -	PCI_P2PDMA_MAP_NONE,
-> -
-> -	/*
-> -	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
-> -	 * traverse the host bridge and the host bridge is not in the
-> -	 * allowlist. DMA Mapping routines should return an error when
-> -	 * this is returned.
-> -	 */
-> -	PCI_P2PDMA_MAP_NOT_SUPPORTED,
-> -
-> -	/*
-> -	 * PCI_P2PDMA_BUS_ADDR: Indicates that two devices can talk to
-> -	 * each other directly through a PCI switch and the transaction will
-> -	 * not traverse the host bridge. Such a mapping should program
-> -	 * the DMA engine with PCI bus addresses.
-> -	 */
-> -	PCI_P2PDMA_MAP_BUS_ADDR,
-> -
-> -	/*
-> -	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
-> -	 * to each other, but the transaction traverses a host bridge on the
-> -	 * allowlist. In this case, a normal mapping either with CPU physical
-> -	 * addresses (in the case of dma-direct) or IOVA addresses (in the
-> -	 * case of IOMMUs) should be used to program the DMA engine.
-> -	 */
-> -	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
-> -};
-> -
-> -struct pci_p2pdma_map_state {
-> -	struct dev_pagemap *pgmap;
-> -	enum pci_p2pdma_map_type map;
-> -	u64 bus_off;
-> -};
-> -
-> -/* helper for pci_p2pdma_state(), do not use directly */
-> -void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
-> -		struct device *dev, struct page *page);
-> -
-> -/**
-> - * pci_p2pdma_state - check the P2P transfer state of a page
-> - * @state: 	P2P state structure
-> - * @dev:	device to transfer to/from
-> - * @page:	page to map
-> - *
-> - * Check if @page is a PCI P2PDMA page, and if yes of what kind.  Returns the
-> - * map type, and updates @state with all information needed for a P2P transfer.
-> - */
-> -static inline enum pci_p2pdma_map_type
-> -pci_p2pdma_state(struct pci_p2pdma_map_state *state, struct device *dev,
-> -		struct page *page)
-> -{
-> -	if (IS_ENABLED(CONFIG_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
-> -		if (state->pgmap != page->pgmap)
-> -			__pci_p2pdma_update_state(state, dev, page);
-> -		return state->map;
-> -	}
-> -	return PCI_P2PDMA_MAP_NONE;
-> -}
-> -
-> -/**
-> - * pci_p2pdma_bus_addr_map - map a PCI_P2PDMA_MAP_BUS_ADDR P2P transfer
-> - * @state: 	P2P state structure
-> - * @paddr:	physical address to map
-> - *
-> - * Map a physically contigous PCI_P2PDMA_MAP_BUS_ADDR transfer.
-> - */
-> -static inline dma_addr_t
-> -pci_p2pdma_bus_addr_map(struct pci_p2pdma_map_state *state, phys_addr_t paddr)
-> -{
-> -	WARN_ON_ONCE(state->map != PCI_P2PDMA_MAP_BUS_ADDR);
-> -	return paddr + state->bus_off;
-> -}
-> -
->  #endif /* _LINUX_DMA_MAP_OPS_H */
-> diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-> index 2c07aa6b7665..66b71f60a811 100644
-> --- a/include/linux/pci-p2pdma.h
-> +++ b/include/linux/pci-p2pdma.h
-> @@ -104,4 +104,88 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
->  	return pci_p2pmem_find_many(&client, 1);
->  }
->  
-> +enum pci_p2pdma_map_type {
-> +	/*
-> +	 * PCI_P2PDMA_MAP_UNKNOWN: Used internally for indicating the mapping
-> +	 * type hasn't been calculated yet. Functions that return this enum
-> +	 * never return this value.
-> +	 */
-> +	PCI_P2PDMA_MAP_UNKNOWN = 0,
-> +
-> +	/*
-> +	 * Not a PCI P2PDMA transfer.
-> +	 */
-> +	PCI_P2PDMA_MAP_NONE,
-> +
-> +	/*
-> +	 * PCI_P2PDMA_MAP_NOT_SUPPORTED: Indicates the transaction will
-> +	 * traverse the host bridge and the host bridge is not in the
-> +	 * allowlist. DMA Mapping routines should return an error when
-> +	 * this is returned.
-> +	 */
-> +	PCI_P2PDMA_MAP_NOT_SUPPORTED,
-> +
-> +	/*
-> +	 * PCI_P2PDMA_BUS_ADDR: Indicates that two devices can talk to
-> +	 * each other directly through a PCI switch and the transaction will
-> +	 * not traverse the host bridge. Such a mapping should program
-> +	 * the DMA engine with PCI bus addresses.
-> +	 */
-> +	PCI_P2PDMA_MAP_BUS_ADDR,
-> +
-> +	/*
-> +	 * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE: Indicates two devices can talk
-> +	 * to each other, but the transaction traverses a host bridge on the
-> +	 * allowlist. In this case, a normal mapping either with CPU physical
-> +	 * addresses (in the case of dma-direct) or IOVA addresses (in the
-> +	 * case of IOMMUs) should be used to program the DMA engine.
-> +	 */
-> +	PCI_P2PDMA_MAP_THRU_HOST_BRIDGE,
-> +};
-> +
-> +struct pci_p2pdma_map_state {
-> +	struct dev_pagemap *pgmap;
-> +	enum pci_p2pdma_map_type map;
-> +	u64 bus_off;
-> +};
-> +
-> +/* helper for pci_p2pdma_state(), do not use directly */
-> +void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
-> +		struct device *dev, struct page *page);
-> +
-> +/**
-> + * pci_p2pdma_state - check the P2P transfer state of a page
-> + * @state: 	P2P state structure
-> + * @dev:	device to transfer to/from
-> + * @page:	page to map
-> + *
-> + * Check if @page is a PCI P2PDMA page, and if yes of what kind.  Returns the
-> + * map type, and updates @state with all information needed for a P2P transfer.
-> + */
-> +static inline enum pci_p2pdma_map_type
-> +pci_p2pdma_state(struct pci_p2pdma_map_state *state, struct device *dev,
-> +		struct page *page)
-> +{
-> +	if (IS_ENABLED(CONFIG_PCI_P2PDMA) && is_pci_p2pdma_page(page)) {
-> +		if (state->pgmap != page->pgmap)
-> +			__pci_p2pdma_update_state(state, dev, page);
-> +		return state->map;
-> +	}
-> +	return PCI_P2PDMA_MAP_NONE;
-> +}
-> +
-> +/**
-> + * pci_p2pdma_bus_addr_map - map a PCI_P2PDMA_MAP_BUS_ADDR P2P transfer
-> + * @state: 	P2P state structure
-> + * @paddr:	physical address to map
-> + *
-> + * Map a physically contigous PCI_P2PDMA_MAP_BUS_ADDR transfer.
-> + */
-> +static inline dma_addr_t
-> +pci_p2pdma_bus_addr_map(struct pci_p2pdma_map_state *state, phys_addr_t paddr)
-> +{
-> +	WARN_ON_ONCE(state->map != PCI_P2PDMA_MAP_BUS_ADDR);
-> +	return paddr + state->bus_off;
-> +}
-> +
->  #endif /* _LINUX_PCI_P2P_H */
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index a793400161c2..47e124561fff 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -13,6 +13,7 @@
->  #include <linux/vmalloc.h>
->  #include <linux/set_memory.h>
->  #include <linux/slab.h>
-> +#include <linux/pci-p2pdma.h>
->  #include "direct.h"
->  
->  /*
-> -- 
-> 2.46.2
-> 
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ Documentation/ABI/stable/sysfs-block |  6 ++++
+ block/bdev.c                         | 13 ++++++++
+ block/partitions/core.c              | 44 ++++++++++++++++++++++++++--
+ include/linux/blk_types.h            |  1 +
+ 4 files changed, 62 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/sta=
+ble/sysfs-block
+index f2db2cabb8e75..8ab9f030e61d1 100644
+--- a/Documentation/ABI/stable/sysfs-block
++++ b/Documentation/ABI/stable/sysfs-block
+@@ -187,6 +187,12 @@ Description:
+ 		partition is offset from the internal allocation unit's
+ 		natural alignment.
+=20
++What:		/sys/block/<disk>/<partition>/write_hint_mask
++Date:		October 2024
++Contact:	linux-block@vger.kernel.org
++Description:
++		The mask of allowed write hints. You can limit which hints the
++		block layer will use by writing a new mask.
+=20
+ What:		/sys/block/<disk>/<partition>/stat
+ Date:		February 2008
+diff --git a/block/bdev.c b/block/bdev.c
+index 9a59f0c882170..0c5e87b111aed 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -415,6 +415,7 @@ void __init bdev_cache_init(void)
+ struct block_device *bdev_alloc(struct gendisk *disk, u8 partno)
+ {
+ 	struct block_device *bdev;
++	unsigned short write_hint;
+ 	struct inode *inode;
+=20
+ 	inode =3D new_inode(blockdev_superblock);
+@@ -440,6 +441,18 @@ struct block_device *bdev_alloc(struct gendisk *disk=
+, u8 partno)
+ 		return NULL;
+ 	}
+ 	bdev->bd_disk =3D disk;
++
++	write_hint =3D bdev_max_write_hints(bdev);
++	if (write_hint) {
++		bdev->write_hint_mask =3D bitmap_alloc(write_hint, GFP_KERNEL);
++		if (!bdev->write_hint_mask) {
++			free_percpu(bdev->bd_stats);
++			iput(inode);
++			return NULL;
++		}
++		bitmap_set(bdev->write_hint_mask, 0, write_hint);
++	}
++
+ 	return bdev;
+ }
+=20
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index 815ed33caa1b8..24e1a79972f75 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -203,6 +203,40 @@ static ssize_t part_discard_alignment_show(struct de=
+vice *dev,
+ 	return sprintf(buf, "%u\n", bdev_discard_alignment(dev_to_bdev(dev)));
+ }
+=20
++static ssize_t part_write_hint_mask_show(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct block_device *bdev =3D dev_to_bdev(dev);
++	unsigned short max_write_hints =3D bdev_max_write_hints(bdev);
++
++	if (!max_write_hints)
++		return sprintf(buf, "0");
++	return sprintf(buf, "%*pb\n", max_write_hints, bdev->write_hint_mask);
++}
++
++static ssize_t part_write_hint_mask_store(struct device *dev,
++					  struct device_attribute *attr,
++					  const char *buf, size_t count)
++{
++	struct block_device *bdev =3D dev_to_bdev(dev);
++	unsigned short max_write_hints =3D bdev_max_write_hints(bdev);
++	unsigned long *new_mask;
++
++	if (!max_write_hints)
++		return count;
++
++	new_mask =3D bitmap_alloc(max_write_hints, GFP_KERNEL);
++	if (!new_mask)
++		return -ENOMEM;
++
++	bitmap_parse(buf, count, new_mask, max_write_hints);
++	bitmap_copy(bdev->write_hint_mask, new_mask, max_write_hints);
++	bitmap_free(new_mask);
++
++	return count;
++}
++
+ static DEVICE_ATTR(partition, 0444, part_partition_show, NULL);
+ static DEVICE_ATTR(start, 0444, part_start_show, NULL);
+ static DEVICE_ATTR(size, 0444, part_size_show, NULL);
+@@ -211,6 +245,8 @@ static DEVICE_ATTR(alignment_offset, 0444, part_align=
+ment_offset_show, NULL);
+ static DEVICE_ATTR(discard_alignment, 0444, part_discard_alignment_show,=
+ NULL);
+ static DEVICE_ATTR(stat, 0444, part_stat_show, NULL);
+ static DEVICE_ATTR(inflight, 0444, part_inflight_show, NULL);
++static DEVICE_ATTR(write_hint_mask, 0644, part_write_hint_mask_show,
++		   part_write_hint_mask_store);
+ #ifdef CONFIG_FAIL_MAKE_REQUEST
+ static struct device_attribute dev_attr_fail =3D
+ 	__ATTR(make-it-fail, 0644, part_fail_show, part_fail_store);
+@@ -225,6 +261,7 @@ static struct attribute *part_attrs[] =3D {
+ 	&dev_attr_discard_alignment.attr,
+ 	&dev_attr_stat.attr,
+ 	&dev_attr_inflight.attr,
++	&dev_attr_write_hint_mask.attr,
+ #ifdef CONFIG_FAIL_MAKE_REQUEST
+ 	&dev_attr_fail.attr,
+ #endif
+@@ -245,8 +282,11 @@ static const struct attribute_group *part_attr_group=
+s[] =3D {
+=20
+ static void part_release(struct device *dev)
+ {
+-	put_disk(dev_to_bdev(dev)->bd_disk);
+-	bdev_drop(dev_to_bdev(dev));
++	struct block_device *part =3D dev_to_bdev(dev);
++
++	bitmap_free(part->write_hint_mask);
++	put_disk(part->bd_disk);
++	bdev_drop(part);
+ }
+=20
+ static int part_uevent(const struct device *dev, struct kobj_uevent_env =
+*env)
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 6737795220e18..af430e543f7f7 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -73,6 +73,7 @@ struct block_device {
+ #ifdef CONFIG_SECURITY
+ 	void			*bd_security;
+ #endif
++	unsigned long		*write_hint_mask;
+ 	/*
+ 	 * keep this out-of-line as it's both big and not needed in the fast
+ 	 * path
+--=20
+2.43.5
+
 
