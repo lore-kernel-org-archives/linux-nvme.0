@@ -4,86 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCE3CD13590
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 06:51:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ECDED13590
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 07:15:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RWbVeDQibiRGrGF1sGsSz+HuOH9X89Swrib0axHXrYA=; b=JSUi0i3pswzwaRqwZwoEFR4eTB
-	ZnTkATIPFrdrOAdhyOmcapES1y7eJkNgnjZESnoegqdb4S0W6opuxnNnxnq5KIckTZAJopGs3ZHCj
-	AhbU8mSY7y1fu6TpAqOOTJg26PAkdX++GI673bgZ3Y5xqGwUOSbM4vFz0VTcUlnHKo/yjWvfS9Ypo
-	wSfpVXblH2uuOSEBtU8UTy1knD/5rVDKcAcBPyXmWKMm3wzrUawnFl/hZvNI1v/kfn/fV4Rr2uwvh
-	4TqsmLZvQ5dP9wVPlPKT9hNYiwN0FQDC7fO/I10IfPdZrAUw0jE9iXDCNIRmoGHxGaIy+AB5XKSey
-	zoWwB49Q==;
+	bh=H9XfqwrRteTneCnjhgeI86O38AxJQje6fZ6MqhejA+s=; b=iv15h3C8naWTY3D0yjwAGWxHku
+	GS7rJOJa9bFwpO8gnaexo7JwwfUzqahZii2f2lsr11qtY+pIqcqYyo8yVJhcjX9jnisaTe6wr/zcg
+	GeqBUn++Wd8PszqRnmbCHffzF+8YbipORX4JpEoPiID2dcWAm1kbXL8zWiiijDxuSOtxiYqOa/vSK
+	3NhuuUpNfJL8VPvMQn/QApvoobRAI5xzkvaFl04VSMVPajrmUatXEpQ0TgtFjUE1BvjdEJx8jQG92
+	hYk33eKTuwwCwNlGWVUAttRnkT7U1g2L4xp9Ou5gqNreXY+NKE2MKTMb1S8El+0cHmZkT0e6QU4ez
+	KQXMVUMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5g4K-0000000DPZH-3wcm;
-	Tue, 29 Oct 2024 06:51:08 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1t5gRu-0000000DSsK-0JJ5;
+	Tue, 29 Oct 2024 07:15:30 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5g4F-0000000DPXg-26GA
+	id 1t5gMs-0000000DRxK-4Bc1
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 06:51:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730184661;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Tue, 29 Oct 2024 07:10:23 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A2BC01FE41;
+	Tue, 29 Oct 2024 07:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730185815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RWbVeDQibiRGrGF1sGsSz+HuOH9X89Swrib0axHXrYA=;
-	b=dwXDXxmwLuhQFmkkkQaZ3WV7UlxM8sMhmF6Ymu9YvWvIxVRrQpA1318S4X+NEBKsq0KbYl
-	Xt6lhl/bSjoEO7mnDaz2WbZP9hcBaWyWodnroOz1Hpur0lT+2zF6Vx31pxCou2Qu5zULrJ
-	VTSFZZd25Vdn7bos9B9U+QVYWohlrJ0=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-TTFUQhquOlGzvEkIhUu5SQ-1; Tue, 29 Oct 2024 02:49:06 -0400
-X-MC-Unique: TTFUQhquOlGzvEkIhUu5SQ-1
-Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-84fdac552dcso1910260241.3
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2024 23:49:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730184546; x=1730789346;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RWbVeDQibiRGrGF1sGsSz+HuOH9X89Swrib0axHXrYA=;
-        b=JNvJUYNqHEHDnfXF6QnjmEukeQURbTlOVHOHsqc8SJYsBQIvBtQuelGWYjGZ/Cgxmf
-         Na0ldoT/9cUpU2uAihKpmbQ9mvGjX60RT6W4evXtWpCKM/lVOBmIKIy+dg65GhcvMDx+
-         KztQeTq/k/qPB6NnWsdSnOhR7YCvQdl77zGNZGvEcV8Sd4QG2R0A/sjHlIV6ywwsU7Hg
-         EgoahKjlPNDF863TiQjNkTFA8wsHu8PSLyLbEHycyOED2aKYyVVP+jukmWC5YAsCEW91
-         3SSwjjWXrRB+q3jwkDvzE5E8sk2R8pqaNMVkgpghtDYzBuTC5ax6HSInpKf1PbZUK1CK
-         Yr5A==
-X-Gm-Message-State: AOJu0YwfrYBWXbuAeLezDU19yBVJY+1V/urs8N1CeDfMUWD7+GE9fYi0
-	xYNan27L9BXBX5g8+U06GUypIFGck1TXs2nKdMA+GCnYT5X3/pz6lg327ZpSM5zrYZ0W1L9JRzC
-	yjbTGv3YWxRvohv64LhRZTbx+GTbxMQ8NxrKDyab49p+eBwWPs+htCGbxzVHaYQtMulggCGWi85
-	ug8uY25pFFn8XeYW8E8ktny2m/rauWAP8gfAZYzS0=
-X-Received: by 2002:a05:6102:3707:b0:4a5:c0e2:c42d with SMTP id ada2fe7eead31-4a8cfb45762mr9180414137.8.1730184546280;
-        Mon, 28 Oct 2024 23:49:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGyqHjUq16O+NDw4Rec3l0KTk9hs6Iwak9YboGmcUomxRcaIDl0XVpypvg4nLO6LJxwAEWoNJ6R7W3ACkTFq8=
-X-Received: by 2002:a05:6102:3707:b0:4a5:c0e2:c42d with SMTP id
- ada2fe7eead31-4a8cfb45762mr9180401137.8.1730184546028; Mon, 28 Oct 2024
- 23:49:06 -0700 (PDT)
+	bh=H9XfqwrRteTneCnjhgeI86O38AxJQje6fZ6MqhejA+s=;
+	b=rP0HPVL8jbXJ5HQq3HIYRygN5a9S75GUK2anEyhnEUBygoB31PsT3n/KI7r2GImgx/DuoC
+	o5isNJMDiwPExsK2kFpyioxvsfK5SOzhGeshSaj3B0Vmm4LyMd10EP+ZYQ0NLmK3mG2ZVu
+	RN3FXSkUcFtBtgWCMeo4XrSJ8jnj2u4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730185815;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H9XfqwrRteTneCnjhgeI86O38AxJQje6fZ6MqhejA+s=;
+	b=Mq4EpQziMcMuD8h0m3qhHHiKcTVi4vP4nH/ECSVaevf2TxzG7Nf/gNTXbVY8MbYS5ib+Az
+	as2x7vXvF865+bCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730185815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H9XfqwrRteTneCnjhgeI86O38AxJQje6fZ6MqhejA+s=;
+	b=rP0HPVL8jbXJ5HQq3HIYRygN5a9S75GUK2anEyhnEUBygoB31PsT3n/KI7r2GImgx/DuoC
+	o5isNJMDiwPExsK2kFpyioxvsfK5SOzhGeshSaj3B0Vmm4LyMd10EP+ZYQ0NLmK3mG2ZVu
+	RN3FXSkUcFtBtgWCMeo4XrSJ8jnj2u4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730185815;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H9XfqwrRteTneCnjhgeI86O38AxJQje6fZ6MqhejA+s=;
+	b=Mq4EpQziMcMuD8h0m3qhHHiKcTVi4vP4nH/ECSVaevf2TxzG7Nf/gNTXbVY8MbYS5ib+Az
+	as2x7vXvF865+bCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3405B136A5;
+	Tue, 29 Oct 2024 07:10:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eAZTCleKIGe2cgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 29 Oct 2024 07:10:15 +0000
+Message-ID: <c7a36219-bfe2-4be4-83ba-5af7f33b4a98@suse.de>
+Date: Tue, 29 Oct 2024 08:10:15 +0100
 MIME-Version: 1.0
-References: <20241027170209.440776-1-nilay@linux.ibm.com> <20241027170209.440776-2-nilay@linux.ibm.com>
-In-Reply-To: <20241027170209.440776-2-nilay@linux.ibm.com>
-From: Ming Lei <ming.lei@redhat.com>
-Date: Tue, 29 Oct 2024 14:48:55 +0800
-Message-ID: <CAFj5m9Ka-EL34DbDCm4kMYoWXfQ6GhMRPJykywE4RztbB3zXYg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] Revert "nvme: make keep-alive synchronous operation"
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de, 
-	sagi@grimberg.me, axboe@fb.com, chaitanyak@nvidia.com, dlemoal@kernel.org, 
-	gjoyce@linux.ibm.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv9 7/7] scsi: set permanent stream count in block limits
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ io-uring@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, hch@lst.de, joshi.k@samsung.com,
+ javier.gonz@samsung.com, bvanassche@acm.org, Keith Busch <kbusch@kernel.org>
+References: <20241025213645.3464331-1-kbusch@meta.com>
+ <20241025213645.3464331-8-kbusch@meta.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20241025213645.3464331-8-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.976];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241028_235103_764522_822823D9 
-X-CRM114-Status: GOOD (  13.36  )
+X-CRM114-CacheID: sfid-20241029_001019_225200_3EE9ABEC 
+X-CRM114-Status: GOOD (  15.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,30 +134,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 28, 2024 at 1:03=E2=80=AFAM Nilay Shroff <nilay@linux.ibm.com> =
-wrote:
->
-> This reverts commit d06923670b5a5f609603d4a9fee4dec02d38de9c.
-> This reverts commit 599d9f3a10eec69ef28a90161763e4bd7c9c02bf.
->
-> It was realized that the fix implemented to avoid the race
-> condition between keep alive task and the fabric shutdown code
-> path in the commit d06923670b5ia ("nvme: make keep-alive
-> synchronous operation") is not optimal.
+On 10/25/24 23:36, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> The block limits exports the number of write hints, so set this limit if
+> the device reports support for the lifetime hints. Not only does this
+> inform the user of which hints are possible, it also allows scsi devices
+> supporting the feature to utilize the full range through raw block
+> device direct-io.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>   drivers/scsi/sd.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+> index ca4bc0ac76adc..235dd6e5b6688 100644
+> --- a/drivers/scsi/sd.c
+> +++ b/drivers/scsi/sd.c
+> @@ -3768,6 +3768,8 @@ static int sd_revalidate_disk(struct gendisk *disk)
+>   		sd_config_protection(sdkp, &lim);
+>   	}
+>   
+> +	lim.max_write_hints = sdkp->permanent_stream_count;
+> +
+>   	/*
+>   	 * We now have all cache related info, determine how we deal
+>   	 * with flush requests.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-I saw you have discussed it a while, but it is still better to describe
-the reason in the commit log.
+Cheers,
 
->
-> We also found that the above race condition is regression caused
-> due to the changes implemented in commit a54a93d0e359 ("nvme: move
-> stopping keep-alive into nvme_uninit_ctrl()"). So we decided to
-
-Can you explain a bit why commit a54a93d0e359 is a regression?
-And what is the race condition?
-
-Without providing the context info, it is hard to review the change.
-
-Thanks,
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
