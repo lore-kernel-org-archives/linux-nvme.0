@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37507D3A66C
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 15:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E623D3A66E
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Oct 2024 15:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8NZg6OdIOucs6TDjRK1ex4c7fxD55pOs+f0J7LYplRA=; b=BuAZBLVy0O/QwS18wMorMMAr7Z
-	cs/MCJc78uKK+koyEHdwednzY92ljp1nJ0mxI4dw/oj/kGxIvejabZqJbPoILuLYh5PYS4c5jWvZC
-	4GQhSXOJJIqLZs1djo2GWmQqcYNLNyUaNoOhyU9AEerrK33R3d4/wIAbKuQQE7RyKPBVXvpQYQ/4N
-	HvWl7ae6Saxy6F0bVBj3r/vxy3vPsEQysgWYG28Pa3+D3X8MYAa7WbCWtv7OMmb+emuDH0Z9CDs/x
-	OA1Y6KAKMu7qN7M+PcbaBP9K1egYJ332htYpSYtjcQz8tKvf5RNkwnwtZYF/jEg5IxQYc0NuA+hjU
-	7cjU3U1g==;
+	bh=c+tJ9+pXjzfoMe27oQJxlEZYjN65qWA6DAx421PrG9Q=; b=zmrCt81+EmdkVMXQHlG8s6g0ky
+	IWLE5u1M5mMNv58Ul4ZMJHn5UKlbLOPpsXxCOvrQonYq52wp1tseYex43W0XmuBYCXidZcIrNHpRk
+	r/xfLLYHqkWLhmrY2IOjTIgibjR0d+buATI+yF1pFqSvm0HjMMhwK+0vGuAdehIsEBws1vq8leEmQ
+	3kcGW8tUyZ6YG5BISqKoDWC1B54Y1+EN8I0Mm7yN7kfuJ8Wa+yliNJ1RT0HnXmzDNv0l9jTu1QDX4
+	vo/x7DRioVsyWB4pxHFnzeyOxvfS/GJv2h1ges/4Ng4ygYMiDsiqZB3KnwLzfwy9xDZIspLROFOBV
+	2BBJ6E4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5oPn-0000000EyZq-0ryg;
-	Tue, 29 Oct 2024 15:45:51 +0000
+	id 1t5oPt-0000000EyeV-1lSq;
+	Tue, 29 Oct 2024 15:45:57 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5o4a-0000000Eu8u-1teb
+	id 1t5o5K-0000000Eubn-41jo
 	for linux-nvme@lists.infradead.org;
-	Tue, 29 Oct 2024 15:24:05 +0000
+	Tue, 29 Oct 2024 15:24:51 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5E913227A88; Tue, 29 Oct 2024 16:23:45 +0100 (CET)
-Date: Tue, 29 Oct 2024 16:23:45 +0100
+	id 856E2227A88; Tue, 29 Oct 2024 16:24:39 +0100 (CET)
+Date: Tue, 29 Oct 2024 16:24:39 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@meta.com>
 Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
@@ -37,18 +37,17 @@ Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org, hch@lst.de, joshi.k@samsung.com,
 	javier.gonz@samsung.com, bvanassche@acm.org,
 	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv10 4/9] block: allow ability to limit partition write
- hints
-Message-ID: <20241029152345.GA26431@lst.de>
-References: <20241029151922.459139-1-kbusch@meta.com> <20241029151922.459139-5-kbusch@meta.com>
+Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
+Message-ID: <20241029152438.GB26431@lst.de>
+References: <20241029151922.459139-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029151922.459139-5-kbusch@meta.com>
+In-Reply-To: <20241029151922.459139-1-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_082356_779876_4C9F0BC4 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20241029_082443_306295_B74C0901 
+X-CRM114-Status: GOOD (  10.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,23 +62,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 29, 2024 at 08:19:17AM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On Tue, Oct 29, 2024 at 08:19:13AM -0700, Keith Busch wrote:
+>   Return invalid value if user requests an invalid write hint
 > 
-> When multiple partitions are used, you may want to enforce different
-> subsets of the available write hints for each partition. Provide a
-> bitmap attribute of the available write hints, and allow an admin to
-> write a different mask to set the partition's allowed write hints.
+>   Added and exported a block device feature flag for indicating generic
+>   placement hint support
 
-This still offers all hints to all partitions by default, which still
-breaks all use cases where you have actual users of the stream separation
-on multiple paritions.
-
-Please assign either all resources to the first partition and none to
-the others (probably the easiest and useful for the most common use
-case) or split it evenly.
-
-Note that the bdev_max_streams value also needs to be adjusted to only
-return the number of streams actually available to a partition.
+But it still talks of write hints everywhere and conflates the write
+streams with the temperature hints which are completely different
+beasts.
 
 
