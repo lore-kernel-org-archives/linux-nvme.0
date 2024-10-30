@@ -4,67 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82C67D6B6DA
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 21:09:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8DE2D6B6DA
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 21:15:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W2MI4ZG4DKI6pU2RHBmoIzZE8LNeRrT05BK3Jbwi6UQ=; b=jTOWCRcYJSM+zpjZk+5F+INGfS
-	zbGUVefByqDu7rtg4mjsVMCcxEVyU47rtbPijavS13f9iFLLIEwbuIJzWpookvQBdjHSjYzIUU4tg
-	2Z6DcdGAwbDKJWaW41XncZOw/ED6ZHuVI7iPslYtdwoz8uSA6iNJiXt+BFJbw13w/YXIVjCsEDib8
-	ifV8LW3DSlbbit7Ws5znLpdw4P8FrGCNaPSeUYAe2wtVt60bdaApbAiYAVP0iTkrQGS2lBwzpe5pQ
-	S3aXh3jyMinWv1DY5JOZvXYnV2mfXIlX3UjWNMskhtm6ks2/MvniDn9tOwVGEPz6DXPVtjkcu8aPY
-	2M7KDQLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=b4DMBOXHUsK1o4aXcsj1mIAeGTxICrtIEl/X4S9aMmM=; b=z6FMcbOgTmLY8BBgBjEGIx1E1k
+	Wt+V6+g32dgpA3LfiGD234PDcrm9O6iGj+BETVvrdromkIbPVYwg/aGhA4TOC1IBQ92V8Hg/Ihfs/
+	/o2mXvcI3KnuooxpTujgTY0EQB6OsCC46O+bgIic7kNJH7WrcSOJX0W9PeC7fwJMjlV/MbxnKu69a
+	YN8QkDQdcP+eZgy1QmQDo2+mVxUy7Rxx8JVAgUBQevleWxNEMxf+tSqM3M9h3gYe04upMB5ke2Njh
+	2reu0mvV8KHJ4XmA0X5E/N7exEojXe0km0Mvb1yQfUpCVgk2RD5SGgO2Trro8KVM6T8B5b6DlGL0T
+	M/FQEdsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6Fwc-00000001mpC-0IPh;
-	Wed, 30 Oct 2024 21:09:34 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t6G2l-00000001o8E-3dHj;
+	Wed, 30 Oct 2024 21:15:55 +0000
+Received: from 009.lax.mailroute.net ([199.89.1.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6FwZ-00000001mol-07gH
+	id 1t6G2j-00000001o78-0qss
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 21:09:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 84F3DA43414;
-	Wed, 30 Oct 2024 21:07:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A5AC4CECE;
-	Wed, 30 Oct 2024 21:09:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730322569;
-	bh=NBQ38qs+AbyE0Vr5iDj8caZDO5/MYkzq0hD2+YnFywI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DAKgH6Pmk7D2XBp3rQzuXx0gmeaTve7/Q+dbQ3Anyg2ljqQvRnSqbacrTvbXsN5ou
-	 G8Fy8GdyHdrOacMUD2zMcHK37+gABPdJQGK2G/IWs5WhA4GRqbtM1Ns39tPviPAUCG
-	 UTsIBn5/d6xL267h9o1ECYi7+hqDK5lg0UVxm6czQgLXVjp9IhV3NNbPrErHeEYNsT
-	 hvxg4BlgiQ/CzplHAPDdiljSmVNrlRtXAZUimsNWCyZOl72QdmWE/5ETP0yc2xp3Ty
-	 MvW5EpmRDHStTsQrPev91kCO7hV9wdC4WP/F+aLzDNHfCuKb1kegKtFtE+T2b9PQ++
-	 BJArTVNMCczvQ==
-Date: Wed, 30 Oct 2024 15:09:26 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
-	asml.silence@gmail.com, brauner@kernel.org, viro@zeniv.linux.org.uk,
-	jack@suse.cz, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	gost.dev@samsung.com, vishak.g@samsung.com, anuj1072538@gmail.com,
-	Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH v6 06/10] io_uring/rw: add support to send metadata along
- with read/write
-Message-ID: <ZyKghoCwbOjAxXMz@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241030180112.4635-1-joshi.k@samsung.com>
- <CGME20241030181013epcas5p2762403c83e29c81ec34b2a7755154245@epcas5p2.samsung.com>
- <20241030180112.4635-7-joshi.k@samsung.com>
+	Wed, 30 Oct 2024 21:15:54 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4Xf0KN5GvpzlgMW3;
+	Wed, 30 Oct 2024 21:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1730322949; x=1732914950; bh=b4DMBOXHUsK1o4aXcsj1mIAe
+	GTxICrtIEl/X4S9aMmM=; b=zox8MNWgMID5qKcjZdijr0DcLrVbE5phS46vpu24
+	wrFxrcFoUCjZa2CDHmNRcfuOEvopYpTxUde44SD4j7i5fjKckz2WLPCYhxf96jYt
+	uEs30sP8COFtc0ARm32FHRAGZeHmslxs5iW3+2aJs8fTPL+mwdS5ROGgpDsgkYyd
+	flVIYEV1A1/kLmVGL2GYC/9Ur4dqBcVHn3gxyPdUjiuWDdGFwRC48zT8oShGWppD
+	F7f2l73E52JY4WcXgOKj5lpGAOglQ4k/2+r8uABoqeE8J4/GNyUQvcDI1a2UXZOh
+	iQnyofz45pN9aPpmgSsxjLqATqaSJ0eCNuHT6JgMPgawEQ==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id Khb2TIHA1NgX; Wed, 30 Oct 2024 21:15:49 +0000 (UTC)
+Received: from [IPV6:2a00:79e0:2e14:8:dff5:f005:4483:ce42] (unknown [104.135.204.82])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4Xf0KH031BzlgMVx;
+	Wed, 30 Oct 2024 21:15:46 +0000 (UTC)
+Message-ID: <4ee729b7-a3c5-493c-bcda-feb3e9aab5ff@acm.org>
+Date: Wed, 30 Oct 2024 14:15:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241030180112.4635-7-joshi.k@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv10 4/9] block: allow ability to limit partition write
+ hints
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, joshi.k@samsung.com, javier.gonz@samsung.com
+References: <20241029151922.459139-1-kbusch@meta.com>
+ <20241029151922.459139-5-kbusch@meta.com>
+ <a1ff3560-4072-4ecf-8501-e353b1c98bf0@acm.org>
+ <20241030044658.GA32344@lst.de>
+ <ZyKTACiLUsCEcJ-R@kbusch-mbp.dhcp.thefacebook.com>
+ <7f63ba9b-856b-4ca5-b864-de1b8f87d658@acm.org>
+ <ZyKY_xdxcM2aSMow@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ZyKY_xdxcM2aSMow@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_140931_156261_8A9740E5 
-X-CRM114-Status: GOOD (  16.36  )
+X-CRM114-CacheID: sfid-20241030_141553_295211_7F8A3A18 
+X-CRM114-Status: UNSURE (   7.91  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,64 +93,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 30, 2024 at 11:31:08PM +0530, Kanchan Joshi wrote:
-> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-> index 024745283783..48dcca125db3 100644
-> --- a/include/uapi/linux/io_uring.h
-> +++ b/include/uapi/linux/io_uring.h
-> @@ -105,6 +105,22 @@ struct io_uring_sqe {
->  		 */
->  		__u8	cmd[0];
->  	};
-> +	/*
-> +	 * If the ring is initialized with IORING_SETUP_SQE128, then
-> +	 * this field is starting offset for 64 bytes of data. For meta io
-> +	 * this contains 'struct io_uring_meta_pi'
-> +	 */
-> +	__u8	big_sqe[0];
-> +};
-> +
-> +/* this is placed in SQE128 */
-> +struct io_uring_meta_pi {
-> +	__u16		pi_flags;
-> +	__u16		app_tag;
-> +	__u32		len;
-> +	__u64		addr;
-> +	__u64		seed;
-> +	__u64		rsvd[2];
->  };
+On 10/30/24 1:37 PM, Keith Busch wrote:
+> But if by "not atomic", if you're just saying we need a barrier on the
+> bitmap_copy, like smp_mb__after_atomic(), then yeah, I see that's
+> probably appropriate here.
 
-On the previous version, I was more questioning if it aligns with what
-Pavel was trying to do here. I didn't quite get it, so I was more
-confused than saying it should be this way now.
+smp_mb__after_atomic() follows atomic operations. bitmap_copy() does not
+use any kind of atomic operation.
 
-But I personally think this path makes sense. I would set it up just a
-little differently for extended sqe's so that the PI overlays a more
-generic struct that other opcodes might find a way to use later.
-Something like:
+I'm wondering whether introducing a variant of bitmap_copy() that uses
+WRITE_ONCE() or smp_store_release() would be appropriate.
 
-struct io_uring_sqe_ext {
-	union {
-		__u32	rsvd0[8];
-		struct {
-			__u16		pi_flags;
-			__u16		app_tag;
-			__u32		len;
-			__u64		addr;
-			__u64		seed;
-		} rw_pi;
-	};
-	__u32	rsvd1[8];
-};
-  
-> @@ -3902,6 +3903,9 @@ static int __init io_uring_init(void)
->  	/* top 8bits are for internal use */
->  	BUILD_BUG_ON((IORING_URING_CMD_MASK & 0xff000000) != 0);
->  
-> +	BUILD_BUG_ON(sizeof(struct io_uring_meta_pi) >
-> +		     sizeof(struct io_uring_sqe));
+Thanks,
 
-Then this check would become:
+Bart.
 
-	BUILD_BUG_ON(sizeof(struct io_uring_sqe_ext) != sizeof(struct io_uring_sqe));
+
 
