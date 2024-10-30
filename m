@@ -4,102 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63235D5CCB6
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 15:00:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36305D5CCB3
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 15:13:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TcLMgJLbqvOSfHGThREfZnNbXvQVO2LcvPlc9fGCaS4=; b=FdHTp+6uftJvGKciJx9uV/P7Q7
-	cI10/k45I2csg9pyOG+dTOE6/WSrs7mKrO61HQ4CCi6rOotK2xsTIVmTO6rjPNqU7EeV6c/CCuA5P
-	DG84kTyy9TrdcevYngPzPUih6ZmhVxoxrhIurikAjRLY5qhZ1JU+hmhMhO/3GNQU2zOkcP3k82ls0
-	4wcSzt/mccm8O1kUtnfJnpBQlWGCiWhOkQlHkCjple7bKEVWqDE/UrS0G/bdnRdeu+5aye5YvWub1
-	nx4PmfLLxEHG1urbDp/j1BImFXdzazZgZi3Swd2G+tN6+4HG71STqv/8Bx1ZE72ytca2g2EihXoHr
-	Q0frFSFw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=oJghx1eV4PhdP9X0UIBXFkwX0UCVclfaa5qaRC6bos4=; b=AZfFnZluWnTTKvuqYMBexJI9wv
+	AMKwRR4fbwfQm3ghfp2yB1X+LfVWGSokJVUkrbLAFn3EM0LXypdS/Ug5jBMxU5Rt7k4DMIvXHNhmj
+	YzTajqGxqfZmzH8Nmwa/K3Jwp1/Hib/daXKarH2E3wsLO4Ftpu1o/f6Gp6yD084QzHhVvGTgdtrrn
+	PtJA3ahsIhPIjS9NMwRSQi634Y7v3p98mJBckia1I4PlDFaihzmEZh9b5/m5CNNI1vVX+TUxU44Wo
+	UqGTK7enPpZaQnHRHcMkcIYQLK5ww4fNe7w0dbHI7jJCFObQ40HuS6RsyWxjwfKBfp2nKFteyQ8E2
+	Bg3vyLUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6ABr-00000000l7H-0v1S;
-	Wed, 30 Oct 2024 15:00:55 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1t6ANy-00000000nD0-1ykl;
+	Wed, 30 Oct 2024 15:13:26 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t695Z-00000000Xpi-3rPP
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 30 Oct 2024 13:50:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=TcLMgJLbqvOSfHGThREfZnNbXvQVO2LcvPlc9fGCaS4=; b=m2yejOoRIDIBzzRAa3o5FF6Gzk
-	fsMKkWcWhN6rNwWSx5djZUgkfmyVCNuarM+uz9EzKDAFZ6dNv1gT0YrHTlcEVntalh2rZIQWR3d4X
-	StTBvnOidG/pbRRr6UfpL61Gso7wLCmSBBUXGWLRYqJ3G6+ES3fUvMAv/FarP8ovId5ExN2dJs585
-	upnklS5uB+jqx+VQv71xDRxeeThv0xz/xVzQ/LWkfCjCXsZodePDf8EBey/7fitPkI+K2f61/8T0C
-	jCKfl4NNvnurfcR2bDIfZVdcT7Vxudpzdbfwc8R6C25FsEWm2cXescMllCxmnEZXMROcknk+pvmp1
-	/r7RJXrA==;
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t695V-0000000AFlP-1x9E
+	id 1t6ANu-00000000nAP-3eg8
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 13:50:20 +0000
-Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-83aff992087so254550839f.3
-        for <linux-nvme@lists.infradead.org>; Wed, 30 Oct 2024 06:50:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1730296214; x=1730901014; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TcLMgJLbqvOSfHGThREfZnNbXvQVO2LcvPlc9fGCaS4=;
-        b=qMOVex3ZXosqxWl6vI1XQ/kqOPWDRgM2nAGMCpz4j34/1gMPRkdM1Wf2lArruzHY6n
-         8DXIlJ1MNbpFf9lbJ6oYgQExcsXZEhueYcoCxoHdV30E5/8ZjX2l9gTRSB3nAy7SXC4M
-         JsqG5Dd0oVCkitT+cH1T/TdYmDE5Dy7hBgADqePAvabjepgmUsiruo0kAqNdGEzSMjRu
-         oMvh6DOQqtAbtAWphMv4v1sTfOKmTj5M53TVeLcxpDjZFN4K8QR8F9XGK64heBvJat2F
-         GwXTa/hIRtbKkQJdy4BJNEEGJBzziMW9SBeDM9vZ6WRHqVzYw9mqq+H6tknNJ4hsducS
-         ZLsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730296214; x=1730901014;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TcLMgJLbqvOSfHGThREfZnNbXvQVO2LcvPlc9fGCaS4=;
-        b=aksnObYr/qyYAVA6LYELnNG7vC8GBXq5Idszq2CL22zhOXtj/mSf6L/4QjL/cSMtlL
-         Z7x4Q6agoDvaKk20C0gywfrbqy3OfMxsmQK+pAjMVhQ1PwMAgdQ3KtEW5FWHBRbAEtsX
-         DLgeGFsnmoNsqmMIDIl+rUb9jKAkItCeZnk914E1n6KOiX8s+aRqZQotkJo+ISYZvVrY
-         UXc0pHA4nCr5hj4cXxPbt3A1q3sWto6nvXxVgpAgFkZEAavcrC4f931snzssBBbf0MAV
-         PnazypsMC0gHtenXPjr3j450tDxBZ6xgVARidTDUlRZ4p2xWVio8wD0qqJzbWwScM0wP
-         kwPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8ZDYZ2COIc8fumDu+/61CruxRRu/X6KafwRuh/aw4OAjwRQXobcUX4iPXMVEVL6Sk7/FuMTnqQSZB@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzy2JzQCclSeVsNN4/VsvHTAHqh+jFRLOCTrRLoJz8aMV2c1fq1
-	eLvb4vdaIl0pVgB2Nf3ieObuEedA5pKZPuCqqBFmefOOfcTEI137XlUgBAVuMUE=
-X-Google-Smtp-Source: AGHT+IFv8nLJb1rfbeFNnAcRwDciARx886dwuGgEoPRb3VHS1G5E9Sb7txw7Pj8IXgcazvLW80HH+A==
-X-Received: by 2002:a05:6602:340a:b0:82a:a8af:626f with SMTP id ca18e2360f4ac-83b1c3b88e3mr1355346639f.2.1730296214052;
-        Wed, 30 Oct 2024 06:50:14 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dc72781d02sm2831576173.135.2024.10.30.06.50.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Oct 2024 06:50:13 -0700 (PDT)
-Message-ID: <75331d62-fb0b-41ef-9a47-2bbe78e09f9f@kernel.dk>
-Date: Wed, 30 Oct 2024 07:50:12 -0600
+	Wed, 30 Oct 2024 15:13:24 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1CEE35C5E8C;
+	Wed, 30 Oct 2024 15:12:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12AF6C4CED0;
+	Wed, 30 Oct 2024 15:13:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730301200;
+	bh=BPbjQPb6vGxydr+aOv/vfeRL/hbb2O9lYDlE3QJn810=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gCP46uYgAbBaI3H7fz/S8et11Yja3YaPso3wiIP1VABNA/Cw7GX7ylsdhwfYayuLN
+	 tvqEai8WwN5iYR5Fhi//NTee44xw07H0gUQ9GqWAIjaeptBjzdT5GrGfQ/TGUYfAKO
+	 7aDmA75HZ9TBEa0PI5aYKbQEau7P7laA9c+jxlBKHqxlEc3bj5Y0FSmX/h4YZTfcI2
+	 knjpXENs520PV7RRQEEr0W82jk+5mf7brt08Ba5elyHnS9fSx+le8ADdVhAE1Qju61
+	 JxO6MZ5Ey8fhyWUsyAm5P+5M1vp0qBfzfnYftLY6UQeDGK5n/E9Pyvw3w6TZBBaPxu
+	 cb1zWIi5tJ4sg==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Date: Wed, 30 Oct 2024 17:12:46 +0200
+Message-ID: <cover.1730298502.git.leon@kernel.org>
+X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] blk-integrity: remove seed for user mapped buffers
-From: Jens Axboe <axboe@kernel.dk>
-To: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
- hch@lst.de, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: anuj20.g@samsung.com, martin.petersen@oracle.com,
- Keith Busch <kbusch@kernel.org>
-References: <CGME20241016201337epcas5p33625af2c67f92092078b0b43874d67bd@epcas5p3.samsung.com>
- <20241016201309.1090320-1-kbusch@meta.com>
- <5220b70f-13e9-4f73-b611-97235db87ed5@samsung.com>
- <c156bc1f-da5c-4522-8e5d-b138a94cb7d2@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <c156bc1f-da5c-4522-8e5d-b138a94cb7d2@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_135017_716758_D7899E0A 
-X-CRM114-Status: UNSURE (   8.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241030_081323_023449_74DBE248 
+X-CRM114-Status: GOOD (  23.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,19 +93,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/30/24 7:47 AM, Jens Axboe wrote:
-> On 10/30/24 7:38 AM, Kanchan Joshi wrote:
->> Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
->>
->> Jens,
->> Please see if this can be picked.
->> Helps to reduce a dependency for io_uring metadata series.
-> 
-> Keith, is this queued in the nvme tree?
+Changelog:
+v1: 
+ * Squashed two VFIO patches into one
+ * Added Acked-by/Reviewed-by tags
+ * Fix docs spelling errors
+ * Simplified dma_iova_sync() API
+ * Added extra check in dma_iova_destroy() if mapped size to make code more clear
+ * Fixed checkpatch warnings in p2p patch
+ * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+   be more general
+ * Reduced the number of changes in VFIO patch
+v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
 
-Doesn't look like it is, picked it up.
+----------------------------------------------------------------------------
+The code can be downloaded from:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-oct-30
+
+----------------------------------------------------------------------------
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
+
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the impossibility
+of improving the scatterlist.
+
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO, rlist), instead split up the DMA API
+to allow callers to bring their own data structure.
+
+The API is split up into parts:
+ - Allocate IOVA space:
+    To do any pre-allocation required. This is done based on the caller
+    supplying some details about how much IOMMU address space it would need
+    in worst case.
+ - Map and unmap relevant structures to pre-allocated IOVA space:
+    Perform the actual mapping into the pre-allocated IOVA. This is very
+    similar to dma_map_page().
+
+In this and the next series [1], examples of three different users are converted
+to the new API to show the benefits and its versatility. Each user has a unique
+flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
+
+To make the use of the new API easier, HMM and block subsystems are extended
+to hide the optimization details from the caller. Among these optimizations:
+ * Memory reduction as in most real use cases there is no need to store mapped
+   DMA addresses and unmap them.
+ * Reducing the function call overhead by removing the need to call function
+   pointers and use direct calls instead.
+
+This step is first along a path to provide alternatives to scatterlist and
+solve some of the abuses and design mistakes, for instance in DMABUF's P2P
+support.
+
+Thanks
+
+[1] This still points to v0, as the change is just around handling dma_iova_sync():
+https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org
+
+Christoph Hellwig (6):
+  PCI/P2PDMA: Refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
+
+Leon Romanovsky (11):
+  dma-mapping: Add check if IOVA can be used
+  dma: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  mm/hmm: provide generic DMA managing logic
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+    linkage
+  RDMA/umem: Separate implicit ODP initialization from explicit ODP
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Convert vfio to use DMA link API
+
+ Documentation/core-api/dma-api.rst   |  70 ++++
+ drivers/infiniband/core/umem_odp.c   | 250 +++++----------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+ drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+ drivers/iommu/dma-iommu.c            | 459 +++++++++++++++++++++++----
+ drivers/iommu/iommu.c                |  65 ++--
+ drivers/pci/p2pdma.c                 |  38 +--
+ drivers/vfio/pci/mlx5/cmd.c          | 373 +++++++++++-----------
+ drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+ drivers/vfio/pci/mlx5/main.c         |  87 +++--
+ include/linux/dma-map-ops.h          |  54 ----
+ include/linux/dma-mapping.h          |  85 +++++
+ include/linux/hmm-dma.h              |  32 ++
+ include/linux/hmm.h                  |  16 +
+ include/linux/iommu.h                |   4 +
+ include/linux/pci-p2pdma.h           |  84 +++++
+ include/rdma/ib_umem_odp.h           |  25 +-
+ kernel/dma/direct.c                  |  44 +--
+ kernel/dma/mapping.c                 |  20 ++
+ mm/hmm.c                             | 231 +++++++++++++-
+ 21 files changed, 1377 insertions(+), 684 deletions(-)
+ create mode 100644 include/linux/hmm-dma.h
 
 -- 
-Jens Axboe
+2.46.2
 
 
