@@ -4,100 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA751D5CC90
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 10:53:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF48FD5CC90
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 10:57:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ECcuUa4n8Wg3A4bmaGVaTwDzsk+NN6RRKOc0k65NBpE=; b=Q8Wcr84tBojH4BEY1brpKGxAqE
-	KuPPaVhxMkFPNdEh3Nccr+g98EZm1GhLcuiQzZ7rXwnWwGsRJB5Yvo9ypltK/ek2HOMFfC7+f6hKu
-	3TU1gUOhVkrjSFU3p47L3nmd1KMs3mqU135hC1+P18HaUGUbcLKfoRjDH5otv7dT99EP+YkHI/Hhv
-	4DwRQaJUdNtWAl9zia3W4kypDdu7kY8LAxEaUBCAXP6dcTxy4xkCgra3W3aabCfli1ClRRkZYt5AW
-	6plBbJnBuVR/FxCRo8d/XRD8GsETkKtwRIkxzTvJAerGGsWnlQDvOrbuWbgevNI2bzSSVvN5stI3j
-	PFt22xLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FyUXJiJIYIFu7kVbAjykW3OEpUWD1F6lXY4yFIsWGxQ=; b=N1e/DqSa839lz/QF/vBG/8oUak
+	fXo+t04zBgsMqbtTq6PIMOGW60O7kzt4PxQlzNDKLEVMoCWdQzHw1veYkq5bhcekJ3w3FinlGeaAo
+	8/5CmylOx6jPkJYdWmT8MMGfehUOtLAJ7kYpzMevE00MWEytjCGFUXauPZJzp8gPzbjc1ZHVmYLjK
+	HDqj2IjHciDt2i64rtw0ortU8/w6jOpXNct/vI3ZTqEYzpeq1GesOaAmGybnbd+iHVYiMNh21JEWV
+	YJi49QIT0d1hJvCl2CyBxYp/NXRkmD/vJNyQ7+x5aR7z1bQK0wLemFHCE49t+GQuM7y4v33bXYV7C
+	tlhjz/+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t66KV-000000001XK-2fNr;
-	Wed, 30 Oct 2024 10:53:35 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1t66Nm-000000002I4-3xSK;
+	Wed, 30 Oct 2024 10:56:58 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t665w-0000000Ha91-1hPQ
+	id 1t669U-0000000HakA-3t5j
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 10:38:34 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U2d092001955;
-	Wed, 30 Oct 2024 10:38:23 GMT
+	Wed, 30 Oct 2024 10:42:14 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U2d3HM024028;
+	Wed, 30 Oct 2024 10:42:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ECcuUa
-	4n8Wg3A4bmaGVaTwDzsk+NN6RRKOc0k65NBpE=; b=qe7iMCqSTWNpdaONNN1i5R
-	6ycgyNI+x205cYIrguHcgiJWLDa6eDzoDucH9nyYFyiubPI3duOOcMzBT1Bh1wok
-	ZWjNPrB2b1asx7oWmYdlrxuXc9f6sw6tGQOj8f390cY3EliJOUJYQa1q1d/VFgzX
-	nEbRGs1Ypay3wOWEhKMeZGkRyWOqTp3TZgRCujOsfQ9KZsu/c4NJ0rCMI5gW2AfI
-	ZSQ77+N9aFEb057WfuzPRTsfiRD8Yx9y0QofZh3yHCYGGN1rU5sjCEBUCOh6/BIX
-	JsheCo1GEyD71Yv8kSFsQa5rVzP9uZQ0RVAGUL/wrj4Yg7PIBXvwLl+Lp1AoAU0Q
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42j43g6h37-1
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=FyUXJiJIYIFu7kVbAjykW3OEpUWD
+	1F6lXY4yFIsWGxQ=; b=OiAjFKKZ94Erj0oEk8Rn8ojxfIVJg+PwQ9/bXF8SVqiw
+	2usi0sS3RcmirrMrMQE9vgONUGWYxWf7L7R/IPm+GLZ5Cgs5inxs45pKyViUOnDl
+	1BfR1OtpLOUnJ8h3Y6HtplKmQ+zcLIWT2K6A1oIAv5zD6mOb/n7ef2VdxA+4+ySy
+	Ed7qBek35YSsczyYbDgjsjCGYo0MHtr70VoF7kzrQsFJZGG5BQXirIqXWdn0AzPD
+	PM0pR5iqTrIKlglMFRYcteB0gqs0nu+6FduDDJlHI0NAj6YjmHn/83qIGP+3AQ+O
+	LGrYAV9Aoi53PMh8sDQZnFuT8lauYqFr7/yU+/ta6A==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42jyhbn9hy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 10:38:23 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49U8tfp9015831;
-	Wed, 30 Oct 2024 10:38:22 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 42hdf1f8kp-1
+	Wed, 30 Oct 2024 10:42:04 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49U7AgF6028216;
+	Wed, 30 Oct 2024 10:42:04 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42hb4xyqy8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 10:38:22 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49UAcLFU57672168
+	Wed, 30 Oct 2024 10:42:04 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49UAg0CU50463132
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 30 Oct 2024 10:38:22 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 98A735811E;
-	Wed, 30 Oct 2024 10:38:21 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A2C5158118;
-	Wed, 30 Oct 2024 10:38:18 +0000 (GMT)
-Received: from [9.171.67.17] (unknown [9.171.67.17])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 30 Oct 2024 10:38:18 +0000 (GMT)
-Message-ID: <aca10f02-2c64-4ad8-867a-e226d6d61a80@linux.ibm.com>
-Date: Wed, 30 Oct 2024 16:08:16 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvme-fabrics: fix kernel crash while shutting down
- controller
-To: Ming Lei <ming.lei@redhat.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
-        sagi@grimberg.me, axboe@fb.com, chaitanyak@nvidia.com,
-        dlemoal@kernel.org, gjoyce@linux.ibm.com
-References: <20241027170209.440776-1-nilay@linux.ibm.com>
- <20241027170209.440776-3-nilay@linux.ibm.com> <ZyCNiuYQw7_7IzJb@fedora>
- <ff8baedc-3aa9-4277-8753-282f3744ae2b@linux.ibm.com>
- <ZyGX8jCZVXwbhI89@fedora>
-Content-Language: en-US
+	Wed, 30 Oct 2024 10:42:00 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3353E2004D;
+	Wed, 30 Oct 2024 10:42:00 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2D9162004B;
+	Wed, 30 Oct 2024 10:41:58 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.67.17])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 30 Oct 2024 10:41:57 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ZyGX8jCZVXwbhI89@fedora>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xDOKR6mWp_NEtRjP3ckXpT1QDkWMLGQk
-X-Proofpoint-ORIG-GUID: xDOKR6mWp_NEtRjP3ckXpT1QDkWMLGQk
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, sagi@grimberg.me, hare@suse.de, kbusch@kernel.org,
+        hch@lst.de, =axboe@fb.com, gjoyce@linux.ibm.com,
+        Nilay Shroff <nilay@linux.ibm.com>
+Subject: [PATCHv5 RFC 0/3] Add visibility for native NVMe multipath using sysfs
+Date: Wed, 30 Oct 2024 16:11:40 +0530
+Message-ID: <20241030104156.747675-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: y6_d0i5ZWoDAOPc6iXP6-dNBC0VFJhup
+X-Proofpoint-ORIG-GUID: y6_d0i5ZWoDAOPc6iXP6-dNBC0VFJhup
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
- adultscore=0 mlxscore=0 priorityscore=1501 spamscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410300076
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ suspectscore=0 phishscore=0 impostorscore=0 mlxlogscore=999 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410300080
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_033832_564550_5F4EF3C6 
-X-CRM114-Status: GOOD (  32.20  )
+X-CRM114-CacheID: sfid-20241030_034213_144741_A8AD07B8 
+X-CRM114-Status: GOOD (  23.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,134 +103,190 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
+
+This RFC propose adding new sysfs attributes for adding visibility of
+nvme native multipath I/O.
+
+The changes are divided into three patches.
+The first patch adds visibility for round-robin io-policy.
+The second patch adds visibility for numa io-policy.
+The third patch adds the visibility for queue-depth io-policy.
+
+As we know, NVMe native multipath supports three different io policies
+(numa, round-robin and queue-depth) for selecting I/O path, however, we
+don't have any visibility about which path is being selected by multipath
+code for forwarding I/O. This RFC helps add that visibility by adding new
+sysfs attribute files named "numa_nodes" and "queue_depth" under each
+namespace block device path /sys/block/nvmeXcYnZ/. We also create a
+"multipath" sysfs directory under head disk node and then from this
+directory add a link to each namespace path device this head disk node
+points to.
+
+Please find below output generated with this proposed RFC patch applied on
+a system with two multi-controller PCIe NVMe disks attached to it. This
+system is also an NVMf-TCP host which is connected to an NVMf-TCP target
+over two NIC cards. This system has four numa nodes online when the below
+output was captured:
+
+# cat /sys/devices/system/node/online
+0-3
+
+# lscpu
+<snip>
+NUMA:
+  NUMA node(s):           4
+  NUMA node0 CPU(s):
+  NUMA node1 CPU(s):      0-7
+  NUMA node2 CPU(s):      8-31
+  NUMA node3 CPU(s):      32-63
+<snip>
+
+Please note that numa node 0 though online, doesn't have any CPU
+currently assigned to it.
+
+# nvme list -v
+Subsystem        Subsystem-NQN                                                                                    Controllers
+---------------- ------------------------------------------------------------------------------------------------ ----------------
+nvme-subsys1     nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057                                     nvme0, nvme1
+nvme-subsys3     nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1                                                 nvme2, nvme3
+nvme-subsys4     nvmet_subsystem                                                                                  nvme4, nvme5
+
+Device           Cntlid SN                   MN                                       FR       TxPort Address        Slot   Subsystem    Namespaces
+---------------- ------ -------------------- ---------------------------------------- -------- ------ -------------- ------ ------------ ----------------
+nvme0    66     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   052e:78:00.0   U50EE.001.WZS000E-P3-C14-R1 nvme-subsys1 nvme1n1
+nvme1    65     S6RTNE0R900057       3.2TB NVMe Gen4 U.2 SSD III              REV.SN66 pcie   058e:78:00.0   U50EE.001.WZS000E-P3-C14-R2 nvme-subsys1 nvme1n1
+nvme2    2      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0524:28:00.0   U50EE.001.WZS000E-P3-C4-R1 nvme-subsys3 nvme3n1
+nvme3    1      3D60A04906N1         1.6TB NVMe Gen4 U.2 SSD IV               REV.CAS2 pcie   0584:28:00.0   U50EE.001.WZS000E-P3-C4-R2 nvme-subsys3 nvme3n1
+nvme4    1      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100        nvme-subsys4 nvme4n1
+nvme5    2      a224673364d1dcb6fab9 Linux                                    6.9.0-rc tcp    traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100        nvme-subsys4 nvme4n1
+
+Device            Generic           NSID       Usage                      Format           Controllers
+----------------- ----------------- ---------- -------------------------- ---------------- ----------------
+/dev/nvme1n1 /dev/ng1n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme0, nvme1
+/dev/nvme3n1 /dev/ng3n1   0x2          0.00   B /   5.75  GB      4 KiB +  0 B   nvme2, nvme3
+/dev/nvme4n1 /dev/ng4n1   0x1          5.75  GB /   5.75  GB      4 KiB +  0 B   nvme4, nvme5
 
 
-On 10/30/24 07:50, Ming Lei wrote:
-> On Tue, Oct 29, 2024 at 06:10:00PM +0530, Nilay Shroff wrote:
->>
->>
->> On 10/29/24 12:53, Ming Lei wrote:
->>> On Sun, Oct 27, 2024 at 10:32:05PM +0530, Nilay Shroff wrote:
->>>> The nvme keep-alive operation, which executes at a periodic interval,
->>>> could potentially sneak in while shutting down a fabric controller.
->>>> This may lead to a race between the fabric controller admin queue
->>>> destroy code path (invoked while shutting down controller) and hw/hctx
->>>> queue dispatcher called from the nvme keep-alive async request queuing
->>>> operation. This race could lead to the kernel crash shown below:
->>>>
->>>> Call Trace:
->>>>     autoremove_wake_function+0x0/0xbc (unreliable)
->>>>     __blk_mq_sched_dispatch_requests+0x114/0x24c
->>>>     blk_mq_sched_dispatch_requests+0x44/0x84
->>>>     blk_mq_run_hw_queue+0x140/0x220
->>>>     nvme_keep_alive_work+0xc8/0x19c [nvme_core]
->>>>     process_one_work+0x200/0x4e0
->>>>     worker_thread+0x340/0x504
->>>>     kthread+0x138/0x140
->>>>     start_kernel_thread+0x14/0x18
->>>>
->>>> While shutting down fabric controller, if nvme keep-alive request sneaks
->>>> in then it would be flushed off. The nvme_keep_alive_end_io function is
->>>> then invoked to handle the end of the keep-alive operation which
->>>> decrements the admin->q_usage_counter and assuming this is the last/only
->>>> request in the admin queue then the admin->q_usage_counter becomes zero.
->>>> If that happens then blk-mq destroy queue operation (blk_mq_destroy_
->>>> queue()) which could be potentially running simultaneously on another
->>>> cpu (as this is the controller shutdown code path) would forward
->>>> progress and deletes the admin queue. So, now from this point onward
->>>> we are not supposed to access the admin queue resources. However the
->>>> issue here's that the nvme keep-alive thread running hw/hctx queue
->>>> dispatch operation hasn't yet finished its work and so it could still
->>>> potentially access the admin queue resource while the admin queue had
->>>> been already deleted and that causes the above crash.
->>>>
->>>> The above kernel crash is regression caused due to changes implemented
->>>> in commit a54a93d0e359 ("nvme: move stopping keep-alive into
->>>> nvme_uninit_ctrl()"). Ideally we should stop keep-alive at the very
->>>> beggining of the controller shutdown code path so that it wouldn't
->>>> sneak in during the shutdown operation. However we removed the keep
->>>> alive stop operation from the beginning of the controller shutdown
->>>> code path in commit a54a93d0e359 ("nvme: move stopping keep-alive into
->>>> nvme_uninit_ctrl()") and that now created the possibility of keep-alive
->>>> sneaking in and interfering with the shutdown operation and causing
->>>> observed kernel crash. So to fix this crash, now we're adding back the
->>>> keep-alive stop operation at very beginning of the fabric controller
->>>> shutdown code path so that the actual controller shutdown opeation only
->>>> begins after it's ensured that keep-alive operation is not in-flight and
->>>> also it can't be scheduled in future.
->>>>
->>>> Fixes: a54a93d0e359 ("nvme: move stopping keep-alive into nvme_uninit_ctrl()")
->>>> Link: https://lore.kernel.org/all/196f4013-3bbf-43ff-98b4-9cb2a96c20c2@grimberg.me/#t
->>>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->>>> ---
->>>>  drivers/nvme/host/core.c | 5 +++++
->>>>  1 file changed, 5 insertions(+)
->>>>
->>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>> index 5016f69e9a15..865c00ea19e3 100644
->>>> --- a/drivers/nvme/host/core.c
->>>> +++ b/drivers/nvme/host/core.c
->>>> @@ -4648,6 +4648,11 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
->>>>  {
->>>>  	nvme_mpath_stop(ctrl);
->>>>  	nvme_auth_stop(ctrl);
->>>> +	/*
->>>> +	 * the transport driver may be terminating the admin tagset a little
->>>> +	 * later on, so we cannot have the keep-alive work running
->>>> +	 */
->>>> +	nvme_stop_keep_alive(ctrl);
->>>>  	nvme_stop_failfast_work(ctrl);
->>>>  	flush_work(&ctrl->async_event_work);
->>>>  	cancel_work_sync(&ctrl->fw_act_work);
->>>
->>> The change looks fine.
->>>
->>> IMO the `nvme_stop_keep_alive` in nvme_uninit_ctrl() may be moved to
->>> entry of nvme_remove_admin_tag_set(), then this one in nvme_stop_ctrl()
->>> can be saved?
->>>
->> Yes that should work however IMO, stopping keep-alive at very beginning of
->> shutdown operation would make sense because delaying the stopping of keep-alive 
->> would not be useful anyways once we start the controller shutdown. It may
->> sneak in unnecessarily while we shutdown controller and later we will have to 
->> flush it off.
->>
->> And yes, as you mentioned, in this case we would save one call site but 
->> looking at the code we have few other call sites already present where we
->> call nvme_stop_keep_alive().
-> 
-> If it works, I'd suggest to move nvme_stop_keep_alive() from
-> nvme_uninit_ctrl() into nvme_remove_admin_tag_set() because:
-> 
-> 1) it isn't correct to do it in nvme_uninit_ctrl()
-> 
-> 2) stop keep alive in nvme_remove_admin_tag_set() covers everything
-> 
-> 3) most of nvme_stop_keep_alive() can be removed in failure path
-> 
+# nvme show-topology
+nvme-subsys1 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:S6RTNE0R900057
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=numa
+\
+ +- ns 1
+ \
+  +- nvme0 pcie 052e:78:00.0 live optimized
+  +- nvme1 pcie 058e:78:00.0 live optimized
 
-Moving nvme_stop_keep_alive() from nvme_uninit_ctrl() to nvme_remove_admin_
-tag_set() works, I tested it with blktest nvme/037. However, I am afraid 
-that we may not be able to remove most of nvme_stop_keep_alive() from the
-failure/recovery code path. The reason being, in most of the failure/recovery
-code path we don't invoke nvme_remove_admin_tag_set(). 
+nvme-subsys3 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:3D60A04906N1
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=round-robin
+\
+ +- ns 2
+ \
+  +- nvme2 pcie 0524:28:00.0 live optimized
+  +- nvme3 pcie 0584:28:00.0 live optimized
 
-For instance, in case of nvme_tcp_error_recovery_work(), the nvme_remove_
-admin_tag_set() is not invoked and we explicitly call nvme_stop_keep_alive(). 
-The same is true for error recovery case of nvme rdma.
+nvme-subsys4 - NQN=nvmet_subsystem
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
+               iopolicy=queue-depth
+\
+ +- ns 1
+ \
+  +- nvme4 tcp traddr=20.0.0.200,trsvcid=4420,src_addr=20.0.0.100 live optimized
+  +- nvme5 tcp traddr=10.0.0.200,trsvcid=4420,src_addr=10.0.0.100 live optimized
 
-Another example when nvme_tcp_setup_ctrl fails, we don't call nvme_remove_
-admin_tag_set() but we explicitly call the nvme_stop_keep_alive(). 
+As we could see above, we've three shared namespaces created. In terms of
+iopolicy, we have "numa" configured for nvme-subsys1, "round-robin"
+configured for nvme-subsys3 and "queue-depth" configured for nvme-subsys4.
 
-Third example while resetting tcp/rdam ctrl, we don't call nvme_remove_admin_
-tag_set() but we explicitly call the nvme_stop_keep_alive().
+Now, under each namespace "head disk node", we create a sysfs group
+attribute named "multipath". The "multipath" group then points to the
+each path this head disk node points to:
 
-In your first point above, you mentioned that calling nvme_stop_keep_alive()
-from nvme_uninit_ctrl() isn't correct, would you please explain why is it so, 
-considering fact that we call nvme_start_keep_alive() from nvme_init_ctrl_
-finish()?
+# tree /sys/block/nvme1n1/multipath/
+/sys/block/nvme1n1/multipath/
+├── nvme1c0n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme0/nvme1c0n1
+└── nvme1c1n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme1/nvme1c1n1
 
-Thanks,
---Nilay
+# tree /sys/block/nvme3n1/multipath/
+/sys/block/nvme3n1/multipath/
+├── nvme3c2n1 -> ../../../../../pci0524:28/0524:28:00.0/nvme/nvme2/nvme3c2n1
+└── nvme3c3n1 -> ../../../../../pci0584:28/0584:28:00.0/nvme/nvme3/nvme3c3n1
+
+# tree /sys/block/nvme4n1/multipath/
+/sys/block/nvme4n1/multipath/
+├── nvme4c4n1 -> ../../../../nvme-fabrics/ctl/nvme4/nvme4c4n1
+└── nvme4c5n1 -> ../../../../nvme-fabrics/ctl/nvme5/nvme4c5n1
+
+One can easily infer from the above output that for the "round-robin"
+I/O policy, configured under nvme-subsys3, the I/O workload targeted at
+nvme3n1 would toggle across nvme3c2n1 and nvme3c3n1 assuming the ana state
+of each path is optimized (as can be seen in the output of show-topology).
+
+For numa I/O policy, configured under nvme-subsys1, the "numa_nodes"
+attribute file shows the numa nodes being preferred by the respective
+namespace path. The numa nodes value is comma delimited list of nodes or
+A-B range of nodes.
+
+# cat  /sys/block/nvme1n1/multipath/nvme1c0n1/numa_nodes
+0-1
+
+# cat  /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
+2-3
+
+From the above output, one can easily infer that I/O workload targeted at
+nvme1n1 and running on numa nodes 0 and 1 would use path nvme1c0n1.
+Similarly, I/O workload running on numa nodes 2 and 3 would use path
+nvme1c1n1.
+
+For queue-depth I/O policy, configured under nvme-subsys4, the "queue_depth"
+attribute file shows the number of active/in-flight I/O requests currently
+queued for each path.
+
+# cat  /sys/block/nvme4n1/multipath/nvme4c4n1/queue_depth
+518
+
+# cat  /sys/block/nvme4n1/multipath/nvme4c5n1/queue_depth
+504
+
+From the above output, one can easily infer that I/O workload targeted at
+nvme4n1 uses two paths nvme4c4n1 and nvme4c5n1 and the current queue depth
+of each path is 518 and 504 respectively.
+
+changes since v4:
+    - Ensure that we create sysfs link from head gendisk node to each path
+      device irrespective of the ANA state of the path (Hannes Reinecke)
+    - Split the patch into three patch series and add commentary in the
+      code so that it's easy to read and understand the core logic (Sagi
+      Grimberg)
+    - Don't show any output if user reads "numa_nodes" file and configured
+      iopolicy is anything but numa; similarly don't emit any output if user
+      reads "queue_depth" file and configured iopolicy is anything but
+      queue-depth (Sagi Grimberg)
+
+Changes since v3:
+    - Protect the namespace dereference code with srcu read lock (Daniel Wagner)
+
+Changes since v2:
+    - Use one value per one sysfs attribute (Keith Busch)
+
+Changes since v1:
+    - Use sysfs to export multipath I/O information instead of debugfs
+
+
+Nilay Shroff (3):
+  nvme-multipah: Add visibility for round-robin io-policy
+  nvme-multipath: Add visibility for numa io-policy
+  nvme-multipath: Add visibility for queue-depth io-policy
+
+ drivers/nvme/host/core.c      |   3 +
+ drivers/nvme/host/multipath.c | 120 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      |  20 ++++--
+ drivers/nvme/host/sysfs.c     |  20 ++++++
+ 4 files changed, 159 insertions(+), 4 deletions(-)
+
+-- 
+2.45.2
 
 
