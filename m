@@ -4,128 +4,167 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2E8FD6B6B7
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 18:12:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42D44D6B6BB
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 18:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6pisa7CqgV+3Ji79lmJB+2Ri7+98WW38tiiGMkWrIyE=; b=JkZog2Xk14w4oDpnx3csF4ATC5
-	4zEY1ivzeEYo6+aoCriZJiSihJ2RvRKfY4cgEn+R1KmN1wIA5L+YQwP5ZIfFT1txGU+gFhTFKsk2+
-	9ykT5opHaXIj6S7y72CRd+tASRIUu6tiIAlLQemjDqkiZluUdG1e2XUu8Y0BHUiMT/GepRov4AeY2
-	7J+K5JKL33hCMZOZ9083l+OmiixDkFejgvXB5QJrqDPaQws6+ax9/PwlSsDgPNf5wAkFLAvZ/6Qt4
-	9+0Zvt/mq+7CMBjOWRa377Tk3jngbFsCpbM703c5Fe8bZtz/T1dfDBxH7R36Zhw7PBgTaO++xZNI4
-	xS5byMUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0GwxfX4xhsfov/4tgIUmZ+MOByNEyN2eSOBlhW28ii0=; b=XBOmAAWcLRQKodsTrmHIUx+FKa
+	hsEP1bCPwFc1xpAAu7uzTkDwL6ZdqVsE0DHx483U0ZnUF2VQoOWD5toK38NZSCyUna5WvkoZOzm3d
+	GN1bFpqnxBoP6q7THrb4mvzCAiMsp5+bWWyvuVMYutYByr2sBvACqwLlUOTHxnPqegFQgctWIpO3V
+	vhlH3ZibVREbHge7NIOKxiML1Yyw7kACtuzob+ZHMbHvqHu5waibsHxgVXUg5BaPg7Ra3S3lhoVgr
+	tKCCXVWQIrn0u9bq01yM9h9tpk/eDQJ4sKPmREpqlknvdrb0t1OaOHTx1aiSSzQqeF+DRsveIm14C
+	AQ7iF/Rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6DAx-00000001OR6-2Ipy;
-	Wed, 30 Oct 2024 18:12:11 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1t6DWq-00000001RXE-3DG6;
+	Wed, 30 Oct 2024 18:34:48 +0000
+Received: from mail-dm6nam10on20630.outbound.protection.outlook.com ([2a01:111:f403:2413::630] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6D9K-00000001NdK-0OUR
+	id 1t6DWa-00000001RSn-04BL
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 18:10:32 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241030181027epoutp0211fd7dbff380d16356f89a2b94ad75a0~DTXCC6tq51878518785epoutp02D
-	for <linux-nvme@lists.infradead.org>; Wed, 30 Oct 2024 18:10:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241030181027epoutp0211fd7dbff380d16356f89a2b94ad75a0~DTXCC6tq51878518785epoutp02D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1730311827;
-	bh=6pisa7CqgV+3Ji79lmJB+2Ri7+98WW38tiiGMkWrIyE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QWE0WHPtMNUKYj/ojP3rJ/uMkWM83TafJvgZd+vnSQEbQtR8WgZp86Icefz/oQ04p
-	 Wx3GZGkTZxwfGJp8Ov87cegAGzRCEoSIDEJpWoxKJ52IQw2T7OnFvy/pWtDhMfVOp7
-	 0GtfJiVGRa1qSrJWYkjIumw+7BKqPCTc4TEUYGU4=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20241030181026epcas5p370b50f7a4e3c989922db0c76ace9f85a~DTXBXS8IJ3148631486epcas5p3K;
-	Wed, 30 Oct 2024 18:10:26 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4XdwCP04xQz4x9Pp; Wed, 30 Oct
-	2024 18:10:25 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	FB.10.09420.09672276; Thu, 31 Oct 2024 03:10:24 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20241030181024epcas5p3964697a08159f8593a6f94764f77a7f3~DTW-St93v1475114751epcas5p39;
-	Wed, 30 Oct 2024 18:10:24 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20241030181024epsmtrp1a10cae8d245639d8d65820f82c49722b~DTW-R3qtN0151201512epsmtrp1A;
-	Wed, 30 Oct 2024 18:10:24 +0000 (GMT)
-X-AuditID: b6c32a49-0d5ff700000024cc-01-67227690d601
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	9F.78.08229.09672276; Thu, 31 Oct 2024 03:10:24 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20241030181021epsmtip24b0ee33856d7ce1e54ed3e737bc522d5~DTW8xCjos0487504875epsmtip2-;
-	Wed, 30 Oct 2024 18:10:21 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, asml.silence@gmail.com, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz
-Cc: linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org, gost.dev@samsung.com, vishak.g@samsung.com,
-	anuj1072538@gmail.com, Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: [PATCH v6 10/10] block: add support to pass user meta buffer
-Date: Wed, 30 Oct 2024 23:31:12 +0530
-Message-Id: <20241030180112.4635-11-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241030180112.4635-1-joshi.k@samsung.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGc+4tbcEUL9WFM0y0XpUFtmKrpR4WYSwgXIYjKDOZksDu6E1h
-	0N6mt0WcGOoQwteQ4YwrsOkMRSxbMYgMB0wsEkYyYcNtfCwM3IpDGAtK5HOy9cvN/5487+89
-	73nOhxAX3+UHCbO0BkavpXNIvh+vrSckVFqVS6pllh4FevRkjYc+qHqKozprG0BN42f5aLbn
-	MUCj3TcxdLWpF0N/FQ3wUO2FQgz1/jPHR9X2nwHqGnsZdXb189DFhikBKh9u56MrfesYGnza
-	54MGa+oE0WLqZs24gLp310i1WEv51PX6Aqpj1MSnHk2N8ajKViugvrt0R0AttGylWhxzWLLf
-	sez9mQytYvQSRpvBqrK06kgyMSU9Jj1cKZNL5RFoHynR0homkow9mCyNy8pxZiIluXSO0Wkl
-	0xxH7o7ar2eNBkaSyXKGSJLRqXJ0Cl0YR2s4o1YdpmUMr8plsj3hTvCd7MzqxdOYrmJfXtGF
-	FWACJdIy4CuEhAJeXpsBZcBPKCY6ADx/7TRwFcTEYwAtsz6ewiKAEzcqBc86GlYbMQ/UBWBF
-	mdwDLQC41vQlXgaEQj4RAr8/Z3QxmwkLgFeHU10MTlzBYPdEB89V2EQcgI7VCfeiPGIXNH9e
-	6NYiAkG7tRl4hm2D5qElt+/r9OfbR3keJgD2mx1ujTuZwhu1uGsAJEaE8LPaCp6nORZ+a7/m
-	3fUmONPX6tVB8OHZYq/OhpO/TXr5fNh+vdLHo1+Dpr9HfFxhcGeY5q93e2b5ww/XHJjLhoQI
-	lhSLPfR2+Gv1lLczEN7/pN6rKTgzUepeRUyUA9h9rApsq3kuQM1zAWr+n3UJ4FbwIqPjNGqG
-	C9fJtczx/241g9W0APe7Dk1oB+OT82F2gAmBHUAhTm4WRRzerhaLVPSJ9xk9m6435jCcHYQ7
-	T/gjPOiFDNb5MbSGdLkiQqZQKpWKiL1KORkomi36VCUm1LSByWYYHaN/1ocJfYNM2JHit4Id
-	D1YFHfY7BZ3H316e6J0voErX0Zm58qSXqldZ83TEjltcxxRrPsxKpvH+sT25vRfV33SfEjke
-	HNgZd1T5w5blpJi8QzsWj6I3gqN/qVPc+iJAFBuVeIbQjd8bHopXJUrXwjaMpww+Wd6awG48
-	9EqeLp+2VdqyTr5ehYl+OtfDTC/JLMrh+xt6Gx42Jr27EtX1FQzJSjvSKXgzdUC01JCxMy1m
-	74m0wJH6jcHF/rdTUN1gMrbSprK1niw4TzcP9L1XWXy71JI6q/xYNHTKUPtHyeX1isg/42Ts
-	j3AKT6/2k8yMNCWMxdu2xBj8+Y0aQUK+yfp7wIJtDF+Pjid5XCYtD8X1HP0vdG5pgmAEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSvO6EMqV0g3efRC0+fv3NYtE04S+z
-	xZxV2xgtVt/tZ7N4ffgTo8XNAzuZLFauPspk8a71HIvF7OnNTBZH/79ls5h06Bqjxd5b2hZ7
-	9p5ksZi/7Cm7Rff1HWwWy4//Y7I4//c4q8X5WXPYHYQ8ds66y+5x+Wypx6ZVnWwem5fUe+y+
-	2cDm8fHpLRaPvi2rGD3OLDjC7vF5k5zHpidvmQK4orhsUlJzMstSi/TtErgyJn1rZCroMa9o
-	nf6TsYGxQ7eLkZNDQsBEYtmvFUxdjFwcQgK7GSWOfN/LDpEQl2i+9gPKFpZY+e85mC0k8JFR
-	Yu8zlS5GDg42AU2JC5NLQXpFBNYzSpzdO4EFxGEW2MgkcXbPDzaQBmEBV4knv+6DNbMIqErM
-	XNgMZvMKWEgcWrWeEWKBvMTMS9/B4pxA8Q87brJALDOXuL7wDFS9oMTJmU/A4sxA9c1bZzNP
-	YBSYhSQ1C0lqASPTKkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4IjT0tzBuH3VB71D
-	jEwcjIcYJTiYlUR4LYMU04V4UxIrq1KL8uOLSnNSiw8xSnOwKInzir/oTRESSE8sSc1OTS1I
-	LYLJMnFwSjUwrYs5cK6PoeXk8WqVsmNrX3aHvZA6lJjRwrXEY+2BS85ftizR0AhuupY5xSd4
-	txTXyrjSRyyTHUz6NNjN/O3LzJf4b5wSOD3h/da/HGkvNr7QYpA5K8/31rPQLoUjoH1n6JS0
-	HtX4WP7pzpaLjyb1c93LvBq5lEOm/UntkherGTq6ppZNP3NswpfKs1s37zvJPO+rsVUA05NJ
-	W9tfHk6x1Z3wLvBIxsXPjF8nrX66T36H5suqfsYlbh8apct1i80/me68nqaacc5y/fVDzWrv
-	60XYumTsuW22vPj7e/lVL/k7H/JuFi9fIt2/tTp0+96Hv9by7VRd+E2vr6a5MrqmPPhN+oaz
-	p9IM1Rt/FT+xUWIpzkg01GIuKk4EAPmYgdwnAwAA
-X-CMS-MailID: 20241030181024epcas5p3964697a08159f8593a6f94764f77a7f3
-X-Msg-Generator: CA
+	Wed, 30 Oct 2024 18:34:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Qsjweu3u3H7glZ/HLAto/+rJwdNUrkolepojQTpPBGKRmJFOKi9Jjh+qeQQJMmC/uwcUXH8R/KoPZDARTjrLSGMzjY3HjdmJ0UQQhnBB5Ydowan4OVTN4V6dzgJLu4IuW19aPpq3IgnjvnCqI8VQH5HfVHaWDzCaxc8Ng2grZzrL2a8CH3AL5kn72Yhblw5aiXNSc99c6+vCid9Lv8ZggTtnlPaQhrOhUSsSI+L/0uuBznook+5GBm/3m0H4/C2JMGrjxN3BlOxqI2b3hX3XWrS9hzQpnK4NekiKqj1ztp7VOpVWJOA8T3X5GpjwPxknzsj7njUzm6AXEFNFE4WE5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0GwxfX4xhsfov/4tgIUmZ+MOByNEyN2eSOBlhW28ii0=;
+ b=yauODbxVsDzo8aoqIVk9JAoNCCevTieqH9E5QN2tP4v18M0e2c4JXduUB3B4m1RMEe1Wa2SnmPYANwxhY9NJI8PuYvoXJHB3aBMD89H6HeYSwKCtS1YpWeKUTSsdgv2hTBvYZNz9ORvuKLAG5ezVYHBLcjRrI/zVjx+jRxaW5PK9TIF9cF1IV/J3xy7cXaUlgSV8Q96tGZfuSB76g3fH27iRZO848cDMR2+3/KI+p83dXpWvw7pBNdEeOxQa3m21Xi4kxAukoqp9zNsOnqiw2Ofu+CUAprsr9ZHyB1MiQMcTPai1rs0qG3x3rwEpWXz9i/MNXRsXrvyCfS6u+Qpt3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0GwxfX4xhsfov/4tgIUmZ+MOByNEyN2eSOBlhW28ii0=;
+ b=YSNC+3LkBBtJ8RvwFLwfAkeyWMJaRijPwTYnI4SrAmqc2zZ1VmrDrUz46BE0c7dYtv0Q0K8oRIOB4g52mXXoXqgwfjK5pud7fQGUlDBT+U07syWVFEXroBLK2QsxzBuOS93BxnYA1uVouZvbYZmrMgOGRWtZb9DPNFCefL2aNFmDNYOuRw6CM0ZeJAzBU48CbsdmzSiImWUsBlvpAVpkmpMrd0sPSnvPQDMC2j1ecFI+Fvs9m+o1fBB2dBluMhBQmWMGJqtwsbdJIZpTVUYmCAYoUMgJ07wVFvGvyQtRLKUX1lX0pyUrAnsLuNmtNIzJkZqd+42+jyC8neicwwMwjQ==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by IA0PR12MB8907.namprd12.prod.outlook.com (2603:10b6:208:492::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Wed, 30 Oct
+ 2024 18:34:26 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.8093.027; Wed, 30 Oct 2024
+ 18:34:26 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>, "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: Re: [PATCH] nvme-core: remove repeated wq flags
+Thread-Topic: [PATCH] nvme-core: remove repeated wq flags
+Thread-Index: AQHbKpevYxOHQYsA90qOLutxzj4F5rKfUN4AgABOo4A=
+Date: Wed, 30 Oct 2024 18:34:26 +0000
+Message-ID: <908a8ed0-75e8-41c9-81ac-53140eda8aee@nvidia.com>
+References: <20241030064737.95291-1-kch@nvidia.com>
+ <20241030135258.GA28325@lst.de>
+In-Reply-To: <20241030135258.GA28325@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|IA0PR12MB8907:EE_
+x-ms-office365-filtering-correlation-id: 172a3af9-a047-49db-da61-08dcf9117b8a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?Q2k5aUlweW1XUnNFbHRhK1NkM1h5Qk1TTFZsREVFMnFSMHJQdHAwKzVjemhk?=
+ =?utf-8?B?WnMzN2xEOXZPbnNCa1JKSFg3UGgwOVF6VEl1REtHcmcvZ0xXYUl6NVRFZlRp?=
+ =?utf-8?B?MFE3Z1U0MXQ5S2FMM3JzSGFrMzZBMjN6MVNIMW91RjJWcEVjd0c0ck0rRGV1?=
+ =?utf-8?B?bnlaZlNRODVIaWdzRW8wREs5dTl6d1FZNjlmVzZscmhLVTBNdWZKWi9sRGd6?=
+ =?utf-8?B?L3d0SlBubjBEYW02OHpIczcwWUt0MS9oUjdabGt2R0E4aDQvRllwRmNXak82?=
+ =?utf-8?B?bk5vNU96Yjl2OXVxSm8veVBZY2JJWkg2ckcrdDJBSjhiZm1VZjQxS2IyQXJX?=
+ =?utf-8?B?c0FIQm4rTW1TeldJOTZFUzNjQ1ZEeitIMzk1aHozNjVPZzllMEtVMld1dW5W?=
+ =?utf-8?B?cnBWMWVzU05nc2JXODRxUDZ2aTFBRkJpcndMQVZIOEs4clRvM1o0ZC9oNk83?=
+ =?utf-8?B?d3pjOWh0VTFHSTBYZ2RCWTZFRFZvSzNmY1ZWUXJkOTBIZnh3Ui93VC9WcXBC?=
+ =?utf-8?B?Q2kzdms2WS9Ddk5rclZjSFZSdGpyZzFmeFdqbnViNGd1YmpRZ1MweDd4dk1p?=
+ =?utf-8?B?RjFnWHFCUGpTVTlnRTdxRmNlK2NVZnJYVDBKZmxKQldjSy9xTERXT3hLbTF1?=
+ =?utf-8?B?blZMZ3NjUlZzc1NUaS9oSjR1Wm9wVGRKZGoxT00wZzZQMHF1a0s0K0hCSjgw?=
+ =?utf-8?B?bDR1MEhEOUtIRjdEcXZaZCtoVzhRODN3UW5CWXl4bVJxbjgxK1ZGQkFTYm1u?=
+ =?utf-8?B?R0NiaFN2VWVtRE1HUXpFc0p5NzdhZmhJYmlzcGc0Y1c0ZllBOS8xdmZXLzhE?=
+ =?utf-8?B?T2JqMFQyMEo3M0c1MCtjeTVSQVF6NUQvd3JWdk50KzBsRlZRUDNZUDlmdVlV?=
+ =?utf-8?B?K1pFbXN2cHh1OGo4SXBBREdFZzhpSlIzZ3RtTWhCOW9pa1pKS1JRdkRIVnRE?=
+ =?utf-8?B?MWlrUXRvcjM5Mk8vdEtmU3M0bjAyUkNzemRYMGRYZGMxSEdhWTIrc1l0YjVK?=
+ =?utf-8?B?aTNiZFdYQXZPSGxUV3B3VEFscktJTG41V3hiYnR1Rk5pWnJWQ1dFSWowVTdF?=
+ =?utf-8?B?Q0FxWXBNZHRsb1QxL2FzSFg1NUhJSUtxVnpHV0dORU1YclNMbWJ6amIycXFs?=
+ =?utf-8?B?R3MwUHE2cm9KZE1BVmg1UUFKUnhTMDhESzBLRG8vdXhjOXRITGpsMTFSZStZ?=
+ =?utf-8?B?Uk5PNjkremRMU3RGbmNqbTRtSlpFNzN4cUp6YnQvUTV5WmdhbDJvU0hjamVk?=
+ =?utf-8?B?OWNrVVhZbTJrTlVhK3FDMVFwczZZTHNSL3BKVGVES1JrV0FZNXlZTGpNRm5W?=
+ =?utf-8?B?NEE0RXh5SVBHTmJwQVprK1UraDFPUmd4NlV1dWd4ekNIK2x6Ym9LN2Y3bzVM?=
+ =?utf-8?B?YnBsenBDMlMrUHRLK1dYMDg2enBqbmIrNjdKOVdhdkZhL254ZUNENUdUQkNl?=
+ =?utf-8?B?aU9lTWw3ckpWTWYxU3F3RUhRWnhoV1g4L3R2Q3ZZRXBzUXhBbk44bEpUUDF0?=
+ =?utf-8?B?N2ZMZkFFRUF1T0ZyYldNbnN5OXRKNkdtOUZxL2UxSXRlN3JlTDBrVkxuNU9Z?=
+ =?utf-8?B?UUN3dW92NE5VdFVVLzljY1NVZ1ZLTi9BVnFqNjZRQVc1WEVWVVdXSnc5dXY5?=
+ =?utf-8?B?UlF4UnNWZEQ5UHc0WFM2ZWpnUlUrdm9ZOUR3cWNzcEJUWkpzUG5CemxLYTVG?=
+ =?utf-8?B?bmJLd1JuSmtkbWs0MnZCcDZLUGlsRktRSzB0RTMwY3dnaVo2L0JhU255aXpt?=
+ =?utf-8?B?am40OFFvenNkcEI2YkVERTAwZHZEdHU4YlA2T1o0VFZBZGhSSlN3a2dwbW5s?=
+ =?utf-8?Q?CQh4j35gY+dgptb/FVVVVq0YKwo1zmYqlMAAA=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VDFKS1oxa3RoSlV1eVp3ZzlxeU1qaEd0RzJGd0owQ0xLNGlLMHMvekt5V2JL?=
+ =?utf-8?B?ZHZzVHZBeVJ5dFloOWI2MnFoN29RMFZObHlvVmNwbFVQS2pZV05oVTB2V3hh?=
+ =?utf-8?B?eEpZeVpCditZekZGcG00YVo5L0wzMzBrK29ROUtYbG44K2lCVkVZbEttcmUr?=
+ =?utf-8?B?WHZEdnFNOFRTaFpML1ZkL2FkUUxvZWZsYzNSY3lNL09rK1g0STNVcEkzaHM5?=
+ =?utf-8?B?czd6VzVzWURjaDVlbmRVL0ltRTRCODlrWEU4ME9kTTRCa1dWSS8xTU5taHN1?=
+ =?utf-8?B?SkFJeDYxTVJNbXBZenJCWjZjVGpjaDkzbVVNZDZPNnlJaTB3V2xPbGtvQmhj?=
+ =?utf-8?B?bFNhaFFFQkJJWEU2amd6UitWc21hQm5kb25qcnl1VStWYkt3TkJ4VFllYWRt?=
+ =?utf-8?B?VDZHcjIvMnBWcllKeU5PWHVScXdrMWxzS09hOGs2YW5Zc0x3TElINjBPV2lP?=
+ =?utf-8?B?N0Q4TlBjTVV5VHl0SW1MQ3N5VjBwYmh6dUJnSWU1UUVyRnllbHdpMTIwQU5l?=
+ =?utf-8?B?WUZpZEJIc0Q4WnZUV0pOTnlpaWUyUk45VldORkR6WUZEQS8vWlpTUG14Q0R3?=
+ =?utf-8?B?SUNFSzBsL0xhWnFCMzQ2OVR1OGFNWC9FRUxoai90UlFEcHc2bW9QbnhsS1gx?=
+ =?utf-8?B?NkFpTk93cXZaTW45RDdSR2pXVHNydXh4TEZKVWdzN3ArdXh1MktUcHhWcnlX?=
+ =?utf-8?B?djFIUm9wYTQwR3hXYzltdkFENEQ1WVNvYUt3MGFqOUZxUnJOWnZLSzl1akJX?=
+ =?utf-8?B?QjZUZWJHWTNGcWd1L3VobXcrUmVTamVaa2k1TkF1Q1RSekdyazVJc3BIMGo3?=
+ =?utf-8?B?UUNlSFFnUHFiYzJNVkZnWmRCR1ZHSy9JTzgxQUc0cTBIOGx3TkdXZ3F0SkJY?=
+ =?utf-8?B?K2pMVWdlY2RZZU04U0hmTXNuQzV2bWlmUDAvOHJycTdIUlp4QXoxZWFuMW1j?=
+ =?utf-8?B?S3pWY2s5UDVqa2dTRE9XQzZZbGlZdkxUKzdoSjFtTjU4QnovUHRUQkJ1bzVk?=
+ =?utf-8?B?QnRBSXdqQkxlTktTWnd5dVRMZnJJeHNVMWtJTHJaWnkzZ1BFQzZsZXRKVTVL?=
+ =?utf-8?B?Q1ByM2NuL1ZMNFlJQjkyNnBOTkV6aUliVStSaEQrWTRTL0JzdmFUREE5Q3pa?=
+ =?utf-8?B?aHF1K0luKzhNK2dONFRDSFoxTXlNbVVMZERRcENKcHBDZDViWnlhWjd6TTIw?=
+ =?utf-8?B?UmVxbFZKQUZVVDVBR05pT3NZbm1EV1loVTBXR1ZJRVU0akJSVU1ORllmOVhL?=
+ =?utf-8?B?UERTeHJmVlFTS0gzS3lnNWFySW1FQkZNcVJwNGd4K25hY1laenN2akdwajcr?=
+ =?utf-8?B?elB2VDJ1UkprRS8wRW42bnVpaURtYjZPTE4ydUltM1V4N3ozY3RrOUhNK0gw?=
+ =?utf-8?B?Sjh5NmVROWtwaWN2bW44UnhzQ0RNNDNoc3FBN0crMTAwNUhvb0lLS2orb29S?=
+ =?utf-8?B?cWo0L0QyQUxHWUNKNkV1RFJ3Yjl0N2JIYisrSzg1aEFPVGNVWGtiY0NTUzc3?=
+ =?utf-8?B?NWZvaXh1Y2k0eDFacnV2K0RLNDdlNVZ3azQzZnhSN3JPMmVxOHE4UHgyUkM1?=
+ =?utf-8?B?LzRsaGpIakg0MVJObjhwVXhoSmI2S0xlR1dteVZWaWVwcWd2QmNFbFBPWjBU?=
+ =?utf-8?B?QmNLSXdYQVZDbmszTnFWU1FaYTJOUXFOQkdSVkxiSUJyV1MvcnpPL2FSeUZJ?=
+ =?utf-8?B?dkcxQkZZMnlhR0pmV05nNzBxWUt1a2FrSkdRRUliejEvQzJiR2c3Ky9vd3Vo?=
+ =?utf-8?B?NkJmdTBYcStyRDVPbHVJandjcWxlelhwQUZJTTF1K29hMUtMWFBJekY4N0xE?=
+ =?utf-8?B?NWVmWFFQNldaWDBKWk5VSlpLQi9TYkcrUlJUeDBHNmp0RC83SEhHVitva1Ro?=
+ =?utf-8?B?bm9TZ0VKOUVMMWszUzFJRy92ckg5dW92UDVCS0FGTHg2cnRWQ0F3Y2NkQlow?=
+ =?utf-8?B?a0l3UC96M2VubEhMWVJabUx3aFhJVEZSRmNwdFNtK1E3ZzdNVGZ6WnpteDg1?=
+ =?utf-8?B?L2grNlZjYWxQSkVaZ2FoVXZQMU1hSWtmeGdNVHFFVkszdjloSGh5WW1lM0lw?=
+ =?utf-8?B?NGVaMHJKSmlyc05IMmtXU0VUcWtMT3paZmIra3JncnpVMk10UGJQZWFiamRn?=
+ =?utf-8?Q?yW3yqel175uDpThDryLzfBi6+?=
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241030181024epcas5p3964697a08159f8593a6f94764f77a7f3
-References: <20241030180112.4635-1-joshi.k@samsung.com>
-	<CGME20241030181024epcas5p3964697a08159f8593a6f94764f77a7f3@epcas5p3.samsung.com>
+Content-ID: <3BB14283C4F9684D94B6AE7838CC273F@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 172a3af9-a047-49db-da61-08dcf9117b8a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2024 18:34:26.2091
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 50jWyINhrg6iZE9behq12dObNiEaEGMbmaVp9xO6icZMn68xdVSkLGSrGysZGRp9vFbmJUHJSJVU6VMDFK6qlQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8907
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_111030_497824_B7F92138 
-X-CRM114-Status: GOOD (  23.43  )
+X-CRM114-CacheID: sfid-20241030_113432_076629_35A5A842 
+X-CRM114-Status: UNSURE (   8.28  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,226 +179,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If an iocb contains metadata, extract that and prepare the bip.
-Based on flags specified by the user, set corresponding guard/app/ref
-tags to be checked in bip.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
----
- block/bio-integrity.c         | 50 +++++++++++++++++++++++++++++++++++
- block/fops.c                  | 42 ++++++++++++++++++++++-------
- include/linux/bio-integrity.h |  7 +++++
- 3 files changed, 90 insertions(+), 9 deletions(-)
-
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 3bee43b87001..5d81ad9a3d20 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -364,6 +364,55 @@ int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
- 	return ret;
- }
- 
-+static void bio_uio_meta_to_bip(struct bio *bio, struct uio_meta *meta)
-+{
-+	struct bio_integrity_payload *bip = bio_integrity(bio);
-+
-+	if (meta->flags & IO_INTEGRITY_CHK_GUARD)
-+		bip->bip_flags |= BIP_CHECK_GUARD;
-+	if (meta->flags & IO_INTEGRITY_CHK_APPTAG)
-+		bip->bip_flags |= BIP_CHECK_APPTAG;
-+	if (meta->flags & IO_INTEGRITY_CHK_REFTAG)
-+		bip->bip_flags |= BIP_CHECK_REFTAG;
-+
-+	bip->app_tag = meta->app_tag;
-+}
-+
-+int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
-+{
-+	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
-+	unsigned int integrity_bytes;
-+	int ret;
-+	struct iov_iter it;
-+
-+	if (!bi)
-+		return -EINVAL;
-+	/*
-+	 * original meta iterator can be bigger.
-+	 * process integrity info corresponding to current data buffer only.
-+	 */
-+	it = meta->iter;
-+	integrity_bytes = bio_integrity_bytes(bi, bio_sectors(bio));
-+	if (it.count < integrity_bytes)
-+		return -EINVAL;
-+
-+	/* should fit into two bytes */
-+	BUILD_BUG_ON(IO_INTEGRITY_VALID_FLAGS >= (1 << 16));
-+
-+	if (meta->flags && (meta->flags & ~IO_INTEGRITY_VALID_FLAGS))
-+		return -EINVAL;
-+
-+	it.count = integrity_bytes;
-+	ret = bio_integrity_map_user(bio, &it);
-+	if (!ret) {
-+		bio_uio_meta_to_bip(bio, meta);
-+		bip_set_seed(bio_integrity(bio), meta->seed);
-+		iov_iter_advance(&meta->iter, integrity_bytes);
-+		meta->seed += bio_integrity_intervals(bi, bio_sectors(bio));
-+	}
-+	return ret;
-+}
-+
- /**
-  * bio_integrity_prep - Prepare bio for integrity I/O
-  * @bio:	bio to prepare
-@@ -564,6 +613,7 @@ int bio_integrity_clone(struct bio *bio, struct bio *bio_src,
- 	bip->bip_vec = bip_src->bip_vec;
- 	bip->bip_iter = bip_src->bip_iter;
- 	bip->bip_flags = bip_src->bip_flags & BIP_CLONE_FLAGS;
-+	bip->app_tag = bip_src->app_tag;
- 
- 	return 0;
- }
-diff --git a/block/fops.c b/block/fops.c
-index 2d01c9007681..3cf7e15eabbc 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -54,6 +54,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *iocb,
- 	struct bio bio;
- 	ssize_t ret;
- 
-+	WARN_ON_ONCE(iocb->ki_flags & IOCB_HAS_METADATA);
- 	if (nr_pages <= DIO_INLINE_BIO_VECS)
- 		vecs = inline_vecs;
- 	else {
-@@ -128,6 +129,9 @@ static void blkdev_bio_end_io(struct bio *bio)
- 	if (bio->bi_status && !dio->bio.bi_status)
- 		dio->bio.bi_status = bio->bi_status;
- 
-+	if (dio->iocb->ki_flags & IOCB_HAS_METADATA)
-+		bio_integrity_unmap_user(bio);
-+
- 	if (atomic_dec_and_test(&dio->ref)) {
- 		if (!(dio->flags & DIO_IS_SYNC)) {
- 			struct kiocb *iocb = dio->iocb;
-@@ -221,14 +225,16 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 			 * a retry of this from blocking context.
- 			 */
- 			if (unlikely(iov_iter_count(iter))) {
--				bio_release_pages(bio, false);
--				bio_clear_flag(bio, BIO_REFFED);
--				bio_put(bio);
--				blk_finish_plug(&plug);
--				return -EAGAIN;
-+				ret = -EAGAIN;
-+				goto fail;
- 			}
- 			bio->bi_opf |= REQ_NOWAIT;
- 		}
-+		if (!is_sync && (iocb->ki_flags & IOCB_HAS_METADATA)) {
-+			ret = bio_integrity_map_iter(bio, iocb->private);
-+			if (unlikely(ret))
-+				goto fail;
-+		}
- 
- 		if (is_read) {
- 			if (dio->flags & DIO_SHOULD_DIRTY)
-@@ -269,6 +275,12 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 
- 	bio_put(&dio->bio);
- 	return ret;
-+fail:
-+	bio_release_pages(bio, false);
-+	bio_clear_flag(bio, BIO_REFFED);
-+	bio_put(bio);
-+	blk_finish_plug(&plug);
-+	return ret;
- }
- 
- static void blkdev_bio_end_io_async(struct bio *bio)
-@@ -286,6 +298,9 @@ static void blkdev_bio_end_io_async(struct bio *bio)
- 		ret = blk_status_to_errno(bio->bi_status);
- 	}
- 
-+	if (iocb->ki_flags & IOCB_HAS_METADATA)
-+		bio_integrity_unmap_user(bio);
-+
- 	iocb->ki_complete(iocb, ret);
- 
- 	if (dio->flags & DIO_SHOULD_DIRTY) {
-@@ -330,10 +345,8 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		bio_iov_bvec_set(bio, iter);
- 	} else {
- 		ret = bio_iov_iter_get_pages(bio, iter);
--		if (unlikely(ret)) {
--			bio_put(bio);
--			return ret;
--		}
-+		if (unlikely(ret))
-+			goto out_bio_put;
- 	}
- 	dio->size = bio->bi_iter.bi_size;
- 
-@@ -346,6 +359,13 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		task_io_account_write(bio->bi_iter.bi_size);
- 	}
- 
-+	if (iocb->ki_flags & IOCB_HAS_METADATA) {
-+		ret = bio_integrity_map_iter(bio, iocb->private);
-+		WRITE_ONCE(iocb->private, NULL);
-+		if (unlikely(ret))
-+			goto out_bio_put;
-+	}
-+
- 	if (iocb->ki_flags & IOCB_ATOMIC)
- 		bio->bi_opf |= REQ_ATOMIC;
- 
-@@ -360,6 +380,10 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		submit_bio(bio);
- 	}
- 	return -EIOCBQUEUED;
-+
-+out_bio_put:
-+	bio_put(bio);
-+	return ret;
- }
- 
- static ssize_t blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
-diff --git a/include/linux/bio-integrity.h b/include/linux/bio-integrity.h
-index 0046c744ea53..a42b7fe0eee9 100644
---- a/include/linux/bio-integrity.h
-+++ b/include/linux/bio-integrity.h
-@@ -23,6 +23,7 @@ struct bio_integrity_payload {
- 	unsigned short		bip_vcnt;	/* # of integrity bio_vecs */
- 	unsigned short		bip_max_vcnt;	/* integrity bio_vec slots */
- 	unsigned short		bip_flags;	/* control flags */
-+	u16			app_tag;	/* application tag value */
- 
- 	struct bvec_iter	bio_iter;	/* for rewinding parent bio */
- 
-@@ -79,6 +80,7 @@ struct bio_integrity_payload *bio_integrity_alloc(struct bio *bio, gfp_t gfp,
- int bio_integrity_add_page(struct bio *bio, struct page *page, unsigned int len,
- 		unsigned int offset);
- int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter);
-+int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta);
- void bio_integrity_unmap_user(struct bio *bio);
- bool bio_integrity_prep(struct bio *bio);
- void bio_integrity_advance(struct bio *bio, unsigned int bytes_done);
-@@ -109,6 +111,11 @@ static int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
- 	return -EINVAL;
- }
- 
-+static inline int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
-+{
-+	return -EINVAL;
-+}
-+
- static inline void bio_integrity_unmap_user(struct bio *bio)
- {
- }
--- 
-2.25.1
-
+T24gMTAvMzAvMjQgMDY6NTIsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOg0KPiBMb29rcyBmaW5l
+LCBsZXQncyBob3BlIHRoZSBmbGFncyBhY3R1YWxseSBzdGF5IHRoZSBzYW1lIGluIHRoZSBsb25n
+IHJ1biA6KQ0KPg0KDQpZZWFoLCBpdCB3aWxsIGJlIG5pY2UgdG8gZ2V0IHJiIHRhZyAuLi4NCg0K
+LWNrDQoNCg0K
 
