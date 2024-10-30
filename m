@@ -4,168 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40EFFD7497E
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 07:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C635CD5B86D
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 09:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OPIW1elT16kVLjbY4iTiFTC7MSQkTChdDIXxAZIdDoA=; b=zpPnPsXo+YNbtIwmUbfLEkQsm0
-	2hbpoBxF+2ABLcaQAQbmFM4t2oxhMGl9R4g/Ms+onk9rdxPWdPl3TDMXSmx2afheILimMIAdmVghD
-	8U5d65mnPoUPkcfhcuhP3euGZ41yz8zWIxtUdGT84Vo0uRGSb1RksQLyw76h/T4vmPlbC99/CrRXL
-	azVQQDhzJh6DTToE3YaMdWm2u1WebYWai6TJVY5WAIigWnuDHL0xHiUz2zTc2MPBWIZPnI03RZtS/
-	7JpxMyooapPKLh1jIRYBYS2/F9Ueo/Dk0NqSChG3CQkqEX1oyh18KigRpSLTevn9rwM0Cb4xwXzdt
-	chAR02tw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Zg+gOv/NDdBJEyd6f0L9clqulIt30xb8+qd5TdGxy6U=; b=B7CUJEm9igJTm+fkzLOSo3nb3R
+	X+QeZLBPzPQ18aiXLUFf/hgISRRn2Yv7gdObnLdZSALfn/NY/UU4R4km4KRFxSPp/ODwTWCiWMDaj
+	SZZG7hCUAvxE/VlywKi5NQZkzZmUMiVoPA8PulW8YhQiH/OXmD+OcqY0l1APnroKuxSr1mrc3Igvn
+	dEWSwPoS0rZYU375vzrDMXnhLfU+NuLF7ZfsDezpcbRVUVKF0yEYzX9HihRuX9flw77iwwiiCB73y
+	3/2q0cLcc3GSx9ObuRWvLub45Y6DZQHz9pr0rxiR5m7YSp5oyOrfLa17aFu14ijSa+b2XLFHzpdLF
+	9Q48VhYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t63cI-0000000HDxg-3mg7;
-	Wed, 30 Oct 2024 07:59:46 +0000
-Received: from mail-dm6nam12on20615.outbound.protection.outlook.com ([2a01:111:f403:2417::615] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1t65IW-0000000HR7F-2dxa;
+	Wed, 30 Oct 2024 09:47:28 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t63cF-0000000HDxA-2bgD
+	id 1t65Fl-0000000HQkI-0Tvo
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 07:59:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n6H1lpwvUeX2STpfAk3cR90iTJpydOB7UTY7xoMMg33YUQ//uA2qlGbuDRInaZAH/ejWzNs1xYWViBsXXBvzT075dWmkskE0f9olTKXH8Hq+KqXYuM/CZ6LOVfjAe86JHpn8kXX1PVkExvO1nXykMSgAI6MaKAK7UCvnprL03FK4XfP9t6hqomfNAGDig7BV7QbcrBk6aMyDyvEUEvf4qgPsqbVNWl+TuHDzbZh3V4RQTLOVVkUq1md+eb88UoTWKAfSyxZwoCjm+AX/tjxC0X6NvjLq3UuiXnU0FXHCMUE/UtpoJWsY3GKDy2LCO8tWTpswL9xp+V559sgQh7Thmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OPIW1elT16kVLjbY4iTiFTC7MSQkTChdDIXxAZIdDoA=;
- b=i1NDFmKNRxt511bNL8ZiAo29C2cxZXbQGJzOW8fzGNE1PhYxCBJ8kRaszwk5RS6lJYGZSuMd0E7pSiaCIynMWlcZhO/MuZJo3Yj52CO/0GjVe+ewkuWisvO+XYQdvr1ZpVsm6wVGSZiQ2izy8j2BJhIYajw9JbyV0GsBy61Yto6JsYsSq+bC+D8rvPZhXtJw8h5DVmpVzRQfO49MOka+ORNWgcVSmZbSRF9ToX7kPbxKGjdag7EdjQgbDibHYJnakTUNjF4lwMw88ojbNaLuM+KPcdY7Tikf/Cw35ykyX+VMhBFOWW/MKrUSr4U5N9c4giUXPgegOoV5McxM3cy26A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OPIW1elT16kVLjbY4iTiFTC7MSQkTChdDIXxAZIdDoA=;
- b=Sm2pFECvKwTpFjsOHvMMhU5SvTRUpKBmpONY/jKpF86hdnx8Qt3hT1OfVSg4D+4rfNS0esI7AEg7DrJ71q38AImwczT70azlZGrqP7WRShWmR2y7J9RSy9MCGjl6dMggPqSuDywIRgRrsBaUF2ZNfPO1q3otfu5u68pwJMkfiX4Vhn1MRvXM1i0diSsrmb6acxL0zlFcZM9Bvdcq+uvia69U5XLOzVbttrGVMbEMbVsKCNPnzxCNydfYwdre1pjRQh+2xfmWx0UOdjCtPUwuLooVjJDdK6+Bh2vaoH7XYOvoszfHub0Mp7D1sm0jHpl74B5xf++b15vBkGmj/iUJrw==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by MN6PR12MB8591.namprd12.prod.outlook.com (2603:10b6:208:471::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Wed, 30 Oct
- 2024 07:59:36 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.8093.027; Wed, 30 Oct 2024
- 07:59:36 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests v2 09/13] nvme: check for controller device in
- _nvme_connect_subsys()
-Thread-Topic: [PATCH blktests v2 09/13] nvme: check for controller device in
- _nvme_connect_subsys()
-Thread-Index: AQHbKphNSVUr8eGGOkCTmXfuBZ2fGrKe7iGA
-Date: Wed, 30 Oct 2024 07:59:36 +0000
-Message-ID: <8d6debb2-c6d7-40bd-80d5-8361b0287082@nvidia.com>
-References: <20241030065149.2297405-1-shinichiro.kawasaki@wdc.com>
- <20241030065149.2297405-10-shinichiro.kawasaki@wdc.com>
-In-Reply-To: <20241030065149.2297405-10-shinichiro.kawasaki@wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|MN6PR12MB8591:EE_
-x-ms-office365-filtering-correlation-id: 72f355bc-cf11-4aff-35a5-08dcf8b8cc20
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?YzJLTTBUcVkydE53MnY0dkl4WGswVkR3OG9YSEZoWDZiNmdMVmg1NlpVTS83?=
- =?utf-8?B?czZuV21GYWp1anVuUnVqR1BzNjE1UVJYYzQ4SjVTejR5TTRaZEszUldDT1FF?=
- =?utf-8?B?Uk1nSjFveDNHQjNjK0E1c3gzdEZxWnJqY2lncm1Odk1BVGdZZUhUQWhDQTk3?=
- =?utf-8?B?aEFweUdDM2VXMXpYYmQ2SE1OSm80S1EyR1NlQi9vZmJhYk1DVUg0eDV3L1RX?=
- =?utf-8?B?eUs2V0c3OVhVVlJzOEhtNWdwNUdKdEZ3clg3c2ptcTdUQis1RWxTcldWOEJ2?=
- =?utf-8?B?QWhIR2FFandvQTJ5bFZTZi8yQU9Zczl3dnRTRTVldDV3aW9zWksreVNIdTEz?=
- =?utf-8?B?TE1vbEtiS1MvSHppSnN6Zy84dWo5RTNkRHBQSjRxQVdwRHg0RnpDenFLc3JV?=
- =?utf-8?B?QW9tbmZOaUVoWUxrd1NBempKVVptdEYraWxpNWhhR3ZuYkxMQjZlYmxXRGRo?=
- =?utf-8?B?RmorNTZ2QytISnNIT2VEUnNWQ1ZMZXlITUtBK1JFaDVwai9HVDVqVU1NL25T?=
- =?utf-8?B?RE02OElXRGRjN0JuWDkvaTJ5ajBETmxGUVlTaTA0NUFqVkhEa0ZTcmJ5UE1o?=
- =?utf-8?B?TTFpZ1dtVjl0R1Zxa3BPcjZheERRNTVsb2lLK0xiZVJEYkluakNJZkcxOTFL?=
- =?utf-8?B?VXd2MXpsNitST1VPeUhwM2VlYTkrOHdTWmVoc3JIZ0U2ZFg1WkVvczY1dytY?=
- =?utf-8?B?SWZrbFdrUUk2TnRRNlp5bGpkNW5vQWlKdnRaMnpsaTVHR1lMa1Y0NU5uNWRI?=
- =?utf-8?B?WDhJc3kzbzRKNkVpN2FMUDV1NnkweVp0QXFkTVgwcDVONi8rRUFXUE1kRHNn?=
- =?utf-8?B?YUJ0d1BXZnlYSEQ1NENaM3dtT1ZUU0hYU2xSRHVxQWZwT0F4RjRsWWpjbzly?=
- =?utf-8?B?SGFPejIyYlVlRUp3enE4V2VJQ3d4QXBGU0c5M2JGdDZiLzNEclZTek0vNmN0?=
- =?utf-8?B?Q2xqOVQ0cG9PUlVJYUF2dFdJM1pXYmo2NWtjaitvK2VHZkpXbVI3eE1USzdh?=
- =?utf-8?B?Ukk5RDhBcG1BbktWNEFMWWQrSHJlYVc2ZnM2a0VZeGZON2lEcTFOWHIzUFkz?=
- =?utf-8?B?dU55YndDalFCTXVuYjBLbytpVEMrVVRtdFF1SGpIZjVWcXQ2RUs1L2txcllL?=
- =?utf-8?B?UU55RnRlQ2gzV3hvdW9DTDFiUVJFc3J5YkxESHF3RnBtSk9iQjdsY0lFREdW?=
- =?utf-8?B?YzA3Q0Z1V2tjZStiUzkzWnEvbHducnNKQnU0dG56YTZDSlRXWHFtYXVaWHk5?=
- =?utf-8?B?RzB6YmVOOUVXaTlTV29BRHNIR01VNWJGN1pRTmhkbEtEdWZHR2txR09BRGsy?=
- =?utf-8?B?VzBOU21qWVI0V3RFcEE4cG5CeGZIM2d4QjZpdVhYSTlkVENQRnFxa0tyaVFC?=
- =?utf-8?B?eGpPUEcxOFl1MG01Q0tvWFRRUUxBbm5YK3l2SCtFeUJXYkxheCttQXdQNHo5?=
- =?utf-8?B?dE5QMnp0THFtTWhxalJLdmpnZ2ltU3FWMy9VbkdXWWgvc21kcmtlZ1lva21Q?=
- =?utf-8?B?dFFZWXNlMmcrSmZybXNNQ0RlNzJjbmcraW5uemdMY3pYOXJHejZoaGkxUk5n?=
- =?utf-8?B?ZmdtbUdtdHJTdE56eENvYmtnR2s3ZDJCMW5rZUpocnFVTllYMy94WXZDc3FC?=
- =?utf-8?B?UEdDVDlQYThPeWNsTFQrY3pkbFVKdjd6TnZzbXEzWUVrVldnUEkwZzlXcG15?=
- =?utf-8?B?ejJHMnBhVm1xSm9KengwdU92SmZBbW5NTUROZ3NFaXJLcWl3WkwvOXd4ODJa?=
- =?utf-8?B?K01HU1h4THV3Yzc2RytoN2VHQmhDUTNCM1dhYUtua3ZsMVFkeVB0eG5CYWxG?=
- =?utf-8?Q?fOw6xgZq/CLx8XWkbDv+VhLtTkbk7DwdW3QgQ=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cC9xYllZdWhtMGlJYzRra2lBZ1ptaU5abndWdU1TMTdoYzR2NkNZVFZhOCsv?=
- =?utf-8?B?enlIanNIOGc2alFPVWVDZm93c3NYWGZpaGl1bmdUNS9vOGwzR3JsL1hxNmVO?=
- =?utf-8?B?NkptTndPSFJEK2s2RzZ2dXUyQmdYalNMTVR0RDZpYjhsSlBabUY4YzAxelEr?=
- =?utf-8?B?S0F0TnpJVUcwYzFDbmljQXN3S3ZvYU9LTEwrT08rcytiT3JJNUdzRmxPblR1?=
- =?utf-8?B?UHkvR21NUllxOTZhc25yRDZXMUNBWnAzTVkwS2wwMnlJdzhLWnlkNmRXTFpz?=
- =?utf-8?B?NVppVDNjODI4bmFyemdXWWo5Z2xUd1NFdjlYazhEMzM0WW1zaEVldUJKSlIx?=
- =?utf-8?B?bEV6S1FWZDI0WS9LZEorN0xHcDJLTWFRenVnZ0doLzE0RCtNQXU1ZUdnUEc5?=
- =?utf-8?B?Nk9DSk1uMHhLUklMOVJjSVRaa0hxU0ZPcHRCZEdITEFkZkkzVkF1cWx1b2Yz?=
- =?utf-8?B?VFhHVmgxV1ExZE5pOXcrS0JHSHBqRWg4VTdROFl0SjZGVmtrRkJuM3BHV2lL?=
- =?utf-8?B?Yzk4aFVGWlQvZzA5dGtPUUo4ZTRESHA0a1haVFlTcEc2cGl1MFgyQ3VUSFFU?=
- =?utf-8?B?a3l6SHNabWV4N1I2TWVlQXRxQWRCVUdZSEdtZ1Bya2ZlNlVNVzB6SG81dTIw?=
- =?utf-8?B?WkxXVjViNU1OSVlrd2k1QkUyem4veDYvbjZRdTdWVkJWSlFOTnRBUzJjV0sx?=
- =?utf-8?B?cEVkTURLeEpSZDlKMWF2aGZwdXljdVdHc1RSdGNUa3VQWGplbXoxaGhCTCty?=
- =?utf-8?B?MEJtMmtNa1NGZEFFSS9odVNzbGU0ZzRsUnR5RWE4UG5UOEtGTGRkeFo0Q0Y4?=
- =?utf-8?B?UmFnNmsxRXhPUm01UExacmpwazJTbUNDQ1BEODJxMGRwQUJmdnhQdVk5Tmg0?=
- =?utf-8?B?RzZtaUJPL0RScllLd3hmQ2l1NFhBRUZsNTE1aUxwQ1A2R0xUUmJKcC9VK3pR?=
- =?utf-8?B?MDV2MUNrcWRrQWUxSWk4cGJ3bm5rek9XUmJxTm1SVUJGQVJEMFREUHd4L2Vj?=
- =?utf-8?B?OWhrV0Y2eDgwVXVpMmoyT3hKQVF1TVlpUmpqYjFiRi96eDdMbUdzRjMrVFA4?=
- =?utf-8?B?VVJ1anBMemphdG5GTTl4bUd3NTF0N015cE1uWlh2b2J1Y3Z4UG9TZVJubzdZ?=
- =?utf-8?B?ajNNdFUyQU9nYWk2THdJVGF3Wlkxbmk3VjJXc0o3QkhYS0dLTGNWMmEvS1RM?=
- =?utf-8?B?MkNPMFpzL1pxWVRsemlidnVqY1dTeERXQTlsT0thQTBkNS9zelZuNFQxbFJ1?=
- =?utf-8?B?YTVFQ05nVlZQL3ZiYjNRN3FUR2grRVNzUFpqRGg3RFA2d2s4bmdTb25Gd1hV?=
- =?utf-8?B?Qk93ZFFveTNVMjFYR0ovMktncVhIZFJnRE5ubWd4TENQRVFHU3RMUGhDTmVZ?=
- =?utf-8?B?SElvcGpmeFlSTEg3VXE1ZGdWQUpDenpVZmRRRE1Ha0tmQ21YckNnekRZdFV6?=
- =?utf-8?B?U21ta0NDdEtQa1VuTExMem55MmxqVE43RFNCeW11b2pjcjRWRmJnN2o2QTBw?=
- =?utf-8?B?VndJNnNCbXhlcFBZQnZjZjYvSXI5OGxWWDU0aHNSemlYL203ODYvdkFIVnpE?=
- =?utf-8?B?N3pCM1Z4cEJYRFh1OUtBUk1ZY1FBekVPY2VJR1lRTlJUOUFsTTJzQkxlZW84?=
- =?utf-8?B?TkV1bHZwbHF0RG9LRitHQXhxdWt2RE9rWWdROTRsQ0g5Rjg5bkwzVHlyU1Zw?=
- =?utf-8?B?YlExanMyTUxLK0NST2VtWG1EUmo0UC9sWWEvYkVTeTR6TU1vL3lMK2V3cmM5?=
- =?utf-8?B?NXhTZ084OW8xeDhPVUpVWmtyK3czSDh1S2pjZXBQVVNLSDZLaG81dFVOcDNW?=
- =?utf-8?B?V3BLNUo0VFN0Wkp2MDRVQUY0ZTc5RlNVK2tvd3ZXODh5a3lqVVFQYVNsRC94?=
- =?utf-8?B?RUhiQVpCNWIzaUVYcTVJMnFGQkhqZmxmK2ZCWXJXNGtyRDB6SXVQWE1VYlZM?=
- =?utf-8?B?ZDliWEhXL2RMQTAxTEV2WG5ZRmZHT3BUdWZ3OVhwRVlwOUpaN3p1ZXJMSytl?=
- =?utf-8?B?L1M0SW9PdnA1YmVYK2hTcCsyYjhCc01NU3J1Q3M5eWV3ZFlSVHptaldQSjlM?=
- =?utf-8?B?cVA4UFV6aEdJZzh6MFVWZk5HOW1DYkt3RUlzaUFuZ2cwNmEvNnJSbTExckpO?=
- =?utf-8?Q?GfmEOlpY16hUGPYHzyUyevqgz?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C33DFFCA1067E842ABACAC633E12A51F@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 30 Oct 2024 09:44:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1730281472; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=Zg+gOv/NDdBJEyd6f0L9clqulIt30xb8+qd5TdGxy6U=;
+	b=A29o8ulG8ROC/hUzw0V7wUlpYiAYDm+ozE5OHf1uyMWNqLxq3d/UOj3UcQAKe2jO9XEGlos3YeJfpUInVjURB3O1SEmJXdZABGERPFM6SiatLqpZG+dHU9rRch4FUVgPDL2+cbaRq4/d/ymfV+Cevy7GyxlhCLyYixXasXqFfG0=
+Received: from 30.178.82.27(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIDgNT4_1730281470 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 30 Oct 2024 17:44:31 +0800
+Message-ID: <9f17db9e-da89-47ba-9825-7f713d413daf@linux.alibaba.com>
+Date: Wed, 30 Oct 2024 17:44:28 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72f355bc-cf11-4aff-35a5-08dcf8b8cc20
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2024 07:59:36.2036
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KzU6eYD6Y8/N3lfVpVgVUkihqGpMualhKaQSEHtLKrjsVBMsftpxriYgSoU/AUYUn5aRMzdnbDT46pVjrA4hPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8591
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH] nvme/{common/nvme, 051, 052}: introduce def_nsid
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "dwagner@suse.de" <dwagner@suse.de>,
+ "chaitanyak@nvidia.com" <chaitanyak@nvidia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20241029031931.118305-1-kanie@linux.alibaba.com>
+ <33susvhlxjt2uf3gqldcb2n43pgrvt5m2wj6b27nbgeoxamfkn@az45ko2fsydt>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <33susvhlxjt2uf3gqldcb2n43pgrvt5m2wj6b27nbgeoxamfkn@az45ko2fsydt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_005943_684864_C60ABC1A 
-X-CRM114-Status: UNSURE (   9.11  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241030_024437_912552_3AE0465E 
+X-CRM114-Status: GOOD (  20.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,15 +67,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTAvMjkvMjQgMjM6NTEsIFNoaW4naWNoaXJvIEthd2FzYWtpIHdyb3RlOg0KPiBGcm9tOiBI
-YW5uZXMgUmVpbmVja2U8aGFyZUBzdXNlLmRlPg0KPg0KPiBXaGVuIGNhbGxpbmcgJ252bWUgY29u
-bmVjdCcgd2UgY2Fubm90IGFzc3VtZSB0aGF0IGEgbmFtZXNwYWNlIGlzDQo+IGFsd2F5cyBwcmVz
-ZW50IChlZyBpZiBjb25uZWN0aW5nIHRvIGEgZGlzY292ZXJ5IHNlcnZpY2UpLCBzbyBiZXR0ZXIN
-Cj4gY2hlY2sgZm9yIHRoZSBjb250cm9sbGVyIGRldmljZSB0byBlbnN1cmUgdGhhdCAnbnZtZSBj
-b25uZWN0JyBoYXMNCj4gc3VjY2VlZGVkLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIYW5uZXMgUmVp
-bmVja2U8aGFyZUBzdXNlLmRlPg0KPiBbU2hpbidpY2hpcm86IGZpeGVkIF9udm1lX2Nvbm5lY3Rf
-c3Vic3lzKCkgcmV0dXJuIGZvciBub193YWl0IGNhc2VdDQo+IFJldmlld2VkLWJ5OiBEYW5pZWwg
-V2FnbmVyPGR3YWduZXJAc3VzZS5kZT4NCj4gU2lnbmVkLW9mZi1ieTogU2hpbidpY2hpcm8gS2F3
-YXNha2k8c2hpbmljaGlyby5rYXdhc2FraUB3ZGMuY29tPg0KDQpMb29rcyBnb29kLg0KDQpSZXZp
-ZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
+
+在 2024/10/30 15:31, Shinichiro Kawasaki 写道:
+> On Oct 29, 2024 / 11:19, Guixin Liu wrote:
+>> Use def_nsid instead of hard code, the default of def_nsid is 1.
+> Hi Guixin, thnaks for the patch.
+>
+> May I know the motivation to introduce def_nsid? Does it aim to improve code
+> readability? Or does it aim to allow testing various def_nsid values?
+
+Just like def_subsysnqn and def_subsys_uuid, avoid hard code in testcases,
+
+and let us to know the ns_id created by default.
+
+> I guessed that the latter one is the motivation, and tried it. After applying
+> the patch, I edited common/nvme to have differnet value: export def_nsid="2".
+> With this change, nvme/004 failed. I guess your patch missed a change in
+> _remove_nvmet_subsystem(). With this change, nvme/004 passed.
+>
+> @@ -589,7 +589,7 @@ _remove_nvmet_subsystem() {
+>          local nvmet_subsystem="$1"
+>          local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
+>
+> -       _remove_nvmet_ns "${nvmet_subsystem}" "1"
+> +       _remove_nvmet_ns "${nvmet_subsystem}" "$def_nsid"
+>          rm -f "${subsys_path}"/allowed_hosts/*
+>          rmdir "${subsys_path}"
+>   }
+>
+Thanks, I miss this, will be changed in v2.
+
+Best Regards,
+
+Guixin Liu
+
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>>   common/nvme    | 3 ++-
+>>   tests/nvme/051 | 2 +-
+>>   tests/nvme/052 | 6 +++---
+>>   3 files changed, 6 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/common/nvme b/common/nvme
+>> index c1aa8d6..6371efe 100644
+>> --- a/common/nvme
+>> +++ b/common/nvme
+>> @@ -16,6 +16,7 @@ def_hostid="0f01fb42-9f7f-4856-b0b3-51e60b8de349"
+>>   def_hostnqn="nqn.2014-08.org.nvmexpress:uuid:${def_hostid}"
+>>   export def_subsysnqn="blktests-subsystem-1"
+>>   export def_subsys_uuid="91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+>> +export def_nsid="1"
+>>   _check_conflict_and_set_default NVMET_TRTYPES nvme_trtype "loop"
+>>   _check_conflict_and_set_default NVME_IMG_SIZE nvme_img_size 1G
+>>   _check_conflict_and_set_default NVME_NUM_ITER nvme_num_iter 1000
+>> @@ -537,7 +538,7 @@ _create_nvmet_subsystem() {
+>>   	mkdir -p "${cfs_path}"
+>>   	echo 0 > "${cfs_path}/attr_allow_any_host"
+>>   	_create_nvmet_ns --subsysnqn "${nvmet_subsystem}" \
+>> -			 --nsid "1" \
+>> +			 --nsid "${def_nsid}" \
+>>   			 --blkdev "${blkdev}" \
+>>   			 --uuid "${uuid}" \
+>>   			 ${resv_enable}
+>> diff --git a/tests/nvme/051 b/tests/nvme/051
+>> index 624b42f..4757b80 100755
+>> --- a/tests/nvme/051
+>> +++ b/tests/nvme/051
+>> @@ -33,7 +33,7 @@ test() {
+>>   	_setup_nvmet
+>>   
+>>   	_nvmet_target_setup
+>> -	ns="${NVMET_CFS}subsystems/${def_subsysnqn}/namespaces/1"
+>> +	ns="${NVMET_CFS}subsystems/${def_subsysnqn}/namespaces/${def_nsid}"
+>>   
+>>   	# fire off two enable/disable loops concurrently and wait
+>>   	# for them to complete...
+>> diff --git a/tests/nvme/052 b/tests/nvme/052
+>> index 1dcda23..781a9f0 100755
+>> --- a/tests/nvme/052
+>> +++ b/tests/nvme/052
+>> @@ -57,10 +57,10 @@ test() {
+>>   
+>>   	_nvme_connect_subsys
+>>   
+>> -	# start iteration from ns-id 2 because ns-id 1 is created
+>> -	# by default when nvme target is setup. Also ns-id 1 is
+>> +	# start iteration from def_nsid+1 because def_nsid is created
+>> +	# by default when nvme target is setup. Also def_nsid is
+>>   	# deleted when nvme target is cleaned up.
+>> -	for ((i = 2; i <= iterations; i++)); do {
+>> +	for ((i = $((${def_nsid})) + 1; i <= iterations; i++)); do {
+>>   		truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).$i"
+>>   		uuid="$(uuidgen -r)"
+>>
+> After this change, when def_nsid is larger than iteration=20, nvme/052 will do
+> nothing. I think the change should be like this:
+>
+>      for ((i = 2; i <= iterations; i++)); do {
+>          nsid=$((def_nsid + i - 1))
+> 	truncate -s "${NVME_IMG_SIZE}" "$(_nvme_def_file_path).${nsid}"
+>          uuid=$(_create_nvmet_ns --blkdev "$(_nvme_def_file_path).${nsid}" \
+>                                     --nsid "${nsid}")
+>          ....
+>
+> Also, same change will be required in nvme/016 and nvme/017. They also use the
+> --nsid option.
+>
+> $ git grep -e "--nsid"
+> common/nvme:                    --nsid)
+> tests/nvme/016:         _create_nvmet_ns --nsid "${i}" \
+> tests/nvme/017:         _create_nvmet_ns --nsid "${i}" \
+> tests/nvme/052:                                 --nsid "${i}")
 
