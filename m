@@ -4,51 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9084CD5B872
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 15:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 516DBD6B6A7
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 16:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1m73G4+wV9nQ5aRCeT6ambeEYraYYBMP0VscpO0QNDI=; b=fVrrCJPKC9Yf1QKp5eYoWvkwYx
-	nGB1ZH0NyJFmway2i09YpE51R0uKdPdaGsV9At+OQD0uGJLfXkDPR1xvjOTvN8YpD8CF1vFQXgf5q
-	psdiCjjCiUxCW1PV/Msia9XOp2MIf8/DhSeSHQzMeaNdcCoyJyPSc68xB6rWJcguylVuWETq3Ue9o
-	jSf1ikhy8O5d86hJEm51TVGwOvz3rTNVq3Rf7KZ6lINm2grVhTUQ+3qNSNrOdCgqF0Br5vqX8lJMt
-	JvloBI0u2TVYJ2PPURc7BAorfZUZjQ3dAb3P9W786Pc5X+b0S+/kCULfD3Q+54Hc2v+7IjnXJ/Tq4
-	t0cp4atg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tFfAVeRpTt9MOKvdbyKITP7haOM8Jd6d88FaRUe8ZOQ=; b=YeFqTOqjaHDI477LalnrNNTHAF
+	zFfrjIjPmUcpRIuvw/46Ty1ehSTq7SH4B3MHVWE6AVZRbWNx6djm/s9eGZccswpyCfKBjkqskMRrx
+	4KoFpgqSNy6ErW6qpG2TImzf7uLivhX7Uoor70atG6v0YaV5hET/jXp5KRgJmqIHvGSaMLgup9zqN
+	o6iVHM1lWFJZkcvya3ajljT5P8qZ1GdPyoBTuwluihUpGZntEmbKefqMw+DMJCA9gdVi5PRfAH2ua
+	vbkK7+CG6+ZbVidp3Bz8M2p6c9wmMcsrm3U91PF55A5wqp7FYhVFAEVtFEvLHTu3r5Iz2ioW3l9Pl
+	Z1syGZGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6B6q-00000000zH4-2dyC;
-	Wed, 30 Oct 2024 15:59:48 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1t6BMP-000000012LQ-3gRW;
+	Wed, 30 Oct 2024 16:15:53 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6AyG-00000000wmy-49bn
+	id 1t6AOS-00000000nXQ-13QV
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 15:50:58 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B5DD5227A8E; Wed, 30 Oct 2024 16:50:52 +0100 (CET)
-Date: Wed, 30 Oct 2024 16:50:52 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, io-uring@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, joshi.k@samsung.com,
-	javier.gonz@samsung.com, bvanassche@acm.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCHv10 9/9] scsi: set permanent stream count in block limits
-Message-ID: <20241030155052.GA4984@lst.de>
-References: <20241029152654.GC26431@lst.de> <ZyEAb-zgvBlzZiaQ@kbusch-mbp> <20241029153702.GA27545@lst.de> <ZyEBhOoDHKJs4EEY@kbusch-mbp> <20241029155330.GA27856@lst.de> <ZyEL4FOBMr4H8DGM@kbusch-mbp> <20241030045526.GA32385@lst.de> <ZyJTsyDjn6ABVbV0@kbusch-mbp.dhcp.thefacebook.com> <20241030154556.GA4449@lst.de> <ZyJVV6R5Ei0UEiVJ@kbusch-mbp.dhcp.thefacebook.com>
+	Wed, 30 Oct 2024 15:14:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id C09D3A417D9;
+	Wed, 30 Oct 2024 15:11:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91DDCC4CED1;
+	Wed, 30 Oct 2024 15:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730301234;
+	bh=LyGbooKE736rWckmyvuR6Y2aUxxUKiIhQ25bI43LeHo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gnbQRLju1EGkWrMUq1IEnfCImY/sV9QqN3EtvIXwn6fwjiEiWAe2neBZdDCdV7yHr
+	 qcm05YMTX2HjYttwSkMdkPZu827K45fVD5z/d2S7M0nrrrP5/m9EqJ1slY09EmQN3a
+	 d2Cd6nFHM6OmwTNw2wEVvXTaKeNW4VfyiRLzEuKOs85WvxEzWcM/xRt73c66yBHci3
+	 SKqb7lSPzJW49SZUIb5sj7omTVYloV7g4/qyWLtu5pchWIDw+VTxFln9bhApnufmPL
+	 csDsywMT+HisWLNFXI/t1D4sSzvZQOjKXw12aKaZsJqNIqTytD5aguAnmC+31kW8MT
+	 ywSaehtZC6bRw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v1 10/17] mm/hmm: let users to tag specific PFN with DMA mapped bit
+Date: Wed, 30 Oct 2024 17:12:56 +0200
+Message-ID: <6ae52934e3f7652d8ae1630f9c16f2c8a15215ff.1730298502.git.leon@kernel.org>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <cover.1730298502.git.leon@kernel.org>
+References: <cover.1730298502.git.leon@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZyJVV6R5Ei0UEiVJ@kbusch-mbp.dhcp.thefacebook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_085057_196525_568EBE1F 
-X-CRM114-Status: GOOD (  14.57  )
+X-CRM114-CacheID: sfid-20241030_081356_649520_8CB74E16 
+X-CRM114-Status: GOOD (  19.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,20 +96,154 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 30, 2024 at 09:48:39AM -0600, Keith Busch wrote:
-> What??? You said to map the temperature hints to a write stream. The
-> driver offers that here. But you specifically don't want that? I'm so
-> confused.
+From: Leon Romanovsky <leonro@nvidia.com>
 
-In bdev/fops.c (or file systems if they want to do that) not down in the
-driver forced down everyones throat.  Which was the whole point of the
-discussion that we're running in circles here.
+Introduce new sticky flag (HMM_PFN_DMA_MAPPED), which isn't overwritten
+by HMM range fault. Such flag allows users to tag specific PFNs with information
+if this specific PFN was already DMA mapped.
 
-> > with no way to make actually useful use of the stream separation.
-> 
-> Have you tried it? The people who actually do easily demonstrate it is
-> in fact very useful.
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ include/linux/hmm.h | 14 ++++++++++++++
+ mm/hmm.c            | 34 +++++++++++++++++++++-------------
+ 2 files changed, 35 insertions(+), 13 deletions(-)
 
-While I've read the claim multiple times, I've not actually seen any
-numbers.
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 126a36571667..5dd655f6766b 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -23,6 +23,8 @@ struct mmu_interval_notifier;
+  * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
+  * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
+  *                 fail. ie poisoned memory, special pages, no vma, etc
++ * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
++ *                      to mark that page is already DMA mapped
+  *
+  * On input:
+  * 0                 - Return the current state of the page, do not fault it.
+@@ -36,6 +38,10 @@ enum hmm_pfn_flags {
+ 	HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
+ 	HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
+ 	HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
++
++	/* Sticky flag, carried from Input to Output */
++	HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 7),
++
+ 	HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 8),
+ 
+ 	/* Input flags */
+@@ -57,6 +63,14 @@ static inline struct page *hmm_pfn_to_page(unsigned long hmm_pfn)
+ 	return pfn_to_page(hmm_pfn & ~HMM_PFN_FLAGS);
+ }
+ 
++/*
++ * hmm_pfn_to_phys() - return physical address pointed to by a device entry
++ */
++static inline phys_addr_t hmm_pfn_to_phys(unsigned long hmm_pfn)
++{
++	return __pfn_to_phys(hmm_pfn & ~HMM_PFN_FLAGS);
++}
++
+ /*
+  * hmm_pfn_to_map_order() - return the CPU mapping size order
+  *
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 7e0229ae4a5a..2a0c34d7cb2b 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -44,8 +44,10 @@ static int hmm_pfns_fill(unsigned long addr, unsigned long end,
+ {
+ 	unsigned long i = (addr - range->start) >> PAGE_SHIFT;
+ 
+-	for (; addr < end; addr += PAGE_SIZE, i++)
+-		range->hmm_pfns[i] = cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++) {
++		range->hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		range->hmm_pfns[i] |= cpu_flags;
++	}
+ 	return 0;
+ }
+ 
+@@ -202,8 +204,10 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
+ 		return hmm_vma_fault(addr, end, required_fault, walk);
+ 
+ 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+-	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		hmm_pfns[i] = pfn | cpu_flags;
++	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 	return 0;
+ }
+ #else /* CONFIG_TRANSPARENT_HUGEPAGE */
+@@ -236,7 +240,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (required_fault)
+ 			goto fault;
+-		*hmm_pfn = 0;
++		*hmm_pfn = *hmm_pfn & HMM_PFN_DMA_MAPPED;
+ 		return 0;
+ 	}
+ 
+@@ -253,14 +257,14 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			cpu_flags = HMM_PFN_VALID;
+ 			if (is_writable_device_private_entry(entry))
+ 				cpu_flags |= HMM_PFN_WRITE;
+-			*hmm_pfn = swp_offset_pfn(entry) | cpu_flags;
++			*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | swp_offset_pfn(entry) | cpu_flags;
+ 			return 0;
+ 		}
+ 
+ 		required_fault =
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (!required_fault) {
+-			*hmm_pfn = 0;
++			*hmm_pfn = *hmm_pfn & HMM_PFN_DMA_MAPPED;
+ 			return 0;
+ 		}
+ 
+@@ -304,11 +308,11 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			pte_unmap(ptep);
+ 			return -EFAULT;
+ 		}
+-		*hmm_pfn = HMM_PFN_ERROR;
++		*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | HMM_PFN_ERROR;
+ 		return 0;
+ 	}
+ 
+-	*hmm_pfn = pte_pfn(pte) | cpu_flags;
++	*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | pte_pfn(pte) | cpu_flags;
+ 	return 0;
+ 
+ fault:
+@@ -448,8 +452,10 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
+ 		}
+ 
+ 		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-		for (i = 0; i < npages; ++i, ++pfn)
+-			hmm_pfns[i] = pfn | cpu_flags;
++		for (i = 0; i < npages; ++i, ++pfn) {
++			hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++			hmm_pfns[i] |= pfn | cpu_flags;
++		}
+ 		goto out_unlock;
+ 	}
+ 
+@@ -507,8 +513,10 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
+ 	}
+ 
+ 	pfn = pte_pfn(entry) + ((start & ~hmask) >> PAGE_SHIFT);
+-	for (; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		range->hmm_pfns[i] = pfn | cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		range->hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		range->hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 
+ 	spin_unlock(ptl);
+ 	return 0;
+-- 
+2.46.2
+
 
