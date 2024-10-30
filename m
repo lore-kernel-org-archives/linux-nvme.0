@@ -4,92 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B29DD5CC91
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 10:57:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3139D5CC9C
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 11:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UA85NR6FDG4qskyEnQUmTyereqqgPUCKatyBwSi8iQM=; b=IKw7dr1GiCLdtGlOHeCo8z0eRl
-	0gr7eWzrAgp54ltUm7Nx33k7R8+TkNmVsve2WOrhPnlBkWFpjk0lb+Ic3Bx5beuO2GQ0tUiwphxTZ
-	XyMXSFGtA3hFuUV+e5xxbyvDSB7jyzPNX6F72rk4qM0yQGXRZWzFg1Zfwj0Q9LhOCNUPIxWXbq/kx
-	Z2u2vbFBTaNJm1iMxuHS2cm1XDgAdonBK46l955PnBeGDv2jsKUNqECa3XX1tHO9xtIBuoxwaCdhm
-	/EIumDxKC7HkdVuqkh6+RAB6O8JXaK0qFhHXa9JfHSQCrL5Tin+dqZLjyKike/5QkhgTY5pW4RzuU
-	FOZvPTGw==;
+	bh=OzObsVJKazVgcN/sx4nDHJ63Yo33iupzEMEKYB9KAo8=; b=c56jmJ8rjLIK8D87KJ+x39fpYV
+	e+rWUTDNUv/9ajWOGnwVg3BgibzoRwmkrTXh6ZGF7IEfYx2+QJkGRWwv3JY9q1iDz0OeQ8yirG/23
+	6ZrZijEgLnArxaOWAdBowCnG9YR0NM8hpw8GkUU8MtyZB1XgcoNyvxqyagFUlwzM0fIvMZJEKzSoV
+	CKy2NoLzkfsmcFNoZw71hKizsnuMDLuv3Z+xXIPRT81HPAfCk6t/LIYGQPybYWDA2b04sE03SfHLz
+	0FNMuiOXvn7CZpCTUhL94wa8hU+pHxyyuWA//RfKLTwoN0Xlpto1EryUTPe3i851YVXjk0Ev2puu0
+	GCEZZ8Vw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t66No-000000002Iz-1m9O;
-	Wed, 30 Oct 2024 10:57:00 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1t673C-00000000ArR-3MXB;
+	Wed, 30 Oct 2024 11:39:46 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t669X-0000000Hal3-2THr
+	id 1t66hc-000000006Mg-4BZJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 10:42:17 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U2d3sm012548;
-	Wed, 30 Oct 2024 10:42:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=UA85NR6FDG4qskyEn
-	QUmTyereqqgPUCKatyBwSi8iQM=; b=FHpk775ZJVA1zWcWv53pXxHcsnCPwQXol
-	vaD2tNzWEE2+ksJRkItCPDNemigrTyVM93p0UZ8s2DMk3+Ts/s+A2VhZlw/PJI7A
-	Seumf54SExoBY2dBDkAxCp23Xc9Sd8TLVF9evwn36lzjXqO8sZPKWczGcR/ADni/
-	X5rF6PUW1a7IASrmuJ7amrw7CBTCgYWvop3r/1dKmRoFo6/q3RO4qMG67yUSrzN1
-	I7i9QtKrr9jmhTXs/w69Sv3ugtZCnkjzvCCRnOAZ9Yg3Sca8bnXNONwOXtXgYpMR
-	u9P6HVD8I+p8u/97LNS3IRwx8gS2nOGSuDh1bD+IwZ2EaFkuknlyg==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42k6gt30wg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 10:42:09 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49U7kA7B013506;
-	Wed, 30 Oct 2024 10:42:09 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 42hbrmym7h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 10:42:09 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49UAg5Ma36438484
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 30 Oct 2024 10:42:05 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 001122004B;
-	Wed, 30 Oct 2024 10:42:04 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DA69920043;
-	Wed, 30 Oct 2024 10:42:02 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.171.67.17])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 30 Oct 2024 10:42:02 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, sagi@grimberg.me, hare@suse.de, kbusch@kernel.org,
-        hch@lst.de, =axboe@fb.com, gjoyce@linux.ibm.com,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv5 RFC 2/3] nvme-multipath: Add visibility for numa io-policy
-Date: Wed, 30 Oct 2024 16:11:42 +0530
-Message-ID: <20241030104156.747675-3-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241030104156.747675-1-nilay@linux.ibm.com>
-References: <20241030104156.747675-1-nilay@linux.ibm.com>
+	Wed, 30 Oct 2024 11:17:31 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20241030111717epoutp0365aecdbc0417e658d50a7821ec3e1ca7~DNuSwR3Hv1789917899epoutp03R
+	for <linux-nvme@lists.infradead.org>; Wed, 30 Oct 2024 11:17:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20241030111717epoutp0365aecdbc0417e658d50a7821ec3e1ca7~DNuSwR3Hv1789917899epoutp03R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1730287037;
+	bh=OzObsVJKazVgcN/sx4nDHJ63Yo33iupzEMEKYB9KAo8=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=ZlYbgbWIFcDAS1lhBQZkC3kI49kLlv8+s8ulBNrNrt3Kg4GXRvATsZreTbyLOZbez
+	 ww2gLN7jum2vjjKy+PC35HKlrYfDnRCmRolVnB6eWAPxevjpeDjGXCINoF1rfuhLfE
+	 UhpLuJ731723XJDZZa6dpmw6cUnxP6VW7wVnu22c=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20241030111716epcas5p3a994daa648427069bbd00eb1f4650c90~DNuR0GVe80206702067epcas5p3k;
+	Wed, 30 Oct 2024 11:17:16 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4Xdl2g3ykXz4x9Pw; Wed, 30 Oct
+	2024 11:17:15 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	A5.E1.18935.BB512276; Wed, 30 Oct 2024 20:17:15 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20241030111714epcas5p43427b28045729bf2a3e8b5f8eb89721a~DNuPyYXi50427004270epcas5p4u;
+	Wed, 30 Oct 2024 11:17:14 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241030111714epsmtrp2bd805bfc1033e94261a0f82b9b75f1a6~DNuPxiVnR2729027290epsmtrp2v;
+	Wed, 30 Oct 2024 11:17:14 +0000 (GMT)
+X-AuditID: b6c32a50-a99ff700000049f7-45-672215bb2293
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	27.46.18937.AB512276; Wed, 30 Oct 2024 20:17:14 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241030111712epsmtip2062d4a5833ae6808d34c5cd6b34aedde~DNuNfow6l1561015610epsmtip2I;
+	Wed, 30 Oct 2024 11:17:11 +0000 (GMT)
+Message-ID: <457b635b-a3b5-48bb-b2ac-b129c5d3d30d@samsung.com>
+Date: Wed, 30 Oct 2024 16:47:11 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2Y6OuAD8LDyaHQuqxv6-_K6mzYTCc8DL
-X-Proofpoint-ORIG-GUID: 2Y6OuAD8LDyaHQuqxv6-_K6mzYTCc8DL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- priorityscore=1501 impostorscore=0 suspectscore=0 lowpriorityscore=0
- mlxscore=0 clxscore=1015 phishscore=0 adultscore=0 spamscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410300080
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/10] fs, iov_iter: define meta io descriptor
+To: Christoph Hellwig <hch@lst.de>, Anuj Gupta <anuj20.g@samsung.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, martin.petersen@oracle.com,
+	asml.silence@gmail.com, anuj1072538@gmail.com, brauner@kernel.org,
+	jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+	linux-fsdevel@vger.kernel.org
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20241030050355.GA32598@lst.de>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCJsWRmVeSWpSXmKPExsWy7bCmhu5uUaV0g7t3pS0+fv3NYtE04S+z
+	xZxV2xgtVt/tZ7N4ffgTo8XNAzuZLFauPspk8a71HIvF7OnNTBaTDl1jtNh7S9tiz96TLBbz
+	lz1lt+i+voPNYvnxf0wW5/8eZ7U4P2sOu4Ogx85Zd9k9Lp8t9di0qpPNY/OSeo/dNxvYPD4+
+	vcXi0bdlFaPHmQVH2D0+b5Lz2PTkLVMAV1S2TUZqYkpqkUJqXnJ+SmZeuq2Sd3C8c7ypmYGh
+	rqGlhbmSQl5ibqqtkotPgK5bZg7QO0oKZYk5pUChgMTiYiV9O5ui/NKSVIWM/OISW6XUgpSc
+	ApMCveLE3OLSvHS9vNQSK0MDAyNToMKE7IzeaY3sBR+YKh7PfsDYwLiKqYuRk0NCwETixftd
+	jF2MXBxCAnsYJaZvvsMC4XxilFh66yMrnDP/wAMWmJbV706wQyR2MkrcPjmdCcJ5yygx+fp3
+	sCpeATuJ7f9/gS1hEVCVePzrKDtEXFDi5MwnYDWiAvIS92/NAIsLC7hKtHw8zwhiiwDZpx5c
+	ZAYZyizwhUni8N1WsCJmAXGJW0/mAw3l4GAT0JS4MLkUJMwpoCPxfstqRogSeYntb+eA9UoI
+	vOGQuPvwJSvE2S4Sh5omMULYwhKvjm9hh7ClJD6/28sGYWdLPHgE82aNxI7NfVC99hINf26w
+	guxlBtq7fpc+xC4+id7fT8DOkRDglehoE4KoVpS4N+kpVKe4xMMZS6BsD4mH+++CbRISuM8o
+	0fXQegKjwiykUJmF5MlZSL6ZhbB4ASPLKkap1ILi3PTUZNMCQ9281HJ4jCfn525iBCd3rYAd
+	jKs3/NU7xMjEwXiIUYKDWUmE1zJIMV2INyWxsiq1KD++qDQntfgQoykwfiYyS4km5wPzS15J
+	vKGJpYGJmZmZiaWxmaGSOO/r1rkpQgLpiSWp2ampBalFMH1MHJxSDUwRt9qXHYoPOcigFOlg
+	/DLkW8KiuYtMbM7lhrDfym1ynF7bXvaH/9HTjUWCExvKXa5eEueeycPJ6alSxPCL5WScYe+G
+	Jwu8E+rEKh5cZntW4l/XpXrjkt71ssVR0f//SmXoPmToPrX6NUtStPee01nb3ttH3nipKO5R
+	zv5Thcfz4ZwutrOz+X/mKTmu+uVqxs4+4dKnFVwZrGlFYba5rrvTLlzYubO8cv0N048/dFyL
+	fswK6ZLbVH5xxaepfl2rJt/dEPdwO/PG3tmbAg+6Ha8ValPyeuPyoMtmRqn2x+WHru95/+6g
+	7O2HVXqK804z35viuZJj3w6hteUC67ZPVfKVFN+47ddGtUWhB7ZeZGJSYinOSDTUYi4qTgQA
+	erqqjncEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDIsWRmVeSWpSXmKPExsWy7bCSvO4uUaV0g+f3JSw+fv3NYtE04S+z
+	xZxV2xgtVt/tZ7N4ffgTo8XNAzuZLFauPspk8a71HIvF7OnNTBaTDl1jtNh7S9tiz96TLBbz
+	lz1lt+i+voPNYvnxf0wW5/8eZ7U4P2sOu4Ogx85Zd9k9Lp8t9di0qpPNY/OSeo/dNxvYPD4+
+	vcXi0bdlFaPHmQVH2D0+b5Lz2PTkLVMAVxSXTUpqTmZZapG+XQJXRu+0RvaCD0wVj2c/YGxg
+	XMXUxcjJISFgIrH63Qn2LkYuDiGB7YwSq9c0skEkxCWar/1gh7CFJVb+ew5V9JpRYvfrHSwg
+	CV4BO4nt/3+BTWIRUJV4/OsoO0RcUOLkzCdgNaIC8hL3b80AiwsLuEq0fDzPCGKLANmnHlxk
+	BhnKLPCFSWLlw1nMEBvuMkqcOPIZ7AxmoDNuPZkPtIGDg01AU+LC5FKQMKeAjsT7LasZIUrM
+	JLq2dkHZ8hLb385hnsAoNAvJHbOQTJqFpGUWkpYFjCyrGEVTC4pz03OTCwz1ihNzi0vz0vWS
+	83M3MYIjWCtoB+Oy9X/1DjEycTAeYpTgYFYS4bUMUkwX4k1JrKxKLcqPLyrNSS0+xCjNwaIk
+	zquc05kiJJCeWJKanZpakFoEk2Xi4JRqYHJW2FSz7yzz7ba52RtkT/SvFc+OWyv6+6rVm6c3
+	D72PP3Iy0ELoyrUdS7OsuTSWu/Yt0dh50oU3ZVlrrvweeXd/7UmhZ+/4hfMn7v6s4Drv79eJ
+	TA4v5m39OqXBeWejg9q9V7MvfRGX9+AIs2vmexD5UfG5pNsCrqw8G7tlb5cvYAgp63N/mXqi
+	2Tj4brS/CIdhn5Ypg6jk4cd6MiV7mblY3PQiLiWdfvRlx4opVa7vM6Ot5jFkds6SfPJP2vzf
+	3diok8lVXGH2bgzKs6ITVVv2Nxt/YL99yEdWPKexeO1FMxmLdepWn8JzyzUqncr+PQ9cxFUo
+	LKSw2NFQ8UKAyNU/DwO/vPv7uWy75o7FSizFGYmGWsxFxYkASVkO2U8DAAA=
+X-CMS-MailID: 20241030111714epcas5p43427b28045729bf2a3e8b5f8eb89721a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241029163220epcas5p2207d4c54b8c4811e973fca601fd7e3f5
+References: <20241029162402.21400-1-anuj20.g@samsung.com>
+	<CGME20241029163220epcas5p2207d4c54b8c4811e973fca601fd7e3f5@epcas5p2.samsung.com>
+	<20241029162402.21400-5-anuj20.g@samsung.com>
+	<20241030050355.GA32598@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_034215_868907_4AC58850 
-X-CRM114-Status: GOOD (  18.87  )
+X-CRM114-CacheID: sfid-20241030_041729_536841_25EC58A2 
+X-CRM114-Status: GOOD (  10.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,118 +143,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch helps add nvme native multipath visibility for numa io-policy.
-It adds a new attribute file named "numa_nodes" under namespace gendisk
-device path node which prints the list of numa nodes preferred by the
-given namespace path. The numa nodes value is comma delimited list of
-nodes or A-B range of nodes.
+On 10/30/2024 10:33 AM, Christoph Hellwig wrote:
+> .. but these aren't.  Leading to warnings like:
+> 
+>   CHECK   block/bio-integrity.c
+> block/bio-integrity.c:371:17: warning: restricted uio_meta_flags_t degrades to integer
 
-For instance, if we have a shared namespace accessible from two different
-controllers/paths then accessing head node of the shared namespace would
-show the following output:
-
-$ ls -l /sys/block/nvme1n1/multipath/
-nvme1c1n1 -> ../../../../../pci052e:78/052e:78:00.0/nvme/nvme1/nvme1c1n1
-nvme1c3n1 -> ../../../../../pci058e:78/058e:78:00.0/nvme/nvme3/nvme1c3n1
-
-In the above example, nvme1n1 is head gendisk node created for a shared
-namespace and this namespace is accessible from nvme1c1n1 and nvme1c3n1
-paths. For numa io-policy we can then refer the "numa_nodes" attribute
-file created under each namespace path:
-
-$ cat /sys/block/nvme1n1/multipath/nvme1c1n1/numa_nodes
-0-1
-
-$ cat /sys/block/nvme1n1/multipath/nvme1c3n1/numa_nodes
-2-3
-
-From the above output, we infer that I/O workload targeted at nvme1n1
-and running on numa nodes 0 and 1 would prefer using path nvme1c1n1.
-Similarly, I/O workload running on numa nodes 2 and 3 would prefer
-using path nvme1c3n1. Reading "numa_nodes" file when configured
-io-policy is anything but numa would show no output.
-
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/multipath.c | 27 +++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h      |  1 +
- drivers/nvme/host/sysfs.c     |  5 +++++
- 3 files changed, 33 insertions(+)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 43c87a946cc7..7bfba6637916 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -971,6 +971,33 @@ static ssize_t ana_state_show(struct device *dev, struct device_attribute *attr,
- }
- DEVICE_ATTR_RO(ana_state);
- 
-+static ssize_t numa_nodes_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	int node, srcu_idx;
-+	nodemask_t numa_nodes;
-+	struct nvme_ns *current_ns;
-+	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-+	struct nvme_ns_head *head = ns->head;
-+
-+	if (head->subsys->iopolicy != NVME_IOPOLICY_NUMA)
-+		return 0;
-+
-+	nodes_clear(numa_nodes);
-+
-+	srcu_idx = srcu_read_lock(&head->srcu);
-+	for_each_node(node) {
-+		current_ns = srcu_dereference(head->current_path[node],
-+				&head->srcu);
-+		if (ns == current_ns)
-+			node_set(node, numa_nodes);
-+	}
-+	srcu_read_unlock(&head->srcu, srcu_idx);
-+
-+	return sysfs_emit(buf, "%*pbl\n", nodemask_pr_args(&numa_nodes));
-+}
-+DEVICE_ATTR_RO(numa_nodes);
-+
- static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
- 		struct nvme_ana_group_desc *desc, void *data)
- {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ff234bce58ef..02c0eb7b462c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -978,6 +978,7 @@ static inline void nvme_trace_bio_complete(struct request *req)
- extern bool multipath;
- extern struct device_attribute dev_attr_ana_grpid;
- extern struct device_attribute dev_attr_ana_state;
-+extern struct device_attribute dev_attr_numa_nodes;
- extern struct device_attribute subsys_attr_iopolicy;
- 
- static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 5a23e23b0d01..5a5ee0beb166 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -258,6 +258,7 @@ static struct attribute *nvme_ns_attrs[] = {
- #ifdef CONFIG_NVME_MULTIPATH
- 	&dev_attr_ana_grpid.attr,
- 	&dev_attr_ana_state.attr,
-+	&dev_attr_numa_nodes.attr,
- #endif
- 	&dev_attr_io_passthru_err_log_enabled.attr,
- 	NULL,
-@@ -290,6 +291,10 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
- 			return 0;
- 	}
-+	if (a == &dev_attr_numa_nodes.attr) {
-+		if (nvme_disk_is_ns_head(dev_to_disk(dev)))
-+			return 0;
-+	}
- #endif
- 	return a->mode;
- }
--- 
-2.45.2
-
+For some reasons this does not show up in my setup.
+But that only means setup needs to be fixed. Apart from dropping the 
+__bitwise.
 
