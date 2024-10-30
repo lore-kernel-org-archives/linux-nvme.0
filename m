@@ -4,53 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B827D74962
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 05:04:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38BE8D74962
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 05:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uk6WLNu3sMbvJlDwxwwERLE399QRdFL2SJ+OamFkLJQ=; b=fVssyDr+zXUcZChvrGq6Xb9Gi6
-	cLC4p8tMR13kY9oxQHM6VsohBXDxR8sIWD68O3bRljnOYHMncoZ5UTyPht6tV/AEJZmtbOPPQg8a5
-	4S/D7WMYRrjaSTULXhI6c42eoBIiHWWT6HsSiPRW6H5bKU5zGsye2x5TgVOYqdSMAjCMi/2euxc/E
-	HLHtLXW3lnVnAtdaLzb8fy+LLsAZLQp6QsC/jKVRSr/Yfu/cTAgp832+KA1sjj+5usdSHaqf6cXA5
-	6YMHEa1oCktJqsWmsuiJRk+fSNTzQwJwznx/F54MCscJelztE/mCDZFJYwgSNY2APPZDHDwQHricu
-	aMIjFQEw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=etBprYSM4yFFyx7jI/nY0m4KP0A/tvtFjbDsfqM8nJE=; b=Rqk73mmx+xS2QXg8W1OaGpIL/L
+	iSpuIIGEYpvjBg2SgB6YxIcuSzoBxODDJSa+q7dlIxKdtP4aUQK8rVqI+3Oeb1rB39XiGPzrcRmJG
+	aRPFEqz9PXBD+kApBPV7jMAOjxEt9a9JSnJIApB53vPDq006yktlU59xdAkSr7Qi5w5Hr+66FEkUd
+	FqlqlW26yPKU/s9Hv7230VCBvRr5kb/piMygsd73zzXXS7ylWEyIJrzFQQu6Y+INMAp1F35KMV4wy
+	FSg4lu5Tq49M2cyDLap3qVDNsruN3YTrm+jOP3XV9cjQqtm+yk+fhekO6ZZKRn6y1DqU6DublEVRK
+	DwfuKENg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t60sF-0000000Gjy6-3YMe;
-	Wed, 30 Oct 2024 05:04:03 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1t60tk-0000000GkCh-0a8U;
+	Wed, 30 Oct 2024 05:05:36 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t60sC-0000000Gjwu-2HX2
+	id 1t60tf-0000000GkBg-2uoY
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 05:04:01 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E8D5768AA6; Wed, 30 Oct 2024 06:03:55 +0100 (CET)
-Date: Wed, 30 Oct 2024 06:03:55 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, asml.silence@gmail.com,
-	anuj1072538@gmail.com, brauner@kernel.org, jack@suse.cz,
-	viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org,
-	vishak.g@samsung.com, linux-fsdevel@vger.kernel.org,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v5 04/10] fs, iov_iter: define meta io descriptor
-Message-ID: <20241030050355.GA32598@lst.de>
-References: <20241029162402.21400-1-anuj20.g@samsung.com> <CGME20241029163220epcas5p2207d4c54b8c4811e973fca601fd7e3f5@epcas5p2.samsung.com> <20241029162402.21400-5-anuj20.g@samsung.com>
+	Wed, 30 Oct 2024 05:05:33 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241030050525epoutp02f8530b6533fc3b25cfb4eee042563974~DIpml4bjJ0081600816epoutp02z
+	for <linux-nvme@lists.infradead.org>; Wed, 30 Oct 2024 05:05:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241030050525epoutp02f8530b6533fc3b25cfb4eee042563974~DIpml4bjJ0081600816epoutp02z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1730264725;
+	bh=etBprYSM4yFFyx7jI/nY0m4KP0A/tvtFjbDsfqM8nJE=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=WjElu5fQB3BGXq33OC861ztInCb6gEp16vr84DaKVQ9cTw4iOCfaoWyP6tlekUmCu
+	 EJ3FKrDXP6X6a96ct2neTEcMvZPddDf0qRQZ41NXaCdhujTZzegrbbdyTe+SgZNEJo
+	 uXKHSFuvCUfAJVbwlGbjj5L9hp3GJJW8irpgiGm8=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20241030050524epcas5p4451c336ce7026125a3f87be95f047eb3~DIpmFKRSN1573915739epcas5p4t;
+	Wed, 30 Oct 2024 05:05:24 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4XdZnb1ynmz4x9Q7; Wed, 30 Oct
+	2024 05:05:23 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F0.6C.18935.39EB1276; Wed, 30 Oct 2024 14:05:23 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20241030050522epcas5p317df8853e25adec42e977ab172bb140a~DIpkU8C862186321863epcas5p3-;
+	Wed, 30 Oct 2024 05:05:22 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241030050522epsmtrp2ade48a30ca6c52c955f9b90f7b14bc1f~DIpkTF8qQ0301203012epsmtrp2B;
+	Wed, 30 Oct 2024 05:05:22 +0000 (GMT)
+X-AuditID: b6c32a50-a99ff700000049f7-20-6721be930b81
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	DF.85.08229.29EB1276; Wed, 30 Oct 2024 14:05:22 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241030050520epsmtip262763cbc4fe93dbcba6dba18df76e472~DIph8qeYI1320213202epsmtip2C;
+	Wed, 30 Oct 2024 05:05:20 +0000 (GMT)
+Message-ID: <e7aae741-c139-48d1-bb22-dbcd69aa2f73@samsung.com>
+Date: Wed, 30 Oct 2024 10:35:19 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241029162402.21400-5-anuj20.g@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/10] io_uring/rw: add support to send metadata
+ along with read/write
+To: Keith Busch <kbusch@kernel.org>, Anuj Gupta <anuj20.g@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
+	asml.silence@gmail.com, anuj1072538@gmail.com, brauner@kernel.org,
+	jack@suse.cz, viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+	linux-fsdevel@vger.kernel.org
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <ZyFuxfiRqH8YB-46@kbusch-mbp.dhcp.thefacebook.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMJsWRmVeSWpSXmKPExsWy7bCmhu7kfYrpBpPW81h8/PqbxaJpwl9m
+	izmrtjFarL7bz2bx+vAnRoubB3YyWaxcfZTJ4l3rORaL2dObmSwmHbrGaLH3lrbFnr0nWSzm
+	L3vKbtF9fQebxfLj/5gszv89zmpxftYcdgdBj52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8
+	eovFo2/LKkaPMwuOsHt83iTnsenJW6YArqhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hTMwND
+	XUNLC3MlhbzE3FRbJRefAF23zBygd5QUyhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUltkqpBSk5
+	BSYFesWJucWleel6eaklVoYGBkamQIUJ2RldR6azFrwWrDi0bgVrA+N6vi5GTg4JAROJLcvm
+	MXcxcnEICexhlHjUMosdwvnEKLFiy0MmCOcbo8SXjjnMMC13L6yASuxllNh2ZD0LhPOWUWL1
+	lvPsIFW8AnYSN/suM3YxcnCwCKhKfJ+SBBEWlDg58wkLiC0qIC9x/9YMsHJhgXiJ1gfXweIi
+	Am4Sjf/ug81kFnjLJDHl1zUmkASzgLjErSfzmUBmsgloSlyYXApicgrYS8zfKgVRIS+x/e0c
+	sHckBH5wSHzp2s8OcbSLxN4H/xghbGGJV8e3QMWlJD6/28sGYWdLPHj0gAXCrpHYsbmPFcK2
+	l2j4c4MVZBcz0Nr1u/QhdvFJ9P5+AnaNhACvREebEES1osS9SU+hOsUlHs5YAmV7SPTNusYM
+	D9xppx8zTmBUmIUUKrOQPDkLyTuzEDYvYGRZxSiVWlCcm56abFpgqJuXWg6P8OT83E2M4NSu
+	FbCDcfWGv3qHGJk4GA8xSnAwK4nwWgYppgvxpiRWVqUW5ccXleakFh9iNAVGz0RmKdHkfGB2
+	ySuJNzSxNDAxMzMzsTQ2M1QS533dOjdFSCA9sSQ1OzW1ILUIpo+Jg1OqgclchVXmpo5gcMkq
+	xmsbXCwlU8P6FxaIP682tqkRT4m8xdX96tyW+Wv2nk0+cWGmjVTvwnLv/4u7FocxOF1ls5J2
+	fij1aGZzxRH2D667YooUrVlSvWzkp4fsMLntuZv/9w3T2XvEk5aemLa4dcm+0JM8taYV8qc0
+	xb6tTy5fxb4lTrCkXnmiBA+7yyrFym1RvU2J6vwygqdWnmYuWPbz0F9fG8NFn4+KTWA8vKG8
+	tW9e+V6jZzPlyuMe/p+VEtS3fslB9ufxPP76z7nPHFNU/qYtyVDjdWP6/0XF3K1fvbzztt6c
+	sijiac8s7uzNFx+c2+HU4pJnnJYXEruRYeYB6S/MHbpbnz6WXzFZOfpjoxJLcUaioRZzUXEi
+	AIL8OZd2BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDIsWRmVeSWpSXmKPExsWy7bCSvO6kfYrpBk8nK1t8/PqbxaJpwl9m
+	izmrtjFarL7bz2bx+vAnRoubB3YyWaxcfZTJ4l3rORaL2dObmSwmHbrGaLH3lrbFnr0nWSzm
+	L3vKbtF9fQebxfLj/5gszv89zmpxftYcdgdBj52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8
+	eovFo2/LKkaPMwuOsHt83iTnsenJW6YArigum5TUnMyy1CJ9uwSujK4j01kLXgtWHFq3grWB
+	cT1fFyMnh4SAicTdCyuYuhi5OIQEdjNKLHx1nB0iIS7RfO0HlC0ssfLfczBbSOA1o8SbXxIg
+	Nq+AncTNvsuMXYwcHCwCqhLfpyRBhAUlTs58wgJiiwrIS9y/NQOsVVggXmLi/z/MILaIgJtE
+	47/7LCB7mQXeMkkca77DCDH/E6PEq38WIDYz0A23nsxnApnPJqApcWFyKYjJKWAvMX+rFESF
+	mUTX1i5GCFteYvvbOcwTGIVmIbliFpJBs5C0zELSsoCRZRWjZGpBcW56brFhgWFearlecWJu
+	cWleul5yfu4mRnAEa2nuYNy+6oPeIUYmDsZDjBIczEoivJZBiulCvCmJlVWpRfnxRaU5qcWH
+	GKU5WJTEecVf9KYICaQnlqRmp6YWpBbBZJk4OKUamLp+Vu9yfHbk3PIDYttYGW59PO/gXpt1
+	on2H7HnVpdyZSbPvrN8VK2++Y9GRs6m6FytZlzHu+vQp43lkwL9GsdiyVRX37un2PhBJ/xgX
+	fC6rU3O9qFb43tboSysrP849MF+hanuJ6rI64UnfPxw/F5cTriwf1ed6ofJdjGpfwp7lRzyy
+	nSvXGkt/U791KpOL1UVhAe9TI84XlpqbpH13X6iIturn3XdhxRc+8ZQTK6cdfv+wZ3P4Z6a0
+	t28bLxieanNXtOY/43NjoqJEdlE584yzbVNWeUUuDLoqouC9XCJO/sESu9LfHWusdgc8Vl3m
+	8OGmwdH3Fl5Z10/rVB9SOHj4w+vOqs6nulqt3/bMKVFiKc5INNRiLipOBACOjksUTwMAAA==
+X-CMS-MailID: 20241030050522epcas5p317df8853e25adec42e977ab172bb140a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241029163225epcas5p24ec51c7a9b6b115757ed99cadcc3690c
+References: <20241029162402.21400-1-anuj20.g@samsung.com>
+	<CGME20241029163225epcas5p24ec51c7a9b6b115757ed99cadcc3690c@epcas5p2.samsung.com>
+	<20241029162402.21400-7-anuj20.g@samsung.com>
+	<ZyFuxfiRqH8YB-46@kbusch-mbp.dhcp.thefacebook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241029_220400_749733_F2AD7AA9 
-X-CRM114-Status: GOOD (  10.18  )
+X-CRM114-CacheID: sfid-20241029_220532_117490_9E0BEE91 
+X-CRM114-Status: GOOD (  22.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,29 +144,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 29, 2024 at 09:53:56PM +0530, Anuj Gupta wrote:
-> +/* flags for integrity meta */
-> +typedef __u16 __bitwise uio_meta_flags_t;
-> +
-> +struct uio_meta {
-> +	uio_meta_flags_t	flags;
+On 10/30/2024 4:54 AM, Keith Busch wrote:
+> On Tue, Oct 29, 2024 at 09:53:58PM +0530, Anuj Gupta wrote:
+>> This patch adds the capability of sending metadata along with read/write.
+>> A new meta_type field is introduced in SQE which indicates the type of
+>> metadata being passed. This meta is represented by a newly introduced
+>> 'struct io_uring_meta_pi' which specifies information such as flags,buffer
+>> length,seed and apptag. Application sets up a SQE128 ring, prepares
+>> io_uring_meta_pi within the second SQE.
+>> The patch processes the user-passed information to prepare uio_meta
+>> descriptor and passes it down using kiocb->private.
+>>
+>> Meta exchange is supported only for direct IO.
+>> Also vectored read/write operations with meta are not supported
+>> currently.
+> 
+> It looks like it is reasonable to add support for fixed buffers too.
+> There would be implications for subsequent patches, mostly patch 10, but
+> it looks like we can do that.
 
-.. this is a bitwise type
+Fixed buffers for data continues to be supported with this.
+Do you mean fixed buffers for metadata?
+We can take that as an incremental addition outside of this series which 
+is already touching various subsystems (io_uring, block, nvme, scsi, fs).
 
-> +/* flags for integrity meta */
-> +#define IO_INTEGRITY_CHK_GUARD		(1U << 0) /* enforce guard check */
-> +#define IO_INTEGRITY_CHK_REFTAG		(1U << 1) /* enforce ref check */
-> +#define IO_INTEGRITY_CHK_APPTAG		(1U << 2) /* enforce app check */
+> Anyway, this patch mostly looks okay to me. I don't know about the whole
+> "meta_type" thing. My understanding from Pavel was wanting a way to
+> chain command specific extra options.
 
-.. but these aren't.  Leading to warnings like:
+Right. During LSFMM, he mentioned Btrfs needed to send extra stuff with 
+read/write.
+But in general, this is about seeing metadata as a generic term to 
+encode extra information into io_uring SQE.
+It may not be very uncommon that people will have the need to send extra 
+stuff with read/write and add specific processing for that. And 
+SQE->meta_type helps to isolate all such processing from the common case 
+when no extra stuff is sent.
 
- CHECK   block/bio-integrity.c
-block/bio-integrity.c:371:17: warning: restricted uio_meta_flags_t degrades to integer
-block/bio-integrity.c:373:17: warning: restricted uio_meta_flags_t degrades to integer
-block/bio-integrity.c:375:17: warning: restricted uio_meta_flags_t degrades to integer
-block/bio-integrity.c:402:33: warning: restricted uio_meta_flags_t degrades to integer
+if (sqe->meta_type)
+{
+	if (type1(sqe->meta_type))
+		process(type1);
+	if (type2(sqe>meta_type))
+		process(type1);
+}
 
-from sparse.  Given that the flags are uapi, the it's probably best
-to just drop the __bitwise annotation.
+  For example, userspace metadata
+> and write hints, and this doesn't look like it can be extended to do
+> that.
+
+It can be. And in past I used that to represent different types of write 
+hints.
+Just that in the current version, write hints are being sent without any 
+type.
 
 
