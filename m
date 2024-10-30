@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA5F8D5CCB8
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 15:13:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FA20D5CCB9
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 15:14:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=18NPGuceQo1bRh7brK8gmz6Fjwz/7GYqhz5ykldBY5M=; b=pWMCEa9VXIr7/IdxZG7juXBzZc
-	8GxsgKLqOdqggupU1kbT7Uuij8AlfiBvLBVbn7Lxjjr1oj6bxwcUJODqxDgLKH/n1Hh6ua/eld40A
-	QXGfU3y+5ldd/HQU67T45F+djibH+EmTnnX2NjET5dB3jTHRToe+/mNMmxwLblmpaDak645RvH668
-	IcWMozhWo33SjCJGX/kWyf/srg4UQS3rcXukJoAjNA1t3j9eSrY4gKR7jyAF5RE65L0cnjREF4JFQ
-	VCb4UX2KWpncfRVNGNBP9ipNaK3BlmAG7mIzvZhainoFtvzwa6ekY0HbTB2CqNQFtWzLzTYdPlOfN
-	P7WTVhog==;
+	bh=v5SYRMY/doGJo/E57q9NuO+kOt01Crkg32kQAVBzJCY=; b=SO/gkeMsSJ2IOmSM85WgEPVXIO
+	ApOS+KjK3YWu75tqqJMtI6USJdmsXLANwfouOlLLoViG4s/RlxuH8SpCp3hLDNLKduFC5cUSeuVKn
+	jEoFoyqDBTFZuUfI35dcu09FOXphW8QpdeXmqvWwBEZE+a36WphSkTKKqiQlV0iNB6YmbGqxiC3qM
+	O50xLK3DUuDFV9EElrD1drk+9LRi0YZ4OjfP2B0c1hHxFiABWmqOviXTRTyHglvsGsCoFUSxKBkHJ
+	70BdznCmy9dNxMSd7IlxU1E6sD1tlPyGkeIMVFD1DjJdNJmN3Eu6o/QQjcBk4GSD/RP41jU6//G6f
+	IEVosccw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6AOP-00000000nUy-0ARc;
-	Wed, 30 Oct 2024 15:13:53 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1t6AOX-00000000ncl-2DOe;
+	Wed, 30 Oct 2024 15:14:01 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6AOJ-00000000nQJ-3ehM
+	id 1t6AON-00000000nTK-1X3k
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 15:13:49 +0000
+	Wed, 30 Oct 2024 15:13:54 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 66212A418C0;
-	Wed, 30 Oct 2024 15:11:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3607CC4CECE;
-	Wed, 30 Oct 2024 15:13:46 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B70355C5E7F;
+	Wed, 30 Oct 2024 15:13:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 864EFC4CECF;
+	Wed, 30 Oct 2024 15:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730301226;
-	bh=QGhPEI3S06TBMrjanRSWwBEaYlCHA0taHYk6+dEHPl4=;
+	s=k20201202; t=1730301230;
+	bh=RhcK3jpx80P74UKqRSLHZKtWTOJGp14TVgQFOHpK5uo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=psdZpNNGJcibprE+79HbooZm4yrYRQ0Yu1vOnpFXCYC6sQg7aj8A9kDoxv4O9iKda
-	 vpq6+UnL42B2GDmqpeaSgxnZCKXUatA37GWb2vauJWt+5W1nRqHtmPp04iI93g57tu
-	 KT11sUZqFdMvorZZWFhUeI1GodNfUEPOp44eQcLTwPEUO4I48Oa3RCy8kMqfiQy3y+
-	 RLbv/eCj019iM7aJEV8UauLvHM/qFQekp0H0w4ukWgIMTJw+cem8+gNMj9xEujliUm
-	 wkqpnJG2GZLxNNnsYjzykT+M6nMB7eALtxtpI40Fb1ze4vYyPccY02MSuZC0u2g5z0
-	 R8WSAEimTxIEA==
+	b=dUjbzlfB58nam+e/KuKFD86cA5mG8ygjLY9xQ0Z+h8sT3ni+00nHbhRibOA92d2hi
+	 8xSFaFNOhS1hi7n1y1TP/+mgcST+mtaxk4HgBka7GNtvh7Mt9RzEEVIg91E8eZ4pX2
+	 A/wD3SvwthfhxnGgkwocL11q550gsMwYXoTxqLkRkR/bcMUsXgtpEBnrlQ5MuVmOam
+	 3KHo6w/cSCf3BLB2YJgJUjec/9ITBowgjGgsaPk5GvKbINh9JofcCiGOH7ZipyG9gL
+	 ZdHwhS8PLH6oDNV6SpMo+XFB1UPff4GK4X5kD5OYHis9J0N5UQL1Uyin1m7/ZYvKdf
+	 yHA0I8oajcNSg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -70,17 +70,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH v1 08/17] dma-mapping: add a dma_need_unmap helper
-Date: Wed, 30 Oct 2024 17:12:54 +0200
-Message-ID: <00385b3557fa074865d37b0ac613d2cb28bcb741.1730298502.git.leon@kernel.org>
+Subject: [PATCH v1 03/17] iommu: generalize the batched sync after map interface
+Date: Wed, 30 Oct 2024 17:12:49 +0200
+Message-ID: <589adb3a4b53121942e9a39051ae49a27f7a074c.1730298502.git.leon@kernel.org>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <cover.1730298502.git.leon@kernel.org>
 References: <cover.1730298502.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_081348_132928_47741E94 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20241030_081351_616728_101EE303 
+X-CRM114-Status: GOOD (  21.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,70 +97,164 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-Add helper that allows a driver to skip calling dma_unmap_*
-if the DMA layer can guarantee that they are no-nops.
+For the upcoming IOVA-based DMA API we want to use the interface batch the
+sync after mapping multiple entries from dma-iommu without having a
+scatterlist.
+
+For that move more sanity checks from the callers into __iommu_map and
+make that function available outside of iommu.c as iommu_map_nosync.
+
+Add a wrapper for the map_sync as iommu_sync_map so that callers don't
+need to poke into the methods directly.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/dma-mapping.h |  5 +++++
- kernel/dma/mapping.c        | 20 ++++++++++++++++++++
- 2 files changed, 25 insertions(+)
+ drivers/iommu/iommu.c | 65 +++++++++++++++++++------------------------
+ include/linux/iommu.h |  4 +++
+ 2 files changed, 33 insertions(+), 36 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 8074a3b5c807..6906edde505d 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -410,6 +410,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 83c8e617a2c5..6b0943397e1e 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2439,8 +2439,8 @@ static size_t iommu_pgsize(struct iommu_domain *domain, unsigned long iova,
+ 	return pgsize;
  }
-+bool dma_need_unmap(struct device *dev);
- #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
- static inline bool dma_dev_need_sync(const struct device *dev)
- {
-@@ -435,6 +436,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return false;
- }
-+static inline bool dma_need_unmap(struct device *dev)
-+{
-+	return false;
-+}
- #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
  
- struct page *dma_alloc_pages(struct device *dev, size_t size,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 864a1121bf08..daa97a650778 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -442,6 +442,26 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- }
- EXPORT_SYMBOL_GPL(__dma_need_sync);
+-static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+-		       phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++int iommu_map_nosync(struct iommu_domain *domain, unsigned long iova,
++		phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+ {
+ 	const struct iommu_domain_ops *ops = domain->ops;
+ 	unsigned long orig_iova = iova;
+@@ -2449,12 +2449,19 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	phys_addr_t orig_paddr = paddr;
+ 	int ret = 0;
  
-+/**
-+ * dma_need_unmap - does this device need dma_unmap_* operations
-+ * @dev: device to check
-+ *
-+ * If this function returns %false, drivers can skip calling dma_unmap_* after
-+ * finishing an I/O.  This function must be called after all mappings that might
-+ * need to be unmapped have been performed.
-+ */
-+bool dma_need_unmap(struct device *dev)
-+{
-+	if (!dma_map_direct(dev, get_dma_ops(dev)))
-+		return true;
-+#ifdef CONFIG_DMA_NEED_SYNC
-+	if (!dev->dma_skip_sync)
-+		return true;
-+#endif
-+	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
-+}
-+EXPORT_SYMBOL_GPL(dma_need_unmap);
++	might_sleep_if(gfpflags_allow_blocking(gfp));
 +
- static void dma_setup_need_sync(struct device *dev)
+ 	if (unlikely(!(domain->type & __IOMMU_DOMAIN_PAGING)))
+ 		return -EINVAL;
+ 
+ 	if (WARN_ON(!ops->map_pages || domain->pgsize_bitmap == 0UL))
+ 		return -ENODEV;
+ 
++	/* Discourage passing strange GFP flags */
++	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
++				__GFP_HIGHMEM)))
++		return -EINVAL;
++
+ 	/* find out the minimum page size supported */
+ 	min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
+ 
+@@ -2502,31 +2509,27 @@ static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 	return ret;
+ }
+ 
+-int iommu_map(struct iommu_domain *domain, unsigned long iova,
+-	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++int iommu_sync_map(struct iommu_domain *domain, unsigned long iova, size_t size)
  {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ 	const struct iommu_domain_ops *ops = domain->ops;
+-	int ret;
+-
+-	might_sleep_if(gfpflags_allow_blocking(gfp));
+ 
+-	/* Discourage passing strange GFP flags */
+-	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
+-				__GFP_HIGHMEM)))
+-		return -EINVAL;
++	if (!ops->iotlb_sync_map)
++		return 0;
++	return ops->iotlb_sync_map(domain, iova, size);
++}
+ 
+-	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
+-	if (ret == 0 && ops->iotlb_sync_map) {
+-		ret = ops->iotlb_sync_map(domain, iova, size);
+-		if (ret)
+-			goto out_err;
+-	}
++int iommu_map(struct iommu_domain *domain, unsigned long iova,
++	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++{
++	int ret;
+ 
+-	return ret;
++	ret = iommu_map_nosync(domain, iova, paddr, size, prot, gfp);
++	if (ret)
++		return ret;
+ 
+-out_err:
+-	/* undo mappings already done */
+-	iommu_unmap(domain, iova, size);
++	ret = iommu_sync_map(domain, iova, size);
++	if (ret)
++		iommu_unmap(domain, iova, size);
+ 
+ 	return ret;
+ }
+@@ -2612,26 +2615,17 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 		     struct scatterlist *sg, unsigned int nents, int prot,
+ 		     gfp_t gfp)
+ {
+-	const struct iommu_domain_ops *ops = domain->ops;
+ 	size_t len = 0, mapped = 0;
+ 	phys_addr_t start;
+ 	unsigned int i = 0;
+ 	int ret;
+ 
+-	might_sleep_if(gfpflags_allow_blocking(gfp));
+-
+-	/* Discourage passing strange GFP flags */
+-	if (WARN_ON_ONCE(gfp & (__GFP_COMP | __GFP_DMA | __GFP_DMA32 |
+-				__GFP_HIGHMEM)))
+-		return -EINVAL;
+-
+ 	while (i <= nents) {
+ 		phys_addr_t s_phys = sg_phys(sg);
+ 
+ 		if (len && s_phys != start + len) {
+-			ret = __iommu_map(domain, iova + mapped, start,
++			ret = iommu_map_nosync(domain, iova + mapped, start,
+ 					len, prot, gfp);
+-
+ 			if (ret)
+ 				goto out_err;
+ 
+@@ -2654,11 +2648,10 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
+ 			sg = sg_next(sg);
+ 	}
+ 
+-	if (ops->iotlb_sync_map) {
+-		ret = ops->iotlb_sync_map(domain, iova, mapped);
+-		if (ret)
+-			goto out_err;
+-	}
++	ret = iommu_sync_map(domain, iova, mapped);
++	if (ret)
++		goto out_err;
++
+ 	return mapped;
+ 
+ out_err:
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index bd722f473635..8927e5f996c2 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -799,6 +799,10 @@ extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
+ extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
+ extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
+ 		     phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
++int iommu_map_nosync(struct iommu_domain *domain, unsigned long iova,
++		phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
++int iommu_sync_map(struct iommu_domain *domain, unsigned long iova,
++		size_t size);
+ extern size_t iommu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 			  size_t size);
+ extern size_t iommu_unmap_fast(struct iommu_domain *domain,
 -- 
 2.46.2
 
