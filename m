@@ -4,65 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57DA8D5CCB1
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 14:01:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60209D5CCB1
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 14:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sPAc4LNdaNZua/aqc9YfKFj5ODylECAL4/Crzpnrmfs=; b=eYg5D/ukHbF0plomSug3/4i6k3
-	GuAT9rvnTqvqbkVcHr+Ds4ptyzIRY/MKjMKpfVq1LQj7g4BuT5frqzKIP5u2Q9qn1hsrdtgpwyK0V
-	C/HdvjTBcEbiKfHugj4ZfUL3eF7lSK5eRIX/rfketGRJDmCOTkUyLMqhv+htUnnI5oQc24eajM70r
-	zNaija/FkjH1nDGAxg2uEFBf8kwPjPUqRm1ABYN6nCgDLEgTuxcTqgGqRxpo5k4vWw50XDU40MTAW
-	1MX3oM1ZqpwDWPRpGozZuTR07kODJLrkZ31Rmx2HUzYVjCNuKxar86LbvWyzSBVf/asN9WbZnIojR
-	YPvSRpKw==;
+	bh=8FMhE7PAtrxTKhQq/qBchOzchTonlJi8INE1Te4Xdx8=; b=DZl30RmEQ7Ti6/Z18/W3bZFhqr
+	UorVz62A4CyN6gTzXRhFEvrWUMdb5bEfv7sfY0XYfopctz+Cuv1+XbsB7aLrT9t3FgZD6wVcYz8oL
+	S8+AGtKr/xQL8s91St9XfI9n+UPFO9Wh/z8BnaOgdbmGZgHxwVQ1R29rF4YIyYS+q/z9HeUp4pQ99
+	y6gR13FsmjUivUljKHfiFqAY0ur4aFngkPX9leGvzNsVGuSlpx1jNFcubaCX6mQnoWoi2GtaF4KY+
+	6zRg9TQriw1YSBGTV46XsAQsVgHXRo95FXHjtepR1SUtjePjF0FP4++qWe3sB8f2djke02gS02aiX
+	Et+UjaAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t69GQ-00000000aEa-2ik7;
-	Wed, 30 Oct 2024 14:01:34 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t69XA-00000000czb-1HFO;
+	Wed, 30 Oct 2024 14:18:52 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t69GO-00000000aDk-1Bla
+	id 1t69X7-00000000cyy-1rwU
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 14:01:33 +0000
+	Wed, 30 Oct 2024 14:18:50 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id E708AA4144A;
-	Wed, 30 Oct 2024 13:59:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC6BFC4CECE;
-	Wed, 30 Oct 2024 14:01:29 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E2A825C5D73;
+	Wed, 30 Oct 2024 14:18:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1AD0C4CECE;
+	Wed, 30 Oct 2024 14:18:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730296890;
-	bh=6+7m6bYb0yRvXggvjkGS4Ftl7KoswgwqALAkltkMZJY=;
+	s=k20201202; t=1730297928;
+	bh=2OJ4YTGyzx/icKpLoVN3jD36+5pXJPGI1gXnNYG93NQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hl/5rLSk8xUWrwa5SZ9zEWoxtXYayiw4h5biVEPfkCNe1PLnhhaIxlW7qoL1s8OvN
-	 lD8SC4/7kV0u6BKKt+J0ggTHKjCaCm8kqrcnYoUE7uiI57FDwlBD9I9r+6tVFnJaHy
-	 accUAztW4Uo0lmN3+gxRYD8e3vOMBeicVCSYnBAoriaqNy875wtOvS1h+3eQihnzX9
-	 qntUNReqYZOF5Rgkm1bP4MmaSHEVtTgWRQDWG91zV6teHVvZrbgGBH0enCSv5vVvfg
-	 ZTQpRNSdgz/X4yuQh0+r8lHIyn3krgUmFK36eScMwEq8FmIUj9krmQ+FapM4B1AAoO
-	 mFvR+YY3QzoEQ==
-Date: Wed, 30 Oct 2024 08:01:27 -0600
+	b=c3k0ceCgyH1PI/9aj98yoZ+qGkHpmzWtvtCS+HI8+NeFIC9Y0FlULrIqLtNOc4/9t
+	 Z1tkgsgkvYyB6LXFHZVhgFulwgaw+3niLhjQqMhO7BqKASZ+jeVoNRHZVeS4voCPQd
+	 LUPNnIaBewYSBk494PYTW7SaozFZlxmrycu+k52nxoppDS/+rWBHzYa38/iZLCs3ps
+	 sfcprLPVWQpqHgUneO/Lop7+BOCCSO7AwIEv5tFjGWxPkah+5BeEl35jbEWef8qNPZ
+	 KNCL345dcUawR9csYaS6tBbKEuTtt7KfHmEzxAMs085sUiUoddoW9hCyzso5Vo18aB
+	 Njv4LxVhDS6Ag==
+Date: Wed, 30 Oct 2024 08:18:45 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
-	hch@lst.de, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, anuj20.g@samsung.com,
-	martin.petersen@oracle.com
-Subject: Re: [PATCH] blk-integrity: remove seed for user mapped buffers
-Message-ID: <ZyI8N3HpC_2ffxsS@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20241016201337epcas5p33625af2c67f92092078b0b43874d67bd@epcas5p3.samsung.com>
- <20241016201309.1090320-1-kbusch@meta.com>
- <5220b70f-13e9-4f73-b611-97235db87ed5@samsung.com>
- <c156bc1f-da5c-4522-8e5d-b138a94cb7d2@kernel.dk>
- <75331d62-fb0b-41ef-9a47-2bbe78e09f9f@kernel.dk>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, martin.petersen@oracle.com,
+	joshi.k@samsung.com, David Wei <dw@davidwei.uk>
+Subject: Re: [PATCHv3] nvme: module parameter to disable pi with offsets
+Message-ID: <ZyJARWPnVzsWVrYe@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241024154923.3156803-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <75331d62-fb0b-41ef-9a47-2bbe78e09f9f@kernel.dk>
+In-Reply-To: <20241024154923.3156803-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_070132_410703_2945F33A 
-X-CRM114-Status: GOOD (  11.38  )
+X-CRM114-CacheID: sfid-20241030_071849_590030_BD8B22ED 
+X-CRM114-Status: GOOD (  16.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,19 +71,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 30, 2024 at 07:50:12AM -0600, Jens Axboe wrote:
-> On 10/30/24 7:47 AM, Jens Axboe wrote:
-> > On 10/30/24 7:38 AM, Kanchan Joshi wrote:
-> >> Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
-> >>
-> >> Jens,
-> >> Please see if this can be picked.
-> >> Helps to reduce a dependency for io_uring metadata series.
-> > 
-> > Keith, is this queued in the nvme tree?
-> 
-> Doesn't look like it is, picked it up.
+On Thu, Oct 24, 2024 at 08:49:23AM -0700, Keith Busch wrote:
+> +/*
+> + * Older kernels didn't enable protection information if it was at an offset.
+> + * Newer kernels do, so it breaks reads on the upgrade if such formats were
+> + * used in prior kernels since the metadata written did not contain a valid
+> + * checksum.
+> + */
+> +static bool disable_pi_offsets = false;
+> +module_param(disable_pi_offsets, bool, 0444);
+> +MODULE_PARM_DESC(disable_pi_offsets,
+> +	"disable protection information if it has an offset");
+> +
+>  /*
+>   * nvme_wq - hosts nvme related works that are not reset or delete
+>   * nvme_reset_wq - hosts nvme reset works
+> @@ -1915,6 +1926,8 @@ static void nvme_configure_metadata(struct nvme_ctrl *ctrl,
+>  		head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+>  	if (!(id->dps & NVME_NS_DPS_PI_FIRST))
+>  		info->pi_offset = head->ms - head->pi_size;
+> +	if (info->pi_offset && disable_pi)
+> +		head->pi_type = 0;
 
-Thanks. It has block api changes, so I usually don't presume to apply
-those patches through our nvme tree.
+I need to rework this yet again. The old code didn't look for offsets.
+It looked for the "first" flag. If you have MS == PI_SIZE, "first" and
+"last" mean the exact same thing: there is no offset. But the old code
+didn't care, it just wanted to see the PI_FIRST flag.
+
+The part needs to look like this:
+
+---
+@@ -1937,10 +1937,12 @@ static void nvme_configure_metadata(struct nvme_ctrl *ctrl,
+
+        if (head->pi_size && head->ms >= head->pi_size)
+                head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+-       if (!(id->dps & NVME_NS_DPS_PI_FIRST))
+-               info->pi_offset = head->ms - head->pi_size;
++       if (!(id->dps & NVME_NS_DPS_PI_FIRST)) {
++               if (disable_pi_offsets)
++                       head->pi_type = 0;
++               else
++                       info->pi_offset = head->ms - head->pi_size;
++       }
+--
 
