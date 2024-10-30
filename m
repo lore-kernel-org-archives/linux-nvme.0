@@ -4,99 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A016D6B6A8
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 16:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0C82D6B6A8
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2024 16:33:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PhW4VjnvtzkDooyFGath+3T4tsAPk9cdglqFB5sUC1Q=; b=fOHcUeJeeG/U9b2G8RH/Cu85dr
-	NiS39VvrFXE1Qf+aA2GBH7LwiwXVBeMa6GQvLADRKS40m65lC0S84CbFWawpflct6uBx/QUZv3j0u
-	Py7DEOfJ15MAGvaslWhqrmfc0TA3Eu1Jn5P20zeSKUrrR2GMSKf8pOW7e7NRY1L+/zZ6vP9BDAfSj
-	KChCFjcECa14OED3leaFqqt0cw+lEjcQRADkyEBAx4RdBxubf8OCSThHbmYn4zEKZHOEBFenJtwir
-	Uyz2yQzBOWX0cO+XDsh/Loq074P8O7hcL8+i8+zyCcCUYsVqwWkI020Env6uS1ajZxJkhRXQ5tYca
-	spBd9VCQ==;
+	bh=U/wHQvSNouR2vorTfNcSoCClzKmnf7AR6glWeBAzzBU=; b=DqGNBjg7NUDnGI7Cm25A1J491n
+	sM63iOZgI0rWgh8PAOvU974sZTfsAt5kUD+FF5/Sy5Xwsyn23vwwlI1ABnlTPXrPMvTywxxyemOIT
+	TjJpKJwPYHcMWPierCLLTzqbDO9sbnQ6W1EIytZWGty0w0wHAdrppSmdS9DhDfNGyljQSANFaMqC2
+	z0U/iETIbWFX2eDe0m3HY/vdpSmfHLSe22s6giHNr1/i0FRIG0rmZLxpu15No2heeijvbJMPn4el/
+	VlpsQF7NNhlwTr32OcTPwmwebNc6HWyaZ+u93if24fAlEaG2HlRnwl3Uzmci1yabIGWbWarLO3eYG
+	XORBgxsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6BMR-000000012MS-2EKF;
-	Wed, 30 Oct 2024 16:15:55 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1t6BdE-000000015RC-18mX;
+	Wed, 30 Oct 2024 16:33:16 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6AOr-00000000nrx-1kpa
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 30 Oct 2024 15:14:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=PhW4VjnvtzkDooyFGath+3T4tsAPk9cdglqFB5sUC1Q=; b=S3b/lHx8aR6wjWmf4FoSUZ0Rif
-	iFYyq2KABVTP3x6/VE/FXw7BI6LXPiaPoYZoUtMLjJmb5nRPHUs7PCCnBc4NxP4ASn2LWOF+ywigl
-	9ljfcMR50BR4jr+bNHL+uzsts5z+Dc6c6+c1fqXl6+DQPu5oR+Idt+5Xwv1yRyhzJrSLsTirzi9N7
-	kW1it/EFsAqBQx6av1gX18QKXpYo7mr38dK2245jy2TDl87E53uIn2+QsAGkauR9ns2pXGyOjL4xU
-	7VH9fMDXKCM5q6LBcoiFtyRNRYveNzJ97WzhE3MMcJB78QNFbhk7a5uL1jcg2q5ybpby+rA8R3hAY
-	3T9sil/Q==;
-Received: from nyc.source.kernel.org ([147.75.193.91])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6AOn-0000000AHQN-0f25
+	id 1t6Bat-0000000154O-21MA
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Oct 2024 15:14:20 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id D59DCA40257;
-	Wed, 30 Oct 2024 15:12:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A57D9C4CED1;
-	Wed, 30 Oct 2024 15:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730301255;
-	bh=RCW7z84/26BITUxg8PndrrKsB8pTf34fxPy1qnPVTz8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uGWltSBfuWLOOW1uCjA96ZkRf/tc9Ofzcqd4yBlthycq0QuFcTDg1vtaJK2d3dEmJ
-	 j/O3jro7YQUDUh3DxANT/lEqBGuf8gX8pjaejHU1r3j/TQqSe9feErtiZKD2m9nXSi
-	 h+/WR6a7xsDnPgH6Ft8Ec2DlZ+deXW4uSXxyCPluFGBtOcD9zI5UdLjBa+BH4S6Bmo
-	 7fF+NgcxheBw9unedEy68XY0Xinsf2FH7Fr7T/5xEp4rTjNIbFI600KVuS+YwrLtfE
-	 IT9WlhFIsQyXpXFR9PPqNDFPrigxE1BcEJ9/JHhP9PKeGG4tzzA2iCVhzFS+tEiTDt
-	 b1Fmfu9dSheXw==
-From: Leon Romanovsky <leon@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v1 16/17] vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-Date: Wed, 30 Oct 2024 17:13:02 +0200
-Message-ID: <0cecdfc196d028a8554f1d4564e0e4f3ef75ce70.1730298502.git.leon@kernel.org>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <cover.1730298502.git.leon@kernel.org>
-References: <cover.1730298502.git.leon@kernel.org>
+	Wed, 30 Oct 2024 16:30:55 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B49A921F39;
+	Wed, 30 Oct 2024 16:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730305848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U/wHQvSNouR2vorTfNcSoCClzKmnf7AR6glWeBAzzBU=;
+	b=0vZDq87ScSmj6wUkz2oX3msr3YlFcXd2tAMq/Fn23uIA9rtrYswQlOaE5dPtMj5EHEpoi5
+	QofvaviDpH+j/u2Q8oTqoX7XOHMAsSFLUYN/KyTXe0zpkm7n15jSPcBV4OFGi51atm4LUw
+	MItymdGfEydARw1einGGbUPquhcN70Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730305848;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U/wHQvSNouR2vorTfNcSoCClzKmnf7AR6glWeBAzzBU=;
+	b=gy6loYrHjtcfJJMybDdcva8sSxHWLTyuMAa2TB95l9NDJeeAp4Wqa8qzYuocRicoVz9Dst
+	JP7+Va1ruun/NMAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730305848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U/wHQvSNouR2vorTfNcSoCClzKmnf7AR6glWeBAzzBU=;
+	b=0vZDq87ScSmj6wUkz2oX3msr3YlFcXd2tAMq/Fn23uIA9rtrYswQlOaE5dPtMj5EHEpoi5
+	QofvaviDpH+j/u2Q8oTqoX7XOHMAsSFLUYN/KyTXe0zpkm7n15jSPcBV4OFGi51atm4LUw
+	MItymdGfEydARw1einGGbUPquhcN70Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730305848;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U/wHQvSNouR2vorTfNcSoCClzKmnf7AR6glWeBAzzBU=;
+	b=gy6loYrHjtcfJJMybDdcva8sSxHWLTyuMAa2TB95l9NDJeeAp4Wqa8qzYuocRicoVz9Dst
+	JP7+Va1ruun/NMAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96477136A5;
+	Wed, 30 Oct 2024 16:30:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3DoPIzhfImcDMQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 30 Oct 2024 16:30:48 +0000
+Message-ID: <eab93123-e7e1-411e-b513-4c351e006a57@suse.de>
+Date: Wed, 30 Oct 2024 17:30:48 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH blktests v2 04/13] nvme: introduce wwnn/wwpn helper
+ functions
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <20241030065149.2297405-1-shinichiro.kawasaki@wdc.com>
+ <20241030065149.2297405-5-shinichiro.kawasaki@wdc.com>
+ <ae95fb38-8290-419f-aff8-b2964c9dc4f7@suse.de>
+ <zndmkpl7qs53vyans4r552pwcumxhyhc4ualrodwnxh6y2azec@waicvtyoaccw>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <zndmkpl7qs53vyans4r552pwcumxhyhc4ualrodwnxh6y2azec@waicvtyoaccw>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_151417_853061_7D49B127 
-X-CRM114-Status: GOOD (  23.32  )
+X-CRM114-CacheID: sfid-20241030_093051_691709_18D12191 
+X-CRM114-Status: GOOD (  19.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,305 +135,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On 10/30/24 13:20, Shinichiro Kawasaki wrote:
+> On Oct 30, 2024 / 08:21, Hannes Reinecke wrote:
+>> On 10/30/24 07:51, Shin'ichiro Kawasaki wrote:
+>>> Commit "nvme: sanitize transport parameter in _create_nvmet_port()"
+>>> modified the wwnn and wwpn names for fc transport to calculate from the
+>>> port ID. It also moved the timing to set the global variable
+>>> def_host_traddr based on the wwnn and wwpn from _setup_nvmet() to
+>>> _create_nvmet_port(). This move made _nvme_connect_subsys() fail
+>>> to refer to the def_host_traddr variable, and caused nvme/003 test case
+>>> failure.
+>>>
+>>> To avoid the failure, do the wwnn and wwpn calculations both in
+>>> _create_nvmet_port() and _nvme_connect_subsys(). Introduce helper
+>>> functions to calculate wwnn and wwpn.
+>>>
+>>> Reviewed-by: Daniel Wagner <dwagner@suse.de>
+>>> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+>>> ---
+>>>    common/nvme | 63 +++++++++++++++++++++++++++++++++++++----------------
+>>>    1 file changed, 44 insertions(+), 19 deletions(-)
+>>>
+>> Hmm. This was not what my patchset did.
+>>
+>> In my patchset I changed the 'logical' FC port setup in using _always_
+>> the same local wwpn/wwnn, and only have the remote wwpn/wwnn modified with
+>> the port id.
+>> That way the host_traddr can be kept global throughout the code, and
+>> we can calculate the remote wwpn/wwnn when creating the FC ports.
+> 
+> Hannes, I think you mean the patch titled "nvmet: rework fcloop" [1] in the
+> comment above. The patch is not in this series. I once tried to include it in
+> this series and moved its commit position, but it caused rather heavy conflicts.
+> So I'm preparing to include the patch in one of the following series. I hope it
+> is okay for you to apply this series as it is, and later on we revisit the
+> patch "nvmet: rework fcloop" in the following series.
+> 
+> In the following series, conflicts of the patch are easier for me to resolve.
+> The patch I modified looks like this [2]. Your original patch [1] gets
+> remote_wwnn/wwpn for port removal from addr_traddr, but after my modification,
+> it gets remote_wwnn/wwpn from the port itself, because I think its simpler.
+> 
+> [1] https://github.com/osandov/blktests/pull/146/commits/5545881f11769832100a517d29ff059435a1fbbf
+> [2] https://github.com/kawasaki/blktests/commit/93227f4c41f52032da3de1be1c3b485e639d9663
+> 
+Ah, ok, that's fine then.
 
-Change the creation of mkey to be performed in multiple steps:
-data allocation, DMA setup and actual call to HW to create that mkey.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-In this new flow, the whole input to MKEY command is saved to eliminate
-the need to keep array of pointers for DMA addresses for receive list
-and in the future patches for send list too.
+Cheers,
 
-In addition to memory size reduce and elimination of unnecessary data
-movements to set MKEY input, the code is prepared for future reuse.
-
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/vfio/pci/mlx5/cmd.c | 156 ++++++++++++++++++++----------------
- drivers/vfio/pci/mlx5/cmd.h |   4 +-
- 2 files changed, 90 insertions(+), 70 deletions(-)
-
-diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
-index fdc3e515741f..1832a6c1f35d 100644
---- a/drivers/vfio/pci/mlx5/cmd.c
-+++ b/drivers/vfio/pci/mlx5/cmd.c
-@@ -313,39 +313,21 @@ static int mlx5vf_cmd_get_vhca_id(struct mlx5_core_dev *mdev, u16 function_id,
- 	return ret;
- }
- 
--static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
--			struct mlx5_vhca_data_buffer *buf,
--			struct mlx5_vhca_recv_buf *recv_buf,
--			u32 *mkey)
-+static u32 *alloc_mkey_in(u32 npages, u32 pdn)
- {
--	size_t npages = buf ? buf->npages : recv_buf->npages;
--	int err = 0, inlen;
--	__be64 *mtt;
-+	int inlen;
- 	void *mkc;
- 	u32 *in;
- 
- 	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
--		sizeof(*mtt) * round_up(npages, 2);
-+		sizeof(__be64) * round_up(npages, 2);
- 
--	in = kvzalloc(inlen, GFP_KERNEL);
-+	in = kvzalloc(inlen, GFP_KERNEL_ACCOUNT);
- 	if (!in)
--		return -ENOMEM;
-+		return NULL;
- 
- 	MLX5_SET(create_mkey_in, in, translations_octword_actual_size,
- 		 DIV_ROUND_UP(npages, 2));
--	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, in, klm_pas_mtt);
--
--	if (buf) {
--		struct sg_dma_page_iter dma_iter;
--
--		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
--			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
--	} else {
--		int i;
--
--		for (i = 0; i < npages; i++)
--			*mtt++ = cpu_to_be64(recv_buf->dma_addrs[i]);
--	}
- 
- 	mkc = MLX5_ADDR_OF(create_mkey_in, in, memory_key_mkey_entry);
- 	MLX5_SET(mkc, mkc, access_mode_1_0, MLX5_MKC_ACCESS_MODE_MTT);
-@@ -359,9 +341,29 @@ static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
- 	MLX5_SET(mkc, mkc, log_page_size, PAGE_SHIFT);
- 	MLX5_SET(mkc, mkc, translations_octword_size, DIV_ROUND_UP(npages, 2));
- 	MLX5_SET64(mkc, mkc, len, npages * PAGE_SIZE);
--	err = mlx5_core_create_mkey(mdev, mkey, in, inlen);
--	kvfree(in);
--	return err;
-+
-+	return in;
-+}
-+
-+static int create_mkey(struct mlx5_core_dev *mdev, u32 npages,
-+		       struct mlx5_vhca_data_buffer *buf, u32 *mkey_in,
-+		       u32 *mkey)
-+{
-+	__be64 *mtt;
-+	int inlen;
-+
-+	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
-+	if (buf) {
-+		struct sg_dma_page_iter dma_iter;
-+
-+		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
-+			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
-+	}
-+
-+	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
-+		sizeof(__be64) * round_up(npages, 2);
-+
-+	return mlx5_core_create_mkey(mdev, mkey, mkey_in, inlen);
- }
- 
- static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
-@@ -374,20 +376,28 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	if (mvdev->mdev_detach)
- 		return -ENOTCONN;
- 
--	if (buf->dmaed || !buf->npages)
-+	if (buf->mkey_in || !buf->npages)
- 		return -EINVAL;
- 
- 	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
- 	if (ret)
- 		return ret;
- 
--	ret = _create_mkey(mdev, buf->migf->pdn, buf, NULL, &buf->mkey);
--	if (ret)
-+	buf->mkey_in = alloc_mkey_in(buf->npages, buf->migf->pdn);
-+	if (!buf->mkey_in) {
-+		ret = -ENOMEM;
- 		goto err;
-+	}
- 
--	buf->dmaed = true;
-+	ret = create_mkey(mdev, buf->npages, buf, buf->mkey_in, &buf->mkey);
-+	if (ret)
-+		goto err_create_mkey;
- 
- 	return 0;
-+
-+err_create_mkey:
-+	kvfree(buf->mkey_in);
-+	buf->mkey_in = NULL;
- err:
- 	dma_unmap_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
- 	return ret;
-@@ -401,8 +411,9 @@ void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	lockdep_assert_held(&migf->mvdev->state_mutex);
- 	WARN_ON(migf->mvdev->mdev_detach);
- 
--	if (buf->dmaed) {
-+	if (buf->mkey_in) {
- 		mlx5_core_destroy_mkey(migf->mvdev->mdev, buf->mkey);
-+		kvfree(buf->mkey_in);
- 		dma_unmap_sgtable(migf->mvdev->mdev->device, &buf->table.sgt,
- 				  buf->dma_dir, 0);
- 	}
-@@ -779,7 +790,7 @@ int mlx5vf_cmd_load_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 	if (mvdev->mdev_detach)
- 		return -ENOTCONN;
- 
--	if (!buf->dmaed) {
-+	if (!buf->mkey_in) {
- 		err = mlx5vf_dma_data_buffer(buf);
- 		if (err)
- 			return err;
-@@ -1380,56 +1391,54 @@ static int alloc_recv_pages(struct mlx5_vhca_recv_buf *recv_buf,
- 	kvfree(recv_buf->page_list);
- 	return -ENOMEM;
- }
-+static void unregister_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
-+				 u32 *mkey_in)
-+{
-+	dma_addr_t addr;
-+	__be64 *mtt;
-+	int i;
-+
-+	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
-+	for (i = npages - 1; i >= 0; i--) {
-+		addr = be64_to_cpu(mtt[i]);
-+		dma_unmap_single(mdev->device, addr, PAGE_SIZE,
-+				DMA_FROM_DEVICE);
-+	}
-+}
- 
--static int register_dma_recv_pages(struct mlx5_core_dev *mdev,
--				   struct mlx5_vhca_recv_buf *recv_buf)
-+static int register_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
-+			      struct page **page_list, u32 *mkey_in)
- {
--	int i, j;
-+	dma_addr_t addr;
-+	__be64 *mtt;
-+	int i;
- 
--	recv_buf->dma_addrs = kvcalloc(recv_buf->npages,
--				       sizeof(*recv_buf->dma_addrs),
--				       GFP_KERNEL_ACCOUNT);
--	if (!recv_buf->dma_addrs)
--		return -ENOMEM;
-+	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
- 
--	for (i = 0; i < recv_buf->npages; i++) {
--		recv_buf->dma_addrs[i] = dma_map_page(mdev->device,
--						      recv_buf->page_list[i],
--						      0, PAGE_SIZE,
--						      DMA_FROM_DEVICE);
--		if (dma_mapping_error(mdev->device, recv_buf->dma_addrs[i]))
-+	for (i = 0; i < npages; i++) {
-+		addr = dma_map_page(mdev->device, page_list[i], 0, PAGE_SIZE,
-+				    DMA_FROM_DEVICE);
-+		if (dma_mapping_error(mdev->device, addr))
- 			goto error;
-+
-+		*mtt++ = cpu_to_be64(addr);
- 	}
-+
- 	return 0;
- 
- error:
--	for (j = 0; j < i; j++)
--		dma_unmap_single(mdev->device, recv_buf->dma_addrs[j],
--				 PAGE_SIZE, DMA_FROM_DEVICE);
--
--	kvfree(recv_buf->dma_addrs);
-+	unregister_dma_pages(mdev, i, mkey_in);
- 	return -ENOMEM;
- }
- 
--static void unregister_dma_recv_pages(struct mlx5_core_dev *mdev,
--				      struct mlx5_vhca_recv_buf *recv_buf)
--{
--	int i;
--
--	for (i = 0; i < recv_buf->npages; i++)
--		dma_unmap_single(mdev->device, recv_buf->dma_addrs[i],
--				 PAGE_SIZE, DMA_FROM_DEVICE);
--
--	kvfree(recv_buf->dma_addrs);
--}
--
- static void mlx5vf_free_qp_recv_resources(struct mlx5_core_dev *mdev,
- 					  struct mlx5_vhca_qp *qp)
- {
- 	struct mlx5_vhca_recv_buf *recv_buf = &qp->recv_buf;
- 
- 	mlx5_core_destroy_mkey(mdev, recv_buf->mkey);
--	unregister_dma_recv_pages(mdev, recv_buf);
-+	unregister_dma_pages(mdev, recv_buf->npages, recv_buf->mkey_in);
-+	kvfree(recv_buf->mkey_in);
- 	free_recv_pages(&qp->recv_buf);
- }
- 
-@@ -1445,18 +1454,29 @@ static int mlx5vf_alloc_qp_recv_resources(struct mlx5_core_dev *mdev,
- 	if (err < 0)
- 		return err;
- 
--	err = register_dma_recv_pages(mdev, recv_buf);
--	if (err)
-+	recv_buf->mkey_in = alloc_mkey_in(npages, pdn);
-+	if (!recv_buf->mkey_in) {
-+		err = -ENOMEM;
- 		goto end;
-+	}
-+
-+	err = register_dma_pages(mdev, npages, recv_buf->page_list,
-+				 recv_buf->mkey_in);
-+	if (err)
-+		goto err_register_dma;
- 
--	err = _create_mkey(mdev, pdn, NULL, recv_buf, &recv_buf->mkey);
-+	err = create_mkey(mdev, npages, NULL, recv_buf->mkey_in,
-+			  &recv_buf->mkey);
- 	if (err)
- 		goto err_create_mkey;
- 
- 	return 0;
- 
- err_create_mkey:
--	unregister_dma_recv_pages(mdev, recv_buf);
-+	unregister_dma_pages(mdev, npages, recv_buf->mkey_in);
-+err_register_dma:
-+	kvfree(recv_buf->mkey_in);
-+	recv_buf->mkey_in = NULL;
- end:
- 	free_recv_pages(recv_buf);
- 	return err;
-diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
-index 7d4a833b6900..25dd6ff54591 100644
---- a/drivers/vfio/pci/mlx5/cmd.h
-+++ b/drivers/vfio/pci/mlx5/cmd.h
-@@ -58,8 +58,8 @@ struct mlx5_vhca_data_buffer {
- 	u64 length;
- 	u32 npages;
- 	u32 mkey;
-+	u32 *mkey_in;
- 	enum dma_data_direction dma_dir;
--	u8 dmaed:1;
- 	u8 stop_copy_chunk_num;
- 	struct list_head buf_elm;
- 	struct mlx5_vf_migration_file *migf;
-@@ -133,8 +133,8 @@ struct mlx5_vhca_cq {
- struct mlx5_vhca_recv_buf {
- 	u32 npages;
- 	struct page **page_list;
--	dma_addr_t *dma_addrs;
- 	u32 next_rq_offset;
-+	u32 *mkey_in;
- 	u32 mkey;
- };
- 
+Hannes
 -- 
-2.46.2
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
