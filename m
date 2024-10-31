@@ -4,81 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC435D767DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 15:33:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3605D767D8
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 16:13:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C4P9MLV3fDDS5FT2v9AcQf0P+LDEaVB1lnLGZ0AJGZ4=; b=TqZsxvrmsvsgNPJMcGDxtrAlZV
-	EEEZL4DePxW6LCstQAp5AtJxL7tcCdfIhx/3x21+lJCtXRs6n14pemFZTtIAHhm/ljDmpSXhsAVo9
-	+mZBAL2q+eZuv1hJFbo99/Mayc79egvkCOtvRhSHpUvW2jCyC0Zamfkx/dppBm4FEHMYzoneWWNKo
-	NZJrc09b30xthikqnty0u+OnmAMkZ+971AlNVg4IUFmCbpuM+DAB2ELTZw5UBSQUiZVb4bzkzINkK
-	tqNIu+T7Xsxt47B19ozCxdLrwG0z6x/1TrgNurkSe3SmgeWIrArmZticlqEyckqKe6OWrZcRIN7Vx
-	yYdLxVsA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+3Q2JTQUtgrqqItIBYE8p0yRehABWfOEK0UY8FM4fNA=; b=gdRYqn102jTfecPaET6GtHRd1B
+	rCT1Nla6+pvegzM0LAKTYlATZiE0gMUrQZyRG/FcmZkRdDrXBFuaQ0CuyW5PGXixYLHDCcmoEf+Vw
+	EgD9MNiACLnUng1KIy22cBxDNmd/sEOkp2QLhreZRVWsnOtQ+Wqjg+DytcKbxRzfJVFuDTIW4Aa1c
+	t9pbZq1aFUhjED+EVGyCqw5fsj5dKq6iY6ouCn9i8AH0S6Tde87F1b2QQAfLcvwmcWnXpqvd9Dqg6
+	iGP5dCZbLvSgnYyghOhZNJ99dUudW/Yx/c16978mC5CN0MR83M+rJJuWyDdqKKf/RNtXl0gN8wyMG
+	ElOiJ+hA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6XB8-000000040vF-11W1;
-	Thu, 31 Oct 2024 15:33:42 +0000
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
+	id 1t6XnR-000000049Gw-2zHm;
+	Thu, 31 Oct 2024 16:13:17 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6Woj-00000003vkm-1roJ
+	id 1t6XjP-000000048bw-2auS
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Oct 2024 15:10:34 +0000
-Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3e600add5dcso581905b6e.2
-        for <linux-nvme@lists.infradead.org>; Thu, 31 Oct 2024 08:10:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1730387431; x=1730992231; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C4P9MLV3fDDS5FT2v9AcQf0P+LDEaVB1lnLGZ0AJGZ4=;
-        b=IWc4m7P1NhGCVThKyVvKW1U24CKwzz8/+71CcHk4SuG8kZ4Nx7DiRH0CGkw+3DzCMs
-         tIf6armM+5RPnJ1MsugkkfbxoCbjwBJt80AaGsVpoqf9JV7KotBSHaif5jAYWlvT/zoE
-         XaxCwCtF9iU+NM57DWkPufwZjo6+rH2CbgfUp4Pv+eVOXr8n+Pcdcx0VyKzVMhEutqX3
-         ko6xzQt18gpQqNxGt5WLVUPIADa390c9LgKOCQRwOxanjI40tM2TqzjSthcoqRAQpbxN
-         6Ug6YycDOnMcKfWiiqGNiUDqpwux9swe0lw5bi8gdACdLzSs7FtKp9WziOr7JfwSt7q+
-         o42w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730387431; x=1730992231;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C4P9MLV3fDDS5FT2v9AcQf0P+LDEaVB1lnLGZ0AJGZ4=;
-        b=i04jAIvCVOuEeheQnUVGndkHtqLNirseQG5Jh+7OVdhwhpOsVZlP7Zmi1l4Q4S+N07
-         w5vgvIwK7Up6MZ6slrPejZ4+hoTwAiJbH2WzUHN1Kw3sncDfZZhwCwQqcJQtlMxdZXJh
-         lMpRyUo00o1qgvGbKRGUQ8X1J1+iq1r8aKLIZ0oBQCFXidud2te7Gv4PNGQC3Q3TeQZZ
-         bwjGXTUr9AP5rkkSXBLzja4ABWD43SWGOD3szCVpAu9spioNBJvX7Hv744IwCsehib3t
-         2//npBjKcPXcw6XMocueV8VUL1+Ziaenav5D4lfx53ROc4scneREdeFyeW5w3jZS97/F
-         knPw==
-X-Gm-Message-State: AOJu0YwG/oW5eH7UKzzkJmz2XRNYaLjZXtc+aTmse2qUP3/kxIccBE19
-	G1EpVxK4rnvGLlSw79ElsLnk4ku1OqHDbf37/buqrTjdCjA5gqJgEETdXpLEvS8=
-X-Google-Smtp-Source: AGHT+IFR60DJHuyQ1trxK9AEUoWLAO7f2XXN24jbkNw3dZS73+0wi0WUsug0xvhHQZ1IP9OAoaiQAw==
-X-Received: by 2002:a05:6808:120d:b0:3e6:2d97:ca67 with SMTP id 5614622812f47-3e758cd62e0mr90726b6e.44.1730387431356;
-        Thu, 31 Oct 2024 08:10:31 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4de048cd5afsm322418173.71.2024.10.31.08.10.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 08:10:30 -0700 (PDT)
-Message-ID: <6ff663d8-cb7d-493d-9890-d09aa5f4a491@kernel.dk>
-Date: Thu, 31 Oct 2024 09:10:29 -0600
+	Thu, 31 Oct 2024 16:09:10 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AD6BD21CF2;
+	Thu, 31 Oct 2024 16:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730390942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3Q2JTQUtgrqqItIBYE8p0yRehABWfOEK0UY8FM4fNA=;
+	b=xYR5NBf8Ut7Pgo6pCd6Nw5jJ3Nxhtbl8tKtjlmTDQAhccjwC3QibID54EQu/v6SVSMEQT/
+	jiNW/A32hvBmuOIJR4w0Ak1T0BQON9C6N/jCfs6TraxzrFLUnAT4tp/G/RndEP752YhR1m
+	OQJfwIsSUBJpyLrNEktJaOOaw1MCxH4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730390942;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3Q2JTQUtgrqqItIBYE8p0yRehABWfOEK0UY8FM4fNA=;
+	b=QL2Xn5U9VZ6VXvVjSdVTj2pEhZ/YDylcLYttyh1BlE7BVhbutL8t9iXVxKaTVkT5b8yNP5
+	2jHL/3NfGDZ/ieDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730390942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3Q2JTQUtgrqqItIBYE8p0yRehABWfOEK0UY8FM4fNA=;
+	b=xYR5NBf8Ut7Pgo6pCd6Nw5jJ3Nxhtbl8tKtjlmTDQAhccjwC3QibID54EQu/v6SVSMEQT/
+	jiNW/A32hvBmuOIJR4w0Ak1T0BQON9C6N/jCfs6TraxzrFLUnAT4tp/G/RndEP752YhR1m
+	OQJfwIsSUBJpyLrNEktJaOOaw1MCxH4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730390942;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3Q2JTQUtgrqqItIBYE8p0yRehABWfOEK0UY8FM4fNA=;
+	b=QL2Xn5U9VZ6VXvVjSdVTj2pEhZ/YDylcLYttyh1BlE7BVhbutL8t9iXVxKaTVkT5b8yNP5
+	2jHL/3NfGDZ/ieDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 944F113A53;
+	Thu, 31 Oct 2024 16:09:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id S3HzIZ6rI2cnLwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 31 Oct 2024 16:09:02 +0000
+Date: Thu, 31 Oct 2024 17:09:01 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v2 11/13] common/nvme, nvme/003: specify "--port
+ none" to _nvme_connect_subsys()
+Message-ID: <b23b8793-e15e-4e0c-81f5-c00ce1c1ede5@flourine.local>
+References: <20241030065149.2297405-1-shinichiro.kawasaki@wdc.com>
+ <20241030065149.2297405-12-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.12
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-References: <ZyOdZWK7S1Q-VbcK@kbusch-mbp.dhcp.thefacebook.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZyOdZWK7S1Q-VbcK@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241030065149.2297405-12-shinichiro.kawasaki@wdc.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241031_081033_519215_A6905C82 
-X-CRM114-Status: UNSURE (   9.98  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241031_090907_838286_B786B94A 
+X-CRM114-Status: GOOD (  19.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,31 +126,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/31/24 9:08 AM, Keith Busch wrote:
-> The following changes since commit 49c234b50a437eb827832b61cd662e9aa382f31a:
+On Wed, Oct 30, 2024 at 03:51:47PM GMT, Shin'ichiro Kawasaki wrote:
+> Commit "nvme: pass in port parameter to _nvme_connect_subsys()"
+> introduced the --port argument to _nvme_connect_subsys(). If the option
+> is not specified, _nvme_connect_subsys() automatically finds the port
+> for the specified subsysnqn. However, this does not work for the test
+> case nvme/003, since the test case connects to the subsys for discovery,
+> then, the port of the created subsysnqn is not to be used. This causes
+> the failure of the test case.
 > 
->   Merge tag 'md-6.12-20241018' of https://git.kernel.org/pub/scm/linux/kernel/git/song/md into block-6.12 (2024-10-18 10:58:24 -0600)
+> To avoid the failure, modify _nvme_connect_subsys() to take the special
+> value "none" for the --port option. When "--port none" is specified,
+> _nvme_connect_subsys() skips the steps to obtain port dependent
+> parameters and just use default parameters.
 > 
-> are available in the Git repository at:
+> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> ---
+>  common/nvme    | 41 ++++++++++++++++++++++++++++++-----------
+>  tests/nvme/003 |  3 ++-
+>  2 files changed, 32 insertions(+), 12 deletions(-)
 > 
->   git://git.infradead.org/nvme.git tags/nvme-6.12-2024-10-31
-> 
-> for you to fetch changes up to 5eed4fb274cd6579f2fb4190b11c4c86c553cd06:
-> 
->   nvme: re-fix error-handling for io_uring nvme-passthrough (2024-10-30 07:19:18 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.12
-> 
->  - Spec compliant identification fix (Keith)
->  - Module parameter to enable backward compatibility on unusual
->    namespace formats (Keith)
->  - Target double free fix when using keys (Vitaliy)
->  - Passthrough command error handling fix (Keith)
+> diff --git a/common/nvme b/common/nvme
+> index 6513205..3a2bb35 100644
+> --- a/common/nvme
+> +++ b/common/nvme
+> @@ -690,22 +690,41 @@ _get_nvmet_port_params() {
+>  	local port="$1"
+>  	local -n args="$2"
+>  	local cfs_path="${NVMET_CFS}/ports/${port}"
+> -	local trtype
+> -	local traddr
+> -	local trsvcid
+> +	local trtype="${nvme_trtype}"
+> +	local traddr="${def_traddr}"
+> +	local trsvcid="${def_trsvcid}"
+>  
+> -	[[ -d "${cfs_path}" ]] || exit 1
+> -	trtype=$(cat "${cfs_path}/addr_trtype")
+> +	# When port is specified, get port dependent parameter values
+> +	if [[ $port != none ]]; then
+> +		[[ -d "${cfs_path}" ]] || exit 1
+> +		trtype=$(cat "${cfs_path}/addr_trtype")
+> +		traddr=$(cat "${cfs_path}/addr_traddr")
+> +		args+=(--traddr "${traddr}")
+> +		if [[ "${trtype}" == "tcp" ]] || [[ "${trtype}" == "rdma" ]]; then
+> +			trsvcid=$(cat "${cfs_path}/addr_trsvcid")
+> +		fi
+> +	fi
+> +
+> +	# Prepare parameter options
+>  	args+=(--transport "${trtype}")
+> -	traddr=$(cat "${cfs_path}/addr_traddr")
+> -	args+=(--traddr "${traddr}")
+> -	if [[ "${trtype}" == "tcp" ]] || [[ "${trtype}" == "rdma" ]]; then
+> -		trsvcid=$(cat "${cfs_path}/addr_trsvcid")
+> +	case ${trtype} in
+> +	loop)
+> +		;;
+> +	rdma | tcp)
+> +		if [[ $port == none ]]; then
+> +			args+=(--traddr "${traddr}")
 
-Pulled, thanks.
+Maybe make this one explicit: args+=(--traddr "${def_traddr}")
 
--- 
-Jens Axboe
+Rest looks good!
 
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
