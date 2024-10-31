@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9BE3E68956
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 06:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2589E68956
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 06:57:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QLDIAaSD9844H1amX6uRVboWINL3zB7PYQjgIeituFI=; b=lzYLfNP8wlXX7IFiIVW3UtRriF
-	EsqW554vtNd0PwkSDTnXwake75fJG50gIfOv4UYPwgYxeb7lACCn19iLUiiKYi2dT5K26kUxp6+a6
-	OLqsQP3GMsDA9UEQCv+5pS30uL6vCLiLHTNnrKJmxNkDm2rPn/01ksY3kXNhqIHFAkQSklbIpaO/X
-	l/0IWFezoB2xDE49Frvq9pWh62QdhFN7WKBCY9I5xuRinUuzfJo6yzGFE6NHNKoJyFHAytSXzSrwv
-	D5QpRX6aY4wUazsNGnDU8wZ3X4CyhJfUk9Tlg+r244/jtArdpgXPPouYLPMTTY0bJjYXAKc/AppAG
-	X1wrDP0w==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Ftnd/HTFiWUdoaPO4Dqi7AoAhZ
+	re0QIVkv/wdxCoQHQSpul6C/QFcu8sphD0AjvPCeIjihBaLwERWdEJ+zv5p3fVYZWckBdLZgaDz1t
+	iLEVCxcj1tRDBkoD2ShrlHhpECp0KvM0Y0I+xoGJdL2eukiP1FB8otGi5DFoHtH2XmnbvsuZQ7VOM
+	GBimSpbd9Cg6iOa1sBZIE+6+Btkq1vTmjyJqhuiGL133ovzbYAE+xf+tTKLKC0Zfh1bEDimVh7Qph
+	hBEuVOVOUxZci8JmEy0pEBIxQ4x0Bf6PP92wROPS+lzm5n9ruV1KbrekFs3UHZCHTMVoUHtpgep2f
+	ozf+Fijg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6P5v-00000002jEa-26us;
-	Thu, 31 Oct 2024 06:55:47 +0000
+	id 1t6P7p-00000002jhb-0MC6;
+	Thu, 31 Oct 2024 06:57:45 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6P5s-00000002jDi-1hOV
+	id 1t6P6A-00000002jKX-2Jn4
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Oct 2024 06:55:46 +0000
+	Thu, 31 Oct 2024 06:56:03 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id CB0C7227AAD; Thu, 31 Oct 2024 07:55:35 +0100 (CET)
-Date: Thu, 31 Oct 2024 07:55:35 +0100
+	id 3664C227AAD; Thu, 31 Oct 2024 07:55:58 +0100 (CET)
+Date: Thu, 31 Oct 2024 07:55:57 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Kanchan Joshi <joshi.k@samsung.com>
 Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
@@ -40,17 +40,18 @@ Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
 	linux-scsi@vger.kernel.org, gost.dev@samsung.com,
 	vishak.g@samsung.com, anuj1072538@gmail.com,
 	Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH v6 04/10] fs, iov_iter: define meta io descriptor
-Message-ID: <20241031065535.GA26299@lst.de>
-References: <20241030180112.4635-1-joshi.k@samsung.com> <CGME20241030181008epcas5p333603fdbf3afb60947d3fc51138d11bf@epcas5p3.samsung.com> <20241030180112.4635-5-joshi.k@samsung.com>
+Subject: Re: [PATCH v6 06/10] io_uring/rw: add support to send metadata
+ along with read/write
+Message-ID: <20241031065557.GB26299@lst.de>
+References: <20241030180112.4635-1-joshi.k@samsung.com> <CGME20241030181013epcas5p2762403c83e29c81ec34b2a7755154245@epcas5p2.samsung.com> <20241030180112.4635-7-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241030180112.4635-5-joshi.k@samsung.com>
+In-Reply-To: <20241030180112.4635-7-joshi.k@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_235544_610661_07BFD12E 
-X-CRM114-Status: UNSURE (   9.31  )
+X-CRM114-CacheID: sfid-20241030_235602_742438_C0A7A9F8 
+X-CRM114-Status: UNSURE (   8.35  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -66,11 +67,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 30, 2024 at 11:31:06PM +0530, Kanchan Joshi wrote:
-> +typedef __u16 uio_meta_flags_t;
-
-I would have just skipped the typedef, but I don't have strong feelings
-here.
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+
 
