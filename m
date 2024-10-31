@@ -4,66 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CA1EE6F063
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 14:21:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77DC6E6F060
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 14:24:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fPdzghOCCuw7btylJtg39ro/fYH6tFP/dvjwHa8zWMM=; b=0uM9OgYLu76SIuGtkC4rheVCKr
-	X8MMNYcvZdJ3eVzXMAh/1vnOiiX2Lmg4X+JYOgTWLiy4Ob1T5PQsbxwyf6R3iVxuungvNctEEdmZM
-	4xFEGbAivKhRpF5XJSQ8pW/qsOciwDUhNZDMUd9dOV8L6ilzCqaQjv8orZ1Bv1uLmpx0YABMUSk8H
-	/m69siA5O14a4V7h3TQZnB+KK3znbUz9XQRR97mnr1Z9cFak8tDw6qC5wAsMiUGzeFSO9qRikd06n
-	uumCMcF7mxINiFnr0KaYP77qc9/TGg/TeOLhnH6+sdG40XH2IgxWwEo/3AkQBjXA8GfXbjD5Um8vJ
-	e4Pz07rA==;
+	bh=IFtadrMJSRC2bhRhwtJqH1xosuWz+cF6ZPVZbQmWVFU=; b=cs4FLXqmJduq7XQJxxZcQAxxBB
+	UIvXfslkFy0IyPhqfx85RgU7jxpzqOtRseEOVABFMFhYvd/L0KGPWNblMQsZHtrYDDJFTqiB1kRvr
+	SgIIE7H5cp3IiX/NI7dfJbumndvgpL4o/wHOCzSVdozVEVw92A3WM9rrg5+wpv+gHdm4RSJUOzk9F
+	vYC0f9wcbAGPMf2yeIxk0U5PPbI10qCDJVglxjkKssMtG6E4LtoiHlDQ7AbCZeeCJV1Qzrd/TiGyg
+	UNW225of5hXLMiYoEhMvf6kzlmiuw1VJnBRObqSOy7DCOEInkGrvAx1pyC2tLZisp0DHU0NVjZfdd
+	wCZmD8sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6sWa-00000007JEr-1Ed7;
-	Fri, 01 Nov 2024 14:21:16 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6s96-00000007FnU-2NpL
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 01 Nov 2024 13:57:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=fPdzghOCCuw7btylJtg39ro/fYH6tFP/dvjwHa8zWMM=; b=N/oGyAgjBau6Vt2e+SE0bKnjS3
-	NB/gyXagxrnvL0pLcSxFoX9WwTtPNmeTKyhdniRx101mCNW6I5r/Kek2JQVWeYxA042BH2SCTn1Rj
-	T0HzX6LsLe+eZzw+4yCF33X3cSoSYVwoQ4dEMqxu8DXB+TG8YIdjPVpUGeffmiNvJ2r/+qYhvnn1y
-	LrYfs60HmNWW147m+dH6SM3zj4/XyYZLLaLIzRi5WJuRydxiwIj+DPv2Ngt53eD6F1q59UzCaZz+U
-	cl99I2arfGs3FdaaLeZW0zL5V8LlQwoCS9+fidjDKQmgUBEVdxmVPU2yKxX++HJNSxnLuqGvG3rhB
-	sfS5/HOA==;
+	id 1t6sa3-00000007KJ9-3oKC;
+	Fri, 01 Nov 2024 14:24:51 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
-	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6s92-0000000Aizq-3Q3u
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1t6s9R-00000007Fpw-0hzv
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Nov 2024 13:56:58 +0000
+	Fri, 01 Nov 2024 13:59:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 580F05C87E1;
-	Thu, 31 Oct 2024 07:58:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A22C4CEC3;
-	Thu, 31 Oct 2024 07:59:33 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 230E35C9565;
+	Thu, 31 Oct 2024 09:37:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04050C4CEC3;
+	Thu, 31 Oct 2024 09:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730361574;
-	bh=r4WvFfTJfMdRUmFzrlSoIGEf8BKQg/IhRD4qnokJQvg=;
+	s=k20201202; t=1730367470;
+	bh=tqzJLh5GYRL2KEmKB06uhDKvLABRYtBWXtB3Y8bMEKA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YSE0qfi9lLOBn1EH9BGdBYxYLpBIBHIK0QaNCb5Z2f/3ZU0SiPGduT5S8BZpZzVhE
-	 QsE8znEvky7HGyINHWNHZtUimXc0OyWjetPBBGPw4IpeX6whHRZ0Squq75I9D2OXoh
-	 Dj4A2PcDjtD53WxZ8CfoENNGNXS3uZ1vTjYJ05qe8rdIM0RAaKg01VZUsT2btH90gN
-	 3IfJ20Y+iAFHW1y+lpY5HZMEPNs5tEjpoTUkB7qMwux7hxpqN1+o4tJ7RVpOBKxrIT
-	 w9KRIYFGI2KFLA4w2wF7IkinK0w9y+ewKYwfXPBFWw7JG53t4IL192NVOKYAlQAK8j
-	 0+j+mdz3I8PxQ==
-Date: Thu, 31 Oct 2024 09:59:28 +0200
+	b=dTQP7PS+/MTyTtUMPwFCdUdEd1qWr3BPPQ8pvyYPVrtbourx/L8sdNPTr9lPj1QPB
+	 g933lrXQqvAJxMV1kQiG2xyG7NF8LnS9wKQBA9lsBXrn5RHD1+siwDoEBnl+zfB8NV
+	 DrhOyVxwnAVdg5G2IeaEo3cxX9HtNdkNEj0b51HcYMeCY5S9sSDgNsPLzN1l7uwEAl
+	 8UAGh7dlC4XLOOvyRno1rlDrgXdZkQFymJIkdmkKL/RzKkO8mH98WS4qTpitL+TrzB
+	 j4UfpaLbeZXfuUbC0SIp4WAe0T7KDxaEbIsTC03s3SAkoAGz9+Sya4ZfdJPQPVNS6T
+	 b1awtly2cL7Qw==
+Date: Thu, 31 Oct 2024 11:37:46 +0200
 From: Leon Romanovsky <leon@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
+To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
 	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -78,18 +63,20 @@ Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
 	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
 	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
 	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
-Message-ID: <20241031075928.GA7473@unreal>
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241031093746.GA88858@unreal>
 References: <cover.1730298502.git.leon@kernel.org>
- <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
- <19cf7d58-4a28-4ce8-9524-8c99fdc79062@infradead.org>
+ <3144b6e7-5c80-46d2-8ddc-a71af3c23072@kernel.dk>
+ <20241031083450.GA30625@lst.de>
+ <20241031090530.GC7473@unreal>
+ <20241031092113.GA1791@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <19cf7d58-4a28-4ce8-9524-8c99fdc79062@infradead.org>
+In-Reply-To: <20241031092113.GA1791@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241101_135657_059316_4662B06F 
-X-CRM114-Status: GOOD (  16.99  )
+X-CRM114-CacheID: sfid-20241101_065721_316871_AA064BEA 
+X-CRM114-Status: GOOD (  19.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,34 +91,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 30, 2024 at 06:41:21PM -0700, Randy Dunlap wrote:
-> (nits)
-> 
-> On 10/30/24 8:12 AM, Leon Romanovsky wrote:
-> > From: Christoph Hellwig <hch@lst.de>
+On Thu, Oct 31, 2024 at 10:21:13AM +0100, Christoph Hellwig wrote:
+> On Thu, Oct 31, 2024 at 11:05:30AM +0200, Leon Romanovsky wrote:
+> > This series is a subset of the series you tested and doesn't include the
+> > block layer changes which most likely were the cause of the performance
+> > regression.
 > > 
-> > Add an explanation of the newly added IOVA-based mapping API.
+> > This is why I separated the block layer changes from the rest of the series
+> > and marked them as RFC.
 > > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  Documentation/core-api/dma-api.rst | 70 ++++++++++++++++++++++++++++++
-> >  1 file changed, 70 insertions(+)
-
-<...>
-
-> > +These APIs allow a very efficient mapping when using an IOMMU.  They are an
-> > +optional path that requires extra code and are only recommended for drivers
-> > +where DMA mapping performance, or the space usage for storing the DMA addresses
-> > +matter.  All the consideration from the previous section apply here as well.
+> > The current patch set is viable for HMM and VFIO. Can you please retest
+> > only this series and leave the block layer changes for later till Christoph
+> > finds the answer for the performance regression?
 > 
->                     considerations
+> As the subset doesn't touch block code or code called by block I don't
+> think we need Jens to benchmark it, unless he really wants to.
 
-<...>
+He wrote this sentence in his email, while responding on subset which doesn't change
+anything in block layer: "just want to make sure something like this doesn't get merged
+until that is both fully understood and sorted out."
 
-> > +is used to unmap a range previous mapped, and
-> 
->                             previously
+This series works like a charm for RDMA (HMM) and VFIO.
 
 Thanks
 
