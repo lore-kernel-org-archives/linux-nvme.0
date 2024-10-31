@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6E98D6B6B4
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 00:15:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44578D74960
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 00:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NBeNK9NFh5JOCEfAA5ML5dOmjPRbM5/5eyvk78NXjys=; b=mdhdYAnfwSJaEjTx+ynFQukDJ0
-	Sa4uxh3lmqi4nnGaIE/Ir03poMH5B0MaFhUv4Mn8eo8Q/9FeQb3JSDoHPJqSG9M3FnIBw/9/ZIO9l
-	SdLqTb6L9SWmn7YD1IvLszkXopl1yWfPq+cCboR6w69fDQTVxYRrEMcBK/MuwhSbQeMBkoPGGzjuV
-	HQPk4m3KTR6WbIIlGN2mSmO+hLpWoegCOxvkCbiPmARalpk+5HecjEUGZgeqjUS1z6lUrKn3IsDXE
-	5tMNR4yZwggBxh7gqw77SiABzeCT1kZpX+3mgAAzRKNrVilAOTMwmogj0yFTiQN3jftbaK62tWrO9
-	T948gtKQ==;
+	bh=ylLHvS3B4DMeBiTkFxRK6FWUuGg+33emd5MdRJEeN5U=; b=IhBtHwOefPlPsykxL+S9hCGaVn
+	Ml3TDPiWx2e/cBgZteiiiEd1dJrILmWPwhw3CQBbik+Y+TcgGsPIafVth4FiAT/+bWRl4dp3avm1t
+	O2YHy9+jDQJ+QPqVwND+VCrqv2R4Eh8g9vdnKrvY8ROetf1o2nSwz5kXwRZMdeM6Zl4HpGk/t/XY2
+	3cgsA/l0QE/v09tD5rWXU/UGrk3FX0AK/0q4epRpcio7vIr2ADTIBdZu9kGVVMrixbcjo4V6pFIv8
+	HdT7A6zrKPPzxcv3SZwvhh3Zm2tY9+9FqVaEWTx+dIhwylxqpQ2z0ClkpBQv4po3/05ir76LIOFFQ
+	UOHKMlzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6IqK-00000002843-3Pns;
-	Thu, 31 Oct 2024 00:15:16 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1t6JJ0-00000002B0l-0T3P;
+	Thu, 31 Oct 2024 00:44:54 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6IqH-0000000283O-2IQ9
+	id 1t6IxC-000000028os-26BB
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Oct 2024 00:15:15 +0000
+	Thu, 31 Oct 2024 00:22:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730333712;
+	s=mimecast20190719; t=1730334141;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NBeNK9NFh5JOCEfAA5ML5dOmjPRbM5/5eyvk78NXjys=;
-	b=NeTHfkwFWReQsmVcLhhqLsslKyNwNZEqCmR8tU5HxjAxLcIrigevkqite+v0aIq7ID8aE2
-	mauFxQTIeKEz4PMJyu4q2Dn0emS7iwVptP6aXZymXrSqjmnsAzAt5E6+PPPsqVq/pXF7ry
-	BKkVMB28sFktyzOXZELChWbvpIKOMMY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+	bh=ylLHvS3B4DMeBiTkFxRK6FWUuGg+33emd5MdRJEeN5U=;
+	b=bKPfxDXDY0N/q599shzGsDe4qB7pfyv9dyUhpSbtiVIo/8OeS9BOgLp6PkvaP3xE6PDa+T
+	+MfRyB3Qatd+8R8Kwdj3kUvZP9O6moVEEV9S34WFATFjSMvp/j3Iavy6Ozxu1ulbjweZzu
+	nRvvnlQ9ErRMBcy2kn6slOt3iUIeq7o=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-626-kEeXRQzDPMytemAEJ99l6Q-1; Wed,
- 30 Oct 2024 20:15:05 -0400
-X-MC-Unique: kEeXRQzDPMytemAEJ99l6Q-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-265-jexB4D0sO7-vMym4mJV5Dg-1; Wed,
+ 30 Oct 2024 20:22:17 -0400
+X-MC-Unique: jexB4D0sO7-vMym4mJV5Dg-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 070B41956046;
-	Thu, 31 Oct 2024 00:15:03 +0000 (UTC)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 388F71955F43;
+	Thu, 31 Oct 2024 00:22:15 +0000 (UTC)
 Received: from fedora (unknown [10.72.116.15])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 987571956086;
-	Thu, 31 Oct 2024 00:14:55 +0000 (UTC)
-Date: Thu, 31 Oct 2024 08:14:49 +0800
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5B3E4196BB7E;
+	Thu, 31 Oct 2024 00:22:07 +0000 (UTC)
+Date: Thu, 31 Oct 2024 08:22:02 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Klara Modin <klarasmodin@gmail.com>
 Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk,
@@ -61,17 +61,18 @@ Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk,
 	klara@kasm.eu
 Subject: Re: [PATCH] iov_iter: don't require contiguous pages in
  iov_iter_extract_bvec_pages
-Message-ID: <ZyLL-eXIntwBY5q2@fedora>
+Message-ID: <ZyLNqtmxsEt-VYIE@fedora>
 References: <20241024050021.627350-1-hch@lst.de>
  <fa2f2722-fab2-4108-8d3a-f7da87bb9efa@gmail.com>
+ <ZyLL-eXIntwBY5q2@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fa2f2722-fab2-4108-8d3a-f7da87bb9efa@gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+In-Reply-To: <ZyLL-eXIntwBY5q2@fedora>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_171513_682126_85A7B47D 
-X-CRM114-Status: GOOD (  19.15  )
+X-CRM114-CacheID: sfid-20241030_172222_631571_87E93B44 
+X-CRM114-Status: GOOD (  23.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,89 +87,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 30, 2024 at 06:56:48PM +0100, Klara Modin wrote:
-> Hi,
-> 
-> On 2024-10-24 07:00, Christoph Hellwig wrote:
-> > From: Ming Lei <ming.lei@redhat.com>
+On Thu, Oct 31, 2024 at 08:14:49AM +0800, Ming Lei wrote:
+> On Wed, Oct 30, 2024 at 06:56:48PM +0100, Klara Modin wrote:
+> > Hi,
 > > 
-> > The iov_iter_extract_pages interface allows to return physically
-> > discontiguous pages, as long as all but the first and last page
-> > in the array are page aligned and page size.  Rewrite
-> > iov_iter_extract_bvec_pages to take advantage of that instead of only
-> > returning ranges of physically contiguous pages.
+> > On 2024-10-24 07:00, Christoph Hellwig wrote:
+> > > From: Ming Lei <ming.lei@redhat.com>
+> > > 
+> > > The iov_iter_extract_pages interface allows to return physically
+> > > discontiguous pages, as long as all but the first and last page
+> > > in the array are page aligned and page size.  Rewrite
+> > > iov_iter_extract_bvec_pages to take advantage of that instead of only
+> > > returning ranges of physically contiguous pages.
+> > > 
+> > > Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> > > [hch: minor cleanups, new commit log]
+> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > > 
-> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> > [hch: minor cleanups, new commit log]
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > With this patch (e4e535bff2bc82bb49a633775f9834beeaa527db in next-20241030),
+> > I'm unable to connect via nvme-tcp with this in the log:
+> > 
+> > nvme nvme1: failed to send request -5
+> > nvme nvme1: Connect command failed: host path error
+> > nvme nvme1: failed to connect queue: 0 ret=880
+> > 
+> > With the patch reverted it works as expected:
+> > 
+> > nvme nvme1: creating 24 I/O queues.
+> > nvme nvme1: mapped 24/0/0 default/read/poll queues.
+> > nvme nvme1: new ctrl: NQN
+> > "nqn.2018-06.eu.kasm.int:freenas:backup:parmesan.int.kasm.eu", addr
+> > [2001:0678:0a5c:1204:6245:cbff:fe9c:4f59]:4420, hostnqn:
+> > nqn.2018-06.eu.kasm.int:parmesan
 > 
-> With this patch (e4e535bff2bc82bb49a633775f9834beeaa527db in next-20241030),
-> I'm unable to connect via nvme-tcp with this in the log:
+> I can't reproduce it by running blktest 'nvme_trtype=tcp ./check nvme/'
+> on both next tree & for-6.13/block.
 > 
-> nvme nvme1: failed to send request -5
-> nvme nvme1: Connect command failed: host path error
-> nvme nvme1: failed to connect queue: 0 ret=880
-> 
-> With the patch reverted it works as expected:
-> 
-> nvme nvme1: creating 24 I/O queues.
-> nvme nvme1: mapped 24/0/0 default/read/poll queues.
-> nvme nvme1: new ctrl: NQN
-> "nqn.2018-06.eu.kasm.int:freenas:backup:parmesan.int.kasm.eu", addr
-> [2001:0678:0a5c:1204:6245:cbff:fe9c:4f59]:4420, hostnqn:
-> nqn.2018-06.eu.kasm.int:parmesan
+> Can you collect the following bpftrace log by running the script before
+> connecting to nvme-tcp?
 
-I can't reproduce it by running blktest 'nvme_trtype=tcp ./check nvme/'
-on both next tree & for-6.13/block.
+And please try the following patch:
 
-Can you collect the following bpftrace log by running the script before
-connecting to nvme-tcp?
-
-Please enable the following kernel options for bpftrace:
-
-	CONFIG_KPROBE_EVENTS_ON_NOTRACE=y
-	CONFIG_NVME_CORE=y
-	CONFIG_NVME_FABRICS=y
-	CONFIG_NVME_TCP=y
-
-Btw, bpftrace doesn't work on next tree if nvme is built as module.
-
-
-# cat extract.bt
-#!/usr/bin/bpftrace
-
-kprobe:nvmf_connect_io_queue
-{
-	@connect[tid]=1;
-}
-
-kretprobe:nvmf_connect_io_queue
-{
-	@connect[tid]=0;
-}
-
-kprobe:iov_iter_extract_pages
-/@connect[tid]/
-{
-	$i = (struct iov_iter *)arg0;
-	printf("extract pages: iter(cnt %lu off %lu) maxsize %u maxpages %u offset %lu\n",
-		$i->count, $i->iov_offset, arg2, arg3, *((uint32 *)arg4));
-	printf("\t bvec(off %u len %u)\n", $i->bvec->bv_offset, $i->bvec->bv_len);
-}
-
-kretprobe:iov_iter_extract_pages
-/@connect[tid]/
-{
-	printf("extract pages: ret %d\n", retval);
-}
-
-END {
-	clear(@connect);
-}
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 9fc06f5fb748..c761f6db3cb4 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1699,6 +1699,7 @@ static ssize_t iov_iter_extract_bvec_pages(struct iov_iter *i,
+                i->bvec++;
+                skip = 0;
+        }
++       bi.bi_idx = 0;
+        bi.bi_size = maxsize + skip;
+        bi.bi_bvec_done = skip;
 
 
 
-Thanks,
+Thanks, 
 Ming
 
 
