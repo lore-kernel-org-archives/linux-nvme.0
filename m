@@ -4,54 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2589E68956
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 06:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E239EE68958
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 06:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Ftnd/HTFiWUdoaPO4Dqi7AoAhZ
-	re0QIVkv/wdxCoQHQSpul6C/QFcu8sphD0AjvPCeIjihBaLwERWdEJ+zv5p3fVYZWckBdLZgaDz1t
-	iLEVCxcj1tRDBkoD2ShrlHhpECp0KvM0Y0I+xoGJdL2eukiP1FB8otGi5DFoHtH2XmnbvsuZQ7VOM
-	GBimSpbd9Cg6iOa1sBZIE+6+Btkq1vTmjyJqhuiGL133ovzbYAE+xf+tTKLKC0Zfh1bEDimVh7Qph
-	hBEuVOVOUxZci8JmEy0pEBIxQ4x0Bf6PP92wROPS+lzm5n9ruV1KbrekFs3UHZCHTMVoUHtpgep2f
-	ozf+Fijg==;
+	bh=IUrG3rRpo1ODMcpq/h1JSd/3TTN/xfHoWeRIoYkaI6k=; b=08xOjRe2qcJl+uhjTQgwiWt8kE
+	FDMfG9O9wYNPtDUjqlEMR+f+fCLfnGFYFyeoM6qDJpeQ5VljC5uab9HLPKJ/dKQJl90DtbOU57lWh
+	Q+Xq+S5syxhnC5BnQGPj/VYAC7sU5rUzZF5+1IurGqJPvqEClR2rc15G0wN6uWny0GL8t8RQjfu+n
+	rYV7FbrePuGMmBEJw2HwcFAyYNPMDn/wLWCp3Ag167bTo4g2Uu5OsI1S6IPtU8ODxJycNK3Qb1mXG
+	aJkfaV1DizgQpmSikyH3q0efDEPgBeam0djhl/+JDHwlldObJxYmxR0EeYz1HEViqQGXDuX+2D5ax
+	toAGHFlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6P7p-00000002jhb-0MC6;
-	Thu, 31 Oct 2024 06:57:45 +0000
+	id 1t6P86-00000002jli-1LFy;
+	Thu, 31 Oct 2024 06:58:02 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6P6A-00000002jKX-2Jn4
+	id 1t6P83-00000002jkt-2yft
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Oct 2024 06:56:03 +0000
+	Thu, 31 Oct 2024 06:58:01 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3664C227AAD; Thu, 31 Oct 2024 07:55:58 +0100 (CET)
-Date: Thu, 31 Oct 2024 07:55:57 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, asml.silence@gmail.com,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org, gost.dev@samsung.com,
-	vishak.g@samsung.com, anuj1072538@gmail.com,
-	Anuj Gupta <anuj20.g@samsung.com>
-Subject: Re: [PATCH v6 06/10] io_uring/rw: add support to send metadata
- along with read/write
-Message-ID: <20241031065557.GB26299@lst.de>
-References: <20241030180112.4635-1-joshi.k@samsung.com> <CGME20241030181013epcas5p2762403c83e29c81ec34b2a7755154245@epcas5p2.samsung.com> <20241030180112.4635-7-joshi.k@samsung.com>
+	id 6232A227AAD; Thu, 31 Oct 2024 07:57:56 +0100 (CET)
+Date: Thu, 31 Oct 2024 07:57:56 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Guixin Liu <kanie@linux.alibaba.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
+Subject: Re: [PATCH v2] nvmet: make nvmet_wq visible in sysfs
+Message-ID: <20241031065756.GA26518@lst.de>
+References: <20241031022720.27202-1-kanie@linux.alibaba.com> <3cb63cfd-a4d5-4516-a2eb-7b968a036f7a@nvidia.com> <74fd4aa7-5d58-4493-a718-673143611989@linux.alibaba.com> <019d19a4-cf4e-4405-8672-b371f116da22@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241030180112.4635-7-joshi.k@samsung.com>
+In-Reply-To: <019d19a4-cf4e-4405-8672-b371f116da22@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241030_235602_742438_C0A7A9F8 
-X-CRM114-Status: UNSURE (   8.35  )
+X-CRM114-CacheID: sfid-20241030_235800_320254_82098AFD 
+X-CRM114-Status: UNSURE (   6.69  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -67,7 +61,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+Looks good with the updated commit message:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 
