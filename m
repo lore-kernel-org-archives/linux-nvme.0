@@ -4,52 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 527A9E68942
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 01:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99E67E68946
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 01:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fq4kJNH2CAE848TPhhysdxKjBpD694h5FnzeuEmb1qg=; b=Sr/8IgypuCNx2n4iFkA9Dtgb6h
-	skq0NCWPRY9xua8zjzPKLR4+QTIOg9jqaENNa6WhYtkEvCqTM0vGIQqJXHe+2qJdRIwZPapqj2NSd
-	EJ8dimHSRoxLoTt6uqEfYNVXGKGIOoz7izvZS9koDAVCd+gWK7uuDa3h+cvxhCAkrS/Kif3N9Cd8A
-	cet1ua5IoVH4ANd/ap9u+w888M1+YJagLGW5TUaj1X61TdODtDWqBU+Or7c3gdN8D8ZQ/wE3gKQrd
-	nLF2gB6a0Cc8suTWmd4g/0S6fg1+saUs0pvY+kogYPHtLMfuJgfPWsX0cFc1arU2g51K3+tgGGrjW
-	Rrvs0wfg==;
+	bh=R5HJbtUFcFXgZVBH0YtIsWB+OH8uOJ8D1+BabaE0bvE=; b=EsoXnoUbR9UWzullvPeKvFnKBr
+	TD7pCi3iujV81GTjD3PGjiTEIpLu1iJHf37uwfNFlRPkmhrp1ub3dm1R7nsTOAZjTmUss7asmkcAL
+	OdVdxlK0YR8HqT7CP2sbQXUwDocltWeyr2jrnazTSky8eTHscV3nbNZR46kdc8r9Zlxq4sgH1VVcG
+	CA/eqQpePdcBWoIQBKsk/RtHsmXfc1RzaUHsQPsy+RnhQ0XDTdgVOM9zSc8aNvt5Tbxf6SNk7pn4+
+	cHnF0CSpnvimAvwJ4GeL5lgTK7hJbufyuq7hUrY9fyrtD15ycYABHRNz2GaGQDCCBkWwXYYLAvJxy
+	iimqTaTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6KBv-00000002GZc-1ajy;
-	Thu, 31 Oct 2024 01:41:39 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1t6KEW-00000002HKQ-0MBC;
+	Thu, 31 Oct 2024 01:44:20 +0000
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6KBu-00000002GZQ-21cS
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 31 Oct 2024 01:41:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=fq4kJNH2CAE848TPhhysdxKjBpD694h5FnzeuEmb1qg=; b=S6EPMqUnjSMOY2vNcllwd8p6Ox
-	BPtRyDbTyKdeu8zN7/wLUeNEzO4yOt1VTpHholffpA3y2fXCRmfGBwbaq+MhS7i6uXvZPqK8EWMf1
-	vdnR+ykKcs42+hETXuNdH86QIsFdTsFb5DdA2bI/GBKPhibpWGo8LZ3PBdnL6MNt66IGi5rIDxwfh
-	Nm4PIrdldIDwzVjNZc3a6VarZ5m10jD/+0k0wQ6vaP/5ECeWPGuh0sdOuXzd7qA+HFGDz97uZOAV8
-	aVCodx/6OFerCofoyBUjDKwTi3nqK7mNz0BN5W9cwhuz4xTFN0XerCsGsF3834u0w+0svVHPsvvbO
-	Jz1tZyPw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6KBm-0000000E8Yj-17R7;
-	Thu, 31 Oct 2024 01:41:31 +0000
-Message-ID: <19cf7d58-4a28-4ce8-9524-8c99fdc79062@infradead.org>
-Date: Wed, 30 Oct 2024 18:41:21 -0700
+	id 1t6KES-00000002HJm-3ggU
+	for linux-nvme@lists.infradead.org;
+	Thu, 31 Oct 2024 01:44:18 +0000
+Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-7d916b6a73aso373680a12.1
+        for <linux-nvme@lists.infradead.org>; Wed, 30 Oct 2024 18:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1730339056; x=1730943856; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R5HJbtUFcFXgZVBH0YtIsWB+OH8uOJ8D1+BabaE0bvE=;
+        b=qniCZ+xqLod7w6Q8IKk3ftHvwRlRfOdMkF6lWXzJqyZJYdKQJfhQZzUhMncAjuxs3H
+         qKcAzbVG6CxFfggGQao8LNk3YU83jcw2YqwKAVBpV4JZ9p3EGgIQ9NVSv1U8WPHYKHyg
+         FP1gx+OLul1KMhq+V8oDyhgIXbETGq1FbJI87Ts/a3psypSwYy/skJg+hlWueIyVOFQ7
+         p+chrDlrfTm/TYEg3N4mOjO+lVdbemdYgE+61Zf8J1sYi1GYmcfK+wDG73vjjzS2mDX+
+         /E+NTYTiNpfCOqljBUrX8a58EQ06HizmFqAQbzR3vCTfRyS2jzn44oKtmlEMcW/52yJO
+         CvkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730339056; x=1730943856;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R5HJbtUFcFXgZVBH0YtIsWB+OH8uOJ8D1+BabaE0bvE=;
+        b=uoxOt1XveGYX21U0Xw0tbpzHnLA0c4AIwIZIFPcdvTwLVJkh4NhVwP/t0m9zUPJo6/
+         1QvRt8SaieBycJNrZfBjzGMozNKJEPDYGVR5ul9DY7ZeUX6kgxMe87Wm1YzzlZAORXh/
+         ioSDTb7cepbt/oz8qVEN0IqUeBMXgKWaLIjeauA5i0uk2dsuRa0MVH6FQb3uShNP39t/
+         nQXVBJyELxsEphPZWvy96smo75G21sEqhm6mjao55iSEW+C0gk+ceH4z8ExZbx61GejH
+         Fpb19kno89pGcG+0Q6cd1zuDPEMl/cFC1gJjFGyAVr+z+2zZOMikGg0p3Vh9y2+FgmoQ
+         jlvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWK8At6v06RYByXjyXBrGY/ezccJkpjIwXirxPpD6gi9OTMTG5HpALs1pxXrmGtJ6KasjBqaJuFIlf0@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy4+rpdCniaj/QT+U80W38+9W9vYVKlik52h/b5ZYTJTWI3LCZE
+	zsiHZ/wU2K5r56COe710KOUV9Wa65qKt32DGpMrHdzEfdI4MZ5sQ6JBSC+VS5fQ=
+X-Google-Smtp-Source: AGHT+IGsg2gMuDdd8QNd8tlE79QeVlOXl87E5sZsK92hB7UM4f0gqnlbEouiOfBHyppk70cC1W17JQ==
+X-Received: by 2002:a05:6a21:4d8b:b0:1d9:b78:2dd3 with SMTP id adf61e73a8af0-1d9a840aaf4mr23384613637.26.1730339055795;
+        Wed, 30 Oct 2024 18:44:15 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e93daac966sm332679a91.17.2024.10.30.18.44.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Oct 2024 18:44:15 -0700 (PDT)
+Message-ID: <3144b6e7-5c80-46d2-8ddc-a71af3c23072@kernel.dk>
+Date: Wed, 30 Oct 2024 19:44:13 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
-To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+To: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
 Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
  Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
@@ -63,12 +85,14 @@ Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
  linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
 References: <cover.1730298502.git.leon@kernel.org>
- <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <cover.1730298502.git.leon@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20241030_184417_218430_86E0EEBC 
+X-CRM114-Status: GOOD (  14.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,108 +107,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-(nits)
-
-On 10/30/24 8:12 AM, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
+On 10/30/24 9:12 AM, Leon Romanovsky wrote:
+> Changelog:
+> v1: 
+>  * Squashed two VFIO patches into one
+>  * Added Acked-by/Reviewed-by tags
+>  * Fix docs spelling errors
+>  * Simplified dma_iova_sync() API
+>  * Added extra check in dma_iova_destroy() if mapped size to make code more clear
+>  * Fixed checkpatch warnings in p2p patch
+>  * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+>    be more general
+>  * Reduced the number of changes in VFIO patch
+> v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
 > 
-> Add an explanation of the newly added IOVA-based mapping API.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  Documentation/core-api/dma-api.rst | 70 ++++++++++++++++++++++++++++++
->  1 file changed, 70 insertions(+)
-> 
-> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> index 8e3cce3d0a23..6095696a65a7 100644
-> --- a/Documentation/core-api/dma-api.rst
-> +++ b/Documentation/core-api/dma-api.rst
-> @@ -530,6 +530,76 @@ routines, e.g.:::
->  		....
->  	}
->  
-> +Part Ie - IOVA-based DMA mappings
-> +---------------------------------
-> +
-> +These APIs allow a very efficient mapping when using an IOMMU.  They are an
-> +optional path that requires extra code and are only recommended for drivers
-> +where DMA mapping performance, or the space usage for storing the DMA addresses
-> +matter.  All the consideration from the previous section apply here as well.
+> ----------------------------------------------------------------------------
+> The code can be downloaded from:
+> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-oct-30
 
-                    considerations
-
-> +
-> +::
-> +
-> +    bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-> +		phys_addr_t phys, size_t size);
-> +
-> +Is used to try to allocate IOVA space for mapping operation.  If it returns
-> +false this API can't be used for the given device and the normal streaming
-> +DMA mapping API should be used.  The ``struct dma_iova_state`` is allocated
-> +by the driver and must be kept around until unmap time.
-> +
-> +::
-> +
-> +    static inline bool dma_use_iova(struct dma_iova_state *state)
-> +
-> +Can be used by the driver to check if the IOVA-based API is used after a
-> +call to dma_iova_try_alloc.  This can be useful in the unmap path.
-> +
-> +::
-> +
-> +    int dma_iova_link(struct device *dev, struct dma_iova_state *state,
-> +		phys_addr_t phys, size_t offset, size_t size,
-> +		enum dma_data_direction dir, unsigned long attrs);
-> +
-> +Is used to link ranges to the IOVA previously allocated.  The start of all
-> +but the first call to dma_iova_link for a given state must be aligned
-> +to the DMA merge boundary returned by ``dma_get_merge_boundary())``, and
-> +the size of all but the last range must be aligned to the DMA merge boundary
-> +as well.
-> +
-> +::
-> +
-> +    int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
-> +		size_t offset, size_t size);
-> +
-> +Must be called to sync the IOMMU page tables for IOVA-range mapped by one or
-> +more calls to ``dma_iova_link()``.
-> +
-> +For drivers that use a one-shot mapping, all ranges can be unmapped and the
-> +IOVA freed by calling:
-> +
-> +::
-> +
-> +   void dma_iova_destroy(struct device *dev, struct dma_iova_state *state,
-> +		enum dma_data_direction dir, unsigned long attrs);
-> +
-> +Alternatively drivers can dynamically manage the IOVA space by unmapping
-> +and mapping individual regions.  In that case
-> +
-> +::
-> +
-> +    void dma_iova_unlink(struct device *dev, struct dma_iova_state *state,
-> +		size_t offset, size_t size, enum dma_data_direction dir,
-> +		unsigned long attrs);
-> +
-> +is used to unmap a range previous mapped, and
-
-                            previously
-
-> +
-> +::
-> +
-> +   void dma_iova_free(struct device *dev, struct dma_iova_state *state);
-> +
-> +is used to free the IOVA space.  All regions must have been unmapped using
-> +``dma_iova_unlink()`` before calling ``dma_iova_free()``.
->  
->  Part II - Non-coherent DMA allocations
->  --------------------------------------
+On Christoph's request, I tested this series last week and saw some
+pretty significant performance regressions on my box. I don't know what
+the status is in terms of that, just want to make sure something like
+this doesn't get merged until that is both fully understood and sorted
+out.
 
 -- 
-~Randy
-
+Jens Axboe
 
