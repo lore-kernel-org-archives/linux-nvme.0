@@ -4,82 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9D61E6F062
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 14:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ADBCE6F062
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 14:51:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4v/EPByujJ+RssKKj5/vyuu/qgup3TSLSNFTfF3urPc=; b=lLor9aW2eEgAy0C3VDZeCCrjjw
-	k6n6YvwNE3eK/qVl8/7cag5Sy9OyCq5bBjtKLI9HzAkq0+m0WHF41Q5Qhb0vRkryDM48m1SJcen6r
-	T616EGiarIqRLSGEaZ7GKzbT+S3w3xqMiQLd3DyTEYF3TGPUDSkNf6clO62B08s9mRG2rcD7NqXys
-	06iYVlH2hF0P8Gci6WAJwkW/6Q5DlN22XFjb1oEH7N1qWN0T8STHSX5/+GZwpAgevPMp/o8nLfC2d
-	uDMet8ud4ak1vbMsM35XNN+82qw0dhDlIa2dbs4B/5aEW6AhL9g+lIEUAUzDaoIsd+uA2hDisPsPN
-	byxHGWfQ==;
+	bh=sQKrF8DdnX9rYRg9UuFHq/EVJpdZV6+7OgwTd++CQGc=; b=wBCKkQMpUaRkCtQYHUq6JCfRzy
+	4I+GsQsw5NM97xCaF4utzzUViisy/nhrrlDzbNHKFbR/1odnBFaed7zhn+OWDz4n0qKQjjFMV02jI
+	fiYVpT6b0CdwQFFhep9DnCI/aCKSotd/UCyQ35qMMSHHw/VIAIgmnICig11FkZTfYyg9hB4jhuCK6
+	h8zLdVgA2ict6qt8zwcHL/H1hHfSn0faPqAyQ3oEoh5+mVcvt8n/zBjr9A8KGkkz7CWTAYf9xCXav
+	eW2g535MnN8BMadAREKPRkYsde5zu4/sZr4e2Q/j2JTvjc6RnErabn+VBa7i3yoCCilDBblPUifLn
+	JDNZqPyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6sbk-00000007KjG-1SGH;
-	Fri, 01 Nov 2024 14:26:36 +0000
-Received: from mgamail.intel.com ([192.198.163.18])
+	id 1t6szR-00000007OvZ-34tn;
+	Fri, 01 Nov 2024 14:51:05 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6sEe-00000007GOs-3FgG
+	id 1t6sxk-00000007OZj-29tl
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Nov 2024 14:02:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730469765; x=1762005765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MsQ9V3sf5ngVZOnd60/14YeNO9J7P5KfgVF/8fNfJW0=;
-  b=e3yl7GYzZDTrshHQsLu+eX05qlDTqNZB1/MWLnPvyCmyFIeOnf11olOh
-   h3Qs/hs+4AGuL/IJRH9QovpuEfabxQLpF8gzo7hjTYID1a20bB5Ka7pXR
-   qcXosoeASWeyuVXViAHBoEeYzdDQIr/M0H+V3lEFSGim9GjPZqcnEUnuT
-   KG7nPnr9Htw5Z23OREMx4yKDJmfXjNcs6vmOaSk5FfqgYu+LIGQw6aI8w
-   FwAGm0XyrLh/rWoIm8IsQwWs/h532meApljnlP7pjqDkHj/ghrJ9zirhL
-   KtpVfJqpzDoepxQ5GbCtqBzXAt+nGSx49cL9z/a/T0zlH2hlMiQQB5aZ/
-   g==;
-X-CSE-ConnectionGUID: M2ryWzf5R/ugvowwyB0v2w==
-X-CSE-MsgGUID: k+N042gIQ2uTEucwVwEVQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="29654128"
-X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
-   d="scan'208";a="29654128"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 07:02:44 -0700
-X-CSE-ConnectionGUID: rFT8x/NOQPa4sxUhjtTxQg==
-X-CSE-MsgGUID: UjNqDcWDTKClZxEyenorSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="87767855"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 Nov 2024 07:02:41 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6sEX-000hcH-2j;
-	Fri, 01 Nov 2024 14:02:37 +0000
-Date: Fri, 1 Nov 2024 22:02:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: George Rurikov <grurikov@gmail.com>, Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, MrRurikov <grurikov@gmal.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Israel Rukshin <israelr@mellanox.com>,
-	Max Gurtovoy <maxg@mellanox.com>, Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, George Rurikov <g.ryurikov@securitycode.ru>
-Subject: Re: [PATCH] nvme: rdma: Add check for queue in
- nvmet_rdma_cm_handler()
-Message-ID: <202411012136.hoMlvrTF-lkp@intel.com>
-References: <20241031173327.663-1-grurikov@gmail.com>
+	Fri, 01 Nov 2024 14:49:22 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id D9B405C30B4;
+	Fri,  1 Nov 2024 14:48:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AFBFC4CECD;
+	Fri,  1 Nov 2024 14:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730472555;
+	bh=k7EVw74ih8Q0h2JSgjLP3Pfx29kLuoxz2HYyitmb5QY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qqviswlYX1BHKuPR5ekMMzxSlcNtysICRu79OUByTD9UMQIsGrpVy/A721KYFuHMe
+	 TZgNQ9laCdOQKoOOdHw+RLLXTRMtPDyj+1aOdIvd/CmVB1QDlxAT1sXJW1ILqbhgQj
+	 r2chJflG1cLWi+WegmVeWDFEgaGMQ1D/J7Vs55mWI6YhP5xHJdg5e1ZqnThl3RcSmW
+	 A/t4EPA6eJxanq/Ag7wG+RZpB6Hdw1r++uL8XIiNJqWdiYaNtOJY5lcWERoBA2hDsR
+	 ustDb/50m8C5CtlUteDhkjp1SoqsrgvAqVnupo9cwHKs137vxOIFE7gwnytEzws0Ol
+	 0wDEgDRoQz2Pw==
+Date: Fri, 1 Nov 2024 08:49:12 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Hans Holmberg <hans@owltronix.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, io-uring@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, joshi.k@samsung.com,
+	javier.gonz@samsung.com, bvanassche@acm.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCHv10 9/9] scsi: set permanent stream count in block limits
+Message-ID: <ZyTqZ3UR39VTHSA2@kbusch-mbp.dhcp.thefacebook.com>
+References: <ZyJTsyDjn6ABVbV0@kbusch-mbp.dhcp.thefacebook.com>
+ <20241030154556.GA4449@lst.de>
+ <ZyJVV6R5Ei0UEiVJ@kbusch-mbp.dhcp.thefacebook.com>
+ <20241030155052.GA4984@lst.de>
+ <ZyJiEwZwjevelmW2@kbusch-mbp.dhcp.thefacebook.com>
+ <20241030165708.GA11009@lst.de>
+ <ZyK0GS33Qhkx3AW-@kbusch-mbp.dhcp.thefacebook.com>
+ <CANr-nt35zoSijRXYr+ommmWGfq0+Ye0tf3SfHfwi0cfpvwB0pg@mail.gmail.com>
+ <ZyOO4PojaVIdmlOA@kbusch-mbp.dhcp.thefacebook.com>
+ <CANr-nt30gQzFFsnJt9Tzs1kRDWSj=2w0iTC1qYfu+7JwpszwQQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241031173327.663-1-grurikov@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANr-nt30gQzFFsnJt9Tzs1kRDWSj=2w0iTC1qYfu+7JwpszwQQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241101_070244_907045_5C246CA6 
-X-CRM114-Status: GOOD (  14.12  )
+X-CRM114-CacheID: sfid-20241101_074920_659597_7350DDDD 
+X-CRM114-Status: GOOD (  22.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,115 +85,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi George,
+On Fri, Nov 01, 2024 at 08:16:30AM +0100, Hans Holmberg wrote:
+> On Thu, Oct 31, 2024 at 3:06 PM Keith Busch <kbusch@kernel.org> wrote:
+> > On Thu, Oct 31, 2024 at 09:19:51AM +0100, Hans Holmberg wrote:
+> > > No. The meta data IO is just 0.1% of all writes, so that we use a
+> > > separate device for that in the benchmark really does not matter.
+> >
+> > It's very little spatially, but they overwrite differently than other
+> > data, creating many small holes in large erase blocks.
+> 
+> I don't really get how this could influence anything significantly.(If at all).
 
-kernel test robot noticed the following build warnings:
+Fill your filesystem to near capacity, then continue using it for a few
+months. While the filesystem will report some available space, there
+may not be many good blocks available to erase. Maybe.
+ 
+> > Again, I absolutely disagree that this locks anyone in to anything.
+> > That's an overly dramatic excuse.
+> 
+> Locking in or not, to constructively move things forward (if we are
+> now stuck on how to wire up fs support) 
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.12-rc5 next-20241101]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+But we're not stuck on how to wire up to fs. That part was settled and
+in kernel 10 years ago. We're stuck on wiring it down to the driver,
+which should have been the easiest part.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/George-Rurikov/nvme-rdma-Add-check-for-queue-in-nvmet_rdma_cm_handler/20241101-013611
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241031173327.663-1-grurikov%40gmail.com
-patch subject: [PATCH] nvme: rdma: Add check for queue in nvmet_rdma_cm_handler()
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20241101/202411012136.hoMlvrTF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012136.hoMlvrTF-lkp@intel.com/reproduce)
+> I believe it would be worthwhile to prototype active fdp data
+> placement in xfs and evaluate it. Happy to help out with that.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411012136.hoMlvrTF-lkp@intel.com/
+When are we allowed to conclude evaluation? We have benefits my
+customers want on well tested kernels, and wish to proceed now.
 
-All warnings (new ones prefixed by >>):
+I'm not discouraing anyone from continuing further prototypes,
+innovations, and improvements. I'd like to spend more time doing that
+too, and merging something incrementally better doesn't prevent anyone
+from doing that.
 
-   drivers/nvme/target/rdma.c: In function 'nvmet_rdma_cm_handler':
->> drivers/nvme/target/rdma.c:1771:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1771 |                 if (!queue) {
-         |                    ^
-   drivers/nvme/target/rdma.c:1775:9: note: here
-    1775 |         case RDMA_CM_EVENT_ADDR_CHANGE:
-         |         ^~~~
-   drivers/nvme/target/rdma.c:1785:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1785 |                 if (!queue) {
-         |                    ^
-   drivers/nvme/target/rdma.c:1789:9: note: here
-    1789 |         case RDMA_CM_EVENT_DEVICE_REMOVAL:
-         |         ^~~~
-   drivers/nvme/target/rdma.c:1798:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1798 |                 if (!queue) {
-         |                    ^
-   drivers/nvme/target/rdma.c:1802:9: note: here
-    1802 |         default:
-         |         ^~~~~~~
+> Fdp and zns are different beasts, so I don't expect the results in the
+> presentation to be directly translatable but we can see what we can
+> do.
+> 
+> Is RocksDB the only file system user at the moment?
 
-
-vim +1771 drivers/nvme/target/rdma.c
-
-  1752	
-  1753	static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
-  1754			struct rdma_cm_event *event)
-  1755	{
-  1756		struct nvmet_rdma_queue *queue = NULL;
-  1757		int ret = 0;
-  1758	
-  1759		if (cm_id->qp)
-  1760			queue = cm_id->qp->qp_context;
-  1761	
-  1762		pr_debug("%s (%d): status %d id %p\n",
-  1763			rdma_event_msg(event->event), event->event,
-  1764			event->status, cm_id);
-  1765	
-  1766		switch (event->event) {
-  1767		case RDMA_CM_EVENT_CONNECT_REQUEST:
-  1768			ret = nvmet_rdma_queue_connect(cm_id, event);
-  1769			break;
-  1770		case RDMA_CM_EVENT_ESTABLISHED:
-> 1771			if (!queue) {
-  1772				nvmet_rdma_queue_established(queue);
-  1773				break;
-  1774			}
-  1775		case RDMA_CM_EVENT_ADDR_CHANGE:
-  1776			if (!queue) {
-  1777				struct nvmet_rdma_port *port = cm_id->context;
-  1778	
-  1779				queue_delayed_work(nvmet_wq, &port->repair_work, 0);
-  1780				break;
-  1781			}
-  1782			fallthrough;
-  1783		case RDMA_CM_EVENT_DISCONNECTED:
-  1784		case RDMA_CM_EVENT_TIMEWAIT_EXIT:
-  1785			if (!queue) {
-  1786				nvmet_rdma_queue_disconnect(queue);
-  1787				break;
-  1788			}
-  1789		case RDMA_CM_EVENT_DEVICE_REMOVAL:
-  1790			ret = nvmet_rdma_device_removal(cm_id, queue);
-  1791			break;
-  1792		case RDMA_CM_EVENT_REJECTED:
-  1793			pr_debug("Connection rejected: %s\n",
-  1794				 rdma_reject_msg(cm_id, event->status));
-  1795			fallthrough;
-  1796		case RDMA_CM_EVENT_UNREACHABLE:
-  1797		case RDMA_CM_EVENT_CONNECT_ERROR:
-  1798			if (!queue) {
-  1799				nvmet_rdma_queue_connect_fail(cm_id, queue);
-  1800				break;
-  1801			}
-  1802		default:
-  1803			pr_err("received unrecognized RDMA CM event %d\n",
-  1804				event->event);
-  1805			break;
-  1806		}
-  1807	
-  1808		return ret;
-  1809	}
-  1810	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rocks is the only open source one I know about. There are propietary
+users, too.
 
