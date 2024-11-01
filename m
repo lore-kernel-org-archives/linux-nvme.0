@@ -4,64 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B215E6F083
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 19:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 139F3E6F08E
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 22:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qHvzwKICO5YOt8K5VTFfb/cAFZ2f5/ikvRZ/0sdYgQQ=; b=PSNysZNCNaSN5YtRYI2xZfPd/N
-	hRfpjdLYdI0hzUwl05GNlkuPfl2/gf84dWEGapBk9JJvzFMeIXqs293gNkYg3sQoKd8sAvgqIu0Nr
-	rsuGrn04YMufN2wHaRjernHNrqDLggaPkYpLSlMB3X16bzn9oqRj1bO0qoy3N4CrBd7xFiinuVOyC
-	zadQLyl0LSuOzTHkbD5JgVhztGyMb9l/yv5bdJV1sxBSZ3Wl9yBXzpBhcNos1EXDg/fiB3iIDOTJD
-	k3DVu/j7FTWJpL9QcWiq2fir8Vd9d3pvSXhJt+Lqc/eFKdfH3TwyJrm8D6j2MKA173tMCYX10JDVv
-	5SluLvNA==;
+	bh=IeWJWhtQhjcxQr4A9iIy5+M/sXKM43wi4WaU7WOmfsE=; b=YQ9T0XA7DDVp0wPrrnOX0RT+e2
+	T5Pf5ewXxJ3t08bD0wlS3HSgjtFz87ZuRBelQU3b9Un6XhpaOwh87hnvvyqj1WptXxI0/OAiz9zMN
+	XIH/C3Q4q3mYkBRHByNEAG3RXAcUKC3f5Vm2N8/rlCHpwvqRgcWemkTFkPIw+o+r4hfzVC2+9fhJ0
+	+eQrY/tn5xslu8P9Bw3sX2DeeqPobSJAawTPT/omQKkhJUsEwOoUGcoZcYDBaHvLIOQSgON/ic6Gh
+	cW0X1iCYdoCq7jHsfmk+uXcxGX22g768/o53LBgpyX9CQJOl4NfXmkYjYGjRJ1FYANzA1ZAzQSa69
+	iQWrzxXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6x5m-000000084ye-0n3h;
-	Fri, 01 Nov 2024 19:13:54 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t70OT-00000008Tt8-2MBF;
+	Fri, 01 Nov 2024 22:45:25 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6x5j-000000084y0-409a
+	id 1t70OQ-00000008TsL-0wrN
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Nov 2024 19:13:53 +0000
+	Fri, 01 Nov 2024 22:45:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5A647A44B59;
-	Fri,  1 Nov 2024 19:11:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA705C4CECD;
-	Fri,  1 Nov 2024 19:13:49 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id A86C4A44CE8;
+	Fri,  1 Nov 2024 22:43:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BF66C4CECD;
+	Fri,  1 Nov 2024 22:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730488430;
-	bh=m8X49Xf0XsU/SL0/M1s+EP2WmiK633FGFaSbX3lYlcI=;
+	s=k20201202; t=1730501120;
+	bh=SkEop5/7smK/MSZYAFqBhRctwlHKaIbrZmOShSAg2a0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XWGfLuGwcETZfVraDrpO1nuPo0MQ9sn+zlHbjNdJhfDYoDSoRAQzgm/5sTGHjwvhv
-	 2XGxFNunCIH0Y+EvEKOo9z6XdNIuS/YTIpNpVSx6M2bGnwSh21m8BajmAknu215Bxo
-	 OtxxLMWtDXUu7lh7id6XesqvEBrDj/HvnEo+8HZvaYY1Rls6l6+Ge4j6mIAxfSiYpd
-	 Q9eAPzGEzjM03A1eXb/zNZm/mFNv2KqQ2XZxfgs5FCc0OwjvHETSejeNpNTzbENFpV
-	 6W1Drb4H+euHzciN03MywHJOAybCJnZGgu3cacu2X1RW0S4RGKQ5UxpFEPLnNjZnGB
-	 9WertkUTNq+3A==
-Date: Fri, 1 Nov 2024 13:13:47 -0600
+	b=dV+DKEI59gzZ7vZ7g6rBWuQ1pBC9BQ08cUWOFgV3rDETROWtZj37bpVQ+IrFlJQdn
+	 GS3Wv9smC4PbSHUvCy4oQiCvCiOBoIRoOlNDH7gSRHbDTKni9PPkfw2lBuLY6WOdqd
+	 mN2K0Vkf0OWXAdqG+vOscXlNzoPwGGzbqJ1nSWffsAwzA6BrlvrUz+ymq/k9salvOR
+	 waad78D/rW6fAjLj0KcvNxoDF4IWZJ6uJp31m3Qs4Bg1Rt22BggwfY7eeCCC5J3x7V
+	 lRCqfH8VBEqLXOHDdy7kJplF5eqkVn/bX/KZjYHwqiD8GSSi5axArTyj3Va7whKyG1
+	 ad1ZgyE9IsHhw==
+Date: Fri, 1 Nov 2024 16:45:17 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
-	axboe@fb.com, chaitanyak@nvidia.com, dlemoal@kernel.org,
-	gjoyce@linux.ibm.com
-Subject: Re: [PATCH 3/3] nvme: use helper nvme_ctrl_state in
- nvme_keep_alive_end_io function
-Message-ID: <ZyUoa33hvwEybcRf@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241027170209.440776-1-nilay@linux.ibm.com>
- <20241027170209.440776-4-nilay@linux.ibm.com>
- <ZyD433W-caGMfVsv@kbusch-mbp>
- <480b7c6a-9f4b-4611-a3d6-de82c39bfe6d@linux.ibm.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Matias =?iso-8859-1?Q?Bj=F8rling?= <m@bjorling.me>, dlemoal@kernel.org,
+	cassel@kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	wangyugui@e16-tech.com, martin.petersen@oracle.com, hare@suse.de,
+	Matias =?iso-8859-1?Q?Bj=F8rling?= <matias.bjorling@wdc.com>
+Subject: Re: [PATCH 1/3 v2] nvme: make independent ns identify default
+Message-ID: <ZyVZ_T4HtnqSWTm0@kbusch-mbp.dhcp.thefacebook.com>
+References: <20241010123951.1226105-1-m@bjorling.me>
+ <20241010123951.1226105-2-m@bjorling.me>
+ <20241011081452.GA3337@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <480b7c6a-9f4b-4611-a3d6-de82c39bfe6d@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241011081452.GA3337@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241101_121352_078312_60DCD1D6 
-X-CRM114-Status: GOOD (  18.59  )
+X-CRM114-CacheID: sfid-20241101_154522_355352_C2F163CB 
+X-CRM114-Status: GOOD (  17.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,51 +77,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 30, 2024 at 11:37:15AM +0530, Nilay Shroff wrote:
-> On 10/29/24 20:31, Keith Busch wrote:
-> >> @@ -1296,10 +1296,9 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
-> >>  						 blk_status_t status)
-> >>  {
-> >>  	struct nvme_ctrl *ctrl = rq->end_io_data;
-> >> -	unsigned long flags;
-> >> -	bool startka = false;
-> >>  	unsigned long rtt = jiffies - (rq->deadline - rq->timeout);
-> >>  	unsigned long delay = nvme_keep_alive_work_period(ctrl);
-> >> +	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl->state);
-> >>  
-> >>  	/*
-> >>  	 * Subtract off the keepalive RTT so nvme_keep_alive_work runs
-> >> @@ -1324,13 +1323,9 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
-> >>  
-> >>  	ctrl->ka_last_check_time = jiffies;
-> >>  	ctrl->comp_seen = false;
-> >> -	spin_lock_irqsave(&ctrl->lock, flags);
-> >> -	if (ctrl->state == NVME_CTRL_LIVE ||
-> >> -	    ctrl->state == NVME_CTRL_CONNECTING)
-> >> -		startka = true;
-> >> -	spin_unlock_irqrestore(&ctrl->lock, flags);
-> >> -	if (startka)
-> >> +	if (state == NVME_CTRL_LIVE || state == NVME_CTRL_CONNECTING)
-> >>  		queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
-> >> +
-> >>  	return RQ_END_IO_NONE;
-> >>  }
+On Fri, Oct 11, 2024 at 10:14:52AM +0200, Christoph Hellwig wrote:
+> On Thu, Oct 10, 2024 at 02:39:49PM +0200, Matias Bjørling wrote:
+> > From: Matias Bjørling <matias.bjorling@wdc.com>
 > > 
-> > This restores what you had in the reverted patch, which was a
-> > significant portion of the diff stat. If we're keeping this chunk, maybe
-> > a full revert isn't necessary, and we can squash the series to just one
-> > fixing commit.
+> > The NVMe 2.0 specification adds an independent identify namespace
+> > data structure that contains generic attributes that apply to all
+> > namespace types. Some attributes carry over from the NVM command set
+> > identify namespace data structure, and others are new.
 > > 
-> This doesn't exactly restore what was reverted in the patch. If you 
-> closely look at the reverted patch then you would find that we reverted 
-> the nvme_keep_alive_finish function which is not exactly same as 
-> nvme_keep_alive_end_io function. We renamed nvme_keep_alive_end_io() 
-> to nvme_keep_alive_finish() for the upstream patch.     
+> > Currently, the data structure only considered when CRIMS is enabled or
+> > when the namespace type is key-value.
+> > 
+> > However, the independent namespace data structure
+> > is mandatory for devices that implement features from the 2.0+
+> > specification. Therefore, we can check this data structure first. If
+> > unavailable, retrieve the generic attributes from the NVM command set
+> > identify namespace data structure.
 > 
-> So the revert patch restores nvme_keep_alive_end_io function and also 
-> restores the nvme_keep_alive_work changes. Then the current patch in this 
-> patchset, actually works upon nvme_keep_alive_end_io function.
+> FYI, I still disagree with this for the same reason as before.
+> Assuming we're not really going to see hard drivers I'd be fine
+> with using it by default for 2.0 (or better even 2.1) by default.
 
-Not the whole thing. I'm just talking about the parts I've hightlighted
-here. Squashing this series doesn't show any changes to the state check.
+I've got the rest of the required logs and identifications implemented
+in nvmet to support this. There's one more issue, though, if we do
+restrict the identify to >= 2.0 or 2.1. nvmet reports 1.3, and I suspect
+there's a bit more work than just changing the value of NVMET_DEFAULT_VS
+in order to comply with claiming that version.
 
