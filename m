@@ -4,135 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDB29E674B8
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 08:27:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95855E6B240
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 11:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u0t4feekxOIswH/gya5PvM4rWukDuX0GEL28uYYRBHM=; b=D38RT8uVn1o1+61D8XaKkAUZ4x
-	ZIgOVfOSKgOFLDf8mBQsHQ9Q36SwCk91ykYsVWsGrLXCxcA/nzB6N5jcqQb2vxR0lldBxolexse3S
-	O+SAfVZvrkDS2Y7z5rghqGRwAMtzZWKb5Yv4EIIo+20Zj7JGqQbkaqxzbrabbUADxHjwwVEa60BvS
-	8l2sCoUK58pOytEx0RMSibwQwe56I/VDqjTQ3cF+WU8yCTI/N1od7WXBmDuHVYR4xW6uEXvT37A68
-	JgH8LcJPyALLCcUhHKJXCeJ+obtec0ALqofJFgBvjQIEd+BJfrYtBbt20VHCZHg2y2ZPXix+rXKK6
-	0jVH8E7g==;
+	bh=ptRUarOmNXICaIbCBIPc7XK0gmaouhBlqEQZ7/bssJA=; b=aP6NfwO2otdIYyTh0RWC2lxHwy
+	Y8j1JuuC8Pd/0nhD1HSnhqp6G4YkFF0oxWCKuQukL9fbrN4AH1m4L/5fS3I+ZTqP2xdbImTiSCtVO
+	ysKiTg5noRAUM/2feb2Cw86MfiOXkZO6xBdhQMDMcV05uJhfLcXHi+3wHQf+BZ1doQpAv+GM+Uoy4
+	Z7SZXZ+Zp2x3Ksrge8gtBOfMvQxHOjO3YuU4O3+RYuTCv5gCKoop4a2gjqdDJAEBgmFbYxFpQqhPz
+	Dr2FL8qXO9dhmnZpvBzs/AYhCAFSgV6VUcPC/Fs0iI2ZfkNDUG3ij2UdozIsZrAhf3IHvgRRVRe41
+	b0kFTr6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6mzy-00000006GXf-0QCY;
-	Fri, 01 Nov 2024 08:27:14 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1t6pUb-00000006hKk-0brX;
+	Fri, 01 Nov 2024 11:07:01 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6msK-00000006FFk-3mAx
+	id 1t6pU5-00000006h9N-3pa7
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Nov 2024 08:19:23 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20241101081915euoutp0274e2e80503afbaa1a56b82580c9022bc~Dyla1Xv231332613326euoutp02T
-	for <linux-nvme@lists.infradead.org>; Fri,  1 Nov 2024 08:19:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20241101081915euoutp0274e2e80503afbaa1a56b82580c9022bc~Dyla1Xv231332613326euoutp02T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1730449155;
-	bh=u0t4feekxOIswH/gya5PvM4rWukDuX0GEL28uYYRBHM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=nezja3UyPadsbJdJFB1BbxfY/LoWbOzC3yTYYCVFi039jTrjHEOildnT6DXmFGDbD
-	 Nu03N73Hf3GUbuYoyYM4I5skLr/WSxhgAC6p59YfchgZhI3wbr8p1ZQ8wp9re0Yx3p
-	 QjbL6r38IvQP4B9ogJn2SxY4kqrcX/WyWXgacEbk=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20241101081915eucas1p2c8a05e9da2bb94096e29e2c99dc460cc~DylapO37t0479604796eucas1p2O;
-	Fri,  1 Nov 2024 08:19:15 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges1new.samsung.com (EUCPMTA) with SMTP id 72.23.20821.30F84276; Fri,  1
-	Nov 2024 08:19:15 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20241101081914eucas1p269f6f4d515aa0db81f4fb03cd3ae64d7~DylZ8gtLF3182931829eucas1p2Y;
-	Fri,  1 Nov 2024 08:19:14 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241101081914eusmtrp24265f317813388cfa225d1254c009a9b~DylZ73QdP2944729447eusmtrp2G;
-	Fri,  1 Nov 2024 08:19:14 +0000 (GMT)
-X-AuditID: cbfec7f2-b09c370000005155-7a-67248f038fa3
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 47.C0.19654.20F84276; Fri,  1
-	Nov 2024 08:19:14 +0000 (GMT)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20241101081914eusmtip2b586a3684238513b723c7a4ad1e26a71~DylZxysUn0659906599eusmtip2a;
-	Fri,  1 Nov 2024 08:19:14 +0000 (GMT)
-Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 1 Nov 2024 08:19:13 +0000
-Date: Fri, 1 Nov 2024 09:19:12 +0100
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
-To: Hans Holmberg <hans@owltronix.com>
-CC: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, "Keith
- Busch" <kbusch@meta.com>, <linux-block@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>, <linux-scsi@vger.kernel.org>,
-	<io-uring@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<joshi.k@samsung.com>, <bvanassche@acm.org>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCHv10 9/9] scsi: set permanent stream count in block limits
-Message-ID: <20241101081912.kvixtd6mattjemxk@ArmHalley.local>
+	Fri, 01 Nov 2024 11:06:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 0FCB1A406CC;
+	Fri,  1 Nov 2024 11:04:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C58C4CECD;
+	Fri,  1 Nov 2024 11:06:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730459188;
+	bh=4cdN8oppOPWY/v1yFlCvkKvAwOHnBpBM0oBxJMPVYLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CTwdqT2l5uk5gwpVRS10I7uPpizsb/hBcBKWekYNb0/1/xyMQmvvfagsufSNIp0+H
+	 St+9WxVL8pwKleCrfHfZOuVkWSULd6MySOeEWfvsCSV0bHUjeaV4Ap2L+3O8raqwIS
+	 p8YZpzpRR2xY/A6EMSIL/RHlUwRsD/PxD5D4If7Zj2eoCfoQV5qXib+WWg4KhvHw2Z
+	 saicJOq/ogsv1rxc7raI5JADLpXusjkRSrgZdWf1j6772wyPuX/i0FTrFjRY3w286B
+	 PjBi7Ma3lUD9gnl/JBiWlvccuEDx1UcX9zpXWH1OJeH3wNcgUidQmhlFlXz687wucc
+	 p44pH3kVnbTcg==
+Date: Fri, 1 Nov 2024 13:06:22 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 08/17] dma-mapping: add a dma_need_unmap helper
+Message-ID: <20241101110622.GD88858@unreal>
+References: <cover.1730298502.git.leon@kernel.org>
+ <00385b3557fa074865d37b0ac613d2cb28bcb741.1730298502.git.leon@kernel.org>
+ <7e362d8b-c02a-4327-9c5d-af1c4725ddc7@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANr-nt30gQzFFsnJt9Tzs1kRDWSj=2w0iTC1qYfu+7JwpszwQQ@mail.gmail.com>
-X-Originating-IP: [106.110.32.122]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPKsWRmVeSWpSXmKPExsWy7djPc7rM/SrpBrO2CVlM+/CT2WLu1NWs
-	FnsWTWKyWLn6KJPFu9ZzLBaTDl1jtDhzdSGLxd5b2hZ79p5ksZi/7Cm7Rff1HWwO3B6Xr3h7
-	bFrVyeaxeUm9x+6bDWwe5y5WeBzetIjVY/Ppao/Pm+QCOKK4bFJSczLLUov07RK4MjbO+c9W
-	cJar4sFCqwbGvRxdjJwcEgImEh3LXrJ0MXJxCAmsYJTYfe4zlPOFUaL9xGlGCOczo8TCz8dZ
-	YVr2XbvABpFYzihxaGoDC1zV/KvnoDKbGSWuv3zIDNLCIqAi0fdhPSOIzSZgL3Fp2S2wuIiA
-	msTZFx1MIDazwFUmifcPwOLCAj4S29d/YgOxeQVsJc7f7WKFsAUlTs58wgJRbyXR+aEJKM4B
-	ZEtLLP8H9hCnQKDE/6efmSEuVZJ4/OItI4RdK3Fqyy0mkNskBPo5JY4vPQtV5CLxoncRE4Qt
-	LPHq+BZ2CFtG4v/O+VDxaomGkyegmlsYJVo7toItlhCwlug7kwNR4yix+tgvZogwn8SNt4IQ
-	Z/JJTNo2HSrMK9HRJgRRrSax+t4blgmMyrOQPDYLyWOzEB5bwMi8ilE8tbQ4Nz212DAvtVyv
-	ODG3uDQvXS85P3cTIzBNnf53/NMOxrmvPuodYmTiYDzEKMHBrCTC+6FAOV2INyWxsiq1KD++
-	qDQntfgQozQHi5I4r2qKfKqQQHpiSWp2ampBahFMlomDU6qBKdZWWtn+1Ff+y2tmX3/axmx6
-	8Er3ir0Fv190l55NOOv8+VH5bwvPlIeuVYxLtsetSsrzyQ89U/3nSEbrdM09LQGqD/4Kveq0
-	+Pn6yStx6QfZtQ2ejpvZ9xgtUP21Yves18xP0o6pC+VLpOx9/7pFL/Nfm+6m8+E9k99Mszbh
-	lvRP3hn9WOtBwNObEc/Fp1uypVUITWdWkT800adP5NOX/2eaJKdsqSj/8W3V20n6O+0d/s1b
-	qHc3TqtS8IjyqclT+T7xnjeL4eCpsTF1qvjnZfuyc0e088HT76dM92DS9I5zii9LaL469YKc
-	J8fzDGO39e4xp5vWei64tOYLW3aO+Hc9aat9al0FAVMOcKYfUmIpzkg01GIuKk4EAP8jPTfC
-	AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsVy+t/xe7pM/SrpBpvblS2mffjJbDF36mpW
-	iz2LJjFZrFx9lMniXes5FotJh64xWpy5upDFYu8tbYs9e0+yWMxf9pTdovv6DjYHbo/LV7w9
-	Nq3qZPPYvKTeY/fNBjaPcxcrPA5vWsTqsfl0tcfnTXIBHFF6NkX5pSWpChn5xSW2StGGFkZ6
-	hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GRvn/GcrOMtV8WChVQPjXo4uRk4OCQET
-	iX3XLrB1MXJxCAksZZSY/+koK0RCRmLjl6tQtrDEn2tdUEUfGSXWL7jMDOFsZpT4tmclE0gV
-	i4CKRN+H9YwgNpuAvcSlZbeYQWwRATWJsy86wGqYBa4ySbx/ABYXFvCR2L7+ExuIzStgK3H+
-	bhcrxNDFLBJvlm6GSghKnJz5hAWi2UJi5vzzQAs4gGxpieX/wF7gFAiU+P/0MzPEpUoSj1+8
-	ZYSwayU+/33GOIFReBaSSbOQTJqFMGkBI/MqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwHjd
-	duznlh2MK1991DvEyMTBeIhRgoNZSYT3Q4FyuhBvSmJlVWpRfnxRaU5q8SFGU2BQTGSWEk3O
-	ByaMvJJ4QzMDU0MTM0sDU0szYyVxXrYr59OEBNITS1KzU1MLUotg+pg4OKUamMzvPHHZ/mia
-	lfjvmkfnt3lxG99vKuJ4zOf9+UpJ+vbaOW++JV+Ycfu76/XcnWt9/zx1uf5WMfZpXWscy+2z
-	Dqy8xeFnut5siHeo469RTs4QOzc3m+HewQv8vb9PS63lmbD2wewZ1XsS/7OsX/Ob16t2me+k
-	4NWGQi8Ozducu2LtdNYIvVVrVJ49Eu9SmGJ7aMY+Zr0DDDvvpDKmmHp2Kz4tyF7Nlxm55uyX
-	Ncc8X3vZ2uZ5bPA8ryEQWOye/blNnnuPzE69BbznNiyZ3KGw9nA019PshVp2k+dwT37z8/RK
-	oys5Rt1eLgEnX03bUjOj4nKavmvSPJ2e3oiJRb5Zx+4Iz/moErPPsFu9M9Jt0jUlluKMREMt
-	5qLiRABodThwYAMAAA==
-X-CMS-MailID: 20241101081914eucas1p269f6f4d515aa0db81f4fb03cd3ae64d7
-X-Msg-Generator: CA
-X-RootMTR: 20241101071645eucas1p2a08b10cb2c9db427e809be6fa8809c9c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20241101071645eucas1p2a08b10cb2c9db427e809be6fa8809c9c
-References: <20241030154556.GA4449@lst.de>
-	<ZyJVV6R5Ei0UEiVJ@kbusch-mbp.dhcp.thefacebook.com>
-	<20241030155052.GA4984@lst.de>
-	<ZyJiEwZwjevelmW2@kbusch-mbp.dhcp.thefacebook.com>
-	<20241030165708.GA11009@lst.de>
-	<ZyK0GS33Qhkx3AW-@kbusch-mbp.dhcp.thefacebook.com>
-	<CANr-nt35zoSijRXYr+ommmWGfq0+Ye0tf3SfHfwi0cfpvwB0pg@mail.gmail.com>
-	<ZyOO4PojaVIdmlOA@kbusch-mbp.dhcp.thefacebook.com>
-	<CGME20241101071645eucas1p2a08b10cb2c9db427e809be6fa8809c9c@eucas1p2.samsung.com>
-	<CANr-nt30gQzFFsnJt9Tzs1kRDWSj=2w0iTC1qYfu+7JwpszwQQ@mail.gmail.com>
+In-Reply-To: <7e362d8b-c02a-4327-9c5d-af1c4725ddc7@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241101_011921_368116_B670047C 
-X-CRM114-Status: GOOD (  12.60  )
+X-CRM114-CacheID: sfid-20241101_040630_121270_AE237B82 
+X-CRM114-Status: GOOD (  29.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,36 +89,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 01.11.2024 08:16, Hans Holmberg wrote:
->Locking in or not, to constructively move things forward (if we are
->now stuck on how to wire up fs support) I believe it would be
->worthwhile to prototype active fdp data placement in xfs and evaluate
->it. Happy to help out with that.
+On Thu, Oct 31, 2024 at 09:18:11PM +0000, Robin Murphy wrote:
+> On 30/10/2024 3:12 pm, Leon Romanovsky wrote:
+> > From: Christoph Hellwig <hch@lst.de>
+> > 
+> > Add helper that allows a driver to skip calling dma_unmap_*
+> > if the DMA layer can guarantee that they are no-nops.
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >   include/linux/dma-mapping.h |  5 +++++
+> >   kernel/dma/mapping.c        | 20 ++++++++++++++++++++
+> >   2 files changed, 25 insertions(+)
+> > 
+> > diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> > index 8074a3b5c807..6906edde505d 100644
+> > --- a/include/linux/dma-mapping.h
+> > +++ b/include/linux/dma-mapping.h
+> > @@ -410,6 +410,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+> >   {
+> >   	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
+> >   }
+> > +bool dma_need_unmap(struct device *dev);
+> >   #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
+> >   static inline bool dma_dev_need_sync(const struct device *dev)
+> >   {
+> > @@ -435,6 +436,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+> >   {
+> >   	return false;
+> >   }
+> > +static inline bool dma_need_unmap(struct device *dev)
+> > +{
+> > +	return false;
+> > +}
+> >   #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
+> >   struct page *dma_alloc_pages(struct device *dev, size_t size,
+> > diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> > index 864a1121bf08..daa97a650778 100644
+> > --- a/kernel/dma/mapping.c
+> > +++ b/kernel/dma/mapping.c
+> > @@ -442,6 +442,26 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+> >   }
+> >   EXPORT_SYMBOL_GPL(__dma_need_sync);
+> > +/**
+> > + * dma_need_unmap - does this device need dma_unmap_* operations
+> > + * @dev: device to check
+> > + *
+> > + * If this function returns %false, drivers can skip calling dma_unmap_* after
+> > + * finishing an I/O.  This function must be called after all mappings that might
+> > + * need to be unmapped have been performed.
+> 
+> In terms of the unmap call itself, why don't we just use dma_skip_sync to
+> short-cut dma_direct_unmap_*() and make sure it's as cheap as possible?
 
-I appreciate you willingness to move things forward. I really mean it.
+From what I see dma_skip_sync is not available when kernel is built
+without CONFIG_DMA_NEED_SYNC.
 
-I have talked several times in this thread about collaborating in the
-API that you have in mind. I would _very_ much like to have a common
-abstraction for ZNS, ZUFS, FDP, and whatever people build on other
-protocols. But without tangible patches showing this, we simply cannot
-block this anymore.
+> 
+> In terms of not having to unmap implying not having to store addresses at
+> all, it doesn't seem super-useful when you still have to store them for long
+> enough to find out that you don't :/
 
->
->Fdp and zns are different beasts, so I don't expect the results in the
->presentation to be directly translatable but we can see what we can
->do.
->
->Is RocksDB the only file system user at the moment?
->Is the benchmark setup/config something that could be shared?
+Why? The decision if DMA addresses are needed is taken when allocating
+relevant arrays, before we have any DMA address to store. If we know
+that we don't need to unmap, we can skip allocation of the array for
+free. So what and when "you still have to store them"?
 
-It is a YCSB workload. You have the scripts here:
+Thanks
 
-    https://github.com/brianfrankcooper/YCSB/blob/master/workloads/workloada
-
-If you have other standard workload you want us to run, let me know and
-we will post the results in the list too.
-
-We will post the changes to the L3 placement in RocksDB. I think we can
-make them available somewhere for you to test before that. Let me come
-back to you on this.
+> 
+> Thanks,
+> Robin.
+> 
+> > + */
+> > +bool dma_need_unmap(struct device *dev)
+> > +{
+> > +	if (!dma_map_direct(dev, get_dma_ops(dev)))
+> > +		return true;
+> > +#ifdef CONFIG_DMA_NEED_SYNC
+> > +	if (!dev->dma_skip_sync)
+> > +		return true;
+> > +#endif
+> > +	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_need_unmap);
+> > +
+> >   static void dma_setup_need_sync(struct device *dev)
+> >   {
+> >   	const struct dma_map_ops *ops = get_dma_ops(dev);
+> 
 
