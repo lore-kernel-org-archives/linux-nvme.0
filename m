@@ -4,85 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2873DE674AC
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 07:28:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDB29E674B8
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 08:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=waUbj49118u4i7q+4ovU4pXPxCZS6UmbTpIEMIVVinY=; b=4JvzMFekslvuOpzES7xL4q9R6c
-	KDkHHEVfj9Zdn5wYU+7IMcWXYac1+izAf+ioCsKoOm5wALn/fizZarSEFXPPz00Pfx0JUiKcKUP6f
-	sLkLqq/grKX9J10LjTIzxWh/c8GPERiivnj/hAR9uFVv6bqfN2VCnUrDX77XYUwMtBybXNvZh82N/
-	sA2+2kyz2hWxTbmf690gQxTYcphd1LAcsQtMMzO2QTwKxDbzepgJ6V7DDjjQVPxUUTxQPjc41KSKo
-	fD+NcPqiF0A3VDM1olw1NzfIbP7L8DydLHlmJOlXgdr4GzEjyMCFhr5Cbx4eCeQLxrwTUydYscte9
-	BkAbdCdw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Type:MIME-Version:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u0t4feekxOIswH/gya5PvM4rWukDuX0GEL28uYYRBHM=; b=D38RT8uVn1o1+61D8XaKkAUZ4x
+	ZIgOVfOSKgOFLDf8mBQsHQ9Q36SwCk91ykYsVWsGrLXCxcA/nzB6N5jcqQb2vxR0lldBxolexse3S
+	O+SAfVZvrkDS2Y7z5rghqGRwAMtzZWKb5Yv4EIIo+20Zj7JGqQbkaqxzbrabbUADxHjwwVEa60BvS
+	8l2sCoUK58pOytEx0RMSibwQwe56I/VDqjTQ3cF+WU8yCTI/N1od7WXBmDuHVYR4xW6uEXvT37A68
+	JgH8LcJPyALLCcUhHKJXCeJ+obtec0ALqofJFgBvjQIEd+BJfrYtBbt20VHCZHg2y2ZPXix+rXKK6
+	0jVH8E7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6m5F-000000066pV-1Mzq;
-	Fri, 01 Nov 2024 07:28:37 +0000
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+	id 1t6mzy-00000006GXf-0QCY;
+	Fri, 01 Nov 2024 08:27:14 +0000
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6lth-000000065K9-43E5
+	id 1t6msK-00000006FFk-3mAx
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Nov 2024 07:16:43 +0000
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-5ceb03aadb1so1484060a12.0
-        for <linux-nvme@lists.infradead.org>; Fri, 01 Nov 2024 00:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=owltronix-com.20230601.gappssmtp.com; s=20230601; t=1730445400; x=1731050200; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=waUbj49118u4i7q+4ovU4pXPxCZS6UmbTpIEMIVVinY=;
-        b=utB1Ft4Txbbf+4CroLbd02WTrWhKaKc28NZXx5VZxbOOwq2zOdUf/kjiCw2O86rrmM
-         RvKm2z1uDAatVVWfjYEnbHPLLYBZqN3JigyQTiC5vcX8vcryVbfzPkniuaCyj8J1eiFZ
-         CkMnfRigMKwJXeWCkGCs2lUtcr4tAQRBbZ8gLmmXkYd8OqXJVa8GWMxZyTHaY/+U42Ut
-         qdBRSA2X6fZxKj8WBFGcYdVlJsNKHYZnBtN/0dKg3Bkav88fxWuotbGOfLCgMLI2KPJO
-         mJH28tj8c7tGIcqWIKgKThBfPa79XRGE9rjqnxRfUVR6KmWZcYJ6xyGdI8zElJIAbbUd
-         Rstg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730445400; x=1731050200;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=waUbj49118u4i7q+4ovU4pXPxCZS6UmbTpIEMIVVinY=;
-        b=PWKe4zfnANKiOBCd+nyd3elHwUc5MjufuZjdK5aVmUYmkVCcwJte67mmojW841vpJq
-         FVX3QhMS5oqiMPrweNB0bkoBhRq0BDc5aZwxm3l570fqVYAJngMdwWowomvTnqG0SkJ3
-         9X8aQ2bwRTi/2znb3b11RvOh4iq+zy2SxaFguD+Qie9IlOjl+MB5kG1+ZJ0uiQWUzEKe
-         U4H3fRASoMpEWKRRS5V71HN7ZK6Lbv2NxJrIrh2X9ro9TkxPdFfY+iJaUX92FzEqyvu5
-         xMUnojhQzfUqjYon5FIF63r+SuSeAjWsQDjkgq7yByrFyDNfXNpyyR/LWUtwFLCgafsh
-         vfNw==
-X-Forwarded-Encrypted: i=1; AJvYcCXz+McZ1cshrHchHDpnFiVHpuSyI6a4mFxf+Ql+Q9vRkVV/RGswXNoiuQOEVTjJBP79BujR8/1T5X2B@lists.infradead.org
-X-Gm-Message-State: AOJu0YwvorQ6FdaQpMQiOu7x3sNB/zCNyc7Zzk28RIDNw3htbY0DL+AL
-	/Yr6U/mMX+CNl9M7wBdWt79A2ImXtkGkhKmmUN7/ch74H5PhdgM7rZnn7Fo6WohKNp5Lxi0k13B
-	GMLon1H8Uqy0tDowVRkEqjXHNJgqG1CSrZCgYtA==
-X-Google-Smtp-Source: AGHT+IGPuhXjQfdSyl9CCnBDb8kfQdLr1OP5WRts8Y+TKi58ZMd9VxEJGiFKfBDiAyZu0iCHQTVa3iEX7i7W0CHxx4g=
-X-Received: by 2002:a17:907:7e8f:b0:a99:dde6:9f42 with SMTP id
- a640c23a62f3a-a9e50b935bcmr454552666b.47.1730445399842; Fri, 01 Nov 2024
- 00:16:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <ZyEL4FOBMr4H8DGM@kbusch-mbp> <20241030045526.GA32385@lst.de>
- <ZyJTsyDjn6ABVbV0@kbusch-mbp.dhcp.thefacebook.com> <20241030154556.GA4449@lst.de>
- <ZyJVV6R5Ei0UEiVJ@kbusch-mbp.dhcp.thefacebook.com> <20241030155052.GA4984@lst.de>
- <ZyJiEwZwjevelmW2@kbusch-mbp.dhcp.thefacebook.com> <20241030165708.GA11009@lst.de>
- <ZyK0GS33Qhkx3AW-@kbusch-mbp.dhcp.thefacebook.com> <CANr-nt35zoSijRXYr+ommmWGfq0+Ye0tf3SfHfwi0cfpvwB0pg@mail.gmail.com>
- <ZyOO4PojaVIdmlOA@kbusch-mbp.dhcp.thefacebook.com>
-In-Reply-To: <ZyOO4PojaVIdmlOA@kbusch-mbp.dhcp.thefacebook.com>
-From: Hans Holmberg <hans@owltronix.com>
-Date: Fri, 1 Nov 2024 08:16:30 +0100
-Message-ID: <CANr-nt30gQzFFsnJt9Tzs1kRDWSj=2w0iTC1qYfu+7JwpszwQQ@mail.gmail.com>
+	Fri, 01 Nov 2024 08:19:23 +0000
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20241101081915euoutp0274e2e80503afbaa1a56b82580c9022bc~Dyla1Xv231332613326euoutp02T
+	for <linux-nvme@lists.infradead.org>; Fri,  1 Nov 2024 08:19:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20241101081915euoutp0274e2e80503afbaa1a56b82580c9022bc~Dyla1Xv231332613326euoutp02T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1730449155;
+	bh=u0t4feekxOIswH/gya5PvM4rWukDuX0GEL28uYYRBHM=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=nezja3UyPadsbJdJFB1BbxfY/LoWbOzC3yTYYCVFi039jTrjHEOildnT6DXmFGDbD
+	 Nu03N73Hf3GUbuYoyYM4I5skLr/WSxhgAC6p59YfchgZhI3wbr8p1ZQ8wp9re0Yx3p
+	 QjbL6r38IvQP4B9ogJn2SxY4kqrcX/WyWXgacEbk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20241101081915eucas1p2c8a05e9da2bb94096e29e2c99dc460cc~DylapO37t0479604796eucas1p2O;
+	Fri,  1 Nov 2024 08:19:15 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges1new.samsung.com (EUCPMTA) with SMTP id 72.23.20821.30F84276; Fri,  1
+	Nov 2024 08:19:15 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20241101081914eucas1p269f6f4d515aa0db81f4fb03cd3ae64d7~DylZ8gtLF3182931829eucas1p2Y;
+	Fri,  1 Nov 2024 08:19:14 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241101081914eusmtrp24265f317813388cfa225d1254c009a9b~DylZ73QdP2944729447eusmtrp2G;
+	Fri,  1 Nov 2024 08:19:14 +0000 (GMT)
+X-AuditID: cbfec7f2-b09c370000005155-7a-67248f038fa3
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 47.C0.19654.20F84276; Fri,  1
+	Nov 2024 08:19:14 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241101081914eusmtip2b586a3684238513b723c7a4ad1e26a71~DylZxysUn0659906599eusmtip2a;
+	Fri,  1 Nov 2024 08:19:14 +0000 (GMT)
+Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Fri, 1 Nov 2024 08:19:13 +0000
+Date: Fri, 1 Nov 2024 09:19:12 +0100
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Hans Holmberg <hans@owltronix.com>
+CC: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, "Keith
+ Busch" <kbusch@meta.com>, <linux-block@vger.kernel.org>,
+	<linux-nvme@lists.infradead.org>, <linux-scsi@vger.kernel.org>,
+	<io-uring@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<joshi.k@samsung.com>, <bvanassche@acm.org>, Hannes Reinecke <hare@suse.de>
 Subject: Re: [PATCHv10 9/9] scsi: set permanent stream count in block limits
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org, joshi.k@samsung.com, 
-	javier.gonz@samsung.com, bvanassche@acm.org, Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <20241101081912.kvixtd6mattjemxk@ArmHalley.local>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
+In-Reply-To: <CANr-nt30gQzFFsnJt9Tzs1kRDWSj=2w0iTC1qYfu+7JwpszwQQ@mail.gmail.com>
+X-Originating-IP: [106.110.32.122]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPKsWRmVeSWpSXmKPExsWy7djPc7rM/SrpBrO2CVlM+/CT2WLu1NWs
+	FnsWTWKyWLn6KJPFu9ZzLBaTDl1jtDhzdSGLxd5b2hZ79p5ksZi/7Cm7Rff1HWwO3B6Xr3h7
+	bFrVyeaxeUm9x+6bDWwe5y5WeBzetIjVY/Ppao/Pm+QCOKK4bFJSczLLUov07RK4MjbO+c9W
+	cJar4sFCqwbGvRxdjJwcEgImEh3LXrJ0MXJxCAmsYJTYfe4zlPOFUaL9xGlGCOczo8TCz8dZ
+	YVr2XbvABpFYzihxaGoDC1zV/KvnoDKbGSWuv3zIDNLCIqAi0fdhPSOIzSZgL3Fp2S2wuIiA
+	msTZFx1MIDazwFUmifcPwOLCAj4S29d/YgOxeQVsJc7f7WKFsAUlTs58wgJRbyXR+aEJKM4B
+	ZEtLLP8H9hCnQKDE/6efmSEuVZJ4/OItI4RdK3Fqyy0mkNskBPo5JY4vPQtV5CLxoncRE4Qt
+	LPHq+BZ2CFtG4v/O+VDxaomGkyegmlsYJVo7toItlhCwlug7kwNR4yix+tgvZogwn8SNt4IQ
+	Z/JJTNo2HSrMK9HRJgRRrSax+t4blgmMyrOQPDYLyWOzEB5bwMi8ilE8tbQ4Nz212DAvtVyv
+	ODG3uDQvXS85P3cTIzBNnf53/NMOxrmvPuodYmTiYDzEKMHBrCTC+6FAOV2INyWxsiq1KD++
+	qDQntfgQozQHi5I4r2qKfKqQQHpiSWp2ampBahFMlomDU6qBKdZWWtn+1Ff+y2tmX3/axmx6
+	8Er3ir0Fv190l55NOOv8+VH5bwvPlIeuVYxLtsetSsrzyQ89U/3nSEbrdM09LQGqD/4Kveq0
+	+Pn6yStx6QfZtQ2ejpvZ9xgtUP21Yves18xP0o6pC+VLpOx9/7pFL/Nfm+6m8+E9k99Mszbh
+	lvRP3hn9WOtBwNObEc/Fp1uypVUITWdWkT800adP5NOX/2eaJKdsqSj/8W3V20n6O+0d/s1b
+	qHc3TqtS8IjyqclT+T7xnjeL4eCpsTF1qvjnZfuyc0e088HT76dM92DS9I5zii9LaL469YKc
+	J8fzDGO39e4xp5vWei64tOYLW3aO+Hc9aat9al0FAVMOcKYfUmIpzkg01GIuKk4EAP8jPTfC
+	AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsVy+t/xe7pM/SrpBpvblS2mffjJbDF36mpW
+	iz2LJjFZrFx9lMniXes5FotJh64xWpy5upDFYu8tbYs9e0+yWMxf9pTdovv6DjYHbo/LV7w9
+	Nq3qZPPYvKTeY/fNBjaPcxcrPA5vWsTqsfl0tcfnTXIBHFF6NkX5pSWpChn5xSW2StGGFkZ6
+	hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GRvn/GcrOMtV8WChVQPjXo4uRk4OCQET
+	iX3XLrB1MXJxCAksZZSY/+koK0RCRmLjl6tQtrDEn2tdUEUfGSXWL7jMDOFsZpT4tmclE0gV
+	i4CKRN+H9YwgNpuAvcSlZbeYQWwRATWJsy86wGqYBa4ySbx/ABYXFvCR2L7+ExuIzStgK3H+
+	bhcrxNDFLBJvlm6GSghKnJz5hAWi2UJi5vzzQAs4gGxpieX/wF7gFAiU+P/0MzPEpUoSj1+8
+	ZYSwayU+/33GOIFReBaSSbOQTJqFMGkBI/MqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwHjd
+	duznlh2MK1991DvEyMTBeIhRgoNZSYT3Q4FyuhBvSmJlVWpRfnxRaU5q8SFGU2BQTGSWEk3O
+	ByaMvJJ4QzMDU0MTM0sDU0szYyVxXrYr59OEBNITS1KzU1MLUotg+pg4OKUamMzvPHHZ/mia
+	lfjvmkfnt3lxG99vKuJ4zOf9+UpJ+vbaOW++JV+Ycfu76/XcnWt9/zx1uf5WMfZpXWscy+2z
+	Dqy8xeFnut5siHeo469RTs4QOzc3m+HewQv8vb9PS63lmbD2wewZ1XsS/7OsX/Ob16t2me+k
+	4NWGQi8Ozducu2LtdNYIvVVrVJ49Eu9SmGJ7aMY+Zr0DDDvvpDKmmHp2Kz4tyF7Nlxm55uyX
+	Ncc8X3vZ2uZ5bPA8ryEQWOye/blNnnuPzE69BbznNiyZ3KGw9nA019PshVp2k+dwT37z8/RK
+	oys5Rt1eLgEnX03bUjOj4nKavmvSPJ2e3oiJRb5Zx+4Iz/moErPPsFu9M9Jt0jUlluKMREMt
+	5qLiRABodThwYAMAAA==
+X-CMS-MailID: 20241101081914eucas1p269f6f4d515aa0db81f4fb03cd3ae64d7
+X-Msg-Generator: CA
+X-RootMTR: 20241101071645eucas1p2a08b10cb2c9db427e809be6fa8809c9c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20241101071645eucas1p2a08b10cb2c9db427e809be6fa8809c9c
+References: <20241030154556.GA4449@lst.de>
+	<ZyJVV6R5Ei0UEiVJ@kbusch-mbp.dhcp.thefacebook.com>
+	<20241030155052.GA4984@lst.de>
+	<ZyJiEwZwjevelmW2@kbusch-mbp.dhcp.thefacebook.com>
+	<20241030165708.GA11009@lst.de>
+	<ZyK0GS33Qhkx3AW-@kbusch-mbp.dhcp.thefacebook.com>
+	<CANr-nt35zoSijRXYr+ommmWGfq0+Ye0tf3SfHfwi0cfpvwB0pg@mail.gmail.com>
+	<ZyOO4PojaVIdmlOA@kbusch-mbp.dhcp.thefacebook.com>
+	<CGME20241101071645eucas1p2a08b10cb2c9db427e809be6fa8809c9c@eucas1p2.samsung.com>
+	<CANr-nt30gQzFFsnJt9Tzs1kRDWSj=2w0iTC1qYfu+7JwpszwQQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241101_001642_297048_B5A76EFC 
-X-CRM114-Status: GOOD (  25.54  )
+X-CRM114-CacheID: sfid-20241101_011921_368116_B670047C 
+X-CRM114-Status: GOOD (  12.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,56 +147,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 31, 2024 at 3:06=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
-te:
->
-> On Thu, Oct 31, 2024 at 09:19:51AM +0100, Hans Holmberg wrote:
-> > On Wed, Oct 30, 2024 at 11:33=E2=80=AFPM Keith Busch <kbusch@kernel.org=
-> wrote:
-> > > That is very much apples-to-oranges. The B+ isn't on the same device
-> > > being evaluated for WAF, where this has all that mixed in. I think th=
-e
-> > > results are pretty good, all things considered.
-> >
-> > No. The meta data IO is just 0.1% of all writes, so that we use a
-> > separate device for that in the benchmark really does not matter.
->
-> It's very little spatially, but they overwrite differently than other
-> data, creating many small holes in large erase blocks.
+On 01.11.2024 08:16, Hans Holmberg wrote:
+>Locking in or not, to constructively move things forward (if we are
+>now stuck on how to wire up fs support) I believe it would be
+>worthwhile to prototype active fdp data placement in xfs and evaluate
+>it. Happy to help out with that.
 
-I don't really get how this could influence anything significantly.(If at a=
-ll).
+I appreciate you willingness to move things forward. I really mean it.
+
+I have talked several times in this thread about collaborating in the
+API that you have in mind. I would _very_ much like to have a common
+abstraction for ZNS, ZUFS, FDP, and whatever people build on other
+protocols. But without tangible patches showing this, we simply cannot
+block this anymore.
 
 >
-> > Since we can achieve a WAF of ~1 for RocksDB on flash, why should we
-> > be content with another 67% of unwanted device side writes on top of
-> > that?
-> >
-> > It's of course impossible to compare your benchmark figures and mine
-> > directly since we are using different devices, but hey, we definitely
-> > have an opportunity here to make significant gains for FDP if we just
-> > provide the right kernel interfaces.
-> >
-> > Why shouldn't we expose the hardware in a way that enables the users
-> > to make the most out of it?
+>Fdp and zns are different beasts, so I don't expect the results in the
+>presentation to be directly translatable but we can see what we can
+>do.
 >
-> Because the people using this want this interface. Stalling for the last
-> 6 months hasn't produced anything better, appealing to non-existent
-> vaporware to block something ready-to-go that satisfies a need right
-> now is just wasting everyone's time.
->
-> Again, I absolutely disagree that this locks anyone in to anything.
-> That's an overly dramatic excuse.
+>Is RocksDB the only file system user at the moment?
+>Is the benchmark setup/config something that could be shared?
 
-Locking in or not, to constructively move things forward (if we are
-now stuck on how to wire up fs support) I believe it would be
-worthwhile to prototype active fdp data placement in xfs and evaluate
-it. Happy to help out with that.
+It is a YCSB workload. You have the scripts here:
 
-Fdp and zns are different beasts, so I don't expect the results in the
-presentation to be directly translatable but we can see what we can
-do.
+    https://github.com/brianfrankcooper/YCSB/blob/master/workloads/workloada
 
-Is RocksDB the only file system user at the moment?
-Is the benchmark setup/config something that could be shared?
+If you have other standard workload you want us to run, let me know and
+we will post the results in the list too.
+
+We will post the changes to the L3 placement in RocksDB. I think we can
+make them available somewhere for you to test before that. Let me come
+back to you on this.
 
