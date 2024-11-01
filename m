@@ -4,66 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E125AE67480
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Oct 2024 21:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 769AAE67493
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2024 01:33:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZXfqYT0Vxq3NrMHo0NjmMIQHCe7uXs274OngLgkp9GY=; b=IDdXPEFcmpIPPsWVtuJQMykOLU
-	/PvOWFkSuYTadvg601n+60IgB1R3s7faRh6sBhraup6s9uxGOriuCzkUUYTeeTCzkoD+M5RcEAq1u
-	Ge/9Wa3fr/nb2ChvX9WCUBBUZingpnIeQ3GnGx6ZaFeIA05/IELncRsIbMi48R9H3Tv5BX7fyjUII
-	hs0p6BbsTLzcoeav+kFvwwQihcptW+vhRUuE7in0+axVdkCuq8s5q45GmEWRql2SnYYzh7wSLu/i1
-	r2brafueBluK2k0ptbNh+G+hS0xbTlP2+e+/23Ag/K/xiZTw+6Eu6Wv9z3mkss0fovpw6ZfxOJSHg
-	8Q4aBlRA==;
+	bh=ZIyueU57hH3OLb5owPJTOIj/H/u9OAJs9LJIweqO8qI=; b=JKPZGm43Szcf8uBIpfq7jv0H2/
+	aftQqslQqb3iY1gk6/ooQhxzjVyK94Y0QhyBFy6UdhVbyQTolZS7+HVYPfUHGcIzWvQI00v+g/kgm
+	X5yJCVQI+3bzxC2vGp9eJfiKkd26mewW79MST/I6jGu8hys0pGQeVjqFnbPe+jtg11OhdTlebwavb
+	S8XYkHMdREtRMNC+DnRtyu8I2fSjys9Ag7DorFaVeBJ8VUVQR/DEQT0xFt96wTQWOeHCoUNDXP0/r
+	8i2Bkhd1xvQ6LAy5BxtUk2cla/vjBIuwkiKjDwZWo0G0fmWDQfeI1Fx+7J9SJoqFOYjqIMXAZLr0o
+	+R2Ivksg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6cZ4-00000004u6M-3fCB;
-	Thu, 31 Oct 2024 21:18:46 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t6cZ0-00000004u36-2iHh
+	id 1t6gXB-00000005Qsx-0qEA;
+	Fri, 01 Nov 2024 01:33:05 +0000
+Received: from out30-118.freemail.mail.aliyun.com ([115.124.30.118])
+	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1t6gX7-00000005Qq3-2CcH
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Oct 2024 21:18:44 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C6EFD153B;
-	Thu, 31 Oct 2024 14:19:11 -0700 (PDT)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 334AF3F73B;
-	Thu, 31 Oct 2024 14:18:30 -0700 (PDT)
-Message-ID: <7e362d8b-c02a-4327-9c5d-af1c4725ddc7@arm.com>
-Date: Thu, 31 Oct 2024 21:18:11 +0000
+	Fri, 01 Nov 2024 01:33:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1730424776; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=ZIyueU57hH3OLb5owPJTOIj/H/u9OAJs9LJIweqO8qI=;
+	b=wBIweUlk8MHvSI51Jf8AuLc6pq0OtkXUtbNd+plnDuxBv+F1golXqMDRNw4tV/9tAIoQ3xJTfuCuzW5HBeOcucdIvUo9RF3b8vEDU2PyBG0cKQaO/1PATIQ4QcfdtR+hR1t284NGYRzRsvN6OKqGc2mhzd0rzVJKfiRx7LZMFpY=
+Received: from 30.178.81.166(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIK-Bnv_1730424774 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 01 Nov 2024 09:32:55 +0800
+Message-ID: <c0120704-9592-4fb7-a3a1-333fe7af0fb5@linux.alibaba.com>
+Date: Fri, 1 Nov 2024 09:32:53 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 08/17] dma-mapping: add a dma_need_unmap helper
-To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-References: <cover.1730298502.git.leon@kernel.org>
- <00385b3557fa074865d37b0ac613d2cb28bcb741.1730298502.git.leon@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <00385b3557fa074865d37b0ac613d2cb28bcb741.1730298502.git.leon@kernel.org>
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH] nvme: check at least one ns identification reported
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org
+References: <20241031103803.55219-1-kanie@linux.alibaba.com>
+ <20241031125501.GA17520@lst.de>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20241031125501.GA17520@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241031_141842_818494_9FD1C9C8 
-X-CRM114-Status: GOOD (  22.42  )
+X-CRM114-CacheID: sfid-20241031_183302_116333_3659E7C8 
+X-CRM114-Status: UNSURE (   6.69  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,82 +67,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 30/10/2024 3:12 pm, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
-> 
-> Add helper that allows a driver to skip calling dma_unmap_*
-> if the DMA layer can guarantee that they are no-nops.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->   include/linux/dma-mapping.h |  5 +++++
->   kernel/dma/mapping.c        | 20 ++++++++++++++++++++
->   2 files changed, 25 insertions(+)
-> 
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index 8074a3b5c807..6906edde505d 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -410,6 +410,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
->   {
->   	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
->   }
-> +bool dma_need_unmap(struct device *dev);
->   #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
->   static inline bool dma_dev_need_sync(const struct device *dev)
->   {
-> @@ -435,6 +436,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
->   {
->   	return false;
->   }
-> +static inline bool dma_need_unmap(struct device *dev)
-> +{
-> +	return false;
-> +}
->   #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
->   
->   struct page *dma_alloc_pages(struct device *dev, size_t size,
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 864a1121bf08..daa97a650778 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -442,6 +442,26 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
->   }
->   EXPORT_SYMBOL_GPL(__dma_need_sync);
->   
-> +/**
-> + * dma_need_unmap - does this device need dma_unmap_* operations
-> + * @dev: device to check
-> + *
-> + * If this function returns %false, drivers can skip calling dma_unmap_* after
-> + * finishing an I/O.  This function must be called after all mappings that might
-> + * need to be unmapped have been performed.
 
-In terms of the unmap call itself, why don't we just use dma_skip_sync 
-to short-cut dma_direct_unmap_*() and make sure it's as cheap as possible?
+在 2024/10/31 20:55, Christoph Hellwig 写道:
+> On Thu, Oct 31, 2024 at 06:38:03PM +0800, Guixin Liu wrote:
+>> Per 2.1 base NVMe spec:
+>>    At least one Namespace Identification Descriptor identifying the
+>>    namespace (i.e., NIDT field set to 1h, 2h, or 3h).
+>> Check there is at least one reported.
+> NVMe 1.0 didn't have any of these identifier, so it's unfortunate
+> but perfectly valid if devices don't have any.
 
-In terms of not having to unmap implying not having to store addresses 
-at all, it doesn't seem super-useful when you still have to store them 
-for long enough to find out that you don't :/
+Maybe I can add a "NVME_VS > 1.0" check?
 
-Thanks,
-Robin.
+Best Regards,
 
-> + */
-> +bool dma_need_unmap(struct device *dev)
-> +{
-> +	if (!dma_map_direct(dev, get_dma_ops(dev)))
-> +		return true;
-> +#ifdef CONFIG_DMA_NEED_SYNC
-> +	if (!dev->dma_skip_sync)
-> +		return true;
-> +#endif
-> +	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_need_unmap);
-> +
->   static void dma_setup_need_sync(struct device *dev)
->   {
->   	const struct dma_map_ops *ops = get_dma_ops(dev);
+Guixin Liu
+
 
