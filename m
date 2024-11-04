@@ -4,130 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A0E7D1BDC0
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 15:59:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4510ED1BDE8
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 19:34:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lzO5Gr/GJg/Q14qdgiZppE3+0qzFmF96RxNwH21zcLs=; b=nEE/ukjawpRgMLsX1vTd/ltV94
-	dDzHfq77Pg0KYjgDRkPu8hfp7B0XS1FP+yeorw+iiZuv02LHzw26nfLpfPzTPwBrXgfvJD2Pgp6sC
-	YUZyQ5QMmHRew3BMOeNFazPP77zMzmUDxWBBVB3ocPGpQx7+lYM+ny6onMXHoktW2jNfDIoqD7iJt
-	+65lYTq6HQ7gS1DGxc98TBNRK6eljO3wem7m6gK1N59w8Hnq8ESoQh/wsRFkn8bt3/7h3YzoAE8TS
-	8wjO0Z0p1q9IW5ZaaDu5QJDTWLNNDTTtjNPpWaRDNTd/aOTKG0ViKLMlfdxtPSB/OjiP7YxAahFXG
-	WXNAyt4A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3ORt0OMc3h3XNFPCcQ2vzpDpd9QN/TzXj1dLH2Q/8IQ=; b=nwc9x3Pa3HA598YhEOwtyLuKmZ
+	Jp22Q50U9XoNBzAcwzMSL/GXTSnvG3cuC9n80C03G/jTb2nJFdWPP6+2t4cHMoHGsknvt+nOMTi+1
+	2/fpBeUjmiKX5iLTiZv3Rs4DmS9YA2MPRsufl26ixrxPeB3CZYg2bRlhpltU0iMbCVUtqO1eKCd7j
+	jYHSn13Bb3g6ajuGLxn9GLm3y9+AzMEA1v2dOmddjailwen8zjqr4ifHmXym/18yCXLFj6CwilFnS
+	pctnB2MVMBTsgzX6rpdXeM/o6d9v58EWEWW9wl8pefgJuI6RQG59avnw23fJtJyZZkPWLEZKbFlxX
+	C/lqDsqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7zUK-0000000EIp5-14NR;
-	Mon, 04 Nov 2024 15:59:32 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1t82qT-0000000Eucz-1aje;
+	Mon, 04 Nov 2024 19:34:37 +0000
+Received: from mail-dm6nam04on2061d.outbound.protection.outlook.com ([2a01:111:f403:2409::61d] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7zRR-0000000EHaE-1BWe
+	id 1t82lp-0000000Etx6-0OrM
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Nov 2024 15:56:42 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20241104155631epoutp044cb2c4611514218337f6311841af35b7~Ezwg9T2ij1249912499epoutp04D
-	for <linux-nvme@lists.infradead.org>; Mon,  4 Nov 2024 15:56:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20241104155631epoutp044cb2c4611514218337f6311841af35b7~Ezwg9T2ij1249912499epoutp04D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1730735791;
-	bh=lzO5Gr/GJg/Q14qdgiZppE3+0qzFmF96RxNwH21zcLs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uPGG2+CMoAwP8J5jk53nW5Fr2Bo2xk7EfwJPTpBdJkpJL894PaZmwwniXUYyD2zSP
-	 ycf1WwIJ/uU3vBYQIuLP2tcU/NLFCFqQAUqD5aJSoxa3rTfiZVr1RnDRGy7zHJ7Cn+
-	 ZDsUSTl3gMEdyQoDygIimGRVadNgRqXkwHv3ozzQ=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20241104155629epcas5p317f76a2999cf2e5ac26083e0783d255e~EzwfohX8t2593425934epcas5p3w;
-	Mon,  4 Nov 2024 15:56:29 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.182]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4Xhx0W6nywz4x9Pq; Mon,  4 Nov
-	2024 15:56:27 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	43.DA.09800.BAEE8276; Tue,  5 Nov 2024 00:56:27 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20241104141509epcas5p4ed0c68c42ccad27f9a38dc0c0ef7628d~EyYBZ6W0B3055030550epcas5p4t;
-	Mon,  4 Nov 2024 14:15:09 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20241104141509epsmtrp2a117a3377c18571a105712e5fe9b9b65~EyYBY3dlZ1987019870epsmtrp2W;
-	Mon,  4 Nov 2024 14:15:09 +0000 (GMT)
-X-AuditID: b6c32a4b-23fff70000002648-4c-6728eeabda1b
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	16.C9.08227.DE6D8276; Mon,  4 Nov 2024 23:15:09 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20241104141507epsmtip22fcbe2494b12d261f60cf1d1a84d975a~EyX_6_yCt3097330973epsmtip2j;
-	Mon,  4 Nov 2024 14:15:07 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, asml.silence@gmail.com, anuj1072538@gmail.com,
-	brauner@kernel.org, jack@suse.cz, viro@zeniv.linux.org.uk
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, gost.dev@samsung.com,
-	linux-scsi@vger.kernel.org, vishak.g@samsung.com,
-	linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>, Anuj
-	Gupta <anuj20.g@samsung.com>
-Subject: [PATCH v7 10/10] block: add support to pass user meta buffer
-Date: Mon,  4 Nov 2024 19:36:01 +0530
-Message-Id: <20241104140601.12239-11-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241104140601.12239-1-anuj20.g@samsung.com>
+	Mon, 04 Nov 2024 19:29:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rVCpShp2k68JpGPA7SBlXgNFaRo7PmkWseI8BeNwuROELYl0icv3OF5tbv1ZtP+646F2WkejiIa7W0Kk9gGmWM0Eanl9X/6yrTlbT/mxrrhUBj21mCNTbB64LSfiL6qk1gPIW/3y+GFwsi0KFZ5AAeMbnkOeXKubWYxhd2dB/LnK2VMN1GaAl5fxtUWe7C2iEithpGXvhlW58JxuY5BNL4VIjhNGiwHT7ClzTsDCOw57aEVnIhULzUHA1zeUuhewv3P2XKc4x5DRk5yJkJ6B21kNT3BtG2U+Xl7xfhxSuw/rfZSIRo5EFFFUUK6X+3HZPXEJdcir8FzPca8Y85t2vQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3ORt0OMc3h3XNFPCcQ2vzpDpd9QN/TzXj1dLH2Q/8IQ=;
+ b=RzLTXZTkcdiDokgu5L4YFFdN65pMzcVKVaNZmU4pYxG+fRpkVwKI6Ed6xpU6wkrAfR3ZofTgwPUhw13pR31Gymr1LDD6Ne/RToQhQGTmavIcwVN2R1nvTY218uPZkW7eRYIoSGrA1wlyx6/s8pW+wV1iuD14WiBwavRJ9FsIdDL5VhxKSuaB8l48AQa0HOkNP+lA8pWlOQhAXaUx3Ywc8XfB0hT2tJufxS6HucPoEjj5o0fwyKRAvM47D1ZM6gnWzBFYfHMDbG94pwQLnl6FtKwH5iBYgDZW6UO2/P7c033UBBXTyD9xfGRxwdZmieDrV9PWBPSMCcMTG8viCM7Z3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=linux.alibaba.com
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3ORt0OMc3h3XNFPCcQ2vzpDpd9QN/TzXj1dLH2Q/8IQ=;
+ b=DUbFkfy5oubI6uBgWajBVcC1up9Ucqmy2VKg1q8fxG2fdXifHv4RxHSBuhAfTwNqZBm+JN852rQ2nborIUl+C/DuU4sHITTo0anvClZqDD2D7ZiS75qgLcCKnhaGmKiYVIkZRzaVhDqQkU2qV0u18d4M3FrQdNlN1OwQWSgSH7oYSinF+yOxlkiZqiUzztKF/mC62gMw0sRfMwfTYIwzWwaaafgFHM+SvNydC59dEM1cINFNhFunDBr46zlYJrb0wYHyhazxEiwzec7bdcHqhcbzeMqA5eQUQMa2R07pir1LB7Z0N8dO5ACFswo/J6p9HGYB3qYvexRRggc/AcLXtQ==
+Received: from BYAPR05CA0064.namprd05.prod.outlook.com (2603:10b6:a03:74::41)
+ by MW4PR12MB8611.namprd12.prod.outlook.com (2603:10b6:303:1ed::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
+ 2024 19:29:33 +0000
+Received: from SJ1PEPF00001CDF.namprd05.prod.outlook.com
+ (2603:10b6:a03:74:cafe::ec) by BYAPR05CA0064.outlook.office365.com
+ (2603:10b6:a03:74::41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.16 via Frontend
+ Transport; Mon, 4 Nov 2024 19:29:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF00001CDF.mail.protection.outlook.com (10.167.242.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8137.17 via Frontend Transport; Mon, 4 Nov 2024 19:29:32 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 4 Nov 2024
+ 11:29:15 -0800
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 4 Nov 2024
+ 11:29:14 -0800
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <kanie@linux.alibaba.com>
+CC: <linux-nvme@lists.infradead.org>, <linux-block@vger.kernel.org>,
+	<shinichiro.kawasaki@wdc.com>, <dwagner@suse.de>, Chaitanya Kulkarni
+	<kch@nvidia.com>
+Subject: [PATCH] nvme: test nvmet-wq sysfs interface
+Date: Mon, 4 Nov 2024 11:29:07 -0800
+Message-ID: <20241104192907.21358-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0wTZxjH894dbenWeRZ0r5gNchsBJGA7CxxG5rIxcomEdLiNRZPhhd5a
-	Qnvteu10sGyEpjN2Iuh0SGVQdWpoRSYwUpAygyAUHSSSiRBLZMIgYyX8krnwY2t7uPnf53ne
-	5/t83+f9IUKlY4IoUSFrYowsrSUEYqz1VkJCkms2Xi1bt6aQ809WMLKscg0la5ytgHT5KgTk
-	zK0FQI7cbEPIelcPQs5aBzDyXJUFIXv+8QvIU133AekZTSQ7PF6MrLs8KSS/GXYLyCu96wg5
-	uNYbRg7aa4RvSak2u09IDf1ippqcxwRU8w9fUTdGSgXU/OQoRp1ocQLqrqNbSC02vUo1TfgR
-	pfhA0R4NQ6sYYwzDFuhVhaw6g9i3P/+d/JRUmTxJnk6mETEsrWMyiMxsZVJWoTYwExHzGa01
-	B1JKmuOInW/uMerNJiZGo+dMGQRjUGkNCkMyR+s4M6tOZhnTbrlM9kZKoPBQkeaB62fM0JZ2
-	5PryUlgpuJZkAyIRxBXwxwbSBsQiKX4DQN9AFeCDBQA7h2wIHywD6Gy8hNlAeEhxsmFayC94
-	ALw3txzGB4sAXvBahcEqAR4Hu6esoV6ReAeA5efvYMEAxSsR6KhqQYPuEfi7cMzzQVCA4bHw
-	4pIFDbIE3w2b/bYNu2hYfe+vUNPwQL5mzYfxNZuht3oixGigxvLTOTTYH+IPRdA7Nwh4cSac
-	q10I4zkC/tHbIuQ5Ci7OegQ8q+HToUmEZwO03O7c0O6F1v6K0D5RPAE2tu/k06/AM/3XEN73
-	JVi+MrEhlUB37TMm4NH6mg2G0DNQusEUnLb0YPxplQPY92gAqwQx9ufmsT83j/1/awdAnWAb
-	Y+B0aoZLMeximcP/XXOBXtcEQg99xz43+O3RXHIXQESgC0ARSkRKapk4tVSioj8vZoz6fKNZ
-	y3BdICVw4CfRqC0F+sBPYU35ckW6TJGamqpI35UqJ16WzFi/V0lxNW1iihjGwBif6RBReFQp
-	sv8y7csuJqWnE2eSXmBPD2uFrZGFyweOvX/4hLg5bvW1nBy/a2Q8s/r4cN/jGoYQ1DFn8yKu
-	9v+9dfF+vLf5ErrXXjn8xSdD01ndFQfrE7LTYlvFiVnmzCPSq66u0cZfmSX3+qebzq5/9/tH
-	qx3colex/c4pzlEi0Tm3WpU9H68Uy3I/HN0UnZ5WTT4WxyaUaV5M/FKlrPJvbm95vSy58fyf
-	NyX2VXdn+Tzmfk/3dfT49rHcvKmGb68/eNqndXB1S1eWj0svlMRNjMtUcXKuKvz2QdtDsbJd
-	P50ff7ei5IkffXubY0uezxt9iLDkVJQVDB8t8xkasULt1EU2N0sT0UFgnIaW70CNHP0v9hZu
-	DnEEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSvO7baxrpBnc2GFh8/PqbxaJpwl9m
-	izmrtjFarL7bz2bx+vAnRoubB3YyWaxcfZTJ4l3rORaL2dObmSyO/n/LZjHp0DVGi723tC32
-	7D3JYjF/2VN2i+7rO9gslh//x2Rx/u9xVovzs+awOwh57Jx1l93j8tlSj02rOtk8Ni+p99h9
-	s4HN4+PTWywefVtWMXqcWXCE3ePzJjmPTU/eMgVwRXHZpKTmZJalFunbJXBl3Fi9n6Vgp3nF
-	xm9fWBsY1+l2MXJySAiYSExc+4K9i5GLQ0hgN6PEwtur2SESEhKnXi5jhLCFJVb+ew5V9JFR
-	4viZZ2BFbALqEkeet4IViQicYJSYP9ENpIhZYAaTxO8/C1i6GDk4hAVcJe7tDQWpYRFQlVj8
-	pZkZxOYVsJLY/LaLBWKBvMTMS9/BZnICxef8vQsWFxKwlNjUdIkFol5Q4uTMJ2A2M1B989bZ
-	zBMYBWYhSc1CklrAyLSKUTK1oDg3PbfYsMAoL7Vcrzgxt7g0L10vOT93EyM44rS0djDuWfVB
-	7xAjEwfjIUYJDmYlEd55qerpQrwpiZVVqUX58UWlOanFhxilOViUxHm/ve5NERJITyxJzU5N
-	LUgtgskycXBKNTA1/fWvifDYcefMw5uvGpym9N+rq9p4QfL5vReM9nvv7FvyVOmJzRfjOWeE
-	WtfyX9myUOHTjNe1+b7/5NzDdzKFLZv8M//FgUu//6rmfd9Sf172+6uvGdM+fF/XuXnq2QiX
-	g3I1jVkiN+STlR3y6+u/nrebdb3I58zZrDdln6VvOMXkcz95PmOX+++fLO1OQqemdivEJ17Y
-	MO0071MBdpHC3BbZ0mZzbUNloStrxNQLpvBmW7uU1TIwn5ssM3G2G+/i1SYN7exfFJ29Fk8L
-	WSp25N75h5pxR9aJ2rPKfmaJlL02abOH7YdHt8JOltXmV3y+MrU+517ztwOLjv99kfSN8UJD
-	5cZLBjH+Kcc52lfPVmIpzkg01GIuKk4EAIMmAwAnAwAA
-X-CMS-MailID: 20241104141509epcas5p4ed0c68c42ccad27f9a38dc0c0ef7628d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241104141509epcas5p4ed0c68c42ccad27f9a38dc0c0ef7628d
-References: <20241104140601.12239-1-anuj20.g@samsung.com>
-	<CGME20241104141509epcas5p4ed0c68c42ccad27f9a38dc0c0ef7628d@epcas5p4.samsung.com>
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDF:EE_|MW4PR12MB8611:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3a17da0-f312-4c7c-64cb-08dcfd070248
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?m5LFCtS3zl2LFYf8+1fO1oxXsArc+HG5HF9EiBjfXHsg2HxdOFCdhT8jWbtF?=
+ =?us-ascii?Q?ZRmsEddBFaNG4QWHq+p2gSfPXoiNMkOhoFH7PrcCMcWNHFp/AQYd4gy9aEiJ?=
+ =?us-ascii?Q?KEx+vVTvYmVgh6jc/uDNJizGa/YbJJ0ZoX7hdk/X7/NxqSOWwuW8T5zsm4bn?=
+ =?us-ascii?Q?AgpNa3rkokL5OX6Fpj4t4oRH5vGDhPXqXXSUoCXA1rlKZ8uXARnbHLsti0Pf?=
+ =?us-ascii?Q?RV6agPfQIbP0LaRWatDayXsYKIXPoEHIGbuZLajeH7ykWNPKtSwDzJ7xdZbO?=
+ =?us-ascii?Q?ym3bCxtTcTbxwC0igdiG2OeAiyBIVylY6oIe9eVQUPEH0x6candG67rRrZ4l?=
+ =?us-ascii?Q?vMpTJLAjc+Cm9bv/oMWNw24kAy6RDT0BKx2gVnlYWrCyKAGbWaKxs9ZKs1fp?=
+ =?us-ascii?Q?IiNpa2Gc2uBxBybxKpzk0lvmbwXsUtulcP3XKbQ0tH63Xup/emFnxFghoNGd?=
+ =?us-ascii?Q?ydU6RUmMqvo+tL/vRlMV61UJoa8wkTZw2ikpXRf7jsJDHBtiM/m+Ev2xJmLQ?=
+ =?us-ascii?Q?o7Id9uMsM1A81tmDvQVpoPI4Bfh5vp0zXoGURqgbvswgTft4h5Yk+t7j3fPY?=
+ =?us-ascii?Q?K5ZI9l4CrjWg/xgGEabz1OOavHxkHxxvN++kdXXTcSPbiH0piof/QioTGsMV?=
+ =?us-ascii?Q?FuLK/iMbrh7XBCN0vpoFhrUjJjjXXsqjUYYmWuyKw0GcYh7pQLN5EssSRm9H?=
+ =?us-ascii?Q?3Ay6hezpRahkLy36ZpdPDNaZo8T/VdYoyp8HRb5Le1L9kdFAdnJD7Z9SKkmn?=
+ =?us-ascii?Q?vURb3v60v0fAzBSWYUaTjX11PgdRR9QKQSSW8I6yg2QX4yIwXQaAGzREABLE?=
+ =?us-ascii?Q?jLVp1zGSMVvn6BNkzxHbwQdzXSo4ZIfcIhi7dHPXeTEaWm1ePWoe2i0EH5S2?=
+ =?us-ascii?Q?ZmmeTOAqAsQ1NN1ZFSxLGtuR7vxomgrZehByO90H61lXczu7ElfumVoLH9Lt?=
+ =?us-ascii?Q?9+VKm2Ua2+k/HhdEJLOHyuB6nFaEeX3mzkahHbyFvufjq+AdC3L3NpeB6DZQ?=
+ =?us-ascii?Q?7bx0McL8WIHgdvh0zK/M0/WADaynkU9HGui+LlEjOJBCW/vYmVulLtQRkh1N?=
+ =?us-ascii?Q?d0Q03AgL0vsVrdKeu/psM4jt861uvngDJUzhKDxc1gFMnTMzV6VGDjM73fr7?=
+ =?us-ascii?Q?np12RWv1QAe5CwhK+fMW0+W5jSe/LpONMS5kRQVMVSyblbyJ3eMdORf78Bbs?=
+ =?us-ascii?Q?DJii3GBi/DHOHviDaHZNw2AqDyFUQl5yLqLKk/mkHBRTc4DvIc4nV+HvbQhk?=
+ =?us-ascii?Q?JnDoHZPzhzd/TjZY4dOJ0pMwVTT/orYY4WdFReLys1nBveHPpqeJr9lEFJYd?=
+ =?us-ascii?Q?kzkQVKRA68XtSEeCYqNLwrd+LhHBiBpGKO1gUeIONJAHmA8xauk3XE7blKlp?=
+ =?us-ascii?Q?FYHevVdjQZdYfNbk62+LtyXvGgtAwa7+VQu54NICQk0AwElEBQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 19:29:32.3415
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3a17da0-f312-4c7c-64cb-08dcfd070248
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CDF.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB8611
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241104_075634_166098_8A26502B 
-X-CRM114-Status: GOOD (  24.30  )
+X-CRM114-CacheID: sfid-20241104_112949_174930_0203E5BA 
+X-CRM114-Status: GOOD (  15.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,228 +145,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Kanchan Joshi <joshi.k@samsung.com>
+Add a test that randomly sets the cpumask from available CPUs for
+the nvmet-wq while running the fio workload. This patch has been
+tested on nvme-loop and nvme-tcp transport.
 
-If an iocb contains metadata, extract that and prepare the bip.
-Based on flags specified by the user, set corresponding guard/app/ref
-tags to be checked in bip.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- block/bio-integrity.c         | 50 +++++++++++++++++++++++++++++++++++
- block/fops.c                  | 42 ++++++++++++++++++++++-------
- include/linux/bio-integrity.h |  7 +++++
- 3 files changed, 90 insertions(+), 9 deletions(-)
+ tests/nvme/055     | 99 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/055.out |  3 ++
+ 2 files changed, 102 insertions(+)
+ create mode 100755 tests/nvme/055
+ create mode 100644 tests/nvme/055.out
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 3bee43b87001..5d81ad9a3d20 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -364,6 +364,55 @@ int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
- 	return ret;
- }
- 
-+static void bio_uio_meta_to_bip(struct bio *bio, struct uio_meta *meta)
-+{
-+	struct bio_integrity_payload *bip = bio_integrity(bio);
+diff --git a/tests/nvme/055 b/tests/nvme/055
+new file mode 100755
+index 0000000..9fe27a3
+--- /dev/null
++++ b/tests/nvme/055
+@@ -0,0 +1,99 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0+
++# Copyright (C) 2024 Chaitanya Kulkarni
++#
++# Test nvmet-wq cpumask sysfs attribute with NVMe-oF and fio workload
++#
 +
-+	if (meta->flags & IO_INTEGRITY_CHK_GUARD)
-+		bip->bip_flags |= BIP_CHECK_GUARD;
-+	if (meta->flags & IO_INTEGRITY_CHK_APPTAG)
-+		bip->bip_flags |= BIP_CHECK_APPTAG;
-+	if (meta->flags & IO_INTEGRITY_CHK_REFTAG)
-+		bip->bip_flags |= BIP_CHECK_REFTAG;
++. tests/nvme/rc
 +
-+	bip->app_tag = meta->app_tag;
++DESCRIPTION="Test nvmet-wq cpumask sysfs attribute with fio on NVMe-oF device"
++TIMED=1
++
++requires() {
++	_nvme_requires
++	 _have_fio && _have_loop
++	_require_nvme_trtype_is_fabrics
 +}
 +
-+int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
-+{
-+	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
-+	unsigned int integrity_bytes;
-+	int ret;
-+	struct iov_iter it;
-+
-+	if (!bi)
-+		return -EINVAL;
-+	/*
-+	 * original meta iterator can be bigger.
-+	 * process integrity info corresponding to current data buffer only.
-+	 */
-+	it = meta->iter;
-+	integrity_bytes = bio_integrity_bytes(bi, bio_sectors(bio));
-+	if (it.count < integrity_bytes)
-+		return -EINVAL;
-+
-+	/* should fit into two bytes */
-+	BUILD_BUG_ON(IO_INTEGRITY_VALID_FLAGS >= (1 << 16));
-+
-+	if (meta->flags && (meta->flags & ~IO_INTEGRITY_VALID_FLAGS))
-+		return -EINVAL;
-+
-+	it.count = integrity_bytes;
-+	ret = bio_integrity_map_user(bio, &it);
-+	if (!ret) {
-+		bio_uio_meta_to_bip(bio, meta);
-+		bip_set_seed(bio_integrity(bio), meta->seed);
-+		iov_iter_advance(&meta->iter, integrity_bytes);
-+		meta->seed += bio_integrity_intervals(bi, bio_sectors(bio));
-+	}
-+	return ret;
++cleanup_setup() {
++	_nvme_disconnect_subsys
++	_nvmet_target_cleanup
 +}
 +
- /**
-  * bio_integrity_prep - Prepare bio for integrity I/O
-  * @bio:	bio to prepare
-@@ -564,6 +613,7 @@ int bio_integrity_clone(struct bio *bio, struct bio *bio_src,
- 	bip->bip_vec = bip_src->bip_vec;
- 	bip->bip_iter = bip_src->bip_iter;
- 	bip->bip_flags = bip_src->bip_flags & BIP_CLONE_FLAGS;
-+	bip->app_tag = bip_src->app_tag;
- 
- 	return 0;
- }
-diff --git a/block/fops.c b/block/fops.c
-index 2d01c9007681..3cf7e15eabbc 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -54,6 +54,7 @@ static ssize_t __blkdev_direct_IO_simple(struct kiocb *iocb,
- 	struct bio bio;
- 	ssize_t ret;
- 
-+	WARN_ON_ONCE(iocb->ki_flags & IOCB_HAS_METADATA);
- 	if (nr_pages <= DIO_INLINE_BIO_VECS)
- 		vecs = inline_vecs;
- 	else {
-@@ -128,6 +129,9 @@ static void blkdev_bio_end_io(struct bio *bio)
- 	if (bio->bi_status && !dio->bio.bi_status)
- 		dio->bio.bi_status = bio->bi_status;
- 
-+	if (dio->iocb->ki_flags & IOCB_HAS_METADATA)
-+		bio_integrity_unmap_user(bio);
++test() {
++	local cpumask_path="/sys/devices/virtual/workqueue/nvmet-wq/cpumask"
++	local original_cpumask
++	local min_cpus
++	local max_cpus
++	local numbers
++	local idx
++	local ns
 +
- 	if (atomic_dec_and_test(&dio->ref)) {
- 		if (!(dio->flags & DIO_IS_SYNC)) {
- 			struct kiocb *iocb = dio->iocb;
-@@ -221,14 +225,16 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 			 * a retry of this from blocking context.
- 			 */
- 			if (unlikely(iov_iter_count(iter))) {
--				bio_release_pages(bio, false);
--				bio_clear_flag(bio, BIO_REFFED);
--				bio_put(bio);
--				blk_finish_plug(&plug);
--				return -EAGAIN;
-+				ret = -EAGAIN;
-+				goto fail;
- 			}
- 			bio->bi_opf |= REQ_NOWAIT;
- 		}
-+		if (!is_sync && (iocb->ki_flags & IOCB_HAS_METADATA)) {
-+			ret = bio_integrity_map_iter(bio, iocb->private);
-+			if (unlikely(ret))
-+				goto fail;
-+		}
- 
- 		if (is_read) {
- 			if (dio->flags & DIO_SHOULD_DIRTY)
-@@ -269,6 +275,12 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 
- 	bio_put(&dio->bio);
- 	return ret;
-+fail:
-+	bio_release_pages(bio, false);
-+	bio_clear_flag(bio, BIO_REFFED);
-+	bio_put(bio);
-+	blk_finish_plug(&plug);
-+	return ret;
- }
- 
- static void blkdev_bio_end_io_async(struct bio *bio)
-@@ -286,6 +298,9 @@ static void blkdev_bio_end_io_async(struct bio *bio)
- 		ret = blk_status_to_errno(bio->bi_status);
- 	}
- 
-+	if (iocb->ki_flags & IOCB_HAS_METADATA)
-+		bio_integrity_unmap_user(bio);
++	echo "Running ${TEST_NAME}"
 +
- 	iocb->ki_complete(iocb, ret);
- 
- 	if (dio->flags & DIO_SHOULD_DIRTY) {
-@@ -330,10 +345,8 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		bio_iov_bvec_set(bio, iter);
- 	} else {
- 		ret = bio_iov_iter_get_pages(bio, iter);
--		if (unlikely(ret)) {
--			bio_put(bio);
--			return ret;
--		}
-+		if (unlikely(ret))
-+			goto out_bio_put;
- 	}
- 	dio->size = bio->bi_iter.bi_size;
- 
-@@ -346,6 +359,13 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		task_io_account_write(bio->bi_iter.bi_size);
- 	}
- 
-+	if (iocb->ki_flags & IOCB_HAS_METADATA) {
-+		ret = bio_integrity_map_iter(bio, iocb->private);
-+		WRITE_ONCE(iocb->private, NULL);
-+		if (unlikely(ret))
-+			goto out_bio_put;
-+	}
++	_setup_nvmet
++	_nvmet_target_setup
++	_nvme_connect_subsys
 +
- 	if (iocb->ki_flags & IOCB_ATOMIC)
- 		bio->bi_opf |= REQ_ATOMIC;
- 
-@@ -360,6 +380,10 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		submit_bio(bio);
- 	}
- 	return -EIOCBQUEUED;
++	if [ ! -f "$cpumask_path" ]; then
++		SKIP_REASONS+=("nvmet_wq cpumask sysfs attribute not found.")
++		cleanup_setup
++		return 1
++	fi
 +
-+out_bio_put:
-+	bio_put(bio);
-+	return ret;
- }
- 
- static ssize_t blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
-diff --git a/include/linux/bio-integrity.h b/include/linux/bio-integrity.h
-index 2195bc06dcde..de0a6c9de4d1 100644
---- a/include/linux/bio-integrity.h
-+++ b/include/linux/bio-integrity.h
-@@ -23,6 +23,7 @@ struct bio_integrity_payload {
- 	unsigned short		bip_vcnt;	/* # of integrity bio_vecs */
- 	unsigned short		bip_max_vcnt;	/* integrity bio_vec slots */
- 	unsigned short		bip_flags;	/* control flags */
-+	u16			app_tag;	/* application tag value */
- 
- 	struct bvec_iter	bio_iter;	/* for rewinding parent bio */
- 
-@@ -78,6 +79,7 @@ struct bio_integrity_payload *bio_integrity_alloc(struct bio *bio, gfp_t gfp,
- int bio_integrity_add_page(struct bio *bio, struct page *page, unsigned int len,
- 		unsigned int offset);
- int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter);
-+int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta);
- void bio_integrity_unmap_user(struct bio *bio);
- bool bio_integrity_prep(struct bio *bio);
- void bio_integrity_advance(struct bio *bio, unsigned int bytes_done);
-@@ -108,6 +110,11 @@ static int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
- 	return -EINVAL;
- }
- 
-+static inline int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
-+{
-+	return -EINVAL;
++	ns=$(_find_nvme_ns "${def_subsys_uuid}")
++
++	original_cpumask=$(cat "$cpumask_path")
++
++	num_cpus=$(nproc)
++	max_cpus=$(( num_cpus < 20 ? num_cpus : 20 ))
++	min_cpus=0
++	#shellcheck disable=SC2207
++	numbers=($(seq $min_cpus $max_cpus))
++
++	_run_fio_rand_io --filename="/dev/${ns}" --time_based --runtime=130s \
++			 --iodepth=8 --size="${NVME_IMG_SIZE}" &> "$FULL" &
++
++	# Let the fio settle down else we will break in the loop for fio check
++	sleep 1
++	for ((i = 0; i < max_cpus; i++)); do
++		if ! pgrep -x fio &> /dev/null ; then
++			break
++		fi
++
++		if [[ ${#numbers[@]} -eq 0 ]]; then
++			break
++		fi
++
++		idx=$((RANDOM % ${#numbers[@]}))
++
++		#shellcheck disable=SC2004
++		cpu_mask=$(printf "%X" $((1 << ${numbers[idx]})))
++		echo "$cpu_mask" > "$cpumask_path"
++		if [[ $(cat "$cpumask_path") =~ ^[0,]*${cpu_mask}\n$ ]]; then
++			echo "Test Failed: cpumask was not set correctly "
++			echo "Expected ${cpu_mask} found $(cat "$cpumask_path")"
++			cleanup_setup
++			return 1
++		fi
++		sleep 3
++		# Remove the selected number
++		numbers=("${numbers[@]:0:$idx}" "${numbers[@]:$((idx + 1))}")
++	done
++
++	killall fio &> /dev/null
++
++	# Restore original cpumask
++	echo "$original_cpumask" > "$cpumask_path"
++	restored_cpumask=$(cat "$cpumask_path")
++
++	if [[ "$restored_cpumask" != "$original_cpumask" ]]; then
++		echo "Failed to restore original cpumask."
++		cleanup_setup
++		return 1
++	fi
++
++	cleanup_setup
++	echo "Test complete"
 +}
-+
- static inline void bio_integrity_unmap_user(struct bio *bio)
- {
- }
+diff --git a/tests/nvme/055.out b/tests/nvme/055.out
+new file mode 100644
+index 0000000..427dfee
+--- /dev/null
++++ b/tests/nvme/055.out
+@@ -0,0 +1,3 @@
++Running nvme/055
++disconnected 1 controller(s)
++Test complete
 -- 
-2.25.1
+2.40.0
 
 
