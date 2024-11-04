@@ -4,103 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 265D9D132B8
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 12:22:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7697DD132B5
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 12:26:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tx1bOostXz+VH0GPtKgcyKswUQOWFhDDl/A9OfJb8HU=; b=0eaaZDf98rzDmCgXCM/y+rxL2l
-	BM1MTevvgXq7+rBhv3hh/Kp72gd5Jkf7boRgsSocBy0leRJOeqWIR7motpMEduI2Dqdncz4LYK050
-	A0XApP1JXO8Ywp54fEr9XsDR/nSh+oDHMM404F2UWs1aB9GVwEayyEad2vT+9DjVj4VZjrul17kyf
-	lUz8QR4lDFEmbBlg4x9KeiX4KW4XJ6vo4GRjGnvT7Z1/LRQ+ynSIrTPtqC5rJhyxlbz8Al5PQ/mZo
-	DRVnT24LWj5Kq2+5Rc5EVicVH+G04MCnRwP2npEWUQ6gwgE7BZcaR2gvlW08aZJvV9xJ45y96rmsT
-	CFzQtkXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=noss4JzKSmsBngEFnQJcUyJxc5mA+0TM8Vx3hh7eYas=; b=B8VsZZdQ+NzzsZSWt8cPGoFB9H
+	kzax/nVUps1GkVen+gUbLMDoD5AGeviWnl6zdIQLz2+0m2yEtZLpQFVMBnXMwPKcvAC3zoma5zRT6
+	kE0CfAB2MFqscoTna6MhSUBMDWprOgQEyOZP/RNBGGU3b9nOgQfayp7DvbfxiyhQO9zNDyybkBCjz
+	nNkMIe3yRhRcjUGhu4bIajhA3dGGVS+0aBuM9OAizujUU1XrFPPUf+eh+5j8Ob3JrP/PVSbo4R40a
+	TDLchDlypgVjw7q8Xq5p0RGvM91xg9CulvwVNUMxKtUZ56EEIC7wLnA7eiOfCnJledpZyl54VSEUC
+	lAIY3k8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7w6Z-0000000Dgaa-0S7Z;
-	Mon, 04 Nov 2024 12:22:47 +0000
-Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d])
+	id 1t7wAG-0000000DhIJ-33Bc;
+	Mon, 04 Nov 2024 12:26:36 +0000
+Received: from mail-ej1-f49.google.com ([209.85.218.49])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7w3M-0000000Dfq9-3cVF
+	id 1t7w8i-0000000Dh7n-1Rvc
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Nov 2024 12:19:30 +0000
-Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-6cbf347dc66so27626336d6.3
-        for <linux-nvme@lists.infradead.org>; Mon, 04 Nov 2024 04:19:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1730722767; x=1731327567; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tx1bOostXz+VH0GPtKgcyKswUQOWFhDDl/A9OfJb8HU=;
-        b=WZEKalOAk3JwGoA9DZjC8uqDvRmD0o5sSVPPJ5GX0roh8FwyUa+OAWFJmwS8LoMemg
-         T3ooXJ9Whyfma1R4Fu3zVHP38DNCscGdwra22L6L6IvybAdqPHf+Y8iVvGSUw8ql/hdP
-         UslQ+K81g3nOCAgABpbsRK9UrAdU9DWXPCoiK40K9XRL/VeaGVPqgoQ7dNnHtgt7WLGL
-         ZDm64/UKGdl9dbdH8ZHWbDEbB4dRKdTh+AUi8nM9EksEVBfAPfsloFFO8hW0uUH/w/jv
-         3otjqoB11d/UKbexU6rqvKI901aF7RnlGvVVQKptteYWD4LSfV+qTnHOAFWeGQ0JBkaq
-         Fuvg==
+	Mon, 04 Nov 2024 12:25:01 +0000
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a0ef5179dso699148866b.1
+        for <linux-nvme@lists.infradead.org>; Mon, 04 Nov 2024 04:24:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730722767; x=1731327567;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tx1bOostXz+VH0GPtKgcyKswUQOWFhDDl/A9OfJb8HU=;
-        b=Xq91Av0jXgqbopHTeo3c26Cv/BQMt3mO4gEjBdfhOsZx/N+9lVJs2/UxjU8dcJWz71
-         DqArpcA56C8oLcF6dIf5X0W/IAOTn/hfBpR5mL5dRQWclLvhtBz+BRRby90rgZO/6pvj
-         E2mIfuBrI80kTzWS3qc9ZoKm0eVIRLmUivvciL3oKISMRM0hKD6Uh5wVQ2yJxWeC1WuA
-         xVywrwCD4po/NT05k1U8TokVsfs5rX0SOqXkQt6+V3fKVT6JQAUImfbeSDVvzBF96mpX
-         n3f/9dqzBQXQDkTRL/mQrpGImeS0rX+6pBTFDcfN1nxOddAplx+7yjpSWtYPY+G/9C81
-         mRGw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1DAeDEPcn9CrkvRxmfWQSMp+fYVRHE/xA1/tjT0TbCwe6ChgXxiwPrBjQ++8IqHPx+D+/CfRjKaRb@lists.infradead.org
-X-Gm-Message-State: AOJu0YyrXG5aoh7Z8Awu1f8lTxS1pyw96hyrJ21nd+4BeBw/F6T5viM7
-	Kwl/epf01vPqM2cz8iOMryDWSgepmZk33/rCOXiJsnqlBTIV/amnp5SzmygaZVo=
-X-Google-Smtp-Source: AGHT+IGGw97HgDqXEc70DPdglFSAiLC2/hvL6iix2sWZheUlrSMhSyN4gGvDNAQMyTZfPVibvICZkw==
-X-Received: by 2002:a05:6214:3a8b:b0:6cb:c199:462a with SMTP id 6a1803df08f44-6d35c137657mr208089456d6.27.1730722766648;
-        Mon, 04 Nov 2024 04:19:26 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d353fc718csm47611946d6.38.2024.11.04.04.19.25
+        d=1e100.net; s=20230601; t=1730723098; x=1731327898;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=noss4JzKSmsBngEFnQJcUyJxc5mA+0TM8Vx3hh7eYas=;
+        b=pzDlikCvZkd7jRqW7UCj4WqMpUKwg731Vx08tI1+oDaR6J5k6aSGmBpxK5CdtuclaP
+         6DilW8i/GARWyo+HJHRCkE/K7ys2fgYf5ZgcCZc7euSpntb+xm0M7FQZLZECQWY7ZzB/
+         cjXcMvwHfCYM/FHEQnBFrpS7y9nuGanxGkToS2KWNY32NHbXUUPxEspjo8/rF8lgoFnD
+         0TBelVb3UoQaO04JXn2D2j1u3FiWEGmpxQ4zNf9z7PnnFK7lrSrT4NpPBzbGQ7nITT2g
+         UG/FV2KbbH7nUy6wAbiu4YARuCGWfJo8Gh3/LkZqMjoBR2n8AfjoL5OCCs1m7HnMl8ym
+         ZspA==
+X-Gm-Message-State: AOJu0YzTsnrBMOVx1BD+i46a7gZQHF6nLWoVXlCVAT1agdhDnEOzeuk6
+	lDTVTFDzANOfqXHJGkSl9y5foHQ9wLl6061mMR+o7fxPtT92wZma
+X-Google-Smtp-Source: AGHT+IGom24GOsnZKz6VayrnkwHTK9IsOyw+hmLZpO+PThRjb8M4Xrqczs2ChZQUUPF5sy3LVE9DRw==
+X-Received: by 2002:a17:907:ea0:b0:a99:f9d6:5590 with SMTP id a640c23a62f3a-a9de6331185mr3195394366b.60.1730723097614;
+        Mon, 04 Nov 2024 04:24:57 -0800 (PST)
+Received: from localhost (fwdproxy-lla-007.fbsv.net. [2a03:2880:30ff:7::face:b00c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e5668491esm544932466b.204.2024.11.04.04.24.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 04:19:25 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1t7w3I-00000000hJn-3gHO;
-	Mon, 04 Nov 2024 08:19:24 -0400
-Date: Mon, 4 Nov 2024 08:19:24 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>, Leon Romanovsky <leon@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 07/17] dma-mapping: Implement link/unlink ranges API
-Message-ID: <20241104121924.GC35848@ziepe.ca>
-References: <cover.1730298502.git.leon@kernel.org>
- <f8c7f160c9ae97fef4ccd355f9979727552c7374.1730298502.git.leon@kernel.org>
- <51c5a5d5-6f90-4c42-b0ef-b87791e00f20@arm.com>
- <20241104091048.GA25041@lst.de>
+        Mon, 04 Nov 2024 04:24:56 -0800 (PST)
+From: Breno Leitao <leitao@debian.org>
+Date: Mon, 04 Nov 2024 04:24:40 -0800
+Subject: [PATCH] nvme/host: Fix RCU list traversal to use SRCU primitive
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241104091048.GA25041@lst.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241104-nvme_rcu-v1-1-ecb19f5c95fa@debian.org>
+X-B4-Tracking: v=1; b=H4sIAAe9KGcC/x3MWwqAIBAF0K0M9ztBpYe4lYgIm2o+slCKINx70
+ FnAeZE5CWd4epH4lixHhCdTEcI2xZWVzPAEq21tjK5VvHceU7iUs40Orbad4xYV4Uy8yPNX/VD
+ KB4+D6dZaAAAA
+X-Change-ID: 20241104-nvme_rcu-8250c60278e6
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3965; i=leitao@debian.org;
+ h=from:subject:message-id; bh=hMnNvV795UWRRyeGynz3zzxGFDq7gm4n+LsNUESRa5g=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBnKL0YI6M+hK8w7iHenAB5FxQUv8SBDtrAwnrZd
+ cX6CyvRLfaJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCZyi9GAAKCRA1o5Of/Hh3
+ bTBMD/9aSUmUCp5S0ckOCcGfb13sTp7X8To3/7fBfml9HauKYJF5l+04zV3EU9vEDMIGpW/YxWN
+ K75B9DO3tVEk2bIzdI3mq458dtXmfJ7MEs5MeYDkJSNFih7PssJ+qtWGcB222O7e0OuWjv3B2l9
+ D+EK52k/y41/pxi5XFoQkHRgf7qWfZRa5FcvZ3YYzE3w9vkPU5wxmFNJN0nVfl74PQ/buB0G+vo
+ e0XLkTqOywNwUxU8qfHc6GrR2AjupqjF1muCJDzZ5jkwnD65cKZeOyUXCC/bqGRw9P65Xm9d2NX
+ EBUqak2rA0B2QHIjhV9qFXKXlkiD1neAN+jrLfhgXaZt73ENOqWNvu7tsdUIFjuOkDRXtJoiH8x
+ QvAhww0YRT8YuynBi3LFlVS9mUAXkkjD5Eq4dscIMatNDKGkER/kJhwRqaUoWEHgwXpghoTKcbw
+ S7ae4s+JdtrPDNPBt2+MYvCdmpgh14uesrZBKNFm4P1bJ2QdsTNWG27coH4c+VEE3L1cOlswvzA
+ A+2ZHapIxMwVLLUQ7JqA/aX9wki/7Yv3ktBVhJpN6MVsBOQsaDehlrfkJqwDeEH47Uisv9ZzZBk
+ YiSvLao6RDFPk2mJEqdrs1v7xw9rxNhw7E42BluOgB9WV86KJSuPlifQndHpYBA7eaQ7ktNV43I
+ LWUJkkFCPFqio9g==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241104_041929_090988_48E07068 
-X-CRM114-Status: GOOD (  18.41  )
+X-CRM114-CacheID: sfid-20241104_042500_420845_590D2146 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,24 +99,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 04, 2024 at 10:10:48AM +0100, Christoph Hellwig wrote:
-> >> +		arch_sync_dma_for_device(phys, size, dir);
-> >
-> > Plus if the aim is to pass P2P and whatever arbitrary physical addresses 
-> > through here as well, how can we be sure this isn't going to explode?
-> 
-> That's a good point.  Only mapped through host bridge P2P can even
-> end up here, so the address is a perfectly valid physical address
-> in the host.  But I'm not sure if all arch_sync_dma_for_device
-> implementations handle IOMMU memory fine.
+The code currently uses list_for_each_entry_rcu() while holding an SRCU
+lock, triggering false positive warnings with CONFIG_PROVE_RCU=y
+enabled:
 
-I was told on x86 if you do a cache flush operation on MMIO there is a
-chance it will MCE. Recently had some similar discussions about ARM
-where it was asserted some platforms may have similar.
+  drivers/nvme/host/core.c:3770 RCU-list traversed in non-reader section!!
 
-It would be safest to only call arch flushing calls on memory that is
-mapped cachable. We can assume that a P2P target is never CPU
-mapped cachable, regardless of how the DMA is routed.
+While the list is properly protected by SRCU lock, the code uses the wrong
+list traversal primitive. Replace list_for_each_entry_rcu() with
+list_for_each_entry_srcu() to correctly indicate SRCU-based protection
+and eliminate the false warning.
 
-Jason
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Fixes: be647e2c76b2 ("nvme: use srcu for iterating namespace list")
+---
+Something similar will need to be done for multipath. I will get it done
+once I get some feedback about this patch first.
+---
+ drivers/nvme/host/core.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 84cb859a911d09dbe71b2f1ac473ae687c4dc687..3583bae69ef74c6f1fe6d465531a9a09512a6f13 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3767,7 +3767,8 @@ struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	int srcu_idx;
+ 
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+-	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu)) {
+ 		if (ns->head->ns_id == nsid) {
+ 			if (!nvme_get_ns(ns))
+ 				continue;
+@@ -4851,7 +4852,8 @@ void nvme_mark_namespaces_dead(struct nvme_ctrl *ctrl)
+ 	int srcu_idx;
+ 
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+-	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu))
+ 		blk_mark_disk_dead(ns->disk);
+ 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+@@ -4863,7 +4865,8 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
+ 	int srcu_idx;
+ 
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+-	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu))
+ 		blk_mq_unfreeze_queue(ns->queue);
+ 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 	clear_bit(NVME_CTRL_FROZEN, &ctrl->flags);
+@@ -4876,7 +4879,8 @@ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
+ 	int srcu_idx;
+ 
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+-	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu)) {
+ 		timeout = blk_mq_freeze_queue_wait_timeout(ns->queue, timeout);
+ 		if (timeout <= 0)
+ 			break;
+@@ -4892,7 +4896,8 @@ void nvme_wait_freeze(struct nvme_ctrl *ctrl)
+ 	int srcu_idx;
+ 
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+-	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu))
+ 		blk_mq_freeze_queue_wait(ns->queue);
+ 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+@@ -4905,7 +4910,8 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
+ 
+ 	set_bit(NVME_CTRL_FROZEN, &ctrl->flags);
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+-	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu))
+ 		blk_freeze_queue_start(ns->queue);
+ 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+@@ -4953,7 +4959,8 @@ void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
+ 	int srcu_idx;
+ 
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+-	list_for_each_entry_rcu(ns, &ctrl->namespaces, list)
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu))
+ 		blk_sync_queue(ns->queue);
+ 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ }
+
+---
+base-commit: f488649e40f8900d23b86afeab7d4b78c063d5d1
+change-id: 20241104-nvme_rcu-8250c60278e6
+
+Best regards,
+-- 
+Breno Leitao <leitao@debian.org>
+
 
