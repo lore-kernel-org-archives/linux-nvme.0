@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0546D111BF
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5CD3D10C0D
 	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 08:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=iFjoxITOk9DQKIVx1Zs+Qd+cPFRFt4z42sqFBUA8XDc=; b=WQHgCFBPxhBmBtERJLXe1rptu4
-	LciYU5K2HxLlpXgNWVFpmFfavRoDcaOBK4SLq+dsNAeiq2+Vr4cp317NvY53Tq10QS9Nae2hVYYki
-	sRCaez8a3OKflte74y1YUEuGL3GC6fr4mdjtBzgUmVPIiiyY8oYKjTdNK6x6cSQbeRklWqBs5ca4G
-	D7DHNH0oUe+rguJMg4qUk5ztCnrcr9tjISjDnq7PeVmJEZWiR+Uq0iDx143cjMErKeXrcrUpsYp9+
-	1nH1kJbFTmcx73w+tBASGT662BZWB4zW//IMXvwkzAal1JS2QjYtv7G9D1B+y5+SKSGtGC4WFWzrS
-	Ha9sXQyA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xzQ35Fu9yrSqqcl3Rs2gEvKRbDvgnBO0l4rn23dBsEQ=; b=j++28bNKSD2bMamZGYIBTgTQBh
+	nX6MPewzcSOcmNYnYtgnjgdLXjqyzewP2+Di2mwg+2VMUvDsl0XdqCsDcfbkotsR5JHGVr0QtdBH/
+	43Zts8dl/DkxhdAYz6s5sBH2/AyWrW3YNYG9G5eIEr6uvFt0MOJ0nAaoEFTVAPxorfYnEUvlG5oXw
+	VoWjSSfCtxprzePioZJgqWzmh4OCqgFt+caAlxHhm/wDje7NN223I8lcSgiUmi72G+L7xltxCqXvp
+	GcQ4RQYcDxWFkEoKZw81n1gJRsX2cN7J1sp9y8jdPkibylXcixs/DpeleIYho+VzA83qhJ+miT3hE
+	7W/nAkkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7sso-0000000D2gm-25SX;
-	Mon, 04 Nov 2024 08:56:22 +0000
-Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
+	id 1t7ssq-0000000D2ho-01ig;
+	Mon, 04 Nov 2024 08:56:24 +0000
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7ss6-0000000D2P3-2ywV
+	id 1t7ssC-0000000D2Sh-0r9W
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Nov 2024 08:55:40 +0000
+	Mon, 04 Nov 2024 08:55:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1730710534; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=iFjoxITOk9DQKIVx1Zs+Qd+cPFRFt4z42sqFBUA8XDc=;
-	b=fv3kaApj0Wtq9QyHgpOMUNf6voeN4gK11LptlKF9fumZ+UOAbvwbA0pFQ5541AZokqDqt7W9uzDZVmJHLzp3uzf8OjZ3s4ioN7cPetIqSHU9/JjGp6DkMXUbWFeI8yBb9kaQ+m7ogj1Z6obqIYAPvC3AVoUyB01+MT99RGm6f2U=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIdoI.b_1730710524 cluster:ay36)
+	t=1730710542; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=xzQ35Fu9yrSqqcl3Rs2gEvKRbDvgnBO0l4rn23dBsEQ=;
+	b=RPM1D45UsLRRgBfYS3iBMzmh7S16f0TriYUiLk8PLSwRt95T+/jQBDkhoxXtpPcWHNJDg4ApkKWMCQARh8zUL+Pc/IWEf/driCZzjLL0xhVeGrvKNd56IvWkNv/OrETb9LOMbOzSlK0I8a85GT4hBV9OHDgK0unMWvhUI8NJ1Gs=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIdoI3x_1730710535 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 04 Nov 2024 16:55:30 +0800
+          Mon, 04 Nov 2024 16:55:40 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
@@ -42,17 +42,17 @@ To: kbusch@kernel.org,
 	sagi@grimberg.me,
 	kch@nvidia.com
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH RFC 0/3] set nvme ns's vwc respectively
-Date: Mon,  4 Nov 2024 16:54:59 +0800
-Message-ID: <20241104085524.118221-1-kanie@linux.alibaba.com>
+Subject: [PATCH RFC 2/3] nvme: query independent identify ns by default
+Date: Mon,  4 Nov 2024 16:55:01 +0800
+Message-ID: <20241104085524.118221-3-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241104085524.118221-1-kanie@linux.alibaba.com>
+References: <20241104085524.118221-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241104_005538_922754_5AC802A4 
-X-CRM114-Status: UNSURE (   8.63  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241104_005544_420134_A108F067 
+X-CRM114-Status: GOOD (  11.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,24 +67,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-  These patches are supporting separate vwc attr for each namespace.
+Query independent identify ns by default, if returning fail,
+go back to sending the "identify namespace data structure for the
+specified NSID or the namespace capabilities for the NVM Command
+Set(cns = 0)".
 
-  I found that the number 2 and 3 patch are conflict with Matias Bjørling's
-patch which implement to supporting rotational device, this is the first
-time this happend to me, I dont know how to handle this, so there is a "RFC"
-tag in tittle, waiting for the solution.
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ drivers/nvme/host/core.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Guixin Liu (3):
-  nvme: check ns's volatile write cache not present
-  nvme: query independent identify ns by default
-  nvmet: report ns's vwc not present
-
- drivers/nvme/host/core.c        | 11 +++++-----
- drivers/nvme/target/admin-cmd.c | 36 +++++++++++++++++++++++++++++++++
- include/linux/nvme.h            |  1 +
- 3 files changed, 43 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index eed41d4d2599..563abc0cb4a1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4018,7 +4018,7 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ {
+ 	struct nvme_ns_info info = { .nsid = nsid };
+ 	struct nvme_ns *ns;
+-	int ret;
++	int ret = 1;
+ 
+ 	if (nvme_identify_ns_descs(ctrl, &info))
+ 		return;
+@@ -4034,10 +4034,9 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	 * data structure to find all the generic information that is needed to
+ 	 * set up a namespace.  If not fall back to the legacy version.
+ 	 */
+-	if ((ctrl->cap & NVME_CAP_CRMS_CRIMS) ||
+-	    (info.ids.csi != NVME_CSI_NVM && info.ids.csi != NVME_CSI_ZNS))
++	if (nvme_id_cns_ok(ctrl, NVME_ID_CNS_NS_CS_INDEP))
+ 		ret = nvme_ns_info_from_id_cs_indep(ctrl, &info);
+-	else
++	if (ret > 0)
+ 		ret = nvme_ns_info_from_identify(ctrl, &info);
+ 
+ 	if (info.is_removed)
 -- 
 2.43.0
 
