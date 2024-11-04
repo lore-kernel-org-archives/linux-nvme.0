@@ -4,74 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E962D11194
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 00:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D092D111A0
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 03:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hCkg2MqyvbvBZAlL2mUEIor+vLrb1naW+xQwcnP9n30=; b=gefQaAXhTysHdQEq6i/ux+VkIR
-	rMKYgrRYbeZVna+OshCVwN2GCtgf1VzfCMdwHrPDMyN7yjbY6EmUlvM0OU2F1+jm5jkuNPDy59F6o
-	vUjUOZLNXfk+QgHi+pepAX2xfm1aFLkphyks2207yaUevj5Q3VBDb68JjOVP5NkgG9ToL2SHT3x4l
-	66mprLakOXqSoDJpvLhCYCny/wWelsw2Aca4MWIOhtAuAtWRSpXI7zPNPVjQ/J1tMV88mzb5XRXep
-	D+unUgDe8azZ2s5ZX4IXRgAfj0ayMgyha2xhk0y/8fdCGXuUarWncG/KNm3sFJ0wQjTLVNADDTsB1
-	DoB4gc+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=tAfX7vVGazhL+lpTs3vajSkSd8axvSrvv02bwz02tUs=; b=wOmhATiQ9Lj46N9vM5pL+RAeSH
+	JiK+p2vRT446Knyoqq24+ChIyg6pfM8gxm1JG7XkJ/x4sVPyhw7t+b8OaqNIs70knxLQ49NZVH9sx
+	HDo1i6/Ly1QCJII6o456sxNf3yJGEKbIUGB4IVzZ2ZZs9nssOXyKuKV4Rd2UDbJcG6dGfDLp9sx66
+	jkxI2sZHCw3gVEsBYbaRAsZUCTVdfH9BZ3rDudzPSq4tDHwaVyB++8B2Ja1fPUnyQHEg2D2Z9YUdo
+	GUiafCP/cDaD39/ZR+qNF6MloGyt4hWQhgAYyRbm+Cca2E5P/bhQBwyGkwmAwHd0bxfl162dI4YQW
+	8s5WR1WA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7l0C-0000000CJWg-46La;
-	Mon, 04 Nov 2024 00:31:28 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1t7nY7-0000000CWGF-10x8;
+	Mon, 04 Nov 2024 03:14:39 +0000
+Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7l07-0000000CJWD-17CL
+	id 1t7nY2-0000000CWFS-3qLe
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Nov 2024 00:31:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730680281;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hCkg2MqyvbvBZAlL2mUEIor+vLrb1naW+xQwcnP9n30=;
-	b=MZpDiKy7fvAzfUbJ2e4ya+3iKczhdDMgBNVXEM9ADs0iZMvfeV1fz1Ef4Q8cRDCZTN1dz1
-	Hrf3FBXcF68LW+VsSDwpmWsHFXdOv8VjO68NmqHzMG/cvh/jTncSSJKU3ub3E3j1Xm35W5
-	lw22dI5EXM3NYncpS1dMjNsodbvTUtE=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-281-p-H_wuOWN7mTg5T2Zx9FIQ-1; Sun,
- 03 Nov 2024 19:31:18 -0500
-X-MC-Unique: p-H_wuOWN7mTg5T2Zx9FIQ-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0381F1956080;
-	Mon,  4 Nov 2024 00:31:16 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.38])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 970C61956086;
-	Mon,  4 Nov 2024 00:31:08 +0000 (UTC)
-Date: Mon, 4 Nov 2024 08:31:02 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
-	sagi@grimberg.me, axboe@fb.com, chaitanyak@nvidia.com,
-	dlemoal@kernel.org, gjoyce@linux.ibm.com
-Subject: Re: [PATCHv3 1/2] Revert "nvme: make keep-alive synchronous
- operation"
-Message-ID: <ZygVxkjQeOD_Jzy3@fedora>
-References: <20241103181450.933737-1-nilay@linux.ibm.com>
- <20241103181450.933737-2-nilay@linux.ibm.com>
+	Mon, 04 Nov 2024 03:14:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1730690069; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=tAfX7vVGazhL+lpTs3vajSkSd8axvSrvv02bwz02tUs=;
+	b=nNdRKbl1agQ9vqbJ/6mh2keU5vjSG1VxNse8XuOPYfwwz1QwsX0TaJ2iTB5l13bOCeyycfPuonDLAOGFiyPBL/ST36H3PLu1FNZ6ciNi8MP2jxxg72GlcAeyMY6l1A9iFBY2k27yMsdqL/GXIX7ZtsyGY3ZqR55YUhqp3NKZdEo=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIZwANv_1730690058 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 04 Nov 2024 11:14:23 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvme: check at least one ns identification reported
+Date: Mon,  4 Nov 2024 11:14:18 +0800
+Message-ID: <20241104031418.121235-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-In-Reply-To: <20241103181450.933737-2-nilay@linux.ibm.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241103_163123_399659_73DAA959 
-X-CRM114-Status: GOOD (  11.72  )
+X-CRM114-CacheID: sfid-20241103_191435_489439_4EDB93AB 
+X-CRM114-Status: GOOD (  11.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,33 +64,93 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 03, 2024 at 11:44:41PM +0530, Nilay Shroff wrote:
-> This reverts commit d06923670b5a5f609603d4a9fee4dec02d38de9c.
-> 
-> It was realized that the fix implemented to contain the race condition
-> among the keep alive task and the fabric shutdown code path in the
-> commit d06923670b5ia ("nvme: make keep-alive synchronous operation")
-> is not optimal.
+Per the NVMe spec after 1.3:
+  At least one Namespace Identification Descriptor identifying the
+  namespace (i.e., NIDT field set to 1h, 2h, or 3h).
+Check there is at least one reported.
 
-One good commit log is supposed to explain a bit why it isn't optimal
-instead of "It was realized" without any details.
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+Changes from v1 to v2:
+- Check only when the nvme version is greater than or
+equal to 1.3.
 
-> 
-> We also found that the above race condition is a regression caused due
-> to the changes implemented in commit a54a93d0e359 ("nvme: move stopping
-> keep-alive into nvme_uninit_ctrl()"). So we decided to revert the commit
-> d06923670b5a ("nvme: make keep-alive synchronous operation") and then
-> fix the regression.
-> 
-> Link: https://lore.kernel.org/all/196f4013-3bbf-43ff-98b4-9cb2a96c20c2@grimberg.me/
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+ drivers/nvme/host/core.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-The patch itself looks good:
-
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
-
-
-Thanks,
-Ming
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 84cb859a911d..cf767ac697dc 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1426,7 +1426,7 @@ static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
+ }
+ 
+ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
+-		struct nvme_ns_id_desc *cur, bool *csi_seen)
++		struct nvme_ns_id_desc *cur, bool *csi_seen, bool *has_id)
+ {
+ 	const char *warn_str = "ctrl returned bogus length:";
+ 	void *data = cur;
+@@ -1438,6 +1438,7 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
+ 				 warn_str, cur->nidl);
+ 			return -1;
+ 		}
++		*has_id = true;
+ 		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
+ 			return NVME_NIDT_EUI64_LEN;
+ 		memcpy(ids->eui64, data + sizeof(*cur), NVME_NIDT_EUI64_LEN);
+@@ -1448,6 +1449,7 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
+ 				 warn_str, cur->nidl);
+ 			return -1;
+ 		}
++		*has_id = true;
+ 		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
+ 			return NVME_NIDT_NGUID_LEN;
+ 		memcpy(ids->nguid, data + sizeof(*cur), NVME_NIDT_NGUID_LEN);
+@@ -1458,6 +1460,7 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
+ 				 warn_str, cur->nidl);
+ 			return -1;
+ 		}
++		*has_id = true;
+ 		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
+ 			return NVME_NIDT_UUID_LEN;
+ 		uuid_copy(&ids->uuid, data + sizeof(*cur));
+@@ -1482,6 +1485,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
+ {
+ 	struct nvme_command c = { };
+ 	bool csi_seen = false;
++	bool has_id = false;
+ 	int status, pos, len;
+ 	void *data;
+ 
+@@ -1513,13 +1517,25 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
+ 		if (cur->nidl == 0)
+ 			break;
+ 
+-		len = nvme_process_ns_desc(ctrl, &info->ids, cur, &csi_seen);
++		len = nvme_process_ns_desc(ctrl, &info->ids, cur,
++					   &csi_seen, &has_id);
+ 		if (len < 0)
+ 			break;
+ 
+ 		len += sizeof(*cur);
+ 	}
+ 
++	/*
++	 * NVMe 1.3 spec introduced ns identification, a controller should
++	 * return at least one.
++	 */
++	if (!has_id && ctrl->vs >= NVME_VS(1, 3, 0)) {
++		dev_warn(ctrl->device,
++			 "No identification reported for nsid:%d\n",
++			 info->nsid);
++		status = -EINVAL;
++	}
++
+ 	if (nvme_multi_css(ctrl) && !csi_seen) {
+ 		dev_warn(ctrl->device, "Command set not reported for nsid:%d\n",
+ 			 info->nsid);
+-- 
+2.43.0
 
 
