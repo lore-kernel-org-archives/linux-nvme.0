@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF4DCE6B27E
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 08:56:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81518D111BF
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 08:59:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tB/LiQ40UoTLjqNyC3Q67BQwJbkIipZmPo+T1Gw2Rdc=; b=QkcRRWHaxo0D6pxzG46o8uPuwD
-	tLFsp+3MmezsJyHMrwqapPP9NikF3Lbxoczl4AG0nWTIVSGZZuTuLfR8oBLrhJw/OgWkUs/leNZpw
-	JOv0K8Wm5gZX18V97jpWzCuCEGYWtglla5cvCo0gWtrt0gA5N3jb1wt5SGH8Zj0qxPPMNs/gljtOX
-	ON4Mv2Xb2PIqSIqntc2SgGiCno2yeBD1IbskKdML1J7rIaxNxmKZRDqMtmu7qQALf7ej/51chZmA4
-	0prbrW42wgKRpl6x8rgT1IkADEYFrT0CNVl8XB9f+5tUEF4PY+FPjw0KBqJCgR/9pPnxgz01IvwvR
-	OvLSJtNg==;
+	bh=Cd7w1aJWj9RaW8qRI2u0FHF8/JEncSVlg+8XB/AbH78=; b=hDU1oMJIjp6/5R+6o67qhbudLC
+	FnvSjv+woj/0fPBSZBBXIVbO+uMSZh/EuWiy72d5qo90y4zMulxw1BdzROFUNmOgJi2pykHjcu04x
+	w1UZ4U1Z5paA+Ze/nVKFmkB/5+UR/iN6zLO4gP/ErPKvtNEj/hzcIYSlR7lPYjdQR6ietZYGqNNZq
+	kQzPLvNMw/Vq4UzzZKRxdkx4A6E8VZStytPi5qSUHVkbopEv/oVqY2qtjgJEVgTDgrgsasaHY+FGg
+	CdGxPvXISS/PPbmmZ0HHxoR0BkjXu49JGHFcSEYkR0mkKpO4Zb1/YZn/hmYIWx6AsWaVNxfFgAo/J
+	rnY/S5ww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7ssr-0000000D2ic-1Urk;
-	Mon, 04 Nov 2024 08:56:25 +0000
+	id 1t7svc-0000000D46Q-3aZj;
+	Mon, 04 Nov 2024 08:59:16 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7ssH-0000000D2Vj-0HaR
+	id 1t7stC-0000000D2ym-32uK
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Nov 2024 08:55:50 +0000
+	Mon, 04 Nov 2024 08:56:49 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8DFB9227AB0; Mon,  4 Nov 2024 09:55:45 +0100 (CET)
-Date: Mon, 4 Nov 2024 09:55:45 +0100
+	id 13FD4227AB3; Mon,  4 Nov 2024 09:56:43 +0100 (CET)
+Date: Mon, 4 Nov 2024 09:56:42 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Bart Van Assche <bvanassche@acm.org>
+To: Zhu Yanjun <yanjun.zhu@linux.dev>
 Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
 	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
@@ -53,16 +53,16 @@ Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	kvm@vger.kernel.org, linux-mm@kvack.org
 Subject: Re: [RFC PATCH 2/7] block: don't merge different kinds of P2P
  transfers in a single bio
-Message-ID: <20241104085545.GB24211@lst.de>
-References: <cover.1730037261.git.leon@kernel.org> <34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org> <d4378502-6bc2-4064-8c35-191738105406@acm.org>
+Message-ID: <20241104085642.GC24211@lst.de>
+References: <cover.1730037261.git.leon@kernel.org> <34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org> <f80e7b54-b897-4df2-a49d-bc6012640a8a@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d4378502-6bc2-4064-8c35-191738105406@acm.org>
+In-Reply-To: <f80e7b54-b897-4df2-a49d-bc6012640a8a@linux.dev>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241104_005549_274360_2EB8345C 
-X-CRM114-Status: GOOD (  16.86  )
+X-CRM114-CacheID: sfid-20241104_005647_219155_CD253DAE 
+X-CRM114-Status: GOOD (  10.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,21 +77,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 31, 2024 at 01:58:37PM -0700, Bart Van Assche wrote:
-> On 10/27/24 7:21 AM, Leon Romanovsky wrote:
->> +		/*
->> +		 * When doing ZONE_DEVICE-based P2P transfers, all pages in a
->> +		 * bio must be P2P pages from the same device.
->> +		 */
->> +		if ((bio->bi_opf & REQ_P2PDMA) &&
->> +		    !zone_device_pages_have_same_pgmap(bv->bv_page, page))
->> +			return 0;
->
-> It's probably too late to change the "zone_device_" prefix into
-> something that cannot be confused with a reference to zoned block
-> devices?
+On Sat, Nov 02, 2024 at 08:39:35AM +0100, Zhu Yanjun wrote
 
-It's too late and also wrong and also entirely out of scope for this
-series.
+<full quote delete>
 
+If you have something useful to say, please quote the mail you are
+replying to to the context required to make sense.
+
+Ignored for now.
 
