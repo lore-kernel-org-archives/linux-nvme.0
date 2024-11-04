@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5CD3D10C0D
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 08:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54C1FE677F9
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 08:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xzQ35Fu9yrSqqcl3Rs2gEvKRbDvgnBO0l4rn23dBsEQ=; b=j++28bNKSD2bMamZGYIBTgTQBh
-	nX6MPewzcSOcmNYnYtgnjgdLXjqyzewP2+Di2mwg+2VMUvDsl0XdqCsDcfbkotsR5JHGVr0QtdBH/
-	43Zts8dl/DkxhdAYz6s5sBH2/AyWrW3YNYG9G5eIEr6uvFt0MOJ0nAaoEFTVAPxorfYnEUvlG5oXw
-	VoWjSSfCtxprzePioZJgqWzmh4OCqgFt+caAlxHhm/wDje7NN223I8lcSgiUmi72G+L7xltxCqXvp
-	GcQ4RQYcDxWFkEoKZw81n1gJRsX2cN7J1sp9y8jdPkibylXcixs/DpeleIYho+VzA83qhJ+miT3hE
-	7W/nAkkA==;
+	bh=TDWuylvMnkoAXjPlzxx1kq8I/psHAwqv4n6/K0AAhoo=; b=kQ45EAm9b+iJU3MwtMlHNnOSMH
+	Rn8i7Zxv5EY1QNixTfC5UZMzia+hjTEaEQoBP8bYo7u7gDqUJ3TWXmwxrmMbDO2zyBdw26HziVq3i
+	LP15l/lebWsrPJ5XNn7c0LtByT/jf7mpXAQEu8sHvbgCWhVAHfayazRhcyPQ1SQqxzH+tbjlf7UkR
+	MR0t5fm7Rp4CQcw/W+i1gXq+xcWre2TtOEVXCNreRlqi4GUTgSFFxCxEEy6ona6ReBHeVZYBH+XUM
+	Qik3L0PVnzKpTYhI+ie3mafVux1Kyu7wJEE/BSR+v0x7Yo8D7jzyzUr/xt5yWrNE9aeTojsfCcA/c
+	i8LTm36Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7ssq-0000000D2ho-01ig;
+	id 1t7ssq-0000000D2iA-2mT3;
 	Mon, 04 Nov 2024 08:56:24 +0000
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7ssC-0000000D2Sh-0r9W
+	id 1t7ssG-0000000D2VY-2Dt2
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Nov 2024 08:55:45 +0000
+	Mon, 04 Nov 2024 08:55:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1730710542; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=xzQ35Fu9yrSqqcl3Rs2gEvKRbDvgnBO0l4rn23dBsEQ=;
-	b=RPM1D45UsLRRgBfYS3iBMzmh7S16f0TriYUiLk8PLSwRt95T+/jQBDkhoxXtpPcWHNJDg4ApkKWMCQARh8zUL+Pc/IWEf/driCZzjLL0xhVeGrvKNd56IvWkNv/OrETb9LOMbOzSlK0I8a85GT4hBV9OHDgK0unMWvhUI8NJ1Gs=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIdoI3x_1730710535 cluster:ay36)
+	t=1730710546; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=TDWuylvMnkoAXjPlzxx1kq8I/psHAwqv4n6/K0AAhoo=;
+	b=V6UF1hGOSSgEC9sVo6JcR2Ug56CUErZugIeOVX5zIPip6HlMNXdiykUgVcfOFcN4NQPr12P+lIS4hbzRCvSn4WfD4VRq1CjD6dp/uL8rmLlfoCaBPounYOYSNCT4K/ENvFeN0D9JdGMRx00toWc8mxJZjoCeVZeivnDaybIy3c4=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIe2aWn_1730710540 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 04 Nov 2024 16:55:40 +0800
+          Mon, 04 Nov 2024 16:55:45 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
@@ -42,17 +42,17 @@ To: kbusch@kernel.org,
 	sagi@grimberg.me,
 	kch@nvidia.com
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH RFC 2/3] nvme: query independent identify ns by default
-Date: Mon,  4 Nov 2024 16:55:01 +0800
-Message-ID: <20241104085524.118221-3-kanie@linux.alibaba.com>
+Subject: [PATCH RFC 3/3] nvmet: report ns's vwc not present
+Date: Mon,  4 Nov 2024 16:55:02 +0800
+Message-ID: <20241104085524.118221-4-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241104085524.118221-1-kanie@linux.alibaba.com>
 References: <20241104085524.118221-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241104_005544_420134_A108F067 
-X-CRM114-Status: GOOD (  11.24  )
+X-CRM114-CacheID: sfid-20241104_005548_750711_22536315 
+X-CRM114-Status: GOOD (  10.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,42 +67,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Query independent identify ns by default, if returning fail,
-go back to sending the "identify namespace data structure for the
-specified NSID or the namespace capabilities for the NVM Command
-Set(cns = 0)".
+Currently, we report that controller has vwc even though the ns may
+not have vwc. Report ns's vwc not present when not buffered_io or
+backdev doesn't have vwc.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/host/core.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 36 +++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index eed41d4d2599..563abc0cb4a1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4018,7 +4018,7 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 081f0473cd9e..dffb84f560ad 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -685,6 +685,39 @@ static void nvmet_execute_identify_ctrl_nvm(struct nvmet_req *req)
+ 		   nvmet_zero_sgl(req, 0, sizeof(struct nvme_id_ctrl_nvm)));
+ }
+ 
++static void nvmet_execute_identify_cs_indep(struct nvmet_req *req)
++{
++	struct nvme_id_ns_cs_indep *id;
++	u16 status;
++
++	status = nvmet_req_find_ns(req);
++	if (status)
++		goto out;
++
++	id = kzalloc(sizeof(*id), GFP_KERNEL);
++	if (!id) {
++		status = NVME_SC_INTERNAL;
++		goto out;
++	}
++
++	if ((req->ns->file && !req->ns->buffered_io) ||
++	    (req->ns->bdev && !bdev_write_cache(req->ns->bdev)))
++		id->nsfeat |= NVME_NS_VWC_NOT_PRESENT;
++
++	id->nmic |= NVME_NS_NMIC_SHARED;
++	///TODO: report reservation supported when that patch applied.
++	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
++
++	if (req->ns->readonly)
++		id->nsattr |= NVME_NS_ATTR_RO;
++	id->nstat = NVME_NSTAT_NRDY;
++
++	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
++	kfree(id);
++out:
++	nvmet_req_complete(req, status);
++}
++
+ static void nvmet_execute_identify(struct nvmet_req *req)
  {
- 	struct nvme_ns_info info = { .nsid = nsid };
- 	struct nvme_ns *ns;
--	int ret;
-+	int ret = 1;
+ 	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
+@@ -729,6 +762,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+ 			break;
+ 		}
+ 		break;
++	case NVME_ID_CNS_NS_CS_INDEP:
++		nvmet_execute_identify_cs_indep(req);
++		return;
+ 	}
  
- 	if (nvme_identify_ns_descs(ctrl, &info))
- 		return;
-@@ -4034,10 +4034,9 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	 * data structure to find all the generic information that is needed to
- 	 * set up a namespace.  If not fall back to the legacy version.
- 	 */
--	if ((ctrl->cap & NVME_CAP_CRMS_CRIMS) ||
--	    (info.ids.csi != NVME_CSI_NVM && info.ids.csi != NVME_CSI_ZNS))
-+	if (nvme_id_cns_ok(ctrl, NVME_ID_CNS_NS_CS_INDEP))
- 		ret = nvme_ns_info_from_id_cs_indep(ctrl, &info);
--	else
-+	if (ret > 0)
- 		ret = nvme_ns_info_from_identify(ctrl, &info);
- 
- 	if (info.is_removed)
+ 	pr_debug("unhandled identify cns %d on qid %d\n",
 -- 
 2.43.0
 
