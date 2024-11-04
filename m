@@ -4,52 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D092D111A0
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 03:14:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52306CFB422
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2024 08:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=tAfX7vVGazhL+lpTs3vajSkSd8axvSrvv02bwz02tUs=; b=wOmhATiQ9Lj46N9vM5pL+RAeSH
-	JiK+p2vRT446Knyoqq24+ChIyg6pfM8gxm1JG7XkJ/x4sVPyhw7t+b8OaqNIs70knxLQ49NZVH9sx
-	HDo1i6/Ly1QCJII6o456sxNf3yJGEKbIUGB4IVzZ2ZZs9nssOXyKuKV4Rd2UDbJcG6dGfDLp9sx66
-	jkxI2sZHCw3gVEsBYbaRAsZUCTVdfH9BZ3rDudzPSq4tDHwaVyB++8B2Ja1fPUnyQHEg2D2Z9YUdo
-	GUiafCP/cDaD39/ZR+qNF6MloGyt4hWQhgAYyRbm+Cca2E5P/bhQBwyGkwmAwHd0bxfl162dI4YQW
-	8s5WR1WA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XJMROuE4JjYsw4wo8HK5SvAvW9x90cNUd3R+iiehUbQ=; b=MA2LVrzYhCzMqmEtfdlZM2qwLB
+	+pJSCRLQKVAMMzw9ZSBn3/HJ9UgcznIbpkvARfUWnJ20xYGMDuXgxbaueG3VnJxdybRXKJlQlrEH+
+	50xj6igvQb+nHzhLVJIPiQ8HfcI2oBMTJwF+ybw+DmWj2e++oQPxhylKtWk8TGiWt3vkB21cOLHgR
+	Wsl6d2z+K37mWz2s0BGKMQNFsYf1XGTNKV7UYCzby/KDzgbnHdbgJY6RP66DocQvWAVoOSTL4pHJE
+	TtX/Gtk+uWP+d2ppUeOxzzeGBGo0yCvmz9UyUK7Tnf5SqZFRS1AyrQhMo6WGFr9/T/33WqX7o+dFg
+	3BiN1N2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7nY7-0000000CWGF-10x8;
-	Mon, 04 Nov 2024 03:14:39 +0000
-Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
+	id 1t7ssn-0000000D2ge-3aMf;
+	Mon, 04 Nov 2024 08:56:21 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t7nY2-0000000CWFS-3qLe
+	id 1t7ss1-0000000D2OJ-241h
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Nov 2024 03:14:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1730690069; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=tAfX7vVGazhL+lpTs3vajSkSd8axvSrvv02bwz02tUs=;
-	b=nNdRKbl1agQ9vqbJ/6mh2keU5vjSG1VxNse8XuOPYfwwz1QwsX0TaJ2iTB5l13bOCeyycfPuonDLAOGFiyPBL/ST36H3PLu1FNZ6ciNi8MP2jxxg72GlcAeyMY6l1A9iFBY2k27yMsdqL/GXIX7ZtsyGY3ZqR55YUhqp3NKZdEo=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIZwANv_1730690058 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 04 Nov 2024 11:14:23 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme: check at least one ns identification reported
-Date: Mon,  4 Nov 2024 11:14:18 +0800
-Message-ID: <20241104031418.121235-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+	Mon, 04 Nov 2024 08:55:35 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 95EF3227AAD; Mon,  4 Nov 2024 09:55:21 +0100 (CET)
+Date: Mon, 4 Nov 2024 09:55:21 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [RFC PATCH 1/7] block: share more code for bio addition helpers
+Message-ID: <20241104085521.GA24211@lst.de>
+References: <cover.1730037261.git.leon@kernel.org> <e6be9d87a3ca1a2f9c27bce73fbab559c21c765f.1730037261.git.leon@kernel.org> <4c7e679a-d3e6-4426-a679-ee581b5c728c@acm.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4c7e679a-d3e6-4426-a679-ee581b5c728c@acm.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241103_191435_489439_4EDB93AB 
-X-CRM114-Status: GOOD (  11.86  )
+X-CRM114-CacheID: sfid-20241104_005533_684168_CA2D24FB 
+X-CRM114-Status: GOOD (  13.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,93 +76,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Per the NVMe spec after 1.3:
-  At least one Namespace Identification Descriptor identifying the
-  namespace (i.e., NIDT field set to 1h, 2h, or 3h).
-Check there is at least one reported.
+On Thu, Oct 31, 2024 at 01:55:11PM -0700, Bart Van Assche wrote:
+> Does "_int" stand for "_internal"? If so, please consider changing it
+> into "_impl". I think that will prevent that anyone confuses this suffix
+> with the "int" data type.
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-Changes from v1 to v2:
-- Check only when the nvme version is greater than or
-equal to 1.3.
-
- drivers/nvme/host/core.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 84cb859a911d..cf767ac697dc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1426,7 +1426,7 @@ static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
- }
- 
- static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
--		struct nvme_ns_id_desc *cur, bool *csi_seen)
-+		struct nvme_ns_id_desc *cur, bool *csi_seen, bool *has_id)
- {
- 	const char *warn_str = "ctrl returned bogus length:";
- 	void *data = cur;
-@@ -1438,6 +1438,7 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
- 				 warn_str, cur->nidl);
- 			return -1;
- 		}
-+		*has_id = true;
- 		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
- 			return NVME_NIDT_EUI64_LEN;
- 		memcpy(ids->eui64, data + sizeof(*cur), NVME_NIDT_EUI64_LEN);
-@@ -1448,6 +1449,7 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
- 				 warn_str, cur->nidl);
- 			return -1;
- 		}
-+		*has_id = true;
- 		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
- 			return NVME_NIDT_NGUID_LEN;
- 		memcpy(ids->nguid, data + sizeof(*cur), NVME_NIDT_NGUID_LEN);
-@@ -1458,6 +1460,7 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
- 				 warn_str, cur->nidl);
- 			return -1;
- 		}
-+		*has_id = true;
- 		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
- 			return NVME_NIDT_UUID_LEN;
- 		uuid_copy(&ids->uuid, data + sizeof(*cur));
-@@ -1482,6 +1485,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- {
- 	struct nvme_command c = { };
- 	bool csi_seen = false;
-+	bool has_id = false;
- 	int status, pos, len;
- 	void *data;
- 
-@@ -1513,13 +1517,25 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- 		if (cur->nidl == 0)
- 			break;
- 
--		len = nvme_process_ns_desc(ctrl, &info->ids, cur, &csi_seen);
-+		len = nvme_process_ns_desc(ctrl, &info->ids, cur,
-+					   &csi_seen, &has_id);
- 		if (len < 0)
- 			break;
- 
- 		len += sizeof(*cur);
- 	}
- 
-+	/*
-+	 * NVMe 1.3 spec introduced ns identification, a controller should
-+	 * return at least one.
-+	 */
-+	if (!has_id && ctrl->vs >= NVME_VS(1, 3, 0)) {
-+		dev_warn(ctrl->device,
-+			 "No identification reported for nsid:%d\n",
-+			 info->nsid);
-+		status = -EINVAL;
-+	}
-+
- 	if (nvme_multi_css(ctrl) && !csi_seen) {
- 		dev_warn(ctrl->device, "Command set not reported for nsid:%d\n",
- 			 info->nsid);
--- 
-2.43.0
+_impl is even more unusual than _int, so no.
 
 
