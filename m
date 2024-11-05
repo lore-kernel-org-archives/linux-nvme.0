@@ -4,76 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 762BDD31769
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2024 17:49:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E226FD33A2B
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2024 18:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3XoYSXt00p/m2g460tpoBcjZTn/kB0RVgz3RdRrosgE=; b=swWxrokhvaTHZ00tWUkFw5sNp7
-	er/oZnlS/mIPauZKjqlJC15upMouaKXpq1IL7DvWOzFCVX7KiP0lK+m5g/zmkONC6G6iBw6+sIZmX
-	MzYIYQhzPWha/RLoBRpTZh44OHIuyO5A9iF5MENQP/kIGLF44KPQMKfEpTR82fIfL0LTDoFWcqAwp
-	zjZJyoMsuIQMQE0pHf9ypWL6UaFfJfClD1w++CjnQgUAWnAQwa/oKZCD/xzZCuJRFFH7zE5PLZpBm
-	gtJXOojxXVurLCuWrA6xFA383fdGmCd6o8R6Eqac7GFDe7wjUBmDWLhPmWeXLjnrx9XqgzPNod7wt
-	FmCBfrWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=C194RVyLAfjN0SwVJhWOGUoO0421PCIPswUt8quSHT8=; b=4UYzHEVQOvFfj1zeN1qMoUPwgr
+	Lduzy5nazwmUFCXfq0T3q+dqq3tWGYyVtWR/Lly9EIJypAtqe6IaAej9X7yHjg+Dt5oQym46dxOkv
+	RAx+Ej0b1x++sgOT0FclJRTZiWUbYhZbd/IrwRKC/EHnqhLwZ1OiTpm9NXLUJDglv3b+5VwrpBmgE
+	2yXJpOtDRLhFl4ToUh+tHHNdy5dSGdIKJN6/DsCs5RtDs4XVjuoQNCB3GPRxpHMplUdubSYlMA7mz
+	yidCEENUUIOT4ikrVwE5gaGFrcs0oLQR9xYy5/p6HzOH844cxFkf50Ca2/6F2th9e/HbQfbGHAqlj
+	zLhUCHqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8NgO-00000000Grf-1YQE;
-	Tue, 05 Nov 2024 17:49:36 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1t8Oeb-00000000Snj-3pbl;
+	Tue, 05 Nov 2024 18:51:49 +0000
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8NgB-00000000Gg4-38IA
+	id 1t8Ods-00000000Sb5-4BXn
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Nov 2024 17:49:26 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4A5HLAtf021574
-	for <linux-nvme@lists.infradead.org>; Tue, 5 Nov 2024 09:49:23 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=3XoYSXt00p/m2g460tpoBcjZTn/kB0RVgz3RdRrosgE=; b=BUQQYWgDTENt
-	wrsjvyEQcZwIdW/Cq5GpRj9SOXaYsP5IpZV6ll48zvxQrN1ValX9O496w/dHJ+87
-	agEswD+wfDzzv0uYqzoANPl84znfaBx5ZzBLc0qEJJ6qVRyGjUcTjvJXEXfcNwp5
-	N1kr9ssvmrl0UcFtD2K5B8J+7uRFnCz0XhxOwalnmhWCUqqEZzBYE4goLh4cXnRP
-	Ayg8ZD6VadEykk/QaW9eiBj+BkPIyPVJZdUCFfag+gskg9/yeVf56A0xonTe5dfH
-	QQ1QdsJL1AxzBGJGJbYrxgUu98uKALo++D30VAtP1aoXrGfGyQmWfblvG1TGqE5F
-	VKUnjE2Sog==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 42qjyptcpf-16
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 05 Nov 2024 09:49:22 -0800 (PST)
-Received: from twshared22972.15.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Tue, 5 Nov 2024 17:49:17 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id B163A14CB3BEF; Tue,  5 Nov 2024 09:49:06 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <m@bjorling.me>, <matias.bjorling@wdc.com>,
-        "Martin K .
- Petersen" <martin.petersen@oracle.com>,
-        Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv3 10/11] nvme: make independent ns identify default
-Date: Tue, 5 Nov 2024 09:49:03 -0800
-Message-ID: <20241105174904.3612888-11-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20241105174904.3612888-1-kbusch@meta.com>
-References: <20241105174904.3612888-1-kbusch@meta.com>
+	Tue, 05 Nov 2024 18:51:10 +0000
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-7b15d7b7a32so459376985a.1
+        for <linux-nvme@lists.infradead.org>; Tue, 05 Nov 2024 10:51:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1730832663; x=1731437463; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C194RVyLAfjN0SwVJhWOGUoO0421PCIPswUt8quSHT8=;
+        b=P21SRcMXgB+ytu5TMnO40n/83w9XJPRavChRJThMzrzQGhQ2uxqw9bBaRivroxzXNS
+         PH0lhvtz/OwayTKDCsqGyonTJzXw+SC8DkBlVTmIJiWnrFPd8pweXdvoToDyPdo/McPQ
+         S1gOF/UPvpjxp1VKqlatS0Vbq2oXHgTOiqSZIFQe/F+7rRURqPRy3tjrLMSqhIJPgH8J
+         w7fb2XLMOF+S3l8kETsV9QRfZulbVr2SP4JNkxOBDyQk6seFUUuJ/K5Yf3reRV2eKhB2
+         +iNgc0JVMfcDmQj8K5S3eoJuOiu1drsrfapBn398wdJdrwTBBuZbpmAPgCFp+8jjoKkK
+         lukg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730832663; x=1731437463;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C194RVyLAfjN0SwVJhWOGUoO0421PCIPswUt8quSHT8=;
+        b=d952e52+wB/eiMbZDodtg/dGruNvGGTuFeP7NcPLAwRLJ3Z5CHYc+iALKNcb9iDFCo
+         JGOHpmX+2/GOPUC65uAi/C/Gl0g/VeHXgxBYkwp3nzN7UjVY+fU5XD9urDnRm3DJxUPz
+         9jnCICJWNdqpwdj8FOEp3bLXyTBPLeugRwSyJ18gJI4LF1jFTVYYR+EgbNE7NJlFuLzT
+         wF4UQQDEcaGGtEkJX2CfhQl4SZJMKe2CwN50+gPLuwJK4Zj8qq0d29lLrZK2ipZv09BM
+         CNSmr49Bp3IIGUy7vHrMtH+s27x3MZH1rFBkHJzQ7mJndXvrQC60W2EPgGs6eF/GAj0M
+         5wtw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNo787FdKvps2rvgUXxTQsIoBrLGdihBEPxNuV/PWdMh0jahR1ebyhHckn+CygXx0xJh1Yf/eOR2Ud@lists.infradead.org
+X-Gm-Message-State: AOJu0YzBjqZktLDdMlOib7a5OTR35o9f7ObG68QuLge4DuoTX4fwiMaG
+	enwSUKYM3OhsiEwg26DzK1bTHIqLJjrm+89d8Qzr+3IewZYdEHW9wGQqRmaR44I=
+X-Google-Smtp-Source: AGHT+IGWpBzbxGzBgv9Gx5tLlQAZYsSh7jgfOX8tW5mq4qsvhcUPgq93VZEIR90XeqIlAFYpEQmgSA==
+X-Received: by 2002:a05:620a:1908:b0:7b1:481f:b89c with SMTP id af79cd13be357-7b193f0a206mr4853751585a.35.1730832662826;
+        Tue, 05 Nov 2024 10:51:02 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b2f3a70971sm549852785a.77.2024.11.05.10.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 10:51:01 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1t8Odp-000000023WW-0CZJ;
+	Tue, 05 Nov 2024 14:51:01 -0400
+Date: Tue, 5 Nov 2024 14:51:01 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241105185101.GH35848@ziepe.ca>
+References: <cover.1730298502.git.leon@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-X-Proofpoint-GUID: E-aDqwa5GApdWydxkjQdYcc4jjq53aKD
-X-Proofpoint-ORIG-GUID: E-aDqwa5GApdWydxkjQdYcc4jjq53aKD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1730298502.git.leon@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241105_094923_950289_8078FFD3 
-X-CRM114-Status: GOOD (  14.61  )
+X-CRM114-CacheID: sfid-20241105_105105_489219_83D54465 
+X-CRM114-Status: GOOD (  13.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,58 +110,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Matias Bj=C3=B8rling <matias.bjorling@wdc.com>
+On Wed, Oct 30, 2024 at 05:12:46PM +0200, Leon Romanovsky wrote:
 
-The NVMe 2.0 specification adds an independent identify namespace data
-structure that contains generic attributes that apply to all namespace
-types. Some attributes carry over from the NVM command set identify
-namespace data structure, and others are new.
+>  Documentation/core-api/dma-api.rst   |  70 ++++
+>  drivers/infiniband/core/umem_odp.c   | 250 +++++----------
+>  drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+>  drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+>  drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+>  drivers/iommu/dma-iommu.c            | 459 +++++++++++++++++++++++----
+>  drivers/iommu/iommu.c                |  65 ++--
+>  drivers/pci/p2pdma.c                 |  38 +--
+>  drivers/vfio/pci/mlx5/cmd.c          | 373 +++++++++++-----------
+>  drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+>  drivers/vfio/pci/mlx5/main.c         |  87 +++--
+>  include/linux/dma-map-ops.h          |  54 ----
+>  include/linux/dma-mapping.h          |  85 +++++
+>  include/linux/hmm-dma.h              |  32 ++
+>  include/linux/hmm.h                  |  16 +
+>  include/linux/iommu.h                |   4 +
+>  include/linux/pci-p2pdma.h           |  84 +++++
+>  include/rdma/ib_umem_odp.h           |  25 +-
+>  kernel/dma/direct.c                  |  44 +--
+>  kernel/dma/mapping.c                 |  20 ++
+>  mm/hmm.c                             | 231 +++++++++++++-
 
-Currently, the data structure only considered when CRIMS is enabled or
-when the namespace type is key-value.
+This is touching alot of subsystems, at least two are mine :)
 
-However, the independent namespace data structure is mandatory for
-devices that implement features from the 2.0+ specification. Therefore,
-we can check this data structure first. If unavailable, retrieve the
-generic attributes from the NVM command set identify namespace data
-structure.
+Who is in the hot seat to merge this? Are we expecting it this merge
+window?
 
-Signed-off-by: Matias Bj=C3=B8rling <matias.bjorling@wdc.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+I've read through past versions and am happy with the general
+concept. Would like to read it again in details.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e51021294a78b..4361fc7e8a225 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3988,7 +3988,7 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, un=
-signed nsid)
- {
- 	struct nvme_ns_info info =3D { .nsid =3D nsid };
- 	struct nvme_ns *ns;
--	int ret;
-+	int ret =3D 1;
-=20
- 	if (nvme_identify_ns_descs(ctrl, &info))
- 		return;
-@@ -4004,10 +4004,9 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, u=
-nsigned nsid)
- 	 * data structure to find all the generic information that is needed to
- 	 * set up a namespace.  If not fall back to the legacy version.
- 	 */
--	if ((ctrl->cap & NVME_CAP_CRMS_CRIMS) ||
--	    (info.ids.csi !=3D NVME_CSI_NVM && info.ids.csi !=3D NVME_CSI_ZNS))
-+	if (ctrl->vs >=3D NVME_VS(2, 0, 0))
- 		ret =3D nvme_ns_info_from_id_cs_indep(ctrl, &info);
--	else
-+	if (ret > 0)
- 		ret =3D nvme_ns_info_from_identify(ctrl, &info);
-=20
- 	if (info.is_removed)
---=20
-2.43.5
-
+Thanks,
+Jason
 
