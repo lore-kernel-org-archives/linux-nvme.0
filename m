@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF1A5D40CF7
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2024 05:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 227E6D1CA17
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2024 05:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=InA/SFc6GPZCfxt4IUwVU8pWfF
-	BzhMOlrgUviHrrSGqgroZqHPTq/t/LtE9tTaPIlytLkeokz0z+D2QAC2CSimPkfq4S1Tzj+byOclO
-	g51J3c7U4/wleRiQ2vKQ3P6USHNm15sjlyNE0RfO3zjMX1CTc+7VFYQOYYKFL/DgOci3jDnDRLidp
-	sA4qgnUa2gLAsx19Z91jKd+aDo+bRaDmfmUlSATNZD8Qu8+p0tWKfCylaJ6dLMEp0+/xLMGs6U5o8
-	UUDzHmShX0ZXVKKqumKiSyxGumh0TOYCO1HIkStVsfhmsWmcMnZ7DZRYlJQo41nTebWtt7/a3seMy
-	2Nzlmn1g==;
+	bh=eZYmZqIuzaXXUSVIyTp3Dffzr9FFPkhDCcHEYig4Oag=; b=M1P6MuGTAAEGdsAKQIxHoY5hJX
+	LLm5zZaaIYGsMAGKA6grHW41kJtIPmQaIcvGmxpUBYoSDyj4uXAihX4YwlBqFOiW5gXCrbGmUTkMD
+	aCHF+OkKNxSHbbP4bc8TjKLHHscjYZLt2wH+T9mnhQXgji3aQ8urmAY0c3BSPIhNWh4+mE1dTKAUR
+	9pXPg5Ts/EAyVA5gLCzEwo85wG4YpS8ZzIqoAquHExnwXDc7EzoiOrLw8Irg2kh/1SzkqA2gACcv6
+	f9m2t6i9LO913bOXvi3dxPI7MgNN8Ur5nbog5zclq8XSksfQXHoiYnTeolfQF5YLL/KXyzYlEnOy5
+	XooLjO0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8Yka-00000001sdd-2skX;
-	Wed, 06 Nov 2024 05:38:40 +0000
+	id 1t8Yn4-00000001suC-2kqi;
+	Wed, 06 Nov 2024 05:41:14 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8YkY-00000001scx-2C2P
+	id 1t8Ylr-00000001sov-1AGe
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Nov 2024 05:38:39 +0000
+	Wed, 06 Nov 2024 05:40:00 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3A0E068AFE; Wed,  6 Nov 2024 06:38:35 +0100 (CET)
-Date: Wed, 6 Nov 2024 06:38:35 +0100
+	id 0ED7A68AFE; Wed,  6 Nov 2024 06:39:55 +0100 (CET)
+Date: Wed, 6 Nov 2024 06:39:54 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@meta.com>
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, m@bjorling.me,
 	matias.bjorling@wdc.com, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv3 02/11] nvmet: implement active command set ns list
-Message-ID: <20241106053835.GB31330@lst.de>
-References: <20241105174904.3612888-1-kbusch@meta.com> <20241105174904.3612888-3-kbusch@meta.com>
+Subject: Re: [PATCHv3 03/11] nvmet: implement supported log pages
+Message-ID: <20241106053954.GC31330@lst.de>
+References: <20241105174904.3612888-1-kbusch@meta.com> <20241105174904.3612888-4-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105174904.3612888-3-kbusch@meta.com>
+In-Reply-To: <20241105174904.3612888-4-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241105_213838_732722_1F755EB8 
-X-CRM114-Status: UNSURE (   8.71  )
+X-CRM114-CacheID: sfid-20241105_213959_501211_95845A8C 
+X-CRM114-Status: UNSURE (   8.54  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -60,8 +60,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+Looks good modulo passing on the status as noted by Kanchan:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-
 
