@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 065EAD44D54
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2024 12:35:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54E31D44D57
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2024 12:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z3pBKzGf+Mt7Ymd8XSOAKoUlqDkaXqPwcs+QH+eUxMI=; b=O8Hhz4KjfZO4Av43JUb2Re6BGs
-	zU6zoIjzmWY5ArbjOndWfLoiTNJbufjLP60rsCsi6vmeer30D6HoWGyXlbIyvpFtkmGG8cF+sMldw
-	t2KhfK/jNxEP0rWKs9PfYB+7Zx/psb9V6xdLMEQFbaG8gdzCVJWjif1C3MFPCkVXY5fSUV2OYq3Hm
-	WIR+yi76nCuo02pQNMwGleCzIthjhu2ntwKSREox8gMIAVg3MOsiiU9drcuyt5RH86gOL/sfIInTU
-	/eDAhX5hoTvBuhw4+iutG8TV2vpr4LqZzKhM0jY5cml8kRUokJDqg3CpslthQWcRmJgeAVYHaBeoA
-	OLoPsToQ==;
+	bh=9wohjECrItiTe3wGt73yRaTZkJ8cJH9lXeliHlLBqbI=; b=qP+6yjNYPX2m16veGkMzilya7g
+	Ezx8dIsBIUnC7jxYxOgZJw0Y+ZrLZ/ELNaX5Qf8aYRbrf7fisYq5Ndp/i1EL79Q8XUbnoqQg3MSjs
+	poE+hlJmwZcCptauPyz+1s7wzyJYGkkrPJyTov5W7QMYsPOXkvPd7Pch8hEyGljiuDjwv3u1DyGJX
+	T/HuFFOsJGsxMbZJB3dUtI8lI2Cssi5QadAAdFCFrzA9ImJffHZUya+MmVCMYBRKv1AvwuhCHaPvt
+	+F41yoAkz6I7g0MbvhAmybSWApnfVmYsQViIrRBOI4E+9nA31DUFPfdnTzt5u5ZgXKyZMmJaPSSMF
+	zlgDvXcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8fGK-00000003DZj-1z5Q;
-	Wed, 06 Nov 2024 12:35:52 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1t8fGO-00000003Dc8-0283;
+	Wed, 06 Nov 2024 12:35:56 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8eYe-00000002zjL-1acl
+	id 1t8eYi-00000002zlz-1de8
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Nov 2024 11:50:46 +0000
+	Wed, 06 Nov 2024 11:50:50 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 04BF45C0352;
-	Wed,  6 Nov 2024 11:49:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF33C4CECD;
-	Wed,  6 Nov 2024 11:50:42 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id F199A5C20FE;
+	Wed,  6 Nov 2024 11:50:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2D6EC4CECD;
+	Wed,  6 Nov 2024 11:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730893843;
-	bh=LHJNxaQG7ChuUixJnwwD1gA8ae7lNW9rHKLNGhRoomU=;
+	s=k20201202; t=1730893847;
+	bh=faZKR+GLvGy07GeNnto8v510/6+S1UMSrHjOqNZtBkg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DTnn4MzH+oAPg7W92s2F2YgvnMYo/zEaX/iZq5VFwiEnkddFR41aanJcX78jDpULb
-	 L1L4UzLDppcWda0UpAebDB4f/BCMiJBspLY5x5bdsXxx0P2I0oBe6/Z9V9BTOgMuWz
-	 rQorpNRGdvWDJ5LtVIB7NP4CFp482nT3+E1YxaSJrMu1ndvm84UtuCjmYBlErzkOhk
-	 apHm42FJGn1WxkU4irqD5ZBXclq4KmRZLHcxiG7BijI6tvo6xfROXF9XhoRgfjp2hX
-	 gBpT2XPe9ACdpoBxQaT9M4hJrF2YwYQ0Ahn8t0ygOvEtQZro1bTC8ZDDh3DrlCQ2/s
-	 ph87PvkEyJAjQ==
+	b=EOk5TzsmzB3j83bvLGxj0ufqueYA0lsVRGTcymCHL1Yd7/MMCVyLZukaIlmwwKo4Z
+	 0BkOp4PJNmruUsKpQYJkBmuU54A0Bzd5OxvpU3SLCT+VQsEYRg+5VdThT6JS3/WRoD
+	 8LyryAOqBtUqrVX4OWL2ws1llPN/d7KiW9+UuTthAgpFsyNmMShr+KL+BRjmNv+bW3
+	 xV3mNfREvaubJLLHfj3W0BFCohdhYZXywDWYWQyI810gSi2JmbwZ0Nta/ks04r6lJW
+	 EZ7CI+dwbz4fAvZgt/reVu/R5U/ONIiVf2VbxOY9iUqgFRYHsoyh0i43vIpdOnmd9y
+	 adYrKH6YKrniQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -50,7 +50,8 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Will Deacon <will@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>,
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -71,17 +72,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2 08/17] dma-mapping: add a dma_need_unmap helper
-Date: Wed,  6 Nov 2024 15:49:36 +0200
-Message-ID: <00385b3557fa074865d37b0ac613d2cb28bcb741.1730892663.git.leon@kernel.org>
+Subject: [PATCH v2 14/17] RDMA/umem: Separate implicit ODP initialization from explicit ODP
+Date: Wed,  6 Nov 2024 15:49:42 +0200
+Message-ID: <487c6208a36a3ccda6e0cea4716cbf50d5e4276d.1730892663.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1730892663.git.leon@kernel.org>
 References: <cover.1730892663.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241106_035044_629121_FEFE5C80 
-X-CRM114-Status: GOOD (  15.70  )
+X-CRM114-CacheID: sfid-20241106_035048_553231_E1951D8A 
+X-CRM114-Status: GOOD (  17.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,72 +97,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Add helper that allows a driver to skip calling dma_unmap_*
-if the DMA layer can guarantee that they are no-nops.
+Create separate functions for the implicit ODP initialization
+which is different from the explicit ODP initialization.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/dma-mapping.h |  5 +++++
- kernel/dma/mapping.c        | 20 ++++++++++++++++++++
- 2 files changed, 25 insertions(+)
+ drivers/infiniband/core/umem_odp.c | 91 +++++++++++++++---------------
+ 1 file changed, 46 insertions(+), 45 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 8074a3b5c807..6906edde505d 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -410,6 +410,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
- }
-+bool dma_need_unmap(struct device *dev);
- #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
- static inline bool dma_dev_need_sync(const struct device *dev)
- {
-@@ -435,6 +436,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return false;
- }
-+static inline bool dma_need_unmap(struct device *dev)
-+{
-+	return false;
-+}
- #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index 30cd8f353476..51d518989914 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -48,41 +48,44 @@
  
- struct page *dma_alloc_pages(struct device *dev, size_t size,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 864a1121bf08..daa97a650778 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -442,6 +442,26 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- }
- EXPORT_SYMBOL_GPL(__dma_need_sync);
+ #include "uverbs.h"
  
-+/**
-+ * dma_need_unmap - does this device need dma_unmap_* operations
-+ * @dev: device to check
-+ *
-+ * If this function returns %false, drivers can skip calling dma_unmap_* after
-+ * finishing an I/O.  This function must be called after all mappings that might
-+ * need to be unmapped have been performed.
-+ */
-+bool dma_need_unmap(struct device *dev)
+-static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+-				   const struct mmu_interval_notifier_ops *ops)
++static void ib_init_umem_implicit_odp(struct ib_umem_odp *umem_odp)
 +{
-+	if (!dma_map_direct(dev, get_dma_ops(dev)))
-+		return true;
-+#ifdef CONFIG_DMA_NEED_SYNC
-+	if (!dev->dma_skip_sync)
-+		return true;
-+#endif
-+	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
++	umem_odp->is_implicit_odp = 1;
++	umem_odp->umem.is_odp = 1;
++	mutex_init(&umem_odp->umem_mutex);
 +}
-+EXPORT_SYMBOL_GPL(dma_need_unmap);
 +
- static void dma_setup_need_sync(struct device *dev)
++static int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
++			    const struct mmu_interval_notifier_ops *ops)
  {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
++	size_t page_size = 1UL << umem_odp->page_shift;
++	unsigned long start;
++	unsigned long end;
+ 	int ret;
+ 
+ 	umem_odp->umem.is_odp = 1;
+ 	mutex_init(&umem_odp->umem_mutex);
+ 
+-	if (!umem_odp->is_implicit_odp) {
+-		size_t page_size = 1UL << umem_odp->page_shift;
+-		unsigned long start;
+-		unsigned long end;
+-
+-		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
+-		if (check_add_overflow(umem_odp->umem.address,
+-				       (unsigned long)umem_odp->umem.length,
+-				       &end))
+-			return -EOVERFLOW;
+-		end = ALIGN(end, page_size);
+-		if (unlikely(end < page_size))
+-			return -EOVERFLOW;
+-
+-		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
+-					(end - start) >> PAGE_SHIFT,
+-					1 << umem_odp->page_shift);
+-		if (ret)
+-			return ret;
+-
+-		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
+-						   umem_odp->umem.owning_mm,
+-						   start, end - start, ops);
+-		if (ret)
+-			goto out_free_map;
+-	}
++	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
++	if (check_add_overflow(umem_odp->umem.address,
++			       (unsigned long)umem_odp->umem.length, &end))
++		return -EOVERFLOW;
++	end = ALIGN(end, page_size);
++	if (unlikely(end < page_size))
++		return -EOVERFLOW;
++
++	ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
++				(end - start) >> PAGE_SHIFT,
++				1 << umem_odp->page_shift);
++	if (ret)
++		return ret;
++
++	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
++					   umem_odp->umem.owning_mm, start,
++					   end - start, ops);
++	if (ret)
++		goto out_free_map;
+ 
+ 	return 0;
+ 
+@@ -106,7 +109,6 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
+ {
+ 	struct ib_umem *umem;
+ 	struct ib_umem_odp *umem_odp;
+-	int ret;
+ 
+ 	if (access & IB_ACCESS_HUGETLB)
+ 		return ERR_PTR(-EINVAL);
+@@ -118,16 +120,10 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
+ 	umem->ibdev = device;
+ 	umem->writable = ib_access_writable(access);
+ 	umem->owning_mm = current->mm;
+-	umem_odp->is_implicit_odp = 1;
+ 	umem_odp->page_shift = PAGE_SHIFT;
+ 
+ 	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
+-	ret = ib_init_umem_odp(umem_odp, NULL);
+-	if (ret) {
+-		put_pid(umem_odp->tgid);
+-		kfree(umem_odp);
+-		return ERR_PTR(ret);
+-	}
++	ib_init_umem_implicit_odp(umem_odp);
+ 	return umem_odp;
+ }
+ EXPORT_SYMBOL(ib_umem_odp_alloc_implicit);
+@@ -248,7 +244,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
+ }
+ EXPORT_SYMBOL(ib_umem_odp_get);
+ 
+-void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
++static void ib_umem_odp_free(struct ib_umem_odp *umem_odp)
+ {
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
+ 
+@@ -258,14 +254,19 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
+ 	 * It is the driver's responsibility to ensure, before calling us,
+ 	 * that the hardware will not attempt to access the MR any more.
+ 	 */
+-	if (!umem_odp->is_implicit_odp) {
+-		mutex_lock(&umem_odp->umem_mutex);
+-		ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
+-					    ib_umem_end(umem_odp));
+-		mutex_unlock(&umem_odp->umem_mutex);
+-		mmu_interval_notifier_remove(&umem_odp->notifier);
+-		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
+-	}
++	mutex_lock(&umem_odp->umem_mutex);
++	ib_umem_odp_unmap_dma_pages(umem_odp, ib_umem_start(umem_odp),
++				    ib_umem_end(umem_odp));
++	mutex_unlock(&umem_odp->umem_mutex);
++	mmu_interval_notifier_remove(&umem_odp->notifier);
++	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
++}
++
++void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
++{
++	if (!umem_odp->is_implicit_odp)
++		ib_umem_odp_free(umem_odp);
++
+ 	put_pid(umem_odp->tgid);
+ 	kfree(umem_odp);
+ }
 -- 
 2.47.0
 
