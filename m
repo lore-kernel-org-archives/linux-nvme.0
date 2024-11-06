@@ -4,52 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3982FD44D58
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2024 12:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15824D44D59
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2024 12:35:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=IvoeNIoOBWvcTbo+CZFmLnMlZEB8kHoQBNvmpgqSawY=; b=3zEC8tFjJeXdgyvNdkGkDWmTCX
-	gXa3gud0VV35f7zAvnaitjPJoRkT2qDmjnMz30mRjWdiTYNY2S6CmZuM4oaReu59SOAVol0r5Q5Ih
-	hSpiOP+Ysb3Mc5QV2A0X/C+7oncKir6qvJbNxNPP6N+vmP+uVfmH34nFHF/3XlGUI/TDIhXF/Hgl8
-	Ch16AGQybbj6r8OE//Z1MV4hO2rMKvFcBHxjALmHQ3hLhT52lQXz8nAsODoP+se/N75O9TV5XoKbS
-	gkN1YJTXOxI8DNZc4aMhxXP+8cw1qQZHJn6KRQ3pbSyfs6XrU34Bn9hI2/BC/yVQe0Hx/jDpAYvhs
-	jXW6yINg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qK6fq/A0J739XNbLt/2RHP+cUne8yKtOUwz+FCh/Ij8=; b=0cSMsXrUUTV+b+o3bq8w0wjxTa
+	HeMhjFK/q+2/swZORByPJH21ZzJt+9dYPSsb3nVEb5aeJmT0lBkHmbolCMQAiDYDaPCX5R88+zCXi
+	K9C8fE1Q8J0l487k5UWmDyiKIcMIPhKtrYPsDURc6hOlMycJCfkid+v/QzULl3xk3QUPggZbqEqvc
+	aK+1daNnfHCXvUhBPZTeCBa0YuTR9HjpXAwe8vT3QSvKAcCk7pPrlk5tXDFWoGpdXkhX/Y/oI0gF6
+	fvMvYfAXkGlVk8uYNQZ8rrQrUjnnZK40iIKnh0vCJhPWgMEKP/OMjlXCmnb5WfYlMmkJyZp8cET9x
+	aVZg92zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8fFs-00000003DAb-0pgT;
-	Wed, 06 Nov 2024 12:35:24 +0000
-Received: from nyc.source.kernel.org ([147.75.193.91])
+	id 1t8fG3-00000003DIv-07dm;
+	Wed, 06 Nov 2024 12:35:35 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8eXq-00000002z9Q-1dw5
+	id 1t8eYS-00000002zYv-1eUZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Nov 2024 11:49:56 +0000
+	Wed, 06 Nov 2024 11:50:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5CA3DA436C2;
-	Wed,  6 Nov 2024 11:47:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C3BC4CECD;
-	Wed,  6 Nov 2024 11:49:52 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E4D6D5C20FE;
+	Wed,  6 Nov 2024 11:49:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9539C4CED2;
+	Wed,  6 Nov 2024 11:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730893793;
-	bh=LOOaR/Cqen3lSPEtbXmj2LYeQ66sd5JLSJFcTPBnlJY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ERS90dteSEkeiIG3qMeK5Ko7Wp7kiDP3nC4ZN+5RRyIx6t5Jz5vvRmybMfQ3ggiSL
-	 jcxvuTqAmuDgdbeJJrfgTkWJ72idW2fQ/kNgWmyy5ll9wjylo3WgzFlM4kb5zbOCcY
-	 U26/ap6/h1kZj3RgffyAbhy1dhRMr3M5b3udG6YKZuJp40Egc8TPBia0xdV3zmGLvZ
-	 +zXa14tlVjTrF0h+3WfX7GBnnRGTXA4R4nS5g1EnPW4ItnFuPHlYEtdXt002N7ZhZB
-	 1qrIJr8yLBcsmQHYitFBr6XP0X7CdiCSp3iZ4va0QOHEiro3xYFV7vd3IAAnFTWJfp
-	 RArpJxygzHQXQ==
+	s=k20201202; t=1730893831;
+	bh=QdMPZHgJrfGoDCyj4CISAO6jV7whENAAUWugSV2GSyc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=X3xjIyhq24iZe673vRAZfOBIaMxw63aj0oCZiuMf+cMUfa3KEwuHxFv10lfPd+LXi
+	 cX8RndroDQo8mAxGlNrQKsBGrT+Tn9ncvrOczGH1fOzbfcWtZcz+o2ZklicpXkljhj
+	 CR82ei9oaYq+EpM67T4Z+pAyawHDus2fFTo2JuJ7x8RwEPpyDe7fV1lwuc6pJ2z+g0
+	 HJ6UKOajq0zu26WNinUjCfUaFl6njx0GBNaIjRVIK3YxTAorE/KaH86NTMRdt+YlWx
+	 7dFq5n/713WK7CpEXfxiWlqOnT4MY3HeWkL8TPFNWYmD8uRdS258NMiVMn0h0Sqz/d
+	 Yx8czOHfsUw5A==
 From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>,
+To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
 	Robin Murphy <robin.murphy@arm.com>,
 	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
@@ -71,15 +72,17 @@ Cc: Jens Axboe <axboe@kernel.dk>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2 00/17] Provide a new two step DMA mapping API
-Date: Wed,  6 Nov 2024 15:49:28 +0200
-Message-ID: <cover.1730892663.git.leon@kernel.org>
+Subject: [PATCH v2 10/17] mm/hmm: let users to tag specific PFN with DMA mapped bit
+Date: Wed,  6 Nov 2024 15:49:38 +0200
+Message-ID: <ade13b7f946384154d69182232fc0c0afc5293de.1730892663.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
+In-Reply-To: <cover.1730892663.git.leon@kernel.org>
+References: <cover.1730892663.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241106_034954_593617_B3A1EB4D 
-X-CRM114-Status: GOOD (  24.61  )
+X-CRM114-CacheID: sfid-20241106_035032_658925_C4CE19F1 
+X-CRM114-Status: GOOD (  19.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,137 +97,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Changelog:
-v2:
- * Fixed docs file as Randy suggested
- * Fixed releases of memory in HMM path. It was allocated with kv..
-   variants but released with kfree instead of kvfree.
- * Slightly changed commit message in VFIO patch.
-v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
- * Squashed two VFIO patches into one
- * Added Acked-by/Reviewed-by tags
- * Fix docs spelling errors
- * Simplified dma_iova_sync() API
- * Added extra check in dma_iova_destroy() if mapped size to make code more clear
- * Fixed checkpatch warnings in p2p patch
- * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
-   be more general
- * Reduced the number of changes in VFIO patch
-v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
+From: Leon Romanovsky <leonro@nvidia.com>
 
-----------------------------------------------------------------------------
-The code can be downloaded from:
-https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-nov-06
+Introduce new sticky flag (HMM_PFN_DMA_MAPPED), which isn't overwritten
+by HMM range fault. Such flag allows users to tag specific PFNs with information
+if this specific PFN was already DMA mapped.
 
-Christoph,
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ include/linux/hmm.h | 14 ++++++++++++++
+ mm/hmm.c            | 34 +++++++++++++++++++++-------------
+ 2 files changed, 35 insertions(+), 13 deletions(-)
 
-Can you please take this series through your DMA mapping tree, so it
-will soak enough time in linux-next before sending PR to Linus?
-
-Thanks
-----------------------------------------------------------------------------
-Currently the only efficient way to map a complex memory description through
-the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
-they efficiently combine the two fundamental operations of sizing and allocating
-a large IOVA window from the IOMMU and processing all the per-address
-swiotlb/flushing/p2p/map details.
-
-This uniqueness has been a long standing pain point as the scatterlist API
-is mandatory, but expensive to use. It prevents any kind of optimization or
-feature improvement (such as avoiding struct page for P2P) due to the impossibility
-of improving the scatterlist.
-
-Several approaches have been explored to expand the DMA API with additional
-scatterlist-like structures (BIO, rlist), instead split up the DMA API
-to allow callers to bring their own data structure.
-
-The API is split up into parts:
- - Allocate IOVA space:
-    To do any pre-allocation required. This is done based on the caller
-    supplying some details about how much IOMMU address space it would need
-    in worst case.
- - Map and unmap relevant structures to pre-allocated IOVA space:
-    Perform the actual mapping into the pre-allocated IOVA. This is very
-    similar to dma_map_page().
-
-In this and the next series [1], examples of three different users are converted
-to the new API to show the benefits and its versatility. Each user has a unique
-flow:
- 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
-    dynamically map/unmap large numbers of single pages. This becomes
-    significantly faster in the IOMMU case as the map/unmap is now just
-    a page table walk, the IOVA allocation is pre-computed once. Significant
-    amounts of memory are saved as there is no longer a need to store the
-    dma_addr_t of each page.
- 2. VFIO PCI live migration code is building a very large "page list"
-    for the device. Instead of allocating a scatter list entry per allocated
-    page it can just allocate an array of 'struct page *', saving a large
-    amount of memory.
- 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
-    list without having to allocate then populate an intermediate SG table.
-
-To make the use of the new API easier, HMM and block subsystems are extended
-to hide the optimization details from the caller. Among these optimizations:
- * Memory reduction as in most real use cases there is no need to store mapped
-   DMA addresses and unmap them.
- * Reducing the function call overhead by removing the need to call function
-   pointers and use direct calls instead.
-
-This step is first along a path to provide alternatives to scatterlist and
-solve some of the abuses and design mistakes, for instance in DMABUF's P2P
-support.
-
-Thanks
-
-[1] This still points to v0, as the change is just around handling dma_iova_sync():
-https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org
-
-Christoph Hellwig (6):
-  PCI/P2PDMA: Refactor the p2pdma mapping helpers
-  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
-  iommu: generalize the batched sync after map interface
-  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
-  dma-mapping: add a dma_need_unmap helper
-  docs: core-api: document the IOVA-based API
-
-Leon Romanovsky (11):
-  dma-mapping: Add check if IOVA can be used
-  dma: Provide an interface to allow allocate IOVA
-  dma-mapping: Implement link/unlink ranges API
-  mm/hmm: let users to tag specific PFN with DMA mapped bit
-  mm/hmm: provide generic DMA managing logic
-  RDMA/umem: Store ODP access mask information in PFN
-  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
-    linkage
-  RDMA/umem: Separate implicit ODP initialization from explicit ODP
-  vfio/mlx5: Explicitly use number of pages instead of allocated length
-  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-  vfio/mlx5: Enable the DMA link API
-
- Documentation/core-api/dma-api.rst   |  70 ++++
- drivers/infiniband/core/umem_odp.c   | 250 +++++----------
- drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
- drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
- drivers/infiniband/hw/mlx5/umr.c     |  12 +-
- drivers/iommu/dma-iommu.c            | 459 +++++++++++++++++++++++----
- drivers/iommu/iommu.c                |  65 ++--
- drivers/pci/p2pdma.c                 |  38 +--
- drivers/vfio/pci/mlx5/cmd.c          | 373 +++++++++++-----------
- drivers/vfio/pci/mlx5/cmd.h          |  35 +-
- drivers/vfio/pci/mlx5/main.c         |  87 +++--
- include/linux/dma-map-ops.h          |  54 ----
- include/linux/dma-mapping.h          |  85 +++++
- include/linux/hmm-dma.h              |  32 ++
- include/linux/hmm.h                  |  16 +
- include/linux/iommu.h                |   4 +
- include/linux/pci-p2pdma.h           |  84 +++++
- include/rdma/ib_umem_odp.h           |  25 +-
- kernel/dma/direct.c                  |  44 +--
- kernel/dma/mapping.c                 |  20 ++
- mm/hmm.c                             | 231 +++++++++++++-
- 21 files changed, 1377 insertions(+), 684 deletions(-)
- create mode 100644 include/linux/hmm-dma.h
-
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 126a36571667..5dd655f6766b 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -23,6 +23,8 @@ struct mmu_interval_notifier;
+  * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
+  * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
+  *                 fail. ie poisoned memory, special pages, no vma, etc
++ * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
++ *                      to mark that page is already DMA mapped
+  *
+  * On input:
+  * 0                 - Return the current state of the page, do not fault it.
+@@ -36,6 +38,10 @@ enum hmm_pfn_flags {
+ 	HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
+ 	HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
+ 	HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
++
++	/* Sticky flag, carried from Input to Output */
++	HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 7),
++
+ 	HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 8),
+ 
+ 	/* Input flags */
+@@ -57,6 +63,14 @@ static inline struct page *hmm_pfn_to_page(unsigned long hmm_pfn)
+ 	return pfn_to_page(hmm_pfn & ~HMM_PFN_FLAGS);
+ }
+ 
++/*
++ * hmm_pfn_to_phys() - return physical address pointed to by a device entry
++ */
++static inline phys_addr_t hmm_pfn_to_phys(unsigned long hmm_pfn)
++{
++	return __pfn_to_phys(hmm_pfn & ~HMM_PFN_FLAGS);
++}
++
+ /*
+  * hmm_pfn_to_map_order() - return the CPU mapping size order
+  *
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 7e0229ae4a5a..2a0c34d7cb2b 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -44,8 +44,10 @@ static int hmm_pfns_fill(unsigned long addr, unsigned long end,
+ {
+ 	unsigned long i = (addr - range->start) >> PAGE_SHIFT;
+ 
+-	for (; addr < end; addr += PAGE_SIZE, i++)
+-		range->hmm_pfns[i] = cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++) {
++		range->hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		range->hmm_pfns[i] |= cpu_flags;
++	}
+ 	return 0;
+ }
+ 
+@@ -202,8 +204,10 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
+ 		return hmm_vma_fault(addr, end, required_fault, walk);
+ 
+ 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+-	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		hmm_pfns[i] = pfn | cpu_flags;
++	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 	return 0;
+ }
+ #else /* CONFIG_TRANSPARENT_HUGEPAGE */
+@@ -236,7 +240,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (required_fault)
+ 			goto fault;
+-		*hmm_pfn = 0;
++		*hmm_pfn = *hmm_pfn & HMM_PFN_DMA_MAPPED;
+ 		return 0;
+ 	}
+ 
+@@ -253,14 +257,14 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			cpu_flags = HMM_PFN_VALID;
+ 			if (is_writable_device_private_entry(entry))
+ 				cpu_flags |= HMM_PFN_WRITE;
+-			*hmm_pfn = swp_offset_pfn(entry) | cpu_flags;
++			*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | swp_offset_pfn(entry) | cpu_flags;
+ 			return 0;
+ 		}
+ 
+ 		required_fault =
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (!required_fault) {
+-			*hmm_pfn = 0;
++			*hmm_pfn = *hmm_pfn & HMM_PFN_DMA_MAPPED;
+ 			return 0;
+ 		}
+ 
+@@ -304,11 +308,11 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			pte_unmap(ptep);
+ 			return -EFAULT;
+ 		}
+-		*hmm_pfn = HMM_PFN_ERROR;
++		*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | HMM_PFN_ERROR;
+ 		return 0;
+ 	}
+ 
+-	*hmm_pfn = pte_pfn(pte) | cpu_flags;
++	*hmm_pfn = (*hmm_pfn & HMM_PFN_DMA_MAPPED) | pte_pfn(pte) | cpu_flags;
+ 	return 0;
+ 
+ fault:
+@@ -448,8 +452,10 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
+ 		}
+ 
+ 		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-		for (i = 0; i < npages; ++i, ++pfn)
+-			hmm_pfns[i] = pfn | cpu_flags;
++		for (i = 0; i < npages; ++i, ++pfn) {
++			hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++			hmm_pfns[i] |= pfn | cpu_flags;
++		}
+ 		goto out_unlock;
+ 	}
+ 
+@@ -507,8 +513,10 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
+ 	}
+ 
+ 	pfn = pte_pfn(entry) + ((start & ~hmask) >> PAGE_SHIFT);
+-	for (; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		range->hmm_pfns[i] = pfn | cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		range->hmm_pfns[i] &= HMM_PFN_DMA_MAPPED;
++		range->hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 
+ 	spin_unlock(ptl);
+ 	return 0;
 -- 
 2.47.0
 
