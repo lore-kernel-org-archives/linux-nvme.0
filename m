@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDD6DD59F5D
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2024 18:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E470D59F5F
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 00:32:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p3eVCDdqba/8qnv0xB6pqasILeRO0vhAV7/lD7dp+8A=; b=W/A7KPoPwSOxDbelR2qdjn2sJ2
-	mzeFC5UCpv1gACtOK8uNUK1CTuUqaDC/Oy9sCwns+PxnlOkC5WRos/fx0D9XOt42rrJxmAa0cpY7f
-	fUZ0REgR/pku4OrOcbJLokagBsJJ9Pqn8ERuhBq/PbAkP2zAT0iCZnIm3EWRTeOfBXoT8RN3z79xr
-	izrS4odNlkdv8fh3jraO+bygApAitRSNA3wl/fUiU0g3OdOJFfXy2V1Be4BCfcjiQjfMea6s9Sn6C
-	So/DO3q8GUHcJLBTSb+Ptqfswp/Qm5uJghLQC+zdU+ZMfPoNgjHgekMhc1hMo9hecTRt55r2y706j
-	p29dq41A==;
+	bh=t7hhzyCd+ZKHBaHQAHzJS0VAezMiojPycPAxr2wrz0c=; b=M2+UhSzBzMknXpIZ6v+oalCc7P
+	gintWSdz6jdvFxaKo90D5VNa7i5ciTjlwkxcj32lDztUzGYDhzN3sEFIFFZPM4OjpfFMp5qK8ekNv
+	uaqoLhJTVwFWqAQcIq+aOgf2CFWtno9hRcbrUkDAWV7U8F1Kuv2qm+p0MV00luFKyyczEI+aHPrHB
+	NbKQAToyMHb8zf93b5UFj114+QzTtdtfXvVPFXrGq+/LM65nJjzd34+6EWr6XEBwBSA6E4LlSjWTZ
+	aQvPE7AjZ124kuHzW1TNT1fU7Rj2Rubos1ZKqP4A2j8plkhF/rRSg2QC+H6iqqJwLNyFhPG4aYMT9
+	w+sqce8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8kuc-00000004N5r-3d7D;
-	Wed, 06 Nov 2024 18:37:50 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t8qRU-00000005AOP-3hGb;
+	Thu, 07 Nov 2024 00:32:08 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8ktJ-00000004MlZ-2MwA
+	id 1t8qQ1-00000005AB4-39H4
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Nov 2024 18:36:30 +0000
+	Thu, 07 Nov 2024 00:32:06 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 193975C3A71;
-	Wed,  6 Nov 2024 18:35:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB575C4CEC6;
-	Wed,  6 Nov 2024 18:36:27 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 853AA5C543D;
+	Thu,  7 Nov 2024 00:29:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB68C4CEC6;
+	Thu,  7 Nov 2024 00:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730918188;
-	bh=d7uZUo4EgxYYzo5iZ+B5585cT/fKf9oBOEL1ue47x3A=;
+	s=k20201202; t=1730939436;
+	bh=+3iNdMsvyfCyHfzSpTETcLXzhZTHzy42cyIitKoAubk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OHNvOBeT5vC90TwmRCctaWZjktJQY//J9y+dUKRTZs/9ChtFgZFgQEB7o4YNJfvNe
-	 /SdUnQfudr+KzKo4DuKK1wyB76/c2wrLk5CW84KbqybdoTxkjw1Ek7UqvQaYtDageE
-	 6vuU54XngSAekFTEfRjsJLx6DqBZlAfcWjTE9P/4ZLS1otP1Pg2fKVibQM9PaWsG0t
-	 YZq/oULdXhmLM/XzujfxXSjmwFZYADeny+5Z02aGACmzVn/s7XIBF/89cANd6nYkmk
-	 BKnx/1/yWLdOPoO2P74o7pcv7guF9NpBCXjkHQGID0OFJvPTKy2c0APWJOjGkhoXxZ
-	 gCbmYUbFs1Vew==
-Date: Wed, 6 Nov 2024 11:36:25 -0700
+	b=BCmI9ENgKF2ZpZxrkCH3pCoNphmJ/8OTZ4JN0PJqEy+k6jxtBDTYR0/WH7a/43HsW
+	 6+uy06qeyDWxoUfupD2qit6Sd7jC55h/JPe0bpdGCFNDI02RE85J2ddQoL/jveNkxD
+	 SIGBg32LZT84zgOabB7nW99yxfNXxwBEUFWmz/BG31xBDljU1DFqDg7kdh39yMbmib
+	 tAfZkcG+Ggcse/YoaUDwSwhdV622S2NzQgxc0k+vMOMNXEtIVGZfMy8ElZtH7tanSr
+	 EubOuOJ2nbxsZh/zG+nrCGcukQjeTsXhkXWSKlP5blYyF+Kr9RvnDbpt5vanhjsBsJ
+	 UMDHY74WupYIg==
+Date: Wed, 6 Nov 2024 17:30:33 -0700
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	joshi.k@samsung.com, javier.gonz@samsung.com, bvanassche@acm.org
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-Message-ID: <Zyu3Kc2j8CjcEkiJ@kbusch-mbp>
-References: <20241029151922.459139-1-kbusch@meta.com>
- <20241105155014.GA7310@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	m@bjorling.me, matias.bjorling@wdc.com
+Subject: Re: [PATCHv3 01/11] nvmet: implement id ns for nvm command set
+Message-ID: <ZywKKZxDcecj3gmh@kbusch-mbp>
+References: <20241105174904.3612888-1-kbusch@meta.com>
+ <20241105174904.3612888-2-kbusch@meta.com>
+ <20241106053800.GA31330@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241105155014.GA7310@lst.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241106053800.GA31330@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241106_103629_666316_B1C4F473 
-X-CRM114-Status: GOOD (  18.83  )
+X-CRM114-CacheID: sfid-20241106_163037_852213_5D054CAF 
+X-CRM114-Status: GOOD (  13.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,26 +74,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 05, 2024 at 04:50:14PM +0100, Christoph Hellwig wrote:
-> I've pushed my branch that tries to make this work with the XFS
-> data separation here:
+On Wed, Nov 06, 2024 at 06:38:00AM +0100, Christoph Hellwig wrote:
+> On Tue, Nov 05, 2024 at 09:48:54AM -0800, Keith Busch wrote:
+> > +static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
+> > +{
+> > +	u16 status;
+> > +
+> > +	status = nvmet_req_find_ns(req);
+> > +	if (status)
+> > +		goto out;
+> > +
+> > +	status = nvmet_copy_to_sgl(req, 0, ZERO_PAGE(0),
+> > +				   NVME_IDENTIFY_DATA_SIZE);
 > 
-> http://git.infradead.org/?p=users/hch/xfs.git;a=shortlog;h=refs/heads/xfs-zoned-streams
-> 
-> This is basically my current WIP xfs zoned (aka always write out place)
-> work optimistically destined for 6.14 + the patch set in this thread +
-> a little fix to make it work for nvme-multipath plus the tiny patch to
-> wire it up.
-> 
-> The good news is that the API from Keith mostly works.  I don't really
-> know how to cope with the streams per partition bitmap, and I suspect
-> this will need to be dealt with a bit better.  One option might be
-> to always have a bitmap, which would also support discontiguous
-> write stream numbers as actually supported by the underlying NVMe
-> implementation, another option would be to always map to consecutive
-> numbers.
+> Does this also need a check for the magic all-Fs nsid, which I think
+> is not supported for the I/O command set specific identify namespace?
+> (see the code іn the zns version)
 
-Thanks for sharing that. Seeing the code makes it much easier to
-understand where you're trying to steer this. I'll take a look and
-probably have some feedback after a couple days going through it.
+If the command provides the broadcast NSID, nvmet_req_find_ns() will
+fail, and target will return an error.
+
+Since you mention it, it seems I've neglected the nvmet_req_find_ns()
+BUG for the failure case used in an rcu context.
 
