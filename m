@@ -4,56 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 601EAD5AE66
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 06:20:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F12E6D5AE6A
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 06:33:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qFOXE88NQSLOrED8/j5Bk/3y/66zM7HSoOt1K4NmMuI=; b=CAg1dNhcBdNyxcfYMXNeHGaI9Y
-	rmeGeQI1OqMaqPdcuoCRXAXEzEWLmsmffP3ZCH/9+2xsT+qDRYZFq16jNTsrNyJu1LNQ7vNSiaFJs
-	/El3R1dxGtTRtAWbfVOpl8wKfiIMCbb25aI4JrdXDG8B32hSDo8ycQUPjSTStqQyUHMTm5vbdOiT2
-	8VDb4COm1IBb28UGgkgGF8Lk2akW2mThYQjUagR7wsfnybE0a4+Cyb08fHa3H8aZ53iJ8oC0jz5OW
-	ZU+TiEoNsQh2FblO+ya1L46eSJO9a0l7qVrXEBFuU57DuS8tMgcdOYa0OcH7yMySvmErkisWuKmmQ
-	42y3Z+2w==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Ppq0b0fNavursE4oDQwl//kynRBpn9gpARfkEMDQSB4=; b=YhAs4tI6x8p4PEV3j4NfhjPQO1
+	YvgAAtGITKLuaWWbxDfEmJ0SD4HksqJ7HniNNdmLQBbOnAzDMt/v6UbKeZB7WDgNovK4agdA+cThT
+	f3wCpvQVSmlqIgUUfAfAT8EFY+2pO2shZsk9p8YIrmJm3wT2/a+a/mvoiPhmt9uC/T36ejIZ1hQcs
+	pMYBZyF7dqaw81Q4cHopZ8bra0XRZTHKorsNXOQY+vO8UL5A4AhmUFmCBPUfPtMf0ZZHzDqAct9Nv
+	ImxPTkcXVpi7U80dm6UAJM0gUKQBNiOb7sFZO9h6SxVSM2JBCpGW4k5acLcb8BivoYe/sPscgM2bf
+	I6aHMbhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8vsY-00000005pR1-1Pc3;
-	Thu, 07 Nov 2024 06:20:26 +0000
-Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
+	id 1t8w4k-00000005qnR-1SAx;
+	Thu, 07 Nov 2024 06:33:02 +0000
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8vqj-00000005p3l-0fA4
+	id 1t8w4g-00000005qm4-2Fd0
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Nov 2024 06:18:34 +0000
+	Thu, 07 Nov 2024 06:33:00 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1730960310; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=qFOXE88NQSLOrED8/j5Bk/3y/66zM7HSoOt1K4NmMuI=;
-	b=g3QOhAtqP/bhcY6qTk3sANne2tjUFFMdMcqw5tuM+1yEYLpKGRrx2tkLi1rnWCgqxB/NuU61XuYDif8iGKM0YS3LgxSB1pZ1FKm1GjmlRISq1X1MFRVTS9RZkqLgdg8mPIKPe+q/y6hYeacQDLG/DEy74mSnOysWhXo+ve8/IZc=
-Received: from 30.178.82.60(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIuSpZo_1730960307 cluster:ay36)
+	t=1730961175; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=Ppq0b0fNavursE4oDQwl//kynRBpn9gpARfkEMDQSB4=;
+	b=qGti7nm5zVibg666mLRKd1nCvb38P6LPPhvf72Dy/pvwzUtETPBhmflUF8UL6Xywwk3yb3R/Gt57ExF8/nOidAzA9OZ8X2Vwa3pwL/SOAYLooHJWBRL4Gg5wnxmH8OoyzGtulxq1qOhKOMNNvkU5Ibg+JSzqqU+uxnOuZnc8sp0=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIub2Xs_1730961169 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Thu, 07 Nov 2024 14:18:28 +0800
-Message-ID: <81fa2aef-9ada-4cea-8731-476883ba2f6d@linux.alibaba.com>
-Date: Thu, 7 Nov 2024 14:18:26 +0800
-MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v2] nvme: check at least one ns identification reported
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-References: <20241104031418.121235-1-kanie@linux.alibaba.com>
- <20241104131529.GA14373@lst.de>
- <dd51a183-6313-454e-afeb-c00f0cb02f30@linux.alibaba.com>
- <20241107052836.GA1947@lst.de>
+          Thu, 07 Nov 2024 14:32:54 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241107052836.GA1947@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvme-multipath: introduce service-time iopolicy
+Date: Thu,  7 Nov 2024 14:32:49 +0800
+Message-ID: <20241107063249.101179-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241106_221833_499740_74923E32 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20241106_223258_902305_DFC3A3EB 
+X-CRM114-Status: GOOD (  15.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,65 +65,158 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The service-time policy can dispatch I/O to the path with the lowest
+total amount of currently processed I/O, ensuring that new I/O can be
+sent to less-loaded paths when some paths are overloaded, thereby
+achieving lower latency.
 
-在 2024/11/7 13:28, Christoph Hellwig 写道:
-> On Wed, Nov 06, 2024 at 06:47:43PM +0800, Guixin Liu wrote:
->> I assume that the dm-multipath
-> dm-multipath is not supported with nvme..
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+Changes from v1 to v2:
+- Use atomic64_t to replace atomic_t(Keith Busch)
 
-Dm-multipath can be configured to support nvme,
+ drivers/nvme/host/multipath.c | 53 ++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      |  3 ++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
 
-/etc/multipath.conf:
-
-     devices {
-         device {
-                 vendor "NVME"
-                 product ".*"
-                 path_grouping_policy group_by_prio
-         }
-     }
-
-Here is the result of "multipath -l":
-
-uuid.a2c24be7-ed8e-4033-9f26-5b9f230265fb dm-0NVME,Linux
-size=1.0G features='0' hwhandler='0' wp=rw
-`-+- policy='service-time 0' prio=0 status=active
-   |- 0:1:2:1 nvme0n2 259:0 active undef running
-   `- 1:2:2:1 nvme1n2 259:3 active undef running
-
-
-If the target haven't report any indentification, the dm-multipath
-
-will use wwid which generated by nvme host driver to recognize
-
-which namespaces should be merged.
-
-Here is the result of "multipath -l", if we dont report any identification:
-
-nvme.0000-6135363837366563633830646133663261643034-4c696e7578-00000001 
-dm-0 NVME,Linux
-size=1.0G features='0' hwhandler='0' wp=rw
-`-+- policy='service-time 0' prio=0 status=active
-   |- 0:1:1:1 nvme0n1 259:0 active undef running
-   `- 1:2:1:1 nvme1n1 259:3 active undef running
-
->> will not recognize nvme device if nothing to
->> return,
-> But more importantly the user of the sysfs files is the right place
-> the just check for these values being non-present.  As said before
-> it's perfectly valid for 1.0 devices so they have to cope with it
-> anyway.  I don't think a message in the kernel log that is very to
-> process algorithmically is not very useful.
->
-> (I really with we'd have useful and required identifiers from the
-> start, but that's a separate discussion)
-
-Agree, I just worry about that some components denpend on this, currently,
-
-no problem.
-
-Best Regards,
-
-Guixin Liu
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 6a15873055b9..fcd3b2108152 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -18,6 +18,7 @@ static const char *nvme_iopolicy_names[] = {
+ 	[NVME_IOPOLICY_NUMA]	= "numa",
+ 	[NVME_IOPOLICY_RR]	= "round-robin",
+ 	[NVME_IOPOLICY_QD]      = "queue-depth",
++	[NVME_IOPOLICY_ST]	= "service-time",
+ };
+ 
+ static int iopolicy = NVME_IOPOLICY_NUMA;
+@@ -32,6 +33,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+ 		iopolicy = NVME_IOPOLICY_RR;
+ 	else if (!strncmp(val, "queue-depth", 11))
+ 		iopolicy = NVME_IOPOLICY_QD;
++	else if (!strncmp(val, "service-time", 12))
++		iopolicy = NVME_IOPOLICY_ST;
+ 	else
+ 		return -EINVAL;
+ 
+@@ -46,7 +49,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
+ module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
+ 	&iopolicy, 0644);
+ MODULE_PARM_DESC(iopolicy,
+-	"Default multipath I/O policy; 'numa' (default), 'round-robin' or 'queue-depth'");
++	"Default multipath I/O policy; 'numa' (default), 'round-robin', 'queue-depth' or 'service-time'");
+ 
+ void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
+ {
+@@ -136,6 +139,11 @@ void nvme_mpath_start_request(struct request *rq)
+ 		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
+ 	}
+ 
++	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_ST) {
++		atomic64_add(blk_rq_bytes(rq), &ns->ctrl->inflight_size);
++		nvme_req(rq)->flags |= NVME_MPATH_CNT_IOSIZE;
++	}
++
+ 	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
+ 		return;
+ 
+@@ -152,6 +160,9 @@ void nvme_mpath_end_request(struct request *rq)
+ 	if (nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE)
+ 		atomic_dec_if_positive(&ns->ctrl->nr_active);
+ 
++	if (nvme_req(rq)->flags & NVME_MPATH_CNT_IOSIZE)
++		atomic64_sub(blk_rq_bytes(rq), &ns->ctrl->inflight_size);
++
+ 	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+ 		return;
+ 	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
+@@ -405,9 +416,48 @@ static struct nvme_ns *nvme_numa_path(struct nvme_ns_head *head)
+ 	return ns;
+ }
+ 
++static struct nvme_ns *nvme_service_time_path(struct nvme_ns_head *head)
++{
++	struct nvme_ns *opt = NULL, *nonopt = NULL, *ns;
++	unsigned int min_inflight_nonopt = UINT_MAX;
++	unsigned int min_inflight_opt = UINT_MAX;
++	unsigned int inflight;
++
++	list_for_each_entry_rcu(ns, &head->list, siblings) {
++		if (nvme_path_is_disabled(ns))
++			continue;
++
++		inflight = atomic64_read(&ns->ctrl->inflight_size);
++
++		switch (ns->ana_state) {
++		case NVME_ANA_OPTIMIZED:
++			if (inflight < min_inflight_opt) {
++				min_inflight_opt = inflight;
++				opt = ns;
++			}
++			break;
++		case NVME_ANA_NONOPTIMIZED:
++			if (inflight < min_inflight_nonopt) {
++				min_inflight_nonopt = inflight;
++				nonopt = ns;
++			}
++			break;
++		default:
++			break;
++		}
++
++		if (min_inflight_opt == 0)
++			return opt;
++	}
++
++	return opt ? opt : nonopt;
++}
++
+ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ {
+ 	switch (READ_ONCE(head->subsys->iopolicy)) {
++	case NVME_IOPOLICY_ST:
++		return nvme_service_time_path(head);
+ 	case NVME_IOPOLICY_QD:
+ 		return nvme_queue_depth_path(head);
+ 	case NVME_IOPOLICY_RR:
+@@ -1040,6 +1090,7 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 
+ 	/* initialize this in the identify path to cover controller resets */
+ 	atomic_set(&ctrl->nr_active, 0);
++	atomic64_set(&ctrl->inflight_size, 0);
+ 
+ 	if (!ctrl->max_namespaces ||
+ 	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 093cb423f536..bf6c74fdc9ba 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -202,6 +202,7 @@ enum {
+ 	NVME_REQ_USERCMD		= (1 << 1),
+ 	NVME_MPATH_IO_STATS		= (1 << 2),
+ 	NVME_MPATH_CNT_ACTIVE		= (1 << 3),
++	NVME_MPATH_CNT_IOSIZE		= (1 << 4),
+ };
+ 
+ static inline struct nvme_request *nvme_req(struct request *req)
+@@ -367,6 +368,7 @@ struct nvme_ctrl {
+ 	struct timer_list anatt_timer;
+ 	struct work_struct ana_work;
+ 	atomic_t nr_active;
++	atomic64_t inflight_size;
+ #endif
+ 
+ #ifdef CONFIG_NVME_HOST_AUTH
+@@ -416,6 +418,7 @@ enum nvme_iopolicy {
+ 	NVME_IOPOLICY_NUMA,
+ 	NVME_IOPOLICY_RR,
+ 	NVME_IOPOLICY_QD,
++	NVME_IOPOLICY_ST,
+ };
+ 
+ struct nvme_subsystem {
+-- 
+2.43.0
 
 
