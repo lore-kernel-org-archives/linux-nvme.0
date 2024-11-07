@@ -4,55 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13517D5AE6C
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 07:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E7A0D5AE71
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 08:33:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9gyDtqFpMqqX3UIYtIZEx+faPMVvVGG/jXDeyIQhGRI=; b=s3VwDZYCnEjG77euHXr6tzHSqB
-	xV128Pvks6wqrsbiKKX1upcXOXiSQnW10sa4bQMzn4OwoqMmtfVaE834ZStZ6qzoqzeWF75md5kTv
-	A//23we9B4i92EWohYCtVTm/XEj2A3pdM8ZFp9CTQaK0KkisH9vDPwcwoW4XoYv/VndqAySQnv4aE
-	asWJ2Nka17GOmwx398PH/Jvt+B0x5Sc8Lfhlt/UBs2XixArHeKqd4nZU4GiGgCIUj+FsY7Et9U6SJ
-	MnYnqjBBrJnxa5XB2ixh0R1XjemW/uAwB3BGnk+2H07RHaKs+ycPdd5Ve2oSoj0Xy1/vI6jMn3n8i
-	lPaYAtuQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7VYcQSgARTMWilP+aj3J8qRXLCQdx+VA4mtxRoStmpo=; b=UVUYvsc5otTH2mnkagodnK7xJ9
+	dBsLBCfA5upFcydroF4gWzXFzgPmOPrSO1YKH/hCAmdSmXDyI3OwjD7P/E7AUW+CfRa5j3bkTiToA
+	eZ+O6eTfbzN7MMtpBs9tC1aXWasYjvwxZ4sGXD7CA9b/ZdchpR7yX7mMEv1/WPbGbcZMrY82qSd/s
+	2nZMWl4GdHKPHvIl5jqeRavhAM2uNEayFZ7zUswnRaDY+FUjROJFAocbBRH96Z/Oj+YJlirFma2/l
+	G0mPBDgfMpLsziBJg1+OkD36fGVHZzA2QKuc+qXExzqHM780sRbxVMvPngEDOb0NuUf3S6PJuEdfO
+	ZBNw6Axw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8weI-00000005w0z-0VsH;
-	Thu, 07 Nov 2024 07:09:46 +0000
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
+	id 1t8xwx-000000067uh-3i7X;
+	Thu, 07 Nov 2024 08:33:07 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8weD-00000005w0I-47Iz
+	id 1t8xwv-000000067tz-23rU
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Nov 2024 07:09:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1730963378; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=9gyDtqFpMqqX3UIYtIZEx+faPMVvVGG/jXDeyIQhGRI=;
-	b=nF+JdVo1aoG8nz/i2YI+p7q5yOdD8HFjJEdB3pGj8JhYJq4LJUf5i+K8rrmrRXrVpgpcmlrrkg3MILUux8Xc2z5B1VEEREyX7msLbqgSunZnzVoqQMr54zP5GqaZKb32ddvjfcona2K+X4SkI5Ndht7mK8+2MBVq8Myy5lSIbTM=
-Received: from 30.178.82.60(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIug2Yf_1730963373 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 07 Nov 2024 15:09:34 +0800
-Message-ID: <19cf3e11-83d4-4057-a643-e052bab7680a@linux.alibaba.com>
-Date: Thu, 7 Nov 2024 15:09:33 +0800
+	Thu, 07 Nov 2024 08:33:07 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B5FAE68AA6; Thu,  7 Nov 2024 09:32:56 +0100 (CET)
+Date: Thu, 7 Nov 2024 09:32:56 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241107083256.GA9071@lst.de>
+References: <cover.1730298502.git.leon@kernel.org> <3567312e-5942-4037-93dc-587f25f0778c@arm.com> <20241104095831.GA28751@lst.de> <20241105195357.GI35848@ziepe.ca>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH v2] nvme-multipath: introduce service-time iopolicy
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-References: <20241107063249.101179-1-kanie@linux.alibaba.com>
- <20241107063907.GA3353@lst.de>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241107063907.GA3353@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241105195357.GI35848@ziepe.ca>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241106_230942_491431_22F9896F 
-X-CRM114-Status: UNSURE (   7.98  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241107_003305_698958_A16F986F 
+X-CRM114-Status: GOOD (  25.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,38 +75,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Nov 05, 2024 at 03:53:57PM -0400, Jason Gunthorpe wrote:
+> > Yeah, I don't really get the struct page argument.  In fact if we look
+> > at the nitty-gritty details of dma_map_page it doesn't really need a
+> > page at all. 
+> 
+> Today, if you want to map a P2P address you must have a struct page,
+> because page->pgmap is the only source of information on the P2P
+> topology.
+> 
+> So the logic is, to get P2P without struct page we need a way to have
+> all the features of dma_map_sg() but without a mandatory scatterlist
+> because we cannot remove struct page from scatterlist.
 
-在 2024/11/7 14:39, Christoph Hellwig 写道:
-> On Thu, Nov 07, 2024 at 02:32:49PM +0800, Guixin Liu wrote:
->> The service-time policy can dispatch I/O to the path with the lowest
->> total amount of currently processed I/O, ensuring that new I/O can be
->> sent to less-loaded paths when some paths are overloaded, thereby
->> achieving lower latency.
-> What is the exact use case for this?  The commit log is unfortunately
-> very sparse.
+Well, that is true but also not the point.  The hard part is to
+find the P2P routing information without the page.  After that
+any physical address based interface will work, including a trivial
+dma_map_phys.
 
-In scenarios with varying random I/O sizes, the different I/O sizes 
-being processed on
+> > At least for the block code we have a nice little core wrapper that is
+> > very easy to use, and provides a great reduction of memory use and
+> > allocations.  The HMM use case I'll let others talk about.
+> 
+> I saw the Intel XE team make a complicated integration with the DMA
+> API that wasn't so good. They were looking at an earlier version of
+> this and I think the feedback was positive. It should make a big
+> difference, but we will need to see what they come up and possibly
+> tweak things.
 
-each path can lead to slower processing and higher latency on paths 
-under heavy load. By
-
-distributing the I/O to other paths with lighter loads, the I/O can be 
-processed more
-
-quickly.
-
-Sorry for the sparse commit log, I will send a v3 to expain detaily.
-
->   All these little policies add up, and we have absolutely
-> no documentation on them :(
-
-I'm glad to add a document to introduce all these nvme-multipath polices 
-within v3 patchset.
-
-Best Regards,
-
-Guixin Liu
-
+Not even sure what XE is, but do you have a pointer to it?  It would
+really be great if people having DMA problems talked to the dma-mapping
+and iommu maintaines / list..
 
 
