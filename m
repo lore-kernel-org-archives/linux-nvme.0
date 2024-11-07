@@ -4,54 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FEB9D5AE60
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 05:55:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 601EAD5AE66
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 06:20:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JlpxCIWRxDZogpxTfmEhRpDXBE7KwpPXqh1EJRW4Hp0=; b=XtKYiETygpnZWUqwzEG68oQq8c
-	P46MnS/rpwno6Tj+yYYfEBFBJANaPZFzwu7iEAJLPWZU8UeYOUZKS3Aq29AtZcgB7J/h0BG499loU
-	RW/98Nmse8VpxhidziFy4euaLgKwWahBv3WoKsLswGIp91oKJRURsiMcVYPrNjNuqN1F56VFmVDcT
-	w216NJEeXKK09jCy93AEwzA0wySjFp937IHWby9Olzf9ES4hbPseFFSukfld/CzuJ6t7l/ePXF74M
-	9+6H/dFp4cqYzsH6S/3a9VM0XsExehm9+Yzf9wDx2Ku0dLwXNyesln7S80yBDZHl8T+tc6IgTwUUo
-	cQZZzmCA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qFOXE88NQSLOrED8/j5Bk/3y/66zM7HSoOt1K4NmMuI=; b=CAg1dNhcBdNyxcfYMXNeHGaI9Y
+	rmeGeQI1OqMaqPdcuoCRXAXEzEWLmsmffP3ZCH/9+2xsT+qDRYZFq16jNTsrNyJu1LNQ7vNSiaFJs
+	/El3R1dxGtTRtAWbfVOpl8wKfiIMCbb25aI4JrdXDG8B32hSDo8ycQUPjSTStqQyUHMTm5vbdOiT2
+	8VDb4COm1IBb28UGgkgGF8Lk2akW2mThYQjUagR7wsfnybE0a4+Cyb08fHa3H8aZ53iJ8oC0jz5OW
+	ZU+TiEoNsQh2FblO+ya1L46eSJO9a0l7qVrXEBFuU57DuS8tMgcdOYa0OcH7yMySvmErkisWuKmmQ
+	42y3Z+2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8vUn-00000005lax-2kXb;
-	Thu, 07 Nov 2024 05:55:53 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1t8vsY-00000005pR1-1Pc3;
+	Thu, 07 Nov 2024 06:20:26 +0000
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8vUk-00000005laI-123c
+	id 1t8vqj-00000005p3l-0fA4
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Nov 2024 05:55:51 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 677C5227A87; Thu,  7 Nov 2024 06:55:42 +0100 (CET)
-Date: Thu, 7 Nov 2024 06:55:42 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
-	martin.petersen@oracle.com, asml.silence@gmail.com,
-	anuj1072538@gmail.com, brauner@kernel.org, jack@suse.cz,
-	viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gost.dev@samsung.com, linux-scsi@vger.kernel.org,
-	vishak.g@samsung.com, linux-fsdevel@vger.kernel.org,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v8 06/10] io_uring/rw: add support to send metadata
- along with read/write
-Message-ID: <20241107055542.GA2483@lst.de>
-References: <20241106121842.5004-1-anuj20.g@samsung.com> <CGME20241106122710epcas5p2b314c865f8333c890dd6f22cf2edbe2f@epcas5p2.samsung.com> <20241106121842.5004-7-anuj20.g@samsung.com>
+	Thu, 07 Nov 2024 06:18:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1730960310; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=qFOXE88NQSLOrED8/j5Bk/3y/66zM7HSoOt1K4NmMuI=;
+	b=g3QOhAtqP/bhcY6qTk3sANne2tjUFFMdMcqw5tuM+1yEYLpKGRrx2tkLi1rnWCgqxB/NuU61XuYDif8iGKM0YS3LgxSB1pZ1FKm1GjmlRISq1X1MFRVTS9RZkqLgdg8mPIKPe+q/y6hYeacQDLG/DEy74mSnOysWhXo+ve8/IZc=
+Received: from 30.178.82.60(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIuSpZo_1730960307 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 07 Nov 2024 14:18:28 +0800
+Message-ID: <81fa2aef-9ada-4cea-8731-476883ba2f6d@linux.alibaba.com>
+Date: Thu, 7 Nov 2024 14:18:26 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241106121842.5004-7-anuj20.g@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH v2] nvme: check at least one ns identification reported
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org
+References: <20241104031418.121235-1-kanie@linux.alibaba.com>
+ <20241104131529.GA14373@lst.de>
+ <dd51a183-6313-454e-afeb-c00f0cb02f30@linux.alibaba.com>
+ <20241107052836.GA1947@lst.de>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20241107052836.GA1947@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241106_215550_450769_BDE4C00E 
-X-CRM114-Status: GOOD (  17.15  )
+X-CRM114-CacheID: sfid-20241106_221833_499740_74923E32 
+X-CRM114-Status: GOOD (  14.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,65 +68,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +enum io_uring_sqe_ext_cap_bits {
-> +	EXT_CAP_PI_BIT,
-> +	/*
-> +	 * not a real extended capability; just to make sure that we don't
-> +	 * overflow
-> +	 */
-> +	EXT_CAP_LAST_BIT,
-> +};
-> +
-> +/* extended capability flags */
-> +#define EXT_CAP_PI	(1U << EXT_CAP_PI_BIT)
 
-This is getting into nitpicking, but is the a good reason to have that
-enum, which is never used as a type and the values or only defined to
-actually define the bit positions below?  That's a bit confusing to
-me.
+在 2024/11/7 13:28, Christoph Hellwig 写道:
+> On Wed, Nov 06, 2024 at 06:47:43PM +0800, Guixin Liu wrote:
+>> I assume that the dm-multipath
+> dm-multipath is not supported with nvme..
 
-Also please document the ABI for EXT_CAP_PI, right now this is again
-entirely undocumented.
+Dm-multipath can be configured to support nvme,
 
-> +/* Second half of SQE128 for IORING_OP_READ/WRITE */
-> +struct io_uring_sqe_ext {
-> +	__u64	rsvd0[4];
-> +	/* if sqe->ext_cap is EXT_CAP_PI, last 32 bytes are for PI */
-> +	union {
-> +		__u64	rsvd1[4];
-> +		struct {
-> +			__u16	flags;
-> +			__u16	app_tag;
-> +			__u32	len;
-> +			__u64	addr;
-> +			__u64	seed;
-> +			__u64	rsvd;
-> +		} rw_pi;
-> +	};
+/etc/multipath.conf:
 
-And this is not what I though we discussed before.  By having a
-union here you imply some kind of "type" again that is switched
-on a value, and not flags indication the presence of potential
-multiple optional and combinable features.  This is what I would
-have expected here based on the previous discussion:
+     devices {
+         device {
+                 vendor "NVME"
+                 product ".*"
+                 path_grouping_policy group_by_prio
+         }
+     }
 
-struct io_uring_sqe_ext {
-	/*
-	 * Reservered for please tell me what and why it is in the beginning
-	 * and not the end:
-	 */
-	__u64	rsvd0[4];
+Here is the result of "multipath -l":
 
-	/*
-	 * Only valid when EXT_CAP_PI is set:
-	 */
-	__u16	pi_flags; /* or make this generic flags, dunno? */
-	__u16	app_tag;
-	__u32	pi_len;
-	__u64	pi_addr;
-	__u64	pi_seed;
+uuid.a2c24be7-ed8e-4033-9f26-5b9f230265fb dm-0NVME,Linux
+size=1.0G features='0' hwhandler='0' wp=rw
+`-+- policy='service-time 0' prio=0 status=active
+   |- 0:1:2:1 nvme0n2 259:0 active undef running
+   `- 1:2:2:1 nvme1n2 259:3 active undef running
 
-	__u64	rsvd1;
-};
+
+If the target haven't report any indentification, the dm-multipath
+
+will use wwid which generated by nvme host driver to recognize
+
+which namespaces should be merged.
+
+Here is the result of "multipath -l", if we dont report any identification:
+
+nvme.0000-6135363837366563633830646133663261643034-4c696e7578-00000001 
+dm-0 NVME,Linux
+size=1.0G features='0' hwhandler='0' wp=rw
+`-+- policy='service-time 0' prio=0 status=active
+   |- 0:1:1:1 nvme0n1 259:0 active undef running
+   `- 1:2:1:1 nvme1n1 259:3 active undef running
+
+>> will not recognize nvme device if nothing to
+>> return,
+> But more importantly the user of the sysfs files is the right place
+> the just check for these values being non-present.  As said before
+> it's perfectly valid for 1.0 devices so they have to cope with it
+> anyway.  I don't think a message in the kernel log that is very to
+> process algorithmically is not very useful.
+>
+> (I really with we'd have useful and required identifiers from the
+> start, but that's a separate discussion)
+
+Agree, I just worry about that some components denpend on this, currently,
+
+no problem.
+
+Best Regards,
+
+Guixin Liu
 
 
