@@ -4,53 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F12E6D5AE6A
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 06:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3111ED5AE6B
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Nov 2024 06:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Ppq0b0fNavursE4oDQwl//kynRBpn9gpARfkEMDQSB4=; b=YhAs4tI6x8p4PEV3j4NfhjPQO1
-	YvgAAtGITKLuaWWbxDfEmJ0SD4HksqJ7HniNNdmLQBbOnAzDMt/v6UbKeZB7WDgNovK4agdA+cThT
-	f3wCpvQVSmlqIgUUfAfAT8EFY+2pO2shZsk9p8YIrmJm3wT2/a+a/mvoiPhmt9uC/T36ejIZ1hQcs
-	pMYBZyF7dqaw81Q4cHopZ8bra0XRZTHKorsNXOQY+vO8UL5A4AhmUFmCBPUfPtMf0ZZHzDqAct9Nv
-	ImxPTkcXVpi7U80dm6UAJM0gUKQBNiOb7sFZO9h6SxVSM2JBCpGW4k5acLcb8BivoYe/sPscgM2bf
-	I6aHMbhg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mKExwiz3Kej75aTKS00be/SyLEzfA6BCCu26g5ACXrQ=; b=dkfg82Wr/wBRSBiK6l/c7IDeqX
+	uZyD4fIi77XBWVS7+5uJ1y9HosQcypV4O8nvTJlnl8ekVzkNRS0A9BxfG1JV1OTm6Aj7QZMzPckEV
+	8QuckiyhoQ2gNYci8SA7j4QvHYsgV5QLlVCr669hsofI/EQSInYO/ImKU3mtYEJFCX9vA2/PirDbH
+	j9TWocxCs7eg3Y9Y4VGADTAEfWAKqhSz64dnb++ufgnspdvutLm9gi+GR1Au0n7MDmTqYhgqnf5ud
+	0S4nVO6Vyy4lioucx9JPyJ13oQGoBS4/sDvQnjdCyfx4hEKEFkF+19+K11EP+v0pdRBuLvSSkVksS
+	BAXkDSAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8w4k-00000005qnR-1SAx;
-	Thu, 07 Nov 2024 06:33:02 +0000
-Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
+	id 1t8wFR-00000005sMq-2lKm;
+	Thu, 07 Nov 2024 06:44:05 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t8w4g-00000005qm4-2Fd0
+	id 1t8wAj-00000005rog-13oG
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Nov 2024 06:33:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1730961175; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=Ppq0b0fNavursE4oDQwl//kynRBpn9gpARfkEMDQSB4=;
-	b=qGti7nm5zVibg666mLRKd1nCvb38P6LPPhvf72Dy/pvwzUtETPBhmflUF8UL6Xywwk3yb3R/Gt57ExF8/nOidAzA9OZ8X2Vwa3pwL/SOAYLooHJWBRL4Gg5wnxmH8OoyzGtulxq1qOhKOMNNvkU5Ibg+JSzqqU+uxnOuZnc8sp0=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIub2Xs_1730961169 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 07 Nov 2024 14:32:54 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme-multipath: introduce service-time iopolicy
-Date: Thu,  7 Nov 2024 14:32:49 +0800
-Message-ID: <20241107063249.101179-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+	Thu, 07 Nov 2024 06:39:14 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 92BA3227A87; Thu,  7 Nov 2024 07:39:07 +0100 (CET)
+Date: Thu, 7 Nov 2024 07:39:07 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	kch@nvidia.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] nvme-multipath: introduce service-time iopolicy
+Message-ID: <20241107063907.GA3353@lst.de>
+References: <20241107063249.101179-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241107063249.101179-1-kanie@linux.alibaba.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241106_223258_902305_DFC3A3EB 
-X-CRM114-Status: GOOD (  15.12  )
+X-CRM114-CacheID: sfid-20241106_223913_455206_DFA0F8C7 
+X-CRM114-Status: GOOD (  11.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,158 +59,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The service-time policy can dispatch I/O to the path with the lowest
-total amount of currently processed I/O, ensuring that new I/O can be
-sent to less-loaded paths when some paths are overloaded, thereby
-achieving lower latency.
+On Thu, Nov 07, 2024 at 02:32:49PM +0800, Guixin Liu wrote:
+> The service-time policy can dispatch I/O to the path with the lowest
+> total amount of currently processed I/O, ensuring that new I/O can be
+> sent to less-loaded paths when some paths are overloaded, thereby
+> achieving lower latency.
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-Changes from v1 to v2:
-- Use atomic64_t to replace atomic_t(Keith Busch)
-
- drivers/nvme/host/multipath.c | 53 ++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h      |  3 ++
- 2 files changed, 55 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 6a15873055b9..fcd3b2108152 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -18,6 +18,7 @@ static const char *nvme_iopolicy_names[] = {
- 	[NVME_IOPOLICY_NUMA]	= "numa",
- 	[NVME_IOPOLICY_RR]	= "round-robin",
- 	[NVME_IOPOLICY_QD]      = "queue-depth",
-+	[NVME_IOPOLICY_ST]	= "service-time",
- };
- 
- static int iopolicy = NVME_IOPOLICY_NUMA;
-@@ -32,6 +33,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
- 		iopolicy = NVME_IOPOLICY_RR;
- 	else if (!strncmp(val, "queue-depth", 11))
- 		iopolicy = NVME_IOPOLICY_QD;
-+	else if (!strncmp(val, "service-time", 12))
-+		iopolicy = NVME_IOPOLICY_ST;
- 	else
- 		return -EINVAL;
- 
-@@ -46,7 +49,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
- module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
- 	&iopolicy, 0644);
- MODULE_PARM_DESC(iopolicy,
--	"Default multipath I/O policy; 'numa' (default), 'round-robin' or 'queue-depth'");
-+	"Default multipath I/O policy; 'numa' (default), 'round-robin', 'queue-depth' or 'service-time'");
- 
- void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
- {
-@@ -136,6 +139,11 @@ void nvme_mpath_start_request(struct request *rq)
- 		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
- 	}
- 
-+	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_ST) {
-+		atomic64_add(blk_rq_bytes(rq), &ns->ctrl->inflight_size);
-+		nvme_req(rq)->flags |= NVME_MPATH_CNT_IOSIZE;
-+	}
-+
- 	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
- 		return;
- 
-@@ -152,6 +160,9 @@ void nvme_mpath_end_request(struct request *rq)
- 	if (nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE)
- 		atomic_dec_if_positive(&ns->ctrl->nr_active);
- 
-+	if (nvme_req(rq)->flags & NVME_MPATH_CNT_IOSIZE)
-+		atomic64_sub(blk_rq_bytes(rq), &ns->ctrl->inflight_size);
-+
- 	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
- 		return;
- 	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
-@@ -405,9 +416,48 @@ static struct nvme_ns *nvme_numa_path(struct nvme_ns_head *head)
- 	return ns;
- }
- 
-+static struct nvme_ns *nvme_service_time_path(struct nvme_ns_head *head)
-+{
-+	struct nvme_ns *opt = NULL, *nonopt = NULL, *ns;
-+	unsigned int min_inflight_nonopt = UINT_MAX;
-+	unsigned int min_inflight_opt = UINT_MAX;
-+	unsigned int inflight;
-+
-+	list_for_each_entry_rcu(ns, &head->list, siblings) {
-+		if (nvme_path_is_disabled(ns))
-+			continue;
-+
-+		inflight = atomic64_read(&ns->ctrl->inflight_size);
-+
-+		switch (ns->ana_state) {
-+		case NVME_ANA_OPTIMIZED:
-+			if (inflight < min_inflight_opt) {
-+				min_inflight_opt = inflight;
-+				opt = ns;
-+			}
-+			break;
-+		case NVME_ANA_NONOPTIMIZED:
-+			if (inflight < min_inflight_nonopt) {
-+				min_inflight_nonopt = inflight;
-+				nonopt = ns;
-+			}
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		if (min_inflight_opt == 0)
-+			return opt;
-+	}
-+
-+	return opt ? opt : nonopt;
-+}
-+
- inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- {
- 	switch (READ_ONCE(head->subsys->iopolicy)) {
-+	case NVME_IOPOLICY_ST:
-+		return nvme_service_time_path(head);
- 	case NVME_IOPOLICY_QD:
- 		return nvme_queue_depth_path(head);
- 	case NVME_IOPOLICY_RR:
-@@ -1040,6 +1090,7 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 
- 	/* initialize this in the identify path to cover controller resets */
- 	atomic_set(&ctrl->nr_active, 0);
-+	atomic64_set(&ctrl->inflight_size, 0);
- 
- 	if (!ctrl->max_namespaces ||
- 	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 093cb423f536..bf6c74fdc9ba 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -202,6 +202,7 @@ enum {
- 	NVME_REQ_USERCMD		= (1 << 1),
- 	NVME_MPATH_IO_STATS		= (1 << 2),
- 	NVME_MPATH_CNT_ACTIVE		= (1 << 3),
-+	NVME_MPATH_CNT_IOSIZE		= (1 << 4),
- };
- 
- static inline struct nvme_request *nvme_req(struct request *req)
-@@ -367,6 +368,7 @@ struct nvme_ctrl {
- 	struct timer_list anatt_timer;
- 	struct work_struct ana_work;
- 	atomic_t nr_active;
-+	atomic64_t inflight_size;
- #endif
- 
- #ifdef CONFIG_NVME_HOST_AUTH
-@@ -416,6 +418,7 @@ enum nvme_iopolicy {
- 	NVME_IOPOLICY_NUMA,
- 	NVME_IOPOLICY_RR,
- 	NVME_IOPOLICY_QD,
-+	NVME_IOPOLICY_ST,
- };
- 
- struct nvme_subsystem {
--- 
-2.43.0
+What is the exact use case for this?  The commit log is unfortunately
+very sparse.  All these little policies add up, and we have absolutely
+no documentation on them :(
 
 
