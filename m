@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5419AD5E145
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 08:58:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E86EFD5E147
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 08:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=50JYuQoyZWYlTtLxYbSNXEYpz+gzqwTYJxm4o26DrXc=; b=xMAnAHwtUhqHznvwlOWCkA5sGg
-	BDPH/dJVfYD5SPrbxGoY65K9+jVRVvN7OmhYPjqGC/aNmGe5Rp48DF/inOIGCEJmOO+qLAOX894yE
-	bqFrk5USSK8KNqC8TgclV1e/YcMZl6JAvrIn+apKVfilgGqnCIDcwkr1YP0v0Ma3zUAzuYI1XYckR
-	yzHG5EJDswecK+CJFhMytOUDLNiFJQl9RLfkDo69BKSWUujdqNRPy9n+Uh/tAQaBNTwrJGK6lfyZ1
-	T7kKkQ47iOrnl1JWSbUcz/k0Iy7gyYl7Kb0i5FwGb6z0MttN8Yls9RkzWYtCJapodFqBaA84K74ms
-	dIwfhsww==;
+	bh=d6eH9yUvyjlaLRlazXJy0cZteESMneTtjTLQ8wRydY0=; b=D9wDb9wrKZjoLiVqijKUtIviHz
+	MCyBm7Y94jc2qIKLjgukanee0lzrqSWz0zL97jPZT8YMW0d5ia93RIz2T1rC9eisAZi8//xIzoN1g
+	vI7BegWHWoRK0dRbSG3rLV/4teR4draVta71QphtNmc1yZKHop8BwNdbiELHvJCCTYnKQ8U9w4i1g
+	WFGGa4JAgvRb2oWnEcQkVOmC4OGB00kJV76W4crCA89h99FvXRNxSacwKOowv5UoARvJySEIZHPp6
+	tATfBK9RRMGeXAecCk6rt0GwIwXCEDyuHOqNQQww6v9dNzOtzXNrIftSGyc/T/CRfawLxsBi7BDV6
+	EjPiNHPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Kob-00000009rhP-20en;
-	Fri, 08 Nov 2024 08:58:01 +0000
+	id 1t9Koa-00000009rgt-2bnR;
+	Fri, 08 Nov 2024 08:58:00 +0000
 Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Keu-00000009pmu-3LgG
+	id 1t9Kep-00000009pkc-39wS
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 08:48:02 +0000
+	Fri, 08 Nov 2024 08:47:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1731055679; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=50JYuQoyZWYlTtLxYbSNXEYpz+gzqwTYJxm4o26DrXc=;
-	b=ih9s3goZxOlRnjt/NVSIlZ5WTnuMgGiz/j6XmLXWCJuiDf24JHH3kmhRmUANchL/a/qagplVHfgFYTTfmRLJR0yvMuRKt3BJemTGaHwtZ1Hh/18MS/uvLwr13KDSU3ImRdsh1Dlru7voUhy9wsUyv7k2vUp8BK7dHeMp04XCeUY=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIzTmFv_1731055673 cluster:ay36)
+	t=1731055674; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=d6eH9yUvyjlaLRlazXJy0cZteESMneTtjTLQ8wRydY0=;
+	b=snOXxK3xRSIGEU1X2H18Sv05Cl+2hEPPHSQQ611hclFPIjEPU5GMIc84WbbssOB59PRASRMECeW7Wn81tl1AkBcuxbBuF18gzbWW9XQWRY0TCTtJhP3VEM/OmaZGBdfyHGOdvqqkxIO0BsGHqRgIltt8AlgI1t2jVoCgjnjhqR0=
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIzTmDs_1731055668 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Fri, 08 Nov 2024 16:47:58 +0800
+          Fri, 08 Nov 2024 16:47:52 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 2/2] docs, nvme: add a nvme-multipath document
-Date: Fri,  8 Nov 2024 16:47:41 +0800
-Message-ID: <20241108084741.40986-3-kanie@linux.alibaba.com>
+Subject: [PATCH v2 1/2] nvme-multipath: introduce service-time iopolicy
+Date: Fri,  8 Nov 2024 16:47:40 +0800
+Message-ID: <20241108084741.40986-2-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241108084741.40986-1-kanie@linux.alibaba.com>
 References: <20241108084741.40986-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_004801_005169_A1F8A95E 
-X-CRM114-Status: GOOD (  15.92  )
+X-CRM114-CacheID: sfid-20241108_004756_202210_7D98537A 
+X-CRM114-Status: GOOD (  17.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,104 +66,162 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This adds a document about nvme-multipath and policies supported
-by the Linux NVMe host driver, and also each policy's best scenario.
+In scenarios with varying random I/O sizes, the different I/O sizes
+being processed on each path can lead to slower processing and higher
+latency on paths under heavy load.
+
+The service-time policy can dispatch I/O to the path with the lowest
+total amount of currently processed I/O, ensuring that new I/O can be
+sent to less-loaded paths when some paths are overloaded, thereby
+achieving lower latency and higher throughput.
+
+Introduce a atomic64_t inflight_size to record the total I/O size
+that the path is processing, and choosing a path with lowest
+inflight_size to send the I/O.
 
 Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- Documentation/nvme/nvme-multipath.rst | 83 +++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
- create mode 100644 Documentation/nvme/nvme-multipath.rst
+ drivers/nvme/host/multipath.c | 53 ++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      |  3 ++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/nvme/nvme-multipath.rst b/Documentation/nvme/nvme-multipath.rst
-new file mode 100644
-index 000000000000..bb9ef6fc3e9d
---- /dev/null
-+++ b/Documentation/nvme/nvme-multipath.rst
-@@ -0,0 +1,83 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 6a15873055b9..fcd3b2108152 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -18,6 +18,7 @@ static const char *nvme_iopolicy_names[] = {
+ 	[NVME_IOPOLICY_NUMA]	= "numa",
+ 	[NVME_IOPOLICY_RR]	= "round-robin",
+ 	[NVME_IOPOLICY_QD]      = "queue-depth",
++	[NVME_IOPOLICY_ST]	= "service-time",
+ };
+ 
+ static int iopolicy = NVME_IOPOLICY_NUMA;
+@@ -32,6 +33,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+ 		iopolicy = NVME_IOPOLICY_RR;
+ 	else if (!strncmp(val, "queue-depth", 11))
+ 		iopolicy = NVME_IOPOLICY_QD;
++	else if (!strncmp(val, "service-time", 12))
++		iopolicy = NVME_IOPOLICY_ST;
+ 	else
+ 		return -EINVAL;
+ 
+@@ -46,7 +49,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
+ module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
+ 	&iopolicy, 0644);
+ MODULE_PARM_DESC(iopolicy,
+-	"Default multipath I/O policy; 'numa' (default), 'round-robin' or 'queue-depth'");
++	"Default multipath I/O policy; 'numa' (default), 'round-robin', 'queue-depth' or 'service-time'");
+ 
+ void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
+ {
+@@ -136,6 +139,11 @@ void nvme_mpath_start_request(struct request *rq)
+ 		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
+ 	}
+ 
++	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_ST) {
++		atomic64_add(blk_rq_bytes(rq), &ns->ctrl->inflight_size);
++		nvme_req(rq)->flags |= NVME_MPATH_CNT_IOSIZE;
++	}
 +
-+====================
-+Linux NVMe multipath
-+====================
+ 	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
+ 		return;
+ 
+@@ -152,6 +160,9 @@ void nvme_mpath_end_request(struct request *rq)
+ 	if (nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE)
+ 		atomic_dec_if_positive(&ns->ctrl->nr_active);
+ 
++	if (nvme_req(rq)->flags & NVME_MPATH_CNT_IOSIZE)
++		atomic64_sub(blk_rq_bytes(rq), &ns->ctrl->inflight_size);
 +
-+This document describes NVMe multipath and its path selection policies supported
-+by the Linux NVMe host driver.
+ 	if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+ 		return;
+ 	bdev_end_io_acct(ns->head->disk->part0, req_op(rq),
+@@ -405,9 +416,48 @@ static struct nvme_ns *nvme_numa_path(struct nvme_ns_head *head)
+ 	return ns;
+ }
+ 
++static struct nvme_ns *nvme_service_time_path(struct nvme_ns_head *head)
++{
++	struct nvme_ns *opt = NULL, *nonopt = NULL, *ns;
++	unsigned int min_inflight_nonopt = UINT_MAX;
++	unsigned int min_inflight_opt = UINT_MAX;
++	unsigned int inflight;
 +
++	list_for_each_entry_rcu(ns, &head->list, siblings) {
++		if (nvme_path_is_disabled(ns))
++			continue;
 +
-+Introduction
-+============
++		inflight = atomic64_read(&ns->ctrl->inflight_size);
 +
-+The NVMe multipath feature in Linux integrates namespaces with the same
-+identifier into a single block device. Using multipath enhances the reliability
-+and stability of I/O access while improving bandwidth performance. When a user
-+sends I/O to this merged block device, the multipath mechanism selects one of
-+the underlying block devices (paths) according to the configured policy.
-+Different policies result in different path selections.
++		switch (ns->ana_state) {
++		case NVME_ANA_OPTIMIZED:
++			if (inflight < min_inflight_opt) {
++				min_inflight_opt = inflight;
++				opt = ns;
++			}
++			break;
++		case NVME_ANA_NONOPTIMIZED:
++			if (inflight < min_inflight_nonopt) {
++				min_inflight_nonopt = inflight;
++				nonopt = ns;
++			}
++			break;
++		default:
++			break;
++		}
 +
++		if (min_inflight_opt == 0)
++			return opt;
++	}
 +
-+Policies
-+========
++	return opt ? opt : nonopt;
++}
 +
-+All policies follow the ANA (Asymmetric Namespace Access) mechanism, meaning
-+that when an optimized path is available, it will be chosen over a non-optimized
-+one. Current the NVMe multipath policies include numa(default), round-robin,
-+queue-depth and service-time.
-+
-+To set the desired policy (e.g., round-robin), use one of the following methods:
-+   1. echo -n "round-robin" > /sys/module/nvme_core/parameters/iopolicy
-+   2. or add the "nvme_core.iopolicy=round-robin" to cmdline.
-+
-+
-+NUMA
-+----
-+
-+The NUMA policy selects the path closest to the NUMA node of the current CPU for
-+I/O distribution. This policy maintains the nearest paths to each NUMA node
-+based on network interface connections.
-+
-+When to use the NUMA policy:
-+  1. Multi-core Systems: Optimizes memory access in multi-core and
-+     multi-processor systems, especially under NUMA architecture.
-+  2. High Affinity Workloads: Binds I/O processing to the CPU to reduce
-+     communication and data transfer delays across nodes.
-+
-+
-+Round-Robin
-+-----------
-+
-+The round-robin policy distributes I/O requests evenly across all paths to
-+enhance throughput and resource utilization. Each I/O operation is sent to the
-+next path in sequence.
-+
-+When to use the round-robin policy:
-+  1. Balanced Workloads: Effective for balanced and predictable workloads with
-+     similar I/O size and type.
-+  2. Homogeneous Path Performance: Utilizes all paths efficiently when
-+     performance characteristics (e.g., latency, bandwidth) are similar.
-+
-+
-+Queue-Depth
-+-----------
-+
-+The queue-depth policy manages I/O requests based on the current queue depth
-+of each path, selecting the path with the least number of in-flight I/Os.
-+
-+When to use the queue-depth policy:
-+  1. High load with small I/Os: Effectively balances load across paths when
-+     the load is high, and I/O operations consist of small, relatively
-+     fixed-sized requests.
-+
-+
-+Service-Time
-+------------
-+
-+The service-time policy distributes I/O requests based on the total size of
-+in-flight I/Os, selecting the path with the least total size.
-+
-+When to use the service-time policy:
-+  1. Highly Variable Workloads: Adapts to unpredictable and varying I/O patterns
-+     by directing requests to the most responsive paths.
+ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ {
+ 	switch (READ_ONCE(head->subsys->iopolicy)) {
++	case NVME_IOPOLICY_ST:
++		return nvme_service_time_path(head);
+ 	case NVME_IOPOLICY_QD:
+ 		return nvme_queue_depth_path(head);
+ 	case NVME_IOPOLICY_RR:
+@@ -1040,6 +1090,7 @@ int nvme_mpath_init_identify(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 
+ 	/* initialize this in the identify path to cover controller resets */
+ 	atomic_set(&ctrl->nr_active, 0);
++	atomic64_set(&ctrl->inflight_size, 0);
+ 
+ 	if (!ctrl->max_namespaces ||
+ 	    ctrl->max_namespaces > le32_to_cpu(id->nn)) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 093cb423f536..bf6c74fdc9ba 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -202,6 +202,7 @@ enum {
+ 	NVME_REQ_USERCMD		= (1 << 1),
+ 	NVME_MPATH_IO_STATS		= (1 << 2),
+ 	NVME_MPATH_CNT_ACTIVE		= (1 << 3),
++	NVME_MPATH_CNT_IOSIZE		= (1 << 4),
+ };
+ 
+ static inline struct nvme_request *nvme_req(struct request *req)
+@@ -367,6 +368,7 @@ struct nvme_ctrl {
+ 	struct timer_list anatt_timer;
+ 	struct work_struct ana_work;
+ 	atomic_t nr_active;
++	atomic64_t inflight_size;
+ #endif
+ 
+ #ifdef CONFIG_NVME_HOST_AUTH
+@@ -416,6 +418,7 @@ enum nvme_iopolicy {
+ 	NVME_IOPOLICY_NUMA,
+ 	NVME_IOPOLICY_RR,
+ 	NVME_IOPOLICY_QD,
++	NVME_IOPOLICY_ST,
+ };
+ 
+ struct nvme_subsystem {
 -- 
 2.43.0
 
