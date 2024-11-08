@@ -4,55 +4,176 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DF73D5E124
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 03:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EAC3D5E12D
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 05:00:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0vTwcqlNTxpupUm8LuR+47+qzjLW9Pak4HPOTiUsuuM=; b=GS63I8lHEY0ic0dprgfzI+M0lF
-	pwBlsUzw3pt91SpSWotNNWnF4gUSZEZFERQ/5LKDQ67lSwerCXo67QsB24N9hOGSqi8GxJZfkpfrY
-	gbK2/5d7mTuRwW/awbwJvWXmt+i+Bfr2Fm4PgFpvzldJlsLul6Z4PNGv9VYPJU6HOUpvIwl8mgmFs
-	f83Kg0N2GWsqYqIFf5p3vEmXpFYB2tNNpVisPlhsVUv/MtnBsrGNz9vGM8i1YZ2nO9AbRvS9l1ad4
-	05K1VOXbzfU9gpVpO10j8zo1XAt2R9N+W9iQFIcy3ZpTlPjpGe5/Gxj0/H2xj+FkpQNDhoxd8nU+n
-	Uia5bBwQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=N3HvizoBPG9t3LNgW8jwsZYyg6bOf72C1kyZ4/e2X/c=; b=MZcdFRq+kiwwQQgRcHxLfs7WiR
+	KDIAm56OCNLIv5gIfBJKloNqti4dtd+2MLZbroz8e4vv3uj+8MFl8VEOtTBl3VSsijMZiYusHO+mb
+	PA9Oj5k+TRyxlJjUH/4FvtzeF0bfFbzdfhBVWjl6NNeqztN7xmXil/q1sdGhqPzK65ZdWbCaG3Hay
+	+BGdcwhkSuItNlPESilCHKA29X7bt6Vw5i+GhbZOq8/Hif7cXedy5jv/+fAIh3Yo6DHfNx/+hGSG0
+	3YGWR7DiNRBoyrBtTjnwPLxwK5zsOytJsZk9I7BfGMNDV9LF83ntvIStSkCOp+MisjEoFiwpNmo9C
+	JyzeWbBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Fgz-000000098UZ-2pFs;
-	Fri, 08 Nov 2024 03:29:49 +0000
-Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
+	id 1t9H6t-00000009LIh-0OP0;
+	Fri, 08 Nov 2024 05:00:39 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Fgu-000000098Tv-2mkj
+	id 1t9H6p-00000009LHA-1Zu5
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 03:29:47 +0000
+	Fri, 08 Nov 2024 05:00:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1731042035; x=1762578035;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=4Atp+KexUYe1ID/6Mqf3YuOUu4JCEPvjcsTVGfnHNvE=;
+  b=cpSq7YHs9ySGZsKyQpdyb6DhecBGI1NND4omjkLvMQcJJ4fnnaJsplpG
+   6as4I8qVnj8K1zPkWuLSyIS4O9Mtw5r1E+kKL/u6Oz3JXJzpUFs6sWNKL
+   beDPLmUcqU6bMzTURC1f5ANLnJH5rR8DVmuABYLBxwWBum4e5iqEPt7vo
+   eHTKIECNWBn9PUtcWHE6EUrvAeoQjoFaaIZkUe0c+ZVrtQ98TdlOPxTfD
+   KnhQ9pMzJuMNoBoYEj+zIuOvAbvkj/VUy1qwZDj06fZh0g9x40cwoZlGz
+   OZUn/+S0MxX1xs3HCsYxCvkH8G3YCPzmbOWTLRy/Y2F2bkHz4kXb7hvnO
+   w==;
+X-CSE-ConnectionGUID: 7+11sBq3SqGxpIzqG6ZqIA==
+X-CSE-MsgGUID: cOYFJ/nYQBCbkilZiZ0Alw==
+X-IronPort-AV: E=Sophos;i="6.12,136,1728921600"; 
+   d="scan'208";a="32053482"
+Received: from mail-westus2azlp17010006.outbound.protection.outlook.com (HELO CO1PR03CU002.outbound.protection.outlook.com) ([40.93.10.6])
+  by ob1.hgst.iphmx.com with ESMTP; 08 Nov 2024 13:00:33 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xu27WsYXgbLxV9r6yEey0GQ8+TYIQZYvNS4GC9nNx6Lp5EQR3r50Xq4rIZYFTQA5yjjo5/hYZ3QEwHQTk1gyY5jkhpuOvs3OolWY0KnSflwTMMcocBTueCLjFAWgLY3Yc0KtS4ozQ71+QgF22HdkjQ+ylqE9815WsVDkn5rg+BlclhxhkcoWwo2LhZanFdSP6SK6BZyNGIx8JuUFomhlxM248vtpjc1M0uY5Ymks5K+i1uhTF9sbYtBikKivTsB0a7352Yr+hOwf5xFez7NGBUnZJYieUL9YsMTBn6i3K8tTBSh+7sCe8Qne8NnxK8h6Kliozwz48fSjmFfLqujg1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N3HvizoBPG9t3LNgW8jwsZYyg6bOf72C1kyZ4/e2X/c=;
+ b=nXfDy4b4g0GKfzm5qar3Mam+AV5eHXmN+sFHCwFdNdix0XrA6GmnYxQhP0gialj57un3o2ydgH/1gDbc3jpFdZ5RPCqYO6EvvbAG/YmPCW54N0uY2gpXzRlePxW6bLbpdvtuuIZnHYCKJ/TM+3j8kDCiuJc2W5eOwXLW9IV5GPeO+8Ox5Ubm4nEdUhHT6RgSp4RjOLKhdOzc5FQUzF4xRx8vqhvR/7lWoWCr5M94xjhhMIDYkQw9Qzxa0/LK2IsS06/qDdqd09Y9SiZZ+ZDiViMym1IiDZIM0gFaplX4VKJoFZ+nGFLWlIlnhD+Y3q2hPX/oCzg1X9Wr/4dfs74vgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1731036580; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=0vTwcqlNTxpupUm8LuR+47+qzjLW9Pak4HPOTiUsuuM=;
-	b=Vf1CroMRH0eZ3SVr39fO5zc0a3BaTvQbRUJMWZq4Z0m0GwB/QsL2bNmMjMzW8bDO7PM7rqOggKJcAYOGm2fLtcHIivv6aLrSZqn/8o2pcS97mRwK+5TphHI9ALLM4Mh10SMUpWw6XZ9Av5T4y0JBjsquAKy3oqYTER09AFKVzRs=
-Received: from 30.178.81.252(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIxQktM_1731036575 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 08 Nov 2024 11:29:37 +0800
-Message-ID: <c44c4ea6-ef4d-4152-ba21-9a76011dd75e@linux.alibaba.com>
-Date: Fri, 8 Nov 2024 11:29:35 +0800
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N3HvizoBPG9t3LNgW8jwsZYyg6bOf72C1kyZ4/e2X/c=;
+ b=xDRi2bZMthx+DY15Ypj/Ee+ImgjEXV18WBxgdABygHDl4rieoV1xNz1Z3LJJk2bwfgalqp6f2smBTnr/cUT2L60wDeqfTqCBKai1lKFUBhYtV/tVPzfcW4SrKsn/xWlONiwe/4Q/njOLSCv9+ohmypMYDt407eGzcQLsSU1SxC4=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ BY5PR04MB6455.namprd04.prod.outlook.com (2603:10b6:a03:1ed::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.21; Fri, 8 Nov
+ 2024 05:00:30 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8137.019; Fri, 8 Nov 2024
+ 05:00:29 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>
+CC: Chaitanya Kulkarni <chaitanyak@nvidia.com>, "kanie@linux.alibaba.com"
+	<kanie@linux.alibaba.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+Subject: Re: [PATCH] nvme: test nvmet-wq sysfs interface
+Thread-Topic: [PATCH] nvme: test nvmet-wq sysfs interface
+Thread-Index: AQHbLu/o7uVXkmU4Vkas0lacIZBpRLKoQ2WAgAFbpACAAI2qAIACq68A
+Date: Fri, 8 Nov 2024 05:00:29 +0000
+Message-ID: <gkkr6tngxtb2kdfhlbl3n7mwxh2qkudgjxmd6djcc5umbpqh6j@7xpviqxh4nju>
+References: <20241104192907.21358-1-kch@nvidia.com>
+ <5d603860-33be-42a2-86c9-a10c224c813d@flourine.local>
+ <bd5ea038-42ab-433a-943f-d385ccd96770@nvidia.com>
+ <ed4782f6-8fb1-464c-afd2-e03c51030768@flourine.local>
+In-Reply-To: <ed4782f6-8fb1-464c-afd2-e03c51030768@flourine.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BY5PR04MB6455:EE_
+x-ms-office365-filtering-correlation-id: 2faf532e-2b86-4957-6a59-08dcffb24436
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?quCq8ugNpMbnHjoXTpz/rZewNuc0x7AR83IyooXeZfD24JCnmBb9+yhJyJ+5?=
+ =?us-ascii?Q?MmlzEJVIS5LU+nKGdkiY7lpTRSt7o2gZr4eBAVgm3/gP9m9Dcajz2O6SCPVE?=
+ =?us-ascii?Q?oyaY3j7Zo4G7ZYirGzkNxPcDh4NlEUnNucaFHKEhSWile0VSqUpHkWCwpABW?=
+ =?us-ascii?Q?7CGWpY/1RsUN11T8OS8YaUH9HxB6TvAxqFXQ9tHdhzO3AEmwDZqdRiZTZU8A?=
+ =?us-ascii?Q?oV6K7UZ+wrZrI+NSzlKJtpkyZTkvk5aLVHusZiiJAfy/4hYsXWQJQYZsWFLk?=
+ =?us-ascii?Q?6A3OTgHZmNrsZPcI++DOIxT1rJTt58MfavkVoVX9ZEWY53eG4WM5m6eXsRme?=
+ =?us-ascii?Q?uDoLIU1EvVc7B/3RQ11ovDgT6i4ZVBlzPkUS2EV0HsLzjR/T1HUE5JAqOwmr?=
+ =?us-ascii?Q?+llozSPmSOsukqcbEg4Yp/UKwDSVPD0tvIb5FQO7zk27moCAxcliBf74cY+M?=
+ =?us-ascii?Q?a5KbhXjcsrtu8KL92fmXJLpkffpPkqhdHRiCX1PpqMyPf3Dxz1EK6EVnR6Ke?=
+ =?us-ascii?Q?cHPlMCz5rcB2pcv2T6anUg98d0nfdAij51XoH96m4mt2PdD4Q3It5Jq828F+?=
+ =?us-ascii?Q?IwEnX8Xrd1F6mKJ+TrtS8ewsO+e6JeDIpubXT5tVEqph86rh2rsyOQO8OZsl?=
+ =?us-ascii?Q?ef3t2SCQioxeOakaXxZg6izPhomI4dDMZuSfp5RAM/wGPnULAQCQwK/iCANQ?=
+ =?us-ascii?Q?17532Q5+S4LBCQs8Ll2v89FVcUX7hxN13k7UD7aMl3KShDnispluNm8tw4X5?=
+ =?us-ascii?Q?4YX+AARox4Ik0J5pDqNo0M+W6Vvi84jK9FEe84qs6fv6CJ2c/8ykHrfHaoYK?=
+ =?us-ascii?Q?wT+foKjeO2nxyDckE3g/kcxoAzo6EVuEvXCKjpru8Tcy9XhxhKUaGYQsMspl?=
+ =?us-ascii?Q?iwMwKtbCE289lWkh9xdnZouqBECL7ryG8YJPxrRaBlsqkna3p2F++rVkYPPa?=
+ =?us-ascii?Q?zTLEzM7FEs9qb+uTySVyHnM0fTZgqLkwBxhooFXZ74CBN1XNXtmTMuMBtQT6?=
+ =?us-ascii?Q?NHkHok7+N9pG18ooEhYqMmoohJRzgQlL1u5d5e2AIUvzk1a4k6AkbeRstDvp?=
+ =?us-ascii?Q?ALlRXEWCn74NwT/KqOz5RTrQ3ykNW+LTJX6qcOZpwMcqPWoO6XBWBsowBX+4?=
+ =?us-ascii?Q?b4TlLThnbNGqARL71RcpjKHNn6fIy3y2nrso7ajcxpwYyMSOXH0GD60QQkYE?=
+ =?us-ascii?Q?VM6PgNI6w/ywFn/INh6wRPlk02JUTy2JEIx0lEpzlISgz0c2vhHILruxg1cV?=
+ =?us-ascii?Q?USBqSU1GsnYRj6Vs/G/8NZuINyLpP8mvmz24jzairPsA03Dx4mXnTy5nkWLV?=
+ =?us-ascii?Q?uawNMnex9hTnLDR9cLxv1WKkIYYYHnjuoZQ/tvifLn5fib38hMm2BBItwAWk?=
+ =?us-ascii?Q?6H/u1CI=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?jRPxKJ3ELRycYpBubkJ2nASzk/Q8iejaareCs59O2nNDVV/gPHBC5LRbpHAR?=
+ =?us-ascii?Q?ECtJmXr+wxdOEUdl2hC54EqvqUOUBTVjOZlmY87f7HPyMDYgxYKoFoBizNca?=
+ =?us-ascii?Q?0pzqfzNqllq78yPcFT5UKntoyG+Ssbe15uXZIqGeCiKXRYkuSdfCeWoz9lXy?=
+ =?us-ascii?Q?yN/1BXDbYrY7aiB+eWoAQXnMvdGc0vvfVn2YM5quOlZLKGDuSx8ROJXG5+kr?=
+ =?us-ascii?Q?ZzNSB2sWj9FOa5rZ0cnL7d7/2bRFn/17v+fGDdwqwxW7AQNtoXiiieLhGgLb?=
+ =?us-ascii?Q?2R0uzRPPXgWOsMDUoG+x3b1XzsFmOlol321CkhPrQ33SBo5X4jr5IhbHP1Bc?=
+ =?us-ascii?Q?jj75KIRtWPQinuI2s6cjuDiDm4CU4J62zKyym/KiVVgF4Sf5UjocobzNMw0Q?=
+ =?us-ascii?Q?gdvJAF3vStonFn5YDVs0In4rBkO8IkfrbfCkmfRRWV8mYI7YNGFmCiwos1bi?=
+ =?us-ascii?Q?zACN+RGbWXGlBszJ6EAshEoCiZxwgJC2RX6vIzyMuElGRBRMvlU2tJu7lpB1?=
+ =?us-ascii?Q?GbqyuRTnYSfBpaIGyGR3Vu8VEb/bPfZGj0cEIHF8ya8k6buU85VLwrbn4/6a?=
+ =?us-ascii?Q?jwEX138zMX/JEsHewp3Lbg4b481wM94TZIXuiwyw5vSri2z9GRCLiMCSPMoz?=
+ =?us-ascii?Q?Zc7WCCsREV9uc7OgjdDmlibo8900ER+m3Mz9Z2Ro4e/sHciHjI1dI3bk0BpH?=
+ =?us-ascii?Q?dUK9xKCeEt+VO3qF73P81stE8RF5TvGJEADJPEjIPJVVf4aGIjhZAIIgnOH2?=
+ =?us-ascii?Q?xmaCwrbGQVcNciuh2+wXa8VlnEUQNY7w37KF7e8bJd6bhTNPDj18ZB87FYF1?=
+ =?us-ascii?Q?vzRJkvcCrQVonkHcIY42Ji2d+XOnwfyl+K1CJMJxwVd+S7P5m1BGQLAP1DO7?=
+ =?us-ascii?Q?YiWbqwpl8W5Mt0my8iLXbFj99TiwyMjBLCsj69fCExDZ3RUFHAp0EyzzeSp8?=
+ =?us-ascii?Q?FrJ4EgSkoWhFd0POXWeSdOsIe99ErFRrK+u7RKnSTX4Ey3jAN1USeqmmbWTs?=
+ =?us-ascii?Q?FELQcLmyKOpIKuGklzG4jGj4AaiRwISw/PYFdN4Dqg8cf9lj/VSw4KAloGF/?=
+ =?us-ascii?Q?GdJGS/Ylaasu1L0QGPvsa8RHiL2WTVCG+t0pcFAkNs+Q3xtpo0l1OUaSu085?=
+ =?us-ascii?Q?3+541T3kj9TPm42Fr6LpPT86pe27pTgIn+31YsA3rCaLM3+qJd4RYz1w1xQV?=
+ =?us-ascii?Q?wkMY9G7VaiTfNS69/XhVr7FVa/aAdnOOocUV7R+nFMpDCbtquSxQkGb2wo+a?=
+ =?us-ascii?Q?t1HuYipiVC6+g464IfODehiTsjrnU4dDWxKsbvVd2VhnvATsTV2c/fvcLFrY?=
+ =?us-ascii?Q?HwHY3UAhbvjCVJiqEiBYxucykvVoa4sqiarF7i+j9GBWBWgxUmfzyUHkanCw?=
+ =?us-ascii?Q?Z1XMTiLKH/0q4ut5ulNlt70UMHVCAo0rVd/irV1zkJyc1+a+85flNvulqV0X?=
+ =?us-ascii?Q?nNAa/K4Vl5dVCpefXDEpNuJbc6yu45zqI7oadvOy08qCO6qw6fA+pbgQ0Uw2?=
+ =?us-ascii?Q?vLSYJRZjOWiYRuoylsjYrUI7YF09H5BHJWcIUPd86b2rnkfjDPgKT0nFGPVT?=
+ =?us-ascii?Q?uDlJMWs2UYfF+L3tXh8ebZmWto3Q1h8lUWBP3at7HjGGvryqUVk0nfwuxegH?=
+ =?us-ascii?Q?8HfQ0EGSAC0ggi97zsuFo2k=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <F7C23EB0AE8D3042A2E541AD8341A705@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [linux-nvme:nvme-6.13 7/7] drivers/nvme/target/pr.c:857:34:
- sparse: sparse: incorrect type in assignment (different base types)
-To: kernel test robot <lkp@intel.com>, Keith Busch <kbusch@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Dmitry Bogdanov <d.bogdanov@yadro.com>,
- Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
-References: <202411081109.soCWJfGT-lkp@intel.com>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <202411081109.soCWJfGT-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: JV1LasKEz/8mQF2jr0mSeWKwZi0qoV/mKZMFhnOGFn1hYP832NwtNyu0CW+G4t4vJAFNPi1YHnF50B70fZA++e8lImyXaKyprpx2xEwa/9tpKhJVsorsWmif6WvWLkX5LDBCTv86vLsOQU0T+zFw7PZMyLqCPECucVvCnQB+Tj3saS+sZPeLwkNy39ZcT1oHygp6j22y3O0xR2xTDt0ooNkTXURzJcRObd9RA/StsjjQaRUG0vi2zIuegeqVvdWd7VZT3UblQGkI8kZjkH3eoHHi6XvSNBpXtx/iv8fal1te4c47gQQ6AZ1xGcZCf4JebCoA9C0S9PNdDY0rekarwdV7FJNtCnnw0Lbb28o9aaDq+R2Y1nVhlpeeBl1/be4oO3Q2bLABTjHX4NurNIAyCrvZKCzTl+NHmp/xMZ69xbgoH4kCXTEjdiHH6GTaZEwVlXQqzaIxU3lQM2wxOi5Ysb0+R5MGmZ061p7EZAXS46gHZDJ9YMLJP/WULKSgDk/Cx3WX3tjUdyCcCwLds0sYX9Ms0WSmV9eUXqLBZMQMIZfC7iOKqwheR6nEEu3rtwfUS0Bove9ruE4oCpGZI1Dk8Ff1YPcRxEuOZmm1G7e9yMQ9rklItn07Qy0B0838Zh0x
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2faf532e-2b86-4957-6a59-08dcffb24436
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2024 05:00:29.2878
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EjQYJV5tMSQTIE4VMCO+EQ5Iu4oWTn9VUbZUbosocLdqeETBXDP+O/Cxylqv/Ss/q5yBWhSCDPN3voyj7Mcg4RF+kXasTFpO3DLcUmff+2Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6455
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241107_192946_047427_FDBBBDB9 
-X-CRM114-Status: GOOD (  12.07  )
+X-CRM114-CacheID: sfid-20241107_210035_499586_9436D285 
+X-CRM114-Status: GOOD (  27.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,109 +188,126 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Nov 06, 2024 / 13:13, Daniel Wagner wrote:
+> On Wed, Nov 06, 2024 at 03:46:26AM GMT, Chaitanya Kulkarni wrote:
+> > On 11/4/24 23:02, Daniel Wagner wrote:
+> > > On Mon, Nov 04, 2024 at 11:29:07AM GMT, Chaitanya Kulkarni wrote:
+> > >> +# Test nvmet-wq cpumask sysfs attribute with NVMe-oF and fio worklo=
+ad=20
+> > > What do you want to test here? What's the objective? I don't see any=
+=20
+> > > block layer related parts or do I miss something?=20
+> >=20
+> > For NVMeOF target we have exported nvmet-wq to userspace with
+> > recent patch. This behavior is new and I don't think there is any test
+> > exists that runs the fio workload while changing the CPUMASK randomly
+> > to ensure the stability for nvmet-wq when application is using the bloc=
+k
+> > layer. Hence we need the test for latest patch we have added to the
+> > 6.13.
+>=20
+> Though this is not a performance measurement just a functional testing if
+> the scheduler works. I don't think we should add such tests
+> because it will add to the overall runtime for little benefit. I am
+> pretty sure there already tests (e.g. kunit) which do more elaborate
+> scheduler tests.
 
-在 2024/11/8 11:18, kernel test robot 写道:
-> tree:   git://git.infradead.org/nvme.git nvme-6.13
-> head:   4c0ce9416cd06e9ef0e049f7a9226707c3786b1a
-> commit: 4c0ce9416cd06e9ef0e049f7a9226707c3786b1a [7/7] nvmet: support reservation feature
-> config: x86_64-randconfig-121-20241108 (https://download.01.org/0day-ci/archive/20241108/202411081109.soCWJfGT-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081109.soCWJfGT-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411081109.soCWJfGT-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->>> drivers/nvme/target/pr.c:857:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] cntlid @@     got int @@
->     drivers/nvme/target/pr.c:857:34: sparse:     expected restricted __le16 [usertype] cntlid
->     drivers/nvme/target/pr.c:857:34: sparse:     got int
->
-> vim +857 drivers/nvme/target/pr.c
->
->     802	
->     803	static void nvmet_execute_pr_report(struct nvmet_req *req)
->     804	{
->     805		u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
->     806		u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
->     807		u32 num_bytes = 4 * (cdw10 + 1); /* cdw10 is number of dwords */
->     808		u8 eds = cdw11 & 1; /* Extended data structure, bit 00 */
->     809		struct nvme_registered_ctrl_ext *ctrl_eds;
->     810		struct nvme_reservation_status_ext *data;
->     811		struct nvmet_pr *pr = &req->ns->pr;
->     812		struct nvmet_pr_registrant *holder;
->     813		struct nvmet_pr_registrant *reg;
->     814		u16 num_ctrls = 0;
->     815		u16 status;
->     816		u8 rtype;
->     817	
->     818		/* nvmet hostid(uuid_t) is 128 bit. */
->     819		if (!eds) {
->     820			req->error_loc = offsetof(struct nvme_common_command, cdw11);
->     821			status = NVME_SC_HOST_ID_INCONSIST | NVME_STATUS_DNR;
->     822			goto out;
->     823		}
->     824	
->     825		if (num_bytes < sizeof(struct nvme_reservation_status_ext)) {
->     826			req->error_loc = offsetof(struct nvme_common_command, cdw10);
->     827			status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
->     828			goto out;
->     829		}
->     830	
->     831		data = kmalloc(num_bytes, GFP_KERNEL);
->     832		if (!data) {
->     833			status = NVME_SC_INTERNAL;
->     834			goto out;
->     835		}
->     836		memset(data, 0, num_bytes);
->     837		data->gen = cpu_to_le32(atomic_read(&pr->generation));
->     838		data->ptpls = 0;
->     839		ctrl_eds = data->regctl_eds;
->     840	
->     841		rcu_read_lock();
->     842		holder = rcu_dereference(pr->holder);
->     843		rtype = holder ? holder->rtype : 0;
->     844		data->rtype = rtype;
->     845	
->     846		list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
->     847			num_ctrls++;
->     848			/*
->     849			 * continue to get the number of all registrans.
->     850			 */
->     851			if ((void *)(ctrl_eds + sizeof(*ctrl_eds)) >
->     852				(void *)(data + num_bytes))
->     853				continue;
->     854			/*
->     855			 * Dynamic controller, set cntlid to 0xffff.
->     856			 */
->   > 857			ctrl_eds->cntlid = NVME_CNTLID_DYNAMIC;
+When I ran the test case on my test system using the kernel v6.12-rc6 and t=
+he
+patch "nvmet: make nvmet_wq visible in sysfs", I observed a kernel INFO [1]=
+.
+This INFO looks indicating a bug in nvmet driver. Is this a known issue? Th=
+e
+INFO is stably recreated with loop, rdma and tcp transports on my test syst=
+em.
 
-Hi Keith,
+If this is a new, unknown issue, this test case a good test to exercise nvm=
+et
+driver. It looks worth adding to blktests.
 
-     I miss here should use cpu_to_le16, should I send a v20 to fix this?
+As for the runtime cost, I think the test case can be modified to reflect t=
+he
+TIMEOUT variable users set. This will allow users to control the runtime co=
+st to
+some extent.
 
-Best Regards,
+[1]
 
-Guixin Liu
-
->     858			if (rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
->     859			    rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS)
->     860				ctrl_eds->rcsts = 1;
->     861			if (reg == holder)
->     862				ctrl_eds->rcsts = 1;
->     863			uuid_copy((uuid_t *)&ctrl_eds->hostid, &reg->hostid);
->     864			ctrl_eds->rkey = cpu_to_le64(reg->rkey);
->     865			ctrl_eds++;
->     866		}
->     867		rcu_read_unlock();
->     868	
->     869		put_unaligned_le16(num_ctrls, data->regctl);
->     870		status = nvmet_copy_to_sgl(req, 0, data, num_bytes);
->     871		kfree(data);
->     872	out:
->     873		nvmet_req_complete(req, status);
->     874	}
->     875	
->
+[   87.365354][  T963] run blktests nvme/055 at 2024-11-08 09:32:42
+[   87.433572][ T1011] loop0: detected capacity change from 0 to 2097152
+[   87.452511][ T1014] nvmet: adding nsid 1 to subsystem blktests-subsystem=
+-1
+[   87.478018][ T1019] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+[   87.565565][  T226] nvmet: creating nvm controller 1 for subsystem blkte=
+sts-subsystem-1 for NQN nqn.20.
+[   87.570700][ T1026] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for =
+full support of multi-port dev.
+[   87.573064][ T1026] nvme nvme1: creating 4 I/O queues.
+[   87.577041][ T1026] nvme nvme1: mapped 4/0/0 default/read/poll queues.
+[   87.580437][ T1026] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", ad=
+dr 127.0.0.1:4420, hostnqn: nq9
+[  101.337422][ T1073] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1=
+"
+[  101.383814][  T104] INFO: trying to register non-static key.
+[  101.384456][  T104] The code is fine but needs lockdep annotation, or ma=
+ybe
+[  101.385136][  T104] you didn't initialize this object before use?
+[  101.385758][  T104] turning off the locking correctness validator.
+[  101.386392][  T104] CPU: 1 UID: 0 PID: 104 Comm: kworker/u16:4 Not taint=
+ed 6.12.0-rc6+ #361
+[  101.387197][  T104] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996=
+), BIOS 1.16.3-3.fc41 04/01/204
+[  101.388109][  T104] Workqueue: nvmet-wq nvmet_tcp_release_queue_work [nv=
+met_tcp]
+[  101.388868][  T104] Call Trace:
+[  101.389203][  T104]  <TASK>
+[  101.389484][  T104]  dump_stack_lvl+0x6a/0x90
+[  101.389927][  T104]  register_lock_class+0xe2a/0x10a0
+[  101.390444][  T104]  ? __lock_acquire+0xd1b/0x5f20
+[  101.390921][  T104]  ? __pfx_register_lock_class+0x10/0x10
+[  101.391479][  T104]  __lock_acquire+0x81e/0x5f20
+[  101.391939][  T104]  ? lock_is_held_type+0xd5/0x130
+[  101.392434][  T104]  ? find_held_lock+0x2d/0x110
+[  101.392891][  T104]  ? __pfx___lock_acquire+0x10/0x10
+[  101.393399][  T104]  ? lock_release+0x460/0x7a0
+[  101.393853][  T104]  ? __pfx_lock_release+0x10/0x10
+[  101.394351][  T104]  lock_acquire.part.0+0x12d/0x360
+[  101.394841][  T104]  ? xa_erase+0xd/0x30
+[  101.395255][  T104]  ? __pfx_lock_acquire.part.0+0x10/0x10
+[  101.395793][  T104]  ? rcu_is_watching+0x11/0xb0
+[  101.396271][  T104]  ? trace_lock_acquire+0x12f/0x1a0
+[  101.396770][  T104]  ? __pfx___flush_work+0x10/0x10
+[  101.397266][  T104]  ? xa_erase+0xd/0x30
+[  101.397658][  T104]  ? lock_acquire+0x2d/0xc0
+[  101.398089][  T104]  ? xa_erase+0xd/0x30
+[  101.398501][  T104]  _raw_spin_lock+0x2f/0x40
+[  101.398933][  T104]  ? xa_erase+0xd/0x30
+[  101.400167][  T104]  xa_erase+0xd/0x30
+[  101.401359][  T104]  nvmet_ctrl_destroy_pr+0x10e/0x1c0 [nvmet]
+[  101.402767][  T104]  ? __pfx_nvmet_ctrl_destroy_pr+0x10/0x10 [nvmet]
+[  101.404235][  T104]  ? __pfx___might_resched+0x10/0x10
+[  101.405558][  T104]  nvmet_ctrl_free+0x2f0/0x830 [nvmet]
+[  101.406900][  T104]  ? lockdep_hardirqs_on+0x78/0x100
+[  101.408192][  T104]  ? __cancel_work+0x166/0x230
+[  101.409398][  T104]  ? __pfx_nvmet_ctrl_free+0x10/0x10 [nvmet]
+[  101.410726][  T104]  ? rcu_is_watching+0x11/0xb0
+[  101.411938][  T104]  ? kfree+0x13e/0x4a0
+[  101.413073][  T104]  ? lockdep_hardirqs_on+0x78/0x100
+[  101.414318][  T104]  nvmet_sq_destroy+0x1f2/0x3a0 [nvmet]
+[  101.415556][  T104]  nvmet_tcp_release_queue_work+0x4c0/0xe40 [nvmet_tcp=
+]
+[  101.416912][  T104]  process_one_work+0x85a/0x1460
+[  101.418064][  T104]  ? __pfx_lock_acquire.part.0+0x10/0x10
+[  101.419266][  T104]  ? __pfx_process_one_work+0x10/0x10
+[  101.420427][  T104]  ? assign_work+0x16c/0x240
+[  101.421486][  T104]  ? lock_is_held_type+0xd5/0x130
+[  101.422555][  T104]  worker_thread+0x5e2/0xfc0
+[  101.423574][  T104]  ? __pfx_worker_thread+0x10/0x10
+[  101.424639][  T104]  kthread+0x2d1/0x3a0
+[  101.425587][  T104]  ? _raw_spin_unlock_irq+0x24/0x50
+[  101.426644][  T104]  ? __pfx_kthread+0x10/0x10
+[  101.427637][  T104]  ret_from_fork+0x30/0x70
+[  101.428596][  T104]  ? __pfx_kthread+0x10/0x10
+[  101.429562][  T104]  ret_from_fork_asm+0x1a/0x30
+[  101.430535][  T104]  </TASK>=
 
