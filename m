@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8230ED12D74
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 822CCD12D72
 	for <linux-nvme@archiver.kernel.org>; Mon, 11 Nov 2024 04:38:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,61 +12,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hubkZwx3K6QSYt4MPDN5HJUCdcIscdXdSF4J6blze28=; b=x6ABmWge8gZI0Su6XOJv5KhquC
-	kQkAVkAlU1eR4sU11IinYFa3SY/GStBBTLquabNCOKq3EYufvzQIguB0OAMlwTGxY26OSYgrvliAt
-	CtU6xaNsa+Lsl228fyNthrB6Y+2pjTBQ+vkQbeNDf96RDqApVgIQ1naCN1Omzvo7MfVUlP7KiP7ef
-	7GoKoykCaDkGlubods/l3YoI61Ij8oSZxYpRP/3kesRGufotjdVReu9cmhhTs8ZM2IgsmL8cVM0UB
-	JIKu2kNGYt0GSnOPQQZPpb783+VCp5nMuHTFtQCqR3CDmbn1xbMKS9JLpANPaYz7HUrs+Gyk5/wB7
-	4HGNGNeQ==;
+	bh=nbYXv3yCM9yQzCKa6ScUYgOxj5i+yJ5Ve18Z6DNxO2Y=; b=e4NfHvZ6l8KHsQ+p/ppd+YClnk
+	OEfTKyP/994mejXFXfNr15uDZPkyHmuLWj+Fp2YPdBrCH79mbpcgv25ArpBp+vfF0L2itQyLwz95U
+	sYRgpk8pUUsgrc1eCVdv4Xq0e5Ga8JJ2ZOT98S2WaeglDmh5EfmL63VxLnSRThwu20kSS6euuU3D4
+	m5gbzayouMxZJVFUg9RorDzR5ItLW5dBjtJE0RcpJ72eEZenx5JG8UYtjJ/D4h5u974vT7qpYKGVO
+	MZ71HiZDjooof5jsjbkZ2VkakdnCt2n3IKOiTtEYWR6FoS6nk6UAgdWZa7jsOUVKUkyokbY1ulKXD
+	U8wQlicQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAMCM-0000000GKZk-39vT;
-	Mon, 11 Nov 2024 04:38:46 +0000
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
+	id 1tAMCO-0000000GKZz-0EKC;
+	Mon, 11 Nov 2024 04:38:48 +0000
+Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9QVL-0000000Awhv-3fg1
+	id 1t9Qrj-0000000B14Q-4348
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 15:02:35 +0000
-Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-4608e389407so25214821cf.2
-        for <linux-nvme@lists.infradead.org>; Fri, 08 Nov 2024 07:02:30 -0800 (PST)
+	Fri, 08 Nov 2024 15:25:41 +0000
+Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-7b14077ec5aso311525185a.1
+        for <linux-nvme@lists.infradead.org>; Fri, 08 Nov 2024 07:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1731078150; x=1731682950; darn=lists.infradead.org;
+        d=ziepe.ca; s=google; t=1731079538; x=1731684338; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hubkZwx3K6QSYt4MPDN5HJUCdcIscdXdSF4J6blze28=;
-        b=O9y41eW0KHnO2lEAPw6/nJLTU2tgg9dD3CahSlJPeaawjEND/H/3OZoQDhA/0d63Hq
-         u/cvs1TSNHwPgRtBTZGHocYJK9R9Gw/pBoMblFN4laf0l9SVBOOv4AqfTJXH1x7lYncv
-         L6UJ0i8KrXGGjUm0FkParMVVSoq7Et0ecczHWP6Ma6SZomQUKkWZ7fT1t4gbQ44rJzJl
-         WIEu+KmQ3+vLkk3h6zOGnoI/BfZ0L/4OYQriE4CF/r7UFKG9fRSviLMl1Wm26LXNU79R
-         2J2qFhSWIoCA+lCaEh0oHjk6eEcXS3Awp71XY16fHZML1Mmp7Z4A1uu/bmHKlt5BIp7V
-         TMtg==
+        bh=nbYXv3yCM9yQzCKa6ScUYgOxj5i+yJ5Ve18Z6DNxO2Y=;
+        b=KVewtFbN2MQgH29BsB36UGM1cp99k+wszcPtgDToARI5SaA0ajpGgAk/tsRuuQaoIN
+         C8ajOTb705K4hbw3GuQXDpqrO2AJcgwbq5UdVkt93+BYjn/wruQOsthe3CXO7PZZmArZ
+         kznJf56Q7ZUNsFwSY+WMfg9qghJ+uqHawDinAWheGSRBYbHur7MnxwfE0Bjmb01+VZqj
+         Nw6Tdfaf7+8IX0Pz/l8kCXXWx+H5FN37ZLkGJX4d5884e16oJh996OVfUu/OiPwX3WCG
+         V3+hjJFPZe8a4V9iGCWdGE2yZAfVf6r6qy6NNe2EdaVkmLbkdBauFNYCHZl9rogbqCec
+         1n3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731078150; x=1731682950;
+        d=1e100.net; s=20230601; t=1731079538; x=1731684338;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hubkZwx3K6QSYt4MPDN5HJUCdcIscdXdSF4J6blze28=;
-        b=mYNRdHB2gz0LGBaF53EGLkhrkP0IgMSp+oFe/d8lokEYTkGmW1kpG00aFM5mPfyXOA
-         dK9YFstYbWt/C7zqaA/YVAIhnSDRdRQgyoX4ffcHkbFzNsl2Miwfdoyi/UfPIcYHZ+rD
-         MNMNpv+pRjzGYU9fiJKv9YGqTBiwE3X5tjnIKoLirGHW7r4OUzlq4NdF6+K99paT9bB1
-         phYJgxe6xTO5VCPgvRWlf8VrVOpFMUBxYUK1fkyNuScyglyxRdPV8h8sbm/ky/XdYZqH
-         dgLMzH6bgnqim9phUJXOCsKuRF0Iwc93PVSnk79nwII9724N0LfcXWwpUI0JBMqCE0xm
-         DPWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKnEjNic3C3VE+ANiWGmNAPOox/ZQGYjo9BNzLDha9txsgHqHCQKO+pzxv828ryKgb4+ploFGU4wmT@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywa3lTcDYDUsiVa4/kRRm+wStCk6IqBJ28PhISq3r98Nm2biFlT
-	DsM7joA89XT6BlcOrhhLJ6TJ9A+mkRQznQhkl/wgrHxzwQgf0gPSflZZZ6N9w+E=
-X-Google-Smtp-Source: AGHT+IHrKrTFhKn6qkYBk/Mpkl+n+kU6F5VUVqIGxdFUtkBdvXhYcgcHiG/stLr7VzGEyxS593kC3g==
-X-Received: by 2002:a05:622a:1a92:b0:461:17e6:27af with SMTP id d75a77b69052e-463093698f2mr35032151cf.28.1731078149644;
-        Fri, 08 Nov 2024 07:02:29 -0800 (PST)
+        bh=nbYXv3yCM9yQzCKa6ScUYgOxj5i+yJ5Ve18Z6DNxO2Y=;
+        b=Bvz9mIk7LZBkGOtSz0taQ+HLsX8K01xwiI4eDYNopozB5OWMkcvd/8svXuy51PEyul
+         n0WRfdAfrHEzcKNG+epKYdeWrIxHk+tl/rDxYW25gawKOM9YSpPa7MFu8sEflbnNuxoe
+         YNp8rFgnr9Yugc1P80FwBTkj0I4eVkCVrdwE/DFxoLlScNaEgPhilgQ4YZ5m2IR43J9+
+         BwnotrZaelJcYM0gUpN8Z7iY6mwa8tmPTqEmUxOnZEcbLHWvbafScpnDo28O2/ATHZFs
+         SgQLMb7Ryj/fo2xiDzfXGs7zK44BFlzGm+kKVXMD7+8TQU6pPtMgCrcqUIutJBOGASY/
+         H+QQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV65dk1nkVASf1V+wxFMwbqrde3DtFaJtHZXJFlehU7YDZrqcOfO7WLmCYTtlMApfiTuQLoonfxLnNg@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz6O1oJTnALDlLD3saZ9bglZrrlvnetHmZbIqlYIZHoOyzr9rq3
+	idR2GVAdKv/gpt5IiCTAMLUyUSUT2BfIJO3W11i8Y5tL4tQ9n/G5pYbOWlNbzAk=
+X-Google-Smtp-Source: AGHT+IH4eRArrUDZm2rUOb5KR+8EAvAFtyYH0Fr2uIHFPXrPpQnSMiiNxtBbq8LowDrIix/biyMB3w==
+X-Received: by 2002:a05:620a:4049:b0:7b1:4cc0:5e32 with SMTP id af79cd13be357-7b3328aeb7dmr490547585a.9.1731079538361;
+        Fri, 08 Nov 2024 07:25:38 -0800 (PST)
 Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-462ff3df53fsm21177001cf.8.2024.11.08.07.02.27
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b32ac51659sm170158385a.42.2024.11.08.07.25.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 07:02:28 -0800 (PST)
+        Fri, 08 Nov 2024 07:25:37 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1t9QVG-00000002ZlF-2kIP;
-	Fri, 08 Nov 2024 11:02:26 -0400
-Date: Fri, 8 Nov 2024 11:02:26 -0400
+	id 1t9Qrh-00000002Zza-1RVx;
+	Fri, 08 Nov 2024 11:25:37 -0400
+Date: Fri, 8 Nov 2024 11:25:37 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Robin Murphy <robin.murphy@arm.com>, Leon Romanovsky <leon@kernel.org>,
@@ -91,7 +91,7 @@ Cc: Robin Murphy <robin.murphy@arm.com>, Leon Romanovsky <leon@kernel.org>,
 	himal.prasad.ghimiray@intel.com, krishnaiah.bommu@intel.com,
 	niranjana.vishwanathapura@intel.com
 Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241108150226.GM35848@ziepe.ca>
+Message-ID: <20241108152537.GN35848@ziepe.ca>
 References: <cover.1730298502.git.leon@kernel.org>
  <3567312e-5942-4037-93dc-587f25f0778c@arm.com>
  <20241104095831.GA28751@lst.de>
@@ -99,13 +99,15 @@ References: <cover.1730298502.git.leon@kernel.org>
  <20241107083256.GA9071@lst.de>
  <20241107132808.GK35848@ziepe.ca>
  <20241107135025.GA14996@lst.de>
+ <20241108150226.GM35848@ziepe.ca>
+ <20241108150500.GA10102@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107135025.GA14996@lst.de>
+In-Reply-To: <20241108150500.GA10102@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_070231_972341_F583511C 
-X-CRM114-Status: GOOD (  18.67  )
+X-CRM114-CacheID: sfid-20241108_072540_027705_13CC935B 
+X-CRM114-Status: GOOD (  18.47  )
 X-Mailman-Approved-At: Sun, 10 Nov 2024 20:38:44 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -121,30 +123,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 07, 2024 at 02:50:25PM +0100, Christoph Hellwig wrote:
-> On Thu, Nov 07, 2024 at 09:28:08AM -0400, Jason Gunthorpe wrote:
-> > Once we are freed from scatterlist we can explore a design that would
-> > pass the P2P routing information directly. For instance imagine
-> > something like:
-> > 
-> >    dma_map_p2p(dev, phys, p2p_provider);
-> > 
-> > Then dma_map_page(dev, page) could be something like
-> > 
-> >    if (is_pci_p2pdma_page(page))
-> >       dev_map_p2p(dev, page_to_phys(page), page->pgmap->p2p_provider)
+On Fri, Nov 08, 2024 at 04:05:00PM +0100, Christoph Hellwig wrote:
+> On Fri, Nov 08, 2024 at 11:02:26AM -0400, Jason Gunthorpe wrote:
+> > It is fully OK? Can't dma_map_page() trigger swiotlb? It must not do
+> > that for P2P. How does it know the difference if it just gets a phys?
 > 
-> One thing that this series does is to move the P2P mapping decisions out
-> of the low-level dma mapping helpers and into the caller (again) for
-> the non-sg callers and moves the special switch based bus mapping into
-> a routine that can be called directly.
-> 
-> Take a look at blk_rq_dma_map_iter_start, which now literally uses
-> dma_map_page for the no-iommu, no-switch P2P case.  It also is a good
-> use case for the proposed dma_map_phys.
+> dma_direct_map_page checks for p2p pages in the swiotlb bounce
+> path already in the current kernel, and dma_map_sg relies on exactly
+> that check to prevent bouncing for p2p.
 
-It is fully OK? Can't dma_map_page() trigger swiotlb? It must not do
-that for P2P. How does it know the difference if it just gets a phys?
+I'm asking how it will work if you change the struct page argument to
+physical, because today dma_direct_map_page() has:
+
+		if (is_pci_p2pdma_page(page))
+			return DMA_MAPPING_ERROR;
+
+Which is exactly the sorts of things I'm looking at when when I say to
+get rid of struct page.
+
+What I'm thinking about is replacing code like the above with something like:
+
+		if (p2p_provider)
+			return DMA_MAPPING_ERROR;
+
+And the caller is the one that would have done is_pci_p2pdma_page()
+and either passes p2p_provider=NULL or page->pgmap->p2p_provider.
+
+Anyhow, I hope Leon will attempt this once this is settled and it will
+make more sense in patches. I'm just brainstorming how I've been
+thinking of it.
+
+Another option would be some 'is_pci_p2pdma_page_phys(phys)', but I
+think that is going to be worse performance than managing a
+p2p_provider pointer in the mapping call chain explicitly.
 
 Jason
 
