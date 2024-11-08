@@ -4,83 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C88AD64072
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 18:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29657D64080
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 19:34:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JVPYyABt4fIR2H2QHQjsQ9GDszOfP+4CM0lq2I2MeHU=; b=49wWnE3tLbT/Crnoz7lM6QKS4t
-	QjSKpMqPTGxv3uFkj4oM9rTYeiWa/6ruBnZqXFZuN35pmX8c95R9JsOq07RiQ+tuG0e3k4GOiKei/
-	4BSMrq6gneXZc7z3SMeh7C0oKvNu5sL9vSyuroPeR2xIUVNLd4A2br38DFBPgBMYoHl3Viz6I+7mb
-	dOmM3fuNP4iW0q4gc0isSCFW+Gw+6QSxqGk8zdIMcvZALVdAUwMX8JiyxMapYFpjKzWVrDhAH/Ffv
-	r97sP8i3HVqRfOuma9j5rsk13TV5DmW80ZLSRzKroa9gtIwJPGwEy7TI6YOJvoecYSOflcHTa9SE7
-	swl7+i3w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2mf7KL6RauZLJCGVMslddkfvUkwUMRQBSzo8JS8PbOo=; b=4jDGP9/ANo31zg5TIjitUNgeri
+	Vwq9Epxb3+fZe/450rd6GYv16E1Jdafi4ILryQVJeWrdPAKC5rgLrS/MvKhWMOr7Dc4pAQjKgUJrC
+	6ykIACVBpgCclHHZFThtkp4VABmjI03ojMZEuPwnrnG5AHQQA02bEXWwy2BAObUMz6COgHvem8TDF
+	GKqnJMC0+Gh0VftWF+WIbnwdjV5/A39WgPHbsYN0GthVs+Of3lhoaeMm9b4pXS1nl8gVGm6w5Nviw
+	5v1naKJZvji12W2yPmNZ5opfCAuFv0j1GTwWOywJ+0ggZZgfdxhjol/nNNUIxJlx1/iF7Dbw9N1DT
+	wxgFB4IA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9U5l-0000000BeS9-1kcV;
-	Fri, 08 Nov 2024 18:52:21 +0000
-Received: from 009.lax.mailroute.net ([199.89.1.12])
+	id 1t9UkW-0000000BkRQ-3eqy;
+	Fri, 08 Nov 2024 19:34:28 +0000
+Received: from ms.lwn.net ([2600:3c01:e000:3a1::42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9U5i-0000000BeR9-2Ynf
+	id 1t9UkU-0000000BkQl-1nyW
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 18:52:19 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4XlSjM11PvzlgTWK;
-	Fri,  8 Nov 2024 18:52:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1731091923; x=1733683924; bh=JVPYyABt4fIR2H2QHQjsQ9GD
-	szOfP+4CM0lq2I2MeHU=; b=zRuyM1VFZ0FXJma19dczCVvpm+qz/06pgLbBbB/k
-	BBRfVJJ5Agbtpzut8QwnRXGN3z6YdIz8XRPWNWZsHx111VOsuFyBe4exmUfvqcbo
-	tVpD2OvlLgLpYmo3rhy5MkHx3qlBJHrsWPKP8O7cJD8+fkdWKHNWXslRRHir0NOD
-	YWgNGEt7jdelnDraiq3RRJrRHeW0jBLSyxAYZgw5HSlYUQUEEJ7pQ0f/h5++VDNV
-	54In+/EwxNdPbFtHlXQdU5BjEfPPpIuiSy3bQ0aApmgTErrctjUye9y+Zcuy2geK
-	7tS/qlfOG9kXuqXUzzO67Y3RACA0ZqZF/5tiC+BwmRGSJQ==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id votlEUy7cqa6; Fri,  8 Nov 2024 18:52:03 +0000 (UTC)
-Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
+	Fri, 08 Nov 2024 19:34:27 +0000
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 443C842C17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731094462; bh=2mf7KL6RauZLJCGVMslddkfvUkwUMRQBSzo8JS8PbOo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dnsz5YfGWANp6sFnIUKjORH9aQENZDGixeRFgCKU+EHYtfew50seKAGvAytaFY9oj
+	 05nxCVWbEfcD++04BAkjYS67T71ZQKhzyu6q3WZ8JM+Nq5axZuGUldvxslQ6IDBgXj
+	 4TWkgRvZmPQDP4+rVCptcrXwBOfBXoMDeUZRH8Wp3ugkYqZvGKmWHOgN92MEiBDxr5
+	 9u5STRUt+O2euSBwkgcMhfsaH0RnwMEO/iN2P0oM2sZd22f5AUcPoAVVdjXDvknK/o
+	 T3zwqzKkVrYA3KBU7u+ycHZvQ7dYicPF4vGfmge7fq9Ntn0IbVNJL2+Ng+Nux9U4bj
+	 j2d2WZj3WBcbQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4XlSjD0CbmzlgTsK;
-	Fri,  8 Nov 2024 18:51:59 +0000 (UTC)
-Message-ID: <2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
-Date: Fri, 8 Nov 2024 10:51:57 -0800
+	by ms.lwn.net (Postfix) with ESMTPSA id 443C842C17;
+	Fri,  8 Nov 2024 19:34:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>, Joerg
+ Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Christoph Hellwig
+ <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Kevin Tian
+ <kevin.tian@intel.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, =?utf-8?B?SsOpcsO0bWU=?=
+ Glisse
+ <jglisse@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
+In-Reply-To: <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
+References: <cover.1730298502.git.leon@kernel.org>
+ <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
+Date: Fri, 08 Nov 2024 12:34:21 -0700
+Message-ID: <87ttchwmde.fsf@trenco.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
-To: Javier Gonzalez <javier.gonz@samsung.com>,
- Matthew Wilcox <willy@infradead.org>, Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "joshi.k@samsung.com" <joshi.k@samsung.com>
-References: <20241029151922.459139-1-kbusch@meta.com>
- <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp>
- <20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
- <CGME20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a@eucas1p1.samsung.com>
- <Zy5CSgNJtgUgBH3H@casper.infradead.org>
- <d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_105218_708953_430645F7 
-X-CRM114-Status: UNSURE (   8.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241108_113426_493615_D2520AB7 
+X-CRM114-Status: GOOD (  19.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,15 +84,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/8/24 9:43 AM, Javier Gonzalez wrote:
-> If there is an interest, we can re-spin this again...
+Leon Romanovsky <leon@kernel.org> writes:
 
-I'm interested. Work is ongoing in JEDEC on support for copy offloading
-for UFS devices. This work involves standardizing which SCSI copy
-offloading features should be supported and which features are not
-required. Implementations are expected to be available soon.
+> From: Christoph Hellwig <hch@lst.de>
+>
+> Add an explanation of the newly added IOVA-based mapping API.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  Documentation/core-api/dma-api.rst | 70 ++++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index 8e3cce3d0a23..6095696a65a7 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -530,6 +530,76 @@ routines, e.g.:::
+>  		....
+>  	}
+>  
+> +Part Ie - IOVA-based DMA mappings
+> +---------------------------------
+> +
+> +These APIs allow a very efficient mapping when using an IOMMU.  They are an
+> +optional path that requires extra code and are only recommended for drivers
+> +where DMA mapping performance, or the space usage for storing the DMA addresses
+> +matter.  All the consideration from the previous section apply here as well.
+> +
+> +::
+> +
+> +    bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
+> +		phys_addr_t phys, size_t size);
+> +
+> +Is used to try to allocate IOVA space for mapping operation.  If it returns
+> +false this API can't be used for the given device and the normal streaming
+> +DMA mapping API should be used.  The ``struct dma_iova_state`` is allocated
+> +by the driver and must be kept around until unmap time.
+
+So, I see that you have nice kernel-doc comments for these; why not just
+pull them in here with a kernel-doc directive rather than duplicating
+the information?
 
 Thanks,
 
-Bart.
+jon
 
