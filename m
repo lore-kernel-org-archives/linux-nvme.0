@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51830D5C0C0
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 12:27:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 935FAD5C0C1
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 12:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jlSr3f+xPfeWgDzorqq5poDzPrMYDulZM0Pzq7c0MZc=; b=i4393zE0Ye86XYehQkLfLcwX3i
-	BeqK6yyfRTr+f+rAoRz4Vr6wjUdUazhxIwgPibpHbXs/4wkdehb8opPpYvTa8HEJp+Z1v0OuBNcfN
-	IMr1j14xI3ybSm+tZ6fbDA4M8+GltcmltYhCbyjhKBmWTLnZTY9xut/MrOWYT7KFrJEAGebmZXLB9
-	28Bel94c+zCLyDr6Zl9zC4ElmuhZx7FHz+XSX1i/udeuxr/nq/l52A5B+5MUKpm1WMHSNo2sJSWsZ
-	PaZZc58Rh70k+bsOy/AnJv9ClkUO66UnrZs6uB254dT8P1oy0ZHjagQpkFISvkpyjs9g2TDHEURcV
-	H9tmkzdA==;
+	bh=mMCz6Qy7wMDDmSM5vjpMfBAuWpkdmDUJcdymdpwhv/Q=; b=h41ihL1X8Z840iNvLNhHrTI0Z6
+	y5HCbi914tGjsyCsrkv6X+MgD0oTyiOybTXscld6hEdmhfgIsU6olXH/Q8cvnQyTwz8Gqr5ypAG6Z
+	u2GyHCD3u9zSnFxWXvMiQ4AhaEJHYE4oU4qXxRkOvQY4lTAzGWH/Advv41weRuOf8IcAI8mFXsofp
+	1ePoZgrfPhjJBgQ0cME9G9srYgWUzIb8194uGY9tbRih7WgE/3trqasxQ9IfA49bLTQKAMQmQyDz3
+	Gcp5R0bfrJiziVjXvl8dzumz3P9Aj0PVyMH/mfeTQiLrHOYHuN3LTOPMYhfNZACb8Yn6szQ/ktidd
+	Oi/HmVzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9O5J-0000000AWLv-3tLE;
-	Fri, 08 Nov 2024 12:27:29 +0000
-Received: from fhigh-a8-smtp.messagingengine.com ([103.168.172.159])
+	id 1t9OHZ-0000000AYUK-23tH;
+	Fri, 08 Nov 2024 12:40:09 +0000
+Received: from fout-a5-smtp.messagingengine.com ([103.168.172.148])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9O27-0000000AVZB-3PJ1
+	id 1t9OEv-0000000AY94-0Mrr
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 12:24:13 +0000
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C4AD311400EB;
-	Fri,  8 Nov 2024 07:24:10 -0500 (EST)
+	Fri, 08 Nov 2024 12:38:04 +0000
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id F0BEF13801CA;
+	Fri,  8 Nov 2024 07:37:23 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Fri, 08 Nov 2024 07:24:10 -0500
+  by phl-compute-04.internal (MEProxy); Fri, 08 Nov 2024 07:37:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bjorling.me; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1731068650;
-	 x=1731155050; bh=jlSr3f+xPfeWgDzorqq5poDzPrMYDulZM0Pzq7c0MZc=; b=
-	g53a98Fz4w33bHsgtGKzqzYQor8kl06g3SQfOpBAVE7rkGD/WjIrOllcDiE21XFl
-	FysugUZKWlond2xw+wFs9pbw0xeJ++vRVuOhPXH163TYjy16+Y2JU55Guu35sPyZ
-	I/WGx6h1DhYey7TSlWTxBmGm6fEsIhGx+7cQvrIH4wvgV6DNNLeIAKQZErwzaggP
-	qkDtUCAUt6b80sYVwdXUTX4896f8q6XC9zVbAP2F1iYtQHrRoI7a0ztKA/DY5zcF
-	vzQXp3BygkAN5dQwt2ZdwWGtKbsQ623HgOjfqYRQkDIRRK+/lirBx5EO3w3nGePa
-	jV3SBiCCrVnPLfFXZ4oeKg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1731069443;
+	 x=1731155843; bh=mMCz6Qy7wMDDmSM5vjpMfBAuWpkdmDUJcdymdpwhv/Q=; b=
+	IV/JCSjlCbQBzbQBl03QIZ5FlDYTWyc9qOOVWhBxzkmvkpYI5ULrFXSGL6bNpo6R
+	RTtPGZguE9ObHsz5bC2mHlcZYjqEWvWWvyeMDWL9KLewsHis4zp+j6RBeo7JEBuI
+	EngjwUB293f+AUSGGEI3PSN6Qa+aE1DqBfs4AJw33tn4jWpv1u3G50pWFg86p1x7
+	tlZyf/MOd/CCi3xZ8X67rb++mRA8dkbiUzTHfng5viaz/X27iM8TepvP4aYWOilF
+	dj8rwGRPOweM3tYTje3IK2kKDXbI1Y5v3MlRfRtTo5SAbkTbcAyRayax6ZhfxlQ7
+	P8v/tMnmhSXmMKIxk26ZtA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731068650; x=
-	1731155050; bh=jlSr3f+xPfeWgDzorqq5poDzPrMYDulZM0Pzq7c0MZc=; b=O
-	xF+YmoxqBzAXu4fKcWF8WdKaWWmguG4JBQCnMblju4pTBgSOUp6AZ3Ra9Fym/Bz0
-	5lXzixyPpzQiuVo9BLqXOI7jsfiHud/hhpbbjuP+ugBxS+YucxQ3NJZoMFKvuFr+
-	qW50Vbcx90D6qVklxZU44c5Zt8drBXlBnZM0xwZI2JwWNLHtGKtELkcgcdC5Hqf9
-	kufcG+vScN9vhkJXn/iewwka+KsCYvN1GIf3QPZZEnu+4NnGzh4+zVBoebyRsHcm
-	hGIABzY3m1D2rw8NxjWL6K68d+16eHdhLlcTqSxM8iriye2mr6Nq9NGFdwYnN030
-	B/demRgiKV0E7bztCkImA==
-X-ME-Sender: <xms:6QIuZ8j6z8MKncfhoB11_316WPEhUYPV9tivzSErIZ4SO6WBi79M_w>
-    <xme:6QIuZ1CTMyNqi1X-f8MiQPyCG7agZHBdWtaI2v5N5kOJ1JMuNR1c2Th4YcNCsxxvb
-    AqoFikF_-58ZQK6OIo>
-X-ME-Received: <xmr:6QIuZ0Hxb3hcvnC2DYUAs8bIVyEu83v4sNJTq1c1pS3OXu3cZ8kWiGFVDuKg4zG3KQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeigdefiecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731069443; x=
+	1731155843; bh=mMCz6Qy7wMDDmSM5vjpMfBAuWpkdmDUJcdymdpwhv/Q=; b=R
+	Sk4as7Z6kBw1s/65xaX7j6rC5nN13jKm8IdF4kDufiVad7Wt0UvXYrQMICW1q5r6
+	ToagoWR7mpThtHttDqWrCDMzcKhJql2K2r59RDElh0Ib8r53EuroRckZ7WKYRhFQ
+	zhr9HJqWyL4RP0n6DQgaVNI4vrjWsH/HbNxKhLSQrqLk1WMzf21uRbOBKbBvCQWy
+	2EAHdLRsxIQofPtUgVmqmOHm60dj3OEJX/gpAJbE7DgX8LoKlkraPVXfxhFZ6b6K
+	Pi83zZ3HBtRVcLk3GMxj0v4BH30l3ENeo6B5hV680vCrGvb002nuYvyArebeJF22
+	T2G0MC0i8/0fOCDt/Hh0w==
+X-ME-Sender: <xms:AwYuZ45PZNbRbWzVk0_h3ESm8FVeTMYj0SrhXZQjEzFmpuBGGf18Uw>
+    <xme:AwYuZ56PDSuvz4YUmUQf2A8bgQmN3J_PM_4mCsmbeZ_izvHvpaiPnM4T4Qx3wqg95
+    gROyadbPWXKyAW0uGI>
+X-ME-Received: <xmr:AwYuZ3dy1uSuyAL-an2ErGBh1sYNbSwsBJionHaNPPZ2dMkw1l_NkAjPEasxGHkkaQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeigdeflecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
     tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
     hsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeen
@@ -74,32 +74,32 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeigdefiecutefuodetggdote
     gsjhhorhhlihhnghesfigutgdrtghomhdprhgtphhtthhopehktghhsehnvhhiughirgdr
     tghomhdprhgtphhtthhopehkrghnihgvsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpd
     hrtghpthhtohepkhgsuhhstghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:6QIuZ9SKOeV0Iblgq7mG54cFOaXMNR5ZsSlb5VAC3RxyIvDbOMCfuA>
-    <xmx:6QIuZ5xY7lvsuLA5AuOfJS2s3nUYv8bDNAvu5o9Mc55FWK2E2Ae0gA>
-    <xmx:6QIuZ75-zsCWSvcMcJvOIQpKk24vGMBvW0ZPEDGaj022s-pZrqyG5A>
-    <xmx:6QIuZ2w8kKtFmF2e8J2gAiuhAaVHV-GgjtjkZoTLDi_C5fi7_s02hQ>
-    <xmx:6gIuZ4yR6AmzdXqdKQgq1zeI8P54MDqli_VdhxpSwVn2eD-Y_XNkeuAA>
+X-ME-Proxy: <xmx:AwYuZ9ISvRa6pAo6IIyt4G9KIFoTL8MlR9cIdpbLmS18OxbtdThehQ>
+    <xmx:AwYuZ8JzRT8e7Gd6H3KHQ_v_bCcEXG10JOO-ZNCpy85_J_BacF9peA>
+    <xmx:AwYuZ-wxUcoxZF6Ek9oqD0-iI7ctI4OMY2S07_ImcNPBP6wUXEglZQ>
+    <xmx:AwYuZwLbmTdQitSw2A2a_APf5mJ3CiGgTNH0Q_cNLR12oMIzbRWWAQ>
+    <xmx:AwYuZ1o9kk9oG4P1ubZdjkymBJIIDDbAZe4dSRSyICZlHvV4eEeAiLE2>
 Feedback-ID: if4314918:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 Nov 2024 07:24:08 -0500 (EST)
-Message-ID: <71b6f647-5383-4feb-a799-0ad7064007ef@bjorling.me>
-Date: Fri, 8 Nov 2024 13:24:08 +0100
+ 8 Nov 2024 07:37:22 -0500 (EST)
+Message-ID: <081aae9f-8edf-40a7-935b-c28385c5c413@bjorling.me>
+Date: Fri, 8 Nov 2024 13:37:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv4 04/13] nvmet: implement supported features log
+Subject: Re: [PATCHv4 06/13] nvmet: declare 2.1 version compliance
 To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
 Cc: hch@lst.de, matias.bjorling@wdc.com, kch@nvidia.com,
  kanie@linux.alibaba.com, Keith Busch <kbusch@kernel.org>
 References: <20241107193849.995554-1-kbusch@meta.com>
- <20241107193849.995554-5-kbusch@meta.com>
+ <20241107193849.995554-7-kbusch@meta.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Matias_Bj=C3=B8rling?= <m@bjorling.me>
-In-Reply-To: <20241107193849.995554-5-kbusch@meta.com>
+In-Reply-To: <20241107193849.995554-7-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_042412_071380_D35E6C8A 
-X-CRM114-Status: GOOD (  14.50  )
+X-CRM114-CacheID: sfid-20241108_043725_609646_0FA5B872 
+X-CRM114-Status: GOOD (  12.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,101 +117,31 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 07-11-2024 20:38, Keith Busch wrote:
 > From: Keith Busch <kbusch@kernel.org>
 > 
-> This log is required for nvme 2.1.
+> The target driver implements all the mandatory logs, identifications,
+> features, and properties up to nvme sepcification 2.1.
 > 
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > Signed-off-by: Keith Busch <kbusch@kernel.org>
 > ---
->   drivers/nvme/target/admin-cmd.c | 31 +++++++++++++++++++++++++++++++
->   include/linux/nvme.h            | 11 +++++++++++
->   2 files changed, 42 insertions(+)
+>   drivers/nvme/target/nvmet.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 712b962fe77ac..7a879e2cd8555 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -89,6 +89,7 @@ static void nvmet_execute_get_supported_log_pages(struct nvmet_req *req)
->   	logs->lids[NVME_LOG_CHANGED_NS] = cpu_to_le32(NVME_LIDS_LSUPP);
->   	logs->lids[NVME_LOG_CMD_EFFECTS] = cpu_to_le32(NVME_LIDS_LSUPP);
->   	logs->lids[NVME_LOG_ANA] = cpu_to_le32(NVME_LIDS_LSUPP);
-> +	logs->lids[NVME_LOG_FEATURES] = cpu_to_le32(NVME_LIDS_LSUPP);
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 190f55e6d7532..f902a630a5cf4 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -21,7 +21,7 @@
+>   #include <linux/radix-tree.h>
+>   #include <linux/t10-pi.h>
 >   
->   	status = nvmet_copy_to_sgl(req, 0, logs, sizeof(*logs));
->   	kfree(logs);
-> @@ -342,6 +343,34 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
->   	nvmet_req_complete(req, status);
->   }
+> -#define NVMET_DEFAULT_VS		NVME_VS(1, 3, 0)
+> +#define NVMET_DEFAULT_VS		NVME_VS(2, 1, 0)
 >   
-> +static void nvmet_execute_get_log_page_features(struct nvmet_req *req)
-> +{
-> +	struct nvme_supported_features_log *features;
-> +	u16 status;
-> +
-> +	features = kzalloc(sizeof(*features), GFP_KERNEL);
-> +	if (!features) {
-> +		status = NVME_SC_INTERNAL;
-> +		goto out;
-> +	}
-> +
-> +	features->fis[NVME_FEAT_NUM_QUEUES] = cpu_to_le32(NVME_FIS_FSUPP |
-> +							  NVME_FIS_CSCPE);
-> +	features->fis[NVME_FEAT_KATO] = cpu_to_le32(NVME_FIS_FSUPP |
-> +						    NVME_FIS_CSCPE);
-> +	features->fis[NVME_FEAT_ASYNC_EVENT] = cpu_to_le32(NVME_FIS_FSUPP |
-> +							   NVME_FIS_CSCPE);
-> +	features->fis[NVME_FEAT_HOST_ID] = cpu_to_le32(NVME_FIS_FSUPP |
-> +						       NVME_FIS_CSCPE);
-> +	features->fis[NVME_FEAT_WRITE_PROTECT] = cpu_to_le32(NVME_FIS_FSUPP |
-> +							     NVME_FIS_NSCPE);
-> +
-> +	status = nvmet_copy_to_sgl(req, 0, features, sizeof(*features));
-> +	kfree(features);
-> +out:
-> +	nvmet_req_complete(req, status);
-> +}
-> +
->   static void nvmet_execute_get_log_page(struct nvmet_req *req)
->   {
->   	if (!nvmet_check_transfer_len(req, nvmet_get_log_page_len(req->cmd)))
-> @@ -367,6 +396,8 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
->   		return nvmet_execute_get_log_cmd_effects_ns(req);
->   	case NVME_LOG_ANA:
->   		return nvmet_execute_get_log_page_ana(req);
-> +	case NVME_LOG_FEATURES:
-> +		return nvmet_execute_get_log_page_features(req);
->   	}
->   	pr_debug("unhandled lid %d on qid %d\n",
->   	       req->cmd->get_log_page.lid, req->sq->qid);
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 692d606edeed3..4b896fa651e02 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -1256,6 +1256,7 @@ enum {
->   	NVME_LOG_TELEMETRY_CTRL = 0x08,
->   	NVME_LOG_ENDURANCE_GROUP = 0x09,
->   	NVME_LOG_ANA		= 0x0c,
-> +	NVME_LOG_FEATURES	= 0x12,
->   	NVME_LOG_DISC		= 0x70,
->   	NVME_LOG_RESERVATION	= 0x80,
->   	NVME_FWACT_REPL		= (0 << 3),
-> @@ -1271,6 +1272,16 @@ enum {
->   	NVME_LIDS_LSUPP	= 1 << 0,
->   };
->   
-> +struct nvme_supported_features_log {
-> +	__le32	fis[256];
-> +};
-> +
-> +enum {
-> +	NVME_FIS_FSUPP	= 1 << 0,
-> +	NVME_FIS_NSCPE	= 1 << 20,
-> +	NVME_FIS_CSCPE	= 1 << 21,
-> +};
-> +
->   /* NVMe Namespace Write Protect State */
->   enum {
->   	NVME_NS_NO_WRITE_PROTECT = 0,
+>   #define NVMET_ASYNC_EVENTS		4
+>   #define NVMET_ERROR_LOG_SLOTS		128
 
-Looks good. Same comment wrt to 2.1 vs 2.0 as the previous patch.
+Looks good.
 
 Reviewed-by: Matias Bjørling <matias.bjorling@wdc.com>
 
