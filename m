@@ -4,54 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0519D5D69F
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 01:42:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B449D5E124
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 03:26:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wS2GdrPgnV4644iPyjTnHKmy0rH65KGjhemfSICXkPM=; b=WkI7jGSDTz3v02LiIwUnM255x7
-	iYakyY0kgZ1SuGtpGpymgBtl6esC+hhXUvmkrJm34Dd9dW+B66hATwxYSvnSFrIwuVJ1PfthMmadp
-	EYRHLxr84PqxELbrS5/vCk6hh4hx28AQUa2AFU7pIBvcnHUiFt9iRlBVc5CgWbhDvQ5TduFK71NtT
-	ywbtEnMgfatFPK4zJKLMPegFOXKkHlAZEGX9eHbxMZ5gh6aNAhgwrT7Ps48UgO1ogkSz/Pl1jJzjQ
-	JaSXEG/6tjFdbYCgIUIV+4IFE1xpS++fHkuU0Wrampy/0Q/Xezsst+oD3pa5O9uz4LuJp4BiWox9W
-	MfoOMd1A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vnD64gVtZlebT/MFItiy92B/dquxJrMGODGW7Ctl8z0=; b=4m7IIoglEVpU294+aYK9u6p8cs
+	FEyobE/By9lIflBT2wco+ly9nEjvSoD9niIuQCbI/aZwaCOlntcUqJHyOIyx9TMtMalqeB4gBz8K1
+	9DcQp2KyCy7KR1UfgmonYJICAeAyenjVUiLhOb4K8fV2wdsyWfAJwqehff8jUKvl297noj6VS4wB4
+	m40loHzPijaO0Nqwn9KrUc0LMLsp527jbx8UwdNpqDXQrpOtghSjptT1FQVeuJ8n4dlBJpt6QW6S8
+	nk1BiGi2MAklp5+++Nqn8dZsj9t0LZXNbwxT2dQrhsPrwsBmLB3QhXRDrvSJXcPWpXRu9eLlU1JLn
+	bDSAJ7gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9E1T-00000008xVU-0BJX;
-	Fri, 08 Nov 2024 01:42:51 +0000
-Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
+	id 1t9FdY-000000097sR-0lLZ;
+	Fri, 08 Nov 2024 03:26:16 +0000
+Received: from mgamail.intel.com ([192.198.163.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9E1Q-00000008xTo-28jD
+	id 1t9FYF-0000000973P-1yYT
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 01:42:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1731030164; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=wS2GdrPgnV4644iPyjTnHKmy0rH65KGjhemfSICXkPM=;
-	b=h486Uvu1yaP1BXlxES8WBjlCqhJ/EvILiO+GnWdeL76+5B439hIqHpt4X3dBxCdn8QM++jJhX+fjr4O5j5p4/VX5yKl9b/BTwhsHdQqfCFhcJnfqaXX2I+WnyUaQVxlfWEz52kcpvFb3mj8PUNNKOJMhnaOFoMy/DfEwoegmjp4=
-Received: from 30.178.81.252(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WIx8lGh_1731030161 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 08 Nov 2024 09:42:43 +0800
-Message-ID: <527bc309-6695-470d-aa02-33e89eb73b08@linux.alibaba.com>
-Date: Fri, 8 Nov 2024 09:42:40 +0800
+	Fri, 08 Nov 2024 03:20:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731036047; x=1762572047;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tdj6LyDhnDgrXGiPepVKKQjrK7nGotJCJqdEeoTcZx8=;
+  b=QZ8VLGtjF44IZhm5AzYu7vdzh+Opda+sVW+6fwgDkudX+V1TszKTQIdr
+   zz0Vy4Qingxzn+hC30SmMalHhJ2Py+/nqIgzoYuYwDH+50yBQYJNyPdu7
+   HEhBltmN1ZMf+OAv6XW+56GHFsRB0tbDsnIQ3TOpFEBB3L9yE5+9c85v4
+   0UF+ZNvS7GY3iwAksMVee/4zpzKDLGf4MdWUwUQuyn5777sgOUCkerwWX
+   OCyen7QAQOQTBHokhCwlUEvByfvzgEvwjC+6Dr+TcZOBOud2IQQVQCBJJ
+   UOCL24OFHB4eMvbEXjv3JVMrmAGF+HgU2sbREUrZ47gQwnM58um7/N+W6
+   Q==;
+X-CSE-ConnectionGUID: IqIT5m1yTuud2wUenJkKOw==
+X-CSE-MsgGUID: y5bUDj1VTkur9obLbb5DFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="42288836"
+X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
+   d="scan'208";a="42288836"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 19:20:43 -0800
+X-CSE-ConnectionGUID: 5iAT5ljUR3mhdAQD3zq67g==
+X-CSE-MsgGUID: 1ti+I5RURKuAzMPIzAUf3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
+   d="scan'208";a="85569173"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 07 Nov 2024 19:18:46 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9FWG-000qxu-1w;
+	Fri, 08 Nov 2024 03:18:44 +0000
+Date: Fri, 8 Nov 2024 11:18:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Dmitry Bogdanov <d.bogdanov@yadro.com>,
+	Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [linux-nvme:nvme-6.13 7/7] drivers/nvme/target/pr.c:857:34: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202411081109.soCWJfGT-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCHv4 09/13] nvmet: implement csi identify ns
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, m@bjorling.me, matias.bjorling@wdc.com, kch@nvidia.com,
- Keith Busch <kbusch@kernel.org>
-References: <20241107193849.995554-1-kbusch@meta.com>
- <20241107193849.995554-10-kbusch@meta.com>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20241107193849.995554-10-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241107_174249_023465_4525E4BC 
-X-CRM114-Status: GOOD (  12.81  )
+X-CRM114-CacheID: sfid-20241107_192047_581255_E12218CB 
+X-CRM114-Status: GOOD (  11.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,88 +87,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree:   git://git.infradead.org/nvme.git nvme-6.13
+head:   4c0ce9416cd06e9ef0e049f7a9226707c3786b1a
+commit: 4c0ce9416cd06e9ef0e049f7a9226707c3786b1a [7/7] nvmet: support reservation feature
+config: x86_64-randconfig-121-20241108 (https://download.01.org/0day-ci/archive/20241108/202411081109.soCWJfGT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081109.soCWJfGT-lkp@intel.com/reproduce)
 
-在 2024/11/8 03:38, Keith Busch 写道:
-> From: Keith Busch <kbusch@kernel.org>
->
-> Implements reporting the I/O Command Set Independent Identify Namespace
-> command.
->
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->   drivers/nvme/target/admin-cmd.c | 32 ++++++++++++++++++++++++++++++++
->   include/linux/nvme.h            |  1 +
->   2 files changed, 33 insertions(+)
->
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 6d3a1d2103bf3..516af7b419189 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -893,6 +893,35 @@ static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
->   	nvmet_req_complete(req, status);
->   }
->   
-> +static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
-> +{
-> +	struct nvme_id_ns_cs_indep *id;
-> +	u16 status;
-> +
-> +	status = nvmet_req_find_ns(req);
-> +	if (status)
-> +		goto out;
-> +
-> +	id = kzalloc(sizeof(*id), GFP_KERNEL);
-> +	if (!id) {
-> +		status = NVME_SC_INTERNAL;
-> +		goto out;
-> +	}
-> +
-> +	id->nstat = NVME_NSTAT_NRDY;
-> +	id->anagrpid = req->ns->anagrpid;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081109.soCWJfGT-lkp@intel.com/
 
-Well, I think you overlooked my comments for v3,
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/pr.c:857:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] cntlid @@     got int @@
+   drivers/nvme/target/pr.c:857:34: sparse:     expected restricted __le16 [usertype] cntlid
+   drivers/nvme/target/pr.c:857:34: sparse:     got int
 
-should use cpu_to_le32(req->ns->anagrpid) here.
+vim +857 drivers/nvme/target/pr.c
 
-Best Regards,
+   802	
+   803	static void nvmet_execute_pr_report(struct nvmet_req *req)
+   804	{
+   805		u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
+   806		u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+   807		u32 num_bytes = 4 * (cdw10 + 1); /* cdw10 is number of dwords */
+   808		u8 eds = cdw11 & 1; /* Extended data structure, bit 00 */
+   809		struct nvme_registered_ctrl_ext *ctrl_eds;
+   810		struct nvme_reservation_status_ext *data;
+   811		struct nvmet_pr *pr = &req->ns->pr;
+   812		struct nvmet_pr_registrant *holder;
+   813		struct nvmet_pr_registrant *reg;
+   814		u16 num_ctrls = 0;
+   815		u16 status;
+   816		u8 rtype;
+   817	
+   818		/* nvmet hostid(uuid_t) is 128 bit. */
+   819		if (!eds) {
+   820			req->error_loc = offsetof(struct nvme_common_command, cdw11);
+   821			status = NVME_SC_HOST_ID_INCONSIST | NVME_STATUS_DNR;
+   822			goto out;
+   823		}
+   824	
+   825		if (num_bytes < sizeof(struct nvme_reservation_status_ext)) {
+   826			req->error_loc = offsetof(struct nvme_common_command, cdw10);
+   827			status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+   828			goto out;
+   829		}
+   830	
+   831		data = kmalloc(num_bytes, GFP_KERNEL);
+   832		if (!data) {
+   833			status = NVME_SC_INTERNAL;
+   834			goto out;
+   835		}
+   836		memset(data, 0, num_bytes);
+   837		data->gen = cpu_to_le32(atomic_read(&pr->generation));
+   838		data->ptpls = 0;
+   839		ctrl_eds = data->regctl_eds;
+   840	
+   841		rcu_read_lock();
+   842		holder = rcu_dereference(pr->holder);
+   843		rtype = holder ? holder->rtype : 0;
+   844		data->rtype = rtype;
+   845	
+   846		list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
+   847			num_ctrls++;
+   848			/*
+   849			 * continue to get the number of all registrans.
+   850			 */
+   851			if ((void *)(ctrl_eds + sizeof(*ctrl_eds)) >
+   852				(void *)(data + num_bytes))
+   853				continue;
+   854			/*
+   855			 * Dynamic controller, set cntlid to 0xffff.
+   856			 */
+ > 857			ctrl_eds->cntlid = NVME_CNTLID_DYNAMIC;
+   858			if (rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+   859			    rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS)
+   860				ctrl_eds->rcsts = 1;
+   861			if (reg == holder)
+   862				ctrl_eds->rcsts = 1;
+   863			uuid_copy((uuid_t *)&ctrl_eds->hostid, &reg->hostid);
+   864			ctrl_eds->rkey = cpu_to_le64(reg->rkey);
+   865			ctrl_eds++;
+   866		}
+   867		rcu_read_unlock();
+   868	
+   869		put_unaligned_le16(num_ctrls, data->regctl);
+   870		status = nvmet_copy_to_sgl(req, 0, data, num_bytes);
+   871		kfree(data);
+   872	out:
+   873		nvmet_req_complete(req, status);
+   874	}
+   875	
 
-Guixin Liu
-
-> +	id->nmic = NVME_NS_NMIC_SHARED;
-> +	if (req->ns->readonly)
-> +		id->nsattr |= NVME_NS_ATTR_RO;
-> +	if (req->ns->bdev && !bdev_nonrot(req->ns->bdev))
-> +		id->nsfeat |= NVME_NS_ROTATIONAL;
-> +
-> +	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
-> +	kfree(id);
-> +out:
-> +	nvmet_req_complete(req, status);
-> +}
-> +
->   static void nvmet_execute_identify(struct nvmet_req *req)
->   {
->   	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
-> @@ -940,6 +969,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
->   	case NVME_ID_CNS_NS_ACTIVE_LIST_CS:
->   		nvmet_execute_identify_nslist(req, true);
->   		return;
-> +	case NVME_ID_CNS_NS_CS_INDEP:
-> +		nvmet_execute_id_cs_indep(req);
-> +		return;
->   	case NVME_ID_CNS_ENDGRP_LIST:
->   		nvmet_execute_identify_endgrp_list(req);
->   		return;
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 93a0abfab5b0e..22375c87591a2 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -563,6 +563,7 @@ enum {
->   	NVME_NS_FLBAS_LBA_SHIFT	= 1,
->   	NVME_NS_FLBAS_META_EXT	= 0x10,
->   	NVME_NS_NMIC_SHARED	= 1 << 0,
-> +	NVME_NS_ROTATIONAL	= 1 << 4,
->   	NVME_LBAF_RP_BEST	= 0,
->   	NVME_LBAF_RP_BETTER	= 1,
->   	NVME_LBAF_RP_GOOD	= 2,
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
