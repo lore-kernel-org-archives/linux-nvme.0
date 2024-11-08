@@ -4,71 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A353D5E15E
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 11:10:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97585D5C0C3
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 12:14:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jrPBsKhiyejjPe/TXf9j1ykVdmztj1P42fCwd37byBU=; b=VBzSxLkb59tjv2Yee2LvPJWM+5
-	jRs+bq8UejBHPLjiEtidOBr1PAMzX1Yr0tacU5dIgjMMYzwptFYWCBjk6+XyerEvIKXj3uD5uKisj
-	ajaAkjJ9jBWg3GfeplUMzbUc8QroQoXXurrhwjdKFQ2Bxhwxb/v/ZkQyAx7G91cImb6GtaW3RAwyI
-	cwXYtOOpFOGGOnvYqKgFwiDZyzNSIIwV+Q7c8CwgPuxAxOGSOTS2CP1gjDM2F3SnTtb/sDh3vAKkE
-	WcF23uL9Jsay0MNzZabdpk9iZ3y0oRf4rkwFw+kKyOwBepg9mnPRn+DAj2k46HaKYmZFTMI5IHKY+
-	LT9XxTpA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=luttdhYS4kJfYLUQ9lCmBWrCs5d96Xl+6byXwGbK9uk=; b=4zgLhNO2ldVxC4+e78xUiB3tvF
+	NvbpD7wJW7vdiLUXkNjeUwFaDiDKK8xQo+V5k/fThSEIHLs56yY6nqs45PRB77sye89PMTnaGMV7e
+	J5JEPh4LVV/2qgo3VbGyISs7G/OYJhUkVrydUKGoLU8yfcZOmTQWvhDIKw7XtL9AVqxvdu5uDGIlh
+	9dRg4mTFiZW2bvE8D7CVCrK5ATiRxxlcrhTg3IvpPkCdRtcrZA9ldzggMQbCUi/IbKitu7BdoJ6j7
+	nnhsK1zmtZvQSyFPx+G6Cl38PUKIu2NUSQN467wxynVvCMPZXUq/vKZJ46mAwhDzvVb4A+7meYj3f
+	CXis1UXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Msn-0000000AISG-3pJy;
-	Fri, 08 Nov 2024 11:10:29 +0000
-Received: from mgamail.intel.com ([192.198.163.18])
+	id 1t9NsD-0000000ATRj-2QkN;
+	Fri, 08 Nov 2024 12:13:57 +0000
+Received: from fhigh-a8-smtp.messagingengine.com ([103.168.172.159])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9MFc-0000000A6td-3rqv
+	id 1t9Ngh-0000000ARGR-2DYM
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 10:30:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731061801; x=1762597801;
-  h=date:from:to:cc:subject:message-id;
-  bh=4L22EDD5vbA6rAdz0Hc1g0BR8QFOwuSSe2E6SmVrKFA=;
-  b=Rf88F5jghRMXp/Dv0HCuXIO+KJRIL5XQUAXhpzXzFnGqzHh2Hw0BQxGA
-   YgY7E7uRD7PqN2i0eE0WxflleTCs/r9opMqKMTbM/B2Pm0Pj1eb94q/Gu
-   c+KbNS5LG1gH5iQCve/QjOYGtrYt/+RBzobD8uBlEsLiGtTPEhsrvwa8d
-   edNr5MEoycnGE7FprxPfdVzcNpkYjy2KSbQ+yA+RtGiiojCfts5hq+lXW
-   K1KVl8lSAHQDerPd1xaSztEyJuoxpQxhFfneDfdvv2ibwNJxioA/3pLqZ
-   9C54ilAEiehTBmnRVMTDZEcVlfPwo0VfHzedRETSxb1hxtQTB4vE1exK2
-   w==;
-X-CSE-ConnectionGUID: GGHzaqXdTHKHCef8KMimZA==
-X-CSE-MsgGUID: gx92iEkeSGGsUZlAKlYJ8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="30356075"
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="30356075"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 02:30:00 -0800
-X-CSE-ConnectionGUID: VsGDxoCSQyCBsrWTkTAFuw==
-X-CSE-MsgGUID: 0qHwM8jgQg2IiGopScVfJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="85721999"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Nov 2024 02:29:59 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9MFZ-000rJy-0G;
-	Fri, 08 Nov 2024 10:29:57 +0000
-Date: Fri, 08 Nov 2024 18:29:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.12] BUILD SUCCESS
- f0f5b364d903a35c02432b0f55d3a0114ba35845
-Message-ID: <202411081842.0INcTgjw-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Fri, 08 Nov 2024 12:02:06 +0000
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C83591140113;
+	Fri,  8 Nov 2024 07:01:59 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Fri, 08 Nov 2024 07:01:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bjorling.me; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1731067319;
+	 x=1731153719; bh=luttdhYS4kJfYLUQ9lCmBWrCs5d96Xl+6byXwGbK9uk=; b=
+	RaLb6wKQ3UAcuG69bL01FogbpbQ4HHL/U1BdXvQrAQkIhJunkO9f6++/cdqdhZSb
+	PUDv5Ab+1UxP+NLhgaMzcw54FzgMo7KUQRGWUt9DdFD6r2GaaJNN8V9r68qyCdef
+	xUTzkUpxo1Ry262eVGgyJc0tN/+w4ydAaI+RIdAMSrOiDRx5dLwNfc7myEFlRaxh
+	L3iLgxDCrD4s45PVW7dIWvyAf9Yx9rzsveYav1rpV7lsb4xoRlghDOUhQR6pymkl
+	FW0uvtROekx8joDLRbP4iv49B5owBiq7wArR48LLOQREMuP1KfrAHL1ItOc6GB/c
+	bYOK6OzFRid640augZjA3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731067319; x=
+	1731153719; bh=luttdhYS4kJfYLUQ9lCmBWrCs5d96Xl+6byXwGbK9uk=; b=I
+	oNBoMkRRQyaV+HOXyaPQmifzKsT2Mc08dlczw+UUg8Qs0W5qyW/qdA5YPmvtJyjd
+	9yL2cSvOFmhYW81rgTk9nQNnm+yq+4rQnhuZa+GuUOCMx4LZf0dJowleRiUqZ0qi
+	yevbYqyM19ApHV60ONQeu05c4ceeTgoXFhu2HBhG/qKIlXO0OZDdclwTE7cBU2um
+	kRHQnujpaDrk/ffmY25NUK5YloQFiakiYRV4cSNscz5nr8FMAx61l1gctrEV3Lh2
+	Ngq0RJcQ9mZWNSu3eb4Lxz3Km4OlXR8MnPEmeFj3b17TPKoDX5qpvi1YIV7M4tKT
+	Rjd35PjX1CjMYJzYvti6A==
+X-ME-Sender: <xms:tv0tZ8Kw1hV_9W3dSYhWDFNWFIT9YLHKZb1jtCNwIgmjeSd38RY0kQ>
+    <xme:tv0tZ8KqBaZOtkUzCvRMzyHgXooFQffrppEzlq9Qv7AZFQqyd9C9SiHSQasLJNyUq
+    wRDjuU6Kfk9n071T2Y>
+X-ME-Received: <xmr:tv0tZ8tYDGaOsn0YqOfqGV_N5oovEMHPoMKqlVHW9Iw0kapdEs3X_u1iJxgLVFptpw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeigdefvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeen
+    ucfhrhhomhepofgrthhirghsuceujhpprhhlihhnghcuoehmsegsjhhorhhlihhnghdrmh
+    gvqeenucggtffrrghtthgvrhhnpeekfeeiuedtvdetgeeutdehvddugffgveegveekgeeg
+    feekueffffefleelveeggfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehmsegsjhhorhhlihhnghdrmhgvpdhnsggprhgtphhtthhopeejpdhm
+    ohguvgepshhmthhpohhuthdprhgtphhtthhopehksghushgthhesmhgvthgrrdgtohhmpd
+    hrtghpthhtoheplhhinhhugidqnhhvmhgvsehlihhsthhsrdhinhhfrhgruggvrggurdho
+    rhhgpdhrtghpthhtohephhgthheslhhsthdruggvpdhrtghpthhtohepmhgrthhirghsrd
+    gsjhhorhhlihhnghesfigutgdrtghomhdprhgtphhtthhopehktghhsehnvhhiughirgdr
+    tghomhdprhgtphhtthhopehkrghnihgvsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpd
+    hrtghpthhtohepkhgsuhhstghhsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:tv0tZ5acD7WVI-kkA7QZPOgYUyb6YF0e7lo71UiMqkxtX45xesrr4Q>
+    <xmx:tv0tZzY04MiZI6nXV4uwNU1gYZyX6fZ6lknnupdrAM1K_nG0f0j3bA>
+    <xmx:tv0tZ1BbDW08I_6ZK2CriaX_9gT0eIi6kps_2fKvGglAsHinOubtQg>
+    <xmx:tv0tZ5ZSF2-__7uunQmv-jT5SoGK3ePPrYWyLk6EjO2C6y7vHrMmkw>
+    <xmx:t_0tZ35pF0Vq9c9f7CUzsJAiMYaDFAeIuLircPdT0hqo2wiEdwrASx1e>
+Feedback-ID: if4314918:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 8 Nov 2024 07:01:57 -0500 (EST)
+Message-ID: <0d8aea5b-51c8-4f4b-882a-c41fbf566475@bjorling.me>
+Date: Fri, 8 Nov 2024 13:01:56 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv4 01/13] nvmet: implement id ns for nvm command set
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, matias.bjorling@wdc.com, kch@nvidia.com,
+ kanie@linux.alibaba.com, Keith Busch <kbusch@kernel.org>
+References: <20241107193849.995554-1-kbusch@meta.com>
+ <20241107193849.995554-2-kbusch@meta.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Matias_Bj=C3=B8rling?= <m@bjorling.me>
+In-Reply-To: <20241107193849.995554-2-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_023001_039961_07CBEDE2 
-X-CRM114-Status: UNSURE (   4.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241108_040204_370129_6AD09E5E 
+X-CRM114-Status: GOOD (  13.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,182 +114,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.12
-branch HEAD: f0f5b364d903a35c02432b0f55d3a0114ba35845  nvme/multipath: Fix RCU list traversal to use SRCU primitive
+On 07-11-2024 20:38, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> We don't report anything here, but it's a mandatory identification for
+> nvme 2.1.
+> 
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>   drivers/nvme/target/admin-cmd.c | 18 ++++++++++++++++--
+>   1 file changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 081f0473cd9ea..8d06dba42bcb3 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -685,6 +685,20 @@ static void nvmet_execute_identify_ctrl_nvm(struct nvmet_req *req)
+>   		   nvmet_zero_sgl(req, 0, sizeof(struct nvme_id_ctrl_nvm)));
+>   }
+>   
+> +static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
+> +{
+> +	u16 status;
+> +
+> +	status = nvmet_req_find_ns(req);
+> +	if (status)
+> +		goto out;
+> +
+> +	status = nvmet_copy_to_sgl(req, 0, ZERO_PAGE(0),
+> +				   NVME_IDENTIFY_DATA_SIZE);
+> +out:
+> +	nvmet_req_complete(req, status);
+> +}
+> +
+>   static void nvmet_execute_identify(struct nvmet_req *req)
+>   {
+>   	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
+> @@ -706,8 +720,8 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+>   	case NVME_ID_CNS_CS_NS:
+>   		switch (req->cmd->identify.csi) {
+>   		case NVME_CSI_NVM:
+> -			/* Not supported */
+> -			break;
+> +			nvme_execute_identify_ns_nvm(req);
+> +			return;
+>   		case NVME_CSI_ZNS:
+>   			if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
+>   				nvmet_execute_identify_ns_zns(req);
 
-elapsed time: 725m
+Looks good.
 
-configs tested: 162
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    clang-20
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-20
-arc                   randconfig-001-20241108    gcc-14.2.0
-arc                   randconfig-002-20241108    gcc-14.2.0
-arc                           tb10x_defconfig    gcc-14.2.0
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-20
-arm                           h3600_defconfig    gcc-14.2.0
-arm                           omap1_defconfig    gcc-14.2.0
-arm                   randconfig-001-20241108    gcc-14.2.0
-arm                   randconfig-002-20241108    gcc-14.2.0
-arm                   randconfig-003-20241108    gcc-14.2.0
-arm                   randconfig-004-20241108    gcc-14.2.0
-arm                           sama7_defconfig    gcc-14.2.0
-arm64                            alldefconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20241108    gcc-14.2.0
-arm64                 randconfig-002-20241108    gcc-14.2.0
-arm64                 randconfig-003-20241108    gcc-14.2.0
-arm64                 randconfig-004-20241108    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20241108    gcc-14.2.0
-csky                  randconfig-002-20241108    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                          allyesconfig    clang-20
-hexagon               randconfig-001-20241108    gcc-14.2.0
-hexagon               randconfig-002-20241108    gcc-14.2.0
-i386                             allmodconfig    clang-19
-i386                              allnoconfig    clang-19
-i386                             allyesconfig    clang-19
-i386        buildonly-randconfig-001-20241108    clang-19
-i386        buildonly-randconfig-002-20241108    clang-19
-i386        buildonly-randconfig-003-20241108    clang-19
-i386        buildonly-randconfig-004-20241108    clang-19
-i386        buildonly-randconfig-005-20241108    clang-19
-i386        buildonly-randconfig-006-20241108    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-001-20241108    clang-19
-i386                  randconfig-002-20241108    clang-19
-i386                  randconfig-003-20241108    clang-19
-i386                  randconfig-004-20241108    clang-19
-i386                  randconfig-005-20241108    clang-19
-i386                  randconfig-006-20241108    clang-19
-i386                  randconfig-011-20241108    clang-19
-i386                  randconfig-012-20241108    clang-19
-i386                  randconfig-013-20241108    clang-19
-i386                  randconfig-014-20241108    clang-19
-i386                  randconfig-015-20241108    clang-19
-i386                  randconfig-016-20241108    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch                 loongson3_defconfig    gcc-14.2.0
-loongarch             randconfig-001-20241108    gcc-14.2.0
-loongarch             randconfig-002-20241108    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                          atari_defconfig    gcc-14.2.0
-m68k                            q40_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                       bmips_be_defconfig    gcc-14.2.0
-mips                           ip30_defconfig    gcc-14.2.0
-nios2                         3c120_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20241108    gcc-14.2.0
-nios2                 randconfig-002-20241108    gcc-14.2.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-12
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-12
-parisc                randconfig-001-20241108    gcc-14.2.0
-parisc                randconfig-002-20241108    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.2.0
-powerpc                      katmai_defconfig    gcc-14.2.0
-powerpc                      pmac32_defconfig    gcc-14.2.0
-powerpc               randconfig-001-20241108    gcc-14.2.0
-powerpc               randconfig-002-20241108    gcc-14.2.0
-powerpc               randconfig-003-20241108    gcc-14.2.0
-powerpc                     skiroot_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20241108    gcc-14.2.0
-powerpc64             randconfig-002-20241108    gcc-14.2.0
-powerpc64             randconfig-003-20241108    gcc-14.2.0
-riscv                            allmodconfig    gcc-14.2.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.2.0
-riscv                               defconfig    gcc-12
-riscv                 randconfig-001-20241108    gcc-14.2.0
-riscv                 randconfig-002-20241108    gcc-14.2.0
-s390                             allmodconfig    clang-20
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-12
-s390                  randconfig-001-20241108    gcc-14.2.0
-s390                  randconfig-002-20241108    gcc-14.2.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-12
-sh                    randconfig-001-20241108    gcc-14.2.0
-sh                    randconfig-002-20241108    gcc-14.2.0
-sh                   sh7770_generic_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc64                             defconfig    gcc-12
-sparc64               randconfig-001-20241108    gcc-14.2.0
-sparc64               randconfig-002-20241108    gcc-14.2.0
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                    randconfig-001-20241108    gcc-14.2.0
-um                    randconfig-002-20241108    gcc-14.2.0
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20241108    clang-19
-x86_64      buildonly-randconfig-002-20241108    clang-19
-x86_64      buildonly-randconfig-003-20241108    clang-19
-x86_64      buildonly-randconfig-004-20241108    clang-19
-x86_64      buildonly-randconfig-005-20241108    clang-19
-x86_64      buildonly-randconfig-006-20241108    clang-19
-x86_64                              defconfig    clang-19
-x86_64                                  kexec    clang-19
-x86_64                                  kexec    gcc-12
-x86_64                randconfig-001-20241108    clang-19
-x86_64                randconfig-002-20241108    clang-19
-x86_64                randconfig-003-20241108    clang-19
-x86_64                randconfig-004-20241108    clang-19
-x86_64                randconfig-005-20241108    clang-19
-x86_64                randconfig-006-20241108    clang-19
-x86_64                randconfig-011-20241108    clang-19
-x86_64                randconfig-012-20241108    clang-19
-x86_64                randconfig-013-20241108    clang-19
-x86_64                randconfig-014-20241108    clang-19
-x86_64                randconfig-015-20241108    clang-19
-x86_64                randconfig-016-20241108    clang-19
-x86_64                randconfig-071-20241108    clang-19
-x86_64                randconfig-072-20241108    clang-19
-x86_64                randconfig-073-20241108    clang-19
-x86_64                randconfig-074-20241108    clang-19
-x86_64                randconfig-075-20241108    clang-19
-x86_64                randconfig-076-20241108    clang-19
-x86_64                               rhel-8.3    gcc-12
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                  nommu_kc705_defconfig    gcc-14.2.0
-xtensa                randconfig-001-20241108    gcc-14.2.0
-xtensa                randconfig-002-20241108    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Matias Bjørling <matias.bjorling@wdc.com>
 
