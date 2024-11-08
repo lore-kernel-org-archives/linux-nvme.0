@@ -4,62 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5140CD64065
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 16:34:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24317D64072
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 17:10:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n6TG5sWodVzy+9LY+HkD51j09bh/h2UugCg3FpvnmJ0=; b=Sd3XiD7yo8dDII1G1b9cQ9LjtA
-	MOjbLsBQlvdU9UCNQ4nQnl9Btez73Oy1ZD4h0qySJzN3HzQe6zGjzLX88DVuo1HqqsY1iBw9mf9hz
-	eyzvCv35Snj7fbnvMzzSxXddULO9Miq1KPSP57Zg9kUSbbguIobXhoIhO+d4hAbx+FhsWf4pkNP8r
-	BTtRDcr3vSZxl63rL1nnH8Co25Tjip7t7o93NBvZOI+CIM3HLhee6SdxeEu5tDfeY9Max++LUNtf6
-	4xiASgSxESrAITd/Zd2z472Zqhka3nRz9PDvqkiKCSyKp69lhrRmxZxe5RMUXIRFDrNdcaXPH9i/K
-	LPGN2uiQ==;
+	bh=E6nOql+I8vxQxgztedJ4KzjHPXz43vgb7DqapJ/yDck=; b=PZ9qPvMWeg+hbRuswq/CI78qhX
+	YiJwluNbQVWAr1w1A5WnEJ4E+F3mvl1wGwlPGsGQhKyn3XpQUt5UNSXjRDa2XemL3jMtqwUm9IjNZ
+	67OEjew+n90iaNFTZ9NiA1l2Nhc187iLJ/UUxx7nYdiGtOS0tufT/SjE6ha3SHkkokeg+/iHo8+ek
+	okNvwH3chcL05fIuA1vwDTiU+xQmPMvkWQANy1HCwjdxBHEO6lhI7WkAwANADJZQHDPj7Uo42gVBP
+	N4jGBaUAWDcROQ3lz+M4HVDyJO61pDQJH6gqsUX4Vu2zF5QPgJS7V4OdhkNm2wUwbNDnEbDHkWnmc
+	tAHxqfDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Rvw-0000000BEt7-1k1n;
-	Fri, 08 Nov 2024 16:34:05 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1t9SVL-0000000BKh6-1ERr;
+	Fri, 08 Nov 2024 17:10:39 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9ReI-0000000BAaU-0k6z
+	id 1t9SBX-0000000BIdh-2sww
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 16:15:51 +0000
+	Fri, 08 Nov 2024 16:50:13 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D709B5C105D;
-	Fri,  8 Nov 2024 16:15:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC9DBC4CECD;
-	Fri,  8 Nov 2024 16:15:48 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 51273A43F00;
+	Fri,  8 Nov 2024 16:48:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DEA1C4CECD;
+	Fri,  8 Nov 2024 16:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731082549;
-	bh=Ns0KmvO4abh5G6jxdTCCHy8/YGOrOWNMi7Z2ZXtHUKg=;
+	s=k20201202; t=1731084610;
+	bh=E6nOql+I8vxQxgztedJ4KzjHPXz43vgb7DqapJ/yDck=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KUm45SWq4cpDobMNHHK2DFEwn9YQcByJf9BGdO1ravP6ufXMRE6afzYxEJwbLzsFh
-	 LsfCpedH/QWKoKP5VVv4fi014yaZdpe/tHo8QPaTGNjWRHOAiFFXHqeT5Ygja5V/cE
-	 MjLYz30bZU6eQcvMquf7+pHMcyaz0WM3ry5+MmHAUwf585KcjUSYlEBcBX2OOo8CdA
-	 a9MzWxuHnGpZz0LQgzSyFI0+/Pr9vBZpsYnh84/k8XKiW8JUaWF5yp+uG4qNsDhOUj
-	 FxCsR4HfJJ52K0nT5Qy3AnFy57fEIMAY3MOZIgsEOByjIEc7i5gWvAbxumaq8nDg0Q
-	 bKqVJdwKeplGw==
-Date: Fri, 8 Nov 2024 09:15:47 -0700
+	b=F8c93RW78V9xqQrC0NC/IP11+7gsmvM8HfcI0csNxFqxTBXpSD9XozJRqEHohQ0/u
+	 FPDYSGBXFWrCviRNRgDvlQ3ujztb3svsRrlZE7ZxKGh/mjJ07yvqH4vdKO3udfMOLH
+	 b3ixyBu2ccmsxAKoyg8+rc75cKELA2VfHldpowoL388mtIFCA8ZmjVisn8Tlwi0V/7
+	 RCVGTi5Ud11+XnubG68XPgLzNYGERqvhglPfDvguyAYGxKgIvAXcGX/uIm2iclgj4d
+	 wkyRG3Hxzbjfz8UNd2gN9wg/iVwRFpWSzOcpIU1rJRkAIUdpHhLU9aJTGm+Hgqbi2j
+	 uK+0cHNjcECPg==
+Date: Fri, 8 Nov 2024 09:50:08 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	m@bjorling.me, matias.bjorling@wdc.com, kch@nvidia.com,
-	kanie@linux.alibaba.com
-Subject: Re: [PATCHv4 13/13] nvmet: report ns's vwc not present
-Message-ID: <Zy45M1HRz8cKLPxf@kbusch-mbp>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, m@bjorling.me,
+	matias.bjorling@wdc.com, kch@nvidia.com, kanie@linux.alibaba.com
+Subject: Re: [PATCHv4 00/13] nvme target 2.1 and independent identify ns
+Message-ID: <Zy5BQClo4bOfUQj2@kbusch-mbp>
 References: <20241107193849.995554-1-kbusch@meta.com>
- <20241107193849.995554-14-kbusch@meta.com>
- <20241108142743.GG6694@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108142743.GG6694@lst.de>
+In-Reply-To: <20241107193849.995554-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_081550_280589_6CD5FDE6 
-X-CRM114-Status: GOOD (  13.21  )
+X-CRM114-CacheID: sfid-20241108_085011_812807_9EBC8BA4 
+X-CRM114-Status: UNSURE (   4.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,24 +72,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 08, 2024 at 03:27:43PM +0100, Christoph Hellwig wrote:
-> On Thu, Nov 07, 2024 at 11:38:48AM -0800, Keith Busch wrote:
-> > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> > index 516af7b419189..f688d7fdf7d67 100644
-> > --- a/drivers/nvme/target/admin-cmd.c
-> > +++ b/drivers/nvme/target/admin-cmd.c
-> > @@ -915,6 +915,9 @@ static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
-> >  		id->nsattr |= NVME_NS_ATTR_RO;
-> >  	if (req->ns->bdev && !bdev_nonrot(req->ns->bdev))
-> >  		id->nsfeat |= NVME_NS_ROTATIONAL;
-> > +	if ((req->ns->file && !req->ns->buffered_io) ||
-> 
-> I don't think this check is correct.  Direct I/O still requires cache
-> flushes for durability.
+Patches 1-12 applied after merging to nvme-6.13, folding in the
+reservation logs and features. Also included feedback from patch 4 (code
+style alignment suggestion) and patch 9 (cpu_to_le32(anagrpid)).
 
-Oh, right. Would it be sufficient to check the file's block device for
-write caching?
-
-	if ((req->ns->file && !req->ns->buffered_io &&
-		bdev_write_cache(file_inode(req->ns->file)->i_sb->s_bdev))
+Patch 13 is on hold.
 
