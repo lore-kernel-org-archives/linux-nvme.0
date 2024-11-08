@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 824C1D64083
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 19:49:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E74CAD64083
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 19:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JLqB0bINPP9TBHWvbswRy3CLboznVSFjr0ykLJ11WFw=; b=m9uAE6Wa2gdxe7mkj6cTiwH6VV
-	8AOGrbK56hnv3ebpRwHVHPEwmIiE6rbVgOv7iRxQEoHnJejcA2S2nmV8pcDUgAJIO8vMPXJu1f/N/
-	SFXVVeSBB1GFNWbYXlSeQ+apb0FXu6d+oSjmLT+ZlgFA/Z8Vh+VmAX5qnHEBO74pOJuJBS5O8AGUL
-	muN+XpUM89NYXDJz/OZSfWXc4jRpxN6EmK1NiWlzAaXucI+ACAOpHqKSCTHW7Y5yh6EWFEMYvR4Hi
-	6W61mvLE8U8KnDYZpeqsYfxhBDT1EztoH9iadF0rTEGPz5pRALiF39eK9zCF4itcQSh4FGEVpDSzh
-	QtSHUPCw==;
+	bh=YaxUJJnRZ28AJAdK6cvper+b/ynFQDqHd29QjSNk8fc=; b=OZMX400FH8aIhz1VOqqLgI78YT
+	iMPZO6gh6wHKIFvPCItk7tK7K8H0IRoEK7cAFmew+jtYjfNUzTbJvwbqgxsqOHO36biWGccfrxICT
+	aYUzM85FWs3ZY7TKn4ARzhIcUMgzD763ZrqQZGu0dyqMKUGnFgtLzvWo1ntHC8iHy4X6UUBgyZQ5a
+	ka6KBlSBz6cpCmjFojzfBBx8NAL7/O87WZ+qXLvBEFg5qeTKuTL1f1LALaFn0vAD0ESiKWwkW/Eaw
+	Z4Mlt1qIKtlGaeIJkBuOlqLtmp/x9sbZ98l0hvu0BdJovVoeQRxxiQdJdhBrulFhSskUpu+0xBdJi
+	xNRZDQxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Uyd-0000000BmZf-1oJX;
-	Fri, 08 Nov 2024 19:49:03 +0000
+	id 1t9Uyk-0000000BmcP-1FEA;
+	Fri, 08 Nov 2024 19:49:10 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Uya-0000000BmYs-3cfN
+	id 1t9Uyh-0000000Bmau-0smq
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 19:49:02 +0000
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A8HPKrI022316
-	for <linux-nvme@lists.infradead.org>; Fri, 8 Nov 2024 11:49:00 -0800
+	Fri, 08 Nov 2024 19:49:08 +0000
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A8HPeew008078
+	for <linux-nvme@lists.infradead.org>; Fri, 8 Nov 2024 11:49:07 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=JLqB0bINPP9TBHWvbswRy3CLboznVSFjr0ykLJ11WFw=; b=GCRfzGRk8Fz7
-	NWWUK9RaGJV34qXK/bfT4kLefN/JzfpmbDtW2YQ9/9pIOnjGLACNxzuS21SzmIMo
-	VUQ7Iaq/SR/ZV7ihdHa/JDs4PQC3cUKio9eH1S7TyJgR5gV+WZl/Pf/PFbpYbxOx
-	J+Sydl3vFVHjYEr7yOIShdnqVuxUljOOigu1Gw2edelmhuMH4/PF7UAonflFnZoZ
-	U708qZwsXc3GFN/AaM7SylKsYds6+mrXBf8GHxpsSHrgPZyM93oDqSqYvllASXkI
-	849H/JwFLrJWH0IOlM4NW2zrPT/ATGLPu0wy9shNZ+jFROj8SNwj8RMxWJq+VjuS
-	kSoL6TGGxA==
+	 bh=YaxUJJnRZ28AJAdK6cvper+b/ynFQDqHd29QjSNk8fc=; b=naVfa/97F2RL
+	efmByA/AvA/pL3j+JJmsm4Wr597WLBdbJ50RmC/Lf0AaOcW3vRDzzCrKJcfo6w7S
+	OZHp72Se7FEaabkj160022BRyiZ4JQtsbrVm03lr4q+bT3rHmtlycT81abd9WvKJ
+	6spJdc/R8j7gCjHhcsUogwonn6eVGdbBxfqQTJrtg+eGuO0tajfoAPdg56ByGJxC
+	Rwi6lpvTF4jPKYXPZJytCN/6MznMSpuk6wQk1dmC0bsRbESRfIV0jQcXJyS0Y/BK
+	gfKb+X5iFSHR5srE3TA1Zdp9dYYPQRkQt8F7WZ6VJjXZt6afqUI86SFq6KsJqarh
+	5Rjq2oc8Dg==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42sn58a41r-6
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 42sn4ua2fp-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 08 Nov 2024 11:49:00 -0800 (PST)
-Received: from twshared8596.05.ash9.facebook.com (2620:10d:c0a8:1b::30) by
+	for <linux-nvme@lists.infradead.org>; Fri, 08 Nov 2024 11:49:06 -0800 (PST)
+Received: from twshared35181.07.ash9.facebook.com (2620:10d:c0a8:1b::8e35) by
  mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Fri, 8 Nov 2024 19:48:55 +0000
+ 15.2.1544.11; Fri, 8 Nov 2024 19:49:04 +0000
 Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id B281E14E3A03D; Fri,  8 Nov 2024 11:36:58 -0800 (PST)
+	id 8375014E3A032; Fri,  8 Nov 2024 11:36:58 -0800 (PST)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
         <linux-scsi@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
@@ -58,9 +58,9 @@ CC: <hch@lst.de>, <martin.petersen@oracle.com>, <asml.silence@gmail.com>,
         <javier.gonz@samsung.com>, <joshi.k@samsung.com>,
         Keith Busch
 	<kbusch@kernel.org>
-Subject: [PATCHv11 7/9] block: export placement hint feature
-Date: Fri, 8 Nov 2024 11:36:27 -0800
-Message-ID: <20241108193629.3817619-8-kbusch@meta.com>
+Subject: [PATCHv11 3/9] statx: add write hint information
+Date: Fri, 8 Nov 2024 11:36:23 -0800
+Message-ID: <20241108193629.3817619-4-kbusch@meta.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20241108193629.3817619-1-kbusch@meta.com>
 References: <20241108193629.3817619-1-kbusch@meta.com>
@@ -68,14 +68,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: u2yaOIJMD2SAnTTXOIZ7-8bOszi9F5jO
-X-Proofpoint-GUID: u2yaOIJMD2SAnTTXOIZ7-8bOszi9F5jO
+X-Proofpoint-ORIG-GUID: 8aVabRHdHsj_CGG9X29O68VQE1U3C_0O
+X-Proofpoint-GUID: 8aVabRHdHsj_CGG9X29O68VQE1U3C_0O
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+ definitions=2024-10-05_02,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_114900_941776_25F8C6CD 
-X-CRM114-Status: GOOD (  10.51  )
+X-CRM114-CacheID: sfid-20241108_114907_284739_2198F595 
+X-CRM114-Status: GOOD (  15.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,73 +92,85 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Add a feature flag for devices that support generic placement hints in
-write commands. This is in contrast to data lifetime hints.
+If requested on a raw block device, report the maximum write hint the
+block device supports.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- block/blk-settings.c   | 2 ++
- block/blk-sysfs.c      | 3 +++
- include/linux/blkdev.h | 3 +++
- 3 files changed, 8 insertions(+)
+ block/bdev.c              | 5 +++++
+ fs/stat.c                 | 1 +
+ include/linux/stat.h      | 1 +
+ include/uapi/linux/stat.h | 3 ++-
+ 4 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index f9f831f104615..b809f31ad84f2 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -518,6 +518,8 @@ int blk_stack_limits(struct queue_limits *t, struct q=
-ueue_limits *b,
- 		t->features &=3D ~BLK_FEAT_NOWAIT;
- 	if (!(b->features & BLK_FEAT_POLL))
- 		t->features &=3D ~BLK_FEAT_POLL;
-+	if (!(b->features & BLK_FEAT_PLACEMENT_HINTS))
-+		t->features &=3D ~BLK_FEAT_PLACEMENT_HINTS;
+diff --git a/block/bdev.c b/block/bdev.c
+index 738e3c8457e7f..9a59f0c882170 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -1296,6 +1296,11 @@ void bdev_statx(struct path *path, struct kstat *s=
+tat,
+ 		stat->result_mask |=3D STATX_DIOALIGN;
+ 	}
 =20
- 	t->flags |=3D (b->flags & BLK_FLAG_MISALIGNED);
-=20
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 1925ea23bd290..6280c5f89b8b7 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -260,6 +260,7 @@ static ssize_t queue_##_name##_show(struct gendisk *d=
-isk, char *page)	\
- QUEUE_SYSFS_FEATURE_SHOW(poll, BLK_FEAT_POLL);
- QUEUE_SYSFS_FEATURE_SHOW(fua, BLK_FEAT_FUA);
- QUEUE_SYSFS_FEATURE_SHOW(dax, BLK_FEAT_DAX);
-+QUEUE_SYSFS_FEATURE_SHOW(placement_hints, BLK_FEAT_PLACEMENT_HINTS);
-=20
- static ssize_t queue_zoned_show(struct gendisk *disk, char *page)
- {
-@@ -497,6 +498,7 @@ QUEUE_RW_ENTRY(queue_poll_delay, "io_poll_delay");
- QUEUE_RW_ENTRY(queue_wc, "write_cache");
- QUEUE_RO_ENTRY(queue_fua, "fua");
- QUEUE_RO_ENTRY(queue_dax, "dax");
-+QUEUE_RO_ENTRY(queue_placement_hints, "placement_hints");
- QUEUE_RW_ENTRY(queue_io_timeout, "io_timeout");
- QUEUE_RO_ENTRY(queue_virt_boundary_mask, "virt_boundary_mask");
- QUEUE_RO_ENTRY(queue_dma_alignment, "dma_alignment");
-@@ -626,6 +628,7 @@ static struct attribute *queue_attrs[] =3D {
- 	&queue_wc_entry.attr,
- 	&queue_fua_entry.attr,
- 	&queue_dax_entry.attr,
-+	&queue_placement_hints_entry.attr,
- 	&queue_poll_delay_entry.attr,
- 	&queue_virt_boundary_mask_entry.attr,
- 	&queue_dma_alignment_entry.attr,
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 1477f751ad8bd..2ffe9a3b9dbff 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -333,6 +333,9 @@ typedef unsigned int __bitwise blk_features_t;
- #define BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE \
- 	((__force blk_features_t)(1u << 15))
-=20
-+/* supports generic write placement hints */
-+#define BLK_FEAT_PLACEMENT_HINTS	((__force blk_features_t)(1u << 16))
++	if (request_mask & STATX_WRITE_HINT) {
++		stat->write_hint_max =3D bdev_max_write_hints(bdev);
++		stat->result_mask |=3D STATX_WRITE_HINT;
++	}
 +
- /*
-  * Flags automatically inherited when stacking limits.
-  */
+ 	if (request_mask & STATX_WRITE_ATOMIC && bdev_can_atomic_write(bdev)) {
+ 		struct request_queue *bd_queue =3D bdev->bd_queue;
+=20
+diff --git a/fs/stat.c b/fs/stat.c
+index 41e598376d7e3..60bcd5c2e2a1d 100644
+--- a/fs/stat.c
++++ b/fs/stat.c
+@@ -704,6 +704,7 @@ cp_statx(const struct kstat *stat, struct statx __use=
+r *buffer)
+ 	tmp.stx_atomic_write_unit_min =3D stat->atomic_write_unit_min;
+ 	tmp.stx_atomic_write_unit_max =3D stat->atomic_write_unit_max;
+ 	tmp.stx_atomic_write_segments_max =3D stat->atomic_write_segments_max;
++	tmp.stx_write_hint_max =3D stat->write_hint_max;
+=20
+ 	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
+ }
+diff --git a/include/linux/stat.h b/include/linux/stat.h
+index 3d900c86981c5..48f0f64846a02 100644
+--- a/include/linux/stat.h
++++ b/include/linux/stat.h
+@@ -57,6 +57,7 @@ struct kstat {
+ 	u32		atomic_write_unit_min;
+ 	u32		atomic_write_unit_max;
+ 	u32		atomic_write_segments_max;
++	u32		write_hint_max;
+ };
+=20
+ /* These definitions are internal to the kernel for now. Mainly used by =
+nfsd. */
+diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+index 887a252864416..10f5622c21113 100644
+--- a/include/uapi/linux/stat.h
++++ b/include/uapi/linux/stat.h
+@@ -132,7 +132,7 @@ struct statx {
+ 	__u32	stx_atomic_write_unit_max;	/* Max atomic write unit in bytes */
+ 	/* 0xb0 */
+ 	__u32   stx_atomic_write_segments_max;	/* Max atomic write segment coun=
+t */
+-	__u32   __spare1[1];
++	__u32   stx_write_hint_max;
+ 	/* 0xb8 */
+ 	__u64	__spare3[9];	/* Spare space for future expansion */
+ 	/* 0x100 */
+@@ -164,6 +164,7 @@ struct statx {
+ #define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_i=
+d */
+ #define STATX_SUBVOL		0x00008000U	/* Want/got stx_subvol */
+ #define STATX_WRITE_ATOMIC	0x00010000U	/* Want/got atomic_write_* fields=
+ */
++#define STATX_WRITE_HINT	0x00020000U	/* Want/got write_hint_max */
+=20
+ #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx=
+ expansion */
+=20
 --=20
 2.43.5
 
