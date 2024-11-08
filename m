@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97585D5C0C3
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 12:14:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 003A4D5C0C1
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2024 12:23:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=luttdhYS4kJfYLUQ9lCmBWrCs5d96Xl+6byXwGbK9uk=; b=4zgLhNO2ldVxC4+e78xUiB3tvF
-	NvbpD7wJW7vdiLUXkNjeUwFaDiDKK8xQo+V5k/fThSEIHLs56yY6nqs45PRB77sye89PMTnaGMV7e
-	J5JEPh4LVV/2qgo3VbGyISs7G/OYJhUkVrydUKGoLU8yfcZOmTQWvhDIKw7XtL9AVqxvdu5uDGIlh
-	9dRg4mTFiZW2bvE8D7CVCrK5ATiRxxlcrhTg3IvpPkCdRtcrZA9ldzggMQbCUi/IbKitu7BdoJ6j7
-	nnhsK1zmtZvQSyFPx+G6Cl38PUKIu2NUSQN467wxynVvCMPZXUq/vKZJ46mAwhDzvVb4A+7meYj3f
-	CXis1UXg==;
+	bh=hmpMcKZOFnNQ2jcpCRtEcemg1aGkHJ/XZMZKCEEzRV8=; b=D35owNbUxPkkB9QVLwF4ZqWLhY
+	M2UTCkOPRCD13d/fp4S1UP/odLzOPUycYQeYyjF+QSO1eVIdmlfiCB6J5Bb4G1mMW473nPcSI2bdH
+	9yDDA6emh03bQR+xcIPa0jlZuhd/j0VkjIM6Yg1ex/pw2YIGEuWoMhHyahoUeNmEzVfmzTIiGC7fv
+	JuUwEH4h6Snlse5k0lDg7ZQr7XOukikwstxHY8K1fvsTHR4WlO4LpGRCT29ED/dBIN+i/M1W/QwNB
+	2xCkxemPsfDqD1T+y9LF+DokKhvOlavX6w6hN+uE9xcr4CLz1VTih7Umb1RgoocQEbcPlvk4ahm1L
+	kuxnV2KA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9NsD-0000000ATRj-2QkN;
-	Fri, 08 Nov 2024 12:13:57 +0000
-Received: from fhigh-a8-smtp.messagingengine.com ([103.168.172.159])
+	id 1t9O10-0000000AVAk-1DCz;
+	Fri, 08 Nov 2024 12:23:02 +0000
+Received: from fout-a5-smtp.messagingengine.com ([103.168.172.148])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9Ngh-0000000ARGR-2DYM
+	id 1t9NpH-0000000AT1c-0Mnk
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Nov 2024 12:02:06 +0000
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C83591140113;
-	Fri,  8 Nov 2024 07:01:59 -0500 (EST)
+	Fri, 08 Nov 2024 12:10:56 +0000
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id B277213805D8;
+	Fri,  8 Nov 2024 07:10:53 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Fri, 08 Nov 2024 07:01:59 -0500
+  by phl-compute-06.internal (MEProxy); Fri, 08 Nov 2024 07:10:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bjorling.me; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1731067319;
-	 x=1731153719; bh=luttdhYS4kJfYLUQ9lCmBWrCs5d96Xl+6byXwGbK9uk=; b=
-	RaLb6wKQ3UAcuG69bL01FogbpbQ4HHL/U1BdXvQrAQkIhJunkO9f6++/cdqdhZSb
-	PUDv5Ab+1UxP+NLhgaMzcw54FzgMo7KUQRGWUt9DdFD6r2GaaJNN8V9r68qyCdef
-	xUTzkUpxo1Ry262eVGgyJc0tN/+w4ydAaI+RIdAMSrOiDRx5dLwNfc7myEFlRaxh
-	L3iLgxDCrD4s45PVW7dIWvyAf9Yx9rzsveYav1rpV7lsb4xoRlghDOUhQR6pymkl
-	FW0uvtROekx8joDLRbP4iv49B5owBiq7wArR48LLOQREMuP1KfrAHL1ItOc6GB/c
-	bYOK6OzFRid640augZjA3g==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1731067853;
+	 x=1731154253; bh=hmpMcKZOFnNQ2jcpCRtEcemg1aGkHJ/XZMZKCEEzRV8=; b=
+	Pha8EZSnuGefTCb4HeO8r4Hk50U+Z/fW35p3JZjKS5ekJmI59U9WhKQ3mUMrfG5t
+	/S/py0TflwusarUeXxbDhViPDm5uKjnxtzHG1ikqnz7DPUF8o2qHUFFLautZwIAu
+	kOQcUruK2ePRkoPQJbqBPuC6qo5dFX6jhJW4RxQtwQedgviHwwWjFXHrH4ezpyPk
+	N5p56lR7I064FItwEjtB7wn6TXY6mf+1rsJJ2i33GDR7ePVO9w5BOXMqqSXe/cKt
+	zp/Jt2glTbiAdxm4Vo3Y3KEDE7W+t/VoMitqkjhu/ognYW03qBCWUHGMAwNzXAp4
+	KpZ5nh9/o6qKVTcIvmofWQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731067319; x=
-	1731153719; bh=luttdhYS4kJfYLUQ9lCmBWrCs5d96Xl+6byXwGbK9uk=; b=I
-	oNBoMkRRQyaV+HOXyaPQmifzKsT2Mc08dlczw+UUg8Qs0W5qyW/qdA5YPmvtJyjd
-	9yL2cSvOFmhYW81rgTk9nQNnm+yq+4rQnhuZa+GuUOCMx4LZf0dJowleRiUqZ0qi
-	yevbYqyM19ApHV60ONQeu05c4ceeTgoXFhu2HBhG/qKIlXO0OZDdclwTE7cBU2um
-	kRHQnujpaDrk/ffmY25NUK5YloQFiakiYRV4cSNscz5nr8FMAx61l1gctrEV3Lh2
-	Ngq0RJcQ9mZWNSu3eb4Lxz3Km4OlXR8MnPEmeFj3b17TPKoDX5qpvi1YIV7M4tKT
-	Rjd35PjX1CjMYJzYvti6A==
-X-ME-Sender: <xms:tv0tZ8Kw1hV_9W3dSYhWDFNWFIT9YLHKZb1jtCNwIgmjeSd38RY0kQ>
-    <xme:tv0tZ8KqBaZOtkUzCvRMzyHgXooFQffrppEzlq9Qv7AZFQqyd9C9SiHSQasLJNyUq
-    wRDjuU6Kfk9n071T2Y>
-X-ME-Received: <xmr:tv0tZ8tYDGaOsn0YqOfqGV_N5oovEMHPoMKqlVHW9Iw0kapdEs3X_u1iJxgLVFptpw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeigdefvdcutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731067853; x=
+	1731154253; bh=hmpMcKZOFnNQ2jcpCRtEcemg1aGkHJ/XZMZKCEEzRV8=; b=k
+	ERmqAVpPkp9z/u/Kf3jriJiNNI2yu78E/cQW8hnhWTromb2/pc7Uu73rnx+iJdTY
+	UFc0EcJP7yh8NChkJIz5Mo/rUmNImSZBoYgfuSJrmmYVOFdjtLr8vhapfalTVNv+
+	sSlTfCPuh6ofR0PIBlMB6tMLGIRthV+ZwDf90f4brZikUgwGLtJR//DOPYCDD/6d
+	iiI0JGzGUxWXrhDACo3YKOwuIknCb99nKZrgFOfAUSERVHzkKKIq0jAGocWGe8Rg
+	EKqdIoXJill7Ch9TaQYUwKAkvrGoULqpG0o6reUepgHFKzcxISapZq2ut82axqHZ
+	kr0P0YHHxUU3W5qC2C3yg==
+X-ME-Sender: <xms:zP8tZ47rVq1JO8-XsYQDWhkpPK7vl_t9LC5X9RJOcviVl0B1DVzOOQ>
+    <xme:zP8tZ577gXhGZPObi4oSOH6QNmLUcYu2SbE79l_KnVbZp7CmtWLorikZOm69T_zKD
+    3avJ9FuwQsJIt19v3A>
+X-ME-Received: <xmr:zP8tZ3ducAjKBhdq5BKaf45Kg21ZHVf2xx_AY2Mo3XSIHAKW0hWijtK4-tTLa-uzZw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeigdeffecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
     tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
     hsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeen
@@ -74,32 +74,32 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtdeigdefvdcutefuodetggdote
     gsjhhorhhlihhnghesfigutgdrtghomhdprhgtphhtthhopehktghhsehnvhhiughirgdr
     tghomhdprhgtphhtthhopehkrghnihgvsehlihhnuhigrdgrlhhisggrsggrrdgtohhmpd
     hrtghpthhtohepkhgsuhhstghhsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:tv0tZ5acD7WVI-kkA7QZPOgYUyb6YF0e7lo71UiMqkxtX45xesrr4Q>
-    <xmx:tv0tZzY04MiZI6nXV4uwNU1gYZyX6fZ6lknnupdrAM1K_nG0f0j3bA>
-    <xmx:tv0tZ1BbDW08I_6ZK2CriaX_9gT0eIi6kps_2fKvGglAsHinOubtQg>
-    <xmx:tv0tZ5ZSF2-__7uunQmv-jT5SoGK3ePPrYWyLk6EjO2C6y7vHrMmkw>
-    <xmx:t_0tZ35pF0Vq9c9f7CUzsJAiMYaDFAeIuLircPdT0hqo2wiEdwrASx1e>
+X-ME-Proxy: <xmx:zP8tZ9Jetee3NLqBiRl40t_R_7OesQsq4VeDyz-7KYDoBCWc-LtkWA>
+    <xmx:zP8tZ8LPRV1VNYhb_7tGRCQ9E8w40lm_a6x9HmikfdsWFo_7A86-4w>
+    <xmx:zP8tZ-xdILPOiW4NwqOAB424O98YdjPBybAv_EiSTOlBnvBsTYP1Dg>
+    <xmx:zP8tZwKXVwmhqc_80LWBHpLBmzOt2-Nr4kiMtouKZhtBsKFWXHT92A>
+    <xmx:zf8tZ1qp-dIzc-ggmL0WUtGvi-5D7uMDPV87Aj5JL6osaF0MQl1bBEw_>
 Feedback-ID: if4314918:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 Nov 2024 07:01:57 -0500 (EST)
-Message-ID: <0d8aea5b-51c8-4f4b-882a-c41fbf566475@bjorling.me>
-Date: Fri, 8 Nov 2024 13:01:56 +0100
+ 8 Nov 2024 07:10:51 -0500 (EST)
+Message-ID: <649ab1f6-3659-4f05-90dc-99932e465ea7@bjorling.me>
+Date: Fri, 8 Nov 2024 13:10:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv4 01/13] nvmet: implement id ns for nvm command set
+Subject: Re: [PATCHv4 02/13] nvmet: implement active command set ns list
 To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
 Cc: hch@lst.de, matias.bjorling@wdc.com, kch@nvidia.com,
  kanie@linux.alibaba.com, Keith Busch <kbusch@kernel.org>
 References: <20241107193849.995554-1-kbusch@meta.com>
- <20241107193849.995554-2-kbusch@meta.com>
+ <20241107193849.995554-3-kbusch@meta.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Matias_Bj=C3=B8rling?= <m@bjorling.me>
-In-Reply-To: <20241107193849.995554-2-kbusch@meta.com>
+In-Reply-To: <20241107193849.995554-3-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_040204_370129_6AD09E5E 
-X-CRM114-Status: GOOD (  13.66  )
+X-CRM114-CacheID: sfid-20241108_041055_226481_77F69FB1 
+X-CRM114-Status: GOOD (  15.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,51 +117,71 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 07-11-2024 20:38, Keith Busch wrote:
 > From: Keith Busch <kbusch@kernel.org>
 > 
-> We don't report anything here, but it's a mandatory identification for
-> nvme 2.1.
+> This is required for nvme 2.1 for targets that support multiple command
+> sets. We support NVM and ZNS, so are required to support this
+> identification.
 > 
 > Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > Signed-off-by: Keith Busch <kbusch@kernel.org>
 > ---
->   drivers/nvme/target/admin-cmd.c | 18 ++++++++++++++++--
->   1 file changed, 16 insertions(+), 2 deletions(-)
+>   drivers/nvme/target/admin-cmd.c | 9 +++++++--
+>   include/linux/nvme.h            | 1 +
+>   2 files changed, 8 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 081f0473cd9ea..8d06dba42bcb3 100644
+> index 8d06dba42bcb3..a13242e791c0f 100644
 > --- a/drivers/nvme/target/admin-cmd.c
 > +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -685,6 +685,20 @@ static void nvmet_execute_identify_ctrl_nvm(struct nvmet_req *req)
->   		   nvmet_zero_sgl(req, 0, sizeof(struct nvme_id_ctrl_nvm)));
+> @@ -576,7 +576,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+>   	nvmet_req_complete(req, status);
 >   }
 >   
-> +static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
-> +{
-> +	u16 status;
-> +
-> +	status = nvmet_req_find_ns(req);
-> +	if (status)
-> +		goto out;
-> +
-> +	status = nvmet_copy_to_sgl(req, 0, ZERO_PAGE(0),
-> +				   NVME_IDENTIFY_DATA_SIZE);
-> +out:
-> +	nvmet_req_complete(req, status);
-> +}
-> +
->   static void nvmet_execute_identify(struct nvmet_req *req)
+> -static void nvmet_execute_identify_nslist(struct nvmet_req *req)
+> +static void nvmet_execute_identify_nslist(struct nvmet_req *req, bool match_css)
 >   {
->   	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
-> @@ -706,8 +720,8 @@ static void nvmet_execute_identify(struct nvmet_req *req)
->   	case NVME_ID_CNS_CS_NS:
->   		switch (req->cmd->identify.csi) {
->   		case NVME_CSI_NVM:
-> -			/* Not supported */
-> -			break;
-> +			nvme_execute_identify_ns_nvm(req);
-> +			return;
->   		case NVME_CSI_ZNS:
->   			if (IS_ENABLED(CONFIG_BLK_DEV_ZONED)) {
->   				nvmet_execute_identify_ns_zns(req);
+>   	static const int buf_size = NVME_IDENTIFY_DATA_SIZE;
+>   	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+> @@ -606,6 +606,8 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
+>   	xa_for_each(&ctrl->subsys->namespaces, idx, ns) {
+>   		if (ns->nsid <= min_nsid)
+>   			continue;
+> +		if (match_css && req->ns->csi != req->cmd->identify.csi)
+> +			continue;
+>   		list[i++] = cpu_to_le32(ns->nsid);
+>   		if (i == buf_size / sizeof(__le32))
+>   			break;
+> @@ -712,7 +714,7 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+>   		nvmet_execute_identify_ctrl(req);
+>   		return;
+>   	case NVME_ID_CNS_NS_ACTIVE_LIST:
+> -		nvmet_execute_identify_nslist(req);
+> +		nvmet_execute_identify_nslist(req, false);
+>   		return;
+>   	case NVME_ID_CNS_NS_DESC_LIST:
+>   		nvmet_execute_identify_desclist(req);
+> @@ -743,6 +745,9 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+>   			break;
+>   		}
+>   		break;
+> +	case NVME_ID_CNS_NS_ACTIVE_LIST_CS:
+> +		nvmet_execute_identify_nslist(req, true);
+> +		return;
+>   	}
+>   
+>   	pr_debug("unhandled identify cns %d on qid %d\n",
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index b58d9405d65e0..0f263c7e63192 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -522,6 +522,7 @@ enum {
+>   	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
+>   	NVME_ID_CNS_CS_NS		= 0x05,
+>   	NVME_ID_CNS_CS_CTRL		= 0x06,
+> +	NVME_ID_CNS_NS_ACTIVE_LIST_CS	= 0x07,
+>   	NVME_ID_CNS_NS_CS_INDEP		= 0x08,
+>   	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+>   	NVME_ID_CNS_NS_PRESENT		= 0x11,
 
 Looks good.
 
