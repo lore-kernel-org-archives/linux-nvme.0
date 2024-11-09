@@ -4,71 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A135D6409A
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Nov 2024 06:05:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 792B3D5E367
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Nov 2024 12:20:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UcdhsZARZekNlNxawrki4JPWc5fxyMnFZswqS2Xe9Fc=; b=MPtbq8J0EkJmvw4CD3sfuo+0Se
-	RLEGLXb2yS89MuylNuCv+eZhUlChNnWyatSTnlsud6uYC9ERmHs/S4/F9GY/2YJa+lmG2P57x3ZtC
-	iqO2c+wAvUORGox+qUq4KqZw+wIOPPnVnNndIfgsJZZ8An+Mq5PO+y1DbIjlfuIJiIPGwqJO4YJN3
-	LrPtCVjcouDT3ytg1g+Om+7uyADtamsY2W8DLtcYikaEsERrJhLWmTgaJAb2L6ygVxRsvW01UXCYf
-	nbTY1Hf1BLVZr85JqKfTo5hJV27nZ71zf/YDZzuLrBqSLo/Pm8OPsLaD6v6yJ1iPDuV0YZd6j5pcq
-	POy8zduQ==;
+	bh=X10jEd65WK6ILSIIjlJKXZDA/6UE2ErD4j2jrg3d5WQ=; b=ISN2X0Aq21vDTafGKVQACaRDo0
+	qwhqlxLNu8/4KuDnfTqweDfWEEP0huD46ld/IlfJnTZJIGJjPVKAHOnBxZZg8nnry1j3PLPdiVM6P
+	8xV9fxdN8Zem9A9jtPYP3VZC8mXPeiuIql1viKm70b51c9Pycm4S3GQ4xAgfSZSeU9V5jyLBDnrP0
+	wJehPbmQJoBWb7+RhyBxafeURZAt2l/zimXzisp/jy/RMqwkEmVweP80YmA2rzy4CFZeKTLFcsHpw
+	cF67RcJumvVRfVNv9hoFUZ0LItPGaNGaRDTgHae5mR9KKkAdYjzVF98E1Su92XelIRn0VWWuptlfP
+	BBhZvQRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9eav-0000000Cl9F-2SGU;
-	Sat, 09 Nov 2024 06:05:13 +0000
-Received: from mgamail.intel.com ([198.175.65.21])
+	id 1t9kRn-0000000DHop-3MfN;
+	Sat, 09 Nov 2024 12:20:11 +0000
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1t9eVW-0000000Ckl4-1I9O
+	id 1t9kRh-0000000DHoG-06D7
 	for linux-nvme@lists.infradead.org;
-	Sat, 09 Nov 2024 05:59:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731131979; x=1762667979;
-  h=date:from:to:cc:subject:message-id;
-  bh=PUnHPwWat+I45iG7JFcIHS6YBL/4qfREZrCJct8MOJ0=;
-  b=MstjaPZdwhAsOR4NeDY5+bZ9/5f/FCx2Svjnd9MYAbhGG8VkFTZPuPFu
-   GQeWWSen8aRzOUajinhsovGwKeosm13BknN5ILcc5rqDsOfeowB+rS4y+
-   jwnOCefmtr/LYnzjkqG0btLZRWjZS4bbmJSgoalIGUlqqmPwNTvAeAcsj
-   Tr8g7Ht6xz1anJomigX6Mbt6t+GJ0P1yq9XZom2UG0h8tMp+cFVTV/xop
-   vmj1K7oSp3tBOYXVOTdn15+Eewe6F1hVR+RORt2FBfuHaKvbbDytDqMSq
-   ciuoqPg3boA8lhY91SxVmKv3gLmaz437dtj9XSJysbo1slp8xHcnMHi8E
-   A==;
-X-CSE-ConnectionGUID: 8KadzAAMShy+Ydu7K6EZrQ==
-X-CSE-MsgGUID: 0afSKnNWRBS0sZmroTSazA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30978856"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30978856"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 21:59:36 -0800
-X-CSE-ConnectionGUID: x9NAt91FSmadfATxE8TyPg==
-X-CSE-MsgGUID: rm30NbjqS4qicC2NIdJrAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="86697417"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 Nov 2024 21:59:34 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9eVP-000s7e-2Y;
-	Sat, 09 Nov 2024 05:59:31 +0000
-Date: Sat, 09 Nov 2024 13:58:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.13] BUILD SUCCESS
- cf1a0a13bf4669bbc4d4e452de058eb4eb800f12
-Message-ID: <202411091334.Pf6bRN3L-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Sat, 09 Nov 2024 12:20:06 +0000
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-7d4f85766f0so2219019a12.2
+        for <linux-nvme@lists.infradead.org>; Sat, 09 Nov 2024 04:20:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731154803; x=1731759603; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X10jEd65WK6ILSIIjlJKXZDA/6UE2ErD4j2jrg3d5WQ=;
+        b=Ug8R3910Ecnhx2pmABIzsywCtoKbwiodJQquqFZF7EfMihE+5omIzJ/BsV5F9aA6oM
+         /tCRbKWba7Qb7c2E+Pi+llc0x4JhQTmLoBJElafgv0RChP+UWea8Q+bch14qQ+R1s4/I
+         wtjUGruCQmiMMetG4mBJG/zU14EzWcHg5+8sLDvRKE2ehGAyowxmmWogpA6XvcZR5ZRE
+         ldKiOUadk2L+ssWvNhkF7J4dNYvn/JpVn661k8eIs+K2/rfucelG1tfL7FPYRlTqhRnU
+         3EhBPKOKMOK/cSdu9MoVdMgD072T3G1/7d0HIXQzdZf0H56a6MXtz2lOMuaV87OIhTCT
+         xRTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731154803; x=1731759603;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X10jEd65WK6ILSIIjlJKXZDA/6UE2ErD4j2jrg3d5WQ=;
+        b=CH92HO7v6aGkQTzcyru1DAUkLbVpXIFFVLrAdnyvJXivlUAriWb5XwwLzUKB8ir2C0
+         jf8lO03XFkpXQzVJ+gJys9LKtx20oCYVM1+UZRk3LnLmx8qiHvIFj+xc473waGLK8/Zj
+         6B3YpvX/aXku8xWWGzGu2mY/9BKqld7v8vJWe9nQrgsasVratdXAYnpeeCDkp75KPY/V
+         2u2cerAwlF07Vy+HO//MAqnA+UaOn9a+EaSY5OEe5NXxjb1+HvHYCOxXdwMZDWZ31BP6
+         NC9/2JigIv5aDzp4RZuqbHTpTnv/ZoHjikz24sEKmqSd3AC2mI2zOlGeB2tUrcboZKtS
+         YfDQ==
+X-Gm-Message-State: AOJu0Ywa1tbDoJKrDXhhhxqT5kaOsF7hBzxcNRbeK0NdRsN8NGEKpEE8
+	SQxQ86egdcZjuSTp1tI+KiuQFOT379+ry94k5PO37bgjTZk89emm7V90dA==
+X-Google-Smtp-Source: AGHT+IE5YitckVAPPbvXG7cW1rg7eKlZUCNa9MU5Azh1tLEAez48zryA2ZNf3KZ5W2XAKTub3nE36g==
+X-Received: by 2002:a17:90b:2642:b0:2e2:e4d3:3401 with SMTP id 98e67ed59e1d1-2e9b16ab979mr8333968a91.20.1731154803164;
+        Sat, 09 Nov 2024 04:20:03 -0800 (PST)
+Received: from tokunori-desktop.flets-east.jp ([240b:10:2720:5500:c1ce:644d:cdf6:d1b7])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e99a541c95sm8004759a91.17.2024.11.09.04.20.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Nov 2024 04:20:02 -0800 (PST)
+From: Tokunori Ikegami <ikegami.t@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: Tokunori Ikegami <ikegami.t@gmail.com>
+Subject: [PATCH v2] nvme-hwmon: add temperature threshold hysteresis feature
+Date: Sat,  9 Nov 2024 21:19:53 +0900
+Message-ID: <20241109121958.6124-1-ikegami.t@gmail.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241108_215938_422887_DBEA5FD9 
-X-CRM114-Status: UNSURE (   4.80  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241109_042005_094387_7A5BD614 
+X-CRM114-Status: GOOD (  16.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,187 +87,190 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.13
-branch HEAD: cf1a0a13bf4669bbc4d4e452de058eb4eb800f12  nvme: check ns's volatile write cache not present
+The definition TMPTHH field supported by NVMe 2.1.
 
-elapsed time: 724m
+Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
+---
+Changes since v1:
+- Add hwmon temperature hysteresis sysfs files to use the hysteresis feature.
 
-configs tested: 167
-configs skipped: 5
+ drivers/nvme/host/core.c  |  1 +
+ drivers/nvme/host/hwmon.c | 75 +++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h  |  1 +
+ include/linux/nvme.h      |  7 +++-
+ 4 files changed, 83 insertions(+), 1 deletion(-)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b149b638453f..59608e65bc1c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3336,6 +3336,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->kas = le16_to_cpu(id->kas);
+ 	ctrl->max_namespaces = le32_to_cpu(id->mnan);
+ 	ctrl->ctratt = le32_to_cpu(id->ctratt);
++	ctrl->tmpthha = id->tmpthha;
+ 
+ 	ctrl->cntrltype = id->cntrltype;
+ 	ctrl->dctype = id->dctype;
+diff --git a/drivers/nvme/host/hwmon.c b/drivers/nvme/host/hwmon.c
+index 89a1a1043d63..86688a554f05 100644
+--- a/drivers/nvme/host/hwmon.c
++++ b/drivers/nvme/host/hwmon.c
+@@ -37,6 +37,33 @@ static int nvme_get_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool under,
+ 	return 0;
+ }
+ 
++static int nvme_get_temp_thresh_hyst(struct nvme_ctrl *ctrl, bool under,
++				     long *hyst)
++{
++	unsigned int threshold = 0;
++	u32 status;
++	int ret;
++
++	if (under)
++		threshold |= NVME_TEMP_THRESH_TYPE_UNDER;
++
++	ret = nvme_get_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL, 0,
++				&status);
++	if (ret > 0)
++		return -EIO;
++	if (ret < 0)
++		return ret;
++	*hyst =
++	    kelvin_to_millicelsius((status >> NVME_TEMP_THRESH_HYST_SHIFT) &
++				   NVME_TEMP_THRESH_HYST_MASK);
++	if (under)
++		*hyst += kelvin_to_millicelsius(status & NVME_TEMP_THRESH_MASK);
++	else
++		*hyst -= kelvin_to_millicelsius(status & NVME_TEMP_THRESH_MASK);
++
++	return 0;
++}
++
+ static int nvme_set_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool under,
+ 				long temp)
+ {
+@@ -57,6 +84,40 @@ static int nvme_set_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool under,
+ 	return ret;
+ }
+ 
++static int nvme_set_temp_thresh_hyst(struct nvme_ctrl *ctrl, bool under,
++				     long hyst)
++{
++	unsigned int hysteresis = 0;
++	u32 status;
++	int ret;
++
++	if (under)
++		hysteresis |= NVME_TEMP_THRESH_TYPE_UNDER;
++
++	ret = nvme_get_features(ctrl, NVME_FEAT_TEMP_THRESH, hysteresis, NULL,
++				0, &status);
++	if (ret > 0)
++		return -EIO;
++	if (ret < 0)
++		return ret;
++
++	hyst = millicelsius_to_kelvin(hyst);
++	hysteresis = clamp_val(hyst, 0, NVME_TEMP_THRESH_HYST_MASK);
++	hysteresis <<= NVME_TEMP_THRESH_HYST_SHIFT;
++
++	hysteresis |= status & NVME_TEMP_THRESH_MASK;
++
++	if (under)
++		hysteresis |= NVME_TEMP_THRESH_TYPE_UNDER;
++
++	ret = nvme_set_features(ctrl, NVME_FEAT_TEMP_THRESH, hysteresis, NULL,
++				0, NULL);
++	if (ret > 0)
++		return -EIO;
++
++	return ret;
++}
++
+ static int nvme_hwmon_get_smart_log(struct nvme_hwmon_data *data)
+ {
+ 	return nvme_get_log(data->ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
+@@ -83,6 +144,10 @@ static int nvme_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ 	case hwmon_temp_crit:
+ 		*val = kelvin_to_millicelsius(data->ctrl->cctemp);
+ 		return 0;
++	case hwmon_temp_max_hyst:
++		return nvme_get_temp_thresh_hyst(data->ctrl, false, val);
++	case hwmon_temp_min_hyst:
++		return nvme_get_temp_thresh_hyst(data->ctrl, true, val);
+ 	default:
+ 		break;
+ 	}
+@@ -122,6 +187,10 @@ static int nvme_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+ 		return nvme_set_temp_thresh(data->ctrl, channel, false, val);
+ 	case hwmon_temp_min:
+ 		return nvme_set_temp_thresh(data->ctrl, channel, true, val);
++	case hwmon_temp_max_hyst:
++		return nvme_set_temp_thresh_hyst(data->ctrl, false, val);
++	case hwmon_temp_min_hyst:
++		return nvme_set_temp_thresh_hyst(data->ctrl, true, val);
+ 	default:
+ 		break;
+ 	}
+@@ -160,6 +229,12 @@ static umode_t nvme_hwmon_is_visible(const void *_data,
+ 		if (!channel && data->ctrl->cctemp)
+ 			return 0444;
+ 		break;
++	case hwmon_temp_max_hyst:
++	case hwmon_temp_min_hyst:
++		if (channel ||
++		    !(data->ctrl->tmpthha & NVME_CTRL_TMPTHHA_TMPTHMH_MASK))
++			break;
++		fallthrough;
+ 	case hwmon_temp_max:
+ 	case hwmon_temp_min:
+ 		if ((!channel && data->ctrl->wctemp) ||
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 093cb423f536..4824946abca3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -339,6 +339,7 @@ struct nvme_ctrl {
+ 	u32 oaes;
+ 	u32 aen_result;
+ 	u32 ctratt;
++	u8 tmpthha;
+ 	unsigned int shutdown_timeout;
+ 	unsigned int kato;
+ 	bool subsystem;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b58d9405d65e..d2bf61f7080a 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -332,7 +332,9 @@ struct nvme_id_ctrl {
+ 	__u8			anacap;
+ 	__le32			anagrpmax;
+ 	__le32			nanagrpid;
+-	__u8			rsvd352[160];
++	__u8			rsvd352[32];
++	__u8			tmpthha;
++	__u8			rsvd385[127];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
+@@ -388,6 +390,7 @@ enum {
+ 	NVME_CTRL_CTRATT_PREDICTABLE_LAT	= 1 << 5,
+ 	NVME_CTRL_CTRATT_NAMESPACE_GRANULARITY	= 1 << 7,
+ 	NVME_CTRL_CTRATT_UUID_LIST		= 1 << 9,
++	NVME_CTRL_TMPTHHA_TMPTHMH_MASK		= 7,
+ };
+ 
+ struct nvme_lbaf {
+@@ -1121,6 +1124,8 @@ enum {
+ 	NVME_TEMP_THRESH_MASK		= 0xffff,
+ 	NVME_TEMP_THRESH_SELECT_SHIFT	= 16,
+ 	NVME_TEMP_THRESH_TYPE_UNDER	= 0x100000,
++	NVME_TEMP_THRESH_HYST_SHIFT	= 22,
++	NVME_TEMP_THRESH_HYST_MASK	= 0x7,
+ };
+ 
+ struct nvme_feat_auto_pst {
+-- 
+2.45.2
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    clang-20
-alpha                               defconfig    gcc-14.2.0
-arc                              allmodconfig    clang-20
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-20
-arc                          axs101_defconfig    clang-20
-arc                                 defconfig    gcc-14.2.0
-arc                         haps_hs_defconfig    clang-14
-arc                        nsimosci_defconfig    gcc-14.2.0
-arc                        vdk_hs38_defconfig    clang-20
-arm                              allmodconfig    clang-20
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-20
-arm                                 defconfig    gcc-14.2.0
-arm                         lpc18xx_defconfig    gcc-14.2.0
-arm                         lpc32xx_defconfig    clang-20
-arm                            mps2_defconfig    gcc-14.2.0
-arm                        neponset_defconfig    clang-14
-arm                            qcom_defconfig    gcc-14.2.0
-arm                        realview_defconfig    clang-20
-arm                         s3c6400_defconfig    gcc-14.2.0
-arm                           stm32_defconfig    clang-20
-arm                           u8500_defconfig    clang-14
-arm                           u8500_defconfig    clang-20
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.2.0
-arm64                               defconfig    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                                defconfig    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.2.0
-i386                             allmodconfig    clang-19
-i386                              allnoconfig    clang-19
-i386                             allyesconfig    clang-19
-i386        buildonly-randconfig-001-20241109    clang-19
-i386        buildonly-randconfig-002-20241109    clang-19
-i386        buildonly-randconfig-003-20241109    clang-19
-i386        buildonly-randconfig-004-20241109    clang-19
-i386        buildonly-randconfig-005-20241109    clang-19
-i386        buildonly-randconfig-006-20241109    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-001-20241109    clang-19
-i386                  randconfig-002-20241109    clang-19
-i386                  randconfig-003-20241109    clang-19
-i386                  randconfig-004-20241109    clang-19
-i386                  randconfig-005-20241109    clang-19
-i386                  randconfig-006-20241109    clang-19
-i386                  randconfig-011-20241109    clang-19
-i386                  randconfig-012-20241109    clang-19
-i386                  randconfig-013-20241109    clang-19
-i386                  randconfig-014-20241109    clang-19
-i386                  randconfig-015-20241109    clang-19
-i386                  randconfig-016-20241109    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch                           defconfig    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                                defconfig    gcc-14.2.0
-m68k                       m5249evb_defconfig    clang-14
-m68k                        stmark2_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-microblaze                          defconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                          ath79_defconfig    clang-20
-mips                          eyeq5_defconfig    clang-20
-mips                      maltaaprp_defconfig    clang-14
-mips                        omega2p_defconfig    clang-20
-mips                        qi_lb60_defconfig    gcc-14.2.0
-mips                          rb532_defconfig    clang-14
-mips                           xway_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-12
-parisc                           alldefconfig    clang-14
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-12
-parisc64                            defconfig    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.2.0
-powerpc                      arches_defconfig    clang-14
-powerpc                     ep8248e_defconfig    clang-14
-powerpc                        fsp2_defconfig    clang-14
-powerpc                  iss476-smp_defconfig    clang-14
-powerpc                  iss476-smp_defconfig    clang-20
-powerpc                     ksi8560_defconfig    gcc-14.2.0
-powerpc                     mpc512x_defconfig    gcc-14.2.0
-powerpc                 mpc8313_rdb_defconfig    clang-14
-powerpc                 mpc8313_rdb_defconfig    clang-20
-powerpc                 mpc8313_rdb_defconfig    gcc-14.2.0
-powerpc                 mpc834x_itx_defconfig    clang-20
-powerpc                 mpc836x_rdk_defconfig    clang-14
-powerpc                  mpc866_ads_defconfig    clang-20
-powerpc                  mpc885_ads_defconfig    clang-14
-powerpc                     redwood_defconfig    clang-14
-powerpc                 xes_mpc85xx_defconfig    clang-20
-riscv                            alldefconfig    clang-20
-riscv                            allmodconfig    gcc-14.2.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.2.0
-riscv                               defconfig    gcc-12
-s390                             allmodconfig    clang-20
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-12
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-12
-sh                        edosk7705_defconfig    gcc-14.2.0
-sh                            hp6xx_defconfig    clang-20
-sh                     magicpanelr2_defconfig    gcc-14.2.0
-sh                           se7619_defconfig    gcc-14.2.0
-sh                           se7721_defconfig    gcc-14.2.0
-sh                              ul2_defconfig    clang-20
-sh                          urquell_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc64                             defconfig    gcc-12
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20241109    gcc-12
-x86_64      buildonly-randconfig-002-20241109    gcc-12
-x86_64      buildonly-randconfig-003-20241109    gcc-12
-x86_64      buildonly-randconfig-004-20241109    gcc-12
-x86_64      buildonly-randconfig-005-20241109    gcc-12
-x86_64      buildonly-randconfig-006-20241109    gcc-12
-x86_64                              defconfig    clang-19
-x86_64                                  kexec    clang-19
-x86_64                                  kexec    gcc-12
-x86_64                randconfig-001-20241109    gcc-12
-x86_64                randconfig-002-20241109    gcc-12
-x86_64                randconfig-003-20241109    gcc-12
-x86_64                randconfig-004-20241109    gcc-12
-x86_64                randconfig-005-20241109    gcc-12
-x86_64                randconfig-006-20241109    gcc-12
-x86_64                randconfig-011-20241109    gcc-12
-x86_64                randconfig-012-20241109    gcc-12
-x86_64                randconfig-013-20241109    gcc-12
-x86_64                randconfig-014-20241109    gcc-12
-x86_64                randconfig-015-20241109    gcc-12
-x86_64                randconfig-016-20241109    gcc-12
-x86_64                randconfig-071-20241109    gcc-12
-x86_64                randconfig-072-20241109    gcc-12
-x86_64                randconfig-073-20241109    gcc-12
-x86_64                randconfig-074-20241109    gcc-12
-x86_64                randconfig-075-20241109    gcc-12
-x86_64                randconfig-076-20241109    gcc-12
-x86_64                               rhel-8.3    gcc-12
-xtensa                            allnoconfig    gcc-14.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
