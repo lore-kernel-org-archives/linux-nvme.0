@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3626CE6781D
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2024 15:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C7ECD12D42
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2024 15:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yGbmkSbWMpLyQI5U79TGm84gTk99r/hClJ/47OQKyDM=; b=T/+uMRiB5heD/tXByJPrqwVO+H
-	col2O8+9zH4CpPeKaIh+EvfX0OFsciT4CTf0MjiO0gGihxIh1cnvoW5ssNWZB+4XXISFO76bgIcNs
-	ydX6hBiTIG2RGZ3WRwNTPEZPLeyl6OYVK+OQWcLGkKxzuJEBr1zaFPbouK7U4j0OsGO2pVBxwEHjV
-	iZfZj97d7UpdQo0actKukRS9NoAR/A+gyhB7dzU6GMfwOg+B1ueDTYlkgVZM2IGc8qSLgxZ5dg06M
-	ckCFVjo6bVHWy0hG9K0Mh02/0TVwPKfJolsjs4CrLTOjWj3Mw82W4n3/SQYNgvkT+506a6kGFgPin
-	gJAfY40A==;
+	bh=michVD0bngQqEIen+7nontnt1Hn28i2KFfA0nVDyenE=; b=yDabt4GuZG6mTH00PRgOb/9I6v
+	plDSChsluCHvXXgb9BenSkzuvnB83/ywaSIVr1cWtTz3jx//Tjxo9pvnD/l7vLPlb6x2Yga0BB5/e
+	XDK1kE791Xv0xnxr1f6dKTk/MyQ0R8dhGUccUE5nbktI7hqWR41wRiYHagfHuE3eBPeCYcLJql1fo
+	OPQGjw0iSWY3Vu87adrwSIQq1d3RavwP995W1RMiCkQDgOpNREU0vbXclpNYaqAvHwK9Ovq08jzLH
+	ndSm6CCt1ps7lUP36YUOB+aQK9H7E5wcnGL4RxeI4U05DZlapCawH8R3dZ5Vw8hB89o94tpCPyWpF
+	HBvF3xYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA9QE-0000000F4GO-0YqG;
-	Sun, 10 Nov 2024 15:00:14 +0000
+	id 1tA9QJ-0000000F4JB-2KE0;
+	Sun, 10 Nov 2024 15:00:19 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA8I8-0000000Ewip-3l8b
+	id 1tA8J0-0000000ExRB-3ygO
 	for linux-nvme@lists.infradead.org;
-	Sun, 10 Nov 2024 13:47:56 +0000
+	Sun, 10 Nov 2024 13:48:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 670E0A40CCF;
-	Sun, 10 Nov 2024 13:45:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C85FAC4CED8;
-	Sun, 10 Nov 2024 13:47:46 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 7AFF4A40D1A;
+	Sun, 10 Nov 2024 13:46:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 513D7C4CECD;
+	Sun, 10 Nov 2024 13:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731246467;
-	bh=6bk4WY4n6+Z+yYl3isWCsOJQFnSfMGq0h01rMvpfa/0=;
+	s=k20201202; t=1731246521;
+	bh=z6fV6jU5Yk4vqhdq9hZv86z2b5l0ykCed/lNYxf+08U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Dp7PFntG4bfnUeOhw/HX/4GUIyFxYp5Yyqx2ycoDhOWpBYqRK+bZTeRgryLVmQcha
-	 wv9ols5sWeFq2lzKEsm5H1yWS2106giLOVcS/ly3yc0fASuuTrZX5BU8P2HtPCg2O6
-	 LGuSkQEwIGLIbl6pA0gvaR0pKDtGd7rmhl7HYBhk/sWTR2m9sJ/wJEWmbQazASbyTh
-	 zEV2ApgGvVZErx7KwFt71HYmDHkc0dXwkNeToZGNSZsNH59pDD4s7HdtBOEfdufwkR
-	 6KoWmL7Lq8UlyGIDgfwHl+S3MCMzkzTyA8zj2iEu7O5xGEqYP0wsLkqf+Pki1UdGxJ
-	 C/1ebc7e6Hsxg==
+	b=HK+eyFX8Sb8z5DMK2UNyNCrf2NvR2cRX8gO34dkF7+tEait+yBfmJoWIIbXQSq1zp
+	 zOrNCcVgOEYT5WUSZZFWQmHg5v68+tbzTNb1dF5ddN2vmpi+x0aJLQMa9fC2M/X4uy
+	 zC8GzFkvvgncw+F5onJK87lSf57P471aQwLf/uzK+sfcUHSg76HNRAKqfXT4KdD030
+	 mxQ7ImlGFyrxgXhWlL3JTRSsfUQqK5SziDqs6JS2QWEIhZs/MgJOR4sTsw0ZEqcthB
+	 EOzzx6Wk8DGqWIkVHAAKy4sn9J8IZDhJxPsRIj86+290F4GqJEbFu2KCb333VUe+W6
+	 P/A+TKAdDn2OA==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -72,17 +72,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3 07/17] dma-mapping: Implement link/unlink ranges API
-Date: Sun, 10 Nov 2024 15:46:54 +0200
-Message-ID: <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
+Subject: [PATCH v3 13/17] RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page linkage
+Date: Sun, 10 Nov 2024 15:47:00 +0200
+Message-ID: <2ad6215a5e9ed0e2a4fa017b11730c4a8021f370.1731244445.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1731244445.git.leon@kernel.org>
 References: <cover.1731244445.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241110_054749_729468_C4966C20 
-X-CRM114-Status: GOOD (  21.63  )
+X-CRM114-CacheID: sfid-20241110_054843_398688_CFF8CD08 
+X-CRM114-Status: GOOD (  28.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,354 +99,392 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Introduce new DMA APIs to perform DMA linkage of buffers
-in layers higher than DMA.
-
-In proposed API, the callers will perform the following steps.
-In map path:
-	if (dma_can_use_iova(...))
-	    dma_iova_alloc()
-	    for (page in range)
-	       dma_iova_link_next(...)
-	    dma_iova_sync(...)
-	else
-	     /* Fallback to legacy map pages */
-             for (all pages)
-	       dma_map_page(...)
-
-In unmap path:
-	if (dma_can_use_iova(...))
-	     dma_iova_destroy()
-	else
-	     for (all pages)
-		dma_unmap_page(...)
+Reuse newly added DMA API to cache IOVA and only link/unlink pages
+in fast path for UMEM ODP flow.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/iommu/dma-iommu.c   | 259 ++++++++++++++++++++++++++++++++++++
- include/linux/dma-mapping.h |  32 +++++
- 2 files changed, 291 insertions(+)
+ drivers/infiniband/core/umem_odp.c   | 101 ++++++---------------------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  11 +--
+ drivers/infiniband/hw/mlx5/odp.c     |  40 +++++++----
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +++-
+ include/rdma/ib_umem_odp.h           |  13 +---
+ 5 files changed, 69 insertions(+), 108 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index e1eaad500d27..4a504a879cc0 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1834,6 +1834,265 @@ void dma_iova_free(struct device *dev, struct dma_iova_state *state)
- }
- EXPORT_SYMBOL_GPL(dma_iova_free);
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index 9dba369365af..30cd8f353476 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -41,6 +41,7 @@
+ #include <linux/hugetlb.h>
+ #include <linux/interval_tree.h>
+ #include <linux/hmm.h>
++#include <linux/hmm-dma.h>
+ #include <linux/pagemap.h>
  
-+static int __dma_iova_link(struct device *dev, dma_addr_t addr,
-+		phys_addr_t phys, size_t size, enum dma_data_direction dir,
-+		unsigned long attrs)
+ #include <rdma/ib_umem_odp.h>
+@@ -50,6 +51,7 @@
+ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+ 				   const struct mmu_interval_notifier_ops *ops)
+ {
++	struct ib_device *dev = umem_odp->umem.ibdev;
+ 	int ret;
+ 
+ 	umem_odp->umem.is_odp = 1;
+@@ -59,7 +61,6 @@ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+ 		size_t page_size = 1UL << umem_odp->page_shift;
+ 		unsigned long start;
+ 		unsigned long end;
+-		size_t ndmas, npfns;
+ 
+ 		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
+ 		if (check_add_overflow(umem_odp->umem.address,
+@@ -70,36 +71,23 @@ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+ 		if (unlikely(end < page_size))
+ 			return -EOVERFLOW;
+ 
+-		ndmas = (end - start) >> umem_odp->page_shift;
+-		if (!ndmas)
+-			return -EINVAL;
+-
+-		npfns = (end - start) >> PAGE_SHIFT;
+-		umem_odp->pfn_list = kvcalloc(
+-			npfns, sizeof(*umem_odp->pfn_list), GFP_KERNEL);
+-		if (!umem_odp->pfn_list)
+-			return -ENOMEM;
+-
+-		umem_odp->dma_list = kvcalloc(
+-			ndmas, sizeof(*umem_odp->dma_list), GFP_KERNEL);
+-		if (!umem_odp->dma_list) {
+-			ret = -ENOMEM;
+-			goto out_pfn_list;
+-		}
++		ret = hmm_dma_map_alloc(dev->dma_device, &umem_odp->map,
++					(end - start) >> PAGE_SHIFT,
++					1 << umem_odp->page_shift);
++		if (ret)
++			return ret;
+ 
+ 		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
+ 						   umem_odp->umem.owning_mm,
+ 						   start, end - start, ops);
+ 		if (ret)
+-			goto out_dma_list;
++			goto out_free_map;
+ 	}
+ 
+ 	return 0;
+ 
+-out_dma_list:
+-	kvfree(umem_odp->dma_list);
+-out_pfn_list:
+-	kvfree(umem_odp->pfn_list);
++out_free_map:
++	hmm_dma_map_free(dev->dma_device, &umem_odp->map);
+ 	return ret;
+ }
+ 
+@@ -262,6 +250,8 @@ EXPORT_SYMBOL(ib_umem_odp_get);
+ 
+ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
+ {
++	struct ib_device *dev = umem_odp->umem.ibdev;
++
+ 	/*
+ 	 * Ensure that no more pages are mapped in the umem.
+ 	 *
+@@ -274,48 +264,17 @@ void ib_umem_odp_release(struct ib_umem_odp *umem_odp)
+ 					    ib_umem_end(umem_odp));
+ 		mutex_unlock(&umem_odp->umem_mutex);
+ 		mmu_interval_notifier_remove(&umem_odp->notifier);
+-		kvfree(umem_odp->dma_list);
+-		kvfree(umem_odp->pfn_list);
++		hmm_dma_map_free(dev->dma_device, &umem_odp->map);
+ 	}
+ 	put_pid(umem_odp->tgid);
+ 	kfree(umem_odp);
+ }
+ EXPORT_SYMBOL(ib_umem_odp_release);
+ 
+-/*
+- * Map for DMA and insert a single page into the on-demand paging page tables.
+- *
+- * @umem: the umem to insert the page to.
+- * @dma_index: index in the umem to add the dma to.
+- * @page: the page struct to map and add.
+- * @access_mask: access permissions needed for this page.
+- *
+- * The function returns -EFAULT if the DMA mapping operation fails.
+- *
+- */
+-static int ib_umem_odp_map_dma_single_page(
+-		struct ib_umem_odp *umem_odp,
+-		unsigned int dma_index,
+-		struct page *page)
+-{
+-	struct ib_device *dev = umem_odp->umem.ibdev;
+-	dma_addr_t *dma_addr = &umem_odp->dma_list[dma_index];
+-
+-	*dma_addr = ib_dma_map_page(dev, page, 0, 1 << umem_odp->page_shift,
+-				    DMA_BIDIRECTIONAL);
+-	if (ib_dma_mapping_error(dev, *dma_addr)) {
+-		*dma_addr = 0;
+-		return -EFAULT;
+-	}
+-	umem_odp->npages++;
+-	return 0;
+-}
+-
+ /**
+  * ib_umem_odp_map_dma_and_lock - DMA map userspace memory in an ODP MR and lock it.
+  *
+  * Maps the range passed in the argument to DMA addresses.
+- * The DMA addresses of the mapped pages is updated in umem_odp->dma_list.
+  * Upon success the ODP MR will be locked to let caller complete its device
+  * page table update.
+  *
+@@ -372,7 +331,7 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
+ 			range.default_flags |= HMM_PFN_REQ_WRITE;
+ 	}
+ 
+-	range.hmm_pfns = &(umem_odp->pfn_list[pfn_start_idx]);
++	range.hmm_pfns = &(umem_odp->map.pfn_list[pfn_start_idx]);
+ 	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+ 
+ retry:
+@@ -423,15 +382,6 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
+ 				  __func__, hmm_order, page_shift);
+ 			break;
+ 		}
+-
+-		ret = ib_umem_odp_map_dma_single_page(
+-				umem_odp, dma_index, hmm_pfn_to_page(range.hmm_pfns[pfn_index]));
+-		if (ret < 0) {
+-			ibdev_dbg(umem_odp->umem.ibdev,
+-				  "ib_umem_odp_map_dma_single_page failed with error %d\n", ret);
+-			break;
+-		}
+-		range.hmm_pfns[pfn_index] |= HMM_PFN_DMA_MAPPED;
+ 	}
+ 	/* upon success lock should stay on hold for the callee */
+ 	if (!ret)
+@@ -451,30 +401,23 @@ EXPORT_SYMBOL(ib_umem_odp_map_dma_and_lock);
+ void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
+ 				 u64 bound)
+ {
+-	dma_addr_t dma;
+-	int idx;
+-	u64 addr;
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
++	u64 addr;
+ 
+ 	lockdep_assert_held(&umem_odp->umem_mutex);
+ 
+ 	virt = max_t(u64, virt, ib_umem_start(umem_odp));
+ 	bound = min_t(u64, bound, ib_umem_end(umem_odp));
+ 	for (addr = virt; addr < bound; addr += BIT(umem_odp->page_shift)) {
+-		unsigned long pfn_idx = (addr - ib_umem_start(umem_odp)) >> PAGE_SHIFT;
+-		struct page *page = hmm_pfn_to_page(umem_odp->pfn_list[pfn_idx]);
+-
+-		idx = (addr - ib_umem_start(umem_odp)) >> umem_odp->page_shift;
+-		dma = umem_odp->dma_list[idx];
++		u64 offset = addr - ib_umem_start(umem_odp);
++		size_t idx = offset >> umem_odp->page_shift;
++		unsigned long pfn = umem_odp->map.pfn_list[idx];
+ 
+-		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_VALID))
+-			goto clear;
+-		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_DMA_MAPPED))
++		if (!hmm_dma_unmap_pfn(dev->dma_device, &umem_odp->map, idx))
+ 			goto clear;
+ 
+-		ib_dma_unmap_page(dev, dma, BIT(umem_odp->page_shift),
+-				  DMA_BIDIRECTIONAL);
+-		if (umem_odp->pfn_list[pfn_idx] & HMM_PFN_WRITE) {
++		if (pfn & HMM_PFN_WRITE) {
++			struct page *page = hmm_pfn_to_page(pfn);
+ 			struct page *head_page = compound_head(page);
+ 			/*
+ 			 * set_page_dirty prefers being called with
+@@ -489,7 +432,7 @@ void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
+ 		}
+ 		umem_odp->npages--;
+ clear:
+-		umem_odp->pfn_list[pfn_idx] &= ~HMM_PFN_FLAGS;
++		umem_odp->map.pfn_list[idx] &= ~HMM_PFN_FLAGS;
+ 	}
+ }
+ EXPORT_SYMBOL(ib_umem_odp_unmap_dma_pages);
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index 3e4aaa6319db..1bae5595c729 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -1444,8 +1444,8 @@ void mlx5_ib_odp_cleanup_one(struct mlx5_ib_dev *ibdev);
+ int __init mlx5_ib_odp_init(void);
+ void mlx5_ib_odp_cleanup(void);
+ int mlx5_odp_init_mkey_cache(struct mlx5_ib_dev *dev);
+-void mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
+-			   struct mlx5_ib_mr *mr, int flags);
++int mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
++			  struct mlx5_ib_mr *mr, int flags);
+ 
+ int mlx5_ib_advise_mr_prefetch(struct ib_pd *pd,
+ 			       enum ib_uverbs_advise_mr_advice advice,
+@@ -1466,8 +1466,11 @@ static inline int mlx5_odp_init_mkey_cache(struct mlx5_ib_dev *dev)
+ {
+ 	return 0;
+ }
+-static inline void mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
+-					 struct mlx5_ib_mr *mr, int flags) {}
++static inline int mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
++					struct mlx5_ib_mr *mr, int flags)
 +{
-+	bool coherent = dev_is_dma_coherent(dev);
-+
-+	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-+		arch_sync_dma_for_device(phys, size, dir);
-+
-+	return iommu_map_nosync(iommu_get_dma_domain(dev), addr, phys, size,
-+			dma_info_to_prot(dir, coherent, attrs), GFP_ATOMIC);
++	return -EOPNOTSUPP;
 +}
+ 
+ static inline int
+ mlx5_ib_advise_mr_prefetch(struct ib_pd *pd,
+diff --git a/drivers/infiniband/hw/mlx5/odp.c b/drivers/infiniband/hw/mlx5/odp.c
+index 78887500ce15..fbb2a5670c32 100644
+--- a/drivers/infiniband/hw/mlx5/odp.c
++++ b/drivers/infiniband/hw/mlx5/odp.c
+@@ -35,6 +35,8 @@
+ #include <linux/dma-buf.h>
+ #include <linux/dma-resv.h>
+ #include <linux/hmm.h>
++#include <linux/hmm-dma.h>
++#include <linux/pci-p2pdma.h>
+ 
+ #include "mlx5_ib.h"
+ #include "cmd.h"
+@@ -159,40 +161,50 @@ static void populate_klm(struct mlx5_klm *pklm, size_t idx, size_t nentries,
+ 	}
+ }
+ 
+-static void populate_mtt(__be64 *pas, size_t idx, size_t nentries,
+-			 struct mlx5_ib_mr *mr, int flags)
++static int populate_mtt(__be64 *pas, size_t start, size_t nentries,
++			struct mlx5_ib_mr *mr, int flags)
+ {
+ 	struct ib_umem_odp *odp = to_ib_umem_odp(mr->umem);
+ 	bool downgrade = flags & MLX5_IB_UPD_XLT_DOWNGRADE;
+-	unsigned long pfn;
+-	dma_addr_t pa;
++	struct pci_p2pdma_map_state p2pdma_state = {};
++	struct ib_device *dev = odp->umem.ibdev;
+ 	size_t i;
+ 
+ 	if (flags & MLX5_IB_UPD_XLT_ZAP)
+-		return;
++		return 0;
+ 
+ 	for (i = 0; i < nentries; i++) {
+-		pfn = odp->pfn_list[idx + i];
++		unsigned long pfn = odp->map.pfn_list[start + i];
++		dma_addr_t dma_addr;
 +
-+static int iommu_dma_iova_bounce_and_link(struct device *dev, dma_addr_t addr,
-+		phys_addr_t phys, size_t bounce_len,
-+		enum dma_data_direction dir, unsigned long attrs,
-+		size_t iova_start_pad)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iova_domain *iovad = &domain->iova_cookie->iovad;
-+	phys_addr_t bounce_phys;
-+	int error;
++		pfn = odp->map.pfn_list[start + i];
+ 		if (!(pfn & HMM_PFN_VALID))
+ 			/* ODP initialization */
+ 			continue;
+ 
+-		pa = odp->dma_list[idx + i];
+-		pa |= MLX5_IB_MTT_READ;
++		dma_addr = hmm_dma_map_pfn(dev->dma_device, &odp->map,
++					   start + i, &p2pdma_state);
++		if (ib_dma_mapping_error(dev, dma_addr))
++			return -EFAULT;
 +
-+	bounce_phys = iommu_dma_map_swiotlb(dev, phys, bounce_len, dir, attrs);
-+	if (bounce_phys == DMA_MAPPING_ERROR)
-+		return -ENOMEM;
-+
-+	error = __dma_iova_link(dev, addr - iova_start_pad,
-+			bounce_phys - iova_start_pad,
-+			iova_align(iovad, bounce_len), dir, attrs);
-+	if (error)
-+		swiotlb_tbl_unmap_single(dev, bounce_phys, bounce_len, dir,
-+				attrs);
-+	return error;
-+}
-+
-+static int iommu_dma_iova_link_swiotlb(struct device *dev,
-+		struct dma_iova_state *state, phys_addr_t phys, size_t offset,
-+		size_t size, enum dma_data_direction dir, unsigned long attrs)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	size_t iova_start_pad = iova_offset(iovad, phys);
-+	size_t iova_end_pad = iova_offset(iovad, phys + size);
-+	dma_addr_t addr = state->addr + offset;
-+	size_t mapped = 0;
-+	int error;
-+
-+	if (iova_start_pad) {
-+		size_t bounce_len = min(size, iovad->granule - iova_start_pad);
-+
-+		error = iommu_dma_iova_bounce_and_link(dev, addr, phys,
-+				bounce_len, dir, attrs, iova_start_pad);
-+		if (error)
-+			return error;
-+		state->__size |= DMA_IOVA_USE_SWIOTLB;
-+
-+		mapped += bounce_len;
-+		size -= bounce_len;
-+		if (!size)
-+			return 0;
-+	}
-+
-+	size -= iova_end_pad;
-+	error = __dma_iova_link(dev, addr + mapped, phys + mapped, size, dir,
-+			attrs);
-+	if (error)
-+		goto out_unmap;
-+	mapped += size;
-+
-+	if (iova_end_pad) {
-+		error = iommu_dma_iova_bounce_and_link(dev, addr + mapped,
-+				phys + mapped, iova_end_pad, dir, attrs, 0);
-+		if (error)
-+			goto out_unmap;
-+		state->__size |= DMA_IOVA_USE_SWIOTLB;
-+	}
-+
++		dma_addr |= MLX5_IB_MTT_READ;
+ 		if ((pfn & HMM_PFN_WRITE) && !downgrade)
+-			pa |= MLX5_IB_MTT_WRITE;
++			dma_addr |= MLX5_IB_MTT_WRITE;
+ 
+-		pas[i] = cpu_to_be64(pa);
++		pas[i] = cpu_to_be64(dma_addr);
++		odp->npages++;
+ 	}
 +	return 0;
-+
-+out_unmap:
-+	dma_iova_unlink(dev, state, 0, mapped, dir, attrs);
-+	return error;
-+}
-+
-+/**
-+ * dma_iova_link - Link a range of IOVA space
-+ * @dev: DMA device
-+ * @state: IOVA state
-+ * @phys: physical address to link
-+ * @offset: offset into the IOVA state to map into
-+ * @size: size of the buffer
-+ * @dir: DMA direction
-+ * @attrs: attributes of mapping properties
-+ *
-+ * Link a range of IOVA space for the given IOVA state without IOTLB sync.
-+ * This function is used to link multiple physical addresses in contigueous
-+ * IOVA space without performing costly IOTLB sync.
-+ *
-+ * The caller is responsible to call to dma_iova_sync() to sync IOTLB at
-+ * the end of linkage.
-+ */
-+int dma_iova_link(struct device *dev, struct dma_iova_state *state,
-+		phys_addr_t phys, size_t offset, size_t size,
-+		enum dma_data_direction dir, unsigned long attrs)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	size_t iova_start_pad = iova_offset(iovad, phys);
-+
-+	if (WARN_ON_ONCE(iova_start_pad && offset > 0))
-+		return -EIO;
-+
-+	if (dev_use_swiotlb(dev, size, dir) && iova_offset(iovad, phys | size))
-+		return iommu_dma_iova_link_swiotlb(dev, state, phys, offset,
-+				size, dir, attrs);
-+
-+	return __dma_iova_link(dev, state->addr + offset - iova_start_pad,
-+			phys - iova_start_pad,
-+			iova_align(iovad, size + iova_start_pad), dir, attrs);
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_link);
-+
-+/**
-+ * dma_iova_sync - Sync IOTLB
-+ * @dev: DMA device
-+ * @state: IOVA state
-+ * @offset: offset into the IOVA state to sync
-+ * @size: size of the buffer
-+ *
-+ * Sync IOTLB for the given IOVA state. This function should be called on
-+ * the IOVA-contigous range created by one ore more dma_iova_link() calls
-+ * to sync the IOTLB.
-+ */
-+int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
-+		size_t offset, size_t size)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	dma_addr_t addr = state->addr + offset;
-+	size_t iova_start_pad = iova_offset(iovad, addr);
-+
-+	return iommu_sync_map(domain, addr - iova_start_pad,
-+		      iova_align(iovad, size + iova_start_pad));
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_sync);
-+
-+static void iommu_dma_iova_unlink_range_slow(struct device *dev,
-+		dma_addr_t addr, size_t size, enum dma_data_direction dir,
-+		unsigned long attrs)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	size_t iova_start_pad = iova_offset(iovad, addr);
-+	dma_addr_t end = addr + size;
-+
-+	do {
-+		phys_addr_t phys;
-+		size_t len;
-+
-+		phys = iommu_iova_to_phys(domain, addr);
-+		if (WARN_ON(!phys))
-+			continue;
-+		len = min_t(size_t,
-+			end - addr, iovad->granule - iova_start_pad);
-+
-+		if (!dev_is_dma_coherent(dev) &&
-+		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-+			arch_sync_dma_for_cpu(phys, len, dir);
-+
-+		swiotlb_tbl_unmap_single(dev, phys, len, dir, attrs);
-+
-+		addr += len;
-+		iova_start_pad = 0;
-+	} while (addr < end);
-+}
-+
-+static void __iommu_dma_iova_unlink(struct device *dev,
-+		struct dma_iova_state *state, size_t offset, size_t size,
-+		enum dma_data_direction dir, unsigned long attrs,
-+		bool free_iova)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	dma_addr_t addr = state->addr + offset;
-+	size_t iova_start_pad = iova_offset(iovad, addr);
-+	struct iommu_iotlb_gather iotlb_gather;
-+	size_t unmapped;
-+
-+	if ((state->__size & DMA_IOVA_USE_SWIOTLB) ||
-+	    (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))
-+		iommu_dma_iova_unlink_range_slow(dev, addr, size, dir, attrs);
-+
-+	iommu_iotlb_gather_init(&iotlb_gather);
-+	iotlb_gather.queued = free_iova && READ_ONCE(cookie->fq_domain);
-+
-+	size = iova_align(iovad, size + iova_start_pad);
-+	addr -= iova_start_pad;
-+	unmapped = iommu_unmap_fast(domain, addr, size, &iotlb_gather);
-+	WARN_ON(unmapped != size);
-+
-+	if (!iotlb_gather.queued)
-+		iommu_iotlb_sync(domain, &iotlb_gather);
-+	if (free_iova)
-+		iommu_dma_free_iova(cookie, addr, size, &iotlb_gather);
-+}
-+
-+/**
-+ * dma_iova_unlink - Unlink a range of IOVA space
-+ * @dev: DMA device
-+ * @state: IOVA state
-+ * @offset: offset into the IOVA state to unlink
-+ * @size: size of the buffer
-+ * @dir: DMA direction
-+ * @attrs: attributes of mapping properties
-+ *
-+ * Unlink a range of IOVA space for the given IOVA state.
-+ */
-+void dma_iova_unlink(struct device *dev, struct dma_iova_state *state,
-+		size_t offset, size_t size, enum dma_data_direction dir,
-+		unsigned long attrs)
-+{
-+	 __iommu_dma_iova_unlink(dev, state, offset, size, dir, attrs, false);
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_unlink);
-+
-+/**
-+ * dma_iova_destroy - Finish a DMA mapping transaction
-+ * @dev: DMA device
-+ * @state: IOVA state
-+ * @mapped_len: number of bytes to unmap
-+ * @dir: DMA direction
-+ * @attrs: attributes of mapping properties
-+ *
-+ * Unlink the IOVA range up to @mapped_len and free the entire IOVA space. The
-+ * range of IOVA from dma_addr to @mapped_len must all be linked, and be the
-+ * only linked IOVA in state.
-+ */
-+void dma_iova_destroy(struct device *dev, struct dma_iova_state *state,
-+		size_t mapped_len, enum dma_data_direction dir,
-+		unsigned long attrs)
-+{
-+	if (mapped_len)
-+		__iommu_dma_iova_unlink(dev, state, 0, mapped_len, dir, attrs,
-+				true);
-+	else
-+		/*
-+		 * We can be here if first call to dma_iova_link() failed and
-+		 * there is nothing to unlink, so let's be more clear.
-+		 */
-+		dma_iova_free(dev, state);
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_destroy);
-+
- void iommu_setup_dma_ops(struct device *dev)
- {
- 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 817f11bce7bc..8074a3b5c807 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -313,6 +313,17 @@ static inline bool dma_use_iova(struct dma_iova_state *state)
- bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
- 		phys_addr_t phys, size_t size);
- void dma_iova_free(struct device *dev, struct dma_iova_state *state);
-+void dma_iova_destroy(struct device *dev, struct dma_iova_state *state,
-+		size_t mapped_len, enum dma_data_direction dir,
-+		unsigned long attrs);
-+int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
-+		size_t offset, size_t size);
-+int dma_iova_link(struct device *dev, struct dma_iova_state *state,
-+		phys_addr_t phys, size_t offset, size_t size,
-+		enum dma_data_direction dir, unsigned long attrs);
-+void dma_iova_unlink(struct device *dev, struct dma_iova_state *state,
-+		size_t offset, size_t size, enum dma_data_direction dir,
-+		unsigned long attrs);
- #else /* CONFIG_IOMMU_DMA */
- static inline bool dma_use_iova(struct dma_iova_state *state)
- {
-@@ -327,6 +338,27 @@ static inline void dma_iova_free(struct device *dev,
- 		struct dma_iova_state *state)
- {
  }
-+static inline void dma_iova_destroy(struct device *dev,
-+		struct dma_iova_state *state, size_t mapped_len,
-+		enum dma_data_direction dir, unsigned long attrs)
-+{
-+}
-+static inline int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
-+		size_t offset, size_t size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+static inline int dma_iova_link(struct device *dev,
-+		struct dma_iova_state *state, phys_addr_t phys, size_t offset,
-+		size_t size, enum dma_data_direction dir, unsigned long attrs)
-+{
-+	return -EOPNOTSUPP;
-+}
-+static inline void dma_iova_unlink(struct device *dev,
-+		struct dma_iova_state *state, size_t offset, size_t size,
-+		enum dma_data_direction dir, unsigned long attrs)
-+{
-+}
- #endif /* CONFIG_IOMMU_DMA */
  
- #if defined(CONFIG_HAS_DMA) && defined(CONFIG_DMA_NEED_SYNC)
+-void mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
+-			   struct mlx5_ib_mr *mr, int flags)
++int mlx5_odp_populate_xlt(void *xlt, size_t idx, size_t nentries,
++			  struct mlx5_ib_mr *mr, int flags)
+ {
+ 	if (flags & MLX5_IB_UPD_XLT_INDIRECT) {
+ 		populate_klm(xlt, idx, nentries, mr, flags);
++		return 0;
+ 	} else {
+-		populate_mtt(xlt, idx, nentries, mr, flags);
++		return populate_mtt(xlt, idx, nentries, mr, flags);
+ 	}
+ }
+ 
+@@ -286,7 +298,7 @@ static bool mlx5_ib_invalidate_range(struct mmu_interval_notifier *mni,
+ 		 * estimate the cost of another UMR vs. the cost of bigger
+ 		 * UMR.
+ 		 */
+-		if (umem_odp->pfn_list[idx] & HMM_PFN_VALID) {
++		if (umem_odp->map.pfn_list[idx] & HMM_PFN_VALID) {
+ 			if (!in_block) {
+ 				blk_start_idx = idx;
+ 				in_block = 1;
+diff --git a/drivers/infiniband/hw/mlx5/umr.c b/drivers/infiniband/hw/mlx5/umr.c
+index 887fd6fa3ba9..d7fa94ab23cf 100644
+--- a/drivers/infiniband/hw/mlx5/umr.c
++++ b/drivers/infiniband/hw/mlx5/umr.c
+@@ -811,7 +811,17 @@ int mlx5r_umr_update_xlt(struct mlx5_ib_mr *mr, u64 idx, int npages,
+ 		size_to_map = npages * desc_size;
+ 		dma_sync_single_for_cpu(ddev, sg.addr, sg.length,
+ 					DMA_TO_DEVICE);
+-		mlx5_odp_populate_xlt(xlt, idx, npages, mr, flags);
++		/*
++		 * npages is the maximum number of pages to map, but we
++		 * can't guarantee that all pages are actually mapped.
++		 *
++		 * For example, if page is p2p of type which is not supported
++		 * for mapping, the number of pages mapped will be less than
++		 * requested.
++		 */
++		err = mlx5_odp_populate_xlt(xlt, idx, npages, mr, flags);
++		if (err)
++			return err;
+ 		dma_sync_single_for_device(ddev, sg.addr, sg.length,
+ 					   DMA_TO_DEVICE);
+ 		sg.length = ALIGN(size_to_map, MLX5_UMR_FLEX_ALIGNMENT);
+diff --git a/include/rdma/ib_umem_odp.h b/include/rdma/ib_umem_odp.h
+index a345c26a745d..2a24bf791c10 100644
+--- a/include/rdma/ib_umem_odp.h
++++ b/include/rdma/ib_umem_odp.h
+@@ -8,24 +8,17 @@
+ 
+ #include <rdma/ib_umem.h>
+ #include <rdma/ib_verbs.h>
+-#include <linux/hmm.h>
++#include <linux/hmm-dma.h>
+ 
+ struct ib_umem_odp {
+ 	struct ib_umem umem;
+ 	struct mmu_interval_notifier notifier;
+ 	struct pid *tgid;
+ 
+-	/* An array of the pfns included in the on-demand paging umem. */
+-	unsigned long *pfn_list;
++	struct hmm_dma_map map;
+ 
+ 	/*
+-	 * An array with DMA addresses mapped for pfns in pfn_list.
+-	 * The lower two bits designate access permissions.
+-	 * See ODP_READ_ALLOWED_BIT and ODP_WRITE_ALLOWED_BIT.
+-	 */
+-	dma_addr_t		*dma_list;
+-	/*
+-	 * The umem_mutex protects the page_list and dma_list fields of an ODP
++	 * The umem_mutex protects the page_list field of an ODP
+ 	 * umem, allowing only a single thread to map/unmap pages. The mutex
+ 	 * also protects access to the mmu notifier counters.
+ 	 */
 -- 
 2.47.0
 
