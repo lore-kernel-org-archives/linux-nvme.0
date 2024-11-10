@@ -4,44 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D731D5E38D
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2024 13:48:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BB5DD6409B
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2024 13:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lXOeHLP/YMGownNbp4kYgT2rDU8+25e7LbrJ//sKZSQ=; b=EImXWwlutNAJCHzrCBp6OaJ8xF
-	A74RFgyZVSI5vKyDEvpxL+o1y+i/nUq9iMmYVk2hAUK1n560qyOuQO+Q91AW+0UUGSsYacnE2nKUM
-	QpeVae7/KKiJ1PMoJpNrYfJBusDSBtRacVUv40izNRXGYV2jvxi1JbkWS2FRP95F8n6S/qbWpUyrr
-	z5Fjl2wYltoB+ai++ZAEdaJpgofofavZ1Kuus+vzT4czGF5RkpRJbgSA/uLPKil+KpUDV+QpWbTcK
-	jKuJol3Q+HBsc+PyT21P6aFeXoM+Xsj6S2WeF4HBhx2bx422UrLesNZcE6ZyMIcfYo7+fR8UvvJWG
-	r3I6+9Og==;
+	bh=drTSOAsm5pzuncFDBUgVzzfK9tYwgI/CfoYb4abfUiY=; b=3cZgYSDLh+tovkjfXWmuEgqv+f
+	kypbW7Bm2/8RZc69SoQgitKkPiKSy45+YmdxKtc++ue7P/O69+3vpfDO7KnelwzTHhHHGsBepNbFI
+	9wl1qyvmAyvN6sVWFiU0pjxV2FDHP5XNIJUS0c76sPZ1eogMmKqUpXDuMx6zsZcjHlGQ99N9Pjhis
+	CKvcxIrw+Vn4MKUPv5YbG1Fy9ywrvoXRwX8nfTCwdrTJ9ZqOebNihCXF0ACEuJJCjZ00VUDszZakk
+	ojwfK4JBjWOUGqzOWrK6LYMS6kCvNmeKz5eVjriuSX5ak/E4zD4j3R1u6Js9pBLwBraly5qznxAdg
+	e/bCVheg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA8Ii-0000000ExCm-436N;
-	Sun, 10 Nov 2024 13:48:24 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tA8Is-0000000ExJT-2i1g;
+	Sun, 10 Nov 2024 13:48:34 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA8IX-0000000Ex3S-1y2L
+	id 1tA8Iq-0000000ExHs-0hhc
+	for linux-nvme@bombadil.infradead.org;
+	Sun, 10 Nov 2024 13:48:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=drTSOAsm5pzuncFDBUgVzzfK9tYwgI/CfoYb4abfUiY=; b=puKI569aOhPaXKE1lkqRJM+Mcj
+	OTZ18cakCrn3mUGR4hYwA6zQG57KE5XZTD6vfS5FeUHszMq6WFWbW+wb2HOnptirOY+CPFH+qPak+
+	fUTkb0IP+bFFxl0xHljXzZ3pw6TtjO8/JkBodHemtK1znCEuDW4XUpfSZZsdxQfxuUJf6AISFPJft
+	nmZdRV92xhtqi8Pj3W5FM9L/5vgdgNXqve4hlnTVRf3Ak70SSmJU4d46cQGTouRGRQmmA/D2sSUtp
+	TG7612eMu91Wmj8fRRtTh+Y0pZzZJZ9xQp6cVcTQ++VMLXmDGYIHQCEA2VJDWJCmci2mIqWjjs9hY
+	jxcxHXHg==;
+Received: from nyc.source.kernel.org ([147.75.193.91])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tA8Ij-0000000Cepn-1wUl
 	for linux-nvme@lists.infradead.org;
-	Sun, 10 Nov 2024 13:48:21 +0000
+	Sun, 10 Nov 2024 13:48:28 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 55C535C55E0;
-	Sun, 10 Nov 2024 13:47:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A46FC4CECD;
-	Sun, 10 Nov 2024 13:48:10 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 831FBA40D18;
+	Sun, 10 Nov 2024 13:46:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DEC3C4CED0;
+	Sun, 10 Nov 2024 13:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731246492;
-	bh=pdG8tJYtOOpW9U88JXztIsRHViZt5iy73W9I0cDiHOE=;
+	s=k20201202; t=1731246503;
+	bh=d+uKs0GYZW5W2UKBX1M+yeru6myD2v4gQMKNi0BRyd0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pbpZa65vIR2DqPSZ4TsPvtcw/+wMVaVuzHxc3556j06QBCSQPo8LTQLVlo3p5cEgx
-	 JtWAtYHyo2H3tyg1+4RE7PP6xXCdeWJ5pL4/yLDO7TyLDwiPNFaKJDJKeIS5Gt173n
-	 JVA05lNSVumatT80bDLow7ats8HMzVu32eDepejth9izPkfmzubf/cGYMkl7dfht9+
-	 VkTSucA+HclKies6MxsdkWYwDtk5Y5WVLCMiCJLlMohCCXElFB4jUbKgoAreuqRNUY
-	 elm+Wef/bXH1pbzObHQBMwMikpdmdSBUYu8I56YdbPjPZTFmAiX+4gAkCI8XDMpk2v
-	 dN+Gx1cJp3CJg==
+	b=DdR/vQXFHPgS3BZenwffB//VagsS3KtxnYzufIIukWw5XGuEBSbohgjtdouNIXjq9
+	 8u8tZp0UYSims/JFF7anbcAqFvRlwgATR9E8a+5JKGz6sSQxuXTqu1xwAZHV8kGkyi
+	 0JPblvlhHZPUJoLoljMhDxABgUDF8UDeb58weJ44+paDldUth90fe23LRU4Zr0rIZ6
+	 NrKML3awO2k1IyE0UxeH/novgss8H87Dznt6AdMsnUx3il0iw9l/uX5g4+g0rmbdUb
+	 Wrgfha9h34jendbnLKyy85P8vLr+FDI8cBPpo8OMHqK1ACQmF1TgmUQltZ4K3az7Qp
+	 QC3rdNXWO9xbg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -50,7 +65,8 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Will Deacon <will@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>,
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -71,17 +87,17 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3 08/17] dma-mapping: add a dma_need_unmap helper
-Date: Sun, 10 Nov 2024 15:46:55 +0200
-Message-ID: <b912495d307d92ac7071553db99b3badc477fb12.1731244445.git.leon@kernel.org>
+Subject: [PATCH v3 12/17] RDMA/umem: Store ODP access mask information in PFN
+Date: Sun, 10 Nov 2024 15:46:59 +0200
+Message-ID: <2c8de8796a52d408e5e74785962630f9ece08b8e.1731244445.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1731244445.git.leon@kernel.org>
 References: <cover.1731244445.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241110_054813_805344_B6AB198F 
-X-CRM114-Status: GOOD (  14.56  )
+X-CRM114-CacheID: sfid-20241110_134826_239599_B163D2E8 
+X-CRM114-Status: GOOD (  27.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,70 +112,328 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Add helper that allows a driver to skip calling dma_unmap_*
-if the DMA layer can guarantee that they are no-nops.
+As a preparation to remove dma_list, store access mask in PFN pointer
+and not in dma_addr_t.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/dma-mapping.h |  5 +++++
- kernel/dma/mapping.c        | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ drivers/infiniband/core/umem_odp.c   | 100 +++++++++++----------------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |   1 +
+ drivers/infiniband/hw/mlx5/odp.c     |  37 +++++-----
+ include/rdma/ib_umem_odp.h           |  14 +---
+ 4 files changed, 61 insertions(+), 91 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 8074a3b5c807..6906edde505d 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -410,6 +410,7 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index e9fa22d31c23..9dba369365af 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -296,22 +296,11 @@ EXPORT_SYMBOL(ib_umem_odp_release);
+ static int ib_umem_odp_map_dma_single_page(
+ 		struct ib_umem_odp *umem_odp,
+ 		unsigned int dma_index,
+-		struct page *page,
+-		u64 access_mask)
++		struct page *page)
  {
- 	return dma_dev_need_sync(dev) ? __dma_need_sync(dev, dma_addr) : false;
- }
-+bool dma_need_unmap(struct device *dev);
- #else /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
- static inline bool dma_dev_need_sync(const struct device *dev)
- {
-@@ -435,6 +436,10 @@ static inline bool dma_need_sync(struct device *dev, dma_addr_t dma_addr)
- {
- 	return false;
- }
-+static inline bool dma_need_unmap(struct device *dev)
-+{
-+	return false;
-+}
- #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
+ 	dma_addr_t *dma_addr = &umem_odp->dma_list[dma_index];
  
- struct page *dma_alloc_pages(struct device *dev, size_t size,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 864a1121bf08..ed1c10e5c242 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -442,6 +442,24 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr)
+-	if (*dma_addr) {
+-		/*
+-		 * If the page is already dma mapped it means it went through
+-		 * a non-invalidating trasition, like read-only to writable.
+-		 * Resync the flags.
+-		 */
+-		*dma_addr = (*dma_addr & ODP_DMA_ADDR_MASK) | access_mask;
+-		return 0;
+-	}
+-
+ 	*dma_addr = ib_dma_map_page(dev, page, 0, 1 << umem_odp->page_shift,
+ 				    DMA_BIDIRECTIONAL);
+ 	if (ib_dma_mapping_error(dev, *dma_addr)) {
+@@ -319,7 +308,6 @@ static int ib_umem_odp_map_dma_single_page(
+ 		return -EFAULT;
+ 	}
+ 	umem_odp->npages++;
+-	*dma_addr |= access_mask;
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(__dma_need_sync);
  
-+/**
-+ * dma_need_unmap - does this device need dma_unmap_* operations
-+ * @dev: device to check
-+ *
-+ * If this function returns %false, drivers can skip calling dma_unmap_* after
-+ * finishing an I/O.  This function must be called after all mappings that might
-+ * need to be unmapped have been performed.
-+ */
-+bool dma_need_unmap(struct device *dev)
-+{
-+	if (!dma_map_direct(dev, get_dma_ops(dev)))
-+		return true;
-+	if (!dev->dma_skip_sync)
-+		return true;
-+	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
-+}
-+EXPORT_SYMBOL_GPL(dma_need_unmap);
+@@ -355,9 +343,6 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
+ 	struct hmm_range range = {};
+ 	unsigned long timeout;
+ 
+-	if (access_mask == 0)
+-		return -EINVAL;
+-
+ 	if (user_virt < ib_umem_start(umem_odp) ||
+ 	    user_virt + bcnt > ib_umem_end(umem_odp))
+ 		return -EFAULT;
+@@ -383,7 +368,7 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
+ 	if (fault) {
+ 		range.default_flags = HMM_PFN_REQ_FAULT;
+ 
+-		if (access_mask & ODP_WRITE_ALLOWED_BIT)
++		if (access_mask & HMM_PFN_WRITE)
+ 			range.default_flags |= HMM_PFN_REQ_WRITE;
+ 	}
+ 
+@@ -415,22 +400,17 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
+ 	for (pfn_index = 0; pfn_index < num_pfns;
+ 		pfn_index += 1 << (page_shift - PAGE_SHIFT), dma_index++) {
+ 
+-		if (fault) {
+-			/*
+-			 * Since we asked for hmm_range_fault() to populate
+-			 * pages it shouldn't return an error entry on success.
+-			 */
+-			WARN_ON(range.hmm_pfns[pfn_index] & HMM_PFN_ERROR);
+-			WARN_ON(!(range.hmm_pfns[pfn_index] & HMM_PFN_VALID));
+-		} else {
+-			if (!(range.hmm_pfns[pfn_index] & HMM_PFN_VALID)) {
+-				WARN_ON(umem_odp->dma_list[dma_index]);
+-				continue;
+-			}
+-			access_mask = ODP_READ_ALLOWED_BIT;
+-			if (range.hmm_pfns[pfn_index] & HMM_PFN_WRITE)
+-				access_mask |= ODP_WRITE_ALLOWED_BIT;
+-		}
++		/*
++		 * Since we asked for hmm_range_fault() to populate
++		 * pages it shouldn't return an error entry on success.
++		 */
++		WARN_ON(fault && range.hmm_pfns[pfn_index] & HMM_PFN_ERROR);
++		WARN_ON(fault && !(range.hmm_pfns[pfn_index] & HMM_PFN_VALID));
++		if (!(range.hmm_pfns[pfn_index] & HMM_PFN_VALID))
++			continue;
 +
- static void dma_setup_need_sync(struct device *dev)
++		if (range.hmm_pfns[pfn_index] & HMM_PFN_DMA_MAPPED)
++			continue;
+ 
+ 		hmm_order = hmm_pfn_to_map_order(range.hmm_pfns[pfn_index]);
+ 		/* If a hugepage was detected and ODP wasn't set for, the umem
+@@ -445,13 +425,13 @@ int ib_umem_odp_map_dma_and_lock(struct ib_umem_odp *umem_odp, u64 user_virt,
+ 		}
+ 
+ 		ret = ib_umem_odp_map_dma_single_page(
+-				umem_odp, dma_index, hmm_pfn_to_page(range.hmm_pfns[pfn_index]),
+-				access_mask);
++				umem_odp, dma_index, hmm_pfn_to_page(range.hmm_pfns[pfn_index]));
+ 		if (ret < 0) {
+ 			ibdev_dbg(umem_odp->umem.ibdev,
+ 				  "ib_umem_odp_map_dma_single_page failed with error %d\n", ret);
+ 			break;
+ 		}
++		range.hmm_pfns[pfn_index] |= HMM_PFN_DMA_MAPPED;
+ 	}
+ 	/* upon success lock should stay on hold for the callee */
+ 	if (!ret)
+@@ -471,7 +451,6 @@ EXPORT_SYMBOL(ib_umem_odp_map_dma_and_lock);
+ void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
+ 				 u64 bound)
  {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
+-	dma_addr_t dma_addr;
+ 	dma_addr_t dma;
+ 	int idx;
+ 	u64 addr;
+@@ -482,34 +461,35 @@ void ib_umem_odp_unmap_dma_pages(struct ib_umem_odp *umem_odp, u64 virt,
+ 	virt = max_t(u64, virt, ib_umem_start(umem_odp));
+ 	bound = min_t(u64, bound, ib_umem_end(umem_odp));
+ 	for (addr = virt; addr < bound; addr += BIT(umem_odp->page_shift)) {
++		unsigned long pfn_idx = (addr - ib_umem_start(umem_odp)) >> PAGE_SHIFT;
++		struct page *page = hmm_pfn_to_page(umem_odp->pfn_list[pfn_idx]);
++
+ 		idx = (addr - ib_umem_start(umem_odp)) >> umem_odp->page_shift;
+ 		dma = umem_odp->dma_list[idx];
+ 
+-		/* The access flags guaranteed a valid DMA address in case was NULL */
+-		if (dma) {
+-			unsigned long pfn_idx = (addr - ib_umem_start(umem_odp)) >> PAGE_SHIFT;
+-			struct page *page = hmm_pfn_to_page(umem_odp->pfn_list[pfn_idx]);
+-
+-			dma_addr = dma & ODP_DMA_ADDR_MASK;
+-			ib_dma_unmap_page(dev, dma_addr,
+-					  BIT(umem_odp->page_shift),
+-					  DMA_BIDIRECTIONAL);
+-			if (dma & ODP_WRITE_ALLOWED_BIT) {
+-				struct page *head_page = compound_head(page);
+-				/*
+-				 * set_page_dirty prefers being called with
+-				 * the page lock. However, MMU notifiers are
+-				 * called sometimes with and sometimes without
+-				 * the lock. We rely on the umem_mutex instead
+-				 * to prevent other mmu notifiers from
+-				 * continuing and allowing the page mapping to
+-				 * be removed.
+-				 */
+-				set_page_dirty(head_page);
+-			}
+-			umem_odp->dma_list[idx] = 0;
+-			umem_odp->npages--;
++		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_VALID))
++			goto clear;
++		if (!(umem_odp->pfn_list[pfn_idx] & HMM_PFN_DMA_MAPPED))
++			goto clear;
++
++		ib_dma_unmap_page(dev, dma, BIT(umem_odp->page_shift),
++				  DMA_BIDIRECTIONAL);
++		if (umem_odp->pfn_list[pfn_idx] & HMM_PFN_WRITE) {
++			struct page *head_page = compound_head(page);
++			/*
++			 * set_page_dirty prefers being called with
++			 * the page lock. However, MMU notifiers are
++			 * called sometimes with and sometimes without
++			 * the lock. We rely on the umem_mutex instead
++			 * to prevent other mmu notifiers from
++			 * continuing and allowing the page mapping to
++			 * be removed.
++			 */
++			set_page_dirty(head_page);
+ 		}
++		umem_odp->npages--;
++clear:
++		umem_odp->pfn_list[pfn_idx] &= ~HMM_PFN_FLAGS;
+ 	}
+ }
+ EXPORT_SYMBOL(ib_umem_odp_unmap_dma_pages);
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index 23fd72f7f63d..3e4aaa6319db 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -336,6 +336,7 @@ struct mlx5_ib_flow_db {
+ #define MLX5_IB_UPD_XLT_PD	      BIT(4)
+ #define MLX5_IB_UPD_XLT_ACCESS	      BIT(5)
+ #define MLX5_IB_UPD_XLT_INDIRECT      BIT(6)
++#define MLX5_IB_UPD_XLT_DOWNGRADE     BIT(7)
+ 
+ /* Private QP creation flags to be passed in ib_qp_init_attr.create_flags.
+  *
+diff --git a/drivers/infiniband/hw/mlx5/odp.c b/drivers/infiniband/hw/mlx5/odp.c
+index 4b37446758fd..78887500ce15 100644
+--- a/drivers/infiniband/hw/mlx5/odp.c
++++ b/drivers/infiniband/hw/mlx5/odp.c
+@@ -34,6 +34,7 @@
+ #include <linux/kernel.h>
+ #include <linux/dma-buf.h>
+ #include <linux/dma-resv.h>
++#include <linux/hmm.h>
+ 
+ #include "mlx5_ib.h"
+ #include "cmd.h"
+@@ -158,22 +159,12 @@ static void populate_klm(struct mlx5_klm *pklm, size_t idx, size_t nentries,
+ 	}
+ }
+ 
+-static u64 umem_dma_to_mtt(dma_addr_t umem_dma)
+-{
+-	u64 mtt_entry = umem_dma & ODP_DMA_ADDR_MASK;
+-
+-	if (umem_dma & ODP_READ_ALLOWED_BIT)
+-		mtt_entry |= MLX5_IB_MTT_READ;
+-	if (umem_dma & ODP_WRITE_ALLOWED_BIT)
+-		mtt_entry |= MLX5_IB_MTT_WRITE;
+-
+-	return mtt_entry;
+-}
+-
+ static void populate_mtt(__be64 *pas, size_t idx, size_t nentries,
+ 			 struct mlx5_ib_mr *mr, int flags)
+ {
+ 	struct ib_umem_odp *odp = to_ib_umem_odp(mr->umem);
++	bool downgrade = flags & MLX5_IB_UPD_XLT_DOWNGRADE;
++	unsigned long pfn;
+ 	dma_addr_t pa;
+ 	size_t i;
+ 
+@@ -181,8 +172,17 @@ static void populate_mtt(__be64 *pas, size_t idx, size_t nentries,
+ 		return;
+ 
+ 	for (i = 0; i < nentries; i++) {
++		pfn = odp->pfn_list[idx + i];
++		if (!(pfn & HMM_PFN_VALID))
++			/* ODP initialization */
++			continue;
++
+ 		pa = odp->dma_list[idx + i];
+-		pas[i] = cpu_to_be64(umem_dma_to_mtt(pa));
++		pa |= MLX5_IB_MTT_READ;
++		if ((pfn & HMM_PFN_WRITE) && !downgrade)
++			pa |= MLX5_IB_MTT_WRITE;
++
++		pas[i] = cpu_to_be64(pa);
+ 	}
+ }
+ 
+@@ -286,8 +286,7 @@ static bool mlx5_ib_invalidate_range(struct mmu_interval_notifier *mni,
+ 		 * estimate the cost of another UMR vs. the cost of bigger
+ 		 * UMR.
+ 		 */
+-		if (umem_odp->dma_list[idx] &
+-		    (ODP_READ_ALLOWED_BIT | ODP_WRITE_ALLOWED_BIT)) {
++		if (umem_odp->pfn_list[idx] & HMM_PFN_VALID) {
+ 			if (!in_block) {
+ 				blk_start_idx = idx;
+ 				in_block = 1;
+@@ -668,7 +667,7 @@ static int pagefault_real_mr(struct mlx5_ib_mr *mr, struct ib_umem_odp *odp,
+ {
+ 	int page_shift, ret, np;
+ 	bool downgrade = flags & MLX5_PF_FLAGS_DOWNGRADE;
+-	u64 access_mask;
++	u64 access_mask = 0;
+ 	u64 start_idx;
+ 	bool fault = !(flags & MLX5_PF_FLAGS_SNAPSHOT);
+ 	u32 xlt_flags = MLX5_IB_UPD_XLT_ATOMIC;
+@@ -676,12 +675,14 @@ static int pagefault_real_mr(struct mlx5_ib_mr *mr, struct ib_umem_odp *odp,
+ 	if (flags & MLX5_PF_FLAGS_ENABLE)
+ 		xlt_flags |= MLX5_IB_UPD_XLT_ENABLE;
+ 
++	if (flags & MLX5_PF_FLAGS_DOWNGRADE)
++		xlt_flags |= MLX5_IB_UPD_XLT_DOWNGRADE;
++
+ 	page_shift = odp->page_shift;
+ 	start_idx = (user_va - ib_umem_start(odp)) >> page_shift;
+-	access_mask = ODP_READ_ALLOWED_BIT;
+ 
+ 	if (odp->umem.writable && !downgrade)
+-		access_mask |= ODP_WRITE_ALLOWED_BIT;
++		access_mask |= HMM_PFN_WRITE;
+ 
+ 	np = ib_umem_odp_map_dma_and_lock(odp, user_va, bcnt, access_mask, fault);
+ 	if (np < 0)
+diff --git a/include/rdma/ib_umem_odp.h b/include/rdma/ib_umem_odp.h
+index 0844c1d05ac6..a345c26a745d 100644
+--- a/include/rdma/ib_umem_odp.h
++++ b/include/rdma/ib_umem_odp.h
+@@ -8,6 +8,7 @@
+ 
+ #include <rdma/ib_umem.h>
+ #include <rdma/ib_verbs.h>
++#include <linux/hmm.h>
+ 
+ struct ib_umem_odp {
+ 	struct ib_umem umem;
+@@ -67,19 +68,6 @@ static inline size_t ib_umem_odp_num_pages(struct ib_umem_odp *umem_odp)
+ 	       umem_odp->page_shift;
+ }
+ 
+-/*
+- * The lower 2 bits of the DMA address signal the R/W permissions for
+- * the entry. To upgrade the permissions, provide the appropriate
+- * bitmask to the map_dma_pages function.
+- *
+- * Be aware that upgrading a mapped address might result in change of
+- * the DMA address for the page.
+- */
+-#define ODP_READ_ALLOWED_BIT  (1<<0ULL)
+-#define ODP_WRITE_ALLOWED_BIT (1<<1ULL)
+-
+-#define ODP_DMA_ADDR_MASK (~(ODP_READ_ALLOWED_BIT | ODP_WRITE_ALLOWED_BIT))
+-
+ #ifdef CONFIG_INFINIBAND_ON_DEMAND_PAGING
+ 
+ struct ib_umem_odp *
 -- 
 2.47.0
 
