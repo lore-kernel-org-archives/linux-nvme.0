@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 496FCD5E38D
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2024 13:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AA47D6409B
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2024 13:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=X/p9lF0JgZac8OtJRRR5sWEE536H+ASNZKb44rUtAK8=; b=hPvTYq5JoUJ8uyXi5XDOdyzgkZ
-	xQebzKASIqbDwrQFXiZQD2SAMyR25we6frMJcKUnLiObXwRIaABHjxO96OAgXuldXBc2a9KXbrITR
-	38i7uQCPdI2/2hzMhC7EQUpC2cVSOOWpApMcz52nKyk6dm7fzeDlBRTWspggqaVB0Z1ZtFNKpT5hR
-	rIGSRqSaqBA0VzA06rnXnq7n6pLzfiBuz26YZREUslZ8pkSApJYQ8jnc/XotFwagMThPoUGBj5rZB
-	S+DWJl96JUr9AXHTsZLGum1cQjNFqsgCTwLpUMuwVVBCYtpNKT7qlmsfc39nhNOgJnEhuM4nRwoO5
-	FS07jxuQ==;
+	bh=y42j5xQ8uuKkAImqJ1Sbr0phfQsqOqPqPxQXYkNnsPU=; b=sIGPqGvx2M2z39yhF5Y/yHmSTm
+	id+REveSnXIGewD1jlji+oj+BzFs9wmSxQyfVE+PHSypc2Aq2xVmJH0XCiBfloJvWxm271jAgRE4V
+	7bTd0J2N3smFP8l06hLP9rZDKXWr4eIRDwvzf0YKIRsupFXjDL/7u94x5EBF6rolvsNidAUuCZ3Nf
+	/s6srWeU5UvcYQS18UfZY/7ut7QZtDFpRIuFi4IH8HpnEd50pvRjkccZuy2kNsA66v69RsEyM815V
+	2CGfuMqHwJ+InQAfI30GknsQu8BwH5Z2xI2yV93qzzJavXQ0ceX9hwl3Fc/goagqSiWO5WxaUYdLx
+	Zj76gnkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA8I4-0000000Ewf6-13b6;
-	Sun, 10 Nov 2024 13:47:44 +0000
+	id 1tA8I8-0000000Ewii-3Dyc;
+	Sun, 10 Nov 2024 13:47:48 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA8Hz-0000000Ewbc-3LfR
+	id 1tA8I4-0000000Ewf4-23IM
 	for linux-nvme@lists.infradead.org;
-	Sun, 10 Nov 2024 13:47:41 +0000
+	Sun, 10 Nov 2024 13:47:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 864E25C5620;
-	Sun, 10 Nov 2024 13:46:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C561C4CEE3;
-	Sun, 10 Nov 2024 13:47:37 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 5D8235C4636;
+	Sun, 10 Nov 2024 13:46:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF817C4CECD;
+	Sun, 10 Nov 2024 13:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731246458;
-	bh=kaaNm90pDGFtHWSKL1yQ8jnPuKnBeiUpEsxBGDfH5mU=;
+	s=k20201202; t=1731246463;
+	bh=6vyLZ9mjLX8vy7gjsSTdc+TDPjgozca4sT5DOBvIDT0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BKSoimGD3YPBt06x6rU7d3cP2xA+cI28F5UVz43amUZsAUgCgm0GkH+jGQQgKM34B
-	 RN5FKivVWOPFL+t13B++Wc8TWImmkCPQunBGZ6Mw61phoPUwXOsu9ufld/Ie6Nb0bp
-	 EmvoIztAjk2Dif5h4YJTgoA5mj92wqahWOO8d1ImYz1lXGqF4gM+tW+VDW52dP8LQ+
-	 oRjYv3/BrooUhiyGj8mGf9AV0vH3kO/hbn6cz0RCYhHBHJOBEo0AcYz/F5r8AOhMd1
-	 vCVpIcFe2geUoTdhT7hjH0VPW4XkfLNbOCuKV78WyhHbrakUOK37qO/qGFYPE6x4d6
-	 pqbc/+gaenPng==
+	b=VLvd3JdR+kMAvaPiFKVBnSU6eIC3dqJe/OasqqOCUHF/p3FlLxLgcUGOysOByZqCT
+	 XEvDSJ1/ufSYAZgkna8+2He3qpJM5ZlkLDRRiSQRtjrL+HuXy+7sk/mkErxt0Rsvoj
+	 +PcUGocfI9Rxx+jbA+2R7vxo2ZiqVQEXiO780gkzlhLSjw5SOuHvkuIQfaXDfgNRt+
+	 ZmcDWARnf4qhbsXIjVCvUMe9ksNgTK+Af7DgGEbm4pCLCUzU0mK659soI/gOPEuXNe
+	 U+xYnVRMSwOIlCtH8xyBHR2eCdSdM+u4b37HFRhqbYd8888uliQdkebLxAA8t3Uwxt
+	 hE4T4qrK5e5NQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -50,8 +50,7 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Will Deacon <will@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
+Cc: Keith Busch <kbusch@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Yishai Hadas <yishaih@nvidia.com>,
@@ -72,17 +71,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3 05/17] dma: Provide an interface to allow allocate IOVA
-Date: Sun, 10 Nov 2024 15:46:52 +0200
-Message-ID: <abd1c62bb08be89a8ee7f17442fe2e84847f2288.1731244445.git.leon@kernel.org>
+Subject: [PATCH v3 06/17] iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+Date: Sun, 10 Nov 2024 15:46:53 +0200
+Message-ID: <38bd0f07e18f4c74f2ab77f268e9d0424569f69f.1731244445.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1731244445.git.leon@kernel.org>
 References: <cover.1731244445.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241110_054739_937545_442CADA2 
-X-CRM114-Status: GOOD (  20.17  )
+X-CRM114-CacheID: sfid-20241110_054744_815688_16D5941C 
+X-CRM114-Status: GOOD (  18.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,167 +96,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+From: Christoph Hellwig <hch@lst.de>
 
-The existing .map_page() callback provides both allocating of IOVA
-and linking DMA pages. That combination works great for most of the
-callers who use it in control paths, but is less effective in fast
-paths where there may be multiple calls to map_page().
+Split the iommu logic from iommu_dma_map_page into a separate helper.
+This not only keeps the code neatly separated, but will also allow for
+reuse in another caller.
 
-These advanced callers already manage their data in some sort of
-database and can perform IOVA allocation in advance, leaving range
-linkage operation to be in fast path.
-
-Provide an interface to allocate/deallocate IOVA and next patch
-link/unlink DMA ranges to that specific IOVA.
-
-The API is exported from dma-iommu as it is the only implementation
-supported, the namespace is clearly different from iommu_* functions
-which are not allowed to be used. This code layout allows us to save
-function call per API call used in datapath as well as a lot of boilerplate
-code.
-
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/iommu/dma-iommu.c   | 79 +++++++++++++++++++++++++++++++++++++
- include/linux/dma-mapping.h | 15 +++++++
- 2 files changed, 94 insertions(+)
+ drivers/iommu/dma-iommu.c | 73 ++++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 853247c42f7d..127150f63c95 100644
+index 127150f63c95..e1eaad500d27 100644
 --- a/drivers/iommu/dma-iommu.c
 +++ b/drivers/iommu/dma-iommu.c
-@@ -1746,6 +1746,85 @@ size_t iommu_dma_max_mapping_size(struct device *dev)
- 	return SIZE_MAX;
+@@ -1161,6 +1161,43 @@ void iommu_dma_sync_sg_for_device(struct device *dev, struct scatterlist *sgl,
+ 			arch_sync_dma_for_device(sg_phys(sg), sg->length, dir);
  }
  
-+static bool iommu_dma_iova_alloc(struct device *dev,
-+		struct dma_iova_state *state, phys_addr_t phys, size_t size)
++static phys_addr_t iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
++		size_t size, enum dma_data_direction dir, unsigned long attrs)
 +{
 +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	size_t iova_off = iova_offset(iovad, phys);
-+	dma_addr_t addr;
++	struct iova_domain *iovad = &domain->iova_cookie->iovad;
 +
-+	if (WARN_ON_ONCE(!size))
-+		return false;
-+	if (WARN_ON_ONCE(size & DMA_IOVA_USE_SWIOTLB))
-+		return false;
++	if (!is_swiotlb_active(dev)) {
++		dev_warn_once(dev, "DMA bounce buffers are inactive, unable to map unaligned transaction.\n");
++		return DMA_MAPPING_ERROR;
++	}
 +
-+	addr = iommu_dma_alloc_iova(domain,
-+			iova_align(iovad, size + iova_off),
-+			dma_get_mask(dev), dev);
-+	if (!addr)
-+		return false;
++	trace_swiotlb_bounced(dev, phys, size);
 +
-+	state->addr = addr + iova_off;
-+	state->__size = size;
-+	return true;
++	phys = swiotlb_tbl_map_single(dev, phys, size, iova_mask(iovad), dir,
++			attrs);
++
++	/*
++	 * Untrusted devices should not see padding areas with random leftover
++	 * kernel data, so zero the pre- and post-padding.
++	 * swiotlb_tbl_map_single() has initialized the bounce buffer proper to
++	 * the contents of the original memory buffer.
++	 */
++	if (phys != DMA_MAPPING_ERROR && dev_is_untrusted(dev)) {
++		size_t start, virt = (size_t)phys_to_virt(phys);
++
++		/* Pre-padding */
++		start = iova_align_down(iovad, virt);
++		memset((void *)start, 0, virt - start);
++
++		/* Post-padding */
++		start = virt + size;
++		memset((void *)start, 0, iova_align(iovad, start) - start);
++	}
++
++	return phys;
 +}
 +
-+/**
-+ * dma_iova_try_alloc - Try to allocate an IOVA space
-+ * @dev: Device to allocate the IOVA space for
-+ * @state: IOVA state
-+ * @phys: physical address
-+ * @size: IOVA size
-+ *
-+ * Check if @dev supports the IOVA-based DMA API, and if yes allocate IOVA space
-+ * for the given base address and size.
-+ *
-+ * Note: @phys is only used to calculate the IOVA alignment. Callers that always
-+ * do PAGE_SIZE aligned transfers can safely pass 0 here.
-+ *
-+ * Returns %true if the IOVA-based DMA API can be used and IOVA space has been
-+ * allocated, or %false if the regular DMA API should be used.
-+ */
-+bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-+		phys_addr_t phys, size_t size)
-+{
-+	memset(state, 0, sizeof(*state));
-+	if (!use_dma_iommu(dev))
-+		return false;
-+	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
-+	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
-+		return false;
-+	return iommu_dma_iova_alloc(dev, state, phys, size);
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_try_alloc);
-+
-+/**
-+ * dma_iova_free - Free an IOVA space
-+ * @dev: Device to free the IOVA space for
-+ * @state: IOVA state
-+ *
-+ * Undoes a successful dma_try_iova_alloc().
-+ *
-+ * Note that all dma_iova_link() calls need to be undone first.  For callers
-+ * that never call dma_iova_unlink(), dma_iova_destroy() can be used instead
-+ * which unlinks all ranges and frees the IOVA space in a single efficient
-+ * operation.
-+ */
-+void dma_iova_free(struct device *dev, struct dma_iova_state *state)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	struct iova_domain *iovad = &cookie->iovad;
-+	size_t iova_start_pad = iova_offset(iovad, state->addr);
-+	size_t size = dma_iova_size(state);
-+
-+	iommu_dma_free_iova(cookie, state->addr - iova_start_pad,
-+			iova_align(iovad, size + iova_start_pad), NULL);
-+}
-+EXPORT_SYMBOL_GPL(dma_iova_free);
-+
- void iommu_setup_dma_ops(struct device *dev)
- {
- 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 6075e0708deb..817f11bce7bc 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -11,6 +11,7 @@
- #include <linux/scatterlist.h>
- #include <linux/bug.h>
- #include <linux/mem_encrypt.h>
-+#include <linux/iommu.h>
+ dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+ 	      unsigned long offset, size_t size, enum dma_data_direction dir,
+ 	      unsigned long attrs)
+@@ -1174,42 +1211,14 @@ dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+ 	dma_addr_t iova, dma_mask = dma_get_mask(dev);
  
- /**
-  * List of possible attributes associated with a DMA mapping. The semantics
-@@ -77,6 +78,7 @@
- #define DMA_BIT_MASK(n)	(((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+ 	/*
+-	 * If both the physical buffer start address and size are
+-	 * page aligned, we don't need to use a bounce page.
++	 * If both the physical buffer start address and size are page aligned,
++	 * we don't need to use a bounce page.
+ 	 */
+ 	if (dev_use_swiotlb(dev, size, dir) &&
+ 	    iova_offset(iovad, phys | size)) {
+-		if (!is_swiotlb_active(dev)) {
+-			dev_warn_once(dev, "DMA bounce buffers are inactive, unable to map unaligned transaction.\n");
+-			return DMA_MAPPING_ERROR;
+-		}
+-
+-		trace_swiotlb_bounced(dev, phys, size);
+-
+-		phys = swiotlb_tbl_map_single(dev, phys, size,
+-					      iova_mask(iovad), dir, attrs);
+-
++		phys = iommu_dma_map_swiotlb(dev, phys, size, dir, attrs);
+ 		if (phys == DMA_MAPPING_ERROR)
+-			return DMA_MAPPING_ERROR;
+-
+-		/*
+-		 * Untrusted devices should not see padding areas with random
+-		 * leftover kernel data, so zero the pre- and post-padding.
+-		 * swiotlb_tbl_map_single() has initialized the bounce buffer
+-		 * proper to the contents of the original memory buffer.
+-		 */
+-		if (dev_is_untrusted(dev)) {
+-			size_t start, virt = (size_t)phys_to_virt(phys);
+-
+-			/* Pre-padding */
+-			start = iova_align_down(iovad, virt);
+-			memset((void *)start, 0, virt - start);
+-
+-			/* Post-padding */
+-			start = virt + size;
+-			memset((void *)start, 0,
+-			       iova_align(iovad, start) - start);
+-		}
++			return phys;
+ 	}
  
- struct dma_iova_state {
-+	dma_addr_t addr;
- 	size_t __size;
- };
- 
-@@ -307,11 +309,24 @@ static inline bool dma_use_iova(struct dma_iova_state *state)
- {
- 	return state->__size != 0;
- }
-+
-+bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-+		phys_addr_t phys, size_t size);
-+void dma_iova_free(struct device *dev, struct dma_iova_state *state);
- #else /* CONFIG_IOMMU_DMA */
- static inline bool dma_use_iova(struct dma_iova_state *state)
- {
- 	return false;
- }
-+static inline bool dma_iova_try_alloc(struct device *dev,
-+		struct dma_iova_state *state, phys_addr_t phys, size_t size)
-+{
-+	return false;
-+}
-+static inline void dma_iova_free(struct device *dev,
-+		struct dma_iova_state *state)
-+{
-+}
- #endif /* CONFIG_IOMMU_DMA */
- 
- #if defined(CONFIG_HAS_DMA) && defined(CONFIG_DMA_NEED_SYNC)
+ 	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
 -- 
 2.47.0
 
