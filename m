@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD694D12D41
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3626CE6781D
 	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2024 15:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=usvGmxH7YBQ6DDLk4lfgOEJ/qc74aDfdf5YPsSwkHMA=; b=1MHM/7ocj+gG/eDgYsnKNtjhhX
-	9gryEvAcS19iuoAgbsQt7olz3pzvmgtpvzXmNDuh2b4ewIOFpVYhYHNxtGhHMz8K2ROKBu49bPz2x
-	fFPiS7GRL9ynGCPRWaJsY6JVV9QaLLpwIk9NMTUeSsjD0qw9KNyzMKaTXFjOCsXZOR5ikQmAH3+0b
-	fPDw8NNn8wef6jyGQ2rBRjXu95sofSrfgkcy9CGlQhZX4bOgQ9FNLSPAxxf0Hq1ot+aJ+K7/0AJzf
-	pdhfBOpXfxB4Iv+xQi7wCZc041GJxuCcNOV1zUBwbhk/86ujiierIjgwo2V6J51EHTRwJZ9ua0Lky
-	RmrTD5rQ==;
+	bh=yGbmkSbWMpLyQI5U79TGm84gTk99r/hClJ/47OQKyDM=; b=T/+uMRiB5heD/tXByJPrqwVO+H
+	col2O8+9zH4CpPeKaIh+EvfX0OFsciT4CTf0MjiO0gGihxIh1cnvoW5ssNWZB+4XXISFO76bgIcNs
+	ydX6hBiTIG2RGZ3WRwNTPEZPLeyl6OYVK+OQWcLGkKxzuJEBr1zaFPbouK7U4j0OsGO2pVBxwEHjV
+	iZfZj97d7UpdQo0actKukRS9NoAR/A+gyhB7dzU6GMfwOg+B1ueDTYlkgVZM2IGc8qSLgxZ5dg06M
+	ckCFVjo6bVHWy0hG9K0Mh02/0TVwPKfJolsjs4CrLTOjWj3Mw82W4n3/SQYNgvkT+506a6kGFgPin
+	gJAfY40A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA9QI-0000000F4II-04IL;
-	Sun, 10 Nov 2024 15:00:18 +0000
+	id 1tA9QE-0000000F4GO-0YqG;
+	Sun, 10 Nov 2024 15:00:14 +0000
 Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tA8Iu-0000000ExLV-318N
+	id 1tA8I8-0000000Ewip-3l8b
 	for linux-nvme@lists.infradead.org;
-	Sun, 10 Nov 2024 13:48:51 +0000
+	Sun, 10 Nov 2024 13:47:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 610B0A40D07;
-	Sun, 10 Nov 2024 13:46:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B290C4CECD;
-	Sun, 10 Nov 2024 13:48:34 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 670E0A40CCF;
+	Sun, 10 Nov 2024 13:45:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C85FAC4CED8;
+	Sun, 10 Nov 2024 13:47:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731246515;
-	bh=OfS/TnI6Cia3SA8mJAAflggJ3zWnirUzgTzpPr2YPFY=;
+	s=k20201202; t=1731246467;
+	bh=6bk4WY4n6+Z+yYl3isWCsOJQFnSfMGq0h01rMvpfa/0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qP/LEz9WbcLwXgRdY2Cf19JJuXR4u35fijxhaVWUnqN7xryh4Is4fWZsXumAxcpyg
-	 TJe5S3Xeh673uzjKqxqrfOG0MUwUp0e9h2ZZfRT0jGPxnc39k1AAFOKtLH8W+0QTfQ
-	 zMH6rv67KTHDeZjspryWvlxLAaKD2G3+1TJ5YNrHdnDjvCaz9htbOFG9it+h4RMYtw
-	 y1uKNd9IarC9hczZe14P2YS8aq4Yy3lkmobMN4KvQZxlqEVuNkaXRmLRTwQ1p3cCju
-	 7iBtzilAwtcUZVHqOuSMkk/HLx2Jcp/svrF5LzN12CVeRoD5x6joS/XTQWZGPq4CSi
-	 treJKucCA0JMQ==
+	b=Dp7PFntG4bfnUeOhw/HX/4GUIyFxYp5Yyqx2ycoDhOWpBYqRK+bZTeRgryLVmQcha
+	 wv9ols5sWeFq2lzKEsm5H1yWS2106giLOVcS/ly3yc0fASuuTrZX5BU8P2HtPCg2O6
+	 LGuSkQEwIGLIbl6pA0gvaR0pKDtGd7rmhl7HYBhk/sWTR2m9sJ/wJEWmbQazASbyTh
+	 zEV2ApgGvVZErx7KwFt71HYmDHkc0dXwkNeToZGNSZsNH59pDD4s7HdtBOEfdufwkR
+	 6KoWmL7Lq8UlyGIDgfwHl+S3MCMzkzTyA8zj2iEu7O5xGEqYP0wsLkqf+Pki1UdGxJ
+	 C/1ebc7e6Hsxg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -72,17 +72,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	kvm@vger.kernel.org,
 	linux-mm@kvack.org,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3 15/17] vfio/mlx5: Explicitly use number of pages instead of allocated length
-Date: Sun, 10 Nov 2024 15:47:02 +0200
-Message-ID: <ab9841636b0d0016527c92faecc36a6f306e3714.1731244445.git.leon@kernel.org>
+Subject: [PATCH v3 07/17] dma-mapping: Implement link/unlink ranges API
+Date: Sun, 10 Nov 2024 15:46:54 +0200
+Message-ID: <f8c7f160c9ae97fef4ccd355f9979727552c7374.1731244445.git.leon@kernel.org>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1731244445.git.leon@kernel.org>
 References: <cover.1731244445.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241110_054837_429741_CB07B7BC 
-X-CRM114-Status: GOOD (  22.94  )
+X-CRM114-CacheID: sfid-20241110_054749_729468_C4966C20 
+X-CRM114-Status: GOOD (  21.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,312 +99,354 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-allocated_length is a multiple of page size and number of pages,
-so let's change the functions to accept number of pages. It opens
-us a venue to combine receive and send paths together with code
-readability improvement.
+Introduce new DMA APIs to perform DMA linkage of buffers
+in layers higher than DMA.
+
+In proposed API, the callers will perform the following steps.
+In map path:
+	if (dma_can_use_iova(...))
+	    dma_iova_alloc()
+	    for (page in range)
+	       dma_iova_link_next(...)
+	    dma_iova_sync(...)
+	else
+	     /* Fallback to legacy map pages */
+             for (all pages)
+	       dma_map_page(...)
+
+In unmap path:
+	if (dma_can_use_iova(...))
+	     dma_iova_destroy()
+	else
+	     for (all pages)
+		dma_unmap_page(...)
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/vfio/pci/mlx5/cmd.c  | 32 ++++++++++-----------
- drivers/vfio/pci/mlx5/cmd.h  | 10 +++----
- drivers/vfio/pci/mlx5/main.c | 56 +++++++++++++++++++++++-------------
- 3 files changed, 57 insertions(+), 41 deletions(-)
+ drivers/iommu/dma-iommu.c   | 259 ++++++++++++++++++++++++++++++++++++
+ include/linux/dma-mapping.h |  32 +++++
+ 2 files changed, 291 insertions(+)
 
-diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
-index 41a4b0cf4297..fdc3e515741f 100644
---- a/drivers/vfio/pci/mlx5/cmd.c
-+++ b/drivers/vfio/pci/mlx5/cmd.c
-@@ -318,8 +318,7 @@ static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
- 			struct mlx5_vhca_recv_buf *recv_buf,
- 			u32 *mkey)
- {
--	size_t npages = buf ? DIV_ROUND_UP(buf->allocated_length, PAGE_SIZE) :
--				recv_buf->npages;
-+	size_t npages = buf ? buf->npages : recv_buf->npages;
- 	int err = 0, inlen;
- 	__be64 *mtt;
- 	void *mkc;
-@@ -375,7 +374,7 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	if (mvdev->mdev_detach)
- 		return -ENOTCONN;
- 
--	if (buf->dmaed || !buf->allocated_length)
-+	if (buf->dmaed || !buf->npages)
- 		return -EINVAL;
- 
- 	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
-@@ -444,7 +443,7 @@ static int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
- 
- 		if (ret)
- 			goto err;
--		buf->allocated_length += filled * PAGE_SIZE;
-+		buf->npages += filled;
- 		/* clean input for another bulk allocation */
- 		memset(page_list, 0, filled * sizeof(*page_list));
- 		to_fill = min_t(unsigned int, to_alloc,
-@@ -460,8 +459,7 @@ static int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index e1eaad500d27..4a504a879cc0 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1834,6 +1834,265 @@ void dma_iova_free(struct device *dev, struct dma_iova_state *state)
  }
+ EXPORT_SYMBOL_GPL(dma_iova_free);
  
- struct mlx5_vhca_data_buffer *
--mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
--			 size_t length,
-+mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
- 			 enum dma_data_direction dma_dir)
- {
- 	struct mlx5_vhca_data_buffer *buf;
-@@ -473,9 +471,8 @@ mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
- 
- 	buf->dma_dir = dma_dir;
- 	buf->migf = migf;
--	if (length) {
--		ret = mlx5vf_add_migration_pages(buf,
--				DIV_ROUND_UP_ULL(length, PAGE_SIZE));
-+	if (npages) {
-+		ret = mlx5vf_add_migration_pages(buf, npages);
- 		if (ret)
- 			goto end;
- 
-@@ -501,8 +498,8 @@ void mlx5vf_put_data_buffer(struct mlx5_vhca_data_buffer *buf)
- }
- 
- struct mlx5_vhca_data_buffer *
--mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
--		       size_t length, enum dma_data_direction dma_dir)
-+mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+		       enum dma_data_direction dma_dir)
- {
- 	struct mlx5_vhca_data_buffer *buf, *temp_buf;
- 	struct list_head free_list;
-@@ -517,7 +514,7 @@ mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
- 	list_for_each_entry_safe(buf, temp_buf, &migf->avail_list, buf_elm) {
- 		if (buf->dma_dir == dma_dir) {
- 			list_del_init(&buf->buf_elm);
--			if (buf->allocated_length >= length) {
-+			if (buf->npages >= npages) {
- 				spin_unlock_irq(&migf->list_lock);
- 				goto found;
- 			}
-@@ -531,7 +528,7 @@ mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
- 		}
- 	}
- 	spin_unlock_irq(&migf->list_lock);
--	buf = mlx5vf_alloc_data_buffer(migf, length, dma_dir);
-+	buf = mlx5vf_alloc_data_buffer(migf, npages, dma_dir);
- 
- found:
- 	while ((temp_buf = list_first_entry_or_null(&free_list,
-@@ -712,7 +709,7 @@ int mlx5vf_cmd_save_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 	MLX5_SET(save_vhca_state_in, in, op_mod, 0);
- 	MLX5_SET(save_vhca_state_in, in, vhca_id, mvdev->vhca_id);
- 	MLX5_SET(save_vhca_state_in, in, mkey, buf->mkey);
--	MLX5_SET(save_vhca_state_in, in, size, buf->allocated_length);
-+	MLX5_SET(save_vhca_state_in, in, size, buf->npages * PAGE_SIZE);
- 	MLX5_SET(save_vhca_state_in, in, incremental, inc);
- 	MLX5_SET(save_vhca_state_in, in, set_track, track);
- 
-@@ -734,8 +731,11 @@ int mlx5vf_cmd_save_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 	}
- 
- 	if (!header_buf) {
--		header_buf = mlx5vf_get_data_buffer(migf,
--			sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+		header_buf = mlx5vf_get_data_buffer(
-+			migf,
-+			DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+				     PAGE_SIZE),
-+			DMA_NONE);
- 		if (IS_ERR(header_buf)) {
- 			err = PTR_ERR(header_buf);
- 			goto err_free;
-diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
-index df421dc6de04..7d4a833b6900 100644
---- a/drivers/vfio/pci/mlx5/cmd.h
-+++ b/drivers/vfio/pci/mlx5/cmd.h
-@@ -56,7 +56,7 @@ struct mlx5_vhca_data_buffer {
- 	struct sg_append_table table;
- 	loff_t start_pos;
- 	u64 length;
--	u64 allocated_length;
-+	u32 npages;
- 	u32 mkey;
- 	enum dma_data_direction dma_dir;
- 	u8 dmaed:1;
-@@ -217,12 +217,12 @@ int mlx5vf_cmd_alloc_pd(struct mlx5_vf_migration_file *migf);
- void mlx5vf_cmd_dealloc_pd(struct mlx5_vf_migration_file *migf);
- void mlx5fv_cmd_clean_migf_resources(struct mlx5_vf_migration_file *migf);
- struct mlx5_vhca_data_buffer *
--mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
--			 size_t length, enum dma_data_direction dma_dir);
-+mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+			 enum dma_data_direction dma_dir);
- void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf);
- struct mlx5_vhca_data_buffer *
--mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
--		       size_t length, enum dma_data_direction dma_dir);
-+mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+		       enum dma_data_direction dma_dir);
- void mlx5vf_put_data_buffer(struct mlx5_vhca_data_buffer *buf);
- struct page *mlx5vf_get_migration_page(struct mlx5_vhca_data_buffer *buf,
- 				       unsigned long offset);
-diff --git a/drivers/vfio/pci/mlx5/main.c b/drivers/vfio/pci/mlx5/main.c
-index 242c23eef452..a1dbee3be1e0 100644
---- a/drivers/vfio/pci/mlx5/main.c
-+++ b/drivers/vfio/pci/mlx5/main.c
-@@ -308,6 +308,7 @@ static struct mlx5_vhca_data_buffer *
- mlx5vf_mig_file_get_stop_copy_buf(struct mlx5_vf_migration_file *migf,
- 				  u8 index, size_t required_length)
- {
-+	u32 npages = DIV_ROUND_UP(required_length, PAGE_SIZE);
- 	struct mlx5_vhca_data_buffer *buf = migf->buf[index];
- 	u8 chunk_num;
- 
-@@ -315,12 +316,11 @@ mlx5vf_mig_file_get_stop_copy_buf(struct mlx5_vf_migration_file *migf,
- 	chunk_num = buf->stop_copy_chunk_num;
- 	buf->migf->buf[index] = NULL;
- 	/* Checking whether the pre-allocated buffer can fit */
--	if (buf->allocated_length >= required_length)
-+	if (buf->npages >= npages)
- 		return buf;
- 
- 	mlx5vf_put_data_buffer(buf);
--	buf = mlx5vf_get_data_buffer(buf->migf, required_length,
--				     DMA_FROM_DEVICE);
-+	buf = mlx5vf_get_data_buffer(buf->migf, npages, DMA_FROM_DEVICE);
- 	if (IS_ERR(buf))
- 		return buf;
- 
-@@ -373,7 +373,8 @@ static int mlx5vf_add_stop_copy_header(struct mlx5_vf_migration_file *migf,
- 	u8 *to_buff;
- 	int ret;
- 
--	header_buf = mlx5vf_get_data_buffer(migf, size, DMA_NONE);
-+	header_buf = mlx5vf_get_data_buffer(migf, DIV_ROUND_UP(size, PAGE_SIZE),
-+					    DMA_NONE);
- 	if (IS_ERR(header_buf))
- 		return PTR_ERR(header_buf);
- 
-@@ -388,7 +389,7 @@ static int mlx5vf_add_stop_copy_header(struct mlx5_vf_migration_file *migf,
- 	to_buff = kmap_local_page(page);
- 	memcpy(to_buff, &header, sizeof(header));
- 	header_buf->length = sizeof(header);
--	data.stop_copy_size = cpu_to_le64(migf->buf[0]->allocated_length);
-+	data.stop_copy_size = cpu_to_le64(migf->buf[0]->npages * PAGE_SIZE);
- 	memcpy(to_buff + sizeof(header), &data, sizeof(data));
- 	header_buf->length += sizeof(data);
- 	kunmap_local(to_buff);
-@@ -437,15 +438,20 @@ static int mlx5vf_prep_stop_copy(struct mlx5vf_pci_core_device *mvdev,
- 
- 	num_chunks = mvdev->chunk_mode ? MAX_NUM_CHUNKS : 1;
- 	for (i = 0; i < num_chunks; i++) {
--		buf = mlx5vf_get_data_buffer(migf, inc_state_size, DMA_FROM_DEVICE);
-+		buf = mlx5vf_get_data_buffer(
-+			migf, DIV_ROUND_UP(inc_state_size, PAGE_SIZE),
-+			DMA_FROM_DEVICE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto err;
- 		}
- 
- 		migf->buf[i] = buf;
--		buf = mlx5vf_get_data_buffer(migf,
--				sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+		buf = mlx5vf_get_data_buffer(
-+			migf,
-+			DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+				     PAGE_SIZE),
-+			DMA_NONE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto err;
-@@ -553,7 +559,8 @@ static long mlx5vf_precopy_ioctl(struct file *filp, unsigned int cmd,
- 	 * We finished transferring the current state and the device has a
- 	 * dirty state, save a new state to be ready for.
- 	 */
--	buf = mlx5vf_get_data_buffer(migf, inc_length, DMA_FROM_DEVICE);
-+	buf = mlx5vf_get_data_buffer(migf, DIV_ROUND_UP(inc_length, PAGE_SIZE),
-+				     DMA_FROM_DEVICE);
- 	if (IS_ERR(buf)) {
- 		ret = PTR_ERR(buf);
- 		mlx5vf_mark_err(migf);
-@@ -673,8 +680,8 @@ mlx5vf_pci_save_device_data(struct mlx5vf_pci_core_device *mvdev, bool track)
- 
- 	if (track) {
- 		/* leave the allocated buffer ready for the stop-copy phase */
--		buf = mlx5vf_alloc_data_buffer(migf,
--			migf->buf[0]->allocated_length, DMA_FROM_DEVICE);
-+		buf = mlx5vf_alloc_data_buffer(migf, migf->buf[0]->npages,
-+					       DMA_FROM_DEVICE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto out_pd;
-@@ -917,11 +924,14 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 				goto out_unlock;
- 			break;
- 		case MLX5_VF_LOAD_STATE_PREP_HEADER_DATA:
--			if (vhca_buf_header->allocated_length < migf->record_size) {
-+		{
-+			u32 npages = DIV_ROUND_UP(migf->record_size, PAGE_SIZE);
++static int __dma_iova_link(struct device *dev, dma_addr_t addr,
++		phys_addr_t phys, size_t size, enum dma_data_direction dir,
++		unsigned long attrs)
++{
++	bool coherent = dev_is_dma_coherent(dev);
 +
-+			if (vhca_buf_header->npages < npages) {
- 				mlx5vf_free_data_buffer(vhca_buf_header);
++	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++		arch_sync_dma_for_device(phys, size, dir);
++
++	return iommu_map_nosync(iommu_get_dma_domain(dev), addr, phys, size,
++			dma_info_to_prot(dir, coherent, attrs), GFP_ATOMIC);
++}
++
++static int iommu_dma_iova_bounce_and_link(struct device *dev, dma_addr_t addr,
++		phys_addr_t phys, size_t bounce_len,
++		enum dma_data_direction dir, unsigned long attrs,
++		size_t iova_start_pad)
++{
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
++	struct iova_domain *iovad = &domain->iova_cookie->iovad;
++	phys_addr_t bounce_phys;
++	int error;
++
++	bounce_phys = iommu_dma_map_swiotlb(dev, phys, bounce_len, dir, attrs);
++	if (bounce_phys == DMA_MAPPING_ERROR)
++		return -ENOMEM;
++
++	error = __dma_iova_link(dev, addr - iova_start_pad,
++			bounce_phys - iova_start_pad,
++			iova_align(iovad, bounce_len), dir, attrs);
++	if (error)
++		swiotlb_tbl_unmap_single(dev, bounce_phys, bounce_len, dir,
++				attrs);
++	return error;
++}
++
++static int iommu_dma_iova_link_swiotlb(struct device *dev,
++		struct dma_iova_state *state, phys_addr_t phys, size_t offset,
++		size_t size, enum dma_data_direction dir, unsigned long attrs)
++{
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
++	struct iommu_dma_cookie *cookie = domain->iova_cookie;
++	struct iova_domain *iovad = &cookie->iovad;
++	size_t iova_start_pad = iova_offset(iovad, phys);
++	size_t iova_end_pad = iova_offset(iovad, phys + size);
++	dma_addr_t addr = state->addr + offset;
++	size_t mapped = 0;
++	int error;
++
++	if (iova_start_pad) {
++		size_t bounce_len = min(size, iovad->granule - iova_start_pad);
++
++		error = iommu_dma_iova_bounce_and_link(dev, addr, phys,
++				bounce_len, dir, attrs, iova_start_pad);
++		if (error)
++			return error;
++		state->__size |= DMA_IOVA_USE_SWIOTLB;
++
++		mapped += bounce_len;
++		size -= bounce_len;
++		if (!size)
++			return 0;
++	}
++
++	size -= iova_end_pad;
++	error = __dma_iova_link(dev, addr + mapped, phys + mapped, size, dir,
++			attrs);
++	if (error)
++		goto out_unmap;
++	mapped += size;
++
++	if (iova_end_pad) {
++		error = iommu_dma_iova_bounce_and_link(dev, addr + mapped,
++				phys + mapped, iova_end_pad, dir, attrs, 0);
++		if (error)
++			goto out_unmap;
++		state->__size |= DMA_IOVA_USE_SWIOTLB;
++	}
++
++	return 0;
++
++out_unmap:
++	dma_iova_unlink(dev, state, 0, mapped, dir, attrs);
++	return error;
++}
++
++/**
++ * dma_iova_link - Link a range of IOVA space
++ * @dev: DMA device
++ * @state: IOVA state
++ * @phys: physical address to link
++ * @offset: offset into the IOVA state to map into
++ * @size: size of the buffer
++ * @dir: DMA direction
++ * @attrs: attributes of mapping properties
++ *
++ * Link a range of IOVA space for the given IOVA state without IOTLB sync.
++ * This function is used to link multiple physical addresses in contigueous
++ * IOVA space without performing costly IOTLB sync.
++ *
++ * The caller is responsible to call to dma_iova_sync() to sync IOTLB at
++ * the end of linkage.
++ */
++int dma_iova_link(struct device *dev, struct dma_iova_state *state,
++		phys_addr_t phys, size_t offset, size_t size,
++		enum dma_data_direction dir, unsigned long attrs)
++{
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
++	struct iommu_dma_cookie *cookie = domain->iova_cookie;
++	struct iova_domain *iovad = &cookie->iovad;
++	size_t iova_start_pad = iova_offset(iovad, phys);
++
++	if (WARN_ON_ONCE(iova_start_pad && offset > 0))
++		return -EIO;
++
++	if (dev_use_swiotlb(dev, size, dir) && iova_offset(iovad, phys | size))
++		return iommu_dma_iova_link_swiotlb(dev, state, phys, offset,
++				size, dir, attrs);
++
++	return __dma_iova_link(dev, state->addr + offset - iova_start_pad,
++			phys - iova_start_pad,
++			iova_align(iovad, size + iova_start_pad), dir, attrs);
++}
++EXPORT_SYMBOL_GPL(dma_iova_link);
++
++/**
++ * dma_iova_sync - Sync IOTLB
++ * @dev: DMA device
++ * @state: IOVA state
++ * @offset: offset into the IOVA state to sync
++ * @size: size of the buffer
++ *
++ * Sync IOTLB for the given IOVA state. This function should be called on
++ * the IOVA-contigous range created by one ore more dma_iova_link() calls
++ * to sync the IOTLB.
++ */
++int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
++		size_t offset, size_t size)
++{
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
++	struct iommu_dma_cookie *cookie = domain->iova_cookie;
++	struct iova_domain *iovad = &cookie->iovad;
++	dma_addr_t addr = state->addr + offset;
++	size_t iova_start_pad = iova_offset(iovad, addr);
++
++	return iommu_sync_map(domain, addr - iova_start_pad,
++		      iova_align(iovad, size + iova_start_pad));
++}
++EXPORT_SYMBOL_GPL(dma_iova_sync);
++
++static void iommu_dma_iova_unlink_range_slow(struct device *dev,
++		dma_addr_t addr, size_t size, enum dma_data_direction dir,
++		unsigned long attrs)
++{
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
++	struct iommu_dma_cookie *cookie = domain->iova_cookie;
++	struct iova_domain *iovad = &cookie->iovad;
++	size_t iova_start_pad = iova_offset(iovad, addr);
++	dma_addr_t end = addr + size;
++
++	do {
++		phys_addr_t phys;
++		size_t len;
++
++		phys = iommu_iova_to_phys(domain, addr);
++		if (WARN_ON(!phys))
++			continue;
++		len = min_t(size_t,
++			end - addr, iovad->granule - iova_start_pad);
++
++		if (!dev_is_dma_coherent(dev) &&
++		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++			arch_sync_dma_for_cpu(phys, len, dir);
++
++		swiotlb_tbl_unmap_single(dev, phys, len, dir, attrs);
++
++		addr += len;
++		iova_start_pad = 0;
++	} while (addr < end);
++}
++
++static void __iommu_dma_iova_unlink(struct device *dev,
++		struct dma_iova_state *state, size_t offset, size_t size,
++		enum dma_data_direction dir, unsigned long attrs,
++		bool free_iova)
++{
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
++	struct iommu_dma_cookie *cookie = domain->iova_cookie;
++	struct iova_domain *iovad = &cookie->iovad;
++	dma_addr_t addr = state->addr + offset;
++	size_t iova_start_pad = iova_offset(iovad, addr);
++	struct iommu_iotlb_gather iotlb_gather;
++	size_t unmapped;
++
++	if ((state->__size & DMA_IOVA_USE_SWIOTLB) ||
++	    (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))
++		iommu_dma_iova_unlink_range_slow(dev, addr, size, dir, attrs);
++
++	iommu_iotlb_gather_init(&iotlb_gather);
++	iotlb_gather.queued = free_iova && READ_ONCE(cookie->fq_domain);
++
++	size = iova_align(iovad, size + iova_start_pad);
++	addr -= iova_start_pad;
++	unmapped = iommu_unmap_fast(domain, addr, size, &iotlb_gather);
++	WARN_ON(unmapped != size);
++
++	if (!iotlb_gather.queued)
++		iommu_iotlb_sync(domain, &iotlb_gather);
++	if (free_iova)
++		iommu_dma_free_iova(cookie, addr, size, &iotlb_gather);
++}
++
++/**
++ * dma_iova_unlink - Unlink a range of IOVA space
++ * @dev: DMA device
++ * @state: IOVA state
++ * @offset: offset into the IOVA state to unlink
++ * @size: size of the buffer
++ * @dir: DMA direction
++ * @attrs: attributes of mapping properties
++ *
++ * Unlink a range of IOVA space for the given IOVA state.
++ */
++void dma_iova_unlink(struct device *dev, struct dma_iova_state *state,
++		size_t offset, size_t size, enum dma_data_direction dir,
++		unsigned long attrs)
++{
++	 __iommu_dma_iova_unlink(dev, state, offset, size, dir, attrs, false);
++}
++EXPORT_SYMBOL_GPL(dma_iova_unlink);
++
++/**
++ * dma_iova_destroy - Finish a DMA mapping transaction
++ * @dev: DMA device
++ * @state: IOVA state
++ * @mapped_len: number of bytes to unmap
++ * @dir: DMA direction
++ * @attrs: attributes of mapping properties
++ *
++ * Unlink the IOVA range up to @mapped_len and free the entire IOVA space. The
++ * range of IOVA from dma_addr to @mapped_len must all be linked, and be the
++ * only linked IOVA in state.
++ */
++void dma_iova_destroy(struct device *dev, struct dma_iova_state *state,
++		size_t mapped_len, enum dma_data_direction dir,
++		unsigned long attrs)
++{
++	if (mapped_len)
++		__iommu_dma_iova_unlink(dev, state, 0, mapped_len, dir, attrs,
++				true);
++	else
++		/*
++		 * We can be here if first call to dma_iova_link() failed and
++		 * there is nothing to unlink, so let's be more clear.
++		 */
++		dma_iova_free(dev, state);
++}
++EXPORT_SYMBOL_GPL(dma_iova_destroy);
++
+ void iommu_setup_dma_ops(struct device *dev)
+ {
+ 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 817f11bce7bc..8074a3b5c807 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -313,6 +313,17 @@ static inline bool dma_use_iova(struct dma_iova_state *state)
+ bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
+ 		phys_addr_t phys, size_t size);
+ void dma_iova_free(struct device *dev, struct dma_iova_state *state);
++void dma_iova_destroy(struct device *dev, struct dma_iova_state *state,
++		size_t mapped_len, enum dma_data_direction dir,
++		unsigned long attrs);
++int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
++		size_t offset, size_t size);
++int dma_iova_link(struct device *dev, struct dma_iova_state *state,
++		phys_addr_t phys, size_t offset, size_t size,
++		enum dma_data_direction dir, unsigned long attrs);
++void dma_iova_unlink(struct device *dev, struct dma_iova_state *state,
++		size_t offset, size_t size, enum dma_data_direction dir,
++		unsigned long attrs);
+ #else /* CONFIG_IOMMU_DMA */
+ static inline bool dma_use_iova(struct dma_iova_state *state)
+ {
+@@ -327,6 +338,27 @@ static inline void dma_iova_free(struct device *dev,
+ 		struct dma_iova_state *state)
+ {
+ }
++static inline void dma_iova_destroy(struct device *dev,
++		struct dma_iova_state *state, size_t mapped_len,
++		enum dma_data_direction dir, unsigned long attrs)
++{
++}
++static inline int dma_iova_sync(struct device *dev, struct dma_iova_state *state,
++		size_t offset, size_t size)
++{
++	return -EOPNOTSUPP;
++}
++static inline int dma_iova_link(struct device *dev,
++		struct dma_iova_state *state, phys_addr_t phys, size_t offset,
++		size_t size, enum dma_data_direction dir, unsigned long attrs)
++{
++	return -EOPNOTSUPP;
++}
++static inline void dma_iova_unlink(struct device *dev,
++		struct dma_iova_state *state, size_t offset, size_t size,
++		enum dma_data_direction dir, unsigned long attrs)
++{
++}
+ #endif /* CONFIG_IOMMU_DMA */
  
--				migf->buf_header[0] = mlx5vf_alloc_data_buffer(migf,
--						migf->record_size, DMA_NONE);
-+				migf->buf_header[0] = mlx5vf_alloc_data_buffer(
-+					migf, npages, DMA_NONE);
- 				if (IS_ERR(migf->buf_header[0])) {
- 					ret = PTR_ERR(migf->buf_header[0]);
- 					migf->buf_header[0] = NULL;
-@@ -934,6 +944,7 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 			vhca_buf_header->start_pos = migf->max_pos;
- 			migf->load_state = MLX5_VF_LOAD_STATE_READ_HEADER_DATA;
- 			break;
-+		}
- 		case MLX5_VF_LOAD_STATE_READ_HEADER_DATA:
- 			ret = mlx5vf_resume_read_header_data(migf, vhca_buf_header,
- 							&buf, &len, pos, &done);
-@@ -944,12 +955,13 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 		{
- 			u64 size = max(migf->record_size,
- 				       migf->stop_copy_prep_size);
-+			u32 npages = DIV_ROUND_UP(size, PAGE_SIZE);
- 
--			if (vhca_buf->allocated_length < size) {
-+			if (vhca_buf->npages < npages) {
- 				mlx5vf_free_data_buffer(vhca_buf);
- 
--				migf->buf[0] = mlx5vf_alloc_data_buffer(migf,
--							size, DMA_TO_DEVICE);
-+				migf->buf[0] = mlx5vf_alloc_data_buffer(
-+					migf, npages, DMA_TO_DEVICE);
- 				if (IS_ERR(migf->buf[0])) {
- 					ret = PTR_ERR(migf->buf[0]);
- 					migf->buf[0] = NULL;
-@@ -1031,8 +1043,11 @@ mlx5vf_pci_resume_device_data(struct mlx5vf_pci_core_device *mvdev)
- 	}
- 
- 	migf->buf[0] = buf;
--	buf = mlx5vf_alloc_data_buffer(migf,
--		sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+	buf = mlx5vf_alloc_data_buffer(
-+		migf,
-+		DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+			     PAGE_SIZE),
-+		DMA_NONE);
- 	if (IS_ERR(buf)) {
- 		ret = PTR_ERR(buf);
- 		goto out_buf;
-@@ -1149,7 +1164,8 @@ mlx5vf_pci_step_device_state_locked(struct mlx5vf_pci_core_device *mvdev,
- 					MLX5VF_QUERY_INC | MLX5VF_QUERY_CLEANUP);
- 		if (ret)
- 			return ERR_PTR(ret);
--		buf = mlx5vf_get_data_buffer(migf, size, DMA_FROM_DEVICE);
-+		buf = mlx5vf_get_data_buffer(migf,
-+				DIV_ROUND_UP(size, PAGE_SIZE), DMA_FROM_DEVICE);
- 		if (IS_ERR(buf))
- 			return ERR_CAST(buf);
- 		/* pre_copy cleanup */
+ #if defined(CONFIG_HAS_DMA) && defined(CONFIG_DMA_NEED_SYNC)
 -- 
 2.47.0
 
