@@ -4,48 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F367D12D72
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Nov 2024 05:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C6C9D12D78
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Nov 2024 06:39:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E9TAGddGr04DKHMAWvBXkp0e/n7vIxoctF6ZyiSscEo=; b=m4AJD2qSJ+luhYqQuacBznTjov
-	/7qVw1Yi5AVhFCzV9jp70u5uVgLC2e37QKBFsAIFbi0XM2UzFhJSC0OavAMCVfT+qSPXdqfVRkW3q
-	2no7feeAhVZSNF3fQdoF8IBLNuT2C5Ns1V+i0vypQEAa8hOp+nAMhC0Kc+7r9sm7EO+OSdNtM+ka9
-	/+fAp25x4UYcZ00BDWtJGwjPLE41lHC9Cl+pt/ZyJrW9Bj48Oqm+S5g98+2gLvdAV9CTYpdszwB2z
-	jttQhxpiVfzHwOlAV996R0sUj315lGr74ngK7PPhvjUlk6AuuvILqcB+tRbanfcreh/BpatM2ZOXe
-	xKD2+O0A==;
+	bh=cOb277arSCKCjUv25YUtltHFeCBKt9wBpzLvkC59Bac=; b=R4aOeQsaS8h/9PfjvvOeM/AIJt
+	6xG6uy/M3YtIRGIHiXVCU2dILDKZmg+rQmM9XJf0NmJNccPSuRjF1CRXfAPG0W/mvozoQnmK+J+1l
+	SaB0RUO2CTOk9F5fxLhepS6gfISGYutJDTrX+Y0QzyKXg4zco+QgFlwkLrKq/Tw/RU2lA26t2nzeb
+	0H013kHAQ8ifKHRlSjXAK8evUWCP8wGo65/J2qIogMXrPXBq7SlcoQa0u1Jd10W5mM+qEmVtwp3yi
+	bbj+MuWKPtZq6vwylV7/mbuHMyLe0iRPcrtmqKpU99q/84SLyyxSWIQX/lKseghfA30HEaMQYn+EO
+	Dr5VvchA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tANC2-0000000GPbR-3OTe;
-	Mon, 11 Nov 2024 05:42:30 +0000
+	id 1tAO4f-0000000GVX4-0WSx;
+	Mon, 11 Nov 2024 06:38:57 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tANBz-0000000GPap-1I2i
+	id 1tAO4b-0000000GVWf-3PJH
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Nov 2024 05:42:28 +0000
+	Mon, 11 Nov 2024 06:38:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8291C68C7B; Mon, 11 Nov 2024 06:42:21 +0100 (CET)
-Date: Mon, 11 Nov 2024 06:42:21 +0100
+	id 93F2A68C7B; Mon, 11 Nov 2024 07:38:47 +0100 (CET)
+Date: Mon, 11 Nov 2024 07:38:47 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	m@bjorling.me, matias.bjorling@wdc.com, kch@nvidia.com
-Subject: Re: [PATCHv4 13/13] nvmet: report ns's vwc not present
-Message-ID: <20241111054221.GB22853@lst.de>
-References: <20241107193849.995554-1-kbusch@meta.com> <20241107193849.995554-14-kbusch@meta.com> <20241108142743.GG6694@lst.de> <Zy45M1HRz8cKLPxf@kbusch-mbp> <005617fc-656d-4180-87b8-c9ebc8bff48d@linux.alibaba.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
+Message-ID: <20241111063847.GB23992@lst.de>
+References: <cover.1730298502.git.leon@kernel.org> <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org> <87ttchwmde.fsf@trenco.lwn.net> <20241108200355.GC189042@unreal> <87h68hwkk8.fsf@trenco.lwn.net> <20241108202736.GD189042@unreal> <20241110104130.GA19265@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <005617fc-656d-4180-87b8-c9ebc8bff48d@linux.alibaba.com>
+In-Reply-To: <20241110104130.GA19265@unreal>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241110_214227_510135_9FCE24D8 
-X-CRM114-Status: GOOD (  10.77  )
+X-CRM114-CacheID: sfid-20241110_223854_018528_2E4A477C 
+X-CRM114-Status: GOOD (  14.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,14 +75,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Nov 09, 2024 at 10:59:19PM +0800, Guixin Liu wrote:
->> 	if ((req->ns->file && !req->ns->buffered_io &&
->> 		bdev_write_cache(file_inode(req->ns->file)->i_sb->s_bdev))
->
-> Or just remove !req->ns->buffered_io check? All file backend return
->
-> support vwc.
+On Sun, Nov 10, 2024 at 12:41:30PM +0200, Leon Romanovsky wrote:
+> I tried this today and the output (HTML) in the new section looks
+> so different from the rest of dma-api.rst that I lean to leave
+> the current doc implementation as is.
 
-Yes, that is the right thing to do.
+Yeah.  The whole DMA API documentation shows it's age and could use
+a major revamp, but for now I'd prefer to stick to the way it is done.
+
+If we have any volunteers for bringing it up to standards I'd be glad
+to help with input and review.
 
 
