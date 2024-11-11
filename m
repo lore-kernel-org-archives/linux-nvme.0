@@ -4,115 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11576D2E9D5
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Nov 2024 10:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AEDE4D2E9D6
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Nov 2024 10:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=skAAPAKsJJJDPRVgP6BIVV/Dd+zHAROO+YtVLFif4pk=; b=zHO/m7FihJ+5Cdc0xqCVv41Qt1
-	Q+QJZvsKvAlWS28acB8ovV7jyW8OfjbFQHaylBJfPYveAVsCPQ6YBxMvxT77lYmnWKYr7NsBjQiYk
-	atM21veY31dhaoXsfZoPIBeQZzIBYHsPUQRj8Zr5OYqopU62k5e5WJ6qtnkSy3UaHkOo70Auxtv6B
-	f5AtIexm1Xooje8+46XaL6K3Av5/DhokQATrl7XJspO68B1Ooexf2WQP5nOwFz+ypZJBnFxMb8oKY
-	2ahLJSVccKuOXeWNSrBBtbRZSY9vhDTR60YRqyRwudPMJjKKYe+8UGLm6xfpnRCKe5ZLxPQ1c7Qwh
-	6Ux+12Wg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3Up9Gnrh4n7R5wBSr8F6m2vqJTReb+PyLIz41KQS9eo=; b=Yvl+ixzLgsUt0DfTDVNGtf0fEI
+	y85HdDPHhaMD2dRqHFwn2LNEofQ8zIa+i/BcqvMklW7LOwhZxlWMmCTIC5cCk8+Lgt1k2QfZlAjAX
+	tlGE++XubyNZoJwgzTPX8VQWfMRU9eBh8Nge7kBYqQeU6YWaB55eGISHiA9xcqMdBqba8kNVNEc6b
+	DlE68tPHzEa8e2gBdt86ci31wEOfFNsIhRzTPXHkPach/Sho6xckQt/Pw1Sy3EhOsbRjYm8m3IJec
+	j4gcfFux90PymAVObStaEeHvSMJEO3FZW+7ZbY5Y2zhpCOYTOj+3s/TyYKWvriGF5WAHLSbLe1FzA
+	MxDSiGQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tARpY-0000000HJj2-0MMn;
-	Mon, 11 Nov 2024 10:39:36 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1tARrs-0000000HKEm-0TAE;
+	Mon, 11 Nov 2024 10:42:00 +0000
+Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tARpT-0000000HJhU-1bp2
+	id 1tARrP-0000000HK9Q-0Mpq
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Nov 2024 10:39:35 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A49AF1F38E;
-	Mon, 11 Nov 2024 10:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731321569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=skAAPAKsJJJDPRVgP6BIVV/Dd+zHAROO+YtVLFif4pk=;
-	b=1/83sF+rz6kUm0RzeafrS9Z2lCtfvOSMo9hqPzvyTD4Ila37bqXliogpASQvIqGW9+7IDZ
-	TJuFsx65t4Z9suymTFMoTHpf46CR2Wqz8PGvVFgj4hy7uz7pWm0mpfRrvc+SWO3MqKSVWG
-	f7WOgavXh79s6BIub2b/YKKVLdLHmOs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731321569;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=skAAPAKsJJJDPRVgP6BIVV/Dd+zHAROO+YtVLFif4pk=;
-	b=UANCjAzMva/32UeWRpcAYKiJFJhzBV+oPPHAUNRHPJ3GC3AtXr7/M6sIghxeJz3n3UMfJx
-	ZslBu07lXbkOI/AA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731321569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=skAAPAKsJJJDPRVgP6BIVV/Dd+zHAROO+YtVLFif4pk=;
-	b=1/83sF+rz6kUm0RzeafrS9Z2lCtfvOSMo9hqPzvyTD4Ila37bqXliogpASQvIqGW9+7IDZ
-	TJuFsx65t4Z9suymTFMoTHpf46CR2Wqz8PGvVFgj4hy7uz7pWm0mpfRrvc+SWO3MqKSVWG
-	f7WOgavXh79s6BIub2b/YKKVLdLHmOs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731321569;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=skAAPAKsJJJDPRVgP6BIVV/Dd+zHAROO+YtVLFif4pk=;
-	b=UANCjAzMva/32UeWRpcAYKiJFJhzBV+oPPHAUNRHPJ3GC3AtXr7/M6sIghxeJz3n3UMfJx
-	ZslBu07lXbkOI/AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B14013301;
-	Mon, 11 Nov 2024 10:39:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bQ6TH+HeMWeIHAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 11 Nov 2024 10:39:29 +0000
-Date: Mon, 11 Nov 2024 11:39:28 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests 5/8] nvme/052: do not create namespace when
- setting up the target
-Message-ID: <c438a6c8-12b5-4b03-aee3-49e1c340e0ce@flourine.local>
-References: <20241107111354.80606-1-shinichiro.kawasaki@wdc.com>
- <20241107111354.80606-6-shinichiro.kawasaki@wdc.com>
+	Mon, 11 Nov 2024 10:41:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1731321688; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	bh=3Up9Gnrh4n7R5wBSr8F6m2vqJTReb+PyLIz41KQS9eo=;
+	b=SVtyjnc6KyH6ttrtoRQhWzAScHSlod58bfr3F2OEO/0Nrt3zWl7l5hVRDS5hHjseSGQR9ICmScsWQtn0b3E7zoN/GUKC8MEepW69OOa/6hqqL5qYY3lGHwaWXIbhLlhysAOoONHd9DIstUporsqvhQlfNgc69XTGFY4z82NCzFE=
+Received: from 30.178.82.47(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WJ9Q47K_1731321686 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 11 Nov 2024 18:41:27 +0800
+Message-ID: <afc28a3c-ba3a-47b4-9b7b-917348d95810@linux.alibaba.com>
+Date: Mon, 11 Nov 2024 18:41:24 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241107111354.80606-6-shinichiro.kawasaki@wdc.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH v3 0/2] Introduce service-time multipath policy and
+ document
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org
+References: <20241108085449.49972-1-kanie@linux.alibaba.com>
+In-Reply-To: <20241108085449.49972-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241111_023931_600610_529C33F5 
-X-CRM114-Status: UNSURE (   8.28  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241111_024131_315999_155153D0 
+X-CRM114-Status: GOOD (  10.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,16 +66,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 07, 2024 at 08:13:51PM +0900, Shin'ichiro Kawasaki wrote:
-> From: Hannes Reinecke <hare@suse.de>
-> 
-> Simplify the testcase by not creating a namespace when setting up
-> the target and have to loop iterating over all namespaces.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> [Shin'ichiro: resolved conflicts]
-> [Shin'ichiro: use for loop instead of seq per style guideline]
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Gently ping...
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Best Regards,
+
+Guixin Liu
+
+在 2024/11/8 16:54, Guixin Liu 写道:
+> Hi,
+>    This patchset introduce a new multipath policy, service-time, and also
+> add a new document to introduce nvme-multipath and all policies supported.
+>
+> Changes from v2 to v3:
+> - Add more detail to message body(Christoph).
+> - Add a document to introduce nvme-multipath and all policies supported.
+>
+> Changes from v1 to v2:
+> - Use atomic64_t to replace atomic_t (Keith).
+>
+> Guixin Liu (2):
+>    nvme-multipath: introduce service-time iopolicy
+>    docs, nvme: add a nvme-multipath document
+>
+>   Documentation/nvme/nvme-multipath.rst | 83 +++++++++++++++++++++++++++
+>   drivers/nvme/host/multipath.c         | 53 ++++++++++++++++-
+>   drivers/nvme/host/nvme.h              |  3 +
+>   3 files changed, 138 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/nvme/nvme-multipath.rst
+>
 
