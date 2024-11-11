@@ -4,92 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53B1DD12D79
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Nov 2024 06:43:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99A65D12D79
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Nov 2024 06:48:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9qv7O8dew7I+B9eEJJt0qBNM8IZdD1sLJueFsW4bvsc=; b=2b2tu039MUCOIrdNMahYix3Fwn
-	l80vUMLuLkGm8Rv4/y4dwbJjfz8LzG9BsY4LfJ+ESJHB+GBlHbgs7pCBbTHk8/FyvrsVvf+p0Y4pN
-	Z5uRUWQ//YKPVRZfHkLFCEe52zCUzBTtYhxLyHC0xovjCRePuo6gs5R2LW0HPYFTcaAw2YSj1EBW+
-	GjbiTCt/3CUNBvKWiDWvtZOq6U0iJTpX4IS5/sHQYa5vqTMKPu5GziNXz/7Y/RoP9Z7QuPXZdbSwR
-	wWigOJJSAGoAF/rcsrb0ZoijHUE52zSSClgfHk09u3N3S/pi3x1Tj8pfP1AaguMvUa5FXuDJuo2ho
-	S4vdfuAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TU7rc5F4sDv2Bt40kpja+49yRj8snEqKKh/cKXayOBs=; b=RYvIxXvb3gHWOJs8dajIK9Kjsp
+	06sXqnZNv1+ROA3f7dlU9x72oK4a+pRjJT3Wmc0MPaQgj1YdgdXM80eGj8mqQ+HpcvTf0Jc5ijSTR
+	8REOKq0kaRYga41AoE5vh11o4f+dwu3f0B4nzxJDkcBGig//jRRXb2EWV8M6ylyNWYs7MpmouCFQ/
+	lUM/FfIcoOBIA+Uaxu0lxX+3BUYtIJkhJQQ35IgLa9dFHB8o83uj+cHKGCa7bYo3B8ofK+wTMHRFP
+	YxWVZvKqAYtd2VfmCQ+xV22EjfwoUlL6f9mbe/30RCsonqPeklOgjN46e+1uhaKKxwgXd8SLLhMOv
+	sB24ye9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAO8v-0000000GWBK-0GVJ;
-	Mon, 11 Nov 2024 06:43:21 +0000
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
+	id 1tAOEF-0000000GWhc-3whn;
+	Mon, 11 Nov 2024 06:48:51 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAO8s-0000000GWAr-3QAM
+	id 1tAOEC-0000000GWhD-2J5a
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Nov 2024 06:43:20 +0000
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2fb58980711so32285151fa.0
-        for <linux-nvme@lists.infradead.org>; Sun, 10 Nov 2024 22:43:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731307397; x=1731912197; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9qv7O8dew7I+B9eEJJt0qBNM8IZdD1sLJueFsW4bvsc=;
-        b=KrjvF5E3wFO0RozzJnO9rhBl6B76RZD0fZFFUQT5Hi8VUd4ByJ5OVUO4JO0ddtbt1l
-         mEQt24+KF5A5TFuOuJ4Gb/e3sRJCml0/Nww572YZPfMAjHZtJborwXLmYVJ2nSZtBHZr
-         LxcnHQH+zPDkzdKLbUfcOD6zE30yV6IGr53CIQP0co2jUrUODMxi21s99zIYnQ2pR0/v
-         dFmOy2Bi7woCaSvy/jsl547Tn9dlxN7mxY75dq7WN0HwWAYn/k7X1eeH59W1AVb528ap
-         bCsjEuLGl880L39eYayAaERE2KP/kMNokuMQlJQ74B9bBDvtTfB7bOa5CrXwHeZpk7vT
-         KbSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731307397; x=1731912197;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9qv7O8dew7I+B9eEJJt0qBNM8IZdD1sLJueFsW4bvsc=;
-        b=crZmHHdVvEhRcK/UY85/KXw79BBiAPcUhIY0Njs4rIjhvNtvn3IwvkbWUScT8TXnI3
-         trXp2emK/LRQXCu2o835e2Ook3aCFYqu/yL8snMwOk1Cp13JdeHGLVFLSZhUIt6+/p4J
-         G7Lq5qdvE6sN4AIRRlEBc73xyMQ3NksEXuGI1xivjNmbvIr2uGx5nzlPirX4YYHB8v1N
-         Bs6kq3hc3ljzhUDEWwQuP0fto2vmJLXt475OutQB7yNlsOMR6Vh9uHjw9BMIRQekWo1B
-         /CsDC2Smzz/fDHCoZlpAAOTRe79IvMzYBFqjpPBJJuCM242+syKxJWScPidxSWlBDiS9
-         cxVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW+YGEj0AqWsaPF0+T8uJnLeUrQZGtfpHmiZFb1ynaPvGfFX7qYj5FNrbIXCItGZcl/TgEVd2rZwoVq@lists.infradead.org
-X-Gm-Message-State: AOJu0YxQqcPwHBZPF61hh8yEENwSkE0Ld0AE0W0DoPrkZI9b6NMb7vdN
-	gvsiyxSfk/oy7VZKtDzHvH0sBVd/VujoCbjFHoEF6FNuyDJA17XauGESTsaWhvFKtl/vbKchkCM
-	5F3Qx79R8Gee+COuZAH6Slp9f13c=
-X-Google-Smtp-Source: AGHT+IHutgQAlXklRgMYNRidcA41kXnbJbGiEJGtaB5sYolGWbh343PWRuG4ZkC83mQMH8VsiDxXBWb3iwvgsLPw2Uo=
-X-Received: by 2002:a2e:a813:0:b0:2fe:fec7:8adf with SMTP id
- 38308e7fff4ca-2ff2029fed5mr47426781fa.38.1731307396466; Sun, 10 Nov 2024
- 22:43:16 -0800 (PST)
+	Mon, 11 Nov 2024 06:48:50 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8F32468C7B; Mon, 11 Nov 2024 07:48:41 +0100 (CET)
+Date: Mon, 11 Nov 2024 07:48:41 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, io-uring@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, joshi.k@samsung.com,
+	javier.gonz@samsung.com, bvanassche@acm.org
+Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
+Message-ID: <20241111064841.GA24107@lst.de>
+References: <20241029151922.459139-1-kbusch@meta.com> <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp> <20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
 MIME-Version: 1.0
-References: <cover.1730298502.git.leon@kernel.org> <881ef0bcf9aa971e995fbdd00776c5140a7b5b3d.1730298502.git.leon@kernel.org>
- <87ttchwmde.fsf@trenco.lwn.net> <20241108200355.GC189042@unreal>
- <87h68hwkk8.fsf@trenco.lwn.net> <20241108202736.GD189042@unreal>
- <20241110104130.GA19265@unreal> <20241111063847.GB23992@lst.de>
-In-Reply-To: <20241111063847.GB23992@lst.de>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Sun, 10 Nov 2024 22:43:05 -0800
-Message-ID: <CABCoZhBVWY=aUQtQ5b=mF8hXqpgJw21_jAPf9YvEvdgPf_GALA@mail.gmail.com>
-Subject: Re: [PATCH v1 09/17] docs: core-api: document the IOVA-based API
-To: Christoph Hellwig <hch@lst.de>
-Cc: Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, 
-	Yishai Hadas <yishaih@nvidia.com>, 
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>, 
-	Alex Williamson <alex.williamson@redhat.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	=?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zy4zgwYKB1f6McTH@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241110_224318_876553_EB8115B7 
-X-CRM114-Status: GOOD (  14.45  )
+X-CRM114-CacheID: sfid-20241110_224848_754713_85911681 
+X-CRM114-Status: GOOD (  20.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,21 +62,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 10, 2024 at 10:39=E2=80=AFPM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> On Sun, Nov 10, 2024 at 12:41:30PM +0200, Leon Romanovsky wrote:
-> > I tried this today and the output (HTML) in the new section looks
-> > so different from the rest of dma-api.rst that I lean to leave
-> > the current doc implementation as is.
->
-> Yeah.  The whole DMA API documentation shows it's age and could use
-> a major revamp, but for now I'd prefer to stick to the way it is done.
->
-> If we have any volunteers for bringing it up to standards I'd be glad
-> to help with input and review.
+On Fri, Nov 08, 2024 at 08:51:31AM -0700, Keith Busch wrote:
+> You're getting fragmentation anyway, which is why you had to implement
+> gc.
 
-Jonathan, if you agree, I can take this up?
->
->
+A general purpose file system always has fragmentation of some kind,
+even it manages to avoid those for certain workloads with cooperative
+applications.
+
+If there was magic pixies dust to ensure freespace never fragments file
+system development would be solved problem :)
+
+> You're just shifting who gets to deal with it from the controller to
+> the host. The host is further from the media, so you're starting from a
+> disadvantage.
+
+And the controller is further from the application and misses a lot of
+information like say the file structure, so it inherently is at a
+disadvantage.
+
+> The host gc implementation would have to be quite a bit
+> better to justify the link and memory usage necessary for the copies
+
+That assumes you still have to device GC.  If you do align to the
+zone/erase (super)block/reclaim unit boundaries you don't.
+
+> This xfs implementation also has logic to recover from a power fail. The
+> device already does that if you use the LBA abstraction instead of
+> tracking sequential write pointers and free blocks.
+
+Every file system has logic to recover from a power fail.  I'm not sure
+what kind of discussion you're trying to kick off here.
+
+> I think you are underestimating the duplication of efforts going on
+> here.
+
+I'm still not sure what discussion you're trying to to start here.
+There is very little work in here, and it is work required to support
+SMR drives.  It turns out for a fair amount of workloads it actually
+works really well on SSDs as well beating everything else we've tried.
 
