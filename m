@@ -4,73 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C47CAD597A7
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 21:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AC90D597B0
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 22:08:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eE8h0+L9wVlW/NWAMli/VxuMbvyejIgMR8r9kRZDbUE=; b=dmf80XO/rvJyYYDEdCGcZDpPzj
-	hRAJnOOIPFd/1zqHFhUZnGHN9bl6dck70O2EYvxH2Db7jr9aEsQII4TsTKtUv2P1fsCrsJ/WDBgUf
-	QjIxNKvVCsVhasZzJYbm+DWcRfkKQrHb4Tlzr/eMQ7XVAFFLb/cb0q4326zdm53DpO0bMv3mV8Aeb
-	odS5JYUZfOux/tIGSnCGM2u8QQZE2PwHvyjJ4JnXARdlEbhy/AFwcK8Va91DzRB/Sl7y3chFLQggU
-	jqVh/ZIEgYPDZK2SsPhtkl0w8SjXq56YCD5e8/MRs6yfpls7BrwEXCsgW2WzHNxlHZJwiB+7izLBc
-	E/k6Kbnw==;
+	bh=CJMpEAedxAMtoahEHN+PXSFSse4R9UwgGwRRftxeWHc=; b=2U6x2vTmwziuBVYg7SzKbt7uG8
+	Ujs4uHnzzs/sslbX+R4Owwvt2x0oLn29eU4v9kL6k1bcnTlxgN+xXgCOr2FkXu0HfmwlEjaD3SqAY
+	jTwRu4zNeHQfvffejdi9weHn+5WzwMajKFQCBLkfEukuFryvD88vsTJIGgrvjbmdFYCGIS+x3yLGs
+	dvT8Yji+fMNh/4QZCrEIbM4RzEkvIBCB7fIqRAbgGNuzAWaSDdfKOSBH1MKQwec+Q9w/eVaLJX5pq
+	HQX8da8qptjuqSMU9YglE1pLmnhtzWHYlHq286HdXVsZcIGDDd4dhT2nO5FihRNtGAzma7FfKHWdC
+	E+6b1rfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAy7r-00000004xcc-2Zut;
-	Tue, 12 Nov 2024 21:08:39 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1tAz3o-000000056NQ-1dfb;
+	Tue, 12 Nov 2024 22:08:32 +0000
+Received: from mgamail.intel.com ([198.175.65.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAy5k-00000004xNQ-11IR
+	id 1tAz3l-000000056MW-1fHq
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 21:06:29 +0000
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4ACJ5KAx026460
-	for <linux-nvme@lists.infradead.org>; Tue, 12 Nov 2024 13:06:27 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2021-q4;
-	 bh=eE8h0+L9wVlW/NWAMli/VxuMbvyejIgMR8r9kRZDbUE=; b=GJ3dBJPCi+E6
-	o4wlqW8+6M5if5VGxpZRc+1vKebRY7viPn3cnCQ/PNprx9+Oca5zHGnTP4ms8hlH
-	Mg/brQgtcuz98lVaa+ge+g5bqPaC1KIM4poSIM/2HGCnEdpo4ZJdCdDUg9J6xtN5
-	sh6NTByWKOp/WCJN/TJ7+iJwZZNtPpAT/TVkgiuNARPM0LB9XwD5F3abzXsRXDFR
-	EGPc7Zy9l3QbGRndVt6WomuzefTSlV7jP4/RW15Yv/6R7/rEgr45SIg+Nc9x+s7B
-	IaUZNm3OKRI0xoKS/zbF+TA3iKKAnvbJNhFQtBgQevY4q7ISr2ZfOUD7ZdTSwo8C
-	zt1ibR5bJQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 42v5sbcq25-6
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 12 Nov 2024 13:06:27 -0800 (PST)
-Received: from twshared35181.07.ash9.facebook.com (2620:10d:c0a8:1c::11) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Tue, 12 Nov 2024 21:06:24 +0000
-Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
-	id 1CF531502A724; Tue, 12 Nov 2024 13:06:21 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2 2/2] nvme-pci: use sgls for all user requests if possible
-Date: Tue, 12 Nov 2024 13:06:20 -0800
-Message-ID: <20241112210620.2650523-3-kbusch@meta.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20241112210620.2650523-1-kbusch@meta.com>
-References: <20241112210620.2650523-1-kbusch@meta.com>
+	Tue, 12 Nov 2024 22:08:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731449309; x=1762985309;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bwOLoyFxYfjUqtJNi/9ZCqz09dTnm3t/9bGtqoLlI8U=;
+  b=IVwNhomQF4zWvejcrdwszuAZZGj5KqtQ/UmeU88Yw7IJ0RjbOHxFqm1v
+   49CTwAyzSKjw+vliZjwNP3L/nXX/cqTLnxz7bJfwUkPjPWfwy3gpchnTR
+   P/m2vH4I59QnoULZBzWDNBe5aQeGMW7T6BeGEuVwm0HgxrXE5oZqHq7BP
+   dsIqY4o1SkbxPbOXO2Wf0l+X2M/neD7xmC6mhtSaB8gyPBvSFSDBH9LUr
+   qukDURu/Vfum2vAV876J8t+lC97simAyWSK+sVOHcgCyMH19dVOr443Jx
+   2lNPmnPpMXcBGg5ePayPlBPeO/52hGqXMbj32RaInN7kSbGwfvrDQfYoV
+   g==;
+X-CSE-ConnectionGUID: V/N2vReiRmmWMeOHqNMobA==
+X-CSE-MsgGUID: Ef6Cnk0eRpChN9xND/x8Hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="42722543"
+X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
+   d="scan'208";a="42722543"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:08:27 -0800
+X-CSE-ConnectionGUID: QGh9vjHLSpKorf74bKXSXg==
+X-CSE-MsgGUID: sKP0TcqbSXmgHwe8OkVCnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
+   d="scan'208";a="91712794"
+Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2024 14:08:16 -0800
+Received: from kbuild by bcfed0da017c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tAz3W-0001lf-1j;
+	Tue, 12 Nov 2024 22:08:14 +0000
+Date: Wed, 13 Nov 2024 06:07:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
+	linux-nvme@lists.infradead.org, Daniel Wagner <wagi@kernel.org>
+Subject: Re: [PATCH v3 3/8] virtio: hookup irq_get_affinity callback
+Message-ID: <202411130521.UOBdW8Rv-lkp@intel.com>
+References: <20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: bUHWKxJai2JPruLfqJ0lSs4azIi6k0Lr
-X-Proofpoint-GUID: bUHWKxJai2JPruLfqJ0lSs4azIi6k0Lr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_130628_427302_8835FEF7 
-X-CRM114-Status: GOOD (  12.88  )
+X-CRM114-CacheID: sfid-20241112_140829_505256_80AE414A 
+X-CRM114-Status: GOOD (  12.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,47 +100,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+Hi Daniel,
 
-If the device supports SGLs, use these for all user requests. This
-format encodes the expected transfer length so it can catch short buffer
-errors in a user command, whether it occurred accidently or maliciously.
+kernel test robot noticed the following build warnings:
 
-For controllers that support SGL data mode, this is a viable mitigation
-to CVE-2023-6238.
+[auto build test WARNING on c9af98a7e8af266bae73e9d662b8341da1ec5824]
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/driver-core-bus-add-irq_get_affinity-callback-to-bus_type/20241112-213257
+base:   c9af98a7e8af266bae73e9d662b8341da1ec5824
+patch link:    https://lore.kernel.org/r/20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8%40kernel.org
+patch subject: [PATCH v3 3/8] virtio: hookup irq_get_affinity callback
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241113/202411130521.UOBdW8Rv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130521.UOBdW8Rv-lkp@intel.com/reproduce)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 919f173043d18..8f59ff3be8cea 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -515,7 +515,8 @@ static inline bool nvme_pci_metadata_use_sgls(struct =
-nvme_dev *dev,
- {
- 	if (!nvme_ctrl_meta_sgl_supported(&dev->ctrl))
- 		return false;
--	return req->nr_integrity_segments > 1;
-+	return req->nr_integrity_segments > 1 ||
-+		nvme_req(req)->flags & NVME_REQ_USERCMD;
- }
-=20
- static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct reques=
-t *req,
-@@ -533,7 +534,7 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev =
-*dev, struct request *req,
- 	if (nvme_pci_metadata_use_sgls(dev, req))
- 		return true;
- 	if (!sgl_threshold || avg_seg_size < sgl_threshold)
--		return false;
-+		return nvme_req(req)->flags & NVME_REQ_USERCMD;
- 	return true;
- }
-=20
---=20
-2.43.5
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411130521.UOBdW8Rv-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> drivers/virtio/virtio.c:389: warning: Function parameter or struct member 'irq_veq' not described in 'virtio_irq_get_affinity'
+>> drivers/virtio/virtio.c:389: warning: Excess function parameter 'irq_vec' description in 'virtio_irq_get_affinity'
+
+
+vim +389 drivers/virtio/virtio.c
+
+   379	
+   380	/**
+   381	 * virtio_irq_get_affinity - get IRQ affinity mask for device
+   382	 * @_d: ptr to dev structure
+   383	 * @irq_vec: interrupt vector number
+   384	 *
+   385	 * Return the CPU affinity mask for @_d and @irq_vec.
+   386	 */
+   387	static const struct cpumask *virtio_irq_get_affinity(struct device *_d,
+   388							     unsigned int irq_veq)
+ > 389	{
+   390		struct virtio_device *dev = dev_to_virtio(_d);
+   391	
+   392		if (!dev->config->get_vq_affinity)
+   393			return NULL;
+   394	
+   395		return dev->config->get_vq_affinity(dev, irq_veq);
+   396	}
+   397	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
