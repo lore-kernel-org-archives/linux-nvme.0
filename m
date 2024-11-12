@@ -4,56 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7918BD41D51
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 13:32:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E21FD3ABFB
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 13:32:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=x7CE8Ef2PI/CpVEYPYXcFSh+IkMXFoA2nwxyGiD+WqQ=; b=tuZslxtRXjN3oe
-	+zYFgHTasnJodcBksjdhDqwclxvNeIAI11lg26y8RPPXcCwS8f7i3ZZKFANiwaQdsDPMKw8cb6NIL
-	qMEWDkIL/Ohly8GAQjC72L7cwE+QPXtolxHiwbVWpOGJ0+CBmm9RQZcOqh+KIILtDhUj+NtW2i4u9
-	hShMqb+nB9oNVkjiF8KxbdWPGlfiMbOEfzViKfOdqfa54G3nqfmN6hxmVNdAhfCHsaK3DdXMnawOX
-	8uHob7qmtTAXgkd73QpL6j+e4B7QTqvia8v0WYhMjGQbYDXeYgHbPwOrqGFc1eDeq1Gq8HEKaqyBN
-	h/wYMZdCPff3g04S9WwA==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wE8CEzttDNLlizHvq4BaCGsg1OiZT2VCBPWrTko35WU=; b=jXV0BZvsJVxamoYye9jPqugWB8
+	jbOGE9Q15GluLPw0opUbx0yJfhzyl2yRvrH0Qwgt/r2Hej7L0hPekknCUnMvRf3IlumGX7AiiGb6u
+	aSUMAIJDPuhh2RXHvqMlpifAw3ybUYpthbx08YOvMFA9uIJYbN+q4ef7s7zSmvBUB4lZSsUKfU0Zm
+	HjZ+KPtzS28+Akf7pkIZWMrXpJTR7/WZ3MbQQYx8bZtS9dbJGew9BubIVHup2DgCpcMyszxW6bO8v
+	WF+YPfAJDRIenUwfNRZJGNkLnVsvTWKE9gjcYPfRd9RJUSBLT3Qa8LhLmvhYiYXArkh9tRcFABk5S
+	HUIqsIog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAr0D-00000003ZvG-3Tcc;
-	Tue, 12 Nov 2024 13:32:17 +0000
+	id 1tAr0O-00000003a3R-47cD;
+	Tue, 12 Nov 2024 13:32:28 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAqug-00000003YRv-3Qhg
+	id 1tAquy-00000003Yc5-1jSR
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 13:26:36 +0000
+	Tue, 12 Nov 2024 13:26:53 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DBD495C5786;
-	Tue, 12 Nov 2024 13:25:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 778D0C4CED0;
-	Tue, 12 Nov 2024 13:26:33 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 944715C57A3;
+	Tue, 12 Nov 2024 13:26:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51FEFC4CECD;
+	Tue, 12 Nov 2024 13:26:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731417993;
-	bh=sqDWvlYnzmw5LmAND0lJq+irtLs9bjKycO9yQSXxH7o=;
-	h=From:Subject:Date:To:Cc:From;
-	b=u2eY277K1Z+ejda+K3q64uVaWGIanQ+OQOkOviyw8rNIM+nuh6K9X8/wOTsCX3IT5
-	 U4grL2kpat1CYVn+deagHXvhrq0Hw7tJ7XgdRSojsEs1R+jQR52KqWMt8wDhMYOCld
-	 OcVCuVF7k426B1dSXuhiLR/hHcRhOAo6T/iN8psTkF+SAVeQ6PNnNovv6VgT/v/KZR
-	 ERtvj4WPMENMTOfefcps47JoqqoGW0Nr6qiVzoM0F6mi2H4TDm9UDVQjE8NWtCceVv
-	 oKYcBw+C9Bou+L1IwAd8WRr5zeR1bm+Rxe0lsSAlOEfGZqp5dl6LDg+qqLTBYADLzY
-	 04JDH+5ZHtcMw==
+	s=k20201202; t=1731418011;
+	bh=hDUMtbUF9lOGt8Tp8509IEDUATl8eXb+DFyldkZ3kIc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=fijMChNmQC22mU/W+WLWR9c87pxD4L/Erddapj4nz4qucP4TLyvN9Uvv7CDW1Yd40
+	 KtAaVTdJhQ1rr3RbEiGOjLIy2569PJMmDobq0UQ0uGF+jROxW6GE4oce7WSnuq/v+O
+	 isV0N0hM2eFhGO0vXfX6JBVahgHI2R8wH8q6NkM6dCnC8xMSfKMU+tQ0AkPgncM44V
+	 v9hjvC3076NRGKOUi+SrjTmfdFKCRLSPycFwfgmGMZ/rG38Wiys2ucqNHyAcuXZLsY
+	 H04IO5uRWhiCGtABl013IommV/Zx7uVsfog6IEYDlh5Ndjt4QpOPxD2aqf+0zJ/d4X
+	 CUW2tXLVxXuYw==
 From: Daniel Wagner <wagi@kernel.org>
-Subject: [PATCH v3 0/8] blk: refactor queue affinity helpers
-Date: Tue, 12 Nov 2024 14:26:15 +0100
-Message-Id: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
+Date: Tue, 12 Nov 2024 14:26:22 +0100
+Subject: [PATCH v3 7/8] virtio: blk/scsi: replace blk_mq_virtio_map_queues
+ with blk_mq_hctx_map_queues
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHdXM2cC/4XOTQ6CMBAF4KuQri3pDwi44h6GRUun0EgAW2gkh
- LtbMOqS2b3J5HuzIgfWgEO3aEUWvHFm6EPglwjVregbwEaFjBhhCSkowxa0qKfBYtk9sNDa9GZ
- acAvdCNbhjOSFLFKZSEpQMMZwbl6Hf68+2cJzDjXTf9kaF8Dl+MHTffut4yd1nmKCcyBprrNMa
- MpKNzuIFaDd9exn0TBnFguW5leilFCMU1E+wPbQxYNtULVt2xsamRUELAEAAA==
-X-Change-ID: 20240912-refactor-blk-affinity-helpers-7089b95b4b10
+Message-Id: <20241112-refactor-blk-affinity-helpers-v3-7-573bfca0cbd8@kernel.org>
+References: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
+In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
@@ -70,8 +68,8 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_052634_974530_9BF69186 
-X-CRM114-Status: GOOD (  12.87  )
+X-CRM114-CacheID: sfid-20241112_052652_637060_724C54D7 
+X-CRM114-Status: GOOD (  12.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,90 +84,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As suggested by Christoph I've dropped the special case for hisi_sas v2,
-so the open coded loop will stay. That means for the isolcpus patches, I
-just need to open code that thing there as well. But overall, this should
-be okay and it avoids adding a wierd interface to blk-mq APIs.
+Replace all users of blk_mq_virtio_map_queues with the more generic
+blk_mq_hctx_map_queues. This in preparation to retire
+blk_mq_virtio_map_queues.
 
-Original cover letter:
-
-These patches were part of 'honor isolcpus configuration' [1] series. To
-simplify the review process I decided to send this as separate series
-because I think it's a nice cleanup independent of the isolcpus feature.
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
-Changes in v3:
-- dropped the additinal argument in blk_mq_hctx_map_queues.
-  leave open coded version in hisi_sas_v2.
-- splitted "blk-mp: introduce blk_mq_hctx_map_queues" patch into
-  three patches.
-- dropped local variable in pci_device_irq_get_affinity
-- Link to v2: https://lore.kernel.org/r/20241111-refactor-blk-affinity-helpers-v2-0-f360ddad231a@kernel.org
+ drivers/block/virtio_blk.c | 4 ++--
+ drivers/scsi/virtio_scsi.c | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-Changes in v2:
-- added new callback to struct bus_type and call directly the affinity
-  helpers from there.
-- Link to v1: https://lore.kernel.org/r/20240913-refactor-blk-affinity-helpers-v1-0-8e058f77af12@suse.de
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index 0e99a4714928478c1ba81777b8e98448eb5b992a..fd997e3381526eb3d7a21eda296b3a8a2998c696 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -13,7 +13,6 @@
+ #include <linux/string_helpers.h>
+ #include <linux/idr.h>
+ #include <linux/blk-mq.h>
+-#include <linux/blk-mq-virtio.h>
+ #include <linux/numa.h>
+ #include <linux/vmalloc.h>
+ #include <uapi/linux/virtio_ring.h>
+@@ -1186,7 +1185,8 @@ static void virtblk_map_queues(struct blk_mq_tag_set *set)
+ 		if (i == HCTX_TYPE_POLL)
+ 			blk_mq_map_queues(&set->map[i]);
+ 		else
+-			blk_mq_virtio_map_queues(&set->map[i], vblk->vdev, 0);
++			blk_mq_hctx_map_queues(&set->map[i],
++					       &vblk->vdev->dev, 0);
+ 	}
+ }
+ 
+diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
+index 8471f38b730e205eb57052305c154260864bee95..dcb83c15f90825bd7bdb3a5f541108b934a308f3 100644
+--- a/drivers/scsi/virtio_scsi.c
++++ b/drivers/scsi/virtio_scsi.c
+@@ -29,7 +29,6 @@
+ #include <scsi/scsi_tcq.h>
+ #include <scsi/scsi_devinfo.h>
+ #include <linux/seqlock.h>
+-#include <linux/blk-mq-virtio.h>
+ 
+ #include "sd.h"
+ 
+@@ -746,7 +745,7 @@ static void virtscsi_map_queues(struct Scsi_Host *shost)
+ 		if (i == HCTX_TYPE_POLL)
+ 			blk_mq_map_queues(map);
+ 		else
+-			blk_mq_virtio_map_queues(map, vscsi->vdev, 2);
++			blk_mq_hctx_map_queues(map, &vscsi->vdev->dev, 2);
+ 	}
+ }
+ 
 
-Changes in v1:
-- renamed blk_mq_dev_map_queues to blk_mq_hctx_map_queues
-- squased 'virito: add APIs for retrieving vq affinity' into
-  'blk-mq: introduce blk_mq_hctx_map_queues'
-- moved hisi_sas changed into a new patch
-- hisi_sas use define instead of hard coded value
-- moved helpers into their matching subsystem, removed
-  blk-mq-pci and blk-mq-virtio files
-- fix spelling/typos
-- fixed long lines in docu (yep new lines in brief descriptions are
-  supported, tested ti)
-- based on the first part of
-  [1] https://lore.kernel.org/all/20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de
-
----
-Daniel Wagner (8):
-      driver core: bus: add irq_get_affinity callback to bus_type
-      PCI: hookup irq_get_affinity callback
-      virtio: hookup irq_get_affinity callback
-      blk-mp: introduce blk_mq_hctx_map_queues
-      scsi: replace blk_mq_pci_map_queues with blk_mq_hctx_map_queues
-      nvme: replace blk_mq_pci_map_queues with blk_mq_hctx_map_queues
-      virtio: blk/scsi: replace blk_mq_virtio_map_queues with blk_mq_hctx_map_queues
-      blk-mq: remove unused queue mapping helpers
-
- block/Makefile                            |  2 --
- block/blk-mq-cpumap.c                     | 37 +++++++++++++++++++++++++
- block/blk-mq-pci.c                        | 46 -------------------------------
- block/blk-mq-virtio.c                     | 46 -------------------------------
- drivers/block/virtio_blk.c                |  4 +--
- drivers/nvme/host/fc.c                    |  1 -
- drivers/nvme/host/pci.c                   |  3 +-
- drivers/pci/pci-driver.c                  | 14 ++++++++++
- drivers/scsi/fnic/fnic_main.c             |  3 +-
- drivers/scsi/hisi_sas/hisi_sas.h          |  1 -
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    |  4 +--
- drivers/scsi/megaraid/megaraid_sas_base.c |  3 +-
- drivers/scsi/mpi3mr/mpi3mr.h              |  1 -
- drivers/scsi/mpi3mr/mpi3mr_os.c           |  2 +-
- drivers/scsi/mpt3sas/mpt3sas_scsih.c      |  3 +-
- drivers/scsi/pm8001/pm8001_init.c         |  2 +-
- drivers/scsi/pm8001/pm8001_sas.h          |  1 -
- drivers/scsi/qla2xxx/qla_nvme.c           |  3 +-
- drivers/scsi/qla2xxx/qla_os.c             |  4 +--
- drivers/scsi/smartpqi/smartpqi_init.c     |  7 ++---
- drivers/scsi/virtio_scsi.c                |  3 +-
- drivers/virtio/virtio.c                   | 19 +++++++++++++
- include/linux/blk-mq-pci.h                | 11 --------
- include/linux/blk-mq-virtio.h             | 11 --------
- include/linux/blk-mq.h                    |  2 ++
- include/linux/device/bus.h                |  3 ++
- 26 files changed, 92 insertions(+), 144 deletions(-)
----
-base-commit: c9af98a7e8af266bae73e9d662b8341da1ec5824
-change-id: 20240912-refactor-blk-affinity-helpers-7089b95b4b10
-
-Best regards,
 -- 
-Daniel Wagner <wagi@kernel.org>
+2.47.0
 
 
