@@ -4,59 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AE66D462C6
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 15:52:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4833ED462D0
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 16:13:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cy+jSUTMXro6VYXKHWbl9DF98Ptc7tThWWlkeQ7jyDE=; b=OGTr9Ifjbvj6icmHLg2Bae8qc/
-	KzJ52nr96NJm8r4GQy5v2ktC8dRqJem7j5MMrl9JiBx7B+bY7VObwJUX7zidtaMTsds/ff7lR+Mtm
-	9XktHbPiN7bv3nfyv8JY5YBUDEcBqdQBDccgoOAScLj2ENNpdPtV6j08PwTc1JWO0sspDWn8b/yPH
-	d7T2wU8Bsy/UT9ZfALKG0sonjuTBnaHCJFBkGe2JHc0DVJgLDb1hAD6dWd1k7oRrPBXscLACBkuNL
-	Lqn7/hiQlvUNOe6/2+gh3wfkpVMNDqTSCRhcfvQau6cXdWxcNsl9gCqUmFQcVNvA3ACSRQsdEet3T
-	cf61qCew==;
+	bh=25oXpcZ2jkS0BbcUFsntK7m8dNPJ0WJqodki5oK1oFE=; b=Pk7Y3l4ra/1sqcb4Jp4/R90D4G
+	nktlOoke0muCnME/i+98KqY02q8jpRE/Dwq6fvQZX+X4D9xLfRiAM0E5aS5mUqo7m7uVyxJ16+h8M
+	ZY+PxuJ1h9L9vNJd+2cVw6MY7XrY4YnBjHwtZsuA+MsqvRBkr5eSlRSjLgSJS1NqyU+24B9gGjqDC
+	AK6Z/0ZupZTl1NHXISZGu0QFjqgULbomxtqsTKLHs7tX67VrcE2kQAUeYYLHIM5a1J3U9SK7utdCC
+	sFOFrla2p5FCFi4Odq571hXNux4822JxbZTjZbYq5tf43gj9OlOTux183n5VX2BDKN/CjDJAcpiRl
+	UB5RKjww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBFez-00000007MmM-3wH9;
-	Wed, 13 Nov 2024 15:52:01 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tBFzi-00000007Pph-266g;
+	Wed, 13 Nov 2024 16:13:26 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBFdg-00000007MaD-1o0f
+	id 1tAjxn-00000002Iic-0Nu7
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Nov 2024 15:50:41 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 763225C5848;
-	Wed, 13 Nov 2024 15:49:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A43C4CECD;
-	Wed, 13 Nov 2024 15:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731513039;
-	bh=UKQ46QMwz1oaIvDWxUek0wgv0FVO4dZNEm4Es+G1UE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=txXLc8ZHX/niXZQ29yvVXarwQxwmRWha42DAvgd9l/YDumkPAvR2fy92Upno6sS8J
-	 8YsiMwJ1oLUpCIyZWaWbrprEo93RBvuBcGozzvU/Au2bn3r/xZMVTC3YGh0SORAd5B
-	 jzGkNIItDjieJve+QBIx0bqG8aEGvcoT+r9Ldp3ndsqYANU8N7FoPhUHyiFuIrQmDs
-	 6ceVL/Y3WprG7ryr3I7iXDQP4oDnMPIheA7L0OK7pnKpF7P/orVEMvZoeWc79hzpNh
-	 5snRxWb/6ioBYACxMmtvFlM8hNtlxEiQC/pbhMFtRLyFtlvc0HU6NYToIjMDfMdgeB
-	 bx5Il0l0bXBYA==
-Date: Wed, 13 Nov 2024 08:50:37 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCHv2 0/2] Using SGLs for userspace commands
-Message-ID: <ZzTKzVQCMZQFWpGG@kbusch-mbp>
-References: <20241112210620.2650523-1-kbusch@meta.com>
- <20241113045012.GA20379@lst.de>
+	Tue, 12 Nov 2024 06:01:20 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A286768D09; Tue, 12 Nov 2024 07:01:08 +0100 (CET)
+Date: Tue, 12 Nov 2024 07:01:08 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org, matthew.brost@intel.com,
+	Thomas.Hellstrom@linux.intel.com, brian.welty@intel.com,
+	himal.prasad.ghimiray@intel.com, krishnaiah.bommu@intel.com,
+	niranjana.vishwanathapura@intel.com
+Subject: Re: [PATCH v1 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241112060108.GA10056@lst.de>
+References: <20241104095831.GA28751@lst.de> <20241105195357.GI35848@ziepe.ca> <20241107083256.GA9071@lst.de> <20241107132808.GK35848@ziepe.ca> <20241107135025.GA14996@lst.de> <20241108150226.GM35848@ziepe.ca> <20241108150500.GA10102@lst.de> <20241108152537.GN35848@ziepe.ca> <20241108152956.GA12130@lst.de> <20241108153846.GO35848@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241113045012.GA20379@lst.de>
+In-Reply-To: <20241108153846.GO35848@ziepe.ca>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_075040_543792_359456AD 
-X-CRM114-Status: GOOD (  16.27  )
+X-CRM114-CacheID: sfid-20241111_220119_298457_C4ABA542 
+X-CRM114-Status: GOOD (  17.08  )
+X-Mailman-Approved-At: Wed, 13 Nov 2024 08:13:25 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,32 +79,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 13, 2024 at 05:50:12AM +0100, Christoph Hellwig wrote:
-> On Tue, Nov 12, 2024 at 01:06:18PM -0800, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
+On Fri, Nov 08, 2024 at 11:38:46AM -0400, Jason Gunthorpe wrote:
+> > > What I'm thinking about is replacing code like the above with something like:
+> > > 
+> > > 		if (p2p_provider)
+> > > 			return DMA_MAPPING_ERROR;
+> > > 
+> > > And the caller is the one that would have done is_pci_p2pdma_page()
+> > > and either passes p2p_provider=NULL or page->pgmap->p2p_provider.
 > > 
-> > Changes from previous version:
-> > 
-> >   Merged up to linux 6.12, which had some necessary blk-integrity
-> >   patches
-> > 
-> >   Dropped all the initial "cleanup" patches. This is instead the minimum
-> >   patchset to satisfy using the feature.
+> > And where do you get that one from?
 > 
-> Refresh my brain, but where was the previous version?  A quick
-> grep for " Using SGLs for userspace commands" on my linux-nvme mailbox
-> and an internet search don't find results.
-> 
-> Are the previous cleanups the fixes to the block layer metadata/integrity
-> code to actually properly deal with splitting and merging?
+> Which one?
 
-It's here:
+The p2p_provider thing (whatever that will actually be).
 
-  https://lore.kernel.org/linux-nvme/20240904183818.713941-1-kbusch@meta.com/
-
-This series follows on the block integrity series that fixed up the
-merging and segment accounting.
-
-Much of it is not necessary to get SGL metadata support. It was just
-cleanups in this path I did along the way.
 
