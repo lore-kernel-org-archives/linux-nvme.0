@@ -4,67 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FA56D42B85
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 14:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 002A6D42B8E
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 15:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gYO7wAxx1ibdOe02U5GJ7rOmx4rbbNwpmy0GoAfZung=; b=yqagZrIM9zFRTwf7vCJi9KuIN4
-	R1x30Lj4xSJzsXm3dl7++Rxom6/rBtZYw9zLrlK/9tVQuDlN0Sj/AgiBhkBqiIm9NRPbkOCOQSppt
-	wi9al02UjhjuKHd24HUKEeYRFKFlofTq7MGI0IBTZLmHgy+y8MdN/Njyt5l6TNENubhKF4a0vZ7oS
-	q0vQe9w3BW/RQG2zM0wQN0eSSqL9uRsefEQ0pTVS/fu+xlK0dgwRCmRbSGj00JmYWLzDqjEIOOB+K
-	Mk7cdLBI8V76POQclu7LBM9qC/OV0O3pH1bshwn1C+uXEgOpwJsOResPEfi0MYNAxWLUOlxtH8t/0
-	D8HLEnHw==;
+	bh=wy4zAOKDbBW4NMEbuxSABbtSAqmMQvJQ+ZUerOuIRsE=; b=npOGgFw2zOf+Ct+pQboJYLBC9Q
+	W0WACJkrkRUBnCcFX46Vjp5r34bDcbfMpCT6shAuCIO6H8pAkZ0ObuoUes3tsYTlHcHnpvz1bmeZ3
+	7AIvqqvXpb3fd/I+rqFcYF0IUj43YkZC6d54K2MjUuvb+LPr3oN24TGniYdc7iWicT/JA0ySVEWcg
+	ADLVxACg4Z1cq1smwH8bjwwMwGDVycjd/VR/ZmH2IALPlLRQSyK2EsPk+HP3g/mMyamCdh0imRKUH
+	ulqQR5ZV/j9rsgQmfr7FUOINlNvf0qCnVSJp+XIia+CbJ4FNXTIEkUsKfojx0MDXn4QVPK931aoPT
+	koktjYfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tArqs-00000003kPO-1rJo;
-	Tue, 12 Nov 2024 14:26:42 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tAsOJ-00000003rlz-0FOS;
+	Tue, 12 Nov 2024 15:01:15 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tArq2-00000003kGK-0DXB
+	id 1tArPw-00000003flo-2TsY
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 12 Nov 2024 13:58:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=wy4zAOKDbBW4NMEbuxSABbtSAqmMQvJQ+ZUerOuIRsE=; b=hYtksTBMVHKZzAXyAiQe3yibGZ
+	kOWKR7L8ZBOaEIeMm9L9mgbDqt70RaDI78kaZy8S8E7Ei16pqYFRqv9iydhesN9WJ+e+VNylFrOLS
+	Riu67vl7Oi4vWuFU/U0s+8D90ERCCZ+yr9ULVAgHcXYljBBgAMrUeNxg6kbAprUESHItaMYxDuJ9T
+	jIPCV9G9jMvHZ8aQbFpEkNzWDaELzPoUTe0TbjxbUfwNuKvop+QEqWVu7p4j9T/7E6gGJuTIijEnU
+	3pFLPJ4fuj/v/GL7rOtYlqvFzq6QEkJtb+/1uISMz49vuKRGe8JHPCmqDLqxah4ENE0kD8ypCjZFq
+	ToDm/H3g==;
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	by desiato.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
+	id 1tArPt-0000000D55F-0zLl
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 14:25:51 +0000
+	Tue, 12 Nov 2024 13:58:51 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1A0FC5C4CF0;
-	Tue, 12 Nov 2024 14:25:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F4AC4CECD;
-	Tue, 12 Nov 2024 14:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731421549;
-	bh=FqK6AvBbok3agYaXcwWnCFMmVIqq7T/f8WTFeYDo4R8=;
+	by dfw.source.kernel.org (Postfix) with ESMTP id A82765C06AA;
+	Tue, 12 Nov 2024 13:58:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 341EAC4CECD;
+	Tue, 12 Nov 2024 13:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731419926;
+	bh=4pQscTrEU5vmK5o46Z8CwGup1txTZg9HfKzeFdSrbS8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ePHLU2/hD6U7PnMMH7nbItnFIAQtapvtYXrLfgEyRh4w1ARIGASKPWGmKV1vKvybR
-	 1EKZvr1QfDBPgUlscNmxhahhmpFrR3vrFkx6aHUnAlH8kwxALSJmqUYcE+nu8SOmbI
-	 0iG1helEUWOdLRfC5PTBSCRxJyBvCiTLDIMgCSMjafxj4k9HZkfNZsC0Vv3ljeJ9bB
-	 WnjjK5n7Lf5wK1OKCGlRUM3O72GrzsH/kTenZhQlJRdHDLPKxdHKLVsR8CdDgENc8k
-	 1C8WcFReORB9mUGjtybP4t6kITOXEr2pwCHcyHlb11/JfLm4+za1LevRJd/DT/tMpN
-	 1I5gvWqlJLpBg==
-Date: Tue, 12 Nov 2024 07:25:45 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, axboe@kernel.dk,
-	martin.petersen@oracle.com, asml.silence@gmail.com,
-	javier.gonz@samsung.com
-Subject: Re: [PATCHv11 0/9] write hints with nvme fdp and scsi streams
-Message-ID: <ZzNlaXZTn3Pjiofn@kbusch-mbp.dhcp.thefacebook.com>
-References: <20241108193629.3817619-1-kbusch@meta.com>
- <CGME20241111103051epcas5p341a23ed677f2dfd6bc6d4e5c4826327b@epcas5p3.samsung.com>
- <20241111102914.GA27870@lst.de>
- <7a2f6231-bb35-4438-ba50-3f9c4cc9789a@samsung.com>
- <20241112133439.GA4164@lst.de>
+	b=AEVL3aiL8wTkbdWnNSbzgcdNk3RQPWC313AxWLqPSQ8lsIHiJyIIQ+a1+0brKoEv7
+	 KUUta4ZAheLRxq/dXvj3W5IPp6XNi2jYXbYffK6aebTP7RStJ8pz1CsuOdvXtnlcum
+	 RimsoDVR8th5qGmtSlee4+rtTASaMD19tU6j829U=
+Date: Tue, 12 Nov 2024 14:58:43 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Wagner <wagi@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 4/8] blk-mp: introduce blk_mq_hctx_map_queues
+Message-ID: <2024111202-parish-prowess-78bc@gregkh>
+References: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
+ <20241112-refactor-blk-affinity-helpers-v3-4-573bfca0cbd8@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112133439.GA4164@lst.de>
+In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-4-573bfca0cbd8@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_062550_151581_CC4660F6 
-X-CRM114-Status: GOOD (  15.29  )
+X-CRM114-CacheID: sfid-20241112_135849_588859_0056516E 
+X-CRM114-Status: GOOD (  24.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,23 +95,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 12, 2024 at 02:34:39PM +0100, Christoph Hellwig wrote:
-> On Tue, Nov 12, 2024 at 06:56:25PM +0530, Kanchan Joshi wrote:
-> > IMO, passthrough propagation of hints/streams should continue to remain 
-> > the default behavior as it applies on multiple filesystems. And more 
-> > active placement by FS should rather be enabled by some opt in (e.g., 
-> > mount option). Such opt in will anyway be needed for other reasons (like 
-> > regression avoidance on a broken device).
+On Tue, Nov 12, 2024 at 02:26:19PM +0100, Daniel Wagner wrote:
+> blk_mq_pci_map_queues and blk_mq_virtio_map_queues will create a CPU to
+> hardware queue mapping based on affinity information. These two function
+> share common code and only differ on how the affinity information is
+> retrieved. Also, those functions are located in the block subsystem
+> where it doesn't really fit in. They are virtio and pci subsystem
+> specific.
 > 
-> I feel like banging my head against the wall.  No, passing through write
-> streams is simply not acceptable without the file system being in
-> control.  I've said and explained this in detail about a dozend times
-> and the file system actually needing to do data separation for it's own
-> purpose doesn't go away by ignoring it.
+> Thus introduce provide a generic mapping function which uses the
+> irq_get_affinity callback from bus_type.
+> 
+> Originally idea from Ming Lei <ming.lei@redhat.com>
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>  block/blk-mq-cpumap.c  | 37 +++++++++++++++++++++++++++++++++++++
+>  include/linux/blk-mq.h |  2 ++
+>  2 files changed, 39 insertions(+)
+> 
+> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
+> index 9638b25fd52124f0173e968ebdca5f1fe0b42ad9..db22a7d523a2762b76398fdd768f55efd1d6d669 100644
+> --- a/block/blk-mq-cpumap.c
+> +++ b/block/blk-mq-cpumap.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/smp.h>
+>  #include <linux/cpu.h>
+>  #include <linux/group_cpus.h>
+> +#include <linux/device/bus.h>
+>  
+>  #include "blk.h"
+>  #include "blk-mq.h"
+> @@ -54,3 +55,39 @@ int blk_mq_hw_queue_to_node(struct blk_mq_queue_map *qmap, unsigned int index)
+>  
+>  	return NUMA_NO_NODE;
+>  }
+> +
+> +/**
+> + * blk_mq_hctx_map_queues - Create CPU to hardware queue mapping
+> + * @qmap:	CPU to hardware queue map.
+> + * @dev:	The device to map queues.
+> + * @offset:	Queue offset to use for the device.
+> + *
+> + * Create a CPU to hardware queue mapping in @qmap. The struct bus_type
+> + * irq_get_affinity callback will be used to retrieve the affinity.
+> + */
+> +void blk_mq_hctx_map_queues(struct blk_mq_queue_map *qmap,
+> +			    struct device *dev, unsigned int offset)
+> +
+> +{
+> +	const struct cpumask *mask;
+> +	unsigned int queue, cpu;
+> +
+> +	if (!dev->bus->irq_get_affinity)
+> +		goto fallback;
 
-But that's just an ideological decision that doesn't jive with how
-people use these. The applications know how they use their data better
-than the filesystem, so putting the filesystem in the way to force
-streams look like zones is just a unnecessary layer of indirection
-getting in the way.
+I think this is better than hard-coding it, but are you sure that the
+bus will always be bound to the device here so that you have a valid
+bus-> pointer?
+
+thanks,
+
+greg k-h
 
