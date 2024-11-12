@@ -4,75 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D22DD41D61
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 07:20:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFD5CD3ABFB
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 13:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1OMx3CzUE48Ymp5FIXnIDRoSMxzD43U0/NiqFxhCPMk=; b=PMr++FsvaYqDqK4emaufGi35+5
-	vL95f8AmX1NbIaJkRSMpsiUxymi7AWTCXhkjmIdR74+j8wIM8r2iVHxXefZhxbG9kL+r+Ku9ezJ65
-	nC4eWDvI2DwK0rPwuu8zLXt3cYYeNz9v75IPxzLVPNFK6+l73VuXmRRvKEs75TinpYBk8/xoUHzC8
-	lnPkM29P3ohW4KC/R3GrBki4MsGTzsnD4Nw9MElY6feJI1WskJulaXqR89L1NwhmD1D5Rsps5gm/1
-	e2SOPKYAYrWJfsIJr8gb+6RE4mVmVBppk8CcRVkT2R9AUMp/BYutOmhJ7HLSckt9SX9/Sz/dyUJ1I
-	QBu7PGxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RrRHtghbsHFFBUWb+voimZkLJOSiwDcghsoxgcLorao=; b=t4H1fetHZ1Hc+TWLFcbYGrjpdr
+	q6n4uyCDzAVAyKTcjlDKN9uGt4woffGsLBmd1tQpWiEY8MYj+1j/LjOKsMzAlFEReF7doIG/hx/gh
+	y+cmGRCUtd9NwdU5Saw7zC2DLsrXj0KtXtH7svtorbqwyMfFJEinymuFGshVl+ookYM39+uPfOrCL
+	Uj/EHvDfjVOnkq51pgSO02d6w7EAbvv1053PoSN0TNkCaeqOvf9wlBGbhzMkY9gQTpL4ltUDCqeU1
+	s6/ZFBAnMThevBjTk0KIf+/M9XfBROdypqInE4Dg+aAohCHDEop70CRgj9MwViUcArlW/Lc8z8pkr
+	ThQbFKxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAlCm-00000002RwF-1T4u;
-	Tue, 12 Nov 2024 07:20:52 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tAr0G-00000003ZwJ-0uFN;
+	Tue, 12 Nov 2024 13:32:20 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAlCi-00000002RvW-1sB2
+	id 1tAqum-00000003YTh-23Y4
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 07:20:50 +0000
+	Tue, 12 Nov 2024 13:26:42 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E13025C4B45;
-	Tue, 12 Nov 2024 07:20:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A7FFC4CED6;
-	Tue, 12 Nov 2024 07:20:46 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 28B91A41BB5;
+	Tue, 12 Nov 2024 13:24:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD4ADC4CED5;
+	Tue, 12 Nov 2024 13:26:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731396047;
-	bh=iebmt1JJ4nc2KqO33nu0BylpM0uwrbfzxJxK70i+S/0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dVmzKoMMLI1p5lld2AzbKA0OKhkaVTgahMbznY+ch5wqmWfYCEBoHJ5ZIQ8i4OEW7
-	 y0SB4PSstnJw8hURXljSVh3nG8HHVe3dC7gqHVMQQXmgFoRfx3x8hsZ36yggo7YlVq
-	 2q0lrQ8rdvyycCXVFgnX8tvivhS3iXRbVyFR1p3rkwOgGKPIQ2kftduBV0NwjkeMS6
-	 +NoAmsvdHq/cRMRpCO7yQhqTp7kgXfnEETQD/OipD9b2Ni66FEyjDAneYRjzAw6sNL
-	 U2vmfYx6TwAoyvedmOw9NUrF5kwpsNBTikX0r/vBN3EeyzUVC53eAjFgH0BRIJSoUB
-	 HtyTui/+hEy9g==
-Date: Tue, 12 Nov 2024 09:20:40 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Joerg Roedel <joro@8bytes.org>, ill Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 00/17] Provide a new two step DMA mapping API
-Message-ID: <20241112072040.GG71181@unreal>
-References: <cover.1731244445.git.leon@kernel.org>
+	s=k20201202; t=1731417999;
+	bh=8c9yRiNz5l6j6ma+lUrUvRBWbUG9fNcB/XLsfuWbhOE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=WF8qYi2pzIBf0y54sQH9lmK5MdgbBym3p6VgwVSB9az4eQJUNihiXZHYuvpA0nkOk
+	 7R3spOcB97zvmUjmb3PmSTgPqDRMIFAHMYd5LgfyJiJeb4FgtmKu6HVLQhHodUW7PJ
+	 JRDX8f+b3Uk/hJUHu7Cr6xD5NaT5+QR7rmDceoBlEf2SGDmLcxyCcDN0bFxMwGLPWY
+	 Qvq1cQf6sDzCO/kBTKVhy9fFXSPe7dTezWSBH9Sm8LpuIwienLYv5kEgefnxsxpUL3
+	 QrvsIDCfvVK6GcBYlTxoQCPGePETggQ2sggtwivfG6rPTT+FurgcrgVXLI5vx6AS5N
+	 kP2uno8dbV+6A==
+From: Daniel Wagner <wagi@kernel.org>
+Date: Tue, 12 Nov 2024 14:26:17 +0100
+Subject: [PATCH v3 2/8] PCI: hookup irq_get_affinity callback
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1731244445.git.leon@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241112-refactor-blk-affinity-helpers-v3-2-573bfca0cbd8@kernel.org>
+References: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
+In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, virtualization@lists.linux.dev, 
+ linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, 
+ mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, 
+ storagedev@microchip.com, linux-nvme@lists.infradead.org, 
+ Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241111_232048_534688_7B912220 
-X-CRM114-Status: GOOD (  14.07  )
+X-CRM114-CacheID: sfid-20241112_052640_660787_0755D635 
+X-CRM114-Status: GOOD (  11.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,44 +83,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 10, 2024 at 03:46:47PM +0200, Leon Romanovsky wrote:
+struct bus_type has a new callback for retrieving the IRQ affinity for a
+device. Hook this callback up for PCI based devices.
 
-<...>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+ drivers/pci/pci-driver.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-> ----------------------------------------------------------------------------
-> The code can be downloaded from:
-> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-nov-09
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 35270172c833186995aebdda6f95ab3ffd7c67a0..a9cb0e3ad2e6eca58c34683303b1242228e96909 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -1670,6 +1670,19 @@ static void pci_dma_cleanup(struct device *dev)
+ 		iommu_device_unuse_default_domain(dev);
+ }
+ 
++/**
++ * pci_device_irq_get_affinity - get IRQ affinity mask for device
++ * @dev: ptr to dev structure
++ * @irq_vec: interrupt vector number
++ *
++ * Return the CPU affinity mask for @dev and @irq_vec.
++ */
++static const struct cpumask *pci_device_irq_get_affinity(struct device *dev,
++					unsigned int irq_vec)
++{
++	return pci_irq_get_affinity(to_pci_dev(dev), irq_vec);
++}
++
+ const struct bus_type pci_bus_type = {
+ 	.name		= "pci",
+ 	.match		= pci_bus_match,
+@@ -1677,6 +1690,7 @@ const struct bus_type pci_bus_type = {
+ 	.probe		= pci_device_probe,
+ 	.remove		= pci_device_remove,
+ 	.shutdown	= pci_device_shutdown,
++	.irq_get_affinity = pci_device_irq_get_affinity,
+ 	.dev_groups	= pci_dev_groups,
+ 	.bus_groups	= pci_bus_groups,
+ 	.drv_groups	= pci_drv_groups,
 
-<...>
+-- 
+2.47.0
 
-> 
-> Christoph Hellwig (6):
->   PCI/P2PDMA: Refactor the p2pdma mapping helpers
->   dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
->   iommu: generalize the batched sync after map interface
->   iommu/dma: Factor out a iommu_dma_map_swiotlb helper
->   dma-mapping: add a dma_need_unmap helper
->   docs: core-api: document the IOVA-based API
-> 
-> Leon Romanovsky (11):
->   dma-mapping: Add check if IOVA can be used
->   dma: Provide an interface to allow allocate IOVA
->   dma-mapping: Implement link/unlink ranges API
->   mm/hmm: let users to tag specific PFN with DMA mapped bit
->   mm/hmm: provide generic DMA managing logic
->   RDMA/umem: Store ODP access mask information in PFN
->   RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
->     linkage
->   RDMA/umem: Separate implicit ODP initialization from explicit ODP
->   vfio/mlx5: Explicitly use number of pages instead of allocated length
->   vfio/mlx5: Rewrite create mkey flow to allow better code reuse
->   vfio/mlx5: Enable the DMA link API
-
-Robin,
-
-All technical concerns were handled and this series is ready to be merged.
-
-Robin, can you please Ack the dma-iommu patches?
-
-Thanks
 
