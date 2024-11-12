@@ -4,60 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F39D0D597A4
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 20:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D862D597A5
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 21:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N+9JSsktWVZqstyIy5I+c8AEuP4HF+gzqcauCSt1o4o=; b=QI9azOZ3pBYbcpxJ7CVr2eh8Nq
-	Vxi3Vr86nmW2mgd1CAfealZl7BQdly0GED8jF33LIzRyiJnqeIPS61nAcKtRNZi5SpHYsvnVcKGjL
-	Gecup2Ldo7MJWsky0cuhwSwF0Tcz3o5MdpOFtJ6l2nz0foy3W5ixYH8IoOndc6wNzDsTt7C61iOwI
-	wGE/sU5811iDvwqXBqjcuWKG+x3zkIVv9u7czexd7tgf6ss/9JS548T8+ZZJVtV1/2P3YaoRkD3KU
-	fSyTCwODsDCnQ93tvxG7MCiozmUGXHt/d+rS9LErFlX7fTp5dyfJdH339oetugpWNl5CVve95bPgj
-	7EPJguIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FTfbQPxHjf38EU6vmv8GKyAgDQx311NBVe9b5JRZSDw=; b=yYIMYpYYcK72Q67YPmh+hAWx3C
+	goIbKEfwC5hyCSGsHx8b5W58eZMJ7IZEn6/A6FDN02GU4U6+dFEoGlkdr65Kg3NllkCjZFC/eo6kC
+	H9gaTAA4dJ82EiyN3Ko1/VXFQh5NARlGIzJgp7cSCJNf+rPXMcmf79FmE1Dx188WRwY24lL5IS7+M
+	nFUyRycjsZY6mHHPsf/LqOOP2PnJKmfd+3XyvEXcc8Tr+ovU5iluIS5JMReRG3fJRjTRAADp2sr2e
+	1gtBQ9lLq1d9EAbBVRgQW/QivRqmB0clM3YYI//Ina3mTkm6SlzzZ0d6I7pnAXzQwj7LKgSa+0G6O
+	9J1EsDLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAxn2-00000004uby-36H5;
-	Tue, 12 Nov 2024 20:47:08 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tAy7s-00000004xcr-1U99;
+	Tue, 12 Nov 2024 21:08:40 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAxmz-00000004uaJ-1j66
+	id 1tAy5j-00000004xNJ-2U79
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 20:47:06 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id EB8A2A42538;
-	Tue, 12 Nov 2024 20:45:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55918C4CECD;
-	Tue, 12 Nov 2024 20:47:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731444423;
-	bh=cNdLSa1e0i0zJBM5n+pEe+12XHmggYolrYFKZI/3xsI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ny5bp63sriCqj14P3XlrY0XVodLKFsv6PK6Tv2Of55OHSYDus2vOfad5fihelCBtb
-	 0dmzB8g7y6MNMS5443gaCTioao6GjzHxG1h91P1kpsvGvTDL6ei1Hty1C01qeaklQB
-	 4/SibMPYNZzjiCaKVkA8sPnckWGZa8T5n/8pmhX/3wU4kPPrrNT5bCUCLzO2K+kJbj
-	 OTRRoKUUXM8kY5Joz3ttJelQZsASaSvwZDT8daNp1TkkfUQw0uqguiMlUa6zz6z9Nn
-	 gI+rmaINuzSnp+kWvrLdGMZEzP673cIUqO7LQ0lbYDk4sTlBIEq3fjI/XZHQB2z7vN
-	 z4EN96gP9ckBg==
-Date: Tue, 12 Nov 2024 13:47:01 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Bob Beckett <bob.beckett@collabora.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, kernel@collabora.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
-Message-ID: <ZzO-xdUJLA1wSUeu@kbusch-mbp>
-References: <20241112195053.3939762-1-bob.beckett@collabora.com>
+	Tue, 12 Nov 2024 21:06:29 +0000
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4ACJ5KAt026460
+	for <linux-nvme@lists.infradead.org>; Tue, 12 Nov 2024 13:06:25 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2021-q4; bh=FTfbQPxHjf38EU6vmv
+	8GKyAgDQx311NBVe9b5JRZSDw=; b=AQ/Kx7uuwzocDVT24tPImFzTDrFH9w0DsL
+	Z7LkC9cYOVOw0qX9IK2cu9zKNStCuEAlAmLYhpfZGBoNkduyGpc5kwsIsu3dtyYf
+	Pg4ysOYSA1Na1Ajm0zEYjbQFc21YJLHqP+/H9lHYIGKPknhfu+QDSg2bMQCCrzPc
+	xeuQPwe5AV8gmJdsfp4BWtMswHJja9WIvPk1C+KPEFIo4qrD8HzVg0WRxQQptb8h
+	FIlthyxI/p2gfYh+MP9Z0fKuhCF+QSZHwD1hWmYUlcxyIVai4e8DT10sZmWUnwHF
+	EfuyVudl0Sot34tY+bgG62vyB9dvtvj624tEtAj2xiKGJFKh22mQ==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by m0089730.ppops.net (PPS) with ESMTPS id 42v5sbcq25-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 12 Nov 2024 13:06:24 -0800 (PST)
+Received: from twshared22972.15.frc2.facebook.com (2620:10d:c0a8:1c::11) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Tue, 12 Nov 2024 21:06:24 +0000
+Received: by devbig638.nha1.facebook.com (Postfix, from userid 544533)
+	id F27871502A720; Tue, 12 Nov 2024 13:06:20 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv2 0/2] Using SGLs for userspace commands
+Date: Tue, 12 Nov 2024 13:06:18 -0800
+Message-ID: <20241112210620.2650523-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241112195053.3939762-1-bob.beckett@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: -ZDbE-Rt0xrshwb5Fwxpz3Fdr8BKeKub
+X-Proofpoint-GUID: -ZDbE-Rt0xrshwb5Fwxpz3Fdr8BKeKub
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_124705_531922_D0DAF231 
-X-CRM114-Status: GOOD (  12.29  )
+X-CRM114-CacheID: sfid-20241112_130627_827548_E1BF0356 
+X-CRM114-Status: UNSURE (   8.72  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,41 +83,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 12, 2024 at 07:50:00PM +0000, Bob Beckett wrote:
-> @@ -2700,8 +2700,8 @@ static int nvme_setup_prp_pools(struct nvme_dev *dev)
->  		return -ENOMEM;
->  
->  	/* Optimisation for I/Os between 4k and 128k */
-> -	dev->prp_small_pool = dma_pool_create("prp list 256", dev->dev,
-> -						256, 256, 0);
-> +	dev->prp_small_pool = dma_pool_create("prp list 256", dev->dev,256,
-> +				       dev->ctrl.quirks & NVME_QUIRK_DMAPOOL_ALIGN_512 ? 512 : 256, 0);
+From: Keith Busch <kbusch@kernel.org>
 
-This line is overly long and a bit difficult to read that way. I changed
-it to this:
+Changes from previous version:
 
----
-@@ -2693,15 +2693,20 @@ static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
+  Merged up to linux 6.12, which had some necessary blk-integrity
+  patches
 
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
- {
-+       size_t small_align = 256;
-+
-        dev->prp_page_pool = dma_pool_create("prp list page", dev->dev,
-                                                NVME_CTRL_PAGE_SIZE,
-                                                NVME_CTRL_PAGE_SIZE, 0);
-        if (!dev->prp_page_pool)
-                return -ENOMEM;
+  Dropped all the initial "cleanup" patches. This is instead the minimum
+  patchset to satisfy using the feature.
 
-+       if (dev->ctrl.quirks & NVME_QUIRK_DMAPOOL_ALIGN_512)
-+               small_align = 512;
-+
-        /* Optimisation for I/Os between 4k and 128k */
-        dev->prp_small_pool = dma_pool_create("prp list 256", dev->dev,
--                                               256, 256, 0);
-+                                               256, small_align, 0);
-        if (!dev->prp_small_pool) {
-                dma_pool_destroy(dev->prp_page_pool);
-                return -ENOMEM;
---
+  Fixed setting the queue limit
+
+  Fixed the SGLS MPTR bit
+
+Keith Busch (2):
+  nvme-pci: add support for sgl metadata
+  nvme-pci: use sgls for all user requests if possible
+
+ drivers/nvme/host/core.c |   3 +
+ drivers/nvme/host/nvme.h |   5 ++
+ drivers/nvme/host/pci.c  | 139 ++++++++++++++++++++++++++++++++++-----
+ include/linux/nvme.h     |   1 +
+ 4 files changed, 131 insertions(+), 17 deletions(-)
+
+--=20
+2.43.5
+
 
