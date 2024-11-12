@@ -4,57 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39F81D41D41
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 01:32:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D1F3D41D4E
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 04:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aVq0uu6RAxyyvIV/qZ+1X+k8aJ/GC57qpswexV+1pKs=; b=WWI0lIMNb4AyKORBotPqmOdJQQ
-	x7xQJ9wBfQK7UlI13oVnMtlzZTydMS+eAjjPLkbCVWd291a/fIH8KkSfUzaSxy19DeMrvn9mauJrH
-	5uyDzjfTsEgMvefH9LwtbNSzbw6NyyJstTfV8wm7qCvwmv/lSHnudA2qtacLxKDleseXyJlvXUkVp
-	FIsvStU3E8GFB0P4KJveUnQd05jrG7NvOPib93xhTxdjuXnUAbt/5eSQFdxMkMApyPtHjXiFXYudK
-	uStFzm1BowqWsaAC5X5LYWu/pcWVVzDjfGb17GEssa0dLEWLqaPdzFNm7Q4Kqkdxsh+Q0/kPWkeRf
-	aFQwapmA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EcSBlBlD6/nQpR6HAdWKP+lxhorE8tulMMR39fQlz30=; b=t2Yd8bOUfzbsAC7HZFZZ1+Gy3a
+	Gzhoz5hzBgZkHHk9RoMeugDU3KXJ93kwVjwSedSqCAUo/Am1QjEk9fO38r1IBUidi3MJJWANcng8H
+	EZOeraOt48PeKnNQOEnB7iVKmbCpCLmHFOmZraepzqsKAh/yDS1ixX8aXc2AdM9I+K2jTdza0zKdj
+	is0Ld8VDWF2ZBOhSljKidmuCXeC+UTkjkaY9ofIqM87bfd6JFpKn/VKZnSx/ATJ0O6quMd6aESsA1
+	GxRugY2JHkKWbFBIfm5+gnAif+CLd8YtVFmMSvLp1PpAJoPilAYoldSPW8+irkooByjLQA1W1S6zA
+	JsJPhSNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAfle-00000001sKt-2chi;
-	Tue, 12 Nov 2024 01:32:30 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
-	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAflb-00000001sI6-34hp
-	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 01:32:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1731375144; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=aVq0uu6RAxyyvIV/qZ+1X+k8aJ/GC57qpswexV+1pKs=;
-	b=yN4IPQDY1OqLBzvdqI2qF7iwWl8SgyHkdQwjdq0AwCNMbjlT0+sOLpAHUtRd/zfKMPr2P+Tjk0Ay3oUJ6XPyJUM9nxjZRVJOYm7iG54mCIbj2+0XoYFKfdDbWLL9vhESbH8IoJwmQMjsUGKZeQ9eHxaQ3WFwF/fzk+15bTHp/t0=
-Received: from 30.178.81.245(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WJF5qto_1731375142 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 12 Nov 2024 09:32:23 +0800
-Message-ID: <b4bb6fe3-2464-4c3e-bafd-c3cf5427e83a@linux.alibaba.com>
-Date: Tue, 12 Nov 2024 09:32:20 +0800
+	id 1tAiUP-000000029l6-3pk5;
+	Tue, 12 Nov 2024 04:26:53 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tAiUN-000000029ku-2Ey5;
+	Tue, 12 Nov 2024 04:26:51 +0000
+Date: Mon, 11 Nov 2024 20:26:51 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Tokunori Ikegami <ikegami.t@gmail.com>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: use BIT_MASK and GENMASK for NVME definitions
+Message-ID: <ZzLZCzXfrLAP_RO8@infradead.org>
+References: <20241111170935.4540-1-ikegami.t@gmail.com>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH] nvmet: fix the error of point math issue
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, linux-nvme@lists.infradead.org,
- oe-kbuild-all@lists.linux.dev
-References: <20241111104035.31770-1-kanie@linux.alibaba.com>
- <ZzJExEvGZAXZX-Nz@kbusch-mbp.dhcp.thefacebook.com>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <ZzJExEvGZAXZX-Nz@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241111_173227_939162_F62C9A5F 
-X-CRM114-Status: UNSURE (   7.87  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241111170935.4540-1-ikegami.t@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,18 +50,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+> -	NVME_CMBSZ_CQS		= 1 << 1,
+> -	NVME_CMBSZ_LISTS	= 1 << 2,
+> -	NVME_CMBSZ_RDS		= 1 << 3,
+> -	NVME_CMBSZ_WDS		= 1 << 4,
+> +	NVME_CMBSZ_SQS		= BIT_MASK(0),
+> +	NVME_CMBSZ_CQS		= BIT_MASK(1),
+> +	NVME_CMBSZ_LISTS	= BIT_MASK(2),
+> +	NVME_CMBSZ_RDS		= BIT_MASK(3),
+> +	NVME_CMBSZ_WDS		= BIT_MASK(4),
 
-在 2024/11/12 01:54, Keith Busch 写道:
-> On Mon, Nov 11, 2024 at 06:40:35PM +0800, Guixin Liu wrote:
->> Fix the wrong place of parenthesis of ctrl_eds and data point in
->> nvmet_execute_pr_report(), switch to "void *" first and then do
->> the addtion.
-> Thanks, I folded this inot the original commit.
+Nothjing genmask here, and a lot less readable for no good reason at
+all.
 
-Thanks to fold that.
+>  	NVME_CMBSZ_SZ_SHIFT	= 12,
+> -	NVME_CMBSZ_SZ_MASK	= 0xfffff,
+> +	NVME_CMBSZ_SZ_MASK	= GENMASK(19, 0),
 
-Best Regards,
+This is using the GENMASK that you mentioned, and now I actually
+need to look up what GENMASK does to decipher the previously perfectly
+understandable code.
 
-Guixin Liu
+Could people please stop sending or suggesting cleanups that make
+the code much worse?
 
 
