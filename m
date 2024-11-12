@@ -4,71 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EFECD42BAB
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 16:47:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1B09D42BAD
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 16:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2RbeROxEcb6+obaSwiGZrDBztqKs+YwYJ9DgQNyWTCQ=; b=ur/+POiG82pMeKlpcDKJs4M6Jl
-	9zf5lK/ViSFv6cF+er69c94iOKAnMikcrEtz6K9Ee9Rye40thINfn0IUs4YUgH00Kb183nEA7h33v
-	M5Q+F2qGSkU/Vsuf1uS3d/qrhTGdScFjpK/9Opbs+b9q2K8xNBRnnt8C3+1V/u1iRzmtUH8Gcg8k2
-	zG04shlGfL8IBjazL3Prhk9FPJ5nmG2I/22U/O5I47GZI31z7sei5xcG/6JvqT+V1ciqDyag11okC
-	oerJaypS3SnDVkrMoPipOLJYdEXfUBTI8CuUYqcB9cZu/Ms2zAbVoppCn4FB6iebSgzv2fr+ef0VU
-	P5pQJbFQ==;
+	bh=fO/OTNmk4ZkIxUUWP9hECq35FEXHCAw5L7TpQZFyrrk=; b=qxZAiadZKbxYoDCuuaRPMh5szG
+	pTnzHwlZALjv8DN9MREvQEDQYAIKCywL9tQt+vBoVtpjrmcvdmtQlQoaVKdYdLjzG4G3G44SuTCoB
+	eZjeTfmUo62cfB5CoBVZhC1nwuOIA0n2qIZyupIlOoO1/r3qsiUYA7pp4NSwCla/EpVBtLEho+WlV
+	ZF0smEyCJKu3UaTfSB7bZc0taNYTFf3hxldprJqJd4tRGD4n9+LQmn97WWqRI7X9jF+mnmF4Gq+/c
+	hGgONGpaEn41j0idfXAmV8y2GGeaDWjkKZB8uZN7M/bJzlhwm4efm9nKvcEGDfj5TfXWrKIovYy9m
+	ZX9ds4Aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAu2e-00000004Cdl-2KdK;
-	Tue, 12 Nov 2024 16:47:00 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tAu2h-00000004Cej-1KpO;
+	Tue, 12 Nov 2024 16:47:03 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAt2T-00000003zbW-2RN3
+	id 1tAtoE-000000049qu-3Pd5
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 15:42:56 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id CFC375C5409;
-	Tue, 12 Nov 2024 15:41:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FB60C4CECD;
-	Tue, 12 Nov 2024 15:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1731426163;
-	bh=tdd3NZ+GHcRdJCaOdNApZtNodQGwtd707HfpjA9pncQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N2ajiGJcJzz74Ud6lZK2wFDlIGZ3O4eOdH0hr+de2c5HOW9+GPcsdPg4Jbk0ecMJQ
-	 HzLiG2lJ6uDpGxNxfgvBAi+DEzcVf6ABtx+BALpCkjWI8ANBXGooww4MqSAjDxv7sH
-	 72AS1Q9Q40HtYbXDSbYWO7kVyWeZFH8BKQ9eINvE=
-Date: Tue, 12 Nov 2024 16:42:40 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 4/8] blk-mp: introduce blk_mq_hctx_map_queues
-Message-ID: <2024111215-jury-unlighted-3953@gregkh>
-References: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
- <20241112-refactor-blk-affinity-helpers-v3-4-573bfca0cbd8@kernel.org>
- <2024111202-parish-prowess-78bc@gregkh>
- <c8c671c1-267a-4aa7-a64b-51a461176ad3@flourine.local>
+	Tue, 12 Nov 2024 16:32:10 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20241112163201epoutp0497c6988d7fcbdc653dc71c4e1ad71be7~HRZzeYeVM1842918429epoutp04J
+	for <linux-nvme@lists.infradead.org>; Tue, 12 Nov 2024 16:32:01 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20241112163201epoutp0497c6988d7fcbdc653dc71c4e1ad71be7~HRZzeYeVM1842918429epoutp04J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1731429121;
+	bh=fO/OTNmk4ZkIxUUWP9hECq35FEXHCAw5L7TpQZFyrrk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lv7g5AqYZFrz0q05P/5fuPMCzxYZDyCMzrR3GigP8sT4Sv7E52n+D2eW9J6eaY7lH
+	 5WQO5nf8kqmdldQ4a6EUw0/nLrURjn3QPTXvAHZUU6wC3UBqyIkHMsF5WsWso8LqoA
+	 MwIDxw24DREydNjA7Oud0OrmnZNFNZxS9cCPHo9M=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20241112163201epcas5p20de7f1d5121373334dccef77ee2bcc20~HRZzLDACV1829918299epcas5p2T;
+	Tue, 12 Nov 2024 16:32:01 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.179]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4XnsPr2dQ5z4x9Pp; Tue, 12 Nov
+	2024 16:32:00 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	3A.1F.08574.00383376; Wed, 13 Nov 2024 01:32:00 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20241112140022epcas5p149b2709709e7a52109dfca99cefc4663~HPVZYeMAs2906529065epcas5p1Q;
+	Tue, 12 Nov 2024 14:00:22 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241112140022epsmtrp26ef2ac422dfa4f075d1bb656973e7bbd~HPVZXxwZl0763707637epsmtrp2b;
+	Tue, 12 Nov 2024 14:00:22 +0000 (GMT)
+X-AuditID: b6c32a44-6dbff7000000217e-fc-67338300c3af
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	A5.00.35203.67F53376; Tue, 12 Nov 2024 23:00:22 +0900 (KST)
+Received: from ubuntu (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20241112140020epsmtip2d85a84822d57f03f02e4212268895bda~HPVXfWIw20570005700epsmtip2t;
+	Tue, 12 Nov 2024 14:00:20 +0000 (GMT)
+Date: Tue, 12 Nov 2024 19:22:33 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Javier Gonzalez <javier.gonz@samsung.com>, Matthew Wilcox
+	<willy@infradead.org>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Keith Busch <kbusch@meta.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>, "io-uring@vger.kernel.org"
+	<io-uring@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "joshi.k@samsung.com" <joshi.k@samsung.com>
+Subject: Re: [PATCHv10 0/9] write hints with nvme fdp, scsi streams
+Message-ID: <20241112135233.2iwgwe443rnuivyb@ubuntu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c8c671c1-267a-4aa7-a64b-51a461176ad3@flourine.local>
+In-Reply-To: <a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAJsWRmVeSWpSXmKPExsWy7bCmhi5Ds3G6wdVV/BbTPvxktli5+iiT
+	xbvWcywWj+98Zrc4+v8tm8WkQ9cYLc5cXchisfeWtsWevSdZLOYve8pu0X19B5vF7x9z2Bx4
+	PC5f8fbYvELLY9OqTjaPzUvqPXbfbGDzOHexwqNvyypGj8+b5AI4orJtMlITU1KLFFLzkvNT
+	MvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4AuVVIoS8wpBQoFJBYXK+nb2RTl
+	l5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkCFSZkZ0x/8p+x4L5Exb6Pz9ka
+	GH8KdzFyckgImEhcm/eYsYuRi0NIYDejxIQHLawgCSGBT4wS2y8mQCS+MUr0vb/P1sXIAdbR
+	2R8PEd/LKHFw2lM2COcJo0TrpweMIN0sAqoShxZPZwJpYBPQljj9nwMkLCKgIfHtwXIWkHpm
+	gYUsEr8/3mQBSQgLOEv0zL0L1ssLtODK6kNMELagxMmZT8BqOAWsJRrf/meDOHslh8TbhaEQ
+	tovExPanjBC2sMSr41vYIWwpic/v9kLVl0usnLIC7FAJgRZGiVnXZ0E12Eu0nupnBjmUWSBD
+	4twfd4iwrMTUU+vAbmAW4JPo/f2ECSLOK7FjHoytLLFm/QKo+ZIS1743QtkeEvO//oQG6XVm
+	ie53ExknMMrNQvLPLIR1s8BWWEl0fmhihQhLSyz/xwFhakqs36W/gJF1FaNkakFxbnpqsmmB
+	YV5qOTyKk/NzNzGCk66Wyw7GG/P/6R1iZOJgPMQowcGsJMJ7ytk4XYg3JbGyKrUoP76oNCe1
+	+BCjKTB6JjJLiSbnA9N+Xkm8oYmlgYmZmZmJpbGZoZI47+vWuSlCAumJJanZqakFqUUwfUwc
+	nFINTDd9J97U+ZMl7hUumGLdymrNOcm5umd5W94E0ZXK3u6M1yRn1626r59TY/Hs5uK1HAc6
+	b82b/4OJb+bL05Lb2fkbA3L2BDaWLpxaWDLxZXCKf4OpxZ79q+Wecuzy5JubvXq17dWZlctf
+	KWWofL4Qr5Y56+OUgxVnIm6fDM6TUNhRtdg7IdA7VWWDwdp2BXE9JfabSsePOOxxeiHWZ7kr
+	9+qMjQJBNYX2U+8tnBS4+5PDjHJGi2v2XbbsX5mP2th+kjmwrfxanLAvB9urhx5N94/2VX3+
+	zaR1KdTVfY8q3zQGjwmFlRLdeyyERd9duKW5c4nZ9GAhA99LP+dv+WV12rdl4Y6oyzqePAmC
+	aq4/lViKMxINtZiLihMBYi0trUMEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMLMWRmVeSWpSXmKPExsWy7bCSvG5ZvHG6welFahbTPvxktli5+iiT
+	xbvWcywWj+98Zrc4+v8tm8WkQ9cYLc5cXchisfeWtsWevSdZLOYve8pu0X19B5vF7x9z2Bx4
+	PC5f8fbYvELLY9OqTjaPzUvqPXbfbGDzOHexwqNvyypGj8+b5AI4orhsUlJzMstSi/TtErgy
+	mtaeYC+YKFaxfspxxgbGo4JdjBwcEgImEp398V2MXBxCArsZJRace8jaxcgJFJeUWPb3CDOE
+	LSyx8t9zdoiiR4wSkz6vZANJsAioShxaPJ0JZBCbgLbE6f8cIGERAQ2Jbw+Ws4DUMwssZZG4
+	MPc42CBhAWeJnrl3GUFsXqDFV1YfYgKxhQRuM0v8+lgLEReUODnzCQuIzSxgJjFv80NmkPnM
+	AtISy/+BzecUsJZofPufbQKjwCwkHbOQdMxC6FjAyLyKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0
+	L10vOT93EyM4XrQ0dzBuX/VB7xAjEwfjIUYJDmYlEd5TzsbpQrwpiZVVqUX58UWlOanFhxil
+	OViUxHnFX/SmCAmkJ5akZqemFqQWwWSZODilGpi4L7Y3lwYtWnEmZyVjUIpRwvSP2YdOd79d
+	MEePUVHrV+qjrredH3UFXh7oNZzslDH/0n2VW6fK/vvJFUje27fj2bdX1YeTLlyKnq6fOzFZ
+	7trdBfPXCG3lfH5264dnVuuLeqYdqF0TsnB93fuZT21kZvd9X7lpCa9ktlDoAk3rfy+NHjEI
+	KzdenyN5uuHpYn85M8ZTd3li7mhp9Ab1Ggp0ZSy4s+Boy/+q2V89mPj9J31aY7FKYM7lr/t3
+	hVYt+3am81kO+66Fz4NzzI01fA84/P/h4qj+K21Xw1tbZqkv53lqdtz5NH9Zsc6qiU6Te0tY
+	TgadmLDhbeyT8zfeT92db7C1xtpBaam9F9PligP6TUosxRmJhlrMRcWJADV7k30GAwAA
+X-CMS-MailID: 20241112140022epcas5p149b2709709e7a52109dfca99cefc4663
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----w5-2f3KIOrSunQhSxAIo7Dy_B_SBAQB3Xz8aCSUoiMSFB8w5=_c2979_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a
+References: <20241105155014.GA7310@lst.de> <Zy0k06wK0ymPm4BV@kbusch-mbp>
+	<20241108141852.GA6578@lst.de> <Zy4zgwYKB1f6McTH@kbusch-mbp>
+	<CGME20241108165444eucas1p183f631e2710142fbbc7dee9300baf77a@eucas1p1.samsung.com>
+	<Zy5CSgNJtgUgBH3H@casper.infradead.org>
+	<d7b7a759dd9a45a7845e95e693ec29d7@CAMSVWEXC02.scsc.local>
+	<2b5a365a-215a-48de-acb1-b846a4f24680@acm.org>
+	<20241111093154.zbsp42gfiv2enb5a@ArmHalley.local>
+	<a7ebd158-692c-494c-8cc0-a82f9adf4db0@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_074245_743371_6EAD402A 
-X-CRM114-Status: GOOD (  17.86  )
+X-CRM114-CacheID: sfid-20241112_083207_587796_9B7BE70D 
+X-CRM114-Status: GOOD (  21.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,32 +146,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 12, 2024 at 04:33:09PM +0100, Daniel Wagner wrote:
-> On Tue, Nov 12, 2024 at 02:58:43PM +0100, Greg Kroah-Hartman wrote:
-> > > +void blk_mq_hctx_map_queues(struct blk_mq_queue_map *qmap,
-> > > +			    struct device *dev, unsigned int offset)
-> > > +
-> > > +{
-> > > +	const struct cpumask *mask;
-> > > +	unsigned int queue, cpu;
-> > > +
-> > > +	if (!dev->bus->irq_get_affinity)
-> > > +		goto fallback;
-> > 
-> > I think this is better than hard-coding it, but are you sure that the
-> > bus will always be bound to the device here so that you have a valid
-> > bus-> pointer?
-> 
-> No, I just assumed the bus pointer is always valid. If it is possible to
-> have a device without a bus, than I'll better extend the condition to
-> 
-> 	if (!dev->bus || !dev->bus->irq_get_affinity)
->         	goto fallback;
+------w5-2f3KIOrSunQhSxAIo7Dy_B_SBAQB3Xz8aCSUoiMSFB8w5=_c2979_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-I don't know if it's possible as I don't know what codepaths are calling
-this, it was hard to unwind.  But you should check "just to be safe" :)
+On 11/11/24 09:45AM, Bart Van Assche wrote:
+>On 11/11/24 1:31 AM, Javier Gonzalez wrote:
+>>On 08.11.2024 10:51, Bart Van Assche wrote:
+>>>On 11/8/24 9:43 AM, Javier Gonzalez wrote:
+>>>>If there is an interest, we can re-spin this again...
+>>>
+>>>I'm interested. Work is ongoing in JEDEC on support for copy offloading
+>>>for UFS devices. This work involves standardizing which SCSI copy
+>>>offloading features should be supported and which features are not
+>>>required. Implementations are expected to be available soon.
+>>
+>>Do you have any specific blockers on the last series? I know you have
+>>left comments in many of the patches already, but I think we are all a
+>>bit confused on where we are ATM.
+>
+>Nobody replied to this question that was raised 4 months ago:
+>https://lore.kernel.org/linux-block/4c7f30af-9fbc-4f19-8f48-ad741aa557c4@acm.org/
+>
+>I think we need to agree about the answer to that question before we can
+>continue with implementing copy offloading.
+>
+Yes, even I feel the same.
+Blocker with copy has been how we should plumb things in block layer.
+A couple of approaches we tried in the past[1].
+Restating for reference,
 
-thanks,
+1.payload based approach:
+   a. Based on Mikulas patch, here a common payload is used for both source
+     and destination bio. 
+   b. Initially we send source bio, upon reaching driver we update payload
+     and complete the bio.
+   c. Send destination bio, in driver layer we recover the source info
+     from the payload and send the copy command to device.
 
-greg k-h
+   Drawback:
+   Request payload contains IO information rather than data.
+   Based on past experience Christoph and Bart suggested not a good way
+   forward.
+   Alternate suggestion from Christoph was to used separate BIOs for src
+   and destination and match them using token/id.
+   As Bart pointed, I find it hard how to match when the IO split happens.
+
+2. Plug based approach:
+   a. Take a plug, send destination bio, form request and wait for src bio
+   b. send source bio, merge with destination bio
+   c. Upon release of plug send request down to driver.
+
+   Drawback:
+   Doesn't work for stacked devices which has async submission.
+   Bart suggested this is not good solution overall.
+   Alternate suggestion was to use list based approach.
+   But we observed lifetime management problems, especially in
+   failure handling.
+
+3. Single bio approach:
+   a. Use single bio to represent both src and dst info.
+   b. Use abnormal IO handling similar to discard.
+   Drawback:
+   Christoph pointed out that, this will have issue of payload containing
+   information for both IO stack and wire.
+
+
+I am really torn on how to proceed further ?
+-- Nitesh Shetty
+
+
+[1] https://lore.kernel.org/linux-block/20240624103212.2donuac5apwwqaor@nj.shetty@samsung.com/
+
+------w5-2f3KIOrSunQhSxAIo7Dy_B_SBAQB3Xz8aCSUoiMSFB8w5=_c2979_
+Content-Type: text/plain; charset="utf-8"
+
+
+------w5-2f3KIOrSunQhSxAIo7Dy_B_SBAQB3Xz8aCSUoiMSFB8w5=_c2979_--
 
