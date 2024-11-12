@@ -4,88 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AC90D597B0
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 22:08:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EA6ED597B4
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 22:49:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CJMpEAedxAMtoahEHN+PXSFSse4R9UwgGwRRftxeWHc=; b=2U6x2vTmwziuBVYg7SzKbt7uG8
-	Ujs4uHnzzs/sslbX+R4Owwvt2x0oLn29eU4v9kL6k1bcnTlxgN+xXgCOr2FkXu0HfmwlEjaD3SqAY
-	jTwRu4zNeHQfvffejdi9weHn+5WzwMajKFQCBLkfEukuFryvD88vsTJIGgrvjbmdFYCGIS+x3yLGs
-	dvT8Yji+fMNh/4QZCrEIbM4RzEkvIBCB7fIqRAbgGNuzAWaSDdfKOSBH1MKQwec+Q9w/eVaLJX5pq
-	HQX8da8qptjuqSMU9YglE1pLmnhtzWHYlHq286HdXVsZcIGDDd4dhT2nO5FihRNtGAzma7FfKHWdC
-	E+6b1rfg==;
+	bh=eCWsj10cmdsRr7s6n+k/w1mMAbnWUc296wk/B0jLSt0=; b=uH26VhYAJPUsImIdOU3YMBTt5B
+	JaBegQK35LZkkp9iJDHgbCbz7P9kP6t08/JDA6ljSnBB1N7fiWdsfE+GLsR8aAItoJ0Vwy0pfzOXp
+	aRKnFU2PcOAzP3u65AGt1xLhDAVZsg2jKv5xyJ/hon9WdW9DCe6AGT+R4hZXT9MF92eFVWD9tbMGv
+	FN/RhExDYaySA3UPhN5EMYritAUoLdhdiWDOtgI2jptOzhaOPk5o6Ku2ohCl0wQNEdGd9ENaIXI2R
+	h7i/ydYnDT50zVtECOxdLaRwA+MKsVQmZ1BpGyzhLsXDvxYr9lI4B/xh0qNKpvfSMc4xC/d5SKpde
+	YYE8BgOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAz3o-000000056NQ-1dfb;
-	Tue, 12 Nov 2024 22:08:32 +0000
-Received: from mgamail.intel.com ([198.175.65.12])
+	id 1tAzhq-00000005Bc8-2ln4;
+	Tue, 12 Nov 2024 22:49:54 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAz3l-000000056MW-1fHq
+	id 1tAzho-00000005BbA-09dm
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 22:08:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731449309; x=1762985309;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bwOLoyFxYfjUqtJNi/9ZCqz09dTnm3t/9bGtqoLlI8U=;
-  b=IVwNhomQF4zWvejcrdwszuAZZGj5KqtQ/UmeU88Yw7IJ0RjbOHxFqm1v
-   49CTwAyzSKjw+vliZjwNP3L/nXX/cqTLnxz7bJfwUkPjPWfwy3gpchnTR
-   P/m2vH4I59QnoULZBzWDNBe5aQeGMW7T6BeGEuVwm0HgxrXE5oZqHq7BP
-   dsIqY4o1SkbxPbOXO2Wf0l+X2M/neD7xmC6mhtSaB8gyPBvSFSDBH9LUr
-   qukDURu/Vfum2vAV876J8t+lC97simAyWSK+sVOHcgCyMH19dVOr443Jx
-   2lNPmnPpMXcBGg5ePayPlBPeO/52hGqXMbj32RaInN7kSbGwfvrDQfYoV
-   g==;
-X-CSE-ConnectionGUID: V/N2vReiRmmWMeOHqNMobA==
-X-CSE-MsgGUID: Ef6Cnk0eRpChN9xND/x8Hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="42722543"
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="42722543"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:08:27 -0800
-X-CSE-ConnectionGUID: QGh9vjHLSpKorf74bKXSXg==
-X-CSE-MsgGUID: sKP0TcqbSXmgHwe8OkVCnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="91712794"
-Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2024 14:08:16 -0800
-Received: from kbuild by bcfed0da017c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tAz3W-0001lf-1j;
-	Tue, 12 Nov 2024 22:08:14 +0000
-Date: Wed, 13 Nov 2024 06:07:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
-	linux-nvme@lists.infradead.org, Daniel Wagner <wagi@kernel.org>
-Subject: Re: [PATCH v3 3/8] virtio: hookup irq_get_affinity callback
-Message-ID: <202411130521.UOBdW8Rv-lkp@intel.com>
-References: <20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8@kernel.org>
+	Tue, 12 Nov 2024 22:49:53 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id B5126A418E0;
+	Tue, 12 Nov 2024 22:47:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01597C4CED5;
+	Tue, 12 Nov 2024 22:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731451790;
+	bh=9n5PPYSsP9ZFxZbM80y5b6RWMk7TXshHx0U1ydQY2bo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LwYL1HeyiMtRdB7BuKKCakwequzOBGlTKsLodE0JLYU47DOWUqtSw7XWjzJPHT4c2
+	 mW/OOCNKJDkM77aPye3zJHjR6Xkn1lgPmLW7ypE+hbHMZqzodyyTCGxqUNnqmCNY7a
+	 aIkBzxLO4ceLMNusikuItjPa+MvCrf3vJXTg9sZjl/aZFXQ8ROC8iwKsaeR25tipLp
+	 GyffLL0gvImPFALY9/nwylUPfcHrUQ116I+3A4T++Kw3n45LmOB2oeiFtTs9bow8Iv
+	 lLSjVa33XEmC8gn94k1wNV38usZe7aSowmxqHSayk6ZXTvZxbZX7pGFAjp1oMGV7QQ
+	 TZddKQ0hjY0pA==
+Date: Tue, 12 Nov 2024 15:49:47 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	linux-nvme@lists.infradead.org, m@bjorling.me,
+	matias.bjorling@wdc.com, kch@nvidia.com
+Subject: Re: [PATCHv4 13/13] nvmet: report ns's vwc not present
+Message-ID: <ZzPbi6s3tmrepPyN@kbusch-mbp>
+References: <20241107193849.995554-1-kbusch@meta.com>
+ <20241107193849.995554-14-kbusch@meta.com>
+ <20241108142743.GG6694@lst.de>
+ <Zy45M1HRz8cKLPxf@kbusch-mbp>
+ <005617fc-656d-4180-87b8-c9ebc8bff48d@linux.alibaba.com>
+ <aa121956-a050-4c47-be44-2d3afe6c6610@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aa121956-a050-4c47-be44-2d3afe6c6610@linux.alibaba.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_140829_505256_80AE414A 
-X-CRM114-Status: GOOD (  12.50  )
+X-CRM114-CacheID: sfid-20241112_144952_163879_33821ACB 
+X-CRM114-Status: UNSURE (   7.58  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,54 +79,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Daniel,
+On Sat, Nov 09, 2024 at 11:00:32PM +0800, Guixin Liu wrote:
+> 在 2024/11/9 22:59, Guixin Liu 写道:
+> > 
+> > Or just remove !req->ns->buffered_io check? All file backend return
+> > 
+> > support vwc.
+> Sorry, remove "req->ns->file && !req->ns->buffered_io".
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c9af98a7e8af266bae73e9d662b8341da1ec5824]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/driver-core-bus-add-irq_get_affinity-callback-to-bus_type/20241112-213257
-base:   c9af98a7e8af266bae73e9d662b8341da1ec5824
-patch link:    https://lore.kernel.org/r/20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8%40kernel.org
-patch subject: [PATCH v3 3/8] virtio: hookup irq_get_affinity callback
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241113/202411130521.UOBdW8Rv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130521.UOBdW8Rv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411130521.UOBdW8Rv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/virtio/virtio.c:389: warning: Function parameter or struct member 'irq_veq' not described in 'virtio_irq_get_affinity'
->> drivers/virtio/virtio.c:389: warning: Excess function parameter 'irq_vec' description in 'virtio_irq_get_affinity'
-
-
-vim +389 drivers/virtio/virtio.c
-
-   379	
-   380	/**
-   381	 * virtio_irq_get_affinity - get IRQ affinity mask for device
-   382	 * @_d: ptr to dev structure
-   383	 * @irq_vec: interrupt vector number
-   384	 *
-   385	 * Return the CPU affinity mask for @_d and @irq_vec.
-   386	 */
-   387	static const struct cpumask *virtio_irq_get_affinity(struct device *_d,
-   388							     unsigned int irq_veq)
- > 389	{
-   390		struct virtio_device *dev = dev_to_virtio(_d);
-   391	
-   392		if (!dev->config->get_vq_affinity)
-   393			return NULL;
-   394	
-   395		return dev->config->get_vq_affinity(dev, irq_veq);
-   396	}
-   397	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Do you want to send an update the with the updated check?
 
