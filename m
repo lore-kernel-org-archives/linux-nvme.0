@@ -4,120 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E1F4D42BBF
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 18:25:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E303DD32D97
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 19:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SI3LsDcyGw/407Mz5RJai+Quoq3UgIX/1kn5EwodWv4=; b=FwLanAFDsP75QLp6KisDuBqVdh
-	mxQAzPSqyhcMPTea2Umd0cuC49Czy3tol6SCdOAfoFTAVoOZXWVJnzrITflF0yjT0jV+uwKjcFUlV
-	DY4fQGwF3h1p8uA2gIQ6vR35ZhlaQKAA34fvsjafWaAJeA3gs30ZXIueifafjiYoYUa2F9YPxFuhg
-	JUHdV6ll8hvUvPC4u3obP5V6VtrulKWoePtkvsRl7ipEG7zWpTsZK4xlQ+O04tyS7PnC1MGRtUiYI
-	GgFaqBuaW4csYeT6Cq4OBxUoPffBap7F9RwIWndbJ6HgXAC0FEr3sKyLRUc+lpbcBZMa85/AdOwBF
-	zId4f0FQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nooNrk0pdLGb6HpWRiivYxPtImtREYw4ohNgd/wPIVM=; b=aqiz8OAhtC8JQCJXbEWJ6MI0Li
+	KXgxu0GOlWDI9xTOPELMdPoyyhxBWu/PaX386d4ca4Ef1svlX8qg6+fl3czVrhYKRr+2h7Dn9Qbbw
+	5BG1VMIMwhU69+LdwiUwxK4S683jSWt14+gJzNC6YAdp+yh5l5VSQsjrMzRYvSRxj5USDew0eu4CL
+	2k75vArQIGzvC1KmoLHO2TWRj2xRETmmshF0GU3XGUz3w4B0yufXDkS75qhlaCFNG2Imn48GE11OT
+	0a79q0p0SRGhZrhFLEwTS1IlEMldGAff0jo6C+o9uK1ZmbhYHG5uEeMLryTOstCQXTUgS5Tf8nIPo
+	SDiDk5Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAvaI-00000004YHw-0TQB;
-	Tue, 12 Nov 2024 18:25:50 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1tAwvi-00000004mHO-0DMI;
+	Tue, 12 Nov 2024 19:52:02 +0000
+Received: from sender4-pp-f112.zoho.com ([136.143.188.112])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAvaC-00000004YHL-2fOd
+	id 1tAwvf-00000004mGr-0D0Y
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 18:25:47 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E13B11F74A;
-	Tue, 12 Nov 2024 18:25:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731435942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SI3LsDcyGw/407Mz5RJai+Quoq3UgIX/1kn5EwodWv4=;
-	b=elNpQcgXmLRkPqJA301k3uLorPvi2Xxojc5xDYob+0TUKXa9+5i9pXw7v9f9Zz424NDXq9
-	5i4DovSowO0VFzLB7DDPd6uOeS1ljK89W2FM8wH3lhL0ZmdrTinvQdKY91T5UzbYV9P5bd
-	IeJm7qrejOX9KQo1Ppaho3NMP9MRJy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731435942;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SI3LsDcyGw/407Mz5RJai+Quoq3UgIX/1kn5EwodWv4=;
-	b=upHQI7DtYNeYGXVigZl7tWevH/muN1LRM9QDvL7HEu2k4yEALj0/HYUSUECpBe7xXJ6LZJ
-	XLXEwCmwQNtyUuBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731435942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SI3LsDcyGw/407Mz5RJai+Quoq3UgIX/1kn5EwodWv4=;
-	b=elNpQcgXmLRkPqJA301k3uLorPvi2Xxojc5xDYob+0TUKXa9+5i9pXw7v9f9Zz424NDXq9
-	5i4DovSowO0VFzLB7DDPd6uOeS1ljK89W2FM8wH3lhL0ZmdrTinvQdKY91T5UzbYV9P5bd
-	IeJm7qrejOX9KQo1Ppaho3NMP9MRJy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731435942;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SI3LsDcyGw/407Mz5RJai+Quoq3UgIX/1kn5EwodWv4=;
-	b=upHQI7DtYNeYGXVigZl7tWevH/muN1LRM9QDvL7HEu2k4yEALj0/HYUSUECpBe7xXJ6LZJ
-	XLXEwCmwQNtyUuBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B355613301;
-	Tue, 12 Nov 2024 18:25:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gYx9KaadM2dmQQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 12 Nov 2024 18:25:42 +0000
-Date: Tue, 12 Nov 2024 19:25:42 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Daniel Wagner <wagi@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, 
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v3 4/8] blk-mp: introduce blk_mq_hctx_map_queues
-Message-ID: <07662901-1100-4d03-9033-26ea16cfc54e@flourine.local>
-References: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
- <20241112-refactor-blk-affinity-helpers-v3-4-573bfca0cbd8@kernel.org>
+	Tue, 12 Nov 2024 19:52:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; t=1731441112; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=aRtgj7mr2WNC/5zk/fp43UyVx8wy31cxZ/1Dp4vSKbS1DhkwoLHEhQpGkRa9g48VSlj4tmZXWxb/Bogrsby4m8IpUM2lWnTTbAT5MOqBF92y1fzag/V4crhWU2iWxT2t7BELeSVhr9Ro2TFIlxQaewyytvaQrWe+Bz04SIdm5B8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1731441112; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=nooNrk0pdLGb6HpWRiivYxPtImtREYw4ohNgd/wPIVM=; 
+	b=jqTblEQgIDj7cq0oGMLfJbrAkKU+v1Yq+bP7zoc+liUK04wySJ/GICZoKNHCjESMChYHI40sbgJTA2PcFuH5JYkYOKyPxG/NNO7D0NNwOVODKSiWQEmQBQcIvfOhFefgQp1MuyOdTJi3cbF3nnzZFoTeVyvDDp72cHSOJjWdzDY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=bob.beckett@collabora.com;
+	dmarc=pass header.from=<bob.beckett@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731441112;
+	s=zohomail; d=collabora.com; i=bob.beckett@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=nooNrk0pdLGb6HpWRiivYxPtImtREYw4ohNgd/wPIVM=;
+	b=XdDW8jpfXsigiE8D60e0eWVpedR5DrKMIMmaVF4nHSRy+Bdka0zRh4DxG5BZWfDo
+	TlBbtn19fSzuXyS4RoVAR24IS9bQ+B0M8B/+6gSfQ+SdewD9ojOw4v+CydAwEz+3Up+
+	AiJhFcoiI5ql2JrqSMEguCj043pX1v6z5A/oFPNo=
+Received: by mx.zohomail.com with SMTPS id 1731441109569554.7931799757025;
+	Tue, 12 Nov 2024 11:51:49 -0800 (PST)
+From: Bob Beckett <bob.beckett@collabora.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: kernel@collabora.com,
+	Robert Beckett <bob.beckett@collabora.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
+Date: Tue, 12 Nov 2024 19:50:00 +0000
+Message-ID: <20241112195053.3939762-1-bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-4-573bfca0cbd8@kernel.org>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_102544_845866_F9DA3FA0 
-X-CRM114-Status: UNSURE (   7.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241112_115159_169106_4710EEBF 
+X-CRM114-Status: GOOD (  17.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,5 +80,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The subject prefix has obviously a typo, should start with 'blk-mq:'
+From: Robert Beckett <bob.beckett@collabora.com>
+
+We initially put in a quick fix of limiting the queue depth to 1
+as experimentation showed that it fixed data corruption on 64GB
+steamdecks.
+
+After further experimentation, it appears that the corruption
+is fixed by aligning the small dma pool segments to 512 bytes.
+Testing via desync image verification shows that it now passes
+thousands of verification loops, where previously
+it never managed above 7.
+
+Currently it is not known why this fixes the corruption.
+Perhaps it is doing something nasty like using an mmc page
+as a cache for the prp lists (mmc min. page size is 512 bytes)
+and not invalidating properly, so that the dma pool change to
+treats segment list as a stack ends up giving a previous
+segment in the same cached page.
+
+This fixes the previous queue depth limitation as it fixes
+the corruption without incurring a 37% tested performance
+degredation.
+
+Fixes: 83bdfcbdbe5d ("nvme-pci: qdepth 1 quirk")
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+---
+ drivers/nvme/host/nvme.h | 5 +++++
+ drivers/nvme/host/pci.c  | 6 +++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 093cb423f536..61bba5513de0 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -173,6 +173,11 @@ enum nvme_quirks {
+ 	 * MSI (but not MSI-X) interrupts are broken and never fire.
+ 	 */
+ 	NVME_QUIRK_BROKEN_MSI			= (1 << 21),
++
++	/*
++	 * Align dma pool segment size to 512 bytes
++	 */
++	NVME_QUIRK_DMAPOOL_ALIGN_512		= (1 << 22),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4b9fda0b1d9a..6fcd3bb413c4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2700,8 +2700,8 @@ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+ 		return -ENOMEM;
+ 
+ 	/* Optimisation for I/Os between 4k and 128k */
+-	dev->prp_small_pool = dma_pool_create("prp list 256", dev->dev,
+-						256, 256, 0);
++	dev->prp_small_pool = dma_pool_create("prp list 256", dev->dev,256,
++				       dev->ctrl.quirks & NVME_QUIRK_DMAPOOL_ALIGN_512 ? 512 : 256, 0);
+ 	if (!dev->prp_small_pool) {
+ 		dma_pool_destroy(dev->prp_page_pool);
+ 		return -ENOMEM;
+@@ -3449,7 +3449,7 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1217, 0x8760), /* O2 Micro 64GB Steam Deck */
+-		.driver_data = NVME_QUIRK_QDEPTH_ONE },
++		.driver_data = NVME_QUIRK_DMAPOOL_ALIGN_512, },
+ 	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_BOGUS_NID, },
+-- 
+2.45.2
+
 
