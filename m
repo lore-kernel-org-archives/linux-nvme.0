@@ -4,90 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C391D41D45
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 01:04:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 040EAD41D44
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 01:04:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0aZxHehuFin5Xrs40VllxGZ7a3/ahEo9jXemQX9Fay0=; b=Ge2/JIgj3BAZF6DpRALiwVzR7T
-	CtL+D5UZmOqmLpX0l1mUHoksA91LFunCO/mxBuTsPUwt9jZmTYDfY1/d3I6sjaApE9bJojXtSVosm
-	O2FvUpY80LfaH3ZX/AKBwJtlphiKxPDOeb005oGKRdnHEguEQBRYguFJfCaJxJCW0i7m330fArfP4
-	aULjBJnXlF8AcdiU/4g0lL/Hljwo5q5PTxTI/xOqq8e0Jzb9xbKrJWs1O4UGOh29XOWI52fWtpV7V
-	qsuH+2g2T/LjNNf4moO0Po1YFg1JpnUp77JV3WxKc/xIeP5jqUPcUq2qM7PBtOlAJCv5Gp5is7C3E
-	9EviWMsQ==;
+	bh=ze3l2pViJF1Ke3GJwQHCrNz3T2sv8K+NO5ktGTWIZ3E=; b=NnneGew6C9cSONgISvY3FKnfAB
+	u7WqdcOmzGhw+v5e1bXAcAPLgPL8gMxo/hKYmeOC3tEMZFWrVZDtpXaPYXoRs3wWK6xDa0Pm9MfqC
+	lTh0+b16o4jmLoHNXLQwfJ2n4yqdaQNYKClVRHPDaxgLGSlSsDUrC7Qvf61pFpfRn9LCCjZBCEdVi
+	w/n9rIKhVGgMCX2raoEbVrd5TvFN1rxAsEQ2spSPXbeUZRFz1GGjLgbwMhRHt98PJ04FTnfTUX2BZ
+	OjCtZoeHMDxLWbKYL+EARV00oeP7YkYSxPa1ciOogyIX+V6EQyQ4wiydgQo1+PYBoxuSaPHuhcO+M
+	GzzuOazA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAfKn-00000001p1X-0Iq4;
+	id 1tAfKn-00000001p1n-3Rvx;
 	Tue, 12 Nov 2024 01:04:45 +0000
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAfA6-00000001n8g-3oNQ
+	id 1tAfAE-00000001nAl-47mM
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 00:53:44 +0000
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4315baec69eso44724425e9.2
-        for <linux-nvme@lists.infradead.org>; Mon, 11 Nov 2024 16:53:41 -0800 (PST)
+	Tue, 12 Nov 2024 00:53:52 +0000
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-37d6a2aa748so3052261f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 11 Nov 2024 16:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731372820; x=1731977620; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1731372829; x=1731977629; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0aZxHehuFin5Xrs40VllxGZ7a3/ahEo9jXemQX9Fay0=;
-        b=AGprt2VqHnxqz7ECKK+opX2nA8iVGVChWxZyqEzpcFM1hXPbD/WTRertagSqhtKmO6
-         SR6vQ6vZydpepwdxODtqANWk+wbr3WEIra1eXq2ff3CGf/vbn4dBMGFjwbK1JLZdCyCx
-         6RHCzr6PtzLkRcBPjq4NaVemsv3YAkOV6uRfxvUS4kPxpSzw2dKuFxFMs+tmWOPDLNnC
-         ztUcLnKUukA8aVoHwpg/AfWg26epOdanA/+lPvT3PMdnOY+F3wC637uKpA7jtSUIffg0
-         B3raZhu3ri7wiRKz15wednlfjTarBIr4dnS1JvrkEH9bsTPl12BMfQGgdCl7B28Uy+2/
-         dhKA==
+        bh=ze3l2pViJF1Ke3GJwQHCrNz3T2sv8K+NO5ktGTWIZ3E=;
+        b=A5PJM5/M4cZ1WsPeck3NFahFXZvE8CRBdcGScFpdV+D1PjLKJ+XnbSIhCXwbMdl4XK
+         nGgN99drcI/DXjQcQo/3mcQ3t7sPWgvt67MJXbDcKDflpzOAV6sKFQSlIlJt0aFrOgaF
+         NgsQRDdNLCtIJvNQXLkTkKNSOxOmzTgHdt5S9EAiZF6E2HDc7VtwzvSEKt8VaJ5DHlPk
+         1jq6P4hxrjIvwuMTehUpA1/OnrWVUdmcu1rR6ye6l/SyGQm2Uf7/N21AOYEjgu0+mbm5
+         RS37EFSoJIFimJx8hwX2FRp+AmHzVnzSZUMZfVKgyqZGcsNfAgWy+F+/N7rxrTDusJPW
+         DObA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731372820; x=1731977620;
+        d=1e100.net; s=20230601; t=1731372829; x=1731977629;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0aZxHehuFin5Xrs40VllxGZ7a3/ahEo9jXemQX9Fay0=;
-        b=jc9HnMBXFLUnTNmPzItu0eNyRWmnu21Qaht8rPU1k1FVFZGFk0A2J4T1CkWZYhyq3x
-         ZjM0UTpf9omSv7aepHIzE5ZjoD169Y2yEGeV4qziZeuAa0fic0tnru92zsn5/5F/iWgL
-         h1Qi1dCKNcHepmfAY1DRbYLJVACaw+QwFWd7zTrwWj9pr8lNW6BulooHLkUYfdos/TZ9
-         EdZ/EUGrjBRGTFrKJjuL59ILS6x0TbT6wVamRhQrTBo9KtULoYLXRzuk5m7K8fWsJO9K
-         vM+65f2uK682+3SBaAp81fGqvcpA7bgt7p4c2EwEh+qhKxPbWgNRLE827qT8qL2vJrxt
-         Edfg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJdTEBJqHJz/WbEmLDqzcoo62tb7E0JWrHdYW3wB2jo4TdV242llsmwr8PoYOHmxDkrSLzDgvTfQhF@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx8k84tCbLukBfw6OfR2zHMKGOptOCWHnFtXdB3F2FWj/qvYrk0
-	dkLyNWQI5gDG9yAJ/v1i/EJdPZCafKb38VcA0VOM3vC7m+qhKngN
-X-Google-Smtp-Source: AGHT+IGwHpsOMIYldPnZtYdi6bZCchFzKZKPBSbwlgWRj8qHSABPttz33F7Uj57ko9bJY5t4p4ocvw==
-X-Received: by 2002:a05:600c:1d98:b0:42f:8229:a0a1 with SMTP id 5b1f17b1804b1-432b751dcb8mr122259075e9.33.1731372820008;
-        Mon, 11 Nov 2024 16:53:40 -0800 (PST)
+        bh=ze3l2pViJF1Ke3GJwQHCrNz3T2sv8K+NO5ktGTWIZ3E=;
+        b=XQY842TLYQ0uE60AXcgc12bOP9bb7y4EBPnpneSJ+78Kmxox6o+/a20JXzdr2pmUra
+         yqOQ8O53CJO0M3NT5kmBbKUSWVGL/f3kViP/IlixjYxDxhBojtJZvHV8EBfQaSMqrPHL
+         YzLy8UDbzjPeVtZp2+Ls3EG9WR2pu6toI4hKZG1zmyqYYScOaOkQsPUyH9zjeK/7GnkD
+         EtTTZfVzHBvZHkmsISGXUWQSRIAuSbvqQSFlhGPGxLAfB6A0sCDyfB8AukBHV8EijMy5
+         DsokSOCpOvBLKmivpvLCCMujC2BpXCachADy8xcfnsvHoxoqgwI9MCnIPzWpUccpynqB
+         7rSA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+EfVZj6Sxkp/RFc1ZdsMax5Tza8XOptZOuaNQJ+BBf6W+ZrBMeS5pj7ltxEmNmk1/qAYLRjYvLicB@lists.infradead.org
+X-Gm-Message-State: AOJu0Yznn4vkQ+LApGJb4C4NWSBHb4eFPSOuaah2LtJAh3ah/OVzEHqV
+	KdqZ1YXMy/9xNMW2KgRLBHq4ISqRt+9l8R4HqLfpkVdZoe/bjTEW
+X-Google-Smtp-Source: AGHT+IHK2R7O39rPlG6hNltnOdR+XHDxAnsH0twtPY40zT6Pf5flUZXqdiOD1gkb9VOabYgYNTuldA==
+X-Received: by 2002:a05:6000:410a:b0:381:f5a7:9baa with SMTP id ffacd0b85a97d-381f5a79bc3mr8812654f8f.0.1731372828800;
+        Mon, 11 Nov 2024 16:53:48 -0800 (PST)
 Received: from [192.168.42.75] ([85.255.234.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381eda137dbsm13779210f8f.110.2024.11.11.16.53.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381eda0411csm13818107f8f.95.2024.11.11.16.53.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Nov 2024 16:53:39 -0800 (PST)
-Message-ID: <72bb4c21-e597-497f-b54b-d09c6f753d13@gmail.com>
-Date: Tue, 12 Nov 2024 00:54:23 +0000
+        Mon, 11 Nov 2024 16:53:48 -0800 (PST)
+Message-ID: <86029316-4c73-46fa-8a02-a34103d6c60b@gmail.com>
+Date: Tue, 12 Nov 2024 00:54:32 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 06/10] io_uring/rw: add support to send metadata along
+Subject: Re: [PATCH v6 06/10] io_uring/rw: add support to send metadata along
  with read/write
-To: Anuj gupta <anuj1072538@gmail.com>, Christoph Hellwig <hch@lst.de>
-Cc: Anuj Gupta <anuj20.g@samsung.com>, axboe@kernel.dk, kbusch@kernel.org,
- martin.petersen@oracle.com, brauner@kernel.org, jack@suse.cz,
- viro@zeniv.linux.org.uk, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- gost.dev@samsung.com, linux-scsi@vger.kernel.org, vishak.g@samsung.com,
- linux-fsdevel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
-References: <20241106121842.5004-1-anuj20.g@samsung.com>
- <CGME20241106122710epcas5p2b314c865f8333c890dd6f22cf2edbe2f@epcas5p2.samsung.com>
- <20241106121842.5004-7-anuj20.g@samsung.com> <20241107055542.GA2483@lst.de>
- <CACzX3As284BTyaJXbDUYeKB96Hy+JhgDXs+7qqP6Rq6sGNtEsw@mail.gmail.com>
+To: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
+ brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, gost.dev@samsung.com, vishak.g@samsung.com,
+ anuj1072538@gmail.com, Anuj Gupta <anuj20.g@samsung.com>
+References: <20241030180112.4635-1-joshi.k@samsung.com>
+ <CGME20241030181013epcas5p2762403c83e29c81ec34b2a7755154245@epcas5p2.samsung.com>
+ <20241030180112.4635-7-joshi.k@samsung.com>
+ <ZyKghoCwbOjAxXMz@kbusch-mbp.dhcp.thefacebook.com>
+ <914cd186-8d15-4989-ad4e-f7e268cd3266@gmail.com>
+ <ceb58d97-b2e3-4d36-898d-753ba69476be@samsung.com>
+ <b11cc81d-08b7-437d-85b4-083b84389ff1@gmail.com>
+ <47ce9a55-b6fd-47f8-9707-b530f2ea7df5@samsung.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CACzX3As284BTyaJXbDUYeKB96Hy+JhgDXs+7qqP6Rq6sGNtEsw@mail.gmail.com>
+In-Reply-To: <47ce9a55-b6fd-47f8-9707-b530f2ea7df5@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241111_165342_989347_BEBC446C 
-X-CRM114-Status: GOOD (  14.53  )
+X-CRM114-CacheID: sfid-20241111_165351_062114_7683AA29 
+X-CRM114-Status: GOOD (  22.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,27 +106,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/7/24 07:26, Anuj gupta wrote:
-> On Thu, Nov 7, 2024 at 11:25 AM Christoph Hellwig <hch@lst.de> wrote:
-...
+On 11/10/24 17:41, Kanchan Joshi wrote:
+> On 11/7/2024 10:53 PM, Pavel Begunkov wrote:
+> 
+>>>> 1. SQE128 makes it big for all requests, intermixing with requests that
+>>>> don't need additional space wastes space. SQE128 is fine to use but at
+>>>> the same time we should be mindful about it and try to avoid enabling it
+>>>> if feasible.
+>>>
+>>> Right. And initial versions of this series did not use SQE128. But as we
+>>> moved towards passing more comprehensive PI information, first SQE was
+>>> not enough. And we thought to make use of SQE128 rather than taking
+>>> copy_from_user cost.
 >>
->> struct io_uring_sqe_ext {
->>          /*
->>           * Reservered for please tell me what and why it is in the beginning
->>           * and not the end:
->>           */
->>          __u64   rsvd0[4];
+>> Do we have any data how expensive it is? I don't think I've ever
+>> tried to profile it. And where the overhead comes from? speculation
+>> prevention?
 > 
-> This space is reserved for extended capabilities that might be added down
-> the line. It was at the end in the earlier versions, but it is moved
-> to the beginning
-> now to maintain contiguity with the free space (18b) available in the first SQE,
-> based on previous discussions [1].
-> 
-> [1] https://lore.kernel.org/linux-block/ceb58d97-b2e3-4d36-898d-753ba69476be@samsung.com/
+> We did measure this for nvme passthru commands in past (and that was the
+> motivation for building SQE128). Perf profile showed about 3% overhead
+> for copy [*].
 
-I don't believe it helps much anything, placing a structure on the
-border between SQEs also feels a bit odd.
+Interesting. Sounds like the 3% is not accounting spec barriers,
+and then I'm a bit curious how much of it comes from the generic
+memcpy what could've been several 64 bit reads. But regardless
+let's assume it is expensive.
+
+>> If it's indeed costly, we can add sth to io_uring like pre-mapping
+>> memory to optimise it, which would be useful in other places as
+>> well.
+> 
+> But why to operate as if SQE128 does not exist?
+> Reads/Writes, at this point, are clearly not using aboud 20b in first
+> SQE and entire second SQE. Not using second SQE at all does not seem
+> like the best way to protect it from being used by future users.
+
+You missed the point, if you take another look at the rest of my
+reply I even mentioned that SQE128 could be used as an optimisation
+and the only mode for this patchset, but the API has to be nicely
+extendable with more attributes in the future.
+
+You can't fit everything into SQE128. Even if we grow the SQE size
+further, it's one size for all requests, mixing requests would mean
+initilising entire SQE256/512/... for all requests, even for those
+that don't need it. It might be reasonable for some applications
+but not for a generic case.
+
+I know you care about having that particular integrity feature,
+but it'd be bad for io_uring to lock into a suboptimal API and
+special-casing PI implementation. Let's shift a discussion about
+details to the other sub-thread.
+
+> Pre-mapping maybe better for opcodes for which copy_for_user has already
+> been done. For something new (like this), why to start in a suboptimal
+> way, and later, put the burden of taking hoops on userspace to get to
+> the same level where it can get by simply passing a flag at the time of
+> ring setup.
 
 -- 
 Pavel Begunkov
