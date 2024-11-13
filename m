@@ -4,88 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B64E4D41C27
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 09:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DF30D41C2B
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 09:58:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x03lHb2NlF8giJPDjnZ8KNjG5BnlxnM3noEvtBrKxp8=; b=wsM9g+Q0ujPpdW7uAqNlOUzP2N
-	cHTjWpB9YCHfEGTrSjWW6xPrToFvOTebhfCpBKc+w16gnDWe4JEXcbw0aPWtM/49aGnIYh5hdE1D3
-	WJxo0amycCfVxdOpBwUs61DlQ4SAmPIB1ygvsMBCO6CSVPGmmgY3RvquSpgLpCG61432Oz2YcH+rf
-	hCUyBr7o/QRl8WaExuNbSLGGvHmPT0Vnj6pqXbSqeCUNuR7u9MP4pF82ipG7HEfk+HNvJuQLm5G1Z
-	PcFrE/2hjWgHlgmDXB2fNHdoNxeM6Ms+/qinj2t4vBHu2DDDx035Q28rldH8Vn8ZU7ubFgDWeTgVJ
-	OuiwUrxw==;
+	bh=zPXzZydT6qO4UokPRFwEZNudeu1M8HPAtnVVbwn0LLU=; b=ju5/9H4m/LpazjB7UOpXABRJxi
+	69irWpsc8FV/EvF3CDuBP8BDvfm5VBwvaTScMKYJPCDmi7phfPzH2YYSsJ2FdMvCtNghzxEk38ra9
+	dw4r+bMCOAAxlYp0R+Z8cOqHX/PIzCBShu3l7PkIdbuf/vlVYCICThc5ZcnFhVbRr+pha4xTfgX6s
+	pBFUtS4uvMJMKEk0Uv0tCx2le+Z8qfic64h150ML8yFlCWjZQbvzuIPi/mViTm+TTkV2qQs2+KlPL
+	Zm8cZpuYTA0IzNEJuPPmUjmoKAJ/JMg/8ZwaD22wKhx8+Ikc5S83HKNSO3TxRXb/i88XX43Hx/vAq
+	2JhCYMhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBA4f-00000006JiK-1U0j;
-	Wed, 13 Nov 2024 09:54:09 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1tBA8x-00000006LGd-16Kb;
+	Wed, 13 Nov 2024 09:58:35 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tB9z8-00000006I2f-0a25
+	id 1tBA0M-00000006IWD-2542
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Nov 2024 09:48:28 +0000
+	Wed, 13 Nov 2024 09:49:45 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C4E9F211D4;
-	Wed, 13 Nov 2024 09:48:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1AEA61F443;
+	Wed, 13 Nov 2024 09:49:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731491304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1731491381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x03lHb2NlF8giJPDjnZ8KNjG5BnlxnM3noEvtBrKxp8=;
-	b=pzjrA//g7r/d+yol1CiRRBBPM4kFT4sDFUYFyauckN3qRAYvop9/FBzBIkfFhCzLCN6eIL
-	afKEF48KVqsKiW6UnT0BiLrVibgK82gkmuAbzlfZ5tIQ0gQZIc+Q2xiId0I+z6VwrE3E0l
-	E67QWk74P9odF0CLdL5AoIRilHqN2jw=
+	bh=zPXzZydT6qO4UokPRFwEZNudeu1M8HPAtnVVbwn0LLU=;
+	b=T1tNyApXhsadqKPRBvkhvdE8do15PWzdoweDb8GvAFmf9B1uLU9OAv8vdap6A2hQ8ovFXu
+	rSxhO8LwoGOMxCSxIf8lZF52Ib0q6s5lWkhnrNh/9MycebbAw5W/6JwprrdrVCJY0zVGKq
+	05nqTU6gi+HiXoL1OwhujElZlAk5/qE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731491304;
+	s=susede2_ed25519; t=1731491381;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x03lHb2NlF8giJPDjnZ8KNjG5BnlxnM3noEvtBrKxp8=;
-	b=NVPl8zERbrVO6jmFvsbLxY0I89mb3aFlAoLun2DOjk0lFEapaB+OZ8gWGUxwtN2usqgj4c
-	Yi/uEpt2BOVl1uBA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=zPXzZydT6qO4UokPRFwEZNudeu1M8HPAtnVVbwn0LLU=;
+	b=q4bCy2+zJivHKa4X75WD4y0ZoZ8jKUIeO6gj7fHPeEkQePXM6bjVnGaph/rKq7Cdy2BMla
+	g/rALeTsKGsHrpAA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731491304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1731491381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x03lHb2NlF8giJPDjnZ8KNjG5BnlxnM3noEvtBrKxp8=;
-	b=pzjrA//g7r/d+yol1CiRRBBPM4kFT4sDFUYFyauckN3qRAYvop9/FBzBIkfFhCzLCN6eIL
-	afKEF48KVqsKiW6UnT0BiLrVibgK82gkmuAbzlfZ5tIQ0gQZIc+Q2xiId0I+z6VwrE3E0l
-	E67QWk74P9odF0CLdL5AoIRilHqN2jw=
+	bh=zPXzZydT6qO4UokPRFwEZNudeu1M8HPAtnVVbwn0LLU=;
+	b=T1tNyApXhsadqKPRBvkhvdE8do15PWzdoweDb8GvAFmf9B1uLU9OAv8vdap6A2hQ8ovFXu
+	rSxhO8LwoGOMxCSxIf8lZF52Ib0q6s5lWkhnrNh/9MycebbAw5W/6JwprrdrVCJY0zVGKq
+	05nqTU6gi+HiXoL1OwhujElZlAk5/qE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731491304;
+	s=susede2_ed25519; t=1731491381;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=x03lHb2NlF8giJPDjnZ8KNjG5BnlxnM3noEvtBrKxp8=;
-	b=NVPl8zERbrVO6jmFvsbLxY0I89mb3aFlAoLun2DOjk0lFEapaB+OZ8gWGUxwtN2usqgj4c
-	Yi/uEpt2BOVl1uBA==
+	bh=zPXzZydT6qO4UokPRFwEZNudeu1M8HPAtnVVbwn0LLU=;
+	b=q4bCy2+zJivHKa4X75WD4y0ZoZ8jKUIeO6gj7fHPeEkQePXM6bjVnGaph/rKq7Cdy2BMla
+	g/rALeTsKGsHrpAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 911F713A6E;
-	Wed, 13 Nov 2024 09:48:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D733D13A6E;
+	Wed, 13 Nov 2024 09:49:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JFL8Iuh1NGfHFAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 13 Nov 2024 09:48:24 +0000
-Message-ID: <1c78d7ff-78d0-48e9-8da8-abd54018cbb4@suse.de>
-Date: Wed, 13 Nov 2024 10:48:24 +0100
+	id W9MbNDR2NGd2FQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 13 Nov 2024 09:49:40 +0000
+Message-ID: <4c4415c0-8ad9-4783-86d9-383676116e65@suse.de>
+Date: Wed, 13 Nov 2024 10:49:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/8] blk-mp: introduce blk_mq_hctx_map_queues
+Subject: Re: [PATCH v3 5/8] scsi: replace blk_mq_pci_map_queues with
+ blk_mq_hctx_map_queues
 To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Bjorn Helgaas <bhelgaas@google.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
@@ -100,10 +101,10 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
  storagedev@microchip.com, linux-nvme@lists.infradead.org
 References: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
- <20241112-refactor-blk-affinity-helpers-v3-4-573bfca0cbd8@kernel.org>
+ <20241112-refactor-blk-affinity-helpers-v3-5-573bfca0cbd8@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-4-573bfca0cbd8@kernel.org>
+In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-5-573bfca0cbd8@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
@@ -111,24 +112,23 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLst1wom1x1pd8ajtcs5pyzfej)];
-	RCVD_COUNT_TWO(0.00)[2];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_014826_348340_95D136A7 
-X-CRM114-Status: GOOD (  12.64  )
+X-CRM114-CacheID: sfid-20241113_014942_714601_03FC7F6A 
+X-CRM114-Status: GOOD (  11.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,23 +144,26 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 11/12/24 14:26, Daniel Wagner wrote:
-> blk_mq_pci_map_queues and blk_mq_virtio_map_queues will create a CPU to
-> hardware queue mapping based on affinity information. These two function
-> share common code and only differ on how the affinity information is
-> retrieved. Also, those functions are located in the block subsystem
-> where it doesn't really fit in. They are virtio and pci subsystem
-> specific.
+> Replace all users of blk_mq_pci_map_queues with the more generic
+> blk_mq_hctx_map_queues. This in preparation to retire
+> blk_mq_pci_map_queues.
 > 
-> Thus introduce provide a generic mapping function which uses the
-> irq_get_affinity callback from bus_type.
-> 
-> Originally idea from Ming Lei <ming.lei@redhat.com>
-> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > Signed-off-by: Daniel Wagner <wagi@kernel.org>
 > ---
->   block/blk-mq-cpumap.c  | 37 +++++++++++++++++++++++++++++++++++++
->   include/linux/blk-mq.h |  2 ++
->   2 files changed, 39 insertions(+)
+>   drivers/scsi/fnic/fnic_main.c             | 3 +--
+>   drivers/scsi/hisi_sas/hisi_sas.h          | 1 -
+>   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 4 ++--
+>   drivers/scsi/megaraid/megaraid_sas_base.c | 3 +--
+>   drivers/scsi/mpi3mr/mpi3mr.h              | 1 -
+>   drivers/scsi/mpi3mr/mpi3mr_os.c           | 2 +-
+>   drivers/scsi/mpt3sas/mpt3sas_scsih.c      | 3 +--
+>   drivers/scsi/pm8001/pm8001_init.c         | 2 +-
+>   drivers/scsi/pm8001/pm8001_sas.h          | 1 -
+>   drivers/scsi/qla2xxx/qla_nvme.c           | 3 +--
+>   drivers/scsi/qla2xxx/qla_os.c             | 4 ++--
+>   drivers/scsi/smartpqi/smartpqi_init.c     | 7 +++----
+>   12 files changed, 13 insertions(+), 21 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
