@@ -4,53 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94534D41C2E
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 10:31:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7259D41C32
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 10:31:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=J7gQhNSmtD6VtBqDj9ekJPknx/4FLi0GHXUfJk+SkYw=; b=qke5UK7RR5PH2wIr5v6i4hQJTa
-	fEYSZGHWeqcqzvh4blNk3UIOAuitrTSjEETSFhdO5TQduH3LmG/CZJO1NT8nkZkR/qvJ4bHhLBcBy
-	b6UipajqeB2G1OXIagX+TNWpfJ2bWPrC1CA2qDH+rUdaIRtkA9jKJGSAikMAG1ZDQ6AFVTI1awbtV
-	L0bPaBwJ/U/GC9Gk5JwrbaUFWpaGFce06PSLCiMbuNO3URL6lfcconUeZ7iEIqL3f7dJglioWolYI
-	FD2YX5aFwakbrW4RleWX9hKvh8JcPyviE8M0YMCf4c3v8A3ezvCXb1X/TXBd5uAfDHP1WlOSh8t5L
-	hqwuRIog==;
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=69KhaJaJyrxxixUELpSq2zj7Kablj3JfKRM24rHHs6I=; b=BY/lVG3AO0qCfNttwANCUAqOSC
+	HI5xD3bHYoy3bXUN1im2XLE3Tr3/9n8cxn71IdDJtgmGwMyHnCvt6lc41/TQonLBkArujDXcsudu1
+	s1brgnkGvHMjfvi6NouUg/wxD4iBW/khXiRopzCDKvEdff+PftUAUCblH6UesQDA4TVp3qxRIszzY
+	vgXkezlgMEdhnJkSuHPckFBrZ0bSQ5WGtu6tucOZtiXjR8Yc/Ff9XMv2+37so9IN9+4JLMFSa3wHP
+	tVS8JamTF/1mH9dbpBIXb/tSIVERzEyjCwfJrVJHeT2rqpciGIJnUHQ/4haKKsjbi+a1dbY+BP54a
+	ntIYOuwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBAf3-00000006S3n-1XN5;
-	Wed, 13 Nov 2024 10:31:45 +0000
-Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+	id 1tBAf5-00000006S4y-020j;
+	Wed, 13 Nov 2024 10:31:47 +0000
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBASY-00000006PrA-0l9k
+	id 1tBAVp-00000006QXE-1ZVB
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Nov 2024 10:18:52 +0000
+	Wed, 13 Nov 2024 10:22:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1731493126; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=J7gQhNSmtD6VtBqDj9ekJPknx/4FLi0GHXUfJk+SkYw=;
-	b=JU8kF0YpRL3OXsneOM6WBUqZCQWM6r4Zk22O1w3E1KZHWAhxGzIG0OomG1eFL50Ll2zZKdA1QUFoLDZgvZrqrmlYUmtE4HOTplV/vqt5nnb6YKrCNQWLLCALajuuM2Vsi7tth8oCzT3fyNa6taahXYf2h6HpzawKVbzZdeKT14Y=
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WJKj3pz_1731493119 cluster:ay36)
+	t=1731493329; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	bh=69KhaJaJyrxxixUELpSq2zj7Kablj3JfKRM24rHHs6I=;
+	b=n51n4cOAZu/RzHIxGmWj8BPp20u34GajuPHQqUHU+SfYAP5yuihzpIyPm0765fIJOQTSkY4QB0AwDi6SwVl44bJj1gp1G7UOwMgNJ9Wl3oOm3hHisFbUWbhhi1AlvXBboKmYPkVMiYmUp01Y8KlgmU2HbaiMLgeiu3DRxJmZhmY=
+Received: from 30.178.82.28(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WJKli33_1731493325 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Wed, 13 Nov 2024 18:18:44 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v5] nvmet: report ns's vwc not present
-Date: Wed, 13 Nov 2024 18:18:39 +0800
-Message-ID: <20241113101839.101320-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+          Wed, 13 Nov 2024 18:22:06 +0800
+Message-ID: <fc116473-340a-48e2-8bfa-79cd5e318e73@linux.alibaba.com>
+Date: Wed, 13 Nov 2024 18:22:05 +0800
 MIME-Version: 1.0
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH v3 0/2] Introduce service-time multipath policy and
+ document
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org
+References: <20241108085449.49972-1-kanie@linux.alibaba.com>
+In-Reply-To: <20241108085449.49972-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_021850_929140_C6A09C4B 
-X-CRM114-Status: GOOD (  10.15  )
+X-CRM114-CacheID: sfid-20241113_022213_851038_A5E80D9E 
+X-CRM114-Status: GOOD (  10.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,40 +66,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently, we report that controller has vwc even though the ns may
-not have vwc. Report ns's vwc not present when not buffered_io or
-backdev doesn't have vwc.
+Hi Christoph,
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
-Based on Keith's v4 patch,
-Changes from v4 to v5:
-- When the backend is file, report support vwc even though buffered_io is
-  disable, and add an annotation to expain it.
+     Could you please take a look on this patchset?
 
- drivers/nvme/target/admin-cmd.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Best Regards,
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 0a9fdc533186..934b401fbc2f 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -934,6 +934,13 @@ static void nvmet_execute_id_cs_indep(struct nvmet_req *req)
- 		id->nsattr |= NVME_NS_ATTR_RO;
- 	if (req->ns->bdev && !bdev_nonrot(req->ns->bdev))
- 		id->nsfeat |= NVME_NS_ROTATIONAL;
-+	/*
-+	 * We need flush command to flush the file's metadata,
-+	 * so report supporting vwc if backend is file, even
-+	 * though buffered_io is disable.
-+	 */
-+	if (req->ns->bdev && !bdev_write_cache(req->ns->bdev))
-+		id->nsfeat |= NVME_NS_VWC_NOT_PRESENT;
- 
- 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
- 	kfree(id);
--- 
-2.43.0
+Guixin Liu
 
+在 2024/11/8 16:54, Guixin Liu 写道:
+> Hi,
+>    This patchset introduce a new multipath policy, service-time, and also
+> add a new document to introduce nvme-multipath and all policies supported.
+>
+> Changes from v2 to v3:
+> - Add more detail to message body(Christoph).
+> - Add a document to introduce nvme-multipath and all policies supported.
+>
+> Changes from v1 to v2:
+> - Use atomic64_t to replace atomic_t (Keith).
+>
+> Guixin Liu (2):
+>    nvme-multipath: introduce service-time iopolicy
+>    docs, nvme: add a nvme-multipath document
+>
+>   Documentation/nvme/nvme-multipath.rst | 83 +++++++++++++++++++++++++++
+>   drivers/nvme/host/multipath.c         | 53 ++++++++++++++++-
+>   drivers/nvme/host/nvme.h              |  3 +
+>   3 files changed, 138 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/nvme/nvme-multipath.rst
+>
 
