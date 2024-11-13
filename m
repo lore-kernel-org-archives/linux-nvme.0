@@ -4,86 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86FDFD637A6
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 18:41:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7540DD637A9
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 18:48:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WgXDWP6uTO9OvPO11ONSGz0dajsnDJA8Ia+wd76L1pU=; b=g+Et5hTLmA5Ym2WFwD/MmzcUc0
-	72vyhCrswPvoOpwrQl3wDupR2Dkxcmw0n6HF9dxgO9pEqHxLFzXwkIik0bed5h0af81TUWyM/m2oC
-	RSoQlsV4bpnMT86JVLIbr3KnnKuo4OUTaJBC581vEV4Yl3GQcD5GZuflohZ+91rkYYOxFfxCGPreX
-	sIneRNt9go87J0nQGzOp2NU28Vbl6ceuER/LcYXtCmY6DnwwtJ6rkQoUZMM9KL6E6DvmzIzah4qqx
-	Q0FMQ3v/YYcMHSgDupiNmdKlba882z5p37YLPiEYSi7hF0yEy52X3jyqEzqZQtCxfL69fvZzgDXk9
-	2bEunySA==;
+	bh=c6j4wyvW+qjOuARZZJwh1G4pDZjq38FdBGsdmUpGeUg=; b=49p1vDHWO0Q/zWreF4zbRV1L8G
+	lWrJC1WuL3G90/gSEEO1+7rIfm+m3dOBCVfjfJvmW9xVoA65+xS+ucKO7NDCK9WG1cfXwm5t6B+TG
+	tuL5m3qSkHWSY5T8YalAYnjAHU4wkR7dN63RvhVznWZi7kQhESievJLeNmnlko9qaigiYw4n89BKy
+	MmWMeg65S0GhX1jKEYk2cZjJnjYxQMlqK/cYQTrDRgaZvnrW19Cn2Y/XKnc0V1UpvDj6xjwOmleCg
+	OTeg4MLecRD3x7C3cISpk86I3VZtFdo3xWG1pZb09tMZe/XY51WGCBQljuiQpanVPF5C4lDP4fOA3
+	KPhG8ttQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBIJE-00000007kb4-40oz;
-	Wed, 13 Nov 2024 18:41:44 +0000
-Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33])
+	id 1tBIPK-00000007lKT-3DHj;
+	Wed, 13 Nov 2024 18:48:02 +0000
+Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBIHV-00000007juL-1ien
+	id 1tBIOA-00000007lF7-0cjN
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Nov 2024 18:39:58 +0000
-Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-5ee8eaa1694so1061297eaf.0
-        for <linux-nvme@lists.infradead.org>; Wed, 13 Nov 2024 10:39:56 -0800 (PST)
+	Wed, 13 Nov 2024 18:48:00 +0000
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-2890f273296so3342107fac.2
+        for <linux-nvme@lists.infradead.org>; Wed, 13 Nov 2024 10:46:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1731523196; x=1732127996; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WgXDWP6uTO9OvPO11ONSGz0dajsnDJA8Ia+wd76L1pU=;
-        b=szpOcApt1uqTtkQRHvDgcMSG7/40j6drOIRUESJhEO3uUFoF2UbbENRgxW20SE/AxQ
-         PNcTZ1CZfBYpf9UY9NuOc9ATmsZb0id30eEX5H9QjfvF3atY7S1BHUqUJLn3lT0X7Jmq
-         PDv1Wx2eujk4Kph1EgPqTVOFUWlCK+jr/SqtFPrlnxlvztRqBXTPSfn58fpKgBQu3Xrn
-         0CCHSdVBJhxt4aVKo1fj1DGKccZQfDC7cM+cPn9H77hroCWPdL0OZtUkrDgc5IDoISfe
-         496YtmqLHWj2AWLDLEDaSPUNqVHVmnusYUYMHZgBTGyYecec2nK1prGjSHQwcv4KvZTR
-         H2cA==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1731523609; x=1732128409; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c6j4wyvW+qjOuARZZJwh1G4pDZjq38FdBGsdmUpGeUg=;
+        b=xMOWVxj9/nAcziHEgfOStOhk50VpbDMuMCBglwa1oYHuhcleWl/0DmmyH0/FavsCLK
+         8BhqRjlS3KSLHDVxEr0oy7rLAVxQcLJq97ALtb45Okrl4ZQuQcXozoY9UN7hPgbXrSFC
+         z06B7VoAgqLUfnAJzHAvbWOPM2ALWsFsQ+w1VRjL+SQBvxmTiQpgGh0QEaIoHg6btxCF
+         8hdn8EjEd9gODD5bV123IeI9odODLl9s1fZjyW5zqlGke9kwMKPJVb2tRgbsC/a47Wdh
+         gn6uQN43AaqNZB5ojF3JKkDfVKcMhJEvY9m9/cIv83FZSsfzoWfCkH67FZg9rv+qPL4p
+         bzfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731523196; x=1732127996;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WgXDWP6uTO9OvPO11ONSGz0dajsnDJA8Ia+wd76L1pU=;
-        b=N11TIyjmaVHCwCY5AS8GZModETLVH6BRLJiRRnB8hlWkZDuQHnUuMgDtitR2SoJa82
-         jrqqbv5M/36U8bUb9GeBdLbXE12EuqYFhTSRbtDSO7PSFsE8cMfB5V74YKIT3guKEjZ9
-         loXdbsz84nXJd2S1qH9OB86Arv9/IuuczBrOAgzQSg/+T0sQrIxuU/aLrsl+nIVxnXpq
-         JxTgdShFZI1WKLZH6qaDnw5gfRsA9H5lohpUYtkvL+fIBPq+gMvWM+13K/Xni3TYQYMt
-         o0n2OJ4xPrS00BlTd2pEr17lvQQMx9GtvK0tRJGZHQzqB8V5vS4liw4gTK/7J5FLAL44
-         C5Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCUPhzwlZghcX2SCcKsdBN7kML00cTe2tsFzRJH7q2ZgtnEwFnXwEWVG8uTFAfAvqF6Y8dKZEbF62AAd@lists.infradead.org
-X-Gm-Message-State: AOJu0YzHs8s/l2RWVOdfrpbEfF3yCJ2+WGyJxu/PFTkjmKPhyezBrLH/
-	M36ziKXqgg3QSRB7/LmRJp+OQ7ZpupzHJPYxdS6a1pOcY1juXZILma92TEAJCAY=
-X-Google-Smtp-Source: AGHT+IESBxgtKu/tqS069ieokYdQsF86VTGk5XXSX9JBOM6NYNLoE/FOQHmxs2aJ76kIzJOEXUf+Gw==
-X-Received: by 2002:a4a:ec4c:0:b0:5e1:cd24:c19c with SMTP id 006d021491bc7-5ee868b0bf0mr6129208eaf.0.1731523194524;
-        Wed, 13 Nov 2024 10:39:54 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ee4950edfesm3141888eaf.14.2024.11.13.10.39.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Nov 2024 10:39:54 -0800 (PST)
-Message-ID: <ffe1f8e9-5484-43f9-a410-2927d0c63659@kernel.dk>
-Date: Wed, 13 Nov 2024 11:39:52 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: don't reorder requests passed to ->queue_rqs
-To: Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org,
- virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
- io-uring@vger.kernel.org
-References: <20241113152050.157179-1-hch@lst.de>
- <92954431-349d-4b75-b63f-948b1df9a3fc@acm.org>
-Content-Language: en-US
+        d=1e100.net; s=20230601; t=1731523609; x=1732128409;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c6j4wyvW+qjOuARZZJwh1G4pDZjq38FdBGsdmUpGeUg=;
+        b=MuI4dH8pqRCqQlO2vR0Th4KrwuMLoXB6Bb/ZgPfYOZw8YpknkWbDH5m035c46FpdNk
+         gRvfkXrKbdE+OZiZsP3njp85ZzE/hnsM1xN0CSKvIXnlrCS2FNkEV/kQGkJKqf96oweQ
+         Q52TvL+5Ha10dy4P3BfQYAEeTpfID9DdVthJ/00ZHHRdDSz86aFN3vf77p59Ez1IYlOf
+         EWtc0F5KbLmboq3fmX5AxfO/RkZouVGYEuE1cjK5aiDNVtiLQv/Kw8kiunAyZiMTeiix
+         8ds8IElX+D6CskiNgZ0HoZemvFibtkzRrKteB8MDrvnU5yAjJFYzio43SQzXzn20Zgh+
+         P7OA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtsn0g8dZ/D59rwr43nRL6kHkUd96EuC+xPJmm/D9ofjBXRjUIcdwYnrTf7GwE8xCmSs8NiFs5XmVl@lists.infradead.org
+X-Gm-Message-State: AOJu0YzD6TaOWjO07XiVc9KBCcmjP6ZO6aYuOr52tQZEg2YtfLC3Sv3j
+	4+s3Qf1Hvtugqmmo3pYn3iyLzARphUvd7feYgdiG0jxPzLwzF7yf1Ag1NVRyZxM=
+X-Google-Smtp-Source: AGHT+IGhW5wNVuxAhg949qECoPGMVp0GIeUGc7cEDZZJFiXO83xP2SEoIWQJzy2xwUop4HsywD6gWw==
+X-Received: by 2002:a05:6871:811:b0:277:d7f1:db53 with SMTP id 586e51a60fabf-29560110330mr19601816fac.17.1731523608778;
+        Wed, 13 Nov 2024 10:46:48 -0800 (PST)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-295e92afbcbsm1023381fac.40.2024.11.13.10.46.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 10:46:48 -0800 (PST)
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <92954431-349d-4b75-b63f-948b1df9a3fc@acm.org>
-Content-Type: text/plain; charset=UTF-8
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+ Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org, 
+ virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
+ io-uring@vger.kernel.org
+In-Reply-To: <20241113152050.157179-1-hch@lst.de>
+References: <20241113152050.157179-1-hch@lst.de>
+Subject: Re: don't reorder requests passed to ->queue_rqs
+Message-Id: <173152360771.2243093.6096591698137056565.b4-ty@kernel.dk>
+Date: Wed, 13 Nov 2024 11:46:47 -0700
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_103957_491693_AF86F116 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20241113_104650_383282_551ABEB4 
+X-CRM114-Status: UNSURE (   9.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,31 +97,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/13/24 11:33 AM, Bart Van Assche wrote:
-> 
-> On 11/13/24 7:20 AM, Christoph Hellwig wrote:
->> currently blk-mq reorders requests when adding them to the plug because
->> the request list can't do efficient tail appends.  When the plug is
->> directly issued using ->queue_rqs that means reordered requests are
->> passed to the driver, which can lead to very bad I/O patterns when
->> not corrected, especially on rotational devices (e.g. NVMe HDD) or
->> when using zone append.
->>
->> This series first adds two easily backportable workarounds to reverse
->> the reording in the virtio_blk and nvme-pci ->queue_rq implementations
->> similar to what the non-queue_rqs path does, and then adds a rq_list
->> type that allows for efficient tail insertions and uses that to fix
->> the reordering for real and then does the same for I/O completions as
->> well.
-> 
-> Hi Christoph,
-> 
-> Could something like the patch below replace this patch series? I
-> don't have a strong opinion about which approach to select.
 
-I mean it obviously could, but it'd be a terrible way to go as we're now
-iterating the full list just to reverse it...
+On Wed, 13 Nov 2024 16:20:40 +0100, Christoph Hellwig wrote:
+> currently blk-mq reorders requests when adding them to the plug because
+> the request list can't do efficient tail appends.  When the plug is
+> directly issued using ->queue_rqs that means reordered requests are
+> passed to the driver, which can lead to very bad I/O patterns when
+> not corrected, especially on rotational devices (e.g. NVMe HDD) or
+> when using zone append.
+> 
+> [...]
 
+Applied, thanks!
+
+[1/6] nvme-pci: reverse request order in nvme_queue_rqs
+      commit: beadf0088501d9dcf2454b05d90d5d31ea3ba55f
+[2/6] virtio_blk: reverse request order in virtio_queue_rqs
+      commit: a982a5637e91fd4491da4bb8eb79cde3fed2300e
+[3/6] block: remove rq_list_move
+      commit: dd53d238d4ca7ff1a0e10eb0205e842560f1394d
+[4/6] block: add a rq_list type
+      commit: dc56e2a78ba20c472c419c6f2ed8fb7d0c95ad90
+[5/6] block: don't reorder requests in blk_add_rq_to_plug
+      commit: 05634083a304eb3d4b5733fe8d6e2fd0c1041ca8
+[6/6] block: don't reorder requests in blk_mq_add_to_batch
+      commit: 65550dea43815d01f45d7ece38e458855d5e2962
+
+Best regards,
 -- 
 Jens Axboe
+
+
+
 
