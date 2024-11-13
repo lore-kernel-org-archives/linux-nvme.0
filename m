@@ -4,71 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BC35D41C33
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 10:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4498FD41C04
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 12:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=coGQ302dRrsPVvacPc1ACQFetLFpkSaGalmYHCrnMaI=; b=MMGbdOwFEpF0fKX5COf+/yZ3xS
-	04ho4UgD2rog+HAMnmhJd5/j/YZBU5jNNxMIWej1DWTNtHLO7UD3SdL1KxHYgAP68mCs0ZuEhXeOu
-	TzscDlw2SOn7tpVrgBoNy067VxZvQH9bTxfnup9HA33DFWxiMG+BW2Kr2luY33ULSHn+PXo1dDjjZ
-	mbg5AkX1m/osHbyHcpujxH1B4TBJ9nYyaZu6K9aeX5NmyvJta+z3yZJ+do3UXIuzthzQruDiGpbx2
-	zfpQD0P4QgG8crWKgMCirN4gtNuOkIo3auqA2wPXOCYclEUXvxZ6F3v8b1Fq2ScNww+1Qbn0CtpVQ
-	/qbrp7Eg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OwZyjST0MC2BE1Uhwog1+2weLgBQ8NK4rlxEdf5P7lU=; b=yrtqOISW3JCj/VCtqKhE6L0MQf
+	dN/ux3yaY79YzffUv52kYF2cjzse04HMFDEdYPohK2SjG3EcXSMT+9rWUD5ofD/tXsRbNIrRM/93M
+	0liNaFBXaiWSzuFZ7wdCGczyfNLCwbat+zJfJOM+Vdt75k4pv6jPfEd5itkb+YNcGgH7Xgcxlmisg
+	/oSJQ6UCFaERsiwsSBM10YkP+aSKD88bnKQ2dohZ7GTmMIgN4PGrDncygtNfSYzCKogjFF/XF7Jc+
+	GOFo6c2gZeSmXQs1ypdEuGSMnfAKct8nFWTitzhPX6dJCRi2V4mxmfKRkHiz0Z5ILf6Hu3ckR7Qln
+	lmQbIIxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBB1a-00000006Vo0-2W0S;
-	Wed, 13 Nov 2024 10:55:02 +0000
-Received: from mgamail.intel.com ([198.175.65.12])
+	id 1tBCcJ-00000006mjk-0EJ8;
+	Wed, 13 Nov 2024 12:37:03 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBB1Y-00000006Vnd-00sk
+	id 1tBCcE-00000006mix-2No1
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Nov 2024 10:55:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731495300; x=1763031300;
-  h=date:from:to:cc:subject:message-id;
-  bh=BFYMFcxEeft7c+3S6IDGXbQl76VMvJAeQT6rGiy7mDA=;
-  b=UytIXXOIgmNzDIAiFk5LEkPjUlnM5tMBDw69KXybEdO+Swk934nCWr1S
-   TDeeXHCBnI07QxoW9RHyX6uabhgTWS4MDRi2XKM/KeDkrYKzzPJ/qJJqe
-   h+lfcjI6Eh5nTJYdFBk4/yrwaZFMfaVmdLspKska8++lXeZSE5mXnzJOT
-   /fpXeNh75cNJ55RUiGZwhVGtdqwYbdG2ozIPsOc4hNfqgQTX/BBGFiqRz
-   pHHbts1ggx/1oe6A+fZq2GDWEOj5kCXm+u4EgnzFQVaT5Dvgia2oXD7Fs
-   +88Uqlg/Edu7ElQjapLfMAVt/Rukp+Ps5rOybYYm0o3ilKTY/B0IPvkSM
-   Q==;
-X-CSE-ConnectionGUID: vc3J2YysTKSLehIZeVUDNA==
-X-CSE-MsgGUID: Pd1Bqa55TRGxdom0FO5X9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="42788187"
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="42788187"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 02:54:59 -0800
-X-CSE-ConnectionGUID: 0PRCQA0SSBqqPH6gofmyuQ==
-X-CSE-MsgGUID: EpqwUhsdRDK24Z09yi38XA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="88228833"
-Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Nov 2024 02:54:58 -0800
-Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tBB1U-0000Gb-0Q;
-	Wed, 13 Nov 2024 10:54:56 +0000
-Date: Wed, 13 Nov 2024 18:54:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.12] BUILD SUCCESS
- d451f8fec1fbfdff9c113432d30543bbfced9c76
-Message-ID: <202411131829.0p2cPr89-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Wed, 13 Nov 2024 12:37:01 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C596E21133;
+	Wed, 13 Nov 2024 12:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731501416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OwZyjST0MC2BE1Uhwog1+2weLgBQ8NK4rlxEdf5P7lU=;
+	b=x6Hpvg+bnpaEDcXzXshd05wx1g65KA0JAHTzWCKmfGtymmFhqrO8IbVOfmr8mtsZa7qs9R
+	FOHi2SSLS6XIfEgvSJr4L71aE2k13Ry6bqSbdTgR8X6XMsVeIumRyqy9GEhrlWjW46ul2a
+	cjVGBeyhOsJ+SBPxuBt6ydqkeqE1ynQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731501416;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OwZyjST0MC2BE1Uhwog1+2weLgBQ8NK4rlxEdf5P7lU=;
+	b=H+jakr0RcjllL8izGR9jTCON1XXq+u5x2wPmJHAmjtMb+r7Gyff6WddEB0fMF92Wh3NKTc
+	9OXiBDSeD2rJx/Dw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=x6Hpvg+b;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=H+jakr0R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731501416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OwZyjST0MC2BE1Uhwog1+2weLgBQ8NK4rlxEdf5P7lU=;
+	b=x6Hpvg+bnpaEDcXzXshd05wx1g65KA0JAHTzWCKmfGtymmFhqrO8IbVOfmr8mtsZa7qs9R
+	FOHi2SSLS6XIfEgvSJr4L71aE2k13Ry6bqSbdTgR8X6XMsVeIumRyqy9GEhrlWjW46ul2a
+	cjVGBeyhOsJ+SBPxuBt6ydqkeqE1ynQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731501416;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OwZyjST0MC2BE1Uhwog1+2weLgBQ8NK4rlxEdf5P7lU=;
+	b=H+jakr0RcjllL8izGR9jTCON1XXq+u5x2wPmJHAmjtMb+r7Gyff6WddEB0fMF92Wh3NKTc
+	9OXiBDSeD2rJx/Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A225813A6E;
+	Wed, 13 Nov 2024 12:36:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cagvJWidNGdbLgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 13 Nov 2024 12:36:56 +0000
+Date: Wed, 13 Nov 2024 13:36:55 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Bjorn Helgaas <bhelgaas@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 1/8] driver core: bus: add irq_get_affinity callback
+ to bus_type
+Message-ID: <2d85aa5e-037a-45c3-9f2d-e46b2159b697@flourine.local>
+References: <20241112-refactor-blk-affinity-helpers-v3-0-573bfca0cbd8@kernel.org>
+ <20241112-refactor-blk-affinity-helpers-v3-1-573bfca0cbd8@kernel.org>
+ <76da6c05-4f28-41cc-a48e-da2ae16c64c4@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76da6c05-4f28-41cc-a48e-da2ae16c64c4@oracle.com>
+X-Rspamd-Queue-Id: C596E21133
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_025500_118201_9DBA2430 
-X-CRM114-Status: UNSURE (   5.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241113_043658_929781_6AED3DD1 
+X-CRM114-Status: GOOD (  24.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,158 +142,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.12
-branch HEAD: d451f8fec1fbfdff9c113432d30543bbfced9c76  nvme-pci: 512 byte aligned dma pool segment quirk
+On Wed, Nov 13, 2024 at 10:16:32AM +0000, John Garry wrote:
+> On 12/11/2024 13:26, Daniel Wagner wrote:
+> > Introducing a callback in struct bus_type so that a subsystem
+> > can hook up the getters directly. This approach avoids exposing
+> > random getters in any subsystems APIs.
+> > 
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> > ---
+> >   include/linux/device/bus.h | 3 +++
+> >   1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
+> > index cdc4757217f9bb4b36b5c3b8a48bab45737e44c5..b18658bce2c3819fc1cbeb38fb98391d56ec3317 100644
+> > --- a/include/linux/device/bus.h
+> > +++ b/include/linux/device/bus.h
+> > @@ -48,6 +48,7 @@ struct fwnode_handle;
+> >    *		will never get called until they do.
+> >    * @remove:	Called when a device removed from this bus.
+> 
+> My impression is that this would be better suited to "struct device_driver",
+> but I assume that there is a good reason to add to "struct bus_type".
 
-elapsed time: 780m
+I think the main reason to put it here is that most of the drivers are
+happy with the getter on bus level and don't need special treatment. We
+don't have to touch all the drivers to hookup a common getter, nor do we
+have to install a default handler when the driver doesn't specify one.
+Having the callback in struct bus_driver avoids this. Though Christoph
+suggested it, so I can only guess.
 
-configs tested: 138
-configs skipped: 3
+But you bring up a good point, if we had also an irq_get_affinity
+callback in struct device_driver it would be possible for the
+hisi_sas v2 driver to provide a getter and blk_mq_hctx_map_queues could
+do:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+	for (queue = 0; queue < qmap->nr_queues; queue++) {
+		if (dev->driver->irq_get_affinity)
+			mask = dev->driver->irq_get_affinity;
+		else if (dev->bus->irq_get_affinity)
+			mask = dev->bus->irq_get_affinity(dev, queue + offset);
+		if (!mask)
+			goto fallback;
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    clang-20
-alpha                            allyesconfig    gcc-14.2.0
-alpha                               defconfig    gcc-14.2.0
-arc                              allmodconfig    clang-20
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    clang-20
-arc                              allyesconfig    gcc-13.2.0
-arc                                 defconfig    gcc-14.2.0
-arc                         haps_hs_defconfig    gcc-14.2.0
-arm                              allmodconfig    clang-20
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    gcc-14.2.0
-arm                              allyesconfig    clang-20
-arm                              allyesconfig    gcc-14.2.0
-arm                         at91_dt_defconfig    gcc-14.2.0
-arm                          collie_defconfig    gcc-14.2.0
-arm                                 defconfig    gcc-14.2.0
-arm                          exynos_defconfig    gcc-14.2.0
-arm                        mvebu_v5_defconfig    gcc-14.2.0
-arm                         s3c6400_defconfig    gcc-14.2.0
-arm                         s5pv210_defconfig    gcc-14.2.0
-arm                          sp7021_defconfig    gcc-14.2.0
-arm                        spear6xx_defconfig    gcc-14.2.0
-arm                           stm32_defconfig    gcc-14.2.0
-arm                         wpcm450_defconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-20
-arm64                             allnoconfig    gcc-14.2.0
-arm64                               defconfig    gcc-14.2.0
-csky                              allnoconfig    gcc-14.2.0
-csky                                defconfig    gcc-14.2.0
-hexagon                          allmodconfig    clang-20
-hexagon                           allnoconfig    gcc-14.2.0
-hexagon                          allyesconfig    clang-20
-hexagon                             defconfig    gcc-14.2.0
-i386                             allmodconfig    clang-19
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    clang-19
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    clang-19
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20241113    clang-19
-i386        buildonly-randconfig-002-20241113    clang-19
-i386        buildonly-randconfig-003-20241113    clang-19
-i386        buildonly-randconfig-004-20241113    clang-19
-i386        buildonly-randconfig-005-20241113    clang-19
-i386        buildonly-randconfig-006-20241113    clang-19
-i386                                defconfig    clang-19
-i386                  randconfig-001-20241113    clang-19
-i386                  randconfig-002-20241113    clang-19
-i386                  randconfig-003-20241113    clang-19
-i386                  randconfig-004-20241113    clang-19
-i386                  randconfig-005-20241113    clang-19
-i386                  randconfig-006-20241113    clang-19
-i386                  randconfig-011-20241113    clang-19
-i386                  randconfig-012-20241113    clang-19
-i386                  randconfig-013-20241113    clang-19
-i386                  randconfig-014-20241113    clang-19
-i386                  randconfig-015-20241113    clang-19
-i386                  randconfig-016-20241113    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch                           defconfig    gcc-14.2.0
-m68k                             alldefconfig    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                                defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-microblaze                          defconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                          ath79_defconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                               defconfig    gcc-14.2.0
-openrisc                          allnoconfig    clang-20
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                            defconfig    gcc-12
-openrisc                       virt_defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    clang-20
-parisc                           allyesconfig    gcc-14.2.0
-parisc                              defconfig    gcc-12
-parisc64                            defconfig    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    clang-20
-powerpc                          allyesconfig    gcc-14.2.0
-powerpc                  iss476-smp_defconfig    gcc-14.2.0
-powerpc                       maple_defconfig    gcc-14.2.0
-powerpc                  mpc885_ads_defconfig    gcc-14.2.0
-powerpc                     ppa8548_defconfig    gcc-14.2.0
-powerpc                     tqm5200_defconfig    gcc-14.2.0
-riscv                            allmodconfig    gcc-14.2.0
-riscv                             allnoconfig    clang-20
-riscv                            allyesconfig    gcc-14.2.0
-riscv                               defconfig    gcc-12
-riscv             nommu_k210_sdcard_defconfig    gcc-14.2.0
-s390                             allmodconfig    clang-20
-s390                             allmodconfig    gcc-14.2.0
-s390                              allnoconfig    clang-20
-s390                             allyesconfig    gcc-14.2.0
-s390                                defconfig    gcc-12
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                                  defconfig    gcc-12
-sh                        dreamcast_defconfig    gcc-14.2.0
-sh                        edosk7705_defconfig    gcc-14.2.0
-sh                        edosk7760_defconfig    gcc-14.2.0
-sh                            hp6xx_defconfig    gcc-14.2.0
-sh                      rts7751r2d1_defconfig    gcc-14.2.0
-sh                           se7705_defconfig    gcc-14.2.0
-sh                           se7721_defconfig    gcc-14.2.0
-sh                           se7724_defconfig    gcc-14.2.0
-sh                           se7750_defconfig    gcc-14.2.0
-sh                             sh03_defconfig    gcc-14.2.0
-sh                        sh7757lcr_defconfig    gcc-14.2.0
-sh                   sh7770_generic_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc64                             defconfig    gcc-12
-um                               allmodconfig    clang-20
-um                                allnoconfig    clang-20
-um                               allyesconfig    clang-20
-um                               allyesconfig    gcc-12
-um                                  defconfig    gcc-12
-um                             i386_defconfig    gcc-12
-um                           x86_64_defconfig    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64                              defconfig    clang-19
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-19
-x86_64                                  kexec    gcc-12
-x86_64                               rhel-8.3    gcc-12
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                         virt_defconfig    gcc-14.2.0
+		for_each_cpu(cpu, mask)
+			qmap->mq_map[cpu] = qmap->queue_offset + queue;
+	}
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+and with this in place the open coded version in hisi_sas v2 can also be
+replaced. If no one objects, I go ahead and add the callback to struct
+device_driver.
 
