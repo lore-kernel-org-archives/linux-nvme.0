@@ -4,66 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EA6ED597B4
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2024 22:49:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D3ADD597C0
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2024 00:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eCWsj10cmdsRr7s6n+k/w1mMAbnWUc296wk/B0jLSt0=; b=uH26VhYAJPUsImIdOU3YMBTt5B
-	JaBegQK35LZkkp9iJDHgbCbz7P9kP6t08/JDA6ljSnBB1N7fiWdsfE+GLsR8aAItoJ0Vwy0pfzOXp
-	aRKnFU2PcOAzP3u65AGt1xLhDAVZsg2jKv5xyJ/hon9WdW9DCe6AGT+R4hZXT9MF92eFVWD9tbMGv
-	FN/RhExDYaySA3UPhN5EMYritAUoLdhdiWDOtgI2jptOzhaOPk5o6Ku2ohCl0wQNEdGd9ENaIXI2R
-	h7i/ydYnDT50zVtECOxdLaRwA+MKsVQmZ1BpGyzhLsXDvxYr9lI4B/xh0qNKpvfSMc4xC/d5SKpde
-	YYE8BgOA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nhknlDy3IxbjPETAYjBXz7ygbOLv/KI1RPn4fkMI82U=; b=t9poXdKieYG3G/E8OWFp1g9TsH
+	MSWfYva9j9aj1sDRxJf113/S/X/Y1If5FnljCyvE5bzTcIokPVwJgBHJf2tl6Z6iybW/Qik79EFTK
+	ApqYcHI/xdiseBE7P+VssTv4JP/nuRWjBmxqf1U0UHrBhBdp8sCSHnp7d+9uHfbvVpLcVeE7aUCzp
+	AkpLxJMyXB+O0yVKzMOOPjN8wt43aGEq1sMwgiFNT3TZoLDxLK5hi0L5no2lyqMd3aH6MUexO5meJ
+	yx+5bNBAciq4KNE4100dvY1oig28Qoq9IbIkzhATLicT2BSB+lagFr+/srb1ATM/JdzZBYQbh3cLS
+	UKvZPkPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAzhq-00000005Bc8-2ln4;
-	Tue, 12 Nov 2024 22:49:54 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1tB1Bz-00000005Olq-0OaR;
+	Wed, 13 Nov 2024 00:25:07 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tAzho-00000005BbA-09dm
+	id 1tB1Bu-00000005OkW-3jMH
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Nov 2024 22:49:53 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id B5126A418E0;
-	Tue, 12 Nov 2024 22:47:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01597C4CED5;
-	Tue, 12 Nov 2024 22:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731451790;
-	bh=9n5PPYSsP9ZFxZbM80y5b6RWMk7TXshHx0U1ydQY2bo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LwYL1HeyiMtRdB7BuKKCakwequzOBGlTKsLodE0JLYU47DOWUqtSw7XWjzJPHT4c2
-	 mW/OOCNKJDkM77aPye3zJHjR6Xkn1lgPmLW7ypE+hbHMZqzodyyTCGxqUNnqmCNY7a
-	 aIkBzxLO4ceLMNusikuItjPa+MvCrf3vJXTg9sZjl/aZFXQ8ROC8iwKsaeR25tipLp
-	 GyffLL0gvImPFALY9/nwylUPfcHrUQ116I+3A4T++Kw3n45LmOB2oeiFtTs9bow8Iv
-	 lLSjVa33XEmC8gn94k1wNV38usZe7aSowmxqHSayk6ZXTvZxbZX7pGFAjp1oMGV7QQ
-	 TZddKQ0hjY0pA==
-Date: Tue, 12 Nov 2024 15:49:47 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
-	linux-nvme@lists.infradead.org, m@bjorling.me,
-	matias.bjorling@wdc.com, kch@nvidia.com
-Subject: Re: [PATCHv4 13/13] nvmet: report ns's vwc not present
-Message-ID: <ZzPbi6s3tmrepPyN@kbusch-mbp>
-References: <20241107193849.995554-1-kbusch@meta.com>
- <20241107193849.995554-14-kbusch@meta.com>
- <20241108142743.GG6694@lst.de>
- <Zy45M1HRz8cKLPxf@kbusch-mbp>
- <005617fc-656d-4180-87b8-c9ebc8bff48d@linux.alibaba.com>
- <aa121956-a050-4c47-be44-2d3afe6c6610@linux.alibaba.com>
+	Wed, 13 Nov 2024 00:25:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731457501;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nhknlDy3IxbjPETAYjBXz7ygbOLv/KI1RPn4fkMI82U=;
+	b=Xz0EJOi+e9BUk3aXAqN2mXuE+XiywSywBncfZxeQzWPP457w1loLP3YaWNmI0O+lpsr8gD
+	RCZSynpon/VMcLEm+b+YH3RwRjLWYStY3jmO0LGxFNDqZYqiLpgcvZX9mNzqUcLnRYmbwr
+	YbCuyaWm1Fw06vrnxeJd3ePXMMO4ZZ0=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-348-3S8SYUAoNjaE9rIqXpUlwQ-1; Tue,
+ 12 Nov 2024 19:23:09 -0500
+X-MC-Unique: 3S8SYUAoNjaE9rIqXpUlwQ-1
+X-Mimecast-MFC-AGG-ID: 3S8SYUAoNjaE9rIqXpUlwQ
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4F21E19560B0
+	for <linux-nvme@lists.infradead.org>; Wed, 13 Nov 2024 00:23:08 +0000 (UTC)
+Received: from [10.22.81.39] (unknown [10.22.81.39])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3BD2530000DF;
+	Wed, 13 Nov 2024 00:23:06 +0000 (UTC)
+Message-ID: <889e1d2a-1cda-4979-8279-f2f665350376@redhat.com>
+Date: Tue, 12 Nov 2024 19:23:06 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa121956-a050-4c47-be44-2d3afe6c6610@linux.alibaba.com>
+User-Agent: Mozilla Thunderbird
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+From: John Meneghini <jmeneghi@redhat.com>
+Subject: CONFIG_NVME_MULTIPATH - Do we need this?
+Organization: RHEL Core Storge Team
+Cc: Ewan Milne <emilne@redhat.com>, Bryan Gurney <bgurney@redhat.com>,
+ Chris Leech <cleech@redhat.com>, Maurizio Lombardi <mlombard@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: oaJUSPCAg5H7ZLC6K6T7-wKMhXmhJst7hB1hTUrtVjo_1731457388
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241112_144952_163879_33821ACB 
-X-CRM114-Status: UNSURE (   7.58  )
+X-CRM114-CacheID: sfid-20241112_162503_046997_A105ECE2 
+X-CRM114-Status: UNSURE (   7.86  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,13 +87,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Nov 09, 2024 at 11:00:32PM +0800, Guixin Liu wrote:
-> 在 2024/11/9 22:59, Guixin Liu 写道:
-> > 
-> > Or just remove !req->ns->buffered_io check? All file backend return
-> > 
-> > support vwc.
-> Sorry, remove "req->ns->file && !req->ns->buffered_io".
+Now that RHEL-10 beta has shipped we no longer support anything but native nvme multi-pathing and I'd like to do something about 
+the multipath module parameter:
 
-Do you want to send an update the with the updated check?
+bool multipath = true;
+module_param(multipath, bool, 0444);
+MODULE_PARM_DESC(multipath,
+         "turn on native support for multiple controllers per subsystem");
+
+I'd like to remove this parameter from nvme_core/multipath.c. The fact is, setting nvme_core.multipath=N never worked in 
+anything but RHEL and keeping it around only causes confusion.
+
+For that matter, I'd like to remove the CONFIG_NVME_MULTIPATH kconfig option altogether.
+
+Does anybody actually use this?
+
+# CONFIG_NVME_MULTIPATH is not set
+
+Do we actually support running nvme without multipath.c ?
+
+-- 
+John A. Meneghini
+Senior Principal Platform Storage Engineer
+RHEL SST - Platform Storage Group
+jmeneghi@redhat.com
+
 
