@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC64AD637D5
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 01:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9052BD637D5
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 01:54:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=d7VonX42shxT96KYGey0nbt1GczZThNx0w3qXBIrjLI=; b=Uq/sfu0Jo26AKcIYPP8KyeePdV
-	ZagCh1stQRsX0BvjFumw5dH1XmiAlxt0osDDXrsNQJ2DqDtnIm5tDHxr0q8DaOfoB9U5ztJSfpCBA
-	Y4RX+SDiyLC+no40I/Py7LiBoZn9lpEo8ybq8HaZ9TfQexprwuQorI4XD6BR2JfrvNSC77X/otvwu
-	UzOcftu7zKJILZ9uZgRfhYNYdAegTk+iGa9be0xue+ycAilRh3ybaBD0ne3cQdGk52eY1AkwgndyS
-	pOOmEDu6qHoLmXFgs3oRl2k1fQbrruGTG5KweRigNqElViHEN1Q0NDFMGTsK7QE7eK8mXgOKgup4I
-	XB5ljcSA==;
+	bh=iPEBI9PDOju2MBvGQMSSVZLa6nuW9DvNY9/cM/alX4c=; b=pX7b7lGto/VlGVgeZvU9Lwkf7w
+	8HHC/GXWqpZnEWV2S6ScKIjo9uor9UanGFnR2OWIfwqPLfes/Y1gYSyJwSGwOrY4bJcV2BU1gQsJF
+	Qi4b6qmyXooxyxSZlOyRtj3L5sCJejEs1AeXO5b+yfxsUflKd0PUoFiye82kslHndkkrUJFshe2o7
+	2MJOM0inJGtNnMqy2ZHevjy1cTsVTDHLpCs67CyL2xd6F3AbDPnSH2nPGyNJDlqof2MCU7uQ2VHse
+	zvf3TSVPlOz6uK2J5Pe9uSkXNKlM/jUP18q9fRorhMO4Au1pHXcPYFJLggTRi2H9hoBtCjx176PTm
+	kUm65Kww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBP31-00000008TMF-1pPG;
-	Thu, 14 Nov 2024 01:53:27 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1tBP41-00000008TWI-2Yoz;
+	Thu, 14 Nov 2024 01:54:29 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBP2y-00000008TLm-2kGK
+	id 1tBP3y-00000008TVu-3Mie
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Nov 2024 01:53:26 +0000
+	Thu, 14 Nov 2024 01:54:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1731549203;
+	s=mimecast20190719; t=1731549265;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=d7VonX42shxT96KYGey0nbt1GczZThNx0w3qXBIrjLI=;
-	b=H9gmxVSeco2YeQgpIAib8joL0m8cKTr4sky5StVLV3APUL4k0a1toEyMS/FQSGySlxKUpc
-	p74n0wPCnsVqix+5xOIZ+HfSo5ukOQv40x2q+XcAFoi7BHGInGaUO4rcyFH+F/9EGzuPQZ
-	m8vTkbrQ2VWytzA72QrxfaMYkRzcO7s=
+	bh=iPEBI9PDOju2MBvGQMSSVZLa6nuW9DvNY9/cM/alX4c=;
+	b=dgpPJ4ojUSBQhlvo60bZaWplm2NjLhZRhB6YFUE05WR1Ard2hw0CikI83gWcCfZUMY0mQz
+	cmB/HBTGvc/+SN3h6rpiOCV3Go+4x+oVGzaLN9CWgvBlbzunObAoKQVyWDW4ag+js2sjtR
+	vO4V7y+dftHjn/5Ev2yoY4CX/Iz3q0Q=
 Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-668--0qIiGIwN9e1f3wh8DP2LQ-1; Wed,
- 13 Nov 2024 20:53:19 -0500
-X-MC-Unique: -0qIiGIwN9e1f3wh8DP2LQ-1
-X-Mimecast-MFC-AGG-ID: -0qIiGIwN9e1f3wh8DP2LQ
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-587-fL807C5WPemKmCPt940ZEg-1; Wed,
+ 13 Nov 2024 20:54:20 -0500
+X-MC-Unique: fL807C5WPemKmCPt940ZEg-1
+X-Mimecast-MFC-AGG-ID: fL807C5WPemKmCPt940ZEg
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EE08E1956048;
-	Thu, 14 Nov 2024 01:53:14 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 39C271956057;
+	Thu, 14 Nov 2024 01:54:16 +0000 (UTC)
 Received: from fedora (unknown [10.72.116.113])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D5A181956054;
-	Thu, 14 Nov 2024 01:53:00 +0000 (UTC)
-Date: Thu, 14 Nov 2024 09:52:55 +0800
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4EDF19560A3;
+	Thu, 14 Nov 2024 01:54:02 +0000 (UTC)
+Date: Thu, 14 Nov 2024 09:53:57 +0800
 From: Ming Lei <ming.lei@redhat.com>
 To: Daniel Wagner <wagi@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>,
@@ -71,19 +71,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>,
 	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
 	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v4 02/10] driver core: add irq_get_affinity callback
- device_driver
-Message-ID: <ZzVX92YaqVpW9cPw@fedora>
+Subject: Re: [PATCH v4 03/10] PCI: hookup irq_get_affinity callback
+Message-ID: <ZzVYNf3BTGyYGz8k@fedora>
 References: <20241113-refactor-blk-affinity-helpers-v4-0-dd3baa1e267f@kernel.org>
- <20241113-refactor-blk-affinity-helpers-v4-2-dd3baa1e267f@kernel.org>
+ <20241113-refactor-blk-affinity-helpers-v4-3-dd3baa1e267f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241113-refactor-blk-affinity-helpers-v4-2-dd3baa1e267f@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+In-Reply-To: <20241113-refactor-blk-affinity-helpers-v4-3-dd3baa1e267f@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_175324_788866_780672FA 
-X-CRM114-Status: GOOD (  21.53  )
+X-CRM114-CacheID: sfid-20241113_175426_932061_2154955A 
+X-CRM114-Status: GOOD (  11.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,42 +97,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 13, 2024 at 03:26:16PM +0100, Daniel Wagner wrote:
-> Introducing a callback in struct device_driver so that a device driver
-> can hook up the getters directly. This approach avoids exposing random
-> getters in drivers.
+On Wed, Nov 13, 2024 at 03:26:17PM +0100, Daniel Wagner wrote:
+> struct bus_type has a new callback for retrieving the IRQ affinity for a
+> device. Hook this callback up for PCI based devices.
 > 
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
 > Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> ---
->  include/linux/device/driver.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-> index 5c04b8e3833b995f9fd4d65b8732b3dfce2eba7e..0d1aee423f6c076ae102bdd0536233c259947fac 100644
-> --- a/include/linux/device/driver.h
-> +++ b/include/linux/device/driver.h
-> @@ -74,6 +74,7 @@ enum probe_type {
->   * @suspend:	Called to put the device to sleep mode. Usually to a
->   *		low power state.
->   * @resume:	Called to bring a device from sleep mode.
-> + * @irq_get_affinity:	Get IRQ affinity mask for the device.
->   * @groups:	Default attributes that get created by the driver core
->   *		automatically.
->   * @dev_groups:	Additional attributes attached to device instance once
-> @@ -112,6 +113,8 @@ struct device_driver {
->  	void (*shutdown) (struct device *dev);
->  	int (*suspend) (struct device *dev, pm_message_t state);
->  	int (*resume) (struct device *dev);
-> +	const struct cpumask *(*irq_get_affinity)(struct device *dev,
-> +			unsigned int irq_vec);
->  	const struct attribute_group **groups;
->  	const struct attribute_group **dev_groups;
 
-The patch looks fine, but if you put 1, 2 and 5 into single patch,
-it will become much easier to review, anyway:
-
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
-
+Reviewed-by: Ming Lei <ming.lei@redhat.com> 
 
 -- 
 Ming
