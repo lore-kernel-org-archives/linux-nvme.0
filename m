@@ -4,84 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8534D68B31
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 15:33:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2EFBD68B32
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 15:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HZDItl96dPAvdzyIDCP205086lplq3O3IdJ8ySUspxo=; b=zPzvRr/egm18V83NJ16X0QCxws
-	o42ENzgo8TeBhrECq6lV1xdWiYMNdfOiu9E0TKnbuoFp5bwFaubaXVA28HLzYcHcqqylQonUKRNwI
-	+pxouGM/klyfr3Pmjqcqem7VlT4CKmyBSPOrYc+QFWEV5Ks71aeIee+jAofCsVgYZ8ZGL88bj6wdv
-	e/kuFEFHEVXg84cNnv1g9zBKGkcOlAcCM9cuIVJwLYeVCaMGADn39jRN3E1R2lgMGwWxgYanRJFNF
-	4wIxsTUb4kUULVH6BKMts6EOzox0uJh5I/RvWpqjSMDJUquNQ/lj8Vdjk7CJdul2SEC/weFYVa7Es
-	KuhHJ9JA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Rcxm6s3WGREUhS2mxYJ7NGMy1RGZ9kzM0QjeT++PjUg=; b=MyjdjNrKIwRDTi9VXmV4fgUxny
+	8ZyXiLjxhJc0JOpX6OR3kjt9QzW+O6FZ+YZRApmAMAPmrvWlfz0XEx29cQl5Qpgq3hU76nzFHzy+L
+	pEmvEkQ7DJobFwk1JOwPioXvBV031WP4tQvLqNLP4uKnyZ7oOccU+n5LwN2ET4uF5kqlr80ZeWlbP
+	lKFyppHJXwb1JOMDMngCBjFh6dzjRCLfnmQMO2rBESdCsWZ837j10Nn0U213B1MfwoA3qaKlItbR9
+	pywgtqFnjIz7fROcFGEySn4ORvzpgAPHPcODfqZM1zcLUfIC6WrBLH4nZwM/7WmIE08aRIw1+5NlI
+	3kvTPb0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBbqi-000000000Yc-35yX;
-	Thu, 14 Nov 2024 15:33:36 +0000
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+	id 1tBbul-000000003Cd-3h64;
+	Thu, 14 Nov 2024 15:37:47 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBb4B-0000000AF6m-0dPk
+	id 1tBbuh-0000000039s-1qS7
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Nov 2024 14:43:29 +0000
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-71e467c3996so565194b3a.2
-        for <linux-nvme@lists.infradead.org>; Thu, 14 Nov 2024 06:43:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731595406; x=1732200206; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HZDItl96dPAvdzyIDCP205086lplq3O3IdJ8ySUspxo=;
-        b=mQ5tDD/WGvZzSp6ZpiEc1EBhE/o0NM12VNkwdiur/oxSQDGGg5hWNiTNlyfQ1H3eOb
-         sV7uEvB+y5jsLsDTVBVBNf37eBG7b7UBCXxPzrFEm8H/UufcmsS+hpdgm/cfi3FoE4Dc
-         06Fn22YoZCGSViUNdhm43KvGqG22AdfWYzn0H8zljbh9HbkvZ6RjBMk6Ze0teiE1MsHB
-         un84/Kjz2RVJHZ4L71K/yFQ4NOm0/9q1/WzV6+RkdYDjpTn3+Y+ZNP1+dPm1bgvoN9HR
-         Wm5EGdvFmB6q02G6m6rpwvD1k/fdFotFE2ZOjixljBAiTq+39w7x58SPa2ItiNnNeRP7
-         Cy2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731595406; x=1732200206;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HZDItl96dPAvdzyIDCP205086lplq3O3IdJ8ySUspxo=;
-        b=qDTSr3dYe0vZYB1oh5OPR0bdErFMLP60D8ZK0VVVje72ovxUl3sJ5iMG63z3RP+/n5
-         exWZ9SGXulv6OIKQQ4zh3JO1tbWpGZ3ASFJ8Z1u5LnfXDfYO78Y8MIZ+yzjF1Oc8KPI9
-         U4UPMLzdlTcO19Fqg+cp1vY91hybMQJBHxOuLQiqtX5V/bwDnKjvWU4FelaBODdRP1og
-         ui5scHuXRK0uxZ99oj3t0po8l+7WmBWok3/KTiXFxJXFmj9IwPgOWhs1XAg3b06nn9Gg
-         bVDR3eMj6iCVE5iMYPjINs6QSsaBYKoPyp2fV7kdD4k/vDeftFHev56LljTE6wYa7My9
-         LXjg==
-X-Gm-Message-State: AOJu0YxZXrdC+6yd9/ds8USYeTdRr8xEP05Ttx2QjJKc7+vOajN3nkGk
-	RfFJgPIY2mJQCZbo+aGNe3jEapmMPaCVky0ILDmp5SZVg0xO72iE
-X-Google-Smtp-Source: AGHT+IF6ck6f23hoOlaKuSO3KSqD30+vZzeLJc33Swua3I/KFJq2FnxgLY1YF7nISGOANtP2VkUTgg==
-X-Received: by 2002:a05:6a00:21cc:b0:71e:7a19:7d64 with SMTP id d2e1a72fcca58-72413279ea6mr26349336b3a.5.1731595405757;
-        Thu, 14 Nov 2024 06:43:25 -0800 (PST)
-Received: from ?IPV6:240b:10:2720:5500:4243:fe81:6c67:d3c4? ([240b:10:2720:5500:4243:fe81:6c67:d3c4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7246a9babdcsm1354146b3a.144.2024.11.14.06.43.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Nov 2024 06:43:25 -0800 (PST)
-Message-ID: <26444a5c-8b93-4aa6-ab7e-891a83811afa@gmail.com>
-Date: Thu, 14 Nov 2024 23:43:22 +0900
+	Thu, 14 Nov 2024 15:37:44 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 43A2CA40C8E;
+	Thu, 14 Nov 2024 15:35:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A2FBC4CECD;
+	Thu, 14 Nov 2024 15:37:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731598662;
+	bh=/+R1ST0vftb5gy4I6bUzRs7WTpvRvyWN8cNyI/K6cm4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rTgkXuvbyVMCvVdW511hCPklC5A06FO9rhh+0nZWgUDV7AODxu6cC76JzlzfcdJNG
+	 5pB9tTfjEQ1F3Qd7opW9zM/omVnngXcISa/uUZDbBNrRC6IcjJpaU69ZvOm0zVYcpq
+	 fCn0lyJEtDHShnaMqCaqPJYXT36cFGoVeeJNf6aN8eRBFxNQGn+uT0LUUotKE4qvOz
+	 mmaNHpk70FxYvQu2hDokANeV6BQ88kBwRfHsdCuy37OtkO58gV0wvazGCbD2YjthXu
+	 O/BpEso46ZXIXt+7lRIrTWyzkq+sgTqV+XDUYOlDSWedyhD7q5cPFXeuSdx2NLm/sP
+	 /CN4huxe2Zd4A==
+Date: Thu, 14 Nov 2024 08:37:39 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: =?iso-8859-1?Q?Pawel?= Anikiel <panikiel@google.com>,
+	bob.beckett@collabora.com, axboe@kernel.dk, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	sagi@grimberg.me
+Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
+Message-ID: <ZzYZQ7aW1KiK2tCp@kbusch-mbp>
+References: <20241112195053.3939762-1-bob.beckett@collabora.com>
+ <20241114113803.3571128-1-panikiel@google.com>
+ <20241114121751.GA3971@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: use BIT_MASK and GENMASK for NVME definitions
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-nvme@lists.infradead.org
-References: <20241111170935.4540-1-ikegami.t@gmail.com>
- <ZzLZCzXfrLAP_RO8@infradead.org>
- <52a74c14-e95a-4065-9b38-8aae830ae239@gmail.com>
- <ZzWHRSFI2dS8O0sa@infradead.org>
-Content-Language: en-US
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-In-Reply-To: <ZzWHRSFI2dS8O0sa@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20241114121751.GA3971@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241114_064327_216699_0288093B 
-X-CRM114-Status: UNSURE (   7.45  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241114_073743_572239_B225382C 
+X-CRM114-Status: GOOD (  12.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,23 +75,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2024/11/14 14:14, Christoph Hellwig wrote:
-> No, why would it be?
+On Thu, Nov 14, 2024 at 01:17:51PM +0100, Christoph Hellwig wrote:
+> On Thu, Nov 14, 2024 at 11:38:03AM +0000, Pawel Anikiel wrote:
+> > When doing a write of 264 sectors with PRP list offset of 0xf00,
+> > the bridge treats data as a pointer, and writes incorrect data to
+> > the drive. This might be why Robert is experiencing fs corruption.
+> 
+> Not having the hardware and just speculating, but this seems like
+> a pretty likely failure mode.
 
-Understood. (The reason is BIT() used more than BIT_MASK() in kernel and 
-also still I think better to use the macro instead of the shift operator 
-as below.) Thank you.
-   #define BIT(nr)                     (UL(1) << (nr))
-...
--       NVME_CMBSZ_SQS          = 1 << 0,
--       NVME_CMBSZ_CQS          = 1 << 1,
--       NVME_CMBSZ_LISTS        = 1 << 2,
--       NVME_CMBSZ_RDS          = 1 << 3,
--       NVME_CMBSZ_WDS          = 1 << 4,
-+       NVME_CMBSZ_SQS          = BIT(0),
-+       NVME_CMBSZ_CQS          = BIT(1),
-+       NVME_CMBSZ_LISTS        = BIT(2),
-+       NVME_CMBSZ_RDS          = BIT(3),
-+       NVME_CMBSZ_WDS          = BIT(4),
+I can totally believe that. I recall the driver had a similiar bug like
+15 years ago. I think Nisheeth fixed it. Checks logs... Yep, commit
+0d1bc9125890426b52c.
 
+Anyway, even with the quirk, we can still have the last PRP just before
+the page boundary from the "large" pool if the device supports MDTS 2MB
+or more. What does this device report?
 
