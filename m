@@ -4,81 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADA05D65C52
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 07:13:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95368D65C57
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 07:54:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3uC3SxsQS0t7XBZ9iU9FybgeRCb0qSAicxdaj6FRoik=; b=cy18nPFJoLS+U0WyIktW4t7A2N
-	Kl7oDAxjouoUryNTi90u+y/AKiyIGQxtN55tTSjBsv2F5aU1yuDAdFfUrN/MHw+hGNODD5GJptDjG
-	cNI7eqpBJG0aT4uiWPsbIyfjyStRtnDRZ7y9ouJ0B2OdZRu5wkeBRonpKkuS3kB+9TDoj3XQckfzB
-	MesJXGy+SfNdYD8zJuvXEJNk67P86BuKIuxsIZHCkBdJbX3XAM0xySPZdM5GVoKXydn4VR9t94+9Z
-	zuZcP4x8jDvw+qBpT7nv3ZK0+ah8JgMsq0HPqR/8fY3g9+i6XvAgyWvJgjN1eVRhVRE8FyWt9iBr/
-	Sw4bgo1w==;
+	bh=q1M4KBBuOBQeKqCrAK5JFelRyjsClhaHzFF8BcJuDmI=; b=XuD5lz9SHPn+iR8CY7dKn1Y7m1
+	d5nxtNB30w+RhypwUgKKf5lYw4KWv6T3PXtIECCuvJ1amtALgZmPcm9p1MJaGkMx3CwRUSXxNfRFP
+	puldi/rEa8/ahNLmmpf5iJvGPZuyRg8oTPUHIXzqSfSd4Y9OVKBcoblgK+vc20E+sZ+rGZd0EaXS3
+	15vX/37Hrytn3SBgYzePGGR52q/l+lghIsnSo5Lq4peOgOM755N9iz2BhFq1tHsbwJh6miZaz9CDI
+	mgsPQfxgSPvcSNI2GUURvC4OrGNkWqleT3wjeKdABz1ui9L7NVjzYE+a0UUBQ89yxxySl9kAqFGyL
+	EViE/WNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBU2C-000000093eD-0AAj;
-	Thu, 14 Nov 2024 07:12:56 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1tBUgn-000000098X8-37aZ;
+	Thu, 14 Nov 2024 07:54:53 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBTwB-000000092F1-2So1
+	id 1tBUgi-000000098WH-2rJQ
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Nov 2024 07:06:49 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Thu, 14 Nov 2024 07:54:51 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 04DDB1F80A;
-	Thu, 14 Nov 2024 07:06:40 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 184CF2195D;
+	Thu, 14 Nov 2024 07:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731568000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1731570887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3uC3SxsQS0t7XBZ9iU9FybgeRCb0qSAicxdaj6FRoik=;
-	b=WVugLPoFqQF1PdX/f38YjvPeYR176YqYihc/KyBjVIRxGOeaSfqdNsYHAbNpTzWZyKThIi
-	Gb8amy6LBGoNgb4EA2NEOGvSN/tlee8qByuWakHUZDbBjOuui/g1bnEdscfi83JLk2Np8Y
-	7mYHPior5SMInEd9Jyvb+q7Ln9zrK1M=
+	bh=q1M4KBBuOBQeKqCrAK5JFelRyjsClhaHzFF8BcJuDmI=;
+	b=GiE9vj8x1O1N5ASVREAFOUMEMISoo31skDN+DgSWv9F2Fov+Dl7ZwEGzVuLgSeDUImvPzB
+	nD/flv8/De3SgoqQTqvBuesuFSaBX0SreRUJR/RgCtacsNzS7MJB35cynn5tyUxX/ZSsVn
+	srR7BEEzrPNRRZlmDxCKW2rW8chD8E0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731568000;
+	s=susede2_ed25519; t=1731570887;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3uC3SxsQS0t7XBZ9iU9FybgeRCb0qSAicxdaj6FRoik=;
-	b=O925Po6WR2sVDfKkLBuXExNrBw2ibF87FCrLCbz6CHP/rKVRAU4t/w0yQxtLXKchaknQPq
-	PcvSu8c4UP150DCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WVugLPoF;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=O925Po6W
+	bh=q1M4KBBuOBQeKqCrAK5JFelRyjsClhaHzFF8BcJuDmI=;
+	b=kwNAhIDyRojzPQtx06qL5++OAHC3R3V5i01m97PIeo0DP0kPGjdHi3kKGaBh4sYavHIgvv
+	rVEHds2mLLEUvEBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731568000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1731570887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3uC3SxsQS0t7XBZ9iU9FybgeRCb0qSAicxdaj6FRoik=;
-	b=WVugLPoFqQF1PdX/f38YjvPeYR176YqYihc/KyBjVIRxGOeaSfqdNsYHAbNpTzWZyKThIi
-	Gb8amy6LBGoNgb4EA2NEOGvSN/tlee8qByuWakHUZDbBjOuui/g1bnEdscfi83JLk2Np8Y
-	7mYHPior5SMInEd9Jyvb+q7Ln9zrK1M=
+	bh=q1M4KBBuOBQeKqCrAK5JFelRyjsClhaHzFF8BcJuDmI=;
+	b=GiE9vj8x1O1N5ASVREAFOUMEMISoo31skDN+DgSWv9F2Fov+Dl7ZwEGzVuLgSeDUImvPzB
+	nD/flv8/De3SgoqQTqvBuesuFSaBX0SreRUJR/RgCtacsNzS7MJB35cynn5tyUxX/ZSsVn
+	srR7BEEzrPNRRZlmDxCKW2rW8chD8E0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731568000;
+	s=susede2_ed25519; t=1731570887;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3uC3SxsQS0t7XBZ9iU9FybgeRCb0qSAicxdaj6FRoik=;
-	b=O925Po6WR2sVDfKkLBuXExNrBw2ibF87FCrLCbz6CHP/rKVRAU4t/w0yQxtLXKchaknQPq
-	PcvSu8c4UP150DCA==
+	bh=q1M4KBBuOBQeKqCrAK5JFelRyjsClhaHzFF8BcJuDmI=;
+	b=kwNAhIDyRojzPQtx06qL5++OAHC3R3V5i01m97PIeo0DP0kPGjdHi3kKGaBh4sYavHIgvv
+	rVEHds2mLLEUvEBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4C4313794;
-	Thu, 14 Nov 2024 07:06:39 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8BD513794;
+	Thu, 14 Nov 2024 07:54:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Pg/rM3+hNWfoXAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 14 Nov 2024 07:06:39 +0000
-Date: Thu, 14 Nov 2024 08:06:39 +0100
+	id o2HIOMasNWfVawAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 14 Nov 2024 07:54:46 +0000
+Date: Thu, 14 Nov 2024 08:54:46 +0100
 From: Daniel Wagner <dwagner@suse.de>
 To: Ming Lei <ming.lei@redhat.com>
 Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -91,44 +90,36 @@ Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	linux-pci@vger.kernel.org, virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, 
 	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
 	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v4 02/10] driver core: add irq_get_affinity callback
- device_driver
-Message-ID: <d441a856-3c81-4db2-a904-5167d26aaf53@flourine.local>
+Subject: Re: [PATCH v4 05/10] blk-mq: introduce blk_mq_hctx_map_queues
+Message-ID: <9fa26099-1922-4b99-883e-bd5f6c58162a@flourine.local>
 References: <20241113-refactor-blk-affinity-helpers-v4-0-dd3baa1e267f@kernel.org>
- <20241113-refactor-blk-affinity-helpers-v4-2-dd3baa1e267f@kernel.org>
- <ZzVX92YaqVpW9cPw@fedora>
+ <20241113-refactor-blk-affinity-helpers-v4-5-dd3baa1e267f@kernel.org>
+ <ZzVZQbZOYhNF08LX@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZzVX92YaqVpW9cPw@fedora>
-X-Rspamd-Queue-Id: 04DDB1F80A
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
+In-Reply-To: <ZzVZQbZOYhNF08LX@fedora>
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_230643_852944_608E8AD3 
-X-CRM114-Status: GOOD (  24.70  )
+X-CRM114-CacheID: sfid-20241113_235448_896167_D6285CDB 
+X-CRM114-Status: GOOD (  16.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,43 +134,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 14, 2024 at 09:52:55AM +0800, Ming Lei wrote:
-> On Wed, Nov 13, 2024 at 03:26:16PM +0100, Daniel Wagner wrote:
-> > Introducing a callback in struct device_driver so that a device driver
-> > can hook up the getters directly. This approach avoids exposing random
-> > getters in drivers.
-> > 
-> > Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> > ---
-> >  include/linux/device/driver.h | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-> > index 5c04b8e3833b995f9fd4d65b8732b3dfce2eba7e..0d1aee423f6c076ae102bdd0536233c259947fac 100644
-> > --- a/include/linux/device/driver.h
-> > +++ b/include/linux/device/driver.h
-> > @@ -74,6 +74,7 @@ enum probe_type {
-> >   * @suspend:	Called to put the device to sleep mode. Usually to a
-> >   *		low power state.
-> >   * @resume:	Called to bring a device from sleep mode.
-> > + * @irq_get_affinity:	Get IRQ affinity mask for the device.
-> >   * @groups:	Default attributes that get created by the driver core
-> >   *		automatically.
-> >   * @dev_groups:	Additional attributes attached to device instance once
-> > @@ -112,6 +113,8 @@ struct device_driver {
-> >  	void (*shutdown) (struct device *dev);
-> >  	int (*suspend) (struct device *dev, pm_message_t state);
-> >  	int (*resume) (struct device *dev);
-> > +	const struct cpumask *(*irq_get_affinity)(struct device *dev,
-> > +			unsigned int irq_vec);
-> >  	const struct attribute_group **groups;
-> >  	const struct attribute_group **dev_groups;
+On Thu, Nov 14, 2024 at 09:58:25AM +0800, Ming Lei wrote:
+> > +void blk_mq_hctx_map_queues(struct blk_mq_queue_map *qmap,
 > 
-> The patch looks fine, but if you put 1, 2 and 5 into single patch,
-> it will become much easier to review, anyway:
+> Some drivers may not know hctx at all, maybe blk_mq_map_hw_queues()?
 
-1 and 2 makes sense to merge. Christoph asked me to split 5 out 1 as it
-mixed different things together
+I am not really attach to the name, I am fine with renaming it to
+blk_mq_map_hw_queues.
 
-https://lore.kernel.org/linux-nvme/20241112044736.GA8883@lst.de/
+> > +	if (dev->driver->irq_get_affinity)
+> > +		irq_get_affinity = dev->driver->irq_get_affinity;
+> > +	else if (dev->bus->irq_get_affinity)
+> > +		irq_get_affinity = dev->bus->irq_get_affinity;
+> 
+> It is one generic API, I think both 'dev->driver' and
+> 'dev->bus' should be validated here.
+
+What do you have in mind here if we get two masks? What should the
+operation be: AND, OR?
+
+This brings up another topic I left out in this series.
+blk_mq_map_queues does almost the same thing except it starts with the
+mask returned by group_cpus_evenely. If we figure out how this could be
+combined in a sane way it's possible to cleanup even a bit more. A bunch
+of drivers do
+
+		if (i != HCTX_TYPE_POLL && offset)
+			blk_mq_hctx_map_queues(map, dev->dev, offset);
+		else
+			blk_mq_map_queues(map);
+
+IMO it would be nice just to have one blk_mq_map_queues() which handles
+this correctly for both cases.
 
