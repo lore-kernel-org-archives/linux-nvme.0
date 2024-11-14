@@ -4,78 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95A7BD65C7E
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 12:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C647D65C7E
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 12:07:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
-	Subject:Message-ID:References:Mime-Version:In-Reply-To:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7UOuG5Zwz3TO8LLif2nDNcChNKIJvAuTVAxlwC2o73I=; b=45D9mGVrwgiqLSW2rEfoGEo9qR
-	s80D47NVLG0Mco/qpy8awO03VOtVYC05RNETho1mdB/mHAYE0fRrygWDG+qhVt7nSkh2V96TMlSAe
-	3ydmCPMxknAGBhPxL4iDOxeqj4MQ7a/lI+4iGS721O4LvijmFpPW26JkamuFVFd6J63GjF3I5vl4O
-	GXa6zrVmiZeGs6wf2V+XkfouiwkSctoNWjCglMmxkTyUDiXc4iECJcALzTh3DjwYZL1u1sEoupBKP
-	rkdRF7zOlnIa6LygbAaLd4OTWTwwY4OxlpwRRF4O+2Tmj7a0KXRfocwdpyh6edDG3kyQDmYWZwuVJ
-	QKyMv8sQ==;
+	bh=02YKYpUDeKJg3ky6Nqo0pfIc/VYHigZfmBxiRwYrn9U=; b=t7quWscL1PT/fVFV4lnz6w9n0r
+	d2o6j1tAHUtaHbO6DGu7cYmzodmmKcDsImzC+WEiAClz5gUJE9cFIFzJaXTMyZyxaIodKkY+WHZsj
+	t2JRgID0gxGjLcZUNO68ijYLq3NzB3FXMJKJJpWErUsfsUhhYm7/zns77W/4vkJb3DA1PGmTT/8CF
+	a+IZrrJsrLksxYl233F5VHejn/hC+1uXvujLIe6s4oZPld5WDEw0RktWKk239goIsp9cXn60xx3Hs
+	wPYcrqjHqGjg3Emo1LSZwVrWfu0kKmSX4NqR3Noqum/ga2tcjsIO/hrdV2aM3D+GbrwfpFO6ta45D
+	YTwBcp0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBYWs-00000009paK-2XFa;
-	Thu, 14 Nov 2024 12:00:54 +0000
-Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a])
+	id 1tBYcl-00000009qlQ-1UFU;
+	Thu, 14 Nov 2024 12:06:59 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBYAq-00000009kvb-0Riw
+	id 1tBYce-00000009qj2-2QPp
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Nov 2024 11:38:09 +0000
-Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-43151e4ef43so4083715e9.3
-        for <linux-nvme@lists.infradead.org>; Thu, 14 Nov 2024 03:38:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731584285; x=1732189085; darn=lists.infradead.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7UOuG5Zwz3TO8LLif2nDNcChNKIJvAuTVAxlwC2o73I=;
-        b=pB+ey/lIj5zcH+yDXLllBa6idUqPCNZoNuoVC8hajHrqqJ7kSE/e8QvFDBW7gsWEtI
-         WowmEGo3z9+LzaV/nMrdyelBQ4GQ1YBhEa/4ikQJzini60JvN0cA+XPAFwgAgcnDrc/n
-         qZSfilrv+x+VxKlUQy/7S6iYEGZpfO6EQ1mqhEBIZA+Et3mouqTX8H65EHisBAov017e
-         yQRVcLZFiZh9w390MJdGAajZiKeKNqeMpVzUPn9z2mrfiVWvXac8LE5/1HRDOCl6bpRN
-         VH4XO73ueMk6APuvylX15XkXZqEya3xwP9/XoSN31Id2HAU0oi9Z3yYNyeTMV1b1it9t
-         PyDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731584285; x=1732189085;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7UOuG5Zwz3TO8LLif2nDNcChNKIJvAuTVAxlwC2o73I=;
-        b=YM1IqdilFDm929us2c0/AspEsjzuRJ15ObLnExc8a5p0nOnXl2sssqp82yS7RxuLN3
-         v7bDo/8nLALfHU+REZ/FF9+rYl6YpnX05KfBEKpmVJFsNmVBc1G2GzT88JMifWeMDu5+
-         WtJD3OYVytr5vrNKASxZTMqOAM0cwOrsDVZ1BGpmZ6aMlCZ5I0MwfWv/ub5DJHbhdt3J
-         gPk+9miyKJco0k/W5fLo0f0FKNNn5b1d5RNKusfHNr1WxDaV9RWdPUS4GWYi9XhmIdKl
-         WKi6VLc2Bq9OvQnKk3s9wQS9JxN91sW5+/g87TYGNFeipIf44p4Y0xWzm+4x6/M9N3I2
-         7Xrw==
-X-Forwarded-Encrypted: i=1; AJvYcCWiQsZkQj5EnkVb6y7m4OquelIG7uirnXb0p6JjuQz44MXXJiFGV3I6cWiGv0F3zVlvhjRG42Opm5sO@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxvlx4Oben1uQBaYVldtvG9cUHinRViHTBgC0s+DL2ULl13BWb6
-	RGS1iOcMmzlQYEWI9WWZtqjOlFoNlEBJlNSwpITimVOfdT7UvW7pgXQ+t7zGnY4q4SeG3a5H9mj
-	+XiA5BeQu5g==
-X-Google-Smtp-Source: AGHT+IFFuS3vadEpxbm9rE3t6WRaBQwyUrb+92pbfldDrubUMoJSwgzEUU8T5UR1u6/5/h9itok/LJf9zGPJ7w==
-X-Received: from szatan.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:2d83])
- (user=panikiel job=sendgmr) by 2002:a05:600c:3ca0:b0:430:57f2:5b0c with SMTP
- id 5b1f17b1804b1-432d4a98b02mr347995e9.2.1731584285504; Thu, 14 Nov 2024
- 03:38:05 -0800 (PST)
-Date: Thu, 14 Nov 2024 11:38:03 +0000
-In-Reply-To: <20241112195053.3939762-1-bob.beckett@collabora.com>
-Mime-Version: 1.0
-References: <20241112195053.3939762-1-bob.beckett@collabora.com>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241114113803.3571128-1-panikiel@google.com>
-Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
-From: "=?UTF-8?q?Pawe=C5=82=20Anikiel?=" <panikiel@google.com>
-To: bob.beckett@collabora.com
-Cc: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org, kernel@collabora.com, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	sagi@grimberg.me
-Content-Type: text/plain; charset="UTF-8"
+	Thu, 14 Nov 2024 12:06:56 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A0D551F7D3;
+	Thu, 14 Nov 2024 12:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731586010; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=02YKYpUDeKJg3ky6Nqo0pfIc/VYHigZfmBxiRwYrn9U=;
+	b=0VIAq/Z1zWsxunVwtmQk8eFXwQ3Wk7OxJVvVmLKA0qLE5Df6BnOCpERT2Ndxrsz5b7cs05
+	L1Wpt98+DLywcAIM/G3y2sgPNFLq+U0v0QfS3sRcOG1n9jckxFXaTNQtgoUa/kO5b8oykm
+	iLKShhT3wjy0JpRU2PixX45cEu+kbUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731586010;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=02YKYpUDeKJg3ky6Nqo0pfIc/VYHigZfmBxiRwYrn9U=;
+	b=XzbcY6XLq/bVltPYJ6+zyOzgJiO0RvkBcUV23UCxFGniMN43TmHPgN8rfjsQ8bAGTM7syQ
+	808ssY14QUCvEyBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731586010; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=02YKYpUDeKJg3ky6Nqo0pfIc/VYHigZfmBxiRwYrn9U=;
+	b=0VIAq/Z1zWsxunVwtmQk8eFXwQ3Wk7OxJVvVmLKA0qLE5Df6BnOCpERT2Ndxrsz5b7cs05
+	L1Wpt98+DLywcAIM/G3y2sgPNFLq+U0v0QfS3sRcOG1n9jckxFXaTNQtgoUa/kO5b8oykm
+	iLKShhT3wjy0JpRU2PixX45cEu+kbUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731586010;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=02YKYpUDeKJg3ky6Nqo0pfIc/VYHigZfmBxiRwYrn9U=;
+	b=XzbcY6XLq/bVltPYJ6+zyOzgJiO0RvkBcUV23UCxFGniMN43TmHPgN8rfjsQ8bAGTM7syQ
+	808ssY14QUCvEyBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79CE713721;
+	Thu, 14 Nov 2024 12:06:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YoW0HdrnNWfrQgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 14 Nov 2024 12:06:50 +0000
+Date: Thu, 14 Nov 2024 13:06:49 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Bjorn Helgaas <bhelgaas@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	John Garry <john.g.garry@oracle.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hannes Reinecke <hare@suse.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v4 05/10] blk-mq: introduce blk_mq_hctx_map_queues
+Message-ID: <4bd491e5-fab5-4e94-8719-560b5a4de01e@flourine.local>
+References: <20241113-refactor-blk-affinity-helpers-v4-0-dd3baa1e267f@kernel.org>
+ <20241113-refactor-blk-affinity-helpers-v4-5-dd3baa1e267f@kernel.org>
+ <ZzVZQbZOYhNF08LX@fedora>
+ <9fa26099-1922-4b99-883e-bd5f6c58162a@flourine.local>
+ <ZzW-9rWvKBxFZU1E@fedora>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZzW-9rWvKBxFZU1E@fedora>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241114_033808_193718_CFC435CA 
-X-CRM114-Status: GOOD (  15.78  )
+X-CRM114-CacheID: sfid-20241114_040652_811486_A29EFE56 
+X-CRM114-Status: GOOD (  22.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,43 +137,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On Thu, Nov 14, 2024 at 05:12:22PM +0800, Ming Lei wrote:
+> I feel driver should get higher priority, but in the probe() example,
+> call_driver_probe() actually tries bus->probe() first.
+> 
+> But looks not an issue for this patchset since only hisi_sas_v2_driver(platform_driver)
+> defines ->irq_get_affinity(), but the platform_bus_type doesn't have
+> the callback.
 
-I've been tracking down an issue that seems to be related (identical?) to
-this one, and I would like to propose a different fix.
+Oh, I was not aware of this ordering. And after digging this up here:
 
-I have a device with the aforementioned NVMe-eMMC bridge, and I was
-experiencing nvme read timeouts after updating the kernel from 5.15 to
-6.6. Doing a kernel bisect, I arrived at the same dma pool commit as
-Robert in the original thread.
+https://lore.kernel.org/all/20060105142951.13.01@flint.arm.linux.org.uk/
 
-After trying out some changes in the nvme-pci driver, I came up with the
-same fix as in this thread: change the alignment of the small pool to
-512. However, I wanted to get a deeper understanding of what's going on.
+I don't think we it's worthwhile to add the callback to device_driver
+just for hisi_sas_v2. So I am going to drop this part again.
 
-After a lot of analysis, I found out why the nvme timeouts were happening:
-The bridge incorrectly implements PRP list chaining.
+> > This brings up another topic I left out in this series.
+> > blk_mq_map_queues does almost the same thing except it starts with the
+> > mask returned by group_cpus_evenely. If we figure out how this could be
+> > combined in a sane way it's possible to cleanup even a bit more. A bunch
+> > of drivers do
+> > 
+> > 		if (i != HCTX_TYPE_POLL && offset)
+> > 			blk_mq_hctx_map_queues(map, dev->dev, offset);
+> > 		else
+> > 			blk_mq_map_queues(map);
+> > 
+> > IMO it would be nice just to have one blk_mq_map_queues() which handles
+> > this correctly for both cases.
+> 
+> I guess it is doable, and the driver just setup the tag_set->map[], then call
+> one generic map_queues API to do everything?
 
-When doing a read of exactly 264 sectors, and allocating a PRP list with
-offset 0xf00, the last PRP entry in that list lies right before a page
-boundary.  The bridge incorrectly (?) assumes that it's a pointer to a
-chained PRP list, tries to do a DMA to address 0x0, gets a bus error,
-and crashes.
-
-When doing a write of 264 sectors with PRP list offset of 0xf00,
-the bridge treats data as a pointer, and writes incorrect data to
-the drive. This might be why Robert is experiencing fs corruption.
-
-So if my findings are right, the correct quirk would be "don't make PRP
-lists ending on a page boundary".
-
-Changing the small dma pool alignment to 512 happens to fix the issue
-because it never allocates a PRP list with offset 0xf00. Theoretically,
-the issue could still happen with the page pool, but this bridge has
-a max transfer size of 64 pages, which is not enough to fill an entire
-page-sized PRP list.
-
-Robert, could you check that the fs corruption happens only after
-transfers of size 257-264 and PRP list offset of 0xf00? This would
-confirm my theory.
+Yes, that is my idea. Just having one function which handles what
+blk_mq_map_queues and blk_mq_hctx_map_queues/blk_mq_map_hw_queues
+currently do.
 
