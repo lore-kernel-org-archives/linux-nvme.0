@@ -4,174 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34765D65C7F
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 11:50:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB773D65C7E
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 11:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iL3kAUuZ6rjhquaD/L1M7WjTHz9qgDV+Cm9X01csHuE=; b=ehm6RfOX6xQqPvH2rTpc8wiO89
-	gARULxZ8iDDjd5N67LGR5AgV60iXLT3mEKEOlDd7neIHUAzKYq8EiDHOg1nwMeSE2Hc2Vf1RIPGTk
-	ZEU+6cLidl90nNer36YJbnHStY1AX85tezkUHJBNuE72SkKcG+JQnGysLUHXN1UwcAAAtFOv6US+R
-	Vn8zdHpkeZv77uPFW6E5JhcmtrGtbE84cwqehoLKSA86jt375j9OsLPU2V3npRZF4e0/pnI3+AzA7
-	St63SrIDJXDIXmQ3gDVbjxygEvvEN552SaaEmCpmeXAtilioaoBofJ6BNT7YtofwW8BxCXRUrmT27
-	JygBz3YQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=3FdKV1Wv4Xsw/+85FgxRrOt0GL+RFqV5XkjSF/+rAdw=; b=rGgBSYbOOXoWK39IYtSd7wgVyH
+	8gNQr07eEA32MTZ8A6L1tiXj3fVN+3YxPWGZfs1j9kuy4lbJCFTh7ptGTe5m+L+J8Lni6jc470lvp
+	X1a97+47BHIbCa0GH5rjTZ/ljF75Rhh9SpqFKdU/9uyxaf2mgFK7vhq45eU/JLuCU1Pu4bEA+mux6
+	hfV+QCpsEplSG2waPGqiYdcbJ6WLCmw4F9PlxqCBb9WjUV9sd+n7e7Pap5/V7pwOjmZ60yIv4q5Ku
+	nDq8WoP/Slmpt3Nqu5hFIDKYosrV9YkU0hHIJ0U7U9KNAmj7iNX/Uwa7E34ztl4/OFa6sxcqGf+zZ
+	BGy52ndg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBYMM-00000009mzq-1Yd8;
-	Thu, 14 Nov 2024 11:50:02 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1tBYTb-00000009o8Q-2M2y;
+	Thu, 14 Nov 2024 11:57:31 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBXeY-00000009eeV-1sDH
+	id 1tBXqf-00000009h0x-16h2
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Nov 2024 11:04:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1731582286; x=1763118286;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=rf1pOgtcwlcKg6/UZHe6yIslerLl4B12Fkvyq+bekpU=;
-  b=hOaKp82XH4Y0NUif0oiSuj+4nu6+Saex2kTS+tGvJ9+gRjTZ0i5NUKTU
-   cRaAQ1uhzuOZFcAbo3ZwAx0gNa8KYqFVhkEjjyyIUWQlRWv287lotwf8p
-   90+KkjqOIQiH1ApNlt4ZmMcbe8fdbZP+Jeyumwhx1Do+RchRiBHeXB3/r
-   wWWf6svuCYf6rsAgQpX9P2bsyefkEueBzpDCORb1aDKs1b5BGrqUMJVRJ
-   aReW0VKewHXhqqBvCzS1tPXmScSQlytBDBh6JuggpU/XmbVbjre1bFZKK
-   1HuJpqQJ+FHNrk6nS9jHzu5vAmrHoJzdk6ep35U+6oOqwI6z5jL9WtI7b
-   w==;
-X-CSE-ConnectionGUID: KemS2v87S2a8YINcsditbA==
-X-CSE-MsgGUID: RhfKHxQpQz6L2A4QBVqdbw==
-X-IronPort-AV: E=Sophos;i="6.12,153,1728921600"; 
-   d="scan'208";a="30847043"
-Received: from mail-mw2nam10lp2046.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.46])
-  by ob1.hgst.iphmx.com with ESMTP; 14 Nov 2024 19:04:44 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HD6/QpZc58GidWJR12ZXfHM0MbKI+XBaXlQeki00d7OCX1dsY7NhOSLPSOJCGskgjZK+FqwTDa4yn8HATs9+KrGSgzhb9T5kXLXA4Qc4pgLV6Sebq8bdotGrdHQMzE+4MX10uG/3Zf8D2AEcybF7VBP/hg9Xchb+93kd/jSbGIjbrE/02vgenzJ7JYk6RHkC5vfgPor/Ko/iyhH97qVCEcPPxzltA1xt5ajxHHY4DJJSQLkO8CSQTpUUbpwIKTjVgY4fe8hMWr02QoLy2+q8yfqy0eMboUlOleDFhKdKS74AUim7R0TTEmMiutizXc5Js6fPefL6MfWqbsVz5QA3qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iL3kAUuZ6rjhquaD/L1M7WjTHz9qgDV+Cm9X01csHuE=;
- b=W2kCQtsptLx97ecR7AWDcsBXxE1VQz0ahgAVXQdeey+aY4hmfTA8znHvCcAECXwNG8hgxiApyO2xE0bwzkA4D/EiYgDVq10drnX59Md1qkIrPSdGj/vt8aIxjxxy8dzjcWZH+RwgQG7ZdBObptAvIq4MuR1oHT0i8ghvx7NOh3axd0bK/rxTe8nXzYxCEywnMd8l9uAq3QpAL1muGNkM/O6nqgJyf3iZj07piSx0DXKSkdoDjn2rfQDOC5l4NXWi2U/THy64V93dtVWMryJCS9qu7lrhYpRtPKNmDupotRueZGUJYg6IY3OzWJoxHQvtsCBVT6xjnpOdyv+2chALPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iL3kAUuZ6rjhquaD/L1M7WjTHz9qgDV+Cm9X01csHuE=;
- b=G/HWnp4v4J2kabMbRiOU4B7gsTlkCgdvkLHOameUpnKaDDSw7VJCznPq8+tjDuz+CaQu9KUsILsjw6nITW+IEYFq9l98+2Sdi7jbFZ1G/5LqDDWjB+HRtJ2pVaRspoy5/VeNdrL7pjJstzGkiRfopNMw1tPdTQAhAy6XNhJ5yWI=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- PH7PR04MB8612.namprd04.prod.outlook.com (2603:10b6:510:245::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8158.17; Thu, 14 Nov 2024 11:04:42 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::b27f:cdfa:851:e89a%4]) with mapi id 15.20.8158.017; Thu, 14 Nov 2024
- 11:04:42 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Hannes
- Reinecke <hare@suse.de>
-Subject: Re: [PATCH blktests 3/8] nvme/016: do not create namespace when
- setting up the target
-Thread-Topic: [PATCH blktests 3/8] nvme/016: do not create namespace when
- setting up the target
-Thread-Index: AQHbMQYlzkRt0qRYHUKRPggMis7nC7Kx6ciAgAS+LYA=
-Date: Thu, 14 Nov 2024 11:04:42 +0000
-Message-ID: <xn7lzzin4xzspxoc3po3pgjapevehmfhts7efjch24pudzepjw@jabgurc5xxx4>
-References: <20241107111354.80606-1-shinichiro.kawasaki@wdc.com>
- <20241107111354.80606-4-shinichiro.kawasaki@wdc.com>
- <585ab80b-7a7b-4493-94fe-9b9cfdae75cf@flourine.local>
-In-Reply-To: <585ab80b-7a7b-4493-94fe-9b9cfdae75cf@flourine.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|PH7PR04MB8612:EE_
-x-ms-office365-filtering-correlation-id: b5cef3b0-555b-4c23-b486-08dd049c2413
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?VdBClEv3bXj3eztPLXbR79SFeBWbjxkI2lFkiJiVRsRjKNhn1t2oKImvYsY8?=
- =?us-ascii?Q?vt2YawxsrGgTTgX3CZIn4Mb2UfXY0iag9IQ/HEgcH+CFaIwt5bg61GeNnYmF?=
- =?us-ascii?Q?3uDDl0aGL9zSRNqROQuaW1eDl8E+AFvHbq1dG4k6c+TpWJ1NCjo8pyR67SeA?=
- =?us-ascii?Q?N724L1x55hOrcCueu4kIfvVGicW/vYlH09pNKI8YPdv2BmHKOe+xlrqzkaNW?=
- =?us-ascii?Q?RhfpfA9K/1LwBtdGwVFDJpGj3kF/i10td1DkmrD7GRE0bkpIr6e6vfE5oesw?=
- =?us-ascii?Q?rsXf8fBwNq86oSpaL68KWQpAqnYvZrLo/RqTij2DNgwoMb4TPQ40Af1YKytg?=
- =?us-ascii?Q?A1jOfIf0p+rScOabZKwxHD0pQckIu+4zfsmqYgoskd6yTVsUSB0RTW4hF5+H?=
- =?us-ascii?Q?47IWYzwWE04TMou0dFGrAFiRFeLbIdjdiIeCAt9T08I/hepP3hAvTGrW+9b7?=
- =?us-ascii?Q?7u1DNkqjIW7/T9RTV4E0L9FDaeZL8CuW/58UVOC3pP7e02/c1XRT511nVUnl?=
- =?us-ascii?Q?P5fm+ydeApacrNzWbqIaaVP/rLFjOixURKEzKg/L87avIrsNZOZhjIJqvNGC?=
- =?us-ascii?Q?8j97Fd+YDkKecFQhi2MnRaBfU4/F96GFO8nM7Hn7sDqkp8/GxEG+Hf0TwXCm?=
- =?us-ascii?Q?S93jwOY+omLwYeNdXr2pv4edP+qy63/9PutBDd6XbPeTxoZARml458Z49VLY?=
- =?us-ascii?Q?VLalmTzzDngMNt+usjoY3SeeHh6//ckfShM+3xqTO3dJ4TWk5bUnEP0Z83nf?=
- =?us-ascii?Q?wYPovWwLy2d0VAiGdPtWl5QBJqbWFE5FmmBy5qiJKyi04rK+JNaCWb9UM0L8?=
- =?us-ascii?Q?LULj5KJdwz1yWQkwHDsSzLvpUW8P9TUgNo/R/Cpoqecoyq+cGRfOpDJgdPNR?=
- =?us-ascii?Q?pSKhSrFiDQrHDcl1zaf5X13zp7Mzf5SRAxGgYEI+bweSB3AgrhHwBsohXvbO?=
- =?us-ascii?Q?yuMgsY7W8zWzvOhc0muR0/QnjD18c72WWALwjjbZ/Hui0YYMnvdNgGHOq0Jr?=
- =?us-ascii?Q?cMyyWA+AzRUhy2thfIwhChRfWRa8kBSVY/QcRW1z4gHFjOcOdxA6+Cb1No6i?=
- =?us-ascii?Q?tlDSPHnB+TgmBtufMaBiRTdP2C1QhMMNGd2+KBL26nxrLDXeiN9pp5FbAG5/?=
- =?us-ascii?Q?OOASLiOJ/b2Tu3OmYTfR0A2hPg/2ZfAqHgCIqgErIKq6eY+GUXcjKmw7W/3I?=
- =?us-ascii?Q?NcbyRY1Z1ac1vanEBUvFeqrAYyLoNZc8AJzd8kjcSBWzWU3qUXhLEaXEiUce?=
- =?us-ascii?Q?8tSr36pOCK6k6m/Ner2VP2V4XzTqVTmHcJQewAL6TrdJ3oMJ0t2Xge+Iauj0?=
- =?us-ascii?Q?h9d3s6qT4sM+tDUz9YtcBL8DzKWU8EWpHORRCsCR1Ve12OXKwAfjYxPdPVQG?=
- =?us-ascii?Q?3SEL1+tMhtL1L2bZp6XzuOPuacvd?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LfMGEntp255kW64Fp8VvAH5aT+Xcluf5CaiJX6+f/ej/xJSmcq3XwWQPS+Nw?=
- =?us-ascii?Q?djpCTlbTp3mpt3w2v0XBldNmF4/4c1hO0lJH/+hH0FE57ngoA76cEsJyQIdP?=
- =?us-ascii?Q?k5QHEBbsTVatIVTa26HAgngksRVpXJGl1bsN9W38F7HRuv+ggRFJDfXVQNlE?=
- =?us-ascii?Q?+bzVTgEUtvf4g1WO7+x5XXnOxQvexSaTsH/idK1ShEcAzOcgUk+sfP6fAJDa?=
- =?us-ascii?Q?Rbi1oYl9T/SYl4zw+BGCXf2jYq5CHjctYDWVpF8cn9WBEEaq9ybO3Oa4Ssb1?=
- =?us-ascii?Q?duvAU1jGNH4SDXig/jU7u0E24C1cf50hZXL/2iMbGVivGHj4e688NXTXDOsN?=
- =?us-ascii?Q?izXKGK7e0ZjU2Xv09d9In2Pu1b66okzY8rr0JJqApyr3HPPo92FrnqwX3cY0?=
- =?us-ascii?Q?HmjmdKm2yE16Jf+gAzMaHxp4CM5gIz0kMd88fua/wSyTcthGjpFQTdeWbH2b?=
- =?us-ascii?Q?MKCrjO5cjul353sk2Mh5qmyedzs16davfXyjxJ2yO8Q4yj3nLdb0U0SiaSCH?=
- =?us-ascii?Q?Bc1UoNKM6dduSqTERE0Kc604Zwi91EMwzbqFccJTodLVcVE00nVCkGMyBGTi?=
- =?us-ascii?Q?VHbhCBJA3BenTCgie3j6+xpQoKb0QBBl4u6tbr+sBQVxhfkbcrvEmP6czYV2?=
- =?us-ascii?Q?eOVef7kgehf/i8kg3RoLV58NgSXWjlPFy8mrTgUnNfF6K6suyLzDwZY0LORg?=
- =?us-ascii?Q?th6vP32WC1iLKt9xInTMRFOp6FcRgHh2E+dJnt7GG6+50QrMIf3ybg3xE9mU?=
- =?us-ascii?Q?28jmWPVTkTaIWbisBxz/nU4NoGV0shkC9TkAo+e8bd1+GSq059MEEl3X5yIZ?=
- =?us-ascii?Q?k6kNcZiZ6aam2VrpSeZYrW5JULM34el6C/W9W26KWfavokcyeDZA3n5NoA9e?=
- =?us-ascii?Q?Fjkrz2eAMycUvJE7BByyl4cG20zYKGNgISbARzoQsCIEiDyRh4vUxkWbwHpT?=
- =?us-ascii?Q?Ps5aANlXE5/+aKb7UPQ+oHupr/zBzIMjwW0zOcBaFLRWInoj2YHn7IyjVvD6?=
- =?us-ascii?Q?LQMhvhm8icw+wkEU7QYOea6gAQGLN/1n6nMsegQZvOxUUVwUiMGTDiUqb2dR?=
- =?us-ascii?Q?kF+b+I/yU+2ozbHIKu1RUWKPjccy8l4LLP9KTtSktOSHG0LruQ2cb32YSyHE?=
- =?us-ascii?Q?tZgSS5oILLNT2P16Xta0BX1apzWWE1Bjy0Votk5uryRYmiL2F7SJGesE181r?=
- =?us-ascii?Q?kWp3Zj9Q3OHC3yzoWt0E+Rd4OLcrQc0H4eQi01hOqKw3lU6wvguuAV19U2+I?=
- =?us-ascii?Q?crT87D1GRTYfjc0LxHh4rqm4uDuHE2GsOuF7hxznH48WnChMjBI51rFllAqM?=
- =?us-ascii?Q?xtTSDDiYI9P0gMWthTcNOq83jz53D8EWTO2lJfRyubKKYohKR91RadrwIpqH?=
- =?us-ascii?Q?3pzxKVWm5a0tVdIrr7JDh/Q40HEDSoyMGFVUADKK9rjk4LfFiZoOuBNYWeT0?=
- =?us-ascii?Q?Jnf61ecSXmeX0oImtRnxFF1bIrhrsURNpjXLGmkn2MOxYehRFWLmtFaBt1RC?=
- =?us-ascii?Q?Eel8eKzYN0a3bArSf7Is7dzcFCpesngTBCYGPZJq2TDEkf1id481taA4XnxF?=
- =?us-ascii?Q?Y4KH8Mwe5WIx64tDEydttDk9hlNU9t5qjIxFVQe/Izl4yhA3r9/X17iVv9tl?=
- =?us-ascii?Q?zEDSFvf7mgn5Rbuf5OJRvMQ=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <445D22A05A39CF46848E06CF918B6639@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Thu, 14 Nov 2024 11:17:22 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20241114111707epoutp018190a39ff0fc4fc4927e83ab1622d37c~H0ZbZKkaG2292622926epoutp01C
+	for <linux-nvme@lists.infradead.org>; Thu, 14 Nov 2024 11:17:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20241114111707epoutp018190a39ff0fc4fc4927e83ab1622d37c~H0ZbZKkaG2292622926epoutp01C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1731583027;
+	bh=3FdKV1Wv4Xsw/+85FgxRrOt0GL+RFqV5XkjSF/+rAdw=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=FUPskEiXEuN7zFVfE3zQT1gnSVlHoc/X4EsrvQ/fNKzKdEWkqSj71eOOWjIKeyL9H
+	 +kxHUqAIIdSyCRBwlURPzOWmKnDTjbRm41KTga0O8YF4vDcZYMThAOHwSFa1XbcMyL
+	 1Sv1rT2vMXbVX2/d06Lm4ah2jkPxsfEZT5gwXNDE=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20241114111706epcas5p223610d9d3b7635ac6890efeabc4e36e0~H0ZamRoH30689906899epcas5p2c;
+	Thu, 14 Nov 2024 11:17:06 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4XpyKX70mRz4x9Pt; Thu, 14 Nov
+	2024 11:17:04 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	70.99.09770.03CD5376; Thu, 14 Nov 2024 20:17:04 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20241114105326epcas5p103b2c996293fa680092b97c747fdbd59~H0EwCxj3t1325013250epcas5p1m;
+	Thu, 14 Nov 2024 10:53:26 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20241114105326epsmtrp2247251f85d6872910a76e29fd18d771b~H0EwA1vWe1919419194epsmtrp2w;
+	Thu, 14 Nov 2024 10:53:26 +0000 (GMT)
+X-AuditID: b6c32a4a-e25fa7000000262a-99-6735dc30ab74
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E8.90.35203.6A6D5376; Thu, 14 Nov 2024 19:53:26 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20241114105324epsmtip2d1a18eb15d736183da016a1503504c24~H0EtpfC7-0885508855epsmtip2k;
+	Thu, 14 Nov 2024 10:53:23 +0000 (GMT)
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: axboe@kernel.dk, hch@lst.de, kbusch@kernel.org,
+	martin.petersen@oracle.com, asml.silence@gmail.com, anuj1072538@gmail.com,
+	brauner@kernel.org, jack@suse.cz, viro@zeniv.linux.org.uk
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com,
+	linux-scsi@vger.kernel.org, vishak.g@samsung.com,
+	linux-fsdevel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>
+Subject: [PATCH v9 00/11] Read/Write with meta/integrity
+Date: Thu, 14 Nov 2024 16:15:06 +0530
+Message-Id: <20241114104517.51726-1-anuj20.g@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: qZu2Ptc1YTfiN3lvX0tbQIkbCsRD22KaJMkebjL12BrT0UvDAGBXqW9iLEtKIhKlau1wNwBaKAHN2jZ9ROgamcUMpjMFg3HHoyaigzKKTetmponjUYdWMH8dXY4F+qYL5jgzCQbmeZ7zCvqiRc3kfd2uLCG3iY7baASOWSzr7MsH5X/Cyme2iWgSjXi52wrOLlf1LMuFrPObeeYSpM80cFLULSZb3RFc8ctavXjXAysdIrfSwlJIamZtrCmggdIKXtPpEFRX6Ez50zJ7CYgNMY3GVZD0DegIKKH0boEme1orGUlO0XHEez49KvORzzr1nwqtJ4ifnMOh+R55s8d9sv7DPHvvty57SUYB28VlLdA7Qsgy4iLe+eZwqMez4hqXB0C+MjOBRlCyn2Xs8jT0+lvUW6Z7tptxwoPKI40dhl/O92lj4DffQG21yKdeTkkvChvO4qXO949DArvPT0GkNTWBm7bnYowK3rAYCdpF7nepl9UvGsV4jPLqPXLwTKjZ+NV5GHRH4529R0PhSSBTkeTZORunUsJ7am/K7xegPDRqECXknvkDu9zdYlBln9XMjvdYrBHGGtArRPaF48M+M2+hAqs0zymRxdSZG5nK62n6xejMdBczbYqok5nIfEad
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5cef3b0-555b-4c23-b486-08dd049c2413
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2024 11:04:42.2745
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +aKAv/clQzE1TbZSKOnaJbV0sFDpWPiyKCGIWADUQMdyj8fTQPM259urZK9D530ywVPBI2SS2mCZWMCq8ZARx6zBpT7vM4cHVX+92a3UhN8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR04MB8612
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDJsWRmVeSWpSXmKPExsWy7bCmuq7BHdN0g5bfhhYfv/5msWia8JfZ
+	Ys6qbYwWq+/2s1m8PvyJ0eLmgZ1MFitXH2WyeNd6jsVi9vRmJotJh64xWuy9pW2xZ+9JFov5
+	y56yW3Rf38Fmsfz4PyaL83+Ps1qcnzWH3UHQY+esu+wel8+Wemxa1cnmsXlJvcfumw1sHh+f
+	3mLx6NuyitHjzIIj7B6fN8l5bHrylimAKyrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ
+	19DSwlxJIS8xN9VWycUnQNctMwfoHSWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpO
+	gUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdkbD4dKCC7EVS+Y/Y2xgnOLSxcjJISFgItG2/wwT
+	iC0ksJtRomGqWBcjF5D9iVHi5qv7zBDON0aJ5a+72WE6Nn2cDJXYyyjReLufEcL5zCjxZNdu
+	ZpAqNgF1iSPPW8ESIgJ7GCV6F55mAXGYBV4ySixdtYgFpEpYwEKiadIERhCbRUBVYvamyWDd
+	vAKWEj8ffWOF2CcvMfPSd3aIuKDEyZlPwHqZgeLNW2eD3SEhsIVD4szJ3VAHukj86Wxmg7CF
+	JV4d3wIVl5L4/G4vVDxd4sflp0wQdoFE87F9jBC2vUTrqX6goRxACzQl1u/ShwjLSkw9tY4J
+	Yi+fRO/vJ1CtvBI75sHYShLtK+dA2RISe881QNkeEhd/3WWDhHCsxLmeKywTGOVnIXlnFpJ3
+	ZiFsXsDIvIpRMrWgODc9tdi0wCgvtRwes8n5uZsYwclay2sH48MHH/QOMTJxMB5ilOBgVhLh
+	PeVsnC7Em5JYWZValB9fVJqTWnyI0RQYxhOZpUST84H5Iq8k3tDE0sDEzMzMxNLYzFBJnPd1
+	69wUIYH0xJLU7NTUgtQimD4mDk6pBqaUs968z7xn3VtrHHjIdvqU9l/K7Ck7DGz23bEpP7mL
+	lz/r4mUeLu/UpU9f/5A+fyDl474gA9t4gYNeJx2SuWeW5Cu5Gx2YdkqBZbHbdevv7+viNKJ/
+	J0x8fcViWuCxiq+vWp+t92ONKzm40ppha36z6FTGHSxJCypfJ7Ar1qSe1V1/n3Xuv6mlLYUK
+	pnZPSr5LbpuUK3l07oWY41MlZH3NDRkP/GA+quzP/tVsk2O8UE9beo1vaC3P5viLha3yZxlr
+	9/b9Dlh8Xl/kgr2dT5xOwqINr5/nXAhy2qm3aEMzR/mMLRxBWqcNdcr7mp9WuTZty0gOUnx9
+	Os5fP27yq8bLiv+tF5zSeSKqdoR7pRJLcUaioRZzUXEiAGoj9CpfBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOLMWRmVeSWpSXmKPExsWy7bCSvO6ya6bpBmvvyll8/PqbxaJpwl9m
+	izmrtjFarL7bz2bx+vAnRoubB3YyWaxcfZTJ4l3rORaL2dObmSwmHbrGaLH3lrbFnr0nWSzm
+	L3vKbtF9fQebxfLj/5gszv89zmpxftYcdgdBj52z7rJ7XD5b6rFpVSebx+Yl9R67bzaweXx8
+	eovFo2/LKkaPMwuOsHt83iTnsenJW6YArigum5TUnMyy1CJ9uwSujIbDpQUXYiuWzH/G2MA4
+	xaWLkZNDQsBEYtPHycxdjFwcQgK7GSU+HTjMApGQkDj1chkjhC0ssfLfc3aIoo+MElebWplB
+	EmwC6hJHnreCFYkInGCUmD/RDaSIGaRowpfZYJOEBSwkmiZNACtiEVCVmL1pMlgzr4ClxM9H
+	31ghNshLzLz0nR0iLihxcuYTsF5moHjz1tnMExj5ZiFJzUKSWsDItIpRMrWgODc9t9iwwDAv
+	tVyvODG3uDQvXS85P3cTIzhutDR3MG5f9UHvECMTB+MhRgkOZiUR3lPOxulCvCmJlVWpRfnx
+	RaU5qcWHGKU5WJTEecVf9KYICaQnlqRmp6YWpBbBZJk4OKUamAojbjf+vqm/LblcUKmcV37N
+	3pciL47vYP2lzqBRPilCU84116BG0kxL5m2R9hWDzm9n0qZ9y3mk+c1ZJiX0Xppm3QPW1Zfm
+	bny64pnqlvMaNkt036jdrxNJMp7brL114axNrQdFD/JKN+pH9IZwGG1KXxMaqPNBtGbtW5F/
+	ZvrVGx8eazvZd9zm395XKopSiw+cOm6y1Oesz5cfW3uEpsw5tuEvo7l97oW+3Mtp7m4rPni7
+	c32YPPX305CMqcX7l53d9dFy2syZz9Z39ajONJScz+Icu2Ex948cFgZHkwnrapW2Xp69SGQS
+	28muWQeqwtj0vrKbBR6If5e9m9cq3LHIwbmII9m/dXbPhhlq85RYijMSDbWYi4oTAWBW1UIK
+	AwAA
+X-CMS-MailID: 20241114105326epcas5p103b2c996293fa680092b97c747fdbd59
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241114105326epcas5p103b2c996293fa680092b97c747fdbd59
+References: <CGME20241114105326epcas5p103b2c996293fa680092b97c747fdbd59@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241114_030446_627945_756504DA 
-X-CRM114-Status: GOOD (  13.06  )
+X-CRM114-CacheID: sfid-20241114_031717_943291_313A2F0C 
+X-CRM114-Status: GOOD (  31.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -186,32 +138,341 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Nov 11, 2024 / 11:38, Daniel Wagner wrote:
-> On Thu, Nov 07, 2024 at 08:13:49PM +0900, Shin'ichiro Kawasaki wrote:
-> > -	_create_nvmet_subsystem --blkdev "${loop_dev}"
-> > +	_create_nvmet_subsystem
->=20
-> After reading patch #5, should this be
->=20
->   _create_nvmet_subsystem --blkdev none
+This adds a new io_uring interface to pass additional attributes with
+read/write. It can be done using two ways.
 
-I agree that this change is not straight forwared. Please refer the commit
-fe6cd136 ("nvme, md/001: support only long options for
-_create_nvmet_subsystem()"). It was the last commit of the first series [1]=
-.
-(I should have included the patch in this second series...)
+1. Passing the attribute information via user pointer.
+2. Passing the attribute information inline with SQE/SQE128.
 
-[1] https://lore.kernel.org/linux-nvme/20241030065149.2297405-14-shinichiro=
-.kawasaki@wdc.com/
+We have had discussions in the past about using the SQE128 space for passing
+PI fields. Still if there are concerns about it, can we please consider
+this patchset for inclusion only with the user pointer approach for now
+(and drop patch 7)?
 
-It added one if block below in the middle of _create_nvmet_subsystem.
+Example program for using the interface is appended below [1].
+In the program, write is done via inline scheme and read is done via user
+pointer scheme.
 
-       if [[ -z "${blkdev}" ]]; then
-               return 0
-       fi
+The patchset is on top of block/for-next.
 
-Then, when --blkdev option is not specified, _create_nvmet_subsystem does n=
-ot
-create namespaces. So just removing the --blkdev option does the change
-required. Same for the next patch and nvme/017.=
+Block path (direct IO) , NVMe and SCSI driver are modified to support
+this.
+
+Patch 1 is an enhancement patch.
+Patch 2 is required to make the bounce buffer copy back work correctly.
+Patch 3 to 5 are prep patches.
+Patch 6 and 7 adds the io_uring support.
+Patch 8 gives us unified interface for user and kernel generated
+integrity.
+Patch 9 adds support in SCSI and patch 10 in NVMe.
+Patch 11 adds the support for block direct IO.
+
+Changes since v8:
+https://lore.kernel.org/io-uring/20241106121842.5004-1-anuj20.g@samsung.com/
+
+- add option of the pass the PI information from user space via a
+  pointer (Pavel)
+
+Changes since v7:
+https://lore.kernel.org/io-uring/20241104140601.12239-1-anuj20.g@samsung.com/
+
+- change the sign-off order (hch)
+- add a check for doing metadata completion handling only for async-io
+- change meta_type name to something more meaningful (hch, keith)
+- add detail description in io-uring patch (hch)
+
+Changes since v6:
+https://lore.kernel.org/linux-block/20241030180112.4635-1-joshi.k@samsung.com/
+
+- io_uring changes (bring back meta_type, move PI to the end of SQE128)
+- Fix robot warnings
+
+Changes since v5:
+https://lore.kernel.org/linux-block/20241029162402.21400-1-anuj20.g@samsung.com/
+
+- remove meta_type field from SQE (hch, keith)
+- remove __bitwise annotation (hch)
+- remove BIP_CTRL_NOCHECK from scsi (hch)
+
+Changes since v4:
+https://lore.kernel.org/linux-block/20241016112912.63542-1-anuj20.g@samsung.com/
+
+- better variable names to describe bounce buffer copy back (hch)
+- move defintion of flags in the same patch introducing uio_meta (hch)
+- move uio_meta definition to include/linux/uio.h (hch)
+- bump seed size in uio_meta to 8 bytes (martin)
+- move flags definition to include/uapi/linux/fs.h (hch)
+- s/meta/metadata in commit description of io-uring (hch)
+- rearrange the meta fields in sqe for cleaner layout
+- partial submission case is not applicable as, we are only plumbing for async case
+- s/META_TYPE_INTEGRITY/META_TYPE_PI (hch, martin)
+- remove unlikely branching (hch)
+- Better formatting, misc cleanups, better commit descriptions, reordering commits(hch)
+
+Changes since v3:
+https://lore.kernel.org/linux-block/20240823103811.2421-1-anuj20.g@samsung.com/
+
+- add reftag seed support (Martin)
+- fix incorrect formatting in uio_meta (hch)
+- s/IOCB_HAS_META/IOCB_HAS_METADATA (hch)
+- move integrity check flags to block layer header (hch)
+- add comments for BIP_CHECK_GUARD/REFTAG/APPTAG flags (hch)
+- remove bio_integrity check during completion if IOCB_HAS_METADATA is set (hch)
+- use goto label to get rid of duplicate error handling (hch)
+- add warn_on if trying to do sync io with iocb_has_metadata flag (hch)
+- remove check for disabling reftag remapping (hch)
+- remove BIP_INTEGRITY_USER flag (hch)
+- add comment for app_tag field introduced in bio_integrity_payload (hch)
+- pass request to nvme_set_app_tag function (hch)
+- right indentation at a place in scsi patch (hch)
+- move IOCB_HAS_METADATA to a separate fs patch (hch)
+
+Changes since v2:
+https://lore.kernel.org/linux-block/20240626100700.3629-1-anuj20.g@samsung.com/
+- io_uring error handling styling (Gabriel)
+- add documented helper to get metadata bytes from data iter (hch)
+- during clone specify "what flags to clone" rather than
+"what not to clone" (hch)
+- Move uio_meta defination to bio-integrity.h (hch)
+- Rename apptag field to app_tag (hch)
+- Change datatype of flags field in uio_meta to bitwise (hch)
+- Don't introduce BIP_USER_CHK_FOO flags (hch, martin)
+- Driver should rely on block layer flags instead of seeing if it is
+user-passthrough (hch)
+- update the scsi code for handling user-meta (hch, martin)
+
+Changes since v1:
+https://lore.kernel.org/linux-block/20240425183943.6319-1-joshi.k@samsung.com/
+- Do not use new opcode for meta, and also add the provision to introduce new
+meta types beyond integrity (Pavel)
+- Stuff IOCB_HAS_META check in need_complete_io (Jens)
+- Split meta handling in NVMe into a separate handler (Keith)
+- Add meta handling for __blkdev_direct_IO too (Keith)
+- Don't inherit BIP_COPY_USER flag for cloned bio's (Christoph)
+- Better commit descriptions (Christoph)
+
+Changes since RFC:
+- modify io_uring plumbing based on recent async handling state changes
+- fixes/enhancements to correctly handle the split for meta buffer
+- add flags to specify guard/reftag/apptag checks
+- add support to send apptag
+
+[1]
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <linux/fs.h>
+#include <linux/io_uring.h>
+#include <linux/types.h>
+#include "liburing.h"
+
+/*
+ * write data/meta. read both. compare. send apptag too.
+ * prerequisite:
+ * protected xfer: format namespace with 4KB + 8b, pi_type = 1
+ * For testing reftag remapping on device-mapper, create a
+ * device-mapper and run this program. Device mapper creation:
+ * # echo 0 80 linear /dev/nvme0n1 0 > /tmp/table
+ * # echo 80 160 linear /dev/nvme0n1 200 >> /tmp/table
+ * # dmsetup create two /tmp/table
+ * # ./a.out /dev/dm-0
+ */
+
+#define DATA_LEN 4096
+#define META_LEN 8
+
+struct t10_pi_tuple {
+        __be16  guard;
+        __be16  apptag;
+        __be32  reftag;
+};
+
+int main(int argc, char *argv[])
+{
+         struct io_uring ring;
+         struct io_uring_sqe *sqe = NULL;
+         struct io_uring_cqe *cqe = NULL;
+         void *wdb,*rdb;
+         char wmb[META_LEN], rmb[META_LEN];
+         int fd, ret, blksize;
+         struct stat fstat;
+         unsigned long long offset = DATA_LEN * 10;
+         struct t10_pi_tuple *pi;
+         struct io_uring_sqe_ext *sqe_ext;
+	 struct io_uring_attr_pi pi_attr;
+	 struct io_uring_attr_vec attr_vec;
+
+         if (argc != 2) {
+                 fprintf(stderr, "Usage: %s <block-device>", argv[0]);
+                 return 1;
+         };
+
+         if (stat(argv[1], &fstat) == 0) {
+                 blksize = (int)fstat.st_blksize;
+         } else {
+                 perror("stat");
+                 return 1;
+         }
+
+         if (posix_memalign(&wdb, blksize, DATA_LEN)) {
+                 perror("posix_memalign failed");
+                 return 1;
+         }
+         if (posix_memalign(&rdb, blksize, DATA_LEN)) {
+                 perror("posix_memalign failed");
+                 return 1;
+         }
+
+         memset(wdb, 0, DATA_LEN);
+
+         fd = open(argv[1], O_RDWR | O_DIRECT);
+         if (fd < 0) {
+                 printf("Error in opening device\n");
+                 return 0;
+         }
+
+         ret = io_uring_queue_init(8, &ring, IORING_SETUP_SQE128);
+         if (ret) {
+                 fprintf(stderr, "ring setup failed: %d\n", ret);
+                 return 1;
+         }
+
+         /* write data + meta-buffer to device */
+         sqe = io_uring_get_sqe(&ring);
+         if (!sqe) {
+                 fprintf(stderr, "get sqe failed\n");
+                 return 1;
+         }
+
+         io_uring_prep_write(sqe, fd, wdb, DATA_LEN, offset);
+
+	 sqe->attr_inline_flags = ATTR_FLAG_PI;
+         sqe_ext= (struct io_uring_sqe_ext *) (sqe + 1);
+         sqe_ext->rw_pi.addr = (__u64)wmb;
+         sqe_ext->rw_pi.len = META_LEN;
+         /* flags to ask for guard/reftag/apptag*/
+         sqe_ext->rw_pi.flags = IO_INTEGRITY_CHK_GUARD | IO_INTEGRITY_CHK_REFTAG | IO_INTEGRITY_CHK_APPTAG;
+         sqe_ext->rw_pi.app_tag = 0x1234;
+         sqe_ext->rw_pi.seed = 10;
+
+         pi = (struct t10_pi_tuple *)wmb;
+         pi->guard = 0;
+         pi->reftag = 0x0A000000;
+         pi->apptag = 0x3412;
+
+         ret = io_uring_submit(&ring);
+         if (ret <= 0) {
+                 fprintf(stderr, "sqe submit failed: %d\n", ret);
+                 return 1;
+         }
+
+         ret = io_uring_wait_cqe(&ring, &cqe);
+         if (!cqe) {
+                 fprintf(stderr, "cqe is NULL :%d\n", ret);
+                 return 1;
+         }
+         if (cqe->res < 0) {
+                 fprintf(stderr, "write cqe failure: %d", cqe->res);
+                 return 1;
+         }
+
+         io_uring_cqe_seen(&ring, cqe);
+
+         /* read data + meta-buffer back from device */
+         sqe = io_uring_get_sqe(&ring);
+         if (!sqe) {
+                 fprintf(stderr, "get sqe failed\n");
+                 return 1;
+         }
+
+         io_uring_prep_read(sqe, fd, rdb, DATA_LEN, offset);
+
+         sqe->nr_attr_indirect = 1;
+	 sqe->attr_vec_addr = (__u64)&attr_vec;
+	 attr_vec.type = ATTR_TYPE_PI;
+	 attr_vec.addr = (__u64)&pi_attr;
+         pi_attr.addr = (__u64)rmb;
+         pi_attr.len = META_LEN;
+         pi_attr.flags = IO_INTEGRITY_CHK_GUARD | IO_INTEGRITY_CHK_REFTAG | IO_INTEGRITY_CHK_APPTAG;
+         pi_attr.app_tag = 0x1234;
+         pi_attr.seed = 10;
+
+         ret = io_uring_submit(&ring);
+         if (ret <= 0) {
+                 fprintf(stderr, "sqe submit failed: %d\n", ret);
+                 return 1;
+         }
+
+         ret = io_uring_wait_cqe(&ring, &cqe);
+         if (!cqe) {
+                 fprintf(stderr, "cqe is NULL :%d\n", ret);
+                 return 1;
+         }
+
+         if (cqe->res < 0) {
+                 fprintf(stderr, "read cqe failure: %d", cqe->res);
+                 return 1;
+         }
+
+	 pi = (struct t10_pi_tuple *)rmb;
+	 if (pi->apptag != 0x3412)
+		 printf("Failure: apptag mismatch!\n");
+	 if (pi->reftag != 0x0A000000)
+		 printf("Failure: reftag mismatch!\n");
+
+         io_uring_cqe_seen(&ring, cqe);
+
+         pi = (struct t10_pi_tuple *)rmb;
+
+         if (strncmp(wmb, rmb, META_LEN))
+                 printf("Failure: meta mismatch!, wmb=%s, rmb=%s\n", wmb, rmb);
+
+         if (strncmp(wdb, rdb, DATA_LEN))
+                 printf("Failure: data mismatch!\n");
+
+         io_uring_queue_exit(&ring);
+         free(rdb);
+         free(wdb);
+         return 0;
+}
+
+
+Anuj Gupta (8):
+  block: define set of integrity flags to be inherited by cloned bip
+  block: modify bio_integrity_map_user to accept iov_iter as argument
+  fs, iov_iter: define meta io descriptor
+  fs: introduce IOCB_HAS_METADATA for metadata
+  io_uring: introduce attributes for read/write and PI support
+  io_uring: inline read/write attributes and PI
+  block: introduce BIP_CHECK_GUARD/REFTAG/APPTAG bip_flags
+  scsi: add support for user-meta interface
+
+Christoph Hellwig (1):
+  block: copy back bounce buffer to user-space correctly in case of
+    split
+
+Kanchan Joshi (2):
+  nvme: add support for passing on the application tag
+  block: add support to pass user meta buffer
+
+ block/bio-integrity.c         |  84 ++++++++++++++----
+ block/blk-integrity.c         |  10 ++-
+ block/fops.c                  |  45 +++++++---
+ drivers/nvme/host/core.c      |  21 +++--
+ drivers/scsi/sd.c             |   4 +-
+ include/linux/bio-integrity.h |  25 ++++--
+ include/linux/fs.h            |   1 +
+ include/linux/uio.h           |   9 ++
+ include/uapi/linux/fs.h       |   9 ++
+ include/uapi/linux/io_uring.h |  40 +++++++++
+ io_uring/io_uring.c           |   5 ++
+ io_uring/rw.c                 | 160 +++++++++++++++++++++++++++++++++-
+ io_uring/rw.h                 |  14 ++-
+ 13 files changed, 381 insertions(+), 46 deletions(-)
+
+-- 
+2.25.1
+
 
