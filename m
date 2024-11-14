@@ -4,58 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3B83D65C42
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 06:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 660DAD65C53
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 07:12:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fHpuVJmUBu1eBRx+pK3DAu60Sqg3VuQNEm/0BuOoMRM=; b=K2xs3Q+FMZrtkhk/IYBIJFuXoG
-	i4iCfP5aM7/bXslsP/JXRDNno/5E6jrjxkJ0HYh7wJwNHxpiKY4GmdJIbdpy5SpvYHKruKT79JgJz
-	4BNaT5G0IGQy3OY3TL3skxc9YnrPtm36mYLJRBTlDawqmLnFFHEDUUKX1jqnf1Gw62fxX/6+DGAPG
-	xFekgVX80N/SBZIg3ZheMlhNiYajtO4jlGWXQrh5lksc1yjWB1jl7+XLg+WroUoTY75kwmMPveAhd
-	fH4LAlj884RKWCsGeku3s1+eoNc41TxkW5m7BnhRz9LrtwPxAq8TMX76lo1Hbv0Df0d/9Q2CCCIbI
-	7bi60dFg==;
+	bh=fH/J7W9xtRwFNQE/LUMlKXXmvZxw9o++gxI2KFMe4OE=; b=ejhSBHmqU4tp5F6/iF7srxgnCS
+	Yzl5fZ1l/YXnFA9+/YvYOTsfAKKHlOzAhquxT5CpdmDzFnasYbYk5HlZv2DXAIX5WP7cxxc1ZduPd
+	44ww1ByhOl0eiByrhjmSDe2mOjCxz2jNpmYUJ59UizmFn3a1WBq1vQBepl3mX3Krqn9qqL31Bqk1X
+	ZW6oX4lyQRCrq79vg9/DppWhiieeo0sSMbbyf7bH9CvaW6lGmPNKFY4o0cpSGWH3Is7FRuCn6+nKf
+	dgzPlz3nfRJr7xC8ymKwJqmQ2skOmrInU3ObEXDO05a8wpNHGWM79K5V5l31L+RFhP/rBwhUWKCU8
+	houlUgIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBT0g-00000008vdg-1Nhr;
-	Thu, 14 Nov 2024 06:07:18 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1tBU2C-000000093eu-3KNj;
+	Thu, 14 Nov 2024 07:12:56 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBT0d-00000008vd3-0BcR
+	id 1tBTxu-000000092hY-4AYh
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Nov 2024 06:07:16 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2357668C7B; Thu, 14 Nov 2024 07:07:11 +0100 (CET)
-Date: Thu, 14 Nov 2024 07:07:10 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Dave Chinner <david@fromorbit.com>
-Cc: Christoph Hellwig <hch@lst.de>, Pierre Labat <plabat@micron.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@meta.com>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"asml.silence@gmail.com" <asml.silence@gmail.com>,
-	"javier.gonz@samsung.com" <javier.gonz@samsung.com>
-Subject: Re: [EXT] Re: [PATCHv11 0/9] write hints with nvme fdp and scsi
- streams
-Message-ID: <20241114060710.GA11169@lst.de>
-References: <20241108193629.3817619-1-kbusch@meta.com> <CGME20241111103051epcas5p341a23ed677f2dfd6bc6d4e5c4826327b@epcas5p3.samsung.com> <20241111102914.GA27870@lst.de> <7a2f6231-bb35-4438-ba50-3f9c4cc9789a@samsung.com> <20241112133439.GA4164@lst.de> <ZzNlaXZTn3Pjiofn@kbusch-mbp.dhcp.thefacebook.com> <DS0PR08MB854131CDA4CDDF2451CEB71DAB592@DS0PR08MB8541.namprd08.prod.outlook.com> <20241113044736.GA20212@lst.de> <ZzU7bZokkTN2s8qr@dread.disaster.area>
+	Thu, 14 Nov 2024 07:08:33 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B5E6B21843;
+	Thu, 14 Nov 2024 07:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731568109; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fH/J7W9xtRwFNQE/LUMlKXXmvZxw9o++gxI2KFMe4OE=;
+	b=ai55etLO0FKw5w7LyU52GCY+AHzLrBBtpPyfNh0CKsE2gih2w2w4BAX/3IoxLPy/uR8Tx3
+	C9oueBw3vAzYeYqDdntv138TjcYZHyfh+5peUFZDLpirlAThYiXzqiz4EYP7pN4OFebUMR
+	wEvDbC2q9iNxFZflhVQU2G3ZH87I3U0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731568109;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fH/J7W9xtRwFNQE/LUMlKXXmvZxw9o++gxI2KFMe4OE=;
+	b=MrEu63DXOVGz4fm4cZa1w13ddQTMs02dpVVdhoDgzehPBvs3y9wIz4PeUa+kYjoAKfzEvy
+	3GGDt+u3Nil67mAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nVVaLUcd;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BFHtJys6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731568108; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fH/J7W9xtRwFNQE/LUMlKXXmvZxw9o++gxI2KFMe4OE=;
+	b=nVVaLUcdCP/xpYRdKAAcdXvEZYgw1pR1GqTz0o2UW+eaqcX+JrasaWh03IPdZclmOsasju
+	v2RlDIIgXCpiMTeot9OzMo+5niPevZQauTeNj1JwdOFxQVPNT8iu4tSRYA9nI2iuqnZW+T
+	NJEps6aDJVupwz88C67EYJLD98hxD6E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731568108;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fH/J7W9xtRwFNQE/LUMlKXXmvZxw9o++gxI2KFMe4OE=;
+	b=BFHtJys6pFY7mSK1Ix781r9oc8LLrppSLNVx45P+hBpqpZWD71GMrgq9uZvg5TBtAibFNh
+	nCTfdZCepww54pCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EF9413794;
+	Thu, 14 Nov 2024 07:08:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id T9eWIuyhNWdnXQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 14 Nov 2024 07:08:28 +0000
+Date: Thu, 14 Nov 2024 08:08:27 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Bjorn Helgaas <helgaas@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	John Garry <john.g.garry@oracle.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hannes Reinecke <hare@suse.de>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, 
+	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, 
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v4 07/10] scsi: hisi_sas: use blk_mq_hctx_map_queues to
+ map queues
+Message-ID: <395d3187-e87e-43b9-b590-635fde86b435@flourine.local>
+References: <20241113-refactor-blk-affinity-helpers-v4-7-dd3baa1e267f@kernel.org>
+ <202411140822.ZRutrwWP-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZzU7bZokkTN2s8qr@dread.disaster.area>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <202411140822.ZRutrwWP-lkp@intel.com>
+X-Rspamd-Queue-Id: B5E6B21843
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLbomrtoisjzkgzhj6iko5ju7u)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241113_220715_245294_917D020D 
-X-CRM114-Status: GOOD (  14.11  )
+X-CRM114-CacheID: sfid-20241113_230831_216234_850FF7CB 
+X-CRM114-Status: UNSURE (   8.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,30 +145,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 14, 2024 at 10:51:09AM +1100, Dave Chinner wrote:
-> Specifically to this "stream hint" discussion: go look at the XFS
-> filestreams allocator.
+On Thu, Nov 14, 2024 at 08:36:35AM +0800, kernel test robot wrote:
+> >> drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3375:45: error: use of undeclared identifier 'COQ_IRQ_INDEX'
+>     3375 |                 cq->irq_no = hisi_hba->irq_map[queue_no + COQ_IRQ_INDEX];
+>          |                                                           ^
 
-Those are rally two different things - file streams is about how to
-locate data into a single hardware write streams.  SCSI/NVMe streams
-including streams 2.0 (FDP) that this thread is about is about telling
-the hardware about these streams, and also about allowing the file
-systems (or other user of the storage) to  pack into the actual
-underlying hardware boundaries that matter for deleting/overwriting
-this data.
-
-Funnily enough Hans and I were just recently brainstorming on how to
-tie both together for the zoned xfs work.
-
-> SGI wrote an entirely new allocator for XFS whose only purpose in
-> life is to automatically separate individual streams of user data
-> into physically separate regions of LBA space.
-
-One of the interesting quirks of streams/FDP is that they they operate
-on (semi-)physical data placement that is completely decoupled from LBA
-space.  So if a file system or application really wants to track LBA
-vs physical allocations separately it gives them a way to do that.
-I don't really know what the advantage of having to track both is, but
-people smarted than me might have good uses for it.
-
+Argh, I forgot to fold my fix in...
 
