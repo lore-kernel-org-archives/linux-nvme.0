@@ -4,70 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F368D68B12
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 13:24:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC798D68B12
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2024 13:30:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:References:In-Reply-To:Message-ID:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LOLHAUJhptSneCwD15uTXeURWvGOUY0U2+/TzxvTOCA=; b=MSTrYGv7vXNe0ixjmgqOMc9LuB
-	IddQUEu3eoKv+JG9JTytY78fno5d/HvcO2VKtKnoQVtE9ejR0DTzWw56D+rWvgOgl7Cz2XQBojrSj
-	983vIU05sxEtRp3SN/4y1WpidS3sMm/gbhq/ULJe5TFU6N6nRsthMJCzqo/iE9ZIEilSSLY/NYNPv
-	aUR/VJsueh7VAleHtM65boCAik3Rl4MyMOklqAaGFE+VWrCfV2L0Q4QT6mblzel7Ite19Iittu8h0
-	BiciqXSf50ffPuAPOz8sJlNmTIKn5sV1XS10hRRfTmTcrN+acES8gIC+tBTS5yhFIKtyVqJxoIaKZ
-	gUOc3NTg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5jFTl3hFYuyRSySoV5BYyPMWdu2M6HUxYsOoVjHl3og=; b=qj+La/oMTip66vc7TKJ8CTsuzS
+	FXj0/KsphNYvgwxFKueIDudWXD6uJB9JQHM1xUaM7l4JdQ5OSBpjEutK1EtfLlRQhbtFgyJMoomdq
+	7zPoF7YbTUv8+EHOJzbcn+8XS18clo9P1/N1outx2i0Y96qc4JVaCzVakucBxSBFGLE2oIJOtExo7
+	JoDeootrYKgPAXbAfLzDtRxBNZd+ZDjJfz8mHKwCf56t0HN0JukPy1vvU6XKidJr03mP1cq62A84q
+	rUibt28+wWl+2el+p3wyNP4NoVDksbpWeb1XrniHd0XRh/K4yr013MteaQnsZdw4PJiq/T+zT161U
+	v/ofD9LQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBZq7-0000000A2lF-3s5t;
-	Thu, 14 Nov 2024 13:24:51 +0000
-Received: from sender4-pp-f112.zoho.com ([136.143.188.112])
+	id 1tBZvW-0000000A3bL-04KR;
+	Thu, 14 Nov 2024 13:30:26 +0000
+Received: from nyc.source.kernel.org ([147.75.193.91])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBZq4-0000000A2kQ-13Nb
+	id 1tBZvR-0000000A3Zv-2rBL
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Nov 2024 13:24:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; t=1731590679; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=dExcrHdI4NLng30EjTasoZWqecc0YZU02PEJaX/N0PYWfsCOQ9ayZLHsqvPAcqp/CE/yRWRv4OWgUUhlS0WpLi6VTmVksGrhZQy9nhOXI20cze96kSHmFJQEFOinPgR9fBvOIKHf76z9XJDEhIvgkEkr7+DXcgyip9JISyIQVMg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1731590679; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=LOLHAUJhptSneCwD15uTXeURWvGOUY0U2+/TzxvTOCA=; 
-	b=KxRh7YzCezAMVh9HRq/UJNwFhYhFBWnhS30Q9koDfP9VRhvsAgC5yfhkqYIz6i7ta5cUfQ7he8gLxjaF9nbnNo1+QEMeCvDIk1yoTg30IGrbemZdCrN2I10ZqG519ZCnSZCPRjMaqocd5ofGWNUgW1U6AeIpj+nYv30Qn8iAgxw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=bob.beckett@collabora.com;
-	dmarc=pass header.from=<bob.beckett@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1731590679;
-	s=zohomail; d=collabora.com; i=bob.beckett@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=LOLHAUJhptSneCwD15uTXeURWvGOUY0U2+/TzxvTOCA=;
-	b=lZLferIzClsWcdjwTXRpftqe8X2iKjiOOFof9B69o418/NUtoi5emPQxcCcF0oha
-	P6BLbeBqRsoZPP4EaurChRXOLwLglaCEh9xmP7mrJ+uNoDANNsW1KlcCzG0/4duu1sJ
-	N0EGhD27wTjVTV8tzjArw4/e5v4Z4Yem2pTI7yZE=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1731590648390658.8815358439043; Thu, 14 Nov 2024 05:24:08 -0800 (PST)
-Date: Thu, 14 Nov 2024 13:24:08 +0000
-From: Robert Beckett <bob.beckett@collabora.com>
-To: =?UTF-8?Q?=22Pawe=C5=82_Anikiel=22?= <panikiel@google.com>
-Cc: "axboe" <axboe@kernel.dk>, "hch" <hch@lst.de>,
-	"kbusch" <kbusch@kernel.org>, "kernel" <kernel@collabora.com>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-nvme" <linux-nvme@lists.infradead.org>,
-	"sagi" <sagi@grimberg.me>
-Message-ID: <1932ad8722a.102613bdb3737.769617317074446742@collabora.com>
-In-Reply-To: <20241114113803.3571128-1-panikiel@google.com>
-References: <20241112195053.3939762-1-bob.beckett@collabora.com> <20241114113803.3571128-1-panikiel@google.com>
-Subject: Re: [PATCH] nvme-pci: 512 byte aligned dma pool segment quirk
+	Thu, 14 Nov 2024 13:30:24 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 499C9A40ECF;
+	Thu, 14 Nov 2024 13:28:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3201DC4CED4;
+	Thu, 14 Nov 2024 13:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731591020;
+	bh=9WziBDbWuCJavDfebCiGijovNr2dEkFb5dOslEqLDxA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lrph4l+r9SSW6Ri0yQO/ArvA5mrKpwgqxbiicodwQYX0FHUkW5FS5KI2v/78sx87r
+	 p73mV8BzATegMAtr83CJrFyMrRrUdKqASvhJn+r/yI9rHIO/4m6KxV76EsYSPZym8j
+	 VCUAgoN110ZQL9l00tP/BN7Gz6BdDwpinKAfJ5LBDL4OFafqxyWJ/CbeoUse2vhBTY
+	 7r9HCx2mL1JQWljOWXFrKyW5/bkepvwmWx/DOITJk+lWy0E+U9MdlrCzr5QlTRbtNH
+	 cX9+7de7U+/FfUqKiffWcA7DkZOnNhx55wm/AhHYvudtAa9MVpYv9xmRDGbaVy8rhH
+	 0cpO1PSEk8NLA==
+Date: Thu, 14 Nov 2024 15:30:11 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Joerg Roedel <joro@8bytes.org>, ill Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 00/17] Provide a new two step DMA mapping API
+Message-ID: <20241114133011.GA606631@unreal>
+References: <cover.1731244445.git.leon@kernel.org>
+ <20241112072040.GG71181@unreal>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241112072040.GG71181@unreal>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241114_052448_384244_E4CA2003 
-X-CRM114-Status: GOOD (  28.75  )
+X-CRM114-CacheID: sfid-20241114_053021_875466_3D3D7848 
+X-CRM114-Status: GOOD (  18.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,75 +88,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Nov 12, 2024 at 09:20:40AM +0200, Leon Romanovsky wrote:
+> On Sun, Nov 10, 2024 at 03:46:47PM +0200, Leon Romanovsky wrote:
+> 
+> <...>
+> 
+> > ----------------------------------------------------------------------------
+> > The code can be downloaded from:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git tag:dma-split-nov-09
+> 
+> <...>
+> 
+> > 
+> > Christoph Hellwig (6):
+> >   PCI/P2PDMA: Refactor the p2pdma mapping helpers
+> >   dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+> >   iommu: generalize the batched sync after map interface
+> >   iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+> >   dma-mapping: add a dma_need_unmap helper
+> >   docs: core-api: document the IOVA-based API
+> > 
+> > Leon Romanovsky (11):
+> >   dma-mapping: Add check if IOVA can be used
+> >   dma: Provide an interface to allow allocate IOVA
+> >   dma-mapping: Implement link/unlink ranges API
+> >   mm/hmm: let users to tag specific PFN with DMA mapped bit
+> >   mm/hmm: provide generic DMA managing logic
+> >   RDMA/umem: Store ODP access mask information in PFN
+> >   RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+> >     linkage
+> >   RDMA/umem: Separate implicit ODP initialization from explicit ODP
+> >   vfio/mlx5: Explicitly use number of pages instead of allocated length
+> >   vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+> >   vfio/mlx5: Enable the DMA link API
+> 
+> Robin,
+> 
+> All technical concerns were handled and this series is ready to be merged.
+> 
+> Robin, can you please Ack the dma-iommu patches?
 
+I don't see any response, so my assumption is that this series is ready
+to be merged. Let's do it this cycle and save from us the burden of
+having dependencies between subsystems.
 
+Thanks
 
-
-
- ---- On Thu, 14 Nov 2024 11:38:03 +0000  Pawe=C5=82 Anikiel  wrote ---=20
- > Hi all,
- >=20
- > I've been tracking down an issue that seems to be related (identical?) t=
-o
- > this one, and I would like to propose a different fix.
- >=20
- > I have a device with the aforementioned NVMe-eMMC bridge, and I was
- > experiencing nvme read timeouts after updating the kernel from 5.15 to
- > 6.6. Doing a kernel bisect, I arrived at the same dma pool commit as
- > Robert in the original thread.
- >=20
- > After trying out some changes in the nvme-pci driver, I came up with the
- > same fix as in this thread: change the alignment of the small pool to
- > 512. However, I wanted to get a deeper understanding of what's going on.
- >=20
- > After a lot of analysis, I found out why the nvme timeouts were happenin=
-g:
- > The bridge incorrectly implements PRP list chaining.
- >=20
- > When doing a read of exactly 264 sectors, and allocating a PRP list with
- > offset 0xf00, the last PRP entry in that list lies right before a page
- > boundary.  The bridge incorrectly (?) assumes that it's a pointer to a
- > chained PRP list, tries to do a DMA to address 0x0, gets a bus error,
- > and crashes.
- >=20
- > When doing a write of 264 sectors with PRP list offset of 0xf00,
- > the bridge treats data as a pointer, and writes incorrect data to
- > the drive. This might be why Robert is experiencing fs corruption.
- >=20
- > So if my findings are right, the correct quirk would be "don't make PRP
- > lists ending on a page boundary".
-
-This is interesting.
-I had the same idea previously. I initially just changed the hard coded 256=
- / 8 to use 31 instead, which should have ensured the last entry of each se=
-gment never gets used.
-When I tested that, it not longer failed, which was a good sign. So then I =
-modified it to only do that on the last 256 byte segment of a page, but the=
-n is started failing again.
-This lead me to believe it was not a chaining issue specifically, so I went=
- looking for other hypotheses, eventually setting on 512 byte alignment.
-I never saw any bus error during my testing, just wrong data read, which th=
-en fails image verification. I was expecting iommu error logs if it was try=
-ing to access a chain in to nowhere if it always interpreted last entry in =
-page as a link. I never saw any iommu errors.
-
- >=20
- > Changing the small dma pool alignment to 512 happens to fix the issue
- > because it never allocates a PRP list with offset 0xf00. Theoretically,
- > the issue could still happen with the page pool, but this bridge has
- > a max transfer size of 64 pages, which is not enough to fill an entire
- > page-sized PRP list.
- >=20
- > Robert, could you check that the fs corruption happens only after
- > transfers of size 257-264 and PRP list offset of 0xf00? This would
- > confirm my theory.
-
-I'd be glad to if you could share your testing method.
-Currently I use a desync image verification which does lots of reads in par=
-allel and is the only method I've found so far that can repro in a reasonab=
-le amount of time.
-
- >=20
-
-
+> 
+> Thanks
+> 
 
