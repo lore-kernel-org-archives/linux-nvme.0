@@ -4,150 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92479D6DDED
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Nov 2024 10:32:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB53FD6DDF8
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Nov 2024 12:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Message-Id:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=RDXFqDETVYtkYJozDJgSGlh+QWd2m77AwYBhwbQf9YI=; b=gVHf3BuwusQ+tQU+z32w3hfIUH
-	wzwhHm2GDcS/m+ZcAHIyCyWkfaCxOC2o4wgJgB6ruPtwLBNfyoojB/hN09KHrCI4MSXmJoQlGbEoa
-	8Q2eJibd+Awj8nkFsazoePrEmyE8m5SX7SEspw12CROrrCuEVCaEdcmkw3R/poTDlwEaEbURDCy7b
-	D80pbQSx0BW1+acg2mBMYGpNkwSpLm92eN61Gt7PRWGNlQaqzFJzHKNjYcK2XX9FbrzppEVo7MuHV
-	QELeFZC+fMhskpxNKogvioinuKIu3v95XuZAt8buYdxPxErdMhUTxuLBVFwCo1cY85vXMWBNPf6Sz
-	fYXlP2ww==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jwJVxt+nzxze2SmN7f33ZKdyuGZOFXgYv9MV7GcQNWA=; b=vz5XVgzf4sfWe/NRqg75brC7C3
+	wd43foCFnRWKDk3Os62FqfsPMpaDcKNi4zZrPRJ63Ght4Tq5hg5G6qCn4nv0dsRKWcCjq1Gf8+KhO
+	hUfZz7OmFQOuIG54we6e4AAkjYE7fIAswmBGZ7O9PVo3cktTBGi2XSncOg3tDfoOkI2Cupk4EkTDm
+	3Fx8oDbRW0opZjj856k9tLzW8ugbG6XChQjX7eWl/gIAILIo9ZJfzerNMeCUzqahlLCoJLoAUm/w+
+	Yf8x0Zbs2l2Xws0E0ZEwX7oHXh8cYd6TuhoPy8uv/TBeworkoPd62Kgvi+v4JSuxt4CMzhee1m23L
+	jTk144FA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBtcs-00000002MPT-2aQi;
-	Fri, 15 Nov 2024 10:32:30 +0000
-Received: from mail-psaapc01on20711.outbound.protection.outlook.com ([2a01:111:f403:200e::711] helo=APC01-PSA-obe.outbound.protection.outlook.com)
+	id 1tBvlX-00000002i8c-2Yw6;
+	Fri, 15 Nov 2024 12:49:35 +0000
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBtcp-00000002MNq-3qdi
+	id 1tBvlU-00000002i80-2Nsq
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Nov 2024 10:32:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LfJwcEh3Pbk65Sh8E0X9dFZdiLQN4acFxBMqNNYarx2V81++p2az1nOvojTgNLtBelFdbWE3csfwx0ivTCObZIG+bKY9XtAqBUkLy3kDQLmWLSiOwYGpKXLWmakrWp0qxqeJfaotH2NQG/ao1CyczqT88KjamvDJdcm/6hzXy75pb2BtrCW8TRbuFjDwEqrbYddSwvayHXiU4VaYMvp09bmn76mqRoo/P5Hs9VmA7rfHYy+MrnwZgBQujDugLu5p7kkMr/FoueDD08aOBkCQYDn978sn4zXmu8fXbe9vg/El9dKFzmeTRudFK75hBm7yFptMhsZ6Kgz/pkBlXGD7Sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RDXFqDETVYtkYJozDJgSGlh+QWd2m77AwYBhwbQf9YI=;
- b=FsuzNQo84wPiJuis4fMNsOvCAiYJx82J+dM8ejxcl5nQCowGqgWyDM4ePdtJW95No1lDzPwFnZ9uFGVL3KKo9GeNaNqF1XFBDvDEMduEI3bCdx1qmCJvC/9Q4mqP0mz0s1SgfniqE12x54TNlhZUYSIS9fZa0tsx7W16HGcP7uNpiEUNnblXOFotxCGqiLw1N6gWmBvP7NZsClDmKioEka44qeS287soTD450YfiEGmww5MJaZ2d+ccgHk8IiBivTa5zRwpNZTI9znpglsCvZcMHef0tjvBJMCI7dL0g55gDKQO8Rkx4KXnjzcftqrdnN2Ne9xh+MUozoFeLbQGAfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=jaguarmicro.com; dmarc=pass action=none
- header.from=jaguarmicro.com; dkim=pass header.d=jaguarmicro.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaguarmicro.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RDXFqDETVYtkYJozDJgSGlh+QWd2m77AwYBhwbQf9YI=;
- b=lnrjWCiyMADzLD+bOwQjd/QiUd2zvPuiAgVpkVpeylsN76VHiNcX4HeqRkeqCueQ9cH99nYcrf2Nwa2/BYvE5Q8NUOcQHzZ3lITjg4a9kHTj5tNJhS2WgEGRv7Zj74JksMdy1DoSK4enPBH78B2mg0s9s9IYnw8JXHUETYvajNfdhqzcuGvC1rwagM9c32y0kFCftCgh0kYn1ORPmPzXfEnoFX7k9h3vC6215wjo5Ev1Rr6JWwCbamyg+8Zw6f/BGp5qQomcIUcl9pCE6B3JvOhhma5Pq5X+fFZUjhMiVDU+39EC8f8axdgUvYAvrbPKQYe1GTO7s25vqTtVV/bqNg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=jaguarmicro.com;
-Received: from KL1PR0601MB5773.apcprd06.prod.outlook.com
- (2603:1096:820:b1::13) by SEZPR06MB6015.apcprd06.prod.outlook.com
- (2603:1096:101:f0::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.17; Fri, 15 Nov
- 2024 10:32:16 +0000
-Received: from KL1PR0601MB5773.apcprd06.prod.outlook.com
- ([fe80::b56a:3ef:aa9d:c82]) by KL1PR0601MB5773.apcprd06.prod.outlook.com
- ([fe80::b56a:3ef:aa9d:c82%4]) with mapi id 15.20.8137.018; Fri, 15 Nov 2024
- 10:32:14 +0000
-From: Rex Nie <rex.nie@jaguarmicro.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	angus.chen@jaguarmicro.com,
-	lege.wang@jaguarmicro.com,
-	foryun.ma@jaguarmicro.com,
-	Rex Nie <rex.nie@jaguarmicro.com>
-Subject: [PATCH] nvme-rdma: add IB_SEND_SIGNALED in wr.send_flags
-Date: Fri, 15 Nov 2024 18:31:49 +0800
-Message-Id: <20241115103149.2312-1-rex.nie@jaguarmicro.com>
-X-Mailer: git-send-email 2.39.0.windows.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0146.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::26) To KL1PR0601MB5773.apcprd06.prod.outlook.com
- (2603:1096:820:b1::13)
+	Fri, 15 Nov 2024 12:49:34 +0000
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-7ea7e2ff5ceso1290748a12.2
+        for <linux-nvme@lists.infradead.org>; Fri, 15 Nov 2024 04:49:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1731674971; x=1732279771; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jwJVxt+nzxze2SmN7f33ZKdyuGZOFXgYv9MV7GcQNWA=;
+        b=gdrYfTks0iMvUM1YOiQaFJ++HZTZevpNzpqXfXa/PKiuXnKsNfNmB3qaYnJMuYBwbT
+         gm5jM+6dxY5PtPceI7kHP0cKmFY9i3d0ltxt/FBlS4tgoT5igDAZsHJRlJLpZDLcXzWF
+         W6c1tBrQfD9QUgJN+zlom4CZUQ/seSdRyf6Lo5F6tQfcL0+6OcAL/mzbjeHNm+tb7q79
+         Qh8Mq7lFzLzNTmbAocp1ebmzWKzx1zWGEfLhDY3JQPgVOk0yHw8MdEy3WstMJR52Za+2
+         e2JON2baQ+xZKHba1cRFyNaw/lwisdDhHSlApXq+zKT23uZnfZWZQC943QxP3KlMCYy7
+         mG5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731674971; x=1732279771;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jwJVxt+nzxze2SmN7f33ZKdyuGZOFXgYv9MV7GcQNWA=;
+        b=FwbUxvc1zc4XPUGgG53nE1yQtx3IWRav+HS8WPyGpO8FA3IZrqfYi5tq0M897/WTgV
+         50H5hLRYFiiaaSUMqlD6Fby0UQDdiKB8VDwjMRyQX6INntLkK3ql976NCNKI6E2UbccU
+         o3Ss/dUxJrcX9SobF2NYL6pGWyYxWww79yHrOgw5BTSUprb4l47M5vXvn16N4yFwFKKT
+         NYI5q01iNDcyEdwyjn3Xce9MCTkDCZ/o9iLqCgbIkc/b1azjcXRKH8MVNl8/yteJuqRD
+         DMQx7vvX6CRWOzxnVuSCHxqxf1VyIitrgx1G4odmhUFlvvOcz239//0Wlb8vFJU0EyYo
+         LG8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWgesuPqv3zK1wdhegnEOlr8ClLFR4oiBmSKMGSrJf9CluRf8or+/aKD5xUhO/P0XUVXvImhhlTF+SC@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz9j6YifOUQTHeMqLAh+AMeNnYj1nNYmEY2yHLIgrBuv+FG9Hhi
+	yM4dgAZcpcQmES3CGN+M5pbzhEkJWn3slqLg/C+lPDBUbgb4Nz9AxVzNzjPd2U0=
+X-Google-Smtp-Source: AGHT+IHLsm4F8XGgt+dNqMlncEMHZaB6TNbve2F3AL5DPq8Q+6a6Bwd0d1gK0LzJt/GKxZcrS9AoKQ==
+X-Received: by 2002:a17:902:e74c:b0:20f:b5d1:8805 with SMTP id d9443c01a7336-211d0ca73admr34323225ad.0.1731674971420;
+        Fri, 15 Nov 2024 04:49:31 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0f34609sm11080105ad.121.2024.11.15.04.49.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Nov 2024 04:49:30 -0800 (PST)
+Message-ID: <9f646b56-ebbf-4f2d-bceb-6ce1deb5d515@kernel.dk>
+Date: Fri, 15 Nov 2024 05:49:29 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR0601MB5773:EE_|SEZPR06MB6015:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25f68ae3-b3df-4abb-591b-08dd0560c508
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VU/eXJj6e21f33rFNmiX+hGiUc/4ZAH1DZ3iW1TW+LmmCpbEeNp/quDeRJaW?=
- =?us-ascii?Q?E8PA+MInWm6EAbF01hqVwoyFn3UNKn7WnuAF5Njjb2pIJEj8qGuKFElOLCzW?=
- =?us-ascii?Q?nV5vcd4bTBMsE4aIVQ1aBrJEqdkitAsPBO1cy/RL7C0kcy7UTmbtIYpmgucg?=
- =?us-ascii?Q?mXyeM+GWDAUrTiKl2Ev6NJHD+OEx/gTj7yg/fMY8/VK1KehCZvQ4p/2/anNm?=
- =?us-ascii?Q?5GHQvsKDX1sIHYnpJZYVRb6mTrqXsuE1SWFiCQ4l5TiOZmpt3PHpIQjDZwz4?=
- =?us-ascii?Q?MXB3ScvUDsI9T+Kaq52Anoa3s/obGUKMZ9kvZpcNO53JzX4kI7D1ItKPvSYj?=
- =?us-ascii?Q?N1D3vFLv/pYRdmsif0UJO3VgMpZ4ei2m5D9kJ+k321dHdoOAm5oDPUSPSBoO?=
- =?us-ascii?Q?0TbbKQ1rWH+pO/fQ8tjqcxIkoR+tTlnc5U+WGK6FxfIOWcTv573mgBjgE8B4?=
- =?us-ascii?Q?0RS3aG40b4L09VFZJR5E0QvjZ/M7vpFHRogSxPUbrNAuF+JGCuYHhVwYVxwP?=
- =?us-ascii?Q?ooIioXU34vQTDDqYfC4BsBilV4sOGCrZaD/Pg4Cu9jKDZH6GvEykuyQLe5Ko?=
- =?us-ascii?Q?nQbaRpKak8VRGwQlrQGFst7EKMGv7pnNgbh8vhxlAMWt2WbkQibDNyBRsD0H?=
- =?us-ascii?Q?/bJ29PQODgmpafBOOTwN+PHuxRY2EMbFOmzei4XfLC4B4v/KwgxxKCnCbmFc?=
- =?us-ascii?Q?QxAZj6Rc9bnEdRb5cgpAG6uRz7kEUgj+g5/sCT3GRUraieX9Hh/He1Rblx+h?=
- =?us-ascii?Q?LQ/Bf1iYKJooW6wdIvFVKpJ1DpT96QoPamvoU8OgvLavKKg0ophFiD1CgunH?=
- =?us-ascii?Q?SgflJDOlu5LFwUXttAUar5tfj1bRoN6tAY9Dz0DgWdyu3R61ywsNMWkjFn9Y?=
- =?us-ascii?Q?8kKNmYwm51ZX69a+Gqq/Y623OjrV5WizFmuc+0CgXqWpR5dkvLKPT5ts3KZv?=
- =?us-ascii?Q?Dd/dgJxLyKbGIr1dRXZGj3Lw9yWwgUq+XqsDAlXyWe7d1gB1E+9Juk3ygyVq?=
- =?us-ascii?Q?ehNFmCtGdG5m4XHykMthYzthCozlWODJg3w40W11mJSZWjs2HbgH5/3KOENp?=
- =?us-ascii?Q?OemQoXJTIniA4FgqB2ETAr+5WUA8x3nvpdeb0KjrFwqGRAGXcGgFgtiCpn8X?=
- =?us-ascii?Q?KdQ5PzTO3EqBK5i3j1lgsoJrIfiaZAneHPCD4RzmJanBgOraRFF7Fl6jx7h0?=
- =?us-ascii?Q?gkB7MEBe4L3mDX7hrEcszJ51Ilm+1fVpLzbvVrEdoDplrJegEmZI5x0qHG4x?=
- =?us-ascii?Q?58nt+ZH6A1B4hm6yxOE6sCLqAp53T3ZMyAbY7sMdm9UoNy+zU4/+JAbz3UGj?=
- =?us-ascii?Q?D2hACNR5g+UNaOGZRev49o9ZpHEOSaDAhaTRKsJhQFNTGnAeDzxe+yfTbGcG?=
- =?us-ascii?Q?eHn9KUM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB5773.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zxmoq/pGUdjHtxwSSWma7pp2BUx7GYOOcfCQBySvl/t5MuUKkFkrPv919KMz?=
- =?us-ascii?Q?o1m1RNLWpZjbUDTsJGdyW0CUk2LruPJ9lduSEJ7TtChj3DnZibkW5Lk+ctKY?=
- =?us-ascii?Q?2OJ56tyzKWQyTuHPK/IeEm4jsjC4vdcPvuMaZ9fkpQ5BMTxQtdzkyGQTtZZ4?=
- =?us-ascii?Q?VUfJd6SKwu8Q/cgmFqok9kkqUQfyU/HzW6nesVaiXdROHCt26LQPHlqaCR8I?=
- =?us-ascii?Q?mN4lIDbXgQ4ji7cHXSi6bcFgKPwCJb+Mu/i/cd1EuAodxaduHvjjsShBx9Y6?=
- =?us-ascii?Q?+04bbv4H72pkRku7O2ESHJZ3XpNkA98ef6H5rw2RUM64Ny1pbRloS6jl4NKa?=
- =?us-ascii?Q?eFl3uRfP01HwnjN8lQMUlwJDSLaT41o0L3bwsod38Fmpe+ZMymhGMeG2suBt?=
- =?us-ascii?Q?W/d6dH15u7Q/hkxHGnGHmts2rqyWACciduN8aerj0NwU0jNpVRlca0B6Ot4Z?=
- =?us-ascii?Q?JhSEVUMXIt8syuJKy9+YpGwWtqcBh+Ys2vEvOpdlHqElx1t+M2FrAlFqFsCV?=
- =?us-ascii?Q?7zvNfMRpwjmrXoijJLfYbqdwG0UjHx2TYl1xedsczJ2wqjjfVul7ncAv8Q1r?=
- =?us-ascii?Q?OI4oylyJnaZt1ce2szgmyk311KX+uym3SFZpMckokRzhGBMSrYz/MO0mdMMN?=
- =?us-ascii?Q?QPMv3J99FmRauRIhCJ1qnnfjeZdC7keA/FOZkO9zEMeHHlfiHwrW2WRD45MX?=
- =?us-ascii?Q?HpHOVeVCk86HY/i29mfkxqQ72Sh+Zf5iJFYExCoUGOWKkF9/tzLLpkNtAvOT?=
- =?us-ascii?Q?equKxkOoU9XP3aPBqjmRuOwRNh9qXoQgQ/Qny0hn16q9Lz6cHwB2PTa6tTMT?=
- =?us-ascii?Q?ykb8xhVSFFMGdjgEe9jmtHMSIg8PHXFQyPdWjrDT7hT+okw9lLE9G7joSmSZ?=
- =?us-ascii?Q?473aXG02Sz79dzt5cyBUm86RRF0f7OVmdF0ZeiaqKkrzGcJAq3hPqmoYOfvv?=
- =?us-ascii?Q?pURqobnsEvd31YJg2Kt71h1dWMJEot4/+E3prH2pf9f9uqhDvPjNlrNTIUb8?=
- =?us-ascii?Q?zp7f7sYMAPIZuYUK4sPl+6/vmjxW5f1zUB5MNnn8BTe6hHNNRCcaND4Fr3DX?=
- =?us-ascii?Q?H2ev66yxd509ttlljrmP+erizMtbXrWAG8aB6n1eLIY3D0CTV9AQCKSj44O1?=
- =?us-ascii?Q?DvvC/NOL78e8JOu8jmj6N2YaSL9UiTKIs86l/4rxrRrBuXzN05avXPDtWAPP?=
- =?us-ascii?Q?0dmY8B3iGZhp4mJZajKoSLbfkgKoBZcI4SrzLKP/Ws++vOmaDlEITdF+KVuI?=
- =?us-ascii?Q?X10QRQHK8icpsXBXuSMq4tbi7SmqJ6W1tU5+B3nVklB1EsK9M1JmZcy4CeO1?=
- =?us-ascii?Q?1d3HXl9YFU0IlilymNn7CfiY1dWcczppgnEQNkTZXv3b1BuUpCyJqxxZw9JA?=
- =?us-ascii?Q?LkVZAYv6xXbHZRxzcmWEWlIV5gCWcQeJbitYaIdRnB8HDzhZgrzmOvRsG3po?=
- =?us-ascii?Q?CB6/Yp5HAN4gNYVxURFmUZRxMJZcKhaFYrfXg4aap6kpGInDBsjajCK0YYZN?=
- =?us-ascii?Q?daevbiTI2rqOvaoszvdD0+U6xepbQ9yzfw9YKl9YLSizAFey/Js+6HMKquKo?=
- =?us-ascii?Q?Bgy9Il6ab4bauoD7RTEtLF7szijN8buhdhqFmYLo?=
-X-OriginatorOrg: jaguarmicro.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25f68ae3-b3df-4abb-591b-08dd0560c508
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB5773.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 10:32:13.9241
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 1e45a5c2-d3e1-46b3-a0e6-c5ebf6d8ba7b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uSQYLeXX8RXwkId+PfA3KHd/jNIu7BlJH5Z4ls81iAEhCCB4QhklyOzcTjacWvVFfHG5tIaMlFYVRCVduTo9Ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6015
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] block: add a rq_list type
+To: Nathan Chancellor <nathan@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
+ io-uring@vger.kernel.org
+References: <20241113152050.157179-1-hch@lst.de>
+ <20241113152050.157179-5-hch@lst.de> <20241114201103.GA2036469@thelio-3990X>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20241114201103.GA2036469@thelio-3990X>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241115_023228_261974_2F0232E1 
-X-CRM114-Status: UNSURE (   8.80  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20241115_044932_885081_197B53A9 
+X-CRM114-Status: GOOD (  21.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -162,37 +98,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since reg_cqe.done is assigned(to nvme_rdma_memreg_done/nvme_rdma_sig_done
-here), it means done callback need be called when work complete. The done
-callback will only be called if IB_SEND_SIGNALED is set in wr.send_flags.
+On 11/14/24 1:11 PM, Nathan Chancellor wrote:
+> Hi Christoph,
+> 
+> On Wed, Nov 13, 2024 at 04:20:44PM +0100, Christoph Hellwig wrote:
+>> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+>> index 65f37ae70712..ce8b65503ff0 100644
+>> --- a/include/linux/blkdev.h
+>> +++ b/include/linux/blkdev.h
+>> @@ -1006,6 +1006,11 @@ extern void blk_put_queue(struct request_queue *);
+>>  void blk_mark_disk_dead(struct gendisk *disk);
+>>  
+>>  #ifdef CONFIG_BLOCK
+>> +struct rq_list {
+>> +	struct request *head;
+>> +	struct request *tail;
+>> +};
+>> +
+>>  /*
+>>   * blk_plug permits building a queue of related requests by holding the I/O
+>>   * fragments for a short period. This allows merging of sequential requests
+>> @@ -1018,10 +1023,10 @@ void blk_mark_disk_dead(struct gendisk *disk);
+>>   * blk_flush_plug() is called.
+>>   */
+>>  struct blk_plug {
+>> -	struct request *mq_list; /* blk-mq requests */
+>> +	struct rq_list mq_list; /* blk-mq requests */
+>>  
+>>  	/* if ios_left is > 1, we can batch tag/rq allocations */
+>> -	struct request *cached_rq;
+>> +	struct rq_list cached_rqs;
+>>  	u64 cur_ktime;
+>>  	unsigned short nr_ios;
+>>  
+>> @@ -1683,7 +1688,7 @@ int bdev_thaw(struct block_device *bdev);
+>>  void bdev_fput(struct file *bdev_file);
+>>  
+>>  struct io_comp_batch {
+>> -	struct request *req_list;
+>> +	struct rq_list req_list;
+> 
+> This change as commit a3396b99990d ("block: add a rq_list type") in
+> next-20241114 causes errors when CONFIG_BLOCK is disabled because the
+> definition of 'struct rq_list' is under CONFIG_BLOCK. Should it be moved
+> out?
+> 
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 00212e96261a..a1fd0ddce5cf 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1006,12 +1006,12 @@ extern void blk_put_queue(struct request_queue *);
+>  
+>  void blk_mark_disk_dead(struct gendisk *disk);
+>  
+> -#ifdef CONFIG_BLOCK
+>  struct rq_list {
+>  	struct request *head;
+>  	struct request *tail;
+>  };
+>  
+> +#ifdef CONFIG_BLOCK
+>  /*
+>   * blk_plug permits building a queue of related requests by holding the I/O
+>   * fragments for a short period. This allows merging of sequential requests
+> 
 
-Signed-off-by: Rex Nie <rex.nie@jaguarmicro.com>
----
- drivers/nvme/host/rdma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Fix looks fine, but I can't apply a patch that hasn't been signed off.
+Please send one, or I'll just have to sort it out manually as we're
+really close to this code shipping.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 24a2759798d0..d25ee7ffca45 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1337,6 +1337,7 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
- 	req->reg_wr.wr.opcode = IB_WR_REG_MR;
- 	req->reg_wr.wr.wr_cqe = &req->reg_cqe;
- 	req->reg_wr.wr.num_sge = 0;
-+	req->reg_wr.wr.send_flags = IB_SEND_SIGNALED;
- 	req->reg_wr.mr = req->mr;
- 	req->reg_wr.key = req->mr->rkey;
- 	req->reg_wr.access = IB_ACCESS_LOCAL_WRITE |
-@@ -1443,7 +1444,7 @@ static int nvme_rdma_map_sg_pi(struct nvme_rdma_queue *queue,
- 	wr->wr.opcode = IB_WR_REG_MR_INTEGRITY;
- 	wr->wr.wr_cqe = &req->reg_cqe;
- 	wr->wr.num_sge = 0;
--	wr->wr.send_flags = 0;
-+	wr->wr.send_flags = IB_SEND_SIGNALED;
- 	wr->mr = req->mr;
- 	wr->key = req->mr->rkey;
- 	wr->access = IB_ACCESS_LOCAL_WRITE |
+
 -- 
-2.17.1
+Jens Axboe
 
 
