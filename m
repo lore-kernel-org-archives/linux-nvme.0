@@ -4,51 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AF1ED68BCD
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Nov 2024 16:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F06E7D68BCF
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Nov 2024 16:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fj6pRS0k8KalVY5quSVu37t0+w+16oVaBMbmyua5TZs=; b=Q7O0WjDCD1UBE25TpZxhuEG/B2
-	XD8QcBnIphX2fd3Cf138pLXD3KCUKJOp+h755dpUAHqp4IJDbaUogJ1AhVi306qUtrAzwB1S701CQ
-	ZByHbcn9L1CngTM1GovnJVAOcQQxia4ViZj/YYHC1h9DujrsM6x9vmyjS62OhSXkQRqCmtzDjxMCS
-	no95ahDCBEFNjxEjK/0LwvGy4lovoN4BC8ikvKQVfeKb9ogknfpEU2A11Qa1c5I9V2LHalh+tgBCU
-	IFZd7ejY5CsImmj4lY1TrhQ23zs2MWYMXpq1UMWWIL+sKGPOo+dV3tokvUsYtgf3ux4/GJpWx0THS
-	gkbBHjWA==;
+	bh=JELOl4iOUAOIiwlyUovbUm79jwy6PN/6EuCv7Kv9eVY=; b=Vk2D2JU5iO3IbD78ndwZjlJGAD
+	4bbXmwAWb+4VQBGK5FW8qY9wFZAlKeGeKU6DU1c6/gAXaQnaE0TYnsA6HzDLgTouiqi/I661Vw5PV
+	D5Bt6PlbXZ2QJNI5/zE0VVauZBz69oc//MrOdCp+D1HLrg5OQVhhN8VVQAjTXlIHZMrvWbiZSAN3p
+	w3plE70ACvdxihZEDtdDLDoh4YyQDw48uVQQQK8HosBuzOTC3b+LEM1SQkFProL20qFc0HdtHzP6E
+	CUxNZkmYFRz5rQuwP7spOTm6fe0tHTl/SoI2D4C37WkaQeDumglyugZmAZApH5KZAvcog45a/VqV3
+	P3IOkydw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBzKe-00000003My6-3hPM;
-	Fri, 15 Nov 2024 16:38:04 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1tBzKY-00000003Ms2-1F7c;
+	Fri, 15 Nov 2024 16:37:58 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBzKa-00000003Mto-2Z0I
+	id 1tBzKV-00000003Mqi-2oQ0
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Nov 2024 16:38:01 +0000
+	Fri, 15 Nov 2024 16:37:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id C340F5C647E;
-	Fri, 15 Nov 2024 16:37:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C13DC4CED5;
-	Fri, 15 Nov 2024 16:37:59 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id EF991A42AD8;
+	Fri, 15 Nov 2024 16:36:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC6EC4CED0;
+	Fri, 15 Nov 2024 16:37:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731688679;
-	bh=qXsBQKaaXXoMUamCldA2c8GUcVaBojXc/vUNvwmptL0=;
+	s=k20201202; t=1731688674;
+	bh=G+QXM0dP/aUGDDuORYwyj7yKPloC4FEoVkfEMuyp+Xo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=vHBXTkMowrwLS5I3GCofVVTYd8rQ+MIOgobnCbKJrEk0avo16uv4mzS8VMyNH9JJU
-	 WbTcjv0BrcmvbhOvqUqEFXFUDecVuFrJHRXeifZ7N9dNMdkZivcSCm4irrQ+kQeG7P
-	 JpN/JXt4EPw1Yd+/nRNQsfwDRovXyECC94rzbJwvhGn/wtlvc45UNSM2d8duDYFi/F
-	 l8SngySUHIiVqcubLWdED3FPR6FljGDW4Ez0RV5Xmun7nfenSZDVi9t7Fky0s+JrM3
-	 yyap6vCqvgfiBteC12PYKG/tvEYyJl8a3Y909JNLTB9ILf5MeYK92UvH90vPS/xGAH
-	 tPKRbZQe7MlKA==
+	b=E+kekySOEOy+MjH3wlTA1i9haLjzgntIb4AgKxHTm/3SY8v8D1+t2paa+Hh7sYINs
+	 taHvbn7qjSybthKq2gGRcNF4GbOIaoNZjQUIU4UGmvmT10QoGHFOZlheEtXGFQFUDX
+	 wEusqWkCov8se2R+oXY2Azlfn4E4EClejwQFYvKAgYUJG5tT3ZTA/0CLITh89VsAXf
+	 cG1dj+/C42YkDPVVgRJuDQ1ps72LjbgYacjSQoUyyKVkMOMQRtvrbFtzgFajt++0uY
+	 OmZbGrE3fnZ+kuUUhR2zL6w6DL/tYzfXv9xwoZnhaBZXYtk7sFwe6eUcdBVkEntmpG
+	 U65dRGgxgHC1w==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Fri, 15 Nov 2024 17:37:47 +0100
-Subject: [PATCH v5 3/8] virtio: hookup irq_get_affinity callback
+Date: Fri, 15 Nov 2024 17:37:45 +0100
+Subject: [PATCH v5 1/8] driver core: bus: add irq_get_affinity callback to
+ bus_type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-refactor-blk-affinity-helpers-v5-3-c472afd84d9f@kernel.org>
+Message-Id: <20241115-refactor-blk-affinity-helpers-v5-1-c472afd84d9f@kernel.org>
 References: <20241115-refactor-blk-affinity-helpers-v5-0-c472afd84d9f@kernel.org>
 In-Reply-To: <20241115-refactor-blk-affinity-helpers-v5-0-c472afd84d9f@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -68,8 +69,8 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241115_083800_703583_E537D49E 
-X-CRM114-Status: GOOD (  13.10  )
+X-CRM114-CacheID: sfid-20241115_083755_772980_B7693F0F 
+X-CRM114-Status: GOOD (  12.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,54 +85,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-struct bus_type has a new callback for retrieving the IRQ affinity for a
-device. Hook this callback up for virtio based devices.
+Introducing a callback in struct bus_type so that a subsystem
+can hook up the getters directly. This approach avoids exposing
+random getters in any subsystems APIs.
 
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Ming Lei <ming.lei@redhat.com>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/virtio/virtio.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/linux/device/bus.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index b9095751e43bb7db5fc991b0cc0979d2e86f7b9b..4ca6ec84cb092eac7ddf4b86b4eacac099b480cf 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -377,6 +377,24 @@ static void virtio_dev_remove(struct device *_d)
- 	of_node_put(dev->dev.of_node);
- }
+diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
+index cdc4757217f9bb4b36b5c3b8a48bab45737e44c5..b18658bce2c3819fc1cbeb38fb98391d56ec3317 100644
+--- a/include/linux/device/bus.h
++++ b/include/linux/device/bus.h
+@@ -48,6 +48,7 @@ struct fwnode_handle;
+  *		will never get called until they do.
+  * @remove:	Called when a device removed from this bus.
+  * @shutdown:	Called at shut-down time to quiesce the device.
++ * @irq_get_affinity:	Get IRQ affinity mask for the device on this bus.
+  *
+  * @online:	Called to put the device back online (after offlining it).
+  * @offline:	Called to put the device offline for hot-removal. May fail.
+@@ -87,6 +88,8 @@ struct bus_type {
+ 	void (*sync_state)(struct device *dev);
+ 	void (*remove)(struct device *dev);
+ 	void (*shutdown)(struct device *dev);
++	const struct cpumask *(*irq_get_affinity)(struct device *dev,
++			unsigned int irq_vec);
  
-+/**
-+ * virtio_irq_get_affinity - get IRQ affinity mask for device
-+ * @_d: ptr to dev structure
-+ * @irq_vec: interrupt vector number
-+ *
-+ * Return the CPU affinity mask for @_d and @irq_vec.
-+ */
-+static const struct cpumask *virtio_irq_get_affinity(struct device *_d,
-+						     unsigned int irq_vec)
-+{
-+	struct virtio_device *dev = dev_to_virtio(_d);
-+
-+	if (!dev->config->get_vq_affinity)
-+		return NULL;
-+
-+	return dev->config->get_vq_affinity(dev, irq_vec);
-+}
-+
- static const struct bus_type virtio_bus = {
- 	.name  = "virtio",
- 	.match = virtio_dev_match,
-@@ -384,6 +402,7 @@ static const struct bus_type virtio_bus = {
- 	.uevent = virtio_uevent,
- 	.probe = virtio_dev_probe,
- 	.remove = virtio_dev_remove,
-+	.irq_get_affinity = virtio_irq_get_affinity,
- };
- 
- int __register_virtio_driver(struct virtio_driver *driver, struct module *owner)
+ 	int (*online)(struct device *dev);
+ 	int (*offline)(struct device *dev);
 
 -- 
 2.47.0
