@@ -4,67 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D43FDD68BDD
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2024 00:56:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65BD7D68BE3
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2024 07:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6fEvnB/0DvA5J7aDwzFBOzgtc2nt3FFpkE1z+zopewE=; b=wUhSi6XFlccSPJHXlRLQd3fB44
-	rE1Qmi4SmgszA5Cpb8MwCros/HoR7X+Y0ErdNS+206GVsHhxEoJ6c/6rxrjqQH/1mE6/2DeYXLYIr
-	MamUBssKvFTsv8Unyuasnlkt+eu+HNwxx6ma1ZiM+YfDICyrF+ETRR5KLdBw65y/5FRWZ7NsnMOD/
-	dQAheNxj1Gq2vxCygO8B/Xu3cPj33yetEEsHjo0fN85pp4tzFU/Hr0AFmNjUIgNBAc29C/CKadlhg
-	khVWLsIzaWqbeLXlikuadxJ5fVj/IxPvL/KRlbzNXLEqpwz9DDqKHJcfBLucmGmNXSp3o8kac7BXQ
-	HjKAGL0A==;
+	bh=Bw0HmhHxzWTrpcJPfrAm2KQ2tVa5V6s85XkvUWCpfLk=; b=hF+bykJxeYvqoxqkyU7y7Z9Ir5
+	N8r/QyIk46hRA/+/GPPQKisehEZiWmkyZtsC0FKQi8SzpXomtEniGGtuqhk5aWNh/BOXDgnBssSD3
+	yC69Ggze8l8avHeMgwMtyOxGTjsMHO0PXMERQm4d9MexswTKORJcI9WVzC0hAma4prABpcCKZSgef
+	4v5E6M5/SWyUhMuZuBYm748xEq5Uj1/d+ctkfkvD8DeZEd0HoSh+yva9JrmGNdbly2+eZWwAtRGbt
+	2IBcf2ZsniDRPL4kWV4w9cjy9amd3Ll2xpk7AxmzKu9TVEGuROLYbU3AlVat20YA+KzAJymY5Ulxj
+	yhRgFX0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98 #2 (Red Hat Linux))
-	id 1tC772-00000004gXS-3O2T;
-	Sat, 16 Nov 2024 00:56:32 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1tCDTe-000000059xe-1kOS;
+	Sat, 16 Nov 2024 07:44:18 +0000
+Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
 	by bombadil.infradead.org with esmtps (Exim 4.98 #2 (Red Hat Linux))
-	id 1tC76z-00000004gWg-2YmD
+	id 1tCDTc-000000059wg-0gF5
 	for linux-nvme@lists.infradead.org;
-	Sat, 16 Nov 2024 00:56:30 +0000
+	Sat, 16 Nov 2024 07:44:17 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 236E15C51B4;
-	Sat, 16 Nov 2024 00:55:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F985C4CECF;
-	Sat, 16 Nov 2024 00:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731718587;
-	bh=Xa+jsxKIIUiyRDcaHr5OHl3DkSRKwaUQOtVa7NR/iEo=;
+	by nyc.source.kernel.org (Postfix) with ESMTP id 9D0F5A4029A;
+	Sat, 16 Nov 2024 07:42:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93C5BC4CEC3;
+	Sat, 16 Nov 2024 07:44:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731743055;
+	bh=KjZjAEkpsSJVk26vPJowBhePl2ldo8B8xA9M+L+OP1Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DzCsczpXSrtPGZvbfN3t3YT5SSe3HtJ67sPlwmNJdN83ww/NSfuv07IIwedHocbBj
-	 AEfPf9ZfNZe/hAT65jA0UVkl/aOVPaVL0NH8ImHk3bFKfrMq4tEHNWcBB3JeqTSmQD
-	 AFLbwJJBzW5v/G//+OzQPzFTW33crY/3Qa4Sf5NOAWs8zELzN8PP65lurohsHPzNLd
-	 B9RjniqQ4f5B0S2GTa3bomy26m4lPYsmr8TrDYXgSCQpUg05UaQcaiNl+6dcj/ehR3
-	 VB8EaQnf9/PkkW/WFv5lEWoYpf2w97po2vMQPSwry3XK+LNjPQBSgeUcFY43ZWa63q
-	 fccGDH5EFOr9Q==
-Date: Fri, 15 Nov 2024 17:56:24 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@lst.de>, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>, Keith Busch <kbusch@kernel.org>,
+	b=DOQCUicnwHNNzRTBmMFH15E3g7z4J3tIJqz7Dr9Ale/FyqEtTpNLZfPxqhM19/8CY
+	 E8lmIRCIY2Xcfm7maGcIKl1o/VmaE6VpJVF9DrbOnoeJS1bFBBLDCygNBuYtlN9iXn
+	 Pdtrt352UODTQ6+/exPN8L8OXRJwaEyEG43NYmh4=
+Date: Sat, 16 Nov 2024 08:43:52 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Wagner <wagi@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-block@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
-Subject: Re: [PATCH 4/6] block: add a rq_list type
-Message-ID: <20241116005624.GA1178909@thelio-3990X>
-References: <20241113152050.157179-1-hch@lst.de>
- <20241113152050.157179-5-hch@lst.de>
- <20241114201103.GA2036469@thelio-3990X>
- <9f646b56-ebbf-4f2d-bceb-6ce1deb5d515@kernel.dk>
- <be0d06e4-a61a-47e3-8d50-f37f9b6fc719@kernel.dk>
+	John Garry <john.g.garry@oracle.com>,
+	Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
+	storagedev@microchip.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v5 1/8] driver core: bus: add irq_get_affinity callback
+ to bus_type
+Message-ID: <2024111642-bush-violet-da1a@gregkh>
+References: <20241115-refactor-blk-affinity-helpers-v5-0-c472afd84d9f@kernel.org>
+ <20241115-refactor-blk-affinity-helpers-v5-1-c472afd84d9f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <be0d06e4-a61a-47e3-8d50-f37f9b6fc719@kernel.dk>
+In-Reply-To: <20241115-refactor-blk-affinity-helpers-v5-1-c472afd84d9f@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20241115_165629_691461_C128CE64 
-X-CRM114-Status: GOOD (  13.50  )
+X-CRM114-CacheID: sfid-20241115_234416_261872_FCAF9C42 
+X-CRM114-Status: GOOD (  10.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,20 +83,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 15, 2024 at 12:38:46PM -0700, Jens Axboe wrote:
-> On 11/15/24 5:49 AM, Jens Axboe wrote:
-> > Fix looks fine, but I can't apply a patch that hasn't been signed off.
-> > Please send one, or I'll just have to sort it out manually as we're
-> > really close to this code shipping.
+On Fri, Nov 15, 2024 at 05:37:45PM +0100, Daniel Wagner wrote:
+> Introducing a callback in struct bus_type so that a subsystem
+> can hook up the getters directly. This approach avoids exposing
+> random getters in any subsystems APIs.
 > 
-> I fixed it up myself, it's too close to me sending out 6.13 changes
-> to let it linger:
-> 
-> https://git.kernel.dk/cgit/linux/commit/?h=for-6.13/block&id=957860cbc1dc89f79f2acc193470224e350dfd03
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Ming Lei <ming.lei@redhat.com>
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
 
-Thanks, I was going to send a patch amidst my travels today but by the
-time I got to it, I saw you had already tackled it on your branch.
-
-Cheers,
-Nathan
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
